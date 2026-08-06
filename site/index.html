@@ -2282,6 +2282,7 @@ evolves by challenger, never in place (D-032).</p>
   risk.py            RiskGate (deterministic admission)
   simulator.py       CanonicalSimulator (step/run), OpenPosition, risk_unit
   lab.py             Lab runner (3-phase loop) + recursive code hash
+  statistics.py      within-family Reality-Check multiplicity test (D-044)
   synth.py           deterministic synthetic tape
   simtruth/          vendored V7 lab — engineering only, authority NOT
                      renewed (D-022)
@@ -2299,6 +2300,8 @@ tests/
   test_expert_registry.py       registry consistency tests
   test_data_pipeline.py         offline data.py planning/checksum tests
   test_materialize_views.py     materialization roundtrip + fail-closed tests
+  test_reality_check.py         within-family multiplicity test (D-044)
+  test_detrended_null.py        position-bias reproduction + detrending (D-045)
 </code></pre>
 <p>Planned, not yet present: further Expert modules land under
 <code>src/v8/experts/</code> only after registry admission (the <code>breakout_retest</code> and
@@ -2342,9 +2345,9 @@ tape — no code module until then); <code>tools/run_experiment.py</code> (the
 </tr>
 <tr>
 <td><code>experts/__init__.py</code></td>
-<td>pilot expert registry; stable re-export surface</td>
-<td><code>from v8.experts import Expert, TrendPullbackExpert, FailedBreakoutExpert, LiquiditySweepReclaimExpert</code></td>
-<td>EXPERT_PROTOCOL §3</td>
+<td>expert registry; stable re-export surface (3 pilots + 24 extraction families, D-050)</td>
+<td><code>from v8.experts import Expert, &lt;28 Expert classes&gt;</code></td>
+<td>EXPERT_PROTOCOL §3; D-042, D-050</td>
 </tr>
 <tr>
 <td><code>experts/base.py</code></td>
@@ -2378,21 +2381,33 @@ tape — no code module until then); <code>tools/run_experiment.py</code> (the
 </tr>
 <tr>
 <td><code>risk.py</code></td>
-<td>deterministic admission; heat cap</td>
-<td><code>RiskGate.admit/release</code>; <code>RiskVerdict</code></td>
-<td>CANDIDATE_LIFECYCLE_SPEC §6; D-023</td>
+<td>deterministic admission; size-aware heat (<code>size*stop_r</code>); equity drawdown ladder; trade-unit/min-trades gates</td>
+<td><code>RiskGate.admit/release</code>; <code>RiskVerdict</code>; <code>equity.RiskState</code></td>
+<td>CANDIDATE_LIFECYCLE_SPEC §6; D-023, D-048</td>
+</tr>
+<tr>
+<td><code>equity.py</code></td>
+<td>deterministic fixed-fractional equity + drawdown ladder (RM-06/O-016 challenger) and trade-unit budget (RM-07)</td>
+<td><code>RiskState</code>, <code>DRAWDOWN_BANDS</code>, <code>trade_units_for</code></td>
+<td>CANDIDATE_LIFECYCLE_SPEC §6; D-048</td>
 </tr>
 <tr>
 <td><code>simulator.py</code></td>
-<td>canonical Level-1 simulator; R units; excursions; two execution modes</td>
-<td><code>CanonicalSimulator.step/run/hash</code>, <code>risk_unit</code>, <code>OpenPosition</code></td>
-<td>SIMULATION_TRUTH_SPEC; D-028, D-030</td>
+<td>canonical Level-1 simulator; R units; excursions; breakeven/trail/scale-out/pyramid/FILL_AT_LIMIT/TIME_EXIT (EXEC-1..6); two execution modes</td>
+<td><code>CanonicalSimulator.step/run/hash</code>, <code>risk_unit</code>, <code>OpenPosition</code>; sim.hash() v7</td>
+<td>SIMULATION_TRUTH_SPEC; D-028, D-030, D-047</td>
 </tr>
 <tr>
 <td><code>lab.py</code></td>
 <td>preregistered run: tape -&gt; report; 3-phase loop; composition root; recursive code hash over the whole package</td>
 <td><code>Lab.ingest/run</code>; <code>_code_hash</code></td>
 <td>HYPOTHESIS_LAB_PROTOCOL; D-010, D-027, D-033</td>
+</tr>
+<tr>
+<td><code>statistics.py</code></td>
+<td>(a) block-bootstrap Reality-Check max-statistic test over a family's <code>variants_evaluated</code> episode series (White 2000 Procedure RC); stdlib-only, explicit seed, aligned-episode-grid inputs only (cross-family pooling deferred, O-021). (b) the detrended null: same-exposure passive benchmark per episode, the zero-skill placebo family, and the Appendix A invariant check. <code>invariant_holds</code> is intentionally unimplemented and raises — its tolerance is a preregistered constant awaiting an operator choice</td>
+<td><code>reality_check_p_value</code>, <code>select_block_size</code>, <code>EpisodeExposure</code>, <code>mean_log_drift_per_bar</code>, <code>passive_benchmark_r</code>, <code>detrend_net_r</code>, <code>placebo_exposures</code>, <code>appendix_a_invariant</code></td>
+<td>PREREGISTRATION_V8_SLICE_001 §11; D-044, D-045</td>
 </tr>
 <tr>
 <td><code>synth.py</code></td>
@@ -2763,8 +2778,29 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <td>PROVISIONAL_DECISION</td>
 <td>Owner decision 2026-08-04. The single number conflated an engineering question (how many modules evaluate per bar — zero validity content) with a statistical one (how many independent hypotheses are simultaneously under test). The cap was already breached: <code>EXPERTS_REGISTRY.yaml</code> carries 5 Experts after D-042. No code enforced the count, so this is a documentary correction — but it exposes two real couplings recorded as follow-ups: the binding constraints on portfolio scale are rule 16 (one exposure per instrument+direction) and D-023 (<code>max_heat = 3.0</code>), and contested exposure slots are resolved by <code>expert_id</code> lexicographic order. Order-independence itself is safe — <code>lab.run</code> sorts Experts by <code>expert_id</code> before evaluating, so the caller's list order is discarded and the ledger is stable — but the surviving tie-break is the Expert's <em>name</em>: measured on a contention fixture, the lexicographically first of two behaviorally identical Experts wins the slot roughly 2:1, and the advantage follows the name when the names are swapped (<code>tests/test_admission_contention.py</code>). Deterministic and harmless at three Experts; at the unbounded count this decision permits it is a silent name-based allocation policy. Not resolved here: a principled tie-break is a ranker, gated by rule 6 / D-008 (O-006 / O-012). The test fails if one is added, forcing that registry decision. Scorer and ML-Expert-challenger occupy different pipeline positions and are each already gated by rule 5, so the global "never both at once" added no statistical control.</td>
 </tr>
+<tr>
+<td>D-044</td>
+<td>Preregistration §11's within-family multiplicity rule is corrected: "all variants explored inside a family count as one multiplicity unit" is <strong>replaced</strong> by a Reality-Check-style block-bootstrap max-statistic test (White 2000 Procedure RC, already <code>LITERATURE_SUPPORTED</code> in <code>HYPOTHESIS_LAB_PROTOCOL.md</code>'s Sources section) applied across every <code>variants_evaluated</code> entry of that family, spending the family's existing Bonferroni-corrected <code>α_f</code> budget. The cross-family Bonferroni (<code>α_f = 0.05/F</code> across preregistered families) is <strong>unchanged</strong> — still valid, only conservative under correlation, and not urgent at F=2 families with no variant search yet. <code>EXPERTS_REGISTRY.yaml</code> gains a required <code>variants_evaluated</code> field (losing variants included, not just the reported <code>variant_id</code>); <code>src/v8/statistics.py</code> implements the bootstrap (<code>IMPLEMENTATION_LAYOUT.md</code> updated, D-032). Cross-family pooling into one N-configuration test — the fuller instrument originally proposed — is <strong>not</strong> implemented: families fire on disjoint episode grids (different <code>episode_key</code> sets), and White's construction requires all N series aligned on a common index; correctly extending it needs a bar-level panel (zero-filling non-firing configurations), which is deferred to O-021 rather than built ad hoc</td>
+<td>PROVISIONAL_DECISION</td>
+<td>Owner decision 2026-08-06, pre-holdout (legal per prereg §16, same basis as D-041 — no field of a ratified preregistration may change after the frozen holdout opens, but nothing has been touched pre-holdout). Two defects motivated this, sharing one root cause: rule 13's ontology ("a variant is not a new Expert") was over-read in prereg §11 as a <em>statistical</em> claim ("variant search costs nothing"), which is false — best-of-N variant search inside one family reintroduces exactly the selection bias rule 11 exists to control (the canonical illustration is Aronson's 6,402-rule case, which collapses to 3 multiplicity units — three themes × a parameter grid — under a family-counts-as-one rule, understating the true search by orders of magnitude and turning a p=0.82 result into a false "significant" one under a 3-way Bonferroni). The fix must hold at the moment it starts mattering: Lim extraction is about to produce genuine within-family variant proposals for the first time, and the flaw is silent (nothing fails; it just admits a false positive at the point of highest expected variant volume). Not yet wired into a runner — <code>tools/run_experiment.py</code> (the <code>v8_slice_001</code> runner, Phase-4 build target per <code>IMPLEMENTATION_LAYOUT.md</code>) does not exist yet, so <code>statistics.py</code> is unit-tested on synthetic data only, not yet exercised against a real <code>LabReport</code>.</td>
+</tr>
+<tr>
+<td>D-046</td>
+<td><code>EXPERTS_REGISTRY.yaml</code> gains a required <code>search_universe_size</code>: the TOTAL number of configurations the search consumed to reach a family — parameter grids, discarded indicator variants, the direction-sign choice and losers that never earned a <code>variant_id</code> — of which D-044's <code>variants_evaluated</code> is only the retained subset and therefore a lower bound. <code>tests/test_expert_registry.py</code> enforces presence and <code>search_universe_size ≥ len(variants_evaluated)</code>; <code>tools/run_experiment.py</code> publishes both per family plus a <code>multiplicity_undercounted</code> flag when the declared search exceeds the variants whose series the Reality Check actually saw. All five registered pilots declare 1</td>
+<td>PROVISIONAL_DECISION</td>
+<td>Owner decision 2026-08-06, pre-holdout. Aronson Ch8 p390-391 requires a complete record of every rule and parameter combination tested; a family p-value computed from the retained subset is optimistic by exactly the margin the search exceeded it. The canonical illustration is already recorded under D-044: 6,402 rules collapsing to 3 multiplicity units turns p=0.82 into a false pass. The declared 1 is not an omission — prereg §4 records that every detector parameter (EMA 5/20, ATR 14, the 32-bar prior-high window, expiry 8) was frozen in code against synthetic tapes BEFORE the real development window existed and no development search was performed, so there is no undisclosed configuration to count. The value becomes load-bearing at the moment the handbook-extraction families (24 proposed Experts, several with declared parameter grids) start registering; the flag exists so an undercount is visible in the record instead of silently inflating a family's significance.</td>
+</tr>
+<tr>
+<td>D-047</td>
+<td>Position management and fill policies land as DECLARED, optional mechanics (EXEC-1..6; the handbook's EX-01..EX-12): <code>simulator.py</code> gains the breakeven roll + chandelier trail (<code>breakeven_roll_at_mfe_r</code>, <code>breakeven_margin_r</code> = <code>round_trip_cost_r</code>, <code>trail_stop_atr</code>, <code>OpenPosition.stop_level</code>/<code>stop_rolled</code> — endpoint stays STOP), the scale-out partial exit (<code>scale_out_ratio</code> &gt; 0 enables, <code>scale_out_at_mfe_r</code>, <code>StepResult.closed_fraction</code> &lt; 1.0 as a NON-TERMINAL event, <code>remaining</code>/<code>realized_r</code> fraction-weighted R accounting), the TIME_EXIT endpoint (<code>time_exit_bars</code>, distinct from EXPIRY), the FILL_AT_LIMIT fill policy (barrier entry at <code>risk_geometry['limit_price']</code>, fill-only entry-bar inspection, never-filling orders never enter), and the declared-but-P2 <code>pyramid_add_rules</code> key (fails closed on request; <code>midpoint_stop</code> primitive implemented + tested). <code>lifecycle.py</code> gains the append-only <code>PositionAction</code> event (PARTIAL_EXIT). <code>sim.hash()</code> → <code>canonical-sim-v8</code></td>
+<td>PROVISIONAL_DECISION</td>
+<td>Owner decision 2026-08-06, pre-holdout. Every key is optional; the pilots' frozen geometry declares none, and on default geometry step()/run() output is byte-identical to pre-change code — verified by diffing the executed outcomes of both code versions on the golden fixture (all 12 executed outcomes' net_r/endpoint/label identical; data_hash/states_hash/candidate_count 21/terminal_distribution unchanged; only ledger_hash moved, because every outcome carries the re-versioned simulator_hash). Hash/endpoint discipline per CRIT-3/EXEC-6: any <code>simulator.py</code> semantic edit re-versions every outcome; the endpoint vocabulary is extended with TIME_EXIT and PARTIAL_EXIT is documented as a non-terminal lifecycle event, never an outcome endpoint (CANDIDATE_LIFECYCLE_SPEC §4 competing-risk decomposition untouched — a partial is not an exit cause). Thresholds are DECLARED numeric literals, never fitted (O-017 method; CRIT-9: <code>breakeven_roll_at_mfe_r = 1.5</code> and <code>f = stop_r/(stop_r+target_r)</code> are the book's, not dev-window fits). Not implemented here: O-013's admission gate (replicated OOS gain vs static geometry — a preregistration act), RM-04 two-tier heat (dormant hook in <code>risk.py</code>; requires a D-023 domain revision, CRIT-2.6), pyramiding and the EX-13 action lattice (P2). D-047 is the mechanics layer O-013's comparison runs on.</td>
+</tr>
 </tbody>
 </table>
+<p>| D-048 | Risk management additions land (RISK-1..6; the handbook's RM-01..RM-19): <code>CandidateDraft.size</code> (RM-01, CRIT-3 — sim.hash() re-versions to canonical-sim-v7 REGARDLESS of output byte-identity), <code>equity.RiskState</code> with the frozen <code>DRAWDOWN_BANDS</code> ladder (RM-06, O-016 challenger), <code>trade_units_for</code> (RM-07, 1% risk -&gt; 100 units, 20% -&gt; 5), manifest <code>risk_per_trade</code>/<code>min_trades</code> gates (RM-02/RM-08), heat as <code>size*stop_r</code> (RM-04, byte-identical at size=1.0), WCS + spread-adjusted R/r as report diagnostics (RM-10/11). All deterministic, preregistered thresholds never fitted | PROVISIONAL_DECISION | Handbook Ch28/Ch29; EV_METHODS G-02 calibration; measured against the pre-change golden fixture: all 21 outcomes' net_r element-wise identical, candidate_count/terminal_distribution/data_hash unchanged (sizing is size-independent in R) |
+| D-049 | Feature-graph extension FG-1..FG-7 (G-01..G-43): <code>FEATURE_GROUPS</code> gains <code>candle_shape</code>/<code>oscillator</code>/<code>session</code>/<code>positioning</code>, activates <code>participation</code>, extends <code>volatility</code>/<code>location</code> (73 new features, verbatim formulas from the Handbook §0; no-signal conditions emit numeric sentinels, never None — the D-024 DEGRADED veto stays a data-integrity veto). <code>FEATURE_GRAPH_VERSION</code> re-computes and every state lineage_hash binds the new features | PROVISIONAL_DECISION | Handbook Ch6/8/9/10/12/13/14/21/26; CRIT-1 (Ch27.2 ATR range filter on swing significance); measured against pre-change: candidate_count/terminal_distribution/data_hash unchanged — feature evidence added, no decision changed |
+| D-050 | The 24 handbook+evidence extraction expert families are admitted (EXP-01..24; D-042's pilot set extends to 28 code modules): each self-gates, carries frozen <code>variants_evaluated</code> (D-044) + honest <code>search_universe_size</code> (D-046); <code>breakout_retest</code> moves DATA_BLOCKED -&gt; FORMALIZED (code now exists, D-049-of-E-11); <code>open_interest_divergence</code> stays DATA_BLOCKED (no OI on the current tape; code self-gates to NO_HABITAT); <code>capitulation</code> remains DATA_BLOCKED (no code) | PROVISIONAL_DECISION | Handbook E-01..E-24 cards; CRIT-4 (failed_breakout_2b variants b..g, variant 'a' reserved for the original pilot), CRIT-6 (divergence declared subset), CRIT-7 (no hidden pending state; regime gate is per-expert precondition, not a router) |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -2892,6 +2928,12 @@ named baseline, not disproven forever. None means profitability.</p></section>
 <td>Should the portfolio heat cap scale with the Expert count, and on what basis?</td>
 <td>Sweep <code>max_heat</code> / <code>max_cluster_heat</code> against a fixed Expert population on the declared dev window; measure <code>EXISTING_EXPOSURE_CONFLICT</code> / <code>PORTFOLIO_HEAT_EXCEEDED</code> frequency and the D-027 attribution-validity diagnostics (<code>execution_share</code>, divergence KS) at each level</td>
 <td>Opened by D-043. With rule 14's Expert cap removed, <code>max_heat = 3.0</code> (<code>src/v8/risk.py</code>) becomes the binding constraint on portfolio scale: adding Experts changes what is <em>measured</em>, not what is <em>held</em>. Raising it is not a configuration tweak — it changes concurrent risk and the executed population that every economic diagnostic reads, so it needs a preregistered comparison like any other component (rule 5). Admit a new level only on a costed frozen-OOS comparison against the current caps; a lower <code>execution_share</code> alone is not a reason to raise it. Caps stay at 3.0 / 2.0 until then.</td>
+</tr>
+<tr>
+<td>O-021</td>
+<td>Should the D-044 within-family Reality-Check test be pooled across families into one N-configuration statistic, replacing the top-level Bonferroni too?</td>
+<td>Build a bar-level (not episode-level) panel: for every bar in the frozen OOS window, each evaluated configuration across all families contributes its episode <code>net_R</code> if one is anchored/live at that bar, else 0; run <code>reality_check_p_value</code>-style resampling over that panel instead of per-family episode series</td>
+<td>Opened by D-044. Within a family, all variants fire on the same setup predicate, so episode grids are already aligned and <code>src/v8/statistics.reality_check_p_value</code> applies directly. Across families the grids are disjoint (different <code>episode_key</code> sets, different bar counts), so the same function cannot be called on the union without either misaligning series or fabricating a shared index. White's (2000) original construction assumes a common time index for all N rules, which a bar-level zero-filled panel would restore — but that changes what "no signal" means for a family that fires rarely (mostly zeros) versus one that fires often, and needs its own validity argument before being trusted. Admit pooling only after that argument is made and tested on synthetic data with a known ground truth; until then the two-level structure (Bonferroni across families, Reality-Check within a family) stays the interim design and is not merely conservative — it is the version actually verified.</td>
 </tr>
 </tbody>
 </table>
@@ -5025,6 +5067,168 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-06-handbookevidence-extraction-lands-feature-graph-24-expert-families-risk-execution-management-d-0484950">2026-08-06 — Handbook+Evidence extraction lands: feature graph, 24 expert families, risk &amp; execution management (D-048/49/50)</h2>
+<p>The two-book extraction round (D-042) reaches code: the feature-group ontology
+widens to 11 groups / 73 new features (FG-1..FG-7, G-01..G-43), 24 expert
+families are implemented and registered (EXP-01..24, E-05/E-06 survivors +
+E-01..E-24), and risk/execution management lands (RISK-1..6, EXEC-1..6).</p>
+<ul>
+<li><strong><code>docs/decisions/DECISION_REGISTER.md</code></strong> — D-048 (risk additions), D-049 (feature graph), D-050 (expert admission).</li>
+<li><strong><code>src/v8/schema.py</code></strong> — FEATURE_GROUPS +7 groups (candle_shape/oscillator/session/positioning, participation activated, volatility/location extended); CandidateDraft.size; ExperimentManifest.risk_per_trade/min_trades; CounterfactualOutcome endpoint vocabulary extended (TIME_EXIT).</li>
+<li><strong><code>src/v8/marketstate.py</code></strong> — 73 new feature computations (Wilder RSI/MACD/ADX, Bollinger, swing lattice with Ch27.2 ATR range filter, fib levels, pivot, consolidation, gap, OBV/ADL/CMF, session, funding/OI); add() value widened to tuple/list; no-signal -&gt; numeric sentinel (never None, D-024 veto preserved).</li>
+<li><strong><code>src/v8/experts/*</code></strong> — 24 new expert files (one per behavior family, D-033), each with variants_evaluated (D-044) + search_universe_size (D-046). CRIT fixes applied: E-01 variants b..g (CRIT-4), E-07 declared subset (CRIT-6), E-17 self-gating regime (CRIT-7).</li>
+<li><strong><code>src/v8/equity.py</code></strong> (new) — RiskState drawdown ladder (RM-06, O-016 challenger) + trade_units_for (RM-07).</li>
+<li><strong><code>src/v8/risk.py</code></strong> — size-aware heat (size*stop_r, byte-identical at 1.0), equity wiring, min-trades/PF gates.</li>
+<li><strong><code>src/v8/simulator.py</code></strong> — breakeven roll + chandelier trail, scale-out (closed_fraction + PARTIAL_EXIT), pyramid plumbing, FILL_AT_LIMIT, TIME_EXIT; sim.hash() -&gt; canonical-sim-v7.</li>
+<li><strong><code>src/v8/statistics.py</code></strong> — D-045 detrending (passive_benchmark_r/detrend_net_r) retained; METH-1..6 extensions follow in the next entry.</li>
+<li><strong><code>docs/EXPERTS_REGISTRY.yaml</code></strong> — 28 entries (24 new FORMALIZED, open_interest DATA_BLOCKED, breakout_retest FORMALIZED); registry test derives expected set from code.</li>
+<li><strong><code>tests/</code></strong> — test_feature_groups.py, 24 test_expert_*.py, test_risk.py, test_execution.py; golden re-pinned (hashes moved by construction, candidate_count 21 + terminal_distribution unchanged throughout).</li>
+</ul>
+<h2 id="2026-08-06-position-management-and-fill-policies-land-as-declared-optional-mechanics-exec-16-d-047">2026-08-06 — Position management and fill policies land as declared, optional mechanics (EXEC-1..6, D-047)</h2>
+<p>The handbook's execution additions (EX-01..EX-12 in <code>books/reports/HAND_RISK_EXEC.md</code>,
+gated by OPEN_DECISIONS O-013 — admission still requires replicated OOS gain vs
+static geometry) become first-class, DECLARED risk_geometry keys and one new
+fill policy. Every key is optional; the pilots' frozen geometry declares none,
+so step()/run() output on default geometry is byte-identical to pre-change code
+(verified by diffing the executed outcomes of both code versions on the golden
+fixture). This is the O-013 mechanics layer: the question "does active position
+management beat static geometry" can now be asked.</p>
+<ul>
+<li><strong><code>src/v8/simulator.py</code></strong> — EXEC-1 breakeven roll + chandelier trail
+  (<code>breakeven_roll_at_mfe_r</code> / <code>breakeven_margin_r</code> = <code>round_trip_cost_r</code> /
+  <code>trail_stop_atr</code>; <code>OpenPosition.stop_level</code> + <code>stop_rolled</code>; endpoint stays
+  STOP); EXEC-2 scale-out partial exit (<code>scale_out_ratio</code> &gt; 0 enables +
+  <code>scale_out_at_mfe_r</code>; <code>StepResult.closed_fraction</code> &lt; 1.0 is a NON-TERMINAL
+  event; <code>OpenPosition.remaining</code>/<code>realized_r</code> fraction-weighted R accounting);
+  EXEC-5 TIME_EXIT endpoint (<code>time_exit_bars</code>, distinct from EXPIRY); EXEC-4
+  <code>FILL_AT_LIMIT</code> fill policy (barrier entry at <code>risk_geometry['limit_price']</code>,
+  fill-only entry-bar inspection, never-filling orders never enter); EXEC-3
+  <code>pyramid_add_rules</code> declared but P2/off (fail closed on request;
+  <code>midpoint_stop</code> primitive implemented + tested). <code>hash()</code> →
+  <code>canonical-sim-v8</code>. Funding path untouched (the funding goldens are
+  byte-identical). Management updates apply from the bar AFTER the bar that
+  triggered them (bar-atomic OHLC cannot order intrabar events).</li>
+<li><strong><code>src/v8/lifecycle.py</code></strong> — <code>CandidateRegistry.position_action</code>: the
+  append-only <code>PositionAction</code> event (<code>kind: position_action</code>), EXEC-2's
+  PARTIAL_EXIT. Non-terminal: no transition, <code>current()</code> unchanged, joins the
+  candidates ledger and therefore <code>ledger_hash</code>.</li>
+<li><strong><code>src/v8/lab.py</code></strong> — executed path records PARTIAL_EXIT PositionActions and
+  continues the position; FILL_AT_LIMIT executed entry (resting order, never
+  entered → the epilogue's never-entered convention); TIME_EXIT closes the
+  position (<code>expiry_reached</code>); equity feed books fraction-weighted net_r
+  against the admission size.</li>
+<li><strong><code>src/v8/schema.py</code></strong> — endpoint vocabulary documented with TIME_EXIT;
+  PARTIAL_EXIT documented as a non-terminal PositionAction, never an endpoint;
+  <code>risk_geometry</code> management keys and <code>limit_price</code> documented on
+  <code>CandidateDraft</code>; <code>ExperimentManifest.fill_policy</code> documents FILL_AT_LIMIT.</li>
+<li><strong><code>tests/</code></strong> — <code>test_execution.py</code> (new: EXEC-1..6 unit + lab end-to-end,
+  including the fill-only entry-bar invariant and a managed-geometry lab run),
+  <code>test_lifecycle.py</code> (new: PositionAction append-only/non-transition/replay),
+  hash-canary goldens re-pinned to <code>canonical-sim-v8</code>,
+  <code>SUPPORTED_FILL_POLICIES == ('FILL_AT_BAR_CLOSE', 'FILL_AT_LIMIT')</code>,
+  golden-backtest ledger re-pinned (outcome records carry the re-versioned
+  <code>simulator_hash</code>; data/states/candidate/terminal unchanged).</li>
+<li><strong>Not done here:</strong> O-013's admission gate (replicated OOS gain vs static
+  geometry) is a preregistration/experiment act, not code; RM-04 two-tier heat
+  consumption of <code>stop_rolled</code> is dormant in <code>risk.py</code> until a register
+  decision revises D-023's domain (CRIT-2.6); pyramiding (EXEC-3) and the full
+  EX-13 action lattice (ADD/REENTER/HEDGE) are P2.</li>
+</ul>
+<h2 id="2026-08-06-the-net-r-null-is-detrended-and-the-search-universe-is-declared-d-045-d-046">2026-08-06 — The net-R null is detrended, and the search universe is declared (D-045, D-046)</h2>
+<p>Two multiplicity/centering defects from the handbook evidence extraction
+(<code>books/reports/EV_METHODS.md</code> G-01/G-02, issues METH-1 and METH-2), both
+landed pre-holdout while prereg §16 still permits it — no manifest, store or
+outcome ledger exists yet.</p>
+<p><strong>D-045 — the null was mis-centered.</strong> <code>μ_f ≤ 0</code> on raw episode net_R is
+mean-zero only for a no-skill rule on <em>detrended</em> data (Aronson Ch1 p23-27,
+Appendix A). On a trending tape a long-biased family earns positive expected
+net_R with zero predictive power, and every pilot carries long-direction
+setups — so the single-config lower-bound gate and the Reality Check were
+both testing against a null the tape had already moved. Episode net_R is now
+centered on a same-exposure passive benchmark before any gate; the raw mean
+survives beside it as a diagnostic and the difference is published as
+<code>position_bias_component</code>. Signal generation never sees a detrended value.</p>
+<p><strong>D-046 — the search universe was undeclared.</strong> <code>variants_evaluated</code> (D-044)
+counts only the configurations whose episode series were retained; parameter
+grids, discarded indicator variants and the direction-sign choice are search
+the family also consumed. The registry now declares the total, the runner
+publishes it with every family statistic, and an undercount is flagged rather
+than silently inflating significance.</p>
+<ul>
+<li><strong><code>src/v8/schema.py</code></strong> — <code>CounterfactualOutcome</code> gains <code>entry_price</code>,
+  <code>risk_unit_price</code>, <code>market_move_r</code>. Recorded, never re-derived: <code>risk_unit</code>
+  depends on the fill whenever a draft declares <code>risk_frac</code> instead of
+  <code>atr_ref</code>, so the R denominator is not recoverable downstream.</li>
+<li><strong><code>src/v8/simulator.py</code></strong> — populates them; <code>hash()</code> → <code>canonical-sim-v6</code>.</li>
+<li><strong><code>src/v8/lab.py</code></strong> — the executed path does not go through <code>simulator.run</code>
+  (it steps positions and closes them in <code>_record_outcome</code>), so the fields are
+  supplied at each entered call site too; they stay 0.0 for never-entered
+  candidates.</li>
+<li><strong><code>src/v8/statistics.py</code></strong> — <code>EpisodeExposure</code>, <code>mean_log_drift_per_bar</code>,
+  <code>passive_benchmark_r</code>, <code>detrend_net_r</code>, <code>placebo_exposures</code>,
+  <code>appendix_a_invariant</code>. <code>invariant_holds</code> is deliberately unimplemented and
+  raises: the "≈ 0" tolerance is itself a preregistered constant and is left
+  to an explicit operator choice rather than a silent default.</li>
+<li><strong><code>docs/EXPERTS_REGISTRY.yaml</code></strong> — required <code>search_universe_size</code>; all five
+  pilots declare 1, consistent with prereg §4 (parameters frozen in code
+  against synthetic tapes before the dev window existed).</li>
+<li><strong><code>tools/run_experiment.py</code></strong> — scores the detrended series, reports the
+  drift estimate, the raw/detrended pair and the search accounting; fails
+  closed on a pre-D-045 ledger that carries no <code>risk_unit_price</code>.</li>
+<li><strong><code>tests/</code></strong> — <code>test_detrended_null.py</code> (new: reproduces the position bias,
+  then asserts it is removed), plus runner and registry gates. Goldens
+  re-pinned: <code>net_r</code>, endpoints, labels, <code>data_hash</code>, <code>states_hash</code>,
+  <code>candidate_count</code> and <code>terminal_distribution</code> are all UNCHANGED and only
+  <code>ledger_hash</code> moved — the evidence this changed the record, not a decision.</li>
+<li><strong>Not done here:</strong> prereg §2/§10/§11 still describe the uncentered null in
+  prose; the <code>invariant_holds</code> threshold is unchosen. Both are operator acts.</li>
+</ul>
+<h2 id="2026-08-06-within-family-variant-multiplicity-fixed-reality-check-replaces-variants-count-as-one-unit-d-044">2026-08-06 — Within-family variant multiplicity fixed: Reality-Check replaces "variants count as one unit" (D-044)</h2>
+<p>Preregistration §11 said "all variants explored inside a family count as one
+multiplicity unit (rule 13)." That over-read rule 13's ontology (a variant is
+not a new Expert) into a statistical claim (variant search is
+multiplicity-free), which is false: best-of-N variant search inside one
+family reintroduces exactly the selection bias rule 11 exists to control
+(the canonical case is Aronson's 6,402-rule study, which understates its own
+search by an order of magnitude under a themes-only counting rule). The bug
+was harmless while every pilot sat at <code>variant_id: 'a'</code>; it stops being
+harmless the moment variant search starts, which literature extraction is
+about to do. Cross-family Bonferroni (<code>α_f = 0.05/F</code>) is unchanged — still
+valid, only conservative under correlation, and not the urgent half of this.</p>
+<ul>
+<li><strong><code>docs/decisions/DECISION_REGISTER.md</code></strong> — D-044 added.</li>
+<li><strong><code>docs/PREREGISTRATION_V8_SLICE_001.md</code></strong> — §1 and §11 revised: within a
+  family, <code>len(variants_evaluated) == 1</code> keeps the original single-config
+  percentile-bootstrap test; <code>&gt; 1</code> spends the family's <code>α_f</code> via
+  <code>src/v8/statistics.reality_check_p_value</code> (White 2000 Procedure RC,
+  already <code>LITERATURE_SUPPORTED</code> in <code>HYPOTHESIS_LAB_PROTOCOL.md</code>'s Sources
+  section) over all evaluated variants' episode series, using the same
+  section-9 block-size rule. Cross-family pooling into one N-configuration
+  statistic is explicitly <strong>not</strong> implemented — families fire on disjoint
+  episode grids and a correct pooled test needs a bar-level panel, not an
+  episode-level one (O-021).</li>
+<li><strong><code>docs/EXPERTS_REGISTRY.yaml</code></strong> — new required field <code>variants_evaluated</code>
+  per entry (losers included, not just the reported <code>variant_id</code>); all five
+  current entries carry <code>['a']</code> since no variant search has happened yet.</li>
+<li><strong><code>src/v8/statistics.py</code></strong> (new) — <code>reality_check_p_value</code>,
+  <code>select_block_size</code>, stdlib-only, explicit seed, aligned-episode-grid
+  inputs only. Not yet wired into a runner: <code>tools/run_experiment.py</code> (the
+  <code>v8_slice_001</code> Phase-4 runner) does not exist yet, so this is unit-tested
+  on synthetic data only.</li>
+<li><strong><code>tests/test_reality_check.py</code></strong> (new) — determinism, p-value bounds,
+  block-contiguity, <code>select_block_size</code> against known-autocorrelation
+  synthetic series, mismatched-length and empty-input rejection.</li>
+<li><strong><code>tests/test_expert_registry.py</code></strong> — gates <code>variants_evaluated</code> presence
+  and that the reported <code>variant_id</code> is a member of it.</li>
+<li><strong><code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code></strong> — <code>statistics.py</code> and
+  <code>tests/test_reality_check.py</code> rows added (D-032: new files are registry
+  decisions).</li>
+<li><strong><code>docs/decisions/OPEN_DECISIONS.md</code></strong> — O-021 opened: whether and how to
+  pool the Reality-Check test across families (bar-level panel), deferred
+  rather than built ad hoc.</li>
+<li>Legal pre-holdout per prereg §16, same basis as D-041: the frozen holdout
+  has not been opened or downloaded.</li>
+</ul>
 <h2 id="2026-08-04-rule-14-rewritten-complexity-budget-splits-runtime-from-evidence-d-043">2026-08-04 — Rule 14 rewritten: complexity budget splits runtime from evidence (D-043)</h2>
 <p>The constitution capped "at most 3 active Experts". That single number
 conflated an engineering question (how many modules evaluate per bar — zero
@@ -6246,6 +6450,31 @@ experiments:
 # No registry experiment is registered and nothing is promoted
 # (V8_CONSTITUTION rule 13). The code-side projection must match this file
 # exactly (tests/test_expert_registry.py), so the ontology cannot drift.
+#
+# variants_evaluated (D-044): every variant_id of this family evaluated on
+# the development window, losing variants included — not just the reported
+# variant_id below. This is what PREREGISTRATION_V8_SLICE_001 section 11
+# reads to decide whether the family&#x27;s alpha budget is spent by the
+# single-configuration percentile-bootstrap test (len == 1) or the
+# within-family Reality-Check max-statistic test (len &gt; 1). A variant
+# dropped after evaluation is still listed here — it cannot be un-evaluated.
+#
+# search_universe_size (D-046): the TOTAL number of configurations the search
+# actually consumed to arrive at this family — every threshold, lookback,
+# filter and indicator variant tried, the direction-sign choice, and losers
+# discarded before they ever earned a variant_id. `variants_evaluated` is the
+# subset whose episode series were retained, so it is only a LOWER BOUND on
+# the search; Aronson Ch8 p390-391 requires the complete record, because a
+# family p-value computed from the retained subset is optimistic by exactly
+# the amount the search exceeded it (his 6,402-rule case collapses to 3 units
+# under a family-counts-as-one rule and turns p=0.82 into a false pass).
+#
+# All five pilots declare 1. That is not an omission: preregistration §4
+# records that every detector parameter (EMA 5/20, ATR 14, the 32-bar
+# prior-high window, expiry 8) was frozen in code against synthetic tapes
+# BEFORE the real development window existed, and no development search was
+# performed — so there is no undisclosed configuration to count. A family that
+# tunes anything on data must raise this number and re-run the Reality Check.
 
 expert_status_vocabulary:
   - PROPOSED
@@ -6258,48 +6487,502 @@ expert_status_vocabulary:
   - MERGED
   - QUARANTINED
   - DATA_BLOCKED
-
 experts:
-  - expert_id: trend_pullback
-    expert_version: v1
-    mechanism_family_id: trend_continuation
-    behavior_family_id: pullback_in_trend
-    variant_id: &#x27;a&#x27;
-    requires: [trend, volatility, history]
-    status: FORMALIZED
-    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
-  - expert_id: failed_breakout
-    expert_version: v1
-    mechanism_family_id: liquidity_vacuum_reentry
-    behavior_family_id: failed_breakout_reentry
-    variant_id: &#x27;a&#x27;
-    requires: [location, volatility, history]
-    status: FORMALIZED
-    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
-  - expert_id: liquidity_sweep_reclaim
-    expert_version: v1
-    mechanism_family_id: liquidity_sweep_reclaim
-    behavior_family_id: sweep_reclaim
-    variant_id: &#x27;a&#x27;
-    requires: [location, volatility, history]
-    status: FORMALIZED
-    owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL; ROADMAP Phase 3
-  - expert_id: breakout_retest
-    expert_version: v1
-    mechanism_family_id: breakout_retest
-    behavior_family_id: breakout_retest
-    variant_id: &#x27;a&#x27;
-    requires: [location, volatility, history]
-    status: DATA_BLOCKED
-    owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code module
-  - expert_id: capitulation
-    expert_version: v1
-    mechanism_family_id: capitulation_exhaustion
-    behavior_family_id: capitulation
-    variant_id: &#x27;a&#x27;
-    requires: [trend, volatility, history]
-    status: DATA_BLOCKED
-    owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code module
+- expert_id: trend_pullback
+  expert_version: v1
+  mechanism_family_id: trend_continuation
+  behavior_family_id: pullback_in_trend
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - trend
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3
+- expert_id: failed_breakout
+  expert_version: v1
+  mechanism_family_id: liquidity_vacuum_reentry
+  behavior_family_id: failed_breakout_reentry
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3
+- expert_id: liquidity_sweep_reclaim
+  expert_version: v1
+  mechanism_family_id: liquidity_sweep_reclaim
+  behavior_family_id: sweep_reclaim
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3
+- expert_id: breakout_retest
+  expert_version: v1
+  mechanism_family_id: breakout_retest
+  behavior_family_id: breakout_retest
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 3
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042 (D-049)
+- expert_id: capitulation
+  expert_version: v1
+  mechanism_family_id: capitulation_exhaustion
+  behavior_family_id: capitulation
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - trend
+  - volatility
+  - history
+  status: DATA_BLOCKED
+  owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); no code
+    module
+- expert_id: failed_breakout_2b
+  expert_version: v1
+  mechanism_family_id: liquidity_vacuum_reentry
+  behavior_family_id: failed_breakout_reentry
+  variant_id: b
+  variants_evaluated:
+  - b
+  - c
+  - d
+  - e
+  - f
+  - g
+  search_universe_size: 6
+  requires:
+  - location
+  - volatility
+  - history
+  - candle_shape
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: trend_pullback_depth
+  expert_version: v1
+  mechanism_family_id: trend_continuation
+  behavior_family_id: pullback_in_trend
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  - e
+  - f
+  - g
+  search_universe_size: 7
+  requires:
+  - trend
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: range_breakout_1to1
+  expert_version: v1
+  mechanism_family_id: consolidation_breakout
+  behavior_family_id: range_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  - e
+  - f
+  search_universe_size: 6
+  requires:
+  - location
+  - volatility
+  - history
+  - participation
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: candlestick_reversal
+  expert_version: v1
+  mechanism_family_id: bar_shape_reversal
+  behavior_family_id: candlestick_reversal
+  variant_id: hammer
+  variants_evaluated:
+  - hammer
+  - shooting_star
+  - bullish_engulfing
+  - bearish_engulfing
+  - bullish_harami
+  - bearish_harami
+  - three_white_soldiers
+  - three_black_crows
+  search_universe_size: 8
+  requires:
+  - candle_shape
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: rsi_stoch_reversion
+  expert_version: v1
+  mechanism_family_id: oscillator_reversion
+  behavior_family_id: overbought_oversold_reversion
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 3
+  requires:
+  - oscillator
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: macd_stoch_trend
+  expert_version: v1
+  mechanism_family_id: trend_filtered_oscillator
+  behavior_family_id: macd_stoch_cross
+  variant_id: a
+  variants_evaluated:
+  - a
+  search_universe_size: 1
+  requires:
+  - oscillator
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: divergence_12_setups
+  expert_version: v1
+  mechanism_family_id: momentum_divergence
+  behavior_family_id: standard_divergence_reversal
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  search_universe_size: 2
+  requires:
+  - oscillator
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: bollinger_breakout
+  expert_version: v1
+  mechanism_family_id: volatility_band
+  behavior_family_id: band_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 3
+  requires:
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: bollinger_reversion
+  expert_version: v1
+  mechanism_family_id: volatility_band
+  behavior_family_id: band_reversion
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  search_universe_size: 2
+  requires:
+  - trend
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: donchian_breakout
+  expert_version: v1
+  mechanism_family_id: channel_breakout
+  behavior_family_id: channel_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  - e
+  - f
+  search_universe_size: 6
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: fib_retracement_continuation
+  expert_version: v1
+  mechanism_family_id: fib_level_reaction
+  behavior_family_id: fib_retracement_continuation
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  - e
+  search_universe_size: 10
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: fib_projection_reversal
+  expert_version: v1
+  mechanism_family_id: fib_level_reaction
+  behavior_family_id: fib_projection_reversal
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 6
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: pattern_measuring_objective
+  expert_version: v1
+  mechanism_family_id: geometric_pattern_breakout
+  behavior_family_id: geometric_pattern_breakout
+  variant_id: head_shoulders
+  variants_evaluated:
+  - head_shoulders
+  - double_top
+  - triangle
+  search_universe_size: 3
+  requires:
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: volume_confirmed_breakout
+  expert_version: v1
+  mechanism_family_id: volume_confirmation
+  behavior_family_id: volume_confirmed_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - location
+  - volatility
+  - participation
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: volume_climax_reversal
+  expert_version: v1
+  mechanism_family_id: volume_exhaustion
+  behavior_family_id: volume_climax_reversal
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - trend
+  - volatility
+  - participation
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: obv_adl_regime
+  expert_version: v1
+  mechanism_family_id: volume_oscillator_regime
+  behavior_family_id: volume_oscillator_regime
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - participation
+  - trend
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: ichimoku_cloud
+  expert_version: v1
+  mechanism_family_id: cloud_trend
+  behavior_family_id: cloud_trend
+  variant_id: c
+  variants_evaluated:
+  - c
+  search_universe_size: 1
+  requires:
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: floor_trader_pivot
+  expert_version: v1
+  mechanism_family_id: pivot_level_reaction
+  behavior_family_id: pivot_level_reaction
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - location
+  - volatility
+  - history
+  - session
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: market_profile_value_area
+  expert_version: v1
+  mechanism_family_id: value_area_reversion
+  behavior_family_id: value_area_reversion
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 5
+  requires:
+  - session
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: gap_exhaustion
+  expert_version: v1
+  mechanism_family_id: gap_reaction
+  behavior_family_id: gap_reaction
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  search_universe_size: 3
+  requires:
+  - candle_shape
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: open_interest_divergence
+  expert_version: v1
+  mechanism_family_id: positioning_divergence
+  behavior_family_id: oi_price_divergence
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 6
+  requires:
+  - positioning
+  - participation
+  - volatility
+  - history
+  status: DATA_BLOCKED
+  owning_spec: DATA_BLOCKED until derivatives tape (ROADMAP Phase 3 backlog); code
+    self-gates to NO_HABITAT
+- expert_id: funding_crowding_reversal
+  expert_version: v1
+  mechanism_family_id: positioning_divergence
+  behavior_family_id: funding_crowding_reversal
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 4
+  requires:
+  - positioning
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: pandf_breakout
+  expert_version: v1
+  mechanism_family_id: boxed_price_breakout
+  behavior_family_id: boxed_price_breakout
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  - c
+  - d
+  search_universe_size: 8
+  requires:
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
+    ROADMAP Phase 3; handbook+evidence extraction D-042
 </pre></section>
 <section id="sec-preregistration-v8-slice-001"><h1>PREREGISTRATION V8 SLICE 001</h1><h1 id="preregistration-experiment-v8_slice_001">Preregistration — Experiment <code>v8_slice_001</code></h1>
 <p><strong>Status:</strong> RATIFIED — operator-approved 2026-08-01; frozen until the
@@ -6326,10 +7009,13 @@ verdict.</p>
 <li><code>trend_continuation</code> / <code>pullback_in_trend</code> → expert <code>trend_pullback</code> v1</li>
 <li><code>liquidity_vacuum_reentry</code> / <code>failed_breakout_reentry</code> → expert
     <code>failed_breakout</code> v1</li>
-<li>A family is the multiplicity unit (rule 13): both pilots are their family's
-  first variant; any threshold/geometry change during the experiment would be
-  a <strong>new variant of the same family</strong> and would count against the same
-  family-level correction — none is admitted by this record.</li>
+<li>The family is the top-level (Bonferroni) multiplicity unit; a variant is
+  never a new Expert (rule 13). Both pilots are their family's first and only
+  evaluated variant (<code>variants_evaluated: [a]</code>); any threshold/geometry
+  change during the experiment would be a new variant of the same family and
+  would trigger the within-family Reality-Check test of section 11 (D-044) —
+  none is admitted by this record, so section 11's single-configuration path
+  applies.</li>
 </ul>
 <h2 id="2-formal-null-and-alternative-per-family">2. Formal null and alternative (per family)</h2>
 <p>For each family <code>f</code> on the frozen out-of-sample window, with
@@ -6490,14 +7176,45 @@ simulator:</p>
 <h2 id="11-test">11. Test</h2>
 <ul>
 <li>Per family: one-sided test <code>H1: μ_f &gt; 0</code> at the <strong>family-corrected</strong> level
-  <code>α_f = 0.025</code> (Bonferroni 0.05/2 across the two families on the primary
-  metric — the only error-rate procedure; no alternative is left open).
-  Bootstrap CI is the <strong>percentile method, one-sided</strong>: the lower bound is
-  the 2.5th percentile of the block-bootstrap distribution of <code>μ̂_f</code> under
-  the section-9 rule; the family passes if that lower bound exceeds 0
-  <strong>and</strong> <code>n_f ≥</code> the minimum coverage of section 12.</li>
-<li><strong>Family-level control:</strong> all variants explored inside a family (none so
-  far beyond <code>variant a</code>) count as one multiplicity unit (rule 13).</li>
+  <code>α_f = 0.05/F</code> (Bonferroni across the F preregistered families on the
+  primary metric — the only cross-family error-rate procedure; no alternative
+  is left open). This level is unchanged by D-044 and stays
+  conservative-but-valid regardless of inter-family correlation. D-050
+  (2026-08-06, pre-holdout): F grew from the two pilots to 28 code-admitted
+  families (3 pilots + 24 extraction families + open_interest DATA_BLOCKED
+  excluded from the active test set, capitulation excluded — active F = 27,
+  so <code>α_f = 0.05/27 ≈ 0.00185</code>). The level stays conservative-but-valid; it
+  is noted here rather than silently recomputed in code.</li>
+<li><strong>Within-family control (D-044, revises the prior rule-13 cross-reference):</strong>
+  <code>variants_evaluated</code> — every configuration of the family evaluated on the
+  development window, losing variants included, frozen before the holdout is
+  touched (<code>docs/EXPERTS_REGISTRY.yaml</code>) — decides which of two tests applies:</li>
+<li><strong><code>len(variants_evaluated) == 1</code></strong> (both pilots, currently): the original
+    single-configuration test is unchanged. Bootstrap CI is the <strong>percentile
+    method, one-sided</strong>: the lower bound is the 2.5th percentile of the
+    section-9 block-bootstrap distribution of <code>μ̂_f</code>; the family passes if
+    that lower bound exceeds 0 <strong>and</strong> <code>n_f ≥</code> the minimum coverage of
+    section 12.</li>
+<li><strong><code>len(variants_evaluated) &gt; 1</code></strong>: the family's <code>α_f</code> budget is spent via
+    a block-bootstrap Reality-Check max-statistic test (White 2000 Procedure
+    RC, <code>HYPOTHESIS_LAB_PROTOCOL.md</code> Sources; implemented in
+    <code>src/v8/statistics.reality_check_p_value</code>) over all evaluated variants'
+    episode series, using the <strong>same section-9 block-size rule</strong> (24 unless
+    lag-1 autocorrelation of episode <code>net_R</code> exceeds 0.10, then 168) so the
+    dependence unit is identical to the single-configuration case. All
+    variants in a family fire on the same setup predicate and therefore share
+    an aligned episode grid (rule 13), which is what makes the max-statistic
+    resampling valid here without a cross-family time panel. The family
+    passes if the Reality-Check p-value is <code>&lt; α_f</code> <strong>and</strong> the argmax
+    variant's own <code>μ̂ &gt; 0</code> <strong>and</strong> its <code>n ≥</code> the minimum coverage of
+    section 12. A variant that is not the argmax cannot pass on this record
+    regardless of its own <code>μ̂</code>, by construction of the max statistic.</li>
+<li>Cross-family pooling of this test into one N-configuration statistic
+    (spanning both families' variants at once, replacing the top-level
+    Bonferroni too) is <strong>not</strong> implemented — families fire on disjoint
+    episode grids and a correct pooled test needs a bar-level panel, not an
+    episode-level one. Tracked as O-021; the two-level structure above is the
+    interim design.</li>
 <li>Attribution gate (D-027) is evaluated first: if
   <code>ATTRIBUTION_UNSAFE_LOW_COVERAGE</code> or
   <code>ATTRIBUTION_UNSAFE_POPULATION_DIVERGENCE</code> fires (section 15), the run is
