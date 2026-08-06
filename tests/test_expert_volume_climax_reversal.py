@@ -49,13 +49,13 @@ def test_ontology_declared():
     assert e.mechanism_family_id == 'volume_exhaustion'
     assert e.behavior_family_id == 'volume_climax_reversal'
     assert e.variant_id == 'a'
-    assert e.variants_evaluated == ('a', 'b', 'c', 'd')
+    assert e.variants_evaluated == ('a', 'b', 'c', 'd', 'e')
     assert set(e.requires) == {'trend', 'volatility', 'participation', 'history'}
 
 
 def test_variants_evaluated_completeness():
     e = VolumeClimaxReversalExpert()
-    assert len(e.variants_evaluated) == 4
+    assert len(e.variants_evaluated) == 5
     assert e.variant_id in e.variants_evaluated
     assert e.search_universe_size >= len(e.variants_evaluated)
 
@@ -66,7 +66,7 @@ def test_variant_a_selling_climax_long():
     """A 2-sigma volume overextension in a downtrend is a selling climax ->
     LONG fade (variant a)."""
     closes = [100.0 - 0.1 * i for i in range(100)] + [89.5]
-    vols = [2.0] * 100 + [8.0]
+    vols = [1.9, 2.1] * 50 + [2.25]
     rows = _tape(closes, vols)
     st = _state_at(rows, 100)
     ev = VolumeClimaxReversalExpert().evaluate(st)
@@ -84,7 +84,7 @@ def test_variant_b_buying_climax_short():
     """A 2-sigma volume overextension in an uptrend is a buying climax
     (blow-off) -> SHORT fade (variant b)."""
     closes = [100.0 + 0.1 * i for i in range(100)] + [110.5]
-    vols = [2.0] * 100 + [8.0]
+    vols = [1.9, 2.1] * 50 + [2.25]
     rows = _tape(closes, vols)
     ev = VolumeClimaxReversalExpert().evaluate(_state_at(rows, 100))
     assert ev.decision == 'CANDIDATE'
@@ -115,7 +115,7 @@ def test_variant_d_reversal_bar_confirm():
     the bar-shape-confirmed climax -> fade in the bar's own direction
     (variant d)."""
     closes = [100.0 - 0.1 * i for i in range(100)] + [89.5]
-    vols = [2.0] * 100 + [8.0]
+    vols = [1.9, 2.1] * 50 + [2.25]
     opens = list(closes)
     opens[100] = 88.0                       # opens low, closes up: bullish
     rows = _tape(closes, vols, opens=opens)
@@ -126,6 +126,27 @@ def test_variant_d_reversal_bar_confirm():
     assert d.direction == 'LONG'
     assert d.risk_geometry['variant'] == 'd'
     assert st.features['SOLUSDT.bar_class'].value == 1.0
+
+
+def test_variant_e_strict_3sigma_climax():
+    """D-055 challenger: a 3-sigma overextension (the 8.0 spike gives
+    vol_zscore ~10) is the strict climax -> variant e owns the bar, LONG after
+    a selling climax in a downtrend, SHORT after a buying climax in an uptrend.
+    The 2-sigma a/b/d gates must NOT fire on a 3-sigma bar."""
+    # downtrend + 3-sigma spike -> e/LONG (variant a would also want LONG, but
+    # the strict variant owns 3-sigma bars by priority)
+    closes = [100.0 - 0.1 * i for i in range(100)] + [89.5]
+    vols = [2.0] * 100 + [8.0]
+    ev = VolumeClimaxReversalExpert().evaluate(_state_at(_tape(closes, vols), 100))
+    assert ev.decision == 'CANDIDATE'
+    assert ev.draft.direction == 'LONG'
+    assert ev.draft.risk_geometry['variant'] == 'e'
+    # uptrend + 3-sigma spike -> e/SHORT
+    closes_up = [100.0 + 0.1 * i for i in range(100)] + [110.5]
+    ev2 = VolumeClimaxReversalExpert().evaluate(_state_at(_tape(closes_up, vols), 100))
+    assert ev2.decision == 'CANDIDATE'
+    assert ev2.draft.direction == 'SHORT'
+    assert ev2.draft.risk_geometry['variant'] == 'e'
 
 
 # --- no-setup / no-habitat rejection ----------------------------------------

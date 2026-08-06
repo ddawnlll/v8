@@ -3,6 +3,26 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-07 — D-055: strict-climax challenger for volume_climax_reversal
+
+The O-022 measurement showed the 2-sigma climax gate fires on nearly every bar
+(8,272 distinct candidates on 8,760 bars -> a 4.6% D-027 execution_share; the
+family floods the rule-16 exposure pool and blocks its own re-entries). A
+strict-climax challenger variant `e` (vol_zscore >= 3.0) joins the family,
+owning every 3-sigma bar. Declared and frozen pre-holdout; the frozen-OOS
+within-family Reality-Check (D-044) decides whether `e` survives, never the
+dev window.
+
+- **`src/v8/experts/volume_climax_reversal.py`** — variant `e` (3-sigma fade in
+  the trend direction), `variants_evaluated` (a,b,c,d,e), `search_universe_size`
+  5, priority e > d > c > b > a.
+- **`docs/EXPERTS_REGISTRY.yaml`** — volume_climax variants/search updated.
+- **`docs/decisions/DECISION_REGISTER.md`** — D-055.
+- **`tests/test_expert_volume_climax_reversal.py`** — a/b/d tapes re-based on an
+  alternating volume series so their vol_zscore sits in [2,3) (the near-constant
+  base made ANY spike a ~10-sigma event and routed every test to the new strict
+  variant); new variant-e test (8.0 spike -> z~10 -> e/LONG and e/SHORT).
+
 ## 2026-08-07 — Declared per-Expert MarketState (D-054) + block-bootstrap defect (D-052)
 
 Two changes to the evidence machinery, both frozen pre-holdout.

@@ -20,11 +20,16 @@ Four book variants, all on the 100-bar 2-sigma volume overextension
   d  2-sigma overextension confirmed by a High-Vol Reversal bar
      (bar_class == 1, the squat-bar idea: large volume on a reversal bar,
      Ch6.1 p197-199) -> fade in the bar's own direction.
+  e  D-055 strict-climax challenger: vol_zscore >= 3.0 in a trend -> fade
+     (LONG after a selling climax, SHORT after a buying climax). Declared and
+     frozen pre-holdout; competes with a-d in the within-family Reality-Check
+     on the frozen OOS (D-044), never selected on the dev window.
 
 evaluate() emits ONE CandidateDraft per bar for the highest-priority variant
-whose gate fires (declared priority d > c > b > a: most restrictive first).
-All four variants count as one multiplicity unit (rule 13; D-044
-variants_evaluated) and are distinguished by the `variant` geometry key.
+whose gate fires (declared priority e > d > c > b > a: most restrictive
+first; the strict 3-sigma variant owns every 3-sigma bar). All five variants
+count as one multiplicity unit (rule 13; D-044 variants_evaluated) and are
+distinguished by the `variant` geometry key.
 """
 from __future__ import annotations
 
@@ -39,15 +44,22 @@ class VolumeClimaxReversalExpert(Expert):
     mechanism_family_id = 'volume_exhaustion'
     behavior_family_id = 'volume_climax_reversal'
     variant_id = 'a'
-    variants_evaluated = ('a', 'b', 'c', 'd')
-    search_universe_size = 4
+    variants_evaluated = ('a', 'b', 'c', 'd', 'e')
+    search_universe_size = 5
     requires = ('trend', 'volatility', 'participation', 'history')
 
     # Declared, LOCKED constants (D-036 pattern: declared, never fitted).
     CLIMAX_Z = 2.0               # 2-sigma volume overextension (book, N=100)
+    # D-055 challenger: a STRICT climax at 3-sigma. The dev diagnostic measured
+    # the 2-sigma gate as over-broad (8,272 distinct candidates on 8,760 bars ->
+    # a 4.6% D-027 execution_share, the family flooding the exposure pool). The
+    # 3-sigma variant owns every bar with vol_zscore >= 3.0; it is declared and
+    # frozen pre-holdout and competes with a/b/c/d in the within-family
+    # Reality-Check on the frozen OOS (D-044) — never selected on the dev window.
+    CLIMAX_Z_STRICT = 3.0
     LOW_VOL_PROXIMITY_MAX = 0.4
     HIGH_VOL_REVERSAL_BAR = 1.0  # bar_class value: high-volume reversal bar
-    VARIANTS = ('d', 'c', 'b', 'a')     # single-draft gate priority
+    VARIANTS = ('e', 'd', 'c', 'b', 'a')     # single-draft gate priority
 
     def _evaluate_variants(self, state: MarketState, sym: str,
                            f: dict, close: float) -> tuple[str, str] | None:
@@ -58,8 +70,24 @@ class VolumeClimaxReversalExpert(Expert):
         zs = f.get(f'{sym}.vol_zscore')
         z_over = (zs is not None and zs.value is not None
                   and float(zs.value) >= self.CLIMAX_Z)
+        z_strict = (zs is not None and zs.value is not None
+                    and float(zs.value) >= self.CLIMAX_Z_STRICT)
         for variant in self.VARIANTS:
-            if variant == 'd':
+            if variant == 'e':
+                # D-055 strict-climax challenger: a 3-sigma overextension is a
+                # stronger climax; fade it in the trend direction (LONG after a
+                # 3-sigma selling climax, SHORT after a 3-sigma buying climax).
+                # Owns every 3-sigma bar; the 2-sigma a/b/d gates serve the rest.
+                if z_strict:
+                    fast = f.get(f'{sym}.ema_fast')
+                    slow = f.get(f'{sym}.ema_slow')
+                    if fast is not None and fast.value is not None \
+                            and slow is not None and slow.value is not None:
+                        if float(fast.value) < float(slow.value):
+                            return ('e', 'LONG')
+                        if float(fast.value) > float(slow.value):
+                            return ('e', 'SHORT')
+            elif variant == 'd':
                 bc = f.get(f'{sym}.bar_class')
                 if z_over and bc is not None and bc.value is not None \
                         and float(bc.value) == self.HIGH_VOL_REVERSAL_BAR:

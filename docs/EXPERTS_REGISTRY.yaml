@@ -389,7 +389,8 @@ experts:
   - b
   - c
   - d
-  search_universe_size: 4
+  - e
+  search_universe_size: 5
   requires:
   - trend
   - volatility
