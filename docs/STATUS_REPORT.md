@@ -44,6 +44,20 @@ changed families (O-023/D-053). Five commits (`e8400bc`, `d923f39`, `2fd12b8`,
   per the amended prereg when the frozen holdout (first two published months
   after 2026-07-01) is available. The prereg §4 amendment is pre-holdout and
   legal (§16); the holdout is still untouched and unopened.
+- **OOS pipeline validated end-to-end (2026-08-06):** `tools/vision_backfill.py`
+  downloaded the real 2026-07 archive from data.binance.vision, checksum-
+  verified it, converted it to the PIT tape (744 1h klines + 93 funding rows,
+  schema byte-identical to the dev tape), sorted and audited clean (0 gaps, 0
+  duplicates), and its `tape_hash` (`3d59aa07…`) matches the runner's own
+  `sha1_hex(AppendOnlyLog(...).read())` exactly — so the frozen manifest's
+  `data_hash` can be taken from the backfill. The 2026-08 archive is NOT yet
+  published (HTTP 404 on 2026-08-06), so the §13 two-month holdout (>= 1,400
+  bars) cannot be assembled; July alone is 744 bars. When August publishes
+  (expected ~early September, the ~1-month Vision publication lag), the
+  experiment-time flow is: backfill both months into one tape -> record
+  `tape_hash` as `data_hash` in the frozen manifest (`experiment_id
+  v8_slice_001`, `universe ["BTCUSDT"]`, `interval 1h`, `start_ns` =
+  HOLDOUT_ANCHOR_NS) -> run `tools/run_experiment.py --manifest <manifest>`.
 
 **Follow-up (2026-08-01, full-program push D-040/D-042): Phases 1-4 CODE is
 now 100% written.** The remaining Phase-4 work is the experiment RUN, which is
