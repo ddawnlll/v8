@@ -75,8 +75,15 @@ Fixed, frozen definitions (they already exist in code; they are the
   `ema_fast = EMA(5)`, `ema_slow = EMA(20)`; LONG entry at next-bar close;
   anchor = first bar of the current consecutive run of the predicate
   (episode identity, never the decision clock).
-- `failed_breakout`: setup predicate `close < prior_high` (per-bar prior high
-  within the 32-bar window); SHORT entry at next-bar close.
+- `failed_breakout`: two-step setup predicate (Ch7.3 p228): a prior bar's
+  CLOSE first exceeds its own per-bar prior high within the 32-bar window (the
+  breakout leg), and the newest bar's close is back BELOW that frozen breakout
+  level (the failure leg); the frozen level is the pre-breakout max high.
+  SHORT entry at next-bar close. (Amended pre-holdout on 2026-08-06: the
+  ratified text pinned the single-leg `close < prior_high` gate, which the
+  audit proved fired on a plain downtrend with no breakout anywhere — a
+  bug-completion, not a parameter change; the fixed detector is the v1 the
+  prereg now names.)
 - **Parameter provenance:** all detector parameters (EMA 5/20, prior-high
   window 32, ATR 14) and the geometry were fixed in frozen code
   (`src/v8/`, session-1 steps 1-2, built against synthetic tapes) **before the
