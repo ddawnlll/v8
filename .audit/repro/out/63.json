@@ -1,0 +1,23 @@
+{
+  "issue": 63,
+  "static": {
+    "step_computes_atr_based_stop": true,
+    "step_never_reads_stop_ref": true,
+    "risk_unit_prefers_atr_ref": true,
+    "cites_lines_present": true
+  },
+  "dynamic": {
+    "n_drafts": 33,
+    "n_stop_ref_differs": 33,
+    "mean_abs_deviation_R": 0.4426
+  },
+  "executed": {
+    "n_executed": 845,
+    "mae_r_mean": 0.8854,
+    "mae_r_median": 0.7456,
+    "mfe_r_mean": 0.9216,
+    "mfe_r_median": 0.7328,
+    "n_mae_gt_1R": 324,
+    "frac_mae_gt_1R": 0.3834
+  }
+}

@@ -300,7 +300,7 @@ def test_open_position_size_and_sim_hash_version():
     # byte-identity; EXEC-1..6 land as canonical-sim-v8 (the tag moved on
     # every semantic change since).
     assert CanonicalSimulator().hash() == sha1_hex(
-        ('canonical-sim-v8', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8,
+        ('canonical-sim-v8', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8, 'flat',
          _SIMULATOR_SRC_HASH))
 
 

@@ -1,0 +1,30 @@
+{
+  "issue": 64,
+  "fixed": true,
+  "geometry_not_swept": {
+    "static_unchanged_vs_baseline": true,
+    "dynamic_unchanged_vs_baseline": true,
+    "static_grep": {
+      "n_target_r_eq_1_0": 19,
+      "n_stop_r_eq_1_0": 14,
+      "n_expiry_eq_8": 27,
+      "n_rr1_both_literal": 14
+    },
+    "dynamic_drafts": {
+      "n_emitting_experts": 23,
+      "n_rr1_uniform": 13,
+      "n_rr1_any": 13,
+      "n_expiry8_uniform": 23,
+      "n_expiry8_any": 23
+    }
+  },
+  "lab": {
+    "cost_r": 0.07,
+    "n_executed": 845,
+    "w_min": 0.5280639098900115,
+    "realized_win_rate": 0.4686390532544379,
+    "gap_breakeven_vs_realized_ppt": 5.9424856635573615,
+    "economic_note": "FEASIBILITY: breakeven win rate 0.528 exceeds realized win rate 0.469 (RM-11; the shipped geometry cannot clear round-trip cost at this win rate)",
+    "economic_note_carries_RM11_feasibility": true
+  }
+}

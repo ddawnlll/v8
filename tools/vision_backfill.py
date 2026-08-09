@@ -412,7 +412,8 @@ class TapeAuditError(ValueError):
     pass
 
 
-def audit_tape(out_dir: Path, funding_hours: int = 8) -> dict:
+def audit_tape(out_dir: Path, funding_hours: int = 8,
+               rows: list[dict] | None = None) -> dict:
     """Monotonicity, gap, payload-hash, duplicate-row and provenance checks
     (FEED_INGESTION_SPEC section 4). Raises TapeAuditError on the first
     violation; the CLI exits non-zero. Fails closed when provenance
@@ -421,9 +422,14 @@ def audit_tape(out_dir: Path, funding_hours: int = 8) -> dict:
     section 5). event_time/available_time are globally monotonic across
     channels (funding rows interleave the kline stream); venue_sequence is
     per-channel (kline gap > 1 bar, funding gap > funding_hours). A tape whose
-    file order is not the replay order fails closed (run --sort)."""
-    log = AppendOnlyLog(out_dir / 'tape.jsonl')
-    rows = log.read()
+    file order is not the replay order fails closed (run --sort).
+
+    `rows` (optional) supplies the already-parsed records — monitor_tape
+    parses the tape once and passes it here so a --schema cycle does not
+    re-read and re-json-parse the whole tape a second time."""
+    if rows is None:
+        log = AppendOnlyLog(out_dir / 'tape.jsonl')
+        rows = log.read()
     problems: list[str] = []
     prev: dict | None = None
     prev_by_channel: dict[str, dict] = {}
@@ -489,7 +495,13 @@ def audit_tape(out_dir: Path, funding_hours: int = 8) -> dict:
                     f'{pc["venue_sequence"]}')
             gap = rec['venue_sequence'] - pc['venue_sequence']
             if channel == 'funding':
-                hours = payload.get('funding_interval_hours') or funding_hours
+                # The gap from the PREVIOUS settlement to this one is governed
+                # by the interval in effect at the previous settlement (the
+                # venue's declared funding_interval_hours on that row). Using
+                # the CURRENT row's interval false-positives the settlement
+                # right after a schedule change (e.g. a 4h row followed by a
+                # 2h row: the 4h gap is the old schedule, not a missing row).
+                hours = pc['payload'].get('funding_interval_hours') or funding_hours
                 if gap > hours:
                     problems.append(
                         f'funding venue sequence gap at {rec["event_id"]}: '

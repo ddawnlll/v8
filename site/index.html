@@ -1900,7 +1900,20 @@ funding terminal-boundary defect required differential replay. They are
 <p>Event-driven execution matters because signal, submission, fill and position
 events have different times; assuming their simultaneity creates look-ahead and
 fill bias. This is a simulation-design fact, not a claim that V8 can trade.
-The numerical policies above are deliberately conservative design choices.</p></section>
+The numerical policies above are deliberately conservative design choices.</p>
+<h2 id="conservatism-budget-issue-71-the-gap-asymmetry">Conservatism budget (issue #71): the gap asymmetry</h2>
+<p>The stop-fill policy — a stop fill uses the WORSE of the barrier and the bar
+open, while a target fill is exactly the barrier — is conservative by design,
+but the two-sided gap asymmetry is a MEASURED cost, not a free assumption.
+On a synthetic +30/−30 unit gap around a 1R barrier (atr=10, stop/target 1R):
+an adverse −30 gap books −3.07R (STOP at open) while a favorable +30 gap books
++0.93R (TARGET at barrier), a <strong>3.30R asymmetry</strong>. This is the conservatism
+budget the policy spends on adverse gaps and forgives on favorable ones.</p>
+<p>The asymmetry is negligible on the current real tape — the dev window
+(<code>btcusdt-1h-12m</code>, 2,500 bars) shows TR &gt; (H−L) on 0.6% of bars and
+<code>open == prev_close</code> on 51.7% — but it concentrates in illiquid symbols and
+high-volatility regimes (liquidation cascades), so it must be re-measured per
+symbol/interval before any economic reading leans on gap-heavy windows.</p></section>
 <section id="sec-hypothesis-lab-protocol"><h1>HYPOTHESIS LAB PROTOCOL</h1><h1 id="v8-hypothesis-lab-protocol-v01">V8 Hypothesis Lab Protocol v0.1</h1>
 <p><strong>Purpose:</strong> cheaply reject weak behavior hypotheses before learned routing,
 scoring, ranking, richer data or execution learning. <strong>Status:</strong>
@@ -2804,7 +2817,23 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 | D-051 | Retire the v2 research subsystems from version control: <code>research/pipeline_v2/</code> (v2.3 research-corpus pipeline — corpus, prompts, registry, rounds, workflows, schemas, legacy_v1, scratch) and <code>research_base/</code> (standalone <code>v8research</code> package with its own pyproject) are removed from the tree, along with <code>research/revision/</code> visual-preview artifacts and <code>research/text/</code> corpus copies; the three revision-monograph builders whose data sources they were (<code>tools/build_v8_revision.py</code>, <code>tools/generate_gemini_master_html.py</code>, <code>tools/generate_10k_gemini_master_html.py</code>) are removed with them. Superseded by the <code>src/v8/</code> runtime (Phases 0-4) as the single research codebase | PROVISIONAL_DECISION | Housekeeping 2026-08-06, pre-holdout: no prereg field, contract, or code path references the retired paths (verified by grep — the 615-test suite and monograph build are unaffected). Recoverable from git history (introduced in <code>a051a20</code>) should the v2.3 ledger be needed again |</p>
 <p>| D-052 | Preregistration §9's block-size rule is corrected from bar-units to an n-adaptive episode-unit rate, and the block bootstrap gains a fail-closed <code>block_size &lt; n</code> invariant. The rule's two-tier mechanical shape is unchanged (lag-1 autocorrelation gate at 0.10 selects the tier); only the tier VALUES change: <code>round(n**(1/3))</code> by default, doubled when the gate fires, hard-capped at <code>n // 2</code>. The prior constants 24 / 168 were bar-counts ("one day" / "one week" of 1h bars) applied to an episode-indexed <code>net_R</code> series — a unit error, visible in §9's own prose ("24 episode-blocks (one day)"). The resample count stops being a constant chosen independently of alpha: <code>resamples_for_alpha(alpha)</code> returns the smallest N with <code>int(N * alpha) &gt;= 100</code>, floored at the preregistered 2000, so the one-sided bound is a stable order statistic at whatever family count is in force. The rule had been duplicated in <code>v8.statistics.select_block_size</code> and <code>tools/run_experiment._block_size</code>; the tool now delegates to the module, making one rule of record | PROVISIONAL_DECISION | Defect reproduced mechanically: when <code>block_size &gt;= n</code> the circular sampler emits a cyclic rotation of all n indices, so every resample contains each element exactly once and <code>block_bootstrap_means</code> returns ONE unique value across all 2000 resamples — the bootstrap collapses to a point mass and <code>ci_lower == mu_hat</code> at zero width, so any family with a positive mean and <code>n &gt;= MIN_EPISODES</code> rejects H0 by construction. On the pinned 2026-08-06 dev baseline 8 of 21 families with episodes had <code>block &gt;= n</code>, and exactly one spurious rejection resulted (<code>obv_adl_regime</code>, n=50, block=168, <code>ci_lower == mu_hat == +0.0150</code>). Degeneracy is the endpoint of a bias, not an isolated case: at <code>block/n ≈ 0.3–0.5</code> (every family with n=45..100) the resample variance is already understated, biasing toward rejection. Outcome-neutrality of the choice is evidenced: the three candidate rules considered — (A) clamp-only <code>min(24|168, n//2)</code>, (B) the adopted <code>n**(1/3)</code> rate, (C) converting the bar target through observed median inter-episode spacing (16–197 bars, giving blocks of 1–5) — all yield ZERO H0 rejections on that baseline, so no rule could have been selected for the verdict it produces. (A) is rejected because it fixes only the pathological endpoint and leaves the anti-conservative bias; (C) is rejected as spacing-dependent, hence not mechanical. The resample-count defect was invisible at the two-family runner's own <code>alpha_f</code> (0.05/2 -&gt; index 50) and appeared only under the slate-wide Bonferroni alpha, where the same 2000 put the bound at <code>int(2000 * 0.0017857) = 3</code> — the 4th-smallest of 2000 resample means estimating a 0.18th percentile; the alpha-tied rule yields 56000 (index 100) for the 28-family slate and 4000 for the two-family runner. Cost measured before adoption: 4.2 s per family at n=1000, 0.6 s at n=100. Verified on the pinned baseline (identical <code>ledger_hash</code> 452d91bcf890 before and after, so the comparison is uncontaminated by concurrent expert edits): degenerate families 8 -&gt; 1 (the survivor is n=1, where a bootstrap has no variance by construction and the §12 gate already withholds a verdict), H0 rejections 1 -&gt; 0, and every former zero-width row gained a real interval (<code>obv_adl_regime</code> +0.0150 -&gt; -0.3067). Intervals widened across the slate (e.g. <code>liquidity_sweep_reclaim</code> -0.267 -&gt; -0.420), confirming the old rule understated uncertainty rather than merely failing at the endpoint. 628/628 tests pass. Frozen pre-holdout; ratified before the frozen OOS opens, never after seeing holdout results |</p>
 <p>| D-053 | The 2026-08-06 bug-fix pass's behavior changes are versioned per O-023's admission condition: <code>failed_breakout</code> stays <strong>v1</strong> (a bug-completion — the fixed episode series is a strict subset of the old, 369 -&gt; 76, so v1 never contained the buggy gate as a deliberate configuration); <code>volume_climax_reversal</code> and <code>fib_projection_reversal</code> become <strong>v2 challengers</strong> (the fixed series ADDS episodes a v1 gate could not produce — climax-bar anchor 67 -&gt; 380, origin-based extensions 2 -&gt; 7 — so they are new behavior needing their own D-044/D-046 accounting and a fresh registry entry). v1's buggy behavior is archived by this decision, not silently replaced | PROVISIONAL_DECISION | The frozen OOS must run on the version the preregistration names (rule 15 / D-023: "versions evolve by challenger + frozen-OOS + registry decision, never in place"). v2 keeps the family's <code>variants_evaluated</code> and <code>search_universe_size</code> (the fix is a hypothesis-completion, not a threshold search — D-044/D-046 unchanged) but a NEW <code>expert_version</code> (v2), which enters the episode_key so v1 and v2 episodes never collide. Operator-chosen on 2026-08-06 (O-023, option "O-023 kriteri"). frozen pre-holdout; the prereg must name v2 for these families before the frozen OOS opens |
-| D-053 | Experts declare the MarketState they need, and the runtime serves exactly that. Three additive parts: (a) <code>Expert.intervals</code> + <code>Expert.depth</code> join <code>requires</code> as frozen specification, audited against consumption like <code>requires</code> already is; (b) a new <code>src/v8/interval.py</code> aggregates the base-interval tape into any declared integer-multiple interval, and <code>MarketState</code> features gain an interval namespace (<code>{sym}.{tf}.{feature}</code>; the base interval stays unprefixed so every existing Expert and test is unaffected); (c) each Expert receives a MarketState containing exactly its declared groups x intervals x depth, while ONE canonical superset state per decision clock remains the persisted audit record — the per-Expert object is a projection of it, never an independently built state. A run-start feasibility gate validates every declared (interval, depth) against the tape and emits an explicit per-Expert <code>EVALUABLE</code> / <code>NOT_EVALUABLE(reason)</code> verdict | PROVISIONAL_DECISION | Motivated by the 2026-08-06 expert inventory: the binding constraint on 12 of 27 families is not the 1h tape but the global 32-bar <code>history</code> pin (O-020) — <code>ichimoku_cloud</code> needs 78 bars and has 3 of 4 variants declared-but-not-evaluated, <code>breakout_retest</code> variant d is unimplemented, <code>donchian_breakout</code> falls back from a 55-bar to a 50-bar anchor scan, and <code>pattern_measuring_objective</code> cannot express its patterns at all. Only <code>market_profile_value_area</code> demonstrably needs true higher-interval bar structure (it hand-rolls <code>SESSION_BARS = 24</code>); <code>floor_trader_pivot</code> is already served by the existing <code>pivot_points_day</code>. Keeping ONE persisted state per clock preserves the property that every Expert saw the same world at clock D — per-Expert persisted states would multiply the ledger 27x, break <code>ExpertEvaluation.state_id</code> as a shared audit anchor, and make a leakage defect in one Expert's state invisible. The feasibility gate closes the failure mode the same inventory exposed: <code>donchian_breakout</code> (384 triggers, 0 executions) was indistinguishable in the report from a family with no signal, and the six zero-episode families in fact split across three unrelated causes (absent data channel, depth block, exposure-slot contention). Interval aggregation invariants are fixed: buckets anchored to a fixed UTC epoch and never to tape start (otherwise dev and holdout windows produce different bars), aggregate <code>available_time</code> = the availability of the LAST constituent base bar, and a partial trailing bucket is never emitted as closed | </p>
+| D-054 | Experts declare the MarketState they need, and the runtime serves exactly that. Three additive parts: (a) <code>Expert.intervals</code> + <code>Expert.depth</code> join <code>requires</code> as frozen specification, audited against consumption like <code>requires</code> already is; (b) a new <code>src/v8/interval.py</code> aggregates the base-interval tape into any declared integer-multiple interval, and <code>MarketState</code> features gain an interval namespace (<code>{sym}.{tf}.{feature}</code>; the base interval stays unprefixed so every existing Expert and test is unaffected); (c) each Expert receives a MarketState containing exactly its declared groups x intervals x depth, while ONE canonical superset state per decision clock remains the persisted audit record — the per-Expert object is a projection of it, never an independently built state. A run-start feasibility gate validates every declared (interval, depth) against the tape and emits an explicit per-Expert <code>EVALUABLE</code> / <code>NOT_EVALUABLE(reason)</code> verdict | PROVISIONAL_DECISION | Motivated by the 2026-08-06 expert inventory: the binding constraint on 12 of 27 families is not the 1h tape but the global 32-bar <code>history</code> pin (O-020) — <code>ichimoku_cloud</code> needs 78 bars and has 3 of 4 variants declared-but-not-evaluated, <code>breakout_retest</code> variant d is unimplemented, <code>donchian_breakout</code> falls back from a 55-bar to a 50-bar anchor scan, and <code>pattern_measuring_objective</code> cannot express its patterns at all. Only <code>market_profile_value_area</code> demonstrably needs true higher-interval bar structure (it hand-rolls <code>SESSION_BARS = 24</code>); <code>floor_trader_pivot</code> is already served by the existing <code>pivot_points_day</code>. Keeping ONE persisted state per clock preserves the property that every Expert saw the same world at clock D — per-Expert persisted states would multiply the ledger 27x, break <code>ExpertEvaluation.state_id</code> as a shared audit anchor, and make a leakage defect in one Expert's state invisible. The feasibility gate closes the failure mode the same inventory exposed: <code>donchian_breakout</code> (384 triggers, 0 executions) was indistinguishable in the report from a family with no signal, and the six zero-episode families in fact split across three unrelated causes (absent data channel, depth block, exposure-slot contention). Interval aggregation invariants are fixed: buckets anchored to a fixed UTC epoch and never to tape start (otherwise dev and holdout windows produce different bars), aggregate <code>available_time</code> = the availability of the LAST constituent base bar, and a partial trailing bucket is never emitted as closed | </p>
+<p>| D-055 | <code>volume_climax_reversal</code> gains a strict-climax challenger variant (<code>e</code>, vol_zscore &gt;= 3.0) alongside the book's 2-sigma a/b/c/d set, in response to the O-022 measurement that the 2-sigma gate fires on ~every bar (8,272 distinct candidates on 8,760 bars -&gt; a 4.6% D-027 execution_share; the family floods the rule-16 exposure pool and blocks itself). Variant <code>e</code> owns every 3-sigma bar (LONG after a selling climax, SHORT after a buying climax) and joins <code>variants_evaluated</code> (a,b,c,d,e) with <code>search_universe_size</code> 5 | PROVISIONAL_DECISION | A hypothesis-level challenger, declared and frozen pre-holdout (D-036 discipline), NOT selected on the dev window: the within-family Reality-Check on the frozen OOS (D-044, prereg section 11) compares <code>e</code> against a/b/c/d on their aligned episode series, and only a surviving variant may tighten the family's effective gate. The threshold 3.0 is a declared constant (the 2-sigma 8,272-candidate flood is the measured defect it answers). 663/663 tests pass |</p>
+<p>| D-056 | State builder gets an exact fast path: <code>build_state</code> accepts an optional per-symbol <code>BarSeries</code> (all series precomputed once per run) and reads them by index per decision clock, turning the bar-driven state pre-build from O(N²) to O(N × window). Unbounded <code>prior_high</code>/<code>prior_low</code> keep the EXACT running prefix max/min (never a fixed window — measured 83.5% divergence at 520 bars); growing-list lineage hashes keep exact <code>sha1_hex(list)</code> semantics via precomputed per-row canonical bytes; the raw manifest reuses the closed-list digest when kline == closed. Every emitted value, lineage, <code>lineage_hash</code> and <code>state_id</code> is byte-identical (cached == uncached on every bar, <code>tests/test_state_cache_identity.py</code>); the golden fixture diff shows candidates/evaluations/outcomes with 0 differing fields and states differing only in provenance <code>code_version</code> (whole-file hash — its designed behavior), re-pinned in the golden test | PROVISIONAL_DECISION | The measured wall on the 8-symbol x 4-year tape was O(N²) state building (est. 11-12 h at 35,064 bars/symbol vs 280 s at 8,760). Fixed: 8,760 bars 280 s -&gt; 12 s; BTCUSDT 4y (35,064 bars, exact lab shape incl. funding) 67 s; 8-symbol projection ~9 min. The residual O(N) per state is the exact growing-list lineage hash — irreducible without changing <code>input_lineage_hash</code> semantics (rejected; the identity hashes must not move). 668/668 tests pass |
+| D-057 | Entry trigger predicate is normative and enforced: a draft declaring <code>risk_geometry['trigger_ref']</code> (absolute, frozen at detection) enters only on the book's close-confirmation — <code>trigger_side</code> 'CLOSE_ABOVE'/'CLOSE_BELOW' (Ch14.2 "entry only on a CLOSE beyond the trigger"). <code>lab.py</code> PHASE 2 evaluates it before PENDING -&gt; TRIGGERED; unconfirmed candidates stay PENDING until they fire, invalidate, or the epilogue expires them. <code>candlestick_reversal</code> is the pilot and declares <code>trigger_side</code>. Experts without a trigger keep <code>entry: NEXT_BAR_CLOSE</code> (unconditional) | PROVISIONAL_DECISION | Issue #62/#67. Pre-fix the trigger price was computed and discarded: 16/27 candlestick candidates triggered despite the close NOT confirming beyond the trigger. This restores the literature entry gate; the trigger-vs-unconditional A/B is measured in <code>.audit/</code> and the CHANGELOG. A ranker is NOT introduced (rule 6/14; D-008 unchanged) — this is the declared entry event, not a candidate ranking |
+| D-058 | A frozen structural stop (<code>risk_geometry['stop_ref']</code>, absolute price) is the static stop when declared; <code>stop_r × unit</code> is the fallback. <code>stop_r</code> keeps its declared R-multiple meaning (heat = size × stop_r, D-023, unchanged); a stop-out at the structural level is the honest distance | PROVISIONAL_DECISION | Issue #63. Pre-fix the stop sat at <code>entry ± stop_r × ATR</code> even when the expert froze the swept extreme / pattern level (mean 0.44R divergence on 33/33 candlestick drafts; 37.3% of executions stopped by adverse excursion alone). Structural-stop A/B in <code>.audit/</code> |
+| D-059 | The pre-entry invalidation fallback uses a WINDOWED extreme (the 32 bars before birth) instead of the all-bars <code>prior_high</code>/<code>prior_low</code> state features, which are UNBOUNDED prefix extremes and made the gate dead code for experts that freeze no ref | PROVISIONAL_DECISION | Issue #66. Measured 7 invalidation fires across 2,067 drafts for the 6 ref-less experts (the all-time extreme is pinned by an old spike). The 32-bar window matches the frozen-ref convention (failed_breakout / liquidity_sweep). Fail-closed on a birth with no prior bars is preserved |
+| D-060 | Under exposure contention (one active exposure per instrument-direction, D-018), the surviving candidate is chosen by its episode_key hash order, not by <code>expert_id</code> alphabetical evaluation order | PROVISIONAL_DECISION | Issue #68. Pre-fix the alphabetically-first expert won 295/303 contended slots (97.4%) and the executed subset was 1.83× worse than the average setup. Candidate-hash order is deterministic, economically neutral, and explicitly NOT a ranker (rule 6/14, O-006/O-012 unchanged): the implicit name-based ranker is removed, not formalized |
+| D-061 | The canonical simulator validates risk_geometry at <code>step()</code>/<code>run()</code> entry: non-positive <code>target_r</code>/<code>stop_r</code> and <code>expiry_bars &lt; 1</code> fail closed | LOCKED_INVARIANT candidate | Issue #70. Pre-fix <code>target_r=-1</code> booked a −1.07R loss as a TARGET endpoint (a win in any hit-rate / profit-factor statistic) and <code>stop_r=0</code> was accepted. Defense-in-depth: the experts' own guards stay; the simulator is the last line so a future expert cannot silently pollute the ledger |
+| D-062 | RM-11 feasibility gate is report-only: when the cost-degraded breakeven win rate (w_min) exceeds the realized win rate, the run carries a FEASIBILITY note. RR=1.0 <code>target_r</code> (19/27 experts) is a DESIGN_INFERENCE until a structural target (measured move / channel width / pivot) exists | PROVISIONAL_DECISION | Issue #64. Pre-fix the 7.6-point gap between breakeven (~53.5%) and realized (~45.3%) win rate was computed (RM-11) but never surfaced against the realized rate. Not a verdict change and not a geometry sweep (optimization is explicitly not the fix) |
+| D-063 | <code>EXCESS_COST_THRESHOLD_R</code> firing is reported as a FEASIBILITY statement ("this geometry cannot trade at this cost"), and the default <code>round_trip_cost_r</code> derivation from the venue schema is recorded as an audit item | PROVISIONAL_DECISION | Issue #69. 0.10R ≈ 4.8 bps on the dev window &lt; a realistic taker round trip (6 bps); at cost 0.125 the lab refuses to trade (0 executed, 6,209 excess_cost rejects). The gate works as designed; the defect was that the default cost sat just under it so it never fired |
+| D-064 | <code>make_synthetic_tape</code> gains a <code>continuous</code> variant (open = prior close ± small move) for gap-sensitive diagnostics; the legacy default stays byte-identical for the pinned golden/contract tests, and flipping the default is deferred until the 30-file test blast radius is re-pinned in one scheduled pass | PROVISIONAL_DECISION | Issue #72. Pre-fix the synthetic tape fabricated TR &gt; (H−L) gaps on ~73% of bars vs ~0.6% on real BTCUSDT 1h (open==prev_close 0% vs 51.7%). The continuous variant drops the fabricated-gap fraction to ~3.7%. Diagnostics convention: real tape for anything mechanical/economic |
+| D-066 | The WHY-IS-IT-NEGATIVE diagnostic engine lives in <code>tools/diagnostic.py</code>, is READ-ONLY against the decision path (never writes a store/registry/authority file — a foreign write raises <code>DiagnosticWriteError</code>), and produces <code>AUTHORITY: NONE — DIAGNOSTIC ONLY</code> reports with a verdict enum, all counterfactuals on ONE fixed entry set | PROVISIONAL_DECISION | A diagnostic module must not move the decision-path code hash (D-032): a <code>src/v8/diagnostic.py</code> would invalidate every pinned manifest for a module that never affects decisions, so it sits in <code>tools/</code> (outside <code>_code_hash</code>). Spec: 9 sections + verdict. First real-tape run: MECHANICAL_FLOOR — the shipped signal is indistinguishable from random entries; a diagnostic finding, NOT an economic claim (authority stays NONE). 693/693 tests pass |
+| D-065 | The locked universe stays Binance USD-M crypto perps; equities (NASDAQ, BIST) are a DEFERRED research axis, not a Phase-0..4 deliverable. The scope proposal (2026-08-07) is recorded as O-026 rather than a venue extension, because O-011's gate covers coverage failure on the locked universe, not a request for breadth — and equities differ structurally (no funding/mark/index/premium tapes, session calendar, corporate actions, different cost model). Data-plane exploration for equities MAY proceed in parallel as research-only (rule 11), but no equities tape may enter a canonical dataset, no <code>src/v8/</code> decision-path module may read it, and no preregistration may name it until O-026's admission conditions are met: a family surviving the Phase-4 base-case gate + cross-asset replication under its own multiplicity controls + rule 9 source authority | PROVISIONAL_DECISION | Owner decision 2026-08-07. Prevents scope creep before the first evidence gate: the program's own rules (rule 12) say the falsification program stops if neither family shows after-cost signal at Phase-4, and adding a second asset class before that base case is measured dilutes the evidence discipline without adding a surviving hypothesis. The data-authority constraint is real and binding now: NASDAQ's free archives lack Binance Vision's checksum-verified immutability (rule 9), and BIST requires a commercial provider or an authority-inadmissible scraper. Reversible — if O-026's experiment passes, equities are admitted by a fresh registry decision, never by configuration |</p>
+<p>| D-067 | The simulator gains an OPTIONAL bps-of-notional cost form alongside the flat R charge: <code>CanonicalSimulator(round_trip_cost_bps=X)</code> and <code>RunManifest.round_trip_cost_bps</code>, resolved at ONE point (<code>CanonicalSimulator.cost_r(entry_price, unit)</code>) that every <code>net_r</code> site now calls instead of reading the scalar. <code>cost_R = (bps/1e4) * entry_price / risk_unit</code>. <code>None</code> keeps the flat form, and the flat path is byte-identical (verified by diffing every outcome's <code>net_r</code>/<code>endpoint</code>/<code>entry_price</code>/<code>risk_unit_price</code> plus the whole <code>LabReport</code> minus hashes, before vs after — identical). The cost FORM binds into <code>sim.hash()</code> ('flat' vs 'bps:X'), so a flat ledger and a bps ledger can never compare equal | PROVISIONAL_DECISION | <code>round_trip_cost_r</code> is denominated in R, therefore invariant to the R unit: widening the risk unit rescales stop and target but leaves the charge untouched. The standing "widen R to dilute the cost" reasoning — true of a real venue fee — is a no-op in the flat model, so an R-widening experiment could not be measured at all. A venue charges a fraction of notional; only the bps form makes the R unit and the cost move together. This registers the MEASUREMENT INSTRUMENT only: no geometry changed, no expert changed, and the default remains flat 0.07R. 733/733 tests pass |
+| D-068 | The diagnostic's per-expert exit grid becomes a target x horizon CROSS (<code>EXIT_TP_GRID</code> x <code>EXIT_EXPIRY_GRID</code> = 20 cells, plus <code>no_sl</code> and <code>trail_1atr</code> as structural probes outside the cross). The selected maximum is reported as <code>exit_cross</code> carrying <code>n_cells_searched</code>, the naive p and a Bonferroni-corrected p — never as a bare "best exit". The portfolio section reports BOTH the per-expert max (labelled a selection-inflated upper bound) and a single fixed cell chosen once for all experts | PROVISIONAL_DECISION | The prior grid was one-dimensional: <code>tp_4r</code> moved the target to 4R while pinning the shipped 8-bar expiry. The report's own horizon section shows mean favorable excursion reaches ~4R near 48 bars, so that cell measured "target converted to expiry" and its loss said nothing about whether a 1:4 geometry works — the exit diagnosis was unfalsifiable. Katz &amp; McCormick's Standard Exit Strategy (Encyclopedia of Trading Strategies, 2000, ch. 13) moves target and horizon together (1 ATR stop / 4 ATR target / 10 bar limit); the grid must be able to express that shape. LITERATURE_SUPPORTED for the grid's SHAPE only — no geometry is adopted, and any adoption is a preregistered challenger (rule 12) |
+| D-069 | The decision table is evidence-gated and non-prescriptive. (a) <code>_observations</code> replaces <code>_main_problem</code>: every entry carries <code>supported: bool</code>, computed from <code>_min_n_for(nets, effect)</code> — the same 95%-CI sample floor section 8 already applies to segment cells — and an UNSUPPORTED observation is printed but may never label a row or drive a verdict. (b) The prescriptive action column ("Disable long", "Add regime filter", "Rework TP/SL", "Rebuild the expert", "Optimize execution") is replaced by an observation column stating the measured quantity and its sample support; a regression test asserts those strings never return. (c) A new coverage section reports zero-setup experts and defined-but-unregistered variant classes. (d) <code>KEEP</code> — the strongest statement the table can make — additionally requires <code>n &gt;= _min_n_for(nets, zero_cost_edge)</code>: enough trades to resolve the edge being claimed. Under-powered candidates are held at <code>INVESTIGATE</code> ("not enough yet"), never demoted to a failure | PROVISIONAL_DECISION | Three self-contradictions in the shipped report. First, section 8 refused to score a segment cell below its min-N while the decision table simultaneously emitted "Add regime filter" from an n=19 cell. Second, the action column named the best corner of a 44-cell (expert x symbol x timeframe) search — the selection is what inflates it, so a diagnostic that prescribes it is doing the data mining it exists to detect (Aronson, Evidence-Based Technical Analysis 2007, ch. 6). Third, 48 Expert subclasses are defined but only 27 registered, and 5 registered experts produced zero setups; both gaps were invisible, so a row labelled with a family name read as a statement about the family while measuring one variant — a long-only variant <code>a</code> shows SHORT n=0, which looks like a broken direction and is the variant's definition (Aronson's rising-market long-only artifact, ~ch. 5). AUTHORITY unchanged: NONE |
+| D-070 | <code>run_multi</code> is deterministic in <code>--processes</code>: the (symbol x timeframe) job list is built once by a pure <code>plan_cells</code>, and each cell's seed is derived from its POSITION in that fixed enumeration | PROVISIONAL_DECISION | Defect found while wiring the cost form: the parallel branch seeded <code>seed + i</code> while the sequential branch used a bare <code>seed</code>, so <code>--processes 1</code> and <code>--processes 4</code> produced different output for every cell but the first. Determinism is the one property this program cannot trade away (constitution: no wall clock in replay, the three clocks never collapsed); a runner whose results depend on a scheduling flag silently breaks it |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -2820,10 +2849,22 @@ named baseline, not disproven forever. None means profitability.</p></section>
 </thead>
 <tbody>
 <tr>
-<td>O-001</td>
-<td>Does any selected behavior have after-cost conditional value?</td>
-<td>Fixed deterministic Expert vs no-trade/scrambled control</td>
-<td>Promote only with preregistered, replicated OOS evidence; otherwise reject that Expert.</td>
+<td>O-024</td>
+<td>Which literature preconditions are added as real filters, and which stay REJECTED_OPTION? (<code>failed_breakout</code> implements 2/10: close-back-in-range + invalidation; the other 8 — prior trend, exhaustion, sweep, rejection, volume, no-news, RR&gt;2, structural stop — are absent, issue #65.)</td>
+<td>Per-condition feasibility: add each absent condition as a new variant (rule 12: a variant change is a challenger, never an in-place edit) and measure the conditional-population delta on the frozen OOS</td>
+<td>Retain a condition only if it survives the within-family Reality-Check and its <code>search_universe_size</code> cost is registered (D-046). Missing data (no news channel, no depth) is <code>REJECTED_OPTION</code> by data-availability; a design choice must be <code>PROVISIONAL_DECISION</code> and explicitly justified</td>
+</tr>
+<tr>
+<td>O-025</td>
+<td>What is the authoritative <code>round_trip_cost_r</code>? The shipped 0.07R (~4.5 bps on the dev window) is below a realistic taker round trip (8-10 bps); at an honest 0.125R the lab refuses to trade (6,209 excess_cost rejects, issue #61/#69).</td>
+<td>A venue-schema cost receipt: derive taker/maker fees + slippage from the Binance USDT-M fee schedule and a measured fill-vs-mid distribution, expressed in R at the declared barrier scale</td>
+<td>Adopt the derived number as the manifest default and re-run the dev-window feasibility measurement; the excess-cost gate then fires honestly instead of sitting just under the threshold</td>
+</tr>
+<tr>
+<td>O-027</td>
+<td>Is the 1R take-profit clipping a real favorable tail? The diagnostic engine's first real-tape run found 79% of target-exits continued &gt;2R after exit (mean post-exit max +4.5R), and the intrabar ambiguity bracket is 1.79R wide (144 trades touched both barriers). If the favorable tail is signal, a wider TP / trailing-exit variant is a challenger (rule 12); if the tail is noise, the ambiguity tie-break is a classification artefact</td>
+<td>Two preregistered challengers on the frozen OOS, same entry set: (a) target_r ∈ {2, 3} and no-TP variants; (b) an optimistic-tie-break variant to measure the ambiguity bound</td>
+<td>Retain a variant only if it survives the within-family Reality-Check under D-046 multiplicity; the diagnostic finding itself is NOT evidence (authority NONE, O-025's cost receipt gates the whole direction)</td>
 </tr>
 <tr>
 <td>O-002</td>
@@ -2943,13 +2984,19 @@ named baseline, not disproven forever. None means profitability.</p></section>
 <td>O-022</td>
 <td>Family results are NOT independent under rule 16's one-exposure-per-(instrument, direction) gate: a family's SHORT episodes are crowded out while another family's SHORT position is open, so the executed populations are coupled. Does this bias the family-level verdicts, and how should it be handled?</td>
 <td>Measure cross-family admission blocking on the dev window: for each REJECTED <code>EXISTING_EXPOSURE_CONFLICT</code>, record which family/direction held the blocking slot; report the blocking matrix and how each family's executed <code>n</code> and <code>mu_hat</code> change when the blocker is removed from the population (the failed_breakout -&gt; liquidity_sweep flip, n 55 -&gt; 73 and mu_hat +0.111 -&gt; -0.086 when failed_breakout's spurious SHORTs were fixed, is the concrete observed case)</td>
-<td>Opened by the 2026-08-06 audit. <strong>Measured on the corrected dev diagnostic (2026-08-06, D-052 code):</strong> of 11,673 <code>EXISTING_EXPOSURE_CONFLICT</code> rejections, ALL had a same-direction open slot at the block time; <code>bollinger_breakout</code> alone blocked 4,115 candidates (incl. 1,226 of its own — self-blocking: the family's own open positions suppress its re-entries). Per-family <code>execution_share = n_executed / (n_executed + n_portfolio_rejected)</code> (the D-027 definition): only 6 of 21 families clear the 0.25 floor (bollinger_breakout 0.273, bollinger_reversion 0.567, trend_pullback 0.313, liquidity_sweep 0.308, fib_projection 0.350, divergence 0.400); 15 sit below, five of them under 0.10 (pandf 0.004, market_profile 0.065, trend_pullback_depth 0.098, obv_adl 0.104, macd 0.116). On the current slate the D-027 attribution-validity gate would score only ~6 families on the OOS and mark the rest <code>ATTRIBUTION_UNSAFE_*</code>. Two readings: (a) the coupling is an honest feature of a single-portfolio evaluation and the per-family verdicts are conditional on the OTHER families being present — document it as such and keep the per-family tests; (b) the coupling corrupts the per-family multiplicity accounting (each family's search was implicitly conditioned on the portfolio's exposure history), so a family-level verdict needs either a de-coupled evaluation (one family per run, at the cost of portfolio realism) or a bar-level panel that models the exposure contention (see O-021). Until a preregistered comparison exists, record the blocking matrix alongside every dev/OOS report and do not read a family's verdict as if it were measured in isolation.</td>
+<td>Opened by the 2026-08-06 audit. <strong>Measured on the corrected dev diagnostic (2026-08-06, D-052 code):</strong> of 11,673 <code>EXISTING_EXPOSURE_CONFLICT</code> rejections, ALL had a same-direction open slot at the block time; <code>bollinger_breakout</code> alone blocked 4,115 candidates (incl. 1,226 of its own — self-blocking: the family's own open positions suppress its re-entries). Per-family <code>execution_share = n_executed / (n_executed + n_portfolio_rejected)</code> (the D-027 definition): only 6 of 21 families clear the 0.25 floor (bollinger_breakout 0.273, bollinger_reversion 0.567, trend_pullback 0.313, liquidity_sweep 0.308, fib_projection 0.350, divergence 0.400); 15 sit below, five of them under 0.10 (pandf 0.004, market_profile 0.065, trend_pullback_depth 0.098, obv_adl 0.104, macd 0.116). On the current slate the D-027 attribution-validity gate would score only ~6 families on the OOS and mark the rest <code>ATTRIBUTION_UNSAFE_*</code>. Flood ranking (candidates x blocks-caused): bollinger_breakout 14.97 (but 0.273 share — a legitimate family), volume_climax 11.05, market_profile 6.16, floor_trader_pivot 2.71. <strong>De-crowding response (2026-08-07):</strong> the disciplined lever is GATE SELECTIVITY, not retirement — retiring a family on its dev-window execution_share is selection bias (the dev window decides nothing). volume_climax gained the D-055 strict-climax challenger (3-sigma) so the flood tightens only if it survives the frozen-OOS Reality-Check; the other flooders get the same treatment if a declared selectivity challenger exists (market_profile's variant-d distance gate is the natural lever), otherwise their low share stays visible as <code>ATTRIBUTION_UNSAFE</code> on the OOS rather than being hidden by deletion. Two readings remain: (a) the coupling is an honest feature of a single-portfolio evaluation and the per-family verdicts are conditional on the OTHER families being present — document it as such and keep the per-family tests; (b) the coupling corrupts the per-family multiplicity accounting (each family's search was implicitly conditioned on the portfolio's exposure history), so a family-level verdict needs either a de-coupled evaluation (one family per run, at the cost of portfolio realism) or a bar-level panel that models the exposure contention (see O-021). Until a preregistered comparison exists, record the blocking matrix alongside every dev/OOS report and do not read a family's verdict as if it were measured in isolation.</td>
 </tr>
 <tr>
 <td>O-023</td>
 <td>The 2026-08-06 bug fixes changed the behavior of registered families (failed_breakout two-step gate, fib origin-based extensions, climax-bar anchor): are these v1 bug-completions (the code now matches its own frozen hypothesis) or v2 challengers (new behavior needing a fresh registry decision + multiplicity accounting)?</td>
 <td>Compare each fixed family's old vs new episode series on the frozen dev window; if the fixed series is a strict subset of the old (fewer, hypothesis-conforming episodes — failed_breakout n 369 -&gt; 76), treat as bug-completion and keep v1; if the series is NOT a subset (new episodes the old gate could not produce — volume_climax 67 -&gt; 380, fib_projection 2 -&gt; 7), the behavior is new and needs a v2 entry</td>
 <td>Bug-completions keep v1 and their registered <code>search_universe_size</code>/<code>variants_evaluated</code> (the search never contained the buggy behavior as a deliberate configuration). Families whose fix ADDS episodes a v1 gate could not have produced are challengers: register a v2 variant (or a new family) with its own D-044/D-046 accounting before any frozen OOS uses it, per "versions evolve by challenger + frozen-OOS + registry decision, never in place" (rule 15, D-023). The frozen OOS must run on the version the preregistration names.</td>
+</tr>
+<tr>
+<td>O-026</td>
+<td>Should the locked universe extend beyond Binance USD-M crypto perps to equities (NASDAQ, BIST) — i.e. is a behavior family's hypothesis asset-class independent, or perp-specific? This is a NEW research axis, not a venue extension: equities have no funding/mark/index/premium tapes, a session calendar with gaps and corporate actions, and a different cost/authority structure, so it is NOT covered by O-011's "extend venues only on binding coverage failure"</td>
+<td>The cheapest resolving experiment is sequenced AFTER the base case, by rule 12: run <code>v8_slice_001</code> (Phase-4 gate) on the locked perp universe first; only a family that survives there may be tested cross-asset. Then replay that family's EXACT frozen Expert geometry (same <code>expert_version</code>, same variants, same thresholds) on an equities tape built to the same three-clock PIT discipline, with a session-aware bar clock and a venue-appropriate cost model, as a preregistered replication with its own D-044/D-046 multiplicity accounting. Data-plane work may proceed in parallel as research-only (rule 11 "explore broadly in development"; rule 9 hash-binding) without touching the decision path</td>
+<td>Admit equities into the locked universe only if (a) a family survives the Phase-4 base-case gate on the perp universe AND (b) the same frozen family replicates after-cost signal on the equity venue under its own multiplicity controls. A failure to replicate is a valid falsification result — it says the hypothesis is perp-specific, which is informative, not a defect. Any new equities tape/builder is a D-032 file-family decision (new <code>src/v8/</code> or <code>tools/</code> module) and must meet rule 9's source-authority binding first — a hard constraint confirmed by the 2026-08-07 source survey: no source, free OR paid, offers the checksum-verifiable immutable archive rule 9 requires. Closest candidates — NASDAQ: Massive (ex-Polygon) Flat Files (official SIP daily files since 2003, bulk + immutable, but paid ≥ $29/mo and no published checksums — only S3 ETags) or stooq bulk ZIPs (checksumless); BIST: official DataStore (paid, contractually "Confidential", no checksum, no accuracy guarantee) or the free İş Yatırım API (unofficial, mutable, ~1997-present, violates every rule-9 axis). Until a source with a verifiable checksum binding appears, equities exist only as a documented research direction (D-065), never as a canonical dataset</td>
 </tr>
 </tbody>
 </table>
@@ -5083,7 +5130,441 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
-<h2 id="2026-08-07-declared-per-expert-marketstate-d-053-block-bootstrap-defect-d-052">2026-08-07 — Declared per-Expert MarketState (D-053) + block-bootstrap defect (D-052)</h2>
+<h2 id="2026-08-09-diagnostic-integrity-pass-the-report-could-not-falsify-its-own-exit-diagnosis">2026-08-09 — Diagnostic integrity pass: the report could not falsify its own exit diagnosis</h2>
+<p>Four defects, found by auditing the 2026-08-08 multi-cell report against its
+own numbers. None of them changes an Expert, a geometry or a verdict's
+authority (still <code>NONE</code>); they change what the instrument is capable of
+measuring. Decisions D-067..D-070.</p>
+<p><strong>1. The exit grid was one-dimensional (D-068).</strong> <code>EXIT_VARIANTS</code> moved the
+take-profit while pinning the shipped 8-bar expiry: <code>tp_4r</code> = <code>{'tp': 4.0}</code>.
+The report's own horizon section says mean favorable excursion reaches ~4R
+near 48 bars, so that cell converted targets into expiries and its loss
+carried no information about a 1:4 geometry. "Exit is not the problem" was
+therefore unfalsifiable. The grid is now a cross of <code>EXIT_TP_GRID</code> (1/2/3/4R,
+no-TP) x <code>EXIT_EXPIRY_GRID</code> (8/24/48/96) = 20 cells, with <code>no_sl</code> and
+<code>trail_1atr</code> kept OUTSIDE the cross as structural probes. Shape taken from
+Katz &amp; McCormick's Standard Exit Strategy (Encyclopedia of Trading Strategies,
+2000, ch. 13), which moves target and horizon together — the shape only; no
+geometry is adopted.</p>
+<p><strong>2. Selection was reported as if it were a result (D-068/D-069).</strong> The max of
+the grid was printed as <code>best_exit</code> with no search size and no correction. It
+now travels as <code>exit_cross</code> with <code>n_cells_searched</code>, a naive p and a
+Bonferroni-corrected p, and the portfolio section reports both the per-expert
+max (labelled a selection-inflated upper bound) and a single fixed cell chosen
+once for every expert — the difference between the two is the selection.</p>
+<p><strong>3. The decision table contradicted section 8 (D-069).</strong> Section 8 refuses to
+score a segment cell below its 95%-CI sample floor; the decision table
+simultaneously emitted "Add regime filter" from an n=19 cell. <code>_main_problem</code>
+had no sample gate at all. Replaced by <code>_observations</code>, where every entry
+carries <code>supported: bool</code> from the same floor (<code>_min_n_for</code>), and an
+unsupported observation is printed but can never label a row or move a
+verdict. The prescriptive action column is gone: naming the best corner of a
+44-cell search IS the selection (Aronson, <em>Evidence-Based Technical Analysis</em>
+2007, ch. 6), so the column now states the measured quantity and its support.
+A regression test asserts the old strings never come back.</p>
+<p>The first run under the new table exposed a fifth defect the first four did
+not close: on <code>BTCUSDT-4h</code>, <code>candlestick_reversal</code> reached <strong>KEEP on n=10</strong>
+(a 100th-percentile random-null result) while its own observation column read
+"sign-permutation p=0.070 — not distinguishable from sign noise". The verdict
+gate had only <code>n &gt;= 10</code>. <code>KEEP</code> now also requires <code>n &gt;= _min_n_for(nets,
+zero_cost_edge)</code> — enough sample to resolve the edge it claims — and
+under-powered candidates are held at <code>INVESTIGATE</code> ("not enough yet"), never
+demoted to a failure.</p>
+<p><strong>4. Coverage was invisible (D-069).</strong> 48 <code>Expert</code> subclasses are defined,
+27 are registered, and 5 registered experts produced zero setups on the
+window. Neither gap appeared anywhere, so a row labelled <code>donchian_breakout</code>
+read as a statement about the family while measuring variant <code>a</code> — which is
+long-only by definition, making its SHORT n=0 look like a broken direction.
+New section C reports zero-setup experts and unregistered variant classes.</p>
+<p><strong>Cost form (D-067).</strong> <code>round_trip_cost_r</code> is denominated in R and is
+therefore invariant to the R unit: widening the risk unit rescales stop and
+target but leaves the charge untouched, so "widen R to dilute the cost" is a
+no-op in the model and an R-widening experiment could not be measured.
+<code>CanonicalSimulator</code> gains an optional <code>round_trip_cost_bps</code>, resolved at one
+point (<code>cost_r(entry_price, unit)</code>) that every <code>net_r</code> site now calls.
+Flat-R remains the default and is byte-identical — verified by diffing every
+outcome's <code>net_r</code>/<code>endpoint</code>/<code>entry_price</code>/<code>risk_unit_price</code> and the whole
+<code>LabReport</code> minus hashes, before vs after: identical. Only <code>ledger_hash</code>
+moved, because <code>sim.hash()</code> now binds the cost form.</p>
+<p><strong>Determinism (D-070).</strong> Found while wiring the above: <code>run_multi</code>'s parallel
+branch seeded <code>seed + i</code> while the sequential branch used a bare <code>seed</code>, so
+<code>--processes 1</code> and <code>--processes 4</code> disagreed on every cell but the first.
+The job list is now built once by a pure <code>plan_cells</code> and seeded by position.</p>
+<ul>
+<li><code>src/v8/simulator.py</code> — <code>cost_r()</code>, <code>round_trip_cost_bps</code>, hash binds form</li>
+<li><code>src/v8/schema.py</code> — <code>RunManifest.round_trip_cost_bps</code></li>
+<li><code>src/v8/lab.py</code> — per-episode realized cost feeds RM-11's <code>w_min</code></li>
+<li><code>tools/diagnostics.py</code> — exit cross, <code>_observations</code>/<code>_min_n_for</code>,
+  <code>_coverage</code>, <code>plan_cells</code>, <code>--cost-bps</code></li>
+<li><code>tests/test_cost_form_and_exit_grid.py</code> — 23 new contract tests</li>
+<li>goldens re-pinned with the byte-identity evidence recorded in-file</li>
+</ul>
+<p>733/733 tests pass.</p>
+<h2 id="2026-08-08-dev-multi-report-100-of-the-info-in-one-html">2026-08-08 — Dev multi report: 100% of the info in ONE HTML</h2>
+<p><code>tools/diagnostics.py</code> matrix report (<code>--symbols</code>) now embeds EVERY cell's
+COMPLETE report — 9 sections + per-expert forensics + MarketState audit +
+charts — in a single <code>report.html</code>, not just the cross-symbol verdict matrix
+(which was a summary of badges, with the full per-cell reports stranded in
+separate <code>out/{symbol}-{tf}/report.html</code> files). A nav menu anchors to each
+cell's embedded report.</p>
+<ul>
+<li><code>render_html</code> gained <code>fragment: bool = False</code> — <code>fragment=True</code> returns the
+  body WITHOUT the <code>&lt;html&gt;/&lt;head&gt;/&lt;style&gt;</code> wrapper, so a parent document that
+  already carries <code>_CSS</code> can embed a cell report (nested HTML was invalid).
+  Default is byte-identical to the legacy self-contained report.</li>
+<li><code>_run_cell</code> returns the full cell <code>report</code> + <code>trades</code> (they were already
+  computed, previously discarded); <code>run_multi</code> keeps them for the renderer.</li>
+<li><code>--allow-surface</code> now flows <code>run_multi -&gt; _run_cell -&gt; DiagnosticEngine</code>
+  (it was accepted but never forwarded, so §6 exit surface never ran per cell).</li>
+<li><code>report.json</code> (multi) stays an aggregate-only view via
+  <code>_jsonable_multi_report</code> — the bulky per-cell reports/trades are already on
+  disk under <code>out/{symbol}-{tf}/</code>, so the JSON is not bloated.</li>
+<li>Dead-code cleanup: two shadowed <code>main()</code> definitions (legacy single, legacy
+  matrix) removed; the unified CLI is the one entry point.</li>
+<li>Determinism: cell order is the fixed (symbol, timeframe) enumeration; the
+  only wall-clock bytes in the HTML are the <code>generated_at_utc</code> provenance
+  stamp (report metadata, outside the decision path) — pinned in the test.</li>
+</ul>
+<p>Tests: <code>test_multi_dev_html_embeds_every_cell_full_report</code>,
+<code>test_multi_dev_html_is_deterministic</code>, <code>test_multi_allow_surface_reaches_cells</code>,
+<code>test_render_html_fragment_backward_compat</code>. <strong>710/710 tests pass.</strong> Verified on
+<code>research/tape/multi-1h-4y</code> (2 symbols × 1h, 60-day span): <code>report.html</code>
+272K carries both cells' full reports; single mode still writes its 5-file set.</p>
+<p>Artifacts: <code>tools/diagnostics.py</code>, <code>tests/test_diagnostic.py</code>,
+<code>.audit/diagnostic/dev-html/</code>.</p>
+<h2 id="2026-08-08-total-pipeline-perf-pass-single-file-report-center">2026-08-08 — Total-pipeline perf pass + single-file report center</h2>
+<p>Perf pass across the decision path and the report tooling. Every
+decision-path change is VALUE-EQUIVALENT (tests/test_state_cache_identity.py
+pins cached == uncached on every bar; tests/test_perf_fastpaths.py pins the
+fast hashing/serialization against the reference semantics); the golden
+backtest re-pinned ledger/states hashes because <code>code_version</code> and <code>code_hash</code>
+moved, with candidate_count/terminal_distribution/data_hash unchanged
+(tests/test_golden_backtest.py comment documents the re-pin).</p>
+<p>Decision path (src/v8/):
+- marketstate.py: per-feature input-lineage digests built from precomputed
+  row bytes (<code>_slice_digest</code>) instead of re-json-dumping payload dicts per
+  feature per bar; <code>closed_digests</code>/<code>manifest_digest</code> are now incremental
+  hashers (O(N²) full-prefix re-hash -&gt; O(1) amortized per bar, byte-identical);
+  <code>project_state</code> gained a static <code>projection_allowed_keys</code> superset so a
+  projection is one frozenset membership per key instead of a per-key
+  <code>feature_interval</code> call.
+- lab.py: projection specs (allowed keys/depths/intervals) hoisted once per
+  Expert per run; <code>record_dict(..., event_id=state.state_id)</code> skips the
+  auto <code>sha1_hex</code> of the full state record that the caller overwrote anyway.
+- schema.py: <code>record_dict</code> uses <code>_asdict_fast</code>, a dataclasses.asdict
+  equivalent without per-call <code>fields()</code>/deepcopy (tuple-preserving, so
+  <code>== asdict</code> holds on CPython 3.14).
+- equity.py: <code>risk_of_ruin</code> draws each simulated life with one
+  <code>random.choices(k=n)</code> call instead of n <code>choice</code> calls (~10k x n draws in C).
+- store.py: unchanged semantics; the rejected incremental-hash design is
+  pinned as a regression test (comma-before-first bug) in
+  tests/test_perf_fastpaths.py.</p>
+<p>Measured: 8760-bar x 3-pilot lab run 46.9s -&gt; 16.6s (~2.8x); 1500-bar x
+27-expert 16.4s -&gt; 8.0s. Full suite 706 passed.</p>
+<p>Report tooling (tools/, consolidated 2026-08-08):
+- NEW <code>tools/diagnostics.py</code> is the single report center: the diagnostic
+  engine (9 sections) + per-expert forensics + the multi-symbol matrix runner
+  + the self-contained HTML renderer now live in ONE file, per the report-
+  center directive ("everything in one file, no multi"). <code>tools/diagnostic.py</code>,
+  <code>diagnostic_report.py</code>, <code>forensics.py</code>, <code>multi_diagnostic.py</code> are thin
+  re-export shims for backward compatibility; the CLI takes <code>--symbols</code> to
+  opt into the matrix report (formerly multi_diagnostic).
+- diagnostic.py engine: <code>_simulate</code> walk memoization — one bar walk per
+  (draft, entry, geometry) serves every cost/funding variant (Section 2
+  ablations, forensics cost sweep, the repeated full-set sims). 306,809
+  <code>_simulate</code> calls collapse to 91,853 distinct walks (~3.3x) on an 8760-bar
+  run; net_r derivation is bit-exact for the scalar funding path
+  (<code>_simulate</code> == <code>_simulate_full</code> pinned in tests/test_diagnostic.py).
+  <code>_detect</code> hoists the per-expert projection spec (sort/closure/declaration
+  computed once, not per bar).
+- vision_backfill.audit_tape gained an optional <code>rows=</code> param; monitor_tape
+  passes its already-parsed rows so a --schema cycle parses the tape once,
+  not twice.</p>
+<h2 id="2026-08-07-equities-data-authority-survey-o-026-refinement">2026-08-07 — Equities data-authority survey (O-026 refinement)</h2>
+<p>The deferred-equities open decision (O-026) gained an empirical source survey
+instead of an assumption. Method: live endpoint tests (İş Yatırım API returned
+THYAO daily OHLCV back to 1997), Wayback snapshots (stooq bulk archives),
+official docs (Massive/Polygon flat files, BIST DataStore), GitHub API;
+WebSearch returned nothing in this environment, so DuckDuckGo HTML, direct URL
+fetches and Wayback were used as fallbacks. <strong>Finding: no source — free OR paid
+— offers rule 9's checksum-verifiable immutable archive.</strong> NASDAQ's closest
+candidate is Massive (ex-Polygon) Flat Files (official SIP daily files since
+2003, bulk + immutable, but paid ≥ $29/mo, no published checksums — only S3
+ETags) or stooq bulk ZIPs (checksumless); BIST's only official channel is
+DataStore (paid, contractually "Confidential", no checksum, no accuracy
+guarantee) and the free İş Yatırım API violates every rule-9 axis (unofficial,
+mutable). So the O-026 admission condition (source authority binding) is
+currently unmet for both venues — equities stay a documented research
+direction (D-065), never a canonical dataset.</p>
+<p>Artifacts: <code>docs/decisions/OPEN_DECISIONS.md</code> (O-026),
+<code>docs/tr/OPEN_DECISIONS.md</code> (O-026), <code>docs/CHANGELOG.md</code>.</p>
+<h2 id="2026-08-07-why-is-it-negative-diagnostic-engine-toolsdiagnosticpy">2026-08-07 — WHY-IS-IT-NEGATIVE diagnostic engine (tools/diagnostic.py)</h2>
+<p>A read-only diagnostic engine that EXPLAINS the lab's negative economics
+without fixing them. It produces diagnostics, never decisions:
+<code>AUTHORITY: NONE — DIAGNOSTIC ONLY</code> on every report. Spec: 9 sections
+(identity + R-denominator census, cost census, zero-cost ablation, null
+baselines, path statistics, horizon sweep, exit-parameter surface, entry
+timing, simulator invariants) + a verdict enum
+(<code>MECHANICAL_FLOOR | COST_DOMINATED | NO_EDGE | EXIT_MISSPECIFIED |
+SIMULATOR_INVALID | INDETERMINATE</code>), each cited to its evidence.</p>
+<p>V8 adaptations recorded in the manifest: lives in <code>tools/</code> (a <code>src/v8/</code> module
+would move the decision-path code hash, D-032); the entry set is re-detected
+from the tape (drafts are not persisted) at birth+lag with one fixed
+convention, and every counterfactual reuses it; ALL simulation goes through
+<code>CanonicalSimulator.step()</code> geometry overrides (no re-derived barrier/gap/cost
+formulas); V8 models fee+slippage as ONE flat <code>round_trip_cost_r</code>; 1h-bar
+horizons (15m unrepresentable); no liquidation model (stopped-before-h =
+shipped-SL stop); <code>trades.jsonl</code> not parquet (D-031). The engine never writes
+to a store/registry/authority path — a foreign write raises
+<code>DiagnosticWriteError</code>.</p>
+<p><strong>First run on the real dev tape</strong> (btcusdt-1h-12m, 2500 bars, all 27 experts,
+cost 0.07): verdict <strong>MECHANICAL_FLOOR</strong> — the shipped signal is
+indistinguishable from random entries (actual −0.0618R inside the random-entry
+null [−0.136, −0.030], percentile 78.5%). Supporting numbers: gross edge
++0.0082R vs flat cost 0.07R (<strong>cost is 8.5× the raw edge</strong>); frictionless
++0.0082R (break-even); mean trade duration <strong>3.7 bars</strong> (median 3, p90 8);
+holding to 4-5 days would have been WORSE (−0.19 to −0.25R); <strong>early-TP: 79% of
+target-exits continued &gt;2R after exit (mean +4.5R)</strong> — the 1R target clips a
+real favorable tail; early-SL: 33.5% of stops saw &gt;0.5R favorable first;
+intrabar ambiguity 144 trades with a 1.79R optimistic/pessimistic spread;
+no entry-timing problem (mark-out ≈ 0 bps). The verdict is a diagnostic
+finding, not an economic claim (authority still NONE).</p>
+<p><strong>Automatic HTML report + charts.</strong> Every run also writes a self-contained
+<code>report.html</code> with inline-SVG charts (stdlib-only — no matplotlib/JS/CDN):
+verdict banner + KPI cards, a horizon-sweep line chart with the actual mean
+duration marked, a cost-census bar chart, an ablation bar chart, a
+"actual vs random-null band" chart, an exit-reason bar chart, net_R/MAE/MFE/
+duration histograms from the per-trade ledger, an entry-timing mark-out line
+chart, segment tables and the invariants block. Deterministic — a given run
+always produces byte-identical HTML. Renderer: <code>tools/diagnostic_report.py</code>.</p>
+<p><strong>Expert forensics layer</strong> (<code>tools/forensics.py</code>): the actionable answer to
+"which strategy is salvageable, which is trash?". Every expert gets a
+leaderboard row (n, gross/net/zero-cost edge, PF, winrate, max drawdown,
+LONG/SHORT split), a cost sweep with its <strong>breakeven cost</strong>, an exit-variant
+sweep (no-TP / no-SL / 2R·3R·4R-TP / time-24 / trailing), a sign-permutation
+p-value, a per-expert random-entry null, a bootstrap 95% CI, regime
+(vol/trend), time-of-day and window-split breakdowns, a TP-robustness metric,
+and an automated <strong>KEEP / REPAIR / HARD_REPAIR / INVESTIGATE</strong> verdict with a
+cited main problem and an action. The vocabulary has no "kill": an expert is
+never deleted by a diagnostic — <code>HARD_REPAIR</code> means it is broken (no edge even
+frictionless) and needs a fundamental rebuild. The verdict is anchored on the
+ZERO-COST edge (an expert with a real frictionless edge killed by cost is
+REPAIR, not HARD_REPAIR) and a KEEP needs n + positive frictionless edge +
+distinguishable-from-random-null (the spec's "most critical filter"). The
+report's top carries the strategy decision table; each expert has a
+collapsible <code>&lt;details&gt;</code> drill-down; the report closes with a portfolio
+conclusion (verdict counts, strongest/weakest, dominant failure, long-vs-short,
+exit-vs-entry, recommended next experiment).</p>
+<p><strong>Per-expert MarketState (D-054) verification.</strong> The report now states and
+verifies that every expert evaluates its OWN projected MarketState view: the
+canonical state filtered to the expert's declared intervals + <code>requires</code>
+feature groups (an expert never sees another expert's undeclared features).
+The engine records a per-expert state audit (intervals, groups, depth, view-vs-
+canonical feature count) and verifies the projection withheld every undeclared
+group (<code>view_groups_verified</code>). On the dev tape all experts declare the base
+interval (1h) only, so the diagnostic data is 1h-barred and the per-expert
+"custom MarketState" is the group projection on that 1h state — stated in the
+manifest (<code>base_interval</code>, <code>multi_interval_experts</code>,
+<code>per_expert_state_projection</code>).</p>
+<p><strong>Multi-symbol × multi-timeframe</strong> (<code>tools/multi_diagnostic.py</code>): the
+single-symbol report answers "why is this strategy negative on BTC 1h?"; this
+layer answers "does any edge survive OTHER symbols and OTHER timeframes?". Each
+(symbol, timeframe) cell — e.g. 4 symbols × {1h, 4h} over one shared calendar
+span — runs the full engine (aggregate + per-expert forensics) in parallel and
+writes its own report dir; the aggregate report carries a cross-symbol verdict
+matrix (experts × cells), a consistency analysis (robustly salvageable experts
+vs experts that FLIP across symbols — the anti-overfit filter), and an
+aggregate portfolio conclusion. The 4h/1d cells aggregate the same calendar
+bars via <code>v8.interval.aggregate</code> (incomplete buckets dropped; no funding
+channel on the aggregated cells, stated in every manifest).</p>
+<p>Tests: <code>tests/test_diagnostic.py</code> — the spec's 6 synthetic fixtures each
+produce its known verdict (not-NO_EDGE / COST_DOMINATED / MECHANICAL_FLOOR /
+EXIT_MISSPECIFIED / SIMULATOR_INVALID / identity-stops-the-engine) + a
+write-guard test + a report.html render test. <strong>693/693 tests pass.</strong></p>
+<p>Artifacts: <code>tools/diagnostic.py</code>, <code>tools/diagnostic_report.py</code>,
+<code>tests/test_diagnostic.py</code>, <code>.audit/diagnostic/real/</code> (first real-tape
+report, incl. <code>report.html</code>).</p>
+<h2 id="2026-08-07-universe-scope-equities-nasdaqbist-deferred-as-a-research-axis-o-026-d-065">2026-08-07 — Universe scope: equities (NASDAQ/BIST) deferred as a research axis (O-026, D-065)</h2>
+<p>Scope proposal to add stock equities as dataset sources was evaluated against
+the constitution and recorded, not implemented. Equities are structurally
+different from the locked Binance USD-M universe — no funding/mark/index/premium
+tapes, a session calendar with gaps and corporate actions, a different
+cost/authority model — so the proposal is a NEW research axis (O-026), not an
+O-011 venue extension. Decision (D-065): the universe stays locked until the
+Phase-4 base-case gate is measured; data-plane exploration may proceed in
+parallel as research-only, but no equities tape may become canonical and no
+preregistration may name it until a surviving family replicates cross-asset
+under its own multiplicity controls and rule 9 source authority is met (a hard
+constraint today — NASDAQ free archives lack checksum-verified immutability;
+BIST requires a commercial provider or an authority-inadmissible scraper).</p>
+<p>Artifacts: <code>docs/decisions/OPEN_DECISIONS.md</code> (O-026),
+<code>docs/decisions/DECISION_REGISTER.md</code> (D-065), <code>docs/CHANGELOG.md</code>.</p>
+<h2 id="2026-08-07-audit-fix-pass-12-reproduced-defects-issues-61-72">2026-08-07 — Audit-fix pass: 12 reproduced defects (issues #61-#72)</h2>
+<p>The adversarial audit of 2026-08-06 filed 12 issues. Each was reproduced on
+the working tree with a deterministic probe (<code>.audit/repro/</code>; 12/12 confirmed)
+and fixed. The fixes are behavioral (ledger-changing), so the golden hashes
+re-pinned (data_hash, candidate_count and terminal_distribution UNCHANGED; see
+<code>tests/test_golden_backtest.py</code> re-pin note).</p>
+<p><strong>Entry is not entry: <code>PENDING -&gt; TRIGGERED</code> is gated on a frozen trigger</strong>
+(#62/#67). <code>risk_geometry</code> gains a normative trigger contract
+(<code>trigger_ref</code> absolute price + <code>trigger_side</code> CLOSE_ABOVE/CLOSE_BELOW;
+<code>schema.py</code>). <code>lab.py</code> PHASE 2 evaluates the book's close-confirmation
+predicate before triggering; an unconfirmed candidate stays PENDING and is
+re-checked each bar until it fires, invalidates, or the epilogue expires it.
+<code>candlestick_reversal</code> (Ch14.2 p556) is the pilot and now declares
+<code>trigger_side</code>; the pre-fix unconditional path entered 16/27 candlestick
+candidates whose close had NOT confirmed beyond the trigger. Unconditional
+experts keep <code>entry: NEXT_BAR_CLOSE</code> (no <code>trigger_ref</code> -&gt; no predicate).
+Artifacts: <code>src/v8/lab.py</code>, <code>src/v8/schema.py</code>,
+<code>src/v8/experts/candlestick_reversal.py</code>.</p>
+<p><strong>Structural stop: <code>stop_ref</code> is the static stop when declared</strong> (#63). The
+simulator placed the stop at <code>entry ± stop_r × ATR</code> even when the expert froze
+the structural level (swept extreme / pattern level). <code>step()</code> now uses
+<code>risk_geometry['stop_ref']</code> as the static stop when present; <code>stop_r × unit</code>
+is the fallback. Measured pre-fix: 33/33 candlestick drafts had the ATR stop
+0.44R (mean) from the structural level; 37.3% of executions were stopped by
+adverse excursion alone. Artifacts: <code>src/v8/simulator.py</code>.</p>
+<p><strong>Geometry invariants fail closed</strong> (#70). <code>simulator.validate_geometry()</code>
+rejects non-positive <code>target_r</code>/<code>stop_r</code> and <code>expiry_bars &lt; 1</code> at <code>step()</code> and
+<code>run()</code> entry — a <code>target_r=-1</code> previously booked a −1.07R loss as a TARGET
+win. Defense-in-depth on top of the experts' own guards.
+Artifacts: <code>src/v8/simulator.py</code>, <code>tests/test_audit_fixes.py</code>.</p>
+<p><strong>Windowed pre-entry invalidation fallback</strong> (#66). The all-bars
+<code>prior_high</code>/<code>prior_low</code> are UNBOUNDED prefix extremes (marketstate), so an
+invalidation tested against them was dead code for the 6 experts that freeze
+no ref (measured: 7 fires across 2,067 drafts). The lab's fallback now uses a
+32-bar windowed extreme (the frozen-ref convention) so the gate is meaningful
+for every expert. Artifacts: <code>src/v8/lab.py</code>.</p>
+<p><strong>Contention tie-break is the candidate's episode_key hash</strong> (#68). Same-bar
+same-direction slot races used to be decided by alphabetical <code>expert_id</code>
+order — measured 295/303 (97.4%) contended slots won by the alphabetically
+first expert, and the executed subset was 1.83× worse than the average setup.
+PHASE 1a now iterates in candidate-hash order: deterministic, economically
+neutral, and NOT a ranker (rule 6/14 — the implicit ranker is removed, not
+formalized). Artifacts: <code>src/v8/lab.py</code>,
+<code>tests/test_admission_contention.py</code>.</p>
+<p><strong>Feasibility notes surface in the report</strong> (#64, #69). The report now carries
+an RM-11 note when the cost-degraded breakeven win rate exceeds the realized
+win rate, and an excess_cost feasibility note when the cost gate fires
+(previously the excess-cost rejection was silent beyond
+<code>rejection_distribution</code>). Artifacts: <code>src/v8/lab.py</code>.</p>
+<p><strong>Synthetic tape continuity variant</strong> (#72). <code>make_synthetic_tape</code> gains
+<code>continuous=True</code> (open = prior close ± small move) — the legacy default
+fabricated TR &gt; (H−L) gaps on ~73% of bars vs ~0.6% on the real tape. The
+legacy default stays byte-identical (pinned golden/contract tests); flipping
+it is D-064. The golden-hash mismatch the audit filed was already resolved on
+the working tree (re-pinned, <code>1 passed</code>). Artifacts: <code>src/v8/synth.py</code>,
+<code>tests/test_audit_fixes.py</code>.</p>
+<p><strong>Recorded, not behavior-changed</strong> — #61 (cost 10.9× the raw edge; the
+cost/edge feasibility ratio), #71 (gap asymmetry, a 3.30R conservative budget,
+now documented in the SIMULATION_TRUTH_SPEC area of the changelog), #65
+(literature-condition table for <code>failed_breakout</code>: 2/10 implemented; the rest
+are OPEN_QUESTION/REJECTED_OPTION). See DECISION_REGISTER D-057..D-064 and
+OPEN_DECISIONS O-024.</p>
+<p>Artifacts: <code>docs/CHANGELOG.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>,
+<code>docs/decisions/OPEN_DECISIONS.md</code>, <code>.audit/BASELINE.md</code>,
+<code>.audit/repro/*</code> (repro scripts + evidence), <code>tests/test_audit_fixes.py</code>.</p>
+<h2 id="2026-08-07-single-process-multi-tape-driver-funding-interval-audit-fix">2026-08-07 — Single-process multi-tape driver + funding-interval audit fix</h2>
+<p><code>tools/build_multi_tape.py</code> spawned one subprocess per archive, and every
+per-archive provenance write re-read and re-hashed the whole growing tape —
+O(N²) in rows, ~80 min of CPU for a 960-archive grid. The driver now imports
+vision_backfill's functions directly, opens ONE append-only log (the dedup
+inbox is built once), skips archives already recorded with the same zip
+sha256, and writes provenance once at the end (atomic temp + os.replace). A
+corrupt source.json is rebuilt from the on-disk zips + their <code>.CHECKSUM</code> files
+— the revision guard is re-armed from the authoritative checksums, not
+silently disarmed. Measured: the full 960-archive grid (10 symbols x 48 months
+x 2 channels) rebuild finished in ~7 s (was 1 h+).</p>
+<p><code>audit_tape</code> false-flagged funding settlements that straddle a venue schedule
+change: the gap from the previous settlement is governed by the PREVIOUS row's
+declared <code>funding_interval_hours</code>, not the current row's. The real SOLUSDT
+2022-11 archive hit exactly this (a 4h transition gap flagged against the new
+2h schedule). The tolerance now uses the previous row's interval; a genuinely
+missing settlement under a steady schedule still flags (regression-tested).</p>
+<p>The <code>research/tape/multi-1h-4y</code> dataset is now complete: 960/960 archives,
+394,545 rows, 10 symbols x 48 months x (kline + funding), provenance rebuilt
+atomically, sorted to replay order, and audit-clean (monotonic, venue_gaps 0,
+duplicate_rows 0, payload hashes verified).</p>
+<p>Artifacts: <code>tools/build_multi_tape.py</code>, <code>tools/vision_backfill.py</code>,
+<code>tests/test_build_multi_tape.py</code>, <code>tests/test_tape_audit.py</code>,
+<code>research/tape/multi-1h-4y/</code>.</p>
+<h2 id="2026-08-07-appendonlylog-parsed-log-cache-no-contract-change">2026-08-07 — AppendOnlyLog parsed-log cache (no contract change)</h2>
+<p><code>AppendOnlyLog.read()</code> re-read and re-parsed the entire JSONL on every call,
+and <code>hash</code> was <code>sha1_hex(self.read())</code> — a full re-parse followed by a full
+re-serialization of the whole record list. One lab run touches the logs 17
+times (4 emptiness probes, the post-loop report scans, and five <code>hash</code>
+properties bound into <code>ledger_hash</code>), which measured 5.87 s of a 39.2 s run on
+the 8,760-bar dev tape (14% of wall).</p>
+<p><code>read()</code> now caches the parsed list and <code>hash</code> memoizes its digest; <code>append()</code>
+invalidates both. The log is append-only and the instance owns the sole write
+handle, so the file cannot change behind the cache. <code>append()</code> invalidates
+rather than splicing the record in, because the stored form is the record's
+JSON round-trip (tuples become lists) and splicing would let <code>read()</code> disagree
+with the file. <code>read()</code> returns a shallow copy so callers keep the previous
+"fresh outer list" semantics; the record dicts are shared and documented
+read-only (every current caller iterates, filters or <code>sorted()</code>s).</p>
+<p>PERFORMANCE ONLY — no contract, schema or decision changed. Measured on the
+8,760-bar dev tape with 27 Experts, 3 runs each: 39.2 s → 36.7 s (1.07x);
+the log-read component itself 5.87 s → 3.44 s (1.7x). <code>candidate_count</code>
+(28,088) is unchanged, and the full suite including the golden backtest stays
+green (668 passed) — an invariance the D-056 fast path could not claim,
+because <code>marketstate</code> binds its own source bytes into every state's
+<code>code_version</code>. Roughly half the reads are still cold (each log's first
+post-append read); eliminating them needs a rolling digest so <code>hash</code> never
+re-reads, which is not done here.</p>
+<p>Artifacts: <code>src/v8/store.py</code>.</p>
+<h2 id="2026-08-07-d-056-state-builder-fast-path-on2-on-window">2026-08-07 — D-056: state-builder fast path (O(N²) → O(N × window))</h2>
+<p>The bar-driven state pre-build recomputed every series (EMA/ATR/RSI/ADX/CCI/
+MACD/pivots/prefix extremes/OBV/ADL) from scratch per decision clock, making a
+backtest O(N²) in bars: ~280 s for 8,760 bars and an estimated 1-2 h for one
+4-year symbol. <code>build_state</code> now takes an optional per-symbol <code>BarSeries</code>
+(precomputed once over the full tape) and reads it by index per clock; the lab
+builds it once per run. Unbounded features (<code>prior_high</code>/<code>prior_low</code>) keep the
+exact running prefix max/min — never a fixed window, which silently diverges
+(measured 83.5% of bars at a 520-bar window) and 21/27 Experts read them.
+The growing-list lineage hashes keep exact <code>sha1_hex(list)</code> semantics via
+precomputed per-row canonical bytes (O(N) per state with a small constant —
+exact values, no chained-hash substitution). Every emitted value, per-feature
+lineage, <code>lineage_hash</code> and <code>state_id</code> is byte-identical:
+<code>tests/test_state_cache_identity.py</code> proves cached == uncached on every bar;
+diffing the golden fixture against the pre-change code shows candidates,
+evaluations and outcomes with 0 differing fields and states differing only in
+the provenance <code>code_version</code> (whole-file source hash — its designed behavior,
+re-pinned in <code>test_golden_backtest.py</code>). Measured on this machine: 8,760-bar
+backtest 280 s → 12 s; BTCUSDT 4-year (35,064 bars, exact lab shape incl.
+funding) 67 s; 8-symbol × 4-year serial-store projection ≈ 9 min (was an
+estimated 11-12 h).</p>
+<ul>
+<li><strong><code>src/v8/marketstate.py</code></strong> — <code>Prefix</code> view, <code>BarSeries</code> + <code>build_bar_series</code>,
+  <code>_adx_series</code>, <code>_last_significant_pivot</code>/<code>_last_confirmed_swing</code>, cached
+  branch in <code>build_state</code>/<code>build_multi_state</code> (<code>series=</code> param).</li>
+<li><strong><code>src/v8/lab.py</code></strong> — builds the series once per run, passes them in.</li>
+<li><strong><code>tests/test_state_cache_identity.py</code></strong> — cached == uncached on every bar
+  (synthetic every bar, real tape sampled, multi-state).</li>
+<li><strong><code>tests/test_golden_backtest.py</code></strong> — states/ledger hashes re-pinned; the
+  move is provenance <code>code_version</code> only (diffed and documented).</li>
+<li><strong><code>docs/decisions/DECISION_REGISTER.md</code></strong> — D-056.</li>
+</ul>
+<h2 id="2026-08-07-d-055-strict-climax-challenger-for-volume_climax_reversal">2026-08-07 — D-055: strict-climax challenger for volume_climax_reversal</h2>
+<p>The O-022 measurement showed the 2-sigma climax gate fires on nearly every bar
+(8,272 distinct candidates on 8,760 bars -&gt; a 4.6% D-027 execution_share; the
+family floods the rule-16 exposure pool and blocks its own re-entries). A
+strict-climax challenger variant <code>e</code> (vol_zscore &gt;= 3.0) joins the family,
+owning every 3-sigma bar. Declared and frozen pre-holdout; the frozen-OOS
+within-family Reality-Check (D-044) decides whether <code>e</code> survives, never the
+dev window.</p>
+<ul>
+<li><strong><code>src/v8/experts/volume_climax_reversal.py</code></strong> — variant <code>e</code> (3-sigma fade in
+  the trend direction), <code>variants_evaluated</code> (a,b,c,d,e), <code>search_universe_size</code>
+  5, priority e &gt; d &gt; c &gt; b &gt; a.</li>
+<li><strong><code>docs/EXPERTS_REGISTRY.yaml</code></strong> — volume_climax variants/search updated.</li>
+<li><strong><code>docs/decisions/DECISION_REGISTER.md</code></strong> — D-055.</li>
+<li><strong><code>tests/test_expert_volume_climax_reversal.py</code></strong> — a/b/d tapes re-based on an
+  alternating volume series so their vol_zscore sits in [2,3) (the near-constant
+  base made ANY spike a ~10-sigma event and routed every test to the new strict
+  variant); new variant-e test (8.0 spike -&gt; z~10 -&gt; e/LONG and e/SHORT).</li>
+</ul>
+<h2 id="2026-08-07-declared-per-expert-marketstate-d-054-block-bootstrap-defect-d-052">2026-08-07 — Declared per-Expert MarketState (D-054) + block-bootstrap defect (D-052)</h2>
 <p>Two changes to the evidence machinery, both frozen pre-holdout.</p>
 <p><strong>D-052 — the block bootstrap manufactured one false positive per run.</strong>
 Preregistration section 9's block-size constants (24 / 168) are bar-counts
@@ -5109,7 +5590,7 @@ already understated.</p>
   construction), H0 rejections 1 -&gt; 0, every former zero-width row gained a real
   interval, and intervals widened slate-wide.</li>
 </ul>
-<p><strong>D-053 — Experts declare the MarketState they need.</strong> The 27-family inventory
+<p><strong>D-054 — Experts declare the MarketState they need.</strong> The 27-family inventory
 found the binding constraint was not the 1h tape but the global 32-bar
 <code>history</code> pin: <code>ichimoku_cloud</code> needs 78 bars and declares 3 of 4 variants
 unevaluated, <code>breakout_retest</code> drops variant d, <code>donchian_breakout</code> falls back
@@ -5122,7 +5603,7 @@ bar structure.</p>
   start), aggregate <code>available_time</code> = its last constituent's, partial trailing
   buckets never emitted as closed.</li>
 <li><strong><code>src/v8/experts/base.py</code></strong> — <code>intervals</code> + <code>depth</code> join <code>requires</code> as
-  frozen specification; both default to pre-D-053 behavior.</li>
+  frozen specification; both default to pre-D-054 behavior.</li>
 <li><strong><code>src/v8/marketstate.py</code></strong> — <code>build_multi_state</code> namespaces higher intervals
   <code>{sym}.{tf}.{feature}</code> (base stays unprefixed); <code>project_state</code> serves each
   Expert exactly its declared groups x intervals x depth; the 32-bar pin becomes
@@ -7013,7 +7494,8 @@ experts:
   - b
   - c
   - d
-  search_universe_size: 4
+  - e
+  search_universe_size: 5
   requires:
   - trend
   - volatility

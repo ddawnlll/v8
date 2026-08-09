@@ -118,6 +118,22 @@ def _conflicts_by_expert(lab: Lab) -> dict[str, int]:
     return out
 
 
+def _executions_by_expert(lab: Lab) -> dict[str, int]:
+    """Executed outcomes (label_status != NOT_EXECUTED) by emitting Expert."""
+    records = lab.candidates.read()
+    owner: dict[str, str] = {}
+    for rec in records:
+        cid, eid = rec.get('candidate_id'), rec.get('expert_id')
+        if cid and eid:
+            owner.setdefault(cid, eid)
+    out: dict[str, int] = {}
+    for o in lab.outcomes.read():
+        if o.get('label_status') != 'NOT_EXECUTED':
+            eid = owner.get(o.get('candidate_id', ''), '?')
+            out[eid] = out.get(eid, 0) + 1
+    return out
+
+
 def test_contended_admission_is_order_independent():
     """Full contention, three Experts: caller list order must not move a hash.
 
@@ -137,29 +153,53 @@ def test_contended_admission_is_order_independent():
     assert rep_fwd.n_executed == rep_rev.n_executed
 
 
-def test_contested_slot_priority_follows_expert_id_not_behavior():
-    """The surviving tie-break is the Expert's NAME (D-043 follow-up).
+def test_contested_slot_tie_break_is_candidate_hash_not_name():
+    """Contention tie-break is the candidate's episode_key hash (issue #68).
 
-    Two behaviorally identical contenders differ only in expert_id. The one
-    sorting first wins strictly more contested slots, and the advantage moves
-    when the names move — so admission priority under contention is decided by
-    lexicographic identity, not by anything about the hypothesis.
+    Two behaviorally identical contenders differ only in expert_id. Under the
+    pre-fix tie-break — PHASE 1a iterating pending in expert_id-sorted
+    insertion order — the lexicographically-first Expert won a strict majority
+    of contended (instrument, direction) slots, and the advantage followed the
+    name (on the dev tape: 295/303, 97.4%). Issue #68 replaced the tie-break
+    with the candidate's own episode_key hash, so admission under contention
+    is economically neutral: no Expert has a systematic priority, and the split
+    between two identical contenders tracks the uniform hash distribution, not
+    the name.
 
-    This is deterministic and currently harmless at three Experts. It is pinned
-    because D-043 lifted the cap: a principled tie-break is a ranker, and a
-    ranker is gated by rule 6 / D-008 (O-006 / O-012). If one is ever added,
-    this test fails and forces that decision to be registered.
+    The old rule is deliberately NOT pinned anymore — that pin's purpose was to
+    force a registered decision before introducing a principled tie-break; the
+    issue-#68 candidate-hash rule IS that registered decision.
     """
+    # Both contenders must execute (a fair hash split leaves both with > 0
+    # wins with overwhelming probability) and neither may dominate.
     lab_a, rep_a = _run([_contender('aaa_first'), _contender('zzz_last')])
     assert rep_a.n_portfolio_rejected > 0, 'no contention; test would be vacuous'
+    exec_a = _executions_by_expert(lab_a)
     conflicts_a = _conflicts_by_expert(lab_a)
-    assert conflicts_a['zzz_last'] > conflicts_a['aaa_first'], (
-        'the lexicographically first Expert should win more contested slots; '
-        f'got {conflicts_a}')
+    assert exec_a['aaa_first'] > 0 and exec_a['zzz_last'] > 0, (
+        'both contenders should win some contended slots under a fair '
+        f'tie-break; got {exec_a}')
+    share_a = conflicts_a['aaa_first'] / (conflicts_a['aaa_first']
+                                          + conflicts_a['zzz_last'])
+    assert share_a < 0.8, (
+        'the lexicographically-first Expert must not dominate contested slots '
+        'now that the tie-break is the candidate episode_key hash (issue #68); '
+        f'aaa_first conflict share {share_a:.2f} of {conflicts_a}')
 
-    # Same two behaviors, names swapped: the disadvantage must follow the name.
+    # Same two behaviors, names swapped: the split must NOT follow the name.
     lab_b, _ = _run([_contender('aaa_last'), _contender('zzz_first')])
+    exec_b = _executions_by_expert(lab_b)
     conflicts_b = _conflicts_by_expert(lab_b)
-    assert conflicts_b['zzz_first'] > conflicts_b['aaa_last'], (
-        'priority must track expert_id, not class identity; '
-        f'got {conflicts_b}')
+    assert exec_b['zzz_first'] > 0 and exec_b['aaa_last'] > 0, (
+        f'both contenders should win some contended slots; got {exec_b}')
+    share_b = conflicts_b['zzz_first'] / (conflicts_b['zzz_first']
+                                          + conflicts_b['aaa_last'])
+    assert share_b < 0.8, (
+        'priority must NOT track expert_id under the issue-#68 tie-break; '
+        f'zzz_first conflict share {share_b:.2f} of {conflicts_b}')
+
+    # Determinism: identical input yields the identical split (the hash
+    # tie-break is a pure function of the candidate identity).
+    lab_c, _ = _run([_contender('aaa_first'), _contender('zzz_last')])
+    assert _conflicts_by_expert(lab_c) == conflicts_a, (
+        'the issue-#68 tie-break must be deterministic')

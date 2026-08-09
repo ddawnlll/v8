@@ -1,0 +1,100 @@
+{
+  "bollinger": {
+    "breakeven_formula": "w_min = risk/(reward+risk) = 2.07/3.00",
+    "breakeven_win_rate": 0.69,
+    "docstring_breakeven_69": true,
+    "docstring_decision_ref": true,
+    "docstring_justifies_rr05": true,
+    "docstring_notes_setup23_aggregation": true,
+    "setup3_RR": 0.5,
+    "setup3_source": {
+      "stop_line": "geo['stop_r'] = 2 * sd / atr",
+      "stop_line_present": true,
+      "target_line": "geo['target_r'] = sd / atr",
+      "target_line_present": true
+    }
+  },
+  "dynamic": {
+    "run_rejections": {
+      "expiry_bars=0": {
+        "error": "ValueError",
+        "message": "risk_geometry expiry_bars must be >= 1 (got 0, audit_probe): a horizon below one bar is not a position \u2014 fail closed",
+        "raised": true
+      },
+      "stop_r=0": {
+        "error": "ValueError",
+        "message": "risk_geometry stop_r must be > 0 (got 0.0, audit_probe): a zero-distance stop is not a position \u2014 fail closed",
+        "raised": true
+      },
+      "target_r=-1": {
+        "error": "ValueError",
+        "message": "risk_geometry target_r must be > 0 (got -1.0, audit_probe): a non-positive target is on the losing side and would book losses as TARGET endpoints \u2014 fail closed",
+        "raised": true
+      }
+    },
+    "step_rejections": {
+      "expiry_bars=0": {
+        "error": "ValueError",
+        "message": "risk_geometry expiry_bars must be >= 1 (got 0, audit_probe): a horizon below one bar is not a position \u2014 fail closed",
+        "raised": true
+      },
+      "stop_r=0": {
+        "error": "ValueError",
+        "message": "risk_geometry stop_r must be > 0 (got 0.0, audit_probe): a zero-distance stop is not a position \u2014 fail closed",
+        "raised": true
+      },
+      "target_r=-1": {
+        "error": "ValueError",
+        "message": "risk_geometry target_r must be > 0 (got -1.0, audit_probe): a non-positive target is on the losing side and would book losses as TARGET endpoints \u2014 fail closed",
+        "raised": true
+      }
+    },
+    "valid_geometry": {
+      "endpoint": "EXPIRY",
+      "endpoint_in_expected_set": true,
+      "geometry": {
+        "atr_ref": 10.0,
+        "expiry_bars": 8,
+        "stop_r": 1.0,
+        "target_r": 1.0
+      },
+      "label_status": "RIGHT_CENSORED",
+      "net_r": -0.07,
+      "runs": true
+    }
+  },
+  "issue": 70,
+  "latency": {
+    "bad_geometry_drafts": 0,
+    "bollinger_setup3_draft_sample": [],
+    "tape": "/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl",
+    "unique_drafts_scanned": 8047,
+    "violations": [],
+    "window_bars": 2500
+  },
+  "static": {
+    "guard_branches_present": {
+      "expiry_bars": true,
+      "stop_r": true,
+      "target_r": true
+    },
+    "register": "D-061",
+    "run_entry_guarded": true,
+    "step_entry_guarded": true,
+    "validate_geometry_call_sites": [
+      "validate_geometry(pos.draft)",
+      "validate_geometry(draft)"
+    ],
+    "validate_geometry_defined": true
+  },
+  "verdict": {
+    "asserted": [
+      "run() raises ValueError on target_r=-1 / stop_r=0 / expiry_bars=0",
+      "step() raises ValueError on the same three (execution-ledger path)",
+      "valid geometry still runs to a sane endpoint",
+      "Setup 3 RR=0.5 justified as PROVISIONAL_DECISION with 69% breakeven (D-061); Setup 2/3 aggregation caveat stated",
+      "validate_geometry defined and wired into step() and run() entry"
+    ],
+    "pass": true
+  }
+}

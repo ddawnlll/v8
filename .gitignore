@@ -1,5 +1,6 @@
 # Agent/editor state
 .mimocode/
+.playwright-mcp/
 .DS_Store
 
 # Python
@@ -27,3 +28,6 @@ research/papers/
 # tools/extract_handbook_*.py; review reports live in the books submodule)
 /The Handbook of Technical Analysis - The Practitioner's Comprehensive Guide to Technical Analysis 2016.pdf
 research/handbook_technical_analysis_2016/
+
+# Raw process logs (reproducible; report artifacts stay tracked)
+.audit/*.log

@@ -20,7 +20,8 @@ from pathlib import Path
 from .schema import (TapeRow, ExperimentManifest, LabReport, MarketState,
                      CounterfactualOutcome, record_dict, sha1_hex)
 from .store import AppendOnlyLog
-from .marketstate import build_state, build_multi_state, project_state
+from .marketstate import (build_state, build_multi_state, project_state,
+                          projection_allowed_keys, group_closure, BarSeries)
 from .lifecycle import CandidateRegistry, episode_key, TERMINAL
 from .simulator import CanonicalSimulator, OpenPosition, risk_unit
 from .risk import RiskGate, tradability_mask_veto, TRADABILITY_MASK_VETO
@@ -37,6 +38,13 @@ _INTERVAL_NS = {'1m': 60_000_000_000, '1h': 3_600_000_000_000,
 # NOT_EXECUTED. This is the hypothesis-lab protocol's cost gate, not a
 # per-candidate economic rule; kept here so the constant is auditable.
 EXCESS_COST_THRESHOLD_R = 0.10
+
+# Issue #66: window (in base bars) of the fallback pre-entry invalidation
+# extreme for experts that freeze no prior_high_ref/prior_low_ref. Matches the
+# frozen-ref convention (failed_breakout / liquidity_sweep freeze a 32-bar
+# prior extreme); the all-bars state feature is an UNBOUNDED prefix extreme
+# and is never used as an invalidation level.
+_PRIOR_WINDOW_BARS = 32
 
 # D-027 attribution-validity thresholds (prereg §15): ratified pre-holdout
 # (O-017, 2026-08-01) and fixed forever — never re-set after a verdict.
@@ -166,22 +174,36 @@ def _geometry_version(draft) -> str:
 
 
 def _view_for(expert, state, base_interval: str,
-              known_intervals: frozenset[str]):
+              known_intervals: frozenset[str],
+              allowed_keys: frozenset[str] | None = None,
+              depths: dict[str, int] | None = None,
+              intervals: tuple[str, ...] | None = None):
     """The MarketState `expert` declared, projected from the canonical state.
 
     An Expert that declares no feature groups (the base contract, and the
     synthetic Experts in the test fixtures) receives the state untouched, so
     D-053 adds nothing to a run whose Experts made no declaration.
+
+    `allowed_keys`/`depths`/`intervals` are a precomputed projection spec (the
+    lab hoists it once per Expert instead of re-deriving it on every bar — the
+    derivation cost is constant per Expert, the projection is the hot part).
     """
     groups = getattr(expert, 'requires', ())
     if not groups:
         return state
-    intervals = expert.declared_intervals(base_interval)
+    if intervals is None:
+        intervals = expert.declared_intervals(base_interval)
+    assert intervals is not None
+    if allowed_keys is None:
+        allowed_keys = projection_allowed_keys(
+            state.universe, group_closure(groups),
+            frozenset(intervals) | {base_interval},
+            base_interval, known_intervals)
+        depths = {tf: expert.declared_depth(tf) for tf in intervals}
     return project_state(state, groups=groups, intervals=intervals,
                          base_interval=base_interval,
                          known_intervals=known_intervals,
-                         depths={tf: expert.declared_depth(tf)
-                                 for tf in intervals})
+                         depths=depths, allowed_keys=allowed_keys)
 
 
 class Lab:
@@ -316,7 +338,9 @@ class Lab:
                                  funding_rate_r=manifest.funding_rate_r,
                                  funding_hours=manifest.funding_hours,
                                  fill_policy=manifest.fill_policy,
-                                 funding_schedule=funding_schedule)
+                                 funding_schedule=funding_schedule,
+                                 round_trip_cost_bps=getattr(
+                                     manifest, 'round_trip_cost_bps', None))
         # Validate at the run boundary too: a tape written directly to the
         # store (bypassing ingest) must still fail closed on bad OHLC/volume.
         _validate_tape_rows(tape)
@@ -368,6 +392,7 @@ class Lab:
         # spread-adjusted breakeven win rate (RM-11).
         drawdown_sized_episodes = 0
         executed_geometry: list[tuple[float, float]] = []   # (target_r, stop_r)
+        executed_cost_r: list[float] = []               # realized cost per episode
 
         def counterfactual(cid: str, draft, from_idx: int) -> CounterfactualOutcome:
             tail = bars[from_idx:]
@@ -429,6 +454,46 @@ class Lab:
         declared_union.sort(key=lambda t: INTERVAL_NS.get(t, 0))
         known_intervals = frozenset(INTERVAL_NS)
 
+        # D-053 projection specs, hoisted ONCE per Expert: the allowed feature
+        # keys, the history depth truncation and the declared intervals are
+        # constant per Expert per run — only the state changes bar to bar.
+        # `_view_for` derives them from first principles when absent, so the
+        # public API keeps its behavior; this just avoids tens of thousands of
+        # re-derivations (group_closure + per-key feature_interval dominated
+        # the projection cost in profiling).
+        view_specs: dict[str, tuple] = {}
+        for _ex in experts:
+            _groups = getattr(_ex, 'requires', ())
+            if not _groups:
+                continue
+            _ivs = _ex.declared_intervals(manifest.interval)
+            view_specs[_ex.expert_id] = (
+                projection_allowed_keys(self.universe, group_closure(_groups),
+                                        frozenset(_ivs) | {manifest.interval},
+                                        manifest.interval, known_intervals),
+                {tf: _ex.declared_depth(tf) for tf in _ivs},
+                _ivs)
+
+        # Precomputed per-symbol series (fast state path): the SAME series
+        # build_state recomputes per bar, hoisted to once per run. Values are
+        # byte-identical to the uncached path (tests/test_state_cache_identity.py);
+        # this turns the O(N²) per-bar state pre-build into O(N x window).
+        from .marketstate import build_bar_series
+        series: dict[str, dict[str, BarSeries]] = {}
+        base_series: dict[str, BarSeries] = {}
+        for sym in self.universe:
+            sym_kline = [r for r in pit
+                         if r.instrument == sym and r.channel == 'kline']
+            if any(b.payload.get('closed') is True for b in sym_kline):
+                base_series[sym] = build_bar_series(
+                    [b for b in sym_kline if b.payload.get('closed') is True],
+                    sym_kline,
+                    [r for r in pit if r.instrument == sym
+                     and r.channel == 'funding'],
+                    [r for r in pit if r.instrument == sym
+                     and r.channel == 'open_interest'])
+        series[manifest.interval] = base_series
+
         acc_rows: list = []
         pit_it = iter(pit)
         next_row = next(pit_it, None)
@@ -440,17 +505,32 @@ class Lab:
             states_by_time[bar.available_time] = build_multi_state(
                 acc_rows, bar.available_time, self.universe,
                 base_interval=manifest.interval,
-                intervals=tuple(declared_union), depths=depth_union)
+                intervals=tuple(declared_union), depths=depth_union,
+                series=series)
 
         for i, bar in enumerate(bars):
             as_of = bar.available_time
             state = states_by_time[as_of]
-            state_rec = record_dict(state, source='marketstate')
-            state_rec['event_id'] = state.state_id
+            # event_id is the state's own id — passing it skips the auto
+            # `sha1_hex(full record)` in record_dict that the caller would
+            # immediately overwrite (a full json.dumps of the feature set per
+            # bar, profiled as a large share of sha1_hex time).
+            state_rec = record_dict(state, source='marketstate',
+                                    event_id=state.state_id)
             self.states.append(state_rec)
 
             # PHASE 1a: enter candidates whose entry bar is this bar (fill at close).
-            for cid, info in list(pending.items()):
+            # Issue #68: iterate in candidate_id (episode_key hash) order, not
+            # pending-insertion order. The pending dict is populated in PHASE 3
+            # in sorted-expert_id order, so a same-bar same-direction slot race
+            # (ExposureBook: one active exposure per (instrument, direction))
+            # used to be decided alphabetically — the alphabetically-first
+            # expert won 295/303 contended slots on the dev tape (97.4%).
+            # Sorting by the candidate's own hash makes the tie-break
+            # economically neutral: no expert has a systematic priority, and
+            # the order stays deterministic (a hash is a pure function of the
+            # candidate identity).
+            for cid, info in sorted(pending.items(), key=lambda kv: kv[0]):
                 if info.get('entry_bar') != i:
                     continue
                 draft = info['draft']
@@ -555,6 +635,12 @@ class Lab:
                 executed_geometry.append(
                     (float(draft.risk_geometry.get('target_r', 1.0)),
                      float(draft.risk_geometry.get('stop_r', 1.0))))
+                # Per-episode cost in R. Constant under the flat-R model, but
+                # entry-price/R-unit dependent under bps — so RM-11's
+                # cost-degraded reward:risk has to use the realized charge,
+                # not the manifest scalar, or it silently reports the wrong
+                # breakeven win rate the moment a bps cost is configured.
+                executed_cost_r.append(sim.cost_r(entry, risk_unit(draft, entry)))
                 open_positions[cid] = OpenPosition(candidate_id=cid, draft=draft,
                                                    entry_price=entry, entry_bar_index=i,
                                                    entry_time_ns=bar.available_time,
@@ -611,9 +697,20 @@ class Lab:
                 elif res.next_pos is not None:
                     open_positions[cid] = res.next_pos
 
-            # PHASE 2: trigger candidates born at the previous bar (entry next bar).
+            # PHASE 2: trigger candidates born at a previous bar (entry next bar).
+            # Issue #62: PENDING -> TRIGGERED now evaluates the expert's frozen
+            # trigger predicate when one is declared — risk_geometry['trigger_ref']
+            # plus the book's close-confirmation rule (candlestick_reversal
+            # Ch14.2 p556): a LONG enters only on a CLOSE above the trigger, a
+            # SHORT only on a CLOSE below it ('trigger_side' declares the side
+            # explicitly; absent, it is derived from direction). A candidate
+            # that has not yet triggered STAYS PENDING and is re-evaluated on
+            # each later bar until it triggers, invalidates, or the epilogue
+            # expires it. Experts without a trigger level keep the
+            # unconditional next-bar-close entry (their 'entry' is
+            # NEXT_BAR_CLOSE and no trigger_ref means no predicate to wait on).
             for cid, info in list(pending.items()):
-                if info['birth_idx'] != i - 1 or info.get('entry_bar') is not None:
+                if info.get('entry_bar') is not None or info['birth_idx'] >= i:
                     continue
                 draft = info['draft']
                 long = draft.direction == 'LONG'
@@ -626,6 +723,21 @@ class Lab:
                                          label_available_time=as_of)
                     del pending[cid]
                     continue
+                trigger_ref = draft.risk_geometry.get('trigger_ref')
+                if trigger_ref is not None:
+                    side = draft.risk_geometry.get('trigger_side')
+                    if side is None:
+                        side = 'CLOSE_ABOVE' if long else 'CLOSE_BELOW'
+                    if side == 'CLOSE_ABOVE':
+                        triggered = float(bar.payload['close']) > float(trigger_ref)
+                    elif side == 'CLOSE_BELOW':
+                        triggered = float(bar.payload['close']) < float(trigger_ref)
+                    else:
+                        raise ValueError(
+                            f'{cid}: unsupported trigger_side {side!r} — '
+                            "must be 'CLOSE_ABOVE' or 'CLOSE_BELOW'")
+                    if not triggered:
+                        continue      # stays PENDING; re-checked on the next bar
                 self.registry.apply(cid, 'PENDING', 'TRIGGERED', 'trigger_observed', as_of)
                 if manifest.round_trip_cost_r >= EXCESS_COST_THRESHOLD_R:
                     self.registry.apply(cid, 'TRIGGERED', 'REJECTED', 'excess_cost', as_of)
@@ -682,8 +794,14 @@ class Lab:
                 # projection of the one canonical state, not a state of its own
                 # (state_id is carried through, so the ledger still shows every
                 # Expert deciding against the same world at this clock).
-                ev = ex.evaluate(_view_for(ex, state, manifest.interval,
-                                           known_intervals))
+                spec = view_specs.get(ex.expert_id)
+                if spec is not None:
+                    view = _view_for(ex, state, manifest.interval,
+                                     known_intervals, allowed_keys=spec[0],
+                                     depths=spec[1], intervals=spec[2])
+                else:
+                    view = state
+                ev = ex.evaluate(view)
                 self.evaluations.append(record_dict(ev, source='expert'))
                 if ev.draft is None:
                     continue
@@ -714,8 +832,6 @@ class Lab:
                                                _geometry_version(ev.draft),
                                            'state_id': state.state_id})
                 self.registry.apply(cid, 'DETECTED', 'PENDING', 'hypothesis_completed', as_of)
-                pl = state.features.get(f'{sym}.prior_low')
-                ph = state.features.get(f'{sym}.prior_high')
                 # The pre-entry invalidation level must match the expert's
                 # thesis reference. failed_breakout / liquidity_sweep freeze a
                 # WINDOWED prior extreme in the draft geometry (prior_high_ref
@@ -724,31 +840,32 @@ class Lab:
                 # outside the 32-bar window pins it), so an invalidation tested
                 # against the state feature would let a dead-thesis candidate
                 # trigger and enter, polluting the executed population. Use the
-                # frozen draft ref when present; the all-bars state feature is
-                # the fallback for experts without a prior-level thesis
-                # (trend_pullback). Defaulting to 0.0/inf would make the check
-                # silently permissive — fail closed instead.
+                # frozen draft ref when present. Issue #66: for experts without
+                # a prior-level thesis the old fallback was the UNBOUNDED
+                # all-bars state feature — an all-time extreme, which makes the
+                # gate dead code (it fires only on a new all-time high/low).
+                # Fall back to a WINDOWED extreme over the _PRIOR_WINDOW_BARS
+                # bars before birth (the frozen-ref convention), so the gate is
+                # meaningful for every expert. Refusing to default to 0.0/inf
+                # (fail closed) is preserved: a birth with no prior bars cannot
+                # derive a level.
                 geom = ev.draft.risk_geometry
                 prior_low = (float(geom['prior_low_ref'])
                              if 'prior_low_ref' in geom else None)
                 prior_high = (float(geom['prior_high_ref'])
                               if 'prior_high_ref' in geom else None)
-                if prior_low is None:
-                    if pl is None or pl.value is None:
+                if prior_low is None or prior_high is None:
+                    window = bars[max(0, i - _PRIOR_WINDOW_BARS):i]
+                    if not window:
                         raise ValueError(
-                            f'{sym} prior_low unavailable at birth {as_of}: '
-                            f'Expert {ev.draft.expert_id} emitted a draft '
-                            'without trigger geometry — refuse, never default '
-                            'to 0/inf')
-                    prior_low = float(pl.value)
-                if prior_high is None:
-                    if ph is None or ph.value is None:
-                        raise ValueError(
-                            f'{sym} prior_high unavailable at birth {as_of}: '
-                            f'Expert {ev.draft.expert_id} emitted a draft '
-                            'without trigger geometry — refuse, never default '
-                            'to 0/inf')
-                    prior_high = float(ph.value)
+                            f'{sym} no prior bars at birth {as_of} to derive a '
+                            f'windowed invalidation level for '
+                            f'{ev.draft.expert_id} — refuse, never default to '
+                            '0/inf')
+                    if prior_low is None:
+                        prior_low = min(float(b.payload['low']) for b in window)
+                    if prior_high is None:
+                        prior_high = max(float(b.payload['high']) for b in window)
                 pending[cid] = {'draft': ev.draft, 'birth_idx': i, 'entry_bar': None,
                                 'prior_low': prior_low, 'prior_high': prior_high}
 
@@ -895,9 +1012,13 @@ class Lab:
         # to risk (Ch3.3). Mean over the executed geometry (uniform for the
         # pilots). None when no position executed.
         w_vals = []
-        for target_r, stop_r in executed_geometry:
-            reward = target_r - manifest.round_trip_cost_r
-            risk = stop_r + manifest.round_trip_cost_r
+        for idx, (target_r, stop_r) in enumerate(executed_geometry):
+            # Realized per-episode cost, not the manifest scalar: under a bps
+            # cost the charge varies with entry price / R unit.
+            c = executed_cost_r[idx] if idx < len(executed_cost_r) \
+                else manifest.round_trip_cost_r
+            reward = target_r - c
+            risk = stop_r + c
             if reward > 0.0 and risk > 0.0:
                 w_vals.append(1.0 / (1.0 + reward / risk))
         w_min = (sum(w_vals) / len(w_vals)) if w_vals else None
@@ -919,6 +1040,30 @@ class Lab:
             notes.append(
                 f'NO_ECONOMIC_CLAIM: executed episodes {n_executed} < '
                 f'min_trades {manifest.min_trades} (RM-08 adequacy bar)')
+        # Issue #64 (RM-11): when the cost-degraded breakeven win rate (w_min)
+        # exceeds the realized win rate, the shipped geometry cannot clear
+        # round-trip cost at the win rate it actually achieves — the
+        # feasibility gate's verdict. Report-only annotation: it surfaces the
+        # mismatch, it does not change the D-027 verdict or the ledger.
+        if w_min is not None and executed_net_r:
+            realized_win = sum(1 for r in executed_net_r if r > 0) \
+                / len(executed_net_r)
+            if w_min > realized_win:
+                notes.append(
+                    f'FEASIBILITY: breakeven win rate {w_min:.3f} exceeds '
+                    f'realized win rate {realized_win:.3f} (RM-11; the shipped '
+                    'geometry cannot clear round-trip cost at this win rate)')
+        # Issue #69: the excess-cost gate firing IS a feasibility statement —
+        # "this geometry cannot trade at this cost" — not a routine rejection.
+        # Say so in the notes instead of letting rejection_distribution carry
+        # it silently.
+        n_excess = rejection_dist.get('excess_cost', 0)
+        if n_excess:
+            notes.append(
+                f'FEASIBILITY: {n_excess} candidates rejected for excess_cost '
+                f'— round_trip_cost_r {manifest.round_trip_cost_r:.3f} reaches '
+                f'EXCESS_COST_THRESHOLD_R {EXCESS_COST_THRESHOLD_R:.2f}; the '
+                'geometry cannot trade at this cost')
         economic_note = '; '.join(notes) if notes else None
         verdict = _d027_verdict(manifest.authority_receipt,
                                 execution_share, divergence_ks)

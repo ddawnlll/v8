@@ -1,0 +1,103 @@
+{
+  "issue": 65,
+  "title": "Literature preconditions mostly unimplemented (failed_breakout: 2/10)",
+  "claim": "failed_breakout implements 2 of 10 literature preconditions; setup count is inflated by the absent filters",
+  "reproduced": true,
+  "key_numbers": {
+    "conditions_applied": 2,
+    "conditions_total": 10,
+    "failed_breakout_drafts": 215,
+    "total_drafts": 8047,
+    "setups_per_bar": 3.2188,
+    "failed_setups_per_bar": 0.086
+  },
+  "audit_table": [
+    {
+      "num": 1,
+      "condition": "prior_trend",
+      "implemented": false,
+      "evidence": "requires=(location,volatility,history); evaluate reads close/atr/history only \u2014 no trend/regime feature consumed; _last_breakout() is the setup definition (close>prior max high), not a separate trend precondition"
+    },
+    {
+      "num": 2,
+      "condition": "exhaustion",
+      "implemented": false,
+      "evidence": "no exhaustion measure anywhere in source (no climax/extension check)"
+    },
+    {
+      "num": 3,
+      "condition": "liquidity_sweep",
+      "implemented": false,
+      "evidence": "no sweep detection (no wick-through-prior-low check before reclaim)"
+    },
+    {
+      "num": 4,
+      "condition": "rejection",
+      "implemented": false,
+      "evidence": "no rejection-candle check (no upper/lower shadow logic)"
+    },
+    {
+      "num": 5,
+      "condition": "close_back_in_range",
+      "implemented": true,
+      "evidence": "line 74: `if not (close < self._ref_prior_high): return NO_SETUP`"
+    },
+    {
+      "num": 6,
+      "condition": "volume_confirmation",
+      "implemented": false,
+      "evidence": "requires lacks participation/volume group; no volume token in source"
+    },
+    {
+      "num": 7,
+      "condition": "no_news",
+      "implemented": false,
+      "evidence": "tape has no news channel; no event filter (data-absence)"
+    },
+    {
+      "num": 8,
+      "condition": "rr_gt_2",
+      "implemented": false,
+      "evidence": "risk_geometry target_r=1.0, stop_r=1.0 -> RR=1.0, not >2 (line 87)"
+    },
+    {
+      "num": 9,
+      "condition": "stop_beyond_sweep",
+      "implemented": false,
+      "evidence": "stop_r=1.0 (1xATR via atr_ref), no sweep level to place stop beyond"
+    },
+    {
+      "num": 10,
+      "condition": "invalidation",
+      "implemented": true,
+      "evidence": "still_valid() lines 94-115: close back above prior_high_ref kills thesis"
+    }
+  ],
+  "per_expert_drafts": {
+    "volume_climax_reversal": 2331,
+    "market_profile_value_area": 1444,
+    "bollinger_breakout": 997,
+    "floor_trader_pivot": 687,
+    "macd_stoch_trend": 518,
+    "failed_breakout": 215,
+    "rsi_stoch_reversion": 184,
+    "volume_confirmed_breakout": 168,
+    "bollinger_reversion": 165,
+    "pattern_measuring_objective": 160,
+    "liquidity_sweep_reclaim": 152,
+    "range_breakout_1to1": 147,
+    "donchian_breakout": 136,
+    "trend_pullback_depth": 136,
+    "fib_retracement_continuation": 129,
+    "breakout_retest": 122,
+    "ichimoku_cloud": 111,
+    "trend_pullback": 92,
+    "pandf_breakout": 88,
+    "candlestick_reversal": 33,
+    "failed_breakout_2b": 21,
+    "fib_projection_reversal": 9,
+    "divergence_12_setups": 2
+  },
+  "n_bars": 2500,
+  "source": "/Users/hootie/src/v8/src/v8/experts/failed_breakout.py"
+}

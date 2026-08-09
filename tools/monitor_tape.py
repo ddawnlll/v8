@@ -157,7 +157,10 @@ def main(argv: list[str] | None = None) -> int:
         if not any('channel' in r for r in rows):
             report['violations'].append('no tape rows with a channel key — cannot evaluate')
         try:
-            report['audit'] = audit_tape(tape.parent)
+            # Pass the rows already parsed by read_rows — audit_tape would
+            # otherwise re-read and re-parse the whole tape (perf: a --schema
+            # cycle on a multi-month tape parses it 2x+).
+            report['audit'] = audit_tape(tape.parent, rows=rows)
         except TapeAuditError as exc:
             report['audit'] = {'violation': str(exc)}
             report['violations'].append(str(exc))

@@ -462,7 +462,7 @@ def test_zero_funding_rate_leaves_numbers_identical(tmp_path):
     # Hash-canary contract: the simulator hash binds the module source, so a
     # step()/run() semantics change moves every outcome's simulator_hash.
     assert CanonicalSimulator().hash() == _sh(
-        ('canonical-sim-v8', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8,
+        ('canonical-sim-v8', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8, 'flat',
          _SIMULATOR_SRC_HASH))
     assert CanonicalSimulator().hash() != _sh(
         ('canonical-sim-v3', 'FILL_AT_BAR_CLOSE', 0.07))

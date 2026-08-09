@@ -1,0 +1,110 @@
+{
+  "cost_edge_ratio": -990.9338919753279,
+  "cost_sweep_after": {
+    "0.0": {
+      "cost_r": 0.0,
+      "mean_net_r": -7.064043380377472e-05,
+      "n": 8040,
+      "total_r": -0.5679490877823488,
+      "win_rate": 0.49639303482587066
+    },
+    "0.02": {
+      "cost_r": 0.02,
+      "mean_net_r": -0.020070640433803782,
+      "n": 8040,
+      "total_r": -161.3679490877824,
+      "win_rate": 0.49017412935323385
+    },
+    "0.04": {
+      "cost_r": 0.04,
+      "mean_net_r": -0.040070640433803796,
+      "n": 8040,
+      "total_r": -322.1679490877825,
+      "win_rate": 0.48756218905472637
+    },
+    "0.07": {
+      "cost_r": 0.07,
+      "mean_net_r": -0.0700706404338038,
+      "n": 8040,
+      "total_r": -563.3679490877826,
+      "win_rate": 0.4845771144278607
+    }
+  },
+  "cost_sweep_before_after_delta": {
+    "0.0": {
+      "after_mean": -7.064043380377472e-05,
+      "before_mean": -0.006407880168243891,
+      "shift": 0.006337239734440117
+    },
+    "0.02": {
+      "after_mean": -0.020070640433803782,
+      "before_mean": -0.0264078801682439,
+      "shift": 0.006337239734440118
+    },
+    "0.04": {
+      "after_mean": -0.040070640433803796,
+      "before_mean": -0.04640788016824391,
+      "shift": 0.006337239734440114
+    },
+    "0.07": {
+      "after_mean": -0.0700706404338038,
+      "before_mean": -0.07640788016824393,
+      "shift": 0.006337239734440128
+    }
+  },
+  "cost_sweep_shift_is_cost_independent_uniform": true,
+  "edge_at_cost0": -7.064043380377472e-05,
+  "executed_before_after": {
+    "0.0": {
+      "after": {
+        "mean_net_r": -0.022890789628507425,
+        "n": 845,
+        "total_r": -19.342717236088774,
+        "win_rate": 0.48520710059171596
+      },
+      "before": {
+        "mean_net_r": -0.04549416518553134,
+        "n": 895,
+        "total_r": -40.71727784105055,
+        "win_rate": 0.46368715083798884
+      }
+    },
+    "0.07": {
+      "after": {
+        "mean_net_r": -0.09289078962850744,
+        "n": 845,
+        "total_r": -78.4927172360888,
+        "win_rate": 0.4686390532544379
+      },
+      "before": {
+        "mean_net_r": -0.11549416518553138,
+        "n": 895,
+        "total_r": -103.36727784105058,
+        "win_rate": 0.45251396648044695
+      }
+    }
+  },
+  "fixed": true,
+  "issue": 61,
+  "mean_at_shipped_cost": -0.0700706404338038,
+  "measurement_unchanged_on_purpose": {
+    "flat_cost_subtraction_identity_exact": true,
+    "mean_drops_vs_cost0": {
+      "0.0": 0.0,
+      "0.02": -0.020000000000000007,
+      "0.04": -0.04000000000000002,
+      "0.07": -0.07000000000000002
+    },
+    "n_drafts": 8047,
+    "n_setups": 8040
+  },
+  "new_behavior": {
+    "breakeven_exceeds_realized": true,
+    "cost_r": 0.07,
+    "economic_note": "FEASIBILITY: breakeven win rate 0.528 exceeds realized win rate 0.469 (RM-11; the shipped geometry cannot clear round-trip cost at this win rate)",
+    "economic_note_carries_FEASIBILITY": true,
+    "n_executed": 845,
+    "realized_win_rate": 0.4686390532544379,
+    "w_min_breakeven": 0.5280639098900115
+  }
+}

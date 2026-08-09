@@ -1,0 +1,675 @@
+{
+  "authority": "NONE",
+  "cell_errors": [],
+  "cells": [
+    {
+      "decision_table": [
+        {
+          "action": "loss concentrates in regime \"mid\" (-0.4453R, n=19; needs 13)",
+          "expert": "rsi_stoch_reversion",
+          "long_net": 0.02354475908993417,
+          "max_dd": 9.513497848065803,
+          "n": 85,
+          "net_edge": 0.07291298745600344,
+          "pf": 1.1748757088512845,
+          "problem": "Regime",
+          "short_net": 0.12845224436783137,
+          "verdict": "REPAIR",
+          "winrate": 0.5529411764705883,
+          "zero_cost_edge": 0.14291298745600348
+        },
+        {
+          "action": "sign-permutation p=0.305 \u2014 not distinguishable from sign noise on this window",
+          "expert": "failed_breakout",
+          "long_net": NaN,
+          "max_dd": 11.048950933323896,
+          "n": 108,
+          "net_edge": 0.04716661920803603,
+          "pf": 1.1127537013260844,
+          "problem": "No significance",
+          "short_net": 0.04716661920803603,
+          "verdict": "REPAIR",
+          "winrate": 0.5555555555555556,
+          "zero_cost_edge": 0.11716661920803606
+        },
+        {
+          "action": "zero-cost +0.0677R turns negative after the flat charge (live -0.0023R)",
+          "expert": "ichimoku_cloud",
+          "long_net": -0.16717525453175217,
+          "max_dd": 4.280000000000016,
+          "n": 55,
+          "net_edge": -0.002287099086867362,
+          "pf": 0.9949377484095178,
+          "problem": "Cost",
+          "short_net": 0.14554366096716728,
+          "verdict": "REPAIR",
+          "winrate": 0.5454545454545454,
+          "zero_cost_edge": 0.06771290091313267
+        },
+        {
+          "action": "long side -0.1930R vs +0.1166R (gap 0.3096R); n=270/side, needs 39 to resolve a gap this size",
+          "expert": "bollinger_breakout",
+          "long_net": -0.1930323872437334,
+          "max_dd": 57.40844580442049,
+          "n": 642,
+          "net_edge": -0.013628820326107745,
+          "pf": 0.9692987665041951,
+          "problem": "Long side",
+          "short_net": 0.11658344598507217,
+          "verdict": "REPAIR",
+          "winrate": 0.5202492211838006,
+          "zero_cost_edge": 0.05637117967389228
+        },
+        {
+          "action": "zero-cost +0.0558R turns negative after the flat charge (live -0.0142R)",
+          "expert": "floor_trader_pivot",
+          "long_net": -0.045778220974362516,
+          "max_dd": 38.620139944975605,
+          "n": 403,
+          "net_edge": -0.014200667920183402,
+          "pf": 0.9605929506718462,
+          "problem": "Cost",
+          "short_net": 0.015698850913725332,
+          "verdict": "REPAIR",
+          "winrate": 0.533498759305211,
+          "zero_cost_edge": 0.05579933207981661
+        },
+        {
+          "action": "zero-cost +0.0371R turns negative after the flat charge (live -0.0329R)",
+          "expert": "macd_stoch_trend",
+          "long_net": -0.09090305064464724,
+          "max_dd": 21.4318303195068,
+          "n": 297,
+          "net_edge": -0.03287885833046166,
+          "pf": 0.9306576494243936,
+          "problem": "Cost",
+          "short_net": 0.011068458925252855,
+          "verdict": "REPAIR",
+          "winrate": 0.5050505050505051,
+          "zero_cost_edge": 0.037121141669538366
+        },
+        {
+          "action": "zero-cost +0.0350R turns negative after the flat charge (live -0.0350R)",
+          "expert": "bollinger_reversion",
+          "long_net": -0.15926141067522007,
+          "max_dd": 14.638632277279633,
+          "n": 76,
+          "net_edge": -0.03504002414402861,
+          "pf": 0.9158597715876939,
+          "problem": "Cost",
+          "short_net": 0.14528134340124932,
+          "verdict": "REPAIR",
+          "winrate": 0.4868421052631579,
+          "zero_cost_edge": 0.034959975855971416
+        },
+        {
+          "action": "frictionless mean -0.0032R \u2014 negative before any cost",
+          "expert": "fib_retracement_continuation",
+          "long_net": -0.10610969312873567,
+          "max_dd": 10.292528836525765,
+          "n": 76,
+          "net_edge": -0.07324065951115906,
+          "pf": 0.8528904025555545,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": -0.02284147463087493,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.4868421052631579,
+          "zero_cost_edge": -0.0032406595111590213
+        },
+        {
+          "action": "frictionless mean -0.0285R \u2014 negative before any cost",
+          "expert": "trend_pullback_depth",
+          "long_net": -0.09850691764803488,
+          "max_dd": 11.744442729474308,
+          "n": 64,
+          "net_edge": -0.09850691764803488,
+          "pf": 0.8120632305307022,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": NaN,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.484375,
+          "zero_cost_edge": -0.02850691764803484
+        },
+        {
+          "action": "frictionless mean -0.0562R \u2014 negative before any cost",
+          "expert": "market_profile_value_area",
+          "long_net": -0.23838079342643773,
+          "max_dd": 106.53068115582431,
+          "n": 826,
+          "net_edge": -0.12620695946803234,
+          "pf": 0.7522481503279487,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": -0.06189396133187992,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.4467312348668281,
+          "zero_cost_edge": -0.05620695946803232
+        },
+        {
+          "action": "frictionless mean -0.0660R \u2014 negative before any cost",
+          "expert": "volume_confirmed_breakout",
+          "long_net": -0.39614808259726036,
+          "max_dd": 13.645199094047626,
+          "n": 88,
+          "net_edge": -0.1360384701884121,
+          "pf": 0.7486588543480045,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": 0.020027297256896868,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.4772727272727273,
+          "zero_cost_edge": -0.06603847018841205
+        },
+        {
+          "action": "n=9 \u2014 below the floor for any per-expert statement",
+          "expert": "fib_projection_reversal",
+          "long_net": -0.28009942120983805,
+          "max_dd": 3.7435962956046223,
+          "n": 9,
+          "net_edge": -0.145643929964299,
+          "pf": 0.7195317509748423,
+          "problem": "Low sample",
+          "short_net": 0.9300000000000135,
+          "verdict": "INVESTIGATE",
+          "winrate": 0.4444444444444444,
+          "zero_cost_edge": -0.07564392996429899
+        },
+        {
+          "action": "frictionless mean -0.0999R \u2014 negative before any cost",
+          "expert": "volume_climax_reversal",
+          "long_net": -0.27695269485793034,
+          "max_dd": 218.74789596218358,
+          "n": 1283,
+          "net_edge": -0.16990610452712812,
+          "pf": 0.6905439808622691,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": -0.03300815596908615,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.4388152766952455,
+          "zero_cost_edge": -0.09990610452712807
+        },
+        {
+          "action": "frictionless mean -0.1046R \u2014 negative before any cost",
+          "expert": "trend_pullback",
+          "long_net": -0.17463324145913695,
+          "max_dd": 12.609013489729083,
+          "n": 48,
+          "net_edge": -0.17463324145913695,
+          "pf": 0.6928510369353322,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": NaN,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.4583333333333333,
+          "zero_cost_edge": -0.10463324145913692
+        },
+        {
+          "action": "frictionless mean -0.1107R \u2014 negative before any cost",
+          "expert": "liquidity_sweep_reclaim",
+          "long_net": -0.3918289833754446,
+          "max_dd": 24.541995607719315,
+          "n": 100,
+          "net_edge": -0.18072146062890013,
+          "pf": 0.682454535816017,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": 0.0879608410485201,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.42,
+          "zero_cost_edge": -0.11072146062890008
+        },
+        {
+          "action": "frictionless mean -0.1408R \u2014 negative before any cost",
+          "expert": "breakout_retest",
+          "long_net": -0.25905298734824256,
+          "max_dd": 16.593938626669317,
+          "n": 63,
+          "net_edge": -0.21079640112680786,
+          "pf": 0.48348768340392384,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": -0.14645428616489492,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.2222222222222222,
+          "zero_cost_edge": -0.14079640112680783
+        },
+        {
+          "action": "frictionless mean -0.2314R \u2014 negative before any cost",
+          "expert": "pandf_breakout",
+          "long_net": -0.30139574536534586,
+          "max_dd": 24.27375120636739,
+          "n": 37,
+          "net_edge": -0.30139574536534586,
+          "pf": 0.6190330551871397,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": NaN,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.5135135135135135,
+          "zero_cost_edge": -0.23139574536534585
+        },
+        {
+          "action": "frictionless mean -0.2558R \u2014 negative before any cost",
+          "expert": "pattern_measuring_objective",
+          "long_net": -1.0053478066778803,
+          "max_dd": 35.830560793449095,
+          "n": 68,
+          "net_edge": -0.32580848744433144,
+          "pf": 0.6193007546970847,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": 0.920013597817175,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.39705882352941174,
+          "zero_cost_edge": -0.25580848744433143
+        },
+        {
+          "action": "frictionless mean -0.2787R \u2014 negative before any cost",
+          "expert": "range_breakout_1to1",
+          "long_net": -0.7307012760261159,
+          "max_dd": 27.535473582341176,
+          "n": 60,
+          "net_edge": -0.3486621981639815,
+          "pf": 0.6224693612384133,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": -0.07577714254817115,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.4,
+          "zero_cost_edge": -0.2786621981639815
+        },
+        {
+          "action": "n=8 \u2014 below the floor for any per-expert statement",
+          "expert": "failed_breakout_2b",
+          "long_net": -0.34915262206649256,
+          "max_dd": 3.723220976531941,
+          "n": 8,
+          "net_edge": -0.34915262206649256,
+          "pf": 0.40699083994599805,
+          "problem": "Low sample",
+          "short_net": NaN,
+          "verdict": "INVESTIGATE",
+          "winrate": 0.375,
+          "zero_cost_edge": -0.27915262206649255
+        },
+        {
+          "action": "frictionless mean -0.4947R \u2014 negative before any cost",
+          "expert": "candlestick_reversal",
+          "long_net": -0.5647380504306498,
+          "max_dd": 9.600546857321048,
+          "n": 17,
+          "net_edge": -0.5647380504306498,
+          "pf": 0.22517165966339026,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": NaN,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.17647058823529413,
+          "zero_cost_edge": -0.4947380504306499
+        },
+        {
+          "action": "frictionless mean -0.5617R \u2014 negative before any cost",
+          "expert": "donchian_breakout",
+          "long_net": -0.6316841136123325,
+          "max_dd": 30.50211864200518,
+          "n": 44,
+          "net_edge": -0.6316841136123325,
+          "pf": 0.3589878501315219,
+          "problem": "No edge (zero-cost \u2264 0.005R)",
+          "short_net": NaN,
+          "verdict": "HARD_REPAIR",
+          "winrate": 0.4090909090909091,
+          "zero_cost_edge": -0.5616841136123324
+        }
+      ],
+      "n_drafts": 4457,
+      "path": ".audit/smoke/BTCUSDT-1h",
+      "portfolio": {
+        "counts": {
+          "HARD_REPAIR": 13,
+          "INVESTIGATE": 2,
+          "REPAIR": 7
+        },
+        "dominant_failure": "No edge (zero-cost \u2264 0.005R)",
+        "exit_vs_entry": {
+          "best_exit": 0.3003980685385588,
+          "best_exit_is_selection_inflated": true,
+          "cell_means": {
+            "notp_x24": -0.2639431700299703,
+            "notp_x48": -0.07530110899432198,
+            "notp_x8": -0.226416730980771,
+            "notp_x96": -0.11383191539641625,
+            "tp1r_x24": -0.2035615121470075,
+            "tp1r_x48": -0.21991799536308035,
+            "tp1r_x8": -0.16393160767592294,
+            "tp1r_x96": -0.2284246869798256,
+            "tp2r_x24": -0.19632118415081046,
+            "tp2r_x48": -0.22344785374463225,
+            "tp2r_x8": -0.156355769312084,
+            "tp2r_x96": -0.24286992512610273,
+            "tp3r_x24": -0.20033428149356844,
+            "tp3r_x48": -0.18886306176931952,
+            "tp3r_x8": -0.1898460824243828,
+            "tp3r_x96": -0.2119585421069205,
+            "tp4r_x24": -0.23363509255119344,
+            "tp4r_x48": -0.19535223402369056,
+            "tp4r_x8": -0.22578115869967982,
+            "tp4r_x96": -0.24285027460659042
+          },
+          "fixed_cell": "notp_x48",
+          "fixed_cell_improvement": 0.09811212849425317,
+          "fixed_cell_mean": -0.07530110899432198,
+          "improvement": 0.47381130602713395,
+          "live": -0.17341323748857515,
+          "n_cells_searched": 20
+        },
+        "experts": 22,
+        "long_vs_short": {
+          "long": -0.30653990448617424,
+          "short": 0.13923883370287704
+        },
+        "recommendation": "cost kills 4 experts: the next experiment is the O-025 venue-cost receipt (R-unit widening, not cost-cutting)",
+        "strongest_edge": "rsi_stoch_reversion",
+        "weakest_edge": "donchian_breakout"
+      },
+      "state_projection": true,
+      "symbol": "BTCUSDT",
+      "tf": "1h",
+      "verdict": "MECHANICAL_FLOOR"
+    }
+  ],
+  "consistency": {
+    "bollinger_breakout": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": 0.05637117967389228,
+      "modal": "REPAIR",
+      "robust": true,
+      "stability": 1.0,
+      "worst": "REPAIR"
+    },
+    "bollinger_reversion": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": 0.034959975855971416,
+      "modal": "REPAIR",
+      "robust": true,
+      "stability": 1.0,
+      "worst": "REPAIR"
+    },
+    "breakout_retest": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.14079640112680783,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "candlestick_reversal": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.4947380504306499,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "donchian_breakout": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.5616841136123324,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "failed_breakout": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": 0.11716661920803606,
+      "modal": "REPAIR",
+      "robust": true,
+      "stability": 1.0,
+      "worst": "REPAIR"
+    },
+    "failed_breakout_2b": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.27915262206649255,
+      "modal": "INVESTIGATE",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "INVESTIGATE"
+    },
+    "fib_projection_reversal": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.07564392996429899,
+      "modal": "INVESTIGATE",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "INVESTIGATE"
+    },
+    "fib_retracement_continuation": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.0032406595111590213,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "floor_trader_pivot": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": 0.05579933207981661,
+      "modal": "REPAIR",
+      "robust": true,
+      "stability": 1.0,
+      "worst": "REPAIR"
+    },
+    "ichimoku_cloud": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": 0.06771290091313267,
+      "modal": "REPAIR",
+      "robust": true,
+      "stability": 1.0,
+      "worst": "REPAIR"
+    },
+    "liquidity_sweep_reclaim": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.11072146062890008,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "macd_stoch_trend": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": 0.037121141669538366,
+      "modal": "REPAIR",
+      "robust": true,
+      "stability": 1.0,
+      "worst": "REPAIR"
+    },
+    "market_profile_value_area": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.05620695946803232,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "pandf_breakout": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.23139574536534585,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "pattern_measuring_objective": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.25580848744433143,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "range_breakout_1to1": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.2786621981639815,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "rsi_stoch_reversion": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": 0.14291298745600348,
+      "modal": "REPAIR",
+      "robust": true,
+      "stability": 1.0,
+      "worst": "REPAIR"
+    },
+    "trend_pullback": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.10463324145913692,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "trend_pullback_depth": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.02850691764803484,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "volume_climax_reversal": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.09990610452712807,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    },
+    "volume_confirmed_breakout": {
+      "cells": 1,
+      "flips": false,
+      "mean_zero_edge": -0.06603847018841205,
+      "modal": "HARD_REPAIR",
+      "robust": false,
+      "stability": 1.0,
+      "worst": "HARD_REPAIR"
+    }
+  },
+  "diagnostic_only": true,
+  "matrix": {
+    "bollinger_breakout": {
+      "BTCUSDT-1h": "REPAIR"
+    },
+    "bollinger_reversion": {
+      "BTCUSDT-1h": "REPAIR"
+    },
+    "breakout_retest": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "candlestick_reversal": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "donchian_breakout": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "failed_breakout": {
+      "BTCUSDT-1h": "REPAIR"
+    },
+    "failed_breakout_2b": {
+      "BTCUSDT-1h": "INVESTIGATE"
+    },
+    "fib_projection_reversal": {
+      "BTCUSDT-1h": "INVESTIGATE"
+    },
+    "fib_retracement_continuation": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "floor_trader_pivot": {
+      "BTCUSDT-1h": "REPAIR"
+    },
+    "ichimoku_cloud": {
+      "BTCUSDT-1h": "REPAIR"
+    },
+    "liquidity_sweep_reclaim": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "macd_stoch_trend": {
+      "BTCUSDT-1h": "REPAIR"
+    },
+    "market_profile_value_area": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "pandf_breakout": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "pattern_measuring_objective": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "range_breakout_1to1": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "rsi_stoch_reversion": {
+      "BTCUSDT-1h": "REPAIR"
+    },
+    "trend_pullback": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "trend_pullback_depth": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "volume_climax_reversal": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    },
+    "volume_confirmed_breakout": {
+      "BTCUSDT-1h": "HARD_REPAIR"
+    }
+  },
+  "portfolio": {
+    "flip_experts": [],
+    "recommendation": "7 experts are robustly salvageable across symbols/timeframes: rsi_stoch_reversion, failed_breakout, ichimoku_cloud, bollinger_breakout, floor_trader_pivot; 13 expert-cell verdicts are HARD_REPAIR (broken even frictionless) \u2014 the candidate list for rebuilds",
+    "robust_experts": [
+      "rsi_stoch_reversion",
+      "failed_breakout",
+      "ichimoku_cloud",
+      "bollinger_breakout",
+      "floor_trader_pivot",
+      "macd_stoch_trend",
+      "bollinger_reversion"
+    ],
+    "verdict_counts": {
+      "HARD_REPAIR": 13,
+      "INVESTIGATE": 2,
+      "REPAIR": 7
+    }
+  },
+  "provenance": {
+    "generated_at_utc": "2026-08-09T07:19:29+00:00",
+    "git_commit": "8b7ac3a",
+    "host": "hooties-MacBook-Pro.local",
+    "platform": "macOS-26.1-arm64-arm-64bit-Mach-O",
+    "python_version": "3.14.0"
+  },
+  "seed": 7,
+  "span_days": 60.0,
+  "span_ns": 5184000000000000,
+  "symbols": [
+    "BTCUSDT"
+  ],
+  "timeframes": [
+    "1h"
+  ]
+}

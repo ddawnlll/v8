@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 
 
 def sha1_hex(obj: object) -> str:
@@ -17,11 +17,60 @@ def sha1_hex(obj: object) -> str:
     return hashlib.sha1(canonical.encode('utf-8')).hexdigest()
 
 
-def record_dict(rec: dataclass, source: str) -> dict:
-    """Dataclass -> appendable log record with provenance and dedup key."""
-    d = asdict(rec)
+_ASDICT_FIELD_CACHE: dict[type, tuple[str, ...]] = {}
+
+
+def _asdict_fast(obj: object) -> object:
+    """A `dataclasses.asdict` equivalent for the v8 record dataclasses, without
+    the per-call `fields()` introspection and deepcopy machinery.
+
+    The stored JSON is produced with `sort_keys=True`, and `sha1_hex` sorts
+    too, so the conversion must agree with asdict on VALUES only (key order is
+    irrelevant). Every field type in these records is an immutable scalar,
+    a dict, a tuple, a list, or a nested record — all handled here. A dataclass
+    instance not yet seen caches its field list once (module-level, keyed by
+    type). Returns asdict-identical values for every record type the lab
+    appends (pinned by tests/test_record_dict_fast.py).
+    """
+    if obj is None or isinstance(obj, (str, int, float, bool)):
+        return obj
+    if isinstance(obj, dict):
+        return {k: _asdict_fast(v) for k, v in obj.items()}
+    if isinstance(obj, tuple):
+        # CPython 3.14 dataclasses.asdict recurses INTO tuples but keeps them
+        # tuples (it stopped converting tuples to lists); mirror that exactly
+        # so `_asdict_fast(rec) == asdict(rec)` holds field-for-field.
+        return tuple(_asdict_fast(v) for v in obj)
+    if isinstance(obj, list):
+        return [_asdict_fast(v) for v in obj]
+    typ = type(obj)
+    fs = _ASDICT_FIELD_CACHE.get(typ)
+    if fs is None:
+        dfields = getattr(typ, '__dataclass_fields__', None)
+        if dfields is None:
+            return obj                     # not a v8 record — pass through
+        fs = tuple(dfields)
+        _ASDICT_FIELD_CACHE[typ] = fs
+    return {name: _asdict_fast(getattr(obj, name)) for name in fs}
+
+
+def record_dict(rec: dataclass, source: str,
+                event_id: str | None = None) -> dict:
+    """Dataclass -> appendable log record with provenance and dedup key.
+
+    `event_id` overrides the auto key. For records whose identity is derived
+    elsewhere (a MarketState is keyed by its own `state_id`), passing it here
+    skips the `sha1_hex(d)` of the full record that the caller would otherwise
+    discard — a full json.dumps of a ~70-feature state per bar (profiled as a
+    large share of `sha1_hex` total time).
+    """
+    d = _asdict_fast(rec)
+    assert isinstance(d, dict)
     d['source'] = source
-    d['event_id'] = f"{d.get('candidate_id', d.get('event_id', sha1_hex(d)))}"
+    if event_id is not None:
+        d['event_id'] = event_id
+    else:
+        d['event_id'] = f"{d.get('candidate_id', d.get('event_id', sha1_hex(d)))}"
     return d
 
 
@@ -194,6 +243,20 @@ class CandidateDraft:
     # - `pyramid_add_rules`: declared but P2 — pyramiding is OFF; declaring it
     #   fails closed (EX-03; `simulator.midpoint_stop` is the tested primitive).
     # - `limit_price`: the barrier for FILL_AT_LIMIT (EXEC-4, EX-11).
+    #
+    # ENTRY TRIGGER CONTRACT (issue #62, #67): the entry is a distinct event
+    # from the setup. An expert that declares `trigger_ref` (an absolute price,
+    # frozen at detection) enters only when the book's close-confirmation is
+    # observed: `trigger_side` = 'CLOSE_ABOVE' -> a LONG on a CLOSE above the
+    # trigger, 'CLOSE_BELOW' -> a SHORT on a CLOSE below it. The lab's PHASE 2
+    # evaluates this predicate before PENDING -> TRIGGERED; a candidate whose
+    # trigger has not fired stays PENDING until it fires, invalidates, or the
+    # epilogue expires it. `trigger_side` is optional — absent, it is derived
+    # from direction. An expert with no trigger level declares
+    # 'entry': 'NEXT_BAR_CLOSE' and keeps the unconditional next-bar-close
+    # entry (no trigger_ref -> no predicate to wait on). Related: `stop_ref`
+    # (an absolute structural stop price; the simulator uses it as the static
+    # stop when declared, issue #63).
     size: float = 1.0
 
 
@@ -266,6 +329,12 @@ class ExperimentManifest:
     end_ns: int
     interval: str = '1h'
     round_trip_cost_r: float = 0.07
+    # Optional bps-of-notional cost. When set it REPLACES round_trip_cost_r in
+    # the simulator: cost_R = (bps/1e4) * entry_price / risk_unit. The flat-R
+    # form is invariant to the R unit, so an R-widening experiment cannot move
+    # it; the bps form is what a venue actually charges. None = flat-R
+    # (byte-identical to every pre-existing run).
+    round_trip_cost_bps: float | None = None
     # Fill policy (SIMULATION_TRUTH_SPEC): FILL_AT_BAR_CLOSE is the locked
     # baseline (entry at next-bar close). FILL_AT_LIMIT (EXEC-4, EX-11) is a
     # barrier entry: the order rests at the draft's declared

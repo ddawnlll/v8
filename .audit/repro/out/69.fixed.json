@@ -1,0 +1,47 @@
+{
+  "atr_price_frac": {
+    "mean": 0.0047753808218136875,
+    "median": 0.004558969952398488,
+    "shipped_feature_at_last_bar": 0.009458185506074582
+  },
+  "default_cost_bps": 3.3427665752695814,
+  "excess_cost_threshold_r": 0.1,
+  "issue": 69,
+  "manifest_default_cost_r": 0.07,
+  "one_r_bps": 47.753808218136875,
+  "realistic_cost_bps": 5.969226027267109,
+  "run_at_0_07": {
+    "candidate_count": 8047,
+    "economic_note": "FEASIBILITY: breakeven win rate 0.528 exceeds realized win rate 0.469 (RM-11; the shipped geometry cannot clear round-trip cost at this win rate)",
+    "n_executed": 845,
+    "rejection_distribution": {
+      "EXISTING_EXPOSURE_CONFLICT": 3350,
+      "PORTFOLIO_HEAT_EXCEEDED": 742,
+      "TRADABILITY_MASK_VETO": 631
+    },
+    "round_trip_cost_r": 0.07,
+    "terminal_distribution": {
+      "CLOSED": 845,
+      "EXPIRED": 3,
+      "INVALIDATED": 2476,
+      "REJECTED": 4723
+    },
+    "verdict": "NO_ECONOMIC_CLAIM"
+  },
+  "run_at_0_125": {
+    "candidate_count": 8047,
+    "economic_note": "NO_ECONOMIC_CLAIM: executed episodes 0 < trade-unit need 100 (RM-07 budget); NO_ECONOMIC_CLAIM: executed episodes 0 < min_trades 300 (RM-08 adequacy bar); FEASIBILITY: 6097 candidates rejected for excess_cost \u2014 round_trip_cost_r 0.125 reaches EXCESS_COST_THRESHOLD_R 0.10; the geometry cannot trade at this cost",
+    "n_executed": 0,
+    "rejection_distribution": {
+      "excess_cost": 6097
+    },
+    "round_trip_cost_r": 0.125,
+    "terminal_distribution": {
+      "EXPIRED": 3,
+      "INVALIDATED": 1947,
+      "REJECTED": 6097
+    },
+    "verdict": "NO_ECONOMIC_CLAIM"
+  },
+  "threshold_bps": 4.7753808218136875
+}

@@ -20,6 +20,13 @@ stop_r = 2 * sigma_ref / atr_ref, target_r = sigma_ref / atr_ref for Setup 3.
 A close beyond the 3-SD band invalidates the reversion premise (that is a
 trend, not a reversion; Ch12 p471-474).
 
+Setup 3 ships RR = 0.5 (stop_r = 2*sd/atr, target_r = sd/atr): at
+round_trip_cost_r = 0.07 the breakeven win rate is 2.07/3.00 = 69.0% — a
+high-hit-rate/low-RR geometry, recorded as a PROVISIONAL_DECISION (issue #70;
+D-061). Setup 2 and Setup 3 outcomes are aggregated in the outcome ledger
+(variant not recorded per outcome today), so Setup 3's standalone
+hit-rate-vs-breakeven must be measured before this geometry is relied on.
+
 As in `bollinger_breakout`, the band geometry is FROZEN at the setup anchor
 (run start, D-026) so episode_key stays stable across the detection run; the
 20 closes ending at a fixed anchor are identical on every decision clock while

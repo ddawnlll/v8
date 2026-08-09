@@ -136,9 +136,53 @@ UNIVERSE = ('SOLUSDT',)
 # so the emitted history window is byte-identical; only `_BUILDER_SRC_HASH`
 # moved again. Measured on this exact fixture: data_hash, candidate_count (15)
 # and terminal_distribution UNCHANGED.
-GOLDEN_LEDGER_HASH = '06ff61fb3e3940d0bf812baee841ac9c46313601'
+# Re-pinned for the state-builder fast path (O(N²) -> O(N x window)):
+# `build_state` gained an optional `series` cache (precomputed per-symbol
+# arrays) and the lab passes it; `_BUILDER_SRC_HASH` is a whole-FILE hash so
+# it moves `code_version` even though every emitted value is byte-identical.
+# tests/test_state_cache_identity.py proves cached == uncached on every bar;
+# diffing this exact fixture against the pre-change code: candidates,
+# evaluations and outcomes are byte-identical (0 differing fields), states
+# differ ONLY in the provenance `code_version` field, and data_hash,
+# candidate_count (15) and terminal_distribution are UNCHANGED. Re-pinned
+# again in the same step when the cache gained a raw-manifest alias (kline ==
+# closed on vision tapes reuses the closed-list digest) and when a review pass
+# wired the funding/OI channel to the series (the FG-7 scan is no longer
+# re-run per state), fixed the running-digest repeat-call idempotency, and
+# made the vwap session exact for non-monotonic event_time tapes (PIT tapes
+# with heterogeneous latencies fall back to the full-filter `_vwap`; monotonic
+# tapes keep the O(1) precompute): every change was value-equivalent (the
+# identity test pins cached == uncached), `code_version` moved each time.
+# Re-pinned for the 2026-08-07 audit-fix pass (issues #62-#70): the simulator
+# gained `validate_geometry` and the structural `stop_ref` stop (#63/#70), and
+# the lab gained the entry trigger predicate (#62), the windowed pre-entry
+# invalidation fallback (#66), the candidate-hash contention tie-break (#68)
+# and the RM-11/excess-cost feasibility notes (#64/#69). data_hash,
+# candidate_count (15) and terminal_distribution are UNCHANGED; only
+# ledger_hash moved (simulator source hash + the lab's trigger/invalidation
+# semantics on this fixture).
+# Re-pinned 2026-08-09 (BPS COST FORM): the simulator gained an optional
+# `round_trip_cost_bps` and every net_r site now resolves its charge through
+# the single `CanonicalSimulator.cost_r(entry, unit)` method instead of reading
+# the flat scalar. With `round_trip_cost_bps=None` — the default and this
+# fixture's setting — cost_r returns `round_trip_cost_r` unchanged, so the
+# ECONOMICS are byte-for-byte identical: verified by dumping every outcome's
+# (candidate_id, horizon, endpoint, net_r, entry_price, risk_unit_price) plus
+# the whole LabReport minus hashes, before and after the change, and diffing —
+# the two dumps are identical. Only ledger_hash moved, because sim.hash() now
+# binds the cost FORM ('flat' vs 'bps:X') and the module source moved.
+# Do not update silently.
+GOLDEN_LEDGER_HASH = '8c847351d9b0496e2b0c4d0a11ef11c0e2edc0c1'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
-GOLDEN_STATES_HASH = 'a29a16847bb0da64fe4074acaad3c7a4f7b4f1c7'
+GOLDEN_STATES_HASH = '786378b5bfa50a3c9e422ddaaa1b4b91dc1a2dae'
+# 2026-08-07 perf pass (100x total-pipeline program): re-pinned after the
+# decision-path fast paths landed. Every change was VALUE-EQUIVALENT —
+# tests/test_state_cache_identity.py pins cached == uncached on every bar,
+# and a full record diff of this fixture showed ONLY `code_version`
+# (marketstate.py `_BUILDER_SRC_HASH`) and `code_hash` moved — so
+# candidate_count (15), terminal_distribution, data_hash and the economic
+# verdict are unchanged; only ledger_hash/states_hash re-version (the
+# documented "code_version moved each time" convention above).
 GOLDEN_CANDIDATE_COUNT = 15
 GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 12, 'INVALIDATED': 1, 'REJECTED': 2}
 

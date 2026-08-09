@@ -1,0 +1,37 @@
+{
+  "issue": 72,
+  "fixed": true,
+  "static_continuous_open_line": "src/v8/synth.py:40: o = prev_close * (1 + rng.uniform(-0.001, 0.001))",
+  "static_legacy_open_line": "src/v8/synth.py:42: o = price / (1 + rng.uniform(-0.004, 0.004))",
+  "n_bars": 2500,
+  "synth_gap_frac": 0.7302921168467387,
+  "real_gap_frac": 0.006002400960384154,
+  "synth_open_eq_prev": 0.0,
+  "real_open_eq_prev": 0.5166066426570628,
+  "synth_mean_gap_frac": 0.009952014486932349,
+  "real_mean_gap_frac": 5.950784041299378e-07,
+  "continuous_gap_frac": 0.03721488595438175,
+  "continuous_open_eq_prev": 0.0,
+  "continuous_mean_gap_frac": 0.0005044825259939905,
+  "legacy": {
+    "gap_frac": 0.7302921168467387,
+    "open_eq_prev": 0.0,
+    "mean_gap_frac": 0.009952014486932349
+  },
+  "continuous": {
+    "gap_frac": 0.03721488595438175,
+    "open_eq_prev": 0.0,
+    "mean_gap_frac": 0.0005044825259939905
+  },
+  "real": {
+    "gap_frac": 0.006002400960384154,
+    "open_eq_prev": 0.5166066426570628,
+    "mean_gap_frac": 5.950784041299378e-07
+  },
+  "legacy_byte_identical": true,
+  "golden_test_passed": true,
+  "golden_pytest_tail": [
+    ".                                                                        [100%]",
+    "1 passed in 1.15s"
+  ]
+}

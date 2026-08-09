@@ -1,0 +1,310 @@
+{
+  "issue": 68,
+  "n_bars": 2500,
+  "cost_r": 0.07,
+  "lag": 2,
+  "executed_stats": {
+    "n": 845,
+    "mean_net_r": -0.09289078962850744,
+    "win_rate": 0.4686390532544379,
+    "total_r": -78.4927172360888
+  },
+  "all_setups_stats": {
+    "n": 8040,
+    "mean_net_r": -0.06181625599418539,
+    "win_rate": 0.48893034825870646,
+    "total_r": -497.0026981932505
+  },
+  "all_setups_1r1r_stats": {
+    "n": 8040,
+    "mean_net_r": -0.0700706404338038,
+    "win_rate": 0.4845771144278607,
+    "total_r": -563.3679490877826
+  },
+  "adverse_selection_ratio": 1.5026919397584515,
+  "adverse_selection_ratio_1r1r": 1.325673478270289,
+  "executed_worse_factor": 1.5026919397584515,
+  "n_detected_setups": 8047,
+  "top2": [
+    "bollinger_breakout",
+    "bollinger_reversion"
+  ],
+  "top2_share": 0.2118343195266272,
+  "per_expert_rates": [
+    {
+      "expert_id": "volume_climax_reversal",
+      "detected": 2331,
+      "executed": 205,
+      "signal_rate": 0.9324,
+      "exec_rate": 0.082,
+      "exec_per_signal": 0.08794508794508794
+    },
+    {
+      "expert_id": "bollinger_breakout",
+      "detected": 997,
+      "executed": 169,
+      "signal_rate": 0.3988,
+      "exec_rate": 0.0676,
+      "exec_per_signal": 0.16950852557673018
+    },
+    {
+      "expert_id": "macd_stoch_trend",
+      "detected": 518,
+      "executed": 103,
+      "signal_rate": 0.2072,
+      "exec_rate": 0.0412,
+      "exec_per_signal": 0.19884169884169883
+    },
+    {
+      "expert_id": "market_profile_value_area",
+      "detected": 1444,
+      "executed": 77,
+      "signal_rate": 0.5776,
+      "exec_rate": 0.0308,
+      "exec_per_signal": 0.05332409972299169
+    },
+    {
+      "expert_id": "floor_trader_pivot",
+      "detected": 687,
+      "executed": 67,
+      "signal_rate": 0.2748,
+      "exec_rate": 0.0268,
+      "exec_per_signal": 0.0975254730713246
+    },
+    {
+      "expert_id": "trend_pullback",
+      "detected": 92,
+      "executed": 35,
+      "signal_rate": 0.0368,
+      "exec_rate": 0.014,
+      "exec_per_signal": 0.3804347826086957
+    }
+  ],
+  "per_expert_all": [
+    {
+      "expert_id": "volume_climax_reversal",
+      "detected": 2331,
+      "executed": 205,
+      "signal_rate": 0.9324,
+      "exec_rate": 0.082,
+      "exec_per_signal": 0.08794508794508794
+    },
+    {
+      "expert_id": "bollinger_breakout",
+      "detected": 997,
+      "executed": 169,
+      "signal_rate": 0.3988,
+      "exec_rate": 0.0676,
+      "exec_per_signal": 0.16950852557673018
+    },
+    {
+      "expert_id": "macd_stoch_trend",
+      "detected": 518,
+      "executed": 103,
+      "signal_rate": 0.2072,
+      "exec_rate": 0.0412,
+      "exec_per_signal": 0.19884169884169883
+    },
+    {
+      "expert_id": "market_profile_value_area",
+      "detected": 1444,
+      "executed": 77,
+      "signal_rate": 0.5776,
+      "exec_rate": 0.0308,
+      "exec_per_signal": 0.05332409972299169
+    },
+    {
+      "expert_id": "floor_trader_pivot",
+      "detected": 687,
+      "executed": 67,
+      "signal_rate": 0.2748,
+      "exec_rate": 0.0268,
+      "exec_per_signal": 0.0975254730713246
+    },
+    {
+      "expert_id": "trend_pullback",
+      "detected": 92,
+      "executed": 35,
+      "signal_rate": 0.0368,
+      "exec_rate": 0.014,
+      "exec_per_signal": 0.3804347826086957
+    },
+    {
+      "expert_id": "ichimoku_cloud",
+      "detected": 111,
+      "executed": 31,
+      "signal_rate": 0.0444,
+      "exec_rate": 0.0124,
+      "exec_per_signal": 0.27927927927927926
+    },
+    {
+      "expert_id": "trend_pullback_depth",
+      "detected": 136,
+      "executed": 29,
+      "signal_rate": 0.0544,
+      "exec_rate": 0.0116,
+      "exec_per_signal": 0.21323529411764705
+    },
+    {
+      "expert_id": "rsi_stoch_reversion",
+      "detected": 184,
+      "executed": 29,
+      "signal_rate": 0.0736,
+      "exec_rate": 0.0116,
+      "exec_per_signal": 0.15760869565217392
+    },
+    {
+      "expert_id": "failed_breakout",
+      "detected": 215,
+      "executed": 25,
+      "signal_rate": 0.086,
+      "exec_rate": 0.01,
+      "exec_per_signal": 0.11627906976744186
+    },
+    {
+      "expert_id": "liquidity_sweep_reclaim",
+      "detected": 152,
+      "executed": 19,
+      "signal_rate": 0.0608,
+      "exec_rate": 0.0076,
+      "exec_per_signal": 0.125
+    },
+    {
+      "expert_id": "fib_retracement_continuation",
+      "detected": 129,
+      "executed": 19,
+      "signal_rate": 0.0516,
+      "exec_rate": 0.0076,
+      "exec_per_signal": 0.14728682170542637
+    },
+    {
+      "expert_id": "volume_confirmed_breakout",
+      "detected": 168,
+      "executed": 17,
+      "signal_rate": 0.0672,
+      "exec_rate": 0.0068,
+      "exec_per_signal": 0.10119047619047619
+    },
+    {
+      "expert_id": "bollinger_reversion",
+      "detected": 165,
+      "executed": 10,
+      "signal_rate": 0.066,
+      "exec_rate": 0.004,
+      "exec_per_signal": 0.06060606060606061
+    },
+    {
+      "expert_id": "breakout_retest",
+      "detected": 122,
+      "executed": 6,
+      "signal_rate": 0.0488,
+      "exec_rate": 0.0024,
+      "exec_per_signal": 0.04918032786885246
+    },
+    {
+      "expert_id": "candlestick_reversal",
+      "detected": 33,
+      "executed": 2,
+      "signal_rate": 0.0132,
+      "exec_rate": 0.0008,
+      "exec_per_signal": 0.06060606060606061
+    },
+    {
+      "expert_id": "pandf_breakout",
+      "detected": 88,
+      "executed": 1,
+      "signal_rate": 0.0352,
+      "exec_rate": 0.0004,
+      "exec_per_signal": 0.011363636363636364
+    },
+    {
+      "expert_id": "failed_breakout_2b",
+      "detected": 21,
+      "executed": 1,
+      "signal_rate": 0.0084,
+      "exec_rate": 0.0004,
+      "exec_per_signal": 0.047619047619047616
+    },
+    {
+      "expert_id": "range_breakout_1to1",
+      "detected": 147,
+      "executed": 0,
+      "signal_rate": 0.0588,
+      "exec_rate": 0.0,
+      "exec_per_signal": 0.0
+    },
+    {
+      "expert_id": "pattern_measuring_objective",
+      "detected": 160,
+      "executed": 0,
+      "signal_rate": 0.064,
+      "exec_rate": 0.0,
+      "exec_per_signal": 0.0
+    },
+    {
+      "expert_id": "open_interest_divergence",
+      "detected": 0,
+      "executed": 0,
+      "signal_rate": 0.0,
+      "exec_rate": 0.0,
+      "exec_per_signal": null
+    },
+    {
+      "expert_id": "obv_adl_regime",
+      "detected": 0,
+      "executed": 0,
+      "signal_rate": 0.0,
+      "exec_rate": 0.0,
+      "exec_per_signal": null
+    },
+    {
+      "expert_id": "gap_exhaustion",
+      "detected": 0,
+      "executed": 0,
+      "signal_rate": 0.0,
+      "exec_rate": 0.0,
+      "exec_per_signal": null
+    },
+    {
+      "expert_id": "funding_crowding_reversal",
+      "detected": 0,
+      "executed": 0,
+      "signal_rate": 0.0,
+      "exec_rate": 0.0,
+      "exec_per_signal": null
+    },
+    {
+      "expert_id": "fib_projection_reversal",
+      "detected": 9,
+      "executed": 0,
+      "signal_rate": 0.0036,
+      "exec_rate": 0.0,
+      "exec_per_signal": 0.0
+    },
+    {
+      "expert_id": "donchian_breakout",
+      "detected": 136,
+      "executed": 0,
+      "signal_rate": 0.0544,
+      "exec_rate": 0.0,
+      "exec_per_signal": 0.0
+    },
+    {
+      "expert_id": "divergence_12_setups",
+      "detected": 2,
+      "executed": 0,
+      "signal_rate": 0.0008,
+      "exec_rate": 0.0,
+      "exec_per_signal": 0.0
+    }
+  ],
+  "contended_slots_same_bar": 306,
+  "alphabetical_first_wins": 134,
+  "alpha_share_of_contended": 0.43790849673202614,
+  "report_key": {
+    "execution_share": 0.17115657281750052,
+    "divergence_ks": 0.06754585365007201,
+    "n_executed": 845,
+    "n_portfolio_rejected": 4092
+  }
+}

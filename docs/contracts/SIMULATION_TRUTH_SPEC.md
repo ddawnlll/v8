@@ -92,3 +92,19 @@ Event-driven execution matters because signal, submission, fill and position
 events have different times; assuming their simultaneity creates look-ahead and
 fill bias. This is a simulation-design fact, not a claim that V8 can trade.
 The numerical policies above are deliberately conservative design choices.
+
+## Conservatism budget (issue #71): the gap asymmetry
+
+The stop-fill policy — a stop fill uses the WORSE of the barrier and the bar
+open, while a target fill is exactly the barrier — is conservative by design,
+but the two-sided gap asymmetry is a MEASURED cost, not a free assumption.
+On a synthetic +30/−30 unit gap around a 1R barrier (atr=10, stop/target 1R):
+an adverse −30 gap books −3.07R (STOP at open) while a favorable +30 gap books
++0.93R (TARGET at barrier), a **3.30R asymmetry**. This is the conservatism
+budget the policy spends on adverse gaps and forgives on favorable ones.
+
+The asymmetry is negligible on the current real tape — the dev window
+(`btcusdt-1h-12m`, 2,500 bars) shows TR > (H−L) on 0.6% of bars and
+`open == prev_close` on 51.7% — but it concentrates in illiquid symbols and
+high-volatility regimes (liquidation cascades), so it must be re-measured per
+symbol/interval before any economic reading leans on gap-heavy windows.

@@ -1,0 +1,156 @@
+{
+  "issue": 66,
+  "title": "prior_high/prior_low unbounded prefix extremes -> pre-entry invalidation dead code for 6 experts",
+  "fixed": true,
+  "static": {
+    "lab_py_path": "src/v8/lab.py",
+    "window_constant_is_32": true,
+    "window_slice_is_bars_max0_i_minus_32_to_i": true,
+    "fallback_prior_low_is_window_min": true,
+    "fallback_prior_high_is_window_max": true,
+    "state_feature_no_longer_a_fallback": true
+  },
+  "window_bars": 2500,
+  "window_semantics": "fallback level = min(low)/max(high) over bars[max(0, birth-_PRIOR_WINDOW_BARS):birth] with _PRIOR_WINDOW_BARS=32; LONG fires on low(trigger) < prior_low, SHORT on high(trigger) > prior_high; re-checked on the entry bar",
+  "pre_fix": {
+    "drafts_total": 2067,
+    "invalidation_fires": 7,
+    "per_expert_fires": {
+      "trend_pullback": 0,
+      "rsi_stoch_reversion": 0,
+      "macd_stoch_trend": 0,
+      "ichimoku_cloud": 0,
+      "bollinger_breakout": 1,
+      "bollinger_reversion": 6
+    },
+    "terminal_INVALIDATED_full_run": 2346
+  },
+  "offline_mirror": {
+    "drafts_total": 2067,
+    "drafts_skipped": 1,
+    "skip_details": [
+      {
+        "expert_id": "bollinger_breakout",
+        "birth_idx": 2499,
+        "trigger_idx": 2500,
+        "reason": "no trigger bar"
+      }
+    ],
+    "invalidation_fires": 140,
+    "fires_at_trigger_bar": 112,
+    "fires_at_entry_bar": 28,
+    "per_expert_total": {
+      "trend_pullback": 92,
+      "rsi_stoch_reversion": 184,
+      "macd_stoch_trend": 518,
+      "ichimoku_cloud": 111,
+      "bollinger_breakout": 996,
+      "bollinger_reversion": 165
+    },
+    "per_expert_fires": {
+      "trend_pullback": 2,
+      "rsi_stoch_reversion": 8,
+      "macd_stoch_trend": 10,
+      "ichimoku_cloud": 0,
+      "bollinger_breakout": 9,
+      "bollinger_reversion": 111
+    },
+    "per_expert_trigger_bar_fires": {
+      "trend_pullback": 2,
+      "rsi_stoch_reversion": 4,
+      "macd_stoch_trend": 2,
+      "ichimoku_cloud": 0,
+      "bollinger_breakout": 3,
+      "bollinger_reversion": 101
+    },
+    "per_expert_entry_bar_fires": {
+      "trend_pullback": 0,
+      "rsi_stoch_reversion": 4,
+      "macd_stoch_trend": 8,
+      "ichimoku_cloud": 0,
+      "bollinger_breakout": 6,
+      "bollinger_reversion": 10
+    },
+    "stale_examples": [
+      {
+        "expert_id": "bollinger_reversion",
+        "direction": "LONG",
+        "birth_idx": 19,
+        "fire_bar": "trigger",
+        "bar_idx": 20,
+        "window_bars": 19
+      },
+      {
+        "expert_id": "bollinger_reversion",
+        "direction": "SHORT",
+        "birth_idx": 30,
+        "fire_bar": "entry",
+        "bar_idx": 32,
+        "window_bars": 30
+      },
+      {
+        "expert_id": "bollinger_reversion",
+        "direction": "SHORT",
+        "birth_idx": 40,
+        "fire_bar": "trigger",
+        "bar_idx": 41,
+        "window_bars": 32
+      },
+      {
+        "expert_id": "rsi_stoch_reversion",
+        "direction": "SHORT",
+        "birth_idx": 59,
+        "fire_bar": "entry",
+        "bar_idx": 61,
+        "window_bars": 32
+      },
+      {
+        "expert_id": "bollinger_breakout",
+        "direction": "SHORT",
+        "birth_idx": 60,
+        "fire_bar": "trigger",
+        "bar_idx": 61,
+        "window_bars": 32
+      }
+    ]
+  },
+  "full_lab_run": {
+    "cost_r": 0.07,
+    "candidate_count": 8047,
+    "terminal_distribution": {
+      "INVALIDATED": 2476,
+      "REJECTED": 4723,
+      "CLOSED": 845,
+      "EXPIRED": 3
+    },
+    "INVALIDATED_terminal": 2476,
+    "executed_stats": {
+      "n": 845,
+      "mean_net_r": -0.09289078962850744,
+      "win_rate": 0.4686390532544379,
+      "total_r": -78.4927172360888
+    },
+    "per_expert_invalidation_observed_fires": {
+      "trend_pullback": 2,
+      "rsi_stoch_reversion": 8,
+      "macd_stoch_trend": 10,
+      "ichimoku_cloud": 0,
+      "bollinger_breakout": 9,
+      "bollinger_reversion": 111
+    },
+    "per_expert_terminal_INVALIDATED": {
+      "trend_pullback": 2,
+      "rsi_stoch_reversion": 8,
+      "macd_stoch_trend": 10,
+      "ichimoku_cloud": 0,
+      "bollinger_breakout": 10,
+      "bollinger_reversion": 111
+    },
+    "n_gate_fire_ledger_rows": 140
+  },
+  "delta": {
+    "invalidation_fires_6_experts": "7 -> 140 (+133, gate now meaningful)",
+    "terminal_INVALIDATED_full_run": "2346 -> 2476 (+130)",
+    "executed_n": "895 -> 845"
+  }
+}

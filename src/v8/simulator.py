@@ -97,6 +97,42 @@ def risk_unit(draft: CandidateDraft, entry_price: float) -> float:
     return unit
 
 
+def validate_geometry(draft: CandidateDraft) -> None:
+    """Fail closed on risk_geometry that cannot produce a meaningful outcome
+    (issue #70). A non-positive `target_r` puts the target on the LOSING side
+    and the simulator would book the loss as a TARGET endpoint (a win in any
+    downstream hit-rate / profit-factor statistic); a non-positive `stop_r` is
+    not a position; an `expiry_bars` below 1 is not a horizon.
+
+    Defense in depth, not a replacement: the experts that compute their
+    geometry guard themselves (floor_trader_pivot & co), but the simulator is
+    the last line — a new expert or a new variant that forgets its guard must
+    fail loudly at step()/run() entry, never silently pollute the outcome
+    ledger. Called at the top of both; the duplicate check on the same draft is
+    a few dict reads, so the hot path cost is not a concern.
+    """
+    geom = draft.risk_geometry
+    target_r = geom.get('target_r')
+    stop_r = geom.get('stop_r')
+    expiry = geom.get('expiry_bars')
+    if target_r is not None and float(target_r) <= 0:
+        raise ValueError(
+            f'risk_geometry target_r must be > 0 (got {target_r!r}, '
+            f'{draft.expert_id}): a non-positive target is on the losing side '
+            'and would book losses as TARGET endpoints — fail closed')
+    if stop_r is not None and float(stop_r) <= 0:
+        raise ValueError(
+            f'risk_geometry stop_r must be > 0 (got {stop_r!r}, '
+            f'{draft.expert_id}): a zero-distance stop is not a position — '
+            'fail closed')
+    if expiry is not None and int(expiry) < 1:
+        raise ValueError(
+            f'risk_geometry expiry_bars must be >= 1 (got {expiry!r}, '
+            f'{draft.expert_id}): a horizon below one bar is not a position — '
+            'fail closed')
+    # `atr_ref` / `risk_frac` positivity is enforced by risk_unit at entry.
+
+
 @dataclass(frozen=True)
 class OpenPosition:
     candidate_id: str
@@ -190,12 +226,31 @@ class CanonicalSimulator:
     def __init__(self, round_trip_cost_r: float = 0.07,
                  funding_rate_r: float = 0.0, funding_hours: int = 8,
                  fill_policy: str = 'FILL_AT_BAR_CLOSE',
-                 funding_schedule: tuple[tuple[int, float], ...] = ()):
+                 funding_schedule: tuple[tuple[int, float], ...] = (),
+                 round_trip_cost_bps: float | None = None):
         if fill_policy not in SUPPORTED_FILL_POLICIES:
             raise ValueError(
                 f'unsupported fill_policy {fill_policy!r}; implemented: '
                 f'{SUPPORTED_FILL_POLICIES}')
         self.round_trip_cost_r = round_trip_cost_r
+        # Cost in BASIS POINTS OF NOTIONAL. When set it REPLACES the flat R
+        # charge:  cost_R = (bps / 1e4) * entry_price / risk_unit.
+        #
+        # Why this has to exist: `round_trip_cost_r` is already denominated in
+        # R, so it is invariant to the R unit. Widening the risk unit rescales
+        # the stop and the target but leaves the cost untouched — the "cost per
+        # R falls as R widens" reasoning, which is true of a real venue fee, is
+        # silently false in the flat-R model. A venue charges a fraction of
+        # notional; only the bps form makes the R unit and the cost move
+        # together, which is the whole point of an R-widening experiment.
+        #
+        # None keeps the flat-R path byte-identical, so existing ledgers and
+        # golden tests reproduce exactly.
+        if round_trip_cost_bps is not None and round_trip_cost_bps < 0:
+            raise ValueError(
+                f'round_trip_cost_bps must be >= 0 (got '
+                f'{round_trip_cost_bps!r})')
+        self.round_trip_cost_bps = round_trip_cost_bps
         self.funding_rate_r = funding_rate_r
         self.funding_hours = funding_hours
         self.fill_policy = fill_policy
@@ -206,6 +261,22 @@ class CanonicalSimulator:
         # tape data bound by data_hash, never by sim.hash().
         self.funding_schedule = tuple(funding_schedule)
         self._schedule_map = dict(self.funding_schedule)
+
+    def cost_r(self, entry_price: float, unit: float) -> float:
+        """Round-trip cost of one episode, in R.
+
+        THE single resolution point — every net_r site calls this rather than
+        reading `round_trip_cost_r` directly, so the flat-R and bps forms can
+        never drift apart (parallel-truth rule). Flat-R returns the constant
+        unchanged, so the default path is byte-identical.
+        """
+        if self.round_trip_cost_bps is None:
+            return self.round_trip_cost_r
+        if not unit > 0:
+            raise ValueError(
+                f'cost_r: risk unit must be > 0 (got {unit!r}); a bps cost is '
+                'undefined without a positive R denominator')
+        return (self.round_trip_cost_bps / 10_000.0) * entry_price / unit
 
     def _boundaries_crossed(self, entry_ns: int, t_ns: int) -> int:
         """Funding boundaries B with entry_ns < B <= t_ns.
@@ -272,6 +343,7 @@ class CanonicalSimulator:
 
     def step(self, pos: OpenPosition, bar: dict,
              thesis_valid: bool = True, bar_time: int | None = None) -> StepResult:
+        validate_geometry(pos.draft)
         # Funding settles BEFORE any order/exit event of a bar whose decision
         # clock crosses a boundary while the position is held (event order 5,
         # SETTLEMENT_BEFORE_ORDERS). bar_time None = no venue time -> no funding
@@ -291,7 +363,20 @@ class CanonicalSimulator:
         expiry = int(geom['expiry_bars'])
         sign = 1.0 if long else -1.0
         target = entry + sign * target_r * unit
-        base_stop = entry - sign * stop_r * unit
+        # Issue #63: a frozen STRUCTURAL stop (risk_geometry['stop_ref'], an
+        # absolute price) is the static stop when declared — the stop's place
+        # is the swept extreme / pattern level, not an ATR multiple of the
+        # CURRENT entry. `stop_r * unit` is the fallback for experts without a
+        # structural level. stop_r keeps its declared meaning (R-multiple; the
+        # structural experts derive it from the frozen distance at detection),
+        # so heat (size * stop_r, D-023) and the ledger's R units are
+        # unchanged by the swap. A stop-out at the structural level is
+        # sign*(stop_ref - entry)/unit R, which is the honest distance.
+        stop_ref = geom.get('stop_ref')
+        if stop_ref is not None:
+            base_stop = float(stop_ref)
+        else:
+            base_stop = entry - sign * stop_r * unit
         # EXEC-1: the effective stop is the dynamic stop_level once management
         # has moved it (breakeven roll / chandelier trail), else the static
         # geometry stop. Management updates below apply from the NEXT bar — a
@@ -356,7 +441,7 @@ class CanonicalSimulator:
             if 'breakeven_roll_at_mfe_r' in geom and not stop_rolled \
                     and mfe_r >= float(geom['breakeven_roll_at_mfe_r']):
                 margin = float(geom.get('breakeven_margin_r',
-                                        self.round_trip_cost_r))
+                                        self.cost_r(entry, unit)))
                 stop_level = entry - sign * margin * unit
                 stop_rolled = True
             # EXEC-1 trailing (EX-05, chandelier): trail the stop k*R behind
@@ -416,7 +501,7 @@ class CanonicalSimulator:
         # `size` never enters: R-multiples stay size-independent (D-028).
         net_r = pos.realized_r \
             + pos.remaining * (sign * (exit_price - entry) / unit) \
-            - self.round_trip_cost_r - pos.funding_paid_r
+            - self.cost_r(entry, unit) - pos.funding_paid_r
         label = 'MATURE' if endpoint in ('TARGET', 'STOP', 'THESIS_INVALIDATED') \
             else 'RIGHT_CENSORED'
         return StepResult(True, endpoint, net_r, label, next_pos,
@@ -436,7 +521,7 @@ class CanonicalSimulator:
         unit = risk_unit(pos.draft, pos.entry_price)
         return pos.realized_r \
             + pos.remaining * (sign * (final_close - pos.entry_price) / unit) \
-            - self.round_trip_cost_r - pos.funding_paid_r
+            - self.cost_r(pos.entry_price, unit) - pos.funding_paid_r
 
     def _exit_loop(self, pos: OpenPosition, bars: list[dict],
                    times: list[int] | None, from_idx: int,
@@ -477,7 +562,7 @@ class CanonicalSimulator:
         sign = 1.0 if pos.draft.direction == 'LONG' else -1.0
         net = pos.realized_r \
             + pos.remaining * (sign * (float(bars[-1]['close']) - entry) / unit) \
-            - self.round_trip_cost_r - pos.funding_paid_r
+            - self.cost_r(entry, unit) - pos.funding_paid_r
         return CounterfactualOutcome(placeholder, horizon, 'EXPIRY', net,
                                      'RIGHT_CENSORED', self.hash(),
                                      label_available_time=times[-1] if times else 0,
@@ -534,6 +619,7 @@ class CanonicalSimulator:
         O-014/D-027 attribution bias). Default None = thesis always valid, which
         keeps time-less/time-free callers byte-identical to prior behavior.
         """
+        validate_geometry(draft)
         placeholder = f'cf:{draft.birth_time}'
         if not bars:
             return CounterfactualOutcome(placeholder, 0, 'EXPIRY', 0.0,
@@ -603,6 +689,12 @@ class CanonicalSimulator:
         # are tape data bound by data_hash (SIMULATION_TRUTH_SPEC: outputs bind
         # simulator hash). v5 bumps regardless of funding_rate_r=0.0 because
         # the settlement policy changed.
+        # The cost FORM binds too: a flat-R and a bps run that happen to price
+        # one episode identically are still different policies, and their
+        # ledgers must never compare equal.
         return sha1_hex(('canonical-sim-v8', self.fill_policy,
                          self.round_trip_cost_r, self.funding_rate_r,
-                         self.funding_hours, _SIMULATOR_SRC_HASH))
+                         self.funding_hours,
+                         'flat' if self.round_trip_cost_bps is None
+                         else f'bps:{self.round_trip_cost_bps}',
+                         _SIMULATOR_SRC_HASH))

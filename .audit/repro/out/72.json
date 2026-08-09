@@ -1,0 +1,17 @@
+{
+  "issue": 72,
+  "static_open_line": "src/v8/synth.py:23: HOUR_NS = 3_600_000_000_000",
+  "static_block": "\nFIXED_EPOCH_NS = 1_750_000_000_000_000_000\nHOUR_NS = 3_600_000_000_000\n\n\ndef make_synthetic_tape(seed: int = 7, n_bars: int = 120, symbol: str = 'SOLUSDT',",
+  "synth_gap_frac": 0.7302921168467387,
+  "real_gap_frac": 0.006002400960384154,
+  "synth_open_eq_prev": 0.0,
+  "real_open_eq_prev": 0.5166066426570628,
+  "synth_mean_gap_frac": 0.009952014486932349,
+  "real_mean_gap_frac": 5.950784041299378e-07,
+  "n_bars": 2500,
+  "golden_test_passed": true,
+  "golden_pytest_tail": [
+    ".                                                                        [100%]",
+    "1 passed in 1.31s"
+  ]
+}

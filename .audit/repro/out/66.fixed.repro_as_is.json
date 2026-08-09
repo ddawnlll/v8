@@ -1,0 +1,152 @@
+{
+  "issue": 66,
+  "title": "prior_high/prior_low unbounded prefix extremes -> pre-entry invalidation dead code for 6 experts",
+  "static": "series path src/v8/marketstate.py:761-762 is a running all-time prefix max/min (ph.append(ph[-1] if ph[-1] >= highs[j] else highs[j])); comment at :951 \"prior_high/prior_low are the UNBOUNDED prefix extremes\"; lab.py:753-756 falls back to the all-bars state feature when no prior_*_ref frozen.",
+  "experts_without_frozen_ref": [
+    "trend_pullback",
+    "rsi_stoch_reversion",
+    "macd_stoch_trend",
+    "ichimoku_cloud",
+    "bollinger_breakout",
+    "bollinger_reversion"
+  ],
+  "experts_without_frozen_ref_count": 6,
+  "drafts_total": 2067,
+  "drafts_skipped": 1,
+  "invalidation_fires_birth_level": 9,
+  "invalidation_fires_trigger_level": 7,
+  "drafts_past_warmup_ge30": 2062,
+  "fires_past_warmup_ge30": 8,
+  "fire_details": [
+    {
+      "expert_id": "bollinger_reversion",
+      "direction": "LONG",
+      "birth_idx": 19,
+      "trigger_idx": 20,
+      "extreme_set_bar_idx": 15,
+      "staleness_bars": 4
+    },
+    {
+      "expert_id": "bollinger_reversion",
+      "direction": "SHORT",
+      "birth_idx": 40,
+      "trigger_idx": 41,
+      "extreme_set_bar_idx": 39,
+      "staleness_bars": 1
+    },
+    {
+      "expert_id": "bollinger_breakout",
+      "direction": "SHORT",
+      "birth_idx": 60,
+      "trigger_idx": 61,
+      "extreme_set_bar_idx": 57,
+      "staleness_bars": 3
+    },
+    {
+      "expert_id": "bollinger_reversion",
+      "direction": "SHORT",
+      "birth_idx": 61,
+      "trigger_idx": 62,
+      "extreme_set_bar_idx": 57,
+      "staleness_bars": 4
+    },
+    {
+      "expert_id": "bollinger_reversion",
+      "direction": "SHORT",
+      "birth_idx": 210,
+      "trigger_idx": 211,
+      "extreme_set_bar_idx": 61,
+      "staleness_bars": 149
+    },
+    {
+      "expert_id": "bollinger_reversion",
+      "direction": "SHORT",
+      "birth_idx": 314,
+      "trigger_idx": 315,
+      "extreme_set_bar_idx": 302,
+      "staleness_bars": 12
+    },
+    {
+      "expert_id": "bollinger_reversion",
+      "direction": "SHORT",
+      "birth_idx": 316,
+      "trigger_idx": 317,
+      "extreme_set_bar_idx": 315,
+      "staleness_bars": 1
+    },
+    {
+      "expert_id": "bollinger_reversion",
+      "direction": "SHORT",
+      "birth_idx": 2307,
+      "trigger_idx": 2308,
+      "extreme_set_bar_idx": 1056,
+      "staleness_bars": 1251
+    },
+    {
+      "expert_id": "bollinger_reversion",
+      "direction": "SHORT",
+      "birth_idx": 2346,
+      "trigger_idx": 2347,
+      "extreme_set_bar_idx": 2308,
+      "staleness_bars": 38
+    }
+  ],
+  "skip_details": [
+    {
+      "expert_id": "bollinger_breakout",
+      "birth_idx": 2499,
+      "trigger_idx": 2500,
+      "reason": "no trigger bar"
+    }
+  ],
+  "per_expert_total": {
+    "ichimoku_cloud": 111,
+    "bollinger_reversion": 165,
+    "trend_pullback": 92,
+    "rsi_stoch_reversion": 184,
+    "bollinger_breakout": 996,
+    "macd_stoch_trend": 518
+  },
+  "per_expert_fires": {
+    "ichimoku_cloud": 0,
+    "bollinger_reversion": 6,
+    "trend_pullback": 0,
+    "rsi_stoch_reversion": 0,
+    "bollinger_breakout": 1,
+    "macd_stoch_trend": 0
+  },
+  "example_staleness_bars": [
+    {
+      "expert_id": "bollinger_breakout",
+      "direction": "SHORT",
+      "birth_idx": 19,
+      "extreme_set_bar_idx": 1,
+      "staleness_bars": 18,
+      "extreme_price": 107499.9,
+      "trigger_low": 105182.6,
+      "trigger_high": 105946.3
+    },
+    {
+      "expert_id": "bollinger_reversion",
+      "direction": "LONG",
+      "birth_idx": 19,
+      "extreme_set_bar_idx": 15,
+      "staleness_bars": 4,
+      "extreme_price": 105578.0,
+      "trigger_low": 105182.6,
+      "trigger_high": 105946.3
+    },
+    {
+      "expert_id": "bollinger_breakout",
+      "direction": "LONG",
+      "birth_idx": 27,
+      "extreme_set_bar_idx": 25,
+      "staleness_bars": 2,
+      "extreme_price": 105010.0,
+      "trigger_low": 106074.2,
+      "trigger_high": 106344.0
+    }
+  ],
+  "feature_vs_payload_mismatches": 0,
+  "window_bars": 2500
+}

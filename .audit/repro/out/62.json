@@ -1,0 +1,83 @@
+{
+  "claim": "lab.py PHASE 2 advances PENDING->TRIGGERED unconditionally (only invalidation gates it); the trigger price computed by candlestick_reversal (trigger_ref) is never evaluated as an entry predicate.",
+  "evidence": {
+    "dynamic": {
+      "example_failures": [
+        {
+          "birth_idx": 23,
+          "cid": "8e1b4023215f",
+          "direction": "LONG",
+          "trigger_bar_close": 105336.2,
+          "trigger_ref": 105658.8,
+          "variant": "hammer"
+        },
+        {
+          "birth_idx": 105,
+          "cid": "433c90d037b4",
+          "direction": "LONG",
+          "trigger_bar_close": 108036.7,
+          "trigger_ref": 108087.8,
+          "variant": "hammer"
+        },
+        {
+          "birth_idx": 112,
+          "cid": "37498c887673",
+          "direction": "LONG",
+          "trigger_bar_close": 108044.8,
+          "trigger_ref": 108070.0,
+          "variant": "hammer"
+        },
+        {
+          "birth_idx": 226,
+          "cid": "a2463a963936",
+          "direction": "LONG",
+          "trigger_bar_close": 110972.2,
+          "trigger_ref": 111059.7,
+          "variant": "hammer"
+        },
+        {
+          "birth_idx": 340,
+          "cid": "06aca4f88edd",
+          "direction": "LONG",
+          "trigger_bar_close": 117325.3,
+          "trigger_ref": 117530.7,
+          "variant": "hammer"
+        }
+      ],
+      "fraction_not_triggering_among_triggered": 0.5925925925925926,
+      "fraction_not_triggering_of_all_drafts": 0.48484848484848486,
+      "n_candlestick_drafts": 33,
+      "n_invalidated_at_trigger_bar": 6,
+      "n_no_trigger_bar": 0,
+      "n_triggered_unconditionally": 27,
+      "n_would_not_trigger": 16,
+      "n_would_trigger": 11
+    },
+    "ground_truth_lab_run": {
+      "n_candlestick_detected": 33,
+      "n_lab_TRIGGERED": 18,
+      "n_lab_unresolved": 0,
+      "n_lab_would_not_trigger": 0,
+      "n_lab_would_trigger": 18
+    },
+    "issue": 62,
+    "static": {
+      "lab_phase2": "lab.py:635-694: PHASE 2 advances PENDING->TRIGGERED at line 650 (reason_code=trigger_observed) with NO trigger predicate; the only gate before it is the invalidation check at line 642 (LONG low<prior_low / SHORT high>prior_high). trigger_ref is never read by lab.py.",
+      "trigger_ref_consumers": "grep -rn \"trigger_ref\" src/v8/: only experts/candlestick_reversal.py (line 280 writes it into risk_geometry; line 305 reads it in still_valid() \u2014 an OPEN-position thesis check, NOT an entry predicate). lab.py / lifecycle / simulator: zero reads."
+    }
+  },
+  "issue": 62,
+  "key_numbers": {
+    "fraction_not_triggering": 0.5925925925925926,
+    "fraction_not_triggering_of_all_drafts": 0.48484848484848486,
+    "lab_ground_truth_n_triggered": 18,
+    "lab_ground_truth_n_would_not": 0,
+    "n_candlestick_drafts": 33,
+    "n_invalidated_at_trigger_bar": 6,
+    "n_triggered_unconditionally": 27,
+    "n_would_not_trigger": 16,
+    "n_would_trigger": 11
+  },
+  "reproduced": true,
+  "title": "PENDING->TRIGGERED has no trigger predicate"
+}

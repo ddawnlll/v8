@@ -1,0 +1,86 @@
+{
+  "after": {
+    "executed_subset": {
+      "mean_net_r": -0.09289078962850744,
+      "n": 845,
+      "total_r": -78.4927172360888,
+      "win_rate": 0.4686390532544379
+    },
+    "n_entered": 2,
+    "n_entered_violating_trigger_predicate": 0,
+    "n_executed_total": 845
+  },
+  "assertions": {
+    "dynamic": {
+      "assert": "n_entered_violating_trigger_predicate == 0 (no entry without close-beyond-trigger confirmation)",
+      "n_candlestick_reversal_executed_outcomes_matched": 2,
+      "n_entered": 2,
+      "n_entered_violating_trigger_predicate": 0,
+      "status": "PASS",
+      "trigger_predicate": "LONG: entry_close > trigger_ref; SHORT: entry_close < trigger_ref",
+      "violators": []
+    },
+    "headline_executed_subset": {
+      "candidate_count": 8047,
+      "mean_net_r": -0.09289078962850744,
+      "n": 845,
+      "n_executed_total": 845,
+      "population": "EXECUTED subset, 2500-bar dev window, cost 0.07",
+      "terminal_distribution": {
+        "CLOSED": 845,
+        "EXPIRED": 3,
+        "INVALIDATED": 2476,
+        "REJECTED": 4723
+      },
+      "total_r": -78.4927172360888,
+      "win_rate": 0.4686390532544379
+    },
+    "identity": {
+      "assert": "trigger_ref is still part of episode_key (unchanged, now justified: it drives entry behavior)",
+      "example": {
+        "cid_with_trigger_ref": "8e1b4023215f04ac82cf83f2c633577c3460e8ee",
+        "cid_without_trigger_ref": "ce3aef21734f9fb60287dd01c7778c1a80d6287d",
+        "trigger_ref": 105658.8,
+        "variant": "hammer"
+      },
+      "n_candlestick_reversal_drafts": 33,
+      "n_drafts_whose_key_changes_without_trigger_ref": 33,
+      "status": "PASS"
+    },
+    "static": {
+      "assert": "lab.py consumes risk_geometry[trigger_ref] as a PHASE-2 entry predicate (not merely still_valid)",
+      "candlestick_declares_trigger_side": true,
+      "candlestick_writes_trigger_ref": true,
+      "lab_code_consumer_lines": [
+        {
+          "file": "src/v8/lab.py:678",
+          "line": "trigger_ref = draft.risk_geometry.get('trigger_ref')"
+        },
+        {
+          "file": "src/v8/lab.py:679",
+          "line": "if trigger_ref is not None:"
+        },
+        {
+          "file": "src/v8/lab.py:684",
+          "line": "triggered = float(bar.payload['close']) > float(trigger_ref)"
+        },
+        {
+          "file": "src/v8/lab.py:686",
+          "line": "triggered = float(bar.payload['close']) < float(trigger_ref)"
+        }
+      ],
+      "lab_has_close_above_predicate": true,
+      "lab_has_getter": true,
+      "status": "PASS"
+    }
+  },
+  "before": {
+    "n_entered": 4,
+    "n_entered_violating_trigger_predicate": 2,
+    "note": "BASELINE.md row #67: \"2/4 entered candidates violated the trigger predicate\". Pre-fix out/67.json was overwritten by a post-fix run during the fix pass (its lab_py_hits are the post-fix trigger lines); BASELINE.md is the authoritative pre-fix record."
+  },
+  "delta": "trigger predicate violations among executed candlestick entries: 2/4 -> 0/2 (the two pre-fix unconditional entries that violated the book close-beyond-trigger predicate no longer enter; every executed candlestick entry now satisfies the predicate). Identity note holds: trigger_ref is still part of episode_key (33/33 drafts), now justified.",
+  "fixed": true,
+  "issue": 67,
+  "title": "trigger_ref is now the entry predicate (consumed in lab.py PHASE 2, with #62)"
+}

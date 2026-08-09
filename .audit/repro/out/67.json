@@ -1,0 +1,131 @@
+{
+  "dynamic": {
+    "n_candlestick_reversal_executed_outcomes_matched": 2,
+    "n_entered": 2,
+    "n_entered_violating_trigger_predicate": 0,
+    "n_executed_outcomes_total": 845,
+    "trigger_predicate": "LONG: entry_close > trigger_ref; SHORT: entry_close < trigger_ref",
+    "violators": []
+  },
+  "identity": {
+    "episode_key_differs": true,
+    "example": {
+      "cid_with_trigger_ref": "8e1b4023215f04ac82cf83f2c633577c3460e8ee",
+      "cid_without_trigger_ref": "ce3aef21734f9fb60287dd01c7778c1a80d6287d",
+      "trigger_ref": 105658.8,
+      "variant": "hammer"
+    },
+    "excluded_key_control": {
+      "excluded_key": "atr_ref",
+      "same_cid_without_excluded_key": true
+    },
+    "geometry_version_excluded_keys": [
+      "atr_ref",
+      "prior_high_ref",
+      "prior_low_ref"
+    ],
+    "geometry_version_included_nonstructural_keys": [
+      "trigger_ref",
+      "stop_ref",
+      "variant",
+      "stop_r",
+      "target_r",
+      "expiry_bars",
+      "entry"
+    ],
+    "n_candlestick_reversal_drafts": 33,
+    "n_drafts_whose_key_changes_without_trigger_ref": 33
+  },
+  "static": {
+    "lab_consumed_geometry_keys": {
+      "limit_price": true,
+      "prior_high_ref": true,
+      "prior_low_ref": true,
+      "stop_r": true,
+      "target_r": true
+    },
+    "lab_py_hits": [
+      {
+        "file": "src/v8/lab.py:654",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:663",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:678",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:679",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:684",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:686",
+        "kind": "other"
+      }
+    ],
+    "runner_entry_predicates": [
+      "pre-entry invalidation via prior_low_ref/prior_high_ref (lab.py PHASE 1a / PHASE 2)",
+      "tradability_mask_veto (lab.py)",
+      "RiskGate.admit (lab.py)",
+      "FILL_AT_LIMIT limit_price (lab.py + simulator.py)",
+      "trigger_ref: NO pre-entry consumer in lab.py / simulator.py"
+    ],
+    "simulator_consumed_geometry_keys": {
+      "atr_ref": true,
+      "limit_price": true,
+      "risk_frac": true,
+      "trigger_ref": false
+    },
+    "simulator_py_hits": [],
+    "trigger_ref_occurrences": [
+      {
+        "file": "src/v8/experts/candlestick_reversal.py:284",
+        "kind": "WRITE (evaluate geometry)"
+      },
+      {
+        "file": "src/v8/experts/candlestick_reversal.py:311",
+        "kind": "READ (still_valid thesis check)"
+      },
+      {
+        "file": "src/v8/lab.py:654",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:663",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:678",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:679",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:684",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/lab.py:686",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/schema.py:199",
+        "kind": "other"
+      },
+      {
+        "file": "src/v8/schema.py:208",
+        "kind": "other"
+      }
+    ],
+    "writer": "src/v8/experts/candlestick_reversal.py:284"
+  }
+}

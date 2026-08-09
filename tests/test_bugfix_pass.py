@@ -311,9 +311,9 @@ def test_s2_sim_hash_binds_module_source():
     from v8.schema import sha1_hex as _sh
     sim = CanonicalSimulator(round_trip_cost_r=0.07)
     assert sim.hash() == _sh(('canonical-sim-v8', 'FILL_AT_BAR_CLOSE', 0.07,
-                              0.0, 8, _SIMULATOR_SRC_HASH))
+                              0.0, 8, 'flat', _SIMULATOR_SRC_HASH))
     assert sim.hash() != _sh(('canonical-sim-v4', 'FILL_AT_BAR_CLOSE', 0.07,
-                              0.0, 8, 'tampered-source'))
+                              0.0, 8, 'flat', 'tampered-source'))
 
 
 def test_s2_report_carries_zero_trade_provenance():

@@ -19,9 +19,9 @@ import pytest
 
 from tools.vision_backfill import (
     DEFAULT_LATENCY_NS, SCHEMA_VERSION,
-    audit_tape, build_tape_from_zip, check_archive_revision, kline_csv_to_rows,
-    main as backfill_main, parse_checksum_file, sha256_file, write_source_meta,
-    write_tape, TapeAuditError, sha1_hex,
+    audit_tape, build_tape_from_zip, check_archive_revision, funding_csv_to_rows,
+    kline_csv_to_rows, main as backfill_main, parse_checksum_file, sha256_file,
+    write_source_meta, write_tape, TapeAuditError, sha1_hex, _zip_name,
 )
 
 HOUR_MS = 3_600_000
@@ -265,6 +265,46 @@ def test_audit_flags_venue_gap(tmp_path):
     lines = tape.read_text(encoding='utf-8').splitlines()
     del lines[3]                                       # remove the 4th bar
     tape.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+    with pytest.raises(TapeAuditError) as excinfo:
+        audit_tape(out)
+    assert 'venue sequence gap' in str(excinfo.value)
+
+
+def _funding_tape(tmp_path, csv_text: str) -> Path:
+    """A funding tape with provenance: rows from `csv_text` + a funding zip
+    whose sha the source.json records (so the audit can verify it)."""
+    rows = funding_csv_to_rows(csv_text, 'SOLUSDT')
+    out = tmp_path
+    write_tape(out, rows)
+    name = _zip_name('SOLUSDT', '1h', 'funding', '2025-01')
+    with zipfile.ZipFile(out / name, 'w', zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr(name.replace('.zip', '.csv'), csv_text)
+    write_source_meta(out, 'SOLUSDT', '1h', '2025-01', sha256_file(out / name),
+                      channel='funding')
+    return out
+
+
+def test_audit_accepts_funding_interval_transition(tmp_path):
+    """A settlement straddling a venue schedule change (4h -> 2h) is not a
+    gap: the gap is governed by the PREVIOUS row's declared interval. The
+    real SOLUSDT 2022-11 tape hit exactly this (the audit used the current
+    row's 2h interval and false-flagged a 4h transition gap)."""
+    csv_text = ('1668038400000,4,0.01\n'   # 00:00 UTC, 4h schedule
+                '1668052800000,2,0.01\n'   # 04:00, schedule now 2h
+                '1668060000000,2,0.01\n'
+                '1668067200000,2,0.01\n')
+    out = _funding_tape(tmp_path, csv_text)
+    report = audit_tape(out)
+    assert report['venue_gaps'] == 0
+
+
+def test_audit_flags_missing_funding_row(tmp_path):
+    """A genuinely missing settlement (a 4h gap under a steady 2h schedule)
+    still flags after the interval-transition fix."""
+    csv_text = ('1668038400000,2,0.01\n'   # 00:00, 2h schedule
+                '1668052800000,2,0.01\n'   # 04:00  <- 02:00 settlement missing
+                '1668060000000,2,0.01\n')
+    out = _funding_tape(tmp_path, csv_text)
     with pytest.raises(TapeAuditError) as excinfo:
         audit_tape(out)
     assert 'venue sequence gap' in str(excinfo.value)

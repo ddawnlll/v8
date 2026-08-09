@@ -26,6 +26,10 @@ directive on DEGRADED-vs-no-signal):
 """
 from __future__ import annotations
 
+import hashlib
+import json
+from bisect import bisect_right
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from .schema import (TapeRow, MarketState, FeatureValue, sha1_hex, FEATURE_GROUPS,
@@ -191,14 +195,20 @@ def _stoch(highs, lows, closes, period: int = 14) -> tuple[float, float]:
     return ks[-1], sum(ks) / 3.0
 
 
-def _stochrsi(closes, period: int = 14) -> float:
-    """StochRSI %K = (RSI - RSI_L14)/(RSI_H14 - RSI_L14) (G-10)."""
-    rsis = _rsi_series(closes, period)
+def _stochrsi_from(rsis, period: int = 14) -> float:
+    """StochRSI %K from an RSI series (G-10). Shared by the uncached path
+    (`_stochrsi`) and the cached path (which feeds the precomputed RSI series),
+    so both use one formula."""
     window = rsis[-period:]
     lo, hi = min(window), max(window)
     if hi == lo:
         return 0.5
     return (rsis[-1] - lo) / (hi - lo)
+
+
+def _stochrsi(closes, period: int = 14) -> float:
+    """StochRSI %K = (RSI - RSI_L14)/(RSI_H14 - RSI_L14) (G-10)."""
+    return _stochrsi_from(_rsi_series(closes, period), period)
 
 
 def _cci(highs, lows, closes, period: int = 20) -> float:
@@ -218,6 +228,17 @@ def _macd(closes, fast: int = 12, slow: int = 26, signal: int = 9):
     return macd[-1], sig[-1], macd[-1] - sig[-1]
 
 
+def _dx_value(atr, pdi, ndi) -> float:
+    """Directional index for a Wilder-smoothed (ATR, +DM, -DM) triple."""
+    if atr <= 0:
+        return 0.0
+    pdi_p = 100.0 * pdi / atr
+    ndi_p = 100.0 * ndi / atr
+    if pdi_p + ndi_p == 0:
+        return 0.0
+    return 100.0 * abs(pdi_p - ndi_p) / (pdi_p + ndi_p)
+
+
 def _adx(highs, lows, closes, period: int = 14) -> float:
     """Wilder DMI ADX (G-14): +DI/-DI from Wilder-smoothed TR/DM, ADX =
     Wilder average of DX over `period`."""
@@ -234,21 +255,12 @@ def _adx(highs, lows, closes, period: int = 14) -> float:
     pdi_w = sum(pdms[:period])
     ndi_w = sum(ndms[:period])
 
-    def _dx(atr, pdi, ndi) -> float:
-        if atr <= 0:
-            return 0.0
-        pdi_p = 100.0 * pdi / atr
-        ndi_p = 100.0 * ndi / atr
-        if pdi_p + ndi_p == 0:
-            return 0.0
-        return 100.0 * abs(pdi_p - ndi_p) / (pdi_p + ndi_p)
-
-    dxs = [_dx(atr_w, pdi_w, ndi_w)]
+    dxs = [_dx_value(atr_w, pdi_w, ndi_w)]
     for i in range(period, len(trs)):
         atr_w = atr_w - atr_w / period + trs[i]
         pdi_w = pdi_w - pdi_w / period + pdms[i]
         ndi_w = ndi_w - ndi_w / period + ndms[i]
-        dxs.append(_dx(atr_w, pdi_w, ndi_w))
+        dxs.append(_dx_value(atr_w, pdi_w, ndi_w))
     if len(dxs) < period:
         return 0.0
     adx = sum(dxs[:period]) / period
@@ -471,40 +483,509 @@ def _day_index(event_time_ns: int) -> int:
     return event_time_ns // DAY_NS
 
 
+# --- Fast path: precomputed per-symbol series (O(N²) -> O(N × window)). ------
+#
+# build_state recomputes every series (EMA/ATR/RSI/ADX/pivots/... ) from scratch
+# for each decision clock, so a backtest over N bars is O(N²). The cached path
+# precomputes the same series ONCE per symbol over the full tape, and each state
+# reads its values by index. Every series is a function of a prefix-computable
+# recurrence or fixed window, so indexing the full-series array at position
+# t-1 is byte-identical to recomputing over the prefix (verified by
+# tests/test_state_cache_identity.py). The cached path must NEVER produce a
+# different value: the identity test asserts full MarketState equality between
+# the two paths on every bar.
+
+
+class Prefix:
+    """Read-only prefix view over a full array: `arr[:n]` semantics with O(1)
+    reads and O(slice) bounded slices. The feature block reads a growing prefix
+    without copying it: the uncached path passes real prefix lists, the cached
+    path passes views over precomputed arrays."""
+
+    __slots__ = ('_a', '_n')
+
+    def __init__(self, arr, n):
+        self._a, self._n = arr, n
+
+    def __len__(self) -> int:
+        return self._n
+
+    def __bool__(self) -> bool:
+        return self._n > 0
+
+    def __getitem__(self, i):
+        if isinstance(i, slice):
+            start, stop, step = i.indices(self._n)
+            return self._a[start:stop:step]
+        idx = i if i >= 0 else i + self._n
+        if not 0 <= idx < self._n:
+            raise IndexError('prefix index out of range')
+        return self._a[idx]
+
+    def __iter__(self):
+        return iter(self._a[:self._n])
+
+
+def _row_tuple_bytes(row: TapeRow) -> bytes:
+    """Canonical bytes of a row's (event_id, payload_hash|payload) tuple, as
+    `sha1_hex` serializes it inside a list: the per-row piece of the growing
+    lineage lists, precomputed once so the per-state cumulative hash walks
+    bytes instead of re-json-dumping dicts."""
+    return json.dumps((row.event_id, row.payload.get('payload_hash', row.payload)),
+                      sort_keys=True, separators=(',', ':'), default=str).encode('utf-8')
+
+
+def _cumulative_digest(tuple_bytes: list[bytes], n: int) -> str:
+    """sha1_hex of the first n tuples as a JSON list: `[` + comma-joined + `]`.
+    Exactly `sha1_hex([(event_id, payload) for ...][:n])` — the same canonical
+    string, built from precomputed per-row bytes."""
+    h = hashlib.sha1()
+    h.update(b'[')
+    for i in range(n):
+        if i:
+            h.update(b',')
+        h.update(tuple_bytes[i])
+    h.update(b']')
+    return h.hexdigest()
+
+
+def _slice_digest(tuple_bytes: list[bytes], lo: int, hi: int) -> str:
+    """sha1_hex of the JSON list `[(event_id, payload) ...]` for rows lo:hi,
+    built from the precomputed per-row bytes — byte-identical to the uncached
+    `sha1_hex([(b.event_id, payload) for b in rows[lo:hi]])` (JSON arrays keep
+    element order, so sort_keys has no effect), without re-json-dumping the
+    payload dicts. This is what makes the per-feature input-lineage hashes in
+    the cached state path ~10x cheaper."""
+    if hi <= lo:
+        return ''
+    h = hashlib.sha1()
+    h.update(b'[')
+    for i in range(lo, hi):
+        if i != lo:
+            h.update(b',')
+        h.update(tuple_bytes[i])
+    h.update(b']')
+    return h.hexdigest()
+
+
+def _adx_series(highs, lows, closes, period: int = 14) -> list[float]:
+    """ADX value at every bar index, replicating `_adx`'s Wilder recurrences so
+    `series[t-1] == _adx(highs[:t], lows[:t], closes[:t], period)` exactly."""
+    n = len(closes)
+    out = [0.0] * n
+    if n < 2 * period:
+        return out
+    trs, pdms, ndms = [], [], []
+    for i in range(1, n):
+        h, l, pc = highs[i], lows[i], closes[i - 1]
+        trs.append(max(h - l, abs(h - pc), abs(l - pc)))
+        up = highs[i] - highs[i - 1]
+        dn = lows[i - 1] - lows[i]
+        pdms.append(up if (up > dn and up > 0) else 0.0)
+        ndms.append(dn if (dn > up and dn > 0) else 0.0)
+    atr_w, pdi_w, ndi_w = sum(trs[:period]), sum(pdms[:period]), sum(ndms[:period])
+    dxs = [_dx_value(atr_w, pdi_w, ndi_w)]
+    for i in range(period, len(trs)):
+        atr_w = atr_w - atr_w / period + trs[i]
+        pdi_w = pdi_w - pdi_w / period + pdms[i]
+        ndi_w = ndi_w - ndi_w / period + ndms[i]
+        dxs.append(_dx_value(atr_w, pdi_w, ndi_w))
+    adx = sum(dxs[:period]) / period
+    out[2 * period - 1] = adx
+    for j in range(period, len(dxs)):
+        adx = (adx * (period - 1) + dxs[j]) / period
+        out[period + j] = adx
+    return out
+
+
+@dataclass
+class BarSeries:
+    """Per-symbol precomputed series over closed bars in available order.
+
+    Array alignment: most series are indexed by BAR index (j -> bar j), so
+    state at t (t closed bars, indices 0..t-1) reads the value for the latest
+    bar at [t-1]. `atr` and `rsi` carry the period warmup offset of the
+    helpers they mirror (the feature block wraps them in Prefix views with the
+    real length). `prior_high`/`prior_low` are indexed by BAR COUNT (t).
+    """
+    closed: list[TapeRow]
+    kline: list[TapeRow]
+    funding: list[TapeRow]
+    oi: list[TapeRow]
+    closes: list
+    highs: list
+    lows: list
+    opens: list
+    volumes: list
+    tp: list
+    ema_fast: list
+    ema_slow: list
+    atr: list
+    rsi: list
+    adx: list
+    cci: list
+    macd: list
+    macd_signal: list
+    macd_hist: list
+    obv: list
+    adl: list
+    prior_high: list
+    prior_low: list
+    piv_hi: dict = field(default_factory=dict)
+    piv_lo: dict = field(default_factory=dict)
+    vwap: list = field(default_factory=list)
+    vwap_start: list = field(default_factory=list)
+    avail: list = field(default_factory=list)          # closed bars' available_time
+    funding_avail: list = field(default_factory=list)
+    oi_avail: list = field(default_factory=list)
+    kline_avail: list = field(default_factory=list)
+    tuple_bytes: list = field(default_factory=list)    # closed-bar lineage pieces
+    kline_bytes: list = field(default_factory=list)    # kline-row manifest pieces
+    # True when event_time is non-decreasing in available-sorted order: the
+    # precomputed vwap session window (a contiguous backward scan) is exact.
+    # On a PIT tape with heterogeneous latencies (event_time non-monotonic) the
+    # cached path falls back to the exact full-filter `_vwap`.
+    event_time_monotonic: bool = True
+    # Mutable running lineage state, advanced by the cached state path (lab
+    # calls states in increasing bar order, so this is amortized O(1)).
+    _last_t: int = -1
+    _last_D: str = ''
+    _last_prev: str = ''
+    _last_m: int = -1
+    _last_M: str = ''
+    # Persistent incremental hashers (started at b'[' without the closing
+    # bracket; the digest is the hasher copy + b']'): a monotonic t/m advance
+    # appends the new element instead of re-walking the whole prefix, turning
+    # the O(N^2) full-prefix re-hash into O(1) amortized per bar. The hashed
+    # BYTES are byte-identical to _cumulative_digest (same concatenation), so
+    # every digest is unchanged. Reset to None on a jump (t/m non-consecutive).
+    # _dt_n/_md_n count elements already folded in — the JSON-list separator
+    # `,` goes BETWEEN elements, never before the first (`[e1,e2]`, not
+    # `[,e1,e2]`).
+    _dt_hash: hashlib._Hash | None = None
+    _md_hash: hashlib._Hash | None = None
+    _dt_n: int = 0
+    _md_n: int = 0
+
+    def closed_digests(self, t: int) -> tuple[str, str]:
+        """(D_{t-1}, D_t): sha1_hex of the closed-bar tuple list up to t-1 / t
+        bars. D_{t-1} is the value computed for the previous bar (consecutive
+        states) or recomputed on a jump; both are the exact sha1_hex(list)
+        semantics the uncached path produces per state. Idempotent on a repeat
+        call for the same t."""
+        if self._last_t == t:
+            return self._last_prev, self._last_D
+        if t >= 2:
+            if self._last_t == t - 1:
+                prev = self._last_D
+            else:
+                prev = _cumulative_digest(self.tuple_bytes, t - 1)
+        else:
+            prev = ''
+        if self._dt_hash is None or t != self._last_t + 1:
+            self._dt_hash = hashlib.sha1()
+            self._dt_hash.update(b'[')
+            for i in range(t):
+                if i:
+                    self._dt_hash.update(b',')
+                self._dt_hash.update(self.tuple_bytes[i])
+            self._dt_n = t
+        else:
+            if self._dt_n:
+                self._dt_hash.update(b',')
+            self._dt_hash.update(self.tuple_bytes[t - 1])
+            self._dt_n += 1
+        h = self._dt_hash.copy()
+        h.update(b']')
+        dt = h.hexdigest()
+        self._last_t, self._last_D, self._last_prev = t, dt, prev
+        return prev, dt
+
+    def manifest_digest(self, m: int) -> str:
+        """sha1_hex of the kline-row tuple list up to m rows (raw_manifest_hash)."""
+        if self._last_m != m:
+            if self._md_hash is None or m != self._last_m + 1:
+                self._md_hash = hashlib.sha1()
+                self._md_hash.update(b'[')
+                for i in range(m):
+                    if i:
+                        self._md_hash.update(b',')
+                    self._md_hash.update(self.kline_bytes[i])
+                self._md_n = m
+            else:
+                if self._md_n:
+                    self._md_hash.update(b',')
+                self._md_hash.update(self.kline_bytes[m - 1])
+                self._md_n += 1
+            h = self._md_hash.copy()
+            h.update(b']')
+            self._last_M = h.hexdigest()
+            self._last_m = m
+        return self._last_M
+
+
+def _pivot_lists(highs, lows, n: int) -> tuple[list, list]:
+    """All confirmed strength-n pivot bars in the FULL series, as
+    (idx, value, range). A bar's pivot status is fixed once its right flank
+    closes, so at state t the confirmed subset is exactly the pivots with
+    idx <= t-1-n; the significance filter (range >= k*ATR) is applied per state
+    because ATR moves."""
+    hi, lo = [], []
+    for i in range(n, len(highs) - n):
+        h, l = highs[i], lows[i]
+        if h > max(highs[i - n:i] + highs[i + 1:i + 1 + n]):
+            hi.append((i, h, h - l))
+        if l < min(lows[i - n:i] + lows[i + 1:i + 1 + n]):
+            lo.append((i, l, highs[i] - l))
+    return hi, lo
+
+
+def _last_significant_pivot(pivs, t: int, n: int, atr_now: float, k: float):
+    """(idx, value) of the most recent confirmed pivot whose range passes the
+    CRIT-1 significance filter at the CURRENT atr — exactly `hi_pivs[-1]` from
+    `_significant_pivots` (which re-scans every bar with today's atr, so an
+    older pivot can become significant as ATR falls). None when no confirmed
+    pivot passes."""
+    limit = t - 1 - n
+    for idx, val, rng in reversed(pivs):
+        if idx > limit:
+            continue
+        if rng >= k * atr_now:
+            return (idx, val)
+    return None
+
+
+def _last_confirmed_swing(pivs, t: int, n: int):
+    """(idx, value) of the most recent confirmed pivot (no significance
+    filter), mirroring `_confirmed_swings`' persistent most-recent pair."""
+    limit = t - 1 - n
+    for idx, val, _rng in reversed(pivs):
+        if idx <= limit:
+            return (idx, val)
+    return None
+
+
+def build_bar_series(closed: list[TapeRow], kline_rows: list[TapeRow],
+                     funding_rows: list[TapeRow], oi_rows: list[TapeRow]) -> BarSeries:
+    """Precompute every series build_state needs over the full closed-bar
+    sequence. Each array is computed with the SAME formula the uncached path
+    uses at the final bar, so indexing reproduces prefix results exactly."""
+    closes = [float(b.payload['close']) for b in closed]
+    highs = [float(b.payload['high']) for b in closed]
+    lows = [float(b.payload['low']) for b in closed]
+    opens = [float(b.payload['open']) for b in closed]
+    volumes = [float(b.payload.get('volume', 0.0)) for b in closed]
+    # When every kline row is a closed bar (the vision_backfill tapes), the raw
+    # manifest list and the closed-bar list are the SAME rows in the SAME
+    # order, so the cached state path can reuse the closed-bar lineage digest
+    # (D_t) for raw_manifest_hash instead of hashing the kline stream twice.
+    if kline_rows and all(b.payload.get('closed') is True for b in kline_rows):
+        kline_rows = closed
+    n = len(closes)
+    tp = _typical(highs, lows, closes)
+    ema_fast = _ema(closes, 5)
+    ema_slow = _ema(closes, 20)
+    atr = _atr_series(highs, lows, 14)
+    rsi = _rsi_series(closes, 14)
+    adx = _adx_series(highs, lows, closes, 14)
+
+    cci = [0.0] * n
+    for j in range(19, n):
+        w = tp[j - 19:j + 1]
+        sma = sum(w) / 20
+        mad = sum(abs(x - sma) for x in w) / 20
+        cci[j] = (tp[j] - sma) / (0.015 * mad) if mad else 0.0
+
+    macd = [f - s for f, s in zip(_ema(closes, 12), _ema(closes, 26))]
+    macd_signal = _ema(macd, 9)
+    macd_hist = [m - s for m, s in zip(macd, macd_signal)]
+
+    obv = [0.0] * n
+    acc = 0.0
+    for i in range(1, n):
+        if closes[i] > closes[i - 1]:
+            acc += volumes[i]
+        elif closes[i] < closes[i - 1]:
+            acc -= volumes[i]
+        obv[i] = acc
+    adl = [0.0] * n
+    acc = 0.0
+    for i, (h, l, c, v) in enumerate(zip(highs, lows, closes, volumes)):
+        rng = h - l
+        if rng > 0:
+            acc += ((c - l) - (h - c)) / rng * v
+        adl[i] = acc
+
+    prior_high = [None, None]
+    prior_low = [None, None]
+    ph = [highs[0]]
+    pl = [lows[0]]
+    for j in range(1, n):
+        ph.append(ph[-1] if ph[-1] >= highs[j] else highs[j])
+        pl.append(pl[-1] if pl[-1] <= lows[j] else lows[j])
+    prior_high += ph[:n - 1]
+    prior_low += pl[:n - 1]
+
+    piv_hi, piv_lo = {}, {}
+    for swn in SWING_NS:
+        piv_hi[swn], piv_lo[swn] = _pivot_lists(highs, lows, swn)
+
+    vwap = [0.0] * n
+    vwap_start = [0] * n
+    for j in range(n):
+        ev = closed[j].event_time
+        anchor = ev - (ev % DAY_NS)
+        lo = j
+        while lo > 0 and closed[lo - 1].event_time >= anchor:
+            lo -= 1
+        vwap_start[j] = lo
+        tp_v = vol = 0.0
+        for b in closed[lo:j + 1]:
+            p = b.payload
+            tp_v += (float(p['high']) + float(p['low']) + float(p['close'])) / 3.0 \
+                * float(p.get('volume', 0.0))
+            vol += float(p.get('volume', 0.0))
+        vwap[j] = tp_v / vol if vol else 0.0
+
+    return BarSeries(
+        closed=closed, kline=kline_rows, funding=funding_rows, oi=oi_rows,
+        closes=closes, highs=highs, lows=lows, opens=opens, volumes=volumes,
+        tp=tp, ema_fast=ema_fast, ema_slow=ema_slow, atr=atr, rsi=rsi, adx=adx,
+        cci=cci, macd=macd, macd_signal=macd_signal, macd_hist=macd_hist,
+        obv=obv, adl=adl, prior_high=prior_high, prior_low=prior_low,
+        piv_hi=piv_hi, piv_lo=piv_lo, vwap=vwap, vwap_start=vwap_start,
+        event_time_monotonic=all(a.event_time <= b.event_time
+                                 for a, b in zip(closed, closed[1:])),
+        avail=[b.available_time for b in closed],
+        funding_avail=[r.available_time for r in funding_rows],
+        oi_avail=[r.available_time for r in oi_rows],
+        kline_avail=[r.available_time for r in kline_rows],
+        tuple_bytes=[_row_tuple_bytes(b) for b in closed],
+        kline_bytes=[_row_tuple_bytes(r) for r in kline_rows])
+
+
 def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
                 feature_version: str = 'v1',
-                history_depth: int = HISTORY_DEPTH_DEFAULT) -> MarketState:
-    prev_t = -1
-    for r in rows:
-        if r.available_time > as_of:
-            raise FutureRowError(
-                f'row {r.event_id} available at {r.available_time} > decision clock {as_of}')
-        # PIT ordering: closed[-1] is the latest bar ONLY if rows are in
-        # chronological order. Unsorted input silently selects the wrong bar
-        # (reversed rows changed close and prior_high empirically); fail closed
-        # rather than emit wrong features (MARKET_STATE_CONTRACT section 1).
-        if r.available_time < prev_t:
-            raise ValueError(
-                f'rows must be sorted by available_time (got {r.available_time} '
-                f'after {prev_t} at {r.event_id}); unsorted input silently '
-                'selects the wrong bar')
-        prev_t = r.available_time
+                history_depth: int = HISTORY_DEPTH_DEFAULT,
+                series: dict[str, BarSeries] | None = None) -> MarketState:
+    # The cached path (series provided) reads precomputed per-symbol arrays and
+    # skips the O(N) validation scan: a BarSeries is built over already
+    # available-sorted, clock-validated rows, and the lab guarantees the batch
+    # it feeds a series is admissible at the clock.
+    if series is None:
+        prev_t = -1
+        for r in rows:
+            if r.available_time > as_of:
+                raise FutureRowError(
+                    f'row {r.event_id} available at {r.available_time} > decision clock {as_of}')
+            # PIT ordering: closed[-1] is the latest bar ONLY if rows are in
+            # chronological order. Unsorted input silently selects the wrong bar
+            # (reversed rows changed close and prior_high empirically); fail closed
+            # rather than emit wrong features (MARKET_STATE_CONTRACT section 1).
+            if r.available_time < prev_t:
+                raise ValueError(
+                    f'rows must be sorted by available_time (got {r.available_time} '
+                    f'after {prev_t} at {r.event_id}); unsorted input silently '
+                    'selects the wrong bar')
+            prev_t = r.available_time
     features: dict[str, FeatureValue] = {}
+    manifest_hash: str | None = None
     for sym in universe:
-        bars = [r for r in rows if r.instrument == sym and r.channel == 'kline']
-        # Only closed klines feed OHLC features (FEED_INGESTION_SPEC section 3).
-        closed = [b for b in bars if b.payload.get('closed') is True]
-        if not closed:
-            continue
-        closes = [float(b.payload['close']) for b in closed]
-        highs = [float(b.payload['high']) for b in closed]
-        lows = [float(b.payload['low']) for b in closed]
-        opens = [float(b.payload['open']) for b in closed]
-        volumes = [float(b.payload.get('volume', 0.0)) for b in closed]
+        if series is None:
+            bars = [r for r in rows if r.instrument == sym and r.channel == 'kline']
+            # Only closed klines feed OHLC features (FEED_INGESTION_SPEC section 3).
+            closed = [b for b in bars if b.payload.get('closed') is True]
+            if not closed:
+                continue
+            closes = [float(b.payload['close']) for b in closed]
+            highs = [float(b.payload['high']) for b in closed]
+            lows = [float(b.payload['low']) for b in closed]
+            opens = [float(b.payload['open']) for b in closed]
+            volumes = [float(b.payload.get('volume', 0.0)) for b in closed]
+            # Every series the feature block needs, computed over the prefix as
+            # the inline helpers always did (the cached path reads the same
+            # arrays precomputed over the full tape — byte-identical values,
+            # verified by tests/test_state_cache_identity.py).
+            fast_series = _ema(closes, 5)
+            slow_series = _ema(closes, 20)
+            atrs = _atr_series(highs, lows, 14)
+            rsis = _rsi_series(closes, 14)
+            tp = _typical(highs, lows, closes)
+            adx_now = _adx(highs, lows, closes, 14)
+            cci_now = _cci(highs, lows, closes, 20)
+            macd, macd_signal, macd_hist = _macd(closes, 12, 26, 9)
+            obv_now = _obv(closes, volumes)
+            adl_now = _adl(highs, lows, closes, volumes)
+            prior_high = max(highs[:-1]) if len(highs) > 1 else None
+            prior_low = min(lows[:-1]) if len(lows) > 1 else None
+            vwap_val, vwap_bars = _vwap(closed)
+            funding_rows = [r for r in rows
+                            if r.instrument == sym and r.channel == 'funding']
+            oi_rows = [r for r in rows
+                       if r.instrument == sym and r.channel == 'open_interest']
+            # Growing-list lineages are computed per feature from `consumed`
+            # (the reference behavior); the cached path supplies them exact.
+            D_prev = D_t = manifest_hash = None
+            t = 0
+        else:
+            s = series.get(sym)
+            if s is None:
+                continue                     # absent symbol -> missing_symbols
+            t = bisect_right(s.avail, as_of)
+            if t == 0:
+                continue
+            D_prev, D_t = s.closed_digests(t)
+            # When kline == closed (see build_bar_series aliasing), the raw
+            # manifest list is the closed-bar list, so D_t IS raw_manifest_hash.
+            if s.kline is s.closed:
+                manifest_hash = D_t
+            else:
+                manifest_hash = s.manifest_digest(bisect_right(s.kline_avail, as_of))
+            closed = Prefix(s.closed, t)
+            closes = Prefix(s.closes, t)
+            highs = Prefix(s.highs, t)
+            lows = Prefix(s.lows, t)
+            opens = Prefix(s.opens, t)
+            volumes = Prefix(s.volumes, t)
+            fast_series = Prefix(s.ema_fast, t)
+            slow_series = Prefix(s.ema_slow, t)
+            atrs = Prefix(s.atr, max(0, t - 13))
+            rsis = Prefix(s.rsi, max(0, t - 14))
+            tp = Prefix(s.tp, t)
+            adx_now = s.adx[t - 1]
+            cci_now = s.cci[t - 1]
+            macd, macd_signal, macd_hist = (s.macd[t - 1], s.macd_signal[t - 1],
+                                            s.macd_hist[t - 1])
+            obv_now, adl_now = s.obv[t - 1], s.adl[t - 1]
+            prior_high, prior_low = s.prior_high[t], s.prior_low[t]
+            if s.event_time_monotonic:
+                vwap_val = s.vwap[t - 1]
+                vwap_bars = s.closed[s.vwap_start[t - 1]:t]
+            else:
+                # Non-monotonic event_time (a PIT tape with heterogeneous
+                # latencies): the contiguous session precompute would silently
+                # miss a scattered same-day bar, so fall back to the exact
+                # full-filter `_vwap` (O(N) per state, the uncached reference).
+                vwap_val, vwap_bars = _vwap(closed)
+            m = bisect_right(s.funding_avail, as_of)
+            funding_rows = [s.funding[m - 1]] if m > 0 else []
+            m = bisect_right(s.oi_avail, as_of)
+            oi_rows = [s.oi[m - 1]] if m > 0 else []
+            # Fast per-feature lineage: every `consumed` here is a contiguous
+            # slice of s.closed (the same row objects), so the feature's input
+            # lineage is `_slice_digest` over the precomputed row bytes and its
+            # calc clock is the slice's last available_time — no re-json-dump,
+            # no max() generator. A row not in s.closed (funding/OI) or a
+            # non-contiguous window (the non-monotonic `_vwap` fallback) drops
+            # to the exact slow path below. `slice_cache` is per-(state, symbol),
+            # so a window shared by several features (e.g. closed[-20:] feeds
+            # six bollinger features) is hashed once per bar.
+            id_map = {id(b): i for i, b in enumerate(s.closed)}
+            slice_cache: dict[tuple[int, int], str] = {}
 
         def add(name: str, value: float | str | None | tuple | list, consumed: list,
                 quality: str = 'COMPLETE', null_reason: str | None = None,
-                dtype: str = 'float') -> None:
+                dtype: str = 'float', lineage: str | None = None) -> None:
             # A None value is absent data, never a zero (MARKET_STATE_CONTRACT
             # section 4: "Null is not zero"). Auto-degrade it with an explicit
             # null reason instead of labelling it COMPLETE — the D-024 DEGRADED
@@ -522,14 +1003,48 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
             # that consumed nothing (prior_high on the first bar) has clock 0:
             # it is not computable yet, and borrowing the newest bar would
             # claim an input the feature never used.
-            calc = max((b.available_time for b in consumed), default=0)
             # Bind the raw row identity: payload_hash when the tape computes it
             # (vision_backfill real tapes — compact), else the payload itself
             # (synthetic tapes without payload_hash — small, still detects any
             # raw revision). A value-irrelevant payload change must move the
             # per-feature lineage without fabricating a new state identity.
-            inp = sha1_hex([(b.event_id, b.payload.get('payload_hash', b.payload))
-                            for b in consumed]) if consumed else ''
+            #
+            # Cached path fast route: `consumed` is a contiguous slice of
+            # s.closed (same row objects — verified by the index span check), so
+            # the lineage is the slice digest over the precomputed row bytes and
+            # the calc clock is the slice's last available_time. Byte-identical
+            # to the slow path (the identity tests pin input_lineage_hash and
+            # calculation_time on every bar); a non-closed row (funding/OI) or a
+            # non-contiguous window (non-monotonic `_vwap`) falls back below.
+            inp = lineage
+            calc = None
+            if inp is None and series is not None and consumed:
+                # Fast route: consumed is a contiguous slice of s.closed (the
+                # index-span check proves it), so the lineage is the slice
+                # digest over the precomputed row bytes and the calc clock is
+                # the slice's last available_time. Byte-identical to the slow
+                # path (the identity tests pin input_lineage_hash and
+                # calculation_time on every bar); a non-closed row (funding/OI)
+                # or a non-contiguous window (the non-monotonic `_vwap` fallback)
+                # drops below.
+                assert s is not None
+                lo_i = id_map.get(id(consumed[0]))
+                hi_i = id_map.get(id(consumed[-1]))
+                if lo_i is not None and hi_i is not None \
+                        and hi_i - lo_i + 1 == len(consumed):
+                    key = (lo_i, hi_i + 1)
+                    inp = slice_cache.get(key)
+                    if inp is None:
+                        inp = _slice_digest(s.tuple_bytes, lo_i, hi_i + 1)
+                        slice_cache[key] = inp
+                    calc = s.avail[hi_i]
+            if calc is None:
+                calc = max((b.available_time for b in consumed), default=0)
+                if inp is None:
+                    inp = sha1_hex([(b.event_id, b.payload.get('payload_hash',
+                                                               b.payload))
+                                    for b in consumed]) if consumed else ''
+            assert inp is not None
             features[f'{sym}.{name}'] = FeatureValue(
                 f'{sym}.{name}', value, dtype, feature_version, calc,
                 quality=quality, null_reason=null_reason,
@@ -538,15 +1053,28 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
 
         # --- raw / location / trend / volatility (existing baseline) --------
         add('close', closes[-1], [closed[-1]])
-        add('prior_high', max(highs[:-1]) if len(highs) > 1 else None, closed[:-1])
-        add('prior_low', min(lows[:-1]) if len(lows) > 1 else None, closed[:-1])
-        # The EMA series are computed ONCE and shared by the trend features and
-        # the per-bar history tuples (previously computed twice per state).
-        fast_series = _ema(closes, 5)
-        slow_series = _ema(closes, 20)
+        # prior_high/prior_low are the UNBOUNDED prefix extremes — a fixed
+        # window would silently diverge, so the cached path carries the exact
+        # running prefix max/min and the full-prefix lineage digest (D_{t-1}).
+        if series is None:
+            add('prior_high', prior_high, closed[:-1])
+            add('prior_low', prior_low, closed[:-1])
+        elif t >= 2:
+            add('prior_high', prior_high, [closed[-2]], lineage=D_prev)
+            add('prior_low', prior_low, [closed[-2]], lineage=D_prev)
+        else:
+            add('prior_high', None, [], lineage='')
+            add('prior_low', None, [], lineage='')
+        # fast_series/slow_series are computed in the per-symbol setup (cached:
+        # precomputed Prefix views) and shared by the trend features and the
+        # per-bar history tuples.
         if len(closes) >= 20:
-            add('ema_fast', fast_series[-1], closed)
-            add('ema_slow', slow_series[-1], closed)
+            if series is None:
+                add('ema_fast', fast_series[-1], closed)
+                add('ema_slow', slow_series[-1], closed)
+            else:
+                add('ema_fast', fast_series[-1], [closed[-1]], lineage=D_t)
+                add('ema_slow', slow_series[-1], [closed[-1]], lineage=D_t)
             add('atr', sum(h - l for h, l in zip(highs[-14:], lows[-14:])) / 14,
                 closed[-14:])
 
@@ -582,7 +1110,7 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         # --- FG-2 oscillator (G-08..G-15) -----------------------------------
         n_close = len(closes)
         if n_close >= 15:
-            add('rsi14', _rsi_series(closes, 14)[-1], closed[-15:])
+            add('rsi14', rsis[-1], closed[-15:])
             add('mom_14', closes[-1] - closes[-15], closed[-15:])
             add('roc_14', (closes[-1] - closes[-15]) / closes[-15] * 100.0,
                 closed[-15:])
@@ -591,18 +1119,19 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
             add('stoch_k', k, closed[-16:])
             add('stoch_d', d, closed[-16:])
         if n_close >= 28:
-            add('stochrsi', _stochrsi(closes, 14), closed[-28:])
+            add('stochrsi',
+                _stochrsi_from(rsis) if series is not None
+                else _stochrsi(closes, 14),
+                closed[-28:])
         if n_close >= 20:
-            add('cci20', _cci(highs, lows, closes, 20), closed[-20:])
+            add('cci20', cci_now, closed[-20:])
         if n_close >= 34:
-            macd, sig, hist = _macd(closes, 12, 26, 9)
             add('macd', macd, closed[-34:])
-            add('macd_signal', sig, closed[-34:])
-            add('macd_hist', hist, closed[-34:])
+            add('macd_signal', macd_signal, closed[-34:])
+            add('macd_hist', macd_hist, closed[-34:])
         if n_close >= 28:
-            add('adx14', _adx(highs, lows, closes, 14), closed[-28:])
+            add('adx14', adx_now, closed[-28:])
         if n_close >= 14 + OBOS_QUANTILE_WINDOW:
-            rsis = _rsi_series(closes, 14)
             add('osc_obos_quantile',
                 _percentile_rank(rsis[-OBOS_QUANTILE_WINDOW:], rsis[-1]),
                 closed[-(14 + OBOS_QUANTILE_WINDOW):])
@@ -621,7 +1150,6 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         if n_close >= 5:
             add('atr_locational', sum(h - l for h, l in zip(highs[-5:], lows[-5:])) / 5,
                 closed[-5:])
-        atrs = _atr_series(highs, lows, 14)
         if n_close >= 20:
             add('atr_filtered_2sigma', atrs[-1], closed[-14:])
         if len(atrs) >= ATR_FILTER_BAND_N:
@@ -633,13 +1161,11 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
             add('atr_trend_phase', 1.0 if slope > 0 else (-1.0 if slope < 0 else 0.0),
                 closed[-(14 + ATR_SLOPE_N):])
         if n_close >= 23:
-            tp = _typical(highs, lows, closes)
             mid_k = _sma(tp, 10)
             k_atr = _sma(atrs, 10)
             add('keltner_u', mid_k + k_atr, closed[-23:])
             add('keltner_l', mid_k - k_atr, closed[-23:])
         if n_close >= 15:
-            tp = _typical(highs, lows, closes)
             mid_s = _sma(tp, 6)
             a15 = sum(h - l for h, l in zip(highs[-15:], lows[-15:])) / 15
             add('starc_u', mid_s + STARC_K * a15, closed[-15:])
@@ -654,14 +1180,25 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         atr_now = atrs[-1] if atrs else None
         for n in SWING_NS:
             if n_close >= 2 * n + 1 and atr_now is not None:
-                hi_pivs, lo_pivs = _significant_pivots(highs, lows, n, atr_now,
-                                                       SWING_SIGNIFICANCE_K)
+                if series is None:
+                    hi_pivs, lo_pivs = _significant_pivots(
+                        highs, lows, n, atr_now, SWING_SIGNIFICANCE_K)
+                    swing_hi = hi_pivs[-1][1] if hi_pivs else 0.0
+                    swing_lo = lo_pivs[-1][1] if lo_pivs else 0.0
+                else:
+                    # The cached path filters the precomputed pivot list with
+                    # today's ATR (the filter is atr-dependent, so it cannot be
+                    # hoisted), scanning backward for the most recent pass.
+                    p = _last_significant_pivot(s.piv_hi[n], t, n, atr_now,
+                                                SWING_SIGNIFICANCE_K)
+                    q = _last_significant_pivot(s.piv_lo[n], t, n, atr_now,
+                                                SWING_SIGNIFICANCE_K)
+                    swing_hi = p[1] if p else 0.0
+                    swing_lo = q[1] if q else 0.0
                 # 0.0 = "no significant swing" sentinel: OHLC is strictly
                 # positive on any validated tape, so 0.0 is never a real level.
-                add(f'swing_high_{n}', hi_pivs[-1][1] if hi_pivs else 0.0,
-                    closed[-(2 * n + 1):])
-                add(f'swing_low_{n}', lo_pivs[-1][1] if lo_pivs else 0.0,
-                    closed[-(2 * n + 1):])
+                add(f'swing_high_{n}', swing_hi, closed[-(2 * n + 1):])
+                add(f'swing_low_{n}', swing_lo, closed[-(2 * n + 1):])
         for n in WINDOW_NS:
             if n_close >= n + 1:
                 add(f'window_high_{n}', max(highs[-(n + 1):-1]), closed[-(n + 1):-1])
@@ -676,7 +1213,11 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         # application" invariant holds because the anchor is always a past,
         # confirmed swing.
         if n_close >= 21:
-            hi10, lo10 = _confirmed_swings(highs, lows, 10)
+            if series is None:
+                hi10, lo10 = _confirmed_swings(highs, lows, 10)
+            else:
+                hi10 = _last_confirmed_swing(s.piv_hi[10], t, 10)
+                lo10 = _last_confirmed_swing(s.piv_lo[10], t, 10)
             fibs = _fib_levels(hi10, lo10)
             if fibs is not None:
                 add('fib_levels', fibs, closed[-21:], dtype='fib_levels')
@@ -713,11 +1254,13 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         if n_close >= VOLUME_SMA_N:
             add('vol_smooth_ma', _sma(volumes, VOLUME_SMA_N), closed[-VOLUME_SMA_N:])
         if n_close >= 2:
-            add('obv', _obv(closes, volumes), closed[-2:])
-        add('adl', _adl(highs, lows, closes, volumes), closed)
+            add('obv', obv_now, closed[-2:])
+        if series is None:
+            add('adl', adl_now, closed)
+        else:
+            add('adl', adl_now, [closed[-1]], lineage=D_t)
         if n_close >= CMF_N:
             add('cmf_20', _cmf(highs, lows, closes, volumes, CMF_N), closed[-CMF_N:])
-        vwap_val, vwap_bars = _vwap(closed)
         add('vwap', vwap_val, vwap_bars)
         if n_close >= BAR_CLASS_N and n_close >= 6:
             add('bar_class', _bar_class(opens, closes, highs, lows, volumes),
@@ -738,11 +1281,17 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
         # warmup): emitting None for an absent channel would degrade every
         # state and make the D-024 veto unreachable-in-practice. When a tape
         # carries the channel, the latest admissible value is emitted.
-        funding_rows = [r for r in rows if r.instrument == sym and r.channel == 'funding']
+        if series is None:
+            # The cached path already resolved funding_rows/oi_rows to the
+            # last admissible row (O(1)); a per-state scan here would be the
+            # O(N) the fast path exists to avoid.
+            funding_rows = [r for r in rows
+                            if r.instrument == sym and r.channel == 'funding']
+            oi_rows = [r for r in rows
+                       if r.instrument == sym and r.channel == 'open_interest']
         if funding_rows:
             add('funding_rate', float(funding_rows[-1].payload['funding_rate']),
                 [funding_rows[-1]])
-        oi_rows = [r for r in rows if r.instrument == sym and r.channel == 'open_interest']
         if oi_rows:
             add('open_interest', float(oi_rows[-1].payload['open_interest']),
                 [oi_rows[-1]])
@@ -765,12 +1314,16 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
             # The history tuples embed per-bar EMAs computed over the FULL
             # close series, so the input lineage covers all closed bars — a
             # revision anywhere in the series changes the embedded EMA values.
+            if series is None:
+                hist_lineage = sha1_hex(
+                    [(b.event_id, b.payload.get('payload_hash', b.payload))
+                     for b in closed])
+            else:
+                hist_lineage = D_t
             features[f'{sym}.history'] = FeatureValue(
                 f'{sym}.history', hist, 'history', 'v2',
                 closed[-1].available_time, quality='COMPLETE', group='history',
-                input_lineage_hash=sha1_hex(
-                    [(b.event_id, b.payload.get('payload_hash', b.payload))
-                     for b in closed]),
+                input_lineage_hash=hist_lineage,
                 calculation_time=closed[-1].available_time)
     validate_feature_groups(features)
     # A universe symbol with no emitted features (zero kline rows or zero CLOSED
@@ -796,10 +1349,19 @@ def build_state(rows: list[TapeRow], as_of: int, universe: tuple[str, ...],
     lineage = sha1_hex({k: [v.value, v.max_input_available_time, v.group,
                             v.feature_version]
                         for k, v in sorted(features.items())})
-    provenance = {
-        'raw_manifest_hash': sha1_hex(
+    # raw_manifest_hash covers EVERY kline row admissible at the clock. The
+    # cached path derives it from the per-symbol series (single-symbol stores
+    # are the only supported run shape); when a symbol was absent or the
+    # universe spans multiple symbols, fall back to the batch scan (the
+    # uncached behavior) rather than emit a wrong manifest.
+    if series is None or len(universe) > 1 or manifest_hash is None:
+        raw_manifest_hash = sha1_hex(
             [(r.event_id, r.payload.get('payload_hash', r.payload))
-             for r in rows if r.channel == 'kline']),
+             for r in rows if r.channel == 'kline'])
+    else:
+        raw_manifest_hash = manifest_hash
+    provenance = {
+        'raw_manifest_hash': raw_manifest_hash,
         'feature_graph_version': FEATURE_GRAPH_VERSION,
         'code_version': _BUILDER_SRC_HASH,
     }
@@ -813,7 +1375,8 @@ def build_multi_state(rows: list[TapeRow], as_of: int,
                       universe: tuple[str, ...], *, base_interval: str,
                       intervals: tuple[str, ...] = (),
                       depths: dict[str, int] | None = None,
-                      feature_version: str = 'v1') -> MarketState:
+                      feature_version: str = 'v1',
+                      series: dict[str, dict[str, BarSeries]] | None = None) -> MarketState:
     """One canonical state per decision clock, carrying every declared interval.
 
     The base interval is built exactly as before and keeps its unprefixed keys,
@@ -831,7 +1394,8 @@ def build_multi_state(rows: list[TapeRow], as_of: int,
 
     depths = depths or {}
     base = build_state(rows, as_of, universe, feature_version,
-                       depths.get(base_interval, HISTORY_DEPTH_DEFAULT))
+                       depths.get(base_interval, HISTORY_DEPTH_DEFAULT),
+                       series=series.get(base_interval) if series else None)
     extra: dict[str, FeatureValue] = {}
     for tf in intervals:
         if tf == base_interval:
@@ -843,7 +1407,8 @@ def build_multi_state(rows: list[TapeRow], as_of: int,
         if not agg:
             continue                      # not enough base bars for one bucket
         sub = build_state(agg, as_of, universe, feature_version,
-                          depths.get(tf, HISTORY_DEPTH_DEFAULT))
+                          depths.get(tf, HISTORY_DEPTH_DEFAULT),
+                          series=series.get(tf) if series else None)
         for key, fv in sub.features.items():
             sym, _, name = key.partition('.')
             nk = f'{sym}.{tf}.{name}'
@@ -907,10 +1472,36 @@ def feature_interval(key: str, base_interval: str,
     return base_interval
 
 
+def projection_allowed_keys(universe, closure, wanted, base_interval: str,
+                            known_intervals: frozenset[str]) -> frozenset[str]:
+    """Static feature-key universe an Expert's projection can contain: every
+    emitted feature name in the group closure, on the base interval and each
+    declared higher interval, per universe symbol.
+
+    This is EXACTLY the set the runtime filter (group closure + interval in
+    `wanted`) accepts over the keys `build_state` can emit, because the builder
+    emits every feature through `FEATURE_TO_GROUP` and the namespace rules are
+    the same. Building the projection is then one frozenset membership per key
+    instead of a per-key `feature_interval` call — a profiled hot path at tens
+    of thousands of projections per run.
+    """
+    out: set[str] = set()
+    for sym in universe:
+        for name, group in FEATURE_TO_GROUP.items():
+            if group not in closure:
+                continue
+            out.add(f'{sym}.{name}')
+            for tf in wanted:
+                if tf != base_interval and tf in known_intervals:
+                    out.add(f'{sym}.{tf}.{name}')
+    return frozenset(out)
+
+
 def project_state(state: MarketState, *, groups: tuple[str, ...] | list[str],
                   intervals: tuple[str, ...], base_interval: str,
                   known_intervals: frozenset[str],
-                  depths: dict[str, int] | None = None) -> MarketState:
+                  depths: dict[str, int] | None = None,
+                  allowed_keys: frozenset[str] | None = None) -> MarketState:
     """The MarketState one Expert asked for: a VIEW of the canonical state.
 
     `state_id` and `lineage_hash` are carried through unchanged, deliberately.
@@ -926,13 +1517,12 @@ def project_state(state: MarketState, *, groups: tuple[str, ...] | list[str],
     site, which is what turns the registry audit from a test-time check into a
     runtime one.
     """
-    allowed_groups = group_closure(groups)
-    wanted = set(intervals) | {base_interval}
-    features = {
-        k: v for k, v in state.features.items()
-        if v.group in allowed_groups
-        and feature_interval(k, base_interval, known_intervals) in wanted
-    }
+    if allowed_keys is None:
+        allowed_keys = projection_allowed_keys(
+            state.universe, group_closure(groups),
+            frozenset(intervals) | {base_interval},
+            base_interval, known_intervals)
+    features = {k: v for k, v in state.features.items() if k in allowed_keys}
     # Depth is per-Expert, not per-run: the canonical state holds
     # max(declared) so one deep Expert does not force everyone to recompute,
     # and each view is truncated back to its own declaration so it also cannot

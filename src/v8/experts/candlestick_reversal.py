@@ -274,10 +274,16 @@ class CandlestickReversalExpert(Expert):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         anchor = self.find_setup_anchor(self._hist, self._pred)
+        # trigger_side makes the entry contract explicit (issue #62): a LONG
+        # enters only on a CLOSE above the frozen trigger, a SHORT only on a
+        # CLOSE below it (Ch14.2 "entry only on a CLOSE beyond the trigger").
+        # The lab's PHASE 2 evaluates this predicate before PENDING -> TRIGGERED.
         geometry = {'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
                     'stop_r': stop_r, 'expiry_bars': 8, 'atr_ref': atr,
                     'variant': self.variant_id,
-                    'stop_ref': stop_price, 'trigger_ref': trigger_price}
+                    'stop_ref': stop_price, 'trigger_ref': trigger_price,
+                    'trigger_side': ('CLOSE_ABOVE' if direction == 'LONG'
+                                     else 'CLOSE_BELOW')}
         if direction == 'LONG':
             geometry['prior_low_ref'] = prior_low_ref
         else:

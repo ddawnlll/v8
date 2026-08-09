@@ -1,0 +1,110 @@
+{
+  "bollinger": {
+    "breakeven_formula": "w_min = risk/(reward+risk) = 2.07/3.00",
+    "breakeven_win_rate": 0.69,
+    "note": "RR=0.5 is source-derived from bollinger_reversion._geometry (stop_r = 2*sd/atr, target_r = sd/atr); if no Setup-3 (variant b) draft fired within the 2500-bar window, the sample is empty (the issue measured Setup 2/3 combined, n=82, on the full tape).",
+    "setup3_RR": 0.5,
+    "setup3_observed_on_2500bar_window": false,
+    "setup3_source": {
+      "stop_line": "geo['stop_r'] = 2 * sd / atr",
+      "stop_line_present": true,
+      "target_line": "geo['target_r'] = sd / atr",
+      "target_line_present": true
+    }
+  },
+  "dynamic": {
+    "atr_ref_rejections": {
+      "-5.0": "ValueError: risk_unit must be > 0 (got -5.0); geometry declares neither ",
+      "0.0": "ValueError: risk_unit must be > 0 (got 0.0); geometry declares neither a"
+    },
+    "endpoint_hit_rate_over_sample": 0.5,
+    "entry_price": 100.0,
+    "negative_target": {
+      "computed_stop_price": 90.0,
+      "computed_target_price": 90.0,
+      "geometry": {
+        "atr_ref": 10.0,
+        "expiry_bars": 8,
+        "stop_r": 1.0,
+        "target_r": -1.0
+      },
+      "outcome": {
+        "ambiguous_bars": 0,
+        "candidate_id": "cf:0",
+        "endpoint": "TARGET",
+        "entry_price": 100.0,
+        "horizon_bars": 1,
+        "label_available_time": 0,
+        "label_status": "MATURE",
+        "mae_r": 0.1,
+        "market_move_r": 0.0,
+        "mfe_r": 0.1,
+        "net_r": -1.07,
+        "risk_unit_price": 10.0
+      },
+      "target_side_vs_entry": "BELOW (wrong side for LONG)"
+    },
+    "risk_unit_price": 10.0,
+    "zero_stop": {
+      "computed_stop_price": 100.0,
+      "computed_target_price": 110.0,
+      "geometry": {
+        "atr_ref": 10.0,
+        "expiry_bars": 8,
+        "stop_r": 0.0,
+        "target_r": 1.0
+      },
+      "outcome": {
+        "ambiguous_bars": 0,
+        "candidate_id": "cf:0",
+        "endpoint": "STOP",
+        "entry_price": 100.0,
+        "horizon_bars": 1,
+        "label_available_time": 0,
+        "label_status": "MATURE",
+        "mae_r": 0.1,
+        "market_move_r": 0.0,
+        "mfe_r": 0.1,
+        "net_r": -0.07,
+        "risk_unit_price": 10.0
+      },
+      "stop_equals_entry": true
+    }
+  },
+  "issue": 70,
+  "latency": {
+    "bad_geometry_drafts": 0,
+    "bollinger_setup3_draft_sample": [],
+    "tape": "/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl",
+    "unique_drafts_scanned": 8047,
+    "violations": [],
+    "window_bars": 2500
+  },
+  "static": {
+    "expert_guard_file_count": 9,
+    "expert_guard_files": [
+      "breakout_retest.py",
+      "candlestick_reversal.py",
+      "floor_trader_pivot.py",
+      "funding_crowding_reversal.py",
+      "gap_exhaustion.py",
+      "market_profile_value_area.py",
+      "open_interest_divergence.py",
+      "pandf_breakout.py",
+      "pattern_measuring_objective.py"
+    ],
+    "lab": {
+      "file": "src/v8/lab.py",
+      "guardish_hits": []
+    },
+    "schema": {
+      "file": "src/v8/schema.py",
+      "guardish_hits": []
+    },
+    "simulator": {
+      "file": "src/v8/simulator.py",
+      "guardish_hits": []
+    },
+    "validate_geometry_symbols": []
+  }
+}

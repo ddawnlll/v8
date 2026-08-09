@@ -1,0 +1,38 @@
+{
+  "adverse_gap_outcome": {
+    "bar_open": 70.0,
+    "endpoint": "STOP",
+    "exit_price": 70.0,
+    "gap_units": -30.0,
+    "net_r": -3.07
+  },
+  "asymmetry_R": 3.3011,
+  "claim": "simulator step() STOP fills use the worse of barrier and bar open (gap semantics) while TARGET fills use exactly the barrier; equal-magnitude opposing gaps yield asymmetric R",
+  "favorable_clip_r": 2.0,
+  "favorable_gap_outcome": {
+    "bar_open": 130.0,
+    "endpoint": "TARGET",
+    "exit_price": 110.0,
+    "gap_units": 30.0,
+    "net_r": 0.9299999999999999
+  },
+  "favorable_gap_paid_if_open_net_r": 2.93,
+  "geometry": {
+    "atr_ref": 10.0,
+    "cost_r": 0.07,
+    "entry": 100.0,
+    "stop": 90.0,
+    "target": 110.0
+  },
+  "issue": 71,
+  "reproduced": true,
+  "tape_gap_frac": 0.006002,
+  "tape_open_eq_prevclose_frac": 0.516607,
+  "tape_stats": {
+    "bars": 2500,
+    "n_gap_bars": 15,
+    "n_open_eq_prevclose_bars": 1291,
+    "transitions": 2499
+  },
+  "title": "Gap asymmetry: adverse gap fully paid, favorable gap clipped at barrier"
+}

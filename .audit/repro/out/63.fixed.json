@@ -1,0 +1,51 @@
+{
+  "issue": 63,
+  "static": {
+    "step_reads_stop_ref": true,
+    "step_uses_stop_ref_as_stop": true,
+    "atr_stop_kept_as_fallback": true,
+    "structural_precedes_fallback": true,
+    "old_step_computes_atr_based_stop": true,
+    "old_step_never_reads_stop_ref": true
+  },
+  "dynamic": {
+    "n_drafts": 33,
+    "n_case_a_structural_farther": 14,
+    "n_stop_fires_at_stop_ref": 33,
+    "n_atr_level_no_stop": 14,
+    "n_net_exact_structural_fill": 33,
+    "net_mismatch_examples": [],
+    "atr_vs_structural_distance_R_mean": 0.4426
+  },
+  "executed": {
+    "n_executed": 845,
+    "mae_r_mean": 0.8854,
+    "mae_r_median": 0.7456,
+    "mfe_r_mean": 0.9216,
+    "mfe_r_median": 0.7328,
+    "n_mae_gt_1R": 324,
+    "frac_mae_gt_1R": 0.3834,
+    "net_r_mean": -0.0929,
+    "net_r_win_rate": 0.4686,
+    "net_r_total": -78.4927,
+    "n_executed_stop_ref_declared": 75,
+    "net_r_mean_stop_ref_subset": 0.131,
+    "net_r_win_rate_stop_ref_subset": 0.5333,
+    "net_r_total_stop_ref_subset": 9.8266
+  },
+  "ab": {
+    "n_all_setups": 8040,
+    "all_setups_mean_net_r_fixed": -0.0618,
+    "all_setups_mean_net_r_atr_fallback": -0.0632,
+    "n_drafts_declaring_stop_ref": 1002,
+    "stop_ref_subset_mean_net_r_fixed": -0.0295,
+    "stop_ref_subset_mean_net_r_atr_fallback": -0.0405,
+    "stop_ref_subset_win_rate_fixed": 0.4331,
+    "stop_ref_subset_win_rate_atr_fallback": 0.481,
+    "stop_ref_subset_total_r_fixed": -29.5587,
+    "stop_ref_subset_total_r_atr_fallback": -40.5482,
+    "mean_delta_R_fixed_minus_atr": 0.011,
+    "n_endpoint_differ": 153,
+    "n_endpoint_same": 849
+  }
+}

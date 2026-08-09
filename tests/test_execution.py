@@ -349,9 +349,12 @@ def test_sim_hash_reversions_to_canonical_sim_v8():
     on its own (both bindings move in the same direction)."""
     h = CanonicalSimulator().hash()
     assert h == sha1_hex(('canonical-sim-v8', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8,
-                          _SIMULATOR_SRC_HASH))
+                          'flat', _SIMULATOR_SRC_HASH))
     assert h != sha1_hex(('canonical-sim-v7', 'FILL_AT_BAR_CLOSE', 0.07, 0.0, 8,
-                          _SIMULATOR_SRC_HASH))
+                          'flat', _SIMULATOR_SRC_HASH))
+    # The cost FORM is part of the identity: a bps run must never hash equal
+    # to the flat-R run, even when the two price an episode the same.
+    assert h != CanonicalSimulator(round_trip_cost_bps=5.0).hash()
 
 
 def test_managed_geometry_changes_step_output():

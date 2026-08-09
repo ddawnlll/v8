@@ -1,0 +1,230 @@
+{
+  "after": {
+    "candlestick_executed_stats": {
+      "mean_net_r": -1.026455627476232,
+      "n": 2,
+      "total_r": -2.052911254952464,
+      "win_rate": 0.0
+    },
+    "n_TRIGGERED_lab": 18,
+    "n_TRIGGERED_unconfirmed_lab": 0,
+    "n_detected": 33,
+    "n_executed": 2,
+    "n_executed_violating_trigger_predicate": 0
+  },
+  "assertions": {
+    "core": {
+      "assert": "the lab-TRIGGERED candlestick set equals the close-confirmed set (n_lab_would_not == 0)",
+      "n_lab_TRIGGERED": 18,
+      "n_lab_unresolved": 0,
+      "n_lab_would_not_trigger": 0,
+      "n_lab_would_trigger": 18,
+      "status": "PASS"
+    },
+    "executed": {
+      "assert": "no executed candlestick entry violates the trigger predicate",
+      "n_executed": 2,
+      "n_executed_violating_trigger_predicate": 0,
+      "status": "PASS",
+      "violator_cids": []
+    },
+    "funnel": {
+      "n_TRIGGERED": 18,
+      "n_detected": 33,
+      "n_executed": 2,
+      "trigger_bar_details": [
+        {
+          "cid": "b322461a5b54",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 108093.5,
+          "trigger_idx": 99,
+          "trigger_ref": 108045.5,
+          "variant": "hammer"
+        },
+        {
+          "cid": "433c90d037b4",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 108106.1,
+          "trigger_idx": 108,
+          "trigger_ref": 108087.8,
+          "variant": "hammer"
+        },
+        {
+          "cid": "37498c887673",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 108092.1,
+          "trigger_idx": 115,
+          "trigger_ref": 108070.0,
+          "variant": "hammer"
+        },
+        {
+          "cid": "06aca4f88edd",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 118067.7,
+          "trigger_idx": 349,
+          "trigger_ref": 117530.7,
+          "variant": "hammer"
+        },
+        {
+          "cid": "185ac42ea062",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 118156.0,
+          "trigger_idx": 482,
+          "trigger_ref": 117333.1,
+          "variant": "hammer"
+        },
+        {
+          "cid": "462a59957469",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 118209.0,
+          "trigger_idx": 619,
+          "trigger_ref": 118148.9,
+          "variant": "hammer"
+        },
+        {
+          "cid": "7616d1f633e1",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 118063.6,
+          "trigger_idx": 625,
+          "trigger_ref": 117944.0,
+          "variant": "hammer"
+        },
+        {
+          "cid": "30a6ecc8b530",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 118050.0,
+          "trigger_idx": 667,
+          "trigger_ref": 117846.1,
+          "variant": "hammer"
+        },
+        {
+          "cid": "ecf3faa40aa6",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 117138.9,
+          "trigger_idx": 716,
+          "trigger_ref": 117083.7,
+          "variant": "hammer"
+        },
+        {
+          "cid": "ff86291fe20b",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 118907.9,
+          "trigger_idx": 1008,
+          "trigger_ref": 118884.2,
+          "variant": "hammer"
+        },
+        {
+          "cid": "ee6c994b5f32",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 117543.8,
+          "trigger_idx": 1097,
+          "trigger_ref": 117388.7,
+          "variant": "hammer"
+        },
+        {
+          "cid": "12df3d47c721",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 117699.3,
+          "trigger_idx": 1116,
+          "trigger_ref": 117407.8,
+          "variant": "hammer"
+        },
+        {
+          "cid": "753ca118ac78",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 112590.7,
+          "trigger_idx": 1248,
+          "trigger_ref": 112462.2,
+          "variant": "hammer"
+        },
+        {
+          "cid": "b430a0689e13",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 109188.4,
+          "trigger_idx": 1506,
+          "trigger_ref": 108920.3,
+          "variant": "hammer"
+        },
+        {
+          "cid": "0a22bc839492",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 115810.1,
+          "trigger_idx": 1805,
+          "trigger_ref": 115723.9,
+          "variant": "hammer"
+        },
+        {
+          "cid": "2b58212fb5fb",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 115877.9,
+          "trigger_idx": 1863,
+          "trigger_ref": 115268.6,
+          "variant": "hammer"
+        },
+        {
+          "cid": "487118554be3",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 112691.0,
+          "trigger_idx": 2049,
+          "trigger_ref": 112596.6,
+          "variant": "hammer"
+        },
+        {
+          "cid": "b79910bfd94d",
+          "confirmed": true,
+          "direction": "LONG",
+          "trigger_bar_close": 120461.6,
+          "trigger_idx": 2250,
+          "trigger_ref": 119916.8,
+          "variant": "hammer"
+        }
+      ]
+    },
+    "headline_executed_subset": {
+      "candidate_count": 8047,
+      "mean_net_r": -0.09289078962850744,
+      "n": 845,
+      "n_executed_total": 845,
+      "population": "EXECUTED subset, 2500-bar dev window, cost 0.07",
+      "total_r": -78.4927172360888,
+      "win_rate": 0.4686390532544379
+    },
+    "static": {
+      "assert": "lab.py PHASE 2 consumes risk_geometry[trigger_ref] + trigger_side as the entry predicate; candlestick_reversal declares trigger_side",
+      "candlestick_declares_trigger_side": true,
+      "lab_has_close_predicate": true,
+      "lab_has_trigger_ref_read": true,
+      "lab_has_trigger_side": true,
+      "status": "PASS"
+    }
+  },
+  "before": {
+    "n_TRIGGERED": 27,
+    "n_TRIGGERED_without_close_confirmation": 16,
+    "n_detected": 33,
+    "n_executed": 4,
+    "n_executed_violating_trigger_predicate": 2,
+    "note": "BASELINE.md row #62: \"16/27 candlestick candidates triggered despite failing the book close-beyond-trigger test\"; row #67: \"2/4 entered candidates violated the trigger predicate\". (Pre-fix out/62.json was itself overwritten by a post-fix run during the fix pass; BASELINE.md is the authoritative record.)"
+  },
+  "delta": "candlestick_reversal funnel on the 2500-bar dev window: detected 33 -> TRIGGERED 27 -> 18 (pre-fix unconditional 27 -> post-fix close-confirmed 18; unconfirmed triggers 16 -> 0); executed 4 -> 2 (mean net_R -1.026455627476232). The triggered set now equals the confirmed set: every candidate the lab advances PENDING->TRIGGERED has a trigger-bar close beyond the frozen trigger_ref, and every executed candlestick entry satisfies the predicate.",
+  "fixed": true,
+  "issue": 62,
+  "title": "PENDING->TRIGGERED now gated on the frozen trigger predicate"
+}
