@@ -6,13 +6,15 @@ against the (source, event_id) inbox (PERSISTENCE_REPLAY_SPEC sections 3-4).
 from __future__ import annotations
 
 import json
+import os
+import shutil
 from pathlib import Path
 
 from .schema import TapeRow, sha1_hex
 
 
 class AppendOnlyLog:
-    def __init__(self, path: str | Path):
+    def __init__(self, path: str | Path, *, lazy_index: bool = False):
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         # Open the append handle ONCE (per-record open/close dominated append
@@ -20,6 +22,7 @@ class AppendOnlyLog:
         # crash-loss policy bounded to the current record.
         self._fh = self.path.open('a', encoding='utf-8')
         self._inbox: dict[tuple[str, str], None] = {}
+        self._inbox_loaded = False
         # Parsed-log cache. The log is append-only and this handle is the only
         # writer, so the file can only change via append() — which invalidates.
         # Without it every read() re-read AND re-parsed the whole JSONL, and
@@ -27,16 +30,33 @@ class AppendOnlyLog:
         # cost ~5.9s of a ~39s run on the 8760-bar dev tape (14% of wall).
         self._cache: list[dict] | None = None
         self._hash: str | None = None
+        if not lazy_index:
+            self._load_inbox()
+
+    def _load_inbox(self) -> None:
+        if self._inbox_loaded:
+            return
         if self.path.exists():
             for line in self.path.read_text(encoding='utf-8').splitlines():
                 rec = json.loads(line)
                 self._inbox[(rec['source'], rec['event_id'])] = None
+        self._inbox_loaded = True
 
     def append(self, record: dict) -> bool:
         """Return False if the (source, event_id) was already applied."""
+        self._load_inbox()
         key = (record['source'], record['event_id'])
         if key in self._inbox:
             return False
+        # A complete-run cache may restore immutable ledgers with a hardlink.
+        # Detach before the first mutation so appending to a restored store
+        # can never modify the cache entry behind it.
+        if self.path.exists() and self.path.stat().st_nlink > 1:
+            temporary = self.path.with_name(f'.{self.path.name}.cow.tmp')
+            shutil.copyfile(self.path, temporary)
+            self._fh.close()
+            os.replace(temporary, self.path)
+            self._fh = self.path.open('a', encoding='utf-8')
         self._fh.write(json.dumps(record, sort_keys=True) + '\n')
         self._fh.flush()
         self._inbox[key] = None

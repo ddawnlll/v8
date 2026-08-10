@@ -661,3 +661,11 @@ this file and `docs/STATUS_REPORT.md`.
 - commit: (below) `v8-bugfix: critical/high confirmed fixes — vision_backfill archive-revision fail-closed + per-month provenance + strict audit, Phase-1a counterfactual entry fix, DEGRADED state quality, data.py geo-block degrade, 22-finding bug hunt verified`
 - gate: pytest=86 monograph=byte-identical?yes (bc207925…)
   forbidden-scan=clean?yes wall-clock=clean?yes
+
+## Session 5 — Step 0 — Record D-085 fast-cache module — DONE
+- started: 2026-08-11T00:00:00Z finished: 2026-08-11
+- files touched: src/v8/fast.py, tests/test_fast_cache.py, src/v8/lab.py, src/v8/store.py, RUNLOG.md
+- evidence: `.venv/bin/python -m pytest tests -q` -> 800 passed in 74.55s; monograph probe rebuild byte-identical
+- fixes / deviations: none — this is a recording commit, not a code change. The four files were sitting untracked/modified in the tree despite D-085 already admitting `fast.py` in the register (2026-08-11 corpus commit 4a1eb11). They form one coherent unit: `store.py` `lazy_index` + copy-on-write hardlink detach is what `CompleteRunCache.restore` relies on; `lab.py` wires the three caches behind `cache_dir`. Taken as a single commit referencing D-085.
+- commit: (below) `v8-step: S0-commit D-085 fast-cache module (fast.py + lazy_index/COW store + lab cache wiring)`
+- gate: pytest=800 monograph=byte-identical forbidden-scan=clean wall-clock=clean

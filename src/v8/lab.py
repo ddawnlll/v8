@@ -20,6 +20,9 @@ from pathlib import Path
 from .schema import (TapeRow, ExperimentManifest, LabReport, MarketState,
                      CounterfactualOutcome, record_dict, sha1_hex)
 from .store import AppendOnlyLog
+from .fast import (CompleteRunCache, ExpertEvaluationCache,
+                   StateMaterializationCache, cache_key,
+                   expert_eval_cache_key, state_cache_key)
 from .marketstate import (build_state, build_multi_state, project_state,
                           projection_allowed_keys, group_closure, BarSeries)
 from .lifecycle import CandidateRegistry, episode_key, TERMINAL
@@ -291,7 +294,8 @@ class Lab:
         return ('EVALUABLE', '')
 
     def run(self, manifest: ExperimentManifest, experts: list,
-            risk_gate: RiskGate | None = None) -> LabReport:
+            risk_gate: RiskGate | None = None,
+            cache_dir: str | Path | None = None) -> LabReport:
         # One store directory = one immutable run's evidence. A second run on
         # the same store is NOT idempotent: the registry replays the prior
         # run's DETECTED keys, so every first detection becomes a NEW
@@ -334,6 +338,41 @@ class Lab:
         risk_config_hash = sha1_hex(risk_config)
         by_expert = {ex.expert_id: ex for ex in experts}
         tape = self.tape_log.replay_tape()
+        data_hash = self.tape_log.hash
+        live_code_hash = _code_hash()
+        live_tooling_hash = _tooling_hash()
+        if manifest.code_hash and manifest.code_hash != live_code_hash:
+            raise ValueError(
+                f'manifest code_hash {manifest.code_hash} != live {live_code_hash}')
+        if manifest.data_hash and manifest.data_hash != data_hash:
+            raise ValueError(
+                f'manifest data_hash {manifest.data_hash} != live tape {data_hash}')
+        cache = CompleteRunCache(cache_dir) if cache_dir is not None else None
+        key = None
+        if cache is not None:
+            manifest_for_key = asdict(manifest)
+            manifest_for_key['code_hash'] = live_code_hash
+            manifest_for_key['data_hash'] = data_hash
+            key = cache_key(tape_hash=data_hash,
+                            manifest_dict=manifest_for_key,
+                            experts=experts, code_hash=live_code_hash,
+                            tooling_hash=live_tooling_hash,
+                            risk_config_hash=risk_config_hash)
+            if cache.has(key):
+                for log in (self.candidates, self.evaluations,
+                            self.outcomes, self.states):
+                    log.close()
+                report = cache.restore(key, self.dir)
+                self.candidates = AppendOnlyLog(self.dir / 'candidates.jsonl',
+                                                lazy_index=True)
+                self.evaluations = AppendOnlyLog(self.dir / 'evaluations.jsonl',
+                                                 lazy_index=True)
+                self.outcomes = AppendOnlyLog(self.dir / 'outcomes.jsonl',
+                                              lazy_index=True)
+                self.states = AppendOnlyLog(self.dir / 'states.jsonl',
+                                            lazy_index=True)
+                self.registry = CandidateRegistry(self.candidates)
+                return report
         # Tape-driven funding schedule (D-041): every funding TapeRow is a
         # (boundary_time_ns, rate) pair, sorted by boundary time. Non-empty
         # when the tape carries the funding channel; the manifest scalar stays
@@ -462,6 +501,22 @@ class Lab:
         declared_union.sort(key=lambda t: INTERVAL_NS.get(t, 0))
         known_intervals = frozenset(INTERVAL_NS)
 
+        state_cache = None
+        state_key = None
+        state_source_hash = None
+        if cache_dir is not None:
+            state_source_files = {
+                name: (Path(__file__).resolve().parent / name).read_bytes().hex()
+                for name in ('marketstate.py', 'schema.py', 'interval.py')
+            }
+            state_source_hash = sha1_hex(state_source_files)
+            state_cache = StateMaterializationCache(cache_dir)
+            state_key = state_cache_key(
+                tape_hash=data_hash, universe=self.universe,
+                base_interval=manifest.interval,
+                intervals=tuple(declared_union), depths=depth_union,
+                state_code_hash=state_source_hash)
+
         # D-053 projection specs, hoisted ONCE per Expert: the allowed feature
         # keys, the history depth truncation and the declared intervals are
         # constant per Expert per run — only the state changes bar to bar.
@@ -502,19 +557,45 @@ class Lab:
                      and r.channel == 'open_interest'])
         series[manifest.interval] = base_series
 
-        acc_rows: list = []
-        pit_it = iter(pit)
-        next_row = next(pit_it, None)
-        for bar in bars:
-            while next_row is not None \
-                    and next_row.available_time <= bar.available_time:
-                acc_rows.append(next_row)
-                next_row = next(pit_it, None)
-            states_by_time[bar.available_time] = build_multi_state(
-                acc_rows, bar.available_time, self.universe,
-                base_interval=manifest.interval,
-                intervals=tuple(declared_union), depths=depth_union,
-                series=series)
+        cached_states = state_cache.load(state_key) \
+            if state_cache is not None and state_key is not None else None
+        if cached_states is not None:
+            states_by_time = cached_states
+        else:
+            acc_rows: list = []
+            pit_it = iter(pit)
+            next_row = next(pit_it, None)
+            for bar in bars:
+                while next_row is not None \
+                        and next_row.available_time <= bar.available_time:
+                    acc_rows.append(next_row)
+                    next_row = next(pit_it, None)
+                states_by_time[bar.available_time] = build_multi_state(
+                    acc_rows, bar.available_time, self.universe,
+                    base_interval=manifest.interval,
+                    intervals=tuple(declared_union), depths=depth_union,
+                    series=series)
+            if state_cache is not None and state_key is not None:
+                state_cache.save(state_key, states_by_time)
+
+        sorted_experts = sorted(experts, key=lambda e: e.expert_id)
+        eval_cache = (ExpertEvaluationCache(cache_dir)
+                      if cache_dir is not None else None)
+        eval_cache_keys: dict[str, str] = {}
+        eval_cache_values: dict[str, list] = {}
+        eval_cache_hits: set[str] = set()
+        if eval_cache is not None and state_key is not None:
+            for ex in sorted_experts:
+                ek = expert_eval_cache_key(
+                    state_key=state_key, expert=ex,
+                    state_code_hash=state_source_hash or '')
+                eval_cache_keys[ex.expert_id] = ek
+                cached = eval_cache.load(ek)
+                if cached is not None and len(cached) == len(bars):
+                    eval_cache_values[ex.expert_id] = cached
+                    eval_cache_hits.add(ex.expert_id)
+                else:
+                    eval_cache_values[ex.expert_id] = []
 
         for i, bar in enumerate(bars):
             as_of = bar.available_time
@@ -797,7 +878,7 @@ class Lab:
             # section 5 requires shuffling the evaluation order of independent
             # experts to produce identical stored events — the evaluation and
             # DETECTED record order is part of the ledger hash.
-            for ex in sorted(experts, key=lambda e: e.expert_id):
+            for ex in sorted_experts:
                 # D-053: each Expert evaluates the MarketState it declared — a
                 # projection of the one canonical state, not a state of its own
                 # (state_id is carried through, so the ledger still shows every
@@ -809,7 +890,12 @@ class Lab:
                                      depths=spec[1], intervals=spec[2])
                 else:
                     view = state
-                ev = ex.evaluate(view)
+                if ex.expert_id in eval_cache_hits:
+                    ev = eval_cache_values[ex.expert_id][i]
+                else:
+                    ev = ex.evaluate(view)
+                    if eval_cache is not None:
+                        eval_cache_values[ex.expert_id].append(ev)
                 self.evaluations.append(record_dict(ev, source='expert'))
                 if ev.draft is None:
                     continue
@@ -985,13 +1071,11 @@ class Lab:
         ledger_hash = sha1_hex((self.candidates.hash, self.evaluations.hash,
                                 self.outcomes.hash, self.states.hash,
                                 config_hash, risk_config_hash))
-        data_hash = self.tape_log.hash
         # The report must bind what actually ran: a non-empty manifest pin that
         # does not match the live code/tape is a stale or forged identity.
         # Fail closed at the composition root — a direct Lab.run caller must
         # never get a report claiming code/data that did not run (materialize_
         # views re-checks, but Lab.run is the authority).
-        live_code_hash = _code_hash()
         if manifest.code_hash and manifest.code_hash != live_code_hash:
             raise ValueError(
                 f'manifest code_hash {manifest.code_hash} != live {live_code_hash}')
@@ -1098,7 +1182,7 @@ class Lab:
                            n_portfolio_rejected=n_portfolio_rejected,
                            execution_share=execution_share,
                            divergence_ks=divergence_ks,
-                           tooling_hash=_tooling_hash(),
+                           tooling_hash=live_tooling_hash,
                            risk_gate_hash=risk_config_hash,
                            size_scheme=SIZE_SCHEME,
                            risk_per_trade=manifest.risk_per_trade,
@@ -1124,4 +1208,12 @@ class Lab:
         (self.dir / 'report.json').write_text(
             json.dumps(record_dict(report, source='lab-report'),
                        sort_keys=True, indent=2) + '\n', encoding='utf-8')
+        if eval_cache is not None:
+            for ex in sorted_experts:
+                if ex.expert_id in eval_cache_hits:
+                    continue
+                eval_cache.save(eval_cache_keys[ex.expert_id],
+                                eval_cache_values[ex.expert_id])
+        if cache is not None and key is not None:
+            cache.save(key, self.dir)
         return report
