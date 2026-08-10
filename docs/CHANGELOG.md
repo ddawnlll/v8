@@ -3,6 +3,44 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-11 — V8.2 compute core S0: parity harness + Dataset ingest (D-087)
+
+`v8-core/` (new workspace), `tools/v82_reader.py` (new), `tests/parity/` (new),
+`reports/parity/S0.md` (new evidence). The V8.2 Rust compute plane begins its
+staged migration (`COMPUTE_CORE_SPEC` §8) with the S0 foundation: the parity
+harness and the Dataset layer. `v8-core/` links no Python runtime
+(no-callback invariant, D-078); its identities use the bit encoding of D-079;
+`src/v8/` is untouched (frozen parity oracle).
+
+- `src/hash.rs` — V8.2 canonical hash encoding (PARITY_AND_IDENTITY_SPEC §4):
+  f64 → 8 IEEE bytes LE, NaN normalized to one declared payload, `-0.0`
+  distinct from `0.0`, strings length-prefixed, composites tagged; digest
+  stays SHA-1. A float-rendering-dependent hash is impossible by construction.
+- `src/data.rs` — `Dataset`: tape ingest mirroring `_validate_tape_rows`
+  verbatim (G6 fail-closed classifications), (source, event_id) dedup like
+  `AppendOnlyLog`'s inbox, canonical replay order `(event_time,
+  available_time, venue_sequence)`, per-symbol columnar closed klines.
+- `src/evidence.rs` — the columnar artifact container (LEDGER_FORMAT_SPEC
+  §3-4): magic `V82LDRG1`, JSON header with `hash_encoding: v8.2-ieee-le`,
+  per-column validity bitmask, fixed-width IEEE-754 / two's-complement values,
+  dictionary-encoded strings, no wall clock → two identical requests write
+  byte-identical artifacts (G4).
+- `src/jsonx.rs` — Python-`json`-compatible tape parser: CPython `json.dumps`
+  emits `NaN`/`Infinity` as bare literals that strict JSON rejects; the parser
+  records them with their JSON path so the oracle's "non-finite OHLC"
+  classification survives.
+- `.cargo/config.toml` — `--fp-contract=off` (FMA contraction off: CPython
+  does not fuse multiply-add; G5).
+- Crates: `serde`, `serde_json`, `sha1` — the only dependencies; no Python
+  runtime, no FFI, no embedded interpreter.
+
+Gate evidence (`reports/parity/S0.md`, oracle tree `184fb934…`): 23 Rust unit
+tests pass; 16/16 S0 parity tests pass — synthetic (multiple seeds + continuous
++ degenerate), real verified tape (btcusdt-1h-12m full 9,948 rows + a
+25,000-row multi-symbol slice of multi-1h-4y), two runs byte-identical (G4),
+threads=1 vs 8 byte-identical (G5), seven fail-closed classifications matching
+the oracle (G6). No speed claim; the S0 gate is correctness.
+
 ## 2026-08-11 — Variant sweeps admitted under anytime-valid error control (D-086); O-028 resolved
 
 `docs/protocols/SWEEP_PROTOCOL.md` (new). Sweeps — evaluating a registered grid

@@ -1,0 +1,7 @@
+# Determinism policy (COMPUTE_SCHEDULING_SPEC §5): CPython does not fuse
+# multiply-add, so the V8.0 oracle rounds each operation separately. LLVM's
+# FMA contraction would round once where the reference rounds twice and break
+# bit-parity. `fp-contract=off` makes the whole crate emit separate
+# multiply/add, in both dev and release profiles.
+[build]
+rustflags = ["-C", "llvm-args=--fp-contract=off"]

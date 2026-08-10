@@ -669,3 +669,11 @@ this file and `docs/STATUS_REPORT.md`.
 - fixes / deviations: none — this is a recording commit, not a code change. The four files were sitting untracked/modified in the tree despite D-085 already admitting `fast.py` in the register (2026-08-11 corpus commit 4a1eb11). They form one coherent unit: `store.py` `lazy_index` + copy-on-write hardlink detach is what `CompleteRunCache.restore` relies on; `lab.py` wires the three caches behind `cache_dir`. Taken as a single commit referencing D-085.
 - commit: (below) `v8-step: S0-commit D-085 fast-cache module (fast.py + lazy_index/COW store + lab cache wiring)`
 - gate: pytest=800 monograph=byte-identical forbidden-scan=clean wall-clock=clean
+
+## Session 5 — Step 1 — S0 parity harness + Dataset ingest — DONE
+- started: 2026-08-11 finished: 2026-08-11
+- files touched: v8-core/ (workspace: Cargo.toml, .cargo/config.toml, src/{main,hash,data,evidence,jsonx}.rs), tools/v82_reader.py, tests/parity/{__init__,conftest,runner,test_parity_s0}.py, reports/parity/S0.md, docs/CHANGELOG.md, docs/decisions/DECISION_REGISTER.md, site/{index,tr}.html
+- evidence: `cargo test` -> 23 passed; `.venv/bin/python -m pytest tests/parity/test_parity_s0.py -q` -> 16 passed (G1..G6); `.venv/bin/python -m pytest tests -q` -> 816 passed (was 800; count rose, nothing regressed); monograph probe rebuild byte-identical (0f5230ea…); oracle tree hash pinned 184fb934…
+- fixes / deviations: none — gate evidence in reports/parity/S0.md. The lenient tape parser (jsonx.rs) exists because CPython json.dumps emits NaN/Infinity as bare literals strict JSON rejects; the G6 message comparison normalizes float rendering (the one documented runtime divergence, PERFORMANCE_AUDIT_V82 §8) while requiring category + row identity exact. No speed claim; S0 is correctness.
+- commit: (below) `v8-step: S0 parity harness + Dataset ingest`
+- gate: pytest=816 cargo-test=23 monograph=byte-identical oracle-tree=184fb934…
