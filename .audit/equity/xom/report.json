@@ -1,0 +1,117 @@
+{
+  "currency": "USD",
+  "evaluations": {
+    "CANDIDATE": 496,
+    "NO_HABITAT": 1092,
+    "NO_SETUP": 2528
+  },
+  "exchange": "NYSE",
+  "experts": {
+    "candidates_by_expert": {
+      "bollinger_breakout": 61,
+      "bollinger_reversion": 9,
+      "breakout_retest": 2,
+      "donchian_breakout": 11,
+      "failed_breakout": 11,
+      "failed_breakout_2b": 2,
+      "fib_projection_reversal": 1,
+      "fib_retracement_continuation": 8,
+      "floor_trader_pivot": 32,
+      "gap_exhaustion": 2,
+      "ichimoku_cloud": 3,
+      "liquidity_sweep_reclaim": 6,
+      "macd_stoch_trend": 22,
+      "market_profile_value_area": 46,
+      "pandf_breakout": 5,
+      "pattern_measuring_objective": 4,
+      "range_breakout_1to1": 1,
+      "rsi_stoch_reversion": 6,
+      "trend_pullback": 4,
+      "trend_pullback_depth": 6,
+      "volume_climax_reversal": 38,
+      "volume_confirmed_breakout": 9
+    },
+    "roster": [
+      "TrendPullbackExpert",
+      "FailedBreakoutExpert",
+      "LiquiditySweepReclaimExpert",
+      "FailedBreakout2BExpert",
+      "TrendPullbackDepthExpert",
+      "RangeBreakout1To1Expert",
+      "CandlestickReversalExpert",
+      "RsiStochReversionExpert",
+      "MacdStochTrendExpert",
+      "Divergence12SetupsExpert",
+      "BollingerBreakoutExpert",
+      "BollingerReversionExpert",
+      "DonchianBreakoutExpert",
+      "BreakoutRetestExpert",
+      "FibRetracementContinuationExpert",
+      "FibProjectionReversalExpert",
+      "PatternMeasuringObjectiveExpert",
+      "VolumeConfirmedBreakoutExpert",
+      "VolumeClimaxReversalExpert",
+      "ObvAdlRegimeExpert",
+      "IchimokuCloudExpert",
+      "FloorTraderPivotExpert",
+      "MarketProfileValueAreaExpert",
+      "GapExhaustionExpert",
+      "OpenInterestDivergenceExpert",
+      "FundingCrowdingReversalExpert",
+      "PandfBreakoutExpert",
+      "FibRsiBbConfluenceExpert"
+    ]
+  },
+  "interval": "1h",
+  "lab": {
+    "candidate_count": 289,
+    "code_hash": "7fd3ca5ff27bf197f467fa46afee3dd0a7b221b8",
+    "data_hash": "95e3e7cf6e8a4b41af8e12946a1ff224f6b27d6c",
+    "data_invalid": false,
+    "divergence_ks": 0.11443494776828109,
+    "economic_note": "NO_ECONOMIC_CLAIM: executed episodes 39 < trade-unit need 100 (RM-07 budget); NO_ECONOMIC_CLAIM: executed episodes 39 < min_trades 300 (RM-08 adequacy bar); FEASIBILITY: breakeven win rate 0.545 exceeds realized win rate 0.462 (RM-11; the shipped geometry cannot clear round-trip cost at this win rate)",
+    "evaluation_distribution": {
+      "CANDIDATE": 496,
+      "NO_HABITAT": 1092,
+      "NO_SETUP": 2528
+    },
+    "execution_share": 0.19402985074626866,
+    "final_equity": 0.8448058061068642,
+    "ledger_hash": "c5aa505c0685a4a89e9da0a8dca752575c0e69bd",
+    "max_drawdown": -0.16186801502082315,
+    "n_executed": 39,
+    "n_portfolio_rejected": 162,
+    "profit_factor": 0.5037728154719239,
+    "rejection_distribution": {
+      "EXISTING_EXPOSURE_CONFLICT": 132,
+      "PORTFOLIO_HEAT_EXCEEDED": 30,
+      "TRADABILITY_MASK_VETO": 17
+    },
+    "risk_gate_hash": "bf50bb42120d7206588a80cc4e8a831562175b37",
+    "risk_of_ruin": 0.0,
+    "terminal_distribution": {
+      "CLOSED": 39,
+      "EXPIRED": 2,
+      "INVALIDATED": 69,
+      "REJECTED": 179
+    },
+    "tooling_hash": "b4e305232734bf7e805828d5044f1f34e072160a",
+    "verdict": "NO_ECONOMIC_CLAIM",
+    "w_min": 0.5447716014470028
+  },
+  "price": {
+    "first_close": 137.8699951171875,
+    "high": 159.1300048828125,
+    "last_close": 159.05990600585938,
+    "low": 137.72000122070312,
+    "net_pct": 15.36948693634228
+  },
+  "source": "yahoo-equity",
+  "symbol": "XOM",
+  "window": {
+    "bars": 147,
+    "first_event_ns": 1783708199999000000,
+    "last_event_ns": 1786382999999000000,
+    "range": "1mo"
+  }
+}

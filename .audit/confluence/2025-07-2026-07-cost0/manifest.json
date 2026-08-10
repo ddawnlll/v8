@@ -1,0 +1,23 @@
+{
+  "authority_receipt": null,
+  "code_hash": "",
+  "data_hash": "",
+  "end_ns": 1782863999999000000,
+  "event_id": "a1b8e6db137d8bb559271c103c48a699b04423a1",
+  "experiment_id": "fib_rsi_bb_confluence_dev",
+  "fill_policy": "FILL_AT_BAR_CLOSE",
+  "funding_hours": 8,
+  "funding_rate_r": 0.0,
+  "funding_window_bars": 1,
+  "interval": "1h",
+  "max_bar_range_frac": 0.05,
+  "min_trades": 300,
+  "risk_per_trade": 0.01,
+  "round_trip_cost_bps": 0.0,
+  "round_trip_cost_r": 0.07,
+  "source": "manifest",
+  "start_ns": 1751331599999000000,
+  "universe": [
+    "SOLUSDT"
+  ]
+}

@@ -25,7 +25,8 @@ from v8.experts import (TrendPullbackExpert, FailedBreakoutExpert,
                         ObvAdlRegimeExpert, IchimokuCloudExpert,
                         FloorTraderPivotExpert, MarketProfileValueAreaExpert,
                         GapExhaustionExpert, OpenInterestDivergenceExpert,
-                        FundingCrowdingReversalExpert, PandfBreakoutExpert)
+                        FundingCrowdingReversalExpert, PandfBreakoutExpert,
+                        FibRsiBbConfluenceExpert)
 from v8.schema import FEATURE_GROUPS, FEATURE_TO_GROUP
 from v8.synth import make_synthetic_tape
 
@@ -45,7 +46,7 @@ ALL_EXPERTS = [
     VolumeConfirmedBreakoutExpert, VolumeClimaxReversalExpert, ObvAdlRegimeExpert,
     IchimokuCloudExpert, FloorTraderPivotExpert, MarketProfileValueAreaExpert,
     GapExhaustionExpert, OpenInterestDivergenceExpert, FundingCrowdingReversalExpert,
-    PandfBreakoutExpert,
+    PandfBreakoutExpert, FibRsiBbConfluenceExpert,
 ]
 
 # Backlog: no code OR data-absent on the current tape (self-gating experts).

@@ -172,7 +172,16 @@ UNIVERSE = ('SOLUSDT',)
 # the two dumps are identical. Only ledger_hash moved, because sim.hash() now
 # binds the cost FORM ('flat' vs 'bps:X') and the module source moved.
 # Do not update silently.
-GOLDEN_LEDGER_HASH = '8c847351d9b0496e2b0c4d0a11ef11c0e2edc0c1'
+# Re-pinned again, same day (PERF PASS): `step()`/`_apply_funding` now build
+# the successor OpenPosition through `simulator._evolve` instead of
+# `dataclasses.replace`. OpenPosition is a frozen dataclass with no
+# __post_init__, no validation and no __slots__, so populating a fresh
+# instance's __dict__ is exactly equivalent — pinned field-by-field against
+# `dataclasses.replace` in tests/test_perf_hotpaths.py. The economics dump
+# (every outcome's net_r/endpoint/entry_price/risk_unit_price + the whole
+# LabReport minus hashes) is IDENTICAL to the pre-cost-form baseline; only
+# ledger_hash moved, because _SIMULATOR_SRC_HASH binds the module source.
+GOLDEN_LEDGER_HASH = '70b83058deef9385bf3a37be1c0c0d2334b5921f'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
 GOLDEN_STATES_HASH = '786378b5bfa50a3c9e422ddaaa1b4b91dc1a2dae'
 # 2026-08-07 perf pass (100x total-pipeline program): re-pinned after the

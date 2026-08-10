@@ -54,6 +54,8 @@ MARKOUT_DELTAS = (1, 2, 3, 6, 12, 24)                        # bars after entry
 SL_GRID = (0.5, 0.75, 1.0, 1.5, 2.0)
 TP_GRID = (0.5, 1.0, 1.5, 2.0, 3.0, 4.0)
 NULL_REPLICATIONS = 200
+# Drafts synthesised for the null baselines. Never cached (see _walk_result).
+NULL_DRAFT_PREFIX = 'null'
 NULL_MAX_ENTRIES = 1000
 TOLERANCE = 1e-9
 
@@ -267,7 +269,11 @@ class DiagnosticEngine:
         self.closes = [float(b.payload['close']) for b in self.bars]
         # Walk memoization: one bar walk per (draft, entry, geometry) serves
         # every cost/funding variant the sections ask for (see _WalkResult).
-        self._walk_cache: dict[tuple, _WalkResult] = {}
+        # (draft, result) so a recycled id() can never serve a foreign walk —
+        # see _walk_result. The draft reference also pins the object, which is
+        # what makes the id stable for the cache's lifetime.
+        self._walk_cache: dict[tuple, tuple[CandidateDraft, _WalkResult]] = {}
+        self._median_atr_cache: float | None = None
 
     # ------------------------------------------------------------------ #
     # Detection (mirrors lab.run PHASE 3: sorted expert_id, _view_for)
@@ -383,11 +389,30 @@ class DiagnosticEngine:
         ZERO cost/funding. The walk is a pure function of the geometry — cost
         and funding enter only the terminal net arithmetic — so identical
         (draft, entry, sl/tp/expiry) pairs share one walk across sections."""
+        # A null draft is created fresh per replication and never re-simulated,
+        # so caching it is pure cost: on a 540-bar cell the cache held 97,263
+        # entries against 1,387 real drafts. Worse, `id()` is only unique among
+        # LIVE objects — a null draft freed right after its walk lets CPython
+        # hand the same address to the next one, and a (recycled id, same
+        # entry_idx, same geometry) key would then return a walk taken in the
+        # OTHER direction. Bypassing the cache removes both the growth and the
+        # collision; the identity check below covers every remaining path.
+        if draft.expert_id.startswith(NULL_DRAFT_PREFIX):
+            return self._compute_walk(draft, entry_idx, sl, tp, expiry,
+                                      geometry_extra, key=None)
         key = (id(draft), entry_idx, sl, tp, expiry,
                tuple(sorted((geometry_extra or {}).items())))
         cached = self._walk_cache.get(key)
         if cached is not None:
-            return cached
+            owner, result = cached
+            if owner is draft:
+                return result
+        return self._compute_walk(draft, entry_idx, sl, tp, expiry,
+                                  geometry_extra, key=key)
+
+    def _compute_walk(self, draft, entry_idx, sl, tp, expiry, geometry_extra,
+                      *, key) -> _WalkResult:
+        """The walk itself. `key=None` means do not cache the result."""
         entry = float(self.bars[entry_idx].payload['close'])
         unit = risk_unit(draft, entry)
         geom = dict(draft.risk_geometry)
@@ -432,9 +457,16 @@ class DiagnosticEngine:
                     ambiguous_bars=nxt.ambiguous_bars,
                     time_to_mae=time_to_mae, time_to_mfe=time_to_mfe,
                     funding_paid=nxt.funding_paid_r, walk_net=res.net_r,
-                    post_exit_max=self._post_exit_max(draft, entry, unit, k),
+                    # 24 extra bar reads per walk, consumed only by the
+                    # early-TP evidence in section 4 — which never looks at a
+                    # null walk. Skipping it for nulls drops ~200k x 24 float
+                    # conversions per cell that nothing reads.
+                    post_exit_max=(
+                        None if draft.expert_id.startswith(NULL_DRAFT_PREFIX)
+                        else self._post_exit_max(draft, entry, unit, k)),
                     direction=draft.direction, expert_id=draft.expert_id)
-                self._walk_cache[key] = wr
+                if key is not None:
+                    self._walk_cache[key] = (draft, wr)
                 return wr
             pos = nxt
         # Tape ended before expiry.
@@ -450,7 +482,8 @@ class DiagnosticEngine:
             funding_paid=pos.funding_paid_r, walk_net=net,
             post_exit_max=None, direction=draft.direction,
             expert_id=draft.expert_id)
-        self._walk_cache[key] = wr
+        if key is not None:
+            self._walk_cache[key] = (draft, wr)
         return wr
 
     def _simulate(self, draft: CandidateDraft, entry_idx: int, *,
@@ -728,10 +761,19 @@ class DiagnosticEngine:
     def _median_atr(self) -> float:
         """Median atr_ref across the actual entry set — the null baselines use
         this as their standard R unit so null vs actual comparisons are on the
-        same R scale."""
-        atrs = [float(d.risk_geometry['atr_ref']) for d, _bi in self.drafts
-                if d.risk_geometry.get('atr_ref') is not None]
-        return _pct(atrs, 0.5) if atrs else float('nan')
+        same R scale.
+
+        Memoized: this is a pure function of `self.drafts`, which is frozen
+        after detection, but `_null_draft` calls it once per null draft —
+        200 replications x n per run. On a 540-bar cell that was 202,000
+        recomputations, each scanning and SORTING every draft: 54.3s of a
+        72.6s run (75%), and 287M dict lookups. Same value every time.
+        """
+        if self._median_atr_cache is None:
+            atrs = [float(d.risk_geometry['atr_ref']) for d, _bi in self.drafts
+                    if d.risk_geometry.get('atr_ref') is not None]
+            self._median_atr_cache = _pct(atrs, 0.5) if atrs else float('nan')
+        return self._median_atr_cache
 
     def _null_draft(self, k, direction, tag):
         return CandidateDraft(
@@ -3111,11 +3153,35 @@ def _slice_cell(rows, symbol, span_ns):
     return [r for r in sym if r.available_time > last - span_ns]
 
 
+_TAPE_CACHE: dict[str, list] = {}
+
+
+def _replay_tape_cached(tape_path: str) -> list:
+    """Parse a tape once per PROCESS, not once per cell.
+
+    Every cell used to re-read and re-parse the whole file: on the 10-symbol
+    4-year tape that is ~395k JSON lines and ~4.5s, paid again for each
+    (symbol, timeframe) cell the worker handled. Cells are read-only over the
+    parsed rows — each one slices its own symbol out — so one parse serves all
+    of them.
+
+    Deliberately process-local rather than shared: `multiprocessing` workers
+    do not share memory, and passing the parsed rows through the pool would
+    pickle 395k records per cell, which costs more than the re-parse. With
+    `--processes 1` this collapses to a single parse for the whole run.
+    """
+    rows = _TAPE_CACHE.get(tape_path)
+    if rows is None:
+        rows = AppendOnlyLog(tape_path).replay_tape()
+        _TAPE_CACHE[tape_path] = rows
+    return rows
+
+
 def _run_cell(args):
     """One (symbol, timeframe) cell. Top-level for multiprocessing."""
     (symbol, tf, tape_path, span_ns, seed, out_dir, allow_surface,
      cost_r, cost_bps) = args
-    rows = AppendOnlyLog(tape_path).replay_tape()
+    rows = _replay_tape_cached(tape_path)
     cell_rows = _slice_cell(rows, symbol, span_ns)
     if not cell_rows:
         return {'symbol': symbol, 'tf': tf, 'error': 'no bars in span'}

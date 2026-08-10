@@ -222,6 +222,28 @@ def midpoint_stop(entry_price: float, add_price: float) -> float:
     return (float(entry_price) + float(add_price)) / 2.0
 
 
+def _evolve(pos: OpenPosition, **changes) -> OpenPosition:
+    """Copy an OpenPosition with changed fields — the hot-path `replace()`.
+
+    `dataclasses.replace` re-derives the field list, `getattr`s all ~20 fields
+    into a kwargs dict and re-runs `__init__` on every call. `step()` does this
+    up to three times per bar: on a profiled 540-bar diagnostic cell it was
+    3.9M calls and 20.4s of a 28.0s run (73%), with 57M `getattr`s underneath.
+
+    OpenPosition is a plain frozen dataclass — no `__post_init__`, no
+    validation, no `__slots__` — so populating a fresh instance's `__dict__`
+    directly is exactly equivalent and skips all of that machinery.
+    `test_evolve_matches_dataclasses_replace` pins the equivalence field by
+    field, and asserts the no-slots/no-post-init preconditions, so this stays
+    honest if OpenPosition ever grows either.
+    """
+    new = object.__new__(OpenPosition)
+    merged = dict(pos.__dict__)
+    merged.update(changes)
+    new.__dict__.update(merged)
+    return new
+
+
 class CanonicalSimulator:
     def __init__(self, round_trip_cost_r: float = 0.07,
                  funding_rate_r: float = 0.0, funding_hours: int = 8,
@@ -338,7 +360,7 @@ class CanonicalSimulator:
                 cost += sign * pos.entry_price * rate / unit
         else:
             cost = sign * self.funding_rate_r * new   # LONG pays when rate > 0
-        return replace(pos, settlements=total,
+        return _evolve(pos, settlements=total,
                        funding_paid_r=pos.funding_paid_r + cost), new
 
     def step(self, pos: OpenPosition, bar: dict,
@@ -415,7 +437,7 @@ class CanonicalSimulator:
         elif bars_held >= expiry:
             endpoint = 'EXPIRY'
 
-        next_pos = replace(pos, bars_held=bars_held, mae_r=mae_r, mfe_r=mfe_r,
+        next_pos = _evolve(pos, bars_held=bars_held, mae_r=mae_r, mfe_r=mfe_r,
                            ambiguous_bars=ambiguous_bars)
         if endpoint is None:
             # --- EXEC-1/2/3 position management (all bar-close, non-terminal) --
@@ -458,7 +480,7 @@ class CanonicalSimulator:
                 else:
                     stop_level = max(stop_level, trail) if long \
                         else min(stop_level, trail)
-            next_pos = replace(next_pos, stop_level=stop_level,
+            next_pos = _evolve(next_pos, stop_level=stop_level,
                                stop_rolled=stop_rolled)
             # EXEC-2 scale-out / partial exit (EX-02): on the bar whose mfe_r
             # crosses scale_out_at_mfe_r, close the fraction
@@ -472,7 +494,7 @@ class CanonicalSimulator:
                     and mfe_r >= float(geom['scale_out_at_mfe_r']):
                 f = stop_r / (stop_r + target_r)
                 leg_r = sign * (float(bar['close']) - entry) / unit
-                next_pos = replace(next_pos,
+                next_pos = _evolve(next_pos,
                                    remaining=pos.remaining * (1 - f),
                                    # R realized on the closed fraction of the
                                    # ORIGINAL position = remaining * f * leg_r.

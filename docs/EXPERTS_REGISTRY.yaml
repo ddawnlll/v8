@@ -539,3 +539,20 @@ experts:
   status: FORMALIZED
   owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
     ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: fib_rsi_bb_confluence
+  expert_version: v1
+  mechanism_family_id: confluence_reversion_continuation
+  behavior_family_id: fib_rsi_bb_confluence
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  search_universe_size: 2
+  requires:
+  - oscillator
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: EXPERT_PROTOCOL; ROADMAP Phase 3; D-042; confluence experiment D-076
+    (two variants in one run, STRICT all-three vs MAJORITY two-of-three)

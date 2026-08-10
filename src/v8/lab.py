@@ -164,12 +164,14 @@ def _validate_tape_rows(rows) -> None:
 
 
 def _geometry_version(draft) -> str:
-    """Structural risk geometry only: `atr_ref` and `prior_high_ref` are
+    """Structural risk geometry only: `atr_ref`, the `prior_*_ref` invalidation
+    levels and the frozen band refs (`lower_3sd_ref`/`upper_3sd_ref`) are
     data-dependent (they move with the market) and must not be part of episode
     identity — a stable setup would otherwise change key across decision clocks
     and disable deduplication."""
     structural = {k: v for k, v in draft.risk_geometry.items()
-                  if k not in ('atr_ref', 'prior_high_ref', 'prior_low_ref')}
+                  if k not in ('atr_ref', 'prior_high_ref', 'prior_low_ref',
+                               'lower_3sd_ref', 'upper_3sd_ref')}
     return sha1_hex(structural)
 
 

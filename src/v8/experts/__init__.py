@@ -38,6 +38,7 @@ from .gap_exhaustion import GapExhaustionExpert
 from .open_interest_divergence import OpenInterestDivergenceExpert
 from .funding_crowding_reversal import FundingCrowdingReversalExpert
 from .pandf_breakout import PandfBreakoutExpert
+from .fib_rsi_bb_confluence import FibRsiBbConfluenceExpert
 
 __all__ = [
     'Expert',
@@ -52,4 +53,5 @@ __all__ = [
     'FloorTraderPivotExpert', 'MarketProfileValueAreaExpert', 'GapExhaustionExpert',
     'OpenInterestDivergenceExpert', 'FundingCrowdingReversalExpert',
     'PandfBreakoutExpert',
+    'FibRsiBbConfluenceExpert',
 ]

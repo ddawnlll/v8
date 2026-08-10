@@ -3,6 +3,100 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-10 — Confluence experiment: Fib + RSI + Bollinger (D-076)
+
+- **D-076 — `fib_rsi_bb_confluence` admitted as an exploratory dev-window
+  family** (mechanism `confluence_reversion_continuation`). One new
+  `src/v8/experts/` module; two variants evaluated in one run — `a` STRICT
+  (all three legs point the same way), `b` MAJORITY (at least two of three).
+  Each leg is a registered family's idiom verbatim: the Bollinger 2-SD fade
+  zone (`bollinger_reversion`), the Wilder-RSI dip-and-recover
+  (`rsi_stoch_reversion` variant a), and the fib retracement reclaim at
+  **0.786** (`fib_retracement_continuation`). The deep ratio is a structural
+  choice, not a fit: a fade-zone close (below the 20-SMA's lower band) can
+  only co-occur with a retracement level that sits BELOW that band; of the
+  standard ratios only 0.786 does so (the co-occurrence was computed before
+  the experiment ran). Geometry is the family default 1R:1R:8bar with
+  `atr_ref`; the frozen 78.6% level and the frozen 3-SD band are the
+  post-entry invalidation refs (`prior_*_ref` + `lower/upper_3sd_ref`, the
+  D-042 pattern). Registry FORMALIZED; `variants_evaluated` [a, b];
+  `search_universe_size` 2.
+- Runner `tools/run_fib_rsi_bb_confluence.py`: builds a single-symbol SOLUSDT
+  tape inside the dev window (`build_multi_tape` REFUSES >= 2026-07),
+  runs both variants with tape-driven funding and a 10-bps round-trip taker
+  cost, and reports per-variant + pooled after-cost stats beside a zero-cost
+  reference row joined by candidate_id.
+- **Result (dev-window, SOLUSDT 1h, 2025-07..2026-06, 8760 bars, exploratory —
+  not a registered test):** variant `a` fired **once** (0.011% of bars,
+  invalidated before entry, 0 executed) — the strict triple confluence
+  essentially never co-occurs on this tape. Variant `b` fired 159 times, 33
+  executed: win rate 39.4%, mean net_R **-0.253** after 10 bps (detrended
+  -0.254; 90% CI [-0.471, -0.062], entirely negative), profit factor 0.59,
+  equity -8.3%, max drawdown -9.8%. At **zero cost** the mean is still
+  **-0.158 R/trade**: the signal itself has negative expectancy; cost adds
+  ~-0.095 R. The lab's feasibility note records breakeven win rate 0.547 >
+  realized 0.394. Verdict stays NO_ECONOMIC_CLAIM (no authority receipt,
+  rule 12). The confluence does not beat its own relaxation here, and neither
+  clears cost.
+- **D-026 hardening (correctness):** `lab._geometry_version` now also
+  excludes the frozen band refs `lower_3sd_ref`/`upper_3sd_ref` from episode
+  identity — they are data-dependent (a stable setup must not change key
+  across decision clocks). Without it the confluence's 179 candidates carried
+  179 distinct geometry hashes and dedup could not fire; after the fix the
+  run dedups to 160 candidates. Backward-compatible: no other family uses the
+  band-ref keys.
+- Tests: `tests/test_expert_fib_rsi_bb_confluence.py` (16 tests: crafted
+  STRICT LONG/SHORT tapes, MAJORITY firing/abstain, vote-rule unit tests,
+  episode-key separation, still_valid composition, registry/lab smoke);
+  registry gate green (28 -> 29 entries).
+
+## 2026-08-09 — Hot-path pass: 3.4x less CPU for byte-identical output (D-075)
+
+The diagnostic was saturating every core for minutes per run. Profiled rather
+than guessed (cProfile, one 540-bar BTCUSDT cell):
+
+| | before | after |
+|---|---|---|
+| single cell (in-process) | 72.6s | **17.4s** (4.2x) |
+| 2 symbols x 2 timeframes, 60d, `--processes 4` | 102.5s wall / 245.4s CPU | **29.2s wall / 71.2s CPU** (3.4x) |
+
+Four wastes and one latent bug:
+
+1. **`_median_atr` recomputed 202,000 times** — 54.3s of 72.6s (75%), and the
+   source of 287M dict lookups. It is a pure function of the frozen draft set
+   and was being rescanned and re-SORTED once per null draft. Memoised.
+2. **`dataclasses.replace` on the `OpenPosition` hot path** — 3.9M calls,
+   20.4s of the remaining 28.0s (73%), under 57M `getattr`s. `step()` chains
+   up to three per bar. Replaced by `simulator._evolve`, which populates a
+   fresh frozen instance directly; `OpenPosition` has no `__post_init__`, no
+   validation and no `__slots__`, and the equivalence is pinned field-by-field
+   against `dataclasses.replace` in `tests/test_perf_hotpaths.py`.
+3. **`_post_exit_max` computed for null walks** that never read it — 24 bar
+   reads x ~200k walks per cell.
+4. **The tape was re-parsed per cell** — ~395k JSON lines, once per
+   (symbol, timeframe). Now parsed once per process.
+
+5. **A latent correctness bug, found while profiling.** The walk cache was
+   keyed on `id(draft)`. `id()` is unique only among LIVE objects, and a null
+   draft is freed immediately after its walk, so CPython hands the same
+   address to the next one — a (recycled id, same `entry_idx`, same geometry)
+   key could return a walk taken in the OPPOSITE DIRECTION, quietly
+   contaminating `always_long` / `always_short` / `random_entry`. The cache
+   also grew unbounded (97,263 entries against 1,387 real drafts). Entries now
+   store `(draft, result)` and verify identity on hit; null drafts bypass the
+   cache entirely. This is a correctness fix, not a speed trade.
+
+**Output identity is the gate, and it holds twice.** The lab economics dump
+(every outcome's `net_r`/`endpoint`/`entry_price`/`risk_unit_price` plus the
+whole `LabReport` minus hashes) is byte-identical to the pre-change baseline;
+and the diagnostic's own aggregate `net_R_mean` and all 22 decision-table rows
+are identical before vs after on `BTCUSDT-1h`. Only `ledger_hash` moved,
+because `_SIMULATOR_SRC_HASH` binds the module source — re-pinned with the
+evidence recorded in the golden test.
+
+No numpy, no new dependency, no change to the concurrency model — those stay
+unregistered under the D-031 baseline. 749/749 tests pass.
+
 ## 2026-08-09 — Diagnostic integrity pass: the report could not falsify its own exit diagnosis
 
 Four defects, found by auditing the 2026-08-08 multi-cell report against its

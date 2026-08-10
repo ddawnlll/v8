@@ -2834,6 +2834,8 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 | D-068 | The diagnostic's per-expert exit grid becomes a target x horizon CROSS (<code>EXIT_TP_GRID</code> x <code>EXIT_EXPIRY_GRID</code> = 20 cells, plus <code>no_sl</code> and <code>trail_1atr</code> as structural probes outside the cross). The selected maximum is reported as <code>exit_cross</code> carrying <code>n_cells_searched</code>, the naive p and a Bonferroni-corrected p — never as a bare "best exit". The portfolio section reports BOTH the per-expert max (labelled a selection-inflated upper bound) and a single fixed cell chosen once for all experts | PROVISIONAL_DECISION | The prior grid was one-dimensional: <code>tp_4r</code> moved the target to 4R while pinning the shipped 8-bar expiry. The report's own horizon section shows mean favorable excursion reaches ~4R near 48 bars, so that cell measured "target converted to expiry" and its loss said nothing about whether a 1:4 geometry works — the exit diagnosis was unfalsifiable. Katz &amp; McCormick's Standard Exit Strategy (Encyclopedia of Trading Strategies, 2000, ch. 13) moves target and horizon together (1 ATR stop / 4 ATR target / 10 bar limit); the grid must be able to express that shape. LITERATURE_SUPPORTED for the grid's SHAPE only — no geometry is adopted, and any adoption is a preregistered challenger (rule 12) |
 | D-069 | The decision table is evidence-gated and non-prescriptive. (a) <code>_observations</code> replaces <code>_main_problem</code>: every entry carries <code>supported: bool</code>, computed from <code>_min_n_for(nets, effect)</code> — the same 95%-CI sample floor section 8 already applies to segment cells — and an UNSUPPORTED observation is printed but may never label a row or drive a verdict. (b) The prescriptive action column ("Disable long", "Add regime filter", "Rework TP/SL", "Rebuild the expert", "Optimize execution") is replaced by an observation column stating the measured quantity and its sample support; a regression test asserts those strings never return. (c) A new coverage section reports zero-setup experts and defined-but-unregistered variant classes. (d) <code>KEEP</code> — the strongest statement the table can make — additionally requires <code>n &gt;= _min_n_for(nets, zero_cost_edge)</code>: enough trades to resolve the edge being claimed. Under-powered candidates are held at <code>INVESTIGATE</code> ("not enough yet"), never demoted to a failure | PROVISIONAL_DECISION | Three self-contradictions in the shipped report. First, section 8 refused to score a segment cell below its min-N while the decision table simultaneously emitted "Add regime filter" from an n=19 cell. Second, the action column named the best corner of a 44-cell (expert x symbol x timeframe) search — the selection is what inflates it, so a diagnostic that prescribes it is doing the data mining it exists to detect (Aronson, Evidence-Based Technical Analysis 2007, ch. 6). Third, 48 Expert subclasses are defined but only 27 registered, and 5 registered experts produced zero setups; both gaps were invisible, so a row labelled with a family name read as a statement about the family while measuring one variant — a long-only variant <code>a</code> shows SHORT n=0, which looks like a broken direction and is the variant's definition (Aronson's rising-market long-only artifact, ~ch. 5). AUTHORITY unchanged: NONE |
 | D-070 | <code>run_multi</code> is deterministic in <code>--processes</code>: the (symbol x timeframe) job list is built once by a pure <code>plan_cells</code>, and each cell's seed is derived from its POSITION in that fixed enumeration | PROVISIONAL_DECISION | Defect found while wiring the cost form: the parallel branch seeded <code>seed + i</code> while the sequential branch used a bare <code>seed</code>, so <code>--processes 1</code> and <code>--processes 4</code> produced different output for every cell but the first. Determinism is the one property this program cannot trade away (constitution: no wall clock in replay, the three clocks never collapsed); a runner whose results depend on a scheduling flag silently breaks it |</p>
+<p>| D-075 | Diagnostic hot-path pass, output-identical. (a) <code>_median_atr</code> is memoised — it is a pure function of the frozen draft set but was recomputed, scanning and SORTING every draft, once per null draft. (b) The walk cache stores <code>(draft, result)</code> and verifies identity on hit, and null drafts bypass it entirely: <code>id()</code> is unique only among LIVE objects, so a null draft freed right after its walk lets CPython reuse the address, and a (recycled id, same entry_idx, same geometry) key could return a walk taken in the OPPOSITE DIRECTION. (c) <code>simulator._evolve</code> replaces <code>dataclasses.replace</code> on the <code>OpenPosition</code> hot path. (d) <code>_post_exit_max</code> is skipped for null walks, which never read it. (e) The tape is parsed once per PROCESS instead of once per cell | PROVISIONAL_DECISION | Measured, not guessed: cProfile on a 540-bar BTCUSDT cell put <code>_median_atr</code> at 54.3s of 72.6s (75%), 202,000 calls and 287M dict lookups; then <code>dataclasses.replace</code> at 20.4s of the remaining 28.0s (73%), 3.9M calls under 57M getattrs. Single cell 72.6s -&gt; 17.4s (4.2x). Full <code>--symbols BTCUSDT,ETHUSDT --timeframes 1h,4h --span-days 60 --processes 4</code>: 102.5s -&gt; 29.2s wall, 245.4s -&gt; 71.2s CPU (3.4x) on the SAME feature set. Output identity is the gate and it holds twice over: the lab economics dump (every outcome's net_r/endpoint/entry_price/risk_unit_price plus the whole LabReport minus hashes) is byte-identical to the pre-change baseline, and the diagnostic's own aggregate net_R_mean and all 22 decision-table rows are identical before vs after. (b) is a CORRECTNESS fix that happened to surface during profiling, not a speed trade. No numpy, no new dependency, no change to the concurrency model — those remain unregistered (D-031 baseline). 749/749 tests pass |
+| D-076 | Admit <code>fib_rsi_bb_confluence</code> as an exploratory dev-window family (mechanism <code>confluence_reversion_continuation</code>, behavior <code>fib_rsi_bb_confluence</code>): two variants evaluated in one run — <code>a</code> STRICT (all three legs same direction), <code>b</code> MAJORITY (at least two of three). Legs reuse registered idioms verbatim (Bollinger 2-SD fade zone, Wilder-RSI dip-and-recover, fib reclaim at 0.786 — the deep ratio is the only standard level that can geometrically co-occur with a fade-zone close, computed pre-window, frozen). 1R:1R:8bar + <code>atr_ref</code>; frozen 78.6% level and frozen 3-SD band as invalidation refs (<code>prior_*_ref</code> + <code>lower/upper_3sd_ref</code>, D-042 pattern). <code>variants_evaluated</code> [a, b]; <code>search_universe_size</code> 2 (thresholds inherited, declared pre-window) | PROVISIONAL_DECISION | Owner decision 2026-08-10, pre-holdout (prereg §16). D-032 file-family rule: a new <code>src/v8/experts/</code> module needs a register decision + CHANGELOG entry. Exploratory dev-window SOLUSDT 1h run (2025-07..2026-06, 8760 bars), tape-driven funding, 10-bps taker cost, zero-cost reference; verdict stays NO_ECONOMIC_CLAIM (no authority receipt, rule 12). Measured result: STRICT fired once (0 executed); MAJORITY fired 159, executed 33, mean net_R -0.253 after cost (90% CI [-0.471, -0.062], entirely negative; -0.158 even at zero cost). The confluence does not beat its own relaxation and neither clears cost. D-026 hardening: <code>lab._geometry_version</code> now excludes <code>lower/upper_3sd_ref</code> (data-dependent) from episode identity — without it dedup could not fire (179 candidates carried 179 distinct geometry hashes) |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -5130,6 +5132,115 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-10-confluence-experiment-fib-rsi-bollinger-d-076">2026-08-10 — Confluence experiment: Fib + RSI + Bollinger (D-076)</h2>
+<ul>
+<li><strong>D-076 — <code>fib_rsi_bb_confluence</code> admitted as an exploratory dev-window
+  family</strong> (mechanism <code>confluence_reversion_continuation</code>). One new
+  <code>src/v8/experts/</code> module; two variants evaluated in one run — <code>a</code> STRICT
+  (all three legs point the same way), <code>b</code> MAJORITY (at least two of three).
+  Each leg is a registered family's idiom verbatim: the Bollinger 2-SD fade
+  zone (<code>bollinger_reversion</code>), the Wilder-RSI dip-and-recover
+  (<code>rsi_stoch_reversion</code> variant a), and the fib retracement reclaim at
+  <strong>0.786</strong> (<code>fib_retracement_continuation</code>). The deep ratio is a structural
+  choice, not a fit: a fade-zone close (below the 20-SMA's lower band) can
+  only co-occur with a retracement level that sits BELOW that band; of the
+  standard ratios only 0.786 does so (the co-occurrence was computed before
+  the experiment ran). Geometry is the family default 1R:1R:8bar with
+  <code>atr_ref</code>; the frozen 78.6% level and the frozen 3-SD band are the
+  post-entry invalidation refs (<code>prior_*_ref</code> + <code>lower/upper_3sd_ref</code>, the
+  D-042 pattern). Registry FORMALIZED; <code>variants_evaluated</code> [a, b];
+  <code>search_universe_size</code> 2.</li>
+<li>Runner <code>tools/run_fib_rsi_bb_confluence.py</code>: builds a single-symbol SOLUSDT
+  tape inside the dev window (<code>build_multi_tape</code> REFUSES &gt;= 2026-07),
+  runs both variants with tape-driven funding and a 10-bps round-trip taker
+  cost, and reports per-variant + pooled after-cost stats beside a zero-cost
+  reference row joined by candidate_id.</li>
+<li><strong>Result (dev-window, SOLUSDT 1h, 2025-07..2026-06, 8760 bars, exploratory —
+  not a registered test):</strong> variant <code>a</code> fired <strong>once</strong> (0.011% of bars,
+  invalidated before entry, 0 executed) — the strict triple confluence
+  essentially never co-occurs on this tape. Variant <code>b</code> fired 159 times, 33
+  executed: win rate 39.4%, mean net_R <strong>-0.253</strong> after 10 bps (detrended
+  -0.254; 90% CI [-0.471, -0.062], entirely negative), profit factor 0.59,
+  equity -8.3%, max drawdown -9.8%. At <strong>zero cost</strong> the mean is still
+  <strong>-0.158 R/trade</strong>: the signal itself has negative expectancy; cost adds
+  ~-0.095 R. The lab's feasibility note records breakeven win rate 0.547 &gt;
+  realized 0.394. Verdict stays NO_ECONOMIC_CLAIM (no authority receipt,
+  rule 12). The confluence does not beat its own relaxation here, and neither
+  clears cost.</li>
+<li><strong>D-026 hardening (correctness):</strong> <code>lab._geometry_version</code> now also
+  excludes the frozen band refs <code>lower_3sd_ref</code>/<code>upper_3sd_ref</code> from episode
+  identity — they are data-dependent (a stable setup must not change key
+  across decision clocks). Without it the confluence's 179 candidates carried
+  179 distinct geometry hashes and dedup could not fire; after the fix the
+  run dedups to 160 candidates. Backward-compatible: no other family uses the
+  band-ref keys.</li>
+<li>Tests: <code>tests/test_expert_fib_rsi_bb_confluence.py</code> (16 tests: crafted
+  STRICT LONG/SHORT tapes, MAJORITY firing/abstain, vote-rule unit tests,
+  episode-key separation, still_valid composition, registry/lab smoke);
+  registry gate green (28 -&gt; 29 entries).</li>
+</ul>
+<h2 id="2026-08-09-hot-path-pass-34x-less-cpu-for-byte-identical-output-d-075">2026-08-09 — Hot-path pass: 3.4x less CPU for byte-identical output (D-075)</h2>
+<p>The diagnostic was saturating every core for minutes per run. Profiled rather
+than guessed (cProfile, one 540-bar BTCUSDT cell):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>before</th>
+<th>after</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>single cell (in-process)</td>
+<td>72.6s</td>
+<td><strong>17.4s</strong> (4.2x)</td>
+</tr>
+<tr>
+<td>2 symbols x 2 timeframes, 60d, <code>--processes 4</code></td>
+<td>102.5s wall / 245.4s CPU</td>
+<td><strong>29.2s wall / 71.2s CPU</strong> (3.4x)</td>
+</tr>
+</tbody>
+</table>
+<p>Four wastes and one latent bug:</p>
+<ol>
+<li><strong><code>_median_atr</code> recomputed 202,000 times</strong> — 54.3s of 72.6s (75%), and the
+   source of 287M dict lookups. It is a pure function of the frozen draft set
+   and was being rescanned and re-SORTED once per null draft. Memoised.</li>
+<li><strong><code>dataclasses.replace</code> on the <code>OpenPosition</code> hot path</strong> — 3.9M calls,
+   20.4s of the remaining 28.0s (73%), under 57M <code>getattr</code>s. <code>step()</code> chains
+   up to three per bar. Replaced by <code>simulator._evolve</code>, which populates a
+   fresh frozen instance directly; <code>OpenPosition</code> has no <code>__post_init__</code>, no
+   validation and no <code>__slots__</code>, and the equivalence is pinned field-by-field
+   against <code>dataclasses.replace</code> in <code>tests/test_perf_hotpaths.py</code>.</li>
+<li><strong><code>_post_exit_max</code> computed for null walks</strong> that never read it — 24 bar
+   reads x ~200k walks per cell.</li>
+<li>
+<p><strong>The tape was re-parsed per cell</strong> — ~395k JSON lines, once per
+   (symbol, timeframe). Now parsed once per process.</p>
+</li>
+<li>
+<p><strong>A latent correctness bug, found while profiling.</strong> The walk cache was
+   keyed on <code>id(draft)</code>. <code>id()</code> is unique only among LIVE objects, and a null
+   draft is freed immediately after its walk, so CPython hands the same
+   address to the next one — a (recycled id, same <code>entry_idx</code>, same geometry)
+   key could return a walk taken in the OPPOSITE DIRECTION, quietly
+   contaminating <code>always_long</code> / <code>always_short</code> / <code>random_entry</code>. The cache
+   also grew unbounded (97,263 entries against 1,387 real drafts). Entries now
+   store <code>(draft, result)</code> and verify identity on hit; null drafts bypass the
+   cache entirely. This is a correctness fix, not a speed trade.</p>
+</li>
+</ol>
+<p><strong>Output identity is the gate, and it holds twice.</strong> The lab economics dump
+(every outcome's <code>net_r</code>/<code>endpoint</code>/<code>entry_price</code>/<code>risk_unit_price</code> plus the
+whole <code>LabReport</code> minus hashes) is byte-identical to the pre-change baseline;
+and the diagnostic's own aggregate <code>net_R_mean</code> and all 22 decision-table rows
+are identical before vs after on <code>BTCUSDT-1h</code>. Only <code>ledger_hash</code> moved,
+because <code>_SIMULATOR_SRC_HASH</code> binds the module source — re-pinned with the
+evidence recorded in the golden test.</p>
+<p>No numpy, no new dependency, no change to the concurrency model — those stay
+unregistered under the D-031 baseline. 749/749 tests pass.</p>
 <h2 id="2026-08-09-diagnostic-integrity-pass-the-report-could-not-falsify-its-own-exit-diagnosis">2026-08-09 — Diagnostic integrity pass: the report could not falsify its own exit diagnosis</h2>
 <p>Four defects, found by auditing the 2026-08-08 multi-cell report against its
 own numbers. None of them changes an Expert, a geometry or a verdict's
@@ -7644,6 +7755,23 @@ experts:
   status: FORMALIZED
   owning_spec: CANDIDATE_LIFECYCLE_SPEC (setup-anchored episodes, D-026); EXPERT_PROTOCOL;
     ROADMAP Phase 3; handbook+evidence extraction D-042
+- expert_id: fib_rsi_bb_confluence
+  expert_version: v1
+  mechanism_family_id: confluence_reversion_continuation
+  behavior_family_id: fib_rsi_bb_confluence
+  variant_id: a
+  variants_evaluated:
+  - a
+  - b
+  search_universe_size: 2
+  requires:
+  - oscillator
+  - location
+  - volatility
+  - history
+  status: FORMALIZED
+  owning_spec: EXPERT_PROTOCOL; ROADMAP Phase 3; D-042; confluence experiment D-076
+    (two variants in one run, STRICT all-three vs MAJORITY two-of-three)
 </pre></section>
 <section id="sec-preregistration-v8-slice-001"><h1>PREREGISTRATION V8 SLICE 001</h1><h1 id="preregistration-experiment-v8_slice_001">Preregistration — Experiment <code>v8_slice_001</code></h1>
 <p><strong>Status:</strong> RATIFIED — operator-approved 2026-08-01; frozen until the
