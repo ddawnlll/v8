@@ -562,7 +562,10 @@ def test_code_hash_excludes_vendored_simtruth():
     from v8.lab import _code_hash
     from v8.schema import sha1_hex as _sh
     base = Path(__file__).resolve().parents[1] / 'src' / 'v8'
-    all_py = {str(p.relative_to(base)): p.read_bytes().hex()
+    # `.as_posix()` mirrors _code_hash's platform-independent key exactly
+    # (a bare str(Path) embeds the OS separator and made this hash, and the
+    # mirror's own '/'-split exclusion below, silently platform-dependent).
+    all_py = {p.relative_to(base).as_posix(): p.read_bytes().hex()
               for p in sorted(base.rglob('*.py'))}
     # Mirror _code_hash's path-parts exclusion exactly (a file like
     # simtruth_foo.py at the top level is decision path and must stay bound).

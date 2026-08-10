@@ -1,0 +1,328 @@
+report:
+  accp_version: 2.0.0
+  source_format: ACCP-YAML
+  report_id: FCR-V8RR-004
+  report_type: FCR
+  report_family: feature
+  report_name: Feature Contract Report
+  support_level: template_available
+  plan_id: v8-rr-v02-phase0
+  workspace_id: none
+  repo_root: C:/Users/dresden/Documents/v8
+  git_commit: 1053dc1b819c9012f50294ccf7be7eaaa86b5746
+  git_branch: main
+  report_generated_at: '2026-08-10'
+  report_stale_after: on_next_commit
+  inspection_mode: contract_freeze
+  confidence: high
+  authority:
+    reports_are_evidence_only: true
+    route_signals_are_advisory: true
+    runtime_must_read_compiled_json: true
+    raw_yaml_is_not_runtime_authority: true
+    rendered_markdown_is_human_preview_only: true
+  agent:
+    agent_id: claude-code-session-750e89fd
+    agent_role: repo_agent
+    model_name: claude-opus-5
+    model_version: unknown
+    session_id: 750e89fd-d8cf-4c8b-a4de-e656675171ce
+    prompt_hash: unknown
+  lineage:
+    parent_report: FDR-V8RR-003
+    supersedes: none
+    triggered_by: FDR-V8RR-003
+    continuation_of: RIR-V8RR-001
+    validates: none
+  references:
+  - id: R001
+    ref: FDR-V8RR-003
+    purpose: The design these contracts freeze.
+  - id: R002
+    ref: 'external_document: Recoverable Regret v0.2, sections 4, 6, 7, 13, 14.'
+    purpose: The semantics being made executable.
+  - id: R003
+    ref: docs/charter/V8_CONSTITUTION.md
+    purpose: The rules no frozen contract may weaken.
+  assumptions:
+  - id: AS001
+    assumption: 'Freezing here means "fixed before implementation begins and changed only by an explicit amendment record", not "immutable forever". The amendment policy below is part of the freeze.'
+    reason: ACCP contract_freeze semantics plus the repository''s own challenger-not-in-place rule (V8_CONSTITUTION rule 15, D-032).
+    confidence: high
+    how_to_verify: not_applicable
+  - id: AS002
+    assumption: 'These contracts bind ONLY the Phase-0 evaluator. They do not amend, reinterpret or supersede any docs/contracts/*.md contract, and where they restate an existing V8 semantic they do so by reference rather than by redefinition.'
+    reason: Task brief section 0 (the three layers must not be collapsed) and the FDR''s zero-modification patch surface.
+    confidence: high
+    how_to_verify: Compare each frozen item against the cited V8 contract; any divergence is a defect in this report, not a new rule.
+  skipped_inspections:
+  - id: S001
+    item: Phase-2 and Phase-3 contracts (recoverable policy class, protected evaluation environment, multiplicity family, attribution conventions, aggregation, OPE).
+    reason: The task explicitly forbids freezing them, and doing so would commit the program to statistics it has not designed.
+    risk: low
+    needed_next: Freeze at the start of the corresponding phase, in its own FCR.
+  sections:
+    contract_freeze_summary:
+      summary: 'Ten contracts are frozen: candidate identity/snapshot, legal action manifest, actual-action binding, ReplayModel, model-derived outcome, utility/cost semantics, missing/UNKNOWN behaviour, ledger reconciliation, legal hindsight gap, and provenance/version binding. Eight of the ten are restatements of semantics V8 already implements; only the legal action manifest, the abstention behaviour and the gap definition introduce anything new. The required final decision is recorded here: compatibility HIGH_COMPATIBILITY, readiness READY_WITH_LOCAL_REPAIRS.'
+      items:
+      - id: CF001
+        label: DECISION
+        text: 'REQUIRED FINAL DECISION 1 - V8 x v0.2 compatibility: HIGH_COMPATIBILITY. Smallest reason: v0.2''s Replay Model is not analogous to V8''s simulator, it IS V8''s simulator - CanonicalSimulator.run(draft, future bars, times, thesis_valid) -> CounterfactualOutcome is literally Replay(C, a, W_>t; M) -> model-derived utility, versioned by sim.hash(); and the surrounding invariants v0.2 asks for (no candidate no trade, future for scoring never for features, same economic semantics, version-bound derivation, explicit NO_TRADE) are already V8 architecture, contract text or constitutional rule rather than proposals.'
+        evidence_refs:
+        - src/v8/simulator.py:597-700
+        - src/v8/marketstate.py:876-890
+        - docs/charter/V8_CONSTITUTION.md (rules 4, 9, 16)
+        - docs/contracts/CANDIDATE_LIFECYCLE_SPEC.md:110-160
+        confidence: high
+      - id: CF002
+        label: DECISION
+        text: 'REQUIRED FINAL DECISION 2 - Phase-0 repository readiness: READY_WITH_LOCAL_REPAIRS. Smallest reason: the load-bearing invariant was measured to already hold (Replay(C, a_actual, M) reproduced the observed ledger exactly, 12/12 at 1e-12, on the golden fixture), so nothing architectural is missing - but the repository''s only end-to-end regression gate is currently RED (test_golden_backtest, states_hash/ledger_hash drift with data_hash, candidate_count and terminal_distribution unchanged), and a Phase-0 reconciliation test anchored to an unreproducible baseline cannot distinguish an evaluator defect from a moved baseline. The repair is a re-pin, not a redesign.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_reconcile.py -> "replay(actual) vs ledger: n=12 mismatches=0"'
+        - 'command: python -m pytest tests/test_golden_backtest.py -q'
+        confidence: high
+      - id: CF003
+        label: DECISION
+        text: 'NO PHASE-0 BLOCKER EXISTS under the section-21 standard. Each candidate was tested against the bar and rejected: Candidates CAN be reconstructed and frozen (measured 15/15 bound; one store = one immutable run); actual actions CAN be bound back to Candidates (measured 12/12); the simulator CAN replay the actual action under the same semantics (it is the same step() function); PIT lineage shows no unavoidable future leakage (FutureRowError plus per-feature availability, both under test); the legal action universe IS reconstructible from versioned declarations (risk_geometry vocabulary + SUPPORTED_FILL_POLICIES + manifest economics); observed ledger and simulator semantics are not merely compatible but identical. The three test failures are two Windows environment artifacts and one un-repinned provenance golden - none breaks a load-bearing v0.2 invariant.'
+        evidence_refs:
+        - RIR-V8RR-001 (GR001-GR005)
+        - FER-V8RR-002 (CA001-CA010, LR001-LR004)
+        confidence: high
+    frozen_types:
+      summary: 'Ten frozen semantic contracts. Each states WHAT is fixed and WHERE the authority lives; none redefines an existing V8 semantic.'
+      items:
+      - id: FT001
+        label: DECISION
+        text: 'CONTRACT 1 - CANDIDATE IDENTITY AND SNAPSHOT. (a) A Candidate is identified by, and only by, lifecycle.episode_key(expert_id, expert_version, instrument, direction, setup_anchor_event_id, geometry_version); the evaluator never mints an identity of its own. (b) geometry_version is lab._geometry_version(draft) = sha1 of risk_geometry MINUS the data-dependent keys atr_ref, prior_high_ref, prior_low_ref; the evaluator MUST call that function rather than reimplement the exclusion list, and if the function''s signature changes the reconciliation test must fail loudly. (c) The Candidate snapshot is the frozen CandidateDraft as stored in evaluations.jsonl, joined by recomputing (a); the birth clock and birth state_id come from the DETECTED transition. (d) A candidate whose draft cannot be bound is reported UNBOUND_NO_DRAFT and is NEVER dropped, defaulted or reconstructed by inference. (e) The Candidate universe for an experiment is frozen by the store directory plus its ledger_hash; the evaluator never re-runs the lab.'
+        evidence_refs:
+        - src/v8/lifecycle.py:42-50
+        - src/v8/lab.py:166-173
+        - src/v8/lab.py:804-833
+        - src/v8/lab.py:293-297
+        confidence: high
+      - id: FT002
+        label: DECISION
+        text: 'CONTRACT 2 - CANDIDATE HORIZON. The replay window for Candidate C is the closed-kline bar sequence of the run''s own tape, starting at C''s entry bar index and running to the tape end; the entry bar is inspected for a FILL only and never for exits. The entry bar index is defined as the bar whose available_time equals the EXECUTED transition''s knowledge_time for executed Candidates, and as (trigger bar index + 1) for Candidates that reached TRIGGERED but never executed. No other horizon (fixed lookahead, label horizon, calendar window) is used in Phase 0, because using one would make cube cells non-comparable with the lab''s own outcomes.'
+        evidence_refs:
+        - src/v8/lab.py:626-647
+        - src/v8/lab.py:594-598
+        - src/v8/simulator.py:526-537
+        confidence: high
+      - id: FT003
+        label: DECISION
+        text: 'CONTRACT 3 - LEGAL ACTIONS. (a) A(C) is GENERATED, ordered and immutable, and carries its own manifest_id (sha1 over the ordered action list plus the generator version), its cardinality, and the list of continuous axes that were sampled. (b) Element 0 is NO_TRADE; element 1 is the ACTUAL action, seeded directly from the frozen draft geometry - so a_actual in A_t holds by construction. (c) FINITE enumerable axes: fill policy in SUPPORTED_FILL_POLICIES; trigger present/absent with trigger_side in {CLOSE_ABOVE, CLOSE_BELOW}; stop KIND (R-multiple vs absolute stop_ref); management KIND presence/absence for breakeven roll, chandelier trail, scale-out, time exit; NO_TRADE. (d) CONTINUOUS axes, recorded separately and only ever sampled on a declared grid: target_r, stop_r, expiry_bars, time_exit_bars, trail_stop_atr, breakeven_roll_at_mfe_r, breakeven_margin_r, scale_out_ratio, scale_out_at_mfe_r, limit_price. (e) PERMANENTLY EXCLUDED from A(C): direction (fixed at birth, part of episode_key, and a flip is a different Candidate) and pyramid_add_rules (declared but fails closed - including it would claim a semantics the stepper does not implement). (f) A(C) is versioned with the code that generated it; two runs with different manifests are never comparable.'
+        evidence_refs:
+        - src/v8/simulator.py:195-208
+        - src/v8/simulator.py:420-486
+        - src/v8/simulator.py:430-434
+        - src/v8/schema.py:204-259
+        confidence: high
+      - id: FT004
+        label: DECISION
+        text: 'CONTRACT 4 - ACTUAL ACTION BINDING. a_actual = (the frozen risk_geometry of the DETECTED draft, unmodified) evaluated at (the entry bar of FT002) under (the persisted manifest economics). It is bound to the Candidate by the FT001 join, never by position in a list, never by timestamp proximity, and never by re-running the policy. A Candidate with no entry (INVALIDATED_BEFORE_TRIGGER, PENDING-expired) has NO actual action, and its gap status is NOT_APPLICABLE_NO_ACTUAL_ACTION - which is a classification, not a zero.'
+        evidence_refs:
+        - src/v8/lab.py:626-647
+        - src/v8/lab.py:543-552
+        - 'command: python scratchpad/probe_censor.py (NOT_EXECUTED reason codes)'
+        confidence: high
+      - id: FT005
+        label: DECISION
+        text: 'CONTRACT 5 - REPLAY MODEL M. (a) M is v8.simulator.CanonicalSimulator, constructed from the run''s persisted manifest (round_trip_cost_r, round_trip_cost_bps, funding_rate_r, funding_hours, fill_policy, and the tape-derived funding schedule) - never from constants written in the evaluator. (b) M''s identity is sim.hash(), which binds the policy-era tag, fill policy, cost parameters, cost form and the simulator module source hash; every cube row carries it. (c) The evaluator supplies the owning Expert''s still_valid as thesis_valid, so counterfactual and executed populations are evaluated under ONE exit policy. (d) Barrier semantics are inherited verbatim and may not be re-specified: STOP_FIRST on a same-bar double touch with ambiguous_bars counted; stop fills at the worse of barrier and bar open; target fills exactly at the barrier; EXPIRY/THESIS_INVALIDATED/TIME_EXIT fill at bar close; management changes apply from the bar after the one that triggered them. (e) FIXED-PATH ELIGIBILITY IS DECLARED, NOT ASSUMED: the replay holds the future path constant across actions. This is admissible because V8 is a Level-1 simulator with no depth, queue, capacity or market-impact model at all, so no action-dependent response is representable; the assumption is a price-taking / no-interference precondition and any future depth or impact model INVALIDATES every cube produced under it.'
+        evidence_refs:
+        - src/v8/simulator.py:225-263
+        - src/v8/simulator.py:658-700
+        - src/v8/simulator.py:397-508
+        - src/v8/lab.py:397-416
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md (fidelity ladder)
+        confidence: high
+      - id: FT006
+        label: DECISION
+        text: 'CONTRACT 6 - MODEL-DERIVED OUTCOME (the cube row). Frozen fields. IDENTITY: candidate_id, action_id. PROVENANCE: simulator_hash, data_hash, code_hash, config_hash, risk_gate_hash, action_manifest_id, evaluator_version, platform. UTILITY: utility_unit (constant "R"), net_utility, gross_utility, cost_r, cost_form ("flat" | "bps:X"), funding_r, slippage (constant NOT_APPLICABLE). PATH: endpoint, label_status, horizon_bars, mae_r, mfe_r, ambiguous_bars, entry_price, risk_unit_price, market_move_r, label_available_time. EPISTEMIC: epistemic_class (constant MODEL_DERIVED), cell_status, cell_status_reason. Two rules that are part of the freeze: (i) slippage is recorded as NOT_APPLICABLE and NEVER as 0.0, because a zero would claim a modelled quantity that does not exist at Level 1; (ii) no field is added to schema.CounterfactualOutcome to satisfy this row - the decomposition is computed by the adapter, because changing that record would move sim.hash() and re-pin every golden.'
+        evidence_refs:
+        - src/v8/schema.py:275-318
+        - src/v8/simulator.py:265-279
+        - RIR-V8RR-001 (DM014)
+        confidence: high
+      - id: FT007
+        label: DECISION
+        text: 'CONTRACT 7 - UTILITY AND COST SEMANTICS. (a) The canonical utility unit is R, defined by simulator.risk_unit as an explicit positive PRICE DISTANCE declared by the Expert''s frozen geometry (atr_ref, else risk_frac of entry) - never a fractional price return, never a currency amount. This is D-028 and it is restated, not re-decided. (b) Costs are exactly what the run''s manifest declares, resolved through the single site CanonicalSimulator.cost_r(entry, unit): flat round_trip_cost_r, or bps of notional = (bps/1e4) * entry_price / risk_unit. The FORM is recorded on every row because a flat run and a bps run that price one episode identically are still different policies. (c) Funding is the simulator''s own settlement (absolute UTC hour boundaries divisible by funding_hours, settled before any order event of the crossing bar, scalar or tape-driven schedule; a missing scheduled boundary fails closed). (d) Currency, equity and portfolio units are OUT of Phase-0 scope: they are portfolio quantities and would drag portfolio feasibility into a Candidate-local instrument.'
+        evidence_refs:
+        - src/v8/simulator.py:75-97
+        - src/v8/simulator.py:265-342
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md (R is a declared price distance, D-028)
+        confidence: high
+      - id: FT008
+        label: DECISION
+        text: 'CONTRACT 8 - INTRABAR AMBIGUITY. The tie-breaking rule is inherited verbatim and is not a parameter of the evaluator: a bar touching both barriers resolves STOP_FIRST (conservative) and increments ambiguous_bars, which is carried onto the cube row. Two consequences are frozen: (i) the evaluator may not introduce an optimistic or probabilistic tie-break, because that would be a second simulator semantics; (ii) any downstream reading of a gap MUST be reportable alongside the ambiguous_bars of the cells involved, since a gap concentrated in double-touch bars is a statement about the tie-break rather than about the market.'
+        evidence_refs:
+        - src/v8/simulator.py:397-406
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md (Same-bar ambiguity is counted, not just resolved)
+        - docs/decisions/OPEN_DECISIONS.md (O-027, ambiguity bracket 1.79R over 144 trades)
+        confidence: high
+      - id: FT009
+        label: DECISION
+        text: 'CONTRACT 9 - MISSING OUTCOMES AND UNKNOWN. A cube cell is a number ONLY when the replay is defined; otherwise it carries a cell_status and no utility. Frozen cell_status vocabulary and triggers: OK (a completed replay with label_status MATURE); CENSORED (replay completed only by reaching the tape end - label_status RIGHT_CENSORED); UNDEFINED_FUTURE (fewer than one bar of future after the entry bar, or an empty tail - the evaluator REFUSES rather than accepting the simulator''s EXPIRY/-cost or EXPIRY/0.0 return, which was measured and is a manufactured value); NOT_EVALUABLE_ACTION (the action''s declared keys cannot be applied to this draft, e.g. FILL_AT_LIMIT without limit_price); NO_ENTRY (the candidate never entered, so no action is evaluable). At the gap level the frozen statuses are COMPUTED, ABSTAINED_CENSORED (any potentially-maximizing cell is not OK), ABSTAINED_UNDEFINED, NOT_APPLICABLE_NO_ACTUAL_ACTION and OUTSIDE_CANDIDATE_UNIVERSE (no Candidate was emitted - the evaluator has no legal episode and must never invent one).'
+        evidence_refs:
+        - 'command: python scratchpad/probe_gap.py -> "replay with a single (entry-only) bar -> EXPIRY -0.07 RIGHT_CENSORED horizon 0"; "replay with an EMPTY future -> EXPIRY 0.0 RIGHT_CENSORED"'
+        - src/v8/lab.py:749-763
+        - src/v8/simulator.py:575-595
+        - 'external_document: v0.2 sections 7.3 invariant 1, 11'
+        confidence: high
+      - id: FT010
+        label: DECISION
+        text: 'CONTRACT 10 - LEDGER RECONCILIATION. (a) For every Candidate that reached EXECUTED, Replay(C, a_actual, M) must equal the stored CounterfactualOutcome on: endpoint, label_status, horizon_bars and ambiguous_bars EXACTLY, and net_r, entry_price, risk_unit_price, mae_r, mfe_r, market_move_r within 1e-12 absolute. The tolerance is tight deliberately: both paths call the same step(), so a difference is a defect, not numerical noise. (b) Fields explicitly EXCLUDED from reconciliation, with reasons: admission size (R-multiples are size-independent by design), equity and heat state (portfolio quantities), and the pre-entry gates (they decide whether an entry happened, not what it was worth). (c) Candidates that never entered are classified NOT_APPLICABLE_NO_ENTRY rather than counted as reconciliation failures. (d) A reconciliation failure HALTS Phase 0 - it is the load-bearing invariant, and no cube produced against a failing store may be used.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_reconcile.py -> mismatches=0 for n=12, under both thesis settings'
+        - src/v8/lab.py:629-698
+        - src/v8/simulator.py:526-573
+        confidence: high
+      - id: FT011
+        label: DECISION
+        text: 'CONTRACT 11 - LEGAL HINDSIGHT GAP. g(C) = max over a in A(C) of tilde-U(C,a|M) minus tilde-U(C,a_actual|M), computed over the SAME Candidate, the SAME ReplayModel, the SAME utility unit and the SAME cost semantics. Frozen rules: (i) NO_TRADE utility is exactly 0.0 R by definition, with no simulator call; (ii) ties are REPORTED as a list of action_ids with a cardinality, never broken by an arbitrary rule - measured tie cardinality 3 on 4 of 12 golden candidates, so this is a common case, not an edge case; (iii) if ANY cell that could be the maximum is not cell_status OK, the gap ABSTAINS rather than maximizing over a mixture of complete and incomplete outcomes; (iv) g is Candidate-local and is never summed, averaged or optimized across Candidates in Phase 0, because rule 16 and the measured O-022 exposure coupling make a portfolio sum of independent Candidate maxima infeasible; (v) g is labelled MODEL_DERIVED and carries no economic authority - it is not recoverable loss, it is not an improvement target, and it may not be described as one.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_gap.py -> "n=12 mean_gap=1.4070 min=0.0 negatives=0"; ties column'
+        - docs/charter/V8_CONSTITUTION.md (rule 16)
+        - docs/decisions/OPEN_DECISIONS.md (O-022)
+        - 'external_document: v0.2 sections 6, 8'
+        confidence: high
+      - id: FT012
+        label: DECISION
+        text: 'CONTRACT 12 - PROVENANCE AND VERSION BINDING. Every cube row and every regret record binds, at minimum: simulator_hash (M), data_hash (tape), code_hash (decision path), config_hash (manifest economics incl. the authority receipt), risk_gate_hash (admission policy), action_manifest_id (A(C)), evaluator_version, and platform. Platform is included because _code_hash embeds the OS path separator, so the same source tree hashes differently on Windows and POSIX - recording it makes that limitation visible rather than silent. A row missing any of these fields is invalid and must not be written.'
+        evidence_refs:
+        - src/v8/lab.py:965-992
+        - src/v8/lab.py:103-112
+        - RIR-V8RR-001 (GR004)
+        confidence: high
+    frozen_routes:
+      summary: 'not_applicable - V8 is a batch research package with no HTTP surface, no service and no router (V8_CONSTITUTION rule 6 keeps a router ABSENT BY DEFAULT). The only invocation surface frozen here is a CLI.'
+      items:
+      - id: FR001
+        label: DECISION
+        text: 'Frozen CLI: `python tools/regret.py --store <store_dir> --out <out_dir> [--actions <action_spec.json>] [--reconcile-only]`. Fail-closed preconditions, all inherited from existing repository discipline: the store must contain manifest.json; the live code_hash and data_hash must match the persisted manifest pin; the out_dir must not already contain a cube (compile-once). Exit status is 0 only when reconciliation passes.'
+        evidence_refs:
+        - tools/materialize_views.py:96-104
+        - tools/materialize_views.py:152-163
+        - src/v8/lab.py:986-992
+        confidence: high
+      - id: FR002
+        label: DECISION
+        text: 'NO ACCP ROUTING, report engine, protocol runtime or agent surface enters V8. ACCP''s role is frozen as: this read-only evidence chain (RIR/FER/FDR/FCR); later IPR or FIR with diff integrity and rollback for the implementation patch; TVR/FGR for validation evidence carrying real command output; PRR at phase promotion; ECR to bundle certification evidence; HIR/DCR only on a genuine blocker or authority conflict. ACCP is never the scientific ontology, never a ReplayOutcome, never an authority over a V8 action, and never in a hot path.'
+        evidence_refs:
+        - 'external_document: accp_v2_0_strict_yaml_onefile_master.accp.yaml (authority_boundary)'
+        - 'external_document: v0.2 section 18'
+        confidence: high
+    frozen_events:
+      summary: 'The evaluator emits two append-only ledgers, both reusing store.AppendOnlyLog and therefore inheriting its (source, event_id) idempotency and byte-identical replay.'
+      items:
+      - id: FE001
+        label: DECISION
+        text: 'EVENT 1 - cube row. Ledger cube.jsonl, source="regret-cube", event_id = f"{candidate_id}:{action_id}". One row per evaluated (Candidate, action) pair, including refusals (a refusal is a row with a cell_status and no utility, never an absent row - an absent row would be indistinguishable from an unevaluated pair).'
+        evidence_refs:
+        - src/v8/store.py:35-48
+        confidence: high
+      - id: FE002
+        label: DECISION
+        text: 'EVENT 2 - regret record. Ledger regret.jsonl, source="regret-gap", event_id = candidate_id. One row per Candidate in the store, INCLUDING Candidates with no actual action (status NOT_APPLICABLE_NO_ACTUAL_ACTION) - so the record set is a total function over the Candidate universe and a missing row is always a defect rather than a silent exclusion.'
+        evidence_refs:
+        - src/v8/store.py:35-48
+        - FCR-V8RR-004 (FT009)
+        confidence: high
+      - id: FE003
+        label: DECISION
+        text: 'EVENT 3 - reconciliation verdict, written into the run summary (not a ledger): n_executed, n_reconciled, n_mismatched, n_not_applicable, per-field max absolute deviation, and the verdict RECONCILED | RECONCILIATION_FAILED. This is the artifact an ACCP TVR would carry as command evidence.'
+        evidence_refs:
+        - FCR-V8RR-004 (FT010)
+        confidence: high
+    ownership_manifest:
+      summary: 'Who owns what, so no two modules can hold the same truth.'
+      items:
+      - id: OM001
+        label: DECISION
+        text: 'v8.simulator owns ALL execution semantics: fills, barriers, ambiguity, cost, funding, management, the net formula and the tape-end close. The evaluator owns NONE of them and may not re-derive any. This is the repository''s existing parallel-truth rule, applied to a new consumer.'
+        evidence_refs:
+        - src/v8/simulator.py:510-524
+        confidence: high
+      - id: OM002
+        label: DECISION
+        text: 'v8.lifecycle owns candidate identity (episode_key) and transition legality. v8.lab owns geometry_version and the policy. v8.marketstate owns phi and lineage. v8.store owns persistence and replay identity. The evaluator owns exactly four things and nothing else: the ledger JOIN, the legal action manifest, the abstention boundary, and the gap arithmetic.'
+        evidence_refs:
+        - src/v8/lifecycle.py:42-50
+        - src/v8/lab.py:166-173
+        - FDR-V8RR-003 (AR001-AR004)
+        confidence: high
+      - id: OM003
+        label: DECISION
+        text: 'tools/diagnostics.py keeps its own population and its own authority (NONE - diagnostic only). The Phase-0 evaluator''s population is the LEDGER population (canonical episode_key, lifecycle-gated, risk-admitted). Neither module may read the other''s outputs as if they were the same population, and the evaluator''s module docstring must say so explicitly.'
+        evidence_refs:
+        - tools/diagnostics.py:262-265
+        - tools/diagnostics.py:491
+        - RIR-V8RR-001 (DM022)
+        confidence: high
+      - id: OM004
+        label: DECISION
+        text: 'The documentary registries keep ownership of Finding, Hypothesis, Intervention and Unknown-as-research-object: docs/registries/CLAIMS_REGISTRY.yaml, docs/registries/EXPERIMENT_REGISTRY.yaml, docs/decisions/DECISION_REGISTER.md, docs/decisions/OPEN_DECISIONS.md. The evaluator produces evidence for them and never writes them.'
+        evidence_refs:
+        - docs/registries/
+        - docs/decisions/
+        confidence: high
+    amendment_policy:
+      summary: 'How these contracts may change, and what changing them invalidates.'
+      items:
+      - id: AP001
+        label: DECISION
+        text: 'AMENDMENT RULE 1 - versions evolve by challenger, never in place. Changing FT003 (legal actions), FT005 (ReplayModel), FT007 (utility/cost) or FT008 (ambiguity) produces a NEW evaluator version and a NEW action_manifest_id; cubes produced under different versions are never compared, merged or pooled. This mirrors the repository''s own rule for Expert versions and simulator hashes.'
+        evidence_refs:
+        - docs/charter/V8_CONSTITUTION.md (rule 15)
+        - src/v8/simulator.py:658-700
+        confidence: high
+      - id: AP002
+        label: DECISION
+        text: 'AMENDMENT RULE 2 - invalidation is explicit and total. If the canonical simulator is later found defective, every cube and every gap derived under its hash is invalidated, exactly as v0.2 section 14.4 requires and as V8''s own hash-binding discipline already implies. The same applies if a depth, capacity or market-impact model is added, because that falsifies the fixed-path precondition in FT005(e).'
+        evidence_refs:
+        - 'external_document: v0.2 section 14.4'
+        - docs/charter/V8_CONSTITUTION.md (rule 9)
+        confidence: high
+      - id: AP003
+        label: DECISION
+        text: 'AMENDMENT RULE 3 - a new file or interface in the research runtime is a registry decision with a CHANGELOG entry (D-032), and every change to docs/ requires rebuilding BOTH monographs (EN and TR) per CLAUDE.md. Placing the evaluator under tools/ does not exempt it from the CHANGELOG entry; it exempts it only from amending the src/v8 package layout.'
+        evidence_refs:
+        - docs/contracts/IMPLEMENTATION_LAYOUT.md:1-8
+        - CLAUDE.md
+        confidence: high
+      - id: AP004
+        label: DECISION
+        text: 'AMENDMENT RULE 4 - the deferred extensions stay deferred until they have a consumer AND a registry decision: adding cost/funding/exit_price to CounterfactualOutcome, adding candidate_id to ExpertEvaluation, adding funding and open_interest rows to raw_manifest_hash, and making _code_hash platform-independent. Each is a real improvement; each would move a pinned hash; none is required for Phase-0 claims to be executable.'
+        evidence_refs:
+        - FDR-V8RR-003 (FO005)
+        - RIR-V8RR-001 (GR004, GR006)
+        confidence: high
+      - id: AP005
+        label: DECISION
+        text: 'AMENDMENT RULE 5 - what Phase 0 may NEVER claim, regardless of results. Phase 0 certifies SEMANTICS, not economics. A certified cube says the instrument computes what it says it computes; it says nothing about edge, profitability or validated execution, the verdict stays NO_ECONOMIC_CLAIM without an authority receipt, and a legal hindsight gap is MODEL_DERIVED opportunity accounting - never recoverable loss and never an improvement target. Any text that blurs this breaches V8_CONSTITUTION rule 12 and v0.2''s own scope boundary simultaneously.'
+        evidence_refs:
+        - docs/charter/V8_CONSTITUTION.md (rules 1, 10, 12)
+        - src/v8/lab.py:66-78
+        - 'external_document: v0.2 sections 5.3, 8, 15 Phase 0'
+        confidence: high
+    final_status:
+      status: ready
+      safe_to_continue: 'conditional'
+      requires_hir: 'no'
+      reason:
+      - 'V8 x v0.2 compatibility: HIGH_COMPATIBILITY. The Replay Model is not analogous to V8''s simulator - it is V8''s simulator, and the surrounding v0.2 invariants are already V8 architecture, contract text or constitutional rule.'
+      - 'Phase-0 repository readiness: READY_WITH_LOCAL_REPAIRS. The load-bearing invariant (Replay of the actual action reproduces the observed ledger) was measured to already hold exactly, 12/12 at 1e-12; the only repair needed before implementation is re-pinning the currently RED golden regression, whose drift signature is provenance-only.'
+      - All ten required Phase-0 contracts are frozen; no Phase-2 or Phase-3 contract was frozen; no implementation is authorized by this report.
+      self_assessment:
+        required_sections_complete: 'yes'
+        evidence_coverage: high
+        unresolved_gaps:
+        - Every measurement backing these contracts comes from the 160-bar synthetic contract fixture; behaviour on a real multi-month tape with active funding, DEGRADED states and heat rejections is unmeasured and is the first thing implementation step 2 must establish.
+        - FT005(e) fixed-path eligibility is declared on the grounds that no action-dependent response is representable at Level 1; it is an argument from the absence of a model, not a measurement that impact is negligible.
+        - The tools/ versus src/v8/ placement underlying OM002 and AP003 remains an operator decision (FER OQ001).
+        confidence_in_own_completeness: high
+compiler_expectations:
+  source_path: reports/accp/v8-rr-v02-phase0/source/FCR-V8RR-004.accp.yaml
+  compiled_json: reports/accp/v8-rr-v02-phase0/compiled/FCR-V8RR-004.compiled.json
+  ir_json: reports/accp/v8-rr-v02-phase0/ir/FCR-V8RR-004.ir.json
+  gate_verdict_json: reports/accp/v8-rr-v02-phase0/verdict/FCR-V8RR-004.gate-verdict.json
+  route_signal_json: reports/accp/v8-rr-v02-phase0/route/FCR-V8RR-004.route-signal.json

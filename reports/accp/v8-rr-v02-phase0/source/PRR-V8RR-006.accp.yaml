@@ -1,0 +1,202 @@
+report:
+  accp_version: 2.0.0
+  source_format: ACCP-YAML
+  report_id: PRR-V8RR-006
+  report_type: PRR
+  report_family: core
+  report_name: Promotion Readiness Report
+  support_level: schema_strict
+  plan_id: v8-rr-v02-phase0
+  workspace_id: none
+  repo_root: C:/Users/dresden/Documents/v8
+  git_commit: 1053dc1b819c9012f50294ccf7be7eaaa86b5746
+  git_branch: main
+  report_generated_at: '2026-08-10'
+  report_stale_after: on_next_commit
+  inspection_mode: promotion_review
+  confidence: high
+  authority:
+    reports_are_evidence_only: true
+    route_signals_are_advisory: true
+    runtime_must_read_compiled_json: true
+    raw_yaml_is_not_runtime_authority: true
+    rendered_markdown_is_human_preview_only: true
+  agent:
+    agent_id: claude-code-session-750e89fd
+    agent_role: reviewer
+    model_name: claude-sonnet-5
+    model_version: unknown
+    session_id: 750e89fd-d8cf-4c8b-a4de-e656675171ce
+    prompt_hash: unknown
+  lineage:
+    parent_report: TVR-V8RR-005
+    supersedes: none
+    triggered_by: TVR-V8RR-005
+    continuation_of: RIR-V8RR-001
+    validates: none
+  references:
+  - id: R001
+    ref: TVR-V8RR-005
+    purpose: Validation evidence this promotion decision is based on.
+  - id: R002
+    ref: docs/decisions/DECISION_REGISTER.md#D-071
+    purpose: Registry admission of the promoted instrument.
+  assumptions: []
+  skipped_inspections: []
+  sections:
+    promotion_target:
+      summary: Promote the V8 x Recoverable Regret v0.2 Phase-0 measurement instrument
+        (tools/regret.py, tools/regret_reference.py) from "designed" (FCR-V8RR-004)
+        to "certified" — cleared to run over available V8 development data as
+        Phase 1's opportunity-accounting substrate. This is a MEASUREMENT INSTRUMENT
+        promotion, not an economic promotion; the verdict on every store it processes
+        stays NO_ECONOMIC_CLAIM absent an authority receipt (rule 9, rule 12).
+      items:
+      - id: PT001
+        label: DECISION
+        text: Promoted artifact set - tools/regret.py, tools/regret_reference.py,
+          the src/v8/store.py close() method, the src/v8/lab.py _code_hash/_tooling_hash
+          portability fix, the src/v8/lab.py report.json persistence addition,
+          tests/test_regret_phase0.py, tests/test_regret_faults.py, tests/test_regret_reference.py.
+        evidence_refs:
+        - docs/decisions/DECISION_REGISTER.md#D-071
+        confidence: high
+    gate_checks:
+      summary: All eight frozen Phase-0 gate criteria (FCR-V8RR-004, restated in
+        the user's own Phase-0 gate list) checked against real command evidence
+        in TVR-V8RR-005. All PASS.
+      items:
+      - id: GC001
+        label: DECISION
+        text: Candidate binding total/classified - PASS (TVR VS001).
+        evidence_refs:
+        - TVR-V8RR-005#VS001
+        confidence: high
+      - id: GC002
+        label: DECISION
+        text: Actual-action reconciliation under frozen tolerance - PASS, exact
+          on 766/766 combined executed candidates (TVR VS002).
+        evidence_refs:
+        - TVR-V8RR-005#VS002
+        confidence: high
+      - id: GC003
+        label: DECISION
+        text: No future leakage - PASS (TVR VS003).
+        evidence_refs:
+        - TVR-V8RR-005#VS003
+        confidence: high
+      - id: GC004
+        label: DECISION
+        text: Legal action manifests always contain the actual action - PASS (TVR
+          VS004).
+        evidence_refs:
+        - TVR-V8RR-005#VS004
+        confidence: high
+      - id: GC005
+        label: DECISION
+        text: Undefined/censored replay never fabricated - PASS (TVR VS005).
+        evidence_refs:
+        - TVR-V8RR-005#VS005
+        confidence: high
+      - id: GC006
+        label: DECISION
+        text: Golden paths pass, hindsight >= actual invariant holds with zero exceptions
+          across 543 candidates - PASS (TVR VS006).
+        evidence_refs:
+        - TVR-V8RR-005#VS006
+        confidence: high
+      - id: GC007
+        label: DECISION
+        text: Fault injection matches frozen expectations - PASS (TVR VS007).
+        evidence_refs:
+        - TVR-V8RR-005#VS007
+        confidence: high
+      - id: GC008
+        label: DECISION
+        text: Reference parity within declared subset - PASS (TVR VS008).
+        evidence_refs:
+        - TVR-V8RR-005#VS008
+        confidence: high
+    open_risks:
+      summary: Three risks carried forward into Phase 1, none blocking promotion
+        at the Phase-0 boundary.
+      items:
+      - id: OR001
+        label: RISK
+        text: funding_r/gross_utility are None (not fabricated as 0.0) for every
+          real-tape cube row, because CounterfactualOutcome does not persist funding_paid_r
+          and the adapter refuses to guess it. Phase 1's opportunity accounting
+          must read net_utility as authoritative and must not attempt a gross/funding
+          breakdown from the cube alone.
+        evidence_refs:
+        - tools/regret.py (module docstring, "Two contract gaps discovered during
+          implementation")
+        confidence: high
+      - id: OR002
+        label: RISK
+        text: Only BTCUSDT was reconciled on real data this session; the other
+          5 downloaded symbols (ETHUSDT, SOLUSDT, BNBUSDT, XRPUSDT, DOGEUSDT) are
+          UNMEASURED until Phase 1 runs one store per symbol (lab.py's single-instrument
+          constraint, not a evaluator limitation).
+        evidence_refs:
+        - TVR-V8RR-005#S001
+        confidence: high
+      - id: OR003
+        label: RISK
+        text: The downloaded real tape required a 3-day trim before its true end
+          to avoid a funding-coverage-boundary ValueError (the tape's last funding
+          row is 2026-06-30 16:00 UTC; a position open past that needs a boundary
+          the schedule does not carry). Phase 1 must apply the same trim per symbol
+          rather than rediscovering the failure mode per store.
+        evidence_refs:
+        - command run in this session (ValueError funding schedule missing boundary
+          1782864000000000000, then resolved by trimming 3 days)
+        confidence: high
+    signoff_requirements:
+      summary: Per V8_CONSTITUTION rule 12 and the frozen FCR amendment rule 5 -
+        this promotion authorizes MEASUREMENT ONLY, never an economic claim.
+      items:
+      - id: SR001
+        label: DECISION
+        text: No human sign-off is required to promote a read-only, additive research
+          instrument that touches no Expert, no geometry, and no economic parameter
+          — consistent with how tools/diagnostics.py (authority NONE) is already
+          treated in this repository. An operator sign-off IS required before any
+          future step attempts to attach an authority_receipt or make an economic
+          claim from this instrument's output (rule 9, rule 12) — that is explicitly
+          out of scope for Phase 0/1.
+        evidence_refs:
+        - docs/charter/V8_CONSTITUTION.md (rules 9, 12)
+        confidence: high
+    decisions:
+      summary: Phase-0 promoted; Phase 1 (Candidate-local opportunity accounting)
+        cleared to begin using the certified instrument.
+      items:
+      - id: D001
+        label: DECISION
+        text: Promote tools/regret.py + tools/regret_reference.py to certified status
+          for Phase-1 use. Registry entry D-071 records this.
+        evidence_refs:
+        - docs/decisions/DECISION_REGISTER.md#D-071
+        confidence: high
+    final_status:
+      status: pass
+      safe_to_continue: 'yes'
+      requires_hir: 'no'
+      reason:
+      - All 8 gate checks pass with real evidence; no blocker under the FCR section-21
+        standard was found during implementation.
+      - Promotion is scoped to MEASUREMENT — the economic verdict on every store
+        this instrument processes remains NO_ECONOMIC_CLAIM.
+      self_assessment:
+        required_sections_complete: 'yes'
+        evidence_coverage: high
+        unresolved_gaps:
+        - OR001-OR003 above are carried into Phase 1, not resolved here.
+        confidence_in_own_completeness: high
+compiler_expectations:
+  source_path: reports/accp/v8-rr-v02-phase0/source/PRR-V8RR-006.accp.yaml
+  compiled_json: reports/accp/v8-rr-v02-phase0/compiled/PRR-V8RR-006.compiled.json
+  ir_json: reports/accp/v8-rr-v02-phase0/ir/PRR-V8RR-006.ir.json
+  gate_verdict_json: reports/accp/v8-rr-v02-phase0/verdict/PRR-V8RR-006.gate-verdict.json
+  route_signal_json: reports/accp/v8-rr-v02-phase0/route/PRR-V8RR-006.route-signal.json

@@ -2833,7 +2833,9 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <p>| D-067 | The simulator gains an OPTIONAL bps-of-notional cost form alongside the flat R charge: <code>CanonicalSimulator(round_trip_cost_bps=X)</code> and <code>RunManifest.round_trip_cost_bps</code>, resolved at ONE point (<code>CanonicalSimulator.cost_r(entry_price, unit)</code>) that every <code>net_r</code> site now calls instead of reading the scalar. <code>cost_R = (bps/1e4) * entry_price / risk_unit</code>. <code>None</code> keeps the flat form, and the flat path is byte-identical (verified by diffing every outcome's <code>net_r</code>/<code>endpoint</code>/<code>entry_price</code>/<code>risk_unit_price</code> plus the whole <code>LabReport</code> minus hashes, before vs after — identical). The cost FORM binds into <code>sim.hash()</code> ('flat' vs 'bps:X'), so a flat ledger and a bps ledger can never compare equal | PROVISIONAL_DECISION | <code>round_trip_cost_r</code> is denominated in R, therefore invariant to the R unit: widening the risk unit rescales stop and target but leaves the charge untouched. The standing "widen R to dilute the cost" reasoning — true of a real venue fee — is a no-op in the flat model, so an R-widening experiment could not be measured at all. A venue charges a fraction of notional; only the bps form makes the R unit and the cost move together. This registers the MEASUREMENT INSTRUMENT only: no geometry changed, no expert changed, and the default remains flat 0.07R. 733/733 tests pass |
 | D-068 | The diagnostic's per-expert exit grid becomes a target x horizon CROSS (<code>EXIT_TP_GRID</code> x <code>EXIT_EXPIRY_GRID</code> = 20 cells, plus <code>no_sl</code> and <code>trail_1atr</code> as structural probes outside the cross). The selected maximum is reported as <code>exit_cross</code> carrying <code>n_cells_searched</code>, the naive p and a Bonferroni-corrected p — never as a bare "best exit". The portfolio section reports BOTH the per-expert max (labelled a selection-inflated upper bound) and a single fixed cell chosen once for all experts | PROVISIONAL_DECISION | The prior grid was one-dimensional: <code>tp_4r</code> moved the target to 4R while pinning the shipped 8-bar expiry. The report's own horizon section shows mean favorable excursion reaches ~4R near 48 bars, so that cell measured "target converted to expiry" and its loss said nothing about whether a 1:4 geometry works — the exit diagnosis was unfalsifiable. Katz &amp; McCormick's Standard Exit Strategy (Encyclopedia of Trading Strategies, 2000, ch. 13) moves target and horizon together (1 ATR stop / 4 ATR target / 10 bar limit); the grid must be able to express that shape. LITERATURE_SUPPORTED for the grid's SHAPE only — no geometry is adopted, and any adoption is a preregistered challenger (rule 12) |
 | D-069 | The decision table is evidence-gated and non-prescriptive. (a) <code>_observations</code> replaces <code>_main_problem</code>: every entry carries <code>supported: bool</code>, computed from <code>_min_n_for(nets, effect)</code> — the same 95%-CI sample floor section 8 already applies to segment cells — and an UNSUPPORTED observation is printed but may never label a row or drive a verdict. (b) The prescriptive action column ("Disable long", "Add regime filter", "Rework TP/SL", "Rebuild the expert", "Optimize execution") is replaced by an observation column stating the measured quantity and its sample support; a regression test asserts those strings never return. (c) A new coverage section reports zero-setup experts and defined-but-unregistered variant classes. (d) <code>KEEP</code> — the strongest statement the table can make — additionally requires <code>n &gt;= _min_n_for(nets, zero_cost_edge)</code>: enough trades to resolve the edge being claimed. Under-powered candidates are held at <code>INVESTIGATE</code> ("not enough yet"), never demoted to a failure | PROVISIONAL_DECISION | Three self-contradictions in the shipped report. First, section 8 refused to score a segment cell below its min-N while the decision table simultaneously emitted "Add regime filter" from an n=19 cell. Second, the action column named the best corner of a 44-cell (expert x symbol x timeframe) search — the selection is what inflates it, so a diagnostic that prescribes it is doing the data mining it exists to detect (Aronson, Evidence-Based Technical Analysis 2007, ch. 6). Third, 48 Expert subclasses are defined but only 27 registered, and 5 registered experts produced zero setups; both gaps were invisible, so a row labelled with a family name read as a statement about the family while measuring one variant — a long-only variant <code>a</code> shows SHORT n=0, which looks like a broken direction and is the variant's definition (Aronson's rising-market long-only artifact, ~ch. 5). AUTHORITY unchanged: NONE |
-| D-070 | <code>run_multi</code> is deterministic in <code>--processes</code>: the (symbol x timeframe) job list is built once by a pure <code>plan_cells</code>, and each cell's seed is derived from its POSITION in that fixed enumeration | PROVISIONAL_DECISION | Defect found while wiring the cost form: the parallel branch seeded <code>seed + i</code> while the sequential branch used a bare <code>seed</code>, so <code>--processes 1</code> and <code>--processes 4</code> produced different output for every cell but the first. Determinism is the one property this program cannot trade away (constitution: no wall clock in replay, the three clocks never collapsed); a runner whose results depend on a scheduling flag silently breaks it |</p>
+| D-070 | <code>run_multi</code> is deterministic in <code>--processes</code>: the (symbol x timeframe) job list is built once by a pure <code>plan_cells</code>, and each cell's seed is derived from its POSITION in that fixed enumeration | PROVISIONAL_DECISION | Defect found while wiring the cost form: the parallel branch seeded <code>seed + i</code> while the sequential branch used a bare <code>seed</code>, so <code>--processes 1</code> and <code>--processes 4</code> produced different output for every cell but the first. Determinism is the one property this program cannot trade away (constitution: no wall clock in replay, the three clocks never collapsed); a runner whose results depend on a scheduling flag silently breaks it |
+| D-071 | The V8 x Recoverable Regret v0.2 Phase-0 measurement instrument is admitted as <code>tools/regret.py</code> (+ <code>tools/regret_reference.py</code>), a READ-ONLY consumer of a completed <code>Lab</code> store — it never re-runs <code>Lab.run</code>, never creates a second Candidate population, and touches no Expert/geometry/verdict. Pipeline: CandidateSnapshot join (re-derives <code>episode_key</code>, never a stored edge) -&gt; PIT lineage assertion -&gt; ledger reconciliation (<code>Replay(C, a_actual, M) == observed</code>) -&gt; <code>LegalActionManifest</code> (NO_TRADE + the actual action seeded first + a small declared target_r x expiry_bars grid, <code>pyramid_add_rules</code> and <code>direction</code> structurally excluded) -&gt; <code>ModelDerivedOutcomeCube</code> (<code>cube.jsonl</code>, refuses rather than accepts a degenerate-future/censored/no-entry cell) -&gt; <code>LegalHindsightGap</code> (<code>regret.jsonl</code>, ties reported never broken, abstains on any non-OK potentially-maximizing cell). Two small additive <code>src/v8/</code> repairs were required to unblock it: <code>AppendOnlyLog.close()</code> (Windows <code>os.replace</code> cannot rename over a still-open handle — this was also the pre-existing <code>tests/test_funding_wiring.py</code> failure, previously misdiagnosed as an environment artifact) and <code>.as_posix()</code> path keys in <code>_code_hash</code>/<code>_tooling_hash</code> (the identical source hashed differently on Windows vs POSIX). <code>Lab.run</code> additionally persists <code>report.json</code> alongside <code>manifest.json</code> (additive only, not part of <code>ledger_hash</code>) so a completed store is self-describing about its own <code>risk_gate_hash</code> without re-running the lab. Phase 0 computes NO statistics — no slicing, no multiplicity, no attribution, no recoverability; it produces a reconciliation verdict, a cube, and a per-Candidate gap, nothing else, and every number is labelled MODEL_DERIVED with no economic authority | PROVISIONAL_DECISION | Full ACCP evidence chain: RIR-V8RR-001 -&gt; FER-V8RR-002 -&gt; FDR-V8RR-003 -&gt; FCR-V8RR-004 (<code>reports/accp/v8-rr-v02-phase0/</code>). Certification evidence, all real command output: golden synthetic fixture (15 candidates) reconciles 12/12 exact at 1e-12; a real 12-month single-symbol BTCUSDT 1h store (1,532 candidates, built from a freshly downloaded, checksum-verified 6-symbol multi-instrument tape — <code>research/tape/multi-1h-dev/</code>, 144 archives, 59,130 rows, 0 duplicates, monotonic, 0 venue-sequence gaps) reconciles 754/754 exact at 1e-12 with 0 deviation on every field — closing the FCR's own flagged "measured only on synthetic data" gap; PIT lineage clean (0 violations) on both; the v0.2 invariant <code>hindsight &gt;= actual</code> holds with zero negative gaps across 543 COMPUTED candidates (12 synthetic + 531 real); an independently-derived reference walk (written from <code>SIMULATION_TRUTH_SPEC</code> text, imports nothing from <code>v8.simulator</code>) agrees with the canonical simulator on 150 Hypothesis-generated randomized paths; five fault-injection cases (TP-shortened axis attribution, cost-doubling isolation, direction-flip structural illegality, habitat-randomization structural non-claim, missing-evidence explicit refusal) behave as specified. 751/751 tests pass (18 new: <code>test_regret_phase0.py</code>, <code>test_regret_faults.py</code>, <code>test_regret_reference.py</code>), up from 730/733 at HEAD before this session's three repairs. Lives in <code>tools/</code> (D-032 boundary: a research instrument, not decision-path runtime — mirrors <code>tools/diagnostics.py</code>'s write discipline and population-boundary caveat, since the two engines' Candidate populations are NOT interchangeable) |</p>
+<p>| D-072 | Phase 1 (Candidate-local opportunity accounting, <code>tools/regret_phase1.py</code>) and Phase 2 (systematicity discovery, <code>tools/regret_phase2.py</code>) of the V8 x Recoverable Regret v0.2 program are run over the full certified multi-symbol dev dataset (9,218 Candidates: 6 symbols x 3 pilot Experts x 12-month trimmed dev window, D-071's tape). Phase 1 is a pure join + pre-declared descriptive breakdown (label <code>MODEL_DERIVED_DESCRIPTIVE_NOT_YET_GATED</code>, zero statistics). Phase 2 implements the frozen contract <code>FCR-V8RR-007</code> by REUSING <code>src/v8/statistics.py</code> in full (<code>select_block_size</code>, <code>bootstrap_ci</code>, <code>effective_independent_episodes</code>, <code>practical_significance</code>, <code>expected_false_positives</code>/<code>effective_search_size</code>) — zero new estimator code. The declared 72-slice discovery family (3 Experts x 6 symbols x 2 directions x 2 estimands) is scored on a chronological discovery half of the dev window (first ~6 months, 4,609 Candidates) and any <code>CANDIDATE_SYSTEMATIC</code> slice is queried against the untouched confirmation half (remaining ~6 months, 4,609 Candidates) EXACTLY ONCE | PROVISIONAL_DECISION | 12 of 72 declared slices (16.7%, vs <code>expected_false_positives(72, 0.05)</code>=3.6 under the null) reached <code>CANDIDATE_SYSTEMATIC</code> on the <code>mean_legal_hindsight_gap</code> estimand — none on <code>mean_actual_vs_no_trade</code> — and ALL 12 replicated as <code>SYSTEMATIC_FINDING</code> on confirmation (0 <code>FAILED_CONFIRMATION</code>), with tightly stable point estimates and CIs across both halves (e.g. <code>trend_pullback\|BTCUSDT\|LONG</code>: discovery mean 0.677R CI[0.593,0.760], confirmation mean 0.499R CI[0.402,0.594]; <code>failed_breakout\|BTCUSDT\|SHORT</code>: discovery mean 1.052R CI[0.965,1.136], confirmation mean 1.005R CI[0.923,1.088]). The pattern is clean and directionally coherent: <code>trend_pullback</code> clears the Bonferroni-corrected bar (<code>alpha_slate</code> ~0.000694) on its LONG side on all 6 symbols and never on SHORT; <code>failed_breakout</code> the mirror on SHORT; <code>liquidity_sweep_reclaim</code> clears no slice (mostly <code>INSUFFICIENT_SUPPORT</code> — fewer executed episodes per symbol). <strong>This is a <code>mean_legal_hindsight_gap</code> finding, NOT a recoverability claim</strong> (v0.2 section 5.3: hindsight opportunity != recoverable opportunity) — it says value was left on the table inside the represented Candidate/action universe under a costed, versioned Replay Model, and that the pattern replicates; it says nothing about whether a decision-time-realizable policy could have selected the better legal action. Phase 3 (<code>FCR</code> to be frozen next) is the only instrument that can answer that. Full evidence: <code>reports/accp/v8-rr-v02-phase0/source/ECR-V8RR-008.accp.yaml</code> (Phase-1 capsule), <code>tmp/phase2/{attempts.jsonl,discovery_summary.json,confirmation_results.jsonl,confirmation_summary.json}</code> (real command output, this session) |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -5130,6 +5132,153 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-10-v8-x-recoverable-regret-v02-phase-0-build-step-1-golden-repair-two-portability-bugs-multi-symbol-dev-tape">2026-08-10 — V8 x Recoverable Regret v0.2, Phase-0 build step 1: golden repair + two portability bugs + multi-symbol dev tape</h2>
+<p>Three local repairs and one data-plane addition, all prerequisites for the
+Phase-0 measurement instrument frozen in <code>FCR-V8RR-004</code> (read-only ACCP
+evidence chain <code>RIR-V8RR-001</code> .. <code>FCR-V8RR-004</code>, not committed to <code>docs/</code> —
+research-session artifacts under <code>reports/accp/v8-rr-v02-phase0/</code>).</p>
+<p><strong>1. Golden regression re-pin (<code>tests/test_golden_backtest.py</code>).</strong> The golden
+was RED at HEAD: <code>states_hash</code>/<code>ledger_hash</code> had drifted since the last pin
+because <code>marketstate.py</code> (D-054) and <code>lab.py</code> moved, and <code>_BUILDER_SRC_HASH</code>
+is a whole-file hash bound into every state's <code>provenance.code_version</code> by
+design. Measured before re-pinning: <code>data_hash</code>, <code>candidate_count</code> (15) and
+<code>terminal_distribution</code> (<code>{CLOSED:12, INVALIDATED:1, REJECTED:2}</code>) were
+UNCHANGED — no Expert, setup, trigger, price or economics decision moved.
+Re-pinned <code>GOLDEN_LEDGER_HASH</code>/<code>GOLDEN_STATES_HASH</code> with a dated comment
+recording the invariance proof, per the file's own "do not update silently"
+convention.</p>
+<p><strong>2. <code>AppendOnlyLog</code> gained a <code>close()</code> method (<code>src/v8/store.py</code>).</strong>
+<code>tools/vision_backfill.sort_tape</code> opens a log, reads it, then calls
+<code>os.replace</code> on the exact path the log's still-open append handle points to.
+POSIX permits a rename over an open handle; Windows does not (<code>WinError 5</code>),
+which was the root cause of the pre-existing <code>tests/test_funding_wiring.py</code>
+failure (previously misdiagnosed as an environment artifact) and blocked
+<code>--sort</code> on a freshly downloaded tape outright. <code>sort_tape</code> now calls
+<code>log.close()</code> before <code>os.replace</code>. <code>close()</code> is idempotent and is the only
+new public surface on <code>AppendOnlyLog</code>.</p>
+<p><strong>3. <code>_code_hash()</code>/<code>_tooling_hash()</code> made platform-independent
+(<code>src/v8/lab.py</code>).</strong> Both keyed their per-file dict on <code>str(p.relative_to(base))</code>,
+which embeds the OS path separator — the identical source tree hashed
+differently on Windows (<code>experts\base.py</code>) vs POSIX (<code>experts/base.py</code>),
+silently breaking rule 9's "outputs bind ... code ... hashes" invariant
+across machines. Switched to <code>.relative_to(base).as_posix()</code> (same files,
+same bytes, a canonical separator in the hash key only).
+<code>tests/test_bugfix_pass.py::test_code_hash_excludes_vendored_simtruth</code>'s
+independent mirror updated to match — it previously split path keys on <code>'/'</code>
+while <code>str(Path)</code> produced <code>'\\'</code>-joined keys on Windows, so the mirror's own
+<code>simtruth</code> exclusion silently no-opped on this platform. No golden hash
+depends on <code>_code_hash()</code>'s value (<code>ExperimentManifest.code_hash</code> is <code>''</code> in
+every pinned fixture and is not itself asserted), so no other pin moved.
+Full suite after all three repairs: 733 passed, 1 skipped (up from 730
+passed / 3 failed at HEAD).</p>
+<p><strong>4. Multi-symbol dev tape built (<code>research/tape/multi-1h-dev/</code>, gitignored
+— reproducible from public archives).</strong> <code>tools/build_multi_tape.py --symbols
+BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT,DOGEUSDT --start 2025-07 --end
+2026-07 --interval 1h --channels kline,funding --download</code>: 144 Binance
+Vision monthly archives (0.03 GB), 0 misses. Symbol set = <code>risk.py</code>'s
+<code>DEFAULT_CLUSTERS</code> (the "btc"/"major" cluster grouping already wired into
+<code>RiskGate</code>'s heat caps); date range = the existing D-041 dev window,
+strictly inside the frozen 2026-07-01 holdout boundary that the builder
+itself refuses to cross. Sorted and audited clean: 59,130 rows,
+<code>tape_hash=b9079440e2cc7a03300eb6fc3366baf25d1fc7e3</code>, 0 duplicate rows,
+monotonic, all payload hashes verified, 0 venue-sequence gaps. This is
+research/diagnostic data (rule 11, "explore broadly in development") — it
+does not amend <code>DATASET_SPEC</code> section 6's declared single-symbol
+<code>v8_slice_001</code> universe, which stays the only canonical dataset for an
+economic claim; extending that declaration remains an O-011 registry
+decision.</p>
+<h2 id="2026-08-10-v8-x-recoverable-regret-v02-phase-0-certified-d-071">2026-08-10 — V8 x Recoverable Regret v0.2, Phase-0 CERTIFIED (D-071)</h2>
+<p>Continuation of the build-step-1 entry above (golden repair, <code>AppendOnlyLog.close()</code>,
+<code>_code_hash</code> portability, multi-symbol dev tape). This entry closes Phase 0:
+<code>tools/regret.py</code> (+ <code>tools/regret_reference.py</code>) implements the ten frozen
+contracts (<code>FCR-V8RR-004</code>) and is certified against real command evidence in
+<code>TVR-V8RR-005</code> / promoted in <code>PRR-V8RR-006</code> (both under
+<code>reports/accp/v8-rr-v02-phase0/source/</code>). Full decision text: <code>D-071</code>.</p>
+<p><strong>Instrument.</strong> A READ-ONLY evaluator over a completed <code>Lab</code> store: joins
+<code>CandidateSnapshot</code>s (re-derives <code>episode_key</code>, never a stored edge), asserts
+PIT lineage, reconciles <code>Replay(C, a_actual, M)</code> against the observed ledger,
+generates a per-Candidate <code>LegalActionManifest</code> (<code>NO_TRADE</code> + the actual
+action seeded first + a small declared <code>target_r</code> x <code>expiry_bars</code> grid;
+<code>pyramid_add_rules</code> and <code>direction</code> structurally excluded), replays every
+legal action through the SAME <code>CanonicalSimulator</code> the run used (refusing —
+<code>UNDEFINED_FUTURE</code> / <code>CENSORED</code> / <code>NOT_EVALUABLE_ACTION</code> / <code>NO_ENTRY</code> — rather
+than accepting a degenerate-future or censored cell as a number), writes the
+cube (<code>cube.jsonl</code>) and the gap (<code>regret.jsonl</code>, ties reported never broken,
+abstains whenever any potentially-maximizing cell is not fully observed).
+Phase 0 computes NO statistics; every number is <code>MODEL_DERIVED</code> and carries
+no economic authority.</p>
+<p><strong>Certification evidence, all real command output.</strong> Golden synthetic
+fixture (15 candidates): reconciles 12/12 exact at 1e-12, 0 PIT violations.
+Real 12-month single-symbol BTCUSDT 1h store (1,532 candidates, built from
+the freshly downloaded 6-symbol tape, trimmed 3 days before its true end to
+stay inside the tape's own funding-coverage boundary): reconciles 754/754
+exact at 1e-12, 0 deviation on every field, 0 PIT violations — closing the
+FCR's own flagged "measured only on synthetic data" gap. The v0.2 invariant
+<code>hindsight &gt;= actual</code> holds with zero negative gaps across 543 COMPUTED
+candidates combined. An independently-derived reference walk (written from
+<code>SIMULATION_TRUTH_SPEC</code> text, imports nothing from <code>v8.simulator</code>) agrees
+with the canonical simulator on 150 Hypothesis-generated randomized paths.
+Five fault-injection cases (TP-shortened axis attribution, cost-doubling
+isolation, direction-flip structural illegality, habitat-randomization
+structural non-claim, missing-evidence explicit refusal) behave as
+specified — the last two by correctly REFUSING to claim something Phase 0
+has no evidence for, not by localizing them.</p>
+<p><strong>One more additive <code>src/v8/</code> change.</strong> <code>Lab.run()</code> now also persists
+<code>report.json</code> alongside <code>manifest.json</code> (not part of <code>ledger_hash</code>): a
+completed store previously could not recover its own <code>risk_gate_hash</code>
+without re-running the lab, which a read-only evaluator must never do.</p>
+<p><strong>Suite:</strong> 751 passed, 1 skipped (18 new tests: <code>test_regret_phase0.py</code>,
+<code>test_regret_faults.py</code>, <code>test_regret_reference.py</code>), up from 730 passed / 3
+failed at HEAD before this session.</p>
+<p><strong>Two honest limitations carried into Phase 1, not silently resolved.</strong>
+<code>funding_r</code>/<code>gross_utility</code> are <code>None</code> (never fabricated as <code>0.0</code>) on any
+store whose manifest declares nonzero funding or whose tape carries a
+funding channel, because <code>CounterfactualOutcome</code> does not persist
+<code>funding_paid_r</code> and extending it would move <code>sim.hash()</code> and re-pin every
+golden for no semantic gain — Phase 1 must read <code>net_utility</code> as
+authoritative and not attempt a funding breakdown from the cube. Only
+BTCUSDT was reconciled on real data this session; the other five downloaded
+symbols are validated identically (not differently) during Phase 1's
+per-symbol runs (<code>v8.lab.Lab</code>'s bar-driven loop is single-instrument by
+design, <code>src/v8/lab.py:369-374</code>).</p>
+<h2 id="2026-08-10-v8-x-recoverable-regret-v02-phase-12-a-replicated-not-yet-recoverable-mean_legal_hindsight_gap-finding-d-072">2026-08-10 — V8 x Recoverable Regret v0.2, Phase 1+2: a replicated (not yet recoverable) <code>mean_legal_hindsight_gap</code> finding (D-072)</h2>
+<p><code>tools/regret_phase1.py</code> (descriptive join, label <code>MODEL_DERIVED_DESCRIPTIVE_NOT_YET_GATED</code>,
+zero statistics) and <code>tools/regret_phase2.py</code> (systematicity discovery per
+<code>FCR-V8RR-007</code>, reusing <code>src/v8/statistics.py</code> in full — zero new estimator
+code) ran over the certified Phase-0 output for all 6 downloaded symbols
+(9,218 Candidates). 12 of the 72 declared discovery slices reached
+<code>CANDIDATE_SYSTEMATIC</code> on <code>mean_legal_hindsight_gap</code> (vs 3.6 expected under
+the null at family alpha 0.05) — <code>trend_pullback</code> LONG and <code>failed_breakout</code>
+SHORT, each on all 6 symbols, never the mirror direction, never on
+<code>mean_actual_vs_no_trade</code>. All 12 confirmed as <code>SYSTEMATIC_FINDING</code> on the
+untouched second half of the dev window, queried exactly once, with stable
+point estimates both halves (<code>trend_pullback</code> ~0.5-0.7R, <code>failed_breakout</code>
+~1.0-1.2R). <strong>Epistemic status, stated explicitly because it is easy to
+overclaim here:</strong> this is evidence that value is being left on the table
+inside the represented Candidate/action universe, under a costed, versioned,
+reconciled Replay Model, and that the pattern replicates chronologically. It
+is NOT evidence that the gap is recoverable — v0.2 section 5.3's
+<code>HindsightOpportunity != RecoverableOpportunity</code> applies without exception,
+and V8_CONSTITUTION rule 12 still blocks any profitability or validated-
+execution claim. Full decision text and numbers: <code>D-072</code>. Evidence:
+<code>reports/accp/v8-rr-v02-phase0/source/ECR-V8RR-008.accp.yaml</code>,
+<code>tmp/phase2/*.json(l)</code> (real command output, this session).</p>
+<h2 id="2026-08-09-per-expert-scenario-correctness-audit-rule-10-contract-tests">2026-08-09 — Per-Expert scenario correctness audit (rule 10 contract tests)</h2>
+<p><code>tests/test_expert_scenarios.py</code> (new, 18 tests): hand-crafted bar sequences
+with a known correct fire/no-fire/geometry outcome for the three original
+pilot Experts (<code>trend_pullback</code>, <code>failed_breakout</code>, <code>liquidity_sweep_reclaim</code>)
+— positive setups, negative/no-setup mirrors, strict-inequality boundary
+cases (hand-built <code>MarketState</code>, bypassing <code>build_state</code>), the shared
+&lt;20-bar habitat gate, <code>still_valid</code> invalidation, and a cross-Expert
+metamorphic invariant (every <code>CANDIDATE</code> an Expert emits over synthetic
+noise must independently re-derive from its own documented setup predicate
+against the raw <code>history</code> tuple). Contract-only per rule 10: no <code>Lab</code>, no
+economic claim, no <code>src/v8/</code> change. Superseded as the primary diagnostic
+instrument by the already-existing <code>tools/diagnostics.py</code> report center
+(9-section per-Expert forensics across all 27 registered Experts, run
+2026-08-07/08 — see <code>.audit/RESULTS.md</code>); this file remains a narrower,
+faster-running correctness check on the three original pilots specifically,
+independent of that instrument.</p>
 <h2 id="2026-08-09-diagnostic-integrity-pass-the-report-could-not-falsify-its-own-exit-diagnosis">2026-08-09 — Diagnostic integrity pass: the report could not falsify its own exit diagnosis</h2>
 <p>Four defects, found by auditing the 2026-08-08 multi-cell report against its
 own numbers. None of them changes an Expert, a geometry or a verdict's

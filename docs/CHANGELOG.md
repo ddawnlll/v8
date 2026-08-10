@@ -3,6 +3,170 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-10 — V8 x Recoverable Regret v0.2, Phase-0 build step 1: golden repair + two portability bugs + multi-symbol dev tape
+
+Three local repairs and one data-plane addition, all prerequisites for the
+Phase-0 measurement instrument frozen in `FCR-V8RR-004` (read-only ACCP
+evidence chain `RIR-V8RR-001` .. `FCR-V8RR-004`, not committed to `docs/` —
+research-session artifacts under `reports/accp/v8-rr-v02-phase0/`).
+
+**1. Golden regression re-pin (`tests/test_golden_backtest.py`).** The golden
+was RED at HEAD: `states_hash`/`ledger_hash` had drifted since the last pin
+because `marketstate.py` (D-054) and `lab.py` moved, and `_BUILDER_SRC_HASH`
+is a whole-file hash bound into every state's `provenance.code_version` by
+design. Measured before re-pinning: `data_hash`, `candidate_count` (15) and
+`terminal_distribution` (`{CLOSED:12, INVALIDATED:1, REJECTED:2}`) were
+UNCHANGED — no Expert, setup, trigger, price or economics decision moved.
+Re-pinned `GOLDEN_LEDGER_HASH`/`GOLDEN_STATES_HASH` with a dated comment
+recording the invariance proof, per the file's own "do not update silently"
+convention.
+
+**2. `AppendOnlyLog` gained a `close()` method (`src/v8/store.py`).**
+`tools/vision_backfill.sort_tape` opens a log, reads it, then calls
+`os.replace` on the exact path the log's still-open append handle points to.
+POSIX permits a rename over an open handle; Windows does not (`WinError 5`),
+which was the root cause of the pre-existing `tests/test_funding_wiring.py`
+failure (previously misdiagnosed as an environment artifact) and blocked
+`--sort` on a freshly downloaded tape outright. `sort_tape` now calls
+`log.close()` before `os.replace`. `close()` is idempotent and is the only
+new public surface on `AppendOnlyLog`.
+
+**3. `_code_hash()`/`_tooling_hash()` made platform-independent
+(`src/v8/lab.py`).** Both keyed their per-file dict on `str(p.relative_to(base))`,
+which embeds the OS path separator — the identical source tree hashed
+differently on Windows (`experts\base.py`) vs POSIX (`experts/base.py`),
+silently breaking rule 9's "outputs bind ... code ... hashes" invariant
+across machines. Switched to `.relative_to(base).as_posix()` (same files,
+same bytes, a canonical separator in the hash key only).
+`tests/test_bugfix_pass.py::test_code_hash_excludes_vendored_simtruth`'s
+independent mirror updated to match — it previously split path keys on `'/'`
+while `str(Path)` produced `'\\'`-joined keys on Windows, so the mirror's own
+`simtruth` exclusion silently no-opped on this platform. No golden hash
+depends on `_code_hash()`'s value (`ExperimentManifest.code_hash` is `''` in
+every pinned fixture and is not itself asserted), so no other pin moved.
+Full suite after all three repairs: 733 passed, 1 skipped (up from 730
+passed / 3 failed at HEAD).
+
+**4. Multi-symbol dev tape built (`research/tape/multi-1h-dev/`, gitignored
+— reproducible from public archives).** `tools/build_multi_tape.py --symbols
+BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT,DOGEUSDT --start 2025-07 --end
+2026-07 --interval 1h --channels kline,funding --download`: 144 Binance
+Vision monthly archives (0.03 GB), 0 misses. Symbol set = `risk.py`'s
+`DEFAULT_CLUSTERS` (the "btc"/"major" cluster grouping already wired into
+`RiskGate`'s heat caps); date range = the existing D-041 dev window,
+strictly inside the frozen 2026-07-01 holdout boundary that the builder
+itself refuses to cross. Sorted and audited clean: 59,130 rows,
+`tape_hash=b9079440e2cc7a03300eb6fc3366baf25d1fc7e3`, 0 duplicate rows,
+monotonic, all payload hashes verified, 0 venue-sequence gaps. This is
+research/diagnostic data (rule 11, "explore broadly in development") — it
+does not amend `DATASET_SPEC` section 6's declared single-symbol
+`v8_slice_001` universe, which stays the only canonical dataset for an
+economic claim; extending that declaration remains an O-011 registry
+decision.
+
+## 2026-08-10 — V8 x Recoverable Regret v0.2, Phase-0 CERTIFIED (D-071)
+
+Continuation of the build-step-1 entry above (golden repair, `AppendOnlyLog.close()`,
+`_code_hash` portability, multi-symbol dev tape). This entry closes Phase 0:
+`tools/regret.py` (+ `tools/regret_reference.py`) implements the ten frozen
+contracts (`FCR-V8RR-004`) and is certified against real command evidence in
+`TVR-V8RR-005` / promoted in `PRR-V8RR-006` (both under
+`reports/accp/v8-rr-v02-phase0/source/`). Full decision text: `D-071`.
+
+**Instrument.** A READ-ONLY evaluator over a completed `Lab` store: joins
+`CandidateSnapshot`s (re-derives `episode_key`, never a stored edge), asserts
+PIT lineage, reconciles `Replay(C, a_actual, M)` against the observed ledger,
+generates a per-Candidate `LegalActionManifest` (`NO_TRADE` + the actual
+action seeded first + a small declared `target_r` x `expiry_bars` grid;
+`pyramid_add_rules` and `direction` structurally excluded), replays every
+legal action through the SAME `CanonicalSimulator` the run used (refusing —
+`UNDEFINED_FUTURE` / `CENSORED` / `NOT_EVALUABLE_ACTION` / `NO_ENTRY` — rather
+than accepting a degenerate-future or censored cell as a number), writes the
+cube (`cube.jsonl`) and the gap (`regret.jsonl`, ties reported never broken,
+abstains whenever any potentially-maximizing cell is not fully observed).
+Phase 0 computes NO statistics; every number is `MODEL_DERIVED` and carries
+no economic authority.
+
+**Certification evidence, all real command output.** Golden synthetic
+fixture (15 candidates): reconciles 12/12 exact at 1e-12, 0 PIT violations.
+Real 12-month single-symbol BTCUSDT 1h store (1,532 candidates, built from
+the freshly downloaded 6-symbol tape, trimmed 3 days before its true end to
+stay inside the tape's own funding-coverage boundary): reconciles 754/754
+exact at 1e-12, 0 deviation on every field, 0 PIT violations — closing the
+FCR's own flagged "measured only on synthetic data" gap. The v0.2 invariant
+`hindsight >= actual` holds with zero negative gaps across 543 COMPUTED
+candidates combined. An independently-derived reference walk (written from
+`SIMULATION_TRUTH_SPEC` text, imports nothing from `v8.simulator`) agrees
+with the canonical simulator on 150 Hypothesis-generated randomized paths.
+Five fault-injection cases (TP-shortened axis attribution, cost-doubling
+isolation, direction-flip structural illegality, habitat-randomization
+structural non-claim, missing-evidence explicit refusal) behave as
+specified — the last two by correctly REFUSING to claim something Phase 0
+has no evidence for, not by localizing them.
+
+**One more additive `src/v8/` change.** `Lab.run()` now also persists
+`report.json` alongside `manifest.json` (not part of `ledger_hash`): a
+completed store previously could not recover its own `risk_gate_hash`
+without re-running the lab, which a read-only evaluator must never do.
+
+**Suite:** 751 passed, 1 skipped (18 new tests: `test_regret_phase0.py`,
+`test_regret_faults.py`, `test_regret_reference.py`), up from 730 passed / 3
+failed at HEAD before this session.
+
+**Two honest limitations carried into Phase 1, not silently resolved.**
+`funding_r`/`gross_utility` are `None` (never fabricated as `0.0`) on any
+store whose manifest declares nonzero funding or whose tape carries a
+funding channel, because `CounterfactualOutcome` does not persist
+`funding_paid_r` and extending it would move `sim.hash()` and re-pin every
+golden for no semantic gain — Phase 1 must read `net_utility` as
+authoritative and not attempt a funding breakdown from the cube. Only
+BTCUSDT was reconciled on real data this session; the other five downloaded
+symbols are validated identically (not differently) during Phase 1's
+per-symbol runs (`v8.lab.Lab`'s bar-driven loop is single-instrument by
+design, `src/v8/lab.py:369-374`).
+
+## 2026-08-10 — V8 x Recoverable Regret v0.2, Phase 1+2: a replicated (not yet recoverable) `mean_legal_hindsight_gap` finding (D-072)
+
+`tools/regret_phase1.py` (descriptive join, label `MODEL_DERIVED_DESCRIPTIVE_NOT_YET_GATED`,
+zero statistics) and `tools/regret_phase2.py` (systematicity discovery per
+`FCR-V8RR-007`, reusing `src/v8/statistics.py` in full — zero new estimator
+code) ran over the certified Phase-0 output for all 6 downloaded symbols
+(9,218 Candidates). 12 of the 72 declared discovery slices reached
+`CANDIDATE_SYSTEMATIC` on `mean_legal_hindsight_gap` (vs 3.6 expected under
+the null at family alpha 0.05) — `trend_pullback` LONG and `failed_breakout`
+SHORT, each on all 6 symbols, never the mirror direction, never on
+`mean_actual_vs_no_trade`. All 12 confirmed as `SYSTEMATIC_FINDING` on the
+untouched second half of the dev window, queried exactly once, with stable
+point estimates both halves (`trend_pullback` ~0.5-0.7R, `failed_breakout`
+~1.0-1.2R). **Epistemic status, stated explicitly because it is easy to
+overclaim here:** this is evidence that value is being left on the table
+inside the represented Candidate/action universe, under a costed, versioned,
+reconciled Replay Model, and that the pattern replicates chronologically. It
+is NOT evidence that the gap is recoverable — v0.2 section 5.3's
+`HindsightOpportunity != RecoverableOpportunity` applies without exception,
+and V8_CONSTITUTION rule 12 still blocks any profitability or validated-
+execution claim. Full decision text and numbers: `D-072`. Evidence:
+`reports/accp/v8-rr-v02-phase0/source/ECR-V8RR-008.accp.yaml`,
+`tmp/phase2/*.json(l)` (real command output, this session).
+
+## 2026-08-09 — Per-Expert scenario correctness audit (rule 10 contract tests)
+
+`tests/test_expert_scenarios.py` (new, 18 tests): hand-crafted bar sequences
+with a known correct fire/no-fire/geometry outcome for the three original
+pilot Experts (`trend_pullback`, `failed_breakout`, `liquidity_sweep_reclaim`)
+— positive setups, negative/no-setup mirrors, strict-inequality boundary
+cases (hand-built `MarketState`, bypassing `build_state`), the shared
+<20-bar habitat gate, `still_valid` invalidation, and a cross-Expert
+metamorphic invariant (every `CANDIDATE` an Expert emits over synthetic
+noise must independently re-derive from its own documented setup predicate
+against the raw `history` tuple). Contract-only per rule 10: no `Lab`, no
+economic claim, no `src/v8/` change. Superseded as the primary diagnostic
+instrument by the already-existing `tools/diagnostics.py` report center
+(9-section per-Expert forensics across all 27 registered Experts, run
+2026-08-07/08 — see `.audit/RESULTS.md`); this file remains a narrower,
+faster-running correctness check on the three original pilots specifically,
+independent of that instrument.
+
 ## 2026-08-09 — Diagnostic integrity pass: the report could not falsify its own exit diagnosis
 
 Four defects, found by auditing the 2026-08-08 multi-cell report against its

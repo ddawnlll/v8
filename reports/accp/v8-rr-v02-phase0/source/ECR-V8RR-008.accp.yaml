@@ -1,0 +1,199 @@
+report:
+  accp_version: 2.0.0
+  source_format: ACCP-YAML
+  report_id: ECR-V8RR-008
+  report_type: ECR
+  report_family: coordination
+  report_name: Evidence Capsule Report
+  support_level: schema_lite
+  plan_id: v8-rr-v02-phase0
+  workspace_id: none
+  repo_root: C:/Users/dresden/Documents/v8
+  git_commit: 1053dc1b819c9012f50294ccf7be7eaaa86b5746
+  git_branch: main
+  report_generated_at: '2026-08-10'
+  report_stale_after: on_next_commit
+  inspection_mode: evidence_bundle
+  confidence: high
+  authority:
+    reports_are_evidence_only: true
+    route_signals_are_advisory: true
+    runtime_must_read_compiled_json: true
+    raw_yaml_is_not_runtime_authority: true
+    rendered_markdown_is_human_preview_only: true
+  agent:
+    agent_id: claude-code-session-750e89fd
+    agent_role: repo_agent
+    model_name: claude-sonnet-5
+    model_version: unknown
+    session_id: 750e89fd-d8cf-4c8b-a4de-e656675171ce
+    prompt_hash: unknown
+  lineage:
+    parent_report: PRR-V8RR-006
+    supersedes: none
+    triggered_by: 'user_directive: Phase 1 Candidate-local opportunity accounting'
+    continuation_of: FCR-V8RR-004
+    validates: none
+  references:
+  - id: R001
+    ref: tools/regret_phase1.py
+    purpose: The join/breakdown code that produced this capsule (descriptive only).
+  - id: R002
+    ref: FCR-V8RR-007
+    purpose: The Phase-2 contract this capsule is the declared INPUT to.
+  assumptions: []
+  skipped_inspections: []
+  sections:
+    evidence_capsule_summary:
+      summary: 'Frozen Phase-1 evidence dataset: 9,218 Candidates joined across
+        6 symbols x 3 certified pilot Experts, from the certified Phase-0 evaluator''s
+        own cube.jsonl/regret.jsonl output. 3,139 have gap_status=COMPUTED; the
+        v0.2 hindsight>=actual invariant holds with ZERO exceptions across all
+        3,139. Every number in this capsule is labelled
+        MODEL_DERIVED_DESCRIPTIVE_NOT_YET_GATED — no systematicity, recoverability,
+        attribution, or portfolio-aggregation claim is made or implied.'
+      items:
+      - id: ES001
+        label: FACT
+        text: n_candidates_total=9218, gap_status_distribution={ABSTAINED_CENSORED:850,
+          ABSTAINED_UNDEFINED:5229, COMPUTED:3139}, zero_negative_gap_invariant_check={n_computed:3139,
+          n_negative:0}.
+        evidence_refs:
+        - 'command: python -c "... build_phase1_dataset(...) ..." (this session)'
+        confidence: high
+      - id: ES002
+        label: FACT
+        text: 'Per-Expert descriptive breakdown (pre-declared, not a search — FCR-V8RR-007
+          FT003 is the frozen discovery family this capsule feeds): failed_breakout
+          n_computed=1189 mean_gap=1.092 mean_actual_utility=-0.377; liquidity_sweep_reclaim
+          n_computed=663 mean_gap=1.034 mean_actual_utility=-0.484; trend_pullback
+          n_computed=1287 mean_gap=0.593 mean_actual_utility=-0.220.'
+        evidence_refs:
+        - 'command: this session, tools/regret_phase1.py descriptive_breakdown(by_expert)'
+        confidence: high
+      - id: ES003
+        label: RISK
+        text: These per-Expert means are DESCRIPTIVE ONLY and must not be read
+          as evidence of systematic loss — no materiality gate, no dependence-aware
+          uncertainty, no multiplicity correction, and no discovery/confirmation
+          split have been applied yet. That is exactly Phase 2's job (FCR-V8RR-007),
+          not this capsule's.
+        evidence_refs:
+        - FCR-V8RR-007 (contract freeze summary)
+        confidence: high
+    evidence_items:
+      summary: The artifacts this capsule bundles.
+      items:
+      - id: EI001
+        label: FACT
+        text: tmp/phase1/aggregate/phase1_dataset.jsonl — 9,218 rows, one per Candidate,
+          joined (symbol, candidate_id, expert_id, direction, gap fields, actual
+          cube row fields).
+        evidence_refs:
+        - tmp/phase1/aggregate/phase1_dataset.jsonl
+        confidence: high
+      - id: EI002
+        label: FACT
+        text: tmp/phase1/aggregate/phase1_summary.json — the full breakdown set
+          (by_expert, by_expert_symbol, by_expert_direction, by_endpoint, by_symbol)
+          plus the query log.
+        evidence_refs:
+        - tmp/phase1/aggregate/phase1_summary.json
+        confidence: high
+      - id: EI003
+        label: FACT
+        text: 6 certified Phase-0 store+out directory pairs (tmp/phase1/<symbol>/{store,out}),
+          each independently reconciled 100% exact against its own real 12-month
+          tape (TVR-V8RR-005 methodology, extended per-symbol).
+        evidence_refs:
+        - tmp/phase1/btcusdt/out/summary.json (reconciliation.n_reconciled=754/754)
+        - tmp/phase1/ethusdt/out/summary.json (744/744)
+        - tmp/phase1/solusdt/out/summary.json (715/715)
+        - tmp/phase1/bnbusdt/out/summary.json (706/706)
+        - tmp/phase1/xrpusdt/out/summary.json (727/727)
+        - tmp/phase1/dogeusdt/out/summary.json (721/721)
+        confidence: high
+    hashes:
+      summary: not_applicable — tmp/ artifacts are reproducible from research/tape/multi-1h-dev/
+        (checksum-verified, hash b9079440e2cc7a03300eb6fc3366baf25d1fc7e3) plus
+        the certified, hash-bound Lab/regret.py pipeline; they are not committed
+        as a separate hashed artifact by this capsule.
+      items: []
+    command_refs:
+      summary: Real commands executed this session that produced this capsule's evidence.
+      items:
+      - id: CMD001
+        label: FACT
+        text: python tmp/phase1_build_all.py (background) — built 6 Lab stores
+          from the trimmed multi-symbol tape and ran the certified Phase-0 evaluator
+          over each; exit code 0.
+        evidence_refs: []
+        confidence: high
+      - id: CMD002
+        label: FACT
+        text: python -c "... tools.regret_phase1.build_phase1_dataset(...) ..."
+          — joined all 6 stores' output into the frozen dataset.
+        evidence_refs: []
+        confidence: high
+    report_refs:
+    - id: RR001
+      ref: TVR-V8RR-005
+      purpose: Phase-0 certification this capsule's per-symbol reconciliation extends.
+    - id: RR002
+      ref: FCR-V8RR-007
+      purpose: The Phase-2 contract this capsule is the frozen input to.
+    usable_by:
+      summary: Phase 2 (systematicity discovery, FCR-V8RR-007) as its sole input
+        dataset. Not usable as an economic claim by anything (rule 9, rule 12) —
+        the verdict on every underlying store is NO_ECONOMIC_CLAIM.
+      items: []
+    limitations:
+      summary: Three, carried forward unchanged from PRR-V8RR-006's open risks
+        plus one new one specific to this capsule.
+      items:
+      - id: LM001
+        label: RISK
+        text: funding_r is None for every row where the underlying store's tape
+          carries a funding channel (all 6 do) — the by_expert/by_symbol breakdowns
+          report mean_actual_utility (net of the unknown funding component), never
+          a gross/funding split.
+        evidence_refs:
+        - PRR-V8RR-006#OR001
+        confidence: high
+      - id: LM002
+        label: RISK
+        text: 3 certified pilot Experts only, not the full 28-family registry —
+          extending coverage is a new declared search under FCR-V8RR-007 AP001,
+          not a silent addition.
+        evidence_refs:
+        - FCR-V8RR-007 (FT003)
+        confidence: high
+      - id: LM003
+        label: RISK
+        text: The by_expert_symbol/by_expert_direction/by_endpoint breakdowns in
+          this capsule are PRE-DECLARED descriptive summaries, not the Phase-2
+          discovery family — FCR-V8RR-007's 72-slice family, its materiality gate,
+          and its discovery/confirmation split are a SEPARATE, not-yet-executed
+          step over this same dataset.
+        evidence_refs:
+        - FCR-V8RR-007
+        confidence: high
+    final_status:
+      status: complete
+      safe_to_continue: 'yes'
+      requires_hir: 'no'
+      reason:
+      - Dataset frozen, reconciliation verified per-symbol before joining, every
+        population number labelled MODEL_DERIVED_DESCRIPTIVE_NOT_YET_GATED.
+      self_assessment:
+        required_sections_complete: 'yes'
+        evidence_coverage: high
+        unresolved_gaps:
+        - LM001-LM003 above.
+        confidence_in_own_completeness: high
+compiler_expectations:
+  source_path: reports/accp/v8-rr-v02-phase0/source/ECR-V8RR-008.accp.yaml
+  compiled_json: reports/accp/v8-rr-v02-phase0/compiled/ECR-V8RR-008.compiled.json
+  ir_json: reports/accp/v8-rr-v02-phase0/ir/ECR-V8RR-008.ir.json
+  gate_verdict_json: reports/accp/v8-rr-v02-phase0/verdict/ECR-V8RR-008.gate-verdict.json
+  route_signal_json: reports/accp/v8-rr-v02-phase0/route/ECR-V8RR-008.route-signal.json

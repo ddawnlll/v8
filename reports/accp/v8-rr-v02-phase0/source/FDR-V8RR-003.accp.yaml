@@ -1,0 +1,416 @@
+report:
+  accp_version: 2.0.0
+  source_format: ACCP-YAML
+  report_id: FDR-V8RR-003
+  report_type: FDR
+  report_family: feature
+  report_name: Feature Design Report
+  support_level: template_available
+  plan_id: v8-rr-v02-phase0
+  workspace_id: none
+  repo_root: C:/Users/dresden/Documents/v8
+  git_commit: 1053dc1b819c9012f50294ccf7be7eaaa86b5746
+  git_branch: main
+  report_generated_at: '2026-08-10'
+  report_stale_after: on_next_commit
+  inspection_mode: design
+  confidence: high
+  authority:
+    reports_are_evidence_only: true
+    route_signals_are_advisory: true
+    runtime_must_read_compiled_json: true
+    raw_yaml_is_not_runtime_authority: true
+    rendered_markdown_is_human_preview_only: true
+  agent:
+    agent_id: claude-code-session-750e89fd
+    agent_role: repo_agent
+    model_name: claude-opus-5
+    model_version: unknown
+    session_id: 750e89fd-d8cf-4c8b-a4de-e656675171ce
+    prompt_hash: unknown
+  lineage:
+    parent_report: FER-V8RR-002
+    supersedes: none
+    triggered_by: FER-V8RR-002
+    continuation_of: RIR-V8RR-001
+    validates: none
+  references:
+  - id: R001
+    ref: RIR-V8RR-001
+    purpose: Repository facts (pipeline trace, schemas, test state, gaps).
+  - id: R002
+    ref: FER-V8RR-002
+    purpose: Ontology mapping and the four audits this design is built on.
+  - id: R003
+    ref: docs/contracts/IMPLEMENTATION_LAYOUT.md
+    purpose: D-032 file-family discipline that constrains where new files may live.
+  assumptions:
+  - id: AS001
+    assumption: 'No implementation is authorized by this report. It is a design record only; ACCP authority_boundary applies (reports are evidence, reports do not authorize execution).'
+    reason: Task brief section 0 and the ACCP authority boundary.
+    confidence: high
+    how_to_verify: not_applicable
+  - id: AS002
+    assumption: 'Placing the evaluator under tools/ changes LabReport.tooling_hash (which rglobs tools/*.py) but CANNOT change ledger_hash, states_hash, data_hash, candidate_count or terminal_distribution, because tooling_hash is report-only and is not an input to ledger_hash.'
+    reason: 'src/v8/lab.py:115-122 computes _tooling_hash over tools/**.py; src/v8/lab.py:976-979 builds ledger_hash from (candidates, evaluations, outcomes, states, config_hash, risk_config_hash) with no tooling term; tests/test_golden_backtest.py asserts only ledger_hash, data_hash, states_hash, candidate_count, terminal_distribution and verdict.'
+    confidence: high
+    how_to_verify: Add an empty file under tools/ and re-run tests/test_golden_backtest.py; it must still fail only on the pre-existing states_hash drift, with no new failure.
+  - id: AS003
+    assumption: 'The Phase-0 evaluator reads a materialized store directory (tape/states/evaluations/candidates/outcomes JSONL + manifest.json) and never re-runs Lab.run itself.'
+    reason: 'One store directory = one immutable run''s evidence (lab.py:293-297); re-running would create a second run and a second population, which is precisely the parallel-truth failure mode.'
+    confidence: high
+    how_to_verify: The reconciliation test would detect any divergence between the read population and the ledger.
+  skipped_inspections:
+  - id: S001
+    item: Detailed design of the fault-injection harness beyond its five required cases.
+    reason: 'Fault injection is meaningful only once the cube exists; designing its internals before step 6 would be speculative.'
+    risk: low
+    needed_next: Design it as part of step 9, against the cube schema frozen in FCR-V8RR-004.
+  sections:
+    design_summary:
+      summary: 'The smallest correct Phase-0 design is a read-only, Candidate-bound evaluator that (1) joins the existing ledgers into a CandidateSnapshot view, (2) generates an immutable LegalActionManifest from declarations that already exist, (3) replays each action through the existing CanonicalSimulator behind an adapter that owns exactly one new responsibility - the abstention boundary, (4) writes a ModelDerivedOutcomeCube as one more append-only JSONL ledger, and (5) computes the Legal Hindsight Gap as a pure function with declared tie and abstention handling. Nothing in src/v8 changes. No new dependency, no new store engine, no new class hierarchy, no ACCP runtime object.'
+      items:
+      - id: DS001
+        label: DECISION
+        text: 'PRINCIPLE 1 - the evaluator is a READER, not a runner. It consumes a completed store directory plus its manifest.json. Consequences: it cannot perturb the decision path; it cannot create a second candidate population; its output is reproducible from artifacts that are already hash-bound.'
+        evidence_refs:
+        - src/v8/lab.py:212-223
+        - src/v8/lab.py:293-297
+        confidence: high
+      - id: DS002
+        label: DECISION
+        text: 'PRINCIPLE 2 - one Replay Model, never a second. Every model-derived number is produced by CanonicalSimulator.run/step with the run''s own manifest economics; the adapter constructs the simulator from the persisted manifest, never from hard-coded constants, so v0.2 invariant 4 (same economic semantics) is satisfied by construction and verified by the reconciliation test.'
+        evidence_refs:
+        - src/v8/simulator.py:225-263
+        - src/v8/lab.py:337-343
+        confidence: high
+      - id: DS003
+        label: DECISION
+        text: 'PRINCIPLE 3 - refusal beats a number. Every cube cell is either a model-derived value with label_status MATURE, or an explicit abstention with a reason code. The adapter never converts an undefined replay into 0.0 or into -cost. This is the single new semantic responsibility the design introduces, and it exists because the measured simulator behaviour requires it (FER RM008).'
+        evidence_refs:
+        - 'command: python scratchpad/probe_gap.py (abstention probe)'
+        - src/v8/lab.py:749-763
+        confidence: high
+      - id: DS004
+        label: DECISION
+        text: 'PRINCIPLE 4 - Phase 0 computes NO statistics. No slicing, no bootstrap, no multiplicity correction, no attribution, no recoverability, no Shapley. Phase 0 produces: a reconciliation verdict, a cube, a per-Candidate gap with its tie set, and a certification test suite. Anything else is a later phase and would import search burden into an instrument that is supposed to be neutral.'
+        evidence_refs:
+        - 'external_document: v0.2 section 15 Phase 0 / Phase 1 boundary'
+        - docs/charter/V8_CONSTITUTION.md (rule 11)
+        confidence: high
+      - id: DS005
+        label: DECISION
+        text: 'PRINCIPLE 5 - the actual action is SEEDED, never searched for. A(C) is constructed by starting from the frozen draft geometry (which IS a_actual) and adding declared variations, so a_actual in A_t holds by construction rather than by coincidence. The gap invariant g >= 0 then becomes a genuine certification signal rather than a tautology check on a lucky grid.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_gap.py -> "actual action IS in the legal set ...: True"'
+        confidence: high
+    architecture:
+      summary: 'Four logical components and one boundary rule. Mapped onto v0.2 section 13''s pipeline, the shaded upper half (tape -> I_t -> phi -> S_t -> Experts -> immutable Candidate store -> actual policy -> actual ledger) is ENTIRELY existing V8; only the lower half (legal action enumerator -> replay -> outcome cube -> hindsight gap) is new, and it is new only as glue over an existing simulator.'
+      items:
+      - id: AR001
+        label: DECISION
+        text: 'COMPONENT 1 - CandidateSnapshot view (WRAP over existing ledgers, no storage). Input: a store directory. Output: for each candidate_id, the frozen draft, the birth clock and state_id, the terminal state and reason code, the entry bar index (from the EXECUTED transition''s knowledge_time), and the observed outcome record. Owner responsibility: the JOIN and nothing else. Invariant: every candidate_id in candidates.jsonl either binds to exactly one draft or is reported UNBOUND - it is never silently dropped. Why existing code cannot satisfy it: the edge is a re-derivation of episode_key that no module currently performs (FER CA010).'
+        evidence_refs:
+        - src/v8/lab.py:804-833
+        - 'command: python scratchpad/probe_reconcile.py -> "candidates=15 drafts_bound=15 unbound=0"'
+        confidence: high
+      - id: AR002
+        label: DECISION
+        text: 'COMPONENT 2 - LegalActionManifest generator (ADD_SMALL_COMPONENT, pure data). Input: the frozen draft + the run manifest. Output: an ordered, immutable list of action records, each with an action_id, a kind (NO_TRADE | GEOMETRY_VARIANT), the geometry override dict, a provenance tag (ACTUAL | DECLARED_VARIANT), plus the manifest''s own cardinality and version hash. Invariant: element 0 is always NO_TRADE, element 1 is always the ACTUAL action, and the axis set is closed under the declared vocabulary (FER LA003/LA004). Why existing code cannot satisfy it: tools/diagnostics.EXIT_VARIANTS is a 22-cell constant bound to a different population, carries no action identity, no provenance and no version, and cannot express NO_TRADE or the actual action.'
+        evidence_refs:
+        - tools/diagnostics.py:1607-1629
+        - src/v8/schema.py:229-259
+        confidence: high
+      - id: AR003
+        label: DECISION
+        text: 'COMPONENT 3 - ReplayModel adapter (WRAP over CanonicalSimulator + one new invariant). Input: (CandidateSnapshot, action, future tape slice, simulator built from the run manifest). Output: one cube row. Owner responsibility: slice the future correctly (from the candidate''s entry bar, so the entry bar is inspected for a fill only), supply the owning Expert''s still_valid so the counterfactual and executed exit policies match, decompose cost and funding onto the row, and REFUSE when the replay is undefined. Why existing code cannot satisfy it: the simulator deliberately has no notion of "this action is not evaluable on this tape" - it always returns an outcome (FER RM008).'
+        evidence_refs:
+        - src/v8/simulator.py:597-656
+        - src/v8/lab.py:397-416
+        confidence: high
+      - id: AR004
+        label: DECISION
+        text: 'COMPONENT 4 - Cube writer + gap function (ADD_SMALL_COMPONENT over store.AppendOnlyLog). The cube is one more append-only JSONL ledger in its own directory, with (source, event_id) dedup where event_id = f"{candidate_id}:{action_id}". The gap function is pure: read the cube rows for one candidate, apply the abstention rules, return (best_utility, best_action_ids, gap, status). Why existing code cannot satisfy it: no artifact currently holds per-(candidate, action) outcomes at all.'
+        evidence_refs:
+        - src/v8/store.py:14-72
+        - 'command: python scratchpad/probe_gap.py'
+        confidence: high
+      - id: AR005
+        label: DECISION
+        text: 'BOUNDARY RULE - the evaluator lives under tools/, not src/v8/. Four reasons, in order of weight. (1) v0.2 invariant 3 ("future for scoring, never for features") is guaranteed structurally if the future-consuming code is physically outside the decision path, exactly as tools/diagnostics.py is today with its write guard. (2) D-032 makes any new src/v8 module a registry decision plus a CHANGELOG entry plus an IMPLEMENTATION_LAYOUT amendment - real governance cost for a component that is not part of the runtime. (3) The decision path is stdlib-only and import-ordered; the evaluator wants to read parquet/DuckDB views eventually, which tools/ already does and src/v8 must not. (4) Deletion cost is zero if Phase 0 fails certification. The counter-argument (the evaluator is research runtime, not tooling) is acknowledged and left to the operator as FER OQ001.'
+        evidence_refs:
+        - docs/contracts/IMPLEMENTATION_LAYOUT.md:1-8
+        - docs/contracts/IMPLEMENTATION_LAYOUT.md:83-98
+        - tools/diagnostics.py:99-123
+        confidence: high
+      - id: AR006
+        label: DECISION
+        text: 'ANTI-OVERENGINEERING RESULT. Objects the paper names that get NO class: DecisionTimeInformation (lineage metadata that already exists - provenance.raw_manifest_hash + per-feature input_lineage_hash/max_input_available_time), Policy (the lab loop plus RiskGate; Phase 0 needs only its output), Context/Habitat (Expert self-gating; no Phase-0 consumer), ReplayOutcome (a cube row, not a type), Finding/Hypothesis/Intervention (the existing documentary registries), MarketTape (TapeRow + AppendOnlyLog), Expert (exists), Candidate (exists). Objects that DO get code: LegalActionManifest (a generated immutable manifest), the replay adapter (one new invariant), the cube (one ledger), the gap (one pure function). Four additions, each with a distinct semantic responsibility that no existing code holds.'
+        evidence_refs:
+        - FER-V8RR-002 (existing_surfaces ON001-ON017)
+        confidence: high
+    contracts:
+      summary: 'The contracts this design depends on are frozen in FCR-V8RR-004. Listed here are the design-level obligations each component owes, and the pre-existing repository contracts it must not violate.'
+      items:
+      - id: CT001
+        label: DECISION
+        text: 'Obligations inherited from existing contracts, none of which this design may weaken: MARKET_STATE_CONTRACT (availability gating; a future row must fail, never silently pass), CANDIDATE_LIFECYCLE_SPEC section 4 (observed_execution_outcome vs counterfactual_outcome vs label_status stay separate fields), SIMULATION_TRUTH_SPEC (R is a declared price distance; excursions recorded; ambiguity counted not just resolved; Level-1 fail-closed list), PERSISTENCE_REPLAY_SPEC (append-only, no wall clock, byte-identical replay), V8_CONSTITUTION rules 4, 9, 10, 12, 16.'
+        evidence_refs:
+        - docs/contracts/
+        - docs/charter/V8_CONSTITUTION.md
+        confidence: high
+      - id: CT002
+        label: DECISION
+        text: 'New obligations owed by this design, each frozen in the FCR: candidate identity and snapshot binding; legal action manifest generation and versioning; actual-action binding; ReplayModel identity; model-derived outcome row shape; utility and cost semantics; abstention/UNKNOWN behaviour; ledger reconciliation field set and tolerance; legal hindsight gap definition including ties; provenance/version binding of every cube row.'
+        evidence_refs:
+        - FCR-V8RR-004
+        confidence: high
+      - id: CT003
+        label: DECISION
+        text: 'Deliberately NOT frozen (Phase 2/3 territory): recoverable policy class, admissible policy family, protected evaluation environment, multiplicity family definition, systematicity gate thresholds, component attribution or Shapley conventions, aggregation across Candidates, OPE estimators, representation search. Freezing any of these now would commit the program to statistics it has not designed.'
+        evidence_refs:
+        - 'external_document: v0.2 sections 6.1, 9, 10, section 15 Phases 2-3'
+        confidence: high
+    files_and_ownership:
+      summary: 'Proposed minimum patch surface. Two new modules and two new test modules; ZERO modifications to any src/v8 file; one pre-existing repair that is independent of this work.'
+      items:
+      - id: FO001
+        label: DECISION
+        text: 'EXISTING FILES REUSED UNCHANGED (read-only consumers): src/v8/schema.py (CandidateDraft, CounterfactualOutcome, ExperimentManifest, sha1_hex, record_dict), src/v8/store.py (AppendOnlyLog for reading the ledgers and writing the cube), src/v8/simulator.py (CanonicalSimulator, risk_unit, OpenPosition), src/v8/lifecycle.py (episode_key), src/v8/lab.py (_geometry_version only - a module-level helper), src/v8/marketstate.py (build_multi_state/build_bar_series only if states must be rebuilt for still_valid), src/v8/experts/* (the owning Expert instance for still_valid), src/v8/synth.py (fixtures), tools/materialize_views.py (the view pattern, if cube parquet is later wanted).'
+        evidence_refs:
+        - src/v8/simulator.py:597-656
+        - src/v8/lifecycle.py:42-50
+        - src/v8/lab.py:166-173
+        confidence: high
+      - id: FO002
+        label: DECISION
+        text: 'NEW FILE 1 - tools/regret.py. Responsibility: the whole Phase-0 evaluator (snapshot join, action manifest, replay adapter, cube writer, gap function, CLI). Input: a store directory. Output: cube.jsonl + regret.jsonl + a summary dict. Invariant: read-only against the decision path, with the same write guard discipline tools/diagnostics.py already uses. Why one file and not four: the repository''s own most recent architectural act was consolidating four diagnostic modules into one report center for exactly this reason, and four ~150-line modules with a single caller would be structure without benefit. Why it cannot be part of tools/diagnostics.py: that module owns a DIFFERENT candidate population (FER RK001), and merging the two would make the population ambiguous at the point where it matters most.'
+        evidence_refs:
+        - tools/diagnostics.py:1-17
+        - tools/diagnostics.py:99-123
+        confidence: high
+      - id: FO003
+        label: DECISION
+        text: 'NEW FILE 2 - tools/regret_reference.py. Responsibility: a deliberately slow, transparent, independent re-implementation of ONE thing only - the bar walk for a (entry, stop, target, expiry) geometry under flat cost - used for the v0.2 section 14.2 semantic-parity check. Invariant: it may not import v8.simulator. Why it is justified: v0.2 requires reference parity, and the repository has only ONE canonical implementation; the vendored simtruth V7 lab is an alternative but its authority is explicitly NOT renewed (rule 12, D-022) and it does not share V8''s R-unit or endpoint vocabulary, so it would test a different semantics rather than the same one. A tiny reference is cheaper and more honest than either mandating a second production simulator or pretending simtruth is a reference.'
+        evidence_refs:
+        - docs/charter/V8_CONSTITUTION.md (rule 12)
+        - src/v8/simtruth/__init__.py
+        - 'external_document: v0.2 section 14.2 (Dual implementation)'
+        confidence: high
+      - id: FO004
+        label: DECISION
+        text: 'NEW FILE 3 - tests/test_regret_phase0.py. Responsibility: test families A (deterministic golden paths), B (Candidate boundary), C (ledger reconciliation) and E (reference parity) from the task brief. NEW FILE 4 - tests/test_regret_faults.py. Responsibility: family D (fault injection). Split into two because fault injection deliberately CORRUPTS inputs and its fixtures are adversarial; mixing them with the golden fixtures makes both harder to read.'
+        evidence_refs:
+        - tests/test_vertical_slice.py
+        - tests/test_golden_backtest.py
+        confidence: high
+      - id: FO005
+        label: DECISION
+        text: 'EXISTING FILES LIKELY REQUIRING SMALL EXTENSION: NONE for Phase 0. This is a design goal, not an accident - every candidate extension was examined and rejected. Rejected: adding cost_r/funding_r/exit_price to CounterfactualOutcome (would move sim.hash() and re-pin every golden for data the adapter can compute); adding candidate_id to ExpertEvaluation (would change the evaluations ledger and therefore ledger_hash on every existing run); adding funding/OI rows to raw_manifest_hash (would move every state_id). Each is a real improvement and each is DEFERRED with its reason recorded, because none is required to make Phase-0 claims executable.'
+        evidence_refs:
+        - src/v8/simulator.py:658-700
+        - src/v8/schema.py:275-318
+        - src/v8/marketstate.py:1352-1367
+        confidence: high
+      - id: FO006
+        label: DECISION
+        text: 'FILES EXPLICITLY NOT TO TOUCH: src/v8/simulator.py (any edit moves _SIMULATOR_SRC_HASH and every outcome''s simulator_hash), src/v8/schema.py (record shapes are bound into every ledger hash), src/v8/lab.py (the composition root; nothing imports it and the evaluator must not become the first), src/v8/marketstate.py (whole-file hash is bound into every state''s provenance), src/v8/experts/* (Expert optimization is explicitly out of scope), site/*.html (GENERATED - never hand-edited), docs/EXPERTS_REGISTRY.yaml (pinned against code by a test), tests/test_golden_backtest.py goldens (except by the separate repair in step 1, which must be its own reviewed act per the file''s own instruction "Do not update silently").'
+        evidence_refs:
+        - src/v8/simulator.py:68-72
+        - src/v8/marketstate.py:38-41
+        - CLAUDE.md
+        - tests/test_golden_backtest.py:100-103
+        confidence: high
+      - id: FO007
+        label: RISK
+        text: 'Side effect that must be stated rather than discovered: adding files under tools/ changes _tooling_hash, so LabReport.tooling_hash will differ for runs executed after the addition. It is report-only and not bound into ledger_hash, so no golden breaks (AS002) - but a reader comparing two LabReports across the change will see one field move, and that must be documented in the CHANGELOG entry.'
+        evidence_refs:
+        - src/v8/lab.py:115-122
+        - src/v8/lab.py:976-979
+        confidence: high
+    routes_events_types:
+      summary: 'No HTTP routes, no runtime events, no service surface - V8 is a batch research package. This section therefore records the CLI surface, the new record types, and the new ledger event identities.'
+      items:
+      - id: RE001
+        label: DECISION
+        text: 'CLI surface (one entry point, mirroring tools/materialize_views.py conventions): `python tools/regret.py --store <store_dir> --out <out_dir> [--actions <manifest.json>] [--reconcile-only]`. Fails closed on: a store without manifest.json; a store whose live code_hash/data_hash do not match the persisted manifest pin; an out_dir that already contains a cube (compile-once, same discipline as the lab''s one-store-one-run rule).'
+        evidence_refs:
+        - tools/materialize_views.py:152-163
+        - src/v8/lab.py:293-297
+        confidence: high
+      - id: RE002
+        label: DECISION
+        text: 'NEW TYPE 1 - CandidateSnapshot (a view record, not persisted separately): candidate_id, expert_id, expert_version, instrument, direction, setup_anchor_event_id, geometry_version, birth_time, birth_state_id, risk_geometry, size, terminal_state, terminal_reason_code, entry_bar_available_time (or null), observed_outcome (the ledger CounterfactualOutcome row, or null), binding_status in {BOUND, UNBOUND_NO_DRAFT, NOT_APPLICABLE_NO_ENTRY}.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_reconcile.py (record key dump)'
+        confidence: high
+      - id: RE003
+        label: DECISION
+        text: 'NEW TYPE 2 - LegalAction: action_id (stable, derived from the sorted override dict), kind in {NO_TRADE, GEOMETRY_VARIANT}, provenance in {ACTUAL, DECLARED_VARIANT}, override (dict), axes_touched (list). NEW TYPE 3 - LegalActionManifest: manifest_id (sha1 of the ordered action list + the generator version), actions, cardinality, continuous_axes_sampled, generator_version.'
+        evidence_refs:
+        - FER-V8RR-002 (LA003, LA004)
+        confidence: high
+      - id: RE004
+        label: DECISION
+        text: 'NEW TYPE 4 - OutcomeCubeRow (the persisted cube record; full frozen field list is in FCR-V8RR-004): identity (candidate_id, action_id), provenance (simulator_hash, data_hash, code_hash, config_hash, action_manifest_id, evaluator_version, platform), utility (utility_unit=R, net_utility, gross_utility, cost_r, cost_form, funding_r, slippage=NOT_APPLICABLE), path (endpoint, label_status, horizon_bars, mae_r, mfe_r, ambiguous_bars, entry_price, risk_unit_price, market_move_r, label_available_time), epistemic (epistemic_class=MODEL_DERIVED, cell_status, cell_status_reason).'
+        evidence_refs:
+        - src/v8/schema.py:275-318
+        - FER-V8RR-002 (OC001, OC002)
+        confidence: high
+      - id: RE005
+        label: DECISION
+        text: 'NEW TYPE 5 - RegretRecord (one per candidate): candidate_id, action_manifest_id, actual_action_id, actual_utility, best_utility, best_action_ids (a LIST - ties are reported, never broken), tie_cardinality, legal_hindsight_gap, gap_status in {COMPUTED, ABSTAINED_CENSORED, ABSTAINED_UNDEFINED, NOT_APPLICABLE_NO_ACTUAL_ACTION, OUTSIDE_CANDIDATE_UNIVERSE}, abstention_reason.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_gap.py (ties measured at cardinality 3)'
+        confidence: high
+      - id: RE006
+        label: DECISION
+        text: 'LEDGER EVENT IDENTITIES: cube.jsonl uses source="regret-cube", event_id = f"{candidate_id}:{action_id}"; regret.jsonl uses source="regret-gap", event_id = candidate_id. Both therefore inherit AppendOnlyLog''s idempotent (source, event_id) dedup and its byte-identical replay guarantee for free.'
+        evidence_refs:
+        - src/v8/store.py:35-48
+        confidence: high
+    validation_strategy:
+      summary: 'Five test families mapped onto existing infrastructure, then the dependency-ordered implementation plan. The plan deliberately DEPARTS from the task brief''s default order in two places, with the repository evidence for each departure stated.'
+      items:
+      - id: VS001
+        label: DECISION
+        text: 'FAMILY A - deterministic golden paths. Infrastructure: v8.synth.make_synthetic_tape plus hand-built bar lists, exactly as tests/test_vertical_slice.py already does for the simulator. Required cases and their existing coverage: monotonic up/down (NEW at cube level; simulator-level covered), stop before target and target before stop (covered at simulator level, tests/test_vertical_slice.py:244-260), same-bar stop+target (covered, :284), illegal action (NEW - an action outside the manifest must raise, and pyramid_add_rules must be refused by the generator, not merely fail in the simulator), NO_TRADE (NEW - must return exactly 0.0 R with no simulator call), known fee/slippage delta (fee covered by tests/test_cost_form_and_exit_grid.py; SLIPPAGE IS NOT_APPLICABLE and the test must assert the field says so rather than 0.0), missing/undefined fill (NEW - the abstention boundary).'
+        evidence_refs:
+        - tests/test_vertical_slice.py:244-296
+        - tests/test_cost_form_and_exit_grid.py
+        confidence: high
+      - id: VS002
+        label: DECISION
+        text: 'FAMILY B - Candidate boundary. A synthetic tape with a large future move at a clock where no Expert emitted a Candidate must yield OUTSIDE_CANDIDATE_UNIVERSE and NO cube rows - never a manufactured trade. This is cheap to build because the evaluator only ever iterates candidates.jsonl; the test''s real job is to prove the evaluator has no other entry point into the tape.'
+        evidence_refs:
+        - src/v8/lab.py:787-870
+        - 'external_document: v0.2 section 7.3 invariant 1'
+        confidence: high
+      - id: VS003
+        label: DECISION
+        text: 'FAMILY C - ledger reconciliation. Already demonstrated: 12/12 exact at 1e-12 on (net_r, endpoint, horizon_bars) with and without the Expert thesis. The test asserts the reconciled field set from FER LR003 and classifies the non-reconcilable population explicitly (NOT_APPLICABLE_NO_ENTRY for INVALIDATED_BEFORE_TRIGGER). Declared tolerance: EXACT for endpoint/label_status/horizon_bars/ambiguous_bars, and 1e-12 absolute for the float fields - not a loose tolerance, because both paths call the same step() and any difference is a defect rather than numerical noise.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_reconcile.py'
+        - 'command: python scratchpad/probe_censor.py'
+        confidence: high
+      - id: VS004
+        label: DECISION
+        text: 'FAMILY D - fault injection, five required cases. (1) TP shortened for one Expert only -> the gap must concentrate on that Expert''s EXIT axis. (2) Costs doubled (round_trip_cost_r or the bps form) -> the delta must appear entirely in cost_r and net_utility, with gross_utility and every path field unchanged - a strong test because cost enters only the terminal net formula. (3) Direction sign flipped -> must be detected as an ILLEGAL action (direction is not a legal post-Candidate axis, FER LA002), which is a stronger and more honest result than "localized to DIRECTION". (4) Habitat randomization -> Phase 0 has no context slicing, so the honest expected result is that the evaluator CANNOT localize it and must say so; this case is retained precisely to prove the instrument does not manufacture a context story it has no axis for. (5) Hidden-variable case -> must produce UNKNOWN / NOT_IDENTIFIABLE, never an invented explanation.'
+        evidence_refs:
+        - src/v8/simulator.py:496-508
+        - FER-V8RR-002 (LA002)
+        - 'external_document: v0.2 section 14.3'
+        confidence: high
+      - id: VS005
+        label: DECISION
+        text: 'FAMILY E - reference parity. The repository has exactly ONE canonical simulator and one vendored, authority-revoked V7 lab. Mandating a second production simulator is rejected as disproportionate; using simtruth as the reference is rejected because its authority is not renewed and its semantics differ. The design uses a ~100-line independent reference walk (FO003) over randomized synthetic paths, asserting endpoint and net_r equality with the canonical simulator on the geometry subset it implements. Parity certifies SEMANTIC CONSISTENCY only - v0.2 section 14 says so explicitly and the test docstring must repeat it, because agreement between two implementations of the same model is not evidence about the market.'
+        evidence_refs:
+        - src/v8/simtruth/__init__.py
+        - docs/charter/V8_CONSTITUTION.md (rule 12)
+        - 'external_document: v0.2 section 14.2'
+        confidence: high
+      - id: VS006
+        label: DECISION
+        text: 'PLAN STEP 1 - Repair the golden baseline. Objective: make the end-to-end regression gate green so everything downstream has a fixed anchor. Reused: tests/test_golden_backtest.py. Changed: the three pinned hashes plus a new dated comment recording that data_hash, candidate_count and terminal_distribution were UNCHANGED and only states_hash/ledger_hash moved (the file''s own documented convention). Contract: none new. Tests: the golden itself. Success: `pytest tests/test_golden_backtest.py` passes. Failure state: if candidate_count or terminal_distribution had ALSO moved, this is NOT a re-pin - it is a decision change and must stop for review. Dependencies: none. Risk: LOW. DEPARTURE FROM THE DEFAULT ORDER, justification: the brief''s default step 1 is tape/PIT lineage verification, but that is already covered by passing tests (future-row rejection, lineage hash, provenance, per-feature input lineage, revision replay, cached-vs-uncached identity), whereas the golden is measurably RED - so the actual first dependency is the baseline, not the lineage.'
+        evidence_refs:
+        - 'command: python -m pytest tests/test_golden_backtest.py -q'
+        - tests/test_vertical_slice.py:785-903
+        - tests/test_state_cache_identity.py
+        confidence: high
+      - id: VS007
+        label: DECISION
+        text: 'PLAN STEP 2 - CandidateSnapshot join + ledger reconciliation, together. Objective: prove a_actual is recoverable and that Replay(C,a_actual,M) reproduces the observed ledger. Reused: store, schema, lifecycle.episode_key, lab._geometry_version, simulator. Added: the join and reconciliation halves of tools/regret.py; tests/test_regret_phase0.py family C. Contract established: candidate identity/snapshot, actual-action binding, reconciliation field set and tolerance. Success: 100% of EXECUTED candidates reconcile exactly; 100% of the rest are classified with an explicit reason. Failure/abstention: any UNBOUND candidate or any mismatch halts the plan - this is the load-bearing invariant. Dependencies: step 1. Risk: LOW on the synthetic fixture (measured 12/12), MEDIUM on a real tape (unmeasured, FER OQ004). DEPARTURE FROM THE DEFAULT ORDER, justification: the brief places reconciliation fifth, after the action manifest and replay adapter; but reconciliation needs ONLY the actual action, it is the cheapest possible falsifier of the whole approach, and if it fails nothing downstream is interpretable - so it must come before any action enumeration.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_reconcile.py'
+        confidence: high
+      - id: VS008
+        label: DECISION
+        text: 'PLAN STEP 3 - Point-in-time lineage assertion (verification only, no new lineage code). Objective: assert as a TEST what FER ON002 established by reading - that every cube row can name the I_t/S_t evidence behind its Candidate (birth state_id present in states.jsonl; provenance carries raw_manifest_hash, feature_graph_version, code_version; no feature''s max_input_available_time exceeds the birth clock). Reused: states.jsonl, MarketState.provenance. Added: assertions only. Contract: the documented statement that raw_manifest_hash is kline-only (RIR GR006). Success: assertions pass on the golden store. Failure: a feature whose availability exceeds its decision clock would be a leakage defect and a genuine blocker. Dependencies: step 2. Risk: LOW.'
+        evidence_refs:
+        - src/v8/marketstate.py:876-890
+        - src/v8/marketstate.py:1363-1371
+        confidence: high
+      - id: VS009
+        label: DECISION
+        text: 'PLAN STEP 4 - LegalActionManifest generator. Objective: enumerate A(C) from declarations that already exist, seeded with NO_TRADE and the actual action. Reused: CandidateDraft.risk_geometry vocabulary, SUPPORTED_FILL_POLICIES, the manifest economics. Added: the generator half of tools/regret.py; family A illegal-action tests. Contract: legal action manifest generation, versioning and cardinality reporting; explicit exclusion of pyramid_add_rules and of direction. Success: a_actual is element 1 by construction; the manifest hash is stable across two generations; a requested illegal axis raises. Failure: an action the evaluated configuration could not have taken appears in the manifest. Dependencies: step 2. Risk: MEDIUM - this is where search burden enters (FER RK005).'
+        evidence_refs:
+        - src/v8/simulator.py:195-208
+        - src/v8/simulator.py:430-434
+        confidence: high
+      - id: VS010
+        label: DECISION
+        text: 'PLAN STEP 5 - ReplayModel adapter with the abstention boundary. Objective: turn (snapshot, action) into a cube row or an explicit refusal. Reused: CanonicalSimulator built from the persisted manifest; the owning Expert''s still_valid; the lab''s own tail-slicing convention (enter at bars[i], inspect bars[i+1:]). Added: the adapter; family A missing/undefined-fill test. Contract: ReplayModel identity, model-derived outcome semantics, abstention behaviour. Success: a candidate entering on the final bar yields ABSTAINED_UNDEFINED, never -cost; an empty future never produces a row. Failure: any numeric cell whose future path does not exist. Dependencies: steps 2 and 4. Risk: MEDIUM - measured to be the one place a wrong number looks right (FER RM008).'
+        evidence_refs:
+        - 'command: python scratchpad/probe_gap.py (abstention probe)'
+        - src/v8/lab.py:594-598
+        confidence: high
+      - id: VS011
+        label: DECISION
+        text: 'PLAN STEP 6 - ModelDerivedOutcomeCube writer. Objective: persist one row per (candidate, action) with full provenance. Reused: store.AppendOnlyLog, schema.record_dict/sha1_hex. Added: the writer; a determinism test (two generations of the cube over the same store produce byte-identical files). Contract: the cube row shape. Success: row count == candidates x manifest cardinality minus explicit refusals, and every row carries its version tuple. Failure: any row lacking simulator_hash, data_hash or action_manifest_id. Dependencies: step 5. Risk: LOW.'
+        evidence_refs:
+        - src/v8/store.py:35-72
+        confidence: high
+      - id: VS012
+        label: DECISION
+        text: 'PLAN STEP 7 - LegalHindsightGap. Objective: compute g per candidate with declared tie and abstention handling. Reused: the cube. Added: the pure gap function + RegretRecord writer. Contract: the gap definition, tie policy and abstention policy. Success: g >= 0 for every candidate with gap_status COMPUTED (measured 0 negatives over 12 candidates on the fixture); ties are reported as a list with cardinality, never silently broken; any non-MATURE potentially-maximizing cell forces ABSTAINED_CENSORED. Failure: a negative gap, which would mean a_actual was not in A_t and is a certification failure of step 4. Dependencies: step 6. Risk: LOW.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_gap.py -> "n=12 mean_gap=1.4070 min=0.0 negatives=0"'
+        confidence: high
+      - id: VS013
+        label: DECISION
+        text: 'PLAN STEP 8 - Golden synthetic certification (family A + family B). Objective: pin the analytically obvious answers so a future refactor cannot move them silently. Reused: v8.synth, the existing pytest harness and the golden-comment convention. Added: tests/test_regret_phase0.py in full. Success: every family A case and the family B boundary pass. Failure: any case where the evaluator produces a number the hand-computed path does not. Dependencies: step 7. Risk: LOW.'
+        evidence_refs:
+        - tests/test_vertical_slice.py:244-296
+        - src/v8/synth.py
+        confidence: high
+      - id: VS014
+        label: DECISION
+        text: 'PLAN STEP 9 - Fault injection (family D). Objective: prove the instrument localizes known defects and, equally important, prove it REFUSES when it cannot. Reused: the golden fixtures with deliberately perturbed geometry/cost. Added: tests/test_regret_faults.py. Success: cases 1, 2, 3 and 5 behave as VS004 specifies. Failure/abstention: case 4 (habitat randomization) is EXPECTED to be non-localizable in Phase 0 and must be asserted as such - an evaluator that claims to localize it would be manufacturing a context axis it does not have. Dependencies: step 8. Risk: MEDIUM (this is where a plausible-but-wrong instrument would be caught, so a green result here is only as strong as the fixtures).'
+        evidence_refs:
+        - 'external_document: v0.2 section 14.3'
+        confidence: high
+      - id: VS015
+        label: DECISION
+        text: 'PLAN STEP 10 - Reference parity (family E). Objective: semantic-consistency certification per v0.2 section 14.2. Reused: randomized synthetic paths (the repository already uses hypothesis - a .hypothesis cache is present). Added: tools/regret_reference.py + parity tests. Success: endpoint and net_r agree on every generated path within the reference''s implemented geometry subset. Failure: a disagreement is a genuine finding about the canonical simulator and must be raised as a bug report, not silently tolerated. Dependencies: step 8. Risk: MEDIUM - the reference must be written from the SPEC, not by copying simulator.py, or the test proves nothing.'
+        evidence_refs:
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md
+        - .hypothesis/
+        confidence: high
+      - id: VS016
+        label: DECISION
+        text: 'PLAN STEP 11 - Phase-0 certification record. Objective: state what was certified and what was NOT. Reused: docs/CHANGELOG.md, docs/decisions/DECISION_REGISTER.md, docs/decisions/OPEN_DECISIONS.md, and the monograph rebuild (both languages) per CLAUDE.md. Added: a decision-register entry for the new file family (D-032 requires it even for tools/ if the operator wants the layout to stay complete), a CHANGELOG entry, and an ACCP TVR/FGR carrying the real command output. Success: the record says explicitly that Phase 0 certifies SEMANTICS and NOT economics, and that the verdict remains NO_ECONOMIC_CLAIM. Failure: any wording that implies a validated or profitable system (constitution rule 12). Dependencies: steps 1-10. Risk: LOW mechanically, HIGH editorially - this is the step where an over-claim would enter the corpus.'
+        evidence_refs:
+        - CLAUDE.md
+        - docs/charter/V8_CONSTITUTION.md (rule 12)
+        - docs/contracts/IMPLEMENTATION_LAYOUT.md:1-8
+        confidence: high
+      - id: VS017
+        label: DECISION
+        text: 'ORDER SUMMARY with the two departures made explicit: 1 golden repair (NEW first step - the baseline is measurably red), 2 snapshot join + reconciliation (MOVED UP from position 5 - cheapest falsifier, needs only a_actual), 3 PIT lineage assertion (DEMOTED from position 1 to a verification step - already covered by passing tests), 4 legal action manifest, 5 replay adapter, 6 cube, 7 gap, 8 golden tests, 9 fault injection, 10 reference parity, 11 certification record. Steps 9 and 10 are independent of each other and may run in either order.'
+        evidence_refs:
+        - VS006
+        - VS007
+        - VS008
+        confidence: high
+    final_status:
+      status: complete
+      safe_to_continue: 'conditional'
+      requires_hir: 'no'
+      reason:
+      - The design adds four semantic responsibilities, two production modules and two test modules, and modifies zero files in src/v8; every rejected extension is recorded with its reason.
+      - 'Conditional, not unconditional: step 1 (golden baseline repair) is a prerequisite that is technically independent of this work and is an operator decision, since tests/test_golden_backtest.py instructs that its goldens must never be updated silently.'
+      - No implementation is authorized by this report; it is a design record only.
+      self_assessment:
+        required_sections_complete: 'yes'
+        evidence_coverage: high
+        unresolved_gaps:
+        - The tools/ versus src/v8/ placement is a design recommendation with a stated counter-argument, not a settled decision (FER OQ001).
+        - The fault-injection fixtures are specified by behaviour, not designed in detail (S001); a green family D is only as strong as fixtures that do not yet exist.
+        - Step 2 on a real tape is the one plan step whose risk is MEDIUM rather than LOW, and it is the step that would reveal a genuine blocker if one exists.
+        confidence_in_own_completeness: high
+compiler_expectations:
+  source_path: reports/accp/v8-rr-v02-phase0/source/FDR-V8RR-003.accp.yaml
+  compiled_json: reports/accp/v8-rr-v02-phase0/compiled/FDR-V8RR-003.compiled.json
+  ir_json: reports/accp/v8-rr-v02-phase0/ir/FDR-V8RR-003.ir.json
+  gate_verdict_json: reports/accp/v8-rr-v02-phase0/verdict/FDR-V8RR-003.gate-verdict.json
+  route_signal_json: reports/accp/v8-rr-v02-phase0/route/FDR-V8RR-003.route-signal.json

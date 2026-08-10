@@ -105,8 +105,14 @@ def _code_hash() -> str:
     # only — nothing imports it, so its bytes can never change decision-path
     # output; binding them would invalidate every pinned manifest on a
     # vendored edit for a byte-identical decision path).
+    #
+    # `.as_posix()` (not `str(...)`): a bare `str(Path)` embeds the OS path
+    # separator, so the identical source tree hashed differently on Windows
+    # ('experts\\base.py') vs POSIX ('experts/base.py') — the same code
+    # produced a platform-dependent identity, which breaks the "outputs bind
+    # ... code ... hashes" invariant (V8_CONSTITUTION rule 9) across machines.
     base = Path(__file__).resolve().parent
-    files = {str(p.relative_to(base)): p.read_bytes().hex()
+    files = {p.relative_to(base).as_posix(): p.read_bytes().hex()
              for p in sorted(base.rglob('*.py'))
              if 'simtruth' not in p.parts}
     return sha1_hex(files)
@@ -117,7 +123,7 @@ def _tooling_hash() -> str:
     the decision-path code hash. Surfaced in the LabReport so a semantic change
     in the tape builder is visible even when the tape content is unchanged."""
     tools = Path(__file__).resolve().parents[2] / 'tools'
-    files = {str(p.relative_to(tools)): p.read_bytes().hex()
+    files = {p.relative_to(tools).as_posix(): p.read_bytes().hex()
              for p in sorted(tools.rglob('*.py'))}
     return sha1_hex(files)
 
@@ -1077,31 +1083,43 @@ class Lab:
         states_all = self.states.read()
         data_invalid = (not states_all) or all(
             s.get('quality') == 'DEGRADED' for s in states_all)
-        return LabReport(experiment_id=manifest.experiment_id,
-                         code_hash=manifest.code_hash or _code_hash(),
-                         data_hash=manifest.data_hash or data_hash,
-                         candidate_count=len(candidate_ids),
-                         terminal_distribution=dist, ledger_hash=ledger_hash,
-                         verdict=verdict, exposure_conflicts=conflicts,
-                         evaluation_distribution=eval_dist,
-                         data_invalid=data_invalid,
-                         rejection_distribution=rejection_dist,
-                         n_executed=n_executed,
-                         n_portfolio_rejected=n_portfolio_rejected,
-                         execution_share=execution_share,
-                         divergence_ks=divergence_ks,
-                         tooling_hash=_tooling_hash(),
-                         risk_gate_hash=risk_config_hash,
-                         size_scheme=SIZE_SCHEME,
-                         risk_per_trade=manifest.risk_per_trade,
-                         min_trades=manifest.min_trades,
-                         trade_units=trade_units,
-                         final_equity=final_equity,
-                         max_drawdown=max_drawdown,
-                         drawdown_sized_episodes=drawdown_sized_episodes,
-                         risk_of_ruin=risk_of_ruin,
-                         profit_factor=profit_factor,
-                         w_min=w_min,
-                         worst_case_r=worst_case_r,
-                         worst_case_portfolio_r=worst_case_portfolio_r,
-                         economic_note=economic_note)
+        report = LabReport(experiment_id=manifest.experiment_id,
+                           code_hash=manifest.code_hash or _code_hash(),
+                           data_hash=manifest.data_hash or data_hash,
+                           candidate_count=len(candidate_ids),
+                           terminal_distribution=dist, ledger_hash=ledger_hash,
+                           verdict=verdict, exposure_conflicts=conflicts,
+                           evaluation_distribution=eval_dist,
+                           data_invalid=data_invalid,
+                           rejection_distribution=rejection_dist,
+                           n_executed=n_executed,
+                           n_portfolio_rejected=n_portfolio_rejected,
+                           execution_share=execution_share,
+                           divergence_ks=divergence_ks,
+                           tooling_hash=_tooling_hash(),
+                           risk_gate_hash=risk_config_hash,
+                           size_scheme=SIZE_SCHEME,
+                           risk_per_trade=manifest.risk_per_trade,
+                           min_trades=manifest.min_trades,
+                           trade_units=trade_units,
+                           final_equity=final_equity,
+                           max_drawdown=max_drawdown,
+                           drawdown_sized_episodes=drawdown_sized_episodes,
+                           risk_of_ruin=risk_of_ruin,
+                           profit_factor=profit_factor,
+                           w_min=w_min,
+                           worst_case_r=worst_case_r,
+                           worst_case_portfolio_r=worst_case_portfolio_r,
+                           economic_note=economic_note)
+        # Self-describing store (extends the manifest.json rationale above to
+        # the run's OWN report): risk_gate_hash and the other LabReport fields
+        # were previously only the return value of run() and vanished the
+        # moment the caller discarded it — a completed store directory could
+        # not answer "what risk-gate identity actually produced this ledger"
+        # without re-running the lab. report.json is additive only: it is not
+        # one of the four hashed ledgers, it is not part of ledger_hash, and
+        # writing it moves no pinned golden.
+        (self.dir / 'report.json').write_text(
+            json.dumps(record_dict(report, source='lab-report'),
+                       sort_keys=True, indent=2) + '\n', encoding='utf-8')
+        return report

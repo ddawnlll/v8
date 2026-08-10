@@ -20,6 +20,11 @@ build/
 # Downloaded tape (derived from public archives, reproducible)
 research/tape/
 
+# Scratch build/experiment outputs (Lab stores, regret cubes, one-off
+# comparison scripts) — reproducible from tools/*.py against the tracked
+# tape/code; never a durable artifact.
+tmp/
+
 # Downloaded papers (derived from public archives; research/manifest tracks
 # them, tools/download_v8_reading_list.py re-fetches)
 research/papers/

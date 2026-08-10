@@ -171,10 +171,23 @@ UNIVERSE = ('SOLUSDT',)
 # the whole LabReport minus hashes, before and after the change, and diffing —
 # the two dumps are identical. Only ledger_hash moved, because sim.hash() now
 # binds the cost FORM ('flat' vs 'bps:X') and the module source moved.
-# Do not update silently.
-GOLDEN_LEDGER_HASH = '8c847351d9b0496e2b0c4d0a11ef11c0e2edc0c1'
+# Re-pinned 2026-08-10 (V8 x RECOVERABLE REGRET v0.2, Phase-0 build step 1 —
+# GOLDEN WAS RED AT HEAD, PROVENANCE-ONLY DRIFT): between the last pin and this
+# one, `marketstate.py` moved by 774 lines (D-054 per-Expert MarketState) and
+# `lab.py` moved by 221 lines (consolidated report center); `_BUILDER_SRC_HASH`
+# is a whole-file hash bound into every state's `provenance.code_version`, so
+# it re-versions on any edit to that file regardless of emitted-value identity
+# — the documented "code_version moved each time" convention above. Measured
+# against this exact fixture before re-pinning: `data_hash`, `candidate_count`
+# (15) and `terminal_distribution` ({CLOSED:12, INVALIDATED:1, REJECTED:2}) are
+# UNCHANGED, and `verdict` stays `NO_ECONOMIC_CLAIM` — no Expert, setup,
+# trigger, price, or economics decision moved. Only `states_hash` and
+# `ledger_hash` moved (ledger_hash transitively, since it binds `states.hash`).
+# That invariance is the proof this is provenance drift, not a decision
+# change. Do not update silently.
+GOLDEN_LEDGER_HASH = 'fae2a5de5b052415d0378129859902336a94d798'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
-GOLDEN_STATES_HASH = '786378b5bfa50a3c9e422ddaaa1b4b91dc1a2dae'
+GOLDEN_STATES_HASH = '8b5c1fc4e04c3a3d48b33c164d0b095d101f3b20'
 # 2026-08-07 perf pass (100x total-pipeline program): re-pinned after the
 # decision-path fast paths landed. Every change was VALUE-EQUIVALENT —
 # tests/test_state_cache_identity.py pins cached == uncached on every bar,
