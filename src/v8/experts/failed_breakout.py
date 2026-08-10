@@ -113,3 +113,43 @@ class FailedBreakoutExpert(Expert):
                 return True
             ref = float(prior_high.value)
         return float(close.value) < float(ref)
+
+
+class FailedBreakoutV2Expert(FailedBreakoutExpert):
+    """v2 CHALLENGER (D-074, `FCR-V8RR-010`): identical setup, trigger,
+    invalidation and geometry to v1 — ONE added pre-entry admission filter,
+    nothing else. Never mutates v1 in place (rule 15/D-023); v1 is unchanged
+    by this class and stays the champion.
+
+    Origin: the V8 x Recoverable Regret v0.2 Phase-3 recoverability pass
+    (`D-073`) independently selected a `bb_pct_b < ~0.73` NO_TRADE gate on 4
+    of 6 symbols for `failed_breakout` SHORT, each with a materially positive,
+    confirmation-half-validated utility delta. This class tests that pattern
+    as ONE preregistered, single-component intervention — a declared, ROUND
+    threshold (0.70), not a per-symbol refit of the 4 measured values.
+
+    PROVISIONAL: deliberately NOT exported via `experts/__init__.py` or
+    registered in `docs/EXPERTS_REGISTRY.yaml` — this is a challenger under
+    test (rule 5), not yet a registry admission. Promotion is a separate,
+    later decision contingent on the frozen comparison's result.
+    """
+    version = 'v2'
+    variant_id = 'b'
+
+    # Declared, frozen constant (FCR-V8RR-010 FT002) — the round value used
+    # across every symbol, not the 4 separately-fitted Phase-3 thresholds.
+    BB_PCT_B_MAX = 0.70
+
+    def evaluate(self, state: MarketState) -> ExpertEvaluation:
+        ev = super().evaluate(state)
+        if ev.draft is None:
+            return ev
+        sym = state.universe[0]
+        bb = state.features.get(f'{sym}.bb_pct_b')
+        if bb is None or bb.value is None:
+            return ExpertEvaluation(self.expert_id, self.version, state.state_id,
+                                    'NOT_APPLICABLE', 'NO_HABITAT', state.as_of)
+        if not (float(bb.value) < self.BB_PCT_B_MAX):
+            return ExpertEvaluation(self.expert_id, self.version, state.state_id,
+                                    'NOT_APPLICABLE', 'NO_SETUP', state.as_of)
+        return ev

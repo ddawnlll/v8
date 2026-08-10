@@ -70,3 +70,12 @@ class AppendOnlyLog:
         if self._hash is None:
             self._hash = sha1_hex(self.read())
         return self._hash
+
+    def close(self) -> None:
+        """Release the append handle. A caller that replaces or renames the
+        underlying path (e.g. an atomic rewrite) must close first: POSIX
+        allows a rename over an open file handle, but Windows does not, so an
+        unclosed handle here is silently POSIX-only (issue: `os.replace`
+        WinError 5 in `tools/vision_backfill.sort_tape`). Idempotent."""
+        if not self._fh.closed:
+            self._fh.close()

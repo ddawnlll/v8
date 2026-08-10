@@ -320,6 +320,8 @@ def sort_tape(out_dir: Path) -> dict:
     already-sorted tape."""
     log = AppendOnlyLog(out_dir / 'tape.jsonl')
     rows = log.read()
+    log.close()   # release the append handle before replacing its own path
+    #                (Windows refuses os.replace over a still-open handle)
     sorted_rows = sorted(rows, key=_replay_key)
     tmp = out_dir / 'tape.jsonl.tmp'
     tmp.write_text(

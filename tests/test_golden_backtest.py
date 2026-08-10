@@ -171,16 +171,15 @@ UNIVERSE = ('SOLUSDT',)
 # the whole LabReport minus hashes, before and after the change, and diffing —
 # the two dumps are identical. Only ledger_hash moved, because sim.hash() now
 # binds the cost FORM ('flat' vs 'bps:X') and the module source moved.
-# Do not update silently.
-# Re-pinned again, same day (PERF PASS): `step()`/`_apply_funding` now build
-# the successor OpenPosition through `simulator._evolve` instead of
-# `dataclasses.replace`. OpenPosition is a frozen dataclass with no
-# __post_init__, no validation and no __slots__, so populating a fresh
-# instance's __dict__ is exactly equivalent — pinned field-by-field against
-# `dataclasses.replace` in tests/test_perf_hotpaths.py. The economics dump
-# (every outcome's net_r/endpoint/entry_price/risk_unit_price + the whole
-# LabReport minus hashes) is IDENTICAL to the pre-cost-form baseline; only
-# ledger_hash moved, because _SIMULATOR_SRC_HASH binds the module source.
+# Re-pinned 2026-08-10 (MERGE RESOLUTION — PROVENANCE-ONLY DRIFT): both
+# pre-merge pins were stale against the merged tree. Origin's pin (fae2a5de)
+# was measured without `_evolve` (D-075) and the confluence `_geometry_version`
+# band-ref exclusion (D-076); HEAD's pin (70b83058) was measured before the
+# regret program's lab.py changes. Only whole-file source hashes moved (state
+# provenance + simulator source); measured against this exact fixture after
+# the merge: data_hash, candidate_count (15), terminal_distribution
+# ({CLOSED:12, INVALIDATED:1, REJECTED:2}) and verdict NO_ECONOMIC_CLAIM are
+# UNCHANGED. Do not update silently.
 GOLDEN_LEDGER_HASH = '70b83058deef9385bf3a37be1c0c0d2334b5921f'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
 GOLDEN_STATES_HASH = '786378b5bfa50a3c9e422ddaaa1b4b91dc1a2dae'

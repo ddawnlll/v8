@@ -1,0 +1,476 @@
+report:
+  accp_version: 2.0.0
+  source_format: ACCP-YAML
+  report_id: RIR-V8RR-001
+  report_type: RIR
+  report_family: core
+  report_name: Repo Inspection Report
+  support_level: schema_lite
+  plan_id: v8-rr-v02-phase0
+  workspace_id: none
+  repo_root: C:/Users/dresden/Documents/v8
+  git_commit: 1053dc1b819c9012f50294ccf7be7eaaa86b5746
+  git_branch: main
+  report_generated_at: '2026-08-10'
+  report_stale_after: on_next_commit
+  inspection_mode: read_only
+  confidence: high
+  authority:
+    reports_are_evidence_only: true
+    route_signals_are_advisory: true
+    runtime_must_read_compiled_json: true
+    raw_yaml_is_not_runtime_authority: true
+    rendered_markdown_is_human_preview_only: true
+  agent:
+    agent_id: claude-code-session-750e89fd
+    agent_role: repo_agent
+    model_name: claude-opus-5
+    model_version: unknown
+    session_id: 750e89fd-d8cf-4c8b-a4de-e656675171ce
+    prompt_hash: unknown
+  lineage:
+    parent_report: none
+    supersedes: none
+    triggered_by: 'user_task: V8 x Recoverable Regret v0.2 repository fit and Phase-0 design'
+    continuation_of: none
+    validates: none
+  references:
+  - id: R001
+    ref: 'external_document: Recoverable Regret in Modular Trading Systems v0.2 (v8_recoverable_regret_research_paper_v0_2.html)'
+    purpose: Scientific ontology and epistemic contract being fitted onto this repository.
+  - id: R002
+    ref: 'external_document: accp_v2_0_strict_yaml_onefile_master.accp.yaml (template_version 2.0.1)'
+    purpose: Report/evidence protocol used to structure this chain.
+  - id: R003
+    ref: docs/charter/V8_CONSTITUTION.md
+    purpose: Repository authority document (rules 1-17).
+  assumptions:
+  - id: AS001
+    assumption: The working tree at inspection time carries two uncommitted changes (M docs/CHANGELOG.md, untracked tests/test_expert_scenarios.py); neither is inside src/v8 or tools, so neither can affect _code_hash, ledger_hash or any measurement in this report.
+    reason: '`git status --porcelain` output; `_code_hash` (src/v8/lab.py:103-112) hashes src/v8/*.py minus simtruth only.'
+    confidence: high
+    how_to_verify: Re-run the probes on a clean checkout of 1053dc1 and compare the printed hashes.
+  - id: AS002
+    assumption: Only the DATE of report generation is known, not the wall-clock time; report_generated_at therefore carries a date, not an ISO instant.
+    reason: The session supplies the current date only; inventing a time would be phantom precision.
+    confidence: high
+    how_to_verify: not_applicable
+  - id: AS003
+    assumption: The measured reconciliation and gap results are representative of the mechanism, not of the economics; they were produced on the deterministic synthetic fixture (v8.synth.make_synthetic_tape seed=7, n_bars=160), not on the 12-month dev tape.
+    reason: The synthetic tape is the repository's own contract fixture (V8_CONSTITUTION rule 10 - synthetic tests prove contracts, not economics); the real tape was not present in the inspected tree.
+    confidence: high
+    how_to_verify: Re-run the same probes against a vision/dev tape store once one is materialized.
+  skipped_inspections:
+  - id: S001
+    item: tools/data.py (1848 lines), tools/vision_backfill.py (633 lines) - full read of the archive/backfill builders.
+    reason: Phase-0 fit depends on the TAPE CONTRACT (TapeRow three clocks, AppendOnlyLog replay order), which was read in full; the builders produce that contract and are audited by tests/test_tape_audit.py and tests/test_data_pipeline.py.
+    risk: low
+    needed_next: Read before any Phase-0 run on a real (non-synthetic) tape, because tape-construction defects would silently become replay-model inputs.
+  - id: S002
+    item: src/v8/simtruth/* (vendored V7 lab, 2966 lines) beyond its import boundary and authority status.
+    reason: Nothing in the decision path imports it (src/v8/lab.py:107-111 excludes it from _code_hash); its authority is explicitly NOT renewed (V8_CONSTITUTION rule 12, D-022).
+    risk: low
+    needed_next: Read only if it is proposed as the independent reference implementation for evaluator parity (see FDR-V8RR-003, step 10).
+  - id: S003
+    item: 24 of the 28 Expert modules were surveyed by geometry-key extraction rather than read line by line.
+    reason: Phase-0 needs the ACTION VOCABULARY the Experts can express, not each family's predicate; the vocabulary was extracted exhaustively by grep over all expert files.
+    risk: low
+    needed_next: Per-family read is required only when a family-specific legal action manifest is generated (Phase 1+), not for the Phase-0 contract.
+  - id: S004
+    item: Full read of tools/diagnostics.py (3483 lines) - sections 1-9 statistics, HTML renderer, multi-symbol matrix runner.
+    reason: The parts that matter for v0.2 fit are the detection path, the simulation core and the exit-variant enumerator; all three were read in full (lines 1-560, 1575-1640).
+    risk: medium
+    needed_next: Read the statistics sections before Phase 2 (systematicity), where multiplicity machinery already present must not be duplicated.
+  sections:
+    repo_tree:
+      summary: 'V8 is a small, stdlib-first Python research package (src/v8, 8907 lines incl. a vendored V7 lab) with a large documentary corpus (docs/ as editable source, site/ as generated artifact), a 54-file pytest suite, and a tools/ layer for tape construction, materialization and diagnostics. Measurements below are line counts from `wc -l`, not estimates.'
+      items:
+      - id: RT001
+        label: FACT
+        text: 'Decision-path package src/v8 (excluding simtruth/): __init__.py 10, equity.py 164, interval.py 135, lab.py 1107, lifecycle.py 163, marketstate.py 1546, risk.py 211, schema.py 452, simulator.py 700, statistics.py 767, store.py 72, synth.py 57, experts/base.py 127 plus 28 Expert family modules.'
+        evidence_refs:
+        - 'command: wc -l src/v8/*.py src/v8/experts/base.py src/v8/simtruth/*.py'
+        - src/v8/
+        confidence: high
+      - id: RT002
+        label: FACT
+        text: 'Vendored V7 lab src/v8/simtruth/: evaluate.py 558, events.py 393, features.py 166, indicators.py 874, market.py 577, sim.py 798, __init__.py 30. It is an INDEPENDENT simulation implementation physically present in the tree.'
+        evidence_refs:
+        - 'command: wc -l src/v8/simtruth/*.py'
+        confidence: high
+      - id: RT003
+        label: FACT
+        text: 'tools/ carries 28 modules; the Phase-0-relevant ones are diagnostics.py 3483, data.py 1848, vision_backfill.py 633, run_experiment.py 408, build_multi_tape.py 242, materialize_views.py 167, monitor_tape.py 184.'
+        evidence_refs:
+        - 'command: wc -l tools/*.py'
+        confidence: high
+      - id: RT004
+        label: FACT
+        text: 'tests/ holds 54 test modules; the contract spine is test_vertical_slice.py 968 (48 tests), test_golden_backtest.py 212 (1 pinned regression), test_risk.py 334, test_statistics_ext.py 294, test_tape_audit.py 327, test_materialize_views.py 121, test_lifecycle.py 105.'
+        evidence_refs:
+        - 'command: wc -l tests/*.py'
+        - 'command: grep -n "^def test" tests/test_vertical_slice.py'
+        confidence: high
+      - id: RT005
+        label: FACT
+        text: 'docs/ is the editable corpus: charter/ (1 file), contracts/ (10 files), decisions/ (2), protocols/ (3), registries/ (2), audits/ (4), plus ROADMAP.md, CHANGELOG.md, AGENT_RUNBOOK.md, PREREGISTRATION_V8_SLICE_001.md, EXPERTS_REGISTRY.yaml. site/*.html is GENERATED and must never be hand-edited.'
+        evidence_refs:
+        - 'command: ls docs docs/contracts docs/charter docs/decisions'
+        - CLAUDE.md
+        confidence: high
+    domain_map:
+      summary: 'The actual decision pipeline is a single three-phase bar loop in src/v8/lab.py:511-870 that is the composition root for everything else. Traced call path: tape rows -> availability-gated MarketState -> per-Expert projected view -> CandidateDraft -> episode_key identity -> lifecycle transitions -> risk admission -> either a stepped execution ledger or a batch counterfactual -> four append-only JSONL ledgers -> a hash-bound LabReport.'
+      items:
+      - id: DM001
+        label: FACT
+        text: 'Raw/versioned market data: v8.schema.TapeRow carries three never-collapsed clocks (event_time, available_time, ingested_time) plus venue_sequence, instrument, channel (kline | funding | open_interest) and payload. v8.store.AppendOnlyLog persists JSONL with (source, event_id) inbox dedup; replay_tape() sorts by (event_time, available_time, venue_sequence); AppendOnlyLog.hash is the tape identity used as ExperimentManifest.data_hash.'
+        evidence_refs:
+        - src/v8/schema.py:77-92
+        - src/v8/store.py:14-72
+        confidence: high
+      - id: DM002
+        label: FACT
+        text: 'Point-in-time state construction: marketstate.build_state(rows, as_of, universe, feature_version, history_depth, series) raises FutureRowError on any row with available_time > as_of and raises on unsorted input rather than silently selecting the wrong bar. build_multi_state adds namespaced higher-interval features (D-053). Only klines with payload.closed is True feed OHLC features.'
+        evidence_refs:
+        - src/v8/marketstate.py:867-890
+        - src/v8/marketstate.py:1374-1436
+        confidence: high
+      - id: DM003
+        label: FACT
+        text: 'MarketState (schema.py:176-189) is frozen and carries state_id = sha1(as_of, universe, lineage_hash); lineage_hash binds every feature value + max_input_available_time + group + feature_version; provenance carries raw_manifest_hash, feature_graph_version and code_version (the marketstate.py whole-file source hash). Every FeatureValue additionally carries input_lineage_hash and calculation_time.'
+        evidence_refs:
+        - src/v8/schema.py:149-189
+        - src/v8/marketstate.py:1343-1371
+        confidence: high
+      - id: DM004
+        label: FACT
+        text: 'Feature generation is a declared graph: schema.FEATURE_GROUPS names 11 groups (raw, trend, volatility, location, candle_shape, oscillator, participation, session, positioning, response, history) with a `requires` DAG; FEATURE_GRAPH_VERSION = sha1(FEATURE_GROUPS), so any re-tag or membership change re-versions every dependent hash.'
+        evidence_refs:
+        - src/v8/schema.py:102-146
+        confidence: high
+      - id: DM005
+        label: FACT
+        text: 'Expert interface: experts/base.Expert declares expert_id, version, mechanism_family_id, behavior_family_id, variant_id, requires (feature groups), intervals, depth; evaluate(state) -> ExpertEvaluation; still_valid(state, draft) -> bool (post-entry thesis). 28 concrete families live one-per-file under src/v8/experts/ (D-033).'
+        evidence_refs:
+        - src/v8/experts/base.py:14-99
+        - 'command: find src -name "*.py" (28 expert modules)'
+        confidence: high
+      - id: DM006
+        label: FACT
+        text: 'Candidate generation: lab PHASE 3 evaluates every Expert in sorted expert_id order against a per-Expert PROJECTION of the one canonical state (lab._view_for -> marketstate.project_state), stores the ExpertEvaluation (including the full CandidateDraft) in evaluations.jsonl, computes candidate identity, and applies DETECTED then PENDING transitions.'
+        evidence_refs:
+        - src/v8/lab.py:787-834
+        - src/v8/marketstate.py:1500-1546
+        confidence: high
+      - id: DM007
+        label: FACT
+        text: 'Candidate identity is deterministic and clock-free: lifecycle.episode_key(expert_id, expert_version, instrument, direction, setup_anchor_event_id, geometry_version) = sha1 of that tuple. geometry_version (lab._geometry_version) deliberately excludes the data-dependent keys atr_ref / prior_high_ref / prior_low_ref so a stable setup keeps one key across decision clocks.'
+        evidence_refs:
+        - src/v8/lifecycle.py:42-50
+        - src/v8/lab.py:166-173
+        confidence: high
+      - id: DM008
+        label: FACT
+        text: 'Candidate storage/lifecycle: lifecycle.CandidateRegistry enforces a fixed LEGAL transition table (None->DETECTED->PENDING->TRIGGERED->ACCEPTED->ORDER_SUBMITTED->EXECUTED->CLOSED plus terminal REJECTED/EXPIRED/INVALIDATED/CANCELLED/ARCHIVED), is append-only, projects current state from the log, and re-validates legality on replay. Reactivation after a terminal state is impossible. A non-terminal PARTIAL_EXIT is recorded as a position_action event, never as a transition or an outcome.'
+        evidence_refs:
+        - src/v8/lifecycle.py:11-136
+        confidence: high
+      - id: DM009
+        label: FACT
+        text: 'Selection/admission: risk.RiskGate.admit is deterministic - ExposureBook enforces one active exposure per (instrument, direction) (EXISTING_EXPOSURE_CONFLICT), then cluster and total heat caps (PORTFOLIO_HEAT_EXCEEDED, heat = size * stop_r, caps 2.0 / 3.0), never downsizing. risk.tradability_mask_veto is a pure D-024 data-plane veto (BAR_RANGE | DEGRADED | FUNDING_WINDOW). An excess-cost gate rejects every triggered candidate when round_trip_cost_r >= 0.10.'
+        evidence_refs:
+        - src/v8/risk.py:48-89
+        - src/v8/risk.py:150-167
+        - src/v8/lab.py:40
+        - src/v8/lab.py:576-625
+        confidence: high
+      - id: DM010
+        label: FACT
+        text: 'Direction, entry, stop and target geometry are all declared by the Expert inside CandidateDraft.risk_geometry, frozen at detection. Entry is either the unconditional NEXT_BAR_CLOSE or a close-confirmation trigger (trigger_ref + trigger_side, evaluated in lab PHASE 2) or a resting limit (limit_price under FILL_AT_LIMIT). Stop is stop_r * risk_unit or the absolute structural stop_ref; target is target_r * risk_unit.'
+        evidence_refs:
+        - src/v8/schema.py:204-260
+        - src/v8/lab.py:700-785
+        - src/v8/simulator.py:359-387
+        confidence: high
+      - id: DM011
+        label: FACT
+        text: 'Trailing/time exits and post-entry management are already implemented and declared-only (EXEC-1..6, O-013): breakeven_roll_at_mfe_r (+breakeven_margin_r), trail_stop_atr (chandelier), scale_out_ratio + scale_out_at_mfe_r (non-terminal partial), time_exit_bars (distinct TIME_EXIT endpoint), limit_price (FILL_AT_LIMIT), pyramid_add_rules (declared but FAILS CLOSED - pyramiding is P2 and off).'
+        evidence_refs:
+        - src/v8/simulator.py:420-486
+        - src/v8/schema.py:229-259
+        confidence: high
+      - id: DM012
+        label: FACT
+        text: 'Execution/fill simulation: simulator.CanonicalSimulator has two modes sharing ONE barrier/cost/funding policy - step() advances one open position one bar (the execution-ledger path) and run() batch-replays a draft over a bar list (the counterfactual path, which internally calls step through _exit_loop). The entry bar is never inspected for exits; same-bar stop+target resolves STOP_FIRST and increments ambiguous_bars; a stop fills at the WORSE of barrier and bar open; a target fills exactly at the barrier.'
+        evidence_refs:
+        - src/v8/simulator.py:1-58
+        - src/v8/simulator.py:344-508
+        - src/v8/simulator.py:526-656
+        confidence: high
+      - id: DM013
+        label: FACT
+        text: 'Fees/funding: cost is resolved at a single site, CanonicalSimulator.cost_r(entry, unit), in one of two declared forms - flat round_trip_cost_r (R-invariant) or round_trip_cost_bps (bps of notional, = bps/1e4 * entry_price / risk_unit). Funding settles at absolute UTC hour boundaries divisible by funding_hours, BEFORE any order event of the crossing bar, either from a scalar rate or from a tape-driven (boundary_ns, rate) schedule (D-041); a schedule missing a crossed boundary fails closed.'
+        evidence_refs:
+        - src/v8/simulator.py:265-342
+        - src/v8/lab.py:333-343
+        confidence: high
+      - id: DM014
+        label: GAP
+        text: 'There is NO slippage model and no market-impact model. The fidelity ladder pins V8 at Level 1 (causal OHLC/bar events); partial fills, cancellation and passive limits "must fail closed" at Level 1. Consequently a v0.2 outcome row cannot carry a `slippage` column that means anything - the honest columns are cost_r (with its declared form) and funding_r.'
+        evidence_refs:
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md (fidelity ladder; "Partial fills, cancellation and passive limits are unsupported at Level 1")
+        - src/v8/simulator.py:265-279
+        confidence: high
+      - id: DM015
+        label: FACT
+        text: 'Actual action representation: the executed action is NOT stored as one object. It is exactly reconstructible from (a) the frozen CandidateDraft in evaluations.jsonl, (b) the EXECUTED transition knowledge_time in candidates.jsonl (= the entry bar available_time), and (c) the persisted manifest.json economics. Measured: 15/15 candidates re-bound to their stored draft on the golden fixture.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_reconcile.py -> "candidates=15 drafts_bound=15 unbound=0"'
+        - src/v8/lab.py:626-647
+        confidence: high
+      - id: DM016
+        label: FACT
+        text: 'Outcome/result records: schema.CounterfactualOutcome carries candidate_id, horizon_bars, endpoint (TARGET|STOP|EXPIRY|THESIS_INVALIDATED|TIME_EXIT|INVALIDATED_BEFORE_TRIGGER), net_r, label_status (MATURE|RIGHT_CENSORED|NOT_EXECUTED), simulator_hash, label_available_time, mae_r, mfe_r, ambiguous_bars, entry_price, risk_unit_price, market_move_r. lab._record_outcome (lab.py:230-256) is the single write site.'
+        evidence_refs:
+        - src/v8/schema.py:275-318
+        - src/v8/lab.py:230-256
+        confidence: high
+      - id: DM017
+        label: FACT
+        text: 'Four append-only ledgers per store directory: tape.jsonl, states.jsonl (one MarketState per decision clock), evaluations.jsonl (every ExpertEvaluation incl. the draft), candidates.jsonl (transitions + suppressed_duplicate + tradability_veto + position_action rows), outcomes.jsonl. One store directory = one immutable run; a second run on the same store fails closed.'
+        evidence_refs:
+        - src/v8/lab.py:212-223
+        - src/v8/lab.py:293-297
+        confidence: high
+      - id: DM018
+        label: FACT
+        text: 'Versioning/hash/provenance: ledger_hash = sha1(candidates.hash, evaluations.hash, outcomes.hash, states.hash, config_hash, risk_config_hash) where config_hash = sha1(asdict(manifest)) and risk_config_hash binds the gate type, heat caps, clusters and equity ladder. sim.hash() binds a policy-era tag, fill_policy, cost parameters, the cost FORM and the simulator module source hash. Lab.run fails closed when a non-empty manifest code_hash/data_hash pin does not match live.'
+        evidence_refs:
+        - src/v8/lab.py:965-992
+        - src/v8/simulator.py:658-700
+        confidence: high
+      - id: DM019
+        label: FACT
+        text: 'Caching/materialization: rule 17 compile-once is implemented by tools/materialize_views.py, which re-runs a pinned manifest and writes five DuckDB/parquet views (market_states, candidate_birth, candidate_trigger, candidate_outcomes, execution_trajectories) plus a views_manifest.json pin that binds code hash, view SQL and manifest economics.'
+        evidence_refs:
+        - tools/materialize_views.py:42-149
+        - docs/charter/V8_CONSTITUTION.md (rule 17)
+        confidence: high
+      - id: DM020
+        label: FACT
+        text: 'Synthetic fixtures: v8.synth.make_synthetic_tape(seed, n_bars, symbol, base) is the deterministic contract tape used by the golden regression and most contract tests.'
+        evidence_refs:
+        - src/v8/synth.py
+        - tests/test_golden_backtest.py:196-213
+        confidence: high
+      - id: DM021
+        label: FACT
+        text: 'Diagnostics: tools/diagnostics.py is a self-contained "report center" that re-derives its OWN draft set (DiagnosticEngine._detect, mirroring lab PHASE 3), simulates each draft through the canonical simulator with geometry OVERRIDES (sl/tp/expiry/geometry_extra), memoizes a zero-cost bar walk per (draft, entry, geometry), and enumerates a 22-cell exit-variant grid (EXIT_VARIANTS = 5 TP x 4 expiry cross + no_sl + trail_1atr). It is guarded read-only against the decision path and its authority is NONE.'
+        evidence_refs:
+        - tools/diagnostics.py:223-500
+        - tools/diagnostics.py:1593-1631
+        - tools/diagnostics.py:99-123
+        confidence: high
+      - id: DM022
+        label: RISK
+        text: 'There are therefore TWO candidate populations in the repository: the Lab ledger population (lifecycle-gated, risk-admitted, with a real actual action) and the DiagnosticEngine population (entry = birth_idx + lag, default lag=2; no trigger predicate, no pre-entry invalidation, no risk gate, no tradability veto, no exposure book; candidate_id is the non-canonical string f"{expert_id}:{entry_idx}"). They are NOT interchangeable, and only the first has an a_actual.'
+        evidence_refs:
+        - tools/diagnostics.py:262-265
+        - tools/diagnostics.py:350-373
+        - tools/diagnostics.py:491
+        - src/v8/lab.py:511-870
+        confidence: high
+    authority_docs:
+      summary: 'The repository is explicitly evidence-bound and carries its own constitutional authority layer. Any Phase-0 evaluator must be designed inside these rules, not alongside them.'
+      items:
+      - id: AD001
+        label: FACT
+        text: 'docs/charter/V8_CONSTITUTION.md v0.1, rules 1-17. Load-bearing for this task: rule 3 (MarketState may contain only decision-time-observable information; event/knowledge/availability/decision times are distinct), rule 4 (Candidate, order and outcome are distinct immutable records; all terminal states retained), rule 6 (router/scorer/ranker/RL execution absent by default), rule 9 (outputs bind source, universe, code, configuration, seed, simulator and ledger hashes; a missing authority receipt blocks an economic verdict), rule 12 (V7 simulation authority is NOT certified; V8 may not claim profitability or validated execution), rule 16 (one active exposure per instrument-direction; the conflicting Candidate is still measured counterfactually).'
+        evidence_refs:
+        - docs/charter/V8_CONSTITUTION.md
+        confidence: high
+      - id: AD002
+        label: FACT
+        text: 'docs/contracts/ carries 10 normative contracts. Directly binding on Phase 0: SIMULATION_TRUTH_SPEC (fidelity ladder, R units, excursions, ambiguity counting, canonical Level-1 event order, required golden/differential tests), CANDIDATE_LIFECYCLE_SPEC (transition legality, labels/counterfactuals/censoring, acceptance/heat/exposure), MARKET_STATE_CONTRACT (availability gating, feature-group ontology, per-feature lineage), DATASET_SPEC (ledger layers, label_available_time, materialized views), PERSISTENCE_REPLAY_SPEC (append-only, byte-identical replay, no wall clock).'
+        evidence_refs:
+        - docs/contracts/
+        confidence: high
+      - id: AD003
+        label: FACT
+        text: 'CANDIDATE_LIFECYCLE_SPEC section 4 already names the exact epistemic separation v0.2 requires: observed_execution_outcome ("only orders/fills actually sent") vs counterfactual_outcome ("deterministic simulator result under a named, versioned execution policy; never an observed fill") vs label_status. Section 6 separates the attribution path (every candidate keeps a counterfactual outcome) from the execution path (only accepted candidates become positions).'
+        evidence_refs:
+        - docs/contracts/CANDIDATE_LIFECYCLE_SPEC.md:110-160
+        confidence: high
+      - id: AD004
+        label: FACT
+        text: 'docs/contracts/IMPLEMENTATION_LAYOUT.md (D-032) predetermines EVERY file in the research runtime: "A new file, rename, or interface change is a registry decision with a CHANGELOG entry; the layout evolves by challenger, never in place." It also fixes the acyclic import order schema <- store <- marketstate <- experts <- lifecycle <- risk <- simulator <- lab, declares lab.py the composition root that nothing imports, and requires the decision path to stay stdlib-only.'
+        evidence_refs:
+        - docs/contracts/IMPLEMENTATION_LAYOUT.md:1-8
+        - docs/contracts/IMPLEMENTATION_LAYOUT.md:83-98
+        confidence: high
+      - id: AD005
+        label: FACT
+        text: 'docs/decisions/OPEN_DECISIONS.md already contains the three research questions v0.2 formalizes: O-013 (does active position management beat static geometry), O-014 (do executed and portfolio-rejected populations differ systematically - and explicitly REFUSES an OPE correction layer because deterministic admission gives rejected candidates propensity 0), and O-027 (is the 1R take-profit clipping a real favorable tail - 79% of target exits continued >2R, mean post-exit max +4.5R, intrabar ambiguity bracket 1.79R wide over 144 double-touch trades). O-027 is the exact motivating observation cited in v0.2 section 2.'
+        evidence_refs:
+        - docs/decisions/OPEN_DECISIONS.md (O-013, O-014, O-027)
+        confidence: high
+      - id: AD006
+        label: FACT
+        text: 'docs/registries/CLAIMS_REGISTRY.yaml and EXPERIMENT_REGISTRY.yaml, docs/decisions/DECISION_REGISTER.md and OPEN_DECISIONS.md together already implement v0.2 Finding / Hypothesis / Intervention / Unknown as documentary objects with declared falsification criteria.'
+        evidence_refs:
+        - docs/registries/
+        - docs/decisions/
+        confidence: high
+      - id: AD007
+        label: FACT
+        text: 'CLAUDE.md fixes the build rule: docs/ is editable source, site/index.html and site/tr.html are GENERATED and must never be hand-edited; every change lands in docs/CHANGELOG.md, decisions in DECISION_REGISTER.md, open questions in OPEN_DECISIONS.md.'
+        evidence_refs:
+        - CLAUDE.md
+        confidence: high
+    contracts_and_schemas:
+      summary: 'Every record the Phase-0 evaluator needs is already a frozen dataclass with a canonical hash. The schemas are complete enough that no new persistence layer is required; the gaps are all join-side (bindings that exist but are not materialized) rather than storage-side.'
+      items:
+      - id: CS001
+        label: FACT
+        text: 'Frozen record types in src/v8/schema.py: TapeRow, FeatureValue, MarketState, ExpertEvaluation, CandidateDraft, CandidateTransition, CounterfactualOutcome, ExperimentManifest, LabReport. sha1_hex(obj) is the single canonical hash (json.dumps sort_keys, compact, default=str). record_dict(rec, source, event_id) is the single dataclass-to-log projection.'
+        evidence_refs:
+        - src/v8/schema.py:14-74
+        confidence: high
+      - id: CS002
+        label: FACT
+        text: 'Measured stored record shapes on the golden fixture. evaluation record keys: applicability, decision, draft, event_id, expert_id, knowledge_time, source, state_id, version. draft keys: birth_time, direction, expert_id, expert_version, instrument, risk_geometry, setup_anchor_event_id, setup_fingerprint, size. DETECTED transition keys: candidate_id, direction, event_hash, event_id, expert_id, expert_version, from_state, geometry_version, instrument, knowledge_time, reason_code, sequence, setup_anchor_event_id, source, state_id, to_state. outcome keys: ambiguous_bars, candidate_id, endpoint, entry_price, event_id, horizon_bars, label_available_time, label_status, mae_r, market_move_r, mfe_r, net_r, risk_unit_price, simulator_hash, source.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_reconcile.py (final block)'
+        confidence: high
+      - id: CS003
+        label: FACT
+        text: 'The DETECTED birth snapshot is written as `extra` merged into the transition record BEFORE append, so it is part of the immutable append-only event and can never be added later. It carries expert_id, expert_version, instrument, direction, setup_anchor_event_id, geometry_version and state_id.'
+        evidence_refs:
+        - src/v8/lifecycle.py:82-108
+        - src/v8/lab.py:824-833
+        confidence: high
+      - id: CS004
+        label: GAP
+        text: 'The birth snapshot does NOT carry the CandidateDraft itself (no risk_geometry, no size, no setup_fingerprint). The draft is stored one ledger over, in evaluations.jsonl, and evaluation records carry NO candidate_id. The join is therefore a re-derivation: episode_key(draft.expert_id, draft.expert_version, draft.instrument, draft.direction, draft.setup_anchor_event_id, _geometry_version(draft)). Measured to be exact and total (15/15) on the golden fixture, but it is a re-computation, not a stored edge.'
+        evidence_refs:
+        - src/v8/lab.py:804-833
+        - 'command: python scratchpad/probe_reconcile.py -> "candidates=15 drafts_bound=15 unbound=0"'
+        confidence: high
+      - id: CS005
+        label: FACT
+        text: 'The risk_geometry vocabulary across all 28 Expert modules is small and finite in STRUCTURE (grep over src/v8/experts/*.py): atr_ref (29 occurrences), expiry_bars (27), entry (27), target_r (25), stop_r (25), stop_ref (5), level_ref (4), mid_ref (3), sd_ref (2), prior_low_ref (2), prior_high_ref (2), va_high_ref / va_low_ref / poc_ref / trigger_ref / trigger_side (1 each). The two golden pilots declare exactly {entry: NEXT_BAR_CLOSE, target_r: 1.0, stop_r: 1.0, expiry_bars: 8, atr_ref: <atr>} (+ prior_high_ref for failed_breakout).'
+        evidence_refs:
+        - 'command: grep -rho "''[a-z_]*'':" src/v8/experts/*.py | sort | uniq -c | sort -rn'
+        - src/v8/experts/trend_pullback.py:53-56
+        - src/v8/experts/failed_breakout.py:87-90
+        confidence: high
+      - id: CS006
+        label: FACT
+        text: 'The manifest-level action/economics surface is equally finite: ExperimentManifest declares interval, round_trip_cost_r, round_trip_cost_bps, fill_policy (constrained to SUPPORTED_FILL_POLICIES = FILL_AT_BAR_CLOSE | FILL_AT_LIMIT, anything else fails closed), funding_rate_r, funding_hours, max_bar_range_frac, funding_window_bars, risk_per_trade, min_trades, authority_receipt.'
+        evidence_refs:
+        - src/v8/schema.py:321-380
+        - src/v8/simulator.py:208
+        confidence: high
+      - id: CS007
+        label: FACT
+        text: 'DATASET_SPEC section 4.5 label_available_time is on every outcome: the decision clock at which the outcome became knowable (exit bar available_time; last tape bar for RIGHT_CENSORED; invalidation clock for INVALIDATED_BEFORE_TRIGGER). This is the field that lets a consumer detect dev/OOS overlap, and it is exactly the field a v0.2 outcome cube needs to declare its own horizon.'
+        evidence_refs:
+        - src/v8/schema.py:293-299
+        confidence: high
+    gaps_and_risks:
+      summary: 'Three test failures at HEAD (two are Windows-environment artifacts, one is a real un-repinned golden), one platform-dependent hash, one kline-only per-clock manifest digest, and one replay boundary where the simulator returns a NUMBER for a future path that does not exist. None of them is an architectural conflict; all are local.'
+      items:
+      - id: GR001
+        label: FACT
+        text: 'Full suite at HEAD 1053dc1: `python -m pytest tests -q --ignore=tests/test_expert_scenarios.py` -> 3 failed, 730 passed, 1 skipped in 226.04s. (test_expert_scenarios.py is the untracked working-tree file and was excluded.)'
+        evidence_refs:
+        - 'command: python -m pytest tests -q --ignore=tests/test_expert_scenarios.py'
+        confidence: high
+      - id: GR002
+        label: RISK
+        text: 'FAILURE 1 - tests/test_golden_backtest.py::test_golden_backtest_regression. The pinned GOLDEN_LEDGER_HASH 8c847351... does not reproduce; live is fae2a5de5b052415d0378129859902336a94d798. Isolated: data_hash MATCHES (1c41077b...), candidate_count MATCHES (15), terminal_distribution MATCHES ({CLOSED:12, INVALIDATED:1, REJECTED:2}), states_hash MOVED (live 8b5c1fc4e04c3a3d48b33c164d0b095d101f3b20 vs pinned 786378b5...). That invariance signature is the file''s own documented "code_version moved" pattern (marketstate.py _BUILDER_SRC_HASH is a whole-file hash and HEAD changed marketstate.py by 774 lines), i.e. provenance-only drift with no decision change - but the golden was NOT re-pinned in that commit, so the repository''s only end-to-end regression gate is currently RED.'
+        evidence_refs:
+        - 'command: python -m pytest tests/test_golden_backtest.py -q'
+        - 'command: python -c "... Lab.run on synth seed=7 n_bars=160 ..." -> data_hash True, states_hash False'
+        - 'command: git show --stat HEAD | grep src/v8 -> marketstate.py | 774 +-'
+        - tests/test_golden_backtest.py:175-187
+        confidence: high
+      - id: GR003
+        label: FACT
+        text: 'FAILURE 2 - tests/test_bugfix_pass.py::test_code_hash_excludes_vendored_simtruth. The TEST mirrors _code_hash''s simtruth exclusion with k.split("/"), but on Windows the relative keys are backslash-separated ("experts\\\\__init__.py"), so the mirror fails to exclude simtruth while _code_hash (which uses p.parts) excludes it correctly. The test is wrong on Windows, not the code.'
+        evidence_refs:
+        - 'command: python -m pytest tests/test_bugfix_pass.py::test_code_hash_excludes_vendored_simtruth -q'
+        - 'command: python -c "print([str(p.relative_to(base)) for p in sorted(base.rglob(''*.py''))][:3])" -> [''__init__.py'', ''equity.py'', ''experts\\\\__init__.py'']'
+        - src/v8/lab.py:103-112
+        confidence: high
+      - id: GR004
+        label: RISK
+        text: 'Consequence of GR003 that is NOT a test bug: _code_hash keys on str(p.relative_to(base)), which embeds the OS path separator. The same source tree therefore hashes differently on Windows and POSIX, so a manifest code_hash pinned on one platform fails closed on the other (lab.py:986-989). This is a provenance-portability defect that v0.2 "version-bound derivation" (invariant 6) depends on.'
+        evidence_refs:
+        - src/v8/lab.py:103-112
+        - src/v8/lab.py:986-992
+        confidence: high
+      - id: GR005
+        label: FACT
+        text: 'FAILURE 3 - tests/test_funding_wiring.py::test_audit_passes_sorted_mixed_tape raises PermissionError [WinError 5] on an atomic tmp->final rename in tools/vision_backfill.py:328. Windows file-locking artifact in the tape builder, unrelated to the decision path.'
+        evidence_refs:
+        - 'command: python -m pytest tests/test_funding_wiring.py::test_audit_passes_sorted_mixed_tape -q'
+        confidence: high
+      - id: GR006
+        label: GAP
+        text: 'MarketState.provenance.raw_manifest_hash covers the KLINE channel only ("for r in rows if r.channel == ''kline''"). funding and open_interest rows admissible at the same clock are not in that digest; their lineage is carried only by the per-feature input_lineage_hash of positioning-group features and by the experiment-level data_hash over the whole tape. For Phase-0 epistemic traceability this is sufficient (I_t is recoverable by replaying the tape to as_of, and the whole tape is hash-bound), but the per-clock digest must not be described as a complete I_t manifest.'
+        evidence_refs:
+        - src/v8/marketstate.py:1352-1367
+        confidence: high
+      - id: GR007
+        label: RISK
+        text: 'Replay boundary defect for a Phase-0 evaluator: CanonicalSimulator.run returns a NUMBER when the future path is degenerate. Measured - run(draft, [entry_bar_only]) -> (EXPIRY, net_r -0.07, RIGHT_CENSORED, horizon 0), i.e. a manufactured cost-only round trip on a position that never had a future; run(draft, []) -> (EXPIRY, 0.0, RIGHT_CENSORED), a fabricated non-trade. The Lab already refuses to use this path and records INVALIDATED_BEFORE_TRIGGER instead, with an explicit in-code rationale. Any evaluator that feeds a tail directly to run() and takes a max over the results would silently admit these fabricated values into the hindsight best action.'
+        evidence_refs:
+        - 'command: python scratchpad/probe_gap.py -> "replay with a single (entry-only) bar -> EXPIRY -0.07 RIGHT_CENSORED horizon 0"; "replay with an EMPTY future -> EXPIRY 0.0 RIGHT_CENSORED"'
+        - src/v8/lab.py:749-763
+        - src/v8/lab.py:895-916
+        confidence: high
+      - id: GR008
+        label: RISK
+        text: 'Naming collision hazard between the two documents. (a) "Phase 0" means "Foundation (DONE 2026-08-01)" in docs/ROADMAP.md and "Infrastructure semantics certification" in v0.2 section 15 - these are different phases of different programs. (b) "counterfactual" already has a NARROWER established meaning in V8 (the batch NOT_EXECUTED outcome of a candidate that did not execute) than v0.2''s (any legal alternative action replayed on the realized path). Both must be disambiguated in writing before any docs/ text is authored, or the corpus will contradict itself.'
+        evidence_refs:
+        - docs/ROADMAP.md:15
+        - docs/contracts/CANDIDATE_LIFECYCLE_SPEC.md:149-160
+        - src/v8/schema.py:275-283
+        confidence: high
+      - id: GR009
+        label: MISSING_EVIDENCE
+        text: 'No real (non-synthetic) tape store was present in the inspected tree, so every measurement in this chain is on the 160-bar synthetic contract fixture. Ledger reconciliation on a 12-month dev tape with funding, open_interest, DEGRADED states, tradability vetoes and heat rejections at scale is UNMEASURED.'
+        evidence_refs:
+        - 'command: ls (no tape/ or data/ dir at repo root)'
+        confidence: high
+      - id: GR010
+        label: RISK
+        text: 'tools/diagnostics.py already contains a partial, unbound implementation of three v0.2 objects (a legal-action grid EXIT_VARIANTS, a replay-with-override core _walk_result/_simulate, and a post-exit continuation measure). Building the Phase-0 evaluator without deciding what happens to those is the single largest duplication risk in this task - the repository just consolidated four diagnostic modules into one file precisely to avoid parallel truths.'
+        evidence_refs:
+        - tools/diagnostics.py:1-17
+        - tools/diagnostics.py:1607-1629
+        - tools/diagnostics.py:378-500
+        confidence: high
+    final_status:
+      status: complete
+      safe_to_continue: 'yes'
+      requires_hir: 'no'
+      reason:
+      - Every pipeline stage named in the task brief (raw data, features, PIT state, regime/context, Expert interface, Expert implementations, Candidate generation, storage/lifecycle, selection/admission, direction, entry, stop, target, trailing/time exits, fill simulation, fees/funding, simulator, actual action, ledger, outcomes, versioning/provenance, materialization, tests, synthetic fixtures, diagnostics) was located in code and traced to its call path, not inferred from filenames.
+      - No Phase-0 blocker under the section-21 standard was found; the three test failures are two environment artifacts and one un-repinned provenance golden.
+      - All quantitative claims in this report are backed by an actual command whose output is quoted in evidence_refs; no hashes, counts or results were invented.
+      self_assessment:
+        required_sections_complete: 'yes'
+        evidence_coverage: high
+        unresolved_gaps:
+        - No measurement on a real tape (GR009); all numbers are from the synthetic contract fixture.
+        - tools/diagnostics.py statistics sections 1-9 were not read in full (S004), so any Phase-2 duplication risk beyond the exit grid is uncharacterized.
+        - Whether the golden states_hash drift (GR002) is truly provenance-only cannot be proven from this tree alone (the pre-drift states are not retained); the invariance of data_hash, candidate_count and terminal_distribution is consistent with it but is not a proof.
+        confidence_in_own_completeness: high
+compiler_expectations:
+  source_path: reports/accp/v8-rr-v02-phase0/source/RIR-V8RR-001.accp.yaml
+  compiled_json: reports/accp/v8-rr-v02-phase0/compiled/RIR-V8RR-001.compiled.json
+  ir_json: reports/accp/v8-rr-v02-phase0/ir/RIR-V8RR-001.ir.json
+  gate_verdict_json: reports/accp/v8-rr-v02-phase0/verdict/RIR-V8RR-001.gate-verdict.json
+  route_signal_json: reports/accp/v8-rr-v02-phase0/route/RIR-V8RR-001.route-signal.json
