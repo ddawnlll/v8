@@ -26,6 +26,18 @@ versioned point-in-time tape (JSONL)
   -> hash-bound LabReport              (D-010, D-027)
 ```
 
+A second, read-only **evaluation plane** sits on top of the completed run and
+never feeds back into it (`RECOVERABLE_REGRET_PROTOCOL` §1):
+
+```text
+completed Lab store
+  -> CandidateSnapshot join + PIT lineage assertion
+  -> ledger reconciliation                (Replay(C, a_actual, M) == observed)
+  -> LegalActionManifest                  (OUTCOME_CUBE_SPEC §2)
+  -> Outcome Cube                         (OUTCOME_CUBE_SPEC)
+  -> legal hindsight gap -> systematicity -> recoverability gate
+```
+
 | Stage | Owning contract | Admissible outputs | Gate |
 |---|---|---|---|
 | Tape (raw evidence) | FEED_INGESTION_SPEC §2 | immutable `TapeRow` with three clocks | future rows fail closed |
@@ -71,6 +83,41 @@ population stays measurable (D-009, D-027).
   binds the `LabReport`; a code change that alters the event stream requires
   a manifest/version bump (PERSISTENCE_REPLAY_SPEC §4).
 
+## 3.1 V8.2 substrate revision (D-077)
+
+D-031's single-language baseline above is **revised, not retired**: it remains
+normative for `src/v8/`, which V8.2 freezes as the parity oracle
+(`PARITY_AND_IDENTITY_SPEC` §2). V8.2 splits the runtime into two planes:
+
+- **Python control/analysis plane** — experiment specs, manifests,
+  preregistration, hypothesis definitions, verdict statistics on reduced
+  tables, reports, diagnostics, monograph.
+- **Rust compute plane** — dataset, features, state, experts, candidates,
+  lifecycle, replay, cube, regret reduction, DAG cache, ledger writing, CPU/GPU
+  scheduling. One process, one memory model, one owner per buffer.
+
+Three rules make the split normative rather than descriptive:
+
+1. **No callback** — once a request enters the compute plane, control does not
+   return to Python until it completes (D-078; `COMPUTE_CORE_SPEC` §3). An
+   Expert-supplied post-entry thesis reaches the kernel as a compiled predicate
+   (`PREDICATE_IR_SPEC`), never as a closure.
+2. **The boundary is an artifact file, not an FFI call** — the compute plane
+   writes columnar ledgers (`LEDGER_FORMAT_SPEC`); the analysis plane reads
+   them.
+3. **Scheduling cannot change a value** — backend and thread count are
+   implementation details precisely because backend invariance is gated
+   (`COMPUTE_SCHEDULING_SPEC` §5; `PARITY_AND_IDENTITY_SPEC` G5).
+
+Storage mapping is superseded for the compute plane by `LEDGER_FORMAT_SPEC`
+(columnar, tiered); `PERSISTENCE_REPLAY_SPEC` remains normative for replay
+semantics. Canonical hashing changes encoding at the version boundary
+(D-079) — V8.2 identities are not comparable to V8.0 identities, by design.
+
+Nothing in this revision changes the decision ontology: Expert determinism,
+Candidate immutability, the three clocks, MODEL_DERIVED replay output, and the
+absent-by-default list below are unaffected.
+
 ## 4. Absent by default
 
 Router, learned scorer, ranker, learned execution, and online learning are
@@ -88,6 +135,15 @@ The module/file layout is a separate contract, `IMPLEMENTATION_LAYOUT.md`
 (one file, one responsibility, one owning contract). This spec is normative
 for the pipeline; that one is normative for the code layout; neither may
 silently drift from the other.
+
+V8.2 adds five contracts beneath this one, each normative for its own surface:
+`COMPUTE_CORE_SPEC` (planes, layers, representation rule),
+`PARITY_AND_IDENTITY_SPEC` (oracle, parity gates, hash encoding),
+`LEDGER_FORMAT_SPEC` (what persists and in what form),
+`OUTCOME_CUBE_SPEC` (action universe, cell status, streaming reduction),
+`PREDICATE_IR_SPEC` (compiled post-entry thesis) and
+`COMPUTE_SCHEDULING_SPEC` (kernels, backends, determinism). The evaluation
+plane's own contract is `RECOVERABLE_REGRET_PROTOCOL`.
 
 ## 6. Cheap executable tests
 

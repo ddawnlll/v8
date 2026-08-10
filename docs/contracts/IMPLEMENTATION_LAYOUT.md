@@ -14,18 +14,34 @@ src/v8/
   schema.py          canonical records + canonical hashing
   store.py           AppendOnlyLog (JSONL, idempotent, replayable)
   marketstate.py     MarketState builder (availability-gated)
-  experts/           one behavior family per file (D-033)
-    __init__.py          pilot expert registry (re-exports)
+  experts/           one behavior family per file (D-033); 28 modules
+    __init__.py          expert registry (re-exports)
     base.py              Expert base + _need + still_valid contract
-    trend_pullback.py    TrendPullbackExpert
-    failed_breakout.py   FailedBreakoutExpert
-    liquidity_sweep_reclaim.py  LiquiditySweepReclaimExpert
+    trend_pullback.py            failed_breakout.py
+    liquidity_sweep_reclaim.py   failed_breakout_2b.py
+    trend_pullback_depth.py      range_breakout_1to1.py
+    candlestick_reversal.py      rsi_stoch_reversion.py
+    macd_stoch_trend.py          divergence_12_setups.py
+    bollinger_breakout.py        bollinger_reversion.py
+    donchian_breakout.py         breakout_retest.py
+    fib_retracement_continuation.py  fib_projection_reversal.py
+    pattern_measuring_objective.py   volume_confirmed_breakout.py
+    volume_climax_reversal.py    obv_adl_regime.py
+    ichimoku_cloud.py            floor_trader_pivot.py
+    market_profile_value_area.py gap_exhaustion.py
+    open_interest_divergence.py  funding_crowding_reversal.py
+    pandf_breakout.py            fib_rsi_bb_confluence.py  (D-076)
   lifecycle.py       transition legality, CandidateRegistry, episode_key,
                      ExposureBook
   risk.py            RiskGate (deterministic admission)
+  interval.py        base-interval aggregation + derivability (D-053)
   simulator.py       CanonicalSimulator (step/run), OpenPosition, risk_unit
+  equity.py          RiskState, drawdown ladder, risk-of-ruin estimate (O-016)
   lab.py             Lab runner (3-phase loop) + recursive code hash
-  statistics.py      within-family Reality-Check multiplicity test (D-044)
+  statistics.py      within-family Reality-Check multiplicity test (D-044),
+                     block bootstrap, effective-episode and multiplicity
+                     estimators (reused verbatim by the evaluator, D-072)
+  fast.py            content-addressed run / state / evaluation caches (D-085)
   synth.py           deterministic synthetic tape
   simtruth/          vendored V7 lab — engineering only, authority NOT
                      renewed (D-022)
@@ -34,24 +50,87 @@ tools/
   data.py                       Binance archive -> verified canonical dataset
                                 (download + SHA-256 + Parquet + DuckDB audit)
   vision_backfill.py            Vision monthly klines -> JSONL PIT tape + audit
+  build_multi_tape.py           multi-symbol dev tape assembly
+  monitor_tape.py               tape integrity monitoring
   materialize_views.py          DATASET_SPEC §5 parquet views (DuckDB,
                                 pinned manifest, fail-closed hashes)
+  run_experiment.py             preregistration runner (v8_slice_001)
+  diagnostics.py                consolidated report centre (single report file;
+                                diagnostic.py / diagnostic_report.py /
+                                multi_diagnostic.py / forensics.py are shims)
+  diagnose_experts_dev.py       dev-window expert diagnosis
+  run_fib_rsi_bb_confluence.py  D-076 dev-window experiment runner
+  equity_analysis.py            external-instrument analysis (research only)
+  regret.py                     evaluator Phase 0: snapshots, reconciliation,
+                                LegalActionManifest, Outcome Cube, gap (D-071)
+  regret_reference.py           independent reference walk (parity oracle)
+  regret_phase1.py              Candidate-local opportunity accounting (D-072)
+  regret_phase2.py              systematicity discovery (D-072)
+  regret_phase3.py              recoverability evaluation (D-073)
+  artifact_status.py            artifact freshness reporting
   download_v8_reading_list.py   research manifest downloader
+  index_handbook_pdf.py, extract_handbook_sections.py,
+  extract_handbook_endmatter.py, build_handbook_review.py,
+  build_full_handbook_review.py, render_visual_previews.py
+                                research-corpus tooling (no decision path)
+  _perf_probe.py                scratch profiling harness (not shipped tooling;
+                                PERFORMANCE_AUDIT_V82)
 tests/
-  test_vertical_slice.py        contract tests (pytest)
-  test_tape_audit.py            offline tape audit tests
-  test_expert_registry.py       registry consistency tests
-  test_data_pipeline.py         offline data.py planning/checksum tests
-  test_materialize_views.py     materialization roundtrip + fail-closed tests
-  test_reality_check.py         within-family multiplicity test (D-044)
+  test_vertical_slice.py        pipeline contract tests (pytest)
+  test_state_cache_identity.py  cached vs uncached MarketState, every bar
+  test_expert_<family>.py       one suite per registered Expert (28 families)
+  test_expert_registry.py       registry consistency
+  test_tape_audit.py            offline tape audit
+  test_data_pipeline.py         data.py planning/checksum
+  test_materialize_views.py     materialization roundtrip + fail-closed
+  test_reality_check.py         within-family multiplicity (D-044)
   test_detrended_null.py        position-bias reproduction + detrending (D-045)
+  test_regret_phase0.py         evaluator reconciliation + cube (D-071)
+  test_regret_faults.py         evaluator fault injection (D-071)
+  test_regret_reference.py      reference-walk agreement (D-071)
+  test_fast_cache.py            content-addressed cache behaviour (D-085)
+  test_golden_backtest.py       pinned states/ledger hash regression
 ```
 
 Planned, not yet present: further Expert modules land under
-`src/v8/experts/` only after registry admission (the `breakout_retest` and
-`capitulation` backlog families are registered DATA_BLOCKED until derivatives
-tape — no code module until then); `tools/run_experiment.py` (the
-`v8_slice_001` preregistration runner) is the Phase-4 build target.
+`src/v8/experts/` only after registry admission (the `capitulation` backlog
+family is registered DATA_BLOCKED until derivatives tape — no code module
+until then).
+
+## 1.1 V8.2 compute core (planned, not yet present)
+
+The Rust workspace is a **second implementation**, not a replacement of §1:
+`src/v8/` is frozen as the parity oracle for the duration of the migration
+(`PARITY_AND_IDENTITY_SPEC` §2). One workspace, one binary, modules rather than
+micro-crates; splitting is deferred until a boundary is proven stable.
+
+```text
+v8-core/
+  src/
+    main.rs         CLI entry; one evaluation request per invocation
+    data.rs         Dataset: columnar OHLCV + event/available/ingested clocks
+    state.rs        FeatureStore, StateView, feature identity
+    experts/
+      mod.rs        registry
+      predicate.rs  compiled still_valid IR (PREDICATE_IR_SPEC)
+    candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
+    simulator.rs    ReplayKernel (step/run), risk unit, fill policies
+    regret.rs       LegalActionManifest, CubeReducer, gap accumulators
+    statistics.rs   reductions only (verdict statistics stay in Python)
+    cache.rs        content-addressed DAG cache
+    evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
+    compute/        kernels K1..K6 + backend selection
+  tests/
+    parity.rs       value-level parity against the V8.0 oracle
+```
+
+The same file-family rule applies (D-032): a new module, rename, or interface
+change is a registry decision with a CHANGELOG entry. Owning contracts are
+`COMPUTE_CORE_SPEC` (layers and representation),
+`COMPUTE_SCHEDULING_SPEC` (kernels and backends),
+`LEDGER_FORMAT_SPEC` (evidence.rs), `OUTCOME_CUBE_SPEC` (regret.rs),
+`PREDICATE_IR_SPEC` (experts/predicate.rs) and
+`PARITY_AND_IDENTITY_SPEC` (tests/parity.rs).
 
 ## 2. File-by-file contract
 

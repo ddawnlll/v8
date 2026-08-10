@@ -3,6 +3,109 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-11 — Variant sweeps admitted under anytime-valid error control (D-086); O-028 resolved
+
+`docs/protocols/SWEEP_PROTOCOL.md` (new). Sweeps — evaluating a registered grid
+of variants rather than one hand-declared variant — were previously excluded
+for two reasons that pulled in opposite directions: multiplicity (Bonferroni
+over thousands of variants annihilates power, and BH's independence assumption
+is plainly violated when every variant reads the same tape) and adaptivity (any
+compute-feasible sweep must kill losers early, which is peeking plus selection
+and invalidates fixed-sample inference). The statistically safe sweep was the
+computationally impossible one.
+
+Both obstacles fall to **one** object. e-BH controls FDR under **arbitrary
+dependence** between hypotheses (Wang & Ramdas, arXiv:2009.02824), and with
+e-processes the guarantee holds for **arbitrary exploration rules and arbitrary
+stopping times** (Xu, Wang & Ramdas, *A unified framework for bandit multiple
+testing*, NeurIPS 2021). Successive halving over variants therefore becomes
+licensed rather than fraudulent, and the protocol adopts it: registered grid →
+e-process per variant → halving over a growing chronological slice → stopped
+e-BH → the unchanged single-query confirmation half → DSR and PBO as
+diagnostics → online alpha across campaigns.
+
+**Two hazards recorded before they bite.** (1) The local/global filtration
+condition (arXiv:2502.08539): stopping several e-processes at a *common*
+stopping time yields e-values only under a shared global filtration, and every
+V8 variant reads the same tape, so the naive design is exactly the unsafe case.
+Default resolution is variant-local stopping times; a global one requires an
+argument in the campaign contract. (2) The Minimum Backtest Length result
+(Bailey, Borwein, López de Prado & Zhu) — on five years of daily data no more
+than ~45 variations can be tried before a Sharpe of 1.0 appears by chance — so
+the admissible trial count is computed from tape length *before* the grid is
+registered, and an over-large grid is refused rather than discounted.
+
+**O-028 resolved.** The question assumed a sweep multiplies replay cells by its
+full cardinality. Under successive halving it does not: the cost falls one to
+two orders of magnitude and lands back below the ~10^9-cell GPU trigger
+(D-084). So sweeps do not force Experts native from stage S1 and do not reopen
+the GPU question — the statistically correct design is also the cheap one.
+
+**D-086 is admitted but blocked.** The e-process construction for
+block-dependent episode streams is unsettled (new O-032); no sweep campaign may
+run until one is declared and passes null calibration. Also updated:
+`DECISION_REGISTER` (D-086), `OPEN_DECISIONS` (O-028 resolved, O-032 added),
+`tools/build_monograph.py` (`NAMES`), both monographs rebuilt.
+
+## 2026-08-11 — V8.2 corpus: high-throughput compute substrate + evaluation-plane contract (D-077..D-085)
+
+A corpus-only change. No runtime code was modified, no performance fix was
+applied, and no Rust was written. What landed is the contract set for the V8.2
+substrate decision, the measurement evidence behind it, and two pre-existing
+corpus gaps closed.
+
+**Measurement first (`docs/audits/PERFORMANCE_AUDIT_V82.md`, new).** A profiling
+session attributed the ~26-32 s single-cell evaluation cost. Headline: the
+decision-path arithmetic is a minority of the run. Measured on an 8,760-bar
+single-symbol synthetic tape (CPython 3.14.0, macOS arm64): 27 experts 32.32 s /
+22,444 candidates, 3 experts 16.11 s / 1,837; state layer 7.74 s of which
+**4.93 s is one O(N²) line** (`{id(b): i for ...}` rebuilt per state per symbol
+per interval — 77,925,592 `id()` calls); cube cells cost **71.8 µs of tape
+slicing against 6.4 µs of arithmetic**; one state record is 31,091 B for 74
+features of which **~2% is the float values**; `states.jsonl` is 271.8 MB against
+a 3.5 MB input tape; the scaling exponent drifts 1.16 → 1.32 as N grows. The
+same defect class — bounded work over unbounded data — appears at three
+independent sites (state lineage, cube replay, ledger hashing). Separately,
+CPython `json` and Rust `f64` formatting were found to disagree on **7 of 8**
+representative values, which makes decimal text unusable as a cross-runtime
+identity.
+
+**New contracts.** `COMPUTE_CORE_SPEC` (two planes, layer map, representation
+rule, staged migration S0..S5), `PARITY_AND_IDENTITY_SPEC` (V8.0 frozen as
+oracle, value-level bit parity, IEEE bit-pattern hashing, gates G1-G6),
+`LEDGER_FORMAT_SPEC` (identity/information/schema/run-constant/derivable
+classification, three tiers, columnar layout), `OUTCOME_CUBE_SPEC` (action
+manifest, cell-status taxonomy, streaming reduction, bounded-window rule),
+`PREDICATE_IR_SPEC` (compiled `still_valid`, equivalence gate E1-E5),
+`COMPUTE_SCHEDULING_SPEC` (kernels K1-K6, per-kernel determinism analysis, the
+~10^9-cell GPU trigger).
+
+**Gap 1 closed — the evaluation plane had no contract.**
+`docs/protocols/RECOVERABLE_REGRET_PROTOCOL.md` documents Phases 0-4 as built
+and certified under D-071..D-074, including what each phase does **not** claim:
+`V_R` remains negative on all 11 recoverable slices, so the result is a
+replicated loss-reduction effect and not a profitability finding.
+
+**Gap 2 closed — `IMPLEMENTATION_LAYOUT` was stale.** It listed 3 pilot experts
+against 28 shipped modules and omitted `equity.py`, `interval.py`,
+`statistics.py`'s current scope, `fast.py`, and the whole `tools/regret*.py`
+family. Corrected, and the planned Rust workspace added as a second section.
+
+**Updated.** `ARCHITECTURE_SPEC` §2 (evaluation plane added to the component
+map) and new §3.1 (V8.2 substrate revision — D-031 revised, not retired);
+`ROADMAP` (new Phase 4b, plus explicit version semantics: Rust and GPU are
+implementation changes and do not constitute a V9); `DECISION_REGISTER`
+(D-077..D-085); `OPEN_DECISIONS` (O-028..O-031); `tools/build_monograph.py`
+(`NAMES`); both monographs rebuilt.
+
+**Two things deliberately recorded as not claimed.** (1) The substrate decision
+is **not** justified by the program's falsification clause on evaluation cost —
+the measurements show research scale is reachable in Python once the D-083
+defect class is removed, and D-077 says so explicitly, because a motivated
+reading of one's own criterion is the failure mode this program exists to
+resist. (2) `fast.py` was admitted (D-085) because it was sitting in the tree
+untracked and D-032 requires a register decision for any new `src/v8/` module.
+
 ## 2026-08-10 — V8 x Recoverable Regret v0.2, Phase-0 build step 1: golden repair + two portability bugs + multi-symbol dev tape
 
 Three local repairs and one data-plane addition, all prerequisites for the

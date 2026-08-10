@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
 <ol>
 <li>V8 is a falsification program, not a promise of edge.</li>
 <li>A claim is labeled <code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>,
@@ -373,6 +373,533 @@ claim that V8 will work:</p>
   nested repository, so provenance checks should be run there and recorded with
   its commit and artifact hashes.</li>
 </ul></section>
+<section id="sec-performance-audit-v82"><h1>PERFORMANCE AUDIT V82</h1><h1 id="v82-performance-audit-measured-evidence-for-the-compute-core-decision">V8.2 Performance Audit — measured evidence for the compute-core decision</h1>
+<p><strong>Status:</strong> PROJECT_EVIDENCE_SUPPORTED for every number in sections 2-8 (each
+is real command output from one measurement session); DESIGN_INFERENCE for the
+extrapolations in section 9, which are labelled as such inline. This audit
+records <strong>what was measured</strong>, not what should be built; the decisions it
+supports are D-077 .. D-085 in the register. It adds no economic claim
+(<code>V8_CONSTITUTION</code> rule 12).</p>
+<h2 id="1-why-this-audit-exists">1. Why this audit exists</h2>
+<p>A single evaluation cell — one symbol, one base interval, one year of 1h bars —
+took ~26-32 s. The program's own falsification criterion asks whether
+evaluation cost still supports controlled iteration at research scale
+(100 symbols x 15m..1w). Before choosing a remedy (algorithmic, native,
+GPU, or architectural) the cost had to be attributed rather than assumed.</p>
+<p>The headline finding is that <strong>the decision-path arithmetic is a minority of
+the run</strong>. Roughly half the measured time is data-access waste and audit
+plumbing, and the single largest storage cost carries ~2% information.</p>
+<h3 id="11-measurement-environment">1.1 Measurement environment</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Platform</td>
+<td>macOS arm64 (Darwin 25.1.0)</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>CPython 3.14.0 (<code>uv</code>-managed <code>.venv</code>)</td>
+</tr>
+<tr>
+<td>Rust (section 8 only)</td>
+<td>rustc 1.96.0-nightly</td>
+</tr>
+<tr>
+<td>Tape</td>
+<td><code>synth.make_synthetic_tape(seed=11, n_bars=..., continuous=True)</code></td>
+</tr>
+<tr>
+<td>Universe</td>
+<td><code>SOLUSDT</code>, single symbol, 1h base interval</td>
+</tr>
+<tr>
+<td>Harness</td>
+<td><code>tools/_perf_probe.py</code> (scratch profiling harness, not shipped tooling)</td>
+</tr>
+<tr>
+<td>Expert set</td>
+<td>the 27 classes in <code>_perf_probe.ALL</code>; the registry holds 28 expert modules (<code>fib_rsi_bb_confluence</code>, D-076, is not in the probe list)</td>
+</tr>
+</tbody>
+</table>
+<p>Every figure below is reproducible with the command shown next to it. Numbers
+are single-run, not averaged over repetitions; run-to-run variance of ~5% was
+observed on the wall-clock totals (16.11 s / 16.9 s / 17.13 s for the same
+3-expert 8760-bar configuration across three invocations).</p>
+<h2 id="2-wall-clock-baseline">2. Wall-clock baseline</h2>
+<pre><code class="language-bash">.venv/bin/python tools/_perf_probe.py all   8760    # 27 experts
+.venv/bin/python tools/_perf_probe.py pilot 8760    # 3 experts
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>Elapsed</th>
+<th>Candidates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>27 experts, 8760 bars</td>
+<td><strong>32.32 s</strong></td>
+<td>22,444</td>
+</tr>
+<tr>
+<td>3 experts, 8760 bars</td>
+<td><strong>16.11 s</strong></td>
+<td>1,837</td>
+</tr>
+</tbody>
+</table>
+<p>The 24 additional experts add 16.2 s and 20,607 candidates — about <strong>0.79 ms of
+marginal cost per candidate</strong>, which covers expert evaluation, lifecycle,
+simulation and three ledger appends. A fixed floor of ~14-16 s is present
+regardless of expert count.</p>
+<h2 id="3-scaling-exponent">3. Scaling exponent</h2>
+<pre><code class="language-bash">for n in 1095 2190 4380 8760; do .venv/bin/python tools/_perf_probe.py pilot $n; done
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Bars</th>
+<th>Elapsed</th>
+<th>Ratio vs previous</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1,095</td>
+<td>1.55 s</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2,190</td>
+<td>3.28 s</td>
+<td>2.12x</td>
+</tr>
+<tr>
+<td>4,380</td>
+<td>6.89 s</td>
+<td>2.10x</td>
+</tr>
+<tr>
+<td>8,760</td>
+<td>17.13 s</td>
+<td>2.49x</td>
+</tr>
+</tbody>
+</table>
+<p>Doubling the bar count costs more than double at the top of the range. Over the
+full 8x span the exponent is ~1.16; over the last doubling alone it is ~1.32.
+The pipeline is therefore <strong>super-linear and drifting toward quadratic</strong> as N
+grows — consistent with an O(N^2) term that is still small at 1,095 bars and
+dominant well before 35,040 (one year of 15m bars).</p>
+<h2 id="4-profile-attribution">4. Profile attribution</h2>
+<pre><code class="language-bash">.venv/bin/python tools/_perf_probe.py profile 8760
+</code></pre>
+<p>302,010,172 function calls in 64.658 s (cProfile inflates wall-clock ~2x and
+over-weights call-heavy code; ratios are indicative, absolute values are not).
+Selected rows, cumulative time:</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>ncalls</th>
+<th>cumtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lab.run</code></td>
+<td>1</td>
+<td>65.700</td>
+</tr>
+<tr>
+<td><code>marketstate.build_multi_state</code></td>
+<td>8,760</td>
+<td>19.174</td>
+</tr>
+<tr>
+<td><code>marketstate.build_state</code></td>
+<td>8,760</td>
+<td>18.467 (tottime 7.428)</td>
+</tr>
+<tr>
+<td><code>schema.record_dict</code></td>
+<td>360,253</td>
+<td>8.503</td>
+</tr>
+<tr>
+<td><code>json.dumps</code></td>
+<td>989,041</td>
+<td>8.223</td>
+</tr>
+<tr>
+<td><code>store.append</code></td>
+<td>376,890</td>
+<td>7.623</td>
+</tr>
+<tr>
+<td><code>schema._asdict_fast</code></td>
+<td>13,626,352 / 360,253</td>
+<td>6.309</td>
+</tr>
+<tr>
+<td><code>schema.sha1_hex</code></td>
+<td>594,629</td>
+<td>5.927</td>
+</tr>
+<tr>
+<td><code>store.hash</code></td>
+<td><strong>5</strong></td>
+<td>5.510</td>
+</tr>
+<tr>
+<td><code>equity.risk_of_ruin</code></td>
+<td>1</td>
+<td>4.967</td>
+</tr>
+<tr>
+<td><code>builtins.id</code></td>
+<td><strong>77,925,592</strong></td>
+<td>3.668 (tottime)</td>
+</tr>
+<tr>
+<td><code>json.loads</code></td>
+<td>385,650</td>
+<td>3.189</td>
+</tr>
+<tr>
+<td><code>posix.stat</code></td>
+<td>753,791</td>
+<td>1.872</td>
+</tr>
+<tr>
+<td><code>TextIOWrapper.flush</code></td>
+<td>376,890</td>
+<td>1.422</td>
+</tr>
+</tbody>
+</table>
+<p>Three rows are structurally anomalous and are examined below: 77.9M <code>id()</code>
+calls (section 5), 5 calls to <code>store.hash</code> costing 5.5 s (section 7), and
+753,791 <code>stat</code> calls for 376,890 appends (section 7).</p>
+<h2 id="5-finding-1-an-on2-residue-inside-the-cached-fast-path">5. Finding 1 — an O(N^2) residue inside the cached "fast path"</h2>
+<p><code>src/v8/marketstate.py</code> builds a row-identity map <strong>per state, per symbol, per
+interval</strong>:</p>
+<pre><code class="language-python">id_map = {id(b): i for i, b in enumerate(s.closed)}
+</code></pre>
+<p>At 8,760 states over 8,760 rows this is 76.7M dictionary insertions; the
+profile's 77,925,592 <code>id()</code> calls confirm the arithmetic. Isolated measurement,
+without the profiler:</p>
+<pre><code class="language-python">rows = [R() for _ in range(8760)]
+for _ in range(8760):
+    m = {id(b): i for i, b in enumerate(rows)}
+# 4.93 s
+</code></pre>
+<p>Measured cost: <strong>4.93 s</strong>. Independently, the state layer in isolation:</p>
+<pre><code class="language-python"># build_bar_series once, then build_multi_state for every bar,
+# no persistence, no experts
+# 7.74 s for 8,760 states; 74 features per state
+</code></pre>
+<p>So roughly <strong>63% of the state-building layer is this one line</strong>. The remaining
+~2.8 s covers 8,760 x 74 = 648,240 feature computations, i.e. ~4.3 us per
+feature.</p>
+<p>The <code>BarSeries</code> precompute (D-054) removed the O(N^2) from the <em>feature</em>
+recurrences but left it in the <em>lineage</em> path. The map is a pure function of
+<code>s.closed</code>, which does not change during a run.</p>
+<h2 id="6-finding-2-the-same-class-of-defect-on-the-cube-path">6. Finding 2 — the same class of defect on the cube path</h2>
+<p><code>tools/regret.py</code> builds each Outcome Cube cell from the entire remaining tape:</p>
+<pre><code class="language-python">tail = bars[i:]
+...
+out = sim.run(draft, [b.payload for b in tail], times=[...], thesis_valid=thesis_ok)
+</code></pre>
+<p>Measured at mid-tape (4,380 bars remaining), 2,000 iterations each:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Cost per cell</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tail</code> slice + payload/time rebuild</td>
+<td><strong>71.8 us</strong></td>
+</tr>
+<tr>
+<td><code>sim.run</code> over a bounded 60-bar window</td>
+<td><strong>6.4 us</strong></td>
+</tr>
+<tr>
+<td><code>sim.run</code> over the full 4,380-bar tail</td>
+<td>15.7 us</td>
+</tr>
+</tbody>
+</table>
+<p>A cell whose geometry declares <code>expiry_bars &lt;= 48</code> can never read more than
+~48 bars, so <strong>the slice is ~11x the arithmetic it feeds</strong>. With
+|A(C)| = 11 actions (<code>NO_TRADE</code> + the actual action + a 3x3
+<code>target_r</code> x <code>expiry_bars</code> grid, <code>tools/regret.py:CONTINUOUS_AXIS_GRID</code>) and
+22,444 candidates, one symbol-year is 246,884 cells:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Per symbol-year</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>As implemented (slice + full-tail run)</td>
+<td>21.6 s</td>
+</tr>
+<tr>
+<td>Index-bounded window (arithmetic only)</td>
+<td>1.6 s</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-finding-3-audit-plumbing-and-per-record-io">7. Finding 3 — audit plumbing and per-record I/O</h2>
+<p><strong>Ledger volume.</strong> One 8,760-bar, single-symbol, 3-expert run writes:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>states.jsonl</code></td>
+<td><strong>271.8 MB</strong></td>
+</tr>
+<tr>
+<td><code>evaluations.jsonl</code></td>
+<td>10.5 MB</td>
+</tr>
+<tr>
+<td><code>candidates.jsonl</code></td>
+<td>5.0 MB</td>
+</tr>
+<tr>
+<td><code>outcomes.jsonl</code></td>
+<td>0.9 MB</td>
+</tr>
+<tr>
+<td><code>tape.jsonl</code> (the input)</td>
+<td>3.5 MB</td>
+</tr>
+</tbody>
+</table>
+<p>The audit trail is ~78x the evidence it describes.</p>
+<p><strong>Composition of one state record</strong> (record #5,000; 74 features; 31,091 bytes):</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Bytes</th>
+<th>Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON key names (<code>"calculation_time":</code> etc., x74)</td>
+<td>~10,360</td>
+<td>33%</td>
+</tr>
+<tr>
+<td><code>history</code> feature (last 32 bars' OHLC)</td>
+<td>4,567</td>
+<td>15%</td>
+</tr>
+<tr>
+<td><code>input_lineage_hash</code> (40 hex x 74)</td>
+<td>2,960</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>feature names (map key + <code>name</code> field, stored twice)</td>
+<td>2,724</td>
+<td>9%</td>
+</tr>
+<tr>
+<td>timestamps (<code>calculation_time</code> + <code>max_input_available_time</code>)</td>
+<td>2,812</td>
+<td>9%</td>
+</tr>
+<tr>
+<td><code>dtype</code> / <code>feature_version</code> / <code>quality</code> / <code>group</code></td>
+<td>1,846</td>
+<td>6%</td>
+</tr>
+<tr>
+<td><strong>the 74 float values themselves</strong></td>
+<td><strong>~590</strong></td>
+<td><strong>2%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The key-name share is computed from key lengths rather than measured directly
+(+/-3%); every other row is a direct measurement. The <code>history</code> feature is a
+32-bar window of OHLC that already exists in <code>tape.jsonl</code>, so each bar's OHLC
+is additionally written into 32 consecutive state records.</p>
+<p>Serializing one state (<code>record_dict</code> + <code>json.dumps</code>) costs 0.29 ms, i.e.
+<strong>~2.5 s per run</strong> for <code>states.jsonl</code> alone.</p>
+<p><strong>Per-append syscalls.</strong> <code>store.AppendOnlyLog.append</code> performs
+<code>path.exists()</code> + <code>path.stat()</code> (hardlink detach check) + <code>write</code> + <code>flush</code> on
+every record: 753,791 <code>stat</code> calls and 376,890 <code>flush</code> calls per run.</p>
+<p><strong>Whole-ledger re-hashing.</strong> <code>AppendOnlyLog.hash</code> re-serializes the entire
+parsed ledger; five calls cost 5.5 s of profiled time.</p>
+<h2 id="8-finding-4-float-formatting-is-not-portable-across-runtimes">8. Finding 4 — float formatting is not portable across runtimes</h2>
+<p>Every identity in V8 is <code>sha1_hex(json.dumps(obj, sort_keys=True,
+separators=(',', ':'), default=str))</code>. The decimal rendering of a float is
+therefore part of <code>state_id</code>, <code>lineage_hash</code>, and every downstream hash.
+CPython's <code>json</code> encoder and Rust's default <code>f64</code> <code>Display</code> disagree:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>CPython <code>json.dumps</code></th>
+<th>Rust <code>{}</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1.0</code></td>
+<td><code>1.0</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>1e16</code></td>
+<td><code>1e+16</code></td>
+<td><code>10000000000000000</code></td>
+</tr>
+<tr>
+<td><code>1e-5</code></td>
+<td><code>1e-05</code></td>
+<td><code>0.00001</code></td>
+</tr>
+<tr>
+<td><code>0.1 + 0.2</code></td>
+<td><code>0.30000000000000004</code></td>
+<td><code>0.30000000000000004</code></td>
+</tr>
+<tr>
+<td><code>-0.0</code></td>
+<td><code>-0.0</code></td>
+<td><code>-0</code></td>
+</tr>
+<tr>
+<td><code>1e22</code></td>
+<td><code>1e+22</code></td>
+<td><code>10000000000000000000000</code></td>
+</tr>
+<tr>
+<td><code>123456789012345678.0</code></td>
+<td><code>1.2345678901234568e+17</code></td>
+<td><code>123456789012345680</code></td>
+</tr>
+<tr>
+<td><code>1e-323</code></td>
+<td><code>1e-323</code></td>
+<td><code>0.000…001</code> (323 decimals)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Seven of eight test values differ.</strong> Both renderings are shortest-roundtrip
+correct; they differ in the exponent-notation thresholds. A second
+implementation that reproduces V8 values exactly would still produce different
+hashes unless CPython's <code>float_repr</code> and encoder thresholds are reimplemented
+verbatim. See <code>PARITY_AND_IDENTITY_SPEC</code> for the resolution.</p>
+<h2 id="9-extrapolations-design_inference-not-measured">9. Extrapolations (DESIGN_INFERENCE — not measured)</h2>
+<p>These project the measured per-unit costs onto the research target
+(100 symbols, 15m base, one year, five intervals). They are arithmetic on
+measured units, not observed runs, and should be re-measured before being
+relied upon.</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Basis</th>
+<th>Projection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bars per symbol-year at 15m</td>
+<td>calendar</td>
+<td>35,040</td>
+</tr>
+<tr>
+<td><code>id_map</code> term at 35,040 bars</td>
+<td>O(N) per state x N states</td>
+<td>~78 s/symbol</td>
+</tr>
+<tr>
+<td>Cube cells with 4x candidates and 10x interventions</td>
+<td>246,884 x 40</td>
+<td>~9.9M/symbol</td>
+</tr>
+<tr>
+<td>Cube at 6.4 us/cell, index-bounded</td>
+<td>9.9M x 6.4 us</td>
+<td>~63 s/symbol; ~1.75 h for 100 symbols single-core</td>
+</tr>
+<tr>
+<td><code>states.jsonl</code> at 15m x 5 intervals</td>
+<td>~370 features x ~150 KB/state</td>
+<td>~5.3 GB/symbol; ~530 GB for 100</td>
+</tr>
+<tr>
+<td><code>OutcomeCubeRow</code> as JSONL</td>
+<td>35 fields x 9.9M rows</td>
+<td>~6 GB/symbol; ~600 GB for 100</td>
+</tr>
+<tr>
+<td>Target state record after tiering</td>
+<td>design target, not measured</td>
+<td>~350 B/bar (~90x reduction)</td>
+</tr>
+</tbody>
+</table>
+<p>The 4x candidate multiplier for 15m and the 10x intervention multiplier are
+assumptions carried from the evaluator design, not measurements. <code>contexts</code>,
+<code>chronological partitions</code> and <code>symbols</code> are groupings of existing cells and do
+<strong>not</strong> multiply the replay count.</p>
+<h2 id="10-what-this-audit-does-and-does-not-establish">10. What this audit does and does not establish</h2>
+<p><strong>Establishes.</strong> (a) At least three independent sites — state lineage
+(<code>id_map</code>), cube replay (<code>tail = bars[i:]</code>), and ledger hashing
+(<code>AppendOnlyLog.hash</code>) — perform bounded work over unbounded data; this is one
+defect class, not three incidents. (b) The persisted state ledger carries ~2%
+information. (c) The Outcome Cube's arithmetic is cheap (6.4 us/cell); its
+present cost is ~92% data movement. (d) Decimal float rendering is not portable
+between CPython and Rust and therefore cannot be the basis of a cross-runtime
+identity.</p>
+<p><strong>Does not establish.</strong> (a) That any specific remedy is correct — the audit
+measures cost, it does not choose an architecture. (b) That the projections in
+section 9 hold; they are arithmetic, not runs. (c) Anything about economic
+performance. No number here is an outcome, a return, or an edge.</p>
+<p><strong>Explicitly not claimed.</strong> That a native rewrite is <em>required</em> by the
+program's falsification criterion. On these measurements the index-bounded
+cube path plus per-symbol process parallelism reaches research scale inside
+tens of minutes without leaving Python; the compute-core decision (D-077) rests
+on architecture and representation-ownership grounds, which are argued in
+<code>COMPUTE_CORE_SPEC</code>, not on a necessity claim derived from this audit.</p>
+<h2 id="11-reproduction">11. Reproduction</h2>
+<pre><code class="language-bash">.venv/bin/python tools/_perf_probe.py all     8760      # section 2
+.venv/bin/python tools/_perf_probe.py pilot   8760      # section 2
+.venv/bin/python tools/_perf_probe.py profile 8760      # section 4
+</code></pre>
+<p>Sections 5-8 were measured with ad-hoc scripts against the same synthetic tape;
+each snippet appears inline above and is self-contained apart from
+<code>sys.path.insert(0, 'src')</code>.</p></section>
 <section id="sec-architecture-spec"><h1>ARCHITECTURE SPEC</h1><h1 id="v8-architecture-specification">V8 Architecture Specification</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This is the system-level build contract: it
 names the components, the data flow between them, and the technology
@@ -393,6 +920,15 @@ rule 12).</p>
   -&gt; canonical Level-1 simulator       (SIMULATION_TRUTH_SPEC)
   -&gt; preregistered lab runner          (HYPOTHESIS_LAB_PROTOCOL)
   -&gt; hash-bound LabReport              (D-010, D-027)
+</code></pre>
+<p>A second, read-only <strong>evaluation plane</strong> sits on top of the completed run and
+never feeds back into it (<code>RECOVERABLE_REGRET_PROTOCOL</code> §1):</p>
+<pre><code class="language-text">completed Lab store
+  -&gt; CandidateSnapshot join + PIT lineage assertion
+  -&gt; ledger reconciliation                (Replay(C, a_actual, M) == observed)
+  -&gt; LegalActionManifest                  (OUTCOME_CUBE_SPEC §2)
+  -&gt; Outcome Cube                         (OUTCOME_CUBE_SPEC)
+  -&gt; legal hindsight gap -&gt; systematicity -&gt; recoverability gate
 </code></pre>
 <table>
 <thead>
@@ -482,6 +1018,38 @@ population stays measurable (D-009, D-027).</p>
   binds the <code>LabReport</code>; a code change that alters the event stream requires
   a manifest/version bump (PERSISTENCE_REPLAY_SPEC §4).</li>
 </ul>
+<h2 id="31-v82-substrate-revision-d-077">3.1 V8.2 substrate revision (D-077)</h2>
+<p>D-031's single-language baseline above is <strong>revised, not retired</strong>: it remains
+normative for <code>src/v8/</code>, which V8.2 freezes as the parity oracle
+(<code>PARITY_AND_IDENTITY_SPEC</code> §2). V8.2 splits the runtime into two planes:</p>
+<ul>
+<li><strong>Python control/analysis plane</strong> — experiment specs, manifests,
+  preregistration, hypothesis definitions, verdict statistics on reduced
+  tables, reports, diagnostics, monograph.</li>
+<li><strong>Rust compute plane</strong> — dataset, features, state, experts, candidates,
+  lifecycle, replay, cube, regret reduction, DAG cache, ledger writing, CPU/GPU
+  scheduling. One process, one memory model, one owner per buffer.</li>
+</ul>
+<p>Three rules make the split normative rather than descriptive:</p>
+<ol>
+<li><strong>No callback</strong> — once a request enters the compute plane, control does not
+   return to Python until it completes (D-078; <code>COMPUTE_CORE_SPEC</code> §3). An
+   Expert-supplied post-entry thesis reaches the kernel as a compiled predicate
+   (<code>PREDICATE_IR_SPEC</code>), never as a closure.</li>
+<li><strong>The boundary is an artifact file, not an FFI call</strong> — the compute plane
+   writes columnar ledgers (<code>LEDGER_FORMAT_SPEC</code>); the analysis plane reads
+   them.</li>
+<li><strong>Scheduling cannot change a value</strong> — backend and thread count are
+   implementation details precisely because backend invariance is gated
+   (<code>COMPUTE_SCHEDULING_SPEC</code> §5; <code>PARITY_AND_IDENTITY_SPEC</code> G5).</li>
+</ol>
+<p>Storage mapping is superseded for the compute plane by <code>LEDGER_FORMAT_SPEC</code>
+(columnar, tiered); <code>PERSISTENCE_REPLAY_SPEC</code> remains normative for replay
+semantics. Canonical hashing changes encoding at the version boundary
+(D-079) — V8.2 identities are not comparable to V8.0 identities, by design.</p>
+<p>Nothing in this revision changes the decision ontology: Expert determinism,
+Candidate immutability, the three clocks, MODEL_DERIVED replay output, and the
+absent-by-default list below are unaffected.</p>
 <h2 id="4-absent-by-default">4. Absent by default</h2>
 <p>Router, learned scorer, ranker, learned execution, and online learning are
 absent from this architecture. Each enters only through its registry
@@ -496,6 +1064,14 @@ learned component per pipeline position (rule 14).</p>
 (one file, one responsibility, one owning contract). This spec is normative
 for the pipeline; that one is normative for the code layout; neither may
 silently drift from the other.</p>
+<p>V8.2 adds five contracts beneath this one, each normative for its own surface:
+<code>COMPUTE_CORE_SPEC</code> (planes, layers, representation rule),
+<code>PARITY_AND_IDENTITY_SPEC</code> (oracle, parity gates, hash encoding),
+<code>LEDGER_FORMAT_SPEC</code> (what persists and in what form),
+<code>OUTCOME_CUBE_SPEC</code> (action universe, cell status, streaming reduction),
+<code>PREDICATE_IR_SPEC</code> (compiled post-entry thesis) and
+<code>COMPUTE_SCHEDULING_SPEC</code> (kernels, backends, determinism). The evaluation
+plane's own contract is <code>RECOVERABLE_REGRET_PROTOCOL</code>.</p>
 <h2 id="6-cheap-executable-tests">6. Cheap executable tests</h2>
 <ol>
 <li>Two identical <code>lab.run()</code> invocations from a fresh store reproduce every
@@ -520,6 +1096,519 @@ silently drift from the other.</p>
 <li><strong>DESIGN_INFERENCE:</strong> the component map, the technology baseline, and the
   absent-by-default list are V8 choices that make the contracts testable; no
   source is cited as proof of edge.</li>
+</ul></section>
+<section id="sec-compute-core-spec"><h1>COMPUTE CORE SPEC</h1><h1 id="v82-compute-core-specification">V8.2 Compute Core Specification</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION (D-077). This is the system contract for the
+V8.2 compute plane: what owns data, what may call what, and where the boundary
+between the research interface and the engine runs. No component described here
+exists yet; everything about the engine's behaviour is DESIGN_INFERENCE until
+its parity gate passes (<code>PARITY_AND_IDENTITY_SPEC</code> §5). It adds no economic
+claim (<code>V8_CONSTITUTION</code> rule 12) and changes no decision semantics.</p>
+<h2 id="1-what-changes-and-what-does-not">1. What changes and what does not</h2>
+<p>V8.2 changes the <strong>implementation substrate</strong> of the evaluation path. It does
+not change the decision ontology. The following stay exactly as specified in
+V8.0 and are restated here because a substrate change is the easiest place to
+lose them:</p>
+<ul>
+<li>An Expert is deterministic and self-gating (<code>EXPERT_PROTOCOL</code> §2).</li>
+<li>A Candidate is an immutable proposal, never an order (D-001).</li>
+<li>Future data can never be a decision feature; the three clocks are never
+  collapsed (<code>MARKET_STATE_CONTRACT</code> §1).</li>
+<li>Replay output is MODEL_DERIVED (<code>SIMULATION_TRUTH_SPEC</code>).</li>
+<li>The evaluator may not invent a Candidate
+  (<code>RECOVERABLE_REGRET_PROTOCOL</code> §2).</li>
+<li>Router, learned scorer, ranker, learned execution and online learning remain
+  absent by default (<code>ARCHITECTURE_SPEC</code> §4; rules 6, 14).</li>
+</ul>
+<p>A substrate that reproduces the values but breaks one of these is not a faster
+V8; it is a different system.</p>
+<h2 id="2-system-boundary">2. System boundary</h2>
+<pre><code class="language-text">┌─────────────────────────────────────────┐
+│ PYTHON CONTROL PLANE                    │
+│   experiment specs, manifests,          │
+│   preregistration, hypothesis defs      │
+└────────────────┬────────────────────────┘
+                 │  compiled evaluation request (one call)
+                 ▼
+┌─────────────────────────────────────────┐
+│ RUST COMPUTE PLANE  (one process,       │
+│                      one memory model)  │
+│   dataset · features · state · experts  │
+│   candidates · lifecycle · replay       │
+│   cube · regret reduction · cache       │
+│   ledger writing · CPU/GPU scheduling   │
+└────────────────┬────────────────────────┘
+                 │  artifact files (columnar) + reduced tables
+                 ▼
+┌─────────────────────────────────────────┐
+│ PYTHON ANALYSIS PLANE                   │
+│   statistics on reduced tables,         │
+│   reports, monograph, plots, diagnostics│
+└─────────────────────────────────────────┘
+</code></pre>
+<p>The compute plane is a single process with a single owner of every buffer. The
+control and analysis planes never hold long-lived numeric data; they hold
+requests, handles, and reduced tables.</p>
+<h2 id="3-the-no-callback-invariant-d-078">3. The no-callback invariant (D-078)</h2>
+<blockquote>
+<p><strong>Once an evaluation request enters the compute plane, control does not
+return to Python until the request completes.</strong></p>
+</blockquote>
+<p>No Python callback, no Python object, no Python-owned buffer may be reachable
+from inside the compute plane. The prohibited shape is:</p>
+<pre><code class="language-text">Rust kernel → candidate → Python predicate → Rust kernel → next bar
+</code></pre>
+<p>Violating it forfeits batching, cache locality, and any GPU backend, and it
+re-couples the scheduler to Python's execution semantics.</p>
+<p>The one place V8.0 requires such a callback is the post-entry thesis check
+(<code>still_valid</code>), which <code>tools/regret.py</code> passes into the simulator as a
+closure. That surface was measured and is small: 28 implementations,
+~560 lines, over an 11-feature vocabulary; 19 of the 28 read only <code>close</code>
+alongside the frozen <code>risk_geometry</code>
+(<code>PERFORMANCE_AUDIT_V82</code> §10; full table in <code>PREDICATE_IR_SPEC</code> §2). It is
+therefore compiled ahead of the kernel rather than called from inside it —
+see <code>PREDICATE_IR_SPEC</code>.</p>
+<p><strong>Consequence for future work:</strong> any new Expert-supplied hook that the replay
+path must consult is subject to the same rule. It must be expressible in the
+predicate IR, or it does not enter the replay path.</p>
+<h2 id="4-layer-map">4. Layer map</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Owns</th>
+<th>Consumes</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Dataset</code></td>
+<td>columnar OHLCV + the three clocks, one allocation per symbol</td>
+<td>verified tape</td>
+<td><code>DATASET_SPEC</code>, <code>FEED_INGESTION_SPEC</code></td>
+</tr>
+<tr>
+<td><code>FeatureStore</code></td>
+<td>precomputed series (EMA/ATR/RSI/ADX/pivots/…)</td>
+<td><code>&amp;Dataset</code></td>
+<td><code>MARKET_STATE_CONTRACT</code></td>
+</tr>
+<tr>
+<td><code>StateView</code></td>
+<td>per-clock feature columns + identity</td>
+<td><code>&amp;FeatureStore</code></td>
+<td><code>MARKET_STATE_CONTRACT</code></td>
+</tr>
+<tr>
+<td><code>ExpertPlane</code></td>
+<td>evaluations, candidate drafts</td>
+<td><code>&amp;StateView</code></td>
+<td><code>EXPERT_PROTOCOL</code></td>
+</tr>
+<tr>
+<td><code>CandidateBuffer</code></td>
+<td>immutable candidate records, lifecycle transitions</td>
+<td><code>ExpertPlane</code> output</td>
+<td><code>CANDIDATE_LIFECYCLE_SPEC</code></td>
+</tr>
+<tr>
+<td><code>ReplayKernel</code></td>
+<td>one outcome per (candidate, action)</td>
+<td><code>&amp;Dataset</code>, compiled predicates</td>
+<td><code>SIMULATION_TRUTH_SPEC</code></td>
+</tr>
+<tr>
+<td><code>CubeReducer</code></td>
+<td>streaming regret accumulators</td>
+<td><code>ReplayKernel</code> output</td>
+<td><code>OUTCOME_CUBE_SPEC</code></td>
+</tr>
+<tr>
+<td><code>EvidenceStore</code></td>
+<td>columnar ledgers, content-addressed DAG cache</td>
+<td>all of the above</td>
+<td><code>LEDGER_FORMAT_SPEC</code>, <code>PERSISTENCE_REPLAY_SPEC</code></td>
+</tr>
+</tbody>
+</table>
+<p>Data flows one way. No layer mutates a layer below it. The only mutable
+long-lived state is the DAG cache, which is content-addressed and therefore
+append-only in effect.</p>
+<h2 id="5-representation-rule">5. Representation rule</h2>
+<blockquote>
+<p><strong>A layer receives a borrowed view of data it does not own. Copying a window
+out of an owned buffer is a defect unless the copy is the output.</strong></p>
+</blockquote>
+<p>This rule exists because its violation was measured three times independently
+in V8.0 — state lineage, cube replay, and ledger hashing each performed bounded
+work over unbounded data (<code>PERFORMANCE_AUDIT_V82</code> §10). Rust's ownership model
+makes the correct form (<code>&amp;bars[start..end]</code>) the natural one and the incorrect
+form (<code>.to_vec()</code>) explicit, but the rule is normative independently of the
+language: a Rust implementation that clones windows reproduces the same defect.</p>
+<p>Concrete obligations:</p>
+<ol>
+<li>A replay cell reads at most <code>expiry_bars + 1</code> bars and is passed
+   <code>(&amp;Dataset, start, end)</code>, never a materialized window.</li>
+<li>Per-state identity maps and other whole-tape indices are built <strong>once per
+   dataset</strong>, never per clock.</li>
+<li>Cumulative digests advance incrementally; a digest is never recomputed over
+   a full prefix on the hot path.</li>
+<li>Any hot-path allocation is either pooled or hoisted out of the loop.</li>
+</ol>
+<h2 id="6-module-layout">6. Module layout</h2>
+<p>One workspace, one binary, modules — not micro-crates. Splitting is deferred
+until a boundary is proven stable.</p>
+<pre><code class="language-text">v8-core/
+  src/
+    main.rs         CLI entry; one evaluation request per invocation
+    data.rs         Dataset: columnar OHLCV + event/available/ingested clocks
+    state.rs        FeatureStore, StateView, feature identity
+    experts/        one behaviour family per module (mirrors D-033)
+      mod.rs        registry
+      predicate.rs  compiled still_valid IR (PREDICATE_IR_SPEC)
+    candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
+    simulator.rs    ReplayKernel (step/run), risk unit, fill policies
+    regret.rs       LegalActionManifest, CubeReducer, gap accumulators
+    statistics.rs   reductions only; verdict statistics stay in Python (§7)
+    cache.rs        content-addressed DAG cache
+    evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
+    compute/        kernels + backend selection (COMPUTE_SCHEDULING_SPEC)
+  tests/
+    parity.rs       value-level parity against the V8.0 Python oracle
+</code></pre>
+<p>The Python file family (<code>IMPLEMENTATION_LAYOUT</code> §1) is unchanged by this spec;
+V8.0 is frozen as the parity oracle, not deleted.</p>
+<h2 id="7-what-stays-in-python-and-why-the-boundary-is-a-file">7. What stays in Python, and why the boundary is a file</h2>
+<p>The control and analysis planes stay in Python. The crossing between planes is
+<strong>an artifact file, not an FFI call</strong>: the compute plane writes columnar
+ledgers and reduced tables, and the analysis plane reads them. This choice
+removes FFI schemas, lifetime negotiation across the boundary, GIL
+interaction, and duplicate domain types from the design.</p>
+<p>A component may remain in Python when all three hold:</p>
+<ol>
+<li>it is called O(1) times per evaluation, not per bar or per cell;</li>
+<li>it consumes and produces batches, not scalars;</li>
+<li>it is not inside a hot loop.</li>
+</ol>
+<p>Verdict statistics qualify. After <code>CubeReducer</code> runs, the data crossing the
+boundary is aggregates — order 10^4-10^6 numbers per run, not the 10^7 cube
+cells that produced them — so block bootstrap, family corrections and
+systematicity gates remain Python at negligible cost, and remain transparent,
+which the evaluator protocol prefers
+(<code>RECOVERABLE_REGRET_PROTOCOL</code> §6). This is a consequence of streaming
+reduction (<code>OUTCOME_CUBE_SPEC</code> §4): without it, the same components would be
+reading gigabytes and would not qualify.</p>
+<h2 id="8-migration-order">8. Migration order</h2>
+<p>The port is staged so that a working research instrument exists at every point.</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Content</th>
+<th>Gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0</td>
+<td>Parity harness + <code>Dataset</code> ingest</td>
+<td>tape round-trips; clocks preserved</td>
+</tr>
+<tr>
+<td>S1</td>
+<td><code>FeatureStore</code> + <code>StateView</code></td>
+<td>value-level parity on every bar, every feature</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>Predicate IR + <code>ReplayKernel</code></td>
+<td>outcome parity on the V8.0 candidate population</td>
+</tr>
+<tr>
+<td>S3</td>
+<td><code>CubeReducer</code> + streaming regret</td>
+<td>reduced tables match the Python evaluator</td>
+</tr>
+<tr>
+<td>S4</td>
+<td><code>CandidateBuffer</code> + <code>ExpertPlane</code></td>
+<td>candidate population parity</td>
+</tr>
+<tr>
+<td>S5</td>
+<td><code>EvidenceStore</code> + DAG cache</td>
+<td>ledger identity stable across cache hit/miss</td>
+</tr>
+</tbody>
+</table>
+<p>Between S3 and S4 the control plane still produces candidates in Python and
+hands the compute plane one compiled batch per request. That is a valid
+resting point, not a hybrid to be maintained indefinitely: the no-callback
+invariant already holds at S2, because the predicate IR — not a Python
+closure — is what the kernel consults.</p>
+<p>Whether S4 must be pulled forward depends on an open question: if
+expert-variant sweeps enter V8.2's scope, experts are inside the hot loop by
+definition and must be native from S1 (<code>OPEN_DECISIONS</code>).</p>
+<h2 id="9-cheap-executable-tests">9. Cheap executable tests</h2>
+<ol>
+<li><strong>No-callback:</strong> the compute plane binary links no Python runtime; a build
+   configuration that would allow an embedded interpreter fails the build.</li>
+<li><strong>Single ownership:</strong> a test asserts <code>Dataset</code> is constructed once per
+   symbol per request (allocation counter), not once per clock.</li>
+<li><strong>Bounded windows:</strong> a replay cell instrumented with a read counter never
+   touches more than <code>expiry_bars + 1</code> bars.</li>
+<li><strong>Parity:</strong> every stage gate in §8 is a value-level bit-equality test
+   against the V8.0 oracle (<code>PARITY_AND_IDENTITY_SPEC</code> §5).</li>
+<li><strong>Determinism:</strong> two identical requests produce byte-identical artifacts;
+   the same request under a different backend or thread count produces
+   identical values (<code>COMPUTE_SCHEDULING_SPEC</code> §5).</li>
+<li><strong>Absence:</strong> no module named for a gated component (router, scorer, ranker)
+   exists in the tree.</li>
+</ol>
+<h2 id="10-evidence-and-citations">10. Evidence and citations</h2>
+<ul>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the representation-rule motivation in §5 —
+  three measured sites of bounded work over unbounded data, with per-unit costs
+  (<code>PERFORMANCE_AUDIT_V82</code> §§5-7).</li>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the predicate surface cited in §3 — 28
+  implementations, ~560 lines, 11 features, extracted from
+  <code>src/v8/experts/*.py</code> by AST.</li>
+<li><strong>DESIGN_INFERENCE:</strong> the plane split, the layer map, the module layout, the
+  artifact-file boundary and the migration order. These are V8.2 choices that
+  make the contracts testable; no source is cited as proof of edge, and none of
+  them is evidence that the engine is faster until measured.</li>
+<li><strong>Not claimed:</strong> that this substrate is required by the program's
+  falsification criterion. <code>PERFORMANCE_AUDIT_V82</code> §10 records the opposite —
+  research scale is reachable in Python once the defect class in §5 is removed.
+  V8.2 is justified by ownership, representation and evaluator-capability
+  arguments, not by necessity.</li>
+</ul></section>
+<section id="sec-compute-scheduling-spec"><h1>COMPUTE SCHEDULING SPEC</h1><h1 id="v82-compute-scheduling-specification">V8.2 Compute Scheduling Specification</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION (D-084). This contract governs how the compute
+core distributes work across cores and, conditionally, across a GPU. Backend
+selection is an <strong>internal implementation detail</strong>: no caller chooses it, and by
+<code>PARITY_AND_IDENTITY_SPEC</code> G5 no backend may change a value. No economic claim
+(rule 12).</p>
+<h2 id="1-interface">1. Interface</h2>
+<p>The caller submits one evaluation request and receives artifacts:</p>
+<pre><code class="language-rust">let result = engine.evaluate(request)?;
+</code></pre>
+<p>The engine decides what runs where. There is no per-backend API, no
+<code>use_gpu</code> flag in the experiment manifest, and no scheduling parameter in any
+hash. A scheduling decision that could alter a result would make the manifest
+incomplete; G5 is what keeps scheduling out of the identity.</p>
+<h2 id="2-kernel-granularity-modular-never-monolithic">2. Kernel granularity: modular, never monolithic</h2>
+<p>Work is expressed as separate kernels with explicit buffers between them:</p>
+<table>
+<thead>
+<tr>
+<th>Kernel</th>
+<th>Shape</th>
+<th>Parallel over</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1 feature series</td>
+<td>sequential recurrences (EMA, Wilder, ADX) + fixed windows</td>
+<td>symbols, feature families</td>
+</tr>
+<tr>
+<td>K2 state assembly</td>
+<td>column gather + identity</td>
+<td>bars</td>
+</tr>
+<tr>
+<td>K3 expert predicates</td>
+<td>branchy, data-dependent</td>
+<td>bars x experts</td>
+</tr>
+<tr>
+<td>K4 candidate replay</td>
+<td>short bounded bar walk</td>
+<td>(candidate, action) cells</td>
+</tr>
+<tr>
+<td>K5 cube reduction</td>
+<td>per-Candidate accumulators</td>
+<td>candidates</td>
+</tr>
+<tr>
+<td>K6 bootstrap / resampling</td>
+<td>independent resamples</td>
+<td>resamples</td>
+</tr>
+</tbody>
+</table>
+<p>A single fused kernel spanning features → experts → replay → regret is
+<strong>prohibited</strong>. The reasons are structural, not stylistic: it maximizes
+divergence and register pressure, it makes a CPU fallback impractical, it makes
+one Expert edit recompile everything, and it destroys the ability to attribute
+a cost or a defect to a stage. Modularity here is what preserves the
+measurability the program depends on.</p>
+<p>Buffers between kernels are owned by the engine, not by any kernel.</p>
+<h2 id="3-where-the-work-actually-is">3. Where the work actually is</h2>
+<p>Measured on V8.0 for a symbol-year at 1h (<code>PERFORMANCE_AUDIT_V82</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Kernel</th>
+<th>Character</th>
+<th>Measured cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1/K2</td>
+<td>prefix-dependent recurrences; poor SIMD/GPU fit</td>
+<td>~2.8 s for 648,240 feature computations (~4.3 us each) after removing the O(N^2) lineage term</td>
+</tr>
+<tr>
+<td>K4</td>
+<td>uniform, short, embarrassingly wide</td>
+<td>6.4 us per cell, 246,884 cells</td>
+</tr>
+<tr>
+<td>K5</td>
+<td>associative accumulation</td>
+<td>dominated by K4</td>
+</tr>
+</tbody>
+</table>
+<p>The two shapes are opposites, and the naive intuition inverts them: the layer
+that is expensive (features) is the one least suited to a wide backend, and the
+layer that is wide (replay cells) is individually trivial.</p>
+<h2 id="4-parallelism-order">4. Parallelism order</h2>
+<ol>
+<li><strong>Task parallelism across independent units first.</strong> Symbols are fully
+   independent; so are cells within a Candidate and Candidates within a symbol.
+   This requires no vectorization, no backend, and no new numerical risk, and
+   it is the largest single multiplier available.</li>
+<li><strong>SIMD within a kernel</strong> where the data layout already permits it (columnar
+   <code>Dataset</code>), for K1 window reductions and K4 barrier comparisons.</li>
+<li><strong>GPU only past the trigger in §6.</strong></li>
+</ol>
+<p>Determinism constraint on all three: a parallel decomposition may not change
+any value. Reductions with a data-dependent order are therefore performed
+either in a fixed sequential order or with a fixed-shape tree whose shape does
+not depend on the thread count.</p>
+<h2 id="5-determinism-per-backend">5. Determinism per backend</h2>
+<p>This section is the reason backend selection can be an implementation detail at
+all.</p>
+<p><strong>K1/K2 (feature path).</strong> These contain floating-point reductions — window
+sums, EMA recurrences, Wilder smoothing. Reassociating a floating-point
+reduction changes its result. Therefore: the reduction order for every feature
+is <strong>declared and fixed</strong>, identical on every backend and every thread count.
+A backend that cannot honour the declared order is not eligible for K1/K2.</p>
+<p><strong>K4 (replay cells).</strong> Each cell is a sequential walk executed by one worker.
+There is no cross-worker reduction, no reassociation, and no transcendental
+function in the path — only comparisons, additions and multiplications on <code>f64</code>.
+Bit-identical results across backends are therefore achievable, subject to:</p>
+<ul>
+<li>FMA contraction disabled (a fused multiply-add rounds once where the
+  reference rounds twice);</li>
+<li>fast-math / unsafe-math optimizations disabled;</li>
+<li><code>f64</code> throughout — no implicit demotion to <code>f32</code> on any backend;</li>
+<li>a declared NaN payload normalization (<code>PARITY_AND_IDENTITY_SPEC</code> §4).</li>
+</ul>
+<p><strong>K6 (resampling).</strong> Resample indices come from a declared deterministic
+generator seeded from the request, never from a backend-supplied RNG. Results
+are combined in index order, not completion order.</p>
+<p>An earlier framing in this program treated "GPU breaks determinism" as a
+blanket rule. That is accurate for K1/K2 and inaccurate for K4; the distinction
+is recorded here because it is exactly the distinction that decides what may
+ever be offloaded.</p>
+<h2 id="6-the-gpu-trigger">6. The GPU trigger</h2>
+<p>A GPU backend is <strong>not built</strong> until the workload crosses a declared threshold.
+Arithmetic, from the measured cell cost:</p>
+<table>
+<thead>
+<tr>
+<th>Substrate</th>
+<th>per cell</th>
+<th>10^7 cells</th>
+<th>10^9 cells</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python, index-bounded (measured)</td>
+<td>6.4 us</td>
+<td>~64 s</td>
+<td>~1.8 h</td>
+</tr>
+<tr>
+<td>Rust CPU, single core (estimate)</td>
+<td>~0.1 us</td>
+<td>~1 s</td>
+<td>~100 s</td>
+</tr>
+<tr>
+<td>Rust CPU, 10 cores (estimate)</td>
+<td>~0.01 us</td>
+<td>~0.1 s</td>
+<td>~10 s</td>
+</tr>
+<tr>
+<td>GPU (estimate)</td>
+<td>~0.001 us</td>
+<td>transfer-bound</td>
+<td>~1 s</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Trigger: a routine request exceeding ~10^9 replay cells.</strong> Below it, the GPU
+saves seconds over a multicore CPU backend while adding a second numerical
+surface to certify (§5), a second toolchain, and a second failure mode. Above
+it, the arithmetic finally amortizes transfer and launch overhead.</p>
+<p>The research target as presently scoped — 100 symbols, 15m base, ~10 component
+interventions — is ~10^9 cells only in aggregate across all symbols, i.e. ~10^7
+per request. It does <strong>not</strong> trigger. The configuration that would is an
+Expert-variant sweep (thousands of variants x symbols x cells), which is an
+open scope question (<code>OPEN_DECISIONS</code>).</p>
+<p>Writing kernels in a backend-portable form so the decision can be deferred at
+near-zero cost is a legitimate design choice, on one condition: the portable
+form's CPU output must be competitive with a directly-written CPU kernel. That
+is an assumption to be <strong>measured before adoption</strong>, not a premise.</p>
+<h2 id="7-resource-policy">7. Resource policy</h2>
+<ul>
+<li>Concurrency defaults to available parallelism minus a small reserve; it is
+  configurable and, by G5, cannot appear in any hash.</li>
+<li>Memory: one <code>Dataset</code> allocation per symbol per request; kernels borrow. A
+  kernel that allocates per cell is a defect (<code>COMPUTE_CORE_SPEC</code> §5).</li>
+<li>Failure: a worker fault fails the whole request. Partial results are never
+  emitted, because a partial cube silently changes every per-Candidate maximum
+  in §<code>OUTCOME_CUBE_SPEC</code> 6.</li>
+</ul>
+<h2 id="8-cheap-executable-tests">8. Cheap executable tests</h2>
+<ol>
+<li><strong>Thread invariance:</strong> the same request at 1, 2, and N threads produces
+   byte-identical artifacts.</li>
+<li><strong>Backend invariance:</strong> where a second backend exists, K4 outputs are
+   bit-identical to the CPU backend on the full fixture set.</li>
+<li><strong>Contraction check:</strong> a fixture chosen so that FMA and separate
+   multiply-add differ detects an accidentally contracted build.</li>
+<li><strong>No fusion:</strong> the kernel registry test asserts each of K1-K6 is separately
+   dispatchable and separately timeable.</li>
+<li><strong>Trigger honesty:</strong> the engine logs the cell count of every request, so the
+   §6 threshold is checked against reality rather than assumed.</li>
+<li><strong>Partial-failure:</strong> an injected worker fault produces no artifact.</li>
+</ol>
+<h2 id="9-evidence-and-citations">9. Evidence and citations</h2>
+<ul>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the 6.4 us/cell replay cost, the 246,884-cell
+  symbol-year, and the ~4.3 us/feature figure (<code>PERFORMANCE_AUDIT_V82</code> §§5-6).</li>
+<li><strong>DESIGN_INFERENCE:</strong> the kernel decomposition, the parallelism order, the
+  per-backend determinism analysis, and the ~10^9 trigger. Every Rust and GPU
+  per-cell figure in §6 is an estimate, not a measurement, and is labelled as
+  such in the table.</li>
+<li><strong>REJECTED_OPTION:</strong> a single fused kernel spanning features through
+  statistics (§2), and any backend flag exposed in the experiment manifest
+  (§1).</li>
+<li><strong>Not claimed:</strong> that a GPU backend will ever be needed. §6 states the
+  condition under which the question reopens; absent that condition the answer
+  is no.</li>
 </ul></section>
 <section id="sec-market-state-contract"><h1>MARKET STATE CONTRACT</h1><h1 id="v8-marketstate-contract">V8 MarketState Contract</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION.  This is a causality contract, not evidence that
@@ -866,6 +1955,318 @@ replication. Parameter variants are not separate Experts.</p>
   an MoE is useful for trading.</li>
 <li><strong>DESIGN_INFERENCE:</strong> self-gating is the smallest auditable baseline because it
   does not introduce a second false-negative decision point.</li>
+</ul></section>
+<section id="sec-predicate-ir-spec"><h1>PREDICATE IR SPEC</h1><h1 id="post-entry-predicate-ir-specification">Post-Entry Predicate IR Specification</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION (D-082). This contract defines how an Expert's
+post-entry thesis check (<code>still_valid</code>) is compiled into data that the replay
+kernel evaluates natively, so that the compute plane never re-enters Python
+(<code>COMPUTE_CORE_SPEC</code> §3). The surface measurement in §2 is
+PROJECT_EVIDENCE_SUPPORTED; the IR design is DESIGN_INFERENCE until its
+equivalence gate passes. No economic claim (rule 12).</p>
+<h2 id="1-why-an-ir-rather-than-a-callback">1. Why an IR rather than a callback</h2>
+<p>The canonical simulator consults the owning Expert's thesis on every stepped
+bar: a thesis that dies before price does closes the position at that bar's
+close (<code>THESIS_INVALIDATED</code>) instead of being held to STOP/TARGET/EXPIRY. In
+V8.0 this is a Python closure passed into <code>sim.run(..., thesis_valid=...)</code>.</p>
+<p>Inside a native kernel that closure is not merely slow — it is structurally
+inadmissible (<code>COMPUTE_CORE_SPEC</code> §3). The thesis must therefore be available
+to the kernel as <strong>data compiled ahead of time</strong>, and it must mean exactly what
+the Python method means, or the counterfactual and executed populations are
+evaluated under different exit policies — the precise failure the
+<code>thesis_valid</code> hook exists to prevent.</p>
+<h2 id="2-the-measured-surface">2. The measured surface</h2>
+<p>Extracted by AST from <code>src/v8/experts/*.py</code> (28 modules; the registry's 28th,
+<code>fib_rsi_bb_confluence</code>, is D-076):</p>
+<table>
+<thead>
+<tr>
+<th>Expert</th>
+<th>Lines</th>
+<th>Live features read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bollinger_breakout</code></td>
+<td>24</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>bollinger_reversion</code></td>
+<td>25</td>
+<td><code>close</code>, <code>ema_fast</code>, <code>ema_slow</code></td>
+</tr>
+<tr>
+<td><code>breakout_retest</code></td>
+<td>15</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>candlestick_reversal</code></td>
+<td>16</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>divergence_12_setups</code></td>
+<td>28</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>donchian_breakout</code></td>
+<td>35</td>
+<td><code>close</code>, <code>history</code>, <code>window_high_</code>, <code>window_low_</code></td>
+</tr>
+<tr>
+<td><code>failed_breakout</code></td>
+<td>22</td>
+<td><code>close</code>, <code>prior_high</code></td>
+</tr>
+<tr>
+<td><code>failed_breakout_2b</code></td>
+<td>15</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>fib_projection_reversal</code></td>
+<td>19</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>fib_retracement_continuation</code></td>
+<td>21</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>fib_rsi_bb_confluence</code></td>
+<td>31</td>
+<td><code>close</code>, <code>rsi14</code></td>
+</tr>
+<tr>
+<td><code>floor_trader_pivot</code></td>
+<td>15</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>funding_crowding_reversal</code></td>
+<td>20</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>gap_exhaustion</code></td>
+<td>17</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>ichimoku_cloud</code></td>
+<td>22</td>
+<td><code>close</code>, <code>history</code></td>
+</tr>
+<tr>
+<td><code>liquidity_sweep_reclaim</code></td>
+<td>20</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>macd_stoch_trend</code></td>
+<td>14</td>
+<td><code>macd</code></td>
+</tr>
+<tr>
+<td><code>market_profile_value_area</code></td>
+<td>21</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>obv_adl_regime</code></td>
+<td>18</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>open_interest_divergence</code></td>
+<td>20</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>pandf_breakout</code></td>
+<td>21</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>pattern_measuring_objective</code></td>
+<td>15</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>range_breakout_1to1</code></td>
+<td>16</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>rsi_stoch_reversion</code></td>
+<td>32</td>
+<td><code>cci20</code>, <code>rsi14</code>, <code>stoch_k</code></td>
+</tr>
+<tr>
+<td><code>trend_pullback</code></td>
+<td>9</td>
+<td><code>ema_fast</code>, <code>ema_slow</code></td>
+</tr>
+<tr>
+<td><code>trend_pullback_depth</code></td>
+<td>18</td>
+<td><code>close</code>, <code>ema_fast</code>, <code>ema_slow</code></td>
+</tr>
+<tr>
+<td><code>volume_climax_reversal</code></td>
+<td>19</td>
+<td><code>close</code></td>
+</tr>
+<tr>
+<td><code>volume_confirmed_breakout</code></td>
+<td>19</td>
+<td><code>close</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>567 lines across 28 predicates, mean 20.</strong> The complete live-feature
+vocabulary is eleven names:</p>
+<pre><code class="language-text">cci20  close  ema_fast  ema_slow  history  macd
+prior_high  rsi14  stoch_k  window_high_  window_low_
+</code></pre>
+<p>Nineteen of the 28 read only <code>close</code>; 26 of 28 read only scalar features. Two
+(<code>donchian_breakout</code>, <code>ichimoku_cloud</code>) read <code>history</code> and need the windowed
+form in §4.</p>
+<p>The canonical shape is a direction-sensitive comparison of one live feature
+against a <strong>frozen</strong> reference captured in <code>risk_geometry</code> at birth:</p>
+<pre><code class="language-python">ref = geom.get('upper_2sd_ref' if long else 'lower_2sd_ref')
+if ref is None:
+    return True                       # unobservable input fails OPEN
+return c &gt; float(ref) if long else c &lt; float(ref)
+</code></pre>
+<h2 id="3-core-ir">3. Core IR</h2>
+<pre><code class="language-text">Predicate  := Dispatch(cases: [ (GeomKeyPresent, Rule) ], default: Rule)
+Rule       := FailOpen
+            | Compare { lhs: Operand, op: Op, rhs: Operand, orient: Orient }
+            | AllOf([Rule]) | AnyOf([Rule])
+Operand    := LiveFeature(name)        # from the eleven-name vocabulary
+            | FrozenRef(geom_key)      # captured at birth, immutable
+            | Const(f64)
+            | WindowAgg { feature, n, agg }        # §4
+Op         := GT | LT | GTE | LTE
+Orient     := AS_WRITTEN | FLIP_ON_SHORT
+Agg        := MAX | MIN
+</code></pre>
+<p>Semantics, which are normative because they reproduce V8.0 behaviour exactly:</p>
+<ol>
+<li><strong>Fail-open on absence.</strong> If any operand resolves to absent — a missing
+   geometry key, a feature not present in the projection, or a <code>None</code> value —
+   the rule yields <code>true</code> (thesis still valid). Price, not the thesis, governs
+   the exit. Fail-<em>closed</em> here would silently convert data absence into a
+   forced exit and change the outcome population.</li>
+<li><strong><code>FLIP_ON_SHORT</code></strong> applies the comparison as written for <code>LONG</code> and with
+   the operator reversed for <code>SHORT</code>. The direction is frozen on the Candidate
+   and never re-read from state.</li>
+<li><strong>Dispatch is ordered.</strong> Cases are evaluated in declaration order and the
+   first whose geometry key is present wins; this mirrors the <code>if 'x' in geom
+   … elif 'y' in geom … else</code> chains in the sources.</li>
+<li><strong>Frozen references are values, not lookups.</strong> A <code>FrozenRef</code> is materialized
+   into the compiled Candidate at birth. The kernel never reads a MarketState
+   for it, which is what keeps the cell's read set bounded
+   (<code>OUTCOME_CUBE_SPEC</code> §5).</li>
+<li><strong>Live features are read at the stepped bar</strong> from the dataset's feature
+   columns at that bar index — never from a later bar, and never from a
+   feature whose availability clock exceeds the bar's decision clock.</li>
+</ol>
+<h2 id="4-the-windowed-form">4. The windowed form</h2>
+<p><code>donchian_breakout</code> and <code>ichimoku_cloud</code> consult a window rather than a scalar.
+<code>WindowAgg { feature, n, agg }</code> covers both: a max/min over the last <code>n</code> values
+of a feature column ending at the stepped bar, inclusive. <code>n</code> is a declared
+constant taken from the Expert's frozen declaration, never data-dependent.</p>
+<p>If a future Expert needs a thesis that this form cannot express, the correct
+response is <strong>not</strong> to add a callback. Either the form is extended by a
+registered decision, or the Expert declares no post-entry thesis and its
+positions are governed by price alone. The IR's expressiveness is a contract
+surface, not an implementation convenience.</p>
+<h2 id="5-compilation-and-identity">5. Compilation and identity</h2>
+<p>Compilation happens in the control plane, once per Candidate batch:</p>
+<pre><code class="language-text">Expert declaration  ──►  Predicate IR  ──►  compiled bytes in CompiledCandidate
+</code></pre>
+<ul>
+<li>The compiled predicate carries a <code>predicate_version</code> derived from the IR
+  bytes. It participates in the Candidate's identity, so a thesis change
+  re-versions every cell that consulted it
+  (<code>PARITY_AND_IDENTITY_SPEC</code> §6).</li>
+<li>The IR is emitted in the canonical byte encoding
+  (<code>PARITY_AND_IDENTITY_SPEC</code> §4), so its hash is runtime-independent.</li>
+<li>An Expert whose <code>still_valid</code> cannot be compiled fails <strong>closed at
+  compilation time</strong>, loudly, listing the construct that defeated the compiler.
+  It is never silently treated as fail-open, and it is never quietly replaced
+  by a Python callback.</li>
+</ul>
+<h2 id="6-equivalence-gate">6. Equivalence gate</h2>
+<p>A compiled predicate is accepted only when it is shown equivalent to the Python
+method it replaces:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1</td>
+<td><strong>Differential test:</strong> over a generated grid of (direction, geometry, feature-value) tuples covering present/absent for every operand, the compiled predicate and <code>still_valid</code> agree on every input</td>
+</tr>
+<tr>
+<td>E2</td>
+<td>Absence handling is exercised explicitly: each operand is tested missing, <code>None</code>, and present</td>
+</tr>
+<tr>
+<td>E3</td>
+<td>Both directions are tested for every predicate, including the degenerate case where the frozen ref equals the live value (boundary, not just strict inequality)</td>
+</tr>
+<tr>
+<td>E4</td>
+<td><strong>Replay parity:</strong> on the V8.0 candidate population, the outcome produced with the compiled predicate is bit-identical to the outcome produced with the Python closure — same endpoint, same <code>net_r</code>, same horizon, same <code>label_status</code></td>
+</tr>
+<tr>
+<td>E5</td>
+<td>The eleven-name vocabulary is closed: a predicate referencing any other feature fails compilation</td>
+</tr>
+</tbody>
+</table>
+<p>E4 is the load-bearing gate. E1-E3 test the predicate in isolation; only E4
+proves that the exit policy the counterfactual population is evaluated under is
+the same one the executed population saw.</p>
+<h2 id="7-cheap-executable-tests">7. Cheap executable tests</h2>
+<ol>
+<li>Every registered Expert's <code>still_valid</code> compiles, or is explicitly declared
+   thesis-free; there is no third state.</li>
+<li>The extracted live-feature vocabulary equals the eleven declared names; a
+   new Expert widening it fails the registry test until the vocabulary is
+   extended by decision.</li>
+<li>A predicate whose frozen ref is absent returns <code>true</code> for every live value
+   (fail-open), in both directions.</li>
+<li>Removing one case from a <code>Dispatch</code> changes at least one E1 grid outcome —
+   i.e. the grid actually discriminates the cases.</li>
+<li>A mutated compiled predicate (one operator flipped) fails E4 on the real
+   candidate population.</li>
+</ol>
+<h2 id="8-evidence-and-citations">8. Evidence and citations</h2>
+<ul>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the table in §2 — 28 implementations, 567
+  lines, the eleven-name vocabulary, and the 19/28 <code>close</code>-only share —
+  extracted by AST from the sources in this repository.</li>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the fail-open convention and the frozen-ref
+  pattern are quoted from <code>src/v8/experts/bollinger_breakout.py</code>, whose
+  docstring states the rule ("Unobservable inputs fail open (price still
+  governs)").</li>
+<li><strong>DESIGN_INFERENCE:</strong> the IR grammar, the windowed form, the compilation and
+  identity rules, and the equivalence gate.</li>
+<li><strong>Not claimed:</strong> that the IR is sufficient for Experts not yet written. §4
+  states the response when it is not — extend by decision, or declare no
+  thesis. Adding a callback is excluded by <code>COMPUTE_CORE_SPEC</code> §3.</li>
 </ul></section>
 <section id="sec-candidate-lifecycle-spec"><h1>CANDIDATE LIFECYCLE SPEC</h1><h1 id="v8-candidate-episode-lifecycle">V8 Candidate Episode Lifecycle</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. A Candidate records a falsifiable trade
@@ -1668,6 +3069,540 @@ SQLite (WAL mode) or plain JSONL at research scale; it is not the bar store.</p>
 <li><strong>DESIGN_INFERENCE:</strong> the engine mapping in §1, the inbox dedup key, and the
   snapshot-invalidation rule are V8 choices; they are not claims about alpha.</li>
 </ul></section>
+<section id="sec-parity-and-identity-spec"><h1>PARITY AND IDENTITY SPEC</h1><h1 id="v82-parity-and-identity-specification">V8.2 Parity and Identity Specification</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION (D-079). This contract defines what it means
+for the V8.2 compute core to "agree with" V8.0, and what a hash identifies once
+two implementations exist. It is the acceptance instrument for every migration
+stage in <code>COMPUTE_CORE_SPEC</code> §8. It adds no economic claim (rule 12).</p>
+<h2 id="1-two-implementations-one-semantics">1. Two implementations, one semantics</h2>
+<p>V8.2 does not replace V8.0 by assertion. It replaces it by <strong>demonstrated
+agreement on the same inputs</strong>, one layer at a time. Until a layer's parity
+gate passes, the Python implementation is normative and the Rust one is a
+candidate.</p>
+<p>This is the shape the evaluator protocol already requires of itself — a slow,
+transparent reference alongside a fast implementation, with semantic parity as
+the acceptance condition (<code>RECOVERABLE_REGRET_PROTOCOL</code> §7). V8.2 applies the
+same discipline to the runtime.</p>
+<h2 id="2-the-oracle">2. The oracle</h2>
+<p><code>src/v8/</code> at the V8.2 branch point is the <strong>reference implementation</strong>. It is:</p>
+<ul>
+<li><strong>Frozen for behaviour.</strong> No optimization, no representation change, no
+  refactor lands in it during the migration. A change that alters any emitted
+  value invalidates every parity result recorded against it.</li>
+<li><strong>Permitted to be slow.</strong> An oracle must be <em>correct</em>, not fast. The costs in
+  <code>PERFORMANCE_AUDIT_V82</code> are not defects of the oracle role.</li>
+<li><strong>Repaired only for correctness.</strong> A genuine wrong-value bug is fixed in the
+  oracle first, the fix is registered, and every affected parity result is
+  re-run. Fixing it only in Rust would silently make the oracle wrong.</li>
+<li><strong>Retired, not deleted</strong>, when V8.2 is certified: it becomes an archived
+  reference under its pinned code hash, reachable by checkout for forensics.</li>
+</ul>
+<h2 id="3-parity-is-value-level-not-hash-level">3. Parity is value-level, not hash-level</h2>
+<blockquote>
+<p><strong>Two implementations are in parity for a stage when every emitted value is
+bit-identical, field by field, on the same inputs.</strong></p>
+</blockquote>
+<ul>
+<li>Floating point: equality of the IEEE-754 bit pattern, not <code>==</code>. This makes
+  <code>-0.0</code> distinct from <code>0.0</code> and makes any NaN payload difference a failure.
+  Tolerance-based comparison is <strong>not</strong> permitted anywhere in the parity path.</li>
+<li>Integers, enums, strings, and clocks: exact equality.</li>
+<li>Absence: a field that is absent in one implementation and present-but-null in
+  the other is a failure, not a match (<code>MARKET_STATE_CONTRACT</code> §4 — null is
+  data absence, not zero).</li>
+<li>Ordering: sequences compare element-wise in order. Set-like fields are
+  compared after the canonical sort each implementation already applies.</li>
+</ul>
+<p><strong>Hashes are excluded from the parity comparison</strong> for the reason in §4. A
+parity run compares the values a hash would cover, which is strictly stronger:
+equal values with different hash encodings pass; different values with
+colliding hashes cannot pass.</p>
+<h2 id="4-identity-in-v82-hash-the-bits-not-the-decimals">4. Identity in V8.2: hash the bits, not the decimals</h2>
+<p>V8.0 defines every identity as
+<code>sha1_hex(json.dumps(obj, sort_keys=True, separators=(',', ':'), default=str))</code>.
+The decimal rendering of each float is therefore part of <code>state_id</code>,
+<code>lineage_hash</code>, <code>simulator_hash</code>, and every ledger hash downstream.</p>
+<p>That rendering is runtime-specific. Measured on eight representative values,
+<strong>seven of eight differ</strong> between CPython's <code>json</code> encoder and Rust's default
+<code>f64</code> formatting (<code>PERFORMANCE_AUDIT_V82</code> §8) — both shortest-roundtrip
+correct, differing only in exponent-notation thresholds. A second
+implementation that reproduces every value exactly would still produce
+different hashes.</p>
+<p><strong>Decision.</strong> The V8.2 canonical hash is computed over a byte encoding that is
+representation-independent:</p>
+<ul>
+<li><code>f64</code> contributes its 8 IEEE-754 bytes, little-endian. <code>-0.0</code> and <code>0.0</code> are
+  distinct. A NaN is normalized to a single declared payload before hashing so
+  that identity is total.</li>
+<li>Integers contribute fixed-width two's-complement bytes; clocks are <code>i64</code>
+  nanoseconds.</li>
+<li>Strings contribute UTF-8 bytes prefixed by their byte length.</li>
+<li>Composites contribute a declared tag, an element count, and their elements in
+  canonical order.</li>
+</ul>
+<p>The digest function stays SHA-1 for continuity of tooling; it is not a security
+boundary, and changing it is a separate decision.</p>
+<h3 id="41-the-v80-v82-hash-discontinuity-is-declared">4.1 The V8.0 ↔ V8.2 hash discontinuity is declared</h3>
+<p>V8.2 hashes will not equal V8.0 hashes for identical values. This is
+<strong>intended</strong>. A version boundary is precisely where identities are permitted to
+change (<code>PERSISTENCE_REPLAY_SPEC</code> §4: a code change that alters the event
+stream requires a version bump). The alternative — reimplementing CPython's
+<code>float_repr</code> and encoder thresholds in Rust to preserve hash continuity — buys
+comparability of hash strings across a boundary where the values are already
+compared directly, and costs a compatibility layer with no research value.</p>
+<p>Consequences that must be honoured rather than discovered:</p>
+<ol>
+<li>Evidence artifacts produced under V8.0 keep their V8.0 hashes. They are not
+   re-hashed and not migrated.</li>
+<li>A V8.2 artifact never claims a V8.0 hash and vice versa; the hash encoding
+   version is recorded in every artifact header
+   (<code>LEDGER_FORMAT_SPEC</code> §3).</li>
+<li>Cross-version comparison of runs is done on <strong>values</strong>, via the parity
+   harness, never by comparing identity strings.</li>
+</ol>
+<h2 id="5-the-acceptance-gate">5. The acceptance gate</h2>
+<p>A migration stage (<code>COMPUTE_CORE_SPEC</code> §8) passes when all of the following
+hold on the declared fixture set:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td>Value-level bit parity (§3) on every emitted record of that stage</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>Parity holds on <strong>every</strong> bar / candidate / cell, not a sample — no aggregate-only comparison</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>Parity holds on at least one synthetic fixture <strong>and</strong> one real verified tape</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>Determinism: two Rust runs of the same request are byte-identical</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>Backend invariance: values are identical across thread count and, where a GPU backend exists, across backends (<code>COMPUTE_SCHEDULING_SPEC</code> §5)</td>
+</tr>
+<tr>
+<td>G6</td>
+<td>Failure modes agree: an input that fails closed in V8.0 (future row, unsorted batch, degenerate geometry) fails closed in V8.2 with the same classification</td>
+</tr>
+</tbody>
+</table>
+<p>G6 is not optional. An implementation that silently accepts what the reference
+refuses has not reproduced the reference's semantics; fail-closed behaviour is
+part of the contract, not an implementation detail.</p>
+<h3 id="51-fixture-set">5.1 Fixture set</h3>
+<ul>
+<li>The synthetic tape (<code>synth.make_synthetic_tape</code>), several seeds and lengths,
+  including the degenerate short-tape cases that exercise warmup absence.</li>
+<li>At least one verified real multi-symbol tape from the certified dev dataset.</li>
+<li>The randomized-path generator already used for the independent reference walk
+  (<code>RECOVERABLE_REGRET_PROTOCOL</code> §7), reused rather than rewritten.</li>
+</ul>
+<h3 id="52-harness-placement">5.2 Harness placement</h3>
+<p>The harness is <strong>Python-driven</strong> and lives with the tests: it runs the V8.0
+implementation in-process, invokes the V8.2 binary, and compares. The V8.0 test
+suite is not ported to Rust — it encodes the semantics and is more valuable
+pointed at both implementations than duplicated in one.</p>
+<h2 id="6-what-re-versions">6. What re-versions</h2>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Re-versions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hash byte-encoding (§4)</td>
+<td>every V8.2 identity; declared once at the version boundary</td>
+</tr>
+<tr>
+<td>A feature formula</td>
+<td>that feature's <code>feature_version</code>, its state identity, everything downstream</td>
+</tr>
+<tr>
+<td>A predicate IR compilation rule</td>
+<td>the compiled predicate's version and every cell that consulted it</td>
+</tr>
+<tr>
+<td>Ledger tiering policy</td>
+<td>the artifact header version only, never a value</td>
+</tr>
+<tr>
+<td>Backend selection (CPU/GPU), thread count</td>
+<td><strong>nothing</strong> — by G5 these cannot change a value</td>
+</tr>
+</tbody>
+</table>
+<p>The last row is the load-bearing one: scheduling is an implementation detail
+precisely because backend invariance is gated, and it stops being one the
+moment G5 is relaxed.</p>
+<h2 id="7-cheap-executable-tests">7. Cheap executable tests</h2>
+<ol>
+<li>A float fixture covering the eight values in <code>PERFORMANCE_AUDIT_V82</code> §8 plus
+   subnormals, both zeros, and NaN: the V8.2 encoder produces identical bytes
+   on both platforms it is built for.</li>
+<li>Mutating one OHLC digit anywhere in a fixture tape changes the V8.2
+   <code>state_id</code> for every state that consumed it, and no other.</li>
+<li>A deliberately-injected off-by-one in a ported feature is caught by G2 (this
+   is a test of the harness, run against a mutant build).</li>
+<li>A run whose values are identical but whose float rendering differs produces
+   the <strong>same</strong> V8.2 hash — the property §4 exists to obtain.</li>
+<li>The oracle-freeze check: the V8.0 tree hash recorded in a parity result
+   matches the V8.0 tree hash at the time the result is cited.</li>
+</ol>
+<h2 id="8-evidence-and-citations">8. Evidence and citations</h2>
+<ul>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the float-rendering divergence (7 of 8 values)
+  and the resulting hash non-portability, measured with CPython 3.14.0 and
+  rustc 1.96.0-nightly (<code>PERFORMANCE_AUDIT_V82</code> §8).</li>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the dual-implementation parity pattern is
+  already exercised in V8.0 — the cached and uncached MarketState paths are
+  held to full state equality on every bar (<code>tests/test_state_cache_identity.py</code>),
+  and an independently-derived reference walk agrees with the canonical
+  simulator on randomized paths (D-071).</li>
+<li><strong>DESIGN_INFERENCE:</strong> the bit-pattern encoding, the gate list, and the
+  decision to accept hash discontinuity at the version boundary.</li>
+<li><strong>Not claimed:</strong> that value parity implies the V8.2 engine is correct in any
+  sense beyond "agrees with V8.0". If the reference is wrong, parity reproduces
+  the error. Parity is a migration instrument, not a validity argument.</li>
+</ul></section>
+<section id="sec-ledger-format-spec"><h1>LEDGER FORMAT SPEC</h1><h1 id="v82-ledger-format-specification">V8.2 Ledger Format Specification</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION (D-080). This contract defines what the
+evidence store persists, in what form, and what it deliberately does not
+persist. It supersedes the JSONL-at-slice-scale mapping in
+<code>ARCHITECTURE_SPEC</code> §3 for the V8.2 compute plane; <code>PERSISTENCE_REPLAY_SPEC</code>
+remains normative for replay semantics. No economic claim (rule 12).</p>
+<h2 id="1-the-measured-problem">1. The measured problem</h2>
+<p>One 8,760-bar, single-symbol, three-expert run writes <strong>271.8 MB</strong> of
+<code>states.jsonl</code> from a <strong>3.5 MB</strong> input tape — a 78x audit-to-evidence ratio. A
+single state record is 31,091 bytes for 74 features, composed as
+(<code>PERFORMANCE_AUDIT_V82</code> §7):</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON key names, repeated per feature per bar</td>
+<td>33%</td>
+</tr>
+<tr>
+<td><code>history</code> feature (32 bars of OHLC already in the tape)</td>
+<td>15%</td>
+</tr>
+<tr>
+<td><code>input_lineage_hash</code> (40 hex per feature)</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>feature names (map key and <code>name</code> field, stored twice)</td>
+<td>9%</td>
+</tr>
+<tr>
+<td>two timestamps per feature</td>
+<td>9%</td>
+</tr>
+<tr>
+<td><code>dtype</code> / <code>feature_version</code> / <code>quality</code> / <code>group</code></td>
+<td>6%</td>
+</tr>
+<tr>
+<td><strong>the 74 float values</strong></td>
+<td><strong>2%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The <code>FeatureValue</code> record is correctly designed <em>in memory</em> — each value
+carries its own provenance, which is what makes per-feature auditing possible.
+The defect is using the in-memory shape directly as the on-disk shape: the
+schema is constant across all 8,760 bars and is nonetheless written 8,760
+times.</p>
+<h2 id="2-classification-information-schema-derivable">2. Classification: information, schema, derivable</h2>
+<p>Every field in a persisted record falls into exactly one class.</p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Definition</th>
+<th>Persisted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Identity</strong></td>
+<td>the hash-bound anchor of the record</td>
+<td>always</td>
+</tr>
+<tr>
+<td><strong>Information</strong></td>
+<td>a value not derivable from other persisted data</td>
+<td>always</td>
+</tr>
+<tr>
+<td><strong>Schema</strong></td>
+<td>constant for all records of a kind within a run</td>
+<td>once, in the header</td>
+</tr>
+<tr>
+<td><strong>Run-constant</strong></td>
+<td>constant for all records within a run</td>
+<td>once, in the header</td>
+</tr>
+<tr>
+<td><strong>Derivable</strong></td>
+<td>a pure function of (tape, code_version, index)</td>
+<td>on demand, never stored</td>
+</tr>
+</tbody>
+</table>
+<p>The rule follows from the classification: <strong>persist identity and information,
+hoist schema and run-constants into the header, recompute derivables.</strong></p>
+<p>Applied to a state record:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Class</th>
+<th>Fate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state_id</code>, <code>lineage_hash</code>, <code>as_of</code>, <code>provenance</code></td>
+<td>identity</td>
+<td>stored</td>
+</tr>
+<tr>
+<td>the 74 feature values</td>
+<td>information</td>
+<td>stored, columnar</td>
+</tr>
+<tr>
+<td><code>name</code>, <code>dtype</code>, <code>group</code>, <code>feature_version</code></td>
+<td>schema</td>
+<td>header, once</td>
+</tr>
+<tr>
+<td><code>calculation_time</code>, <code>max_input_available_time</code></td>
+<td>derivable</td>
+<td>recomputed from window bounds</td>
+</tr>
+<tr>
+<td><code>input_lineage_hash</code></td>
+<td>derivable</td>
+<td>recomputed from <code>(tape_hash, lo, hi)</code></td>
+</tr>
+<tr>
+<td><code>history</code></td>
+<td>derivable</td>
+<td>a view over the stored tape; only its depth is recorded</td>
+</tr>
+<tr>
+<td><code>quality</code>, <code>null_reason</code></td>
+<td>information</td>
+<td>stored (they are decision-relevant; D-024)</td>
+</tr>
+</tbody>
+</table>
+<p>Feature windows are declared constants (<code>VOLUME_STAT_N</code>, <code>CMF_N</code>, <code>SWING_NS</code>,
+…), so a window's <code>(lo, hi)</code> is a function of the feature name and the bar
+index. That is what makes the lineage hash derivable rather than informational.</p>
+<h2 id="3-artifact-header">3. Artifact header</h2>
+<p>Every artifact begins with a header that binds it to its producer. The header
+is small, human-readable, and hashed into the artifact identity.</p>
+<pre><code class="language-text">artifact_kind        states | candidates | evaluations | outcomes | cube | regret
+hash_encoding        v8.2-ieee-le            (PARITY_AND_IDENTITY_SPEC §4)
+schema               ordered field list with dtype/group/version per column
+run_constants        data_hash, code_hash, config_hash, simulator_hash,
+                     risk_gate_hash, evaluator_version, platform, utility_unit,
+                     cost_form, slippage, action_manifest_id
+tier                 IDENTITY_ONLY | VALUES | FULL      (§5)
+row_count, column_count, ordering key
+</code></pre>
+<p><code>hash_encoding</code> is mandatory: without it a V8.2 artifact could be mistaken for
+a V8.0 one, whose identities are computed differently and are not comparable.</p>
+<h2 id="4-columnar-layout">4. Columnar layout</h2>
+<p>Records are stored column-major, one buffer per field, in a self-describing
+container.</p>
+<ul>
+<li>Numeric columns: fixed-width IEEE-754 / two's complement, no decimal text.
+  This also removes the float-rendering hazard of §<code>PARITY_AND_IDENTITY_SPEC</code> 4
+  from the storage path entirely.</li>
+<li>Low-cardinality string columns (<code>endpoint</code>, <code>label_status</code>, <code>cell_status</code>,
+  <code>expert_id</code>, <code>direction</code>): dictionary-encoded to small integer ids, with the
+  dictionary in the header.</li>
+<li>Absent values carry an explicit validity bit; absence is never encoded as a
+  sentinel number (<code>MARKET_STATE_CONTRACT</code> §4).</li>
+<li>Ordering is declared and stable so that two runs of the same request produce
+  byte-identical artifacts (<code>PARITY_AND_IDENTITY_SPEC</code> G4).</li>
+</ul>
+<p>Column-major is not chosen for compression alone: the analysis plane reads a
+handful of columns out of dozens, and the evaluator's context partitioning
+touches a small declared subset of features. Reading three columns must not
+require parsing all seventy-four.</p>
+<h2 id="5-tiering">5. Tiering</h2>
+<p>Not every run needs the same evidence depth.</p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Contents</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IDENTITY_ONLY</code></td>
+<td>header + per-record identity and quality</td>
+<td>sweeps, cache-warming, exploratory passes</td>
+</tr>
+<tr>
+<td><code>VALUES</code></td>
+<td>identity + information columns</td>
+<td><strong>default</strong> for research runs</td>
+</tr>
+<tr>
+<td><code>FULL</code></td>
+<td><code>VALUES</code> + materialized derivables (lineage hashes, per-feature clocks, expanded history)</td>
+<td>certification and promotion boundaries</td>
+</tr>
+</tbody>
+</table>
+<p>The tier is recorded in the header and is part of the artifact identity, so a
+<code>VALUES</code> artifact can never be mistaken for a <code>FULL</code> one. Promotion from
+<code>VALUES</code> to <code>FULL</code> is a pure recomputation from the stored tape and pinned
+code hash; it never requires re-deciding anything.</p>
+<p>This mirrors the program's existing treatment of full replay: exhaustive
+materialization belongs at the certification boundary, not on every research
+iteration.</p>
+<h2 id="6-the-reproducibility-argument-and-its-cost">6. The reproducibility argument, and its cost</h2>
+<p>Everything dropped in the <code>VALUES</code> tier is a pure function of
+<code>(tape, code_version, bar_index)</code>. The tape is archived (3.5 MB for a
+symbol-year), the code version is pinned in git and bound into <code>provenance</code>,
+and the identity of every dropped derivation is still stored. A recomputed
+value is therefore <strong>verifiable against the stored identity</strong> rather than
+merely asserted.</p>
+<p>Storing a derived value is in one respect weaker: a stored value can drift
+silently from the code that claims to produce it, whereas a stored hash cannot.</p>
+<p><strong>The real cost, stated plainly.</strong> Forensics on an old research run no longer
+works by reading a file. It requires checking out the pinned code version and
+replaying the archived tape. For a <code>VALUES</code>-tier run whose code version has
+since been garbage-collected or whose tape has been lost, the dropped fields
+are unrecoverable and the run is reduced to its identities. Two obligations
+follow:</p>
+<ol>
+<li>A tape referenced by any retained artifact is itself retained. Tape
+   retention is not optional storage hygiene; it is what makes the tier legal.</li>
+<li>Any run that will carry a claim is written at <code>FULL</code> tier, before the claim
+   is made — not retro-fitted afterwards.</li>
+</ol>
+<h2 id="7-storage-arithmetic">7. Storage arithmetic</h2>
+<p>Per-bar state record, at the research target (15m base, five intervals,
+~370 features):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Bytes/bar</th>
+<th>Per symbol-year</th>
+<th>100 symbols</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V8.0 JSONL (measured shape, scaled)</td>
+<td>~150 KB</td>
+<td>~5.3 GB</td>
+<td>~530 GB</td>
+</tr>
+<tr>
+<td>V8.2 <code>VALUES</code> tier (design target)</td>
+<td>~350 B</td>
+<td>~12 MB</td>
+<td>~1.2 GB</td>
+</tr>
+</tbody>
+</table>
+<p>Cube rows, at ~9.9M cells/symbol:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Per row</th>
+<th>Per symbol</th>
+<th>100 symbols</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OutcomeCubeRow</code> as JSONL, 35 fields</td>
+<td>~600 B</td>
+<td>~6 GB</td>
+<td>~600 GB</td>
+</tr>
+<tr>
+<td>Columnar + run-constants hoisted (~11 of 35 fields) + dictionary-encoded</td>
+<td>~40 B</td>
+<td>~400 MB</td>
+<td>~40 GB</td>
+</tr>
+<tr>
+<td>Streaming reduction, cube not materialized (<code>OUTCOME_CUBE_SPEC</code> §4)</td>
+<td>—</td>
+<td>reduced tables only</td>
+<td>~GB scale</td>
+</tr>
+</tbody>
+</table>
+<p>The V8.0 row is measured; the V8.2 figures are design targets computed from
+field widths, not observations, and must be re-measured once the writer exists
+(<code>PERFORMANCE_AUDIT_V82</code> §9).</p>
+<h2 id="8-cheap-executable-tests">8. Cheap executable tests</h2>
+<ol>
+<li><strong>Round-trip:</strong> a <code>VALUES</code> artifact plus its tape and pinned code
+   regenerates every dropped field, and each regenerated field's hash equals
+   the stored identity.</li>
+<li><strong>Header completeness:</strong> removing any run-constant from the header and
+   re-deriving a row fails closed rather than producing a row with a missing
+   field.</li>
+<li><strong>Byte-stability:</strong> two runs of the same request produce byte-identical
+   artifacts including header ordering.</li>
+<li><strong>Tier honesty:</strong> an <code>IDENTITY_ONLY</code> artifact cannot satisfy a reader that
+   requires values; the failure is explicit, not an empty column.</li>
+<li><strong>No decimal floats:</strong> a scan of any numeric column finds no text encoding
+   of a float anywhere in the artifact.</li>
+<li><strong>Retention:</strong> an artifact whose referenced tape hash is not present in the
+   store is reported by the audit tool, not silently accepted.</li>
+</ol>
+<h2 id="9-evidence-and-citations">9. Evidence and citations</h2>
+<ul>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the 31,091-byte record composition, the
+  271.8 MB / 3.5 MB ratio, and the 0.29 ms per-state serialization cost
+  (<code>PERFORMANCE_AUDIT_V82</code> §7). The key-name share (33%) is computed from key
+  lengths, +/-3%.</li>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> <code>OutcomeCubeRow</code> carries 35 fields, of which
+  ~11 are run-constant, read from <code>tools/regret.py</code>.</li>
+<li><strong>DESIGN_INFERENCE:</strong> the classification scheme, the tiering, the header
+  contents, and every V8.2 size figure in §7.</li>
+<li><strong>Not claimed:</strong> that the <code>VALUES</code> tier is sufficient for any particular
+  audit. That judgement belongs to whoever defines the certification boundary;
+  this contract only guarantees that promotion to <code>FULL</code> is a recomputation and
+  never a re-decision.</li>
+</ul></section>
 <section id="sec-runtime-scheduler-spec"><h1>RUNTIME SCHEDULER SPEC</h1><h1 id="v8-runtime-and-scheduler-specification">V8 Runtime and Scheduler Specification</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This spec defines what triggers an
 evaluation, who owns state, and how replay stays deterministic. It is the
@@ -1914,6 +3849,458 @@ budget the policy spends on adverse gaps and forgives on favorable ones.</p>
 <code>open == prev_close</code> on 51.7% — but it concentrates in illiquid symbols and
 high-volatility regimes (liquidation cascades), so it must be re-measured per
 symbol/interval before any economic reading leans on gap-heavy windows.</p></section>
+<section id="sec-outcome-cube-spec"><h1>OUTCOME CUBE SPEC</h1><h1 id="outcome-cube-specification">Outcome Cube Specification</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION. Sections 2-3 and 6 describe the instrument as
+<strong>built</strong> in V8.0 (<code>tools/regret.py</code>, admitted by D-071) and are
+PROJECT_EVIDENCE_SUPPORTED. Sections 4-5 are the V8.2 execution model (D-081)
+and are DESIGN_INFERENCE until measured. Every value the cube produces is
+MODEL_DERIVED and carries no economic authority (rule 12).</p>
+<h2 id="1-what-the-cube-is">1. What the cube is</h2>
+<p>For each Candidate <code>C</code>, the Outcome Cube holds the replayed outcome of every
+<strong>legal alternative action</strong> the system could have taken on that Candidate,
+under one versioned Replay Model:</p>
+<pre><code class="language-text">cube[C, a] = Replay(C, a, M)     for every a in A(C)
+</code></pre>
+<p>It is a measurement instrument layered <strong>on top of</strong> the V8 decision path, not
+a part of it. The cube:</p>
+<ul>
+<li>reads a completed Lab store; it never re-runs the decision loop;</li>
+<li>never creates a Candidate, never mutates one, never touches an Expert, a
+  geometry, or a verdict (<code>RECOVERABLE_REGRET_PROTOCOL</code> §2);</li>
+<li>reports refusals rather than manufacturing values it cannot justify.</li>
+</ul>
+<h2 id="2-the-legal-action-manifest-ac">2. The legal action manifest <code>A(C)</code></h2>
+<p>Generated by <code>generate_legal_actions(actual_geometry)</code>. Structure, in order:</p>
+<table>
+<thead>
+<tr>
+<th>Index</th>
+<th>Action</th>
+<th>Provenance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>NO_TRADE</code></td>
+<td><code>DECLARED_VARIANT</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td>the <strong>actual</strong> action, seeded directly from the frozen draft geometry</td>
+<td><code>ACTUAL</code></td>
+</tr>
+<tr>
+<td>2..</td>
+<td>declared geometry variants over the continuous grid</td>
+<td><code>DECLARED_VARIANT</code></td>
+</tr>
+</tbody>
+</table>
+<p>The actual action is element 1 <strong>by construction</strong>, not by a grid that happens
+to contain it. This is what makes <code>a_actual ∈ A(C)</code> a structural guarantee
+rather than a coincidence, and it is what allows the gap in §6 to be
+non-negative by definition.</p>
+<p>Declared grid:</p>
+<pre><code class="language-text">CONTINUOUS_AXIS_GRID = {'target_r': (1.0, 2.0, 3.0), 'expiry_bars': (8, 24, 48)}
+</code></pre>
+<p>giving <code>|A(C)| &lt;= 11</code> after de-duplication against the actual action.</p>
+<p><strong>Structurally excluded axes.</strong> <code>direction</code> and <code>pyramid_add_rules</code> are not
+variant axes. Flipping direction is not an alternative action on the same
+Candidate — it is a different Candidate, and admitting it would let the
+evaluator invent proposals the Expert never made. A Candidate whose geometry
+touches an excluded key gets <code>NO_TRADE</code> plus its actual action only.</p>
+<p>Each manifest carries <code>manifest_id</code> (a hash of the action set and the generator
+version), <code>cardinality</code>, <code>continuous_axes_sampled</code>, and <code>generator_version</code>, so
+a cube row is always interpretable against the exact action universe that
+produced it.</p>
+<h2 id="3-cell-status-refusal-is-a-first-class-outcome">3. Cell status: refusal is a first-class outcome</h2>
+<p>A cell that cannot be honestly evaluated is <strong>labelled, not filled</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OK</code></td>
+<td>the replay produced a real outcome</td>
+</tr>
+<tr>
+<td><code>CENSORED</code></td>
+<td>the position had not terminated when the tape ended</td>
+</tr>
+<tr>
+<td><code>UNDEFINED_FUTURE</code></td>
+<td>fewer than <code>MIN_FUTURE_BARS</code> bars exist after the entry bar</td>
+</tr>
+<tr>
+<td><code>NOT_EVALUABLE_ACTION</code></td>
+<td>the action is not evaluable for this Candidate</td>
+</tr>
+<tr>
+<td><code>NO_ENTRY</code></td>
+<td>the action's entry never filled</td>
+</tr>
+</tbody>
+</table>
+<p><code>UNDEFINED_FUTURE</code> exists because the simulator, given an empty or
+entry-only tail, returns a manufactured <code>EXPIRY</code> value (measured: <code>-cost</code> for an
+entry-only tail, <code>0.0</code> for an empty one). Accepting that number would put a
+fabricated outcome into a regret table. The instrument refuses instead.</p>
+<p>Every downstream statistic must abstain on any non-<code>OK</code> cell that could be the
+maximizing cell; it may not silently drop it and take the max over the
+remainder.</p>
+<h2 id="4-v82-execution-model-streaming-reduction">4. V8.2 execution model: streaming reduction</h2>
+<p>The cube is a <strong>computation</strong>, not necessarily a stored table.</p>
+<pre><code class="language-text">for each candidate C:
+    for each action a in A(C):
+        outcome = ReplayKernel(&amp;Dataset, C, a)      # bounded window
+        RegretAccumulator.absorb(C, a, outcome)     # in memory
+emit reduced tables
+</code></pre>
+<p>Materializing every cell costs, at the research target, ~9.9M rows/symbol —
+~600 GB across 100 symbols as JSONL (<code>LEDGER_FORMAT_SPEC</code> §7) — and then reads
+all of it back to compute per-Candidate reductions that need only a few
+accumulators per Candidate.</p>
+<p><strong>Rule.</strong> At <code>VALUES</code> tier the cube is reduced in flight and only the reduced
+tables are persisted. At <code>FULL</code> tier (certification and promotion boundaries)
+the cube is materialized in full, columnar, with run-constants hoisted.</p>
+<p>The reduction must be <strong>order-independent and exact</strong>: accumulators are
+per-Candidate maxima, the actual-action value, the <code>NO_TRADE</code> value, and cell
+counts by status. No accumulator may depend on the order in which actions are
+absorbed, or the value would depend on scheduling — which
+<code>PARITY_AND_IDENTITY_SPEC</code> G5 forbids. Ties are never broken (§6).</p>
+<p>Streaming is what keeps verdict statistics in the analysis plane: after
+reduction the data crossing the plane boundary is order 10^4-10^6 numbers, not
+10^7 rows (<code>COMPUTE_CORE_SPEC</code> §7).</p>
+<h2 id="5-the-bounded-window-rule">5. The bounded-window rule</h2>
+<blockquote>
+<p><strong>A replay cell is passed <code>(&amp;Dataset, start, end)</code> and may read no bar
+outside <code>[start, min(end, start + expiry_bars + 1)]</code>.</strong></p>
+</blockquote>
+<p>Measured on the V8.0 implementation, which slices the entire remaining tape per
+cell (<code>tail = bars[i:]</code>):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>per cell</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tail slice + payload/time rebuild</td>
+<td>71.8 us</td>
+</tr>
+<tr>
+<td>the replay arithmetic it feeds (60-bar window)</td>
+<td>6.4 us</td>
+</tr>
+</tbody>
+</table>
+<p>~92% of the cell cost is copying bars the cell can never read
+(<code>PERFORMANCE_AUDIT_V82</code> §6). At 246,884 cells per symbol-year this is 21.6 s
+versus 1.6 s.</p>
+<p>The rule is normative for both implementations. It is stated here rather than
+left to the compute core because it is a property of the <strong>cell contract</strong> — a
+cell's read set is determined by its declared geometry — not an optimization.</p>
+<h2 id="6-the-gap-and-what-it-is-not">6. The gap, and what it is not</h2>
+<p>Per Candidate, the legal hindsight gap is</p>
+<pre><code class="language-text">gap(C) = max{ Replay(C, a, M) : a in A(C), status(C, a) = OK }  -  Replay(C, a_actual, M)
+</code></pre>
+<p>which is non-negative by construction, since <code>a_actual ∈ A(C)</code> (§2). Ties are
+reported, never broken. The computation abstains whenever a non-<code>OK</code> cell could
+have been the maximizer.</p>
+<p><strong>What the gap is:</strong> value left on the table inside the represented Candidate
+and action universe, under a costed, versioned Replay Model.</p>
+<p><strong>What the gap is not:</strong> evidence that a decision-time-realizable policy could
+have selected the better action. Hindsight opportunity is not recoverable
+opportunity. That question is answered — if at all — only by the
+recoverability phase against a declared decision-time policy class
+(<code>RECOVERABLE_REGRET_PROTOCOL</code> §5), and its answer to date is a
+loss-reduction result with negative absolute utility, not a profitability
+finding (D-073).</p>
+<h2 id="7-cheap-executable-tests">7. Cheap executable tests</h2>
+<ol>
+<li><code>a_actual</code> is element 1 of every manifest, and <code>Replay(C, a_actual, M)</code>
+   reconciles with the observed ledger outcome to 1e-12.</li>
+<li>A Candidate with an excluded geometry key yields exactly two actions.</li>
+<li>A cell instrumented with a bar-read counter never exceeds
+   <code>expiry_bars + 1</code> reads.</li>
+<li>A Candidate born within <code>MIN_FUTURE_BARS</code> of the tape end yields
+   <code>UNDEFINED_FUTURE</code>, never a numeric outcome.</li>
+<li><code>gap(C) &gt;= 0</code> on every <code>COMPUTED</code> Candidate; a negative gap is a defect, not
+   a finding.</li>
+<li>Streaming reduction and full materialization produce identical reduced
+   tables on the same fixture (the <code>FULL</code>/<code>VALUES</code> equivalence gate).</li>
+<li>Absorbing a Candidate's actions in reversed order produces identical
+   accumulators.</li>
+</ol>
+<h2 id="8-evidence-and-citations">8. Evidence and citations</h2>
+<ul>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the manifest structure, the grid, the
+  excluded axes, the five cell statuses and <code>MIN_FUTURE_BARS</code> are read from
+  <code>tools/regret.py</code> as built and admitted under D-071, whose certification
+  evidence includes 754/754 exact ledger reconciliations at 1e-12 on a real
+  12-month BTCUSDT 1h store.</li>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> the 71.8 us / 6.4 us cell measurement and the
+  246,884-cell symbol-year arithmetic (<code>PERFORMANCE_AUDIT_V82</code> §6).</li>
+<li><strong>DESIGN_INFERENCE:</strong> streaming reduction, the tier rule, and the
+  order-independence requirement. None is measured; §7.6 and §7.7 are the gates
+  that will test them.</li>
+<li><strong>Not claimed:</strong> any economic interpretation of a gap. The cube produces
+  MODEL_DERIVED quantities under an uncertified simulator; the verdict stays
+  <code>NO_ECONOMIC_CLAIM</code>.</li>
+</ul></section>
+<section id="sec-recoverable-regret-protocol"><h1>RECOVERABLE REGRET PROTOCOL</h1><h1 id="recoverable-regret-protocol">Recoverable Regret Protocol</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION. This contract documents the evaluation plane
+as <strong>built and certified</strong> under D-071 .. D-074 (<code>tools/regret.py</code>,
+<code>tools/regret_reference.py</code>, <code>tools/regret_phase1.py</code>,
+<code>tools/regret_phase2.py</code>, <code>tools/regret_phase3.py</code>). It was written after the
+instrument, to close a corpus gap: the phases existed in the register and in
+the code with no contract of record. Every number it reports is MODEL_DERIVED
+under an uncertified simulator; the economic verdict remains
+<code>NO_ECONOMIC_CLAIM</code> (rule 12).</p>
+<h2 id="1-position-in-the-architecture">1. Position in the architecture</h2>
+<p>The evaluator is a <strong>measurement plane layered on top of</strong> the V8 decision
+path. It does not replace, extend, or feed back into it.</p>
+<pre><code class="language-text">MarketState → Experts → Candidate Store → V8 policy → Replay Model
+                              │                            │
+                              └────────────┬───────────────┘
+                                           ▼
+                                     Outcome Cube
+                                           ▼
+                              Constrained Hindsight Evaluator
+                                           ▼
+                           Systematicity → Recoverability gate
+                                           ▼
+                              Finding | UNKNOWN | Rejected
+</code></pre>
+<p>The instrument is a <strong>read-only consumer of a completed Lab store</strong>. It never
+re-runs <code>Lab.run</code>, never creates a second Candidate population, and never
+touches an Expert, a geometry, or a verdict.</p>
+<h2 id="2-constitutional-invariants">2. Constitutional invariants</h2>
+<p>These are not implementation choices. A change to any of them is a change to
+what the evaluator means.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I1</td>
+<td>The Expert stays deterministic; the evaluator never influences proposal generation</td>
+</tr>
+<tr>
+<td>I2</td>
+<td>A Candidate is an immutable proposal; the evaluator may not create, modify, or delete one</td>
+</tr>
+<tr>
+<td>I3</td>
+<td>Future data is never a decision feature; PIT lineage is asserted, not assumed</td>
+</tr>
+<tr>
+<td>I4</td>
+<td>Replay output is MODEL_DERIVED, never observed truth</td>
+</tr>
+<tr>
+<td>I5</td>
+<td>The actual policy remains the V8 policy; the evaluator scores it, it does not become it</td>
+</tr>
+<tr>
+<td>I6</td>
+<td>The evaluator abstains rather than fills a cell it cannot justify</td>
+</tr>
+</tbody>
+</table>
+<p>I2 is what distinguishes this from a search: the evaluator explores the space
+of <strong>actions on Candidates that were actually proposed</strong>, never the space of
+Candidates that might have been proposed.</p>
+<h2 id="3-pipeline">3. Pipeline</h2>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Output</th>
+<th>Failure mode it prevents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CandidateSnapshot</code> join</td>
+<td>per-Candidate birth state, geometry, actual action</td>
+<td>re-derives <code>episode_key</code> rather than trusting a stored edge</td>
+</tr>
+<tr>
+<td>PIT lineage assertion</td>
+<td>violation count (must be 0)</td>
+<td>a birth feature whose availability clock postdates the decision clock</td>
+</tr>
+<tr>
+<td>Ledger reconciliation</td>
+<td><code>Replay(C, a_actual, M) == observed</code></td>
+<td>an evaluator whose replay disagrees with the run it is scoring</td>
+</tr>
+<tr>
+<td><code>LegalActionManifest</code></td>
+<td><code>A(C)</code></td>
+<td>an action universe that excludes the action actually taken</td>
+</tr>
+<tr>
+<td><code>ModelDerivedOutcomeCube</code></td>
+<td><code>cube.jsonl</code></td>
+<td>a manufactured value for a degenerate future (<code>OUTCOME_CUBE_SPEC</code> §3)</td>
+</tr>
+<tr>
+<td><code>LegalHindsightGap</code></td>
+<td><code>regret.jsonl</code></td>
+<td>a maximum taken over a set containing an unevaluable cell</td>
+</tr>
+</tbody>
+</table>
+<p>Reconciliation is the load-bearing gate. If the evaluator's replay of the
+actual action does not reproduce the ledger, every counterfactual it computes
+is measured against a different world than the one that was executed.</p>
+<h2 id="4-phases-as-built">4. Phases as built</h2>
+<h3 id="phase-0-instrument-and-reconciliation-d-071">Phase 0 — instrument and reconciliation (D-071)</h3>
+<p>Produces a reconciliation verdict, a cube, and a per-Candidate gap. <strong>Computes
+no statistics</strong> — no slicing, no multiplicity correction, no attribution, no
+recoverability.</p>
+<p>Certification evidence: a golden synthetic fixture reconciles 12/12 exact at
+1e-12; a real 12-month single-symbol BTCUSDT 1h store (1,532 Candidates, from a
+checksum-verified 6-symbol tape — 144 archives, 59,130 rows, 0 duplicates,
+monotonic, 0 venue-sequence gaps) reconciles 754/754 exact at 1e-12 with zero
+field deviation; PIT lineage clean on both; <code>hindsight &gt;= actual</code> holds with
+zero negative gaps across 543 COMPUTED Candidates; an independently written
+reference walk (<code>tools/regret_reference.py</code>, importing nothing from
+<code>v8.simulator</code>) agrees with the canonical simulator on 150 randomized paths;
+five fault-injection cases behave as specified.</p>
+<h3 id="phase-1-candidate-local-opportunity-accounting-d-072">Phase 1 — Candidate-local opportunity accounting (D-072)</h3>
+<p>A pure join plus a pre-declared descriptive breakdown over the full certified
+dev dataset (9,218 Candidates: 6 symbols x 3 pilot Experts x a 12-month trimmed
+window). Labelled <code>MODEL_DERIVED_DESCRIPTIVE_NOT_YET_GATED</code>. Zero statistics by
+construction.</p>
+<h3 id="phase-2-systematicity-discovery-d-072">Phase 2 — systematicity discovery (D-072)</h3>
+<p>Reuses <code>src/v8/statistics.py</code> <strong>in full</strong> — <code>select_block_size</code>,
+<code>bootstrap_ci</code>, <code>effective_independent_episodes</code>, <code>practical_significance</code>,
+<code>expected_false_positives</code> / <code>effective_search_size</code> — with zero new estimator
+code. This is deliberate: a second estimator implementation is a second place
+for a multiplicity error to hide.</p>
+<p>Declared family: 72 slices (3 Experts x 6 symbols x 2 directions x 2
+estimands), scored on a chronological <strong>discovery</strong> half (4,609 Candidates).
+Any <code>CANDIDATE_SYSTEMATIC</code> slice is queried against the untouched
+<strong>confirmation</strong> half (4,609 Candidates) <strong>exactly once</strong>.</p>
+<p>Result: 12 of 72 slices (16.7%, against <code>expected_false_positives(72, 0.05)</code> =
+3.6 under the null) reached <code>CANDIDATE_SYSTEMATIC</code> on
+<code>mean_legal_hindsight_gap</code>; none on <code>mean_actual_vs_no_trade</code>; all 12
+replicated as <code>SYSTEMATIC_FINDING</code> with zero <code>FAILED_CONFIRMATION</code> and stable
+estimates across halves (<code>trend_pullback|BTCUSDT|LONG</code>: 0.677R CI[0.593, 0.760]
+→ 0.499R CI[0.402, 0.594]; <code>failed_breakout|BTCUSDT|SHORT</code>: 1.052R
+CI[0.965, 1.136] → 1.005R CI[0.923, 1.088]). The pattern is directionally
+coherent: <code>trend_pullback</code> clears the Bonferroni-corrected bar
+(<code>alpha_slate</code> ~0.000694) on LONG across all 6 symbols and never on SHORT;
+<code>failed_breakout</code> mirrors it on SHORT; <code>liquidity_sweep_reclaim</code> clears no
+slice.</p>
+<h3 id="phase-3-recoverability-d-073">Phase 3 — recoverability (D-073)</h3>
+<p>Tests all 12 confirmed findings against a small declared <strong>decision-time</strong>
+policy class: <code>ALWAYS_TRADE</code> (the deployed policy, present for the
+<code>V_A &lt;= V_R</code> containment requirement) plus 24 <code>THRESHOLD_GATE</code> policies
+(3 declared birth-state features x 2 directions x 4 discovery-half quantiles)
+that choose <code>NO_TRADE</code> when a birth-time feature crosses a threshold.</p>
+<p>Policy selection happens on the discovery half only; <code>V_A</code>, <code>V_R</code> and
+<code>G_R = V_R - V_A</code> are estimated on the same untouched confirmation half, with
+the same bootstrap machinery and the same 0.05R materiality floor.</p>
+<p>Result: 11 of 12 slices reach <code>RECOVERABLE_WITHIN_CLASS</code>
+(<code>ci_lower(G_R) &gt; 0</code> and <code>mean(G_R) &gt;= 0.05R</code>); <code>trend_pullback|SOLUSDT|LONG</code>
+fails at <code>ci_lower</code> = -0.005 and is classified <code>NOT_RECOVERABLE_WITHIN_CLASS</code> —
+a scoped negative for this class and this environment, never an absolute
+unpredictability claim.</p>
+<h3 id="phase-4-controlled-single-component-intervention-d-074">Phase 4 — controlled single-component intervention (D-074)</h3>
+<p>Targets exactly one of the 11: <code>failed_breakout|SHORT</code>, chosen because it is
+the one pattern with cross-symbol coherence (4 of 6 symbols independently
+select <code>bb_pct_b NO_TRADE_BELOW</code> ~0.73) rather than the heterogeneous
+<code>trend_pullback</code> pattern. A <strong>new registered variant</strong> <code>failed_breakout</code> v2
+adds one declared, frozen pre-entry filter (skip the Candidate when
+<code>bb_pct_b &lt; 0.70</code> at the setup bar — a round pre-declared threshold, not the
+fitted per-symbol value). Every other line is byte-identical to v1. The shipped
+v1 is never mutated in place (rule 15, D-023).</p>
+<h2 id="5-what-recoverable-means-precisely">5. What "recoverable" means, precisely</h2>
+<pre><code class="language-text">V_A  = mean utility of the actual (deployed) policy on the confirmation half
+V_R  = mean utility of the best policy selected from the declared class
+G_R  = V_R - V_A
+</code></pre>
+<p>A slice is <code>RECOVERABLE_WITHIN_CLASS</code> when <code>ci_lower(G_R) &gt; 0</code> and
+<code>mean(G_R) &gt;= 0.05R</code>. Three qualifications are part of the definition, not
+caveats attached to it:</p>
+<ol>
+<li><strong>Scoped to the declared class.</strong> "Not recoverable" means <em>this policy class
+   did not recover it here</em>, never "no decision rule could".</li>
+<li><strong>Selection is not protected by the CI.</strong> The bootstrap CI protects the mean
+   estimate on confirmation; it does not protect the discovery-half
+   feature/threshold selection step. Twelve independently selected single-
+   feature gates finding no common rule is evidence <strong>against</strong> a single clean
+   mechanism and <strong>for</strong> either genuine cross-symbol heterogeneity or
+   discovery-half overfitting.</li>
+<li><strong>Hindsight opportunity is not recoverable opportunity.</strong> Phase 2's finding
+   says value was left on the table inside the represented action universe.
+   Only Phase 3 addresses whether a decision-time-realizable policy could have
+   taken it.</li>
+</ol>
+<h2 id="6-the-result-stated-at-full-precision">6. The result stated at full precision</h2>
+<p><strong><code>V_R</code> remains negative on every one of the 11 recoverable slices.</strong> Example:
+<code>failed_breakout|XRPUSDT|SHORT</code> — <code>V_A</code> = -0.387R, <code>V_R</code> = -0.062R,
+<code>G_R</code> = +0.325R CI[0.179, 0.468].</p>
+<p>This is a replicated <strong>loss-reduction</strong> effect from a decision-time-selectable
+subset of Candidates. It is not a profitability finding: no slice's gated
+policy clears zero. Rule 12's block on any profitability or
+validated-execution claim is untouched, and nothing in this protocol may be
+cited as evidence of edge.</p>
+<h2 id="7-dual-implementation-and-parity">7. Dual implementation and parity</h2>
+<p>The protocol requires a slow, transparent reference alongside the optimized
+evaluator, with semantic parity as the acceptance condition.
+<code>tools/regret_reference.py</code> is that reference: written from
+<code>SIMULATION_TRUTH_SPEC</code> text, importing nothing from <code>v8.simulator</code>, and agreed
+with the canonical simulator on 150 randomized paths.</p>
+<p>In V8.2 this requirement composes with the runtime migration: the Python
+evaluator becomes the oracle for the native <code>CubeReducer</code>, under the same
+value-level parity gate as every other stage
+(<code>PARITY_AND_IDENTITY_SPEC</code> §5). The reference walk's randomized-path generator
+is reused there rather than rewritten.</p>
+<h2 id="8-cheap-executable-tests">8. Cheap executable tests</h2>
+<ol>
+<li>Reconciliation is exact at 1e-12 on every executed Candidate, or the run is
+   refused.</li>
+<li>PIT lineage violations = 0.</li>
+<li><code>gap(C) &gt;= 0</code> on every COMPUTED Candidate.</li>
+<li>The confirmation half is queried exactly once per declared slice; a second
+   query is a hard error, not a warning.</li>
+<li>Fault injection: TP-shortened axis attribution, cost-doubling isolation,
+   direction-flip structural illegality, habitat-randomization structural
+   non-claim, and missing-evidence explicit refusal each behave as specified.</li>
+<li>The reference walk and the canonical simulator agree on randomized paths.</li>
+<li>The evaluator's Candidate count equals the store's; an evaluator that
+   produced a Candidate would fail this.</li>
+</ol>
+<h2 id="9-evidence-and-citations">9. Evidence and citations</h2>
+<ul>
+<li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> every result in §4 is real command output
+  recorded under D-071 .. D-074, with the ACCP evidence chain
+  RIR-V8RR-001 → FER-V8RR-002 → FDR-V8RR-003 → FCR-V8RR-004 and the phase
+  contracts FCR-V8RR-007 / FCR-V8RR-009.</li>
+<li><strong>DESIGN_INFERENCE:</strong> the invariant table in §2 and the architectural
+  position in §1 are a written statement of properties the implementation
+  already has; they add no new commitment.</li>
+<li><strong>Not claimed:</strong> profitability, edge, validated execution, or any
+  interpretation of <code>G_R</code> as realizable return. The population boundary also
+  holds: this instrument's Candidate population and the diagnostic engine's are
+  <strong>not</strong> interchangeable.</li>
+</ul></section>
 <section id="sec-hypothesis-lab-protocol"><h1>HYPOTHESIS LAB PROTOCOL</h1><h1 id="v8-hypothesis-lab-protocol-v01">V8 Hypothesis Lab Protocol v0.1</h1>
 <p><strong>Purpose:</strong> cheaply reject weak behavior hypotheses before learned routing,
 scoring, ranking, richer data or execution learning. <strong>Status:</strong>
@@ -2071,6 +4458,215 @@ component to the decision path and does not touch the complexity budget
 <li><strong>PROJECT_EVIDENCE_SUPPORTED:</strong> V7’s day-clustered uncertainty and scrambled
   direction control found its stated P1 setting failed; that result is not evidence
   about V8 Experts (<code>PROJECT_EVIDENCE_AUDIT.md</code>).</li>
+</ul></section>
+<section id="sec-sweep-protocol"><h1>SWEEP PROTOCOL</h1><h1 id="variant-sweep-protocol-adaptive-search-under-anytime-valid-error-control">Variant Sweep Protocol — adaptive search under anytime-valid error control</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION (D-086). This protocol admits <strong>variant
+sweeps</strong> — evaluating many parameterizations of a behaviour family rather than
+one hand-declared variant — and specifies the only conditions under which they
+are admissible. It is LITERATURE_SUPPORTED in its statistical machinery and
+DESIGN_INFERENCE in its application to V8; nothing here is evidence of edge and
+the verdict remains <code>NO_ECONOMIC_CLAIM</code> (rule 12).</p>
+<h2 id="1-why-sweeps-were-excluded-and-what-changed">1. Why sweeps were excluded, and what changed</h2>
+<p>V8 has so far declared variants by hand and registered the search universe
+before the run: D-076 recorded <code>search_universe_size</code> = 2; D-074 deliberately
+used a round pre-declared threshold (<code>bb_pct_b &lt; 0.70</code>) rather than the four
+fitted per-symbol values, precisely to avoid re-fitting into a challenger.</p>
+<p>That discipline is correct and the reason is arithmetical. Bailey, Borwein,
+López de Prado &amp; Zhu show that on five years of daily data, <strong>no more than ~45
+strategy variations</strong> can be tried before a Sharpe ratio of 1.0 arises by
+chance alone (the Minimum Backtest Length result). A naive sweep over thousands
+of variants does not merely weaken inference; it guarantees a false positive.</p>
+<p>Two obstacles kept sweeps out:</p>
+<ol>
+<li><strong>Multiplicity.</strong> Bonferroni over thousands of variants annihilates power;
+   BH requires independence or positive dependence that sweep variants — all
+   reading the same tape, sharing candidates — plainly violate.</li>
+<li><strong>Adaptivity.</strong> Any compute-efficient sweep must kill losing variants early.
+   Early elimination is peeking plus selection, which invalidates fixed-sample
+   inference. So the statistically safe sweep was the computationally
+   impossible one, and vice versa.</li>
+</ol>
+<p>Recent work removes both obstacles with <strong>one</strong> object. Under e-values:</p>
+<ul>
+<li>FDR control holds under <strong>arbitrary dependence</strong> between hypotheses
+  (e-BH: Wang &amp; Ramdas, <em>False discovery rate control with e-values</em>,
+  arXiv:2009.02824).</li>
+<li>FDR control holds for <strong>arbitrary exploration rules and arbitrary stopping
+  times</strong>, including bandit-style adaptive querying of arms
+  (Xu, Wang &amp; Ramdas, <em>A unified framework for bandit multiple testing</em>,
+  NeurIPS 2021).</li>
+</ul>
+<p>The consequence for this program is the whole reason to adopt them: <strong>adaptive
+compute allocation and valid inference stop being in tension.</strong> Successive
+halving over variants — normally a selection crime — becomes licensed, because
+an e-process is safe under optional stopping and continuation.</p>
+<h2 id="2-structure-of-an-admissible-sweep">2. Structure of an admissible sweep</h2>
+<pre><code class="language-text">declared variant grid  V  (registered before any evaluation)
+        │
+        ▼
+stage 1: every v in V on a short chronological slice
+        │   e-process per variant accumulates evidence
+        ▼
+eliminate / promote  (successive halving; exploration rule is free)
+        │
+        ▼
+stage k: survivors on progressively longer slices
+        │
+        ▼
+stopped e-BH over all variants  →  FDR-controlled discovery set
+        │
+        ▼
+confirmation half, queried exactly once   (unchanged from D-072)
+        │
+        ▼
+DSR / PBO diagnostics reported alongside every surviving variant
+</code></pre>
+<p>Each variant is one arm and one hypothesis. The null is declared per campaign —
+typically <code>H0: mean net_R(v) &lt;= mean net_R(baseline)</code> against the family's
+existing registered variant, not against zero, so a sweep must beat what it
+proposes to replace.</p>
+<h2 id="3-requirements">3. Requirements</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1</td>
+<td>The variant grid <code>V</code> is <strong>declared and registered before any evaluation</strong>. <code>search_universe_size = |V|</code> enters the register (D-046), and the sweep may not be widened mid-campaign; widening starts a new campaign with its own alpha</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>Evidence per variant is an <strong>e-process</strong>, not a p-value. The construction is declared in the campaign contract</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>The final rejection set is produced by <strong>e-BH on the stopped e-processes</strong>, giving FDR control under arbitrary dependence between variants</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>The <strong>exploration/elimination rule is unconstrained</strong> but must be recorded, so the campaign is reproducible; validity does not depend on it, reproducibility does</td>
+</tr>
+<tr>
+<td>S5</td>
+<td><strong>MinBTL pre-check:</strong> before the grid is registered, the maximum admissible trial count for the available tape length is computed and reported. A grid exceeding it is refused, not discounted</td>
+</tr>
+<tr>
+<td>S6</td>
+<td>The confirmation half remains untouched during the entire sweep and is queried <strong>exactly once</strong> for the surviving set (unchanged from D-072)</td>
+</tr>
+<tr>
+<td>S7</td>
+<td>Every surviving variant is reported with a <strong>Deflated Sharpe Ratio</strong> using the registered <code>search_universe_size</code>, and a <strong>PBO</strong> estimate via combinatorially symmetric cross-validation</td>
+</tr>
+<tr>
+<td>S8</td>
+<td>Across campaigns, alpha is spent under an <strong>online</strong> procedure (online e-BH / SAFFRON-class), so campaign <em>n+1</em> cannot silently reuse the budget of campaign <em>n</em></td>
+</tr>
+</tbody>
+</table>
+<p>S7 is diagnostic, not a gate: DSR and PBO are reported to make selection-driven
+inflation visible in the finance literature's own vocabulary, and a poor PBO is
+grounds for scepticism, not automatic rejection.</p>
+<h2 id="4-the-localglobal-filtration-trap">4. The local/global filtration trap</h2>
+<p>This is the one condition most likely to be violated silently in V8, and it is
+stated here so it is checked before a campaign rather than after.</p>
+<p>The stopped e-BH result (<em>Anytime-valid FDR control with the stopped e-BH
+procedure</em>, arXiv:2502.08539) shows that stopping several e-processes at a
+<strong>common</strong> stopping time yields e-values only if the processes and the stopping
+time live in the same <strong>global</strong> filtration. E-processes are typically
+constructed <strong>locally</strong>, per hypothesis. When streams are dependent, a local
+e-process need not be global, and the FDR guarantee fails — information leaks
+across streams, one stream effectively learning its own future from another's
+past.</p>
+<p><strong>Every V8 sweep variant reads the same tape.</strong> The streams are therefore
+dependent by construction, and the naive design — build an e-process per
+variant, halve them all at a shared global stopping time — is exactly the
+unsafe case.</p>
+<p>Two admissible resolutions, one of which must be declared per campaign:</p>
+<ol>
+<li><strong>Verify the causal condition.</strong> Show that each variant's e-process update
+   at step <em>n</em> depends only on that variant's own history and on shared data
+   available before <em>n</em> — i.e. no unobserved confounding from the past across
+   streams. Under that condition local e-processes are global and stopped e-BH
+   is valid.</li>
+<li><strong>Use variant-local stopping times.</strong> Stop each variant's process on its own
+   local rule and apply e-BH to the stopped values. This is always safe, at the
+   cost of forbidding stopping decisions that depend on the e-BH output itself
+   (no "stop once k variants are rejected").</li>
+</ol>
+<p>Resolution 2 is the default. Resolution 1 requires an argument in the campaign
+contract, not an assertion.</p>
+<h2 id="5-compute-consequence">5. Compute consequence</h2>
+<p>Successive halving changes the sweep's cost from
+<code>O(|V| x full-tape cost)</code> to roughly <code>O(|V| x short-slice + log|V| x full)</code>.
+For a 1,000-variant grid this is a one-to-two order of magnitude reduction, and
+it composes with the content-addressed DAG cache (D-085): extending a surviving
+variant's window is incremental, since its earlier cells are already keyed and
+stored.</p>
+<p>This matters for the substrate decision. The GPU trigger in
+<code>COMPUTE_SCHEDULING_SPEC</code> §6 is ~10^9 replay cells, and the naive full-grid
+sweep was the only configuration projected to reach it. Under this protocol a
+sweep of the same nominal cardinality lands one to two orders of magnitude
+lower, i.e. back inside the range a multicore CPU backend serves.</p>
+<p><strong>The statistically correct design is also the cheap one.</strong> That is the reason
+to adopt it, and it is why O-028 resolves as it does: sweeps are admitted, and
+admitting them does not force experts native from stage S1 nor reopen the GPU
+question.</p>
+<h2 id="6-what-stays-open">6. What stays open</h2>
+<p>The e-process <strong>construction</strong> for block-dependent financial episode streams is
+not settled by this protocol and is the live research item. V8's existing
+machinery estimates dependence through block bootstrap
+(<code>select_block_size</code>, <code>effective_independent_episodes</code>), which is a
+fixed-sample device; an anytime-valid analogue must be chosen and justified —
+betting-style test martingales on block-aggregated episodes are the obvious
+candidate, but the mapping from <code>select_block_size</code> to a martingale
+construction is unproven here. Until it is declared and tested, a sweep
+campaign may not run. This is <code>OPEN_QUESTION</code>, tracked as O-032.</p>
+<h2 id="7-cheap-executable-tests">7. Cheap executable tests</h2>
+<ol>
+<li><strong>Null calibration:</strong> on a detrended / label-shuffled tape where no variant
+   has an edge, the sweep's realized FDR over repeated campaigns is at or below
+   the declared level.</li>
+<li><strong>Adaptivity invariance:</strong> two runs with different elimination schedules over
+   the same grid and tape both control FDR; the discovery sets may differ, the
+   guarantee may not.</li>
+<li><strong>Grid immutability:</strong> widening <code>V</code> mid-campaign is rejected by the runner,
+   not merely warned about.</li>
+<li><strong>MinBTL gate:</strong> a grid larger than the tape admits is refused with the
+   computed ceiling in the message.</li>
+<li><strong>Confirmation single-query:</strong> a second query of the confirmation half for
+   the same slice is a hard error.</li>
+<li><strong>Filtration declaration:</strong> a campaign contract that declares neither
+   resolution in §4 fails to start.</li>
+<li><strong>Online budget:</strong> campaign <em>n+1</em> run with the same alpha as campaign <em>n</em>,
+   without the online procedure, is refused.</li>
+</ol>
+<h2 id="8-evidence-and-citations">8. Evidence and citations</h2>
+<ul>
+<li><strong>LITERATURE_SUPPORTED:</strong> e-BH and FDR control under arbitrary dependence
+  (Wang &amp; Ramdas, arXiv:2009.02824); bandit multiple testing with e-processes
+  under arbitrary exploration and stopping (Xu, Wang &amp; Ramdas, NeurIPS 2021);
+  online e-BH / SupFDR at data-adaptive stopping times (Fischer &amp; Ramdas,
+  arXiv:2407.20683); the local/global filtration condition (arXiv:2502.08539);
+  online FDR alpha-investing (SAFFRON, Ramdas, Zrnic, Wainwright &amp; Jordan,
+  arXiv:1802.09098; ADDIS, arXiv:1905.11465); MAB + online FDR
+  (Yang, Ramdas, Jamieson &amp; Wainwright, NeurIPS 2017); successive halving for
+  non-stochastic best-arm identification (Jamieson &amp; Talwalkar,
+  arXiv:1502.07943); Deflated Sharpe Ratio (Bailey &amp; López de Prado, JPM 40(5),
+  2014); PBO via CSCV and the Minimum Backtest Length result (Bailey, Borwein,
+  López de Prado &amp; Zhu); multiple-testing haircuts for strategy evaluation
+  (Harvey &amp; Liu, <em>Evaluating Trading Strategies</em>).</li>
+<li><strong>DESIGN_INFERENCE:</strong> the campaign structure in §2, requirements S1-S8, the
+  choice of resolution 2 as default in §4, and the compute projection in §5.
+  None of it is measured in this repository yet.</li>
+<li><strong>Not claimed:</strong> that any sweep will find anything. This protocol governs how
+  a search is priced, not whether a search succeeds; and a sweep that survives
+  every gate here still produces a MODEL_DERIVED result under an uncertified
+  simulator.</li>
 </ul></section>
 <section id="sec-operations-spec"><h1>OPERATIONS SPEC</h1><h1 id="v8-operations-specification">V8 Operations Specification</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This spec governs the operational lifecycle
@@ -2284,18 +4880,34 @@ evolves by challenger, never in place (D-032).</p>
   schema.py          canonical records + canonical hashing
   store.py           AppendOnlyLog (JSONL, idempotent, replayable)
   marketstate.py     MarketState builder (availability-gated)
-  experts/           one behavior family per file (D-033)
-    __init__.py          pilot expert registry (re-exports)
+  experts/           one behavior family per file (D-033); 28 modules
+    __init__.py          expert registry (re-exports)
     base.py              Expert base + _need + still_valid contract
-    trend_pullback.py    TrendPullbackExpert
-    failed_breakout.py   FailedBreakoutExpert
-    liquidity_sweep_reclaim.py  LiquiditySweepReclaimExpert
+    trend_pullback.py            failed_breakout.py
+    liquidity_sweep_reclaim.py   failed_breakout_2b.py
+    trend_pullback_depth.py      range_breakout_1to1.py
+    candlestick_reversal.py      rsi_stoch_reversion.py
+    macd_stoch_trend.py          divergence_12_setups.py
+    bollinger_breakout.py        bollinger_reversion.py
+    donchian_breakout.py         breakout_retest.py
+    fib_retracement_continuation.py  fib_projection_reversal.py
+    pattern_measuring_objective.py   volume_confirmed_breakout.py
+    volume_climax_reversal.py    obv_adl_regime.py
+    ichimoku_cloud.py            floor_trader_pivot.py
+    market_profile_value_area.py gap_exhaustion.py
+    open_interest_divergence.py  funding_crowding_reversal.py
+    pandf_breakout.py            fib_rsi_bb_confluence.py  (D-076)
   lifecycle.py       transition legality, CandidateRegistry, episode_key,
                      ExposureBook
   risk.py            RiskGate (deterministic admission)
+  interval.py        base-interval aggregation + derivability (D-053)
   simulator.py       CanonicalSimulator (step/run), OpenPosition, risk_unit
+  equity.py          RiskState, drawdown ladder, risk-of-ruin estimate (O-016)
   lab.py             Lab runner (3-phase loop) + recursive code hash
-  statistics.py      within-family Reality-Check multiplicity test (D-044)
+  statistics.py      within-family Reality-Check multiplicity test (D-044),
+                     block bootstrap, effective-episode and multiplicity
+                     estimators (reused verbatim by the evaluator, D-072)
+  fast.py            content-addressed run / state / evaluation caches (D-085)
   synth.py           deterministic synthetic tape
   simtruth/          vendored V7 lab — engineering only, authority NOT
                      renewed (D-022)
@@ -2304,23 +4916,81 @@ tools/
   data.py                       Binance archive -&gt; verified canonical dataset
                                 (download + SHA-256 + Parquet + DuckDB audit)
   vision_backfill.py            Vision monthly klines -&gt; JSONL PIT tape + audit
+  build_multi_tape.py           multi-symbol dev tape assembly
+  monitor_tape.py               tape integrity monitoring
   materialize_views.py          DATASET_SPEC §5 parquet views (DuckDB,
                                 pinned manifest, fail-closed hashes)
+  run_experiment.py             preregistration runner (v8_slice_001)
+  diagnostics.py                consolidated report centre (single report file;
+                                diagnostic.py / diagnostic_report.py /
+                                multi_diagnostic.py / forensics.py are shims)
+  diagnose_experts_dev.py       dev-window expert diagnosis
+  run_fib_rsi_bb_confluence.py  D-076 dev-window experiment runner
+  equity_analysis.py            external-instrument analysis (research only)
+  regret.py                     evaluator Phase 0: snapshots, reconciliation,
+                                LegalActionManifest, Outcome Cube, gap (D-071)
+  regret_reference.py           independent reference walk (parity oracle)
+  regret_phase1.py              Candidate-local opportunity accounting (D-072)
+  regret_phase2.py              systematicity discovery (D-072)
+  regret_phase3.py              recoverability evaluation (D-073)
+  artifact_status.py            artifact freshness reporting
   download_v8_reading_list.py   research manifest downloader
+  index_handbook_pdf.py, extract_handbook_sections.py,
+  extract_handbook_endmatter.py, build_handbook_review.py,
+  build_full_handbook_review.py, render_visual_previews.py
+                                research-corpus tooling (no decision path)
+  _perf_probe.py                scratch profiling harness (not shipped tooling;
+                                PERFORMANCE_AUDIT_V82)
 tests/
-  test_vertical_slice.py        contract tests (pytest)
-  test_tape_audit.py            offline tape audit tests
-  test_expert_registry.py       registry consistency tests
-  test_data_pipeline.py         offline data.py planning/checksum tests
-  test_materialize_views.py     materialization roundtrip + fail-closed tests
-  test_reality_check.py         within-family multiplicity test (D-044)
+  test_vertical_slice.py        pipeline contract tests (pytest)
+  test_state_cache_identity.py  cached vs uncached MarketState, every bar
+  test_expert_&lt;family&gt;.py       one suite per registered Expert (28 families)
+  test_expert_registry.py       registry consistency
+  test_tape_audit.py            offline tape audit
+  test_data_pipeline.py         data.py planning/checksum
+  test_materialize_views.py     materialization roundtrip + fail-closed
+  test_reality_check.py         within-family multiplicity (D-044)
   test_detrended_null.py        position-bias reproduction + detrending (D-045)
+  test_regret_phase0.py         evaluator reconciliation + cube (D-071)
+  test_regret_faults.py         evaluator fault injection (D-071)
+  test_regret_reference.py      reference-walk agreement (D-071)
+  test_fast_cache.py            content-addressed cache behaviour (D-085)
+  test_golden_backtest.py       pinned states/ledger hash regression
 </code></pre>
 <p>Planned, not yet present: further Expert modules land under
-<code>src/v8/experts/</code> only after registry admission (the <code>breakout_retest</code> and
-<code>capitulation</code> backlog families are registered DATA_BLOCKED until derivatives
-tape — no code module until then); <code>tools/run_experiment.py</code> (the
-<code>v8_slice_001</code> preregistration runner) is the Phase-4 build target.</p>
+<code>src/v8/experts/</code> only after registry admission (the <code>capitulation</code> backlog
+family is registered DATA_BLOCKED until derivatives tape — no code module
+until then).</p>
+<h2 id="11-v82-compute-core-planned-not-yet-present">1.1 V8.2 compute core (planned, not yet present)</h2>
+<p>The Rust workspace is a <strong>second implementation</strong>, not a replacement of §1:
+<code>src/v8/</code> is frozen as the parity oracle for the duration of the migration
+(<code>PARITY_AND_IDENTITY_SPEC</code> §2). One workspace, one binary, modules rather than
+micro-crates; splitting is deferred until a boundary is proven stable.</p>
+<pre><code class="language-text">v8-core/
+  src/
+    main.rs         CLI entry; one evaluation request per invocation
+    data.rs         Dataset: columnar OHLCV + event/available/ingested clocks
+    state.rs        FeatureStore, StateView, feature identity
+    experts/
+      mod.rs        registry
+      predicate.rs  compiled still_valid IR (PREDICATE_IR_SPEC)
+    candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
+    simulator.rs    ReplayKernel (step/run), risk unit, fill policies
+    regret.rs       LegalActionManifest, CubeReducer, gap accumulators
+    statistics.rs   reductions only (verdict statistics stay in Python)
+    cache.rs        content-addressed DAG cache
+    evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
+    compute/        kernels K1..K6 + backend selection
+  tests/
+    parity.rs       value-level parity against the V8.0 oracle
+</code></pre>
+<p>The same file-family rule applies (D-032): a new module, rename, or interface
+change is a registry decision with a CHANGELOG entry. Owning contracts are
+<code>COMPUTE_CORE_SPEC</code> (layers and representation),
+<code>COMPUTE_SCHEDULING_SPEC</code> (kernels and backends),
+<code>LEDGER_FORMAT_SPEC</code> (evidence.rs), <code>OUTCOME_CUBE_SPEC</code> (regret.rs),
+<code>PREDICATE_IR_SPEC</code> (experts/predicate.rs) and
+<code>PARITY_AND_IDENTITY_SPEC</code> (tests/parity.rs).</p>
 <h2 id="2-file-by-file-contract">2. File-by-file contract</h2>
 <table>
 <thead>
@@ -2839,7 +5509,17 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <p>| D-073 | Phase 3 (recoverability evaluation, <code>tools/regret_phase3.py</code>, contract <code>FCR-V8RR-009</code>) tests all 12 of D-072's confirmed <code>mean_legal_hindsight_gap</code> findings against a small, declared, decision-time policy class: <code>ALWAYS_TRADE</code> (the deployed policy, included for the <code>V_A &lt;= V_R</code> containment requirement) plus 24 <code>THRESHOLD_GATE</code> policies (3 declared birth-state features x 2 directions x 4 discovery-half quantiles) that select <code>NO_TRADE</code> over the actual action when a birth-time feature crosses a threshold. Selection happens on the discovery half only; <code>V_A</code>/<code>V_R</code>/<code>G_R</code> are estimated on the SAME untouched confirmation half Phase 2 already reserved, with a bootstrap CI (reused <code>v8.statistics.bootstrap_ci</code>/<code>select_block_size</code>, zero new estimator code) and the same materiality floor (0.05R) as Phase 2 | PROVISIONAL_DECISION | 11 of 12 slices reach <code>RECOVERABLE_WITHIN_CLASS</code> (<code>ci_lower(G_R) &gt; 0</code> AND <code>mean(G_R) &gt;= 0.05R</code>); only <code>trend_pullback\|SOLUSDT\|LONG</code> fails (<code>ci_lower</code> -0.005, essentially the null boundary — an honest negative, not force-fit). <strong>Stated with maximum precision because this is exactly where overclaiming is easiest: <code>V_R</code> (the gated policy''s mean utility) stays NEGATIVE on every single one of the 11 recoverable slices</strong> (e.g. <code>failed_breakout\|XRPUSDT\|SHORT</code>: <code>V_A</code>=-0.387R, <code>V_R</code>=-0.062R, <code>G_R</code>=+0.325R CI[0.179,0.468]). This is a real, replicated LOSS-REDUCTION effect from a decision-time-selectable subset of candidates, not a profitability finding — no slice''s gated policy clears zero, so <code>rule 12</code>''s block on any profitability/validated-execution claim is untouched. <strong>Second limitation, stated rather than hidden:</strong> the selected feature/direction/threshold is NOT uniform across symbols within an Expert — <code>trend_pullback</code> selects <code>bb_pct_b</code> (3 symbols, both directions) or <code>rsi14</code> (2 symbols) with no consistent sign; <code>failed_breakout</code> is more coherent (<code>bb_pct_b NO_TRADE_BELOW</code> at threshold ~0.729-0.743 on 4 of 6 symbols independently), but even there BTCUSDT selects the opposite direction (<code>NO_TRADE_ABOVE</code> at 0.112) and SOLUSDT selects <code>adx14</code> instead. Twelve independently-selected single-feature gates finding no common rule is evidence AGAINST a single clean mechanism and FOR either genuine cross-symbol heterogeneity or discovery-half overfitting that confirmation''s bootstrap CI does not fully protect against (the CI protects the MEAN estimate, not the feature-selection step itself, which is a real limitation of this minimal-first-pass policy class per v0.2 section 6.1''s own caution about the sup over Pi). Classified <code>NOT_RECOVERABLE_WITHIN_CLASS</code> for <code>trend_pullback\|SOLUSDT\|LONG</code> only (a SCOPED result, this class/this environment — never an absolute unpredictability claim). No representation-gap escalation (a richer phi) is attempted this pass (<code>FCR-V8RR-009</code> FT005, deliberately deferred). Full evidence: <code>tmp/phase3/{phase3_summary.json,recoverability_attempts.jsonl}</code> (real command output, this session; 300+12 attempt-ledger rows) |
 | D-074 | Phase 4 (controlled single-component intervention) targets exactly ONE of D-073''s 11 recoverable slices: <code>failed_breakout\|SHORT</code>, because it is the ONE pattern with cross-symbol coherence (4 of 6 symbols independently select <code>bb_pct_b NO_TRADE_BELOW ~0.73</code>) rather than the heterogeneous <code>trend_pullback</code> pattern D-073 flags as a possible overfit. A NEW registered variant <code>failed_breakout</code> <strong>v2</strong> (never mutating the shipped v1 in place, rule 15/D-023) adds ONE declared, frozen pre-entry filter: skip the Candidate (no Candidate emitted) when <code>bb_pct_b &lt; 0.70</code> at the setup bar (a round, pre-declared threshold — not the exact per-symbol fitted value, to avoid re-fitting 4 separate thresholds into one challenger). Every other line of the Expert (setup, trigger, invalidation, geometry) is byte-identical to v1 | PROVISIONAL_DECISION | See CHANGELOG for the full preregistered intervention contract (target/challenger/expected-direction/minimum-effect/rejection-criterion/rollback) and the measured result on the certified pipeline |</p>
 <p>| D-075 | Diagnostic hot-path pass, output-identical. (a) <code>_median_atr</code> is memoised — it is a pure function of the frozen draft set but was recomputed, scanning and SORTING every draft, once per null draft. (b) The walk cache stores <code>(draft, result)</code> and verifies identity on hit, and null drafts bypass it entirely: <code>id()</code> is unique only among LIVE objects, so a null draft freed right after its walk lets CPython reuse the address, and a (recycled id, same entry_idx, same geometry) key could return a walk taken in the OPPOSITE DIRECTION. (c) <code>simulator._evolve</code> replaces <code>dataclasses.replace</code> on the <code>OpenPosition</code> hot path. (d) <code>_post_exit_max</code> is skipped for null walks, which never read it. (e) The tape is parsed once per PROCESS instead of once per cell | PROVISIONAL_DECISION | Measured, not guessed: cProfile on a 540-bar BTCUSDT cell put <code>_median_atr</code> at 54.3s of 72.6s (75%), 202,000 calls and 287M dict lookups; then <code>dataclasses.replace</code> at 20.4s of the remaining 28.0s (73%), 3.9M calls under 57M getattrs. Single cell 72.6s -&gt; 17.4s (4.2x). Full <code>--symbols BTCUSDT,ETHUSDT --timeframes 1h,4h --span-days 60 --processes 4</code>: 102.5s -&gt; 29.2s wall, 245.4s -&gt; 71.2s CPU (3.4x) on the SAME feature set. Output identity is the gate and it holds twice over: the lab economics dump (every outcome's net_r/endpoint/entry_price/risk_unit_price plus the whole LabReport minus hashes) is byte-identical to the pre-change baseline, and the diagnostic's own aggregate net_R_mean and all 22 decision-table rows are identical before vs after. (b) is a CORRECTNESS fix that happened to surface during profiling, not a speed trade. No numpy, no new dependency, no change to the concurrency model — those remain unregistered (D-031 baseline). 749/749 tests pass |
-| D-076 | Admit <code>fib_rsi_bb_confluence</code> as an exploratory dev-window family (mechanism <code>confluence_reversion_continuation</code>, behavior <code>fib_rsi_bb_confluence</code>): two variants evaluated in one run — <code>a</code> STRICT (all three legs same direction), <code>b</code> MAJORITY (at least two of three). Legs reuse registered idioms verbatim (Bollinger 2-SD fade zone, Wilder-RSI dip-and-recover, fib reclaim at 0.786 — the deep ratio is the only standard level that can geometrically co-occur with a fade-zone close, computed pre-window, frozen). 1R:1R:8bar + <code>atr_ref</code>; frozen 78.6% level and frozen 3-SD band as invalidation refs (<code>prior_*_ref</code> + <code>lower/upper_3sd_ref</code>, D-042 pattern). <code>variants_evaluated</code> [a, b]; <code>search_universe_size</code> 2 (thresholds inherited, declared pre-window) | PROVISIONAL_DECISION | Owner decision 2026-08-10, pre-holdout (prereg §16). D-032 file-family rule: a new <code>src/v8/experts/</code> module needs a register decision + CHANGELOG entry. Exploratory dev-window SOLUSDT 1h run (2025-07..2026-06, 8760 bars), tape-driven funding, 10-bps taker cost, zero-cost reference; verdict stays NO_ECONOMIC_CLAIM (no authority receipt, rule 12). Measured result: STRICT fired once (0 executed); MAJORITY fired 159, executed 33, mean net_R -0.253 after cost (90% CI [-0.471, -0.062], entirely negative; -0.158 even at zero cost). The confluence does not beat its own relaxation and neither clears cost. D-026 hardening: <code>lab._geometry_version</code> now excludes <code>lower/upper_3sd_ref</code> (data-dependent) from episode identity — without it dedup could not fire (179 candidates carried 179 distinct geometry hashes) |</p>
+| D-076 | Admit <code>fib_rsi_bb_confluence</code> as an exploratory dev-window family (mechanism <code>confluence_reversion_continuation</code>, behavior <code>fib_rsi_bb_confluence</code>): two variants evaluated in one run — <code>a</code> STRICT (all three legs same direction), <code>b</code> MAJORITY (at least two of three). Legs reuse registered idioms verbatim (Bollinger 2-SD fade zone, Wilder-RSI dip-and-recover, fib reclaim at 0.786 — the deep ratio is the only standard level that can geometrically co-occur with a fade-zone close, computed pre-window, frozen). 1R:1R:8bar + <code>atr_ref</code>; frozen 78.6% level and frozen 3-SD band as invalidation refs (<code>prior_*_ref</code> + <code>lower/upper_3sd_ref</code>, D-042 pattern). <code>variants_evaluated</code> [a, b]; <code>search_universe_size</code> 2 (thresholds inherited, declared pre-window) | PROVISIONAL_DECISION | Owner decision 2026-08-10, pre-holdout (prereg §16). D-032 file-family rule: a new <code>src/v8/experts/</code> module needs a register decision + CHANGELOG entry. Exploratory dev-window SOLUSDT 1h run (2025-07..2026-06, 8760 bars), tape-driven funding, 10-bps taker cost, zero-cost reference; verdict stays NO_ECONOMIC_CLAIM (no authority receipt, rule 12). Measured result: STRICT fired once (0 executed); MAJORITY fired 159, executed 33, mean net_R -0.253 after cost (90% CI [-0.471, -0.062], entirely negative; -0.158 even at zero cost). The confluence does not beat its own relaxation and neither clears cost. D-026 hardening: <code>lab._geometry_version</code> now excludes <code>lower/upper_3sd_ref</code> (data-dependent) from episode identity — without it dedup could not fire (179 candidates carried 179 distinct geometry hashes) |
+| D-077 | <strong>V8.2 = high-throughput compute substrate + Recoverable Regret evaluation plane.</strong> The runtime splits into a Python control/analysis plane (experiment specs, manifests, preregistration, verdict statistics on reduced tables, reports, diagnostics) and a Rust compute plane owning dataset → features → state → candidates → lifecycle → replay → cube → reduction → cache → ledger, one process and one memory model. <code>src/v8/</code> is FROZEN as the parity oracle for the duration of the migration — behaviour-frozen, repaired only for genuine wrong-value bugs, retired to an archived reference under its pinned code hash when V8.2 certifies, never deleted. Migration is staged S0..S5 with a parity gate at every stage. Version semantics are fixed here: V8.0 is the deterministic Expert architecture and canonical simulator; V8.2 is a substrate + measurement release that leaves the decision ontology untouched; a V9 requires an ontology break (learned proposal architecture as baseline, a different Candidate ontology, the system ceasing to be Candidate-constrained, router/scorer entering the policy, or a different epistemic architecture). <strong>Moving to Rust or adding a GPU backend is an implementation change and is explicitly NOT a V9</strong> | PROVISIONAL_DECISION | Contracts: <code>COMPUTE_CORE_SPEC</code>, <code>PARITY_AND_IDENTITY_SPEC</code>, <code>LEDGER_FORMAT_SPEC</code>, <code>OUTCOME_CUBE_SPEC</code>, <code>PREDICATE_IR_SPEC</code>, <code>COMPUTE_SCHEDULING_SPEC</code>, <code>RECOVERABLE_REGRET_PROTOCOL</code>; <code>ARCHITECTURE_SPEC</code> §3.1 revises the D-031 single-language baseline without retiring it. <strong>Explicitly not justified by necessity:</strong> <code>PERFORMANCE_AUDIT_V82</code> §10 records that research scale (100 symbols x 15m) is reachable inside tens of minutes in Python once the defect class in D-083 is removed, so the program's falsification clause on evaluation cost is NOT firing. The decision rests on representation ownership, single-runtime streaming (D-081), and evaluator capability — not on a cost claim. Stating this prevents a motivated reading of the program's own criterion |
+| D-078 | <strong>No-callback invariant.</strong> Once an evaluation request enters the compute plane, control does not return to Python until it completes: no Python callback, no Python object, no Python-owned buffer reachable from inside. Any Expert-supplied hook the replay path must consult is expressible in the predicate IR (D-082) or it does not enter the replay path | PROVISIONAL_DECISION | The one V8.0 violation is the post-entry thesis closure passed to <code>sim.run(..., thesis_valid=...)</code> by <code>tools/regret.py</code>. Measured surface (AST extraction over <code>src/v8/experts/*.py</code>): 28 implementations, 567 lines, mean 20, over an eleven-name live-feature vocabulary; 19 of 28 read only <code>close</code> against a frozen <code>risk_geometry</code> reference, 26 of 28 read only scalars, 2 (<code>donchian_breakout</code>, <code>ichimoku_cloud</code>) read <code>history</code>. A closed surface of this size is compilable, so the invariant costs a bounded one-off and not an open-ended bridge. <code>COMPUTE_CORE_SPEC</code> §3 |
+| D-079 | <strong>Parity is value-level; identity is bit-encoded.</strong> Two implementations agree for a stage when every emitted value is bit-identical field by field (IEEE-754 bit patterns for floats — <code>-0.0</code> distinct from <code>0.0</code>, NaN payloads significant; tolerance comparison prohibited anywhere in the parity path). Hashes are excluded from the parity comparison. The V8.2 canonical hash is computed over a representation-independent byte encoding (f64 → 8 IEEE bytes LE, integers → fixed-width two's complement, strings → length-prefixed UTF-8, composites → tag + count + canonical order), digest stays SHA-1. <strong>V8.2 hashes deliberately do not equal V8.0 hashes for identical values</strong>; V8.0 artifacts keep V8.0 hashes and are never re-hashed, and cross-version comparison is done on values via the parity harness, never on identity strings | PROVISIONAL_DECISION | Measured: CPython's <code>json</code> encoder and Rust's default <code>f64</code> <code>Display</code> disagree on <strong>7 of 8</strong> representative values (<code>1.0</code>→<code>1</code>, <code>1e+16</code>→<code>10000000000000000</code>, <code>1e-05</code>→<code>0.00001</code>, <code>-0.0</code>→<code>-0</code>, <code>1e+22</code>, <code>1.2345678901234568e+17</code>→<code>123456789012345680</code>, <code>1e-323</code>→323 decimals; only <code>0.30000000000000004</code> matched), CPython 3.14.0 vs rustc 1.96.0-nightly (<code>PERFORMANCE_AUDIT_V82</code> §8). Both renderings are shortest-roundtrip correct and differ only in exponent thresholds, so decimal text cannot be the basis of a cross-runtime identity. The rejected alternative — reimplementing CPython <code>float_repr</code> in Rust to preserve hash continuity — buys comparability of hash strings across a boundary where values are already compared directly. Gates G1-G6 in <code>PARITY_AND_IDENTITY_SPEC</code> §5; G6 (fail-closed behaviour agrees) is not optional |
+| D-080 | <strong>Ledger tiering and columnar format.</strong> Every persisted field is classified identity / information / schema / run-constant / derivable; persist identity and information, hoist schema and run-constants into an artifact header, recompute derivables. Three tiers: <code>IDENTITY_ONLY</code>, <code>VALUES</code> (default for research runs), <code>FULL</code> (certification and promotion boundaries). Storage is column-major with dictionary-encoded low-cardinality strings, explicit validity bits, and no decimal text for any number. The header carries <code>hash_encoding</code> so a V8.2 artifact can never be read as a V8.0 one | PROVISIONAL_DECISION | Measured: one 8,760-bar single-symbol three-expert run writes <strong>271.8 MB</strong> of <code>states.jsonl</code> from a <strong>3.5 MB</strong> input tape (78x). One state record is 31,091 B for 74 features, of which the 74 float values are <strong>~590 B (2%)</strong>; 33% is repeated JSON key names, 15% is a <code>history</code> window duplicating tape OHLC into 32 consecutive records, 10% per-feature lineage hashes, 9% duplicated feature names, 9% two timestamps, 6% constant enums (<code>PERFORMANCE_AUDIT_V82</code> §7). <code>OutcomeCubeRow</code> carries 35 fields of which ~11 are run-constant. <strong>Cost stated rather than hidden:</strong> at <code>VALUES</code> tier, forensics on an old run requires checking out the pinned code and replaying the archived tape rather than reading a file; therefore (a) a tape referenced by any retained artifact is itself retained, and (b) any run that will carry a claim is written at <code>FULL</code> tier before the claim is made |
+| D-081 | <strong>The Outcome Cube is a computation, not necessarily a stored table.</strong> At <code>VALUES</code> tier the cube is reduced in flight into per-Candidate accumulators (maximum over OK cells, actual-action value, NO_TRADE value, cell counts by status) and only reduced tables are persisted; at <code>FULL</code> tier it is materialized columnar. The reduction must be order-independent and exact — absorbing a Candidate's actions in any order yields identical accumulators — because a scheduling-dependent value would violate backend invariance (D-079 G5). Ties are reported, never broken; the reduction abstains whenever a non-<code>OK</code> cell could have been the maximizer | PROVISIONAL_DECISION | Materializing every cell costs ~9.9M rows/symbol at the research target, ~600 GB across 100 symbols as JSONL (<code>LEDGER_FORMAT_SPEC</code> §7), and is then read back to compute a handful of accumulators per Candidate. Streaming is also what keeps verdict statistics in the analysis plane: after reduction the plane crossing is order 10^4-10^6 numbers rather than 10^7 rows, so block bootstrap and multiplicity control remain in Python at negligible cost and remain transparent (<code>COMPUTE_CORE_SPEC</code> §7). Equivalence gate: streaming and full materialization produce identical reduced tables on the same fixture |
+| D-082 | <strong>The post-entry thesis is compiled, not called.</strong> <code>still_valid</code> is expressed as a predicate IR (ordered dispatch on geometry-key presence; comparison of a live feature against a frozen <code>risk_geometry</code> reference; <code>FLIP_ON_SHORT</code> orientation; <code>MAX</code>/<code>MIN</code> window aggregates for the two <code>history</code> cases) and evaluated natively. Fail-open on any absent operand is normative — a missing reference yields "thesis still valid" and price governs the exit, exactly as V8.0 does. An Expert whose thesis cannot be compiled fails CLOSED at compilation time with the offending construct named; it is never silently treated as fail-open and never quietly replaced by a callback. Extending the IR is a registered decision; adding a callback is excluded by D-078 | PROVISIONAL_DECISION | Surface measured by AST (see D-078). The compiled predicate carries a <code>predicate_version</code> in the Candidate identity, so a thesis change re-versions every cell that consulted it. Acceptance gate E1-E5 in <code>PREDICATE_IR_SPEC</code> §6; <strong>E4 is load-bearing</strong> — outcome bit-identity on the real V8.0 candidate population, because E1-E3 test the predicate in isolation while only E4 proves the counterfactual and executed populations are evaluated under the same exit policy |
+| D-083 | <strong>Representation rule: a layer receives a borrowed view of data it does not own.</strong> Copying a window out of an owned buffer is a defect unless the copy is the output. Concretely: a replay cell is passed <code>(&amp;Dataset, start, end)</code> and may read no bar outside <code>[start, min(end, start + expiry_bars + 1)]</code>; whole-tape indices are built once per dataset, never per clock; cumulative digests advance incrementally; hot-path allocations are pooled or hoisted | PROVISIONAL_DECISION | The rule generalizes <strong>one measured defect class found at three independent sites</strong>, not three incidents. (a) <code>marketstate.build_state</code> rebuilds <code>{id(b): i for ...}</code> over the whole tape per state per symbol per interval — 77,925,592 <code>id()</code> calls in a profiled 8,760-bar run, <strong>4.93 s measured in isolation</strong>, i.e. ~63% of the 7.74 s state layer. (b) <code>tools/regret.py</code> slices the entire remaining tape per cube cell: <strong>71.8 µs vs 6.4 µs</strong> of arithmetic it feeds (~92% waste; 21.6 s vs 1.6 s per symbol-year). (c) <code>AppendOnlyLog.hash</code> re-serializes the whole parsed ledger — 5 calls, 5.5 s profiled. The scaling curve confirms the exponent drift: doubling bars costs 2.12x → 2.10x → <strong>2.49x</strong> (1,095 → 8,760), exponent ~1.16 overall and ~1.32 on the last doubling (<code>PERFORMANCE_AUDIT_V82</code> §§3-7). <strong>The rule is language-independent:</strong> a Rust implementation that clones windows reproduces the defect; ownership makes the correct form natural, it does not confer it |
+| D-084 | <strong>Modular kernels; GPU gated on a declared trigger.</strong> Work is expressed as separate kernels K1 (feature series) .. K6 (resampling) with engine-owned buffers between them; a fused kernel spanning features → experts → replay → regret is a REJECTED_OPTION (divergence, register pressure, impractical CPU fallback, one Expert edit recompiling everything, loss of per-stage attribution). Backend and thread count are internal details and appear in no hash and no manifest. Parallelism order: task parallelism across independent units first, SIMD within a kernel second, GPU only past the trigger. <strong>Trigger: a routine request exceeding ~10^9 replay cells</strong> | PROVISIONAL_DECISION | Determinism analysis is per-kernel and corrects an earlier blanket framing: K1/K2 contain floating-point reductions whose reassociation changes results, so their reduction order is declared and fixed and a backend that cannot honour it is ineligible; <strong>K4 is a per-thread sequential walk with no cross-worker reduction and no transcendental</strong>, so bit-identical cross-backend results ARE achievable given FMA contraction off, fast-math off, f64 throughout, and declared NaN normalization. Cell arithmetic from the measured 6.4 µs: the presently scoped research target (100 symbols, 15m, ~10 interventions) is ~10^7 cells per request and does <strong>not</strong> trigger; only an Expert-variant sweep would. Writing kernels in a backend-portable form to defer the decision is legitimate <strong>on one condition — that the portable form's CPU output is competitive with a directly-written CPU kernel, which is an assumption to be measured before adoption, not a premise</strong> (<code>COMPUTE_SCHEDULING_SPEC</code> §6) |
+| D-085 | Admit <code>src/v8/fast.py</code> as a decision-path module: content-addressed caches for repeatable evaluations — <code>CompleteRunCache</code> (whole-run ledger restore under a key binding tape, manifest, expert identity, code, tooling and risk-admission policy), <code>StateMaterializationCache</code> (canonical MarketState objects, keyed independently of Expert source bytes), <code>ExpertEvaluationCache</code> (one Expert's evaluation stream). A hit restores immutable ledgers byte-for-byte via same-filesystem hardlink and never fabricates a report from a partial run; the canonical Lab remains the authority and performs a full replay on a miss | PROVISIONAL_DECISION | D-032 file-family rule: a new <code>src/v8/</code> module requires a register decision plus a CHANGELOG entry, and this module was present in the tree untracked. Covered by <code>tests/test_fast_cache.py</code>. It is the seed of the V8.2 content-addressed DAG cache, whose missing node is cube level — <code>(candidate_id, action_id, simulator_hash, data_hash)</code> → outcome — which is what makes an Expert edit invalidate only that Expert's cells instead of the whole run |</p>
+<p>| D-086 | <strong>Variant sweeps are admitted, under anytime-valid error control</strong> (<code>SWEEP_PROTOCOL</code>). A sweep evaluates a registered grid of variants of one behaviour family; each variant is one arm and one hypothesis, evidence accumulates as an <strong>e-process</strong>, compute is allocated by successive halving over a growing chronological slice, and the final rejection set is produced by <strong>e-BH on the stopped e-processes</strong>. Requirements S1-S8: grid declared and registered before any evaluation and never widened mid-campaign; e-process construction declared; exploration rule free but recorded; MinBTL pre-check refuses an over-large grid; the confirmation half stays untouched and is queried exactly once (unchanged from D-072); every survivor reported with Deflated Sharpe and PBO as diagnostics; alpha spent across campaigns under an online procedure. Default null is the family's existing registered variant, not zero — a sweep must beat what it proposes to replace | PROVISIONAL_DECISION | <strong>The reason this is now admissible is that one object removes both obstacles at once.</strong> Multiplicity: e-BH controls FDR under <strong>arbitrary dependence</strong> between hypotheses (Wang &amp; Ramdas, arXiv:2009.02824), which matters because sweep variants all read the same tape and plainly violate BH's independence/PRDS assumptions. Adaptivity: FDR control holds for <strong>arbitrary exploration rules and arbitrary stopping times</strong> with e-processes (Xu, Wang &amp; Ramdas, <em>A unified framework for bandit multiple testing</em>, NeurIPS 2021), so early elimination — normally selection plus peeking, and therefore invalidating — becomes licensed. Previously the statistically safe sweep was the computationally impossible one and vice versa. <strong>Trap recorded before it bites</strong> (<code>SWEEP_PROTOCOL</code> §4): stopping several e-processes at a COMMON stopping time yields e-values only under a shared global filtration, and e-processes are normally built locally per hypothesis (arXiv:2502.08539). Every V8 variant reads the same tape, so the streams are dependent by construction and the naive "halve them all at a shared stopping time" design is exactly the unsafe case; the default resolution is variant-LOCAL stopping times, and using a global one requires an argument in the campaign contract rather than an assertion. <strong>Hard pre-condition:</strong> the Minimum Backtest Length result (Bailey, Borwein, López de Prado &amp; Zhu) — on five years of daily data no more than ~45 variations can be tried before a Sharpe of 1.0 arises by chance — so the admissible trial count is computed from tape length BEFORE the grid is registered, and an over-large grid is refused rather than discounted. <strong>Compute consequence:</strong> successive halving takes the sweep from <code>O(\|V\| x full-tape)</code> to ~<code>O(\|V\| x short-slice + log\|V\| x full)</code>, one to two orders of magnitude for a 1,000-variant grid, composing with the D-085 DAG cache since extending a survivor's window is incremental. This lands a nominally large sweep back below the ~10^9-cell GPU trigger (D-084), so admitting sweeps does <strong>not</strong> force Experts native from stage S1 and does <strong>not</strong> reopen the GPU question — the statistically correct design is also the cheap one. Blocked on O-032 (the e-process construction for block-dependent episode streams is not settled; no campaign may run until it is declared and tested) |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -3023,6 +5703,11 @@ named baseline, not disproven forever. None means profitability.</p></section>
 </tr>
 </tbody>
 </table>
+<p>| O-028 | ~~Is the Expert-variant sweep dimension inside V8.2's scope?~~ <strong>RESOLVED 2026-08-11 by D-086:</strong> sweeps are admitted, under <code>SWEEP_PROTOCOL</code>. The premise of the question — that a sweep multiplies cells by its full cardinality — does not hold once compute is allocated by successive halving: the cost falls one to two orders of magnitude, landing back below the ~10^9-cell GPU trigger. Consequently sweeps do <strong>not</strong> force Experts native from stage S1 and do <strong>not</strong> reopen the GPU question | — | — |
+| O-029 | Which GPU backend, if the D-084 trigger ever fires — vendor-specific (HIP / Metal) or a backend-portable kernel layer? | Before adopting any portable layer, measure its <strong>CPU</strong> output against a directly-written CPU kernel on K4; the portable form is only free if its CPU path is competitive | Adopt a portable layer only if its CPU backend is within a declared margin of hand-written Rust; otherwise write CPU kernels directly and defer GPU entirely. Either way the choice must not become visible in a manifest or a hash (D-084) |
+| O-030 | When does the Expert <code>evaluate()</code> layer port to the compute plane (stage S4)? The measured churn argues for late: <code>src/v8/experts/</code> was touched by 51 of the last 200 commits — ~2.5x the next-most-churned module (<code>lab.py</code>, 20) — and <code>docs/</code> by 146, so the specification itself is still moving | Re-measure directory churn at each stage gate; port when the expert and docs churn rates fall to the level of the already-frozen modules (<code>simulator.py</code> 10, <code>statistics.py</code> 2, <code>tools/regret.py</code> 1) | Port S4 early only if O-028 resolves "sweep in scope". Otherwise porting a moving specification makes the parity oracle fail for legitimate reasons and destroys the ability to distinguish a port defect from a specification change |
+| O-031 | Should <code>docs/tr/</code> reach parity with the EN corpus? It is currently a subset — <code>ARCHITECTURE_SPEC</code>, <code>IMPLEMENTATION_LAYOUT</code>, <code>CHANGELOG</code>, <code>ROADMAP</code>, <code>AGENT_RUNBOOK</code> and the V8.2 contracts have no TR counterpart | Count reader demand for <code>site/tr.html</code> sections that do not exist, rather than translating speculatively | Translate a document only when a reader needs it; a stale translation is worse than an absent one, because the monograph presents both as current |</p>
+<p>| O-032 | Which <strong>e-process construction</strong> is valid for V8's block-dependent episode streams? D-086 admits sweeps but blocks on this: the existing machinery (<code>select_block_size</code>, <code>effective_independent_episodes</code>, <code>bootstrap_ci</code>) estimates dependence with fixed-sample devices, and an anytime-valid analogue is required for the e-BH guarantee to mean anything here | Construct a betting-style test martingale on block-aggregated episodes, then calibrate it on a detrended / label-shuffled tape where no variant has an edge and check the realized FDR against the declared level over repeated campaigns (<code>SWEEP_PROTOCOL</code> §7.1) | Admit a construction only if it holds its declared level under the null calibration AND retains usable power against a planted effect. Until then <strong>no sweep campaign may run</strong> — D-086 is admitted but blocked, not live |</p>
 <p>All remaining rows are <code>OPEN_QUESTION</code>. No field may be silently resolved by a
 dashboard result, unregistered parameter sweep, or synthetic data.</p></section>
 <section id="sec-evidence-matrix"><h1>EVIDENCE MATRIX</h1><h1 id="v8-evidence-matrix">V8 Evidence Matrix</h1>
@@ -5136,6 +7821,95 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-11-variant-sweeps-admitted-under-anytime-valid-error-control-d-086-o-028-resolved">2026-08-11 — Variant sweeps admitted under anytime-valid error control (D-086); O-028 resolved</h2>
+<p><code>docs/protocols/SWEEP_PROTOCOL.md</code> (new). Sweeps — evaluating a registered grid
+of variants rather than one hand-declared variant — were previously excluded
+for two reasons that pulled in opposite directions: multiplicity (Bonferroni
+over thousands of variants annihilates power, and BH's independence assumption
+is plainly violated when every variant reads the same tape) and adaptivity (any
+compute-feasible sweep must kill losers early, which is peeking plus selection
+and invalidates fixed-sample inference). The statistically safe sweep was the
+computationally impossible one.</p>
+<p>Both obstacles fall to <strong>one</strong> object. e-BH controls FDR under <strong>arbitrary
+dependence</strong> between hypotheses (Wang &amp; Ramdas, arXiv:2009.02824), and with
+e-processes the guarantee holds for <strong>arbitrary exploration rules and arbitrary
+stopping times</strong> (Xu, Wang &amp; Ramdas, <em>A unified framework for bandit multiple
+testing</em>, NeurIPS 2021). Successive halving over variants therefore becomes
+licensed rather than fraudulent, and the protocol adopts it: registered grid →
+e-process per variant → halving over a growing chronological slice → stopped
+e-BH → the unchanged single-query confirmation half → DSR and PBO as
+diagnostics → online alpha across campaigns.</p>
+<p><strong>Two hazards recorded before they bite.</strong> (1) The local/global filtration
+condition (arXiv:2502.08539): stopping several e-processes at a <em>common</em>
+stopping time yields e-values only under a shared global filtration, and every
+V8 variant reads the same tape, so the naive design is exactly the unsafe case.
+Default resolution is variant-local stopping times; a global one requires an
+argument in the campaign contract. (2) The Minimum Backtest Length result
+(Bailey, Borwein, López de Prado &amp; Zhu) — on five years of daily data no more
+than ~45 variations can be tried before a Sharpe of 1.0 appears by chance — so
+the admissible trial count is computed from tape length <em>before</em> the grid is
+registered, and an over-large grid is refused rather than discounted.</p>
+<p><strong>O-028 resolved.</strong> The question assumed a sweep multiplies replay cells by its
+full cardinality. Under successive halving it does not: the cost falls one to
+two orders of magnitude and lands back below the ~10^9-cell GPU trigger
+(D-084). So sweeps do not force Experts native from stage S1 and do not reopen
+the GPU question — the statistically correct design is also the cheap one.</p>
+<p><strong>D-086 is admitted but blocked.</strong> The e-process construction for
+block-dependent episode streams is unsettled (new O-032); no sweep campaign may
+run until one is declared and passes null calibration. Also updated:
+<code>DECISION_REGISTER</code> (D-086), <code>OPEN_DECISIONS</code> (O-028 resolved, O-032 added),
+<code>tools/build_monograph.py</code> (<code>NAMES</code>), both monographs rebuilt.</p>
+<h2 id="2026-08-11-v82-corpus-high-throughput-compute-substrate-evaluation-plane-contract-d-077d-085">2026-08-11 — V8.2 corpus: high-throughput compute substrate + evaluation-plane contract (D-077..D-085)</h2>
+<p>A corpus-only change. No runtime code was modified, no performance fix was
+applied, and no Rust was written. What landed is the contract set for the V8.2
+substrate decision, the measurement evidence behind it, and two pre-existing
+corpus gaps closed.</p>
+<p><strong>Measurement first (<code>docs/audits/PERFORMANCE_AUDIT_V82.md</code>, new).</strong> A profiling
+session attributed the ~26-32 s single-cell evaluation cost. Headline: the
+decision-path arithmetic is a minority of the run. Measured on an 8,760-bar
+single-symbol synthetic tape (CPython 3.14.0, macOS arm64): 27 experts 32.32 s /
+22,444 candidates, 3 experts 16.11 s / 1,837; state layer 7.74 s of which
+<strong>4.93 s is one O(N²) line</strong> (<code>{id(b): i for ...}</code> rebuilt per state per symbol
+per interval — 77,925,592 <code>id()</code> calls); cube cells cost <strong>71.8 µs of tape
+slicing against 6.4 µs of arithmetic</strong>; one state record is 31,091 B for 74
+features of which <strong>~2% is the float values</strong>; <code>states.jsonl</code> is 271.8 MB against
+a 3.5 MB input tape; the scaling exponent drifts 1.16 → 1.32 as N grows. The
+same defect class — bounded work over unbounded data — appears at three
+independent sites (state lineage, cube replay, ledger hashing). Separately,
+CPython <code>json</code> and Rust <code>f64</code> formatting were found to disagree on <strong>7 of 8</strong>
+representative values, which makes decimal text unusable as a cross-runtime
+identity.</p>
+<p><strong>New contracts.</strong> <code>COMPUTE_CORE_SPEC</code> (two planes, layer map, representation
+rule, staged migration S0..S5), <code>PARITY_AND_IDENTITY_SPEC</code> (V8.0 frozen as
+oracle, value-level bit parity, IEEE bit-pattern hashing, gates G1-G6),
+<code>LEDGER_FORMAT_SPEC</code> (identity/information/schema/run-constant/derivable
+classification, three tiers, columnar layout), <code>OUTCOME_CUBE_SPEC</code> (action
+manifest, cell-status taxonomy, streaming reduction, bounded-window rule),
+<code>PREDICATE_IR_SPEC</code> (compiled <code>still_valid</code>, equivalence gate E1-E5),
+<code>COMPUTE_SCHEDULING_SPEC</code> (kernels K1-K6, per-kernel determinism analysis, the
+~10^9-cell GPU trigger).</p>
+<p><strong>Gap 1 closed — the evaluation plane had no contract.</strong>
+<code>docs/protocols/RECOVERABLE_REGRET_PROTOCOL.md</code> documents Phases 0-4 as built
+and certified under D-071..D-074, including what each phase does <strong>not</strong> claim:
+<code>V_R</code> remains negative on all 11 recoverable slices, so the result is a
+replicated loss-reduction effect and not a profitability finding.</p>
+<p><strong>Gap 2 closed — <code>IMPLEMENTATION_LAYOUT</code> was stale.</strong> It listed 3 pilot experts
+against 28 shipped modules and omitted <code>equity.py</code>, <code>interval.py</code>,
+<code>statistics.py</code>'s current scope, <code>fast.py</code>, and the whole <code>tools/regret*.py</code>
+family. Corrected, and the planned Rust workspace added as a second section.</p>
+<p><strong>Updated.</strong> <code>ARCHITECTURE_SPEC</code> §2 (evaluation plane added to the component
+map) and new §3.1 (V8.2 substrate revision — D-031 revised, not retired);
+<code>ROADMAP</code> (new Phase 4b, plus explicit version semantics: Rust and GPU are
+implementation changes and do not constitute a V9); <code>DECISION_REGISTER</code>
+(D-077..D-085); <code>OPEN_DECISIONS</code> (O-028..O-031); <code>tools/build_monograph.py</code>
+(<code>NAMES</code>); both monographs rebuilt.</p>
+<p><strong>Two things deliberately recorded as not claimed.</strong> (1) The substrate decision
+is <strong>not</strong> justified by the program's falsification clause on evaluation cost —
+the measurements show research scale is reachable in Python once the D-083
+defect class is removed, and D-077 says so explicitly, because a motivated
+reading of one's own criterion is the failure mode this program exists to
+resist. (2) <code>fast.py</code> was admitted (D-085) because it was sitting in the tree
+untracked and D-032 requires a register decision for any new <code>src/v8/</code> module.</p>
 <h2 id="2026-08-10-v8-x-recoverable-regret-v02-phase-0-build-step-1-golden-repair-two-portability-bugs-multi-symbol-dev-tape">2026-08-10 — V8 x Recoverable Regret v0.2, Phase-0 build step 1: golden repair + two portability bugs + multi-symbol dev tape</h2>
 <p>Three local repairs and one data-plane addition, all prerequisites for the
 Phase-0 measurement instrument frozen in <code>FCR-V8RR-004</code> (read-only ACCP
@@ -6888,6 +9662,15 @@ preregistered, costed, frozen-OOS comparison, never a calendar date
 roadmap, gates unchanged. System versions map to phases: each phase that
 admits a component bumps the version. The sprint breakdown lives in
 <code>docs/PLAN_V8_FULL.md</code> (planning artifact, not a monograph section).</p>
+<p><strong>Version semantics.</strong> <code>V8.0</code> is the deterministic Expert architecture,
+canonical simulator and research foundation of Phases 0-4. <code>V8.2</code> (Phase 4b) is
+the high-throughput compute substrate plus the Recoverable Regret evaluation
+plane — a substrate and measurement release that leaves the decision ontology
+untouched. A <code>V9</code> would require a break in that ontology: a learned proposal
+architecture as the baseline, a different Candidate ontology, the system
+ceasing to be Candidate-constrained, a router or scorer becoming part of the
+policy, or a different epistemic architecture. Moving to Rust or adding a GPU
+backend is an implementation change and does <strong>not</strong> constitute one (D-077).</p>
 <h2 id="phase-0-foundation-done-2026-08-01">Phase 0 — Foundation (DONE 2026-08-01)</h2>
 <ul>
 <li>Corpus restored and restructured (<code>docs/</code>, <code>site/</code>, <code>research/</code>, <code>tools/</code>,
@@ -6939,6 +9722,30 @@ admits a component bumps the version. The sprint breakdown lives in
 <li><strong>Program gate:</strong> if neither family shows after-cost signal, the falsification
   program stops here; gated components are never built without a surviving
   family (<code>V8_CONSTITUTION</code> rule 12).</li>
+</ul>
+<h2 id="phase-4b-v82-compute-substrate-and-evaluation-plane">Phase 4b — V8.2 compute substrate and evaluation plane</h2>
+<p>Runs alongside Phase 4 measurement; admits no gated component and changes no
+decision semantics. Two pillars, one release (D-077).</p>
+<p><strong>Evaluation plane (built, D-071..D-074).</strong> Outcome Cube, legal hindsight gap,
+systematicity discovery with a declared 72-slice family and a
+discovery/confirmation split, recoverability against a declared decision-time
+policy class, and one controlled single-component intervention. Contract of
+record: <code>RECOVERABLE_REGRET_PROTOCOL</code>. Result to date is a replicated
+loss-reduction effect with <code>V_R</code> negative on every recoverable slice — not a
+profitability finding, and not admissible as one (rule 12).</p>
+<p><strong>Compute substrate (planned).</strong> A Rust compute plane owning dataset →
+features → state → candidates → replay → cube → reduction, with Python demoted
+to control and analysis. Staged S0..S5 with a value-level parity gate at every
+stage (<code>COMPUTE_CORE_SPEC</code> §8; <code>PARITY_AND_IDENTITY_SPEC</code> §5). <code>src/v8/</code> is
+frozen as the parity oracle, not deleted.</p>
+<ul>
+<li><strong>DoD (evaluation plane):</strong> each phase's contract frozen before its run;
+  reconciliation exact; confirmation half queried exactly once per slice.</li>
+<li><strong>DoD (substrate):</strong> every stage passes G1-G6; the ledger round-trips
+  (<code>LEDGER_FORMAT_SPEC</code> §8); artifacts are byte-identical across thread count
+  and backend.</li>
+<li><strong>Not a gate:</strong> this phase produces no economic evidence. It changes what the
+  program can afford to measure, never what it may claim.</li>
 </ul>
 <h2 id="phase-5-gated-components-only-on-surviving-evidence">Phase 5 — Gated components (only on surviving evidence)</h2>
 <ul>

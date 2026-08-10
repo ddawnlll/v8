@@ -12,6 +12,16 @@ roadmap, gates unchanged. System versions map to phases: each phase that
 admits a component bumps the version. The sprint breakdown lives in
 `docs/PLAN_V8_FULL.md` (planning artifact, not a monograph section).
 
+**Version semantics.** `V8.0` is the deterministic Expert architecture,
+canonical simulator and research foundation of Phases 0-4. `V8.2` (Phase 4b) is
+the high-throughput compute substrate plus the Recoverable Regret evaluation
+plane — a substrate and measurement release that leaves the decision ontology
+untouched. A `V9` would require a break in that ontology: a learned proposal
+architecture as the baseline, a different Candidate ontology, the system
+ceasing to be Candidate-constrained, a router or scorer becoming part of the
+policy, or a different epistemic architecture. Moving to Rust or adding a GPU
+backend is an implementation change and does **not** constitute one (D-077).
+
 ## Phase 0 — Foundation (DONE 2026-08-01)
 
 - Corpus restored and restructured (`docs/`, `site/`, `research/`, `tools/`,
@@ -63,6 +73,33 @@ admits a component bumps the version. The sprint breakdown lives in
 - **Program gate:** if neither family shows after-cost signal, the falsification
   program stops here; gated components are never built without a surviving
   family (`V8_CONSTITUTION` rule 12).
+
+## Phase 4b — V8.2 compute substrate and evaluation plane
+
+Runs alongside Phase 4 measurement; admits no gated component and changes no
+decision semantics. Two pillars, one release (D-077).
+
+**Evaluation plane (built, D-071..D-074).** Outcome Cube, legal hindsight gap,
+systematicity discovery with a declared 72-slice family and a
+discovery/confirmation split, recoverability against a declared decision-time
+policy class, and one controlled single-component intervention. Contract of
+record: `RECOVERABLE_REGRET_PROTOCOL`. Result to date is a replicated
+loss-reduction effect with `V_R` negative on every recoverable slice — not a
+profitability finding, and not admissible as one (rule 12).
+
+**Compute substrate (planned).** A Rust compute plane owning dataset →
+features → state → candidates → replay → cube → reduction, with Python demoted
+to control and analysis. Staged S0..S5 with a value-level parity gate at every
+stage (`COMPUTE_CORE_SPEC` §8; `PARITY_AND_IDENTITY_SPEC` §5). `src/v8/` is
+frozen as the parity oracle, not deleted.
+
+- **DoD (evaluation plane):** each phase's contract frozen before its run;
+  reconciliation exact; confirmation half queried exactly once per slice.
+- **DoD (substrate):** every stage passes G1-G6; the ledger round-trips
+  (`LEDGER_FORMAT_SPEC` §8); artifacts are byte-identical across thread count
+  and backend.
+- **Not a gate:** this phase produces no economic evidence. It changes what the
+  program can afford to measure, never what it may claim.
 
 ## Phase 5 — Gated components (only on surviving evidence)
 
