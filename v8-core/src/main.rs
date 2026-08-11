@@ -24,6 +24,7 @@ mod evidence;
 mod experts;
 mod hash;
 mod jsonx;
+mod regret;
 mod simulator;
 mod state;
 
@@ -52,6 +53,7 @@ fn main() {
         "features" => cmd_features(&args[2..]),
         "predicate-check" => cmd_predicate_check(&args[2..]),
         "replay" => cmd_replay(&args[2..]),
+        "cube" => cmd_cube(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -222,6 +224,16 @@ fn ingest(req: &Request) -> Result<Value, String> {
 // ---------------------------------------------------------------------------
 // S1: FeatureStore + StateView -> per-symbol state artifacts
 // ---------------------------------------------------------------------------
+
+fn push_opt_f64(col: &mut evidence::Column, v: Option<f64>) {
+    match v {
+        Some(x) => col.push_f64(x),
+        None => {
+            col.push_f64(0.0);
+            col.push_absent();
+        }
+    }
+}
 
 fn cmd_features(args: &[String]) -> i32 {
     if args.len() != 1 {
@@ -594,4 +606,237 @@ fn replay(req: &ReplayRequest) -> Result<Value, String> {
 /// The kernel needs the symbol's columnar bars; they live in the Dataset.
 fn store_bars<'a>(ds: &'a data::Dataset, symbol: &str) -> &'a data::SymbolBars {
     ds.bars.iter().find(|b| b.symbol == symbol).unwrap()
+}
+
+// ---------------------------------------------------------------------------
+// S3: CubeReducer + streaming regret
+// ---------------------------------------------------------------------------
+
+fn cmd_cube(args: &[String]) -> i32 {
+    if args.len() != 1 {
+        eprintln!("usage: v8-core cube <request.json>");
+        return 2;
+    }
+    let bytes = match std::fs::read(&args[0]) {
+        Ok(b) => b,
+        Err(e) => {
+            eprintln!("error: cannot read request: {e}");
+            return 1;
+        }
+    };
+    let req: ReplayRequest = match serde_json::from_slice(&bytes) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("error: cannot parse request: {e}");
+            return 1;
+        }
+    };
+    match cube(&req) {
+        Ok(summary) => {
+            println!("{}", serde_json::to_string(&summary).unwrap());
+            0
+        }
+        Err(e) => {
+            eprintln!("error: {e}");
+            1
+        }
+    }
+}
+
+/// The request payload for one Candidate's cube cells.
+#[derive(serde::Deserialize)]
+struct CubeCandidate {
+    candidate_id: String,
+    symbol: String,
+    direction: String,
+    birth_time: i64,
+    geometry: serde_json::Map<String, Value>,
+    entry_bar_index: Option<u64>,
+    window_end: Option<u64>,
+    predicate_ir: Option<Value>,
+}
+
+fn cube(req: &ReplayRequest) -> Result<Value, String> {
+    let rows = read_tape(&req.tape_path)?;
+    let ds = data::Dataset::from_rows(rows).map_err(|e| e.to_string())?;
+    let stores = state::build_stores(&ds);
+    std::fs::create_dir_all(&req.out_dir).map_err(|e| format!("out_dir: {e}"))?;
+
+    let sim = simulator::SimulatorParams::from_json(&req.manifest);
+    let mut funding_schedule: Vec<(i64, f64)> = ds.rows.iter()
+        .filter(|r| r.channel == "funding")
+        .map(|r| (r.event_time, r.payload["funding_rate"].as_f64().unwrap_or(0.0)))
+        .collect();
+    funding_schedule.sort_by_key(|(t, _)| *t);
+
+    let mut art = evidence::Artifact::new(
+        "cube-reduced",
+        if req.tier.is_empty() { "VALUES" } else { &req.tier },
+        serde_json::json!({ "hash_encoding": hash::HASH_ENCODING,
+                            "generator_version": regret::GENERATOR_VERSION }),
+        "candidate_id",
+    );
+    let c_cid = art.add_column("candidate_id", evidence::DType::DictStr);
+    let c_mid = art.add_column("manifest_id", evidence::DType::DictStr);
+    let c_aid = art.add_column("actual_action_id", evidence::DType::DictStr);
+    let c_au = art.add_column("actual_utility", evidence::DType::F64);
+    let c_bu = art.add_column("best_utility", evidence::DType::F64);
+    let c_tie = art.add_column("tie_cardinality", evidence::DType::I64);
+    let c_gap = art.add_column("legal_hindsight_gap", evidence::DType::F64);
+    let c_gs = art.add_column("gap_status", evidence::DType::DictStr);
+    let c_reason = art.add_column("abstention_reason", evidence::DType::DictStr);
+    let c_nt = art.add_column("no_trade_value", evidence::DType::F64);
+    let c_ok = art.add_column("n_ok", evidence::DType::I64);
+    let c_ce = art.add_column("n_censored", evidence::DType::I64);
+    let c_uf = art.add_column("n_undefined_future", evidence::DType::I64);
+    let c_ne = art.add_column("n_not_evaluable_action", evidence::DType::I64);
+    let c_ne2 = art.add_column("n_no_entry", evidence::DType::I64);
+
+    let mut n_candidates = 0usize;
+    for raw in &req.candidates {
+        let cand: CubeCandidate = serde_json::from_value(raw.clone())
+            .map_err(|e| format!("cube candidate parse: {e}"))?;
+        let store = stores.iter().find(|s| s.symbol == cand.symbol)
+            .ok_or_else(|| format!("cube: no bars for symbol {}", cand.symbol))?;
+        let kernel = simulator::ReplayKernel {
+            round_trip_cost_r: sim.round_trip_cost_r,
+            funding_rate_r: sim.funding_rate_r,
+            funding_hours: sim.funding_hours,
+            fill_policy: sim.fill_policy,
+            funding_schedule: &funding_schedule,
+            round_trip_cost_bps: sim.round_trip_cost_bps,
+            bars: store_bars(&ds, &cand.symbol),
+            store,
+        };
+
+        let manifest = regret::generate_legal_actions(&cand.geometry);
+        let entry_idx = match cand.entry_bar_index {
+            Some(i) => i as usize,
+            None => {
+                // NO_ENTRY cell for every action; the gap is
+                // NOT_APPLICABLE_NO_ACTUAL_ACTION (no actual entry bar).
+                let cells: Vec<regret::Cell> = manifest.actions.iter().map(|a| {
+                    regret::Cell { action_id: a.action_id.clone(),
+                                   status: regret::CELL_NO_ENTRY,
+                                   reason: "candidate has no actual entry bar".into(),
+                                   net_utility: None }
+                }).collect();
+                write_reduced(&mut art, &cand, &manifest, &cells,
+                              &[c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap,
+                                c_gs, c_reason, c_nt, c_ok, c_ce, c_uf, c_ne, c_ne2])?;
+                n_candidates += 1;
+                continue;
+            }
+        };
+        let window_end = cand.window_end.unwrap_or(store.closes.len() as u64) as usize;
+
+        let mut cells = Vec::with_capacity(manifest.actions.len());
+        for a in &manifest.actions {
+            if a.kind == "NO_TRADE" {
+                cells.push(regret::Cell {
+                    action_id: a.action_id.clone(),
+                    status: regret::CELL_OK,
+                    reason: String::new(),
+                    net_utility: Some(0.0),
+                });
+                continue;
+            }
+            if window_end.saturating_sub(entry_idx) <= regret::MIN_FUTURE_BARS {
+                cells.push(regret::Cell {
+                    action_id: a.action_id.clone(),
+                    status: regret::CELL_UNDEFINED_FUTURE,
+                    reason: format!("fewer than {} bars of future after the entry bar — the simulator would return a manufactured EXPIRY value", regret::MIN_FUTURE_BARS + 1),
+                    net_utility: None,
+                });
+                continue;
+            }
+            let mut geom = cand.geometry.clone();
+            for (k, v) in &a.override_geom {
+                geom.insert(k.clone(), v.clone());
+            }
+            let draft = simulator::Draft {
+                direction: cand.direction.clone(),
+                birth_time: cand.birth_time,
+                risk_geometry: geom,
+            };
+            let out = match kernel.run(&draft, entry_idx, window_end, cand.predicate_ir.as_ref()) {
+                Ok(o) => o,
+                Err(e) => {
+                    cells.push(regret::Cell {
+                        action_id: a.action_id.clone(),
+                        status: regret::CELL_NOT_EVALUABLE_ACTION,
+                        reason: format!("replay raised: {e}"),
+                        net_utility: None,
+                    });
+                    continue;
+                }
+            };
+            if out.label_status == "NOT_EXECUTED" {
+                cells.push(regret::Cell {
+                    action_id: a.action_id.clone(),
+                    status: regret::CELL_NOT_EVALUABLE_ACTION,
+                    reason: "action never filled on this tape (e.g. FILL_AT_LIMIT never traded through)".into(),
+                    net_utility: None,
+                });
+                continue;
+            }
+            let status = if out.label_status == "MATURE" { regret::CELL_OK } else { regret::CELL_CENSORED };
+            cells.push(regret::Cell {
+                action_id: a.action_id.clone(),
+                status,
+                reason: if status == regret::CELL_OK { String::new() } else {
+                    "replay reached tape end before a terminal endpoint".into()
+                },
+                net_utility: Some(out.net_r),
+            });
+        }
+
+        write_reduced(&mut art, &cand, &manifest, &cells,
+                      &[c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap,
+                        c_gs, c_reason, c_nt, c_ok, c_ce, c_uf, c_ne, c_ne2])?;
+        n_candidates += 1;
+    }
+
+    let artifact_path = req.out_dir.join("cube-reduced.v82");
+    art.write(&artifact_path).map_err(|e| format!("write cube artifact: {e}"))?;
+    Ok(serde_json::json!({
+        "subcommand": "cube",
+        "candidates": n_candidates,
+        "artifact": artifact_path.to_string_lossy(),
+        "fingerprint": evidence::fingerprint(&artifact_path).unwrap_or_default(),
+    }))
+}
+
+#[allow(clippy::too_many_arguments)]
+fn write_reduced(
+    art: &mut evidence::Artifact,
+    cand: &CubeCandidate,
+    manifest: &regret::Manifest,
+    cells: &[regret::Cell],
+    cols: &[usize; 15],
+) -> Result<(), String> {
+    let row = regret::compute_gap(&cand.candidate_id, manifest, cells);
+    let [c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap, c_gs, c_reason,
+         c_nt, c_ok, c_ce, c_uf, c_ne, c_no_entry] = *cols;
+    art.columns[c_cid].push_str(&row.candidate_id);
+    art.columns[c_mid].push_str(&row.manifest_id);
+    match &row.actual_action_id {
+        Some(a) => art.columns[c_aid].push_str(a),
+        None => { art.columns[c_aid].push_str(""); art.columns[c_aid].push_absent(); }
+    }
+    push_opt_f64(&mut art.columns[c_au], row.actual_utility);
+    push_opt_f64(&mut art.columns[c_bu], row.best_utility);
+    art.columns[c_tie].push_i64(row.tie_cardinality as i64);
+    push_opt_f64(&mut art.columns[c_gap], row.legal_hindsight_gap);
+    art.columns[c_gs].push_str(row.gap_status);
+    art.columns[c_reason].push_str(&row.abstention_reason);
+    push_opt_f64(&mut art.columns[c_nt], row.no_trade_value);
+    let n = |s: &str| *row.counts.get(s).unwrap_or(&0) as i64;
+    art.columns[c_ok].push_i64(n(regret::CELL_OK));
+    art.columns[c_ce].push_i64(n(regret::CELL_CENSORED));
+    art.columns[c_uf].push_i64(n(regret::CELL_UNDEFINED_FUTURE));
+    art.columns[c_ne].push_i64(n(regret::CELL_NOT_EVALUABLE_ACTION));
+    art.columns[c_no_entry].push_i64(n(regret::CELL_NO_ENTRY));
+    art.end_row();
+    Ok(())
 }

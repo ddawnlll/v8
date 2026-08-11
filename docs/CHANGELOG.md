@@ -3,6 +3,34 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-11 — V8.2 compute core S3: CubeReducer + streaming regret (D-090)
+
+`v8-core/src/regret.rs` (new), `v8-core cube` subcommand, `reports/parity/S3.md`
+(new evidence). The S3 gate passes: the reduced tables match the Python
+evaluator (OUTCOME_CUBE_SPEC §7.6 streaming == full materialization) on every
+Candidate, plus G1..G6.
+
+- `regret.rs`: the `LegalActionManifest` (NO_TRADE at element 0, the ACTUAL
+  action at element 1 by construction, the declared grid de-duplicated by
+  action id, `pyramid_add_rules` excluded → cardinality 2), the cell-status
+  classifier (OK/CENSORED/UNDEFINED_FUTURE/NOT_EVALUABLE_ACTION/NO_ENTRY,
+  `MIN_FUTURE_BARS = 1`), and `compute_gap` (best over OK cells incl. NO_TRADE,
+  `GAP_TIE_EPS = 1e-12` ties reported never broken, abstain on CENSORED /
+  no-OK / actual-cell-not-OK). Action and manifest identities are V8.2
+  bit-encoded (D-079).
+- `v8-core cube <request>`: streams one Candidate at a time — manifest →
+  replay each cell via the S2 ReplayKernel → classify → reduce in memory →
+  emit the `cube-reduced` artifact. Cells are never materialized across
+  Candidates (D-081).
+
+Gate evidence (`reports/parity/S3.md`): cargo test 24 passed; 5/5 S3 parity
+tests — reduced tables match the Python Phase-0 evaluator on every BOUND
+Candidate (gap_status/actual_utility/best_utility/tie_cardinality/
+legal_hindsight_gap/abstention_reason exact), gap >= 0 on every COMPUTED
+Candidate, manifest structure (a_actual element 1), G4 byte-identical, G5
+thread invariance, G6 near-tape-end refusal (UNDEFINED_FUTURE) agrees. No
+speed claim.
+
 ## 2026-08-11 — V8.2 compute core S2: Predicate IR + ReplayKernel (D-089)
 
 `v8-core/src/experts/predicate.rs` (new), `v8-core/src/simulator.rs` (new),

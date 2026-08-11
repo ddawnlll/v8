@@ -693,3 +693,11 @@ this file and `docs/STATUS_REPORT.md`.
 - fixes / deviations: (1) serde_json default float parser not correctly rounded — "0.9632136759338213" parses 1 ulp low, breaking geometry parity; enabled float_roundtrip. (2) fail-open semantics not uniform — added the `guard` node for whole-condition fail-open (trend_pullback_depth, rsi_stoch variant b, bollinger_reversion close pre-check, gap_exhaustion either-ref); fib_rsi_bb prior_low_ref valid-form is GTE (boundary holds) vs 3sd GT.
 - commit: (below) `v8-step: S2 predicate IR + ReplayKernel`
 - gate: pytest=831 cargo-test=24 monograph=byte-identical oracle-tree=184fb934…
+
+## Session 5 — Step 4 — S3 CubeReducer + streaming regret — DONE
+- started: 2026-08-11 finished: 2026-08-11
+- files touched: v8-core/src/regret.rs (new), v8-core/src/main.rs (cube subcommand), tests/parity/test_parity_s3.py (new), reports/parity/S3.md (new), docs/CHANGELOG.md, docs/decisions/DECISION_REGISTER.md, site/{index,tr}.html
+- evidence: `cargo test` -> 24 passed; `.venv/bin/python -m pytest tests/parity/test_parity_s3.py -q` -> 5 passed (reduced tables == Python Phase-0 evaluator on every BOUND candidate; gap>=0; manifest structure; G4; G5; G6); `.venv/bin/python -m pytest tests -q` -> 836 passed (was 831); monograph probe byte-identical; oracle tree 184fb934…
+- fixes / deviations: compute_gap's actual-cell-not-OK branch must set actual_utility=None (the Python RegretRecord does), not the cell's value — fixed.
+- commit: (below) `v8-step: S3 CubeReducer + streaming regret`
+- gate: pytest=836 cargo-test=24 monograph=byte-identical oracle-tree=184fb934…
