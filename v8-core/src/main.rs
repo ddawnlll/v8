@@ -23,6 +23,7 @@ mod data;
 mod evidence;
 mod hash;
 mod jsonx;
+mod state;
 
 use std::path::PathBuf;
 
@@ -46,6 +47,7 @@ fn main() {
     }
     let code = match args[1].as_str() {
         "ingest" => cmd_ingest(&args[2..]),
+        "features" => cmd_features(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -69,6 +71,12 @@ struct Request {
     manifest: Value,
     #[serde(default)]
     tier: String,
+    #[serde(default)]
+    universe: Vec<String>,
+    #[serde(default = "default_interval")]
+    base_interval: String,
+    #[serde(default = "default_depth")]
+    history_depth: usize,
 }
 
 fn default_threads() -> usize {
@@ -76,6 +84,12 @@ fn default_threads() -> usize {
 }
 fn default_engine() -> String {
     "cpu".to_string()
+}
+fn default_interval() -> String {
+    "1h".to_string()
+}
+fn default_depth() -> usize {
+    state::HISTORY_DEPTH_DEFAULT
 }
 
 fn load_request(path: &str) -> Result<Request, String> {
@@ -199,4 +213,193 @@ fn ingest(req: &Request) -> Result<Value, String> {
         "threads": req.threads,
     });
     Ok(summary)
+}
+
+// ---------------------------------------------------------------------------
+// S1: FeatureStore + StateView -> per-symbol state artifacts
+// ---------------------------------------------------------------------------
+
+fn cmd_features(args: &[String]) -> i32 {
+    if args.len() != 1 {
+        eprintln!("usage: v8-core features <request.json>");
+        return 2;
+    }
+    let req = match load_request(&args[0]) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return 1;
+        }
+    };
+    if req.engine != "cpu" {
+        eprintln!("error: unknown engine {:?} (only cpu exists)", req.engine);
+        return 1;
+    }
+    match features(&req) {
+        Ok(summary) => {
+            println!("{}", serde_json::to_string(&summary).unwrap());
+            0
+        }
+        Err(e) => {
+            eprintln!("error: {e}");
+            1
+        }
+    }
+}
+
+fn features(req: &Request) -> Result<Value, String> {
+    let rows = read_tape(&req.tape_path)?;
+    let ds = data::Dataset::from_rows(rows).map_err(|e| e.to_string())?;
+    let stores = state::build_stores(&ds);
+    std::fs::create_dir_all(&req.out_dir).map_err(|e| format!("out_dir: {e}"))?;
+
+    // Universe: requested symbols, else every symbol with bars (deterministic:
+    // the dataset's sorted symbol order).
+    let universe: Vec<String> = if req.universe.is_empty() {
+        stores.iter().map(|s| s.symbol.clone()).collect()
+    } else {
+        req.universe.clone()
+    };
+    let univ_refs: Vec<&str> = universe.iter().map(|s| s.as_str()).collect();
+
+    let mut artifacts = Vec::new();
+    for store in &stores {
+        let sym = &store.symbol;
+        if !universe.iter().any(|u| u == sym) {
+            continue;
+        }
+        let path = req.out_dir.join(format!("state-{sym}.v82"));
+        let mut art = evidence::Artifact::new(
+            "state",
+            if req.tier.is_empty() { "VALUES" } else { &req.tier },
+            serde_json::json!({
+                "symbol": sym,
+                "base_interval": req.base_interval,
+                "history_depth": req.history_depth,
+                "hash_encoding": hash::HASH_ENCODING,
+            }),
+            "bar_index,as_of",
+        );
+        let c_bar = art.add_column("bar_index", evidence::DType::I64);
+        let c_asof = art.add_column("as_of", evidence::DType::I64);
+        let c_sid = art.add_column("state_id", evidence::DType::DictStr);
+        let c_q = art.add_column("state_quality", evidence::DType::DictStr);
+        let c_missing = art.add_column("missing_symbols", evidence::DType::DictStr);
+
+        // Fixed column set: every declared feature name, in FEATURE_NAMES
+        // order; absent features mark all their columns invalid.
+        let mut value_cols: Vec<usize> = Vec::new();
+        let mut qual_cols: Vec<usize> = Vec::new();
+        let mut null_cols: Vec<usize> = Vec::new();
+        let mut group_cols: Vec<usize> = Vec::new();
+        let mut ver_cols: Vec<usize> = Vec::new();
+        let mut dtype_cols: Vec<usize> = Vec::new();
+        let mut avail_cols: Vec<usize> = Vec::new();
+        for name in state::FEATURE_NAMES {
+            let structured = state::feature_dtype(name) != "float";
+            value_cols.push(art.add_column(
+                &format!("{name}.value"),
+                if structured { evidence::DType::DictStr } else { evidence::DType::F64 },
+            ));
+            qual_cols.push(art.add_column(&format!("{name}.quality"), evidence::DType::DictStr));
+            null_cols.push(art.add_column(&format!("{name}.null_reason"), evidence::DType::DictStr));
+            group_cols.push(art.add_column(&format!("{name}.group"), evidence::DType::DictStr));
+            ver_cols.push(art.add_column(&format!("{name}.version"), evidence::DType::DictStr));
+            dtype_cols.push(art.add_column(&format!("{name}.dtype"), evidence::DType::DictStr));
+            avail_cols.push(art.add_column(&format!("{name}.max_available"), evidence::DType::I64));
+        }
+
+        let n_bars = store.closes.len();
+        for i in 0..n_bars {
+            let t = i + 1;
+            let as_of = store.avail[i];
+            let feats = state::state_features(store, t, as_of, req.history_depth);
+            let lineage = state::v82_lineage_hash(&feats, sym);
+            let sid = state::v82_state_id(as_of, &univ_refs.iter().map(|s| s.to_string()).collect::<Vec<_>>(), &lineage);
+            let quality = if feats.iter().any(|f| f.quality == "DEGRADED") { "DEGRADED" } else { "COMPLETE" };
+
+            art.columns[c_bar].push_i64(i as i64);
+            art.columns[c_asof].push_i64(as_of);
+            art.columns[c_sid].push_str(&sid);
+            art.columns[c_q].push_str(quality);
+            art.columns[c_missing].push_str("");
+
+            // Emitted features by bare name.
+            let mut by_name: std::collections::HashMap<&str, &state::Feature> =
+                std::collections::HashMap::new();
+            for f in &feats {
+                by_name.insert(f.name.as_str(), f);
+            }
+            for (k, name) in state::FEATURE_NAMES.iter().enumerate() {
+                let f = by_name.get(name);
+                let structured = state::feature_dtype(name) != "float";
+                match f {
+                    Some(feat) => {
+                        // A degraded feature (value None) has an ABSENT value:
+                        // the value column carries no number (MARKET_STATE
+                        // CONTRACT §4 — null is not zero), while the metadata
+                        // columns stay valid.
+                        let value_absent = feat.value.is_null();
+                        if structured {
+                            let text = serde_json::to_string(&feat.value).map_err(|e| e.to_string())?;
+                            art.columns[value_cols[k]].push_str(&text);
+                        } else if value_absent {
+                            art.columns[value_cols[k]].push_f64(0.0);
+                            art.columns[value_cols[k]].push_absent();
+                        } else {
+                            art.columns[value_cols[k]].push_f64(feat.value.as_f64().unwrap_or(0.0));
+                        }
+                        art.columns[qual_cols[k]].push_str(&feat.quality);
+                        match &feat.null_reason {
+                            Some(r) => art.columns[null_cols[k]].push_str(r),
+                            None => {
+                                art.columns[null_cols[k]].push_str("");
+                                art.columns[null_cols[k]].push_absent();
+                            }
+                        }
+                        art.columns[group_cols[k]].push_str(&feat.group);
+                        art.columns[ver_cols[k]].push_str(&feat.feature_version);
+                        art.columns[dtype_cols[k]].push_str(&feat.dtype);
+                        art.columns[avail_cols[k]].push_i64(feat.max_input_available_time);
+                    }
+                    None => {
+                        // Feature absent at this bar: every column invalid.
+                        if structured {
+                            art.columns[value_cols[k]].push_str("");
+                            art.columns[value_cols[k]].push_absent();
+                        } else {
+                            art.columns[value_cols[k]].push_f64(0.0);
+                            art.columns[value_cols[k]].push_absent();
+                        }
+                        art.columns[qual_cols[k]].push_str("");
+                        art.columns[qual_cols[k]].push_absent();
+                        art.columns[null_cols[k]].push_str("");
+                        art.columns[null_cols[k]].push_absent();
+                        art.columns[group_cols[k]].push_str("");
+                        art.columns[group_cols[k]].push_absent();
+                        art.columns[ver_cols[k]].push_str("");
+                        art.columns[ver_cols[k]].push_absent();
+                        art.columns[dtype_cols[k]].push_str("");
+                        art.columns[dtype_cols[k]].push_absent();
+                        art.columns[avail_cols[k]].push_i64(0);
+                        art.columns[avail_cols[k]].push_absent();
+                    }
+                }
+            }
+            art.end_row();
+        }
+        art.write(&path).map_err(|e| format!("write state artifact: {e}"))?;
+        let fp = evidence::fingerprint(&path).map_err(|e| e.to_string())?;
+        artifacts.push(serde_json::json!({
+            "symbol": sym,
+            "bars": n_bars,
+            "artifact": path.to_string_lossy(),
+            "fingerprint": fp,
+        }));
+    }
+    Ok(serde_json::json!({
+        "subcommand": "features",
+        "artifacts": artifacts,
+        "threads": req.threads,
+    }))
 }

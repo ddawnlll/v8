@@ -677,3 +677,11 @@ this file and `docs/STATUS_REPORT.md`.
 - fixes / deviations: none — gate evidence in reports/parity/S0.md. The lenient tape parser (jsonx.rs) exists because CPython json.dumps emits NaN/Infinity as bare literals strict JSON rejects; the G6 message comparison normalizes float rendering (the one documented runtime divergence, PERFORMANCE_AUDIT_V82 §8) while requiring category + row identity exact. No speed claim; S0 is correctness.
 - commit: (below) `v8-step: S0 parity harness + Dataset ingest`
 - gate: pytest=816 cargo-test=23 monograph=byte-identical oracle-tree=184fb934…
+
+## Session 5 — Step 2 — S1 FeatureStore + StateView — DONE
+- started: 2026-08-11 finished: 2026-08-11
+- files touched: v8-core/src/state.rs (new), v8-core/src/main.rs (features subcommand), tests/parity/test_parity_s1.py (new), reports/parity/S1.md (new), docs/CHANGELOG.md, docs/decisions/DECISION_REGISTER.md, site/{index,tr}.html
+- evidence: `cargo test` -> 24 passed (fsum battery incl.); `.venv/bin/python -m pytest tests/parity/test_parity_s1.py -q` -> 9 passed; `.venv/bin/python -m pytest tests -q` -> 825 passed (was 816; nothing regressed); monograph probe rebuild byte-identical (6c0e9ac9…); oracle tree hash pinned 184fb934…
+- fixes / deviations: three CPython 3.14 portability discoveries, all pinned by Rust unit tests and recorded in D-088: (1) sum() is compensated summation (_PyFloat_Fsum), not a left fold — state::fsum is a verbatim port incl. the special final fold + half-even tie fix; (2) x**2 is libm pow(x,2.0) ≠ x*x on some values, and LLVM folds pow(x,2.0)->x*x in release — black_box keeps the libm call (G5); (3) x**0.5 is libm pow(x,0.5) ≠ sqrt(x) on some values — std_pop finishes with powf(0.5). Also fixed two usize underflows (i - period + 1) that panic in debug.
+- commit: (below) `v8-step: S1 FeatureStore + StateView`
+- gate: pytest=825 cargo-test=24 monograph=byte-identical oracle-tree=184fb934…

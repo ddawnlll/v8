@@ -170,6 +170,31 @@ def fingerprint_of(path) -> str:
     return artifact_fingerprint(path)
 
 
+def run_features(binary: Path, tape_path: Path, out_dir: Path, universe,
+                 history_depth: int = 32, threads: int = 1, tier: str = "VALUES"):
+    """Invoke `v8-core features`; returns (summary, per-symbol artifact dict)."""
+    request = {
+        "tape_path": str(tape_path),
+        "out_dir": str(out_dir),
+        "universe": list(universe),
+        "base_interval": "1h",
+        "history_depth": history_depth,
+        "threads": threads,
+        "engine": "cpu",
+        "tier": tier,
+    }
+    req_path = write_request_file(request, out_dir)
+    proc = subprocess.run([str(binary), "features", str(req_path)],
+                          capture_output=True, text=True)
+    if proc.returncode != 0:
+        raise ParityFailure(f"features failed (rc={proc.returncode}): {proc.stderr}")
+    summary = json.loads(proc.stdout.strip().splitlines()[-1])
+    artifacts = {}
+    for a in summary["artifacts"]:
+        artifacts[a["symbol"]] = Path(a["artifact"])
+    return summary, artifacts
+
+
 def load_real_tape(name: str, limit: int | None = None):
     """Load a real verified tape from research/tape/ as parsed dicts."""
     path = REPO_ROOT / "research" / "tape" / name / "tape.jsonl"

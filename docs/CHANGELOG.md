@@ -3,6 +3,45 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-11 — V8.2 compute core S1: FeatureStore + StateView (D-088)
+
+`v8-core/src/state.rs` (new), `v8-core features` subcommand, `reports/parity/S1.md`
+(new evidence). The S1 gate of `COMPUTE_CORE_SPEC` §8 passes: value-level bit
+parity on EVERY bar, EVERY feature, against the frozen Python oracle
+(`build_state`'s cached path, the one the lab uses).
+
+- `FeatureStore` mirrors `build_bar_series` (per-symbol precomputed EMA5/20,
+  ATR14 simple, Wilder RSI14/ADX14, CCI20, MACD, OBV, ADL, prefix extremes,
+  swing pivots, session VWAP); `StateView` mirrors the cached feature block.
+  All 77 declared features, both warmup representations (ABSENT until the
+  window; `None`+DEGRADED+NOT_YET_AVAILABLE for the bar-0 candle features),
+  positioning features absent when the tape lacks the channel.
+- V8.2 identities via the bit encoding (D-079): state `lineage_hash`,
+  `state_id`, per-feature `input_lineage_hash` — excluded from the parity
+  comparison (§3) but exercised by the mutation test (changing one OHLC digit
+  on bar 60 changes exactly the states that consumed it).
+- Three portability discoveries, pinned by Rust unit tests, that any future
+  migration stage must honour:
+  1. CPython `sum()` over floats is **compensated summation** (`_PyFloat_Fsum`,
+     = `math.fsum`), not a left fold — a fold drifts by ulps on ~20-element
+     windows (measured). `state::fsum` is a verbatim port incl. the special
+     final fold and the half-even tie fix.
+  2. CPython `x ** 2` is libm `pow(x, 2.0)`, which differs from `x * x` by
+     1 ulp on some values; LLVM folds `pow(x, 2.0) -> x*x` in release, so the
+     exponent is `black_box`'d to force the libm call (G5: an optimization may
+     not change a value).
+  3. CPython `x ** 0.5` is libm `pow(x, 0.5)`, which differs from `sqrt(x)`
+     by 1 ulp on some values — `_std_pop` must finish with `powf(0.5)`, not
+     `.sqrt()`.
+- Also fixed: two usize underflows (`i - period + 1`) that panic in debug
+  builds and silently wrap in release.
+
+Gate evidence (`reports/parity/S1.md`): 24 Rust unit tests (incl. the fsum
+battery) pass; 9/9 S1 parity tests pass — vocabulary match, synthetic (golden,
+continuous, funding channel), real verified tapes (btcusdt-1h-12m full 8,760
+bars + multi-1h-4y slice), two runs byte-identical (G4), threads=1 vs 8
+byte-identical (G5), state_id mutation property. No speed claim.
+
 ## 2026-08-11 — V8.2 compute core S0: parity harness + Dataset ingest (D-087)
 
 `v8-core/` (new workspace), `tools/v82_reader.py` (new), `tests/parity/` (new),
