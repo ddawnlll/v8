@@ -21,8 +21,10 @@
 
 mod data;
 mod evidence;
+mod experts;
 mod hash;
 mod jsonx;
+mod simulator;
 mod state;
 
 use std::path::PathBuf;
@@ -48,6 +50,8 @@ fn main() {
     let code = match args[1].as_str() {
         "ingest" => cmd_ingest(&args[2..]),
         "features" => cmd_features(&args[2..]),
+        "predicate-check" => cmd_predicate_check(&args[2..]),
+        "replay" => cmd_replay(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -402,4 +406,192 @@ fn features(req: &Request) -> Result<Value, String> {
         "artifacts": artifacts,
         "threads": req.threads,
     }))
+}
+
+// ---------------------------------------------------------------------------
+// S2: predicate IR evaluation + ReplayKernel
+// ---------------------------------------------------------------------------
+
+fn cmd_predicate_check(args: &[String]) -> i32 {
+    if args.len() != 2 {
+        eprintln!("usage: v8-core predicate-check <ir.json> <inputs.json>");
+        return 2;
+    }
+    let read = |p: &str| -> Result<Value, String> {
+        let bytes = std::fs::read(p).map_err(|e| format!("cannot read {p}: {e}"))?;
+        serde_json::from_slice(&bytes).map_err(|e| format!("cannot parse {p}: {e}"))
+    };
+    let ir = match read(&args[0]) {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return 1;
+        }
+    };
+    let inputs = match read(&args[1]) {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return 1;
+        }
+    };
+    // Batch mode: {"cases": [inputs...]} evaluates each case; otherwise the
+    // file is a single inputs object. One result per line.
+    let cases: Vec<Value> = match inputs.get("cases") {
+        Some(arr) => arr.as_array().cloned().unwrap_or_default(),
+        None => vec![inputs.clone()],
+    };
+    let mut results = Vec::with_capacity(cases.len());
+    for case in &cases {
+        let direction = case["direction"].as_str().unwrap_or("LONG").to_string();
+        let geom = case.get("geometry").and_then(|g| g.as_object())
+            .cloned().unwrap_or_default();
+        let live: std::collections::HashMap<String, f64> = case.get("live")
+            .and_then(|l| l.as_object())
+            .map(|m| m.iter().filter_map(|(k, v)| v.as_f64().map(|x| (k.clone(), x))).collect())
+            .unwrap_or_default();
+        let windows: std::collections::HashMap<String, f64> = case.get("windows")
+            .and_then(|w| w.as_object())
+            .map(|m| m.iter().filter_map(|(k, v)| v.as_f64().map(|x| (k.clone(), x))).collect())
+            .unwrap_or_default();
+        let history: Vec<[f64; 6]> = case.get("history").and_then(|h| h.as_array())
+            .map(|arr| arr.iter().filter_map(|row| {
+                let a = row.as_array()?;
+                Some([a[0].as_f64()?, a[1].as_f64()?, a[2].as_f64()?,
+                      a[3].as_f64()?, a[4].as_f64()?, a[5].as_f64()?])
+            }).collect())
+            .unwrap_or_default();
+        let ctx = experts::predicate::FeatCtx {
+            live: &|name| live.get(name).copied(),
+            live_window: &|name, n| windows.get(&format!("{name}_{n}")).copied()
+                .or_else(|| windows.get(&format!("{name}{n}")).copied()),
+            history: &|| Some(history.clone()),
+        };
+        let result = experts::predicate::evaluate(&ir, &geom, &direction, &ctx);
+        results.push(if result { "true" } else { "false" });
+    }
+    for r in results {
+        println!("{r}");
+    }
+    0
+}
+
+/// The compiled evaluation request for the ReplayKernel: a candidate batch.
+#[derive(Debug, serde::Deserialize)]
+struct ReplayRequest {
+    tape_path: PathBuf,
+    out_dir: PathBuf,
+    /// Consumed from S4 (candidate population across symbols).
+    #[serde(default)]
+    #[allow(dead_code)]
+    universe: Vec<String>,
+    #[serde(default = "default_threads")]
+    #[allow(dead_code)]
+    threads: usize,
+    #[serde(default)]
+    manifest: Value,
+    #[serde(default)]
+    #[allow(dead_code)]
+    tier: String,
+    /// Filled by the request writer from the Python side.
+    #[serde(default)]
+    candidates: Vec<Value>,
+}
+
+fn cmd_replay(args: &[String]) -> i32 {
+    if args.len() != 1 {
+        eprintln!("usage: v8-core replay <request.json>");
+        return 2;
+    }
+    let bytes = match std::fs::read(&args[0]) {
+        Ok(b) => b,
+        Err(e) => {
+            eprintln!("error: cannot read request: {e}");
+            return 1;
+        }
+    };
+    let req: ReplayRequest = match serde_json::from_slice(&bytes) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("error: cannot parse request: {e}");
+            return 1;
+        }
+    };
+    match replay(&req) {
+        Ok(summary) => {
+            println!("{}", serde_json::to_string(&summary).unwrap());
+            0
+        }
+        Err(e) => {
+            eprintln!("error: {e}");
+            1
+        }
+    }
+}
+
+fn replay(req: &ReplayRequest) -> Result<Value, String> {
+    let rows = read_tape(&req.tape_path)?;
+    let ds = data::Dataset::from_rows(rows).map_err(|e| e.to_string())?;
+    let stores = state::build_stores(&ds);
+    std::fs::create_dir_all(&req.out_dir).map_err(|e| format!("out_dir: {e}"))?;
+
+    let m = &req.manifest;
+    let sim = simulator::SimulatorParams::from_json(m);
+    // Tape-driven funding schedule (D-041): (boundary_time_ns, rate) pairs
+    // from the tape's funding channel, sorted by boundary time. Schedule
+    // VALUES are tape data, never manifest data.
+    let mut funding_schedule: Vec<(i64, f64)> = ds.rows.iter()
+        .filter(|r| r.channel == "funding")
+        .map(|r| (r.event_time, r.payload["funding_rate"].as_f64().unwrap_or(0.0)))
+        .collect();
+    funding_schedule.sort_by_key(|(t, _)| *t);
+    let mut results = Vec::new();
+    for cand in &req.candidates {
+        let symbol = cand["symbol"].as_str().unwrap_or("").to_string();
+        let store = stores.iter().find(|s| s.symbol == symbol).ok_or_else(|| {
+            format!("replay: no bars for symbol {symbol}")
+        })?;
+        let draft = simulator::Draft {
+            direction: cand["direction"].as_str().unwrap_or("LONG").to_string(),
+            birth_time: cand["birth_time"].as_i64().unwrap_or(0),
+            risk_geometry: cand.get("geometry").and_then(|g| g.as_object())
+                .cloned().unwrap_or_default(),
+        };
+        let start = cand["entry_bar_index"].as_u64().unwrap_or(0) as usize;
+        let window_end = cand["window_end"].as_u64()
+            .unwrap_or(store.closes.len() as u64) as usize;
+        let ir = cand.get("predicate_ir").cloned();
+        let kernel = simulator::ReplayKernel {
+            round_trip_cost_r: sim.round_trip_cost_r,
+            funding_rate_r: sim.funding_rate_r,
+            funding_hours: sim.funding_hours,
+            fill_policy: sim.fill_policy,
+            funding_schedule: &funding_schedule,
+            round_trip_cost_bps: sim.round_trip_cost_bps,
+            bars: store_bars(&ds, &symbol),
+            store,
+        };
+        let out = kernel.run(&draft, start, window_end, ir.as_ref()).map_err(|e| e.to_string())?;
+        results.push(serde_json::json!({
+            "symbol": symbol,
+            "entry_bar_index": start,
+            "endpoint": out.endpoint,
+            "net_r": out.net_r,
+            "label_status": out.label_status,
+            "horizon_bars": out.horizon_bars,
+            "label_available_time": out.label_available_time,
+            "mae_r": out.mae_r,
+            "mfe_r": out.mfe_r,
+            "ambiguous_bars": out.ambiguous_bars,
+            "entry_price": out.entry_price,
+            "risk_unit_price": out.risk_unit_price,
+            "market_move_r": out.market_move_r,
+        }));
+    }
+    Ok(serde_json::json!({ "subcommand": "replay", "results": results }))
+}
+
+/// The kernel needs the symbol's columnar bars; they live in the Dataset.
+fn store_bars<'a>(ds: &'a data::Dataset, symbol: &str) -> &'a data::SymbolBars {
+    ds.bars.iter().find(|b| b.symbol == symbol).unwrap()
 }

@@ -685,3 +685,11 @@ this file and `docs/STATUS_REPORT.md`.
 - fixes / deviations: three CPython 3.14 portability discoveries, all pinned by Rust unit tests and recorded in D-088: (1) sum() is compensated summation (_PyFloat_Fsum), not a left fold — state::fsum is a verbatim port incl. the special final fold + half-even tie fix; (2) x**2 is libm pow(x,2.0) ≠ x*x on some values, and LLVM folds pow(x,2.0)->x*x in release — black_box keeps the libm call (G5); (3) x**0.5 is libm pow(x,0.5) ≠ sqrt(x) on some values — std_pop finishes with powf(0.5). Also fixed two usize underflows (i - period + 1) that panic in debug.
 - commit: (below) `v8-step: S1 FeatureStore + StateView`
 - gate: pytest=825 cargo-test=24 monograph=byte-identical oracle-tree=184fb934…
+
+## Session 5 — Step 3 — S2 Predicate IR + ReplayKernel — DONE
+- started: 2026-08-11 finished: 2026-08-11
+- files touched: v8-core/src/experts/{mod,predicate}.rs (new), v8-core/src/simulator.rs (new), v8-core/Cargo.toml (float_roundtrip), tools/predicate_ir.py (new), tests/parity/test_parity_s2.py (new), reports/parity/S2.md (new), docs/CHANGELOG.md, docs/decisions/DECISION_REGISTER.md, site/{index,tr}.html
+- evidence: `cargo test` -> 24 passed; `.venv/bin/python -m pytest tests/parity/test_parity_s2.py -q` -> 6 passed (E1/E2/E3 738-point grid, E5, E4 replay parity on the candidate population, G4, G5, G6); `.venv/bin/python -m pytest tests -q` -> 831 passed (was 825); monograph probe byte-identical; oracle tree 184fb934…
+- fixes / deviations: (1) serde_json default float parser not correctly rounded — "0.9632136759338213" parses 1 ulp low, breaking geometry parity; enabled float_roundtrip. (2) fail-open semantics not uniform — added the `guard` node for whole-condition fail-open (trend_pullback_depth, rsi_stoch variant b, bollinger_reversion close pre-check, gap_exhaustion either-ref); fib_rsi_bb prior_low_ref valid-form is GTE (boundary holds) vs 3sd GT.
+- commit: (below) `v8-step: S2 predicate IR + ReplayKernel`
+- gate: pytest=831 cargo-test=24 monograph=byte-identical oracle-tree=184fb934…

@@ -1244,3 +1244,72 @@ mod tests {
         }
     }
 }
+
+// ---------------------------------------------------------------------------
+// Live-feature resolution for the compiled thesis IR (PREDICATE_IR_SPEC).
+// ---------------------------------------------------------------------------
+
+/// Resolve one scalar live feature at bar count `t` (0-indexed bars 0..t-1),
+/// with the same warmup gating the feature block applies — absent until the
+/// window is satisfied (fail-open operand). Vocabulary: close, ema_fast,
+/// ema_slow, rsi14, stoch_k, cci20, macd, prior_high.
+pub fn live_feature(store: &FeatureStore, t: usize, name: &str) -> Option<f64> {
+    if t == 0 {
+        return None;
+    }
+    match name {
+        "close" => Some(store.closes[t - 1]),
+        "ema_fast" => (t >= 20).then(|| store.ema_fast[t - 1]),
+        "ema_slow" => (t >= 20).then(|| store.ema_slow[t - 1]),
+        "rsi14" => (t >= 15).then(|| store.rsi[t - 15]),
+        "stoch_k" => {
+            if t < 16 {
+                return None;
+            }
+            let closes = &store.closes[..t];
+            let highs = &store.highs[..t];
+            let lows = &store.lows[..t];
+            Some(stoch(highs, lows, closes, 14).0)
+        }
+        "cci20" => (t >= 20).then(|| store.cci[t - 1]),
+        "macd" => (t >= 34).then(|| store.macd[t - 1]),
+        "prior_high" => store.prior_high[t],
+        _ => None,
+    }
+}
+
+/// `window_high_{n}` / `window_low_{n}` live channel features (donchian): the
+/// max high / min low over the n bars BEFORE the current bar.
+pub fn live_window_feature(store: &FeatureStore, t: usize, name: &str, n: usize) -> Option<f64> {
+    if t < n + 1 {
+        return None;
+    }
+    let lo = t - n - 1;
+    let hi = t - 1; // excludes the newest bar
+    match name {
+        "window_high" => Some(store.highs[lo..hi].iter().cloned().fold(f64::NEG_INFINITY, f64::max)),
+        "window_low" => Some(store.lows[lo..hi].iter().cloned().fold(f64::INFINITY, f64::min)),
+        _ => None,
+    }
+}
+
+/// The history window ending at bar t-1, oldest first, each bar as
+/// [open, high, low, close, ema_fast, ema_slow] with the full-series EMAs —
+/// the carrier the predicate IR's `WindowAgg` slices.
+pub fn history_window(store: &FeatureStore, t: usize, depth: usize) -> Vec<[f64; 6]> {
+    let d = depth.min(t);
+    let win_lo = t - d;
+    let mut out = Vec::with_capacity(d);
+    for (k, j) in (win_lo..t).enumerate() {
+        let pos = win_lo + k; // full-series index
+        out.push([
+            store.opens[j],
+            store.highs[j],
+            store.lows[j],
+            store.closes[j],
+            store.ema_fast[pos],
+            store.ema_slow[pos],
+        ]);
+    }
+    out
+}

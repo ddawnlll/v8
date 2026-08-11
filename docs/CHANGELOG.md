@@ -3,6 +3,51 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-11 — V8.2 compute core S2: Predicate IR + ReplayKernel (D-089)
+
+`v8-core/src/experts/predicate.rs` (new), `v8-core/src/simulator.rs` (new),
+`v8-core/src/experts/mod.rs` (new), `tools/predicate_ir.py` (new),
+`reports/parity/S2.md` (new evidence). The S2 gate passes: outcome parity on
+the V8.0 candidate population (E4) and the predicate equivalence gates of
+`PREDICATE_IR_SPEC` §6 (E1-E3, E5), plus G4/G5/G6.
+
+- The compiled `still_valid` IR evaluator: `compare` (FLIP_ON_SHORT),
+  `asym_compare`, `all_of`/`any_of`, ordered `dispatch` (with geometry-value
+  equality cases), `guard` (whole-condition fail-open); operands live /
+  live_window / ref / ref_dir / window_agg (INCLUSIVE or EXCLUSIVE end) /
+  window_agg_dir / mean_of2 (ichimoku kijun) / const. Fail-open on absence is
+  normative.
+- The `ReplayKernel`: a byte-for-byte port of `sim.run`/`_exit_loop`/`step`
+  (R-multiples, risk_unit, validate_geometry, FILL_AT_BAR_CLOSE/LIMIT,
+  funding SETTLEMENT_BEFORE_ORDERS scalar+schedule, STOP_FIRST ambiguity,
+  gap-through stops, THESIS_INVALIDATED/TIME_EXIT/EXPIRY, EXEC-1..6
+  management, the single `net_r` formula). The kernel reads
+  `&bars[start..end]` bounded to `expiry_bars + 1` (OUTCOME_CUBE_SPEC §5) and
+  evaluates the compiled predicate from the feature store at the stepped bar —
+  no Python callback (D-078).
+- `tools/predicate_ir.py`: the declarative `still_valid` → IR compiler for
+  all 28 registered Experts, transcribed verbatim from the sources.
+- `v8-core predicate-check` (batch) and `v8-core replay` subcommands.
+
+Two determinism findings, recorded in D-089:
+1. **serde_json's default float parser is not correctly rounded** (measured:
+   `"0.9632136759338213"` parses 1 ulp low). Enabled `float_roundtrip` so
+   request-side floats (geometry refs, manifest) parse exactly; the tape
+   itself was never affected (jsonx uses std's correctly-rounded parse).
+2. **Fail-open is not uniform**: per-operand (the dominant close-vs-ref form)
+   vs whole-condition (trend_pullback_depth, rsi_stoch variant b,
+   bollinger_reversion's close pre-check, gap_exhaustion's either-ref) — the
+   IR captures the distinction with `guard`. Also: fib_rsi_bb_confluence's
+   prior_low_ref valid-form is GTE (the equality boundary holds), while the
+   3sd rule is GT.
+
+Gate evidence (`reports/parity/S2.md`): cargo test 24 passed; 6/6 S2 parity
+tests pass — E1/E2/E3 (738-point grid over all 28 experts, present/absent/
+None per operand, both directions, ref==live boundary), E5 vocabulary closed,
+E4 replay parity on the V8.0 candidate population (endpoint/label/horizon
+exact, floats bit-identical), G4 byte-identical, G5 thread invariance,
+G6 fail-closed. No speed claim.
+
 ## 2026-08-11 — V8.2 compute core S1: FeatureStore + StateView (D-088)
 
 `v8-core/src/state.rs` (new), `v8-core features` subcommand, `reports/parity/S1.md`
