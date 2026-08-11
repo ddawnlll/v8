@@ -27,7 +27,8 @@ from .runner import ParityFailure
 
 REPO_ROOT = runner.REPO_ROOT
 
-PILOTS = ["trend_pullback", "failed_breakout", "liquidity_sweep_reclaim"]
+PORTED = ["trend_pullback", "failed_breakout", "liquidity_sweep_reclaim", "volume_confirmed_breakout"]
+PILOTS = PORTED
 
 
 def _pilots():
@@ -36,6 +37,7 @@ def _pilots():
         "trend_pullback": "TrendPullbackExpert",
         "failed_breakout": "FailedBreakoutExpert",
         "liquidity_sweep_reclaim": "LiquiditySweepReclaimExpert",
+        "volume_confirmed_breakout": "VolumeConfirmedBreakoutExpert",
     }[pid])() for pid in PILOTS]
 
 
