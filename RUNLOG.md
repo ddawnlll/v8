@@ -701,3 +701,10 @@ this file and `docs/STATUS_REPORT.md`.
 - fixes / deviations: compute_gap's actual-cell-not-OK branch must set actual_utility=None (the Python RegretRecord does), not the cell's value — fixed.
 - commit: (below) `v8-step: S3 CubeReducer + streaming regret`
 - gate: pytest=836 cargo-test=24 monograph=byte-identical oracle-tree=184fb934…
+
+## Session 5 — Step 5 — Status report — DONE
+- started: 2026-08-11 finished: 2026-08-11
+- files touched: docs/STATUS_REPORT.md (rewritten for this session)
+- summary: S0-S3 complete and committed (f6c1909, 926965f, 3a23ef8, 8851fad), each with its parity gate evidenced in reports/parity/. S4 (CandidateBuffer + ExpertPlane, the 28 evaluate() ports) and S5 (EvidenceStore + DAG cache) remain — S4 is the largest stage and was not started mid-session. Cross-stage determinism findings LOCKED for the remaining stages (fsum, powf, float_roundtrip, guard, GTE boundary). Full suite 836 passed; oracle tree 184fb934….
+- commit: (below) `v8-step: status report`
+- gate: pytest=836 cargo-test=24 monograph=byte-identical
