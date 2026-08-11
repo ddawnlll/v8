@@ -19,6 +19,7 @@
 //! `threads` and `engine` are scheduling details and never appear in any hash
 //! (PARITY_AND_IDENTITY_SPEC G5; COMPUTE_SCHEDULING_SPEC §1).
 
+mod candidate;
 mod data;
 mod evidence;
 mod experts;
@@ -54,6 +55,7 @@ fn main() {
         "predicate-check" => cmd_predicate_check(&args[2..]),
         "replay" => cmd_replay(&args[2..]),
         "cube" => cmd_cube(&args[2..]),
+        "evaluate-check" => cmd_evaluate_check(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -839,4 +841,97 @@ fn write_reduced(
     art.columns[c_no_entry].push_i64(n(regret::CELL_NO_ENTRY));
     art.end_row();
     Ok(())
+}
+
+// ---------------------------------------------------------------------------
+// S4: ExpertPlane (evaluate ports)
+// ---------------------------------------------------------------------------
+
+fn cmd_evaluate_check(args: &[String]) -> i32 {
+    if args.len() != 1 {
+        eprintln!("usage: v8-core evaluate-check <request.json>");
+        return 2;
+    }
+    let bytes = match std::fs::read(&args[0]) {
+        Ok(b) => b,
+        Err(e) => {
+            eprintln!("error: cannot read request: {e}");
+            return 1;
+        }
+    };
+    #[derive(serde::Deserialize)]
+    struct EvalCheckReq {
+        tape_path: PathBuf,
+        universe: Vec<String>,
+        #[serde(default)]
+        expert_id: String,
+        #[serde(default)]
+        bar_index: usize,
+        history_depth: Option<usize>,
+    }
+    let req: EvalCheckReq = match serde_json::from_slice(&bytes) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("error: cannot parse request: {e}");
+            return 1;
+        }
+    };
+    let rows = match read_tape(&req.tape_path) {
+        Ok(r) => r,
+        Err(e) => { eprintln!("error: {e}"); return 1; }
+    };
+    let ds = match data::Dataset::from_rows(rows) {
+        Ok(d) => d,
+        Err(e) => { eprintln!("error: {e}"); return 1; }
+    };
+    let stores = state::build_stores(&ds);
+    let sym = req.universe.first().cloned().unwrap_or_else(|| "SOLUSDT".to_string());
+    let store = match stores.iter().find(|s| s.symbol == sym) {
+        Some(s) => s,
+        None => { eprintln!("error: no bars for {sym}"); return 1; }
+    };
+    // Batch mode: {"cases": [{"expert_id","bar_index"}...]} — one result per
+    // case; otherwise the request is a single (expert_id, bar_index).
+    let cases: Vec<(String, usize)> = match req2_cases(&bytes) {
+        Some(c) => c,
+        None => vec![(req.expert_id.clone(), req.bar_index)],
+    };
+    let mut results = Vec::with_capacity(cases.len());
+    for (eid, bar_index) in cases {
+        let t = bar_index + 1;
+        let as_of = store.avail[bar_index];
+        let feats = state::state_features(store, t, as_of, req.history_depth.unwrap_or(32));
+        let mut map = std::collections::HashMap::new();
+        for f in &feats {
+            map.insert(f.name.clone(), f.clone());
+        }
+        let hist = state::history_bars(store, t, req.history_depth.unwrap_or(32));
+        let fm = experts::port::FeatMap { features: &map, history: hist, as_of };
+        let ev = experts::port::evaluate(&eid, &fm);
+        results.push(serde_json::json!({
+            "expert_id": eid,
+            "bar_index": bar_index,
+            "as_of": as_of,
+            "applicability": ev.applicability,
+            "decision": ev.decision,
+            "draft": ev.draft.as_ref().map(|d| serde_json::json!({
+                "direction": d.direction,
+                "birth_time": d.birth_time,
+                "risk_geometry": d.risk_geometry,
+            })),
+            "setup_anchor_event_id": ev.setup_anchor_event_id,
+            "setup_fingerprint": ev.setup_fingerprint,
+        }));
+    }
+    println!("{}", serde_json::to_string(&serde_json::json!({"results": results})).unwrap());
+    0
+}
+
+fn req2_cases(bytes: &[u8]) -> Option<Vec<(String, usize)>> {
+    let v: serde_json::Value = serde_json::from_slice(bytes).ok()?;
+    let cases = v.get("cases")?.as_array()?;
+    Some(cases.iter().filter_map(|c| {
+        Some((c.get("expert_id")?.as_str()?.to_string(),
+              c.get("bar_index")?.as_u64()? as usize))
+    }).collect())
 }

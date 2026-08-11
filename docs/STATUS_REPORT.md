@@ -10,11 +10,16 @@ result recorded below).
 The V8.2 Rust compute plane migration (`COMPUTE_CORE_SPEC` §8) has completed
 **S0 through S3**, each with its parity gate G1..G6 passed and evidenced.
 Stages **S4 and S5 remain** — S4 (CandidateBuffer + ExpertPlane, the 28
-`evaluate()` ports) is the largest single stage and is deliberately not
-started mid-session.
+`evaluate()` ports) is the largest single stage. S4 is **in progress**: the
+candidate machinery (episode_key, registry, lifecycle transitions,
+ExposureBook, RiskGate, tradability mask) and the evaluate-port framework are
+built, and the **three pilots** (trend_pullback, failed_breakout,
+liquidity_sweep_reclaim) are ported and proven draft-parity. The remaining 25
+expert `evaluate()` ports and the full per-bar loop (Phases 1a/1b/2/3) + the
+candidate-population parity harness are the next step.
 
-Full test suite: **836 passed** (was 800 at session start). Monograph rebuild
-byte-identical at every stage.
+Full test suite: **836 passed** (was 800 at session start), plus the S4 pilot
+draft-parity suite. Monograph rebuild byte-identical at every stage.
 
 ## Completed stages (evidence in `reports/parity/`)
 
@@ -52,30 +57,27 @@ Also recorded: the D-085 fast-cache module was committed as one unit
 
 ### S4 — CandidateBuffer + ExpertPlane (the candidate population gate)
 
-Port the lab's candidate production into the compute plane:
-- `v8-core/src/candidate.rs`: `episode_key` (6-tuple anchored to
-  `setup_anchor_event_id`), `CandidateRegistry`/`is_duplicate` →
-  `SUPPRESSED_DUPLICATE`, the LEGAL/TERMINAL transition map, `ExposureBook`
-  (one exposure per (instrument, direction)), `RiskGate`
-  (max_heat 3.0 / max_cluster_heat 2.0, `EXISTING_EXPOSURE_CONFLICT` /
-  `PORTFOLIO_HEAT_EXCEEDED`), the D-024 tradability mask
-  (`BAR_RANGE` / `DEGRADED` / `FUNDING_WINDOW`, absolute-hour boundaries),
-  the excess-cost gate (0.10), the trigger_ref/trigger_side entry contract,
-  entry-bar invalidation, counterfactual `NOT_EXECUTED` outcomes, the
-  close_out epilogue, and the per-bar ledger append order.
-- `v8-core/src/experts/mod.rs`: the 28 registered `evaluate()` ports (the
-  setup predicates, triggers, risk_geometry construction, and
-  `find_setup_anchor` usage — per the S2 experts map; the anchor is NOT
-  uniform: `volume_climax_reversal` anchors at the detection bar and
-  `pandf_breakout` at the P&F column start).
-- The gate: candidate population parity — the candidates/evaluations/outcomes
-  values bit-identical to the Python lab on the fixture set (G1..G6). The
-  per-bar ledger order (states → candidates/outcomes interleaved →
-  evaluations → candidates) and the `sorted_experts` / `sorted pending`
-  (candidate_id) ordering are part of the ledger identity.
+**Done this session:** `v8-core/src/candidate.rs` (episode_key anchored to
+setup_anchor_event_id, CandidateRegistry/is_duplicate, the LEGAL/TERMINAL
+transition map, ExposureBook, RiskGate with heat caps, the D-024 tradability
+mask); `v8-core/src/experts/port.rs` (the evaluate-port framework with
+`find_setup_anchor` + FeatMap) with the **three pilots ported and proven**:
+`tests/parity/test_parity_s4.py` compares every bar's Rust draft against the
+Python lab's evaluations — decision, direction, birth_time, risk_geometry and
+setup anchor match bit-for-bit. `v8-core evaluate-check` (batch) subcommand.
 
-**Pin (O-030):** S4 stays last — the expert source churn has not fallen to
-the frozen-module level; the plan is to port it after S3, which is now done.
+**Remaining:** the other 25 `evaluate()` ports (each needs its setup
+predicate + geometry + anchor transcribed from the source; the anchor is NOT
+uniform — `volume_climax_reversal` anchors at the detection bar, `pandf`
+at the P&F column start, `rsi_stoch_reversion`/`macd_stoch_trend` replicate
+run-start semantics with a local `_run_start`), and the full per-bar loop
+(Phases 1a/1b/2/3: entry, step, trigger, evaluate) + the candidate-population
+parity harness. The lifecycle/admission machinery in candidate.rs is built
+and ready to wire. The `evaluate` subcommand that runs the loop is the
+composition point.
+
+**Pin (O-030):** S4 stays last — porting the moving expert spec is deferred;
+the plan is to port it after S3, which is now done.
 
 ### S5 — EvidenceStore + DAG cache
 

@@ -1313,3 +1313,38 @@ pub fn history_window(store: &FeatureStore, t: usize, depth: usize) -> Vec<[f64;
     }
     out
 }
+
+/// One history bar with its event id (the anchor primitive, D-026).
+#[derive(Debug, Clone)]
+pub struct HistBar {
+    pub event_id: String,
+    #[allow(dead_code)] // history-bar contract (open is in the tuple)
+    pub open: f64,
+    pub high: f64,
+    pub low: f64,
+    pub close: f64,
+    pub ema_fast: f64,
+    pub ema_slow: f64,
+}
+
+/// The history window ending at bar t-1, oldest first, with event ids — the
+/// carrier the Expert `evaluate()` ports read for their setup predicates and
+/// anchors.
+pub fn history_bars(store: &FeatureStore, t: usize, depth: usize) -> Vec<HistBar> {
+    let d = depth.min(t);
+    let win_lo = t - d;
+    let mut out = Vec::with_capacity(d);
+    for (k, j) in (win_lo..t).enumerate() {
+        let pos = win_lo + k; // full-series index
+        out.push(HistBar {
+            event_id: store.event_ids[j].clone(),
+            open: store.opens[j],
+            high: store.highs[j],
+            low: store.lows[j],
+            close: store.closes[j],
+            ema_fast: store.ema_fast[pos],
+            ema_slow: store.ema_slow[pos],
+        });
+    }
+    out
+}

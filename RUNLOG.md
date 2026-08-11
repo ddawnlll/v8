@@ -708,3 +708,11 @@ this file and `docs/STATUS_REPORT.md`.
 - summary: S0-S3 complete and committed (f6c1909, 926965f, 3a23ef8, 8851fad), each with its parity gate evidenced in reports/parity/. S4 (CandidateBuffer + ExpertPlane, the 28 evaluate() ports) and S5 (EvidenceStore + DAG cache) remain — S4 is the largest stage and was not started mid-session. Cross-stage determinism findings LOCKED for the remaining stages (fsum, powf, float_roundtrip, guard, GTE boundary). Full suite 836 passed; oracle tree 184fb934….
 - commit: (below) `v8-step: status report`
 - gate: pytest=836 cargo-test=24 monograph=byte-identical
+
+## Session 5 — Step 6 — S4 ExpertPlane port: candidate machinery + pilots — IN PROGRESS (clean checkpoint)
+- started: 2026-08-11 finished: 2026-08-11
+- files touched: v8-core/src/candidate.rs (new), v8-core/src/experts/port.rs (new), v8-core/src/experts/mod.rs, v8-core/src/state.rs (history_bars), v8-core/src/main.rs (evaluate-check), tests/parity/test_parity_s4.py (new), docs/STATUS_REPORT.md
+- evidence: `cargo test` -> 24 passed; `.venv/bin/python -m pytest tests/parity/test_parity_s4.py -q` -> 2 passed (pilot draft parity: every bar's Rust draft matches the Python lab's evaluations — decision/direction/birth_time/risk_geometry/anchor); `.venv/bin/python -m pytest tests -q` -> 838 passed (was 836)
+- status: S4 is IN PROGRESS. The candidate machinery (episode_key, registry, lifecycle transitions, ExposureBook, RiskGate, tradability mask) and the evaluate-port framework (find_setup_anchor + FeatMap) are built; the 3 pilots are ported and proven. Remaining: 25 more evaluate() ports + the full per-bar loop (Phases 1a/1b/2/3) + the population-parity harness. The S4 gate (candidate population parity) is NOT yet claimed.
+- commit: (below) `v8-step: S4 ExpertPlane port (candidate machinery + pilot evaluate ports)`
+- gate: pytest=838 cargo-test=24 monograph=byte-identical
