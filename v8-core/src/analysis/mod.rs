@@ -615,10 +615,15 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     }
     let recon = reconcile::reconcile_actual_actions(&snapshots, &ds.bars, &stores, &sim, &funding);
     if recon.verdict != reconcile::RECONCILED {
+        let detail = recon.mismatches.iter()
+            .map(|(cid, reason)| format!("{cid}:{reason}"))
+            .collect::<Vec<_>>().join(" | ");
+        let clipped: String = detail.chars().take(1200).collect();
         return Err(format!(
             "reconciliation failed ({} executed, {} reconciled, {} mismatched, {} not applicable) \
-             — refusing to compose the regret phases",
-            recon.n_executed, recon.n_reconciled, recon.n_mismatched, recon.n_not_applicable
+             — refusing to compose the regret phases. mismatches: {}",
+            recon.n_executed, recon.n_reconciled, recon.n_mismatched, recon.n_not_applicable,
+            clipped
         ));
     }
 

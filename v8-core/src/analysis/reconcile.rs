@@ -41,7 +41,7 @@ use std::path::Path;
 use serde_json::{json, Map, Value};
 
 use crate::analysis::outcome::{OutcomeSurface, RECONCILE_FLOAT_FIELDS, RECONCILE_TOLERANCE};
-use crate::candidate::{episode_key, geometry_version, TERMINAL};
+use crate::candidate::TERMINAL;
 use crate::data::{Dataset, SymbolBars, TapeRow};
 use crate::simulator::{Draft, ReplayKernel, SimulatorParams};
 use crate::state;
@@ -103,24 +103,28 @@ pub fn build_snapshots(
     evaluations: &[Value],
     outcomes: &[Value],
 ) -> Vec<CandidateSnapshot> {
-    // Drafts keyed by the RE-DERIVED episode key (never a stored edge).
-    let mut drafts_by_cid: HashMap<String, Map<String, Value>> = HashMap::new();
+    // Drafts keyed by the RE-DERIVED D-026 identity TUPLE — (expert_id,
+    // expert_version, instrument, direction, setup_anchor_event_id) — never a
+    // stored candidate_id edge and never an encoded hash. The tuple is
+    // encoding-agnostic: the V8.2 canonical hash (D-079) and the oracle's
+    // sha1-of-JSON encode the SAME tuple differently, so a hash-keyed join
+    // can never bind lab-produced store data to the drafts. The anchor makes
+    // the tuple unique per expert/version/symbol/direction (D-026 dedup).
+    let mut drafts_by_key: HashMap<(String, String, String, String, String), Map<String, Value>> =
+        HashMap::new();
     for rec in evaluations {
         let d = match rec.get("draft").and_then(|v| v.as_object()) {
             Some(d) => d,
             None => continue,
         };
-        let risk_geometry = d.get("risk_geometry").and_then(|v| v.as_object())
-            .cloned().unwrap_or_default();
-        let cid = episode_key(
-            d.get("expert_id").and_then(|v| v.as_str()).unwrap_or(""),
-            d.get("expert_version").and_then(|v| v.as_str()).unwrap_or(""),
-            d.get("instrument").and_then(|v| v.as_str()).unwrap_or(""),
-            d.get("direction").and_then(|v| v.as_str()).unwrap_or(""),
-            d.get("setup_anchor_event_id").and_then(|v| v.as_str()).unwrap_or(""),
-            &geometry_version(&risk_geometry),
+        let key = (
+            d.get("expert_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+            d.get("expert_version").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+            d.get("instrument").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+            d.get("direction").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+            d.get("setup_anchor_event_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
         );
-        drafts_by_cid.entry(cid).or_insert_with(|| d.clone());
+        drafts_by_key.entry(key).or_insert_with(|| d.clone());
     }
 
     // Transitions grouped by candidate_id (the stored candidate_id is the
@@ -155,7 +159,17 @@ pub fn build_snapshots(
             t.get("to_state").and_then(|v| v.as_str())
                 .map(|s| TERMINAL.contains(&s)).unwrap_or(false)
         });
-        let draft = drafts_by_cid.get(&cid);
+        // Bind the draft to the DETECTED transition by the identity TUPLE
+        // (the DETECTED record carries the same five fields top-level).
+        let draft = detected.and_then(|t| {
+            drafts_by_key.get(&(
+                t.get("expert_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+                t.get("expert_version").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+                t.get("instrument").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+                t.get("direction").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+                t.get("setup_anchor_event_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+            ))
+        });
         let entry_time = executed
             .and_then(|t| t.get("knowledge_time").and_then(|v| v.as_i64()));
         let predicate_ir = detected.and_then(|t| t.get("predicate_ir")).cloned();
@@ -258,6 +272,55 @@ pub fn assert_pit_lineage(states: &[Value], snapshots: &[CandidateSnapshot]) -> 
         }
     }
     problems
+}
+
+/// The name of the first compared field that differs (diagnostics; the
+/// reconciliation reason string is a parity target, the field name is not).
+fn first_mismatched_field(replayed: &OutcomeSurface, obs: &Map<String, Value>) -> String {
+    let exact_i64 = |v: Option<&Value>| -> Option<i64> {
+        v.and_then(|x| x.as_i64()).or_else(|| {
+            v.and_then(|x| x.as_f64())
+                .filter(|f| f.fract() == 0.0 && *f >= i64::MIN as f64 && *f <= i64::MAX as f64)
+                .map(|f| f as i64)
+        })
+    };
+    let exact: &[(&str, String, i64)] = &[
+        ("endpoint", replayed.endpoint.clone(), 0),
+        ("label_status", replayed.label_status.clone(), 0),
+        ("horizon_bars", String::new(), replayed.horizon_bars),
+        ("ambiguous_bars", String::new(), replayed.ambiguous_bars),
+    ];
+    for (name, s, i) in exact {
+        let obs_s = if *name == "endpoint" || *name == "label_status" {
+            obs.get(*name).and_then(|v| v.as_str()).unwrap_or("").to_string()
+        } else {
+            String::new()
+        };
+        let obs_i = if *name == "horizon_bars" || *name == "ambiguous_bars" {
+            exact_i64(obs.get(*name)).unwrap_or(i64::MIN)
+        } else {
+            0
+        };
+        let same = if *name == "endpoint" || *name == "label_status" { *s == obs_s } else { *i == obs_i };
+        if !same {
+            return name.to_string();
+        }
+    }
+    for f in RECONCILE_FLOAT_FIELDS {
+        let rv = match f {
+            "net_r" => replayed.net_r,
+            "entry_price" => replayed.entry_price,
+            "risk_unit_price" => replayed.risk_unit_price,
+            "mae_r" => replayed.mae_r,
+            "mfe_r" => replayed.mfe_r,
+            _ => replayed.market_move_r,
+        };
+        let ov = obs.get(f).and_then(|v| v.as_f64()).unwrap_or(0.0);
+        if (rv - ov).abs() > RECONCILE_TOLERANCE {
+            return format!("{f}:rust={rv:.9}:obs={ov:.9}");
+        }
+    }
+    "unknown".to_string()
 }
 
 /// The reconciliation counters (mirror of `tools/regret.py`
@@ -374,6 +437,7 @@ pub fn reconcile_actual_actions(
             risk_geometry: raw.get("risk_geometry").and_then(|v| v.as_object())
                 .cloned().unwrap_or_default(),
         };
+        let atr_ref = draft.geom_f64("atr_ref");
         let kernel = ReplayKernel {
             round_trip_cost_r: sim.round_trip_cost_r,
             funding_rate_r: sim.funding_rate_r,
@@ -399,7 +463,15 @@ pub fn reconcile_actual_actions(
             n_ok += 1;
         } else {
             n_bad += 1;
-            mismatches.push((snap.candidate_id.clone(), MISMATCH_REASON_FIELD.to_string()));
+            mismatches.push((
+                snap.candidate_id.clone(),
+                format!(
+                    "field_mismatch:{}:{}:{}:atr={}",
+                    snap.expert_id, snap.direction,
+                    first_mismatched_field(&surface, obs),
+                    atr_ref.map(|a| format!("{a:.9}")).unwrap_or_else(|| "None".into()),
+                ),
+            ));
         }
     }
 
@@ -589,6 +661,7 @@ pub fn run(args: &[String]) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::candidate::{episode_key, geometry_version};
     use crate::state;
 
     // -----------------------------------------------------------------------
@@ -966,7 +1039,8 @@ mod tests {
         assert_eq!(recon.n_not_applicable, 1);
         assert_eq!(recon.verdict, RECONCILIATION_FAILED);
         assert_eq!(recon.mismatches.len(), 1);
-        assert_eq!(recon.mismatches[0].1, "field_mismatch");
+        assert!(recon.mismatches[0].1.starts_with("field_mismatch:"),
+                "reason was: {}", recon.mismatches[0].1);
         assert_eq!(recon.max_abs_deviation["net_r"], 0.5);
         for f in RECONCILE_FLOAT_FIELDS {
             if f != "net_r" {

@@ -209,12 +209,24 @@ def _analysis_request(v8_core_binary, lab, bars, times, root: Path) -> dict:
     if proc.returncode != 0:
         raise ParityFailure(f"cube failed: {proc.stderr}")
 
+    # The reconciliation replays each ACTUAL action with its compiled thesis
+    # predicate (the S2 IR) — the cube request carries it per candidate, the
+    # raw transition records do not. Enrich them so build_snapshots binds the
+    # predicate (a None predicate fails open and over-reconciles the
+    # thesis-invalidated candidates).
+    cube_ir = {c["candidate_id"]: c.get("predicate_ir") for c in candidates}
+    trans = AppendOnlyLog(lab.dir / "candidates.jsonl").read()
+    for rec in trans:
+        cid = rec.get("candidate_id")
+        if cid in cube_ir and "predicate_ir" not in rec:
+            rec["predicate_ir"] = cube_ir[cid]
+
     return {
         "tape_path": str(tap),
         "out_dir": str(root / "rustout"),
         "universe": list({b.instrument for b in bars}),
         "manifest": manifest,
-        "candidates": AppendOnlyLog(lab.dir / "candidates.jsonl").read(),
+        "candidates": trans,
         "evaluations": AppendOnlyLog(lab.dir / "evaluations.jsonl").read(),
         "outcomes": AppendOnlyLog(lab.dir / "outcomes.jsonl").read(),
         "states": AppendOnlyLog(lab.dir / "states.jsonl").read(),
