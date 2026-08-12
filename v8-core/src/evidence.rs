@@ -26,6 +26,19 @@
 //! The artifact fingerprint is SHA-1 over the raw file bytes, computed by
 //! `fingerprint()`; the header's `hash_encoding` binds the value encoding of
 //! the columns to `v8.2-ieee-le`.
+//!
+//! Since S5 (issue #108) every artifact also carries an evidence tier
+//! (IDENTITY_ONLY | VALUES | FULL, §5) and a run-constants set (§3), hoisted
+//! into the header by the `state` / `candidate` / `outcome` / `evaluation` /
+//! `cube` constructors. The tier-honesty rule (§4) is enforced by
+//! `Artifact::add_field`, which rejects a field whose `FieldTier` is above
+//! the artifact's tier. The raw `add_column` primitive stays available for
+//! pre-validating callers (the S0 dataset path).
+//!
+//! The S5 ledger API is ahead of its wiring — exercised by its unit tests and
+//! consumed by the ledger-check and later stages — so its dead-code is
+//! expected and named here rather than hidden (same treatment as `hash.rs`).
+#![allow(dead_code)]
 
 use std::io;
 use std::path::Path;
@@ -35,6 +48,17 @@ use sha1::{Digest, Sha1};
 use crate::hash::HASH_ENCODING;
 
 pub const MAGIC: &[u8; 8] = b"V82LDRG1";
+
+/// Generator tag recorded in every S5 artifact's run-constants so a reader can
+/// bind the artifact to the exact producer that emitted it — no wall clock
+/// ever enters an artifact (PARITY_AND_IDENTITY_SPEC G5).
+pub const GENERATOR: &str = "v8-core";
+pub const GENERATOR_VERSION: &str = env!("CARGO_PKG_VERSION");
+
+/// Canonical `<generator>/<version>` tag, e.g. `v8-core/0.2.0`.
+pub fn generator_tag() -> String {
+    format!("{GENERATOR}/{GENERATOR_VERSION}")
+}
 
 /// Column data types. `F64`/`Bool` are value columns consumed from S1
 /// (state/outcome artifacts); `from_tag` serves the S5 read-back path.
@@ -68,6 +92,103 @@ impl DType {
         }
     }
 }
+
+/// Evidence-depth tiers (LEDGER_FORMAT_SPEC §5). Every artifact carries one;
+/// the tier is recorded in the header and is therefore part of the artifact
+/// identity, so a `VALUES` artifact can never be mistaken for a `FULL` one.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ArtifactTier {
+    /// header + per-record identity and quality (sweeps, cache-warming)
+    IdentityOnly = 0,
+    /// identity + information columns — the research default
+    Values = 1,
+    /// `VALUES` + materialized derivables (lineage hashes, per-feature
+    /// clocks, expanded history)
+    Full = 2,
+}
+
+impl ArtifactTier {
+    /// Header spelling of the tier (§3, §5).
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            ArtifactTier::IdentityOnly => "IDENTITY_ONLY",
+            ArtifactTier::Values => "VALUES",
+            ArtifactTier::Full => "FULL",
+        }
+    }
+
+    pub fn from_str(s: &str) -> Option<ArtifactTier> {
+        match s {
+            "IDENTITY_ONLY" => Some(ArtifactTier::IdentityOnly),
+            "VALUES" => Some(ArtifactTier::Values),
+            "FULL" => Some(ArtifactTier::Full),
+            _ => None,
+        }
+    }
+
+    /// Numeric depth: `IDENTITY_ONLY < VALUES < FULL`.
+    pub const fn rank(self) -> u8 {
+        self as u8
+    }
+
+    /// Reader-side tier check (§8 test #4): can this tier satisfy a reader
+    /// that requires `field_tier`? The failure is explicit — `false`, never
+    /// an empty column handed to the caller.
+    pub const fn can_serve(self, field_tier: FieldTier) -> bool {
+        self.rank() >= field_tier.rank()
+    }
+}
+
+/// Minimum tier at which a field may be carried (LEDGER_FORMAT_SPEC §5).
+///
+/// - `IdentityOnly`: identity + quality fields — present at every tier.
+/// - `Values`: information columns — present at `VALUES` and `FULL`.
+/// - `Full`: materialized derivables (lineage hashes, per-feature clocks,
+///   expanded history) — present only at `FULL`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FieldTier {
+    IdentityOnly = 0,
+    Values = 1,
+    Full = 2,
+}
+
+impl FieldTier {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            FieldTier::IdentityOnly => "IDENTITY_ONLY",
+            FieldTier::Values => "VALUES",
+            FieldTier::Full => "FULL",
+        }
+    }
+
+    pub const fn rank(self) -> u8 {
+        self as u8
+    }
+}
+
+/// A tier-honesty violation (§4): a field was added to an artifact whose tier
+/// is below the field's `FieldTier`. The write is rejected rather than
+/// silently producing a lower-tier artifact that carries a higher-tier field.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TierViolation {
+    pub field: String,
+    pub field_tier: FieldTier,
+    pub artifact_tier: ArtifactTier,
+}
+
+impl std::fmt::Display for TierViolation {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "field {:?} requires tier {} but artifact tier is {}",
+            self.field,
+            self.field_tier.as_str(),
+            self.artifact_tier.as_str()
+        )
+    }
+}
+
+impl std::error::Error for TierViolation {}
 
 /// A single column buffer being accumulated in memory before writing.
 pub struct Column {
@@ -153,6 +274,73 @@ impl Column {
     }
 }
 
+/// Run-constant set bound into every S5 artifact header (LEDGER_FORMAT_SPEC
+/// §3). Every field is constant for all records of a run, so it is hoisted
+/// into the header once instead of repeated per row.
+#[derive(Debug, Clone, PartialEq)]
+pub struct RunConstants {
+    pub data_hash: String,
+    pub code_hash: String,
+    pub config_hash: String,
+    pub simulator_hash: String,
+    pub risk_gate_hash: String,
+    pub evaluator_version: String,
+    pub platform: String,
+    pub utility_unit: String,
+    pub cost_form: String,
+    pub slippage: f64,
+    pub action_manifest_id: String,
+}
+
+impl RunConstants {
+    /// The §3 key set, in §3 order — the header-completeness contract.
+    pub const REQUIRED_KEYS: [&'static str; 11] = [
+        "data_hash",
+        "code_hash",
+        "config_hash",
+        "simulator_hash",
+        "risk_gate_hash",
+        "evaluator_version",
+        "platform",
+        "utility_unit",
+        "cost_form",
+        "slippage",
+        "action_manifest_id",
+    ];
+
+    /// The run-constants object for the header.
+    pub fn to_json(&self) -> serde_json::Value {
+        serde_json::json!({
+            "data_hash": self.data_hash,
+            "code_hash": self.code_hash,
+            "config_hash": self.config_hash,
+            "simulator_hash": self.simulator_hash,
+            "risk_gate_hash": self.risk_gate_hash,
+            "evaluator_version": self.evaluator_version,
+            "platform": self.platform,
+            "utility_unit": self.utility_unit,
+            "cost_form": self.cost_form,
+            "slippage": self.slippage,
+            "action_manifest_id": self.action_manifest_id,
+        })
+    }
+
+    /// The header `run_constants` object with the per-artifact bindings
+    /// hoisted in: `symbol`, `interval`, and the generator tag (also
+    /// run-constants — constant for all records within a run, §2).
+    pub fn with_binding(&self, symbol: &str, interval: &str, generator: &str) -> serde_json::Value {
+        let mut obj = self
+            .to_json()
+            .as_object()
+            .expect("run-constants serialize as an object")
+            .clone();
+        obj.insert("symbol".to_string(), serde_json::json!(symbol));
+        obj.insert("interval".to_string(), serde_json::json!(interval));
+        obj.insert("generator".to_string(), serde_json::json!(generator));
+        serde_json::Value::Object(obj)
+    }
+}
+
 /// Accumulates rows and writes one `.v82` artifact file.
 pub struct Artifact {
     pub kind: String,
@@ -178,6 +366,36 @@ impl Artifact {
     pub fn add_column(&mut self, name: &str, dtype: DType) -> usize {
         self.columns.push(Column::new(name, dtype));
         self.columns.len() - 1
+    }
+
+    /// The artifact's declared tier, if its header tier string is one of the
+    /// three known tiers. A pre-S5 caller passing an arbitrary tier string
+    /// yields `None`; `add_field` treats that as permissive, so legacy
+    /// `Artifact::new("dataset", ...)` paths are unaffected.
+    pub fn tier_enum(&self) -> Option<ArtifactTier> {
+        ArtifactTier::from_str(&self.tier)
+    }
+
+    /// Add a column with a declared minimum field tier, enforcing the
+    /// tier-honesty rule (§4): a field may not be stored in an artifact whose
+    /// tier is below its `FieldTier` — a `VALUES` artifact cannot carry a
+    /// `FULL`-only materialized derivative, an `IDENTITY_ONLY` artifact cannot
+    /// carry an information column. The violation is an explicit `Err`, never
+    /// an empty column. Callers that pre-validate keep using `add_column`.
+    pub fn add_field(
+        &mut self,
+        name: &str,
+        dtype: DType,
+        field_tier: FieldTier,
+    ) -> Result<usize, TierViolation> {
+        match self.tier_enum() {
+            Some(at) if !at.can_serve(field_tier) => Err(TierViolation {
+                field: name.to_string(),
+                field_tier,
+                artifact_tier: at,
+            }),
+            _ => Ok(self.add_column(name, dtype)),
+        }
     }
 
     /// Complete a row: every column must have exactly one slot pushed since
@@ -272,6 +490,112 @@ pub fn fingerprint(path: &Path) -> io::Result<String> {
     Ok(h.finalize().iter().map(|b| format!("{:02x}", b)).collect())
 }
 
+/// Read an artifact's JSON header back from disk (S5 read-back path). Returns
+/// the header object; a reader uses it to verify `hash_encoding`, `tier`, and
+/// the run-constants against the pinned producer before touching columns.
+pub fn read_header(path: &Path) -> io::Result<serde_json::Value> {
+    let bytes = std::fs::read(path)?;
+    if bytes.len() < 12 || &bytes[..8] != MAGIC {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "not a V82LDRG1 artifact",
+        ));
+    }
+    let header_len = u32::from_le_bytes(bytes[8..12].try_into().unwrap()) as usize;
+    if 12 + header_len > bytes.len() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "truncated artifact header",
+        ));
+    }
+    serde_json::from_slice(&bytes[12..12 + header_len])
+        .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
+}
+
+// ---------------------------------------------------------------------------
+// S5 artifact-kind constructors (LEDGER_FORMAT_SPEC §3, §5)
+//
+// Each kind hoists the run-constants — including `symbol`, `interval`, and the
+// generator tag, all constant for every record within a run (§2) — into the
+// header. The `ordering` key is declared and stable so two runs of the same
+// request write byte-identical artifacts (PARITY_AND_IDENTITY_SPEC G4).
+// ---------------------------------------------------------------------------
+
+/// `state` artifact: per-bar feature/state evidence (S1). Ordering is bar
+/// index, then as-of clock.
+pub fn state_artifact(
+    tier: ArtifactTier,
+    symbol: &str,
+    interval: &str,
+    generator: &str,
+    rc: &RunConstants,
+) -> Artifact {
+    Artifact::new("state", tier.as_str(), rc.with_binding(symbol, interval, generator), "bar_index,as_of")
+}
+
+/// `candidate` artifact: admitted-exposure candidates (S4). Ordering is
+/// episode key, then the state that triggered the candidate.
+pub fn candidate_artifact(
+    tier: ArtifactTier,
+    symbol: &str,
+    interval: &str,
+    generator: &str,
+    rc: &RunConstants,
+) -> Artifact {
+    Artifact::new(
+        "candidate",
+        tier.as_str(),
+        rc.with_binding(symbol, interval, generator),
+        "episode_key,state_id",
+    )
+}
+
+/// `outcome` artifact: replayed bar outcomes (S2/S3). Ordering is bar index,
+/// then as-of clock.
+pub fn outcome_artifact(
+    tier: ArtifactTier,
+    symbol: &str,
+    interval: &str,
+    generator: &str,
+    rc: &RunConstants,
+) -> Artifact {
+    Artifact::new("outcome", tier.as_str(), rc.with_binding(symbol, interval, generator), "bar_index,as_of")
+}
+
+/// `evaluation` artifact: evaluator verdicts over episodes (S4). Ordering is
+/// episode key, then the state being evaluated.
+pub fn evaluation_artifact(
+    tier: ArtifactTier,
+    symbol: &str,
+    interval: &str,
+    generator: &str,
+    rc: &RunConstants,
+) -> Artifact {
+    Artifact::new(
+        "evaluation",
+        tier.as_str(),
+        rc.with_binding(symbol, interval, generator),
+        "episode_key,state_id",
+    )
+}
+
+/// `cube` artifact: outcome-cube cells (S3), columnar. Ordering is bar index,
+/// then the cell index within the bar's action grid.
+pub fn cube_artifact(
+    tier: ArtifactTier,
+    symbol: &str,
+    interval: &str,
+    generator: &str,
+    rc: &RunConstants,
+) -> Artifact {
+    Artifact::new(
+        "cube",
+        tier.as_str(),
+        rc.with_binding(symbol, interval, generator),
+        "bar_index,cell_index",
+    )
+}
+
 /// S5 ledger §8 cheap-test driver (issue #109): round-trip, header
 /// completeness, byte-stability, tier honesty, no-decimal-floats scan,
 /// retention — extended to verdict artifacts at S7 (issue #123).
@@ -350,5 +674,188 @@ mod tests {
         let f2 = fingerprint(&p).unwrap();
         assert_eq!(f1, f2);
         std::fs::remove_file(&p).ok();
+    }
+
+    // ---------------------------------------------------------------------
+    // S5 ledger tests (issue #108): tiers, run-constants, round-trip,
+    // byte-stability (LEDGER_FORMAT_SPEC §3-5, §8).
+    // ---------------------------------------------------------------------
+
+    fn test_rc() -> RunConstants {
+        RunConstants {
+            data_hash: "d1a6".repeat(10),
+            code_hash: "c0de".repeat(10),
+            config_hash: "c0n".repeat(14),
+            simulator_hash: "51m".repeat(14),
+            risk_gate_hash: "r15k".repeat(10),
+            evaluator_version: "evaluate/0.9.1".to_string(),
+            platform: "cpu".to_string(),
+            utility_unit: "quote".to_string(),
+            cost_form: "taker-bps".to_string(),
+            slippage: 0.5,
+            action_manifest_id: "manifest-0001".to_string(),
+        }
+    }
+
+    #[test]
+    fn values_artifact_rejects_full_only_field() {
+        // Tier honesty (§4 / §8 test #4): a VALUES artifact must not carry a
+        // FULL-only materialized derivative; the failure is explicit, not an
+        // empty column.
+        let mut a =
+            state_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &test_rc());
+        let sid = a
+            .add_field("state_id", DType::DictStr, FieldTier::IdentityOnly)
+            .expect("identity field is legal at VALUES");
+        let close = a
+            .add_field("close", DType::F64, FieldTier::Values)
+            .expect("information field is legal at VALUES");
+        let err = a
+            .add_field("lineage_hash", DType::DictStr, FieldTier::Full)
+            .unwrap_err();
+        assert_eq!(err.field, "lineage_hash");
+        assert_eq!(err.field_tier, FieldTier::Full);
+        assert_eq!(err.artifact_tier, ArtifactTier::Values);
+        // Columns added before the violation are untouched; the violating
+        // field is never silently downgraded or stubbed.
+        assert_eq!(a.columns.len(), 2);
+        assert_eq!(a.columns[sid].name, "state_id");
+        assert_eq!(a.columns[close].name, "close");
+
+        // The same field is legal at FULL (the top tier satisfies every
+        // FieldTier).
+        let mut f =
+            state_artifact(ArtifactTier::Full, "SOLUSDT", "15m", &generator_tag(), &test_rc());
+        assert!(f.add_field("lineage_hash", DType::DictStr, FieldTier::Full).is_ok());
+    }
+
+    #[test]
+    fn identity_only_artifact_rejects_information_field() {
+        let mut a = state_artifact(
+            ArtifactTier::IdentityOnly,
+            "SOLUSDT",
+            "15m",
+            &generator_tag(),
+            &test_rc(),
+        );
+        assert!(a
+            .add_field("state_id", DType::DictStr, FieldTier::IdentityOnly)
+            .is_ok());
+        let err = a.add_field("close", DType::F64, FieldTier::Values).unwrap_err();
+        assert_eq!(err.artifact_tier, ArtifactTier::IdentityOnly);
+        assert_eq!(err.field_tier, FieldTier::Values);
+    }
+
+    #[test]
+    fn headers_carry_required_run_constants_for_all_kinds() {
+        // Header completeness (§8 test #2): every S5 kind binds the full §3
+        // run-constant set plus symbol/interval/generator, hash_encoding, and
+        // tier.
+        let rc = test_rc();
+        let artifacts = [
+            (
+                "state",
+                state_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+            ),
+            (
+                "candidate",
+                candidate_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+            ),
+            (
+                "outcome",
+                outcome_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+            ),
+            (
+                "evaluation",
+                evaluation_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+            ),
+            (
+                "cube",
+                cube_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+            ),
+        ];
+        let dir = std::env::temp_dir();
+        for (kind, art) in artifacts {
+            let p = dir.join(format!("v82-hdr-{kind}.v82"));
+            art.write(&p).unwrap();
+            let h = read_header(&p).unwrap();
+            assert_eq!(h["artifact_kind"], kind, "{kind}: artifact_kind");
+            assert_eq!(h["hash_encoding"], HASH_ENCODING, "{kind}: hash_encoding");
+            assert_eq!(h["tier"], "VALUES", "{kind}: tier");
+            for k in RunConstants::REQUIRED_KEYS {
+                assert!(h["run_constants"].get(k).is_some(), "{kind}: missing {k}");
+            }
+            for k in ["symbol", "interval", "generator"] {
+                assert!(h["run_constants"].get(k).is_some(), "{kind}: missing {k}");
+            }
+            assert_eq!(h["run_constants"]["symbol"], "SOLUSDT", "{kind}: symbol");
+            assert_eq!(h["run_constants"]["interval"], "15m", "{kind}: interval");
+            assert!(
+                h["run_constants"]["generator"]
+                    .as_str()
+                    .unwrap()
+                    .starts_with("v8-core/"),
+                "{kind}: generator tag"
+            );
+            std::fs::remove_file(&p).ok();
+        }
+    }
+
+    #[test]
+    fn state_artifact_round_trips_through_disk() {
+        let mut a =
+            state_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &test_rc());
+        let sid = a.add_field("state_id", DType::DictStr, FieldTier::IdentityOnly).unwrap();
+        let as_of = a.add_field("as_of", DType::I64, FieldTier::IdentityOnly).unwrap();
+        let close = a.add_field("close", DType::F64, FieldTier::Values).unwrap();
+        for _ in 0..2 {
+            a.columns[sid].push_str("state-001");
+            a.columns[as_of].push_i64(1_700_000_000_000);
+            a.columns[close].push_f64(101.5);
+            a.end_row();
+        }
+        let dir = std::env::temp_dir();
+        let p = dir.join("v82-state-rt.v82");
+        a.write(&p).unwrap();
+
+        // Header read-back (write + read) matches what was written.
+        let h = read_header(&p).unwrap();
+        assert_eq!(h["artifact_kind"], "state");
+        assert_eq!(h["tier"], "VALUES");
+        assert_eq!(h["hash_encoding"], HASH_ENCODING);
+        assert_eq!(h["row_count"], 2);
+        assert_eq!(h["column_count"], 3);
+        assert_eq!(h["run_constants"]["symbol"], "SOLUSDT");
+        assert_eq!(h["run_constants"]["interval"], "15m");
+
+        // Fingerprint is content-addressed and stable across re-reads.
+        assert_eq!(fingerprint(&p).unwrap(), fingerprint(&p).unwrap());
+        std::fs::remove_file(&p).ok();
+    }
+
+    #[test]
+    fn s5_artifacts_are_byte_stable() {
+        let rc = test_rc();
+        let build = || {
+            let mut a = outcome_artifact(ArtifactTier::Values, "BTCUSDT", "1h", &generator_tag(), &rc);
+            let status = a.add_field("cell_status", DType::DictStr, FieldTier::Values).unwrap();
+            let gap = a.add_field("gap", DType::F64, FieldTier::Values).unwrap();
+            a.columns[status].push_str("EXPLORABLE");
+            a.columns[gap].push_f64(0.25);
+            a.end_row();
+            a
+        };
+        let dir = std::env::temp_dir();
+        let p1 = dir.join("v82-oc-1.v82");
+        let p2 = dir.join("v82-oc-2.v82");
+        build().write(&p1).unwrap();
+        build().write(&p2).unwrap();
+        assert_eq!(
+            std::fs::read(&p1).unwrap(),
+            std::fs::read(&p2).unwrap(),
+            "two identical requests must write byte-identical artifacts (G4)"
+        );
+        std::fs::remove_file(&p1).ok();
+        std::fs::remove_file(&p2).ok();
     }
 }

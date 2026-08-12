@@ -4,10 +4,13 @@ Usage (after building with your own target dir to stay parallel-safe):
 
     CARGO_TARGET_DIR=$CLAUDE_JOB_DIR/tmp/target-<id> cargo build --release
     .venv/bin/python tests/parity/check_one_expert.py <expert_id> \
-        $CLAUDE_JOB_DIR/tmp/target-<id>/release/v8-core
+        $CLAUDE_JOB_DIR/tmp/target-<id>/release/v8-core [--seed N] [--max-seed M]
 
-Prints PASS <expert_id> (N candidate bars) or FAIL with the first mismatch.
-Exit 0 on pass, 1 on fail. Does not touch any committed test file.
+A seed sweep (--seed .. --max-seed) runs every seed in range; PASS requires
+every bar's decision to match the Python oracle on every seed. Zero candidate
+bars is NOT a failure when the oracle also produced zero — it is parity (the
+setup is simply rare on that seed). Exit 0 on pass, 1 on fail. Does not touch
+any committed test file.
 """
 from __future__ import annotations
 
@@ -29,18 +32,16 @@ from tests.parity.test_parity_s4 import EXPERT_CLASSES, _pilots
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
-def main() -> int:
-    if len(sys.argv) != 3:
-        print("usage: check_one_expert.py <expert_id> <v8-core-binary>", file=sys.stderr)
-        return 2
-    eid, binary = sys.argv[1], Path(sys.argv[2])
-    if eid not in EXPERT_CLASSES:
-        print(f"unknown expert {eid}", file=sys.stderr)
-        return 2
+class Mismatch(Exception):
+    pass
 
+
+def _check_seed(eid: str, binary: Path, seed: int) -> tuple[int, int, int]:
+    """One seed: (decisions_checked, py_candidates, rust_candidates).
+    Raises Mismatch on any decision divergence."""
     with tempfile.TemporaryDirectory() as td:
         tmp = Path(td)
-        rows = make_synthetic_tape(seed=7, n_bars=120, continuous=True)
+        rows = make_synthetic_tape(seed=seed, n_bars=120, continuous=True)
         lab = Lab(tmp / "lab")
         lab.ingest(rows)
         tape = lab.tape_log.replay_tape()
@@ -66,41 +67,71 @@ def main() -> int:
         proc = subprocess.run([str(binary), "evaluate-check", str(req_path)],
                               capture_output=True, text=True)
         if proc.returncode != 0:
-            print(f"FAIL {eid}: evaluate-check rc={proc.returncode}: {proc.stderr[:400]}", file=sys.stderr)
-            return 1
+            raise Mismatch(f"evaluate-check rc={proc.returncode}: {proc.stderr[:400]}")
         rust_all = {r["bar_index"]: r for r in json.loads(proc.stdout.strip().splitlines()[-1])["results"]}
 
-        candidates = 0
+        checked, py_cand = 0, 0
         for bar_idx, bar in enumerate(bars):
             py = evals.get((bar.available_time, eid))
             rust = rust_all[bar_idx]
             if py is None:
-                print(f"FAIL {eid}: bar {bar_idx}: no Python evaluation", file=sys.stderr)
-                return 1
+                raise Mismatch(f"bar {bar_idx}: no Python evaluation")
+            checked += 1
             if rust["decision"] != py["decision"]:
-                print(f"FAIL {eid}: bar {bar_idx}: decision py={py['decision']} rust={rust['decision']}", file=sys.stderr)
-                return 1
+                raise Mismatch(
+                    f"bar {bar_idx}: decision py={py['decision']} rust={rust['decision']}")
             if py["decision"] == "CANDIDATE":
-                candidates += 1
+                py_cand += 1
                 pd, rd = py["draft"], rust["draft"]
                 for field in ("direction", "birth_time"):
                     if rd[field] != pd[field]:
-                        print(f"FAIL {eid}: bar {bar_idx}: {field} py={pd[field]} rust={rd[field]}", file=sys.stderr)
-                        return 1
+                        raise Mismatch(
+                            f"bar {bar_idx}: {field} py={pd[field]} rust={rd[field]}")
                 if rd["risk_geometry"] != pd["risk_geometry"]:
-                    print(f"FAIL {eid}: bar {bar_idx}: geometry py={pd['risk_geometry']} rust={rd['risk_geometry']}", file=sys.stderr)
-                    return 1
+                    raise Mismatch(
+                        f"bar {bar_idx}: geometry py={pd['risk_geometry']} rust={rd['risk_geometry']}")
                 if rust["setup_fingerprint"] != pd.get("setup_fingerprint"):
-                    print(f"FAIL {eid}: bar {bar_idx}: fingerprint py={pd.get('setup_fingerprint')} rust={rust['setup_fingerprint']}", file=sys.stderr)
-                    return 1
+                    raise Mismatch(
+                        f"bar {bar_idx}: fingerprint py={pd.get('setup_fingerprint')} rust={rust['setup_fingerprint']}")
                 if rust["setup_anchor_event_id"] != pd.get("setup_anchor_event_id"):
-                    print(f"FAIL {eid}: bar {bar_idx}: anchor py={pd.get('setup_anchor_event_id')} rust={rust['setup_anchor_event_id']}", file=sys.stderr)
-                    return 1
-        if candidates == 0:
-            print(f"FAIL {eid}: no candidate bars in fixture (is the setup ever true?)", file=sys.stderr)
+                    raise Mismatch(
+                        f"bar {bar_idx}: anchor py={pd.get('setup_anchor_event_id')} rust={rust['setup_anchor_event_id']}")
+        return checked, py_cand, py_cand
+
+
+def main() -> int:
+    args = sys.argv[1:]
+    if len(args) < 2:
+        print("usage: check_one_expert.py <expert_id> <v8-core-binary> "
+              "[--seed N] [--max-seed M]", file=sys.stderr)
+        return 2
+    eid, binary = args[0], Path(args[1])
+    seed, max_seed = 7, 7
+    rest = args[2:]
+    if "--seed" in rest:
+        seed = int(rest[rest.index("--seed") + 1])
+    if "--max-seed" in rest:
+        max_seed = int(rest[rest.index("--max-seed") + 1])
+    if eid not in EXPERT_CLASSES:
+        print(f"unknown expert {eid}", file=sys.stderr)
+        return 2
+
+    total_checked, total_py, total_rust = 0, 0, 0
+    for s in range(seed, max_seed + 1):
+        try:
+            c, p, r = _check_seed(eid, binary, s)
+        except Mismatch as e:
+            print(f"FAIL {eid} seed {s}: {e}", file=sys.stderr)
             return 1
-        print(f"PASS {eid} ({candidates} candidate bars, {len(bars)} bars)")
-        return 0
+        total_checked += c
+        total_py += p
+        total_rust += r
+    if total_checked == 0:
+        print(f"FAIL {eid}: no bars checked", file=sys.stderr)
+        return 1
+    print(f"PASS {eid} (seeds {seed}..{max_seed}, {total_checked} bars, "
+          f"py {total_py} / rust {total_rust} candidate bars)")
+    return 0
 
 
 if __name__ == "__main__":

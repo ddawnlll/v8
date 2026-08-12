@@ -25,6 +25,7 @@ mod candidate;
 mod data;
 mod evidence;
 mod experts;
+mod features;
 mod hash;
 mod jsonx;
 mod mt19937;
@@ -928,7 +929,13 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
             map.insert(f.name.clone(), f.clone());
         }
         let hist = state::history_bars(store, t, req.history_depth.unwrap_or(32));
-        let fm = experts::base::FeatMap { features: &map, history: hist, as_of, symbol: &sym };
+        // D-053 projection: each expert sees only its requires-closure; a
+        // feature outside it is withheld, exactly like the Python view (an
+        // expert reading a withheld feature NO_HABITATs via its _need).
+        let closure = features::group_closure(experts::requires_for(&eid));
+        let projected = features::project_features(&map, &closure);
+        let hist = if features::history_allowed(&closure) { hist } else { Vec::new() };
+        let fm = experts::base::FeatMap { features: &projected, history: hist, as_of, symbol: &sym };
         let ev = experts::evaluate(&eid, &fm);
         results.push(serde_json::json!({
             "expert_id": eid,

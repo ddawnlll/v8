@@ -7,6 +7,7 @@ use crate::simulator::Draft;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
+pub const REQUIRES: &[&str] = &["trend", "volatility", "history"];
 
 pub fn trend_pullback(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;

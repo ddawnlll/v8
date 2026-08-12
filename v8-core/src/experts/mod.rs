@@ -99,3 +99,45 @@ pub fn ported(expert_id: &str) -> bool {
 pub fn registry_rows() -> Vec<(&'static str, bool)> {
     TABLE.iter().map(|(id, _, _, p)| (*id, *p)).collect()
 }
+
+/// (expert_id, requires groups) — the D-053 projection declaration.
+pub const REQUIRES_TABLE: [(&str, &[&str]); 28] = [
+    ("bollinger_breakout", bollinger_breakout::REQUIRES),
+    ("bollinger_reversion", bollinger_reversion::REQUIRES),
+    ("breakout_retest", breakout_retest::REQUIRES),
+    ("candlestick_reversal", candlestick_reversal::REQUIRES),
+    ("divergence_12_setups", divergence_12_setups::REQUIRES),
+    ("donchian_breakout", donchian_breakout::REQUIRES),
+    ("failed_breakout", failed_breakout::REQUIRES),
+    ("failed_breakout_2b", failed_breakout_2b::REQUIRES),
+    ("fib_projection_reversal", fib_projection_reversal::REQUIRES),
+    ("fib_retracement_continuation", fib_retracement_continuation::REQUIRES),
+    ("fib_rsi_bb_confluence", fib_rsi_bb_confluence::REQUIRES),
+    ("floor_trader_pivot", floor_trader_pivot::REQUIRES),
+    ("funding_crowding_reversal", funding_crowding_reversal::REQUIRES),
+    ("gap_exhaustion", gap_exhaustion::REQUIRES),
+    ("ichimoku_cloud", ichimoku_cloud::REQUIRES),
+    ("liquidity_sweep_reclaim", liquidity_sweep_reclaim::REQUIRES),
+    ("macd_stoch_trend", macd_stoch_trend::REQUIRES),
+    ("market_profile_value_area", market_profile_value_area::REQUIRES),
+    ("obv_adl_regime", obv_adl_regime::REQUIRES),
+    ("open_interest_divergence", open_interest_divergence::REQUIRES),
+    ("pandf_breakout", pandf_breakout::REQUIRES),
+    ("pattern_measuring_objective", pattern_measuring_objective::REQUIRES),
+    ("range_breakout_1to1", range_breakout_1to1::REQUIRES),
+    ("rsi_stoch_reversion", rsi_stoch_reversion::REQUIRES),
+    ("trend_pullback", trend_pullback::REQUIRES),
+    ("trend_pullback_depth", trend_pullback_depth::REQUIRES),
+    ("volume_climax_reversal", volume_climax_reversal::REQUIRES),
+    ("volume_confirmed_breakout", volume_confirmed_breakout::REQUIRES),
+];
+
+/// The D-053 requires closure for an expert (empty for unknown ids).
+pub fn requires_for(expert_id: &str) -> &'static [&'static str] {
+    for (id, reqs) in REQUIRES_TABLE {
+        if *id == *expert_id {
+            return reqs;
+        }
+    }
+    &[]
+}

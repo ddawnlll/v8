@@ -8,6 +8,7 @@ use crate::simulator::Draft;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
+pub const REQUIRES: &[&str] = &["location", "volatility", "history"];
 
 pub fn liquidity_sweep_reclaim(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;

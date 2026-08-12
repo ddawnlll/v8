@@ -8,6 +8,7 @@ use crate::simulator::Draft;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
+pub const REQUIRES: &[&str] = &["location", "volatility", "history"];
 
 pub fn failed_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
