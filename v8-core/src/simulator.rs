@@ -121,6 +121,12 @@ pub struct Outcome {
     pub entry_price: f64,
     pub risk_unit_price: f64,
     pub market_move_r: f64,
+    /// The round-trip cost charged (R units) — the S6 phase-1 join carries it
+    /// (the oracle's cube rows have cost_r/funding_r; the reconciliation
+    /// surface deliberately does not).
+    pub cost_r: f64,
+    /// Cumulative funding paid (R units).
+    pub funding_r: f64,
 }
 
 #[derive(Debug, Clone)]
@@ -375,6 +381,7 @@ impl<'a> ReplayKernel<'a> {
                 horizon_bars: 0, label_available_time: 0,
                 mae_r: 0.0, mfe_r: 0.0, ambiguous_bars: 0,
                 entry_price: 0.0, risk_unit_price: 0.0, market_move_r: 0.0,
+                cost_r: 0.0, funding_r: 0.0,
             });
         }
         let expiry = draft.geom_i64("expiry_bars").unwrap_or(0) as usize;
@@ -406,6 +413,7 @@ impl<'a> ReplayKernel<'a> {
                             label_available_time: self.bars.available_times[end - 1],
                             mae_r: 0.0, mfe_r: 0.0, ambiguous_bars: 0,
                             entry_price: 0.0, risk_unit_price: 0.0, market_move_r: 0.0,
+                            cost_r: 0.0, funding_r: 0.0,
                         });
                     }
                 }
@@ -454,6 +462,8 @@ impl<'a> ReplayKernel<'a> {
                     entry_price: entry,
                     risk_unit_price: unit,
                     market_move_r: (self.bars.closes[i] - entry) / unit,
+                    cost_r: self.cost_r(entry, unit)?,
+                    funding_r: next.funding_paid_r,
                 });
             }
             pos = next;
@@ -478,6 +488,8 @@ impl<'a> ReplayKernel<'a> {
             entry_price: entry,
             risk_unit_price: unit,
             market_move_r: (self.bars.closes[last] - entry) / unit,
+            cost_r: cost,
+            funding_r: pos.funding_paid_r,
         })
     }
 }

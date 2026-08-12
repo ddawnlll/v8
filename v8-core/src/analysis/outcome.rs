@@ -113,6 +113,8 @@ mod tests {
             entry_price: 100.0,
             risk_unit_price: 5.0,
             market_move_r: 2.0,
+            cost_r: 0.07,
+            funding_r: 0.0,
         }
     }
 

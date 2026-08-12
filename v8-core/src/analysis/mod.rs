@@ -180,7 +180,7 @@ fn replay_actual_surface(
     stores: &[FeatureStore],
     sim: &SimulatorParams,
     funding: &[(i64, f64)],
-) -> Option<OutcomeSurface> {
+) -> Option<crate::simulator::Outcome> {
     let entry_time = snap.entry_bar_available_time?;
     let store = stores.iter().find(|s| s.symbol == snap.instrument)?;
     let bars = ds.bars.iter().find(|b| b.symbol == snap.instrument)?;
@@ -205,8 +205,7 @@ fn replay_actual_surface(
         bars,
         store,
     };
-    let out = kernel.run(&draft, i, bars.closes.len(), snap.predicate_ir.as_ref()).ok()?;
-    Some(out.reconcile_surface(&snap.candidate_id, "ACTUAL"))
+    kernel.run(&draft, i, bars.closes.len(), snap.predicate_ir.as_ref()).ok()
 }
 
 /// Re-derive the observed-outcome ledger when the request omits it (D-081: the
@@ -225,18 +224,19 @@ fn derive_outcomes(
         let Some(s) = replay_actual_surface(snap, ds, stores, sim, funding) else {
             continue;
         };
+        let surf = s.reconcile_surface(&snap.candidate_id, "ACTUAL");
         out.push(json!({
-            "candidate_id": s.candidate_id,
-            "endpoint": s.endpoint,
-            "label_status": s.label_status,
-            "horizon_bars": s.horizon_bars,
-            "ambiguous_bars": s.ambiguous_bars,
-            "net_r": s.net_r,
-            "entry_price": s.entry_price,
-            "risk_unit_price": s.risk_unit_price,
-            "mae_r": s.mae_r,
-            "mfe_r": s.mfe_r,
-            "market_move_r": s.market_move_r,
+            "candidate_id": surf.candidate_id,
+            "endpoint": surf.endpoint,
+            "label_status": surf.label_status,
+            "horizon_bars": surf.horizon_bars,
+            "ambiguous_bars": surf.ambiguous_bars,
+            "net_r": surf.net_r,
+            "entry_price": surf.entry_price,
+            "risk_unit_price": surf.risk_unit_price,
+            "mae_r": surf.mae_r,
+            "mfe_r": surf.mfe_r,
+            "market_move_r": surf.market_move_r,
         }));
     }
     out
@@ -324,15 +324,18 @@ fn replay_actual_accumulators(
     funding: &[(i64, f64)],
 ) -> Option<CubeAccumulators> {
     let s = replay_actual_surface(snap, ds, stores, sim, funding)?;
+    let surf = s.reconcile_surface(&snap.candidate_id, "ACTUAL");
     Some(CubeAccumulators {
-        endpoint: Some(s.endpoint),
-        label_status: Some(s.label_status),
-        horizon_bars: Some(s.horizon_bars),
-        cost_r: None,
-        funding_r: None,
-        mae_r: Some(s.mae_r),
-        mfe_r: Some(s.mfe_r),
-        ambiguous_bars: Some(s.ambiguous_bars),
+        endpoint: Some(surf.endpoint),
+        label_status: Some(surf.label_status),
+        horizon_bars: Some(surf.horizon_bars),
+        // The compute Outcome now carries the round-trip cost and funding the
+        // oracle's cube rows record (the phase-1 join compares them).
+        cost_r: Some(s.cost_r),
+        funding_r: Some(s.funding_r),
+        mae_r: Some(surf.mae_r),
+        mfe_r: Some(surf.mfe_r),
+        ambiguous_bars: Some(surf.ambiguous_bars),
     })
 }
 

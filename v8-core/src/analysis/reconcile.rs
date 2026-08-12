@@ -103,28 +103,24 @@ pub fn build_snapshots(
     evaluations: &[Value],
     outcomes: &[Value],
 ) -> Vec<CandidateSnapshot> {
-    // Drafts keyed by the RE-DERIVED D-026 identity TUPLE — (expert_id,
-    // expert_version, instrument, direction, setup_anchor_event_id) — never a
-    // stored candidate_id edge and never an encoded hash. The tuple is
-    // encoding-agnostic: the V8.2 canonical hash (D-079) and the oracle's
-    // sha1-of-JSON encode the SAME tuple differently, so a hash-keyed join
-    // can never bind lab-produced store data to the drafts. The anchor makes
-    // the tuple unique per expert/version/symbol/direction (D-026 dedup).
-    let mut drafts_by_key: HashMap<(String, String, String, String, String), Map<String, Value>> =
-        HashMap::new();
+    // Drafts keyed by (expert_id, knowledge_time) — the lab evaluates each
+    // expert once per bar, and the DETECTED transition's own knowledge_time
+    // IS the birth bar, so the evaluation at that clock is the exact draft
+    // the registry kept. This is the only binding that survives episodes
+    // that re-evaluate at the same D-026 anchor with a moved structural
+    // geometry: the fixture has 45 anchor-tuples with multiple DETECTED
+    // candidates (different geometry_version = different stop/target), which
+    // an anchor-tuple join merges onto the first draft (the 6 remaining S6
+    // reconciliation mismatches, issue #117).
+    let mut drafts_by_clock: HashMap<(String, i64), Map<String, Value>> = HashMap::new();
     for rec in evaluations {
         let d = match rec.get("draft").and_then(|v| v.as_object()) {
             Some(d) => d,
             None => continue,
         };
-        let key = (
-            d.get("expert_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            d.get("expert_version").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            d.get("instrument").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            d.get("direction").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            d.get("setup_anchor_event_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-        );
-        drafts_by_key.entry(key).or_insert_with(|| d.clone());
+        let eid = rec.get("expert_id").and_then(|v| v.as_str()).unwrap_or("").to_string();
+        let kt = rec.get("knowledge_time").and_then(|v| v.as_i64()).unwrap_or(0);
+        drafts_by_clock.entry((eid, kt)).or_insert_with(|| d.clone());
     }
 
     // Transitions grouped by candidate_id (the stored candidate_id is the
@@ -159,16 +155,13 @@ pub fn build_snapshots(
             t.get("to_state").and_then(|v| v.as_str())
                 .map(|s| TERMINAL.contains(&s)).unwrap_or(false)
         });
-        // Bind the draft to the DETECTED transition by the identity TUPLE
-        // (the DETECTED record carries the same five fields top-level).
+        // Bind the draft to the DETECTED transition by the birth clock:
+        // (expert_id, DETECTED knowledge_time) — the evaluation at that bar
+        // is the stored draft.
         let draft = detected.and_then(|t| {
-            drafts_by_key.get(&(
-                t.get("expert_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-                t.get("expert_version").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-                t.get("instrument").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-                t.get("direction").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-                t.get("setup_anchor_event_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            ))
+            let eid = t.get("expert_id").and_then(|v| v.as_str()).unwrap_or("").to_string();
+            let kt = t.get("knowledge_time").and_then(|v| v.as_i64()).unwrap_or(0);
+            drafts_by_clock.get(&(eid, kt))
         });
         let entry_time = executed
             .and_then(|t| t.get("knowledge_time").and_then(|v| v.as_i64()));
