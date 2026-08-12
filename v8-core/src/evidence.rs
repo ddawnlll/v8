@@ -40,9 +40,12 @@
 //! expected and named here rather than hidden (same treatment as `hash.rs`).
 #![allow(dead_code)]
 
+use std::collections::HashMap;
 use std::io;
-use std::path::Path;
+use std::io::Write;
+use std::path::{Path, PathBuf};
 
+use serde_json::Value;
 use sha1::{Digest, Sha1};
 
 use crate::hash::HASH_ENCODING;
@@ -481,13 +484,19 @@ impl Artifact {
     }
 }
 
+/// SHA-1 (hex) over raw bytes — the V8.2 digest used by fingerprint, the
+/// ledger-fixture identities, and the default fixture tape hash.
+pub fn sha1_hex(bytes: &[u8]) -> String {
+    let mut h = Sha1::new();
+    Digest::update(&mut h, bytes);
+    h.finalize().iter().map(|b| format!("{:02x}", b)).collect()
+}
+
 /// SHA-1 (hex) over the raw artifact bytes — the artifact identity used for
 /// byte-stability (G4) and cache keys. Content-addressed, no wall clock.
 pub fn fingerprint(path: &Path) -> io::Result<String> {
     let bytes = std::fs::read(path)?;
-    let mut h = Sha1::new();
-    Digest::update(&mut h, &bytes);
-    Ok(h.finalize().iter().map(|b| format!("{:02x}", b)).collect())
+    Ok(sha1_hex(&bytes))
 }
 
 /// Read an artifact's JSON header back from disk (S5 read-back path). Returns
@@ -510,6 +519,293 @@ pub fn read_header(path: &Path) -> io::Result<serde_json::Value> {
     }
     serde_json::from_slice(&bytes[12..12 + header_len])
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
+}
+
+/// A full artifact read-back (S5 ledger §8 test #1): the header plus every
+/// column's values in file order. Absent cells read as `None` from the
+/// validity bit — absence is never a sentinel number (MARKET_STATE_CONTRACT
+/// §4).
+pub struct ReadBack {
+    pub header: Value,
+    /// `(column name, per-row value)` in file order.
+    pub columns: Vec<(String, Vec<Option<Value>>)>,
+}
+
+impl ReadBack {
+    /// The per-row values of the named column, or `None` if absent.
+    pub fn column(&self, name: &str) -> Option<&Vec<Option<Value>>> {
+        self.columns.iter().find(|(n, _)| n == name).map(|(_, v)| v)
+    }
+
+    /// Row count = the first column's length (columns are rectangular).
+    pub fn row_count(&self) -> usize {
+        self.columns.first().map(|(_, v)| v.len()).unwrap_or(0)
+    }
+}
+
+/// Bounds-checked slice take for the artifact walk; a truncated file is an
+/// explicit `Err`, never a panic.
+fn take<'a>(bytes: &'a [u8], off: &mut usize, n: usize) -> io::Result<&'a [u8]> {
+    if *off + n > bytes.len() {
+        return Err(io::Error::new(io::ErrorKind::InvalidData, "truncated artifact data"));
+    }
+    let s = &bytes[*off..*off + n];
+    *off += n;
+    Ok(s)
+}
+
+/// Read an artifact back in full: header plus every row of every column,
+/// decoding values per the declared dtype and applying the validity bitmask.
+/// This is the reader side of §8 test #1 — the round-trip regenerates each
+/// dropped field from the identity and compares it against what the write
+/// path stored.
+pub fn read_artifact(path: &Path) -> io::Result<ReadBack> {
+    let bytes = std::fs::read(path)?;
+    if bytes.len() < 12 || &bytes[..8] != MAGIC {
+        return Err(io::Error::new(io::ErrorKind::InvalidData, "not a V82LDRG1 artifact"));
+    }
+    let header_len = u32::from_le_bytes(bytes[8..12].try_into().unwrap()) as usize;
+    if 12 + header_len > bytes.len() {
+        return Err(io::Error::new(io::ErrorKind::InvalidData, "truncated artifact header"));
+    }
+    let header: Value = serde_json::from_slice(&bytes[12..12 + header_len])
+        .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+    let column_count = header["column_count"].as_u64().unwrap_or(0) as usize;
+    let mut off = 12 + header_len;
+    let mut columns = Vec::with_capacity(column_count);
+    for _ in 0..column_count {
+        let name_len = u16::from_le_bytes(take(&bytes, &mut off, 2)?.try_into().unwrap()) as usize;
+        let name = String::from_utf8_lossy(take(&bytes, &mut off, name_len)?).to_string();
+        let dtype = take(&bytes, &mut off, 1)?[0];
+        let n = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+        let mask = take(&bytes, &mut off, (n + 7) / 8)?;
+        let valid: Vec<bool> = (0..n).map(|i| mask[i / 8] & (1 << (i % 8)) != 0).collect();
+        let mut values = Vec::with_capacity(n);
+        match DType::from_tag(dtype) {
+            Some(DType::I64) => {
+                let raw = take(&bytes, &mut off, 8 * n)?;
+                for i in 0..n {
+                    let v = i64::from_le_bytes(raw[8 * i..8 * i + 8].try_into().unwrap());
+                    values.push(if valid[i] { Some(serde_json::json!(v)) } else { None });
+                }
+            }
+            Some(DType::F64) => {
+                let raw = take(&bytes, &mut off, 8 * n)?;
+                for i in 0..n {
+                    let v = f64::from_bits(u64::from_le_bytes(raw[8 * i..8 * i + 8].try_into().unwrap()));
+                    values.push(if valid[i] { Some(serde_json::json!(v)) } else { None });
+                }
+            }
+            Some(DType::Bool) => {
+                let raw = take(&bytes, &mut off, n)?;
+                for i in 0..n {
+                    let v = raw[i] != 0;
+                    values.push(if valid[i] { Some(serde_json::json!(v)) } else { None });
+                }
+            }
+            Some(DType::DictStr) => {
+                let ids = take(&bytes, &mut off, 2 * n)?;
+                let dict_len = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+                let mut dict = Vec::with_capacity(dict_len);
+                for _ in 0..dict_len {
+                    let s_len = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+                    let s = String::from_utf8_lossy(take(&bytes, &mut off, s_len)?).to_string();
+                    dict.push(s);
+                }
+                for i in 0..n {
+                    let id = u16::from_le_bytes(ids[2 * i..2 * i + 2].try_into().unwrap()) as usize;
+                    values.push(if valid[i] { Some(serde_json::json!(dict[id])) } else { None });
+                }
+            }
+            None => {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidData,
+                    format!("column {name}: unknown dtype {dtype}"),
+                ));
+            }
+        }
+        columns.push((name, values));
+    }
+    Ok(ReadBack { header, columns })
+}
+
+/// Header-completeness check (LEDGER_FORMAT_SPEC §8 test #2). A header must
+/// carry `hash_encoding`, `tier`, and every §3 run-constant plus the
+/// per-artifact bindings (`symbol`, `interval`, `generator`). A missing field
+/// fails closed — an `Err` naming the gap — never a header that would silently
+/// produce rows with a missing field.
+pub fn validate_header(header: &Value) -> Result<(), String> {
+    let mut missing: Vec<String> = Vec::new();
+    for k in ["artifact_kind", "hash_encoding", "tier", "row_count", "column_count", "ordering"] {
+        if header.get(k).is_none() {
+            missing.push(k.to_string());
+        }
+    }
+    let rc = match header.get("run_constants") {
+        Some(v) if v.is_object() => v,
+        _ => return Err("header: run_constants missing or not an object".to_string()),
+    };
+    for k in RunConstants::REQUIRED_KEYS {
+        if rc.get(k).is_none() {
+            missing.push(format!("run_constants.{k}"));
+        }
+    }
+    for k in ["symbol", "interval", "generator"] {
+        if rc.get(k).is_none() {
+            missing.push(format!("run_constants.{k}"));
+        }
+    }
+    if missing.is_empty() {
+        Ok(())
+    } else {
+        Err(format!("header missing: {}", missing.join(", ")))
+    }
+}
+
+/// §8 test #5: does a byte region contain a text-encoded decimal float — an
+/// ASCII `.` adjacent to an ASCII digit? Fixed-width IEEE-754 / two's
+/// complement values never contain that pattern, so a hit means decimal text
+/// reached a numeric column.
+pub fn has_decimal_float_text(region: &[u8]) -> bool {
+    for (i, b) in region.iter().enumerate() {
+        if *b == b'.' {
+            let prev_digit = i > 0 && region[i - 1].is_ascii_digit();
+            let next_digit = i + 1 < region.len() && region[i + 1].is_ascii_digit();
+            if prev_digit || next_digit {
+                return true;
+            }
+        }
+    }
+    false
+}
+
+/// §8 test #5: scan the raw bytes of every numeric column's value region for
+/// text-encoded decimal floats. Returns the names of the columns that contain
+/// one (empty = pass). The header, column names, and string dictionaries are
+/// not value regions and are deliberately not scanned — the header legitimately
+/// carries run-constant floats (e.g. `slippage`) in decimal text.
+pub fn find_decimal_float_text(path: &Path) -> io::Result<Vec<String>> {
+    let bytes = std::fs::read(path)?;
+    if bytes.len() < 12 || &bytes[..8] != MAGIC {
+        return Err(io::Error::new(io::ErrorKind::InvalidData, "not a V82LDRG1 artifact"));
+    }
+    let header_len = u32::from_le_bytes(bytes[8..12].try_into().unwrap()) as usize;
+    if 12 + header_len > bytes.len() {
+        return Err(io::Error::new(io::ErrorKind::InvalidData, "truncated artifact header"));
+    }
+    let header: Value = serde_json::from_slice(&bytes[12..12 + header_len])
+        .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+    let column_count = header["column_count"].as_u64().unwrap_or(0) as usize;
+    let mut off = 12 + header_len;
+    let mut hits = Vec::new();
+    for _ in 0..column_count {
+        let name_len = u16::from_le_bytes(take(&bytes, &mut off, 2)?.try_into().unwrap()) as usize;
+        let name = String::from_utf8_lossy(take(&bytes, &mut off, name_len)?).to_string();
+        let dtype = take(&bytes, &mut off, 1)?[0];
+        let n = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+        off += (n + 7) / 8; // validity bitmask
+        match dtype {
+            0 | 1 => {
+                // I64 / F64: fixed-width binary — decimal text is a violation.
+                let region = take(&bytes, &mut off, 8 * n)?;
+                if has_decimal_float_text(region) {
+                    hits.push(name);
+                }
+            }
+            2 => {
+                // Bool: one byte per row, still fixed-width binary.
+                let region = take(&bytes, &mut off, n)?;
+                if has_decimal_float_text(region) {
+                    hits.push(name);
+                }
+            }
+            3 => {
+                // DictStr: ids then the dictionary; the dictionary is text by
+                // design and is not a numeric value column.
+                off += 2 * n;
+                let dict_len = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+                for _ in 0..dict_len {
+                    let s_len = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+                    off += s_len;
+                }
+            }
+            other => {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidData,
+                    format!("column {name}: unknown dtype {other}"),
+                ));
+            }
+        }
+    }
+    Ok(hits)
+}
+
+/// One tape-retention record (LEDGER_FORMAT_SPEC §6): a tape hash and whether
+/// that tape is retained. A tape referenced by any retained artifact is itself
+/// retained — retention is what makes the VALUES tier legal (§6.1).
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct RetentionRecord {
+    pub tape_hash: String,
+    pub retained: bool,
+}
+
+/// The tape-retention store: one JSONL record per tape hash, appended on
+/// insert so a later process resolves the same tapes (same pattern as the
+/// cache store).
+pub struct RetentionStore {
+    map: HashMap<String, bool>,
+    log_path: Option<PathBuf>,
+}
+
+impl RetentionStore {
+    pub fn new() -> Self {
+        RetentionStore { map: HashMap::new(), log_path: None }
+    }
+
+    /// Open a store backed by `log_path`, loading any existing records.
+    pub fn open(log_path: &Path) -> io::Result<Self> {
+        let mut store = RetentionStore::new();
+        store.log_path = Some(log_path.to_path_buf());
+        if log_path.exists() {
+            let text = std::fs::read_to_string(log_path)?;
+            for (i, line) in text.lines().enumerate() {
+                if line.trim().is_empty() {
+                    continue;
+                }
+                let rec: RetentionRecord = serde_json::from_str(line).map_err(|e| {
+                    io::Error::new(io::ErrorKind::InvalidData, format!("retention line {}: {e}", i + 1))
+                })?;
+                store.map.insert(rec.tape_hash.clone(), rec.retained);
+            }
+        }
+        Ok(store)
+    }
+
+    /// Record a tape's retention state, appending to the JSONL log first so a
+    /// failed write leaves the in-memory map untouched (fail closed).
+    pub fn insert(&mut self, tape_hash: &str, retained: bool) -> io::Result<()> {
+        let rec = RetentionRecord { tape_hash: tape_hash.to_string(), retained };
+        if let Some(path) = &self.log_path {
+            let mut bytes = serde_json::to_vec(&rec)
+                .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+            bytes.push(b'\n');
+            let mut f = std::fs::OpenOptions::new().create(true).append(true).open(path)?;
+            f.write_all(&bytes)?;
+        }
+        self.map.insert(tape_hash.to_string(), retained);
+        Ok(())
+    }
+
+    /// §8 test #6: an artifact whose header references `tape_hash` resolves
+    /// iff the tape is retained. A missing record — or a `retained: false`
+    /// record — is reported by the audit tool, never silently accepted.
+    pub fn resolves(&self, tape_hash: &str) -> Result<(), String> {
+        match self.map.get(tape_hash) {
+            Some(true) => Ok(()),
+            Some(false) => Err(format!("tape {tape_hash} is marked not retained")),
+            None => Err(format!("tape {tape_hash} has no retention record — not retained")),
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -596,12 +892,319 @@ pub fn cube_artifact(
     )
 }
 
+// ---------------------------------------------------------------------------
+// S5 ledger §8 cheap-test battery (LEDGER_FORMAT_SPEC §8; issue #109)
+//
+// The six tests run against a deterministic self-built VALUES-tier state
+// fixture; a request may override the out_dir and the referenced tape hash.
+// Every test is value-level, no wall clock enters any artifact (G5).
+// ---------------------------------------------------------------------------
+
+/// Fixture size in rows.
+const FIXTURE_BARS: usize = 3;
+/// Fixture first as-of clock.
+const FIXTURE_AS_OF_BASE: i64 = 1_700_000_000_000;
+
+/// The `close` value at bar `i` is a pure function of the as-of clock — the
+/// fixture's stand-in for "a dropped field regenerated from (tape, code)".
+fn ledger_fixture_close(as_of: i64) -> f64 {
+    100.5 + (as_of - FIXTURE_AS_OF_BASE) as f64
+}
+
+/// The fixture's stored identity: SHA-1 of the regenerable fields, so §8 test
+/// #1's "each regenerated field's hash equals the stored identity" is exact.
+fn ledger_fixture_id(as_of: i64, close: f64) -> String {
+    sha1_hex(format!("{as_of}|{close}").as_bytes())
+}
+
+/// Deterministic fixture row: (state_id, as_of, close).
+fn ledger_fixture_row(i: usize) -> (String, i64, f64) {
+    let as_of = FIXTURE_AS_OF_BASE + i as i64;
+    let close = ledger_fixture_close(as_of);
+    (ledger_fixture_id(as_of, close), as_of, close)
+}
+
+/// Write the ledger fixture to `dir/{name}.v82` and return its path. The same
+/// request always writes the same bytes (G4); the fixture uses the production
+/// tier machinery (state_artifact + add_field) so tier honesty and header
+/// completeness are exercised on the real write path.
+fn write_ledger_fixture(dir: &Path, rc: &RunConstants, name: &str) -> io::Result<PathBuf> {
+    let mut a = state_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), rc);
+    let sid = a
+        .add_field("state_id", DType::DictStr, FieldTier::IdentityOnly)
+        .map_err(io::Error::other)?;
+    let as_of = a
+        .add_field("as_of", DType::I64, FieldTier::IdentityOnly)
+        .map_err(io::Error::other)?;
+    let close = a
+        .add_field("close", DType::F64, FieldTier::Values)
+        .map_err(io::Error::other)?;
+    for i in 0..FIXTURE_BARS {
+        let (state_id, as_of_v, close_v) = ledger_fixture_row(i);
+        a.columns[sid].push_str(&state_id);
+        a.columns[as_of].push_i64(as_of_v);
+        a.columns[close].push_f64(close_v);
+        a.end_row();
+    }
+    let path = dir.join(format!("{name}.v82"));
+    a.write(&path)?;
+    Ok(path)
+}
+
+/// §8 test #1 (round-trip): a VALUES artifact is written, read back, and every
+/// dropped field regenerated from the identity equals the stored value, with
+/// its hash equal to the stored identity.
+fn battery_round_trip(dir: &Path, rc: &RunConstants) -> Result<(), String> {
+    let path = write_ledger_fixture(dir, rc, "rt-fixture").map_err(|e| e.to_string())?;
+    let back = read_artifact(&path).map_err(|e| e.to_string())?;
+    if back.header["artifact_kind"].as_str() != Some("state") {
+        return Err("read-back artifact_kind is not 'state'".into());
+    }
+    if back.header["tier"].as_str() != Some("VALUES") {
+        return Err("read-back tier is not VALUES".into());
+    }
+    if back.header["hash_encoding"].as_str() != Some(HASH_ENCODING) {
+        return Err("read-back hash_encoding is not the declared encoding".into());
+    }
+    if back.row_count() != FIXTURE_BARS {
+        return Err(format!("read-back row count {} != {FIXTURE_BARS}", back.row_count()));
+    }
+    let sid = back.column("state_id").ok_or("no state_id column")?;
+    let asof = back.column("as_of").ok_or("no as_of column")?;
+    let close = back.column("close").ok_or("no close column")?;
+    for i in 0..FIXTURE_BARS {
+        let (exp_sid, exp_asof, exp_close) = ledger_fixture_row(i);
+        if sid[i].as_ref().and_then(Value::as_str) != Some(exp_sid.as_str()) {
+            return Err(format!("row {i}: stored identity {sid:?} != {exp_sid}"));
+        }
+        if asof[i].as_ref().and_then(Value::as_i64) != Some(exp_asof) {
+            return Err(format!("row {i}: stored as_of {asof:?} != {exp_asof}"));
+        }
+        if close[i].as_ref().and_then(Value::as_f64).map(f64::to_bits) != Some(exp_close.to_bits()) {
+            return Err(format!("row {i}: stored close {close:?} != {exp_close} (bits)"));
+        }
+        // Regeneration: close is a pure function of as_of, and re-hashing it
+        // reproduces the stored identity exactly.
+        let regen_close = ledger_fixture_close(exp_asof);
+        if regen_close.to_bits() != exp_close.to_bits() {
+            return Err(format!("row {i}: regenerated close != stored close"));
+        }
+        if ledger_fixture_id(exp_asof, regen_close) != exp_sid {
+            return Err(format!("row {i}: regenerated field's hash != stored identity"));
+        }
+    }
+    Ok(())
+}
+
+/// §8 test #2 (header completeness): the header carries every run-constant;
+/// removing any one of them fails closed instead of producing a row with a
+/// missing field.
+fn battery_header_completeness(dir: &Path, rc: &RunConstants) -> Result<(), String> {
+    let path = write_ledger_fixture(dir, rc, "hdr-fixture").map_err(|e| e.to_string())?;
+    let h = read_header(&path).map_err(|e| e.to_string())?;
+    validate_header(&h)?;
+    let rc_keys: Vec<String> = RunConstants::REQUIRED_KEYS
+        .iter()
+        .map(|s| s.to_string())
+        .chain(["symbol".into(), "interval".into(), "generator".into()])
+        .collect();
+    for key in &rc_keys {
+        let mut corrupt = h.clone();
+        corrupt["run_constants"]
+            .as_object_mut()
+            .ok_or("run_constants is not an object")?
+            .remove(key);
+        if validate_header(&corrupt).is_ok() {
+            return Err(format!("header without run-constant {key} did not fail closed"));
+        }
+    }
+    for field in ["hash_encoding", "tier"] {
+        let mut corrupt = h.clone();
+        corrupt.as_object_mut().ok_or("header is not an object")?.remove(field);
+        if validate_header(&corrupt).is_ok() {
+            return Err(format!("header without {field} did not fail closed"));
+        }
+    }
+    Ok(())
+}
+
+/// §8 test #3 (byte-stability): two runs of the same request write
+/// byte-identical artifacts with identical fingerprints (G4).
+fn battery_byte_stability(dir: &Path, rc: &RunConstants) -> Result<(), String> {
+    let p1 = write_ledger_fixture(dir, rc, "bs-fixture-1").map_err(|e| e.to_string())?;
+    let p2 = write_ledger_fixture(dir, rc, "bs-fixture-2").map_err(|e| e.to_string())?;
+    let b1 = std::fs::read(&p1).map_err(|e| e.to_string())?;
+    let b2 = std::fs::read(&p2).map_err(|e| e.to_string())?;
+    if b1 != b2 {
+        return Err("two runs of the same request are not byte-identical".into());
+    }
+    let f1 = fingerprint(&p1).map_err(|e| e.to_string())?;
+    let f2 = fingerprint(&p2).map_err(|e| e.to_string())?;
+    if f1 != f2 {
+        return Err(format!("fingerprints differ: {f1} vs {f2}"));
+    }
+    Ok(())
+}
+
+/// §8 test #4 (tier honesty): a VALUES artifact rejects a FULL-only field
+/// with an explicit TierViolation, and no tier below a field's requirement
+/// can serve it — the failure is explicit, never an empty column.
+fn battery_tier_honesty(rc: &RunConstants) -> Result<(), String> {
+    let mut v = state_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), rc);
+    v.add_field("state_id", DType::DictStr, FieldTier::IdentityOnly)
+        .map_err(|e| e.to_string())?;
+    v.add_field("close", DType::F64, FieldTier::Values)
+        .map_err(|e| e.to_string())?;
+    match v.add_field("lineage_hash", DType::DictStr, FieldTier::Full) {
+        Err(TierViolation { field, field_tier, artifact_tier }) => {
+            if field != "lineage_hash"
+                || field_tier != FieldTier::Full
+                || artifact_tier != ArtifactTier::Values
+            {
+                return Err(format!("unexpected TierViolation: {field}"));
+            }
+        }
+        Ok(_) => return Err("VALUES artifact accepted a FULL-only field".into()),
+    }
+    if ArtifactTier::IdentityOnly.can_serve(FieldTier::Values) {
+        return Err("IDENTITY_ONLY artifact claims to serve a VALUES field".into());
+    }
+    if ArtifactTier::Values.can_serve(FieldTier::Full) {
+        return Err("VALUES artifact claims to serve a FULL field".into());
+    }
+    if !ArtifactTier::Full.can_serve(FieldTier::Full) {
+        return Err("FULL artifact cannot serve a FULL field".into());
+    }
+    Ok(())
+}
+
+/// §8 test #5 (no decimal floats): no numeric value column contains text
+/// encoding of a float; the scan is value-region scoped, so the header's
+/// run-constant decimal (slippage 0.5) is not a hit.
+fn battery_no_decimal_floats(dir: &Path, rc: &RunConstants) -> Result<(), String> {
+    let path = write_ledger_fixture(dir, rc, "ndf-fixture").map_err(|e| e.to_string())?;
+    let hits = find_decimal_float_text(&path).map_err(|e| e.to_string())?;
+    if !hits.is_empty() {
+        return Err(format!("decimal float text in numeric columns: {}", hits.join(", ")));
+    }
+    // Prove the scan is region-scoped: the artifact bytes DO contain a '.'
+    // (the header's slippage 0.5) yet no numeric value column tripped.
+    let bytes = std::fs::read(&path).map_err(|e| e.to_string())?;
+    if !bytes.contains(&b'.') {
+        return Err("fixture must carry a header decimal for the region-scope claim".into());
+    }
+    Ok(())
+}
+
+/// §8 test #6 (retention): the artifact header carries the referenced tape
+/// hash; when a retention record exists the artifact resolves, and when none
+/// exists the audit tool reports it rather than silently accepting it.
+fn battery_retention(dir: &Path, rc: &RunConstants) -> Result<(), String> {
+    let store_path = dir.join("retention.jsonl");
+    let mut store = RetentionStore::open(&store_path).map_err(|e| e.to_string())?;
+    store.insert(&rc.data_hash, true).map_err(|e| e.to_string())?;
+    store.resolves(&rc.data_hash).map_err(|e| e.to_string())?;
+    if store.resolves("missing0000000000000000000000000000000000").is_ok() {
+        return Err("artifact referencing an unretained tape was silently accepted".into());
+    }
+    // Persistence: a fresh store over the same JSONL still resolves.
+    let store2 = RetentionStore::open(&store_path).map_err(|e| e.to_string())?;
+    store2.resolves(&rc.data_hash).map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+/// Run the six-test §8 battery; each entry is `(test name, result)`.
+fn run_ledger_battery(dir: &Path, rc: &RunConstants) -> Vec<(&'static str, Result<(), String>)> {
+    vec![
+        ("round-trip", battery_round_trip(dir, rc)),
+        ("header-completeness", battery_header_completeness(dir, rc)),
+        ("byte-stability", battery_byte_stability(dir, rc)),
+        ("tier-honesty", battery_tier_honesty(rc)),
+        ("no-decimal-floats", battery_no_decimal_floats(dir, rc)),
+        ("retention", battery_retention(dir, rc)),
+    ]
+}
+
+/// The run-constants for the ledger fixture. `data_hash` is the referenced
+/// tape hash (§6), so retention binds the artifact to the store.
+fn ledger_run_constants(tape_hash: &str) -> RunConstants {
+    RunConstants {
+        data_hash: tape_hash.to_string(),
+        code_hash: sha1_hex(b"v8-core-ledger-code"),
+        config_hash: sha1_hex(b"v8-core-ledger-config"),
+        simulator_hash: sha1_hex(b"v8-core-ledger-sim"),
+        risk_gate_hash: sha1_hex(b"v8-core-ledger-risk-gate"),
+        evaluator_version: "evaluate/0.9.1".to_string(),
+        platform: "cpu".to_string(),
+        utility_unit: "quote".to_string(),
+        cost_form: "taker-bps".to_string(),
+        slippage: 0.5,
+        action_manifest_id: "manifest-ledger-fixture".to_string(),
+    }
+}
+
 /// S5 ledger §8 cheap-test driver (issue #109): round-trip, header
 /// completeness, byte-stability, tier honesty, no-decimal-floats scan,
 /// retention — extended to verdict artifacts at S7 (issue #123).
+///
+/// Accepts an optional request.json (only `out_dir` and `tape_hash` are
+/// consumed; the battery is otherwise self-built) and prints one PASS/FAIL
+/// line per test. Returns 0 only if all six pass.
 pub fn ledger_check(args: &[String]) -> i32 {
-    eprintln!("S5 ledger-check not implemented yet (issue #109): args={args:?}");
-    1
+    if args.len() > 1 {
+        eprintln!("usage: v8-core ledger-check [request.json]");
+        return 2;
+    }
+    let default_tape = || sha1_hex(b"v8-ledger-fixture-tape");
+    let (out_dir, tape_hash) = match args.first() {
+        Some(path) => {
+            let req: Value = match std::fs::read(path)
+                .map_err(|e| format!("cannot read request {path}: {e}"))
+                .and_then(|b| serde_json::from_slice(&b).map_err(|e| format!("cannot parse request {path}: {e}")))
+            {
+                Ok(v) => v,
+                Err(e) => {
+                    eprintln!("error: {e}");
+                    return 1;
+                }
+            };
+            let dir = req
+                .get("out_dir")
+                .and_then(Value::as_str)
+                .map(PathBuf::from)
+                .unwrap_or_else(|| std::env::temp_dir().join("v82-ledger-check"));
+            let tape = req
+                .get("tape_hash")
+                .and_then(Value::as_str)
+                .map(|s| s.to_string())
+                .unwrap_or_else(default_tape);
+            (dir, tape)
+        }
+        None => (std::env::temp_dir().join("v82-ledger-check"), default_tape()),
+    };
+    if let Err(e) = std::fs::create_dir_all(&out_dir) {
+        eprintln!("error: out_dir {out_dir:?}: {e}");
+        return 1;
+    }
+    let rc = ledger_run_constants(&tape_hash);
+    let results = run_ledger_battery(&out_dir, &rc);
+    let mut all_pass = true;
+    for (name, res) in &results {
+        match res {
+            Ok(()) => println!("ledger-check: {name}: PASS"),
+            Err(e) => {
+                eprintln!("ledger-check: {name}: FAIL — {e}");
+                all_pass = false;
+            }
+        }
+    }
+    if all_pass {
+        println!("ledger-check: all {} tests passed", results.len());
+        0
+    } else {
+        eprintln!("ledger-check: FAILED");
+        1
+    }
 }
 
 #[cfg(test)]
@@ -857,5 +1460,151 @@ mod tests {
         );
         std::fs::remove_file(&p1).ok();
         std::fs::remove_file(&p2).ok();
+    }
+
+    // ---------------------------------------------------------------------
+    // S5 ledger §8 battery (issue #109): the six cheap tests run end to end
+    // against the deterministic fixture.
+    // ---------------------------------------------------------------------
+
+    const BATTERY_FILES: [&str; 5] = [
+        "rt-fixture.v82",
+        "hdr-fixture.v82",
+        "ndf-fixture.v82",
+        "bs-fixture-1.v82",
+        "bs-fixture-2.v82",
+    ];
+
+    #[test]
+    fn ledger_battery_all_six_cheap_tests_pass() {
+        let dir = std::env::temp_dir();
+        let results = run_ledger_battery(&dir, &test_rc());
+        assert_eq!(results.len(), 6, "the battery is the six §8 tests");
+        for (name, res) in &results {
+            assert!(res.is_ok(), "{name} failed: {:?}", res);
+        }
+        for f in BATTERY_FILES {
+            std::fs::remove_file(dir.join(f)).ok();
+        }
+        std::fs::remove_file(dir.join("retention.jsonl")).ok();
+    }
+
+    #[test]
+    fn round_trip_regenerates_dropped_fields_and_identity() {
+        // §8 test #1 at value level: write the fixture, read it back, and
+        // regenerate every dropped field from the identity — its hash must
+        // equal the stored identity (bit-exact).
+        let dir = std::env::temp_dir();
+        let path = write_ledger_fixture(&dir, &test_rc(), "rt-solo").unwrap();
+        let back = read_artifact(&path).unwrap();
+        assert_eq!(back.header["artifact_kind"], "state");
+        assert_eq!(back.header["tier"], "VALUES");
+        assert_eq!(back.header["hash_encoding"], HASH_ENCODING);
+        assert_eq!(back.row_count(), FIXTURE_BARS);
+        let sid = back.column("state_id").unwrap();
+        let asof = back.column("as_of").unwrap();
+        let close = back.column("close").unwrap();
+        for i in 0..FIXTURE_BARS {
+            let (exp_sid, exp_asof, exp_close) = ledger_fixture_row(i);
+            assert_eq!(sid[i].as_ref().and_then(Value::as_str), Some(exp_sid.as_str()));
+            assert_eq!(asof[i].as_ref().and_then(Value::as_i64), Some(exp_asof));
+            assert_eq!(
+                close[i].as_ref().and_then(Value::as_f64).map(f64::to_bits),
+                Some(exp_close.to_bits())
+            );
+            let regen_close = ledger_fixture_close(exp_asof);
+            assert_eq!(regen_close.to_bits(), exp_close.to_bits());
+            assert_eq!(ledger_fixture_id(exp_asof, regen_close), exp_sid);
+        }
+        std::fs::remove_file(&path).ok();
+    }
+
+    #[test]
+    fn removing_any_run_constant_fails_closed() {
+        // §8 test #2: the complete header validates; removing any one
+        // run-constant (or hash_encoding / tier) fails closed with the missing
+        // key named.
+        let dir = std::env::temp_dir();
+        let path = write_ledger_fixture(&dir, &test_rc(), "hdr-solo").unwrap();
+        let h = read_header(&path).unwrap();
+        validate_header(&h).expect("complete header must validate");
+        let mut keys: Vec<&str> = RunConstants::REQUIRED_KEYS.to_vec();
+        keys.extend(["symbol", "interval", "generator"]);
+        for key in keys {
+            let mut corrupt = h.clone();
+            corrupt["run_constants"].as_object_mut().unwrap().remove(key);
+            let err = validate_header(&corrupt).unwrap_err();
+            assert!(err.contains(key), "error must name the missing key: {err}");
+        }
+        for field in ["hash_encoding", "tier"] {
+            let mut corrupt = h.clone();
+            corrupt.as_object_mut().unwrap().remove(field);
+            let err = validate_header(&corrupt).unwrap_err();
+            assert!(err.contains(field), "error must name the missing field: {err}");
+        }
+        std::fs::remove_file(&path).ok();
+    }
+
+    #[test]
+    fn ledger_fixture_two_writes_are_byte_identical() {
+        // §8 test #3: same request, byte-identical artifacts and fingerprints.
+        let dir = std::env::temp_dir();
+        let rc = test_rc();
+        let p1 = write_ledger_fixture(&dir, &rc, "bs-a").unwrap();
+        let p2 = write_ledger_fixture(&dir, &rc, "bs-b").unwrap();
+        assert_eq!(std::fs::read(&p1).unwrap(), std::fs::read(&p2).unwrap());
+        assert_eq!(fingerprint(&p1).unwrap(), fingerprint(&p2).unwrap());
+        std::fs::remove_file(&p1).ok();
+        std::fs::remove_file(&p2).ok();
+    }
+
+    #[test]
+    fn numeric_value_regions_contain_no_decimal_float_text() {
+        // §8 test #5: the scan finds nothing in the numeric value regions,
+        // even though the header legitimately carries a decimal (slippage 0.5)
+        // — the scan is region-scoped.
+        let dir = std::env::temp_dir();
+        let path = write_ledger_fixture(&dir, &test_rc(), "ndf-solo").unwrap();
+        assert_eq!(find_decimal_float_text(&path).unwrap(), Vec::<String>::new());
+        let bytes = std::fs::read(&path).unwrap();
+        assert!(bytes.contains(&b'.'), "header decimal must exist to prove scoping");
+        // Pattern-level checks on the scan function itself.
+        assert!(has_decimal_float_text(b"0.5"));
+        assert!(has_decimal_float_text(b"12.5"));
+        assert!(has_decimal_float_text(b".5"));
+        assert!(!has_decimal_float_text(&[0x00, 0x2E, 0x00])); // '.' not digit-adjacent
+        std::fs::remove_file(&path).ok();
+    }
+
+    #[test]
+    fn retention_requires_a_retained_record() {
+        // §8 test #6: no record -> reported; retained:true -> resolves;
+        // retained:false -> reported; records survive a reopen.
+        let dir = std::env::temp_dir();
+        let store_path = dir.join("retention-test.jsonl");
+        std::fs::remove_file(&store_path).ok();
+        let mut store = RetentionStore::open(&store_path).unwrap();
+        assert!(store.resolves("abcd").is_err(), "no record yet — must not resolve");
+        store.insert("abcd", true).unwrap();
+        store.resolves("abcd").expect("retained tape resolves");
+        store.insert("efgh", false).unwrap();
+        let err = store.resolves("efgh").unwrap_err();
+        assert!(err.contains("not retained"), "{err}");
+        let store2 = RetentionStore::open(&store_path).unwrap();
+        store2.resolves("abcd").expect("record survives reopen");
+        std::fs::remove_file(&store_path).ok();
+    }
+
+    #[test]
+    fn fixture_identity_is_a_hash_of_regenerable_fields() {
+        // The fixture's stored identity must be deterministic and change when
+        // the regenerable fields change (the round-trip regeneration anchor).
+        let (sid0, asof0, close0) = ledger_fixture_row(0);
+        let (sid1, asof1, close1) = ledger_fixture_row(1);
+        assert_ne!(sid0, sid1);
+        assert_ne!(asof0, asof1);
+        assert_ne!(close0.to_bits(), close1.to_bits());
+        assert_eq!(sid0, ledger_fixture_id(asof0, close0));
+        assert_ne!(sid0, ledger_fixture_id(asof0, close0 + 1.0));
     }
 }

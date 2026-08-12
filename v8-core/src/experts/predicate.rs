@@ -146,8 +146,21 @@ fn window_agg(v: &Value, ctx: &FeatCtx) -> Option<f64> {
     let n = v["n"].as_u64()? as usize;
     let feat = v["feature"].as_str()?;
     let exclusive = v.get("end").and_then(|e| e.as_str()) == Some("EXCLUSIVE");
+    // EXCLUSIVE drops the newest bar but n COUNTS it (the compiler emits
+    // n = m + 1 for the Python slice hist[-(m+1):-1]) — so the aggregate runs
+    // over n - 1 bars ending at hist[len - 2]. An n-bar window here would
+    // include one bar too many (donchian responsive/significant, S2 bug
+    // caught by the exit-kind coverage test, issue #103).
     let hi = if exclusive { hist.len().saturating_sub(1) } else { hist.len() };
-    let lo = hi.saturating_sub(n);
+    // Python fail-open: len(hist.value) < m + 1 -> thesis holds (donchian
+    // responsive/significant). With n = m + 1 in the IR, an EXCLUSIVE window
+    // on a history shorter than n must fail open, not clamp and compute a
+    // band over the short tail (a second S2 bug the exit-kind test caught).
+    if exclusive && hist.len() < n {
+        return None;
+    }
+    let count = if exclusive { n.saturating_sub(1) } else { n };
+    let lo = hi.saturating_sub(count);
     if lo >= hi {
         return None;
     }
