@@ -272,6 +272,14 @@ pub fn fingerprint(path: &Path) -> io::Result<String> {
     Ok(h.finalize().iter().map(|b| format!("{:02x}", b)).collect())
 }
 
+/// S5 ledger §8 cheap-test driver (issue #109): round-trip, header
+/// completeness, byte-stability, tier honesty, no-decimal-floats scan,
+/// retention — extended to verdict artifacts at S7 (issue #123).
+pub fn ledger_check(args: &[String]) -> i32 {
+    eprintln!("S5 ledger-check not implemented yet (issue #109): args={args:?}");
+    1
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

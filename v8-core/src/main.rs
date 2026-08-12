@@ -19,15 +19,21 @@
 //! `threads` and `engine` are scheduling details and never appear in any hash
 //! (PARITY_AND_IDENTITY_SPEC G5; COMPUTE_SCHEDULING_SPEC §1).
 
+mod analysis;
+mod cache;
 mod candidate;
 mod data;
 mod evidence;
 mod experts;
 mod hash;
 mod jsonx;
+mod mt19937;
 mod regret;
+mod report;
+mod runloop;
 mod simulator;
 mod state;
+mod statistics;
 
 use std::path::PathBuf;
 
@@ -42,7 +48,14 @@ subcommands:
   replay          run the ReplayKernel over a candidate batch (stage S2)
   cube            stream the Outcome Cube to reduced tables (stage S3)
   evaluate-check  batch per-bar ExpertPlane draft check (stage S4)
-  registry        print the 28-expert dispatch table with ported flags (S4)";
+  evaluate        full per-bar ExpertPlane -> candidates -> reduce loop (S4)
+  registry        print the 28-expert dispatch table with ported flags (S4)
+  reconcile       S6: reconciliation (CandidateSnapshot join + PIT lineage)
+  analysis        S6: regret phases 1-3 (opportunity/systematicity/recover)
+  cache-check     S5: content-addressed DAG cache identity check
+  ledger-check    S5/S7: LEDGER_FORMAT_SPEC §8 cheap tests
+  verdict         S7: verdict statistics on reduced tables
+  report          S7: verdict report artifacts + audit";
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -58,6 +71,13 @@ fn main() {
         "cube" => cmd_cube(&args[2..]),
         "evaluate-check" => cmd_evaluate_check(&args[2..]),
         "registry" => cmd_registry(),
+        "evaluate" => runloop::run(&args[2..]),
+        "reconcile" => analysis::reconcile(&args[2..]),
+        "analysis" => analysis::analysis(&args[2..]),
+        "cache-check" => cache::cache_check(&args[2..]),
+        "ledger-check" => evidence::ledger_check(&args[2..]),
+        "verdict" => statistics::verdict(&args[2..]),
+        "report" => report::report(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
