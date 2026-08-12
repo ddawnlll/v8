@@ -1,7 +1,9 @@
 # CI for research code (OPERATIONS_SPEC section 4): tests on every change
-# plus the golden-backtest regression and the monograph byte-identity probe,
-# so refactors cannot silently change results and the corpus cannot drift
-# from the generated monograph.
+# plus the golden-backtest regression, the monograph byte-identity probe,
+# the v8-core Rust unit tests, the Python/Rust parity suite, and the gate-3
+# forbidden-component-name scan (AGENT_RUNBOOK section 4), so refactors
+# cannot silently change results, the corpus cannot drift from the generated
+# monograph, and gated components cannot half-enter the decision path.
 name: ci
 
 on:
@@ -21,11 +23,29 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install Rust toolchain (stable)
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+
       - name: Install package (dev + tooling extras)
         run: uv pip install --python "$(which python)" -e ".[dev,tooling]"
 
+      - name: Gate 3 — no forbidden component identifiers
+        run: python3 tools/forbidden_names.py
+
+      - name: v8-core unit tests (release, fp-contract=off)
+        working-directory: v8-core
+        # fp-contract=off comes from v8-core/.cargo/config.toml so bit-parity
+        # with the CPython oracle holds; the parity fixture reuses the
+        # release binary produced here.
+        run: cargo test --release
+
       - name: Contract tests (incl. golden-backtest regression)
-        run: "$(which python)" -m pytest tests -q
+        run: '"$(which python)" -m pytest tests -q'
+
+      - name: Parity tests (Python oracle vs v8-core binary)
+        run: '"$(which python)" -m pytest tests/parity -q'
 
       - name: Monograph byte-identity probe
         run: |

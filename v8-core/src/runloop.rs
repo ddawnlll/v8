@@ -133,6 +133,31 @@ pub fn run(args: &[String]) -> i32 {
 // The loop
 // ---------------------------------------------------------------------------
 
+/// S6 analysis composition entry (issue #116): run the full S4 evaluate loop
+/// over the tape with the analysis request's fields — full 28-expert table,
+/// default history depth and risk caps, 1h interval — writing evaluations.jsonl,
+/// candidates.jsonl and cube-reduced.v82 into `out_dir`. Returns the loop's
+/// summary (the caller reads the ledger files it names).
+pub fn run_for_analysis(
+    tape_path: &PathBuf,
+    universe: &[String],
+    out_dir: &PathBuf,
+    manifest: &Value,
+) -> Result<Value, String> {
+    let req = EvaluateRequest {
+        tape_path: tape_path.clone(),
+        universe: universe.to_vec(),
+        out_dir: out_dir.clone(),
+        history_depth: default_history_depth(),
+        experts: Vec::new(),
+        max_heat: default_max_heat(),
+        max_cluster_heat: default_max_cluster_heat(),
+        base_interval: default_base_interval(),
+        manifest: manifest.clone(),
+    };
+    evaluate(&req)
+}
+
 /// One admitted (PENDING) candidate, held for the S2/S3 reduce pass.
 struct PendingCandidate {
     candidate_id: String,

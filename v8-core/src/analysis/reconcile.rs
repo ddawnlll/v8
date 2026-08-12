@@ -438,6 +438,15 @@ pub struct ReconcileRequest {
     pub outcomes: Vec<Value>,
     #[serde(default)]
     pub states: Vec<Value>,
+    /// Optional precomputed loop-output paths (the S6 analysis composition,
+    /// issue #116, may supply them; `reconcile` itself does not consume them —
+    /// they exist so the analysis request shape is accepted here verbatim).
+    #[serde(default)]
+    #[allow(dead_code)]
+    pub evaluations_path: Option<std::path::PathBuf>,
+    #[serde(default)]
+    #[allow(dead_code)]
+    pub cube_reduced_path: Option<std::path::PathBuf>,
 }
 
 /// Read a JSONL tape into parsed rows (mirror of `main::read_tape`).

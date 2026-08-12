@@ -155,7 +155,11 @@ pub fn join_dataset(per_symbol: Vec<(String, Phase0Output)>) -> Vec<JoinedCandid
                 mae_r: actual.and_then(|c| c.mae_r),
                 mfe_r: actual.and_then(|c| c.mfe_r),
                 ambiguous_bars: actual.and_then(|c| c.ambiguous_bars),
-                epistemic_class: LABEL.to_string(),
+                // Python: JoinedCandidateRow.epistemic_class = 'MODEL_DERIVED'
+                // (regret_phase1.py:103); LABEL is the DATASET tag, not the
+                // per-row value — conflating them broke the S6 pipeline parity
+                // (939 divergences in the #117 harness).
+                epistemic_class: "MODEL_DERIVED".to_string(),
             });
         }
     }
@@ -348,7 +352,7 @@ mod tests {
                 horizon_bars: Some(47), cost_r: Some(0.053111111111111116),
                 funding_r: Some(0.0), mae_r: Some(-0.8812345678901234),
                 mfe_r: Some(0.9234567890123457), ambiguous_bars: Some(2),
-                epistemic_class: LABEL.into(),
+                epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
                 symbol: "BTCUSDT".into(), candidate_id: "c-btc-0002".into(),
@@ -359,7 +363,7 @@ mod tests {
                 endpoint: Some("TARGET".into()), label_status: Some("MATURE".into()),
                 horizon_bars: Some(8), cost_r: Some(0.05), funding_r: Some(0.0),
                 mae_r: Some(-0.4), mfe_r: Some(1.6), ambiguous_bars: Some(0),
-                epistemic_class: LABEL.into(),
+                epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
                 symbol: "BTCUSDT".into(), candidate_id: "c-btc-0003".into(),
@@ -370,7 +374,7 @@ mod tests {
                 endpoint: Some("STOP".into()), label_status: Some("RIGHT_CENSORED".into()),
                 horizon_bars: Some(24), cost_r: Some(0.05), funding_r: None,
                 mae_r: Some(-1.2), mfe_r: Some(0.7), ambiguous_bars: Some(5),
-                epistemic_class: LABEL.into(),
+                epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
                 symbol: "BTCUSDT".into(), candidate_id: "c-btc-0004".into(),
@@ -380,7 +384,7 @@ mod tests {
                 best_utility: Some(0.0), tie_cardinality: 1,
                 endpoint: None, label_status: None, horizon_bars: None,
                 cost_r: None, funding_r: None, mae_r: None, mfe_r: None,
-                ambiguous_bars: None, epistemic_class: LABEL.into(),
+                ambiguous_bars: None, epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
                 symbol: "BTCUSDT".into(), candidate_id: "c-btc-0005".into(),
@@ -391,7 +395,7 @@ mod tests {
                 tie_cardinality: 0,
                 endpoint: None, label_status: None, horizon_bars: None,
                 cost_r: None, funding_r: None, mae_r: None, mfe_r: None,
-                ambiguous_bars: None, epistemic_class: LABEL.into(),
+                ambiguous_bars: None, epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
                 symbol: "BTCUSDT".into(), candidate_id: "c-btc-0006".into(),
@@ -402,7 +406,7 @@ mod tests {
                 endpoint: Some("TARGET".into()), label_status: Some("MATURE".into()),
                 horizon_bars: Some(16), cost_r: Some(0.0), funding_r: Some(0.0),
                 mae_r: Some(-0.5), mfe_r: Some(0.9), ambiguous_bars: Some(0),
-                epistemic_class: LABEL.into(),
+                epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
                 symbol: "SOLUSDT".into(), candidate_id: "c-sol-0001".into(),
@@ -414,7 +418,7 @@ mod tests {
                 horizon_bars: Some(48), cost_r: Some(0.07777777777777778),
                 funding_r: Some(0.0), mae_r: Some(-0.6543210987654321),
                 mfe_r: Some(1.2345678901234567), ambiguous_bars: Some(0),
-                epistemic_class: LABEL.into(),
+                epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
                 symbol: "SOLUSDT".into(), candidate_id: "c-sol-0002".into(),
@@ -424,7 +428,7 @@ mod tests {
                 tie_cardinality: 0,
                 endpoint: None, label_status: None, horizon_bars: None,
                 cost_r: None, funding_r: None, mae_r: None, mfe_r: None,
-                ambiguous_bars: None, epistemic_class: LABEL.into(),
+                ambiguous_bars: None, epistemic_class: "MODEL_DERIVED".into(),
             },
         ]
     }

@@ -537,8 +537,12 @@ pub fn audit_report(
 // S7 report driver (issue #126)
 // ---------------------------------------------------------------------------
 
-/// The report request: `{tape_path, universe, out_dir}` plus optional
+/// The report request: `{tape_path, out_dir, universe}` plus optional
 /// `tier` / `base_interval` (defaults mirror the other compute-plane stages).
+/// `verdict_path` (issue #128 wiring) consumes the `verdict` subcommand's
+/// JSON output into the driver summary; `audit_report` audits an existing
+/// report artifact instead of writing a new one (issue #123 freshness
+/// checks against the current tape).
 #[derive(Debug, serde::Deserialize)]
 struct ReportRequest {
     tape_path: PathBuf,
@@ -549,6 +553,10 @@ struct ReportRequest {
     tier: String,
     #[serde(default = "default_interval")]
     base_interval: String,
+    #[serde(default)]
+    verdict_path: Option<PathBuf>,
+    #[serde(default)]
+    audit_report: Option<PathBuf>,
 }
 
 fn default_interval() -> String {
@@ -563,6 +571,13 @@ pub const DEFAULT_REPORT_SYMBOL: &str = "SOLUSDT";
 /// if one is present (`out_dir/cube-reduced.v82`), run the S7 audit battery,
 /// write `out_dir/report.v82`, and print its fingerprint. Returns 0 only when
 /// every audit check passes (fail closed, OPERATIONS_SPEC §5).
+///
+/// Two additive request fields (issue #128 wiring): `verdict_path` — the
+/// `verdict` subcommand's JSON output, consumed into the driver summary so the
+/// report run surfaces the statistics verdict beside the audit — and
+/// `audit_report` — an existing report artifact to audit against the current
+/// tape/producer instead of building a new report (the freshness path that
+/// flags a stale artifact, issue #123).
 pub fn report(args: &[String]) -> i32 {
     if args.len() != 1 {
         eprintln!("usage: v8-core report <request.json>");
@@ -592,6 +607,38 @@ pub fn report(args: &[String]) -> i32 {
         }
     };
     let current_generator = evidence::generator_tag();
+
+    // Audit-only mode (issue #123): run the S7 battery against an existing
+    // report artifact — the artifact on disk is audited against the CURRENT
+    // tape/producer, so a report bound to an older tape is flagged stale. No
+    // new artifact is written; returns 0 only when every check passes.
+    if let Some(audit_path) = &req.audit_report {
+        let store_path = req.out_dir.join("retention.jsonl");
+        let checks = audit_report(
+            audit_path,
+            &req.out_dir,
+            &store_path,
+            &current_data_hash,
+            &current_generator,
+        );
+        let mut all_pass = true;
+        for c in &checks {
+            if c.passed {
+                println!("report-audit: {}: PASS", c.name);
+            } else {
+                eprintln!("report-audit: {}: FAIL — {}", c.name, c.detail);
+                all_pass = false;
+            }
+        }
+        let audit_summary = serde_json::json!({
+            "subcommand": "report",
+            "audit_report": audit_path.to_string_lossy(),
+            "audit_pass": all_pass,
+        });
+        println!("{}", serde_json::to_string(&audit_summary).unwrap());
+        return if all_pass { 0 } else { 1 };
+    }
+
     let symbol = req
         .universe
         .first()
@@ -699,6 +746,37 @@ pub fn report(args: &[String]) -> i32 {
             all_pass = false;
         }
     }
+    // Consume the verdict subcommand's JSON output (issue #128 wiring): the
+    // driver summary surfaces the statistics verdict's headline fields. The
+    // report artifact's own `verdict` run-constant stays NO_ECONOMIC_CLAIM —
+    // a statistics p-value is not an authority receipt (rule 12).
+    let statistics = match &req.verdict_path {
+        Some(p) => {
+            let bytes = match std::fs::read(p) {
+                Ok(b) => b,
+                Err(e) => {
+                    eprintln!("error: cannot read verdict {}: {e}", p.display());
+                    return 1;
+                }
+            };
+            let v: Value = match serde_json::from_slice(&bytes) {
+                Ok(v) => v,
+                Err(e) => {
+                    eprintln!("error: cannot parse verdict {}: {e}", p.display());
+                    return 1;
+                }
+            };
+            let rc = v.get("reality_check").unwrap_or(&Value::Null);
+            Some(serde_json::json!({
+                "verdict": v.get("verdict").unwrap_or(&Value::Null),
+                "p_value": rc.get("p_value").unwrap_or(&Value::Null),
+                "argmax_config": rc.get("argmax_config").unwrap_or(&Value::Null),
+                "block_size": rc.get("block_size").unwrap_or(&Value::Null),
+                "n_resamples": rc.get("n_resamples").unwrap_or(&Value::Null),
+            }))
+        }
+        None => None,
+    };
     let summary_json = serde_json::json!({
         "subcommand": "report",
         "artifact": report_path.to_string_lossy(),
@@ -706,6 +784,7 @@ pub fn report(args: &[String]) -> i32 {
         "ledger_hash": ledger_hash,
         "verdict": summary.verdict,
         "candidate_count": summary.candidate_count,
+        "statistics": statistics,
         "audit_pass": all_pass,
     });
     println!("{}", serde_json::to_string(&summary_json).unwrap());
