@@ -88,10 +88,13 @@ loss-reduction effect with `V_R` negative on every recoverable slice — not a
 profitability finding, and not admissible as one (rule 12).
 
 **Compute substrate (planned).** A Rust compute plane owning dataset →
-features → state → candidates → replay → cube → reduction, with Python demoted
-to control and analysis. Staged S0..S5 with a value-level parity gate at every
-stage (`COMPUTE_CORE_SPEC` §8; `PARITY_AND_IDENTITY_SPEC` §5). `src/v8/` is
-frozen as the parity oracle, not deleted.
+features → state → candidates → replay → cube → reduction, **plus the analysis
+and verdict planes** — regret phases 1-3, verdict statistics, report/audit
+artifacts (D-091). Python is reduced to the frozen parity oracle and the
+vendored `simtruth/` lab; none of it is in the request path. Staged S0..S7 with
+a value-level parity gate at every stage (`COMPUTE_CORE_SPEC` §8;
+`PARITY_AND_IDENTITY_SPEC` §5). `src/v8/` is frozen as the parity oracle, not
+deleted.
 
 - **DoD (evaluation plane):** each phase's contract frozen before its run;
   reconciliation exact; confirmation half queried exactly once per slice.

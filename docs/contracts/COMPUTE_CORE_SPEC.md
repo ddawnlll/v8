@@ -98,6 +98,8 @@ predicate IR, or it does not enter the replay path.
 | `ReplayKernel` | one outcome per (candidate, action) | `&Dataset`, compiled predicates | `SIMULATION_TRUTH_SPEC` |
 | `CubeReducer` | streaming regret accumulators | `ReplayKernel` output | `OUTCOME_CUBE_SPEC` |
 | `EvidenceStore` | columnar ledgers, content-addressed DAG cache | all of the above | `LEDGER_FORMAT_SPEC`, `PERSISTENCE_REPLAY_SPEC` |
+| `Analysis` | regret phases 1-3: opportunity accounting, systematicity, recoverability | reduced tables (in-process) | `RECOVERABLE_REGRET_PROTOCOL` |
+| `Verdict` | verdict statistics, report and audit artifacts | `Analysis` output | `OPERATIONS_SPEC`, `LEDGER_FORMAT_SPEC` |
 
 Data flows one way. No layer mutates a layer below it. The only mutable
 long-lived state is the DAG cache, which is content-addressed and therefore
@@ -142,7 +144,11 @@ v8-core/
     candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
     simulator.rs    ReplayKernel (step/run), risk unit, fill policies
     regret.rs       LegalActionManifest, CubeReducer, gap accumulators
-    statistics.rs   reductions only; verdict statistics stay in Python (§7)
+    statistics.rs   reductions + verdict statistics (block-bootstrap
+                    Reality-Check, detrended null, placebo family; D-044)
+    analysis.rs     regret phases 1-3: systematicity, recoverability
+                    (RECOVERABLE_REGRET_PROTOCOL)
+    report.rs       verdict report artifacts, ledger audit checks (hash-bound)
     cache.rs        content-addressed DAG cache
     evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
     compute/        kernels + backend selection (COMPUTE_SCHEDULING_SPEC)
@@ -153,28 +159,37 @@ v8-core/
 The Python file family (`IMPLEMENTATION_LAYOUT` §1) is unchanged by this spec;
 V8.0 is frozen as the parity oracle, not deleted.
 
-## 7. What stays in Python, and why the boundary is a file
+## 7. What stays in Python, and why the boundary is in-process
 
-The control and analysis planes stay in Python. The crossing between planes is
-**an artifact file, not an FFI call**: the compute plane writes columnar
-ledgers and reduced tables, and the analysis plane reads them. This choice
-removes FFI schemas, lifetime negotiation across the boundary, GIL
-interaction, and duplicate domain types from the design.
+The request path is entirely Rust: compute, analysis, verdict statistics and
+reporting run in one process, one memory model (D-091). The artifact file is
+the **persistence** boundary, not a language crossing: the compute plane
+writes columnar ledgers and reduced tables for reproducibility and tiering
+(`LEDGER_FORMAT_SPEC` §4), and reads them back in-process for analysis. There
+is no FFI, no embedded interpreter, and no Python in the request path (D-078,
+extended).
 
-A component may remain in Python when all three hold:
+Python retains exactly three roles, none of them in the request path:
 
-1. it is called O(1) times per evaluation, not per bar or per cell;
-2. it consumes and produces batches, not scalars;
-3. it is not inside a hot loop.
+1. **The frozen parity oracle** — `src/v8/` is the value-level reference the
+   S0..S7 gates compare against. The parity program requires it to exist and
+   stay behaviour-frozen, so it is never deleted (D-077).
+2. **The vendored V7 reference lab** — `simtruth/`, engineering-only,
+   authority not renewed (D-022).
+3. **Pre-V8.2 dev/research tooling** — downloads, backfill, handbook
+   extraction, equity analysis, monograph build, the parity test driver. Each
+   is retired when its Rust equivalent lands; none reads a compute-plane
+   artifact for a verdict.
 
-Verdict statistics qualify. After `CubeReducer` runs, the data crossing the
-boundary is aggregates — order 10^4-10^6 numbers per run, not the 10^7 cube
-cells that produced them — so block bootstrap, family corrections and
-systematicity gates remain Python at negligible cost, and remain transparent,
-which the evaluator protocol prefers
-(`RECOVERABLE_REGRET_PROTOCOL` §6). This is a consequence of streaming
-reduction (`OUTCOME_CUBE_SPEC` §4): without it, the same components would be
-reading gigabytes and would not qualify.
+The old §7 justified the Python analysis plane by cost: after `CubeReducer`
+the data crossing the boundary is aggregates — order 10^4-10^6 numbers per
+run, not the 10^7 cube cells that produced them (D-081) — so the analysis
+stayed Python at negligible cost. D-091 revokes the consequence, not the
+measurement: streaming reduction still holds (cells are never materialized
+across Candidates), but the analysis that consumes the aggregates now runs in
+the same process that produced them. The old motivations for the file
+boundary — FFI schemas, lifetime negotiation, GIL interaction, duplicate
+domain types — are moot because the crossing no longer arises at all.
 
 ## 8. Migration order
 
@@ -188,12 +203,16 @@ The port is staged so that a working research instrument exists at every point.
 | S3 | `CubeReducer` + streaming regret | reduced tables match the Python evaluator |
 | S4 | `CandidateBuffer` + `ExpertPlane` | candidate population parity |
 | S5 | `EvidenceStore` + DAG cache | ledger identity stable across cache hit/miss |
+| S6 | `Analysis`: regret phases 1-3 (opportunity accounting, systematicity, recoverability) | verdict tables match `tools/regret_phase1/2/3.py` on the fixture population |
+| S7 | `Verdict`: statistics + report/audit artifacts | statistics/report parity vs `statistics.py`; ledger §8 audit covers verdict artifacts |
 
 Between S3 and S4 the control plane still produces candidates in Python and
 hands the compute plane one compiled batch per request. That is a valid
 resting point, not a hybrid to be maintained indefinitely: the no-callback
 invariant already holds at S2, because the predicate IR — not a Python
-closure — is what the kernel consults.
+closure — is what the kernel consults. The end state after S7 is one Rust
+binary covering compute, analysis and verdicts; the resting points in this
+table are valid stopping places, not the destination (D-091).
 
 Whether S4 must be pulled forward depends on an open question: if
 expert-variant sweeps enter V8.2's scope, experts are inside the hot loop by

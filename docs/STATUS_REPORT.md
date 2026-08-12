@@ -9,8 +9,10 @@ result recorded below).
 
 The V8.2 Rust compute plane migration (`COMPUTE_CORE_SPEC` §8) has completed
 **S0 through S3**, each with its parity gate G1..G6 passed and evidenced.
-Stages **S4 and S5 remain** — S4 (CandidateBuffer + ExpertPlane, the 28
-`evaluate()` ports) is the largest single stage. S4 is **in progress**: the
+Stages **S4 and S5 remain**, and D-091 (2026-08-12) extends the migration
+with **S6 (analysis) and S7 (verdict)** — see "Scope revision — D-091" below.
+S4 (CandidateBuffer + ExpertPlane, the 28 `evaluate()` ports) is the largest
+single stage. S4 is **in progress**: the
 candidate machinery (episode_key, registry, lifecycle transitions,
 ExposureBook, RiskGate, tradability mask) and the evaluate-port framework are
 built, and the **three pilots** (trend_pullback, failed_breakout,
@@ -110,3 +112,30 @@ the plan is to port it after S3, which is now done.
 No speed claim anywhere. The parity gates are correctness; the
 `PERFORMANCE_AUDIT_V82` figures remain the comparison baseline for any future
 measurement. The economic verdict stays `NO_ECONOMIC_CLAIM`.
+
+## Scope revision — D-091 (2026-08-12)
+
+D-091 revises the V8.2 plane split: the analysis, verdict and audit planes
+join the Rust plane. The runtime is one Rust binary end to end — compute,
+regret analysis phases 1-3, verdict statistics and report/audit artifacts —
+with **no Python in the request path** (D-078 extended). Python is reduced to
+the frozen parity oracle (`src/v8/`), the vendored `simtruth/` lab (D-022) and
+pre-V8.2 dev/research tooling retired as its Rust equivalent lands.
+
+The migration order S0..S5 extends with **S6** (Analysis: reconciliation +
+regret phases 1-3) and **S7** (Verdict: statistics + report/audit artifacts);
+the gates are added in `COMPUTE_CORE_SPEC` §8 and the module layout in §6
+(`analysis.rs`, `report.rs`, `statistics.rs` full). Nothing in the session-5
+findings above changes; S4/S5 remain the next stages and S6/S7 follow.
+
+The port is tracked issue-based on GitHub (`ddawnlll/v8`):
+- S4/S5/infra: epics #74-#76, tasks #77-#112 (`stage-s4`/`stage-s5` labels)
+- S6/S7: epics #113-#114, tasks #115-#130 (`stage-s6`/`stage-s7` labels)
+
+The S6/S7 scan surfaced three parity prerequisites that the issue bodies
+carry: (a) **MT19937 bit-exact RNG parity** — `statistics.py` consumes CPython
+`random` (`random()` = `genrand_res53`, not `getrandbits(53)/2**53`) — issue
+#127; (b) **banker's rounding** in `select_block_size` (Python `round()` is
+half-even; Rust `f64::round()` is half-away) — issue #128; (c)
+`appendix_a_invariant` returns `InvariantCheck`, it does not raise by itself —
+issue #124.

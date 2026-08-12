@@ -38,6 +38,10 @@ completed Lab store
   -> legal hindsight gap -> systematicity -> recoverability gate
 ```
 
+This plane now executes inside the Rust runtime (D-091); "read-only" and
+"never feeds back into the run" are unchanged — it reads the completed run's
+ledgers in-process and writes verdict artifacts, nothing else.
+
 | Stage | Owning contract | Admissible outputs | Gate |
 |---|---|---|---|
 | Tape (raw evidence) | FEED_INGESTION_SPEC §2 | immutable `TapeRow` with three clocks | future rows fail closed |
@@ -87,24 +91,30 @@ population stays measurable (D-009, D-027).
 
 D-031's single-language baseline above is **revised, not retired**: it remains
 normative for `src/v8/`, which V8.2 freezes as the parity oracle
-(`PARITY_AND_IDENTITY_SPEC` §2). V8.2 splits the runtime into two planes:
+(`PARITY_AND_IDENTITY_SPEC` §2). V8.2 runs **one Rust plane end to end**
+(D-091):
 
-- **Python control/analysis plane** — experiment specs, manifests,
-  preregistration, hypothesis definitions, verdict statistics on reduced
-  tables, reports, diagnostics, monograph.
-- **Rust compute plane** — dataset, features, state, experts, candidates,
+- **Rust runtime** — compute (dataset, features, state, experts, candidates,
   lifecycle, replay, cube, regret reduction, DAG cache, ledger writing, CPU/GPU
-  scheduling. One process, one memory model, one owner per buffer.
+  scheduling) plus analysis and verdict (regret phases 1-3, verdict
+  statistics, report/audit artifacts). One process, one memory model, one
+  owner per buffer.
+- **Python roles** — reduced to the frozen parity oracle `src/v8/`, the
+  vendored `simtruth/` reference lab (authority not renewed, D-022), and
+  pre-V8.2 dev/research tooling retired as its Rust equivalent lands. None of
+  these is in the request path.
 
 Three rules make the split normative rather than descriptive:
 
-1. **No callback** — once a request enters the compute plane, control does not
-   return to Python until it completes (D-078; `COMPUTE_CORE_SPEC` §3). An
+1. **No callback** — no Python code is reachable in the request path at all:
+   once an evaluation request enters the runtime, nothing returns to Python
+   until the verdict is written (D-078; `COMPUTE_CORE_SPEC` §3). An
    Expert-supplied post-entry thesis reaches the kernel as a compiled predicate
    (`PREDICATE_IR_SPEC`), never as a closure.
-2. **The boundary is an artifact file, not an FFI call** — the compute plane
-   writes columnar ledgers (`LEDGER_FORMAT_SPEC`); the analysis plane reads
-   them.
+2. **The artifact file is the persistence boundary, not a language crossing**
+   — the runtime writes columnar ledgers (`LEDGER_FORMAT_SPEC`) and reads them
+   back in-process for analysis; no Python code reads a compute-plane artifact
+   for a verdict.
 3. **Scheduling cannot change a value** — backend and thread count are
    implementation details precisely because backend invariance is gated
    (`COMPUTE_SCHEDULING_SPEC` §5; `PARITY_AND_IDENTITY_SPEC` G5).

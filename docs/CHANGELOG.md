@@ -3,6 +3,29 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-12 — V8.2 plane split revised: analysis/verdict/audit planes join the Rust plane (D-091)
+
+D-091 registers the scope change: the runtime becomes one Rust plane end to
+end — compute plus regret analysis phases 1-3 (opportunity accounting,
+systematicity, recoverability), verdict statistics (Reality-Check, detrended
+null, placebo family), and report/audit artifacts, all in-process. The
+artifact file remains the persistence boundary but is no longer a language
+crossing; D-078's no-callback extends to "no Python in the request path".
+Python is reduced to the frozen parity oracle (`src/v8/`), the vendored
+`simtruth/` lab (D-022), and pre-V8.2 dev/research tooling retired as its Rust
+equivalent lands. Migration order S0..S5 extends with **S6 (analysis plane)**
+and **S7 (verdict statistics + report/audit)**, each with a value-level parity
+gate. Revises D-077's §7 rationale; supersedes D-081's "verdict statistics
+stay in Python" consequence. Not a V9 (D-077 version semantics). No code
+changed; no economic claim (rule 12).
+
+Artifacts changed: `docs/decisions/DECISION_REGISTER.md` (D-091),
+`docs/contracts/COMPUTE_CORE_SPEC.md` (§4 layer map, §6 module layout, §7
+boundary, §8 migration order), `docs/contracts/ARCHITECTURE_SPEC.md` (§2
+evaluation-plane note, §3.1 plane split), `docs/contracts/IMPLEMENTATION_LAYOUT.md`
+(§1.1 Rust modules, tools retirement notes), `docs/ROADMAP.md` (Phase 4b),
+`site/index.html` (rebuilt).
+
 ## 2026-08-11 — V8.2 compute core S3: CubeReducer + streaming regret (D-090)
 
 `v8-core/src/regret.rs` (new), `v8-core cube` subcommand, `reports/parity/S3.md`

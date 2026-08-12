@@ -930,6 +930,9 @@ never feeds back into it (<code>RECOVERABLE_REGRET_PROTOCOL</code> §1):</p>
   -&gt; Outcome Cube                         (OUTCOME_CUBE_SPEC)
   -&gt; legal hindsight gap -&gt; systematicity -&gt; recoverability gate
 </code></pre>
+<p>This plane now executes inside the Rust runtime (D-091); "read-only" and
+"never feeds back into the run" are unchanged — it reads the completed run's
+ledgers in-process and writes verdict artifacts, nothing else.</p>
 <table>
 <thead>
 <tr>
@@ -1021,24 +1024,30 @@ population stays measurable (D-009, D-027).</p>
 <h2 id="31-v82-substrate-revision-d-077">3.1 V8.2 substrate revision (D-077)</h2>
 <p>D-031's single-language baseline above is <strong>revised, not retired</strong>: it remains
 normative for <code>src/v8/</code>, which V8.2 freezes as the parity oracle
-(<code>PARITY_AND_IDENTITY_SPEC</code> §2). V8.2 splits the runtime into two planes:</p>
+(<code>PARITY_AND_IDENTITY_SPEC</code> §2). V8.2 runs <strong>one Rust plane end to end</strong>
+(D-091):</p>
 <ul>
-<li><strong>Python control/analysis plane</strong> — experiment specs, manifests,
-  preregistration, hypothesis definitions, verdict statistics on reduced
-  tables, reports, diagnostics, monograph.</li>
-<li><strong>Rust compute plane</strong> — dataset, features, state, experts, candidates,
+<li><strong>Rust runtime</strong> — compute (dataset, features, state, experts, candidates,
   lifecycle, replay, cube, regret reduction, DAG cache, ledger writing, CPU/GPU
-  scheduling. One process, one memory model, one owner per buffer.</li>
+  scheduling) plus analysis and verdict (regret phases 1-3, verdict
+  statistics, report/audit artifacts). One process, one memory model, one
+  owner per buffer.</li>
+<li><strong>Python roles</strong> — reduced to the frozen parity oracle <code>src/v8/</code>, the
+  vendored <code>simtruth/</code> reference lab (authority not renewed, D-022), and
+  pre-V8.2 dev/research tooling retired as its Rust equivalent lands. None of
+  these is in the request path.</li>
 </ul>
 <p>Three rules make the split normative rather than descriptive:</p>
 <ol>
-<li><strong>No callback</strong> — once a request enters the compute plane, control does not
-   return to Python until it completes (D-078; <code>COMPUTE_CORE_SPEC</code> §3). An
+<li><strong>No callback</strong> — no Python code is reachable in the request path at all:
+   once an evaluation request enters the runtime, nothing returns to Python
+   until the verdict is written (D-078; <code>COMPUTE_CORE_SPEC</code> §3). An
    Expert-supplied post-entry thesis reaches the kernel as a compiled predicate
    (<code>PREDICATE_IR_SPEC</code>), never as a closure.</li>
-<li><strong>The boundary is an artifact file, not an FFI call</strong> — the compute plane
-   writes columnar ledgers (<code>LEDGER_FORMAT_SPEC</code>); the analysis plane reads
-   them.</li>
+<li><strong>The artifact file is the persistence boundary, not a language crossing</strong>
+   — the runtime writes columnar ledgers (<code>LEDGER_FORMAT_SPEC</code>) and reads them
+   back in-process for analysis; no Python code reads a compute-plane artifact
+   for a verdict.</li>
 <li><strong>Scheduling cannot change a value</strong> — backend and thread count are
    implementation details precisely because backend invariance is gated
    (<code>COMPUTE_SCHEDULING_SPEC</code> §5; <code>PARITY_AND_IDENTITY_SPEC</code> G5).</li>
@@ -1230,6 +1239,18 @@ predicate IR, or it does not enter the replay path.</p>
 <td>all of the above</td>
 <td><code>LEDGER_FORMAT_SPEC</code>, <code>PERSISTENCE_REPLAY_SPEC</code></td>
 </tr>
+<tr>
+<td><code>Analysis</code></td>
+<td>regret phases 1-3: opportunity accounting, systematicity, recoverability</td>
+<td>reduced tables (in-process)</td>
+<td><code>RECOVERABLE_REGRET_PROTOCOL</code></td>
+</tr>
+<tr>
+<td><code>Verdict</code></td>
+<td>verdict statistics, report and audit artifacts</td>
+<td><code>Analysis</code> output</td>
+<td><code>OPERATIONS_SPEC</code>, <code>LEDGER_FORMAT_SPEC</code></td>
+</tr>
 </tbody>
 </table>
 <p>Data flows one way. No layer mutates a layer below it. The only mutable
@@ -1270,7 +1291,11 @@ until a boundary is proven stable.</p>
     candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
     simulator.rs    ReplayKernel (step/run), risk unit, fill policies
     regret.rs       LegalActionManifest, CubeReducer, gap accumulators
-    statistics.rs   reductions only; verdict statistics stay in Python (§7)
+    statistics.rs   reductions + verdict statistics (block-bootstrap
+                    Reality-Check, detrended null, placebo family; D-044)
+    analysis.rs     regret phases 1-3: systematicity, recoverability
+                    (RECOVERABLE_REGRET_PROTOCOL)
+    report.rs       verdict report artifacts, ledger audit checks (hash-bound)
     cache.rs        content-addressed DAG cache
     evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
     compute/        kernels + backend selection (COMPUTE_SCHEDULING_SPEC)
@@ -1279,26 +1304,35 @@ until a boundary is proven stable.</p>
 </code></pre>
 <p>The Python file family (<code>IMPLEMENTATION_LAYOUT</code> §1) is unchanged by this spec;
 V8.0 is frozen as the parity oracle, not deleted.</p>
-<h2 id="7-what-stays-in-python-and-why-the-boundary-is-a-file">7. What stays in Python, and why the boundary is a file</h2>
-<p>The control and analysis planes stay in Python. The crossing between planes is
-<strong>an artifact file, not an FFI call</strong>: the compute plane writes columnar
-ledgers and reduced tables, and the analysis plane reads them. This choice
-removes FFI schemas, lifetime negotiation across the boundary, GIL
-interaction, and duplicate domain types from the design.</p>
-<p>A component may remain in Python when all three hold:</p>
+<h2 id="7-what-stays-in-python-and-why-the-boundary-is-in-process">7. What stays in Python, and why the boundary is in-process</h2>
+<p>The request path is entirely Rust: compute, analysis, verdict statistics and
+reporting run in one process, one memory model (D-091). The artifact file is
+the <strong>persistence</strong> boundary, not a language crossing: the compute plane
+writes columnar ledgers and reduced tables for reproducibility and tiering
+(<code>LEDGER_FORMAT_SPEC</code> §4), and reads them back in-process for analysis. There
+is no FFI, no embedded interpreter, and no Python in the request path (D-078,
+extended).</p>
+<p>Python retains exactly three roles, none of them in the request path:</p>
 <ol>
-<li>it is called O(1) times per evaluation, not per bar or per cell;</li>
-<li>it consumes and produces batches, not scalars;</li>
-<li>it is not inside a hot loop.</li>
+<li><strong>The frozen parity oracle</strong> — <code>src/v8/</code> is the value-level reference the
+   S0..S7 gates compare against. The parity program requires it to exist and
+   stay behaviour-frozen, so it is never deleted (D-077).</li>
+<li><strong>The vendored V7 reference lab</strong> — <code>simtruth/</code>, engineering-only,
+   authority not renewed (D-022).</li>
+<li><strong>Pre-V8.2 dev/research tooling</strong> — downloads, backfill, handbook
+   extraction, equity analysis, monograph build, the parity test driver. Each
+   is retired when its Rust equivalent lands; none reads a compute-plane
+   artifact for a verdict.</li>
 </ol>
-<p>Verdict statistics qualify. After <code>CubeReducer</code> runs, the data crossing the
-boundary is aggregates — order 10^4-10^6 numbers per run, not the 10^7 cube
-cells that produced them — so block bootstrap, family corrections and
-systematicity gates remain Python at negligible cost, and remain transparent,
-which the evaluator protocol prefers
-(<code>RECOVERABLE_REGRET_PROTOCOL</code> §6). This is a consequence of streaming
-reduction (<code>OUTCOME_CUBE_SPEC</code> §4): without it, the same components would be
-reading gigabytes and would not qualify.</p>
+<p>The old §7 justified the Python analysis plane by cost: after <code>CubeReducer</code>
+the data crossing the boundary is aggregates — order 10^4-10^6 numbers per
+run, not the 10^7 cube cells that produced them (D-081) — so the analysis
+stayed Python at negligible cost. D-091 revokes the consequence, not the
+measurement: streaming reduction still holds (cells are never materialized
+across Candidates), but the analysis that consumes the aggregates now runs in
+the same process that produced them. The old motivations for the file
+boundary — FFI schemas, lifetime negotiation, GIL interaction, duplicate
+domain types — are moot because the crossing no longer arises at all.</p>
 <h2 id="8-migration-order">8. Migration order</h2>
 <p>The port is staged so that a working research instrument exists at every point.</p>
 <table>
@@ -1340,13 +1374,25 @@ reading gigabytes and would not qualify.</p>
 <td><code>EvidenceStore</code> + DAG cache</td>
 <td>ledger identity stable across cache hit/miss</td>
 </tr>
+<tr>
+<td>S6</td>
+<td><code>Analysis</code>: regret phases 1-3 (opportunity accounting, systematicity, recoverability)</td>
+<td>verdict tables match <code>tools/regret_phase1/2/3.py</code> on the fixture population</td>
+</tr>
+<tr>
+<td>S7</td>
+<td><code>Verdict</code>: statistics + report/audit artifacts</td>
+<td>statistics/report parity vs <code>statistics.py</code>; ledger §8 audit covers verdict artifacts</td>
+</tr>
 </tbody>
 </table>
 <p>Between S3 and S4 the control plane still produces candidates in Python and
 hands the compute plane one compiled batch per request. That is a valid
 resting point, not a hybrid to be maintained indefinitely: the no-callback
 invariant already holds at S2, because the predicate IR — not a Python
-closure — is what the kernel consults.</p>
+closure — is what the kernel consults. The end state after S7 is one Rust
+binary covering compute, analysis and verdicts; the resting points in this
+table are valid stopping places, not the destination (D-091).</p>
 <p>Whether S4 must be pulled forward depends on an open question: if
 expert-variant sweeps enter V8.2's scope, experts are inside the hot loop by
 definition and must be native from S1 (<code>OPEN_DECISIONS</code>).</p>
@@ -4906,7 +4952,9 @@ evolves by challenger, never in place (D-032).</p>
   lab.py             Lab runner (3-phase loop) + recursive code hash
   statistics.py      within-family Reality-Check multiplicity test (D-044),
                      block bootstrap, effective-episode and multiplicity
-                     estimators (reused verbatim by the evaluator, D-072)
+                     estimators (reused verbatim by the evaluator, D-072);
+                     S7 port target (D-091) — verdict statistics move to
+                     statistics.rs, this file becomes the parity oracle
   fast.py            content-addressed run / state / evaluation caches (D-085)
   synth.py           deterministic synthetic tape
   simtruth/          vendored V7 lab — engineering only, authority NOT
@@ -4923,16 +4971,23 @@ tools/
   run_experiment.py             preregistration runner (v8_slice_001)
   diagnostics.py                consolidated report centre (single report file;
                                 diagnostic.py / diagnostic_report.py /
-                                multi_diagnostic.py / forensics.py are shims)
+                                multi_diagnostic.py / forensics.py are shims);
+                                S7 port target (D-091) — report/audit artifacts
+                                move to report.rs, this file is retired
   diagnose_experts_dev.py       dev-window expert diagnosis
   run_fib_rsi_bb_confluence.py  D-076 dev-window experiment runner
   equity_analysis.py            external-instrument analysis (research only)
   regret.py                     evaluator Phase 0: snapshots, reconciliation,
-                                LegalActionManifest, Outcome Cube, gap (D-071)
+                                LegalActionManifest, Outcome Cube, gap (D-071);
+                                Phase-0 reduction ported as regret.rs (S3),
+                                reconciliation stays as S6 parity reference
   regret_reference.py           independent reference walk (parity oracle)
-  regret_phase1.py              Candidate-local opportunity accounting (D-072)
-  regret_phase2.py              systematicity discovery (D-072)
-  regret_phase3.py              recoverability evaluation (D-073)
+  regret_phase1.py              Candidate-local opportunity accounting (D-072);
+                                S6 port target (D-091) — moves to analysis.rs
+  regret_phase2.py              systematicity discovery (D-072);
+                                S6 port target (D-091) — moves to analysis.rs
+  regret_phase3.py              recoverability evaluation (D-073);
+                                S6 port target (D-091) — moves to analysis.rs
   artifact_status.py            artifact freshness reporting
   download_v8_reading_list.py   research manifest downloader
   index_handbook_pdf.py, extract_handbook_sections.py,
@@ -4977,7 +5032,10 @@ micro-crates; splitting is deferred until a boundary is proven stable.</p>
     candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
     simulator.rs    ReplayKernel (step/run), risk unit, fill policies
     regret.rs       LegalActionManifest, CubeReducer, gap accumulators
-    statistics.rs   reductions only (verdict statistics stay in Python)
+    statistics.rs   reductions + verdict statistics (block-bootstrap
+                    Reality-Check, detrended null, placebo family; D-044)
+    analysis.rs     regret phases 1-3: systematicity, recoverability
+    report.rs       verdict report artifacts, ledger audit checks (hash-bound)
     cache.rs        content-addressed DAG cache
     evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
     compute/        kernels K1..K6 + backend selection
@@ -5524,6 +5582,7 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <p>| D-088 | <strong>V8.2 compute core S1: FeatureStore + StateView passes the parity gate.</strong> <code>v8-core/src/state.rs</code> ports <code>build_bar_series</code> → <code>FeatureStore</code> and the cached feature block of <code>build_state</code> → <code>StateView</code> (pinned byte-identical to the uncached reference by <code>tests/test_state_cache_identity.py</code>); all 77 declared features with both warmup representations and the positioning-channel absence rule; V8.2 identities via the D-079 bit encoding. Three CPython 3.14 portability facts are now LOCKED implementation rules for every further migration stage: (a) <code>sum()</code> over floats is compensated summation (<code>_PyFloat_Fsum</code> = <code>math.fsum</code>), NOT a left fold — a fold drifts by ulps on ~20-element windows (measured); <code>state::fsum</code> is a verbatim port incl. the special final fold (largest partial first, stop at the first inexact addition) and the half-even tie fix. (b) <code>x ** 2</code> is libm <code>pow(x, 2.0)</code>, which differs from <code>x*x</code> by 1 ulp on some values; LLVM folds <code>pow(x, 2.0) → x*x</code> in release, so the exponent is <code>black_box</code>'d to force the libm call (COMPUTE_SCHEDULING_SPEC §5: an optimization may not change a value). (c) <code>x ** 0.5</code> is libm <code>pow(x, 0.5)</code>, which differs from <code>sqrt(x)</code> by 1 ulp on some values — <code>_std_pop</code> must finish with <code>powf(0.5)</code>, not <code>.sqrt()</code>. Two usize underflows (<code>i - period + 1</code>) fixed to <code>i + 1 - period</code> (panic in debug, silent wrap in release) | PROVISIONAL_DECISION | D-032 file-family rule recorded. Gate evidence <code>reports/parity/S1.md</code>: 24 Rust unit tests (incl. an fsum battery captured from CPython 3.14) pass; 9/9 S1 parity tests pass — vocabulary match (77 names), synthetic golden/continuous/funding-channel, real verified tapes (btcusdt-1h-12m full 8,760 bars; multi-1h-4y slice), two runs byte-identical (G4), threads=1 vs 8 byte-identical (G5), and the identity mutation property (one OHLC digit on bar 60 changes exactly the consuming states' <code>state_id</code>). Hashes are excluded from the parity comparison (D-079 §3); parity is values. No speed claim — the gate is correctness. Multi-interval <code>build_multi_state</code> aggregation is not yet in the S1 gate (deferred with the interval port) |</p>
 <p>| D-089 | <strong>V8.2 compute core S2: the Predicate IR + ReplayKernel pass the parity gate.</strong> <code>v8-core/src/experts/predicate.rs</code> evaluates the compiled post-entry thesis IR (<code>compare</code> with FLIP_ON_SHORT, <code>asym_compare</code>, <code>all_of</code>/<code>any_of</code>, ordered <code>dispatch</code> incl. geometry-value equality, <code>guard</code> for whole-condition fail-open; operands live/live_window/ref/ref_dir/window_agg INCLUSIVE|EXCLUSIVE/window_agg_dir/mean_of2/const). <code>v8-core/src/simulator.rs</code> is the <code>ReplayKernel</code>, a byte-for-byte port of <code>sim.run</code>/<code>_exit_loop</code>/<code>step</code> (R-multiples, risk_unit, validate_geometry, FILL_AT_BAR_CLOSE/LIMIT, funding scalar+schedule, STOP_FIRST ambiguity, gap-through stops, THESIS_INVALIDATED/TIME_EXIT/EXPIRY, EXEC-1..6, the single net_r formula), reading <code>&amp;bars[start..end]</code> bounded to <code>expiry_bars+1</code> (OUTCOME_CUBE_SPEC §5) and evaluating the compiled predicate from the feature store — no Python callback (D-078). <code>tools/predicate_ir.py</code> compiles all 28 registered still_valid methods into the IR. Two determinism facts are LOCKED: (a) <strong>serde_json's default float parser is not correctly rounded</strong> — <code>"0.9632136759338213"</code> parses 1 ulp low (measured), so request-side floats silently drift; <code>float_roundtrip</code> is enabled (the tape itself was never affected — jsonx uses std's correctly-rounded parse). (b) <strong>Fail-open is not uniform</strong>: per-operand (dominant close-vs-ref form) vs whole-condition (trend_pullback_depth, rsi_stoch_reversion variant b, bollinger_reversion's close pre-check, gap_exhaustion's either-ref) — the <code>guard</code> node captures the difference; and fib_rsi_bb_confluence's prior_low_ref valid-form is GTE (the equality boundary holds), while the 3sd rule is GT | PROVISIONAL_DECISION | D-032 file-family rule recorded (new Rust modules + tools/predicate_ir.py registered). Gate evidence <code>reports/parity/S2.md</code>: cargo test 24 passed; 6/6 S2 parity tests — E1/E2/E3 (738-point grid over all 28 experts, present/absent/None per operand, both directions, ref==live boundary), E5 vocabulary closed (11 names + parameterized windows), E4 replay parity on the V8.0 candidate population (endpoint/label_status/horizon/ambiguous exact; net_r/mae_r/mfe_r/entry/unit/market_move bit-identical), G4 byte-identical, G5 thread invariance, G6 fail-closed. Known bounds: the donchian responsive/significant_extreme exit kinds are compiled in the IR table but not exercised by the E1 grid (module-local subclasses); FILL_AT_LIMIT is ported but unexercised (no registered Expert declares limit_price). No speed claim |</p>
 <p>| D-090 | <strong>V8.2 compute core S3: the CubeReducer + streaming regret pass the parity gate.</strong> <code>v8-core/src/regret.rs</code> implements the <code>LegalActionManifest</code> (NO_TRADE at element 0, the ACTUAL action at element 1 by construction, the declared grid <code>target_r (1,2,3) x expiry_bars (8,24,48)</code> de-duplicated by action id, <code>pyramid_add_rules</code> excluded → cardinality 2), the cell-status classifier (OK/CENSORED/UNDEFINED_FUTURE/NOT_EVALUABLE_ACTION/NO_ENTRY, <code>MIN_FUTURE_BARS = 1</code>), and <code>compute_gap</code> (best over OK cells incl. NO_TRADE, <code>GAP_TIE_EPS = 1e-12</code> ties reported never broken, abstain on CENSORED / no-OK / actual-cell-not-OK — with <code>actual_utility</code> None in the actual-cell-not-OK branch exactly as the Python record does). Action and manifest identities are V8.2 bit-encoded (D-079). The <code>cube</code> subcommand streams one Candidate at a time: manifest → replay each cell via the S2 ReplayKernel → classify → reduce in memory → emit the <code>cube-reduced</code> artifact; cells are never materialized across Candidates (D-081) | PROVISIONAL_DECISION | D-032 file-family rule recorded (new Rust module registered). Gate evidence <code>reports/parity/S3.md</code>: cargo test 24 passed; 5/5 S3 parity tests — reduced tables match <code>tools/regret.py</code>'s Phase-0 output on every BOUND Candidate (gap_status/actual_utility/best_utility/tie_cardinality/legal_hindsight_gap/abstention_reason exact), gap &gt;= 0 on every COMPUTED Candidate, manifest structure (a_actual element 1), G4 byte-identical, G5 thread invariance, G6 near-tape-end refusal (UNDEFINED_FUTURE) agrees. Identity strings excluded from the value comparison (D-079 §3). No speed claim |</p>
+<p>| D-091 | <strong>V8.2 plane split revised: the analysis, verdict and audit planes join the Rust plane; Python is reduced to the frozen oracle.</strong> D-077's two-plane split (Python control/analysis vs Rust compute) is revised at the analysis side: the boundary "Rust computes, Python analyses" (<code>COMPUTE_CORE_SPEC</code> §7) is removed. The regret analysis pipeline (<code>RECOVERABLE_REGRET_PROTOCOL</code> phases 1-3: candidate-local opportunity accounting, systematicity discovery, recoverability), the verdict statistics (<code>statistics.py</code>: block-bootstrap Reality-Check, detrended null, placebo family), the D-086 sweep e-process statistics, and the ledger/report audit checks move into <code>v8-core</code> as native stages, evaluated in-process from the columnar ledgers and reduced tables the compute plane itself writes. The artifact file remains the <strong>persistence</strong> boundary (reproducibility, <code>LEDGER_FORMAT_SPEC</code> §4 tiers) but is no longer a language crossing: no Python code reads a compute-plane artifact for a verdict. D-078's no-callback invariant extends to "no Python in the request path"; D-084 kernel modularity is untouched. Python retains exactly three roles: (a) the frozen parity oracle <code>src/v8/</code> — required by the parity program itself, never deleted (D-077); (b) the vendored <code>simtruth/</code> reference lab (authority not renewed, D-022); (c) pre-V8.2 dev/research tooling with no decision-path role (downloads, backfill, handbook extraction, equity analysis, monograph build, the parity test driver) — retired as its Rust equivalent lands. Migration order S0..S5 extends with <strong>S6 (analysis plane)</strong> and <strong>S7 (verdict statistics + report/audit artifacts)</strong>, each with a value-level parity gate against the frozen Python evaluators (<code>PARITY_AND_IDENTITY_SPEC</code> §5). Revises D-077's §7 rationale and supersedes D-081's "verdict statistics stay in Python" consequence — the streaming reduction of D-081 still holds, only its Python-side consequence is revoked. Not a V9: the decision ontology, Candidate semantics and epistemic architecture are unchanged (D-077 version semantics) | PROVISIONAL_DECISION | Owner decision 2026-08-12 ("everything in Rust"; the Rust→Python artifact crossing is the cost being removed — analysis should read the compute plane's ledgers natively rather than across a language boundary). Measured surface to be enumerated by the S6/S7 scan: <code>tools/regret.py</code> 34 KB + <code>regret_phase1/2/3.py</code> ≈ 27 KB + <code>regret_reference.py</code> 4.3 KB (parity oracle), <code>statistics.py</code> 767 lines, <code>diagnostics.py</code> 171 KB (report centre). The decision-path analysis surface is bounded and closed — the same character as the predicate surface that justified D-078/D-082 — so the port costs a bounded one-off, not an open-ended bridge. S6/S7 gates follow the S4/S5 pattern; no speed claim is made, the gate is correctness and ownership |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -7825,6 +7884,26 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-12-v82-plane-split-revised-analysisverdictaudit-planes-join-the-rust-plane-d-091">2026-08-12 — V8.2 plane split revised: analysis/verdict/audit planes join the Rust plane (D-091)</h2>
+<p>D-091 registers the scope change: the runtime becomes one Rust plane end to
+end — compute plus regret analysis phases 1-3 (opportunity accounting,
+systematicity, recoverability), verdict statistics (Reality-Check, detrended
+null, placebo family), and report/audit artifacts, all in-process. The
+artifact file remains the persistence boundary but is no longer a language
+crossing; D-078's no-callback extends to "no Python in the request path".
+Python is reduced to the frozen parity oracle (<code>src/v8/</code>), the vendored
+<code>simtruth/</code> lab (D-022), and pre-V8.2 dev/research tooling retired as its Rust
+equivalent lands. Migration order S0..S5 extends with <strong>S6 (analysis plane)</strong>
+and <strong>S7 (verdict statistics + report/audit)</strong>, each with a value-level parity
+gate. Revises D-077's §7 rationale; supersedes D-081's "verdict statistics
+stay in Python" consequence. Not a V9 (D-077 version semantics). No code
+changed; no economic claim (rule 12).</p>
+<p>Artifacts changed: <code>docs/decisions/DECISION_REGISTER.md</code> (D-091),
+<code>docs/contracts/COMPUTE_CORE_SPEC.md</code> (§4 layer map, §6 module layout, §7
+boundary, §8 migration order), <code>docs/contracts/ARCHITECTURE_SPEC.md</code> (§2
+evaluation-plane note, §3.1 plane split), <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>
+(§1.1 Rust modules, tools retirement notes), <code>docs/ROADMAP.md</code> (Phase 4b),
+<code>site/index.html</code> (rebuilt).</p>
 <h2 id="2026-08-11-v82-compute-core-s3-cubereducer-streaming-regret-d-090">2026-08-11 — V8.2 compute core S3: CubeReducer + streaming regret (D-090)</h2>
 <p><code>v8-core/src/regret.rs</code> (new), <code>v8-core cube</code> subcommand, <code>reports/parity/S3.md</code>
 (new evidence). The S3 gate passes: the reduced tables match the Python
@@ -9879,10 +9958,13 @@ record: <code>RECOVERABLE_REGRET_PROTOCOL</code>. Result to date is a replicated
 loss-reduction effect with <code>V_R</code> negative on every recoverable slice — not a
 profitability finding, and not admissible as one (rule 12).</p>
 <p><strong>Compute substrate (planned).</strong> A Rust compute plane owning dataset →
-features → state → candidates → replay → cube → reduction, with Python demoted
-to control and analysis. Staged S0..S5 with a value-level parity gate at every
-stage (<code>COMPUTE_CORE_SPEC</code> §8; <code>PARITY_AND_IDENTITY_SPEC</code> §5). <code>src/v8/</code> is
-frozen as the parity oracle, not deleted.</p>
+features → state → candidates → replay → cube → reduction, <strong>plus the analysis
+and verdict planes</strong> — regret phases 1-3, verdict statistics, report/audit
+artifacts (D-091). Python is reduced to the frozen parity oracle and the
+vendored <code>simtruth/</code> lab; none of it is in the request path. Staged S0..S7 with
+a value-level parity gate at every stage (<code>COMPUTE_CORE_SPEC</code> §8;
+<code>PARITY_AND_IDENTITY_SPEC</code> §5). <code>src/v8/</code> is frozen as the parity oracle, not
+deleted.</p>
 <ul>
 <li><strong>DoD (evaluation plane):</strong> each phase's contract frozen before its run;
   reconciliation exact; confirmation half queried exactly once per slice.</li>

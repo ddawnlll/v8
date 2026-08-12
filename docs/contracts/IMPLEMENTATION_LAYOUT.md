@@ -40,7 +40,9 @@ src/v8/
   lab.py             Lab runner (3-phase loop) + recursive code hash
   statistics.py      within-family Reality-Check multiplicity test (D-044),
                      block bootstrap, effective-episode and multiplicity
-                     estimators (reused verbatim by the evaluator, D-072)
+                     estimators (reused verbatim by the evaluator, D-072);
+                     S7 port target (D-091) — verdict statistics move to
+                     statistics.rs, this file becomes the parity oracle
   fast.py            content-addressed run / state / evaluation caches (D-085)
   synth.py           deterministic synthetic tape
   simtruth/          vendored V7 lab — engineering only, authority NOT
@@ -57,16 +59,23 @@ tools/
   run_experiment.py             preregistration runner (v8_slice_001)
   diagnostics.py                consolidated report centre (single report file;
                                 diagnostic.py / diagnostic_report.py /
-                                multi_diagnostic.py / forensics.py are shims)
+                                multi_diagnostic.py / forensics.py are shims);
+                                S7 port target (D-091) — report/audit artifacts
+                                move to report.rs, this file is retired
   diagnose_experts_dev.py       dev-window expert diagnosis
   run_fib_rsi_bb_confluence.py  D-076 dev-window experiment runner
   equity_analysis.py            external-instrument analysis (research only)
   regret.py                     evaluator Phase 0: snapshots, reconciliation,
-                                LegalActionManifest, Outcome Cube, gap (D-071)
+                                LegalActionManifest, Outcome Cube, gap (D-071);
+                                Phase-0 reduction ported as regret.rs (S3),
+                                reconciliation stays as S6 parity reference
   regret_reference.py           independent reference walk (parity oracle)
-  regret_phase1.py              Candidate-local opportunity accounting (D-072)
-  regret_phase2.py              systematicity discovery (D-072)
-  regret_phase3.py              recoverability evaluation (D-073)
+  regret_phase1.py              Candidate-local opportunity accounting (D-072);
+                                S6 port target (D-091) — moves to analysis.rs
+  regret_phase2.py              systematicity discovery (D-072);
+                                S6 port target (D-091) — moves to analysis.rs
+  regret_phase3.py              recoverability evaluation (D-073);
+                                S6 port target (D-091) — moves to analysis.rs
   artifact_status.py            artifact freshness reporting
   download_v8_reading_list.py   research manifest downloader
   index_handbook_pdf.py, extract_handbook_sections.py,
@@ -116,7 +125,10 @@ v8-core/
     candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
     simulator.rs    ReplayKernel (step/run), risk unit, fill policies
     regret.rs       LegalActionManifest, CubeReducer, gap accumulators
-    statistics.rs   reductions only (verdict statistics stay in Python)
+    statistics.rs   reductions + verdict statistics (block-bootstrap
+                    Reality-Check, detrended null, placebo family; D-044)
+    analysis.rs     regret phases 1-3: systematicity, recoverability
+    report.rs       verdict report artifacts, ledger audit checks (hash-bound)
     cache.rs        content-addressed DAG cache
     evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
     compute/        kernels K1..K6 + backend selection
