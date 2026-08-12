@@ -17,10 +17,22 @@ V8_CORE = REPO_ROOT / "v8-core"
 BINARY = V8_CORE / "target" / "release" / "v8-core"
 
 
+def pytest_addoption(parser):
+    """Filter the S4 expert-parity tests to one expert (per-agent runs)."""
+    parser.addoption("--expert", action="store", default=None,
+                     help="only exercise this expert_id in test_parity_s4")
+
+
 @pytest.fixture(scope="session")
 def v8_core_binary() -> Path:
-    """The release binary, built once per session."""
-    if not BINARY.is_file():
+    """The release binary, built once per session (rebuilt when any source
+    file is newer than it — a stale binary would silently test the previous
+    registry state)."""
+    newest_src = max(
+        (p.stat().st_mtime for p in (V8_CORE / "src").rglob("*.rs")),
+        default=0.0,
+    )
+    if not BINARY.is_file() or BINARY.stat().st_mtime < newest_src:
         subprocess.run(["cargo", "build", "--release"], cwd=V8_CORE, check=True,
                        capture_output=True, text=True)
     assert BINARY.is_file(), f"v8-core binary missing at {BINARY}"

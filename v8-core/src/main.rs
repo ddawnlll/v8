@@ -41,7 +41,8 @@ subcommands:
   predicate-check evaluate compiled still_valid IR bytes (stage S2)
   replay          run the ReplayKernel over a candidate batch (stage S2)
   cube            stream the Outcome Cube to reduced tables (stage S3)
-  evaluate        run the full ExpertPlane -> candidates -> reduce loop (stage S4)";
+  evaluate-check  batch per-bar ExpertPlane draft check (stage S4)
+  registry        print the 28-expert dispatch table with ported flags (S4)";
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -56,6 +57,7 @@ fn main() {
         "replay" => cmd_replay(&args[2..]),
         "cube" => cmd_cube(&args[2..]),
         "evaluate-check" => cmd_evaluate_check(&args[2..]),
+        "registry" => cmd_registry(),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -906,8 +908,8 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
             map.insert(f.name.clone(), f.clone());
         }
         let hist = state::history_bars(store, t, req.history_depth.unwrap_or(32));
-        let fm = experts::port::FeatMap { features: &map, history: hist, as_of };
-        let ev = experts::port::evaluate(&eid, &fm);
+        let fm = experts::base::FeatMap { features: &map, history: hist, as_of, symbol: &sym };
+        let ev = experts::evaluate(&eid, &fm);
         results.push(serde_json::json!({
             "expert_id": eid,
             "bar_index": bar_index,
@@ -924,6 +926,17 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
         }));
     }
     println!("{}", serde_json::to_string(&serde_json::json!({"results": results})).unwrap());
+    0
+}
+
+/// The 28-expert dispatch table with ported flags — the parity harness
+/// derives its PORTED set from this (S4 gate; parallel-safe: the harness
+/// never hand-maintains the list).
+fn cmd_registry() -> i32 {
+    let rows: Vec<_> = experts::registry_rows().iter()
+        .map(|(id, p)| serde_json::json!({"expert_id": id, "ported": p}))
+        .collect();
+    println!("{}", serde_json::to_string(&serde_json::json!({"registry": rows})).unwrap());
     0
 }
 
