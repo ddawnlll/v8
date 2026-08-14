@@ -264,6 +264,38 @@ def test_legacy_synth_tape_is_unchanged():
         'the legacy default tape must stay byte-identical (pinned tests)')
 
 
+def test_continuous_tape_atr_is_unbiased():
+    """#72 — the continuous tape's shipped ATR must not be gap-distorted.
+
+    The audit measured mean(shipped/trueATR) = 0.5923 on the legacy tape — a
+    ~40% underestimate, because the fabricated bar-to-bar gaps add True Range
+    that the mean(H-L) ATR feature never sees. On the continuous tape true
+    range collapses to H-L (no fabricated gaps), so the shipped ATR must track
+    it: the same measurement on real BTCUSDT 1h is 1.0000 (0.00% deviation).
+    """
+    def mean_ratio(rows: list[TapeRow], period: int = 14) -> float:
+        ps = [r.payload for r in rows]
+        ratios = []
+        for i in range(period - 1, len(ps)):
+            shipped = sum(ps[j]['high'] - ps[j]['low']
+                          for j in range(i - period + 1, i + 1)) / period
+            true = sum(max(ps[j]['high'] - ps[j]['low'],
+                           abs(ps[j]['high'] - ps[j - 1]['close']),
+                           abs(ps[j]['low'] - ps[j - 1]['close']))
+                       for j in range(i - period + 1, i + 1)) / period
+            ratios.append(shipped / true)
+        return sum(ratios) / len(ratios)
+
+    legacy = mean_ratio(make_synthetic_tape(seed=7, n_bars=2000))
+    continuous = mean_ratio(make_synthetic_tape(seed=7, n_bars=2000,
+                                                continuous=True))
+    # the legacy default still exhibits the audit's ~40% underestimate —
+    # this is what the continuous variant exists to avoid
+    assert legacy < 0.95, f'legacy ATR distortion collapsed: {legacy:.4f}'
+    assert 0.98 < continuous < 1.02, (
+        f'continuous tape ATR is biased: mean(shipped/trueATR) = {continuous:.4f}')
+
+
 # ----------------------------------------------------------------------------
 # #64 / #69 — feasibility notes surface in the report
 # ----------------------------------------------------------------------------
