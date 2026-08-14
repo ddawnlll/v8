@@ -33,6 +33,7 @@ mod mt19937;
 mod regret;
 mod report;
 mod runloop;
+mod scheduler;
 mod simulator;
 mod state;
 mod statistics;
@@ -596,8 +597,9 @@ struct ReplayRequest {
     #[serde(default)]
     #[allow(dead_code)]
     universe: Vec<String>,
+    /// Task-parallel worker count for the replay cell batch (scheduler.rs,
+    /// D-096 Backend-1); a scheduling detail, never part of any hash (D-084).
     #[serde(default = "default_threads")]
-    #[allow(dead_code)]
     threads: usize,
     #[serde(default)]
     manifest: Value,
@@ -658,16 +660,20 @@ fn replay(req: &ReplayRequest) -> Result<Value, String> {
     funding_schedule.sort_by_key(|(t, _)| *t);
 
     // The backend-agnostic kernel boundary (D-096): the replay path speaks
-    // only in cells, never in a backend. Backend-0 is the scalar reference.
-    let backend = backend::scalar::ScalarBackend {
-        round_trip_cost_r: sim.round_trip_cost_r,
-        funding_rate_r: sim.funding_rate_r,
-        funding_hours: sim.funding_hours,
-        fill_policy: sim.fill_policy,
-        funding_schedule: &funding_schedule,
-        round_trip_cost_bps: sim.round_trip_cost_bps,
-        stores: &stores,
-    };
+    // only in cells, never in a backend. Backend-1 is the task-parallel CPU
+    // backend (scheduler.rs): `threads` is a scheduling detail that appears in
+    // no hash (D-084) and threads=1 vs N must produce byte-identical results
+    // (G5).
+    let backend = backend::cpu::CpuBackend::new(
+        req.threads,
+        sim.round_trip_cost_r,
+        sim.funding_rate_r,
+        sim.funding_hours,
+        sim.fill_policy,
+        &funding_schedule,
+        sim.round_trip_cost_bps,
+        &stores,
+    );
     let mut cells = Vec::with_capacity(req.candidates.len());
     for cand in &req.candidates {
         let symbol = cand["symbol"].as_str().unwrap_or("");

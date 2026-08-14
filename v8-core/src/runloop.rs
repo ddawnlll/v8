@@ -48,6 +48,7 @@ use std::path::PathBuf;
 use serde_json::Value;
 
 use crate::backend::scalar::ScalarKernel;
+use crate::backend::ReplayCell;
 use crate::candidate::{
     episode_key, geometry_version, tradability_mask_veto, CandidateRegistry, RiskGate,
     DEFAULT_CLUSTERS,
@@ -58,6 +59,7 @@ use crate::experts;
 use crate::features;
 use crate::hash;
 use crate::regret;
+use crate::scheduler;
 use crate::simulator::{self, SimulatorParams};
 use crate::state::{self, FeatureStore};
 
@@ -94,8 +96,17 @@ struct EvaluateRequest {
     max_cluster_heat: f64,
     #[serde(default = "default_base_interval")]
     base_interval: String,
+    /// Task-parallel worker count for the S2 replay batch (scheduler.rs,
+    /// D-096 Backend-1); a scheduling detail that appears in no hash (D-084)
+    /// and leaves every artifact byte-identical across thread counts (G5).
+    #[serde(default = "default_threads")]
+    threads: usize,
     #[serde(default)]
     manifest: Value,
+}
+
+fn default_threads() -> usize {
+    1
 }
 
 fn default_out_dir() -> PathBuf {
@@ -173,6 +184,7 @@ pub fn run_for_analysis(
         max_heat: default_max_heat(),
         max_cluster_heat: default_max_cluster_heat(),
         base_interval: default_base_interval(),
+        threads: default_threads(),
         manifest: manifest.clone(),
     };
     evaluate(&req)
@@ -444,8 +456,11 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     cand_out.flush().map_err(|e| e.to_string())?;
 
     // S2 + S3: replay each admitted candidate and reduce the outcome cube.
+    // The replay batch runs on `req.threads` worker threads (scheduler.rs);
+    // threads=1 vs N must produce byte-identical artifacts (G5).
     let reduced_path = req.out_dir.join("cube-reduced.v82");
-    let n_reduced = write_cube_reduced(&reduced_path, &pending, &stores, &ds, &sim, &funding_schedule)?;
+    let n_reduced = write_cube_reduced(
+        &reduced_path, &pending, &stores, &ds, &sim, &funding_schedule, req.threads)?;
 
     Ok(serde_json::json!({
         "subcommand": "evaluate",
@@ -582,7 +597,8 @@ fn push_opt_f64(col: &mut evidence::Column, v: Option<f64>) {
 #[allow(clippy::too_many_arguments)]
 fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
                       stores: &[FeatureStore], ds: &data::Dataset,
-                      sim: &SimulatorParams, funding_schedule: &[(i64, f64)])
+                      sim: &SimulatorParams, funding_schedule: &[(i64, f64)],
+                      threads: usize)
     -> Result<usize, String> {
     let mut art = evidence::Artifact::new(
         "cube-reduced",
@@ -611,21 +627,21 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
     let cols = [c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap, c_gs, c_reason,
                 c_nt, c_ok, c_ce, c_uf, c_ne, c_no_entry];
 
-    for cand in pending {
+    // Phase 1 — plan every (candidate, action) cell. Cells that need a kernel
+    // run go into a replay batch (evaluated through the task scheduler on
+    // `threads` worker threads); the rest are decided directly. The plan keeps
+    // per-candidate manifest + cell slots so the reduce pass below stays in
+    // candidate order (the single-writer ledger discipline).
+    let mut batch: Vec<ReplayCell> = Vec::new();
+    let mut dests: Vec<(usize, usize)> = Vec::new();
+    let mut manifests: Vec<regret::Manifest> = Vec::with_capacity(pending.len());
+    let mut planned: Vec<Vec<Option<regret::Cell>>> = Vec::with_capacity(pending.len());
+
+    for (ci, cand) in pending.iter().enumerate() {
         let store = stores.iter().find(|s| s.symbol == cand.symbol)
             .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
         let bars = ds.bars.iter().find(|b| b.symbol == cand.symbol)
             .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
-        let kernel = ScalarKernel {
-            round_trip_cost_r: sim.round_trip_cost_r,
-            funding_rate_r: sim.funding_rate_r,
-            funding_hours: sim.funding_hours,
-            fill_policy: sim.fill_policy,
-            funding_schedule,
-            round_trip_cost_bps: sim.round_trip_cost_bps,
-            bars,
-            store,
-        };
         let manifest = regret::generate_legal_actions(&cand.risk_geometry);
         let window_end = store.closes.len();
         let entry_idx = cand.entry_bar;
@@ -642,33 +658,33 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
             && ((cand.direction == "LONG" && bars.lows[entry_idx] < cand.prior_low)
                 || (cand.direction == "SHORT" && bars.highs[entry_idx] > cand.prior_high));
 
-        let mut cells = Vec::with_capacity(manifest.actions.len());
-        for a in &manifest.actions {
+        let mut plan: Vec<Option<regret::Cell>> = Vec::with_capacity(manifest.actions.len());
+        for (ai, a) in manifest.actions.iter().enumerate() {
             if invalidated {
-                cells.push(regret::Cell {
+                plan.push(Some(regret::Cell {
                     action_id: a.action_id.clone(),
                     status: regret::CELL_NO_ENTRY,
                     reason: "candidate invalidated before entry (prior level breached)".into(),
                     net_utility: None,
-                });
+                }));
                 continue;
             }
             if a.kind == "NO_TRADE" {
-                cells.push(regret::Cell {
+                plan.push(Some(regret::Cell {
                     action_id: a.action_id.clone(),
                     status: regret::CELL_OK,
                     reason: String::new(),
                     net_utility: Some(0.0),
-                });
+                }));
                 continue;
             }
             if window_end.saturating_sub(entry_idx) <= regret::MIN_FUTURE_BARS {
-                cells.push(regret::Cell {
+                plan.push(Some(regret::Cell {
                     action_id: a.action_id.clone(),
                     status: regret::CELL_UNDEFINED_FUTURE,
                     reason: format!("fewer than {} bars of future after the entry bar — the simulator would return a manufactured EXPIRY value", regret::MIN_FUTURE_BARS + 1),
                     net_utility: None,
-                });
+                }));
                 continue;
             }
             let mut geom = cand.risk_geometry.clone();
@@ -680,53 +696,108 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
                 birth_time: cand.birth_time,
                 risk_geometry: geom,
             };
-            let out = match kernel.run(&draft, entry_idx, window_end, None) {
-                Ok(o) => o,
-                Err(e) => {
-                    cells.push(regret::Cell {
-                        action_id: a.action_id.clone(),
-                        status: regret::CELL_NOT_EVALUABLE_ACTION,
-                        reason: format!("replay raised: {e}"),
-                        net_utility: None,
-                    });
-                    continue;
-                }
-            };
-            if out.label_status == "NOT_EXECUTED" {
-                // D-057 (issue #67): a candidate whose declared entry trigger
-                // never confirmed (or was invalidated while waiting) never
-                // entered — every legal action is a NO_ENTRY cell, mirroring
-                // the oracle's `candidate has no actual entry bar` treatment
-                // (the same convention as invalidation before entry). A
-                // FILL_AT_LIMIT order that never traded through is a different
-                // case: the ACTION is not evaluable.
-                let (status, reason) = if cand.risk_geometry.contains_key("trigger_ref") {
-                    (regret::CELL_NO_ENTRY,
-                     "entry trigger never confirmed (close did not clear trigger_ref before expiry/invalidation)".into())
-                } else {
-                    (regret::CELL_NOT_EVALUABLE_ACTION,
-                     "action never filled on this tape (e.g. FILL_AT_LIMIT never traded through)".into())
-                };
-                cells.push(regret::Cell {
-                    action_id: a.action_id.clone(),
-                    status,
-                    reason,
-                    net_utility: None,
-                });
-                continue;
-            }
-            let status = if out.label_status == "MATURE" { regret::CELL_OK } else { regret::CELL_CENSORED };
-            cells.push(regret::Cell {
-                action_id: a.action_id.clone(),
-                status,
-                reason: if status == regret::CELL_OK { String::new() } else {
-                    "replay reached tape end before a terminal endpoint".into()
-                },
-                net_utility: Some(out.net_r),
+            dests.push((ci, ai));
+            batch.push(ReplayCell {
+                symbol: &cand.symbol,
+                draft,
+                start: entry_idx,
+                end: window_end,
+                thesis: None,
             });
+            plan.push(None); // filled from the batch outcome below
         }
+        planned.push(plan);
+        manifests.push(manifest);
+    }
 
-        let row = regret::compute_gap(&cand.candidate_id, &manifest, &cells);
+    // Phase 2 — one kernel per candidate (built once, never per cell —
+    // COMPUTE_CORE_SPEC §5), then evaluate the replay batch on `threads`
+    // worker threads. A per-cell Err is a task RESULT (the cube's
+    // NOT_EVALUABLE_ACTION downgrade below); only a worker fault fails the
+    // whole request (COMPUTE_SCHEDULING_SPEC §7).
+    let mut kernels: Vec<ScalarKernel> = Vec::with_capacity(pending.len());
+    for cand in pending {
+        let store = stores.iter().find(|s| s.symbol == cand.symbol)
+            .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
+        let bars = ds.bars.iter().find(|b| b.symbol == cand.symbol)
+            .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
+        kernels.push(ScalarKernel {
+            round_trip_cost_r: sim.round_trip_cost_r,
+            funding_rate_r: sim.funding_rate_r,
+            funding_hours: sim.funding_hours,
+            fill_policy: sim.fill_policy,
+            funding_schedule,
+            round_trip_cost_bps: sim.round_trip_cost_bps,
+            bars,
+            store,
+        });
+    }
+    let results = scheduler::parallel_map(threads, batch.len(), &|i| {
+        let (ci, _ai) = dests[i];
+        let cell = &batch[i];
+        kernels[ci].run(&cell.draft, cell.start, cell.end, cell.thesis.as_ref())
+    })?;
+
+    // Phase 3 — classify every batch outcome into its planned cell slot, with
+    // the exact sequential semantics: a per-cell replay error stays a
+    // NOT_EVALUABLE_ACTION cell; NOT_EXECUTED resolves by trigger_ref
+    // presence (D-057); MATURE is OK, everything else CENSORED.
+    for (k, res) in results.iter().enumerate() {
+        let (ci, ai) = dests[k];
+        let cand = &pending[ci];
+        let action = &manifests[ci].actions[ai];
+        let cell = match res {
+            Ok(out) => {
+                if out.label_status == "NOT_EXECUTED" {
+                    // D-057 (issue #67): a candidate whose declared entry
+                    // trigger never confirmed (or was invalidated while
+                    // waiting) never entered — every legal action is a NO_ENTRY
+                    // cell, mirroring the oracle's `candidate has no actual
+                    // entry bar` treatment (the same convention as invalidation
+                    // before entry). A FILL_AT_LIMIT order that never traded
+                    // through is a different case: the ACTION is not evaluable.
+                    let (status, reason) = if cand.risk_geometry.contains_key("trigger_ref") {
+                        (regret::CELL_NO_ENTRY,
+                         "entry trigger never confirmed (close did not clear trigger_ref before expiry/invalidation)".into())
+                    } else {
+                        (regret::CELL_NOT_EVALUABLE_ACTION,
+                         "action never filled on this tape (e.g. FILL_AT_LIMIT never traded through)".into())
+                    };
+                    regret::Cell {
+                        action_id: action.action_id.clone(),
+                        status,
+                        reason,
+                        net_utility: None,
+                    }
+                } else {
+                    let status = if out.label_status == "MATURE" { regret::CELL_OK } else { regret::CELL_CENSORED };
+                    regret::Cell {
+                        action_id: action.action_id.clone(),
+                        status,
+                        reason: if status == regret::CELL_OK { String::new() } else {
+                            "replay reached tape end before a terminal endpoint".into()
+                        },
+                        net_utility: Some(out.net_r),
+                    }
+                }
+            }
+            Err(e) => regret::Cell {
+                action_id: action.action_id.clone(),
+                status: regret::CELL_NOT_EVALUABLE_ACTION,
+                reason: format!("replay raised: {e}"),
+                net_utility: None,
+            },
+        };
+        planned[ci][ai] = Some(cell);
+    }
+
+    // Phase 4 — reduce and write in candidate order (single-writer ledger).
+    for (ci, cand) in pending.iter().enumerate() {
+        let cells: Vec<regret::Cell> = planned[ci]
+            .iter_mut()
+            .map(|slot| slot.take().expect("every replay slot filled by the scheduler"))
+            .collect();
+        let row = regret::compute_gap(&cand.candidate_id, &manifests[ci], &cells);
         art.columns[cols[0]].push_str(&row.candidate_id);
         art.columns[cols[1]].push_str(&row.manifest_id);
         match &row.actual_action_id {
@@ -814,6 +885,7 @@ mod tests {
             max_heat: 1000.0,
             max_cluster_heat: 1000.0,
             base_interval: "1h".to_string(),
+            threads: default_threads(),
             // funding_window_bars: 0 disables the D-024 funding-window veto,
             // which depends on the tape's wall-clock alignment and would make
             // the structural counts flaky.
@@ -1491,6 +1563,34 @@ mod tests {
             Err(e) => assert!(e.contains("target_r must be > 0"),
                               "the rejection must name the offending key: {e}"),
         }
+    }
+
+    #[test]
+    fn cube_reduced_is_byte_identical_across_thread_counts() {
+        // G5 on the S4 path (COMPUTE_SCHEDULING_SPEC §8.1): the cube-reduced
+        // artifact must be byte-identical at threads=1 and threads=8. The
+        // scheduler (Backend-1, issue #132) now really splits the S2 replay
+        // batch across worker threads, so this is a live thread-invariance
+        // check — pre-scheduler the `threads` manifest field was nominal.
+        let manifest = serde_json::json!({ "funding_window_bars": 0 });
+        let tape1 = write_tape(&ramp_bars(60), "g5-one");
+        let tape2 = write_tape(&ramp_bars(60), "g5-eight");
+        let mut r1 = req(tape1, "g5-threads1", vec!["donchian_breakout"], manifest.clone());
+        r1.threads = 1;
+        let mut r8 = req(tape2, "g5-threads8", vec!["donchian_breakout"], manifest);
+        r8.threads = 8;
+        let s1 = evaluate(&r1).unwrap();
+        let s8 = evaluate(&r8).unwrap();
+        assert_eq!(
+            s1["n_reduced"], s8["n_reduced"],
+            "the same tape must admit the same candidate count at any thread count"
+        );
+        let cube1 = std::fs::read(s1["cube_reduced"].as_str().unwrap()).unwrap();
+        let cube8 = std::fs::read(s8["cube_reduced"].as_str().unwrap()).unwrap();
+        assert_eq!(
+            cube1, cube8,
+            "cube-reduced artifact must be byte-identical at threads=1 vs threads=8"
+        );
     }
 
 }

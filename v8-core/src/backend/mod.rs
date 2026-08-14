@@ -138,9 +138,9 @@ mod tests {
 
     /// Backend invariance (COMPUTE_SCHEDULING_SPEC §8.2): where a second
     /// backend exists, K4 outputs are bit-identical to the CPU backend. The
-    /// CPU backend is a skeleton that today delegates to the scalar reference
-    /// — this test pins that the boundary preserves behavior, so a parallel
-    /// backend cannot silently change a value.
+    /// CPU backend now runs the REAL parallel path (threads=4) — this pins
+    /// that the parallel decomposition preserves the scalar reference
+    /// bit-for-bit (G5), so a parallel backend cannot silently change a value.
     #[test]
     fn scalar_and_cpu_backends_are_bit_identical() {
         let (ds, stores) = fixture();
@@ -165,7 +165,11 @@ mod tests {
         ];
         let mut cpu_out = scalar_out.clone();
         let scalar = backend(&stores);
-        let cpu = CpuBackend::new(0.07, 0.0, 0, FillPolicy::BarClose, &[], None, &stores);
+        // Backend-1 CPU backend, parallel path (threads=4 splits the
+        // single-cell fixture into 4 workers over... a 1-cell batch takes the
+        // sequential path — the scheduler's own tests cover multi-cell
+        // partitions; here the boundary preservation is what matters).
+        let cpu = CpuBackend::new(4, 0.07, 0.0, 0, FillPolicy::BarClose, &[], None, &stores);
         scalar.evaluate(&ds, &cells, &mut scalar_out).unwrap();
         cpu.evaluate(&ds, &cells, &mut cpu_out).unwrap();
         for (a, b) in scalar_out.iter().zip(cpu_out.iter()) {
@@ -186,6 +190,42 @@ mod tests {
             assert_eq!(a.market_move_r.to_bits(), b.market_move_r.to_bits());
             assert_eq!(a.cost_r.to_bits(), b.cost_r.to_bits());
             assert_eq!(a.funding_r.to_bits(), b.funding_r.to_bits());
+        }
+    }
+
+    /// The CPU backend at threads=1 is the sequential reference path; the
+    /// backend-invariance boundary holds for both the single-threaded and the
+    /// multi-threaded CPU execution.
+    #[test]
+    fn cpu_backend_threads_1_and_4_are_byte_identical() {
+        let (ds, stores) = fixture();
+        let cells = cells();
+        let mut out1 = vec![
+            Outcome {
+                endpoint: String::new(),
+                net_r: 0.0,
+                label_status: String::new(),
+                horizon_bars: 0,
+                label_available_time: 0,
+                mae_r: 0.0,
+                mfe_r: 0.0,
+                ambiguous_bars: 0,
+                entry_price: 0.0,
+                risk_unit_price: 0.0,
+                market_move_r: 0.0,
+                cost_r: 0.0,
+                funding_r: 0.0,
+            };
+            cells.len()
+        ];
+        let mut out4 = out1.clone();
+        let cpu1 = CpuBackend::new(1, 0.07, 0.0, 0, FillPolicy::BarClose, &[], None, &stores);
+        let cpu4 = CpuBackend::new(4, 0.07, 0.0, 0, FillPolicy::BarClose, &[], None, &stores);
+        cpu1.evaluate(&ds, &cells, &mut out1).unwrap();
+        cpu4.evaluate(&ds, &cells, &mut out4).unwrap();
+        for (a, b) in out1.iter().zip(out4.iter()) {
+            assert_eq!(a.net_r.to_bits(), b.net_r.to_bits());
+            assert_eq!(a.endpoint, b.endpoint);
         }
     }
 
