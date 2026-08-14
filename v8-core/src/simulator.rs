@@ -12,10 +12,12 @@
 //! - Funding settles BEFORE any order/exit event (`SETTLEMENT_BEFORE_ORDERS`),
 //!   scalar path `sign * funding_rate_r` per crossed boundary, schedule path
 //!   `sign * entry_price * rate / unit`, missing boundary fails closed.
-//! - STOP_FIRST on same-bar ambiguity with `ambiguous_bars` counted; a stop
-//!   fill uses the WORSE of the barrier and the bar open; a target fills at
-//!   the barrier exactly; THESIS_INVALIDATED / TIME_EXIT / EXPIRY exit at bar
-//!   close; `mae_r`/`mfe_r` are recorded BEFORE the exit decision.
+//! - STOP_FIRST on same-bar ambiguity with `ambiguous_bars` counted; gap-through
+//!   exits fill at the opening price (SIMULATION_TRUTH_SPEC §6): a stop uses the
+//!   WORSE of the barrier and the bar open, a target the BETTER of the barrier
+//!   and the bar open — gaps are symmetric at the declared barrier (issue #71);
+//!   THESIS_INVALIDATED / TIME_EXIT / EXPIRY exit at bar close; `mae_r`/`mfe_r`
+//!   are recorded BEFORE the exit decision.
 //! - `net_r = realized_r + remaining*(sign*(exit-entry)/unit) - cost_r -
 //!   funding_paid_r`; cost resolves through one `cost_r(entry, unit)`.
 //!
@@ -406,9 +408,18 @@ impl<'a> ReplayKernel<'a> {
             return Ok((false, None, None, None, next, new_settlements, 1.0));
         }
 
+        // Gap-through exits fill at the opening price (SIMULATION_TRUTH_SPEC
+        // §6) — symmetric at the declared barrier (issue #71): a stop books
+        // the WORSE of barrier and open (adverse gap paid in full); a target
+        // books the BETTER of barrier and open (favorable gap credited in
+        // full). Before #71 the target clipped at the barrier, so an equal
+        // favorable gap booked far less R than the adverse gap it mirrored.
         let exit_price = match endpoint.unwrap() {
             "EXPIRY" | "THESIS_INVALIDATED" | "TIME_EXIT" => self.bars.closes[i],
-            "TARGET" => target,
+            "TARGET" => {
+                let open_ = self.bars.opens[i];
+                if long { target.max(open_) } else { target.min(open_) }
+            }
             _ => {
                 let open_ = self.bars.opens[i];
                 if long { stop.min(open_) } else { stop.max(open_) }
@@ -659,5 +670,137 @@ impl SimulatorParams {
             },
             round_trip_cost_bps: m.get("round_trip_cost_bps").and_then(|v| v.as_f64()),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A minimal columnar fixture: the entry bar followed by one gap bar.
+    fn bars_fixture(symbol: &str, opens: Vec<f64>, highs: Vec<f64>,
+                    lows: Vec<f64>, closes: Vec<f64>) -> SymbolBars {
+        let n = closes.len();
+        let base = 1_750_000_000_000_000_000i64;
+        SymbolBars {
+            symbol: symbol.to_string(),
+            opens, highs, lows, closes,
+            volumes: vec![1.0; n],
+            event_times: (0..n).map(|i| base + (i as i64) * HOUR_NS).collect(),
+            available_times: (0..n).map(|i| base + (i as i64) * HOUR_NS + 1_000_000_000).collect(),
+            ingested_times: vec![0; n],
+            venue_sequences: (0..n).map(|i| i as i64 + 1).collect(),
+            event_ids: (0..n).map(|i| format!("{symbol}:{}", i + 1)).collect(),
+            row_indices: (0..n).collect(),
+        }
+    }
+
+    /// 1R geometry at atr_ref=10 with a 2-bar horizon.
+    fn gap_draft(direction: &str) -> Draft {
+        let mut g = serde_json::Map::new();
+        g.insert("atr_ref".to_string(), serde_json::json!(10.0));
+        g.insert("target_r".to_string(), serde_json::json!(1.0));
+        g.insert("stop_r".to_string(), serde_json::json!(1.0));
+        g.insert("expiry_bars".to_string(), serde_json::json!(2));
+        Draft { direction: direction.to_string(), birth_time: 0, risk_geometry: g }
+    }
+
+    fn kernel<'a>(bars: &'a SymbolBars, store: &'a FeatureStore) -> ReplayKernel<'a> {
+        ReplayKernel {
+            round_trip_cost_r: 0.07,
+            funding_rate_r: 0.0,
+            funding_hours: 0,
+            fill_policy: FillPolicy::BarClose,
+            funding_schedule: &[],
+            round_trip_cost_bps: None,
+            bars,
+            store,
+        }
+    }
+
+    #[test]
+    fn favorable_gap_target_fills_at_open_not_barrier() {
+        // LONG, entry 100, atr=10, stop_r=target_r=1.0 -> stop 90, target 110.
+        // Bar 0 is the entry bar (close 100); bar 1 gaps +30 straight through
+        // the 110 target (open 130). Gap-through exits fill at the opening
+        // price (SIMULATION_TRUTH_SPEC §6): the target books the BETTER of
+        // barrier and open — net_r = (130-100)/10 - 0.07 = +2.93R. Pre-fix the
+        // fill was clipped at the barrier (110) for +0.93R, the favorable leg
+        // of the issue #71 asymmetry.
+        let bars = bars_fixture("SOLUSDT", vec![100.0, 130.0], vec![100.0, 130.0],
+                                vec![100.0, 130.0], vec![100.0, 130.0]);
+        let store = FeatureStore::build(&bars, &[]);
+        let out = kernel(&bars, &store).run(&gap_draft("LONG"), 0, bars.closes.len(), None).unwrap();
+        assert_eq!(out.endpoint, "TARGET");
+        assert_eq!(out.entry_price, 100.0);
+        assert!((out.net_r - 2.93).abs() < 1e-9,
+            "favorable gap must fill at the open 130, not clip at the target: net_r = {}",
+            out.net_r);
+    }
+
+    #[test]
+    fn adverse_gap_stop_fills_at_open_in_full() {
+        // The adverse mirror: open 70 gaps 20 below the 90 stop — the stop
+        // books the WORSE of barrier and open, net_r = (70-100)/10 - 0.07 =
+        // -3.07R, unchanged by the fix (the adverse leg was never clipped).
+        let bars = bars_fixture("SOLUSDT", vec![100.0, 70.0], vec![100.0, 70.0],
+                                vec![100.0, 70.0], vec![100.0, 70.0]);
+        let store = FeatureStore::build(&bars, &[]);
+        let out = kernel(&bars, &store).run(&gap_draft("LONG"), 0, bars.closes.len(), None).unwrap();
+        assert_eq!(out.endpoint, "STOP");
+        assert!((out.net_r + 3.07).abs() < 1e-9,
+            "adverse gap must still book -3.07R at the open: net_r = {}", out.net_r);
+    }
+
+    #[test]
+    fn equal_opposite_gaps_book_equal_opposite_r() {
+        // The issue's core claim: equal-magnitude opposite gaps must book
+        // equal-magnitude results. A +/-30 unit gap around a 1R barrier is
+        // symmetric only when both directions fill at the open: |net_r| = 3R
+        // +/- cost in either direction. Pre-fix the favorable gap was clipped
+        // at the barrier — a 3.30R asymmetry on the issue's numbers.
+        let fav = bars_fixture("SOLUSDT", vec![100.0, 130.0], vec![100.0, 130.0],
+                               vec![100.0, 130.0], vec![100.0, 130.0]);
+        let fav_store = FeatureStore::build(&fav, &[]);
+        let out_fav = kernel(&fav, &fav_store)
+            .run(&gap_draft("LONG"), 0, fav.closes.len(), None).unwrap();
+
+        let adv = bars_fixture("SOLUSDT", vec![100.0, 70.0], vec![100.0, 70.0],
+                               vec![100.0, 70.0], vec![100.0, 70.0]);
+        let adv_store = FeatureStore::build(&adv, &[]);
+        let out_adv = kernel(&adv, &adv_store)
+            .run(&gap_draft("LONG"), 0, adv.closes.len(), None).unwrap();
+
+        // Both fills happen at the open, so the pair differs from the clean
+        // +/-3R only by one round-trip cost each: fav + adv == -2*cost (-0.14).
+        // Pre-fix the favorable leg was clipped at the barrier, so the pair
+        // summed to 0.93 + (-3.07) = -2.14R — the issue's measured asymmetry.
+        assert!((out_fav.net_r + out_adv.net_r + 2.0 * 0.07).abs() < 1e-9,
+            "equal opposite gaps must differ from +/-3R by one cost each: fav {} adv {}",
+            out_fav.net_r, out_adv.net_r);
+    }
+
+    #[test]
+    fn short_gaps_symmetric_at_declared_barrier() {
+        // SHORT, entry 100, stop 110, target 90. Adverse gap open 130 -> exit
+        // at open (max(stop, open) = 130) = -3.07R; favorable gap open 70 ->
+        // exit at open (min(target, open) = 70) = +2.93R. Equal magnitudes.
+        let adv = bars_fixture("SOLUSDT", vec![100.0, 130.0], vec![100.0, 130.0],
+                               vec![100.0, 130.0], vec![100.0, 130.0]);
+        let adv_store = FeatureStore::build(&adv, &[]);
+        let out_adv = kernel(&adv, &adv_store)
+            .run(&gap_draft("SHORT"), 0, adv.closes.len(), None).unwrap();
+        assert_eq!(out_adv.endpoint, "STOP");
+        assert!((out_adv.net_r + 3.07).abs() < 1e-9,
+            "short adverse gap must book -3.07R: net_r = {}", out_adv.net_r);
+
+        let fav = bars_fixture("SOLUSDT", vec![100.0, 70.0], vec![100.0, 70.0],
+                               vec![100.0, 70.0], vec![100.0, 70.0]);
+        let fav_store = FeatureStore::build(&fav, &[]);
+        let out_fav = kernel(&fav, &fav_store)
+            .run(&gap_draft("SHORT"), 0, fav.closes.len(), None).unwrap();
+        assert_eq!(out_fav.endpoint, "TARGET");
+        assert!((out_fav.net_r - 2.93).abs() < 1e-9,
+            "short favorable gap must book +2.93R: net_r = {}", out_fav.net_r);
     }
 }
