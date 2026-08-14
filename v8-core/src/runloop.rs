@@ -1,11 +1,23 @@
 //! S4 full per-bar loop (issue #105): ExpertPlane -> candidates -> reduce.
 //!
 //! The `evaluate` subcommand is the composition point: per bar x per symbol,
-//! for each expert in `experts::TABLE` (canonical expert_id order, matching
-//! `lab.run` PHASE 3's `sorted_experts`): build the D-053-projected FeatMap
-//! (`features::group_closure` + `project_features`; `history` is withheld
-//! unless the closure includes it), evaluate, and feed CANDIDATE drafts into
-//! the candidate machinery in candidate.rs.
+//! for each expert in the DECLARED dispatch order (`dispatch_order`): build
+//! the D-053-projected FeatMap (`features::group_closure` +
+//! `project_features`; `history` is withheld unless the closure includes it),
+//! evaluate, and feed CANDIDATE drafts into the candidate machinery in
+//! candidate.rs.
+//!
+//! The dispatch order is the declared exposure-slot selection rule (issue
+//! #68): ascending `sha1(expert_id)` (Canon-encoded). It replaces the implicit
+//! alphabetical ranker (`lab.run` PHASE 3's `sorted_experts`), which let the
+//! ExposureBook admit whichever expert fires first in alphabetical expert_id
+//! order — an adverse-selection artefact that gave `bollinger_breakout` ~38%
+//! of executions. The rule is deterministic, ledger-stable and economically
+//! neutral (uncorrelated with alphabetical layout AND with signal merit); it
+//! is NOT a merit ranker (V8_CONSTITUTION rules 6/14 keep the ranker ABSENT) —
+//! it makes the previously implicit selection explicit. Slot conflicts for an
+//! (instrument, direction) resolve to the candidate whose expert evaluates
+//! first in this order.
 //!
 //! Per CANDIDATE decision the loop mirrors `lab.run`'s Phase 3 admission
 //! ordering:
@@ -195,6 +207,29 @@ fn windowed_prior_extremes(highs: &[f64], lows: &[f64], birth: usize)
     (Some(low), Some(high))
 }
 
+/// The declared exposure-slot selection rule (issue #68): the dispatch order
+/// is ascending `sha1(expert_id)` (Canon-encoded — the same digest family as
+/// episode identity). The implicit alphabetical ranker is gone; this order is
+/// the deterministic, economically-neutral tie-break for ExposureBook
+/// (instrument, direction) slot conflicts. Stable across runs and uncorrelated
+/// with both alphabetical layout and signal merit.
+fn dispatch_order() -> Vec<(&'static str, &'static str)> {
+    let mut ids: Vec<&'static str> = experts::TABLE.iter().map(|(id, _, _, _)| *id).collect();
+    ids.sort_by_key(|id| {
+        let mut c = crate::hash::Canon::new();
+        c.push_str(id);
+        c.finish_sha1_hex()
+    });
+    ids.into_iter()
+        .map(|id| {
+            let (_, _, ver, _) = experts::TABLE.iter()
+                .find(|(e, _, _, _)| *e == id)
+                .expect("dispatch order only contains registered expert_ids");
+            (id, *ver)
+        })
+        .collect()
+}
+
 fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     let rows = read_tape(&req.tape_path)?;
     let ds = data::Dataset::from_rows(rows).map_err(|e| e.to_string())?;
@@ -215,15 +250,16 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     funding_schedule.sort_by_key(|(t, _)| *t);
     let interval_ns = interval_ns_for(&req.base_interval);
 
-    // Dispatch table: the full TABLE in canonical expert_id order, or the
-    // requested subset (order preserved — the evaluation/DETECTED record order
-    // is part of the ledger hash).
+    // Dispatch table in the declared exposure-slot selection order (issue
+    // #68): ascending sha1(expert_id) — deterministic, non-alphabetical,
+    // economically neutral. The evaluation/DETECTED record order (part of the
+    // ledger hash) AND the ExposureBook slot-conflict tie-break both follow
+    // this order; the requested subset keeps it.
     let table: Vec<(&str, &str)> = if req.experts.is_empty() {
-        experts::TABLE.iter().map(|(id, _, ver, _)| (*id, *ver)).collect()
+        dispatch_order()
     } else {
-        experts::TABLE.iter()
-            .filter(|(id, _, _, _)| req.experts.iter().any(|e| e == id))
-            .map(|(id, _, ver, _)| (*id, *ver))
+        dispatch_order().into_iter()
+            .filter(|(id, _)| req.experts.iter().any(|e| e == id))
             .collect()
     };
 
@@ -823,12 +859,13 @@ mod tests {
         let rows = read_tape(tape).unwrap();
         let ds = data::Dataset::from_rows(rows).unwrap();
         let stores = state::build_stores(&ds);
+        // Same declared dispatch order the loop uses (issue #68) — the direct
+        // pass must mirror the loop's evaluation order exactly.
         let table: Vec<(&str, &str)> = if experts.is_empty() {
-            experts::TABLE.iter().map(|(id, _, ver, _)| (*id, *ver)).collect()
+            dispatch_order()
         } else {
-            experts::TABLE.iter()
-                .filter(|(id, _, _, _)| experts.iter().any(|e| e == id))
-                .map(|(id, _, ver, _)| (*id, *ver))
+            dispatch_order().into_iter()
+                .filter(|(id, _)| experts.iter().any(|e| e == id))
                 .collect()
         };
         let mut count = 0usize;
@@ -884,6 +921,43 @@ mod tests {
         (a, b, c, n)
     }
 
+    /// Read the candidates.jsonl the loop wrote and return the expert_id of
+    /// the admitted candidate in `direction` (the PENDING candidate in that
+    /// direction). The regression probe for issue #68: which expert wins an
+    /// (instrument, direction) slot conflict.
+    fn admitted_expert(rows: &[Value], out: &str, experts: Vec<&str>,
+                       direction: &str) -> String {
+        let manifest = serde_json::json!({ "funding_window_bars": 0 });
+        let tape = write_tape(rows, out);
+        let r = req(tape, out, experts, manifest);
+        let summary = evaluate(&r).unwrap();
+        let cand_path = PathBuf::from(summary["candidates"].as_str().unwrap());
+        let text = std::fs::read_to_string(&cand_path).unwrap();
+        let mut admitted: Vec<String> = Vec::new();
+        let mut dir_of: HashMap<String, String> = HashMap::new();
+        let mut expert_of: HashMap<String, String> = HashMap::new();
+        for line in text.lines() {
+            let v: Value = serde_json::from_str(line).unwrap();
+            if v["kind"] == "transition" {
+                let cid = v["candidate_id"].as_str().unwrap().to_string();
+                match v["to_state"].as_str().unwrap() {
+                    "DETECTED" => {
+                        expert_of.insert(cid.clone(), v["expert_id"].as_str().unwrap().to_string());
+                        dir_of.insert(cid, v["direction"].as_str().unwrap().to_string());
+                    }
+                    "PENDING" => admitted.push(cid),
+                    _ => {}
+                }
+            }
+        }
+        let mut winners: Vec<String> = admitted.iter()
+            .filter(|cid| dir_of.get(*cid).map(|d| d == direction).unwrap_or(false))
+            .map(|cid| expert_of.get(cid).cloned().unwrap())
+            .collect();
+        assert_eq!(winners.len(), 1, "exactly one admitted candidate in direction {direction}");
+        winners.pop().unwrap()
+    }
+
     #[test]
     fn candidate_count_matches_direct_evaluate() {
         // A tiny synthetic tape (fixed-array rows) run through the loop
@@ -935,6 +1009,64 @@ mod tests {
         assert_eq!(a, 1, "first detection admitted");
         assert_eq!(b, 0, "no duplicate episode keys on this tape");
         assert_eq!(c, 1, "second same-direction candidate is portfolio-rejected");
+    }
+
+    #[test]
+    fn dispatch_order_is_declared_non_alphabetical_and_deterministic() {
+        // Issue #68: the exposure book's selection order must be a declared
+        // deterministic rule that is NOT alphabetical expert_id order — the
+        // alphabetical TABLE order was the implicit ranker that systematically
+        // gave the slot to bollinger_breakout. The declared rule is ascending
+        // sha1(expert_id).
+        let a = dispatch_order();
+        let b = dispatch_order();
+        assert_eq!(a, b, "the dispatch order must be deterministic");
+        assert_eq!(a.len(), experts::TABLE.len(),
+                   "every registered expert is dispatched exactly once");
+        // The canonical TABLE is alphabetical and leads with bollinger_breakout.
+        assert_eq!(experts::TABLE[0].0, "bollinger_breakout",
+                   "TABLE is expert_id-sorted — the old implicit alphabetical ranker");
+        // The declared order differs from it at the top of the queue.
+        assert_ne!(a[0].0, experts::TABLE[0].0,
+                   "the declared order must not be alphabetical");
+        // And it is exactly the declared rule: strictly ascending sha1(expert_id).
+        let hashes: Vec<String> = a.iter().map(|(id, _)| {
+            let mut c = crate::hash::Canon::new();
+            c.push_str(id);
+            c.finish_sha1_hex()
+        }).collect();
+        let mut sorted = hashes.clone();
+        sorted.sort();
+        assert_eq!(hashes, sorted,
+                   "the dispatch order is the declared ascending sha1(expert_id)");
+    }
+
+    #[test]
+    fn slot_conflict_resolves_by_declared_hash_order_not_alphabetical() {
+        // Issue #68: when two experts fire the same (instrument, direction) at
+        // the same bar, the ExposureBook slot used to go to the
+        // alphabetically-first expert — an implicit ranker selecting by
+        // expert_id spelling. The declared rule resolves the conflict by the
+        // dispatch order (ascending sha1(expert_id)): pandf_breakout (sha1
+        // rank 14) precedes bollinger_breakout (rank 18), so pandf must win
+        // the (SOLUSDT, LONG) slot despite being alphabetically LAST.
+        //
+        // Fixture: a 20-bar down-ramp (closes 110.0 -> 100.0), then a jump to
+        // 115.0. At the jump bar both experts fire their first LONG candidate
+        // into the same free slot: bollinger (close > SMA20) and pandf
+        // (point-and-figure box breakout). Alphabetically bollinger would take
+        // the slot; the declared rule must admit pandf and reject bollinger.
+        let mut rows: Vec<Value> = Vec::new();
+        for i in 0..20usize {
+            let c = 110.0 - 0.5 * (i as f64);
+            rows.push(bar(c, c + 0.3, c - 0.3, c, "SOLUSDT", i));
+        }
+        rows.push(bar(115.0, 115.3, 114.7, 115.0, "SOLUSDT", 20));
+        let winner = admitted_expert(&rows, "slot-conflict",
+                                     vec!["bollinger_breakout", "pandf_breakout"], "LONG");
+        assert_eq!(winner, "pandf_breakout",
+                   "slot conflicts must resolve by the declared sha1(expert_id) order, \
+                    not alphabetical expert_id (issue #68)");
     }
 
     #[test]
