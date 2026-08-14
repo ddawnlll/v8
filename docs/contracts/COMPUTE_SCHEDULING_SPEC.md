@@ -129,6 +129,22 @@ near-zero cost is a legitimate design choice, on one condition: the portable
 form's CPU output must be competitive with a directly-written CPU kernel. That
 is an assumption to be **measured before adoption**, not a premise.
 
+**The f64 contract constrains any GPU path more than the trigger does
+(D-096).** K4 runs `f64` throughout with FMA contraction and fast-math off
+(D-084), and GPU fp64 is a wall on every portable route: Metal exposes no
+fp64 in shaders; Vulkan exposes `SHADER_F64` (native only) but fp64
+operations run 16-64x slower than f32 (wgpu feature docs); consumer CUDA/HIP
+parts (RTX 40/50, RX 7000) execute fp64 at 1/16-1/32 rate. So even past the
+trigger, a K4 f64 backend amortizes transfer only at a 16-64x
+per-operation penalty — the economics close before the trigger does. If a
+portable layer is ever adopted it is CubeCL over wgpu: CubeCL compiles one
+kernel IR to CUDA/HIP/Metal/Vulkan/CPU, matching the K1-K6 kernel structure
+and the "backend is not kernel semantics" rule, while wgpu sits at the
+buffer/pipeline/dispatch level. On Apple, both paths run through wgpu, so
+the fp64 limitation applies regardless. K1/K2 (reduction-order sensitive,
+D-084) stay CPU-only; K4 (no cross-worker reduction) is the only GPU
+candidate.
+
 ## 7. Resource policy
 
 - Concurrency defaults to available parallelism minus a small reserve; it is

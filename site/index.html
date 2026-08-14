@@ -1617,6 +1617,21 @@ open scope question (<code>OPEN_DECISIONS</code>).</p>
 near-zero cost is a legitimate design choice, on one condition: the portable
 form's CPU output must be competitive with a directly-written CPU kernel. That
 is an assumption to be <strong>measured before adoption</strong>, not a premise.</p>
+<p><strong>The f64 contract constrains any GPU path more than the trigger does
+(D-096).</strong> K4 runs <code>f64</code> throughout with FMA contraction and fast-math off
+(D-084), and GPU fp64 is a wall on every portable route: Metal exposes no
+fp64 in shaders; Vulkan exposes <code>SHADER_F64</code> (native only) but fp64
+operations run 16-64x slower than f32 (wgpu feature docs); consumer CUDA/HIP
+parts (RTX 40/50, RX 7000) execute fp64 at 1/16-1/32 rate. So even past the
+trigger, a K4 f64 backend amortizes transfer only at a 16-64x
+per-operation penalty — the economics close before the trigger does. If a
+portable layer is ever adopted it is CubeCL over wgpu: CubeCL compiles one
+kernel IR to CUDA/HIP/Metal/Vulkan/CPU, matching the K1-K6 kernel structure
+and the "backend is not kernel semantics" rule, while wgpu sits at the
+buffer/pipeline/dispatch level. On Apple, both paths run through wgpu, so
+the fp64 limitation applies regardless. K1/K2 (reduction-order sensitive,
+D-084) stay CPU-only; K4 (no cross-worker reduction) is the only GPU
+candidate.</p>
 <h2 id="7-resource-policy">7. Resource policy</h2>
 <ul>
 <li>Concurrency defaults to available parallelism minus a small reserve; it is
@@ -5016,31 +5031,59 @@ tests/
 <code>src/v8/experts/</code> only after registry admission (the <code>capitulation</code> backlog
 family is registered DATA_BLOCKED until derivatives tape — no code module
 until then).</p>
-<h2 id="11-v82-compute-core-planned-not-yet-present">1.1 V8.2 compute core (planned, not yet present)</h2>
+<h2 id="11-v82-compute-core-present-s0s7-gates-passed-d-087d-095">1.1 V8.2 compute core (present — S0..S7 gates passed, D-087..D-095)</h2>
 <p>The Rust workspace is a <strong>second implementation</strong>, not a replacement of §1:
 <code>src/v8/</code> is frozen as the parity oracle for the duration of the migration
 (<code>PARITY_AND_IDENTITY_SPEC</code> §2). One workspace, one binary, modules rather than
-micro-crates; splitting is deferred until a boundary is proven stable.</p>
+micro-crates; splitting is deferred until a boundary is proven stable. The
+tree below is the <strong>as-built</strong> layout (21,697 lines, 54 files); §4 tracks
+where it diverges from <code>COMPUTE_CORE_SPEC</code> §6's originally designed module
+table.</p>
 <pre><code class="language-text">v8-core/
   src/
     main.rs         CLI entry; one evaluation request per invocation
     data.rs         Dataset: columnar OHLCV + event/available/ingested clocks
     state.rs        FeatureStore, StateView, feature identity
+    features.rs     D-053 feature-group projection (Expert FeatMap closure) —
+                     not in the original §6 table (§4)
     experts/
       mod.rs        registry
+      base.rs       shared Expert contract (mirrors experts/base.py)
       predicate.rs  compiled still_valid IR (PREDICATE_IR_SPEC)
+      &lt;28 files&gt;    one behaviour family per module (mirrors D-033),
+                     all 28 registered Experts ported (D-092)
     candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
+    runloop.rs      S4 per-bar composition: ExpertPlane -&gt; candidates -&gt; the
+                     `evaluate` subcommand — not in the original §6 table (§4)
     simulator.rs    ReplayKernel (step/run), risk unit, fill policies
     regret.rs       LegalActionManifest, CubeReducer, gap accumulators
-    statistics.rs   reductions + verdict statistics (block-bootstrap
-                    Reality-Check, detrended null, placebo family; D-044)
-    analysis.rs     regret phases 1-3: systematicity, recoverability
+    statistics/     verdict statistics — DIRECTORY, not the single
+                     `statistics.rs` §6 named (§4)
+      mod.rs        the `verdict` subcommand
+      reality_check.rs  block-bootstrap Reality-Check (D-044)
+      detrended.rs      detrended null, placebo family, Appendix A invariant
+      remaining.rs      METH-2..6 surface (D-095)
+    analysis/       regret phases 1-3 — DIRECTORY, not the single
+                     `analysis.rs` §6 named (§4)
+      mod.rs        the `analysis` subcommand
+      outcome.rs    per-candidate outcome accounting
+      phase1.rs     candidate-local opportunity join
+      phase2.rs     72-slice discovery/confirmation family
+      phase3.rs     recoverability
+      reconcile.rs  CandidateSnapshot join + PIT lineage (D-094)
     report.rs       verdict report artifacts, ledger audit checks (hash-bound)
     cache.rs        content-addressed DAG cache
     evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
-    compute/        kernels K1..K6 + backend selection
-  tests/
-    parity.rs       value-level parity against the V8.0 oracle
+    hash.rs         V8.2 canonical bit encoding (D-079)
+    jsonx.rs        Python-json-compatible tape parser (NaN/Infinity literals)
+    mt19937.rs      bit-exact CPython Mersenne Twister — not in the original
+                     §6 table (§4)
+    compute/        kernels K1..K6 + backend selection; empty — the ~10^9-cell
+                     GPU trigger (COMPUTE_SCHEDULING_SPEC §6) has not fired
+  tests/            empty — parity is proven by #[cfg(test)] unit tests
+                     embedded in each src/*.rs module plus the Python-side
+                     harness at repo-root tests/parity/*.py, not a Rust
+                     tests/parity.rs integration file as §6 originally named
 </code></pre>
 <p>The same file-family rule applies (D-032): a new module, rename, or interface
 change is a registry decision with a CHANGELOG entry. Owning contracts are
@@ -5048,7 +5091,7 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <code>COMPUTE_SCHEDULING_SPEC</code> (kernels and backends),
 <code>LEDGER_FORMAT_SPEC</code> (evidence.rs), <code>OUTCOME_CUBE_SPEC</code> (regret.rs),
 <code>PREDICATE_IR_SPEC</code> (experts/predicate.rs) and
-<code>PARITY_AND_IDENTITY_SPEC</code> (tests/parity.rs).</p>
+<code>PARITY_AND_IDENTITY_SPEC</code> (tests/parity/*.py).</p>
 <h2 id="2-file-by-file-contract">2. File-by-file contract</h2>
 <table>
 <thead>
@@ -5235,10 +5278,29 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td><code>risk.py</code> + <code>lab.py</code></td>
 <td><strong>CLOSED</strong> — <code>778ceb1</code> (build Step 3): declared constants, <code>TRADABILITY_MASK_VETO</code>, <code>NOT_EXECUTED</code> counterfactual</td>
 </tr>
+<tr>
+<td><code>statistics.rs</code>/<code>analysis.rs</code> designed as single files (<code>COMPUTE_CORE_SPEC</code> §6)</td>
+<td><code>v8-core/src/statistics/</code> (4 files, 2,373 lines), <code>v8-core/src/analysis/</code> (6 files, 5,030 lines)</td>
+<td><strong>DOCUMENTED, not reversed</strong> — <code>17e506a</code>/<code>5accfc6</code> (S4-S7 Waves): each surface grew past a comfortable single file during the S6/S7 port (D-091's bounded-surface estimate — <code>regret_phase1/2/3.py</code> ≈27 KB, <code>statistics.py</code> 767 lines — held for total scope but not for single-file ergonomics); split by pipeline stage (<code>phase1</code>/<code>phase2</code>/<code>phase3</code>/<code>reconcile</code>/<code>outcome</code> under <code>analysis/</code>, <code>reality_check</code>/<code>detrended</code>/<code>remaining</code> under <code>statistics/</code>) rather than left as one growing file. Functionally equivalent to the spec's module list; <code>COMPUTE_CORE_SPEC</code> §6 itself is left as the original design record, not rewritten</td>
+</tr>
+<tr>
+<td><code>features.rs</code>, <code>runloop.rs</code>, <code>mt19937.rs</code> absent from <code>COMPUTE_CORE_SPEC</code> §6's module table</td>
+<td><code>v8-core/src/features.rs</code>, <code>runloop.rs</code>, <code>mt19937.rs</code></td>
+<td><strong>DOCUMENTED, not reversed</strong> — <code>17e506a</code> (<code>features.rs</code>, <code>mt19937.rs</code>) / <code>5accfc6</code> (<code>runloop.rs</code>): the S4-S7 design pass discovered three roles the original 12-module table did not name — the D-053 per-Expert feature-group projection (distinct from <code>FeatureStore</code>/<code>StateView</code>'s whole-tape feature computation), the S4 per-bar composition loop binding <code>ExpertPlane</code> output into <code>CandidateBuffer</code> (the <code>evaluate</code> subcommand's own logic, not reducible to either), and bit-exact CPython RNG reproduction required for S7 verdict-statistics parity. None replaces a named module; each is additive (D-092/D-095)</td>
+</tr>
+<tr>
+<td><code>tests/parity.rs</code> designed as a Rust integration-test file (<code>COMPUTE_CORE_SPEC</code> §6)</td>
+<td><code>v8-core/tests/</code> is empty; parity is proven by <code>#[cfg(test)]</code> unit tests inside each <code>src/*.rs</code> module plus the Python-side harness <code>tests/parity/*.py</code> at the repo root</td>
+<td><strong>DOCUMENTED, not reversed</strong> — <code>17e506a</code> onward: every stage gate (S0..S7) is driven from the Python side because the oracle (<code>src/v8/</code>) it compares against is Python; a Rust-only <code>tests/parity.rs</code> would need to re-embed or shell out to the oracle for no benefit over the existing harness. <code>PARITY_AND_IDENTITY_SPEC</code> §5.2 already specifies the Python-driven harness; §6's <code>tests/parity.rs</code> line predates that specification</td>
+</tr>
 </tbody>
 </table>
 <p>Divergences are closed by code change; closure is recorded here with the
-closing commit and in the CHANGELOG — never by editing this table alone.</p>
+closing commit and in the CHANGELOG — never by editing this table alone.
+Divergences that are accepted architecture rather than defects awaiting a fix
+are marked <strong>DOCUMENTED, not reversed</strong> instead of CLOSED — the code is not
+expected to change to match the spec; the spec's original text is left as the
+historical design record and this table is the correction layer.</p>
 <h2 id="5-cheap-executable-tests">5. Cheap executable tests</h2>
 <ol>
 <li>Import-boundary test: every <code>src/v8/</code> module imports only from its own
@@ -5583,6 +5645,11 @@ closing commit and in the CHANGELOG — never by editing this table alone.</p>
 <p>| D-089 | <strong>V8.2 compute core S2: the Predicate IR + ReplayKernel pass the parity gate.</strong> <code>v8-core/src/experts/predicate.rs</code> evaluates the compiled post-entry thesis IR (<code>compare</code> with FLIP_ON_SHORT, <code>asym_compare</code>, <code>all_of</code>/<code>any_of</code>, ordered <code>dispatch</code> incl. geometry-value equality, <code>guard</code> for whole-condition fail-open; operands live/live_window/ref/ref_dir/window_agg INCLUSIVE|EXCLUSIVE/window_agg_dir/mean_of2/const). <code>v8-core/src/simulator.rs</code> is the <code>ReplayKernel</code>, a byte-for-byte port of <code>sim.run</code>/<code>_exit_loop</code>/<code>step</code> (R-multiples, risk_unit, validate_geometry, FILL_AT_BAR_CLOSE/LIMIT, funding scalar+schedule, STOP_FIRST ambiguity, gap-through stops, THESIS_INVALIDATED/TIME_EXIT/EXPIRY, EXEC-1..6, the single net_r formula), reading <code>&amp;bars[start..end]</code> bounded to <code>expiry_bars+1</code> (OUTCOME_CUBE_SPEC §5) and evaluating the compiled predicate from the feature store — no Python callback (D-078). <code>tools/predicate_ir.py</code> compiles all 28 registered still_valid methods into the IR. Two determinism facts are LOCKED: (a) <strong>serde_json's default float parser is not correctly rounded</strong> — <code>"0.9632136759338213"</code> parses 1 ulp low (measured), so request-side floats silently drift; <code>float_roundtrip</code> is enabled (the tape itself was never affected — jsonx uses std's correctly-rounded parse). (b) <strong>Fail-open is not uniform</strong>: per-operand (dominant close-vs-ref form) vs whole-condition (trend_pullback_depth, rsi_stoch_reversion variant b, bollinger_reversion's close pre-check, gap_exhaustion's either-ref) — the <code>guard</code> node captures the difference; and fib_rsi_bb_confluence's prior_low_ref valid-form is GTE (the equality boundary holds), while the 3sd rule is GT | PROVISIONAL_DECISION | D-032 file-family rule recorded (new Rust modules + tools/predicate_ir.py registered). Gate evidence <code>reports/parity/S2.md</code>: cargo test 24 passed; 6/6 S2 parity tests — E1/E2/E3 (738-point grid over all 28 experts, present/absent/None per operand, both directions, ref==live boundary), E5 vocabulary closed (11 names + parameterized windows), E4 replay parity on the V8.0 candidate population (endpoint/label_status/horizon/ambiguous exact; net_r/mae_r/mfe_r/entry/unit/market_move bit-identical), G4 byte-identical, G5 thread invariance, G6 fail-closed. Known bounds: the donchian responsive/significant_extreme exit kinds are compiled in the IR table but not exercised by the E1 grid (module-local subclasses); FILL_AT_LIMIT is ported but unexercised (no registered Expert declares limit_price). No speed claim |</p>
 <p>| D-090 | <strong>V8.2 compute core S3: the CubeReducer + streaming regret pass the parity gate.</strong> <code>v8-core/src/regret.rs</code> implements the <code>LegalActionManifest</code> (NO_TRADE at element 0, the ACTUAL action at element 1 by construction, the declared grid <code>target_r (1,2,3) x expiry_bars (8,24,48)</code> de-duplicated by action id, <code>pyramid_add_rules</code> excluded → cardinality 2), the cell-status classifier (OK/CENSORED/UNDEFINED_FUTURE/NOT_EVALUABLE_ACTION/NO_ENTRY, <code>MIN_FUTURE_BARS = 1</code>), and <code>compute_gap</code> (best over OK cells incl. NO_TRADE, <code>GAP_TIE_EPS = 1e-12</code> ties reported never broken, abstain on CENSORED / no-OK / actual-cell-not-OK — with <code>actual_utility</code> None in the actual-cell-not-OK branch exactly as the Python record does). Action and manifest identities are V8.2 bit-encoded (D-079). The <code>cube</code> subcommand streams one Candidate at a time: manifest → replay each cell via the S2 ReplayKernel → classify → reduce in memory → emit the <code>cube-reduced</code> artifact; cells are never materialized across Candidates (D-081) | PROVISIONAL_DECISION | D-032 file-family rule recorded (new Rust module registered). Gate evidence <code>reports/parity/S3.md</code>: cargo test 24 passed; 5/5 S3 parity tests — reduced tables match <code>tools/regret.py</code>'s Phase-0 output on every BOUND Candidate (gap_status/actual_utility/best_utility/tie_cardinality/legal_hindsight_gap/abstention_reason exact), gap &gt;= 0 on every COMPUTED Candidate, manifest structure (a_actual element 1), G4 byte-identical, G5 thread invariance, G6 near-tape-end refusal (UNDEFINED_FUTURE) agrees. Identity strings excluded from the value comparison (D-079 §3). No speed claim |</p>
 <p>| D-091 | <strong>V8.2 plane split revised: the analysis, verdict and audit planes join the Rust plane; Python is reduced to the frozen oracle.</strong> D-077's two-plane split (Python control/analysis vs Rust compute) is revised at the analysis side: the boundary "Rust computes, Python analyses" (<code>COMPUTE_CORE_SPEC</code> §7) is removed. The regret analysis pipeline (<code>RECOVERABLE_REGRET_PROTOCOL</code> phases 1-3: candidate-local opportunity accounting, systematicity discovery, recoverability), the verdict statistics (<code>statistics.py</code>: block-bootstrap Reality-Check, detrended null, placebo family), the D-086 sweep e-process statistics, and the ledger/report audit checks move into <code>v8-core</code> as native stages, evaluated in-process from the columnar ledgers and reduced tables the compute plane itself writes. The artifact file remains the <strong>persistence</strong> boundary (reproducibility, <code>LEDGER_FORMAT_SPEC</code> §4 tiers) but is no longer a language crossing: no Python code reads a compute-plane artifact for a verdict. D-078's no-callback invariant extends to "no Python in the request path"; D-084 kernel modularity is untouched. Python retains exactly three roles: (a) the frozen parity oracle <code>src/v8/</code> — required by the parity program itself, never deleted (D-077); (b) the vendored <code>simtruth/</code> reference lab (authority not renewed, D-022); (c) pre-V8.2 dev/research tooling with no decision-path role (downloads, backfill, handbook extraction, equity analysis, monograph build, the parity test driver) — retired as its Rust equivalent lands. Migration order S0..S5 extends with <strong>S6 (analysis plane)</strong> and <strong>S7 (verdict statistics + report/audit artifacts)</strong>, each with a value-level parity gate against the frozen Python evaluators (<code>PARITY_AND_IDENTITY_SPEC</code> §5). Revises D-077's §7 rationale and supersedes D-081's "verdict statistics stay in Python" consequence — the streaming reduction of D-081 still holds, only its Python-side consequence is revoked. Not a V9: the decision ontology, Candidate semantics and epistemic architecture are unchanged (D-077 version semantics) | PROVISIONAL_DECISION | Owner decision 2026-08-12 ("everything in Rust"; the Rust→Python artifact crossing is the cost being removed — analysis should read the compute plane's ledgers natively rather than across a language boundary). Measured surface to be enumerated by the S6/S7 scan: <code>tools/regret.py</code> 34 KB + <code>regret_phase1/2/3.py</code> ≈ 27 KB + <code>regret_reference.py</code> 4.3 KB (parity oracle), <code>statistics.py</code> 767 lines, <code>diagnostics.py</code> 171 KB (report centre). The decision-path analysis surface is bounded and closed — the same character as the predicate surface that justified D-078/D-082 — so the port costs a bounded one-off, not an open-ended bridge. S6/S7 gates follow the S4/S5 pattern; no speed claim is made, the gate is correctness and ownership |</p>
+<p>| D-092 | <strong>V8.2 compute core S4: <code>CandidateBuffer</code> + <code>ExpertPlane</code> pass the candidate-population parity gate.</strong> All 28 registered Experts are ported to <code>v8-core/src/experts/*.rs</code> (issues #77-100), closing the pilot-only 4/28 state D-089 shipped with. Two new modules complete the plane, neither named in <code>COMPUTE_CORE_SPEC</code> §6's original module table: <code>features.rs</code> (D-053 feature-group projection — an Expert's <code>FeatMap</code> carries only its declared <code>requires</code>-closure, mirroring <code>marketstate.py</code>'s <code>group_closure</code>/<code>project_state</code>; this is what makes <code>obv_adl_regime</code> correctly emit NO_HABITAT when <code>atr</code>/<code>history</code> fall outside its closure) and <code>runloop.rs</code> (the <code>evaluate</code> subcommand — the S4 composition point: per bar x per symbol x the full expert dispatch table, D-053-projected FeatMap in, CANDIDATE draft out, D-026 episode-key dedup, into the CandidateBuffer). Issue #101 (four ported pilot <code>evaluate()</code> functions hardcoded <code>"SOLUSDT"</code> instead of reading the request's symbol, breaking parity on any other tape) is fixed. The Wave-2 exit-kind coverage card (#103) compiled the donchian <code>responsive</code>/<code>significant_extreme</code> exit kinds — module-local subclasses the S2 E1 grid could not exercise because they are not exported by the registry — and caught two genuine latent S2 predicate-IR bugs in <code>predicate.rs</code>, both fixed: an EXCLUSIVE <code>window_agg</code> off-by-one (the aggregate must run over <code>n - 1</code> bars, since <code>n</code> counts the dropped newest bar; 48/202 grid mismatches) and EXCLUSIVE fail-open on short history not matching Python's <code>len(hist.value) &lt; m + 1</code> (24/202) | PROVISIONAL_DECISION | D-032 file-family rule: <code>features.rs</code> and <code>runloop.rs</code> recorded here and in the CHANGELOG; <code>IMPLEMENTATION_LAYOUT</code> §1.1/§4 tracks their absence from the original <code>COMPUTE_CORE_SPEC</code> §6 table as a documented divergence, not a silent addition. Gate evidence <code>reports/parity/S4.md</code>: cargo test 149 passed 0 failed; 5/5 S4 population-gate tests — oracle tree hash pinned, all 3,360 (120 bars x 28 experts) evaluations bit-identical including the 420 CANDIDATE drafts' direction/birth_time/risk_geometry/setup_fingerprint/setup_anchor_event_id, the 209 DETECTED episode-key population and 211 suppressed-duplicate set identical in count and key inputs on both sides, and the loop's summary counters (<code>n_candidates=2, n_rejected=207, n_suppressed=211</code>) reconcile to the lab's <code>candidate_count=209</code>. <strong>Known, accepted divergence, not a parity target of this gate:</strong> admission timing — the loop admits at DETECTION (never releases exposure slots; no position lifecycle yet), the lab admits at TRIGGER, so the PENDING/REJECTED split differs (2 admitted/207 rejected at detection vs. the lab's 209 reaching PENDING with 134 rejected at trigger); the DETECTED population and the suppression set — this gate's actual subject — are identical. No speed claim |</p>
+<p>| D-093 | <strong>V8.2 compute core S5: <code>EvidenceStore</code> + the content-addressed DAG cache pass the ledger-identity gate.</strong> <code>evidence.rs</code> (issues #108/#109) gains <code>ArtifactTier</code> (<code>IDENTITY_ONLY &lt; VALUES &lt; FULL</code>) with the tier-honesty rule — <code>Artifact::add_field</code> rejects any field whose tier exceeds the artifact's tier as an explicit <code>TierViolation</code>, never a silently downgraded or empty column — <code>RunConstants</code> (the §3 key set bound into every header), and the <code>LEDGER_FORMAT_SPEC</code> §8 six-test battery (<code>v8-core ledger-check</code>). <code>cache.rs</code> (issue #107) adds the missing cube-level DAG node: <code>sha1(candidate_id\|action_id\|simulator_hash\|data_hash) -&gt; outcome</code>, an in-memory map backed by an append-only <code>cache.jsonl</code> (insert appends to the log first, so a failed write leaves the map untouched — fail closed). <code>v8-core cache-check</code> proves a miss (compute+store+write) and a hit (fresh <code>CacheStore</code> over the same log — what a second process would do) write byte-identical artifacts with identical fingerprints | PROVISIONAL_DECISION | D-032 file-family rule recorded (<code>cache.rs</code> was already named in <code>COMPUTE_CORE_SPEC</code> §6; no divergence). Gate evidence <code>reports/parity/S5.md</code>: 15 evidence.rs + 4 cache.rs unit tests; <code>ledger-check</code> 6/6 LEDGER_FORMAT_SPEC §8 tests PASS (round-trip, header-completeness, byte-stability, tier-honesty, no-decimal-floats, retention); <code>cache-check</code> PASS (computed and cached fingerprints both <code>9cc58e1f4062205c5da2d0e272a5d45772cd1fbe</code>); <code>tests/parity/test_parity_s5.py</code> 3 passed. No oracle is involved — the §8 battery's value-level semantics are pinned by the unit tests, and the harness runs the shipped binary the way the audit tool would be invoked. <strong>Known limitation, still open:</strong> the cache is not wired into <code>runloop.rs</code>'s cube reduction (<code>write_cube_reduced</code> calls <code>regret.rs</code> directly and never consults <code>CacheStore</code>) — wiring the loop to the cache remains a follow-up, not part of this gate or of S4 as landed. No speed claim |</p>
+<p>| D-094 | <strong>V8.2 compute core S6: the <code>Analysis</code> composition (regret phases 1-3) passes the bit-identical parity gate.</strong> <code>analysis/{mod,outcome,phase1,phase2,phase3,reconcile}.rs</code> — six files, not the single <code>analysis.rs</code> <code>COMPUTE_CORE_SPEC</code> §6 named — implement the <code>analysis</code> subcommand: <code>reconcile.rs</code> joins each DETECTED candidate transition to its immutable birth draft and replays the ACTUAL action's cube accumulators under the compiled S2 predicate IR; <code>phase1.rs</code> is the candidate-local opportunity join; <code>phase2.rs</code> is the 72-slice discovery/confirmation family; <code>phase3.rs</code> is recoverability. The gate closed in two commits after an initial wiring pass (<code>5accfc6</code>) landed the composition running but not bit-identical (939 phase-output divergences against the oracle, <code>reports/parity/S6.md</code> as first written). <code>647c0b0</code> fixed the dominant cause: <code>build_snapshots</code> joined drafts to DETECTED transitions by re-derived <code>candidate_id</code> hashes, but V8.2 identities are the D-079 canonical encoding and deliberately differ from the oracle's <code>sha1_hex(json)</code> — so on lab-produced store data the join matched nothing (all <code>UNBOUND_NO_DRAFT</code>, 508 phase-1 cube fields <code>None</code>). The join now binds by the D-026 identity tuple <code>(expert_id, expert_version, instrument, direction, setup_anchor_event_id)</code>, encoding-agnostic; reconciliation went from 0/62 to 56/62. <code>3e13697</code> closed the remaining two root causes: (a) <strong>clock-bound draft binding</strong> — the all-28 fixture has 45 anchor-tuples with multiple DETECTED candidates (different <code>geometry_version</code> as the market moves), which the tuple join alone merged onto the first draft; binding additionally by the DETECTED transition's own <code>knowledge_time</code> (= the birth bar, since the lab evaluates each expert once per bar) selects the exact draft the registry kept, closing the last 6 reconciliation mismatches; (b) <strong><code>cost_r</code>/<code>funding_r</code> missing from the compute <code>Outcome</code></strong> — the kernel already computes <code>net_r = realized - cost - funding</code> but did not expose the two components, so the Phase-1 join carried them as <code>None</code>; <code>Outcome</code> gained both fields (additive, the 10-field reconciliation surface unchanged), closing 124 Phase-1 divergences | PROVISIONAL_DECISION | D-032 file-family rule: the <code>analysis/</code> directory split from the spec's single <code>analysis.rs</code> is recorded in <code>IMPLEMENTATION_LAYOUT</code> §1.1/§4 as a tracked divergence. Gate evidence <code>reports/parity/S6.md</code> (as landed) + reproduced live: <code>tests/parity/test_parity_s6.py</code> 1 passed (17s) — reconciliation 62/62 and all three phase outputs (431 opportunity rows, the 72-slice discovery family, the empty-on-both-sides confirmation/Phase-3 surfaces on this fixture) bit-identical to <code>tools/regret_phase1/2/3.py</code> on the all-28-expert 200-bar fixture, per PARITY_AND_IDENTITY_SPEC §3 semantics (V8.2-encoded identity strings excluded from the value comparison; floats compared by IEEE-754 bit pattern). cargo test 149 passed. Issue #117 CLOSED. No economic claim, no speed claim |</p>
+<p>| D-095 | <strong>V8.2 compute core S7: <code>Verdict</code> statistics + report/audit artifacts pass the parity gate.</strong> <code>statistics/{mod,reality_check,detrended,remaining}.rs</code> — four files, not the single <code>statistics.rs</code> <code>COMPUTE_CORE_SPEC</code> §6 named — implement the <code>verdict</code> subcommand (issue #128 wiring): block-bootstrap Reality-Check (<code>reality_check.rs</code>), the Appendix A detrended-null placebo invariant (<code>detrended.rs</code>, issue #124), and the METH-2..6 surface (<code>remaining.rs</code>, issue #129: permutation Reality-Check, bootstrap CI, effective independent episodes, regime slices, streak-vs-null, practical significance, expected false positives, effective search size). A new module not named in the original table, <code>mt19937.rs</code> (issue #127), reproduces CPython 3.14's Mersenne Twister bit-exactly — <code>random.Random(int)</code> seeding via <code>init_by_array</code>, <code>random()</code> via <code>genrand_res53</code> (NOT <code>getrandbits(53)/2**53</code>, empirically different bits), and <code>randrange</code>/<code>getrandbits</code>/<code>sample</code> matching <code>random.py</code>'s pool-branch Fisher-Yates with no <code>k==n</code> short-circuit — because the frozen oracle <code>statistics.py</code> draws every bootstrap/permutation resample from <code>random.Random(seed)</code> and bit-exact verdict parity requires bit-exact draws. <code>report.rs</code> (issue #126) is extended additively: <code>verdict_path</code> folds the verdict subcommand's JSON into the report summary (the report's own top-level claim stays <code>NO_ECONOMIC_CLAIM</code>, rule 12 — a p-value is not an authority receipt), and <code>audit_report</code> audits an existing artifact against the current tape/producer, the path by which the freshness check flags a stale artifact (issue #123) | PROVISIONAL_DECISION | D-032 file-family rule: the <code>statistics/</code> directory split and <code>mt19937.rs</code> recorded in <code>IMPLEMENTATION_LAYOUT</code> §1.1/§4. Gate evidence <code>reports/parity/S7.md</code>: cargo test 149 passed (statistics suite 45 passed); <code>tests/parity/test_parity_s7.py</code> 3 passed — every value field of the verdict JSON on a fixed episode series + seed bit-identical to <code>statistics.py</code> (WRC <code>observed_max=0.08125, p_value=0.0145, block_size=4</code>; Appendix A placebo means + <code>holds</code>; METH-3 permutation; bootstrap CI; effective independent episodes; regime-slice means; streak p-value; practical-significance note; expected false positives; effective search size), the §9 mechanical block-size rule auto-selecting the same block (4) on both sides, the report round-trip, and the stale-artifact audit correctly flagging <code>freshness: FAIL</code> on a tape swap while non-freshness checks still pass. Rule 12 held: verdict and report claims both stay <code>NO_ECONOMIC_CLAIM</code>. No economic claim, no speed claim |
+| D-096 | <strong>Kernel backend strategy: scalar reference + CPU/SIMD first, GPU gated behind the ~10^9-cell trigger, CubeCL preferred over wgpu if a portable layer is ever adopted.</strong> <code>v8-core</code> is single-path scalar today — the S0-S7 gates (D-087..D-095) are correctness gates; <code>threads</code> is recorded in the request manifest and tested for invariance (G5), but no task-parallel or SIMD execution exists in the tree (no <code>std::thread</code>/rayon/spawn, no <code>target_feature</code>, anywhere in <code>v8-core/src/</code>). The implementation order is declared: Backend-0 scalar deterministic Rust as the in-core reference — the frozen Python <code>src/v8/</code> remains the parity oracle (D-087); Backend-0 is a within-core reference, not a second truth — then Backend-1 CPU + task parallelism + SIMD, and GPU only past the trigger (<code>COMPUTE_SCHEDULING_SPEC</code> §6, D-084). If a portable GPU layer is ever adopted it is <strong>CubeCL over wgpu</strong>: CubeCL compiles one kernel IR to CUDA/HIP/Metal/Vulkan/CPU and matches the K1-K6 kernel structure and the "backend is an implementation detail, never kernel semantics" rule (D-084), while wgpu sits at the buffer/bind-group/pipeline/dispatch level — direct wgpu use means writing a mini compute framework and owning the CUDA/HIP/Metal/Vulkan differences ourselves. No CubeCL/wgpu dependency is added now: CubeCL is alpha with breaking changes between minor versions, and O-029's precondition — the portable layer's CPU output measured competitive against a hand-written CPU kernel — precedes any adoption. K4 (replay/cube, no cross-worker reduction) is the only GPU candidate; K1/K2 reduction-order sensitivity (D-084) keeps them CPU-only | PROVISIONAL_DECISION | The f64 contract closes the GPU path before the trigger opens it. K4 requires f64 throughout + FMA contraction off + fast-math off, and GPU fp64 is a wall on every portable route: Metal exposes no fp64 in shaders; Vulkan exposes <code>SHADER_F64</code> (native only) but fp64 runs 16-64x slower than f32 (wgpu feature docs); consumer CUDA/HIP (RTX 40/50, RX 7000) execute fp64 at 1/16-1/32 rate. On Apple, CubeCL's Metal/Vulkan paths run through wgpu, so the limitation applies either way. Consequences: (a) ~10^9 cells is a necessary but not sufficient condition — f64-on-GPU economics are doubtful on all consumer backends; (b) the only workload projected to reach the trigger, the Expert-variant sweep, was already brought below it by D-086's successive halving; (c) the backend-neutral interface boundary that keeps the ontology independent of the backend is cheap and worth having when Backend-1 lands, but the GPU backend itself is unlikely to ever be built. D-032 file-family rule: <code>backend/</code> and <code>scheduler.rs</code>, when added, are recorded here and in the CHANGELOG; no such module exists in the tree today |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -5767,7 +5834,7 @@ named baseline, not disproven forever. None means profitability.</p></section>
 </tbody>
 </table>
 <p>| O-028 | ~~Is the Expert-variant sweep dimension inside V8.2's scope?~~ <strong>RESOLVED 2026-08-11 by D-086:</strong> sweeps are admitted, under <code>SWEEP_PROTOCOL</code>. The premise of the question — that a sweep multiplies cells by its full cardinality — does not hold once compute is allocated by successive halving: the cost falls one to two orders of magnitude, landing back below the ~10^9-cell GPU trigger. Consequently sweeps do <strong>not</strong> force Experts native from stage S1 and do <strong>not</strong> reopen the GPU question | — | — |
-| O-029 | Which GPU backend, if the D-084 trigger ever fires — vendor-specific (HIP / Metal) or a backend-portable kernel layer? | Before adopting any portable layer, measure its <strong>CPU</strong> output against a directly-written CPU kernel on K4; the portable form is only free if its CPU path is competitive | Adopt a portable layer only if its CPU backend is within a declared margin of hand-written Rust; otherwise write CPU kernels directly and defer GPU entirely. Either way the choice must not become visible in a manifest or a hash (D-084) |
+| O-029 | Which GPU backend, if the D-084 trigger ever fires — vendor-specific (HIP / Metal) or a backend-portable kernel layer? | Before adopting any portable layer, measure its <strong>CPU</strong> output against a directly-written CPU kernel on K4; the portable form is only free if its CPU path is competitive | Adopt a portable layer only if its CPU backend is within a declared margin of hand-written Rust; otherwise write CPU kernels directly and defer GPU entirely. Either way the choice must not become visible in a manifest or a hash (D-084). <strong>Annotated by D-096 (2026-08-14):</strong> CubeCL is the named candidate if the portable path is ever adopted, and the f64 contract makes the path economically doubtful on every consumer backend (Metal: no fp64 in shaders; Vulkan <code>SHADER_F64</code> native-only at 16-64x slower than f32; consumer CUDA/HIP fp64 at 1/16-1/32 rate) — the question may resolve as "never" without ever reaching the CPU-competitiveness measurement |
 | O-030 | When does the Expert <code>evaluate()</code> layer port to the compute plane (stage S4)? The measured churn argues for late: <code>src/v8/experts/</code> was touched by 51 of the last 200 commits — ~2.5x the next-most-churned module (<code>lab.py</code>, 20) — and <code>docs/</code> by 146, so the specification itself is still moving | Re-measure directory churn at each stage gate; port when the expert and docs churn rates fall to the level of the already-frozen modules (<code>simulator.py</code> 10, <code>statistics.py</code> 2, <code>tools/regret.py</code> 1) | Port S4 early only if O-028 resolves "sweep in scope". Otherwise porting a moving specification makes the parity oracle fail for legitimate reasons and destroys the ability to distinguish a port defect from a specification change |
 | O-031 | Should <code>docs/tr/</code> reach parity with the EN corpus? It is currently a subset — <code>ARCHITECTURE_SPEC</code>, <code>IMPLEMENTATION_LAYOUT</code>, <code>CHANGELOG</code>, <code>ROADMAP</code>, <code>AGENT_RUNBOOK</code> and the V8.2 contracts have no TR counterpart | Count reader demand for <code>site/tr.html</code> sections that do not exist, rather than translating speculatively | Translate a document only when a reader needs it; a stale translation is worse than an absent one, because the monograph presents both as current |</p>
 <p>| O-032 | Which <strong>e-process construction</strong> is valid for V8's block-dependent episode streams? D-086 admits sweeps but blocks on this: the existing machinery (<code>select_block_size</code>, <code>effective_independent_episodes</code>, <code>bootstrap_ci</code>) estimates dependence with fixed-sample devices, and an anytime-valid analogue is required for the e-BH guarantee to mean anything here | Construct a betting-style test martingale on block-aggregated episodes, then calibrate it on a detrended / label-shuffled tape where no variant has an edge and check the realized FDR against the declared level over repeated campaigns (<code>SWEEP_PROTOCOL</code> §7.1) | Admit a construction only if it holds its declared level under the null calibration AND retains usable power against a planted effect. Until then <strong>no sweep campaign may run</strong> — D-086 is admitted but blocked, not live |</p>
@@ -7884,6 +7951,123 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-14-kernel-backend-strategy-scalar-cpusimd-first-gpu-behind-the-trigger-cubecl-over-wgpu-d-096">2026-08-14 — Kernel backend strategy: scalar + CPU/SIMD first, GPU behind the trigger, CubeCL over wgpu (D-096)</h2>
+<p>The V8.2 compute plane's backend strategy is declared (D-096). <code>v8-core</code> is
+single-path scalar today — the S0-S7 gates (D-087..D-095) are correctness
+gates; <code>threads</code> is recorded in the request manifest and tested for
+invariance (G5), but no task-parallel or SIMD execution exists in the tree.
+The order is fixed: Backend-0 scalar deterministic Rust as the in-core
+reference (the frozen Python <code>src/v8/</code> stays the parity oracle, D-087), then
+Backend-1 CPU + task parallelism + SIMD, GPU only past the ~10^9-cell trigger
+(<code>COMPUTE_SCHEDULING_SPEC</code> §6, D-084). If a portable GPU layer is ever
+adopted it is CubeCL over wgpu: CubeCL compiles one kernel IR to
+CUDA/HIP/Metal/Vulkan/CPU and matches the K1-K6 kernel structure, while wgpu
+sits at the buffer/pipeline/dispatch level and direct use would mean writing
+a mini compute framework. The f64 contract is the decisive constraint and
+closes the GPU path before the trigger opens it — Metal has no fp64 in
+shaders; Vulkan's <code>SHADER_F64</code> (native only) runs fp64 16-64x slower than
+f32; consumer CUDA/HIP (RTX 40/50, RX 7000) run fp64 at 1/16-1/32 rate. On
+Apple, CubeCL's Metal/Vulkan paths run through wgpu, so the limitation
+applies either way. No CubeCL/wgpu dependency is added now (CubeCL is alpha,
+breaking changes between minor versions; O-029's CPU-competitiveness
+measurement precedes adoption).</p>
+<p>Artifacts changed: <code>docs/decisions/DECISION_REGISTER.md</code> (D-096),
+<code>docs/contracts/COMPUTE_SCHEDULING_SPEC.md</code> (§6 f64 note),
+<code>docs/decisions/OPEN_DECISIONS.md</code> (O-029 annotation), <code>site/index.html</code>
+(rebuilt).</p>
+<h2 id="2026-08-12-v82-compute-core-s6-gate-closed-analysis-composition-bit-identical-d-094">2026-08-12 — V8.2 compute core S6 gate CLOSED: Analysis composition bit-identical (D-094)</h2>
+<p><code>analysis/{mod,outcome,phase1,phase2,phase3,reconcile}.rs</code> implement the
+<code>analysis</code> subcommand — regret phases 1-3 composed end to end from the
+compute plane's own ledgers. The gate closed in three commits over the day:
+Wave 1/2 (<code>17e506a</code>, <code>5accfc6</code>) landed the leaf modules and wired the
+composition, running but not bit-identical (939 divergences against the
+oracle — <code>reports/parity/S6.md</code> as first written, status PARTIAL). <code>647c0b0</code>
+fixed the dominant cause: candidate-draft binding by re-derived
+<code>candidate_id</code> hash matched nothing on lab-produced stores (V8.2 identities
+are the D-079 canonical encoding, deliberately different from the oracle's
+<code>sha1_hex(json)</code>); binding by the D-026 identity tuple instead took
+reconciliation from 0/62 to 56/62. <code>3e13697</code> closed the rest: clock-bound
+draft binding (the DETECTED transition's own <code>knowledge_time</code> disambiguates
+the 45 anchor-tuples with multiple candidates) closed the last 6
+reconciliation mismatches, and exposing <code>cost_r</code>/<code>funding_r</code> on the compute
+<code>Outcome</code> (the kernel already computed them into <code>net_r</code>, just didn't surface
+them) closed 124 Phase-1 divergences. Gate now PASSES: reconciliation 62/62,
+all three phase outputs bit-identical to <code>tools/regret_phase1/2/3.py</code> on the
+all-28-expert 200-bar fixture. Issue #117 CLOSED. No economic claim, no speed
+claim (rule 12; D-092..D-095 evidence discipline).</p>
+<p>Artifacts changed: <code>v8-core/src/analysis/{mod,outcome,phase1,phase2,phase3,
+reconcile}.rs</code>, <code>tests/parity/test_parity_s6.py</code>,
+<code>reports/parity/S6.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code> (D-094).</p>
+<h2 id="2026-08-12-v82-compute-core-s4-gate-pass-candidate-population-parity-d-092">2026-08-12 — V8.2 compute core S4 gate PASS: candidate-population parity (D-092)</h2>
+<p>All 28 registered Experts ported to <code>v8-core/src/experts/*.rs</code> (issues</p>
+<h1 id="77-100-closing-the-s2-pilot-only-state-428-two-modules-complete-the">77-100), closing the S2 pilot-only state (4/28). Two modules complete the</h1>
+<p>plane beyond <code>COMPUTE_CORE_SPEC</code> §6's original table: <code>features.rs</code> (D-053
+feature-group projection — an Expert's <code>FeatMap</code> carries only its declared
+<code>requires</code>-closure) and <code>runloop.rs</code> (the <code>evaluate</code> subcommand — the S4
+composition point: per bar x per symbol x the full dispatch table, projected
+FeatMap in, CANDIDATE draft out, D-026 dedup, into the CandidateBuffer).
+Issue #101 fixed (four ported pilots hardcoded <code>"SOLUSDT"</code> instead of reading
+the request's symbol). The Wave-2 exit-kind coverage card (#103) caught and
+fixed two latent S2 predicate-IR bugs in the donchian <code>responsive</code>/
+<code>significant_extreme</code> exit kinds, unexercised by the S2 E1 grid because
+they're module-local: an EXCLUSIVE <code>window_agg</code> off-by-one (48/202 grid
+mismatches) and an EXCLUSIVE fail-open threshold bug (24/202). Gate: 5/5 S4
+population-parity tests PASS — 3,360 (120 bars x 28 experts) evaluations
+bit-identical, 209 DETECTED episodes and 211 suppressed-duplicates identical
+on both sides. <strong>Known, accepted divergence</strong> (not this gate's target):
+admission timing — the loop admits at DETECTION (no exposure-slot release
+yet), the lab admits at TRIGGER; the DETECTED population and suppression set
+— this gate's actual subject — match exactly. No speed claim.</p>
+<p>Artifacts changed: <code>v8-core/src/experts/*.rs</code> (28 files), <code>v8-core/src/
+features.rs</code>, <code>v8-core/src/runloop.rs</code>, <code>tests/parity/
+test_parity_s4_population.py</code>, <code>reports/parity/S4.md</code>, <code>docs/decisions/
+DECISION_REGISTER.md</code> (D-092), <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>
+(§1.1/§4).</p>
+<h2 id="2026-08-12-v82-compute-core-s7-gate-pass-verdict-statistics-reportaudit-d-095">2026-08-12 — V8.2 compute core S7 gate PASS: verdict statistics + report/audit (D-095)</h2>
+<p><code>statistics/{mod,reality_check,detrended,remaining}.rs</code> implement the
+<code>verdict</code> subcommand (issue #128): block-bootstrap Reality-Check, the
+Appendix A detrended-null placebo invariant (#124), and the METH-2..6 surface
+(#129 — permutation RC, bootstrap CI, effective independent episodes, regime
+slices, streak-vs-null, practical significance, expected false positives,
+effective search size). A new module, <code>mt19937.rs</code> (#127), reproduces
+CPython 3.14's Mersenne Twister bit-exactly (<code>init_by_array</code> seeding,
+<code>genrand_res53</code> draws — not <code>getrandbits(53)/2**53</code>, empirically different
+bits — and <code>random.py</code>-matching <code>randrange</code>/<code>getrandbits</code>/<code>sample</code>), because
+the frozen oracle draws every bootstrap/permutation resample from
+<code>random.Random(seed)</code> and bit-exact verdict parity needs bit-exact draws.
+<code>report.rs</code> (#126) gains <code>verdict_path</code> (folds the verdict JSON into the
+report summary; the report's own claim stays <code>NO_ECONOMIC_CLAIM</code>, rule 12)
+and <code>audit_report</code> (audits an existing artifact — the path by which the
+freshness check flags a stale one, #123). Gate: 3/3 S7 parity tests PASS —
+every verdict JSON field bit-identical to <code>statistics.py</code> on a fixed episode
+series + seed (WRC <code>p_value=0.0145</code>, block size 4 auto-selected on both
+sides), report round-trip, stale-artifact audit correctly fails closed on a
+tape swap. No economic claim, no speed claim.</p>
+<p>Artifacts changed: <code>v8-core/src/statistics/{mod,reality_check,detrended,
+remaining}.rs</code>, <code>v8-core/src/mt19937.rs</code>, <code>v8-core/src/report.rs</code>, <code>tests/
+parity/test_parity_s7.py</code>, <code>reports/parity/S7.md</code>, <code>docs/decisions/
+DECISION_REGISTER.md</code> (D-095), <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>
+(§1.1/§4).</p>
+<h2 id="2026-08-12-v82-compute-core-s5-gate-pass-evidencestore-tiers-dag-cache-d-093">2026-08-12 — V8.2 compute core S5 gate PASS: EvidenceStore tiers + DAG cache (D-093)</h2>
+<p><code>evidence.rs</code> (issues #108/#109) gains <code>ArtifactTier</code>
+(<code>IDENTITY_ONLY &lt; VALUES &lt; FULL</code>) with a tier-honesty rule — a field above
+its artifact's tier is rejected as an explicit <code>TierViolation</code>, never a
+silently downgraded or empty column — <code>RunConstants</code> (the §3 key set bound
+into every header), and the <code>LEDGER_FORMAT_SPEC</code> §8 six-test battery
+(<code>v8-core ledger-check</code>). <code>cache.rs</code> (issue #107) adds the missing cube-level
+DAG node (<code>sha1(candidate_id|action_id|simulator_hash|data_hash) -&gt; outcome</code>,
+in-memory map plus an append-only <code>cache.jsonl</code>, log-then-map insert order
+so a failed write leaves the map untouched). <code>v8-core cache-check</code> proves a
+miss and a hit write byte-identical artifacts with identical fingerprints.
+Gate: 15 evidence.rs + 4 cache.rs unit tests, <code>ledger-check</code> 6/6
+LEDGER_FORMAT_SPEC §8 tests PASS, <code>cache-check</code> PASS, 3/3 S5 parity tests
+PASS. <strong>Known limitation, still open:</strong> the cache is not wired into
+<code>runloop.rs</code>'s cube reduction — <code>write_cube_reduced</code> calls <code>regret.rs</code>
+directly and never consults <code>CacheStore</code>; wiring remains a follow-up. No
+speed claim.</p>
+<p>Artifacts changed: <code>v8-core/src/evidence.rs</code>, <code>v8-core/src/cache.rs</code>, <code>tests/
+parity/test_parity_s5.py</code>, <code>reports/parity/S5.md</code>, <code>docs/decisions/
+DECISION_REGISTER.md</code> (D-093).</p>
 <h2 id="2026-08-12-v82-plane-split-revised-analysisverdictaudit-planes-join-the-rust-plane-d-091">2026-08-12 — V8.2 plane split revised: analysis/verdict/audit planes join the Rust plane (D-091)</h2>
 <p>D-091 registers the scope change: the runtime becomes one Rust plane end to
 end — compute plus regret analysis phases 1-3 (opportunity accounting,

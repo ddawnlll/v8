@@ -106,12 +106,15 @@ Planned, not yet present: further Expert modules land under
 family is registered DATA_BLOCKED until derivatives tape — no code module
 until then).
 
-## 1.1 V8.2 compute core (planned, not yet present)
+## 1.1 V8.2 compute core (present — S0..S7 gates passed, D-087..D-095)
 
 The Rust workspace is a **second implementation**, not a replacement of §1:
 `src/v8/` is frozen as the parity oracle for the duration of the migration
 (`PARITY_AND_IDENTITY_SPEC` §2). One workspace, one binary, modules rather than
-micro-crates; splitting is deferred until a boundary is proven stable.
+micro-crates; splitting is deferred until a boundary is proven stable. The
+tree below is the **as-built** layout (21,697 lines, 54 files); §4 tracks
+where it diverges from `COMPUTE_CORE_SPEC` §6's originally designed module
+table.
 
 ```text
 v8-core/
@@ -119,21 +122,46 @@ v8-core/
     main.rs         CLI entry; one evaluation request per invocation
     data.rs         Dataset: columnar OHLCV + event/available/ingested clocks
     state.rs        FeatureStore, StateView, feature identity
+    features.rs     D-053 feature-group projection (Expert FeatMap closure) —
+                     not in the original §6 table (§4)
     experts/
       mod.rs        registry
+      base.rs       shared Expert contract (mirrors experts/base.py)
       predicate.rs  compiled still_valid IR (PREDICATE_IR_SPEC)
+      <28 files>    one behaviour family per module (mirrors D-033),
+                     all 28 registered Experts ported (D-092)
     candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
+    runloop.rs      S4 per-bar composition: ExpertPlane -> candidates -> the
+                     `evaluate` subcommand — not in the original §6 table (§4)
     simulator.rs    ReplayKernel (step/run), risk unit, fill policies
     regret.rs       LegalActionManifest, CubeReducer, gap accumulators
-    statistics.rs   reductions + verdict statistics (block-bootstrap
-                    Reality-Check, detrended null, placebo family; D-044)
-    analysis.rs     regret phases 1-3: systematicity, recoverability
+    statistics/     verdict statistics — DIRECTORY, not the single
+                     `statistics.rs` §6 named (§4)
+      mod.rs        the `verdict` subcommand
+      reality_check.rs  block-bootstrap Reality-Check (D-044)
+      detrended.rs      detrended null, placebo family, Appendix A invariant
+      remaining.rs      METH-2..6 surface (D-095)
+    analysis/       regret phases 1-3 — DIRECTORY, not the single
+                     `analysis.rs` §6 named (§4)
+      mod.rs        the `analysis` subcommand
+      outcome.rs    per-candidate outcome accounting
+      phase1.rs     candidate-local opportunity join
+      phase2.rs     72-slice discovery/confirmation family
+      phase3.rs     recoverability
+      reconcile.rs  CandidateSnapshot join + PIT lineage (D-094)
     report.rs       verdict report artifacts, ledger audit checks (hash-bound)
     cache.rs        content-addressed DAG cache
     evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
-    compute/        kernels K1..K6 + backend selection
-  tests/
-    parity.rs       value-level parity against the V8.0 oracle
+    hash.rs         V8.2 canonical bit encoding (D-079)
+    jsonx.rs        Python-json-compatible tape parser (NaN/Infinity literals)
+    mt19937.rs      bit-exact CPython Mersenne Twister — not in the original
+                     §6 table (§4)
+    compute/        kernels K1..K6 + backend selection; empty — the ~10^9-cell
+                     GPU trigger (COMPUTE_SCHEDULING_SPEC §6) has not fired
+  tests/            empty — parity is proven by #[cfg(test)] unit tests
+                     embedded in each src/*.rs module plus the Python-side
+                     harness at repo-root tests/parity/*.py, not a Rust
+                     tests/parity.rs integration file as §6 originally named
 ```
 
 The same file-family rule applies (D-032): a new module, rename, or interface
@@ -142,7 +170,7 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 `COMPUTE_SCHEDULING_SPEC` (kernels and backends),
 `LEDGER_FORMAT_SPEC` (evidence.rs), `OUTCOME_CUBE_SPEC` (regret.rs),
 `PREDICATE_IR_SPEC` (experts/predicate.rs) and
-`PARITY_AND_IDENTITY_SPEC` (tests/parity.rs).
+`PARITY_AND_IDENTITY_SPEC` (tests/parity/*.py).
 
 ## 2. File-by-file contract
 
@@ -194,9 +222,16 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `episode_key` clock-anchored form (D-026) | `lifecycle.py` | **CLOSED** — `4f34abe` (build Step 1): anchor = first bar of the setup run via the `history` group; key drops the birth timestamp; `is_duplicate` = anchor-key equality |
 | Funding settlement absent (SIMULATION_TRUTH_SPEC §5/§7) | `simulator.py` | **CLOSED** — `760e6cc` (build Step 2): `funding_rate_r`/`funding_hours` manifest fields, `SETTLEMENT_BEFORE_ORDERS`, boundary goldens, `canonical-sim-v4` |
 | D-024 mechanical tradability mask spec-only | `risk.py` + `lab.py` | **CLOSED** — `778ceb1` (build Step 3): declared constants, `TRADABILITY_MASK_VETO`, `NOT_EXECUTED` counterfactual |
+| `statistics.rs`/`analysis.rs` designed as single files (`COMPUTE_CORE_SPEC` §6) | `v8-core/src/statistics/` (4 files, 2,373 lines), `v8-core/src/analysis/` (6 files, 5,030 lines) | **DOCUMENTED, not reversed** — `17e506a`/`5accfc6` (S4-S7 Waves): each surface grew past a comfortable single file during the S6/S7 port (D-091's bounded-surface estimate — `regret_phase1/2/3.py` ≈27 KB, `statistics.py` 767 lines — held for total scope but not for single-file ergonomics); split by pipeline stage (`phase1`/`phase2`/`phase3`/`reconcile`/`outcome` under `analysis/`, `reality_check`/`detrended`/`remaining` under `statistics/`) rather than left as one growing file. Functionally equivalent to the spec's module list; `COMPUTE_CORE_SPEC` §6 itself is left as the original design record, not rewritten |
+| `features.rs`, `runloop.rs`, `mt19937.rs` absent from `COMPUTE_CORE_SPEC` §6's module table | `v8-core/src/features.rs`, `runloop.rs`, `mt19937.rs` | **DOCUMENTED, not reversed** — `17e506a` (`features.rs`, `mt19937.rs`) / `5accfc6` (`runloop.rs`): the S4-S7 design pass discovered three roles the original 12-module table did not name — the D-053 per-Expert feature-group projection (distinct from `FeatureStore`/`StateView`'s whole-tape feature computation), the S4 per-bar composition loop binding `ExpertPlane` output into `CandidateBuffer` (the `evaluate` subcommand's own logic, not reducible to either), and bit-exact CPython RNG reproduction required for S7 verdict-statistics parity. None replaces a named module; each is additive (D-092/D-095) |
+| `tests/parity.rs` designed as a Rust integration-test file (`COMPUTE_CORE_SPEC` §6) | `v8-core/tests/` is empty; parity is proven by `#[cfg(test)]` unit tests inside each `src/*.rs` module plus the Python-side harness `tests/parity/*.py` at the repo root | **DOCUMENTED, not reversed** — `17e506a` onward: every stage gate (S0..S7) is driven from the Python side because the oracle (`src/v8/`) it compares against is Python; a Rust-only `tests/parity.rs` would need to re-embed or shell out to the oracle for no benefit over the existing harness. `PARITY_AND_IDENTITY_SPEC` §5.2 already specifies the Python-driven harness; §6's `tests/parity.rs` line predates that specification |
 
 Divergences are closed by code change; closure is recorded here with the
 closing commit and in the CHANGELOG — never by editing this table alone.
+Divergences that are accepted architecture rather than defects awaiting a fix
+are marked **DOCUMENTED, not reversed** instead of CLOSED — the code is not
+expected to change to match the spec; the spec's original text is left as the
+historical design record and this table is the correction layer.
 
 ## 5. Cheap executable tests
 
