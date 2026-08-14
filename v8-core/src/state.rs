@@ -1189,16 +1189,15 @@ pub fn state_features(
     }
     for n in WINDOW_NS {
         if t >= n + 1 {
-            let mut hmax = f64::NEG_INFINITY;
-            let mut lmin = f64::INFINITY;
-            for j in (t - n - 1)..(t - 1) {
-                if highs[j] > hmax {
-                    hmax = highs[j];
-                }
-                if lows[j] < lmin {
-                    lmin = lows[j];
-                }
-            }
+            // K1 fixed-window extremes via value-safe SIMD (D-088, #133): the
+            // lane-wise max/min fold is bit-identical to the scalar scan on
+            // the OHLC price domain (see `simd::window_max`/`window_min`), so
+            // this optimization changes no value. The reduction ORDER is the
+            // declared left-to-right one (COMPUTE_SCHEDULING_SPEC §5) — the
+            // fold preserves it up to the exact maxNum tie rule, which cannot
+            // differ on positive prices.
+            let hmax = crate::simd::window_max(highs, t - n - 1, t - 1);
+            let lmin = crate::simd::window_min(lows, t - n - 1, t - 1);
             add(&mut out, &format!("window_high_{n}"), Some(hmax), None, "float", v1, (t - n - 1, t - 1), None, store, "COMPLETE", None);
             add(&mut out, &format!("window_low_{n}"), Some(lmin), None, "float", v1, (t - n - 1, t - 1), None, store, "COMPLETE", None);
             add(&mut out, &format!("range_height_{n}"), Some(hmax - lmin), None, "float", v1, (t - n - 1, t - 1), None, store, "COMPLETE", None);
@@ -1725,6 +1724,64 @@ mod tests {
             .expect("underivable interval must fail");
         assert!(err.contains("not derivable"), "got: {err}");
     }
+
+    /// K1 fixed-window extremes are wired through value-safe SIMD (#133): the
+    /// `window_high_n` / `window_low_n` / `range_height_n` features from
+    /// `state_features` must be bit-identical to a hand-rolled scalar scan
+    /// over the same window — an optimization may not change a value (D-088).
+    /// This is the regression that a reassociating or f32-demoting SIMD
+    /// window reduction would trip.
+    #[test]
+    fn simd_window_features_bit_identical_to_scalar_scan() {
+        let rows = hourly_tape(60);
+        let ds = Dataset::from_rows(rows).unwrap();
+        let store = &build_stores(&ds)[0];
+        for t in 1..=60 {
+            for n in WINDOW_NS {
+                if t < n + 1 {
+                    continue;
+                }
+                let mut hmax = f64::NEG_INFINITY;
+                let mut lmin = f64::INFINITY;
+                for j in (t - n - 1)..(t - 1) {
+                    if store.highs[j] > hmax {
+                        hmax = store.highs[j];
+                    }
+                    if store.lows[j] < lmin {
+                        lmin = store.lows[j];
+                    }
+                }
+                let feats = state_features(store, t, store.avail[t - 1], 0);
+                let hv = feats
+                    .iter()
+                    .find(|f| f.name == format!("window_high_{n}"))
+                    .expect("window_high must be present");
+                assert_eq!(
+                    hv.value.as_f64().unwrap().to_bits(),
+                    hmax.to_bits(),
+                    "window_high_{n} at t={t}"
+                );
+                let lv = feats
+                    .iter()
+                    .find(|f| f.name == format!("window_low_{n}"))
+                    .expect("window_low must be present");
+                assert_eq!(
+                    lv.value.as_f64().unwrap().to_bits(),
+                    lmin.to_bits(),
+                    "window_low_{n} at t={t}"
+                );
+                let rh = feats
+                    .iter()
+                    .find(|f| f.name == format!("range_height_{n}"))
+                    .expect("range_height must be present");
+                assert_eq!(
+                    rh.value.as_f64().unwrap().to_bits(),
+                    (hmax - lmin).to_bits(),
+                    "range_height_{n} at t={t}"
+                );
+            }
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -1769,8 +1826,11 @@ pub fn live_window_feature(store: &FeatureStore, t: usize, name: &str, n: usize)
     let lo = t - n - 1;
     let hi = t - 1; // excludes the newest bar
     match name {
-        "window_high" => Some(store.highs[lo..hi].iter().cloned().fold(f64::NEG_INFINITY, f64::max)),
-        "window_low" => Some(store.lows[lo..hi].iter().cloned().fold(f64::INFINITY, f64::min)),
+        // K1 fixed-window extremes via value-safe SIMD (D-088, #133): on the
+        // positive-price domain the lane fold is bit-identical to the
+        // `fold(NEG_INFINITY, f64::max)` reference.
+        "window_high" => Some(crate::simd::window_max(&store.highs, lo, hi)),
+        "window_low" => Some(crate::simd::window_min(&store.lows, lo, hi)),
         _ => None,
     }
 }

@@ -735,7 +735,12 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
     let results = scheduler::parallel_map(threads, batch.len(), &|i| {
         let (ci, _ai) = dests[i];
         let cell = &batch[i];
-        kernels[ci].run(&cell.draft, cell.start, cell.end, cell.thesis.as_ref())
+        // S2 ReplayKernel via the SIMD path (Backend-1, #133): value-safe
+        // `f64x2` lane math for barrier comparisons/extremes, bit-identical to
+        // the scalar reference; drafts outside the SIMD value-safety guard
+        // (trail/breakeven/scale-out/limit-fill) fall back to the exact
+        // scalar kernel. An optimization may not change a value (D-088).
+        kernels[ci].run_simd(&cell.draft, cell.start, cell.end, cell.thesis.as_ref())
     })?;
 
     // Phase 3 — classify every batch outcome into its planned cell slot, with

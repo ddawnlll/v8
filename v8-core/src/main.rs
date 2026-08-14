@@ -34,6 +34,7 @@ mod regret;
 mod report;
 mod runloop;
 mod scheduler;
+mod simd;
 mod simulator;
 mod state;
 mod statistics;
@@ -660,11 +661,13 @@ fn replay(req: &ReplayRequest) -> Result<Value, String> {
     funding_schedule.sort_by_key(|(t, _)| *t);
 
     // The backend-agnostic kernel boundary (D-096): the replay path speaks
-    // only in cells, never in a backend. Backend-1 is the task-parallel CPU
-    // backend (scheduler.rs): `threads` is a scheduling detail that appears in
-    // no hash (D-084) and threads=1 vs N must produce byte-identical results
-    // (G5).
-    let backend = backend::cpu::CpuBackend::new(
+    // only in cells, never in a backend. Backend-1 is the task-parallel SIMD
+    // CPU backend (scheduler.rs + backend/simd.rs): `threads` is a scheduling
+    // detail that appears in no hash (D-084) and threads=1 vs N must produce
+    // byte-identical results (G5). The SIMD exit walk is bit-identical to the
+    // scalar reference (D-088 value-safety guard; #133) — an optimization may
+    // not change a value.
+    let backend = backend::cpu::SimdCpuBackend::new(
         req.threads,
         sim.round_trip_cost_r,
         sim.funding_rate_r,

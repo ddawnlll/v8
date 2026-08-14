@@ -395,6 +395,41 @@ impl<'a> ScalarKernel<'a> {
         end: usize,
         thesis: Option<&Value>,
     ) -> Result<Outcome, String> {
+        self.run_impl(draft, start, end, thesis, false)
+    }
+
+    /// Replay with value-safe SIMD (Backend-1, #133): the exit-walk price math
+    /// (barrier comparisons, mfe/mae candidates, gap-through exit prices,
+    /// close moves) is computed lane-wise with `f64x2` NEON/SSE2 over pairs of
+    /// bars, then the sequential walk consumes the precomputed per-bar values
+    /// in the DECLARED order (COMPUTE_SCHEDULING_SPEC §5) — the SIMD changes
+    /// no value (D-088). SIMD is only engaged where it is value-safe: drafts
+    /// whose stop level can move (trail / breakeven / scale-out) or whose
+    /// entry is fill-at-limit delegate to the exact scalar [`ScalarKernel::run`].
+    pub fn run_simd(
+        &self,
+        draft: &Draft,
+        start: usize,
+        end: usize,
+        thesis: Option<&Value>,
+    ) -> Result<Outcome, String> {
+        if !simd_value_safe(draft, self.fill_policy) {
+            return self.run(draft, start, end, thesis);
+        }
+        self.run_impl(draft, start, end, thesis, true)
+    }
+
+    /// The shared entry resolution for both backends — identical for
+    /// `use_simd` false and true; only the post-entry exit walk differs
+    /// (`exit_loop` vs `exit_loop_simd`).
+    fn run_impl(
+        &self,
+        draft: &Draft,
+        start: usize,
+        end: usize,
+        thesis: Option<&Value>,
+        use_simd: bool,
+    ) -> Result<Outcome, String> {
         validate_geometry(draft)?;
         if start >= end {
             return Ok(Outcome {
@@ -433,7 +468,8 @@ impl<'a> ScalarKernel<'a> {
                         TriggerWait::Confirmed(entry_idx, price) => {
                             let entry_time = self.bars.available_times[entry_idx];
                             let horizon = wait_end.min(entry_idx + 1 + expiry + 1);
-                            return self.exit_loop(
+                            return self.exit(
+                                use_simd,
                                 draft,
                                 entry_idx,
                                 entry_idx + 1,
@@ -469,7 +505,7 @@ impl<'a> ScalarKernel<'a> {
                 match fill {
                     Some((i, p)) => {
                         let entry_time = self.bars.available_times[i];
-                        return self.exit_loop(draft, i, i + 1, end, thesis, p, entry_time);
+                        return self.exit(use_simd, draft, i, i + 1, end, thesis, p, entry_time);
                     }
                     None => {
                         return Ok(Outcome {
@@ -493,7 +529,28 @@ impl<'a> ScalarKernel<'a> {
         };
         let _unit = risk_unit(draft, entry)?;
         let entry_time = self.bars.available_times[start];
-        self.exit_loop(draft, start, start + 1, end, thesis, entry, entry_time)
+        self.exit(use_simd, draft, start, start + 1, end, thesis, entry, entry_time)
+    }
+
+    /// Route the post-entry exit walk to the scalar or the SIMD variant.
+    #[inline(always)]
+    #[allow(clippy::too_many_arguments)]
+    fn exit(
+        &self,
+        use_simd: bool,
+        draft: &Draft,
+        entry_idx: usize,
+        from: usize,
+        end: usize,
+        thesis: Option<&Value>,
+        entry: f64,
+        entry_time: i64,
+    ) -> Result<Outcome, String> {
+        if use_simd {
+            self.exit_loop_simd(draft, entry_idx, from, end, thesis, entry, entry_time)
+        } else {
+            self.exit_loop(draft, entry_idx, from, end, thesis, entry, entry_time)
+        }
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -573,6 +630,252 @@ impl<'a> ScalarKernel<'a> {
             funding_r: pos.funding_paid_r,
         })
     }
+
+    /// The SIMD exit walk (Backend-1, #133). Per-bar values that are pure
+    /// functions of the bar — target/stop hits, mfe/mae candidates, gap exit
+    /// prices, close moves — are computed `f64x2` lane-wise over pairs of
+    /// bars (genuine NEON/SSE2 codegen, see `simd::F64x2`), then the
+    /// sequential walk below consumes them in the DECLARED order
+    /// (COMPUTE_SCHEDULING_SPEC §5), exactly like [`ScalarKernel::exit_loop`].
+    ///
+    /// Only reachable through the `simd_value_safe` guard: no trail, breakeven
+    /// or scale-out, so the stop level is fixed for the whole window and every
+    /// precomputed value is exactly what the scalar `step` would compute for
+    /// that bar. Per-lane `f64` arithmetic is correctly rounded per lane and
+    /// `fp-contract=off` prevents lane-op fusion; per-bar `max(0.0)` clamping
+    /// and the `pos.mfe_r.max(..)` accumulation are order-independent exact
+    /// ops, so the walk is bit-identical to the scalar reference.
+    #[allow(clippy::too_many_arguments)]
+    fn exit_loop_simd(
+        &self,
+        draft: &Draft,
+        _entry_idx: usize,
+        from: usize,
+        end: usize,
+        thesis: Option<&Value>,
+        entry: f64,
+        entry_time: i64,
+    ) -> Result<Outcome, String> {
+        use crate::simd::F64x2;
+        let unit = risk_unit(draft, entry)?;
+        let long = draft.direction == "LONG";
+        let sign = if long { 1.0 } else { -1.0 };
+        let target_r = draft.geom_f64("target_r").unwrap_or(0.0);
+        let stop_r = draft.geom_f64("stop_r").unwrap_or(0.0);
+        let expiry = draft.geom_i64("expiry_bars").unwrap_or(0);
+        let target = entry + sign * target_r * unit;
+        let base_stop = match draft.geom_f64("stop_ref") {
+            Some(sr) => sr,
+            None => entry - sign * stop_r * unit,
+        };
+        // Guarded (simd_value_safe): stop_level stays None, so `stop` is
+        // fixed — the per-bar hit flags are precomputable in lanes.
+        let stop = base_stop;
+
+        let len = end - from;
+        let mut hit_target = vec![false; len];
+        let mut hit_stop = vec![false; len];
+        let mut mfe_c = vec![0.0; len];
+        let mut mae_c = vec![0.0; len];
+        let mut exit_target = vec![0.0; len];
+        let mut exit_stop = vec![0.0; len];
+        let mut close_move = vec![0.0; len];
+
+        let t = F64x2::splat(target);
+        let s = F64x2::splat(stop);
+        let ev = F64x2::splat(entry);
+        let uv = F64x2::splat(unit);
+        let sv = F64x2::splat(sign);
+        let z = F64x2::splat(0.0);
+
+        let mut i = from;
+        let mut k = 0;
+        while k + 2 <= len {
+            let hi = F64x2::load_unaligned(&self.bars.highs, i);
+            let lo = F64x2::load_unaligned(&self.bars.lows, i);
+            let op = F64x2::load_unaligned(&self.bars.opens, i);
+            let cl = F64x2::load_unaligned(&self.bars.closes, i);
+            let (fav, adv) = if long { (hi, lo) } else { (lo, hi) };
+            let ht = if long { hi.ge(t) } else { lo.le(t) };
+            let hs = if long { lo.le(s) } else { hi.ge(s) };
+            let mfe = fav.sub(ev).mul(sv).div(uv).max(z);
+            let mae = ev.sub(adv).mul(sv).div(uv).max(z);
+            let tx = if long { t.max(op) } else { t.min(op) };
+            let sx = if long { s.min(op) } else { s.max(op) };
+            let cm = cl.sub(ev).div(uv);
+            let [ht0, ht1] = ht;
+            let [hs0, hs1] = hs;
+            let [mfe0, mfe1] = mfe.to_array();
+            let [mae0, mae1] = mae.to_array();
+            let [tx0, tx1] = tx.to_array();
+            let [sx0, sx1] = sx.to_array();
+            let [cm0, cm1] = cm.to_array();
+            hit_target[k] = ht0;
+            hit_target[k + 1] = ht1;
+            hit_stop[k] = hs0;
+            hit_stop[k + 1] = hs1;
+            mfe_c[k] = mfe0;
+            mfe_c[k + 1] = mfe1;
+            mae_c[k] = mae0;
+            mae_c[k + 1] = mae1;
+            exit_target[k] = tx0;
+            exit_target[k + 1] = tx1;
+            exit_stop[k] = sx0;
+            exit_stop[k + 1] = sx1;
+            close_move[k] = cm0;
+            close_move[k + 1] = cm1;
+            i += 2;
+            k += 2;
+        }
+        // Odd trailing bar: identical scalar ops (the last lane has no pair).
+        while k < len {
+            let (high, low) = (self.bars.highs[i], self.bars.lows[i]);
+            let open_ = self.bars.opens[i];
+            let close = self.bars.closes[i];
+            let (fav, adv) = if long { (high, low) } else { (low, high) };
+            hit_target[k] = if long { high >= target } else { low <= target };
+            hit_stop[k] = if long { low <= stop } else { high >= stop };
+            mfe_c[k] = (sign * (fav - entry) / unit).max(0.0);
+            mae_c[k] = (sign * (entry - adv) / unit).max(0.0);
+            exit_target[k] = if long { target.max(open_) } else { target.min(open_) };
+            exit_stop[k] = if long { stop.min(open_) } else { stop.max(open_) };
+            close_move[k] = (close - entry) / unit;
+            i += 1;
+            k += 1;
+        }
+
+        // --- Sequential walk over the precomputed values (declared order) ---
+        let mut pos = Pos::new(entry, Some(entry_time));
+        let mut horizon = 0i64;
+        let mut k = 0;
+        let mut i = from;
+        while i < end {
+            horizon += 1;
+            let tv = match thesis {
+                Some(ir) => {
+                    let bar_count = i + 1; // bar count at stepped bar i
+                    let ctx = FeatCtx {
+                        live: &|name| crate::state::live_feature(self.store, bar_count, name),
+                        live_window: &|name, n| {
+                            crate::state::live_window_feature(self.store, bar_count, name, n)
+                        },
+                        history: &|| Some(crate::state::history_window(self.store, bar_count, 32)),
+                    };
+                    predicate::evaluate(ir, &draft.risk_geometry, &draft.direction, &ctx)
+                }
+                None => true,
+            };
+            let bar_time = self.bars.available_times[i];
+            let (p, _new_settlements) = self.apply_funding(&pos, draft, bar_time, unit)?;
+            let mfe_r = p.mfe_r.max(mfe_c[k]);
+            let mae_r = p.mae_r.max(mae_c[k]);
+            let ambiguous = hit_target[k] && hit_stop[k];
+            let ambiguous_bars = p.ambiguous_bars + if ambiguous { 1 } else { 0 };
+            let bars_held = p.bars_held + 1;
+            let endpoint: Option<&str> = if hit_stop[k] {
+                Some("STOP")
+            } else if hit_target[k] {
+                Some("TARGET")
+            } else if !tv {
+                Some("THESIS_INVALIDATED")
+            } else if draft.has_geom("time_exit_bars")
+                && bars_held >= draft.geom_i64("time_exit_bars").unwrap_or(0)
+            {
+                Some("TIME_EXIT")
+            } else if bars_held >= expiry {
+                Some("EXPIRY")
+            } else {
+                None
+            };
+            if let Some(ep) = endpoint {
+                let exit_price = match ep {
+                    "EXPIRY" | "THESIS_INVALIDATED" | "TIME_EXIT" => self.bars.closes[i],
+                    "TARGET" => exit_target[k],
+                    _ => exit_stop[k],
+                };
+                let cost = self.cost_r(entry, unit)?;
+                let net_r = p.realized_r
+                    + p.remaining * (sign * (exit_price - entry) / unit)
+                    - cost
+                    - p.funding_paid_r;
+                let label = if matches!(ep, "TARGET" | "STOP" | "THESIS_INVALIDATED") {
+                    "MATURE"
+                } else {
+                    "RIGHT_CENSORED"
+                };
+                return Ok(Outcome {
+                    endpoint: ep.to_string(),
+                    net_r,
+                    label_status: label.into(),
+                    horizon_bars: horizon,
+                    label_available_time: bar_time,
+                    mae_r,
+                    mfe_r,
+                    ambiguous_bars,
+                    entry_price: entry,
+                    risk_unit_price: unit,
+                    market_move_r: close_move[k],
+                    cost_r: cost,
+                    funding_r: p.funding_paid_r,
+                });
+            }
+            pos = Pos {
+                bars_held,
+                mae_r,
+                mfe_r,
+                ambiguous_bars,
+                ..p
+            };
+            i += 1;
+            k += 1;
+        }
+        // Never closed within the window: expire at the last bar's close.
+        let last = end - 1;
+        let cost = self.cost_r(entry, unit)?;
+        let net = pos.realized_r + pos.remaining * (sign * (self.bars.closes[last] - entry) / unit)
+            - cost
+            - pos.funding_paid_r;
+        Ok(Outcome {
+            endpoint: "EXPIRY".into(),
+            net_r: net,
+            label_status: "RIGHT_CENSORED".into(),
+            horizon_bars: horizon,
+            label_available_time: self.bars.available_times[last],
+            mae_r: pos.mae_r,
+            mfe_r: pos.mfe_r,
+            ambiguous_bars: pos.ambiguous_bars,
+            entry_price: entry,
+            risk_unit_price: unit,
+            market_move_r: (self.bars.closes[last] - entry) / unit,
+            cost_r: cost,
+            funding_r: pos.funding_paid_r,
+        })
+    }
+}
+
+/// The D-088 value-safety guard: the SIMD replay path is only engaged when
+/// the walk has no data-dependent stop movement or position resizing, so
+/// every per-bar barrier and extreme is a pure function of the bar and can be
+/// precomputed in lanes. Trail / breakeven / scale-out move the stop level;
+/// fill-at-limit routes through the scalar fill scan. Anything outside the
+/// guard delegates to the exact scalar reference.
+fn simd_value_safe(draft: &Draft, fill_policy: FillPolicy) -> bool {
+    if fill_policy != FillPolicy::BarClose {
+        return false;
+    }
+    if draft.has_geom("breakeven_roll_at_mfe_r") {
+        return false;
+    }
+    if draft.has_geom("trail_stop_atr") {
+        return false;
+    }
+    if draft.has_geom("scale_out_ratio") {
+        return false;
+    }
+    if draft.has_geom("pyramid_add_rules") {
+        return false;
+    }
+    true
 }
 
 /// The entry-trigger contract (D-057): a draft declaring

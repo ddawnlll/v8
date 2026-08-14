@@ -12,11 +12,15 @@
 //! D-032 file-family registration (recorded in-tree per D-096; the
 //! DECISION_REGISTER/CHANGELOG entry is the docs-side of the same record):
 //! - `backend/mod.rs` — this boundary (the `ReplayKernel` trait + `ReplayCell`)
-//! - `backend/scalar.rs` — Backend-0 scalar reference
+//! - `backend/scalar.rs` — Backend-0 scalar reference (+ the SIMD exit walk
+//!   `run_simd`/`exit_loop_simd` and its D-088 guard, #133)
 //! - `backend/cpu.rs` — Backend-1 CPU skeleton (parallelism on a separate card)
+//! - `backend/simd.rs` — Backend-1 SIMD kernel (K1/K2 in `simd.rs` + `state`;
+//!   K4 here)
 
 pub mod cpu;
 pub mod scalar;
+pub mod simd;
 
 use serde_json::Value;
 
@@ -53,7 +57,7 @@ pub trait ReplayKernel {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::backend::cpu::CpuBackend;
+    use crate::backend::cpu::{CpuBackend, SimdCpuBackend};
     use crate::backend::scalar::{ScalarBackend, ScalarKernel};
     use crate::data::TapeRow;
     use crate::simulator::{FillPolicy, HOUR_NS};
@@ -296,5 +300,108 @@ mod tests {
         );
         assert_eq!(batch_out[0].cost_r.to_bits(), direct.cost_r.to_bits());
         assert_eq!(batch_out[0].funding_r.to_bits(), direct.funding_r.to_bits());
+    }
+
+    /// Backend invariance for the parallel SIMD backend (#133): the SIMD
+    /// kernel scheduled over 4 workers (multi-cell batch, so the parallel
+    /// decomposition is real) is bit-identical to the scalar reference — the
+    /// full Backend-1 combination (SIMD + task parallelism) changes no value.
+    #[test]
+    fn simd_cpu_backend_parallel_bit_identical_to_scalar() {
+        // Two symbols so the batch splits across workers.
+        let rows: Vec<Value> = (0..20)
+            .flat_map(|i| {
+                let c = if i < 8 { 100.0 } else { 130.0 };
+                [
+                    bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i),
+                    bar(c * 1.5, c * 1.5 + 0.5, c * 1.5 - 0.5, c * 1.5, "BTCUSDT", i),
+                ]
+            })
+            .collect();
+        let parsed: Vec<TapeRow> = rows
+            .iter()
+            .map(|v| TapeRow::from_parts(v, vec![]).unwrap())
+            .collect();
+        let ds = Dataset::from_rows(parsed).unwrap();
+        let stores = build_stores(&ds);
+        let mut cells: Vec<ReplayCell> = Vec::new();
+        for (idx, _b) in ds.bars.iter().enumerate() {
+            let symbol = &ds.bars[idx].symbol;
+            let d = Draft {
+                direction: "LONG".to_string(),
+                birth_time: 0,
+                risk_geometry: {
+                    let mut g = serde_json::Map::new();
+                    g.insert("atr_ref".to_string(), serde_json::json!(10.0));
+                    g.insert("target_r".to_string(), serde_json::json!(1.0));
+                    g.insert("stop_r".to_string(), serde_json::json!(1.0));
+                    g.insert("expiry_bars".to_string(), serde_json::json!(2));
+                    g
+                },
+            };
+            for start in 0..6 {
+                cells.push(ReplayCell {
+                    symbol,
+                    draft: d.clone(),
+                    start,
+                    end: 20,
+                    thesis: None,
+                });
+            }
+        }
+        let mut so = vec![
+            Outcome {
+                endpoint: String::new(),
+                net_r: 0.0,
+                label_status: String::new(),
+                horizon_bars: 0,
+                label_available_time: 0,
+                mae_r: 0.0,
+                mfe_r: 0.0,
+                ambiguous_bars: 0,
+                entry_price: 0.0,
+                risk_unit_price: 0.0,
+                market_move_r: 0.0,
+                cost_r: 0.0,
+                funding_r: 0.0,
+            };
+            cells.len()
+        ];
+        let mut sm = so.clone();
+        let scalar = ScalarBackend {
+            round_trip_cost_r: 0.07,
+            funding_rate_r: 0.0001,
+            funding_hours: 1,
+            fill_policy: FillPolicy::BarClose,
+            funding_schedule: &[],
+            round_trip_cost_bps: None,
+            stores: &stores,
+        };
+        let simd_par = SimdCpuBackend::new(4, 0.07, 0.0001, 1, FillPolicy::BarClose, &[], None, &stores);
+        scalar.evaluate(&ds, &cells, &mut so).unwrap();
+        simd_par.evaluate(&ds, &cells, &mut sm).unwrap();
+        for (i, (a, b)) in so.iter().zip(sm.iter()).enumerate() {
+            assert_eq!(a.endpoint, b.endpoint, "cell {i}");
+            assert_eq!(a.net_r.to_bits(), b.net_r.to_bits(), "cell {i} net_r");
+            assert_eq!(a.mae_r.to_bits(), b.mae_r.to_bits(), "cell {i} mae_r");
+            assert_eq!(a.mfe_r.to_bits(), b.mfe_r.to_bits(), "cell {i} mfe_r");
+            assert_eq!(
+                a.entry_price.to_bits(),
+                b.entry_price.to_bits(),
+                "cell {i} entry_price"
+            );
+            assert_eq!(
+                a.risk_unit_price.to_bits(),
+                b.risk_unit_price.to_bits(),
+                "cell {i} risk_unit_price"
+            );
+            assert_eq!(
+                a.market_move_r.to_bits(),
+                b.market_move_r.to_bits(),
+                "cell {i} market_move_r"
+            );
+            assert_eq!(a.cost_r.to_bits(), b.cost_r.to_bits(), "cell {i} cost_r");
+            assert_eq!(a.funding_r.to_bits(), b.funding_r.to_bits(), "cell {i} funding_r");
+        }
     }
 }
