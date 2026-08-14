@@ -3,6 +3,25 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-14 — Rust compute plane is authoritative; Python oracle retired from the verification path (D-097)
+
+Operator-ratified. `v8-core` (D-087..D-095) is the sole authoritative
+implementation; `src/v8` is preserved as a historical/legacy corpus but does
+not run in CI, workflows, or gates. Verification is Rust-native: `cargo test`
+per change, G4/G5 determinism, golden vectors from the S0-S7-verified outputs
+as the release gate. The Python test suite (864 tests) and the `tests/parity`
+Python-vs-Rust suite are retired from gates; the oracle-tree-hash pin mechanism
+is superseded by golden-vector hashes. The S0-S7 differential record
+(`reports/parity/S0-S7.md`) remains the historical trust anchor — the
+retirement is licensed only by that completed verification. Rules 9/12
+unchanged; `NO_ECONOMIC_CLAIM` stands. Workflow consequence: no Python
+executes in fix/verify workflows (cargo only); defect fixes land in `v8-core`
+only. Scope boundary: the rule covers the verification path; monograph build
+and tape builders remain Python until ported (follow-up).
+
+Artifacts changed: `docs/decisions/DECISION_REGISTER.md` (D-097),
+`docs/CHANGELOG.md`, `.github/workflows/ci.yml` (pytest steps removed).
+
 ## 2026-08-14 — Kernel backend strategy: scalar + CPU/SIMD first, GPU behind the trigger, CubeCL over wgpu (D-096)
 
 The V8.2 compute plane's backend strategy is declared (D-096). `v8-core` is

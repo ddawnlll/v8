@@ -1,9 +1,9 @@
-# CI for research code (OPERATIONS_SPEC section 4): tests on every change
-# plus the golden-backtest regression, the monograph byte-identity probe,
-# the v8-core Rust unit tests, the Python/Rust parity suite, and the gate-3
-# forbidden-component-name scan (AGENT_RUNBOOK section 4), so refactors
-# cannot silently change results, the corpus cannot drift from the generated
-# monograph, and gated components cannot half-enter the decision path.
+# CI for research code (OPERATIONS_SPEC section 4, D-097): tests on every
+# change plus the v8-core Rust unit tests, the monograph byte-identity probe,
+# and the gate-3 forbidden-component-name scan (AGENT_RUNBOOK section 4).
+# The Python test/parity suites are retired from CI (D-097): the Rust plane
+# is the authoritative implementation; verification is cargo per change and
+# golden vectors (pinned from the S0-S7-verified outputs) as the release gate.
 name: ci
 
 on:
@@ -36,16 +36,10 @@ jobs:
 
       - name: v8-core unit tests (release, fp-contract=off)
         working-directory: v8-core
-        # fp-contract=off comes from v8-core/.cargo/config.toml so bit-parity
-        # with the CPython oracle holds; the parity fixture reuses the
-        # release binary produced here.
+        # fp-contract=off comes from v8-core/.cargo/config.toml. Golden-vector
+        # release-gate verification (pinned fixtures -> byte-identical hashed
+        # outputs) is the follow-up wiring tracked in D-097.
         run: cargo test --release
-
-      - name: Contract tests (incl. golden-backtest regression)
-        run: '"$(which python)" -m pytest tests -q'
-
-      - name: Parity tests (Python oracle vs v8-core binary)
-        run: '"$(which python)" -m pytest tests/parity -q'
 
       - name: Monograph byte-identity probe
         run: |
