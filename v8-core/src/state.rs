@@ -18,9 +18,10 @@
 //! the V8.2 `lineage_hash`/`state_id` are excluded from the comparison by
 //! PARITY_AND_IDENTITY_SPEC §3 but computed here for identity semantics.
 
-use crate::data::{Dataset, SymbolBars};
+use crate::data::{Dataset, SymbolBars, TapeRow};
 use crate::hash::Canon;
 
+pub const MINUTE_NS: i64 = 60_000_000_000;
 pub const HOUR_NS: i64 = 3_600_000_000_000;
 pub const DAY_NS: i64 = 86_400_000_000_000;
 
@@ -742,6 +743,210 @@ pub fn build_stores(ds: &Dataset) -> Vec<FeatureStore> {
 }
 
 // ---------------------------------------------------------------------------
+// Multi-interval aggregation (interval.py `aggregate` / `is_derivable` /
+// `bars_per` / `bucket_start_ns`, and the aggregation step of
+// `build_multi_state`; deferred from the S1 gate with the interval port, #111).
+//
+// The tape carries ONE base interval; every higher declared interval is an
+// exact aggregation of the base — no new ingestion, no interpolation.
+// Derivation is up-only: a 1h tape yields 2h/4h/1d, never 15m. Two invariants
+// are load-bearing for PIT evidence (interval.py header):
+//   - Buckets are anchored to the fixed UNIX epoch (EPOCH_NS = 0), never to
+//     the first tape row, so a "4h bar" is the same calendar window in the
+//     dev window and the frozen holdout.
+//   - An aggregate's `available_time` is its LAST constituent's, so a 4h bar
+//     spanning 08:00-12:00 simply does not exist as evidence at 09:00; the
+//     clock-side bisect (`bisect_right_times`) enforces that admissibility.
+//   - A partial trailing bucket is never emitted as closed: a bucket holding
+//     fewer than `bars_per` members (trailing partial OR a data gap) is
+//     dropped, exactly like the oracle.
+// The aggregation is precomputed over the full tape once (the cached-path
+// mirror of the oracle's per-clock prefix aggregation); on a clean tape the
+// two agree at every clock, because a bucket is complete iff all its members
+// exist, and its last member's availability is what admits it.
+// ---------------------------------------------------------------------------
+
+/// Declared interval lengths in nanoseconds (interval.py `INTERVAL_NS`).
+/// `EPOCH_NS` is 0 — every interval divides a day evenly, so absolute-time
+/// modulo bucketing lands every bucket on a real calendar boundary.
+pub fn interval_ns(name: &str) -> Option<i64> {
+    match name {
+        "1m" => Some(MINUTE_NS),
+        "3m" => Some(3 * MINUTE_NS),
+        "5m" => Some(5 * MINUTE_NS),
+        "15m" => Some(15 * MINUTE_NS),
+        "30m" => Some(30 * MINUTE_NS),
+        "1h" => Some(HOUR_NS),
+        "2h" => Some(2 * HOUR_NS),
+        "4h" => Some(4 * HOUR_NS),
+        "6h" => Some(6 * HOUR_NS),
+        "8h" => Some(8 * HOUR_NS),
+        "12h" => Some(12 * HOUR_NS),
+        "1d" => Some(DAY_NS),
+        _ => None,
+    }
+}
+
+/// True when `target` is an exact integer multiple of `base` (interval.py
+/// `is_derivable`). Equal intervals are derivable (the identity aggregation).
+pub fn is_derivable(base: &str, target: &str) -> Result<bool, String> {
+    let b = interval_ns(base).ok_or_else(|| format!("unknown base interval {base:?}"))?;
+    let t = interval_ns(target).ok_or_else(|| format!("unknown target interval {target:?}"))?;
+    Ok(t % b == 0)
+}
+
+/// How many base bars make one `target` bar (interval.py `bars_per`).
+pub fn bars_per(base: &str, target: &str) -> Result<i64, String> {
+    if !is_derivable(base, target)? {
+        return Err(format!(
+            "{target} is not an integer multiple of {base}; aggregation is up-only and exact"
+        ));
+    }
+    Ok(interval_ns(target).unwrap() / interval_ns(base).unwrap())
+}
+
+/// The fixed-epoch bucket boundary `event_time_ns` belongs to (interval.py
+/// `bucket_start_ns`). `event_time` on a kline is its CLOSE time, so a bar
+/// closing exactly on a boundary belongs to the bucket that ENDS there — hence
+/// the 1ns pull-back before flooring (`div_euclid` floors, matching Python's
+/// `//` for positive times).
+pub fn bucket_start_ns(event_time_ns: i64, target: &str) -> i64 {
+    let width = interval_ns(target).expect("declared interval");
+    (event_time_ns - 1).div_euclid(width) * width
+}
+
+/// Aggregate closed base klines into closed `target` klines (interval.py
+/// `aggregate`). Only closed base bars participate — an open base bar's OHLC
+/// is still moving, so a bucket containing one cannot be closed either. Rows
+/// of other channels are ignored (funding/OI are not bar-shaped and are served
+/// at their own cadence; the higher-interval state therefore has no
+/// positioning features, exactly like the oracle). Output is sorted by
+/// `available_time`, the order the store builder requires.
+pub fn aggregate_rows(rows: &[TapeRow], base: &str, target: &str) -> Result<Vec<TapeRow>, String> {
+    let n = bars_per(base, target)?;
+    if n == 1 {
+        return Ok(rows
+            .iter()
+            .filter(|r| {
+                r.channel == "kline"
+                    && r.payload.get("closed").and_then(|c| c.as_bool()) == Some(true)
+            })
+            .cloned()
+            .collect());
+    }
+    let mut buckets: std::collections::BTreeMap<(String, i64), Vec<&TapeRow>> =
+        std::collections::BTreeMap::new();
+    for r in rows {
+        if r.channel != "kline"
+            || r.payload.get("closed").and_then(|c| c.as_bool()) != Some(true)
+        {
+            continue;
+        }
+        let key = (r.instrument.clone(), bucket_start_ns(r.event_time, target));
+        buckets.entry(key).or_default().push(r);
+    }
+    let mut out: Vec<TapeRow> = Vec::new();
+    for ((instrument, start), mut members) in buckets {
+        // A bucket short of its full complement is incomplete: this drops the
+        // trailing partial bucket AND any bucket with a data gap.
+        if members.len() != n as usize {
+            continue;
+        }
+        members.sort_by_key(|r| r.event_time);
+        let last = members[members.len() - 1];
+        let mut hi = f64::NEG_INFINITY;
+        let mut lo = f64::INFINITY;
+        let mut volume: Vec<f64> = Vec::with_capacity(members.len());
+        for m in &members {
+            let h = m.payload["high"].as_f64().unwrap_or(0.0);
+            let l = m.payload["low"].as_f64().unwrap_or(0.0);
+            if h > hi {
+                hi = h;
+            }
+            if l < lo {
+                lo = l;
+            }
+            volume.push(m.payload.get("volume").and_then(|v| v.as_f64()).unwrap_or(0.0));
+        }
+        let max_ingested = members.iter().map(|m| m.ingested_time).max().unwrap_or(0);
+        out.push(TapeRow {
+            source: last.source.clone(),
+            channel: "kline".to_string(),
+            instrument: instrument.clone(),
+            // The aggregate closes when its last constituent closes, and
+            // becomes available when that bar becomes available — never
+            // earlier, which is what keeps it point-in-time honest.
+            event_time: last.event_time,
+            available_time: last.available_time,
+            ingested_time: max_ingested,
+            venue_sequence: last.venue_sequence,
+            event_id: format!("{instrument}:{target}:{start}"),
+            payload: serde_json::json!({
+                "open": members[0].payload["open"].as_f64().unwrap_or(0.0),
+                "high": hi,
+                "low": lo,
+                "close": last.payload["close"].as_f64().unwrap_or(0.0),
+                // Python sums the member volumes with `sum(...)`, which is
+                // compensated summation — `fsum`, not a left fold.
+                "volume": fsum(&volume),
+                "closed": true,
+                "interval": target,
+                "base_bars": n,
+            }),
+            nonfinite: vec![],
+        });
+    }
+    out.sort_by(|a, b| {
+        (a.available_time, a.instrument.clone()).cmp(&(b.available_time, b.instrument.clone()))
+    });
+    Ok(out)
+}
+
+/// One state family across the declared intervals: the base-interval stores
+/// (built once from the tape) plus one per-symbol aggregated store vector per
+/// declared higher interval. `intervals` is the ordered interval list — base
+/// first, then each declared higher interval in request order (the value the
+/// Python provenance records under `intervals`); `higher[k]` belongs to
+/// `intervals[k + 1]`.
+pub struct MultiStore {
+    pub intervals: Vec<String>,
+    pub higher: Vec<Vec<FeatureStore>>,
+}
+
+/// Aggregate the tape into every declared higher interval and build the store
+/// family (the aggregation step of `build_multi_state`). A declared interval
+/// equal to the base is skipped; an underivable interval is a hard error;
+/// an interval that yields no aggregate (not enough base bars for one bucket)
+/// is silently skipped, exactly like the oracle.
+pub fn build_multi_stores(
+    ds: &Dataset,
+    base_interval: &str,
+    intervals: &[String],
+) -> Result<MultiStore, String> {
+    let mut ordered: Vec<String> = vec![base_interval.to_string()];
+    let mut higher: Vec<Vec<FeatureStore>> = Vec::new();
+    for tf in intervals {
+        if tf == base_interval {
+            continue;
+        }
+        if !is_derivable(base_interval, tf)? {
+            return Err(format!("{tf} is not derivable from base interval {base_interval}"));
+        }
+        let agg_rows = aggregate_rows(&ds.rows, base_interval, tf)?;
+        if agg_rows.is_empty() {
+            continue; // not enough base bars for one bucket
+        }
+        let agg_ds = Dataset::from_rows(agg_rows).map_err(|e| e.to_string())?;
+        higher.push(build_stores(&agg_ds));
+        ordered.push(tf.clone());
+    }
+    Ok(MultiStore {
+        intervals: ordered,
+        higher,
+    })
+}
+
+// ---------------------------------------------------------------------------
 // StateView: per-clock features (the cached branch of `build_state`).
 // ---------------------------------------------------------------------------
 
@@ -1147,6 +1352,56 @@ pub fn state_features(
     out
 }
 
+/// The full per-symbol feature list at base bar count `t` and clock `as_of`,
+/// across every declared interval — the value side of `build_multi_state`.
+///
+/// Base-interval features keep their bare names (`{sym}.{name}` at the caller;
+/// the parity harness reads them unprefixed); each higher interval runs the
+/// SAME feature builder over its aggregated store and namespaces every emitted
+/// feature `{sym}.{tf}.{name}` — one formula of record per feature, never a
+/// second implementation that could drift. Only aggregates admissible at the
+/// clock contribute (`available_time` of the last constituent <= `as_of` via
+/// `bisect_right_times`), which is the PIT guarantee: a 4h bar spanning
+/// 08:00-12:00 cannot be built into the 09:00 state.
+pub fn multi_state_features(
+    mstore: &MultiStore,
+    base_store: &FeatureStore,
+    symbol: &str,
+    t: usize,
+    as_of: i64,
+    history_depth: usize,
+    depths: &std::collections::HashMap<String, usize>,
+) -> Vec<Feature> {
+    let mut out = state_features(base_store, t, as_of, history_depth);
+    for (k, tf) in mstore.intervals.iter().enumerate().skip(1) {
+        let Some(store) = mstore.higher[k - 1].iter().find(|s| s.symbol == symbol) else {
+            continue; // this symbol produced no aggregated bar
+        };
+        let m = FeatureStore::bisect_right_times(&store.avail, as_of);
+        if m == 0 {
+            continue; // no aggregate admissible at this clock (PIT)
+        }
+        let depth = depths.get(tf).copied().unwrap_or(HISTORY_DEPTH_DEFAULT);
+        for f in state_features(store, m, as_of, depth) {
+            // The namespaced feature keeps its BARE group tag: `feature_group`
+            // is keyed by the feature name, not the emitted key, so the group
+            // must be recomputed from the un-namespaced name.
+            let group = feature_group(&f.name).to_string();
+            out.push(Feature {
+                name: format!("{symbol}.{tf}.{}", f.name),
+                value: f.value,
+                dtype: f.dtype,
+                feature_version: f.feature_version,
+                max_input_available_time: f.max_input_available_time,
+                quality: f.quality,
+                null_reason: f.null_reason,
+                group,
+            });
+        }
+    }
+    out
+}
+
 /// The exact full-filter `_vwap` (marketstate.py) over the prefix: session
 /// anchored at the last 00:00 UTC boundary of the newest bar's event_time.
 fn vwap_fallback(store: &FeatureStore, t: usize) -> (f64, usize) {
@@ -1171,16 +1426,37 @@ fn vwap_fallback(store: &FeatureStore, t: usize) -> (f64, usize) {
 
 /// V8.2 identity (excluded from the parity comparison by §3, but load-bearing
 /// for the mutation semantics: a changed input must change exactly the states
-/// that consumed it).
+/// that consumed it). The base-only path: every feature name is bare, so each
+/// key is `{symbol}.{name}`.
 pub fn v82_lineage_hash(features: &[Feature], symbol: &str) -> String {
+    v82_lineage_core(features, |f| format!("{symbol}.{}", f.name))
+}
+
+/// V8.2 lineage for the combined `build_multi_state` feature list. Base-
+/// interval features keep their bare names and are keyed `{symbol}.{name}`;
+/// higher-interval features already carry their full `{sym}.{tf}.{name}`
+/// emitted key (bare feature names never contain a `.`, so the two are
+/// unambiguous). With no namespaced features present this is byte-identical
+/// to `v82_lineage_hash`.
+pub fn v82_lineage_hash_named(features: &[Feature], symbol: &str) -> String {
+    v82_lineage_core(features, |f| {
+        if f.name.contains('.') {
+            f.name.clone()
+        } else {
+            format!("{symbol}.{}", f.name)
+        }
+    })
+}
+
+fn v82_lineage_core(features: &[Feature], key: impl Fn(&Feature) -> String) -> String {
     let mut c = Canon::new();
     c.push_map();
     c.push_count(features.len());
     let mut idx: Vec<usize> = (0..features.len()).collect();
-    idx.sort_by(|a, b| format!("{symbol}.{}", features[*a].name).cmp(&format!("{symbol}.{}", features[*b].name)));
+    idx.sort_by(|a, b| key(&features[*a]).cmp(&key(&features[*b])));
     for i in idx {
         let f = &features[i];
-        c.push_str(&format!("{symbol}.{}", f.name));
+        c.push_str(&key(f));
         c.push_list();
         c.push_count(4);
         c.push_value(&f.value);
@@ -1245,6 +1521,209 @@ mod tests {
             let exp = f64_from_hex(expected);
             assert_eq!(got.to_bits(), exp.to_bits(), "battery case {i}");
         }
+    }
+
+    // --- multi-interval aggregation (issue #111) ---------------------------
+
+    fn kline(id: &str, sym: &str, t: i64, o: f64, h: f64, l: f64, c: f64, vol: f64) -> TapeRow {
+        TapeRow {
+            source: "binance-um".into(),
+            channel: "kline".into(),
+            instrument: sym.into(),
+            event_time: t,
+            available_time: t + 1,
+            ingested_time: t + 2,
+            venue_sequence: 1,
+            event_id: id.into(),
+            payload: serde_json::json!({
+                "open": o, "high": h, "low": l, "close": c,
+                "volume": vol, "closed": true,
+            }),
+            nonfinite: vec![],
+        }
+    }
+
+    /// A fixed set of hourly bars closing at 1h..=n*h (each available 1ns
+    /// after its close). OHLC are strictly positive and invariant-clean.
+    fn hourly_tape(n: usize) -> Vec<TapeRow> {
+        let h = HOUR_NS;
+        let mut rows = Vec::with_capacity(n);
+        for i in 1..=n {
+            let t = i as i64 * h;
+            let c = 100.0 + i as f64;
+            rows.push(kline(&format!("b{i}"), "SOLUSDT", t, c - 1.0, c + 2.0, c - 3.0, c, 10.0));
+        }
+        rows
+    }
+
+    #[test]
+    fn interval_derivation_is_up_only_and_exact() {
+        assert!(is_derivable("1h", "1h").unwrap(), "identity aggregation is derivable");
+        assert!(is_derivable("1h", "4h").unwrap());
+        assert!(is_derivable("1h", "1d").unwrap());
+        assert!(is_derivable("4h", "1d").unwrap());
+        assert!(!is_derivable("4h", "1h").unwrap(), "aggregation is up-only");
+        assert!(!is_derivable("1h", "1m").unwrap(), "finer needs its own ingestion");
+        assert_eq!(bars_per("1h", "4h").unwrap(), 4);
+        assert_eq!(bars_per("1h", "1d").unwrap(), 24);
+        assert!(is_derivable("7m", "1h").unwrap_err().contains("unknown base interval"));
+        assert!(is_derivable("1h", "45m").unwrap_err().contains("unknown target interval"));
+        assert!(bars_per("4h", "1h").unwrap_err().contains("not an integer multiple"));
+    }
+
+    #[test]
+    fn bucket_start_lands_closing_boundary_in_bucket_that_ends_there() {
+        let h = HOUR_NS;
+        // A bar closing exactly at 04:00 belongs to the bucket [00:00, 04:00)
+        // that ENDS there — hence the 1ns pull-back before flooring.
+        assert_eq!(bucket_start_ns(4 * h, "4h"), 0);
+        assert_eq!(bucket_start_ns(h, "4h"), 0);
+        // One ns past the boundary opens the next bucket.
+        assert_eq!(bucket_start_ns(4 * h + 1, "4h"), 4 * h);
+        assert_eq!(bucket_start_ns(8 * h, "4h"), 4 * h);
+    }
+
+    #[test]
+    fn aggregate_builds_closed_bars_with_pit_available_time() {
+        let h = HOUR_NS;
+        let rows = hourly_tape(9); // 9 hourly bars -> two full 4h buckets + partial
+        let agg = aggregate_rows(&rows, "1h", "4h").unwrap();
+        assert_eq!(agg.len(), 2, "the partial trailing bucket is never emitted");
+        // First bucket [00:00, 04:00): members b1..b4 (hourly_tape OHLC:
+        // open=c-1, high=c+2, low=c-3, close=c, volume=10).
+        assert_eq!(agg[0].event_id, "SOLUSDT:4h:0");
+        assert_eq!(agg[0].payload["open"].as_f64(), Some(100.0));
+        assert_eq!(agg[0].payload["high"].as_f64(), Some(106.0));
+        assert_eq!(agg[0].payload["low"].as_f64(), Some(98.0));
+        assert_eq!(agg[0].payload["close"].as_f64(), Some(104.0));
+        assert_eq!(agg[0].payload["volume"].as_f64(), Some(40.0));
+        assert_eq!(agg[0].payload["base_bars"].as_i64(), Some(4));
+        // PIT: the aggregate is available when its LAST constituent is.
+        assert_eq!(agg[0].available_time, 4 * h + 1);
+        assert_eq!(agg[0].event_time, 4 * h);
+        // Second bucket [04:00, 08:00): members b5..b8.
+        assert_eq!(agg[1].event_id, "SOLUSDT:4h:14400000000000");
+        assert_eq!(agg[1].payload["close"].as_f64(), Some(108.0));
+        assert_eq!(agg[1].payload["volume"].as_f64(), Some(40.0));
+        assert_eq!(agg[1].available_time, 8 * h + 1);
+    }
+
+    #[test]
+    fn aggregate_drops_bucket_with_data_gap() {
+        let mut rows = hourly_tape(9);
+        // Drop the 6th bar: the [04:00, 08:00) bucket then holds 3 of its 4
+        // constituents and must be dropped like the trailing partial one.
+        rows.retain(|r| r.event_id != "b6");
+        let agg = aggregate_rows(&rows, "1h", "4h").unwrap();
+        assert_eq!(agg.len(), 1);
+        assert_eq!(agg[0].event_id, "SOLUSDT:4h:0");
+    }
+
+    #[test]
+    fn aggregate_ignores_non_kline_channels_and_identity_aggregation() {
+        let h = HOUR_NS;
+        let mut rows = hourly_tape(3);
+        // A funding row (not bar-shaped) must never enter an aggregate.
+        rows.push(TapeRow {
+            source: "binance-um".into(),
+            channel: "funding".into(),
+            instrument: "SOLUSDT".into(),
+            event_time: h,
+            available_time: h + 1,
+            ingested_time: h + 2,
+            venue_sequence: 999999,
+            event_id: "SOLUSDT:funding:1".into(),
+            payload: serde_json::json!({"funding_rate": 0.0001}),
+            nonfinite: vec![],
+        });
+        let agg = aggregate_rows(&rows, "1h", "1h").unwrap();
+        assert_eq!(agg.len(), 3, "identity aggregation keeps every closed kline");
+        assert!(agg.iter().all(|r| r.channel == "kline"), "funding never aggregates");
+        assert_eq!(agg[0].event_id, "b1");
+    }
+
+    #[test]
+    fn multi_state_namespaces_higher_interval_features() {
+        let rows = hourly_tape(88); // 88 hourly bars -> 22 four-hour bars
+        let ds = Dataset::from_rows(rows).unwrap();
+        let stores = build_stores(&ds);
+        let mstore = build_multi_stores(&ds, "1h", &["4h".to_string()]).unwrap();
+        assert_eq!(mstore.intervals, vec!["1h", "4h"]);
+        assert_eq!(mstore.higher.len(), 1);
+        let base = &stores[0];
+        let sym = "SOLUSDT";
+        let last = base.closes.len();
+        let as_of = base.avail[last - 1];
+        let depths = std::collections::HashMap::new();
+        let feats = multi_state_features(&mstore, base, sym, last, as_of, HISTORY_DEPTH_DEFAULT, &depths);
+
+        // Base features keep their bare names; the 4h block is namespaced.
+        assert!(feats.iter().any(|f| f.name == "close"));
+        let close4h = feats.iter().find(|f| f.name == "SOLUSDT.4h.close").expect("4h close");
+        // The last 4h bar closes on the 88th base bar.
+        assert_eq!(close4h.value.as_f64(), Some(188.0));
+        assert_eq!(close4h.max_input_available_time, as_of);
+        // The namespaced key keeps its BARE group (feature_group is keyed by
+        // the feature name, not the emitted key).
+        let bb = feats.iter().find(|f| f.name == "SOLUSDT.4h.bb_mid").expect("4h bb_mid");
+        assert_eq!(bb.group, "volatility");
+        assert_eq!(bb.feature_version, "v1");
+        // A namespaced absent feature at this clock is simply not emitted.
+        assert!(!feats.iter().any(|f| f.name == "SOLUSDT.4h.open_interest"),
+                "the aggregated store has no funding/OI channel");
+
+        // The combined lineage differs from the base-only lineage...
+        let base_only = state_features(base, last, as_of, HISTORY_DEPTH_DEFAULT);
+        let multi_l = v82_lineage_hash_named(&feats, sym);
+        assert_ne!(multi_l, v82_lineage_hash(&base_only, sym));
+        // ...and is deterministic.
+        assert_eq!(multi_l, v82_lineage_hash_named(&feats, sym));
+    }
+
+    #[test]
+    fn multi_state_omits_higher_interval_until_admissible() {
+        let h = HOUR_NS;
+        let rows = hourly_tape(44);
+        let ds = Dataset::from_rows(rows).unwrap();
+        let stores = build_stores(&ds);
+        let mstore = build_multi_stores(&ds, "1h", &["4h".to_string()]).unwrap();
+        let base = &stores[0];
+        let sym = "SOLUSDT";
+        let depths = std::collections::HashMap::new();
+
+        // At the 2h clock the first 4h bar (available 4h+1) does not exist.
+        let early = multi_state_features(&mstore, base, sym, 2, base.avail[1], HISTORY_DEPTH_DEFAULT, &depths);
+        assert!(!early.iter().any(|f| f.name.contains("4h")), "PIT: 4h bar not yet admissible");
+
+        // At the 5h clock exactly the first 4h bar (closing at 4h) is usable.
+        let at5 = multi_state_features(&mstore, base, sym, 5, base.avail[4], HISTORY_DEPTH_DEFAULT, &depths);
+        let close4h = at5.iter().find(|f| f.name == "SOLUSDT.4h.close").expect("4h close at 5h clock");
+        assert_eq!(close4h.value.as_f64(), Some(104.0));
+        assert_eq!(close4h.max_input_available_time, 4 * h + 1);
+    }
+
+    #[test]
+    fn named_lineage_equals_symbol_prefixed_lineage_for_base_only() {
+        let rows = hourly_tape(40);
+        let ds = Dataset::from_rows(rows).unwrap();
+        let stores = build_stores(&ds);
+        let base = &stores[0];
+        let sym = "SOLUSDT";
+        let last = base.closes.len();
+        let as_of = base.avail[last - 1];
+        let feats = state_features(base, last, as_of, HISTORY_DEPTH_DEFAULT);
+        // With no namespaced features the two lineage entry points coincide.
+        assert_eq!(v82_lineage_hash_named(&feats, sym), v82_lineage_hash(&feats, sym));
+    }
+
+    #[test]
+    fn build_multi_stores_rejects_underivable_interval() {
+        let rows = hourly_tape(40);
+        let ds = Dataset::from_rows(rows).unwrap();
+        let err = build_multi_stores(&ds, "1h", &["15m".to_string()])
+            .err()
+            .expect("underivable interval must fail");
+        assert!(err.contains("not derivable"), "got: {err}");
     }
 }
 

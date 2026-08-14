@@ -108,6 +108,14 @@ struct Request {
     base_interval: String,
     #[serde(default = "default_depth")]
     history_depth: usize,
+    /// Declared higher intervals to aggregate into namespaced
+    /// `{sym}.{tf}.{name}` features (`build_multi_state`); empty = base only.
+    #[serde(default)]
+    intervals: Vec<String>,
+    /// Per-interval history depth for the higher-interval feature blocks
+    /// (defaults to `history_depth` per interval).
+    #[serde(default)]
+    interval_depths: std::collections::HashMap<String, usize>,
 }
 
 fn default_threads() -> usize {
@@ -260,6 +268,122 @@ fn push_opt_f64(col: &mut evidence::Column, v: Option<f64>) {
     }
 }
 
+/// One fixed column block for a feature vocabulary — the base-interval block
+/// plus one per declared higher interval. The artifact schema is fixed per
+/// request, so the namespaced blocks are added up front alongside the base.
+struct FeatureCols {
+    value: Vec<usize>,
+    qual: Vec<usize>,
+    null: Vec<usize>,
+    group: Vec<usize>,
+    ver: Vec<usize>,
+    dtype: Vec<usize>,
+    avail: Vec<usize>,
+}
+
+/// Add the 7-field column block for every declared feature name. `prefix` is
+/// `""` for the base interval (columns `{name}.value` etc.) and `tf` for a
+/// higher interval (columns `{tf}.{name}.value` etc. — the emitted state keys
+/// `{sym}.{tf}.{name}`, and the per-symbol artifact fixes `{sym}`).
+fn add_feature_columns(art: &mut evidence::Artifact, prefix: &str) -> FeatureCols {
+    let mut cols = FeatureCols {
+        value: Vec::new(),
+        qual: Vec::new(),
+        null: Vec::new(),
+        group: Vec::new(),
+        ver: Vec::new(),
+        dtype: Vec::new(),
+        avail: Vec::new(),
+    };
+    for name in state::FEATURE_NAMES {
+        let p = |suffix: &str| {
+            if prefix.is_empty() {
+                format!("{name}.{suffix}")
+            } else {
+                format!("{prefix}.{name}.{suffix}")
+            }
+        };
+        let structured = state::feature_dtype(name) != "float";
+        cols.value.push(art.add_column(
+            &p("value"),
+            if structured { evidence::DType::DictStr } else { evidence::DType::F64 },
+        ));
+        cols.qual.push(art.add_column(&p("quality"), evidence::DType::DictStr));
+        cols.null.push(art.add_column(&p("null_reason"), evidence::DType::DictStr));
+        cols.group.push(art.add_column(&p("group"), evidence::DType::DictStr));
+        cols.ver.push(art.add_column(&p("version"), evidence::DType::DictStr));
+        cols.dtype.push(art.add_column(&p("dtype"), evidence::DType::DictStr));
+        cols.avail.push(art.add_column(&p("max_available"), evidence::DType::I64));
+    }
+    cols
+}
+
+/// Emit one row's features into a column block. `by_name` is keyed by the
+/// feature's emitted key (bare `{name}` for the base block, full
+/// `{sym}.{tf}.{name}` for a namespaced block); `key_of(name)` builds the
+/// lookup key for this block. A feature absent at this bar — or degraded
+/// (value None) — marks its value column invalid (MARKET_STATE_CONTRACT §4:
+/// null is not zero), while metadata columns stay valid where emitted.
+fn emit_feature_columns(
+    art: &mut evidence::Artifact,
+    cols: &FeatureCols,
+    by_name: &std::collections::HashMap<String, &state::Feature>,
+    key_of: impl Fn(&str) -> String,
+) -> Result<(), String> {
+    for (k, name) in state::FEATURE_NAMES.iter().enumerate() {
+        let f = by_name.get(&key_of(name));
+        let structured = state::feature_dtype(name) != "float";
+        match f {
+            Some(feat) => {
+                let value_absent = feat.value.is_null();
+                if structured {
+                    let text = serde_json::to_string(&feat.value).map_err(|e| e.to_string())?;
+                    art.columns[cols.value[k]].push_str(&text);
+                } else if value_absent {
+                    art.columns[cols.value[k]].push_f64(0.0);
+                    art.columns[cols.value[k]].push_absent();
+                } else {
+                    art.columns[cols.value[k]].push_f64(feat.value.as_f64().unwrap_or(0.0));
+                }
+                art.columns[cols.qual[k]].push_str(&feat.quality);
+                match &feat.null_reason {
+                    Some(r) => art.columns[cols.null[k]].push_str(r),
+                    None => {
+                        art.columns[cols.null[k]].push_str("");
+                        art.columns[cols.null[k]].push_absent();
+                    }
+                }
+                art.columns[cols.group[k]].push_str(&feat.group);
+                art.columns[cols.ver[k]].push_str(&feat.feature_version);
+                art.columns[cols.dtype[k]].push_str(&feat.dtype);
+                art.columns[cols.avail[k]].push_i64(feat.max_input_available_time);
+            }
+            None => {
+                if structured {
+                    art.columns[cols.value[k]].push_str("");
+                    art.columns[cols.value[k]].push_absent();
+                } else {
+                    art.columns[cols.value[k]].push_f64(0.0);
+                    art.columns[cols.value[k]].push_absent();
+                }
+                art.columns[cols.qual[k]].push_str("");
+                art.columns[cols.qual[k]].push_absent();
+                art.columns[cols.null[k]].push_str("");
+                art.columns[cols.null[k]].push_absent();
+                art.columns[cols.group[k]].push_str("");
+                art.columns[cols.group[k]].push_absent();
+                art.columns[cols.ver[k]].push_str("");
+                art.columns[cols.ver[k]].push_absent();
+                art.columns[cols.dtype[k]].push_str("");
+                art.columns[cols.dtype[k]].push_absent();
+                art.columns[cols.avail[k]].push_i64(0);
+                art.columns[cols.avail[k]].push_absent();
+            }
+        }
+    }
+    Ok(())
+}
+
 fn cmd_features(args: &[String]) -> i32 {
     if args.len() != 1 {
         eprintln!("usage: v8-core features <request.json>");
@@ -292,6 +416,10 @@ fn features(req: &Request) -> Result<Value, String> {
     let rows = read_tape(&req.tape_path)?;
     let ds = data::Dataset::from_rows(rows).map_err(|e| e.to_string())?;
     let stores = state::build_stores(&ds);
+    // Multi-interval: aggregate the SAME tape into every declared higher
+    // interval and build one store family (`build_multi_state`).
+    let mstore = state::build_multi_stores(&ds, &req.base_interval, &req.intervals)
+        .map_err(|e| e.to_string())?;
     std::fs::create_dir_all(&req.out_dir).map_err(|e| format!("out_dir: {e}"))?;
 
     // Universe: requested symbols, else every symbol with bars (deterministic:
@@ -316,6 +444,7 @@ fn features(req: &Request) -> Result<Value, String> {
             serde_json::json!({
                 "symbol": sym,
                 "base_interval": req.base_interval,
+                "intervals": req.intervals,
                 "history_depth": req.history_depth,
                 "hash_encoding": hash::HASH_ENCODING,
             }),
@@ -328,34 +457,24 @@ fn features(req: &Request) -> Result<Value, String> {
         let c_missing = art.add_column("missing_symbols", evidence::DType::DictStr);
 
         // Fixed column set: every declared feature name, in FEATURE_NAMES
-        // order; absent features mark all their columns invalid.
-        let mut value_cols: Vec<usize> = Vec::new();
-        let mut qual_cols: Vec<usize> = Vec::new();
-        let mut null_cols: Vec<usize> = Vec::new();
-        let mut group_cols: Vec<usize> = Vec::new();
-        let mut ver_cols: Vec<usize> = Vec::new();
-        let mut dtype_cols: Vec<usize> = Vec::new();
-        let mut avail_cols: Vec<usize> = Vec::new();
-        for name in state::FEATURE_NAMES {
-            let structured = state::feature_dtype(name) != "float";
-            value_cols.push(art.add_column(
-                &format!("{name}.value"),
-                if structured { evidence::DType::DictStr } else { evidence::DType::F64 },
-            ));
-            qual_cols.push(art.add_column(&format!("{name}.quality"), evidence::DType::DictStr));
-            null_cols.push(art.add_column(&format!("{name}.null_reason"), evidence::DType::DictStr));
-            group_cols.push(art.add_column(&format!("{name}.group"), evidence::DType::DictStr));
-            ver_cols.push(art.add_column(&format!("{name}.version"), evidence::DType::DictStr));
-            dtype_cols.push(art.add_column(&format!("{name}.dtype"), evidence::DType::DictStr));
-            avail_cols.push(art.add_column(&format!("{name}.max_available"), evidence::DType::I64));
+        // order, plus one namespaced block per declared higher interval;
+        // absent features mark all their columns invalid.
+        let base_cols = add_feature_columns(&mut art, "");
+        let mut ns_cols: Vec<(String, FeatureCols)> = Vec::new();
+        for tf in &req.intervals {
+            if tf == &req.base_interval {
+                continue;
+            }
+            ns_cols.push((tf.clone(), add_feature_columns(&mut art, tf)));
         }
 
         let n_bars = store.closes.len();
         for i in 0..n_bars {
             let t = i + 1;
             let as_of = store.avail[i];
-            let feats = state::state_features(store, t, as_of, req.history_depth);
-            let lineage = state::v82_lineage_hash(&feats, sym);
+            let feats = state::multi_state_features(
+                &mstore, store, sym, t, as_of, req.history_depth, &req.interval_depths);
+            let lineage = state::v82_lineage_hash_named(&feats, sym);
             let sid = state::v82_state_id(as_of, &univ_refs.iter().map(|s| s.to_string()).collect::<Vec<_>>(), &lineage);
             let quality = if feats.iter().any(|f| f.quality == "DEGRADED") { "DEGRADED" } else { "COMPLETE" };
 
@@ -365,67 +484,20 @@ fn features(req: &Request) -> Result<Value, String> {
             art.columns[c_q].push_str(quality);
             art.columns[c_missing].push_str("");
 
-            // Emitted features by bare name.
-            let mut by_name: std::collections::HashMap<&str, &state::Feature> =
+            // Emitted features by emitted key: bare `{name}` for the base
+            // interval, full `{sym}.{tf}.{name}` for higher intervals.
+            let mut by_name: std::collections::HashMap<String, &state::Feature> =
                 std::collections::HashMap::new();
             for f in &feats {
-                by_name.insert(f.name.as_str(), f);
+                by_name.insert(f.name.clone(), f);
             }
-            for (k, name) in state::FEATURE_NAMES.iter().enumerate() {
-                let f = by_name.get(name);
-                let structured = state::feature_dtype(name) != "float";
-                match f {
-                    Some(feat) => {
-                        // A degraded feature (value None) has an ABSENT value:
-                        // the value column carries no number (MARKET_STATE
-                        // CONTRACT §4 — null is not zero), while the metadata
-                        // columns stay valid.
-                        let value_absent = feat.value.is_null();
-                        if structured {
-                            let text = serde_json::to_string(&feat.value).map_err(|e| e.to_string())?;
-                            art.columns[value_cols[k]].push_str(&text);
-                        } else if value_absent {
-                            art.columns[value_cols[k]].push_f64(0.0);
-                            art.columns[value_cols[k]].push_absent();
-                        } else {
-                            art.columns[value_cols[k]].push_f64(feat.value.as_f64().unwrap_or(0.0));
-                        }
-                        art.columns[qual_cols[k]].push_str(&feat.quality);
-                        match &feat.null_reason {
-                            Some(r) => art.columns[null_cols[k]].push_str(r),
-                            None => {
-                                art.columns[null_cols[k]].push_str("");
-                                art.columns[null_cols[k]].push_absent();
-                            }
-                        }
-                        art.columns[group_cols[k]].push_str(&feat.group);
-                        art.columns[ver_cols[k]].push_str(&feat.feature_version);
-                        art.columns[dtype_cols[k]].push_str(&feat.dtype);
-                        art.columns[avail_cols[k]].push_i64(feat.max_input_available_time);
-                    }
-                    None => {
-                        // Feature absent at this bar: every column invalid.
-                        if structured {
-                            art.columns[value_cols[k]].push_str("");
-                            art.columns[value_cols[k]].push_absent();
-                        } else {
-                            art.columns[value_cols[k]].push_f64(0.0);
-                            art.columns[value_cols[k]].push_absent();
-                        }
-                        art.columns[qual_cols[k]].push_str("");
-                        art.columns[qual_cols[k]].push_absent();
-                        art.columns[null_cols[k]].push_str("");
-                        art.columns[null_cols[k]].push_absent();
-                        art.columns[group_cols[k]].push_str("");
-                        art.columns[group_cols[k]].push_absent();
-                        art.columns[ver_cols[k]].push_str("");
-                        art.columns[ver_cols[k]].push_absent();
-                        art.columns[dtype_cols[k]].push_str("");
-                        art.columns[dtype_cols[k]].push_absent();
-                        art.columns[avail_cols[k]].push_i64(0);
-                        art.columns[avail_cols[k]].push_absent();
-                    }
-                }
+            emit_feature_columns(&mut art, &base_cols, &by_name, |name| name.to_string())?;
+            for (tf, cols) in &ns_cols {
+                let sym = sym.clone();
+                let tf = tf.clone();
+                emit_feature_columns(&mut art, cols, &by_name, move |name| {
+                    format!("{sym}.{tf}.{name}")
+                })?;
             }
             art.end_row();
         }
