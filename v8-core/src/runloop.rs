@@ -656,10 +656,24 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
                 }
             };
             if out.label_status == "NOT_EXECUTED" {
+                // D-057 (issue #67): a candidate whose declared entry trigger
+                // never confirmed (or was invalidated while waiting) never
+                // entered — every legal action is a NO_ENTRY cell, mirroring
+                // the oracle's `candidate has no actual entry bar` treatment
+                // (the same convention as invalidation before entry). A
+                // FILL_AT_LIMIT order that never traded through is a different
+                // case: the ACTION is not evaluable.
+                let (status, reason) = if cand.risk_geometry.contains_key("trigger_ref") {
+                    (regret::CELL_NO_ENTRY,
+                     "entry trigger never confirmed (close did not clear trigger_ref before expiry/invalidation)".into())
+                } else {
+                    (regret::CELL_NOT_EVALUABLE_ACTION,
+                     "action never filled on this tape (e.g. FILL_AT_LIMIT never traded through)".into())
+                };
                 cells.push(regret::Cell {
                     action_id: a.action_id.clone(),
-                    status: regret::CELL_NOT_EVALUABLE_ACTION,
-                    reason: "action never filled on this tape (e.g. FILL_AT_LIMIT never traded through)".into(),
+                    status,
+                    reason,
                     net_utility: None,
                 });
                 continue;
@@ -993,6 +1007,271 @@ mod tests {
             .as_ref().expect("reason present").as_str().unwrap();
         assert!(reason.contains("invalidated before entry"),
                 "the cube records the pre-entry invalidation, got: {reason}");
+    }
+
+    // -----------------------------------------------------------------------
+    // D-057 entry-trigger gate (issue #67) + risk_geometry dead-field registry
+    // -----------------------------------------------------------------------
+
+    /// The risk_geometry keys the runner/simulator/predicate actually READ
+    /// (behavioral consumption) — sourced from the read sites in simulator.rs,
+    /// runloop.rs, regret.rs and the compiled predicate IR ref operands
+    /// (tools/predicate_ir.py). Every key an expert DECLARES must land here or
+    /// in `IDENTITY_ONLY_GEOMETRY_KEYS` (issue #67: trigger_ref was computed,
+    /// written and hashed but read by no runner path — a field both inert and
+    /// identity-carrying; the registry is the guard that dead fields cannot
+    /// silently accumulate).
+    const CONSUMED_GEOMETRY_KEYS: &[&str] = &[
+        // ReplayKernel entry/exit path (simulator.rs)
+        "atr_ref", "risk_frac", "target_r", "stop_r", "expiry_bars", "stop_ref",
+        "time_exit_bars", "pyramid_add_rules", "breakeven_roll_at_mfe_r",
+        "breakeven_margin_r", "trail_stop_atr", "scale_out_ratio",
+        "scale_out_at_mfe_r", "limit_price", "trigger_ref", "trigger_side",
+        // runloop admission + pre-entry invalidation
+        "size", "prior_low_ref", "prior_high_ref",
+        // compiled predicate IR ref operands (tools/predicate_ir.py)
+        "level_ref", "breakout_ref", "gap_top_ref", "gap_bottom_ref",
+        "barrier_ref", "extremum_ref", "mid_ref", "upper_1sd_ref",
+        "lower_1sd_ref", "upper_2sd_ref", "lower_2sd_ref", "lower_3sd_ref",
+        "upper_3sd_ref", "channel_n", "variant",
+    ];
+
+    /// Declared risk_geometry keys with NO behavioral reader in the compute
+    /// plane, registered as identity/structural constants (they still hash
+    /// into geometry_version — D-079 — so they carry candidate identity). Each
+    /// entry names its declaring expert. Adding a key here requires a decision;
+    /// the runner does not read it.
+    const IDENTITY_ONLY_GEOMETRY_KEYS: &[(&str, &str)] = &[
+        ("entry", "all experts: the declared entry mode (NEXT_BAR_CLOSE) — the bar-close entry model"),
+        ("poc_ref", "market_profile_value_area: frozen profile POC"),
+        ("va_low_ref", "market_profile_value_area: frozen value-area low"),
+        ("va_high_ref", "market_profile_value_area: frozen value-area high"),
+        ("target_2x_ref", "range_breakout_1to1: 2x-target projection"),
+        ("reversal", "pandf_breakout: reversal-box count declaration"),
+    ];
+
+    fn tape_fixture(rows: &[Value], tag: &str) -> (data::Dataset, Vec<FeatureStore>) {
+        let tape = write_tape(rows, tag);
+        let parsed = read_tape(&tape).unwrap();
+        let ds = data::Dataset::from_rows(parsed).unwrap();
+        let stores = state::build_stores(&ds);
+        (ds, stores)
+    }
+
+    fn trigger_draft(trigger_ref: Option<f64>, prior_low: f64) -> simulator::Draft {
+        let mut g = serde_json::Map::new();
+        g.insert("atr_ref".to_string(), serde_json::json!(2.0));
+        g.insert("target_r".to_string(), serde_json::json!(1.0));
+        g.insert("stop_r".to_string(), serde_json::json!(1.0));
+        g.insert("expiry_bars".to_string(), serde_json::json!(8));
+        g.insert("stop_ref".to_string(), serde_json::json!(98.0));
+        g.insert("prior_low_ref".to_string(), serde_json::json!(prior_low));
+        if let Some(t) = trigger_ref {
+            g.insert("trigger_ref".to_string(), serde_json::json!(t));
+            g.insert("trigger_side".to_string(), serde_json::json!("CLOSE_ABOVE"));
+        }
+        simulator::Draft { direction: "LONG".to_string(), birth_time: 0, risk_geometry: g }
+    }
+
+    #[test]
+    fn entry_trigger_gate_consults_trigger_ref() {
+        // Bars 0..7 flat at 100; bar 8 jumps to 110 (clears trigger_ref 105);
+        // bars 9..13 drift down. A LONG/CLOSE_ABOVE draft with trigger_ref=105:
+        // the wait starts at bar 8, whose close confirms — entry is the NEXT
+        // bar's close (bar 9), never the confirming bar's.
+        let rows: Vec<Value> = (0..14).map(|i| {
+            let c = if i < 8 { 100.0 } else { 110.0 - 0.5 * ((i - 8) as f64) };
+            bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
+        }).collect();
+        let (ds, stores) = tape_fixture(&rows, "trigger-confirm");
+        let funding: &[(i64, f64)] = &[];
+        let kernel = ReplayKernel {
+            round_trip_cost_r: 0.07,
+            funding_rate_r: 0.0,
+            funding_hours: 0,
+            fill_policy: simulator::FillPolicy::BarClose,
+            funding_schedule: funding,
+            round_trip_cost_bps: None,
+            bars: &ds.bars[0],
+            store: &stores[0],
+        };
+        let out = kernel.run(&trigger_draft(Some(105.0), 95.0), 8,
+                             ds.bars[0].closes.len(), None).unwrap();
+        assert_ne!(out.label_status, "NOT_EXECUTED", "a confirmed trigger must enter");
+        assert_eq!(out.entry_price, ds.bars[0].closes[9],
+                   "entry is the bar AFTER the confirming close (issue #67: the trigger is a close-confirmation, not the entry bar)");
+    }
+
+    #[test]
+    fn entry_trigger_never_confirmed_is_not_executed() {
+        // All closes stay at 100, below trigger_ref 105: the wait runs to the
+        // end of the tape and the trigger never fires — the epilogue
+        // convention (EXPIRY / NOT_EXECUTED): a non-trade, not a censored
+        // position.
+        let rows: Vec<Value> = (0..14).map(|i| {
+            let c = 100.0;
+            bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
+        }).collect();
+        let (ds, stores) = tape_fixture(&rows, "trigger-never");
+        let funding: &[(i64, f64)] = &[];
+        let kernel = ReplayKernel {
+            round_trip_cost_r: 0.07,
+            funding_rate_r: 0.0,
+            funding_hours: 0,
+            fill_policy: simulator::FillPolicy::BarClose,
+            funding_schedule: funding,
+            round_trip_cost_bps: None,
+            bars: &ds.bars[0],
+            store: &stores[0],
+        };
+        let out = kernel.run(&trigger_draft(Some(105.0), 95.0), 8,
+                             ds.bars[0].closes.len(), None).unwrap();
+        assert_eq!(out.label_status, "NOT_EXECUTED", "an unfired trigger never enters");
+        assert_eq!(out.endpoint, "EXPIRY", "the tape-end epilogue expires a PENDING candidate");
+        assert_eq!(out.net_r, 0.0);
+    }
+
+    #[test]
+    fn entry_trigger_absent_fails_open_unconditional() {
+        // No trigger_ref: the D-082 fail-open keeps the unconditional
+        // next-bar-close entry (experts without a trigger — entry:
+        // NEXT_BAR_CLOSE — must not change behavior).
+        let rows: Vec<Value> = (0..14).map(|i| {
+            let c = 100.0;
+            bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
+        }).collect();
+        let (ds, stores) = tape_fixture(&rows, "trigger-absent");
+        let funding: &[(i64, f64)] = &[];
+        let kernel = ReplayKernel {
+            round_trip_cost_r: 0.07,
+            funding_rate_r: 0.0,
+            funding_hours: 0,
+            fill_policy: simulator::FillPolicy::BarClose,
+            funding_schedule: funding,
+            round_trip_cost_bps: None,
+            bars: &ds.bars[0],
+            store: &stores[0],
+        };
+        let out = kernel.run(&trigger_draft(None, 95.0), 8,
+                             ds.bars[0].closes.len(), None).unwrap();
+        assert_ne!(out.label_status, "NOT_EXECUTED",
+                   "no trigger_ref means unconditional entry (fail-open, D-082)");
+        assert_eq!(out.entry_price, ds.bars[0].closes[8],
+                   "entry at the first wait bar's close");
+    }
+
+    #[test]
+    fn entry_trigger_invalidated_during_wait_is_not_executed() {
+        // Bar 8's close stays at 100 (trigger 105 unfired); bar 9's low dips to
+        // 94, breaching the frozen prior_low_ref 95 while the candidate is
+        // still PENDING — the wait ends invalidated (INVALIDATED_BEFORE_TRIGGER),
+        // never as an executed position.
+        let mut rows: Vec<Value> = (0..9).map(|i| {
+            let c = 100.0;
+            bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
+        }).collect();
+        rows.push(bar(99.0, 99.5, 94.0, 99.0, "SOLUSDT", 9)); // breach bar
+        for i in 10..14 {
+            let c = 100.0;
+            rows.push(bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i));
+        }
+        let (ds, stores) = tape_fixture(&rows, "trigger-invalid");
+        let funding: &[(i64, f64)] = &[];
+        let kernel = ReplayKernel {
+            round_trip_cost_r: 0.07,
+            funding_rate_r: 0.0,
+            funding_hours: 0,
+            fill_policy: simulator::FillPolicy::BarClose,
+            funding_schedule: funding,
+            round_trip_cost_bps: None,
+            bars: &ds.bars[0],
+            store: &stores[0],
+        };
+        let out = kernel.run(&trigger_draft(Some(105.0), 95.0), 8,
+                             ds.bars[0].closes.len(), None).unwrap();
+        assert_eq!(out.label_status, "NOT_EXECUTED");
+        assert_eq!(out.endpoint, "INVALIDATED_BEFORE_TRIGGER",
+                   "a prior-level breach during the PENDING wait invalidates — the candidate never enters");
+    }
+
+    #[test]
+    fn every_declared_risk_geometry_key_is_consumed_or_registered() {
+        // The dead-field registry guard (issue #67): union the risk_geometry
+        // keys every fired expert declares on a diverse tape and assert each
+        // is either read by a runner path (simulator/runloop/regret/compiled
+        // predicate) or registered as an identity/structural constant.
+        // trigger_ref was the original violation — computed, written, hashed,
+        // and read by no one; it is now a CONSUMED key, so the guard is live.
+        // bollinger_breakout and fib_rsi_bb_confluence are excluded: both
+        // underflow `i - BB_BASE_N + 1` on early bars in DEBUG builds (the
+        // same pre-existing defect the candidate-count test documents).
+        let mut rows: Vec<Value> = Vec::new();
+        // Bars 0..18: a gentle decline (each a down bar: open above close) so
+        // the ATR feature is emitted (it requires t >= 20, state.rs) and the
+        // immediately-preceding bar is a down bar.
+        for i in 0..19usize {
+            let c = 25.0 - 0.5 * (i as f64);
+            rows.push(bar(c + 0.3, c + 0.6, c - 0.3, c, "SOLUSDT", i));
+        }
+        // Bar 19: the down bar the hammer needs for its decline context.
+        rows.push(bar(15.3, 15.6, 14.5, 15.0, "SOLUSDT", 19));
+        // Bar 20: hammer (tiny real body near the top, long lower shadow) —
+        // candlestick_reversal (the trigger-ref pilot) fires here.
+        rows.push(bar(14.0, 14.2, 12.0, 14.15, "SOLUSDT", 20));
+        // Bars 21..60: a ramp (donchian_breakout, trend_pullback, ...).
+        for k in 0..40usize {
+            let i = 21 + k;
+            let c = 15.0 + 0.5 * (k as f64);
+            rows.push(bar(c, c + 0.3, c - 0.3, c, "SOLUSDT", i));
+        }
+        let (ds, stores) = tape_fixture(&rows, "declared-keys");
+        let mut declared: std::collections::HashSet<String> = std::collections::HashSet::new();
+        for store in &stores {
+            for i in 0..store.closes.len() {
+                let t = i + 1;
+                let as_of = store.avail[i];
+                let feats = state::state_features(store, t, as_of, state::HISTORY_DEPTH_DEFAULT);
+                let mut map: HashMap<String, state::Feature> = HashMap::new();
+                for f in &feats {
+                    map.insert(f.name.clone(), f.clone());
+                }
+                for (eid, _) in experts::TABLE.iter()
+                    .filter(|(id, _, _, _)| *id != "bollinger_breakout"
+                            && *id != "fib_rsi_bb_confluence")
+                    .map(|(id, _, ver, _)| (*id, *ver))
+                {
+                    let closure = features::group_closure(experts::requires_for(eid));
+                    let projected = features::project_features(&map, &closure);
+                    let hist = if features::history_allowed(&closure) {
+                        state::history_bars(store, t, state::HISTORY_DEPTH_DEFAULT)
+                    } else {
+                        Vec::new()
+                    };
+                    let fm = experts::base::FeatMap {
+                        features: &projected,
+                        history: hist,
+                        as_of,
+                        symbol: &store.symbol,
+                    };
+                    if let Some(d) = experts::evaluate(eid, &fm).draft {
+                        for k in d.risk_geometry.keys() {
+                            declared.insert(k.clone());
+                        }
+                    }
+                }
+            }
+        }
+        // The pilot must fire for the guard to protect its keys.
+        assert!(declared.contains("trigger_ref"),
+                "the dead-field tape must fire candlestick_reversal (the trigger-ref pilot)");
+        assert!(declared.contains("trigger_side"));
+        for key in &declared {
+            let consumed = CONSUMED_GEOMETRY_KEYS.contains(&key.as_str());
+            let identity = IDENTITY_ONLY_GEOMETRY_KEYS.iter().any(|(k, _)| *k == key.as_str());
+            assert!(consumed || identity,
+                    "risk_geometry key {key:?} is declared by a fired expert but read by NO runner path \
+                     (issue #67: dead fields must not silently accumulate)");
+        }
     }
 
 }

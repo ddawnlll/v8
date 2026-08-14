@@ -79,6 +79,29 @@ pub fn risk_unit(draft: &Draft, entry_price: f64) -> Result<f64, String> {
     ))
 }
 
+/// The entry-trigger contract (D-057): a draft declaring
+/// `risk_geometry['trigger_ref']` (an absolute price, frozen at detection)
+/// enters only on the book's close-confirmation — `trigger_side`
+/// CLOSE_ABOVE / CLOSE_BELOW (Ch14.2 "entry only on a CLOSE beyond the
+/// trigger"), the side derived from direction when the side key is absent.
+/// Fail-open on absent ref (D-082): no `trigger_ref` -> the gate is open and
+/// entry is unconditional. An unsupported `trigger_side` value fails CLOSED
+/// (the oracle raises `ValueError` for the same input).
+fn trigger_confirmed(draft: &Draft, close: f64) -> Result<bool, String> {
+    let ref_price = match draft.geom_f64("trigger_ref") {
+        Some(p) => p,
+        None => return Ok(true),
+    };
+    let above = match draft.risk_geometry.get("trigger_side").and_then(|v| v.as_str()) {
+        None => draft.direction != "SHORT",
+        Some("CLOSE_ABOVE") => true,
+        Some("CLOSE_BELOW") => false,
+        Some(s) => return Err(format!(
+            "unsupported trigger_side {s:?} — must be CLOSE_ABOVE or CLOSE_BELOW (D-057)")),
+    };
+    Ok(if above { close > ref_price } else { close < ref_price })
+}
+
 /// Fail closed on a geometry that cannot produce a meaningful outcome
 /// (mirror of `simulator.validate_geometry`).
 pub fn validate_geometry(draft: &Draft) -> Result<(), String> {
@@ -104,6 +127,18 @@ pub fn validate_geometry(draft: &Draft) -> Result<(), String> {
 pub enum FillPolicy {
     BarClose,
     Limit,
+}
+
+/// The outcome of a D-057 entry-trigger wait.
+enum TriggerWait {
+    /// (entry bar index, entry price at the entry bar's close) — the trigger
+    /// confirmed on the prior bar.
+    Confirmed(usize, f64),
+    /// A declared pre-entry invalidation ref was breached while waiting, or
+    /// the confirmed trigger had no entry bar left in the window.
+    Invalidated,
+    /// The window ended with the trigger unfired.
+    Expired,
 }
 
 /// The counterfactual outcome (mirror of `schema.CounterfactualOutcome`, hash
@@ -367,11 +402,67 @@ impl<'a> ReplayKernel<'a> {
             Some(label.to_string()), next, new_settlements, 1.0))
     }
 
+    /// The never-entered convention (oracle ledger: a candidate that never
+    /// fires its entry trigger is a non-trade — `NOT_EXECUTED`, endpoint
+    /// INVALIDATED_BEFORE_TRIGGER when invalidated while waiting / EXPIRY when
+    /// the tape ends with the trigger unfired, net_r 0.0).
+    fn never_entered(&self, endpoint: &str, wait_end: usize) -> Outcome {
+        Outcome {
+            endpoint: endpoint.to_string(), net_r: 0.0,
+            label_status: "NOT_EXECUTED".into(), horizon_bars: 0,
+            label_available_time: self.bars.available_times[wait_end - 1],
+            mae_r: 0.0, mfe_r: 0.0, ambiguous_bars: 0,
+            entry_price: 0.0, risk_unit_price: 0.0, market_move_r: 0.0,
+            cost_r: 0.0, funding_r: 0.0,
+        }
+    }
+
+    /// The D-057 trigger wait over `[start, end)`: the first bar whose close
+    /// confirms the declared `trigger_ref` — entry is then the NEXT bar's
+    /// close (the oracle triggers on bar j and enters at j+1). A bar whose
+    /// range breaches a declared pre-entry invalidation ref (`prior_low_ref`
+    /// LONG / `prior_high_ref` SHORT) ends the wait as invalidated (fail-open
+    /// when no invalidation ref is declared); the would-be entry bar is
+    /// re-checked for the same breach. `Expired` when the window ends with the
+    /// trigger unfired.
+    fn trigger_entry(&self, draft: &Draft, start: usize, end: usize)
+        -> Result<TriggerWait, String> {
+        let long = draft.direction == "LONG";
+        let low_ref = draft.geom_f64("prior_low_ref");
+        let high_ref = draft.geom_f64("prior_high_ref");
+        let breached = |i: usize| -> bool {
+            (long && low_ref.map(|r| self.bars.lows[i] < r).unwrap_or(false))
+                || (!long && high_ref.map(|r| self.bars.highs[i] > r).unwrap_or(false))
+        };
+        for j in start..end {
+            if breached(j) {
+                return Ok(TriggerWait::Invalidated);
+            }
+            if trigger_confirmed(draft, self.bars.closes[j])? {
+                let entry_idx = j + 1;
+                if entry_idx >= end {
+                    // Confirmed on the final bar: no entry bar before the
+                    // window ends — the candidate never enters (the oracle's
+                    // INVALIDATED_BEFORE_TRIGGER never-entered convention).
+                    return Ok(TriggerWait::Invalidated);
+                }
+                if breached(entry_idx) {
+                    return Ok(TriggerWait::Invalidated);
+                }
+                return Ok(TriggerWait::Confirmed(entry_idx, self.bars.closes[entry_idx]));
+            }
+        }
+        Ok(TriggerWait::Expired)
+    }
+
     /// Batch counterfactual replay of one (candidate, action) cell.
     ///
     /// `start` is the entry bar (absolute); `end` bounds the read window. The
     /// kernel reads no bar outside `[start, min(end, start + expiry + 1)]`
-    /// (OUTCOME_CUBE_SPEC §5).
+    /// (OUTCOME_CUBE_SPEC §5) — except the D-057 trigger wait, which runs to
+    /// the CALLER's `end` (a PENDING candidate is re-checked each bar until it
+    /// confirms, invalidates, or the tape ends, exactly like the oracle's
+    /// epilogue).
     pub fn run(&self, draft: &Draft, start: usize, end: usize,
                thesis: Option<&Value>) -> Result<Outcome, String> {
         validate_geometry(draft)?;
@@ -385,10 +476,38 @@ impl<'a> ReplayKernel<'a> {
             });
         }
         let expiry = draft.geom_i64("expiry_bars").unwrap_or(0) as usize;
+        // The trigger wait (D-057) runs to the caller's window end; the expiry
+        // horizon below bounds only the post-entry exit loop.
+        let wait_end = end;
         let end = end.min(start + expiry + 1);
 
         let entry = match self.fill_policy {
-            FillPolicy::BarClose => self.bars.closes[start],
+            FillPolicy::BarClose => {
+                // D-057 entry-trigger gate (issue #67): a draft declaring
+                // `trigger_ref` enters only on the book's close-confirmation.
+                // The candidate stays PENDING until a close clears the trigger,
+                // a declared pre-entry invalidation ref is breached, or the
+                // window ends — fail-open on absent ref (D-082) keeps the
+                // unconditional next-bar-close entry for experts without a
+                // trigger.
+                if draft.has_geom("trigger_ref") {
+                    match self.trigger_entry(draft, start, wait_end)? {
+                        TriggerWait::Confirmed(entry_idx, price) => {
+                            let entry_time = self.bars.available_times[entry_idx];
+                            let horizon = wait_end.min(entry_idx + 1 + expiry + 1);
+                            return self.exit_loop(draft, entry_idx, entry_idx + 1,
+                                                  horizon, thesis, price, entry_time);
+                        }
+                        TriggerWait::Invalidated => {
+                            return Ok(self.never_entered("INVALIDATED_BEFORE_TRIGGER", wait_end));
+                        }
+                        TriggerWait::Expired => {
+                            return Ok(self.never_entered("EXPIRY", wait_end));
+                        }
+                    }
+                }
+                self.bars.closes[start]
+            }
             FillPolicy::Limit => {
                 let limit = draft.geom_f64("limit_price")
                     .ok_or_else(|| "FILL_AT_LIMIT requires risk_geometry[limit_price]".to_string())?;
