@@ -1,0 +1,572 @@
+report:
+  accp_version: 2.0.0
+  source_format: ACCP-YAML
+  report_id: FER-V8-PERF-001
+  report_type: FER
+  report_family: feature
+  report_name: Feature Exploration Report
+  support_level: template_available
+  plan_id: v8-performance-backend-research
+  workspace_id: none
+  repo_root: /Users/hootie/src/v8
+  git_commit: 7246271224c3d75ea06932d3122d27b71476cdf2
+  git_branch: main
+  report_generated_at: '2026-08-10'
+  report_stale_after: on_next_commit
+  inspection_mode: read_only
+  confidence: medium
+  authority:
+    reports_are_evidence_only: true
+    route_signals_are_advisory: true
+    runtime_must_read_compiled_json: true
+    raw_yaml_is_not_runtime_authority: true
+    rendered_markdown_is_human_preview_only: true
+  agent:
+    agent_id: codex-desktop
+    agent_role: repo_agent
+    model_name: GPT-5
+    model_version: unknown
+    session_id: unknown
+    prompt_hash: unknown
+  lineage:
+    parent_report: none
+    supersedes: none
+    triggered_by: 'user_task: V8 execution technology decision for compute-heavy research/evaluation workloads'
+    continuation_of: none
+    validates: none
+  references:
+  - id: R001
+    ref: /Users/hootie/Downloads/accp_v2_0_strict_yaml_onefile_master.accp.yaml
+    purpose: Normative ACCP v2.0 strict YAML one-file FER schema.
+  - id: R002
+    ref: docs/contracts/ARCHITECTURE_SPEC.md
+    purpose: Current V8 component topology, Python baseline, determinism, and storage constraints.
+  - id: R003
+    ref: docs/contracts/RUNTIME_SCHEDULER_SPEC.md
+    purpose: Single-process, sorted-Expert, single-writer determinism contract.
+  - id: R004
+    ref: docs/contracts/IMPLEMENTATION_LAYOUT.md
+    purpose: Module ownership, stdlib-first decision path, and migration governance boundary.
+  - id: R005
+    ref: docs/contracts/EXPERT_PROTOCOL.md
+    purpose: Expert ontology, point-in-time state, self-gating, and value/audit requirements.
+  - id: R006
+    ref: docs/contracts/SIMULATION_TRUTH_SPEC.md
+    purpose: Level-1 simulator semantics and differential-test requirements.
+  - id: R007
+    ref: docs/charter/V8_CONSTITUTION.md
+    purpose: V8 authority rules, deterministic baseline, reproducibility, and no-future-leakage invariants.
+  - id: R008
+    ref: docs/CHANGELOG.md
+    purpose: Historical repository-specific performance measurements and structural optimization history.
+  - id: R009
+    ref: reports/accp/v8-rr-v02-phase0/source/FER-V8RR-002.accp.yaml
+    purpose: Prior FER evidence on replay/counterfactual tooling and the parallel-truth risk.
+  - id: R010
+    ref: reports/accp/v8-rr-v02-phase0/source/FDR-V8RR-003.accp.yaml
+    purpose: Prior FDR boundary decision keeping replay tooling outside src/v8 and preserving one simulator truth.
+  - id: R011
+    ref: https://ml-explore.github.io/mlx/build/html/install.html
+    purpose: Official MLX platform and installation capabilities.
+  - id: R012
+    ref: https://ml-explore.github.io/mlx/build/html/usage/compile.html
+    purpose: Official MLX compilation, shape, and cold-start behavior.
+  - id: R013
+    ref: https://ml-explore.github.io/mlx/build/html/usage/lazy_evaluation.html
+    purpose: Official MLX lazy evaluation and scalar-control-flow behavior.
+  - id: R014
+    ref: https://ml-explore.github.io/mlx/build/html/usage/unified_memory.html
+    purpose: Official MLX CPU/GPU unified-memory and small-operation guidance.
+  - id: R015
+    ref: https://ml-explore.github.io/mlx/build/html/dev/extensions.html
+    purpose: Official MLX custom CPU/GPU extension boundary.
+  - id: R016
+    ref: https://numba.readthedocs.io/en/stable/user/jit.html
+    purpose: Official Numba nopython/native-type/GIL behavior.
+  - id: R017
+    ref: https://numba.readthedocs.io/en/stable/reference/numpysupported.html
+    purpose: Official Numba NumPy arrays, structured scalars, and arbitrary-object limitations.
+  - id: R018
+    ref: https://numba.readthedocs.io/en/stable/user/parallel.html
+    purpose: Official Numba prange, parallel-loop, race, and control-flow constraints.
+  - id: R019
+    ref: https://pyo3.rs/main/building-and-distribution
+    purpose: Official PyO3/maturin wheel, ABI, and cross-platform packaging constraints.
+  - id: R020
+    ref: https://pyo3.rs/main/parallelism
+    purpose: Official PyO3 GIL detachment, Rayon, and Python-object thread-safety guidance.
+  - id: R021
+    ref: https://docs.rs/rayon/latest/rayon/
+    purpose: Official Rayon data-parallel iterator and data-race-free execution capabilities.
+  - id: R022
+    ref: https://doc.rust-lang.org/book/ch16-01-threads.html
+    purpose: Official Rust ownership/thread-safety model.
+  - id: R023
+    ref: https://rust-lang.github.io/rustup/cross-compilation.html
+    purpose: Official Rust target and cross-compilation requirements.
+  assumptions:
+  - id: AS001
+    assumption: The report measures the current worktree at commit 7246271 plus existing uncommitted changes in src/v8/lab.py, src/v8/store.py, src/v8/fast.py, and tests/test_fast_cache.py; those changes were not authored or altered by this investigation.
+    reason: git status showed the worktree was dirty before measurement, and the user required preservation of existing changes.
+    confidence: high
+    how_to_verify: Re-run the commands on a clean checkout of the stated commit and compare hashes and profiles.
+  - id: AS002
+    assumption: The historical timing entries in docs/CHANGELOG.md are repository evidence but are not re-measured as part of the current run.
+    reason: The entries contain exact workload shapes and before/after times, while the current run adds independent profiles and tests.
+    confidence: high
+    how_to_verify: Recreate the dated before/after revisions and repeat the commands.
+  - id: AS003
+    assumption: The managed .venv is an existing repository environment; no dependencies were installed or changed for this FER.
+    reason: .venv already contained NumPy, Hypothesis, DuckDB, and pytest, while Numba and MLX were absent.
+    confidence: high
+    how_to_verify: Run .venv/bin/python -m pip freeze and compare with uv.lock.
+  skipped_inspections:
+  - id: S001
+    item: Direct Numba and MLX execution prototypes
+    reason: Neither runtime is installed in the managed environment; installing them would alter the frozen dependency surface and violate the requested read-only production scope.
+    risk: medium
+    needed_next: Run the same reference/parity probes in isolated benchmark environments on the relevant CI and Apple/Linux hardware.
+  - id: S002
+    item: Full current-worktree canonical Lab run on the 394,545-row 10-symbol, 4-year tape
+    reason: Existing changelog evidence contains the 4-year workload result, while the current cProfile used an 8,760-bar V8-shaped workload and the current orchestration profile used four real 60-day cells.
+    risk: medium
+    needed_next: Repeat a full current-worktree real-tape run under an isolated benchmark budget before any migration FDR.
+  - id: S003
+    item: Memory-bandwidth/allocation profiler and cross-platform CI matrix
+    reason: cProfile establishes CPU call-time and call-count evidence, but no memory profiler was installed and no explicit CI matrix file was found.
+    risk: medium
+    needed_next: Add read-only memory/allocation and platform reproduction measurements to the benchmark gate.
+  sections:
+    feature_request_summary:
+      summary: Determine whether V8 should adopt MLX, Numba, a Rust native kernel/library, continued optimized Python, or a genuinely workload-specific hybrid. This FER is an evidence gate only and does not authorize a backend implementation.
+      items:
+      - id: FRS001
+        label: FACT
+        text: The first question is whether a measured binding runtime problem remains after V8's structural optimizations; the investigation does not assume that Python is the bottleneck.
+        evidence_refs:
+        - user_request
+        - docs/CHANGELOG.md
+        confidence: high
+      - id: FRS002
+        label: FACT
+        text: The repository distinguishes canonical decision/research execution from offline diagnostic, regret, replay, and statistical/report tooling. A backend decision therefore must be workload-specific unless common evidence proves a shared bottleneck.
+        evidence_refs:
+        - docs/contracts/ARCHITECTURE_SPEC.md
+        - tools/diagnostics.py
+        - tools/regret.py
+        confidence: high
+      - id: FRS003
+        label: DECISION
+        text: The current evidence supports RETAIN_PYTHON for the canonical Lab architecture and does not justify an MLX, Numba, or Rust migration FDR yet. A narrow Rust replay-kernel benchmark remains the smallest migration-discriminating next step for offline diagnostics.
+        evidence_refs:
+        - docs/CHANGELOG.md
+        - tmp/fer_backend_probe/bench.py
+        - tmp/fer_backend_probe/bench.rs
+        confidence: medium
+      - id: FRS004
+        label: GAP
+        text: No direct V8-scale Numba or MLX result exists, and the Rust probe is a toy branch-heavy kernel rather than CanonicalSimulator parity. Therefore no migrated backend receives a V8 speedup claim in this FER.
+        evidence_refs:
+        - command: .venv/bin/python import checks for numba and mlx -> ModuleNotFoundError
+        - tmp/fer_backend_probe/bench.py
+        confidence: high
+    existing_surfaces:
+      summary: V8 is a stdlib-first, deterministic Python research runtime with a hash-bound point-in-time state path, 27 executable registered Expert classes, append-only JSONL ledgers, a canonical Level-1 simulator, and offline diagnostic/regret replay surfaces.
+      items:
+      - id: ES001
+        label: FACT
+        text: "The composition root is Lab.run: tape JSONL replay -> MarketState/build_multi_state -> per-Expert projection -> sorted Expert.evaluate -> ExpertEvaluation/CandidateDraft -> episode_key geometry hashing -> lifecycle transitions -> RiskGate/ExposureBook -> stepped execution or counterfactual CanonicalSimulator -> states/evaluations/candidates/outcomes JSONL -> provenance and ledger hashes."
+        evidence_refs:
+        - src/v8/lab.py:220-1208
+        - src/v8/marketstate.py:867-1546
+        - src/v8/lifecycle.py:42-163
+        - src/v8/risk.py:48-211
+        - src/v8/simulator.py:247-700
+        confidence: high
+      - id: ES002
+        label: FACT
+        text: MarketState construction is numerical-feature and history heavy in source form, but it is also Python-object, dict, lineage-hash, and provenance heavy. Features are point-in-time gated; state_id and lineage hashes are deterministic identities, not disposable cache values.
+        evidence_refs:
+        - src/v8/marketstate.py:104-602
+        - src/v8/marketstate.py:867-1436
+        - src/v8/schema.py:102-189
+        confidence: high
+      - id: ES003
+        label: FACT
+        text: The registered execution roster is 27 concrete Expert classes plus a code-side confluence class; the 27-class performance probe invokes 27 Experts, and every registered Expert declares a 1h interval and 32-bar depth in the current registry. Expert code uses Python dataclasses, dict-keyed projected features, tuples/history, strings, branches, and in several families local history scans, min/max, sorting, and indicator predicates.
+        evidence_refs:
+        - src/v8/experts/__init__.py
+        - docs/EXPERTS_REGISTRY.yaml
+        - command: Python AST audit of src/v8/experts/*.py -> 27 ALL_EXPERT_CLASSES; all declared intervals 1h; all declared depths 32
+        confidence: high
+      - id: ES004
+        label: FACT
+        text: CanonicalSimulator.step/run is a branch-heavy, path-dependent state machine with STOP_FIRST ambiguity, gap-aware stop pricing, funding-before-orders, thesis invalidation, MAE/MFE, lifecycle-sensitive entry/exit ordering, and frozen geometry. It is not a homogeneous vector operation in its current representation.
+        evidence_refs:
+        - src/v8/simulator.py:303-508
+        - src/v8/simulator.py:526-656
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md
+        confidence: high
+      - id: ES005
+        label: FACT
+        text: Candidate lifecycle, risk admission, exposure contention, serialization, and hashing are semantically observable. Experts are evaluated in sorted expert_id order, ledgers are single-writer append-only logs, and replay must remain stable across process restarts and library versions.
+        evidence_refs:
+        - docs/contracts/RUNTIME_SCHEDULER_SPEC.md:45-57
+        - docs/contracts/RUNTIME_SCHEDULER_SPEC.md:82-92
+        - docs/contracts/PERSISTENCE_REPLAY_SPEC.md:63-80
+        - src/v8/store.py:16-103
+        confidence: high
+      - id: ES006
+        label: FACT
+        text: "Historical structural optimization was dominant: the D-056 state-builder pass measured 8,760 bars from about 280s to 12s, a BTCUSDT 4-year 35,064-bar Lab-shaped run at 67s, and an 8-symbol x 4-year serial-store projection at about 9 minutes instead of an estimated 11-12 hours. The change preserved state values, feature lineage, and candidate/evaluation/outcome fields."
+        evidence_refs:
+        - docs/CHANGELOG.md:568-620
+        - tests/test_state_cache_identity.py
+        confidence: high
+      - id: ES007
+        label: FACT
+        text: Historical pipeline optimization measured 8,760-bar x 3-pilot Lab runtime 46.9s to 16.6s and 1,500-bar x 27-Expert runtime 16.4s to 8.0s; the same entry reports 306,809 diagnostic _simulate calls collapsing to 91,853 distinct walks through memoization.
+        evidence_refs:
+        - docs/CHANGELOG.md:374-426
+        confidence: high
+      - id: ES008
+        label: FACT
+        text: Historical diagnostic profiling measured one 540-bar BTCUSDT cell at 72.6s before and 17.4s after D-075, and a 2-symbol x 2-timeframe 60-day matrix at 102.5s wall/245.4s CPU before and 29.2s wall/71.2s CPU after with four processes. The largest measured waste was repeated _median_atr recomputation at 54.3s of 72.6s, not an unmeasured language ceiling.
+        evidence_refs:
+        - docs/CHANGELOG.md:197-240
+        confidence: high
+      - id: ES009
+        label: MEASUREMENT
+        text: Current cProfile on 8,760 synthetic V8-shaped bars and 27 Experts recorded 302,028,501 calls and 74.579s cumulative Lab time under profiling. Top cumulative functions were build_multi_state 23.161s, build_state 22.230s, JSON dumps/encoding 9.386s/8.490s, AppendOnlyLog.append 8.038s, store.hash 7.132s, sha1_hex 6.930s, _asdict_fast 6.767s, store.read 5.469s, counterfactual 2.697s, and simulator.run 0.976s. The profile is instrumented and is not treated as a clean wall-time percentage decomposition.
+        evidence_refs:
+        - command: PYTHONPATH=.:src python3 tools/_perf_probe.py profile 8760
+        - tmp/fer_backend_probe/bench.py
+        confidence: high
+      - id: ES010
+        label: MEASUREMENT
+        text: Current cProfile on the last 540 real BTCUSDT 1h kline bars and all 27 diagnostic Experts recorded 65,878,078 calls and 21.422s cumulative DiagnosticEngine.run time. It measured 343,280 _simulate calls, 310,166 _compute_walk calls, 2,027,909 CanonicalSimulator.step calls at 13.180s cumulative, 8.738s in 200 random-run nulls, 4.983s in Expert forensics, and only about 0.501s in MarketState construction.
+        evidence_refs:
+        - command: PYTHONPATH=.:src python3 cProfile DiagnosticEngine on 540 real BTCUSDT bars
+        - tools/diagnostics.py:384-489
+        - tools/diagnostics.py:788-913
+        confidence: high
+      - id: ES011
+        label: MEASUREMENT
+        text: Current real multi-cell orchestration on the 10-symbol, 4-year tape, selecting BTCUSDT and ETHUSDT over 1h and 4h for 60 days with one process, completed in 57.498s wall with zero cell errors and four cells. Existing historical evidence shows the same class of matrix is parallelizable while preserving per-cell deterministic output, but current backend-specific speedups were not tested.
+        evidence_refs:
+        - command: time .venv/bin/python tools/diagnostics.py --tape research/tape/multi-1h-4y/tape.jsonl --out .audit/fer-multi-current --symbols BTCUSDT,ETHUSDT --timeframes 1h,4h --span-days 60 --processes 1
+        - .audit/fer-multi-current/report.json
+        - docs/CHANGELOG.md:374-426
+        confidence: high
+      - id: ES012
+        label: FACT
+        text: The repository records a previous 8,760-bar JSONL measurement of 5.87s of a 39.2s run in repeated log parsing/hashing (14% of wall), improved to 3.44s of a 36.7s run. A separate tape-builder optimization reduced a 960-archive grid from about 80 minutes of CPU to about 7 seconds without changing the tape contract.
+        evidence_refs:
+        - docs/CHANGELOG.md:541-566
+        - docs/CHANGELOG.md:684-706
+        confidence: high
+      - id: ES013
+        label: MEASUREMENT
+        text: The throwaway branch-heavy OHLC probe used 2,000 V8 synthetic bars and 20,000 randomized episodes. Rust and Python produced the same checksum bdaee6c38082a6ec; Python warm execution was 0.008028s, Rust warm execution 0.004684s, Python cold execution 0.007290s, Rust kernel cold execution 0.000340s, and standalone rustc -O compilation was 0.35s. This is a kernel capability measurement only, not a V8 runtime speed claim; it excludes PyO3 conversion, ledger writes, hashing, funding, and full simulator semantics.
+        evidence_refs:
+        - tmp/fer_backend_probe/bench.py
+        - tmp/fer_backend_probe/bench.rs
+        - command: .venv/bin/python tmp/fer_backend_probe/bench.py
+        - command: /usr/bin/time -p rustc -O tmp/fer_backend_probe/bench.rs -o tmp/fer_backend_probe/bench-rust-recompile
+        confidence: high
+      - id: ES014
+        label: GAP
+        text: No current memory profiler, CPU-vs-I/O hardware counter, current real full-Lab profile, Numba run, or MLX run exists. The measured evidence therefore identifies binding candidates but does not establish a production backend winner.
+        evidence_refs:
+        - skipped_inspections:S001
+        - skipped_inspections:S002
+        - skipped_inspections:S003
+        confidence: high
+    user_value:
+      summary: "V8 value is research throughput under scientific identity constraints: lower iteration latency and replay cost, larger symbol/Expert/action-grid scale, reproducibility across machines, maintainable Expert evolution, and auditable deterministic outputs."
+      items:
+      - id: UV001
+        label: FACT
+        text: Structural optimization already delivered measured multi-fold iteration-latency improvements without changing language or runtime, including 280s to 12s for the state path and 72.6s to 17.4s for a diagnostic cell.
+        evidence_refs:
+        - docs/CHANGELOG.md:197-240
+        - docs/CHANGELOG.md:568-620
+        confidence: high
+      - id: UV002
+        label: INFERENCE
+        text: For canonical Lab runs, the current largest measured costs are state construction, Python object/record conversion, JSON serialization, append/flush, and hashing; a simulator-only backend would leave most current cumulative cost in Python and the ledger boundary.
+        evidence_refs:
+        - command: PYTHONPATH=.:src python3 tools/_perf_probe.py profile 8760
+        - src/v8/lab.py:965-1208
+        confidence: high
+      - id: UV003
+        label: INFERENCE
+        text: For offline diagnostic/replay workloads, a native branch-loop kernel could materially improve throughput if it accepts large batches of primitive episodes and returns ordered results once per batch; the current profile shows the target, while the toy Rust probe shows only raw-kernel potential.
+        evidence_refs:
+        - command: cProfile DiagnosticEngine on 540 real BTCUSDT bars
+        - tmp/fer_backend_probe/bench.py
+        confidence: medium
+      - id: UV004
+        label: RISK
+        text: A second authoritative simulator implementation can reduce research velocity if every new execution policy, funding rule, ambiguity rule, lifecycle action, and provenance field requires synchronized Python and native changes plus differential validation.
+        evidence_refs:
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md
+        - reports/accp/v8-rr-v02-phase0/source/FER-V8RR-002.accp.yaml
+        confidence: high
+      - id: UV005
+        label: FACT
+        text: The current Python architecture has an explicit single-writer and sorted-evaluation contract, while diagnostic cells are already independently schedulable with deterministic per-cell seeds. This preserves a practical path to parallel scale without committing the canonical decision path to a new runtime.
+        evidence_refs:
+        - docs/contracts/RUNTIME_SCHEDULER_SPEC.md:45-57
+        - tools/diagnostics.py:3168-3257
+        confidence: high
+      - id: UV006
+        label: INFERENCE
+        text: A future backend has highest user value if it removes repeated Python dispatch and object creation inside replay batches while leaving Expert authoring, candidate identity, risk policy, ledger ownership, and report generation in Python; broad migration has lower reversibility and higher validation cost.
+        evidence_refs:
+        - src/v8/lab.py
+        - src/v8/simulator.py
+        - docs/contracts/IMPLEMENTATION_LAYOUT.md
+        confidence: medium
+    risks:
+      summary: The main risks are not only runtime speed; they are semantic drift, output-identity drift, portability, packaging, dependency, and research-velocity costs. Each candidate is evaluated against the same evidence boundary.
+      items:
+      - id: RK001
+        label: RISK
+        text: "MLX: the current path is not a large homogeneous tensor graph. Scalar arrays used for control flow force evaluation; dynamic per-bar branches, Python objects, variable candidate populations, hashing, serialization, and path-dependent simulator state would either remain host Python or require a primitive batched IR. MLX's Apple-unified-memory advantage does not make small heterogeneous kernels GPU-suitable."
+        evidence_refs:
+        - src/v8/lab.py
+        - src/v8/simulator.py
+        - https://ml-explore.github.io/mlx/build/html/usage/lazy_evaluation.html
+        - https://ml-explore.github.io/mlx/build/html/usage/unified_memory.html
+        confidence: high
+      - id: RK002
+        label: RISK
+        text: "MLX: current official installation is strongest on Apple Silicon/macOS, with separate Linux CPU/CUDA packages and hardware/toolchain requirements. Adopting MLX for canonical results could create hardware-family and floating-point reproduction risk, while the repository's intended deployment matrix is not explicitly frozen beyond Python >=3.11 and cross-platform lock artifacts."
+        evidence_refs:
+        - pyproject.toml:9-10
+        - uv.lock
+        - https://ml-explore.github.io/mlx/build/html/install.html
+        confidence: high
+      - id: RK003
+        label: RISK
+        text: "Numba: nopython can efficiently compile numeric arrays, structured scalars, and loops, and can release the GIL, but current Experts consume dataclasses, dict-keyed features, strings, tuples/history, and Python methods. Directly decorating current ontology is unlikely to enter nopython; a typed primitive record/array IR would be required. Parallel prange also requires analyzable control flow and safe reductions."
+        evidence_refs:
+        - src/v8/schema.py:149-260
+        - src/v8/experts/*.py
+        - https://numba.readthedocs.io/en/stable/user/jit.html
+        - https://numba.readthedocs.io/en/stable/reference/numpysupported.html
+        - https://numba.readthedocs.io/en/stable/user/parallel.html
+        confidence: high
+      - id: RK004
+        label: RISK
+        text: "Numba: compile warm-up, specialization by input types/shapes, package availability, and a second typed representation would burden tests and reproducibility. No Numba runtime was installed, so no V8-shaped cold/warm or semantic-parity result can justify Numba-first."
+        evidence_refs:
+        - command: .venv/bin/python import numba -> ModuleNotFoundError
+        - https://numba.readthedocs.io/en/stable/user/jit.html
+        confidence: high
+      - id: RK005
+        label: RISK
+        text: "Rust: a native replay/simulation kernel directly matches branch-heavy state-machine work and can release the GIL for safe parallel execution, but PyO3 conversion, wheel/ABI production, cross-platform builds, and a second semantic implementation are material costs. Rayon parallelism must be wrapped in a deterministic result-order/single-writer protocol."
+        evidence_refs:
+        - https://pyo3.rs/main/parallelism
+        - https://pyo3.rs/main/building-and-distribution
+        - https://docs.rs/rayon/latest/rayon/
+        - docs/contracts/RUNTIME_SCHEDULER_SPEC.md
+        confidence: high
+      - id: RK006
+        label: RISK
+        text: "Rust: the parity-checked toy probe was about 1.7x faster warm, which is material for a raw loop but insufficient to support a V8-scale migration claim because the probe excluded Python/Rust conversion, real geometry, funding schedules, hashing, ledger writes, and all semantic edge cases."
+        evidence_refs:
+        - tmp/fer_backend_probe/bench.py
+        - tmp/fer_backend_probe/bench.rs
+        confidence: high
+      - id: RK007
+        label: RISK
+        text: "Remaining Python: the current architecture may still have further safe gains in state/materialization reuse, record allocation, serialization/hash batching, and offline replay scheduling. Moving early to native code could freeze an unmeasured bottleneck and duplicate code before those simpler options are exhausted."
+        evidence_refs:
+        - docs/CHANGELOG.md
+        - src/v8/fast.py
+        - src/v8/store.py
+        confidence: medium
+      - id: RK008
+        label: RISK
+        text: "Hybrid: a Python canonical path plus a native offline replay path is only defensible if workload-specific profiles and parity tests show genuinely different binding bottlenecks. Without that evidence it becomes two implementations and a router-like governance surface, not a justified hybrid."
+        evidence_refs:
+        - docs/charter/V8_CONSTITUTION.md
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md
+        - reports/accp/v8-rr-v02-phase0/source/FER-V8RR-002.accp.yaml
+        confidence: high
+      - id: RK009
+        label: MISSING_EVIDENCE
+        text: No direct MLX or Numba benchmark, no Rust/PyO3 FFI benchmark, no cross-platform reproduction, and no memory/allocation profile were available in the frozen dependency scope.
+        evidence_refs:
+        - skipped_inspections:S001
+        - skipped_inspections:S003
+        confidence: high
+    open_questions:
+      summary: Only questions that can change the architecture ranking remain open; repository inspection has already answered the current hot-path and semantic-boundary questions.
+      items:
+      - id: OQ001
+        label: MISSING_EVIDENCE
+        text: At V8 scale, does a Rust CanonicalSimulator/replay kernel still produce a material end-to-end gain after one batched primitive conversion per workload and ordered result return, including funding, STOP_FIRST, MAE/MFE, thesis invalidation, and all execution policies currently declared?
+        evidence_refs:
+        - command: cProfile DiagnosticEngine on 540 real BTCUSDT bars
+        - src/v8/simulator.py:303-656
+        - tmp/fer_backend_probe/bench.py
+        confidence: high
+      - id: OQ002
+        label: MISSING_EVIDENCE
+        text: Can a primitive IR for the current Expert predicates preserve all 27 registered Expert applicability decisions, history/lookback semantics, candidate geometry, and ordering while reducing the measured canonical Python dispatch/object costs? This is the key Numba-versus-Rust structural question.
+        evidence_refs:
+        - src/v8/experts/*.py
+        - docs/EXPERTS_REGISTRY.yaml
+        - command: PYTHONPATH=.:src python3 tools/_perf_probe.py profile 8760
+        confidence: medium
+      - id: OQ003
+        label: MISSING_EVIDENCE
+        text: Is there a real V8 workload with sufficiently large, homogeneous numerical batches for MLX to amortize graph/compile/device scheduling cost, rather than the current mixture of per-bar feature objects, scalar predicates, path-dependent replay, and JSONL/hash operations?
+        evidence_refs:
+        - src/v8/marketstate.py
+        - src/v8/lab.py
+        - https://ml-explore.github.io/mlx/build/html/usage/compile.html
+        confidence: high
+      - id: OQ004
+        label: GAP
+        text: What is the authoritative portability matrix for V8 CI and research reproduction? pyproject.toml requires Python >=3.11 and uv.lock contains multiple platform wheels, but no explicit CI matrix was found in the inspected repository.
+        evidence_refs:
+        - pyproject.toml:9-29
+        - uv.lock
+        - command: rg --files .github -> no explicit CI matrix found
+        confidence: medium
+      - id: OQ005
+        label: GAP
+        text: What allocation and memory-bandwidth fraction remains after the measured structural optimizations? cProfile identifies Python call and serialization costs, but it cannot establish whether a native rewrite would be memory-bound or allocation-bound.
+        evidence_refs:
+        - command: PYTHONPATH=.:src python3 tools/_perf_probe.py profile 8760
+        - skipped_inspections:S003
+        confidence: medium
+    recommendation:
+      summary: Current recommendation is RETAIN_PYTHON for the canonical decision/research runtime, with no migration FDR/FCR authorized by this FER. The evidence is sufficient to define a small, later benchmark gate for an offline Rust replay kernel, but insufficient to select Rust, Numba, MLX, or a hybrid as the next authoritative backend.
+      items:
+      - id: REC001
+        label: DECISION
+        text: "Ranked architecture options: 1) ARCH-0 / RETAIN_PYTHON for current canonical Lab and Expert ontology; 2) ARCH-3 / Python orchestration plus Rust simulation/replay kernel as the strongest migration candidate for offline diagnostics, conditional on V8-scale parity and end-to-end gain; 3) ARCH-1 / Python plus Numba hot kernels, plausible only after a primitive IR and direct benchmark; 4) ARCH-4 / Numba first then Rust, reversible but currently speculative and not justified without Numba evidence; 5) ARCH-2 / Python plus MLX batched kernels, low current fit; 6) ARCH-5 / Python control plane plus Rust authoritative execution engine, highest ceiling but highest semantic and governance risk; 7) a hybrid router, not accepted until workload-specific evidence proves it is needed."
+        evidence_refs:
+        - docs/CHANGELOG.md
+        - command: current canonical and diagnostic cProfile measurements
+        - https://ml-explore.github.io/mlx/build/html/install.html
+        - https://numba.readthedocs.io/en/stable/user/jit.html
+        - https://pyo3.rs/main/parallelism
+        confidence: medium
+      - id: REC002
+        label: DECISION
+        text: "Decision matrix, categorical and evidence-bounded: ARCH-0 expected speed ceiling MEDIUM, expected CURRENT speed gain HIGH from continued structural work, measured hot-path coverage HIGH for canonical costs, migration effort LOW, semantic-drift risk LOW, determinism risk LOW, portability HIGH, CI complexity LOW, research velocity HIGH, Expert extensibility HIGH, debugging HIGH, packaging burden LOW, parallelization MEDIUM/HIGH for independent cells, GPU usefulness LOW, many-symbol scaling MEDIUM/HIGH, regret/action-grid suitability MEDIUM/HIGH, reversibility VERY_HIGH, confidence HIGH. ARCH-1 expected ceiling HIGH, current gain UNKNOWN, measured coverage UNKNOWN/MEDIUM, effort MEDIUM/HIGH, semantic risk MEDIUM, determinism risk MEDIUM, portability MEDIUM/HIGH, CI complexity MEDIUM, research velocity MEDIUM, Expert extensibility LOW/MEDIUM after IR conversion, debugging MEDIUM, packaging MEDIUM, parallelization HIGH for typed independent work, GPU usefulness LOW, many-symbol scaling HIGH, regret suitability MEDIUM, reversibility MEDIUM, confidence LOW. ARCH-2 ceiling HIGH for homogeneous arrays but LOW for current mixed path, current gain UNKNOWN, current coverage LOW, effort VERY_HIGH, semantic risk HIGH, determinism risk MEDIUM/HIGH, portability LOW/MEDIUM, CI complexity HIGH, research velocity LOW, Expert extensibility LOW, debugging LOW/MEDIUM, packaging HIGH, parallelization HIGH only after batching, GPU usefulness LOW currently, many-symbol scaling potentially HIGH, regret suitability LOW currently, reversibility LOW, confidence HIGH that it is a poor current fit. ARCH-3 ceiling VERY_HIGH, current gain UNKNOWN overall and POSSIBLY_HIGH for diagnostic replay, measured coverage HIGH for the profiled simulator hotspot but LOW for canonical serialization/state costs, effort HIGH, semantic risk HIGH, determinism risk MEDIUM, portability MEDIUM/HIGH, CI complexity HIGH, research velocity MEDIUM/LOW, Expert extensibility HIGH if Experts remain Python, debugging MEDIUM/LOW, packaging HIGH, parallelization VERY_HIGH for independent replay batches, GPU usefulness LOW, many-symbol scaling HIGH, regret suitability HIGH, reversibility MEDIUM, confidence MEDIUM. ARCH-4 ceiling VERY_HIGH, current gain UNKNOWN, effort VERY_HIGH, semantic risk HIGH, determinism risk MEDIUM/HIGH, portability MEDIUM, research velocity LOW/MEDIUM, confidence LOW. ARCH-5 ceiling VERY_HIGH, current gain UNKNOWN, effort VERY_HIGH, semantic-drift risk VERY_HIGH, determinism risk HIGH, portability MEDIUM, CI complexity VERY_HIGH, research velocity LOW, Expert extensibility LOW, debugging LOW, packaging VERY_HIGH, reversibility LOW, confidence LOW. HYBRID ceiling HIGH, current gain UNKNOWN, effort VERY_HIGH, semantic risk VERY_HIGH, determinism risk HIGH, CI/packaging VERY_HIGH, research velocity LOW/MEDIUM, and confidence LOW until workload-specific backend measurements exist."
+        evidence_refs:
+        - command: current canonical cProfile
+        - command: current diagnostic cProfile
+        - docs/contracts/RUNTIME_SCHEDULER_SPEC.md
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md
+        confidence: medium
+      - id: REC003
+        label: FACT
+        text: "Strongest case for ARCH-0: repository-specific evidence already shows multi-fold gains from algorithmic/recomputation fixes, and current canonical top costs are state construction, object/record conversion, JSONL, append/flush, and hashing rather than simulator stepping. Strongest case against ARCH-0: offline diagnostic replay has a measured 2,027,909-step hotspot, so continued Python may eventually leave material native-loop headroom."
+        evidence_refs:
+        - docs/CHANGELOG.md:197-240
+        - command: current canonical cProfile
+        - command: current diagnostic cProfile
+        confidence: high
+      - id: REC004
+        label: FACT
+        text: "Strongest case for ARCH-1: Numba can target typed scalar loops, primitive records, numeric arrays, and GIL-free independent work without requiring a full second language. Strongest case against ARCH-1: current ontology is object/dict/string/hash/serialization heavy, so nopython coverage requires a new primitive IR and may approach Rust-level redesign effort; direct Numba support was not measured."
+        evidence_refs:
+        - https://numba.readthedocs.io/en/stable/user/jit.html
+        - https://numba.readthedocs.io/en/stable/reference/numpysupported.html
+        - src/v8/experts/*.py
+        confidence: high
+      - id: REC005
+        label: FACT
+        text: "Strongest case for ARCH-2: MarketState's feature arrays could theoretically be batched over symbols, bars, and fixed windows, and MLX supports lazy graphs, compile, CPU/GPU streams, and custom operations. Strongest case against ARCH-2: the measured dominant canonical costs include Python records, hashes, JSONL, and lifecycle branches; MLX scalar control flow evaluates graphs and would require a major fixed-shape primitive rewrite, while portability and reproducibility are weaker."
+        evidence_refs:
+        - command: current canonical cProfile
+        - https://ml-explore.github.io/mlx/build/html/usage/compile.html
+        - https://ml-explore.github.io/mlx/build/html/usage/lazy_evaluation.html
+        - https://ml-explore.github.io/mlx/build/html/install.html
+        confidence: high
+      - id: REC006
+        label: FACT
+        text: "Strongest case for ARCH-3: current real diagnostic profiling directly identifies CanonicalSimulator.step/_compute_walk as the binding CPU path, and PyO3/Rayon can run primitive Rust work without holding the Python GIL. Strongest case against ARCH-3: the Rust/Python boundary, output ordering, funding/ambiguity/lifecycle semantics, packaging, and second-truth maintenance are unmeasured at V8 scale; the toy probe's 1.7x warm result is not enough."
+        evidence_refs:
+        - command: current diagnostic cProfile
+        - tmp/fer_backend_probe/bench.py
+        - https://pyo3.rs/main/parallelism
+        - https://docs.rs/rayon/latest/rayon/
+        confidence: high
+      - id: REC007
+        label: DECISION
+        text: "Smallest next benchmark, if a later FDR is opened: use actual stored CandidateDrafts and real diagnostic replay shapes; compare Python reference against a Rust C1/C4-style batched replay kernel over 10k, 100k, and full cell/action-grid cases; include one-time input conversion, result conversion, ordered single-writer merge, cold startup, warm throughput, memory, and thread scaling. Require exact value equivalence for endpoint, exit index/price, net_R, funding, MAE, MFE, ambiguous_bars, censoring, and deterministic ordering across randomized cases and process counts. Do not benchmark MLX until a concrete homogeneous array batch is extracted from profiling; do not benchmark Numba until the same primitive IR is specified."
+        evidence_refs:
+        - src/v8/simulator.py:303-656
+        - tools/diagnostics.py:384-489
+        - tools/regret.py:516-638
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md
+        confidence: high
+      - id: REC008
+        label: DECISION
+        text: "Later FDR boundaries that SHOULD be explored: an offline replay-kernel adapter under tools/ or a separately governed native package; one typed, contiguous input representation; one batch call per replay set; deterministic result indexing; explicit Python ownership of candidate identity, risk admission, lifecycle, provenance, and ledger writes until parity is proven. C1 Python orchestration plus Rust CanonicalSimulator kernel is the first Rust boundary to test; C2 Expert kernel and C3 MarketState kernel are lower priority because their current object/provenance shapes are less naturally isolated; C4 combined evaluation/replay is only after C1 proves conversion amortization; C5 full Rust decision path is out of scope."
+        evidence_refs:
+        - docs/contracts/IMPLEMENTATION_LAYOUT.md
+        - docs/contracts/RUNTIME_SCHEDULER_SPEC.md
+        - reports/accp/v8-rr-v02-phase0/source/FDR-V8RR-003.accp.yaml
+        confidence: medium
+      - id: REC009
+        label: DECISION
+        text: "Components that SHOULD NOT be migrated in a first backend experiment: Expert ontology and authoring surface, Candidate lifecycle and episode_key, RiskGate/ExposureBook, hash/provenance policy, JSONL single-writer ledger authority, Lab report assembly, and statistics/bootstrap semantics. These are audit and scientific-identity surfaces, not measured native-kernel targets."
+        evidence_refs:
+        - src/v8/lifecycle.py
+        - src/v8/risk.py
+        - src/v8/store.py
+        - src/v8/statistics.py
+        - docs/charter/V8_CONSTITUTION.md
+        confidence: high
+      - id: REC010
+        label: FACT
+        text: "Semantic acceptance rule for any future backend: require VALUE-EQUIVALENCE across Candidate population, Expert applicability, setup anchors, episode identity, lifecycle, risk admission, execution ordering, STOP_FIRST, funding, MAE/MFE, censoring/refusal, model-derived outcomes, deterministic ordering, provenance fields, and no-future-leakage. BYTE/HASH-EQUIVALENCE is not required for code_version/code_hash/simulator_hash when the implementation changes, but data_hash, state values/state_id, candidate identity, manifest inputs, risk configuration, and legal-action manifests should remain equal when their inputs and definitions are unchanged; ledger_hash and implementation-bound hashes may legitimately change because code is part of their identity."
+        evidence_refs:
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md
+        - docs/contracts/EXPERT_PROTOCOL.md
+        - src/v8/lab.py:106-124
+        - src/v8/lifecycle.py:42-50
+        - src/v8/simulator.py:658-700
+        confidence: high
+      - id: REC011
+        label: FALSIFICATION
+        text: The RETAIN_PYTHON recommendation would be reversed by a clean end-to-end observation that, after structural/materialization fixes, a typed native or JIT kernel removes a measured dominant cost at actual V8 scale; that its conversion plus merge overhead is amortized; that cold and warm throughput both meet the research budget; and that randomized differential tests preserve all semantic outputs and deterministic hashes/provenance rules. A Rust recommendation would be falsified by conversion-dominated speed, semantic drift, or packaging/CI cost exceeding the measured throughput gain. Numba would be falsified by low nopython coverage or IR cost near Rust without comparable gain. MLX would be falsified by insufficient batch homogeneity, repeated scalar synchronization, or hardware-dependent outputs.
+        evidence_refs:
+        - command: current canonical and diagnostic profiles
+        - tmp/fer_backend_probe/bench.py
+        - docs/contracts/SIMULATION_TRUTH_SPEC.md
+        confidence: high
+    final_status:
+      status: CONDITIONAL
+      safe_to_continue: 'no'
+      requires_hir: 'no'
+      reason:
+      - The FER is complete as an evidence report and includes repository-specific measurements, primary-source capability research, architecture comparison, semantic boundaries, and falsification criteria.
+      - There is enough evidence to retain the current optimized Python architecture, but not enough direct backend evidence to start an FDR/FCR for MLX, Numba, Rust, or a hybrid authoritative implementation.
+      - The next safe continuation is a separately scoped benchmark-only design for the offline Rust replay-kernel hypothesis; it is not an implementation authorization and is not a backend selection.
+      self_assessment:
+        required_sections_complete: yes
+        evidence_coverage: medium
+        unresolved_gaps:
+        - Direct Numba and MLX V8-shaped benchmarks are unavailable because the runtimes are not installed and were not added.
+        - Rust/PyO3 end-to-end replay parity and conversion-cost measurements are not yet available.
+        - Current memory/allocation and cross-platform CI evidence is incomplete.
+        - Full current-worktree real-tape canonical Lab profiling remains to be repeated.
+        confidence_in_own_completeness: medium
+  compiler_expectations:
+    source_path: reports/accp/v8-performance-backend-research/source/FER-V8-PERF-001.accp.yaml
+    compiled_json: reports/accp/v8-performance-backend-research/compiled/FER-V8-PERF-001.compiled.json
+    ir_json: reports/accp/v8-performance-backend-research/ir/FER-V8-PERF-001.ir.json
+    gate_verdict_json: reports/accp/v8-performance-backend-research/verdict/FER-V8-PERF-001.gate-verdict.json
+    route_signal_json: reports/accp/v8-performance-backend-research/route/FER-V8-PERF-001.route-signal.json
