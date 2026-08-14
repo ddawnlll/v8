@@ -48,6 +48,13 @@ use crate::regret;
 use crate::simulator::{self, ReplayKernel, SimulatorParams};
 use crate::state::{self, FeatureStore};
 
+/// The bounded prior window for the pre-entry invalidation fallback
+/// (D-034 / D-059, issue #66): the extreme over the `PRIOR_WINDOW_BARS` bars
+/// before the birth bar, never the all-bars prefix extreme — the prefix
+/// extreme is pinned by an old spike and made the gate dead code for the six
+/// experts that freeze no `prior_*_ref`.
+const PRIOR_WINDOW_BARS: usize = state::HISTORY_DEPTH_DEFAULT;
+
 // ---------------------------------------------------------------------------
 // Request
 // ---------------------------------------------------------------------------
@@ -166,6 +173,26 @@ struct PendingCandidate {
     entry_bar: usize,
     risk_geometry: serde_json::Map<String, Value>,
     symbol: String,
+    /// Pre-entry invalidation levels (issue #66 / D-059): the frozen
+    /// `prior_low_ref` / `prior_high_ref` when the draft declares one, else
+    /// the bounded windowed extreme over the bars before birth (D-034).
+    prior_low: f64,
+    prior_high: f64,
+}
+
+/// The bounded windowed prior extreme over the `PRIOR_WINDOW_BARS` bars before
+/// `birth`: `(prior_low, prior_high)` = `(min(lows), max(highs))` over
+/// `[birth - W, birth)`. Both `None` when the window is empty — the caller
+/// fails closed rather than defaulting to 0.0/inf (issue #66 / D-059).
+fn windowed_prior_extremes(highs: &[f64], lows: &[f64], birth: usize)
+    -> (Option<f64>, Option<f64>) {
+    let lo = birth.saturating_sub(PRIOR_WINDOW_BARS);
+    if lo >= birth {
+        return (None, None);
+    }
+    let low = lows[lo..birth].iter().cloned().fold(f64::INFINITY, f64::min);
+    let high = highs[lo..birth].iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+    (Some(low), Some(high))
 }
 
 fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
@@ -349,6 +376,19 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                 }))?;
                 // Entry is the next bar's close (lab.run PHASE 2: a candidate
                 // born at bar i enters at i + 1).
+                // Pre-entry invalidation levels (issue #66 / D-059): the
+                // frozen `prior_*_ref` when the draft declares one, else the
+                // bounded windowed extreme over the bars before birth
+                // (D-034). The all-bars prefix-extreme state feature is NEVER
+                // used here — an old spike outside the window pins it and
+                // makes the gate dead code for experts that freeze no ref.
+                let frozen_low = draft.risk_geometry.get("prior_low_ref").and_then(|v| v.as_f64());
+                let frozen_high = draft.risk_geometry.get("prior_high_ref").and_then(|v| v.as_f64());
+                let (win_low, win_high) = windowed_prior_extremes(&store.highs, &store.lows, i);
+                let prior_low = frozen_low.or(win_low).ok_or_else(|| format!(
+                    "{sym} no prior bars at birth {as_of} to derive a windowed invalidation level for {eid} — refuse, never default to 0/inf"))?;
+                let prior_high = frozen_high.or(win_high).ok_or_else(|| format!(
+                    "{sym} no prior bars at birth {as_of} to derive a windowed invalidation level for {eid} — refuse, never default to 0/inf"))?;
                 pending.push(PendingCandidate {
                     candidate_id: cid,
                     direction: draft.direction.clone(),
@@ -356,6 +396,8 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                     entry_bar: i + 1,
                     risk_geometry: draft.risk_geometry.clone(),
                     symbol: sym.clone(),
+                    prior_low,
+                    prior_high,
                 });
                 n_candidates += 1;
             }
@@ -551,8 +593,29 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
         let window_end = store.closes.len();
         let entry_idx = cand.entry_bar;
 
+        // Pre-entry invalidation re-checked on the entry bar itself
+        // (CANDIDATE_LIFECYCLE_SPEC: a PENDING/TRIGGERED candidate ends on
+        // invalidation_observed). The level is the frozen ref or the bounded
+        // windowed extreme before birth (D-059) — never the unbounded all-bars
+        // prefix state feature, which an old spike pins and which made the
+        // gate dead code for the six ref-less experts (issue #66). A breached
+        // candidate never enters: every legal action is a NO_ENTRY cell
+        // (mirroring the oracle's `candidate has no actual entry bar`).
+        let invalidated = entry_idx < window_end
+            && ((cand.direction == "LONG" && bars.lows[entry_idx] < cand.prior_low)
+                || (cand.direction == "SHORT" && bars.highs[entry_idx] > cand.prior_high));
+
         let mut cells = Vec::with_capacity(manifest.actions.len());
         for a in &manifest.actions {
+            if invalidated {
+                cells.push(regret::Cell {
+                    action_id: a.action_id.clone(),
+                    status: regret::CELL_NO_ENTRY,
+                    reason: "candidate invalidated before entry (prior level breached)".into(),
+                    net_utility: None,
+                });
+                continue;
+            }
             if a.kind == "NO_TRADE" {
                 cells.push(regret::Cell {
                     action_id: a.action_id.clone(),
@@ -858,6 +921,78 @@ mod tests {
         assert_eq!(a, 1, "first detection admitted");
         assert_eq!(b, 0, "no duplicate episode keys on this tape");
         assert_eq!(c, 1, "second same-direction candidate is portfolio-rejected");
+    }
+
+    #[test]
+    fn windowed_prior_extremes_is_bounded_to_prior_32_bars() {
+        // 40 bars: bars 0..3 spike down to low 1.0; bars 4..40 hold >= 5.0.
+        // The window before birth = 40 is [8..40) — the old spike is excluded,
+        // so the windowed prior low is the recent-window minimum, not the
+        // all-bars prefix minimum (issue #66: the prefix extreme is pinned by
+        // an old spike and makes the gate dead code).
+        let mut highs = Vec::new();
+        let mut lows = Vec::new();
+        for i in 0..40usize {
+            if i < 4 {
+                highs.push(6.0);
+                lows.push(1.0);
+            } else {
+                highs.push(30.0);
+                lows.push(5.0 + i as f64);
+            }
+        }
+        let (prior_low, prior_high) = windowed_prior_extremes(&highs, &lows, 40);
+        assert!(prior_low.unwrap() > 1.0,
+                "the old spike outside the window must not pin the windowed prior low");
+        assert_eq!(prior_high.unwrap(), 30.0);
+        // Empty window (birth 0) fails closed — never default to 0.0/inf.
+        assert_eq!(windowed_prior_extremes(&highs, &lows, 0), (None, None));
+    }
+
+    #[test]
+    fn pre_entry_invalidation_fires_on_windowed_prior_extreme() {
+        // An old crash (bars 0..3, low 3.7) pins the UNBOUNDED prefix minimum
+        // at 3.7. The trend_pullback LONG setup is born at bar 36, whose
+        // 32-bar window [4..36) excludes the old crash — the windowed
+        // prior_low is the ramp's bar-4 low (9.7). The entry bar 37 then
+        // crashes to low 6.7: below the windowed level but above the old
+        // spike, so the pre-entry gate fires — with the unbounded prefix it
+        // would be dead code. The candidate must NOT execute: every cube cell
+        // is NO_ENTRY.
+        let mut rows: Vec<Value> = Vec::new();
+        for i in 0..4usize {
+            let c = 4.0;
+            rows.push(bar(c, c + 0.3, c - 0.3, c, "SOLUSDT", i));
+        }
+        for i in 4..36usize {
+            let c = 10.0 + 0.5 * ((i - 4) as f64); // ramp 10.0..25.5
+            rows.push(bar(c, c + 0.3, c - 0.3, c, "SOLUSDT", i));
+        }
+        rows.push(bar(20.0, 20.3, 19.7, 20.0, "SOLUSDT", 36)); // dip: setup born
+        rows.push(bar(7.0, 7.3, 6.7, 7.0, "SOLUSDT", 37));     // crash: gate fires
+        for (k, c) in [9.0, 10.0, 11.0, 12.0].iter().enumerate() {
+            rows.push(bar(*c, *c + 0.3, *c - 0.3, *c, "SOLUSDT", 38 + k));
+        }
+
+        let manifest = serde_json::json!({ "funding_window_bars": 0 });
+        let tape = write_tape(&rows, "invalidation");
+        let r = req(tape, "invalidation", vec!["trend_pullback"], manifest);
+        let summary = evaluate(&r).unwrap();
+        assert_eq!(summary["n_candidates"].as_u64().unwrap(), 1,
+                   "the dip admits exactly one candidate");
+        let cube_path = std::path::PathBuf::from(summary["cube_reduced"].as_str().unwrap());
+        let cube = evidence::read_artifact(&cube_path).unwrap();
+        let no_entry = cube.column("n_no_entry").expect("n_no_entry column");
+        assert_eq!(no_entry.len(), 1, "one candidate row in the cube");
+        let n_no_entry = no_entry[0].as_ref().expect("n_no_entry present").as_i64().unwrap();
+        assert!(n_no_entry > 0, "the invalidated candidate never enters (n_no_entry={n_no_entry})");
+        let n_ok = cube.column("n_ok").expect("n_ok column")[0]
+            .as_ref().expect("n_ok present").as_i64().unwrap();
+        assert_eq!(n_ok, 0, "no action executes for an invalidated candidate");
+        let reason = cube.column("abstention_reason").expect("abstention_reason column")[0]
+            .as_ref().expect("reason present").as_str().unwrap();
+        assert!(reason.contains("invalidated before entry"),
+                "the cube records the pre-entry invalidation, got: {reason}");
     }
 
 }

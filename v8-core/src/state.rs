@@ -590,6 +590,9 @@ pub struct FeatureStore {
     pub obv: Vec<f64>,
     pub adl: Vec<f64>,
     /// Indexed by bar count t: prior_high[t] = max(highs[0..t-1]), None for t < 2.
+    /// UNBOUNDED prefix extremes by design (D-056) — NEVER used for the
+    /// pre-entry invalidation gate, which uses the frozen `prior_*_ref` or the
+    /// bounded 32-bar windowed extreme before birth (D-034/D-059, issue #66).
     pub prior_high: Vec<Option<f64>>,
     pub prior_low: Vec<Option<f64>>,
     pub piv_hi: [Vec<(usize, f64, f64)>; 3], // per SWING_NS
