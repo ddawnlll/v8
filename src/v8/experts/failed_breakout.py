@@ -80,13 +80,19 @@ class FailedBreakoutExpert(Expert):
         # documented thesis invalidation ('a close back above the prior high')
         # never fires on a reversal.
         anchor = self.find_setup_anchor(self._hist, self._setup_pred)
+        # Issue #63: the structural stop IS the frozen breakout level — the
+        # stop's place for a failed-breakout SHORT is beyond the prior high
+        # it failed under, not a fixed ATR multiple from entry. stop_r is the
+        # frozen distance in R (D-028): (prior_high - close) / atr_ref.
+        stop_r = (self._ref_prior_high - close) / atr
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction='SHORT',
             setup_fingerprint=f'{sym}:{close:.6f}:{self._ref_prior_high:.6f}',
             risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                           'stop_r': 1.0, 'expiry_bars': 8,
-                           'atr_ref': atr, 'prior_high_ref': self._ref_prior_high},
+                           'stop_r': stop_r, 'expiry_bars': 8,
+                           'atr_ref': atr, 'prior_high_ref': self._ref_prior_high,
+                           'stop_ref': self._ref_prior_high},
             birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)

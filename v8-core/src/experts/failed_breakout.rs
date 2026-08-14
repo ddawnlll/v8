@@ -36,16 +36,21 @@ pub fn failed_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEv
     let level = ref_prior_high;
     let pred = |_i: usize, b: &HistBar| _i > breakout_idx && b.close < level;
     let anchor = find_setup_anchor(&fm.history, &pred);
+    // Issue #63: the structural stop IS the frozen breakout level — beyond
+    // the prior high the SHORT failed under, not an ATR multiple from entry.
+    // stop_r is the frozen distance in R (D-028): (prior_high - close)/atr.
+    let stop_r = (ref_prior_high - close) / atr;
     let draft = Draft {
         direction: "SHORT".into(),
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
             ("target_r", serde_json::json!(1.0)),
-            ("stop_r", serde_json::json!(1.0)),
             ("expiry_bars", serde_json::json!(8)),
             ("atr_ref", serde_json::json!(atr)),
             ("prior_high_ref", serde_json::json!(ref_prior_high)),
+            ("stop_ref", serde_json::json!(ref_prior_high)),
+            ("stop_r", serde_json::json!(stop_r)),
         ]),
     };
     let fingerprint = format!("{sym}:{:.6}:{:.6}", close, ref_prior_high);

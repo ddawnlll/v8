@@ -42,7 +42,8 @@ pub fn donchian_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Expert
     };
     let anchor = find_setup_anchor(&fm.history, &pred);
     // Frozen channel-band stop in R (D-028; book Ch12 p486): the level the
-    // breakout left.
+    // breakout left. Issue #63: the structural stop IS that band level
+    // (window_low for a LONG breakout), not an ATR multiple from entry.
     let stop_r = (close - window_low) / atr;
     let draft = Draft {
         direction: "LONG".into(),
@@ -56,6 +57,7 @@ pub fn donchian_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Expert
             ("prior_low_ref", serde_json::json!(window_low)),
             ("channel_n", serde_json::json!(CHANNEL_N)),
             ("variant", serde_json::json!("a")),
+            ("stop_ref", serde_json::json!(window_low)),
             ("stop_r", serde_json::json!(stop_r)),
         ]),
     };

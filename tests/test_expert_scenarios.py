@@ -167,7 +167,12 @@ def test_failed_breakout_fires_on_failed_breakout():
     geo = draft.risk_geometry
     assert geo['entry'] == 'NEXT_BAR_CLOSE'
     assert geo['target_r'] == pytest.approx(1.0)
-    assert geo['stop_r'] == pytest.approx(1.0)
+    # Issue #63: the stop IS the frozen breakout level (structural stop); the
+    # old fixed 1.0R ATR-multiple stop is gone.
+    assert geo['stop_ref'] == pytest.approx(128.5)
+    close = rows[-1].payload['close']
+    atr = _state_at(rows, 30).features['SOLUSDT.atr'].value
+    assert geo['stop_r'] == pytest.approx((128.5 - close) / atr)
     assert geo['expiry_bars'] == 8
     assert geo['atr_ref'] > 0
 

@@ -281,10 +281,16 @@ def test_worst_case_and_wmin_reported(tmp_path):
     assert r.worst_case_r == pytest.approx(min(net_rs))     # realized WCS
     assert r.worst_case_portfolio_r == pytest.approx(-3.0)  # -max_heat, all stops
     # Spread-adjusted breakeven win rate (RM-11): w_min = 1/(1 + R/r') with
-    # R/r' = (target_r - cost)/(stop_r + cost); geometry 1.0/1.0, cost 0.07.
+    # R/r' = (target_r - cost)/(stop_r + cost). The executed geometry is no
+    # longer uniform 1.0/1.0 (D-058 structural stops), so the expectation is
+    # computed from the report's executed_geometry, not a fixed geometry.
     cost = 0.07
-    expected_w = 1.0 / (1.0 + (1.0 - cost) / (1.0 + cost))
-    assert r.w_min == pytest.approx(expected_w)
+    w_vals = [
+        1.0 / (1.0 + (target_r - cost) / (stop_r + cost))
+        for target_r, stop_r in r.executed_geometry
+    ]
+    assert w_vals
+    assert r.w_min == pytest.approx(sum(w_vals) / len(w_vals))
 
 
 # --- hash binding + wiring invariants --------------------------------------

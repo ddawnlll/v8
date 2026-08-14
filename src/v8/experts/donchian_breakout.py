@@ -150,10 +150,15 @@ class DonchianBreakoutExpert(Expert):
             stop_r = (close - window_low) / atr
         else:
             stop_r = (window_high - close) / atr
+        # Issue #63: the structural stop is the channel band level itself
+        # (window_low for a LONG breakout, window_high for a SHORT) — the
+        # level the breakout left, not a fixed ATR multiple from entry.
+        stop_ref = window_low if direction == 'LONG' else window_high
         geom = {'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0, 'expiry_bars': 8,
                 'atr_ref': atr, 'prior_high_ref': window_high,
                 'prior_low_ref': window_low, 'channel_n': n,
-                'variant': self.variant_id, 'stop_r': stop_r}
+                'variant': self.variant_id, 'stop_r': stop_r,
+                'stop_ref': stop_ref}
         if self.exit_kind == 'responsive':
             geom['responsive_exit_n'] = RESPONSIVE_EXIT_N
         elif self.exit_kind == 'significant_extreme':

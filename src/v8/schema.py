@@ -446,6 +446,11 @@ class LabReport:
     drawdown_sized_episodes: int = 0           # episodes admitted under a drawdown band
     risk_of_ruin: float | None = None          # MC P(ruin) over the realized sequence
     profit_factor: float | None = None         # gross win / gross |loss| over executed net_r
+    # RM-11 executed geometry: (target_r, stop_r) per executed episode, in
+    # declaration order. Report-only; surfaces what w_min actually averaged
+    # over, so a consumer can recompute the breakeven win rate without
+    # re-deriving geometry (structural stops make it non-uniform, D-058).
+    executed_geometry: list = field(default_factory=list)
     w_min: float | None = None                 # spread-adjusted breakeven win rate 1/(1+R/r')
     worst_case_r: float | None = None          # worst realized single-episode net_r (RM-10)
     worst_case_portfolio_r: float | None = None  # theoretical: -max_heat (all stops at once)

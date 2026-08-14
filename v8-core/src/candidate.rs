@@ -56,8 +56,8 @@ pub fn episode_key(expert_id: &str, expert_version: &str, instrument: &str,
 /// Structural risk geometry only: `atr_ref`, the `prior_*_ref` invalidation
 /// levels and the frozen band refs are data-dependent and excluded from
 /// episode identity (src/v8/lab.py `_geometry_version`).
-pub const EXCLUDED_GEOMETRY_KEYS: [&str; 5] = ["atr_ref", "prior_high_ref",
-    "prior_low_ref", "lower_3sd_ref", "upper_3sd_ref"];
+pub const EXCLUDED_GEOMETRY_KEYS: [&str; 7] = ["atr_ref", "prior_high_ref",
+    "prior_low_ref", "lower_3sd_ref", "upper_3sd_ref", "stop_ref", "stop_r"];
 
 pub fn geometry_version(risk_geometry: &serde_json::Map<String, serde_json::Value>)
     -> String {

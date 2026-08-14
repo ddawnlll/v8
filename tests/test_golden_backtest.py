@@ -180,7 +180,15 @@ UNIVERSE = ('SOLUSDT',)
 # the merge: data_hash, candidate_count (15), terminal_distribution
 # ({CLOSED:12, INVALIDATED:1, REJECTED:2}) and verdict NO_ECONOMIC_CLAIM are
 # UNCHANGED. Do not update silently.
-GOLDEN_LEDGER_HASH = '70b83058deef9385bf3a37be1c0c0d2334b5921f'
+# Re-pinned 2026-08-14 (ISSUE #63 STRUCTURAL STOPS): failed_breakout now
+# declares `stop_ref` (the frozen breakout level) with stop_r derived from it
+# instead of a fixed 1.0 ATR multiple, so the fixture's executed geometry is
+# wider (structural distance) and the honest heat (size*stop_r) admits fewer
+# concurrent positions: REJECTED 2->8, CLOSED 12->6 on the same 15 candidates.
+# data_hash, states_hash, candidate_count and the verdict are unchanged; the
+# _geometry_version exclusion of stop_ref/stop_r (D-026, data-dependent) keeps
+# dedup byte-identical — this is an exit-geometry change, not an episode change.
+GOLDEN_LEDGER_HASH = 'cca35ceece166d7a39665a316ca3042422698700'
 GOLDEN_DATA_HASH = '1c41077b2cf861f9779bb71e49bbe606015e602f'
 GOLDEN_STATES_HASH = '786378b5bfa50a3c9e422ddaaa1b4b91dc1a2dae'
 # 2026-08-07 perf pass (100x total-pipeline program): re-pinned after the
@@ -192,7 +200,7 @@ GOLDEN_STATES_HASH = '786378b5bfa50a3c9e422ddaaa1b4b91dc1a2dae'
 # verdict are unchanged; only ledger_hash/states_hash re-version (the
 # documented "code_version moved each time" convention above).
 GOLDEN_CANDIDATE_COUNT = 15
-GOLDEN_TERMINAL_DISTRIBUTION = {'CLOSED': 12, 'INVALIDATED': 1, 'REJECTED': 2}
+GOLDEN_TERMINAL_DISTRIBUTION = {'REJECTED': 8, 'CLOSED': 6, 'INVALIDATED': 1}
 
 
 def _manifest() -> ExperimentManifest:

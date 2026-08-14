@@ -74,13 +74,21 @@ class LiquiditySweepReclaimExpert(Expert):
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         pred = self._long_pred if direction == 'LONG' else self._short_pred
         anchor = self.find_setup_anchor(self._hist, pred)
+        # Issue #63: the structural stop is the swept level itself (the prior
+        # low for a LONG reclaim, the prior high for a SHORT) — the stop's
+        # place is beyond the sweep, not a fixed ATR multiple from entry.
+        # stop_r is the frozen distance in R (D-028).
+        if direction == 'LONG':
+            stop_r = (close - ref) / atr
+        else:
+            stop_r = (ref - close) / atr
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction=direction,
             setup_fingerprint=f'{sym}:{close:.6f}:{ref:.6f}',
             risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                           'stop_r': 1.0, 'expiry_bars': 8,
-                           'atr_ref': atr, ref_key: ref},
+                           'stop_r': stop_r, 'expiry_bars': 8,
+                           'atr_ref': atr, ref_key: ref, 'stop_ref': ref},
             birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)

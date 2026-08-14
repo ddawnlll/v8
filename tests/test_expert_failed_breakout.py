@@ -96,6 +96,13 @@ def test_candidate_after_breakout_then_fail():
     assert d is not None
     assert d.direction == 'SHORT'
     assert d.risk_geometry['prior_high_ref'] == pytest.approx(_f_level(bars, 10))
+    # Issue #63: the stop IS the frozen breakout level (structural stop), and
+    # stop_r is the frozen distance in R — not a fixed ATR multiple.
+    assert d.risk_geometry['stop_ref'] == pytest.approx(_f_level(bars, 10))
+    close = float(_state_at(rows, len(rows) - 1).features['SOLUSDT.close'].value)
+    atr = float(_state_at(rows, len(rows) - 1).features['SOLUSDT.atr'].value)
+    assert d.risk_geometry['stop_r'] == pytest.approx(
+        (_f_level(bars, 10) - close) / atr)
     assert d.risk_geometry['entry'] == 'NEXT_BAR_CLOSE'
     # the anchor is the FIRST failure bar after the breakout (bar 11, event
     # 'SOLUSDT:12'), not the newest bar — episode-key dedup is stable across

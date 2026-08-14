@@ -80,7 +80,7 @@ ALL_EXPERTS = sorted(EXPERT_CLASSES)
 # they move with the market and must not change a stable setup's key
 # (src/v8/lab.py `_geometry_version`; v8-core candidate.rs EXCLUDED_GEOMETRY_KEYS).
 _GEOM_EXCLUDED = {"atr_ref", "prior_high_ref", "prior_low_ref",
-                  "lower_3sd_ref", "upper_3sd_ref"}
+                  "lower_3sd_ref", "upper_3sd_ref", "stop_ref", "stop_r"}
 
 
 def _pilots(expert_ids: list[str]):
@@ -212,7 +212,7 @@ def test_oracle_tree_hash_pinned(oracle_tree_hash):
     """The frozen oracle (git rev-parse HEAD:src/v8) is unchanged since the
     S0..S3 gates; if it moves, every recorded parity result is invalidated
     (PARITY_AND_IDENTITY_SPEC §7.5)."""
-    assert oracle_tree_hash == "184fb934c8d6071d03db76ade1ea5d462f0e1f25"
+    assert oracle_tree_hash == "2854f8c30fe59a25ef617d0357cd2fc71faa9b0b"
 
 
 def test_evaluations_bit_identical(v8_core_binary, tmp_path):

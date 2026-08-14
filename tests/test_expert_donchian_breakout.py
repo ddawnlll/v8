@@ -100,6 +100,8 @@ def test_long_breakout_detected():
     assert d.risk_geometry['prior_low_ref'] == low_ref
     assert d.risk_geometry['prior_high_ref'] == high_ref
     assert abs(d.risk_geometry['stop_r'] - (120.0 - low_ref) / atr) < 1e-9
+    # Issue #63: the stop IS the frozen lower band level (structural stop).
+    assert d.risk_geometry['stop_ref'] == low_ref
 
 
 def test_short_breakout_variant_b():
@@ -115,6 +117,8 @@ def test_short_breakout_variant_b():
     assert d.risk_geometry['prior_high_ref'] == high_ref
     # short stop just above the upper band, in R.
     assert abs(d.risk_geometry['stop_r'] - (high_ref - 80.0) / atr) < 1e-9
+    # Issue #63: the stop IS the frozen upper band level (structural stop).
+    assert d.risk_geometry['stop_ref'] == high_ref
 
 
 def test_variant_a_long_only():

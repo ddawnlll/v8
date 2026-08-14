@@ -39,13 +39,22 @@ pub fn liquidity_sweep_reclaim(fm: &FeatMap, expert_id: &str, version: &str) -> 
         Box::new(move |i, b| i > 0 && b.high > prior_high(i) && b.close < prior_high(i))
     };
     let anchor = find_setup_anchor(&fm.history, &*pred);
+    // Issue #63: the structural stop is the swept level itself (prior_low for
+    // a LONG reclaim, prior_high for a SHORT) — beyond the sweep, not an ATR
+    // multiple from entry. stop_r is the frozen distance in R (D-028).
+    let stop_r = if direction == "LONG" {
+        (close - ref_val) / atr
+    } else {
+        (ref_val - close) / atr
+    };
     let entries = vec![
         ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
         ("target_r", serde_json::json!(1.0)),
-        ("stop_r", serde_json::json!(1.0)),
         ("expiry_bars", serde_json::json!(8)),
         ("atr_ref", serde_json::json!(atr)),
         (ref_key, serde_json::json!(ref_val)),
+        ("stop_ref", serde_json::json!(ref_val)),
+        ("stop_r", serde_json::json!(stop_r)),
     ];
     let draft = Draft {
         direction: direction.to_string(),

@@ -174,13 +174,16 @@ def _validate_tape_rows(rows) -> None:
 
 def _geometry_version(draft) -> str:
     """Structural risk geometry only: `atr_ref`, the `prior_*_ref` invalidation
-    levels and the frozen band refs (`lower_3sd_ref`/`upper_3sd_ref`) are
-    data-dependent (they move with the market) and must not be part of episode
-    identity — a stable setup would otherwise change key across decision clocks
-    and disable deduplication."""
+    levels, the frozen band refs (`lower_3sd_ref`/`upper_3sd_ref`) and the
+    structural stop (`stop_ref`, D-058) are data-dependent (they move with the
+    market) and must not be part of episode identity — a stable setup would
+    otherwise change key across decision clocks and disable deduplication. The
+    derived `stop_r` is excluded for the same reason (it is a function of the
+    live close, not a declared constant)."""
     structural = {k: v for k, v in draft.risk_geometry.items()
                   if k not in ('atr_ref', 'prior_high_ref', 'prior_low_ref',
-                               'lower_3sd_ref', 'upper_3sd_ref')}
+                               'lower_3sd_ref', 'upper_3sd_ref', 'stop_ref',
+                               'stop_r')}
     return sha1_hex(structural)
 
 
@@ -721,9 +724,12 @@ class Lab:
                 # the size feeds the equity curve (RM-06) and the report.
                 if verdict.size < draft.size:
                     drawdown_sized_episodes += 1
+                # Lists, not tuples: report.json round-trips through JSON,
+                # so a cached-run restore must compare byte-identical to a
+                # fresh run (test_fast_cache pins asdict equality).
                 executed_geometry.append(
-                    (float(draft.risk_geometry.get('target_r', 1.0)),
-                     float(draft.risk_geometry.get('stop_r', 1.0))))
+                    [float(draft.risk_geometry.get('target_r', 1.0)),
+                     float(draft.risk_geometry.get('stop_r', 1.0))])
                 # Per-episode cost in R. Constant under the flat-R model, but
                 # entry-price/R-unit dependent under bps — so RM-11's
                 # cost-degraded reward:risk has to use the realized charge,
@@ -1193,6 +1199,7 @@ class Lab:
                            drawdown_sized_episodes=drawdown_sized_episodes,
                            risk_of_ruin=risk_of_ruin,
                            profit_factor=profit_factor,
+                           executed_geometry=executed_geometry,
                            w_min=w_min,
                            worst_case_r=worst_case_r,
                            worst_case_portfolio_r=worst_case_portfolio_r,
