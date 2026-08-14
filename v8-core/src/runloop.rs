@@ -1406,4 +1406,90 @@ mod tests {
         }
     }
 
+    /// A LONG draft with explicit control over the invariant-bearing geometry
+    /// keys (issue #70).
+    fn geom_draft(target_r: f64, stop_r: f64, expiry_bars: i64) -> simulator::Draft {
+        let mut g = serde_json::Map::new();
+        g.insert("atr_ref".to_string(), serde_json::json!(2.0));
+        g.insert("target_r".to_string(), serde_json::json!(target_r));
+        g.insert("stop_r".to_string(), serde_json::json!(stop_r));
+        g.insert("expiry_bars".to_string(), serde_json::json!(expiry_bars));
+        simulator::Draft { direction: "LONG".to_string(), birth_time: 0, risk_geometry: g }
+    }
+
+    #[test]
+    fn risk_geometry_invariants_fail_closed() {
+        // Issue #70: validate_geometry must reject degenerate geometry at
+        // admission. target_r <= 0 puts the target on the losing side and the
+        // replay would book the loss as a TARGET endpoint (a win in any
+        // downstream hit-rate / profit-factor statistic); stop_r <= 0 is not
+        // a position; expiry_bars < 1 is not a horizon.
+        let valid = geom_draft(1.0, 1.0, 8);
+        assert!(simulator::validate_geometry(&valid).is_ok(),
+                "a sane geometry must validate");
+        for (label, g) in [
+            ("target_r = 0", geom_draft(0.0, 1.0, 8)),
+            ("target_r < 0", geom_draft(-1.0, 1.0, 8)),
+            ("stop_r = 0", geom_draft(1.0, 0.0, 8)),
+            ("stop_r < 0", geom_draft(1.0, -1.0, 8)),
+            ("expiry_bars = 0", geom_draft(1.0, 1.0, 0)),
+            ("expiry_bars < 1", geom_draft(1.0, 1.0, -2)),
+        ] {
+            assert!(simulator::validate_geometry(&g).is_err(),
+                    "{label} must fail closed");
+        }
+        // A present-but-non-numeric key fails closed too: geom_f64 would
+        // return None and the replay path would default target_r to 0.0 —
+        // target = entry — booking the first bar as a TARGET exit. The
+        // oracle's float()/int() raises for the same input.
+        for key in ["target_r", "stop_r"] {
+            let mut g = geom_draft(1.0, 1.0, 8);
+            g.risk_geometry.insert(key.to_string(), serde_json::json!("not-a-number"));
+            assert!(simulator::validate_geometry(&g).is_err(),
+                    "non-numeric {key} must fail closed, never be silently skipped");
+        }
+        let mut g = geom_draft(1.0, 1.0, 8);
+        g.risk_geometry.insert("expiry_bars".to_string(), serde_json::json!("many"));
+        assert!(simulator::validate_geometry(&g).is_err(),
+                "non-numeric expiry_bars must fail closed");
+    }
+
+    #[test]
+    fn negative_target_r_is_rejected_never_recorded_as_target() {
+        // Issue #70 end-to-end: a LONG draft with target_r = -1 places the
+        // target BELOW entry. On the first stepped bar the low reaches the
+        // wrong-side target while the stop is not hit — without the guard the
+        // kernel would return endpoint=TARGET with net_r = (98-100)/2 - 0.07 =
+        // -1.07 (the issue's exact scenario: a loss booked as a win by
+        // downstream statistics). The kernel must reject the geometry at
+        // admission instead of replaying it.
+        let rows: Vec<Value> = vec![
+            bar(100.0, 100.5, 99.5, 100.0, "SOLUSDT", 0),
+            // low 97 reaches the wrong-side target (98) and misses the
+            // stop (94): hit_target fires, hit_stop does not.
+            bar(98.0, 98.5, 97.0, 97.5, "SOLUSDT", 1),
+        ];
+        let (ds, stores) = tape_fixture(&rows, "neg-target");
+        let funding: &[(i64, f64)] = &[];
+        let kernel = ReplayKernel {
+            round_trip_cost_r: 0.07,
+            funding_rate_r: 0.0,
+            funding_hours: 0,
+            fill_policy: simulator::FillPolicy::BarClose,
+            funding_schedule: funding,
+            round_trip_cost_bps: None,
+            bars: &ds.bars[0],
+            store: &stores[0],
+        };
+        // target = 100 + 1.0 * (-1.0) * 2.0 = 98; stop = 100 - 3.0 * 2.0 = 94.
+        let draft = geom_draft(-1.0, 3.0, 8);
+        let out = kernel.run(&draft, 0, ds.bars[0].closes.len(), None);
+        match out {
+            Ok(o) => panic!("a target_r<0 draft must be rejected, never recorded as endpoint={} net_r={}",
+                            o.endpoint, o.net_r),
+            Err(e) => assert!(e.contains("target_r must be > 0"),
+                              "the rejection must name the offending key: {e}"),
+        }
+    }
+
 }

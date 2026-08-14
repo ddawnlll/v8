@@ -103,21 +103,41 @@ fn trigger_confirmed(draft: &Draft, close: f64) -> Result<bool, String> {
 }
 
 /// Fail closed on a geometry that cannot produce a meaningful outcome
-/// (mirror of `simulator.validate_geometry`).
+/// (mirror of `simulator.validate_geometry`, issue #70). A non-positive
+/// `target_r` puts the target on the losing side and the kernel would book
+/// the loss as a TARGET endpoint (a win in any downstream hit-rate /
+/// profit-factor statistic); a non-positive `stop_r` is not a position; an
+/// `expiry_bars` below 1 is not a horizon.
+///
+/// A key that is present but not a number fails closed too: `geom_f64`
+/// returns `None` for a string value, and the replay path defaults a missing
+/// `target_r` to 0.0 — target = entry — which books the first bar as a TARGET
+/// exit. The oracle's `float(target_r)` raises for the same input; this guard
+/// mirrors that.
 pub fn validate_geometry(draft: &Draft) -> Result<(), String> {
-    if let Some(t) = draft.geom_f64("target_r") {
-        if t <= 0.0 {
-            return Err(format!("risk_geometry target_r must be > 0 (got {t:?})"));
+    let geom = &draft.risk_geometry;
+    if let Some(v) = geom.get("target_r") {
+        match v.as_f64() {
+            Some(t) if t > 0.0 => {}
+            Some(t) => return Err(format!("risk_geometry target_r must be > 0 (got {t:?})")),
+            None => return Err(format!(
+                "risk_geometry target_r must be numeric (got {v:?})")),
         }
     }
-    if let Some(s) = draft.geom_f64("stop_r") {
-        if s <= 0.0 {
-            return Err(format!("risk_geometry stop_r must be > 0 (got {s:?})"));
+    if let Some(v) = geom.get("stop_r") {
+        match v.as_f64() {
+            Some(s) if s > 0.0 => {}
+            Some(s) => return Err(format!("risk_geometry stop_r must be > 0 (got {s:?})")),
+            None => return Err(format!(
+                "risk_geometry stop_r must be numeric (got {v:?})")),
         }
     }
-    if let Some(e) = draft.geom_i64("expiry_bars") {
-        if e < 1 {
-            return Err(format!("risk_geometry expiry_bars must be >= 1 (got {e:?})"));
+    if let Some(v) = geom.get("expiry_bars") {
+        match v.as_i64() {
+            Some(e) if e >= 1 => {}
+            Some(e) => return Err(format!("risk_geometry expiry_bars must be >= 1 (got {e:?})")),
+            None => return Err(format!(
+                "risk_geometry expiry_bars must be an integer (got {v:?})")),
         }
     }
     Ok(())
@@ -288,6 +308,11 @@ impl<'a> ReplayKernel<'a> {
     fn step(&self, pos: &Pos, draft: &Draft, i: usize, thesis_valid: bool,
             bar_time: Option<i64>, unit: f64) -> Result<(bool, Option<String>, Option<f64>,
                                                           Option<String>, Pos, i64, f64), String> {
+        // Defense in depth, not a replacement (issue #70): `run` validates at
+        // admission, but the oracle validates the same draft at step() entry
+        // too — a draft that reaches a per-bar step must be geometrically
+        // sane, never silently book a target_r<0 loss as a TARGET endpoint.
+        validate_geometry(draft)?;
         let (pos, new_settlements) = match bar_time {
             Some(t) => self.apply_funding(pos, draft, t, unit)?,
             None => (pos.clone(), 0),
