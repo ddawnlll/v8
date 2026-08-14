@@ -140,14 +140,13 @@ class VolumeConfirmedBreakoutExpert(Expert):
             direction, level, ref_key = 'SHORT', short_level, 'prior_high_ref'
             pred = self._short_pred
         anchor = self.find_setup_anchor(self._hist, pred)
+        geometry = self.declared_geometry()
+        geometry.update({'atr_ref': atr, 'variant': variant, ref_key: level})
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction=direction,
             setup_fingerprint=f'{sym}:{close:.6f}:{level:.6f}:{variant}',
-            risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                           'stop_r': 1.0, 'expiry_bars': 8,
-                           'atr_ref': atr, 'variant': variant,
-                           ref_key: level},
+            risk_geometry=geometry,
             birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)

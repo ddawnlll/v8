@@ -20,6 +20,9 @@ class LiquiditySweepReclaimExpert(Expert):
     behavior_family_id = 'sweep_reclaim'
     variant_id = 'a'
     requires = ('location', 'volatility', 'history')
+    # stop_r is structural: the distance to the frozen swept level in R
+    # (D-028), computed in evaluate(); target_r stays the family 1:1 default.
+    stop_r = None
 
     def _prior_low(self, i: int) -> float:
         return min(l for (_e, _o, _h, l, _c, _f, _s) in self._hist[:i])
@@ -82,13 +85,14 @@ class LiquiditySweepReclaimExpert(Expert):
             stop_r = (close - ref) / atr
         else:
             stop_r = (ref - close) / atr
+        geometry = self.declared_geometry()
+        geometry.update({'stop_r': stop_r, 'atr_ref': atr, ref_key: ref,
+                         'stop_ref': ref})
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction=direction,
             setup_fingerprint=f'{sym}:{close:.6f}:{ref:.6f}',
-            risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                           'stop_r': stop_r, 'expiry_bars': 8,
-                           'atr_ref': atr, ref_key: ref, 'stop_ref': ref},
+            risk_geometry=geometry,
             birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)

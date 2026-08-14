@@ -75,6 +75,9 @@ class CandlestickReversalExpert(Expert):
     mechanism_family_id = 'bar_shape_reversal'
     behavior_family_id = 'candlestick_reversal'
     variant_id = 'hammer'
+    # stop_r is structural: the distance to the frozen pattern stop in R
+    # (D-028), computed in evaluate(); target_r stays the family 1:1 default.
+    stop_r = None
     # D-044: every implemented variant (losers included); the reported
     # variant_id is a member. D-046: every threshold/lookback below is a
     # declared constant frozen pre-window, so the search universe equals the
@@ -278,12 +281,13 @@ class CandlestickReversalExpert(Expert):
         # enters only on a CLOSE above the frozen trigger, a SHORT only on a
         # CLOSE below it (Ch14.2 "entry only on a CLOSE beyond the trigger").
         # The lab's PHASE 2 evaluates this predicate before PENDING -> TRIGGERED.
-        geometry = {'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                    'stop_r': stop_r, 'expiry_bars': 8, 'atr_ref': atr,
-                    'variant': self.variant_id,
-                    'stop_ref': stop_price, 'trigger_ref': trigger_price,
-                    'trigger_side': ('CLOSE_ABOVE' if direction == 'LONG'
-                                     else 'CLOSE_BELOW')}
+        geometry = self.declared_geometry()
+        geometry.update({
+            'stop_r': stop_r,
+            'atr_ref': atr, 'variant': self.variant_id,
+            'stop_ref': stop_price, 'trigger_ref': trigger_price,
+            'trigger_side': ('CLOSE_ABOVE' if direction == 'LONG'
+                             else 'CLOSE_BELOW')})
         if direction == 'LONG':
             geometry['prior_low_ref'] = prior_low_ref
         else:

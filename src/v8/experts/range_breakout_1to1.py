@@ -77,6 +77,10 @@ class RangeBreakout1To1Expert(Expert):
     variants_evaluated = VARIANTS_EVALUATED
     search_universe_size = 6
     requires = ('location', 'volatility', 'history', 'participation')
+    # target_r/stop_r are structural: the 1:1 range-height measuring
+    # objective in R (D-028), computed in evaluate().
+    target_r = None
+    stop_r = None
     # Breakout completion filter as a price multiple (variants b/c) or None.
     filter_mult = 1.0
     # Variants d (ATR-multiple), e/f (volume) toggle extra conditions.
@@ -227,8 +231,9 @@ class RangeBreakout1To1Expert(Expert):
         # 1:1 measuring-objective geometry in R (D-028): one range height is
         # the book's minimum target AND the far-side-of-range stop distance.
         rr = rng_h / atr
-        geom = {'entry': 'NEXT_BAR_CLOSE', 'target_r': rr, 'stop_r': rr,
-                'expiry_bars': 8, 'atr_ref': atr, 'variant': self.variant_id}
+        geom = self.declared_geometry()
+        geom.update({'target_r': rr, 'stop_r': rr, 'atr_ref': atr,
+                     'variant': self.variant_id})
         if direction == 'LONG':
             geom['prior_low_ref'] = wl
             geom['breakout_ref'] = wh

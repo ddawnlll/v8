@@ -10,6 +10,12 @@ use crate::state::{fsum, HistBar};
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
 pub const REQUIRES: &[&str] = &["trend", "volatility", "history"];
+// Declared risk geometry (EXPERT_PROTOCOL §1: risk geometry is "Predeclared
+// entry, stop, target, timeout and sizing inputs"; SIMULATION_TRUTH_SPEC D-028:
+// R is a declared price distance). Fixed values are declared here, never
+// re-literalized inside evaluate(); a structural target/stop is computed at
+// the call site and overrides the key.
+pub const EXPIRY_BARS: i64 = 8;
 
 /// Declared, frozen constant (D-036 pattern): the Bollinger base window of the
 /// marketstate bb_* features (SMA20 +/- 2*sigma); the 1-SD/3-SD levels are
@@ -184,7 +190,7 @@ fn evaluate_variant(fm: &FeatMap, expert_id: &str, version: &str, variant: &str)
     // Python `_geometry`: common keys first, then the variant-specific legs.
     let mut geometry = geom(vec![
         ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
-        ("expiry_bars", serde_json::json!(8)),
+        ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
         ("atr_ref", serde_json::json!(refs.atr_ref)),
         ("variant", serde_json::json!(variant)),
     ]);

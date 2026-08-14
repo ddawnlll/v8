@@ -17,6 +17,12 @@ use crate::state::HistBar;
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
 pub const REQUIRES: &[&str] = &["session", "volatility", "history"];
+// Declared risk geometry (EXPERT_PROTOCOL §1: risk geometry is "Predeclared
+// entry, stop, target, timeout and sizing inputs"; SIMULATION_TRUTH_SPEC D-028:
+// R is a declared price distance). Fixed values are declared here, never
+// re-literalized inside evaluate(); a structural target/stop is computed at
+// the call site and overrides the key.
+pub const EXPIRY_BARS: i64 = 8;
 
 // Declared, LOCKED constants (D-036 pattern: "declared, never fitted").
 const PROFILE_BUCKET_ATR_FRAC: f64 = 1.0; // price bucket = 1.0 * ATR at detection
@@ -203,7 +209,7 @@ pub fn market_profile_value_area(fm: &FeatMap, expert_id: &str, version: &str) -
         ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
         ("target_r", serde_json::json!(target_r)),
         ("stop_r", serde_json::json!(stop_r)),
-        ("expiry_bars", serde_json::json!(8)),
+        ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
         ("atr_ref", serde_json::json!(atr)),
         ("variant", serde_json::json!(variant)),
         ("poc_ref", serde_json::json!(poc)),

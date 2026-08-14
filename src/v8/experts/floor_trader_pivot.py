@@ -42,6 +42,10 @@ class FloorTraderPivotExpert(Expert):
     mechanism_family_id = 'pivot_level_reaction'
     behavior_family_id = 'pivot_level_reaction'
     variant_id = 'a'
+    # target_r/stop_r are structural: distances to the frozen pivot stop and
+    # target levels in R (D-028), computed in evaluate().
+    target_r = None
+    stop_r = None
     # D-044: every implemented variant (losers included); the reported
     # variant_id is a member. D-046: all thresholds are declared constants
     # frozen pre-window, so the search universe equals the evaluated set.
@@ -144,10 +148,10 @@ class FloorTraderPivotExpert(Expert):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         anchor = self.find_setup_anchor(self._hist, pred)
-        geometry = {'entry': 'NEXT_BAR_CLOSE', 'target_r': target_r,
-                    'stop_r': stop_r, 'expiry_bars': 8, 'atr_ref': atr,
-                    'variant': self.variant_id,
-                    'level_ref': level, 'stop_ref': stop_price}
+        geometry = self.declared_geometry()
+        geometry.update({'target_r': target_r, 'stop_r': stop_r,
+                         'atr_ref': atr, 'variant': self.variant_id,
+                         'level_ref': level, 'stop_ref': stop_price})
         if direction == 'LONG':
             geometry['prior_low_ref'] = stop_price
         else:

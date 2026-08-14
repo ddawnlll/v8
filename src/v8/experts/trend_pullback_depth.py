@@ -249,13 +249,14 @@ class TrendPullbackDepthExpert(Expert):
         return self._draft(state, t, sym, close, atr, anchor, ref)
 
     def _draft(self, state, t, sym, close, atr, anchor, ref) -> ExpertEvaluation:
+        geometry = self.declared_geometry()
+        geometry.update({'atr_ref': atr, 'prior_low_ref': ref,
+                         'variant': self.variant_id})
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction='LONG',
             setup_fingerprint=f'{sym}:{self.variant_id}:LONG:{close:.6f}:{ref:.6f}',
-            risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                           'stop_r': 1.0, 'expiry_bars': 8, 'atr_ref': atr,
-                           'prior_low_ref': ref, 'variant': self.variant_id},
+            risk_geometry=geometry,
             birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)

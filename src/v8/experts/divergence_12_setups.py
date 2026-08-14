@@ -243,9 +243,9 @@ class Divergence12SetupsExpert(Expert):
         # second peak (the bearish divergence broke); a LONG if price makes a
         # low below the second trough. `barrier_ref` / `extremum_ref` are the
         # frozen post-entry thesis levels.
-        geo = {'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0, 'stop_r': 1.0,
-               'expiry_bars': 8, 'atr_ref': atr, 'variant': self.variant_id,
-               'barrier_ref': barrier, 'extremum_ref': extremum}
+        geo = self.declared_geometry()
+        geo.update({'atr_ref': atr, 'variant': self.variant_id,
+                    'barrier_ref': barrier, 'extremum_ref': extremum})
         if direction == 'SHORT':
             geo['prior_high_ref'] = extremum
         else:

@@ -51,6 +51,9 @@ class FundingCrowdingReversalExpert(Expert):
     mechanism_family_id = 'positioning_divergence'
     behavior_family_id = 'funding_crowding_reversal'
     variant_id = 'a'
+    # stop_r is structural: the distance to the frozen pre-flush extreme in R
+    # (D-028), computed in evaluate(); target_r stays the family 1:1 default.
+    stop_r = None
     # D-044: every implemented variant, losers included; all four book
     # variants implemented (a..d), so the search universe equals the retained
     # set.
@@ -169,10 +172,9 @@ class FundingCrowdingReversalExpert(Expert):
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         pred = self._anchor_pred(direction, highs, lows)
         anchor = self.find_setup_anchor(hist, pred)
-        geometry = {
-            'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0, 'stop_r': stop_r,
-            'expiry_bars': 8, 'atr_ref': float(atr), 'variant': self.variant_id,
-        }
+        geometry = self.declared_geometry()
+        geometry.update({'stop_r': stop_r, 'atr_ref': float(atr),
+                         'variant': self.variant_id})
         if direction == 'SHORT':
             geometry['prior_high_ref'] = prior_high_ref
         else:

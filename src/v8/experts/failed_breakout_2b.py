@@ -349,8 +349,8 @@ class FailedBreakout2BExpert(Expert):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         direction, anchor, ref = hit
-        geom = {'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0, 'stop_r': 1.0,
-                'expiry_bars': 8, 'atr_ref': atr, 'variant': self.variant_id}
+        geom = self.declared_geometry()
+        geom.update({'atr_ref': atr, 'variant': self.variant_id})
         if direction == 'LONG':
             geom['prior_low_ref'] = ref
         else:

@@ -12,6 +12,12 @@ use crate::state::HistBar;
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
 pub const REQUIRES: &[&str] = &["location", "volatility", "history"];
+// Declared risk geometry (EXPERT_PROTOCOL §1: risk geometry is "Predeclared
+// entry, stop, target, timeout and sizing inputs"; SIMULATION_TRUTH_SPEC D-028:
+// R is a declared price distance). Fixed values are declared here, never
+// re-literalized inside evaluate(); a structural target/stop is computed at
+// the call site and overrides the key.
+pub const EXPIRY_BARS: i64 = 8;
 
 /// D-036 locked pattern-pivot flank for the double/H&S structure scans (the
 /// global 32-bar history pin, O-020, keeps it small).
@@ -352,7 +358,7 @@ pub fn breakout_retest(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEv
         ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
         ("target_r", serde_json::json!(target_r)),
         ("stop_r", serde_json::json!(stop_r)),
-        ("expiry_bars", serde_json::json!(8)),
+        ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
         ("atr_ref", serde_json::json!(atr)),
         ("variant", serde_json::json!(variant)),
         ("level_ref", serde_json::json!(level)),

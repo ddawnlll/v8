@@ -109,6 +109,10 @@ class BollingerBreakoutExpert(Expert):
     behavior_family_id = 'band_breakout'
     variant_id = 'a'
     requires = ('volatility', 'history')
+    # target_r/stop_r are structural: band-sigma distances from the frozen
+    # anchor refs in R (D-028), computed per variant in _geometry().
+    target_r = None
+    stop_r = None
     # D-044: the full evaluated set, losers included. `a` = Setup 1 (close
     # beyond the SMA, target the 2-SD band), `b` = closing band violation,
     # `c` = bandwidth-squeeze precondition + closing band violation.
@@ -208,8 +212,9 @@ class BollingerBreakoutExpert(Expert):
 
     def _geometry(self, refs, direction):
         sd, atr = refs['sd_ref'], refs['atr_ref']
-        geo = {'entry': 'NEXT_BAR_CLOSE', 'expiry_bars': 8, 'atr_ref': atr,
-               'variant': self.variant_id, 'mid_ref': refs['mid_ref']}
+        geo = self.declared_geometry()
+        geo.update({'atr_ref': atr, 'variant': self.variant_id,
+                    'mid_ref': refs['mid_ref']})
         if self.variant_id == 'a':
             # Setup 1: entry proxy at the 1-SD band; the SMA stop and the 2-SD
             # target are each one band-sigma away (Ch12 p480-481).

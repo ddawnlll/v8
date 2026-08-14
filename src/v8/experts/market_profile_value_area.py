@@ -111,6 +111,10 @@ class MarketProfileValueAreaExpert(Expert):
     mechanism_family_id = 'value_area_reversion'
     behavior_family_id = 'value_area_reversion'
     variant_id = 'a'
+    # target_r/stop_r are structural: distances to the frozen POC / value-area
+    # / prior-session levels in R (D-028), computed in evaluate().
+    target_r = None
+    stop_r = None
     # D-044: every implemented variant, losers included. The book card lists
     # variants a..e; `e` (six degrees of bullishness/bearishness) needs the
     # behavioral participant classification and is not implemented (dropped
@@ -247,11 +251,12 @@ class MarketProfileValueAreaExpert(Expert):
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         pred = self._anchor_pred(variant, direction, poc, va_low, va_high)
         anchor = self.find_setup_anchor(hist, pred)
-        geometry = {
-            'entry': 'NEXT_BAR_CLOSE', 'target_r': target_r, 'stop_r': stop_r,
-            'expiry_bars': 8, 'atr_ref': float(atr), 'variant': variant,
+        geometry = self.declared_geometry()
+        geometry.update({
+            'target_r': target_r, 'stop_r': stop_r,
+            'atr_ref': float(atr), 'variant': variant,
             'poc_ref': poc, 'va_low_ref': va_low, 'va_high_ref': va_high,
-        }
+        })
         if low_ref is not None:
             geometry['prior_low_ref'] = low_ref
         if high_ref is not None:

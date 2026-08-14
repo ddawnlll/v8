@@ -44,6 +44,9 @@ class GapExhaustionExpert(Expert):
     mechanism_family_id = 'gap_reaction'
     behavior_family_id = 'gap_reaction'
     variant_id = 'a'
+    # stop_r is structural: the distance to the frozen gap/reference level in
+    # R (D-028), computed in evaluate(); target_r stays the family 1:1 default.
+    stop_r = None
     # D-044: every implemented variant (losers included); the reported
     # variant_id is a member. D-046: all thresholds are declared constants
     # frozen pre-window, so the search universe equals the evaluated set.
@@ -231,11 +234,11 @@ class GapExhaustionExpert(Expert):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         anchor = self.find_setup_anchor(self._hist, pred)
-        geometry = {'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                    'stop_r': stop_r, 'expiry_bars': 8, 'atr_ref': atr,
-                    'variant': self.variant_id,
-                    'level_ref': ref, 'stop_ref': ref,
-                    'gap_top_ref': top, 'gap_bottom_ref': bottom}
+        geometry = self.declared_geometry()
+        geometry.update({'stop_r': stop_r, 'atr_ref': atr,
+                         'variant': self.variant_id,
+                         'level_ref': ref, 'stop_ref': ref,
+                         'gap_top_ref': top, 'gap_bottom_ref': bottom})
         if trade_dir == 'LONG':
             geometry['prior_low_ref'] = prior_low_ref
         else:

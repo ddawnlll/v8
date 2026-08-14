@@ -11,6 +11,14 @@ use crate::simulator::Draft;
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v2";
 pub const REQUIRES: &[&str] = &["trend", "volatility", "participation", "history"];
+// Declared risk geometry (EXPERT_PROTOCOL §1: risk geometry is "Predeclared
+// entry, stop, target, timeout and sizing inputs"; SIMULATION_TRUTH_SPEC D-028:
+// R is a declared price distance). Fixed values are declared here, never
+// re-literalized inside evaluate(); a structural target/stop is computed at
+// the call site and overrides the key.
+pub const TARGET_R: f64 = 1.0;
+pub const STOP_R: f64 = 1.0;
+pub const EXPIRY_BARS: i64 = 8;
 
 const CLIMAX_Z: f64 = 2.0;          // 2-sigma volume overextension (book, N=100)
 const CLIMAX_Z_STRICT: f64 = 3.0;   // D-055 strict-climax challenger
@@ -107,9 +115,9 @@ pub fn volume_climax_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> E
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
-            ("target_r", serde_json::json!(1.0)),
-            ("stop_r", serde_json::json!(1.0)),
-            ("expiry_bars", serde_json::json!(8)),
+            ("target_r", serde_json::json!(TARGET_R)),
+            ("stop_r", serde_json::json!(STOP_R)),
+            ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
             ("atr_ref", serde_json::json!(atr)),
             ("variant", serde_json::json!(variant)),
             (ref_key, serde_json::json!(level)),

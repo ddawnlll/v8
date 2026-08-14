@@ -46,13 +46,13 @@ class TrendPullbackExpert(Expert):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_HABITAT', t)
         anchor = self.find_setup_anchor(tuple(hist_value), self._setup_pred)
+        geometry = self.declared_geometry()
+        geometry['atr_ref'] = atr
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction='LONG',
             setup_fingerprint=f'{sym}:{close:.6f}:{slow:.6f}',
-            risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                           'stop_r': 1.0, 'expiry_bars': 8,
-                           'atr_ref': atr},
+            risk_geometry=geometry,
             birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)

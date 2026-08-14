@@ -18,6 +18,10 @@ class FailedBreakoutExpert(Expert):
     behavior_family_id = 'failed_breakout_reentry'
     variant_id = 'a'
     requires = ('location', 'volatility', 'history')
+    # stop_r is structural: the frozen distance to the level the breakout
+    # failed under (D-028), computed in evaluate(); target_r stays the family
+    # 1:1 default.
+    stop_r = None
 
     def _last_breakout(self) -> tuple[int, float] | None:
         """(idx, level) of the most recent close-breakout in the window: bar j
@@ -85,14 +89,15 @@ class FailedBreakoutExpert(Expert):
         # it failed under, not a fixed ATR multiple from entry. stop_r is the
         # frozen distance in R (D-028): (prior_high - close) / atr_ref.
         stop_r = (self._ref_prior_high - close) / atr
+        geometry = self.declared_geometry()
+        geometry.update({'stop_r': stop_r, 'atr_ref': atr,
+                         'prior_high_ref': self._ref_prior_high,
+                         'stop_ref': self._ref_prior_high})
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction='SHORT',
             setup_fingerprint=f'{sym}:{close:.6f}:{self._ref_prior_high:.6f}',
-            risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                           'stop_r': stop_r, 'expiry_bars': 8,
-                           'atr_ref': atr, 'prior_high_ref': self._ref_prior_high,
-                           'stop_ref': self._ref_prior_high},
+            risk_geometry=geometry,
             birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)

@@ -145,8 +145,8 @@ class FibProjectionReversalExpert(Expert):
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         anchor = self.find_setup_anchor(hist, pred)
-        risk_geometry = {'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                         'stop_r': 1.0, 'expiry_bars': 8, 'atr_ref': atr}
+        risk_geometry = self.declared_geometry()
+        risk_geometry['atr_ref'] = atr
         # The invalidation reference is FROZEN at detection: for a LONG reversal
         # a close BELOW the projection level means the downside extension
         # continued (not reversed); for a SHORT, a close above it.

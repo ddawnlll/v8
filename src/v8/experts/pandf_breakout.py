@@ -105,6 +105,10 @@ class PandfBreakoutExpert(Expert):
     mechanism_family_id = 'boxed_price_breakout'
     behavior_family_id = 'boxed_price_breakout'
     variant_id = 'a'
+    # target_r/stop_r are structural: distances to the frozen box levels in R
+    # (D-028), computed in evaluate().
+    target_r = None
+    stop_r = None
     # D-044: every implemented variant, losers included. The book card's
     # signal grid enumerates 8 signals (double/triple top/bottom, ascending/
     # descending/spread triple, catapult); the 4 implemented variants plus the
@@ -204,11 +208,12 @@ class PandfBreakoutExpert(Expert):
         if stop_r <= 0 or target_r <= 0:
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
-        geometry = {
-            'entry': 'NEXT_BAR_CLOSE', 'target_r': target_r, 'stop_r': stop_r,
-            'expiry_bars': 8, 'atr_ref': float(atr), 'variant': self.variant_id,
+        geometry = self.declared_geometry()
+        geometry.update({
+            'target_r': target_r, 'stop_r': stop_r,
+            'atr_ref': float(atr), 'variant': self.variant_id,
             'reversal': REVERSAL_BOXES,
-        }
+        })
         if prior_low_ref is not None:
             geometry['prior_low_ref'] = prior_low_ref
         if prior_high_ref is not None:

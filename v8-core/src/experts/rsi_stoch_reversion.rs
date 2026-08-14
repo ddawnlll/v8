@@ -16,6 +16,14 @@ use crate::simulator::Draft;
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
 pub const REQUIRES: &[&str] = &["oscillator", "volatility", "history"];
+// Declared risk geometry (EXPERT_PROTOCOL §1: risk geometry is "Predeclared
+// entry, stop, target, timeout and sizing inputs"; SIMULATION_TRUTH_SPEC D-028:
+// R is a declared price distance). Fixed values are declared here, never
+// re-literalized inside evaluate(); a structural target/stop is computed at
+// the call site and overrides the key.
+pub const TARGET_R: f64 = 1.0;
+pub const STOP_R: f64 = 1.0;
+pub const EXPIRY_BARS: i64 = 8;
 
 const RSI_OS: f64 = 30.0;
 const RSI_OB: f64 = 70.0;
@@ -126,9 +134,9 @@ pub fn rsi_stoch_reversion(fm: &FeatMap, expert_id: &str, version: &str) -> Expe
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
-            ("target_r", serde_json::json!(1.0)),
-            ("stop_r", serde_json::json!(1.0)),
-            ("expiry_bars", serde_json::json!(8)),
+            ("target_r", serde_json::json!(TARGET_R)),
+            ("stop_r", serde_json::json!(STOP_R)),
+            ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
             ("atr_ref", serde_json::json!(atr)),
             ("variant", serde_json::json!("a")),
         ]),

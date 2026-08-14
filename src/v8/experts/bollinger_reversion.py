@@ -93,6 +93,10 @@ class BollingerReversionExpert(Expert):
     behavior_family_id = 'band_reversion'
     variant_id = 'a'
     requires = ('trend', 'volatility', 'history')
+    # target_r/stop_r are structural: band-sigma distances from the frozen
+    # anchor refs in R (D-028), computed per variant in _geometry().
+    target_r = None
+    stop_r = None
     # D-044: the full evaluated set, losers included. `a` = Setup 2 (fade the
     # 2-SD band, stop beyond 3-SD, target 1-SD); `b` = Setup 3 (trend-aligned
     # reversion: close beyond the SMA in the trend direction).
@@ -171,8 +175,8 @@ class BollingerReversionExpert(Expert):
 
     def _geometry(self, refs, direction):
         sd, atr = refs['sd_ref'], refs['atr_ref']
-        geo = {'entry': 'NEXT_BAR_CLOSE', 'expiry_bars': 8, 'atr_ref': atr,
-               'variant': self.variant_id}
+        geo = self.declared_geometry()
+        geo.update({'atr_ref': atr, 'variant': self.variant_id})
         if self.variant_id == 'b':
             # Setup 3 (Ch12 p482): entry proxy at the 2-SD band, stop under
             # the SMA (two sigma), profit exit at the 1-SD band (one sigma).

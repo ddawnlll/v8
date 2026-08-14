@@ -42,6 +42,11 @@ class BreakoutRetestExpert(Expert):
     mechanism_family_id = 'breakout_retest'
     behavior_family_id = 'breakout_retest'
     variant_id = 'a'
+    # target_r/stop_r are structural: measured levels in R (D-028) computed
+    # in evaluate() (target_r = 1:1 pattern-height projection for variants
+    # b/c, the family 1R default for variant a).
+    target_r = None
+    stop_r = None
     # D-044: every implemented variant (losers included); the reported
     # variant_id is a member. D-046: all thresholds/lookbacks are declared
     # constants frozen pre-window, so the search universe equals the set.
@@ -280,10 +285,10 @@ class BreakoutRetestExpert(Expert):
         pred = self._retest_long_pred(level) if direction == 'LONG' \
             else self._retest_short_pred(level)
         anchor = self.find_setup_anchor(self._hist, pred)
-        geometry = {'entry': 'NEXT_BAR_CLOSE', 'target_r': target_r,
-                    'stop_r': stop_r, 'expiry_bars': 8, 'atr_ref': atr,
-                    'variant': self.variant_id,
-                    'level_ref': level, 'stop_ref': stop_price}
+        geometry = self.declared_geometry()
+        geometry.update({'target_r': target_r, 'stop_r': stop_r,
+                         'atr_ref': atr, 'variant': self.variant_id,
+                         'level_ref': level, 'stop_ref': stop_price})
         if direction == 'LONG':
             geometry['prior_low_ref'] = stop_price
         else:

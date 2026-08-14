@@ -309,9 +309,8 @@ class FibRsiBbConfluenceExpert(Expert):
         mid = float(f[f'{sym}.bb_mid'].value)
         upper = float(f[f'{sym}.bb_upper'].value)
         lower = float(f[f'{sym}.bb_lower'].value)
-        geometry = {'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                    'stop_r': 1.0, 'expiry_bars': 8, 'atr_ref': atr,
-                    'variant': self.variant_id}
+        geometry = self.declared_geometry()
+        geometry.update({'atr_ref': atr, 'variant': self.variant_id})
         if direction_sig == 'LONG':
             geometry['prior_low_ref'] = self._fib_level
             geometry['lower_3sd_ref'] = mid - 1.5 * (mid - lower)

@@ -16,6 +16,12 @@ use crate::state::{fsum, HistBar};
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
 pub const REQUIRES: &[&str] = &["volatility", "history"];
+// Declared risk geometry (EXPERT_PROTOCOL §1: risk geometry is "Predeclared
+// entry, stop, target, timeout and sizing inputs"; SIMULATION_TRUTH_SPEC D-028:
+// R is a declared price distance). Fixed values are declared here, never
+// re-literalized inside evaluate(); a structural target/stop is computed at
+// the call site and overrides the key.
+pub const EXPIRY_BARS: i64 = 8;
 
 // Declared, frozen constants (D-036 pattern): the marketstate bb_* features
 // are SMA20 +/- 2*sigma; the book's 1-SD/3-SD levels derive from them.
@@ -277,7 +283,7 @@ pub fn bollinger_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
     let atr = refs.atr_ref;
     let mut entries = vec![
         ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
-        ("expiry_bars", serde_json::json!(8)),
+        ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
         ("atr_ref", serde_json::json!(atr)),
         ("variant", serde_json::json!(variant)),
         ("mid_ref", serde_json::json!(refs.mid_ref)),

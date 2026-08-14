@@ -45,6 +45,17 @@ class Expert:
     # the declaration is frozen per variant rather than chosen per run.
     intervals: tuple[str, ...] = ()
     depth: int | dict[str, int] = 32
+    # Declared risk geometry (EXPERT_PROTOCOL section 1: risk geometry is
+    # "Predeclared entry, stop, target, timeout and sizing inputs";
+    # SIMULATION_TRUTH_SPEC D-028: R is a declared price distance). A FIXED
+    # value is declared here and never re-literalized inside evaluate(). A
+    # family whose target/stop is structural (measured move / channel height /
+    # pivot level) declares None and computes the value in evaluate(),
+    # overriding the key after `declared_geometry()` — the None marks the
+    # value as structural rather than a fixed family constant.
+    target_r: float | None = 1.0
+    stop_r: float | None = 1.0
+    expiry_bars: int = 8
 
     def declared_depth(self, interval: str) -> int:
         """Bars of history this Expert asks for on `interval`."""
@@ -60,6 +71,15 @@ class Expert:
             if tf not in out:
                 out.append(tf)
         return tuple(out)
+
+    def declared_geometry(self) -> dict:
+        """The frozen risk-geometry slice every CandidateDraft of this Expert
+        carries: entry mode, fixed R values, and the expiry bound. Values come
+        from the class declarations, so a family never embeds them as literals
+        inside evaluate(); structural families override the None keys with the
+        value computed from the measured setup."""
+        return {'entry': 'NEXT_BAR_CLOSE', 'target_r': self.target_r,
+                'stop_r': self.stop_r, 'expiry_bars': self.expiry_bars}
 
     def registry_entry(self) -> dict:
         """The code-side registry projection. docs/EXPERTS_REGISTRY.yaml must

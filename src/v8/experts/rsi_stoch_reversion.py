@@ -266,13 +266,13 @@ class RsiStochReversionExpert(Expert):
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         direction, s, ref = hit
         anchor = hist[s][0]
+        geometry = self.declared_geometry()
+        geometry.update({'atr_ref': atr, 'variant': self.variant_id})
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction=direction,
             setup_fingerprint=f'{sym}:{self.variant_id}:{direction}:{ref:.6f}:{close:.6f}',
-            risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                           'stop_r': 1.0, 'expiry_bars': 8,
-                           'atr_ref': atr, 'variant': self.variant_id},
+            risk_geometry=geometry,
             birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)

@@ -163,14 +163,13 @@ class ObvAdlRegimeExpert(Expert):
             else float(self._hist[-1][2])
         ref_key = 'prior_low_ref' if direction == 'LONG' else 'prior_high_ref'
         anchor = self.find_setup_anchor(self._hist, pred)
+        geometry = self.declared_geometry()
+        geometry.update({'atr_ref': atr, 'variant': variant, ref_key: level})
         draft = CandidateDraft(
             expert_id=self.expert_id, expert_version=self.version,
             instrument=sym, direction=direction,
             setup_fingerprint=f'{sym}:{close:.6f}:{level:.6f}:{variant}',
-            risk_geometry={'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0,
-                           'stop_r': 1.0, 'expiry_bars': 8,
-                           'atr_ref': atr, 'variant': variant,
-                           ref_key: level},
+            risk_geometry=geometry,
             birth_time=t, setup_anchor_event_id=anchor)
         return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                 'APPLICABLE', 'CANDIDATE', t, draft)

@@ -48,6 +48,11 @@ class PatternMeasuringObjectiveExpert(Expert):
     mechanism_family_id = 'geometric_pattern_breakout'
     behavior_family_id = 'geometric_pattern_breakout'
     variant_id = 'head_shoulders'
+    # target_r/stop_r are structural: the 1:1 pattern-height measuring
+    # objective and the frozen pattern stop in R (D-028), computed in
+    # evaluate().
+    target_r = None
+    stop_r = None
     # D-044: every implemented variant (losers included); the reported
     # variant_id is a member. D-046: every threshold/lookback below is a
     # declared constant frozen pre-window, so the search universe equals the
@@ -271,10 +276,10 @@ class PatternMeasuringObjectiveExpert(Expert):
         if stop_r <= 0 or target_r <= 0:
             return ExpertEvaluation(self.expert_id, self.version, state.state_id,
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
-        geometry = {'entry': 'NEXT_BAR_CLOSE', 'target_r': target_r,
-                    'stop_r': stop_r, 'expiry_bars': 8, 'atr_ref': atr,
-                    'variant': self.variant_id,
-                    'level_ref': level, 'stop_ref': stop_price}
+        geometry = self.declared_geometry()
+        geometry.update({'target_r': target_r, 'stop_r': stop_r,
+                         'atr_ref': atr, 'variant': self.variant_id,
+                         'level_ref': level, 'stop_ref': stop_price})
         if direction == 'LONG':
             geometry['prior_low_ref'] = stop_price
         else:

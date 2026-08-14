@@ -55,6 +55,9 @@ class OpenInterestDivergenceExpert(Expert):
     mechanism_family_id = 'positioning_divergence'
     behavior_family_id = 'oi_price_divergence'
     variant_id = 'a'
+    # stop_r is structural: the distance to the frozen trend-extreme in R
+    # (D-028), computed in evaluate(); target_r stays the family 1:1 default.
+    stop_r = None
     # D-044: every implemented variant, losers included. The book card lists
     # a..f; `e` and `f` need an OI series the state contract does not carry
     # (dropped before evaluation, counted in search_universe_size).
@@ -156,10 +159,9 @@ class OpenInterestDivergenceExpert(Expert):
                                     'NOT_APPLICABLE', 'NO_SETUP', t)
         pred = self._anchor_pred(direction, closes)
         anchor = self.find_setup_anchor(hist, pred)
-        geometry = {
-            'entry': 'NEXT_BAR_CLOSE', 'target_r': 1.0, 'stop_r': stop_r,
-            'expiry_bars': 8, 'atr_ref': float(atr), 'variant': self.variant_id,
-        }
+        geometry = self.declared_geometry()
+        geometry.update({'stop_r': stop_r, 'atr_ref': float(atr),
+                         'variant': self.variant_id})
         if prior_low_ref is not None:
             geometry['prior_low_ref'] = prior_low_ref
         if prior_high_ref is not None:
