@@ -20,6 +20,7 @@
 //! (PARITY_AND_IDENTITY_SPEC G5; COMPUTE_SCHEDULING_SPEC §1).
 
 mod analysis;
+mod backend;
 mod cache;
 mod candidate;
 mod data;
@@ -38,6 +39,7 @@ mod statistics;
 
 use std::path::PathBuf;
 
+use backend::ReplayKernel;
 use serde_json::Value;
 
 const USAGE: &str = "v8-core <subcommand> <request.json|...>
@@ -654,33 +656,51 @@ fn replay(req: &ReplayRequest) -> Result<Value, String> {
         .map(|r| (r.event_time, r.payload["funding_rate"].as_f64().unwrap_or(0.0)))
         .collect();
     funding_schedule.sort_by_key(|(t, _)| *t);
-    let mut results = Vec::new();
+
+    // The backend-agnostic kernel boundary (D-096): the replay path speaks
+    // only in cells, never in a backend. Backend-0 is the scalar reference.
+    let backend = backend::scalar::ScalarBackend {
+        round_trip_cost_r: sim.round_trip_cost_r,
+        funding_rate_r: sim.funding_rate_r,
+        funding_hours: sim.funding_hours,
+        fill_policy: sim.fill_policy,
+        funding_schedule: &funding_schedule,
+        round_trip_cost_bps: sim.round_trip_cost_bps,
+        stores: &stores,
+    };
+    let mut cells = Vec::with_capacity(req.candidates.len());
     for cand in &req.candidates {
-        let symbol = cand["symbol"].as_str().unwrap_or("").to_string();
+        let symbol = cand["symbol"].as_str().unwrap_or("");
         let store = stores.iter().find(|s| s.symbol == symbol).ok_or_else(|| {
             format!("replay: no bars for symbol {symbol}")
         })?;
-        let draft = simulator::Draft {
-            direction: cand["direction"].as_str().unwrap_or("LONG").to_string(),
-            birth_time: cand["birth_time"].as_i64().unwrap_or(0),
-            risk_geometry: cand.get("geometry").and_then(|g| g.as_object())
-                .cloned().unwrap_or_default(),
-        };
+        cells.push(backend::ReplayCell {
+            symbol,
+            draft: simulator::Draft {
+                direction: cand["direction"].as_str().unwrap_or("LONG").to_string(),
+                birth_time: cand["birth_time"].as_i64().unwrap_or(0),
+                risk_geometry: cand.get("geometry").and_then(|g| g.as_object())
+                    .cloned().unwrap_or_default(),
+            },
+            start: cand["entry_bar_index"].as_u64().unwrap_or(0) as usize,
+            end: cand["window_end"].as_u64()
+                .unwrap_or(store.closes.len() as u64) as usize,
+            thesis: cand.get("predicate_ir").cloned(),
+        });
+    }
+    let mut outcomes = vec![simulator::Outcome {
+        endpoint: String::new(), net_r: 0.0, label_status: String::new(),
+        horizon_bars: 0, label_available_time: 0,
+        mae_r: 0.0, mfe_r: 0.0, ambiguous_bars: 0,
+        entry_price: 0.0, risk_unit_price: 0.0, market_move_r: 0.0,
+        cost_r: 0.0, funding_r: 0.0,
+    }; cells.len()];
+    backend.evaluate(&ds, &cells, &mut outcomes).map_err(|e| e.to_string())?;
+
+    let mut results = Vec::new();
+    for (cand, out) in req.candidates.iter().zip(outcomes.iter()) {
+        let symbol = cand["symbol"].as_str().unwrap_or("").to_string();
         let start = cand["entry_bar_index"].as_u64().unwrap_or(0) as usize;
-        let window_end = cand["window_end"].as_u64()
-            .unwrap_or(store.closes.len() as u64) as usize;
-        let ir = cand.get("predicate_ir").cloned();
-        let kernel = simulator::ReplayKernel {
-            round_trip_cost_r: sim.round_trip_cost_r,
-            funding_rate_r: sim.funding_rate_r,
-            funding_hours: sim.funding_hours,
-            fill_policy: sim.fill_policy,
-            funding_schedule: &funding_schedule,
-            round_trip_cost_bps: sim.round_trip_cost_bps,
-            bars: store_bars(&ds, &symbol),
-            store,
-        };
-        let out = kernel.run(&draft, start, window_end, ir.as_ref()).map_err(|e| e.to_string())?;
         results.push(serde_json::json!({
             "symbol": symbol,
             "entry_bar_index": start,
@@ -795,7 +815,7 @@ fn cube(req: &ReplayRequest) -> Result<Value, String> {
             .map_err(|e| format!("cube candidate parse: {e}"))?;
         let store = stores.iter().find(|s| s.symbol == cand.symbol)
             .ok_or_else(|| format!("cube: no bars for symbol {}", cand.symbol))?;
-        let kernel = simulator::ReplayKernel {
+        let kernel = backend::scalar::ScalarKernel {
             round_trip_cost_r: sim.round_trip_cost_r,
             funding_rate_r: sim.funding_rate_r,
             funding_hours: sim.funding_hours,

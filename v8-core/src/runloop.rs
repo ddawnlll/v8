@@ -31,7 +31,7 @@
 //!    transition and stays out of the registry's pending population;
 //! 5. the DETECTED->PENDING transition — the admitted candidate.
 //!
-//! Admitted candidates then run the S2 ReplayKernel (simulator.rs) and feed
+//! Admitted candidates then run the S2 ReplayKernel (backend::scalar) and feed
 //! the S3 CubeReducer (regret.rs) per candidate, mirroring lab.run Phases
 //! 1a/1b/2/3 — the entry is the next bar's close (`entry_bar = i + 1`), the
 //! window is the tape tail, and the reduced cells are persisted to a
@@ -47,6 +47,7 @@ use std::path::PathBuf;
 
 use serde_json::Value;
 
+use crate::backend::scalar::ScalarKernel;
 use crate::candidate::{
     episode_key, geometry_version, tradability_mask_veto, CandidateRegistry, RiskGate,
     DEFAULT_CLUSTERS,
@@ -57,7 +58,7 @@ use crate::experts;
 use crate::features;
 use crate::hash;
 use crate::regret;
-use crate::simulator::{self, ReplayKernel, SimulatorParams};
+use crate::simulator::{self, SimulatorParams};
 use crate::state::{self, FeatureStore};
 
 /// The bounded prior window for the pre-entry invalidation fallback
@@ -565,7 +566,7 @@ fn reject(registry: &mut CandidateRegistry, out: &mut impl Write, cid: &str,
 }
 
 // ---------------------------------------------------------------------------
-// S2 ReplayKernel + S3 CubeReducer per admitted candidate
+// S2 ReplayKernel (backend::scalar) + S3 CubeReducer per admitted candidate
 // ---------------------------------------------------------------------------
 
 fn push_opt_f64(col: &mut evidence::Column, v: Option<f64>) {
@@ -615,7 +616,7 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
             .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
         let bars = ds.bars.iter().find(|b| b.symbol == cand.symbol)
             .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
-        let kernel = ReplayKernel {
+        let kernel = ScalarKernel {
             round_trip_cost_r: sim.round_trip_cost_r,
             funding_rate_r: sim.funding_rate_r,
             funding_hours: sim.funding_hours,
@@ -1154,7 +1155,7 @@ mod tests {
     /// identity-carrying; the registry is the guard that dead fields cannot
     /// silently accumulate).
     const CONSUMED_GEOMETRY_KEYS: &[&str] = &[
-        // ReplayKernel entry/exit path (simulator.rs)
+        // ReplayKernel entry/exit path (backend::scalar)
         "atr_ref", "risk_frac", "target_r", "stop_r", "expiry_bars", "stop_ref",
         "time_exit_bars", "pyramid_add_rules", "breakeven_roll_at_mfe_r",
         "breakeven_margin_r", "trail_stop_atr", "scale_out_ratio",
@@ -1217,7 +1218,7 @@ mod tests {
         }).collect();
         let (ds, stores) = tape_fixture(&rows, "trigger-confirm");
         let funding: &[(i64, f64)] = &[];
-        let kernel = ReplayKernel {
+        let kernel = ScalarKernel {
             round_trip_cost_r: 0.07,
             funding_rate_r: 0.0,
             funding_hours: 0,
@@ -1246,7 +1247,7 @@ mod tests {
         }).collect();
         let (ds, stores) = tape_fixture(&rows, "trigger-never");
         let funding: &[(i64, f64)] = &[];
-        let kernel = ReplayKernel {
+        let kernel = ScalarKernel {
             round_trip_cost_r: 0.07,
             funding_rate_r: 0.0,
             funding_hours: 0,
@@ -1274,7 +1275,7 @@ mod tests {
         }).collect();
         let (ds, stores) = tape_fixture(&rows, "trigger-absent");
         let funding: &[(i64, f64)] = &[];
-        let kernel = ReplayKernel {
+        let kernel = ScalarKernel {
             round_trip_cost_r: 0.07,
             funding_rate_r: 0.0,
             funding_hours: 0,
@@ -1309,7 +1310,7 @@ mod tests {
         }
         let (ds, stores) = tape_fixture(&rows, "trigger-invalid");
         let funding: &[(i64, f64)] = &[];
-        let kernel = ReplayKernel {
+        let kernel = ScalarKernel {
             round_trip_cost_r: 0.07,
             funding_rate_r: 0.0,
             funding_hours: 0,
@@ -1471,7 +1472,7 @@ mod tests {
         ];
         let (ds, stores) = tape_fixture(&rows, "neg-target");
         let funding: &[(i64, f64)] = &[];
-        let kernel = ReplayKernel {
+        let kernel = ScalarKernel {
             round_trip_cost_r: 0.07,
             funding_rate_r: 0.0,
             funding_hours: 0,

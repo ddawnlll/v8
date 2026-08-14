@@ -41,9 +41,10 @@ use std::path::Path;
 use serde_json::{json, Map, Value};
 
 use crate::analysis::outcome::{OutcomeSurface, RECONCILE_FLOAT_FIELDS, RECONCILE_TOLERANCE};
+use crate::backend::scalar::ScalarKernel;
 use crate::candidate::TERMINAL;
 use crate::data::{Dataset, SymbolBars, TapeRow};
-use crate::simulator::{Draft, ReplayKernel, SimulatorParams};
+use crate::simulator::{Draft, SimulatorParams};
 use crate::state;
 use crate::state::FeatureStore;
 
@@ -431,7 +432,7 @@ pub fn reconcile_actual_actions(
                 .cloned().unwrap_or_default(),
         };
         let atr_ref = draft.geom_f64("atr_ref");
-        let kernel = ReplayKernel {
+        let kernel = ScalarKernel {
             round_trip_cost_r: sim.round_trip_cost_r,
             funding_rate_r: sim.funding_rate_r,
             funding_hours: sim.funding_hours,

@@ -35,9 +35,10 @@ use serde_json::{json, Value};
 
 use crate::analysis::outcome::OutcomeSurface;
 use crate::analysis::phase1::{CandidateIdentity, CubeAccumulators, GapRecord, JoinedCandidateRow, Phase0Output};
+use crate::backend::scalar::ScalarKernel;
 use crate::data::{Dataset, TapeRow};
 use crate::evidence;
-use crate::simulator::{Draft, ReplayKernel, SimulatorParams};
+use crate::simulator::{Draft, SimulatorParams};
 use crate::state::{self, FeatureStore};
 
 pub fn reconcile(args: &[String]) -> i32 {
@@ -195,7 +196,7 @@ fn replay_actual_surface(
             .cloned()
             .unwrap_or_default(),
     };
-    let kernel = ReplayKernel {
+    let kernel = ScalarKernel {
         round_trip_cost_r: sim.round_trip_cost_r,
         funding_rate_r: sim.funding_rate_r,
         funding_hours: sim.funding_hours,
