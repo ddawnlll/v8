@@ -1,6 +1,18 @@
 # V8 Changelog
 
-Format: dated, brief, reversible. This log records document and architecture
+Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
+
+## 2026-08-18 — safe subset of lifecycle issue #139 (LM-002)
+
+The Rust candidate projection now retains canonical transition records and
+writes an append-only `candidate-transitions.jsonl` ledger. The projection can
+be rebuilt from shuffled or at-least-once JSONL input with event-id duplicate
+suppression and canonical hash/order checks. This deliberately does not infer
+`EXECUTED` or `CLOSED` from counterfactual cube outcomes; full position
+lifecycle semantics remain unavailable.
+
+Artifacts changed: `v8-core/src/candidate.rs`, `v8-core/src/runloop.rs`.
+
 decisions — never economics. Each entry names the artifacts it changed.
 
 ## 2026-08-16 — Computation-budget policy (D-099)

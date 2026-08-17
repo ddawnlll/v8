@@ -615,6 +615,15 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     }
     eval_out.flush().map_err(|e| e.to_string())?;
     cand_out.flush().map_err(|e| e.to_string())?;
+    // Keep a minimal append-only transition log beside the enriched candidate
+    // ledger. Replay uses this canonical projection log; cube outcomes never
+    // manufacture EXECUTED or CLOSED lifecycle facts.
+    let lifecycle_path = req.out_dir.join("candidate-transitions.jsonl");
+    // A run owns its artifact directory, as do evaluations.jsonl and
+    // candidates.jsonl above; avoid carrying records across reruns while the
+    // file itself remains append-only during this run.
+    let _ = std::fs::remove_file(&lifecycle_path);
+    registry.append_jsonl(&lifecycle_path)?;
 
     if req.defer_admission {
         return Ok(serde_json::json!({
@@ -626,6 +635,7 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
             "n_evaluations": n_evaluations,
             "candidates": cand_path.to_string_lossy(),
             "evaluations": eval_path.to_string_lossy(),
+            "candidate_transitions": lifecycle_path.to_string_lossy(),
         }));
     }
 
@@ -656,6 +666,7 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
         "variant_overrides": req.variant_overrides,
         "evaluations": eval_path.to_string_lossy(),
         "candidates": cand_path.to_string_lossy(),
+        "candidate_transitions": lifecycle_path.to_string_lossy(),
         "cube_reduced": reduced_path.to_string_lossy(),
     }))
 }
