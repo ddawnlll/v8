@@ -8,8 +8,8 @@
 //! §3); the VALUE fields (direction, reason_code, endpoint, net_r, ...) are
 //! the parity target.
 
-// The candidate machinery is the S4 evaluate-loop substrate; until the loop
-// subcommand is wired it is exercised only by its unit tests.
+// Candidate lifecycle and risk APIs are shared by the S4 evaluate loop and
+// reconciliation paths; some fields remain part of the contract projection.
 #![allow(dead_code)]
 
 use std::collections::{HashMap, HashSet};
@@ -142,10 +142,6 @@ pub struct CandidateRegistry {
 impl CandidateRegistry {
     pub fn new() -> Self {
         Self::default()
-    }
-
-    pub fn current(&self, cid: &str) -> Option<&str> {
-        self.current.get(cid).map(|s| s.as_str())
     }
 
     pub fn is_duplicate(&self, key: &str) -> bool {
@@ -312,10 +308,6 @@ impl ExposureBook {
     pub fn release(&mut self, instrument: &str, direction: &str) {
         self.active
             .remove(&(instrument.to_string(), direction.to_string()));
-    }
-    pub fn is_active(&self, instrument: &str, direction: &str) -> bool {
-        self.active
-            .contains(&(instrument.to_string(), direction.to_string()))
     }
 }
 

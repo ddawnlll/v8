@@ -28,6 +28,17 @@ jobs:
           rustup toolchain install stable --profile minimal
           rustup default stable
 
+      - name: Cache Rust dependencies and build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            v8-core/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('v8-core/Cargo.lock', 'v8-core/Cargo.toml', 'v8-core/.cargo/config.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
       - name: Install package (dev + tooling extras)
         run: uv pip install --python "$(which python)" -e ".[dev,tooling]"
 
@@ -36,6 +47,9 @@ jobs:
 
       - name: Python/Rust ownership boundary
         run: python3 tools/audit_python_boundary.py
+
+      - name: Expert registry contract gate
+        run: python3 -m pytest tests/test_expert_registry.py -q
 
       - name: v8-core unit tests (debug, catches checked arithmetic failures)
         working-directory: v8-core
@@ -49,9 +63,9 @@ jobs:
         working-directory: v8-core
         run: cargo test --features gpu
 
-      - name: v8-core no-default-features Clippy
+      - name: v8-core Clippy
         working-directory: v8-core
-        run: cargo clippy --no-default-features --all-targets -- -D warnings
+        run: cargo clippy --all-targets -- -D warnings
 
       - name: v8-core Linux GPU cross-compile
         working-directory: v8-core
