@@ -443,7 +443,10 @@ mod tests {
         let mut shuffled = records.clone();
         shuffled.reverse();
         let replayed = CandidateRegistry::replay(shuffled).unwrap();
-        assert_eq!(replayed.current("c-1"), Some("PENDING"));
+        assert_eq!(
+            replayed.current.get("c-1").map(String::as_str),
+            Some("PENDING")
+        );
         assert_eq!(replayed.records(), records.as_slice());
     }
 
@@ -453,7 +456,10 @@ mod tests {
         records.push(records[1].clone());
         let replayed = CandidateRegistry::replay(records).unwrap();
         assert_eq!(replayed.records().len(), 2);
-        assert_eq!(replayed.current("c-1"), Some("PENDING"));
+        assert_eq!(
+            replayed.current.get("c-1").map(String::as_str),
+            Some("PENDING")
+        );
     }
 
     #[test]
@@ -464,7 +470,10 @@ mod tests {
         registry.append_jsonl(&path).unwrap();
         let replayed = CandidateRegistry::replay_jsonl(&path).unwrap();
         let _ = std::fs::remove_file(&path);
-        assert_eq!(replayed.current("c-1"), Some("PENDING"));
+        assert_eq!(
+            replayed.current.get("c-1").map(String::as_str),
+            Some("PENDING")
+        );
         assert_eq!(replayed.records(), registry.records());
     }
 

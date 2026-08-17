@@ -2137,22 +2137,26 @@ mod tests {
             "no-entry"
         ));
         let sim = SimulatorParams::from_json(&serde_json::json!({}));
-        let (count, _) = write_cube_reduced(
-            &out,
-            &pending,
-            &stores,
-            &ds,
-            &sim,
-            &[],
-            1,
-            "cpu",
-            "VALUES",
-        )
-        .unwrap();
+        let (count, _) =
+            write_cube_reduced(&out, &pending, &stores, &ds, &sim, &[], 1, "cpu", "VALUES")
+                .unwrap();
         assert_eq!(count, 1);
         let artifact = evidence::read_artifact(&out).unwrap();
-        assert_eq!(artifact.column("n_ok").unwrap()[0].as_ref().unwrap().as_i64(), Some(0));
-        assert!(artifact.column("n_no_entry").unwrap()[0].as_ref().unwrap().as_i64().unwrap() > 0);
+        assert_eq!(
+            artifact.column("n_ok").unwrap()[0]
+                .as_ref()
+                .unwrap()
+                .as_i64(),
+            Some(0)
+        );
+        assert!(
+            artifact.column("n_no_entry").unwrap()[0]
+                .as_ref()
+                .unwrap()
+                .as_i64()
+                .unwrap()
+                > 0
+        );
         let _ = std::fs::remove_file(out);
     }
 

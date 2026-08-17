@@ -994,7 +994,12 @@ fn cube(req: &ReplayRequest) -> Result<Value, String> {
         .rows
         .iter()
         .filter(|r| r.channel == "funding")
-        .map(|r| (r.event_time, r.payload["funding_rate"].as_f64().unwrap_or(0.0)))
+        .map(|r| {
+            (
+                r.event_time,
+                r.payload["funding_rate"].as_f64().unwrap_or(0.0),
+            )
+        })
         .collect();
     funding_schedule.sort_by_key(|(t, _)| *t);
 
@@ -1025,7 +1030,11 @@ fn cube(req: &ReplayRequest) -> Result<Value, String> {
         &funding_schedule,
         req.threads,
         &req.engine,
-        if req.tier.is_empty() { "VALUES" } else { &req.tier },
+        if req.tier.is_empty() {
+            "VALUES"
+        } else {
+            &req.tier
+        },
     )?;
     Ok(serde_json::json!({
         "subcommand": "cube",
