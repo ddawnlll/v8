@@ -415,7 +415,36 @@ impl RiskGate {
     }
 }
 
-/// D-024 mechanical tradability mask (src/v8/risk.py `tradability_mask_veto`).
+pub fn tradability_mask_veto(
+    bar: &serde_json::Map<String, serde_json::Value>,
+    state_quality: &str,
+    entry_fill_time_ns: i64,
+    max_bar_range_frac: f64,
+    funding_window_bars: i64,
+    funding_hours: i64,
+    interval_ns: i64,
+) -> (bool, Option<String>) {
+    let f = |k: &str| bar.get(k).and_then(|v| v.as_f64());
+    let high = f("high").unwrap_or(0.0);
+    let low = f("low").unwrap_or(0.0);
+    let close = f("close").unwrap_or(0.0);
+    if close <= 0.0 || (high - low) / close > max_bar_range_frac {
+        return (true, Some("BAR_RANGE".into()));
+    }
+    if state_quality == "DEGRADED" {
+        return (true, Some("DEGRADED".into()));
+    }
+    if funding_hours > 0 && funding_window_bars > 0 && interval_ns > 0 {
+        let period = funding_hours * crate::simulator::HOUR_NS;
+        let window = funding_window_bars * interval_ns;
+        let remainder = entry_fill_time_ns % period;
+        if remainder >= period - window {
+            return (true, Some("FUNDING_WINDOW".into()));
+        }
+    }
+    (false, None)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -493,34 +522,4 @@ mod tests {
         });
         assert!(CandidateRegistry::replay(records).is_err());
     }
-}
-
-pub fn tradability_mask_veto(
-    bar: &serde_json::Map<String, serde_json::Value>,
-    state_quality: &str,
-    entry_fill_time_ns: i64,
-    max_bar_range_frac: f64,
-    funding_window_bars: i64,
-    funding_hours: i64,
-    interval_ns: i64,
-) -> (bool, Option<String>) {
-    let f = |k: &str| bar.get(k).and_then(|v| v.as_f64());
-    let high = f("high").unwrap_or(0.0);
-    let low = f("low").unwrap_or(0.0);
-    let close = f("close").unwrap_or(0.0);
-    if close <= 0.0 || (high - low) / close > max_bar_range_frac {
-        return (true, Some("BAR_RANGE".into()));
-    }
-    if state_quality == "DEGRADED" {
-        return (true, Some("DEGRADED".into()));
-    }
-    if funding_hours > 0 && funding_window_bars > 0 && interval_ns > 0 {
-        let period = funding_hours * crate::simulator::HOUR_NS;
-        let window = funding_window_bars * interval_ns;
-        let remainder = entry_fill_time_ns % period;
-        if remainder >= period - window {
-            return (true, Some("FUNDING_WINDOW".into()));
-        }
-    }
-    (false, None)
 }
