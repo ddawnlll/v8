@@ -47,8 +47,7 @@ pub const CELL_NO_ENTRY: &str = "NO_ENTRY";
 pub const GAP_COMPUTED: &str = "COMPUTED";
 pub const GAP_ABSTAINED_CENSORED: &str = "ABSTAINED_CENSORED";
 pub const GAP_ABSTAINED_UNDEFINED: &str = "ABSTAINED_UNDEFINED";
-pub const GAP_NOT_APPLICABLE_NO_ACTUAL_ACTION: &str =
-    "NOT_APPLICABLE_NO_ACTUAL_ACTION";
+pub const GAP_NOT_APPLICABLE_NO_ACTUAL_ACTION: &str = "NOT_APPLICABLE_NO_ACTUAL_ACTION";
 #[allow(dead_code)] // gap-status vocabulary; the Python write_gaps uses it for UNBOUND candidates
 pub const GAP_OUTSIDE_CANDIDATE_UNIVERSE: &str = "OUTSIDE_CANDIDATE_UNIVERSE";
 
@@ -74,7 +73,7 @@ pub fn action_id(override_geom: &serde_json::Map<String, Value>) -> String {
 #[derive(Debug, Clone)]
 pub struct Action {
     pub action_id: String,
-    pub kind: &'static str,     // NO_TRADE | GEOMETRY_VARIANT
+    pub kind: &'static str,       // NO_TRADE | GEOMETRY_VARIANT
     pub provenance: &'static str, // ACTUAL | DECLARED_VARIANT
     pub override_geom: serde_json::Map<String, Value>,
 }
@@ -88,9 +87,7 @@ pub struct Manifest {
     pub cardinality: usize,
 }
 
-pub fn generate_legal_actions(
-    actual_geometry: &serde_json::Map<String, Value>,
-) -> Manifest {
+pub fn generate_legal_actions(actual_geometry: &serde_json::Map<String, Value>) -> Manifest {
     let mut actions = Vec::new();
     actions.push(Action {
         action_id: "NO_TRADE".to_string(),
@@ -111,7 +108,9 @@ pub fn generate_legal_actions(
     });
     seen.insert(actual_id, ());
 
-    let excluded = EXCLUDED_VARIANT_KEYS.iter().any(|k| actual_geometry.contains_key(*k));
+    let excluded = EXCLUDED_VARIANT_KEYS
+        .iter()
+        .any(|k| actual_geometry.contains_key(*k));
     if !excluded {
         for tr in TARGET_R_GRID {
             for eb in EXPIRY_BARS_GRID {
@@ -155,7 +154,11 @@ pub fn generate_legal_actions(
     let manifest_id = m.finish_sha1_hex();
 
     let cardinality = actions.len();
-    Manifest { manifest_id, actions, cardinality }
+    Manifest {
+        manifest_id,
+        actions,
+        cardinality,
+    }
 }
 
 /// One replayed cell.
@@ -187,13 +190,8 @@ pub struct ReducedRow {
 /// Compute the legal hindsight gap for one Candidate from its cells.
 /// Mirrors `tools/regret.py:compute_gap` exactly (values; tie_set membership
 /// is compared by cardinality — the action ids are V8.2 identities).
-pub fn compute_gap(
-    candidate_id: &str,
-    manifest: &Manifest,
-    cells: &[Cell],
-) -> ReducedRow {
-    let by_action: HashMap<&str, &Cell> =
-        cells.iter().map(|c| (c.action_id.as_str(), c)).collect();
+pub fn compute_gap(candidate_id: &str, manifest: &Manifest, cells: &[Cell]) -> ReducedRow {
+    let by_action: HashMap<&str, &Cell> = cells.iter().map(|c| (c.action_id.as_str(), c)).collect();
 
     let mut no_trade_value = None;
     let mut actual_action_id = None;
@@ -238,10 +236,7 @@ pub fn compute_gap(
         }
     };
     let actual_cell = by_action.get(actual_id.as_str());
-    let actual_ok = matches!(
-        actual_cell.map(|c| c.status),
-        Some(CELL_OK)
-    );
+    let actual_ok = matches!(actual_cell.map(|c| c.status), Some(CELL_OK));
     if !actual_ok {
         // The Python record sets actual_utility=None in this branch (the
         // actual cell was not evaluable), even though the cell carries a
@@ -273,9 +268,12 @@ pub fn compute_gap(
         return row;
     }
 
-    let best_ok = ok_rows.iter().filter_map(|c| c.net_utility)
+    let best_ok = ok_rows
+        .iter()
+        .filter_map(|c| c.net_utility)
         .fold(f64::NEG_INFINITY, f64::max);
-    let tie_count = ok_rows.iter()
+    let tie_count = ok_rows
+        .iter()
         .filter(|c| (c.net_utility.unwrap_or(0.0) - best_ok).abs() < GAP_TIE_EPS)
         .count();
     row.best_utility = Some(best_ok);

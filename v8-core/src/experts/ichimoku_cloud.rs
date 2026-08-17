@@ -106,7 +106,6 @@ pub fn ichimoku_cloud(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
             ("variant", serde_json::json!("c")),
         ]),
     };
-    let fingerprint =
-        format!("{sym}:{direction}:{close:.6}:{tk_now:.6}:{kj_now:.6}");
+    let fingerprint = format!("{sym}:{direction}:{close:.6}:{tk_now:.6}:{kj_now:.6}");
     candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint)
 }

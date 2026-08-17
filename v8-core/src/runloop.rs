@@ -47,8 +47,9 @@ use std::path::PathBuf;
 
 use serde_json::Value;
 
-use crate::backend::scalar::ScalarKernel;
+use crate::backend;
 use crate::backend::ReplayCell;
+use crate::cache;
 use crate::candidate::{
     episode_key, geometry_version, tradability_mask_veto, CandidateRegistry, RiskGate,
     DEFAULT_CLUSTERS,
@@ -59,7 +60,6 @@ use crate::experts;
 use crate::features;
 use crate::hash;
 use crate::regret;
-use crate::scheduler;
 use crate::simulator::{self, SimulatorParams};
 use crate::state::{self, FeatureStore};
 
@@ -101,12 +101,28 @@ struct EvaluateRequest {
     /// and leaves every artifact byte-identical across thread counts (G5).
     #[serde(default = "default_threads")]
     threads: usize,
+    /// Runtime-only replay backend selection: cpu, gpu, or auto.
+    #[serde(default = "default_engine")]
+    engine: String,
+    /// Optional per-expert variant selection; omitted entries retain the
+    /// frozen constructor default used by the parity oracle.
+    #[serde(default)]
+    variant_overrides: HashMap<String, String>,
     #[serde(default)]
     manifest: Value,
+    /// Phase-4 uses the S4 loop as a candidate collector. Portfolio admission
+    /// is then performed by the experiment path at the actual entry clock,
+    /// with counterfactual outcomes retained for rejected candidates.
+    #[serde(default)]
+    defer_admission: bool,
 }
 
 fn default_threads() -> usize {
     1
+}
+
+fn default_engine() -> String {
+    "auto".to_string()
 }
 
 fn default_out_dir() -> PathBuf {
@@ -170,22 +186,53 @@ pub fn run(args: &[String]) -> i32 {
 /// candidates.jsonl and cube-reduced.v82 into `out_dir`. Returns the loop's
 /// summary (the caller reads the ledger files it names).
 pub fn run_for_analysis(
-    tape_path: &PathBuf,
+    tape_path: &std::path::Path,
     universe: &[String],
-    out_dir: &PathBuf,
+    out_dir: &std::path::Path,
     manifest: &Value,
 ) -> Result<Value, String> {
     let req = EvaluateRequest {
-        tape_path: tape_path.clone(),
+        tape_path: tape_path.to_path_buf(),
         universe: universe.to_vec(),
-        out_dir: out_dir.clone(),
+        out_dir: out_dir.to_path_buf(),
         history_depth: default_history_depth(),
         experts: Vec::new(),
         max_heat: default_max_heat(),
         max_cluster_heat: default_max_cluster_heat(),
         base_interval: default_base_interval(),
         threads: default_threads(),
+        engine: default_engine(),
+        variant_overrides: HashMap::new(),
         manifest: manifest.clone(),
+        defer_admission: false,
+    };
+    evaluate(&req)
+}
+
+/// Collect the preregistered unique DETECTED candidate population for the Phase-4
+/// runner. Unlike `run_for_analysis`, this deliberately does not admit against
+/// the detection-time RiskGate: the experiment path must admit at the actual
+/// entry clock and retain portfolio-rejected counterfactual outcomes.
+pub fn collect_for_experiment(
+    tape_path: &std::path::Path,
+    universe: &[String],
+    out_dir: &std::path::Path,
+    manifest: &Value,
+) -> Result<Value, String> {
+    let req = EvaluateRequest {
+        tape_path: tape_path.to_path_buf(),
+        universe: universe.to_vec(),
+        out_dir: out_dir.to_path_buf(),
+        history_depth: default_history_depth(),
+        experts: vec!["trend_pullback".to_string(), "failed_breakout".to_string()],
+        max_heat: default_max_heat(),
+        max_cluster_heat: default_max_cluster_heat(),
+        base_interval: default_base_interval(),
+        threads: default_threads(),
+        engine: "cpu".to_string(),
+        variant_overrides: HashMap::new(),
+        manifest: manifest.clone(),
+        defer_admission: true,
     };
     evaluate(&req)
 }
@@ -209,14 +256,23 @@ struct PendingCandidate {
 /// `birth`: `(prior_low, prior_high)` = `(min(lows), max(highs))` over
 /// `[birth - W, birth)`. Both `None` when the window is empty — the caller
 /// fails closed rather than defaulting to 0.0/inf (issue #66 / D-059).
-fn windowed_prior_extremes(highs: &[f64], lows: &[f64], birth: usize)
-    -> (Option<f64>, Option<f64>) {
+fn windowed_prior_extremes(
+    highs: &[f64],
+    lows: &[f64],
+    birth: usize,
+) -> (Option<f64>, Option<f64>) {
     let lo = birth.saturating_sub(PRIOR_WINDOW_BARS);
     if lo >= birth {
         return (None, None);
     }
-    let low = lows[lo..birth].iter().cloned().fold(f64::INFINITY, f64::min);
-    let high = highs[lo..birth].iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+    let low = lows[lo..birth]
+        .iter()
+        .cloned()
+        .fold(f64::INFINITY, f64::min);
+    let high = highs[lo..birth]
+        .iter()
+        .cloned()
+        .fold(f64::NEG_INFINITY, f64::max);
     (Some(low), Some(high))
 }
 
@@ -235,7 +291,8 @@ fn dispatch_order() -> Vec<(&'static str, &'static str)> {
     });
     ids.into_iter()
         .map(|id| {
-            let (_, _, ver, _) = experts::TABLE.iter()
+            let (_, _, ver, _) = experts::TABLE
+                .iter()
                 .find(|(e, _, _, _)| *e == id)
                 .expect("dispatch order only contains registered expert_ids");
             (id, *ver)
@@ -244,6 +301,7 @@ fn dispatch_order() -> Vec<(&'static str, &'static str)> {
 }
 
 fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
+    experts::validate_variant_overrides(&req.variant_overrides)?;
     let rows = read_tape(&req.tape_path)?;
     let ds = data::Dataset::from_rows(rows).map_err(|e| e.to_string())?;
     let stores = state::build_stores(&ds);
@@ -256,9 +314,16 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     };
 
     let sim = SimulatorParams::from_json(&req.manifest);
-    let mut funding_schedule: Vec<(i64, f64)> = ds.rows.iter()
+    let mut funding_schedule: Vec<(i64, f64)> = ds
+        .rows
+        .iter()
         .filter(|r| r.channel == "funding")
-        .map(|r| (r.event_time, r.payload["funding_rate"].as_f64().unwrap_or(0.0)))
+        .map(|r| {
+            (
+                r.event_time,
+                r.payload["funding_rate"].as_f64().unwrap_or(0.0),
+            )
+        })
         .collect();
     funding_schedule.sort_by_key(|(t, _)| *t);
     let interval_ns = interval_ns_for(&req.base_interval);
@@ -271,7 +336,8 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     let table: Vec<(&str, &str)> = if req.experts.is_empty() {
         dispatch_order()
     } else {
-        dispatch_order().into_iter()
+        dispatch_order()
+            .into_iter()
             .filter(|(id, _)| req.experts.iter().any(|e| e == id))
             .collect()
     };
@@ -282,13 +348,25 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     let mut cand_out = writer(&cand_path)?;
 
     let mut registry = CandidateRegistry::new();
-    let mut gate = RiskGate::new(req.max_heat, req.max_cluster_heat,
-        DEFAULT_CLUSTERS.iter().map(|(s, c)| (s.to_string(), c.to_string())).collect());
+    let mut gate = RiskGate::new(
+        req.max_heat,
+        req.max_cluster_heat,
+        DEFAULT_CLUSTERS
+            .iter()
+            .map(|(s, c)| (s.to_string(), c.to_string()))
+            .collect(),
+    );
 
-    let max_bar_range_frac = req.manifest.get("max_bar_range_frac")
-        .and_then(|v| v.as_f64()).unwrap_or(0.05);
-    let funding_window_bars = req.manifest.get("funding_window_bars")
-        .and_then(|v| v.as_i64()).unwrap_or(1);
+    let max_bar_range_frac = req
+        .manifest
+        .get("max_bar_range_frac")
+        .and_then(|v| v.as_f64())
+        .unwrap_or(0.05);
+    let funding_window_bars = req
+        .manifest
+        .get("funding_window_bars")
+        .and_then(|v| v.as_i64())
+        .unwrap_or(1);
 
     let mut n_candidates = 0usize;
     let mut n_suppressed = 0usize;
@@ -333,6 +411,7 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                     history: hist,
                     as_of,
                     symbol: sym,
+                    variant_overrides: &req.variant_overrides,
                 };
                 let ev = experts::evaluate(eid, &fm);
                 n_evaluations += 1;
@@ -352,23 +431,43 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                 let gv = geometry_version(&draft.risk_geometry);
                 let cid = episode_key(eid, ver, sym, &draft.direction, anchor, &gv);
                 if registry.is_duplicate(&cid) {
-                    write_line(&mut cand_out, &serde_json::json!({
+                    write_line(
+                        &mut cand_out,
+                        &serde_json::json!({
                         "kind": "suppressed_duplicate",
                         "candidate_id": cid,
                         "birth_time": as_of,
                         "expert_id": eid,
                         "source": "expert",
                         "event_id": format!("{cid}:suppressed:{as_of}"),
-                    }))?;
+                        }),
+                    )?;
                     n_suppressed += 1;
                     continue;
                 }
                 // Immutable birth snapshot on the DETECTED transition
                 // (CANDIDATE_LIFECYCLE_SPEC §1): expert identity, setup
                 // evidence and the geometry version.
+                let frozen_low = draft
+                    .risk_geometry
+                    .get("prior_low_ref")
+                    .and_then(|v| v.as_f64());
+                let frozen_high = draft
+                    .risk_geometry
+                    .get("prior_high_ref")
+                    .and_then(|v| v.as_f64());
+                let (win_low, win_high) = windowed_prior_extremes(&store.highs, &store.lows, i);
+                let prior_low = frozen_low.or(win_low).ok_or_else(|| format!(
+                    "{sym} no prior bars at birth {as_of} to derive a windowed invalidation level for {eid} — refuse, never default to 0/inf"
+                ))?;
+                let prior_high = frozen_high.or(win_high).ok_or_else(|| format!(
+                    "{sym} no prior bars at birth {as_of} to derive a windowed invalidation level for {eid} — refuse, never default to 0/inf"
+                ))?;
                 let (event_hash, seq, event_id) =
                     registry.apply(&cid, None, "DETECTED", "setup_detected", as_of)?;
-                write_line(&mut cand_out, &serde_json::json!({
+                write_line(
+                    &mut cand_out,
+                    &serde_json::json!({
                     "kind": "transition",
                     "candidate_id": cid,
                     "sequence": seq,
@@ -385,33 +484,84 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                     "direction": draft.direction,
                     "setup_anchor_event_id": anchor,
                     "geometry_version": gv,
-                }))?;
+                    "birth_bar": i,
+                    "entry_bar": i + 1,
+                    "state_quality": state_quality,
+                    "risk_geometry": draft.risk_geometry,
+                    "prior_low": prior_low,
+                    "prior_high": prior_high,
+                    }),
+                )?;
+                let size = draft
+                    .risk_geometry
+                    .get("size")
+                    .and_then(|v| v.as_f64())
+                    .unwrap_or(1.0);
+                let stop_r = draft
+                    .risk_geometry
+                    .get("stop_r")
+                    .and_then(|v| v.as_f64())
+                    .unwrap_or(1.0);
+                if req.defer_admission {
+                    pending.push(PendingCandidate {
+                        candidate_id: cid,
+                        direction: draft.direction.clone(),
+                        birth_time: draft.birth_time,
+                        entry_bar: i + 1,
+                        risk_geometry: draft.risk_geometry.clone(),
+                        symbol: sym.clone(),
+                        prior_low,
+                        prior_high,
+                    });
+                    n_candidates += 1;
+                    continue;
+                }
                 // D-024 mechanical tradability mask (data-plane integrity
                 // veto; src/v8/risk.py `tradability_mask_veto`).
                 let (vetoed, reason) = tradability_mask_veto(
-                    &bar_map, state_quality, as_of,
-                    max_bar_range_frac, funding_window_bars,
-                    sim.funding_hours, interval_ns);
+                    &bar_map,
+                    state_quality,
+                    as_of,
+                    max_bar_range_frac,
+                    funding_window_bars,
+                    sim.funding_hours,
+                    interval_ns,
+                );
                 if vetoed {
-                    reject(&mut registry, &mut cand_out, &cid, as_of,
-                           reason.as_deref().unwrap_or("TRADABILITY_MASK_VETO"))?;
+                    reject(
+                        &mut registry,
+                        &mut cand_out,
+                        &cid,
+                        as_of,
+                        reason.as_deref().unwrap_or("TRADABILITY_MASK_VETO"),
+                    )?;
                     n_rejected += 1;
                     continue;
                 }
                 // Risk admission: ExposureBook (rule 16: one active exposure
                 // per (instrument, direction)) then heat caps.
-                let size = draft.risk_geometry.get("size").and_then(|v| v.as_f64()).unwrap_or(1.0);
-                let stop_r = draft.risk_geometry.get("stop_r").and_then(|v| v.as_f64()).unwrap_or(1.0);
                 let verdict = gate.admit(sym, &draft.direction, size, stop_r);
                 if !verdict.ok {
-                    reject(&mut registry, &mut cand_out, &cid, as_of,
-                           verdict.reason_code.as_deref().unwrap_or("risk_rejected"))?;
+                    reject(
+                        &mut registry,
+                        &mut cand_out,
+                        &cid,
+                        as_of,
+                        verdict.reason_code.as_deref().unwrap_or("risk_rejected"),
+                    )?;
                     n_rejected += 1;
                     continue;
                 }
                 let (event_hash, seq, event_id) = registry.apply(
-                    &cid, Some("DETECTED"), "PENDING", "hypothesis_completed", as_of)?;
-                write_line(&mut cand_out, &serde_json::json!({
+                    &cid,
+                    Some("DETECTED"),
+                    "PENDING",
+                    "hypothesis_completed",
+                    as_of,
+                )?;
+                write_line(
+                    &mut cand_out,
+                    &serde_json::json!({
                     "kind": "transition",
                     "candidate_id": cid,
                     "sequence": seq,
@@ -422,7 +572,8 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                     "event_hash": event_hash,
                     "event_id": event_id,
                     "source": "lifecycle",
-                }))?;
+                    }),
+                )?;
                 // Entry is the next bar's close (lab.run PHASE 2: a candidate
                 // born at bar i enters at i + 1).
                 // Pre-entry invalidation levels (issue #66 / D-059): the
@@ -431,13 +582,6 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                 // (D-034). The all-bars prefix-extreme state feature is NEVER
                 // used here — an old spike outside the window pins it and
                 // makes the gate dead code for experts that freeze no ref.
-                let frozen_low = draft.risk_geometry.get("prior_low_ref").and_then(|v| v.as_f64());
-                let frozen_high = draft.risk_geometry.get("prior_high_ref").and_then(|v| v.as_f64());
-                let (win_low, win_high) = windowed_prior_extremes(&store.highs, &store.lows, i);
-                let prior_low = frozen_low.or(win_low).ok_or_else(|| format!(
-                    "{sym} no prior bars at birth {as_of} to derive a windowed invalidation level for {eid} — refuse, never default to 0/inf"))?;
-                let prior_high = frozen_high.or(win_high).ok_or_else(|| format!(
-                    "{sym} no prior bars at birth {as_of} to derive a windowed invalidation level for {eid} — refuse, never default to 0/inf"))?;
                 pending.push(PendingCandidate {
                     candidate_id: cid,
                     direction: draft.direction.clone(),
@@ -455,12 +599,33 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     eval_out.flush().map_err(|e| e.to_string())?;
     cand_out.flush().map_err(|e| e.to_string())?;
 
+    if req.defer_admission {
+        return Ok(serde_json::json!({
+            "subcommand": "evaluate",
+            "deferred_admission": true,
+            "n_candidates": n_candidates,
+            "n_suppressed": n_suppressed,
+            "n_rejected": n_rejected,
+            "n_evaluations": n_evaluations,
+            "candidates": cand_path.to_string_lossy(),
+            "evaluations": eval_path.to_string_lossy(),
+        }));
+    }
+
     // S2 + S3: replay each admitted candidate and reduce the outcome cube.
     // The replay batch runs on `req.threads` worker threads (scheduler.rs);
     // threads=1 vs N must produce byte-identical artifacts (G5).
     let reduced_path = req.out_dir.join("cube-reduced.v82");
-    let n_reduced = write_cube_reduced(
-        &reduced_path, &pending, &stores, &ds, &sim, &funding_schedule, req.threads)?;
+    let (n_reduced, engines_used) = write_cube_reduced(
+        &reduced_path,
+        &pending,
+        &stores,
+        &ds,
+        &sim,
+        &funding_schedule,
+        req.threads,
+        &req.engine,
+    )?;
 
     Ok(serde_json::json!({
         "subcommand": "evaluate",
@@ -469,6 +634,8 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
         "n_rejected": n_rejected,
         "n_evaluations": n_evaluations,
         "n_reduced": n_reduced,
+        "engines_used": engines_used,
+        "variant_overrides": req.variant_overrides,
         "evaluations": eval_path.to_string_lossy(),
         "candidates": cand_path.to_string_lossy(),
         "cube_reduced": reduced_path.to_string_lossy(),
@@ -478,16 +645,16 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
 /// Read a JSONL tape into parsed `TapeRow`s using the Python-json-compatible
 /// parser (the tape is written by CPython `json.dumps`, which may emit
 /// `NaN`/`Infinity` literals that strict JSON rejects).
-fn read_tape(path: &PathBuf) -> Result<Vec<data::TapeRow>, String> {
-    let text = std::fs::read_to_string(path)
-        .map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
+pub(crate) fn read_tape(path: &PathBuf) -> Result<Vec<data::TapeRow>, String> {
+    let text =
+        std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
     let mut rows = Vec::new();
     for (i, line) in text.lines().enumerate() {
         if line.trim().is_empty() {
             continue;
         }
-        let parsed = crate::jsonx::parse_line(line)
-            .map_err(|e| format!("tape line {}: {e}", i + 1))?;
+        let parsed =
+            crate::jsonx::parse_line(line).map_err(|e| format!("tape line {}: {e}", i + 1))?;
         let row = data::TapeRow::from_parts(&parsed.value, parsed.nonfinite)
             .map_err(|e| format!("tape line {}: {e}", i + 1))?;
         rows.push(row);
@@ -525,7 +692,7 @@ fn bar_payload(store: &FeatureStore, i: usize) -> serde_json::Map<String, Value>
 // Ledger writers
 // ---------------------------------------------------------------------------
 
-fn writer(path: &PathBuf) -> Result<std::io::BufWriter<std::fs::File>, String> {
+fn writer(path: &std::path::Path) -> Result<std::io::BufWriter<std::fs::File>, String> {
     let f = std::fs::File::create(path).map_err(|e| format!("create {path:?}: {e}"))?;
     Ok(std::io::BufWriter::new(f))
 }
@@ -538,9 +705,16 @@ fn write_line(out: &mut impl Write, v: &Value) -> Result<(), String> {
 
 /// One evaluation record, mirroring lab's evaluations.jsonl ExpertEvaluation
 /// (`knowledge_time` = the decision clock; the draft mirrors CandidateDraft).
-fn write_evaluation(out: &mut impl Write, eid: &str, ver: &str, sym: &str, as_of: i64,
-                    ev: &experts::base::ExpertEval) -> Result<(), String> {
-    let draft = ev.draft.as_ref().map(|d| serde_json::json!({
+fn write_evaluation(
+    out: &mut impl Write,
+    eid: &str,
+    ver: &str,
+    sym: &str,
+    as_of: i64,
+    ev: &experts::base::ExpertEval,
+) -> Result<(), String> {
+    let draft = ev.draft.as_ref().map(|d| {
+        serde_json::json!({
         "expert_id": eid,
         "expert_version": ver,
         "instrument": sym,
@@ -550,23 +724,34 @@ fn write_evaluation(out: &mut impl Write, eid: &str, ver: &str, sym: &str, as_of
         "birth_time": d.birth_time,
         "setup_anchor_event_id": ev.setup_anchor_event_id,
         "size": 1.0,
-    }));
-    write_line(out, &serde_json::json!({
+        })
+    });
+    write_line(
+        out,
+        &serde_json::json!({
         "knowledge_time": as_of,
         "expert_id": eid,
         "version": ver,
         "applicability": ev.applicability,
         "decision": ev.decision,
         "draft": draft,
-    }))
+        }),
+    )
 }
 
 /// DETECTED -> REJECTED with the reason, and the ledger record.
-fn reject(registry: &mut CandidateRegistry, out: &mut impl Write, cid: &str,
-          as_of: i64, reason: &str) -> Result<(), String> {
+fn reject(
+    registry: &mut CandidateRegistry,
+    out: &mut impl Write,
+    cid: &str,
+    as_of: i64,
+    reason: &str,
+) -> Result<(), String> {
     let (event_hash, seq, event_id) =
         registry.apply(cid, Some("DETECTED"), "REJECTED", reason, as_of)?;
-    write_line(out, &serde_json::json!({
+    write_line(
+        out,
+        &serde_json::json!({
         "kind": "transition",
         "candidate_id": cid,
         "sequence": seq,
@@ -577,7 +762,8 @@ fn reject(registry: &mut CandidateRegistry, out: &mut impl Write, cid: &str,
         "event_hash": event_hash,
         "event_id": event_id,
         "source": "lifecycle",
-    }))
+        }),
+    )
 }
 
 // ---------------------------------------------------------------------------
@@ -595,11 +781,16 @@ fn push_opt_f64(col: &mut evidence::Column, v: Option<f64>) {
 }
 
 #[allow(clippy::too_many_arguments)]
-fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
-                      stores: &[FeatureStore], ds: &data::Dataset,
-                      sim: &SimulatorParams, funding_schedule: &[(i64, f64)],
-                      threads: usize)
-    -> Result<usize, String> {
+fn write_cube_reduced(
+    path: &std::path::Path,
+    pending: &[PendingCandidate],
+    stores: &[FeatureStore],
+    ds: &data::Dataset,
+    sim: &SimulatorParams,
+    funding_schedule: &[(i64, f64)],
+    threads: usize,
+    engine: &str,
+) -> Result<(usize, Vec<String>), String> {
     let mut art = evidence::Artifact::new(
         "cube-reduced",
         "VALUES",
@@ -624,8 +815,10 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
     let c_uf = art.add_column("n_undefined_future", evidence::DType::I64);
     let c_ne = art.add_column("n_not_evaluable_action", evidence::DType::I64);
     let c_no_entry = art.add_column("n_no_entry", evidence::DType::I64);
-    let cols = [c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap, c_gs, c_reason,
-                c_nt, c_ok, c_ce, c_uf, c_ne, c_no_entry];
+    let cols = [
+        c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap, c_gs, c_reason, c_nt, c_ok, c_ce, c_uf,
+        c_ne, c_no_entry,
+    ];
 
     // Phase 1 — plan every (candidate, action) cell. Cells that need a kernel
     // run go into a replay batch (evaluated through the task scheduler on
@@ -638,9 +831,14 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
     let mut planned: Vec<Vec<Option<regret::Cell>>> = Vec::with_capacity(pending.len());
 
     for (ci, cand) in pending.iter().enumerate() {
-        let store = stores.iter().find(|s| s.symbol == cand.symbol)
+        let store = stores
+            .iter()
+            .find(|s| s.symbol == cand.symbol)
             .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
-        let bars = ds.bars.iter().find(|b| b.symbol == cand.symbol)
+        let bars = ds
+            .bars
+            .iter()
+            .find(|b| b.symbol == cand.symbol)
             .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
         let manifest = regret::generate_legal_actions(&cand.risk_geometry);
         let window_end = store.closes.len();
@@ -710,38 +908,110 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
         manifests.push(manifest);
     }
 
-    // Phase 2 — one kernel per candidate (built once, never per cell —
-    // COMPUTE_CORE_SPEC §5), then evaluate the replay batch on `threads`
-    // worker threads. A per-cell Err is a task RESULT (the cube's
-    // NOT_EVALUABLE_ACTION downgrade below); only a worker fault fails the
-    // whole request (COMPUTE_SCHEDULING_SPEC §7).
-    let mut kernels: Vec<ScalarKernel> = Vec::with_capacity(pending.len());
-    for cand in pending {
-        let store = stores.iter().find(|s| s.symbol == cand.symbol)
-            .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
-        let bars = ds.bars.iter().find(|b| b.symbol == cand.symbol)
-            .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
-        kernels.push(ScalarKernel {
-            round_trip_cost_r: sim.round_trip_cost_r,
-            funding_rate_r: sim.funding_rate_r,
-            funding_hours: sim.funding_hours,
-            fill_policy: sim.fill_policy,
-            funding_schedule,
-            round_trip_cost_bps: sim.round_trip_cost_bps,
-            bars,
-            store,
-        });
+    // Phase 2 — content-addressed cache around the backend dispatch. The
+    // cache is runtime-only: its key includes all semantic inputs, while
+    // engine/thread selection remains deliberately absent.
+    let sim_hash = hash::hash_value(&serde_json::json!({
+        "round_trip_cost_r": sim.round_trip_cost_r,
+        "round_trip_cost_bps": sim.round_trip_cost_bps,
+        "funding_rate_r": sim.funding_rate_r,
+        "funding_hours": sim.funding_hours,
+        "fill_policy": match sim.fill_policy {
+            simulator::FillPolicy::BarClose => "BAR_CLOSE",
+            simulator::FillPolicy::Limit => "FILL_AT_LIMIT",
+        },
+    }));
+    let data_hash = hash::hash_value(&Value::Array(
+        ds.rows
+            .iter()
+            .map(|r| {
+                serde_json::json!({
+                    "source": r.source,
+                    "channel": r.channel,
+                    "instrument": r.instrument,
+                    "event_time": r.event_time,
+                    "available_time": r.available_time,
+                    "ingested_time": r.ingested_time,
+                    "venue_sequence": r.venue_sequence,
+                    "event_id": r.event_id,
+                    "payload": r.payload,
+                })
+            })
+            .collect(),
+    ));
+    let cache_path = path
+        .parent()
+        .unwrap_or_else(|| std::path::Path::new("."))
+        .join("cube-cache.jsonl");
+    let mut cache_store = cache::CacheStore::open(&cache_path)
+        .map_err(|e| format!("open cube cache {cache_path:?}: {e}"))?;
+    let mut cache_keys = Vec::with_capacity(batch.len());
+    let mut engines_used = std::collections::BTreeSet::<String>::new();
+    let mut results: Vec<Result<simulator::Outcome, String>> = (0..batch.len())
+        .map(|_| Err("replay result was not produced".to_string()))
+        .collect();
+    let mut misses = Vec::new();
+    for (i, (ci, ai)) in dests.iter().enumerate() {
+        let key = cache::canonical_key(
+            &pending[*ci].candidate_id,
+            &manifests[*ci].actions[*ai].action_id,
+            &sim_hash,
+            &data_hash,
+        );
+        cache_keys.push(key.clone());
+        match cache_store.get(&key) {
+            Some(value) => results[i] = Ok(cache::outcome_from_value(value)?),
+            None => misses.push(i),
+        }
     }
-    let results = scheduler::parallel_map(threads, batch.len(), &|i| {
-        let (ci, _ai) = dests[i];
-        let cell = &batch[i];
-        // S2 ReplayKernel via the SIMD path (Backend-1, #133): value-safe
-        // `f64x2` lane math for barrier comparisons/extremes, bit-identical to
-        // the scalar reference; drafts outside the SIMD value-safety guard
-        // (trail/breakeven/scale-out/limit-fill) fall back to the exact
-        // scalar kernel. An optimization may not change a value (D-088).
-        kernels[ci].run_simd(&cell.draft, cell.start, cell.end, cell.thesis.as_ref())
-    })?;
+
+    let miss_cells: Vec<ReplayCell> = misses.iter().map(|i| batch[*i].clone()).collect();
+    let mut miss_outcomes = vec![
+        simulator::Outcome {
+            endpoint: String::new(),
+            net_r: 0.0,
+            label_status: String::new(),
+            horizon_bars: 0,
+            label_available_time: 0,
+            mae_r: 0.0,
+            mfe_r: 0.0,
+            ambiguous_bars: 0,
+            entry_price: 0.0,
+            risk_unit_price: 0.0,
+            market_move_r: 0.0,
+            cost_r: 0.0,
+            funding_r: 0.0,
+        };
+        miss_cells.len()
+    ];
+    if !miss_cells.is_empty() {
+        match backend::evaluate_engine(
+            engine,
+            threads,
+            sim,
+            funding_schedule,
+            stores,
+            ds,
+            &miss_cells,
+            &mut miss_outcomes,
+        ) {
+            Ok(selected_engine) => {
+                engines_used.insert(selected_engine.to_string());
+                for (j, outcome) in miss_outcomes.into_iter().enumerate() {
+                    let original = misses[j];
+                    cache_store
+                        .insert(&cache_keys[original], cache::outcome_to_value(&outcome))
+                        .map_err(|e| format!("write cube cache: {e}"))?;
+                    results[original] = Ok(outcome);
+                }
+            }
+            Err(err) => {
+                for original in misses {
+                    results[original] = Err(err.clone());
+                }
+            }
+        }
+    }
 
     // Phase 3 — classify every batch outcome into its planned cell slot, with
     // the exact sequential semantics: a per-cell replay error stays a
@@ -775,11 +1045,17 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
                         net_utility: None,
                     }
                 } else {
-                    let status = if out.label_status == "MATURE" { regret::CELL_OK } else { regret::CELL_CENSORED };
+                    let status = if out.label_status == "MATURE" {
+                        regret::CELL_OK
+                    } else {
+                        regret::CELL_CENSORED
+                    };
                     regret::Cell {
                         action_id: action.action_id.clone(),
                         status,
-                        reason: if status == regret::CELL_OK { String::new() } else {
+                        reason: if status == regret::CELL_OK {
+                            String::new()
+                        } else {
                             "replay reached tape end before a terminal endpoint".into()
                         },
                         net_utility: Some(out.net_r),
@@ -800,7 +1076,10 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
     for (ci, cand) in pending.iter().enumerate() {
         let cells: Vec<regret::Cell> = planned[ci]
             .iter_mut()
-            .map(|slot| slot.take().expect("every replay slot filled by the scheduler"))
+            .map(|slot| {
+                slot.take()
+                    .expect("every replay slot filled by the scheduler")
+            })
             .collect();
         let row = regret::compute_gap(&cand.candidate_id, &manifests[ci], &cells);
         art.columns[cols[0]].push_str(&row.candidate_id);
@@ -828,8 +1107,12 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
         art.end_row();
     }
 
-    art.write(path).map_err(|e| format!("write cube artifact: {e}"))?;
-    Ok(pending.len())
+    art.write(path)
+        .map_err(|e| format!("write cube artifact: {e}"))?;
+    if engines_used.is_empty() && !batch.is_empty() {
+        engines_used.insert("cache".to_string());
+    }
+    Ok((pending.len(), engines_used.into_iter().collect()))
 }
 
 // ---------------------------------------------------------------------------
@@ -839,6 +1122,7 @@ fn write_cube_reduced(path: &PathBuf, pending: &[PendingCandidate],
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::backend::scalar::ScalarKernel;
 
     /// One kline TapeRow mirroring synth.make_synthetic_tape's record shape
     /// (FIXED_EPOCH_NS + i*HOUR_NS, 1s configured feed latency).
@@ -863,8 +1147,7 @@ mod tests {
     }
 
     fn write_tape(rows: &[Value], tag: &str) -> PathBuf {
-        let dir = std::env::temp_dir()
-            .join(format!("v8core-runloop-{tag}-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("v8core-runloop-{tag}-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("tape.jsonl");
         let mut s = String::new();
@@ -891,6 +1174,9 @@ mod tests {
             max_cluster_heat: 1000.0,
             base_interval: "1h".to_string(),
             threads: default_threads(),
+            engine: default_engine(),
+            variant_overrides: HashMap::new(),
+            defer_admission: false,
             // funding_window_bars: 0 disables the D-024 funding-window veto,
             // which depends on the tape's wall-clock alignment and would make
             // the structural counts flaky.
@@ -930,8 +1216,7 @@ mod tests {
         rows
     }
 
-    fn direct_candidate_count(tape: &PathBuf, history_depth: usize,
-                              experts: &[String]) -> usize {
+    fn direct_candidate_count(tape: &PathBuf, history_depth: usize, experts: &[String]) -> usize {
         // Independent pass over the same stores: count CANDIDATE decisions the
         // dispatch table returns, with no registry/gate state.
         let rows = read_tape(tape).unwrap();
@@ -942,7 +1227,8 @@ mod tests {
         let table: Vec<(&str, &str)> = if experts.is_empty() {
             dispatch_order()
         } else {
-            dispatch_order().into_iter()
+            dispatch_order()
+                .into_iter()
                 .filter(|(id, _)| experts.iter().any(|e| e == id))
                 .collect()
         };
@@ -969,6 +1255,7 @@ mod tests {
                         history: hist,
                         as_of,
                         symbol: &store.symbol,
+                        variant_overrides: &HashMap::new(),
                     };
                     if experts::evaluate(eid, &fm).decision == "CANDIDATE" {
                         count += 1;
@@ -994,8 +1281,11 @@ mod tests {
         let c = summary["n_rejected"].as_u64().unwrap();
         let n = summary["n_evaluations"].as_u64().unwrap();
         let direct = direct_candidate_count(&tape, state::HISTORY_DEPTH_DEFAULT, &r.experts) as u64;
-        assert_eq!(a + b + c, direct,
-                   "loop candidate outcomes must equal the direct evaluate() CANDIDATE count");
+        assert_eq!(
+            a + b + c,
+            direct,
+            "loop candidate outcomes must equal the direct evaluate() CANDIDATE count"
+        );
         (a, b, c, n)
     }
 
@@ -1003,8 +1293,7 @@ mod tests {
     /// the admitted candidate in `direction` (the PENDING candidate in that
     /// direction). The regression probe for issue #68: which expert wins an
     /// (instrument, direction) slot conflict.
-    fn admitted_expert(rows: &[Value], out: &str, experts: Vec<&str>,
-                       direction: &str) -> String {
+    fn admitted_expert(rows: &[Value], out: &str, experts: Vec<&str>, direction: &str) -> String {
         let manifest = serde_json::json!({ "funding_window_bars": 0 });
         let tape = write_tape(rows, out);
         let r = req(tape, out, experts, manifest);
@@ -1028,11 +1317,16 @@ mod tests {
                 }
             }
         }
-        let mut winners: Vec<String> = admitted.iter()
+        let mut winners: Vec<String> = admitted
+            .iter()
             .filter(|cid| dir_of.get(*cid).map(|d| d == direction).unwrap_or(false))
             .map(|cid| expert_of.get(cid).cloned().unwrap())
             .collect();
-        assert_eq!(winners.len(), 1, "exactly one admitted candidate in direction {direction}");
+        assert_eq!(
+            winners.len(),
+            1,
+            "exactly one admitted candidate in direction {direction}"
+        );
         winners.pop().unwrap()
     }
 
@@ -1040,13 +1334,19 @@ mod tests {
     fn candidate_count_matches_direct_evaluate() {
         // A tiny synthetic tape (fixed-array rows) run through the loop
         // produces exactly the CANDIDATE decisions the dispatch table returns.
-        // The subset spans the table but deliberately excludes bollinger_breakout
-        // and fib_rsi_bb_confluence: both panic in DEBUG builds on the `i - N + 1`
-        // index at i == N - 1 (usize underflow; release wraps to the correct
-        // index, which is why the release-mode parity harness is unaffected) —
-        // a pre-existing defect in those modules, not in this loop.
-        let (a, b, c, n) = counts(&ramp_bars(60), "count",
-            vec!["donchian_breakout", "trend_pullback", "liquidity_sweep_reclaim"]);
+        // The subset spans the table; bollinger_breakout and
+        // fib_rsi_bb_confluence get their own boundary regression test
+        // (warmup_boundary_bb_experts_no_usize_underflow) since the `i - N + 1`
+        // underflow at i == N - 1 they used to hit is fixed there, not here.
+        let (a, b, c, n) = counts(
+            &ramp_bars(60),
+            "count",
+            vec![
+                "donchian_breakout",
+                "trend_pullback",
+                "liquidity_sweep_reclaim",
+            ],
+        );
         // donchian_breakout fires on every bar t >= 22; the first detection is
         // admitted (a == 1), and every later one is either a
         // suppressed_duplicate (when its episode key coincides — the ramp's
@@ -1060,6 +1360,29 @@ mod tests {
     }
 
     #[test]
+    fn warmup_boundary_bb_experts_no_usize_underflow() {
+        // Regression for the `i - N + 1` usize underflow at i == N - 1
+        // (bollinger_breakout.rs:72/:101, fib_rsi_bb_confluence.rs:76):
+        // the window start was computed as `(i - BB_BASE_N) + 1`, which
+        // underflows at the exact warmup boundary i == BB_BASE_N - 1.
+        // A 20-bar ramp puts the last history bar at exactly that boundary;
+        // both experts evaluate it through the loop without panicking, and
+        // the counts contract (a + b + c == direct) holds — in debug builds,
+        // where the underflow panicked, and in release, where it silently
+        // wrapped. The fixed form `i + 1 - BB_BASE_N` avoids the boundary
+        // entirely: the intermediate is `i + 1`, never `i - BB_BASE_N`.
+        let (_a, _b, _c, n) = counts(
+            &ramp_bars(20),
+            "bb-boundary",
+            vec!["bollinger_breakout", "fib_rsi_bb_confluence"],
+        );
+        assert_eq!(n, 20 * 2, "every bar x every expert evaluated");
+        // The counts contract (a + b + c == direct) is asserted inside
+        // counts(); the point of THIS test is that both experts reach the
+        // warmup boundary without a debug-mode underflow panic.
+    }
+
+    #[test]
     fn duplicate_setup_yields_one_candidate_one_suppressed() {
         // The bar-20 dip opens a pullback run; bar 21 is still inside it. The
         // D-026 anchor is the run's first bar (SOLUSDT:21) for both, and
@@ -1067,10 +1390,16 @@ mod tests {
         // declared constants; atr_ref is excluded from the geometry version) —
         // so the second bar's episode key is identical: one admitted candidate
         // + one suppressed_duplicate, nothing rejected.
-        let (a, b, c, _) = counts(&pullback_tape(&[13.0, 13.5, 15.5, 16.5, 17.5, 18.5, 19.5, 20.5]),
-                                   "dedup", vec!["trend_pullback"]);
+        let (a, b, c, _) = counts(
+            &pullback_tape(&[13.0, 13.5, 15.5, 16.5, 17.5, 18.5, 19.5, 20.5]),
+            "dedup",
+            vec!["trend_pullback"],
+        );
         assert_eq!(a, 1, "first detection admitted");
-        assert_eq!(b, 1, "identical consecutive setup is a suppressed_duplicate");
+        assert_eq!(
+            b, 1,
+            "identical consecutive setup is a suppressed_duplicate"
+        );
         assert_eq!(c, 0);
     }
 
@@ -1081,12 +1410,17 @@ mod tests {
         // episode (new anchor) that passes dedup but is NOT admitted:
         // EXISTING_EXPOSURE_CONFLICT (rule 16 — one active exposure per
         // (instrument, direction)).
-        let (a, b, c, _) = counts(&pullback_tape(&[13.0, 15.5, 16.5, 17.5, 18.5, 19.5, 20.5,
-                                                   14.0, 18.5, 19.5]),
-                                   "exposure", vec!["trend_pullback"]);
+        let (a, b, c, _) = counts(
+            &pullback_tape(&[13.0, 15.5, 16.5, 17.5, 18.5, 19.5, 20.5, 14.0, 18.5, 19.5]),
+            "exposure",
+            vec!["trend_pullback"],
+        );
         assert_eq!(a, 1, "first detection admitted");
         assert_eq!(b, 0, "no duplicate episode keys on this tape");
-        assert_eq!(c, 1, "second same-direction candidate is portfolio-rejected");
+        assert_eq!(
+            c, 1,
+            "second same-direction candidate is portfolio-rejected"
+        );
     }
 
     #[test]
@@ -1099,24 +1433,38 @@ mod tests {
         let a = dispatch_order();
         let b = dispatch_order();
         assert_eq!(a, b, "the dispatch order must be deterministic");
-        assert_eq!(a.len(), experts::TABLE.len(),
-                   "every registered expert is dispatched exactly once");
+        assert_eq!(
+            a.len(),
+            experts::TABLE.len(),
+            "every registered expert is dispatched exactly once"
+        );
         // The canonical TABLE is alphabetical and leads with bollinger_breakout.
-        assert_eq!(experts::TABLE[0].0, "bollinger_breakout",
-                   "TABLE is expert_id-sorted — the old implicit alphabetical ranker");
+        assert_eq!(
+            experts::TABLE[0].0,
+            "bollinger_breakout",
+            "TABLE is expert_id-sorted — the old implicit alphabetical ranker"
+        );
         // The declared order differs from it at the top of the queue.
-        assert_ne!(a[0].0, experts::TABLE[0].0,
-                   "the declared order must not be alphabetical");
+        assert_ne!(
+            a[0].0,
+            experts::TABLE[0].0,
+            "the declared order must not be alphabetical"
+        );
         // And it is exactly the declared rule: strictly ascending sha1(expert_id).
-        let hashes: Vec<String> = a.iter().map(|(id, _)| {
-            let mut c = crate::hash::Canon::new();
-            c.push_str(id);
-            c.finish_sha1_hex()
-        }).collect();
+        let hashes: Vec<String> = a
+            .iter()
+            .map(|(id, _)| {
+                let mut c = crate::hash::Canon::new();
+                c.push_str(id);
+                c.finish_sha1_hex()
+            })
+            .collect();
         let mut sorted = hashes.clone();
         sorted.sort();
-        assert_eq!(hashes, sorted,
-                   "the dispatch order is the declared ascending sha1(expert_id)");
+        assert_eq!(
+            hashes, sorted,
+            "the dispatch order is the declared ascending sha1(expert_id)"
+        );
     }
 
     #[test]
@@ -1140,11 +1488,17 @@ mod tests {
             rows.push(bar(c, c + 0.3, c - 0.3, c, "SOLUSDT", i));
         }
         rows.push(bar(115.0, 115.3, 114.7, 115.0, "SOLUSDT", 20));
-        let winner = admitted_expert(&rows, "slot-conflict",
-                                     vec!["bollinger_breakout", "pandf_breakout"], "LONG");
-        assert_eq!(winner, "pandf_breakout",
-                   "slot conflicts must resolve by the declared sha1(expert_id) order, \
-                    not alphabetical expert_id (issue #68)");
+        let winner = admitted_expert(
+            &rows,
+            "slot-conflict",
+            vec!["bollinger_breakout", "pandf_breakout"],
+            "LONG",
+        );
+        assert_eq!(
+            winner, "pandf_breakout",
+            "slot conflicts must resolve by the declared sha1(expert_id) order, \
+                    not alphabetical expert_id (issue #68)"
+        );
     }
 
     #[test]
@@ -1166,8 +1520,10 @@ mod tests {
             }
         }
         let (prior_low, prior_high) = windowed_prior_extremes(&highs, &lows, 40);
-        assert!(prior_low.unwrap() > 1.0,
-                "the old spike outside the window must not pin the windowed prior low");
+        assert!(
+            prior_low.unwrap() > 1.0,
+            "the old spike outside the window must not pin the windowed prior low"
+        );
         assert_eq!(prior_high.unwrap(), 30.0);
         // Empty window (birth 0) fails closed — never default to 0.0/inf.
         assert_eq!(windowed_prior_extremes(&highs, &lows, 0), (None, None));
@@ -1193,7 +1549,7 @@ mod tests {
             rows.push(bar(c, c + 0.3, c - 0.3, c, "SOLUSDT", i));
         }
         rows.push(bar(20.0, 20.3, 19.7, 20.0, "SOLUSDT", 36)); // dip: setup born
-        rows.push(bar(7.0, 7.3, 6.7, 7.0, "SOLUSDT", 37));     // crash: gate fires
+        rows.push(bar(7.0, 7.3, 6.7, 7.0, "SOLUSDT", 37)); // crash: gate fires
         for (k, c) in [9.0, 10.0, 11.0, 12.0].iter().enumerate() {
             rows.push(bar(*c, *c + 0.3, *c - 0.3, *c, "SOLUSDT", 38 + k));
         }
@@ -1202,21 +1558,41 @@ mod tests {
         let tape = write_tape(&rows, "invalidation");
         let r = req(tape, "invalidation", vec!["trend_pullback"], manifest);
         let summary = evaluate(&r).unwrap();
-        assert_eq!(summary["n_candidates"].as_u64().unwrap(), 1,
-                   "the dip admits exactly one candidate");
+        assert_eq!(
+            summary["n_candidates"].as_u64().unwrap(),
+            1,
+            "the dip admits exactly one candidate"
+        );
         let cube_path = std::path::PathBuf::from(summary["cube_reduced"].as_str().unwrap());
         let cube = evidence::read_artifact(&cube_path).unwrap();
         let no_entry = cube.column("n_no_entry").expect("n_no_entry column");
         assert_eq!(no_entry.len(), 1, "one candidate row in the cube");
-        let n_no_entry = no_entry[0].as_ref().expect("n_no_entry present").as_i64().unwrap();
-        assert!(n_no_entry > 0, "the invalidated candidate never enters (n_no_entry={n_no_entry})");
+        let n_no_entry = no_entry[0]
+            .as_ref()
+            .expect("n_no_entry present")
+            .as_i64()
+            .unwrap();
+        assert!(
+            n_no_entry > 0,
+            "the invalidated candidate never enters (n_no_entry={n_no_entry})"
+        );
         let n_ok = cube.column("n_ok").expect("n_ok column")[0]
-            .as_ref().expect("n_ok present").as_i64().unwrap();
+            .as_ref()
+            .expect("n_ok present")
+            .as_i64()
+            .unwrap();
         assert_eq!(n_ok, 0, "no action executes for an invalidated candidate");
-        let reason = cube.column("abstention_reason").expect("abstention_reason column")[0]
-            .as_ref().expect("reason present").as_str().unwrap();
-        assert!(reason.contains("invalidated before entry"),
-                "the cube records the pre-entry invalidation, got: {reason}");
+        let reason = cube
+            .column("abstention_reason")
+            .expect("abstention_reason column")[0]
+            .as_ref()
+            .expect("reason present")
+            .as_str()
+            .unwrap();
+        assert!(
+            reason.contains("invalidated before entry"),
+            "the cube records the pre-entry invalidation, got: {reason}"
+        );
     }
 
     // -----------------------------------------------------------------------
@@ -1233,17 +1609,42 @@ mod tests {
     /// silently accumulate).
     const CONSUMED_GEOMETRY_KEYS: &[&str] = &[
         // ReplayKernel entry/exit path (backend::scalar)
-        "atr_ref", "risk_frac", "target_r", "stop_r", "expiry_bars", "stop_ref",
-        "time_exit_bars", "pyramid_add_rules", "breakeven_roll_at_mfe_r",
-        "breakeven_margin_r", "trail_stop_atr", "scale_out_ratio",
-        "scale_out_at_mfe_r", "limit_price", "trigger_ref", "trigger_side",
+        "atr_ref",
+        "risk_frac",
+        "target_r",
+        "stop_r",
+        "expiry_bars",
+        "stop_ref",
+        "time_exit_bars",
+        "pyramid_add_rules",
+        "breakeven_roll_at_mfe_r",
+        "breakeven_margin_r",
+        "trail_stop_atr",
+        "scale_out_ratio",
+        "scale_out_at_mfe_r",
+        "limit_price",
+        "trigger_ref",
+        "trigger_side",
         // runloop admission + pre-entry invalidation
-        "size", "prior_low_ref", "prior_high_ref",
+        "size",
+        "prior_low_ref",
+        "prior_high_ref",
         // compiled predicate IR ref operands (tools/predicate_ir.py)
-        "level_ref", "breakout_ref", "gap_top_ref", "gap_bottom_ref",
-        "barrier_ref", "extremum_ref", "mid_ref", "upper_1sd_ref",
-        "lower_1sd_ref", "upper_2sd_ref", "lower_2sd_ref", "lower_3sd_ref",
-        "upper_3sd_ref", "channel_n", "variant",
+        "level_ref",
+        "breakout_ref",
+        "gap_top_ref",
+        "gap_bottom_ref",
+        "barrier_ref",
+        "extremum_ref",
+        "mid_ref",
+        "upper_1sd_ref",
+        "lower_1sd_ref",
+        "upper_2sd_ref",
+        "lower_2sd_ref",
+        "lower_3sd_ref",
+        "upper_3sd_ref",
+        "channel_n",
+        "variant",
     ];
 
     /// Declared risk_geometry keys with NO behavioral reader in the compute
@@ -1252,10 +1653,19 @@ mod tests {
     /// entry names its declaring expert. Adding a key here requires a decision;
     /// the runner does not read it.
     const IDENTITY_ONLY_GEOMETRY_KEYS: &[(&str, &str)] = &[
-        ("entry", "all experts: the declared entry mode (NEXT_BAR_CLOSE) — the bar-close entry model"),
+        (
+            "entry",
+            "all experts: the declared entry mode (NEXT_BAR_CLOSE) — the bar-close entry model",
+        ),
         ("poc_ref", "market_profile_value_area: frozen profile POC"),
-        ("va_low_ref", "market_profile_value_area: frozen value-area low"),
-        ("va_high_ref", "market_profile_value_area: frozen value-area high"),
+        (
+            "va_low_ref",
+            "market_profile_value_area: frozen value-area low",
+        ),
+        (
+            "va_high_ref",
+            "market_profile_value_area: frozen value-area high",
+        ),
         ("target_2x_ref", "range_breakout_1to1: 2x-target projection"),
         ("reversal", "pandf_breakout: reversal-box count declaration"),
     ];
@@ -1280,7 +1690,11 @@ mod tests {
             g.insert("trigger_ref".to_string(), serde_json::json!(t));
             g.insert("trigger_side".to_string(), serde_json::json!("CLOSE_ABOVE"));
         }
-        simulator::Draft { direction: "LONG".to_string(), birth_time: 0, risk_geometry: g }
+        simulator::Draft {
+            direction: "LONG".to_string(),
+            birth_time: 0,
+            risk_geometry: g,
+        }
     }
 
     #[test]
@@ -1289,10 +1703,16 @@ mod tests {
         // bars 9..13 drift down. A LONG/CLOSE_ABOVE draft with trigger_ref=105:
         // the wait starts at bar 8, whose close confirms — entry is the NEXT
         // bar's close (bar 9), never the confirming bar's.
-        let rows: Vec<Value> = (0..14).map(|i| {
-            let c = if i < 8 { 100.0 } else { 110.0 - 0.5 * ((i - 8) as f64) };
-            bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
-        }).collect();
+        let rows: Vec<Value> = (0..14)
+            .map(|i| {
+                let c = if i < 8 {
+                    100.0
+                } else {
+                    110.0 - 0.5 * ((i - 8) as f64)
+                };
+                bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
+            })
+            .collect();
         let (ds, stores) = tape_fixture(&rows, "trigger-confirm");
         let funding: &[(i64, f64)] = &[];
         let kernel = ScalarKernel {
@@ -1305,9 +1725,18 @@ mod tests {
             bars: &ds.bars[0],
             store: &stores[0],
         };
-        let out = kernel.run(&trigger_draft(Some(105.0), 95.0), 8,
-                             ds.bars[0].closes.len(), None).unwrap();
-        assert_ne!(out.label_status, "NOT_EXECUTED", "a confirmed trigger must enter");
+        let out = kernel
+            .run(
+                &trigger_draft(Some(105.0), 95.0),
+                8,
+                ds.bars[0].closes.len(),
+                None,
+            )
+            .unwrap();
+        assert_ne!(
+            out.label_status, "NOT_EXECUTED",
+            "a confirmed trigger must enter"
+        );
         assert_eq!(out.entry_price, ds.bars[0].closes[9],
                    "entry is the bar AFTER the confirming close (issue #67: the trigger is a close-confirmation, not the entry bar)");
     }
@@ -1318,10 +1747,12 @@ mod tests {
         // end of the tape and the trigger never fires — the epilogue
         // convention (EXPIRY / NOT_EXECUTED): a non-trade, not a censored
         // position.
-        let rows: Vec<Value> = (0..14).map(|i| {
-            let c = 100.0;
-            bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
-        }).collect();
+        let rows: Vec<Value> = (0..14)
+            .map(|i| {
+                let c = 100.0;
+                bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
+            })
+            .collect();
         let (ds, stores) = tape_fixture(&rows, "trigger-never");
         let funding: &[(i64, f64)] = &[];
         let kernel = ScalarKernel {
@@ -1334,10 +1765,22 @@ mod tests {
             bars: &ds.bars[0],
             store: &stores[0],
         };
-        let out = kernel.run(&trigger_draft(Some(105.0), 95.0), 8,
-                             ds.bars[0].closes.len(), None).unwrap();
-        assert_eq!(out.label_status, "NOT_EXECUTED", "an unfired trigger never enters");
-        assert_eq!(out.endpoint, "EXPIRY", "the tape-end epilogue expires a PENDING candidate");
+        let out = kernel
+            .run(
+                &trigger_draft(Some(105.0), 95.0),
+                8,
+                ds.bars[0].closes.len(),
+                None,
+            )
+            .unwrap();
+        assert_eq!(
+            out.label_status, "NOT_EXECUTED",
+            "an unfired trigger never enters"
+        );
+        assert_eq!(
+            out.endpoint, "EXPIRY",
+            "the tape-end epilogue expires a PENDING candidate"
+        );
         assert_eq!(out.net_r, 0.0);
     }
 
@@ -1346,10 +1789,12 @@ mod tests {
         // No trigger_ref: the D-082 fail-open keeps the unconditional
         // next-bar-close entry (experts without a trigger — entry:
         // NEXT_BAR_CLOSE — must not change behavior).
-        let rows: Vec<Value> = (0..14).map(|i| {
-            let c = 100.0;
-            bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
-        }).collect();
+        let rows: Vec<Value> = (0..14)
+            .map(|i| {
+                let c = 100.0;
+                bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
+            })
+            .collect();
         let (ds, stores) = tape_fixture(&rows, "trigger-absent");
         let funding: &[(i64, f64)] = &[];
         let kernel = ScalarKernel {
@@ -1362,12 +1807,17 @@ mod tests {
             bars: &ds.bars[0],
             store: &stores[0],
         };
-        let out = kernel.run(&trigger_draft(None, 95.0), 8,
-                             ds.bars[0].closes.len(), None).unwrap();
-        assert_ne!(out.label_status, "NOT_EXECUTED",
-                   "no trigger_ref means unconditional entry (fail-open, D-082)");
-        assert_eq!(out.entry_price, ds.bars[0].closes[8],
-                   "entry at the first wait bar's close");
+        let out = kernel
+            .run(&trigger_draft(None, 95.0), 8, ds.bars[0].closes.len(), None)
+            .unwrap();
+        assert_ne!(
+            out.label_status, "NOT_EXECUTED",
+            "no trigger_ref means unconditional entry (fail-open, D-082)"
+        );
+        assert_eq!(
+            out.entry_price, ds.bars[0].closes[8],
+            "entry at the first wait bar's close"
+        );
     }
 
     #[test]
@@ -1376,10 +1826,12 @@ mod tests {
         // 94, breaching the frozen prior_low_ref 95 while the candidate is
         // still PENDING — the wait ends invalidated (INVALIDATED_BEFORE_TRIGGER),
         // never as an executed position.
-        let mut rows: Vec<Value> = (0..9).map(|i| {
-            let c = 100.0;
-            bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
-        }).collect();
+        let mut rows: Vec<Value> = (0..9)
+            .map(|i| {
+                let c = 100.0;
+                bar(c, c + 0.5, c - 0.5, c, "SOLUSDT", i)
+            })
+            .collect();
         rows.push(bar(99.0, 99.5, 94.0, 99.0, "SOLUSDT", 9)); // breach bar
         for i in 10..14 {
             let c = 100.0;
@@ -1397,11 +1849,19 @@ mod tests {
             bars: &ds.bars[0],
             store: &stores[0],
         };
-        let out = kernel.run(&trigger_draft(Some(105.0), 95.0), 8,
-                             ds.bars[0].closes.len(), None).unwrap();
+        let out = kernel
+            .run(
+                &trigger_draft(Some(105.0), 95.0),
+                8,
+                ds.bars[0].closes.len(),
+                None,
+            )
+            .unwrap();
         assert_eq!(out.label_status, "NOT_EXECUTED");
-        assert_eq!(out.endpoint, "INVALIDATED_BEFORE_TRIGGER",
-                   "a prior-level breach during the PENDING wait invalidates — the candidate never enters");
+        assert_eq!(
+            out.endpoint, "INVALIDATED_BEFORE_TRIGGER",
+            "a prior-level breach during the PENDING wait invalidates — the candidate never enters"
+        );
     }
 
     #[test]
@@ -1434,7 +1894,7 @@ mod tests {
             let c = 15.0 + 0.5 * (k as f64);
             rows.push(bar(c, c + 0.3, c - 0.3, c, "SOLUSDT", i));
         }
-        let (ds, stores) = tape_fixture(&rows, "declared-keys");
+        let (_ds, stores) = tape_fixture(&rows, "declared-keys");
         let mut declared: std::collections::HashSet<String> = std::collections::HashSet::new();
         for store in &stores {
             for i in 0..store.closes.len() {
@@ -1445,9 +1905,11 @@ mod tests {
                 for f in &feats {
                     map.insert(f.name.clone(), f.clone());
                 }
-                for (eid, _) in experts::TABLE.iter()
-                    .filter(|(id, _, _, _)| *id != "bollinger_breakout"
-                            && *id != "fib_rsi_bb_confluence")
+                for (eid, _) in experts::TABLE
+                    .iter()
+                    .filter(|(id, _, _, _)| {
+                        *id != "bollinger_breakout" && *id != "fib_rsi_bb_confluence"
+                    })
                     .map(|(id, _, ver, _)| (*id, *ver))
                 {
                     let closure = features::group_closure(experts::requires_for(eid));
@@ -1462,6 +1924,7 @@ mod tests {
                         history: hist,
                         as_of,
                         symbol: &store.symbol,
+                        variant_overrides: &HashMap::new(),
                     };
                     if let Some(d) = experts::evaluate(eid, &fm).draft {
                         for k in d.risk_geometry.keys() {
@@ -1472,12 +1935,16 @@ mod tests {
             }
         }
         // The pilot must fire for the guard to protect its keys.
-        assert!(declared.contains("trigger_ref"),
-                "the dead-field tape must fire candlestick_reversal (the trigger-ref pilot)");
+        assert!(
+            declared.contains("trigger_ref"),
+            "the dead-field tape must fire candlestick_reversal (the trigger-ref pilot)"
+        );
         assert!(declared.contains("trigger_side"));
         for key in &declared {
             let consumed = CONSUMED_GEOMETRY_KEYS.contains(&key.as_str());
-            let identity = IDENTITY_ONLY_GEOMETRY_KEYS.iter().any(|(k, _)| *k == key.as_str());
+            let identity = IDENTITY_ONLY_GEOMETRY_KEYS
+                .iter()
+                .any(|(k, _)| *k == key.as_str());
             assert!(consumed || identity,
                     "risk_geometry key {key:?} is declared by a fired expert but read by NO runner path \
                      (issue #67: dead fields must not silently accumulate)");
@@ -1492,7 +1959,11 @@ mod tests {
         g.insert("target_r".to_string(), serde_json::json!(target_r));
         g.insert("stop_r".to_string(), serde_json::json!(stop_r));
         g.insert("expiry_bars".to_string(), serde_json::json!(expiry_bars));
-        simulator::Draft { direction: "LONG".to_string(), birth_time: 0, risk_geometry: g }
+        simulator::Draft {
+            direction: "LONG".to_string(),
+            birth_time: 0,
+            risk_geometry: g,
+        }
     }
 
     #[test]
@@ -1503,8 +1974,10 @@ mod tests {
         // downstream hit-rate / profit-factor statistic); stop_r <= 0 is not
         // a position; expiry_bars < 1 is not a horizon.
         let valid = geom_draft(1.0, 1.0, 8);
-        assert!(simulator::validate_geometry(&valid).is_ok(),
-                "a sane geometry must validate");
+        assert!(
+            simulator::validate_geometry(&valid).is_ok(),
+            "a sane geometry must validate"
+        );
         for (label, g) in [
             ("target_r = 0", geom_draft(0.0, 1.0, 8)),
             ("target_r < 0", geom_draft(-1.0, 1.0, 8)),
@@ -1513,8 +1986,10 @@ mod tests {
             ("expiry_bars = 0", geom_draft(1.0, 1.0, 0)),
             ("expiry_bars < 1", geom_draft(1.0, 1.0, -2)),
         ] {
-            assert!(simulator::validate_geometry(&g).is_err(),
-                    "{label} must fail closed");
+            assert!(
+                simulator::validate_geometry(&g).is_err(),
+                "{label} must fail closed"
+            );
         }
         // A present-but-non-numeric key fails closed too: geom_f64 would
         // return None and the replay path would default target_r to 0.0 —
@@ -1522,14 +1997,20 @@ mod tests {
         // oracle's float()/int() raises for the same input.
         for key in ["target_r", "stop_r"] {
             let mut g = geom_draft(1.0, 1.0, 8);
-            g.risk_geometry.insert(key.to_string(), serde_json::json!("not-a-number"));
-            assert!(simulator::validate_geometry(&g).is_err(),
-                    "non-numeric {key} must fail closed, never be silently skipped");
+            g.risk_geometry
+                .insert(key.to_string(), serde_json::json!("not-a-number"));
+            assert!(
+                simulator::validate_geometry(&g).is_err(),
+                "non-numeric {key} must fail closed, never be silently skipped"
+            );
         }
         let mut g = geom_draft(1.0, 1.0, 8);
-        g.risk_geometry.insert("expiry_bars".to_string(), serde_json::json!("many"));
-        assert!(simulator::validate_geometry(&g).is_err(),
-                "non-numeric expiry_bars must fail closed");
+        g.risk_geometry
+            .insert("expiry_bars".to_string(), serde_json::json!("many"));
+        assert!(
+            simulator::validate_geometry(&g).is_err(),
+            "non-numeric expiry_bars must fail closed"
+        );
     }
 
     #[test]
@@ -1563,10 +2044,14 @@ mod tests {
         let draft = geom_draft(-1.0, 3.0, 8);
         let out = kernel.run(&draft, 0, ds.bars[0].closes.len(), None);
         match out {
-            Ok(o) => panic!("a target_r<0 draft must be rejected, never recorded as endpoint={} net_r={}",
-                            o.endpoint, o.net_r),
-            Err(e) => assert!(e.contains("target_r must be > 0"),
-                              "the rejection must name the offending key: {e}"),
+            Ok(o) => panic!(
+                "a target_r<0 draft must be rejected, never recorded as endpoint={} net_r={}",
+                o.endpoint, o.net_r
+            ),
+            Err(e) => assert!(
+                e.contains("target_r must be > 0"),
+                "the rejection must name the offending key: {e}"
+            ),
         }
     }
 
@@ -1580,7 +2065,12 @@ mod tests {
         let manifest = serde_json::json!({ "funding_window_bars": 0 });
         let tape1 = write_tape(&ramp_bars(60), "g5-one");
         let tape2 = write_tape(&ramp_bars(60), "g5-eight");
-        let mut r1 = req(tape1, "g5-threads1", vec!["donchian_breakout"], manifest.clone());
+        let mut r1 = req(
+            tape1,
+            "g5-threads1",
+            vec!["donchian_breakout"],
+            manifest.clone(),
+        );
         r1.threads = 1;
         let mut r8 = req(tape2, "g5-threads8", vec!["donchian_breakout"], manifest);
         r8.threads = 8;
@@ -1597,5 +2087,4 @@ mod tests {
             "cube-reduced artifact must be byte-identical at threads=1 vs threads=8"
         );
     }
-
 }

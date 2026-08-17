@@ -2,8 +2,8 @@
 //! the consecutive pullback run. Ported at S4; draft parity proven.
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -19,10 +19,22 @@ pub const EXPIRY_BARS: i64 = 8;
 
 pub fn trend_pullback(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let fast = match fm.value("ema_fast") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let slow = match fm.value("ema_slow") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let fast = match fm.value("ema_fast") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let slow = match fm.value("ema_slow") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     if fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }

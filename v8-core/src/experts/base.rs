@@ -32,6 +32,9 @@ pub struct FeatMap<'a> {
     /// parity on any non-SOLUSDT tape (issue #101); the loop now passes the
     /// request symbol through.
     pub symbol: &'a str,
+    /// Request-level variant overrides keyed by expert id. An empty map
+    /// preserves every expert's frozen constructor default.
+    pub variant_overrides: &'a HashMap<String, String>,
 }
 
 impl<'a> FeatMap<'a> {
@@ -39,6 +42,17 @@ impl<'a> FeatMap<'a> {
     /// The map is keyed by the bare name, matching state_features' emission.
     pub fn value(&self, name: &str) -> Option<f64> {
         self.features.get(name).and_then(|f| f.value.as_f64())
+    }
+
+    /// Resolve a family variant while preserving the default when no
+    /// override was supplied. Empty override values also fail closed to the
+    /// declared default rather than creating an invalid variant.
+    pub fn variant<'b>(&'b self, expert_id: &str, default: &'b str) -> &'b str {
+        self.variant_overrides
+            .get(expert_id)
+            .map(String::as_str)
+            .filter(|v| !v.is_empty())
+            .unwrap_or(default)
     }
 }
 
@@ -79,17 +93,37 @@ pub fn geom(entries: Vec<(&str, serde_json::Value)>) -> serde_json::Map<String, 
     m
 }
 
-pub fn no_habitat(_expert_id: &str, _version: &str, as_of: i64) -> ExpertEval {
-    ExpertEval { applicability: "NOT_APPLICABLE".into(), decision: "NO_HABITAT".into(),
-                 draft: None, setup_anchor_event_id: None, setup_fingerprint: None }
+pub fn no_habitat(_expert_id: &str, _version: &str, _as_of: i64) -> ExpertEval {
+    ExpertEval {
+        applicability: "NOT_APPLICABLE".into(),
+        decision: "NO_HABITAT".into(),
+        draft: None,
+        setup_anchor_event_id: None,
+        setup_fingerprint: None,
+    }
 }
-pub fn no_setup(_expert_id: &str, _version: &str, as_of: i64) -> ExpertEval {
-    ExpertEval { applicability: "NOT_APPLICABLE".into(), decision: "NO_SETUP".into(),
-                 draft: None, setup_anchor_event_id: None, setup_fingerprint: None }
+pub fn no_setup(_expert_id: &str, _version: &str, _as_of: i64) -> ExpertEval {
+    ExpertEval {
+        applicability: "NOT_APPLICABLE".into(),
+        decision: "NO_SETUP".into(),
+        draft: None,
+        setup_anchor_event_id: None,
+        setup_fingerprint: None,
+    }
 }
-pub fn candidate(_expert_id: &str, _version: &str, _as_of: i64, draft: Draft,
-                  anchor: String, fingerprint: String) -> ExpertEval {
-    ExpertEval { applicability: "APPLICABLE".into(), decision: "CANDIDATE".into(),
-                 draft: Some(draft), setup_anchor_event_id: Some(anchor),
-                 setup_fingerprint: Some(fingerprint) }
+pub fn candidate(
+    _expert_id: &str,
+    _version: &str,
+    _as_of: i64,
+    draft: Draft,
+    anchor: String,
+    fingerprint: String,
+) -> ExpertEval {
+    ExpertEval {
+        applicability: "APPLICABLE".into(),
+        decision: "CANDIDATE".into(),
+        draft: Some(draft),
+        setup_anchor_event_id: Some(anchor),
+        setup_fingerprint: Some(fingerprint),
+    }
 }

@@ -60,6 +60,8 @@ NAMES = [
     'CHANGELOG.md',
     'ROADMAP.md',
     'AGENT_RUNBOOK.md',
+    'COMPUTATION_BUDGET_POLICY.md',
+    'PYTHON_ORACLE_POLICY.md',
     'CLAIMS_REGISTRY.yaml',
     'EXPERIMENT_REGISTRY.yaml',
     'EXPERTS_REGISTRY.yaml',
@@ -89,10 +91,19 @@ def main() -> None:
     head = head_path.read_text(encoding='utf-8')
 
     docs = Path(args.docs)
+    # A Turkish reader must never receive a silently truncated monograph.  Keep
+    # translated files authoritative, but include the matching English source
+    # when a translation has not landed yet.  This is an explicit, visible
+    # fallback—not a dropped section and not a build warning that CI ignores.
+    fallback_docs = Path('docs') if args.lang == 'tr' else None
     sections = []
     toc_items = []
     for name in NAMES:
         p = find(docs, name)
+        fallback = False
+        if p is None and fallback_docs is not None:
+            p = find(fallback_docs, name)
+            fallback = p is not None
         if p is None:
             print(f'warning: {name} not found under {docs} — skipped', file=sys.stderr)
             continue
@@ -106,7 +117,13 @@ def main() -> None:
                 extensions=['tables', 'fenced_code', 'sane_lists', 'toc'],
                 output_format='html5',
             )
-        sections.append(f'<section id="{sec_id}"><h1>{title}</h1>' + body + '</section>')
+        fallback_note = (
+            '<p><em>English source fallback: Turkish translation pending.</em></p>'
+            if fallback else ''
+        )
+        sections.append(
+            f'<section id="{sec_id}"><h1>{title}</h1>' + fallback_note + body + '</section>'
+        )
         toc_items.append(f'<li><a href="#{sec_id}">{title}</a></li>')
     toc = '<nav id="toc"><h2>Contents</h2><ul>' + ''.join(toc_items) + '</ul></nav>'
 

@@ -25,16 +25,15 @@ pub const EXPIRY_BARS: i64 = 8;
 
 // Declared, frozen constants, inherited verbatim from the registered families
 // (D-036/D-046 pattern; never fitted on the dev window).
-const BB_BASE_N: usize = 20;  // bollinger_reversion.py:43
-const RSI_OS: f64 = 30.0;     // rsi_stoch_reversion.py:45
-const RSI_OB: f64 = 70.0;     // rsi_stoch_reversion.py:46
-// The confluence fib leg uses the DEEPEST retracement (structural co-occurrence
-// argument in the module docstring); it doubles as the post-entry
-// deep-correction reference, as in fib_retracement_continuation.
+const BB_BASE_N: usize = 20; // bollinger_reversion.py:43
+const RSI_OS: f64 = 30.0; // rsi_stoch_reversion.py:45
+const RSI_OB: f64 = 70.0; // rsi_stoch_reversion.py:46
+                          // The confluence fib leg uses the DEEPEST retracement (structural co-occurrence
+                          // argument in the module docstring); it doubles as the post-entry
+                          // deep-correction reference, as in fib_retracement_continuation.
 const FIB_RATIO: f64 = 0.786;
 // The harness runs FibRsiBbConfluenceExpert() with no variant argument, so the
 // instance variant_id is the class default 'a' (STRICT).
-const VARIANT: &str = "a";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Dir {
@@ -73,7 +72,11 @@ fn bb_series(hist: &[HistBar]) -> Vec<Option<(f64, f64)>> {
     let mut out = Vec::with_capacity(closes.len());
     for i in 0..closes.len() {
         if i >= BB_BASE_N - 1 {
-            let win = &closes[i - BB_BASE_N + 1..i + 1];
+            // `i + 1 - BB_BASE_N`, not `i - BB_BASE_N + 1`: the latter
+            // evaluates left-to-right as `(i - BB_BASE_N) + 1`, which
+            // underflows usize at i == BB_BASE_N - 1 (panic in debug,
+            // silent wrap in release).
+            let win = &closes[i + 1 - BB_BASE_N..i + 1];
             out.push(Some((mean(win), std_pop(win))));
         } else {
             out.push(None);
@@ -121,10 +124,7 @@ fn bb_vote_at(bb: &[Option<(f64, f64)>], i: usize, bar: &HistBar) -> Option<Dir>
     if i < BB_BASE_N - 1 {
         return None;
     }
-    let (mid, sd) = match bb[i] {
-        Some(p) => p,
-        None => return None,
-    };
+    let (mid, sd) = bb[i]?;
     if sd <= 0.0 {
         return None;
     }
@@ -146,10 +146,7 @@ fn rsi_vote_at(rsi: &[Option<f64>], i: usize) -> Option<Dir> {
     if i >= rsi.len() {
         return None;
     }
-    let cur = match rsi[i] {
-        Some(v) => v,
-        None => return None,
-    };
+    let cur = rsi[i]?;
     if cur > RSI_OS {
         let mut s = i;
         while s > 0 && rsi[s - 1].map(|v| v > RSI_OS).unwrap_or(false) {
@@ -213,10 +210,7 @@ fn confluence_vote(variant: &str, votes: &[Option<Dir>; 3]) -> Option<Dir> {
 /// Python `_retracement_level`: the level for `ratio` from the self-describing
 /// fib tuple `(anchor, direction, retr, ext)`; None when absent.
 fn retracement_level(fibs: &[serde_json::Value], ratio: f64) -> Option<f64> {
-    let retr = match fibs.get(2).and_then(|v| v.as_array()) {
-        Some(r) => r,
-        None => return None,
-    };
+    let retr = fibs.get(2).and_then(|v| v.as_array())?;
     for pair in retr {
         let r = match pair.get(0).and_then(|v| v.as_f64()) {
             Some(v) => v,
@@ -230,10 +224,19 @@ fn retracement_level(fibs: &[serde_json::Value], ratio: f64) -> Option<f64> {
 }
 
 pub fn fib_rsi_bb_confluence(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
+    let variant = fm.variant(expert_id, "a");
     let sym = fm.symbol;
     // Python `_need`: every required feature key present, else NO_HABITAT.
-    let need = ["close", "atr", "history", "bb_mid", "bb_upper", "bb_lower",
-                "rsi14", "fib_levels"];
+    let need = [
+        "close",
+        "atr",
+        "history",
+        "bb_mid",
+        "bb_upper",
+        "bb_lower",
+        "rsi14",
+        "fib_levels",
+    ];
     for k in need {
         if !fm.features.contains_key(k) {
             return no_habitat(expert_id, version, fm.as_of);
@@ -305,7 +308,7 @@ pub fn fib_rsi_bb_confluence(fm: &FeatMap, expert_id: &str, version: &str) -> Ex
         rsi_v = None;
     }
     let fib_v = fib_vote_at(fib_direction, fib_level, &fm.history[last]);
-    let direction_sig = match confluence_vote(VARIANT, &[bb_v, rsi_v, fib_v]) {
+    let direction_sig = match confluence_vote(variant, &[bb_v, rsi_v, fib_v]) {
         Some(d) => d,
         None => return no_setup(expert_id, version, fm.as_of),
     };
@@ -318,7 +321,7 @@ pub fn fib_rsi_bb_confluence(fm: &FeatMap, expert_id: &str, version: &str) -> Ex
             rsi_vote_at(&rsi, i),
             fib_vote_at(fib_direction, fib_level, b),
         ];
-        confluence_vote(VARIANT, &votes).is_some()
+        confluence_vote(variant, &votes).is_some()
     };
     let anchor = find_setup_anchor(&fm.history, &confluence_at);
 
@@ -344,22 +347,31 @@ pub fn fib_rsi_bb_confluence(fm: &FeatMap, expert_id: &str, version: &str) -> Ex
         ("stop_r", serde_json::json!(STOP_R)),
         ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
         ("atr_ref", serde_json::json!(atr)),
-        ("variant", serde_json::json!(VARIANT)),
+        ("variant", serde_json::json!(variant)),
     ]);
     match direction_sig {
         Dir::Long => {
             geometry.insert("prior_low_ref".to_string(), serde_json::json!(fib_level));
-            geometry.insert("lower_3sd_ref".to_string(),
-                            serde_json::json!(mid - 1.5 * (mid - lower)));
+            geometry.insert(
+                "lower_3sd_ref".to_string(),
+                serde_json::json!(mid - 1.5 * (mid - lower)),
+            );
         }
         Dir::Short => {
             geometry.insert("prior_high_ref".to_string(), serde_json::json!(fib_level));
-            geometry.insert("upper_3sd_ref".to_string(),
-                            serde_json::json!(mid + 1.5 * (upper - mid)));
+            geometry.insert(
+                "upper_3sd_ref".to_string(),
+                serde_json::json!(mid + 1.5 * (upper - mid)),
+            );
         }
     }
-    let fingerprint = format!("{sym}:{}:{}:{:.6}:{:.6}",
-                              VARIANT, direction_sig.label(), fib_level, close);
+    let fingerprint = format!(
+        "{sym}:{}:{}:{:.6}:{:.6}",
+        variant,
+        direction_sig.label(),
+        fib_level,
+        close
+    );
     let draft = Draft {
         direction: direction_sig.label().to_string(),
         birth_time: fm.as_of,

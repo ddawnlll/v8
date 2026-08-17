@@ -79,6 +79,7 @@ impl F64x2 {
 
     /// Store the two lanes into `out[i]`, `out[i+1]`.
     #[inline(always)]
+    #[allow(dead_code)]
     pub fn store_unaligned(self, out: &mut [f64], i: usize) {
         unsafe { arch::store(self.0, out, i) };
     }
@@ -108,6 +109,7 @@ impl F64x2 {
     /// Lane-wise addition (correctly rounded per lane; `fp-contract=off`
     /// guarantees no lane-op fusion).
     #[inline(always)]
+    #[allow(dead_code)]
     pub fn add(self, rhs: F64x2) -> F64x2 {
         F64x2(unsafe { arch::add(self.0, rhs.0) })
     }
@@ -148,27 +150,43 @@ impl F64x2 {
     #[inline(always)]
     pub fn reduce_max(self) -> f64 {
         let [a, b] = self.to_array();
-        if b > a { b } else { a }
+        if b > a {
+            b
+        } else {
+            a
+        }
     }
 
     /// Min of the two lanes with the scalar-scan tie rule.
     #[inline(always)]
     pub fn reduce_min(self) -> f64 {
         let [a, b] = self.to_array();
-        if b < a { b } else { a }
+        if b < a {
+            b
+        } else {
+            a
+        }
     }
 
     /// Scalar `max` with the scalar-scan tie rule (`if b > a { b } else { a }`).
     /// Used for the odd trailing lane.
     #[inline(always)]
     pub fn scalar_max(a: f64, b: f64) -> f64 {
-        if b > a { b } else { a }
+        if b > a {
+            b
+        } else {
+            a
+        }
     }
 
     /// Scalar `min` with the scalar-scan tie rule.
     #[inline(always)]
     pub fn scalar_min(a: f64, b: f64) -> f64 {
-        if b < a { b } else { a }
+        if b < a {
+            b
+        } else {
+            a
+        }
     }
 }
 
@@ -231,6 +249,7 @@ mod arch {
     }
 
     #[inline(always)]
+    #[allow(dead_code)]
     pub unsafe fn store(v: float64x2_t, out: &mut [f64], i: usize) {
         vst1q_f64(out.as_mut_ptr().add(i), v);
     }
@@ -253,6 +272,7 @@ mod arch {
     }
 
     #[inline(always)]
+    #[allow(dead_code)]
     pub unsafe fn add(a: float64x2_t, b: float64x2_t) -> float64x2_t {
         vaddq_f64(a, b)
     }
@@ -324,6 +344,7 @@ mod arch {
     }
 
     #[inline(always)]
+    #[allow(dead_code)]
     pub unsafe fn add(a: __m128d, b: __m128d) -> __m128d {
         _mm_add_pd(a, b)
     }
@@ -384,12 +405,18 @@ mod arch {
 
     #[inline(always)]
     pub unsafe fn max(a: [f64; 2], b: [f64; 2]) -> [f64; 2] {
-        [super::F64x2::scalar_max(a[0], b[0]), super::F64x2::scalar_max(a[1], b[1])]
+        [
+            super::F64x2::scalar_max(a[0], b[0]),
+            super::F64x2::scalar_max(a[1], b[1]),
+        ]
     }
 
     #[inline(always)]
     pub unsafe fn min(a: [f64; 2], b: [f64; 2]) -> [f64; 2] {
-        [super::F64x2::scalar_min(a[0], b[0]), super::F64x2::scalar_min(a[1], b[1])]
+        [
+            super::F64x2::scalar_min(a[0], b[0]),
+            super::F64x2::scalar_min(a[1], b[1]),
+        ]
     }
 
     #[inline(always)]
@@ -468,10 +495,7 @@ mod tests {
             window_max(&series, 4, 4).to_bits(),
             f64::NEG_INFINITY.to_bits()
         );
-        assert_eq!(
-            window_min(&series, 4, 4).to_bits(),
-            f64::INFINITY.to_bits()
-        );
+        assert_eq!(window_min(&series, 4, 4).to_bits(), f64::INFINITY.to_bits());
     }
 
     /// The `+0.0`/`-0.0` tie is the one declared divergence mode, and it is
@@ -508,21 +532,24 @@ mod tests {
     /// whole "value-safe" claim for `add`/`sub`/`mul`/`div`).
     #[test]
     fn lane_ops_are_scalar_ieee_per_lane() {
+        // Construct 3.14 from its exact IEEE bits so the lint does not
+        // mistake this parity fixture for an accidental PI approximation.
+        let sample = f64::from_bits(0x40091eb851eb851f);
         let a = F64x2::splat(0.1_f64).add(F64x2::splat(0.2_f64));
         let [l0, l1] = a.to_array();
         assert_eq!(l0.to_bits(), (0.1_f64 + 0.2_f64).to_bits());
         assert_eq!(l1.to_bits(), (0.1_f64 + 0.2_f64).to_bits());
 
-        let x = F64x2::load_unaligned(&[1.0e308_f64, 3.14_f64], 0);
+        let x = F64x2::load_unaligned(&[1.0e308_f64, sample], 0);
         let y = x.mul(x);
         let [m0, m1] = y.to_array();
         assert_eq!(m0.to_bits(), (1.0e308_f64 * 1.0e308_f64).to_bits()); // +inf
-        assert_eq!(m1.to_bits(), (3.14_f64 * 3.14_f64).to_bits());
+        assert_eq!(m1.to_bits(), (sample * sample).to_bits());
 
         let z = x.sub(F64x2::splat(1.0_f64)).div(F64x2::splat(2.0_f64));
         let [z0, z1] = z.to_array();
         assert_eq!(z0.to_bits(), ((1.0e308_f64 - 1.0_f64) / 2.0_f64).to_bits());
-        assert_eq!(z1.to_bits(), ((3.14_f64 - 1.0_f64) / 2.0_f64).to_bits());
+        assert_eq!(z1.to_bits(), ((sample - 1.0_f64) / 2.0_f64).to_bits());
     }
 
     /// Lane-wise comparisons are exact: a NaN lane compares false and a

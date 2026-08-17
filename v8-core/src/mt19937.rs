@@ -39,10 +39,14 @@ impl MT19937 {
     /// is the identity.
     pub fn new(seed: u64) -> Self {
         let bits = 64 - seed.leading_zeros(); // 0 when seed == 0
-        let keyused = if bits == 0 { 1 } else { (bits as usize - 1) / 32 + 1 };
+        let keyused = if bits == 0 {
+            1
+        } else {
+            (bits as usize - 1) / 32 + 1
+        };
         let mut key = [0u32; 2]; // covers u64 seeds (keyused <= 2)
-        for i in 0..keyused {
-            key[i] = (seed >> (32 * i)) as u32;
+        for (i, word) in key.iter_mut().enumerate().take(keyused) {
+            *word = (seed >> (32 * i)) as u32;
         }
 
         let mut rng = Self::init_genrand(19650218);
@@ -64,8 +68,7 @@ impl MT19937 {
             k -= 1;
         }
         for _ in 0..N - 1 {
-            rng.mt[i] = rng.mt[i]
-                ^ (rng.mt[i - 1] ^ (rng.mt[i - 1] >> 30)).wrapping_mul(1566083941);
+            rng.mt[i] ^= (rng.mt[i - 1] ^ (rng.mt[i - 1] >> 30)).wrapping_mul(1566083941);
             rng.mt[i] = rng.mt[i].wrapping_sub(i as u32);
             i += 1;
             if i >= N {
@@ -183,19 +186,19 @@ impl MT19937 {
         let mut result = vec![0u64; k];
         if n <= setsize {
             let mut pool: Vec<u64> = (0..n as u64).collect();
-            for i in 0..k {
+            for (i, slot) in result.iter_mut().enumerate().take(k) {
                 let j = self.randbelow((n - i) as u64) as usize;
-                result[i] = pool[j];
+                *slot = pool[j];
                 pool[j] = pool[n - i - 1]; // move non-selected item into vacancy
             }
         } else {
             let mut selected = Vec::with_capacity(k);
-            for i in 0..k {
+            for (_i, slot) in result.iter_mut().enumerate().take(k) {
                 loop {
                     let j = self.randbelow(n as u64);
                     if !selected.contains(&j) {
                         selected.push(j);
-                        result[i] = j;
+                        *slot = j;
                         break;
                     }
                 }
@@ -214,7 +217,10 @@ mod tests {
     fn canonical_mt19937_vector() {
         let mut rng = MT19937::from_genrand(5489);
         let draws: Vec<u32> = (0..5).map(|_| rng.next_u32()).collect();
-        assert_eq!(draws, vec![3499211612, 581869302, 3890346734, 3586334585, 545404204]);
+        assert_eq!(
+            draws,
+            vec![3499211612, 581869302, 3890346734, 3586334585, 545404204]
+        );
     }
 
     /// The task-mandated oracle command, bit-for-bit:
@@ -287,10 +293,30 @@ mod tests {
         let cases: &[(u64, f64, f64, u32)] = &[
             (0, 0.8444218515250481, 0.7579544029403025, 1806341205),
             (1, 0.13436424411240122, 0.8474337369372327, 3280387012),
-            (0xffff_ffff, 0.6353574441341173, 0.20319993954407756, 2608619700),
-            (2u64.pow(40) + 5, 0.5043802970418443, 0.2686044399723282, 3976222944),
-            (2u64.pow(32), 0.11299430095636409, 0.41782886486292836, 71624475),
-            (u64::MAX, 0.021825695401270107, 0.3380953268613758, 910393425),
+            (
+                0xffff_ffff,
+                0.6353574441341173,
+                0.20319993954407756,
+                2608619700,
+            ),
+            (
+                2u64.pow(40) + 5,
+                0.5043802970418443,
+                0.2686044399723282,
+                3976222944,
+            ),
+            (
+                2u64.pow(32),
+                0.11299430095636409,
+                0.41782886486292836,
+                71624475,
+            ),
+            (
+                u64::MAX,
+                0.021825695401270107,
+                0.3380953268613758,
+                910393425,
+            ),
         ];
         for &(seed, r0, r1, b0) in cases {
             let mut rng = MT19937::new(seed);

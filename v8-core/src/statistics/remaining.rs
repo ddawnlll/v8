@@ -35,8 +35,7 @@ use crate::state::fsum;
 /// ("0", "1"); the digits themselves are shortest-round-trip in both.
 fn py_float_repr(x: f64) -> String {
     let s = format!("{x}");
-    if s.contains('.') || s.contains('e') || s.contains('E') || s.contains('n') || s.contains('i')
-    {
+    if s.contains('.') || s.contains('e') || s.contains('E') || s.contains('n') || s.contains('i') {
         s
     } else {
         format!("{s}.0")
@@ -142,7 +141,9 @@ pub fn bootstrap_ci(
 /// at least the longest hold (METH-4 / EV_METHODS E-04; Aronson Ch7 n43 p504).
 pub fn effective_independent_episodes(n_episodes: u64, max_hold_bars: u64) -> Result<f64, String> {
     if max_hold_bars == 0 {
-        return Err(format!("max_hold_bars must be positive (got {max_hold_bars})"));
+        return Err(format!(
+            "max_hold_bars must be positive (got {max_hold_bars})"
+        ));
     }
     if n_episodes == 0 {
         return Ok(0.0);
@@ -302,7 +303,10 @@ pub fn practical_significance(
 /// 320.1). A count near expectation is evidence of NO edge.
 pub fn expected_false_positives(n_rules: u64, alpha: f64) -> Result<f64, String> {
     if !(0.0 < alpha && alpha < 1.0) {
-        return Err(format!("alpha must be in (0, 1) (got {})", py_float_repr(alpha)));
+        return Err(format!(
+            "alpha must be in (0, 1) (got {})",
+            py_float_repr(alpha)
+        ));
     }
     Ok(n_rules as f64 * alpha)
 }
@@ -370,7 +374,7 @@ pub fn monte_carlo_permutation_p_value(
     net_names.sort_unstable();
     if dir_names != net_names {
         return Err(
-            "episode_directions and episode_net_r must cover the same variants".to_string()
+            "episode_directions and episode_net_r must cover the same variants".to_string(),
         );
     }
     let n = episode_moves.len();
@@ -414,7 +418,10 @@ pub fn monte_carlo_permutation_p_value(
         .iter()
         .map(|(c, v)| (fsum(v) / n as f64, *c))
         .collect();
-    let observed_max = means.iter().map(|(m, _)| *m).fold(f64::NEG_INFINITY, f64::max);
+    let observed_max = means
+        .iter()
+        .map(|(m, _)| *m)
+        .fold(f64::NEG_INFINITY, f64::max);
     let mut best = means[0];
     for &(m, c) in means.iter().skip(1) {
         if m > best.0 {
@@ -474,15 +481,56 @@ mod tests {
     const PERM1: [u64; 10] = [0, 9, 1, 7, 6, 4, 8, 2, 3, 5];
     /// Captured CPython per-round max statistic over both configs, seed 42.
     const ROUND_STATS: [f64; 50] = [
-        0.00012000000000000002, 0.00034, 0.00054, 0.00035999999999999997, 0.00038,
-        -4.000000000000001e-05, 0.0004, 0.00088, 0.00062, 0.00054, 0.00014, 0.0002, 0.00034,
-        0.00028, 0.0004, 0.0008399999999999999, 0.00035999999999999997, 0.00041999999999999996,
-        -8e-05, 0.0001, 0.00026, 4.000000000000001e-05, 0.0002, 0.00033999999999999997,
-        0.00015999999999999999, 0.00032, 0.00024000000000000003, -0.00011999999999999999,
-        0.0001, 0.00022, 0.00030000000000000003, 0.00028, 0.00038, 0.00036, 0.00016,
-        0.00026000000000000003, 0.0007199999999999999, 0.00041999999999999996, 0.00026, 0.0001,
-        -2e-05, 0.00014000000000000001, 0.00066, 0.00046, -6.000000000000001e-05,
-        -0.00017999999999999998, 4.000000000000001e-05, 0.00028, 0.00046, 0.00017999999999999998,
+        0.00012000000000000002,
+        0.00034,
+        0.00054,
+        0.00035999999999999997,
+        0.00038,
+        -4.000000000000001e-05,
+        0.0004,
+        0.00088,
+        0.00062,
+        0.00054,
+        0.00014,
+        0.0002,
+        0.00034,
+        0.00028,
+        0.0004,
+        0.0008399999999999999,
+        0.00035999999999999997,
+        0.00041999999999999996,
+        -8e-05,
+        0.0001,
+        0.00026,
+        4.000000000000001e-05,
+        0.0002,
+        0.00033999999999999997,
+        0.00015999999999999999,
+        0.00032,
+        0.00024000000000000003,
+        -0.00011999999999999999,
+        0.0001,
+        0.00022,
+        0.00030000000000000003,
+        0.00028,
+        0.00038,
+        0.00036,
+        0.00016,
+        0.00026000000000000003,
+        0.0007199999999999999,
+        0.00041999999999999996,
+        0.00026,
+        0.0001,
+        -2e-05,
+        0.00014000000000000001,
+        0.00066,
+        0.00046,
+        -6.000000000000001e-05,
+        -0.00017999999999999998,
+        4.000000000000001e-05,
+        0.00028,
+        0.00046,
+        0.00017999999999999998,
     ];
 
     #[test]
@@ -629,7 +677,10 @@ mod tests {
         );
         assert_eq!(means.len(), 200);
         // n == 0 -> empty (no rng consumed); n_resamples == 0 fail-closed.
-        assert_eq!(block_bootstrap_means(&[], 3, 200, 7).unwrap(), Vec::<f64>::new());
+        assert_eq!(
+            block_bootstrap_means(&[], 3, 200, 7).unwrap(),
+            Vec::<f64>::new()
+        );
         assert_eq!(
             block_bootstrap_means(&SERIES, 3, 0, 7),
             Err("n_resamples must be positive".to_string())
@@ -674,7 +725,9 @@ mod tests {
 
     #[test]
     fn regime_slices_match_cpython() {
-        const SERIES: [f64; 8] = [0.001, -0.0005, 0.002, -0.001, 0.0008, -0.0003, 0.0015, -0.0009];
+        const SERIES: [f64; 8] = [
+            0.001, -0.0005, 0.002, -0.001, 0.0008, -0.0003, 0.0015, -0.0009,
+        ];
         let slices = regime_slices(&SERIES, 3).unwrap();
         assert_eq!(slices.len(), 3);
         assert_eq!(slices[0].start_idx, 0);
@@ -701,8 +754,8 @@ mod tests {
     #[test]
     fn longest_positive_run_matches_cpython() {
         const SERIES: [f64; 15] = [
-            0.002, 0.001, -0.001, 0.0008, 0.0006, 0.0004, -0.0005, 0.0012, 0.001, -0.0009,
-            0.0007, 0.0005, 0.0003, -0.0002, 0.0011,
+            0.002, 0.001, -0.001, 0.0008, 0.0006, 0.0004, -0.0005, 0.0012, 0.001, -0.0009, 0.0007,
+            0.0005, 0.0003, -0.0002, 0.0011,
         ];
         assert_eq!(longest_positive_run(&SERIES), 3);
         assert_eq!(longest_positive_run(&[-1.0, -2.0]), 0);
@@ -712,15 +765,15 @@ mod tests {
     #[test]
     fn streak_vs_null_matches_cpython() {
         const SERIES: [f64; 15] = [
-            0.002, 0.001, -0.001, 0.0008, 0.0006, 0.0004, -0.0005, 0.0012, 0.001, -0.0009,
-            0.0007, 0.0005, 0.0003, -0.0002, 0.0011,
+            0.002, 0.001, -0.001, 0.0008, 0.0006, 0.0004, -0.0005, 0.0012, 0.001, -0.0009, 0.0007,
+            0.0005, 0.0003, -0.0002, 0.0011,
         ];
         // Captured CPython null_best_streaks (100 resamples, block 4, seed 99).
         const NULLS: [usize; 100] = [
-            2, 2, 3, 4, 3, 2, 5, 3, 5, 3, 3, 4, 2, 4, 5, 5, 3, 3, 2, 3, 4, 4, 3, 3, 2, 2, 3, 3,
-            2, 3, 4, 4, 3, 3, 2, 3, 3, 4, 3, 2, 3, 5, 2, 2, 3, 4, 3, 4, 5, 2, 4, 3, 3, 5, 3, 4,
-            3, 3, 3, 2, 2, 2, 3, 5, 4, 3, 3, 4, 2, 4, 4, 3, 4, 3, 4, 3, 4, 4, 4, 3, 3, 2, 2, 4,
-            3, 3, 2, 3, 3, 4, 3, 3, 6, 2, 3, 3, 3, 4, 2, 4,
+            2, 2, 3, 4, 3, 2, 5, 3, 5, 3, 3, 4, 2, 4, 5, 5, 3, 3, 2, 3, 4, 4, 3, 3, 2, 2, 3, 3, 2,
+            3, 4, 4, 3, 3, 2, 3, 3, 4, 3, 2, 3, 5, 2, 2, 3, 4, 3, 4, 5, 2, 4, 3, 3, 5, 3, 4, 3, 3,
+            3, 2, 2, 2, 3, 5, 4, 3, 3, 4, 2, 4, 4, 3, 4, 3, 4, 3, 4, 4, 4, 3, 3, 2, 2, 4, 3, 3, 2,
+            3, 3, 4, 3, 3, 6, 2, 3, 3, 3, 4, 2, 4,
         ];
         let r = streak_vs_null(&SERIES, 4, 100, 99).unwrap();
         assert_eq!(r.observed_streak, 3);

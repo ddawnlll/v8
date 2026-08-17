@@ -17,8 +17,14 @@ pub const RECONCILE_EXACT_FIELDS: [&str; 4] =
 /// Float-comparison fields (mirror of `tools/regret.py`
 /// `RECONCILE_FLOAT_FIELDS`): compared with `|a - b| <= RECONCILE_TOLERANCE`.
 #[allow(dead_code)] // pinned by `field_set_is_exactly_the_ten`; used by the S6 reconcile port
-pub const RECONCILE_FLOAT_FIELDS: [&str; 6] =
-    ["net_r", "entry_price", "risk_unit_price", "mae_r", "mfe_r", "market_move_r"];
+pub const RECONCILE_FLOAT_FIELDS: [&str; 6] = [
+    "net_r",
+    "entry_price",
+    "risk_unit_price",
+    "mae_r",
+    "mfe_r",
+    "market_move_r",
+];
 
 /// Number of outcome fields ledger reconciliation compares (mirror of
 /// `tools/regret.py` RECONCILE_EXACT_FIELDS + RECONCILE_FLOAT_FIELDS).
@@ -29,6 +35,7 @@ pub const RECONCILE_FLOAT_FIELDS: [&str; 6] =
 ///   `risk_unit_price`, `mae_r`, `mfe_r`, `market_move_r`
 ///
 /// `label_available_time` is NOT compared (FT010 excluded field).
+#[allow(dead_code)]
 pub const RECONCILE_FIELD_COUNT: usize = 10;
 
 /// The reconciliation surface of one replayed action (issue #121): the ten
@@ -146,7 +153,14 @@ mod tests {
         // Frozen-oracle parity: tools/regret.py RECONCILE_EXACT_FIELDS +
         // RECONCILE_FLOAT_FIELDS, no more, no less.
         let exact = ["endpoint", "label_status", "horizon_bars", "ambiguous_bars"];
-        let float = ["net_r", "entry_price", "risk_unit_price", "mae_r", "mfe_r", "market_move_r"];
+        let float = [
+            "net_r",
+            "entry_price",
+            "risk_unit_price",
+            "mae_r",
+            "mfe_r",
+            "market_move_r",
+        ];
         assert_eq!(RECONCILE_EXACT_FIELDS, exact);
         assert_eq!(RECONCILE_FLOAT_FIELDS, float);
         assert_eq!(
@@ -177,17 +191,39 @@ mod tests {
             let mut in_ok = outcome();
             let mut out_ok = outcome();
             match field {
-                "net_r" => { in_ok.net_r += within; out_ok.net_r += beyond; }
-                "entry_price" => { in_ok.entry_price += within; out_ok.entry_price += beyond; }
-                "risk_unit_price" => { in_ok.risk_unit_price += within; out_ok.risk_unit_price += beyond; }
-                "mae_r" => { in_ok.mae_r += within; out_ok.mae_r += beyond; }
-                "mfe_r" => { in_ok.mfe_r += within; out_ok.mfe_r += beyond; }
-                _ => { in_ok.market_move_r += within; out_ok.market_move_r += beyond; }
+                "net_r" => {
+                    in_ok.net_r += within;
+                    out_ok.net_r += beyond;
+                }
+                "entry_price" => {
+                    in_ok.entry_price += within;
+                    out_ok.entry_price += beyond;
+                }
+                "risk_unit_price" => {
+                    in_ok.risk_unit_price += within;
+                    out_ok.risk_unit_price += beyond;
+                }
+                "mae_r" => {
+                    in_ok.mae_r += within;
+                    out_ok.mae_r += beyond;
+                }
+                "mfe_r" => {
+                    in_ok.mfe_r += within;
+                    out_ok.mfe_r += beyond;
+                }
+                _ => {
+                    in_ok.market_move_r += within;
+                    out_ok.market_move_r += beyond;
+                }
             }
-            assert!(s.values_match(&in_ok.reconcile_surface("cid", "act")),
-                    "{field}: delta {within} within tolerance must match");
-            assert!(!s.values_match(&out_ok.reconcile_surface("cid", "act")),
-                    "{field}: delta {beyond} beyond tolerance must mismatch");
+            assert!(
+                s.values_match(&in_ok.reconcile_surface("cid", "act")),
+                "{field}: delta {within} within tolerance must match"
+            );
+            assert!(
+                !s.values_match(&out_ok.reconcile_surface("cid", "act")),
+                "{field}: delta {beyond} beyond tolerance must mismatch"
+            );
         }
 
         // Any exact-field difference is a mismatch.
@@ -204,8 +240,10 @@ mod tests {
                 "horizon_bars" => other.horizon_bars = value.parse().unwrap(),
                 _ => other.ambiguous_bars = value.parse().unwrap(),
             }
-            assert!(!s.values_match(&other.reconcile_surface("cid", "act")),
-                    "{field}: exact difference must mismatch");
+            assert!(
+                !s.values_match(&other.reconcile_surface("cid", "act")),
+                "{field}: exact difference must mismatch"
+            );
         }
     }
 }

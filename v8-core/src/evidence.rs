@@ -445,7 +445,7 @@ impl Artifact {
             let n = c.n_rows();
             out.extend_from_slice(&(n as u32).to_le_bytes());
             // validity bitmask, LSB-first.
-            let mut mask = vec![0u8; (n + 7) / 8];
+            let mut mask = vec![0u8; n.div_ceil(8)];
             for (i, v) in c.valid.iter().enumerate() {
                 if *v {
                     mask[i / 8] |= 1 << (i % 8);
@@ -547,7 +547,10 @@ impl ReadBack {
 /// explicit `Err`, never a panic.
 fn take<'a>(bytes: &'a [u8], off: &mut usize, n: usize) -> io::Result<&'a [u8]> {
     if *off + n > bytes.len() {
-        return Err(io::Error::new(io::ErrorKind::InvalidData, "truncated artifact data"));
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "truncated artifact data",
+        ));
     }
     let s = &bytes[*off..*off + n];
     *off += n;
@@ -562,11 +565,17 @@ fn take<'a>(bytes: &'a [u8], off: &mut usize, n: usize) -> io::Result<&'a [u8]> 
 pub fn read_artifact(path: &Path) -> io::Result<ReadBack> {
     let bytes = std::fs::read(path)?;
     if bytes.len() < 12 || &bytes[..8] != MAGIC {
-        return Err(io::Error::new(io::ErrorKind::InvalidData, "not a V82LDRG1 artifact"));
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "not a V82LDRG1 artifact",
+        ));
     }
     let header_len = u32::from_le_bytes(bytes[8..12].try_into().unwrap()) as usize;
     if 12 + header_len > bytes.len() {
-        return Err(io::Error::new(io::ErrorKind::InvalidData, "truncated artifact header"));
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "truncated artifact header",
+        ));
     }
     let header: Value = serde_json::from_slice(&bytes[12..12 + header_len])
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
@@ -578,7 +587,7 @@ pub fn read_artifact(path: &Path) -> io::Result<ReadBack> {
         let name = String::from_utf8_lossy(take(&bytes, &mut off, name_len)?).to_string();
         let dtype = take(&bytes, &mut off, 1)?[0];
         let n = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
-        let mask = take(&bytes, &mut off, (n + 7) / 8)?;
+        let mask = take(&bytes, &mut off, n.div_ceil(8))?;
         let valid: Vec<bool> = (0..n).map(|i| mask[i / 8] & (1 << (i % 8)) != 0).collect();
         let mut values = Vec::with_capacity(n);
         match DType::from_tag(dtype) {
@@ -586,35 +595,55 @@ pub fn read_artifact(path: &Path) -> io::Result<ReadBack> {
                 let raw = take(&bytes, &mut off, 8 * n)?;
                 for i in 0..n {
                     let v = i64::from_le_bytes(raw[8 * i..8 * i + 8].try_into().unwrap());
-                    values.push(if valid[i] { Some(serde_json::json!(v)) } else { None });
+                    values.push(if valid[i] {
+                        Some(serde_json::json!(v))
+                    } else {
+                        None
+                    });
                 }
             }
             Some(DType::F64) => {
                 let raw = take(&bytes, &mut off, 8 * n)?;
                 for i in 0..n {
-                    let v = f64::from_bits(u64::from_le_bytes(raw[8 * i..8 * i + 8].try_into().unwrap()));
-                    values.push(if valid[i] { Some(serde_json::json!(v)) } else { None });
+                    let v = f64::from_bits(u64::from_le_bytes(
+                        raw[8 * i..8 * i + 8].try_into().unwrap(),
+                    ));
+                    values.push(if valid[i] {
+                        Some(serde_json::json!(v))
+                    } else {
+                        None
+                    });
                 }
             }
             Some(DType::Bool) => {
                 let raw = take(&bytes, &mut off, n)?;
                 for i in 0..n {
                     let v = raw[i] != 0;
-                    values.push(if valid[i] { Some(serde_json::json!(v)) } else { None });
+                    values.push(if valid[i] {
+                        Some(serde_json::json!(v))
+                    } else {
+                        None
+                    });
                 }
             }
             Some(DType::DictStr) => {
                 let ids = take(&bytes, &mut off, 2 * n)?;
-                let dict_len = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+                let dict_len =
+                    u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
                 let mut dict = Vec::with_capacity(dict_len);
                 for _ in 0..dict_len {
-                    let s_len = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+                    let s_len =
+                        u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
                     let s = String::from_utf8_lossy(take(&bytes, &mut off, s_len)?).to_string();
                     dict.push(s);
                 }
                 for i in 0..n {
                     let id = u16::from_le_bytes(ids[2 * i..2 * i + 2].try_into().unwrap()) as usize;
-                    values.push(if valid[i] { Some(serde_json::json!(dict[id])) } else { None });
+                    values.push(if valid[i] {
+                        Some(serde_json::json!(dict[id]))
+                    } else {
+                        None
+                    });
                 }
             }
             None => {
@@ -636,7 +665,14 @@ pub fn read_artifact(path: &Path) -> io::Result<ReadBack> {
 /// produce rows with a missing field.
 pub fn validate_header(header: &Value) -> Result<(), String> {
     let mut missing: Vec<String> = Vec::new();
-    for k in ["artifact_kind", "hash_encoding", "tier", "row_count", "column_count", "ordering"] {
+    for k in [
+        "artifact_kind",
+        "hash_encoding",
+        "tier",
+        "row_count",
+        "column_count",
+        "ordering",
+    ] {
         if header.get(k).is_none() {
             missing.push(k.to_string());
         }
@@ -687,11 +723,17 @@ pub fn has_decimal_float_text(region: &[u8]) -> bool {
 pub fn find_decimal_float_text(path: &Path) -> io::Result<Vec<String>> {
     let bytes = std::fs::read(path)?;
     if bytes.len() < 12 || &bytes[..8] != MAGIC {
-        return Err(io::Error::new(io::ErrorKind::InvalidData, "not a V82LDRG1 artifact"));
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "not a V82LDRG1 artifact",
+        ));
     }
     let header_len = u32::from_le_bytes(bytes[8..12].try_into().unwrap()) as usize;
     if 12 + header_len > bytes.len() {
-        return Err(io::Error::new(io::ErrorKind::InvalidData, "truncated artifact header"));
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "truncated artifact header",
+        ));
     }
     let header: Value = serde_json::from_slice(&bytes[12..12 + header_len])
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
@@ -703,7 +745,7 @@ pub fn find_decimal_float_text(path: &Path) -> io::Result<Vec<String>> {
         let name = String::from_utf8_lossy(take(&bytes, &mut off, name_len)?).to_string();
         let dtype = take(&bytes, &mut off, 1)?[0];
         let n = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
-        off += (n + 7) / 8; // validity bitmask
+        off += n.div_ceil(8); // validity bitmask
         match dtype {
             0 | 1 => {
                 // I64 / F64: fixed-width binary — decimal text is a violation.
@@ -723,9 +765,11 @@ pub fn find_decimal_float_text(path: &Path) -> io::Result<Vec<String>> {
                 // DictStr: ids then the dictionary; the dictionary is text by
                 // design and is not a numeric value column.
                 off += 2 * n;
-                let dict_len = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+                let dict_len =
+                    u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
                 for _ in 0..dict_len {
-                    let s_len = u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
+                    let s_len =
+                        u32::from_le_bytes(take(&bytes, &mut off, 4)?.try_into().unwrap()) as usize;
                     off += s_len;
                 }
             }
@@ -759,7 +803,10 @@ pub struct RetentionStore {
 
 impl RetentionStore {
     pub fn new() -> Self {
-        RetentionStore { map: HashMap::new(), log_path: None }
+        RetentionStore {
+            map: HashMap::new(),
+            log_path: None,
+        }
     }
 
     /// Open a store backed by `log_path`, loading any existing records.
@@ -773,7 +820,10 @@ impl RetentionStore {
                     continue;
                 }
                 let rec: RetentionRecord = serde_json::from_str(line).map_err(|e| {
-                    io::Error::new(io::ErrorKind::InvalidData, format!("retention line {}: {e}", i + 1))
+                    io::Error::new(
+                        io::ErrorKind::InvalidData,
+                        format!("retention line {}: {e}", i + 1),
+                    )
                 })?;
                 store.map.insert(rec.tape_hash.clone(), rec.retained);
             }
@@ -784,12 +834,18 @@ impl RetentionStore {
     /// Record a tape's retention state, appending to the JSONL log first so a
     /// failed write leaves the in-memory map untouched (fail closed).
     pub fn insert(&mut self, tape_hash: &str, retained: bool) -> io::Result<()> {
-        let rec = RetentionRecord { tape_hash: tape_hash.to_string(), retained };
+        let rec = RetentionRecord {
+            tape_hash: tape_hash.to_string(),
+            retained,
+        };
         if let Some(path) = &self.log_path {
             let mut bytes = serde_json::to_vec(&rec)
                 .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
             bytes.push(b'\n');
-            let mut f = std::fs::OpenOptions::new().create(true).append(true).open(path)?;
+            let mut f = std::fs::OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(path)?;
             f.write_all(&bytes)?;
         }
         self.map.insert(tape_hash.to_string(), retained);
@@ -803,7 +859,9 @@ impl RetentionStore {
         match self.map.get(tape_hash) {
             Some(true) => Ok(()),
             Some(false) => Err(format!("tape {tape_hash} is marked not retained")),
-            None => Err(format!("tape {tape_hash} has no retention record — not retained")),
+            None => Err(format!(
+                "tape {tape_hash} has no retention record — not retained"
+            )),
         }
     }
 }
@@ -826,7 +884,12 @@ pub fn state_artifact(
     generator: &str,
     rc: &RunConstants,
 ) -> Artifact {
-    Artifact::new("state", tier.as_str(), rc.with_binding(symbol, interval, generator), "bar_index,as_of")
+    Artifact::new(
+        "state",
+        tier.as_str(),
+        rc.with_binding(symbol, interval, generator),
+        "bar_index,as_of",
+    )
 }
 
 /// `candidate` artifact: admitted-exposure candidates (S4). Ordering is
@@ -855,7 +918,12 @@ pub fn outcome_artifact(
     generator: &str,
     rc: &RunConstants,
 ) -> Artifact {
-    Artifact::new("outcome", tier.as_str(), rc.with_binding(symbol, interval, generator), "bar_index,as_of")
+    Artifact::new(
+        "outcome",
+        tier.as_str(),
+        rc.with_binding(symbol, interval, generator),
+        "bar_index,as_of",
+    )
 }
 
 /// `evaluation` artifact: evaluator verdicts over episodes (S4). Ordering is
@@ -967,7 +1035,10 @@ fn battery_round_trip(dir: &Path, rc: &RunConstants) -> Result<(), String> {
         return Err("read-back hash_encoding is not the declared encoding".into());
     }
     if back.row_count() != FIXTURE_BARS {
-        return Err(format!("read-back row count {} != {FIXTURE_BARS}", back.row_count()));
+        return Err(format!(
+            "read-back row count {} != {FIXTURE_BARS}",
+            back.row_count()
+        ));
     }
     let sid = back.column("state_id").ok_or("no state_id column")?;
     let asof = back.column("as_of").ok_or("no as_of column")?;
@@ -980,8 +1051,11 @@ fn battery_round_trip(dir: &Path, rc: &RunConstants) -> Result<(), String> {
         if asof[i].as_ref().and_then(Value::as_i64) != Some(exp_asof) {
             return Err(format!("row {i}: stored as_of {asof:?} != {exp_asof}"));
         }
-        if close[i].as_ref().and_then(Value::as_f64).map(f64::to_bits) != Some(exp_close.to_bits()) {
-            return Err(format!("row {i}: stored close {close:?} != {exp_close} (bits)"));
+        if close[i].as_ref().and_then(Value::as_f64).map(f64::to_bits) != Some(exp_close.to_bits())
+        {
+            return Err(format!(
+                "row {i}: stored close {close:?} != {exp_close} (bits)"
+            ));
         }
         // Regeneration: close is a pure function of as_of, and re-hashing it
         // reproduces the stored identity exactly.
@@ -990,7 +1064,9 @@ fn battery_round_trip(dir: &Path, rc: &RunConstants) -> Result<(), String> {
             return Err(format!("row {i}: regenerated close != stored close"));
         }
         if ledger_fixture_id(exp_asof, regen_close) != exp_sid {
-            return Err(format!("row {i}: regenerated field's hash != stored identity"));
+            return Err(format!(
+                "row {i}: regenerated field's hash != stored identity"
+            ));
         }
     }
     Ok(())
@@ -1015,12 +1091,17 @@ fn battery_header_completeness(dir: &Path, rc: &RunConstants) -> Result<(), Stri
             .ok_or("run_constants is not an object")?
             .remove(key);
         if validate_header(&corrupt).is_ok() {
-            return Err(format!("header without run-constant {key} did not fail closed"));
+            return Err(format!(
+                "header without run-constant {key} did not fail closed"
+            ));
         }
     }
     for field in ["hash_encoding", "tier"] {
         let mut corrupt = h.clone();
-        corrupt.as_object_mut().ok_or("header is not an object")?.remove(field);
+        corrupt
+            .as_object_mut()
+            .ok_or("header is not an object")?
+            .remove(field);
         if validate_header(&corrupt).is_ok() {
             return Err(format!("header without {field} did not fail closed"));
         }
@@ -1056,7 +1137,11 @@ fn battery_tier_honesty(rc: &RunConstants) -> Result<(), String> {
     v.add_field("close", DType::F64, FieldTier::Values)
         .map_err(|e| e.to_string())?;
     match v.add_field("lineage_hash", DType::DictStr, FieldTier::Full) {
-        Err(TierViolation { field, field_tier, artifact_tier }) => {
+        Err(TierViolation {
+            field,
+            field_tier,
+            artifact_tier,
+        }) => {
             if field != "lineage_hash"
                 || field_tier != FieldTier::Full
                 || artifact_tier != ArtifactTier::Values
@@ -1085,7 +1170,10 @@ fn battery_no_decimal_floats(dir: &Path, rc: &RunConstants) -> Result<(), String
     let path = write_ledger_fixture(dir, rc, "ndf-fixture").map_err(|e| e.to_string())?;
     let hits = find_decimal_float_text(&path).map_err(|e| e.to_string())?;
     if !hits.is_empty() {
-        return Err(format!("decimal float text in numeric columns: {}", hits.join(", ")));
+        return Err(format!(
+            "decimal float text in numeric columns: {}",
+            hits.join(", ")
+        ));
     }
     // Prove the scan is region-scoped: the artifact bytes DO contain a '.'
     // (the header's slippage 0.5) yet no numeric value column tripped.
@@ -1102,9 +1190,14 @@ fn battery_no_decimal_floats(dir: &Path, rc: &RunConstants) -> Result<(), String
 fn battery_retention(dir: &Path, rc: &RunConstants) -> Result<(), String> {
     let store_path = dir.join("retention.jsonl");
     let mut store = RetentionStore::open(&store_path).map_err(|e| e.to_string())?;
-    store.insert(&rc.data_hash, true).map_err(|e| e.to_string())?;
+    store
+        .insert(&rc.data_hash, true)
+        .map_err(|e| e.to_string())?;
     store.resolves(&rc.data_hash).map_err(|e| e.to_string())?;
-    if store.resolves("missing0000000000000000000000000000000000").is_ok() {
+    if store
+        .resolves("missing0000000000000000000000000000000000")
+        .is_ok()
+    {
         return Err("artifact referencing an unretained tape was silently accepted".into());
     }
     // Persistence: a fresh store over the same JSONL still resolves.
@@ -1160,8 +1253,10 @@ pub fn ledger_check(args: &[String]) -> i32 {
         Some(path) => {
             let req: Value = match std::fs::read(path)
                 .map_err(|e| format!("cannot read request {path}: {e}"))
-                .and_then(|b| serde_json::from_slice(&b).map_err(|e| format!("cannot parse request {path}: {e}")))
-            {
+                .and_then(|b| {
+                    serde_json::from_slice(&b)
+                        .map_err(|e| format!("cannot parse request {path}: {e}"))
+                }) {
                 Ok(v) => v,
                 Err(e) => {
                     eprintln!("error: {e}");
@@ -1180,7 +1275,10 @@ pub fn ledger_check(args: &[String]) -> i32 {
                 .unwrap_or_else(default_tape);
             (dir, tape)
         }
-        None => (std::env::temp_dir().join("v82-ledger-check"), default_tape()),
+        None => (
+            std::env::temp_dir().join("v82-ledger-check"),
+            default_tape(),
+        ),
     };
     if let Err(e) = std::fs::create_dir_all(&out_dir) {
         eprintln!("error: out_dir {out_dir:?}: {e}");
@@ -1222,7 +1320,7 @@ mod tests {
             let px = a.add_column("close", DType::F64);
             let sy = a.add_column("symbol", DType::DictStr);
             for _ in 0..3 {
-                a.columns[ev].push_i64(100 + 0);
+                a.columns[ev].push_i64(100);
                 a.columns[px].push_f64(1.5);
                 a.columns[sy].push_str("SOLUSDT");
                 a.end_row();
@@ -1231,7 +1329,10 @@ mod tests {
         }
         let b1 = std::fs::read(&p1).unwrap();
         let b2 = std::fs::read(&p2).unwrap();
-        assert_eq!(b1, b2, "two identical requests must write byte-identical artifacts");
+        assert_eq!(
+            b1, b2,
+            "two identical requests must write byte-identical artifacts"
+        );
         std::fs::remove_file(&p1).ok();
         std::fs::remove_file(&p2).ok();
     }
@@ -1305,8 +1406,13 @@ mod tests {
         // Tier honesty (§4 / §8 test #4): a VALUES artifact must not carry a
         // FULL-only materialized derivative; the failure is explicit, not an
         // empty column.
-        let mut a =
-            state_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &test_rc());
+        let mut a = state_artifact(
+            ArtifactTier::Values,
+            "SOLUSDT",
+            "15m",
+            &generator_tag(),
+            &test_rc(),
+        );
         let sid = a
             .add_field("state_id", DType::DictStr, FieldTier::IdentityOnly)
             .expect("identity field is legal at VALUES");
@@ -1327,9 +1433,16 @@ mod tests {
 
         // The same field is legal at FULL (the top tier satisfies every
         // FieldTier).
-        let mut f =
-            state_artifact(ArtifactTier::Full, "SOLUSDT", "15m", &generator_tag(), &test_rc());
-        assert!(f.add_field("lineage_hash", DType::DictStr, FieldTier::Full).is_ok());
+        let mut f = state_artifact(
+            ArtifactTier::Full,
+            "SOLUSDT",
+            "15m",
+            &generator_tag(),
+            &test_rc(),
+        );
+        assert!(f
+            .add_field("lineage_hash", DType::DictStr, FieldTier::Full)
+            .is_ok());
     }
 
     #[test]
@@ -1344,7 +1457,9 @@ mod tests {
         assert!(a
             .add_field("state_id", DType::DictStr, FieldTier::IdentityOnly)
             .is_ok());
-        let err = a.add_field("close", DType::F64, FieldTier::Values).unwrap_err();
+        let err = a
+            .add_field("close", DType::F64, FieldTier::Values)
+            .unwrap_err();
         assert_eq!(err.artifact_tier, ArtifactTier::IdentityOnly);
         assert_eq!(err.field_tier, FieldTier::Values);
     }
@@ -1358,23 +1473,53 @@ mod tests {
         let artifacts = [
             (
                 "state",
-                state_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+                state_artifact(
+                    ArtifactTier::Values,
+                    "SOLUSDT",
+                    "15m",
+                    &generator_tag(),
+                    &rc,
+                ),
             ),
             (
                 "candidate",
-                candidate_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+                candidate_artifact(
+                    ArtifactTier::Values,
+                    "SOLUSDT",
+                    "15m",
+                    &generator_tag(),
+                    &rc,
+                ),
             ),
             (
                 "outcome",
-                outcome_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+                outcome_artifact(
+                    ArtifactTier::Values,
+                    "SOLUSDT",
+                    "15m",
+                    &generator_tag(),
+                    &rc,
+                ),
             ),
             (
                 "evaluation",
-                evaluation_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+                evaluation_artifact(
+                    ArtifactTier::Values,
+                    "SOLUSDT",
+                    "15m",
+                    &generator_tag(),
+                    &rc,
+                ),
             ),
             (
                 "cube",
-                cube_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &rc),
+                cube_artifact(
+                    ArtifactTier::Values,
+                    "SOLUSDT",
+                    "15m",
+                    &generator_tag(),
+                    &rc,
+                ),
             ),
         ];
         let dir = std::env::temp_dir();
@@ -1406,10 +1551,19 @@ mod tests {
 
     #[test]
     fn state_artifact_round_trips_through_disk() {
-        let mut a =
-            state_artifact(ArtifactTier::Values, "SOLUSDT", "15m", &generator_tag(), &test_rc());
-        let sid = a.add_field("state_id", DType::DictStr, FieldTier::IdentityOnly).unwrap();
-        let as_of = a.add_field("as_of", DType::I64, FieldTier::IdentityOnly).unwrap();
+        let mut a = state_artifact(
+            ArtifactTier::Values,
+            "SOLUSDT",
+            "15m",
+            &generator_tag(),
+            &test_rc(),
+        );
+        let sid = a
+            .add_field("state_id", DType::DictStr, FieldTier::IdentityOnly)
+            .unwrap();
+        let as_of = a
+            .add_field("as_of", DType::I64, FieldTier::IdentityOnly)
+            .unwrap();
         let close = a.add_field("close", DType::F64, FieldTier::Values).unwrap();
         for _ in 0..2 {
             a.columns[sid].push_str("state-001");
@@ -1440,8 +1594,11 @@ mod tests {
     fn s5_artifacts_are_byte_stable() {
         let rc = test_rc();
         let build = || {
-            let mut a = outcome_artifact(ArtifactTier::Values, "BTCUSDT", "1h", &generator_tag(), &rc);
-            let status = a.add_field("cell_status", DType::DictStr, FieldTier::Values).unwrap();
+            let mut a =
+                outcome_artifact(ArtifactTier::Values, "BTCUSDT", "1h", &generator_tag(), &rc);
+            let status = a
+                .add_field("cell_status", DType::DictStr, FieldTier::Values)
+                .unwrap();
             let gap = a.add_field("gap", DType::F64, FieldTier::Values).unwrap();
             a.columns[status].push_str("EXPLORABLE");
             a.columns[gap].push_f64(0.25);
@@ -1506,7 +1663,10 @@ mod tests {
         let close = back.column("close").unwrap();
         for i in 0..FIXTURE_BARS {
             let (exp_sid, exp_asof, exp_close) = ledger_fixture_row(i);
-            assert_eq!(sid[i].as_ref().and_then(Value::as_str), Some(exp_sid.as_str()));
+            assert_eq!(
+                sid[i].as_ref().and_then(Value::as_str),
+                Some(exp_sid.as_str())
+            );
             assert_eq!(asof[i].as_ref().and_then(Value::as_i64), Some(exp_asof));
             assert_eq!(
                 close[i].as_ref().and_then(Value::as_f64).map(f64::to_bits),
@@ -1532,7 +1692,10 @@ mod tests {
         keys.extend(["symbol", "interval", "generator"]);
         for key in keys {
             let mut corrupt = h.clone();
-            corrupt["run_constants"].as_object_mut().unwrap().remove(key);
+            corrupt["run_constants"]
+                .as_object_mut()
+                .unwrap()
+                .remove(key);
             let err = validate_header(&corrupt).unwrap_err();
             assert!(err.contains(key), "error must name the missing key: {err}");
         }
@@ -1540,7 +1703,10 @@ mod tests {
             let mut corrupt = h.clone();
             corrupt.as_object_mut().unwrap().remove(field);
             let err = validate_header(&corrupt).unwrap_err();
-            assert!(err.contains(field), "error must name the missing field: {err}");
+            assert!(
+                err.contains(field),
+                "error must name the missing field: {err}"
+            );
         }
         std::fs::remove_file(&path).ok();
     }
@@ -1565,9 +1731,15 @@ mod tests {
         // — the scan is region-scoped.
         let dir = std::env::temp_dir();
         let path = write_ledger_fixture(&dir, &test_rc(), "ndf-solo").unwrap();
-        assert_eq!(find_decimal_float_text(&path).unwrap(), Vec::<String>::new());
+        assert_eq!(
+            find_decimal_float_text(&path).unwrap(),
+            Vec::<String>::new()
+        );
         let bytes = std::fs::read(&path).unwrap();
-        assert!(bytes.contains(&b'.'), "header decimal must exist to prove scoping");
+        assert!(
+            bytes.contains(&b'.'),
+            "header decimal must exist to prove scoping"
+        );
         // Pattern-level checks on the scan function itself.
         assert!(has_decimal_float_text(b"0.5"));
         assert!(has_decimal_float_text(b"12.5"));
@@ -1584,7 +1756,10 @@ mod tests {
         let store_path = dir.join("retention-test.jsonl");
         std::fs::remove_file(&store_path).ok();
         let mut store = RetentionStore::open(&store_path).unwrap();
-        assert!(store.resolves("abcd").is_err(), "no record yet — must not resolve");
+        assert!(
+            store.resolves("abcd").is_err(),
+            "no record yet — must not resolve"
+        );
         store.insert("abcd", true).unwrap();
         store.resolves("abcd").expect("retained tape resolves");
         store.insert("efgh", false).unwrap();

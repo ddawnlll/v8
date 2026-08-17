@@ -2,12 +2,8 @@
 //! bit-for-bit (PARITY_AND_IDENTITY_SPEC §3; COMPUTE_CORE_SPEC §8 S4).
 //!
 //! The Python family is 3 variants (head_shoulders default, double_top,
-//! triangle) selected by constructor `variant_id` — separate instances. The
-//! Rust dispatch surface (mod.rs `PortFn`) carries no variant parameter, so
-//! this port evaluates the DEFAULT instance, which is the instance the parity
-//! harness instantiates (`PatternMeasuringObjectiveExpert()`). The double_top
-//! and triangle detectors are mirrored below for completeness but are not
-//! reachable through the dispatch until a variant parameter exists.
+//! triangle) selected by constructor `variant_id`; request-level dispatch
+//! selects them while preserving head_shoulders as the default.
 
 use crate::experts::base::*;
 use crate::simulator::Draft;
@@ -25,11 +21,9 @@ pub const EXPIRY_BARS: i64 = 8;
 
 /// The variant this port evaluates: the Python default instance
 /// (PatternMeasuringObjectiveExpert() -> variant_id = "head_shoulders").
-const VARIANT_ID: &str = "head_shoulders";
-
 /// Declared, LOCKED constants (D-036; "declared, never fitted").
-const PT_FLANK: usize = 3;          // structure-pivot flank on the 32-bar history
-const TRIANGLE_WINDOW: usize = 20;  // convergence scan window (bars)
+const PT_FLANK: usize = 3; // structure-pivot flank on the 32-bar history
+const TRIANGLE_WINDOW: usize = 20; // convergence scan window (bars)
 const TRIANGLE_WIDTH_MAX: f64 = 0.03; // max consolidation width (G-26 verbatim)
 
 /// Python `max(items, key=x[1])`: FIRST maximum on ties (Python's max returns
@@ -60,8 +54,12 @@ fn pivot_highs(hist: &[HistBar]) -> Vec<(usize, f64)> {
     let mut out = Vec::new();
     for i in PT_FLANK..hist.len() - PT_FLANK {
         let hi = hist[i].high;
-        let left = (i - PT_FLANK..i).map(|j| hist[j].high).fold(f64::NEG_INFINITY, f64::max);
-        let right = (i + 1..i + 1 + PT_FLANK).map(|j| hist[j].high).fold(f64::NEG_INFINITY, f64::max);
+        let left = (i - PT_FLANK..i)
+            .map(|j| hist[j].high)
+            .fold(f64::NEG_INFINITY, f64::max);
+        let right = (i + 1..i + 1 + PT_FLANK)
+            .map(|j| hist[j].high)
+            .fold(f64::NEG_INFINITY, f64::max);
         if hi > left && hi > right {
             out.push((i, hi));
         }
@@ -74,8 +72,12 @@ fn pivot_lows(hist: &[HistBar]) -> Vec<(usize, f64)> {
     let mut out = Vec::new();
     for i in PT_FLANK..hist.len() - PT_FLANK {
         let lo = hist[i].low;
-        let left = (i - PT_FLANK..i).map(|j| hist[j].low).fold(f64::INFINITY, f64::min);
-        let right = (i + 1..i + 1 + PT_FLANK).map(|j| hist[j].low).fold(f64::INFINITY, f64::min);
+        let left = (i - PT_FLANK..i)
+            .map(|j| hist[j].low)
+            .fold(f64::INFINITY, f64::min);
+        let right = (i + 1..i + 1 + PT_FLANK)
+            .map(|j| hist[j].low)
+            .fold(f64::INFINITY, f64::min);
         if lo < left && lo < right {
             out.push((i, lo));
         }
@@ -101,12 +103,25 @@ fn hs_top(hist: &[HistBar]) -> Option<(f64, f64, usize)> {
     if !(left < head && right < head) {
         return None;
     }
-    let lt: Vec<f64> = pl.iter().copied().filter(|&(i, _)| li < i && i < head_i).map(|(_, v)| v).collect();
-    let rt: Vec<f64> = pl.iter().copied().filter(|&(i, _)| head_i < i && i < ri).map(|(_, v)| v).collect();
+    let lt: Vec<f64> = pl
+        .iter()
+        .copied()
+        .filter(|&(i, _)| li < i && i < head_i)
+        .map(|(_, v)| v)
+        .collect();
+    let rt: Vec<f64> = pl
+        .iter()
+        .copied()
+        .filter(|&(i, _)| head_i < i && i < ri)
+        .map(|(_, v)| v)
+        .collect();
     if lt.is_empty() || rt.is_empty() {
         return None;
     }
-    let neckline = lt.iter().copied().fold(f64::NEG_INFINITY, f64::max)
+    let neckline = lt
+        .iter()
+        .copied()
+        .fold(f64::NEG_INFINITY, f64::max)
         .max(rt.iter().copied().fold(f64::NEG_INFINITY, f64::max));
     if neckline >= head {
         return None;
@@ -132,12 +147,25 @@ fn hs_bottom(hist: &[HistBar]) -> Option<(f64, f64, usize)> {
     if !(left > head && right > head) {
         return None;
     }
-    let lp: Vec<f64> = ph.iter().copied().filter(|&(i, _)| li < i && i < head_i).map(|(_, v)| v).collect();
-    let rp: Vec<f64> = ph.iter().copied().filter(|&(i, _)| head_i < i && i < ri).map(|(_, v)| v).collect();
+    let lp: Vec<f64> = ph
+        .iter()
+        .copied()
+        .filter(|&(i, _)| li < i && i < head_i)
+        .map(|(_, v)| v)
+        .collect();
+    let rp: Vec<f64> = ph
+        .iter()
+        .copied()
+        .filter(|&(i, _)| head_i < i && i < ri)
+        .map(|(_, v)| v)
+        .collect();
     if lp.is_empty() || rp.is_empty() {
         return None;
     }
-    let neckline = lp.iter().copied().fold(f64::INFINITY, f64::min)
+    let neckline = lp
+        .iter()
+        .copied()
+        .fold(f64::INFINITY, f64::min)
         .min(rp.iter().copied().fold(f64::INFINITY, f64::min));
     if neckline <= head {
         return None;
@@ -170,14 +198,15 @@ fn head_shoulders(hist: &[HistBar]) -> Option<(String, f64, f64, f64, String)> {
 /// `_double`: validation-level break on the current close; target = the 1:1
 /// validation-to-extreme projection. SHORT on the trough between the two most
 /// recent pivot highs, LONG on the peak between the two most recent pivot lows.
-#[allow(dead_code)] // mirrored; not reachable until a variant dispatch exists
 fn double_detector(hist: &[HistBar]) -> Option<(String, f64, f64, f64, String)> {
     let close = hist[hist.len() - 1].close;
     let ph = pivot_highs(hist);
     if ph.len() >= 2 {
         let (i2, h2) = ph[ph.len() - 2];
         let (i1, h1) = ph[ph.len() - 1];
-        let level = (i2 + 1..i1).map(|j| hist[j].low).fold(f64::INFINITY, f64::min);
+        let level = (i2 + 1..i1)
+            .map(|j| hist[j].low)
+            .fold(f64::INFINITY, f64::min);
         if h1 > level && h2 > level && close < level {
             let stop = h1.max(h2);
             let pred = |j: usize, bar: &HistBar| j >= i1 && bar.close < level;
@@ -189,7 +218,9 @@ fn double_detector(hist: &[HistBar]) -> Option<(String, f64, f64, f64, String)> 
     if pl.len() >= 2 {
         let (i2, v2) = pl[pl.len() - 2];
         let (i1, v1) = pl[pl.len() - 1];
-        let level = (i2 + 1..i1).map(|j| hist[j].high).fold(f64::NEG_INFINITY, f64::max);
+        let level = (i2 + 1..i1)
+            .map(|j| hist[j].high)
+            .fold(f64::NEG_INFINITY, f64::max);
         if v1 < level && v2 < level && close > level {
             let stop = v1.min(v2);
             let pred = |j: usize, bar: &HistBar| j >= i1 && bar.close > level;
@@ -202,14 +233,17 @@ fn double_detector(hist: &[HistBar]) -> Option<(String, f64, f64, f64, String)> 
 
 /// `_triangle_structure`: >= 2 pivot highs declining and >= 2 pivot lows
 /// rising inside the trailing consolidation window (excluding the current bar).
-#[allow(dead_code)] // mirrored; not reachable until a variant dispatch exists
 fn triangle_structure(hist: &[HistBar]) -> bool {
     let n = hist.len();
     let lo = n.saturating_sub(1 + TRIANGLE_WINDOW);
-    let mut ph: Vec<(usize, f64)> =
-        pivot_highs(hist).into_iter().filter(|&(i, _)| lo <= i && i < n - 1).collect();
-    let mut pl: Vec<(usize, f64)> =
-        pivot_lows(hist).into_iter().filter(|&(i, _)| lo <= i && i < n - 1).collect();
+    let mut ph: Vec<(usize, f64)> = pivot_highs(hist)
+        .into_iter()
+        .filter(|&(i, _)| lo <= i && i < n - 1)
+        .collect();
+    let mut pl: Vec<(usize, f64)> = pivot_lows(hist)
+        .into_iter()
+        .filter(|&(i, _)| lo <= i && i < n - 1)
+        .collect();
     // Python `sorted((i, h) for ...)`: tuple order is index order (indices are
     // distinct), so sorting by the pivot index alone is equivalent.
     ph.sort_by_key(|&(i, _)| i);
@@ -222,20 +256,16 @@ fn triangle_structure(hist: &[HistBar]) -> bool {
 
 /// `_triangle`: close beyond the narrow consolidation range (breakout from a
 /// converging range); target = 1:1 of the 20-bar range height.
-#[allow(dead_code)] // mirrored; not reachable until a variant dispatch exists
 fn triangle_detector(fm: &FeatMap) -> Option<(String, f64, f64, f64, String)> {
     let hist = &fm.history;
     let n = hist.len();
-    let cr = fm.features.get("consolidation_range").map(|f| f.value.clone());
+    let cr = fm
+        .features
+        .get("consolidation_range")
+        .map(|f| f.value.clone());
     let rh = fm.value("range_height_20");
-    let cr = match cr {
-        Some(c) => c,
-        None => return None,
-    };
-    let rh = match rh {
-        Some(v) => v,
-        None => return None,
-    };
+    let cr = cr?;
+    let rh = rh?;
     let h_ref = cr[0].as_f64()?;
     let l_ref = cr[1].as_f64()?;
     let width_ratio = cr[2].as_f64()?;
@@ -265,13 +295,25 @@ fn triangle_detector(fm: &FeatMap) -> Option<(String, f64, f64, f64, String)> {
 
 /// evaluate() — mirrors the Python default instance (variant head_shoulders).
 pub fn pattern_measuring_objective(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
+    let variant_id = fm.variant(expert_id, "head_shoulders");
     let sym = fm.symbol;
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     // `_need`: the seven declared features must all be present
     // (consolidation_range is structured — presence, not value read).
-    for k in ["history", "window_high_20", "window_low_20",
-              "range_height_20", "consolidation_range"] {
+    for k in [
+        "history",
+        "window_high_20",
+        "window_low_20",
+        "range_height_20",
+        "consolidation_range",
+    ] {
         if !fm.features.contains_key(k) {
             return no_habitat(expert_id, version, fm.as_of);
         }
@@ -283,7 +325,7 @@ pub fn pattern_measuring_objective(fm: &FeatMap, expert_id: &str, version: &str)
     if n < 2 * PT_FLANK + 1 {
         return no_habitat(expert_id, version, fm.as_of);
     }
-    let hit = match VARIANT_ID {
+    let hit = match variant_id {
         "head_shoulders" => head_shoulders(&fm.history),
         "double_top" => double_detector(&fm.history),
         _ => triangle_detector(fm),
@@ -292,7 +334,11 @@ pub fn pattern_measuring_objective(fm: &FeatMap, expert_id: &str, version: &str)
         Some(h) => h,
         None => return no_setup(expert_id, version, fm.as_of),
     };
-    let stop_r = if direction == "LONG" { (close - stop_price) / atr } else { (stop_price - close) / atr };
+    let stop_r = if direction == "LONG" {
+        (close - stop_price) / atr
+    } else {
+        (stop_price - close) / atr
+    };
     let target_r = height / atr;
     if stop_r <= 0.0 || target_r <= 0.0 {
         return no_setup(expert_id, version, fm.as_of);
@@ -303,7 +349,7 @@ pub fn pattern_measuring_objective(fm: &FeatMap, expert_id: &str, version: &str)
         ("stop_r", serde_json::json!(stop_r)),
         ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
         ("atr_ref", serde_json::json!(atr)),
-        ("variant", serde_json::json!(VARIANT_ID)),
+        ("variant", serde_json::json!(variant_id)),
         ("level_ref", serde_json::json!(level)),
         ("stop_ref", serde_json::json!(stop_price)),
     ];
@@ -317,6 +363,7 @@ pub fn pattern_measuring_objective(fm: &FeatMap, expert_id: &str, version: &str)
         birth_time: fm.as_of,
         risk_geometry: geom(entries),
     };
-    let fingerprint = format!("{sym}:{VARIANT_ID}:{direction}:{close:.6}:{level:.6}:{stop_price:.6}");
+    let fingerprint =
+        format!("{sym}:{variant_id}:{direction}:{close:.6}:{level:.6}:{stop_price:.6}");
     candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint)
 }

@@ -25,10 +25,22 @@ const CHANNEL_N: usize = 20;
 
 pub fn donchian_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let window_high = match fm.value("window_high_20") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let window_low = match fm.value("window_low_20") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let window_high = match fm.value("window_high_20") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let window_low = match fm.value("window_low_20") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     if fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }
@@ -44,8 +56,11 @@ pub fn donchian_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Expert
         if i <= start {
             return false;
         }
-        b.close > fm.history[start..i].iter().map(|h| h.high)
-            .fold(f64::NEG_INFINITY, f64::max)
+        b.close
+            > fm.history[start..i]
+                .iter()
+                .map(|h| h.high)
+                .fold(f64::NEG_INFINITY, f64::max)
     };
     let anchor = find_setup_anchor(&fm.history, &pred);
     // Frozen channel-band stop in R (D-028; book Ch12 p486): the level the

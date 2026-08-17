@@ -16,31 +16,54 @@ use std::collections::{HashMap, HashSet};
 
 use crate::hash::Canon;
 
-pub const TERMINAL: [&str; 6] = ["REJECTED", "EXPIRED", "INVALIDATED",
-                                 "CANCELLED", "CLOSED", "ARCHIVED"];
+pub const TERMINAL: [&str; 6] = [
+    "REJECTED",
+    "EXPIRED",
+    "INVALIDATED",
+    "CANCELLED",
+    "CLOSED",
+    "ARCHIVED",
+];
 
 /// Legal transitions (CANDIDATE_LIFECYCLE_SPEC §2).
 pub fn legal(from: Option<&str>, to: &str) -> bool {
     let edge = (from.unwrap_or(""), to);
-    matches!(edge,
-        ("", "DETECTED") | ("DETECTED", "PENDING") | ("DETECTED", "REJECTED")
-        | ("PENDING", "TRIGGERED") | ("PENDING", "EXPIRED")
-        | ("PENDING", "INVALIDATED") | ("PENDING", "REJECTED")
-        | ("TRIGGERED", "ACCEPTED") | ("TRIGGERED", "INVALIDATED")
-        | ("TRIGGERED", "REJECTED") | ("ACCEPTED", "ORDER_SUBMITTED")
-        | ("ACCEPTED", "REJECTED") | ("ORDER_SUBMITTED", "EXECUTED")
-        | ("ORDER_SUBMITTED", "CANCELLED") | ("EXECUTED", "CLOSED")
-        | ("INVALIDATED", "ARCHIVED") | ("EXPIRED", "ARCHIVED")
-        | ("REJECTED", "ARCHIVED") | ("CANCELLED", "ARCHIVED")
-        | ("CLOSED", "ARCHIVED"))
+    matches!(
+        edge,
+        ("", "DETECTED")
+            | ("DETECTED", "PENDING")
+            | ("DETECTED", "REJECTED")
+            | ("PENDING", "TRIGGERED")
+            | ("PENDING", "EXPIRED")
+            | ("PENDING", "INVALIDATED")
+            | ("PENDING", "REJECTED")
+            | ("TRIGGERED", "ACCEPTED")
+            | ("TRIGGERED", "INVALIDATED")
+            | ("TRIGGERED", "REJECTED")
+            | ("ACCEPTED", "ORDER_SUBMITTED")
+            | ("ACCEPTED", "REJECTED")
+            | ("ORDER_SUBMITTED", "EXECUTED")
+            | ("ORDER_SUBMITTED", "CANCELLED")
+            | ("EXECUTED", "CLOSED")
+            | ("INVALIDATED", "ARCHIVED")
+            | ("EXPIRED", "ARCHIVED")
+            | ("REJECTED", "ARCHIVED")
+            | ("CANCELLED", "ARCHIVED")
+            | ("CLOSED", "ARCHIVED")
+    )
 }
 
 /// `episode_key(expert_id, expert_version, instrument, direction,
 /// setup_anchor_event_id, geometry_version)` — anchored to the setup EVIDENCE
 /// event, never the decision clock (D-026).
-pub fn episode_key(expert_id: &str, expert_version: &str, instrument: &str,
-                   direction: &str, setup_anchor_event_id: &str,
-                   geometry_version: &str) -> String {
+pub fn episode_key(
+    expert_id: &str,
+    expert_version: &str,
+    instrument: &str,
+    direction: &str,
+    setup_anchor_event_id: &str,
+    geometry_version: &str,
+) -> String {
     let mut c = Canon::new();
     c.push_list();
     c.push_count(6);
@@ -56,14 +79,21 @@ pub fn episode_key(expert_id: &str, expert_version: &str, instrument: &str,
 /// Structural risk geometry only: `atr_ref`, the `prior_*_ref` invalidation
 /// levels and the frozen band refs are data-dependent and excluded from
 /// episode identity (src/v8/lab.py `_geometry_version`).
-pub const EXCLUDED_GEOMETRY_KEYS: [&str; 7] = ["atr_ref", "prior_high_ref",
-    "prior_low_ref", "lower_3sd_ref", "upper_3sd_ref", "stop_ref", "stop_r"];
+pub const EXCLUDED_GEOMETRY_KEYS: [&str; 7] = [
+    "atr_ref",
+    "prior_high_ref",
+    "prior_low_ref",
+    "lower_3sd_ref",
+    "upper_3sd_ref",
+    "stop_ref",
+    "stop_r",
+];
 
-pub fn geometry_version(risk_geometry: &serde_json::Map<String, serde_json::Value>)
-    -> String {
+pub fn geometry_version(risk_geometry: &serde_json::Map<String, serde_json::Value>) -> String {
     let mut c = Canon::new();
     c.push_map();
-    let mut keys: Vec<&String> = risk_geometry.keys()
+    let mut keys: Vec<&String> = risk_geometry
+        .keys()
         .filter(|k| !EXCLUDED_GEOMETRY_KEYS.contains(&k.as_str()))
         .collect();
     keys.sort();
@@ -78,9 +108,9 @@ pub fn geometry_version(risk_geometry: &serde_json::Map<String, serde_json::Valu
 /// The append-only candidate registry (projection of the transition log).
 #[derive(Debug, Default)]
 pub struct CandidateRegistry {
-    current: HashMap<String, String>,   // candidate_id -> current state
+    current: HashMap<String, String>, // candidate_id -> current state
     seq: HashMap<String, i64>,
-    detected: HashSet<String>,          // ids that reached DETECTED
+    detected: HashSet<String>, // ids that reached DETECTED
 }
 
 impl CandidateRegistry {
@@ -98,12 +128,19 @@ impl CandidateRegistry {
 
     /// Apply one transition, mirroring `CandidateRegistry.apply`. Returns the
     /// (event_hash, sequence, event_id) for the ledger record.
-    pub fn apply(&mut self, cid: &str, from: Option<&str>, to: &str,
-                 reason: &str, knowledge_time: i64) -> Result<(String, i64, String), String> {
+    pub fn apply(
+        &mut self,
+        cid: &str,
+        from: Option<&str>,
+        to: &str,
+        reason: &str,
+        knowledge_time: i64,
+    ) -> Result<(String, i64, String), String> {
         let cur = self.current.get(cid).map(|s| s.as_str());
         if cur != from {
             return Err(format!(
-                "illegal transition {from:?}->{to} for {cid}: current is {cur:?}"));
+                "illegal transition {from:?}->{to} for {cid}: current is {cur:?}"
+            ));
         }
         if !legal(from, to) {
             return Err(format!("illegal transition {from:?}->{to} for {cid}"));
@@ -139,19 +176,26 @@ impl ExposureBook {
         Self::default()
     }
     pub fn acquire(&mut self, instrument: &str, direction: &str) -> bool {
-        self.active.insert((instrument.to_string(), direction.to_string()))
+        self.active
+            .insert((instrument.to_string(), direction.to_string()))
     }
     pub fn release(&mut self, instrument: &str, direction: &str) {
-        self.active.remove(&(instrument.to_string(), direction.to_string()));
+        self.active
+            .remove(&(instrument.to_string(), direction.to_string()));
     }
     pub fn is_active(&self, instrument: &str, direction: &str) -> bool {
-        self.active.contains(&(instrument.to_string(), direction.to_string()))
+        self.active
+            .contains(&(instrument.to_string(), direction.to_string()))
     }
 }
 
 pub const DEFAULT_CLUSTERS: [(&str, &str); 6] = [
-    ("BTCUSDT", "btc"), ("ETHUSDT", "btc"), ("SOLUSDT", "major"),
-    ("BNBUSDT", "major"), ("XRPUSDT", "major"), ("DOGEUSDT", "major"),
+    ("BTCUSDT", "btc"),
+    ("ETHUSDT", "btc"),
+    ("SOLUSDT", "major"),
+    ("BNBUSDT", "major"),
+    ("XRPUSDT", "major"),
+    ("DOGEUSDT", "major"),
 ];
 
 /// Deterministic risk admission (D-023; src/v8/risk.py RiskGate).
@@ -172,41 +216,72 @@ pub struct RiskVerdict {
 }
 
 impl RiskGate {
-    pub fn new(max_heat: f64, max_cluster_heat: f64,
-               clusters: Vec<(String, String)>) -> Self {
-        RiskGate { max_heat, max_cluster_heat, clusters, heat: HashMap::new(),
-                   book: ExposureBook::new() }
+    pub fn new(max_heat: f64, max_cluster_heat: f64, clusters: Vec<(String, String)>) -> Self {
+        RiskGate {
+            max_heat,
+            max_cluster_heat,
+            clusters,
+            heat: HashMap::new(),
+            book: ExposureBook::new(),
+        }
     }
 
     fn cluster_of(&self, instrument: &str) -> String {
-        self.clusters.iter()
+        self.clusters
+            .iter()
             .find(|(s, _)| s == instrument)
             .map(|(_, c)| c.clone())
             .unwrap_or_else(|| "other".to_string())
     }
 
-    pub fn admit(&mut self, instrument: &str, direction: &str,
-                 size: f64, stop_r: f64) -> RiskVerdict {
+    pub fn admit(
+        &mut self,
+        instrument: &str,
+        direction: &str,
+        size: f64,
+        stop_r: f64,
+    ) -> RiskVerdict {
         if !self.book.acquire(instrument, direction) {
-            return RiskVerdict { ok: false, reason_code: Some("EXISTING_EXPOSURE_CONFLICT".into()),
-                                 detail: None, size, stop_r };
+            return RiskVerdict {
+                ok: false,
+                reason_code: Some("EXISTING_EXPOSURE_CONFLICT".into()),
+                detail: None,
+                size,
+                stop_r,
+            };
         }
         let heat = size * stop_r;
         let cluster = self.cluster_of(instrument);
         let cluster_heat = self.heat.get(&cluster).copied().unwrap_or(0.0);
         if cluster_heat + heat > self.max_cluster_heat {
             self.book.release(instrument, direction);
-            return RiskVerdict { ok: false, reason_code: Some("PORTFOLIO_HEAT_EXCEEDED".into()),
-                                 detail: Some(format!("cluster:{cluster}")), size, stop_r };
+            return RiskVerdict {
+                ok: false,
+                reason_code: Some("PORTFOLIO_HEAT_EXCEEDED".into()),
+                detail: Some(format!("cluster:{cluster}")),
+                size,
+                stop_r,
+            };
         }
         let total: f64 = self.heat.values().sum();
         if total + heat > self.max_heat {
             self.book.release(instrument, direction);
-            return RiskVerdict { ok: false, reason_code: Some("PORTFOLIO_HEAT_EXCEEDED".into()),
-                                 detail: Some("total".into()), size, stop_r };
+            return RiskVerdict {
+                ok: false,
+                reason_code: Some("PORTFOLIO_HEAT_EXCEEDED".into()),
+                detail: Some("total".into()),
+                size,
+                stop_r,
+            };
         }
         *self.heat.entry(cluster).or_insert(0.0) += heat;
-        RiskVerdict { ok: true, reason_code: None, detail: None, size, stop_r }
+        RiskVerdict {
+            ok: true,
+            reason_code: None,
+            detail: None,
+            size,
+            stop_r,
+        }
     }
 
     pub fn release(&mut self, instrument: &str, direction: &str, size: f64, stop_r: f64) {
@@ -221,8 +296,11 @@ impl RiskGate {
 /// D-024 mechanical tradability mask (src/v8/risk.py `tradability_mask_veto`).
 pub fn tradability_mask_veto(
     bar: &serde_json::Map<String, serde_json::Value>,
-    state_quality: &str, entry_fill_time_ns: i64,
-    max_bar_range_frac: f64, funding_window_bars: i64, funding_hours: i64,
+    state_quality: &str,
+    entry_fill_time_ns: i64,
+    max_bar_range_frac: f64,
+    funding_window_bars: i64,
+    funding_hours: i64,
     interval_ns: i64,
 ) -> (bool, Option<String>) {
     let f = |k: &str| bar.get(k).and_then(|v| v.as_f64());

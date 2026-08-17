@@ -1,27 +1,25 @@
 # V8.2 Compute-Core Migration — Status Report
 
-**Date:** 2026-08-11 · **Session:** autonomous build session 5
+**Date:** 2026-08-16 · **Session:** autonomous build session 6
 **Oracle tree hash (frozen):** `184fb934c8d6071d03db76ade1ea5d462f0e1f25`
 (`git rev-parse HEAD:src/v8` — any change to `src/v8` invalidates every parity
 result recorded below).
 
 ## Summary
 
-The V8.2 Rust compute plane migration (`COMPUTE_CORE_SPEC` §8) has completed
-**S0 through S3**, each with its parity gate G1..G6 passed and evidenced.
-Stages **S4 and S5 remain**, and D-091 (2026-08-12) extends the migration
-with **S6 (analysis) and S7 (verdict)** — see "Scope revision — D-091" below.
-S4 (CandidateBuffer + ExpertPlane, the 28 `evaluate()` ports) is the largest
-single stage. S4 is **in progress**: the
-candidate machinery (episode_key, registry, lifecycle transitions,
-ExposureBook, RiskGate, tradability mask) and the evaluate-port framework are
-built, and the **three pilots** (trend_pullback, failed_breakout,
-liquidity_sweep_reclaim) are ported and proven draft-parity. The remaining 25
-expert `evaluate()` ports and the full per-bar loop (Phases 1a/1b/2/3) + the
-candidate-population parity harness are the next step.
+The V8.2 Rust compute plane migration (`COMPUTE_CORE_SPEC` §8) now has the
+S0–S7 surfaces implemented: ingest, state/features, predicate/replay,
+cube/regret, candidate/evaluation loop, cache/evidence, analysis, verdict,
+report/audit, and the backend boundary. All 28 registered Expert families are
+present in the Rust registry. An optional Linux Vulkan f64 K4 backend is
+implemented under D-098; CPU remains the reference and unsupported GPU cells
+fail closed or route through CPU.
 
-Full test suite: **836 passed** (was 800 at session start), plus the S4 pilot
-draft-parity suite. Monograph rebuild byte-identical at every stage.
+Local gates currently pass: 200 GPU-feature tests, 198 release tests, strict
+Clippy, format check, Linux-target GPU check, and GPU-feature release build.
+The only missing receipt is execution of `gpu-probe`/`gpu-parity` on a physical
+Linux Vulkan adapter exposing `SHADER_F64`; the Apple development host reports
+that capability unavailable by design. No speed or economic claim is made.
 
 ## Completed stages (evidence in `reports/parity/`)
 
@@ -55,7 +53,7 @@ Also recorded: the D-085 fast-cache module was committed as one unit
 5. The tape itself is parsed by `jsonx` (std's correctly-rounded parse), so
    tape values were never affected by finding 3.
 
-## Next steps (for the next session)
+## Historical next steps (session 5; closed by session 6)
 
 ### S4 — CandidateBuffer + ExpertPlane (the candidate population gate)
 
@@ -68,7 +66,7 @@ mask); `v8-core/src/experts/port.rs` (the evaluate-port framework with
 Python lab's evaluations — decision, direction, birth_time, risk_geometry and
 setup anchor match bit-for-bit. `v8-core evaluate-check` (batch) subcommand.
 
-**Remaining:** the other 25 `evaluate()` ports (each needs its setup
+**Historical remaining list:** the other 25 `evaluate()` ports (each needs its setup
 predicate + geometry + anchor transcribed from the source; the anchor is NOT
 uniform — `volume_climax_reversal` anchors at the detection bar, `pandf`
 at the P&F column start, `rsi_stoch_reversion`/`macd_stoch_trend` replicate
@@ -78,7 +76,10 @@ parity harness. The lifecycle/admission machinery in candidate.rs is built
 and ready to wire. The `evaluate` subcommand that runs the loop is the
 composition point.
 
-**Pin (O-030):** S4 stays last — porting the moving expert spec is deferred;
+**Closed in session 6:** all registered Expert ports and the full per-bar loop
+are now wired in `v8-core`; the Python source remains a historical oracle.
+
+**Historical pin (O-030):** S4 stayed last — porting the moving expert spec was deferred;
 the plan is to port it after S3, which is now done.
 
 ### S5 — EvidenceStore + DAG cache
@@ -122,11 +123,10 @@ with **no Python in the request path** (D-078 extended). Python is reduced to
 the frozen parity oracle (`src/v8/`), the vendored `simtruth/` lab (D-022) and
 pre-V8.2 dev/research tooling retired as its Rust equivalent lands.
 
-The migration order S0..S5 extends with **S6** (Analysis: reconciliation +
-regret phases 1-3) and **S7** (Verdict: statistics + report/audit artifacts);
-the gates are added in `COMPUTE_CORE_SPEC` §8 and the module layout in §6
-(`analysis.rs`, `report.rs`, `statistics.rs` full). Nothing in the session-5
-findings above changes; S4/S5 remain the next stages and S6/S7 follow.
+The migration order S0..S5 was extended with **S6** (Analysis: reconciliation
++ regret phases 1-3) and **S7** (Verdict: statistics + report/audit artifacts)
+by D-091; all four later stages are now implemented and locally gated. The
+session-5 findings above remain historical provenance, not open work.
 
 The port is tracked issue-based on GitHub (`ddawnlll/v8`):
 - S4/S5/infra: epics #74-#76, tasks #77-#112 (`stage-s4`/`stage-s5` labels)

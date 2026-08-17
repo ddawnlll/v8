@@ -32,13 +32,16 @@ use crate::state::fsum;
 
 // --- FCR-V8RR-007 frozen constants (verbatim mirror of regret_phase2.py) ----
 
-pub const EXPERTS: [&str; 3] =
-    ["trend_pullback", "failed_breakout", "liquidity_sweep_reclaim"]; // FT003
-pub const SYMBOLS: [&str; 6] =
-    ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT", "DOGEUSDT"]; // FT003
+pub const EXPERTS: [&str; 3] = [
+    "trend_pullback",
+    "failed_breakout",
+    "liquidity_sweep_reclaim",
+]; // FT003
+pub const SYMBOLS: [&str; 6] = [
+    "BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT", "DOGEUSDT",
+]; // FT003
 pub const DIRECTIONS: [&str; 2] = ["LONG", "SHORT"]; // FT003
-pub const ESTIMANDS: [&str; 2] =
-    ["mean_legal_hindsight_gap", "mean_actual_vs_no_trade"]; // FT001
+pub const ESTIMANDS: [&str; 2] = ["mean_legal_hindsight_gap", "mean_actual_vs_no_trade"]; // FT001
 
 pub const MIN_N_COMPUTED: usize = 30; // FT003 minimum support
 pub const MIN_EFFECTIVE_EPISODES: f64 = 8.0; // FT003 minimum support
@@ -55,8 +58,8 @@ pub const DISCOVERY_VERDICTS: [&str; 5] = [
     "NOT_MATERIAL",
     "NOT_SIGNIFICANT",
 ];
-pub const CONFIRMATION_VERDICTS: [&str; 2] =
-    ["SYSTEMATIC_FINDING", "FAILED_CONFIRMATION"];
+#[allow(dead_code)]
+pub const CONFIRMATION_VERDICTS: [&str; 2] = ["SYSTEMATIC_FINDING", "FAILED_CONFIRMATION"];
 
 /// One Phase-1 dataset row projected onto the fields Phase 2 reads. The
 /// oracle consumes `tools.regret_phase1`'s frozen join output; the field set
@@ -67,7 +70,7 @@ pub struct SliceRow {
     pub expert_id: String,
     pub symbol: String,
     pub direction: String,
-    pub gap_status: String,          // "COMPUTED" | "REJECTED" | ...
+    pub gap_status: String, // "COMPUTED" | "REJECTED" | ...
     pub legal_hindsight_gap: Option<f64>,
     pub actual_utility: Option<f64>,
     pub horizon_bars: Option<i64>,
@@ -153,11 +156,17 @@ fn select_block_size(episode_net_r: &[f64], threshold: f64) -> usize {
     if c0 == 0.0 {
         return base.min(n / 2).max(1);
     }
-    let c1 = fsum(&(0..n - 1)
-        .map(|i| (episode_net_r[i] - mean) * (episode_net_r[i + 1] - mean))
-        .collect::<Vec<_>>());
+    let c1 = fsum(
+        &(0..n - 1)
+            .map(|i| (episode_net_r[i] - mean) * (episode_net_r[i + 1] - mean))
+            .collect::<Vec<_>>(),
+    );
     let lag1 = c1 / c0;
-    let block = if lag1.abs() > threshold { 2 * base } else { base };
+    let block = if lag1.abs() > threshold {
+        2 * base
+    } else {
+        base
+    };
     block.min(n / 2).max(1)
 }
 
@@ -304,10 +313,7 @@ fn estimand_series<'a>(rows: &[&'a SliceRow], estimand: &str) -> (Vec<f64>, Vec<
             .iter()
             .filter_map(|r| r.legal_hindsight_gap)
             .collect(),
-        "mean_actual_vs_no_trade" => computed
-            .iter()
-            .filter_map(|r| r.actual_utility)
-            .collect(),
+        "mean_actual_vs_no_trade" => computed.iter().filter_map(|r| r.actual_utility).collect(),
         other => panic!("unknown estimand {other:?}"),
     };
     (series, computed)
@@ -374,9 +380,7 @@ pub fn score_slice(
 
     let slice_rows: Vec<&SliceRow> = dataset_rows
         .iter()
-        .filter(|r| {
-            r.expert_id == expert_id && r.symbol == symbol && r.direction == direction
-        })
+        .filter(|r| r.expert_id == expert_id && r.symbol == symbol && r.direction == direction)
         .collect();
 
     if slice_rows.is_empty() {
@@ -580,12 +584,6 @@ impl ConfirmationLedger {
     }
 }
 
-/// CLI stub — wired into the S6 composition by issue #116.
-pub fn run(args: &[String]) -> i32 {
-    eprintln!("S6 phase2 systematicity discovery not implemented yet (issue #116): args={args:?}");
-    1
-}
-
 // --- parity tests vs the frozen oracle (tools/regret_phase2.py) -------------
 
 #[cfg(test)]
@@ -631,14 +629,54 @@ mod tests {
         for i in 0..40usize {
             let v = 0.10 + 0.013 * (i % 9) as f64;
             let h = if i % 11 == 0 { 2 } else { 1 };
-            rows.push(row("trend_pullback", "BTCUSDT", "LONG", "COMPUTED", Some(v), None, Some(h)));
+            rows.push(row(
+                "trend_pullback",
+                "BTCUSDT",
+                "LONG",
+                "COMPUTED",
+                Some(v),
+                None,
+                Some(h),
+            ));
         }
         for _ in 0..5 {
-            rows.push(row("trend_pullback", "BTCUSDT", "LONG", "REJECTED", None, None, Some(3)));
+            rows.push(row(
+                "trend_pullback",
+                "BTCUSDT",
+                "LONG",
+                "REJECTED",
+                None,
+                None,
+                Some(3),
+            ));
         }
-        rows.push(row("failed_breakout", "BTCUSDT", "LONG", "COMPUTED", Some(9.9), None, Some(1)));
-        rows.push(row("trend_pullback", "ETHUSDT", "LONG", "COMPUTED", Some(8.8), None, Some(1)));
-        rows.push(row("trend_pullback", "BTCUSDT", "SHORT", "COMPUTED", Some(7.7), None, Some(1)));
+        rows.push(row(
+            "failed_breakout",
+            "BTCUSDT",
+            "LONG",
+            "COMPUTED",
+            Some(9.9),
+            None,
+            Some(1),
+        ));
+        rows.push(row(
+            "trend_pullback",
+            "ETHUSDT",
+            "LONG",
+            "COMPUTED",
+            Some(8.8),
+            None,
+            Some(1),
+        ));
+        rows.push(row(
+            "trend_pullback",
+            "BTCUSDT",
+            "SHORT",
+            "COMPUTED",
+            Some(7.7),
+            None,
+            Some(1),
+        ));
         rows
     }
 
@@ -646,7 +684,15 @@ mod tests {
         (0..38)
             .map(|i| {
                 let v = 0.04 + 0.021 * (i % 6) as f64;
-                row("trend_pullback", "BTCUSDT", "LONG", "COMPUTED", None, Some(v), Some(1))
+                row(
+                    "trend_pullback",
+                    "BTCUSDT",
+                    "LONG",
+                    "COMPUTED",
+                    None,
+                    Some(v),
+                    Some(1),
+                )
             })
             .collect()
     }
@@ -655,7 +701,15 @@ mod tests {
         (0..12)
             .map(|i| {
                 let v = 0.05 + 0.01 * i as f64;
-                row("trend_pullback", "ETHUSDT", "SHORT", "COMPUTED", Some(v), None, Some(1))
+                row(
+                    "trend_pullback",
+                    "ETHUSDT",
+                    "SHORT",
+                    "COMPUTED",
+                    Some(v),
+                    None,
+                    Some(1),
+                )
             })
             .collect()
     }
@@ -666,10 +720,26 @@ mod tests {
         for i in 0..36usize {
             let v = 0.09 + 0.017 * (i % 7) as f64;
             let h = if i % 13 == 0 { 2 } else { 1 };
-            rows.push(row("trend_pullback", "BTCUSDT", "LONG", "COMPUTED", Some(v), None, Some(h)));
+            rows.push(row(
+                "trend_pullback",
+                "BTCUSDT",
+                "LONG",
+                "COMPUTED",
+                Some(v),
+                None,
+                Some(h),
+            ));
         }
         for _ in 0..4 {
-            rows.push(row("trend_pullback", "BTCUSDT", "LONG", "CENSORED", None, None, Some(2)));
+            rows.push(row(
+                "trend_pullback",
+                "BTCUSDT",
+                "LONG",
+                "CENSORED",
+                None,
+                None,
+                Some(2),
+            ));
         }
         rows
     }
@@ -679,7 +749,15 @@ mod tests {
         (0..34)
             .map(|i| {
                 let v = 0.06 + 0.019 * (i % 5) as f64;
-                row("trend_pullback", "BTCUSDT", "LONG", "COMPUTED", Some(v), None, Some(1))
+                row(
+                    "trend_pullback",
+                    "BTCUSDT",
+                    "LONG",
+                    "COMPUTED",
+                    Some(v),
+                    None,
+                    Some(1),
+                )
             })
             .collect()
     }
@@ -696,7 +774,10 @@ mod tests {
             slices[1][0],
             "trend_pullback|BTCUSDT|LONG|mean_actual_vs_no_trade"
         );
-        assert_eq!(slices[2][0], "trend_pullback|BTCUSDT|SHORT|mean_legal_hindsight_gap");
+        assert_eq!(
+            slices[2][0],
+            "trend_pullback|BTCUSDT|SHORT|mean_legal_hindsight_gap"
+        );
         // Oracle `declare_slices()[-3:]`: LONG|mean_actual_vs_no_trade,
         // SHORT|mean_legal_hindsight_gap, SHORT|mean_actual_vs_no_trade.
         assert_eq!(
@@ -713,7 +794,11 @@ mod tests {
         );
         // 24 slices per expert; every expert/symbol/direction/estimand crossed.
         for &expert in &EXPERTS {
-            assert_eq!(slices.iter().filter(|s| s[1] == expert).count(), 24, "{expert}");
+            assert_eq!(
+                slices.iter().filter(|s| s[1] == expert).count(),
+                24,
+                "{expert}"
+            );
         }
         let mut keys: Vec<&str> = slices.iter().map(|s| s[0].as_str()).collect();
         keys.sort();
@@ -739,7 +824,10 @@ mod tests {
             &discovery_rows(),
         );
         assert_eq!(r.slice_key, KEY);
-        assert_eq!(r.n_total_in_slice, 45, "REJECTED rows count in the slice total");
+        assert_eq!(
+            r.n_total_in_slice, 45,
+            "REJECTED rows count in the slice total"
+        );
         assert_eq!(r.n_computed, 40, "only COMPUTED rows enter the series");
         assert_eq!(r.effective_independent_episodes, 20.0);
         assert_eq!(r.mean, Some(0.14875));
@@ -801,7 +889,15 @@ mod tests {
     #[test]
     fn excluded_empty_matches_oracle() {
         // No row matches this expert/symbol/direction in the dataset.
-        let rows = vec![row("trend_pullback", "BTCUSDT", "LONG", "COMPUTED", Some(0.5), None, Some(1))];
+        let rows = vec![row(
+            "trend_pullback",
+            "BTCUSDT",
+            "LONG",
+            "COMPUTED",
+            Some(0.5),
+            None,
+            Some(1),
+        )];
         let r = score_slice(
             "liquidity_sweep_reclaim|DOGEUSDT|LONG|mean_actual_vs_no_trade",
             "liquidity_sweep_reclaim",
@@ -932,7 +1028,10 @@ mod tests {
             .collect();
         assert_eq!(dist.len(), 5);
         for (v, c) in dist {
-            let expected = if v == "CANDIDATE_SYSTEMATIC" { 1 } else if v == "INSUFFICIENT_SUPPORT" { 1 } else if v == "EXCLUDED_EMPTY" { 1 } else { 0 };
+            let expected = usize::from(matches!(
+                v,
+                "CANDIDATE_SYSTEMATIC" | "INSUFFICIENT_SUPPORT" | "EXCLUDED_EMPTY"
+            ));
             assert_eq!(c, expected, "verdict {v}");
         }
     }

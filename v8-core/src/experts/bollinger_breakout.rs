@@ -69,7 +69,11 @@ fn bb_series(hist: &[HistBar]) -> Vec<Option<(f64, f64)>> {
     let mut out = Vec::with_capacity(closes.len());
     for i in 0..closes.len() {
         if i >= BB_BASE_N - 1 {
-            let win = &closes[i - BB_BASE_N + 1..=i];
+            // `i + 1 - BB_BASE_N`, not `i - BB_BASE_N + 1`: the latter
+            // evaluates left-to-right as `(i - BB_BASE_N) + 1`, which
+            // underflows usize at i == BB_BASE_N - 1 (panic in debug,
+            // silent wrap in release).
+            let win = &closes[i + 1 - BB_BASE_N..=i];
             out.push(Some((mean(win), std_pop(win))));
         } else {
             out.push(None);
@@ -82,10 +86,7 @@ fn bb_series(hist: &[HistBar]) -> Vec<Option<(f64, f64)>> {
 /// where the bb pair is not computable).
 fn bw_series(bb: &[Option<(f64, f64)>]) -> Vec<Option<f64>> {
     bb.iter()
-        .map(|ms| match ms {
-            None => None,
-            Some((mid, sd)) => Some(if *mid != 0.0 { 4.0 * sd / mid } else { 0.0 }),
-        })
+        .map(|ms| ms.map(|(mid, sd)| if mid != 0.0 { 4.0 * sd / mid } else { 0.0 }))
         .collect()
 }
 
@@ -98,7 +99,9 @@ fn anchor_refs(hist: &[HistBar], anchor_event_id: &str) -> Option<AnchorRefs> {
         return None;
     }
     let closes: Vec<f64> = hist.iter().map(|b| b.close).collect();
-    let win = &closes[pos - BB_BASE_N + 1..=pos];
+    // Same underflow rule as `bb_series`: `pos + 1 - BB_BASE_N`, never
+    // `pos - BB_BASE_N + 1`.
+    let win = &closes[pos + 1 - BB_BASE_N..=pos];
     let mid = mean(win);
     let sd = std_pop(win);
     let mut atr_acc = Vec::with_capacity(14);
@@ -169,10 +172,11 @@ fn pred_for<'a>(
                 return false;
             }
             // The PRIOR bar was at a fresh bandwidth low (the squeeze).
-            bw[i - 1].unwrap() < bw[i - 1 - SQUEEZE_LOOKBACK..i - 1]
-                .iter()
-                .map(|x| x.unwrap())
-                .fold(f64::INFINITY, f64::min)
+            bw[i - 1].unwrap()
+                < bw[i - 1 - SQUEEZE_LOOKBACK..i - 1]
+                    .iter()
+                    .map(|x| x.unwrap())
+                    .fold(f64::INFINITY, f64::min)
         })
     } else {
         Box::new(move |i, b| {
@@ -183,18 +187,26 @@ fn pred_for<'a>(
             if !(b.close < mid - 2.0 * sd) {
                 return false;
             }
-            bw[i - 1].unwrap() < bw[i - 1 - SQUEEZE_LOOKBACK..i - 1]
-                .iter()
-                .map(|x| x.unwrap())
-                .fold(f64::INFINITY, f64::min)
+            bw[i - 1].unwrap()
+                < bw[i - 1 - SQUEEZE_LOOKBACK..i - 1]
+                    .iter()
+                    .map(|x| x.unwrap())
+                    .fold(f64::INFINITY, f64::min)
         })
     }
 }
 
 pub fn bollinger_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     // _need: every required feature present, else NO_HABITAT.
-    let need = ["close", "bb_mid", "bb_upper", "bb_lower", "bb_pct_b",
-                "bb_bandwidth", "history"];
+    let need = [
+        "close",
+        "bb_mid",
+        "bb_upper",
+        "bb_lower",
+        "bb_pct_b",
+        "bb_bandwidth",
+        "history",
+    ];
     for k in need {
         if !fm.features.contains_key(k) {
             return no_habitat(expert_id, version, fm.as_of);
@@ -215,7 +227,7 @@ pub fn bollinger_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
     // The evaluated variant: the harness instantiates the class-default
     // variant_id 'a' (BollingerBreakoutExpert()); the full a/b/c machinery is
     // mirrored so the geometry carries the variant key.
-    let variant = "a";
+    let variant = fm.variant(expert_id, "a");
 
     // _direction: decided by the newest bar on the SAME condition the anchor
     // predicate evaluates per history bar (a gate that slides the reference
@@ -251,7 +263,7 @@ pub fn bollinger_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
             None => return no_habitat(expert_id, version, fm.as_of),
         };
         let p = hist.len() - 1;
-        let squeeze = p >= BB_BASE_N - 1 + SQUEEZE_LOOKBACK + 1
+        let squeeze = p > BB_BASE_N - 1 + SQUEEZE_LOOKBACK
             && bw[p - 1].is_some()
             && bw[p - 1].unwrap()
                 < bw[p - 1 - SQUEEZE_LOOKBACK..p - 1]

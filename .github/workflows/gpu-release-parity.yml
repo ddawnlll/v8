@@ -1,0 +1,40 @@
+name: gpu-release-parity
+
+# This is intentionally independent from the portable CI job: GitHub-hosted
+# Linux runners cannot promise a Vulkan adapter with SHADER_F64.  Protect the
+# release branch by requiring this check after registering a runner with all
+# of the labels below.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'v8-core/**'
+      - '.github/workflows/gpu-release-parity.yml'
+
+jobs:
+  shader-f64-parity:
+    runs-on: [self-hosted, linux, x64, gpu, shader-f64]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build the release GPU binary
+        working-directory: v8-core
+        run: cargo build --release --features gpu
+
+      - name: Verify Vulkan SHADER_F64 capability and no-FMA contract
+        run: v8-core/target/release/v8-core gpu-probe | tee gpu-probe.json
+
+      - name: CPU to GPU bitwise golden parity
+        run: v8-core/target/release/v8-core gpu-parity | tee gpu-parity.json
+
+      - name: Preserve the hardware receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpu-shader-f64-receipt-${{ github.sha }}
+          path: |
+            gpu-probe.json
+            gpu-parity.json
+          if-no-files-found: error

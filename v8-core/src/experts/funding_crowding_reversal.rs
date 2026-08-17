@@ -10,8 +10,8 @@
 //! fail-loud data-absence contract, never a fabricated sentiment read).
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -37,22 +37,33 @@ const EXTEND_N: usize = 10;
 
 pub fn funding_crowding_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
-    let variant = "a";
+    let variant = fm.variant(expert_id, "a");
 
     // _need(state, need): close, atr, history, funding_rate (open_interest is
     // appended only for variant 'c'). Any missing feature -> NO_HABITAT.
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     if !fm.features.contains_key("history") {
         return no_habitat(expert_id, version, fm.as_of);
     }
-    let funding = match fm.value("funding_rate") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let funding = match fm.value("funding_rate") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     // atr <= 0 / empty history / funding None -> NO_HABITAT.
     if atr <= 0.0 || fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }
     // oi_present is read but inert for variant 'a' (need_oi is False).
-    let _oi_present = fm.features.get("open_interest")
+    let _oi_present = fm
+        .features
+        .get("open_interest")
         .map(|f| f.value.is_number())
         .unwrap_or(false);
 
@@ -62,9 +73,13 @@ pub fn funding_crowding_reversal(fm: &FeatMap, expert_id: &str, version: &str) -
     // funding >= +0.001 with close < min(lows[-1-CONFIRM_N:-1]).
     let direction: Option<&str> = if n < EXTEND_N + 1 {
         None
-    } else if funding >= FUNDING_EXTREME_POS && n >= CONFIRM_N + 1
-        && close < fm.history[n - 1 - CONFIRM_N..n - 1]
-            .iter().map(|b| b.low).fold(f64::INFINITY, f64::min)
+    } else if funding >= FUNDING_EXTREME_POS
+        && n > CONFIRM_N
+        && close
+            < fm.history[n - 1 - CONFIRM_N..n - 1]
+                .iter()
+                .map(|b| b.low)
+                .fold(f64::INFINITY, f64::min)
     {
         Some("SHORT")
     } else {
@@ -80,11 +95,15 @@ pub fn funding_crowding_reversal(fm: &FeatMap, expert_id: &str, version: &str) -
     // ATR. SHORT -> max(highs[-1-CONFIRM_N:-1]), LONG -> min(lows[...]).
     let (stop_r, barrier, ref_key) = if direction == "SHORT" {
         let barrier = fm.history[n - 1 - CONFIRM_N..n - 1]
-            .iter().map(|b| b.high).fold(f64::NEG_INFINITY, f64::max);
+            .iter()
+            .map(|b| b.high)
+            .fold(f64::NEG_INFINITY, f64::max);
         ((barrier - close) / atr, barrier, "prior_high_ref")
     } else {
         let barrier = fm.history[n - 1 - CONFIRM_N..n - 1]
-            .iter().map(|b| b.low).fold(f64::INFINITY, f64::min);
+            .iter()
+            .map(|b| b.low)
+            .fold(f64::INFINITY, f64::min);
         ((close - barrier) / atr, barrier, "prior_low_ref")
     };
     if stop_r <= 0.0 {
@@ -96,13 +115,23 @@ pub fn funding_crowding_reversal(fm: &FeatMap, expert_id: &str, version: &str) -
     // so the anchor captures the price-confirmation run — D-026).
     let hist = &fm.history;
     let pred: Box<dyn Fn(usize, &HistBar) -> bool> = if direction == "SHORT" {
-        Box::new(move |i, _b| i >= CONFIRM_N
-                 && hist[i].low < hist[i - CONFIRM_N..i]
-                     .iter().map(|b| b.low).fold(f64::INFINITY, f64::min))
+        Box::new(move |i, _b| {
+            i >= CONFIRM_N
+                && hist[i].low
+                    < hist[i - CONFIRM_N..i]
+                        .iter()
+                        .map(|b| b.low)
+                        .fold(f64::INFINITY, f64::min)
+        })
     } else {
-        Box::new(move |i, _b| i >= CONFIRM_N
-                 && hist[i].high > hist[i - CONFIRM_N..i]
-                     .iter().map(|b| b.high).fold(f64::NEG_INFINITY, f64::max))
+        Box::new(move |i, _b| {
+            i >= CONFIRM_N
+                && hist[i].high
+                    > hist[i - CONFIRM_N..i]
+                        .iter()
+                        .map(|b| b.high)
+                        .fold(f64::NEG_INFINITY, f64::max)
+        })
     };
     let anchor = find_setup_anchor(&fm.history, &*pred);
 

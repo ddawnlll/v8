@@ -98,6 +98,7 @@ pub const REPORT_SLICE_FIELDS: [(&str, DType, FieldTier); 5] = [
 /// dev tooling that retires — including the re-export shims
 /// (`diagnostic.py`, `diagnostic_report.py`, `multi_diagnostic.py`,
 /// `forensics.py`), which die with the engine they re-export.
+#[allow(dead_code)]
 pub const DIAGNOSTICS_RETIREMENT: [(&str, &str); 8] = [
     (
         "run_diagnostic / write_report (verdict summary + report)",
@@ -181,10 +182,22 @@ pub fn report_artifact(
         .expect("run-constants serialize as an object");
     obj.insert("ledger_hash".to_string(), serde_json::json!(ledger_hash));
     obj.insert("verdict".to_string(), serde_json::json!(summary.verdict));
-    obj.insert("candidate_count".to_string(), serde_json::json!(summary.candidate_count));
-    obj.insert("n_gap_computed".to_string(), serde_json::json!(summary.n_gap_computed));
-    obj.insert("n_gap_abstained".to_string(), serde_json::json!(summary.n_gap_abstained));
-    obj.insert("n_gap_not_applicable".to_string(), serde_json::json!(summary.n_gap_not_applicable));
+    obj.insert(
+        "candidate_count".to_string(),
+        serde_json::json!(summary.candidate_count),
+    );
+    obj.insert(
+        "n_gap_computed".to_string(),
+        serde_json::json!(summary.n_gap_computed),
+    );
+    obj.insert(
+        "n_gap_abstained".to_string(),
+        serde_json::json!(summary.n_gap_abstained),
+    );
+    obj.insert(
+        "n_gap_not_applicable".to_string(),
+        serde_json::json!(summary.n_gap_not_applicable),
+    );
     obj.insert("sum_gap".to_string(), serde_json::json!(summary.sum_gap));
     Artifact::new(REPORT_KIND, tier.as_str(), rc_obj, REPORT_ORDERING)
 }
@@ -316,8 +329,16 @@ pub struct AuditCheck {
 impl AuditCheck {
     fn run(name: &'static str, res: Result<(), String>) -> AuditCheck {
         match res {
-            Ok(()) => AuditCheck { name, passed: true, detail: String::new() },
-            Err(e) => AuditCheck { name, passed: false, detail: e },
+            Ok(()) => AuditCheck {
+                name,
+                passed: true,
+                detail: String::new(),
+            },
+            Err(e) => AuditCheck {
+                name,
+                passed: false,
+                detail: e,
+            },
         }
     }
 }
@@ -358,9 +379,15 @@ pub fn audit_round_trip(report_path: &Path) -> Result<(), String> {
         return Err("read-back hash_encoding is not the declared encoding".to_string());
     }
     for (name, _, _) in REPORT_SLICE_FIELDS {
-        let col = back.column(name).ok_or_else(|| format!("report has no column {name}"))?;
+        let col = back
+            .column(name)
+            .ok_or_else(|| format!("report has no column {name}"))?;
         if col.len() != back.row_count() {
-            return Err(format!("column {name} length {} != row count {}", col.len(), back.row_count()));
+            return Err(format!(
+                "column {name} length {} != row count {}",
+                col.len(),
+                back.row_count()
+            ));
         }
     }
     Ok(())
@@ -382,12 +409,17 @@ pub fn audit_header_completeness(report_path: &Path) -> Result<(), String> {
             .ok_or("run_constants is not an object")?
             .remove(key);
         if validate_report_header(&corrupt).is_ok() {
-            return Err(format!("report header without run-constant {key} did not fail closed"));
+            return Err(format!(
+                "report header without run-constant {key} did not fail closed"
+            ));
         }
     }
     for field in ["hash_encoding", "tier"] {
         let mut corrupt = h.clone();
-        corrupt.as_object_mut().ok_or("header is not an object")?.remove(field);
+        corrupt
+            .as_object_mut()
+            .ok_or("header is not an object")?
+            .remove(field);
         if validate_report_header(&corrupt).is_ok() {
             return Err(format!("report header without {field} did not fail closed"));
         }
@@ -424,7 +456,10 @@ pub fn audit_no_decimal_floats(report_path: &Path) -> Result<(), String> {
     if hits.is_empty() {
         Ok(())
     } else {
-        Err(format!("decimal float text in numeric columns: {}", hits.join(", ")))
+        Err(format!(
+            "decimal float text in numeric columns: {}",
+            hits.join(", ")
+        ))
     }
 }
 
@@ -476,14 +511,18 @@ pub fn audit_freshness(
     let mut problems: Vec<String> = Vec::new();
     match rc["data_hash"].as_str() {
         Some(h) if h != current_data_hash => {
-            problems.push(format!("referenced tape {h} is older than current {current_data_hash}"));
+            problems.push(format!(
+                "referenced tape {h} is older than current {current_data_hash}"
+            ));
         }
         None => problems.push("report header has no data_hash".to_string()),
         _ => {}
     }
     match rc["generator"].as_str() {
         Some(g) if g != current_generator => {
-            problems.push(format!("generator {g} is not the current {current_generator}"));
+            problems.push(format!(
+                "generator {g} is not the current {current_generator}"
+            ));
         }
         None => problems.push("report header has no generator".to_string()),
         _ => {}
@@ -526,10 +565,16 @@ pub fn audit_report(
             audit_freshness(report_path, out_dir, current_data_hash, current_generator),
         ),
         AuditCheck::run("round-trip", audit_round_trip(report_path)),
-        AuditCheck::run("header-completeness", audit_header_completeness(report_path)),
+        AuditCheck::run(
+            "header-completeness",
+            audit_header_completeness(report_path),
+        ),
         AuditCheck::run("tier-honesty", audit_tier_honesty(report_path)),
         AuditCheck::run("no-decimal-floats", audit_no_decimal_floats(report_path)),
-        AuditCheck::run("retention", audit_retention(report_path, out_dir, store_path)),
+        AuditCheck::run(
+            "retention",
+            audit_retention(report_path, out_dir, store_path),
+        ),
     ]
 }
 
@@ -585,8 +630,9 @@ pub fn report(args: &[String]) -> i32 {
     }
     let req: ReportRequest = match std::fs::read(&args[0])
         .map_err(|e| format!("cannot read request {}: {e}", args[0]))
-        .and_then(|b| serde_json::from_slice(&b).map_err(|e| format!("cannot parse request {}: {e}", args[0])))
-    {
+        .and_then(|b| {
+            serde_json::from_slice(&b).map_err(|e| format!("cannot parse request {}: {e}", args[0]))
+        }) {
         Ok(r) => r,
         Err(e) => {
             eprintln!("error: {e}");
@@ -668,10 +714,19 @@ pub fn report(args: &[String]) -> i32 {
             .to_string();
         (fp, summarize_cube_reduced(&back), code)
     } else {
-        (LEDGER_ABSENT.to_string(), empty_summary(), regret::GENERATOR_VERSION.to_string())
+        (
+            LEDGER_ABSENT.to_string(),
+            empty_summary(),
+            regret::GENERATOR_VERSION.to_string(),
+        )
     };
 
-    let rc = report_run_constants(&current_data_hash, &code_hash, &req.universe, &req.base_interval);
+    let rc = report_run_constants(
+        &current_data_hash,
+        &code_hash,
+        &req.universe,
+        &req.base_interval,
+    );
     let tier = ArtifactTier::from_str(&req.tier).unwrap_or(ArtifactTier::Values);
     let mut art = report_artifact(
         tier,
@@ -689,7 +744,11 @@ pub fn report(args: &[String]) -> i32 {
             return 1;
         }
     };
-    let slice_key = if req.universe.len() == 1 { symbol.clone() } else { "all".to_string() };
+    let slice_key = if req.universe.len() == 1 {
+        symbol.clone()
+    } else {
+        "all".to_string()
+    };
     push_report_slice(
         &mut art,
         &cols,
@@ -825,7 +884,12 @@ mod tests {
         data_hash: &str,
         ledger_hash: &str,
     ) -> std::io::Result<std::path::PathBuf> {
-        let rc = report_run_constants(data_hash, regret::GENERATOR_VERSION, &["SOLUSDT".to_string()], "1h");
+        let rc = report_run_constants(
+            data_hash,
+            regret::GENERATOR_VERSION,
+            &["SOLUSDT".to_string()],
+            "1h",
+        );
         let summary = summary_fixture();
         let mut a = report_artifact(
             ArtifactTier::Values,
@@ -891,7 +955,14 @@ mod tests {
     #[test]
     fn report_artifact_round_trips() {
         let dir = test_dir("rt");
-        let p = write_report_fixture(&dir, "report-fixture", &evidence::generator_tag(), "tape-hash-1111", "ledger-fixture").unwrap();
+        let p = write_report_fixture(
+            &dir,
+            "report-fixture",
+            &evidence::generator_tag(),
+            "tape-hash-1111",
+            "ledger-fixture",
+        )
+        .unwrap();
         let back = evidence::read_artifact(&p).unwrap();
         assert_eq!(back.header["artifact_kind"], "report");
         assert_eq!(back.header["tier"], "VALUES");
@@ -899,15 +970,27 @@ mod tests {
         assert_eq!(back.row_count(), 1);
         assert_eq!(back.header["column_count"], 5);
         for k in RunConstants::REQUIRED_KEYS {
-            assert!(back.header["run_constants"].get(k).is_some(), "missing §3 key {k}");
+            assert!(
+                back.header["run_constants"].get(k).is_some(),
+                "missing §3 key {k}"
+            );
         }
         for k in ["symbol", "interval", "generator"] {
-            assert!(back.header["run_constants"].get(k).is_some(), "missing binding {k}");
+            assert!(
+                back.header["run_constants"].get(k).is_some(),
+                "missing binding {k}"
+            );
         }
         for k in REPORT_RUN_CONSTANT_KEYS {
-            assert!(back.header["run_constants"].get(k).is_some(), "missing report key {k}");
+            assert!(
+                back.header["run_constants"].get(k).is_some(),
+                "missing report key {k}"
+            );
         }
-        assert_eq!(back.header["run_constants"]["ledger_hash"], "ledger-fixture");
+        assert_eq!(
+            back.header["run_constants"]["ledger_hash"],
+            "ledger-fixture"
+        );
         assert_eq!(back.header["run_constants"]["verdict"], REPORT_VERDICT);
         assert_eq!(back.header["run_constants"]["candidate_count"], 3);
         assert_eq!(back.header["run_constants"]["symbol"], "SOLUSDT");
@@ -921,7 +1004,10 @@ mod tests {
             Some(1.5f64.to_bits())
         );
         // Content-addressed fingerprint.
-        assert_eq!(evidence::fingerprint(&p).unwrap(), evidence::fingerprint(&p).unwrap());
+        assert_eq!(
+            evidence::fingerprint(&p).unwrap(),
+            evidence::fingerprint(&p).unwrap()
+        );
         std::fs::remove_dir_all(&dir).ok();
     }
 
@@ -931,14 +1017,28 @@ mod tests {
         // A report written by an older producer against an older tape. The
         // report binds no ledger (LEDGER_ABSENT), so the freshness failure is
         // the tape + producer drift alone.
-        let p = write_report_fixture(&dir, "report-stale", "v8-core/0.1.0", "stale-tape-hash-0000", LEDGER_ABSENT).unwrap();
+        let p = write_report_fixture(
+            &dir,
+            "report-stale",
+            "v8-core/0.1.0",
+            "stale-tape-hash-0000",
+            LEDGER_ABSENT,
+        )
+        .unwrap();
         let err = audit_freshness(&p, &dir, "current-tape-hash-9999", "v8-core/0.2.0").unwrap_err();
         assert!(err.contains("stale-tape-hash-0000"), "{err}");
         assert!(err.contains("older than current"), "{err}");
         assert!(err.contains("v8-core/0.1.0"), "{err}");
         assert!(err.contains("not the current"), "{err}");
         // A fresh report is not stale.
-        let q = write_report_fixture(&dir, "report-fresh", "v8-core/0.2.0", "tape-hash-1111", LEDGER_ABSENT).unwrap();
+        let q = write_report_fixture(
+            &dir,
+            "report-fresh",
+            "v8-core/0.2.0",
+            "tape-hash-1111",
+            LEDGER_ABSENT,
+        )
+        .unwrap();
         audit_freshness(&q, &dir, "tape-hash-1111", "v8-core/0.2.0").expect("fresh report passes");
         std::fs::remove_dir_all(&dir).ok();
     }
@@ -950,7 +1050,12 @@ mod tests {
         // then replace the ledger: the report is now stale.
         let cube = write_cube_fixture(&dir).unwrap();
         let ledger_fp = evidence::fingerprint(&cube).unwrap();
-        let rc = report_run_constants("tape-hash-1111", regret::GENERATOR_VERSION, &["SOLUSDT".to_string()], "1h");
+        let rc = report_run_constants(
+            "tape-hash-1111",
+            regret::GENERATOR_VERSION,
+            &["SOLUSDT".to_string()],
+            "1h",
+        );
         let summary = summary_fixture();
         let mut a = report_artifact(
             ArtifactTier::Values,
@@ -962,13 +1067,17 @@ mod tests {
             &summary,
         );
         let cols = add_report_slice_fields(&mut a).unwrap();
-        push_report_slice(&mut a, &cols, &ReportSlice {
-            slice_key: "SOLUSDT".to_string(),
-            slice_n: summary.candidate_count,
-            slice_n_gap_computed: summary.n_gap_computed,
-            slice_n_gap_abstained: summary.n_gap_abstained,
-            slice_sum_gap: summary.sum_gap,
-        });
+        push_report_slice(
+            &mut a,
+            &cols,
+            &ReportSlice {
+                slice_key: "SOLUSDT".to_string(),
+                slice_n: summary.candidate_count,
+                slice_n_gap_computed: summary.n_gap_computed,
+                slice_n_gap_abstained: summary.n_gap_abstained,
+                slice_sum_gap: summary.sum_gap,
+            },
+        );
         let p = dir.join("report-ledger-stale.v82");
         a.write(&p).unwrap();
         audit_freshness(&p, &dir, "tape-hash-1111", &evidence::generator_tag())
@@ -984,7 +1093,8 @@ mod tests {
         cube2.columns[g].push_str(regret::GAP_COMPUTED);
         cube2.end_row();
         cube2.write(&cube).unwrap();
-        let err = audit_freshness(&p, &dir, "tape-hash-1111", &evidence::generator_tag()).unwrap_err();
+        let err =
+            audit_freshness(&p, &dir, "tape-hash-1111", &evidence::generator_tag()).unwrap_err();
         assert!(err.contains("older than current"), "{err}");
         std::fs::remove_dir_all(&dir).ok();
     }
@@ -993,7 +1103,12 @@ mod tests {
     fn report_tier_honesty() {
         // An IDENTITY_ONLY report cannot carry the VALUES slice columns; the
         // failure is explicit, never an empty column.
-        let rc = report_run_constants("tape-hash-1111", regret::GENERATOR_VERSION, &["SOLUSDT".to_string()], "1h");
+        let rc = report_run_constants(
+            "tape-hash-1111",
+            regret::GENERATOR_VERSION,
+            &["SOLUSDT".to_string()],
+            "1h",
+        );
         let summary = summary_fixture();
         let mut a = report_artifact(
             ArtifactTier::IdentityOnly,
@@ -1050,7 +1165,12 @@ mod tests {
         // A fresh report bound to a present ledger and retained tape.
         let cube = write_cube_fixture(&dir).unwrap();
         let ledger_fp = evidence::fingerprint(&cube).unwrap();
-        let rc = report_run_constants("tape-hash-1111", regret::GENERATOR_VERSION, &["SOLUSDT".to_string()], "1h");
+        let rc = report_run_constants(
+            "tape-hash-1111",
+            regret::GENERATOR_VERSION,
+            &["SOLUSDT".to_string()],
+            "1h",
+        );
         let summary = summary_fixture();
         let mut a = report_artifact(
             ArtifactTier::Values,
@@ -1062,20 +1182,30 @@ mod tests {
             &summary,
         );
         let cols = add_report_slice_fields(&mut a).unwrap();
-        push_report_slice(&mut a, &cols, &ReportSlice {
-            slice_key: "SOLUSDT".to_string(),
-            slice_n: summary.candidate_count,
-            slice_n_gap_computed: summary.n_gap_computed,
-            slice_n_gap_abstained: summary.n_gap_abstained,
-            slice_sum_gap: summary.sum_gap,
-        });
+        push_report_slice(
+            &mut a,
+            &cols,
+            &ReportSlice {
+                slice_key: "SOLUSDT".to_string(),
+                slice_n: summary.candidate_count,
+                slice_n_gap_computed: summary.n_gap_computed,
+                slice_n_gap_abstained: summary.n_gap_abstained,
+                slice_sum_gap: summary.sum_gap,
+            },
+        );
         let p = dir.join("report-battery.v82");
         a.write(&p).unwrap();
         let store_path = dir.join("report-battery-retention.jsonl");
         std::fs::remove_file(&store_path).ok();
         let mut store = evidence::RetentionStore::open(&store_path).unwrap();
         store.insert("tape-hash-1111", true).unwrap();
-        let checks = audit_report(&p, &dir, &store_path, "tape-hash-1111", &evidence::generator_tag());
+        let checks = audit_report(
+            &p,
+            &dir,
+            &store_path,
+            "tape-hash-1111",
+            &evidence::generator_tag(),
+        );
         assert_eq!(checks.len(), 6);
         for c in &checks {
             assert!(c.passed, "{} failed: {}", c.name, c.detail);
@@ -1089,7 +1219,12 @@ mod tests {
         // report binds LEDGER_ABSENT, the audit's freshness/retention checks
         // accept the honest absence, and the §8 battery still passes.
         let dir = test_dir("minimal");
-        let rc = report_run_constants("tape-hash-1111", regret::GENERATOR_VERSION, &["SOLUSDT".to_string()], "1h");
+        let rc = report_run_constants(
+            "tape-hash-1111",
+            regret::GENERATOR_VERSION,
+            &["SOLUSDT".to_string()],
+            "1h",
+        );
         let mut a = report_artifact(
             ArtifactTier::Values,
             "SOLUSDT",
@@ -1100,21 +1235,34 @@ mod tests {
             &empty_summary(),
         );
         let cols = add_report_slice_fields(&mut a).unwrap();
-        push_report_slice(&mut a, &cols, &ReportSlice {
-            slice_key: "all".to_string(),
-            slice_n: 0,
-            slice_n_gap_computed: 0,
-            slice_n_gap_abstained: 0,
-            slice_sum_gap: 0.0,
-        });
+        push_report_slice(
+            &mut a,
+            &cols,
+            &ReportSlice {
+                slice_key: "all".to_string(),
+                slice_n: 0,
+                slice_n_gap_computed: 0,
+                slice_n_gap_abstained: 0,
+                slice_sum_gap: 0.0,
+            },
+        );
         let p = dir.join("report-minimal.v82");
         a.write(&p).unwrap();
-        assert_eq!(evidence::read_header(&p).unwrap()["run_constants"]["ledger_hash"], LEDGER_ABSENT);
+        assert_eq!(
+            evidence::read_header(&p).unwrap()["run_constants"]["ledger_hash"],
+            LEDGER_ABSENT
+        );
         let store_path = dir.join("report-minimal-retention.jsonl");
         std::fs::remove_file(&store_path).ok();
         let mut store = evidence::RetentionStore::open(&store_path).unwrap();
         store.insert("tape-hash-1111", true).unwrap();
-        for c in audit_report(&p, &dir, &store_path, "tape-hash-1111", &evidence::generator_tag()) {
+        for c in audit_report(
+            &p,
+            &dir,
+            &store_path,
+            "tape-hash-1111",
+            &evidence::generator_tag(),
+        ) {
             assert!(c.passed, "{} failed: {}", c.name, c.detail);
         }
         std::fs::remove_dir_all(&dir).ok();
@@ -1128,7 +1276,12 @@ mod tests {
             .map(|(s, _)| *s)
             .collect::<Vec<_>>();
         let table = joined.join(" ");
-        for shim in ["diagnostic.py", "diagnostic_report.py", "multi_diagnostic.py", "forensics.py"] {
+        for shim in [
+            "diagnostic.py",
+            "diagnostic_report.py",
+            "multi_diagnostic.py",
+            "forensics.py",
+        ] {
             assert!(table.contains(shim), "retirement table must name {shim}");
         }
         // The report centre's own entry points port or retire — every row has

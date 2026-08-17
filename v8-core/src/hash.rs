@@ -45,7 +45,9 @@ pub struct Canon {
 
 impl Canon {
     pub fn new() -> Self {
-        Canon { buf: Vec::with_capacity(64) }
+        Canon {
+            buf: Vec::with_capacity(64),
+        }
     }
 
     /// One raw byte (used for type tags).
@@ -65,7 +67,11 @@ impl Canon {
 
     pub fn push_f64(&mut self, v: f64) {
         self.push_u8(b'f');
-        let bits = if v.is_nan() { CANONICAL_NAN_BITS } else { v.to_bits() };
+        let bits = if v.is_nan() {
+            CANONICAL_NAN_BITS
+        } else {
+            v.to_bits()
+        };
         self.buf.extend_from_slice(&bits.to_le_bytes());
     }
 
@@ -186,7 +192,10 @@ mod tests {
         c.push_f64(1.0);
         assert_prefixed(&c.buf, b'f');
         // 1.0 = 0x3FF0000000000000, little-endian.
-        assert_eq!(&c.buf[1..], &[0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0x3f]);
+        assert_eq!(
+            &c.buf[1..],
+            &[0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf0, 0x3f]
+        );
     }
 
     #[test]
@@ -258,7 +267,16 @@ mod tests {
         // can only render in one way here, so instead pin the bit-level
         // property: encoding any value equal to a given f64 yields the same
         // bytes (no decimal text ever enters the digest).
-        let values = [1.0f64, 1e16, 1e-5, -0.0, 1e22, 1.2345678901234568e17, 1e-323, 0.30000000000000004];
+        let values = [
+            1.0f64,
+            1e16,
+            1e-5,
+            -0.0,
+            1e22,
+            1.2345678901234568e17,
+            1e-323,
+            0.30000000000000004,
+        ];
         let digests: Vec<String> = values
             .iter()
             .map(|v| {

@@ -30,14 +30,22 @@ pub struct Line {
 /// line returns `Err(message)`; Python-style non-finite literals are handled
 /// per the module docstring.
 pub fn parse_line(s: &str) -> Result<Line, String> {
-    let mut p = Parser { b: s.as_bytes().to_vec(), i: 0, line: s.to_string(), nonfinite: Vec::new() };
+    let mut p = Parser {
+        b: s.as_bytes().to_vec(),
+        i: 0,
+        line: s.to_string(),
+        nonfinite: Vec::new(),
+    };
     p.skip_ws();
     let value = p.parse_value(&mut String::new())?;
     p.skip_ws();
     if p.i != p.b.len() {
         return Err(format!("trailing content at column {}", p.i + 1));
     }
-    Ok(Line { value, nonfinite: p.nonfinite })
+    Ok(Line {
+        value,
+        nonfinite: p.nonfinite,
+    })
 }
 
 struct Parser {
@@ -97,7 +105,10 @@ impl Parser {
     }
 
     fn record_nonfinite(&mut self, path: &str, kind: &'static str) {
-        self.nonfinite.push(NonFinite { path: path.to_string(), kind });
+        self.nonfinite.push(NonFinite {
+            path: path.to_string(),
+            kind,
+        });
     }
 
     fn parse_keyword(&mut self, kw: &str, v: Value) -> Result<Value, String> {
@@ -203,7 +214,10 @@ impl Parser {
                         b'r' => out.push(b'\r'),
                         b't' => out.push(b'\t'),
                         b'u' => {
-                            let hex = self.b.get(self.i..self.i + 4).ok_or_else(|| self.err("bad \\u"))?;
+                            let hex = self
+                                .b
+                                .get(self.i..self.i + 4)
+                                .ok_or_else(|| self.err("bad \\u"))?;
                             let cp = u32::from_str_radix(std::str::from_utf8(hex).unwrap(), 16)
                                 .map_err(|_| self.err("bad \\u"))?;
                             self.i += 4;
@@ -257,9 +271,7 @@ impl Parser {
                 return Ok(Value::Number(i.into()));
             }
         }
-        let f: f64 = text
-            .parse()
-            .map_err(|_| self.err("number out of range"))?;
+        let f: f64 = text.parse().map_err(|_| self.err("number out of range"))?;
         if !f.is_finite() {
             return Err(self.err("number out of range"));
         }
@@ -290,14 +302,20 @@ mod tests {
     fn records_python_nan_at_path() {
         let line = r#"{"source":"binance-um","channel":"kline","payload":{"open":NaN,"high":2.0,"low":1.0,"close":1.7},"event_id":"s:1"}"#;
         let l = parse_line(line).unwrap();
-        assert!(l.nonfinite.iter().any(|n| n.path == "payload.open" && n.kind == "nan"));
+        assert!(l
+            .nonfinite
+            .iter()
+            .any(|n| n.path == "payload.open" && n.kind == "nan"));
     }
 
     #[test]
     fn records_negative_infinity() {
         let line = r#"{"channel":"funding","payload":{"funding_rate":-Infinity},"event_id":"f1"}"#;
         let l = parse_line(line).unwrap();
-        assert!(l.nonfinite.iter().any(|n| n.path == "payload.funding_rate" && n.kind == "ninf"));
+        assert!(l
+            .nonfinite
+            .iter()
+            .any(|n| n.path == "payload.funding_rate" && n.kind == "ninf"));
     }
 
     #[test]

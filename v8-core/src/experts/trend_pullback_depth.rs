@@ -7,8 +7,8 @@
 //! src/v8/experts/trend_pullback_depth.py bit-for-bit (§3 PARITY_AND_IDENTITY_SPEC).
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -32,12 +32,30 @@ pub fn trend_pullback_depth(fm: &FeatMap, expert_id: &str, version: &str) -> Exp
     // feature is emitted with a numeric value (fm.value None covers both an
     // absent feature and a null value — Python's `_need` + `_impulse` value
     // checks land on the same NO_HABITAT).
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let fast = match fm.value("ema_fast") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let slow = match fm.value("ema_slow") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let sh = match fm.value("swing_high_10") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let sl = match fm.value("swing_low_10") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let fast = match fm.value("ema_fast") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let slow = match fm.value("ema_slow") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let sh = match fm.value("swing_high_10") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let sl = match fm.value("swing_low_10") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     // Python history check (`not hist_value`); the state's "history" feature
     // and fm.history share the same 32-bar window ending at t-1.
     if fm.history.is_empty() {
@@ -54,7 +72,7 @@ pub fn trend_pullback_depth(fm: &FeatMap, expert_id: &str, version: &str) -> Exp
     }
     let rng = sh - sl;
     let depth = (sh - close) / rng;
-    if !(0.0 <= depth && depth <= DEPTH_382 && close < sh) {
+    if !(0.0..=DEPTH_382).contains(&depth) || !(close < sh) {
         return no_setup(expert_id, version, fm.as_of);
     }
     // Anchor: first bar of the current run inside the same depth band with the

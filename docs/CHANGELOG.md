@@ -3,6 +3,48 @@
 Format: dated, brief, reversible. This log records document and architecture
 decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-16 — Computation-budget policy (D-099)
+
+Added the decision-value rule for agent and operator computation: every
+non-trivial or repeated green check must identify the decision and new
+semantic risk it could change; mandatory boundary gates remain mandatory.
+The policy requires the smallest discriminating check, one full handoff suite,
+and an explicit report after 60 seconds of additional verification.
+
+Artifacts changed: `CLAUDE.md`, `rules.md`,
+`docs/COMPUTATION_BUDGET_POLICY.md`, `docs/tr/COMPUTATION_BUDGET_POLICY.md`,
+`docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`,
+`tools/build_monograph.py`, regenerated `site/index.html` and `site/tr.html`.
+
+## 2026-08-16 — Python oracle boundary and hash lock (D-100)
+
+The Python `src/v8/` tree is now explicitly classified as a frozen historical
+parity oracle, not a runtime. `PYTHON_ORACLE_LOCK.json` pins its Git tree hash;
+`audit_python_boundary.py` rejects dirty/unregistered oracle changes and CI
+Python pytest/oracle invocation. Monograph generation and explicitly invoked
+legacy research tooling remain allowed. The oracle is retained until its
+remaining consumers have owned replacements.
+
+Artifacts changed: `docs/legacy/PYTHON_ORACLE_{LOCK,POLICY}.*`,
+`tools/audit_python_boundary.py`, `.github/workflows/ci.yml`, and both decision
+registers.
+
+## 2026-08-16 — Optional Linux Vulkan f64 K4 backend and dispatch hardening (D-098)
+
+`v8-core/src/backend/gpu.rs` now contains the real optional Vulkan f64 replay
+backend for the static bar-close K4 subset. It requires `SHADER_F64`, runs a
+no-contraction probe, validates geometry, and fails closed on unsupported
+management/thesis/fill-policy cells. `backend/mod.rs` performs capability-aware
+Auto dispatch with CPU fallback and rejects `FILL_AT_LIMIT` from the GPU path.
+The implementation-status text from D-096 is superseded; its determinism and
+f64 constraints remain. Local Rust gates pass, while physical Linux Vulkan
+runtime parity remains an environment receipt rather than a claimed result.
+
+Artifacts changed: `v8-core/src/backend/{gpu,mod}.rs`,
+`docs/decisions/DECISION_REGISTER.md`,
+`docs/contracts/COMPUTE_SCHEDULING_SPEC.md`,
+`docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/STATUS_REPORT.md`.
+
 ## 2026-08-14 — Rust compute plane is authoritative; Python oracle retired from the verification path (D-097)
 
 Operator-ratified. `v8-core` (D-087..D-095) is the sole authoritative

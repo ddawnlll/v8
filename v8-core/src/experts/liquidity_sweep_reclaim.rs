@@ -3,8 +3,8 @@
 //! Ported at S4; draft parity proven.
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -19,23 +19,37 @@ pub const EXPIRY_BARS: i64 = 8;
 
 pub fn liquidity_sweep_reclaim(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     if fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }
     let prior_low = |i: usize| -> f64 {
-        fm.history[..i].iter().map(|b| b.low).fold(f64::INFINITY, f64::min)
+        fm.history[..i]
+            .iter()
+            .map(|b| b.low)
+            .fold(f64::INFINITY, f64::min)
     };
     let prior_high = |i: usize| -> f64 {
-        fm.history[..i].iter().map(|b| b.high).fold(f64::NEG_INFINITY, f64::max)
+        fm.history[..i]
+            .iter()
+            .map(|b| b.high)
+            .fold(f64::NEG_INFINITY, f64::max)
     };
     let newest = &fm.history[fm.history.len() - 1];
     let (direction, ref_val, ref_key) = if newest.low < prior_low(fm.history.len() - 1)
-        && close > prior_low(fm.history.len() - 1) {
+        && close > prior_low(fm.history.len() - 1)
+    {
         ("LONG", prior_low(fm.history.len() - 1), "prior_low_ref")
     } else if newest.high > prior_high(fm.history.len() - 1)
-        && close < prior_high(fm.history.len() - 1) {
+        && close < prior_high(fm.history.len() - 1)
+    {
         ("SHORT", prior_high(fm.history.len() - 1), "prior_high_ref")
     } else {
         return no_setup(expert_id, version, fm.as_of);

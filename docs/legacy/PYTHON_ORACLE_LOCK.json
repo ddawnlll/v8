@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "role": "frozen-parity-oracle",
+  "path": "src/v8",
+  "git_tree": "ea772659b9dc781785462239163dfe309d04b07e",
+  "execution_policy": "not-in-rust-runtime-ci",
+  "allowed_consumers": [
+    "historical parity reports",
+    "explicit legacy research tooling",
+    "monograph and documentation audit"
+  ],
+  "forbidden_consumers": [
+    "v8-core request path",
+    "production/runtime dispatch",
+    "CI test or parity gates"
+  ],
+  "update_policy": "registry decision plus changelog entry and a new tree hash"
+}

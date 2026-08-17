@@ -1,3 +1,10 @@
+#![allow(
+    clippy::neg_cmp_op_on_partial_ord,
+    clippy::type_complexity,
+    clippy::too_many_arguments,
+    clippy::needless_range_loop
+)]
+
 //! V8.2 compute plane CLI (COMPUTE_CORE_SPEC §2, §6).
 //!
 //! One evaluation request per invocation: the control plane writes a
@@ -25,6 +32,7 @@ mod cache;
 mod candidate;
 mod data;
 mod evidence;
+mod experiment;
 mod experts;
 mod features;
 mod hash;
@@ -41,7 +49,6 @@ mod statistics;
 
 use std::path::PathBuf;
 
-use backend::ReplayKernel;
 use serde_json::Value;
 
 const USAGE: &str = "v8-core <subcommand> <request.json|...>
@@ -51,9 +58,13 @@ subcommands:
   features        compute FeatureStore/StateView values (stage S1)
   predicate-check evaluate compiled still_valid IR bytes (stage S2)
   replay          run the ReplayKernel over a candidate batch (stage S2)
+  bench           benchmark CPU/Auto/GPU replay selection on a request
+  gpu-probe       run the optional Vulkan f64 compute probe
+  gpu-parity      compare the GPU replay against the scalar CPU golden case
   cube            stream the Outcome Cube to reduced tables (stage S3)
   evaluate-check  batch per-bar ExpertPlane draft check (stage S4)
   evaluate        full per-bar ExpertPlane -> candidates -> reduce loop (S4)
+  experiment      run the frozen v8_slice_001 Phase-4 admission/evaluation boundary
   registry        print the 28-expert dispatch table with ported flags (S4)
   reconcile       S6: reconciliation (CandidateSnapshot join + PIT lineage)
   analysis        S6: regret phases 1-3 (opportunity/systematicity/recover)
@@ -73,10 +84,14 @@ fn main() {
         "features" => cmd_features(&args[2..]),
         "predicate-check" => cmd_predicate_check(&args[2..]),
         "replay" => cmd_replay(&args[2..]),
+        "bench" => cmd_bench(&args[2..]),
+        "gpu-probe" => cmd_gpu_probe(&args[2..]),
+        "gpu-parity" => cmd_gpu_parity(&args[2..]),
         "cube" => cmd_cube(&args[2..]),
         "evaluate-check" => cmd_evaluate_check(&args[2..]),
         "registry" => cmd_registry(),
         "evaluate" => runloop::run(&args[2..]),
+        "experiment" => experiment::run(&args[2..]),
         "reconcile" => analysis::reconcile(&args[2..]),
         "analysis" => analysis::analysis(&args[2..]),
         "cache-check" => cache::cache_check(&args[2..]),
@@ -89,6 +104,62 @@ fn main() {
         }
     };
     std::process::exit(code);
+}
+
+fn cmd_gpu_probe(args: &[String]) -> i32 {
+    if !args.is_empty() {
+        eprintln!("usage: v8-core gpu-probe");
+        return 2;
+    }
+    #[cfg(feature = "gpu")]
+    {
+        match backend::gpu::GpuBackend::new().and_then(|gpu| gpu.f64_probe(&[0.5, 1.25, -2.0])) {
+            Ok(values) => {
+                println!(
+                    "{}",
+                    serde_json::json!({
+                        "subcommand": "gpu-probe",
+                        "status": "ok",
+                        "f64_contract": "no_contraction_probe_passed",
+                        "values": values,
+                    })
+                );
+                0
+            }
+            Err(e) => {
+                eprintln!("gpu-probe unavailable: {e}");
+                1
+            }
+        }
+    }
+    #[cfg(not(feature = "gpu"))]
+    {
+        eprintln!("gpu-probe unavailable: rebuild with --features gpu");
+        1
+    }
+}
+
+fn cmd_gpu_parity(args: &[String]) -> i32 {
+    if !args.is_empty() {
+        eprintln!("usage: v8-core gpu-parity");
+        return 2;
+    }
+    match backend::gpu_golden_parity() {
+        Ok(summary) => {
+            println!(
+                "{}",
+                serde_json::json!({
+                    "subcommand": "gpu-parity",
+                    "summary": summary,
+                })
+            );
+            0
+        }
+        Err(e) => {
+            eprintln!("gpu-parity unavailable or failed: {e}");
+            1
+        }
+    }
 }
 
 /// A request file: the compiled evaluation request the control plane writes.
@@ -126,7 +197,7 @@ fn default_threads() -> usize {
     1
 }
 fn default_engine() -> String {
-    "cpu".to_string()
+    "auto".to_string()
 }
 fn default_interval() -> String {
     "1h".to_string()
@@ -144,7 +215,8 @@ fn load_request(path: &str) -> Result<Request, String> {
 /// parser (the tape is written by CPython `json.dumps`, which may emit
 /// `NaN`/`Infinity` literals that strict JSON rejects).
 fn read_tape(path: &PathBuf) -> Result<Vec<data::TapeRow>, String> {
-    let text = std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
+    let text =
+        std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
     let mut rows = Vec::new();
     for (i, line) in text.lines().enumerate() {
         if line.trim().is_empty() {
@@ -174,8 +246,8 @@ fn cmd_ingest(args: &[String]) -> i32 {
         eprintln!("error: threads must be >= 1");
         return 1;
     }
-    if req.engine != "cpu" {
-        eprintln!("error: unknown engine {:?} (only cpu exists)", req.engine);
+    if let Err(e) = backend::EngineMode::parse(&req.engine) {
+        eprintln!("error: {e}");
         return 1;
     }
     match ingest(&req) {
@@ -201,10 +273,13 @@ fn ingest(req: &Request) -> Result<Value, String> {
     // (S0 gate: "tape round-trips; clocks preserved").
     let mut art = evidence::Artifact::new(
         "dataset",
-        if req.tier.is_empty() { "VALUES" } else { &req.tier },
+        if req.tier.is_empty() {
+            "VALUES"
+        } else {
+            &req.tier
+        },
         serde_json::json!({
             "tape_path": req.tape_path.to_string_lossy(),
-            "engine": req.engine,
             "hash_encoding": hash::HASH_ENCODING,
         }),
         "event_time,available_time,venue_sequence",
@@ -237,7 +312,8 @@ fn ingest(req: &Request) -> Result<Value, String> {
     }
 
     let artifact_path = req.out_dir.join("dataset.v82");
-    art.write(&artifact_path).map_err(|e| format!("write artifact: {e}"))?;
+    art.write(&artifact_path)
+        .map_err(|e| format!("write artifact: {e}"))?;
     let fingerprint = evidence::fingerprint(&artifact_path).map_err(|e| e.to_string())?;
 
     let mut symbols: Vec<Value> = Vec::new();
@@ -310,14 +386,24 @@ fn add_feature_columns(art: &mut evidence::Artifact, prefix: &str) -> FeatureCol
         let structured = state::feature_dtype(name) != "float";
         cols.value.push(art.add_column(
             &p("value"),
-            if structured { evidence::DType::DictStr } else { evidence::DType::F64 },
+            if structured {
+                evidence::DType::DictStr
+            } else {
+                evidence::DType::F64
+            },
         ));
-        cols.qual.push(art.add_column(&p("quality"), evidence::DType::DictStr));
-        cols.null.push(art.add_column(&p("null_reason"), evidence::DType::DictStr));
-        cols.group.push(art.add_column(&p("group"), evidence::DType::DictStr));
-        cols.ver.push(art.add_column(&p("version"), evidence::DType::DictStr));
-        cols.dtype.push(art.add_column(&p("dtype"), evidence::DType::DictStr));
-        cols.avail.push(art.add_column(&p("max_available"), evidence::DType::I64));
+        cols.qual
+            .push(art.add_column(&p("quality"), evidence::DType::DictStr));
+        cols.null
+            .push(art.add_column(&p("null_reason"), evidence::DType::DictStr));
+        cols.group
+            .push(art.add_column(&p("group"), evidence::DType::DictStr));
+        cols.ver
+            .push(art.add_column(&p("version"), evidence::DType::DictStr));
+        cols.dtype
+            .push(art.add_column(&p("dtype"), evidence::DType::DictStr));
+        cols.avail
+            .push(art.add_column(&p("max_available"), evidence::DType::I64));
     }
     cols
 }
@@ -400,8 +486,8 @@ fn cmd_features(args: &[String]) -> i32 {
             return 1;
         }
     };
-    if req.engine != "cpu" {
-        eprintln!("error: unknown engine {:?} (only cpu exists)", req.engine);
+    if let Err(e) = backend::EngineMode::parse(&req.engine) {
+        eprintln!("error: {e}");
         return 1;
     }
     match features(&req) {
@@ -444,7 +530,11 @@ fn features(req: &Request) -> Result<Value, String> {
         let path = req.out_dir.join(format!("state-{sym}.v82"));
         let mut art = evidence::Artifact::new(
             "state",
-            if req.tier.is_empty() { "VALUES" } else { &req.tier },
+            if req.tier.is_empty() {
+                "VALUES"
+            } else {
+                &req.tier
+            },
             serde_json::json!({
                 "symbol": sym,
                 "base_interval": req.base_interval,
@@ -477,10 +567,25 @@ fn features(req: &Request) -> Result<Value, String> {
             let t = i + 1;
             let as_of = store.avail[i];
             let feats = state::multi_state_features(
-                &mstore, store, sym, t, as_of, req.history_depth, &req.interval_depths);
+                &mstore,
+                store,
+                sym,
+                t,
+                as_of,
+                req.history_depth,
+                &req.interval_depths,
+            );
             let lineage = state::v82_lineage_hash_named(&feats, sym);
-            let sid = state::v82_state_id(as_of, &univ_refs.iter().map(|s| s.to_string()).collect::<Vec<_>>(), &lineage);
-            let quality = if feats.iter().any(|f| f.quality == "DEGRADED") { "DEGRADED" } else { "COMPLETE" };
+            let sid = state::v82_state_id(
+                as_of,
+                &univ_refs.iter().map(|s| s.to_string()).collect::<Vec<_>>(),
+                &lineage,
+            );
+            let quality = if feats.iter().any(|f| f.quality == "DEGRADED") {
+                "DEGRADED"
+            } else {
+                "COMPLETE"
+            };
 
             art.columns[c_bar].push_i64(i as i64);
             art.columns[c_asof].push_i64(as_of);
@@ -505,7 +610,8 @@ fn features(req: &Request) -> Result<Value, String> {
             }
             art.end_row();
         }
-        art.write(&path).map_err(|e| format!("write state artifact: {e}"))?;
+        art.write(&path)
+            .map_err(|e| format!("write state artifact: {e}"))?;
         let fp = evidence::fingerprint(&path).map_err(|e| e.to_string())?;
         artifacts.push(serde_json::json!({
             "symbol": sym,
@@ -557,27 +663,56 @@ fn cmd_predicate_check(args: &[String]) -> i32 {
     let mut results = Vec::with_capacity(cases.len());
     for case in &cases {
         let direction = case["direction"].as_str().unwrap_or("LONG").to_string();
-        let geom = case.get("geometry").and_then(|g| g.as_object())
-            .cloned().unwrap_or_default();
-        let live: std::collections::HashMap<String, f64> = case.get("live")
+        let geom = case
+            .get("geometry")
+            .and_then(|g| g.as_object())
+            .cloned()
+            .unwrap_or_default();
+        let live: std::collections::HashMap<String, f64> = case
+            .get("live")
             .and_then(|l| l.as_object())
-            .map(|m| m.iter().filter_map(|(k, v)| v.as_f64().map(|x| (k.clone(), x))).collect())
+            .map(|m| {
+                m.iter()
+                    .filter_map(|(k, v)| v.as_f64().map(|x| (k.clone(), x)))
+                    .collect()
+            })
             .unwrap_or_default();
-        let windows: std::collections::HashMap<String, f64> = case.get("windows")
+        let windows: std::collections::HashMap<String, f64> = case
+            .get("windows")
             .and_then(|w| w.as_object())
-            .map(|m| m.iter().filter_map(|(k, v)| v.as_f64().map(|x| (k.clone(), x))).collect())
+            .map(|m| {
+                m.iter()
+                    .filter_map(|(k, v)| v.as_f64().map(|x| (k.clone(), x)))
+                    .collect()
+            })
             .unwrap_or_default();
-        let history: Vec<[f64; 6]> = case.get("history").and_then(|h| h.as_array())
-            .map(|arr| arr.iter().filter_map(|row| {
-                let a = row.as_array()?;
-                Some([a[0].as_f64()?, a[1].as_f64()?, a[2].as_f64()?,
-                      a[3].as_f64()?, a[4].as_f64()?, a[5].as_f64()?])
-            }).collect())
+        let history: Vec<[f64; 6]> = case
+            .get("history")
+            .and_then(|h| h.as_array())
+            .map(|arr| {
+                arr.iter()
+                    .filter_map(|row| {
+                        let a = row.as_array()?;
+                        Some([
+                            a[0].as_f64()?,
+                            a[1].as_f64()?,
+                            a[2].as_f64()?,
+                            a[3].as_f64()?,
+                            a[4].as_f64()?,
+                            a[5].as_f64()?,
+                        ])
+                    })
+                    .collect()
+            })
             .unwrap_or_default();
         let ctx = experts::predicate::FeatCtx {
             live: &|name| live.get(name).copied(),
-            live_window: &|name, n| windows.get(&format!("{name}_{n}")).copied()
-                .or_else(|| windows.get(&format!("{name}{n}")).copied()),
+            live_window: &|name, n| {
+                windows
+                    .get(&format!("{name}_{n}"))
+                    .copied()
+                    .or_else(|| windows.get(&format!("{name}{n}")).copied())
+            },
             history: &|| Some(history.clone()),
         };
         let result = experts::predicate::evaluate(&ir, &geom, &direction, &ctx);
@@ -590,7 +725,7 @@ fn cmd_predicate_check(args: &[String]) -> i32 {
 }
 
 /// The compiled evaluation request for the ReplayKernel: a candidate batch.
-#[derive(Debug, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Deserialize)]
 struct ReplayRequest {
     tape_path: PathBuf,
     out_dir: PathBuf,
@@ -602,6 +737,8 @@ struct ReplayRequest {
     /// D-096 Backend-1); a scheduling detail, never part of any hash (D-084).
     #[serde(default = "default_threads")]
     threads: usize,
+    #[serde(default = "default_engine")]
+    engine: String,
     #[serde(default)]
     manifest: Value,
     #[serde(default)]
@@ -643,6 +780,56 @@ fn cmd_replay(args: &[String]) -> i32 {
     }
 }
 
+fn cmd_bench(args: &[String]) -> i32 {
+    if args.len() != 1 {
+        eprintln!("usage: v8-core bench <request.json>");
+        return 2;
+    }
+    let bytes = match std::fs::read(&args[0]) {
+        Ok(b) => b,
+        Err(e) => {
+            eprintln!("error: cannot read request: {e}");
+            return 1;
+        }
+    };
+    let base: ReplayRequest = match serde_json::from_slice(&bytes) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("error: cannot parse request: {e}");
+            return 1;
+        }
+    };
+    let mut measurements = Vec::new();
+    for engine in ["cpu", "auto", "gpu"] {
+        let mut req = base.clone();
+        req.engine = engine.to_string();
+        let started = std::time::Instant::now();
+        match replay(&req) {
+            Ok(summary) => measurements.push(serde_json::json!({
+                "requested_engine": engine,
+                "selected_engine": summary.get("engine").cloned().unwrap_or(Value::Null),
+                "elapsed_ms": started.elapsed().as_secs_f64() * 1000.0,
+                "status": "ok",
+            })),
+            Err(error) => measurements.push(serde_json::json!({
+                "requested_engine": engine,
+                "elapsed_ms": started.elapsed().as_secs_f64() * 1000.0,
+                "status": "error",
+                "error": error,
+            })),
+        }
+    }
+    println!(
+        "{}",
+        serde_json::json!({
+            "subcommand": "bench",
+            "gpu_threshold_steps": backend::gpu_threshold_steps(),
+            "measurements": measurements,
+        })
+    );
+    0
+}
+
 fn replay(req: &ReplayRequest) -> Result<Value, String> {
     let rows = read_tape(&req.tape_path)?;
     let ds = data::Dataset::from_rows(rows).map_err(|e| e.to_string())?;
@@ -654,9 +841,16 @@ fn replay(req: &ReplayRequest) -> Result<Value, String> {
     // Tape-driven funding schedule (D-041): (boundary_time_ns, rate) pairs
     // from the tape's funding channel, sorted by boundary time. Schedule
     // VALUES are tape data, never manifest data.
-    let mut funding_schedule: Vec<(i64, f64)> = ds.rows.iter()
+    let mut funding_schedule: Vec<(i64, f64)> = ds
+        .rows
+        .iter()
         .filter(|r| r.channel == "funding")
-        .map(|r| (r.event_time, r.payload["funding_rate"].as_f64().unwrap_or(0.0)))
+        .map(|r| {
+            (
+                r.event_time,
+                r.payload["funding_rate"].as_f64().unwrap_or(0.0),
+            )
+        })
         .collect();
     funding_schedule.sort_by_key(|(t, _)| *t);
 
@@ -667,44 +861,59 @@ fn replay(req: &ReplayRequest) -> Result<Value, String> {
     // byte-identical results (G5). The SIMD exit walk is bit-identical to the
     // scalar reference (D-088 value-safety guard; #133) — an optimization may
     // not change a value.
-    let backend = backend::cpu::SimdCpuBackend::new(
-        req.threads,
-        sim.round_trip_cost_r,
-        sim.funding_rate_r,
-        sim.funding_hours,
-        sim.fill_policy,
-        &funding_schedule,
-        sim.round_trip_cost_bps,
-        &stores,
-    );
     let mut cells = Vec::with_capacity(req.candidates.len());
     for cand in &req.candidates {
         let symbol = cand["symbol"].as_str().unwrap_or("");
-        let store = stores.iter().find(|s| s.symbol == symbol).ok_or_else(|| {
-            format!("replay: no bars for symbol {symbol}")
-        })?;
+        let store = stores
+            .iter()
+            .find(|s| s.symbol == symbol)
+            .ok_or_else(|| format!("replay: no bars for symbol {symbol}"))?;
         cells.push(backend::ReplayCell {
             symbol,
             draft: simulator::Draft {
                 direction: cand["direction"].as_str().unwrap_or("LONG").to_string(),
                 birth_time: cand["birth_time"].as_i64().unwrap_or(0),
-                risk_geometry: cand.get("geometry").and_then(|g| g.as_object())
-                    .cloned().unwrap_or_default(),
+                risk_geometry: cand
+                    .get("geometry")
+                    .and_then(|g| g.as_object())
+                    .cloned()
+                    .unwrap_or_default(),
             },
             start: cand["entry_bar_index"].as_u64().unwrap_or(0) as usize,
-            end: cand["window_end"].as_u64()
+            end: cand["window_end"]
+                .as_u64()
                 .unwrap_or(store.closes.len() as u64) as usize,
             thesis: cand.get("predicate_ir").cloned(),
         });
     }
-    let mut outcomes = vec![simulator::Outcome {
-        endpoint: String::new(), net_r: 0.0, label_status: String::new(),
-        horizon_bars: 0, label_available_time: 0,
-        mae_r: 0.0, mfe_r: 0.0, ambiguous_bars: 0,
-        entry_price: 0.0, risk_unit_price: 0.0, market_move_r: 0.0,
-        cost_r: 0.0, funding_r: 0.0,
-    }; cells.len()];
-    backend.evaluate(&ds, &cells, &mut outcomes).map_err(|e| e.to_string())?;
+    let mut outcomes = vec![
+        simulator::Outcome {
+            endpoint: String::new(),
+            net_r: 0.0,
+            label_status: String::new(),
+            horizon_bars: 0,
+            label_available_time: 0,
+            mae_r: 0.0,
+            mfe_r: 0.0,
+            ambiguous_bars: 0,
+            entry_price: 0.0,
+            risk_unit_price: 0.0,
+            market_move_r: 0.0,
+            cost_r: 0.0,
+            funding_r: 0.0,
+        };
+        cells.len()
+    ];
+    let engine_used = backend::evaluate_engine(
+        &req.engine,
+        req.threads,
+        &sim,
+        &funding_schedule,
+        &stores,
+        &ds,
+        &cells,
+        &mut outcomes,
+    )?;
 
     let mut results = Vec::new();
     for (cand, out) in req.candidates.iter().zip(outcomes.iter()) {
@@ -726,12 +935,14 @@ fn replay(req: &ReplayRequest) -> Result<Value, String> {
             "market_move_r": out.market_move_r,
         }));
     }
-    Ok(serde_json::json!({ "subcommand": "replay", "results": results }))
-}
-
-/// The kernel needs the symbol's columnar bars; they live in the Dataset.
-fn store_bars<'a>(ds: &'a data::Dataset, symbol: &str) -> &'a data::SymbolBars {
-    ds.bars.iter().find(|b| b.symbol == symbol).unwrap()
+    Ok(serde_json::json!({
+        "subcommand": "replay",
+        "engine": engine_used,
+        "cell_count": cells.len(),
+        "estimated_replay_steps": backend::estimated_replay_steps(&cells),
+        "gpu_threshold_steps": backend::gpu_threshold_steps(),
+        "results": results
+    }))
 }
 
 // ---------------------------------------------------------------------------
@@ -789,15 +1000,26 @@ fn cube(req: &ReplayRequest) -> Result<Value, String> {
     std::fs::create_dir_all(&req.out_dir).map_err(|e| format!("out_dir: {e}"))?;
 
     let sim = simulator::SimulatorParams::from_json(&req.manifest);
-    let mut funding_schedule: Vec<(i64, f64)> = ds.rows.iter()
+    let mut funding_schedule: Vec<(i64, f64)> = ds
+        .rows
+        .iter()
         .filter(|r| r.channel == "funding")
-        .map(|r| (r.event_time, r.payload["funding_rate"].as_f64().unwrap_or(0.0)))
+        .map(|r| {
+            (
+                r.event_time,
+                r.payload["funding_rate"].as_f64().unwrap_or(0.0),
+            )
+        })
         .collect();
     funding_schedule.sort_by_key(|(t, _)| *t);
 
     let mut art = evidence::Artifact::new(
         "cube-reduced",
-        if req.tier.is_empty() { "VALUES" } else { &req.tier },
+        if req.tier.is_empty() {
+            "VALUES"
+        } else {
+            &req.tier
+        },
         serde_json::json!({ "hash_encoding": hash::HASH_ENCODING,
                             "generator_version": regret::GENERATOR_VERSION }),
         "candidate_id",
@@ -822,34 +1044,36 @@ fn cube(req: &ReplayRequest) -> Result<Value, String> {
     for raw in &req.candidates {
         let cand: CubeCandidate = serde_json::from_value(raw.clone())
             .map_err(|e| format!("cube candidate parse: {e}"))?;
-        let store = stores.iter().find(|s| s.symbol == cand.symbol)
+        let store = stores
+            .iter()
+            .find(|s| s.symbol == cand.symbol)
             .ok_or_else(|| format!("cube: no bars for symbol {}", cand.symbol))?;
-        let kernel = backend::scalar::ScalarKernel {
-            round_trip_cost_r: sim.round_trip_cost_r,
-            funding_rate_r: sim.funding_rate_r,
-            funding_hours: sim.funding_hours,
-            fill_policy: sim.fill_policy,
-            funding_schedule: &funding_schedule,
-            round_trip_cost_bps: sim.round_trip_cost_bps,
-            bars: store_bars(&ds, &cand.symbol),
-            store,
-        };
-
         let manifest = regret::generate_legal_actions(&cand.geometry);
         let entry_idx = match cand.entry_bar_index {
             Some(i) => i as usize,
             None => {
                 // NO_ENTRY cell for every action; the gap is
                 // NOT_APPLICABLE_NO_ACTUAL_ACTION (no actual entry bar).
-                let cells: Vec<regret::Cell> = manifest.actions.iter().map(|a| {
-                    regret::Cell { action_id: a.action_id.clone(),
-                                   status: regret::CELL_NO_ENTRY,
-                                   reason: "candidate has no actual entry bar".into(),
-                                   net_utility: None }
-                }).collect();
-                write_reduced(&mut art, &cand, &manifest, &cells,
-                              &[c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap,
-                                c_gs, c_reason, c_nt, c_ok, c_ce, c_uf, c_ne, c_ne2])?;
+                let cells: Vec<regret::Cell> = manifest
+                    .actions
+                    .iter()
+                    .map(|a| regret::Cell {
+                        action_id: a.action_id.clone(),
+                        status: regret::CELL_NO_ENTRY,
+                        reason: "candidate has no actual entry bar".into(),
+                        net_utility: None,
+                    })
+                    .collect();
+                write_reduced(
+                    &mut art,
+                    &cand,
+                    &manifest,
+                    &cells,
+                    &[
+                        c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap, c_gs, c_reason, c_nt, c_ok,
+                        c_ce, c_uf, c_ne, c_ne2,
+                    ],
+                )?;
                 n_candidates += 1;
                 continue;
             }
@@ -885,8 +1109,39 @@ fn cube(req: &ReplayRequest) -> Result<Value, String> {
                 birth_time: cand.birth_time,
                 risk_geometry: geom,
             };
-            let out = match kernel.run(&draft, entry_idx, window_end, cand.predicate_ir.as_ref()) {
-                Ok(o) => o,
+            let cell = backend::ReplayCell {
+                symbol: &cand.symbol,
+                draft,
+                start: entry_idx,
+                end: window_end,
+                thesis: cand.predicate_ir.clone(),
+            };
+            let mut output = vec![simulator::Outcome {
+                endpoint: String::new(),
+                net_r: 0.0,
+                label_status: String::new(),
+                horizon_bars: 0,
+                label_available_time: 0,
+                mae_r: 0.0,
+                mfe_r: 0.0,
+                ambiguous_bars: 0,
+                entry_price: 0.0,
+                risk_unit_price: 0.0,
+                market_move_r: 0.0,
+                cost_r: 0.0,
+                funding_r: 0.0,
+            }];
+            let out = match backend::evaluate_engine(
+                &req.engine,
+                req.threads,
+                &sim,
+                &funding_schedule,
+                &stores,
+                &ds,
+                std::slice::from_ref(&cell),
+                &mut output,
+            ) {
+                Ok(_) => output.remove(0),
                 Err(e) => {
                     cells.push(regret::Cell {
                         action_id: a.action_id.clone(),
@@ -901,30 +1156,46 @@ fn cube(req: &ReplayRequest) -> Result<Value, String> {
                 cells.push(regret::Cell {
                     action_id: a.action_id.clone(),
                     status: regret::CELL_NOT_EVALUABLE_ACTION,
-                    reason: "action never filled on this tape (e.g. FILL_AT_LIMIT never traded through)".into(),
+                    reason:
+                        "action never filled on this tape (e.g. FILL_AT_LIMIT never traded through)"
+                            .into(),
                     net_utility: None,
                 });
                 continue;
             }
-            let status = if out.label_status == "MATURE" { regret::CELL_OK } else { regret::CELL_CENSORED };
+            let status = if out.label_status == "MATURE" {
+                regret::CELL_OK
+            } else {
+                regret::CELL_CENSORED
+            };
             cells.push(regret::Cell {
                 action_id: a.action_id.clone(),
                 status,
-                reason: if status == regret::CELL_OK { String::new() } else {
+                reason: if status == regret::CELL_OK {
+                    String::new()
+                } else {
                     "replay reached tape end before a terminal endpoint".into()
                 },
                 net_utility: Some(out.net_r),
             });
         }
 
-        write_reduced(&mut art, &cand, &manifest, &cells,
-                      &[c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap,
-                        c_gs, c_reason, c_nt, c_ok, c_ce, c_uf, c_ne, c_ne2])?;
+        write_reduced(
+            &mut art,
+            &cand,
+            &manifest,
+            &cells,
+            &[
+                c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap, c_gs, c_reason, c_nt, c_ok, c_ce,
+                c_uf, c_ne, c_ne2,
+            ],
+        )?;
         n_candidates += 1;
     }
 
     let artifact_path = req.out_dir.join("cube-reduced.v82");
-    art.write(&artifact_path).map_err(|e| format!("write cube artifact: {e}"))?;
+    art.write(&artifact_path)
+        .map_err(|e| format!("write cube artifact: {e}"))?;
     Ok(serde_json::json!({
         "subcommand": "cube",
         "candidates": n_candidates,
@@ -942,13 +1213,16 @@ fn write_reduced(
     cols: &[usize; 15],
 ) -> Result<(), String> {
     let row = regret::compute_gap(&cand.candidate_id, manifest, cells);
-    let [c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap, c_gs, c_reason,
-         c_nt, c_ok, c_ce, c_uf, c_ne, c_no_entry] = *cols;
+    let [c_cid, c_mid, c_aid, c_au, c_bu, c_tie, c_gap, c_gs, c_reason, c_nt, c_ok, c_ce, c_uf, c_ne, c_no_entry] =
+        *cols;
     art.columns[c_cid].push_str(&row.candidate_id);
     art.columns[c_mid].push_str(&row.manifest_id);
     match &row.actual_action_id {
         Some(a) => art.columns[c_aid].push_str(a),
-        None => { art.columns[c_aid].push_str(""); art.columns[c_aid].push_absent(); }
+        None => {
+            art.columns[c_aid].push_str("");
+            art.columns[c_aid].push_absent();
+        }
     }
     push_opt_f64(&mut art.columns[c_au], row.actual_utility);
     push_opt_f64(&mut art.columns[c_bu], row.best_utility);
@@ -992,6 +1266,8 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
         #[serde(default)]
         bar_index: usize,
         history_depth: Option<usize>,
+        #[serde(default)]
+        variant_overrides: std::collections::HashMap<String, String>,
     }
     let req: EvalCheckReq = match serde_json::from_slice(&bytes) {
         Ok(r) => r,
@@ -1000,19 +1276,36 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
             return 1;
         }
     };
+    if let Err(e) = experts::validate_variant_overrides(&req.variant_overrides) {
+        eprintln!("error: {e}");
+        return 1;
+    }
     let rows = match read_tape(&req.tape_path) {
         Ok(r) => r,
-        Err(e) => { eprintln!("error: {e}"); return 1; }
+        Err(e) => {
+            eprintln!("error: {e}");
+            return 1;
+        }
     };
     let ds = match data::Dataset::from_rows(rows) {
         Ok(d) => d,
-        Err(e) => { eprintln!("error: {e}"); return 1; }
+        Err(e) => {
+            eprintln!("error: {e}");
+            return 1;
+        }
     };
     let stores = state::build_stores(&ds);
-    let sym = req.universe.first().cloned().unwrap_or_else(|| "SOLUSDT".to_string());
+    let sym = req
+        .universe
+        .first()
+        .cloned()
+        .unwrap_or_else(|| "SOLUSDT".to_string());
     let store = match stores.iter().find(|s| s.symbol == sym) {
         Some(s) => s,
-        None => { eprintln!("error: no bars for {sym}"); return 1; }
+        None => {
+            eprintln!("error: no bars for {sym}");
+            return 1;
+        }
     };
     // Batch mode: {"cases": [{"expert_id","bar_index"}...]} — one result per
     // case; otherwise the request is a single (expert_id, bar_index).
@@ -1035,8 +1328,18 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
         // expert reading a withheld feature NO_HABITATs via its _need).
         let closure = features::group_closure(experts::requires_for(&eid));
         let projected = features::project_features(&map, &closure);
-        let hist = if features::history_allowed(&closure) { hist } else { Vec::new() };
-        let fm = experts::base::FeatMap { features: &projected, history: hist, as_of, symbol: &sym };
+        let hist = if features::history_allowed(&closure) {
+            hist
+        } else {
+            Vec::new()
+        };
+        let fm = experts::base::FeatMap {
+            features: &projected,
+            history: hist,
+            as_of,
+            symbol: &sym,
+            variant_overrides: &req.variant_overrides,
+        };
         let ev = experts::evaluate(&eid, &fm);
         results.push(serde_json::json!({
             "expert_id": eid,
@@ -1053,7 +1356,10 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
             "setup_fingerprint": ev.setup_fingerprint,
         }));
     }
-    println!("{}", serde_json::to_string(&serde_json::json!({"results": results})).unwrap());
+    println!(
+        "{}",
+        serde_json::to_string(&serde_json::json!({"results": results})).unwrap()
+    );
     0
 }
 
@@ -1061,18 +1367,29 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
 /// derives its PORTED set from this (S4 gate; parallel-safe: the harness
 /// never hand-maintains the list).
 fn cmd_registry() -> i32 {
-    let rows: Vec<_> = experts::registry_rows().iter()
+    let rows: Vec<_> = experts::registry_rows()
+        .iter()
         .map(|(id, p)| serde_json::json!({"expert_id": id, "ported": p}))
         .collect();
-    println!("{}", serde_json::to_string(&serde_json::json!({"registry": rows})).unwrap());
+    println!(
+        "{}",
+        serde_json::to_string(&serde_json::json!({"registry": rows})).unwrap()
+    );
     0
 }
 
 fn req2_cases(bytes: &[u8]) -> Option<Vec<(String, usize)>> {
     let v: serde_json::Value = serde_json::from_slice(bytes).ok()?;
     let cases = v.get("cases")?.as_array()?;
-    Some(cases.iter().filter_map(|c| {
-        Some((c.get("expert_id")?.as_str()?.to_string(),
-              c.get("bar_index")?.as_u64()? as usize))
-    }).collect())
+    Some(
+        cases
+            .iter()
+            .filter_map(|c| {
+                Some((
+                    c.get("expert_id")?.as_str()?.to_string(),
+                    c.get("bar_index")?.as_u64()? as usize,
+                ))
+            })
+            .collect(),
+    )
 }

@@ -24,7 +24,10 @@ pub const GROUP_REQUIRES: &[(&str, &[&str])] = &[
     ("participation", &["raw"]),
     ("session", &["raw"]),
     ("positioning", &["raw"]),
-    ("response", &["trend", "volatility", "location", "participation"]),
+    (
+        "response",
+        &["trend", "volatility", "location", "participation"],
+    ),
     ("history", &["trend", "volatility"]),
 ];
 
@@ -32,34 +35,110 @@ pub const GROUP_REQUIRES: &[(&str, &[&str])] = &[
 pub const GROUP_FEATURES: &[(&str, &[&str])] = &[
     ("raw", &["close"]),
     ("trend", &["ema_fast", "ema_slow"]),
-    ("volatility", &[
-        "atr", "bb_mid", "bb_upper", "bb_lower", "bb_pct_b", "bb_bandwidth",
-        "atr_locational", "atr_filtered_2sigma", "atr_2sigma_active",
-        "keltner_u", "keltner_l", "starc_u", "starc_l", "atr_trend_phase",
-    ]),
-    ("location", &[
-        "prior_high", "prior_low", "swing_high_5", "swing_high_10", "swing_high_20",
-        "swing_low_5", "swing_low_10", "swing_low_20",
-        "window_high_10", "window_low_10", "window_high_20", "window_low_20",
-        "window_high_50", "window_low_50",
-        "range_height_10", "range_height_20", "range_height_50",
-        "fib_levels", "pivot_points_day", "consolidation_range", "gap_levels",
-        "atr_band_stop",
-    ]),
-    ("candle_shape", &[
-        "real_body", "body_range_ratio", "upper_shadow", "lower_shadow",
-        "close_position", "inside_bar", "outside_bar", "gap_size", "gap_dir",
-    ]),
-    ("oscillator", &[
-        "rsi14", "stoch_k", "stoch_d", "stochrsi", "cci20", "macd",
-        "macd_signal", "macd_hist", "mom_14", "roc_14", "adx14", "osc_obos_quantile",
-    ]),
-    ("participation", &[
-        "volume", "vol_zscore", "vol_min_proximity", "vol_smooth_ma", "obv",
-        "adl", "cmf_20", "vwap", "bar_class",
-    ]),
-    ("session", &["hour_of_day_utc", "impulsive_window", "bar_of_session", "day_index"]),
-    ("positioning", &["funding_rate", "open_interest", "long_short_skew"]),
+    (
+        "volatility",
+        &[
+            "atr",
+            "bb_mid",
+            "bb_upper",
+            "bb_lower",
+            "bb_pct_b",
+            "bb_bandwidth",
+            "atr_locational",
+            "atr_filtered_2sigma",
+            "atr_2sigma_active",
+            "keltner_u",
+            "keltner_l",
+            "starc_u",
+            "starc_l",
+            "atr_trend_phase",
+        ],
+    ),
+    (
+        "location",
+        &[
+            "prior_high",
+            "prior_low",
+            "swing_high_5",
+            "swing_high_10",
+            "swing_high_20",
+            "swing_low_5",
+            "swing_low_10",
+            "swing_low_20",
+            "window_high_10",
+            "window_low_10",
+            "window_high_20",
+            "window_low_20",
+            "window_high_50",
+            "window_low_50",
+            "range_height_10",
+            "range_height_20",
+            "range_height_50",
+            "fib_levels",
+            "pivot_points_day",
+            "consolidation_range",
+            "gap_levels",
+            "atr_band_stop",
+        ],
+    ),
+    (
+        "candle_shape",
+        &[
+            "real_body",
+            "body_range_ratio",
+            "upper_shadow",
+            "lower_shadow",
+            "close_position",
+            "inside_bar",
+            "outside_bar",
+            "gap_size",
+            "gap_dir",
+        ],
+    ),
+    (
+        "oscillator",
+        &[
+            "rsi14",
+            "stoch_k",
+            "stoch_d",
+            "stochrsi",
+            "cci20",
+            "macd",
+            "macd_signal",
+            "macd_hist",
+            "mom_14",
+            "roc_14",
+            "adx14",
+            "osc_obos_quantile",
+        ],
+    ),
+    (
+        "participation",
+        &[
+            "volume",
+            "vol_zscore",
+            "vol_min_proximity",
+            "vol_smooth_ma",
+            "obv",
+            "adl",
+            "cmf_20",
+            "vwap",
+            "bar_class",
+        ],
+    ),
+    (
+        "session",
+        &[
+            "hour_of_day_utc",
+            "impulsive_window",
+            "bar_of_session",
+            "day_index",
+        ],
+    ),
+    (
+        "positioning",
+        &["funding_rate", "open_interest", "long_short_skew"],
+    ),
     ("response", &[]),
     ("history", &["history"]),
 ];
@@ -97,8 +176,8 @@ pub fn feature_in_closure(name: &str, closure: &std::collections::HashSet<String
 }
 
 /// Project a full bare-keyed feature map down to the closure (project_state).
-pub fn project_features<'a>(
-    features: &'a HashMap<String, Feature>,
+pub fn project_features(
+    features: &HashMap<String, Feature>,
     closure: &std::collections::HashSet<String>,
 ) -> HashMap<String, Feature> {
     features

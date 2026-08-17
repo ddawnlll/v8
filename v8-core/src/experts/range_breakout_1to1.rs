@@ -6,8 +6,8 @@
 //! volume gates. Mirrors src/v8/experts/range_breakout_1to1.py evaluate().
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -27,7 +27,12 @@ fn win_high(hist: &[HistBar], i: usize) -> Option<f64> {
     if i < RANGE_N {
         return None;
     }
-    Some(hist[i - RANGE_N..i].iter().map(|b| b.high).fold(f64::NEG_INFINITY, f64::max))
+    Some(
+        hist[i - RANGE_N..i]
+            .iter()
+            .map(|b| b.high)
+            .fold(f64::NEG_INFINITY, f64::max),
+    )
 }
 
 /// G-22 20-bar window low before bar i (Python `_win_low`).
@@ -35,7 +40,12 @@ fn win_low(hist: &[HistBar], i: usize) -> Option<f64> {
     if i < RANGE_N {
         return None;
     }
-    Some(hist[i - RANGE_N..i].iter().map(|b| b.low).fold(f64::INFINITY, f64::min))
+    Some(
+        hist[i - RANGE_N..i]
+            .iter()
+            .map(|b| b.low)
+            .fold(f64::INFINITY, f64::min),
+    )
 }
 
 /// Variant-a breakout level at bar i (Python `_breakout_level` with
@@ -58,7 +68,11 @@ fn long_pred(hist: &[HistBar], i: usize, bar: &HistBar) -> bool {
     if !(bar.close > level) {
         return false;
     }
-    let prev = if i - 1 >= RANGE_N { win_high(hist, i - 1) } else { None };
+    let prev = if i > RANGE_N {
+        win_high(hist, i - 1)
+    } else {
+        None
+    };
     match prev {
         None => true,
         Some(p) => hist[i - 1].close <= p,
@@ -75,7 +89,11 @@ fn short_pred(hist: &[HistBar], i: usize, bar: &HistBar) -> bool {
     if !(bar.close < level) {
         return false;
     }
-    let prev = if i - 1 >= RANGE_N { win_low(hist, i - 1) } else { None };
+    let prev = if i > RANGE_N {
+        win_low(hist, i - 1)
+    } else {
+        None
+    };
     match prev {
         None => true,
         Some(p) => hist[i - 1].close >= p,
@@ -84,11 +102,26 @@ fn short_pred(hist: &[HistBar], i: usize, bar: &HistBar) -> bool {
 
 pub fn range_breakout_1to1(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let wh = match fm.value("window_high_20") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let wl = match fm.value("window_low_20") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let rng_h = match fm.value("range_height_20") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let wh = match fm.value("window_high_20") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let wl = match fm.value("window_low_20") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let rng_h = match fm.value("range_height_20") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     if fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }

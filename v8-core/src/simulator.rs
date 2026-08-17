@@ -5,7 +5,7 @@
 //! request-level `SimulatorParams`, plus the geometry validators `risk_unit`
 //! and `validate_geometry`. None of these depends on a backend (D-096): the
 //! kernel boundary that consumes them lives in `crate::backend` (Backend-0
-//! scalar reference in `backend::scalar`, Backend-1 CPU skeleton in
+//! scalar reference in `backend::scalar`, and the CPU/GPU backends in
 //! `backend::cpu`).
 //!
 //! The scalar replay kernel itself moved to `backend::scalar::ScalarKernel`
@@ -35,6 +35,20 @@ pub struct Draft {
     pub risk_geometry: serde_json::Map<String, Value>,
 }
 
+/// One deterministic pyramiding instruction.  Pyramiding is deliberately a
+/// narrow replay primitive rather than a second position model: exactly one
+/// additional unit is bought/sold at the close of the first non-terminal bar
+/// whose favorable excursion reaches `at_mfe_r`.  The initial target remains
+/// in force and the protective stop becomes the midpoint of the two entries.
+///
+/// The JSON form is `pyramid_add_rules: [{"at_mfe_r": 1.0}]`.  Keeping the
+/// outer array makes the geometry forward-compatible with a later, separately
+/// certified multi-add action surface without accepting ambiguous rules today.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct PyramidAddRule {
+    pub at_mfe_r: f64,
+}
+
 impl Draft {
     pub fn geom_f64(&self, key: &str) -> Option<f64> {
         self.risk_geometry.get(key).and_then(|v| v.as_f64())
@@ -60,7 +74,10 @@ pub fn risk_unit(draft: &Draft, entry_price: f64) -> Result<f64, String> {
     }
     if draft.has_geom("risk_frac") {
         let frac = draft.geom_f64("risk_frac").ok_or_else(|| {
-            format!("risk_frac must be numeric ({:?})", draft.risk_geometry.get("risk_frac"))
+            format!(
+                "risk_frac must be numeric ({:?})",
+                draft.risk_geometry.get("risk_frac")
+            )
         })?;
         let unit = entry_price * frac;
         if !(unit > 0.0) {
@@ -93,27 +110,78 @@ pub fn validate_geometry(draft: &Draft) -> Result<(), String> {
         match v.as_f64() {
             Some(t) if t > 0.0 => {}
             Some(t) => return Err(format!("risk_geometry target_r must be > 0 (got {t:?})")),
-            None => return Err(format!(
-                "risk_geometry target_r must be numeric (got {v:?})")),
+            None => {
+                return Err(format!(
+                    "risk_geometry target_r must be numeric (got {v:?})"
+                ))
+            }
         }
     }
     if let Some(v) = geom.get("stop_r") {
         match v.as_f64() {
             Some(s) if s > 0.0 => {}
             Some(s) => return Err(format!("risk_geometry stop_r must be > 0 (got {s:?})")),
-            None => return Err(format!(
-                "risk_geometry stop_r must be numeric (got {v:?})")),
+            None => return Err(format!("risk_geometry stop_r must be numeric (got {v:?})")),
         }
     }
     if let Some(v) = geom.get("expiry_bars") {
         match v.as_i64() {
             Some(e) if e >= 1 => {}
-            Some(e) => return Err(format!("risk_geometry expiry_bars must be >= 1 (got {e:?})")),
-            None => return Err(format!(
-                "risk_geometry expiry_bars must be an integer (got {v:?})")),
+            Some(e) => {
+                return Err(format!(
+                    "risk_geometry expiry_bars must be >= 1 (got {e:?})"
+                ))
+            }
+            None => {
+                return Err(format!(
+                    "risk_geometry expiry_bars must be an integer (got {v:?})"
+                ))
+            }
         }
     }
+    let _ = pyramid_add_rule(draft)?;
     Ok(())
+}
+
+/// Decode the only currently certified pyramiding grammar.  Invalid or
+/// partially specified instructions fail before a replay starts; accepting an
+/// unknown instruction would silently change the size/risk ledger.
+pub fn pyramid_add_rule(draft: &Draft) -> Result<Option<PyramidAddRule>, String> {
+    let Some(value) = draft.risk_geometry.get("pyramid_add_rules") else {
+        return Ok(None);
+    };
+    let rules = value.as_array().ok_or_else(|| {
+        "pyramid_add_rules must be an array with exactly one {at_mfe_r} rule".to_string()
+    })?;
+    if rules.len() != 1 {
+        return Err("pyramid_add_rules currently supports exactly one add rule".into());
+    }
+    let rule = rules[0].as_object().ok_or_else(|| {
+        "pyramid_add_rules[0] must be an object with numeric at_mfe_r".to_string()
+    })?;
+    if rule.len() != 1 || !rule.contains_key("at_mfe_r") {
+        return Err("pyramid_add_rules[0] must contain only at_mfe_r".into());
+    }
+    let at_mfe_r = rule["at_mfe_r"]
+        .as_f64()
+        .ok_or_else(|| "pyramid_add_rules[0].at_mfe_r must be numeric".to_string())?;
+    if !(at_mfe_r > 0.0) || !at_mfe_r.is_finite() {
+        return Err(format!(
+            "pyramid_add_rules[0].at_mfe_r must be finite and > 0 (got {at_mfe_r:?})"
+        ));
+    }
+    for incompatible in [
+        "breakeven_roll_at_mfe_r",
+        "trail_stop_atr",
+        "scale_out_ratio",
+    ] {
+        if draft.has_geom(incompatible) {
+            return Err(format!(
+                "pyramid_add_rules cannot be combined with {incompatible}; combined position management is not certified"
+            ));
+        }
+    }
+    Ok(Some(PyramidAddRule { at_mfe_r }))
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -145,6 +213,26 @@ pub struct Outcome {
     pub funding_r: f64,
 }
 
+impl Default for Outcome {
+    fn default() -> Self {
+        Self {
+            endpoint: String::new(),
+            net_r: 0.0,
+            label_status: String::new(),
+            horizon_bars: 0,
+            label_available_time: 0,
+            mae_r: 0.0,
+            mfe_r: 0.0,
+            ambiguous_bars: 0,
+            entry_price: 0.0,
+            risk_unit_price: 0.0,
+            market_move_r: 0.0,
+            cost_r: 0.0,
+            funding_r: 0.0,
+        }
+    }
+}
+
 /// Simulator configuration parsed from the compiled request's manifest.
 pub struct SimulatorParams {
     pub round_trip_cost_r: f64,
@@ -157,8 +245,14 @@ pub struct SimulatorParams {
 impl SimulatorParams {
     pub fn from_json(m: &Value) -> SimulatorParams {
         SimulatorParams {
-            round_trip_cost_r: m.get("round_trip_cost_r").and_then(|v| v.as_f64()).unwrap_or(0.07),
-            funding_rate_r: m.get("funding_rate_r").and_then(|v| v.as_f64()).unwrap_or(0.0),
+            round_trip_cost_r: m
+                .get("round_trip_cost_r")
+                .and_then(|v| v.as_f64())
+                .unwrap_or(0.07),
+            funding_rate_r: m
+                .get("funding_rate_r")
+                .and_then(|v| v.as_f64())
+                .unwrap_or(0.0),
             funding_hours: m.get("funding_hours").and_then(|v| v.as_i64()).unwrap_or(8),
             fill_policy: match m.get("fill_policy").and_then(|f| f.as_str()) {
                 Some("FILL_AT_LIMIT") => FillPolicy::Limit,

@@ -51,12 +51,12 @@ pub fn floor_trader_pivot(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
     let fv = |i: usize| ppv[i].as_f64().unwrap();
     let pp = fv(0);
     let r1 = fv(1);
-    let r2 = fv(2);
-    let r3 = fv(3);
+    let _r2 = fv(2);
+    let _r3 = fv(3);
     let _r4 = fv(4);
     let s1 = fv(5);
-    let s2 = fv(6);
-    let s3 = fv(7);
+    let _s2 = fv(6);
+    let _s3 = fv(7);
     let _s4 = fv(8);
     let bos = match fm.value("bar_of_session") {
         Some(v) => v,
@@ -68,8 +68,8 @@ pub fn floor_trader_pivot(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
     }
     // _detect on the newest history bar (bar t-1).
     let o = fm.history[n - 1].open;
-    let h = fm.history[n - 1].high;
-    let l = fm.history[n - 1].low;
+    let _h = fm.history[n - 1].high;
+    let _l = fm.history[n - 1].low;
     let c = fm.history[n - 1].close;
     // int(bar_of_session) truncates toward zero; the feature is an
     // integer-valued float, so the `as i64` cast is exact.
@@ -82,17 +82,13 @@ pub fn floor_trader_pivot(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
         level = pp;
         stop_price = pp;
         target_price = r1;
-        pred = Box::new(move |j, b| {
-            (j as i64) >= day_start && b.open > pp && b.close > b.open
-        });
+        pred = Box::new(move |j, b| (j as i64) >= day_start && b.open > pp && b.close > b.open);
     } else if o < pp && c < o {
         direction = "SHORT".into();
         level = pp;
         stop_price = pp;
         target_price = s1;
-        pred = Box::new(move |j, b| {
-            (j as i64) >= day_start && b.open < pp && b.close < b.open
-        });
+        pred = Box::new(move |j, b| (j as i64) >= day_start && b.open < pp && b.close < b.open);
     } else {
         return no_setup(expert_id, version, fm.as_of);
     }
@@ -120,7 +116,10 @@ pub fn floor_trader_pivot(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
     } else {
         geometry.insert("prior_high_ref".to_string(), serde_json::json!(stop_price));
     }
-    let fingerprint = format!("{sym}:a:{direction}:{:.6}:{:.6}:{:.6}", close, level, stop_price);
+    let fingerprint = format!(
+        "{sym}:a:{direction}:{:.6}:{:.6}:{:.6}",
+        close, level, stop_price
+    );
     let draft = Draft {
         direction: direction.clone(),
         birth_time: fm.as_of,

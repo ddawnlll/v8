@@ -1,11 +1,8 @@
 //! open_interest_divergence: evaluate() port target (issue #94) — mirror src/v8/experts/open_interest_divergence.py
 //! bit-for-bit (PARITY_AND_IDENTITY_SPEC §3; COMPUTE_CORE_SPEC §8 S4).
 //!
-//! Ported with the variant dispatched on a const: the parity harness runs the
-//! default-instantiated `OpenInterestDivergenceExpert()` (variant 'a'), and the
-//! dispatch table carries no variant parameter, so VARIANT is locked to "a"
-//! here; the b/c/d legs of the Python `_detect` are ported verbatim (dead for
-//! the fixed const, reachable if a variant parameter is ever threaded through).
+//! The default-instantiated `OpenInterestDivergenceExpert()` uses variant 'a';
+//! request-level overrides select the b/c/d legs, which are ported verbatim.
 //!
 //! DATA_BLOCKED self-gate: the derivatives tape is a Phase 3 backlog, so
 //! `{sym}.open_interest` is ABSENT from the state on any tape without the OI
@@ -16,8 +13,8 @@
 //! expert is NO_HABITAT on every bar, as the oracle is.
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -36,24 +33,43 @@ const LOOKBACK_N: usize = 5;
 // Positioning proxy threshold: long_short_skew >= 1.0 = long-heavy.
 const SKEW_LONG_HEAVY: f64 = 1.0;
 // The variant the harness's oracle instantiates (default variant_id = 'a').
-const VARIANT: &str = "a";
 
 pub fn open_interest_divergence(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
+    let variant = fm.variant(expert_id, "a");
     let sym = fm.symbol;
 
     // _need(state, need): key PRESENCE of close, atr, history, open_interest,
     // long_short_skew, vol_zscore. open_interest absent (no OI channel on the
     // tape) -> the DATA_BLOCKED self-gate fires: NO_HABITAT, never a
     // fabricated positioning read.
-    for k in ["close", "atr", "history", "open_interest", "long_short_skew", "vol_zscore"] {
+    for k in [
+        "close",
+        "atr",
+        "history",
+        "open_interest",
+        "long_short_skew",
+        "vol_zscore",
+    ] {
         if !fm.features.contains_key(k) {
             return no_habitat(expert_id, version, fm.as_of);
         }
     }
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let skew = match fm.value("long_short_skew") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let vol_zscore = match fm.value("vol_zscore") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let skew = match fm.value("long_short_skew") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let vol_zscore = match fm.value("vol_zscore") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     // Python: atr is None or atr <= 0 or not isinstance(hist, (tuple, list))
     // or not hist or skew is None or vol_zscore is None -> NO_HABITAT.
     if atr <= 0.0 || fm.history.is_empty() {
@@ -71,13 +87,13 @@ pub fn open_interest_divergence(fm: &FeatMap, expert_id: &str, version: &str) ->
     let vol_down = vol_zscore < 0.0;
     let long_heavy = skew >= SKEW_LONG_HEAVY;
     let short_heavy = skew < SKEW_LONG_HEAVY;
-    let direction: Option<&str> = if VARIANT == "a" && price_up && vol_up && long_heavy {
+    let direction: Option<&str> = if variant == "a" && price_up && vol_up && long_heavy {
         Some("LONG")
-    } else if VARIANT == "b" && price_up && vol_down && short_heavy {
+    } else if (variant == "b" && price_up && vol_down && short_heavy)
+        || (variant == "c" && !price_up && vol_up && long_heavy)
+    {
         Some("SHORT")
-    } else if VARIANT == "c" && !price_up && vol_up && long_heavy {
-        Some("SHORT")
-    } else if VARIANT == "d" && !price_up && vol_down && short_heavy {
+    } else if variant == "d" && !price_up && vol_down && short_heavy {
         Some("LONG")
     } else {
         None
@@ -93,12 +109,16 @@ pub fn open_interest_divergence(fm: &FeatMap, expert_id: &str, version: &str) ->
     let n = fm.history.len();
     let (stop_r, prior_low_ref, prior_high_ref) = if direction == "LONG" {
         // lows = [float(b[3]) for b in hist]; low_ref = min(lows[-LOOKBACK_N:])
-        let low_ref = fm.history[n - LOOKBACK_N..].iter().map(|b| b.low)
+        let low_ref = fm.history[n - LOOKBACK_N..]
+            .iter()
+            .map(|b| b.low)
             .fold(f64::INFINITY, f64::min);
         ((close - low_ref) / atr, Some(low_ref), None)
     } else {
         // highs = [float(b[2]) for b in hist]; high_ref = max(highs[-LOOKBACK_N:])
-        let high_ref = fm.history[n - LOOKBACK_N..].iter().map(|b| b.high)
+        let high_ref = fm.history[n - LOOKBACK_N..]
+            .iter()
+            .map(|b| b.high)
             .fold(f64::NEG_INFINITY, f64::max);
         ((high_ref - close) / atr, None, Some(high_ref))
     };
@@ -123,7 +143,7 @@ pub fn open_interest_divergence(fm: &FeatMap, expert_id: &str, version: &str) ->
         ("stop_r", serde_json::json!(stop_r)),
         ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
         ("atr_ref", serde_json::json!(atr)),
-        ("variant", serde_json::json!(VARIANT)),
+        ("variant", serde_json::json!(variant)),
     ];
     if let Some(low_ref) = prior_low_ref {
         g.push(("prior_low_ref", serde_json::json!(low_ref)));
@@ -136,6 +156,6 @@ pub fn open_interest_divergence(fm: &FeatMap, expert_id: &str, version: &str) ->
         birth_time: fm.as_of,
         risk_geometry: geom(g),
     };
-    let fingerprint = format!("{sym}:{VARIANT}:{direction}:{close:.6}");
+    let fingerprint = format!("{sym}:{variant}:{direction}:{close:.6}");
     candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint)
 }

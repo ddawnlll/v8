@@ -44,12 +44,14 @@ impl TapeRow {
             obj.get(k)
                 .and_then(|x| x.as_str())
                 .map(|s| s.to_string())
-                .ok_or_else(|| DatasetError::Malformed(format!("tape row missing string field {k}")))
+                .ok_or_else(|| {
+                    DatasetError::Malformed(format!("tape row missing string field {k}"))
+                })
         };
         let get_i64 = |k: &str| -> Result<i64, DatasetError> {
-            obj.get(k)
-                .and_then(|x| x.as_i64())
-                .ok_or_else(|| DatasetError::Malformed(format!("tape row missing integer field {k}")))
+            obj.get(k).and_then(|x| x.as_i64()).ok_or_else(|| {
+                DatasetError::Malformed(format!("tape row missing integer field {k}"))
+            })
         };
         Ok(TapeRow {
             source: get_str("source")?,
@@ -111,14 +113,9 @@ fn validate_row(r: &TapeRow) -> Result<(), DatasetError> {
             }
             let p = &r.payload;
             let num = |f: &str| -> Result<f64, DatasetError> {
-                p.get(f)
-                    .and_then(|x| x.as_f64())
-                    .ok_or_else(|| {
-                        DatasetError::Tape(format!(
-                            "kline {}: missing or non-numeric OHLC",
-                            r.event_id
-                        ))
-                    })
+                p.get(f).and_then(|x| x.as_f64()).ok_or_else(|| {
+                    DatasetError::Tape(format!("kline {}: missing or non-numeric OHLC", r.event_id))
+                })
             };
             let (o, h, l, c) = (num("open")?, num("high")?, num("low")?, num("close")?);
             if o.min(h).min(l).min(c) <= 0.0 {
@@ -154,9 +151,15 @@ fn validate_row(r: &TapeRow) -> Result<(), DatasetError> {
                 )));
             }
             let p = &r.payload;
-            let rate = p.get("funding_rate").and_then(|x| x.as_f64()).ok_or_else(|| {
-                DatasetError::Tape(format!("funding {}: missing or non-numeric rate", r.event_id))
-            })?;
+            let rate = p
+                .get("funding_rate")
+                .and_then(|x| x.as_f64())
+                .ok_or_else(|| {
+                    DatasetError::Tape(format!(
+                        "funding {}: missing or non-numeric rate",
+                        r.event_id
+                    ))
+                })?;
             if rate.abs() > 0.10 {
                 return Err(DatasetError::Tape(format!(
                     "funding {}: implausible rate {rate}",
@@ -218,8 +221,11 @@ impl Dataset {
         rows.retain(|r| inbox.insert((r.source.clone(), r.event_id.clone())));
         // Canonical replay order.
         rows.sort_by(|a, b| {
-            (a.event_time, a.available_time, a.venue_sequence)
-                .cmp(&(b.event_time, b.available_time, b.venue_sequence))
+            (a.event_time, a.available_time, a.venue_sequence).cmp(&(
+                b.event_time,
+                b.available_time,
+                b.venue_sequence,
+            ))
         });
 
         // Per-symbol closed kline bars; one allocation per symbol. Symbol

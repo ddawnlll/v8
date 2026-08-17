@@ -56,23 +56,83 @@ pub const IMPULSIVE_END_HOUR: i64 = 17;
 /// when the tape lacks the channel; warmup-gated features are ABSENT until
 /// their window is satisfied — absence is never zero (MARKET_STATE_CONTRACT §4).
 pub const FEATURE_NAMES: [&str; 77] = [
-    "adl", "adx14", "atr", "atr_2sigma_active", "atr_band_stop",
-    "atr_filtered_2sigma", "atr_locational", "atr_trend_phase", "bar_class",
-    "bar_of_session", "bb_bandwidth", "bb_lower", "bb_mid", "bb_pct_b",
-    "bb_upper", "body_range_ratio", "cci20", "close", "close_position",
-    "cmf_20", "consolidation_range", "day_index", "ema_fast", "ema_slow",
-    "fib_levels", "funding_rate", "gap_dir", "gap_levels", "gap_size",
-    "history", "hour_of_day_utc", "impulsive_window", "inside_bar",
-    "keltner_l", "keltner_u", "long_short_skew", "lower_shadow", "macd",
-    "macd_hist", "macd_signal", "mom_14", "obv", "open_interest",
-    "osc_obos_quantile", "outside_bar", "pivot_points_day", "prior_high",
-    "prior_low", "range_height_10", "range_height_20", "range_height_50",
-    "real_body", "roc_14", "rsi14", "starc_l", "starc_u", "stoch_d", "stoch_k",
-    "stochrsi", "swing_high_10", "swing_high_20", "swing_high_5",
-    "swing_low_10", "swing_low_20", "swing_low_5", "upper_shadow",
-    "vol_min_proximity", "vol_smooth_ma", "vol_zscore", "volume", "vwap",
-    "window_high_10", "window_high_20", "window_high_50", "window_low_10",
-    "window_low_20", "window_low_50",
+    "adl",
+    "adx14",
+    "atr",
+    "atr_2sigma_active",
+    "atr_band_stop",
+    "atr_filtered_2sigma",
+    "atr_locational",
+    "atr_trend_phase",
+    "bar_class",
+    "bar_of_session",
+    "bb_bandwidth",
+    "bb_lower",
+    "bb_mid",
+    "bb_pct_b",
+    "bb_upper",
+    "body_range_ratio",
+    "cci20",
+    "close",
+    "close_position",
+    "cmf_20",
+    "consolidation_range",
+    "day_index",
+    "ema_fast",
+    "ema_slow",
+    "fib_levels",
+    "funding_rate",
+    "gap_dir",
+    "gap_levels",
+    "gap_size",
+    "history",
+    "hour_of_day_utc",
+    "impulsive_window",
+    "inside_bar",
+    "keltner_l",
+    "keltner_u",
+    "long_short_skew",
+    "lower_shadow",
+    "macd",
+    "macd_hist",
+    "macd_signal",
+    "mom_14",
+    "obv",
+    "open_interest",
+    "osc_obos_quantile",
+    "outside_bar",
+    "pivot_points_day",
+    "prior_high",
+    "prior_low",
+    "range_height_10",
+    "range_height_20",
+    "range_height_50",
+    "real_body",
+    "roc_14",
+    "rsi14",
+    "starc_l",
+    "starc_u",
+    "stoch_d",
+    "stoch_k",
+    "stochrsi",
+    "swing_high_10",
+    "swing_high_20",
+    "swing_high_5",
+    "swing_low_10",
+    "swing_low_20",
+    "swing_low_5",
+    "upper_shadow",
+    "vol_min_proximity",
+    "vol_smooth_ma",
+    "vol_zscore",
+    "volume",
+    "vwap",
+    "window_high_10",
+    "window_high_20",
+    "window_high_50",
+    "window_low_10",
+    "window_low_20",
+    "window_low_50",
 ];
 
 /// Group tags per feature (FEATURE_TO_GROUP in schema.py).
@@ -80,27 +140,49 @@ pub fn feature_group(name: &str) -> &'static str {
     match name {
         "close" => "raw",
         "ema_fast" | "ema_slow" => "trend",
-        "atr" | "bb_mid" | "bb_upper" | "bb_lower" | "bb_pct_b"
-        | "bb_bandwidth" | "atr_locational" | "atr_filtered_2sigma"
-        | "atr_2sigma_active" | "keltner_u" | "keltner_l" | "starc_u"
-        | "starc_l" | "atr_trend_phase" => "volatility",
-        "prior_high" | "prior_low" | "swing_high_5" | "swing_high_10"
-        | "swing_high_20" | "swing_low_5" | "swing_low_10" | "swing_low_20"
-        | "window_high_10" | "window_low_10" | "window_high_20"
-        | "window_low_20" | "window_high_50" | "window_low_50"
-        | "range_height_10" | "range_height_20" | "range_height_50"
-        | "fib_levels" | "pivot_points_day" | "consolidation_range"
-        | "gap_levels" | "atr_band_stop" => "location",
-        "real_body" | "body_range_ratio" | "upper_shadow" | "lower_shadow"
-        | "close_position" | "inside_bar" | "outside_bar" | "gap_size"
-        | "gap_dir" => "candle_shape",
-        "rsi14" | "stoch_k" | "stoch_d" | "stochrsi" | "cci20" | "macd"
-        | "macd_signal" | "macd_hist" | "mom_14" | "roc_14" | "adx14"
-        | "osc_obos_quantile" => "oscillator",
-        "volume" | "vol_zscore" | "vol_min_proximity" | "vol_smooth_ma"
-        | "obv" | "adl" | "cmf_20" | "vwap" | "bar_class" => "participation",
-        "hour_of_day_utc" | "impulsive_window" | "bar_of_session"
-        | "day_index" => "session",
+        "atr"
+        | "bb_mid"
+        | "bb_upper"
+        | "bb_lower"
+        | "bb_pct_b"
+        | "bb_bandwidth"
+        | "atr_locational"
+        | "atr_filtered_2sigma"
+        | "atr_2sigma_active"
+        | "keltner_u"
+        | "keltner_l"
+        | "starc_u"
+        | "starc_l"
+        | "atr_trend_phase" => "volatility",
+        "prior_high"
+        | "prior_low"
+        | "swing_high_5"
+        | "swing_high_10"
+        | "swing_high_20"
+        | "swing_low_5"
+        | "swing_low_10"
+        | "swing_low_20"
+        | "window_high_10"
+        | "window_low_10"
+        | "window_high_20"
+        | "window_low_20"
+        | "window_high_50"
+        | "window_low_50"
+        | "range_height_10"
+        | "range_height_20"
+        | "range_height_50"
+        | "fib_levels"
+        | "pivot_points_day"
+        | "consolidation_range"
+        | "gap_levels"
+        | "atr_band_stop" => "location",
+        "real_body" | "body_range_ratio" | "upper_shadow" | "lower_shadow" | "close_position"
+        | "inside_bar" | "outside_bar" | "gap_size" | "gap_dir" => "candle_shape",
+        "rsi14" | "stoch_k" | "stoch_d" | "stochrsi" | "cci20" | "macd" | "macd_signal"
+        | "macd_hist" | "mom_14" | "roc_14" | "adx14" | "osc_obos_quantile" => "oscillator",
+        "volume" | "vol_zscore" | "vol_min_proximity" | "vol_smooth_ma" | "obv" | "adl"
+        | "cmf_20" | "vwap" | "bar_class" => "participation",
+        "hour_of_day_utc" | "impulsive_window" | "bar_of_session" | "day_index" => "session",
         "funding_rate" | "open_interest" | "long_short_skew" => "positioning",
         "history" => "history",
         _ => "raw",
@@ -173,9 +255,7 @@ pub fn fsum(values: &[f64]) -> f64 {
                 break;
             }
         }
-        if n > 0 && ((lo < 0.0 && partials[n - 1] < 0.0)
-            || (lo > 0.0 && partials[n - 1] > 0.0))
-        {
+        if n > 0 && ((lo < 0.0 && partials[n - 1] < 0.0) || (lo > 0.0 && partials[n - 1] > 0.0)) {
             let y = lo * 2.0;
             let x = hi + y;
             let yr = x - hi;
@@ -211,9 +291,13 @@ fn std_pop(values: &[f64]) -> f64 {
     (sos / values.len() as f64).powf(std::hint::black_box(0.5))
 }
 
-
 fn typical(highs: &[f64], lows: &[f64], closes: &[f64]) -> Vec<f64> {
-    highs.iter().zip(lows).zip(closes).map(|((h, l), c)| (h + l + c) / 3.0).collect()
+    highs
+        .iter()
+        .zip(lows)
+        .zip(closes)
+        .map(|((h, l), c)| (h + l + c) / 3.0)
+        .collect()
 }
 
 fn percentile_rank(values: &[f64], current: f64) -> f64 {
@@ -278,8 +362,14 @@ fn stoch(highs: &[f64], lows: &[f64], closes: &[f64], period: usize) -> (f64, f6
     let n = closes.len();
     let mut ks = Vec::with_capacity(3);
     for i in (n - 3)..n {
-        let h14 = highs[i + 1 - period..=i].iter().cloned().fold(f64::NEG_INFINITY, f64::max);
-        let l14 = lows[i + 1 - period..=i].iter().cloned().fold(f64::INFINITY, f64::min);
+        let h14 = highs[i + 1 - period..=i]
+            .iter()
+            .cloned()
+            .fold(f64::NEG_INFINITY, f64::max);
+        let l14 = lows[i + 1 - period..=i]
+            .iter()
+            .cloned()
+            .fold(f64::INFINITY, f64::min);
         if h14 == l14 {
             ks.push(50.0);
         } else {
@@ -397,7 +487,11 @@ fn adl_series(highs: &[f64], lows: &[f64], closes: &[f64], volumes: &[f64]) -> V
 }
 
 /// All confirmed strength-n pivot bars in the full series: (idx, value, range).
-fn pivot_lists(highs: &[f64], lows: &[f64], n: usize) -> (Vec<(usize, f64, f64)>, Vec<(usize, f64, f64)>) {
+fn pivot_lists(
+    highs: &[f64],
+    lows: &[f64],
+    n: usize,
+) -> (Vec<(usize, f64, f64)>, Vec<(usize, f64, f64)>) {
     let mut hi = Vec::new();
     let mut lo = Vec::new();
     let mut i = n;
@@ -437,8 +531,13 @@ fn pivot_lists(highs: &[f64], lows: &[f64], n: usize) -> (Vec<(usize, f64, f64)>
     (hi, lo)
 }
 
-fn last_significant_pivot(pivs: &[(usize, f64, f64)], t: usize, n: usize,
-                          atr_now: f64, k: f64) -> Option<(usize, f64)> {
+fn last_significant_pivot(
+    pivs: &[(usize, f64, f64)],
+    t: usize,
+    n: usize,
+    atr_now: f64,
+    k: f64,
+) -> Option<(usize, f64)> {
     let limit = t as i64 - 1 - n as i64;
     for (idx, val, rng) in pivs.iter().rev() {
         if *idx as i64 > limit {
@@ -461,7 +560,10 @@ fn last_confirmed_swing(pivs: &[(usize, f64, f64)], t: usize, n: usize) -> Optio
     None
 }
 
-fn fib_levels(swing_high: Option<(usize, f64)>, swing_low: Option<(usize, f64)>) -> Option<(f64, f64, Vec<(f64, f64)>, Vec<(f64, f64)>)> {
+fn fib_levels(
+    swing_high: Option<(usize, f64)>,
+    swing_low: Option<(usize, f64)>,
+) -> Option<(f64, f64, Vec<(f64, f64)>, Vec<(f64, f64)>)> {
     let (i_h, h) = swing_high?;
     let (i_l, l) = swing_low?;
     let (extreme, origin, rng, direction) = if i_h > i_l {
@@ -483,18 +585,47 @@ fn fib_levels(swing_high: Option<(usize, f64)>, swing_low: Option<(usize, f64)>)
     Some((extreme, direction, retr, ext))
 }
 
-fn consolidation_range(highs: &[f64], lows: &[f64], closes: &[f64],
-                       m: usize, width_max: f64) -> (f64, f64, f64, f64) {
-    let h_ref = highs[highs.len() - m - 1..highs.len() - 1].iter().cloned().fold(f64::NEG_INFINITY, f64::max);
-    let l_ref = lows[lows.len() - m - 1..lows.len() - 1].iter().cloned().fold(f64::INFINITY, f64::min);
+fn consolidation_range(
+    highs: &[f64],
+    lows: &[f64],
+    closes: &[f64],
+    m: usize,
+    width_max: f64,
+) -> (f64, f64, f64, f64) {
+    let h_ref = highs[highs.len() - m - 1..highs.len() - 1]
+        .iter()
+        .cloned()
+        .fold(f64::NEG_INFINITY, f64::max);
+    let l_ref = lows[lows.len() - m - 1..lows.len() - 1]
+        .iter()
+        .cloned()
+        .fold(f64::INFINITY, f64::min);
     let width = h_ref - l_ref;
-    let width_ratio = if closes[closes.len() - 1] != 0.0 { width / closes[closes.len() - 1] } else { 0.0 };
-    let inside = if l_ref <= closes[closes.len() - 1] && closes[closes.len() - 1] <= h_ref { 1.0 } else { 0.0 };
-    let is_active = if inside == 1.0 && width_ratio <= width_max { 1.0 } else { 0.0 };
+    let width_ratio = if closes[closes.len() - 1] != 0.0 {
+        width / closes[closes.len() - 1]
+    } else {
+        0.0
+    };
+    let inside = if l_ref <= closes[closes.len() - 1] && closes[closes.len() - 1] <= h_ref {
+        1.0
+    } else {
+        0.0
+    };
+    let is_active = if inside == 1.0 && width_ratio <= width_max {
+        1.0
+    } else {
+        0.0
+    };
     (h_ref, l_ref, width_ratio, is_active)
 }
 
-fn gap_levels(opens: &[f64], highs: &[f64], lows: &[f64], closes: &[f64], n: usize) -> Vec<(f64, f64, f64)> {
+fn gap_levels(
+    opens: &[f64],
+    highs: &[f64],
+    lows: &[f64],
+    closes: &[f64],
+    n: usize,
+) -> Vec<(f64, f64, f64)> {
     let mut zones = Vec::new();
     let start = 1usize.max(opens.len().saturating_sub(n));
     for t in start..opens.len() {
@@ -551,8 +682,14 @@ fn day_index(event_time_ns: i64) -> i64 {
     event_time_ns.div_euclid(DAY_NS)
 }
 
-fn bar_class(opens: &[f64], closes: &[f64], highs: &[f64], lows: &[f64],
-             volumes: &[f64], lookback: usize) -> f64 {
+fn bar_class(
+    opens: &[f64],
+    closes: &[f64],
+    highs: &[f64],
+    lows: &[f64],
+    volumes: &[f64],
+    lookback: usize,
+) -> f64 {
     let n = closes.len();
     let mut ranges = Vec::with_capacity(n.min(BAR_CLASS_N));
     for i in (n - BAR_CLASS_N)..n {
@@ -561,13 +698,21 @@ fn bar_class(opens: &[f64], closes: &[f64], highs: &[f64], lows: &[f64],
     let range_pct = percentile_rank(&ranges, highs[n - 1] - lows[n - 1]);
     let vol_pct = percentile_rank(&volumes[n - BAR_CLASS_N..], volumes[n - 1]);
     let up_trend = closes[n - 1] > closes[n - 1 - lookback];
-    let reversal = (up_trend && closes[n - 1] < opens[n - 1])
-        || (!up_trend && closes[n - 1] > opens[n - 1]);
-    let high_vol = if vol_pct >= 0.8 || range_pct >= 0.8 { 1.0 } else { 0.0 };
+    let reversal =
+        (up_trend && closes[n - 1] < opens[n - 1]) || (!up_trend && closes[n - 1] > opens[n - 1]);
+    let high_vol = if vol_pct >= 0.8 || range_pct >= 0.8 {
+        1.0
+    } else {
+        0.0
+    };
     if high_vol == 1.0 {
-        return if reversal == false { 3.0 } else { 1.0 };
+        return if !reversal { 3.0 } else { 1.0 };
     }
-    if reversal == false { 0.0 } else { 2.0 }
+    if !reversal {
+        0.0
+    } else {
+        2.0
+    }
 }
 
 /// Per-symbol precomputed series (mirror of `build_bar_series`).
@@ -658,8 +803,16 @@ impl FeatureStore {
         let mut ph: Vec<f64> = vec![highs[0]];
         let mut pl: Vec<f64> = vec![lows[0]];
         for j in 1..n {
-            let nh = if ph[ph.len() - 1] >= highs[j] { ph[ph.len() - 1] } else { highs[j] };
-            let nl = if pl[pl.len() - 1] <= lows[j] { pl[pl.len() - 1] } else { lows[j] };
+            let nh = if ph[ph.len() - 1] >= highs[j] {
+                ph[ph.len() - 1]
+            } else {
+                highs[j]
+            };
+            let nl = if pl[pl.len() - 1] <= lows[j] {
+                pl[pl.len() - 1]
+            } else {
+                lows[j]
+            };
             ph.push(nh);
             pl.push(nl);
         }
@@ -723,12 +876,39 @@ impl FeatureStore {
 
         FeatureStore {
             symbol: bars.symbol.clone(),
-            closes, highs, lows, opens, volumes, tp, ema_fast, ema_slow,
-            atr, rsi, adx, cci, macd, macd_signal, macd_hist, obv, adl,
-            prior_high, prior_low, piv_hi, piv_lo, vwap, vwap_start,
-            event_time_monotonic, avail: bars.available_times.clone(),
-            bar_event_times, event_ids: bars.event_ids.clone(),
-            funding_avail, funding_rate, oi_avail, oi_value, oi_skew, kline_avail,
+            closes,
+            highs,
+            lows,
+            opens,
+            volumes,
+            tp,
+            ema_fast,
+            ema_slow,
+            atr,
+            rsi,
+            adx,
+            cci,
+            macd,
+            macd_signal,
+            macd_hist,
+            obv,
+            adl,
+            prior_high,
+            prior_low,
+            piv_hi,
+            piv_lo,
+            vwap,
+            vwap_start,
+            event_time_monotonic,
+            avail: bars.available_times.clone(),
+            bar_event_times,
+            event_ids: bars.event_ids.clone(),
+            funding_avail,
+            funding_rate,
+            oi_avail,
+            oi_value,
+            oi_skew,
+            kline_avail,
         }
     }
 
@@ -739,7 +919,10 @@ impl FeatureStore {
 
 // Build stores for every symbol in a dataset.
 pub fn build_stores(ds: &Dataset) -> Vec<FeatureStore> {
-    ds.bars.iter().map(|b| FeatureStore::build(b, &ds.rows)).collect()
+    ds.bars
+        .iter()
+        .map(|b| FeatureStore::build(b, &ds.rows))
+        .collect()
 }
 
 // ---------------------------------------------------------------------------
@@ -837,9 +1020,7 @@ pub fn aggregate_rows(rows: &[TapeRow], base: &str, target: &str) -> Result<Vec<
     let mut buckets: std::collections::BTreeMap<(String, i64), Vec<&TapeRow>> =
         std::collections::BTreeMap::new();
     for r in rows {
-        if r.channel != "kline"
-            || r.payload.get("closed").and_then(|c| c.as_bool()) != Some(true)
-        {
+        if r.channel != "kline" || r.payload.get("closed").and_then(|c| c.as_bool()) != Some(true) {
             continue;
         }
         let key = (r.instrument.clone(), bucket_start_ns(r.event_time, target));
@@ -866,7 +1047,12 @@ pub fn aggregate_rows(rows: &[TapeRow], base: &str, target: &str) -> Result<Vec<
             if l < lo {
                 lo = l;
             }
-            volume.push(m.payload.get("volume").and_then(|v| v.as_f64()).unwrap_or(0.0));
+            volume.push(
+                m.payload
+                    .get("volume")
+                    .and_then(|v| v.as_f64())
+                    .unwrap_or(0.0),
+            );
         }
         let max_ingested = members.iter().map(|m| m.ingested_time).max().unwrap_or(0);
         out.push(TapeRow {
@@ -930,7 +1116,9 @@ pub fn build_multi_stores(
             continue;
         }
         if !is_derivable(base_interval, tf)? {
-            return Err(format!("{tf} is not derivable from base interval {base_interval}"));
+            return Err(format!(
+                "{tf} is not derivable from base interval {base_interval}"
+            ));
         }
         let agg_rows = aggregate_rows(&ds.rows, base_interval, tf)?;
         if agg_rows.is_empty() {
@@ -1050,78 +1238,522 @@ pub fn state_features(
     let v1 = "v1";
 
     // --- raw / location / trend / volatility baseline -----------------------
-    add(&mut out, "close", Some(closes[t - 1]), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
+    add(
+        &mut out,
+        "close",
+        Some(closes[t - 1]),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
     if t >= 2 {
-        add(&mut out, "prior_high", store.prior_high[t], None, "float", v1, (t - 2, t - 1), None, store, "COMPLETE", None);
-        add(&mut out, "prior_low", store.prior_low[t], None, "float", v1, (t - 2, t - 1), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "prior_high",
+            store.prior_high[t],
+            None,
+            "float",
+            v1,
+            (t - 2, t - 1),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "prior_low",
+            store.prior_low[t],
+            None,
+            "float",
+            v1,
+            (t - 2, t - 1),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     } else {
-        add(&mut out, "prior_high", None, None, "float", v1, (0, 0), None, store, "COMPLETE", None);
-        add(&mut out, "prior_low", None, None, "float", v1, (0, 0), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "prior_high",
+            None,
+            None,
+            "float",
+            v1,
+            (0, 0),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "prior_low",
+            None,
+            None,
+            "float",
+            v1,
+            (0, 0),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 20 {
-        add(&mut out, "ema_fast", Some(store.ema_fast[t - 1]), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
-        add(&mut out, "ema_slow", Some(store.ema_slow[t - 1]), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
-        add(&mut out, "atr", Some(store.atr[t - 14]), None, "float", v1, (t - 14, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "ema_fast",
+            Some(store.ema_fast[t - 1]),
+            None,
+            "float",
+            v1,
+            (t - 1, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "ema_slow",
+            Some(store.ema_slow[t - 1]),
+            None,
+            "float",
+            v1,
+            (t - 1, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "atr",
+            Some(store.atr[t - 14]),
+            None,
+            "float",
+            v1,
+            (t - 14, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
 
     // --- FG-1 candle_shape (G-01..G-07) -------------------------------------
     let (o, h, l, c) = (opens[t - 1], highs[t - 1], lows[t - 1], closes[t - 1]);
     let rng = h - l;
     let body = (c - o).abs();
-    add(&mut out, "real_body", Some(body), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
-    add(&mut out, "body_range_ratio", Some(if rng > 0.0 { body / rng } else { 0.0 }), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
-    add(&mut out, "upper_shadow", Some(h - o.max(c)), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
-    add(&mut out, "lower_shadow", Some(o.min(c) - l), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
-    add(&mut out, "close_position", Some(if rng > 0.0 { (c - l) / rng } else { 0.5 }), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
+    add(
+        &mut out,
+        "real_body",
+        Some(body),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
+    add(
+        &mut out,
+        "body_range_ratio",
+        Some(if rng > 0.0 { body / rng } else { 0.0 }),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
+    add(
+        &mut out,
+        "upper_shadow",
+        Some(h - o.max(c)),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
+    add(
+        &mut out,
+        "lower_shadow",
+        Some(o.min(c) - l),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
+    add(
+        &mut out,
+        "close_position",
+        Some(if rng > 0.0 { (c - l) / rng } else { 0.5 }),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
     if t >= 2 {
         let (_po, ph, pl) = (opens[t - 2], highs[t - 2], lows[t - 2]);
-        add(&mut out, "inside_bar", Some(if h <= ph && l >= pl { 1.0 } else { 0.0 }), None, "float", v1, (t - 2, t), None, store, "COMPLETE", None);
-        add(&mut out, "outside_bar", Some(if h >= ph && l <= pl { 1.0 } else { 0.0 }), None, "float", v1, (t - 2, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "inside_bar",
+            Some(if h <= ph && l >= pl { 1.0 } else { 0.0 }),
+            None,
+            "float",
+            v1,
+            (t - 2, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "outside_bar",
+            Some(if h >= ph && l <= pl { 1.0 } else { 0.0 }),
+            None,
+            "float",
+            v1,
+            (t - 2, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
         if o > ph {
-            add(&mut out, "gap_size", Some(o - ph), None, "float", v1, (t - 2, t), None, store, "COMPLETE", None);
-            add(&mut out, "gap_dir", Some(1.0), None, "float", v1, (t - 2, t), None, store, "COMPLETE", None);
+            add(
+                &mut out,
+                "gap_size",
+                Some(o - ph),
+                None,
+                "float",
+                v1,
+                (t - 2, t),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
+            add(
+                &mut out,
+                "gap_dir",
+                Some(1.0),
+                None,
+                "float",
+                v1,
+                (t - 2, t),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
         } else if o < pl {
-            add(&mut out, "gap_size", Some(o - pl), None, "float", v1, (t - 2, t), None, store, "COMPLETE", None);
-            add(&mut out, "gap_dir", Some(-1.0), None, "float", v1, (t - 2, t), None, store, "COMPLETE", None);
+            add(
+                &mut out,
+                "gap_size",
+                Some(o - pl),
+                None,
+                "float",
+                v1,
+                (t - 2, t),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
+            add(
+                &mut out,
+                "gap_dir",
+                Some(-1.0),
+                None,
+                "float",
+                v1,
+                (t - 2, t),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
         } else {
-            add(&mut out, "gap_size", Some(0.0), None, "float", v1, (t - 2, t), None, store, "COMPLETE", None);
-            add(&mut out, "gap_dir", Some(0.0), None, "float", v1, (t - 2, t), None, store, "COMPLETE", None);
+            add(
+                &mut out,
+                "gap_size",
+                Some(0.0),
+                None,
+                "float",
+                v1,
+                (t - 2, t),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
+            add(
+                &mut out,
+                "gap_dir",
+                Some(0.0),
+                None,
+                "float",
+                v1,
+                (t - 2, t),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
         }
     } else {
-        add(&mut out, "inside_bar", None, None, "float", v1, (0, 0), None, store, "COMPLETE", Some("NOT_YET_AVAILABLE"));
-        add(&mut out, "outside_bar", None, None, "float", v1, (0, 0), None, store, "COMPLETE", Some("NOT_YET_AVAILABLE"));
-        add(&mut out, "gap_size", None, None, "float", v1, (0, 0), None, store, "COMPLETE", Some("NOT_YET_AVAILABLE"));
-        add(&mut out, "gap_dir", None, None, "float", v1, (0, 0), None, store, "COMPLETE", Some("NOT_YET_AVAILABLE"));
+        add(
+            &mut out,
+            "inside_bar",
+            None,
+            None,
+            "float",
+            v1,
+            (0, 0),
+            None,
+            store,
+            "COMPLETE",
+            Some("NOT_YET_AVAILABLE"),
+        );
+        add(
+            &mut out,
+            "outside_bar",
+            None,
+            None,
+            "float",
+            v1,
+            (0, 0),
+            None,
+            store,
+            "COMPLETE",
+            Some("NOT_YET_AVAILABLE"),
+        );
+        add(
+            &mut out,
+            "gap_size",
+            None,
+            None,
+            "float",
+            v1,
+            (0, 0),
+            None,
+            store,
+            "COMPLETE",
+            Some("NOT_YET_AVAILABLE"),
+        );
+        add(
+            &mut out,
+            "gap_dir",
+            None,
+            None,
+            "float",
+            v1,
+            (0, 0),
+            None,
+            store,
+            "COMPLETE",
+            Some("NOT_YET_AVAILABLE"),
+        );
     }
 
     // --- FG-2 oscillator (G-08..G-15) ---------------------------------------
     if t >= 15 {
-        add(&mut out, "rsi14", Some(rsis[t - 15]), None, "float", v1, (t - 15, t), None, store, "COMPLETE", None);
-        add(&mut out, "mom_14", Some(closes[t - 1] - closes[t - 15]), None, "float", v1, (t - 15, t), None, store, "COMPLETE", None);
-        add(&mut out, "roc_14", Some((closes[t - 1] - closes[t - 15]) / closes[t - 15] * 100.0), None, "float", v1, (t - 15, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "rsi14",
+            Some(rsis[t - 15]),
+            None,
+            "float",
+            v1,
+            (t - 15, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "mom_14",
+            Some(closes[t - 1] - closes[t - 15]),
+            None,
+            "float",
+            v1,
+            (t - 15, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "roc_14",
+            Some((closes[t - 1] - closes[t - 15]) / closes[t - 15] * 100.0),
+            None,
+            "float",
+            v1,
+            (t - 15, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 16 {
         let (k, d) = stoch(highs, lows, closes, 14);
-        add(&mut out, "stoch_k", Some(k), None, "float", v1, (t - 16, t), None, store, "COMPLETE", None);
-        add(&mut out, "stoch_d", Some(d), None, "float", v1, (t - 16, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "stoch_k",
+            Some(k),
+            None,
+            "float",
+            v1,
+            (t - 16, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "stoch_d",
+            Some(d),
+            None,
+            "float",
+            v1,
+            (t - 16, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 28 {
-        add(&mut out, "stochrsi", Some(stochrsi_from(rsis, 14)), None, "float", v1, (t - 28, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "stochrsi",
+            Some(stochrsi_from(rsis, 14)),
+            None,
+            "float",
+            v1,
+            (t - 28, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 20 {
-        add(&mut out, "cci20", Some(store.cci[t - 1]), None, "float", v1, (t - 20, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "cci20",
+            Some(store.cci[t - 1]),
+            None,
+            "float",
+            v1,
+            (t - 20, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 34 {
-        add(&mut out, "macd", Some(store.macd[t - 1]), None, "float", v1, (t - 34, t), None, store, "COMPLETE", None);
-        add(&mut out, "macd_signal", Some(store.macd_signal[t - 1]), None, "float", v1, (t - 34, t), None, store, "COMPLETE", None);
-        add(&mut out, "macd_hist", Some(store.macd_hist[t - 1]), None, "float", v1, (t - 34, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "macd",
+            Some(store.macd[t - 1]),
+            None,
+            "float",
+            v1,
+            (t - 34, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "macd_signal",
+            Some(store.macd_signal[t - 1]),
+            None,
+            "float",
+            v1,
+            (t - 34, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "macd_hist",
+            Some(store.macd_hist[t - 1]),
+            None,
+            "float",
+            v1,
+            (t - 34, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 28 {
-        add(&mut out, "adx14", Some(store.adx[t - 1]), None, "float", v1, (t - 28, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "adx14",
+            Some(store.adx[t - 1]),
+            None,
+            "float",
+            v1,
+            (t - 28, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 14 + OBOS_QUANTILE_WINDOW {
         let win = &rsis[rsis.len() - OBOS_QUANTILE_WINDOW..];
-        add(&mut out, "osc_obos_quantile", Some(percentile_rank(win, rsis[rsis.len() - 1])), None, "float", v1, (t - (14 + OBOS_QUANTILE_WINDOW), t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "osc_obos_quantile",
+            Some(percentile_rank(win, rsis[rsis.len() - 1])),
+            None,
+            "float",
+            v1,
+            (t - (14 + OBOS_QUANTILE_WINDOW), t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
 
     // --- FG-3 volatility (G-16..G-20, G-28) ---------------------------------
@@ -1130,36 +1762,187 @@ pub fn state_features(
         let sd = std_pop(&closes[t - 20..]);
         let upper = mid + 2.0 * sd;
         let lower = mid - 2.0 * sd;
-        add(&mut out, "bb_mid", Some(mid), None, "float", v1, (t - 20, t), None, store, "COMPLETE", None);
-        add(&mut out, "bb_upper", Some(upper), None, "float", v1, (t - 20, t), None, store, "COMPLETE", None);
-        add(&mut out, "bb_lower", Some(lower), None, "float", v1, (t - 20, t), None, store, "COMPLETE", None);
-        add(&mut out, "bb_pct_b", Some(if upper > lower { (closes[t - 1] - lower) / (upper - lower) } else { 0.5 }), None, "float", v1, (t - 20, t), None, store, "COMPLETE", None);
-        add(&mut out, "bb_bandwidth", Some(if mid != 0.0 { (upper - lower) / mid } else { 0.0 }), None, "float", v1, (t - 20, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "bb_mid",
+            Some(mid),
+            None,
+            "float",
+            v1,
+            (t - 20, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "bb_upper",
+            Some(upper),
+            None,
+            "float",
+            v1,
+            (t - 20, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "bb_lower",
+            Some(lower),
+            None,
+            "float",
+            v1,
+            (t - 20, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "bb_pct_b",
+            Some(if upper > lower {
+                (closes[t - 1] - lower) / (upper - lower)
+            } else {
+                0.5
+            }),
+            None,
+            "float",
+            v1,
+            (t - 20, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "bb_bandwidth",
+            Some(if mid != 0.0 {
+                (upper - lower) / mid
+            } else {
+                0.0
+            }),
+            None,
+            "float",
+            v1,
+            (t - 20, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 5 {
         let mut win = Vec::with_capacity(5);
         for j in (t - 5)..t {
             win.push(highs[j] - lows[j]);
         }
-        add(&mut out, "atr_locational", Some(fsum(&win) / 5.0), None, "float", v1, (t - 5, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "atr_locational",
+            Some(fsum(&win) / 5.0),
+            None,
+            "float",
+            v1,
+            (t - 5, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 20 {
-        add(&mut out, "atr_filtered_2sigma", Some(atrs[atrs.len() - 1]), None, "float", v1, (t - 14, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "atr_filtered_2sigma",
+            Some(atrs[atrs.len() - 1]),
+            None,
+            "float",
+            v1,
+            (t - 14, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if atrs.len() >= ATR_FILTER_BAND_N {
-        let band = sma(atrs, ATR_FILTER_BAND_N) + 2.0 * std_pop(&atrs[atrs.len() - ATR_FILTER_BAND_N..]);
-        add(&mut out, "atr_2sigma_active", Some(if atrs[atrs.len() - 1] > band { 1.0 } else { 0.0 }), None, "float", v1, (t - (14 + ATR_FILTER_BAND_N - 1), t), None, store, "COMPLETE", None);
+        let band =
+            sma(atrs, ATR_FILTER_BAND_N) + 2.0 * std_pop(&atrs[atrs.len() - ATR_FILTER_BAND_N..]);
+        add(
+            &mut out,
+            "atr_2sigma_active",
+            Some(if atrs[atrs.len() - 1] > band {
+                1.0
+            } else {
+                0.0
+            }),
+            None,
+            "float",
+            v1,
+            (t - (14 + ATR_FILTER_BAND_N - 1), t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
-    if atrs.len() >= ATR_SLOPE_N + 1 {
+    if atrs.len() > ATR_SLOPE_N {
         let slope = atrs[atrs.len() - 1] - atrs[atrs.len() - 1 - ATR_SLOPE_N];
-        let phase = if slope > 0.0 { 1.0 } else if slope < 0.0 { -1.0 } else { 0.0 };
-        add(&mut out, "atr_trend_phase", Some(phase), None, "float", v1, (t - (14 + ATR_SLOPE_N), t), None, store, "COMPLETE", None);
+        let phase = if slope > 0.0 {
+            1.0
+        } else if slope < 0.0 {
+            -1.0
+        } else {
+            0.0
+        };
+        add(
+            &mut out,
+            "atr_trend_phase",
+            Some(phase),
+            None,
+            "float",
+            v1,
+            (t - (14 + ATR_SLOPE_N), t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 23 {
         let mid_k = sma(tp, 10);
         let k_atr = sma(atrs, 10);
-        add(&mut out, "keltner_u", Some(mid_k + k_atr), None, "float", v1, (t - 23, t), None, store, "COMPLETE", None);
-        add(&mut out, "keltner_l", Some(mid_k - k_atr), None, "float", v1, (t - 23, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "keltner_u",
+            Some(mid_k + k_atr),
+            None,
+            "float",
+            v1,
+            (t - 23, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "keltner_l",
+            Some(mid_k - k_atr),
+            None,
+            "float",
+            v1,
+            (t - 23, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 15 {
         let mid_s = sma(tp, 6);
@@ -1168,27 +1951,92 @@ pub fn state_features(
             win.push(highs[j] - lows[j]);
         }
         let a15 = fsum(&win) / 15.0;
-        add(&mut out, "starc_u", Some(mid_s + STARC_K * a15), None, "float", v1, (t - 15, t), None, store, "COMPLETE", None);
-        add(&mut out, "starc_l", Some(mid_s - STARC_K * a15), None, "float", v1, (t - 15, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "starc_u",
+            Some(mid_s + STARC_K * a15),
+            None,
+            "float",
+            v1,
+            (t - 15, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
+        add(
+            &mut out,
+            "starc_l",
+            Some(mid_s - STARC_K * a15),
+            None,
+            "float",
+            v1,
+            (t - 15, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 20 {
-        add(&mut out, "atr_band_stop", Some(ATR_BAND_STOP_K * atrs[atrs.len() - 1]), None, "float", v1, (t - 20, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "atr_band_stop",
+            Some(ATR_BAND_STOP_K * atrs[atrs.len() - 1]),
+            None,
+            "float",
+            v1,
+            (t - 20, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
 
     // --- FG-4 location (G-21..G-28) -----------------------------------------
-    let atr_now = if !atrs.is_empty() { Some(atrs[atrs.len() - 1]) } else { None };
+    let atr_now = if !atrs.is_empty() {
+        Some(atrs[atrs.len() - 1])
+    } else {
+        None
+    };
     for (k, n) in SWING_NS.iter().enumerate() {
-        if t >= 2 * n + 1 && atr_now.is_some() {
-            let p = last_significant_pivot(&store.piv_hi[k], t, *n, atr_now.unwrap(), SWING_SIGNIFICANCE_K);
-            let q = last_significant_pivot(&store.piv_lo[k], t, *n, atr_now.unwrap(), SWING_SIGNIFICANCE_K);
+        if t > 2 * n {
+            let Some(atr_now) = atr_now else { continue };
+            let p = last_significant_pivot(&store.piv_hi[k], t, *n, atr_now, SWING_SIGNIFICANCE_K);
+            let q = last_significant_pivot(&store.piv_lo[k], t, *n, atr_now, SWING_SIGNIFICANCE_K);
             let swing_hi = p.map(|x| x.1).unwrap_or(0.0);
             let swing_lo = q.map(|x| x.1).unwrap_or(0.0);
-            add(&mut out, &format!("swing_high_{n}"), Some(swing_hi), None, "float", v1, (t - (2 * n + 1), t), None, store, "COMPLETE", None);
-            add(&mut out, &format!("swing_low_{n}"), Some(swing_lo), None, "float", v1, (t - (2 * n + 1), t), None, store, "COMPLETE", None);
+            add(
+                &mut out,
+                &format!("swing_high_{n}"),
+                Some(swing_hi),
+                None,
+                "float",
+                v1,
+                (t - (2 * n + 1), t),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
+            add(
+                &mut out,
+                &format!("swing_low_{n}"),
+                Some(swing_lo),
+                None,
+                "float",
+                v1,
+                (t - (2 * n + 1), t),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
         }
     }
     for n in WINDOW_NS {
-        if t >= n + 1 {
+        if t > n {
             // K1 fixed-window extremes via value-safe SIMD (D-088, #133): the
             // lane-wise max/min fold is bit-identical to the scalar scan on
             // the OHLC price domain (see `simd::window_max`/`window_min`), so
@@ -1198,9 +2046,45 @@ pub fn state_features(
             // differ on positive prices.
             let hmax = crate::simd::window_max(highs, t - n - 1, t - 1);
             let lmin = crate::simd::window_min(lows, t - n - 1, t - 1);
-            add(&mut out, &format!("window_high_{n}"), Some(hmax), None, "float", v1, (t - n - 1, t - 1), None, store, "COMPLETE", None);
-            add(&mut out, &format!("window_low_{n}"), Some(lmin), None, "float", v1, (t - n - 1, t - 1), None, store, "COMPLETE", None);
-            add(&mut out, &format!("range_height_{n}"), Some(hmax - lmin), None, "float", v1, (t - n - 1, t - 1), None, store, "COMPLETE", None);
+            add(
+                &mut out,
+                &format!("window_high_{n}"),
+                Some(hmax),
+                None,
+                "float",
+                v1,
+                (t - n - 1, t - 1),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
+            add(
+                &mut out,
+                &format!("window_low_{n}"),
+                Some(lmin),
+                None,
+                "float",
+                v1,
+                (t - n - 1, t - 1),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
+            add(
+                &mut out,
+                &format!("range_height_{n}"),
+                Some(hmax - lmin),
+                None,
+                "float",
+                v1,
+                (t - n - 1, t - 1),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
         }
     }
     if t >= 21 {
@@ -1219,10 +2103,22 @@ pub fn state_features(
                 .map(|(r, v)| serde_json::json!([num(*r), num(*v)]))
                 .collect();
             let arr = serde_json::json!([num(extreme), num(direction), retr_arr, ext_arr]);
-            add(&mut out, "fib_levels", None, Some(arr), "fib_levels", v1, (t - 21, t), None, store, "COMPLETE", None);
+            add(
+                &mut out,
+                "fib_levels",
+                None,
+                Some(arr),
+                "fib_levels",
+                v1,
+                (t - 21, t),
+                None,
+                store,
+                "COMPLETE",
+                None,
+            );
         }
     }
-    if t >= BARS_PER_DAY + 1 {
+    if t > BARS_PER_DAY {
         let mut ph_p = f64::NEG_INFINITY;
         let mut pl_p = f64::INFINITY;
         for j in (t - (BARS_PER_DAY + 1))..(t - 1) {
@@ -1248,12 +2144,42 @@ pub fn state_features(
             pp - rng_p - rng_p,
         ];
         let arr: Vec<serde_json::Value> = vals.iter().map(|v| num(*v)).collect();
-        add(&mut out, "pivot_points_day", None, Some(serde_json::Value::Array(arr)), "pivot_points", v1, (t - (BARS_PER_DAY + 1), t - 1), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "pivot_points_day",
+            None,
+            Some(serde_json::Value::Array(arr)),
+            "pivot_points",
+            v1,
+            (t - (BARS_PER_DAY + 1), t - 1),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
-    if t >= CONSOLIDATION_BARS + 1 {
-        let (h_ref, l_ref, w, act) = consolidation_range(highs, lows, closes, CONSOLIDATION_BARS, CONSOLIDATION_WIDTH_MAX);
+    if t > CONSOLIDATION_BARS {
+        let (h_ref, l_ref, w, act) = consolidation_range(
+            highs,
+            lows,
+            closes,
+            CONSOLIDATION_BARS,
+            CONSOLIDATION_WIDTH_MAX,
+        );
         let arr = serde_json::json!([h_ref, l_ref, w, act]);
-        add(&mut out, "consolidation_range", None, Some(arr), "consolidation", v1, (t - (CONSOLIDATION_BARS + 1), t - 1), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "consolidation_range",
+            None,
+            Some(arr),
+            "consolidation",
+            v1,
+            (t - (CONSOLIDATION_BARS + 1), t - 1),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     {
         let zones = gap_levels(opens, highs, lows, closes, GAP_ZONE_BARS);
@@ -1261,17 +2187,57 @@ pub fn state_features(
             .iter()
             .map(|(top, bottom, d)| serde_json::json!([top, bottom, d]))
             .collect();
-        add(&mut out, "gap_levels", None, Some(serde_json::Value::Array(arr)), "gap_levels", v1, (t.saturating_sub(GAP_ZONE_BARS), t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "gap_levels",
+            None,
+            Some(serde_json::Value::Array(arr)),
+            "gap_levels",
+            v1,
+            (t.saturating_sub(GAP_ZONE_BARS), t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
 
     // --- FG-5 participation (G-29..G-37) ------------------------------------
-    add(&mut out, "volume", Some(volumes[t - 1]), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
+    add(
+        &mut out,
+        "volume",
+        Some(volumes[t - 1]),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
     if t >= VOLUME_STAT_N {
         let vol_win = &volumes[t - VOLUME_STAT_N..];
         let vmean = mean(vol_win);
         let vsd = std_pop(vol_win);
-        let z = if vsd != 0.0 { (volumes[t - 1] - vmean) / vsd } else { 0.0 };
-        add(&mut out, "vol_zscore", Some(z), None, "float", v1, (t - VOLUME_STAT_N, t), None, store, "COMPLETE", None);
+        let z = if vsd != 0.0 {
+            (volumes[t - 1] - vmean) / vsd
+        } else {
+            0.0
+        };
+        add(
+            &mut out,
+            "vol_zscore",
+            Some(z),
+            None,
+            "float",
+            v1,
+            (t - VOLUME_STAT_N, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
         let mut vmin = f64::INFINITY;
         let mut vmax = f64::NEG_INFINITY;
         for v in vol_win {
@@ -1282,50 +2248,240 @@ pub fn state_features(
                 vmax = *v;
             }
         }
-        let prox = if vmax > vmin { (volumes[t - 1] - vmin) / (vmax - vmin) } else { 0.5 };
-        add(&mut out, "vol_min_proximity", Some(prox), None, "float", v1, (t - VOLUME_STAT_N, t), None, store, "COMPLETE", None);
+        let prox = if vmax > vmin {
+            (volumes[t - 1] - vmin) / (vmax - vmin)
+        } else {
+            0.5
+        };
+        add(
+            &mut out,
+            "vol_min_proximity",
+            Some(prox),
+            None,
+            "float",
+            v1,
+            (t - VOLUME_STAT_N, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= VOLUME_SMA_N {
-        add(&mut out, "vol_smooth_ma", Some(sma(volumes, VOLUME_SMA_N)), None, "float", v1, (t - VOLUME_SMA_N, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "vol_smooth_ma",
+            Some(sma(volumes, VOLUME_SMA_N)),
+            None,
+            "float",
+            v1,
+            (t - VOLUME_SMA_N, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if t >= 2 {
-        add(&mut out, "obv", Some(store.obv[t - 1]), None, "float", v1, (t - 2, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "obv",
+            Some(store.obv[t - 1]),
+            None,
+            "float",
+            v1,
+            (t - 2, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
-    add(&mut out, "adl", Some(store.adl[t - 1]), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
+    add(
+        &mut out,
+        "adl",
+        Some(store.adl[t - 1]),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
     if t >= CMF_N {
-        add(&mut out, "cmf_20", Some(cmf(highs, lows, closes, volumes, CMF_N)), None, "float", v1, (t - CMF_N, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "cmf_20",
+            Some(cmf(highs, lows, closes, volumes, CMF_N)),
+            None,
+            "float",
+            v1,
+            (t - CMF_N, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     if store.event_time_monotonic {
         let lo = store.vwap_start[t - 1];
-        add(&mut out, "vwap", Some(store.vwap[t - 1]), None, "float", v1, (lo, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "vwap",
+            Some(store.vwap[t - 1]),
+            None,
+            "float",
+            v1,
+            (lo, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     } else {
         // Non-monotonic event_time: the exact full-filter `_vwap` over the
         // prefix (the uncached reference).
         let (val, lo) = vwap_fallback(store, t);
-        add(&mut out, "vwap", Some(val), None, "float", v1, (lo, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "vwap",
+            Some(val),
+            None,
+            "float",
+            v1,
+            (lo, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
-    if t >= BAR_CLASS_N && t >= 6 {
-        add(&mut out, "bar_class", Some(bar_class(opens, closes, highs, lows, volumes, 5)), None, "float", v1, (t - BAR_CLASS_N, t), None, store, "COMPLETE", None);
+    if t >= BAR_CLASS_N {
+        add(
+            &mut out,
+            "bar_class",
+            Some(bar_class(opens, closes, highs, lows, volumes, 5)),
+            None,
+            "float",
+            v1,
+            (t - BAR_CLASS_N, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
 
     // --- FG-6 session (G-38..G-40) ------------------------------------------
     let ev = store.bar_event_times[t - 1];
     let hour = hour_utc(ev);
-    add(&mut out, "hour_of_day_utc", Some(hour as f64), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
-    add(&mut out, "impulsive_window", Some(if hour >= IMPULSIVE_START_HOUR && hour <= IMPULSIVE_END_HOUR { 1.0 } else { 0.0 }), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
-    add(&mut out, "bar_of_session", Some(bar_of_session(ev) as f64), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
-    add(&mut out, "day_index", Some(day_index(ev) as f64), None, "float", v1, (t - 1, t), None, store, "COMPLETE", None);
+    add(
+        &mut out,
+        "hour_of_day_utc",
+        Some(hour as f64),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
+    add(
+        &mut out,
+        "impulsive_window",
+        Some(
+            if (IMPULSIVE_START_HOUR..=IMPULSIVE_END_HOUR).contains(&hour) {
+                1.0
+            } else {
+                0.0
+            },
+        ),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
+    add(
+        &mut out,
+        "bar_of_session",
+        Some(bar_of_session(ev) as f64),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
+    add(
+        &mut out,
+        "day_index",
+        Some(day_index(ev) as f64),
+        None,
+        "float",
+        v1,
+        (t - 1, t),
+        None,
+        store,
+        "COMPLETE",
+        None,
+    );
 
     // --- FG-7 positioning (G-41..G-43) --------------------------------------
     let m = FeatureStore::bisect_right_times(&store.funding_avail, as_of);
     if m > 0 {
-        add(&mut out, "funding_rate", Some(store.funding_rate[m - 1]), None, "float", v1, (0, 0), Some(store.funding_avail[m - 1]), store, "COMPLETE", None);
+        add(
+            &mut out,
+            "funding_rate",
+            Some(store.funding_rate[m - 1]),
+            None,
+            "float",
+            v1,
+            (0, 0),
+            Some(store.funding_avail[m - 1]),
+            store,
+            "COMPLETE",
+            None,
+        );
     }
     let m = FeatureStore::bisect_right_times(&store.oi_avail, as_of);
     if m > 0 {
-        add(&mut out, "open_interest", Some(store.oi_value[m - 1]), None, "float", v1, (0, 0), Some(store.oi_avail[m - 1]), store, "COMPLETE", None);
+        add(
+            &mut out,
+            "open_interest",
+            Some(store.oi_value[m - 1]),
+            None,
+            "float",
+            v1,
+            (0, 0),
+            Some(store.oi_avail[m - 1]),
+            store,
+            "COMPLETE",
+            None,
+        );
         if let Some(skew) = store.oi_skew[m - 1] {
-            add(&mut out, "long_short_skew", Some(skew), None, "float", v1, (0, 0), Some(store.oi_avail[m - 1]), store, "COMPLETE", None);
+            add(
+                &mut out,
+                "long_short_skew",
+                Some(skew),
+                None,
+                "float",
+                v1,
+                (0, 0),
+                Some(store.oi_avail[m - 1]),
+                store,
+                "COMPLETE",
+                None,
+            );
         }
     }
 
@@ -1339,13 +2495,28 @@ pub fn state_features(
             let bar = &store.event_ids[j];
             let arr = serde_json::json!([
                 bar,
-                opens[j], highs[j], lows[j], closes[j],
+                opens[j],
+                highs[j],
+                lows[j],
+                closes[j],
                 store.ema_fast[pos],
                 store.ema_slow[pos],
             ]);
             hist.push(arr);
         }
-        add(&mut out, "history", None, Some(serde_json::Value::Array(hist)), "history", "v2", (win_lo, t), None, store, "COMPLETE", None);
+        add(
+            &mut out,
+            "history",
+            None,
+            Some(serde_json::Value::Array(hist)),
+            "history",
+            "v2",
+            (win_lo, t),
+            None,
+            store,
+            "COMPLETE",
+            None,
+        );
     }
 
     out
@@ -1497,23 +2668,294 @@ mod tests {
     #[test]
     fn fsum_matches_cpython() {
         let battery: Vec<(Vec<f64>, &str)> = vec![
-            (vec![75.52262466728358, 76.00946797757125, 76.57378417171833, 76.12761096477955, 75.55392863144242, 77.149300302392, 76.39792362109318, 75.62424105469441, 74.39680135569978, 75.34879861632106, 73.49560260116411, 74.0916476205677, 74.7476811870851, 75.38436978025692, 76.2531887906469, 75.0185839794253, 74.63878647287305, 74.59817011285026, 74.62120009454075, 73.18940594096142], "409782f8f3e8ff54"),
+            (
+                vec![
+                    75.52262466728358,
+                    76.00946797757125,
+                    76.57378417171833,
+                    76.12761096477955,
+                    75.55392863144242,
+                    77.149300302392,
+                    76.39792362109318,
+                    75.62424105469441,
+                    74.39680135569978,
+                    75.34879861632106,
+                    73.49560260116411,
+                    74.0916476205677,
+                    74.7476811870851,
+                    75.38436978025692,
+                    76.2531887906469,
+                    75.0185839794253,
+                    74.63878647287305,
+                    74.59817011285026,
+                    74.62120009454075,
+                    73.18940594096142,
+                ],
+                "409782f8f3e8ff54",
+            ),
             (vec![1e100, 1.0, -1e100, 1.0], "4000000000000000"),
             (vec![1e16, 1.0, 1.0, -1e16, 1.0], "4008000000000000"),
             (vec![1.0, 2.0, 3.0, 4.0, 5.0], "402e000000000000"),
-            (vec![0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], "4016000000000000"),
-            (vec![-118.53480164929465, -985.0170598828256, 821.9519248982483, 878.537994727528, 164.45514611789827, 343.1269629759702, -832.1235463258321, 532.9618655835925, -526.3804492737645, -938.3719565467801, 577.545434472567, -307.8220688057538, 246.56295007833705, 231.63139020723042, -702.8907225834248, -633.8187051801367, -771.1740606226247, -970.7624390261817, -26.496918790483278, 929.8031218324313, -870.8754380456278, 82.17637110226042, -68.20288198338085, 202.9268991221029, -822.1423400186753, 158.00537237473304, -460.8289923611035], "c0ae33838ea2df41"),
-            (vec![-873.8446288610364, -395.1418924177235, 700.3567271715274, -467.09151194763024, 310.96349557512235, -599.9355546625256, 753.109448107499, 330.82309394031086, 882.9511032715727, -858.8233291241492, -332.9798408781228, 420.0266372088629, 314.7089984617746, -665.7750896487355, -847.5320400665925, -6.836665213060087, -849.356598297801, -569.8112078868492, -945.7426676555414, -307.5382892641429], "c0af4ef08b3916ec"),
-            (vec![-589.8393315816795, 779.3497845890442, -157.65273310706164, 905.0902811365097, -593.480299386724, -879.3783960811587, -295.02844014256095, -693.8790455522046, 812.9210587341367, 901.7698697601356, -55.128003153830605, -722.5422392646543, -903.8549717589322, -669.8404114641814, -710.142942632156, 92.12929114326494, 427.59751268156174, -657.9525917514211, 336.47991232122763, -878.3507102984174, -824.7590101076847, 584.2075220983313, 831.0605468904032, -920.1773638610189, -217.11771582477013, -351.1779873502405, 943.4132251566189, 349.42049356104553, 872.7767299754287, 830.4426813129285], "c096b692b907a7a3"),
-            (vec![74975.44038065267, 842134.7186645006, -155926.26752028638, 370540.1804707835, 693817.6922711257, 677535.5716443022, -814262.3489447867, -479368.47391694284, -179483.95907779213, 715648.719145997, -446514.9413674994, -772522.1708169791, -249303.09840700042, -572228.3527635646, 432473.2696582796, 175019.03173831757, -895002.0916830625, 754860.7563154402, -118889.82009146991, 553774.0810290182, -669358.5905351988, -384165.6744115298, -853347.4135368038, -210018.55584351637, -142179.2679747271, 365592.5814457368, -40824.29132492654, -198976.26894102152, -44076.03804483288, -437479.1891648966, -260949.12506302272, 200987.49319436983, -587864.038810408, 37728.652301505674, 859345.370054608, -85165.0863322335, 336621.0233334757, 319686.3834305762, 602690.3360429173, 451100.75872976007, 321414.0653514853, -792578.3540768693, -266732.49946508836, 588120.7805248376, -869614.5278799017, -719964.684721224, 810720.3378580115, 176034.93231206317, 960337.5248445068, 507160.5258129735, 991355.9003122542, -402761.00216016045, 372113.0279163737, -338826.5138439501, 891940.2055675965, -412437.34117552487, -610867.343706467], "41305baa075c254c"),
-            (vec![-441930.6803869525, 68067.32257583528, 204407.4267745174, -320731.5130491324, -331530.2742426953, -357877.6350910895, -464992.40271812247, 519344.6953188032, 178459.47418411146, 96490.11670971732, 648277.0330496577, -485698.78381678875, -725833.3881113927, -943241.8585636964, -925292.0945787679, 981352.4491202082, 947629.3803559185, 333199.518245596, 981320.8477647395, 31305.005482253735, -130889.20848461892, 30568.464212609222, -862006.3089718606, 519161.5813593534, -389676.9544269898, 396160.8929271924, 819005.3936811425, -560801.8137850291, 8752.555889971205, 306283.6067451106, 621916.6519963352, 365502.84303798503, -337817.253730317, 128359.66392764589, -674931.4147534766, -1167.942807888845, 880096.1475933851, 900365.3972106797, -720122.6371847112, 64627.56727086031, 239723.62381568854, -708936.1916274335, 897981.9244043839, -513428.5287758813, -671499.7900422366, 12863.259828657494, 10007.21292716579, 546896.7466526313, 706354.6305719556, -346993.66794642806, 416454.61320614885, 123444.83384744497, 70162.45439900667, 198398.3195460341, -107324.4804011815, -256592.54090953374, 859446.3671610528, 525798.1097777286, 351739.04014221113, 772622.198531423, 208084.50299437204, -858195.8813345742, -544153.979074135, 606040.5701129194, -307627.35098930926, 879239.6861502521, 378104.5938897012, -240426.50178397796, -14428.153973663459, -895104.8697555213, -103848.71354716062, -839644.166404801, -413671.90440897713, 858583.0232546455, -704212.0026625387, 353834.69991528126, 301577.82498044684, 386135.4587115501, 588940.1589304414, 728512.2832304242, -286782.6135242814, -257176.88478527928, -651901.1396964735, 278848.9761622043, -575458.5597614592, -607100.9660525662, 980184.6236758516], "414c783f5c2bfc1a"),
+            (
+                vec![0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+                "4016000000000000",
+            ),
+            (
+                vec![
+                    -118.53480164929465,
+                    -985.0170598828256,
+                    821.9519248982483,
+                    878.537994727528,
+                    164.45514611789827,
+                    343.1269629759702,
+                    -832.1235463258321,
+                    532.9618655835925,
+                    -526.3804492737645,
+                    -938.3719565467801,
+                    577.545434472567,
+                    -307.8220688057538,
+                    246.56295007833705,
+                    231.63139020723042,
+                    -702.8907225834248,
+                    -633.8187051801367,
+                    -771.1740606226247,
+                    -970.7624390261817,
+                    -26.496918790483278,
+                    929.8031218324313,
+                    -870.8754380456278,
+                    82.17637110226042,
+                    -68.20288198338085,
+                    202.9268991221029,
+                    -822.1423400186753,
+                    158.00537237473304,
+                    -460.8289923611035,
+                ],
+                "c0ae33838ea2df41",
+            ),
+            (
+                vec![
+                    -873.8446288610364,
+                    -395.1418924177235,
+                    700.3567271715274,
+                    -467.09151194763024,
+                    310.96349557512235,
+                    -599.9355546625256,
+                    753.109448107499,
+                    330.82309394031086,
+                    882.9511032715727,
+                    -858.8233291241492,
+                    -332.9798408781228,
+                    420.0266372088629,
+                    314.7089984617746,
+                    -665.7750896487355,
+                    -847.5320400665925,
+                    -6.836665213060087,
+                    -849.356598297801,
+                    -569.8112078868492,
+                    -945.7426676555414,
+                    -307.5382892641429,
+                ],
+                "c0af4ef08b3916ec",
+            ),
+            (
+                vec![
+                    -589.8393315816795,
+                    779.3497845890442,
+                    -157.65273310706164,
+                    905.0902811365097,
+                    -593.480299386724,
+                    -879.3783960811587,
+                    -295.02844014256095,
+                    -693.8790455522046,
+                    812.9210587341367,
+                    901.7698697601356,
+                    -55.128003153830605,
+                    -722.5422392646543,
+                    -903.8549717589322,
+                    -669.8404114641814,
+                    -710.142942632156,
+                    92.12929114326494,
+                    427.59751268156174,
+                    -657.9525917514211,
+                    336.47991232122763,
+                    -878.3507102984174,
+                    -824.7590101076847,
+                    584.2075220983313,
+                    831.0605468904032,
+                    -920.1773638610189,
+                    -217.11771582477013,
+                    -351.1779873502405,
+                    943.4132251566189,
+                    349.42049356104553,
+                    872.7767299754287,
+                    830.4426813129285,
+                ],
+                "c096b692b907a7a3",
+            ),
+            (
+                vec![
+                    74975.44038065267,
+                    842134.7186645006,
+                    -155926.26752028638,
+                    370540.1804707835,
+                    693817.6922711257,
+                    677535.5716443022,
+                    -814262.3489447867,
+                    -479368.47391694284,
+                    -179483.95907779213,
+                    715648.719145997,
+                    -446514.9413674994,
+                    -772522.1708169791,
+                    -249303.09840700042,
+                    -572228.3527635646,
+                    432473.2696582796,
+                    175019.03173831757,
+                    -895002.0916830625,
+                    754860.7563154402,
+                    -118889.82009146991,
+                    553774.0810290182,
+                    -669358.5905351988,
+                    -384165.6744115298,
+                    -853347.4135368038,
+                    -210018.55584351637,
+                    -142179.2679747271,
+                    365592.5814457368,
+                    -40824.29132492654,
+                    -198976.26894102152,
+                    -44076.03804483288,
+                    -437479.1891648966,
+                    -260949.12506302272,
+                    200987.49319436983,
+                    -587864.038810408,
+                    37728.652301505674,
+                    859345.370054608,
+                    -85165.0863322335,
+                    336621.0233334757,
+                    319686.3834305762,
+                    602690.3360429173,
+                    451100.75872976007,
+                    321414.0653514853,
+                    -792578.3540768693,
+                    -266732.49946508836,
+                    588120.7805248376,
+                    -869614.5278799017,
+                    -719964.684721224,
+                    810720.3378580115,
+                    176034.93231206317,
+                    960337.5248445068,
+                    507160.5258129735,
+                    991355.9003122542,
+                    -402761.00216016045,
+                    372113.0279163737,
+                    -338826.5138439501,
+                    891940.2055675965,
+                    -412437.34117552487,
+                    -610867.343706467,
+                ],
+                "41305baa075c254c",
+            ),
+            (
+                vec![
+                    -441930.6803869525,
+                    68067.32257583528,
+                    204407.4267745174,
+                    -320731.5130491324,
+                    -331530.2742426953,
+                    -357877.6350910895,
+                    -464992.40271812247,
+                    519344.6953188032,
+                    178459.47418411146,
+                    96490.11670971732,
+                    648277.0330496577,
+                    -485698.78381678875,
+                    -725833.3881113927,
+                    -943241.8585636964,
+                    -925292.0945787679,
+                    981352.4491202082,
+                    947629.3803559185,
+                    333199.518245596,
+                    981320.8477647395,
+                    31305.005482253735,
+                    -130889.20848461892,
+                    30568.464212609222,
+                    -862006.3089718606,
+                    519161.5813593534,
+                    -389676.9544269898,
+                    396160.8929271924,
+                    819005.3936811425,
+                    -560801.8137850291,
+                    8752.555889971205,
+                    306283.6067451106,
+                    621916.6519963352,
+                    365502.84303798503,
+                    -337817.253730317,
+                    128359.66392764589,
+                    -674931.4147534766,
+                    -1167.942807888845,
+                    880096.1475933851,
+                    900365.3972106797,
+                    -720122.6371847112,
+                    64627.56727086031,
+                    239723.62381568854,
+                    -708936.1916274335,
+                    897981.9244043839,
+                    -513428.5287758813,
+                    -671499.7900422366,
+                    12863.259828657494,
+                    10007.21292716579,
+                    546896.7466526313,
+                    706354.6305719556,
+                    -346993.66794642806,
+                    416454.61320614885,
+                    123444.83384744497,
+                    70162.45439900667,
+                    198398.3195460341,
+                    -107324.4804011815,
+                    -256592.54090953374,
+                    859446.3671610528,
+                    525798.1097777286,
+                    351739.04014221113,
+                    772622.198531423,
+                    208084.50299437204,
+                    -858195.8813345742,
+                    -544153.979074135,
+                    606040.5701129194,
+                    -307627.35098930926,
+                    879239.6861502521,
+                    378104.5938897012,
+                    -240426.50178397796,
+                    -14428.153973663459,
+                    -895104.8697555213,
+                    -103848.71354716062,
+                    -839644.166404801,
+                    -413671.90440897713,
+                    858583.0232546455,
+                    -704212.0026625387,
+                    353834.69991528126,
+                    301577.82498044684,
+                    386135.4587115501,
+                    588940.1589304414,
+                    728512.2832304242,
+                    -286782.6135242814,
+                    -257176.88478527928,
+                    -651901.1396964735,
+                    278848.9761622043,
+                    -575458.5597614592,
+                    -607100.9660525662,
+                    980184.6236758516,
+                ],
+                "414c783f5c2bfc1a",
+            ),
             (vec![1e-16, 1.0, 1e16], "4341c37937e08001"),
             (vec![1e100, 1.0, -1e100, 1.0], "4000000000000000"),
-            (vec![
-                f64::from_be_bytes([0x40,0x15,0x7e,0x35,0xce,0x74,0xd0,0xf4]),
-                f64::from_be_bytes([0x3f,0xf4,0x5a,0xe3,0x71,0xe8,0xce,0x75]),
-                f64::from_be_bytes([0x40,0x11,0xc4,0xe6,0xce,0x10,0x81,0x0c]),
-            ], "40262ceabc7fc2cf"),
+            (
+                vec![
+                    f64::from_be_bytes([0x40, 0x15, 0x7e, 0x35, 0xce, 0x74, 0xd0, 0xf4]),
+                    f64::from_be_bytes([0x3f, 0xf4, 0x5a, 0xe3, 0x71, 0xe8, 0xce, 0x75]),
+                    f64::from_be_bytes([0x40, 0x11, 0xc4, 0xe6, 0xce, 0x10, 0x81, 0x0c]),
+                ],
+                "40262ceabc7fc2cf",
+            ),
         ];
         for (i, (arr, expected)) in battery.iter().enumerate() {
             let got = fsum(arr);
@@ -1550,24 +2992,45 @@ mod tests {
         for i in 1..=n {
             let t = i as i64 * h;
             let c = 100.0 + i as f64;
-            rows.push(kline(&format!("b{i}"), "SOLUSDT", t, c - 1.0, c + 2.0, c - 3.0, c, 10.0));
+            rows.push(kline(
+                &format!("b{i}"),
+                "SOLUSDT",
+                t,
+                c - 1.0,
+                c + 2.0,
+                c - 3.0,
+                c,
+                10.0,
+            ));
         }
         rows
     }
 
     #[test]
     fn interval_derivation_is_up_only_and_exact() {
-        assert!(is_derivable("1h", "1h").unwrap(), "identity aggregation is derivable");
+        assert!(
+            is_derivable("1h", "1h").unwrap(),
+            "identity aggregation is derivable"
+        );
         assert!(is_derivable("1h", "4h").unwrap());
         assert!(is_derivable("1h", "1d").unwrap());
         assert!(is_derivable("4h", "1d").unwrap());
         assert!(!is_derivable("4h", "1h").unwrap(), "aggregation is up-only");
-        assert!(!is_derivable("1h", "1m").unwrap(), "finer needs its own ingestion");
+        assert!(
+            !is_derivable("1h", "1m").unwrap(),
+            "finer needs its own ingestion"
+        );
         assert_eq!(bars_per("1h", "4h").unwrap(), 4);
         assert_eq!(bars_per("1h", "1d").unwrap(), 24);
-        assert!(is_derivable("7m", "1h").unwrap_err().contains("unknown base interval"));
-        assert!(is_derivable("1h", "45m").unwrap_err().contains("unknown target interval"));
-        assert!(bars_per("4h", "1h").unwrap_err().contains("not an integer multiple"));
+        assert!(is_derivable("7m", "1h")
+            .unwrap_err()
+            .contains("unknown base interval"));
+        assert!(is_derivable("1h", "45m")
+            .unwrap_err()
+            .contains("unknown target interval"));
+        assert!(bars_per("4h", "1h")
+            .unwrap_err()
+            .contains("not an integer multiple"));
     }
 
     #[test]
@@ -1636,8 +3099,15 @@ mod tests {
             nonfinite: vec![],
         });
         let agg = aggregate_rows(&rows, "1h", "1h").unwrap();
-        assert_eq!(agg.len(), 3, "identity aggregation keeps every closed kline");
-        assert!(agg.iter().all(|r| r.channel == "kline"), "funding never aggregates");
+        assert_eq!(
+            agg.len(),
+            3,
+            "identity aggregation keeps every closed kline"
+        );
+        assert!(
+            agg.iter().all(|r| r.channel == "kline"),
+            "funding never aggregates"
+        );
         assert_eq!(agg[0].event_id, "b1");
     }
 
@@ -1654,22 +3124,38 @@ mod tests {
         let last = base.closes.len();
         let as_of = base.avail[last - 1];
         let depths = std::collections::HashMap::new();
-        let feats = multi_state_features(&mstore, base, sym, last, as_of, HISTORY_DEPTH_DEFAULT, &depths);
+        let feats = multi_state_features(
+            &mstore,
+            base,
+            sym,
+            last,
+            as_of,
+            HISTORY_DEPTH_DEFAULT,
+            &depths,
+        );
 
         // Base features keep their bare names; the 4h block is namespaced.
         assert!(feats.iter().any(|f| f.name == "close"));
-        let close4h = feats.iter().find(|f| f.name == "SOLUSDT.4h.close").expect("4h close");
+        let close4h = feats
+            .iter()
+            .find(|f| f.name == "SOLUSDT.4h.close")
+            .expect("4h close");
         // The last 4h bar closes on the 88th base bar.
         assert_eq!(close4h.value.as_f64(), Some(188.0));
         assert_eq!(close4h.max_input_available_time, as_of);
         // The namespaced key keeps its BARE group (feature_group is keyed by
         // the feature name, not the emitted key).
-        let bb = feats.iter().find(|f| f.name == "SOLUSDT.4h.bb_mid").expect("4h bb_mid");
+        let bb = feats
+            .iter()
+            .find(|f| f.name == "SOLUSDT.4h.bb_mid")
+            .expect("4h bb_mid");
         assert_eq!(bb.group, "volatility");
         assert_eq!(bb.feature_version, "v1");
         // A namespaced absent feature at this clock is simply not emitted.
-        assert!(!feats.iter().any(|f| f.name == "SOLUSDT.4h.open_interest"),
-                "the aggregated store has no funding/OI channel");
+        assert!(
+            !feats.iter().any(|f| f.name == "SOLUSDT.4h.open_interest"),
+            "the aggregated store has no funding/OI channel"
+        );
 
         // The combined lineage differs from the base-only lineage...
         let base_only = state_features(base, last, as_of, HISTORY_DEPTH_DEFAULT);
@@ -1691,12 +3177,34 @@ mod tests {
         let depths = std::collections::HashMap::new();
 
         // At the 2h clock the first 4h bar (available 4h+1) does not exist.
-        let early = multi_state_features(&mstore, base, sym, 2, base.avail[1], HISTORY_DEPTH_DEFAULT, &depths);
-        assert!(!early.iter().any(|f| f.name.contains("4h")), "PIT: 4h bar not yet admissible");
+        let early = multi_state_features(
+            &mstore,
+            base,
+            sym,
+            2,
+            base.avail[1],
+            HISTORY_DEPTH_DEFAULT,
+            &depths,
+        );
+        assert!(
+            !early.iter().any(|f| f.name.contains("4h")),
+            "PIT: 4h bar not yet admissible"
+        );
 
         // At the 5h clock exactly the first 4h bar (closing at 4h) is usable.
-        let at5 = multi_state_features(&mstore, base, sym, 5, base.avail[4], HISTORY_DEPTH_DEFAULT, &depths);
-        let close4h = at5.iter().find(|f| f.name == "SOLUSDT.4h.close").expect("4h close at 5h clock");
+        let at5 = multi_state_features(
+            &mstore,
+            base,
+            sym,
+            5,
+            base.avail[4],
+            HISTORY_DEPTH_DEFAULT,
+            &depths,
+        );
+        let close4h = at5
+            .iter()
+            .find(|f| f.name == "SOLUSDT.4h.close")
+            .expect("4h close at 5h clock");
         assert_eq!(close4h.value.as_f64(), Some(104.0));
         assert_eq!(close4h.max_input_available_time, 4 * h + 1);
     }
@@ -1712,7 +3220,10 @@ mod tests {
         let as_of = base.avail[last - 1];
         let feats = state_features(base, last, as_of, HISTORY_DEPTH_DEFAULT);
         // With no namespaced features the two lineage entry points coincide.
-        assert_eq!(v82_lineage_hash_named(&feats, sym), v82_lineage_hash(&feats, sym));
+        assert_eq!(
+            v82_lineage_hash_named(&feats, sym),
+            v82_lineage_hash(&feats, sym)
+        );
     }
 
     #[test]

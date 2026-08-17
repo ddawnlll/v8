@@ -112,7 +112,8 @@ The Rust workspace is a **second implementation**, not a replacement of §1:
 `src/v8/` is frozen as the parity oracle for the duration of the migration
 (`PARITY_AND_IDENTITY_SPEC` §2). One workspace, one binary, modules rather than
 micro-crates; splitting is deferred until a boundary is proven stable. The
-tree below is the **as-built** layout (21,697 lines, 54 files); §4 tracks
+tree below is the **as-built** layout (approximately 32,258 Rust lines, 62
+source files); §4 tracks
 where it diverges from `COMPUTE_CORE_SPEC` §6's originally designed module
 table.
 
@@ -156,8 +157,11 @@ v8-core/
     jsonx.rs        Python-json-compatible tape parser (NaN/Infinity literals)
     mt19937.rs      bit-exact CPython Mersenne Twister — not in the original
                      §6 table (§4)
-    compute/        kernels K1..K6 + backend selection; empty — the ~10^9-cell
-                     GPU trigger (COMPUTE_SCHEDULING_SPEC §6) has not fired
+    backend/        ReplayKernel boundary + scalar, CPU/SIMD and optional
+                    Linux Vulkan f64 GPU backend (D-098)
+    scheduler.rs    deterministic task scheduling/chunking and fail-closed
+                    worker handling
+    runloop.rs      S4 per-bar composition and runtime dispatch wiring
   tests/            empty — parity is proven by #[cfg(test)] unit tests
                      embedded in each src/*.rs module plus the Python-side
                      harness at repo-root tests/parity/*.py, not a Rust

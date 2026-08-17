@@ -212,15 +212,7 @@ mod tests {
     }
 
     fn simd<'a>(stores: &'a [crate::state::FeatureStore]) -> SimdBackend<'a> {
-        SimdBackend::new(
-            0.07,
-            0.0001,
-            1,
-            FillPolicy::BarClose,
-            &[],
-            None,
-            stores,
-        )
+        SimdBackend::new(0.07, 0.0001, 1, FillPolicy::BarClose, &[], None, stores)
     }
 
     fn assert_bit_identical(a: &Outcome, b: &Outcome, ctx: &str) {
@@ -234,11 +226,12 @@ mod tests {
         );
         assert_eq!(a.mae_r.to_bits(), b.mae_r.to_bits(), "{ctx}: mae_r");
         assert_eq!(a.mfe_r.to_bits(), b.mfe_r.to_bits(), "{ctx}: mfe_r");
+        assert_eq!(a.ambiguous_bars, b.ambiguous_bars, "{ctx}: ambiguous_bars");
         assert_eq!(
-            a.ambiguous_bars, b.ambiguous_bars,
-            "{ctx}: ambiguous_bars"
+            a.entry_price.to_bits(),
+            b.entry_price.to_bits(),
+            "{ctx}: entry_price"
         );
-        assert_eq!(a.entry_price.to_bits(), b.entry_price.to_bits(), "{ctx}: entry_price");
         assert_eq!(
             a.risk_unit_price.to_bits(),
             b.risk_unit_price.to_bits(),
@@ -250,7 +243,11 @@ mod tests {
             "{ctx}: market_move_r"
         );
         assert_eq!(a.cost_r.to_bits(), b.cost_r.to_bits(), "{ctx}: cost_r");
-        assert_eq!(a.funding_r.to_bits(), b.funding_r.to_bits(), "{ctx}: funding_r");
+        assert_eq!(
+            a.funding_r.to_bits(),
+            b.funding_r.to_bits(),
+            "{ctx}: funding_r"
+        );
     }
 
     /// K4 backend invariance (COMPUTE_SCHEDULING_SPEC §8.2): the SIMD backend
@@ -261,7 +258,10 @@ mod tests {
     fn simd_backend_bit_identical_to_scalar_across_endpoints() {
         let (ds, stores) = fixture(
             "SOLUSDT",
-            &[100.0, 101.0, 102.0, 130.0, 70.0, 100.5, 103.0, 99.0, 110.0, 90.0, 100.0, 100.2, 100.4, 99.8],
+            &[
+                100.0, 101.0, 102.0, 130.0, 70.0, 100.5, 103.0, 99.0, 110.0, 90.0, 100.0, 100.2,
+                100.4, 99.8,
+            ],
         );
         let cells = vec![
             // Favorable gap straight through the 110 target -> TARGET at open.
@@ -292,12 +292,20 @@ mod tests {
     fn simd_falls_back_for_stop_moving_drafts_bit_identical() {
         let (ds, stores) = fixture(
             "SOLUSDT",
-            &[100.0, 104.0, 108.0, 106.0, 102.0, 100.0, 99.0, 98.0, 97.0, 96.0, 95.0, 94.0],
+            &[
+                100.0, 104.0, 108.0, 106.0, 102.0, 100.0, 99.0, 98.0, 97.0, 96.0, 95.0, 94.0,
+            ],
         );
         let cells = vec![
             cell(
                 "SOLUSDT",
-                draft("LONG", 1.0, 1.0, 8, &[("trail_stop_atr", serde_json::json!(2.0))]),
+                draft(
+                    "LONG",
+                    1.0,
+                    1.0,
+                    8,
+                    &[("trail_stop_atr", serde_json::json!(2.0))],
+                ),
                 0,
                 12,
             ),
@@ -343,7 +351,9 @@ mod tests {
     fn simd_bit_identical_trigger_thesis_and_time_exit() {
         let (ds, stores) = fixture(
             "SOLUSDT",
-            &[100.0, 101.0, 102.0, 130.0, 70.0, 100.5, 103.0, 99.0, 110.0, 90.0, 100.0, 100.2],
+            &[
+                100.0, 101.0, 102.0, 130.0, 70.0, 100.5, 103.0, 99.0, 110.0, 90.0, 100.0, 100.2,
+            ],
         );
         // trigger_ref 101.5 CLOSE_ABOVE: close 102 at bar 2 confirms, entry
         // at bar 3's close (130), then bar 4 gaps through the 120 stop.

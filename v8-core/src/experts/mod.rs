@@ -11,7 +11,6 @@
 //! (parallel-safe: ports only ever touch their own module file).
 
 pub mod base;
-pub mod predicate;
 pub mod bollinger_breakout;
 pub mod bollinger_reversion;
 pub mod breakout_retest;
@@ -34,6 +33,7 @@ pub mod obv_adl_regime;
 pub mod open_interest_divergence;
 pub mod pandf_breakout;
 pub mod pattern_measuring_objective;
+pub mod predicate;
 pub mod range_breakout_1to1;
 pub mod rsi_stoch_reversion;
 pub mod trend_pullback;
@@ -45,36 +45,230 @@ use base::{ExpertEval, FeatMap};
 
 pub type PortFn = fn(&FeatMap, &str, &str) -> ExpertEval;
 
+/// Explicitly dispatched constructor variants. Families omitted here use a
+/// fixed/default or internally auto-selected variant and therefore reject a
+/// request-level override instead of silently ignoring it.
+pub const VARIANT_TABLE: &[(&str, &[&str])] = &[
+    ("bollinger_breakout", &["a", "b", "c"]),
+    ("breakout_retest", &["a", "b", "c"]),
+    (
+        "candlestick_reversal",
+        &[
+            "hammer",
+            "shooting_star",
+            "bullish_engulfing",
+            "bearish_engulfing",
+            "bullish_harami",
+            "bearish_harami",
+            "three_white_soldiers",
+            "three_black_crows",
+        ],
+    ),
+    ("failed_breakout_2b", &["b", "c", "d", "e", "f", "g"]),
+    ("fib_rsi_bb_confluence", &["a", "b"]),
+    ("funding_crowding_reversal", &["a", "b", "c", "d"]),
+    ("gap_exhaustion", &["a", "b", "c"]),
+    ("market_profile_value_area", &["a", "b", "c", "d"]),
+    ("open_interest_divergence", &["a", "b", "c", "d"]),
+    ("pandf_breakout", &["a", "b", "c", "d"]),
+    (
+        "pattern_measuring_objective",
+        &["head_shoulders", "double_top", "triangle"],
+    ),
+];
+
+pub fn validate_variant_overrides(
+    overrides: &std::collections::HashMap<String, String>,
+) -> Result<(), String> {
+    for (expert_id, variant) in overrides {
+        let allowed = VARIANT_TABLE
+            .iter()
+            .find(|(id, _)| *id == expert_id)
+            .map(|(_, variants)| *variants)
+            .ok_or_else(|| {
+                format!(
+                    "variant override for {expert_id:?} is unsupported: this family has no explicit variant dispatch"
+                )
+            })?;
+        if !allowed.iter().any(|candidate| *candidate == variant) {
+            return Err(format!(
+                "unsupported variant {variant:?} for {expert_id:?}; expected one of {allowed:?}"
+            ));
+        }
+    }
+    Ok(())
+}
+
 /// (expert_id, port fn, declared version, ported flag) — the dispatch table.
 pub const TABLE: [(&str, PortFn, &str, bool); 28] = [
-    ("bollinger_breakout", bollinger_breakout::bollinger_breakout, bollinger_breakout::VERSION, bollinger_breakout::PORTED),
-    ("bollinger_reversion", bollinger_reversion::bollinger_reversion, bollinger_reversion::VERSION, bollinger_reversion::PORTED),
-    ("breakout_retest", breakout_retest::breakout_retest, breakout_retest::VERSION, breakout_retest::PORTED),
-    ("candlestick_reversal", candlestick_reversal::candlestick_reversal, candlestick_reversal::VERSION, candlestick_reversal::PORTED),
-    ("divergence_12_setups", divergence_12_setups::divergence_12_setups, divergence_12_setups::VERSION, divergence_12_setups::PORTED),
-    ("donchian_breakout", donchian_breakout::donchian_breakout, donchian_breakout::VERSION, donchian_breakout::PORTED),
-    ("failed_breakout", failed_breakout::failed_breakout, failed_breakout::VERSION, failed_breakout::PORTED),
-    ("failed_breakout_2b", failed_breakout_2b::failed_breakout_2b, failed_breakout_2b::VERSION, failed_breakout_2b::PORTED),
-    ("fib_projection_reversal", fib_projection_reversal::fib_projection_reversal, fib_projection_reversal::VERSION, fib_projection_reversal::PORTED),
-    ("fib_retracement_continuation", fib_retracement_continuation::fib_retracement_continuation, fib_retracement_continuation::VERSION, fib_retracement_continuation::PORTED),
-    ("fib_rsi_bb_confluence", fib_rsi_bb_confluence::fib_rsi_bb_confluence, fib_rsi_bb_confluence::VERSION, fib_rsi_bb_confluence::PORTED),
-    ("floor_trader_pivot", floor_trader_pivot::floor_trader_pivot, floor_trader_pivot::VERSION, floor_trader_pivot::PORTED),
-    ("funding_crowding_reversal", funding_crowding_reversal::funding_crowding_reversal, funding_crowding_reversal::VERSION, funding_crowding_reversal::PORTED),
-    ("gap_exhaustion", gap_exhaustion::gap_exhaustion, gap_exhaustion::VERSION, gap_exhaustion::PORTED),
-    ("ichimoku_cloud", ichimoku_cloud::ichimoku_cloud, ichimoku_cloud::VERSION, ichimoku_cloud::PORTED),
-    ("liquidity_sweep_reclaim", liquidity_sweep_reclaim::liquidity_sweep_reclaim, liquidity_sweep_reclaim::VERSION, liquidity_sweep_reclaim::PORTED),
-    ("macd_stoch_trend", macd_stoch_trend::macd_stoch_trend, macd_stoch_trend::VERSION, macd_stoch_trend::PORTED),
-    ("market_profile_value_area", market_profile_value_area::market_profile_value_area, market_profile_value_area::VERSION, market_profile_value_area::PORTED),
-    ("obv_adl_regime", obv_adl_regime::obv_adl_regime, obv_adl_regime::VERSION, obv_adl_regime::PORTED),
-    ("open_interest_divergence", open_interest_divergence::open_interest_divergence, open_interest_divergence::VERSION, open_interest_divergence::PORTED),
-    ("pandf_breakout", pandf_breakout::pandf_breakout, pandf_breakout::VERSION, pandf_breakout::PORTED),
-    ("pattern_measuring_objective", pattern_measuring_objective::pattern_measuring_objective, pattern_measuring_objective::VERSION, pattern_measuring_objective::PORTED),
-    ("range_breakout_1to1", range_breakout_1to1::range_breakout_1to1, range_breakout_1to1::VERSION, range_breakout_1to1::PORTED),
-    ("rsi_stoch_reversion", rsi_stoch_reversion::rsi_stoch_reversion, rsi_stoch_reversion::VERSION, rsi_stoch_reversion::PORTED),
-    ("trend_pullback", trend_pullback::trend_pullback, trend_pullback::VERSION, trend_pullback::PORTED),
-    ("trend_pullback_depth", trend_pullback_depth::trend_pullback_depth, trend_pullback_depth::VERSION, trend_pullback_depth::PORTED),
-    ("volume_climax_reversal", volume_climax_reversal::volume_climax_reversal, volume_climax_reversal::VERSION, volume_climax_reversal::PORTED),
-    ("volume_confirmed_breakout", volume_confirmed_breakout::volume_confirmed_breakout, volume_confirmed_breakout::VERSION, volume_confirmed_breakout::PORTED),
+    (
+        "bollinger_breakout",
+        bollinger_breakout::bollinger_breakout,
+        bollinger_breakout::VERSION,
+        bollinger_breakout::PORTED,
+    ),
+    (
+        "bollinger_reversion",
+        bollinger_reversion::bollinger_reversion,
+        bollinger_reversion::VERSION,
+        bollinger_reversion::PORTED,
+    ),
+    (
+        "breakout_retest",
+        breakout_retest::breakout_retest,
+        breakout_retest::VERSION,
+        breakout_retest::PORTED,
+    ),
+    (
+        "candlestick_reversal",
+        candlestick_reversal::candlestick_reversal,
+        candlestick_reversal::VERSION,
+        candlestick_reversal::PORTED,
+    ),
+    (
+        "divergence_12_setups",
+        divergence_12_setups::divergence_12_setups,
+        divergence_12_setups::VERSION,
+        divergence_12_setups::PORTED,
+    ),
+    (
+        "donchian_breakout",
+        donchian_breakout::donchian_breakout,
+        donchian_breakout::VERSION,
+        donchian_breakout::PORTED,
+    ),
+    (
+        "failed_breakout",
+        failed_breakout::failed_breakout,
+        failed_breakout::VERSION,
+        failed_breakout::PORTED,
+    ),
+    (
+        "failed_breakout_2b",
+        failed_breakout_2b::failed_breakout_2b,
+        failed_breakout_2b::VERSION,
+        failed_breakout_2b::PORTED,
+    ),
+    (
+        "fib_projection_reversal",
+        fib_projection_reversal::fib_projection_reversal,
+        fib_projection_reversal::VERSION,
+        fib_projection_reversal::PORTED,
+    ),
+    (
+        "fib_retracement_continuation",
+        fib_retracement_continuation::fib_retracement_continuation,
+        fib_retracement_continuation::VERSION,
+        fib_retracement_continuation::PORTED,
+    ),
+    (
+        "fib_rsi_bb_confluence",
+        fib_rsi_bb_confluence::fib_rsi_bb_confluence,
+        fib_rsi_bb_confluence::VERSION,
+        fib_rsi_bb_confluence::PORTED,
+    ),
+    (
+        "floor_trader_pivot",
+        floor_trader_pivot::floor_trader_pivot,
+        floor_trader_pivot::VERSION,
+        floor_trader_pivot::PORTED,
+    ),
+    (
+        "funding_crowding_reversal",
+        funding_crowding_reversal::funding_crowding_reversal,
+        funding_crowding_reversal::VERSION,
+        funding_crowding_reversal::PORTED,
+    ),
+    (
+        "gap_exhaustion",
+        gap_exhaustion::gap_exhaustion,
+        gap_exhaustion::VERSION,
+        gap_exhaustion::PORTED,
+    ),
+    (
+        "ichimoku_cloud",
+        ichimoku_cloud::ichimoku_cloud,
+        ichimoku_cloud::VERSION,
+        ichimoku_cloud::PORTED,
+    ),
+    (
+        "liquidity_sweep_reclaim",
+        liquidity_sweep_reclaim::liquidity_sweep_reclaim,
+        liquidity_sweep_reclaim::VERSION,
+        liquidity_sweep_reclaim::PORTED,
+    ),
+    (
+        "macd_stoch_trend",
+        macd_stoch_trend::macd_stoch_trend,
+        macd_stoch_trend::VERSION,
+        macd_stoch_trend::PORTED,
+    ),
+    (
+        "market_profile_value_area",
+        market_profile_value_area::market_profile_value_area,
+        market_profile_value_area::VERSION,
+        market_profile_value_area::PORTED,
+    ),
+    (
+        "obv_adl_regime",
+        obv_adl_regime::obv_adl_regime,
+        obv_adl_regime::VERSION,
+        obv_adl_regime::PORTED,
+    ),
+    (
+        "open_interest_divergence",
+        open_interest_divergence::open_interest_divergence,
+        open_interest_divergence::VERSION,
+        open_interest_divergence::PORTED,
+    ),
+    (
+        "pandf_breakout",
+        pandf_breakout::pandf_breakout,
+        pandf_breakout::VERSION,
+        pandf_breakout::PORTED,
+    ),
+    (
+        "pattern_measuring_objective",
+        pattern_measuring_objective::pattern_measuring_objective,
+        pattern_measuring_objective::VERSION,
+        pattern_measuring_objective::PORTED,
+    ),
+    (
+        "range_breakout_1to1",
+        range_breakout_1to1::range_breakout_1to1,
+        range_breakout_1to1::VERSION,
+        range_breakout_1to1::PORTED,
+    ),
+    (
+        "rsi_stoch_reversion",
+        rsi_stoch_reversion::rsi_stoch_reversion,
+        rsi_stoch_reversion::VERSION,
+        rsi_stoch_reversion::PORTED,
+    ),
+    (
+        "trend_pullback",
+        trend_pullback::trend_pullback,
+        trend_pullback::VERSION,
+        trend_pullback::PORTED,
+    ),
+    (
+        "trend_pullback_depth",
+        trend_pullback_depth::trend_pullback_depth,
+        trend_pullback_depth::VERSION,
+        trend_pullback_depth::PORTED,
+    ),
+    (
+        "volume_climax_reversal",
+        volume_climax_reversal::volume_climax_reversal,
+        volume_climax_reversal::VERSION,
+        volume_climax_reversal::PORTED,
+    ),
+    (
+        "volume_confirmed_breakout",
+        volume_confirmed_breakout::volume_confirmed_breakout,
+        volume_confirmed_breakout::VERSION,
+        volume_confirmed_breakout::PORTED,
+    ),
 ];
 
 /// The registered evaluate() dispatch. Unported experts return NO_HABITAT
@@ -89,7 +283,8 @@ pub fn evaluate(expert_id: &str, fm: &FeatMap) -> ExpertEval {
 }
 
 pub fn ported(expert_id: &str) -> bool {
-    TABLE.iter()
+    TABLE
+        .iter()
         .find(|(id, _, _, _)| **id == *expert_id)
         .map(|(_, _, _, p)| *p)
         .unwrap_or(false)
@@ -97,7 +292,10 @@ pub fn ported(expert_id: &str) -> bool {
 
 /// (expert_id, ported) rows for the `registry` subcommand / parity harness.
 pub fn registry_rows() -> Vec<(&'static str, bool)> {
-    TABLE.iter().map(|(id, _, _, p)| (*id, *p)).collect()
+    TABLE
+        .iter()
+        .map(|(id, _, _, _)| (*id, ported(id)))
+        .collect()
 }
 
 /// (expert_id, requires groups) — the D-053 projection declaration.
@@ -111,25 +309,43 @@ pub const REQUIRES_TABLE: [(&str, &[&str]); 28] = [
     ("failed_breakout", failed_breakout::REQUIRES),
     ("failed_breakout_2b", failed_breakout_2b::REQUIRES),
     ("fib_projection_reversal", fib_projection_reversal::REQUIRES),
-    ("fib_retracement_continuation", fib_retracement_continuation::REQUIRES),
+    (
+        "fib_retracement_continuation",
+        fib_retracement_continuation::REQUIRES,
+    ),
     ("fib_rsi_bb_confluence", fib_rsi_bb_confluence::REQUIRES),
     ("floor_trader_pivot", floor_trader_pivot::REQUIRES),
-    ("funding_crowding_reversal", funding_crowding_reversal::REQUIRES),
+    (
+        "funding_crowding_reversal",
+        funding_crowding_reversal::REQUIRES,
+    ),
     ("gap_exhaustion", gap_exhaustion::REQUIRES),
     ("ichimoku_cloud", ichimoku_cloud::REQUIRES),
     ("liquidity_sweep_reclaim", liquidity_sweep_reclaim::REQUIRES),
     ("macd_stoch_trend", macd_stoch_trend::REQUIRES),
-    ("market_profile_value_area", market_profile_value_area::REQUIRES),
+    (
+        "market_profile_value_area",
+        market_profile_value_area::REQUIRES,
+    ),
     ("obv_adl_regime", obv_adl_regime::REQUIRES),
-    ("open_interest_divergence", open_interest_divergence::REQUIRES),
+    (
+        "open_interest_divergence",
+        open_interest_divergence::REQUIRES,
+    ),
     ("pandf_breakout", pandf_breakout::REQUIRES),
-    ("pattern_measuring_objective", pattern_measuring_objective::REQUIRES),
+    (
+        "pattern_measuring_objective",
+        pattern_measuring_objective::REQUIRES,
+    ),
     ("range_breakout_1to1", range_breakout_1to1::REQUIRES),
     ("rsi_stoch_reversion", rsi_stoch_reversion::REQUIRES),
     ("trend_pullback", trend_pullback::REQUIRES),
     ("trend_pullback_depth", trend_pullback_depth::REQUIRES),
     ("volume_climax_reversal", volume_climax_reversal::REQUIRES),
-    ("volume_confirmed_breakout", volume_confirmed_breakout::REQUIRES),
+    (
+        "volume_confirmed_breakout",
+        volume_confirmed_breakout::REQUIRES,
+    ),
 ];
 
 /// The D-053 requires closure for an expert (empty for unknown ids).
@@ -140,4 +356,31 @@ pub fn requires_for(expert_id: &str) -> &'static [&'static str] {
         }
     }
     &[]
+}
+
+#[cfg(test)]
+mod variant_tests {
+    use super::validate_variant_overrides;
+    use std::collections::HashMap;
+
+    #[test]
+    fn variant_overrides_are_explicit_and_fail_closed() {
+        let mut ok = HashMap::new();
+        ok.insert(
+            "candlestick_reversal".to_string(),
+            "three_black_crows".to_string(),
+        );
+        assert!(validate_variant_overrides(&ok).is_ok());
+
+        let mut bad_value = HashMap::new();
+        bad_value.insert(
+            "candlestick_reversal".to_string(),
+            "not-a-pattern".to_string(),
+        );
+        assert!(validate_variant_overrides(&bad_value).is_err());
+
+        let mut unsupported_family = HashMap::new();
+        unsupported_family.insert("volume_confirmed_breakout".to_string(), "a".to_string());
+        assert!(validate_variant_overrides(&unsupported_family).is_err());
+    }
 }

@@ -9,8 +9,8 @@
 //! D-026 base find_setup_anchor over the pullback-reclaim predicate.
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -126,7 +126,11 @@ pub fn fib_retracement_continuation(fm: &FeatMap, expert_id: &str, version: &str
             // The invalidation reference is FROZEN at detection (prior_*_ref,
             // D-042): prior_low_ref for LONG, prior_high_ref for SHORT.
             (
-                if direction_sig == "LONG" { "prior_low_ref" } else { "prior_high_ref" },
+                if direction_sig == "LONG" {
+                    "prior_low_ref"
+                } else {
+                    "prior_high_ref"
+                },
                 serde_json::json!(deep),
             ),
         ]),

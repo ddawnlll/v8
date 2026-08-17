@@ -69,22 +69,31 @@ fn rsi_per_bar(closes: &[f64]) -> Vec<Option<f64>> {
 /// Python `_lattice` — confirmed significant pivot highs/lows (G-21 + CRIT-1,
 /// Ch27.2 p858-859): index p is a pivot when both n-bar flanks are closed and
 /// its range passes the significance filter (>= k*ATR).
-fn lattice(highs: &[f64], lows: &[f64], n: usize, atr: f64) -> (Vec<(usize, f64)>, Vec<(usize, f64)>) {
+fn lattice(
+    highs: &[f64],
+    lows: &[f64],
+    n: usize,
+    atr: f64,
+) -> (Vec<(usize, f64)>, Vec<(usize, f64)>) {
     let mut peaks = Vec::new();
     let mut troughs = Vec::new();
     let mut i = n;
     while i + n < highs.len() {
         let hi = highs[i];
         let flank_max = highs[i - n..i]
-            .iter().chain(highs[i + 1..i + 1 + n].iter())
-            .copied().fold(f64::NEG_INFINITY, f64::max);
+            .iter()
+            .chain(highs[i + 1..i + 1 + n].iter())
+            .copied()
+            .fold(f64::NEG_INFINITY, f64::max);
         if hi > flank_max && hi - lows[i] >= SWING_SIGNIFICANCE_K * atr {
             peaks.push((i, hi));
         }
         let lo = lows[i];
         let flank_min = lows[i - n..i]
-            .iter().chain(lows[i + 1..i + 1 + n].iter())
-            .copied().fold(f64::INFINITY, f64::min);
+            .iter()
+            .chain(lows[i + 1..i + 1 + n].iter())
+            .copied()
+            .fold(f64::INFINITY, f64::min);
         if lo < flank_min && highs[i] - lo >= SWING_SIGNIFICANCE_K * atr {
             troughs.push((i, lo));
         }
@@ -99,7 +108,11 @@ fn lattice(highs: &[f64], lows: &[f64], n: usize, atr: f64) -> (Vec<(usize, f64)
 /// intervening swing low). Uses only pivots confirmed by bar i (p + SWING_N
 /// <= i). Returns (barrier, extremum) or None.
 fn setup_at(
-    closes: &[f64], lows: &[f64], rsi: &[Option<f64>], peaks: &[(usize, f64)], i: usize,
+    closes: &[f64],
+    lows: &[f64],
+    rsi: &[Option<f64>],
+    peaks: &[(usize, f64)],
+    i: usize,
 ) -> Option<(f64, f64)> {
     let conf: Vec<&(usize, f64)> = peaks.iter().filter(|(p, _)| p + SWING_N <= i).collect();
     if conf.len() < 2 {
@@ -110,15 +123,18 @@ fn setup_at(
     if !(p2 > p1) {
         return None;
     }
-    let r1 = match rsi[i1] { Some(v) => v, None => return None };
-    let r2 = match rsi[i2] { Some(v) => v, None => return None };
+    let r1 = rsi[i1]?;
+    let r2 = rsi[i2]?;
     if !(r2 < r1) {
         return None;
     }
     if i2 <= i1 + 1 {
         return None; // `between` empty — no intervening swing support
     }
-    let barrier = lows[i1 + 1..i2].iter().copied().fold(f64::INFINITY, f64::min);
+    let barrier = lows[i1 + 1..i2]
+        .iter()
+        .copied()
+        .fold(f64::INFINITY, f64::min);
     if closes[i] >= barrier {
         return None;
     }

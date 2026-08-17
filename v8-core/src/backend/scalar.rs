@@ -4,7 +4,7 @@
 //! `simulator::ReplayKernel` (SIMULATION_TRUTH_SPEC; COMPUTE_CORE_SPEC §4),
 //! byte-for-byte — Backend-0 is the in-core reference. The frozen Python
 //! `src/v8/` remains the parity oracle (D-087). No parallelism exists here:
-//! task parallelism and SIMD are Backend-1, a separate card.
+//! task parallelism and SIMD are selected through the shared backend boundary.
 //!
 //! The replay semantics are unchanged (the doc from the source module is
 //! preserved verbatim):
@@ -36,7 +36,9 @@ use serde_json::Value;
 use crate::backend::{ReplayCell, ReplayKernel};
 use crate::data::{Dataset, SymbolBars};
 use crate::experts::predicate::{self, FeatCtx};
-use crate::simulator::{risk_unit, validate_geometry, Draft, FillPolicy, Outcome, HOUR_NS};
+use crate::simulator::{
+    pyramid_add_rule, risk_unit, validate_geometry, Draft, FillPolicy, Outcome, HOUR_NS,
+};
 use crate::state::FeatureStore;
 
 /// The per-symbol scalar kernel: the moved `simulator::ReplayKernel` struct,
@@ -118,11 +120,11 @@ impl<'a> ScalarKernel<'a> {
                     .find(|(b, _)| b == boundary)
                     .map(|(_, r)| *r)
                     .ok_or_else(|| format!("funding schedule missing boundary {boundary}"))?;
-                c += sign * pos.entry_price * rate / unit;
+                c += sign * pos.notional_entry_price() * rate / unit;
             }
             c
         } else {
-            sign * self.funding_rate_r * new as f64
+            sign * self.funding_rate_r * new as f64 * pos.open_size()
         };
         Ok((
             Pos {
@@ -214,10 +216,27 @@ impl<'a> ScalarKernel<'a> {
         };
         if endpoint.is_none() {
             // --- EXEC-1/2/3 position management (bar-close, non-terminal) ---
-            if draft.has_geom("pyramid_add_rules") {
-                return Err("pyramid_add_rules is declared but pyramiding is P2 and not implemented (EXEC-3); a draft that requests it fails closed".to_string());
+            if let Some(rule) = pyramid_add_rule(draft)? {
+                // The trigger is observed from this completed bar's excursion,
+                // but the add is booked at its close.  That keeps bar-atomic
+                // OHLC ordering intact: an intrabar stop/target always wins
+                // over management, and the newly rolled stop starts next bar.
+                let add_price = self.bars.closes[i];
+                let favorable_close = sign * (add_price - entry) > 0.0;
+                if !pos.pyramid_added && mfe_r >= rule.at_mfe_r && favorable_close {
+                    next.pyramid_added = true;
+                    next.pyramid_add_price = Some(add_price);
+                    next.pyramid_add_cost_r = self.cost_r(add_price, unit)?;
+                    // Equal-sized add: the midway stop is also the arithmetic
+                    // average entry.  The target deliberately remains anchored
+                    // to the original entry, so both legs realize against the
+                    // same declared target geometry.
+                    next.stop_level = Some((entry + add_price) / 2.0);
+                }
             }
-            let mut stop_level = pos.stop_level;
+            // Start from the new pyramid midpoint when this bar added a leg;
+            // otherwise preserve the previously effective stop.
+            let mut stop_level = next.stop_level;
             let mut stop_rolled = pos.stop_rolled;
             if draft.has_geom("breakeven_roll_at_mfe_r")
                 && !stop_rolled
@@ -293,10 +312,9 @@ impl<'a> ScalarKernel<'a> {
                 }
             }
         };
-        let cost = self.cost_r(entry, unit)?;
-        let net_r = pos.realized_r + pos.remaining * (sign * (exit_price - entry) / unit)
-            - cost
-            - pos.funding_paid_r;
+        let cost = self.cost_r(entry, unit)? + pos.pyramid_add_cost_r;
+        let net_r =
+            pos.realized_r + pos.open_pnl_r(exit_price, sign, unit) - cost - pos.funding_paid_r;
         let label = if matches!(endpoint.unwrap(), "TARGET" | "STOP" | "THESIS_INVALIDATED") {
             "MATURE"
         } else {
@@ -529,7 +547,16 @@ impl<'a> ScalarKernel<'a> {
         };
         let _unit = risk_unit(draft, entry)?;
         let entry_time = self.bars.available_times[start];
-        self.exit(use_simd, draft, start, start + 1, end, thesis, entry, entry_time)
+        self.exit(
+            use_simd,
+            draft,
+            start,
+            start + 1,
+            end,
+            thesis,
+            entry,
+            entry_time,
+        )
     }
 
     /// Route the post-entry exit walk to the scalar or the SIMD variant.
@@ -587,10 +614,10 @@ impl<'a> ScalarKernel<'a> {
             let bar_time = self.bars.available_times[i];
             let (closed, endpoint, net_r, label, next, _new_settlements, _cf) =
                 self.step(&pos, draft, i, tv, Some(bar_time), unit)?;
-            if closed && endpoint.is_some() && net_r.is_some() {
+            if let (true, Some(endpoint), Some(net_r)) = (closed, endpoint, net_r) {
                 return Ok(Outcome {
-                    endpoint: endpoint.unwrap(),
-                    net_r: net_r.unwrap(),
+                    endpoint,
+                    net_r,
                     label_status: label.unwrap_or_else(|| "MATURE".into()),
                     horizon_bars: horizon,
                     label_available_time: bar_time,
@@ -600,7 +627,7 @@ impl<'a> ScalarKernel<'a> {
                     entry_price: entry,
                     risk_unit_price: unit,
                     market_move_r: (self.bars.closes[i] - entry) / unit,
-                    cost_r: self.cost_r(entry, unit)?,
+                    cost_r: self.cost_r(entry, unit)? + next.pyramid_add_cost_r,
                     funding_r: next.funding_paid_r,
                 });
             }
@@ -610,8 +637,8 @@ impl<'a> ScalarKernel<'a> {
         // Never closed within the window: expire at the last bar's close.
         let last = end - 1;
         let sign = if draft.direction == "LONG" { 1.0 } else { -1.0 };
-        let cost = self.cost_r(entry, unit)?;
-        let net = pos.realized_r + pos.remaining * (sign * (self.bars.closes[last] - entry) / unit)
+        let cost = self.cost_r(entry, unit)? + pos.pyramid_add_cost_r;
+        let net = pos.realized_r + pos.open_pnl_r(self.bars.closes[last], sign, unit)
             - cost
             - pos.funding_paid_r;
         Ok(Outcome {
@@ -737,8 +764,16 @@ impl<'a> ScalarKernel<'a> {
             hit_stop[k] = if long { low <= stop } else { high >= stop };
             mfe_c[k] = (sign * (fav - entry) / unit).max(0.0);
             mae_c[k] = (sign * (entry - adv) / unit).max(0.0);
-            exit_target[k] = if long { target.max(open_) } else { target.min(open_) };
-            exit_stop[k] = if long { stop.min(open_) } else { stop.max(open_) };
+            exit_target[k] = if long {
+                target.max(open_)
+            } else {
+                target.min(open_)
+            };
+            exit_stop[k] = if long {
+                stop.min(open_)
+            } else {
+                stop.max(open_)
+            };
             close_move[k] = (close - entry) / unit;
             i += 1;
             k += 1;
@@ -794,8 +829,7 @@ impl<'a> ScalarKernel<'a> {
                     _ => exit_stop[k],
                 };
                 let cost = self.cost_r(entry, unit)?;
-                let net_r = p.realized_r
-                    + p.remaining * (sign * (exit_price - entry) / unit)
+                let net_r = p.realized_r + p.remaining * (sign * (exit_price - entry) / unit)
                     - cost
                     - p.funding_paid_r;
                 let label = if matches!(ep, "TARGET" | "STOP" | "THESIS_INVALIDATED") {
@@ -927,6 +961,9 @@ struct Pos {
     scaled_out: bool,
     realized_r: f64,
     remaining: f64,
+    pyramid_added: bool,
+    pyramid_add_price: Option<f64>,
+    pyramid_add_cost_r: f64,
 }
 
 impl Pos {
@@ -945,7 +982,27 @@ impl Pos {
             scaled_out: false,
             realized_r: 0.0,
             remaining: 1.0,
+            pyramid_added: false,
+            pyramid_add_price: None,
+            pyramid_add_cost_r: 0.0,
         }
+    }
+
+    fn open_size(&self) -> f64 {
+        self.remaining + f64::from(self.pyramid_added)
+    }
+
+    fn notional_entry_price(&self) -> f64 {
+        self.entry_price * self.remaining + self.pyramid_add_price.unwrap_or(0.0)
+    }
+
+    fn open_pnl_r(&self, exit_price: f64, sign: f64, unit: f64) -> f64 {
+        let primary = self.remaining * sign * (exit_price - self.entry_price) / unit;
+        let add = self
+            .pyramid_add_price
+            .map(|price| sign * (exit_price - price) / unit)
+            .unwrap_or(0.0);
+        primary + add
     }
 }
 
@@ -965,6 +1022,7 @@ enum TriggerWait {
 /// the scalar reference kernel, sequentially, in cell order. The `stores` are
 /// the K2 per-symbol feature stores built once per request (never per cell —
 /// COMPUTE_CORE_SPEC §5).
+#[allow(dead_code)]
 pub struct ScalarBackend<'a> {
     pub round_trip_cost_r: f64,
     pub funding_rate_r: f64,
@@ -1211,5 +1269,80 @@ mod tests {
             "short favorable gap must book +2.93R: net_r = {}",
             out_fav.net_r
         );
+    }
+
+    fn pyramid_draft(direction: &str) -> Draft {
+        let mut draft = gap_draft(direction);
+        draft
+            .risk_geometry
+            .insert("target_r".into(), serde_json::json!(3.0));
+        draft
+            .risk_geometry
+            .insert("expiry_bars".into(), serde_json::json!(3));
+        draft.risk_geometry.insert(
+            "pyramid_add_rules".into(),
+            serde_json::json!([{"at_mfe_r": 1.0}]),
+        );
+        draft
+    }
+
+    #[test]
+    fn pyramid_add_rolls_to_midpoint_and_charges_both_legs_long() {
+        // Entry 100, one R = 10.  Bar 1 sees +1.1R and closes at 110, so the
+        // equal-size add is 110 and the new protective stop is 105.  Bar 2
+        // stops at 105: +0.5R on the original leg offsets -0.5R on the add.
+        // Both legs pay the declared round-trip cost.
+        let bars = bars_fixture(
+            "SOLUSDT",
+            vec![100.0, 110.0, 105.0],
+            vec![100.0, 111.0, 105.0],
+            vec![100.0, 105.0, 105.0],
+            vec![100.0, 110.0, 105.0],
+        );
+        let store = FeatureStore::build(&bars, &[]);
+        let out = kernel(&bars, &store)
+            .run(&pyramid_draft("LONG"), 0, bars.closes.len(), None)
+            .unwrap();
+        assert_eq!(out.endpoint, "STOP");
+        assert_eq!(out.net_r.to_bits(), (-0.14f64).to_bits());
+        assert_eq!(out.cost_r.to_bits(), (0.14f64).to_bits());
+    }
+
+    #[test]
+    fn pyramid_add_rolls_to_midpoint_and_charges_both_legs_short() {
+        let bars = bars_fixture(
+            "SOLUSDT",
+            vec![100.0, 90.0, 95.0],
+            vec![100.0, 95.0, 95.0],
+            vec![100.0, 89.0, 95.0],
+            vec![100.0, 90.0, 95.0],
+        );
+        let store = FeatureStore::build(&bars, &[]);
+        let out = kernel(&bars, &store)
+            .run(&pyramid_draft("SHORT"), 0, bars.closes.len(), None)
+            .unwrap();
+        assert_eq!(out.endpoint, "STOP");
+        assert_eq!(out.net_r.to_bits(), (-0.14f64).to_bits());
+        assert_eq!(out.cost_r.to_bits(), (0.14f64).to_bits());
+    }
+
+    #[test]
+    fn invalid_pyramid_rule_fails_before_the_entry_bar() {
+        let bars = bars_fixture(
+            "SOLUSDT",
+            vec![100.0, 130.0],
+            vec![100.0, 130.0],
+            vec![100.0, 130.0],
+            vec![100.0, 130.0],
+        );
+        let store = FeatureStore::build(&bars, &[]);
+        let mut draft = gap_draft("LONG");
+        draft
+            .risk_geometry
+            .insert("pyramid_add_rules".into(), serde_json::json!([]));
+        let err = kernel(&bars, &store)
+            .run(&draft, 0, bars.closes.len(), None)
+            .unwrap_err();
+        assert!(err.contains("exactly one add rule"), "{err}");
     }
 }

@@ -8,10 +8,8 @@
 //! of the current (breakout) column (`hist[anchor_idx][0]`), NOT the D-026
 //! find_setup_anchor run-start — the Python source anchors on the column.
 //!
-//! The parity harness constructs `PandfBreakoutExpert()` with its default
-//! variant_id 'a', and the port fn signature carries no variant parameter, so
-//! the declared default variant 'a' is used here; the full `_signal` machinery
-//! (all four variants) is mirrored below for fidelity.
+//! The default constructor uses variant_id 'a'; request-level overrides can
+//! select the other variants. The full `_signal` machinery is mirrored below.
 
 use crate::experts::base::*;
 use crate::simulator::Draft;
@@ -58,7 +56,11 @@ fn columns(closes: &[f64], box_: f64, reversal: i64) -> Vec<Column> {
     let mut cur: Option<Column> = None;
     for (i, &c) in closes.iter().enumerate() {
         if cur.is_none() {
-            cur = Some(Column { d: 1, start: i, levels: vec![c] });
+            cur = Some(Column {
+                d: 1,
+                start: i,
+                levels: vec![c],
+            });
             continue;
         }
         let col = cur.as_mut().unwrap();
@@ -79,9 +81,17 @@ fn columns(closes: &[f64], box_: f64, reversal: i64) -> Vec<Column> {
                 }
                 cols.push(std::mem::replace(
                     col,
-                    Column { d: 0, start: 0, levels: Vec::new() },
+                    Column {
+                        d: 0,
+                        start: 0,
+                        levels: Vec::new(),
+                    },
                 ));
-                cur = Some(Column { d: -1, start: i, levels: new_levels });
+                cur = Some(Column {
+                    d: -1,
+                    start: i,
+                    levels: new_levels,
+                });
                 continue;
             }
         } else {
@@ -101,9 +111,17 @@ fn columns(closes: &[f64], box_: f64, reversal: i64) -> Vec<Column> {
                 }
                 cols.push(std::mem::replace(
                     col,
-                    Column { d: 0, start: 0, levels: Vec::new() },
+                    Column {
+                        d: 0,
+                        start: 0,
+                        levels: Vec::new(),
+                    },
                 ));
-                cur = Some(Column { d: 1, start: i, levels: new_levels });
+                cur = Some(Column {
+                    d: 1,
+                    start: i,
+                    levels: new_levels,
+                });
                 continue;
             }
         }
@@ -198,10 +216,8 @@ fn signal(cols: &[Column], variant_id: &str) -> Option<Signal> {
 }
 
 pub fn pandf_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
-    // The parity harness instantiates PandfBreakoutExpert() with its default
-    // variant_id 'a'; the port fn signature carries no variant, so the default
-    // is used (mirror of the Python __init__ default).
-    let variant_id = "a";
+    // No override preserves the Python constructor default, variant 'a'.
+    let variant_id = fm.variant(expert_id, "a");
     let sym = fm.symbol;
     let close = match fm.value("close") {
         Some(v) => v,
@@ -229,8 +245,7 @@ pub fn pandf_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
     let anchor = fm.history[hit.anchor_idx].event_id.clone();
     let (stop_price, target_price, prior_low_ref, prior_high_ref) = if hit.direction == "LONG" {
         let stop_price = hit.col_bottom;
-        let target_price =
-            hit.col_bottom + (hit.col_boxes as f64) * box_ * (REVERSAL_BOXES as f64);
+        let target_price = hit.col_bottom + (hit.col_boxes as f64) * box_ * (REVERSAL_BOXES as f64);
         (stop_price, target_price, Some(hit.col_bottom), None)
     } else {
         let stop_price = hit.col_top;

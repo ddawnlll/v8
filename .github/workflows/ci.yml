@@ -34,12 +34,40 @@ jobs:
       - name: Gate 3 — no forbidden component identifiers
         run: python3 tools/forbidden_names.py
 
+      - name: Python/Rust ownership boundary
+        run: python3 tools/audit_python_boundary.py
+
+      - name: v8-core unit tests (debug, catches checked arithmetic failures)
+        working-directory: v8-core
+        run: cargo test
+
+      - name: v8-core GPU feature compile
+        working-directory: v8-core
+        run: cargo check --features gpu
+
+      - name: v8-core GPU feature tests
+        working-directory: v8-core
+        run: cargo test --features gpu
+
+      - name: v8-core no-default-features Clippy
+        working-directory: v8-core
+        run: cargo clippy --no-default-features --all-targets -- -D warnings
+
+      - name: v8-core Linux GPU cross-compile
+        working-directory: v8-core
+        run: |
+          rustup target add x86_64-unknown-linux-gnu
+          cargo check --target x86_64-unknown-linux-gnu --features gpu
+
       - name: v8-core unit tests (release, fp-contract=off)
         working-directory: v8-core
         # fp-contract=off comes from v8-core/.cargo/config.toml. Golden-vector
         # release-gate verification (pinned fixtures -> byte-identical hashed
         # outputs) is the follow-up wiring tracked in D-097.
         run: cargo test --release
+
+      - name: FILL_AT_LIMIT CPU/oracle parity gate
+        run: python3 -m pytest tests/parity/test_parity_fill_limit.py -q
 
       - name: Monograph byte-identity probe
         run: |

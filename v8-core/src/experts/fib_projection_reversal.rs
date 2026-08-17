@@ -4,8 +4,8 @@
 //! §3; COMPUTE_CORE_SPEC §8 S4). Ported at S4; draft parity proven.
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -82,12 +82,17 @@ pub fn fib_projection_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> 
     };
     // Up-impulse (+1) overshoots to the UPSIDE -> short the overextension;
     // down-impulse (-1) overshoots to the DOWNSIDE -> long.
-    let (direction_sig, pred): (&str, Box<dyn Fn(usize, &HistBar) -> bool>) =
-        if direction == 1.0 {
-            ("SHORT", Box::new(move |i, b| i != 0 && b.high >= level && b.close < level))
-        } else {
-            ("LONG", Box::new(move |i, b| i != 0 && b.low <= level && b.close > level))
-        };
+    let (direction_sig, pred): (&str, Box<dyn Fn(usize, &HistBar) -> bool>) = if direction == 1.0 {
+        (
+            "SHORT",
+            Box::new(move |i, b| i != 0 && b.high >= level && b.close < level),
+        )
+    } else {
+        (
+            "LONG",
+            Box::new(move |i, b| i != 0 && b.low <= level && b.close > level),
+        )
+    };
     let last = fm.history.len() - 1;
     if !pred(last, &fm.history[last]) {
         return no_setup(expert_id, version, fm.as_of);

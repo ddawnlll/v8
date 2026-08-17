@@ -49,7 +49,8 @@ pub fn mean_log_drift_per_bar(closes: &[f64]) -> Result<f64, String> {
         if prev <= 0.0 || cur <= 0.0 {
             return Err(format!(
                 "non-positive close in the drift window ({prev:?} -> {cur:?}): \
-                 a log ratio is undefined; fail closed rather than skipping bars"));
+                 a log ratio is undefined; fail closed rather than skipping bars"
+            ));
         }
         // Divide THEN log: `math.log(cur / prev)`. `cur.ln() - prev.ln()`
         // differs in the last ulp and is NOT the oracle.
@@ -61,17 +62,15 @@ pub fn mean_log_drift_per_bar(closes: &[f64]) -> Result<f64, String> {
 /// `passive_benchmark_r`: what the market handed a zero-skill position over
 /// `horizon_bars`, scaled into the episode's own R unit. Costs are never
 /// subtracted here — the rule's `net_R` already pays them.
-pub fn passive_benchmark_r(
-    exposure: &EpisodeExposure,
-    mean_log_drift: f64,
-) -> Result<f64, String> {
+pub fn passive_benchmark_r(exposure: &EpisodeExposure, mean_log_drift: f64) -> Result<f64, String> {
     let sign = match exposure.direction {
         "LONG" => 1.0,
         "SHORT" => -1.0,
         other => {
             return Err(format!(
                 "direction must be LONG or SHORT (got {other:?}); a benchmark with an \
-                 unknown position bias cannot be centered"));
+                 unknown position bias cannot be centered"
+            ));
         }
     };
     if !(exposure.risk_unit_price > 0.0) {
@@ -79,13 +78,14 @@ pub fn passive_benchmark_r(
             "risk_unit_price must be > 0 (got {:?}): an episode with no recorded R unit \
              cannot be detrended — fail closed rather than passing its raw net_R through \
              uncentered",
-            exposure.risk_unit_price));
+            exposure.risk_unit_price
+        ));
     }
     if exposure.horizon_bars <= 0 {
         return Ok(0.0);
     }
-    let drift_move = exposure.entry_price
-        * ((mean_log_drift * exposure.horizon_bars as f64).exp() - 1.0);
+    let drift_move =
+        exposure.entry_price * ((mean_log_drift * exposure.horizon_bars as f64).exp() - 1.0);
     Ok(sign * drift_move / exposure.risk_unit_price)
 }
 
@@ -115,14 +115,18 @@ pub fn placebo_exposures(
     n_episodes: usize,
     seed: u64,
 ) -> Result<Vec<EpisodeExposure>, String> {
-    if !(0.0 <= long_share && long_share <= 1.0) {
+    if !(0.0..=1.0).contains(&long_share) {
         return Err(format!("long_share must be in [0, 1] (got {long_share:?})"));
     }
     if horizon_bars <= 0 {
-        return Err(format!("horizon_bars must be positive (got {horizon_bars:?})"));
+        return Err(format!(
+            "horizon_bars must be positive (got {horizon_bars:?})"
+        ));
     }
     if !(risk_unit_frac > 0.0) {
-        return Err(format!("risk_unit_frac must be > 0 (got {risk_unit_frac:?})"));
+        return Err(format!(
+            "risk_unit_frac must be > 0 (got {risk_unit_frac:?})"
+        ));
     }
     let last_entry = closes.len() as i64 - horizon_bars - 1;
     if last_entry < 0 {
@@ -136,7 +140,11 @@ pub fn placebo_exposures(
     let mut out = Vec::with_capacity(n_episodes);
     for _ in 0..n_episodes {
         let i = rng.randrange((last_entry + 1) as u64) as usize;
-        let direction = if rng.random() < long_share { "LONG" } else { "SHORT" };
+        let direction = if rng.random() < long_share {
+            "LONG"
+        } else {
+            "SHORT"
+        };
         let sign = if direction == "LONG" { 1.0 } else { -1.0 };
         let entry = closes[i];
         let exit_close = closes[i + horizon_bars as usize];
@@ -178,8 +186,14 @@ pub fn appendix_a_invariant(
     seed: u64,
 ) -> Result<InvariantCheck, String> {
     let drift = mean_log_drift_per_bar(closes)?;
-    let placebo =
-        placebo_exposures(closes, long_share, horizon_bars, risk_unit_frac, n_episodes, seed)?;
+    let placebo = placebo_exposures(
+        closes,
+        long_share,
+        horizon_bars,
+        risk_unit_frac,
+        n_episodes,
+        seed,
+    )?;
     if placebo.is_empty() {
         return Err("division by zero: empty placebo family".to_string());
     }
@@ -220,8 +234,9 @@ mod tests {
 
     // Fixed window + seed captured from the frozen oracle (src/v8/statistics.py)
     // under .venv/bin/python 3.14. Values are IEEE bit patterns.
-    const CLOSES: [f64; 10] =
-        [100.0, 102.0, 101.5, 105.0, 103.0, 107.5, 106.0, 110.0, 109.0, 112.0];
+    const CLOSES: [f64; 10] = [
+        100.0, 102.0, 101.5, 105.0, 103.0, 107.5, 106.0, 110.0, 109.0, 112.0,
+    ];
 
     fn bits(x: f64) -> u64 {
         x.to_bits()
@@ -281,9 +296,18 @@ mod tests {
             risk_unit_price: 0.015,
             horizon_bars: 2,
         };
-        assert_eq!(bits(passive_benchmark_r(&e1, drift).unwrap()), 0x400ecc8ef413bdd4);
-        assert_eq!(bits(passive_benchmark_r(&e2, drift).unwrap()), 0xc014a9d0cc5b6579);
-        assert_eq!(bits(passive_benchmark_r(&e3, drift).unwrap()), 0x40659274abe856d7);
+        assert_eq!(
+            bits(passive_benchmark_r(&e1, drift).unwrap()),
+            0x400ecc8ef413bdd4
+        );
+        assert_eq!(
+            bits(passive_benchmark_r(&e2, drift).unwrap()),
+            0xc014a9d0cc5b6579
+        );
+        assert_eq!(
+            bits(passive_benchmark_r(&e3, drift).unwrap()),
+            0x40659274abe856d7
+        );
     }
 
     #[test]
@@ -364,11 +388,11 @@ mod tests {
             ("SHORT", 0xbfee79e79e79e79e, 105.0, 1.05), // -0.9523809523809523
             ("SHORT", 0xc016a439f656f182, 106.0, 1.06), // -5.660377358490566
             ("SHORT", 0xc017a533b455c0f1, 101.5, 1.0150000000000001), // -5.911330049261083
-            ("LONG", 0x3fef5f5f5f5f5f5f, 102.0, 1.02), // 0.9803921568627451
-            ("LONG", 0x3fee79e79e79e79e, 105.0, 1.05), // 0.9523809523809523
-            ("SHORT", 0xc014000000000000, 100.0, 1.0), // -5.0
+            ("LONG", 0x3fef5f5f5f5f5f5f, 102.0, 1.02),  // 0.9803921568627451
+            ("LONG", 0x3fee79e79e79e79e, 105.0, 1.05),  // 0.9523809523809523
+            ("SHORT", 0xc014000000000000, 100.0, 1.0),  // -5.0
             ("LONG", 0x4017a533b455c0f1, 101.5, 1.0150000000000001), // 5.911330049261083
-            ("LONG", 0x3fef5f5f5f5f5f5f, 102.0, 1.02), // 0.9803921568627451
+            ("LONG", 0x3fef5f5f5f5f5f5f, 102.0, 1.02),  // 0.9803921568627451
         ];
         assert_eq!(pl.len(), 8);
         for (got, (dir, net_bits, entry, unit)) in pl.iter().zip(expected) {
@@ -395,7 +419,9 @@ mod tests {
             .unwrap_err()
             .contains("shorter than horizon_bars"));
         // n_episodes=0 is legal: an empty family.
-        assert!(placebo_exposures(&CLOSES, 0.5, 3, 0.01, 0, 7).unwrap().is_empty());
+        assert!(placebo_exposures(&CLOSES, 0.5, 3, 0.01, 0, 7)
+            .unwrap()
+            .is_empty());
     }
 
     #[test]

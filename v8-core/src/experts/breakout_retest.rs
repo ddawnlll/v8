@@ -34,7 +34,9 @@ fn pivot_highs(hist: &[HistBar]) -> Vec<(usize, f64)> {
     let mut out = Vec::new();
     for i in PT_FLANK..(hist.len() - PT_FLANK) {
         let hi = hist[i].high;
-        let left = (i - PT_FLANK..i).map(|j| hist[j].high).fold(f64::NEG_INFINITY, f64::max);
+        let left = (i - PT_FLANK..i)
+            .map(|j| hist[j].high)
+            .fold(f64::NEG_INFINITY, f64::max);
         let right = (i + 1..i + 1 + PT_FLANK)
             .map(|j| hist[j].high)
             .fold(f64::NEG_INFINITY, f64::max);
@@ -49,7 +51,9 @@ fn pivot_lows(hist: &[HistBar]) -> Vec<(usize, f64)> {
     let mut out = Vec::new();
     for i in PT_FLANK..(hist.len() - PT_FLANK) {
         let lo = hist[i].low;
-        let left = (i - PT_FLANK..i).map(|j| hist[j].low).fold(f64::INFINITY, f64::min);
+        let left = (i - PT_FLANK..i)
+            .map(|j| hist[j].low)
+            .fold(f64::INFINITY, f64::min);
         let right = (i + 1..i + 1 + PT_FLANK)
             .map(|j| hist[j].low)
             .fold(f64::INFINITY, f64::min);
@@ -290,7 +294,7 @@ pub fn breakout_retest(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEv
     let sym = fm.symbol;
     // The dispatch carries no variant selector; the Python oracle runs the
     // default instantiation (`BreakoutRetestExpert()`, variant_id='a').
-    let variant = "a";
+    let variant = fm.variant(expert_id, "a");
     // `_need`: all five declared feature keys must be present (a not-yet-
     // computable feature is ABSENT, never a null — the D-024 veto).
     for name in ["close", "atr", "history", "swing_high_10", "swing_low_10"] {

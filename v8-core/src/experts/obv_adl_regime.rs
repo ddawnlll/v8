@@ -16,8 +16,8 @@
 //! not include this expert until the Python-side `requires` is fixed.
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -33,7 +33,7 @@ pub const EXPIRY_BARS: i64 = 8;
 
 // Declared, LOCKED constants (D-036): mirror the Python class constants.
 const OBV_WINDOW: usize = 10; // up-bar-count window for the OBV slope sign
-const OBV_MAJORITY: i32 = 3;  // net up-bars >= +3 -> OBV rising (of OBV_WINDOW)
+const OBV_MAJORITY: i32 = 3; // net up-bars >= +3 -> OBV rising (of OBV_WINDOW)
 const CMF_OVERSOLD: f64 = -0.15; // CMF oversold level (variant d)
 
 /// Sign of the OBV slope proxy (Python `_obv_dir`): net up-close count over
@@ -46,7 +46,13 @@ fn obv_dir(hist: &[HistBar]) -> f64 {
     for i in start..n {
         let c = hist[i].close;
         let pc = hist[i - 1].close;
-        net += if c > pc { 1 } else if c < pc { -1 } else { 0 };
+        net += if c > pc {
+            1
+        } else if c < pc {
+            -1
+        } else {
+            0
+        };
     }
     if net >= OBV_MAJORITY {
         1.0
@@ -97,28 +103,56 @@ pub fn obv_adl_regime(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
         match variant {
             "d" => {
                 if cmf_v < CMF_OVERSOLD && close < slow_v {
-                    hit = Some(("d", "LONG", Box::new(|_i, b: &HistBar| b.close < b.ema_slow)));
+                    hit = Some((
+                        "d",
+                        "LONG",
+                        Box::new(|_i, b: &HistBar| b.close < b.ema_slow),
+                    ));
                 }
             }
             "c" => {
                 if close < slow_v && close > fast_v && cmf_v > 0.0 {
-                    hit = Some(("c", "LONG", Box::new(|_i, b: &HistBar| b.close < b.ema_slow && b.close > b.ema_fast)));
+                    hit = Some((
+                        "c",
+                        "LONG",
+                        Box::new(|_i, b: &HistBar| b.close < b.ema_slow && b.close > b.ema_fast),
+                    ));
                 } else if close > slow_v && close < fast_v && cmf_v < 0.0 {
-                    hit = Some(("c", "SHORT", Box::new(|_i, b: &HistBar| b.close > b.ema_slow && b.close < b.ema_fast)));
+                    hit = Some((
+                        "c",
+                        "SHORT",
+                        Box::new(|_i, b: &HistBar| b.close > b.ema_slow && b.close < b.ema_fast),
+                    ));
                 }
             }
             "b" => {
                 if close < slow_v && close <= fast_v && d > 0.0 && cmf_v > 0.0 {
-                    hit = Some(("b", "LONG", Box::new(|_i, b: &HistBar| b.close < b.ema_slow && b.close <= b.ema_fast)));
+                    hit = Some((
+                        "b",
+                        "LONG",
+                        Box::new(|_i, b: &HistBar| b.close < b.ema_slow && b.close <= b.ema_fast),
+                    ));
                 } else if close > slow_v && close >= fast_v && d < 0.0 && cmf_v < 0.0 {
-                    hit = Some(("b", "SHORT", Box::new(|_i, b: &HistBar| b.close > b.ema_slow && b.close >= b.ema_fast)));
+                    hit = Some((
+                        "b",
+                        "SHORT",
+                        Box::new(|_i, b: &HistBar| b.close > b.ema_slow && b.close >= b.ema_fast),
+                    ));
                 }
             }
             _ => {
                 if d > 0.0 && cmf_v > 0.0 && fast_v > slow_v {
-                    hit = Some(("a", "LONG", Box::new(|_i, b: &HistBar| b.ema_fast > b.ema_slow)));
+                    hit = Some((
+                        "a",
+                        "LONG",
+                        Box::new(|_i, b: &HistBar| b.ema_fast > b.ema_slow),
+                    ));
                 } else if d < 0.0 && cmf_v < 0.0 && fast_v < slow_v {
-                    hit = Some(("a", "SHORT", Box::new(|_i, b: &HistBar| b.ema_fast < b.ema_slow)));
+                    hit = Some((
+                        "a",
+                        "SHORT",
+                        Box::new(|_i, b: &HistBar| b.ema_fast < b.ema_slow),
+                    ));
                 }
             }
         }

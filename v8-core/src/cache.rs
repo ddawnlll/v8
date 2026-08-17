@@ -21,10 +21,71 @@ use sha1::{Digest, Sha1};
 
 use crate::evidence::{self, Artifact, DType};
 use crate::hash::HASH_ENCODING;
+use crate::simulator::Outcome;
+
+pub fn outcome_to_value(outcome: &Outcome) -> Value {
+    serde_json::json!({
+        "endpoint": outcome.endpoint,
+        "net_r": outcome.net_r,
+        "label_status": outcome.label_status,
+        "horizon_bars": outcome.horizon_bars,
+        "label_available_time": outcome.label_available_time,
+        "mae_r": outcome.mae_r,
+        "mfe_r": outcome.mfe_r,
+        "ambiguous_bars": outcome.ambiguous_bars,
+        "entry_price": outcome.entry_price,
+        "risk_unit_price": outcome.risk_unit_price,
+        "market_move_r": outcome.market_move_r,
+        "cost_r": outcome.cost_r,
+        "funding_r": outcome.funding_r,
+    })
+}
+
+pub fn outcome_from_value(value: &Value) -> Result<Outcome, String> {
+    let number = |name: &str| {
+        value
+            .get(name)
+            .and_then(Value::as_f64)
+            .ok_or_else(|| format!("cache outcome missing numeric field {name}"))
+    };
+    let integer = |name: &str| {
+        value
+            .get(name)
+            .and_then(Value::as_i64)
+            .ok_or_else(|| format!("cache outcome missing integer field {name}"))
+    };
+    let string = |name: &str| {
+        value
+            .get(name)
+            .and_then(Value::as_str)
+            .map(str::to_string)
+            .ok_or_else(|| format!("cache outcome missing string field {name}"))
+    };
+    Ok(Outcome {
+        endpoint: string("endpoint")?,
+        net_r: number("net_r")?,
+        label_status: string("label_status")?,
+        horizon_bars: integer("horizon_bars")?,
+        label_available_time: integer("label_available_time")?,
+        mae_r: number("mae_r")?,
+        mfe_r: number("mfe_r")?,
+        ambiguous_bars: integer("ambiguous_bars")?,
+        entry_price: number("entry_price")?,
+        risk_unit_price: number("risk_unit_price")?,
+        market_move_r: number("market_move_r")?,
+        cost_r: number("cost_r")?,
+        funding_r: number("funding_r")?,
+    })
+}
 
 /// The canonical string key of a cube-level node. Same inputs always produce
 /// the same key; the whole tuple is one cache entry.
-pub fn canonical_key(candidate_id: &str, action_id: &str, simulator_hash: &str, data_hash: &str) -> String {
+pub fn canonical_key(
+    candidate_id: &str,
+    action_id: &str,
+    simulator_hash: &str,
+    data_hash: &str,
+) -> String {
     format!("{candidate_id}|{action_id}|{simulator_hash}|{data_hash}")
 }
 
@@ -55,7 +116,10 @@ pub struct CacheStore {
 
 impl CacheStore {
     pub fn new() -> Self {
-        CacheStore { map: HashMap::new(), log_path: None }
+        CacheStore {
+            map: HashMap::new(),
+            log_path: None,
+        }
     }
 
     /// Open a store backed by `log_path`, loading any existing entries (last
@@ -70,7 +134,10 @@ impl CacheStore {
                     continue;
                 }
                 let entry: CacheEntry = serde_json::from_str(line).map_err(|e| {
-                    io::Error::new(io::ErrorKind::InvalidData, format!("cache line {}: {e}", i + 1))
+                    io::Error::new(
+                        io::ErrorKind::InvalidData,
+                        format!("cache line {}: {e}", i + 1),
+                    )
                 })?;
                 store.map.insert(entry.digest.clone(), entry);
             }
@@ -83,12 +150,19 @@ impl CacheStore {
     /// failed write leaves the in-memory map untouched (fail closed).
     pub fn insert(&mut self, key: &str, outcome: Value) -> io::Result<String> {
         let digest = key_digest(key);
-        let entry = CacheEntry { digest: digest.clone(), key: key.to_string(), outcome };
+        let entry = CacheEntry {
+            digest: digest.clone(),
+            key: key.to_string(),
+            outcome,
+        };
         if let Some(path) = &self.log_path {
             let mut bytes = serde_json::to_vec(&entry)
                 .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
             bytes.push(b'\n');
-            let mut f = std::fs::OpenOptions::new().create(true).append(true).open(path)?;
+            let mut f = std::fs::OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(path)?;
             f.write_all(&bytes)?;
         }
         self.map.insert(digest.clone(), entry);
@@ -172,8 +246,9 @@ pub fn cache_check(args: &[String]) -> i32 {
     let path = &args[0];
     let req: Value = match std::fs::read(path)
         .map_err(|e| format!("cannot read request {path}: {e}"))
-        .and_then(|b| serde_json::from_slice(&b).map_err(|e| format!("cannot parse request {path}: {e}")))
-    {
+        .and_then(|b| {
+            serde_json::from_slice(&b).map_err(|e| format!("cannot parse request {path}: {e}"))
+        }) {
         Ok(v) => v,
         Err(e) => {
             eprintln!("error: {e}");
@@ -187,7 +262,11 @@ pub fn cache_check(args: &[String]) -> i32 {
     let field = |name: &str, fallback: &str| -> String {
         req.get(name)
             .and_then(Value::as_str)
-            .or_else(|| req.get("manifest").and_then(|m| m.get(name)).and_then(Value::as_str))
+            .or_else(|| {
+                req.get("manifest")
+                    .and_then(|m| m.get(name))
+                    .and_then(Value::as_str)
+            })
             .map(|s| s.to_string())
             .unwrap_or_else(|| fallback.to_string())
     };
@@ -224,7 +303,13 @@ pub fn cache_check(args: &[String]) -> i32 {
     }
     let p_miss = out_dir.join("cube-computed.v82");
     let fp_computed = match write_outcome_artifact(
-        &p_miss, &candidate_id, &action_id, &simulator_hash, &data_hash, &digest, &outcome,
+        &p_miss,
+        &candidate_id,
+        &action_id,
+        &simulator_hash,
+        &data_hash,
+        &digest,
+        &outcome,
     ) {
         Ok(fp) => fp,
         Err(e) => {
@@ -251,7 +336,13 @@ pub fn cache_check(args: &[String]) -> i32 {
     };
     let p_hit = out_dir.join("cube-cached.v82");
     let fp_cached = match write_outcome_artifact(
-        &p_hit, &candidate_id, &action_id, &simulator_hash, &data_hash, &digest, &outcome_hit,
+        &p_hit,
+        &candidate_id,
+        &action_id,
+        &simulator_hash,
+        &data_hash,
+        &digest,
+        &outcome_hit,
     ) {
         Ok(fp) => fp,
         Err(e) => {
@@ -318,12 +409,19 @@ mod tests {
         store.insert(&key, outcome.clone()).unwrap();
         let outcome_cached = store.get(&key).unwrap().clone();
         assert_eq!(outcome_cached, outcome);
-        let fp_hit = write_outcome_artifact(&p_hit, cid, aid, sh, dh, &digest, &outcome_cached).unwrap();
+        let fp_hit =
+            write_outcome_artifact(&p_hit, cid, aid, sh, dh, &digest, &outcome_cached).unwrap();
 
-        assert_eq!(fp_miss, fp_hit, "hit and miss must share the artifact fingerprint");
+        assert_eq!(
+            fp_miss, fp_hit,
+            "hit and miss must share the artifact fingerprint"
+        );
         let b_miss = std::fs::read(&p_miss).unwrap();
         let b_hit = std::fs::read(&p_hit).unwrap();
-        assert_eq!(b_miss, b_hit, "hit and miss must write byte-identical artifacts");
+        assert_eq!(
+            b_miss, b_hit,
+            "hit and miss must write byte-identical artifacts"
+        );
         std::fs::remove_file(&p_miss).ok();
         std::fs::remove_file(&p_hit).ok();
     }
@@ -338,8 +436,12 @@ mod tests {
         assert_ne!(k1, k2);
         assert_ne!(key_digest(&k1), key_digest(&k2));
 
-        store.insert(&k1, serde_json::json!({"net_pnl_bps": 100})).unwrap();
-        store.insert(&k2, serde_json::json!({"net_pnl_bps": -50})).unwrap();
+        store
+            .insert(&k1, serde_json::json!({"net_pnl_bps": 100}))
+            .unwrap();
+        store
+            .insert(&k2, serde_json::json!({"net_pnl_bps": -50}))
+            .unwrap();
 
         assert_eq!(store.len(), 2);
         assert_eq!(store.get(&k1).unwrap()["net_pnl_bps"], 100);
@@ -356,11 +458,40 @@ mod tests {
         let key = canonical_key("cand-9", "HOLD", "sim-x", "data-y");
         {
             let mut store = CacheStore::open(&log).unwrap();
-            store.insert(&key, serde_json::json!({"net_pnl_bps": 7})).unwrap();
+            store
+                .insert(&key, serde_json::json!({"net_pnl_bps": 7}))
+                .unwrap();
             assert!(store.get(&key).is_some());
         }
         let store2 = CacheStore::open(&log).unwrap();
         assert_eq!(store2.get(&key).unwrap()["net_pnl_bps"], 7);
         std::fs::remove_file(&log).ok();
+    }
+
+    #[test]
+    fn typed_outcome_round_trips_all_semantic_fields() {
+        let source = Outcome {
+            endpoint: "TARGET".into(),
+            net_r: -0.125,
+            label_status: "MATURE".into(),
+            horizon_bars: 3,
+            label_available_time: 123,
+            mae_r: 0.5,
+            mfe_r: 1.25,
+            ambiguous_bars: 1,
+            entry_price: 100.0,
+            risk_unit_price: 2.0,
+            market_move_r: 0.75,
+            cost_r: 0.07,
+            funding_r: -0.01,
+        };
+        let value = outcome_to_value(&source);
+        let restored = outcome_from_value(&value).unwrap();
+        assert_eq!(restored.endpoint, source.endpoint);
+        assert_eq!(restored.label_status, source.label_status);
+        assert_eq!(restored.horizon_bars, source.horizon_bars);
+        assert_eq!(restored.net_r.to_bits(), source.net_r.to_bits());
+        assert_eq!(restored.mfe_r.to_bits(), source.mfe_r.to_bits());
+        assert_eq!(restored.funding_r.to_bits(), source.funding_r.to_bits());
     }
 }

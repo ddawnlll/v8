@@ -140,17 +140,40 @@ fn evaluate_variant(fm: &FeatMap, expert_id: &str, version: &str, variant: &str)
     let sym = fm.symbol;
     // `_need`: close, bb_mid, bb_upper, bb_lower, bb_pct_b, ema_fast, ema_slow,
     // history — any missing required feature is NO_HABITAT (Python `_need`).
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let bb_mid = match fm.value("bb_mid") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let bb_upper = match fm.value("bb_upper") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let bb_lower = match fm.value("bb_lower") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let _bb_pct_b = match fm.value("bb_pct_b") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let ema_fast = match fm.value("ema_fast") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let ema_slow = match fm.value("ema_slow") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let bb_mid = match fm.value("bb_mid") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let bb_upper = match fm.value("bb_upper") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let bb_lower = match fm.value("bb_lower") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let _bb_pct_b = match fm.value("bb_pct_b") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let ema_fast = match fm.value("ema_fast") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let ema_slow = match fm.value("ema_slow") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     if fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }
-    let (dir, ref_key) = direction(variant, close, bb_mid, bb_upper, bb_lower, ema_fast, ema_slow);
+    let (dir, ref_key) = direction(
+        variant, close, bb_mid, bb_upper, bb_lower, ema_fast, ema_slow,
+    );
     let direction = match dir {
         Some(d) => d,
         None => return no_setup(expert_id, version, fm.as_of),
@@ -160,21 +183,29 @@ fn evaluate_variant(fm: &FeatMap, expert_id: &str, version: &str, variant: &str)
     let bb = bb_series(&fm.history);
     let pred: Box<dyn Fn(usize, &HistBar) -> bool> = match (variant, direction) {
         ("a", "LONG") => Box::new(move |i, b| {
-            if i < BB_BASE_N - 1 { return false; }
+            if i < BB_BASE_N - 1 {
+                return false;
+            }
             let (mid, sd) = bb[i];
             sd > 0.0 && mid - 3.0 * sd < b.close && b.close <= mid - 2.0 * sd
         }),
         ("a", "SHORT") => Box::new(move |i, b| {
-            if i < BB_BASE_N - 1 { return false; }
+            if i < BB_BASE_N - 1 {
+                return false;
+            }
             let (mid, sd) = bb[i];
             sd > 0.0 && mid + 2.0 * sd <= b.close && b.close < mid + 3.0 * sd
         }),
         ("b", "LONG") => Box::new(move |i, b| {
-            if i < BB_BASE_N - 1 { return false; }
+            if i < BB_BASE_N - 1 {
+                return false;
+            }
             b.close > bb[i].0 && b.ema_fast > b.ema_slow
         }),
         ("b", "SHORT") => Box::new(move |i, b| {
-            if i < BB_BASE_N - 1 { return false; }
+            if i < BB_BASE_N - 1 {
+                return false;
+            }
             b.close < bb[i].0 && b.ema_fast < b.ema_slow
         }),
         _ => unreachable!(),
@@ -197,15 +228,33 @@ fn evaluate_variant(fm: &FeatMap, expert_id: &str, version: &str, variant: &str)
     if variant == "b" {
         // Setup 3: entry proxy at the 2-SD band, stop under the SMA (two
         // sigma), profit exit at the 1-SD band (one sigma).
-        geometry.insert("stop_r".to_string(), serde_json::json!(2.0 * refs.sd_ref / refs.atr_ref));
-        geometry.insert("target_r".to_string(), serde_json::json!(refs.sd_ref / refs.atr_ref));
+        geometry.insert(
+            "stop_r".to_string(),
+            serde_json::json!(2.0 * refs.sd_ref / refs.atr_ref),
+        );
+        geometry.insert(
+            "target_r".to_string(),
+            serde_json::json!(refs.sd_ref / refs.atr_ref),
+        );
         geometry.insert("mid_ref".to_string(), serde_json::json!(refs.mid_ref));
         if direction == "LONG" {
-            geometry.insert("upper_1sd_ref".to_string(), serde_json::json!(refs.upper_1sd_ref));
-            geometry.insert("upper_2sd_ref".to_string(), serde_json::json!(refs.upper_2sd_ref));
+            geometry.insert(
+                "upper_1sd_ref".to_string(),
+                serde_json::json!(refs.upper_1sd_ref),
+            );
+            geometry.insert(
+                "upper_2sd_ref".to_string(),
+                serde_json::json!(refs.upper_2sd_ref),
+            );
         } else {
-            geometry.insert("lower_1sd_ref".to_string(), serde_json::json!(refs.lower_1sd_ref));
-            geometry.insert("lower_2sd_ref".to_string(), serde_json::json!(refs.lower_2sd_ref));
+            geometry.insert(
+                "lower_1sd_ref".to_string(),
+                serde_json::json!(refs.lower_1sd_ref),
+            );
+            geometry.insert(
+                "lower_2sd_ref".to_string(),
+                serde_json::json!(refs.lower_2sd_ref),
+            );
         }
     } else {
         // Setup 2: fade the 2-SD band; the 3-SD stop and the 1-SD target are
@@ -214,13 +263,31 @@ fn evaluate_variant(fm: &FeatMap, expert_id: &str, version: &str, variant: &str)
         geometry.insert("stop_r".to_string(), serde_json::json!(r));
         geometry.insert("target_r".to_string(), serde_json::json!(r));
         if direction == "SHORT" {
-            geometry.insert("upper_1sd_ref".to_string(), serde_json::json!(refs.upper_1sd_ref));
-            geometry.insert("upper_2sd_ref".to_string(), serde_json::json!(refs.upper_2sd_ref));
-            geometry.insert("upper_3sd_ref".to_string(), serde_json::json!(refs.upper_3sd_ref));
+            geometry.insert(
+                "upper_1sd_ref".to_string(),
+                serde_json::json!(refs.upper_1sd_ref),
+            );
+            geometry.insert(
+                "upper_2sd_ref".to_string(),
+                serde_json::json!(refs.upper_2sd_ref),
+            );
+            geometry.insert(
+                "upper_3sd_ref".to_string(),
+                serde_json::json!(refs.upper_3sd_ref),
+            );
         } else {
-            geometry.insert("lower_1sd_ref".to_string(), serde_json::json!(refs.lower_1sd_ref));
-            geometry.insert("lower_2sd_ref".to_string(), serde_json::json!(refs.lower_2sd_ref));
-            geometry.insert("lower_3sd_ref".to_string(), serde_json::json!(refs.lower_3sd_ref));
+            geometry.insert(
+                "lower_1sd_ref".to_string(),
+                serde_json::json!(refs.lower_1sd_ref),
+            );
+            geometry.insert(
+                "lower_2sd_ref".to_string(),
+                serde_json::json!(refs.lower_2sd_ref),
+            );
+            geometry.insert(
+                "lower_3sd_ref".to_string(),
+                serde_json::json!(refs.lower_3sd_ref),
+            );
         }
     }
     let ref_val = geometry.get(ref_key).and_then(|v| v.as_f64()).unwrap();

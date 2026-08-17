@@ -49,7 +49,12 @@ _RUST_COMMENTS_STRINGS = (
     (re.compile(r"//[^\n]*"), ""),
     (re.compile(r"/\*.*?\*/", re.DOTALL), ""),
     (re.compile(r"'(?:\\.|[^'\\])'"), ""),
-    (re.compile(r'"(?:\\.|[^"\\])*"'), ""),
+    # Rust permits escaped newlines in ordinary strings and raw strings with
+    # one or more `#` delimiters. Strip both forms before identifier scanning;
+    # otherwise a backslash-newline can make the rest of the file look like a
+    # single forbidden identifier and produce a false CI failure.
+    (re.compile(r'r#+".*?"#+', re.DOTALL), ""),
+    (re.compile(r'"(?:\\(?:\n|.)|[^"\\])*"', re.DOTALL), ""),
 )
 
 

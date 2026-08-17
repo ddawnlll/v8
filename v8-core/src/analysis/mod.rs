@@ -33,8 +33,9 @@ use std::path::{Path, PathBuf};
 
 use serde_json::{json, Value};
 
-use crate::analysis::outcome::OutcomeSurface;
-use crate::analysis::phase1::{CandidateIdentity, CubeAccumulators, GapRecord, JoinedCandidateRow, Phase0Output};
+use crate::analysis::phase1::{
+    CandidateIdentity, CubeAccumulators, GapRecord, JoinedCandidateRow, Phase0Output,
+};
 use crate::backend::scalar::ScalarKernel;
 use crate::data::{Dataset, TapeRow};
 use crate::evidence;
@@ -129,13 +130,15 @@ pub fn analysis(args: &[String]) -> i32 {
 /// parser (the tape is written by CPython `json.dumps`, which may emit
 /// `NaN`/`Infinity` literals that strict JSON rejects).
 fn read_tape(path: &Path) -> Result<Vec<TapeRow>, String> {
-    let text = std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
+    let text =
+        std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
     let mut rows = Vec::new();
     for (i, line) in text.lines().enumerate() {
         if line.trim().is_empty() {
             continue;
         }
-        let parsed = crate::jsonx::parse_line(line).map_err(|e| format!("tape line {}: {e}", i + 1))?;
+        let parsed =
+            crate::jsonx::parse_line(line).map_err(|e| format!("tape line {}: {e}", i + 1))?;
         let row = TapeRow::from_parts(&parsed.value, parsed.nonfinite)
             .map_err(|e| format!("tape line {}: {e}", i + 1))?;
         rows.push(row);
@@ -165,7 +168,12 @@ fn funding_schedule(ds: &Dataset) -> Vec<(i64, f64)> {
         .rows
         .iter()
         .filter(|r| r.channel == "funding")
-        .map(|r| (r.event_time, r.payload["funding_rate"].as_f64().unwrap_or(0.0)))
+        .map(|r| {
+            (
+                r.event_time,
+                r.payload["funding_rate"].as_f64().unwrap_or(0.0),
+            )
+        })
         .collect();
     sched.sort_by_key(|(t, _)| *t);
     sched
@@ -188,7 +196,11 @@ fn replay_actual_surface(
     let i = bars.available_times.iter().position(|t| *t == entry_time)?;
     let raw = snap.raw_draft.as_ref()?;
     let draft = Draft {
-        direction: raw.get("direction").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+        direction: raw
+            .get("direction")
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_string(),
         birth_time: raw.get("birth_time").and_then(|v| v.as_i64()).unwrap_or(0),
         risk_geometry: raw
             .get("risk_geometry")
@@ -206,7 +218,9 @@ fn replay_actual_surface(
         bars,
         store,
     };
-    kernel.run(&draft, i, bars.closes.len(), snap.predicate_ir.as_ref()).ok()
+    kernel
+        .run(&draft, i, bars.closes.len(), snap.predicate_ir.as_ref())
+        .ok()
 }
 
 /// Re-derive the observed-outcome ledger when the request omits it (D-081: the
@@ -267,7 +281,10 @@ fn derive_state_ledger(
             continue;
         }
         let sym = rec.get("instrument").and_then(|v| v.as_str()).unwrap_or("");
-        let as_of = rec.get("knowledge_time").and_then(|v| v.as_i64()).unwrap_or(0);
+        let as_of = rec
+            .get("knowledge_time")
+            .and_then(|v| v.as_i64())
+            .unwrap_or(0);
         if let Some(store) = stores.iter().find(|s| s.symbol == sym) {
             if let Some(i) = store.avail.iter().position(|t| *t == as_of) {
                 let feats = state::state_features(store, i + 1, as_of, history_depth);
@@ -300,7 +317,9 @@ fn derive_state_ledger(
                     "lineage_hash": lineage,
                     "quality": quality,
                 }));
-                r.as_object_mut().expect("record is an object").insert("state_id".to_string(), json!(sid));
+                r.as_object_mut()
+                    .expect("record is an object")
+                    .insert("state_id".to_string(), json!(sid));
             }
         }
         out.push(r);
@@ -367,13 +386,26 @@ fn build_phase0(
     }
 
     let col_str = |name: &str, i: usize| -> Option<String> {
-        cube.column(name)?.get(i).cloned().flatten().and_then(|v| v.as_str().map(|s| s.to_string()))
+        cube.column(name)?
+            .get(i)
+            .cloned()
+            .flatten()
+            .and_then(|v| v.as_str().map(|s| s.to_string()))
     };
     let col_f64 = |name: &str, i: usize| -> Option<f64> {
-        cube.column(name)?.get(i).cloned().flatten().and_then(|v| v.as_f64())
+        cube.column(name)?
+            .get(i)
+            .cloned()
+            .flatten()
+            .and_then(|v| v.as_f64())
     };
     let col_i64 = |name: &str, i: usize| -> i64 {
-        cube.column(name).and_then(|c| c.get(i)).cloned().flatten().and_then(|v| v.as_i64()).unwrap_or(0)
+        cube.column(name)
+            .and_then(|c| c.get(i))
+            .cloned()
+            .flatten()
+            .and_then(|v| v.as_i64())
+            .unwrap_or(0)
     };
 
     let n = cube.row_count();
@@ -429,7 +461,7 @@ fn split_half(rows: &[JoinedCandidateRow]) -> (Vec<JoinedCandidateRow>, Vec<Join
             .cmp(&b.birth_time)
             .then_with(|| a.candidate_id.cmp(&b.candidate_id))
     });
-    let mid = (sorted.len() + 1) / 2;
+    let mid = sorted.len().div_ceil(2);
     let disc = sorted[..mid].to_vec();
     let conf = sorted[mid..].to_vec();
     (disc, conf)
@@ -576,7 +608,12 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
         let eval_path = match &req.evaluations_path {
             Some(p) => p.clone(),
             None => {
-                crate::runloop::run_for_analysis(&req.tape_path, &universe, &req.out_dir, &req.manifest)?;
+                crate::runloop::run_for_analysis(
+                    &req.tape_path,
+                    &universe,
+                    &req.out_dir,
+                    &req.manifest,
+                )?;
                 req.out_dir.join("evaluations.jsonl")
             }
         };
@@ -602,7 +639,12 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
         req.outcomes.clone()
     };
     let (candidates, states) = if req.states.is_empty() {
-        derive_state_ledger(&candidates, &stores, &universe, state::HISTORY_DEPTH_DEFAULT)
+        derive_state_ledger(
+            &candidates,
+            &stores,
+            &universe,
+            state::HISTORY_DEPTH_DEFAULT,
+        )
     } else {
         (candidates, req.states.clone())
     };
@@ -619,14 +661,20 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     }
     let recon = reconcile::reconcile_actual_actions(&snapshots, &ds.bars, &stores, &sim, &funding);
     if recon.verdict != reconcile::RECONCILED {
-        let detail = recon.mismatches.iter()
+        let detail = recon
+            .mismatches
+            .iter()
             .map(|(cid, reason)| format!("{cid}:{reason}"))
-            .collect::<Vec<_>>().join(" | ");
+            .collect::<Vec<_>>()
+            .join(" | ");
         let clipped: String = detail.chars().take(1200).collect();
         return Err(format!(
             "reconciliation failed ({} executed, {} reconciled, {} mismatched, {} not applicable) \
              — refusing to compose the regret phases. mismatches: {}",
-            recon.n_executed, recon.n_reconciled, recon.n_mismatched, recon.n_not_applicable,
+            recon.n_executed,
+            recon.n_reconciled,
+            recon.n_mismatched,
+            recon.n_not_applicable,
             clipped
         ));
     }
@@ -644,7 +692,14 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     let declared = phase2::declare_slices();
     let mut slice_results: Vec<phase2::SliceResult> = Vec::with_capacity(declared.len());
     for s in &declared {
-        slice_results.push(phase2::score_slice(&s[0], &s[1], &s[2], &s[3], &s[4], &disc_slices));
+        slice_results.push(phase2::score_slice(
+            &s[0],
+            &s[1],
+            &s[2],
+            &s[3],
+            &s[4],
+            &disc_slices,
+        ));
     }
     let discovery = phase2::discovery_summary(&slice_results);
     let mut confirmation_ledger = phase2::ConfirmationLedger::new();
@@ -671,30 +726,42 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     let disc_json: Vec<Value> = disc.iter().map(joined_row_to_value).collect();
     let conf_json: Vec<Value> = conf.iter().map(joined_row_to_value).collect();
     let store_dirs = write_phase3_store_dirs(&req.out_dir, &symbols, &candidates, &states)?;
-    let phase3_summary =
-        phase3::run_phase3(&confirmed_keys, &disc_json, &conf_json, &store_dirs, &req.out_dir)?;
+    let phase3_summary = phase3::run_phase3(
+        &confirmed_keys,
+        &disc_json,
+        &conf_json,
+        &store_dirs,
+        &req.out_dir,
+    )?;
 
     // The `analysis.jsonl` artifact: one tagged record per phase row.
     let mut lines: Vec<Value> = Vec::new();
     for r in &joined {
         let mut v = joined_row_to_value(r);
-        v.as_object_mut().expect("row is an object").insert("stage".to_string(), json!("phase1_join"));
+        v.as_object_mut()
+            .expect("row is an object")
+            .insert("stage".to_string(), json!("phase1_join"));
         lines.push(v);
     }
     for r in &slice_results {
         let mut v = slice_result_to_value(r);
-        v.as_object_mut().expect("row is an object").insert("stage".to_string(), json!("phase2_slice"));
+        v.as_object_mut()
+            .expect("row is an object")
+            .insert("stage".to_string(), json!("phase2_slice"));
         lines.push(v);
     }
     for c in &confirmations {
         let mut v = confirmation_to_value(c);
-        v.as_object_mut().expect("row is an object").insert("stage".to_string(), json!("phase2_confirmation"));
+        v.as_object_mut()
+            .expect("row is an object")
+            .insert("stage".to_string(), json!("phase2_confirmation"));
         lines.push(v);
     }
     if let Some(results) = phase3_summary.get("results").and_then(|v| v.as_array()) {
         for r in results {
             let mut v = r.clone();
-            v.as_object_mut().expect("row is an object")
+            v.as_object_mut()
+                .expect("row is an object")
                 .insert("stage".to_string(), json!("phase3_recoverability"));
             lines.push(v);
         }
@@ -763,7 +830,14 @@ mod tests {
     }
 
     fn rust_cid(expert: &str, anchor: &str) -> String {
-        episode_key(expert, "1.0", SYMBOL, "LONG", anchor, &geometry_version_hex())
+        episode_key(
+            expert,
+            "1.0",
+            SYMBOL,
+            "LONG",
+            anchor,
+            &geometry_version_hex(),
+        )
     }
 
     fn kline_row(id: &str, t: i64, o: f64, h: f64, l: f64, c: f64, v: f64) -> Value {
@@ -790,16 +864,24 @@ mod tests {
             (110.0, 112.0, 109.0, 111.0, 1800.0),
             (111.0, 113.0, 110.0, 112.0, 1900.0),
         ];
-        bars.iter().enumerate()
-            .map(|(i, (o, h, l, c, v))| kline_row(&format!("sol-{i}"), (i as i64 + 1) * 1000, *o, *h, *l, *c, *v))
+        bars.iter()
+            .enumerate()
+            .map(|(i, (o, h, l, c, v))| {
+                kline_row(
+                    &format!("sol-{i}"),
+                    (i as i64 + 1) * 1000,
+                    *o,
+                    *h,
+                    *l,
+                    *c,
+                    *v,
+                )
+            })
             .collect()
     }
 
     fn write_tape(path: &Path) {
-        let text: String = tape_values()
-            .iter()
-            .map(|r| r.to_string() + "\n")
-            .collect();
+        let text: String = tape_values().iter().map(|r| r.to_string() + "\n").collect();
         std::fs::write(path, text).unwrap();
     }
 
@@ -850,14 +932,29 @@ mod tests {
         detected.insert("instrument".to_string(), json!(SYMBOL));
         detected.insert("direction".to_string(), json!("LONG"));
         detected.insert("setup_anchor_event_id".to_string(), json!(anchor));
-        detected.insert("geometry_version".to_string(), json!(geometry_version_hex()));
+        detected.insert(
+            "geometry_version".to_string(),
+            json!(geometry_version_hex()),
+        );
         detected.insert("state_id".to_string(), json!(sid));
         let mut chain = vec![Value::Object(detected)];
         chain.push(transition(cid, 2, Some("DETECTED"), "PENDING", 3100));
         chain.push(transition(cid, 3, Some("PENDING"), "TRIGGERED", 3200));
         chain.push(transition(cid, 4, Some("TRIGGERED"), "ACCEPTED", 3300));
-        chain.push(transition(cid, 5, Some("ACCEPTED"), "ORDER_SUBMITTED", 3400));
-        chain.push(transition(cid, 6, Some("ORDER_SUBMITTED"), "EXECUTED", ENTRY_TIME));
+        chain.push(transition(
+            cid,
+            5,
+            Some("ACCEPTED"),
+            "ORDER_SUBMITTED",
+            3400,
+        ));
+        chain.push(transition(
+            cid,
+            6,
+            Some("ORDER_SUBMITTED"),
+            "EXECUTED",
+            ENTRY_TIME,
+        ));
         chain
     }
 
@@ -871,7 +968,10 @@ mod tests {
         m.insert("instrument".to_string(), json!(SYMBOL));
         m.insert("direction".to_string(), json!("LONG"));
         m.insert("setup_anchor_event_id".to_string(), json!(anchor));
-        m.insert("geometry_version".to_string(), json!(geometry_version_hex()));
+        m.insert(
+            "geometry_version".to_string(),
+            json!(geometry_version_hex()),
+        );
         m.insert("state_id".to_string(), json!(sid));
         Value::Object(m)
     }
@@ -951,13 +1051,34 @@ mod tests {
                     art.columns[c_aid].push_absent();
                 }
             }
-            push_opt_f64(&mut art.columns[c_au], row.get("actual_utility").and_then(|v| v.as_f64()));
-            push_opt_f64(&mut art.columns[c_bu], row.get("best_utility").and_then(|v| v.as_f64()));
-            art.columns[c_tie].push_i64(row.get("tie_cardinality").and_then(|v| v.as_i64()).unwrap_or(0));
-            push_opt_f64(&mut art.columns[c_gap], row.get("legal_hindsight_gap").and_then(|v| v.as_f64()));
-            art.columns[c_gs].push_str(row.get("gap_status").and_then(|v| v.as_str()).unwrap_or(""));
-            art.columns[c_reason].push_str(row.get("abstention_reason").and_then(|v| v.as_str()).unwrap_or(""));
-            push_opt_f64(&mut art.columns[c_nt], row.get("no_trade_value").and_then(|v| v.as_f64()));
+            push_opt_f64(
+                &mut art.columns[c_au],
+                row.get("actual_utility").and_then(|v| v.as_f64()),
+            );
+            push_opt_f64(
+                &mut art.columns[c_bu],
+                row.get("best_utility").and_then(|v| v.as_f64()),
+            );
+            art.columns[c_tie].push_i64(
+                row.get("tie_cardinality")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(0),
+            );
+            push_opt_f64(
+                &mut art.columns[c_gap],
+                row.get("legal_hindsight_gap").and_then(|v| v.as_f64()),
+            );
+            art.columns[c_gs]
+                .push_str(row.get("gap_status").and_then(|v| v.as_str()).unwrap_or(""));
+            art.columns[c_reason].push_str(
+                row.get("abstention_reason")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or(""),
+            );
+            push_opt_f64(
+                &mut art.columns[c_nt],
+                row.get("no_trade_value").and_then(|v| v.as_f64()),
+            );
             for (name, col) in [
                 ("n_ok", c_ok),
                 ("n_censored", c_ce),
@@ -988,30 +1109,42 @@ mod tests {
         let c1 = rust_cid("trend_pullback", "sol-setup-1");
         let c2 = rust_cid("ghost_expert", "sol-setup-2");
         let mut candidates = entered_transitions(&c1, "trend_pullback", "sol-setup-1", "st-sol-1");
-        candidates.push(detected_only_transition(&c2, "ghost_expert", "sol-setup-2", "st-sol-2"));
-        let evaluations = vec![eval_record("trend_pullback", "sol-setup-1"),
-                               eval_record("ghost_expert", "sol-setup-2")];
-        let states = vec![state_record("st-sol-1", DETECTED_AT - 1),
-                          state_record("st-sol-2", DETECTED_AT - 1)];
+        candidates.push(detected_only_transition(
+            &c2,
+            "ghost_expert",
+            "sol-setup-2",
+            "st-sol-2",
+        ));
+        let evaluations = vec![
+            eval_record("trend_pullback", "sol-setup-1"),
+            eval_record("ghost_expert", "sol-setup-2"),
+        ];
+        let states = vec![
+            state_record("st-sol-1", DETECTED_AT - 1),
+            state_record("st-sol-2", DETECTED_AT - 1),
+        ];
 
         let geom = geometry_map();
         let aid = regret::action_id(&geom);
         let manifest_id = regret::generate_legal_actions(&geom).manifest_id;
         let cube_path = tmp.join("cube-reduced.v82");
-        write_cube_reduced(&cube_path, &[json!({
-            "candidate_id": c1,
-            "manifest_id": manifest_id,
-            "actual_action_id": aid,
-            "actual_utility": 1.5000000000000036,
-            "best_utility": 1.6,
-            "tie_cardinality": 1,
-            "legal_hindsight_gap": 0.09999999999999636,
-            "gap_status": "COMPUTED",
-            "abstention_reason": "",
-            "no_trade_value": 0.0,
-            "n_ok": 11, "n_censored": 0, "n_undefined_future": 0,
-            "n_not_evaluable_action": 0, "n_no_entry": 0,
-        })]);
+        write_cube_reduced(
+            &cube_path,
+            &[json!({
+                "candidate_id": c1,
+                "manifest_id": manifest_id,
+                "actual_action_id": aid,
+                "actual_utility": 1.5000000000000036,
+                "best_utility": 1.6,
+                "tie_cardinality": 1,
+                "legal_hindsight_gap": 0.09999999999999636,
+                "gap_status": "COMPUTED",
+                "abstention_reason": "",
+                "no_trade_value": 0.0,
+                "n_ok": 11, "n_censored": 0, "n_undefined_future": 0,
+                "n_not_evaluable_action": 0, "n_no_entry": 0,
+            })],
+        );
 
         let req_path = tmp.join("request.json");
         let req = json!({
@@ -1037,11 +1170,18 @@ mod tests {
             .filter(|l| !l.trim().is_empty())
             .map(|l| serde_json::from_str(l).unwrap())
             .collect();
-        assert_eq!(lines.len(), 1 + 72, "1 phase-1 join row + 72 slice verdicts");
+        assert_eq!(
+            lines.len(),
+            1 + 72,
+            "1 phase-1 join row + 72 slice verdicts"
+        );
         let stages: Vec<&str> = lines.iter().map(|l| l["stage"].as_str().unwrap()).collect();
         assert_eq!(stages[0], "phase1_join");
         assert!(stages[1..].iter().all(|s| *s == "phase2_slice"));
-        assert_eq!(lines[1]["slice_key"], "trend_pullback|BTCUSDT|LONG|mean_legal_hindsight_gap");
+        assert_eq!(
+            lines[1]["slice_key"],
+            "trend_pullback|BTCUSDT|LONG|mean_legal_hindsight_gap"
+        );
         // The C1 slice has a single COMPUTED row -> INSUFFICIENT_SUPPORT.
         let c1_slice = lines
             .iter()
@@ -1051,9 +1191,10 @@ mod tests {
         assert_eq!(c1_slice["discovery_verdict"], "INSUFFICIENT_SUPPORT");
 
         // Phase 3 ran (no confirmed slice -> empty summary, still written).
-        let p3: Value =
-            serde_json::from_str(&std::fs::read_to_string(out.join("phase3_summary.json")).unwrap())
-                .unwrap();
+        let p3: Value = serde_json::from_str(
+            &std::fs::read_to_string(out.join("phase3_summary.json")).unwrap(),
+        )
+        .unwrap();
         assert_eq!(p3["n_slices_tested"], 0);
         assert!(out.join("recoverability_attempts.jsonl").exists());
     }

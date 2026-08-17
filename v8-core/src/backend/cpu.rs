@@ -6,10 +6,10 @@
 //! real — `evaluate` routes the cell batch through `scheduler::evaluate`,
 //! which runs `min(threads, cells)` worker threads over contiguous chunks —
 //! but `threads`/backend choice appears in no hash and no manifest (D-084,
-//! G5). SIMD and GPU remain absent (no `target_feature`, no backend).
+//! G5). GPU selection is outside this CPU backend and uses the same trait.
 //!
-//! D-032 file-family registration: `backend/cpu.rs` — Backend-1 CPU backend
-//! (task parallelism; SIMD/GPU on later cards).
+//! D-032 file-family registration: `backend/cpu.rs` — CPU backend
+//! (task parallelism + SIMD; GPU is selected at the shared boundary).
 
 use crate::backend::scalar::ScalarBackend;
 use crate::backend::simd::SimdBackend;
@@ -20,11 +20,13 @@ use crate::state::FeatureStore;
 
 /// The CPU backend: `scheduler::evaluate` over the scalar reference, with
 /// `threads` worker threads. `threads <= 1` is the sequential reference path.
+#[allow(dead_code)]
 pub struct CpuBackend<'a> {
     threads: usize,
     scalar: ScalarBackend<'a>,
 }
 
+#[allow(dead_code)]
 impl<'a> CpuBackend<'a> {
     pub fn new(
         threads: usize,

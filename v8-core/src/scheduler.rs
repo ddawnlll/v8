@@ -5,8 +5,8 @@
 //! Backend-1's task-parallelism step (COMPUTE_SCHEDULING_SPEC §4.1): cells
 //! within a Candidate and Candidates across symbols are fully independent, so
 //! a `ReplayCell` batch is partitioned into contiguous worker chunks and
-//! evaluated on `threads` OS threads. No SIMD and no GPU exist here — task
-//! parallelism first, per the declared order.
+//! evaluated on `threads` OS threads. This module owns CPU task partitioning;
+//! backend selection (including the optional GPU) lives in `backend::mod`.
 //!
 //! Determinism (G5). The partition shape depends only on `(n, workers)`,
 //! never on completion order: worker `w` owns the contiguous `[lo, hi)` slice
@@ -130,13 +130,14 @@ pub fn evaluate<K: ReplayKernel + Sync>(
 /// does not fail the batch). An infrastructure fault — a worker panic or a
 /// join failure — fails the whole call (§7): `Err` is returned and no partial
 /// result list is produced.
+#[allow(dead_code)]
 pub fn parallel_map<T: Send, F: Fn(usize) -> Result<T, String> + Sync>(
     threads: usize,
     n: usize,
     f: &F,
 ) -> Result<Vec<Result<T, String>>, String> {
     if threads <= 1 || n <= 1 {
-        return Ok((0..n).map(|i| f(i)).collect());
+        return Ok((0..n).map(f).collect());
     }
     let workers = threads.min(n);
     let bounds = chunk_bounds(n, workers);
@@ -209,12 +210,22 @@ mod tests {
         // backend/mod.rs fixture) so the kernel exercises the same endpoint;
         // ETH and BTC get their own ramp shapes so cells differ per symbol.
         let mut rows = Vec::new();
-        for (s, shape) in [("SOLUSDT", 0usize), ("BTCUSDT", 1usize), ("ETHUSDT", 2usize)] {
+        for (s, shape) in [
+            ("SOLUSDT", 0usize),
+            ("BTCUSDT", 1usize),
+            ("ETHUSDT", 2usize),
+        ] {
             for i in 0..14 {
                 let c = match shape {
-                    0 => if i < 8 { 100.0 } else { 130.0 }, // gap-through
-                    1 => 200.0 + 0.5 * (i as f64),          // slow ramp
-                    _ => 3000.0 - 0.5 * (i as f64),         // slow decay
+                    0 => {
+                        if i < 8 {
+                            100.0
+                        } else {
+                            130.0
+                        }
+                    } // gap-through
+                    1 => 200.0 + 0.5 * (i as f64),  // slow ramp
+                    _ => 3000.0 - 0.5 * (i as f64), // slow decay
                 };
                 rows.push(bar(c, c + 0.5, c - 0.5, c, s, i));
             }
@@ -343,7 +354,7 @@ mod tests {
     /// whole call — the caller receives `Err`, not a partial batch.
     #[test]
     fn batch_worker_panic_fails_closed() {
-        let (ds, stores) = fixture();
+        let (ds, _stores) = fixture();
         let cells = cells();
         let mut out = vec![zero(); cells.len()];
         // A kernel that panics for one symbol: the batch must return Err.

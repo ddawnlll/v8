@@ -244,7 +244,7 @@ pub fn compute_verdict(req: &VerdictRequest) -> Result<Value, String> {
     let rc = reality_check::reality_check_p_value(&refs, block_size, req.n_resamples, seed)?;
 
     let detrended = if req.closes.is_empty() {
-        Value::from(serde_json::json!({ "run": false }))
+        serde_json::json!({ "run": false })
     } else {
         let ic = detrended::appendix_a_invariant(
             &req.closes,
@@ -267,7 +267,7 @@ pub fn compute_verdict(req: &VerdictRequest) -> Result<Value, String> {
     };
 
     let permutation = if req.moves.is_empty() || req.directions.is_empty() {
-        Value::from(serde_json::json!({ "run": false }))
+        serde_json::json!({ "run": false })
     } else {
         let mut dirs: Vec<(&str, &[i32])> = Vec::with_capacity(refs.len());
         for (name, _) in &refs {
@@ -305,12 +305,8 @@ pub fn compute_verdict(req: &VerdictRequest) -> Result<Value, String> {
     )?;
     let eff_n = remaining::effective_independent_episodes(n as u64, req.max_hold_bars)?;
     let slices = remaining::regime_slices(refs[0].1, req.slice_bars)?;
-    let streak = remaining::streak_vs_null(
-        refs[0].1,
-        block_size as usize,
-        req.n_resamples as u64,
-        seed,
-    )?;
+    let streak =
+        remaining::streak_vs_null(refs[0].1, block_size as usize, req.n_resamples as u64, seed)?;
     let (practical_meets, practical_note) =
         remaining::practical_significance(refs[0].1, req.min_net_r, req.min_trades)?;
     let n_rules = req.n_rules.unwrap_or(refs.len() as u64);
@@ -391,8 +387,7 @@ pub fn verdict(args: &[String]) -> i32 {
         .map_err(|e| format!("cannot read request {}: {e}", args[0]))
         .and_then(|b| {
             serde_json::from_slice(&b).map_err(|e| format!("cannot parse request {}: {e}", args[0]))
-        })
-    {
+        }) {
         Ok(r) => r,
         Err(e) => {
             eprintln!("error: {e}");

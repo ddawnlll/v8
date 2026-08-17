@@ -119,9 +119,18 @@ pub fn build_snapshots(
             Some(d) => d,
             None => continue,
         };
-        let eid = rec.get("expert_id").and_then(|v| v.as_str()).unwrap_or("").to_string();
-        let kt = rec.get("knowledge_time").and_then(|v| v.as_i64()).unwrap_or(0);
-        drafts_by_clock.entry((eid, kt)).or_insert_with(|| d.clone());
+        let eid = rec
+            .get("expert_id")
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_string();
+        let kt = rec
+            .get("knowledge_time")
+            .and_then(|v| v.as_i64())
+            .unwrap_or(0);
+        drafts_by_clock
+            .entry((eid, kt))
+            .or_insert_with(|| d.clone());
     }
 
     // Transitions grouped by candidate_id (the stored candidate_id is the
@@ -136,8 +145,13 @@ pub fn build_snapshots(
         }
     }
 
-    let outcome_by_cid: HashMap<&str, &Value> = outcomes.iter()
-        .filter_map(|o| o.get("candidate_id").and_then(|v| v.as_str()).map(|c| (c, o)))
+    let outcome_by_cid: HashMap<&str, &Value> = outcomes
+        .iter()
+        .filter_map(|o| {
+            o.get("candidate_id")
+                .and_then(|v| v.as_str())
+                .map(|c| (c, o))
+        })
         .collect();
 
     let mut cids: Vec<String> = trans_by_cid.keys().cloned().collect();
@@ -146,26 +160,34 @@ pub fn build_snapshots(
     for cid in cids {
         let trans = trans_by_cid.get_mut(&cid).expect("cid from keys()");
         trans.sort_by_key(|r| r.get("sequence").and_then(|v| v.as_i64()).unwrap_or(0));
-        let detected = trans.iter().find(|t| {
-            t.get("to_state").and_then(|v| v.as_str()) == Some("DETECTED")
-        });
-        let executed = trans.iter().find(|t| {
-            t.get("to_state").and_then(|v| v.as_str()) == Some("EXECUTED")
-        });
+        let detected = trans
+            .iter()
+            .find(|t| t.get("to_state").and_then(|v| v.as_str()) == Some("DETECTED"));
+        let executed = trans
+            .iter()
+            .find(|t| t.get("to_state").and_then(|v| v.as_str()) == Some("EXECUTED"));
         let terminal = trans.iter().rev().find(|t| {
-            t.get("to_state").and_then(|v| v.as_str())
-                .map(|s| TERMINAL.contains(&s)).unwrap_or(false)
+            t.get("to_state")
+                .and_then(|v| v.as_str())
+                .map(|s| TERMINAL.contains(&s))
+                .unwrap_or(false)
         });
         // Bind the draft to the DETECTED transition by the birth clock:
         // (expert_id, DETECTED knowledge_time) — the evaluation at that bar
         // is the stored draft.
         let draft = detected.and_then(|t| {
-            let eid = t.get("expert_id").and_then(|v| v.as_str()).unwrap_or("").to_string();
-            let kt = t.get("knowledge_time").and_then(|v| v.as_i64()).unwrap_or(0);
+            let eid = t
+                .get("expert_id")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string();
+            let kt = t
+                .get("knowledge_time")
+                .and_then(|v| v.as_i64())
+                .unwrap_or(0);
             drafts_by_clock.get(&(eid, kt))
         });
-        let entry_time = executed
-            .and_then(|t| t.get("knowledge_time").and_then(|v| v.as_i64()));
+        let entry_time = executed.and_then(|t| t.get("knowledge_time").and_then(|v| v.as_i64()));
         let predicate_ir = detected.and_then(|t| t.get("predicate_ir")).cloned();
 
         if draft.is_none() {
@@ -174,20 +196,51 @@ pub fn build_snapshots(
             // dropped (FER CA010).
             snapshots.push(CandidateSnapshot {
                 candidate_id: cid.clone(),
-                expert_id: detected.and_then(|t| t.get("expert_id").and_then(|v| v.as_str())).unwrap_or("").to_string(),
-                expert_version: detected.and_then(|t| t.get("expert_version").and_then(|v| v.as_str())).unwrap_or("").to_string(),
-                instrument: detected.and_then(|t| t.get("instrument").and_then(|v| v.as_str())).unwrap_or("").to_string(),
-                direction: detected.and_then(|t| t.get("direction").and_then(|v| v.as_str())).unwrap_or("").to_string(),
-                setup_anchor_event_id: detected.and_then(|t| t.get("setup_anchor_event_id").and_then(|v| v.as_str())).unwrap_or("").to_string(),
-                geometry_version: detected.and_then(|t| t.get("geometry_version").and_then(|v| v.as_str())).unwrap_or("").to_string(),
-                birth_time: detected.and_then(|t| t.get("knowledge_time").and_then(|v| v.as_i64())).unwrap_or(0),
-                birth_state_id: detected.and_then(|t| t.get("state_id").and_then(|v| v.as_str())).map(|s| s.to_string()),
+                expert_id: detected
+                    .and_then(|t| t.get("expert_id").and_then(|v| v.as_str()))
+                    .unwrap_or("")
+                    .to_string(),
+                expert_version: detected
+                    .and_then(|t| t.get("expert_version").and_then(|v| v.as_str()))
+                    .unwrap_or("")
+                    .to_string(),
+                instrument: detected
+                    .and_then(|t| t.get("instrument").and_then(|v| v.as_str()))
+                    .unwrap_or("")
+                    .to_string(),
+                direction: detected
+                    .and_then(|t| t.get("direction").and_then(|v| v.as_str()))
+                    .unwrap_or("")
+                    .to_string(),
+                setup_anchor_event_id: detected
+                    .and_then(|t| t.get("setup_anchor_event_id").and_then(|v| v.as_str()))
+                    .unwrap_or("")
+                    .to_string(),
+                geometry_version: detected
+                    .and_then(|t| t.get("geometry_version").and_then(|v| v.as_str()))
+                    .unwrap_or("")
+                    .to_string(),
+                birth_time: detected
+                    .and_then(|t| t.get("knowledge_time").and_then(|v| v.as_i64()))
+                    .unwrap_or(0),
+                birth_state_id: detected
+                    .and_then(|t| t.get("state_id").and_then(|v| v.as_str()))
+                    .map(|s| s.to_string()),
                 risk_geometry: Map::new(),
                 size: 1.0,
-                terminal_state: terminal.map(|t| t.get("to_state").and_then(|v| v.as_str()).unwrap_or("").to_string()),
-                terminal_reason_code: terminal.and_then(|t| t.get("reason_code").and_then(|v| v.as_str())).map(|s| s.to_string()),
+                terminal_state: terminal.map(|t| {
+                    t.get("to_state")
+                        .and_then(|v| v.as_str())
+                        .unwrap_or("")
+                        .to_string()
+                }),
+                terminal_reason_code: terminal
+                    .and_then(|t| t.get("reason_code").and_then(|v| v.as_str()))
+                    .map(|s| s.to_string()),
                 entry_bar_available_time: entry_time,
-                observed_outcome: outcome_by_cid.get(cid.as_str()).map(|o| o.as_object().cloned()).flatten(),
+                observed_outcome: outcome_by_cid
+                    .get(cid.as_str())
+                    .and_then(|o| o.as_object().cloned()),
                 binding_status: UNBOUND_NO_DRAFT.to_string(),
                 raw_draft: None,
                 predicate_ir,
@@ -196,24 +249,61 @@ pub fn build_snapshots(
         }
 
         let d = draft.unwrap();
-        let risk_geometry = d.get("risk_geometry").and_then(|v| v.as_object())
-            .cloned().unwrap_or_default();
+        let risk_geometry = d
+            .get("risk_geometry")
+            .and_then(|v| v.as_object())
+            .cloned()
+            .unwrap_or_default();
         snapshots.push(CandidateSnapshot {
             candidate_id: cid.clone(),
-            expert_id: d.get("expert_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            expert_version: d.get("expert_version").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            instrument: d.get("instrument").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            direction: d.get("direction").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            setup_anchor_event_id: d.get("setup_anchor_event_id").and_then(|v| v.as_str()).unwrap_or("").to_string(),
-            geometry_version: detected.and_then(|t| t.get("geometry_version").and_then(|v| v.as_str())).unwrap_or("").to_string(),
+            expert_id: d
+                .get("expert_id")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string(),
+            expert_version: d
+                .get("expert_version")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string(),
+            instrument: d
+                .get("instrument")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string(),
+            direction: d
+                .get("direction")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string(),
+            setup_anchor_event_id: d
+                .get("setup_anchor_event_id")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string(),
+            geometry_version: detected
+                .and_then(|t| t.get("geometry_version").and_then(|v| v.as_str()))
+                .unwrap_or("")
+                .to_string(),
             birth_time: d.get("birth_time").and_then(|v| v.as_i64()).unwrap_or(0),
-            birth_state_id: detected.and_then(|t| t.get("state_id").and_then(|v| v.as_str())).map(|s| s.to_string()),
+            birth_state_id: detected
+                .and_then(|t| t.get("state_id").and_then(|v| v.as_str()))
+                .map(|s| s.to_string()),
             risk_geometry,
             size: d.get("size").and_then(|v| v.as_f64()).unwrap_or(1.0),
-            terminal_state: terminal.map(|t| t.get("to_state").and_then(|v| v.as_str()).unwrap_or("").to_string()),
-            terminal_reason_code: terminal.and_then(|t| t.get("reason_code").and_then(|v| v.as_str())).map(|s| s.to_string()),
+            terminal_state: terminal.map(|t| {
+                t.get("to_state")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("")
+                    .to_string()
+            }),
+            terminal_reason_code: terminal
+                .and_then(|t| t.get("reason_code").and_then(|v| v.as_str()))
+                .map(|s| s.to_string()),
             entry_bar_available_time: entry_time,
-            observed_outcome: outcome_by_cid.get(cid.as_str()).map(|o| o.as_object().cloned()).flatten(),
+            observed_outcome: outcome_by_cid
+                .get(cid.as_str())
+                .and_then(|o| o.as_object().cloned()),
             binding_status: BOUND.to_string(),
             raw_draft: Some(d.clone()),
             predicate_ir,
@@ -227,7 +317,8 @@ pub fn build_snapshots(
 /// states ledger and no feature's `max_input_available_time` may exceed the
 /// birth state's own `as_of` (future leakage).
 pub fn assert_pit_lineage(states: &[Value], snapshots: &[CandidateSnapshot]) -> Vec<String> {
-    let states_by_id: HashMap<&str, &Value> = states.iter()
+    let states_by_id: HashMap<&str, &Value> = states
+        .iter()
         .filter_map(|s| s.get("state_id").and_then(|v| v.as_str()).map(|id| (id, s)))
         .collect();
     let mut problems = Vec::new();
@@ -255,7 +346,10 @@ pub fn assert_pit_lineage(states: &[Value], snapshots: &[CandidateSnapshot]) -> 
         let as_of = st.get("as_of").and_then(|v| v.as_i64()).unwrap_or(0);
         if let Some(features) = st.get("features").and_then(|v| v.as_object()) {
             for (fname, fv) in features {
-                let mia = fv.get("max_input_available_time").and_then(|v| v.as_i64()).unwrap_or(0);
+                let mia = fv
+                    .get("max_input_available_time")
+                    .and_then(|v| v.as_i64())
+                    .unwrap_or(0);
                 if mia > as_of {
                     problems.push(format!(
                         "{}: feature {} max_input_available_time {} > decision clock {} — future leakage",
@@ -286,7 +380,10 @@ fn first_mismatched_field(replayed: &OutcomeSurface, obs: &Map<String, Value>) -
     ];
     for (name, s, i) in exact {
         let obs_s = if *name == "endpoint" || *name == "label_status" {
-            obs.get(*name).and_then(|v| v.as_str()).unwrap_or("").to_string()
+            obs.get(*name)
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string()
         } else {
             String::new()
         };
@@ -295,7 +392,11 @@ fn first_mismatched_field(replayed: &OutcomeSurface, obs: &Map<String, Value>) -
         } else {
             0
         };
-        let same = if *name == "endpoint" || *name == "label_status" { *s == obs_s } else { *i == obs_i };
+        let same = if *name == "endpoint" || *name == "label_status" {
+            *s == obs_s
+        } else {
+            *i == obs_i
+        };
         if !same {
             return name.to_string();
         }
@@ -350,10 +451,12 @@ fn compare_observed(
                 .map(|f| f as i64)
         })
     }
-    let exact_ok = replayed.endpoint
-            == obs.get("endpoint").and_then(|v| v.as_str()).unwrap_or("")
+    let exact_ok = replayed.endpoint == obs.get("endpoint").and_then(|v| v.as_str()).unwrap_or("")
         && replayed.label_status
-            == obs.get("label_status").and_then(|v| v.as_str()).unwrap_or("")
+            == obs
+                .get("label_status")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
         && replayed.horizon_bars == exact_i64(obs.get("horizon_bars")).unwrap_or(i64::MIN)
         && replayed.ambiguous_bars == exact_i64(obs.get("ambiguous_bars")).unwrap_or(i64::MIN);
     let mut float_ok = true;
@@ -395,7 +498,9 @@ pub fn reconcile_actual_actions(
     let mut n_na = 0usize;
     let mut mismatches: Vec<(String, String)> = Vec::new();
     let mut max_dev: HashMap<String, f64> = RECONCILE_FLOAT_FIELDS
-        .iter().map(|f| (f.to_string(), 0.0)).collect();
+        .iter()
+        .map(|f| (f.to_string(), 0.0))
+        .collect();
 
     for snap in snapshots {
         if snap.binding_status != BOUND || snap.entry_bar_available_time.is_none() {
@@ -409,15 +514,24 @@ pub fn reconcile_actual_actions(
             Some(b) => b,
             None => {
                 n_bad += 1;
-                mismatches.push((snap.candidate_id.clone(), MISMATCH_REASON_ENTRY_MISSING.to_string()));
+                mismatches.push((
+                    snap.candidate_id.clone(),
+                    MISMATCH_REASON_ENTRY_MISSING.to_string(),
+                ));
                 continue;
             }
         };
-        let i = sym_bars.available_times.iter().position(|t| *t == entry_time);
+        let i = sym_bars
+            .available_times
+            .iter()
+            .position(|t| *t == entry_time);
         let obs = snap.observed_outcome.as_ref();
         if i.is_none() || obs.is_none() || store.is_none() {
             n_bad += 1;
-            mismatches.push((snap.candidate_id.clone(), MISMATCH_REASON_ENTRY_MISSING.to_string()));
+            mismatches.push((
+                snap.candidate_id.clone(),
+                MISMATCH_REASON_ENTRY_MISSING.to_string(),
+            ));
             continue;
         }
         let i = i.unwrap();
@@ -426,10 +540,17 @@ pub fn reconcile_actual_actions(
 
         let raw = snap.raw_draft.as_ref().unwrap(); // BOUND implies a draft
         let draft = Draft {
-            direction: raw.get("direction").and_then(|v| v.as_str()).unwrap_or("").to_string(),
+            direction: raw
+                .get("direction")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string(),
             birth_time: raw.get("birth_time").and_then(|v| v.as_i64()).unwrap_or(0),
-            risk_geometry: raw.get("risk_geometry").and_then(|v| v.as_object())
-                .cloned().unwrap_or_default(),
+            risk_geometry: raw
+                .get("risk_geometry")
+                .and_then(|v| v.as_object())
+                .cloned()
+                .unwrap_or_default(),
         };
         let atr_ref = draft.geom_f64("atr_ref");
         let kernel = ScalarKernel {
@@ -461,15 +582,22 @@ pub fn reconcile_actual_actions(
                 snap.candidate_id.clone(),
                 format!(
                     "field_mismatch:{}:{}:{}:atr={}",
-                    snap.expert_id, snap.direction,
+                    snap.expert_id,
+                    snap.direction,
                     first_mismatched_field(&surface, obs),
-                    atr_ref.map(|a| format!("{a:.9}")).unwrap_or_else(|| "None".into()),
+                    atr_ref
+                        .map(|a| format!("{a:.9}"))
+                        .unwrap_or_else(|| "None".into()),
                 ),
             ));
         }
     }
 
-    let verdict = if n_bad == 0 { RECONCILED } else { RECONCILIATION_FAILED };
+    let verdict = if n_bad == 0 {
+        RECONCILED
+    } else {
+        RECONCILIATION_FAILED
+    };
     ReconciliationResult {
         n_executed: n_exec,
         n_reconciled: n_ok,
@@ -517,13 +645,15 @@ pub struct ReconcileRequest {
 
 /// Read a JSONL tape into parsed rows (mirror of `main::read_tape`).
 fn read_tape(path: &Path) -> Result<Vec<TapeRow>, String> {
-    let text = std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
+    let text =
+        std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
     let mut rows = Vec::new();
     for (i, line) in text.lines().enumerate() {
         if line.trim().is_empty() {
             continue;
         }
-        let parsed = crate::jsonx::parse_line(line).map_err(|e| format!("tape line {}: {e}", i + 1))?;
+        let parsed =
+            crate::jsonx::parse_line(line).map_err(|e| format!("tape line {}: {e}", i + 1))?;
         let row = TapeRow::from_parts(&parsed.value, parsed.nonfinite)
             .map_err(|e| format!("tape line {}: {e}", i + 1))?;
         rows.push(row);
@@ -551,7 +681,9 @@ fn summary_json(
     n_unbound: usize,
     problems: &[String],
 ) -> Value {
-    let mismatches: Vec<Value> = r.mismatches.iter()
+    let mismatches: Vec<Value> = r
+        .mismatches
+        .iter()
         .map(|(cid, reason)| json!([cid, reason]))
         .collect();
     let halted = r.verdict != RECONCILED || !problems.is_empty();
@@ -567,15 +699,18 @@ fn summary_json(
     s.insert("n_candidates".to_string(), json!(n_candidates));
     s.insert("n_unbound".to_string(), json!(n_unbound));
     s.insert("pit_lineage_problems".to_string(), json!(problems));
-    s.insert("reconciliation".to_string(), json!({
-        "n_executed": r.n_executed,
-        "n_reconciled": r.n_reconciled,
-        "n_mismatched": r.n_mismatched,
-        "n_not_applicable": r.n_not_applicable,
-        "mismatches": mismatches,
-        "max_abs_deviation": r.max_abs_deviation,
-        "verdict": r.verdict,
-    }));
+    s.insert(
+        "reconciliation".to_string(),
+        json!({
+            "n_executed": r.n_executed,
+            "n_reconciled": r.n_reconciled,
+            "n_mismatched": r.n_mismatched,
+            "n_not_applicable": r.n_not_applicable,
+            "mismatches": mismatches,
+            "max_abs_deviation": r.max_abs_deviation,
+            "verdict": r.verdict,
+        }),
+    );
     s.insert("halted".to_string(), json!(halted));
     if let Some(reason) = halt_reason {
         s.insert("halt_reason".to_string(), json!(reason));
@@ -592,9 +727,16 @@ pub fn reconcile(req: &ReconcileRequest) -> Result<Value, String> {
     std::fs::create_dir_all(&req.out_dir).map_err(|e| format!("out_dir: {e}"))?;
 
     let sim = SimulatorParams::from_json(&req.manifest);
-    let mut funding_schedule: Vec<(i64, f64)> = ds.rows.iter()
+    let mut funding_schedule: Vec<(i64, f64)> = ds
+        .rows
+        .iter()
         .filter(|r| r.channel == "funding")
-        .map(|r| (r.event_time, r.payload["funding_rate"].as_f64().unwrap_or(0.0)))
+        .map(|r| {
+            (
+                r.event_time,
+                r.payload["funding_rate"].as_f64().unwrap_or(0.0),
+            )
+        })
         .collect();
     funding_schedule.sort_by_key(|(t, _)| *t);
 
@@ -604,11 +746,14 @@ pub fn reconcile(req: &ReconcileRequest) -> Result<Value, String> {
 
     let artifact = recon_artifact_json(&recon);
     let artifact_path = req.out_dir.join("reconciliation.json");
-    std::fs::write(&artifact_path,
-                   serde_json::to_string_pretty(&artifact).map_err(|e| e.to_string())? + "\n")
-        .map_err(|e| format!("reconciliation.json: {e}"))?;
+    std::fs::write(
+        &artifact_path,
+        serde_json::to_string_pretty(&artifact).map_err(|e| e.to_string())? + "\n",
+    )
+    .map_err(|e| format!("reconciliation.json: {e}"))?;
 
-    let n_unbound = snapshots.iter()
+    let n_unbound = snapshots
+        .iter()
         .filter(|s| s.binding_status == UNBOUND_NO_DRAFT)
         .count();
     Ok(summary_json(&recon, snapshots.len(), n_unbound, &problems))
@@ -639,7 +784,11 @@ pub fn run(args: &[String]) -> i32 {
     match reconcile(&req) {
         Ok(summary) => {
             println!("{}", serde_json::to_string(&summary).unwrap());
-            if summary.get("halted").and_then(|v| v.as_bool()).unwrap_or(false) {
+            if summary
+                .get("halted")
+                .and_then(|v| v.as_bool())
+                .unwrap_or(false)
+            {
                 1
             } else {
                 0
@@ -686,7 +835,14 @@ mod tests {
     /// The Rust re-derivation of the episode key (mirror of the oracle's
     /// `episode_key` + `_geometry_version` on the same draft inputs).
     fn rust_cid(expert: &str, anchor: &str) -> String {
-        episode_key(expert, "1.0", SYMBOL, "LONG", anchor, &geometry_version_hex())
+        episode_key(
+            expert,
+            "1.0",
+            SYMBOL,
+            "LONG",
+            anchor,
+            &geometry_version_hex(),
+        )
     }
 
     fn kline_row(id: &str, t: i64, o: f64, h: f64, l: f64, c: f64, v: f64) -> Value {
@@ -713,15 +869,24 @@ mod tests {
             (110.0, 112.0, 109.0, 111.0, 1800.0),
             (111.0, 113.0, 110.0, 112.0, 1900.0),
         ];
-        bars.iter().enumerate()
-            .map(|(i, (o, h, l, c, v))| kline_row(&format!("sol-{i}"), (i as i64 + 1) * 1000, *o, *h, *l, *c, *v))
+        bars.iter()
+            .enumerate()
+            .map(|(i, (o, h, l, c, v))| {
+                kline_row(
+                    &format!("sol-{i}"),
+                    (i as i64 + 1) * 1000,
+                    *o,
+                    *h,
+                    *l,
+                    *c,
+                    *v,
+                )
+            })
             .collect()
     }
 
     fn write_tape(path: &std::path::Path) {
-        let text: String = tape_values().iter()
-            .map(|r| r.to_string() + "\n")
-            .collect();
+        let text: String = tape_values().iter().map(|r| r.to_string() + "\n").collect();
         std::fs::write(path, text).unwrap();
     }
 
@@ -773,14 +938,29 @@ mod tests {
         detected.insert("instrument".to_string(), json!(SYMBOL));
         detected.insert("direction".to_string(), json!("LONG"));
         detected.insert("setup_anchor_event_id".to_string(), json!(anchor));
-        detected.insert("geometry_version".to_string(), json!(geometry_version_hex()));
+        detected.insert(
+            "geometry_version".to_string(),
+            json!(geometry_version_hex()),
+        );
         detected.insert("state_id".to_string(), json!(sid));
         chain.push(Value::Object(detected));
         chain.push(transition(cid, 2, Some("DETECTED"), "PENDING", 3100));
         chain.push(transition(cid, 3, Some("PENDING"), "TRIGGERED", 3200));
         chain.push(transition(cid, 4, Some("TRIGGERED"), "ACCEPTED", 3300));
-        chain.push(transition(cid, 5, Some("ACCEPTED"), "ORDER_SUBMITTED", 3400));
-        chain.push(transition(cid, 6, Some("ORDER_SUBMITTED"), "EXECUTED", ENTRY_TIME));
+        chain.push(transition(
+            cid,
+            5,
+            Some("ACCEPTED"),
+            "ORDER_SUBMITTED",
+            3400,
+        ));
+        chain.push(transition(
+            cid,
+            6,
+            Some("ORDER_SUBMITTED"),
+            "EXECUTED",
+            ENTRY_TIME,
+        ));
         chain
     }
 
@@ -794,7 +974,10 @@ mod tests {
         m.insert("instrument".to_string(), json!(SYMBOL));
         m.insert("direction".to_string(), json!("LONG"));
         m.insert("setup_anchor_event_id".to_string(), json!(anchor));
-        m.insert("geometry_version".to_string(), json!(geometry_version_hex()));
+        m.insert(
+            "geometry_version".to_string(),
+            json!(geometry_version_hex()),
+        );
         m.insert("state_id".to_string(), json!(sid));
         Value::Object(m)
     }
@@ -836,9 +1019,16 @@ mod tests {
         let c1 = rust_cid("fragile_expert", "sol-setup-1");
         let c2 = rust_cid("ghost_expert", "sol-setup-2");
         let mut candidates = entered_transitions(&c1, "fragile_expert", "sol-setup-1", "st-sol-1");
-        candidates.push(detected_only_transition(&c2, "ghost_expert", "sol-setup-2", "st-sol-2"));
-        let evaluations = vec![eval_record("fragile_expert", "sol-setup-1"),
-                               eval_record("ghost_expert", "sol-setup-2")];
+        candidates.push(detected_only_transition(
+            &c2,
+            "ghost_expert",
+            "sol-setup-2",
+            "st-sol-2",
+        ));
+        let evaluations = vec![
+            eval_record("fragile_expert", "sol-setup-1"),
+            eval_record("ghost_expert", "sol-setup-2"),
+        ];
         let outcomes = vec![json!({
             "candidate_id": c1,
             "endpoint": "TARGET", "label_status": "MATURE",
@@ -848,8 +1038,10 @@ mod tests {
             "mae_r": 0.9345794392523364, "mfe_r": 1.8691588785046729,
             "market_move_r": 0.9345794392523364,
         })];
-        let states = vec![state_record("st-sol-1", DETECTED_AT - 1),
-                          state_record("st-sol-2", DETECTED_AT - 1)];
+        let states = vec![
+            state_record("st-sol-1", DETECTED_AT - 1),
+            state_record("st-sol-2", DETECTED_AT - 1),
+        ];
         (candidates, evaluations, outcomes, states)
     }
 
@@ -862,7 +1054,9 @@ mod tests {
 
     /// Build the dataset + stores + sim the way `reconcile` does, from a tape
     /// written to `tape_path`.
-    fn env(tape_path: &std::path::Path) -> (Dataset, Vec<FeatureStore>, SimulatorParams, Vec<(i64, f64)>) {
+    fn env(
+        tape_path: &std::path::Path,
+    ) -> (Dataset, Vec<FeatureStore>, SimulatorParams, Vec<(i64, f64)>) {
         write_tape(tape_path);
         let rows = read_tape(tape_path).unwrap();
         let ds = Dataset::from_rows(rows).unwrap();
@@ -905,7 +1099,12 @@ mod tests {
         // A transition whose draft is absent binds UNBOUND_NO_DRAFT with the
         // DETECTED fields, never a panic and never a silent drop.
         let cid = rust_cid("ghost_expert", "sol-setup-2");
-        let candidates = vec![detected_only_transition(&cid, "ghost_expert", "sol-setup-2", "st-sol-2")];
+        let candidates = vec![detected_only_transition(
+            &cid,
+            "ghost_expert",
+            "sol-setup-2",
+            "st-sol-2",
+        )];
         let snaps = build_snapshots(&candidates, &[], &[]);
         assert_eq!(snaps.len(), 1);
         assert_eq!(snaps[0].binding_status, UNBOUND_NO_DRAFT);
@@ -938,7 +1137,10 @@ mod tests {
         let (candidates, evaluations, outcomes, states) = clean_ledger();
         let snaps = build_snapshots(&candidates, &evaluations, &outcomes);
         let problems = assert_pit_lineage(&states, &snaps);
-        assert!(problems.is_empty(), "expected clean lineage, got {problems:?}");
+        assert!(
+            problems.is_empty(),
+            "expected clean lineage, got {problems:?}"
+        );
     }
 
     #[test]
@@ -946,8 +1148,10 @@ mod tests {
         let (candidates, evaluations, outcomes, _) = clean_ledger();
         // st-sol-2's sma20 declares max_input_available_time 99999 > as_of
         // 3000 — the oracle's leak fixture.
-        let states = vec![state_record("st-sol-1", DETECTED_AT - 1),
-                          state_record("st-sol-2", 99999)];
+        let states = vec![
+            state_record("st-sol-1", DETECTED_AT - 1),
+            state_record("st-sol-2", 99999),
+        ];
         let snaps = build_snapshots(&candidates, &evaluations, &outcomes);
         let problems = assert_pit_lineage(&states, &snaps);
         assert_eq!(problems.len(), 1);
@@ -1000,7 +1204,10 @@ mod tests {
         // Bit-exact: the Rust kernel reproduces the oracle's floats, so the
         // max observed deviation is 0.0 on every compared field.
         for f in RECONCILE_FLOAT_FIELDS {
-            assert_eq!(recon.max_abs_deviation[f], 0.0, "{f}: kernel deviates from oracle");
+            assert_eq!(
+                recon.max_abs_deviation[f], 0.0,
+                "{f}: kernel deviates from oracle"
+            );
         }
     }
 
@@ -1010,7 +1217,12 @@ mod tests {
         // C3: a distinct episode (different setup anchor) that entered and
         // whose observed net_r is corrupted by +0.5.
         let c3 = rust_cid("fragile_expert", "sol-setup-3");
-        candidates.extend(entered_transitions(&c3, "fragile_expert", "sol-setup-3", "st-sol-3"));
+        candidates.extend(entered_transitions(
+            &c3,
+            "fragile_expert",
+            "sol-setup-3",
+            "st-sol-3",
+        ));
         evaluations.push(eval_record("fragile_expert", "sol-setup-3"));
         let mut obs = observed_outcome(2.0000000000000036); // net_r + 0.5
         obs.insert("candidate_id".to_string(), json!(c3));
@@ -1033,8 +1245,11 @@ mod tests {
         assert_eq!(recon.n_not_applicable, 1);
         assert_eq!(recon.verdict, RECONCILIATION_FAILED);
         assert_eq!(recon.mismatches.len(), 1);
-        assert!(recon.mismatches[0].1.starts_with("field_mismatch:"),
-                "reason was: {}", recon.mismatches[0].1);
+        assert!(
+            recon.mismatches[0].1.starts_with("field_mismatch:"),
+            "reason was: {}",
+            recon.mismatches[0].1
+        );
         assert_eq!(recon.max_abs_deviation["net_r"], 0.5);
         for f in RECONCILE_FLOAT_FIELDS {
             if f != "net_r" {
@@ -1070,10 +1285,15 @@ mod tests {
     // run() end-to-end: the request -> reconciliation.json artifact
     // -----------------------------------------------------------------------
 
-    fn write_request(path: &std::path::Path, tape_path: &std::path::Path,
-                     out_dir: &std::path::Path,
-                     candidates: &[Value], evaluations: &[Value],
-                     outcomes: &[Value], states: &[Value]) {
+    fn write_request(
+        path: &std::path::Path,
+        tape_path: &std::path::Path,
+        out_dir: &std::path::Path,
+        candidates: &[Value],
+        evaluations: &[Value],
+        outcomes: &[Value],
+        states: &[Value],
+    ) {
         let req = json!({
             "tape_path": tape_path, "out_dir": out_dir,
             "universe": [SYMBOL], "manifest": manifest(),
@@ -1092,14 +1312,23 @@ mod tests {
         let out = tmp.join("out");
         let req_path = tmp.join("request.json");
         let (candidates, evaluations, outcomes, states) = clean_ledger();
-        write_request(&req_path, &tape, &out, &candidates, &evaluations, &outcomes, &states);
+        write_request(
+            &req_path,
+            &tape,
+            &out,
+            &candidates,
+            &evaluations,
+            &outcomes,
+            &states,
+        );
 
         let code = run(&[req_path.to_str().unwrap().to_string()]);
         assert_eq!(code, 0, "clean store must not halt");
 
-        let artifact: Value =
-            serde_json::from_str(&std::fs::read_to_string(out.join("reconciliation.json")).unwrap())
-                .unwrap();
+        let artifact: Value = serde_json::from_str(
+            &std::fs::read_to_string(out.join("reconciliation.json")).unwrap(),
+        )
+        .unwrap();
         // Field-for-field vs the frozen oracle's clean summary:
         // {n_executed:1, n_reconciled:1, n_mismatched:0, n_not_applicable:1,
         //  max_abs_deviation all 0.0, verdict RECONCILED}.
@@ -1122,21 +1351,35 @@ mod tests {
         let req_path = tmp.join("request.json");
         let (mut candidates, mut evaluations, mut outcomes, mut states) = clean_ledger();
         let c3 = rust_cid("fragile_expert", "sol-setup-3");
-        candidates.extend(entered_transitions(&c3, "fragile_expert", "sol-setup-3", "st-sol-3"));
+        candidates.extend(entered_transitions(
+            &c3,
+            "fragile_expert",
+            "sol-setup-3",
+            "st-sol-3",
+        ));
         evaluations.push(eval_record("fragile_expert", "sol-setup-3"));
         let mut obs = observed_outcome(2.0000000000000036);
         obs.insert("candidate_id".to_string(), json!(c3));
         outcomes.push(json!(obs));
         states.push(state_record("st-sol-3", DETECTED_AT - 1));
         write_tape(&tape);
-        write_request(&req_path, &tape, &out, &candidates, &evaluations, &outcomes, &states);
+        write_request(
+            &req_path,
+            &tape,
+            &out,
+            &candidates,
+            &evaluations,
+            &outcomes,
+            &states,
+        );
 
         let code = run(&[req_path.to_str().unwrap().to_string()]);
         assert_eq!(code, 1, "corrupted ledger must halt (oracle main exit 1)");
 
-        let artifact: Value =
-            serde_json::from_str(&std::fs::read_to_string(out.join("reconciliation.json")).unwrap())
-                .unwrap();
+        let artifact: Value = serde_json::from_str(
+            &std::fs::read_to_string(out.join("reconciliation.json")).unwrap(),
+        )
+        .unwrap();
         assert_eq!(artifact["n_executed"], 2);
         assert_eq!(artifact["n_reconciled"], 1);
         assert_eq!(artifact["n_mismatched"], 1);
@@ -1147,24 +1390,36 @@ mod tests {
 
     #[test]
     fn run_halts_on_pit_lineage_violation() {
-        let tmp = std::env::temp_dir().join(format!("v8-reconcile-run-leak-{}", std::process::id()));
+        let tmp =
+            std::env::temp_dir().join(format!("v8-reconcile-run-leak-{}", std::process::id()));
         std::fs::create_dir_all(&tmp).unwrap();
         let tape = tmp.join("tape.jsonl");
         let out = tmp.join("out");
         let req_path = tmp.join("request.json");
         let (candidates, evaluations, outcomes, _) = clean_ledger();
-        let states = vec![state_record("st-sol-1", DETECTED_AT - 1),
-                          state_record("st-sol-2", 99999)];
+        let states = vec![
+            state_record("st-sol-1", DETECTED_AT - 1),
+            state_record("st-sol-2", 99999),
+        ];
         write_tape(&tape);
-        write_request(&req_path, &tape, &out, &candidates, &evaluations, &outcomes, &states);
+        write_request(
+            &req_path,
+            &tape,
+            &out,
+            &candidates,
+            &evaluations,
+            &outcomes,
+            &states,
+        );
 
         let code = run(&[req_path.to_str().unwrap().to_string()]);
         assert_eq!(code, 1, "PIT violation must halt (oracle main exit 1)");
         // The artifact still records the reconciliation counters; the verdict
         // is untouched by lineage (the oracle's summary halts separately).
-        let artifact: Value =
-            serde_json::from_str(&std::fs::read_to_string(out.join("reconciliation.json")).unwrap())
-                .unwrap();
+        let artifact: Value = serde_json::from_str(
+            &std::fs::read_to_string(out.join("reconciliation.json")).unwrap(),
+        )
+        .unwrap();
         assert_eq!(artifact["verdict"], RECONCILED);
         assert_eq!(artifact["n_executed"], 1);
     }

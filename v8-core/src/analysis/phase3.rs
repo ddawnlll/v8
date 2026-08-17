@@ -82,16 +82,27 @@ pub fn select_block_size(episode_net_r: &[f64]) -> usize {
         return 1;
     }
     let mean = fsum(episode_net_r) / n as f64;
-    let c0 = fsum(&episode_net_r.iter().map(|x| (x - mean).powf(2.0)).collect::<Vec<f64>>());
+    let c0 = fsum(
+        &episode_net_r
+            .iter()
+            .map(|x| (x - mean).powf(2.0))
+            .collect::<Vec<f64>>(),
+    );
     let base = py_round((n as f64).powf(1.0 / 3.0)).max(1) as usize;
     if c0 == 0.0 {
         return base.min(n / 2).max(1);
     }
-    let c1 = fsum(&(0..n - 1).map(|i| {
-        (episode_net_r[i] - mean) * (episode_net_r[i + 1] - mean)
-    }).collect::<Vec<f64>>());
+    let c1 = fsum(
+        &(0..n - 1)
+            .map(|i| (episode_net_r[i] - mean) * (episode_net_r[i + 1] - mean))
+            .collect::<Vec<f64>>(),
+    );
     let lag1 = c1 / c0;
-    let block = if lag1.abs() > threshold { 2 * base } else { base };
+    let block = if lag1.abs() > threshold {
+        2 * base
+    } else {
+        base
+    };
     block.min(n / 2).max(1)
 }
 
@@ -179,7 +190,11 @@ pub fn format_g6(x: f64) -> String {
         return "nan".to_string();
     }
     if x.is_infinite() {
-        return if x > 0.0 { "inf".to_string() } else { "-inf".to_string() };
+        return if x > 0.0 {
+            "inf".to_string()
+        } else {
+            "-inf".to_string()
+        };
     }
     let neg = x.is_sign_negative();
     let sci = format!("{:.5e}", x.abs());
@@ -190,7 +205,7 @@ pub fn format_g6(x: f64) -> String {
     if neg {
         out.push('-');
     }
-    if e < -4 || e >= 6 {
+    if !(-4..6).contains(&e) {
         out.push_str(&strip_mantissa(mant));
         out.push('e');
         if e < 0 {
@@ -248,7 +263,11 @@ pub fn feature_value(state_rec: &Value, symbol: &str, feature: &str) -> Option<f
 fn read_lines(path: &Path) -> Result<Vec<String>, String> {
     let text = std::fs::read_to_string(path)
         .map_err(|e| format!("cannot read {}: {e}", path.display()))?;
-    Ok(text.lines().map(|l| l.to_string()).filter(|l| !l.trim().is_empty()).collect())
+    Ok(text
+        .lines()
+        .map(|l| l.to_string())
+        .filter(|l| !l.trim().is_empty())
+        .collect())
 }
 
 /// `_load_birth_features`: candidate_id -> {feature: Option<f64>}, read from
@@ -261,7 +280,9 @@ pub fn load_birth_features(
 ) -> Result<HashMap<String, HashMap<&'static str, Option<f64>>>, String> {
     let mut birth_state: HashMap<String, String> = HashMap::new();
     for line in read_lines(&store_dir.join("candidates.jsonl"))? {
-        let rec = jsonx::parse_line(&line).map_err(|e| format!("candidates.jsonl: {e}"))?.value;
+        let rec = jsonx::parse_line(&line)
+            .map_err(|e| format!("candidates.jsonl: {e}"))?
+            .value;
         if rec.get("to_state").and_then(|t| t.as_str()) != Some("DETECTED") {
             continue;
         }
@@ -273,7 +294,9 @@ pub fn load_birth_features(
     }
     let mut states: HashMap<String, Value> = HashMap::new();
     for line in read_lines(&store_dir.join("states.jsonl"))? {
-        let rec = jsonx::parse_line(&line).map_err(|e| format!("states.jsonl: {e}"))?.value;
+        let rec = jsonx::parse_line(&line)
+            .map_err(|e| format!("states.jsonl: {e}"))?
+            .value;
         if let Some(sid) = rec.get("state_id").and_then(|s| s.as_str()) {
             states.insert(sid.to_string(), rec);
         }
@@ -516,8 +539,8 @@ pub fn evaluate_slice_recoverability(
     } else {
         Some(fsum(&deltas) / deltas.len() as f64)
     };
-    let v_r = if !conf.is_empty() && v_a.is_some() {
-        Some(v_a.unwrap() + g_r.unwrap())
+    let v_r = if let (Some(v_a), Some(g_r)) = (v_a, g_r) {
+        Some(v_a + g_r)
     } else {
         None
     };
@@ -587,7 +610,9 @@ pub fn run_phase3(
     for key in confirmed_slice_keys {
         let parts: Vec<&str> = key.split('|').collect();
         if parts.len() < 4 {
-            return Err(format!("bad slice_key {key:?}: expected expert|symbol|direction|estimand"));
+            return Err(format!(
+                "bad slice_key {key:?}: expected expert|symbol|direction|estimand"
+            ));
         }
         let (expert_id, symbol, direction) = (parts[0], parts[1], parts[2]);
         let store_dir = store_dirs
@@ -607,7 +632,10 @@ pub fn run_phase3(
         conf_row
             .as_object_mut()
             .expect("result is an object")
-            .insert("stage".to_string(), Value::String("confirmation_result".to_string()));
+            .insert(
+                "stage".to_string(),
+                Value::String("confirmation_result".to_string()),
+            );
         all_rows.push(conf_row);
         results.push(result);
     }
@@ -616,7 +644,8 @@ pub fn run_phase3(
     let recoverable: Vec<&Value> = results
         .iter()
         .filter(|r| {
-            r.get("recoverability_verdict").and_then(|v| v.as_str()) == Some(RECOVERABLE_WITHIN_CLASS)
+            r.get("recoverability_verdict").and_then(|v| v.as_str())
+                == Some(RECOVERABLE_WITHIN_CLASS)
         })
         .collect();
     let summary = json!({
@@ -633,14 +662,6 @@ pub fn run_phase3(
     std::fs::write(out_dir.join("phase3_summary.json"), text + "\n")
         .map_err(|e| format!("write phase3_summary.json: {e}"))?;
     Ok(summary)
-}
-
-/// S6 phase 3 CLI entry — the composition that feeds it the certified cube
-/// rows and store dirs is the S6 analysis composition (issue #116).
-#[allow(dead_code)] // not reachable until the S6 composition (#116) wires it
-pub fn run(args: &[String]) -> i32 {
-    eprintln!("S6 phase3 not implemented yet (issue #120): wired by the S6 composition (issue #116): args={args:?}");
-    1
 }
 
 #[cfg(test)]
@@ -792,7 +813,12 @@ mod tests {
     // synthetic store fixture (identical to the capture script's)
     // -----------------------------------------------------------------
 
-    fn features_map(symbol: &str, rsi: Option<f64>, bb: Option<f64>, adx: Option<f64>) -> serde_json::Map<String, Value> {
+    fn features_map(
+        symbol: &str,
+        rsi: Option<f64>,
+        bb: Option<f64>,
+        adx: Option<f64>,
+    ) -> serde_json::Map<String, Value> {
         let mut m = serde_json::Map::new();
         m.insert(format!("{symbol}.rsi14"), json!({"value": rsi}));
         m.insert(format!("{symbol}.bb_pct_b"), json!({"value": bb}));
@@ -834,7 +860,11 @@ mod tests {
         ("sol-t4", Some(52.0), Some(0.55), Some(21.0)),
     ];
 
-    fn write_store(dir: &Path, symbol: &str, states: &[(&str, Option<f64>, Option<f64>, Option<f64>)]) {
+    fn write_store(
+        dir: &Path,
+        symbol: &str,
+        states: &[(&str, Option<f64>, Option<f64>, Option<f64>)],
+    ) {
         std::fs::create_dir_all(dir).unwrap();
         let mut states_f = File::create(dir.join("states.jsonl")).unwrap();
         for (sid, rsi, bb, adx) in states {
@@ -874,8 +904,7 @@ mod tests {
     /// all confirmation rows). `tag` keeps parallel tests on disjoint dirs
     /// (the store files are truncated on write, so a shared path would race).
     fn fixture(tag: &str) -> (PathBuf, PathBuf, Vec<Value>, Vec<Value>) {
-        let base = std::env::temp_dir()
-            .join(format!("v8core-phase3-{tag}-{}", std::process::id()));
+        let base = std::env::temp_dir().join(format!("v8core-phase3-{tag}-{}", std::process::id()));
         let btc = base.join("BTCUSDT");
         let sol = base.join("SOLUSDT");
         write_store(&btc, "BTCUSDT", BTC_STATES);
@@ -889,16 +918,40 @@ mod tests {
         let mut disc_all = Vec::new();
         let mut conf_all = Vec::new();
         for (i, u) in disc1_u.iter().enumerate() {
-            disc_all.push(row(&format!("btc-s{i}"), "trend_pullback", "BTCUSDT", "LONG", *u));
+            disc_all.push(row(
+                &format!("btc-s{i}"),
+                "trend_pullback",
+                "BTCUSDT",
+                "LONG",
+                *u,
+            ));
         }
         for (i, u) in conf1_u.iter().enumerate() {
-            conf_all.push(row(&format!("btc-c{i}"), "trend_pullback", "BTCUSDT", "LONG", *u));
+            conf_all.push(row(
+                &format!("btc-c{i}"),
+                "trend_pullback",
+                "BTCUSDT",
+                "LONG",
+                *u,
+            ));
         }
         for (i, u) in disc2_u.iter().enumerate() {
-            disc_all.push(row(&format!("sol-s{i}"), "failed_breakout", "SOLUSDT", "SHORT", *u));
+            disc_all.push(row(
+                &format!("sol-s{i}"),
+                "failed_breakout",
+                "SOLUSDT",
+                "SHORT",
+                *u,
+            ));
         }
         for (i, u) in conf2_u.iter().enumerate() {
-            conf_all.push(row(&format!("sol-t{i}"), "failed_breakout", "SOLUSDT", "SHORT", *u));
+            conf_all.push(row(
+                &format!("sol-t{i}"),
+                "failed_breakout",
+                "SOLUSDT",
+                "SHORT",
+                *u,
+            ));
         }
         (btc, sol, disc_all, conf_all)
     }
@@ -961,8 +1014,14 @@ mod tests {
         let (btc, sol, _, _) = fixture("birth");
         let birth_btc = load_birth_features(&btc, "BTCUSDT").unwrap();
         let birth_sol = load_birth_features(&sol, "SOLUSDT").unwrap();
-        assert_eq!(birth_to_value(&birth_btc), serde_json::from_str::<Value>(BIRTH_BTC_JSON).unwrap());
-        assert_eq!(birth_to_value(&birth_sol), serde_json::from_str::<Value>(BIRTH_SOL_JSON).unwrap());
+        assert_eq!(
+            birth_to_value(&birth_btc),
+            serde_json::from_str::<Value>(BIRTH_BTC_JSON).unwrap()
+        );
+        assert_eq!(
+            birth_to_value(&birth_sol),
+            serde_json::from_str::<Value>(BIRTH_SOL_JSON).unwrap()
+        );
         // btc-s6 has rsi14 absent and btc-c4 has adx14 absent -> None
         assert_eq!(birth_btc["btc-s6"].get("rsi14").copied().flatten(), None);
         assert_eq!(birth_btc["btc-c4"].get("adx14").copied().flatten(), None);
@@ -980,7 +1039,9 @@ mod tests {
             .map(|f| {
                 (
                     f,
-                    disc.iter().map(|r| feats(&r.candidate_id).get(f).copied().flatten()).collect(),
+                    disc.iter()
+                        .map(|r| feats(&r.candidate_id).get(f).copied().flatten())
+                        .collect(),
                 )
             })
             .collect();
@@ -1011,7 +1072,10 @@ mod tests {
             direction: None,
             threshold: None,
         };
-        let m = |rsi: Option<f64>, bb: Option<f64>, adx: Option<f64>| -> HashMap<&'static str, Option<f64>> {
+        let m = |rsi: Option<f64>,
+                 bb: Option<f64>,
+                 adx: Option<f64>|
+         -> HashMap<&'static str, Option<f64>> {
             let mut h = HashMap::new();
             h.insert("rsi14", rsi);
             h.insert("bb_pct_b", bb);
@@ -1019,11 +1083,26 @@ mod tests {
             h
         };
         // captured cases
-        assert_eq!(apply_policy(&always, &m(Some(68.5), Some(0.73), Some(25.5)), 0.5), 0.5);
-        assert_eq!(apply_policy(&always, &m(None, Some(0.3), Some(15.5)), 0.5), 0.5);
-        assert_eq!(apply_policy(&gate, &m(Some(68.5), Some(0.73), Some(25.5)), 0.5), 0.5);
-        assert_eq!(apply_policy(&gate, &m(None, Some(0.3), Some(15.5)), 0.5), 0.5);
-        assert_eq!(apply_policy(&gate, &m(Some(42.0), Some(0.45), Some(18.0)), 0.5), 0.5);
+        assert_eq!(
+            apply_policy(&always, &m(Some(68.5), Some(0.73), Some(25.5)), 0.5),
+            0.5
+        );
+        assert_eq!(
+            apply_policy(&always, &m(None, Some(0.3), Some(15.5)), 0.5),
+            0.5
+        );
+        assert_eq!(
+            apply_policy(&gate, &m(Some(68.5), Some(0.73), Some(25.5)), 0.5),
+            0.5
+        );
+        assert_eq!(
+            apply_policy(&gate, &m(None, Some(0.3), Some(15.5)), 0.5),
+            0.5
+        );
+        assert_eq!(
+            apply_policy(&gate, &m(Some(42.0), Some(0.45), Some(18.0)), 0.5),
+            0.5
+        );
         // a firing gate returns 0.0 (cross-checked by DELTAS1: btc-c0 rsi=30 fires)
         let gate55: PolicySpec = PolicySpec {
             policy_id: "THRESHOLD_GATE|rsi14|NO_TRADE_BELOW|55|q0.4".to_string(),
@@ -1032,7 +1111,10 @@ mod tests {
             direction: Some("NO_TRADE_BELOW".to_string()),
             threshold: Some(55.0),
         };
-        assert_eq!(apply_policy(&gate55, &m(Some(30.0), Some(0.6), Some(30.0)), -0.4), 0.0);
+        assert_eq!(
+            apply_policy(&gate55, &m(Some(30.0), Some(0.6), Some(30.0)), -0.4),
+            0.0
+        );
         // NO_TRADE_ABOVE fires above the threshold
         let gate_above: PolicySpec = PolicySpec {
             policy_id: "THRESHOLD_GATE|rsi14|NO_TRADE_ABOVE|55|q0.4".to_string(),
@@ -1041,8 +1123,14 @@ mod tests {
             direction: Some("NO_TRADE_ABOVE".to_string()),
             threshold: Some(55.0),
         };
-        assert_eq!(apply_policy(&gate_above, &m(Some(68.5), Some(0.73), Some(25.5)), 0.5), 0.0);
-        assert_eq!(apply_policy(&gate_above, &m(Some(42.0), Some(0.45), Some(18.0)), 0.5), 0.5);
+        assert_eq!(
+            apply_policy(&gate_above, &m(Some(68.5), Some(0.73), Some(25.5)), 0.5),
+            0.0
+        );
+        assert_eq!(
+            apply_policy(&gate_above, &m(Some(42.0), Some(0.45), Some(18.0)), 0.5),
+            0.5
+        );
     }
 
     #[test]
@@ -1050,14 +1138,23 @@ mod tests {
         let (btc, sol, disc_all, conf_all) = fixture("eval");
         let key1 = "trend_pullback|BTCUSDT|LONG|mean_legal_hindsight_gap";
         let (attempts1, r1) = evaluate_slice_recoverability(
-            key1, "trend_pullback", "BTCUSDT", "LONG", &btc, &disc_all, &conf_all,
+            key1,
+            "trend_pullback",
+            "BTCUSDT",
+            "LONG",
+            &btc,
+            &disc_all,
+            &conf_all,
         )
         .unwrap();
         assert_eq!(r1, serde_json::from_str::<Value>(RESULT1_JSON).unwrap());
         // 1 ALWAYS_TRADE + 24 THRESHOLD_GATE discovery rows
         assert_eq!(attempts1.len(), 25);
         assert_eq!(attempts1[0]["policy_id"], "ALWAYS_TRADE");
-        assert_eq!(attempts1[0]["mean_utility"].as_f64().unwrap(), 0.13124999999999998);
+        assert_eq!(
+            attempts1[0]["mean_utility"].as_f64().unwrap(),
+            0.13124999999999998
+        );
         // the best policy's discovery row
         let best_row = attempts1
             .iter()
@@ -1067,7 +1164,13 @@ mod tests {
 
         let key2 = "failed_breakout|SOLUSDT|SHORT|mean_legal_hindsight_gap";
         let (_attempts2, r2) = evaluate_slice_recoverability(
-            key2, "failed_breakout", "SOLUSDT", "SHORT", &sol, &disc_all, &conf_all,
+            key2,
+            "failed_breakout",
+            "SOLUSDT",
+            "SHORT",
+            &sol,
+            &disc_all,
+            &conf_all,
         )
         .unwrap();
         assert_eq!(r2, serde_json::from_str::<Value>(RESULT2_JSON).unwrap());
@@ -1084,15 +1187,25 @@ mod tests {
             ("BTCUSDT".to_string(), btc.to_string_lossy().to_string()),
             ("SOLUSDT".to_string(), sol.to_string_lossy().to_string()),
         ]);
-        let out_dir = std::env::temp_dir()
-            .join(format!("v8core-phase3-out-{}-{}", "run", std::process::id()));
+        let out_dir = std::env::temp_dir().join(format!(
+            "v8core-phase3-out-{}-{}",
+            "run",
+            std::process::id()
+        ));
         let summary = run_phase3(&keys, &disc_all, &conf_all, &store_dirs, &out_dir).unwrap();
-        assert_eq!(summary, serde_json::from_str::<Value>(SUMMARY_JSON).unwrap());
+        assert_eq!(
+            summary,
+            serde_json::from_str::<Value>(SUMMARY_JSON).unwrap()
+        );
         // both artifacts are written (attempt ledger + summary)
         assert!(out_dir.join("recoverability_attempts.jsonl").exists());
         assert!(out_dir.join("phase3_summary.json").exists());
-        let attempts_text = std::fs::read_to_string(out_dir.join("recoverability_attempts.jsonl")).unwrap();
-        let n_lines = attempts_text.lines().filter(|l| !l.trim().is_empty()).count();
+        let attempts_text =
+            std::fs::read_to_string(out_dir.join("recoverability_attempts.jsonl")).unwrap();
+        let n_lines = attempts_text
+            .lines()
+            .filter(|l| !l.trim().is_empty())
+            .count();
         // 25 discovery attempts + 1 confirmation result per slice
         assert_eq!(n_lines, 52);
     }

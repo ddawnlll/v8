@@ -23,10 +23,7 @@ pub const EXPIRY_BARS: i64 = 8;
 // Declared, LOCKED constants (book Ch14.2 p558/566/570; D-036 pattern:
 // "declared, never fitted").
 const BODY_RATIO_MAX: f64 = 1.0 / 3.0; // real body <= 1/3 of the range
-const SHADOW_MIN_MULT: f64 = 2.0;      // long shadow >= 2x the body
-
-/// The configured variant (D-044 default: 'hammer').
-const VARIANT: &str = "hammer";
+const SHADOW_MIN_MULT: f64 = 2.0; // long shadow >= 2x the body
 
 fn body(o: f64, c: f64) -> f64 {
     (c - o).abs()
@@ -238,7 +235,7 @@ fn direction_of(variant: &str) -> &'static str {
 
 pub fn candlestick_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
-    let variant = VARIANT;
+    let variant = fm.variant(expert_id, "hammer");
     // _need: {sym}.close, {sym}.atr, {sym}.history, {sym}.real_body,
     //        {sym}.body_range_ratio, {sym}.upper_shadow, {sym}.lower_shadow,
     //        {sym}.close_position
@@ -250,8 +247,13 @@ pub fn candlestick_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> Exp
         Some(v) => v,
         None => return no_habitat(expert_id, version, fm.as_of),
     };
-    for k in ["real_body", "body_range_ratio", "upper_shadow", "lower_shadow",
-              "close_position"] {
+    for k in [
+        "real_body",
+        "body_range_ratio",
+        "upper_shadow",
+        "lower_shadow",
+        "close_position",
+    ] {
         if fm.value(k).is_none() {
             return no_habitat(expert_id, version, fm.as_of);
         }
@@ -277,7 +279,11 @@ pub fn candlestick_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> Exp
     }
     let anchor_pred = |i: usize, b: &HistBar| pred(&fm.history, variant, i, b);
     let anchor = find_setup_anchor(&fm.history, &anchor_pred);
-    let trigger_side = if direction == "LONG" { "CLOSE_ABOVE" } else { "CLOSE_BELOW" };
+    let trigger_side = if direction == "LONG" {
+        "CLOSE_ABOVE"
+    } else {
+        "CLOSE_BELOW"
+    };
     let mut geometry = geom(vec![
         ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
         ("target_r", serde_json::json!(TARGET_R)),

@@ -74,7 +74,16 @@ pub fn macd_stoch_trend(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertE
     let sym = fm.symbol;
     // `_need`: all required feature keys present (prefixed in Python; the Rust
     // state keys are bare names).
-    for name in ["close", "stoch_k", "stoch_d", "macd", "macd_signal", "macd_hist", "atr", "history"] {
+    for name in [
+        "close",
+        "stoch_k",
+        "stoch_d",
+        "macd",
+        "macd_signal",
+        "macd_hist",
+        "atr",
+        "history",
+    ] {
         if !fm.features.contains_key(name) {
             return no_habitat(expert_id, version, fm.as_of);
         }

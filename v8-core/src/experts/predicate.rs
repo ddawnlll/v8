@@ -30,13 +30,16 @@ pub struct FeatCtx<'a> {
 
 /// Evaluate a compiled predicate (canonical JSON tree) against a frozen
 /// geometry and a per-bar feature context.
-pub fn evaluate(ir: &Value, geom: &serde_json::Map<String, Value>,
-                dir: &str, ctx: &FeatCtx) -> bool {
+pub fn evaluate(
+    ir: &Value,
+    geom: &serde_json::Map<String, Value>,
+    dir: &str,
+    ctx: &FeatCtx,
+) -> bool {
     rule(ir, geom, dir, ctx)
 }
 
-fn rule(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str,
-        ctx: &FeatCtx) -> bool {
+fn rule(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str, ctx: &FeatCtx) -> bool {
     match v.get("type").and_then(|t| t.as_str()) {
         Some("failopen") => true,
         Some("compare") => compare(v, geom, dir, ctx),
@@ -54,9 +57,13 @@ fn rule(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str,
             }
             rule(&v["rule"], geom, dir, ctx)
         }
-        Some("all_of") => v["rules"].as_array().map(|rs| rs.iter().all(|r| rule(r, geom, dir, ctx)))
+        Some("all_of") => v["rules"]
+            .as_array()
+            .map(|rs| rs.iter().all(|r| rule(r, geom, dir, ctx)))
             .unwrap_or(true),
-        Some("any_of") => v["rules"].as_array().map(|rs| rs.iter().any(|r| rule(r, geom, dir, ctx)))
+        Some("any_of") => v["rules"]
+            .as_array()
+            .map(|rs| rs.iter().any(|r| rule(r, geom, dir, ctx)))
             .unwrap_or(true),
         Some("dispatch") => {
             // Ordered: first case whose geometry key is present wins.
@@ -80,7 +87,12 @@ fn rule(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str,
 }
 
 /// Resolve an operand; `None` = absent -> the containing comparison fails open.
-fn operand(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str, ctx: &FeatCtx) -> Option<f64> {
+fn operand(
+    v: &Value,
+    geom: &serde_json::Map<String, Value>,
+    dir: &str,
+    ctx: &FeatCtx,
+) -> Option<f64> {
     match v.get("type").and_then(|t| t.as_str()) {
         Some("live") => {
             let name = v["name"].as_str()?;
@@ -98,15 +110,25 @@ fn operand(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str, ctx: &Fe
         Some("ref_dir") => {
             // Direction-selected frozen reference: LONG reads long_key,
             // SHORT reads short_key (each absent -> fail open).
-            let key = if dir == "SHORT" { v["short_key"].as_str()? } else { v["long_key"].as_str()? };
+            let key = if dir == "SHORT" {
+                v["short_key"].as_str()?
+            } else {
+                v["long_key"].as_str()?
+            };
             geom.get(key).and_then(|g| g.as_f64())
         }
         Some("live_window_dir") => {
             // Direction-selected live channel feature (donchian): LONG reads
             // window_low_{n}, SHORT reads window_high_{n}; n from n_ref or
             // n_default.
-            let name = if dir == "SHORT" { v["short"].as_str()? } else { v["long"].as_str()? };
-            let n = v.get("n_ref").and_then(|r| r.as_str())
+            let name = if dir == "SHORT" {
+                v["short"].as_str()?
+            } else {
+                v["long"].as_str()?
+            };
+            let n = v
+                .get("n_ref")
+                .and_then(|r| r.as_str())
                 .and_then(|k| geom.get(k).and_then(|g| g.as_i64()))
                 .map(|x| x as usize)
                 .or_else(|| v["n_default"].as_u64().map(|x| x as usize))?;
@@ -116,7 +138,11 @@ fn operand(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str, ctx: &Fe
             // Direction-selected window aggregate (donchian e/f): LONG
             // aggregates {feature, agg} over the last n history bars
             // (EXCLUSIVE of the newest), SHORT the other.
-            let side = if dir == "SHORT" { &v["short"] } else { &v["long"] };
+            let side = if dir == "SHORT" {
+                &v["short"]
+            } else {
+                &v["long"]
+            };
             let node = serde_json::json!({
                 "type": "window_agg",
                 "feature": side["feature"].as_str().unwrap_or(""),
@@ -151,7 +177,11 @@ fn window_agg(v: &Value, ctx: &FeatCtx) -> Option<f64> {
     // over n - 1 bars ending at hist[len - 2]. An n-bar window here would
     // include one bar too many (donchian responsive/significant, S2 bug
     // caught by the exit-kind coverage test, issue #103).
-    let hi = if exclusive { hist.len().saturating_sub(1) } else { hist.len() };
+    let hi = if exclusive {
+        hist.len().saturating_sub(1)
+    } else {
+        hist.len()
+    };
     // Python fail-open: len(hist.value) < m + 1 -> thesis holds (donchian
     // responsive/significant). With n = m + 1 in the IR, an EXCLUSIVE window
     // on a history shorter than n must fail open, not clamp and compute a
@@ -164,15 +194,17 @@ fn window_agg(v: &Value, ctx: &FeatCtx) -> Option<f64> {
     if lo >= hi {
         return None;
     }
-    let idx = |b: &[f64; 6]| -> Option<f64> { match feat {
-        "open" => Some(b[0]),
-        "high" => Some(b[1]),
-        "low" => Some(b[2]),
-        "close" => Some(b[3]),
-        "ema_fast" => Some(b[4]),
-        "ema_slow" => Some(b[5]),
-        _ => None,
-    } };
+    let idx = |b: &[f64; 6]| -> Option<f64> {
+        match feat {
+            "open" => Some(b[0]),
+            "high" => Some(b[1]),
+            "low" => Some(b[2]),
+            "close" => Some(b[3]),
+            "ema_fast" => Some(b[4]),
+            "ema_slow" => Some(b[5]),
+            _ => None,
+        }
+    };
     let mut acc: Option<f64> = None;
     for b in &hist[lo..hi] {
         let x = idx(b)?;
@@ -197,8 +229,7 @@ fn resolve_op(op: &str) -> fn(f64, f64) -> bool {
     }
 }
 
-fn compare(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str,
-           ctx: &FeatCtx) -> bool {
+fn compare(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str, ctx: &FeatCtx) -> bool {
     let lhs = match operand(&v["lhs"], geom, dir, ctx) {
         Some(x) => x,
         None => return true, // fail open
@@ -223,13 +254,21 @@ fn compare(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str,
 
 /// rsi_stoch_reversion-style: LONG compares against one bound, SHORT against
 /// another (not a flipped operator — asymmetric constants).
-fn asym_compare(v: &Value, geom: &serde_json::Map<String, Value>, dir: &str,
-                ctx: &FeatCtx) -> bool {
+fn asym_compare(
+    v: &Value,
+    geom: &serde_json::Map<String, Value>,
+    dir: &str,
+    ctx: &FeatCtx,
+) -> bool {
     let lhs = match operand(&v["lhs"], geom, dir, ctx) {
         Some(x) => x,
         None => return true,
     };
-    let side = if dir == "SHORT" { &v["short"] } else { &v["long"] };
+    let side = if dir == "SHORT" {
+        &v["short"]
+    } else {
+        &v["long"]
+    };
     let rhs = match operand(&side["rhs"], geom, dir, ctx) {
         Some(x) => x,
         None => return true,

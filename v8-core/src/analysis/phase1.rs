@@ -12,11 +12,11 @@
 //!
 //! The legal-opportunity set is the regret manifest grid — NO_TRADE + ACTUAL
 //! + the declared target_r (1,2,3) x expiry_bars (8,24,48) variants,
-//! de-duplicated by action id (`regret::generate_legal_actions`); when the
-//! ACTUAL geometry is itself on the grid the variant set collapses to 8
-//! cells, the "8-cell + NO_TRADE + ACTUAL" manifest. The per-cell utilities
-//! arrive already cube-reduced (`regret::Cell`/`ReducedRow`); Phase 1's job
-//! is the join, not a second cube reduction.
+//!   de-duplicated by action id (`regret::generate_legal_actions`); when the
+//!   ACTUAL geometry is itself on the grid the variant set collapses to 8
+//!   cells, the "8-cell + NO_TRADE + ACTUAL" manifest. The per-cell utilities
+//!   arrive already cube-reduced (`regret::Cell`/`ReducedRow`); Phase 1's job
+//!   is the join, not a second cube reduction.
 //!
 //! The input is the reconciled CandidateSnapshot projection
 //! (`reconcile.rs`, issue #122) plus the reduced tables; the module is
@@ -27,6 +27,7 @@ use std::collections::HashMap;
 
 /// The Phase-1 honesty label (every population-style number in the oracle's
 /// output carries it; `tools/regret_phase1.py` `LABEL`).
+#[allow(dead_code)]
 pub const LABEL: &str = "MODEL_DERIVED_DESCRIPTIVE_NOT_YET_GATED";
 
 /// One row of the frozen Phase-1 dataset: a regret.jsonl gap record joined
@@ -59,6 +60,7 @@ pub struct JoinedCandidateRow {
 impl JoinedCandidateRow {
     /// The oracle's field count (19; pinned by
     /// `JoinedCandidateRow.__dataclass_fields__` in `tools/regret_phase1.py`).
+    #[allow(dead_code)]
     pub const FIELD_COUNT: usize = 19;
 }
 
@@ -168,6 +170,7 @@ pub fn join_dataset(per_symbol: Vec<(String, Phase0Output)>) -> Vec<JoinedCandid
 
 /// One legal-opportunity cell with its cube-reduced utility.
 #[derive(Debug, Clone, PartialEq)]
+#[allow(dead_code)]
 pub struct OpportunityCell {
     pub action_id: String,
     pub kind: &'static str,       // NO_TRADE | GEOMETRY_VARIANT
@@ -181,6 +184,7 @@ pub struct OpportunityCell {
 /// paired with its cube-reduced net utility (None when the cell is absent
 /// from the reduced table). A thin projection of `regret.rs` — the manifest
 /// IS the oracle's A(C) (FCR FT003), so this never re-derives the set.
+#[allow(dead_code)]
 pub fn opportunity_set(
     manifest: &crate::regret::Manifest,
     utility_by_action: &HashMap<String, f64>,
@@ -195,13 +199,6 @@ pub fn opportunity_set(
             utility: utility_by_action.get(&a.action_id).copied(),
         })
         .collect()
-}
-
-/// Issue #116 wires the analysis subcommand; until then the module stays
-/// compiling behind a not-yet-wired stub.
-pub fn run(args: &[String]) -> i32 {
-    eprintln!("S6 phase1 not yet wired (issue #116): args={args:?}");
-    1
 }
 
 #[cfg(test)]
@@ -273,162 +270,371 @@ mod tests {
     /// job notes); every constant below is the oracle's emitted value.
     fn fixture() -> Vec<(String, Phase0Output)> {
         let mut btc_ident = HashMap::new();
-        btc_ident.insert("c-btc-0001".to_string(), identity("trend_pullback", "LONG", 1_700_000_000));
-        btc_ident.insert("c-btc-0002".to_string(), identity("failed_breakout", "SHORT", 1_700_000_100));
-        btc_ident.insert("c-btc-0003".to_string(), identity("liquidity_sweep_reclaim", "LONG", 1_700_000_200));
-        btc_ident.insert("c-btc-0004".to_string(), identity("trend_pullback", "LONG", 1_700_000_300));
-        btc_ident.insert("c-btc-0005".to_string(), identity("failed_breakout", "SHORT", 1_700_000_400));
+        btc_ident.insert(
+            "c-btc-0001".to_string(),
+            identity("trend_pullback", "LONG", 1_700_000_000),
+        );
+        btc_ident.insert(
+            "c-btc-0002".to_string(),
+            identity("failed_breakout", "SHORT", 1_700_000_100),
+        );
+        btc_ident.insert(
+            "c-btc-0003".to_string(),
+            identity("liquidity_sweep_reclaim", "LONG", 1_700_000_200),
+        );
+        btc_ident.insert(
+            "c-btc-0004".to_string(),
+            identity("trend_pullback", "LONG", 1_700_000_300),
+        );
+        btc_ident.insert(
+            "c-btc-0005".to_string(),
+            identity("failed_breakout", "SHORT", 1_700_000_400),
+        );
         // c-btc-0006 deliberately has no DETECTED transition.
 
         let btc_gaps = vec![
-            gap("c-btc-0001", Some("btc-act-1"), "COMPUTED", Some(0.6771358024691356),
-                Some(-0.38701234567890123), Some(0.29012345678901234), 1),
-            gap("c-btc-0002", Some("btc-act-2"), "COMPUTED", Some(1.142),
-                Some(-0.09), Some(1.052), 3),
-            gap("c-btc-0003", Some("btc-act-3"), "ABSTAINED_CENSORED", None,
-                Some(-0.2), None, 0),
-            gap("c-btc-0004", Some("btc-act-4-missing-cube"), "COMPUTED", Some(0.001),
-                Some(-0.001), Some(0.0), 1),
-            gap("c-btc-0005", None, "NOT_APPLICABLE_NO_ACTUAL_ACTION", None,
-                None, None, 0),
-            gap("c-btc-0006", Some("btc-act-6"), "COMPUTED", Some(0.222),
-                Some(0.111), Some(0.333), 2),
+            gap(
+                "c-btc-0001",
+                Some("btc-act-1"),
+                "COMPUTED",
+                Some(0.6771358024691356),
+                Some(-0.38701234567890123),
+                Some(0.29012345678901234),
+                1,
+            ),
+            gap(
+                "c-btc-0002",
+                Some("btc-act-2"),
+                "COMPUTED",
+                Some(1.142),
+                Some(-0.09),
+                Some(1.052),
+                3,
+            ),
+            gap(
+                "c-btc-0003",
+                Some("btc-act-3"),
+                "ABSTAINED_CENSORED",
+                None,
+                Some(-0.2),
+                None,
+                0,
+            ),
+            gap(
+                "c-btc-0004",
+                Some("btc-act-4-missing-cube"),
+                "COMPUTED",
+                Some(0.001),
+                Some(-0.001),
+                Some(0.0),
+                1,
+            ),
+            gap(
+                "c-btc-0005",
+                None,
+                "NOT_APPLICABLE_NO_ACTUAL_ACTION",
+                None,
+                None,
+                None,
+                0,
+            ),
+            gap(
+                "c-btc-0006",
+                Some("btc-act-6"),
+                "COMPUTED",
+                Some(0.222),
+                Some(0.111),
+                Some(0.333),
+                2,
+            ),
         ];
 
         let mut btc_cubes = HashMap::new();
         btc_cubes.extend([
-            cube("c-btc-0001", "btc-act-1", Some("TARGET"), Some("MATURE"), Some(47),
-                 Some(0.053111111111111116), Some(0.0), Some(-0.8812345678901234),
-                 Some(0.9234567890123457), Some(2)),
-            cube("c-btc-0002", "btc-act-2", Some("TARGET"), Some("MATURE"), Some(8),
-                 Some(0.05), Some(0.0), Some(-0.4), Some(1.6), Some(0)),
-            cube("c-btc-0003", "btc-act-3", Some("STOP"), Some("RIGHT_CENSORED"), Some(24),
-                 Some(0.05), None, Some(-1.2), Some(0.7), Some(5)),
-            cube("c-btc-0006", "btc-act-6", Some("TARGET"), Some("MATURE"), Some(16),
-                 Some(0.0), Some(0.0), Some(-0.5), Some(0.9), Some(0)),
+            cube(
+                "c-btc-0001",
+                "btc-act-1",
+                Some("TARGET"),
+                Some("MATURE"),
+                Some(47),
+                Some(0.053111111111111116),
+                Some(0.0),
+                Some(-0.8812345678901234),
+                Some(0.9234567890123457),
+                Some(2),
+            ),
+            cube(
+                "c-btc-0002",
+                "btc-act-2",
+                Some("TARGET"),
+                Some("MATURE"),
+                Some(8),
+                Some(0.05),
+                Some(0.0),
+                Some(-0.4),
+                Some(1.6),
+                Some(0),
+            ),
+            cube(
+                "c-btc-0003",
+                "btc-act-3",
+                Some("STOP"),
+                Some("RIGHT_CENSORED"),
+                Some(24),
+                Some(0.05),
+                None,
+                Some(-1.2),
+                Some(0.7),
+                Some(5),
+            ),
+            cube(
+                "c-btc-0006",
+                "btc-act-6",
+                Some("TARGET"),
+                Some("MATURE"),
+                Some(16),
+                Some(0.0),
+                Some(0.0),
+                Some(-0.5),
+                Some(0.9),
+                Some(0),
+            ),
         ]);
 
         let mut sol_ident = HashMap::new();
-        sol_ident.insert("c-sol-0001".to_string(), identity("liquidity_sweep_reclaim", "LONG", 1_700_000_500));
-        sol_ident.insert("c-sol-0002".to_string(), identity("trend_pullback", "SHORT", 1_700_000_600));
+        sol_ident.insert(
+            "c-sol-0001".to_string(),
+            identity("liquidity_sweep_reclaim", "LONG", 1_700_000_500),
+        );
+        sol_ident.insert(
+            "c-sol-0002".to_string(),
+            identity("trend_pullback", "SHORT", 1_700_000_600),
+        );
 
         let sol_gaps = vec![
-            gap("c-sol-0001", Some("sol-act-1"), "COMPUTED", Some(0.28),
-                Some(0.05), Some(0.33), 2),
-            gap("c-sol-0002", None, "ABSTAINED_UNDEFINED", None, None, None, 0),
+            gap(
+                "c-sol-0001",
+                Some("sol-act-1"),
+                "COMPUTED",
+                Some(0.28),
+                Some(0.05),
+                Some(0.33),
+                2,
+            ),
+            gap(
+                "c-sol-0002",
+                None,
+                "ABSTAINED_UNDEFINED",
+                None,
+                None,
+                None,
+                0,
+            ),
         ];
 
         let mut sol_cubes = HashMap::new();
-        sol_cubes.extend([
-            cube("c-sol-0001", "sol-act-1", Some("TARGET"), Some("MATURE"), Some(48),
-                 Some(0.07777777777777778), Some(0.0), Some(-0.6543210987654321),
-                 Some(1.2345678901234567), Some(0)),
-        ]);
+        sol_cubes.extend([cube(
+            "c-sol-0001",
+            "sol-act-1",
+            Some("TARGET"),
+            Some("MATURE"),
+            Some(48),
+            Some(0.07777777777777778),
+            Some(0.0),
+            Some(-0.6543210987654321),
+            Some(1.2345678901234567),
+            Some(0),
+        )]);
 
         vec![
-            ("BTCUSDT".to_string(), Phase0Output {
-                identities: btc_ident,
-                gaps: btc_gaps,
-                cubes: btc_cubes,
-            }),
-            ("SOLUSDT".to_string(), Phase0Output {
-                identities: sol_ident,
-                gaps: sol_gaps,
-                cubes: sol_cubes,
-            }),
+            (
+                "BTCUSDT".to_string(),
+                Phase0Output {
+                    identities: btc_ident,
+                    gaps: btc_gaps,
+                    cubes: btc_cubes,
+                },
+            ),
+            (
+                "SOLUSDT".to_string(),
+                Phase0Output {
+                    identities: sol_ident,
+                    gaps: sol_gaps,
+                    cubes: sol_cubes,
+                },
+            ),
         ]
     }
 
     fn expected_rows() -> Vec<JoinedCandidateRow> {
         vec![
             JoinedCandidateRow {
-                symbol: "BTCUSDT".into(), candidate_id: "c-btc-0001".into(),
-                expert_id: "trend_pullback".into(), direction: "LONG".into(),
-                birth_time: 1_700_000_000, gap_status: "COMPUTED".into(),
+                symbol: "BTCUSDT".into(),
+                candidate_id: "c-btc-0001".into(),
+                expert_id: "trend_pullback".into(),
+                direction: "LONG".into(),
+                birth_time: 1_700_000_000,
+                gap_status: "COMPUTED".into(),
                 legal_hindsight_gap: Some(0.6771358024691356),
                 actual_utility: Some(-0.38701234567890125),
-                best_utility: Some(0.29012345678901236), tie_cardinality: 1,
-                endpoint: Some("TARGET".into()), label_status: Some("MATURE".into()),
-                horizon_bars: Some(47), cost_r: Some(0.053111111111111116),
-                funding_r: Some(0.0), mae_r: Some(-0.8812345678901234),
-                mfe_r: Some(0.9234567890123457), ambiguous_bars: Some(2),
+                best_utility: Some(0.29012345678901236),
+                tie_cardinality: 1,
+                endpoint: Some("TARGET".into()),
+                label_status: Some("MATURE".into()),
+                horizon_bars: Some(47),
+                cost_r: Some(0.053111111111111116),
+                funding_r: Some(0.0),
+                mae_r: Some(-0.8812345678901234),
+                mfe_r: Some(0.9234567890123457),
+                ambiguous_bars: Some(2),
                 epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
-                symbol: "BTCUSDT".into(), candidate_id: "c-btc-0002".into(),
-                expert_id: "failed_breakout".into(), direction: "SHORT".into(),
-                birth_time: 1_700_000_100, gap_status: "COMPUTED".into(),
-                legal_hindsight_gap: Some(1.142), actual_utility: Some(-0.09),
-                best_utility: Some(1.052), tie_cardinality: 3,
-                endpoint: Some("TARGET".into()), label_status: Some("MATURE".into()),
-                horizon_bars: Some(8), cost_r: Some(0.05), funding_r: Some(0.0),
-                mae_r: Some(-0.4), mfe_r: Some(1.6), ambiguous_bars: Some(0),
+                symbol: "BTCUSDT".into(),
+                candidate_id: "c-btc-0002".into(),
+                expert_id: "failed_breakout".into(),
+                direction: "SHORT".into(),
+                birth_time: 1_700_000_100,
+                gap_status: "COMPUTED".into(),
+                legal_hindsight_gap: Some(1.142),
+                actual_utility: Some(-0.09),
+                best_utility: Some(1.052),
+                tie_cardinality: 3,
+                endpoint: Some("TARGET".into()),
+                label_status: Some("MATURE".into()),
+                horizon_bars: Some(8),
+                cost_r: Some(0.05),
+                funding_r: Some(0.0),
+                mae_r: Some(-0.4),
+                mfe_r: Some(1.6),
+                ambiguous_bars: Some(0),
                 epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
-                symbol: "BTCUSDT".into(), candidate_id: "c-btc-0003".into(),
-                expert_id: "liquidity_sweep_reclaim".into(), direction: "LONG".into(),
-                birth_time: 1_700_000_200, gap_status: "ABSTAINED_CENSORED".into(),
-                legal_hindsight_gap: None, actual_utility: Some(-0.2),
-                best_utility: None, tie_cardinality: 0,
-                endpoint: Some("STOP".into()), label_status: Some("RIGHT_CENSORED".into()),
-                horizon_bars: Some(24), cost_r: Some(0.05), funding_r: None,
-                mae_r: Some(-1.2), mfe_r: Some(0.7), ambiguous_bars: Some(5),
+                symbol: "BTCUSDT".into(),
+                candidate_id: "c-btc-0003".into(),
+                expert_id: "liquidity_sweep_reclaim".into(),
+                direction: "LONG".into(),
+                birth_time: 1_700_000_200,
+                gap_status: "ABSTAINED_CENSORED".into(),
+                legal_hindsight_gap: None,
+                actual_utility: Some(-0.2),
+                best_utility: None,
+                tie_cardinality: 0,
+                endpoint: Some("STOP".into()),
+                label_status: Some("RIGHT_CENSORED".into()),
+                horizon_bars: Some(24),
+                cost_r: Some(0.05),
+                funding_r: None,
+                mae_r: Some(-1.2),
+                mfe_r: Some(0.7),
+                ambiguous_bars: Some(5),
                 epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
-                symbol: "BTCUSDT".into(), candidate_id: "c-btc-0004".into(),
-                expert_id: "trend_pullback".into(), direction: "LONG".into(),
-                birth_time: 1_700_000_300, gap_status: "COMPUTED".into(),
-                legal_hindsight_gap: Some(0.001), actual_utility: Some(-0.001),
-                best_utility: Some(0.0), tie_cardinality: 1,
-                endpoint: None, label_status: None, horizon_bars: None,
-                cost_r: None, funding_r: None, mae_r: None, mfe_r: None,
-                ambiguous_bars: None, epistemic_class: "MODEL_DERIVED".into(),
+                symbol: "BTCUSDT".into(),
+                candidate_id: "c-btc-0004".into(),
+                expert_id: "trend_pullback".into(),
+                direction: "LONG".into(),
+                birth_time: 1_700_000_300,
+                gap_status: "COMPUTED".into(),
+                legal_hindsight_gap: Some(0.001),
+                actual_utility: Some(-0.001),
+                best_utility: Some(0.0),
+                tie_cardinality: 1,
+                endpoint: None,
+                label_status: None,
+                horizon_bars: None,
+                cost_r: None,
+                funding_r: None,
+                mae_r: None,
+                mfe_r: None,
+                ambiguous_bars: None,
+                epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
-                symbol: "BTCUSDT".into(), candidate_id: "c-btc-0005".into(),
-                expert_id: "failed_breakout".into(), direction: "SHORT".into(),
+                symbol: "BTCUSDT".into(),
+                candidate_id: "c-btc-0005".into(),
+                expert_id: "failed_breakout".into(),
+                direction: "SHORT".into(),
                 birth_time: 1_700_000_400,
                 gap_status: "NOT_APPLICABLE_NO_ACTUAL_ACTION".into(),
-                legal_hindsight_gap: None, actual_utility: None, best_utility: None,
+                legal_hindsight_gap: None,
+                actual_utility: None,
+                best_utility: None,
                 tie_cardinality: 0,
-                endpoint: None, label_status: None, horizon_bars: None,
-                cost_r: None, funding_r: None, mae_r: None, mfe_r: None,
-                ambiguous_bars: None, epistemic_class: "MODEL_DERIVED".into(),
+                endpoint: None,
+                label_status: None,
+                horizon_bars: None,
+                cost_r: None,
+                funding_r: None,
+                mae_r: None,
+                mfe_r: None,
+                ambiguous_bars: None,
+                epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
-                symbol: "BTCUSDT".into(), candidate_id: "c-btc-0006".into(),
-                expert_id: "".into(), direction: "".into(), birth_time: 0,
+                symbol: "BTCUSDT".into(),
+                candidate_id: "c-btc-0006".into(),
+                expert_id: "".into(),
+                direction: "".into(),
+                birth_time: 0,
                 gap_status: "COMPUTED".into(),
-                legal_hindsight_gap: Some(0.222), actual_utility: Some(0.111),
-                best_utility: Some(0.333), tie_cardinality: 2,
-                endpoint: Some("TARGET".into()), label_status: Some("MATURE".into()),
-                horizon_bars: Some(16), cost_r: Some(0.0), funding_r: Some(0.0),
-                mae_r: Some(-0.5), mfe_r: Some(0.9), ambiguous_bars: Some(0),
+                legal_hindsight_gap: Some(0.222),
+                actual_utility: Some(0.111),
+                best_utility: Some(0.333),
+                tie_cardinality: 2,
+                endpoint: Some("TARGET".into()),
+                label_status: Some("MATURE".into()),
+                horizon_bars: Some(16),
+                cost_r: Some(0.0),
+                funding_r: Some(0.0),
+                mae_r: Some(-0.5),
+                mfe_r: Some(0.9),
+                ambiguous_bars: Some(0),
                 epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
-                symbol: "SOLUSDT".into(), candidate_id: "c-sol-0001".into(),
-                expert_id: "liquidity_sweep_reclaim".into(), direction: "LONG".into(),
-                birth_time: 1_700_000_500, gap_status: "COMPUTED".into(),
-                legal_hindsight_gap: Some(0.28), actual_utility: Some(0.05),
-                best_utility: Some(0.33), tie_cardinality: 2,
-                endpoint: Some("TARGET".into()), label_status: Some("MATURE".into()),
-                horizon_bars: Some(48), cost_r: Some(0.07777777777777778),
-                funding_r: Some(0.0), mae_r: Some(-0.6543210987654321),
-                mfe_r: Some(1.2345678901234567), ambiguous_bars: Some(0),
+                symbol: "SOLUSDT".into(),
+                candidate_id: "c-sol-0001".into(),
+                expert_id: "liquidity_sweep_reclaim".into(),
+                direction: "LONG".into(),
+                birth_time: 1_700_000_500,
+                gap_status: "COMPUTED".into(),
+                legal_hindsight_gap: Some(0.28),
+                actual_utility: Some(0.05),
+                best_utility: Some(0.33),
+                tie_cardinality: 2,
+                endpoint: Some("TARGET".into()),
+                label_status: Some("MATURE".into()),
+                horizon_bars: Some(48),
+                cost_r: Some(0.07777777777777778),
+                funding_r: Some(0.0),
+                mae_r: Some(-0.6543210987654321),
+                mfe_r: Some(1.2345678901234567),
+                ambiguous_bars: Some(0),
                 epistemic_class: "MODEL_DERIVED".into(),
             },
             JoinedCandidateRow {
-                symbol: "SOLUSDT".into(), candidate_id: "c-sol-0002".into(),
-                expert_id: "trend_pullback".into(), direction: "SHORT".into(),
-                birth_time: 1_700_000_600, gap_status: "ABSTAINED_UNDEFINED".into(),
-                legal_hindsight_gap: None, actual_utility: None, best_utility: None,
+                symbol: "SOLUSDT".into(),
+                candidate_id: "c-sol-0002".into(),
+                expert_id: "trend_pullback".into(),
+                direction: "SHORT".into(),
+                birth_time: 1_700_000_600,
+                gap_status: "ABSTAINED_UNDEFINED".into(),
+                legal_hindsight_gap: None,
+                actual_utility: None,
+                best_utility: None,
                 tie_cardinality: 0,
-                endpoint: None, label_status: None, horizon_bars: None,
-                cost_r: None, funding_r: None, mae_r: None, mfe_r: None,
-                ambiguous_bars: None, epistemic_class: "MODEL_DERIVED".into(),
+                endpoint: None,
+                label_status: None,
+                horizon_bars: None,
+                cost_r: None,
+                funding_r: None,
+                mae_r: None,
+                mfe_r: None,
+                ambiguous_bars: None,
+                epistemic_class: "MODEL_DERIVED".into(),
             },
         ]
     }
@@ -450,13 +656,19 @@ mod tests {
     fn join_floats_are_bit_identical() {
         let rows = join_dataset(fixture());
         let r0 = &rows[0];
-        assert_eq!(r0.legal_hindsight_gap.unwrap().to_bits(), 0x3FE5AB18B3D1C7EA);
+        assert_eq!(
+            r0.legal_hindsight_gap.unwrap().to_bits(),
+            0x3FE5AB18B3D1C7EA
+        );
         assert_eq!(r0.actual_utility.unwrap().to_bits(), 0xBFD8C4CF6DF5B445);
         assert_eq!(r0.cost_r.unwrap().to_bits(), 0x3FAB31612A8D8A21);
         // c-btc-0001 input literal -0.38701234567890123 and the oracle's
         // emitted -0.38701234567890125 are the SAME double: shortest-repr
         // JSON round-trip is bit-preserving.
-        assert_eq!((-0.38701234567890123f64).to_bits(), r0.actual_utility.unwrap().to_bits());
+        assert_eq!(
+            (-0.38701234567890123f64).to_bits(),
+            r0.actual_utility.unwrap().to_bits()
+        );
     }
 
     /// The manifest row has exactly the 19 oracle fields (no more, no less).
@@ -465,11 +677,25 @@ mod tests {
         let r = &expected_rows()[0];
         assert_eq!(JoinedCandidateRow::FIELD_COUNT, 19);
         let _ = (
-            &r.symbol, &r.candidate_id, &r.expert_id, &r.direction, &r.birth_time,
-            &r.gap_status, &r.legal_hindsight_gap, &r.actual_utility,
-            &r.best_utility, &r.tie_cardinality, &r.endpoint, &r.label_status,
-            &r.horizon_bars, &r.cost_r, &r.funding_r, &r.mae_r, &r.mfe_r,
-            &r.ambiguous_bars, &r.epistemic_class,
+            &r.symbol,
+            &r.candidate_id,
+            &r.expert_id,
+            &r.direction,
+            &r.birth_time,
+            &r.gap_status,
+            &r.legal_hindsight_gap,
+            &r.actual_utility,
+            &r.best_utility,
+            &r.tie_cardinality,
+            &r.endpoint,
+            &r.label_status,
+            &r.horizon_bars,
+            &r.cost_r,
+            &r.funding_r,
+            &r.mae_r,
+            &r.mfe_r,
+            &r.ambiguous_bars,
+            &r.epistemic_class,
         );
     }
 
@@ -479,11 +705,29 @@ mod tests {
     fn symbols_sorted_and_rows_in_gap_order() {
         let rows = join_dataset(fixture());
         let symbols: Vec<&str> = rows.iter().map(|r| r.symbol.as_str()).collect();
-        assert_eq!(symbols, vec!["BTCUSDT", "BTCUSDT", "BTCUSDT", "BTCUSDT",
-                                 "BTCUSDT", "BTCUSDT", "SOLUSDT", "SOLUSDT"]);
-        let btc_cids: Vec<&str> = rows.iter().take(6).map(|r| r.candidate_id.as_str()).collect();
-        assert_eq!(btc_cids, vec!["c-btc-0001", "c-btc-0002", "c-btc-0003",
-                                  "c-btc-0004", "c-btc-0005", "c-btc-0006"]);
+        assert_eq!(
+            symbols,
+            vec![
+                "BTCUSDT", "BTCUSDT", "BTCUSDT", "BTCUSDT", "BTCUSDT", "BTCUSDT", "SOLUSDT",
+                "SOLUSDT"
+            ]
+        );
+        let btc_cids: Vec<&str> = rows
+            .iter()
+            .take(6)
+            .map(|r| r.candidate_id.as_str())
+            .collect();
+        assert_eq!(
+            btc_cids,
+            vec![
+                "c-btc-0001",
+                "c-btc-0002",
+                "c-btc-0003",
+                "c-btc-0004",
+                "c-btc-0005",
+                "c-btc-0006"
+            ]
+        );
     }
 
     /// The 8-cell + NO_TRADE + ACTUAL grid: an on-grid ACTUAL geometry
@@ -492,9 +736,14 @@ mod tests {
     /// geometry yields 9 (cardinality 11).
     #[test]
     fn opportunity_set_is_the_manifest_grid() {
-        let on_grid = regret::generate_legal_actions(&serde_json::json!({
-            "target_r": 2.0, "expiry_bars": 24,
-        }).as_object().unwrap().clone());
+        let on_grid = regret::generate_legal_actions(
+            &serde_json::json!({
+                "target_r": 2.0, "expiry_bars": 24,
+            })
+            .as_object()
+            .unwrap()
+            .clone(),
+        );
         let utils: HashMap<String, f64> = HashMap::new();
         let set = opportunity_set(&on_grid, &utils);
         assert_eq!(set.len(), 10);
@@ -502,19 +751,26 @@ mod tests {
         assert_eq!(set[0].provenance, "DECLARED_VARIANT");
         assert_eq!(set[1].kind, "GEOMETRY_VARIANT");
         assert_eq!(set[1].provenance, "ACTUAL");
-        let declared: Vec<&OpportunityCell> = set.iter()
+        let declared: Vec<&OpportunityCell> = set
+            .iter()
             .filter(|c| c.provenance == "DECLARED_VARIANT" && c.kind == "GEOMETRY_VARIANT")
             .collect();
         assert_eq!(declared.len(), 8);
         assert!(declared.iter().all(|c| c.utility.is_none()));
 
-        let off_grid = regret::generate_legal_actions(&serde_json::json!({
-            "atr_ref": 123.5, "size": 1.0,
-        }).as_object().unwrap().clone());
+        let off_grid = regret::generate_legal_actions(
+            &serde_json::json!({
+                "atr_ref": 123.5, "size": 1.0,
+            })
+            .as_object()
+            .unwrap()
+            .clone(),
+        );
         assert_eq!(off_grid.actions.len(), 11);
         let set2 = opportunity_set(&off_grid, &utils);
         assert_eq!(set2.len(), 11);
-        let declared2: Vec<&OpportunityCell> = set2.iter()
+        let declared2: Vec<&OpportunityCell> = set2
+            .iter()
             .filter(|c| c.provenance == "DECLARED_VARIANT" && c.kind == "GEOMETRY_VARIANT")
             .collect();
         assert_eq!(declared2.len(), 9);
@@ -524,9 +780,14 @@ mod tests {
     /// cube table has them (a candidate whose cell is absent reads None).
     #[test]
     fn opportunity_set_carries_per_cell_utilities() {
-        let manifest: Manifest = regret::generate_legal_actions(&serde_json::json!({
-            "target_r": 2.0, "expiry_bars": 24,
-        }).as_object().unwrap().clone());
+        let manifest: Manifest = regret::generate_legal_actions(
+            &serde_json::json!({
+                "target_r": 2.0, "expiry_bars": 24,
+            })
+            .as_object()
+            .unwrap()
+            .clone(),
+        );
         let mut utils = HashMap::new();
         utils.insert(manifest.actions[0].action_id.clone(), 0.0); // NO_TRADE
         utils.insert(manifest.actions[1].action_id.clone(), -0.38701234567890125); // ACTUAL
@@ -536,12 +797,5 @@ mod tests {
         assert_eq!(set[1].utility, Some(-0.38701234567890125));
         assert_eq!(set[2].utility, Some(0.6771358024691356));
         assert!(set[3..].iter().all(|c| c.utility.is_none()));
-    }
-
-    /// The not-yet-wired stub compiles and reports issue #116.
-    #[test]
-    fn run_stub_reports_not_wired() {
-        let code = run(&["analysis".to_string()]);
-        assert_eq!(code, 1);
     }
 }

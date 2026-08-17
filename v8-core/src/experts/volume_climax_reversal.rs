@@ -20,19 +20,34 @@ pub const TARGET_R: f64 = 1.0;
 pub const STOP_R: f64 = 1.0;
 pub const EXPIRY_BARS: i64 = 8;
 
-const CLIMAX_Z: f64 = 2.0;          // 2-sigma volume overextension (book, N=100)
-const CLIMAX_Z_STRICT: f64 = 3.0;   // D-055 strict-climax challenger
+const CLIMAX_Z: f64 = 2.0; // 2-sigma volume overextension (book, N=100)
+const CLIMAX_Z_STRICT: f64 = 3.0; // D-055 strict-climax challenger
 const LOW_VOL_PROXIMITY_MAX: f64 = 0.4;
 const HIGH_VOL_REVERSAL_BAR: f64 = 1.0; // bar_class value: high-volume reversal bar
 
 pub fn volume_climax_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
     // _need: close, ema_fast, ema_slow, atr, volume, history — any absent -> NO_HABITAT.
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let fast = match fm.value("ema_fast") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let slow = match fm.value("ema_slow") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let _volume = match fm.value("volume") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let fast = match fm.value("ema_fast") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let slow = match fm.value("ema_slow") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let _volume = match fm.value("volume") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     // Empty history or None atr -> NO_HABITAT (the history gate is the non-empty
     // window itself; the "history" feature key rides the same window).
     if fm.history.is_empty() {
@@ -104,8 +119,16 @@ pub fn volume_climax_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> E
     // The climax extreme is FROZEN at detection: the selling-climax low (LONG)
     // / buying-climax high (SHORT) of the newest closed bar.
     let last = fm.history.last().unwrap();
-    let level = if direction == "LONG" { last.low } else { last.high };
-    let ref_key = if direction == "LONG" { "prior_low_ref" } else { "prior_high_ref" };
+    let level = if direction == "LONG" {
+        last.low
+    } else {
+        last.high
+    };
+    let ref_key = if direction == "LONG" {
+        "prior_low_ref"
+    } else {
+        "prior_high_ref"
+    };
     // D-026 anchor: the DETECTION bar (the climax bar itself), so a second
     // climax inside one trend re-enters instead of being suppressed as a
     // duplicate (episode_key hashes the anchor).

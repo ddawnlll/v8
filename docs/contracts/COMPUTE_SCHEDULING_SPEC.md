@@ -1,6 +1,6 @@
 # V8.2 Compute Scheduling Specification
 
-**Status:** PROVISIONAL_DECISION (D-084). This contract governs how the compute
+**Status:** PROVISIONAL_DECISION (D-084, implementation update D-098). This contract governs how the compute
 core distributes work across cores and, conditionally, across a GPU. Backend
 selection is an **internal implementation detail**: no caller chooses it, and by
 `PARITY_AND_IDENTITY_SPEC` G5 no backend may change a value. No economic claim
@@ -101,9 +101,12 @@ blanket rule. That is accurate for K1/K2 and inaccurate for K4; the distinction
 is recorded here because it is exactly the distinction that decides what may
 ever be offloaded.
 
-## 6. The GPU trigger
+## 6. The GPU trigger and implemented capability gate
 
-A GPU backend is **not built** until the workload crosses a declared threshold.
+The original design trigger remains a workload/economics inference, not a
+permission bit. D-098 adds an optional Linux Vulkan backend so the runtime can
+measure the question when a compatible device exists; the backend is still
+ineligible unless it satisfies the semantic capability contract below.
 Arithmetic, from the measured cell cost:
 
 | Substrate | per cell | 10^7 cells | 10^9 cells |
@@ -113,7 +116,7 @@ Arithmetic, from the measured cell cost:
 | Rust CPU, 10 cores (estimate) | ~0.01 us | ~0.1 s | ~10 s |
 | GPU (estimate) | ~0.001 us | transfer-bound | ~1 s |
 
-**Trigger: a routine request exceeding ~10^9 replay cells.** Below it, the GPU
+**Design trigger: a routine request exceeding ~10^9 replay cells.** Below it, the GPU
 saves seconds over a multicore CPU backend while adding a second numerical
 surface to certify (§5), a second toolchain, and a second failure mode. Above
 it, the arithmetic finally amortizes transfer and launch overhead.
@@ -123,6 +126,16 @@ interventions — is ~10^9 cells only in aggregate across all symbols, i.e. ~10^
 per request. It does **not** trigger. The configuration that would is an
 Expert-variant sweep (thousands of variants x symbols x cells), which is an
 open scope question (`OPEN_DECISIONS`).
+
+`Auto` has no baked-in GPU crossover.  It stays on the CPU until the certified
+Linux `SHADER_F64` release runner injects a positive
+`V8_GPU_CROSSOVER_STEPS` measured on that adapter; the value is deliberately
+not part of request identity.  A request below that measured threshold, an
+unavailable adapter, a non-`BarClose` fill policy, or any unsupported cell
+falls back to CPU in `Auto`. Explicit `Gpu` returns an error for those cases.
+The independent `gpu-release-parity` workflow is the required hardware gate:
+it emits and retains the capability/no-FMA probe and CPU-to-GPU bitwise golden
+receipt.  A normal hosted CI runner cannot substitute for that receipt.
 
 Writing kernels in a backend-portable form so the decision can be deferred at
 near-zero cost is a legitimate design choice, on one condition: the portable
@@ -180,6 +193,6 @@ candidate.
 - **REJECTED_OPTION:** a single fused kernel spanning features through
   statistics (§2), and any backend flag exposed in the experiment manifest
   (§1).
-- **Not claimed:** that a GPU backend will ever be needed. §6 states the
-  condition under which the question reopens; absent that condition the answer
-  is no.
+- **Not claimed:** that GPU is faster or economically justified. D-098 proves
+  the implementation and fail-closed contract; a physical Linux `SHADER_F64`
+  device is still needed for the runtime parity receipt and crossover benchmark.

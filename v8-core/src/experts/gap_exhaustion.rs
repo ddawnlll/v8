@@ -2,10 +2,9 @@
 //! bit-for-bit (PARITY_AND_IDENTITY_SPEC §3; COMPUTE_CORE_SPEC §8 S4).
 //!
 //! Gap-sequence reaction expert (exhaustion / breakaway / runaway). The
-//! ExpertPlane dispatch passes no variant, so this port serves the Python
-//! default `GapExhaustionExpert()` — variant 'a' (third-gap exhaustion
-//! reversal); the 'b' (breakaway) and 'c' (runaway) branches mirror the source
-//! for completeness. Gap zone and direction are frozen at detection; the
+//! The default `GapExhaustionExpert()` uses variant 'a' (third-gap exhaustion
+//! reversal); request-level overrides select the 'b' (breakaway) and 'c'
+//! (runaway) branches. Gap zone and direction are frozen at detection; the
 //! anchor is the D-026 run start of the variant's own predicate.
 
 use crate::experts::base::*;
@@ -47,7 +46,9 @@ fn gap_of(hist: &[HistBar], i: usize) -> i32 {
 /// `_count_dir` (`start = max(1, i - GAP_COUNT_WINDOW + 1)`).
 fn count_dir(hist: &[HistBar], i: usize, direction: i32) -> usize {
     let start = 1usize.max(i.saturating_sub(GAP_COUNT_WINDOW - 1));
-    (start..=i).filter(|&j| gap_of(hist, j) == direction).count()
+    (start..=i)
+        .filter(|&j| gap_of(hist, j) == direction)
+        .count()
 }
 
 /// (top, bottom) of bar i's gap zone — `_zone` (marketstate G-27 semantics).
@@ -89,7 +90,9 @@ fn breakaway_pred(hist: &[HistBar], i: usize, b: &HistBar, direction: i32) -> bo
     let o = b.open;
     let lo = i.saturating_sub(20);
     if direction == 1 {
-        o > (lo..i).map(|j| hist[j].high).fold(f64::NEG_INFINITY, f64::max)
+        o > (lo..i)
+            .map(|j| hist[j].high)
+            .fold(f64::NEG_INFINITY, f64::max)
     } else {
         o < (lo..i).map(|j| hist[j].low).fold(f64::INFINITY, f64::min)
     }
@@ -115,8 +118,15 @@ fn runaway_pred(hist: &[HistBar], i: usize, b: &HistBar, direction: i32) -> bool
 pub fn gap_exhaustion(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
     // D-044: the dispatch serves the Python default variant 'a'.
-    let variant_id = "a";
-    let common = ["close", "atr", "history", "gap_dir", "gap_size", "gap_levels"];
+    let variant_id = fm.variant(expert_id, "a");
+    let common = [
+        "close",
+        "atr",
+        "history",
+        "gap_dir",
+        "gap_size",
+        "gap_levels",
+    ];
     // `_need` — key presence in the feature dict (values may be None).
     if variant_id == "b" {
         for k in ["window_high_20", "window_low_20"] {
@@ -170,7 +180,8 @@ pub fn gap_exhaustion(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
     let zd = last_zone[2].as_f64().unwrap_or(f64::NAN);
     if !(zd.round() as i32 == direction
         && (ztop - top).abs() < 1e-9
-        && (zbottom - bottom).abs() < 1e-9) {
+        && (zbottom - bottom).abs() < 1e-9)
+    {
         return no_setup(expert_id, version, fm.as_of);
     }
     let count = count_dir(hist, n - 1, direction);
@@ -191,24 +202,20 @@ pub fn gap_exhaustion(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
     } else if variant_id == "b" {
         let wh = fm.value("window_high_20");
         let wl = fm.value("window_low_20");
-        if direction == 1 && !wh.map_or(false, |v| o > v) {
+        if direction == 1 && !wh.is_some_and(|v| o > v) {
             return no_setup(expert_id, version, fm.as_of);
         }
-        if direction == -1 && !wl.map_or(false, |v| o < v) {
+        if direction == -1 && !wl.is_some_and(|v| o < v) {
             return no_setup(expert_id, version, fm.as_of);
         }
-        if count != 1
-            || (direction == 1 && !(c > top))
-            || (direction == -1 && !(c < bottom)) {
+        if count != 1 || (direction == 1 && !(c > top)) || (direction == -1 && !(c < bottom)) {
             return no_setup(expert_id, version, fm.as_of);
         }
         trade_dir = if direction == 1 { "LONG" } else { "SHORT" };
         pred = Box::new(move |i, b| breakaway_pred(hist, i, b, direction));
     } else {
         // 'c' — runaway/midway continuation.
-        if count != 2
-            || (direction == 1 && !(c > top))
-            || (direction == -1 && !(c < bottom)) {
+        if count != 2 || (direction == 1 && !(c > top)) || (direction == -1 && !(c < bottom)) {
             return no_setup(expert_id, version, fm.as_of);
         }
         trade_dir = if direction == 1 { "LONG" } else { "SHORT" };
@@ -241,8 +248,7 @@ pub fn gap_exhaustion(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
     } else {
         geometry.insert("prior_high_ref".into(), serde_json::json!(top));
     }
-    let fingerprint =
-        format!("{sym}:{variant_id}:{trade_dir}:{close:.6}:{top:.6}:{bottom:.6}");
+    let fingerprint = format!("{sym}:{variant_id}:{trade_dir}:{close:.6}:{top:.6}:{bottom:.6}");
     let draft = Draft {
         direction: trade_dir.to_string(),
         birth_time: fm.as_of,

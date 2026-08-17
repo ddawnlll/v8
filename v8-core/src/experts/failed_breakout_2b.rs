@@ -13,8 +13,8 @@
 //! anyway so the family's guards stay in one faithful copy.
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -29,7 +29,6 @@ pub const STOP_R: f64 = 1.0;
 pub const EXPIRY_BARS: i64 = 8;
 
 /// Variant id of this class (FailedBreakout2BExpert.variant_id = 'b').
-const VARIANT: &str = "b";
 /// Hikkake reclaim window (book verbatim, Ch7.4 p230: "within 3 bars").
 const HIKKAKE_WINDOW_BARS: usize = 3;
 /// Ichimoku Kijun-style cloud-proxy lookback (book: Kijun = midrange(26)).
@@ -115,7 +114,12 @@ fn detect_b(fm: &FeatMap, hist: &[HistBar], close: f64) -> Option<(String, Strin
 /// variant d. Scans newest -> oldest for the most recent inside bar whose
 /// range was falsely broken and then reclaimed at the newest bar within
 /// HIKKAKE_WINDOW_BARS of the failed move.
-fn hikkake(fm: &FeatMap, hist: &[HistBar], close: f64, bullish: bool) -> Option<(String, String, f64)> {
+fn hikkake(
+    fm: &FeatMap,
+    hist: &[HistBar],
+    close: f64,
+    bullish: bool,
+) -> Option<(String, String, f64)> {
     if !candle_features_agree(fm, hist) {
         return None;
     }
@@ -192,10 +196,7 @@ fn hikkake_completes(
 /// gap) reclaimed by a close back through the prior extreme.
 fn detect_e(fm: &FeatMap, hist: &[HistBar], close: f64) -> Option<(String, String, f64)> {
     // `gap_dir is None or gap_dir.value is None`.
-    let gdir = match fm.value("gap_dir") {
-        Some(v) => v,
-        None => return None,
-    };
+    let gdir = fm.value("gap_dir")?;
     let n = hist.len();
     if n < 2 {
         return None;
@@ -256,8 +257,14 @@ fn detect_g(hist: &[HistBar], close: f64) -> Option<(String, String, f64)> {
     }
     // The S/R level as of the PRIOR bar (G-22 window of the 20 bars before
     // it): the false-move bar's own low/high cannot set the level it broke.
-    let w_high = hist[n - 22..n - 2].iter().map(|b| b.high).fold(f64::NEG_INFINITY, f64::max);
-    let w_low = hist[n - 22..n - 2].iter().map(|b| b.low).fold(f64::INFINITY, f64::min);
+    let w_high = hist[n - 22..n - 2]
+        .iter()
+        .map(|b| b.high)
+        .fold(f64::NEG_INFINITY, f64::max);
+    let w_low = hist[n - 22..n - 2]
+        .iter()
+        .map(|b| b.low)
+        .fold(f64::INFINITY, f64::min);
     if !(w_high > w_low) {
         return None;
     }
@@ -266,7 +273,10 @@ fn detect_g(hist: &[HistBar], close: f64) -> Option<(String, String, f64)> {
             if i < 21 {
                 return false;
             }
-            let lv = hist[i - 21..i - 1].iter().map(|b| b.low).fold(f64::INFINITY, f64::min);
+            let lv = hist[i - 21..i - 1]
+                .iter()
+                .map(|b| b.low)
+                .fold(f64::INFINITY, f64::min);
             hist[i - 1].close < lv && bar.close > lv
         };
         let anchor = find_setup_anchor(hist, &pred);
@@ -277,7 +287,10 @@ fn detect_g(hist: &[HistBar], close: f64) -> Option<(String, String, f64)> {
             if i < 21 {
                 return false;
             }
-            let hv = hist[i - 21..i - 1].iter().map(|b| b.high).fold(f64::NEG_INFINITY, f64::max);
+            let hv = hist[i - 21..i - 1]
+                .iter()
+                .map(|b| b.high)
+                .fold(f64::NEG_INFINITY, f64::max);
             hist[i - 1].close > hv && bar.close < hv
         };
         let anchor = find_setup_anchor(hist, &pred);
@@ -290,7 +303,7 @@ fn detect_g(hist: &[HistBar], close: f64) -> Option<(String, String, f64)> {
 
 pub fn failed_breakout_2b(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
-    let variant = VARIANT;
+    let variant = fm.variant(expert_id, "b");
     // `_need(state, [close, atr, history])` — key presence (Python `in
     // state.features`), never a value check.
     if !fm.features.contains_key("close")
@@ -329,14 +342,15 @@ pub fn failed_breakout_2b(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
     // Per-variant habitat: candle_shape features are warmup-gated and ABSENT
     // until their window fills (inside/outside need 2 bars, gaps need 2 bars)
     // — absent features are NO_HABITAT, never a zero signal.
-    if variant == "c" || variant == "d" {
-        if !fm.features.contains_key("inside_bar") || !fm.features.contains_key("outside_bar") {
-            return no_habitat(expert_id, version, fm.as_of);
-        }
-    } else if variant == "e" {
-        if !fm.features.contains_key("gap_dir") || !fm.features.contains_key("gap_size") {
-            return no_habitat(expert_id, version, fm.as_of);
-        }
+    if (variant == "c" || variant == "d")
+        && (!fm.features.contains_key("inside_bar") || !fm.features.contains_key("outside_bar"))
+    {
+        return no_habitat(expert_id, version, fm.as_of);
+    }
+    if variant == "e"
+        && (!fm.features.contains_key("gap_dir") || !fm.features.contains_key("gap_size"))
+    {
+        return no_habitat(expert_id, version, fm.as_of);
     }
     let hist = &fm.history;
     let hit = match variant {

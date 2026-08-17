@@ -3,8 +3,8 @@
 //! is the reference for gate + anchor. Ported at S4; draft parity proven.
 
 use crate::experts::base::*;
-use crate::state::HistBar;
 use crate::simulator::Draft;
+use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
@@ -20,12 +20,30 @@ pub const EXPIRY_BARS: i64 = 8;
 
 pub fn volume_confirmed_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
-    let close = match fm.value("close") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let atr = match fm.value("atr") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let volume = match fm.value("volume") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let sma = match fm.value("vol_smooth_ma") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let long_level = match fm.value("window_high_20") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
-    let short_level = match fm.value("window_low_20") { Some(v) => v, None => return no_habitat(expert_id, version, fm.as_of) };
+    let close = match fm.value("close") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let atr = match fm.value("atr") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let volume = match fm.value("volume") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let sma = match fm.value("vol_smooth_ma") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let long_level = match fm.value("window_high_20") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
+    let short_level = match fm.value("window_low_20") {
+        Some(v) => v,
+        None => return no_habitat(expert_id, version, fm.as_of),
+    };
     if fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }
@@ -66,11 +84,17 @@ pub fn volume_confirmed_breakout(fm: &FeatMap, expert_id: &str, version: &str) -
     };
     let prior_high = |i: usize| -> f64 {
         let lo = i.saturating_sub(20);
-        fm.history[lo..i].iter().map(|b| b.high).fold(f64::NEG_INFINITY, f64::max)
+        fm.history[lo..i]
+            .iter()
+            .map(|b| b.high)
+            .fold(f64::NEG_INFINITY, f64::max)
     };
     let prior_low = |i: usize| -> f64 {
         let lo = i.saturating_sub(20);
-        fm.history[lo..i].iter().map(|b| b.low).fold(f64::INFINITY, f64::min)
+        fm.history[lo..i]
+            .iter()
+            .map(|b| b.low)
+            .fold(f64::INFINITY, f64::min)
     };
     let pred: Box<dyn Fn(usize, &HistBar) -> bool> = if direction == "LONG" {
         Box::new(move |i, b| i > 0 && b.close > prior_high(i))

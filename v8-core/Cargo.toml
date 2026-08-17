@@ -6,15 +6,25 @@ description = "V8.2 Rust compute plane: dataset, features, state, replay, cube, 
 license = "UNLICENSED"
 
 [dependencies]
+bytemuck = { version = "1", optional = true }
+pollster = { version = "0.4", optional = true }
 serde = { version = "1", features = ["derive"] }
 # float_roundtrip: serde_json's default float parser is NOT correctly rounded
 # (measured: "0.9632136759338213" parses 1 ulp low) — it would silently change
 # every request-side float (geometry refs, manifest) and break value parity.
 serde_json = { version = "1", features = ["float_roundtrip"] }
 sha1 = "0.10"
+wgpu = { version = "30", default-features = false, features = ["std", "vulkan", "glsl"], optional = true }
 
 [profile.release]
 codegen-units = 1
 lto = true
+
+[features]
+# Backend-2 GPU (issue #2): pulls wgpu (Vulkan/Metal/HIP via portability). The
+# default build has no GPU code — `gpu` is only for the AMD/Linux probe and
+# parity gate. D-096's "no dependency added now" default is preserved: without
+# this feature, no GPU crate is compiled.
+gpu = ["dep:bytemuck", "dep:wgpu", "dep:pollster"]
 
 # The compute plane links no Python runtime (no-callback invariant, D-078).

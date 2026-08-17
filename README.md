@@ -37,15 +37,15 @@ research/              # literature evidence
   papers/              #   PDFs (canonical `NN_arxivid_title.pdf` naming)
   text/                #   extracted text + arxiv metadata + source integrity
   manifest/            #   research_papers_manifest.json (shared EN/TR)
-src/v8/                # Python package — the runtime
-  simtruth/            #   vendored canonical simulation truth (V7 lab, engineering-only)
-tests/                 # pytest suite
-tools/                 # scripts: build_monograph.py, data.py, heads/, downloader
+v8-core/              # authoritative Rust runtime and verification plane
+src/v8/               # frozen Python parity oracle / legacy tooling dependency
+tests/                 # historical Python tests and parity harness
+tools/                 # monograph compiler, audits, and explicit legacy tooling
 ```
 
-`src/v8/` uses the standard src layout (`src/<package>/`): the repo is named
-v8, so flattening would create `v8/v8/`; the src layout keeps `import v8`
-unambiguous and prevents accidental imports of the repo root.
+`v8-core/` is the authoritative request and verification path. `src/v8/` is
+retained only as the hash-locked historical oracle; see
+`docs/legacy/PYTHON_ORACLE_POLICY.md`.
 
 ## Rebuilding the monographs
 
@@ -65,8 +65,7 @@ audit requires before any component is added: synthetic tape -> MarketState
 simulator -> hash-bound lab report.
 
 ```bash
-.venv/bin/python -m pytest tests -q    # determinism, future-rejection,
-                                       # dedup, illegal transitions, exposure
+cargo test --manifest-path v8-core/Cargo.toml    # authoritative runtime gates
 ```
 
 The slice uses synthetic data, sends no orders, holds no credentials, and
