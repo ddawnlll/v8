@@ -330,7 +330,7 @@ fn bootstrap_lower_bound(
     }
     let block = reality_check::select_block_size(series, 0.10);
     let n = resamples_for_alpha(alpha);
-    let mut means = reality_check::block_bootstrap_means(series, block as i64, n as i64, seed)?;
+    let mut means = reality_check::block_bootstrap_means(series, block, n as i64, seed)?;
     means.sort_by(f64::total_cmp);
     let idx = ((n as f64 * alpha) as usize).min(means.len() - 1);
     Ok((means[idx], block as usize, n))
@@ -782,10 +782,9 @@ fn admit_population(
                 let candidate_heat = c.size * c.stop_r;
                 let cluster_total = heat.get(&cluster).copied().unwrap_or(0.0);
                 let total_heat: f64 = heat.values().sum();
-                if total_heat + candidate_heat > max_heat {
-                    admission = "PORTFOLIO_REJECTED";
-                    reason = Some("PORTFOLIO_HEAT_EXCEEDED".into());
-                } else if cluster_total + candidate_heat > max_cluster_heat {
+                if total_heat + candidate_heat > max_heat
+                    || cluster_total + candidate_heat > max_cluster_heat
+                {
                     admission = "PORTFOLIO_REJECTED";
                     reason = Some("PORTFOLIO_HEAT_EXCEEDED".into());
                 } else {
@@ -1199,9 +1198,8 @@ pub fn run_file(path: &Path) -> Result<Value, String> {
     } else if !scored["sufficiency"]["episodes_ok"]
         .as_bool()
         .unwrap_or(false)
+        || !authority_present(&authority)
     {
-        "NO_ECONOMIC_CLAIM".to_string()
-    } else if !authority_present(&authority) {
         "NO_ECONOMIC_CLAIM".to_string()
     } else {
         "CERTIFIED_AVAILABLE".to_string()
