@@ -238,18 +238,22 @@ pub fn collect_for_experiment(
 }
 
 /// One admitted (PENDING) candidate, held for the S2/S3 reduce pass.
-struct PendingCandidate {
-    candidate_id: String,
-    direction: String,
-    birth_time: i64,
-    entry_bar: usize,
-    risk_geometry: serde_json::Map<String, Value>,
-    symbol: String,
+pub(crate) struct PendingCandidate {
+    pub(crate) candidate_id: String,
+    pub(crate) direction: String,
+    pub(crate) birth_time: i64,
+    pub(crate) entry_bar: Option<usize>,
+    pub(crate) window_end: Option<usize>,
+    pub(crate) risk_geometry: serde_json::Map<String, Value>,
+    pub(crate) symbol: String,
+    pub(crate) thesis: Option<Value>,
     /// Pre-entry invalidation levels (issue #66 / D-059): the frozen
     /// `prior_low_ref` / `prior_high_ref` when the draft declares one, else
     /// the bounded windowed extreme over the bars before birth (D-034).
-    prior_low: f64,
-    prior_high: f64,
+    /// `None` is used by the standalone cube request, which has no lifecycle
+    /// snapshot to re-check.
+    pub(crate) prior_low: Option<f64>,
+    pub(crate) prior_high: Option<f64>,
 }
 
 /// The bounded windowed prior extreme over the `PRIOR_WINDOW_BARS` bars before
@@ -516,11 +520,13 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                         candidate_id: cid,
                         direction: draft.direction.clone(),
                         birth_time: draft.birth_time,
-                        entry_bar: i + 1,
+                        entry_bar: Some(i + 1),
+                        window_end: None,
                         risk_geometry: draft.risk_geometry.clone(),
                         symbol: sym.clone(),
-                        prior_low,
-                        prior_high,
+                        thesis: None,
+                        prior_low: Some(prior_low),
+                        prior_high: Some(prior_high),
                     });
                     n_candidates += 1;
                     continue;
@@ -595,11 +601,13 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                     candidate_id: cid,
                     direction: draft.direction.clone(),
                     birth_time: draft.birth_time,
-                    entry_bar: i + 1,
+                    entry_bar: Some(i + 1),
+                    window_end: None,
                     risk_geometry: draft.risk_geometry.clone(),
                     symbol: sym.clone(),
-                    prior_low,
-                    prior_high,
+                    thesis: None,
+                    prior_low: Some(prior_low),
+                    prior_high: Some(prior_high),
                 });
                 n_candidates += 1;
             }
@@ -634,6 +642,7 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
         &funding_schedule,
         req.threads,
         &req.engine,
+        "VALUES",
     )?;
 
     Ok(serde_json::json!({
@@ -790,7 +799,7 @@ fn push_opt_f64(col: &mut evidence::Column, v: Option<f64>) {
 }
 
 #[allow(clippy::too_many_arguments)]
-fn write_cube_reduced(
+pub(crate) fn write_cube_reduced(
     path: &std::path::Path,
     pending: &[PendingCandidate],
     stores: &[FeatureStore],
@@ -799,10 +808,11 @@ fn write_cube_reduced(
     funding_schedule: &[(i64, f64)],
     threads: usize,
     engine: &str,
+    tier: &str,
 ) -> Result<(usize, Vec<String>), String> {
     let mut art = evidence::Artifact::new(
         "cube-reduced",
-        "VALUES",
+        tier,
         serde_json::json!({
             "hash_encoding": hash::HASH_ENCODING,
             "generator_version": regret::GENERATOR_VERSION,
@@ -850,8 +860,24 @@ fn write_cube_reduced(
             .find(|b| b.symbol == cand.symbol)
             .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
         let manifest = regret::generate_legal_actions(&cand.risk_geometry);
-        let window_end = store.closes.len();
-        let entry_idx = cand.entry_bar;
+        let window_end = cand
+            .window_end
+            .unwrap_or(store.closes.len())
+            .min(store.closes.len());
+        let Some(entry_idx) = cand.entry_bar else {
+            let mut plan = Vec::with_capacity(manifest.actions.len());
+            for a in &manifest.actions {
+                plan.push(Some(regret::Cell {
+                    action_id: a.action_id.clone(),
+                    status: regret::CELL_NO_ENTRY,
+                    reason: "candidate has no actual entry bar".into(),
+                    net_utility: None,
+                }));
+            }
+            planned.push(plan);
+            manifests.push(manifest);
+            continue;
+        };
 
         // Pre-entry invalidation re-checked on the entry bar itself
         // (CANDIDATE_LIFECYCLE_SPEC: a PENDING/TRIGGERED candidate ends on
@@ -862,8 +888,13 @@ fn write_cube_reduced(
         // candidate never enters: every legal action is a NO_ENTRY cell
         // (mirroring the oracle's `candidate has no actual entry bar`).
         let invalidated = entry_idx < window_end
-            && ((cand.direction == "LONG" && bars.lows[entry_idx] < cand.prior_low)
-                || (cand.direction == "SHORT" && bars.highs[entry_idx] > cand.prior_high));
+            && cand
+                .prior_low
+                .zip(cand.prior_high)
+                .is_some_and(|(prior_low, prior_high)| {
+                    (cand.direction == "LONG" && bars.lows[entry_idx] < prior_low)
+                        || (cand.direction == "SHORT" && bars.highs[entry_idx] > prior_high)
+                });
 
         let mut plan: Vec<Option<regret::Cell>> = Vec::with_capacity(manifest.actions.len());
         for (ai, a) in manifest.actions.iter().enumerate() {
@@ -909,7 +940,7 @@ fn write_cube_reduced(
                 draft,
                 start: entry_idx,
                 end: window_end,
-                thesis: None,
+                thesis: cand.thesis.clone(),
             });
             plan.push(None); // filled from the batch outcome below
         }
@@ -2062,6 +2093,56 @@ mod tests {
                 "the rejection must name the offending key: {e}"
             ),
         }
+    }
+
+    #[test]
+    fn standalone_cube_candidate_without_entry_is_reduced_by_shared_producer() {
+        let rows: Vec<Value> = (0..14)
+            .map(|i| bar(100.0, 100.5, 99.5, 100.0, "SOLUSDT", i))
+            .collect();
+        let (ds, stores) = tape_fixture(&rows, "standalone-cube-no-entry");
+        let pending = [PendingCandidate {
+            candidate_id: "candidate-1".to_string(),
+            direction: "LONG".to_string(),
+            birth_time: 0,
+            entry_bar: None,
+            window_end: None,
+            risk_geometry: {
+                let mut geometry = serde_json::Map::new();
+                geometry.insert("atr_ref".to_string(), serde_json::json!(1.0));
+                geometry.insert("target_r".to_string(), serde_json::json!(1.0));
+                geometry.insert("stop_r".to_string(), serde_json::json!(1.0));
+                geometry.insert("expiry_bars".to_string(), serde_json::json!(8));
+                geometry
+            },
+            symbol: "SOLUSDT".to_string(),
+            thesis: None,
+            prior_low: None,
+            prior_high: None,
+        }];
+        let out = std::env::temp_dir().join(format!(
+            "v8core-standalone-cube-{}-{}.v82",
+            std::process::id(),
+            "no-entry"
+        ));
+        let sim = SimulatorParams::from_json(&serde_json::json!({}));
+        let (count, _) = write_cube_reduced(
+            &out,
+            &pending,
+            &stores,
+            &ds,
+            &sim,
+            &[],
+            1,
+            "cpu",
+            "VALUES",
+        )
+        .unwrap();
+        assert_eq!(count, 1);
+        let artifact = evidence::read_artifact(&out).unwrap();
+        assert_eq!(artifact.column("n_ok").unwrap()[0].as_ref().unwrap().as_i64(), Some(0));
+        assert!(artifact.column("n_no_entry").unwrap()[0].as_ref().unwrap().as_i64().unwrap() > 0);
+        let _ = std::fs::remove_file(out);
     }
 
     #[test]
