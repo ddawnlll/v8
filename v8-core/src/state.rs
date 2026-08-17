@@ -2638,14 +2638,17 @@ fn v82_lineage_core(features: &[Feature], key: impl Fn(&Feature) -> String) -> S
 }
 
 pub fn v82_state_id(as_of: i64, universe: &[String], lineage_hash: &str) -> String {
+    let mut canonical_universe = universe.to_vec();
+    canonical_universe.sort();
+
     let mut c = Canon::new();
     c.push_list();
     c.push_count(3);
     c.push_i64(as_of);
     c.push_list();
-    c.push_count(universe.len());
-    for u in universe {
-        c.push_str(u);
+    c.push_count(canonical_universe.len());
+    for u in canonical_universe {
+        c.push_str(&u);
     }
     c.push_str(lineage_hash);
     c.finish_sha1_hex()
@@ -2654,6 +2657,34 @@ pub fn v82_state_id(as_of: i64, universe: &[String], lineage_hash: &str) -> Stri
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn state_id_is_invariant_to_universe_permutation() {
+        let first = vec![
+            "BTCUSDT".to_string(),
+            "ETHUSDT".to_string(),
+            "SOLUSDT".to_string(),
+        ];
+        let permuted = vec![
+            "SOLUSDT".to_string(),
+            "BTCUSDT".to_string(),
+            "ETHUSDT".to_string(),
+        ];
+        assert_eq!(
+            v82_state_id(123, &first, "lineage-hash"),
+            v82_state_id(123, &permuted, "lineage-hash")
+        );
+    }
+
+    #[test]
+    fn state_id_still_changes_for_universe_membership() {
+        let first = vec!["BTCUSDT".to_string(), "ETHUSDT".to_string()];
+        let changed = vec!["BTCUSDT".to_string(), "SOLUSDT".to_string()];
+        assert_ne!(
+            v82_state_id(123, &first, "lineage-hash"),
+            v82_state_id(123, &changed, "lineage-hash")
+        );
+    }
 
     fn f64_from_hex(hex: &str) -> f64 {
         let mut bytes = [0u8; 8];

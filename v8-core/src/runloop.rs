@@ -341,6 +341,16 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
             .filter(|(id, _)| req.experts.iter().any(|e| e == id))
             .collect()
     };
+    // Expert requirements are immutable for one evaluation. Build each
+    // projection closure once instead of allocating it for every bar.
+    let projections: Vec<(&str, &str, std::collections::HashSet<String>, bool)> = table
+        .iter()
+        .map(|(eid, ver)| {
+            let closure = features::group_closure(experts::requires_for(eid));
+            let allows_history = features::history_allowed(&closure);
+            (*eid, *ver, closure, allows_history)
+        })
+        .collect();
 
     let eval_path = req.out_dir.join("evaluations.jsonl");
     let cand_path = req.out_dir.join("candidates.jsonl");
@@ -395,13 +405,12 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
             };
             let bar_map = bar_payload(store, i);
 
-            for (eid, ver) in &table {
+            for (eid, ver, closure, allows_history) in &projections {
                 // D-053 projection: each expert sees only its requires-closure;
                 // a feature outside it is withheld (features.rs — the same
                 // withholding the Python view applies).
-                let closure = features::group_closure(experts::requires_for(eid));
-                let projected = features::project_features(&map, &closure);
-                let hist = if features::history_allowed(&closure) {
+                let projected = features::project_features(&map, closure);
+                let hist = if *allows_history {
                     state::history_bars(store, t, req.history_depth)
                 } else {
                     Vec::new()

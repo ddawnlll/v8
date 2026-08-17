@@ -2,7 +2,7 @@
 //!
 //! The missing node is cube level — (candidate_id, action_id, simulator_hash,
 //! data_hash) -> outcome. The store is content-addressed: a canonical string
-//! key `{candidate_id}|{action_id}|{simulator_hash}|{data_hash}` is hashed to
+//! key `{cache_version}|{candidate_id}|{action_id}|{simulator_hash}|{data_hash}` is hashed to
 //! a SHA-1 content address, and entries are addressable by that digest, never
 //! by a run-global id. The gate (COMPUTE_CORE_SPEC §8 S5): a cache hit must
 //! never change the ledger identity — a request that hits the cache writes
@@ -78,6 +78,10 @@ pub fn outcome_from_value(value: &Value) -> Result<Outcome, String> {
     })
 }
 
+/// Version of the semantic cube-cache key and serialized outcome contract.
+/// Bumping it makes entries from an incompatible implementation unreachable.
+pub const CACHE_KEY_VERSION: &str = "cube-cache-v1";
+
 /// The canonical string key of a cube-level node. Same inputs always produce
 /// the same key; the whole tuple is one cache entry.
 pub fn canonical_key(
@@ -86,7 +90,7 @@ pub fn canonical_key(
     simulator_hash: &str,
     data_hash: &str,
 ) -> String {
-    format!("{candidate_id}|{action_id}|{simulator_hash}|{data_hash}")
+    format!("{CACHE_KEY_VERSION}|{candidate_id}|{action_id}|{simulator_hash}|{data_hash}")
 }
 
 /// SHA-1 (hex) of the canonical key bytes — the content address that keys the
@@ -139,6 +143,14 @@ impl CacheStore {
                         format!("cache line {}: {e}", i + 1),
                     )
                 })?;
+                // A stale or hand-edited line must never become a hit merely
+                // because its digest field matches a lookup. Validate both
+                // identity fields before admitting persisted data.
+                if !entry.key.starts_with(&format!("{CACHE_KEY_VERSION}|"))
+                    || key_digest(&entry.key) != entry.digest
+                {
+                    continue;
+                }
                 store.map.insert(entry.digest.clone(), entry);
             }
         }
@@ -149,6 +161,12 @@ impl CacheStore {
     /// content address. The entry is appended to the JSONL log first, so a
     /// failed write leaves the in-memory map untouched (fail closed).
     pub fn insert(&mut self, key: &str, outcome: Value) -> io::Result<String> {
+        if !key.starts_with(&format!("{CACHE_KEY_VERSION}|")) {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "cache key has unsupported version",
+            ));
+        }
         let digest = key_digest(key);
         let entry = CacheEntry {
             digest: digest.clone(),
@@ -375,7 +393,7 @@ mod tests {
         let k1 = canonical_key("cand-1", "BUY", "sim-abc", "data-def");
         let k2 = canonical_key("cand-1", "BUY", "sim-abc", "data-def");
         assert_eq!(k1, k2);
-        assert_eq!(k1, "cand-1|BUY|sim-abc|data-def");
+        assert_eq!(k1, "cube-cache-v1|cand-1|BUY|sim-abc|data-def");
 
         assert_ne!(k1, canonical_key("cand-2", "BUY", "sim-abc", "data-def"));
         assert_ne!(k1, canonical_key("cand-1", "SELL", "sim-abc", "data-def"));
@@ -386,7 +404,7 @@ mod tests {
         let d2 = key_digest(&k2);
         assert_eq!(d1, d2);
         assert_eq!(d1.len(), 40, "SHA-1 hex is 40 chars");
-        assert_eq!(d1, key_digest("cand-1|BUY|sim-abc|data-def"));
+        assert_eq!(d1, key_digest(&k1));
     }
 
     /// (b) A miss (computed outcome) and a hit (outcome read back from the
@@ -466,6 +484,38 @@ mod tests {
         let store2 = CacheStore::open(&log).unwrap();
         assert_eq!(store2.get(&key).unwrap()["net_pnl_bps"], 7);
         std::fs::remove_file(&log).ok();
+    }
+
+    #[test]
+    fn stale_or_corrupt_entries_are_not_cache_hits() {
+        let dir = std::env::temp_dir();
+        let log = dir.join("v82-cache-stale.jsonl");
+        std::fs::remove_file(&log).ok();
+        let key = canonical_key("cand-stale", "BUY", "sim-v1", "data-v1");
+        let old_key = "cube-cache-v0|cand-stale|BUY|sim-v1|data-v1";
+        let stale = serde_json::json!({
+            "digest": key_digest(old_key),
+            "key": old_key,
+            "outcome": {"net_pnl_bps": 99}
+        });
+        let corrupt = serde_json::json!({
+            "digest": key_digest("cube-cache-v1|different|BUY|sim-v1|data-v1"),
+            "key": key,
+            "outcome": {"net_pnl_bps": 88}
+        });
+        std::fs::write(&log, format!("{}\n{}\n", stale, corrupt)).unwrap();
+        let store = CacheStore::open(&log).unwrap();
+        assert!(store.get(&key).is_none());
+        assert_eq!(store.len(), 0);
+        std::fs::remove_file(&log).ok();
+    }
+
+    #[test]
+    fn cache_key_version_changes_content_address() {
+        let current = canonical_key("cand", "BUY", "sim", "data");
+        let old = "cube-cache-v0|cand|BUY|sim|data";
+        assert_ne!(current, old);
+        assert_ne!(key_digest(&current), key_digest(old));
     }
 
     #[test]
