@@ -13,4 +13,6 @@
 - Every change requires `R#` requirement traceability from issue to PR verification receipts.
 - Zero-tolerance anti-hallucination / anti-synthetic data rule: Rule 12 (`NO_ECONOMIC_CLAIM`) strictly enforced.
 - Authority conflicts halt as `OPEN_PIN`.
+- **STRICT RULE: ALWAYS PR FIRST — NEVER MERGE PULL REQUESTS.** Agents must never self-merge PRs or push directly to `main`. Always create a feature branch, push, and open a PR for human review.
+
 
