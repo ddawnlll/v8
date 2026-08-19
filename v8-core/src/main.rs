@@ -39,6 +39,7 @@ mod features;
 mod hash;
 mod jsonx;
 mod mt19937;
+mod oracle;
 mod regret;
 mod report;
 mod runloop;

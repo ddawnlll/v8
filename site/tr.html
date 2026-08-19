@@ -6596,6 +6596,13 @@ table.</p>
     main.rs         CLI entry; one evaluation request per invocation
     data.rs         Dataset: columnar OHLCV + event/available/ingested clocks
     state.rs        FeatureStore, StateView, feature identity
+    oracle/         O0–O1 Target Oracle contracts and deterministic finite
+                    Opportunity Grammar; no support/coverage/evidence writes
+      taxonomy.rs    three-role taxonomy, authority/value/refusal vocabulary
+      utility.rs     versioned after-cost UtilityContract + hard validation
+      information.rs PIT FeatureStore adapter and InformationSet boundary
+      opportunity.rs registered primitive/template/grid grammar Candidates
+      artifacts.rs   in-memory universe/evaluation identity-bearing records
     features.rs     D-053 feature-group projection (Expert FeatMap closure) —
                      not in the original §6 table (§4)
     experts/
@@ -9853,6 +9860,19 @@ değişkenine, arama ailesine, simülatör seviyesine ve portföy kararına bağ
 Bundan daha geniş olan her şey bir V8 olgusu değil, bir deney önerisidir.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-19-target-oracle-o0o1-substrate-d-101">2026-08-19 — Target Oracle O0–O1 substrate (D-101)</h2>
+<p>Added the Rust-owned Target Oracle foundation: the three-role taxonomy and
+typed refusal vocabulary, versioned after-cost <code>UtilityContract</code> validation,
+a narrow PIT <code>InformationSet</code> adapter over the existing FeatureStore, and a
+deterministic, finite Opportunity Grammar with a separate GrammarCandidate
+identity domain. The grammar requires caller-supplied registered primitives,
+templates, and parameter grids; no production vocabulary, grid, support
+classification, coverage, bundle serialization, policy optimization, or
+economic verdict was introduced. O-OR-001 records the intentionally absent
+production catalog.</p>
+<p>Artifacts changed: <code>v8-core/src/oracle/*</code>, <code>v8-core/src/main.rs</code>,
+<code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, and the decision/open-question
+registers; both monographs were regenerated.</p>
 <h2 id="2026-08-18-safe-subset-of-lifecycle-issue-139-lm-002">2026-08-18 — safe subset of lifecycle issue #139 (LM-002)</h2>
 <p>The Rust candidate projection now retains canonical transition records and
 writes an append-only <code>candidate-transitions.jsonl</code> ledger. The projection can

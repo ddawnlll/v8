@@ -7180,6 +7180,13 @@ table.</p>
     main.rs         CLI entry; one evaluation request per invocation
     data.rs         Dataset: columnar OHLCV + event/available/ingested clocks
     state.rs        FeatureStore, StateView, feature identity
+    oracle/         O0–O1 Target Oracle contracts and deterministic finite
+                    Opportunity Grammar; no support/coverage/evidence writes
+      taxonomy.rs    three-role taxonomy, authority/value/refusal vocabulary
+      utility.rs     versioned after-cost UtilityContract + hard validation
+      information.rs PIT FeatureStore adapter and InformationSet boundary
+      opportunity.rs registered primitive/template/grid grammar Candidates
+      artifacts.rs   in-memory universe/evaluation identity-bearing records
     features.rs     D-053 feature-group projection (Expert FeatMap closure) —
                      not in the original §6 table (§4)
     experts/
@@ -7793,6 +7800,7 @@ historical design record and this table is the correction layer.</p>
 <p>| D-098 | <strong>Optional Linux Vulkan f64 K4 backend is implemented behind the backend boundary.</strong> <code>v8-core/src/backend/gpu.rs</code> provides a real <code>wgpu</code> Vulkan compute path for the static bar-close replay subset; it requires <code>SHADER_F64</code>, runs a no-contraction probe before adoption, validates geometry, and exposes CPU fallback for unavailable/unsupported devices. <code>backend/mod.rs</code> owns dispatch: <code>Auto</code> uses a runtime step threshold plus capability/fill-policy gates, explicit <code>Gpu</code> fails closed, and unsupported thesis/trigger/limit/management/pyramiding cells never enter the GPU kernel. Non-Linux builds report unavailable rather than pretending to dispatch. This supersedes D-096's implementation-status sentence (“backend itself is unlikely to ever be built”) without changing D-084's backend-invariance or f64 requirements. | PROVISIONAL_DECISION | Local evidence: default/debug/release builds, GPU-feature tests, strict Clippy, Linux-target check, and CPU/SIMD parity all pass; the Apple host correctly fails closed because it has no Vulkan shader-f64 runtime. A physical Linux Vulkan adapter with <code>SHADER_F64</code> is still required to close the runtime GPU golden-parity receipt; no performance or economic claim is made. |</p>
 <p>| D-099 | <strong>Computation is a budgeted decision, not a ritual.</strong> Before a computation expected to exceed five seconds, or an already-green check is repeated, state the decision it could change and the new semantic risk it resolves. Run it only when expected marginal decision value exceeds total cost (runtime, user latency, tool/context overhead, and redundancy). | PROVISIONAL_DECISION | Mandatory semantic-boundary gates still run: changed correctness semantics, determinism/parity/identity boundaries, safety/authority/data-integrity behavior, and explicit handoff gates. Prefer the smallest discriminating check; no suite rerun after documentation/format-only changes; full handoff suite at most once; extra post-green verification is limited to 60 seconds before reporting evidence and remaining uncertainty. See <code>COMPUTATION_BUDGET_POLICY.md</code>. |</p>
 <p>| D-100 | <strong>Python oracle boundary is locked.</strong> <code>src/v8/</code> is a frozen, hash-bound historical parity oracle; <code>v8-core/</code> owns the request and verification path. Python may run only for explicitly named legacy research tooling, monograph generation, and boundary audits. A changed oracle tree requires a registry decision, changelog entry, and new hash; CI rejects unregistered edits and Python pytest/oracle invocation in the Rust gate. | LOCKED_INVARIANT candidate | <code>docs/legacy/PYTHON_ORACLE_LOCK.json</code>, <code>docs/legacy/PYTHON_ORACLE_POLICY.md</code>, and <code>tools/audit_python_boundary.py</code>. The oracle is retained because deleting it would remove the independent S0–S7 reference; this decision does not claim that every legacy Python tool has already been ported. |</p>
+<p>| D-101 | <strong>Target Oracle O0–O1 is a Rust-only contract and measurement-frame substrate.</strong> <code>v8-core/src/oracle/</code> owns exactly the three-role taxonomy, typed refusal vocabulary, versioned after-cost UtilityContract validation, PIT InformationSet adapter, in-memory identity-bearing artifacts, and an Expert-independent finite grammar over explicitly registered primitives/templates/grids. Grammar Candidate identities are in a distinct domain and never enter <code>CandidateRegistry</code>. | PROVISIONAL_DECISION | <code>TARGET_ORACLE_SPEC</code> §§1–7, §17–19. The implementation deliberately omits support/authority classification, coverage, evidence-bundle serialization, reports, Scout, regret attribution, Target-policy optimization, L3 execution, and economic verdicts. O-OR-001 remains open: no production catalog or default grid was invented. Contract tests cover PIT refusal, deterministic G4/G5 identities, universe mutation, direction identity, and lifecycle non-mutation. |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -7956,6 +7964,12 @@ named baseline, not disproven forever. None means profitability.</p></section>
 <td>Should the locked universe extend beyond Binance USD-M crypto perps to equities (NASDAQ, BIST) — i.e. is a behavior family's hypothesis asset-class independent, or perp-specific? This is a NEW research axis, not a venue extension: equities have no funding/mark/index/premium tapes, a session calendar with gaps and corporate actions, and a different cost/authority structure, so it is NOT covered by O-011's "extend venues only on binding coverage failure"</td>
 <td>The cheapest resolving experiment is sequenced AFTER the base case, by rule 12: run <code>v8_slice_001</code> (Phase-4 gate) on the locked perp universe first; only a family that survives there may be tested cross-asset. Then replay that family's EXACT frozen Expert geometry (same <code>expert_version</code>, same variants, same thresholds) on an equities tape built to the same three-clock PIT discipline, with a session-aware bar clock and a venue-appropriate cost model, as a preregistered replication with its own D-044/D-046 multiplicity accounting. Data-plane work may proceed in parallel as research-only (rule 11 "explore broadly in development"; rule 9 hash-binding) without touching the decision path</td>
 <td>Admit equities into the locked universe only if (a) a family survives the Phase-4 base-case gate on the perp universe AND (b) the same frozen family replicates after-cost signal on the equity venue under its own multiplicity controls. A failure to replicate is a valid falsification result — it says the hypothesis is perp-specific, which is informative, not a defect. Any new equities tape/builder is a D-032 file-family decision (new <code>src/v8/</code> or <code>tools/</code> module) and must meet rule 9's source-authority binding first — a hard constraint confirmed by the 2026-08-07 source survey: no source, free OR paid, offers the checksum-verifiable immutable archive rule 9 requires. Closest candidates — NASDAQ: Massive (ex-Polygon) Flat Files (official SIP daily files since 2003, bulk + immutable, but paid ≥ $29/mo and no published checksums — only S3 ETags) or stooq bulk ZIPs (checksumless); BIST: official DataStore (paid, contractually "Confidential", no checksum, no accuracy guarantee) or the free İş Yatırım API (unofficial, mutable, ~1997-present, violates every rule-9 axis). Until a source with a verifiable checksum binding appears, equities exist only as a documented research direction (D-065), never as a canonical dataset</td>
+</tr>
+<tr>
+<td>O-OR-001</td>
+<td>What registered primitive, template, parameter-grid, and <code>tradability_rule_id</code> catalog instantiates the first production Opportunity Grammar?</td>
+<td>Register a candidate catalog from existing PIT state families and Candidate semantics, then prove its hashes, search size, and candidate population are stable before any protected evaluation.</td>
+<td>O0–O1 supplies only a generic Rust grammar that accepts explicit registered artifacts. No production vocabulary, grid, or defaults are instantiated; expansion remains a new universe/version lineage.</td>
 </tr>
 </tbody>
 </table>
@@ -10093,6 +10107,19 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-19-target-oracle-o0o1-substrate-d-101">2026-08-19 — Target Oracle O0–O1 substrate (D-101)</h2>
+<p>Added the Rust-owned Target Oracle foundation: the three-role taxonomy and
+typed refusal vocabulary, versioned after-cost <code>UtilityContract</code> validation,
+a narrow PIT <code>InformationSet</code> adapter over the existing FeatureStore, and a
+deterministic, finite Opportunity Grammar with a separate GrammarCandidate
+identity domain. The grammar requires caller-supplied registered primitives,
+templates, and parameter grids; no production vocabulary, grid, support
+classification, coverage, bundle serialization, policy optimization, or
+economic verdict was introduced. O-OR-001 records the intentionally absent
+production catalog.</p>
+<p>Artifacts changed: <code>v8-core/src/oracle/*</code>, <code>v8-core/src/main.rs</code>,
+<code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, and the decision/open-question
+registers; both monographs were regenerated.</p>
 <h2 id="2026-08-18-safe-subset-of-lifecycle-issue-139-lm-002">2026-08-18 — safe subset of lifecycle issue #139 (LM-002)</h2>
 <p>The Rust candidate projection now retains canonical transition records and
 writes an append-only <code>candidate-transitions.jsonl</code> ledger. The projection can

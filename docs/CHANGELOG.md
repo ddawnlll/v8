@@ -2,6 +2,22 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-19 — Target Oracle O0–O1 substrate (D-101)
+
+Added the Rust-owned Target Oracle foundation: the three-role taxonomy and
+typed refusal vocabulary, versioned after-cost `UtilityContract` validation,
+a narrow PIT `InformationSet` adapter over the existing FeatureStore, and a
+deterministic, finite Opportunity Grammar with a separate GrammarCandidate
+identity domain. The grammar requires caller-supplied registered primitives,
+templates, and parameter grids; no production vocabulary, grid, support
+classification, coverage, bundle serialization, policy optimization, or
+economic verdict was introduced. O-OR-001 records the intentionally absent
+production catalog.
+
+Artifacts changed: `v8-core/src/oracle/*`, `v8-core/src/main.rs`,
+`docs/contracts/IMPLEMENTATION_LAYOUT.md`, and the decision/open-question
+registers; both monographs were regenerated.
+
 ## 2026-08-18 — safe subset of lifecycle issue #139 (LM-002)
 
 The Rust candidate projection now retains canonical transition records and
