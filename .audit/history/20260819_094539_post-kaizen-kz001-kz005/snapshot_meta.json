@@ -1,0 +1,141 @@
+{
+  "run_id": "20260819_094539_post-kaizen-kz001-kz005",
+  "timestamp_utc": "2026-08-19T09:45:39.631107+00:00",
+  "git_commit": "1b28c3b",
+  "git_branch": "fix/ci-gpu-feature-compile",
+  "tag": "post-kaizen-kz001-kz005",
+  "description": "Full Kaizen KZ001-KZ005 module suite with GPU fix",
+  "tape_path": "research/tape/btcusdt-1h-12m/tape.jsonl",
+  "duration_days": 365.0,
+  "initial_balance_usdt": 1000.0,
+  "terminal_equity_usdt": 7.01,
+  "net_profit_usdt": -992.99,
+  "total_return_pct": -99.3,
+  "max_drawdown_pct": 99.31,
+  "max_margin_utilization_pct": 100.0,
+  "profit_factor": 0.746,
+  "win_rate_pct": 41.5,
+  "total_fee_drag_usdt": 384.54,
+  "n_trades_admitted": 2460,
+  "rejections_by_reason": {
+    "CAPITAL_CONSTRAINT_REJECTION": 7433,
+    "INSUFFICIENT_AVAILABLE_BALANCE": 297,
+    "QUANTITY_ROUNDS_TO_ZERO": 32428
+  },
+  "experts_summary": {
+    "bollinger_breakout": {
+      "trades": 167,
+      "net_r": -17.59,
+      "avg_r": -0.1053,
+      "win_rate_pct": 47.3,
+      "profit_factor": 0.75
+    },
+    "liquidity_sweep_reclaim": {
+      "trades": 6,
+      "net_r": 0.22,
+      "avg_r": 0.0372,
+      "win_rate_pct": 50.0,
+      "profit_factor": 1.09
+    },
+    "market_profile_value_area": {
+      "trades": 19,
+      "net_r": -9.09,
+      "avg_r": -0.4786,
+      "win_rate_pct": 31.6,
+      "profit_factor": 0.19
+    },
+    "trend_pullback_depth": {
+      "trades": 34,
+      "net_r": -8.47,
+      "avg_r": -0.2491,
+      "win_rate_pct": 41.2,
+      "profit_factor": 0.6
+    },
+    "floor_trader_pivot": {
+      "trades": 36,
+      "net_r": -9.02,
+      "avg_r": -0.2506,
+      "win_rate_pct": 27.8,
+      "profit_factor": 0.65
+    },
+    "macd_stoch_trend": {
+      "trades": 319,
+      "net_r": -45.29,
+      "avg_r": -0.142,
+      "win_rate_pct": 46.4,
+      "profit_factor": 0.75
+    },
+    "ichimoku_cloud": {
+      "trades": 42,
+      "net_r": -4.92,
+      "avg_r": -0.1173,
+      "win_rate_pct": 47.6,
+      "profit_factor": 0.79
+    },
+    "failed_breakout_2b": {
+      "trades": 4,
+      "net_r": -0.3,
+      "avg_r": -0.0742,
+      "win_rate_pct": 50.0,
+      "profit_factor": 0.86
+    },
+    "failed_breakout": {
+      "trades": 3,
+      "net_r": -2.53,
+      "avg_r": -0.8422,
+      "win_rate_pct": 0.0,
+      "profit_factor": 0.0
+    },
+    "volume_climax_reversal": {
+      "trades": 336,
+      "net_r": -35.49,
+      "avg_r": -0.1056,
+      "win_rate_pct": 48.2,
+      "profit_factor": 0.81
+    },
+    "breakout_retest": {
+      "trades": 10,
+      "net_r": -1.26,
+      "avg_r": -0.1261,
+      "win_rate_pct": 30.0,
+      "profit_factor": 0.69
+    },
+    "bollinger_reversion": {
+      "trades": 23,
+      "net_r": -0.19,
+      "avg_r": -0.0084,
+      "win_rate_pct": 52.2,
+      "profit_factor": 0.98
+    },
+    "rsi_stoch_reversion": {
+      "trades": 16,
+      "net_r": -1.18,
+      "avg_r": -0.0737,
+      "win_rate_pct": 50.0,
+      "profit_factor": 0.86
+    },
+    "volume_confirmed_breakout": {
+      "trades": 11,
+      "net_r": -3.74,
+      "avg_r": -0.3399,
+      "win_rate_pct": 36.4,
+      "profit_factor": 0.5
+    },
+    "fib_retracement_continuation": {
+      "trades": 15,
+      "net_r": 3.95,
+      "avg_r": 0.2635,
+      "win_rate_pct": 66.7,
+      "profit_factor": 1.74
+    },
+    "trend_pullback": {
+      "trades": 1,
+      "net_r": -1.08,
+      "avg_r": -1.0819,
+      "win_rate_pct": 0.0,
+      "profit_factor": 0.0
+    }
+  },
+  "snapshot_dir": ".audit/history/20260819_094539_post-kaizen-kz001-kz005",
+  "contract_hash": "9fb5d2136dbac7de8400e3c5127ff6254f50cf53"
+}
