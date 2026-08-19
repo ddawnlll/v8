@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
 <ol>
 <li>V8 is a falsification program, not a promise of edge.</li>
 <li>A claim is labeled <code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>,
@@ -900,6 +900,677 @@ on architecture and representation-ownership grounds, which are argued in
 <p>Sections 5-8 were measured with ad-hoc scripts against the same synthetic tape;
 each snippet appears inline above and is self-contained apart from
 <code>sys.path.insert(0, 'src')</code>.</p></section>
+<section id="sec-evaluation-evidence-system"><h1>EVALUATION EVIDENCE SYSTEM</h1><h1 id="v8-evaluation-evidence-system-scientific-audit-specification-v8evalv1">V8 Evaluation Evidence System &amp; Scientific Audit Specification (v8.eval.v1)</h1>
+<p><strong>Status:</strong> DESIGN_INFERENCE / LOCKED_INVARIANT.
+<strong>Scope:</strong> Replaces legacy single-report generation with an immutable, structured scientific evidence bundle designed for autonomous research agents (Scout -&gt; Investigator -&gt; Decision loop) and deterministic audit verification.</p>
+<hr>
+<h2 id="1-paradigm-shift-from-report-generator-to-scientific-evidence-substrate">1. Paradigm Shift: From Report Generator to Scientific Evidence Substrate</h2>
+<p>Legacy quantitative backtesting systems and earlier V8 iterations treated evaluation primarily as a <strong>report generation step</strong>—producing an aggregated HTML or text summary containing P&amp;L curves, Sharpe ratios, and summary win rates. </p>
+<p>Under <strong>v8.eval.v1</strong>, evaluation is redefined:</p>
+<blockquote>
+<p><strong>An evaluation run does not merely generate a human-facing report. It produces an immutable, queryable, content-addressed Evidence Bundle upon which autonomous agents can formulate, test, confirm, or refute falsifiable scientific hypotheses.</strong></p>
+</blockquote>
+<pre><code>                                LEGACY VIEW (Outcome Only)
+                      ┌──────────────────────────────────────────┐
+                      │  Input Tape ──► Engine ──► Final P&amp;L/HTML│
+                      └──────────────────────────────────────────┘
+
+                                V8.2+ SCIENTIFIC PARADIGM
+ ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+ │                                                                                          │
+ │   Market Data (PIT) ──► S0-S7 Pipeline ──► Immutable Evidence Bundle (v8.eval.v1)        │
+ │                                                  │                                       │
+ │                          ┌───────────────────────┴───────────────────────┐               │
+ │                          ▼                                               ▼               │
+ │                 Structured Evidence Store                     Deterministic Schema Cache  │
+ │              (Parquet Traces, DAG, Ledgers)                 (Distributions, Nulls, Stats)│
+ │                          │                                               │               │
+ │                          └───────────────────────┬───────────────────────┘               │
+ │                                                  ▼                                       │
+ │                                       Autonomous Agent Swarm                             │
+ │                         ┌─────────────────────────────────────────┐                      │
+ │                         │  • Triage Agent (Anomaly Detection)     │                      │
+ │                         │  • Scout Agents (Hypothesis Generation) │                      │
+ │                         │  • Investigator Agents (Corpus Testing) │                      │
+ │                         │  • Decision Agent (Registry Governance) │                      │
+ │                         └────────────────────┬────────────────────┘                      │
+ │                                              ▼                                           │
+ │                                    Confirmed Finding Graph                               │
+ │                                 (EPIDEMIOLOGICAL / STATISTICAL)                          │
+ │                                              │                                           │
+ │                          ┌───────────────────┴───────────────────┐                       │
+ │                          ▼                                       ▼                       │
+ │                  Human HTML Report (A-W)                 Machine Evidence API            │
+ │                   (Executive Viewport)                  (JSON-RPC / Substrate)           │
+ └──────────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<p>The HTML report is strictly a <strong>read-only presentation view (viewport)</strong> for human operators. The canonical authority resides exclusively in <strong>machine-readable, schema-validated, content-addressed structured artifacts</strong>. Agents never parse raw HTML.</p>
+<hr>
+<h2 id="2-literature-foundations-methodological-lineage">2. Literature Foundations &amp; Methodological Lineage</h2>
+<p>Recent agentic evaluation and quantitative finance literature (2025–2026) converges on the principles underpinning <code>v8.eval.v1</code>:</p>
+<pre><code>┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                LITERATURE MAPPING MATRIX                                     │
+├─────────────────────────┬──────────────────────────────────┬─────────────────────────────────┤
+│ Foundation / Paper      │ Core Principle                   │ V8.eval.v1 Implementation       │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Harness-Bench           │ Outcome != Performance;          │ Saves raw execution traces,     │
+│ (arXiv:2605.27922)      │ artifacts + traces + usage stats │ validator outputs, and state DAG│
+│                         │ + validator outputs required.    │ alongside realized returns.     │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ ClawTrack               │ Separation of Outcome Grading    │ Process telemetry: Goal         │
+│ (arXiv:2607.28037)      │ vs Process Grading; trajectory,  │ alignment, filter efficiency,   │
+│                         │ audit logs, workspace snapshots. │ dedup/veto conservation.        │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ A²E Protocol            │ Decouple task spec, environment, │ Typed execution records:        │
+│ (arXiv:2608.07346)      │ expected actions, and execution. │ signals -&gt; candidates -&gt;        │
+│                         │                                  │ transitions -&gt; trades.          │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ On Randomness in Evals  │ Single-run variance renders      │ pass@1, optimistic retry, and   │
+│ (arXiv:2602.07150)      │ small differences noisy;         │ pessimistic consistency bounds   │
+│                         │ compute consistency boundaries.  │ across perturbation sweeps.     │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Princeton Agent         │ 4 Pillars: Consistency,          │ Reliability Envelope: Outcome,  │
+│ Reliability             │ Robustness, Predictability,      │ trajectory, and resource        │
+│ (arXiv:2602.16666)      │ Safety.                          │ consistency across environments.│
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Insights Generator      │ Scalable corpus diagnosis via    │ Two-tier agent investigation:    │
+│ (arXiv:2605.21347)      │ Schema Cache + Scout/Investigator│ Scout generates hypotheses;     │
+│                         │ separation; confirmed findings.  │ Investigator verifies on corpus.│
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ AlgoXpert Framework     │ Parameter perturbation cliffs &amp;  │ Robustness Surfaces: cost, stop,│
+│ (arXiv:2603.09219)      │ IS-WFA-OOS degradation metrics.  │ target, and joint fragility.    │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ SysTradeBench           │ Hard fail-closed validity gates; │ Validity Gates: Leakage,        │
+│ (arXiv:2604.04812)      │ frozen strategy checksums.       │ Accounting, SIMD/Thread Parity. │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ AgentRx                 │ Execution trajectory fault       │ Formal Failure Ontology:        │
+│ (arXiv:2602.02475)      │ localization &amp; ontology mapping. │ 9-category structured taxons.   │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Bailey et al. (PBO/DSR) │ Multiple-testing deflated Sharpe │ Research Ledger &amp; trial count   │
+│ &amp; White Reality Check   │ &amp; probability of overfitting.    │ penalty across lifetime corpus. │
+└─────────────────────────┴──────────────────────────────────┴─────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="3-reliability-envelope-vs-single-run-outcomes">3. Reliability Envelope vs Single-Run Outcomes</h2>
+<p>Single-run backtest performance is an illusion of precision. In trading engines, while execution arithmetic may be deterministic, the <strong>execution circumstance</strong> varies across real-world deployments.</p>
+<p>V8 constructs a multi-dimensional <strong>Reliability Envelope</strong>:</p>
+<p>$$\text{Reliability Envelope} = \mathcal{E}(\text{Threads}, \text{SIMD}, \text{Cache State}, \text{CPU Architecture}, \text{Input Perturbations}, \text{Cost Shocks})$$</p>
+<h3 id="core-invariant-semantic-invariance-under-circumstantial-perturbation">Core Invariant: Semantic Invariance under Circumstantial Perturbation</h3>
+<p>$$\forall c_1, c_2 \in \text{ExecutionCircumstances}, \quad \text{Semantics}(S, c_1) \equiv \text{Semantics}(S, c_2) \implies \text{Economics}(S, c_1) \equiv \text{Economics}(S, c_2)$$</p>
+<p>The reliability envelope assesses:
+1. <strong>Thread Parity ($T \in {1, 2, 4, 8}$):</strong> Does candidate allocation or state aggregation drift with concurrency?
+2. <strong>SIMD vs Scalar Parity:</strong> Do AVX2/AVX-512 vector paths produce bit-identical decisions compared to scalar fallbacks?
+3. <strong>Cache Cold vs Warm:</strong> Does pre-warmed state alter lookback indexing or float rounding?
+4. <strong>Input Data Perturbations:</strong> Injecting 1-bar timestamp jitter, micro-slippage, or dropped funding rates.
+5. <strong>Parameter Neighborhood Stability:</strong> Does a $\pm 2\%$ perturbation in indicator threshold cause an catastrophic performance cliff ($\Delta \text{Sharpe} &gt; 50\%$)?</p>
+<hr>
+<h2 id="4-total-artifact-structure-directory-layout-v8evalv1">4. Total Artifact Structure &amp; Directory Layout (<code>v8.eval.v1</code>)</h2>
+<p>Every evaluation run creates a self-contained, immutable bundle under <code>evaluation/&lt;RUN_ID&gt;/</code>:</p>
+<pre><code>evaluation/
+└── RUN_ID/
+    ├── manifest.json                  # Entry gateway &amp; cryptographic receipt
+    ├── executive.json                 # Machine-readable scorecard &amp; critical verdicts
+    ├── report.html                    # Presentation viewport (Sections A–W)
+    │
+    ├── provenance/                    # Cryptographic lineage &amp; reproduction DAG
+    │   ├── environment.json           # Host CPU, OS, compiler, Rust toolchain, flags
+    │   ├── inputs.json                # Data sources, symbol list, interval, bar counts
+    │   ├── hashes.json                # Binary, tape, config, and artifact checksums
+    │   ├── config.json                # Evaluator configuration snapshot
+    │   └── artifact_dag.json          # Dependency graph of all generated artifacts
+    │
+    ├── data/                          # Input data forensic layer
+    │   ├── bars.parquet               # PIT ingested OHLCV + funding rows
+    │   ├── data_quality.parquet       # Per-bar quality flags, gap indicators
+    │   └── feature_census.parquet     # Feature distributions, null rates, quantiles
+    │
+    ├── execution/                     # Full pipeline event telemetry
+    │   ├── evaluations.parquet        # S0: All bar-level expert evaluation attempts
+    │   ├── signals.parquet            # S1: Emitted raw behavioral signals
+    │   ├── candidates.parquet         # S2: Formed candidate episodes
+    │   ├── transitions.parquet        # S3-S4: State transitions (dedup, cooldown)
+    │   ├── vetoes.parquet             # S5: Risk, capacity, and heat veto events
+    │   └── trades.parquet             # S6-S7: Admitted orders, fills, and trade logs
+    │
+    ├── economics/                     # Financial performance forensic layer
+    │   ├── portfolio.parquet          # Aggregate portfolio metrics &amp; drawdown series
+    │   ├── experts.parquet            # Per-expert return decomposition &amp; attribution
+    │   ├── costs.parquet              # Spread, fee, slippage, and funding drag
+    │   └── equity_curve.parquet       # High-resolution step-by-step equity curve
+    │
+    ├── paths/                         # Trade path &amp; trajectory forensics
+    │   ├── mfe_mae.parquet            # Maximum Favorable/Adverse Excursion records
+    │   ├── markouts.parquet           # Post-trigger price trajectories (t+1..t+k)
+    │   ├── exits.parquet              # Exit barrier classification &amp; touch sequences
+    │   └── intrabar_ambiguity.parquet # High/Low touch ambiguity &amp; penalty bounds
+    │
+    ├── slices/                        # Cohort &amp; regime conditional performance
+    │   ├── regime.parquet             # Volatility/Trend regime slices
+    │   ├── direction.parquet          # Long vs Short asymmetry
+    │   ├── time_of_day.parquet        # Session / TOD / DOW performance
+    │   ├── volatility.parquet         # ATR / Realized Volatility quantiles
+    │   └── liquidity.parquet          # Volume / OFI regime slices
+    │
+    ├── robustness/                    # Counterfactual surfaces &amp; stability
+    │   ├── cost_surface.parquet       # Friction vs Net Expectancy grid
+    │   ├── exit_surface.parquet       # SL/TP/Expiry geometry perturbation grid
+    │   ├── parameter_surface.parquet  # Neighborhood parameter sensitivity
+    │   ├── perturbations.parquet      # Injected stress &amp; data corruption tests
+    │   └── degradation.parquet        # IS -&gt; WFA -&gt; OOS -&gt; Holdout degradation
+    │
+    ├── statistics/                    # Rigorous hypothesis testing artifacts
+    │   ├── bootstrap.json             # Stationary bootstrap CIs on Expectancy/Sharpe
+    │   ├── permutations.json          # Trade order &amp; return permutation distributions
+    │   ├── nulls.json                 # 10-family null benchmark comparisons
+    │   ├── reality_check.json         # White's Reality Check &amp; Hansen's SPA tests
+    │   ├── multiple_testing.json      # Lifetime research trials &amp; DSR corrections
+    │   └── backtest_overfit.json      # Bailey's Probability of Backtest Overfit (PBO)
+    │
+    ├── correctness/                   # Rust engine invariant &amp; parity receipts
+    │   ├── invariants.json            # Conservation and lifecycle invariant checks
+    │   ├── replay_digest.json         # Deterministic replay hash verification
+    │   ├── thread_parity.json         # 1 vs 2 vs 4 vs 8 thread parity results
+    │   ├── simd_parity.json           # AVX2/AVX-512 vs Scalar bit-level parity
+    │   └── implementation_parity.json # Minimal reference oracle differential report
+    │
+    └── analysis/                      # Agent reasoning &amp; finding graph
+        ├── schema_cache.json          # Precomputed column statistics for LLM queries
+        ├── hypotheses.jsonl           # Preregistered and Scout-generated hypotheses
+        ├── findings.jsonl             # Confirmed, Refuted, or Inconclusive findings
+        ├── anomalies.jsonl            # Automated outlier &amp; diagnostic alerts
+        └── recommendations.jsonl      # Concrete next preregistered challengers
+</code></pre>
+<hr>
+<h2 id="5-manifestjson-entry-gateway-accounting-invariants">5. <code>manifest.json</code> Entry Gateway &amp; Accounting Invariants</h2>
+<p>Agents first inspect <code>manifest.json</code> (~10 KB) before querying large Parquet datasets. If any hard gate fails, the evaluation run is immediately classified as <code>INVALID_RUN</code>.</p>
+<pre><code class="language-json">{
+  &quot;schema&quot;: &quot;v8.eval.v1&quot;,
+  &quot;run_id&quot;: &quot;RUN-20260819-BTC-001&quot;,
+  &quot;timestamp_utc&quot;: &quot;2026-08-19T03:00:00Z&quot;,
+  &quot;git_commit&quot;: &quot;a1f89c0d2e4b6789123456789abcdef01234567&quot;,
+  &quot;binary_hash&quot;: &quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;,
+  &quot;tape_hash&quot;: &quot;7a3560f7690623a9d4fa1534da6cc0a7d9796e625a6eb8ee99b3b0d2de0bc5ef&quot;,
+  &quot;config_hash&quot;: &quot;2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae&quot;,
+  &quot;dataset&quot;: {
+    &quot;instrument&quot;: &quot;BTCUSDT&quot;,
+    &quot;timeframe&quot;: &quot;1h&quot;,
+    &quot;raw_bars&quot;: 9948,
+    &quot;warmup_bars&quot;: 1188,
+    &quot;eligible_bars&quot;: 8760,
+    &quot;start_utc&quot;: &quot;2025-07-01T00:00:00Z&quot;,
+    &quot;end_utc&quot;: &quot;2026-07-01T00:00:00Z&quot;
+  },
+  &quot;funnel_conservation&quot;: {
+    &quot;evaluations&quot;: 245280,
+    &quot;setups_triggered&quot;: 42647,
+    &quot;deduplicated&quot;: 14766,
+    &quot;vetoed_risk_capacity&quot;: 27879,
+    &quot;admitted_trades&quot;: 2,
+    &quot;invariant_holds&quot;: true,
+    &quot;accounting_equation&quot;: &quot;42647 == 14766 (dedup) + 27879 (veto) + 2 (admitted)&quot;
+  },
+  &quot;validity_gates&quot;: {
+    &quot;temporal_leakage&quot;: &quot;PASS&quot;,
+    &quot;accounting_conservation&quot;: &quot;PASS&quot;,
+    &quot;determinism_replay&quot;: &quot;PASS&quot;,
+    &quot;simd_scalar_parity&quot;: &quot;PASS&quot;,
+    &quot;thread_parity&quot;: &quot;PASS&quot;,
+    &quot;overall_validity&quot;: &quot;VALID&quot;
+  },
+  &quot;economic_verdict&quot;: &quot;INSUFFICIENT_EVIDENCE&quot;,
+  &quot;summary_metrics&quot;: {
+    &quot;gross_expectancy_R&quot;: -0.012,
+    &quot;net_expectancy_R&quot;: -0.048,
+    &quot;total_trades&quot;: 2,
+    &quot;sharpe_ratio&quot;: -0.18,
+    &quot;max_drawdown_R&quot;: 1.96
+  },
+  &quot;critical_findings&quot;: [
+    &quot;F-0012: Extreme veto rate (99.99%) driven by unparameterized EXISTING_EXPOSURE_CONFLICT.&quot;,
+    &quot;F-0014: Expert identity collapse in admission veto logs.&quot;
+  ],
+  &quot;artifacts&quot;: {
+    &quot;root_dir&quot;: &quot;evaluation/RUN-20260819-BTC-001&quot;,
+    &quot;total_size_bytes&quot;: 14820942
+  }
+}
+</code></pre>
+<h3 id="invariant-equation">Invariant Equation</h3>
+<p>$$\text{Setups} = \text{Deduplicated} + \text{Vetoed}_{\text{Risk/Capacity}} + \text{Admitted}$$
+Any mismatch ($\Delta \neq 0$) trips an immediate <code>FAIL-CLOSED</code> error.</p>
+<hr>
+<h2 id="6-data-forensic-layer-temporal-integrity-quality-dag">6. Data Forensic Layer: Temporal Integrity &amp; Quality DAG</h2>
+<pre><code>   Raw Venue Feeds (Vision Archive)
+               │
+               ▼
+   [Checksum &amp; Ingestion Validator] ──► Temporal Integrity Checks (monotonicity, gaps, lookahead)
+               │
+               ▼
+   [Feature Normalization Engine]   ──► Feature Census (NaN, Inf, Null Rate, Variance, Quantiles)
+               │
+               ▼
+   [State Store Materialization]    ──► Provenance DAG (every column mapped to origin code)
+</code></pre>
+<ol>
+<li>
+<p><strong>Temporal Integrity Forensic:</strong>
+   - Monotonic increasing timestamp assertion: $\forall t_i, t_i &lt; t_{i+1}$.
+   - Availability-time verification: $t_{\text{decision}} \ge t_{\text{availability}} &gt; t_{\text{event}}$.
+   - Missing bar &amp; holiday audit with venue calendar verification.
+   - Purge &amp; embargo window enforcement across development/OOS partitions.</p>
+</li>
+<li>
+<p><strong>Feature Quality Census:</strong>
+   - Metrics computed per feature: $N$, Missing $\%$, NaN count, Infinite values, Zero variance flags, Quantiles ($p_1, p_{25}, p_{50}, p_{75}, p_{99}$), Min/Max, Discontinuity jumps, and Stale repeated-value sequences.</p>
+</li>
+<li>
+<p><strong>Source Lineage DAG:</strong>
+   - Every column in <code>feature_census.parquet</code> is cryptographically tied to its exact generating Rust function hash and upstream source field.</p>
+</li>
+</ol>
+<hr>
+<h2 id="7-funnel-forensic-granular-conversion-lost-expectancy">7. Funnel Forensic: Granular Conversion &amp; Lost Expectancy</h2>
+<p>Every Expert's signal funnel is audited at every stage:</p>
+<p>$$\text{Bars Observed} \xrightarrow{E} \text{Eligible Evals} \xrightarrow{S} \text{Setup} \xrightarrow{D} \text{Dedup Filter} \xrightarrow{R} \text{Risk/Cap Filter} \xrightarrow{A} \text{Admitted} \xrightarrow{T} \text{Filled Trade} \xrightarrow{X} \text{Outcome}$$</p>
+<p>For every transition:
+- <strong>Count &amp; Conversion Rate:</strong> Percentage of signals surviving each stage.
+- <strong>Reason Codes:</strong> Categorized rejection tags (e.g., <code>COOLDOWN_ACTIVE</code>, <code>OPPOSITE_EXPOSURE_ACTIVE</code>, <code>HEAT_CAP_EXCEEDED</code>).
+- <strong>Lost Expectancy Estimate ($\Delta \mathbb{E}[R]$):</strong> Theoretical counterfactual return of rejected signals vs admitted signals, measuring whether risk filters successfully reject negative edge or inadvertently filter profitable setups.
+- <strong>Trace IDs:</strong> Full array of Candidate IDs for agentic drilldown.</p>
+<hr>
+<h2 id="8-economic-forensic-layer">8. Economic Forensic Layer</h2>
+<p>Economic performance is separated into <strong>Gross Edge</strong>, <strong>Friction Drag</strong>, and <strong>Net Realized Edge</strong>:</p>
+<p>$$\text{Net } R = \text{Gross } R - (\text{Fee } R + \text{Slippage } R + \text{Funding } R + \text{Delay Penalty } R)$$</p>
+<pre><code>┌───────────────────────────┬───────────────────────────┬───────────────────────────┐
+│ Returns &amp; Expectancy      │ Trade &amp; Risk Statistics   │ Execution Economics       │
+├───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│ • Gross Expectancy ($R$)  │ • Sample Count ($N$)      │ • Total Fee Drag ($R$)    │
+│ • Net Expectancy ($R$)    │ • Win Rate ($\%$)         │ • Slippage Drag ($R$)     │
+│ • Median $R$ per Trade    │ • Profit Factor ($PF$)    │ • Net Funding Drag ($R$)  │
+│ • Annualized Return       │ • Payoff Ratio (Win/Loss) │ • Annual Turnover         │
+│ • Sharpe Ratio (Ann.)     │ • Max Drawdown ($R$)      │ • Gross -&gt; Net Decay      │
+│ • Sortino Ratio           │ • Average Drawdown ($R$)  │ • Break-Even Cost Limit   │
+│ • Calmar Ratio            │ • CVaR / Expected Shortfall│ • Capacity Estimate ($)   │
+└───────────────────────────┴───────────────────────────┴───────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="9-counterfactual-robustness-surfaces">9. Counterfactual Robustness Surfaces</h2>
+<p>Rather than testing isolated discrete exits, <code>v8.eval.v1</code> evaluates continuous response surfaces across four core dimensions:</p>
+<ol>
+<li><strong>Cost Surface:</strong> $\mathbb{E}<a href="c">R</a>$ where cost $c \in [0, 20\text{ bps}]$. Determines the zero-edge intercept (Break-even friction).</li>
+<li><strong>Stop Surface:</strong> $\mathbb{E}<a href="\text{Stop_R}">R</a>$ where $\text{Stop_R} \in [0.2R, 3.0R]$. Measures stop-loss tightness sensitivity.</li>
+<li><strong>Target Surface:</strong> $\mathbb{E}<a href="\text{Target_R}">R</a>$ where $\text{Target_R} \in [0.5R, 10.0R]$. Evaluates profit target truncation.</li>
+<li><strong>Expiry Surface:</strong> $\mathbb{E}<a href="\text{Expiry_Bars}">R</a>$ where $\text{Expiry} \in [1, 100\text{ bars}]$.</li>
+<li><strong>Joint Fragility Metrics:</strong>
+   - <strong>Plateau Width:</strong> Parameter radius over which $\mathbb{E}[R] &gt; 0$.
+   - <strong>Performance Cliff (AlgoXpert):</strong> Maximum first derivative $\max |\nabla \text{Sharpe}|$ across parameter neighbors.
+   - <strong>Local Fragility Index:</strong> Variance of performance under small $\pm 5\%$ parameter perturbations.</li>
+</ol>
+<hr>
+<h2 id="10-path-forensics-trajectory-classification">10. Path Forensics &amp; Trajectory Classification</h2>
+<p>Every trade produces high-resolution intrabar trajectory metrics:</p>
+<pre><code> Entry ──► (Time to MAE, MAE) ──► (Time to MFE, MFE) ──► Barrier Sequence ──► Realized Exit ──► Post-Exit Path
+</code></pre>
+<h3 id="automated-path-classifications">Automated Path Classifications</h3>
+<ul>
+<li><strong>Stop Too Tight:</strong> Trade hit SL, but subsequently reached $+1.0R$ favorable excursion within the original trade horizon.</li>
+<li><strong>Target Too Tight:</strong> Trade hit TP, followed by immediate strong continuation ($&gt; +2.0R$ additional excursion).</li>
+<li><strong>Dead Trade:</strong> Neither SL nor TP approached ($|MAE| &lt; 0.2R, |MFE| &lt; 0.2R$) for $&gt; 80\%$ of expiry duration (zero-information capital lockup).</li>
+<li><strong>Bad Entry:</strong> MAE occurs immediately ($t_{\text{MAE}} = 1$) with zero favorable movement ($MFE &lt; 0.05R$).</li>
+<li><strong>Good Signal / Bad Execution:</strong> Markout trajectory at $t+k$ is strongly positive, but realized trade is negative due to spread/slippage.</li>
+<li><strong>Bad Signal / Lucky Exit:</strong> Trajectory is predominantly adverse, but trade exited with a small gain due to an ephemeral intrabar spike.</li>
+</ul>
+<hr>
+<h2 id="11-10-family-null-model-benchmark-suite">11. 10-Family Null Model Benchmark Suite</h2>
+<p>An observed edge is statistically meaningful only if it significantly outperforms a battery of structured Null Models that preserve trivial time-series properties:</p>
+<pre><code>┌──────────────────────────────────────┬──────────────────────────────────────────────────────────┐
+│ Null Model Variant                   │ Preserved Invariant / Purpose                            │
+├──────────────────────────────────────┼──────────────────────────────────────────────────────────┤
+│ 1. Random Entry Uniform              │ Tests whether timing carries information over random.    │
+│ 2. Random Direction                  │ Preserves exact entry times; randomizes Long/Short side. │
+│ 3. Randomized Timestamps (Poisson)   │ Preserves trade count and duration; randomizes times.    │
+│ 4. Always Long                       │ Quantifies underlying market drift / beta baseline.      │
+│ 5. Always Short                      │ Quantifies short-side market drift baseline.             │
+│ 6. Inverted Signal                   │ Directly tests directional sign fidelity ($S -&gt; -S$).    │
+│ 7. Shuffled Expert Labels            │ Tests whether specific expert identities matter.         │
+│ 8. Matched-Frequency Random Strategy │ Matches empirical trade spacing &amp; interval distribution. │
+│ 9. Matched-Duration Random Strategy  │ Matches empirical trade holding-time distribution.       │
+│ 10. Matched-Regime Random Strategy   │ Generates random trades strictly within the same regime. │
+└──────────────────────────────────────┴──────────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="12-multiple-testing-accounting-research-debt-ledger">12. Multiple-Testing Accounting &amp; Research Debt Ledger</h2>
+<p>The probability of false discovery increases dramatically with cumulative exploration:</p>
+<p>$$P(\text{False Positive}) = 1 - (1 - \alpha)^K \xrightarrow[K \to \infty]{} 1.0$$</p>
+<p>Where $K$ is the <strong>cumulative number of hypotheses and parameter variants ever tested on this dataset in the project's lifetime</strong>.</p>
+<ol>
+<li><strong>Deflated Sharpe Ratio (DSR):</strong> Adjusts Sharpe for non-normality, sample length, and $K$ trials (Bailey &amp; de Prado).</li>
+<li><strong>White's Reality Check &amp; Hansen's Superior Predictive Ability (SPA):</strong> Evaluates whether the best strategy in the family beats the benchmark after accounting for the full family search space.</li>
+<li><strong>Probability of Backtest Overfitting (PBO):</strong> Combinatorially Symmetric Cross-Validation (CSCV) over chronological partitions.</li>
+<li><strong>Global Research Ledger:</strong> Every evaluation run appends tested hypotheses, variants, and slice queries to <code>research_ledger.jsonl</code>. Penalties are calculated from cumulative research history, not single-run configuration count.</li>
+</ol>
+<hr>
+<h2 id="13-research-ledger-specification-hypothesesjsonl">13. Research Ledger Specification (<code>hypotheses.jsonl</code>)</h2>
+<p>Hypotheses are formal, immutable records:</p>
+<pre><code class="language-json">{
+  &quot;hypothesis_id&quot;: &quot;H-0192&quot;,
+  &quot;parent_hypothesis&quot;: &quot;H-0145&quot;,
+  &quot;created_by&quot;: &quot;agent:scout-volatility&quot;,
+  &quot;created_at_run&quot;: &quot;RUN-20260819-BTC-001&quot;,
+  &quot;status&quot;: &quot;SUPPORTED&quot;,
+  &quot;claim&quot;: &quot;bollinger_breakout LONG suffers from premature stop loss in HIGH_VOLATILITY regime.&quot;,
+  &quot;preregistered_test&quot;: {
+    &quot;cohort_filter&quot;: &quot;expert == 'bollinger_breakout' and direction == 'LONG' and regime == 'HIGH_VOL'&quot;,
+    &quot;counterfactual_variant&quot;: &quot;stop_multiplier = 1.5&quot;,
+    &quot;primary_metric&quot;: &quot;net_expectancy_R&quot;,
+    &quot;required_n&quot;: 100,
+    &quot;significance_threshold_p&quot;: 0.01
+  },
+  &quot;evidence_for&quot;: [
+    &quot;Cohort N=342, baseline net_R = -0.14R, counterfactual net_R = +0.08R (bootstrap p=0.004).&quot;,
+    &quot;38.4% of stopped trades achieved +1.0R post-stop MFE.&quot;
+  ],
+  &quot;evidence_against&quot;: [
+    &quot;Max drawdown increases from 12.4R to 16.8R under wider stop.&quot;
+  ],
+  &quot;falsification_criterion&quot;: &quot;Effect must hold with p &lt; 0.05 on untouched Frozen OOS Fold 2.&quot;,
+  &quot;derived_challengers&quot;: [&quot;EXP-V8-CHALLENGER-BB-042&quot;]
+}
+</code></pre>
+<hr>
+<h2 id="14-validation-partitioning-is-wfa-frozen-oos-holdout">14. Validation Partitioning: IS -&gt; WFA -&gt; Frozen OOS -&gt; Holdout</h2>
+<p>Evaluations strictly follow a 4-tier chronological partition hierarchy with purge gaps:</p>
+<pre><code>  [Development In-Sample] ──► [Walk-Forward Folds 1..N] ──► [Frozen Out-of-Sample] ──► [Final Holdout]
+      (Exploration)              (Purged Anchored)             (Single Audit Run)       (Locked Archive)
+</code></pre>
+<p>For every boundary, degradation ratios are recorded:
+- $\text{Degradation}<em>{\text{IS}\to\text{WFA}} = 1 - \frac{\text{Sharpe}</em>{\text{WFA}}}{\text{Sharpe}<em>{\text{IS}}}$
+- $\text{Degradation}</em>{\text{WFA}\to\text{OOS}} = 1 - \frac{\text{Sharpe}<em>{\text{OOS}}}{\text{Sharpe}</em>{\text{WFA}}}$
+- $\text{Degradation}<em>{\text{OOS}\to\text{Holdout}} = 1 - \frac{\text{Sharpe}</em>{\text{Holdout}}}{\text{Sharpe}_{\text{OOS}}}$</p>
+<hr>
+<h2 id="15-implementation-risk-vs-statistical-validity-2d-matrix">15. Implementation Risk vs Statistical Validity (2D Matrix)</h2>
+<p>Statistical robustness and engine correctness are orthogonal axes. A strategy with stellar statistics on a buggy engine is worthless; a perfectly implemented strategy with zero statistical edge is equally unviable.</p>
+<pre><code>                            STATISTICAL VALIDITY × IMPLEMENTATION VALIDITY
+ ┌──────────────────────────────────────┬──────────────────────────────────────────────────────────┐
+ │                                      │                  ENGINE CORRECTNESS                      │
+ │                                      ├────────────────────────────┬─────────────────────────────┤
+ │                                      │ Engine Verified (PASS)     │ Engine Suspect (FAIL)       │
+ ├────────────────┬─────────────────────┼────────────────────────────┼─────────────────────────────┤
+ │ STATISTICAL    │ Edge Valid (PASS)   │ CANDIDATE PROMOTED         │ BLOCKED / QUARANTINED       │
+ │ VALIDITY       │ Edge Invalid (FAIL) │ REJECTED HYPOTHESIS        │ UNINTERPRETABLE / CORRUPT   │
+ └────────────────┴─────────────────────┴────────────────────────────┴─────────────────────────────┘
+</code></pre>
+<p>V8 maintains a <strong>Minimal Specification Oracle Replay</strong>: A lightweight 20-scenario reference harness verifying canonical gap-throughs, SL/TP collisions, funding settlements, fee calculations, and partial bar fills against the Rust compute core.</p>
+<hr>
+<h2 id="16-perturbation-injected-stress-suite">16. Perturbation &amp; Injected Stress Suite</h2>
+<p>Evaluation includes synthetic stress environments (distinct from historical estimates):</p>
+<ol>
+<li><strong>Data Perturbations:</strong> Injected 1-minute bar timestamp shifts, missing funding rate rows, synthetic spread widenings ($2\times..5\times$), random missing bars ($1\%..5\%$).</li>
+<li><strong>Market Stress:</strong> Volatility shocks ($1.5\times$), sudden liquidity vacuum ($10\times$ slippage multiplier), prolonged zero-volume periods.</li>
+<li><strong>Engine Perturbations:</strong> Dynamic thread reassignment, cold cache evaluation, memory fragmentation stress.</li>
+</ol>
+<hr>
+<h2 id="17-autonomous-agent-reliability-profile">17. Autonomous Agent Reliability Profile</h2>
+<p>Autonomous agents operating on the evidence substrate are themselves evaluated for epistemic reliability:</p>
+<ul>
+<li><strong>Finding Consistency:</strong> Do independent runs of the Scout agent identify the identical failure modes on the same evidence bundle?</li>
+<li><strong>Attribution Consistency:</strong> Do independent Investigator agents converge on the same root cause?</li>
+<li><strong>Recommendation Consistency:</strong> Do diagnostic agents propose consistent preregistered challenger configurations?</li>
+<li><strong>Epistemic Calibration:</strong> When an agent reports <code>confidence = 0.90</code>, do $\approx 90\%$ of those findings replicate on subsequent OOS data?</li>
+<li><strong>Resource Footprint:</strong> Token consumption, tool-call count, and execution latency per confirmed finding.</li>
+</ul>
+<hr>
+<h2 id="18-structured-finding-schema-findingsjsonl">18. Structured Finding Schema (<code>findings.jsonl</code>)</h2>
+<p>Findings are formatted as machine-verifiable objects:</p>
+<pre><code class="language-json">{
+  &quot;finding_id&quot;: &quot;F-08421&quot;,
+  &quot;scope&quot;: {
+    &quot;expert&quot;: &quot;failed_breakout&quot;,
+    &quot;side&quot;: &quot;SHORT&quot;,
+    &quot;regime&quot;: &quot;HIGH_VOLATILITY&quot;
+  },
+  &quot;claim&quot;: &quot;Current stop geometry truncates positive trade trajectories.&quot;,
+  &quot;epistemic_status&quot;: &quot;SUPPORTED&quot;,
+  &quot;severity&quot;: &quot;HIGH&quot;,
+  &quot;confidence&quot;: 0.88,
+  &quot;observations&quot;: [
+    &quot;31.2% of stopped trades reached +0.5R favorable excursion before hitting stop.&quot;,
+    &quot;Counterfactual trailing stop (+1.5R initial) improves cohort expectancy by +0.12R.&quot;
+  ],
+  &quot;statistical_evidence&quot;: {
+    &quot;n&quot;: 412,
+    &quot;bootstrap_ci&quot;: [0.04, 0.19],
+    &quot;p_value&quot;: 0.011,
+    &quot;effect_size_R&quot;: 0.12
+  },
+  &quot;alternative_explanations&quot;: [
+    &quot;Confounding by high-volatility regime drift.&quot;,
+    &quot;Intrabar high/low touch ordering ambiguity.&quot;
+  ],
+  &quot;falsifiers&quot;: [
+    &quot;Effect vanishes in frozen out-of-sample partition.&quot;,
+    &quot;Effect vanishes under pessimistic intrabar barrier ordering.&quot;
+  ],
+  &quot;supporting_artifacts&quot;: [
+    &quot;trades.parquet?expert=failed_breakout&amp;side=SHORT&quot;,
+    &quot;paths/mfe_mae.parquet?id_in=[...]&quot;,
+    &quot;slices/volatility.parquet&quot;
+  ],
+  &quot;recommended_next_test&quot;: &quot;O-027_ADAPTIVE_STOP_EXPERIMENT&quot;
+}
+</code></pre>
+<hr>
+<h2 id="19-failure-ontology-taxonomy">19. Failure Ontology &amp; Taxonomy</h2>
+<p>Every diagnostic anomaly maps to a strict 9-category ontology:</p>
+<pre><code>FAILURE TAXONOMY
+├── DATA
+│   ├── missing_bars
+│   ├── timestamp_inversion
+│   ├── temporal_leakage
+│   └── feature_stale_or_nan
+├── SIGNAL
+│   ├── zero_edge
+│   ├── directional_inversion
+│   ├── regime_incompatibility
+│   └── overtrigger_chatter
+├── ADMISSION
+│   ├── excessive_dedup_loss
+│   ├── exposure_conflict_block
+│   ├── portfolio_heat_saturation
+│   └── identity_loss_in_logs
+├── EXECUTION
+│   ├── excessive_cost_drag
+│   ├── slippage_asymmetry
+│   ├── gap_through_liquidation
+│   └── intrabar_ambiguity
+├── EXIT
+│   ├── stop_too_tight
+│   ├── target_too_tight
+│   ├── premature_expiry
+│   └── trailing_stop_whipsaw
+├── STATISTICS
+│   ├── insufficient_sample_n
+│   ├── multiple_testing_inflation
+│   ├── out_of_sample_collapse
+│   ├── null_indistinguishable
+│   └── parameter_cliff
+├── ENGINE
+│   ├── nondeterministic_replay
+│   ├── simd_scalar_divergence
+│   ├── thread_race_condition
+│   └── accounting_imbalance
+├── PORTFOLIO
+│   ├── cross_expert_correlation
+│   ├── asset_concentration
+│   └── simultaneous_drawdown
+└── UNCLASSIFIED_NEW_FAILURE_CLASS
+</code></pre>
+<hr>
+<h2 id="20-cross-run-regression-analysis">20. Cross-Run Regression Analysis</h2>
+<p>Every evaluation automatically computes a differential delta vector against reference benchmarks:</p>
+<p>$$\Delta \text{Run} = \text{Current Run} - \text{Reference Run} \quad (\text{Reference} \in {\text{Prior Run}, \text{Baseline Locked}, \text{Production Candidate}})$$</p>
+<p>Key delta indicators:
+- $\Delta \text{Net Expectancy } (R)$
+- $\Delta \text{Max Drawdown } (R)$
+- $\Delta \text{Cost Sensitivity Slope}$
+- $\Delta \text{OOS Stability Index}$
+- $\Delta \text{Signal Funnel Conversion } (\%)$
+- $\Delta \text{Compute Runtime } (\text{ms/bar})$
+- $\text{Bit-level Semantic Drift Check } (\text{PASS} / \text{DRIFT})$</p>
+<hr>
+<h2 id="21-additive-performance-decomposition">21. Additive Performance Decomposition</h2>
+<p>Performance shifts between runs are mathematically decomposed into constituent contributions without claiming unfounded causal interventions:</p>
+<p>$$\Delta \mathbb{E}[R]<em>{\text{total}} = \Delta \mathbb{E}[R]</em>{\text{exit_geometry}} + \Delta \mathbb{E}[R]<em>{\text{cost_model}} + \Delta \mathbb{E}[R]</em>{\text{direction_mix}} + \Delta \mathbb{E}[R]<em>{\text{regime_distribution}} + \epsilon</em>{\text{residual}}$$</p>
+<pre><code>  +0.100 R Total Improvement
+  ├── +0.041 R (Exit geometry change)
+  ├── +0.028 R (Updated realistic cost model)
+  ├── +0.017 R (Directional weighting balance)
+  ├── +0.009 R (Favorable regime shift)
+  └── +0.005 R (Residual unexplained variance)
+</code></pre>
+<hr>
+<h2 id="22-hard-validity-gates-vs-scores-fail-closed">22. Hard Validity Gates vs Scores (Fail-Closed)</h2>
+<p>High-severity data and implementation integrity failures are <strong>never averaged into composite scores</strong>. They trigger immediate, non-negotiable <strong>FAIL-CLOSED</strong> termination:</p>
+<pre><code>if TEMPORAL_LEAKAGE_DETECTED           == TRUE -&gt; VERDICT = INVALID_RUN
+if ACCOUNTING_CONSERVATION_MISMATCH    == TRUE -&gt; VERDICT = INVALID_RUN
+if NONDETERMINISTIC_REPLAY_HASH        == TRUE -&gt; VERDICT = INVALID_RUN
+if SIMD_SCALAR_PARITY_DIVERGENCE       == TRUE -&gt; VERDICT = INVALID_RUN
+if CORRUPT_STATE_CACHE_DETECTED        == TRUE -&gt; VERDICT = INVALID_RUN
+if BROKEN_COST_MODEL_OR_MISSING_FEE   == TRUE -&gt; VERDICT = INVALID_RUN
+</code></pre>
+<p>Only runs passing all Hard Validity Gates are admitted into statistical and economic interpretation.</p>
+<hr>
+<h2 id="23-semantic-drift-gate-change-attribution">23. Semantic Drift Gate &amp; Change Attribution</h2>
+<p>When automated repair or optimization code is submitted, V8 classifies the modification:</p>
+<ol>
+<li><strong>BUG_FIX:</strong> Fixes an implementation defect without altering defined strategy math. Must reproduce identical signals on clean canonical inputs.</li>
+<li><strong>IMPLEMENTATION_OPTIMIZATION:</strong> SIMD, memory, or threading speedup. Must maintain $100\%$ bit-exact trace identity.</li>
+<li><strong>SEMANTIC_STRATEGY_CHANGE:</strong> Alters indicator thresholds, entry/exit logic, or filters. Requires a fresh preregistered hypothesis and resets multiple-testing trial counters.</li>
+<li><strong>NEW_CHALLENGER:</strong> Introduces a novel behavior family or machine-learned scoring model.</li>
+</ol>
+<hr>
+<h2 id="24-multi-agent-investigation-architecture">24. Multi-Agent Investigation Architecture</h2>
+<pre><code>                       RUST ENGINE EVALUATION
+                                 │
+                                 ▼
+                     IMMUTABLE EVIDENCE BUNDLE
+                                 │
+                 ┌───────────────┴───────────────┐
+                 ▼                               ▼
+      Deterministic Audit               Schema Builder
+     (Invariants, Parity)            (Distributions, Stats)
+                 │                               │
+                 └───────────────┬───────────────┘
+                                 ▼
+                           TRIAGE AGENT
+                                 │
+                 ┌───────────────┼───────────────┐
+                 ▼               ▼               ▼
+             Scout A          Scout B         Scout C
+          (Exit Paths)       (Regimes)       (Engine/Data)
+                 │               │               │
+                 └───────────────┼───────────────┘
+                                 ▼
+                          HYPOTHESIS POOL
+                                 │
+                                 ▼
+                       INVESTIGATOR AGENTS
+                 (Full Corpus Statistical Proof)
+                                 │
+                     [Confirmed / Refuted / Inconclusive]
+                                 │
+                                 ▼
+                           FINDING GRAPH
+                                 │
+                 ┌───────────────┴───────────────┐
+                 ▼                               ▼
+         Human HTML Report              Machine Evidence API
+         (Viewport View)                (Autonomous Queries)
+                 │                               │
+                 └───────────────┬───────────────┘
+                                 ▼
+                          DECISION AGENT
+                 (KEEP / REPAIR / NEW CHALLENGER)
+</code></pre>
+<hr>
+<h2 id="25-tiered-computation-caching-budget">25. Tiered Computation &amp; Caching Budget</h2>
+<p>To maintain rapid development cycles without burning excessive compute, analytical tasks are partitioned into four operational tiers:</p>
+<pre><code>┌────────┬─────────────────────────┬──────────────────────────────────────────────────────────┐
+│ Tier   │ Execution Trigger       │ Workloads &amp; Invariants                                   │
+├────────┼─────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Tier 0 │ Every commit / run      │ Invariants, accounting conservation, basic economics,   │
+│        │ (Mandatory, &lt; 2 sec)    │ per-expert metrics, MFE/MAE, bit-exact cross-run diff.   │
+├────────┼─────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Tier 1 │ Content-Addressed Cache │ Stationary bootstrap, return permutations, 10 nulls,     │
+│        │ (On hash change, &lt; 30s) │ cost surfaces, exit surfaces, markouts.                  │
+├────────┼─────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Tier 2 │ Hypothesis-Driven       │ Expensive counterfactual replays, multidimensional       │
+│        │ (Agent request, &lt; 5m)   │ parameter surfaces, WFA fold evaluation, perturbations.  │
+├────────┼─────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Tier 3 │ Promotion Gate Only     │ True untouched Frozen OOS opening, PBO/DSR/SPA tests,    │
+│        │ (Candidate certification)│ multi-environment reference parity, holdout burn.        │
+└────────┴─────────────────────────┴──────────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="26-canonical-human-report-structure-sections-a-through-w">26. Canonical Human Report Structure (Sections A through W)</h2>
+<p>The human-facing <code>report.html</code> renders a 23-section executive view:</p>
+<ul>
+<li><strong>Section A — Run Identity &amp; Provenance:</strong> Hashes, git commit, binary identity, input tape, platform.</li>
+<li><strong>Section B — Validity Gates:</strong> Pass/Fail status on all hard integrity and parity gates.</li>
+<li><strong>Section C — Data Integrity:</strong> Temporal integrity, missing bars, feature census, NaN/Inf checks.</li>
+<li><strong>Section D — Execution Conservation:</strong> Step-by-step funnel accounting conservation equations.</li>
+<li><strong>Section E — Portfolio Economics:</strong> High-level returns, net vs gross $R$, Sharpe, Sortino, Calmar.</li>
+<li><strong>Section F — Expert Scoreboard:</strong> Comparative table of all active and candidate behavior experts.</li>
+<li><strong>Section G — Expert Deep Forensics:</strong> Per-expert signal-to-trade attrition and conversion paths.</li>
+<li><strong>Section H — Trade Path Analysis:</strong> Intrabar MFE/MAE trajectories, barrier touch sequences, time-to-excursion.</li>
+<li><strong>Section I — Cost &amp; Execution Surface:</strong> Sensitivity curves across fees, slippage, and funding rates.</li>
+<li><strong>Section J — Exit Counterfactuals:</strong> Comparative response curves for alternative stop, target, and expiry rules.</li>
+<li><strong>Section K — Regime / Slice Diagnostics:</strong> Performance partitioned by Volatility, Trend, TOD, and Liquidity.</li>
+<li><strong>Section L — Statistical Evidence:</strong> Stationary bootstrap confidence intervals and permutation tests.</li>
+<li><strong>Section M — Multiple Testing &amp; Research Debt:</strong> Lifetime trial counter, White's Reality Check, and DSR.</li>
+<li><strong>Section N — WFA / OOS Stability:</strong> Chronological walk-forward fold consistency and degradation metrics.</li>
+<li><strong>Section O — Parameter Fragility:</strong> Parameter neighborhood cliffs, plateau width, and fragility index.</li>
+<li><strong>Section P — Engine Correctness:</strong> Thread parity, SIMD parity, and reference oracle differential checks.</li>
+<li><strong>Section Q — Stress &amp; Perturbation:</strong> Performance degradation under synthetic market and data faults.</li>
+<li><strong>Section R — Cross-Run Regression:</strong> Delta metrics vs prior run, baseline, and production target.</li>
+<li><strong>Section S — Failure Attribution:</strong> Ontological taxonomy mapping and root-cause localization.</li>
+<li><strong>Section T — Confirmed Findings:</strong> Machine-verified statistical conclusions from Investigator agents.</li>
+<li><strong>Section U — Refuted Hypotheses:</strong> Preregistered claims formally disproven on the corpus.</li>
+<li><strong>Section V — Unknowns &amp; Epistemic Gaps:</strong> Inconclusive queries requiring further data or instrumentation.</li>
+<li><strong>Section W — Recommended Experiments:</strong> Formally preregistered challenger specifications for subsequent iterations.</li>
+</ul>
+<hr>
+<h2 id="27-integration-with-target-v8-oracle-architecture-target_oracle_spec-v10">27. Integration with Target V8 Oracle Architecture (<code>TARGET_ORACLE_SPEC</code> v1.0)</h2>
+<p>The <code>v8.eval.v1</code> evaluation evidence substrate operates as the empirical and agentic verification foundation for the 3-Oracle taxonomy (<code>PARITY_ORACLE</code>, <code>HINDSIGHT_ORACLE</code>, <code>TARGET_ORACLE</code>):</p>
+<ol>
+<li>
+<p><strong>Opportunity Universe &amp; Scout Agent Grounding:</strong>
+   - Autonomous Scout Agents formulate behavioral hypotheses not solely against existing Expert Candidate logs, but against the versioned <strong>Opportunity Universe</strong> ($U_v(t)$) generated from PIT MarketState primitives.
+   - The metric <code>RepresentationalCoverageGap</code> (the ratio of hindsight opportunities captured by active Experts vs the Opportunity Grammar) serves as the primary anomaly detection trigger for Triage and Scout agents.</p>
+</li>
+<li>
+<p><strong>Counterfactual Identifiability &amp; Authority Governance:</strong>
+   - All counterfactual artifacts generated within <code>robustness/</code> and <code>paths/</code> are strictly bound to their Counterfactual Authority status (<code>IDENTIFIED</code>, <code>PARTIALLY_IDENTIFIED</code>, <code>MODEL_DERIVED</code>, <code>NOT_IDENTIFIABLE</code>) across execution levels ($L1, L2, L3, \text{LIVE_RECEIPT}$).
+   - The Hard Validity Gates (Section 22) reject any promotion or ranking claim where counterfactual evidence exceeds its declared authority level (e.g., attempting to promote an L1 bar-replay finding as an L3 reactive impact result).</p>
+</li>
+<li>
+<p><strong>Harmonization of Failure Ontology (Section 19) &amp; Regret Attribution:</strong>
+   - The 9-category Failure Ontology directly feeds the 7-domain Non-Additive Regret Attribution tree:</p>
+<ul>
+<li><code>DATA</code> &amp; <code>SIGNAL</code> failures $\rightarrow$ <strong>Detection Regret &amp; Representation Regret</strong></li>
+<li><code>ADMISSION</code> failures $\rightarrow$ <strong>Selection Regret &amp; Allocation Regret</strong></li>
+<li><code>EXIT</code> failures $\rightarrow$ <strong>Geometry Regret</strong></li>
+<li><code>EXECUTION</code> failures $\rightarrow$ <strong>Execution Regret</strong></li>
+<li>Unexplainable variance / unrecoverable components $\rightarrow$ <strong>Irreducible Regret</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Audit Viewport Alignment (Sections A–W):</strong>
+   - <strong>Section S (Failure Attribution)</strong> outputs the <code>RegretAttributionRecord</code> with isolated and marginal component effects.
+   - <strong>Section V (Unknowns &amp; Epistemic Gaps)</strong> explicitly renders all <code>UNKNOWN</code> and fail-closed refusal outcomes as first-class epistemic receipts.
+   - <strong>Section W (Recommended Experiments)</strong> emits <code>DeploymentCertificate</code> candidates and preregistered challenger definitions for subsequent promotion stages.</p>
+</li>
+</ol></section>
 <section id="sec-architecture-spec"><h1>ARCHITECTURE SPEC</h1><h1 id="v8-architecture-specification">V8 Architecture Specification</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This is the system-level build contract: it
 names the components, the data flow between them, and the technology
@@ -4374,6 +5045,1458 @@ is reused there rather than rewritten.</p>
   holds: this instrument's Candidate population and the diagnostic engine's are
   <strong>not</strong> interchangeable.</li>
 </ul></section>
+<section id="sec-target-oracle-spec"><h1>TARGET ORACLE SPEC</h1><h1 id="target-v8-oracle-specification-v10">Target V8 Oracle Specification v1.0</h1>
+<p><strong>Normative reference for the economic target, opportunity universe, counterfactual authority, regret semantics, and implementation admission of V8.</strong></p>
+<p><strong>Date:</strong> 2026-08-19 · <strong>Scope:</strong> V8 / V8.2 research and implementation program · <strong>Language:</strong> normative English to match the existing V8 monograph and code contracts.</p>
+<h2 id="document-status-and-reading-rule">Document status and reading rule</h2>
+<p><strong>Status: NORMATIVE REFERENCE / IMPLEMENTATION-READY / ECONOMICALLY UNVALIDATED.</strong>
+This specification is intended to be stable enough to bind implementation. It does <em>not</em> claim that V8 is profitable, that any Target Oracle has been learned, that any Hindsight Oracle output is realizable, or that any execution model above its declared authority is validated. Changes to locked definitions require an explicit version bump or registry decision.</p>
+<p>This document inherits the V8 evidence vocabulary:
+<code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>, <code>DESIGN_INFERENCE</code>, <code>PROVISIONAL_DECISION</code>, <code>LOCKED_INVARIANT</code>, <code>OPEN_QUESTION</code>, <code>REJECTED_OPTION</code>.
+The labels describe evidentiary status; they are not interchangeable with runtime status.</p>
+<p><strong>Source basis.</strong> This specification consolidates two project sources: the existing <em>V8 Final Research Monograph</em> and <em>Target V8 Oracle Research Audit v0.1</em>. The monograph supplies the existing PIT, Candidate, replay, evidence, and promotion invariants. The audit supplies the P0 objective, opportunity-universe, identifiability, regret-decomposition, non-stationarity, execution-authority, and abstention findings.</p>
+<h2 id="abstract">Abstract</h2>
+<p>V8 requires a target that is stricter than “maximize backtest PnL” and more useful than a perfect-hindsight trader. This specification defines that target through exactly three top-level Oracle roles. <code>PARITY_ORACLE</code> is an engineering reference for semantic equivalence. <code>HINDSIGHT_ORACLE</code> is a bounded counterfactual measurement operator that may inspect realized outcomes but cannot by itself establish selectable edge. <code>TARGET_ORACLE</code> is the decision-time-realizable policy family V8 attempts to approach under a versioned objective, opportunity universe, cost model, capacity model, information boundary, and authority contract.</p>
+<p>The central design principle is that economic optimality is conditional. There is no context-free “best trader.” A Target Oracle is only defined relative to a feasible policy class and a declared <code>UtilityContract</code>. Opportunity existence is likewise conditional: a missed opportunity must be PIT-legal, schema-legal, tradable under the declared environment, and supported strongly enough to justify the requested counterfactual claim. Unsupported profitable hindsight paths are not opportunities; they are model-derived or unknown.</p>
+<p>The specification therefore separates opportunity generation from Expert coverage, economic value from counterfactual identifiability, retrospective value from prospective/live value, and component regret from total policy gap. Detection, representation, selection, geometry, execution, and allocation are decision domains inside the Hindsight/Target systems, not additional Oracle classes. L1/L2/L3 and <code>LIVE_RECEIPT</code> are evidentiary authority levels, not new Oracles.</p>
+<h2 id="executive-design-summary">Executive design summary</h2>
+<pre><code class="language-text">                           V8 ORACLE TAXONOMY
+
+  PARITY_ORACLE                  HINDSIGHT_ORACLE
+  engineering reference         measurement ceiling
+        │                              │
+        │                              ├─ L1 / L2 / L3 authority
+        │                              ├─ counterfactual status
+        │                              └─ no realizability claim by itself
+        │
+        └──────────── engineering trust only ────────────┐
+                                                         │
+                                                         ▼
+                                               TARGET_ORACLE
+                                      decision-time realizable policy family
+                                                         │
+                         ┌───────────────────────────────┼──────────────────────────────┐
+                         ▼               ▼               ▼              ▼              ▼
+                      detection      representation    selection      execution     allocation
+                                                         │
+                                                         ▼
+                                                   LIVE_RECEIPT
+                                             real-world economic receipt
+</code></pre>
+<p><strong>Locked naming rule.</strong> V8 recognizes exactly three top-level Oracle roles: <code>PARITY_ORACLE</code>, <code>HINDSIGHT_ORACLE</code>, and <code>TARGET_ORACLE</code>. Terms such as “Detection Oracle,” “Execution Oracle,” “Profit Oracle,” “Perfect Oracle,” or “Market Oracle” must not introduce new top-level classes. Detection, selection, execution, allocation, and similar labels name decision domains. L1–L3 name authority levels. <code>LIVE_RECEIPT</code> is evidence from reality, not an Oracle.</p>
+<hr>
+<h2 id="1-oracle-constitution">1. Oracle Constitution</h2>
+<p>The following rules constrain meaning, not merely implementation. A change that violates one of these rules changes what the Oracle system <em>is</em> and requires a specification version bump or an explicit replacement decision.</p>
+<ol>
+<li><strong>Exactly three top-level Oracles.</strong> <code>PARITY_ORACLE</code>, <code>HINDSIGHT_ORACLE</code>, and <code>TARGET_ORACLE</code> are the complete top-level taxonomy.</li>
+<li><strong>No promise of edge.</strong> An Oracle specification is a measurement and target contract, not a profitability claim.</li>
+<li><strong>No universal best trader.</strong> Target optimality is always conditional on a versioned objective, constraints, costs, capacity assumptions, information set, opportunity universe, and policy class.</li>
+<li><strong>Future information is evaluator-only.</strong> Realized future information may be used by Hindsight evaluation but must never enter a decision-time feature of Target policies.</li>
+<li><strong>Hindsight opportunity is not recoverable opportunity.</strong> Hindsight value is a measurement ceiling, not evidence that a policy could have selected the better action ex ante.</li>
+<li><strong>Opportunity existence is not defined by realized profit alone.</strong> A profitable path discovered after the outcome is not automatically a missed opportunity.</li>
+<li><strong>Opportunity Universe is Expert-independent.</strong> Experts cover subsets of the environment-level Candidate grammar; they do not define the universe against which coverage is measured.</li>
+<li><strong>The Opportunity Universe is finite, versioned, and preregistered for each evaluation family.</strong> Expanding grammar, grids, instruments, timeframes, or execution modes creates a new universe version and a new trial lineage.</li>
+<li><strong>Candidate is not action.</strong> Candidate identity, order identity, and realized outcome remain distinct. Direction changes that alter the proposal create a new Candidate, not a counterfactual action on the old Candidate.</li>
+<li><strong>Candidate birth is immutable.</strong> Setup, trigger, direction, invalidation, expiry, and declared risk geometry are frozen at Candidate birth for a given version.</li>
+<li><strong>Counterfactual authority is explicit.</strong> Every counterfactual is labeled <code>IDENTIFIED</code>, <code>PARTIALLY_IDENTIFIED</code>, <code>MODEL_DERIVED</code>, or <code>NOT_IDENTIFIABLE</code>.</li>
+<li><strong>Missing support fails closed.</strong> Lack of evidence never becomes a point-valued profitable Oracle outcome.</li>
+<li><strong>Simulation level must match claim level.</strong> L1 bar replay cannot support L3 reactive-impact economic claims. A simulator is not upgraded by confidence language.</li>
+<li><strong><code>LIVE_RECEIPT</code> outranks simulation.</strong> Realized fills and operational receipts are evidence from the deployed environment, not an Oracle prediction.</li>
+<li><strong>NetUtility is primary; hard constraints are lexicographic.</strong> A policy violating a hard drawdown, tail-risk, capacity, heat, or coverage constraint cannot be called a better Target Oracle merely because its scalar return is higher.</li>
+<li><strong>Utility weights are versioned.</strong> When a scalar sub-objective or penalty is used, its weights and sensitivity band are part of the artifact identity.</li>
+<li><strong>Abstention is not free performance.</strong> Lower trade count is not improvement unless utility, risk, and minimum-coverage requirements jointly pass.</li>
+<li><strong>Regret is not naively additive.</strong> Detection, representation, selection, geometry, execution, and allocation effects may interact. Component attributions require an explicit baseline and decomposition rule.</li>
+<li><strong>Frozen OOS is necessary but not sufficient.</strong> Historical replication, prospective/shadow evaluation, and live realized value are distinct objects.</li>
+<li><strong>Complexity is never its own admission argument.</strong> Learned or richer components must beat the immediately simpler admissible baseline on a preregistered, costed comparison.</li>
+<li><strong>UNKNOWN is a valid result.</strong> The system must prefer an explicit unknown to an unjustified numeric answer.</li>
+<li><strong>All economic artifacts are authority-bound.</strong> Source, universe, code, configuration, cost model, capacity model, simulator, policy, seed where relevant, and ledger hashes are part of the claim identity.</li>
+</ol>
+<hr>
+<h2 id="2-terminology-and-taxonomy">2. Terminology and taxonomy</h2>
+<h3 id="21-parity_oracle">2.1 PARITY_ORACLE</h3>
+<p><code>PARITY_ORACLE</code> is an engineering reference implementation or reference calculation used to verify semantic equivalence of another implementation. Its purpose is correctness, not economic optimization. In current V8.2 history, the frozen Python implementation served this role during the Rust migration.</p>
+<h3 id="22-hindsight_oracle">2.2 HINDSIGHT_ORACLE</h3>
+<p><code>HINDSIGHT_ORACLE</code> is a bounded counterfactual measurement operator. It may inspect realized future outcomes after the fact, but only inside a declared Opportunity Universe, Action Universe, execution model, and authority level. It estimates what value was available under those declared assumptions. It is not deployable and does not imply selectability.</p>
+<h3 id="23-target_oracle">2.3 TARGET_ORACLE</h3>
+<p><code>TARGET_ORACLE</code> is the family of decision-time-realizable policies that V8 attempts to approximate. It is indexed by the economic and epistemic contracts that define the task:</p>
+<pre><code class="language-text">TARGET_ORACLE(
+    UtilityContract,
+    OpportunityUniverseVersion,
+    InformationContract,
+    CostModel,
+    CapacityModel,
+    AuthorityContract,
+    PolicyClass,
+    EnvironmentTarget
+)
+</code></pre>
+<p>Different contracts may yield different Target Oracles. The phrase “best policy” is therefore shorthand for “best policy in the declared feasible family under this contract.”</p>
+<h3 id="24-decision-domains-are-not-oracles">2.4 Decision domains are not Oracles</h3>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Question</th>
+<th>Oracle identity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Detection</td>
+<td>Which PIT-legal opportunities are represented at all?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Representation</td>
+<td>Was the opportunity encoded as the right Candidate proposal?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Selection</td>
+<td>TRADE, NO_TRADE, or defer?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Geometry</td>
+<td>Which legal entry/stop/target/expiry geometry?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>How is the decision submitted and filled?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Allocation</td>
+<td>How is scarce capital/risk distributed across simultaneous Candidates?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+</tbody>
+</table>
+<h3 id="25-authority-levels-are-not-oracles">2.5 Authority levels are not Oracles</h3>
+<table>
+<thead>
+<tr>
+<th>Authority</th>
+<th>Meaning</th>
+<th>Typical limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ORACLE_L1</code></td>
+<td>Bar/tape replay with static or canonical fills</td>
+<td>No queue, endogenous impact, or unobserved microstructure claim</td>
+</tr>
+<tr>
+<td><code>ORACLE_L2</code></td>
+<td>Spread/slippage/liquidity-aware evaluation with supported cost/fill mechanics</td>
+<td>Still not a full reactive market</td>
+</tr>
+<tr>
+<td><code>ORACLE_L3</code></td>
+<td>Validated reactive simulator with endogenous impact/liquidity response</td>
+<td>Still model-derived; below live receipts</td>
+</tr>
+<tr>
+<td><code>LIVE_RECEIPT</code></td>
+<td>Realized execution and PnL receipts from the target venue/environment</td>
+<td>Historical realized evidence, not a counterfactual upper bound</td>
+</tr>
+</tbody>
+</table>
+<h3 id="26-value-notions">2.6 Value notions</h3>
+<table>
+<thead>
+<tr>
+<th>Value notion</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RETROSPECTIVE_VALUE</code></td>
+<td>Value measured in the historical environment, including diagnostic hindsight where explicitly allowed.</td>
+</tr>
+<tr>
+<td><code>REPLICATION_VALUE</code></td>
+<td>Frozen policy replay on untouched historical chronology under a fixed execution contract.</td>
+</tr>
+<tr>
+<td><code>PROSPECTIVE_SHADOW_VALUE</code></td>
+<td>Forward or shadow estimate/receipt before capital-bearing deployment; assumptions about drift must be declared.</td>
+</tr>
+<tr>
+<td><code>LIVE_REALIZED_VALUE</code></td>
+<td>Realized after-cost value from actual deployed decisions and fills.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-formal-problem-definition">3. Formal problem definition</h2>
+<p>At decision time <code>t</code>, let <code>I_t</code> be the allowed information set. Let <code>U_v(t)</code> be the Candidate Opportunity Universe under universe version <code>v</code>. Let <code>S_a(t)</code> be the supported counterfactual set under authority contract <code>a</code>. Let <code>P</code> be a declared policy class and <code>C</code> a UtilityContract.</p>
+<p>The evaluable universe is:</p>
+<pre><code class="language-text">U_eval(t; v, a) = U_v(t) ∩ S_a(t)
+</code></pre>
+<p>The feasible policy family is:</p>
+<pre><code class="language-text">P_feasible(C, v, a) =
+{
+    π ∈ P :
+    π uses only I_t at decision time
+    ∧ π emits only schema-legal Candidates/actions
+    ∧ π satisfies all hard UtilityContract constraints
+    ∧ π stays inside authority-supported action/capacity bounds
+}
+</code></pre>
+<p>The Target Oracle is not a realized future sequence chosen with hindsight. It is the best admissible policy family under the target environment and the declared objective:</p>
+<pre><code class="language-text">π* ∈ argmax_{π ∈ P_feasible}  Expected[ NetUtility_C(π) ]
+
+subject to the lexicographic hard constraints in C.
+</code></pre>
+<p><strong>Important:</strong> if the target environment distribution is not identified, the specification does not permit pretending the expectation above is known. The corresponding value is bounded, model-derived, prospective, or <code>UNKNOWN</code> according to the authority contract.</p>
+<hr>
+<h2 id="4-information-boundary">4. Information boundary</h2>
+<h3 id="41-informationsett">4.1 InformationSet(t)</h3>
+<p><code>InformationSet(t)</code> contains only information that is both known and available by the decision clock. Event time, knowledge time, availability time, and decision time are distinct. A field observed in historical files but unavailable to the live system at <code>t</code> is not a legal decision feature.</p>
+<pre><code class="language-text">InformationField {
+    name
+    value
+    event_time
+    knowledge_time
+    availability_time
+    source_id
+    source_version
+}
+
+LEGAL_AT(t, field) :=
+    field.knowledge_time   ≤ t
+    ∧ field.availability_time ≤ t
+</code></pre>
+<h3 id="42-future-data-rule">4.2 Future-data rule</h3>
+<p>Future data may enter:
+- Hindsight counterfactual outcome measurement;
+- offline labels after the decision event;
+- post-hoc diagnostics and error attribution.</p>
+<p>Future data may not enter:
+- Target policy features at the original decision time;
+- Candidate birth state;
+- threshold selection performed after opening the protected evaluation slice;
+- execution assumptions presented as if known ex ante.</p>
+<h3 id="43-hindsight-is-a-separate-plane">4.3 Hindsight is a separate plane</h3>
+<p>The Hindsight evaluator is read-only with respect to the original decision record. It must not rewrite the actual Candidate population in place. When an expanded Opportunity Universe is evaluated, that expanded population belongs to its own explicit universe version and research lineage.</p>
+<hr>
+<h2 id="5-opportunity-universe">5. Opportunity universe</h2>
+<h3 id="51-why-candidate-logs-are-insufficient">5.1 Why Candidate logs are insufficient</h3>
+<p>The existing V8 Outcome Cube measures value left on the table inside the represented Candidate/action universe. That is necessary for action regret, but insufficient for measuring opportunities that no Expert represented. Target V8 therefore requires an Expert-independent Candidate Opportunity Universe.</p>
+<h3 id="52-three-opportunity-states">5.2 Three opportunity states</h3>
+<pre><code class="language-text">DETECTABLE_CANDIDATE
+        ↓ realized, authority-valid outcome
+HINDSIGHT_OPPORTUNITY
+        ↓ ex-ante selector survives protected evaluation
+RECOVERABLE_OPPORTUNITY
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+<th>Claim allowed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DETECTABLE_CANDIDATE</code></td>
+<td>A Candidate can be constructed from legal decision-time primitives under the frozen grammar.</td>
+<td>Representational coverage only.</td>
+</tr>
+<tr>
+<td><code>HINDSIGHT_OPPORTUNITY</code></td>
+<td>A detectable Candidate has favorable after-cost value under a legitimate hindsight evaluation.</td>
+<td>Retrospective opportunity only.</td>
+</tr>
+<tr>
+<td><code>RECOVERABLE_OPPORTUNITY</code></td>
+<td>A decision-time policy can select or exploit the opportunity under protected evaluation.</td>
+<td>Recoverability claim within the tested policy class.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-canonical-finite-candidate-grammar">5.3 Canonical finite Candidate grammar</h3>
+<p>The Opportunity Universe is not the infinite Cartesian product of every timestamp, feature transform, threshold, leverage, stop, target, holding period, and model. That construction would be hindsight mining, not a stable target.</p>
+<p>For universe version <code>v</code>:</p>
+<pre><code class="language-text">U_v(t) =
+{
+    Candidate C = g(I_t, θ)
+    |
+    g ∈ Grammar_v
+    ∧ θ ∈ Θ_g,v
+    ∧ PIT_VALID(C)
+    ∧ SCHEMA_VALID(C)
+    ∧ TRADABLE_FOR_DETECTION(C)
+}
+</code></pre>
+<p><code>Grammar_v</code> and each parameter grid <code>Θ_g,v</code> are finite, versioned, and preregistered before protected evaluation.</p>
+<h3 id="54-primitive-families">5.4 Primitive families</h3>
+<p>Version 1 permits grammar primitives only from explicitly registered MarketState families:</p>
+<table>
+<thead>
+<tr>
+<th>Primitive family</th>
+<th>Examples</th>
+<th>Availability rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Price / return</td>
+<td>returns, displacement, gap, range position</td>
+<td>PIT bar/tape values only</td>
+</tr>
+<tr>
+<td>Volatility / range</td>
+<td>realized volatility proxies, ATR-like range state</td>
+<td>No future-window confirmation</td>
+</tr>
+<tr>
+<td>Volume / activity</td>
+<td>volume state, activity shock</td>
+<td>Feed-resolution declared</td>
+</tr>
+<tr>
+<td>Liquidity</td>
+<td>spread/depth/liquidity state</td>
+<td>Only when data exists at decision time</td>
+</tr>
+<tr>
+<td>Order flow</td>
+<td>imbalance/flow-derived state</td>
+<td>Feed granularity and availability clock required</td>
+</tr>
+<tr>
+<td>Funding / basis</td>
+<td>funding, basis, derivative state</td>
+<td>Venue-specific source and timestamp required</td>
+</tr>
+<tr>
+<td>Derivatives stress</td>
+<td>liquidation/OI-related state</td>
+<td>Unavailable channels fail closed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="55-predicate-grammar">5.5 Predicate grammar</h3>
+<p>A deterministic baseline grammar may compose registered features with a bounded predicate IR:</p>
+<pre><code class="language-text">ABOVE(x, q)
+BELOW(x, q)
+CROSS_ABOVE(x, q)
+CROSS_BELOW(x, q)
+IN_RANGE(x, lo, hi)
+RISING(x, n)
+FALLING(x, n)
+PERSIST(predicate, n)
+AND(...)
+OR(...)
+NOT(...)
+SEQUENCE(A → B, max_delay)
+</code></pre>
+<p>The exact operators and grids are registry artifacts. A post-outcome concept such as “this was a swing low” is legal only at the time its confirmation became available. The grammar must encode that availability delay rather than silently backdating the information.</p>
+<h3 id="56-behavior-template">5.6 Behavior template</h3>
+<pre><code class="language-text">CandidateTemplate {
+    mechanism_family_id
+    behavior_family_id
+    habitat_predicate
+    setup_predicate
+    trigger_predicate
+    direction
+    invalidation
+    expiry
+    risk_geometry
+}
+</code></pre>
+<p>The Opportunity Universe is generated from these templates; Experts are named, falsifiable policies that cover subsets of the grammar. A grammar Candidate need not correspond to a currently shipped Expert.</p>
+<h3 id="57-support-and-evaluability">5.7 Support and evaluability</h3>
+<pre><code class="language-text">U_opportunity = all PIT-legal Candidates under Grammar_v
+U_support     = Candidates/actions supported by the declared data/execution authority
+U_eval        = U_opportunity ∩ U_support
+</code></pre>
+<p><code>U_opportunity \ U_support</code> is not discarded. It is retained with <code>NOT_IDENTIFIABLE</code> or a weaker authority tag. It cannot receive a fabricated point-valued profit.</p>
+<h3 id="58-coverage-not-immediate-detection-regret">5.8 Coverage, not immediate “detection regret”</h3>
+<p>The first implementation metric is <code>RepresentationalCoverageGap</code>, not a monetary Detection Regret:</p>
+<pre><code class="language-text">coverage =
+    | supported hindsight opportunities represented by shipped Experts |
+    ---------------------------------------------------------------------
+    | supported hindsight opportunities in the frozen Opportunity Universe |
+</code></pre>
+<p>A missed hindsight opportunity becomes a <em>recoverable detection failure</em> only after a decision-time policy class demonstrates protected, after-cost recoverability. This prevents hindsight coverage from being misreported as deployable money.</p>
+<hr>
+<h2 id="6-candidate-and-action-universe">6. Candidate and action universe</h2>
+<h3 id="61-candidate-ontology">6.1 Candidate ontology</h3>
+<p>A Candidate is a proposal born at a decision event. Candidate identity includes its originating grammar/template or Expert, direction, trigger semantics, invalidation, expiry, and declared geometry. Candidate, order, fill, and outcome are distinct immutable records.</p>
+<h3 id="62-direction-semantics">6.2 Direction semantics</h3>
+<p>Changing direction creates a new Candidate. A Hindsight action evaluator must not reinterpret a LONG Candidate as SHORT. However, the Opportunity Grammar may independently generate separate LONG and SHORT Candidates from the same environment state when both are legal templates.</p>
+<h3 id="63-action-universe">6.3 Action universe</h3>
+<p>For a fixed Candidate <code>C</code>, the legal action set <code>A(C)</code> may include <code>NO_TRADE</code>, the actual action, and preregistered legal geometry/execution variants that preserve Candidate identity. Every axis must declare whether varying it preserves identity or creates a new Candidate.</p>
+<h3 id="64-no-silent-population-mutation">6.4 No silent population mutation</h3>
+<p>An evaluator operating on the actual Candidate store may not create a second Candidate population and still call the output “action regret.” An Opportunity Universe evaluator may create grammar Candidates only under its own versioned universe contract and must report that the population differs from the live/shipped Expert population.</p>
+<hr>
+<h2 id="7-objective-utilitycontract">7. Objective / UtilityContract</h2>
+<h3 id="71-rejected-objective">7.1 Rejected objective</h3>
+<p><code>REJECTED_OPTION</code>: <code>maximize raw PnL</code> as the complete Oracle definition. It ignores drawdown, tail risk, capacity, participation, and the dependence of optimal policy on explicit transaction-cost and preference assumptions.</p>
+<h3 id="72-primary-economic-quantity">7.2 Primary economic quantity</h3>
+<p>The primary economic quantity is declared after-cost NetUtility:</p>
+<pre><code class="language-text">NetEconomicValue =
+    GrossTradingValue
+  - Fees
+  - Funding
+  - Slippage
+  - MarketImpact
+  - OtherVersionedExecutionCosts
+</code></pre>
+<p>NetEconomicValue is not by itself the complete Target objective.</p>
+<h3 id="73-lexicographic-hard-constraints">7.3 Lexicographic hard constraints</h3>
+<p>Version 1 uses a constrained/lexicographic contract: a policy is first required to satisfy hard feasibility constraints, then optimized on the primary objective inside the feasible set.</p>
+<table>
+<thead>
+<tr>
+<th>Constraint family</th>
+<th>Examples</th>
+<th>Semantics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Drawdown</td>
+<td>maximum drawdown ceiling, recovery constraints</td>
+<td>Hard fail when breached</td>
+</tr>
+<tr>
+<td>Tail risk</td>
+<td>tail loss / expected shortfall style ceiling</td>
+<td>Hard fail when breached</td>
+</tr>
+<tr>
+<td>Capacity / heat</td>
+<td>gross exposure, per-cluster heat, venue/instrument capacity</td>
+<td>Hard feasible-set boundary</td>
+</tr>
+<tr>
+<td>Coverage</td>
+<td>minimum participation / opportunity coverage where relevant</td>
+<td>Prevents trivial abstention</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>latency, authority, data availability, execution mode</td>
+<td>Hard admissibility boundary</td>
+</tr>
+</tbody>
+</table>
+<h3 id="74-utilitycontract-schema">7.4 UtilityContract schema</h3>
+<pre><code class="language-text">UtilityContract {
+    contract_id
+    version
+
+    primary_objective
+    horizon
+    accounting_currency
+
+    fee_model_id
+    funding_model_id
+    slippage_model_id
+    impact_model_id
+
+    hard_constraints {
+        drawdown
+        tail_risk
+        capacity
+        portfolio_heat
+        coverage
+        operational
+    }
+
+    optional_scalar_penalties {
+        names
+        weights
+        sensitivity_band
+    }
+
+    stress_grid_id
+    effective_from
+}
+</code></pre>
+<h3 id="75-sensitivity-requirement">7.5 Sensitivity requirement</h3>
+<p>If the ranking of policies changes materially under a defensible neighboring range of fees, slippage, impact, risk penalties, or capacity, the report must surface the instability. A winner that exists only at one knife-edge parameter point is not a stable Target claim.</p>
+<h3 id="76-pareto-reporting">7.6 Pareto reporting</h3>
+<p>Reports should expose the relevant utility/risk/coverage frontier even when promotion uses lexicographic constraints. The frontier is diagnostic; it does not permit selecting a new point after the protected evaluation is opened.</p>
+<hr>
+<h2 id="8-oracle-authority-and-counterfactual-identifiability">8. Oracle authority and counterfactual identifiability</h2>
+<h3 id="81-counterfactual-status-taxonomy">8.1 Counterfactual status taxonomy</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Permitted claim</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IDENTIFIED</code></td>
+<td>Counterfactual is supported under the declared data, action, and execution contract strongly enough for the requested point estimate.</td>
+<td>Point estimate within the declared model/authority; never “ground truth” without qualification.</td>
+</tr>
+<tr>
+<td><code>PARTIALLY_IDENTIFIED</code></td>
+<td>Only a defensible interval/bound is supported.</td>
+<td>Bound-aware comparison only; ranking prohibited when bounds overlap under the admission rule.</td>
+</tr>
+<tr>
+<td><code>MODEL_DERIVED</code></td>
+<td>Value depends materially on a simulation/model assumption not identified by the available data.</td>
+<td>Diagnostic/model result; no promotion as empirical economic truth.</td>
+</tr>
+<tr>
+<td><code>NOT_IDENTIFIABLE</code></td>
+<td>Support, data, or environment assumptions are insufficient.</td>
+<td><code>UNKNOWN</code>; no numeric opportunity claim.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-identified-is-contract-relative">8.2 “Identified” is contract-relative</h3>
+<p><code>IDENTIFIED</code> never means metaphysically or market-wide “true.” It means identified <em>under the declared data/support/execution contract</em>. An L1 replay can be internally identified and still be too weak to support an L3 or live economic claim.</p>
+<h3 id="83-authority-status-composition">8.3 Authority-status composition</h3>
+<p>Every Oracle outcome carries both an authority level and an identifiability status:</p>
+<pre><code class="language-text">CounterfactualAuthority {
+    oracle_authority_level  // L1, L2, L3, LIVE_RECEIPT
+    identifiability_status  // IDENTIFIED, PARTIAL, MODEL_DERIVED, NOT_IDENTIFIABLE
+    support_rule_id
+    environment_model_id
+    assumptions[]
+}
+</code></pre>
+<h3 id="84-ranking-rule">8.4 Ranking rule</h3>
+<p>Point ranking is allowed only when the comparison rule is justified at the relevant authority. For partial bounds, promotion requires a preregistered bound-aware condition. A convenient default is refusal when intervals overlap in a way that prevents a dominance claim.</p>
+<h3 id="85-no-fabricated-fills">8.5 No fabricated fills</h3>
+<p>Queue position, partial fill probability, hidden liquidity, endogenous impact, or market response may not be invented at L1/L2 and then presented as identified. If the needed data or validated model is missing, the evaluator returns a weaker status or <code>UNKNOWN</code>.</p>
+<hr>
+<h2 id="9-hindsight-oracle-contract">9. Hindsight Oracle contract</h2>
+<h3 id="91-purpose">9.1 Purpose</h3>
+<p>The Hindsight Oracle measures a ceiling inside a declared counterfactual universe. It answers: <em>given the frozen opportunity/action universe and the declared replay authority, what value was available after outcomes became known?</em></p>
+<h3 id="92-hindsight-layers">9.2 Hindsight layers</h3>
+<p>The same top-level Hindsight Oracle may expose domain-specific measurements:
+- coverage / missed representation inside the Opportunity Universe;
+- Candidate representation alternatives when identity permits comparison;
+- trade vs no-trade selection;
+- legal geometry variants;
+- execution variants supported by the authority model;
+- capital-allocation variants when portfolio interaction is supported.</p>
+<h3 id="93-existing-outcome-cube-compatibility">9.3 Existing Outcome Cube compatibility</h3>
+<p>The existing Candidate-bound legal hindsight gap remains valid as a narrower Hindsight measurement:</p>
+<pre><code class="language-text">gap(C) =
+    max{ Replay(C, a, M) : a ∈ A(C), status(C,a)=OK }
+    - Replay(C, a_actual, M)
+</code></pre>
+<p>This quantity measures value left on the table <em>inside the represented Candidate/action universe</em>. It must not be relabeled as Target recoverability.</p>
+<h3 id="94-hindsight-non-claims">9.4 Hindsight non-claims</h3>
+<p>The Hindsight Oracle does not establish:
+- that the better action was knowable at decision time;
+- that the Candidate would have been generated by a realizable detector;
+- that a future policy can generalize to the same regime;
+- that L1/L2 simulated value survives L3/live execution;
+- that a positive hindsight opportunity is economically significant after search/multiplicity controls.</p>
+<hr>
+<h2 id="10-target-oracle-contract">10. Target Oracle contract</h2>
+<h3 id="101-definition">10.1 Definition</h3>
+<p>The Target Oracle is the comparator family for deployable V8 improvement. It may use only decision-time information and must satisfy the frozen UtilityContract, Opportunity Universe, authority boundary, and policy-class constraints.</p>
+<h3 id="102-target-decision-domains">10.2 Target decision domains</h3>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Target question</th>
+<th>Primary failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Detection</td>
+<td>Can the policy represent the relevant PIT-legal opportunities?</td>
+<td>Opportunity never enters the Candidate population.</td>
+</tr>
+<tr>
+<td>Representation</td>
+<td>Does the Candidate encode the opportunity with the correct legal semantics?</td>
+<td>Wrong direction/template/trigger/invalidation/expiry identity.</td>
+</tr>
+<tr>
+<td>Selection</td>
+<td>Should this Candidate trade, abstain, or defer?</td>
+<td>Bad TRADE/NO_TRADE decision.</td>
+</tr>
+<tr>
+<td>Geometry</td>
+<td>Which identity-preserving risk/exit geometry is justified?</td>
+<td>Entry/stop/target/expiry mismatch.</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>How should the accepted decision be submitted and filled?</td>
+<td>Cost, slippage, impact, timing loss.</td>
+</tr>
+<tr>
+<td>Allocation</td>
+<td>How should scarce risk/capital be allocated among simultaneous accepted Candidates?</td>
+<td>Correlation/capacity/heat misallocation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="103-target-oracle-is-a-family-not-a-single-neural-network">10.3 Target Oracle is a family, not a single neural network</h3>
+<p>No implementation technology is privileged by the definition. A deterministic rule, shallow model, learned router, constrained optimizer, or other policy may approximate a Target subproblem if and only if it passes its admission experiment against the simpler baseline.</p>
+<h3 id="104-learned-components-are-challengers">10.4 Learned components are challengers</h3>
+<p>Version 1 does not allow a learned detector to define the Opportunity Universe that is then used to certify that same detector. The deterministic grammar is the baseline measurement frame. Learned detectors may challenge Expert coverage or selection on a fixed evaluation universe.</p>
+<h3 id="105-target-output">10.5 Target output</h3>
+<p>A Target policy result is not “Oracle achieved.” The correct language is:
+- <code>RECOVERABLE_WITHIN_CLASS</code> — decision-time policy class improved the declared baseline under the protected test;
+- <code>PROMOTABLE_WITHIN_CONTRACT</code> — all required statistical, utility, risk, and authority gates passed;
+- <code>SHADOW_SUPPORTED</code> — prospective/shadow evidence passed;
+- <code>LIVE_SUPPORTED</code> — live receipts satisfy the predeclared deployment certificate.</p>
+<hr>
+<h2 id="11-regret-taxonomy-and-attribution">11. Regret taxonomy and attribution</h2>
+<h3 id="111-rejected-additive-story">11.1 Rejected additive story</h3>
+<p><code>REJECTED_OPTION</code>:</p>
+<pre><code class="language-text">TotalRegret =
+    DetectionRegret
+  + RepresentationRegret
+  + SelectionRegret
+  + GeometryRegret
+  + ExecutionRegret
+  + AllocationRegret
+</code></pre>
+<p>This is not generally valid because changing an upstream component changes downstream populations, feasible actions, costs, impact, and allocation interactions.</p>
+<h3 id="112-required-attribution-vocabulary">11.2 Required attribution vocabulary</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ISOLATED_COMPONENT_EFFECT</code></td>
+<td>Effect of replacing one component while holding the declared downstream/upstream reference configuration fixed.</td>
+</tr>
+<tr>
+<td><code>MARGINAL_COMPONENT_EFFECT</code></td>
+<td>Incremental effect of adding/replacing a component relative to a specified baseline sequence.</td>
+</tr>
+<tr>
+<td><code>INTERACTION_EFFECT</code></td>
+<td>Effect attributable to cross-component interactions not assignable uniquely without a decomposition rule.</td>
+</tr>
+<tr>
+<td><code>TOTAL_POLICY_GAP</code></td>
+<td>Difference between the actual/reference policy and a declared Target comparator policy under the same evaluation contract.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="113-domain-labels">11.3 Domain labels</h3>
+<p>The following labels may be used for isolated or marginal analyses, with the method stated explicitly:
+- detection / representational coverage effect;
+- representation effect;
+- selection effect;
+- geometry effect;
+- execution effect;
+- allocation effect;
+- residual / irreducible-within-class effect.</p>
+<h3 id="114-percentage-attribution-rule">11.4 Percentage attribution rule</h3>
+<p>A report must not state “X% of loss comes from detection” unless it records:
+- the reference and target policies;
+- the causal/pipeline decomposition graph;
+- the attribution algorithm;
+- interaction handling;
+- the authority level of each counterfactual;
+- the uncertainty of the attribution itself.</p>
+<h3 id="115-shapleypath-attribution-is-deferred">11.5 Shapley/path attribution is deferred</h3>
+<p>Version 1 requires isolated and marginal effects first. Shapley-like or path-specific decomposition is permitted only as a registered v1.1+ extension with an explicit structural causal model and compute budget.</p>
+<hr>
+<h2 id="12-recoverability">12. Recoverability</h2>
+<h3 id="121-core-distinction">12.1 Core distinction</h3>
+<pre><code class="language-text">Hindsight opportunity
+    ≠
+Decision-time recoverable opportunity
+    ≠
+Promotable policy
+    ≠
+Live-supported policy
+</code></pre>
+<h3 id="122-existing-v8-recoverability-semantics">12.2 Existing V8 recoverability semantics</h3>
+<p>The existing V8 Recoverable Regret design remains the canonical pattern for Candidate-bound recovery:</p>
+<pre><code class="language-text">V_A = mean utility of the actual/reference policy
+V_R = mean utility of the best policy selected from the declared decision-time class
+G_R = V_R - V_A
+</code></pre>
+<p>A positive <code>G_R</code> is an improvement claim within the tested class, not automatically a profitability claim. Absolute utility must separately clear the UtilityContract and promotion gates.</p>
+<h3 id="123-detection-recovery">12.3 Detection recovery</h3>
+<p>For missed representation, Version 1 uses a two-step procedure:
+1. Measure <code>RepresentationalCoverageGap</code> on the frozen Opportunity Universe.
+2. Test whether a decision-time policy can identify useful parts of the missed set on protected chronology.</p>
+<p>Only the second step may support a recoverable detection claim.</p>
+<h3 id="124-irreducible-within-class">12.4 Irreducible-within-class</h3>
+<p>Failure to recover a hindsight gap means only that the declared policy class did not recover it under the declared environment and evaluation. It must not be reported as proof that no realizable policy exists.</p>
+<hr>
+<h2 id="13-non-stationarity-and-value-notions">13. Non-stationarity and value notions</h2>
+<h3 id="131-frozen-oos-boundary">13.1 Frozen OOS boundary</h3>
+<p>Chronological frozen OOS remains mandatory for protected historical comparison, but it is not a substitute for prospective evidence. A policy can pass historical replication and fail when the environment distribution changes.</p>
+<h3 id="132-four-value-layers">13.2 Four value layers</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it answers</th>
+<th>Economic authority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retrospective</td>
+<td>What happened / what was available in the recorded past?</td>
+<td>Historical only.</td>
+</tr>
+<tr>
+<td>Replication</td>
+<td>Does a frozen policy reproduce value on untouched chronology?</td>
+<td>Historical OOS evidence.</td>
+</tr>
+<tr>
+<td>Prospective / shadow</td>
+<td>Does the frozen policy survive forward time without capital-bearing promotion?</td>
+<td>Prospective operational evidence.</td>
+</tr>
+<tr>
+<td>Live realized</td>
+<td>Does the deployed system produce acceptable receipts under real fills/costs?</td>
+<td>Highest empirical deployment evidence, still time/regime bounded.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="133-dynamic-target">13.3 Dynamic Target</h3>
+<p>V8 may eventually define regime-conditional or slowly varying Target comparator families. Version 1 does not assume a stationary universal Oracle. Any dynamic comparator must be causal: regime assignment and adaptation may use only information available by the corresponding decision time.</p>
+<h3 id="134-future-policy-estimation">13.4 Future-policy estimation</h3>
+<p>Future off-policy or drift-aware estimators may be used as diagnostics or prospective tools, but their structural assumptions must be explicit. They do not replace shadow/live receipts.</p>
+<hr>
+<h2 id="14-statistical-gates">14. Statistical gates</h2>
+<h3 id="141-search-lineage">14.1 Search lineage</h3>
+<p>Every change to Opportunity Grammar, Candidate template, policy feature set, threshold family, objective contract, cost model, or execution model that can alter economic selection is a new registered research choice. Protected evaluation may not be reused as a tuning surface without opening a new lineage and paying the corresponding evidence cost.</p>
+<h3 id="142-chronology-and-dependence">14.2 Chronology and dependence</h3>
+<ul>
+<li>Use chronological partitions.</li>
+<li>Use dependence-aware uncertainty at an appropriate block/cluster unit.</li>
+<li>Preserve cross-asset and overlapping-candidate dependence in diagnostics.</li>
+<li>Do not report naive trade-level IID significance when the dependence structure contradicts it.</li>
+</ul>
+<h3 id="143-multiple-testing">14.3 Multiple testing</h3>
+<p>The family size must include explored Expert variants, grammar variants, policy thresholds, and other materially selected alternatives. Reality-Check/SPA/FDR/PBO/DSR-style tools may be appropriate diagnostics or controls, but none repairs leakage, invalid execution, or a repeatedly opened holdout.</p>
+<h3 id="144-utility-risk-coverage-certificate">14.4 Utility + risk + coverage certificate</h3>
+<p>A promotable policy must jointly satisfy:
+- positive or otherwise preregistered after-cost NetUtility condition;
+- hard drawdown/tail/capacity/heat constraints;
+- minimum coverage/participation where the contract requires it;
+- authority and data-validity requirements;
+- replication across the declared chronological/regime tests.</p>
+<h3 id="145-abstention">14.5 Abstention</h3>
+<p>A policy that improves selected-subset metrics merely by rejecting almost everything fails unless it also satisfies the coverage and opportunity-cost constraints in the UtilityContract.</p>
+<hr>
+<h2 id="15-shadowlive-promotion">15. Shadow/live promotion</h2>
+<pre><code class="language-text">SCREENING
+   ↓
+REPLICATION
+   ↓
+PROMOTION CANDIDATE
+   ↓
+SHADOW / FORWARD
+   ↓
+LIMITED LIVE
+   ↓
+LIVE-SUPPORTED
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Required evidence</th>
+<th>Forbidden inference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Screening</td>
+<td>Cheap deterministic baseline, costs, null/control</td>
+<td>No deployment claim</td>
+</tr>
+<tr>
+<td>Replication</td>
+<td>Untouched chronology, dependence-aware uncertainty</td>
+<td>No “future-proof” claim</td>
+</tr>
+<tr>
+<td>Promotion candidate</td>
+<td>Beats immediately simpler baseline and UtilityContract gates</td>
+<td>No live execution claim</td>
+</tr>
+<tr>
+<td>Shadow</td>
+<td>Frozen forward decisions, operational receipts, no capital-bearing adaptation</td>
+<td>No substitution of replay for realized execution</td>
+</tr>
+<tr>
+<td>Limited live</td>
+<td>Predeclared risk/capital cap, realized fills/costs, rollback semantics</td>
+<td>No extrapolation beyond capacity/regime</td>
+</tr>
+<tr>
+<td>Live-supported</td>
+<td>Deployment certificate satisfied across the declared horizon</td>
+<td>No universal or permanent edge claim</td>
+</tr>
+</tbody>
+</table>
+<p>Any live adaptation that changes policy semantics creates a new policy version and terminates the comparability of the prior certificate unless explicitly covered by the adaptation contract.</p>
+<hr>
+<h2 id="16-failure-and-unknown-semantics">16. Failure and UNKNOWN semantics</h2>
+<h3 id="161-unknown-is-first-class">16.1 UNKNOWN is first-class</h3>
+<p>The evaluator returns <code>UNKNOWN</code> when the requested claim exceeds available support, authority, data, or identification. UNKNOWN must propagate rather than being numerically imputed into a ranking.</p>
+<h3 id="162-canonical-refusal-reasons">16.2 Canonical refusal reasons</h3>
+<table>
+<thead>
+<tr>
+<th>Reason</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MISSING_DECISION_TIME_DATA</code></td>
+<td>Feature exists historically but was not available at decision time.</td>
+</tr>
+<tr>
+<td><code>OUT_OF_SUPPORT_ACTION</code></td>
+<td>Target action/size not supported by logged/execution evidence.</td>
+</tr>
+<tr>
+<td><code>EXECUTION_AUTHORITY_TOO_WEAK</code></td>
+<td>L1 replay asked to support L3 impact claim.</td>
+</tr>
+<tr>
+<td><code>UNDEFINED_FUTURE</code></td>
+<td>Insufficient future horizon to evaluate the declared expiry.</td>
+</tr>
+<tr>
+<td><code>NON_IDENTIFIABLE_FILL</code></td>
+<td>Queue/partial fill cannot be justified.</td>
+</tr>
+<tr>
+<td><code>CONSTRAINT_INFEASIBLE</code></td>
+<td>No policy in the declared class satisfies hard constraints.</td>
+</tr>
+<tr>
+<td><code>PROTECTED_SLICE_ALREADY_CONSUMED</code></td>
+<td>Evaluation would reopen a one-use holdout without new lineage.</td>
+</tr>
+<tr>
+<td><code>MODEL_ONLY_COUNTERFACTUAL</code></td>
+<td>Value depends on an unvalidated simulator assumption.</td>
+</tr>
+<tr>
+<td><code>INSUFFICIENT_SUPPORT</code></td>
+<td>Too little supported data for the requested estimate/bound.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="163-partial-identification">16.3 Partial identification</h3>
+<p>When a defensible bound exists, the system records the interval rather than collapsing to UNKNOWN. However, the promotion rule must specify how bounds are compared. A point estimate may not be manufactured from the midpoint unless that estimator is independently justified and registered.</p>
+<hr>
+<h2 id="17-artifact-schemas">17. Artifact schemas</h2>
+<h3 id="171-opportunityuniverseversion">17.1 OpportunityUniverseVersion</h3>
+<pre><code class="language-text">OpportunityUniverseVersion {
+    universe_id
+    version
+    parent_universe_id?
+
+    instrument_universe
+    timeframe_set
+    information_contract_id
+
+    primitive_registry_hash
+    predicate_ir_version
+    behavior_template_registry_hash
+    parameter_grid_hash
+
+    tradability_rule_id
+    support_rule_id
+    authority_contract_id
+
+    search_universe_size
+    complexity_budget
+    created_at
+    code_hash
+}
+</code></pre>
+<h3 id="172-oracleevaluationrecord">17.2 OracleEvaluationRecord</h3>
+<pre><code class="language-text">OracleEvaluationRecord {
+    evaluation_id
+    oracle_role              // PARITY | HINDSIGHT | TARGET
+    authority_level          // L1 | L2 | L3 | LIVE_RECEIPT
+    identifiability_status
+
+    information_contract_id
+    opportunity_universe_id
+    utility_contract_id
+    policy_class_id
+    cost_model_id
+    capacity_model_id
+    environment_target_id
+
+    candidate_population_hash
+    action_manifest_hash
+    simulator_or_receipt_hash
+    code_hash
+    config_hash
+
+    value_notation            // retrospective | replication | prospective | live
+    point_estimate?
+    lower_bound?
+    upper_bound?
+    uncertainty_artifact_id?
+
+    refusal_reason?
+    assumptions[]
+    lineage_id
+}
+</code></pre>
+<h3 id="173-regretattributionrecord">17.3 RegretAttributionRecord</h3>
+<pre><code class="language-text">RegretAttributionRecord {
+    attribution_id
+    total_policy_gap
+    reference_policy_id
+    target_policy_id
+
+    decomposition_method      // ISOLATED | MARGINAL | registered extension
+    component_domain
+    interaction_handling
+    causal_graph_id?
+
+    authority_summary
+    uncertainty_summary
+    forbidden_percent_claim_if_unresolved_interactions
+}
+</code></pre>
+<h3 id="174-deploymentcertificate">17.4 DeploymentCertificate</h3>
+<pre><code class="language-text">DeploymentCertificate {
+    certificate_id
+    policy_version
+    utility_contract_id
+    universe_id
+
+    replication_gate
+    risk_gate
+    coverage_gate
+    authority_gate
+    shadow_gate
+    live_gate?
+
+    capacity_limit
+    rollback_condition
+    valid_from
+    expires_or_revalidate_at
+}
+</code></pre>
+<h3 id="175-integration-with-evaluation-evidence-bundle-v8evalv1">17.5 Integration with Evaluation Evidence Bundle (<code>v8.eval.v1</code>)</h3>
+<p>All Oracle evaluation, regret attribution, and opportunity universe artifacts are stored natively within the <code>v8.eval.v1</code> immutable evidence bundle (<code>EVALUATION_EVIDENCE_SYSTEM.md</code> §4):
+- <code>OpportunityUniverseVersion</code> $\rightarrow$ <code>provenance/opportunity_universe.json</code>
+- <code>OracleEvaluationRecord</code> $\rightarrow$ <code>economics/oracle_evaluation.parquet</code> &amp; <code>statistics/reality_check.json</code>
+- <code>RegretAttributionRecord</code> $\rightarrow$ <code>economics/regret_attribution.parquet</code> &amp; Section S in <code>report.html</code>
+- Coverage &amp; Scout Hypotheses $\rightarrow$ <code>analysis/hypotheses.jsonl</code> &amp; <code>analysis/findings.jsonl</code></p>
+<hr>
+<h2 id="18-tests-and-invariants">18. Tests and invariants</h2>
+<h3 id="181-contract-tests">18.1 Contract tests</h3>
+<ol>
+<li>A future-known field inserted into <code>InformationSet(t)</code> must hard-fail PIT validation.</li>
+<li>Re-evaluating the same frozen Opportunity Universe with identical inputs must produce byte-identical Candidate identities and manifests.</li>
+<li>Changing direction on a Candidate must produce a different Candidate identity, not an action variant.</li>
+<li>Expanding any grammar grid must change <code>universe_id</code> and search-universe accounting.</li>
+<li>An out-of-support action must never emit an <code>IDENTIFIED</code> point value.</li>
+<li>An L1 evaluation requesting L3 authority must fail with <code>EXECUTION_AUTHORITY_TOO_WEAK</code>.</li>
+<li>A policy violating a hard UtilityContract constraint must never outrank a feasible policy merely on primary return.</li>
+<li>Zero/near-zero coverage must not pass a contract with a nonzero coverage floor.</li>
+<li>UNKNOWN values must propagate through summaries and may not be silently treated as zero.</li>
+<li>Opening a protected one-use evaluation twice under the same lineage must hard-fail.</li>
+</ol>
+<h3 id="182-hindsight-tests">18.2 Hindsight tests</h3>
+<ol>
+<li>The actual Candidate/action must be present in the relevant comparison set whenever a gap is defined.</li>
+<li>Candidate-bound Hindsight evaluation must not create new Candidate identities.</li>
+<li>Opportunity-Universe Hindsight evaluation must bind the alternative Candidate population hash explicitly.</li>
+<li>Hindsight metrics must be labeled retrospective and must not appear in Target promotion fields.</li>
+<li>Any cell whose potential maximizer is non-evaluable under the authority contract must abstain or return a bound.</li>
+</ol>
+<h3 id="183-regret-tests">18.3 Regret tests</h3>
+<ol>
+<li>Reports must reject an additive total if interaction handling is unspecified.</li>
+<li>Every marginal/isolated effect must name its reference configuration.</li>
+<li>Percentage attribution must be disabled unless a registered decomposition method covers interactions.</li>
+</ol>
+<h3 id="184-fault-injection">18.4 Fault injection</h3>
+<p>At minimum, inject future leakage, missing feed availability, unsupported size, queue-fill ambiguity, execution-model downgrade, cost doubling, capacity conflict, universe mutation after freeze, and repeated-holdout access. The correct behavior is refusal, weaker authority, or a new lineage—not silent continuation.</p>
+<hr>
+<h2 id="19-implementation-admission-plan">19. Implementation admission plan</h2>
+<p>This section defines implementation order. It is intentionally staged so that V8 does not build learned optimization on top of an undefined opportunity or authority surface.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Implementation</th>
+<th>Admission gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>O0</code></td>
+<td>Contracts, enums, hashes, artifact schemas; no economics changed.</td>
+<td>Schema tests, determinism, backward-compatible reading where required.</td>
+</tr>
+<tr>
+<td><code>O1</code></td>
+<td>Deterministic Opportunity Grammar + versioned universe generation.</td>
+<td>PIT legality, finite search accounting, stable identities, no Expert dependency.</td>
+</tr>
+<tr>
+<td><code>O2</code></td>
+<td>Support/identifiability classifier + authority contract.</td>
+<td>No unsupported point values; L1/L2/L3 claims fail closed.</td>
+</tr>
+<tr>
+<td><code>O3</code></td>
+<td>Representational coverage analysis against shipped Experts.</td>
+<td>Population reconciliation, multiplicity accounting, no recoverability overclaim.</td>
+</tr>
+<tr>
+<td><code>O4</code></td>
+<td>Isolated/marginal component-effect framework.</td>
+<td>Explicit reference configurations; no naive additive total.</td>
+</tr>
+<tr>
+<td><code>O5</code></td>
+<td>Decision-time recoverability policies for missed/represented opportunities.</td>
+<td>Protected chronology, UtilityContract, risk + coverage + absolute value gates.</td>
+</tr>
+<tr>
+<td><code>O6</code></td>
+<td>Execution authority upgrades (L2, then validated L3 where data permits).</td>
+<td>Policy ranking stability/re-evaluation; model-derived status respected.</td>
+</tr>
+<tr>
+<td><code>O7</code></td>
+<td>Shadow and limited-live promotion receipts.</td>
+<td>DeploymentCertificate, capacity cap, rollback, version freeze.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="191-first-rust-ownership-boundary">19.1 First Rust ownership boundary</h3>
+<p>The initial Rust implementation should own the contracts and deterministic grammar rather than a learned Target policy. A suggested module boundary is:</p>
+<pre><code class="language-text">v8-core/src/oracle/
+    mod.rs
+    taxonomy.rs
+    utility.rs
+    information.rs
+    opportunity.rs
+    support.rs
+    authority.rs
+    coverage.rs
+    regret.rs
+    artifacts.rs
+</code></pre>
+<h3 id="192-what-must-not-be-implemented-first">19.2 What must not be implemented first</h3>
+<ul>
+<li>a learned detector that defines and evaluates its own opportunity universe;</li>
+<li>Shapley regret attribution before isolated/marginal semantics are proven;</li>
+<li>L3 reactive execution claims without a validated simulator/data path;</li>
+<li>a universal scalar score that mixes return/risk/coverage without a UtilityContract;</li>
+<li>automatic promotion based solely on Hindsight gains.</li>
+</ul>
+<hr>
+<h2 id="20-open-questions-and-deferred-work">20. Open questions and deferred work</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question</th>
+<th>v1.0 treatment</th>
+<th>Resolution path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O-OR-001</td>
+<td>Exact primitive/template registry for Opportunity Grammar?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Implement minimal deterministic registry from existing PIT MarketState and Candidate semantics; every expansion is versioned.</td>
+</tr>
+<tr>
+<td>O-OR-002</td>
+<td>Exact UtilityContract thresholds/weights?</td>
+<td><code>PROVISIONAL_DECISION</code></td>
+<td>Versioned contract + sensitivity band; do not encode a universal set in the Oracle ontology.</td>
+</tr>
+<tr>
+<td>O-OR-003</td>
+<td>Bound-aware ranking rule for partially identified counterfactuals?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Start fail-closed on overlapping bounds; register alternatives later.</td>
+</tr>
+<tr>
+<td>O-OR-004</td>
+<td>Shapley/path decomposition for interactions?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Deferred to v1.1; isolated/marginal effects first.</td>
+</tr>
+<tr>
+<td>O-OR-005</td>
+<td>Future OPE / regime-drift estimator?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Prospective diagnostic only until separately validated; never replaces shadow/live receipts.</td>
+</tr>
+<tr>
+<td>O-OR-006</td>
+<td>Validated L3 reactive execution simulator?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Data/model validation project; L1/L2 remain lower authority.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="21-decision-register">21. Decision register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Decision</th>
+<th>Status</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-OR-001</td>
+<td>V8 has exactly three top-level Oracle roles.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>No additional top-level Oracle naming without a spec version change.</td>
+</tr>
+<tr>
+<td>D-OR-002</td>
+<td>Target optimality is contract-relative, not raw-PnL universal.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Every Target evaluation binds UtilityContract, cost/capacity, authority, universe, and policy class.</td>
+</tr>
+<tr>
+<td>D-OR-003</td>
+<td>Utility uses primary after-cost value plus lexicographic hard constraints.</td>
+<td><code>PROVISIONAL_DECISION</code></td>
+<td>Exact thresholds/weights are versioned and may vary by deployment contract.</td>
+</tr>
+<tr>
+<td>D-OR-004</td>
+<td>Opportunity Universe is Expert-independent, finite, deterministic, versioned, and preregistered.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Grammar mutation creates new universe identity and research lineage.</td>
+</tr>
+<tr>
+<td>D-OR-005</td>
+<td>Profitable hindsight alone does not define a missed opportunity.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Opportunity requires PIT/schema legality and counterfactual authority.</td>
+</tr>
+<tr>
+<td>D-OR-006</td>
+<td>Evaluable universe is Opportunity Universe intersected with supported counterfactuals.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Unsupported opportunities remain UNKNOWN/model-derived rather than receiving fabricated PnL.</td>
+</tr>
+<tr>
+<td>D-OR-007</td>
+<td>Identifiability status and execution authority are orthogonal fields.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>L1/L2/L3 does not itself imply identified truth.</td>
+</tr>
+<tr>
+<td>D-OR-008</td>
+<td>Regret decomposition is non-additive by default.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Isolated/marginal/interactions/total-policy-gap vocabulary is mandatory.</td>
+</tr>
+<tr>
+<td>D-OR-009</td>
+<td>Representational coverage precedes monetary Detection Regret.</td>
+<td><code>PROVISIONAL_DECISION</code></td>
+<td>Missed hindsight set must pass decision-time recoverability before economic detection claims.</td>
+</tr>
+<tr>
+<td>D-OR-010</td>
+<td>Frozen OOS, prospective/shadow, and live value are distinct.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>No historical test is relabeled as live support.</td>
+</tr>
+<tr>
+<td>D-OR-011</td>
+<td>L1/L2/L3/LIVE_RECEIPT are authority levels, not Oracle classes.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Prevents taxonomy explosion and claim laundering.</td>
+</tr>
+<tr>
+<td>D-OR-012</td>
+<td>UNKNOWN is a valid fail-closed result.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>No numeric imputation solely to preserve ranking/report completeness.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="22-claim-register">22. Claim register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Claim</th>
+<th>Status</th>
+<th>Boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-OR-001</td>
+<td>There is no context-free unique “best trading policy”; optimality depends on objective, frictions, and constraints.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Does not prove any chosen V8 UtilityContract is economically correct.</td>
+</tr>
+<tr>
+<td>C-OR-002</td>
+<td>Decision quality/regret may be a more appropriate optimization target than prediction accuracy for downstream decisions.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Does not define V8’s trading opportunity ontology.</td>
+</tr>
+<tr>
+<td>C-OR-003</td>
+<td>Support/overlap limitations can make off-policy counterfactual values non-identifiable.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Exact V8 support tests remain implementation-specific.</td>
+</tr>
+<tr>
+<td>C-OR-004</td>
+<td>Future/non-stationary policy value is distinct from historical OOS value.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Future-value estimators require their own assumptions and validation.</td>
+</tr>
+<tr>
+<td>C-OR-005</td>
+<td>Component effects in sequential systems need not add uniquely without a chosen causal decomposition.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Does not select a unique Shapley/path decomposition for V8.</td>
+</tr>
+<tr>
+<td>C-OR-006</td>
+<td>Execution/impact modeling can change absolute value and policy ranking.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Does not certify any V8 L3 simulator.</td>
+</tr>
+<tr>
+<td>C-OR-007</td>
+<td>Abstention must be assessed jointly with risk and coverage, not rewarded merely for trading less.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Specific V8 coverage floors remain contractual decisions.</td>
+</tr>
+<tr>
+<td>C-OR-008</td>
+<td>The canonical V8 Opportunity Grammar defined here will capture economically meaningful opportunities.</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Must be tested; grammar is a measurement frame, not proof of market ontology.</td>
+</tr>
+<tr>
+<td>C-OR-009</td>
+<td>A recoverable Target policy exists that is profitable after costs.</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>No current Oracle specification or audit establishes this.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="23-research-basis-and-references">23. Research basis and references</h2>
+<p>The references below are the primary or authoritative sources carried forward from <em>Target V8 Oracle Research Audit v0.1</em>. They justify design boundaries; none is cited as proof that V8 itself has edge.</p>
+<ol>
+<li>Herdegen, M. &amp; Muhle-Karbe, J. <a href="https://arxiv.org/abs/2402.08387">Portfolio Optimization under Transaction Costs with Recursive Preferences</a>.</li>
+<li><a href="https://arxiv.org/abs/1207.7330">Portfolio Choice with Transaction Costs: a User’s Guide</a>.</li>
+<li><a href="https://lbsresearch.london.edu/id/eprint/920/1/VDM%20Robust%20Perspective%20on%20Transaction%20Costs.pdf">A robust perspective on transaction-cost-aware portfolio choice</a>.</li>
+<li>Capitaine, A. et al. <a href="https://arxiv.org/abs/2505.13564">Online Decision-Focused Learning</a>.</li>
+<li><a href="https://arxiv.org/abs/2506.20417">Off-Policy Evaluation and Learning for the Future under Non-Stationarity</a>.</li>
+<li><a href="https://arxiv.org/abs/2301.10330">Off-Policy Evaluation for Action-Dependent Non-Stationary Environments</a>.</li>
+<li><a href="https://arxiv.org/abs/2302.11725">Off-policy evaluation work on non-stationary contextual/sequential environments</a>.</li>
+<li>Triantafyllou, S. et al. <a href="https://arxiv.org/abs/2410.12539">Counterfactual Effect Decomposition in Multi-Agent Sequential Decision Making</a>.</li>
+<li>Abbade, L. R. &amp; Reali Costa. <a href="https://arxiv.org/abs/2603.29086">Realistic Market Impact Modeling for Reinforcement Learning Trading Environments</a>.</li>
+<li>Olby, O. et al. <a href="https://arxiv.org/abs/2510.22206">Market Simulation-based RL for Execution Optimisation</a>.</li>
+<li>Xu, Y. et al. <a href="https://arxiv.org/abs/2512.12844">Selective Conformal Risk Control</a>.</li>
+<li><a href="https://arxiv.org/abs/2603.24704">Conformal Selective Prediction with General Risk Control</a>.</li>
+</ol>
+<h3 id="231-project-source-relationship">23.1 Project source relationship</h3>
+<ul>
+<li><strong>V8 Final Research Monograph:</strong> supplies the existing V8 Constitution, PIT/availability-time rule, Candidate/order/outcome distinction, deterministic baseline admission rule, simulation-authority matching, artifact binding, chronological OOS discipline, Outcome Cube, and Recoverable Regret semantics.</li>
+<li><strong>Target V8 Oracle Research Audit v0.1:</strong> supplies the P0-A/P0-B/P0-C audit and the external research support for contract-relative objective, opportunity-universe independence, identifiability taxonomy, non-additive regret, non-stationarity, execution authority, and abstention/coverage semantics.</li>
+</ul>
+<hr>
+<h2 id="appendix-a-mapping-to-existing-v8">Appendix A. Mapping to existing V8</h2>
+<table>
+<thead>
+<tr>
+<th>Existing V8 concept</th>
+<th>Oracle-spec role</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MarketState PIT contract</td>
+<td><code>InformationSet(t)</code></td>
+<td>No semantic relaxation; reused as decision-time boundary.</td>
+</tr>
+<tr>
+<td>Experts</td>
+<td>Policies covering subsets of Opportunity Grammar</td>
+<td>They no longer define the measurement universe.</td>
+</tr>
+<tr>
+<td>Candidate lifecycle</td>
+<td>Immutable proposal ontology</td>
+<td>Extended to grammar-generated research Candidates under explicit universe versions.</td>
+</tr>
+<tr>
+<td>Outcome Cube</td>
+<td>Candidate-bound Hindsight measurement</td>
+<td>Retained; not redefined as Target Oracle.</td>
+</tr>
+<tr>
+<td>Recoverable Regret Phase 3</td>
+<td>Pattern for decision-time recoverability</td>
+<td>Generalized conceptually to missed representation and other domains.</td>
+</tr>
+<tr>
+<td>RiskGate / portfolio heat</td>
+<td>UtilityContract hard constraints / allocation feasibility</td>
+<td>Bound into target feasibility and promotion certificates.</td>
+</tr>
+<tr>
+<td>Simulation authority</td>
+<td>L1/L2/L3 + identifiability matrix</td>
+<td>Made explicit as Oracle claim authority.</td>
+</tr>
+<tr>
+<td>Screening → replication → promotion → shadow/live</td>
+<td>Target admission ladder</td>
+<td>Retained and bound to Oracle terminology.</td>
+</tr>
+<tr>
+<td>Python parity oracle</td>
+<td><code>PARITY_ORACLE</code></td>
+<td>Terminology separated from economic Hindsight/Target meaning.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="appendix-b-non-goals">Appendix B. Non-goals</h2>
+<ul>
+<li>This document does not define a profitable Expert.</li>
+<li>It does not certify the existing 28 Experts economically.</li>
+<li>It does not choose final UtilityContract thresholds for any deployment capital base.</li>
+<li>It does not certify an L3 reactive simulator.</li>
+<li>It does not prove that the finite Opportunity Grammar is a complete ontology of market opportunity.</li>
+<li>It does not authorize a learned router, scorer, ranker, RL executor, or online learner without its own admission experiment.</li>
+<li>It does not permit Hindsight outputs to be described as live-achievable returns.</li>
+</ul>
+<hr>
+<h2 id="appendix-c-minimal-implementation-interfaces">Appendix C. Minimal implementation interfaces</h2>
+<p>The following are interface sketches, not final Rust code. Their purpose is to make ownership and semantics explicit before implementation.</p>
+<pre><code class="language-rust">enum OracleRole {
+    Parity,
+    Hindsight,
+    Target,
+}
+
+enum AuthorityLevel {
+    L1,
+    L2,
+    L3,
+    LiveReceipt,
+}
+
+enum Identifiability {
+    Identified,
+    PartiallyIdentified,
+    ModelDerived,
+    NotIdentifiable,
+}
+
+enum ValueNotion {
+    Retrospective,
+    Replication,
+    ProspectiveShadow,
+    LiveRealized,
+}
+
+struct OracleContext {
+    role: OracleRole,
+    authority: AuthorityLevel,
+    information_contract_id: Hash,
+    opportunity_universe_id: Hash,
+    utility_contract_id: Hash,
+    policy_class_id: Hash,
+    cost_model_id: Hash,
+    capacity_model_id: Hash,
+    environment_target_id: Hash,
+}
+
+trait OpportunityGrammar {
+    fn generate(
+        &amp;self,
+        state: &amp;MarketState,
+        decision_time: Timestamp,
+    ) -&gt; Result&lt;Vec&lt;GrammarCandidate&gt;, OracleRefusal&gt;;
+}
+
+trait SupportClassifier {
+    fn classify(
+        &amp;self,
+        candidate: &amp;GrammarCandidate,
+        action: &amp;Action,
+        authority: AuthorityLevel,
+    ) -&gt; CounterfactualAuthority;
+}
+
+trait HindsightEvaluator {
+    fn evaluate(
+        &amp;self,
+        candidate: &amp;GrammarCandidate,
+        action_set: &amp;ActionManifest,
+        context: &amp;OracleContext,
+    ) -&gt; OracleOutcome;
+}
+
+trait TargetPolicy {
+    fn decide(
+        &amp;self,
+        information: &amp;InformationSet,
+        candidates: &amp;[GrammarCandidate],
+        constraints: &amp;UtilityContract,
+    ) -&gt; DecisionSet;
+}
+</code></pre>
+<p><strong>Implementation rule:</strong> these interfaces must preserve the three-Oracle taxonomy. A module named <code>detection_oracle.rs</code>, <code>execution_oracle.rs</code>, or similar should be rejected unless “oracle” refers unambiguously to one of the three top-level roles. Prefer domain names such as <code>coverage.rs</code>, <code>selection.rs</code>, <code>execution.rs</code>, and <code>allocation.rs</code>.</p></section>
 <section id="sec-hypothesis-lab-protocol"><h1>HYPOTHESIS LAB PROTOCOL</h1><h1 id="v8-hypothesis-lab-protocol-v01">V8 Hypothesis Lab Protocol v0.1</h1>
 <p><strong>Purpose:</strong> cheaply reject weak behavior hypotheses before learned routing,
 scoring, ranking, richer data or execution learning. <strong>Status:</strong>

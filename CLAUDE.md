@@ -1,5 +1,11 @@
 # CLAUDE.md — V8 agent guide
 
+## 🚨 CRITICAL RULE: RUST ONLY (`v8-core/`) — PYTHON IS DEPRECATED & FROZEN
+- **The authoritative runtime codebase is `v8-core/` (Rust).**
+- **ALL new features, bug fixes, evaluations, refactors, and test suites MUST be in Rust inside `v8-core/`.**
+- **NEVER modify or add Python code under `src/v8/` or `tests/`.** `src/v8/` is a frozen historical parity oracle locked by `docs/legacy/PYTHON_ORACLE_LOCK.json`.
+- Changes to `src/v8/` fail boundary integrity audits (`tools/audit_python_boundary.py`).
+
 Optimized for agentic coding: read this first, then the monograph.
 
 ## What this is

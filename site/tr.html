@@ -1,4 +1,4 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Nihai Araştırma Monografisi</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Davranış Odaklı Alım Satım Zekâsı</h1><p><strong>Nihai araştırma monografisi ve mimari spesifikasyonu.</strong> Bu tek dosya, önceki V8 Markdown derlemesinin tamamını belge içeriği olarak barındırır; okumak için ayrı bir Markdown dosyası gerekmez.</p></header><section id="document-status"><h1>Belge durumu ve okuma kuralı</h1><p class="status"><strong>ÖN-DENEYSEL / KANITA BAĞLI.</strong> Bu belge V8'in kârlı olduğunu, yatırımcı sezgisinin güvenilir olduğunu veya icranın doğrulandığını iddia etmez. Amacı, kaynaklı fikirleri, tasarım varsayımlarını ve deneylerle elenmesi ya da desteklenmesi gereken önermeleri birbirinden ayırmaktır.</p><p>Etiketler şu anlamlara gelir: <strong>LITERATURE_SUPPORTED</strong> sınırlı, harici destekli bir iddiadır; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> yerel bir proje bulgusudur; <strong>DESIGN_INFERENCE</strong> test edilebilir bir mühendislik çıkarımıdır; <strong>PROVISIONAL_DECISION</strong> geri alınabilirdir; <strong>LOCKED_INVARIANT</strong> bir geçerlilik kuralıdır; <strong>OPEN_QUESTION</strong> çözümlenmemiştir; <strong>REJECTED_OPTION</strong> ise başlangıç taban çizgisinden hariç tutulmuştur.</p></section><section id="abstract"><h1>Özet</h1><p>V8, evrensel-model önermesini—her piyasa zaman damgası için tek bir yön tahmini üretmeyi—yanlışlanabilir bir alternatifle karşılaştırır: koşullu alım satım muhakemesini açık, davranışa özgü karar modüllerine ayrıştırmak. Temel soru, bu ayrıştırmanın eşit bilgiye sahip global zaman-damgası düzeyinde bir tahmin ediciden daha yararlı ve sağlam kararlar üretip üretemeyeceğidir.</p><p>Bu soru tek bir hipotez değildir. Davranışsal yapının varlığı, avantajın belirli habitatlarda yoğunlaşması, Expert ayrıştırmasının değeri, Aday Bölümü (Candidate Episode) veri modelinin değeri, seçim/kalite filtrelemesinin değeri, sermaye kıtlığında sıralama ihtiyacı ve icranın alfa ile etkileşimi ayrı ayrı test edilmelidir. Literatür, likiditenin, emir akışının, oynaklık kümelenmesinin, piyasa etkisinin, seçici tahminin ve çoklu test riskinin ilgisini destekler. V8 Expert'lerinin, bir Yönlendirici'nin (Router) veya bir Skorlayıcı'nın (Scorer) ekonomik üstünlüğe sahip olduğunu kurmaz.</p><p>Buna uygun olarak başlangıç mimarisi bilinçli olarak küçüktür: anlık (point-in-time) MarketState → 2–3 deterministik, kendinden kapılı Expert → eksiksiz Aday yaşam döngüsünün salt-ekle (append-only) kaydı → deterministik kabul/risk → tek bir kanonik Seviye-1 icra defteri. Yönlendirici, öğrenilmiş Skorlayıcı, Sıralayıcı, RL icrası ve emir defteri simülasyonu varsayılan değildir. Her biri, önceden kayıtlı, maliyetlendirilmiş, dondurulmuş bir örnek-dışı (out-of-sample) deneyinde daha basit bir deterministik taban çizgisine karşı değer göstermek zorundadır.</p></section><section id="problem-definition"><h1>Problem tanımı</h1><h2>Yanlış kurulmuş problem: her barda yön tahmin etmek</h2><p>Global bir model, heterojen süreçleri—trend, bant (range), oynaklık şoku, likidite tükenmesi, zorla tasfiye, devam ve tersine dönüş—tek bir hedef fonksiyona sıkıştırır. Güçlü örnek-içi (in-sample) sınıflandırma, bir sinyalin maliyetler sonrası seçilebilir olduğunu, bir mekanizmaya bağlı olduğunu veya rejim değişikliğine karşı sağlam olduğunu göstermez. Dosya tabanlı V7 kanıtı bu ayrımı gerekli kılar: belirli bir bar türevi öznitelik/icracı kampanyası, belirtilen maliyet varsayımları altında açıklanan ekonomik kapıyı geçemedi. Bu sonuç, tüm davranışsal avantajı ne doğrular ne de çürütür; V8'in kendisini de etkilemez.</p><h2>V8 araştırma problemi</h2><p>V8, "sıradaki fiyat hareketi yukarı mı aşağı mı?" sorusunu dört soruya ayrıştırır: (1) Bu anda ekonomik olarak anlamlı olabilecek gözlemlenebilir bir davranış var mı? (2) Habitat, kurulum, tetikleyici, geçersiz kılma ve süre sonu ile önceden (ex ante) biçimselleştirilebilir mi? (3) Bir Aday olarak kaydedildikten sonra hangi hipotezler tetiklenir ve kanonik bir maliyet ve icra politikası altında ne olur? (4) Daha karmaşık bir bileşen, daha basit taban çizgisinin ötesinde ölçülmüş değer ekler mi?</p><h2>Başarı ve başarısızlık ölçütleri</h2><p>Başarı, çekici bir geri test ya da karmaşık bir diyagram değildir. Bir bileşen, yalnızca eksiksiz deneme soyağacı, anlık veri, sabit maliyet/dolum varsayımları, bağımlılık duyarlı belirsizlik, çoklu test muhasebesi ve dokunulmamış kronolojik OOS ile önceden kayıtlı bir hedefi geçtiğinde kabul edilir. Başarısızlık da bilgidir: bir Expert'i reddedin, bir Yönlendirici'yi çıkarın ya da bir Aday şemasını sadeleştirin. Dolayısıyla V8'in çıktısı, mimari karmaşıklığı kanıt yüküne bağlayan bir araştırma laboratuvarıdır; bir sinyal makinesi değildir.</p></section><section id="introduction"><h1>Giriş: bu araştırma neden gerekli</h1><p>Alım satım araştırmasındaki en pahalı hata, gözlemlenen bir fiyat biçimini nedenle ve seçilmiş bir geri testi avantajla karıştırmaktır. İkinci bir hata, ilkini daha fazla öznitelik, daha büyük bir model, daha ince yönlendirme veya daha gerçekçi görünen icra ile gizlemektir. Bu monografi, ekonomik mekanizmayı, gözlemlenebilir davranışı, istatistiksel imzayı, alım satım kuralını ve icra seçimini ayrı tutar. Bir katmandaki olumlu kanıt, bir sonraki katmanı asla otomatik olarak çözmez.</p><p>Bu belge iki iş yapar. İlk olarak, sağlanan 60 maddelik listedeki erişilebilir çalışmaları MoE/yönlendirme, seçici tahmin, sağkalım ve çok durumlu yaşam döngüsü yöntemleri, zamansal olay modellemesi, aşırı uyum kontrolleri, mikro yapı, etki ve icra/portföy kararları kapsamında derinlemesine analiz eder. İkinci olarak, aktarımın sınırını çizer: LLM MoE kanıtı finansal Expert değeri değildir; tıbbi sağkalım modelleri Aday PnL'si değildir; eşzamanlı emir akışı etkisi öngörülebilirlik değildir. Geçerli aktarım esas olarak test tasarımı ve veri sözleşmeleri düzeyindedir.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-anayasas-v01">V8 Anayasası v0.1</h1>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Nihai Araştırma Monografisi</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Davranış Odaklı Alım Satım Zekâsı</h1><p><strong>Nihai araştırma monografisi ve mimari spesifikasyonu.</strong> Bu tek dosya, önceki V8 Markdown derlemesinin tamamını belge içeriği olarak barındırır; okumak için ayrı bir Markdown dosyası gerekmez.</p></header><section id="document-status"><h1>Belge durumu ve okuma kuralı</h1><p class="status"><strong>ÖN-DENEYSEL / KANITA BAĞLI.</strong> Bu belge V8'in kârlı olduğunu, yatırımcı sezgisinin güvenilir olduğunu veya icranın doğrulandığını iddia etmez. Amacı, kaynaklı fikirleri, tasarım varsayımlarını ve deneylerle elenmesi ya da desteklenmesi gereken önermeleri birbirinden ayırmaktır.</p><p>Etiketler şu anlamlara gelir: <strong>LITERATURE_SUPPORTED</strong> sınırlı, harici destekli bir iddiadır; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> yerel bir proje bulgusudur; <strong>DESIGN_INFERENCE</strong> test edilebilir bir mühendislik çıkarımıdır; <strong>PROVISIONAL_DECISION</strong> geri alınabilirdir; <strong>LOCKED_INVARIANT</strong> bir geçerlilik kuralıdır; <strong>OPEN_QUESTION</strong> çözümlenmemiştir; <strong>REJECTED_OPTION</strong> ise başlangıç taban çizgisinden hariç tutulmuştur.</p></section><section id="abstract"><h1>Özet</h1><p>V8, evrensel-model önermesini—her piyasa zaman damgası için tek bir yön tahmini üretmeyi—yanlışlanabilir bir alternatifle karşılaştırır: koşullu alım satım muhakemesini açık, davranışa özgü karar modüllerine ayrıştırmak. Temel soru, bu ayrıştırmanın eşit bilgiye sahip global zaman-damgası düzeyinde bir tahmin ediciden daha yararlı ve sağlam kararlar üretip üretemeyeceğidir.</p><p>Bu soru tek bir hipotez değildir. Davranışsal yapının varlığı, avantajın belirli habitatlarda yoğunlaşması, Expert ayrıştırmasının değeri, Aday Bölümü (Candidate Episode) veri modelinin değeri, seçim/kalite filtrelemesinin değeri, sermaye kıtlığında sıralama ihtiyacı ve icranın alfa ile etkileşimi ayrı ayrı test edilmelidir. Literatür, likiditenin, emir akışının, oynaklık kümelenmesinin, piyasa etkisinin, seçici tahminin ve çoklu test riskinin ilgisini destekler. V8 Expert'lerinin, bir Yönlendirici'nin (Router) veya bir Skorlayıcı'nın (Scorer) ekonomik üstünlüğe sahip olduğunu kurmaz.</p><p>Buna uygun olarak başlangıç mimarisi bilinçli olarak küçüktür: anlık (point-in-time) MarketState → 2–3 deterministik, kendinden kapılı Expert → eksiksiz Aday yaşam döngüsünün salt-ekle (append-only) kaydı → deterministik kabul/risk → tek bir kanonik Seviye-1 icra defteri. Yönlendirici, öğrenilmiş Skorlayıcı, Sıralayıcı, RL icrası ve emir defteri simülasyonu varsayılan değildir. Her biri, önceden kayıtlı, maliyetlendirilmiş, dondurulmuş bir örnek-dışı (out-of-sample) deneyinde daha basit bir deterministik taban çizgisine karşı değer göstermek zorundadır.</p></section><section id="problem-definition"><h1>Problem tanımı</h1><h2>Yanlış kurulmuş problem: her barda yön tahmin etmek</h2><p>Global bir model, heterojen süreçleri—trend, bant (range), oynaklık şoku, likidite tükenmesi, zorla tasfiye, devam ve tersine dönüş—tek bir hedef fonksiyona sıkıştırır. Güçlü örnek-içi (in-sample) sınıflandırma, bir sinyalin maliyetler sonrası seçilebilir olduğunu, bir mekanizmaya bağlı olduğunu veya rejim değişikliğine karşı sağlam olduğunu göstermez. Dosya tabanlı V7 kanıtı bu ayrımı gerekli kılar: belirli bir bar türevi öznitelik/icracı kampanyası, belirtilen maliyet varsayımları altında açıklanan ekonomik kapıyı geçemedi. Bu sonuç, tüm davranışsal avantajı ne doğrular ne de çürütür; V8'in kendisini de etkilemez.</p><h2>V8 araştırma problemi</h2><p>V8, "sıradaki fiyat hareketi yukarı mı aşağı mı?" sorusunu dört soruya ayrıştırır: (1) Bu anda ekonomik olarak anlamlı olabilecek gözlemlenebilir bir davranış var mı? (2) Habitat, kurulum, tetikleyici, geçersiz kılma ve süre sonu ile önceden (ex ante) biçimselleştirilebilir mi? (3) Bir Aday olarak kaydedildikten sonra hangi hipotezler tetiklenir ve kanonik bir maliyet ve icra politikası altında ne olur? (4) Daha karmaşık bir bileşen, daha basit taban çizgisinin ötesinde ölçülmüş değer ekler mi?</p><h2>Başarı ve başarısızlık ölçütleri</h2><p>Başarı, çekici bir geri test ya da karmaşık bir diyagram değildir. Bir bileşen, yalnızca eksiksiz deneme soyağacı, anlık veri, sabit maliyet/dolum varsayımları, bağımlılık duyarlı belirsizlik, çoklu test muhasebesi ve dokunulmamış kronolojik OOS ile önceden kayıtlı bir hedefi geçtiğinde kabul edilir. Başarısızlık da bilgidir: bir Expert'i reddedin, bir Yönlendirici'yi çıkarın ya da bir Aday şemasını sadeleştirin. Dolayısıyla V8'in çıktısı, mimari karmaşıklığı kanıt yüküne bağlayan bir araştırma laboratuvarıdır; bir sinyal makinesi değildir.</p></section><section id="introduction"><h1>Giriş: bu araştırma neden gerekli</h1><p>Alım satım araştırmasındaki en pahalı hata, gözlemlenen bir fiyat biçimini nedenle ve seçilmiş bir geri testi avantajla karıştırmaktır. İkinci bir hata, ilkini daha fazla öznitelik, daha büyük bir model, daha ince yönlendirme veya daha gerçekçi görünen icra ile gizlemektir. Bu monografi, ekonomik mekanizmayı, gözlemlenebilir davranışı, istatistiksel imzayı, alım satım kuralını ve icra seçimini ayrı tutar. Bir katmandaki olumlu kanıt, bir sonraki katmanı asla otomatik olarak çözmez.</p><p>Bu belge iki iş yapar. İlk olarak, sağlanan 60 maddelik listedeki erişilebilir çalışmaları MoE/yönlendirme, seçici tahmin, sağkalım ve çok durumlu yaşam döngüsü yöntemleri, zamansal olay modellemesi, aşırı uyum kontrolleri, mikro yapı, etki ve icra/portföy kararları kapsamında derinlemesine analiz eder. İkinci olarak, aktarımın sınırını çizer: LLM MoE kanıtı finansal Expert değeri değildir; tıbbi sağkalım modelleri Aday PnL'si değildir; eşzamanlı emir akışı etkisi öngörülebilirlik değildir. Geçerli aktarım esas olarak test tasarımı ve veri sözleşmeleri düzeyindedir.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-anayasas-v01">V8 Anayasası v0.1</h1>
 <ol>
 <li>V8 bir falsifikasyon programıdır, edge vaadi değildir.</li>
 <li>Bir iddia <code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>,
@@ -908,6 +908,453 @@ on architecture and representation-ownership grounds, which are argued in
 <p>Sections 5-8 were measured with ad-hoc scripts against the same synthetic tape;
 each snippet appears inline above and is self-contained apart from
 <code>sys.path.insert(0, 'src')</code>.</p></section>
+<section id="sec-evaluation-evidence-system"><h1>EVALUATION EVIDENCE SYSTEM</h1><h1 id="v8-degerlendirme-kant-sistemi-ve-bilimsel-denetim-spesifikasyonu-v8evalv1">V8 Değerlendirme Kanıt Sistemi ve Bilimsel Denetim Spesifikasyonu (v8.eval.v1)</h1>
+<p><strong>Durum:</strong> DESIGN_INFERENCE / LOCKED_INVARIANT.<br>
+<strong>Kapsam:</strong> Eski tekil rapor (HTML/text) üretim mantığını; otonom araştırma ajanlarının (Scout -&gt; Investigator -&gt; Decision döngüsü) üzerinde hipotez kurup doğrulayabileceği, sorgulanabilir, değişmez (immutable) ve içerik adresli bir bilimsel kanıt paketi (Evidence Bundle) ile değiştirir.</p>
+<hr>
+<h2 id="1-paradigma-donusumu-rapor-uretecinden-bilimsel-kant-altyapsna">1. Paradigma Dönüşümü: Rapor Üretecinden Bilimsel Kanıt Altyapısına</h2>
+<p>Geleneksel kantitatif backtest sistemleri ve önceki V8 sürümleri, değerlendirme adımını yalnızca bir <strong>rapor oluşturma aracı</strong> olarak görüyordu (P&amp;L eğrileri, Sharpe oranları, özet kazanma oranları içeren statik HTML/metin çıktısı).</p>
+<p><strong>v8.eval.v1</strong> ile değerlendirme sistemi kökten yeniden tanımlanmıştır:</p>
+<blockquote>
+<p><strong>Bir değerlendirme koşusu yalnızca bir rapor üretmez. Otonom ajanların üzerinde araştırma yapabileceği, sorgulayabileceği, yanlışlanabilir hipotezler kurup bütün korpus üzerinde doğrulayabileceği / çürütebileceği değişmez (immutable) ve içerik adresli bir Kanıt Paketi (Evidence Bundle) üretir.</strong></p>
+</blockquote>
+<pre><code>                                 ESKİ YAKLAŞIM (Yalnızca Çıktı)
+                      ┌──────────────────────────────────────────┐
+                      │  Input Tape ──► Engine ──► Final P&amp;L/HTML│
+                      └──────────────────────────────────────────┘
+
+                                V8.2+ BİLİMSEL PARADİGMA
+ ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+ │                                                                                          │
+ │   Piyasa Verisi (PIT) ──► S0-S7 Pipeline ──► Değişmez Kanıt Paketi (v8.eval.v1)         │
+ │                                                  │                                       │
+ │                          ┌───────────────────────┴───────────────────────┐               │
+ │                          ▼                                               ▼               │
+ │                 Yapılandırılmış Kanıt Deposu                 Deterministik Şema Önbelleği │
+ │              (Parquet İzleri, DAG, Defterler)               (Dağılımlar, Boşluklar, İstat)│
+ │                          │                                               │               │
+ │                          └───────────────────────┬───────────────────────┘               │
+ │                                                  ▼                                       │
+ │                                       Otonom Ajan Sürüsü                                 │
+ │                         ┌─────────────────────────────────────────┐                      │
+ │                         │  • Triage Ajanı (Anomali Tespiti)       │                      │
+ │                         │  • Scout Ajanları (Hipotez Üretimi)     │                      │
+ │                         │  • Investigator Ajanları (Korpus Testi) │                      │
+ │                         │  • Decision Ajanı (Sicil Yönetimi)      │                      │
+ │                         └────────────────────┬────────────────────┘                      │
+ │                                              ▼                                           │
+ │                                   Doğrulanmış Bulgu Grafı                                │
+ │                                 (EPİSTEMOLOJİK / İSTATİSTİKSEL)                          │
+ │                                              │                                           │
+ │                          ┌───────────────────┴───────────────────┐                       │
+ │                          ▼                                       ▼                       │
+ │                   İnsan HTML Raporu (A-W)                 Makine Kanıt API'si            │
+ │                    (Yönetici Görüntüsü)                  (JSON-RPC / Substrat)           │
+ └──────────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<p>Buradaki HTML raporu, insan operatörler için yalnızca bir <strong>okuma arayüzüdür (viewport)</strong>. Nihai otorite ise tamamen <strong>makine tarafından okunabilir, şema doğrulamalı, yapılandırılmış Parquet/JSONL kanıt paketindedir</strong>. Ajanlar asla HTML parse etmeye çalışmaz.</p>
+<hr>
+<h2 id="2-literatur-dayanag-ve-metodolojik-temeller">2. Literatür Dayanağı ve Metodolojik Temeller</h2>
+<p>2025–2026 ajan değerlendirme ve kantitatif finans literatürü, <code>v8.eval.v1</code> mimarisini doğrudan desteklemektedir:</p>
+<pre><code>┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                LİTERATÜR EŞLEŞTİRME MATRİSİ                                  │
+├─────────────────────────┬──────────────────────────────────┬─────────────────────────────────┤
+│ Kaynak / Makale         │ Temel İlke                       │ V8.eval.v1 Uygulaması           │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Harness-Bench           │ Sonuç tek başına yetersizdir;    │ Ham yürütme izleri (traces),    │
+│ (arXiv:2605.27922)      │ nihai çıktılar + yürütme izleri  │ doğrulayıcı çıktıları ve durum  │
+│                         │ + kullanım istatistikleri şart.  │ DAG'ı P&amp;L ile birlikte saklanır.│
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ ClawTrack               │ Outcome Grading ile Process      │ Süreç telemetrisi: Hedef uyumu, │
+│ (arXiv:2607.28037)      │ Grading ayrılmalıdır; trajectory,│ filtre verimliliği, dedup/veto  │
+│                         │ denetim günlükleri, snapshotlar. │ korunum denkliği izlenir.       │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ A²E Protokolü           │ Görev temsili, ortam ve gerçek   │ Tiplenmiş yürütme kayıtları:    │
+│ (arXiv:2608.07346)      │ yürütme kaydını ayıran protokol. │ signals -&gt; candidates -&gt;        │
+│                         │                                  │ transitions -&gt; trades.          │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ On Randomness in Evals  │ Tek koşu varyansı yanıltıcıdır;  │ pass@1, iyimser tekrar ve       │
+│ (arXiv:2602.07150)      │ tutarlılık sınırları (bounds)    │ kötümser tutarlılık sınırları   │
+│                         │ birlikte raporlanmalıdır.        │ pertürbasyon altında ölçülür.   │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Princeton Ajan          │ 4 Güvenilirlik Sütunu:           │ Güvenilirlik Zarfı: Outcome,    │
+│ Güvenilirliği           │ Consistency, Robustness,         │ trajectory ve resource tutar-   │
+│ (arXiv:2602.16666)      │ Predictability, Safety.          │ lılığı çevre şartlarında test.  │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Insights Generator      │ Büyük iz korpusu doğrudan LLM'e  │ İki kademeli ajan araştırması:  │
+│ (arXiv:2605.21347)      │ verilmez; Şema Önbelleği +       │ Scout hipotez üretir,           │
+│                         │ Scout / Investigator ayrımı.     │ Investigator korpusta kanıtlar. │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ AlgoXpert Çerçevesi     │ Parametre uçurumları (cliffs) &amp;  │ Sağlamlık Yüzeyleri: maliyet,   │
+│ (arXiv:2603.09219)      │ IS-WFA-OOS bozulma metrikleri.   │ stop, hedef ve ortak kırılganlık│
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ SysTradeBench           │ Fail-closed geçerlilik kapıları; │ Geçerlilik Kapıları: Sızıntı,   │
+│ (arXiv:2604.04812)      │ donmuş strateji sağlama toplamı. │ Muhasebe, SIMD/İş Parçacığı.    │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ AgentRx                 │ Yürütme yörüngesinden hata adımı │ Biçimsel Hata Ontolojisi:       │
+│ (arXiv:2602.02475)      │ ve sınıfı çıkarma.               │ 9 ana kategorili taksonomi.     │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Bailey vd. (PBO/DSR)    │ Çoklu test enflasyonu, deflated  │ Araştırma Defteri ve kümülatif  │
+│ &amp; White Reality Check   │ Sharpe ve aşırı uyum olasılığı.  │ deneme cezası hesabı.           │
+└─────────────────────────┴──────────────────────────────────┴─────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="3-tekil-ckt-yerine-guvenilirlik-zarf-reliability-envelope">3. Tekil Çıktı Yerine Güvenilirlik Zarfı (Reliability Envelope)</h2>
+<p>Deterministik bir motorda dahi çalışma şartları (execution circumstances) üretim ortamlarında değişkenlik gösterebilir. V8, tekil bir metrik yerine çok boyutlu bir <strong>Güvenilirlik Zarfı</strong> tanımlar:</p>
+<p>$$\text{Güvenilirlik Zarfı} = \mathcal{E}(\text{İş Parçacıkları}, \text{SIMD}, \text{Önbellek}, \text{İşlemci}, \text{Girdi Pertürbasyonları}, \text{Maliyet Şokları})$$</p>
+<h3 id="temel-degismez-yurutme-sartlar-altnda-semantik-degismezlik">Temel Değişmez: Yürütme Şartları Altında Semantik Değişmezlik</h3>
+<p>$$\forall c_1, c_2 \in \text{YürütmeŞartları}, \quad \text{Semantik}(S, c_1) \equiv \text{Semantik}(S, c_2) \implies \text{Ekonomi}(S, c_1) \equiv \text{Ekonomi}(S, c_2)$$</p>
+<ol>
+<li><strong>İş Parçacığı Paritesi ($T \in {1, 2, 4, 8}$):</strong> Paralellik seviyesi değiştikçe aday dağıtımı veya durum toplama işlemi bit düzeyinde sapıyor mu?</li>
+<li><strong>SIMD / Skaler Paritesi:</strong> AVX2/AVX-512 vektör kod yolları ile skaler yedek yollar birebir aynı kararları üretiyor mu?</li>
+<li><strong>Soğuk / Sıcak Önbellek:</strong> Önbelleğin önceden ısıtılmış olması geçmişe bakış indekslerini veya kayan nokta yuvarlamalarını etkiliyor mu?</li>
+<li><strong>Girdi Pertürbasyonları:</strong> 1 barlık zaman damgası kayması, mikro-kayma veya eksik fonlama oranları altında sistemin stabilitesi.</li>
+<li><strong>Parametre Komşuluk Kararlılığı:</strong> Gösterge eşiklerindeki $\pm 2\%$ değişim keskin bir performans uçurumuna ($\Delta \text{Sharpe} &gt; 50\%$) yol açıyor mu?</li>
+</ol>
+<hr>
+<h2 id="4-degismez-kant-paketi-dizin-yaps-v8evalv1">4. Değişmez Kanıt Paketi Dizin Yapısı (<code>v8.eval.v1</code>)</h2>
+<p>Her değerlendirme koşusu <code>evaluation/&lt;RUN_ID&gt;/</code> altında tamamen bağımsız bir kanıt paketi oluşturur:</p>
+<pre><code>evaluation/
+└── RUN_ID/
+    ├── manifest.json                  # Giriş kapısı ve kriptografik makbuz
+    ├── executive.json                 # Makine tarafından okunabilir özet ve kritik hükümler
+    ├── report.html                    # İnsan operatör sunum arayüzü (A–W Bölümleri)
+    │
+    ├── provenance/                    # Kriptografik köken ve yeniden üretim DAG'ı
+    │   ├── environment.json           # Host CPU, işletim sistemi, Rust derleyici ve bayraklar
+    │   ├── inputs.json                # Veri kaynakları, sembol listesi, aralık, bar sayıları
+    │   ├── hashes.json                # İkili dosya, bant, konfigürasyon ve eser sağlama toplamları
+    │   ├── config.json                # Değerlendirici konfigürasyon anlık görüntüsü
+    │   └── artifact_dag.json          # Üretilen tüm eserlerin bağımlılık grafı
+    │
+    ├── data/                          # Veri adli tıp katmanı
+    │   ├── bars.parquet               # PIT olarak içeri alınmış OHLCV ve fonlama satırları
+    │   ├── data_quality.parquet       # Bar bazında kalite bayrakları, boşluk göstergeleri
+    │   └── feature_census.parquet     # Öznitelik dağılımları, boşluk oranları, çeyreklikler
+    │
+    ├── execution/                     # Tam işlem hattı olay telemetrisi
+    │   ├── evaluations.parquet        # S0: Bar seviyesindeki tüm uzman değerlendirme denemeleri
+    │   ├── signals.parquet            # S1: Üretilen ham davranışsal sinyaller
+    │   ├── candidates.parquet         # S2: Oluşturulan aday epizotlar (candidates)
+    │   ├── transitions.parquet        # S3-S4: Durum geçişleri (tekilleştirme, bekleme süreleri)
+    │   ├── vetoes.parquet             # S5: Risk, kapasite ve portföy veto olayları
+    │   └── trades.parquet             # S6-S7: Kabul edilen emirler, dolumlar ve işlem günlükleri
+    │
+    ├── economics/                     # Finansal performans adli tıp katmanı
+    │   ├── portfolio.parquet          # Kümülatif portföy metrikleri ve düşüş (drawdown) serisi
+    │   ├── experts.parquet            # Uzman bazında getiri ayrıştırması ve atıf
+    │   ├── costs.parquet              # Spread, komisyon, kayma ve fonlama maliyet yükü
+    │   └── equity_curve.parquet       # Adım adım yüksek çözünürlüklü bakiye eğrisi
+    │
+    ├── paths/                         # İşlem içi yol ve yörünge adli tıbbı
+    │   ├── mfe_mae.parquet            # Maksimum Lehte / Aleyhte Sapma (MFE/MAE) kayıtları
+    │   ├── markouts.parquet           # Tetikleme sonrası fiyat yörüngeleri (t+1..t+k)
+    │   ├── exits.parquet              # Çıkış bariyeri sınıflandırması ve temas sıraları
+    │   └── intrabar_ambiguity.parquet # Bar içi Yüksek/Düşük temas belirsizliği ve cezaları
+    │
+    ├── slices/                        # Dilim ve rejim bazlı koşullu performans
+    │   ├── regime.parquet             # Volatilite ve trend rejim dilimleri
+    │   ├── direction.parquet          # Uzun (Long) vs Kısa (Short) asimetrisi
+    │   ├── time_of_day.parquet        # Seans, gün içi saat ve haftanın günü performansı
+    │   ├── volatility.parquet         # ATR ve gerçekleşen volatilite çeyreklikleri
+    │   └── liquidity.parquet          # Hacim ve emir akışı dengesizliği (OFI) dilimleri
+    │
+    ├── robustness/                    # Karşıolgusal yüzeyler ve kararlılık
+    │   ├── cost_surface.parquet       # Sürtünme maliyeti vs Net Beklenti ızgarası
+    │   ├── exit_surface.parquet       # SL/TP/Zaman aşımı geometri pertürbasyon ızgarası
+    │   ├── parameter_surface.parquet  # Parametre komşuluğu duyarlılık ızgarası
+    │   ├── perturbations.parquet      # Enjekte edilmiş stres ve veri bozulma testleri
+    │   └── degradation.parquet        # IS -&gt; WFA -&gt; OOS -&gt; Holdout bozulma oranları
+    │
+    ├── statistics/                    # Titiz hipotez testi eserleri
+    │   ├── bootstrap.json             # Beklenti ve Sharpe için durağan bootstrap GA'ları
+    │   ├── permutations.json          # İşlem sırası ve getiri permütasyon dağılımları
+    │   ├── nulls.json                 # 10 ailelik sıfır hipotezi (null) karşılaştırmaları
+    │   ├── reality_check.json         # White Reality Check ve Hansen SPA testleri
+    │   ├── multiple_testing.json      # Yaşam boyu araştırma denemeleri ve DSR düzeltmeleri
+    │   └── backtest_overfit.json      # Bailey Backtest Aşırı Uyum Olasılığı (PBO / CSCV)
+    │
+    ├── correctness/                   # Rust motoru değişmezlik ve parite makbuzları
+    │   ├── invariants.json            # Korunum ve yaşam döngüsü değişmezlik kontrolleri
+    │   ├── replay_digest.json         # Deterministik yeniden oynatma sağlama doğrulaması
+    │   ├── thread_parity.json         # 1 vs 2 vs 4 vs 8 iş parçacığı parite sonuçları
+    │   ├── simd_parity.json           # AVX2/AVX-512 vs Skaler bit düzeyinde parite
+    │   └── implementation_parity.json # Minimal referans orakıl karşılaştırma raporu
+    │
+    └── analysis/                      # Ajan akıl yürütme ve bulgu grafı
+        ├── schema_cache.json          # LLM sorguları için önceden hesaplanmış kolon istatistikleri
+        ├── hypotheses.jsonl           # Ön kayıtlı ve Scout tarafından üretilen hipotezler
+        ├── findings.jsonl             # Doğrulanmış, Çürütülmüş veya Belirsiz bulgular
+        ├── anomalies.jsonl            # Otomatik aykırı değer ve teşhis uyarıları
+        └── recommendations.jsonl      # Bir sonraki ön kayıtlı meydan okuyucu önerileri
+</code></pre>
+<hr>
+<h2 id="5-manifestjson-giris-kaps-ve-muhasebe-korunum-degismezi">5. <code>manifest.json</code> Giriş Kapısı ve Muhasebe Korunum Değişmezi</h2>
+<p>Ajanlar büyük Parquet dosyalarını taramadan önce ~10 KB boyutundaki <code>manifest.json</code> dosyasını inceler:</p>
+<pre><code class="language-json">{
+  &quot;schema&quot;: &quot;v8.eval.v1&quot;,
+  &quot;run_id&quot;: &quot;RUN-20260819-BTC-001&quot;,
+  &quot;timestamp_utc&quot;: &quot;2026-08-19T03:00:00Z&quot;,
+  &quot;git_commit&quot;: &quot;a1f89c0d2e4b6789123456789abcdef01234567&quot;,
+  &quot;binary_hash&quot;: &quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;,
+  &quot;tape_hash&quot;: &quot;7a3560f7690623a9d4fa1534da6cc0a7d9796e625a6eb8ee99b3b0d2de0bc5ef&quot;,
+  &quot;config_hash&quot;: &quot;2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae&quot;,
+  &quot;dataset&quot;: {
+    &quot;instrument&quot;: &quot;BTCUSDT&quot;,
+    &quot;timeframe&quot;: &quot;1h&quot;,
+    &quot;raw_bars&quot;: 9948,
+    &quot;warmup_bars&quot;: 1188,
+    &quot;eligible_bars&quot;: 8760,
+    &quot;start_utc&quot;: &quot;2025-07-01T00:00:00Z&quot;,
+    &quot;end_utc&quot;: &quot;2026-07-01T00:00:00Z&quot;
+  },
+  &quot;funnel_conservation&quot;: {
+    &quot;evaluations&quot;: 245280,
+    &quot;setups_triggered&quot;: 42647,
+    &quot;deduplicated&quot;: 14766,
+    &quot;vetoed_risk_capacity&quot;: 27879,
+    &quot;admitted_trades&quot;: 2,
+    &quot;invariant_holds&quot;: true,
+    &quot;accounting_equation&quot;: &quot;42647 == 14766 (dedup) + 27879 (veto) + 2 (admitted)&quot;
+  },
+  &quot;validity_gates&quot;: {
+    &quot;temporal_leakage&quot;: &quot;PASS&quot;,
+    &quot;accounting_conservation&quot;: &quot;PASS&quot;,
+    &quot;determinism_replay&quot;: &quot;PASS&quot;,
+    &quot;simd_scalar_parity&quot;: &quot;PASS&quot;,
+    &quot;thread_parity&quot;: &quot;PASS&quot;,
+    &quot;overall_validity&quot;: &quot;VALID&quot;
+  },
+  &quot;economic_verdict&quot;: &quot;INSUFFICIENT_EVIDENCE&quot;,
+  &quot;summary_metrics&quot;: {
+    &quot;gross_expectancy_R&quot;: -0.012,
+    &quot;net_expectancy_R&quot;: -0.048,
+    &quot;total_trades&quot;: 2,
+    &quot;sharpe_ratio&quot;: -0.18,
+    &quot;max_drawdown_R&quot;: 1.96
+  },
+  &quot;critical_findings&quot;: [
+    &quot;F-0012: Extreme veto rate (99.99%) driven by unparameterized EXISTING_EXPOSURE_CONFLICT.&quot;,
+    &quot;F-0014: Expert identity collapse in admission veto logs.&quot;
+  ],
+  &quot;artifacts&quot;: {
+    &quot;root_dir&quot;: &quot;evaluation/RUN-20260819-BTC-001&quot;,
+    &quot;total_size_bytes&quot;: 14820942
+  }
+}
+</code></pre>
+<h3 id="muhasebe-korunum-denklemi">Muhasebe Korunum Denklemi</h3>
+<p>$$\text{Kurulumlar (Setups)} = \text{Tekilleştirilen (Dedup)} + \text{Veto Edilen (Risk/Kapasite)} + \text{Kabul Edilen (Admitted)}$$
+Herhangi bir uyumsuzlukta sistem derhal <strong>FAIL-CLOSED</strong> vererek koşuyu geçersiz ilan eder.</p>
+<hr>
+<h2 id="6-veri-adli-tp-katman-zamansal-butunluk-ve-kalite-dag">6. Veri Adli Tıp Katmanı: Zamansal Bütünlük ve Kalite DAG'ı</h2>
+<ol>
+<li>
+<p><strong>Zamansal Bütünlük (Temporal Integrity):</strong>
+   - Zaman damgası kesin monoton artış denetimi: $\forall t_i, t_i &lt; t_{i+1}$.
+   - Bilgi erişim zamanı (availability time) doğrulaması: $t_{\text{karar}} \ge t_{\text{erişim}} &gt; t_{\text{olay}}$.
+   - Borsa takvimine göre eksik bar ve tatil denetimleri.
+   - Geliştirme ve OOS bölümleri arasında kesin arındırma (purge) ve bekleme (embargo) aralıkları.</p>
+</li>
+<li>
+<p><strong>Öznitelik Nüfus Sayımı (Feature Census):</strong>
+   - Her öznitelik için: $N$, Boşluk $\%$, NaN sayısı, Sonsuz (Inf) değerler, Sıfır varyans uyarısı, Çeyreklikler ($p_1, p_{25}, p_{50}, p_{75}, p_{99}$), Min/Max, Süreksizlik sıçramaları ve Bayat tekrarlayan dizi tespiti.</p>
+</li>
+<li>
+<p><strong>Kaynak Kökeni DAG'ı (Provenance):</strong>
+   - Her bir veri sütunu, onu üreten Rust fonksiyonunun kriptografik sağlama toplamına ve ham veri kaynağına bağlanır.</p>
+</li>
+</ol>
+<hr>
+<h2 id="7-huni-adli-tbb-uzman-baznda-donusum-ve-kayp-beklenti">7. Huni Adli Tıbbı: Uzman Bazında Dönüşüm ve Kayıp Beklenti</h2>
+<p>Her uzmanın sinyal hunisi adım adım denetlenir:</p>
+<p>$$\text{Gözlenen Barlar} \xrightarrow{E} \text{Uygun Değerlendirmeler} \xrightarrow{S} \text{Kurulum} \xrightarrow{D} \text{Dedup} \xrightarrow{R} \text{Risk/Kapasite} \xrightarrow{A} \text{Kabul} \xrightarrow{T} \text{İşlem} \xrightarrow{X} \text{Sonuç}$$</p>
+<p>Her aşama için:
+- <strong>Sayı ve Dönüşüm Oranı:</strong> Her adımı geçen sinyal yüzdesi.
+- <strong>Gerekçe Kodları:</strong> Reddedilme nedenleri (<code>COOLDOWN_ACTIVE</code>, <code>OPPOSITE_EXPOSURE_ACTIVE</code>, <code>HEAT_CAP_EXCEEDED</code> vb.).
+- <strong>Kayıp Beklenti Tahmini ($\Delta \mathbb{E}[R]$):</strong> Filtrelenen sinyallerin karşıolgusal getirisi ile kabul edilenlerin karşılaştırılması (risk filtresinin zararlı işlemleri mi elediği yoksa karlı fırsatları mı kaçırdığı tespiti).
+- <strong>İz Kimlikleri (Trace IDs):</strong> Ajanların doğrudan ilgili adaya inebilmesini sağlayan kimlik dizileri.</p>
+<hr>
+<h2 id="8-ekonomik-adli-tp-katman">8. Ekonomik Adli Tıp Katmanı</h2>
+<p>Ekonomik çıktı üç bağımsız bileşene ayrıştırılır: <strong>Ham Kenar (Gross Edge)</strong>, <strong>Sürtünme Kaybı (Friction Drag)</strong> ve <strong>Gerçekleşen Net Kenar (Net Realized Edge)</strong>:</p>
+<p>$$\text{Net } R = \text{Brüt } R - (\text{Komisyon } R + \text{Kayma } R + \text{Fonlama } R + \text{Gecikme Cezası } R)$$</p>
+<pre><code>┌───────────────────────────┬───────────────────────────┬───────────────────────────┐
+│ Getiriler ve Beklenti     │ İşlem ve Risk İstatistiği │ Yürütme Ekonomisi         │
+├───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│ • Brüt Beklenti ($R$)     │ • Örneklem Sayısı ($N$)   │ • Toplam Komisyon ($R$)   │
+│ • Net Beklenti ($R$)      │ • Kazanma Oranı ($\%$)    │ • Kayma (Slippage) ($R$)  │
+│ • Medyan $R$ / İşlem      │ • Kar Faktörü ($PF$)      │ • Net Fonlama Yükü ($R$)  │
+│ • Yıllıklandırılmış Getiri│ • Kazanç/Kayıp Oranı      │ • Yıllık Devir Hızı       │
+│ • Sharpe Oranı (Yıllık)   │ • Maksimum Düşüş ($R$)    │ • Brüt -&gt; Net Erime Oranı │
+│ • Sortino Oranı           │ • Ortalama Düşüş ($R$)    │ • Başa Baş Maliyet Limiti │
+│ • Calmar Oranı            │ • CVaR / Beklenen Kayıp   │ • Kapasite Tahmini ($)    │
+└───────────────────────────┴───────────────────────────┴───────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="9-karsolgusal-saglamlk-yuzeyleri">9. Karşıolgusal Sağlamlık Yüzeyleri</h2>
+<p>Tekil parametre noktaları yerine 4 temel boyutta sürekli tepki yüzeyleri incelenir:</p>
+<ol>
+<li><strong>Maliyet Yüzeyi:</strong> $\mathbb{E}<a href="c">R</a>$ ($c \in [0, 20\text{ bps}]$). Başa baş sıfır noktası belirlenir.</li>
+<li><strong>Stop Yüzeyi:</strong> $\mathbb{E}<a href="\text{Stop_R}">R</a>$ ($\text{Stop_R} \in [0.2R, 3.0R]$). Stop-loss darlığı duyarlılığı.</li>
+<li><strong>Hedef Yüzeyi:</strong> $\mathbb{E}<a href="\text{Target_R}">R</a>$ ($\text{Target_R} \in [0.5R, 10.0R]$). Kar al kırpılma etkisi.</li>
+<li><strong>Vade (Zaman Aşımı) Yüzeyi:</strong> $\mathbb{E}<a href="\text{Expiry_Bars}">R</a>$ ($\text{Expiry} \in [1, 100\text{ bar}]$).</li>
+<li><strong>Ortak Kırılganlık Metrikleri:</strong>
+   - <strong>Plato Genişliği:</strong> $\mathbb{E}[R] &gt; 0$ olan parametre yarıçapı.
+   - <strong>Performans Uçurumu (AlgoXpert):</strong> Komşu parametreler arasındaki maksimum türev $\max |\nabla \text{Sharpe}|$.
+   - <strong>Yerel Kırılganlık İndeksi:</strong> $\pm 5\%$ parametre pertürbasyonu altında performans varyansı.</li>
+</ol>
+<hr>
+<h2 id="10-yol-adli-tbb-ve-yorunge-snflandrmas">10. Yol Adli Tıbbı ve Yörünge Sınıflandırması</h2>
+<p>Her işlem yüksek çözünürlüklü bar içi yol metrikleri üretir:
+- <strong>Stop Çok Dar:</strong> İşlem SL oldu fakat orijinal vade içinde $+1.0R$ lehte seviyeye ulaştı.
+- <strong>Hedef Çok Dar:</strong> İşlem TP oldu fakat hemen ardından $&gt; +2.0R$ güçlü hareket devam etti.
+- <strong>Ölü İşlem (Dead Trade):</strong> Ne SL ne TP yaklaşıldı ($|MAE| &lt; 0.2R, |MFE| &lt; 0.2R$); sürenin $\%80$'inde sıfır bilgi ile sermaye bağlandı.
+- <strong>Kötü Giriş:</strong> Giriş anından itibaren anında MAE oluştu ($MFE &lt; 0.05R$).
+- <strong>İyi Sinyal / Kötü Yürütme:</strong> $t+k$ anındaki markout pozitif ancak spread/kayma nedeniyle gerçekleşen işlem negatif.
+- <strong>Kötü Sinyal / Şanslı Çıkış:</strong> Yörünge ağırlıklı olarak aleyhte ancak anlık bir iğne ucu ile karlı kapandı.</p>
+<hr>
+<h2 id="11-10-ailelik-sfr-hipotezi-null-model-test-paketi">11. 10 Ailelik Sıfır Hipotezi (Null Model) Test Paketi</h2>
+<ol>
+<li><strong>Rastgele Giriş (Uniform):</strong> Zamanlama bilgisini sınar.</li>
+<li><strong>Rastgele Yön (Long/Short):</strong> Giriş zamanını korur, yönü rastgele belirler.</li>
+<li><strong>Rastgele Zaman Damgaları (Poisson):</strong> İşlem sayısı ve süresini korur, zamanı dağıtır.</li>
+<li><strong>Her Zaman Long:</strong> Piyasa yukarı yönlü sürüklenme baz çizgisini ölçer.</li>
+<li><strong>Her Zaman Short:</strong> Piyasa aşağı yönlü sürüklenme baz çizgisini ölçer.</li>
+<li><strong>Ters Sinyal ($S \to -S$):</strong> Yönsel işaret doğruluğunu test eder.</li>
+<li><strong>Karıştırılmış Uzman Etiketleri:</strong> Uzman kimliğinin önemini sınar.</li>
+<li><strong>Frekansı Eşlenmiş Rastgele Strateji:</strong> İşlem sıklık dağılımını korur.</li>
+<li><strong>Süresi Eşlenmiş Rastgele Strateji:</strong> İşlem elde tutma süresi dağılımını korur.</li>
+<li><strong>Rejimi Eşlenmiş Rastgele Strateji:</strong> Rastgele işlemleri yalnızca aynı volatilite rejiminde açar.</li>
+</ol>
+<hr>
+<h2 id="12-coklu-test-muhasebesi-ve-arastrma-borcu-defteri">12. Çoklu Test Muhasebesi ve Araştırma Borcu Defteri</h2>
+<p>Kümülatif arama uzayında yanlış pozitif olasılığı hızla 1'e yaklaşır:</p>
+<p>$$P(\text{Yanlış Pozitif}) = 1 - (1 - \alpha)^K \xrightarrow[K \to \infty]{} 1.0$$</p>
+<ol>
+<li><strong>Deflated Sharpe Ratio (DSR):</strong> Sharpe oranını normallikten sapma, örneklem uzunluğu ve $K$ deneme sayısına göre iskonto eder.</li>
+<li><strong>White Reality Check &amp; Hansen SPA:</strong> Seçilen en iyi stratejinin tüm aile arama uzayı hesaba katıldıktan sonra anlamlı olup olmadığını test eder.</li>
+<li><strong>Backtest Aşırı Uyum Olasılığı (PBO / CSCV):</strong> Kombinatoryal çapraz doğrulama ile aşırı uyum olasılığını hesaplar.</li>
+<li><strong>Küresel Araştırma Defteri:</strong> Proje yaşamı boyunca test edilen her hipotez <code>research_ledger.jsonl</code> defterine işlenir; ceza tek koşudan değil kümülatif tarihten hesaplanır.</li>
+</ol>
+<hr>
+<h2 id="13-arastrma-defteri-ve-hipotez-kayd-hypothesesjsonl">13. Araştırma Defteri ve Hipotez Kaydı (<code>hypotheses.jsonl</code>)</h2>
+<pre><code class="language-json">{
+  &quot;hypothesis_id&quot;: &quot;H-0192&quot;,
+  &quot;parent_hypothesis&quot;: &quot;H-0145&quot;,
+  &quot;created_by&quot;: &quot;agent:scout-volatility&quot;,
+  &quot;created_at_run&quot;: &quot;RUN-20260819-BTC-001&quot;,
+  &quot;status&quot;: &quot;SUPPORTED&quot;,
+  &quot;claim&quot;: &quot;bollinger_breakout LONG, YUKSEK_VOLATILITE rejiminde erken stop kaybi yasiyor.&quot;,
+  &quot;preregistered_test&quot;: {
+    &quot;cohort_filter&quot;: &quot;expert == 'bollinger_breakout' and direction == 'LONG' and regime == 'HIGH_VOL'&quot;,
+    &quot;counterfactual_variant&quot;: &quot;stop_multiplier = 1.5&quot;,
+    &quot;primary_metric&quot;: &quot;net_expectancy_R&quot;,
+    &quot;required_n&quot;: 100,
+    &quot;significance_threshold_p&quot;: 0.01
+  },
+  &quot;evidence_for&quot;: [
+    &quot;Kohort N=342, baz net_R = -0.14R, karsi-olgusal net_R = +0.08R (bootstrap p=0.004).&quot;,
+    &quot;Stop olan islemlerin %38.4'u stop sonrasi +1.0R lehte fiyata ulasti.&quot;
+  ],
+  &quot;evidence_against&quot;: [
+    &quot;Genis stop altinda Maksimum Dusus (MaxDD) 12.4R'den 16.8R'ye yukseliyor.&quot;
+  ],
+  &quot;falsification_criterion&quot;: &quot;Etki, el surulmemis Donmus OOS Fold 2 uzerinde p &lt; 0.05 ile dogrulanmalidir.&quot;,
+  &quot;derived_challengers&quot;: [&quot;EXP-V8-CHALLENGER-BB-042&quot;]
+}
+</code></pre>
+<hr>
+<h2 id="14-dogrulama-ayrm-is-to-wfa-to-donmus-oos-to-holdout">14. Doğrulama Ayrımı: IS $\to$ WFA $\to$ Donmuş OOS $\to$ Holdout</h2>
+<p>Kronolojik 4 kademeli arındırılmış veri yapısı:</p>
+<p>$$\text{Geliştirme (IS)} \longrightarrow \text{Walk-Forward (WFA Folds)} \longrightarrow \text{Donmuş OOS} \longrightarrow \text{Kilitli Holdout}$$</p>
+<p>Her kademe geçişinde bozulma oranları ($\text{Degradation}$) hesaplanır.</p>
+<hr>
+<h2 id="15-uygulama-riski-vs-istatistiksel-gecerlilik-2b-matris">15. Uygulama Riski vs İstatistiksel Geçerlilik (2B Matris)</h2>
+<p>İstatistiksel güç ile motor doğruluğu bağımsız eksenlerdir:</p>
+<pre><code>                            İSTATİSTİKSEL GEÇERLİLİK × MOTOR DOĞRULUĞU
+ ┌──────────────────────────────────────┬──────────────────────────────────────────────────────────┐
+ │                                      │                      MOTOR DOĞRULUĞU                     │
+ │                                      ├────────────────────────────┬─────────────────────────────┤
+ │                                      │ Motor Doğrulandı (PASS)    │ Motor Şüpheli (FAIL)        │
+ ├────────────────┬─────────────────────┼────────────────────────────┼─────────────────────────────┤
+ │ İSTATİSTİKSEL  │ Kenar Geçerli (PASS)│ ADAY TERFİ EDİLİR          │ ENGELLENDİ / KARANTİNA      │
+ │ GEÇERLİLİK     │ Kenar Geçersiz(FAIL)│ REDDEDİLEN HİPOTEZ         │ YORUMLANAMAZ / BOZUK        │
+ └────────────────┴─────────────────────┴────────────────────────────┴─────────────────────────────┘
+</code></pre>
+<p>V8, 20 kanonik senaryolu minimal referans orakıl ile Rust motorunu bağımsız olarak doğrular.</p>
+<hr>
+<h2 id="16-perturbasyon-ve-stres-test-paketi">16. Pertürbasyon ve Stres Test Paketi</h2>
+<ol>
+<li><strong>Veri Pertürbasyonları:</strong> 1 dakikalık zaman damgası kaymaları, eksik fonlama satırları, yapay spread genişlemeleri ($2\times..5\times$), rastgele eksik bar enjeksiyonu.</li>
+<li><strong>Piyasa Stresi:</strong> Volatilite şokları ($1.5\times$), likidite boşluğu ($10\times$ kayma çarpanı).</li>
+<li><strong>Motor Pertürbasyonları:</strong> Dinamik iş parçacığı değişimi, soğuk önbellek koşusu.</li>
+</ol>
+<hr>
+<h2 id="17-otonom-ajan-guvenilirlik-profili">17. Otonom Ajan Güvenilirlik Profili</h2>
+<ul>
+<li><strong>Bulgu Tutarlılığı:</strong> Aynı kanıt üzerinde farklı Scout ajanları aynı hatayı buluyor mu?</li>
+<li><strong>Atıf Tutarlılığı:</strong> Investigator ajanları aynı kök nedene ulaşıyor mu?</li>
+<li><strong>Öneri Tutarlılığı:</strong> Tutarlı meydan okuyucu önerileri üretiliyor mu?</li>
+<li><strong>Kalibrasyon:</strong> Ajan $\text{güven} = 0.90$ dediğinde bulguların $\%90$'ı OOS üzerinde doğrulanıyor mu?</li>
+</ul>
+<hr>
+<h2 id="18-yaplandrlms-bulgu-semas-findingsjsonl">18. Yapılandırılmış Bulgu Şeması (<code>findings.jsonl</code>)</h2>
+<p>Bulgular makine tarafından doğrulanabilir nesnelerdir (<code>F-08421</code>).</p>
+<hr>
+<h2 id="19-hata-ontolojisi-ve-taksonomi">19. Hata Ontolojisi ve Taksonomi</h2>
+<p>9 temel kategori: <code>DATA</code>, <code>SIGNAL</code>, <code>ADMISSION</code>, <code>EXECUTION</code>, <code>EXIT</code>, <code>STATISTICS</code>, <code>ENGINE</code>, <code>PORTFOLIO</code>, <code>UNCLASSIFIED_NEW_FAILURE_CLASS</code>.</p>
+<hr>
+<h2 id="20-kosular-aras-regresyon-analizi">20. Koşular Arası Regresyon Analizi</h2>
+<p>Her koşu; önceki koşu, kilitli baz çizgi ve üretim hedefi ile otomatik olarak karşılaştırılır ($\Delta \text{Net Expectancy}$, $\Delta \text{MaxDD}$, semantik sapma kontrolü).</p>
+<hr>
+<h2 id="21-toplamsal-performans-ayrstrmas">21. Toplamsal Performans Ayrıştırması</h2>
+<p>Performans artışları haksız nedensellik iddiaları olmadan toplamsal bileşenlerine ayrıştırılır:</p>
+<p>$$\Delta \mathbb{E}[R]<em>{\text{toplam}} = \Delta \mathbb{E}[R]</em>{\text{çıkış}} + \Delta \mathbb{E}[R]<em>{\text{maliyet}} + \Delta \mathbb{E}[R]</em>{\text{yön}} + \Delta \mathbb{E}[R]<em>{\text{rejim}} + \epsilon</em>{\text{artık}}$$</p>
+<hr>
+<h2 id="22-kesin-gecerlilik-kaplar-vs-puanlar-fail-closed">22. Kesin Geçerlilik Kapıları vs Puanlar (Fail-Closed)</h2>
+<p>Veri sızıntısı, muhasebe korunum hatası, determinizm kaybı veya SIMD sapması durumunda koşu derhal <strong>FAIL-CLOSED</strong> olarak sonlandırılır; ortalama skor içinde eritilmez.</p>
+<hr>
+<h2 id="23-semantik-sapma-kaps">23. Semantik Sapma Kapısı</h2>
+<p>Kod yamaları 4 sınıfa ayrılır: <code>BUG_FIX</code>, <code>IMPLEMENTATION_OPTIMIZATION</code>, <code>SEMANTIC_STRATEGY_CHANGE</code>, <code>NEW_CHALLENGER</code>.</p>
+<hr>
+<h2 id="24-cok-ajanl-inceleme-mimarisi">24. Çok Ajanlı İnceleme Mimarisi</h2>
+<p>Değerlendirme sonrası otomatik süreç:
+<code>Rust Engine -&gt; Evidence Bundle -&gt; Schema Builder -&gt; Triage Agent -&gt; Scout Agents -&gt; Hypothesis Pool -&gt; Investigator Agents -&gt; Finding Graph -&gt; Report / API -&gt; Decision Agent</code>.</p>
+<hr>
+<h2 id="25-kademeli-hesaplama-ve-onbellek-butcesi">25. Kademeli Hesaplama ve Önbellek Bütçesi</h2>
+<ul>
+<li><strong>Tier 0 (Zorunlu, &lt; 2 sn):</strong> Değişmezler, muhasebe korunumu, temel ekonomi, MFE/MAE, bit düzeyinde fark.</li>
+<li><strong>Tier 1 (İçerik Adresli Önbellek, &lt; 30 sn):</strong> Bootstrap, permütasyonlar, 10 sıfır modeli, maliyet/çıkış yüzeyleri.</li>
+<li><strong>Tier 2 (Hipotez Odaklı, &lt; 5 dk):</strong> Karşıolgusal yeniden oynatma, parametre yüzeyleri, WFA, pertürbasyonlar.</li>
+<li><strong>Tier 3 (Yalnızca Terfi Kapısı):</strong> Donmuş OOS açımı, PBO/DSR/SPA, bağımsız referans paritesi.</li>
+</ul>
+<hr>
+<h2 id="26-kanonik-insan-raporu-yaps-adan-wye-bolumler">26. Kanonik İnsan Raporu Yapısı (A'dan W'ye Bölümler)</h2>
+<ul>
+<li><strong>A — Çalışma Kimliği ve Köken:</strong> Sağlama toplamları, git commit, ikili kimlik.</li>
+<li><strong>B — Geçerlilik Kapıları:</strong> Tüm donanımsal ve veri kapılarının Geçti/Kaldı durumu.</li>
+<li><strong>C — Veri Bütünlüğü:</strong> Zaman bütünlüğü, eksik bar, öznitelik sayımı.</li>
+<li><strong>D — Yürütme Korunumu:</strong> Huni muhasebe korunum denklemleri.</li>
+<li><strong>E — Portföy Ekonomisi:</strong> Net/Brüt getiri, Sharpe, Sortino, Calmar.</li>
+<li><strong>F — Uzman Puan Tablosu:</strong> Tüm uzmanların karşılaştırmalı tablosu.</li>
+<li><strong>G — Uzman Derin Adli Tıbbı:</strong> Uzman bazında dönüşüm ve kayıplar.</li>
+<li><strong>H — İşlem Yolu Analizi:</strong> Bar içi MFE/MAE, bariyer temas sıraları.</li>
+<li><strong>I — Maliyet ve Yürütme Yüzeyi:</strong> Komisyon, kayma ve fonlama duyarlılık eğrileri.</li>
+<li><strong>J — Çıkış Karşıolgusalları:</strong> Alternatif SL, TP ve vade kuralları.</li>
+<li><strong>K — Rejim / Dilim Teşhisi:</strong> Volatilite, Trend, Saat ve Likidite dilimleri.</li>
+<li><strong>L — İstatistiksel Kanıt:</strong> Bootstrap güven aralıkları ve permütasyon testleri.</li>
+<li><strong>M — Çoklu Test ve Araştırma Borcu:</strong> Yaşam boyu deneme sayacı, White Reality Check, DSR.</li>
+<li><strong>N — WFA / OOS Kararlılığı:</strong> Kronolojik katlama tutarlılığı ve bozulma oranları.</li>
+<li><strong>O — Parametre Kırılganlığı:</strong> Plato genişliği, uçurumlar ve kırılganlık indeksi.</li>
+<li><strong>P — Motor Doğruluğu:</strong> İş parçacığı, SIMD ve referans orakıl kontrolleri.</li>
+<li><strong>Q — Stres ve Pertürbasyon:</strong> Yapay piyasa ve veri stres sonuçları.</li>
+<li><strong>R — Koşular Arası Regresyon:</strong> Önceki koşu ve baz çizgiye göre delta metrikleri.</li>
+<li><strong>S — Hata Atfı:</strong> Ontolojik taksonomi eşleştirmesi ve kök neden.</li>
+<li><strong>T — Doğrulanmış Bulgular:</strong> Investigator ajanları tarafından ispatlanmış sonuçlar.</li>
+<li><strong>U — Çürütülmüş Hipotezler:</strong> Resmen yanlışlanmış iddialar.</li>
+<li><strong>V — Bilinmeyenler ve Epistemik Boşluklar:</strong> Kararsız sonuçlar.</li>
+<li><strong>W — Önerilen Deneyler:</strong> Bir sonraki ön kayıtlı meydan okuyucu spesifikasyonları.</li>
+</ul></section>
 <section id="sec-architecture-spec"><h1>ARCHITECTURE SPEC</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-architecture-specification">V8 Architecture Specification</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This is the system-level build contract: it
 names the components, the data flow between them, and the technology
@@ -4079,6 +4526,1458 @@ is reused there rather than rewritten.</p>
   holds: this instrument's Candidate population and the diagnostic engine's are
   <strong>not</strong> interchangeable.</li>
 </ul></section>
+<section id="sec-target-oracle-spec"><h1>TARGET ORACLE SPEC</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="target-v8-oracle-specification-v10">Target V8 Oracle Specification v1.0</h1>
+<p><strong>Normative reference for the economic target, opportunity universe, counterfactual authority, regret semantics, and implementation admission of V8.</strong></p>
+<p><strong>Date:</strong> 2026-08-19 · <strong>Scope:</strong> V8 / V8.2 research and implementation program · <strong>Language:</strong> normative English to match the existing V8 monograph and code contracts.</p>
+<h2 id="document-status-and-reading-rule">Document status and reading rule</h2>
+<p><strong>Status: NORMATIVE REFERENCE / IMPLEMENTATION-READY / ECONOMICALLY UNVALIDATED.</strong>
+This specification is intended to be stable enough to bind implementation. It does <em>not</em> claim that V8 is profitable, that any Target Oracle has been learned, that any Hindsight Oracle output is realizable, or that any execution model above its declared authority is validated. Changes to locked definitions require an explicit version bump or registry decision.</p>
+<p>This document inherits the V8 evidence vocabulary:
+<code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>, <code>DESIGN_INFERENCE</code>, <code>PROVISIONAL_DECISION</code>, <code>LOCKED_INVARIANT</code>, <code>OPEN_QUESTION</code>, <code>REJECTED_OPTION</code>.
+The labels describe evidentiary status; they are not interchangeable with runtime status.</p>
+<p><strong>Source basis.</strong> This specification consolidates two project sources: the existing <em>V8 Final Research Monograph</em> and <em>Target V8 Oracle Research Audit v0.1</em>. The monograph supplies the existing PIT, Candidate, replay, evidence, and promotion invariants. The audit supplies the P0 objective, opportunity-universe, identifiability, regret-decomposition, non-stationarity, execution-authority, and abstention findings.</p>
+<h2 id="abstract">Abstract</h2>
+<p>V8 requires a target that is stricter than “maximize backtest PnL” and more useful than a perfect-hindsight trader. This specification defines that target through exactly three top-level Oracle roles. <code>PARITY_ORACLE</code> is an engineering reference for semantic equivalence. <code>HINDSIGHT_ORACLE</code> is a bounded counterfactual measurement operator that may inspect realized outcomes but cannot by itself establish selectable edge. <code>TARGET_ORACLE</code> is the decision-time-realizable policy family V8 attempts to approach under a versioned objective, opportunity universe, cost model, capacity model, information boundary, and authority contract.</p>
+<p>The central design principle is that economic optimality is conditional. There is no context-free “best trader.” A Target Oracle is only defined relative to a feasible policy class and a declared <code>UtilityContract</code>. Opportunity existence is likewise conditional: a missed opportunity must be PIT-legal, schema-legal, tradable under the declared environment, and supported strongly enough to justify the requested counterfactual claim. Unsupported profitable hindsight paths are not opportunities; they are model-derived or unknown.</p>
+<p>The specification therefore separates opportunity generation from Expert coverage, economic value from counterfactual identifiability, retrospective value from prospective/live value, and component regret from total policy gap. Detection, representation, selection, geometry, execution, and allocation are decision domains inside the Hindsight/Target systems, not additional Oracle classes. L1/L2/L3 and <code>LIVE_RECEIPT</code> are evidentiary authority levels, not new Oracles.</p>
+<h2 id="executive-design-summary">Executive design summary</h2>
+<pre><code class="language-text">                           V8 ORACLE TAXONOMY
+
+  PARITY_ORACLE                  HINDSIGHT_ORACLE
+  engineering reference         measurement ceiling
+        │                              │
+        │                              ├─ L1 / L2 / L3 authority
+        │                              ├─ counterfactual status
+        │                              └─ no realizability claim by itself
+        │
+        └──────────── engineering trust only ────────────┐
+                                                         │
+                                                         ▼
+                                               TARGET_ORACLE
+                                      decision-time realizable policy family
+                                                         │
+                         ┌───────────────────────────────┼──────────────────────────────┐
+                         ▼               ▼               ▼              ▼              ▼
+                      detection      representation    selection      execution     allocation
+                                                         │
+                                                         ▼
+                                                   LIVE_RECEIPT
+                                             real-world economic receipt
+</code></pre>
+<p><strong>Locked naming rule.</strong> V8 recognizes exactly three top-level Oracle roles: <code>PARITY_ORACLE</code>, <code>HINDSIGHT_ORACLE</code>, and <code>TARGET_ORACLE</code>. Terms such as “Detection Oracle,” “Execution Oracle,” “Profit Oracle,” “Perfect Oracle,” or “Market Oracle” must not introduce new top-level classes. Detection, selection, execution, allocation, and similar labels name decision domains. L1–L3 name authority levels. <code>LIVE_RECEIPT</code> is evidence from reality, not an Oracle.</p>
+<hr>
+<h2 id="1-oracle-constitution">1. Oracle Constitution</h2>
+<p>The following rules constrain meaning, not merely implementation. A change that violates one of these rules changes what the Oracle system <em>is</em> and requires a specification version bump or an explicit replacement decision.</p>
+<ol>
+<li><strong>Exactly three top-level Oracles.</strong> <code>PARITY_ORACLE</code>, <code>HINDSIGHT_ORACLE</code>, and <code>TARGET_ORACLE</code> are the complete top-level taxonomy.</li>
+<li><strong>No promise of edge.</strong> An Oracle specification is a measurement and target contract, not a profitability claim.</li>
+<li><strong>No universal best trader.</strong> Target optimality is always conditional on a versioned objective, constraints, costs, capacity assumptions, information set, opportunity universe, and policy class.</li>
+<li><strong>Future information is evaluator-only.</strong> Realized future information may be used by Hindsight evaluation but must never enter a decision-time feature of Target policies.</li>
+<li><strong>Hindsight opportunity is not recoverable opportunity.</strong> Hindsight value is a measurement ceiling, not evidence that a policy could have selected the better action ex ante.</li>
+<li><strong>Opportunity existence is not defined by realized profit alone.</strong> A profitable path discovered after the outcome is not automatically a missed opportunity.</li>
+<li><strong>Opportunity Universe is Expert-independent.</strong> Experts cover subsets of the environment-level Candidate grammar; they do not define the universe against which coverage is measured.</li>
+<li><strong>The Opportunity Universe is finite, versioned, and preregistered for each evaluation family.</strong> Expanding grammar, grids, instruments, timeframes, or execution modes creates a new universe version and a new trial lineage.</li>
+<li><strong>Candidate is not action.</strong> Candidate identity, order identity, and realized outcome remain distinct. Direction changes that alter the proposal create a new Candidate, not a counterfactual action on the old Candidate.</li>
+<li><strong>Candidate birth is immutable.</strong> Setup, trigger, direction, invalidation, expiry, and declared risk geometry are frozen at Candidate birth for a given version.</li>
+<li><strong>Counterfactual authority is explicit.</strong> Every counterfactual is labeled <code>IDENTIFIED</code>, <code>PARTIALLY_IDENTIFIED</code>, <code>MODEL_DERIVED</code>, or <code>NOT_IDENTIFIABLE</code>.</li>
+<li><strong>Missing support fails closed.</strong> Lack of evidence never becomes a point-valued profitable Oracle outcome.</li>
+<li><strong>Simulation level must match claim level.</strong> L1 bar replay cannot support L3 reactive-impact economic claims. A simulator is not upgraded by confidence language.</li>
+<li><strong><code>LIVE_RECEIPT</code> outranks simulation.</strong> Realized fills and operational receipts are evidence from the deployed environment, not an Oracle prediction.</li>
+<li><strong>NetUtility is primary; hard constraints are lexicographic.</strong> A policy violating a hard drawdown, tail-risk, capacity, heat, or coverage constraint cannot be called a better Target Oracle merely because its scalar return is higher.</li>
+<li><strong>Utility weights are versioned.</strong> When a scalar sub-objective or penalty is used, its weights and sensitivity band are part of the artifact identity.</li>
+<li><strong>Abstention is not free performance.</strong> Lower trade count is not improvement unless utility, risk, and minimum-coverage requirements jointly pass.</li>
+<li><strong>Regret is not naively additive.</strong> Detection, representation, selection, geometry, execution, and allocation effects may interact. Component attributions require an explicit baseline and decomposition rule.</li>
+<li><strong>Frozen OOS is necessary but not sufficient.</strong> Historical replication, prospective/shadow evaluation, and live realized value are distinct objects.</li>
+<li><strong>Complexity is never its own admission argument.</strong> Learned or richer components must beat the immediately simpler admissible baseline on a preregistered, costed comparison.</li>
+<li><strong>UNKNOWN is a valid result.</strong> The system must prefer an explicit unknown to an unjustified numeric answer.</li>
+<li><strong>All economic artifacts are authority-bound.</strong> Source, universe, code, configuration, cost model, capacity model, simulator, policy, seed where relevant, and ledger hashes are part of the claim identity.</li>
+</ol>
+<hr>
+<h2 id="2-terminology-and-taxonomy">2. Terminology and taxonomy</h2>
+<h3 id="21-parity_oracle">2.1 PARITY_ORACLE</h3>
+<p><code>PARITY_ORACLE</code> is an engineering reference implementation or reference calculation used to verify semantic equivalence of another implementation. Its purpose is correctness, not economic optimization. In current V8.2 history, the frozen Python implementation served this role during the Rust migration.</p>
+<h3 id="22-hindsight_oracle">2.2 HINDSIGHT_ORACLE</h3>
+<p><code>HINDSIGHT_ORACLE</code> is a bounded counterfactual measurement operator. It may inspect realized future outcomes after the fact, but only inside a declared Opportunity Universe, Action Universe, execution model, and authority level. It estimates what value was available under those declared assumptions. It is not deployable and does not imply selectability.</p>
+<h3 id="23-target_oracle">2.3 TARGET_ORACLE</h3>
+<p><code>TARGET_ORACLE</code> is the family of decision-time-realizable policies that V8 attempts to approximate. It is indexed by the economic and epistemic contracts that define the task:</p>
+<pre><code class="language-text">TARGET_ORACLE(
+    UtilityContract,
+    OpportunityUniverseVersion,
+    InformationContract,
+    CostModel,
+    CapacityModel,
+    AuthorityContract,
+    PolicyClass,
+    EnvironmentTarget
+)
+</code></pre>
+<p>Different contracts may yield different Target Oracles. The phrase “best policy” is therefore shorthand for “best policy in the declared feasible family under this contract.”</p>
+<h3 id="24-decision-domains-are-not-oracles">2.4 Decision domains are not Oracles</h3>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Question</th>
+<th>Oracle identity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Detection</td>
+<td>Which PIT-legal opportunities are represented at all?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Representation</td>
+<td>Was the opportunity encoded as the right Candidate proposal?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Selection</td>
+<td>TRADE, NO_TRADE, or defer?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Geometry</td>
+<td>Which legal entry/stop/target/expiry geometry?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>How is the decision submitted and filled?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+<tr>
+<td>Allocation</td>
+<td>How is scarce capital/risk distributed across simultaneous Candidates?</td>
+<td>Subproblem inside Hindsight/Target</td>
+</tr>
+</tbody>
+</table>
+<h3 id="25-authority-levels-are-not-oracles">2.5 Authority levels are not Oracles</h3>
+<table>
+<thead>
+<tr>
+<th>Authority</th>
+<th>Meaning</th>
+<th>Typical limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ORACLE_L1</code></td>
+<td>Bar/tape replay with static or canonical fills</td>
+<td>No queue, endogenous impact, or unobserved microstructure claim</td>
+</tr>
+<tr>
+<td><code>ORACLE_L2</code></td>
+<td>Spread/slippage/liquidity-aware evaluation with supported cost/fill mechanics</td>
+<td>Still not a full reactive market</td>
+</tr>
+<tr>
+<td><code>ORACLE_L3</code></td>
+<td>Validated reactive simulator with endogenous impact/liquidity response</td>
+<td>Still model-derived; below live receipts</td>
+</tr>
+<tr>
+<td><code>LIVE_RECEIPT</code></td>
+<td>Realized execution and PnL receipts from the target venue/environment</td>
+<td>Historical realized evidence, not a counterfactual upper bound</td>
+</tr>
+</tbody>
+</table>
+<h3 id="26-value-notions">2.6 Value notions</h3>
+<table>
+<thead>
+<tr>
+<th>Value notion</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RETROSPECTIVE_VALUE</code></td>
+<td>Value measured in the historical environment, including diagnostic hindsight where explicitly allowed.</td>
+</tr>
+<tr>
+<td><code>REPLICATION_VALUE</code></td>
+<td>Frozen policy replay on untouched historical chronology under a fixed execution contract.</td>
+</tr>
+<tr>
+<td><code>PROSPECTIVE_SHADOW_VALUE</code></td>
+<td>Forward or shadow estimate/receipt before capital-bearing deployment; assumptions about drift must be declared.</td>
+</tr>
+<tr>
+<td><code>LIVE_REALIZED_VALUE</code></td>
+<td>Realized after-cost value from actual deployed decisions and fills.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-formal-problem-definition">3. Formal problem definition</h2>
+<p>At decision time <code>t</code>, let <code>I_t</code> be the allowed information set. Let <code>U_v(t)</code> be the Candidate Opportunity Universe under universe version <code>v</code>. Let <code>S_a(t)</code> be the supported counterfactual set under authority contract <code>a</code>. Let <code>P</code> be a declared policy class and <code>C</code> a UtilityContract.</p>
+<p>The evaluable universe is:</p>
+<pre><code class="language-text">U_eval(t; v, a) = U_v(t) ∩ S_a(t)
+</code></pre>
+<p>The feasible policy family is:</p>
+<pre><code class="language-text">P_feasible(C, v, a) =
+{
+    π ∈ P :
+    π uses only I_t at decision time
+    ∧ π emits only schema-legal Candidates/actions
+    ∧ π satisfies all hard UtilityContract constraints
+    ∧ π stays inside authority-supported action/capacity bounds
+}
+</code></pre>
+<p>The Target Oracle is not a realized future sequence chosen with hindsight. It is the best admissible policy family under the target environment and the declared objective:</p>
+<pre><code class="language-text">π* ∈ argmax_{π ∈ P_feasible}  Expected[ NetUtility_C(π) ]
+
+subject to the lexicographic hard constraints in C.
+</code></pre>
+<p><strong>Important:</strong> if the target environment distribution is not identified, the specification does not permit pretending the expectation above is known. The corresponding value is bounded, model-derived, prospective, or <code>UNKNOWN</code> according to the authority contract.</p>
+<hr>
+<h2 id="4-information-boundary">4. Information boundary</h2>
+<h3 id="41-informationsett">4.1 InformationSet(t)</h3>
+<p><code>InformationSet(t)</code> contains only information that is both known and available by the decision clock. Event time, knowledge time, availability time, and decision time are distinct. A field observed in historical files but unavailable to the live system at <code>t</code> is not a legal decision feature.</p>
+<pre><code class="language-text">InformationField {
+    name
+    value
+    event_time
+    knowledge_time
+    availability_time
+    source_id
+    source_version
+}
+
+LEGAL_AT(t, field) :=
+    field.knowledge_time   ≤ t
+    ∧ field.availability_time ≤ t
+</code></pre>
+<h3 id="42-future-data-rule">4.2 Future-data rule</h3>
+<p>Future data may enter:
+- Hindsight counterfactual outcome measurement;
+- offline labels after the decision event;
+- post-hoc diagnostics and error attribution.</p>
+<p>Future data may not enter:
+- Target policy features at the original decision time;
+- Candidate birth state;
+- threshold selection performed after opening the protected evaluation slice;
+- execution assumptions presented as if known ex ante.</p>
+<h3 id="43-hindsight-is-a-separate-plane">4.3 Hindsight is a separate plane</h3>
+<p>The Hindsight evaluator is read-only with respect to the original decision record. It must not rewrite the actual Candidate population in place. When an expanded Opportunity Universe is evaluated, that expanded population belongs to its own explicit universe version and research lineage.</p>
+<hr>
+<h2 id="5-opportunity-universe">5. Opportunity universe</h2>
+<h3 id="51-why-candidate-logs-are-insufficient">5.1 Why Candidate logs are insufficient</h3>
+<p>The existing V8 Outcome Cube measures value left on the table inside the represented Candidate/action universe. That is necessary for action regret, but insufficient for measuring opportunities that no Expert represented. Target V8 therefore requires an Expert-independent Candidate Opportunity Universe.</p>
+<h3 id="52-three-opportunity-states">5.2 Three opportunity states</h3>
+<pre><code class="language-text">DETECTABLE_CANDIDATE
+        ↓ realized, authority-valid outcome
+HINDSIGHT_OPPORTUNITY
+        ↓ ex-ante selector survives protected evaluation
+RECOVERABLE_OPPORTUNITY
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+<th>Claim allowed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DETECTABLE_CANDIDATE</code></td>
+<td>A Candidate can be constructed from legal decision-time primitives under the frozen grammar.</td>
+<td>Representational coverage only.</td>
+</tr>
+<tr>
+<td><code>HINDSIGHT_OPPORTUNITY</code></td>
+<td>A detectable Candidate has favorable after-cost value under a legitimate hindsight evaluation.</td>
+<td>Retrospective opportunity only.</td>
+</tr>
+<tr>
+<td><code>RECOVERABLE_OPPORTUNITY</code></td>
+<td>A decision-time policy can select or exploit the opportunity under protected evaluation.</td>
+<td>Recoverability claim within the tested policy class.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-canonical-finite-candidate-grammar">5.3 Canonical finite Candidate grammar</h3>
+<p>The Opportunity Universe is not the infinite Cartesian product of every timestamp, feature transform, threshold, leverage, stop, target, holding period, and model. That construction would be hindsight mining, not a stable target.</p>
+<p>For universe version <code>v</code>:</p>
+<pre><code class="language-text">U_v(t) =
+{
+    Candidate C = g(I_t, θ)
+    |
+    g ∈ Grammar_v
+    ∧ θ ∈ Θ_g,v
+    ∧ PIT_VALID(C)
+    ∧ SCHEMA_VALID(C)
+    ∧ TRADABLE_FOR_DETECTION(C)
+}
+</code></pre>
+<p><code>Grammar_v</code> and each parameter grid <code>Θ_g,v</code> are finite, versioned, and preregistered before protected evaluation.</p>
+<h3 id="54-primitive-families">5.4 Primitive families</h3>
+<p>Version 1 permits grammar primitives only from explicitly registered MarketState families:</p>
+<table>
+<thead>
+<tr>
+<th>Primitive family</th>
+<th>Examples</th>
+<th>Availability rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Price / return</td>
+<td>returns, displacement, gap, range position</td>
+<td>PIT bar/tape values only</td>
+</tr>
+<tr>
+<td>Volatility / range</td>
+<td>realized volatility proxies, ATR-like range state</td>
+<td>No future-window confirmation</td>
+</tr>
+<tr>
+<td>Volume / activity</td>
+<td>volume state, activity shock</td>
+<td>Feed-resolution declared</td>
+</tr>
+<tr>
+<td>Liquidity</td>
+<td>spread/depth/liquidity state</td>
+<td>Only when data exists at decision time</td>
+</tr>
+<tr>
+<td>Order flow</td>
+<td>imbalance/flow-derived state</td>
+<td>Feed granularity and availability clock required</td>
+</tr>
+<tr>
+<td>Funding / basis</td>
+<td>funding, basis, derivative state</td>
+<td>Venue-specific source and timestamp required</td>
+</tr>
+<tr>
+<td>Derivatives stress</td>
+<td>liquidation/OI-related state</td>
+<td>Unavailable channels fail closed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="55-predicate-grammar">5.5 Predicate grammar</h3>
+<p>A deterministic baseline grammar may compose registered features with a bounded predicate IR:</p>
+<pre><code class="language-text">ABOVE(x, q)
+BELOW(x, q)
+CROSS_ABOVE(x, q)
+CROSS_BELOW(x, q)
+IN_RANGE(x, lo, hi)
+RISING(x, n)
+FALLING(x, n)
+PERSIST(predicate, n)
+AND(...)
+OR(...)
+NOT(...)
+SEQUENCE(A → B, max_delay)
+</code></pre>
+<p>The exact operators and grids are registry artifacts. A post-outcome concept such as “this was a swing low” is legal only at the time its confirmation became available. The grammar must encode that availability delay rather than silently backdating the information.</p>
+<h3 id="56-behavior-template">5.6 Behavior template</h3>
+<pre><code class="language-text">CandidateTemplate {
+    mechanism_family_id
+    behavior_family_id
+    habitat_predicate
+    setup_predicate
+    trigger_predicate
+    direction
+    invalidation
+    expiry
+    risk_geometry
+}
+</code></pre>
+<p>The Opportunity Universe is generated from these templates; Experts are named, falsifiable policies that cover subsets of the grammar. A grammar Candidate need not correspond to a currently shipped Expert.</p>
+<h3 id="57-support-and-evaluability">5.7 Support and evaluability</h3>
+<pre><code class="language-text">U_opportunity = all PIT-legal Candidates under Grammar_v
+U_support     = Candidates/actions supported by the declared data/execution authority
+U_eval        = U_opportunity ∩ U_support
+</code></pre>
+<p><code>U_opportunity \ U_support</code> is not discarded. It is retained with <code>NOT_IDENTIFIABLE</code> or a weaker authority tag. It cannot receive a fabricated point-valued profit.</p>
+<h3 id="58-coverage-not-immediate-detection-regret">5.8 Coverage, not immediate “detection regret”</h3>
+<p>The first implementation metric is <code>RepresentationalCoverageGap</code>, not a monetary Detection Regret:</p>
+<pre><code class="language-text">coverage =
+    | supported hindsight opportunities represented by shipped Experts |
+    ---------------------------------------------------------------------
+    | supported hindsight opportunities in the frozen Opportunity Universe |
+</code></pre>
+<p>A missed hindsight opportunity becomes a <em>recoverable detection failure</em> only after a decision-time policy class demonstrates protected, after-cost recoverability. This prevents hindsight coverage from being misreported as deployable money.</p>
+<hr>
+<h2 id="6-candidate-and-action-universe">6. Candidate and action universe</h2>
+<h3 id="61-candidate-ontology">6.1 Candidate ontology</h3>
+<p>A Candidate is a proposal born at a decision event. Candidate identity includes its originating grammar/template or Expert, direction, trigger semantics, invalidation, expiry, and declared geometry. Candidate, order, fill, and outcome are distinct immutable records.</p>
+<h3 id="62-direction-semantics">6.2 Direction semantics</h3>
+<p>Changing direction creates a new Candidate. A Hindsight action evaluator must not reinterpret a LONG Candidate as SHORT. However, the Opportunity Grammar may independently generate separate LONG and SHORT Candidates from the same environment state when both are legal templates.</p>
+<h3 id="63-action-universe">6.3 Action universe</h3>
+<p>For a fixed Candidate <code>C</code>, the legal action set <code>A(C)</code> may include <code>NO_TRADE</code>, the actual action, and preregistered legal geometry/execution variants that preserve Candidate identity. Every axis must declare whether varying it preserves identity or creates a new Candidate.</p>
+<h3 id="64-no-silent-population-mutation">6.4 No silent population mutation</h3>
+<p>An evaluator operating on the actual Candidate store may not create a second Candidate population and still call the output “action regret.” An Opportunity Universe evaluator may create grammar Candidates only under its own versioned universe contract and must report that the population differs from the live/shipped Expert population.</p>
+<hr>
+<h2 id="7-objective-utilitycontract">7. Objective / UtilityContract</h2>
+<h3 id="71-rejected-objective">7.1 Rejected objective</h3>
+<p><code>REJECTED_OPTION</code>: <code>maximize raw PnL</code> as the complete Oracle definition. It ignores drawdown, tail risk, capacity, participation, and the dependence of optimal policy on explicit transaction-cost and preference assumptions.</p>
+<h3 id="72-primary-economic-quantity">7.2 Primary economic quantity</h3>
+<p>The primary economic quantity is declared after-cost NetUtility:</p>
+<pre><code class="language-text">NetEconomicValue =
+    GrossTradingValue
+  - Fees
+  - Funding
+  - Slippage
+  - MarketImpact
+  - OtherVersionedExecutionCosts
+</code></pre>
+<p>NetEconomicValue is not by itself the complete Target objective.</p>
+<h3 id="73-lexicographic-hard-constraints">7.3 Lexicographic hard constraints</h3>
+<p>Version 1 uses a constrained/lexicographic contract: a policy is first required to satisfy hard feasibility constraints, then optimized on the primary objective inside the feasible set.</p>
+<table>
+<thead>
+<tr>
+<th>Constraint family</th>
+<th>Examples</th>
+<th>Semantics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Drawdown</td>
+<td>maximum drawdown ceiling, recovery constraints</td>
+<td>Hard fail when breached</td>
+</tr>
+<tr>
+<td>Tail risk</td>
+<td>tail loss / expected shortfall style ceiling</td>
+<td>Hard fail when breached</td>
+</tr>
+<tr>
+<td>Capacity / heat</td>
+<td>gross exposure, per-cluster heat, venue/instrument capacity</td>
+<td>Hard feasible-set boundary</td>
+</tr>
+<tr>
+<td>Coverage</td>
+<td>minimum participation / opportunity coverage where relevant</td>
+<td>Prevents trivial abstention</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>latency, authority, data availability, execution mode</td>
+<td>Hard admissibility boundary</td>
+</tr>
+</tbody>
+</table>
+<h3 id="74-utilitycontract-schema">7.4 UtilityContract schema</h3>
+<pre><code class="language-text">UtilityContract {
+    contract_id
+    version
+
+    primary_objective
+    horizon
+    accounting_currency
+
+    fee_model_id
+    funding_model_id
+    slippage_model_id
+    impact_model_id
+
+    hard_constraints {
+        drawdown
+        tail_risk
+        capacity
+        portfolio_heat
+        coverage
+        operational
+    }
+
+    optional_scalar_penalties {
+        names
+        weights
+        sensitivity_band
+    }
+
+    stress_grid_id
+    effective_from
+}
+</code></pre>
+<h3 id="75-sensitivity-requirement">7.5 Sensitivity requirement</h3>
+<p>If the ranking of policies changes materially under a defensible neighboring range of fees, slippage, impact, risk penalties, or capacity, the report must surface the instability. A winner that exists only at one knife-edge parameter point is not a stable Target claim.</p>
+<h3 id="76-pareto-reporting">7.6 Pareto reporting</h3>
+<p>Reports should expose the relevant utility/risk/coverage frontier even when promotion uses lexicographic constraints. The frontier is diagnostic; it does not permit selecting a new point after the protected evaluation is opened.</p>
+<hr>
+<h2 id="8-oracle-authority-and-counterfactual-identifiability">8. Oracle authority and counterfactual identifiability</h2>
+<h3 id="81-counterfactual-status-taxonomy">8.1 Counterfactual status taxonomy</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Permitted claim</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IDENTIFIED</code></td>
+<td>Counterfactual is supported under the declared data, action, and execution contract strongly enough for the requested point estimate.</td>
+<td>Point estimate within the declared model/authority; never “ground truth” without qualification.</td>
+</tr>
+<tr>
+<td><code>PARTIALLY_IDENTIFIED</code></td>
+<td>Only a defensible interval/bound is supported.</td>
+<td>Bound-aware comparison only; ranking prohibited when bounds overlap under the admission rule.</td>
+</tr>
+<tr>
+<td><code>MODEL_DERIVED</code></td>
+<td>Value depends materially on a simulation/model assumption not identified by the available data.</td>
+<td>Diagnostic/model result; no promotion as empirical economic truth.</td>
+</tr>
+<tr>
+<td><code>NOT_IDENTIFIABLE</code></td>
+<td>Support, data, or environment assumptions are insufficient.</td>
+<td><code>UNKNOWN</code>; no numeric opportunity claim.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-identified-is-contract-relative">8.2 “Identified” is contract-relative</h3>
+<p><code>IDENTIFIED</code> never means metaphysically or market-wide “true.” It means identified <em>under the declared data/support/execution contract</em>. An L1 replay can be internally identified and still be too weak to support an L3 or live economic claim.</p>
+<h3 id="83-authority-status-composition">8.3 Authority-status composition</h3>
+<p>Every Oracle outcome carries both an authority level and an identifiability status:</p>
+<pre><code class="language-text">CounterfactualAuthority {
+    oracle_authority_level  // L1, L2, L3, LIVE_RECEIPT
+    identifiability_status  // IDENTIFIED, PARTIAL, MODEL_DERIVED, NOT_IDENTIFIABLE
+    support_rule_id
+    environment_model_id
+    assumptions[]
+}
+</code></pre>
+<h3 id="84-ranking-rule">8.4 Ranking rule</h3>
+<p>Point ranking is allowed only when the comparison rule is justified at the relevant authority. For partial bounds, promotion requires a preregistered bound-aware condition. A convenient default is refusal when intervals overlap in a way that prevents a dominance claim.</p>
+<h3 id="85-no-fabricated-fills">8.5 No fabricated fills</h3>
+<p>Queue position, partial fill probability, hidden liquidity, endogenous impact, or market response may not be invented at L1/L2 and then presented as identified. If the needed data or validated model is missing, the evaluator returns a weaker status or <code>UNKNOWN</code>.</p>
+<hr>
+<h2 id="9-hindsight-oracle-contract">9. Hindsight Oracle contract</h2>
+<h3 id="91-purpose">9.1 Purpose</h3>
+<p>The Hindsight Oracle measures a ceiling inside a declared counterfactual universe. It answers: <em>given the frozen opportunity/action universe and the declared replay authority, what value was available after outcomes became known?</em></p>
+<h3 id="92-hindsight-layers">9.2 Hindsight layers</h3>
+<p>The same top-level Hindsight Oracle may expose domain-specific measurements:
+- coverage / missed representation inside the Opportunity Universe;
+- Candidate representation alternatives when identity permits comparison;
+- trade vs no-trade selection;
+- legal geometry variants;
+- execution variants supported by the authority model;
+- capital-allocation variants when portfolio interaction is supported.</p>
+<h3 id="93-existing-outcome-cube-compatibility">9.3 Existing Outcome Cube compatibility</h3>
+<p>The existing Candidate-bound legal hindsight gap remains valid as a narrower Hindsight measurement:</p>
+<pre><code class="language-text">gap(C) =
+    max{ Replay(C, a, M) : a ∈ A(C), status(C,a)=OK }
+    - Replay(C, a_actual, M)
+</code></pre>
+<p>This quantity measures value left on the table <em>inside the represented Candidate/action universe</em>. It must not be relabeled as Target recoverability.</p>
+<h3 id="94-hindsight-non-claims">9.4 Hindsight non-claims</h3>
+<p>The Hindsight Oracle does not establish:
+- that the better action was knowable at decision time;
+- that the Candidate would have been generated by a realizable detector;
+- that a future policy can generalize to the same regime;
+- that L1/L2 simulated value survives L3/live execution;
+- that a positive hindsight opportunity is economically significant after search/multiplicity controls.</p>
+<hr>
+<h2 id="10-target-oracle-contract">10. Target Oracle contract</h2>
+<h3 id="101-definition">10.1 Definition</h3>
+<p>The Target Oracle is the comparator family for deployable V8 improvement. It may use only decision-time information and must satisfy the frozen UtilityContract, Opportunity Universe, authority boundary, and policy-class constraints.</p>
+<h3 id="102-target-decision-domains">10.2 Target decision domains</h3>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Target question</th>
+<th>Primary failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Detection</td>
+<td>Can the policy represent the relevant PIT-legal opportunities?</td>
+<td>Opportunity never enters the Candidate population.</td>
+</tr>
+<tr>
+<td>Representation</td>
+<td>Does the Candidate encode the opportunity with the correct legal semantics?</td>
+<td>Wrong direction/template/trigger/invalidation/expiry identity.</td>
+</tr>
+<tr>
+<td>Selection</td>
+<td>Should this Candidate trade, abstain, or defer?</td>
+<td>Bad TRADE/NO_TRADE decision.</td>
+</tr>
+<tr>
+<td>Geometry</td>
+<td>Which identity-preserving risk/exit geometry is justified?</td>
+<td>Entry/stop/target/expiry mismatch.</td>
+</tr>
+<tr>
+<td>Execution</td>
+<td>How should the accepted decision be submitted and filled?</td>
+<td>Cost, slippage, impact, timing loss.</td>
+</tr>
+<tr>
+<td>Allocation</td>
+<td>How should scarce risk/capital be allocated among simultaneous accepted Candidates?</td>
+<td>Correlation/capacity/heat misallocation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="103-target-oracle-is-a-family-not-a-single-neural-network">10.3 Target Oracle is a family, not a single neural network</h3>
+<p>No implementation technology is privileged by the definition. A deterministic rule, shallow model, learned router, constrained optimizer, or other policy may approximate a Target subproblem if and only if it passes its admission experiment against the simpler baseline.</p>
+<h3 id="104-learned-components-are-challengers">10.4 Learned components are challengers</h3>
+<p>Version 1 does not allow a learned detector to define the Opportunity Universe that is then used to certify that same detector. The deterministic grammar is the baseline measurement frame. Learned detectors may challenge Expert coverage or selection on a fixed evaluation universe.</p>
+<h3 id="105-target-output">10.5 Target output</h3>
+<p>A Target policy result is not “Oracle achieved.” The correct language is:
+- <code>RECOVERABLE_WITHIN_CLASS</code> — decision-time policy class improved the declared baseline under the protected test;
+- <code>PROMOTABLE_WITHIN_CONTRACT</code> — all required statistical, utility, risk, and authority gates passed;
+- <code>SHADOW_SUPPORTED</code> — prospective/shadow evidence passed;
+- <code>LIVE_SUPPORTED</code> — live receipts satisfy the predeclared deployment certificate.</p>
+<hr>
+<h2 id="11-regret-taxonomy-and-attribution">11. Regret taxonomy and attribution</h2>
+<h3 id="111-rejected-additive-story">11.1 Rejected additive story</h3>
+<p><code>REJECTED_OPTION</code>:</p>
+<pre><code class="language-text">TotalRegret =
+    DetectionRegret
+  + RepresentationRegret
+  + SelectionRegret
+  + GeometryRegret
+  + ExecutionRegret
+  + AllocationRegret
+</code></pre>
+<p>This is not generally valid because changing an upstream component changes downstream populations, feasible actions, costs, impact, and allocation interactions.</p>
+<h3 id="112-required-attribution-vocabulary">11.2 Required attribution vocabulary</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ISOLATED_COMPONENT_EFFECT</code></td>
+<td>Effect of replacing one component while holding the declared downstream/upstream reference configuration fixed.</td>
+</tr>
+<tr>
+<td><code>MARGINAL_COMPONENT_EFFECT</code></td>
+<td>Incremental effect of adding/replacing a component relative to a specified baseline sequence.</td>
+</tr>
+<tr>
+<td><code>INTERACTION_EFFECT</code></td>
+<td>Effect attributable to cross-component interactions not assignable uniquely without a decomposition rule.</td>
+</tr>
+<tr>
+<td><code>TOTAL_POLICY_GAP</code></td>
+<td>Difference between the actual/reference policy and a declared Target comparator policy under the same evaluation contract.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="113-domain-labels">11.3 Domain labels</h3>
+<p>The following labels may be used for isolated or marginal analyses, with the method stated explicitly:
+- detection / representational coverage effect;
+- representation effect;
+- selection effect;
+- geometry effect;
+- execution effect;
+- allocation effect;
+- residual / irreducible-within-class effect.</p>
+<h3 id="114-percentage-attribution-rule">11.4 Percentage attribution rule</h3>
+<p>A report must not state “X% of loss comes from detection” unless it records:
+- the reference and target policies;
+- the causal/pipeline decomposition graph;
+- the attribution algorithm;
+- interaction handling;
+- the authority level of each counterfactual;
+- the uncertainty of the attribution itself.</p>
+<h3 id="115-shapleypath-attribution-is-deferred">11.5 Shapley/path attribution is deferred</h3>
+<p>Version 1 requires isolated and marginal effects first. Shapley-like or path-specific decomposition is permitted only as a registered v1.1+ extension with an explicit structural causal model and compute budget.</p>
+<hr>
+<h2 id="12-recoverability">12. Recoverability</h2>
+<h3 id="121-core-distinction">12.1 Core distinction</h3>
+<pre><code class="language-text">Hindsight opportunity
+    ≠
+Decision-time recoverable opportunity
+    ≠
+Promotable policy
+    ≠
+Live-supported policy
+</code></pre>
+<h3 id="122-existing-v8-recoverability-semantics">12.2 Existing V8 recoverability semantics</h3>
+<p>The existing V8 Recoverable Regret design remains the canonical pattern for Candidate-bound recovery:</p>
+<pre><code class="language-text">V_A = mean utility of the actual/reference policy
+V_R = mean utility of the best policy selected from the declared decision-time class
+G_R = V_R - V_A
+</code></pre>
+<p>A positive <code>G_R</code> is an improvement claim within the tested class, not automatically a profitability claim. Absolute utility must separately clear the UtilityContract and promotion gates.</p>
+<h3 id="123-detection-recovery">12.3 Detection recovery</h3>
+<p>For missed representation, Version 1 uses a two-step procedure:
+1. Measure <code>RepresentationalCoverageGap</code> on the frozen Opportunity Universe.
+2. Test whether a decision-time policy can identify useful parts of the missed set on protected chronology.</p>
+<p>Only the second step may support a recoverable detection claim.</p>
+<h3 id="124-irreducible-within-class">12.4 Irreducible-within-class</h3>
+<p>Failure to recover a hindsight gap means only that the declared policy class did not recover it under the declared environment and evaluation. It must not be reported as proof that no realizable policy exists.</p>
+<hr>
+<h2 id="13-non-stationarity-and-value-notions">13. Non-stationarity and value notions</h2>
+<h3 id="131-frozen-oos-boundary">13.1 Frozen OOS boundary</h3>
+<p>Chronological frozen OOS remains mandatory for protected historical comparison, but it is not a substitute for prospective evidence. A policy can pass historical replication and fail when the environment distribution changes.</p>
+<h3 id="132-four-value-layers">13.2 Four value layers</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it answers</th>
+<th>Economic authority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retrospective</td>
+<td>What happened / what was available in the recorded past?</td>
+<td>Historical only.</td>
+</tr>
+<tr>
+<td>Replication</td>
+<td>Does a frozen policy reproduce value on untouched chronology?</td>
+<td>Historical OOS evidence.</td>
+</tr>
+<tr>
+<td>Prospective / shadow</td>
+<td>Does the frozen policy survive forward time without capital-bearing promotion?</td>
+<td>Prospective operational evidence.</td>
+</tr>
+<tr>
+<td>Live realized</td>
+<td>Does the deployed system produce acceptable receipts under real fills/costs?</td>
+<td>Highest empirical deployment evidence, still time/regime bounded.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="133-dynamic-target">13.3 Dynamic Target</h3>
+<p>V8 may eventually define regime-conditional or slowly varying Target comparator families. Version 1 does not assume a stationary universal Oracle. Any dynamic comparator must be causal: regime assignment and adaptation may use only information available by the corresponding decision time.</p>
+<h3 id="134-future-policy-estimation">13.4 Future-policy estimation</h3>
+<p>Future off-policy or drift-aware estimators may be used as diagnostics or prospective tools, but their structural assumptions must be explicit. They do not replace shadow/live receipts.</p>
+<hr>
+<h2 id="14-statistical-gates">14. Statistical gates</h2>
+<h3 id="141-search-lineage">14.1 Search lineage</h3>
+<p>Every change to Opportunity Grammar, Candidate template, policy feature set, threshold family, objective contract, cost model, or execution model that can alter economic selection is a new registered research choice. Protected evaluation may not be reused as a tuning surface without opening a new lineage and paying the corresponding evidence cost.</p>
+<h3 id="142-chronology-and-dependence">14.2 Chronology and dependence</h3>
+<ul>
+<li>Use chronological partitions.</li>
+<li>Use dependence-aware uncertainty at an appropriate block/cluster unit.</li>
+<li>Preserve cross-asset and overlapping-candidate dependence in diagnostics.</li>
+<li>Do not report naive trade-level IID significance when the dependence structure contradicts it.</li>
+</ul>
+<h3 id="143-multiple-testing">14.3 Multiple testing</h3>
+<p>The family size must include explored Expert variants, grammar variants, policy thresholds, and other materially selected alternatives. Reality-Check/SPA/FDR/PBO/DSR-style tools may be appropriate diagnostics or controls, but none repairs leakage, invalid execution, or a repeatedly opened holdout.</p>
+<h3 id="144-utility-risk-coverage-certificate">14.4 Utility + risk + coverage certificate</h3>
+<p>A promotable policy must jointly satisfy:
+- positive or otherwise preregistered after-cost NetUtility condition;
+- hard drawdown/tail/capacity/heat constraints;
+- minimum coverage/participation where the contract requires it;
+- authority and data-validity requirements;
+- replication across the declared chronological/regime tests.</p>
+<h3 id="145-abstention">14.5 Abstention</h3>
+<p>A policy that improves selected-subset metrics merely by rejecting almost everything fails unless it also satisfies the coverage and opportunity-cost constraints in the UtilityContract.</p>
+<hr>
+<h2 id="15-shadowlive-promotion">15. Shadow/live promotion</h2>
+<pre><code class="language-text">SCREENING
+   ↓
+REPLICATION
+   ↓
+PROMOTION CANDIDATE
+   ↓
+SHADOW / FORWARD
+   ↓
+LIMITED LIVE
+   ↓
+LIVE-SUPPORTED
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Required evidence</th>
+<th>Forbidden inference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Screening</td>
+<td>Cheap deterministic baseline, costs, null/control</td>
+<td>No deployment claim</td>
+</tr>
+<tr>
+<td>Replication</td>
+<td>Untouched chronology, dependence-aware uncertainty</td>
+<td>No “future-proof” claim</td>
+</tr>
+<tr>
+<td>Promotion candidate</td>
+<td>Beats immediately simpler baseline and UtilityContract gates</td>
+<td>No live execution claim</td>
+</tr>
+<tr>
+<td>Shadow</td>
+<td>Frozen forward decisions, operational receipts, no capital-bearing adaptation</td>
+<td>No substitution of replay for realized execution</td>
+</tr>
+<tr>
+<td>Limited live</td>
+<td>Predeclared risk/capital cap, realized fills/costs, rollback semantics</td>
+<td>No extrapolation beyond capacity/regime</td>
+</tr>
+<tr>
+<td>Live-supported</td>
+<td>Deployment certificate satisfied across the declared horizon</td>
+<td>No universal or permanent edge claim</td>
+</tr>
+</tbody>
+</table>
+<p>Any live adaptation that changes policy semantics creates a new policy version and terminates the comparability of the prior certificate unless explicitly covered by the adaptation contract.</p>
+<hr>
+<h2 id="16-failure-and-unknown-semantics">16. Failure and UNKNOWN semantics</h2>
+<h3 id="161-unknown-is-first-class">16.1 UNKNOWN is first-class</h3>
+<p>The evaluator returns <code>UNKNOWN</code> when the requested claim exceeds available support, authority, data, or identification. UNKNOWN must propagate rather than being numerically imputed into a ranking.</p>
+<h3 id="162-canonical-refusal-reasons">16.2 Canonical refusal reasons</h3>
+<table>
+<thead>
+<tr>
+<th>Reason</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MISSING_DECISION_TIME_DATA</code></td>
+<td>Feature exists historically but was not available at decision time.</td>
+</tr>
+<tr>
+<td><code>OUT_OF_SUPPORT_ACTION</code></td>
+<td>Target action/size not supported by logged/execution evidence.</td>
+</tr>
+<tr>
+<td><code>EXECUTION_AUTHORITY_TOO_WEAK</code></td>
+<td>L1 replay asked to support L3 impact claim.</td>
+</tr>
+<tr>
+<td><code>UNDEFINED_FUTURE</code></td>
+<td>Insufficient future horizon to evaluate the declared expiry.</td>
+</tr>
+<tr>
+<td><code>NON_IDENTIFIABLE_FILL</code></td>
+<td>Queue/partial fill cannot be justified.</td>
+</tr>
+<tr>
+<td><code>CONSTRAINT_INFEASIBLE</code></td>
+<td>No policy in the declared class satisfies hard constraints.</td>
+</tr>
+<tr>
+<td><code>PROTECTED_SLICE_ALREADY_CONSUMED</code></td>
+<td>Evaluation would reopen a one-use holdout without new lineage.</td>
+</tr>
+<tr>
+<td><code>MODEL_ONLY_COUNTERFACTUAL</code></td>
+<td>Value depends on an unvalidated simulator assumption.</td>
+</tr>
+<tr>
+<td><code>INSUFFICIENT_SUPPORT</code></td>
+<td>Too little supported data for the requested estimate/bound.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="163-partial-identification">16.3 Partial identification</h3>
+<p>When a defensible bound exists, the system records the interval rather than collapsing to UNKNOWN. However, the promotion rule must specify how bounds are compared. A point estimate may not be manufactured from the midpoint unless that estimator is independently justified and registered.</p>
+<hr>
+<h2 id="17-artifact-schemas">17. Artifact schemas</h2>
+<h3 id="171-opportunityuniverseversion">17.1 OpportunityUniverseVersion</h3>
+<pre><code class="language-text">OpportunityUniverseVersion {
+    universe_id
+    version
+    parent_universe_id?
+
+    instrument_universe
+    timeframe_set
+    information_contract_id
+
+    primitive_registry_hash
+    predicate_ir_version
+    behavior_template_registry_hash
+    parameter_grid_hash
+
+    tradability_rule_id
+    support_rule_id
+    authority_contract_id
+
+    search_universe_size
+    complexity_budget
+    created_at
+    code_hash
+}
+</code></pre>
+<h3 id="172-oracleevaluationrecord">17.2 OracleEvaluationRecord</h3>
+<pre><code class="language-text">OracleEvaluationRecord {
+    evaluation_id
+    oracle_role              // PARITY | HINDSIGHT | TARGET
+    authority_level          // L1 | L2 | L3 | LIVE_RECEIPT
+    identifiability_status
+
+    information_contract_id
+    opportunity_universe_id
+    utility_contract_id
+    policy_class_id
+    cost_model_id
+    capacity_model_id
+    environment_target_id
+
+    candidate_population_hash
+    action_manifest_hash
+    simulator_or_receipt_hash
+    code_hash
+    config_hash
+
+    value_notation            // retrospective | replication | prospective | live
+    point_estimate?
+    lower_bound?
+    upper_bound?
+    uncertainty_artifact_id?
+
+    refusal_reason?
+    assumptions[]
+    lineage_id
+}
+</code></pre>
+<h3 id="173-regretattributionrecord">17.3 RegretAttributionRecord</h3>
+<pre><code class="language-text">RegretAttributionRecord {
+    attribution_id
+    total_policy_gap
+    reference_policy_id
+    target_policy_id
+
+    decomposition_method      // ISOLATED | MARGINAL | registered extension
+    component_domain
+    interaction_handling
+    causal_graph_id?
+
+    authority_summary
+    uncertainty_summary
+    forbidden_percent_claim_if_unresolved_interactions
+}
+</code></pre>
+<h3 id="174-deploymentcertificate">17.4 DeploymentCertificate</h3>
+<pre><code class="language-text">DeploymentCertificate {
+    certificate_id
+    policy_version
+    utility_contract_id
+    universe_id
+
+    replication_gate
+    risk_gate
+    coverage_gate
+    authority_gate
+    shadow_gate
+    live_gate?
+
+    capacity_limit
+    rollback_condition
+    valid_from
+    expires_or_revalidate_at
+}
+</code></pre>
+<h3 id="175-integration-with-evaluation-evidence-bundle-v8evalv1">17.5 Integration with Evaluation Evidence Bundle (<code>v8.eval.v1</code>)</h3>
+<p>All Oracle evaluation, regret attribution, and opportunity universe artifacts are stored natively within the <code>v8.eval.v1</code> immutable evidence bundle (<code>EVALUATION_EVIDENCE_SYSTEM.md</code> §4):
+- <code>OpportunityUniverseVersion</code> $\rightarrow$ <code>provenance/opportunity_universe.json</code>
+- <code>OracleEvaluationRecord</code> $\rightarrow$ <code>economics/oracle_evaluation.parquet</code> &amp; <code>statistics/reality_check.json</code>
+- <code>RegretAttributionRecord</code> $\rightarrow$ <code>economics/regret_attribution.parquet</code> &amp; Section S in <code>report.html</code>
+- Coverage &amp; Scout Hypotheses $\rightarrow$ <code>analysis/hypotheses.jsonl</code> &amp; <code>analysis/findings.jsonl</code></p>
+<hr>
+<h2 id="18-tests-and-invariants">18. Tests and invariants</h2>
+<h3 id="181-contract-tests">18.1 Contract tests</h3>
+<ol>
+<li>A future-known field inserted into <code>InformationSet(t)</code> must hard-fail PIT validation.</li>
+<li>Re-evaluating the same frozen Opportunity Universe with identical inputs must produce byte-identical Candidate identities and manifests.</li>
+<li>Changing direction on a Candidate must produce a different Candidate identity, not an action variant.</li>
+<li>Expanding any grammar grid must change <code>universe_id</code> and search-universe accounting.</li>
+<li>An out-of-support action must never emit an <code>IDENTIFIED</code> point value.</li>
+<li>An L1 evaluation requesting L3 authority must fail with <code>EXECUTION_AUTHORITY_TOO_WEAK</code>.</li>
+<li>A policy violating a hard UtilityContract constraint must never outrank a feasible policy merely on primary return.</li>
+<li>Zero/near-zero coverage must not pass a contract with a nonzero coverage floor.</li>
+<li>UNKNOWN values must propagate through summaries and may not be silently treated as zero.</li>
+<li>Opening a protected one-use evaluation twice under the same lineage must hard-fail.</li>
+</ol>
+<h3 id="182-hindsight-tests">18.2 Hindsight tests</h3>
+<ol>
+<li>The actual Candidate/action must be present in the relevant comparison set whenever a gap is defined.</li>
+<li>Candidate-bound Hindsight evaluation must not create new Candidate identities.</li>
+<li>Opportunity-Universe Hindsight evaluation must bind the alternative Candidate population hash explicitly.</li>
+<li>Hindsight metrics must be labeled retrospective and must not appear in Target promotion fields.</li>
+<li>Any cell whose potential maximizer is non-evaluable under the authority contract must abstain or return a bound.</li>
+</ol>
+<h3 id="183-regret-tests">18.3 Regret tests</h3>
+<ol>
+<li>Reports must reject an additive total if interaction handling is unspecified.</li>
+<li>Every marginal/isolated effect must name its reference configuration.</li>
+<li>Percentage attribution must be disabled unless a registered decomposition method covers interactions.</li>
+</ol>
+<h3 id="184-fault-injection">18.4 Fault injection</h3>
+<p>At minimum, inject future leakage, missing feed availability, unsupported size, queue-fill ambiguity, execution-model downgrade, cost doubling, capacity conflict, universe mutation after freeze, and repeated-holdout access. The correct behavior is refusal, weaker authority, or a new lineage—not silent continuation.</p>
+<hr>
+<h2 id="19-implementation-admission-plan">19. Implementation admission plan</h2>
+<p>This section defines implementation order. It is intentionally staged so that V8 does not build learned optimization on top of an undefined opportunity or authority surface.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Implementation</th>
+<th>Admission gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>O0</code></td>
+<td>Contracts, enums, hashes, artifact schemas; no economics changed.</td>
+<td>Schema tests, determinism, backward-compatible reading where required.</td>
+</tr>
+<tr>
+<td><code>O1</code></td>
+<td>Deterministic Opportunity Grammar + versioned universe generation.</td>
+<td>PIT legality, finite search accounting, stable identities, no Expert dependency.</td>
+</tr>
+<tr>
+<td><code>O2</code></td>
+<td>Support/identifiability classifier + authority contract.</td>
+<td>No unsupported point values; L1/L2/L3 claims fail closed.</td>
+</tr>
+<tr>
+<td><code>O3</code></td>
+<td>Representational coverage analysis against shipped Experts.</td>
+<td>Population reconciliation, multiplicity accounting, no recoverability overclaim.</td>
+</tr>
+<tr>
+<td><code>O4</code></td>
+<td>Isolated/marginal component-effect framework.</td>
+<td>Explicit reference configurations; no naive additive total.</td>
+</tr>
+<tr>
+<td><code>O5</code></td>
+<td>Decision-time recoverability policies for missed/represented opportunities.</td>
+<td>Protected chronology, UtilityContract, risk + coverage + absolute value gates.</td>
+</tr>
+<tr>
+<td><code>O6</code></td>
+<td>Execution authority upgrades (L2, then validated L3 where data permits).</td>
+<td>Policy ranking stability/re-evaluation; model-derived status respected.</td>
+</tr>
+<tr>
+<td><code>O7</code></td>
+<td>Shadow and limited-live promotion receipts.</td>
+<td>DeploymentCertificate, capacity cap, rollback, version freeze.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="191-first-rust-ownership-boundary">19.1 First Rust ownership boundary</h3>
+<p>The initial Rust implementation should own the contracts and deterministic grammar rather than a learned Target policy. A suggested module boundary is:</p>
+<pre><code class="language-text">v8-core/src/oracle/
+    mod.rs
+    taxonomy.rs
+    utility.rs
+    information.rs
+    opportunity.rs
+    support.rs
+    authority.rs
+    coverage.rs
+    regret.rs
+    artifacts.rs
+</code></pre>
+<h3 id="192-what-must-not-be-implemented-first">19.2 What must not be implemented first</h3>
+<ul>
+<li>a learned detector that defines and evaluates its own opportunity universe;</li>
+<li>Shapley regret attribution before isolated/marginal semantics are proven;</li>
+<li>L3 reactive execution claims without a validated simulator/data path;</li>
+<li>a universal scalar score that mixes return/risk/coverage without a UtilityContract;</li>
+<li>automatic promotion based solely on Hindsight gains.</li>
+</ul>
+<hr>
+<h2 id="20-open-questions-and-deferred-work">20. Open questions and deferred work</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question</th>
+<th>v1.0 treatment</th>
+<th>Resolution path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O-OR-001</td>
+<td>Exact primitive/template registry for Opportunity Grammar?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Implement minimal deterministic registry from existing PIT MarketState and Candidate semantics; every expansion is versioned.</td>
+</tr>
+<tr>
+<td>O-OR-002</td>
+<td>Exact UtilityContract thresholds/weights?</td>
+<td><code>PROVISIONAL_DECISION</code></td>
+<td>Versioned contract + sensitivity band; do not encode a universal set in the Oracle ontology.</td>
+</tr>
+<tr>
+<td>O-OR-003</td>
+<td>Bound-aware ranking rule for partially identified counterfactuals?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Start fail-closed on overlapping bounds; register alternatives later.</td>
+</tr>
+<tr>
+<td>O-OR-004</td>
+<td>Shapley/path decomposition for interactions?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Deferred to v1.1; isolated/marginal effects first.</td>
+</tr>
+<tr>
+<td>O-OR-005</td>
+<td>Future OPE / regime-drift estimator?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Prospective diagnostic only until separately validated; never replaces shadow/live receipts.</td>
+</tr>
+<tr>
+<td>O-OR-006</td>
+<td>Validated L3 reactive execution simulator?</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Data/model validation project; L1/L2 remain lower authority.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="21-decision-register">21. Decision register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Decision</th>
+<th>Status</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-OR-001</td>
+<td>V8 has exactly three top-level Oracle roles.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>No additional top-level Oracle naming without a spec version change.</td>
+</tr>
+<tr>
+<td>D-OR-002</td>
+<td>Target optimality is contract-relative, not raw-PnL universal.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Every Target evaluation binds UtilityContract, cost/capacity, authority, universe, and policy class.</td>
+</tr>
+<tr>
+<td>D-OR-003</td>
+<td>Utility uses primary after-cost value plus lexicographic hard constraints.</td>
+<td><code>PROVISIONAL_DECISION</code></td>
+<td>Exact thresholds/weights are versioned and may vary by deployment contract.</td>
+</tr>
+<tr>
+<td>D-OR-004</td>
+<td>Opportunity Universe is Expert-independent, finite, deterministic, versioned, and preregistered.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Grammar mutation creates new universe identity and research lineage.</td>
+</tr>
+<tr>
+<td>D-OR-005</td>
+<td>Profitable hindsight alone does not define a missed opportunity.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Opportunity requires PIT/schema legality and counterfactual authority.</td>
+</tr>
+<tr>
+<td>D-OR-006</td>
+<td>Evaluable universe is Opportunity Universe intersected with supported counterfactuals.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Unsupported opportunities remain UNKNOWN/model-derived rather than receiving fabricated PnL.</td>
+</tr>
+<tr>
+<td>D-OR-007</td>
+<td>Identifiability status and execution authority are orthogonal fields.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>L1/L2/L3 does not itself imply identified truth.</td>
+</tr>
+<tr>
+<td>D-OR-008</td>
+<td>Regret decomposition is non-additive by default.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Isolated/marginal/interactions/total-policy-gap vocabulary is mandatory.</td>
+</tr>
+<tr>
+<td>D-OR-009</td>
+<td>Representational coverage precedes monetary Detection Regret.</td>
+<td><code>PROVISIONAL_DECISION</code></td>
+<td>Missed hindsight set must pass decision-time recoverability before economic detection claims.</td>
+</tr>
+<tr>
+<td>D-OR-010</td>
+<td>Frozen OOS, prospective/shadow, and live value are distinct.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>No historical test is relabeled as live support.</td>
+</tr>
+<tr>
+<td>D-OR-011</td>
+<td>L1/L2/L3/LIVE_RECEIPT are authority levels, not Oracle classes.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>Prevents taxonomy explosion and claim laundering.</td>
+</tr>
+<tr>
+<td>D-OR-012</td>
+<td>UNKNOWN is a valid fail-closed result.</td>
+<td><code>LOCKED_INVARIANT</code></td>
+<td>No numeric imputation solely to preserve ranking/report completeness.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="22-claim-register">22. Claim register</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Claim</th>
+<th>Status</th>
+<th>Boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-OR-001</td>
+<td>There is no context-free unique “best trading policy”; optimality depends on objective, frictions, and constraints.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Does not prove any chosen V8 UtilityContract is economically correct.</td>
+</tr>
+<tr>
+<td>C-OR-002</td>
+<td>Decision quality/regret may be a more appropriate optimization target than prediction accuracy for downstream decisions.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Does not define V8’s trading opportunity ontology.</td>
+</tr>
+<tr>
+<td>C-OR-003</td>
+<td>Support/overlap limitations can make off-policy counterfactual values non-identifiable.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Exact V8 support tests remain implementation-specific.</td>
+</tr>
+<tr>
+<td>C-OR-004</td>
+<td>Future/non-stationary policy value is distinct from historical OOS value.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Future-value estimators require their own assumptions and validation.</td>
+</tr>
+<tr>
+<td>C-OR-005</td>
+<td>Component effects in sequential systems need not add uniquely without a chosen causal decomposition.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Does not select a unique Shapley/path decomposition for V8.</td>
+</tr>
+<tr>
+<td>C-OR-006</td>
+<td>Execution/impact modeling can change absolute value and policy ranking.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Does not certify any V8 L3 simulator.</td>
+</tr>
+<tr>
+<td>C-OR-007</td>
+<td>Abstention must be assessed jointly with risk and coverage, not rewarded merely for trading less.</td>
+<td><code>LITERATURE_SUPPORTED</code></td>
+<td>Specific V8 coverage floors remain contractual decisions.</td>
+</tr>
+<tr>
+<td>C-OR-008</td>
+<td>The canonical V8 Opportunity Grammar defined here will capture economically meaningful opportunities.</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>Must be tested; grammar is a measurement frame, not proof of market ontology.</td>
+</tr>
+<tr>
+<td>C-OR-009</td>
+<td>A recoverable Target policy exists that is profitable after costs.</td>
+<td><code>OPEN_QUESTION</code></td>
+<td>No current Oracle specification or audit establishes this.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="23-research-basis-and-references">23. Research basis and references</h2>
+<p>The references below are the primary or authoritative sources carried forward from <em>Target V8 Oracle Research Audit v0.1</em>. They justify design boundaries; none is cited as proof that V8 itself has edge.</p>
+<ol>
+<li>Herdegen, M. &amp; Muhle-Karbe, J. <a href="https://arxiv.org/abs/2402.08387">Portfolio Optimization under Transaction Costs with Recursive Preferences</a>.</li>
+<li><a href="https://arxiv.org/abs/1207.7330">Portfolio Choice with Transaction Costs: a User’s Guide</a>.</li>
+<li><a href="https://lbsresearch.london.edu/id/eprint/920/1/VDM%20Robust%20Perspective%20on%20Transaction%20Costs.pdf">A robust perspective on transaction-cost-aware portfolio choice</a>.</li>
+<li>Capitaine, A. et al. <a href="https://arxiv.org/abs/2505.13564">Online Decision-Focused Learning</a>.</li>
+<li><a href="https://arxiv.org/abs/2506.20417">Off-Policy Evaluation and Learning for the Future under Non-Stationarity</a>.</li>
+<li><a href="https://arxiv.org/abs/2301.10330">Off-Policy Evaluation for Action-Dependent Non-Stationary Environments</a>.</li>
+<li><a href="https://arxiv.org/abs/2302.11725">Off-policy evaluation work on non-stationary contextual/sequential environments</a>.</li>
+<li>Triantafyllou, S. et al. <a href="https://arxiv.org/abs/2410.12539">Counterfactual Effect Decomposition in Multi-Agent Sequential Decision Making</a>.</li>
+<li>Abbade, L. R. &amp; Reali Costa. <a href="https://arxiv.org/abs/2603.29086">Realistic Market Impact Modeling for Reinforcement Learning Trading Environments</a>.</li>
+<li>Olby, O. et al. <a href="https://arxiv.org/abs/2510.22206">Market Simulation-based RL for Execution Optimisation</a>.</li>
+<li>Xu, Y. et al. <a href="https://arxiv.org/abs/2512.12844">Selective Conformal Risk Control</a>.</li>
+<li><a href="https://arxiv.org/abs/2603.24704">Conformal Selective Prediction with General Risk Control</a>.</li>
+</ol>
+<h3 id="231-project-source-relationship">23.1 Project source relationship</h3>
+<ul>
+<li><strong>V8 Final Research Monograph:</strong> supplies the existing V8 Constitution, PIT/availability-time rule, Candidate/order/outcome distinction, deterministic baseline admission rule, simulation-authority matching, artifact binding, chronological OOS discipline, Outcome Cube, and Recoverable Regret semantics.</li>
+<li><strong>Target V8 Oracle Research Audit v0.1:</strong> supplies the P0-A/P0-B/P0-C audit and the external research support for contract-relative objective, opportunity-universe independence, identifiability taxonomy, non-additive regret, non-stationarity, execution authority, and abstention/coverage semantics.</li>
+</ul>
+<hr>
+<h2 id="appendix-a-mapping-to-existing-v8">Appendix A. Mapping to existing V8</h2>
+<table>
+<thead>
+<tr>
+<th>Existing V8 concept</th>
+<th>Oracle-spec role</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MarketState PIT contract</td>
+<td><code>InformationSet(t)</code></td>
+<td>No semantic relaxation; reused as decision-time boundary.</td>
+</tr>
+<tr>
+<td>Experts</td>
+<td>Policies covering subsets of Opportunity Grammar</td>
+<td>They no longer define the measurement universe.</td>
+</tr>
+<tr>
+<td>Candidate lifecycle</td>
+<td>Immutable proposal ontology</td>
+<td>Extended to grammar-generated research Candidates under explicit universe versions.</td>
+</tr>
+<tr>
+<td>Outcome Cube</td>
+<td>Candidate-bound Hindsight measurement</td>
+<td>Retained; not redefined as Target Oracle.</td>
+</tr>
+<tr>
+<td>Recoverable Regret Phase 3</td>
+<td>Pattern for decision-time recoverability</td>
+<td>Generalized conceptually to missed representation and other domains.</td>
+</tr>
+<tr>
+<td>RiskGate / portfolio heat</td>
+<td>UtilityContract hard constraints / allocation feasibility</td>
+<td>Bound into target feasibility and promotion certificates.</td>
+</tr>
+<tr>
+<td>Simulation authority</td>
+<td>L1/L2/L3 + identifiability matrix</td>
+<td>Made explicit as Oracle claim authority.</td>
+</tr>
+<tr>
+<td>Screening → replication → promotion → shadow/live</td>
+<td>Target admission ladder</td>
+<td>Retained and bound to Oracle terminology.</td>
+</tr>
+<tr>
+<td>Python parity oracle</td>
+<td><code>PARITY_ORACLE</code></td>
+<td>Terminology separated from economic Hindsight/Target meaning.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="appendix-b-non-goals">Appendix B. Non-goals</h2>
+<ul>
+<li>This document does not define a profitable Expert.</li>
+<li>It does not certify the existing 28 Experts economically.</li>
+<li>It does not choose final UtilityContract thresholds for any deployment capital base.</li>
+<li>It does not certify an L3 reactive simulator.</li>
+<li>It does not prove that the finite Opportunity Grammar is a complete ontology of market opportunity.</li>
+<li>It does not authorize a learned router, scorer, ranker, RL executor, or online learner without its own admission experiment.</li>
+<li>It does not permit Hindsight outputs to be described as live-achievable returns.</li>
+</ul>
+<hr>
+<h2 id="appendix-c-minimal-implementation-interfaces">Appendix C. Minimal implementation interfaces</h2>
+<p>The following are interface sketches, not final Rust code. Their purpose is to make ownership and semantics explicit before implementation.</p>
+<pre><code class="language-rust">enum OracleRole {
+    Parity,
+    Hindsight,
+    Target,
+}
+
+enum AuthorityLevel {
+    L1,
+    L2,
+    L3,
+    LiveReceipt,
+}
+
+enum Identifiability {
+    Identified,
+    PartiallyIdentified,
+    ModelDerived,
+    NotIdentifiable,
+}
+
+enum ValueNotion {
+    Retrospective,
+    Replication,
+    ProspectiveShadow,
+    LiveRealized,
+}
+
+struct OracleContext {
+    role: OracleRole,
+    authority: AuthorityLevel,
+    information_contract_id: Hash,
+    opportunity_universe_id: Hash,
+    utility_contract_id: Hash,
+    policy_class_id: Hash,
+    cost_model_id: Hash,
+    capacity_model_id: Hash,
+    environment_target_id: Hash,
+}
+
+trait OpportunityGrammar {
+    fn generate(
+        &amp;self,
+        state: &amp;MarketState,
+        decision_time: Timestamp,
+    ) -&gt; Result&lt;Vec&lt;GrammarCandidate&gt;, OracleRefusal&gt;;
+}
+
+trait SupportClassifier {
+    fn classify(
+        &amp;self,
+        candidate: &amp;GrammarCandidate,
+        action: &amp;Action,
+        authority: AuthorityLevel,
+    ) -&gt; CounterfactualAuthority;
+}
+
+trait HindsightEvaluator {
+    fn evaluate(
+        &amp;self,
+        candidate: &amp;GrammarCandidate,
+        action_set: &amp;ActionManifest,
+        context: &amp;OracleContext,
+    ) -&gt; OracleOutcome;
+}
+
+trait TargetPolicy {
+    fn decide(
+        &amp;self,
+        information: &amp;InformationSet,
+        candidates: &amp;[GrammarCandidate],
+        constraints: &amp;UtilityContract,
+    ) -&gt; DecisionSet;
+}
+</code></pre>
+<p><strong>Implementation rule:</strong> these interfaces must preserve the three-Oracle taxonomy. A module named <code>detection_oracle.rs</code>, <code>execution_oracle.rs</code>, or similar should be rejected unless “oracle” refers unambiguously to one of the three top-level roles. Prefer domain names such as <code>coverage.rs</code>, <code>selection.rs</code>, <code>execution.rs</code>, and <code>allocation.rs</code>.</p></section>
 <section id="sec-hypothesis-lab-protocol"><h1>HYPOTHESIS LAB PROTOCOL</h1><h1 id="v8-hipotez-laboratuvar-protokolu-v01">V8 Hipotez Laboratuvarı Protokolü v0.1</h1>
 <p><strong>Amaç:</strong> öğrenilmiş yönlendirme, skorlama, sıralama, daha zengin veri ya da
 execution öğreniminden önce zayıf davranış hipotezlerini ucuzca reddetmek.
