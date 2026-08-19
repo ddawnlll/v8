@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: V8 workflow policy
+    url: https://github.com/ddawnlll/v8/blob/main/docs/WORK_ITEM_POLICY.md
+    about: Read the V8 issue/PR governance contract before filing a work item.

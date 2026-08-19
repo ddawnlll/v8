@@ -1,0 +1,172 @@
+name: "Implementation / Wiring"
+description: "Implement a pinned V8 decision, contract, missing wiring, or bounded engineering task."
+title: "[IMPL] "
+labels: ["type:implementation", "triage"]
+body:
+  - type: input
+    id: objective
+    attributes:
+      label: Objective
+      placeholder: "Implement Capital-Constrained Binance USDⓈ-M Portfolio Simulator in v8-core"
+    validations:
+      required: true
+  - type: textarea
+    id: authority
+    attributes:
+      label: Owning authority
+      description: "Decision IDs, contract sections, issue dependencies, or OPEN_PIN resolution that authorizes the work."
+    validations:
+      required: true
+  - type: dropdown
+    id: change_class
+    attributes:
+      label: Change class
+      options:
+        - IMPLEMENTATION_ONLY
+        - WIRING_ONLY
+        - BEHAVIOR_PRESERVING_REFACTOR
+        - CONTRACT_IMPLEMENTATION
+        - CORRECTNESS_SEMANTICS
+        - NEW_FILE_FAMILY_OR_MODULE
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current state
+      description: "What exists now, including unwired code, missing composition point, or tracked divergence."
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Required end state
+      description: "Observable postconditions, not implementation wish-list."
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Expected file / module surface
+      description: "Name the intended files. Unexpected scope expansion must be reported in the PR."
+    validations:
+      required: true
+  - type: textarea
+    id: gates
+    attributes:
+      label: Verification gates
+      description: "Smallest checks that discriminate success. Include required semantic-boundary gates."
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Required evidence artifacts
+      description: "Reports, hashes, ledgers, RUNLOG entries, decision/changelog updates, or NONE with justification."
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals / forbidden scope
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Context-completeness contract
+        The fields below are part of the implementation boundary, not optional prose.
+        Use requirement IDs (`R1`, `R2`, ...) and exact owning clauses/decisions.
+        If an exact authority, type, invariant, or failure semantic is unknown, declare an OPEN_PIN instead of guessing.
+  - type: textarea
+    id: normative_traceability
+    attributes:
+      label: 11. Normative Traceability
+      description: "Map each observable requirement R1/R2/... to the exact owning spec clause, D-/O- decision, registry entry, or test. Do not cite a broad chapter range when a narrower clause exists."
+      placeholder: |
+        R1 — <observable requirement>
+        Authority:
+        - docs/<spec>.md §x.y
+        - D-xxx
+
+        R2 — <observable requirement>
+        Authority:
+        - docs/<spec>.md §z
+        - O-xxx
+    validations:
+      required: true
+  - type: textarea
+    id: reuse_contracts
+    attributes:
+      label: 12. Existing Types / Interfaces to Reuse
+      description: "Name existing types, traits, enums, manifests, hashes, registries, and contracts that MUST be reused. State NONE only with a reason. Do not create a parallel ontology when an existing one owns the concept."
+      placeholder: |
+        - MarketState -> <type/path + owning contract>
+        - Candidate identity -> <type/path + owning contract>
+        - Error/refusal enum -> <type/path + owning contract>
+        - Manifest/hash identity -> <type/path + owning contract>
+    validations:
+      required: true
+  - type: textarea
+    id: semantic_invariants
+    attributes:
+      label: 13. Mathematical / Semantic Invariants
+      description: "Repeat the implementation-critical equations, identities, ordering rules, immutability rules, or semantics exactly enough that an implementer cannot choose a different reasonable interpretation. Use NONE only when genuinely inapplicable."
+      placeholder: |
+        I1 — <formula / invariant>
+        Authority: <exact clause>
+        Testable consequence: <observable check>
+    validations:
+      required: true
+  - type: textarea
+    id: failure_semantics
+    attributes:
+      label: 14. Canonical Failure Semantics
+      description: "Map invalid/unsupported states to existing canonical error/refusal/status codes. Do not invent new codes when an existing canonical outcome owns the condition. Use NONE only with justification."
+      placeholder: |
+        - <condition> -> <CANONICAL_ERROR_OR_STATUS> (<authority>)
+        - <condition> -> UNKNOWN / BLOCKED / ... (<authority>)
+    validations:
+      required: true
+  - type: textarea
+    id: dependency_map
+    attributes:
+      label: 15. Dependency Map
+      description: "Show the smallest conceptual/data-flow chain needed to implement this issue and identify which nodes already exist versus are created here. State NONE only for a truly isolated change."
+      placeholder: |
+        Existing A
+          -> Existing B
+          -> NEW component C
+          -> Existing D
+    validations:
+      required: true
+  - type: textarea
+    id: open_pin_triggers
+    attributes:
+      label: 16. Ambiguity / OPEN_PIN Triggers
+      description: "List the exact ambiguities or contradictions that MUST stop implementation and escalate to GOVERNANCE. Include a default catch-all: unknown owning semantics are not implementation discretion."
+      placeholder: |
+        - If <authority conflict>, STOP and open/escalate OPEN_PIN.
+        - If an existing type/error/identity contract cannot be located, STOP rather than inventing one.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References / sources / attachments
+      description: "Optional supporting papers, PDFs, specs, reports, issues/PRs, datasets, or external docs. Prefer DOI/arXiv/repo paths and note relevant pages/sections when useful."
+  - type: checkboxes
+    id: guards
+    attributes:
+      label: V8 guards
+      options:
+        - label: "I will not invent a new canonical error code, ontology, or parallel interface unless an R# requirement explicitly authorizes it."
+          required: true
+        - label: "No unrelated semantic strategy change is bundled into this implementation issue."
+          required: true
+        - label: "No frozen OOS is opened unless this issue explicitly carries that authority."
+          required: true
+        - label: "If the owning contract is ambiguous, I will open/escalate an OPEN_PIN rather than invent an interpretation."
+          required: true
