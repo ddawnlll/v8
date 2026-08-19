@@ -198,10 +198,10 @@ def main() -> int:
     binary = args.binary
     if not binary:
         binary = ROOT / "v8-core" / "target" / "release" / "v8-core"
-        if sys.platform == "win32" and not binary.exists() and binary.with_suffix(".exe").exists():
+        if sys.platform == "win32":
             binary = binary.with_suffix(".exe")
 
-    if not args.skip_build and not binary.exists():
+    if not args.skip_build:
         print("\n[1/4] Compiling release v8-core binary...")
         cargo_bin = shutil.which("cargo")
         if not cargo_bin and sys.platform == "win32":
