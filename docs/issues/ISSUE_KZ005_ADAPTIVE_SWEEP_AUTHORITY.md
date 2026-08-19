@@ -1,15 +1,15 @@
 # [GOV/IMPL] Issue #KZ-005: Adaptive Sweep Authority & Stopped e-BH Gate
 
-**Status:** BLOCKED_BY_O032 / PROPOSED  
+**Status:** BLOCKED_BY_O032 / PATCHED  
 **Issue Type:** `GOVERNANCE` / `IMPLEMENTATION`  
 **Change Class:** `CONTRACT_IMPLEMENTATION`  
-**Labels:** `type:governance`, `triage`, `risk:multiplicity-authority`  
+**Labels:** `type:governance`, `triage`, `rust`, `methodology`, `risk:multiplicity-authority`  
 **Owning Authority:** `KAIZEN_ENGINE_SPEC.md` §6, `OPEN_DECISIONS.md` O-032, arXiv:2502.08539, arXiv:2009.02824, arXiv:2210.01948.
 
 ---
 
 ## 1. Objective
-Formalize the gating authority and fail-closed architecture for multi-variant sweep execution (`SweepMode::FixedSample` vs `SweepMode::AdaptiveSequential`), ensuring that adaptive sequential early-killing remains strictly `BLOCKED_BY_O032` until anytime-valid stopped e-BH local/global filtration contracts under shared financial tapes are mathematically resolved.
+Formalize the gating authority and fail-closed architecture for multi-variant sweep execution (`SweepMode::FixedSample` vs `SweepMode::AdaptiveSequential`), ensuring that adaptive sequential early-stopping remains strictly `BLOCKED_BY_O032` until anytime-valid stopped e-BH local/global filtration contracts under cross-variant adaptive stopping are mathematically resolved.
 
 ---
 
@@ -27,9 +27,9 @@ Formalize the gating authority and fail-closed architecture for multi-variant sw
 ---
 
 ## 4. Current State
-- Adaptive multi-armed bandit or successive halving sweeps are tempting for computational efficiency, but applying adaptive stopping rules across concurrent strategy streams on the **same underlying market tape** violates independence assumptions.
-- As Wang–Dandapanthula–Ramdas (2025) proves, local e-processes with global stopping rules break anytime-valid FDR control when filtration dependencies leak future information across streams.
-- `O-032` remains an open decision in the V8 monograph.
+- Adaptive sequential search (e.g. multi-armed bandits, successive halving) offers compute efficiency, and e-BH provides false discovery rate (FDR) control under arbitrary dependence for fixed e-values.
+- However, as Wang–Dandapanthula–Ramdas (arXiv:2502.08539) establish: **Shared-tape dependence does not by itself invalidate e-BH. The unresolved issue is whether each local e-process remains valid with respect to the global filtration induced by cross-variant adaptive stopping.**
+- `O-032` remains an open decision in the V8 monograph; without a certified non-negative test supermartingale and filtration contract, adaptive stopping cannot guarantee FDR control.
 
 ---
 
@@ -39,11 +39,11 @@ Formalize the gating authority and fail-closed architecture for multi-variant sw
    - `FixedSample`: Pre-declared, finite sample size with full trial debt accounting and post-hoc family-wise error rate / DSR control. (ENABLED).
    - `AdaptiveSequential`: Sequential early-stopping under stopped e-BH. (BLOCKED).
 2. **Fail-Closed Enforcement:**
-   Any invocation of `SweepMode::AdaptiveSequential` must return `Err(SweepError::SequentialEvidenceAuthorityMissing)` / `BLOCKED_BY_O032`.
+   Any invocation of `SweepMode::AdaptiveSequential` must fail closed with `Err(SweepError::SequentialEvidenceAuthorityMissing)` / `BLOCKED_BY_O032`.
 3. **Formal Unblocking Criteria (O-032 Gate):**
    Adaptive sequential sweep may be unlocked ONLY when:
    - Non-negative test supermartingale / e-process construction is proven valid under the financial return null.
-   - Filtration dependency contract for shared tape is specified.
+   - Global filtration contract across cross-variant adaptive stopping rules is specified.
    - Repeated Monte Carlo simulation confirms empirical $\text{FDR} \le \alpha$ under adaptive stopping.
    - Reference oracle parity is established in Rust.
 
@@ -65,13 +65,13 @@ v8-core/src/kaizen/adaptive.rs (or sweep.rs)
 ---
 
 ## 8. Required Evidence Artifacts
-- Unit test logs confirming fail-closed error emission.
+- Unit test logs confirming fail-closed error emission on adaptive invocation.
 - Formal resolution checklist for O-032.
 
 ---
 
 ## 9. Non-Goals / Forbidden Scope
-- Does not implement uncertified heuristic early-stopping (e.g. ad-hoc thresholding) that bypasses FDR control.
+- Does not implement uncertified heuristic early-stopping that bypasses FDR control.
 - Does not bypass `O-032` requirements.
 
 ---

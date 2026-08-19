@@ -1,22 +1,23 @@
-# [IMPL] Issue #KZ-004: Purged WFA & One-Shot Frozen OOS Gate
+# [IMPL] Issue #KZ-004: Purged WFA & Atomic One-Shot Frozen OOS Gate
 
-**Status:** READY / PROPOSED  
+**Status:** READY / PATCHED  
 **Issue Type:** `IMPLEMENTATION`  
 **Change Class:** `CONTRACT_IMPLEMENTATION` / `NEW_FILE_FAMILY_OR_MODULE`  
-**Labels:** `type:implementation`, `triage`, `risk:validation-integrity`  
-**Owning Authority:** `KAIZEN_ENGINE_SPEC.md` §5, `V8_CONSTITUTION.md` Rule 5, 11, `EVALUATION_EVIDENCE_SYSTEM.md` §3, arXiv:2602.10785.
+**Labels:** `type:implementation`, `triage`, `rust`, `risk:validation-integrity`  
+**Owning Authority:** `KAIZEN_ENGINE_SPEC.md` §5, `HYPOTHESIS_LAB_PROTOCOL.md` §1–4, `V8_CONSTITUTION.md` Rule 5, 11, `EVALUATION_EVIDENCE_SYSTEM.md` §3, arXiv:2602.10785.
 
 ---
 
 ## 1. Objective
-Implement Purged Walk-Forward Analysis (`WfaSpec`, `WfaFoldReceipt`, `WfaCampaignVerdict`) with majority pass requirements and catastrophic drawdown vetoes, paired with a cryptographic One-Shot Holdout Burning Registry (`HoldoutBurnReceipt`, `HoldoutBurnRegistry`) in pure Rust, ensuring OOS data can never be re-used or curve-fitted.
+Implement Purged Walk-Forward Analysis (`WfaSpec`, `WfaFoldReceipt`, `WfaCampaignVerdict`) with paired baseline improvement tracking and catastrophic drawdown vetoes, combined with an atomic dataset-level One-Shot Holdout Burning State Machine (`HoldoutAccessKey`, `HoldoutState`, `HoldoutBurnRegistry`) in pure Rust, ensuring that the V8 evaluator fail-closed rejects any secondary access to frozen out-of-sample data.
 
 ---
 
 ## 2. Owning Authority
-- **Primary Specification:** [`docs/protocols/KAIZEN_ENGINE_SPEC.md`](file:///Users/hootie/src/v8/docs/protocols/KAIZEN_ENGINE_SPEC.md) §5 (Purged WFA & One-Shot Frozen OOS Burn).
-- **Constitution:** [`docs/charter/V8_CONSTITUTION.md`](file:///Users/hootie/src/v8/docs/charter/V8_CONSTITUTION.md) Rule 5 (`Frozen out-of-sample comparison`), Rule 11 (`Multiplicity controls and untouched chronological evaluation`).
-- **Validation Geometry Literature:** arXiv:2602.10785 (*Walk-Forward Optimization Window Selection and Out-of-Sample Reliability*).
+- **Primary Specification:** [`docs/protocols/KAIZEN_ENGINE_SPEC.md`](file:///Users/hootie/src/v8/docs/protocols/KAIZEN_ENGINE_SPEC.md) §5 (Purged WFA & Atomic One-Shot Frozen OOS Burn).
+- **Hypothesis Protocol Authority:** [`docs/protocols/HYPOTHESIS_LAB_PROTOCOL.md`](file:///Users/hootie/src/v8/docs/protocols/HYPOTHESIS_LAB_PROTOCOL.md) §3–4 (Paired OOS delta vs simpler incumbent baseline).
+- **Constitution:** [`docs/charter/V8_CONSTITUTION.md`](file:///Users/hootie/src/v8/docs/charter/V8_CONSTITUTION.md) Rule 5, 11, 15.
+- **Validation Geometry Literature:** arXiv:2602.10785 (*Walk-Forward Optimization Window Selection, Trial Accounting, and Out-of-Sample Reliability*).
 
 ---
 
@@ -26,20 +27,44 @@ Implement Purged Walk-Forward Analysis (`WfaSpec`, `WfaFoldReceipt`, `WfaCampaig
 ---
 
 ## 4. Current State
-- `v8-core` supports chronological evaluation, but lacks an automated purged multi-fold WFA campaign harness with explicit fold receipts and catastrophic veto enforcement.
-- Frozen out-of-sample datasets are protected by convention, but lack an enforceable cryptographic hardware/software burn registry that mechanically raises an error if an agent attempts to re-evaluate the same OOS hash.
+- `v8-core` lacks an automated purged multi-fold WFA campaign harness measuring paired improvement against a fixed baseline with catastrophic veto logic.
+- Naive holdout registry designs indexed burns by `(experiment_id, dataset_hash)`, which allowed trivial bypasses (generating a new `experiment_id` to re-query the same holdout).
+- Previous designs attempted to burn holdouts *after* evaluation, risking leaked data access if a process crashed mid-run.
 
 ---
 
 ## 5. Required End State
-1. **Purged WFA Engine:**
-   `WfaSpec` supporting parameterized `train_bars`, `purge_bars`, `test_bars`, `step_bars`, `min_pass_fraction`, and `max_allowable_fold_drawdown_r`.
+1. **Paired-Delta Purged WFA:**
+   `WfaFoldReceipt` capturing:
+   - `fold_id`, `train_range`, `purge_range`, `test_range`, `chosen_variant`
+   - `baseline_utility`, `challenger_utility`
+   - `paired_delta` ($U_{\text{challenger}} - U_{\text{baseline}}$)
+   - `paired_uncertainty` (clustered standard error / bootstrap interval)
+   - `max_drawdown_r`, `cost_drag_r`, `verdict` (`FoldVerdict::Pass | FailNegativeDelta | FailCatastrophicDrawdown`).
 2. **Majority Pass with Catastrophic Veto:**
-   `WfaCampaignVerdict` requiring majority fold success, but failing immediately (`FailCatastrophicVeto`) if any individual fold suffers a catastrophic drawdown breach.
-3. **Validation Geometry Trial Accounting:**
-   Window combinations (e.g. 90/30 vs 180/30) logged as formal research choices into the trial debt ledger.
-4. **Cryptographic Holdout Burn Registry:**
-   `HoldoutBurnRegistry` recording `HoldoutBurnReceipt` upon evaluation. Attempting to evaluate the same `(experiment_id, dataset_hash)` twice returns `Err(HoldoutError::AlreadyBurned)`.
+   `WfaCampaignVerdict` requires majority fold paired-delta success, but fails closed immediately (`FailCatastrophicVeto`) if any fold breaches the maximum allowable drawdown ceiling.
+3. **Atomic Reserve-Before-Access Holdout State Machine:**
+   ```rust
+   pub enum HoldoutState {
+       Untouched,
+       ReservedAndBurned,
+       Completed,
+       FailedAfterBurn,
+   }
+
+   pub struct HoldoutAccessKey {
+       pub holdout_id: String,
+       pub dataset_hash: String,
+       pub research_lineage_id: String,
+   }
+   ```
+   **Access Ordering Invariant:**
+   $$\text{Atomic State Transition: } \text{Untouched} \longrightarrow \text{ReservedAndBurned} \longrightarrow \text{Release OOS Bytes} \longrightarrow \text{Evaluation} \longrightarrow \text{Completed}$$
+   If evaluation fails or aborts, state transitions to `FailedAfterBurn`. Re-opening any holdout with state $\neq \text{Untouched}$ is fail-closed rejected with `Err(HoldoutError::AlreadyBurned)`.
+4. **Validation Geometry Trial Accounting:**
+   Combinations of train/test windows (e.g. 90/30 vs 180/30) are registered into the global trial debt ledger (arXiv:2602.10785).
+5. **Evaluator Authority Boundary:**
+   The V8-authorized evaluation harness enforces fail-closed rejection of secondary access across the entire repository.
 
 ---
 
@@ -52,38 +77,40 @@ v8-core/src/kaizen/validation.rs (or experiment.rs)
 
 ## 7. Verification Gates
 1. `cargo test --manifest-path v8-core/Cargo.toml` passing.
-2. Test verifying that a single catastrophic drawdown fold overrides a 4/5 pass rate, failing the WFA campaign.
-3. Test verifying that re-registering an already-evaluated `(experiment_id, dataset_hash)` raises `HoldoutError::AlreadyBurned`.
-4. `.venv/bin/python tools/audit_python_boundary.py` remains green.
+2. Test verifying paired-delta WFA: challenger must beat baseline net utility in majority of folds.
+3. Test verifying catastrophic veto: a single fold drawdown violation overrides a 4/5 pass rate.
+4. Test verifying atomic holdout burn: once reserved, attempting to access the dataset under any `experiment_id` or lineage returns `HoldoutError::AlreadyBurned`.
+5. Test verifying crash resilience: a holdout in `FailedAfterBurn` state cannot be re-opened.
+6. `.venv/bin/python tools/audit_python_boundary.py` remains green.
 
 ---
 
 ## 8. Required Evidence Artifacts
-- Unit test logs validating catastrophic veto and holdout burn failure paths.
-- Sample serialized `HoldoutBurnReceipt`.
+- Unit test logs validating catastrophic veto, paired-delta calculation, and atomic holdout burn.
+- Serialized `HoldoutBurnReceipt` schema verification.
 
 ---
 
 ## 9. Non-Goals / Forbidden Scope
 - Does not allow repairing a rejected hypothesis on frozen OOS.
-- Does not modify historical baseline datasets.
+- Does not claim physical OS-level file deletion (protection is enforced via V8 evaluator fail-closed authority).
 
 ---
 
 ## 10. Guards
-- [ ] Holdouts must be burned irreversibly upon evaluation.
-- [ ] Catastrophic drawdown in any fold must veto the entire WFA campaign.
-- [ ] No lookahead leakage between train and test windows (purge interval enforced).
+- [ ] Holdouts must transition to `ReservedAndBurned` BEFORE data bytes are released.
+- [ ] Burn semantics are keyed to the physical dataset hash, preventing bypass via new experiment IDs.
+- [ ] WFA verdicts must evaluate paired improvement against the incumbent baseline.
 
 ---
 
 ## 11. Normative Traceability
-- **R1 — Chronological Purged Folds:** Executes walk-forward intervals with leakage-safe purge buffers.  
-  *Authority:* `KAIZEN_ENGINE_SPEC.md` §5.1; `V8_CONSTITUTION.md` Rule 5.
-- **R2 — Catastrophic Veto Invariant:** Vetos any strategy exhibiting tail drawdown collapse in any single fold.  
+- **R1 — Paired Purged WFA Engine:** Computes paired-delta against fixed baseline across purged folds.  
+  *Authority:* `KAIZEN_ENGINE_SPEC.md` §5.1; `HYPOTHESIS_LAB_PROTOCOL.md` §3–4.
+- **R2 — Catastrophic Veto Rule:** Vetos strategies with catastrophic drawdown in any individual fold.  
   *Authority:* `KAIZEN_ENGINE_SPEC.md` §5.1; arXiv:2603.09219.
-- **R3 — One-Shot Holdout Burning:** Mechanically prohibits holdout re-use.  
-  *Authority:* `KAIZEN_ENGINE_SPEC.md` §5.2; `V8_CONSTITUTION.md` Rule 11, 15.
+- **R3 — Atomic Dataset-Level Holdout Burn:** Irreversibly burns dataset access upon reservation.  
+  *Authority:* `KAIZEN_ENGINE_SPEC.md` §5.2; `V8_CONSTITUTION.md` Rule 5, 11, 15.
 
 ---
 
@@ -94,14 +121,13 @@ v8-core/src/kaizen/validation.rs (or experiment.rs)
 ---
 
 ## 13. Mathematical / Semantic Invariants
-- **I1 — Purge Separation:** $\text{End}(\text{Train}) + \text{PurgeBars} \le \text{Start}(\text{Test})$.
-- **I2 — Catastrophic Veto:** $\exists f \in \text{Folds} \text{ s.t. } \text{Drawdown}(f) > \text{MaxDD}_{\text{allowable}} \implies \text{Campaign Verdict} = \text{FAIL}$.
-- **I3 — Irreversible Burn:** $\text{Eval}(E, D_{\text{OOS}}) \implies \text{Burned}(E, D_{\text{OOS}}) = \text{true}$; subsequent calls return `AlreadyBurned`.
+- **I1 — Paired Advantage:** $\text{FoldPass} \iff \Delta U_{\text{paired}} > 0 \land \text{MaxDD} \le \text{MaxDD}_{\text{allowable}}$.
+- **I2 — Atomic Burn:** $\text{State}(D) \neq \text{Untouched} \implies \text{Access}(D) = \text{Err}(\text{AlreadyBurned})$.
 
 ---
 
 ## 14. Canonical Failure Semantics
-- Holdout re-query $\implies$ `Err(HoldoutError::AlreadyBurned)`.
+- Re-query of burned holdout $\implies$ `Err(HoldoutError::AlreadyBurned)`.
 - WFA Catastrophic breach $\implies$ `WfaCampaignVerdict::FailCatastrophicVeto`.
 
 ---
@@ -111,7 +137,7 @@ v8-core/src/kaizen/validation.rs (or experiment.rs)
 [KZ-003: Robustness Surface]
              │
              ▼
-[KZ-004: Purged WFA & One-Shot OOS Burn]
+[KZ-004: Purged WFA & Atomic OOS Burn]
              │
              ▼
 [Registry Promotion Decision]
@@ -120,4 +146,4 @@ v8-core/src/kaizen/validation.rs (or experiment.rs)
 ---
 
 ## 16. Ambiguity / OPEN_PIN Triggers
-- If OOS hash verification cannot be performed deterministically on disk, open `OPEN_PIN`.
+- If holdout burn state persistence requires a distributed locking mechanism, open `OPEN_PIN`.

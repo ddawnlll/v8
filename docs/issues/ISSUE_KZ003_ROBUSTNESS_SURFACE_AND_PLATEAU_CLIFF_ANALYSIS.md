@@ -1,15 +1,15 @@
 # [IMPL] Issue #KZ-003: Robustness Surface & Plateau/Cliff Analysis
 
-**Status:** READY / PROPOSED  
+**Status:** READY / PATCHED  
 **Issue Type:** `IMPLEMENTATION`  
 **Change Class:** `CONTRACT_IMPLEMENTATION` / `NEW_FILE_FAMILY_OR_MODULE`  
-**Labels:** `type:implementation`, `triage`, `risk:robustness-stability`  
+**Labels:** `type:implementation`, `triage`, `rust`, `risk:robustness-stability`  
 **Owning Authority:** `KAIZEN_ENGINE_SPEC.md` §4, `EVALUATION_EVIDENCE_SYSTEM.md` §4 (`robustness/`), arXiv:2603.09219 (AlgoXpert).
 
 ---
 
 ## 1. Objective
-Implement parameter robustness surface analysis and plateau/cliff evaluation (`RobustnessCampaign`, `RobustnessPoint`, `RobustnessVerdict`) in pure Rust, replacing isolated knife-edge parameter optimization with broad neighborhood stability analysis and automated cliff vetoes based on the AlgoXpert framework.
+Implement parameter robustness surface analysis and plateau/cliff evaluation (`RobustnessCampaign`, `PlateauCriterion`, `RobustnessPoint`, `RobustnessVerdict`) across a **finite preregistered lattice of neighborhood points** in pure Rust, replacing single-metric peak optimization with multi-dimensional utility plateau analysis and robust cliff vetoes.
 
 ---
 
@@ -26,64 +26,75 @@ Implement parameter robustness surface analysis and plateau/cliff evaluation (`R
 ---
 
 ## 4. Current State
-- `v8-core` has `evaluation::surfaces` generating cost/exit grids, but lacks a typed plateau vs cliff decision engine.
-- A candidate variant that scores a high Sharpe ratio on a narrow parameter spike can currently look superior to a robust variant sitting in a broad, stable performance plateau.
+- `v8-core` lacks a formal plateau vs cliff decision engine.
+- Prior designs hardcoded single-metric Sharpe ratios as an absolute ontology, which fails when evaluating multi-objective Utility Contracts or when peak Sharpe approaches zero ($\frac{\text{Sharpe}_{\text{peak}} - \text{Sharpe}_{\text{neighbor}}}{\text{Sharpe}_{\text{peak}}} \to \infty$).
+- Previous descriptions referenced "continuous" neighborhood surfaces, conflicting with discrete, finite preregistration requirements.
 
 ---
 
 ## 5. Required End State
-1. **Robustness Campaign Evaluation:**
-   `RobustnessCampaign` evaluating candidate parameter arrays across continuous neighborhood points.
-2. **Plateau Detection:**
-   Identifies parameter bands where $\text{Sharpe}(\theta) \ge \alpha \times \text{PeakSharpe}$ ($\alpha = 0.85\text{--}0.90$) across adjacent parameter steps.
-3. **Cliff Veto:**
-   Assigns `RobustnessVerdict::Cliff` and vetos any candidate whose immediate neighbors exhibit catastrophic performance degradation ($> 30\text{--}50\%$ drop).
-4. **Typed Verdicts:**
+1. **Utility-Contract Plateau Criterion:**
+   ```rust
+   pub struct PlateauCriterion {
+       pub primary_utility: MetricId, // e.g. "net_expectancy_r" or "economic_utility"
+       pub utility_floor: f64,       // e.g. > 0.0 after full costs
+       pub secondary_stability_metric: Option<MetricId>, // e.g. "sharpe"
+       pub alpha: Option<f64>,       // e.g. >= 0.90 * peak_utility
+   }
+   ```
+2. **Finite Preregistered Lattice:**
+   Campaigns operate over a strictly discrete, bounded parameter grid $\mathcal{L} = \{\theta_1, \theta_2, \dots, \theta_k\}$, never unbounded continuous searches.
+3. **Robust Relative Drop with Floor Fallback:**
+   Relative degradation to neighbors uses an absolute floor fallback $\epsilon_{\text{floor}}$:
+   $$\text{RelativeDrop} = \frac{U_{\text{peak}} - U_{\text{neighbor}}}{\max(U_{\text{peak}}, \epsilon_{\text{floor}})}$$
+   preventing numeric explosions when $U_{\text{peak}} \approx 0$.
+4. **Cliff Veto:**
+   Assigns `RobustnessVerdict::Cliff` and vetos candidates whose lattice neighbors collapse catastrophically.
+5. **Typed Verdicts:**
    `Plateau`, `Cliff`, `NonViable`, `InsufficientN`.
 
 ---
 
 ## 6. Expected File / Module Surface
 ```text
-v8-core/src/kaizen/robustness.rs (or evaluation/surfaces.rs extension)
+v8-core/src/kaizen/robustness.rs
 ```
 
 ---
 
 ## 7. Verification Gates
 1. `cargo test --manifest-path v8-core/Cargo.toml` passing.
-2. Test verifying that a candidate with stable neighbor performance ($\le 15\%$ drop) receives `RobustnessVerdict::Plateau`.
-3. Test verifying that a peak with a steep adjacent drop ($> 50\%$) receives `RobustnessVerdict::Cliff`.
-4. Test verifying that negative expectancy points receive `RobustnessVerdict::NonViable`.
+2. Test verifying plateau classification when all criteria in `PlateauCriterion` (utility floor + alpha peak fraction) hold across adjacent lattice points.
+3. Test verifying cliff veto when immediate neighbor drops $> \text{threshold}$, utilizing $\epsilon_{\text{floor}}$ when peak is near zero.
+4. Test verifying that negative utility lattice points receive `RobustnessVerdict::NonViable`.
 5. `.venv/bin/python tools/audit_python_boundary.py` remains green.
 
 ---
 
 ## 8. Required Evidence Artifacts
-- Unit test logs verifying plateau/cliff detection.
-- Parquet schema compatibility receipt for `parameter_surface.parquet`.
+- Unit test logs verifying finite lattice plateau/cliff detection with $\epsilon_{\text{floor}}$ protection.
 
 ---
 
 ## 9. Non-Goals / Forbidden Scope
-- Does not hardcode paper-specific constants as universal laws; parameters are configured via `RobustnessCampaign`.
-- Does not run multi-thousand variant adaptive sweeps without trial debt accounting.
+- Does not run unbounded continuous exploration grids.
+- Does not treat isolated peak Sharpe as proof of edge without neighborhood stability.
 
 ---
 
 ## 10. Guards
-- [ ] Fragile parameter spikes must be vetoed (`Cliff`).
-- [ ] Minimum trade count per point must be enforced (`InsufficientN`).
-- [ ] No unbounded parameter searching.
+- [ ] Evaluation must occur on a finite preregistered lattice.
+- [ ] Relative drop calculations must use an $\epsilon_{\text{floor}}$ fallback.
+- [ ] Plateau criteria must be configurable via `PlateauCriterion` (Utility Contract).
 
 ---
 
 ## 11. Normative Traceability
-- **R1 — Continuous Surface Evaluation:** Ingests neighborhood parameter evaluation points.  
-  *Authority:* `KAIZEN_ENGINE_SPEC.md` §4; `EVALUATION_EVIDENCE_SYSTEM.md` §4.
-- **R2 — Plateau Selection Rule:** Selects regions meeting the fractional peak Sharpe criterion.  
+- **R1 — Finite Lattice Surface Evaluation:** Evaluates discrete, preregistered parameter grids.  
+  *Authority:* `KAIZEN_ENGINE_SPEC.md` §4; `HYPOTHESIS_LAB_PROTOCOL.md` §2.
+- **R2 — Utility-Contract Plateau Rule:** Evaluates multi-dimensional utility floors and stability metrics.  
   *Authority:* `KAIZEN_ENGINE_SPEC.md` §4; arXiv:2603.09219.
-- **R3 — Cliff Veto Rule:** Rejects knife-edge optimums with neighbor drop exceeding threshold.  
+- **R3 — Robust Cliff Veto with Floor Protection:** Detects knife-edge collapses without division-by-zero defects.  
   *Authority:* `KAIZEN_ENGINE_SPEC.md` §4; arXiv:2603.09219.
 
 ---
@@ -95,14 +106,14 @@ v8-core/src/kaizen/robustness.rs (or evaluation/surfaces.rs extension)
 ---
 
 ## 13. Mathematical / Semantic Invariants
-- **I1 — Plateau Continuity:** $\text{Plateau}(\theta) \implies \forall \theta' \in \mathcal{N}(\theta), \text{NetExpectancy}(\theta') > 0 \land \text{Sharpe}(\theta') \ge \alpha \times \text{Peak}$.
-- **I2 — Cliff Veto:** $\exists \theta' \in \mathcal{N}(\theta) \text{ s.t. } \frac{\text{Sharpe}(\theta) - \text{Sharpe}(\theta')}{\text{Sharpe}(\theta)} > \delta_{\max} \implies \text{Cliff}$.
+- **I1 — Finite Grid:** $|\mathcal{L}| \in [2, K_{\max}]$, strictly indexed.
+- **I2 — Cliff Veto:** $\text{RelativeDrop}(\theta, \theta_{\text{neighbor}}) > \delta_{\max} \implies \text{RobustnessVerdict::Cliff}$.
 
 ---
 
 ## 14. Canonical Failure Semantics
 - Point with $N < N_{\min} \implies \text{RobustnessVerdict::InsufficientN}$.
-- Point with negative net return $\implies \text{RobustnessVerdict::NonViable}$.
+- Point failing utility floor $\implies \text{RobustnessVerdict::NonViable}$.
 
 ---
 
@@ -120,4 +131,4 @@ v8-core/src/kaizen/robustness.rs (or evaluation/surfaces.rs extension)
 ---
 
 ## 16. Ambiguity / OPEN_PIN Triggers
-- If neighbor distance metric is ambiguous for non-numeric parameters, open `OPEN_PIN`.
+- If parameter distance in high-dimensional lattices requires custom metric tensors, open `OPEN_PIN`.
