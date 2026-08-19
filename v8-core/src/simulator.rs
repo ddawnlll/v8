@@ -27,7 +27,7 @@
 use serde_json::Value;
 
 /// The frozen Candidate geometry the kernel replays.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct Draft {
     pub direction: String,
     #[allow(dead_code)] // placeholder id in sim.run's cf: prefix (oracle parity)
@@ -190,9 +190,35 @@ pub enum FillPolicy {
     Limit,
 }
 
+/// Explicit semantic intervention manifest bound to counterfactual artifacts (D-105, Issue #161).
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct InterventionManifest {
+    /// Factual rejection or invalidation reason (e.g. CAPACITY_REJECTED, THESIS_INVALIDATED)
+    pub why_not_traded: String,
+    /// Exact rule or gate overridden (e.g. REMOVE_CAPACITY_CONSTRAINT, OVERRIDE_THESIS_INVALIDATION)
+    pub counterfactual_intervention: String,
+    /// Invariants held fixed (market path, execution rules, risk geometry)
+    pub what_was_held_fixed: Vec<String>,
+}
+
+impl InterventionManifest {
+    #[allow(dead_code)]
+    pub fn new(
+        why_not_traded: impl Into<String>,
+        counterfactual_intervention: impl Into<String>,
+        what_was_held_fixed: Vec<String>,
+    ) -> Self {
+        Self {
+            why_not_traded: why_not_traded.into(),
+            counterfactual_intervention: counterfactual_intervention.into(),
+            what_was_held_fixed,
+        }
+    }
+}
+
 /// The counterfactual outcome (mirror of `schema.CounterfactualOutcome`, hash
 /// fields excluded — identities are V8.2-encoded elsewhere).
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Outcome {
     pub endpoint: String,
     pub net_r: f64,
@@ -211,6 +237,9 @@ pub struct Outcome {
     pub cost_r: f64,
     /// Cumulative funding paid (R units).
     pub funding_r: f64,
+    /// Semantic causal intervention manifest for counterfactual trajectories.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub intervention_manifest: Option<InterventionManifest>,
 }
 
 impl Default for Outcome {
@@ -229,6 +258,7 @@ impl Default for Outcome {
             market_move_r: 0.0,
             cost_r: 0.0,
             funding_r: 0.0,
+            intervention_manifest: None,
         }
     }
 }

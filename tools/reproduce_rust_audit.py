@@ -69,7 +69,77 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         raise RuntimeError(f"v8-core analysis failed:\nSTDOUT: {out_ana}\nSTDERR: {err_ana}")
     ana_meta = json.loads(out_ana)
 
-    # 3. Render HTML Report
+    # 3. Run v8-core Target Oracle (O0-O3) representational coverage & evidence bundle
+    t2 = time.perf_counter()
+    grammar_candidates = []
+    seen = set()
+    cands_file = out_dir / "candidates.jsonl"
+    if cands_file.exists():
+        with cands_file.open("r", encoding="utf-8") as f:
+            for line in f:
+                c = json.loads(line)
+                if c.get("to_state") == "DETECTED":
+                    cid = c.get("candidate_id")
+                    if cid and cid not in seen:
+                        seen.add(cid)
+                        params = {}
+                        geom = c.get("risk_geometry") or {}
+                        for k, v in geom.items():
+                            if isinstance(v, (int, float, bool, str)):
+                                params[k] = v
+                        expert_id = c.get("expert_id", "generic")
+                        grammar_candidates.append({
+                            "grammar_candidate_id": f"gc-{cid[:16]}",
+                            "universe_id": "universe-btcusdt-1h-v1",
+                            "template_id": f"template-{expert_id}",
+                            "instrument": c.get("instrument", "BTCUSDT"),
+                            "timeframe": "1h",
+                            "direction": "Long" if c.get("direction") == "LONG" else "Short",
+                            "decision_time": c.get("knowledge_time", 0) // 1_000_000,
+                            "parameters": params,
+                        })
+
+    oracle_bundle_dir = out_dir / "oracle_bundle"
+    oracle_req = {
+        "universe": {
+            "universe_id": "universe-btcusdt-1h-v1",
+            "version": "1",
+            "parent_universe_id": None,
+            "instrument_universe": ["BTCUSDT"],
+            "timeframe_set": ["1h"],
+            "information_contract_id": "pit-feature-v1",
+            "primitive_registry_hash": "prim-reg-v1-sha1-7a8f9b",
+            "predicate_ir_version": "predicate-ir-v1",
+            "behavior_template_registry_hash": "templ-reg-v1-sha1-3b4c5d",
+            "parameter_grid_hash": "grid-v1-sha1-1e2f3a",
+            "tradability_rule_id": "tradability-d024-v1",
+            "support_rule_id": "canonical-l1-support-v1",
+            "authority_contract_id": "l1-authority-v1",
+            "search_universe_size": len(grammar_candidates),
+            "complexity_budget": 28,
+            "created_at": 1751400000,
+            "code_hash": "code-v8core-v0.2.0",
+            "execution_mode_id": "canonical-l1",
+        },
+        "candidates": grammar_candidates,
+        "utility_contract_id": "after-cost-net-utility-v1",
+        "lineage_id": "lineage-btcusdt-1h-audit-2026",
+        "requested_authority": "L1",
+        "out_dir": str(oracle_bundle_dir.resolve()),
+    }
+    oracle_req_path = out_dir / "request_oracle_coverage.json"
+    oracle_req_path.write_text(json.dumps(oracle_req, indent=2), encoding="utf-8")
+
+    code, out_oracle, err_oracle = run_command([str(binary), "oracle-coverage", str(oracle_req_path)])
+    oracle_duration = time.perf_counter() - t2
+    if code != 0:
+        raise RuntimeError(f"v8-core oracle-coverage failed:\nSTDOUT: {out_oracle}\nSTDERR: {err_oracle}")
+    
+    oracle_receipt_path = out_dir / "oracle_coverage_receipt.json"
+    oracle_meta = json.loads(out_oracle)
+    oracle_receipt_path.write_text(json.dumps(oracle_meta, indent=2), encoding="utf-8")
+
+    # 4. Render HTML Report
     render_script = ROOT / "tools" / "render_rust_audit_html.py"
     html_out = out_dir / "report.html"
     code, out_rend, err_rend = run_command([sys.executable, str(render_script), "--audit-dir", str(out_dir), "--out", str(html_out)])
@@ -83,14 +153,17 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         "evaluations.jsonl": sha256_file(out_dir / "evaluations.jsonl"),
         "cube-reduced.v82": sha256_file(out_dir / "cube-reduced.v82"),
         "analysis.jsonl": sha256_file(out_dir / "analysis.jsonl"),
+        "oracle_coverage_receipt.json": sha256_file(out_dir / "oracle_coverage_receipt.json"),
     }
 
     return {
         "eval_duration_sec": eval_duration,
         "ana_duration_sec": ana_duration,
-        "total_duration_sec": eval_duration + ana_duration,
+        "oracle_duration_sec": oracle_duration,
+        "total_duration_sec": eval_duration + ana_duration + oracle_duration,
         "eval_meta": eval_meta,
         "ana_meta": ana_meta,
+        "oracle_meta": oracle_meta,
         "artifacts": artifacts,
         "html_report": html_out,
     }
@@ -101,6 +174,8 @@ def main() -> int:
     parser.add_argument("--tape", type=Path, default=DEFAULT_TAPE, help="Path to input tape JSONL")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Target output audit directory")
     parser.add_argument("--threads", type=int, default=4, help="Worker threads")
+    parser.add_argument("--binary", type=Path, default=None, help="Explicit path to v8-core binary")
+    parser.add_argument("--skip-build", action="store_true", help="Skip release compilation if binary exists")
     parser.add_argument("--verify-determinism", action="store_true", default=True,
                         help="Run an isolated second pass to verify bit-level determinism")
     args = parser.parse_args()
@@ -113,33 +188,51 @@ def main() -> int:
         return 1
 
     print("=" * 70)
-    print("V8.2 RUST AUDIT REPRODUCTION & DETERMINISM VERIFICATION")
+    print("V8.2 RUST AUDIT REPRODUCTION & TARGET ORACLE EVIDENCE VERIFICATION")
     print("=" * 70)
     print(f"Target Tape: {tape}")
     print(f"Output Path: {out}")
     print(f"Worker Threads: {args.threads}")
 
-    # 1. Compile Release Binary
-    print("\n[1/4] Compiling release v8-core binary...")
-    code, out_cargo, err_cargo = run_command(["cargo", "build", "--release"], cwd=ROOT / "v8-core")
-    if code != 0:
-        print(f"Cargo build failed:\n{err_cargo or out_cargo}")
-        return 1
-    binary = ROOT / "v8-core" / "target" / "release" / "v8-core"
+    # 1. Compile Release Binary or Locate
+    binary = args.binary
+    if not binary:
+        binary = ROOT / "v8-core" / "target" / "release" / "v8-core"
+        if sys.platform == "win32" and not binary.exists() and binary.with_suffix(".exe").exists():
+            binary = binary.with_suffix(".exe")
+
+    if not args.skip_build and not binary.exists():
+        print("\n[1/4] Compiling release v8-core binary...")
+        cargo_bin = shutil.which("cargo")
+        if not cargo_bin and sys.platform == "win32":
+            default_cargo = Path(os.environ.get("USERPROFILE", "")) / ".cargo" / "bin" / "cargo.exe"
+            if default_cargo.exists():
+                cargo_bin = str(default_cargo)
+        cargo_cmd = [cargo_bin or "cargo", "build", "--release"]
+        code, out_cargo, err_cargo = run_command(cargo_cmd, cwd=ROOT / "v8-core")
+        if code != 0:
+            print(f"Cargo build failed:\n{err_cargo or out_cargo}")
+            return 1
+        if not binary.exists() and binary.with_suffix(".exe").exists():
+            binary = binary.with_suffix(".exe")
+    else:
+        print("\n[1/4] Using pre-compiled release v8-core binary...")
+
     print(f"Binary verified: {binary}")
 
     # 2. Execute Primary Pipeline Pass
-    print("\n[2/4] Executing primary audit pipeline...")
+    print("\n[2/4] Executing primary audit & oracle pipeline...")
     pass1 = run_pipeline(binary, tape, out, threads=args.threads)
     n_evals = pass1["eval_meta"].get("n_evaluations", 0)
     speed = n_evals / max(pass1["eval_duration_sec"], 0.001)
     print(f"  -> Processed {n_evals:,} evaluations in {pass1['eval_duration_sec']:.2f}s ({speed:,.0f} evals/sec)")
-    print(f"  -> Analysis completed in {pass1['ana_duration_sec']:.2f}s")
+    print(f"  -> Regret Analysis completed in {pass1['ana_duration_sec']:.2f}s")
+    print(f"  -> Target Oracle Coverage completed in {pass1['oracle_duration_sec']:.2f}s (Receipt: {pass1['oracle_meta'].get('receipt_id')})")
     print(f"  -> Generated HTML report: {pass1['html_report']}")
 
     # 3. Determinism Verification Pass (if enabled)
     if args.verify_determinism:
-        print("\n[3/4] Running independent verification pass (Checking Zero-Jitter Bit-Identity)...")
+        print("\n[3/4] Running independent verification pass (Checking Zero-Jitter Bit-Identity across S0-S7 & Oracle)...")
         tmp_dir = ROOT / ".audit" / "rust_repro_verify_tmp"
         if tmp_dir.exists():
             shutil.rmtree(tmp_dir)
@@ -159,7 +252,7 @@ def main() -> int:
                     print(f"  Mismatch in {name}:\n    Pass 1: {h1}\n    Pass 2: {h2}")
                 return 1
             else:
-                print("  ✓ 100% BIT-EXACT DETERMINISM VERIFIED across all generated ledgers.")
+                print("  [OK] 100% BIT-EXACT DETERMINISM VERIFIED across all generated ledgers and Oracle receipts.")
         finally:
             if tmp_dir.exists():
                 shutil.rmtree(tmp_dir)
@@ -168,7 +261,7 @@ def main() -> int:
     print("\n[4/4] Cryptographic Reproduction Certificate:")
     print("-" * 70)
     for name, digest in pass1["artifacts"].items():
-        print(f"  {name:<28} SHA-256: {digest}")
+        print(f"  {name:<30} SHA-256: {digest}")
     print("-" * 70)
     print(f"STATUS: REPRODUCED & CERTIFIED PASS (Total Time: {pass1['total_duration_sec']:.2f}s)")
     print("=" * 70)

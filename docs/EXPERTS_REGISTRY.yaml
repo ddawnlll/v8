@@ -30,6 +30,18 @@
 # BEFORE the real development window existed, and no development search was
 # performed — so there is no undisclosed configuration to count. A family that
 # tunes anything on data must raise this number and re-run the Reality Check.
+#
+# evidence_status (D-106 / Issue #162): Decouples observable price pattern
+# (behavior_family_id) from causal mechanism hypotheses (mechanism_family_id).
+# All price-only experts default to HYPOTHESIS_ONLY. Promotion to
+# IDENTIFICATION_SUPPORTED requires an explicit EvidenceManifest (claim,
+# identification_strategy, required_observables, assumptions, falsification_tests).
+
+evidence_status_vocabulary:
+  - HYPOTHESIS_ONLY
+  - ASSOCIATIONAL_SUPPORT
+  - IDENTIFICATION_SUPPORTED
+  - FALSIFIED
 
 expert_status_vocabulary:
   - PROPOSED

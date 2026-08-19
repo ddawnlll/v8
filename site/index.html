@@ -2606,9 +2606,11 @@ Expert and the Candidate produce records directly.</p>
 <p>Each Expert carries <code>mechanism_family_id</code>, <code>behavior_family_id</code>, <code>expert_id</code>,
 <code>expert_version</code>, and <code>variant_id</code> where applicable. Parameter, threshold,
 lookback, and geometry changes are <strong>variants of the same hypothesis family</strong>,
-never separate Experts; all variants of one family count as a single
-multiplicity unit in the family-level multiple-testing correction
-(<code>V8_CONSTITUTION</code> rule 13).</p>
+never separate Experts. Within-family variant exploration is corrected via
+White's (2000) Reality Check block-bootstrap max-statistic procedure across
+every evaluated variant (D-044 / D-046 / D-107, implemented natively in
+<code>v8-core/src/statistics/reality_check.rs</code>), spending the family's allocated
+<code>α_f</code> budget rather than treating multiple variant searches as zero-cost.</p>
 <p>The usefulness test for "separate Expert or variant": if two rules can be
 falsified independently — different mechanism claim, setup, trigger, or
 invalidation logic — they are separate Experts; if only thresholds or geometry
@@ -2902,11 +2904,13 @@ Agg        := MAX | MIN
 </code></pre>
 <p>Semantics, which are normative because they reproduce V8.0 behaviour exactly:</p>
 <ol>
-<li><strong>Fail-open on absence.</strong> If any operand resolves to absent — a missing
-   geometry key, a feature not present in the projection, or a <code>None</code> value —
-   the rule yields <code>true</code> (thesis still valid). Price, not the thesis, governs
-   the exit. Fail-<em>closed</em> here would silently convert data absence into a
-   forced exit and change the outcome population.</li>
+<li><strong>Epistemic state vs. operational policy (D-104).</strong> If any operand resolves to
+   absent — a missing geometry key, a feature not present in the projection, or
+   a <code>None</code> value — the epistemic observation evaluates to <code>ThesisStatus::Unknown</code>
+   (never falsely promoted to <code>ThesisStatus::Valid</code>). Operational policy
+   deterministically maps <code>evaluate_position_policy(ThesisStatus::Unknown) -&gt; PositionPolicy::Hold</code>,
+   preserving the fail-open execution baseline where price governs the exit
+   without conflating epistemic uncertainty with empirical thesis validation.</li>
 <li><strong><code>FLIP_ON_SHORT</code></strong> applies the comparison as written for <code>LONG</code> and with
    the operator reversed for <code>SHORT</code>. The direction is frozen on the Candidate
    and never re-read from state.</li>
@@ -3237,8 +3241,9 @@ preferences are hard constraints, never reward penalties):</p>
    Since rule 14 stopped capping the Expert count (D-043), this rule and the
    heat cap below are what actually bound portfolio scale: adding Experts
    without revisiting them changes which hypotheses are <em>measured</em>, not which
-   positions are <em>held</em>. The contested slot goes to the lexicographically
-   first <code>expert_id</code> (<code>RUNTIME_SCHEDULER_SPEC</code> §5); replacing that with a
+   positions are <em>held</em>. The contested slot goes to the first <code>expert_id</code>
+   under the declared canonical dispatch order (<code>R-ALLOC-001</code> / D-103:
+   ascending <code>sha1(Canon(expert_id))</code>, <code>RUNTIME_SCHEDULER_SPEC</code> §5); replacing that with a
    ranking is gated by O-006 / O-012.</li>
 <li><strong>Portfolio heat cap (D-023).</strong> Heat is the sum of per-position stop risk
    in R (with fixed 1R geometry this equals the number of open positions).
@@ -4447,11 +4452,11 @@ claim is admissible until it is independently renewed.</p>
 <li>Two events with identical timestamps are processed in the declared
    tie-break order, deterministically, across runs.</li>
 <li>Shuffle the caller's Expert list; results and stored events are identical.
-   The runtime sorts by <code>expert_id</code> before evaluating, so this holds under full
-   exposure contention too, not only when Experts rarely coincide
-   (<code>tests/test_admission_contention.py</code>). The surviving tie-break for a
-   contested exposure slot is therefore that lexicographic order — deterministic
-   but arbitrary; replacing it with a ranking is gated by rule 6 / D-008
+   The runtime sorts by the declared canonical dispatch order (<code>R-ALLOC-001</code> / D-103:
+   ascending <code>sha1(Canon(expert_id))</code>) before evaluating, so this holds under full
+   exposure contention too, not only when Experts rarely coincide. The surviving tie-break for a
+   contested exposure slot is therefore that declared order — deterministic and
+   economically neutral; replacing it with a ranking is gated by rule 6 / D-008
    (O-006 / O-012).</li>
 <li>A replay run and a live-adaptor contract test produce the same event
    stream for the same tape window.</li>
@@ -7806,6 +7811,12 @@ historical design record and this table is the correction layer.</p>
 <p>| D-100 | <strong>Python oracle boundary is locked.</strong> <code>src/v8/</code> is a frozen, hash-bound historical parity oracle; <code>v8-core/</code> owns the request and verification path. Python may run only for explicitly named legacy research tooling, monograph generation, and boundary audits. A changed oracle tree requires a registry decision, changelog entry, and new hash; CI rejects unregistered edits and Python pytest/oracle invocation in the Rust gate. | LOCKED_INVARIANT candidate | <code>docs/legacy/PYTHON_ORACLE_LOCK.json</code>, <code>docs/legacy/PYTHON_ORACLE_POLICY.md</code>, and <code>tools/audit_python_boundary.py</code>. The oracle is retained because deleting it would remove the independent S0–S7 reference; this decision does not claim that every legacy Python tool has already been ported. |</p>
 <p>| D-101 | <strong>Target Oracle O0–O1 is a Rust-only contract and measurement-frame substrate.</strong> <code>v8-core/src/oracle/</code> owns exactly the three-role taxonomy, typed refusal vocabulary, versioned after-cost UtilityContract validation, PIT InformationSet adapter, in-memory identity-bearing artifacts, and an Expert-independent finite grammar over explicitly registered primitives/templates/grids. Grammar Candidate identities are in a distinct domain and never enter <code>CandidateRegistry</code>. | PROVISIONAL_DECISION | <code>TARGET_ORACLE_SPEC</code> §§1–7, §17–19. The implementation deliberately omits support/authority classification, coverage, evidence-bundle serialization, reports, Scout, regret attribution, Target-policy optimization, L3 execution, and economic verdicts. O-OR-001 remains open: no production catalog or default grid was invented. Contract tests cover PIT refusal, deterministic G4/G5 identities, universe mutation, direction identity, and lifecycle non-mutation. |</p>
 <p>| D-102 | <strong>Target Oracle O2–O3 implements support/authority classification, representational coverage reconciliation, and v8.eval.v1 receipts in Rust.</strong> <code>v8-core/src/oracle/{support.rs,authority.rs,coverage.rs}</code> classify candidate/action support into orthogonal <code>CounterfactualAuthority</code> and <code>OracleOutcome</code> values without fabricating point estimates. <code>reconcile_coverage</code> measures representational coverage against same-event shipped <code>ExpertEval</code> proposals, binds <code>population_hash</code>, and persists <code>OpportunityUniverseVersion</code>, <code>OracleEvaluationRecord</code>s, and <code>CoverageReceipt</code> finding records directly into the <code>v8.eval.v1</code> evidence bundle with the explicit label <code>NO_ECONOMIC_CLAIM</code>. A development CLI subcommand <code>oracle-coverage</code> is exposed. | PROVISIONAL_DECISION | <code>TARGET_ORACLE_SPEC</code> §5.8, §8.1–§8.5, §9.1–§9.4, §16.1–§16.3, §17.5, §18.1–§18.2; Issue #155. Regret attribution (O4), Target-policy optimization (O5), L3 execution upgrade (O6), and promotion claims (O7) remain deliberately absent. Contract tests cover all 10 acceptance criteria (PIT rejection, L1/L3 refusal, fill ambiguity, horizon, UNKNOWN propagation, G4/G5 determinism, grid mutation, coverage floor, population hash binding, and regret attribution absence). |</p>
+<p>| D-103 | <strong>Contention Dispatch Rule R-ALLOC-001 formalization.</strong> Exposure slot contention and dispatch tie-break ordering is unified into authoritative rule <code>R-ALLOC-001</code>: strictly ascending <code>sha1(Canon(expert_id))</code>. Contract specifications (<code>CANDIDATE_LIFECYCLE_SPEC</code> §6, <code>RUNTIME_SCHEDULER_SPEC</code> §5) and decision register are reconciled with the Rust runtime (<code>v8-core/src/runloop.rs:dispatch_order</code>). An executable state-space contention fixture and mutation test gate enforce bi-directional trace conformance in CI. | PROVISIONAL_DECISION | Issue #159; <code>R-ALLOC-001</code>. Eliminates contract-runtime drift where older prose mentioned lexicographical ordering while runtime used hash sorting. Mutation tests verify that lexicographical ordering fails the conformance gate. |</p>
+<p>| D-104 | <strong>Decouple epistemic observation state (<code>ThesisStatus::Unknown</code>) from operational action policy (<code>PositionPolicy::Hold</code>).</strong> <code>v8-core/src/experts/predicate.rs</code> replaces boolean fail-open return with a three-valued epistemic status enum <code>ThesisStatus { Valid, Invalid { reason }, Unknown(reason) }</code>. Unobservable or missing features yield <code>ThesisStatus::Unknown</code>, decoupling belief uncertainty from empirical thesis validation. Operational policy mapper <code>evaluate_position_policy(ThesisStatus::Unknown) -&gt; PositionPolicy::Hold</code> preserves the fail-open baseline without falsely declaring unobserved predicates <code>Valid</code>. | PROVISIONAL_DECISION | Issue #160; <code>PREDICATE_IR_SPEC</code> §3. Property test gates verify that withholding an observation produces <code>ThesisStatus::Unknown</code> and never <code>ThesisStatus::Valid</code>. |</p>
+<p>| D-105 | <strong>Semantic Intervention Manifest and regret bucket partitioning on counterfactual replay.</strong> <code>v8-core/src/simulator.rs</code> introduces typed <code>InterventionManifest { why_not_traded, counterfactual_intervention, what_was_held_fixed }</code> bound to counterfactual outcome artifacts. <code>v8-core/src/regret.rs</code> partitions regret attribution by <code>InterventionClass</code> (<code>CAPACITY_REJECTED</code>, <code>THESIS_INVALIDATED</code>, <code>TRADABILITY_MASK_VETO</code>, <code>UNSUPPORTED_COUNTERFACTUAL</code>), blocking unweighted pooling across heterogeneous causal interventions. Unsupported or infeasible counterfactuals emit <code>UNSUPPORTED_COUNTERFACTUAL</code> (refusal) rather than fabricating trajectory data. | PROVISIONAL_DECISION | Issue #161; <code>OUTCOME_CUBE_SPEC</code> §4, <code>RECOVERABLE_REGRET_PROTOCOL</code> §3. Ensures counterfactual simulation preserves structural causal semantics. |</p>
+<p>| D-106 | <strong>Decouple observable price behavior from causal mechanism hypotheses.</strong> <code>docs/EXPERTS_REGISTRY.yaml</code> and <code>v8-core/src/experts/base.rs</code> decouple <code>behavior_family_id</code> (observable price patterns) from <code>mechanism_family_id</code> (causal hypotheses). Price-only experts carry default <code>evidence_status: HYPOTHESIS_ONLY</code>. Upgrading to causal mechanism claims requires an explicit <code>EvidenceManifest</code> (<code>claim</code>, <code>identification_strategy</code>, <code>required_observables</code>, <code>assumptions</code>, <code>falsification_tests</code>). Metamorphic tests verify that mutating mechanism labels preserves bit-identical economic evaluation results. | PROVISIONAL_DECISION | Issue #162; <code>EXPERT_PROTOCOL</code> §1, <code>HYPOTHESIS_LAB_PROTOCOL</code> §2. Prevents observational price patterns from being reified as proven causal mechanisms without required order-flow/liquidation observables. |</p>
+<p>| D-107 | <strong>Purge superseded single-unit multiplicity clause and enforce machine-checkable Authority Ledger.</strong> <code>docs/contracts/EXPERT_PROTOCOL.md</code> §1 purges the superseded "all variants count as one multiplicity unit" text and binds within-family multiplicity correction to White's (2000) Reality Check block-bootstrap procedure over <code>variants_evaluated</code> (D-044, D-046) in <code>v8-core/src/statistics/reality_check.rs</code>. <code>v8-core/src/authority.rs</code> provides an executable <code>AuthorityLedger</code> validating that every governance domain resolves to exactly one active decision (<code>resolve_active_rule("multiplicity") -&gt; D-044</code>). Conflicting active rules fail closed with <code>CONFLICTING_ACTIVE_AUTHORITY</code>. | PROVISIONAL_DECISION | Issue #163; <code>V8_CONSTITUTION</code> rule 2, <code>WORK_ITEM_POLICY.md</code> §Precedence. Monotonicity tests verify that adding null variants never loosens critical thresholds. |</p>
+<p>| D-108 | <strong>Decouple independent candidate evaluation from downstream portfolio allocation.</strong> Candidate economic evaluation runs independently of portfolio admission in <code>v8-core/src/runloop.rs</code>. All detected candidates receive independent counterfactual replay outcomes. Portfolio allocation is a distinct downstream layer producing structured records tagged with <code>allocator_policy_id: baseline_riskgate_v1</code>, <code>allocator_version: v1</code>, <code>allocation_verdict</code>, <code>allocation_reason</code>, and <code>portfolio_conditional = true</code>. Contention-losing candidates retain full independent outcomes. | PROVISIONAL_DECISION | Issue #158; <code>CANDIDATE_LIFECYCLE_SPEC</code> §1.1, <code>OUTCOME_CUBE_SPEC</code> §2. Metamorphic tests verify that candidate economic merit is invariant to expert naming and portfolio contention. |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -10123,6 +10134,15 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-19-resolution-of-issues-158163-governance-defect-hardening-batch-d-103d-108">2026-08-19 — Resolution of Issues #158–#163: Governance &amp; Defect Hardening Batch (D-103..D-108)</h2>
+<p>Resolved six issues spanning candidate evaluation decoupling, dispatch tie-break conformance, epistemic belief state, causal intervention manifests, mechanism hypothesis decoupling, and authority resolution:
+- <strong>#158 (D-108):</strong> Decoupled independent candidate evaluation from downstream portfolio allocation (<code>runloop.rs</code>), ensuring contention-losing candidates retain full independent counterfactual outcomes and emitting structured <code>portfolio_allocation</code> records.
+- <strong>#159 (D-103):</strong> Reconciled contention dispatch specification with runtime <code>R-ALLOC-001</code> (<code>sha1(Canon(expert_id))</code>) across contracts, adding executable state-space contention and mutation test gates.
+- <strong>#160 (D-104):</strong> Replaced boolean predicate return with explicit three-valued <code>ThesisStatus { Valid, Invalid, Unknown }</code> in <code>predicate.rs</code>, decoupling epistemic observation uncertainty from <code>PositionPolicy::Hold</code> operational action.
+- <strong>#161 (D-105):</strong> Added typed <code>InterventionManifest</code> to <code>simulator.rs:Outcome</code> and implemented <code>InterventionClass</code> regret bucket partitioning in <code>regret.rs</code> with <code>UNSUPPORTED_COUNTERFACTUAL</code> refusal semantics.
+- <strong>#162 (D-106):</strong> Decoupled observable price behavior from causal mechanism hypotheses with default <code>evidence_status: HYPOTHESIS_ONLY</code> and <code>EvidenceManifest</code> schema in <code>EXPERTS_REGISTRY.yaml</code> and <code>experts/base.rs</code>.
+- <strong>#163 (D-107):</strong> Purged superseded single-unit multiplicity clause from <code>EXPERT_PROTOCOL.md</code> and added executable <code>authority.rs</code> ledger validating unambiguous domain resolution (<code>resolve_active_rule("multiplicity") -&gt; D-044</code>).</p>
+<p>Artifacts changed: <code>v8-core/src/authority.rs</code>, <code>v8-core/src/runloop.rs</code>, <code>v8-core/src/experts/predicate.rs</code>, <code>v8-core/src/experts/base.rs</code>, <code>v8-core/src/simulator.rs</code>, <code>v8-core/src/regret.rs</code>, <code>v8-core/src/main.rs</code>, <code>docs/contracts/CANDIDATE_LIFECYCLE_SPEC.md</code>, <code>docs/contracts/RUNTIME_SCHEDULER_SPEC.md</code>, <code>docs/contracts/PREDICATE_IR_SPEC.md</code>, <code>docs/contracts/EXPERT_PROTOCOL.md</code>, <code>docs/EXPERTS_REGISTRY.yaml</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/CHANGELOG.md</code>.</p>
 <h2 id="2026-08-19-target-oracle-o2o3-support-coverage-evidence-receipts-d-102">2026-08-19 — Target Oracle O2–O3 support, coverage &amp; evidence receipts (D-102)</h2>
 <p>Added the Rust-owned Target Oracle support/authority classifier and representational
 coverage reconciliation over the frozen Opportunity Universe (#154). The support
@@ -12981,6 +13001,18 @@ experiments:
 # BEFORE the real development window existed, and no development search was
 # performed — so there is no undisclosed configuration to count. A family that
 # tunes anything on data must raise this number and re-run the Reality Check.
+#
+# evidence_status (D-106 / Issue #162): Decouples observable price pattern
+# (behavior_family_id) from causal mechanism hypotheses (mechanism_family_id).
+# All price-only experts default to HYPOTHESIS_ONLY. Promotion to
+# IDENTIFICATION_SUPPORTED requires an explicit EvidenceManifest (claim,
+# identification_strategy, required_observables, assumptions, falsification_tests).
+
+evidence_status_vocabulary:
+  - HYPOTHESIS_ONLY
+  - ASSOCIATIONAL_SUPPORT
+  - IDENTIFICATION_SUPPORTED
+  - FALSIFIED
 
 expert_status_vocabulary:
   - PROPOSED

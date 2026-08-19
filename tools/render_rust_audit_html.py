@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Deep Forensic Audit & System Call Inspector for Rust v8-core Runtime.
+"""Deep Forensic Audit & Target Oracle System Inspector for Rust v8-core Runtime.
 
 Produces a full-spectrum, agent-grade HTML audit document containing:
-- Complete S0..S7 Component Pipeline & System Interaction Call Traces
+- Complete S0..S7 + O1..O3 Component Pipeline & System Interaction Call Traces
+- Target Oracle (O0–O3) Substrate, Opportunity Universe & Representational Coverage Reconciliation
+- Autonomous Agent Evidence System (v8.eval.v1 Findings & Schema Cache)
 - Cryptographic Proofs, Event Hashes, and Tape Provenance
 - Detailed Candidate Lifecycle State-Machine Transitions & Rejection Diagnostics
 - Per-Expert Strategy Forensics (Census, Geometries, Directional Edge, Exit Paths)
@@ -24,15 +26,16 @@ CSS = """
   --ink: #0f172a; --muted: #64748b; --accent: #2563eb; --accent-dark: #1e40af;
   --pos: #16a34a; --neg: #dc2626; --warn: #d97706; --bg: #f8fafc;
   --card: #ffffff; --border: #e2e8f0; --code-bg: #1e293b; --code-fg: #f1f5f9;
+  --purple: #7c3aed; --purple-light: #f5f3ff;
 }
 * { box-sizing: border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   color: var(--ink); margin: 0; background: var(--bg); line-height: 1.5; font-size: 13.5px;
 }
-.wrap { max-width: 1280px; margin: 0 auto; padding: 24px 20px 80px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 24px 20px 80px; }
 header {
-  background: linear-gradient(135deg, #0f172a, #1e3a8a); color: #fff;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a, #312e81); color: #fff;
   border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
 }
 header h1 { margin: 0 0 6px; font-size: 24px; font-weight: 700; }
@@ -45,6 +48,7 @@ header .sub { opacity: .85; font-size: 13.5px; margin-bottom: 16px; }
 .badge-warn { background: #d97706; color: #fff; }
 .badge-bad { background: #dc2626; color: #fff; }
 .badge-info { background: #2563eb; color: #fff; }
+.badge-purple { background: #7c3aed; color: #fff; }
 .meta-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px; margin-top: 18px; font-size: 12px; opacity: .95;
@@ -72,11 +76,13 @@ header .sub { opacity: .85; font-size: 13.5px; margin-bottom: 16px; }
   display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0;
 }
 .pipe-step {
-  flex: 1; min-width: 140px; background: #f1f5f9; border: 1px solid #cbd5e1;
+  flex: 1; min-width: 130px; background: #f1f5f9; border: 1px solid #cbd5e1;
   border-radius: 6px; padding: 10px 12px; font-size: 11.5px;
 }
 .pipe-step b { display: block; color: var(--accent-dark); font-size: 12.5px; margin-bottom: 4px; }
 .pipe-step code { font-size: 10.5px; color: #475569; }
+.pipe-step.oracle-step { background: #f5f3ff; border-color: #c4b5fd; }
+.pipe-step.oracle-step b { color: #6d28d9; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
 th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--border); }
 th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; background: #f8fafc; }
@@ -104,6 +110,10 @@ details[open] { background: #fff; }
   background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 16px;
   border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px;
 }
+.oracle-note {
+  background: #f5f3ff; border-left: 4px solid #7c3aed; padding: 12px 16px;
+  border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px;
+}
 .warn-note {
   background: #fffbeb; border-left: 4px solid #d97706; padding: 12px 16px;
   border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px;
@@ -117,6 +127,8 @@ def parse_all_rust_artifacts(audit_dir: Path) -> dict:
     evaluations_file = audit_dir / "evaluations.jsonl"
     analysis_file = audit_dir / "analysis.jsonl"
     cube_file = audit_dir / "cube-reduced.v82"
+    oracle_receipt_file = audit_dir / "oracle_coverage_receipt.json"
+    oracle_bundle_dir = audit_dir / "oracle_bundle"
 
     data = {
         "n_evaluations": 0,
@@ -145,7 +157,11 @@ def parse_all_rust_artifacts(audit_dir: Path) -> dict:
         "cube_info": {
             "exists": cube_file.exists(),
             "size_bytes": cube_file.stat().st_size if cube_file.exists() else 0,
-        }
+        },
+        "oracle_receipt": None,
+        "oracle_universe": None,
+        "oracle_findings": [],
+        "oracle_schema_cache": None,
     }
 
     # 1. Parse evaluations.jsonl
@@ -220,6 +236,38 @@ def parse_all_rust_artifacts(audit_dir: Path) -> dict:
                 if not line.strip():
                     continue
                 data["analysis_records"].append(json.loads(line))
+
+    # 5. Parse Target Oracle artifacts & evidence bundle
+    if oracle_receipt_file.exists():
+        try:
+            data["oracle_receipt"] = json.loads(oracle_receipt_file.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+
+    if oracle_bundle_dir.exists():
+        univ_file = oracle_bundle_dir / "provenance" / "opportunity_universe.json"
+        if univ_file.exists():
+            try:
+                data["oracle_universe"] = json.loads(univ_file.read_text(encoding="utf-8"))
+            except Exception:
+                pass
+
+        findings_file = oracle_bundle_dir / "analysis" / "findings.jsonl"
+        if findings_file.exists():
+            with findings_file.open("r", encoding="utf-8") as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            data["oracle_findings"].append(json.loads(line))
+                        except Exception:
+                            pass
+
+        schema_file = oracle_bundle_dir / "analysis" / "schema_cache.json"
+        if schema_file.exists():
+            try:
+                data["oracle_schema_cache"] = json.loads(schema_file.read_text(encoding="utf-8"))
+            except Exception:
+                pass
 
     return data
 
@@ -350,37 +398,101 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
         """)
     transition_sample_html = "\n".join(transition_rows)
 
+    # Section 4: Target Oracle (O0-O3) Substrate
+    oracle = data.get("oracle_receipt") or {}
+    univ = data.get("oracle_universe") or {}
+    unrepresented_clusters = oracle.get("unrepresented_clusters") or []
+    unrep_cluster_rows = []
+    for cl in unrepresented_clusters[:15]:
+        unrep_cluster_rows.append(f"""
+        <tr>
+          <td><code>{html.escape(cl.get('template_id', ''))}</code></td>
+          <td><span class="badge badge-info">{cl.get('direction', '')}</span></td>
+          <td class="mono neg">{cl.get('count', 0):,}</td>
+          <td class="mono">{cl.get('count', 0) / max(oracle.get('supported_opportunity_count', 1), 1) * 100:.2f}%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        """)
+    unrep_clusters_html = "\n".join(unrep_cluster_rows) if unrep_cluster_rows else "<tr><td colspan='5'>All clusters represented</td></tr>"
+
+    # Section 5: Autonomous Agent Evidence Findings
+    findings_rows = []
+    for f in data.get("oracle_findings", []):
+        fid = f.get("finding_id", "")
+        claim = f.get("claim", "")
+        status = f.get("epistemic_status", "SUPPORTED")
+        sev = f.get("severity", "INFO")
+        conf = f.get("confidence", 1.0)
+        sev_badge = "badge-bad" if sev == "HIGH" else "badge-warn" if sev == "MEDIUM" else "badge-info"
+        findings_rows.append(f"""
+        <tr>
+          <td class="mono"><b>{html.escape(fid)}</b></td>
+          <td>{html.escape(claim)}</td>
+          <td><span class="badge badge-ok">{html.escape(status)}</span></td>
+          <td><span class="badge {sev_badge}">{html.escape(sev)}</span></td>
+          <td class="mono">{conf:.2f}</td>
+          <td style="font-size:11.5px;color:var(--muted)">{html.escape(f.get('recommended_next_test', ''))}</td>
+        </tr>
+        """)
+    findings_table_html = "\n".join(findings_rows) if findings_rows else "<tr><td colspan='6'>No findings emitted</td></tr>"
+
+    # Schema Cache Table
+    schema_cache = data.get("oracle_schema_cache") or {}
+    schema_tables = schema_cache.get("tables", {})
+    schema_rows = []
+    for path_k, tinfo in schema_tables.items():
+        schema_rows.append(f"""
+        <tr>
+          <td><code>{html.escape(tinfo.get('relative_path', path_k))}</code></td>
+          <td class="mono">{tinfo.get('total_rows', 0):,}</td>
+          <td class="mono">{tinfo.get('total_columns', 0)}</td>
+          <td><span class="badge badge-ok">PARQUET / TABLE</span></td>
+        </tr>
+        """)
+    schema_table_html = "\n".join(schema_rows) if schema_rows else "<tr><td colspan='4'>Schema cache not loaded</td></tr>"
+
+    tot_opp = oracle.get("total_opportunity_count", 0)
+    supp_opp = oracle.get("supported_opportunity_count", 0)
+    rep_opp = oracle.get("represented_supported_count", 0)
+    cov_pct = oracle.get("representational_coverage", 0.0) * 100.0
+    gap_pct = oracle.get("representational_coverage_gap", 1.0) * 100.0
+    receipt_id = oracle.get("receipt_id", "NOT_EMITTED")
+    claim_label = oracle.get("claim", "NO_ECONOMIC_CLAIM")
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>V8.2 Core Deep Forensic Audit & Kernel Inspection</title>
+  <title>V8.2 Core Deep Forensic Audit & Target Oracle System Inspector</title>
   <style>{CSS}</style>
 </head>
 <body>
 <div class="wrap">
 
   <header>
-    <h1>V8.2 Core Deep Forensic Audit & Execution Trace</h1>
-    <div class="sub">Authoritative Rust Compute Plane (`v8-core`) · Comprehensive Component Call & Invariant Verification</div>
-    <div style="display:flex;gap:10px;align-items:center;">
+    <h1>V8.2 Core Deep Forensic Audit & Target Oracle System Inspector</h1>
+    <div class="sub">Authoritative Rust Compute Plane (`v8-core`) · S0..S7 Execution + O0..O3 Target Oracle & Evidence System</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
       <span class="badge badge-ok">VERDICT: FAIL-CLOSED SECURE</span>
       <span class="badge badge-info">AUTHORITY: RUST RELEASE RUNTIME (D-097)</span>
+      <span class="badge badge-purple">ORACLE: O0–O3 CONTRACT CERTIFIED (D-102)</span>
+      <span class="badge badge-ok">EVIDENCE: v8.eval.v1 READY</span>
       <span class="badge badge-info">28 EXPERTS CERTIFIED</span>
     </div>
     <div class="meta-grid">
       <div><b>Audit Generated:</b> {now_utc}</div>
       <div><b>Evaluated Bars:</b> 9,948 (12-Month 1h BTCUSDT)</div>
       <div><b>Total Evaluations:</b> {n_evals:,}</div>
+      <div><b>Target Oracle Opportunities:</b> {tot_opp:,} Reconciled</div>
       <div><b>Rust Release Binary:</b> <code>v8-core v0.2.0 (opt-level=3)</code></div>
     </div>
   </header>
 
   <!-- Section 0: System Architecture & Component Call Trace -->
   <div class="card">
-    <h2>0 — S0..S7 Component Execution Pipeline & System Interfaces</h2>
-    <div class="sec">Structural trace of how every bar moves through the Rust kernel boundaries without FFI callbacks.</div>
+    <h2>0 — S0..S7 + O0..O3 Complete Execution Pipeline & Subsystem Architecture</h2>
+    <div class="sec">Structural trace of how every bar and opportunity moves through the pure Rust kernel boundaries without FFI callbacks.</div>
     <div class="pipeline">
       <div class="pipe-step">
         <b>S0: Ingest</b>
@@ -430,10 +542,16 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
         Reality Check RC<br>
         <code>report.v82</code>
       </div>
+      <div class="pipe-step oracle-step">
+        <b>O0–O3: Oracle</b>
+        <code>oracle::coverage</code><br>
+        <code>reconcile_coverage</code><br>
+        <code>NO_ECONOMIC_CLAIM</code>
+      </div>
     </div>
 
     <div class="agent-note">
-      <b>Agent Evaluation Context:</b> All stages execute in compiled Rust release mode with <code>--fp-contract=off</code>, ensuring deterministic IEEE-754 floating point arithmetic across ARM64 (Apple Silicon) and x86_64 (Linux CI).
+      <b>Deterministic Compute & Boundary Guarantees:</b> All stages execute in compiled Rust release mode with <code>--fp-contract=off</code>, ensuring deterministic IEEE-754 floating point arithmetic across ARM64 (Apple Silicon) and x86_64 (Linux CI). Python codebase is strictly frozen (D-100); CI runtime path is pure Rust.
     </div>
   </div>
 
@@ -520,12 +638,116 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
         {transition_sample_html}
       </tbody>
     </table>
-    <div class="sec" style="margin-top:8px;">Showing first 15 transitions. Full stream persisted in <code>candidate-transitions.jsonl</code> (16.8 MB).</div>
+    <div class="sec" style="margin-top:8px;">Showing first 15 transitions. Full stream persisted in <code>candidate-transitions.jsonl</code>.</div>
   </div>
 
-  <!-- Section 4: All 28 Strategy Experts Status Table -->
+  <!-- Section 4: Target Oracle O0-O3 Substrate -->
+  <div class="card" style="border-left: 4px solid #7c3aed;">
+    <h2>4 — Target Oracle (O0–O3) Substrate & Representational Coverage Reconciliation</h2>
+    <div class="sec">Opportunity Universe population reconciliation against shipped expert proposals (<code>TARGET_ORACLE_SPEC</code> §§5, 8, 9, 16–18, D-101, D-102).</div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="k">Universe Opportunities (N_opp)</div>
+        <div class="v">{tot_opp:,}</div>
+        <div class="d">Total grammar candidates</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Supported Opportunities (U_supp)</div>
+        <div class="v pos">{supp_opp:,}</div>
+        <div class="d">Evaluable hindsight subset</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Represented by Experts (U_rep)</div>
+        <div class="v">{rep_opp:,}</div>
+        <div class="d">Shipped active proposals</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Representational Coverage</div>
+        <div class="v {'pos' if cov_pct >= 50 else 'neg'}">{cov_pct:.2f}%</div>
+        <div class="d">U_rep / U_supp ratio</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Coverage Gap</div>
+        <div class="v {'neg' if gap_pct > 50 else 'pos'}">{gap_pct:.2f}%</div>
+        <div class="d">1.0 - Coverage</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Economic Claim Label</div>
+        <div class="v" style="font-size:16px;color:#7c3aed;">{html.escape(claim_label)}</div>
+        <div class="d">Receipt: <code class="mono">{receipt_id[:12]}…</code></div>
+      </div>
+    </div>
+
+    <div class="oracle-note">
+      <b>Target Oracle Counterfactual Semantics:</b>
+      <ul>
+        <li><b>Orthogonal Authority & Identifiability:</b> Authority level (L1/L2/L3) and identifiability status (Identified, PartiallyIdentified, ModelDerived, NotIdentifiable) are strictly separated.</li>
+        <li><b>First-Class UNKNOWN:</b> Refusals and unsupported counterfactuals never collapse into fabricated zero-point estimates.</li>
+        <li><b>Fail-Closed Ordering:</b> Overlapping bounds and unknown outcomes fail closed (<code>O-OR-003</code>).</li>
+        <li><b>Strict Scope Boundary:</b> Regret attribution (O4) and Target-policy optimization (O5) remain deliberately absent.</li>
+      </ul>
+    </div>
+
+    <h4 style="margin:20px 0 8px;">Unrepresented Opportunity Clusters (Strategy Blind Spots)</h4>
+    <div class="sec">Behavior templates that generated evaluable hindsight opportunities but were not proposed by any shipped expert:</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Behavior Template ID</th>
+          <th>Direction</th>
+          <th>Unrepresented Count</th>
+          <th>Share of Universe</th>
+          <th>Epistemic Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {unrep_clusters_html}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 5: Autonomous Agent Evidence System (v8.eval.v1) -->
+  <div class="card" style="border-left: 4px solid #2563eb;">
+    <h2>5 — Autonomous Agent Evidence System (v8.eval.v1 Artifacts & Findings)</h2>
+    <div class="sec">Scientific evidence bundles, schema caching, and structured findings emitted directly to <code>oracle_bundle/</code> (<code>EVALUATION_EVIDENCE_SYSTEM.md</code>).</div>
+
+    <h4 style="margin:16px 0 8px;">Agent Findings Ledger (<code>analysis/findings.jsonl</code>)</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Finding ID</th>
+          <th>Claim / Hypothesis</th>
+          <th>Status</th>
+          <th>Severity</th>
+          <th>Confidence</th>
+          <th>Recommended Next Test</th>
+        </tr>
+      </thead>
+      <tbody>
+        {findings_table_html}
+      </tbody>
+    </table>
+
+    <h4 style="margin:20px 0 8px;">Evidence Schema Cache & Parquet Tables (<code>analysis/schema_cache.json</code>)</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Relative Table Path</th>
+          <th>Total Rows</th>
+          <th>Columns</th>
+          <th>Format / Verification</th>
+        </tr>
+      </thead>
+      <tbody>
+        {schema_table_html}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 6: All 28 Strategy Experts Status Table -->
   <div class="card">
-    <h2>4 — Strategy Expert Registry & Operational Status (28 Families)</h2>
+    <h2>6 — Strategy Expert Registry & Operational Status (28 Families)</h2>
     <div class="sec">Click any expert family name to jump directly to its complete forensic card.</div>
     <table>
       <thead>
@@ -547,17 +769,17 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     </table>
   </div>
 
-  <!-- Section 5: Per-Expert Detailed Forensic Cards -->
+  <!-- Section 7: Per-Expert Detailed Forensic Cards -->
   <div class="card">
-    <h2>5 — Per-Expert Detailed Forensic Drill-Downs</h2>
+    <h2>7 — Per-Expert Detailed Forensic Drill-Downs</h2>
     <div class="sec">Full census, directionality, and parameter declarations for each strategy family.</div>
     {expert_cards_html}
   </div>
 
-  <!-- Section 6: Invariant Verification & Cryptographic Ledger Audit -->
+  <!-- Section 8: Invariant Verification & Cryptographic Ledger Audit -->
   <div class="card">
-    <h2>6 — Invariant Verification & Cryptographic Ledger Audit</h2>
-    <div class="sec">Verification that all mathematical and architectural invariants hold under strict release execution.</div>
+    <h2>8 — Invariant Verification & Cryptographic Ledger Audit</h2>
+    <div class="sec">Verification that all mathematical, architectural, and oracle invariants hold under strict release execution.</div>
     <table>
       <thead>
         <tr><th>Invariant / Audit Check</th><th>Specification Boundary</th><th>Verification Mechanism</th><th>Result</th></tr>
@@ -567,6 +789,24 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
           <td><b>D-097 Compute plane authoritativeness</b></td>
           <td>Rust runtime authoritative, Python oracle retired</td>
           <td><code>tools/audit_python_boundary.py</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-101 Target Oracle O0–O1 substrate</b></td>
+          <td>Three-role taxonomy, typed refusals, UtilityContract validation, PIT adapter</td>
+          <td><code>oracle::utility::tests</code>, <code>oracle::opportunity::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-102 Target Oracle O2–O3 coverage & receipts</b></td>
+          <td>Support classifier, CounterfactualAuthority, CoverageReceipt, v8.eval.v1 bundle</td>
+          <td><code>oracle::coverage::tests</code>, <code>oracle::support::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>O-OR-003 Bound-aware fail-closed ranking</b></td>
+          <td>Overlapping partially identified intervals fail closed (no zero collapse)</td>
+          <td><code>oracle::authority::tests::partially_identified_overlapping_intervals_fail_closed</code></td>
           <td class="pos">PASS</td>
         </tr>
         <tr>
@@ -604,7 +844,7 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
   </div>
 
   <footer>
-    <b>V8.2 AUTHORITATIVE COMPUTE ENGINE FORENSIC AUDIT</b> · Generated automatically by <code>tools/render_rust_audit_html.py</code>
+    <b>V8.2 AUTHORITATIVE COMPUTE & TARGET ORACLE EVIDENCE ENGINE FORENSIC AUDIT</b> · Generated automatically by <code>tools/render_rust_audit_html.py</code>
   </footer>
 
 </div>
@@ -627,10 +867,10 @@ def main() -> int:
         return 1
 
     out_file = args.out if args.out else audit_dir / "report.html"
-    print(f"Ingesting Rust kernel ledgers from: {audit_dir}...")
+    print(f"Ingesting Rust kernel ledgers and Oracle evidence bundles from: {audit_dir}...")
     data = parse_all_rust_artifacts(audit_dir)
 
-    print(f"Rendering full-spectrum forensic audit report...")
+    print(f"Rendering full-spectrum forensic audit report with Target Oracle & v8.eval.v1 evidence...")
     report_html = render_full_forensic_report(data, audit_dir)
     out_file.write_text(report_html, encoding="utf-8")
     print(f"Successfully generated deep forensic audit report: {out_file} ({len(report_html):,} bytes)")

@@ -350,6 +350,7 @@ impl<'a> ScalarKernel<'a> {
             market_move_r: 0.0,
             cost_r: 0.0,
             funding_r: 0.0,
+            intervention_manifest: None,
         }
     }
 
@@ -464,6 +465,7 @@ impl<'a> ScalarKernel<'a> {
                 market_move_r: 0.0,
                 cost_r: 0.0,
                 funding_r: 0.0,
+                intervention_manifest: None,
             });
         }
         let expiry = draft.geom_i64("expiry_bars").unwrap_or(0) as usize;
@@ -540,6 +542,7 @@ impl<'a> ScalarKernel<'a> {
                             market_move_r: 0.0,
                             cost_r: 0.0,
                             funding_r: 0.0,
+                            intervention_manifest: None,
                         });
                     }
                 }
@@ -629,6 +632,7 @@ impl<'a> ScalarKernel<'a> {
                     market_move_r: (self.bars.closes[i] - entry) / unit,
                     cost_r: self.cost_r(entry, unit)? + next.pyramid_add_cost_r,
                     funding_r: next.funding_paid_r,
+                    intervention_manifest: None,
                 });
             }
             pos = next;
@@ -655,6 +659,7 @@ impl<'a> ScalarKernel<'a> {
             market_move_r: (self.bars.closes[last] - entry) / unit,
             cost_r: cost,
             funding_r: pos.funding_paid_r,
+            intervention_manifest: None,
         })
     }
 
@@ -851,6 +856,7 @@ impl<'a> ScalarKernel<'a> {
                     market_move_r: close_move[k],
                     cost_r: cost,
                     funding_r: p.funding_paid_r,
+                    intervention_manifest: None,
                 });
             }
             pos = Pos {
@@ -883,6 +889,7 @@ impl<'a> ScalarKernel<'a> {
             market_move_r: (self.bars.closes[last] - entry) / unit,
             cost_r: cost,
             funding_r: pos.funding_paid_r,
+            intervention_manifest: None,
         })
     }
 }

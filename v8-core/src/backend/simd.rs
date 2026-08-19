@@ -179,24 +179,7 @@ mod tests {
     }
 
     fn new_outcomes(n: usize) -> Vec<Outcome> {
-        vec![
-            Outcome {
-                endpoint: String::new(),
-                net_r: 0.0,
-                label_status: String::new(),
-                horizon_bars: 0,
-                label_available_time: 0,
-                mae_r: 0.0,
-                mfe_r: 0.0,
-                ambiguous_bars: 0,
-                entry_price: 0.0,
-                risk_unit_price: 0.0,
-                market_move_r: 0.0,
-                cost_r: 0.0,
-                funding_r: 0.0,
-            };
-            n
-        ]
+        vec![Outcome::default(); n]
     }
 
     fn scalar<'a>(stores: &'a [crate::state::FeatureStore]) -> ScalarBackend<'a> {

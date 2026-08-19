@@ -97,11 +97,13 @@ Agg        := MAX | MIN
 
 Semantics, which are normative because they reproduce V8.0 behaviour exactly:
 
-1. **Fail-open on absence.** If any operand resolves to absent — a missing
-   geometry key, a feature not present in the projection, or a `None` value —
-   the rule yields `true` (thesis still valid). Price, not the thesis, governs
-   the exit. Fail-*closed* here would silently convert data absence into a
-   forced exit and change the outcome population.
+1. **Epistemic state vs. operational policy (D-104).** If any operand resolves to
+   absent — a missing geometry key, a feature not present in the projection, or
+   a `None` value — the epistemic observation evaluates to `ThesisStatus::Unknown`
+   (never falsely promoted to `ThesisStatus::Valid`). Operational policy
+   deterministically maps `evaluate_position_policy(ThesisStatus::Unknown) -> PositionPolicy::Hold`,
+   preserving the fail-open execution baseline where price governs the exit
+   without conflating epistemic uncertainty with empirical thesis validation.
 2. **`FLIP_ON_SHORT`** applies the comparison as written for `LONG` and with
    the operator reversed for `SHORT`. The direction is frozen on the Candidate
    and never re-read from state.

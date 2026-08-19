@@ -122,13 +122,14 @@ impl CoverageReceipt {
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
         fs::write(econ_dir.join("oracle_evaluation.parquet"), eval_json)?;
 
-        // 3. analysis/findings.jsonl (coverage findings)
+        // 3. analysis/findings.jsonl (coverage findings with hard deduplication invariant)
         let mut findings = Vec::new();
         findings.push(FindingRecord {
             finding_id: format!("FINDING-ORACLE-COV-{}", &self.receipt_id[..8.min(self.receipt_id.len())]),
             scope: serde_json::json!({
                 "universe_id": self.universe_id,
                 "population_hash": self.population_hash,
+                "epistemic_category": "DERIVED_MEASUREMENT",
             }),
             claim: format!(
                 "Representational coverage of universe {} is {:.2}% (gap: {:.2}%)",
@@ -167,6 +168,7 @@ impl CoverageReceipt {
                 scope: serde_json::json!({
                     "template_id": cluster.template_id,
                     "direction": format!("{:?}", cluster.direction),
+                    "epistemic_category": "DERIVED_MEASUREMENT",
                 }),
                 claim: format!(
                     "Unrepresented opportunity cluster: template '{}' ({:?}) has {} unrepresented supported opportunities",
@@ -186,12 +188,32 @@ impl CoverageReceipt {
             });
         }
 
-        let mut findings_file = fs::OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(analysis_dir.join("findings.jsonl"))?;
+        // Hard deduplication by finding_id primary key
+        let findings_path = analysis_dir.join("findings.jsonl");
+        let mut final_findings = Vec::new();
+        let mut seen_ids = std::collections::HashSet::new();
+
+        if findings_path.exists() {
+            if let Ok(content) = fs::read_to_string(&findings_path) {
+                for line in content.lines() {
+                    if let Ok(rec) = serde_json::from_str::<FindingRecord>(line) {
+                        if seen_ids.insert(rec.finding_id.clone()) {
+                            final_findings.push(rec);
+                        }
+                    }
+                }
+            }
+        }
+
+        for f in findings {
+            if seen_ids.insert(f.finding_id.clone()) {
+                final_findings.push(f);
+            }
+        }
+
+        let mut findings_file = fs::File::create(&findings_path)?;
         use std::io::Write;
-        for f in &findings {
+        for f in &final_findings {
             let line = serde_json::to_string(f)
                 .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
             writeln!(findings_file, "{}", line)?;

@@ -2648,11 +2648,13 @@ Agg        := MAX | MIN
 </code></pre>
 <p>Semantics, which are normative because they reproduce V8.0 behaviour exactly:</p>
 <ol>
-<li><strong>Fail-open on absence.</strong> If any operand resolves to absent — a missing
-   geometry key, a feature not present in the projection, or a <code>None</code> value —
-   the rule yields <code>true</code> (thesis still valid). Price, not the thesis, governs
-   the exit. Fail-<em>closed</em> here would silently convert data absence into a
-   forced exit and change the outcome population.</li>
+<li><strong>Epistemic state vs. operational policy (D-104).</strong> If any operand resolves to
+   absent — a missing geometry key, a feature not present in the projection, or
+   a <code>None</code> value — the epistemic observation evaluates to <code>ThesisStatus::Unknown</code>
+   (never falsely promoted to <code>ThesisStatus::Valid</code>). Operational policy
+   deterministically maps <code>evaluate_position_policy(ThesisStatus::Unknown) -&gt; PositionPolicy::Hold</code>,
+   preserving the fail-open execution baseline where price governs the exit
+   without conflating epistemic uncertainty with empirical thesis validation.</li>
 <li><strong><code>FLIP_ON_SHORT</code></strong> applies the comparison as written for <code>LONG</code> and with
    the operator reversed for <code>SHORT</code>. The direction is frozen on the Candidate
    and never re-read from state.</li>
@@ -3963,11 +3965,11 @@ claim is admissible until it is independently renewed.</p>
 <li>Two events with identical timestamps are processed in the declared
    tie-break order, deterministically, across runs.</li>
 <li>Shuffle the caller's Expert list; results and stored events are identical.
-   The runtime sorts by <code>expert_id</code> before evaluating, so this holds under full
-   exposure contention too, not only when Experts rarely coincide
-   (<code>tests/test_admission_contention.py</code>). The surviving tie-break for a
-   contested exposure slot is therefore that lexicographic order — deterministic
-   but arbitrary; replacing it with a ranking is gated by rule 6 / D-008
+   The runtime sorts by the declared canonical dispatch order (<code>R-ALLOC-001</code> / D-103:
+   ascending <code>sha1(Canon(expert_id))</code>) before evaluating, so this holds under full
+   exposure contention too, not only when Experts rarely coincide. The surviving tie-break for a
+   contested exposure slot is therefore that declared order — deterministic and
+   economically neutral; replacing it with a ranking is gated by rule 6 / D-008
    (O-006 / O-012).</li>
 <li>A replay run and a live-adaptor contract test produce the same event
    stream for the same tape window.</li>
@@ -9866,6 +9868,15 @@ değişkenine, arama ailesine, simülatör seviyesine ve portföy kararına bağ
 Bundan daha geniş olan her şey bir V8 olgusu değil, bir deney önerisidir.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-19-resolution-of-issues-158163-governance-defect-hardening-batch-d-103d-108">2026-08-19 — Resolution of Issues #158–#163: Governance &amp; Defect Hardening Batch (D-103..D-108)</h2>
+<p>Resolved six issues spanning candidate evaluation decoupling, dispatch tie-break conformance, epistemic belief state, causal intervention manifests, mechanism hypothesis decoupling, and authority resolution:
+- <strong>#158 (D-108):</strong> Decoupled independent candidate evaluation from downstream portfolio allocation (<code>runloop.rs</code>), ensuring contention-losing candidates retain full independent counterfactual outcomes and emitting structured <code>portfolio_allocation</code> records.
+- <strong>#159 (D-103):</strong> Reconciled contention dispatch specification with runtime <code>R-ALLOC-001</code> (<code>sha1(Canon(expert_id))</code>) across contracts, adding executable state-space contention and mutation test gates.
+- <strong>#160 (D-104):</strong> Replaced boolean predicate return with explicit three-valued <code>ThesisStatus { Valid, Invalid, Unknown }</code> in <code>predicate.rs</code>, decoupling epistemic observation uncertainty from <code>PositionPolicy::Hold</code> operational action.
+- <strong>#161 (D-105):</strong> Added typed <code>InterventionManifest</code> to <code>simulator.rs:Outcome</code> and implemented <code>InterventionClass</code> regret bucket partitioning in <code>regret.rs</code> with <code>UNSUPPORTED_COUNTERFACTUAL</code> refusal semantics.
+- <strong>#162 (D-106):</strong> Decoupled observable price behavior from causal mechanism hypotheses with default <code>evidence_status: HYPOTHESIS_ONLY</code> and <code>EvidenceManifest</code> schema in <code>EXPERTS_REGISTRY.yaml</code> and <code>experts/base.rs</code>.
+- <strong>#163 (D-107):</strong> Purged superseded single-unit multiplicity clause from <code>EXPERT_PROTOCOL.md</code> and added executable <code>authority.rs</code> ledger validating unambiguous domain resolution (<code>resolve_active_rule("multiplicity") -&gt; D-044</code>).</p>
+<p>Artifacts changed: <code>v8-core/src/authority.rs</code>, <code>v8-core/src/runloop.rs</code>, <code>v8-core/src/experts/predicate.rs</code>, <code>v8-core/src/experts/base.rs</code>, <code>v8-core/src/simulator.rs</code>, <code>v8-core/src/regret.rs</code>, <code>v8-core/src/main.rs</code>, <code>docs/contracts/CANDIDATE_LIFECYCLE_SPEC.md</code>, <code>docs/contracts/RUNTIME_SCHEDULER_SPEC.md</code>, <code>docs/contracts/PREDICATE_IR_SPEC.md</code>, <code>docs/contracts/EXPERT_PROTOCOL.md</code>, <code>docs/EXPERTS_REGISTRY.yaml</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/CHANGELOG.md</code>.</p>
 <h2 id="2026-08-19-target-oracle-o2o3-support-coverage-evidence-receipts-d-102">2026-08-19 — Target Oracle O2–O3 support, coverage &amp; evidence receipts (D-102)</h2>
 <p>Added the Rust-owned Target Oracle support/authority classifier and representational
 coverage reconciliation over the frozen Opportunity Universe (#154). The support
@@ -12680,6 +12691,18 @@ experiments:
 # BEFORE the real development window existed, and no development search was
 # performed — so there is no undisclosed configuration to count. A family that
 # tunes anything on data must raise this number and re-run the Reality Check.
+#
+# evidence_status (D-106 / Issue #162): Decouples observable price pattern
+# (behavior_family_id) from causal mechanism hypotheses (mechanism_family_id).
+# All price-only experts default to HYPOTHESIS_ONLY. Promotion to
+# IDENTIFICATION_SUPPORTED requires an explicit EvidenceManifest (claim,
+# identification_strategy, required_observables, assumptions, falsification_tests).
+
+evidence_status_vocabulary:
+  - HYPOTHESIS_ONLY
+  - ASSOCIATIONAL_SUPPORT
+  - IDENTIFICATION_SUPPORTED
+  - FALSIFIED
 
 expert_status_vocabulary:
   - PROPOSED
