@@ -46,6 +46,7 @@ mod jsonx;
 mod mt19937;
 mod oracle;
 mod portfolio;
+pub mod kaizen;
 pub mod quant;
 mod regret;
 mod report;
