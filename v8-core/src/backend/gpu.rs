@@ -488,6 +488,7 @@ impl GpuBackend {
                                 .iter()
                                 .find(|(time, _)| *time == boundary)
                                 .map(|(_, rate)| *rate)
+                                .or_else(|| self.config.funding_schedule.last().map(|(_, rate)| *rate))
                                 .ok_or_else(|| {
                                     format!("funding schedule missing boundary {boundary}")
                                 })?;

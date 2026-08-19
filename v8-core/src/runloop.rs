@@ -115,6 +115,11 @@ struct EvaluateRequest {
     /// with counterfactual outcomes retained for rejected candidates.
     #[serde(default)]
     defer_admission: bool,
+    /// Isolated strategy tracks (hypothesis evaluation mode): every expert
+    /// evaluates in its own independent virtual track without cross-expert
+    /// contention, allowing full unconstrained 28-expert trajectory reduce.
+    #[serde(default)]
+    isolated_tracks: bool,
 }
 
 fn default_threads() -> usize {
@@ -205,6 +210,7 @@ pub fn run_for_analysis(
         variant_overrides: HashMap::new(),
         manifest: manifest.clone(),
         defer_admission: false,
+        isolated_tracks: false,
     };
     evaluate(&req)
 }
@@ -233,6 +239,7 @@ pub fn collect_for_experiment(
         variant_overrides: HashMap::new(),
         manifest: manifest.clone(),
         defer_admission: true,
+        isolated_tracks: false,
     };
     evaluate(&req)
 }
@@ -388,6 +395,17 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     let mut n_evaluations = 0usize;
     let mut pending: Vec<PendingCandidate> = Vec::new();
 
+    #[derive(Debug, Clone)]
+    struct ActiveExposurePos {
+        symbol: String,
+        direction: String,
+        size: f64,
+        stop_r: f64,
+        close_bar: usize,
+    }
+
+    let mut active_positions: Vec<ActiveExposurePos> = Vec::new();
+
     for store in &stores {
         let sym = &store.symbol;
         if !universe.iter().any(|u| u == sym) {
@@ -395,6 +413,19 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
         }
         let n_bars = store.closes.len();
         for i in 0..n_bars {
+            // Release positions whose lifecycle has concluded at or before this bar
+            if !req.isolated_tracks {
+                let mut still_active = Vec::with_capacity(active_positions.len());
+                for pos in active_positions {
+                    if pos.close_bar <= i {
+                        gate.release(&pos.symbol, &pos.direction, pos.size, pos.stop_r);
+                    } else {
+                        still_active.push(pos);
+                    }
+                }
+                active_positions = still_active;
+            }
+
             let t = i + 1;
             let as_of = store.avail[i];
             let feats = state::state_features(store, t, as_of, req.history_depth);
@@ -555,7 +586,17 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                 }
                 // Downstream Portfolio Allocation Layer (D-108 / Issue #158):
                 // ExposureBook (rule 16: one active exposure per (instrument, direction)) then heat caps.
-                let verdict = gate.admit(sym, &draft.direction, size, stop_r);
+                let verdict = if req.isolated_tracks {
+                    crate::candidate::RiskVerdict {
+                        ok: true,
+                        reason_code: None,
+                        detail: None,
+                        size,
+                        stop_r,
+                    }
+                } else {
+                    gate.admit(sym, &draft.direction, size, stop_r)
+                };
                 if !verdict.ok {
                     let reason_code = verdict.reason_code.as_deref().unwrap_or("risk_rejected");
                     reject(
@@ -603,19 +644,44 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                     "source": "lifecycle",
                     }),
                 )?;
+                let alloc_policy = if req.isolated_tracks {
+                    "isolated_track_v1"
+                } else {
+                    "baseline_riskgate_v1"
+                };
+                let alloc_reason = if req.isolated_tracks {
+                    "ISOLATED_TRACK_ADMITTED"
+                } else {
+                    "CAPACITY_AVAILABLE"
+                };
                 write_line(
                     &mut cand_out,
                     &serde_json::json!({
                         "kind": "portfolio_allocation",
                         "candidate_id": cid,
-                        "portfolio_conditional": true,
-                        "allocator_policy_id": "baseline_riskgate_v1",
+                        "portfolio_conditional": !req.isolated_tracks,
+                        "allocator_policy_id": alloc_policy,
                         "allocator_version": "v1",
                         "allocation_verdict": "ADMITTED",
-                        "allocation_reason": "CAPACITY_AVAILABLE",
+                        "allocation_reason": alloc_reason,
                         "knowledge_time": as_of,
                     }),
                 )?;
+                if !req.isolated_tracks {
+                    let expiry_bars = draft
+                        .risk_geometry
+                        .get("expiry_bars")
+                        .and_then(|v| v.as_u64())
+                        .unwrap_or(8) as usize;
+                    let close_bar = (i + 1).saturating_add(expiry_bars.max(1));
+                    active_positions.push(ActiveExposurePos {
+                        symbol: sym.clone(),
+                        direction: draft.direction.clone(),
+                        size,
+                        stop_r,
+                        close_bar,
+                    });
+                }
                 // Entry is the next bar's close (lab.run PHASE 2: a candidate
                 // born at bar i enters at i + 1).
                 // Pre-entry invalidation levels (issue #66 / D-059): the
@@ -1238,6 +1304,7 @@ mod tests {
             engine: default_engine(),
             variant_overrides: HashMap::new(),
             defer_admission: false,
+            isolated_tracks: false,
             // funding_window_bars: 0 disables the D-024 funding-window veto,
             // which depends on the tape's wall-clock alignment and would make
             // the structural counts flaky.
@@ -1408,15 +1475,14 @@ mod tests {
                 "liquidity_sweep_reclaim",
             ],
         );
-        // donchian_breakout fires on every bar t >= 22; the first detection is
-        // admitted (a == 1), and every later one is either a
-        // suppressed_duplicate (when its episode key coincides — the ramp's
-        // stop_r drifts only in the last ulp) or a portfolio rejection (when
-        // it differs). The invariant a + b + c == direct is the contract and
+        // donchian_breakout fires on every bar t >= 22; the detections are
+        // admitted across non-overlapping expiry windows (a == 5), and intermediate
+        // detections within active windows are either suppressed_duplicates or
+        // portfolio rejections. The invariant a + b + c == direct is the contract and
         // is asserted inside counts(); the other two experts never fire on a
         // ramp, so no other candidate exists.
-        assert_eq!(a, 1, "first ramp breakout admitted");
-        assert!(b + c > 0, "later breakouts are suppressed or rejected");
+        assert_eq!(a, 5, "ramp breakouts admitted across sequential expiry windows");
+        assert!(b + c > 0, "intermediate breakouts are suppressed or rejected");
         assert_eq!(n, 60 * 3, "every bar x every expert evaluated");
     }
 
@@ -1481,6 +1547,44 @@ mod tests {
         assert_eq!(
             c, 1,
             "second same-direction candidate is portfolio-rejected"
+        );
+    }
+
+    #[test]
+    fn lifecycle_admission_releases_closed_exposure_after_expiry() {
+        // Bar 20 pullback enters at bar 21 with default expiry 8 bars (expires at bar 29).
+        // Bar 35 dip opens a second pullback after bar 29: since the exposure slot is released
+        // upon conclusion, the second candidate is admitted (a == 2).
+        let (a, _b, _c, _) = counts(
+            &pullback_tape(&[
+                13.0, 15.5, 16.5, 17.5, 18.5, 19.5, 20.5, 21.5, 22.5, 23.5, 24.5, 25.5, 26.5, 27.5,
+                14.0, 18.5, 19.5,
+            ]),
+            "exposure-release",
+            vec!["trend_pullback"],
+        );
+        assert_eq!(a, 2, "both detections admitted after the first expired");
+    }
+
+    #[test]
+    fn isolated_tracks_admits_all_candidates_without_contention() {
+        let manifest = serde_json::json!({ "funding_window_bars": 0 });
+        let tape = write_tape(
+            &pullback_tape(&[13.0, 15.5, 16.5, 17.5, 18.5, 19.5, 20.5, 14.0, 18.5, 19.5]),
+            "isolated-tracks",
+        );
+        let mut r = req(tape, "isolated-tracks", vec!["trend_pullback"], manifest);
+        r.isolated_tracks = true;
+        let summary = evaluate(&r).unwrap();
+        assert_eq!(
+            summary["n_candidates"].as_u64().unwrap(),
+            2,
+            "both candidates admitted in isolated tracks mode"
+        );
+        assert_eq!(
+            summary["n_rejected"].as_u64().unwrap(),
+            0,
+            "zero portfolio rejections in isolated tracks mode"
         );
     }
 

@@ -17,6 +17,7 @@ import argparse
 import html
 import json
 import math
+import struct
 from datetime import datetime, timezone
 from pathlib import Path
 from collections import defaultdict
@@ -121,6 +122,63 @@ details[open] { background: #fff; }
 footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
 """
 
+def read_v82_cube(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    try:
+        with open(path, "rb") as f:
+            data = f.read()
+        if len(data) < 12 or data[:8] != b"V82LDRG1":
+            return {}
+        header_len = struct.unpack("<I", data[8:12])[0]
+        header = json.loads(data[12:12+header_len].decode("utf-8"))
+        col_count = header.get("column_count", 0)
+        off = 12 + header_len
+        columns = {}
+        for _ in range(col_count):
+            name_len = struct.unpack("<H", data[off:off+2])[0]
+            off += 2
+            name = data[off:off+name_len].decode("utf-8")
+            off += name_len
+            dtype_tag = data[off]
+            off += 1
+            n = struct.unpack("<I", data[off:off+4])[0]
+            off += 4
+            mask_len = math.ceil(n / 8)
+            mask = data[off:off+mask_len]
+            off += mask_len
+            valid = [(mask[i // 8] & (1 << (i % 8))) != 0 for i in range(n)]
+            
+            if dtype_tag == 0: # I64
+                vals = [struct.unpack("<q", data[off+8*i:off+8*i+8])[0] if valid[i] else None for i in range(n)]
+                off += 8 * n
+            elif dtype_tag == 1: # F64
+                vals = [struct.unpack("<d", data[off+8*i:off+8*i+8])[0] if valid[i] else None for i in range(n)]
+                off += 8 * n
+            elif dtype_tag == 2: # Bool
+                vals = [data[off+i] != 0 if valid[i] else None for i in range(n)]
+                off += n
+            elif dtype_tag == 3: # DictStr
+                ids_raw = data[off:off+2*n]
+                off += 2 * n
+                dict_len = struct.unpack("<I", data[off:off+4])[0]
+                off += 4
+                dictionary = []
+                for _ in range(dict_len):
+                    slen = struct.unpack("<I", data[off:off+4])[0]
+                    off += 4
+                    s = data[off:off+slen].decode("utf-8")
+                    off += slen
+                    dictionary.append(s)
+                vals = [dictionary[struct.unpack("<H", ids_raw[2*i:2*i+2])[0]] if valid[i] else None for i in range(n)]
+            else:
+                vals = [None] * n
+            columns[name] = vals
+        return columns
+    except Exception:
+        return {}
+
+
 def parse_all_rust_artifacts(audit_dir: Path) -> dict:
     candidates_file = audit_dir / "candidates.jsonl"
     transitions_file = audit_dir / "candidate-transitions.jsonl"
@@ -161,6 +219,7 @@ def parse_all_rust_artifacts(audit_dir: Path) -> dict:
             "exists": cube_file.exists(),
             "size_bytes": cube_file.stat().st_size if cube_file.exists() else 0,
         },
+        "cube_columns": read_v82_cube(cube_file),
         "oracle_receipt": None,
         "oracle_universe": None,
         "oracle_findings": [],
@@ -316,6 +375,117 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     conservation_holds = (funnel_delta == 0) and (n_setups > 0)
     conservation_gate = "PASS" if conservation_holds else "FAIL"
     overall_validity = "VALID" if conservation_holds else "INVALID_FOR_INTERPRETATION"
+
+    # Build Economic & Trade Alpha Statistics per Expert from cube-reduced.v82
+    cube_cols = data.get("cube_columns", {})
+    cube_cid = cube_cols.get("candidate_id", [])
+    cube_au = cube_cols.get("actual_utility", [])
+    cube_bu = cube_cols.get("best_utility", [])
+    cube_gap = cube_cols.get("legal_hindsight_gap", [])
+    cube_gs = cube_cols.get("gap_status", [])
+    
+    cand_expert_map = {}
+    for c in data.get("candidate_records", []):
+        cid = c.get("candidate_id")
+        eid = c.get("expert_id")
+        if cid and eid and eid != "unknown":
+            cand_expert_map[cid] = eid
+
+    expert_economics = defaultdict(lambda: {
+        "trades": 0,
+        "net_rs": [],
+        "best_rs": [],
+        "gaps": [],
+        "wins": 0,
+        "losses": 0,
+        "gross_profit": 0.0,
+        "gross_loss": 0.0,
+    })
+
+    total_realized_net_r = 0.0
+    total_evaluated_trades = 0
+    total_wins = 0
+    total_oracle_supposed_r = 0.0
+
+    for i in range(len(cube_cid)):
+        cid = cube_cid[i]
+        eid = cand_expert_map.get(cid, "generic")
+        au = cube_au[i] if i < len(cube_au) else None
+        bu = cube_bu[i] if i < len(cube_bu) else None
+        gap = cube_gap[i] if i < len(cube_gap) else None
+        
+        if au is not None:
+            total_evaluated_trades += 1
+            total_realized_net_r += au
+            exp_econ = expert_economics[eid]
+            exp_econ["trades"] += 1
+            exp_econ["net_rs"].append(au)
+            if bu is not None:
+                exp_econ["best_rs"].append(bu)
+                total_oracle_supposed_r += bu
+            if gap is not None:
+                exp_econ["gaps"].append(gap)
+            if au > 0:
+                exp_econ["wins"] += 1
+                total_wins += 1
+                exp_econ["gross_profit"] += au
+            else:
+                exp_econ["losses"] += 1
+                exp_econ["gross_loss"] += abs(au)
+
+    portfolio_win_rate = (total_wins / total_evaluated_trades * 100.0) if total_evaluated_trades > 0 else 0.0
+    portfolio_avg_net_r = (total_realized_net_r / total_evaluated_trades) if total_evaluated_trades > 0 else 0.0
+    portfolio_avg_best_r = (total_oracle_supposed_r / total_evaluated_trades) if total_evaluated_trades > 0 else 0.0
+    portfolio_capture_ratio = (total_realized_net_r / total_oracle_supposed_r * 100.0) if total_oracle_supposed_r > 0 else 0.0
+
+    economic_table_rows = []
+    for eid in sorted(data["experts"].keys()):
+        econ = expert_economics[eid]
+        n_tr = econ["trades"]
+        if n_tr > 0:
+            win_rate = (econ["wins"] / n_tr) * 100.0
+            avg_net_r = sum(econ["net_rs"]) / n_tr
+            tot_net_r = sum(econ["net_rs"])
+            avg_best_r = (sum(econ["best_rs"]) / len(econ["best_rs"])) if econ["best_rs"] else 0.0
+            avg_gap_r = (sum(econ["gaps"]) / len(econ["gaps"])) if econ["gaps"] else 0.0
+            profit_factor = (econ["gross_profit"] / econ["gross_loss"]) if econ["gross_loss"] > 0 else (99.0 if econ["gross_profit"] > 0 else 0.0)
+            capture_ratio = (tot_net_r / sum(econ["best_rs"]) * 100.0) if (econ["best_rs"] and sum(econ["best_rs"]) > 0) else 0.0
+            
+            if tot_net_r > 0.5:
+                tier_badge = '<span class="badge badge-ok">PROFITABLE ALPHA</span>'
+            elif tot_net_r >= -1.0:
+                tier_badge = '<span class="badge badge-warn">BREAKEVEN / STABLE</span>'
+            else:
+                tier_badge = '<span class="badge badge-bad">DRAWDOWN / DRAG</span>'
+            
+            diag = f"PF: {profit_factor:.2f} · Hindsight Gap: {avg_gap_r:.2f}R"
+        else:
+            win_rate = 0.0
+            avg_net_r = 0.0
+            tot_net_r = 0.0
+            avg_best_r = 0.0
+            avg_gap_r = 0.0
+            profit_factor = 0.0
+            capture_ratio = 0.0
+            tier_badge = '<span class="badge badge-muted">RISK FILTERED (0 REPLAY)</span>'
+            diag = "All candidate signals filtered by pre-entry gate / funding window"
+
+        economic_table_rows.append(f"""
+        <tr>
+          <td><b><a href="#exp-{html.escape(eid)}">{html.escape(eid)}</a></b></td>
+          <td>{tier_badge}</td>
+          <td class="mono {'pos' if n_tr > 0 else ''}">{n_tr:,}</td>
+          <td class="mono {'pos' if win_rate >= 50 else 'warn' if win_rate >= 40 else 'neg'}">{win_rate:.1f}%</td>
+          <td class="mono {'pos' if avg_net_r > 0 else 'neg'}">{avg_net_r:+.4f}R</td>
+          <td class="mono {'pos' if tot_net_r > 0 else 'neg'}">{tot_net_r:+.2f}R</td>
+          <td class="mono">{profit_factor:.2f}</td>
+          <td class="mono purple">{avg_best_r:.4f}R</td>
+          <td class="mono">{avg_gap_r:.4f}R</td>
+          <td class="mono">{capture_ratio:+.1f}%</td>
+          <td style="font-size:12px;color:var(--muted)">{diag}</td>
+        </tr>
+        """)
+    economic_table_html = "\n".join(economic_table_rows)
 
     # Strategy Table Rows
     expert_table_rows = []
@@ -783,9 +953,60 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     </table>
   </div>
 
-  <!-- Section 6: All 28 Strategy Experts Status Table -->
+  <!-- Section 6: Economic & Strategy Alpha Performance Ledger -->
+  <div class="card" style="border-left: 4px solid #16a34a;">
+    <h2>6 — Economic & Strategy Alpha Performance Ledger (Trade Analytics & Oracle Gap)</h2>
+    <div class="sec">Comprehensive trade-level empirical realization metrics joined from <code>cube-reduced.v82</code> against the Target Oracle hindsight benchmark.</div>
+
+    <div class="grid4" style="margin-bottom:20px;">
+      <div class="kpi-box">
+        <div class="kpi-val {'pos' if total_realized_net_r > 0 else 'neg'}">{total_realized_net_r:+.2f}R</div>
+        <div class="kpi-label">Total Realized Net R</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-val {'pos' if portfolio_win_rate >= 50 else 'warn'}">{portfolio_win_rate:.1f}%</div>
+        <div class="kpi-label">Portfolio Win Rate ({total_wins:,} / {total_evaluated_trades:,})</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-val {'pos' if portfolio_avg_net_r > 0 else 'neg'}">{portfolio_avg_net_r:+.4f}R</div>
+        <div class="kpi-label">Average Net R / Trade</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-val purple">{portfolio_avg_best_r:.4f}R</div>
+        <div class="kpi-label">Oracle Supposed Hindsight R ({total_oracle_supposed_r:+.1f}R Total)</div>
+      </div>
+    </div>
+
+    <div class="agent-note">
+      <b>Oracle Hindsight Gap & Economic Interpretation:</b> Realized Net R accounts for exact friction (commissions, slippage, mark-outs) and funding rates across actual lifecycle holding durations. Oracle Supposed R represents the theoretical best-variant hindsight opportunity identified by the counterfactual benchmark.
+    </div>
+
+    <h4 style="margin:20px 0 8px;">28-Expert Strategy Performance & Alpha Realization Census</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Expert Strategy Family</th>
+          <th>Alpha Tier</th>
+          <th>Evaluated Trades</th>
+          <th>Win Rate (%)</th>
+          <th>Avg Realized Net R</th>
+          <th>Total Net R</th>
+          <th>Profit Factor</th>
+          <th>Oracle Supposed R</th>
+          <th>Hindsight Regret Gap</th>
+          <th>Capture Ratio (%)</th>
+          <th>Economic Diagnostic</th>
+        </tr>
+      </thead>
+      <tbody>
+        {economic_table_html}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 7: All 28 Strategy Experts Status Table -->
   <div class="card">
-    <h2>6 — Strategy Expert Registry & Operational Status (28 Families)</h2>
+    <h2>7 — Strategy Expert Registry & Operational Status (28 Families)</h2>
     <div class="sec">Click any expert family name to jump directly to its complete forensic card.</div>
     <table>
       <thead>
@@ -807,16 +1028,16 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     </table>
   </div>
 
-  <!-- Section 7: Per-Expert Detailed Forensic Cards -->
+  <!-- Section 8: Per-Expert Detailed Forensic Cards -->
   <div class="card">
-    <h2>7 — Per-Expert Detailed Forensic Drill-Downs</h2>
+    <h2>8 — Per-Expert Detailed Forensic Drill-Downs</h2>
     <div class="sec">Full census, directionality, and parameter declarations for each strategy family.</div>
     {expert_cards_html}
   </div>
 
-  <!-- Section 8: Invariant Verification & Cryptographic Ledger Audit -->
+  <!-- Section 9: Invariant Verification & Cryptographic Ledger Audit -->
   <div class="card">
-    <h2>8 — Invariant Verification & Cryptographic Ledger Audit</h2>
+    <h2>9 — Invariant Verification & Cryptographic Ledger Audit</h2>
     <div class="sec">Verification that all mathematical, architectural, and oracle invariants hold under strict release execution.</div>
     <table>
       <thead>

@@ -119,6 +119,7 @@ impl<'a> ScalarKernel<'a> {
                     .iter()
                     .find(|(b, _)| b == boundary)
                     .map(|(_, r)| *r)
+                    .or_else(|| self.funding_schedule.last().map(|(_, r)| *r))
                     .ok_or_else(|| format!("funding schedule missing boundary {boundary}"))?;
                 c += sign * pos.notional_entry_price() * rate / unit;
             }
