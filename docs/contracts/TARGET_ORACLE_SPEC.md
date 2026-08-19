@@ -799,6 +799,13 @@ DeploymentCertificate {
 }
 ```
 
+### 17.5 Integration with Evaluation Evidence Bundle (`v8.eval.v1`)
+All Oracle evaluation, regret attribution, and opportunity universe artifacts are stored natively within the `v8.eval.v1` immutable evidence bundle (`EVALUATION_EVIDENCE_SYSTEM.md` §4):
+- `OpportunityUniverseVersion` $\rightarrow$ `provenance/opportunity_universe.json`
+- `OracleEvaluationRecord` $\rightarrow$ `economics/oracle_evaluation.parquet` & `statistics/reality_check.json`
+- `RegretAttributionRecord` $\rightarrow$ `economics/regret_attribution.parquet` & Section S in `report.html`
+- Coverage & Scout Hypotheses $\rightarrow$ `analysis/hypotheses.jsonl` & `analysis/findings.jsonl`
+
 ---
 
 ## 18. Tests and invariants

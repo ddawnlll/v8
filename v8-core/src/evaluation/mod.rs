@@ -3,6 +3,8 @@
 //! Master orchestrator for autonomous agent scientific evidence bundles
 //! and deterministic audit verification in pure Rust.
 
+#![allow(dead_code)]
+
 pub mod agents;
 pub mod html_report;
 pub mod manifest;
@@ -23,7 +25,7 @@ use manifest::{
     SummaryMetrics, ValidityGates, SCHEMA_VERSION,
 };
 use paths::{classify_trade_path, PathClassification};
-use regression::{compute_cross_run_delta, CrossRunDelta};
+use regression::compute_cross_run_delta;
 use schema_cache::{compute_numeric_col_stats, SchemaCache, TableStatistics};
 use statistics::{
     block_bootstrap, compute_deflated_sharpe_ratio, run_10_family_null_suite, run_permutation_test,
@@ -198,7 +200,7 @@ impl EvaluationEngine {
         }
 
         // 4. Robustness Surfaces
-        let (cost_surface, break_even_bps) = compute_cost_surface(&trade_outcomes);
+        let (_cost_surface, break_even_bps) = compute_cost_surface(&trade_outcomes);
         let exit_surface = compute_exit_surface(&trade_outcomes);
         let _fragility = compute_fragility_metrics(&exit_surface, break_even_bps);
 

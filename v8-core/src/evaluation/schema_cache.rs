@@ -3,6 +3,8 @@
 //! Precomputes column statistics, distributions, quantiles, and null rates
 //! for autonomous research agent queries in pure Rust.
 
+#![allow(dead_code)]
+
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;

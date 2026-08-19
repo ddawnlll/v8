@@ -3,6 +3,8 @@
 //! Entry gateway, cryptographic receipt, accounting conservation invariants,
 //! and fail-closed hard validity gates in pure Rust.
 
+#![allow(dead_code, non_snake_case)]
+
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::io;

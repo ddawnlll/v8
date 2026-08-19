@@ -3,6 +3,8 @@
 //! Renders the canonical 23-section executive report (Sections A through W)
 //! as a clean, self-contained HTML artifact (report.html) in pure Rust.
 
+#![allow(dead_code)]
+
 use std::fs;
 use std::io;
 use std::path::Path;

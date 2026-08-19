@@ -2,6 +2,8 @@
 //!
 //! Autonomous multi-agent scientific investigation pipeline in pure Rust.
 
+#![allow(dead_code)]
+
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::io::{self, Write};

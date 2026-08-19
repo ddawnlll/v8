@@ -6,6 +6,8 @@
 //! - 10-family structured null benchmark suite
 //! - Multiple testing deflated Sharpe ratio (DSR) & PBO
 
+#![allow(dead_code, clippy::manual_div_ceil, clippy::manual_is_multiple_of)]
+
 use serde::{Deserialize, Serialize};
 
 use crate::mt19937::MT19937;

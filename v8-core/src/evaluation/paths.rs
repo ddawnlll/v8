@@ -3,6 +3,8 @@
 //! Forensics for trade excursion paths (MFE/MAE, markouts, barrier sequences)
 //! and automated path classification into 6 diagnostic failure/opportunity taxons.
 
+#![allow(dead_code)]
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

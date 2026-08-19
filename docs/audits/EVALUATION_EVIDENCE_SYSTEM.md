@@ -751,3 +751,30 @@ The human-facing `report.html` renders a 23-section executive view:
 - **Section U — Refuted Hypotheses:** Preregistered claims formally disproven on the corpus.
 - **Section V — Unknowns & Epistemic Gaps:** Inconclusive queries requiring further data or instrumentation.
 - **Section W — Recommended Experiments:** Formally preregistered challenger specifications for subsequent iterations.
+
+---
+
+## 27. Integration with Target V8 Oracle Architecture (`TARGET_ORACLE_SPEC` v1.0)
+
+The `v8.eval.v1` evaluation evidence substrate operates as the empirical and agentic verification foundation for the 3-Oracle taxonomy (`PARITY_ORACLE`, `HINDSIGHT_ORACLE`, `TARGET_ORACLE`):
+
+1. **Opportunity Universe & Scout Agent Grounding:**
+   - Autonomous Scout Agents formulate behavioral hypotheses not solely against existing Expert Candidate logs, but against the versioned **Opportunity Universe** ($U_v(t)$) generated from PIT MarketState primitives.
+   - The metric `RepresentationalCoverageGap` (the ratio of hindsight opportunities captured by active Experts vs the Opportunity Grammar) serves as the primary anomaly detection trigger for Triage and Scout agents.
+
+2. **Counterfactual Identifiability & Authority Governance:**
+   - All counterfactual artifacts generated within `robustness/` and `paths/` are strictly bound to their Counterfactual Authority status (`IDENTIFIED`, `PARTIALLY_IDENTIFIED`, `MODEL_DERIVED`, `NOT_IDENTIFIABLE`) across execution levels ($L1, L2, L3, \text{LIVE\_RECEIPT}$).
+   - The Hard Validity Gates (Section 22) reject any promotion or ranking claim where counterfactual evidence exceeds its declared authority level (e.g., attempting to promote an L1 bar-replay finding as an L3 reactive impact result).
+
+3. **Harmonization of Failure Ontology (Section 19) & Regret Attribution:**
+   - The 9-category Failure Ontology directly feeds the 7-domain Non-Additive Regret Attribution tree:
+     - `DATA` & `SIGNAL` failures $\rightarrow$ **Detection Regret & Representation Regret**
+     - `ADMISSION` failures $\rightarrow$ **Selection Regret & Allocation Regret**
+     - `EXIT` failures $\rightarrow$ **Geometry Regret**
+     - `EXECUTION` failures $\rightarrow$ **Execution Regret**
+     - Unexplainable variance / unrecoverable components $\rightarrow$ **Irreducible Regret**
+
+4. **Audit Viewport Alignment (Sections A–W):**
+   - **Section S (Failure Attribution)** outputs the `RegretAttributionRecord` with isolated and marginal component effects.
+   - **Section V (Unknowns & Epistemic Gaps)** explicitly renders all `UNKNOWN` and fail-closed refusal outcomes as first-class epistemic receipts.
+   - **Section W (Recommended Experiments)** emits `DeploymentCertificate` candidates and preregistered challenger definitions for subsequent promotion stages.

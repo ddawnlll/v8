@@ -7,6 +7,8 @@
 //! - Expiry surface: E[R](Expiry_Bars)
 //! - Joint fragility metrics: Plateau width, Performance cliff, Local fragility index
 
+#![allow(dead_code)]
+
 use serde::{Deserialize, Serialize};
 
 pub const COST_GRID_BPS: [f64; 10] = [0.0, 1.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 15.0, 20.0];
