@@ -525,6 +525,96 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
 
     expert_table_html = "\n".join(expert_table_rows)
 
+    # Load Exit Ablation Receipt & Quantitative Analytics
+    ablation_receipt_path = audit_dir / "exit_ablation_receipt.json"
+    ablation_data = {}
+    if ablation_receipt_path.exists():
+        try:
+            with ablation_receipt_path.open("r", encoding="utf-8") as f:
+                ablation_data = json.load(f)
+        except Exception:
+            pass
+
+    ablation_rows = []
+    tca_rows = []
+    regime_rows = []
+
+    if ablation_data and "policies" in ablation_data:
+        for p in ablation_data["policies"]:
+            p_name = p.get("name", "")
+            n_ep = p.get("n_episodes", 0)
+            avg_r = p.get("avg_net_r", 0.0)
+            tot_r = p.get("total_net_r", 0.0)
+            wr = p.get("win_rate_pct", 0.0)
+            pf = p.get("profit_factor", 0.0)
+            delta_r = p.get("delta_net_r", 0.0)
+            m = p.get("metrics", {})
+            max_dd = m.get("max_drawdown_r", 0.0)
+            sharpe = m.get("sharpe_ratio", 0.0)
+            sortino = m.get("sortino_ratio", 0.0)
+            kelly_half = m.get("kelly_half", 0.0) * 100.0
+
+            tca = p.get("tca", {})
+            gross_r = tca.get("gross_market_r", 0.0)
+            fee_r = tca.get("fee_cost_r", 0.0)
+            fund_r = tca.get("funding_paid_r", 0.0)
+            net_r = tca.get("net_r", 0.0)
+
+            is_opt = "M7" in p_name or "M8" in p_name
+            highlight = 'style="background:rgba(22,163,74,0.08);font-weight:bold;"' if is_opt else ""
+
+            ablation_rows.append(f"""
+            <tr {highlight}>
+              <td><code>{html.escape(p_name)}</code></td>
+              <td class="mono">{n_ep:,}</td>
+              <td class="mono {'pos' if wr >= 50 else 'warn' if wr >= 40 else 'neg'}">{wr:.1f}%</td>
+              <td class="mono {'pos' if avg_r > 0 else 'neg'}">{avg_r:+.4f}R</td>
+              <td class="mono {'pos' if tot_r > 0 else 'neg'}">{tot_r:+.2f}R</td>
+              <td class="mono">{pf:.2f}</td>
+              <td class="mono {'pos' if delta_r > 0 else 'neg'}">{delta_r:+.2f}R</td>
+              <td class="mono neg">{max_dd:.1f}R</td>
+              <td class="mono {'pos' if sharpe > 0 else 'neg'}">{sharpe:+.2f}</td>
+              <td class="mono {'pos' if sortino > 0 else 'neg'}">{sortino:+.2f}</td>
+              <td class="mono {'pos' if kelly_half > 0 else 'neg'}">{kelly_half:.1f}%</td>
+            </tr>
+            """)
+
+            tca_rows.append(f"""
+            <tr {highlight}>
+              <td><code>{html.escape(p_name)}</code></td>
+              <td class="mono {'pos' if gross_r > 0 else 'neg'}">{gross_r:+.2f}R</td>
+              <td class="mono neg">-{fee_r:.2f}R</td>
+              <td class="mono neg">-{fund_r:.2f}R</td>
+              <td class="mono {'pos' if net_r > 0 else 'neg'}">{net_r:+.2f}R</td>
+            </tr>
+            """)
+
+        reg_data = ablation_data.get("regime_breakdown", {})
+        for reg_name, r_stats in sorted(reg_data.items()):
+            if reg_name.startswith("Trend_") or reg_name.startswith("Vol_") or reg_name.startswith("Funding_"):
+                r_n = r_stats.get("n_trades", 0)
+                r_wr = r_stats.get("win_rate_pct", 0.0)
+                r_avg = r_stats.get("avg_net_r", 0.0)
+                r_tot = r_stats.get("total_net_r", 0.0)
+                r_pf = r_stats.get("profit_factor", 0.0)
+                is_win = r_tot > 0
+                reg_hl = 'style="background:rgba(22,163,74,0.08);font-weight:bold;"' if is_win else ""
+
+                regime_rows.append(f"""
+                <tr {reg_hl}>
+                  <td><b>{html.escape(reg_name)}</b></td>
+                  <td class="mono">{r_n:,}</td>
+                  <td class="mono {'pos' if r_wr >= 50 else 'warn' if r_wr >= 40 else 'neg'}">{r_wr:.1f}%</td>
+                  <td class="mono {'pos' if r_avg > 0 else 'neg'}">{r_avg:+.4f}R</td>
+                  <td class="mono {'pos' if r_tot > 0 else 'neg'}">{r_tot:+.2f}R</td>
+                  <td class="mono">{r_pf:.2f}</td>
+                </tr>
+                """)
+
+    ablation_table_html = "\n".join(ablation_rows)
+    tca_table_html = "\n".join(tca_rows)
+    regime_table_html = "\n".join(regime_rows)
+
     # Detailed Forensic Cards for Each Expert
     expert_cards = []
     for eid, exp in sorted(data["experts"].items()):
@@ -1004,9 +1094,75 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     </table>
   </div>
 
-  <!-- Section 7: All 28 Strategy Experts Status Table -->
+  <!-- Section 7: Full-Spectrum Institutional Quantitative Suite -->
+  <div class="card" style="border-left: 4px solid #0284c7;">
+    <h2>7 — Full-Spectrum Institutional Quantitative Suite (Factorial Ablation, 4D Regimes & TCA)</h2>
+    <div class="sec">Authoritative pure-Rust execution over 1,774 unique candidate episodes via <code>v8-core exit-ablation</code>.</div>
+
+    <h4 style="margin:16px 0 8px;">1. Factorial Exit Policy Ablation Matrix & Risk-Adjusted Metrics</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Policy Model (Rust Backend-0)</th>
+          <th>Episodes (N)</th>
+          <th>Win Rate (%)</th>
+          <th>Avg Net R</th>
+          <th>Total Net R</th>
+          <th>Profit Factor</th>
+          <th>Delta Net R</th>
+          <th>Max DD (R)</th>
+          <th>Sharpe Ratio</th>
+          <th>Sortino Ratio</th>
+          <th>Half-Kelly Sizing</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ablation_table_html}
+      </tbody>
+    </table>
+
+    <div class="grid2" style="margin-top:20px;">
+      <div>
+        <h4 style="margin:0 0 8px;">2. 4D Point-in-Time Market Regime Alpha Breakdown</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Regime Habitat (Trend / Vol / Funding)</th>
+              <th>N</th>
+              <th>Win Rate (%)</th>
+              <th>Avg Net R</th>
+              <th>Total Net R</th>
+              <th>Profit Factor</th>
+            </tr>
+          </thead>
+          <tbody>
+            {regime_table_html}
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin:0 0 8px;">3. 5-Component Transaction Cost Attribution (TCA)</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Policy Model</th>
+              <th>Gross Market R</th>
+              <th>Fee Drag R</th>
+              <th>Funding Paid R</th>
+              <th>Net Realized R</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tca_table_html}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 8: All 28 Strategy Experts Status Table -->
   <div class="card">
-    <h2>7 — Strategy Expert Registry & Operational Status (28 Families)</h2>
+    <h2>8 — Strategy Expert Registry & Operational Status (28 Families)</h2>
     <div class="sec">Click any expert family name to jump directly to its complete forensic card.</div>
     <table>
       <thead>
@@ -1028,16 +1184,16 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     </table>
   </div>
 
-  <!-- Section 8: Per-Expert Detailed Forensic Cards -->
+  <!-- Section 9: Per-Expert Detailed Forensic Cards -->
   <div class="card">
-    <h2>8 — Per-Expert Detailed Forensic Drill-Downs</h2>
+    <h2>9 — Per-Expert Detailed Forensic Drill-Downs</h2>
     <div class="sec">Full census, directionality, and parameter declarations for each strategy family.</div>
     {expert_cards_html}
   </div>
 
-  <!-- Section 9: Invariant Verification & Cryptographic Ledger Audit -->
+  <!-- Section 10: Invariant Verification & Cryptographic Ledger Audit -->
   <div class="card">
-    <h2>9 — Invariant Verification & Cryptographic Ledger Audit</h2>
+    <h2>10 — Invariant Verification & Cryptographic Ledger Audit</h2>
     <div class="sec">Verification that all mathematical, architectural, and oracle invariants hold under strict release execution.</div>
     <table>
       <thead>

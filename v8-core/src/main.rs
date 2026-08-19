@@ -42,6 +42,7 @@ mod hash;
 mod jsonx;
 mod mt19937;
 mod oracle;
+pub mod quant;
 mod regret;
 mod report;
 mod runloop;

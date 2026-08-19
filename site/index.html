@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-venue-and-capital-simulation-spec">VENUE AND CAPITAL SIMULATION SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
 <ol>
 <li>V8 is a falsification program, not a promise of edge.</li>
 <li>A claim is labeled <code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>,
@@ -4598,6 +4598,191 @@ budget the policy spends on adverse gaps and forgives on favorable ones.</p>
 <code>open == prev_close</code> on 51.7% — but it concentrates in illiquid symbols and
 high-volatility regimes (liquidation cascades), so it must be re-measured per
 symbol/interval before any economic reading leans on gap-heavy windows.</p></section>
+<section id="sec-venue-and-capital-simulation-spec"><h1>VENUE AND CAPITAL SIMULATION SPEC</h1><h1 id="venue-capital-simulation-specification-v10">Venue &amp; Capital Simulation Specification v1.0</h1>
+<p><strong>Owning contract:</strong> <code>VENUE_AND_CAPITAL_SIMULATION_SPEC.md</code><br>
+<strong>Status:</strong> LOCKED SPECIFICATION<br>
+<strong>Decisions:</strong> D-028A, D-028B, D-109, D-110, D-111, D-112, D-113, D-114, D-115, D-116  </p>
+<hr>
+<h2 id="1-ontological-separation-r-space-diagnostics-vs-usdt-space-economics">1. Ontological Separation: R-Space Diagnostics vs USDT-Space Economics</h2>
+<p>V8 strictly decouples strategy-normalized research coordinates ($R$-space) from monetary capital realities ($\text{USDT}$-space). They are non-fungible quantities governed by distinct authority levels (D-109).</p>
+<pre><code class="language-mermaid">graph TD
+    subgraph Research Plane [Research &amp; Diagnostic Plane]
+        MD[Market Data] --&gt; MS[MarketState]
+        MS --&gt; EXP[Deterministic Experts]
+        EXP --&gt; CAND[Candidate Hypotheses]
+        CAND --&gt; RSIM[R-Space Replay / ScalarKernel]
+        RSIM --&gt; OC[Outcome Cube &amp; Local Hindsight]
+    end
+
+    subgraph Economic Plane [Authoritative Economic Plane]
+        VS[VenueState: Binance USD-M Rules]
+        AS[AccountState: Wallet / Margin / Tier]
+        PS[PortfolioState: Open Positions / Orders]
+
+        CAND --&gt; ALLOC[Risk Budget Allocator]
+        ALLOC --&gt; ORDRQ[Order Request]
+        ORDRQ --&gt; ESIM[USD-M Exchange Simulator]
+        VS --&gt; ESIM
+        AS --&gt; ESIM
+        PS --&gt; ESIM
+
+        ESIM --&gt; CASH[USDT Cashflow Ledger]
+        CASH --&gt; PSTATE[Next PortfolioState]
+        CASH --&gt; HIND2[Capital-Constrained Portfolio Hindsight Oracle]
+    end
+</code></pre>
+<h3 id="11-formal-currency-and-unit-definitions">1.1 Formal Currency and Unit Definitions</h3>
+<ol>
+<li><strong><code>PriceRiskUnit</code> ($R_{\text{price}}$)</strong>: The price distance between entry price and the initial stop loss level ($\Delta P_{\text{stop}} = |P_{\text{entry}} - P_{\text{stop}}|$).</li>
+<li><strong><code>RiskBudgetUSDT</code> ($B_{\text{USDT}}$)</strong>: The nominal dollar risk allocated to an episode from current portfolio equity:
+   [
+   B_{\text{USDT}} = \text{Equity}<em>{\text{USDT}} \times f</em>{\text{risk}}
+   ]</li>
+<li><strong><code>RawQuantity</code> ($Q_{\text{raw}}$)</strong>: The unconstrained contract quantity before exchange step-size discretization:
+   [
+   Q_{\text{raw}} = \frac{B_{\text{USDT}}}{\Delta P_{\text{stop}}}
+   ]</li>
+<li><strong><code>EffectiveInitialRiskUSDT</code> ($R_{\text{effective}}$)</strong>: The exact physical dollar risk after <code>LOT_SIZE</code> rounding and minimum notional checks:
+   [
+   R_{\text{effective}} = Q_{\text{discretized}} \times \Delta P_{\text{stop}}
+   ]</li>
+<li><strong><code>PnLUSDT</code> ($\text{PnL}_{\text{USDT}}$)</strong>: The net realized cash balance delta in account currency, accounting for execution prices, tiered trading fees, slippage, and cumulative funding cashflows.</li>
+<li><strong><code>NormalizedR</code> ($R_{\text{norm}}$)</strong>: The capital-risk multiple realized by the portfolio:
+   [
+   R_{\text{norm}} = \frac{\text{PnL}<em>{\text{USDT}}}{R</em>{\text{effective}}}
+   ]</li>
+</ol>
+<hr>
+<h2 id="2-the-4-part-state-ontology-d-110">2. The 4-Part State Ontology (D-110)</h2>
+<p>The system rejects conflating market state with account or exchange state. The runtime state at decision time $t$ is partitioned into four orthogonal, immutable structs:</p>
+<pre><code class="language-rust">pub struct DecisionState {
+    pub market: MarketState,
+    pub venue: VenueState,
+    pub account: AccountState,
+    pub portfolio: PortfolioState,
+}
+</code></pre>
+<ol>
+<li><strong><code>MarketState(t)</code></strong>: Point-in-Time prices, returns, order flow metrics, rolling volatility (ATR), and technical feature arrays. Exogenous to the participant.</li>
+<li><strong><code>VenueState(t)</code></strong>: Versioned exchange rules (<code>VenueContract</code>), tick size, lot step size, minimum notional constraints, mark price streams, and leverage brackets.</li>
+<li><strong><code>AccountState(t)</code></strong>: Wallet balance ($\text{USDT}$), available margin balance, total equity, margin mode (Cross/Isolated), and tiered maker/taker fee rates.</li>
+<li><strong><code>PortfolioState(t)</code></strong>: Active positions, open conditional orders, initial margin allocated, maintenance margin requirement, unrealized PnL, and portfolio heat.</li>
+</ol>
+<hr>
+<h2 id="3-versioned-venuecontract-binance-usds-m-d-111">3. Versioned VenueContract: Binance USDⓈ-M (D-111)</h2>
+<p>Binance USDⓈ-M is formalized as an <code>Environment/VenueContract</code>, not a distinct Oracle role.</p>
+<pre><code class="language-rust">pub struct VenueContract {
+    pub venue_id: String,                  // &quot;BINANCE_USDM&quot;
+    pub instrument: String,                // &quot;BTCUSDT&quot;
+    pub contract_type: ContractType,       // PERPETUAL
+    pub price_filter: PriceFilter,         // minPrice, maxPrice, tickSize
+    pub lot_size: LotSizeFilter,           // minQty, maxQty, stepSize
+    pub min_notional: f64,                 // 5.0 USDT
+    pub fee_model: FeeModel,               // Tiered Maker/Taker BPS
+    pub funding_interval_hours: i64,       // 8 hours
+    pub leverage_brackets: Vec&lt;Bracket&gt;,   // Max leverage per notional tier
+    pub liquidation_model: LiquidationModel,// Maintenance margin rate schedule
+}
+</code></pre>
+<h3 id="31-leverage-as-a-margin-constraint-not-an-edge-multiplier">3.1 Leverage as a Margin Constraint, Not an Edge Multiplier</h3>
+<p>Leverage does not multiply strategy expectancy; it defines the capital/margin feasibility boundary:
+[
+\text{InitialMarginRequired} = \frac{\text{Notional}}{\text{Leverage}} = \frac{Q \times P_{\text{entry}}}{\text{Leverage}}
+]
+If $\text{InitialMarginRequired} &gt; \text{AvailableBalance}_{\text{USDT}}$, the trade is rejected with <code>INSUFFICIENT_AVAILABLE_BALANCE</code>.</p>
+<hr>
+<h2 id="4-finite-capital-allocation-rejection-reasons">4. Finite Capital Allocation &amp; Rejection Reasons</h2>
+<p>When candidates fire, the mandatory <code>RiskBudgetAllocator</code> filters candidates through physical exchange legality:</p>
+<pre><code class="language-text">Candidate Setup
+       │
+       ▼
+Risk Budget Calculation (Equity × RiskFraction)
+       │
+       ▼
+Quantity Derivation (Budget / StopDistance)
+       │
+       ▼
+LOT_SIZE Discretization (stepSize) ──&gt; [If Q == 0] ──&gt; QUANTITY_ROUNDS_TO_ZERO
+       │
+       ▼
+MIN_NOTIONAL Check (Q × P &gt;= $5) ────&gt; [If Notional &lt; $5] ──&gt; MIN_NOTIONAL_REJECTED
+       │
+       ▼
+Margin &amp; Leverage Bracket Check ────&gt; [If Margin &gt; Avail] ─&gt; INSUFFICIENT_AVAILABLE_BALANCE
+       │
+       ▼
+Slot / Concurrency Limit Check ──────&gt; [If Slots Full] ────&gt; CAPITAL_CONSTRAINT_REJECTION
+       │
+       ▼
+Legal Execution Order Dispatched
+</code></pre>
+<hr>
+<h2 id="5-5-component-cashflow-ledger">5. 5-Component Cashflow Ledger</h2>
+<p>Every trade records an immutable, cashflow-level ledger in account currency:</p>
+<pre><code class="language-rust">pub struct EconomicCashflow {
+    pub event_time: i64,
+    pub candidate_id: String,
+    pub realized_market_pnl_usdt: f64,
+    pub commission_usdt: f64,
+    pub funding_cashflow_usdt: f64,
+    pub slippage_usdt: f64,
+    pub gap_through_stop_usdt: f64,
+    pub net_pnl_usdt: f64,
+    pub wallet_balance_before: f64,
+    pub wallet_balance_after: f64,
+}
+</code></pre>
+<p>[
+\text{NetPnL}_{\text{USDT}} = \text{RealizedMarketPnL} - \text{Commission} \pm \text{FundingCashflow} - \text{Slippage} - \text{GapPenalty}
+]</p>
+<hr>
+<h2 id="6-dual-hindsight-oracle-architecture-d-112">6. Dual Hindsight Oracle Architecture (D-112)</h2>
+<p>V8 establishes two formally separated Hindsight Ceilings:</p>
+<pre><code class="language-text">┌─────────────────────────────────────────────────────────────────────────────┐
+│ 1. UNCONSTRAINED LOCAL HINDSIGHT CEILING (Diagnostic / R-Space)             │
+│    - Infinite capital assumption                                             │
+│    - Evaluates every Candidate episode independently                         │
+│    - Metric: +490.82R (Theoretical opportunity ceiling)                      │
+│    - Status: NO_ECONOMIC_CLAIM (Research diagnostic tool)                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 2. CAPITAL-CONSTRAINED PORTFOLIO HINDSIGHT CEILING (Economic / USDT-Space)   │
+│    - Finite wallet balance (e.g. 1,000 USDT initial equity)                  │
+│    - Strict Binance USDⓈ-M rules, margin brackets, and concurrency limits    │
+│    - Dynamic Programming Path: V*(Market, Account, Portfolio, Venue)         │
+│    - Metric: Maximum legal realizable terminal equity (e.g. +147.32 USDT)    │
+│    - Status: AUTHORITATIVE ECONOMIC BENCHMARK                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="7-4-part-regret-attribution-taxonomy">7. 4-Part Regret Attribution Taxonomy</h2>
+<p>The system decomposes the delta between the theoretical market opportunity and realized performance into four mutually exclusive regret categories:</p>
+<ol>
+<li><strong><code>StructuralRegret</code></strong>: Opportunities existing in market data that the Expert grammar/feature plane failed to represent.</li>
+<li><strong><code>ExecutionRegret</code></strong>: Lost value due to execution delays, entry spread, slippage, and adverse intrabar fill paths.</li>
+<li><strong><code>AllocationRegret</code></strong>: Lost value when competing valid setups occurred simultaneously and finite margin selected a suboptimal candidate.</li>
+<li><strong><code>PolicyRegret</code></strong>: Lost value resulting from suboptimal exit timing, premature stop-outs, or trailing parameter decay.</li>
+</ol>
+<hr>
+<h2 id="8-multidimensional-execution-authority-profile-d-114">8. Multidimensional Execution Authority Profile (D-114)</h2>
+<p>The one-dimensional $L_1/L_2/L_3$ ladder is upgraded to an orthogonal <code>ExecutionAuthorityProfile</code>:</p>
+<pre><code class="language-rust">pub struct ExecutionAuthorityProfile {
+    pub market_path: MarketPathFidelity,       // Bar | SubBar1m | AggTrades | L2OrderBook
+    pub venue_rules: VenueRuleFidelity,         // Generic | BinanceUsdM_Versioned
+    pub fill_authority: FillAuthority,          // Canonical | AggressiveObserved | PassiveModelled | Live
+    pub impact_authority: ImpactAuthority,      // None | ExogenousBps | CalibratedReactive
+    pub account_authority: AccountAuthority,    // Unconstrained | CapitalConstrained | LiveShadow
+    pub identifiability: IdentifiabilityStatus, // Identified | PartialInterval | ModelDerived | Unknown
+}
+</code></pre>
+<hr>
+<h2 id="9-monograph-contract-invariants">9. Monograph &amp; Contract Invariants</h2>
+<ul>
+<li><strong><code>D-113</code></strong>: <code>EconomicCaptureRatio</code> may only be computed when <code>population_hash</code>, <code>venue_contract_hash</code>, <code>capital_contract_hash</code>, <code>cost_model_hash</code>, and <code>execution_authority_hash</code> are identical across numerator and denominator. Otherwise, the metric is marked <code>CAPTURE_RATIO_NOT_IDENTIFIABLE</code>.</li>
+<li><strong><code>D-115</code></strong>: Same-bar stop/target ambiguity without tick path resolution emits a partial-identification interval (<code>OutcomeBound [Lower, Upper]</code>), never a false point-valued claim.</li>
+</ul></section>
 <section id="sec-outcome-cube-spec"><h1>OUTCOME CUBE SPEC</h1><h1 id="outcome-cube-specification">Outcome Cube Specification</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. Sections 2-3 and 6 describe the instrument as
 <strong>built</strong> in V8.0 (<code>tools/regret.py</code>, admitted by D-071) and are
@@ -7817,6 +8002,14 @@ historical design record and this table is the correction layer.</p>
 <p>| D-106 | <strong>Decouple observable price behavior from causal mechanism hypotheses.</strong> <code>docs/EXPERTS_REGISTRY.yaml</code> and <code>v8-core/src/experts/base.rs</code> decouple <code>behavior_family_id</code> (observable price patterns) from <code>mechanism_family_id</code> (causal hypotheses). Price-only experts carry default <code>evidence_status: HYPOTHESIS_ONLY</code>. Upgrading to causal mechanism claims requires an explicit <code>EvidenceManifest</code> (<code>claim</code>, <code>identification_strategy</code>, <code>required_observables</code>, <code>assumptions</code>, <code>falsification_tests</code>). Metamorphic tests verify that mutating mechanism labels preserves bit-identical economic evaluation results. | PROVISIONAL_DECISION | Issue #162; <code>EXPERT_PROTOCOL</code> §1, <code>HYPOTHESIS_LAB_PROTOCOL</code> §2. Prevents observational price patterns from being reified as proven causal mechanisms without required order-flow/liquidation observables. |</p>
 <p>| D-107 | <strong>Purge superseded single-unit multiplicity clause and enforce machine-checkable Authority Ledger.</strong> <code>docs/contracts/EXPERT_PROTOCOL.md</code> §1 purges the superseded "all variants count as one multiplicity unit" text and binds within-family multiplicity correction to White's (2000) Reality Check block-bootstrap procedure over <code>variants_evaluated</code> (D-044, D-046) in <code>v8-core/src/statistics/reality_check.rs</code>. <code>v8-core/src/authority.rs</code> provides an executable <code>AuthorityLedger</code> validating that every governance domain resolves to exactly one active decision (<code>resolve_active_rule("multiplicity") -&gt; D-044</code>). Conflicting active rules fail closed with <code>CONFLICTING_ACTIVE_AUTHORITY</code>. | PROVISIONAL_DECISION | Issue #163; <code>V8_CONSTITUTION</code> rule 2, <code>WORK_ITEM_POLICY.md</code> §Precedence. Monotonicity tests verify that adding null variants never loosens critical thresholds. |</p>
 <p>| D-108 | <strong>Decouple independent candidate evaluation from downstream portfolio allocation.</strong> Candidate economic evaluation runs independently of portfolio admission in <code>v8-core/src/runloop.rs</code>. All detected candidates receive independent counterfactual replay outcomes. Portfolio allocation is a distinct downstream layer producing structured records tagged with <code>allocator_policy_id: baseline_riskgate_v1</code>, <code>allocator_version: v1</code>, <code>allocation_verdict</code>, <code>allocation_reason</code>, and <code>portfolio_conditional = true</code>. Contention-losing candidates retain full independent outcomes. | PROVISIONAL_DECISION | Issue #158; <code>CANDIDATE_LIFECYCLE_SPEC</code> §1.1, <code>OUTCOME_CUBE_SPEC</code> §2. Metamorphic tests verify that candidate economic merit is invariant to expert naming and portfolio contention. |</p>
+<p>| D-109 | <strong>R-space diagnostics and USDT-space economics are distinct, non-fungible authorities.</strong> <code>PriceRiskUnit</code> (price distance), <code>RiskBudgetUSDT</code> (nominal capital at risk), <code>EffectiveInitialRiskUSDT</code> (post-lot-step risk), <code>PnLUSDT</code> (monetary cashflow), and <code>NormalizedR</code> (realized return divided by effective initial risk) are formally decoupled. R is an analytical diagnostic coordinate system; physical account balances and terminal equity are authoritative economics (<code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §1). | LOCKED_INVARIANT candidate | Eliminates the category error of summing unconstrained dimensionless R units to claim monetary profit. |</p>
+<p>| D-110 | <strong>State ontology partitions into four orthogonal, immutable structures.</strong> The monolithic <code>MarketState</code> is split into <code>MarketState</code> (exogenous prices, funding, volatility, signals), <code>VenueState</code> (exchange filters, tick/step size, min notional, leverage brackets), <code>AccountState</code> (wallet balance, available margin, equity, fee tier), and <code>PortfolioState</code> (positions, open orders, initial/maintenance margin, unrealized PnL). | LOCKED_INVARIANT | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §2. Prevents participant and account state from leaking into market data features. |</p>
+<p>| D-111 | <strong>Binance USDⓈ-M is an Environment/VenueContract, not a distinct Oracle role.</strong> Exchange-specific mechanics (PRICE_FILTER, LOT_SIZE, MIN_NOTIONAL, leverage brackets, liquidation margin schedules, tiered maker/taker fees) are encapsulated in versioned <code>VenueContract</code> configurations within the existing Oracle taxonomy (<code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §3). | PROVISIONAL_DECISION | Preserves the three-role Oracle taxonomy (<code>ParityOracle</code>, <code>HindsightOracle</code>, <code>TargetOracle</code>) while enabling venue realism. |</p>
+<p>| D-112 | <strong>Hindsight Oracle formally separates Local Candidate Ceiling from Capital-Constrained Portfolio Ceiling.</strong> Unconstrained candidate-bound hindsight (<code>UNCONSTRAINED_LOCAL_HINDSIGHT_CEILING</code>, e.g. +490.82R) is strictly a research diagnostic ceiling. Monetary claims require the path-dependent <code>CAPITAL_CONSTRAINED_PORTFOLIO_HINDSIGHT_CEILING</code> ($V^*(S_t)$ in USDT) respecting finite initial equity, margin concurrency, and physical order legality. | LOCKED_INVARIANT | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §6. Closes the population and capital divergence between individual trade opportunities and portfolio realities. |</p>
+<p>| D-113 | <strong>Economic Capture Ratio strictly requires identical population, venue, capital, cost, and authority contract hashes.</strong> If numerator and denominator differ in cohort population, initial equity, or execution fidelity, the metric is marked <code>CAPTURE_RATIO_NOT_IDENTIFIABLE</code>. Comparing unconstrained R with constrained portfolio PnL is forbidden. | LOCKED_INVARIANT | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §9. Prevents invalid ratio claims across mismatched evaluation frames. |</p>
+<p>| D-114 | <strong>Multidimensional ExecutionAuthorityProfile replaces the 1D L1/L2/L3 ladder.</strong> Execution realism is parameterized across orthogonal axes: <code>market_path</code> (Bar/1m/Trades/L2), <code>venue_rules</code> (Generic/Versioned), <code>fill_authority</code> (Canonical/Aggressive/Passive/Live), <code>impact_authority</code> (None/Exogenous/Reactive), and <code>account_authority</code> (Unconstrained/CapitalConstrained/Live). | PROVISIONAL_DECISION | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §8; arXiv LOB simulation literature (2024-2026). |</p>
+<p>| D-115 | <strong>Intrabar-unidentified counterfactuals emit partial-identification intervals, not point-valued Oracle truth.</strong> When high and low barriers are both breached on a single bar without sub-bar path data, the outcome is recorded as an <code>OutcomeBound [Lower, Upper]</code> (Brownian Bridge / STOP_FIRST bounds) rather than a single fabricated point estimate. | LOCKED_INVARIANT | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §9; Manski partial identification doctrine. |</p>
+<p>| D-116 | <strong>Economic certification requires an independent cashflow ledger validator.</strong> Production economic claims require differential reconciliation of every order, fill, commission, funding payment, and terminal wallet balance against an independent reference simulator. | LOCKED_INVARIANT candidate | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §1; ensures monetary accounting has parity verification. |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
