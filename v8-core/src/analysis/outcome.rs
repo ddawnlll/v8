@@ -122,6 +122,7 @@ mod tests {
             market_move_r: 2.0,
             cost_r: 0.07,
             funding_r: 0.0,
+            intervention_manifest: None,
         }
     }
 

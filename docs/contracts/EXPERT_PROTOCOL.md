@@ -44,9 +44,11 @@ Expert and the Candidate produce records directly.
 Each Expert carries `mechanism_family_id`, `behavior_family_id`, `expert_id`,
 `expert_version`, and `variant_id` where applicable. Parameter, threshold,
 lookback, and geometry changes are **variants of the same hypothesis family**,
-never separate Experts; all variants of one family count as a single
-multiplicity unit in the family-level multiple-testing correction
-(`V8_CONSTITUTION` rule 13).
+never separate Experts. Within-family variant exploration is corrected via
+White's (2000) Reality Check block-bootstrap max-statistic procedure across
+every evaluated variant (D-044 / D-046 / D-107, implemented natively in
+`v8-core/src/statistics/reality_check.rs`), spending the family's allocated
+`α_f` budget rather than treating multiple variant searches as zero-cost.
 
 The usefulness test for "separate Expert or variant": if two rules can be
 falsified independently — different mechanism claim, setup, trigger, or

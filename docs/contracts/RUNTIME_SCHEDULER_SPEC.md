@@ -84,11 +84,11 @@ claim is admissible until it is independently renewed.
 2. Two events with identical timestamps are processed in the declared
    tie-break order, deterministically, across runs.
 3. Shuffle the caller's Expert list; results and stored events are identical.
-   The runtime sorts by `expert_id` before evaluating, so this holds under full
-   exposure contention too, not only when Experts rarely coincide
-   (`tests/test_admission_contention.py`). The surviving tie-break for a
-   contested exposure slot is therefore that lexicographic order — deterministic
-   but arbitrary; replacing it with a ranking is gated by rule 6 / D-008
+   The runtime sorts by the declared canonical dispatch order (`R-ALLOC-001` / D-103:
+   ascending `sha1(Canon(expert_id))`) before evaluating, so this holds under full
+   exposure contention too, not only when Experts rarely coincide. The surviving tie-break for a
+   contested exposure slot is therefore that declared order — deterministic and
+   economically neutral; replacing it with a ranking is gated by rule 6 / D-008
    (O-006 / O-012).
 4. A replay run and a live-adaptor contract test produce the same event
    stream for the same tape window.

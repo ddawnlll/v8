@@ -61,6 +61,9 @@ pub fn outcome_from_value(value: &Value) -> Result<Outcome, String> {
             .map(str::to_string)
             .ok_or_else(|| format!("cache outcome missing string field {name}"))
     };
+    let intervention_manifest = value
+        .get("intervention_manifest")
+        .and_then(|v| serde_json::from_value(v.clone()).ok());
     Ok(Outcome {
         endpoint: string("endpoint")?,
         net_r: number("net_r")?,
@@ -75,6 +78,7 @@ pub fn outcome_from_value(value: &Value) -> Result<Outcome, String> {
         market_move_r: number("market_move_r")?,
         cost_r: number("cost_r")?,
         funding_r: number("funding_r")?,
+        intervention_manifest,
     })
 }
 
@@ -534,6 +538,7 @@ mod tests {
             market_move_r: 0.75,
             cost_r: 0.07,
             funding_r: -0.01,
+            intervention_manifest: None,
         };
         let value = outcome_to_value(&source);
         let restored = outcome_from_value(&value).unwrap();

@@ -3,21 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>V8.2 Core Deep Forensic Audit & Kernel Inspection</title>
+  <title>V8.2 Core Deep Forensic Audit & Target Oracle System Inspector</title>
   <style>
 :root {
   --ink: #0f172a; --muted: #64748b; --accent: #2563eb; --accent-dark: #1e40af;
   --pos: #16a34a; --neg: #dc2626; --warn: #d97706; --bg: #f8fafc;
   --card: #ffffff; --border: #e2e8f0; --code-bg: #1e293b; --code-fg: #f1f5f9;
+  --purple: #7c3aed; --purple-light: #f5f3ff;
 }
 * { box-sizing: border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   color: var(--ink); margin: 0; background: var(--bg); line-height: 1.5; font-size: 13.5px;
 }
-.wrap { max-width: 1280px; margin: 0 auto; padding: 24px 20px 80px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 24px 20px 80px; }
 header {
-  background: linear-gradient(135deg, #0f172a, #1e3a8a); color: #fff;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a, #312e81); color: #fff;
   border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
 }
 header h1 { margin: 0 0 6px; font-size: 24px; font-weight: 700; }
@@ -30,6 +31,7 @@ header .sub { opacity: .85; font-size: 13.5px; margin-bottom: 16px; }
 .badge-warn { background: #d97706; color: #fff; }
 .badge-bad { background: #dc2626; color: #fff; }
 .badge-info { background: #2563eb; color: #fff; }
+.badge-purple { background: #7c3aed; color: #fff; }
 .meta-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px; margin-top: 18px; font-size: 12px; opacity: .95;
@@ -57,11 +59,13 @@ header .sub { opacity: .85; font-size: 13.5px; margin-bottom: 16px; }
   display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0;
 }
 .pipe-step {
-  flex: 1; min-width: 140px; background: #f1f5f9; border: 1px solid #cbd5e1;
+  flex: 1; min-width: 130px; background: #f1f5f9; border: 1px solid #cbd5e1;
   border-radius: 6px; padding: 10px 12px; font-size: 11.5px;
 }
 .pipe-step b { display: block; color: var(--accent-dark); font-size: 12.5px; margin-bottom: 4px; }
 .pipe-step code { font-size: 10.5px; color: #475569; }
+.pipe-step.oracle-step { background: #f5f3ff; border-color: #c4b5fd; }
+.pipe-step.oracle-step b { color: #6d28d9; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
 th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--border); }
 th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; background: #f8fafc; }
@@ -89,6 +93,10 @@ details[open] { background: #fff; }
   background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 16px;
   border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px;
 }
+.oracle-note {
+  background: #f5f3ff; border-left: 4px solid #7c3aed; padding: 12px 16px;
+  border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px;
+}
 .warn-note {
   background: #fffbeb; border-left: 4px solid #d97706; padding: 12px 16px;
   border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px;
@@ -100,25 +108,28 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
 <div class="wrap">
 
   <header>
-    <h1>V8.2 Core Deep Forensic Audit & Execution Trace</h1>
-    <div class="sub">Authoritative Rust Compute Plane (`v8-core`) · Comprehensive Component Call & Invariant Verification</div>
-    <div style="display:flex;gap:10px;align-items:center;">
+    <h1>V8.2 Core Deep Forensic Audit & Target Oracle System Inspector</h1>
+    <div class="sub">Authoritative Rust Compute Plane (`v8-core`) · S0..S7 Execution + O0..O3 Target Oracle & Evidence System</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
       <span class="badge badge-ok">VERDICT: FAIL-CLOSED SECURE</span>
       <span class="badge badge-info">AUTHORITY: RUST RELEASE RUNTIME (D-097)</span>
+      <span class="badge badge-purple">ORACLE: O0–O3 CONTRACT CERTIFIED (D-102)</span>
+      <span class="badge badge-ok">EVIDENCE: v8.eval.v1 READY</span>
       <span class="badge badge-info">28 EXPERTS CERTIFIED</span>
     </div>
     <div class="meta-grid">
-      <div><b>Audit Generated:</b> 2026-08-18 23:24:01 UTC</div>
+      <div><b>Audit Generated:</b> 2026-08-19 02:52:32 UTC</div>
       <div><b>Evaluated Bars:</b> 9,948 (12-Month 1h BTCUSDT)</div>
       <div><b>Total Evaluations:</b> 245,280</div>
+      <div><b>Target Oracle Opportunities:</b> 27,881 Reconciled</div>
       <div><b>Rust Release Binary:</b> <code>v8-core v0.2.0 (opt-level=3)</code></div>
     </div>
   </header>
 
   <!-- Section 0: System Architecture & Component Call Trace -->
   <div class="card">
-    <h2>0 — S0..S7 Component Execution Pipeline & System Interfaces</h2>
-    <div class="sec">Structural trace of how every bar moves through the Rust kernel boundaries without FFI callbacks.</div>
+    <h2>0 — S0..S7 + O0..O3 Complete Execution Pipeline & Subsystem Architecture</h2>
+    <div class="sec">Structural trace of how every bar and opportunity moves through the pure Rust kernel boundaries without FFI callbacks.</div>
     <div class="pipeline">
       <div class="pipe-step">
         <b>S0: Ingest</b>
@@ -168,10 +179,16 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
         Reality Check RC<br>
         <code>report.v82</code>
       </div>
+      <div class="pipe-step oracle-step">
+        <b>O0–O3: Oracle</b>
+        <code>oracle::coverage</code><br>
+        <code>reconcile_coverage</code><br>
+        <code>NO_ECONOMIC_CLAIM</code>
+      </div>
     </div>
 
     <div class="agent-note">
-      <b>Agent Evaluation Context:</b> All stages execute in compiled Rust release mode with <code>--fp-contract=off</code>, ensuring deterministic IEEE-754 floating point arithmetic across ARM64 (Apple Silicon) and x86_64 (Linux CI).
+      <b>Deterministic Compute & Boundary Guarantees:</b> All stages execute in compiled Rust release mode with <code>--fp-contract=off</code>, ensuring deterministic IEEE-754 floating point arithmetic across ARM64 (Apple Silicon) and x86_64 (Linux CI). Python codebase is strictly frozen (D-100); CI runtime path is pure Rust.
     </div>
   </div>
 
@@ -395,12 +412,1926 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
         
       </tbody>
     </table>
-    <div class="sec" style="margin-top:8px;">Showing first 15 transitions. Full stream persisted in <code>candidate-transitions.jsonl</code> (16.8 MB).</div>
+    <div class="sec" style="margin-top:8px;">Showing first 15 transitions. Full stream persisted in <code>candidate-transitions.jsonl</code>.</div>
   </div>
 
-  <!-- Section 4: All 28 Strategy Experts Status Table -->
+  <!-- Section 4: Target Oracle O0-O3 Substrate -->
+  <div class="card" style="border-left: 4px solid #7c3aed;">
+    <h2>4 — Target Oracle (O0–O3) Substrate & Representational Coverage Reconciliation</h2>
+    <div class="sec">Opportunity Universe population reconciliation against shipped expert proposals (<code>TARGET_ORACLE_SPEC</code> §§5, 8, 9, 16–18, D-101, D-102).</div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="k">Universe Opportunities (N_opp)</div>
+        <div class="v">27,881</div>
+        <div class="d">Total grammar candidates</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Supported Opportunities (U_supp)</div>
+        <div class="v pos">27,881</div>
+        <div class="d">Evaluable hindsight subset</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Represented by Experts (U_rep)</div>
+        <div class="v">0</div>
+        <div class="d">Shipped active proposals</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Representational Coverage</div>
+        <div class="v neg">0.00%</div>
+        <div class="d">U_rep / U_supp ratio</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Coverage Gap</div>
+        <div class="v neg">100.00%</div>
+        <div class="d">1.0 - Coverage</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Economic Claim Label</div>
+        <div class="v" style="font-size:16px;color:#7c3aed;">NO_ECONOMIC_CLAIM</div>
+        <div class="d">Receipt: <code class="mono">3fdda2140037…</code></div>
+      </div>
+    </div>
+
+    <div class="oracle-note">
+      <b>Target Oracle Counterfactual Semantics:</b>
+      <ul>
+        <li><b>Orthogonal Authority & Identifiability:</b> Authority level (L1/L2/L3) and identifiability status (Identified, PartiallyIdentified, ModelDerived, NotIdentifiable) are strictly separated.</li>
+        <li><b>First-Class UNKNOWN:</b> Refusals and unsupported counterfactuals never collapse into fabricated zero-point estimates.</li>
+        <li><b>Fail-Closed Ordering:</b> Overlapping bounds and unknown outcomes fail closed (<code>O-OR-003</code>).</li>
+        <li><b>Strict Scope Boundary:</b> Regret attribution (O4) and Target-policy optimization (O5) remain deliberately absent.</li>
+      </ul>
+    </div>
+
+    <h4 style="margin:20px 0 8px;">Unrepresented Opportunity Clusters (Strategy Blind Spots)</h4>
+    <div class="sec">Behavior templates that generated evaluable hindsight opportunities but were not proposed by any shipped expert:</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Behavior Template ID</th>
+          <th>Direction</th>
+          <th>Unrepresented Count</th>
+          <th>Share of Universe</th>
+          <th>Epistemic Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><code>template-bollinger_breakout</code></td>
+          <td><span class="badge badge-info">Long</span></td>
+          <td class="mono neg">1,747</td>
+          <td class="mono">6.27%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-bollinger_breakout</code></td>
+          <td><span class="badge badge-info">Short</span></td>
+          <td class="mono neg">1,892</td>
+          <td class="mono">6.79%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-bollinger_reversion</code></td>
+          <td><span class="badge badge-info">Long</span></td>
+          <td class="mono neg">273</td>
+          <td class="mono">0.98%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-bollinger_reversion</code></td>
+          <td><span class="badge badge-info">Short</span></td>
+          <td class="mono neg">275</td>
+          <td class="mono">0.99%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-breakout_retest</code></td>
+          <td><span class="badge badge-info">Long</span></td>
+          <td class="mono neg">158</td>
+          <td class="mono">0.57%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-breakout_retest</code></td>
+          <td><span class="badge badge-info">Short</span></td>
+          <td class="mono neg">107</td>
+          <td class="mono">0.38%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-candlestick_reversal</code></td>
+          <td><span class="badge badge-info">Long</span></td>
+          <td class="mono neg">117</td>
+          <td class="mono">0.42%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-divergence_12_setups</code></td>
+          <td><span class="badge badge-info">Short</span></td>
+          <td class="mono neg">5</td>
+          <td class="mono">0.02%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-donchian_breakout</code></td>
+          <td><span class="badge badge-info">Long</span></td>
+          <td class="mono neg">280</td>
+          <td class="mono">1.00%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-failed_breakout</code></td>
+          <td><span class="badge badge-info">Short</span></td>
+          <td class="mono neg">701</td>
+          <td class="mono">2.51%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-failed_breakout_2b</code></td>
+          <td><span class="badge badge-info">Long</span></td>
+          <td class="mono neg">73</td>
+          <td class="mono">0.26%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-fib_projection_reversal</code></td>
+          <td><span class="badge badge-info">Long</span></td>
+          <td class="mono neg">23</td>
+          <td class="mono">0.08%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-fib_projection_reversal</code></td>
+          <td><span class="badge badge-info">Short</span></td>
+          <td class="mono neg">25</td>
+          <td class="mono">0.09%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-fib_retracement_continuation</code></td>
+          <td><span class="badge badge-info">Long</span></td>
+          <td class="mono neg">242</td>
+          <td class="mono">0.87%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>template-fib_retracement_continuation</code></td>
+          <td><span class="badge badge-info">Short</span></td>
+          <td class="mono neg">229</td>
+          <td class="mono">0.82%</td>
+          <td><span class="badge badge-warn">UNREPRESENTED</span></td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 5: Autonomous Agent Evidence System (v8.eval.v1) -->
+  <div class="card" style="border-left: 4px solid #2563eb;">
+    <h2>5 — Autonomous Agent Evidence System (v8.eval.v1 Artifacts & Findings)</h2>
+    <div class="sec">Scientific evidence bundles, schema caching, and structured findings emitted directly to <code>oracle_bundle/</code> (<code>EVALUATION_EVIDENCE_SYSTEM.md</code>).</div>
+
+    <h4 style="margin:16px 0 8px;">Agent Findings Ledger (<code>analysis/findings.jsonl</code>)</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Finding ID</th>
+          <th>Claim / Hypothesis</th>
+          <th>Status</th>
+          <th>Severity</th>
+          <th>Confidence</th>
+          <th>Recommended Next Test</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-COV-629eff00</b></td>
+          <td>Representational coverage of universe universe-btcusdt-v1 is 0.00% (gap: 100.00%)</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-bad">HIGH</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Measure isolated/marginal regret in O4 before any candidate promotion</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-breakout&#x27; (Long) has 1 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-reversal-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-reversal&#x27; (Short) has 1 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-COV-3fdda214</b></td>
+          <td>Representational coverage of universe universe-btcusdt-1h-v1 is 0.00% (gap: 100.00%)</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-bad">HIGH</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Measure isolated/marginal regret in O4 before any candidate promotion</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_breakout&#x27; (Long) has 1747 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_breakout&#x27; (Short) has 1892 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_reversion-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_reversion&#x27; (Long) has 273 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_reversion-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_reversion&#x27; (Short) has 275 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-breakout_retest-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-breakout_retest&#x27; (Long) has 158 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-breakout_retest-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-breakout_retest&#x27; (Short) has 107 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-candlestick_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-candlestick_reversal&#x27; (Long) has 117 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-divergence_12_setups-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-divergence_12_setups&#x27; (Short) has 5 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-donchian_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-donchian_breakout&#x27; (Long) has 280 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-failed_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-failed_breakout&#x27; (Short) has 701 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-failed_breakout_2b-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-failed_breakout_2b&#x27; (Long) has 73 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_projection_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_projection_reversal&#x27; (Long) has 23 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_projection_reversal-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_projection_reversal&#x27; (Short) has 25 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_retracement_continuation-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_retracement_continuation&#x27; (Long) has 242 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_retracement_continuation-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_retracement_continuation&#x27; (Short) has 229 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_rsi_bb_confluence-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_rsi_bb_confluence&#x27; (Long) has 2 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_rsi_bb_confluence-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_rsi_bb_confluence&#x27; (Short) has 1 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-floor_trader_pivot-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-floor_trader_pivot&#x27; (Long) has 1262 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-floor_trader_pivot-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-floor_trader_pivot&#x27; (Short) has 1245 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-ichimoku_cloud-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-ichimoku_cloud&#x27; (Long) has 192 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-ichimoku_cloud-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-ichimoku_cloud&#x27; (Short) has 186 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-liquidity_sweep_reclaim-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-liquidity_sweep_reclaim&#x27; (Long) has 270 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-liquidity_sweep_reclaim-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-liquidity_sweep_reclaim&#x27; (Short) has 267 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-macd_stoch_trend-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-macd_stoch_trend&#x27; (Long) has 907 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-macd_stoch_trend-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-macd_stoch_trend&#x27; (Short) has 977 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-market_profile_value_area-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-market_profile_value_area&#x27; (Long) has 1907 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-market_profile_value_area-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-market_profile_value_area&#x27; (Short) has 3137 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pandf_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pandf_breakout&#x27; (Long) has 244 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pattern_measuring_objective-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pattern_measuring_objective&#x27; (Long) has 317 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pattern_measuring_objective-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pattern_measuring_objective&#x27; (Short) has 218 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-range_breakout_1to1-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-range_breakout_1to1&#x27; (Long) has 202 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-range_breakout_1to1-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-range_breakout_1to1&#x27; (Short) has 171 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-rsi_stoch_reversion-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-rsi_stoch_reversion&#x27; (Long) has 297 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-rsi_stoch_reversion-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-rsi_stoch_reversion&#x27; (Short) has 312 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-trend_pullback-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-trend_pullback&#x27; (Long) has 310 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-trend_pullback_depth-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-trend_pullback_depth&#x27; (Long) has 462 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_climax_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_climax_reversal&#x27; (Long) has 4146 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_climax_reversal-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_climax_reversal&#x27; (Short) has 4126 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_confirmed_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_confirmed_breakout&#x27; (Long) has 280 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_confirmed_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_confirmed_breakout&#x27; (Short) has 296 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-COV-3fdda214</b></td>
+          <td>Representational coverage of universe universe-btcusdt-1h-v1 is 0.00% (gap: 100.00%)</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-bad">HIGH</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Measure isolated/marginal regret in O4 before any candidate promotion</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_breakout&#x27; (Long) has 1747 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_breakout&#x27; (Short) has 1892 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_reversion-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_reversion&#x27; (Long) has 273 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_reversion-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_reversion&#x27; (Short) has 275 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-breakout_retest-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-breakout_retest&#x27; (Long) has 158 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-breakout_retest-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-breakout_retest&#x27; (Short) has 107 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-candlestick_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-candlestick_reversal&#x27; (Long) has 117 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-divergence_12_setups-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-divergence_12_setups&#x27; (Short) has 5 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-donchian_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-donchian_breakout&#x27; (Long) has 280 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-failed_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-failed_breakout&#x27; (Short) has 701 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-failed_breakout_2b-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-failed_breakout_2b&#x27; (Long) has 73 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_projection_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_projection_reversal&#x27; (Long) has 23 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_projection_reversal-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_projection_reversal&#x27; (Short) has 25 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_retracement_continuation-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_retracement_continuation&#x27; (Long) has 242 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_retracement_continuation-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_retracement_continuation&#x27; (Short) has 229 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_rsi_bb_confluence-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_rsi_bb_confluence&#x27; (Long) has 2 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_rsi_bb_confluence-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_rsi_bb_confluence&#x27; (Short) has 1 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-floor_trader_pivot-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-floor_trader_pivot&#x27; (Long) has 1262 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-floor_trader_pivot-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-floor_trader_pivot&#x27; (Short) has 1245 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-ichimoku_cloud-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-ichimoku_cloud&#x27; (Long) has 192 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-ichimoku_cloud-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-ichimoku_cloud&#x27; (Short) has 186 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-liquidity_sweep_reclaim-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-liquidity_sweep_reclaim&#x27; (Long) has 270 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-liquidity_sweep_reclaim-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-liquidity_sweep_reclaim&#x27; (Short) has 267 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-macd_stoch_trend-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-macd_stoch_trend&#x27; (Long) has 907 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-macd_stoch_trend-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-macd_stoch_trend&#x27; (Short) has 977 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-market_profile_value_area-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-market_profile_value_area&#x27; (Long) has 1907 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-market_profile_value_area-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-market_profile_value_area&#x27; (Short) has 3137 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pandf_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pandf_breakout&#x27; (Long) has 244 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pattern_measuring_objective-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pattern_measuring_objective&#x27; (Long) has 317 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pattern_measuring_objective-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pattern_measuring_objective&#x27; (Short) has 218 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-range_breakout_1to1-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-range_breakout_1to1&#x27; (Long) has 202 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-range_breakout_1to1-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-range_breakout_1to1&#x27; (Short) has 171 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-rsi_stoch_reversion-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-rsi_stoch_reversion&#x27; (Long) has 297 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-rsi_stoch_reversion-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-rsi_stoch_reversion&#x27; (Short) has 312 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-trend_pullback-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-trend_pullback&#x27; (Long) has 310 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-trend_pullback_depth-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-trend_pullback_depth&#x27; (Long) has 462 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_climax_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_climax_reversal&#x27; (Long) has 4146 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_climax_reversal-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_climax_reversal&#x27; (Short) has 4126 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_confirmed_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_confirmed_breakout&#x27; (Long) has 280 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_confirmed_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_confirmed_breakout&#x27; (Short) has 296 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-COV-3fdda214</b></td>
+          <td>Representational coverage of universe universe-btcusdt-1h-v1 is 0.00% (gap: 100.00%)</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-bad">HIGH</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Measure isolated/marginal regret in O4 before any candidate promotion</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_breakout&#x27; (Long) has 1747 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_breakout&#x27; (Short) has 1892 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_reversion-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_reversion&#x27; (Long) has 273 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_reversion-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_reversion&#x27; (Short) has 275 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-breakout_retest-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-breakout_retest&#x27; (Long) has 158 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-breakout_retest-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-breakout_retest&#x27; (Short) has 107 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-candlestick_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-candlestick_reversal&#x27; (Long) has 117 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-divergence_12_setups-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-divergence_12_setups&#x27; (Short) has 5 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-donchian_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-donchian_breakout&#x27; (Long) has 280 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-failed_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-failed_breakout&#x27; (Short) has 701 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-failed_breakout_2b-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-failed_breakout_2b&#x27; (Long) has 73 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_projection_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_projection_reversal&#x27; (Long) has 23 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_projection_reversal-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_projection_reversal&#x27; (Short) has 25 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_retracement_continuation-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_retracement_continuation&#x27; (Long) has 242 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_retracement_continuation-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_retracement_continuation&#x27; (Short) has 229 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_rsi_bb_confluence-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_rsi_bb_confluence&#x27; (Long) has 2 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_rsi_bb_confluence-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_rsi_bb_confluence&#x27; (Short) has 1 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-floor_trader_pivot-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-floor_trader_pivot&#x27; (Long) has 1262 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-floor_trader_pivot-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-floor_trader_pivot&#x27; (Short) has 1245 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-ichimoku_cloud-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-ichimoku_cloud&#x27; (Long) has 192 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-ichimoku_cloud-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-ichimoku_cloud&#x27; (Short) has 186 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-liquidity_sweep_reclaim-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-liquidity_sweep_reclaim&#x27; (Long) has 270 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-liquidity_sweep_reclaim-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-liquidity_sweep_reclaim&#x27; (Short) has 267 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-macd_stoch_trend-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-macd_stoch_trend&#x27; (Long) has 907 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-macd_stoch_trend-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-macd_stoch_trend&#x27; (Short) has 977 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-market_profile_value_area-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-market_profile_value_area&#x27; (Long) has 1907 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-market_profile_value_area-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-market_profile_value_area&#x27; (Short) has 3137 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pandf_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pandf_breakout&#x27; (Long) has 244 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pattern_measuring_objective-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pattern_measuring_objective&#x27; (Long) has 317 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pattern_measuring_objective-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pattern_measuring_objective&#x27; (Short) has 218 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-range_breakout_1to1-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-range_breakout_1to1&#x27; (Long) has 202 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-range_breakout_1to1-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-range_breakout_1to1&#x27; (Short) has 171 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-rsi_stoch_reversion-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-rsi_stoch_reversion&#x27; (Long) has 297 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-rsi_stoch_reversion-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-rsi_stoch_reversion&#x27; (Short) has 312 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-trend_pullback-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-trend_pullback&#x27; (Long) has 310 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-trend_pullback_depth-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-trend_pullback_depth&#x27; (Long) has 462 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_climax_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_climax_reversal&#x27; (Long) has 4146 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_climax_reversal-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_climax_reversal&#x27; (Short) has 4126 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_confirmed_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_confirmed_breakout&#x27; (Long) has 280 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_confirmed_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_confirmed_breakout&#x27; (Short) has 296 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-COV-3fdda214</b></td>
+          <td>Representational coverage of universe universe-btcusdt-1h-v1 is 0.00% (gap: 100.00%)</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-bad">HIGH</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Measure isolated/marginal regret in O4 before any candidate promotion</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_breakout&#x27; (Long) has 1747 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_breakout&#x27; (Short) has 1892 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_reversion-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_reversion&#x27; (Long) has 273 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-bollinger_reversion-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-bollinger_reversion&#x27; (Short) has 275 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-breakout_retest-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-breakout_retest&#x27; (Long) has 158 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-breakout_retest-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-breakout_retest&#x27; (Short) has 107 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-candlestick_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-candlestick_reversal&#x27; (Long) has 117 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-divergence_12_setups-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-divergence_12_setups&#x27; (Short) has 5 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-donchian_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-donchian_breakout&#x27; (Long) has 280 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-failed_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-failed_breakout&#x27; (Short) has 701 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-failed_breakout_2b-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-failed_breakout_2b&#x27; (Long) has 73 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_projection_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_projection_reversal&#x27; (Long) has 23 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_projection_reversal-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_projection_reversal&#x27; (Short) has 25 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_retracement_continuation-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_retracement_continuation&#x27; (Long) has 242 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_retracement_continuation-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_retracement_continuation&#x27; (Short) has 229 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_rsi_bb_confluence-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_rsi_bb_confluence&#x27; (Long) has 2 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-fib_rsi_bb_confluence-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-fib_rsi_bb_confluence&#x27; (Short) has 1 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-floor_trader_pivot-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-floor_trader_pivot&#x27; (Long) has 1262 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-floor_trader_pivot-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-floor_trader_pivot&#x27; (Short) has 1245 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-ichimoku_cloud-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-ichimoku_cloud&#x27; (Long) has 192 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-ichimoku_cloud-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-ichimoku_cloud&#x27; (Short) has 186 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-liquidity_sweep_reclaim-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-liquidity_sweep_reclaim&#x27; (Long) has 270 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-liquidity_sweep_reclaim-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-liquidity_sweep_reclaim&#x27; (Short) has 267 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-macd_stoch_trend-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-macd_stoch_trend&#x27; (Long) has 907 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-macd_stoch_trend-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-macd_stoch_trend&#x27; (Short) has 977 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-market_profile_value_area-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-market_profile_value_area&#x27; (Long) has 1907 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-market_profile_value_area-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-market_profile_value_area&#x27; (Short) has 3137 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pandf_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pandf_breakout&#x27; (Long) has 244 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pattern_measuring_objective-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pattern_measuring_objective&#x27; (Long) has 317 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-pattern_measuring_objective-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-pattern_measuring_objective&#x27; (Short) has 218 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-range_breakout_1to1-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-range_breakout_1to1&#x27; (Long) has 202 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-range_breakout_1to1-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-range_breakout_1to1&#x27; (Short) has 171 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-rsi_stoch_reversion-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-rsi_stoch_reversion&#x27; (Long) has 297 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-rsi_stoch_reversion-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-rsi_stoch_reversion&#x27; (Short) has 312 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-trend_pullback-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-trend_pullback&#x27; (Long) has 310 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-trend_pullback_depth-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-trend_pullback_depth&#x27; (Long) has 462 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_climax_reversal-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_climax_reversal&#x27; (Long) has 4146 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_climax_reversal-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_climax_reversal&#x27; (Short) has 4126 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_confirmed_breakout-Long</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_confirmed_breakout&#x27; (Long) has 280 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono"><b>FINDING-ORACLE-GAP-template-volume_confirmed_breakout-Short</b></td>
+          <td>Unrepresented opportunity cluster: template &#x27;template-volume_confirmed_breakout&#x27; (Short) has 296 unrepresented supported opportunities</td>
+          <td><span class="badge badge-ok">SUPPORTED</span></td>
+          <td><span class="badge badge-warn">MEDIUM</span></td>
+          <td class="mono">1.00</td>
+          <td style="font-size:11.5px;color:var(--muted)">Examine whether cluster has after-cost positive expected utility in O4</td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <h4 style="margin:20px 0 8px;">Evidence Schema Cache & Parquet Tables (<code>analysis/schema_cache.json</code>)</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Relative Table Path</th>
+          <th>Total Rows</th>
+          <th>Columns</th>
+          <th>Format / Verification</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><code>economics/oracle_evaluation.parquet</code></td>
+          <td class="mono">27,881</td>
+          <td class="mono">22</td>
+          <td><span class="badge badge-ok">PARQUET / TABLE</span></td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 6: All 28 Strategy Experts Status Table -->
   <div class="card">
-    <h2>4 — Strategy Expert Registry & Operational Status (28 Families)</h2>
+    <h2>6 — Strategy Expert Registry & Operational Status (28 Families)</h2>
     <div class="sec">Click any expert family name to jump directly to its complete forensic card.</div>
     <table>
       <thead>
@@ -798,9 +2729,9 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
     </table>
   </div>
 
-  <!-- Section 5: Per-Expert Detailed Forensic Cards -->
+  <!-- Section 7: Per-Expert Detailed Forensic Cards -->
   <div class="card">
-    <h2>5 — Per-Expert Detailed Forensic Drill-Downs</h2>
+    <h2>7 — Per-Expert Detailed Forensic Drill-Downs</h2>
     <div class="sec">Full census, directionality, and parameter declarations for each strategy family.</div>
     
         <div class="card" id="exp-bollinger_breakout">
@@ -1900,10 +3831,10 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
         
   </div>
 
-  <!-- Section 6: Invariant Verification & Cryptographic Ledger Audit -->
+  <!-- Section 8: Invariant Verification & Cryptographic Ledger Audit -->
   <div class="card">
-    <h2>6 — Invariant Verification & Cryptographic Ledger Audit</h2>
-    <div class="sec">Verification that all mathematical and architectural invariants hold under strict release execution.</div>
+    <h2>8 — Invariant Verification & Cryptographic Ledger Audit</h2>
+    <div class="sec">Verification that all mathematical, architectural, and oracle invariants hold under strict release execution.</div>
     <table>
       <thead>
         <tr><th>Invariant / Audit Check</th><th>Specification Boundary</th><th>Verification Mechanism</th><th>Result</th></tr>
@@ -1913,6 +3844,24 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
           <td><b>D-097 Compute plane authoritativeness</b></td>
           <td>Rust runtime authoritative, Python oracle retired</td>
           <td><code>tools/audit_python_boundary.py</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-101 Target Oracle O0–O1 substrate</b></td>
+          <td>Three-role taxonomy, typed refusals, UtilityContract validation, PIT adapter</td>
+          <td><code>oracle::utility::tests</code>, <code>oracle::opportunity::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-102 Target Oracle O2–O3 coverage & receipts</b></td>
+          <td>Support classifier, CounterfactualAuthority, CoverageReceipt, v8.eval.v1 bundle</td>
+          <td><code>oracle::coverage::tests</code>, <code>oracle::support::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>O-OR-003 Bound-aware fail-closed ranking</b></td>
+          <td>Overlapping partially identified intervals fail closed (no zero collapse)</td>
+          <td><code>oracle::authority::tests::partially_identified_overlapping_intervals_fail_closed</code></td>
           <td class="pos">PASS</td>
         </tr>
         <tr>
@@ -1950,7 +3899,7 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
   </div>
 
   <footer>
-    <b>V8.2 AUTHORITATIVE COMPUTE ENGINE FORENSIC AUDIT</b> · Generated automatically by <code>tools/render_rust_audit_html.py</code>
+    <b>V8.2 AUTHORITATIVE COMPUTE & TARGET ORACLE EVIDENCE ENGINE FORENSIC AUDIT</b> · Generated automatically by <code>tools/render_rust_audit_html.py</code>
   </footer>
 
 </div>

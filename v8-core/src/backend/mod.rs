@@ -510,24 +510,7 @@ mod tests {
     fn scalar_and_cpu_backends_are_bit_identical() {
         let (ds, stores) = fixture();
         let cells = cells();
-        let mut scalar_out = vec![
-            Outcome {
-                endpoint: String::new(),
-                net_r: 0.0,
-                label_status: String::new(),
-                horizon_bars: 0,
-                label_available_time: 0,
-                mae_r: 0.0,
-                mfe_r: 0.0,
-                ambiguous_bars: 0,
-                entry_price: 0.0,
-                risk_unit_price: 0.0,
-                market_move_r: 0.0,
-                cost_r: 0.0,
-                funding_r: 0.0,
-            };
-            cells.len()
-        ];
+        let mut scalar_out = vec![Outcome::default(); cells.len()];
         let mut cpu_out = scalar_out.clone();
         let scalar = backend(&stores);
         // Backend-1 CPU backend, parallel path (threads=4 splits the
@@ -565,24 +548,7 @@ mod tests {
     fn cpu_backend_threads_1_and_4_are_byte_identical() {
         let (ds, stores) = fixture();
         let cells = cells();
-        let mut out1 = vec![
-            Outcome {
-                endpoint: String::new(),
-                net_r: 0.0,
-                label_status: String::new(),
-                horizon_bars: 0,
-                label_available_time: 0,
-                mae_r: 0.0,
-                mfe_r: 0.0,
-                ambiguous_bars: 0,
-                entry_price: 0.0,
-                risk_unit_price: 0.0,
-                market_move_r: 0.0,
-                cost_r: 0.0,
-                funding_r: 0.0,
-            };
-            cells.len()
-        ];
+        let mut out1 = vec![Outcome::default(); cells.len()];
         let mut out4 = out1.clone();
         let cpu1 = CpuBackend::new(1, 0.07, 0.0, 0, FillPolicy::BarClose, &[], None, &stores);
         let cpu4 = CpuBackend::new(4, 0.07, 0.0, 0, FillPolicy::BarClose, &[], None, &stores);
@@ -602,24 +568,7 @@ mod tests {
     fn trait_evaluate_matches_direct_scalar_run() {
         let (ds, stores) = fixture();
         let cells = cells();
-        let mut batch_out = vec![
-            Outcome {
-                endpoint: String::new(),
-                net_r: 0.0,
-                label_status: String::new(),
-                horizon_bars: 0,
-                label_available_time: 0,
-                mae_r: 0.0,
-                mfe_r: 0.0,
-                ambiguous_bars: 0,
-                entry_price: 0.0,
-                risk_unit_price: 0.0,
-                market_move_r: 0.0,
-                cost_r: 0.0,
-                funding_r: 0.0,
-            };
-            cells.len()
-        ];
+        let mut batch_out = vec![Outcome::default(); cells.len()];
         backend(&stores)
             .evaluate(&ds, &cells, &mut batch_out)
             .unwrap();
@@ -710,24 +659,7 @@ mod tests {
                 });
             }
         }
-        let mut so = vec![
-            Outcome {
-                endpoint: String::new(),
-                net_r: 0.0,
-                label_status: String::new(),
-                horizon_bars: 0,
-                label_available_time: 0,
-                mae_r: 0.0,
-                mfe_r: 0.0,
-                ambiguous_bars: 0,
-                entry_price: 0.0,
-                risk_unit_price: 0.0,
-                market_move_r: 0.0,
-                cost_r: 0.0,
-                funding_r: 0.0,
-            };
-            cells.len()
-        ];
+        let mut so = vec![Outcome::default(); cells.len()];
         let mut sm = so.clone();
         let scalar = ScalarBackend {
             round_trip_cost_r: 0.07,
@@ -823,24 +755,7 @@ mod tests {
             fill_policy: FillPolicy::BarClose,
             round_trip_cost_bps: None,
         };
-        let mut cpu = vec![
-            Outcome {
-                endpoint: String::new(),
-                net_r: 0.0,
-                label_status: String::new(),
-                horizon_bars: 0,
-                label_available_time: 0,
-                mae_r: 0.0,
-                mfe_r: 0.0,
-                ambiguous_bars: 0,
-                entry_price: 0.0,
-                risk_unit_price: 0.0,
-                market_move_r: 0.0,
-                cost_r: 0.0,
-                funding_r: 0.0,
-            };
-            cells.len()
-        ];
+        let mut cpu = vec![Outcome::default(); cells.len()];
         let mut auto = cpu.clone();
         evaluate_engine("cpu", 1, &sim, &[], &stores, &ds, &cells, &mut cpu).unwrap();
         evaluate_engine("auto", 1, &sim, &[], &stores, &ds, &cells, &mut auto).unwrap();

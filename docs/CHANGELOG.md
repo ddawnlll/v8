@@ -2,6 +2,18 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-19 — Resolution of Issues #158–#163: Governance & Defect Hardening Batch (D-103..D-108)
+
+Resolved six issues spanning candidate evaluation decoupling, dispatch tie-break conformance, epistemic belief state, causal intervention manifests, mechanism hypothesis decoupling, and authority resolution:
+- **#158 (D-108):** Decoupled independent candidate evaluation from downstream portfolio allocation (`runloop.rs`), ensuring contention-losing candidates retain full independent counterfactual outcomes and emitting structured `portfolio_allocation` records.
+- **#159 (D-103):** Reconciled contention dispatch specification with runtime `R-ALLOC-001` (`sha1(Canon(expert_id))`) across contracts, adding executable state-space contention and mutation test gates.
+- **#160 (D-104):** Replaced boolean predicate return with explicit three-valued `ThesisStatus { Valid, Invalid, Unknown }` in `predicate.rs`, decoupling epistemic observation uncertainty from `PositionPolicy::Hold` operational action.
+- **#161 (D-105):** Added typed `InterventionManifest` to `simulator.rs:Outcome` and implemented `InterventionClass` regret bucket partitioning in `regret.rs` with `UNSUPPORTED_COUNTERFACTUAL` refusal semantics.
+- **#162 (D-106):** Decoupled observable price behavior from causal mechanism hypotheses with default `evidence_status: HYPOTHESIS_ONLY` and `EvidenceManifest` schema in `EXPERTS_REGISTRY.yaml` and `experts/base.rs`.
+- **#163 (D-107):** Purged superseded single-unit multiplicity clause from `EXPERT_PROTOCOL.md` and added executable `authority.rs` ledger validating unambiguous domain resolution (`resolve_active_rule("multiplicity") -> D-044`).
+
+Artifacts changed: `v8-core/src/authority.rs`, `v8-core/src/runloop.rs`, `v8-core/src/experts/predicate.rs`, `v8-core/src/experts/base.rs`, `v8-core/src/simulator.rs`, `v8-core/src/regret.rs`, `v8-core/src/main.rs`, `docs/contracts/CANDIDATE_LIFECYCLE_SPEC.md`, `docs/contracts/RUNTIME_SCHEDULER_SPEC.md`, `docs/contracts/PREDICATE_IR_SPEC.md`, `docs/contracts/EXPERT_PROTOCOL.md`, `docs/EXPERTS_REGISTRY.yaml`, `docs/decisions/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-19 — Target Oracle O2–O3 support, coverage & evidence receipts (D-102)
 
 Added the Rust-owned Target Oracle support/authority classifier and representational

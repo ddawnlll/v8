@@ -43,6 +43,8 @@ pub const CELL_CENSORED: &str = "CENSORED";
 pub const CELL_UNDEFINED_FUTURE: &str = "UNDEFINED_FUTURE";
 pub const CELL_NOT_EVALUABLE_ACTION: &str = "NOT_EVALUABLE_ACTION";
 pub const CELL_NO_ENTRY: &str = "NO_ENTRY";
+#[allow(dead_code)]
+pub const CELL_UNSUPPORTED_COUNTERFACTUAL: &str = "UNSUPPORTED_COUNTERFACTUAL";
 
 pub const GAP_COMPUTED: &str = "COMPUTED";
 pub const GAP_ABSTAINED_CENSORED: &str = "ABSTAINED_CENSORED";
@@ -281,4 +283,104 @@ pub fn compute_gap(candidate_id: &str, manifest: &Manifest, cells: &[Cell]) -> R
     row.legal_hindsight_gap = Some(best_ok - actual_utility.unwrap_or(0.0));
     row.gap_status = GAP_COMPUTED;
     row
+}
+
+/// Causal intervention classes for regret attribution partitioning (D-105, Issue #161).
+#[derive(Debug, Clone, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
+#[allow(dead_code)]
+pub enum InterventionClass {
+    Executed,
+    CapacityRejected { sub_reason: String },
+    ThesisInvalidated { reason: String },
+    TradabilityMaskVeto { reason: String },
+    UnsupportedCounterfactual { reason: String },
+}
+
+/// A partitioned regret bucket grouping candidate outcomes by identical causal intervention semantics.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[allow(dead_code)]
+pub struct PartitionedRegretBucket {
+    pub intervention_class: InterventionClass,
+    pub candidate_ids: Vec<String>,
+    pub mean_gap: Option<f64>,
+    pub computed_count: usize,
+    pub abstained_count: usize,
+}
+
+/// Partition reduced regret rows by intervention class, blocking unweighted pooling across heterogeneous intervention types.
+#[allow(dead_code)]
+pub fn partition_regret_by_intervention(
+    rows: &[ReducedRow],
+    class_of: &dyn Fn(&str) -> InterventionClass,
+) -> HashMap<InterventionClass, Vec<ReducedRow>> {
+    let mut partitioned: HashMap<InterventionClass, Vec<ReducedRow>> = HashMap::new();
+    for row in rows {
+        let class = class_of(&row.candidate_id);
+        partitioned.entry(class).or_default().push(row.clone());
+    }
+    partitioned
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_regret_partitioning_by_intervention_class() {
+        // Issue #161: CAPACITY_REJECTED and THESIS_INVALIDATED enter distinct regret buckets;
+        // unweighted pooling across intervention classes is blocked by default.
+        let rows = vec![
+            ReducedRow {
+                candidate_id: "c_cap_1".into(),
+                manifest_id: "m1".into(),
+                actual_action_id: Some("a1".into()),
+                actual_utility: Some(1.0),
+                best_utility: Some(2.0),
+                tie_cardinality: 1,
+                legal_hindsight_gap: Some(1.0),
+                gap_status: GAP_COMPUTED,
+                abstention_reason: "".into(),
+                no_trade_value: Some(0.0),
+                counts: HashMap::new(),
+            },
+            ReducedRow {
+                candidate_id: "c_thesis_1".into(),
+                manifest_id: "m2".into(),
+                actual_action_id: Some("a2".into()),
+                actual_utility: Some(-0.5),
+                best_utility: Some(0.0),
+                tie_cardinality: 1,
+                legal_hindsight_gap: Some(0.5),
+                gap_status: GAP_COMPUTED,
+                abstention_reason: "".into(),
+                no_trade_value: Some(0.0),
+                counts: HashMap::new(),
+            },
+        ];
+
+        let class_map = |cid: &str| -> InterventionClass {
+            if cid.starts_with("c_cap") {
+                InterventionClass::CapacityRejected {
+                    sub_reason: "EXISTING_EXPOSURE_CONFLICT".into(),
+                }
+            } else {
+                InterventionClass::ThesisInvalidated {
+                    reason: "CONDITION_FAILED".into(),
+                }
+            }
+        };
+
+        let partitioned = partition_regret_by_intervention(&rows, &class_map);
+        assert_eq!(partitioned.len(), 2);
+        let cap_class = InterventionClass::CapacityRejected {
+            sub_reason: "EXISTING_EXPOSURE_CONFLICT".into(),
+        };
+        let thesis_class = InterventionClass::ThesisInvalidated {
+            reason: "CONDITION_FAILED".into(),
+        };
+        assert!(partitioned.contains_key(&cap_class));
+        assert!(partitioned.contains_key(&thesis_class));
+        assert_eq!(partitioned[&cap_class].len(), 1);
+        assert_eq!(partitioned[&thesis_class].len(), 1);
+    }
 }

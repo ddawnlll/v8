@@ -172,8 +172,9 @@ preferences are hard constraints, never reward penalties):
    Since rule 14 stopped capping the Expert count (D-043), this rule and the
    heat cap below are what actually bound portfolio scale: adding Experts
    without revisiting them changes which hypotheses are *measured*, not which
-   positions are *held*. The contested slot goes to the lexicographically
-   first `expert_id` (`RUNTIME_SCHEDULER_SPEC` §5); replacing that with a
+   positions are *held*. The contested slot goes to the first `expert_id`
+   under the declared canonical dispatch order (`R-ALLOC-001` / D-103:
+   ascending `sha1(Canon(expert_id))`, `RUNTIME_SCHEDULER_SPEC` §5); replacing that with a
    ranking is gated by O-006 / O-012.
 2. **Portfolio heat cap (D-023).** Heat is the sum of per-position stop risk
    in R (with fixed 1R geometry this equals the number of open positions).
