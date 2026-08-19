@@ -1,0 +1,146 @@
+name: "Governance / Authority / Decision"
+description: "Resolve an OPEN_PIN, propose a decision (D-xxx), update registry, or clarify contradictory authority."
+title: "[GOV] "
+labels: ["type:governance", "triage"]
+body:
+  - type: input
+    id: objective
+    attributes:
+      label: Objective
+      placeholder: "Resolve contract ambiguity, pin a formal decision (D-xxx), or update governance policy"
+    validations:
+      required: true
+  - type: textarea
+    id: authority
+    attributes:
+      label: Owning authority
+      description: "Constitution rules, DECISION_REGISTER entries, OPEN_DECISIONS items, or workflow policies affected."
+    validations:
+      required: true
+  - type: dropdown
+    id: change_class
+    attributes:
+      label: Change class
+      options:
+        - DECISION_RECORD_D_SERIES
+        - OPEN_PIN_RESOLUTION
+        - REGISTRY_MUTATION
+        - CONSTITUTION_CLARIFICATION
+        - WORKFLOW_POLICY_UPDATE
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current state / Ambiguity / Contradiction
+      description: "Observed conflict between authorities, missing decision, or unpinned interface."
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Required end state / Resolved decision
+      description: "Formal decision statement, updated registry specification, or clarified rule."
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Expected file / module surface
+      description: "docs/decisions/DECISION_REGISTER.md, docs/CHANGELOG.md, registries, or policy files."
+    validations:
+      required: true
+  - type: textarea
+    id: gates
+    attributes:
+      label: Verification gates
+      description: "Monograph byte-identity rebuild, boundary check, and consistency audits."
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Required evidence artifacts
+      description: "Updated decision table, changelog entry, or monograph build verification."
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals / forbidden scope
+      description: "What is explicitly out of scope (e.g. no runtime changes in governance PRs)."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Context-completeness contract
+        The fields below define the governance resolution boundary.
+        Use requirement IDs (`R1`, `R2`, ...) and exact owning clauses/decisions.
+  - type: textarea
+    id: normative_traceability
+    attributes:
+      label: 11. Normative Traceability
+      description: "Map each observable governance requirement R1/R2/... to the exact owning spec clause or decision."
+      placeholder: |
+        R1 — <governance requirement>
+        Authority:
+        - docs/charter/V8_CONSTITUTION.md Rule x
+        - docs/decisions/DECISION_REGISTER.md D-xxx
+    validations:
+      required: true
+  - type: textarea
+    id: reuse_contracts
+    attributes:
+      label: 12. Existing Types / Interfaces to Reuse
+      description: "Existing decision formats, status tags (LOCKED_INVARIANT, PROVISIONAL_DECISION, REJECTED_OPTION), and registries to reuse."
+    validations:
+      required: true
+  - type: textarea
+    id: semantic_invariants
+    attributes:
+      label: 13. Mathematical / Semantic Invariants
+      description: "Logical invariants, precedence rules, and constitutional constraints governing this decision."
+    validations:
+      required: true
+  - type: textarea
+    id: failure_semantics
+    attributes:
+      label: 14. Canonical Failure Semantics
+      description: "Handling of unresolved conflicts (OPEN_PIN / BLOCKED) or rejection of proposed decision."
+    validations:
+      required: true
+  - type: textarea
+    id: dependency_map
+    attributes:
+      label: 15. Dependency Map
+      description: "Map the dependencies between this governance decision and impacted specs or code modules."
+    validations:
+      required: true
+  - type: textarea
+    id: open_pin_triggers
+    attributes:
+      label: 16. Ambiguity / OPEN_PIN Triggers
+      description: "Remaining open questions or subsequent decisions triggered by this resolution."
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References / sources / attachments
+      description: "Supporting discussion, issue links, or previous decision numbers."
+  - type: checkboxes
+    id: guards
+    attributes:
+      label: V8 guards
+      options:
+        - label: "This governance change does not modify trading/runtime code."
+          required: true
+        - label: "Precedence hierarchy is respected (Constitution > Decisions/Specs > Workflow Policy > Session Runbooks)."
+          required: true
+        - label: "All status vocabulary adheres to V8 standard tags."
+          required: true
+        - label: "Monograph build is regenerated cleanly."
+          required: true

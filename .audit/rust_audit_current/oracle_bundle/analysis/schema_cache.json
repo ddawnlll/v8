@@ -1,6 +1,6 @@
 {
   "schema": "v8.eval.v1.schema_cache",
-  "root_dir": "C:\\Users\\dresden\\Documents\\v8\\.audit\\rust_audit_current\\oracle_bundle",
+  "root_dir": "/Users/hootie/src/v8/.audit/rust_audit_current/oracle_bundle",
   "tables": {
     "economics/oracle_evaluation.parquet": {
       "file_name": "oracle_evaluation.parquet",

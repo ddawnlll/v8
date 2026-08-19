@@ -3432,3 +3432,28 @@ pub fn history_bars(store: &FeatureStore, t: usize, depth: usize) -> Vec<HistBar
     }
     out
 }
+
+/// Exogenous Market State layer at decision epoch t (VENUE_AND_CAPITAL_SIMULATION_SPEC §3.1).
+#[allow(dead_code)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct MarketState {
+    pub symbol: String,
+    pub as_of: i64,
+    pub open: f64,
+    pub high: f64,
+    pub low: f64,
+    pub close: f64,
+    pub volume: f64,
+    pub regime: Option<crate::quant::MarketRegimeTag>,
+}
+
+/// 4-Part State Ontology (VENUE_AND_CAPITAL_SIMULATION_SPEC §3, Decision D-110).
+#[allow(dead_code)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct DecisionState {
+    pub market: MarketState,
+    pub venue: crate::venue::VenueState,
+    pub account: crate::account::AccountState,
+    pub portfolio: crate::portfolio::PortfolioState,
+}
+

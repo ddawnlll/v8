@@ -1,0 +1,20 @@
+{
+  "receipt_id": "receipt-usdm-1782864000999000000",
+  "initial_balance_usdt": 1000.0,
+  "terminal_equity_usdt": 366.32507347000166,
+  "net_profit_usdt": -633.6749265299984,
+  "total_return_pct": -63.367492652999836,
+  "max_drawdown_pct": 67.04336256399982,
+  "max_margin_utilization_pct": 99.23630560289857,
+  "total_fee_drag_usdt": 240.6365682800002,
+  "total_funding_usdt": 0.0,
+  "n_trades_admitted": 619,
+  "win_rate_pct": 50.24232633279483,
+  "profit_factor": 0.8394978447990027,
+  "rejections_by_reason": {
+    "CAPITAL_CONSTRAINT_REJECTION": 23,
+    "INSUFFICIENT_AVAILABLE_BALANCE": 23
+  },
+  "cashflow_ledger_path": "economic-cashflow.jsonl",
+  "venue_contract_hash": "9fb5d2136dbac7de8400e3c5127ff6254f50cf53"
+}

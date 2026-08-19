@@ -1,0 +1,146 @@
+name: "Performance / Optimization"
+description: "Propose a measured compute defect fix or performance optimization with bitwise/semantic preservation."
+title: "[PERF] "
+labels: ["type:performance", "triage"]
+body:
+  - type: input
+    id: objective
+    attributes:
+      label: Objective
+      placeholder: "Profile-driven performance optimization or compute bottleneck elimination"
+    validations:
+      required: true
+  - type: textarea
+    id: authority
+    attributes:
+      label: Owning authority
+      description: "D-099 (Computation Budget Policy), Performance Audits (e.g. PERFORMANCE_AUDIT_V82.md), or COMPUTE_CORE_SPEC."
+    validations:
+      required: true
+  - type: dropdown
+    id: change_class
+    attributes:
+      label: Change class
+      options:
+        - PERF_OPTIMIZATION
+        - BITWISE_PRESERVING_REFACTOR
+        - MEMORY_BOUND_IMPROVEMENT
+        - GPU_KERNEL_OPTIMIZATION
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current state / Profile baseline
+      description: "Measured execution latency, throughput, memory consumption, flamegraph data, or benchmark baseline."
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Required end state / Optimization target
+      description: "Target speedup, memory reduction, or algorithmic bound with invariant preservation."
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Expected file / module surface
+      description: "Rust compute modules in v8-core, kernels, or profiling tools."
+    validations:
+      required: true
+  - type: textarea
+    id: gates
+    attributes:
+      label: Verification gates
+      description: "Smallest discriminating benchmark check, bitwise parity verification, and D-099 budget validation."
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Required evidence artifacts
+      description: "Benchmark receipts, flamegraphs, parity validation hashes, or allocation logs."
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals / forbidden scope
+      description: "Semantic changes, floating-point contract compromises, or untracked approximation."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Context-completeness contract
+        The fields below are part of the optimization boundary.
+        Use requirement IDs (`R1`, `R2`, ...) and exact owning clauses/decisions.
+        If an exact authority, type, invariant, or failure semantic is unknown, declare an OPEN_PIN instead of guessing.
+  - type: textarea
+    id: normative_traceability
+    attributes:
+      label: 11. Normative Traceability
+      description: "Map each observable performance requirement R1/R2/... to the owning spec clause, D-099 rule, or benchmark gate."
+      placeholder: |
+        R1 — <optimization target / latency bound>
+        Authority:
+        - docs/COMPUTATION_BUDGET_POLICY.md
+        - docs/audits/PERFORMANCE_AUDIT_V82.md
+    validations:
+      required: true
+  - type: textarea
+    id: reuse_contracts
+    attributes:
+      label: 12. Existing Types / Interfaces to Reuse
+      description: "Existing compute traits, memory layouts, vector types, or benchmark suites to reuse."
+    validations:
+      required: true
+  - type: textarea
+    id: semantic_invariants
+    attributes:
+      label: 13. Mathematical / Semantic Invariants
+      description: "Bitwise/golden parity contracts, floating-point determinism (`fp-contract=off`), and numerical precision requirements."
+    validations:
+      required: true
+  - type: textarea
+    id: failure_semantics
+    attributes:
+      label: 14. Canonical Failure Semantics
+      description: "Map buffer exhaustion, hardware capability mismatch (e.g. SHADER_F64 absence), or timeout to canonical error codes."
+    validations:
+      required: true
+  - type: textarea
+    id: dependency_map
+    attributes:
+      label: 15. Dependency Map
+      description: "Show the compute graph and memory flow touched by this optimization."
+    validations:
+      required: true
+  - type: textarea
+    id: open_pin_triggers
+    attributes:
+      label: 16. Ambiguity / OPEN_PIN Triggers
+      description: "List precision divergence, platform discrepancies, or invariant trade-offs that require governance review."
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References / sources / attachments
+      description: "Optional flamegraphs, criterion benchmarks, or hardware specs."
+  - type: checkboxes
+    id: guards
+    attributes:
+      label: V8 guards
+      options:
+        - label: "Optimization preserves exact mathematical semantics and golden parity."
+          required: true
+        - label: "No unprofiled speculative optimization is added without baseline measurement."
+          required: true
+        - label: "D-099 compute budget rationale is satisfied."
+          required: true
+        - label: "If numerical precision or hardware compatibility conflicts, I will open/escalate an OPEN_PIN."
+          required: true

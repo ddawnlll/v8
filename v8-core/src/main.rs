@@ -26,11 +26,14 @@
 //! `threads` and `engine` are scheduling details and never appear in any hash
 //! (PARITY_AND_IDENTITY_SPEC G5; COMPUTE_SCHEDULING_SPEC §1).
 
+mod account;
+mod allocator;
 mod analysis;
 mod authority;
 mod backend;
 mod cache;
 mod candidate;
+mod cashflow;
 mod data;
 mod evaluation;
 mod evidence;
@@ -42,6 +45,7 @@ mod hash;
 mod jsonx;
 mod mt19937;
 mod oracle;
+mod portfolio;
 pub mod quant;
 mod regret;
 mod report;
@@ -51,6 +55,8 @@ mod simd;
 mod simulator;
 mod state;
 mod statistics;
+pub mod usdm_sim;
+pub mod venue;
 
 use std::path::PathBuf;
 
@@ -77,7 +83,8 @@ subcommands:
   ledger-check    S5/S7: LEDGER_FORMAT_SPEC §8 cheap tests
   verdict         S7: verdict statistics on reduced tables
   report          S7: verdict report artifacts + audit
-  oracle-coverage O3: Opportunity Universe representational coverage receipt";
+  oracle-coverage O3: Opportunity Universe representational coverage receipt
+  usdm-sim        finite-capital Binance USD-M portfolio simulator";
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -106,6 +113,7 @@ fn main() {
         "report" => report::report(&args[2..]),
         "oracle-coverage" => cmd_oracle_coverage(&args[2..]),
         "exit-ablation" => exit_ablation::run(&args[2..]),
+        "usdm-sim" => cmd_usdm_sim(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -1303,3 +1311,159 @@ fn cmd_oracle_coverage(args: &[String]) -> i32 {
     println!("{}", serde_json::to_string_pretty(&receipt).unwrap());
     0
 }
+
+fn cmd_usdm_sim(args: &[String]) -> i32 {
+    let mut tape_path: Option<PathBuf> = None;
+    let mut out_dir: Option<PathBuf> = None;
+    let mut initial_balance = 1000.0;
+    let mut risk_fraction = 0.005;
+    let mut leverage = 10;
+    let mut max_concurrency = 3;
+    let mut max_heat = 0.05;
+    let mut enabled_experts: Option<Vec<String>> = None;
+
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--tape" | "-t" => {
+                if i + 1 < args.len() {
+                    tape_path = Some(PathBuf::from(&args[i + 1]));
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --tape");
+                    return 2;
+                }
+            }
+            "--out" | "-o" => {
+                if i + 1 < args.len() {
+                    out_dir = Some(PathBuf::from(&args[i + 1]));
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --out");
+                    return 2;
+                }
+            }
+            "--initial-balance" => {
+                if i + 1 < args.len() {
+                    initial_balance = args[i + 1].parse().unwrap_or(1000.0);
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --initial-balance");
+                    return 2;
+                }
+            }
+            "--risk-fraction" => {
+                if i + 1 < args.len() {
+                    risk_fraction = args[i + 1].parse().unwrap_or(0.005);
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --risk-fraction");
+                    return 2;
+                }
+            }
+            "--leverage" => {
+                if i + 1 < args.len() {
+                    leverage = args[i + 1].parse().unwrap_or(10);
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --leverage");
+                    return 2;
+                }
+            }
+            "--max-concurrency" => {
+                if i + 1 < args.len() {
+                    max_concurrency = args[i + 1].parse().unwrap_or(3);
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --max-concurrency");
+                    return 2;
+                }
+            }
+            "--max-heat" => {
+                if i + 1 < args.len() {
+                    max_heat = args[i + 1].parse().unwrap_or(0.05);
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --max-heat");
+                    return 2;
+                }
+            }
+            "--experts" => {
+                if i + 1 < args.len() {
+                    let val = &args[i + 1];
+                    if val == "profitable" {
+                        enabled_experts = Some(vec![
+                            "fib_retracement_continuation".to_string(),
+                            "liquidity_sweep_reclaim".to_string(),
+                            "bollinger_reversion".to_string(),
+                            "failed_breakout_2b".to_string(),
+                        ]);
+                    } else {
+                        enabled_experts = Some(val.split(',').map(|s| s.trim().to_string()).collect());
+                    }
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --experts");
+                    return 2;
+                }
+            }
+            path_str if !path_str.starts_with('-') => {
+                // If positional json request argument
+                let bytes = match std::fs::read(path_str) {
+                    Ok(b) => b,
+                    Err(e) => {
+                        eprintln!("cannot read {path_str}: {e}");
+                        return 1;
+                    }
+                };
+                let parsed: Result<usdm_sim::UsdmSimParams, _> = serde_json::from_slice(&bytes);
+                match parsed {
+                    Ok(params) => match usdm_sim::run_simulation(&params) {
+                        Ok(receipt) => {
+                            println!("{}", serde_json::to_string_pretty(&receipt).unwrap());
+                            return 0;
+                        }
+                        Err(e) => {
+                            eprintln!("error in usdm-sim: {e}");
+                            return 1;
+                        }
+                    },
+                    Err(e) => {
+                        eprintln!("cannot parse usdm-sim request {path_str}: {e}");
+                        return 1;
+                    }
+                }
+            }
+            other => {
+                eprintln!("unknown option for usdm-sim: {other}");
+                return 2;
+            }
+        }
+    }
+
+    let tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let out = out_dir.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current"));
+
+    let params = usdm_sim::UsdmSimParams {
+        tape_path: tape,
+        out_dir: out,
+        initial_balance,
+        risk_fraction,
+        leverage,
+        max_concurrency,
+        max_heat,
+        enabled_experts,
+    };
+
+    match usdm_sim::run_simulation(&params) {
+        Ok(receipt) => {
+            println!("{}", serde_json::to_string_pretty(&receipt).unwrap());
+            0
+        }
+        Err(e) => {
+            eprintln!("error in usdm-sim: {e}");
+            1
+        }
+    }
+}
+

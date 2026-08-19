@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-venue-and-capital-simulation-spec">VENUE AND CAPITAL SIMULATION SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-venue-and-capital-simulation-spec">VENUE AND CAPITAL SIMULATION SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-kaizen-engine-spec">KAIZEN ENGINE SPEC</a></li><li><a href="#sec-kaizen-benchmark-spec">KAIZEN BENCHMARK SPEC</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-work-item-policy">WORK ITEM POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
 <ol>
 <li>V8 is a falsification program, not a promise of edge.</li>
 <li>A claim is labeled <code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>,
@@ -7538,6 +7538,262 @@ action is masked, not punished.</p>
 <li>A second learned component cannot be admitted at a pipeline position that
    already has one active.</li>
 </ol></section>
+<section id="sec-kaizen-engine-spec"><h1>KAIZEN ENGINE SPEC</h1><h1 id="v8-kaizen-continuous-improvement-engine-specification-v8kaizenenginev1">V8 Kaizen Continuous Improvement Engine Specification (v8.kaizen.engine.v1)</h1>
+<p><strong>Status:</strong> ACTIVE_SPECIFICATION / LOCKED_INVARIANT<br>
+<strong>Scope:</strong> Defines the complete, closed-loop autonomous continuous improvement engine (<strong>Kaizen</strong>) for V8. Connects evaluation evidence, retrospective outcome forensics, target oracle opportunities, hypothesis generation, challenger experimentation, research debt accounting, and registry promotion into a single scientific learning loop.</p>
+<hr>
+<h2 id="1-executive-summary-core-philosophy">1. Executive Summary &amp; Core Philosophy</h2>
+<p><strong>Kaizen is V8's closed-loop scientific self-improvement engine.</strong> It is neither a blind parameter optimizer nor a simple static report generator.</p>
+<pre><code class="language-text">                ┌─────────────────────────────┐
+                │      CURRENT V8 POLICY      │
+                └──────────────┬──────────────┘
+                               │
+                               ▼
+                        EVALUATION RUN
+                               │
+                               ▼
+                     EVIDENCE / OUTCOMES
+                               │
+                               ▼
+                    ┌───────────────────┐
+                    │      KAIZEN       │
+                    │                   │
+                    │  Neden kötü?      │
+                    │  Nerede iyi?      │
+                    │  Ne düzeltilebilir│
+                    │  Ne test edilmeli?│
+                    └─────────┬─────────┘
+                              │
+                ┌─────────────┼───────────────┐
+                ▼             ▼               ▼
+             ALPHA          COST           GEOMETRY
+           hypothesis     hypothesis       hypothesis
+                │             │               │
+                └─────────────┼───────────────┘
+                              ▼
+                       CHALLENGER(S)
+                              │
+                              ▼
+                       EXPERIMENTATION
+                DEV → WFA → OOS → SHADOW
+                              │
+                    ┌─────────┴─────────┐
+                    ▼                   ▼
+                  REJECT              PROMOTE
+                                        │
+                                        ▼
+                                NEW CURRENT V8
+                                        │
+                                        └──────► Next Cycle
+</code></pre>
+<h3 id="11-the-core-scientific-invariant-learning-vs-policy-churn">1.1 The Core Scientific Invariant: Learning vs Policy Churn</h3>
+<p>$$\text{NEVER: } \text{while } \text{pnl} &lt; \text{target}: \text{optimize_parameters_harder}()$$</p>
+<p>Kaizen's objective is <strong>not</strong> to maximize past in-sample backtest PnL:
+$$\text{Maximize } \mathbb{E}[\text{Future Utility}]$$
+$$\text{Subject to: } \begin{cases}
+\text{Evidence Validity \&amp; Point-in-Time Data Invariants} \
+\text{Strict Friction Realism (Fees, Slippage, Funding Rates)} \
+\text{Drawdown \&amp; Margin Utilization Constraints} \
+\text{Lifetime Multiplicity Debt Accounting (Bailey PBO \&amp; Deflated Sharpe)} \
+\text{Parameter Neighborhood Plateau Robustness (AlgoXpert Cliff Veto)} \
+\text{One-Shot Frozen Holdout Burning (Zero Reuse)}
+\end{cases}$$</p>
+<hr>
+<h2 id="2-unifying-the-v8-research-architecture-under-kaizen">2. Unifying the V8 Research Architecture Under Kaizen</h2>
+<p>Kaizen is the master orchestrator that integrates existing V8 subsystems into a coherent learning lifecycle:</p>
+<ol>
+<li><strong>Evaluation Evidence System (<code>v8.eval.v1</code>):</strong> <em>The sensory system (eyes)</em> — produces queryable Parquet traces, execution DAGs, cost surfaces, and distribution caches.</li>
+<li><strong>Outcome Cube (<code>OUTCOME_CUBE_SPEC</code>):</strong> <em>The retrospective microscope</em> — evaluates counterfactual actions $A(C)$ (alternative SL, TP, Expiry, NO_TRADE) to isolate recoverable regret.</li>
+<li><strong>Target Oracle (<code>TARGET_ORACLE_SPEC</code>):</strong> <em>The opportunity detector</em> — identifies structural market moves that existing experts failed to detect.</li>
+<li><strong>Hypothesis Lab (<code>HYPOTHESIS_LAB_PROTOCOL</code>):</strong> <em>The experimental laboratory</em> — converts diagnostics into falsifiable claims and structured challenger families.</li>
+<li><strong>Sweep Engine (<code>SWEEP_PROTOCOL</code>):</strong> <em>The search engine</em> — executes finite parameter campaigns under full trial debt accounting.</li>
+<li><strong>Learning Protocol (<code>LEARNING_PROTOCOL</code>):</strong> <em>The safety and governance firewall</em> — enforces that outcome data never directly mutates the active decision plane.</li>
+<li><strong>Registry (<code>CLAIMS_REGISTRY</code> &amp; <code>EXPERIMENT_REGISTRY</code>):</strong> <em>The decision gate</em> — records immutable promotion, shadow, or rejection verdicts.</li>
+</ol>
+<hr>
+<h2 id="3-the-7-stage-kaizen-improvement-loop">3. The 7-Stage Kaizen Improvement Loop</h2>
+<pre><code>┌─────────┐     ┌──────────┐     ┌─────────────┐     ┌────────────┐     ┌──────────────┐     ┌────────────┐     ┌────────┐
+│ 1. OBSERVE│ ──► │2. DIAGNOSE│ ──► │3. OPPORTUNITY│ ──► │4. HYPOTHESIZE│ ──► │5. CHALLENGER │ ──► │6. EXPERIMENT│ ──► │7. DECIDE│
+└─────────┘     └──────────┘     └─────────────┘     └────────────┘     └──────────────┘     └────────────┘     └────────┘
+</code></pre>
+<h3 id="stage-1-observe-evidence-ingestion">Stage 1: Observe (Evidence Ingestion)</h3>
+<p>Kaizen ingests the complete <code>EvidenceBundle</code> from the latest evaluation run:
+- Bar traces, signal emissions, candidate formations, risk vetoes, fill records, and cashflows.
+- High-resolution equity curves and friction breakdowns (fees, slippage, funding drag).</p>
+<h3 id="stage-2-diagnose-forensic-failure-attribution">Stage 2: Diagnose (Forensic Failure Attribution)</h3>
+<p>Deterministically decomposes why an expert or portfolio underperformed:
+- <strong>Gross vs Friction Attribution:</strong>
+  - $\text{Gross } R &lt; 0.0 \implies \text{GrossNegative}$ (Signal / detection flaw).
+  - $\text{Gross } R &gt; 0.0 \land \text{Net } R \le 0.0 \implies \text{CostDominated}$ (Execution, churn, or friction drag).
+- <strong>Regime Vulnerability:</strong> Checks whether performance collapses under specific volatility (ATR quantiles) or trend regimes (ADX/EMA alignment).
+- <strong>Attribution &amp; Capacity:</strong> Checks whether performance was damaged by slot contention or capital rejections.</p>
+<h3 id="stage-3-opportunity-discovery-retrospective-target-analysis">Stage 3: Opportunity Discovery (Retrospective &amp; Target Analysis)</h3>
+<p>Kaizen queries the Outcome Cube and Target Oracle:
+- <strong>Regret Localization:</strong> Are stopped-out trades frequently hitting MFE targets later? (Stop too tight $\implies$ Geometry opportunity).
+- <strong>NO_TRADE Superiority:</strong> Did taking NO_TRADE in low-volatility chop outperform actual trades in $&gt; 50\%$ of episodes? (Habitat / gating opportunity).
+- <strong>Target Oracle Gaps:</strong> Did high-conviction structural price swings occur where no expert emitted candidates? (Alpha coverage opportunity).</p>
+<h3 id="stage-4-hypothesize-falsifiable-scientific-formulation">Stage 4: Hypothesize (Falsifiable Scientific Formulation)</h3>
+<p>Kaizen compiles findings into an immutable <code>HypothesisRecord</code>:
+- <strong>Claim:</strong> Clear statement of the proposed mechanism.
+- <strong>Falsification Rule:</strong> Quantified metric target (e.g. $\Delta \text{Net } R \ge +0.12$, WFA pass rate $\ge 60\%$, no drawdown increase).
+- <strong>Challenger Parameter Search Space:</strong> Bounded, discrete candidate family.</p>
+<h3 id="stage-5-challenger-creation-immutable-policy-candidate">Stage 5: Challenger Creation (Immutable Policy Candidate)</h3>
+<p>Kaizen generates a new, immutable <code>PolicyChallenger</code> artifact without touching the incumbent policy:
+- Baseline: Active Expert version $V_k$.
+- Challenger: Expert version $V_{k+1}$ (e.g. original logic + ATR regime gate $\theta \in {1.0, 1.5, 2.0}$).</p>
+<h3 id="stage-6-experimentation-validation-ladder">Stage 6: Experimentation &amp; Validation Ladder</h3>
+<p>The challenger progresses through sequential validation gates:
+1. <strong>DEV Robustness Surface:</strong> AlgoXpert plateau search ($\text{Sharpe}(\theta) \ge 0.90 \times \text{Peak}$) + Cliff veto (neighbor drop $\le 30\%$).
+2. <strong>Purged Walk-Forward Analysis (WFA):</strong> Chronological folds with purge windows. Majority fold pass required; any single catastrophic drawdown fold triggers an immediate campaign veto.
+3. <strong>Research Debt Logging:</strong> All tested variants increment the global lifetime trial counter ($N_{\text{trials}} \mathrel{+}= |\text{Variants}|$).
+4. <strong>One-Shot Frozen Holdout:</strong> Evaluated on strictly unsealed out-of-sample data. A cryptographic <code>HoldoutBurnReceipt</code> is committed; the dataset is burned against reuse.</p>
+<h3 id="stage-7-decide-registry-action">Stage 7: Decide &amp; Registry Action</h3>
+<p>The Kaizen engine issues a deterministic <code>RegistryDecision</code>:
+- <code>PROMOTE</code>: Challenger becomes the new incumbent baseline.
+- <code>SHADOW</code>: Challenger runs in parallel shadow tracking mode.
+- <code>QUARANTINE</code>: Challenger held pending multi-regime observation.
+- <code>REJECT</code>: Challenger failed falsification criteria; research lineage is permanently archived.</p>
+<hr>
+<h2 id="4-rust-engine-architecture-v8-coresrckaizen">4. Rust Engine Architecture (<code>v8-core/src/kaizen/</code>)</h2>
+<pre><code class="language-text">v8-core/src/kaizen/
+├── mod.rs                  # Module exports and Kaizen Engine facade
+├── engine.rs               # Master KaizenEngine trait &amp; orchestrator
+├── diagnosis.rs            # Forensic failure taxonomy &amp; gross/friction attribution
+├── opportunity.rs          # Outcome cube regret analysis &amp; target oracle opportunity mining
+├── hypothesis.rs           # Falsifiable research hypothesis records
+├── challenger.rs           # Policy challenger specification &amp; parameter bounds
+├── experiment.rs           # DEV plateau surface, Purged WFA, and Holdout runner
+├── selection.rs            # Registry decision rules (Promote / Shadow / Quarantine / Reject)
+├── research_debt.rs        # Global lifetime trial accounting &amp; holdout burn receipts
+└── adaptive.rs             # Adaptive sequential sweep gate (BLOCKED under O-032)
+</code></pre>
+<h3 id="41-master-engine-interface">4.1 Master Engine Interface</h3>
+<pre><code class="language-rust">pub trait KaizenEngine {
+    /// Ingests evidence, runs diagnostics, and identifies improvement opportunities.
+    fn evaluate(
+        &amp;self,
+        incumbent: &amp;PolicyArtifact,
+        evidence: &amp;EvidenceBundle,
+        cube: &amp;OutcomeCube,
+    ) -&gt; KaizenPlan;
+
+    /// Compiles actionable opportunities into falsifiable challenger proposals.
+    fn propose(
+        &amp;self,
+        plan: &amp;KaizenPlan,
+    ) -&gt; Vec&lt;ChallengerProposal&gt;;
+
+    /// Evaluates experimental evidence and issues a binding registry decision.
+    fn decide(
+        &amp;self,
+        experiment: &amp;ExperimentEvidence,
+        multiplicity_budget: &amp;MultiplicityBudget,
+    ) -&gt; RegistryDecision;
+}
+</code></pre>
+<hr>
+<h2 id="5-kaizen-invariants-anti-overfitting-safeguards">5. Kaizen Invariants &amp; Anti-Overfitting Safeguards</h2>
+<ol>
+<li><strong>Type-System Decision Plane Isolation:</strong>
+   - Diagnostic and hypothesis code cannot access or mutate mutable references in <code>v8-core</code> runtime experts.
+   - Challengers are standalone immutable structs compiled outside the live execution plane.</li>
+<li><strong>Deterministic Attribution:</strong>
+   - Every performance delta must be traced to its exact source: Alpha signal, Execution friction, SL/TP geometry, or Habitat gating.</li>
+<li><strong>No Retrospective Leakage:</strong>
+   - Regret metrics derived from the Outcome Cube are used solely for diagnostic classification, never as in-sample fitting targets.</li>
+<li><strong>Lifetime Multiplicity Accounting:</strong>
+   - Every candidate evaluated across Kaizen's lifetime adds to the global research trial counter. P-values and Sharpe ratios are penalized using Deflated Sharpe Ratio (DSR) and White's Reality Check (WRC).</li>
+<li><strong>One-Shot Holdout Burning:</strong>
+   - Out-of-sample data can never be re-queried to tune or repair a failed hypothesis.</li>
+</ol></section>
+<section id="sec-kaizen-benchmark-spec"><h1>KAIZEN BENCHMARK SPEC</h1><h1 id="v8-kaizen-continuous-improvement-historical-benchmark-ledger-specification-v8kaizenv1">V8 Kaizen Continuous Improvement &amp; Historical Benchmark Ledger Specification (v8.kaizen.v1)</h1>
+<p><strong>Status:</strong> ACTIVE_SPECIFICATION<br>
+<strong>Scope:</strong> Defines the immutable benchmark ledger, audit history repository, and automated regression/progression comparator enabling autonomous Kaizen agents and developers to systematically track, compare, and optimize strategy performance over time.</p>
+<hr>
+<h2 id="1-objective-architecture">1. Objective &amp; Architecture</h2>
+<p>To achieve continuous mathematical improvement (Kaizen) without risk of silent regression or overfitting, every evaluation run is captured as a content-addressed snapshot in the <strong>Kaizen Audit Repository</strong> (<code>.audit/history/</code>) and indexed in the <strong>Append-Only Benchmark Ledger</strong> (<code>.audit/benchmark_ledger.jsonl</code>).</p>
+<pre><code>                    ┌────────────────────────────────────────────────────────┐
+                    │       v8-core Engine (Pipeline / USD-M Sim)            │
+                    └──────────────────────────┬─────────────────────────────┘
+                                               │
+                                               ▼
+                              .audit/rust_audit_current/
+                      (Active Live Working Directory - Ephemeral)
+                                               │
+                                               ▼
+                         ┌───────────────────────────────────────────┐
+                         │   tools/kaizen_audit.py (Snapshot Engine) │
+                         └─────────────────────┬─────────────────────┘
+                                               │
+                      ┌────────────────────────┴────────────────────────┐
+                      ▼                                                 ▼
+             .audit/history/                               .audit/benchmark_ledger.jsonl
+    &lt;timestamp&gt;_&lt;tag_or_run_id&gt;/                    (Immutable Machine-Readable Append Log)
+    ├── portfolio_receipt.json                              │
+    ├── economic-cashflow.jsonl (sample)                    │
+    ├── oracle_coverage_receipt.json                        │
+    ├── report.html                                         │
+    └── snapshot_meta.json                                  │
+                      │                                     │
+                      └────────────────────────┬────────────┘
+                                               ▼
+                                  tools/compare_audits.py
+                       (Delta Analysis &amp; Regression Radar for Agents)
+                                               │
+                      ┌────────────────────────┴────────────────────────┐
+                      ▼                                                 ▼
+          Terminal Delta Matrix                               Autonomous Agent Findings
+    (Progression / Regression / TCA)                              (v8.eval.v1 JSON)
+</code></pre>
+<hr>
+<h2 id="2-benchmark-ledger-schema-auditbenchmark_ledgerjsonl">2. Benchmark Ledger Schema (<code>.audit/benchmark_ledger.jsonl</code>)</h2>
+<p>Each line is a single JSON object adhering to <code>v8.kaizen.v1</code>:</p>
+<pre><code class="language-json">{
+  &quot;run_id&quot;: &quot;20260819_103000_issue164_baseline&quot;,
+  &quot;timestamp_utc&quot;: &quot;2026-08-19T07:30:00Z&quot;,
+  &quot;git_commit&quot;: &quot;a1b2c3d4&quot;,
+  &quot;git_branch&quot;: &quot;main&quot;,
+  &quot;tag&quot;: &quot;baseline_full&quot;,
+  &quot;description&quot;: &quot;Issue #164 Baseline full 28-expert unconstrained run&quot;,
+  &quot;tape_path&quot;: &quot;research/tape/btcusdt-1h-12m/tape.jsonl&quot;,
+  &quot;duration_days&quot;: 365.0,
+  &quot;initial_balance_usdt&quot;: 1000.0,
+  &quot;terminal_equity_usdt&quot;: 7.01,
+  &quot;net_profit_usdt&quot;: -992.99,
+  &quot;total_return_pct&quot;: -99.30,
+  &quot;max_drawdown_pct&quot;: 99.31,
+  &quot;profit_factor&quot;: 0.746,
+  &quot;win_rate_pct&quot;: 41.50,
+  &quot;total_fee_drag_usdt&quot;: 384.54,
+  &quot;n_trades_admitted&quot;: 2460,
+  &quot;experts_summary&quot;: {
+    &quot;fib_retracement_continuation&quot;: { &quot;trades&quot;: 15, &quot;net_r&quot;: 3.95, &quot;win_rate&quot;: 66.7, &quot;pf&quot;: 1.74 },
+    &quot;liquidity_sweep_reclaim&quot;: { &quot;trades&quot;: 6, &quot;net_r&quot;: 0.22, &quot;win_rate&quot;: 50.0, &quot;pf&quot;: 1.09 }
+  },
+  &quot;rejections_by_reason&quot;: {
+    &quot;CAPITAL_CONSTRAINT_REJECTION&quot;: 7433,
+    &quot;QUANTITY_ROUNDS_TO_ZERO&quot;: 32428,
+    &quot;INSUFFICIENT_AVAILABLE_BALANCE&quot;: 297
+  },
+  &quot;snapshot_dir&quot;: &quot;.audit/history/20260819_103000_issue164_baseline&quot;,
+  &quot;contract_hash&quot;: &quot;9fb5d2136dbac7de8400e3c5127ff6254f50cf53&quot;
+}
+</code></pre>
+<hr>
+<h2 id="3-tooling-interfaces">3. Tooling Interfaces</h2>
+<ol>
+<li><strong>Snapshot Creation</strong>:
+   <code>bash
+   python tools/kaizen_audit.py snapshot --tag "baseline_full" --desc "Full 28-expert baseline"</code></li>
+<li><strong>History Listing</strong>:
+   <code>bash
+   python tools/kaizen_audit.py list</code></li>
+<li><strong>Run Comparison (Kaizen Delta &amp; Regression Radar)</strong>:
+   <code>bash
+   python tools/compare_audits.py --base &lt;run_id_or_index&gt; --target &lt;run_id_or_index&gt;
+   # Or compare latest against previous:
+   python tools/compare_audits.py --latest</code></li>
+</ol></section>
 <section id="sec-implementation-layout"><h1>IMPLEMENTATION LAYOUT</h1><h1 id="v8-implementation-layout-file-family-v01">V8 Implementation Layout — file family v0.1</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This contract predetermines every file in
 the research runtime — its responsibility, its public interface, and the
@@ -8294,6 +8550,7 @@ historical design record and this table is the correction layer.</p>
 <p>| D-114 | <strong>Multidimensional ExecutionAuthorityProfile replaces the 1D L1/L2/L3 ladder.</strong> Execution realism is parameterized across orthogonal axes: <code>market_path</code> (Bar/1m/Trades/L2), <code>venue_rules</code> (Generic/Versioned), <code>fill_authority</code> (Canonical/Aggressive/Passive/Live), <code>impact_authority</code> (None/Exogenous/Reactive), and <code>account_authority</code> (Unconstrained/CapitalConstrained/Live). | PROVISIONAL_DECISION | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §8; arXiv LOB simulation literature (2024-2026). |</p>
 <p>| D-115 | <strong>Intrabar-unidentified counterfactuals emit partial-identification intervals, not point-valued Oracle truth.</strong> When high and low barriers are both breached on a single bar without sub-bar path data, the outcome is recorded as an <code>OutcomeBound [Lower, Upper]</code> (Brownian Bridge / STOP_FIRST bounds) rather than a single fabricated point estimate. | LOCKED_INVARIANT | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §9; Manski partial identification doctrine. |</p>
 <p>| D-116 | <strong>Economic certification requires an independent cashflow ledger validator.</strong> Production economic claims require differential reconciliation of every order, fill, commission, funding payment, and terminal wallet balance against an independent reference simulator. | LOCKED_INVARIANT candidate | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §1; ensures monetary accounting has parity verification. |</p>
+<p>| D-117 | <strong>Adopt V8 Work-Item, Pull-Request &amp; Merge Governance v1.2 and initiate 10–20 issue measured pilot.</strong> Deploy 5 Issue Forms with universal context-completeness contract (<code>R#</code> traceability, reused contracts, invariants, canonical failure semantics, dependency map, OPEN_PIN triggers), PR contract with requirement-traceability matrix, real CODEOWNERS routing (<code>@ddawnlll</code>), canonical label catalog (<code>triage</code>), exact CI check binding (<code>check</code>), and authoritative workflow precedence hierarchy (<code>WORK_ITEM_POLICY.md</code>). Pilot tracked in <code>docs/governance/PILOT_TRACKING_RECORD.md</code>. | PROVISIONAL_DECISION | <code>WORK_ITEM_POLICY.md</code> v1.2; closes deployment gaps and replaces all placeholder tokens with authoritative repository bindings. |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -10611,6 +10868,14 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-19-deploy-v8-work-item-pr-governance-v12-and-start-measured-pilot-d-117">2026-08-19 — Deploy V8 Work-Item / PR Governance v1.2 and Start Measured Pilot (D-117)</h2>
+<p>Deployed the canonical V8 Work-Item, Pull-Request &amp; Merge Governance v1.2 pack across the repository:
+- <strong>5 Issue Forms (<code>.github/ISSUE_TEMPLATE/</code>):</strong> Deployed <code>defect.yml</code>, <code>implementation.yml</code>, <code>research.yml</code>, <code>performance.yml</code>, and <code>governance.yml</code> with universal context-completeness contract (<code>R#</code> traceability, reused contracts, invariants, canonical failure semantics, dependency map, OPEN_PIN triggers).
+- <strong>PR Contract (<code>.github/PULL_REQUEST_TEMPLATE.md</code>):</strong> Deployed end-to-end <code>R#</code> requirement traceability table, change classes, and explicit verification gate bindings (<code>check</code> check name).
+- <strong>CODEOWNERS Routing (<code>.github/CODEOWNERS</code>):</strong> Routed all critical surfaces to repository maintainer <code>@ddawnlll</code>.
+- <strong>Workflow Policy (<code>docs/WORK_ITEM_POLICY.md</code> &amp; <code>CONTRIBUTING.md</code>):</strong> Formalized collaborative precedence hierarchy (Constitution &gt; Contracts/Decisions &gt; WORK_ITEM_POLICY &gt; CONTRIBUTING &gt; Scoped Agent Runbooks).
+- <strong>Measured Pilot (<code>docs/governance/PILOT_TRACKING_RECORD.md</code>):</strong> Initiated the 10–20 issue empirical measurement ledger.</p>
+<p>Artifacts changed: <code>.github/ISSUE_TEMPLATE/{config.yml, defect.yml, implementation.yml, research.yml, performance.yml, governance.yml}</code>, <code>.github/PULL_REQUEST_TEMPLATE.md</code>, <code>.github/CODEOWNERS</code>, <code>CONTRIBUTING.md</code>, <code>docs/WORK_ITEM_POLICY.md</code>, <code>docs/governance/PILOT_TRACKING_RECORD.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/CHANGELOG.md</code>, <code>tools/build_monograph.py</code>, agent guides (<code>AGENTS.md</code>, <code>GEMINI.md</code>, <code>CLAUDE.md</code>, <code>AGENT_PROMPT.md</code>, <code>.github/copilot-instructions.md</code>).</p>
 <h2 id="2026-08-19-resolution-of-issues-158163-governance-defect-hardening-batch-d-103d-108">2026-08-19 — Resolution of Issues #158–#163: Governance &amp; Defect Hardening Batch (D-103..D-108)</h2>
 <p>Resolved six issues spanning candidate evaluation decoupling, dispatch tie-break conformance, epistemic belief state, causal intervention manifests, mechanism hypothesis decoupling, and authority resolution:
 - <strong>#158 (D-108):</strong> Decoupled independent candidate evaluation from downstream portfolio allocation (<code>runloop.rs</code>), ensuring contention-losing candidates retain full independent counterfactual outcomes and emitting structured <code>portfolio_allocation</code> records.
@@ -13314,6 +13579,217 @@ or formatting-only edits do not justify re-running a code suite.</p>
 research, and test-case-prioritization evidence: select the maximum expected
 net benefit under a budget, recognize mandatory gates, and prioritize fast
 decision-changing failures over redundant execution.</p></section>
+<section id="sec-work-item-policy"><h1>WORK ITEM POLICY</h1><h1 id="v8-work-item-pull-request-merge-governance-policy-v12">V8 Work-Item, Pull-Request &amp; Merge Governance Policy v1.2</h1>
+<p><strong>Document Status:</strong> <code>LOCKED_INVARIANT / PROVISIONAL_DECISION (v1.2 Pilot)</code><br>
+<strong>Owning Authority:</strong> V8 Constitution, D-099, D-117<br>
+<strong>Canonical Scope:</strong> Repository-wide collaborative development workflow (Issue → PR → Review → Merge).</p>
+<hr>
+<h2 id="1-core-principles-philosophy">1. Core Principles &amp; Philosophy</h2>
+<p>V8 is an evidence-bound quantitative research and runtime system. Every change to the repository must be:
+1. <strong>Traceable:</strong> Mapped from an actionable work item with requirement-level <code>R#</code> identifiers to concrete spec clauses and registered decisions.
+2. <strong>Context-Complete:</strong> Containing all mathematical invariants, existing types to reuse, canonical failure semantics, dependency topologies, and OPEN_PIN triggers before implementation begins.
+3. <strong>Evidence-Bearing:</strong> Verified by the smallest discriminating check and accompanied by reproducible verification receipts.
+4. <strong>Anti-Invention:</strong> Never creating parallel types, rogue error codes, or ad-hoc interfaces where an existing authoritative contract owns the domain.</p>
+<hr>
+<h2 id="2-authority-precedence-hierarchy">2. Authority Precedence Hierarchy</h2>
+<p>For all repository development and collaboration:</p>
+<pre><code class="language-text">┌─────────────────────────────────────────────────────────────┐
+│ 1. Domain Semantics                                         │
+│    V8 Constitution &gt; Owning Contracts &gt; Decision Register   │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 2. Collaborative Workflow                                   │
+│    docs/WORK_ITEM_POLICY.md (Canonical Issue/PR/Merge Rules) │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 3. Entry Point                                              │
+│    CONTRIBUTING.md (Points to policy; never forks semantics)│
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 4. Session / Autonomous Agents                               │
+│    CLAUDE.md / AGENT_RUNBOOK.md / GEMINI.md (Scoped only)   │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│ 5. Conflict Resolution                                      │
+│    Two active authorities conflict → STOP / OPEN_PIN        │
+└─────────────────────────────────────────────────────────────┘
+</code></pre>
+<p>Historical or task-specific agent instructions (such as <code>docs/AGENT_RUNBOOK.md</code> or <code>CLAUDE.md</code>) apply only within their explicitly declared scope and MUST NOT silently override domain contracts or the general collaborative workflow outside that scope.</p>
+<hr>
+<h2 id="3-work-item-taxonomy-universal-issue-contract">3. Work-Item Taxonomy &amp; Universal Issue Contract</h2>
+<p>All work begins as a GitHub Issue under one of five canonical forms:</p>
+<h3 id="issue-classes">Issue Classes</h3>
+<ol>
+<li><strong><code>[DEFECT]</code></strong>: Observed contradiction with an existing specification, invariant, or baseline behavior.</li>
+<li><strong><code>[IMPL]</code></strong>: Implementation or wiring of a pinned decision, contract, or missing module without inventing new semantics.</li>
+<li><strong><code>[RESEARCH]</code></strong>: Preregistration of a falsifiable hypothesis, benchmark, or challenger experiment.</li>
+<li><strong><code>[PERF]</code></strong>: Measured profile-driven compute optimization with bitwise/semantic parity preservation.</li>
+<li><strong><code>[GOV]</code></strong>: Formal decision record (D-series), OPEN_PIN resolution, or registry mutation.</li>
+</ol>
+<h3 id="universal-context-completeness-contract">Universal Context-Completeness Contract</h3>
+<p>Before any issue is moved to <code>state:ready</code> for implementation, it MUST supply:</p>
+<ul>
+<li><strong>11. Normative Traceability (<code>R1</code>, <code>R2</code>, ...):</strong> Exact mapping of each requirement to owning spec clauses, D-/O- decisions, registry entries, or tests. Broad range citations (e.g. <code>SPEC §1–§8</code>) are invalid when narrower clauses exist.</li>
+<li><strong>12. Existing Types / Interfaces to Reuse:</strong> Explicit list of types, traits, enums, manifests, hashes, and contracts to reuse.</li>
+<li><strong>13. Mathematical / Semantic Invariants:</strong> Explicit formulas, ordering rules, immutability constraints, and state transitions.</li>
+<li><strong>14. Canonical Failure Semantics:</strong> Explicit mapping of invalid or unsupported states to existing canonical error/refusal codes.</li>
+<li><strong>15. Dependency Map:</strong> Smallest conceptual/data-flow graph showing existing vs new nodes.</li>
+<li><strong>16. Ambiguity / OPEN_PIN Triggers:</strong> Exact conditions that must halt execution and escalate to governance.</li>
+</ul>
+<hr>
+<h2 id="4-pull-request-contract-verification">4. Pull-Request Contract &amp; Verification</h2>
+<p>Every PR must be opened using <code>.github/PULL_REQUEST_TEMPLATE.md</code> and satisfy the following invariants:</p>
+<h3 id="pr-requirements">PR Requirements</h3>
+<ol>
+<li><strong>Change Class Declaration:</strong> Explicitly select one of <code>CONTRACT_GOVERNANCE</code>, <code>CONTRACT_IMPLEMENTATION</code>, <code>DEFECT_FIX</code>, <code>BEHAVIOR_PRESERVING_REFACTOR</code>, <code>CORRECTNESS_SEMANTICS</code>, <code>PERF_OPTIMIZATION</code>, or <code>RESEARCH_EXPERIMENT</code>.</li>
+<li><strong>Normative Traceability Matrix:</strong>
+   <code>text
+   R# in Issue → Owning Authority → Implementation Surface → Verification Gate → Receipt</code>
+   Every requirement in the linked issue must be accounted for. Unmapped requirements block merge.</li>
+<li><strong>Scope &amp; Boundary Closure:</strong> PRs for governance or documentation must touch zero runtime/economic source files.</li>
+<li><strong>Active CI Checks:</strong> Must pass the authoritative GitHub Actions check identity: <code>check</code> (from <code>.github/workflows/ci.yml</code>).</li>
+<li><strong>Computation Budget (D-099):</strong> Any check exceeding 5 seconds or repeating an already-green check must justify the marginal decision value versus cost.</li>
+<li><strong>No Synthetic Data:</strong> Strict compliance with Constitution Rule 12 (<code>NO_ECONOMIC_CLAIM</code>). Zero hardcoded p-values, Sharpe ratios, or synthetic trade excursions.</li>
+</ol>
+<hr>
+<h2 id="5-label-catalog-routing">5. Label Catalog &amp; Routing</h2>
+<p>The canonical repository labels are structured as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Category</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>triage</code></td>
+<td>Intake</td>
+<td>Canonical default intake label applied by all issue forms upon creation</td>
+</tr>
+<tr>
+<td><code>type:defect</code></td>
+<td>Type</td>
+<td>Defect or bug report</td>
+</tr>
+<tr>
+<td><code>type:implementation</code></td>
+<td>Type</td>
+<td>Pinned implementation or wiring</td>
+</tr>
+<tr>
+<td><code>type:research</code></td>
+<td>Type</td>
+<td>Falsifiable hypothesis or experiment</td>
+</tr>
+<tr>
+<td><code>type:performance</code></td>
+<td>Type</td>
+<td>Profile-driven compute optimization</td>
+</tr>
+<tr>
+<td><code>type:governance</code></td>
+<td>Type</td>
+<td>Authority clarification, decision record, or registry change</td>
+</tr>
+<tr>
+<td><code>state:triage</code></td>
+<td>Lifecycle</td>
+<td>Awaiting initial authority and context-completeness review</td>
+</tr>
+<tr>
+<td><code>state:ready</code></td>
+<td>Lifecycle</td>
+<td>Context-complete, R# mapped, authorized for implementation</td>
+</tr>
+<tr>
+<td><code>state:in-progress</code></td>
+<td>Lifecycle</td>
+<td>Branch active and under development</td>
+</tr>
+<tr>
+<td><code>state:review</code></td>
+<td>Lifecycle</td>
+<td>Pull request open and awaiting CODEOWNERS review</td>
+</tr>
+<tr>
+<td><code>state:blocked</code></td>
+<td>Lifecycle</td>
+<td>Execution stopped due to open OPEN_PIN</td>
+</tr>
+<tr>
+<td><code>risk:high</code></td>
+<td>Risk</td>
+<td>Touches core consensus, financial accounting, or mathematical invariants</td>
+</tr>
+<tr>
+<td><code>risk:medium</code></td>
+<td>Risk</td>
+<td>Touches runtime components, adapters, or feature extraction</td>
+</tr>
+<tr>
+<td><code>risk:low</code></td>
+<td>Risk</td>
+<td>Documentation, tooling, or non-runtime governance files</td>
+</tr>
+<tr>
+<td><code>needs:authority</code></td>
+<td>Blocker</td>
+<td>Missing owning decision or spec clause</td>
+</tr>
+<tr>
+<td><code>needs:reproduction</code></td>
+<td>Blocker</td>
+<td>Defect missing minimal discriminating reproduction</td>
+</tr>
+<tr>
+<td><code>needs:review</code></td>
+<td>Review</td>
+<td>Awaiting codeowner sign-off</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="6-codeowners-protected-branch-rules">6. CODEOWNERS &amp; Protected Branch Rules</h2>
+<ul>
+<li><strong>Protected Branch:</strong> <code>main</code> is protected. Direct pushes are prohibited.</li>
+<li><strong>Merge Requirements:</strong></li>
+<li>Status check <code>check</code> (workflow <code>ci</code>) must pass.</li>
+<li>Review approval from designated owners in <code>.github/CODEOWNERS</code> (<code>@ddawnlll</code>).</li>
+<li>Linear git history (rebase/merge without dirty merge commits).</li>
+<li><strong>Surface Routing:</strong> High-risk surfaces (<code>/docs/charter/</code>, <code>/docs/contracts/</code>, <code>/docs/decisions/</code>, <code>/docs/registries/</code>, <code>/v8-core/</code>) require explicit owner approval.</li>
+</ul>
+<hr>
+<h2 id="7-canonical-failure-refusal-semantics">7. Canonical Failure &amp; Refusal Semantics</h2>
+<p>Governance operations use structured lifecycle states rather than runtime exceptions:
+- <strong>Unresolved placeholder token:</strong> <code>BLOCKED / OPEN_PIN</code>
+- <strong>Missing real CODEOWNER identity:</strong> <code>BLOCKED / OPEN_PIN</code>
+- <strong>Ambiguous or conflicting authority:</strong> <code>BLOCKED / OPEN_PIN</code>
+- <strong>Missing CI check identity:</strong> <code>BLOCKED / OPEN_PIN</code>
+- <strong>YAML schema validation failure:</strong> <code>FAIL</code>
+- <strong>Issue Form rendering failure:</strong> <code>FAIL</code> (issue remains open)
+- <strong>PR introduces untraced behavior:</strong> <code>BLOCKED</code></p>
+<hr>
+<h2 id="8-measured-1020-issue-pilot">8. Measured 10–20 Issue Pilot</h2>
+<p>Adoption of v1.2 begins with a measured pilot over the next 10–20 issues tracked in <code>docs/governance/PILOT_TRACKING_RECORD.md</code>.</p>
+<h3 id="measured-metrics">Measured Metrics:</h3>
+<ol>
+<li><strong>Zero-Clarification READY Rate:</strong> Fraction of issues that achieve <code>state:ready</code> on initial submission without ambiguity rounds.</li>
+<li><strong>Triage Latency &amp; Friction:</strong> Time and iterations spent in triage.</li>
+<li><strong>Traceability Completeness:</strong> Percentage of merged PRs with 100% <code>R#</code> closure.</li>
+<li><strong>Review Defect Attribution:</strong> Classification of review rounds into missing requirements vs code bugs.</li>
+<li><strong>D-099 Compute Efficiency:</strong> Verification compute spent per PR.</li>
+</ol>
+<p>Pilot findings will serve as empirical evidence for the future v1.3 governance revision.</p></section>
 <section id="sec-python-oracle-policy"><h1>PYTHON ORACLE POLICY</h1><h1 id="python-oracle-boundary">Python oracle boundary</h1>
 <p><strong>Status:</strong> LOCKED_INVARIANT candidate (D-100).</p>
 <p><code>src/v8/</code> is no longer the runtime implementation. <code>v8-core/</code> owns the

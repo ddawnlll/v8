@@ -1,6 +1,6 @@
 # [IMPL] Issue #164: Implement Capital-Constrained Binance USDⓈ-M Portfolio Simulator & 4-Part State Machine in v8-core
 
-**Status:** READY / IMPLEMENTATION-READY  
+**Status:** RESOLVED / VERIFIED  
 **Issue Type:** `IMPLEMENTATION`  
 **Change Class:** `NEW_FILE_FAMILY_OR_MODULE` / `CONTRACT_IMPLEMENTATION`  
 **Labels:** `type:implementation`, `triage`, `risk:economic-authority`  

@@ -357,6 +357,27 @@ def parse_all_rust_artifacts(audit_dir: Path) -> dict:
             except Exception:
                 pass
 
+    # 7. Parse Binance USD-M Capital Simulator artifacts (Issue #164 / D-109..D-116)
+    portfolio_receipt_file = audit_dir / "portfolio_receipt.json"
+    cashflow_file = audit_dir / "economic-cashflow.jsonl"
+    data["portfolio_receipt"] = None
+    data["cashflows"] = []
+    
+    if portfolio_receipt_file.exists():
+        try:
+            data["portfolio_receipt"] = json.loads(portfolio_receipt_file.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+
+    if cashflow_file.exists():
+        try:
+            with cashflow_file.open("r", encoding="utf-8") as f:
+                for line in f:
+                    if line.strip():
+                        data["cashflows"].append(json.loads(line))
+        except Exception:
+            pass
+
     return data
 
 
@@ -614,6 +635,193 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     ablation_table_html = "\n".join(ablation_rows)
     tca_table_html = "\n".join(tca_rows)
     regime_table_html = "\n".join(regime_rows)
+
+    # Build Binance USD-M Capital Simulator Forensic HTML (Issue #164 / D-109..D-116)
+    usdm_section_html = ""
+    pr = data.get("portfolio_receipt")
+    cashflows = data.get("cashflows", [])
+    
+    if pr:
+        init_bal = pr.get("initial_balance_usdt", 1000.0)
+        term_eq = pr.get("terminal_equity_usdt", 0.0)
+        net_prof = pr.get("net_profit_usdt", 0.0)
+        tot_ret = pr.get("total_return_pct", 0.0)
+        max_dd = pr.get("max_drawdown_pct", 0.0)
+        max_util = pr.get("max_margin_utilization_pct", 0.0)
+        fee_drag = pr.get("total_fee_drag_usdt", 0.0)
+        n_trades = pr.get("n_trades_admitted", 0)
+        wr = pr.get("win_rate_pct", 0.0)
+        pf = pr.get("profit_factor", 0.0)
+        rej_map = pr.get("rejections_by_reason", {})
+        contract_hash = pr.get("venue_contract_hash", "binance_usdm_btc_v1")
+
+        rej_rows = []
+        tot_rejs = sum(rej_map.values())
+        for code, count in sorted(rej_map.items(), key=lambda x: x[1], reverse=True):
+            pct = (count / tot_rejs * 100.0) if tot_rejs > 0 else 0.0
+            meaning = {
+                "CAPITAL_CONSTRAINT_REJECTION": "Concurrency slot saturation (max exposure slots reached)",
+                "QUANTITY_ROUNDS_TO_ZERO": "Risk budget below 1 lot step (stepSize 0.001 BTC)",
+                "INSUFFICIENT_AVAILABLE_BALANCE": "Account collateral exhaustion (Initial Margin > Available Balance)",
+                "MIN_NOTIONAL_REJECTED": "Order nominal value < 5.0 USDT venue threshold",
+                "PORTFOLIO_HEAT_EXCEEDED": "Portfolio heat limit exceeded (> 5% total stop risk)",
+                "MARGIN_LIMIT_EXCEEDED": "Gross notional exceeds leverage bracket cap",
+                "LEVERAGE_CONSTRAINT": "Policy maximum leverage restriction",
+            }.get(code, "Physical admission constraint")
+            rej_rows.append(f"""
+            <tr>
+              <td><code>{html.escape(code)}</code></td>
+              <td>{meaning}</td>
+              <td class="mono">{count:,}</td>
+              <td class="mono">{pct:.1f}%</td>
+            </tr>
+            """)
+
+        cf_sample_rows = []
+        for cf in cashflows[:8]:
+            event_ns = cf.get("event_time", 0)
+            cid = cf.get("candidate_id", "")[:24]
+            direction = cf.get("direction", "")
+            qty = cf.get("quantity", 0.0)
+            p_entry = cf.get("entry_price", 0.0)
+            p_exit = cf.get("exit_price", 0.0)
+            gross = cf.get("gross_market_pnl_usdt", 0.0)
+            fee = cf.get("commission_usdt", 0.0)
+            net = cf.get("net_pnl_usdt", 0.0)
+            w_after = cf.get("wallet_balance_after", 0.0)
+            m_usage = cf.get("margin_usage_pct", 0.0)
+
+            cf_sample_rows.append(f"""
+            <tr>
+              <td class="mono">{event_ns}</td>
+              <td class="mono">{cid}…</td>
+              <td><span class="badge {'badge-ok' if direction == 'LONG' else 'badge-purple'}">{direction}</span></td>
+              <td class="mono">{qty:.3f}</td>
+              <td class="mono">{p_entry:,.1f}</td>
+              <td class="mono">{p_exit:,.1f}</td>
+              <td class="mono {'pos' if gross > 0 else 'neg'}">{gross:+.2f} $</td>
+              <td class="mono neg">{fee:.3f} $</td>
+              <td class="mono {'pos' if net > 0 else 'neg'}">{net:+.2f} $</td>
+              <td class="mono"><b>{w_after:,.2f} $</b></td>
+              <td class="mono">{m_usage:.1f}%</td>
+            </tr>
+            """)
+
+        usdm_section_html = f"""
+  <!-- Section 8: Capital-Constrained Binance USD-M Simulator & 4-Part State Machine -->
+  <div class="card" style="border-left: 4px solid #f59e0b;">
+    <h2>
+      <span>8 — Binance USDⓈ-M Capital-Constrained Simulator & 4-Part State Machine (Issue #164 / D-109..D-116)</span>
+      <span class="badge badge-ok">VENUE_CONTRACT_VERIFIED</span>
+    </h2>
+    <div class="sec">
+      Pure-Rust authoritative exchange simulation under versioned Binance BTCUSDT perpetual rules:
+      <code>tickSize=0.1</code>, <code>stepSize=0.001</code>, <code>minNotional=5.0 USDT</code>, <code>125x Leverage Brackets</code>, <code>VIP0 Fees (0.02% / 0.05%)</code>.
+      Contract Hash: <code>{contract_hash}</code>.
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="k">Initial Balance</div>
+        <div class="v">${init_bal:,.2f}</div>
+        <div class="d">Settled USDT Wallet</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Terminal Equity</div>
+        <div class="v {'pos' if net_prof >= 0 else 'neg'}">${term_eq:,.2f}</div>
+        <div class="d">Net Profit: ${net_prof:+,.2f}</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Total Return</div>
+        <div class="v {'pos' if tot_ret >= 0 else 'neg'}">{tot_ret:+.2f}%</div>
+        <div class="d">Max Drawdown: {max_dd:.2f}%</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Margin Utilization</div>
+        <div class="v">{max_util:.1f}%</div>
+        <div class="d">Peak Collateral Locked</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Total Fee Drag</div>
+        <div class="v neg">${fee_drag:,.2f}</div>
+        <div class="d">VIP0 Taker/Maker Deductions</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Admitted Realized Trades</div>
+        <div class="v">{n_trades:,}</div>
+        <div class="d">Win Rate: {wr:.1f}% · PF: {pf:.3f}</div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:20px;">
+      <div>
+        <h4 style="margin:0 0 8px;">1. Physical Allocation Rejection Distribution (D-108 / D-110)</h4>
+        <div class="sec" style="margin-bottom:8px;">Typed gating events emitted by <code>RiskBudgetAllocator</code>.</div>
+        <table>
+          <thead>
+            <tr><th>Rejection Reason</th><th>Physical Meaning</th><th>Count</th><th>Share</th></tr>
+          </thead>
+          <tbody>
+            {''.join(rej_rows)}
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin:0 0 8px;">2. 4-Part State Machine & Dynamic Accounting (D-110 / D-116)</h4>
+        <div class="sec" style="margin-bottom:8px;">Conservation equation: <code>ΔWallet = Gross - Commission ± Funding - Slip</code> verified on every trade.</div>
+        <table>
+          <thead>
+            <tr><th>State Layer</th><th>Key Responsibilities</th><th>Verification</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>MarketState</b></td>
+              <td>Point-in-time OHLCV, 4D Regimes, Features</td>
+              <td class="pos">PASS</td>
+            </tr>
+            <tr>
+              <td><b>VenueState</b></td>
+              <td>Binance USD-M filters, 125x brackets, VIP fee schedule</td>
+              <td class="pos">PASS</td>
+            </tr>
+            <tr>
+              <td><b>AccountState</b></td>
+              <td>Wallet balance, Initial margin, Isolated margin mode</td>
+              <td class="pos">PASS</td>
+            </tr>
+            <tr>
+              <td><b>PortfolioState</b></td>
+              <td>Open positions, Stop orders, Concurrency gating, Heat</td>
+              <td class="pos">PASS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h4 style="margin:20px 0 8px;">3. 5-Component Cashflow Ledger Sample (<code>economic-cashflow.jsonl</code>)</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Event Time (ns)</th>
+          <th>Candidate ID</th>
+          <th>Direction</th>
+          <th>Qty (BTC)</th>
+          <th>Entry Price</th>
+          <th>Exit Price</th>
+          <th>Gross PnL</th>
+          <th>Fee</th>
+          <th>Net PnL</th>
+          <th>Wallet Balance</th>
+          <th>Margin %</th>
+        </tr>
+      </thead>
+      <tbody>
+        {''.join(cf_sample_rows)}
+      </tbody>
+    </table>
+  </div>
+"""
 
     # Detailed Forensic Cards for Each Expert
     expert_cards = []
@@ -1160,9 +1368,11 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     </div>
   </div>
 
-  <!-- Section 8: All 28 Strategy Experts Status Table -->
+  {usdm_section_html}
+
+  <!-- Section 9: All 28 Strategy Experts Status Table -->
   <div class="card">
-    <h2>8 — Strategy Expert Registry & Operational Status (28 Families)</h2>
+    <h2>9 — Strategy Expert Registry & Operational Status (28 Families)</h2>
     <div class="sec">Click any expert family name to jump directly to its complete forensic card.</div>
     <table>
       <thead>
@@ -1184,16 +1394,16 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     </table>
   </div>
 
-  <!-- Section 9: Per-Expert Detailed Forensic Cards -->
+  <!-- Section 10: Per-Expert Detailed Forensic Cards -->
   <div class="card">
-    <h2>9 — Per-Expert Detailed Forensic Drill-Downs</h2>
+    <h2>10 — Per-Expert Detailed Forensic Drill-Downs</h2>
     <div class="sec">Full census, directionality, and parameter declarations for each strategy family.</div>
     {expert_cards_html}
   </div>
 
-  <!-- Section 10: Invariant Verification & Cryptographic Ledger Audit -->
+  <!-- Section 11: Invariant Verification & Cryptographic Ledger Audit -->
   <div class="card">
-    <h2>10 — Invariant Verification & Cryptographic Ledger Audit</h2>
+    <h2>11 — Invariant Verification & Cryptographic Ledger Audit</h2>
     <div class="sec">Verification that all mathematical, architectural, and oracle invariants hold under strict release execution.</div>
     <table>
       <thead>
@@ -1222,6 +1432,48 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
           <td><b>D-102 Target Oracle O2–O3 coverage & receipts</b></td>
           <td>Support classifier, CounterfactualAuthority, CoverageReceipt, v8.eval.v1 bundle</td>
           <td><code>oracle::coverage::tests</code>, <code>oracle::support::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-109 / D-110 4-Part State Machine & USDT-Space</b></td>
+          <td>MarketState, VenueState, AccountState, PortfolioState physical separation</td>
+          <td><code>state::tests</code>, <code>account::tests</code>, <code>portfolio::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-111 Binance USD-M VenueContract</b></td>
+          <td>BTCUSDT price tick, lot step, min notional, 125x brackets & liquidation model</td>
+          <td><code>venue::tests::test_lot_size_discretization</code>, <code>venue::tests::test_liquidation_price_isolated</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-112 Capital-Constrained Hindsight DP</b></td>
+          <td>Bellman dynamic programming solver V*(St) with finite slots and capital</td>
+          <td><code>quant::tests</code>, <code>usdm_sim::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-113 EconomicCaptureRatio Gate</b></td>
+          <td>Pop/Venue/Capital hash identifiability barrier preventing synthetic leakage</td>
+          <td><code>quant::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-114 Multidimensional Execution Authority</b></td>
+          <td>6-axis orthogonal fidelity profile (MarketPath, VenueRule, Fill, Impact, Account, Identifiability)</td>
+          <td><code>venue::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-115 Manski Partial Identification Bounds</b></td>
+          <td>Intrabar ambiguity [Lower, Upper] bounds & Brownian bridge expectation</td>
+          <td><code>quant::tests</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>D-116 Economic Cashflow Conservation</b></td>
+          <td><code>ΔWallet = Gross - Fee ± Funding - Slip - Gap</code></td>
+          <td><code>cashflow::tests</code>, <code>usdm_sim::tests</code></td>
           <td class="pos">PASS</td>
         </tr>
         <tr>

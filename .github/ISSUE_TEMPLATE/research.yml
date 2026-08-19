@@ -1,0 +1,146 @@
+name: "Research Hypothesis / Experiment"
+description: "Propose and preregister a falsifiable hypothesis, benchmark, or challenger experiment."
+title: "[RESEARCH] "
+labels: ["type:research", "triage"]
+body:
+  - type: input
+    id: objective
+    attributes:
+      label: Objective
+      placeholder: "Preregister and evaluate a falsifiable research hypothesis or challenger"
+    validations:
+      required: true
+  - type: textarea
+    id: authority
+    attributes:
+      label: Owning authority
+      description: "Preregistration clauses (e.g. PREREGISTRATION_V8_SLICE_001.md), CLAIMS_REGISTRY, EXPERIMENT_REGISTRY, or V8 Constitution rules."
+    validations:
+      required: true
+  - type: dropdown
+    id: change_class
+    attributes:
+      label: Change class
+      options:
+        - EXPERIMENT_PREREGISTRATION
+        - HYPOTHESIS_EXPLORATION
+        - BENCHMARK_EVALUATION
+        - REGISTRY_UPDATE
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current state / Null hypothesis
+      description: "Baseline performance, detrended null hypothesis H0, and existing reference metrics."
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Required end state / Challenger hypothesis
+      description: "Falsifiable hypothesis H1, preregistered alpha budget, sample size requirements, and stop/fail criteria."
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Expected file / module surface
+      description: "Registry files, experiment runners, analysis scripts, or evaluation artifacts."
+    validations:
+      required: true
+  - type: textarea
+    id: gates
+    attributes:
+      label: Verification gates
+      description: "Multiple testing adjustments (WRC, DSR, SPA), bootstrap methods, D-099 compute bounds, and statistical validation."
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Required evidence artifacts
+      description: "Evaluation manifests, findings ledgers (findings.jsonl), parquet outputs, and authority receipts."
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals / forbidden scope
+      description: "Forbidden actions (e.g., no synthetic metric fabrication, no uncertified economic claims, no unapproved holdout opening)."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Context-completeness contract
+        The fields below are part of the research specification boundary.
+        Use requirement IDs (`R1`, `R2`, ...) and exact owning clauses/decisions.
+        If an exact authority, type, invariant, or failure semantic is unknown, declare an OPEN_PIN instead of guessing.
+  - type: textarea
+    id: normative_traceability
+    attributes:
+      label: 11. Normative Traceability
+      description: "Map each observable research requirement R1/R2/... to the exact owning spec clause, D-/O- decision, or registry entry."
+      placeholder: |
+        R1 — <falsifiable requirement>
+        Authority:
+        - docs/PREREGISTRATION_V8_SLICE_001.md §x.y
+        - docs/charter/V8_CONSTITUTION.md Rule x
+    validations:
+      required: true
+  - type: textarea
+    id: reuse_contracts
+    attributes:
+      label: 12. Existing Types / Interfaces to Reuse
+      description: "Existing registries (EXPERTS_REGISTRY, CLAIMS_REGISTRY), evaluation schemas, statistical routines, and data stores to reuse."
+    validations:
+      required: true
+  - type: textarea
+    id: semantic_invariants
+    attributes:
+      label: 13. Mathematical / Semantic Invariants
+      description: "Statistical formulas, detrended null specifications, multiplicity controls, and Constitution Rule 12 (NO_ECONOMIC_CLAIM) constraints."
+    validations:
+      required: true
+  - type: textarea
+    id: failure_semantics
+    attributes:
+      label: 14. Canonical Failure Semantics
+      description: "Map non-significant results, power deficiencies, or data anomalies to canonical states (e.g., REJECTED_OPTION, FAIL, NO_ECONOMIC_CLAIM)."
+    validations:
+      required: true
+  - type: textarea
+    id: dependency_map
+    attributes:
+      label: 15. Dependency Map
+      description: "Show the research evaluation pipeline from dataset -> features -> model -> statistical evaluation -> receipt."
+    validations:
+      required: true
+  - type: textarea
+    id: open_pin_triggers
+    attributes:
+      label: 16. Ambiguity / OPEN_PIN Triggers
+      description: "List the ambiguities or anomalies that must halt the experiment and trigger governance review."
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References / sources / attachments
+      description: "Relevant literature (arXiv / DOI), previous experiment hashes, or dataset manifests."
+  - type: checkboxes
+    id: guards
+    attributes:
+      label: V8 guards
+      options:
+        - label: "I will not fabricate, hardcode, or synthesize statistical metrics (p-values, Sharpe, PBO, effect sizes)."
+          required: true
+        - label: "Constitution Rule 12 (NO_ECONOMIC_CLAIM) remains binding without certified authority receipts."
+          required: true
+        - label: "Frozen OOS will not be opened without explicit pre-authorization."
+          required: true
+        - label: "If statistical methodology or data authority is ambiguous, I will open/escalate an OPEN_PIN."
+          required: true

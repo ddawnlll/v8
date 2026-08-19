@@ -156,6 +156,8 @@
 
 | D-116 | **Economic certification requires an independent cashflow ledger validator.** Production economic claims require differential reconciliation of every order, fill, commission, funding payment, and terminal wallet balance against an independent reference simulator. | LOCKED_INVARIANT candidate | `VENUE_AND_CAPITAL_SIMULATION_SPEC` §1; ensures monetary accounting has parity verification. |
 
+| D-117 | **Adopt V8 Work-Item, Pull-Request & Merge Governance v1.2 and initiate 10–20 issue measured pilot.** Deploy 5 Issue Forms with universal context-completeness contract (`R#` traceability, reused contracts, invariants, canonical failure semantics, dependency map, OPEN_PIN triggers), PR contract with requirement-traceability matrix, real CODEOWNERS routing (`@ddawnlll`), canonical label catalog (`triage`), exact CI check binding (`check`), and authoritative workflow precedence hierarchy (`WORK_ITEM_POLICY.md`). Pilot tracked in `docs/governance/PILOT_TRACKING_RECORD.md`. | PROVISIONAL_DECISION | `WORK_ITEM_POLICY.md` v1.2; closes deployment gaps and replaces all placeholder tokens with authoritative repository bindings. |
+
 Status vocabulary is intentional: `LOCKED_INVARIANT` constrains validity;
 `PROVISIONAL_DECISION` is reversible; `REJECTED_OPTION` means excluded from the
 named baseline, not disproven forever. None means profitability.

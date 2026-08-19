@@ -9,3 +9,10 @@
   - `cargo test --manifest-path v8-core/Cargo.toml`
   - `cargo check --manifest-path v8-core/Cargo.toml`
   - `.venv/bin/python tools/audit_python_boundary.py`
+
+## 🚨 WORK-ITEM & PR GOVERNANCE (v1.2)
+- All development follows `docs/WORK_ITEM_POLICY.md` and `CONTRIBUTING.md`.
+- Universal context-completeness contract (`R#` traceability, reused types, invariants, failure semantics, dependency map, OPEN_PIN triggers) required for all work items.
+- Full requirement-to-receipt traceability required on PRs.
+- Zero synthetic data / zero-tolerance anti-hallucination directive.
+

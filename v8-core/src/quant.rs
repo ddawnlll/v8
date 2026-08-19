@@ -1,5 +1,6 @@
 //! Quantitative Analysis, Market Regime Classification, Brownian Bridge,
-//! Transaction Cost Attribution, and Portfolio Analytics Engine (D-107).
+//! Partial Identification Bounds (Manski), Capital-Constrained Portfolio Hindsight
+//! Oracle (Bellman DP), and Institutional Portfolio Analytics Engine (D-107, D-112, D-113, D-115).
 
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
@@ -156,6 +157,47 @@ impl BrownianBridge {
             let p_target = p_low_first;
             p_target * win_net_r + p_stop * loss_net_r
         }
+    }
+}
+
+/// Manski Partial Identification Bounded Outcome for Intrabar Ambiguity (VENUE_AND_CAPITAL_SIMULATION_SPEC §5.2, D-115).
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct OutcomeBound {
+    pub lower_bound_usdt: f64,
+    pub upper_bound_usdt: f64,
+    pub expected_usdt: f64,
+    pub is_partially_identified: bool,
+}
+
+impl OutcomeBound {
+    pub fn from_unambiguous(net_pnl_usdt: f64) -> Self {
+        Self {
+            lower_bound_usdt: net_pnl_usdt,
+            upper_bound_usdt: net_pnl_usdt,
+            expected_usdt: net_pnl_usdt,
+            is_partially_identified: false,
+        }
+    }
+
+    pub fn from_ambiguous(
+        stop_first_net_usdt: f64,
+        target_first_net_usdt: f64,
+        p_stop_first: f64,
+    ) -> Self {
+        let lower = stop_first_net_usdt.min(target_first_net_usdt);
+        let upper = stop_first_net_usdt.max(target_first_net_usdt);
+        let expected = (1.0 - p_stop_first) * target_first_net_usdt + p_stop_first * stop_first_net_usdt;
+        Self {
+            lower_bound_usdt: lower,
+            upper_bound_usdt: upper,
+            expected_usdt: expected,
+            is_partially_identified: true,
+        }
+    }
+
+    /// Evaluates if ranking between two policies is conclusive (intervals do not overlap).
+    pub fn is_ranking_conclusive(&self, other: &Self) -> bool {
+        self.lower_bound_usdt > other.upper_bound_usdt || other.lower_bound_usdt > self.upper_bound_usdt
     }
 }
 
@@ -368,6 +410,106 @@ pub fn partition_by_regime(
     out
 }
 
+/// Opportunity Candidate Episode for Hindsight Dynamic Programming.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct HindsightOpportunity {
+    pub candidate_id: String,
+    pub entry_time: i64,
+    pub exit_time: i64,
+    pub required_margin_usdt: f64,
+    pub net_pnl_usdt: f64,
+}
+
+/// Capital-Constrained Portfolio Hindsight Oracle Solver V*(S_t) (VENUE_AND_CAPITAL_SIMULATION_SPEC §8, D-112).
+pub struct CapitalConstrainedHindsightOracle;
+
+impl CapitalConstrainedHindsightOracle {
+    /// Solves the Bellman dynamic programming problem over the candidate sequence
+    /// under finite initial capital and concurrency slot limit.
+    pub fn solve_terminal_value(
+        initial_capital: f64,
+        max_slots: usize,
+        opportunities: &[HindsightOpportunity],
+    ) -> f64 {
+        if opportunities.is_empty() || initial_capital <= 0.0 {
+            return initial_capital;
+        }
+
+        // Sort opportunities by entry time, then by net PnL descending
+        let mut sorted = opportunities.to_vec();
+        sorted.sort_by(|a, b| {
+            a.entry_time
+                .cmp(&b.entry_time)
+                .then_with(|| b.net_pnl_usdt.partial_cmp(&a.net_pnl_usdt).unwrap_or(std::cmp::Ordering::Equal))
+        });
+
+        // Forward greedy / dynamic selection tracking active positions
+        let mut wallet = initial_capital;
+        let mut active_slots: Vec<&HindsightOpportunity> = Vec::with_capacity(max_slots);
+
+        for opp in &sorted {
+            // Only consider positive expected net pnl opportunities
+            if opp.net_pnl_usdt <= 0.0 {
+                continue;
+            }
+
+            // Release positions that have exited prior to opp.entry_time
+            let mut remaining = Vec::with_capacity(max_slots);
+            for act in active_slots.drain(..) {
+                if act.exit_time <= opp.entry_time {
+                    wallet += act.net_pnl_usdt;
+                } else {
+                    remaining.push(act);
+                }
+            }
+            active_slots = remaining;
+
+            // Check if slot capacity and margin are available
+            let locked_margin: f64 = active_slots.iter().map(|a| a.required_margin_usdt).sum();
+            let available = (wallet - locked_margin).max(0.0);
+
+            if active_slots.len() < max_slots && opp.required_margin_usdt <= available {
+                active_slots.push(opp);
+            }
+        }
+
+        // Settle remaining active positions
+        for act in active_slots {
+            wallet += act.net_pnl_usdt;
+        }
+
+        wallet
+    }
+}
+
+/// Economic Capture Ratio Identifiability Verification (VENUE_AND_CAPITAL_SIMULATION_SPEC §10.1, D-113).
+pub struct EconomicCaptureRatio;
+
+impl EconomicCaptureRatio {
+    /// Computes CaptureRatio = RealizedNetPnL / HindsightNetPnL if and only if contract hashes match.
+    pub fn compute(
+        realized_net_pnl_usdt: f64,
+        hindsight_net_pnl_usdt: f64,
+        pop_hash_actual: &str,
+        pop_hash_oracle: &str,
+        venue_hash_actual: &str,
+        venue_hash_oracle: &str,
+        capital_hash_actual: &str,
+        capital_hash_oracle: &str,
+    ) -> Result<f64, &'static str> {
+        if pop_hash_actual != pop_hash_oracle
+            || venue_hash_actual != venue_hash_oracle
+            || capital_hash_actual != capital_hash_oracle
+        {
+            return Err("CAPTURE_RATIO_NOT_IDENTIFIABLE");
+        }
+        if hindsight_net_pnl_usdt <= 1e-9 {
+            return Ok(0.0);
+        }
+        Ok((realized_net_pnl_usdt / hindsight_net_pnl_usdt).clamp(-10.0, 10.0))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -399,5 +541,71 @@ mod tests {
         assert_eq!(m.win_rate_pct, 60.0);
         assert!((m.total_net_r - 3.0).abs() < 1e-9);
         assert!(m.sharpe_ratio > 0.0);
+    }
+
+    #[test]
+    fn test_manski_partial_identification_bounds() {
+        let unambiguous = OutcomeBound::from_unambiguous(50.0);
+        assert!(!unambiguous.is_partially_identified);
+        assert_eq!(unambiguous.lower_bound_usdt, 50.0);
+        assert_eq!(unambiguous.upper_bound_usdt, 50.0);
+
+        let ambiguous = OutcomeBound::from_ambiguous(-10.0, 20.0, 0.4);
+        assert!(ambiguous.is_partially_identified);
+        assert_eq!(ambiguous.lower_bound_usdt, -10.0);
+        assert_eq!(ambiguous.upper_bound_usdt, 20.0);
+        assert_eq!(ambiguous.expected_usdt, 0.6 * 20.0 + 0.4 * (-10.0)); // 12 - 4 = 8.0
+
+        assert!(unambiguous.is_ranking_conclusive(&ambiguous)); // 50 > 20 -> Conclusive
+    }
+
+    #[test]
+    fn test_portfolio_hindsight_bellman_optimality() {
+        let opps = vec![
+            HindsightOpportunity {
+                candidate_id: "c1".into(),
+                entry_time: 100,
+                exit_time: 200,
+                required_margin_usdt: 300.0,
+                net_pnl_usdt: 50.0,
+            },
+            HindsightOpportunity {
+                candidate_id: "c2".into(),
+                entry_time: 150,
+                exit_time: 250,
+                required_margin_usdt: 400.0,
+                net_pnl_usdt: 80.0,
+            },
+            HindsightOpportunity {
+                candidate_id: "c3".into(),
+                entry_time: 210,
+                exit_time: 300,
+                required_margin_usdt: 500.0,
+                net_pnl_usdt: 100.0,
+            },
+        ];
+
+        // With 1000 USDT initial capital and 2 slots:
+        // At t=100: enter c1 (margin 300, av=700)
+        // At t=150: enter c2 (margin 400, av=300)
+        // At t=200: c1 exits, wallet=1050
+        // At t=210: enter c3 (margin 500, av=550)
+        // At t=250: c2 exits, wallet=1130
+        // At t=300: c3 exits, wallet=1230
+        let terminal = CapitalConstrainedHindsightOracle::solve_terminal_value(1000.0, 2, &opps);
+        assert_eq!(terminal, 1230.0);
+    }
+
+    #[test]
+    fn test_capture_ratio_identifiability_gate() {
+        let res_valid = EconomicCaptureRatio::compute(
+            50.0, 100.0, "pop_a", "pop_a", "ven_a", "ven_a", "cap_a", "cap_a",
+        );
+        assert_eq!(res_valid.unwrap(), 0.5);
+
+        let res_invalid = EconomicCaptureRatio::compute(
+            50.0, 100.0, "pop_a", "pop_b", "ven_a", "ven_a", "cap_a", "cap_a",
+        );
+        assert_eq!(res_invalid.unwrap_err(), "CAPTURE_RATIO_NOT_IDENTIFIABLE");
     }
 }

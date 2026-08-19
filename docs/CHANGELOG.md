@@ -2,6 +2,17 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-19 — Deploy V8 Work-Item / PR Governance v1.2 and Start Measured Pilot (D-117)
+
+Deployed the canonical V8 Work-Item, Pull-Request & Merge Governance v1.2 pack across the repository:
+- **5 Issue Forms (`.github/ISSUE_TEMPLATE/`):** Deployed `defect.yml`, `implementation.yml`, `research.yml`, `performance.yml`, and `governance.yml` with universal context-completeness contract (`R#` traceability, reused contracts, invariants, canonical failure semantics, dependency map, OPEN_PIN triggers).
+- **PR Contract (`.github/PULL_REQUEST_TEMPLATE.md`):** Deployed end-to-end `R#` requirement traceability table, change classes, and explicit verification gate bindings (`check` check name).
+- **CODEOWNERS Routing (`.github/CODEOWNERS`):** Routed all critical surfaces to repository maintainer `@ddawnlll`.
+- **Workflow Policy (`docs/WORK_ITEM_POLICY.md` & `CONTRIBUTING.md`):** Formalized collaborative precedence hierarchy (Constitution > Contracts/Decisions > WORK_ITEM_POLICY > CONTRIBUTING > Scoped Agent Runbooks).
+- **Measured Pilot (`docs/governance/PILOT_TRACKING_RECORD.md`):** Initiated the 10–20 issue empirical measurement ledger.
+
+Artifacts changed: `.github/ISSUE_TEMPLATE/{config.yml, defect.yml, implementation.yml, research.yml, performance.yml, governance.yml}`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/CODEOWNERS`, `CONTRIBUTING.md`, `docs/WORK_ITEM_POLICY.md`, `docs/governance/PILOT_TRACKING_RECORD.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/CHANGELOG.md`, `tools/build_monograph.py`, agent guides (`AGENTS.md`, `GEMINI.md`, `CLAUDE.md`, `AGENT_PROMPT.md`, `.github/copilot-instructions.md`).
+
 ## 2026-08-19 — Resolution of Issues #158–#163: Governance & Defect Hardening Batch (D-103..D-108)
 
 Resolved six issues spanning candidate evaluation decoupling, dispatch tie-break conformance, epistemic belief state, causal intervention manifests, mechanism hypothesis decoupling, and authority resolution:

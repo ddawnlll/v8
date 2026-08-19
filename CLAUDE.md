@@ -21,10 +21,12 @@ profitability, validated execution, or a promoted trading system
 1. `site/index.html` — the canonical monograph (single file, everything,
    with a table of contents). **It is GENERATED — never hand-edit `site/*`.**
 2. `docs/charter/V8_CONSTITUTION.md` — the rules (1-17).
-3. `docs/ROADMAP.md` — build plan, Phases 0-7 with evidence gates.
-4. `docs/CHANGELOG.md` — dated architecture decisions.
-5. `docs/AGENT_RUNBOOK.md` — execution contract when running an autonomous
+3. `docs/WORK_ITEM_POLICY.md` — canonical work-item, PR & merge governance (v1.2).
+4. `docs/ROADMAP.md` — build plan, Phases 0-7 with evidence gates.
+5. `docs/CHANGELOG.md` — dated architecture decisions.
+6. `docs/AGENT_RUNBOOK.md` — execution contract when running an autonomous
    build session (steps, gates, commit protocol, pinned decisions).
+
 
 ## Source of truth and regeneration
 
@@ -113,3 +115,10 @@ user latency, context/tool overhead, and redundancy).
 
 The canonical, reader-facing version is
 `docs/COMPUTATION_BUDGET_POLICY.md`; `rules.md` is the short root-level copy.
+
+## Work-Item & PR Governance (v1.2)
+
+- **Collaborative workflow:** Defined in `docs/WORK_ITEM_POLICY.md` and `CONTRIBUTING.md`.
+- **Precedence Hierarchy:** Constitution & Decisions > `WORK_ITEM_POLICY.md` > `CONTRIBUTING.md` > Scoped Agent Instructions. If active authorities conflict, STOP and open/escalate an `OPEN_PIN`.
+- **Traceability Rule:** Every work item must satisfy the Universal Context-Completeness Contract (R# traceability, reused contracts, invariants, canonical failure semantics, dependency map, OPEN_PIN triggers). Every PR requires a complete `R#` traceability matrix.
+

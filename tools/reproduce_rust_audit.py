@@ -139,7 +139,22 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
     oracle_meta = json.loads(out_oracle)
     oracle_receipt_path.write_text(json.dumps(oracle_meta, indent=2), encoding="utf-8")
 
-    # 4. Render HTML Report
+    # 4. Run v8-core usdm-sim Capital-Constrained Portfolio Simulation (Issue #164)
+    t3 = time.perf_counter()
+    code, out_usdm, err_usdm = run_command([
+        str(binary), "usdm-sim",
+        "--tape", str(tape_path.resolve()),
+        "--out", str(out_dir.resolve()),
+        "--initial-balance", "1000.0",
+        "--risk-fraction", "0.005",
+        "--leverage", "10",
+    ])
+    usdm_duration = time.perf_counter() - t3
+    if code != 0:
+        raise RuntimeError(f"v8-core usdm-sim failed:\nSTDOUT: {out_usdm}\nSTDERR: {err_usdm}")
+    usdm_meta = json.loads(out_usdm)
+
+    # 5. Render HTML Report
     render_script = ROOT / "tools" / "render_rust_audit_html.py"
     html_out = out_dir / "report.html"
     code, out_rend, err_rend = run_command([sys.executable, str(render_script), "--audit-dir", str(out_dir), "--out", str(html_out)])
@@ -154,16 +169,20 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         "cube-reduced.v82": sha256_file(out_dir / "cube-reduced.v82"),
         "analysis.jsonl": sha256_file(out_dir / "analysis.jsonl"),
         "oracle_coverage_receipt.json": sha256_file(out_dir / "oracle_coverage_receipt.json"),
+        "portfolio_receipt.json": sha256_file(out_dir / "portfolio_receipt.json"),
+        "economic-cashflow.jsonl": sha256_file(out_dir / "economic-cashflow.jsonl"),
     }
 
     return {
         "eval_duration_sec": eval_duration,
         "ana_duration_sec": ana_duration,
         "oracle_duration_sec": oracle_duration,
-        "total_duration_sec": eval_duration + ana_duration + oracle_duration,
+        "usdm_duration_sec": usdm_duration,
+        "total_duration_sec": eval_duration + ana_duration + oracle_duration + usdm_duration,
         "eval_meta": eval_meta,
         "ana_meta": ana_meta,
         "oracle_meta": oracle_meta,
+        "usdm_meta": usdm_meta,
         "artifacts": artifacts,
         "html_report": html_out,
     }
@@ -228,6 +247,7 @@ def main() -> int:
     print(f"  -> Processed {n_evals:,} evaluations in {pass1['eval_duration_sec']:.2f}s ({speed:,.0f} evals/sec)")
     print(f"  -> Regret Analysis completed in {pass1['ana_duration_sec']:.2f}s")
     print(f"  -> Target Oracle Coverage completed in {pass1['oracle_duration_sec']:.2f}s (Receipt: {pass1['oracle_meta'].get('receipt_id')})")
+    print(f"  -> USD-M Capital Simulation completed in {pass1['usdm_duration_sec']:.2f}s (Trades Admitted: {pass1['usdm_meta'].get('n_trades_admitted')})")
     print(f"  -> Generated HTML report: {pass1['html_report']}")
 
     # 3. Determinism Verification Pass (if enabled)

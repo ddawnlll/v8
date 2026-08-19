@@ -1,0 +1,146 @@
+name: "Defect / Bug Report"
+description: "Report an observed contradiction with an existing V8 contract, invariant, or baseline."
+title: "[DEFECT] "
+labels: ["type:defect", "triage"]
+body:
+  - type: input
+    id: objective
+    attributes:
+      label: Objective
+      placeholder: "Observed contradiction with specification, invariant, or baseline behavior"
+    validations:
+      required: true
+  - type: textarea
+    id: authority
+    attributes:
+      label: Owning authority
+      description: "Spec clauses, invariant IDs, decision IDs, or baseline contracts that define the correct expected behavior."
+    validations:
+      required: true
+  - type: dropdown
+    id: change_class
+    attributes:
+      label: Change class
+      options:
+        - DEFECT_FIX
+        - BEHAVIOR_PRESERVING_REFACTOR
+        - SPEC_DEFECT_ALIGNMENT
+        - PARITY_DEFECT
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current state / Observed defect
+      description: "Exact observed behavior, reproduction steps, error logs, or contradictory state."
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Required end state / Expected behavior
+      description: "Observable postconditions and expected behavior conforming to the owning authority."
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Expected file / module surface
+      description: "Name the intended files/modules to inspect or modify."
+    validations:
+      required: true
+  - type: textarea
+    id: gates
+    attributes:
+      label: Verification gates
+      description: "Minimal discriminating test cases, reproduction assertions, and semantic-boundary gates."
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Required evidence artifacts
+      description: "Test execution logs, receipts, parity checks, or hashes confirming the defect is resolved."
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals / forbidden scope
+      description: "What is explicitly out of scope (e.g., no unrelated refactors, no trading policy changes)."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Context-completeness contract
+        The fields below are part of the defect fix boundary, not optional prose.
+        Use requirement IDs (`R1`, `R2`, ...) and exact owning clauses/decisions.
+        If an exact authority, type, invariant, or failure semantic is unknown, declare an OPEN_PIN instead of guessing.
+  - type: textarea
+    id: normative_traceability
+    attributes:
+      label: 11. Normative Traceability
+      description: "Map each observable requirement R1/R2/... to the exact owning spec clause, D-/O- decision, registry entry, or test."
+      placeholder: |
+        R1 — <observable requirement / fix>
+        Authority:
+        - docs/<spec>.md §x.y
+        - D-xxx
+    validations:
+      required: true
+  - type: textarea
+    id: reuse_contracts
+    attributes:
+      label: 12. Existing Types / Interfaces to Reuse
+      description: "Name existing types, traits, enums, manifests, hashes, registries, and contracts that MUST be reused. Do not create parallel ontologies."
+    validations:
+      required: true
+  - type: textarea
+    id: semantic_invariants
+    attributes:
+      label: 13. Mathematical / Semantic Invariants
+      description: "State the mathematical formulas, state-machine transitions, ordering rules, or immutability invariants that must be preserved."
+    validations:
+      required: true
+  - type: textarea
+    id: failure_semantics
+    attributes:
+      label: 14. Canonical Failure Semantics
+      description: "Map invalid/unexpected conditions to existing canonical error/refusal codes."
+    validations:
+      required: true
+  - type: textarea
+    id: dependency_map
+    attributes:
+      label: 15. Dependency Map
+      description: "Show the smallest data-flow or component interaction chain relevant to this defect."
+    validations:
+      required: true
+  - type: textarea
+    id: open_pin_triggers
+    attributes:
+      label: 16. Ambiguity / OPEN_PIN Triggers
+      description: "List the exact ambiguities or contradictions that MUST stop implementation and escalate to GOVERNANCE."
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References / sources / attachments
+      description: "Optional supporting logs, traces, issues, or references."
+  - type: checkboxes
+    id: guards
+    attributes:
+      label: V8 guards
+      options:
+        - label: "I will not weaken an existing test or invariant to make a patch pass."
+          required: true
+        - label: "No unrelated semantic change is bundled into this defect fix."
+          required: true
+        - label: "No frozen OOS is opened unless this issue explicitly carries that authority."
+          required: true
+        - label: "If the owning contract is ambiguous, I will open/escalate an OPEN_PIN rather than invent an interpretation."
+          required: true

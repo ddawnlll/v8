@@ -1,0 +1,22 @@
+# V8 CODEOWNERS
+# Authoritative maintainer routing for repository surfaces
+
+# Default fallback owner
+* @ddawnlll
+
+# Core architecture, contracts & constitution
+/docs/charter/ @ddawnlll
+/docs/contracts/ @ddawnlll
+/docs/decisions/ @ddawnlll
+/docs/registries/ @ddawnlll
+
+# Authoritative Rust compute & runtime engine
+/v8-core/ @ddawnlll
+
+# CI workflows, templates and repository governance
+/.github/ @ddawnlll
+/CONTRIBUTING.md @ddawnlll
+/docs/WORK_ITEM_POLICY.md @ddawnlll
+
+# Documentation compiler and boundary audit tools
+/tools/ @ddawnlll

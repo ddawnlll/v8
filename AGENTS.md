@@ -40,3 +40,18 @@ Only standalone documentation / tooling scripts in `tools/` may use Python:
    - No module or agent may emit `SUPPORTED_EDGE` or claim predictive profitability without certified multiple-testing adjustments (WRC, DSR, Hansen SPA) and a valid authority receipt. All uncertified verdicts must remain `NO_ECONOMIC_CLAIM`.
 5. **No Fictitious Artifact References:**
    - Generating findings or receipts that reference non-existent files or uncomputed tables (e.g. fictitious parquet paths) is classified as a critical system hallucination. Every referenced artifact must be physically produced and verified on disk.
+
+## 🚨 WORK-ITEM & PR GOVERNANCE (v1.2)
+
+### 6. Canonical Workflow & Requirement Traceability
+- **Canonical Policy:** All collaborative development follows [`docs/WORK_ITEM_POLICY.md`](docs/WORK_ITEM_POLICY.md) and [`CONTRIBUTING.md`](CONTRIBUTING.md).
+- **Universal Issue Contract:** All work items must specify:
+  1. `R#` Normative Traceability (mapped to exact spec clauses / D-series decisions).
+  2. Existing types / traits / contracts to reuse (anti-invention rule).
+  3. Mathematical & semantic invariants.
+  4. Canonical failure semantics.
+  5. Dependency & composition topology.
+  6. Explicit `OPEN_PIN` triggers.
+- **PR Traceability Matrix:** Every PR must account for all issue `R#` requirements (`R# → Authority → Implementation → Verification → Receipt`). Unmapped requirements block merge.
+- **Authority Precedence:** Constitution & Registered Decisions > `WORK_ITEM_POLICY.md` > `CONTRIBUTING.md` > Scoped Agent Instructions. If active authorities conflict, STOP and escalate an `OPEN_PIN`.
+

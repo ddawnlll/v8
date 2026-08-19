@@ -1,0 +1,28 @@
+{
+  "run_id": "20260819_073629_profitable_4_experts",
+  "timestamp_utc": "2026-08-19T07:36:29.124670+00:00",
+  "git_commit": "7f90a2f",
+  "git_branch": "main",
+  "tag": "profitable_4_experts",
+  "description": "Only 4 profitable/breakeven experts without chop filter",
+  "tape_path": "research/tape/btcusdt-1h-12m/tape.jsonl",
+  "duration_days": 365.0,
+  "initial_balance_usdt": 1000.0,
+  "terminal_equity_usdt": 107.61,
+  "net_profit_usdt": -892.39,
+  "total_return_pct": -89.24,
+  "max_drawdown_pct": 89.41,
+  "max_margin_utilization_pct": 91.8,
+  "profit_factor": 0.828,
+  "win_rate_pct": 45.48,
+  "total_fee_drag_usdt": 389.99,
+  "n_trades_admitted": 2089,
+  "rejections_by_reason": {
+    "CAPITAL_CONSTRAINT_REJECTION": 74,
+    "INSUFFICIENT_AVAILABLE_BALANCE": 73,
+    "QUANTITY_ROUNDS_TO_ZERO": 84
+  },
+  "experts_summary": {},
+  "snapshot_dir": ".audit/history/20260819_073629_profitable_4_experts",
+  "contract_hash": "9fb5d2136dbac7de8400e3c5127ff6254f50cf53"
+}

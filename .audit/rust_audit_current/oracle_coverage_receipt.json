@@ -1,7 +1,7 @@
 {
-  "receipt_id": "f27d64f9bb466d95d7a2a0dde74e9914d12134ab",
+  "receipt_id": "4b9be9a65385a2b72e20703ac1d9ab7d012ea7f6",
   "universe_id": "universe-btcusdt-1h-v1",
-  "population_hash": "2503c049511d07a4be36f0052ca66008b1b35a21",
+  "population_hash": "f1e2e0953be3a84848d6537ad1dc99446ed2536f",
   "claim": "NO_ECONOMIC_CLAIM",
   "total_opportunity_count": 27881,
   "supported_opportunity_count": 27881,
@@ -92728,7 +92728,7 @@
       "point_estimate": 0.0
     },
     {
-      "grammar_candidate_id": "gc-8f3023577680bde8",
+      "grammar_candidate_id": "gc-7dd9b07c33c252b0",
       "template_id": "template-bollinger_breakout",
       "instrument": "BTCUSDT",
       "timeframe": "1h",
@@ -332953,7 +332953,7 @@
       "point_estimate": 0.0
     },
     {
-      "grammar_candidate_id": "gc-ec14c2b46c702cc2",
+      "grammar_candidate_id": "gc-95518a79451fad47",
       "template_id": "template-bollinger_reversion",
       "instrument": "BTCUSDT",
       "timeframe": "1h",
@@ -333448,7 +333448,7 @@
       "point_estimate": 0.0
     },
     {
-      "grammar_candidate_id": "gc-798f7e14fa462b6b",
+      "grammar_candidate_id": "gc-95429f2f1412fd70",
       "template_id": "template-bollinger_breakout",
       "instrument": "BTCUSDT",
       "timeframe": "1h",
