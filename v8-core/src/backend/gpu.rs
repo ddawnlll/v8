@@ -671,6 +671,7 @@ impl GpuBackend {
                 market_move_r: fo[5],
                 cost_r: fo[6],
                 funding_r: fo[7],
+                intervention_manifest: None,
             });
         }
         Ok(outcomes)

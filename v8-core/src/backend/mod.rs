@@ -344,6 +344,7 @@ pub fn gpu_golden_parity() -> Result<Value, String> {
             market_move_r: 0.0,
             cost_r: 0.0,
             funding_r: 0.0,
+            intervention_manifest: None,
         };
         let mut cpu = vec![blank()];
         let mut gpu = vec![blank()];
