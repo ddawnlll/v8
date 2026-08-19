@@ -1,3 +1,4 @@
+pub mod adaptive;
 pub mod challenger;
 pub mod diagnosis;
 pub mod hypothesis;
@@ -5,6 +6,9 @@ pub mod research_debt;
 pub mod robustness;
 pub mod validation;
 
+pub use adaptive::{
+    O032UnblockingCriteria, SweepConfig, SweepEngine, SweepError, SweepMode, SweepReceipt,
+};
 pub use challenger::{ChallengerFamilySpec, ChallengerVariant, DiscreteParameterRange};
 pub use diagnosis::{
     EvidenceRequirement, EvidenceValidity, ExpertForensics, ExpertId, FailureTag,
