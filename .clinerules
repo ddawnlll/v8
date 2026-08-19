@@ -1,0 +1,8 @@
+# Cline / Roo Code Rules
+
+## 🚨 MANDATORY INVARIANT: RUST ONLY (`v8-core/`)
+
+- **Authoritative Runtime:** `v8-core/` (Rust) is the ONLY active runtime and development codebase.
+- **Python is FROZEN:** `src/v8/` and `tests/` are frozen historical parity oracles. Do NOT touch them.
+- **NEVER MODIFY PYTHON CODE:** Modifying `src/v8/` violates the oracle lock (`PYTHON_ORACLE_LOCK.json`).
+- All implementations, fixes, and tests must be in Rust inside `v8-core/`.

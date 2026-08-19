@@ -1,0 +1,9 @@
+# Windsurf Rules — Rust Only Runtime
+
+## 🚨 STRICT RULE: RUST ONLY — PYTHON CODEBASE IS FROZEN & DEPRECATED
+
+- **`v8-core/` is the ONLY active, authoritative codebase** for the entire project.
+- **All code edits, bug fixes, new features, evaluations, and tests MUST be written in Rust inside `v8-core/`.**
+- `src/v8/` and `tests/` are frozen historical parity oracles locked by `docs/legacy/PYTHON_ORACLE_LOCK.json`.
+- **AGENTS ARE STRICTLY PROHIBITED FROM MODIFYING `src/v8/` OR `tests/`.**
+- Verification: `cargo test --manifest-path v8-core/Cargo.toml`

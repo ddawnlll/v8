@@ -1,0 +1,8 @@
+# V8 Workspace Rules
+
+## 🚨 CRITICAL RULE: RUST ONLY — PYTHON CODEBASE IS FROZEN
+
+- The ONLY runtime codebase is `v8-core/` (Rust).
+- All implementations, bug fixes, features, evaluations, and tests must be written in Rust inside `v8-core/`.
+- `src/v8/` and `tests/` (Python) are frozen historical parity oracles. DO NOT edit or create files in `src/v8/` or `tests/`.
+- Build & test: `cargo test --manifest-path v8-core/Cargo.toml`

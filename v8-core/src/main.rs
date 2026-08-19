@@ -31,6 +31,7 @@ mod backend;
 mod cache;
 mod candidate;
 mod data;
+mod evaluation;
 mod evidence;
 mod experiment;
 mod experts;

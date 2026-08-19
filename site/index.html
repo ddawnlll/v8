@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v01">V8 Constitution v0.1</h1>
 <ol>
 <li>V8 is a falsification program, not a promise of edge.</li>
 <li>A claim is labeled <code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>,
@@ -900,6 +900,645 @@ on architecture and representation-ownership grounds, which are argued in
 <p>Sections 5-8 were measured with ad-hoc scripts against the same synthetic tape;
 each snippet appears inline above and is self-contained apart from
 <code>sys.path.insert(0, 'src')</code>.</p></section>
+<section id="sec-evaluation-evidence-system"><h1>EVALUATION EVIDENCE SYSTEM</h1><h1 id="v8-evaluation-evidence-system-scientific-audit-specification-v8evalv1">V8 Evaluation Evidence System &amp; Scientific Audit Specification (v8.eval.v1)</h1>
+<p><strong>Status:</strong> DESIGN_INFERENCE / LOCKED_INVARIANT.
+<strong>Scope:</strong> Replaces legacy single-report generation with an immutable, structured scientific evidence bundle designed for autonomous research agents (Scout -&gt; Investigator -&gt; Decision loop) and deterministic audit verification.</p>
+<hr>
+<h2 id="1-paradigm-shift-from-report-generator-to-scientific-evidence-substrate">1. Paradigm Shift: From Report Generator to Scientific Evidence Substrate</h2>
+<p>Legacy quantitative backtesting systems and earlier V8 iterations treated evaluation primarily as a <strong>report generation step</strong>—producing an aggregated HTML or text summary containing P&amp;L curves, Sharpe ratios, and summary win rates. </p>
+<p>Under <strong>v8.eval.v1</strong>, evaluation is redefined:</p>
+<blockquote>
+<p><strong>An evaluation run does not merely generate a human-facing report. It produces an immutable, queryable, content-addressed Evidence Bundle upon which autonomous agents can formulate, test, confirm, or refute falsifiable scientific hypotheses.</strong></p>
+</blockquote>
+<pre><code>                                LEGACY VIEW (Outcome Only)
+                      ┌──────────────────────────────────────────┐
+                      │  Input Tape ──► Engine ──► Final P&amp;L/HTML│
+                      └──────────────────────────────────────────┘
+
+                                V8.2+ SCIENTIFIC PARADIGM
+ ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+ │                                                                                          │
+ │   Market Data (PIT) ──► S0-S7 Pipeline ──► Immutable Evidence Bundle (v8.eval.v1)        │
+ │                                                  │                                       │
+ │                          ┌───────────────────────┴───────────────────────┐               │
+ │                          ▼                                               ▼               │
+ │                 Structured Evidence Store                     Deterministic Schema Cache  │
+ │              (Parquet Traces, DAG, Ledgers)                 (Distributions, Nulls, Stats)│
+ │                          │                                               │               │
+ │                          └───────────────────────┬───────────────────────┘               │
+ │                                                  ▼                                       │
+ │                                       Autonomous Agent Swarm                             │
+ │                         ┌─────────────────────────────────────────┐                      │
+ │                         │  • Triage Agent (Anomaly Detection)     │                      │
+ │                         │  • Scout Agents (Hypothesis Generation) │                      │
+ │                         │  • Investigator Agents (Corpus Testing) │                      │
+ │                         │  • Decision Agent (Registry Governance) │                      │
+ │                         └────────────────────┬────────────────────┘                      │
+ │                                              ▼                                           │
+ │                                    Confirmed Finding Graph                               │
+ │                                 (EPIDEMIOLOGICAL / STATISTICAL)                          │
+ │                                              │                                           │
+ │                          ┌───────────────────┴───────────────────┐                       │
+ │                          ▼                                       ▼                       │
+ │                  Human HTML Report (A-W)                 Machine Evidence API            │
+ │                   (Executive Viewport)                  (JSON-RPC / Substrate)           │
+ └──────────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<p>The HTML report is strictly a <strong>read-only presentation view (viewport)</strong> for human operators. The canonical authority resides exclusively in <strong>machine-readable, schema-validated, content-addressed structured artifacts</strong>. Agents never parse raw HTML.</p>
+<hr>
+<h2 id="2-literature-foundations-methodological-lineage">2. Literature Foundations &amp; Methodological Lineage</h2>
+<p>Recent agentic evaluation and quantitative finance literature (2025–2026) converges on the principles underpinning <code>v8.eval.v1</code>:</p>
+<pre><code>┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                LITERATURE MAPPING MATRIX                                     │
+├─────────────────────────┬──────────────────────────────────┬─────────────────────────────────┤
+│ Foundation / Paper      │ Core Principle                   │ V8.eval.v1 Implementation       │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Harness-Bench           │ Outcome != Performance;          │ Saves raw execution traces,     │
+│ (arXiv:2605.27922)      │ artifacts + traces + usage stats │ validator outputs, and state DAG│
+│                         │ + validator outputs required.    │ alongside realized returns.     │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ ClawTrack               │ Separation of Outcome Grading    │ Process telemetry: Goal         │
+│ (arXiv:2607.28037)      │ vs Process Grading; trajectory,  │ alignment, filter efficiency,   │
+│                         │ audit logs, workspace snapshots. │ dedup/veto conservation.        │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ A²E Protocol            │ Decouple task spec, environment, │ Typed execution records:        │
+│ (arXiv:2608.07346)      │ expected actions, and execution. │ signals -&gt; candidates -&gt;        │
+│                         │                                  │ transitions -&gt; trades.          │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ On Randomness in Evals  │ Single-run variance renders      │ pass@1, optimistic retry, and   │
+│ (arXiv:2602.07150)      │ small differences noisy;         │ pessimistic consistency bounds   │
+│                         │ compute consistency boundaries.  │ across perturbation sweeps.     │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Princeton Agent         │ 4 Pillars: Consistency,          │ Reliability Envelope: Outcome,  │
+│ Reliability             │ Robustness, Predictability,      │ trajectory, and resource        │
+│ (arXiv:2602.16666)      │ Safety.                          │ consistency across environments.│
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Insights Generator      │ Scalable corpus diagnosis via    │ Two-tier agent investigation:    │
+│ (arXiv:2605.21347)      │ Schema Cache + Scout/Investigator│ Scout generates hypotheses;     │
+│                         │ separation; confirmed findings.  │ Investigator verifies on corpus.│
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ AlgoXpert Framework     │ Parameter perturbation cliffs &amp;  │ Robustness Surfaces: cost, stop,│
+│ (arXiv:2603.09219)      │ IS-WFA-OOS degradation metrics.  │ target, and joint fragility.    │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ SysTradeBench           │ Hard fail-closed validity gates; │ Validity Gates: Leakage,        │
+│ (arXiv:2604.04812)      │ frozen strategy checksums.       │ Accounting, SIMD/Thread Parity. │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ AgentRx                 │ Execution trajectory fault       │ Formal Failure Ontology:        │
+│ (arXiv:2602.02475)      │ localization &amp; ontology mapping. │ 9-category structured taxons.   │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Bailey et al. (PBO/DSR) │ Multiple-testing deflated Sharpe │ Research Ledger &amp; trial count   │
+│ &amp; White Reality Check   │ &amp; probability of overfitting.    │ penalty across lifetime corpus. │
+└─────────────────────────┴──────────────────────────────────┴─────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="3-reliability-envelope-vs-single-run-outcomes">3. Reliability Envelope vs Single-Run Outcomes</h2>
+<p>Single-run backtest performance is an illusion of precision. In trading engines, while execution arithmetic may be deterministic, the <strong>execution circumstance</strong> varies across real-world deployments.</p>
+<p>V8 constructs a multi-dimensional <strong>Reliability Envelope</strong>:</p>
+<p>$$\text{Reliability Envelope} = \mathcal{E}(\text{Threads}, \text{SIMD}, \text{Cache State}, \text{CPU Architecture}, \text{Input Perturbations}, \text{Cost Shocks})$$</p>
+<h3 id="core-invariant-semantic-invariance-under-circumstantial-perturbation">Core Invariant: Semantic Invariance under Circumstantial Perturbation</h3>
+<p>$$\forall c_1, c_2 \in \text{ExecutionCircumstances}, \quad \text{Semantics}(S, c_1) \equiv \text{Semantics}(S, c_2) \implies \text{Economics}(S, c_1) \equiv \text{Economics}(S, c_2)$$</p>
+<p>The reliability envelope assesses:
+1. <strong>Thread Parity ($T \in {1, 2, 4, 8}$):</strong> Does candidate allocation or state aggregation drift with concurrency?
+2. <strong>SIMD vs Scalar Parity:</strong> Do AVX2/AVX-512 vector paths produce bit-identical decisions compared to scalar fallbacks?
+3. <strong>Cache Cold vs Warm:</strong> Does pre-warmed state alter lookback indexing or float rounding?
+4. <strong>Input Data Perturbations:</strong> Injecting 1-bar timestamp jitter, micro-slippage, or dropped funding rates.
+5. <strong>Parameter Neighborhood Stability:</strong> Does a $\pm 2\%$ perturbation in indicator threshold cause an catastrophic performance cliff ($\Delta \text{Sharpe} &gt; 50\%$)?</p>
+<hr>
+<h2 id="4-total-artifact-structure-directory-layout-v8evalv1">4. Total Artifact Structure &amp; Directory Layout (<code>v8.eval.v1</code>)</h2>
+<p>Every evaluation run creates a self-contained, immutable bundle under <code>evaluation/&lt;RUN_ID&gt;/</code>:</p>
+<pre><code>evaluation/
+└── RUN_ID/
+    ├── manifest.json                  # Entry gateway &amp; cryptographic receipt
+    ├── executive.json                 # Machine-readable scorecard &amp; critical verdicts
+    ├── report.html                    # Presentation viewport (Sections A–W)
+    │
+    ├── provenance/                    # Cryptographic lineage &amp; reproduction DAG
+    │   ├── environment.json           # Host CPU, OS, compiler, Rust toolchain, flags
+    │   ├── inputs.json                # Data sources, symbol list, interval, bar counts
+    │   ├── hashes.json                # Binary, tape, config, and artifact checksums
+    │   ├── config.json                # Evaluator configuration snapshot
+    │   └── artifact_dag.json          # Dependency graph of all generated artifacts
+    │
+    ├── data/                          # Input data forensic layer
+    │   ├── bars.parquet               # PIT ingested OHLCV + funding rows
+    │   ├── data_quality.parquet       # Per-bar quality flags, gap indicators
+    │   └── feature_census.parquet     # Feature distributions, null rates, quantiles
+    │
+    ├── execution/                     # Full pipeline event telemetry
+    │   ├── evaluations.parquet        # S0: All bar-level expert evaluation attempts
+    │   ├── signals.parquet            # S1: Emitted raw behavioral signals
+    │   ├── candidates.parquet         # S2: Formed candidate episodes
+    │   ├── transitions.parquet        # S3-S4: State transitions (dedup, cooldown)
+    │   ├── vetoes.parquet             # S5: Risk, capacity, and heat veto events
+    │   └── trades.parquet             # S6-S7: Admitted orders, fills, and trade logs
+    │
+    ├── economics/                     # Financial performance forensic layer
+    │   ├── portfolio.parquet          # Aggregate portfolio metrics &amp; drawdown series
+    │   ├── experts.parquet            # Per-expert return decomposition &amp; attribution
+    │   ├── costs.parquet              # Spread, fee, slippage, and funding drag
+    │   └── equity_curve.parquet       # High-resolution step-by-step equity curve
+    │
+    ├── paths/                         # Trade path &amp; trajectory forensics
+    │   ├── mfe_mae.parquet            # Maximum Favorable/Adverse Excursion records
+    │   ├── markouts.parquet           # Post-trigger price trajectories (t+1..t+k)
+    │   ├── exits.parquet              # Exit barrier classification &amp; touch sequences
+    │   └── intrabar_ambiguity.parquet # High/Low touch ambiguity &amp; penalty bounds
+    │
+    ├── slices/                        # Cohort &amp; regime conditional performance
+    │   ├── regime.parquet             # Volatility/Trend regime slices
+    │   ├── direction.parquet          # Long vs Short asymmetry
+    │   ├── time_of_day.parquet        # Session / TOD / DOW performance
+    │   ├── volatility.parquet         # ATR / Realized Volatility quantiles
+    │   └── liquidity.parquet          # Volume / OFI regime slices
+    │
+    ├── robustness/                    # Counterfactual surfaces &amp; stability
+    │   ├── cost_surface.parquet       # Friction vs Net Expectancy grid
+    │   ├── exit_surface.parquet       # SL/TP/Expiry geometry perturbation grid
+    │   ├── parameter_surface.parquet  # Neighborhood parameter sensitivity
+    │   ├── perturbations.parquet      # Injected stress &amp; data corruption tests
+    │   └── degradation.parquet        # IS -&gt; WFA -&gt; OOS -&gt; Holdout degradation
+    │
+    ├── statistics/                    # Rigorous hypothesis testing artifacts
+    │   ├── bootstrap.json             # Stationary bootstrap CIs on Expectancy/Sharpe
+    │   ├── permutations.json          # Trade order &amp; return permutation distributions
+    │   ├── nulls.json                 # 10-family null benchmark comparisons
+    │   ├── reality_check.json         # White's Reality Check &amp; Hansen's SPA tests
+    │   ├── multiple_testing.json      # Lifetime research trials &amp; DSR corrections
+    │   └── backtest_overfit.json      # Bailey's Probability of Backtest Overfit (PBO)
+    │
+    ├── correctness/                   # Rust engine invariant &amp; parity receipts
+    │   ├── invariants.json            # Conservation and lifecycle invariant checks
+    │   ├── replay_digest.json         # Deterministic replay hash verification
+    │   ├── thread_parity.json         # 1 vs 2 vs 4 vs 8 thread parity results
+    │   ├── simd_parity.json           # AVX2/AVX-512 vs Scalar bit-level parity
+    │   └── implementation_parity.json # Minimal reference oracle differential report
+    │
+    └── analysis/                      # Agent reasoning &amp; finding graph
+        ├── schema_cache.json          # Precomputed column statistics for LLM queries
+        ├── hypotheses.jsonl           # Preregistered and Scout-generated hypotheses
+        ├── findings.jsonl             # Confirmed, Refuted, or Inconclusive findings
+        ├── anomalies.jsonl            # Automated outlier &amp; diagnostic alerts
+        └── recommendations.jsonl      # Concrete next preregistered challengers
+</code></pre>
+<hr>
+<h2 id="5-manifestjson-entry-gateway-accounting-invariants">5. <code>manifest.json</code> Entry Gateway &amp; Accounting Invariants</h2>
+<p>Agents first inspect <code>manifest.json</code> (~10 KB) before querying large Parquet datasets. If any hard gate fails, the evaluation run is immediately classified as <code>INVALID_RUN</code>.</p>
+<pre><code class="language-json">{
+  &quot;schema&quot;: &quot;v8.eval.v1&quot;,
+  &quot;run_id&quot;: &quot;RUN-20260819-BTC-001&quot;,
+  &quot;timestamp_utc&quot;: &quot;2026-08-19T03:00:00Z&quot;,
+  &quot;git_commit&quot;: &quot;a1f89c0d2e4b6789123456789abcdef01234567&quot;,
+  &quot;binary_hash&quot;: &quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;,
+  &quot;tape_hash&quot;: &quot;7a3560f7690623a9d4fa1534da6cc0a7d9796e625a6eb8ee99b3b0d2de0bc5ef&quot;,
+  &quot;config_hash&quot;: &quot;2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae&quot;,
+  &quot;dataset&quot;: {
+    &quot;instrument&quot;: &quot;BTCUSDT&quot;,
+    &quot;timeframe&quot;: &quot;1h&quot;,
+    &quot;raw_bars&quot;: 9948,
+    &quot;warmup_bars&quot;: 1188,
+    &quot;eligible_bars&quot;: 8760,
+    &quot;start_utc&quot;: &quot;2025-07-01T00:00:00Z&quot;,
+    &quot;end_utc&quot;: &quot;2026-07-01T00:00:00Z&quot;
+  },
+  &quot;funnel_conservation&quot;: {
+    &quot;evaluations&quot;: 245280,
+    &quot;setups_triggered&quot;: 42647,
+    &quot;deduplicated&quot;: 14766,
+    &quot;vetoed_risk_capacity&quot;: 27879,
+    &quot;admitted_trades&quot;: 2,
+    &quot;invariant_holds&quot;: true,
+    &quot;accounting_equation&quot;: &quot;42647 == 14766 (dedup) + 27879 (veto) + 2 (admitted)&quot;
+  },
+  &quot;validity_gates&quot;: {
+    &quot;temporal_leakage&quot;: &quot;PASS&quot;,
+    &quot;accounting_conservation&quot;: &quot;PASS&quot;,
+    &quot;determinism_replay&quot;: &quot;PASS&quot;,
+    &quot;simd_scalar_parity&quot;: &quot;PASS&quot;,
+    &quot;thread_parity&quot;: &quot;PASS&quot;,
+    &quot;overall_validity&quot;: &quot;VALID&quot;
+  },
+  &quot;economic_verdict&quot;: &quot;INSUFFICIENT_EVIDENCE&quot;,
+  &quot;summary_metrics&quot;: {
+    &quot;gross_expectancy_R&quot;: -0.012,
+    &quot;net_expectancy_R&quot;: -0.048,
+    &quot;total_trades&quot;: 2,
+    &quot;sharpe_ratio&quot;: -0.18,
+    &quot;max_drawdown_R&quot;: 1.96
+  },
+  &quot;critical_findings&quot;: [
+    &quot;F-0012: Extreme veto rate (99.99%) driven by unparameterized EXISTING_EXPOSURE_CONFLICT.&quot;,
+    &quot;F-0014: Expert identity collapse in admission veto logs.&quot;
+  ],
+  &quot;artifacts&quot;: {
+    &quot;root_dir&quot;: &quot;evaluation/RUN-20260819-BTC-001&quot;,
+    &quot;total_size_bytes&quot;: 14820942
+  }
+}
+</code></pre>
+<h3 id="invariant-equation">Invariant Equation</h3>
+<p>$$\text{Setups} = \text{Deduplicated} + \text{Vetoed}_{\text{Risk/Capacity}} + \text{Admitted}$$
+Any mismatch ($\Delta \neq 0$) trips an immediate <code>FAIL-CLOSED</code> error.</p>
+<hr>
+<h2 id="6-data-forensic-layer-temporal-integrity-quality-dag">6. Data Forensic Layer: Temporal Integrity &amp; Quality DAG</h2>
+<pre><code>   Raw Venue Feeds (Vision Archive)
+               │
+               ▼
+   [Checksum &amp; Ingestion Validator] ──► Temporal Integrity Checks (monotonicity, gaps, lookahead)
+               │
+               ▼
+   [Feature Normalization Engine]   ──► Feature Census (NaN, Inf, Null Rate, Variance, Quantiles)
+               │
+               ▼
+   [State Store Materialization]    ──► Provenance DAG (every column mapped to origin code)
+</code></pre>
+<ol>
+<li>
+<p><strong>Temporal Integrity Forensic:</strong>
+   - Monotonic increasing timestamp assertion: $\forall t_i, t_i &lt; t_{i+1}$.
+   - Availability-time verification: $t_{\text{decision}} \ge t_{\text{availability}} &gt; t_{\text{event}}$.
+   - Missing bar &amp; holiday audit with venue calendar verification.
+   - Purge &amp; embargo window enforcement across development/OOS partitions.</p>
+</li>
+<li>
+<p><strong>Feature Quality Census:</strong>
+   - Metrics computed per feature: $N$, Missing $\%$, NaN count, Infinite values, Zero variance flags, Quantiles ($p_1, p_{25}, p_{50}, p_{75}, p_{99}$), Min/Max, Discontinuity jumps, and Stale repeated-value sequences.</p>
+</li>
+<li>
+<p><strong>Source Lineage DAG:</strong>
+   - Every column in <code>feature_census.parquet</code> is cryptographically tied to its exact generating Rust function hash and upstream source field.</p>
+</li>
+</ol>
+<hr>
+<h2 id="7-funnel-forensic-granular-conversion-lost-expectancy">7. Funnel Forensic: Granular Conversion &amp; Lost Expectancy</h2>
+<p>Every Expert's signal funnel is audited at every stage:</p>
+<p>$$\text{Bars Observed} \xrightarrow{E} \text{Eligible Evals} \xrightarrow{S} \text{Setup} \xrightarrow{D} \text{Dedup Filter} \xrightarrow{R} \text{Risk/Cap Filter} \xrightarrow{A} \text{Admitted} \xrightarrow{T} \text{Filled Trade} \xrightarrow{X} \text{Outcome}$$</p>
+<p>For every transition:
+- <strong>Count &amp; Conversion Rate:</strong> Percentage of signals surviving each stage.
+- <strong>Reason Codes:</strong> Categorized rejection tags (e.g., <code>COOLDOWN_ACTIVE</code>, <code>OPPOSITE_EXPOSURE_ACTIVE</code>, <code>HEAT_CAP_EXCEEDED</code>).
+- <strong>Lost Expectancy Estimate ($\Delta \mathbb{E}[R]$):</strong> Theoretical counterfactual return of rejected signals vs admitted signals, measuring whether risk filters successfully reject negative edge or inadvertently filter profitable setups.
+- <strong>Trace IDs:</strong> Full array of Candidate IDs for agentic drilldown.</p>
+<hr>
+<h2 id="8-economic-forensic-layer">8. Economic Forensic Layer</h2>
+<p>Economic performance is separated into <strong>Gross Edge</strong>, <strong>Friction Drag</strong>, and <strong>Net Realized Edge</strong>:</p>
+<p>$$\text{Net } R = \text{Gross } R - (\text{Fee } R + \text{Slippage } R + \text{Funding } R + \text{Delay Penalty } R)$$</p>
+<pre><code>┌───────────────────────────┬───────────────────────────┬───────────────────────────┐
+│ Returns &amp; Expectancy      │ Trade &amp; Risk Statistics   │ Execution Economics       │
+├───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│ • Gross Expectancy ($R$)  │ • Sample Count ($N$)      │ • Total Fee Drag ($R$)    │
+│ • Net Expectancy ($R$)    │ • Win Rate ($\%$)         │ • Slippage Drag ($R$)     │
+│ • Median $R$ per Trade    │ • Profit Factor ($PF$)    │ • Net Funding Drag ($R$)  │
+│ • Annualized Return       │ • Payoff Ratio (Win/Loss) │ • Annual Turnover         │
+│ • Sharpe Ratio (Ann.)     │ • Max Drawdown ($R$)      │ • Gross -&gt; Net Decay      │
+│ • Sortino Ratio           │ • Average Drawdown ($R$)  │ • Break-Even Cost Limit   │
+│ • Calmar Ratio            │ • CVaR / Expected Shortfall│ • Capacity Estimate ($)   │
+└───────────────────────────┴───────────────────────────┴───────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="9-counterfactual-robustness-surfaces">9. Counterfactual Robustness Surfaces</h2>
+<p>Rather than testing isolated discrete exits, <code>v8.eval.v1</code> evaluates continuous response surfaces across four core dimensions:</p>
+<ol>
+<li><strong>Cost Surface:</strong> $\mathbb{E}<a href="c">R</a>$ where cost $c \in [0, 20\text{ bps}]$. Determines the zero-edge intercept (Break-even friction).</li>
+<li><strong>Stop Surface:</strong> $\mathbb{E}<a href="\text{Stop_R}">R</a>$ where $\text{Stop_R} \in [0.2R, 3.0R]$. Measures stop-loss tightness sensitivity.</li>
+<li><strong>Target Surface:</strong> $\mathbb{E}<a href="\text{Target_R}">R</a>$ where $\text{Target_R} \in [0.5R, 10.0R]$. Evaluates profit target truncation.</li>
+<li><strong>Expiry Surface:</strong> $\mathbb{E}<a href="\text{Expiry_Bars}">R</a>$ where $\text{Expiry} \in [1, 100\text{ bars}]$.</li>
+<li><strong>Joint Fragility Metrics:</strong>
+   - <strong>Plateau Width:</strong> Parameter radius over which $\mathbb{E}[R] &gt; 0$.
+   - <strong>Performance Cliff (AlgoXpert):</strong> Maximum first derivative $\max |\nabla \text{Sharpe}|$ across parameter neighbors.
+   - <strong>Local Fragility Index:</strong> Variance of performance under small $\pm 5\%$ parameter perturbations.</li>
+</ol>
+<hr>
+<h2 id="10-path-forensics-trajectory-classification">10. Path Forensics &amp; Trajectory Classification</h2>
+<p>Every trade produces high-resolution intrabar trajectory metrics:</p>
+<pre><code> Entry ──► (Time to MAE, MAE) ──► (Time to MFE, MFE) ──► Barrier Sequence ──► Realized Exit ──► Post-Exit Path
+</code></pre>
+<h3 id="automated-path-classifications">Automated Path Classifications</h3>
+<ul>
+<li><strong>Stop Too Tight:</strong> Trade hit SL, but subsequently reached $+1.0R$ favorable excursion within the original trade horizon.</li>
+<li><strong>Target Too Tight:</strong> Trade hit TP, followed by immediate strong continuation ($&gt; +2.0R$ additional excursion).</li>
+<li><strong>Dead Trade:</strong> Neither SL nor TP approached ($|MAE| &lt; 0.2R, |MFE| &lt; 0.2R$) for $&gt; 80\%$ of expiry duration (zero-information capital lockup).</li>
+<li><strong>Bad Entry:</strong> MAE occurs immediately ($t_{\text{MAE}} = 1$) with zero favorable movement ($MFE &lt; 0.05R$).</li>
+<li><strong>Good Signal / Bad Execution:</strong> Markout trajectory at $t+k$ is strongly positive, but realized trade is negative due to spread/slippage.</li>
+<li><strong>Bad Signal / Lucky Exit:</strong> Trajectory is predominantly adverse, but trade exited with a small gain due to an ephemeral intrabar spike.</li>
+</ul>
+<hr>
+<h2 id="11-10-family-null-model-benchmark-suite">11. 10-Family Null Model Benchmark Suite</h2>
+<p>An observed edge is statistically meaningful only if it significantly outperforms a battery of structured Null Models that preserve trivial time-series properties:</p>
+<pre><code>┌──────────────────────────────────────┬──────────────────────────────────────────────────────────┐
+│ Null Model Variant                   │ Preserved Invariant / Purpose                            │
+├──────────────────────────────────────┼──────────────────────────────────────────────────────────┤
+│ 1. Random Entry Uniform              │ Tests whether timing carries information over random.    │
+│ 2. Random Direction                  │ Preserves exact entry times; randomizes Long/Short side. │
+│ 3. Randomized Timestamps (Poisson)   │ Preserves trade count and duration; randomizes times.    │
+│ 4. Always Long                       │ Quantifies underlying market drift / beta baseline.      │
+│ 5. Always Short                      │ Quantifies short-side market drift baseline.             │
+│ 6. Inverted Signal                   │ Directly tests directional sign fidelity ($S -&gt; -S$).    │
+│ 7. Shuffled Expert Labels            │ Tests whether specific expert identities matter.         │
+│ 8. Matched-Frequency Random Strategy │ Matches empirical trade spacing &amp; interval distribution. │
+│ 9. Matched-Duration Random Strategy  │ Matches empirical trade holding-time distribution.       │
+│ 10. Matched-Regime Random Strategy   │ Generates random trades strictly within the same regime. │
+└──────────────────────────────────────┴──────────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="12-multiple-testing-accounting-research-debt-ledger">12. Multiple-Testing Accounting &amp; Research Debt Ledger</h2>
+<p>The probability of false discovery increases dramatically with cumulative exploration:</p>
+<p>$$P(\text{False Positive}) = 1 - (1 - \alpha)^K \xrightarrow[K \to \infty]{} 1.0$$</p>
+<p>Where $K$ is the <strong>cumulative number of hypotheses and parameter variants ever tested on this dataset in the project's lifetime</strong>.</p>
+<ol>
+<li><strong>Deflated Sharpe Ratio (DSR):</strong> Adjusts Sharpe for non-normality, sample length, and $K$ trials (Bailey &amp; de Prado).</li>
+<li><strong>White's Reality Check &amp; Hansen's Superior Predictive Ability (SPA):</strong> Evaluates whether the best strategy in the family beats the benchmark after accounting for the full family search space.</li>
+<li><strong>Probability of Backtest Overfitting (PBO):</strong> Combinatorially Symmetric Cross-Validation (CSCV) over chronological partitions.</li>
+<li><strong>Global Research Ledger:</strong> Every evaluation run appends tested hypotheses, variants, and slice queries to <code>research_ledger.jsonl</code>. Penalties are calculated from cumulative research history, not single-run configuration count.</li>
+</ol>
+<hr>
+<h2 id="13-research-ledger-specification-hypothesesjsonl">13. Research Ledger Specification (<code>hypotheses.jsonl</code>)</h2>
+<p>Hypotheses are formal, immutable records:</p>
+<pre><code class="language-json">{
+  &quot;hypothesis_id&quot;: &quot;H-0192&quot;,
+  &quot;parent_hypothesis&quot;: &quot;H-0145&quot;,
+  &quot;created_by&quot;: &quot;agent:scout-volatility&quot;,
+  &quot;created_at_run&quot;: &quot;RUN-20260819-BTC-001&quot;,
+  &quot;status&quot;: &quot;SUPPORTED&quot;,
+  &quot;claim&quot;: &quot;bollinger_breakout LONG suffers from premature stop loss in HIGH_VOLATILITY regime.&quot;,
+  &quot;preregistered_test&quot;: {
+    &quot;cohort_filter&quot;: &quot;expert == 'bollinger_breakout' and direction == 'LONG' and regime == 'HIGH_VOL'&quot;,
+    &quot;counterfactual_variant&quot;: &quot;stop_multiplier = 1.5&quot;,
+    &quot;primary_metric&quot;: &quot;net_expectancy_R&quot;,
+    &quot;required_n&quot;: 100,
+    &quot;significance_threshold_p&quot;: 0.01
+  },
+  &quot;evidence_for&quot;: [
+    &quot;Cohort N=342, baseline net_R = -0.14R, counterfactual net_R = +0.08R (bootstrap p=0.004).&quot;,
+    &quot;38.4% of stopped trades achieved +1.0R post-stop MFE.&quot;
+  ],
+  &quot;evidence_against&quot;: [
+    &quot;Max drawdown increases from 12.4R to 16.8R under wider stop.&quot;
+  ],
+  &quot;falsification_criterion&quot;: &quot;Effect must hold with p &lt; 0.05 on untouched Frozen OOS Fold 2.&quot;,
+  &quot;derived_challengers&quot;: [&quot;EXP-V8-CHALLENGER-BB-042&quot;]
+}
+</code></pre>
+<hr>
+<h2 id="14-validation-partitioning-is-wfa-frozen-oos-holdout">14. Validation Partitioning: IS -&gt; WFA -&gt; Frozen OOS -&gt; Holdout</h2>
+<p>Evaluations strictly follow a 4-tier chronological partition hierarchy with purge gaps:</p>
+<pre><code>  [Development In-Sample] ──► [Walk-Forward Folds 1..N] ──► [Frozen Out-of-Sample] ──► [Final Holdout]
+      (Exploration)              (Purged Anchored)             (Single Audit Run)       (Locked Archive)
+</code></pre>
+<p>For every boundary, degradation ratios are recorded:
+- $\text{Degradation}<em>{\text{IS}\to\text{WFA}} = 1 - \frac{\text{Sharpe}</em>{\text{WFA}}}{\text{Sharpe}<em>{\text{IS}}}$
+- $\text{Degradation}</em>{\text{WFA}\to\text{OOS}} = 1 - \frac{\text{Sharpe}<em>{\text{OOS}}}{\text{Sharpe}</em>{\text{WFA}}}$
+- $\text{Degradation}<em>{\text{OOS}\to\text{Holdout}} = 1 - \frac{\text{Sharpe}</em>{\text{Holdout}}}{\text{Sharpe}_{\text{OOS}}}$</p>
+<hr>
+<h2 id="15-implementation-risk-vs-statistical-validity-2d-matrix">15. Implementation Risk vs Statistical Validity (2D Matrix)</h2>
+<p>Statistical robustness and engine correctness are orthogonal axes. A strategy with stellar statistics on a buggy engine is worthless; a perfectly implemented strategy with zero statistical edge is equally unviable.</p>
+<pre><code>                            STATISTICAL VALIDITY × IMPLEMENTATION VALIDITY
+ ┌──────────────────────────────────────┬──────────────────────────────────────────────────────────┐
+ │                                      │                  ENGINE CORRECTNESS                      │
+ │                                      ├────────────────────────────┬─────────────────────────────┤
+ │                                      │ Engine Verified (PASS)     │ Engine Suspect (FAIL)       │
+ ├────────────────┬─────────────────────┼────────────────────────────┼─────────────────────────────┤
+ │ STATISTICAL    │ Edge Valid (PASS)   │ CANDIDATE PROMOTED         │ BLOCKED / QUARANTINED       │
+ │ VALIDITY       │ Edge Invalid (FAIL) │ REJECTED HYPOTHESIS        │ UNINTERPRETABLE / CORRUPT   │
+ └────────────────┴─────────────────────┴────────────────────────────┴─────────────────────────────┘
+</code></pre>
+<p>V8 maintains a <strong>Minimal Specification Oracle Replay</strong>: A lightweight 20-scenario reference harness verifying canonical gap-throughs, SL/TP collisions, funding settlements, fee calculations, and partial bar fills against the Rust compute core.</p>
+<hr>
+<h2 id="16-perturbation-injected-stress-suite">16. Perturbation &amp; Injected Stress Suite</h2>
+<p>Evaluation includes synthetic stress environments (distinct from historical estimates):</p>
+<ol>
+<li><strong>Data Perturbations:</strong> Injected 1-minute bar timestamp shifts, missing funding rate rows, synthetic spread widenings ($2\times..5\times$), random missing bars ($1\%..5\%$).</li>
+<li><strong>Market Stress:</strong> Volatility shocks ($1.5\times$), sudden liquidity vacuum ($10\times$ slippage multiplier), prolonged zero-volume periods.</li>
+<li><strong>Engine Perturbations:</strong> Dynamic thread reassignment, cold cache evaluation, memory fragmentation stress.</li>
+</ol>
+<hr>
+<h2 id="17-autonomous-agent-reliability-profile">17. Autonomous Agent Reliability Profile</h2>
+<p>Autonomous agents operating on the evidence substrate are themselves evaluated for epistemic reliability:</p>
+<ul>
+<li><strong>Finding Consistency:</strong> Do independent runs of the Scout agent identify the identical failure modes on the same evidence bundle?</li>
+<li><strong>Attribution Consistency:</strong> Do independent Investigator agents converge on the same root cause?</li>
+<li><strong>Recommendation Consistency:</strong> Do diagnostic agents propose consistent preregistered challenger configurations?</li>
+<li><strong>Epistemic Calibration:</strong> When an agent reports <code>confidence = 0.90</code>, do $\approx 90\%$ of those findings replicate on subsequent OOS data?</li>
+<li><strong>Resource Footprint:</strong> Token consumption, tool-call count, and execution latency per confirmed finding.</li>
+</ul>
+<hr>
+<h2 id="18-structured-finding-schema-findingsjsonl">18. Structured Finding Schema (<code>findings.jsonl</code>)</h2>
+<p>Findings are formatted as machine-verifiable objects:</p>
+<pre><code class="language-json">{
+  &quot;finding_id&quot;: &quot;F-08421&quot;,
+  &quot;scope&quot;: {
+    &quot;expert&quot;: &quot;failed_breakout&quot;,
+    &quot;side&quot;: &quot;SHORT&quot;,
+    &quot;regime&quot;: &quot;HIGH_VOLATILITY&quot;
+  },
+  &quot;claim&quot;: &quot;Current stop geometry truncates positive trade trajectories.&quot;,
+  &quot;epistemic_status&quot;: &quot;SUPPORTED&quot;,
+  &quot;severity&quot;: &quot;HIGH&quot;,
+  &quot;confidence&quot;: 0.88,
+  &quot;observations&quot;: [
+    &quot;31.2% of stopped trades reached +0.5R favorable excursion before hitting stop.&quot;,
+    &quot;Counterfactual trailing stop (+1.5R initial) improves cohort expectancy by +0.12R.&quot;
+  ],
+  &quot;statistical_evidence&quot;: {
+    &quot;n&quot;: 412,
+    &quot;bootstrap_ci&quot;: [0.04, 0.19],
+    &quot;p_value&quot;: 0.011,
+    &quot;effect_size_R&quot;: 0.12
+  },
+  &quot;alternative_explanations&quot;: [
+    &quot;Confounding by high-volatility regime drift.&quot;,
+    &quot;Intrabar high/low touch ordering ambiguity.&quot;
+  ],
+  &quot;falsifiers&quot;: [
+    &quot;Effect vanishes in frozen out-of-sample partition.&quot;,
+    &quot;Effect vanishes under pessimistic intrabar barrier ordering.&quot;
+  ],
+  &quot;supporting_artifacts&quot;: [
+    &quot;trades.parquet?expert=failed_breakout&amp;side=SHORT&quot;,
+    &quot;paths/mfe_mae.parquet?id_in=[...]&quot;,
+    &quot;slices/volatility.parquet&quot;
+  ],
+  &quot;recommended_next_test&quot;: &quot;O-027_ADAPTIVE_STOP_EXPERIMENT&quot;
+}
+</code></pre>
+<hr>
+<h2 id="19-failure-ontology-taxonomy">19. Failure Ontology &amp; Taxonomy</h2>
+<p>Every diagnostic anomaly maps to a strict 9-category ontology:</p>
+<pre><code>FAILURE TAXONOMY
+├── DATA
+│   ├── missing_bars
+│   ├── timestamp_inversion
+│   ├── temporal_leakage
+│   └── feature_stale_or_nan
+├── SIGNAL
+│   ├── zero_edge
+│   ├── directional_inversion
+│   ├── regime_incompatibility
+│   └── overtrigger_chatter
+├── ADMISSION
+│   ├── excessive_dedup_loss
+│   ├── exposure_conflict_block
+│   ├── portfolio_heat_saturation
+│   └── identity_loss_in_logs
+├── EXECUTION
+│   ├── excessive_cost_drag
+│   ├── slippage_asymmetry
+│   ├── gap_through_liquidation
+│   └── intrabar_ambiguity
+├── EXIT
+│   ├── stop_too_tight
+│   ├── target_too_tight
+│   ├── premature_expiry
+│   └── trailing_stop_whipsaw
+├── STATISTICS
+│   ├── insufficient_sample_n
+│   ├── multiple_testing_inflation
+│   ├── out_of_sample_collapse
+│   ├── null_indistinguishable
+│   └── parameter_cliff
+├── ENGINE
+│   ├── nondeterministic_replay
+│   ├── simd_scalar_divergence
+│   ├── thread_race_condition
+│   └── accounting_imbalance
+├── PORTFOLIO
+│   ├── cross_expert_correlation
+│   ├── asset_concentration
+│   └── simultaneous_drawdown
+└── UNCLASSIFIED_NEW_FAILURE_CLASS
+</code></pre>
+<hr>
+<h2 id="20-cross-run-regression-analysis">20. Cross-Run Regression Analysis</h2>
+<p>Every evaluation automatically computes a differential delta vector against reference benchmarks:</p>
+<p>$$\Delta \text{Run} = \text{Current Run} - \text{Reference Run} \quad (\text{Reference} \in {\text{Prior Run}, \text{Baseline Locked}, \text{Production Candidate}})$$</p>
+<p>Key delta indicators:
+- $\Delta \text{Net Expectancy } (R)$
+- $\Delta \text{Max Drawdown } (R)$
+- $\Delta \text{Cost Sensitivity Slope}$
+- $\Delta \text{OOS Stability Index}$
+- $\Delta \text{Signal Funnel Conversion } (\%)$
+- $\Delta \text{Compute Runtime } (\text{ms/bar})$
+- $\text{Bit-level Semantic Drift Check } (\text{PASS} / \text{DRIFT})$</p>
+<hr>
+<h2 id="21-additive-performance-decomposition">21. Additive Performance Decomposition</h2>
+<p>Performance shifts between runs are mathematically decomposed into constituent contributions without claiming unfounded causal interventions:</p>
+<p>$$\Delta \mathbb{E}[R]<em>{\text{total}} = \Delta \mathbb{E}[R]</em>{\text{exit_geometry}} + \Delta \mathbb{E}[R]<em>{\text{cost_model}} + \Delta \mathbb{E}[R]</em>{\text{direction_mix}} + \Delta \mathbb{E}[R]<em>{\text{regime_distribution}} + \epsilon</em>{\text{residual}}$$</p>
+<pre><code>  +0.100 R Total Improvement
+  ├── +0.041 R (Exit geometry change)
+  ├── +0.028 R (Updated realistic cost model)
+  ├── +0.017 R (Directional weighting balance)
+  ├── +0.009 R (Favorable regime shift)
+  └── +0.005 R (Residual unexplained variance)
+</code></pre>
+<hr>
+<h2 id="22-hard-validity-gates-vs-scores-fail-closed">22. Hard Validity Gates vs Scores (Fail-Closed)</h2>
+<p>High-severity data and implementation integrity failures are <strong>never averaged into composite scores</strong>. They trigger immediate, non-negotiable <strong>FAIL-CLOSED</strong> termination:</p>
+<pre><code>if TEMPORAL_LEAKAGE_DETECTED           == TRUE -&gt; VERDICT = INVALID_RUN
+if ACCOUNTING_CONSERVATION_MISMATCH    == TRUE -&gt; VERDICT = INVALID_RUN
+if NONDETERMINISTIC_REPLAY_HASH        == TRUE -&gt; VERDICT = INVALID_RUN
+if SIMD_SCALAR_PARITY_DIVERGENCE       == TRUE -&gt; VERDICT = INVALID_RUN
+if CORRUPT_STATE_CACHE_DETECTED        == TRUE -&gt; VERDICT = INVALID_RUN
+if BROKEN_COST_MODEL_OR_MISSING_FEE   == TRUE -&gt; VERDICT = INVALID_RUN
+</code></pre>
+<p>Only runs passing all Hard Validity Gates are admitted into statistical and economic interpretation.</p>
+<hr>
+<h2 id="23-semantic-drift-gate-change-attribution">23. Semantic Drift Gate &amp; Change Attribution</h2>
+<p>When automated repair or optimization code is submitted, V8 classifies the modification:</p>
+<ol>
+<li><strong>BUG_FIX:</strong> Fixes an implementation defect without altering defined strategy math. Must reproduce identical signals on clean canonical inputs.</li>
+<li><strong>IMPLEMENTATION_OPTIMIZATION:</strong> SIMD, memory, or threading speedup. Must maintain $100\%$ bit-exact trace identity.</li>
+<li><strong>SEMANTIC_STRATEGY_CHANGE:</strong> Alters indicator thresholds, entry/exit logic, or filters. Requires a fresh preregistered hypothesis and resets multiple-testing trial counters.</li>
+<li><strong>NEW_CHALLENGER:</strong> Introduces a novel behavior family or machine-learned scoring model.</li>
+</ol>
+<hr>
+<h2 id="24-multi-agent-investigation-architecture">24. Multi-Agent Investigation Architecture</h2>
+<pre><code>                       RUST ENGINE EVALUATION
+                                 │
+                                 ▼
+                     IMMUTABLE EVIDENCE BUNDLE
+                                 │
+                 ┌───────────────┴───────────────┐
+                 ▼                               ▼
+      Deterministic Audit               Schema Builder
+     (Invariants, Parity)            (Distributions, Stats)
+                 │                               │
+                 └───────────────┬───────────────┘
+                                 ▼
+                           TRIAGE AGENT
+                                 │
+                 ┌───────────────┼───────────────┐
+                 ▼               ▼               ▼
+             Scout A          Scout B         Scout C
+          (Exit Paths)       (Regimes)       (Engine/Data)
+                 │               │               │
+                 └───────────────┼───────────────┘
+                                 ▼
+                          HYPOTHESIS POOL
+                                 │
+                                 ▼
+                       INVESTIGATOR AGENTS
+                 (Full Corpus Statistical Proof)
+                                 │
+                     [Confirmed / Refuted / Inconclusive]
+                                 │
+                                 ▼
+                           FINDING GRAPH
+                                 │
+                 ┌───────────────┴───────────────┐
+                 ▼                               ▼
+         Human HTML Report              Machine Evidence API
+         (Viewport View)                (Autonomous Queries)
+                 │                               │
+                 └───────────────┬───────────────┘
+                                 ▼
+                          DECISION AGENT
+                 (KEEP / REPAIR / NEW CHALLENGER)
+</code></pre>
+<hr>
+<h2 id="25-tiered-computation-caching-budget">25. Tiered Computation &amp; Caching Budget</h2>
+<p>To maintain rapid development cycles without burning excessive compute, analytical tasks are partitioned into four operational tiers:</p>
+<pre><code>┌────────┬─────────────────────────┬──────────────────────────────────────────────────────────┐
+│ Tier   │ Execution Trigger       │ Workloads &amp; Invariants                                   │
+├────────┼─────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Tier 0 │ Every commit / run      │ Invariants, accounting conservation, basic economics,   │
+│        │ (Mandatory, &lt; 2 sec)    │ per-expert metrics, MFE/MAE, bit-exact cross-run diff.   │
+├────────┼─────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Tier 1 │ Content-Addressed Cache │ Stationary bootstrap, return permutations, 10 nulls,     │
+│        │ (On hash change, &lt; 30s) │ cost surfaces, exit surfaces, markouts.                  │
+├────────┼─────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Tier 2 │ Hypothesis-Driven       │ Expensive counterfactual replays, multidimensional       │
+│        │ (Agent request, &lt; 5m)   │ parameter surfaces, WFA fold evaluation, perturbations.  │
+├────────┼─────────────────────────┼──────────────────────────────────────────────────────────┤
+│ Tier 3 │ Promotion Gate Only     │ True untouched Frozen OOS opening, PBO/DSR/SPA tests,    │
+│        │ (Candidate certification)│ multi-environment reference parity, holdout burn.        │
+└────────┴─────────────────────────┴──────────────────────────────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="26-canonical-human-report-structure-sections-a-through-w">26. Canonical Human Report Structure (Sections A through W)</h2>
+<p>The human-facing <code>report.html</code> renders a 23-section executive view:</p>
+<ul>
+<li><strong>Section A — Run Identity &amp; Provenance:</strong> Hashes, git commit, binary identity, input tape, platform.</li>
+<li><strong>Section B — Validity Gates:</strong> Pass/Fail status on all hard integrity and parity gates.</li>
+<li><strong>Section C — Data Integrity:</strong> Temporal integrity, missing bars, feature census, NaN/Inf checks.</li>
+<li><strong>Section D — Execution Conservation:</strong> Step-by-step funnel accounting conservation equations.</li>
+<li><strong>Section E — Portfolio Economics:</strong> High-level returns, net vs gross $R$, Sharpe, Sortino, Calmar.</li>
+<li><strong>Section F — Expert Scoreboard:</strong> Comparative table of all active and candidate behavior experts.</li>
+<li><strong>Section G — Expert Deep Forensics:</strong> Per-expert signal-to-trade attrition and conversion paths.</li>
+<li><strong>Section H — Trade Path Analysis:</strong> Intrabar MFE/MAE trajectories, barrier touch sequences, time-to-excursion.</li>
+<li><strong>Section I — Cost &amp; Execution Surface:</strong> Sensitivity curves across fees, slippage, and funding rates.</li>
+<li><strong>Section J — Exit Counterfactuals:</strong> Comparative response curves for alternative stop, target, and expiry rules.</li>
+<li><strong>Section K — Regime / Slice Diagnostics:</strong> Performance partitioned by Volatility, Trend, TOD, and Liquidity.</li>
+<li><strong>Section L — Statistical Evidence:</strong> Stationary bootstrap confidence intervals and permutation tests.</li>
+<li><strong>Section M — Multiple Testing &amp; Research Debt:</strong> Lifetime trial counter, White's Reality Check, and DSR.</li>
+<li><strong>Section N — WFA / OOS Stability:</strong> Chronological walk-forward fold consistency and degradation metrics.</li>
+<li><strong>Section O — Parameter Fragility:</strong> Parameter neighborhood cliffs, plateau width, and fragility index.</li>
+<li><strong>Section P — Engine Correctness:</strong> Thread parity, SIMD parity, and reference oracle differential checks.</li>
+<li><strong>Section Q — Stress &amp; Perturbation:</strong> Performance degradation under synthetic market and data faults.</li>
+<li><strong>Section R — Cross-Run Regression:</strong> Delta metrics vs prior run, baseline, and production target.</li>
+<li><strong>Section S — Failure Attribution:</strong> Ontological taxonomy mapping and root-cause localization.</li>
+<li><strong>Section T — Confirmed Findings:</strong> Machine-verified statistical conclusions from Investigator agents.</li>
+<li><strong>Section U — Refuted Hypotheses:</strong> Preregistered claims formally disproven on the corpus.</li>
+<li><strong>Section V — Unknowns &amp; Epistemic Gaps:</strong> Inconclusive queries requiring further data or instrumentation.</li>
+<li><strong>Section W — Recommended Experiments:</strong> Formally preregistered challenger specifications for subsequent iterations.</li>
+</ul></section>
 <section id="sec-architecture-spec"><h1>ARCHITECTURE SPEC</h1><h1 id="v8-architecture-specification">V8 Architecture Specification</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This is the system-level build contract: it
 names the components, the data flow between them, and the technology

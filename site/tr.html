@@ -1,4 +1,4 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Nihai Araştırma Monografisi</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Davranış Odaklı Alım Satım Zekâsı</h1><p><strong>Nihai araştırma monografisi ve mimari spesifikasyonu.</strong> Bu tek dosya, önceki V8 Markdown derlemesinin tamamını belge içeriği olarak barındırır; okumak için ayrı bir Markdown dosyası gerekmez.</p></header><section id="document-status"><h1>Belge durumu ve okuma kuralı</h1><p class="status"><strong>ÖN-DENEYSEL / KANITA BAĞLI.</strong> Bu belge V8'in kârlı olduğunu, yatırımcı sezgisinin güvenilir olduğunu veya icranın doğrulandığını iddia etmez. Amacı, kaynaklı fikirleri, tasarım varsayımlarını ve deneylerle elenmesi ya da desteklenmesi gereken önermeleri birbirinden ayırmaktır.</p><p>Etiketler şu anlamlara gelir: <strong>LITERATURE_SUPPORTED</strong> sınırlı, harici destekli bir iddiadır; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> yerel bir proje bulgusudur; <strong>DESIGN_INFERENCE</strong> test edilebilir bir mühendislik çıkarımıdır; <strong>PROVISIONAL_DECISION</strong> geri alınabilirdir; <strong>LOCKED_INVARIANT</strong> bir geçerlilik kuralıdır; <strong>OPEN_QUESTION</strong> çözümlenmemiştir; <strong>REJECTED_OPTION</strong> ise başlangıç taban çizgisinden hariç tutulmuştur.</p></section><section id="abstract"><h1>Özet</h1><p>V8, evrensel-model önermesini—her piyasa zaman damgası için tek bir yön tahmini üretmeyi—yanlışlanabilir bir alternatifle karşılaştırır: koşullu alım satım muhakemesini açık, davranışa özgü karar modüllerine ayrıştırmak. Temel soru, bu ayrıştırmanın eşit bilgiye sahip global zaman-damgası düzeyinde bir tahmin ediciden daha yararlı ve sağlam kararlar üretip üretemeyeceğidir.</p><p>Bu soru tek bir hipotez değildir. Davranışsal yapının varlığı, avantajın belirli habitatlarda yoğunlaşması, Expert ayrıştırmasının değeri, Aday Bölümü (Candidate Episode) veri modelinin değeri, seçim/kalite filtrelemesinin değeri, sermaye kıtlığında sıralama ihtiyacı ve icranın alfa ile etkileşimi ayrı ayrı test edilmelidir. Literatür, likiditenin, emir akışının, oynaklık kümelenmesinin, piyasa etkisinin, seçici tahminin ve çoklu test riskinin ilgisini destekler. V8 Expert'lerinin, bir Yönlendirici'nin (Router) veya bir Skorlayıcı'nın (Scorer) ekonomik üstünlüğe sahip olduğunu kurmaz.</p><p>Buna uygun olarak başlangıç mimarisi bilinçli olarak küçüktür: anlık (point-in-time) MarketState → 2–3 deterministik, kendinden kapılı Expert → eksiksiz Aday yaşam döngüsünün salt-ekle (append-only) kaydı → deterministik kabul/risk → tek bir kanonik Seviye-1 icra defteri. Yönlendirici, öğrenilmiş Skorlayıcı, Sıralayıcı, RL icrası ve emir defteri simülasyonu varsayılan değildir. Her biri, önceden kayıtlı, maliyetlendirilmiş, dondurulmuş bir örnek-dışı (out-of-sample) deneyinde daha basit bir deterministik taban çizgisine karşı değer göstermek zorundadır.</p></section><section id="problem-definition"><h1>Problem tanımı</h1><h2>Yanlış kurulmuş problem: her barda yön tahmin etmek</h2><p>Global bir model, heterojen süreçleri—trend, bant (range), oynaklık şoku, likidite tükenmesi, zorla tasfiye, devam ve tersine dönüş—tek bir hedef fonksiyona sıkıştırır. Güçlü örnek-içi (in-sample) sınıflandırma, bir sinyalin maliyetler sonrası seçilebilir olduğunu, bir mekanizmaya bağlı olduğunu veya rejim değişikliğine karşı sağlam olduğunu göstermez. Dosya tabanlı V7 kanıtı bu ayrımı gerekli kılar: belirli bir bar türevi öznitelik/icracı kampanyası, belirtilen maliyet varsayımları altında açıklanan ekonomik kapıyı geçemedi. Bu sonuç, tüm davranışsal avantajı ne doğrular ne de çürütür; V8'in kendisini de etkilemez.</p><h2>V8 araştırma problemi</h2><p>V8, "sıradaki fiyat hareketi yukarı mı aşağı mı?" sorusunu dört soruya ayrıştırır: (1) Bu anda ekonomik olarak anlamlı olabilecek gözlemlenebilir bir davranış var mı? (2) Habitat, kurulum, tetikleyici, geçersiz kılma ve süre sonu ile önceden (ex ante) biçimselleştirilebilir mi? (3) Bir Aday olarak kaydedildikten sonra hangi hipotezler tetiklenir ve kanonik bir maliyet ve icra politikası altında ne olur? (4) Daha karmaşık bir bileşen, daha basit taban çizgisinin ötesinde ölçülmüş değer ekler mi?</p><h2>Başarı ve başarısızlık ölçütleri</h2><p>Başarı, çekici bir geri test ya da karmaşık bir diyagram değildir. Bir bileşen, yalnızca eksiksiz deneme soyağacı, anlık veri, sabit maliyet/dolum varsayımları, bağımlılık duyarlı belirsizlik, çoklu test muhasebesi ve dokunulmamış kronolojik OOS ile önceden kayıtlı bir hedefi geçtiğinde kabul edilir. Başarısızlık da bilgidir: bir Expert'i reddedin, bir Yönlendirici'yi çıkarın ya da bir Aday şemasını sadeleştirin. Dolayısıyla V8'in çıktısı, mimari karmaşıklığı kanıt yüküne bağlayan bir araştırma laboratuvarıdır; bir sinyal makinesi değildir.</p></section><section id="introduction"><h1>Giriş: bu araştırma neden gerekli</h1><p>Alım satım araştırmasındaki en pahalı hata, gözlemlenen bir fiyat biçimini nedenle ve seçilmiş bir geri testi avantajla karıştırmaktır. İkinci bir hata, ilkini daha fazla öznitelik, daha büyük bir model, daha ince yönlendirme veya daha gerçekçi görünen icra ile gizlemektir. Bu monografi, ekonomik mekanizmayı, gözlemlenebilir davranışı, istatistiksel imzayı, alım satım kuralını ve icra seçimini ayrı tutar. Bir katmandaki olumlu kanıt, bir sonraki katmanı asla otomatik olarak çözmez.</p><p>Bu belge iki iş yapar. İlk olarak, sağlanan 60 maddelik listedeki erişilebilir çalışmaları MoE/yönlendirme, seçici tahmin, sağkalım ve çok durumlu yaşam döngüsü yöntemleri, zamansal olay modellemesi, aşırı uyum kontrolleri, mikro yapı, etki ve icra/portföy kararları kapsamında derinlemesine analiz eder. İkinci olarak, aktarımın sınırını çizer: LLM MoE kanıtı finansal Expert değeri değildir; tıbbi sağkalım modelleri Aday PnL'si değildir; eşzamanlı emir akışı etkisi öngörülebilirlik değildir. Geçerli aktarım esas olarak test tasarımı ve veri sözleşmeleri düzeyindedir.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-anayasas-v01">V8 Anayasası v0.1</h1>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Nihai Araştırma Monografisi</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Davranış Odaklı Alım Satım Zekâsı</h1><p><strong>Nihai araştırma monografisi ve mimari spesifikasyonu.</strong> Bu tek dosya, önceki V8 Markdown derlemesinin tamamını belge içeriği olarak barındırır; okumak için ayrı bir Markdown dosyası gerekmez.</p></header><section id="document-status"><h1>Belge durumu ve okuma kuralı</h1><p class="status"><strong>ÖN-DENEYSEL / KANITA BAĞLI.</strong> Bu belge V8'in kârlı olduğunu, yatırımcı sezgisinin güvenilir olduğunu veya icranın doğrulandığını iddia etmez. Amacı, kaynaklı fikirleri, tasarım varsayımlarını ve deneylerle elenmesi ya da desteklenmesi gereken önermeleri birbirinden ayırmaktır.</p><p>Etiketler şu anlamlara gelir: <strong>LITERATURE_SUPPORTED</strong> sınırlı, harici destekli bir iddiadır; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> yerel bir proje bulgusudur; <strong>DESIGN_INFERENCE</strong> test edilebilir bir mühendislik çıkarımıdır; <strong>PROVISIONAL_DECISION</strong> geri alınabilirdir; <strong>LOCKED_INVARIANT</strong> bir geçerlilik kuralıdır; <strong>OPEN_QUESTION</strong> çözümlenmemiştir; <strong>REJECTED_OPTION</strong> ise başlangıç taban çizgisinden hariç tutulmuştur.</p></section><section id="abstract"><h1>Özet</h1><p>V8, evrensel-model önermesini—her piyasa zaman damgası için tek bir yön tahmini üretmeyi—yanlışlanabilir bir alternatifle karşılaştırır: koşullu alım satım muhakemesini açık, davranışa özgü karar modüllerine ayrıştırmak. Temel soru, bu ayrıştırmanın eşit bilgiye sahip global zaman-damgası düzeyinde bir tahmin ediciden daha yararlı ve sağlam kararlar üretip üretemeyeceğidir.</p><p>Bu soru tek bir hipotez değildir. Davranışsal yapının varlığı, avantajın belirli habitatlarda yoğunlaşması, Expert ayrıştırmasının değeri, Aday Bölümü (Candidate Episode) veri modelinin değeri, seçim/kalite filtrelemesinin değeri, sermaye kıtlığında sıralama ihtiyacı ve icranın alfa ile etkileşimi ayrı ayrı test edilmelidir. Literatür, likiditenin, emir akışının, oynaklık kümelenmesinin, piyasa etkisinin, seçici tahminin ve çoklu test riskinin ilgisini destekler. V8 Expert'lerinin, bir Yönlendirici'nin (Router) veya bir Skorlayıcı'nın (Scorer) ekonomik üstünlüğe sahip olduğunu kurmaz.</p><p>Buna uygun olarak başlangıç mimarisi bilinçli olarak küçüktür: anlık (point-in-time) MarketState → 2–3 deterministik, kendinden kapılı Expert → eksiksiz Aday yaşam döngüsünün salt-ekle (append-only) kaydı → deterministik kabul/risk → tek bir kanonik Seviye-1 icra defteri. Yönlendirici, öğrenilmiş Skorlayıcı, Sıralayıcı, RL icrası ve emir defteri simülasyonu varsayılan değildir. Her biri, önceden kayıtlı, maliyetlendirilmiş, dondurulmuş bir örnek-dışı (out-of-sample) deneyinde daha basit bir deterministik taban çizgisine karşı değer göstermek zorundadır.</p></section><section id="problem-definition"><h1>Problem tanımı</h1><h2>Yanlış kurulmuş problem: her barda yön tahmin etmek</h2><p>Global bir model, heterojen süreçleri—trend, bant (range), oynaklık şoku, likidite tükenmesi, zorla tasfiye, devam ve tersine dönüş—tek bir hedef fonksiyona sıkıştırır. Güçlü örnek-içi (in-sample) sınıflandırma, bir sinyalin maliyetler sonrası seçilebilir olduğunu, bir mekanizmaya bağlı olduğunu veya rejim değişikliğine karşı sağlam olduğunu göstermez. Dosya tabanlı V7 kanıtı bu ayrımı gerekli kılar: belirli bir bar türevi öznitelik/icracı kampanyası, belirtilen maliyet varsayımları altında açıklanan ekonomik kapıyı geçemedi. Bu sonuç, tüm davranışsal avantajı ne doğrular ne de çürütür; V8'in kendisini de etkilemez.</p><h2>V8 araştırma problemi</h2><p>V8, "sıradaki fiyat hareketi yukarı mı aşağı mı?" sorusunu dört soruya ayrıştırır: (1) Bu anda ekonomik olarak anlamlı olabilecek gözlemlenebilir bir davranış var mı? (2) Habitat, kurulum, tetikleyici, geçersiz kılma ve süre sonu ile önceden (ex ante) biçimselleştirilebilir mi? (3) Bir Aday olarak kaydedildikten sonra hangi hipotezler tetiklenir ve kanonik bir maliyet ve icra politikası altında ne olur? (4) Daha karmaşık bir bileşen, daha basit taban çizgisinin ötesinde ölçülmüş değer ekler mi?</p><h2>Başarı ve başarısızlık ölçütleri</h2><p>Başarı, çekici bir geri test ya da karmaşık bir diyagram değildir. Bir bileşen, yalnızca eksiksiz deneme soyağacı, anlık veri, sabit maliyet/dolum varsayımları, bağımlılık duyarlı belirsizlik, çoklu test muhasebesi ve dokunulmamış kronolojik OOS ile önceden kayıtlı bir hedefi geçtiğinde kabul edilir. Başarısızlık da bilgidir: bir Expert'i reddedin, bir Yönlendirici'yi çıkarın ya da bir Aday şemasını sadeleştirin. Dolayısıyla V8'in çıktısı, mimari karmaşıklığı kanıt yüküne bağlayan bir araştırma laboratuvarıdır; bir sinyal makinesi değildir.</p></section><section id="introduction"><h1>Giriş: bu araştırma neden gerekli</h1><p>Alım satım araştırmasındaki en pahalı hata, gözlemlenen bir fiyat biçimini nedenle ve seçilmiş bir geri testi avantajla karıştırmaktır. İkinci bir hata, ilkini daha fazla öznitelik, daha büyük bir model, daha ince yönlendirme veya daha gerçekçi görünen icra ile gizlemektir. Bu monografi, ekonomik mekanizmayı, gözlemlenebilir davranışı, istatistiksel imzayı, alım satım kuralını ve icra seçimini ayrı tutar. Bir katmandaki olumlu kanıt, bir sonraki katmanı asla otomatik olarak çözmez.</p><p>Bu belge iki iş yapar. İlk olarak, sağlanan 60 maddelik listedeki erişilebilir çalışmaları MoE/yönlendirme, seçici tahmin, sağkalım ve çok durumlu yaşam döngüsü yöntemleri, zamansal olay modellemesi, aşırı uyum kontrolleri, mikro yapı, etki ve icra/portföy kararları kapsamında derinlemesine analiz eder. İkinci olarak, aktarımın sınırını çizer: LLM MoE kanıtı finansal Expert değeri değildir; tıbbi sağkalım modelleri Aday PnL'si değildir; eşzamanlı emir akışı etkisi öngörülebilirlik değildir. Geçerli aktarım esas olarak test tasarımı ve veri sözleşmeleri düzeyindedir.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-anayasas-v01">V8 Anayasası v0.1</h1>
 <ol>
 <li>V8 bir falsifikasyon programıdır, edge vaadi değildir.</li>
 <li>Bir iddia <code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>,
@@ -908,6 +908,453 @@ on architecture and representation-ownership grounds, which are argued in
 <p>Sections 5-8 were measured with ad-hoc scripts against the same synthetic tape;
 each snippet appears inline above and is self-contained apart from
 <code>sys.path.insert(0, 'src')</code>.</p></section>
+<section id="sec-evaluation-evidence-system"><h1>EVALUATION EVIDENCE SYSTEM</h1><h1 id="v8-degerlendirme-kant-sistemi-ve-bilimsel-denetim-spesifikasyonu-v8evalv1">V8 Değerlendirme Kanıt Sistemi ve Bilimsel Denetim Spesifikasyonu (v8.eval.v1)</h1>
+<p><strong>Durum:</strong> DESIGN_INFERENCE / LOCKED_INVARIANT.<br>
+<strong>Kapsam:</strong> Eski tekil rapor (HTML/text) üretim mantığını; otonom araştırma ajanlarının (Scout -&gt; Investigator -&gt; Decision döngüsü) üzerinde hipotez kurup doğrulayabileceği, sorgulanabilir, değişmez (immutable) ve içerik adresli bir bilimsel kanıt paketi (Evidence Bundle) ile değiştirir.</p>
+<hr>
+<h2 id="1-paradigma-donusumu-rapor-uretecinden-bilimsel-kant-altyapsna">1. Paradigma Dönüşümü: Rapor Üretecinden Bilimsel Kanıt Altyapısına</h2>
+<p>Geleneksel kantitatif backtest sistemleri ve önceki V8 sürümleri, değerlendirme adımını yalnızca bir <strong>rapor oluşturma aracı</strong> olarak görüyordu (P&amp;L eğrileri, Sharpe oranları, özet kazanma oranları içeren statik HTML/metin çıktısı).</p>
+<p><strong>v8.eval.v1</strong> ile değerlendirme sistemi kökten yeniden tanımlanmıştır:</p>
+<blockquote>
+<p><strong>Bir değerlendirme koşusu yalnızca bir rapor üretmez. Otonom ajanların üzerinde araştırma yapabileceği, sorgulayabileceği, yanlışlanabilir hipotezler kurup bütün korpus üzerinde doğrulayabileceği / çürütebileceği değişmez (immutable) ve içerik adresli bir Kanıt Paketi (Evidence Bundle) üretir.</strong></p>
+</blockquote>
+<pre><code>                                 ESKİ YAKLAŞIM (Yalnızca Çıktı)
+                      ┌──────────────────────────────────────────┐
+                      │  Input Tape ──► Engine ──► Final P&amp;L/HTML│
+                      └──────────────────────────────────────────┘
+
+                                V8.2+ BİLİMSEL PARADİGMA
+ ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+ │                                                                                          │
+ │   Piyasa Verisi (PIT) ──► S0-S7 Pipeline ──► Değişmez Kanıt Paketi (v8.eval.v1)         │
+ │                                                  │                                       │
+ │                          ┌───────────────────────┴───────────────────────┐               │
+ │                          ▼                                               ▼               │
+ │                 Yapılandırılmış Kanıt Deposu                 Deterministik Şema Önbelleği │
+ │              (Parquet İzleri, DAG, Defterler)               (Dağılımlar, Boşluklar, İstat)│
+ │                          │                                               │               │
+ │                          └───────────────────────┬───────────────────────┘               │
+ │                                                  ▼                                       │
+ │                                       Otonom Ajan Sürüsü                                 │
+ │                         ┌─────────────────────────────────────────┐                      │
+ │                         │  • Triage Ajanı (Anomali Tespiti)       │                      │
+ │                         │  • Scout Ajanları (Hipotez Üretimi)     │                      │
+ │                         │  • Investigator Ajanları (Korpus Testi) │                      │
+ │                         │  • Decision Ajanı (Sicil Yönetimi)      │                      │
+ │                         └────────────────────┬────────────────────┘                      │
+ │                                              ▼                                           │
+ │                                   Doğrulanmış Bulgu Grafı                                │
+ │                                 (EPİSTEMOLOJİK / İSTATİSTİKSEL)                          │
+ │                                              │                                           │
+ │                          ┌───────────────────┴───────────────────┐                       │
+ │                          ▼                                       ▼                       │
+ │                   İnsan HTML Raporu (A-W)                 Makine Kanıt API'si            │
+ │                    (Yönetici Görüntüsü)                  (JSON-RPC / Substrat)           │
+ └──────────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<p>Buradaki HTML raporu, insan operatörler için yalnızca bir <strong>okuma arayüzüdür (viewport)</strong>. Nihai otorite ise tamamen <strong>makine tarafından okunabilir, şema doğrulamalı, yapılandırılmış Parquet/JSONL kanıt paketindedir</strong>. Ajanlar asla HTML parse etmeye çalışmaz.</p>
+<hr>
+<h2 id="2-literatur-dayanag-ve-metodolojik-temeller">2. Literatür Dayanağı ve Metodolojik Temeller</h2>
+<p>2025–2026 ajan değerlendirme ve kantitatif finans literatürü, <code>v8.eval.v1</code> mimarisini doğrudan desteklemektedir:</p>
+<pre><code>┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                LİTERATÜR EŞLEŞTİRME MATRİSİ                                  │
+├─────────────────────────┬──────────────────────────────────┬─────────────────────────────────┤
+│ Kaynak / Makale         │ Temel İlke                       │ V8.eval.v1 Uygulaması           │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Harness-Bench           │ Sonuç tek başına yetersizdir;    │ Ham yürütme izleri (traces),    │
+│ (arXiv:2605.27922)      │ nihai çıktılar + yürütme izleri  │ doğrulayıcı çıktıları ve durum  │
+│                         │ + kullanım istatistikleri şart.  │ DAG'ı P&amp;L ile birlikte saklanır.│
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ ClawTrack               │ Outcome Grading ile Process      │ Süreç telemetrisi: Hedef uyumu, │
+│ (arXiv:2607.28037)      │ Grading ayrılmalıdır; trajectory,│ filtre verimliliği, dedup/veto  │
+│                         │ denetim günlükleri, snapshotlar. │ korunum denkliği izlenir.       │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ A²E Protokolü           │ Görev temsili, ortam ve gerçek   │ Tiplenmiş yürütme kayıtları:    │
+│ (arXiv:2608.07346)      │ yürütme kaydını ayıran protokol. │ signals -&gt; candidates -&gt;        │
+│                         │                                  │ transitions -&gt; trades.          │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ On Randomness in Evals  │ Tek koşu varyansı yanıltıcıdır;  │ pass@1, iyimser tekrar ve       │
+│ (arXiv:2602.07150)      │ tutarlılık sınırları (bounds)    │ kötümser tutarlılık sınırları   │
+│                         │ birlikte raporlanmalıdır.        │ pertürbasyon altında ölçülür.   │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Princeton Ajan          │ 4 Güvenilirlik Sütunu:           │ Güvenilirlik Zarfı: Outcome,    │
+│ Güvenilirliği           │ Consistency, Robustness,         │ trajectory ve resource tutar-   │
+│ (arXiv:2602.16666)      │ Predictability, Safety.          │ lılığı çevre şartlarında test.  │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Insights Generator      │ Büyük iz korpusu doğrudan LLM'e  │ İki kademeli ajan araştırması:  │
+│ (arXiv:2605.21347)      │ verilmez; Şema Önbelleği +       │ Scout hipotez üretir,           │
+│                         │ Scout / Investigator ayrımı.     │ Investigator korpusta kanıtlar. │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ AlgoXpert Çerçevesi     │ Parametre uçurumları (cliffs) &amp;  │ Sağlamlık Yüzeyleri: maliyet,   │
+│ (arXiv:2603.09219)      │ IS-WFA-OOS bozulma metrikleri.   │ stop, hedef ve ortak kırılganlık│
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ SysTradeBench           │ Fail-closed geçerlilik kapıları; │ Geçerlilik Kapıları: Sızıntı,   │
+│ (arXiv:2604.04812)      │ donmuş strateji sağlama toplamı. │ Muhasebe, SIMD/İş Parçacığı.    │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ AgentRx                 │ Yürütme yörüngesinden hata adımı │ Biçimsel Hata Ontolojisi:       │
+│ (arXiv:2602.02475)      │ ve sınıfı çıkarma.               │ 9 ana kategorili taksonomi.     │
+├─────────────────────────┼──────────────────────────────────┼─────────────────────────────────┤
+│ Bailey vd. (PBO/DSR)    │ Çoklu test enflasyonu, deflated  │ Araştırma Defteri ve kümülatif  │
+│ &amp; White Reality Check   │ Sharpe ve aşırı uyum olasılığı.  │ deneme cezası hesabı.           │
+└─────────────────────────┴──────────────────────────────────┴─────────────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="3-tekil-ckt-yerine-guvenilirlik-zarf-reliability-envelope">3. Tekil Çıktı Yerine Güvenilirlik Zarfı (Reliability Envelope)</h2>
+<p>Deterministik bir motorda dahi çalışma şartları (execution circumstances) üretim ortamlarında değişkenlik gösterebilir. V8, tekil bir metrik yerine çok boyutlu bir <strong>Güvenilirlik Zarfı</strong> tanımlar:</p>
+<p>$$\text{Güvenilirlik Zarfı} = \mathcal{E}(\text{İş Parçacıkları}, \text{SIMD}, \text{Önbellek}, \text{İşlemci}, \text{Girdi Pertürbasyonları}, \text{Maliyet Şokları})$$</p>
+<h3 id="temel-degismez-yurutme-sartlar-altnda-semantik-degismezlik">Temel Değişmez: Yürütme Şartları Altında Semantik Değişmezlik</h3>
+<p>$$\forall c_1, c_2 \in \text{YürütmeŞartları}, \quad \text{Semantik}(S, c_1) \equiv \text{Semantik}(S, c_2) \implies \text{Ekonomi}(S, c_1) \equiv \text{Ekonomi}(S, c_2)$$</p>
+<ol>
+<li><strong>İş Parçacığı Paritesi ($T \in {1, 2, 4, 8}$):</strong> Paralellik seviyesi değiştikçe aday dağıtımı veya durum toplama işlemi bit düzeyinde sapıyor mu?</li>
+<li><strong>SIMD / Skaler Paritesi:</strong> AVX2/AVX-512 vektör kod yolları ile skaler yedek yollar birebir aynı kararları üretiyor mu?</li>
+<li><strong>Soğuk / Sıcak Önbellek:</strong> Önbelleğin önceden ısıtılmış olması geçmişe bakış indekslerini veya kayan nokta yuvarlamalarını etkiliyor mu?</li>
+<li><strong>Girdi Pertürbasyonları:</strong> 1 barlık zaman damgası kayması, mikro-kayma veya eksik fonlama oranları altında sistemin stabilitesi.</li>
+<li><strong>Parametre Komşuluk Kararlılığı:</strong> Gösterge eşiklerindeki $\pm 2\%$ değişim keskin bir performans uçurumuna ($\Delta \text{Sharpe} &gt; 50\%$) yol açıyor mu?</li>
+</ol>
+<hr>
+<h2 id="4-degismez-kant-paketi-dizin-yaps-v8evalv1">4. Değişmez Kanıt Paketi Dizin Yapısı (<code>v8.eval.v1</code>)</h2>
+<p>Her değerlendirme koşusu <code>evaluation/&lt;RUN_ID&gt;/</code> altında tamamen bağımsız bir kanıt paketi oluşturur:</p>
+<pre><code>evaluation/
+└── RUN_ID/
+    ├── manifest.json                  # Giriş kapısı ve kriptografik makbuz
+    ├── executive.json                 # Makine tarafından okunabilir özet ve kritik hükümler
+    ├── report.html                    # İnsan operatör sunum arayüzü (A–W Bölümleri)
+    │
+    ├── provenance/                    # Kriptografik köken ve yeniden üretim DAG'ı
+    │   ├── environment.json           # Host CPU, işletim sistemi, Rust derleyici ve bayraklar
+    │   ├── inputs.json                # Veri kaynakları, sembol listesi, aralık, bar sayıları
+    │   ├── hashes.json                # İkili dosya, bant, konfigürasyon ve eser sağlama toplamları
+    │   ├── config.json                # Değerlendirici konfigürasyon anlık görüntüsü
+    │   └── artifact_dag.json          # Üretilen tüm eserlerin bağımlılık grafı
+    │
+    ├── data/                          # Veri adli tıp katmanı
+    │   ├── bars.parquet               # PIT olarak içeri alınmış OHLCV ve fonlama satırları
+    │   ├── data_quality.parquet       # Bar bazında kalite bayrakları, boşluk göstergeleri
+    │   └── feature_census.parquet     # Öznitelik dağılımları, boşluk oranları, çeyreklikler
+    │
+    ├── execution/                     # Tam işlem hattı olay telemetrisi
+    │   ├── evaluations.parquet        # S0: Bar seviyesindeki tüm uzman değerlendirme denemeleri
+    │   ├── signals.parquet            # S1: Üretilen ham davranışsal sinyaller
+    │   ├── candidates.parquet         # S2: Oluşturulan aday epizotlar (candidates)
+    │   ├── transitions.parquet        # S3-S4: Durum geçişleri (tekilleştirme, bekleme süreleri)
+    │   ├── vetoes.parquet             # S5: Risk, kapasite ve portföy veto olayları
+    │   └── trades.parquet             # S6-S7: Kabul edilen emirler, dolumlar ve işlem günlükleri
+    │
+    ├── economics/                     # Finansal performans adli tıp katmanı
+    │   ├── portfolio.parquet          # Kümülatif portföy metrikleri ve düşüş (drawdown) serisi
+    │   ├── experts.parquet            # Uzman bazında getiri ayrıştırması ve atıf
+    │   ├── costs.parquet              # Spread, komisyon, kayma ve fonlama maliyet yükü
+    │   └── equity_curve.parquet       # Adım adım yüksek çözünürlüklü bakiye eğrisi
+    │
+    ├── paths/                         # İşlem içi yol ve yörünge adli tıbbı
+    │   ├── mfe_mae.parquet            # Maksimum Lehte / Aleyhte Sapma (MFE/MAE) kayıtları
+    │   ├── markouts.parquet           # Tetikleme sonrası fiyat yörüngeleri (t+1..t+k)
+    │   ├── exits.parquet              # Çıkış bariyeri sınıflandırması ve temas sıraları
+    │   └── intrabar_ambiguity.parquet # Bar içi Yüksek/Düşük temas belirsizliği ve cezaları
+    │
+    ├── slices/                        # Dilim ve rejim bazlı koşullu performans
+    │   ├── regime.parquet             # Volatilite ve trend rejim dilimleri
+    │   ├── direction.parquet          # Uzun (Long) vs Kısa (Short) asimetrisi
+    │   ├── time_of_day.parquet        # Seans, gün içi saat ve haftanın günü performansı
+    │   ├── volatility.parquet         # ATR ve gerçekleşen volatilite çeyreklikleri
+    │   └── liquidity.parquet          # Hacim ve emir akışı dengesizliği (OFI) dilimleri
+    │
+    ├── robustness/                    # Karşıolgusal yüzeyler ve kararlılık
+    │   ├── cost_surface.parquet       # Sürtünme maliyeti vs Net Beklenti ızgarası
+    │   ├── exit_surface.parquet       # SL/TP/Zaman aşımı geometri pertürbasyon ızgarası
+    │   ├── parameter_surface.parquet  # Parametre komşuluğu duyarlılık ızgarası
+    │   ├── perturbations.parquet      # Enjekte edilmiş stres ve veri bozulma testleri
+    │   └── degradation.parquet        # IS -&gt; WFA -&gt; OOS -&gt; Holdout bozulma oranları
+    │
+    ├── statistics/                    # Titiz hipotez testi eserleri
+    │   ├── bootstrap.json             # Beklenti ve Sharpe için durağan bootstrap GA'ları
+    │   ├── permutations.json          # İşlem sırası ve getiri permütasyon dağılımları
+    │   ├── nulls.json                 # 10 ailelik sıfır hipotezi (null) karşılaştırmaları
+    │   ├── reality_check.json         # White Reality Check ve Hansen SPA testleri
+    │   ├── multiple_testing.json      # Yaşam boyu araştırma denemeleri ve DSR düzeltmeleri
+    │   └── backtest_overfit.json      # Bailey Backtest Aşırı Uyum Olasılığı (PBO / CSCV)
+    │
+    ├── correctness/                   # Rust motoru değişmezlik ve parite makbuzları
+    │   ├── invariants.json            # Korunum ve yaşam döngüsü değişmezlik kontrolleri
+    │   ├── replay_digest.json         # Deterministik yeniden oynatma sağlama doğrulaması
+    │   ├── thread_parity.json         # 1 vs 2 vs 4 vs 8 iş parçacığı parite sonuçları
+    │   ├── simd_parity.json           # AVX2/AVX-512 vs Skaler bit düzeyinde parite
+    │   └── implementation_parity.json # Minimal referans orakıl karşılaştırma raporu
+    │
+    └── analysis/                      # Ajan akıl yürütme ve bulgu grafı
+        ├── schema_cache.json          # LLM sorguları için önceden hesaplanmış kolon istatistikleri
+        ├── hypotheses.jsonl           # Ön kayıtlı ve Scout tarafından üretilen hipotezler
+        ├── findings.jsonl             # Doğrulanmış, Çürütülmüş veya Belirsiz bulgular
+        ├── anomalies.jsonl            # Otomatik aykırı değer ve teşhis uyarıları
+        └── recommendations.jsonl      # Bir sonraki ön kayıtlı meydan okuyucu önerileri
+</code></pre>
+<hr>
+<h2 id="5-manifestjson-giris-kaps-ve-muhasebe-korunum-degismezi">5. <code>manifest.json</code> Giriş Kapısı ve Muhasebe Korunum Değişmezi</h2>
+<p>Ajanlar büyük Parquet dosyalarını taramadan önce ~10 KB boyutundaki <code>manifest.json</code> dosyasını inceler:</p>
+<pre><code class="language-json">{
+  &quot;schema&quot;: &quot;v8.eval.v1&quot;,
+  &quot;run_id&quot;: &quot;RUN-20260819-BTC-001&quot;,
+  &quot;timestamp_utc&quot;: &quot;2026-08-19T03:00:00Z&quot;,
+  &quot;git_commit&quot;: &quot;a1f89c0d2e4b6789123456789abcdef01234567&quot;,
+  &quot;binary_hash&quot;: &quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;,
+  &quot;tape_hash&quot;: &quot;7a3560f7690623a9d4fa1534da6cc0a7d9796e625a6eb8ee99b3b0d2de0bc5ef&quot;,
+  &quot;config_hash&quot;: &quot;2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae&quot;,
+  &quot;dataset&quot;: {
+    &quot;instrument&quot;: &quot;BTCUSDT&quot;,
+    &quot;timeframe&quot;: &quot;1h&quot;,
+    &quot;raw_bars&quot;: 9948,
+    &quot;warmup_bars&quot;: 1188,
+    &quot;eligible_bars&quot;: 8760,
+    &quot;start_utc&quot;: &quot;2025-07-01T00:00:00Z&quot;,
+    &quot;end_utc&quot;: &quot;2026-07-01T00:00:00Z&quot;
+  },
+  &quot;funnel_conservation&quot;: {
+    &quot;evaluations&quot;: 245280,
+    &quot;setups_triggered&quot;: 42647,
+    &quot;deduplicated&quot;: 14766,
+    &quot;vetoed_risk_capacity&quot;: 27879,
+    &quot;admitted_trades&quot;: 2,
+    &quot;invariant_holds&quot;: true,
+    &quot;accounting_equation&quot;: &quot;42647 == 14766 (dedup) + 27879 (veto) + 2 (admitted)&quot;
+  },
+  &quot;validity_gates&quot;: {
+    &quot;temporal_leakage&quot;: &quot;PASS&quot;,
+    &quot;accounting_conservation&quot;: &quot;PASS&quot;,
+    &quot;determinism_replay&quot;: &quot;PASS&quot;,
+    &quot;simd_scalar_parity&quot;: &quot;PASS&quot;,
+    &quot;thread_parity&quot;: &quot;PASS&quot;,
+    &quot;overall_validity&quot;: &quot;VALID&quot;
+  },
+  &quot;economic_verdict&quot;: &quot;INSUFFICIENT_EVIDENCE&quot;,
+  &quot;summary_metrics&quot;: {
+    &quot;gross_expectancy_R&quot;: -0.012,
+    &quot;net_expectancy_R&quot;: -0.048,
+    &quot;total_trades&quot;: 2,
+    &quot;sharpe_ratio&quot;: -0.18,
+    &quot;max_drawdown_R&quot;: 1.96
+  },
+  &quot;critical_findings&quot;: [
+    &quot;F-0012: Extreme veto rate (99.99%) driven by unparameterized EXISTING_EXPOSURE_CONFLICT.&quot;,
+    &quot;F-0014: Expert identity collapse in admission veto logs.&quot;
+  ],
+  &quot;artifacts&quot;: {
+    &quot;root_dir&quot;: &quot;evaluation/RUN-20260819-BTC-001&quot;,
+    &quot;total_size_bytes&quot;: 14820942
+  }
+}
+</code></pre>
+<h3 id="muhasebe-korunum-denklemi">Muhasebe Korunum Denklemi</h3>
+<p>$$\text{Kurulumlar (Setups)} = \text{Tekilleştirilen (Dedup)} + \text{Veto Edilen (Risk/Kapasite)} + \text{Kabul Edilen (Admitted)}$$
+Herhangi bir uyumsuzlukta sistem derhal <strong>FAIL-CLOSED</strong> vererek koşuyu geçersiz ilan eder.</p>
+<hr>
+<h2 id="6-veri-adli-tp-katman-zamansal-butunluk-ve-kalite-dag">6. Veri Adli Tıp Katmanı: Zamansal Bütünlük ve Kalite DAG'ı</h2>
+<ol>
+<li>
+<p><strong>Zamansal Bütünlük (Temporal Integrity):</strong>
+   - Zaman damgası kesin monoton artış denetimi: $\forall t_i, t_i &lt; t_{i+1}$.
+   - Bilgi erişim zamanı (availability time) doğrulaması: $t_{\text{karar}} \ge t_{\text{erişim}} &gt; t_{\text{olay}}$.
+   - Borsa takvimine göre eksik bar ve tatil denetimleri.
+   - Geliştirme ve OOS bölümleri arasında kesin arındırma (purge) ve bekleme (embargo) aralıkları.</p>
+</li>
+<li>
+<p><strong>Öznitelik Nüfus Sayımı (Feature Census):</strong>
+   - Her öznitelik için: $N$, Boşluk $\%$, NaN sayısı, Sonsuz (Inf) değerler, Sıfır varyans uyarısı, Çeyreklikler ($p_1, p_{25}, p_{50}, p_{75}, p_{99}$), Min/Max, Süreksizlik sıçramaları ve Bayat tekrarlayan dizi tespiti.</p>
+</li>
+<li>
+<p><strong>Kaynak Kökeni DAG'ı (Provenance):</strong>
+   - Her bir veri sütunu, onu üreten Rust fonksiyonunun kriptografik sağlama toplamına ve ham veri kaynağına bağlanır.</p>
+</li>
+</ol>
+<hr>
+<h2 id="7-huni-adli-tbb-uzman-baznda-donusum-ve-kayp-beklenti">7. Huni Adli Tıbbı: Uzman Bazında Dönüşüm ve Kayıp Beklenti</h2>
+<p>Her uzmanın sinyal hunisi adım adım denetlenir:</p>
+<p>$$\text{Gözlenen Barlar} \xrightarrow{E} \text{Uygun Değerlendirmeler} \xrightarrow{S} \text{Kurulum} \xrightarrow{D} \text{Dedup} \xrightarrow{R} \text{Risk/Kapasite} \xrightarrow{A} \text{Kabul} \xrightarrow{T} \text{İşlem} \xrightarrow{X} \text{Sonuç}$$</p>
+<p>Her aşama için:
+- <strong>Sayı ve Dönüşüm Oranı:</strong> Her adımı geçen sinyal yüzdesi.
+- <strong>Gerekçe Kodları:</strong> Reddedilme nedenleri (<code>COOLDOWN_ACTIVE</code>, <code>OPPOSITE_EXPOSURE_ACTIVE</code>, <code>HEAT_CAP_EXCEEDED</code> vb.).
+- <strong>Kayıp Beklenti Tahmini ($\Delta \mathbb{E}[R]$):</strong> Filtrelenen sinyallerin karşıolgusal getirisi ile kabul edilenlerin karşılaştırılması (risk filtresinin zararlı işlemleri mi elediği yoksa karlı fırsatları mı kaçırdığı tespiti).
+- <strong>İz Kimlikleri (Trace IDs):</strong> Ajanların doğrudan ilgili adaya inebilmesini sağlayan kimlik dizileri.</p>
+<hr>
+<h2 id="8-ekonomik-adli-tp-katman">8. Ekonomik Adli Tıp Katmanı</h2>
+<p>Ekonomik çıktı üç bağımsız bileşene ayrıştırılır: <strong>Ham Kenar (Gross Edge)</strong>, <strong>Sürtünme Kaybı (Friction Drag)</strong> ve <strong>Gerçekleşen Net Kenar (Net Realized Edge)</strong>:</p>
+<p>$$\text{Net } R = \text{Brüt } R - (\text{Komisyon } R + \text{Kayma } R + \text{Fonlama } R + \text{Gecikme Cezası } R)$$</p>
+<pre><code>┌───────────────────────────┬───────────────────────────┬───────────────────────────┐
+│ Getiriler ve Beklenti     │ İşlem ve Risk İstatistiği │ Yürütme Ekonomisi         │
+├───────────────────────────┼───────────────────────────┼───────────────────────────┤
+│ • Brüt Beklenti ($R$)     │ • Örneklem Sayısı ($N$)   │ • Toplam Komisyon ($R$)   │
+│ • Net Beklenti ($R$)      │ • Kazanma Oranı ($\%$)    │ • Kayma (Slippage) ($R$)  │
+│ • Medyan $R$ / İşlem      │ • Kar Faktörü ($PF$)      │ • Net Fonlama Yükü ($R$)  │
+│ • Yıllıklandırılmış Getiri│ • Kazanç/Kayıp Oranı      │ • Yıllık Devir Hızı       │
+│ • Sharpe Oranı (Yıllık)   │ • Maksimum Düşüş ($R$)    │ • Brüt -&gt; Net Erime Oranı │
+│ • Sortino Oranı           │ • Ortalama Düşüş ($R$)    │ • Başa Baş Maliyet Limiti │
+│ • Calmar Oranı            │ • CVaR / Beklenen Kayıp   │ • Kapasite Tahmini ($)    │
+└───────────────────────────┴───────────────────────────┴───────────────────────────┘
+</code></pre>
+<hr>
+<h2 id="9-karsolgusal-saglamlk-yuzeyleri">9. Karşıolgusal Sağlamlık Yüzeyleri</h2>
+<p>Tekil parametre noktaları yerine 4 temel boyutta sürekli tepki yüzeyleri incelenir:</p>
+<ol>
+<li><strong>Maliyet Yüzeyi:</strong> $\mathbb{E}<a href="c">R</a>$ ($c \in [0, 20\text{ bps}]$). Başa baş sıfır noktası belirlenir.</li>
+<li><strong>Stop Yüzeyi:</strong> $\mathbb{E}<a href="\text{Stop_R}">R</a>$ ($\text{Stop_R} \in [0.2R, 3.0R]$). Stop-loss darlığı duyarlılığı.</li>
+<li><strong>Hedef Yüzeyi:</strong> $\mathbb{E}<a href="\text{Target_R}">R</a>$ ($\text{Target_R} \in [0.5R, 10.0R]$). Kar al kırpılma etkisi.</li>
+<li><strong>Vade (Zaman Aşımı) Yüzeyi:</strong> $\mathbb{E}<a href="\text{Expiry_Bars}">R</a>$ ($\text{Expiry} \in [1, 100\text{ bar}]$).</li>
+<li><strong>Ortak Kırılganlık Metrikleri:</strong>
+   - <strong>Plato Genişliği:</strong> $\mathbb{E}[R] &gt; 0$ olan parametre yarıçapı.
+   - <strong>Performans Uçurumu (AlgoXpert):</strong> Komşu parametreler arasındaki maksimum türev $\max |\nabla \text{Sharpe}|$.
+   - <strong>Yerel Kırılganlık İndeksi:</strong> $\pm 5\%$ parametre pertürbasyonu altında performans varyansı.</li>
+</ol>
+<hr>
+<h2 id="10-yol-adli-tbb-ve-yorunge-snflandrmas">10. Yol Adli Tıbbı ve Yörünge Sınıflandırması</h2>
+<p>Her işlem yüksek çözünürlüklü bar içi yol metrikleri üretir:
+- <strong>Stop Çok Dar:</strong> İşlem SL oldu fakat orijinal vade içinde $+1.0R$ lehte seviyeye ulaştı.
+- <strong>Hedef Çok Dar:</strong> İşlem TP oldu fakat hemen ardından $&gt; +2.0R$ güçlü hareket devam etti.
+- <strong>Ölü İşlem (Dead Trade):</strong> Ne SL ne TP yaklaşıldı ($|MAE| &lt; 0.2R, |MFE| &lt; 0.2R$); sürenin $\%80$'inde sıfır bilgi ile sermaye bağlandı.
+- <strong>Kötü Giriş:</strong> Giriş anından itibaren anında MAE oluştu ($MFE &lt; 0.05R$).
+- <strong>İyi Sinyal / Kötü Yürütme:</strong> $t+k$ anındaki markout pozitif ancak spread/kayma nedeniyle gerçekleşen işlem negatif.
+- <strong>Kötü Sinyal / Şanslı Çıkış:</strong> Yörünge ağırlıklı olarak aleyhte ancak anlık bir iğne ucu ile karlı kapandı.</p>
+<hr>
+<h2 id="11-10-ailelik-sfr-hipotezi-null-model-test-paketi">11. 10 Ailelik Sıfır Hipotezi (Null Model) Test Paketi</h2>
+<ol>
+<li><strong>Rastgele Giriş (Uniform):</strong> Zamanlama bilgisini sınar.</li>
+<li><strong>Rastgele Yön (Long/Short):</strong> Giriş zamanını korur, yönü rastgele belirler.</li>
+<li><strong>Rastgele Zaman Damgaları (Poisson):</strong> İşlem sayısı ve süresini korur, zamanı dağıtır.</li>
+<li><strong>Her Zaman Long:</strong> Piyasa yukarı yönlü sürüklenme baz çizgisini ölçer.</li>
+<li><strong>Her Zaman Short:</strong> Piyasa aşağı yönlü sürüklenme baz çizgisini ölçer.</li>
+<li><strong>Ters Sinyal ($S \to -S$):</strong> Yönsel işaret doğruluğunu test eder.</li>
+<li><strong>Karıştırılmış Uzman Etiketleri:</strong> Uzman kimliğinin önemini sınar.</li>
+<li><strong>Frekansı Eşlenmiş Rastgele Strateji:</strong> İşlem sıklık dağılımını korur.</li>
+<li><strong>Süresi Eşlenmiş Rastgele Strateji:</strong> İşlem elde tutma süresi dağılımını korur.</li>
+<li><strong>Rejimi Eşlenmiş Rastgele Strateji:</strong> Rastgele işlemleri yalnızca aynı volatilite rejiminde açar.</li>
+</ol>
+<hr>
+<h2 id="12-coklu-test-muhasebesi-ve-arastrma-borcu-defteri">12. Çoklu Test Muhasebesi ve Araştırma Borcu Defteri</h2>
+<p>Kümülatif arama uzayında yanlış pozitif olasılığı hızla 1'e yaklaşır:</p>
+<p>$$P(\text{Yanlış Pozitif}) = 1 - (1 - \alpha)^K \xrightarrow[K \to \infty]{} 1.0$$</p>
+<ol>
+<li><strong>Deflated Sharpe Ratio (DSR):</strong> Sharpe oranını normallikten sapma, örneklem uzunluğu ve $K$ deneme sayısına göre iskonto eder.</li>
+<li><strong>White Reality Check &amp; Hansen SPA:</strong> Seçilen en iyi stratejinin tüm aile arama uzayı hesaba katıldıktan sonra anlamlı olup olmadığını test eder.</li>
+<li><strong>Backtest Aşırı Uyum Olasılığı (PBO / CSCV):</strong> Kombinatoryal çapraz doğrulama ile aşırı uyum olasılığını hesaplar.</li>
+<li><strong>Küresel Araştırma Defteri:</strong> Proje yaşamı boyunca test edilen her hipotez <code>research_ledger.jsonl</code> defterine işlenir; ceza tek koşudan değil kümülatif tarihten hesaplanır.</li>
+</ol>
+<hr>
+<h2 id="13-arastrma-defteri-ve-hipotez-kayd-hypothesesjsonl">13. Araştırma Defteri ve Hipotez Kaydı (<code>hypotheses.jsonl</code>)</h2>
+<pre><code class="language-json">{
+  &quot;hypothesis_id&quot;: &quot;H-0192&quot;,
+  &quot;parent_hypothesis&quot;: &quot;H-0145&quot;,
+  &quot;created_by&quot;: &quot;agent:scout-volatility&quot;,
+  &quot;created_at_run&quot;: &quot;RUN-20260819-BTC-001&quot;,
+  &quot;status&quot;: &quot;SUPPORTED&quot;,
+  &quot;claim&quot;: &quot;bollinger_breakout LONG, YUKSEK_VOLATILITE rejiminde erken stop kaybi yasiyor.&quot;,
+  &quot;preregistered_test&quot;: {
+    &quot;cohort_filter&quot;: &quot;expert == 'bollinger_breakout' and direction == 'LONG' and regime == 'HIGH_VOL'&quot;,
+    &quot;counterfactual_variant&quot;: &quot;stop_multiplier = 1.5&quot;,
+    &quot;primary_metric&quot;: &quot;net_expectancy_R&quot;,
+    &quot;required_n&quot;: 100,
+    &quot;significance_threshold_p&quot;: 0.01
+  },
+  &quot;evidence_for&quot;: [
+    &quot;Kohort N=342, baz net_R = -0.14R, karsi-olgusal net_R = +0.08R (bootstrap p=0.004).&quot;,
+    &quot;Stop olan islemlerin %38.4'u stop sonrasi +1.0R lehte fiyata ulasti.&quot;
+  ],
+  &quot;evidence_against&quot;: [
+    &quot;Genis stop altinda Maksimum Dusus (MaxDD) 12.4R'den 16.8R'ye yukseliyor.&quot;
+  ],
+  &quot;falsification_criterion&quot;: &quot;Etki, el surulmemis Donmus OOS Fold 2 uzerinde p &lt; 0.05 ile dogrulanmalidir.&quot;,
+  &quot;derived_challengers&quot;: [&quot;EXP-V8-CHALLENGER-BB-042&quot;]
+}
+</code></pre>
+<hr>
+<h2 id="14-dogrulama-ayrm-is-to-wfa-to-donmus-oos-to-holdout">14. Doğrulama Ayrımı: IS $\to$ WFA $\to$ Donmuş OOS $\to$ Holdout</h2>
+<p>Kronolojik 4 kademeli arındırılmış veri yapısı:</p>
+<p>$$\text{Geliştirme (IS)} \longrightarrow \text{Walk-Forward (WFA Folds)} \longrightarrow \text{Donmuş OOS} \longrightarrow \text{Kilitli Holdout}$$</p>
+<p>Her kademe geçişinde bozulma oranları ($\text{Degradation}$) hesaplanır.</p>
+<hr>
+<h2 id="15-uygulama-riski-vs-istatistiksel-gecerlilik-2b-matris">15. Uygulama Riski vs İstatistiksel Geçerlilik (2B Matris)</h2>
+<p>İstatistiksel güç ile motor doğruluğu bağımsız eksenlerdir:</p>
+<pre><code>                            İSTATİSTİKSEL GEÇERLİLİK × MOTOR DOĞRULUĞU
+ ┌──────────────────────────────────────┬──────────────────────────────────────────────────────────┐
+ │                                      │                      MOTOR DOĞRULUĞU                     │
+ │                                      ├────────────────────────────┬─────────────────────────────┤
+ │                                      │ Motor Doğrulandı (PASS)    │ Motor Şüpheli (FAIL)        │
+ ├────────────────┬─────────────────────┼────────────────────────────┼─────────────────────────────┤
+ │ İSTATİSTİKSEL  │ Kenar Geçerli (PASS)│ ADAY TERFİ EDİLİR          │ ENGELLENDİ / KARANTİNA      │
+ │ GEÇERLİLİK     │ Kenar Geçersiz(FAIL)│ REDDEDİLEN HİPOTEZ         │ YORUMLANAMAZ / BOZUK        │
+ └────────────────┴─────────────────────┴────────────────────────────┴─────────────────────────────┘
+</code></pre>
+<p>V8, 20 kanonik senaryolu minimal referans orakıl ile Rust motorunu bağımsız olarak doğrular.</p>
+<hr>
+<h2 id="16-perturbasyon-ve-stres-test-paketi">16. Pertürbasyon ve Stres Test Paketi</h2>
+<ol>
+<li><strong>Veri Pertürbasyonları:</strong> 1 dakikalık zaman damgası kaymaları, eksik fonlama satırları, yapay spread genişlemeleri ($2\times..5\times$), rastgele eksik bar enjeksiyonu.</li>
+<li><strong>Piyasa Stresi:</strong> Volatilite şokları ($1.5\times$), likidite boşluğu ($10\times$ kayma çarpanı).</li>
+<li><strong>Motor Pertürbasyonları:</strong> Dinamik iş parçacığı değişimi, soğuk önbellek koşusu.</li>
+</ol>
+<hr>
+<h2 id="17-otonom-ajan-guvenilirlik-profili">17. Otonom Ajan Güvenilirlik Profili</h2>
+<ul>
+<li><strong>Bulgu Tutarlılığı:</strong> Aynı kanıt üzerinde farklı Scout ajanları aynı hatayı buluyor mu?</li>
+<li><strong>Atıf Tutarlılığı:</strong> Investigator ajanları aynı kök nedene ulaşıyor mu?</li>
+<li><strong>Öneri Tutarlılığı:</strong> Tutarlı meydan okuyucu önerileri üretiliyor mu?</li>
+<li><strong>Kalibrasyon:</strong> Ajan $\text{güven} = 0.90$ dediğinde bulguların $\%90$'ı OOS üzerinde doğrulanıyor mu?</li>
+</ul>
+<hr>
+<h2 id="18-yaplandrlms-bulgu-semas-findingsjsonl">18. Yapılandırılmış Bulgu Şeması (<code>findings.jsonl</code>)</h2>
+<p>Bulgular makine tarafından doğrulanabilir nesnelerdir (<code>F-08421</code>).</p>
+<hr>
+<h2 id="19-hata-ontolojisi-ve-taksonomi">19. Hata Ontolojisi ve Taksonomi</h2>
+<p>9 temel kategori: <code>DATA</code>, <code>SIGNAL</code>, <code>ADMISSION</code>, <code>EXECUTION</code>, <code>EXIT</code>, <code>STATISTICS</code>, <code>ENGINE</code>, <code>PORTFOLIO</code>, <code>UNCLASSIFIED_NEW_FAILURE_CLASS</code>.</p>
+<hr>
+<h2 id="20-kosular-aras-regresyon-analizi">20. Koşular Arası Regresyon Analizi</h2>
+<p>Her koşu; önceki koşu, kilitli baz çizgi ve üretim hedefi ile otomatik olarak karşılaştırılır ($\Delta \text{Net Expectancy}$, $\Delta \text{MaxDD}$, semantik sapma kontrolü).</p>
+<hr>
+<h2 id="21-toplamsal-performans-ayrstrmas">21. Toplamsal Performans Ayrıştırması</h2>
+<p>Performans artışları haksız nedensellik iddiaları olmadan toplamsal bileşenlerine ayrıştırılır:</p>
+<p>$$\Delta \mathbb{E}[R]<em>{\text{toplam}} = \Delta \mathbb{E}[R]</em>{\text{çıkış}} + \Delta \mathbb{E}[R]<em>{\text{maliyet}} + \Delta \mathbb{E}[R]</em>{\text{yön}} + \Delta \mathbb{E}[R]<em>{\text{rejim}} + \epsilon</em>{\text{artık}}$$</p>
+<hr>
+<h2 id="22-kesin-gecerlilik-kaplar-vs-puanlar-fail-closed">22. Kesin Geçerlilik Kapıları vs Puanlar (Fail-Closed)</h2>
+<p>Veri sızıntısı, muhasebe korunum hatası, determinizm kaybı veya SIMD sapması durumunda koşu derhal <strong>FAIL-CLOSED</strong> olarak sonlandırılır; ortalama skor içinde eritilmez.</p>
+<hr>
+<h2 id="23-semantik-sapma-kaps">23. Semantik Sapma Kapısı</h2>
+<p>Kod yamaları 4 sınıfa ayrılır: <code>BUG_FIX</code>, <code>IMPLEMENTATION_OPTIMIZATION</code>, <code>SEMANTIC_STRATEGY_CHANGE</code>, <code>NEW_CHALLENGER</code>.</p>
+<hr>
+<h2 id="24-cok-ajanl-inceleme-mimarisi">24. Çok Ajanlı İnceleme Mimarisi</h2>
+<p>Değerlendirme sonrası otomatik süreç:
+<code>Rust Engine -&gt; Evidence Bundle -&gt; Schema Builder -&gt; Triage Agent -&gt; Scout Agents -&gt; Hypothesis Pool -&gt; Investigator Agents -&gt; Finding Graph -&gt; Report / API -&gt; Decision Agent</code>.</p>
+<hr>
+<h2 id="25-kademeli-hesaplama-ve-onbellek-butcesi">25. Kademeli Hesaplama ve Önbellek Bütçesi</h2>
+<ul>
+<li><strong>Tier 0 (Zorunlu, &lt; 2 sn):</strong> Değişmezler, muhasebe korunumu, temel ekonomi, MFE/MAE, bit düzeyinde fark.</li>
+<li><strong>Tier 1 (İçerik Adresli Önbellek, &lt; 30 sn):</strong> Bootstrap, permütasyonlar, 10 sıfır modeli, maliyet/çıkış yüzeyleri.</li>
+<li><strong>Tier 2 (Hipotez Odaklı, &lt; 5 dk):</strong> Karşıolgusal yeniden oynatma, parametre yüzeyleri, WFA, pertürbasyonlar.</li>
+<li><strong>Tier 3 (Yalnızca Terfi Kapısı):</strong> Donmuş OOS açımı, PBO/DSR/SPA, bağımsız referans paritesi.</li>
+</ul>
+<hr>
+<h2 id="26-kanonik-insan-raporu-yaps-adan-wye-bolumler">26. Kanonik İnsan Raporu Yapısı (A'dan W'ye Bölümler)</h2>
+<ul>
+<li><strong>A — Çalışma Kimliği ve Köken:</strong> Sağlama toplamları, git commit, ikili kimlik.</li>
+<li><strong>B — Geçerlilik Kapıları:</strong> Tüm donanımsal ve veri kapılarının Geçti/Kaldı durumu.</li>
+<li><strong>C — Veri Bütünlüğü:</strong> Zaman bütünlüğü, eksik bar, öznitelik sayımı.</li>
+<li><strong>D — Yürütme Korunumu:</strong> Huni muhasebe korunum denklemleri.</li>
+<li><strong>E — Portföy Ekonomisi:</strong> Net/Brüt getiri, Sharpe, Sortino, Calmar.</li>
+<li><strong>F — Uzman Puan Tablosu:</strong> Tüm uzmanların karşılaştırmalı tablosu.</li>
+<li><strong>G — Uzman Derin Adli Tıbbı:</strong> Uzman bazında dönüşüm ve kayıplar.</li>
+<li><strong>H — İşlem Yolu Analizi:</strong> Bar içi MFE/MAE, bariyer temas sıraları.</li>
+<li><strong>I — Maliyet ve Yürütme Yüzeyi:</strong> Komisyon, kayma ve fonlama duyarlılık eğrileri.</li>
+<li><strong>J — Çıkış Karşıolgusalları:</strong> Alternatif SL, TP ve vade kuralları.</li>
+<li><strong>K — Rejim / Dilim Teşhisi:</strong> Volatilite, Trend, Saat ve Likidite dilimleri.</li>
+<li><strong>L — İstatistiksel Kanıt:</strong> Bootstrap güven aralıkları ve permütasyon testleri.</li>
+<li><strong>M — Çoklu Test ve Araştırma Borcu:</strong> Yaşam boyu deneme sayacı, White Reality Check, DSR.</li>
+<li><strong>N — WFA / OOS Kararlılığı:</strong> Kronolojik katlama tutarlılığı ve bozulma oranları.</li>
+<li><strong>O — Parametre Kırılganlığı:</strong> Plato genişliği, uçurumlar ve kırılganlık indeksi.</li>
+<li><strong>P — Motor Doğruluğu:</strong> İş parçacığı, SIMD ve referans orakıl kontrolleri.</li>
+<li><strong>Q — Stres ve Pertürbasyon:</strong> Yapay piyasa ve veri stres sonuçları.</li>
+<li><strong>R — Koşular Arası Regresyon:</strong> Önceki koşu ve baz çizgiye göre delta metrikleri.</li>
+<li><strong>S — Hata Atfı:</strong> Ontolojik taksonomi eşleştirmesi ve kök neden.</li>
+<li><strong>T — Doğrulanmış Bulgular:</strong> Investigator ajanları tarafından ispatlanmış sonuçlar.</li>
+<li><strong>U — Çürütülmüş Hipotezler:</strong> Resmen yanlışlanmış iddialar.</li>
+<li><strong>V — Bilinmeyenler ve Epistemik Boşluklar:</strong> Kararsız sonuçlar.</li>
+<li><strong>W — Önerilen Deneyler:</strong> Bir sonraki ön kayıtlı meydan okuyucu spesifikasyonları.</li>
+</ul></section>
 <section id="sec-architecture-spec"><h1>ARCHITECTURE SPEC</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-architecture-specification">V8 Architecture Specification</h1>
 <p><strong>Status:</strong> PROVISIONAL_DECISION. This is the system-level build contract: it
 names the components, the data flow between them, and the technology
