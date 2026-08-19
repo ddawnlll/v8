@@ -3,6 +3,7 @@ pub mod diagnosis;
 pub mod hypothesis;
 pub mod research_debt;
 pub mod robustness;
+pub mod validation;
 
 pub use challenger::{ChallengerFamilySpec, ChallengerVariant, DiscreteParameterRange};
 pub use diagnosis::{
@@ -17,4 +18,9 @@ pub use research_debt::{GlobalTrialLedger, TrialEntry};
 pub use robustness::{
     PlateauCriterion, PointAssessment, RobustnessCampaign, RobustnessCampaignReceipt,
     RobustnessPoint, RobustnessSurface, RobustnessVerdict,
+};
+pub use validation::{
+    FoldVerdict, HoldoutAccessKey, HoldoutBurnReceipt, HoldoutBurnRegistry, HoldoutError,
+    HoldoutState, PurgedWfaEngine, TimeRange, WfaCampaignReceipt, WfaCampaignSpec,
+    WfaCampaignVerdict, WfaFoldReceipt, WfaFoldSpec,
 };
