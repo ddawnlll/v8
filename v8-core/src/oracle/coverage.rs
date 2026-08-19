@@ -860,7 +860,7 @@ mod tests {
 
         let (r1, recs1) = reconcile_coverage(
             &universe,
-            &[cand.clone()],
+            std::slice::from_ref(&cand),
             &classifier,
             &[],
             Some(30),
@@ -969,7 +969,7 @@ mod tests {
             parameters: BTreeMap::new(),
         };
 
-        let pop_hash = OpportunityGrammar::population_hash(&[cand.clone()]);
+        let pop_hash = OpportunityGrammar::population_hash(std::slice::from_ref(&cand));
         let (receipt, records) = reconcile_coverage(
             &universe,
             &[cand],
