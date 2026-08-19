@@ -2,6 +2,21 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-19 — Target Oracle O2–O3 support, coverage & evidence receipts (D-102)
+
+Added the Rust-owned Target Oracle support/authority classifier and representational
+coverage reconciliation over the frozen Opportunity Universe (#154). The support
+classifier emits orthogonal `CounterfactualAuthority` and typed `OracleOutcome`
+values without fabricating point estimates. The coverage engine reconciles
+membership against same-event shipped `ExpertEval` proposals and persists canonical
+`OpportunityUniverseVersion`, `OracleEvaluationRecord`s, and `CoverageReceipt`
+findings directly into the immutable `v8.eval.v1` evidence bundle with the explicit
+label `NO_ECONOMIC_CLAIM`. A development CLI subcommand `oracle-coverage` is exposed.
+
+Artifacts changed: `v8-core/src/oracle/{support.rs,authority.rs,coverage.rs,artifacts.rs,mod.rs}`,
+`v8-core/src/main.rs`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`,
+and decision registers; monographs regenerated.
+
 ## 2026-08-19 — Target Oracle O0–O1 substrate (D-101)
 
 Added the Rust-owned Target Oracle foundation: the three-role taxonomy and

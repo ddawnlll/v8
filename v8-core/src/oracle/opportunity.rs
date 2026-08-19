@@ -78,7 +78,7 @@ impl ParameterGrid {
     }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Serialize, Deserialize)]
 pub enum Direction {
     Long,
     Short,
@@ -312,7 +312,7 @@ impl TemplateRegistry {
     }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq)]
+#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 pub struct GrammarCandidate {
     pub grammar_candidate_id: String,
     pub universe_id: String,

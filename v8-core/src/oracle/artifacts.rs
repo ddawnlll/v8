@@ -4,11 +4,13 @@
 
 #![allow(dead_code)]
 
+use serde::{Deserialize, Serialize};
+
 use crate::hash::Canon;
 
 use super::taxonomy::{AuthorityLevel, Identifiability, OracleRole, ValueNotion};
 
-#[derive(Debug, Clone, Eq, PartialEq)]
+#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 pub struct OpportunityUniverseVersion {
     pub universe_id: String,
     pub version: String,
@@ -62,7 +64,7 @@ impl OpportunityUniverseVersion {
     }
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct OracleEvaluationRecord {
     pub evaluation_id: String,
     pub oracle_role: OracleRole,
@@ -108,5 +110,9 @@ impl OracleEvaluationRecord {
             "assumptions": self.assumptions, "lineage_id": self.lineage_id,
         }));
         c.finish_sha1_hex()
+    }
+
+    pub fn bind_identity(&mut self) {
+        self.evaluation_id = self.identity();
     }
 }

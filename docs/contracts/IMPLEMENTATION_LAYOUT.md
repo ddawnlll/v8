@@ -123,13 +123,17 @@ v8-core/
     main.rs         CLI entry; one evaluation request per invocation
     data.rs         Dataset: columnar OHLCV + event/available/ingested clocks
     state.rs        FeatureStore, StateView, feature identity
-    oracle/         O0–O1 Target Oracle contracts and deterministic finite
-                    Opportunity Grammar; no support/coverage/evidence writes
+    oracle/         O0–O3 Target Oracle contracts, deterministic grammar,
+                    support/authority classification, representational coverage
+                    reconciliation, and v8.eval.v1 evidence bundle persistence
       taxonomy.rs    three-role taxonomy, authority/value/refusal vocabulary
       utility.rs     versioned after-cost UtilityContract + hard validation
       information.rs PIT FeatureStore adapter and InformationSet boundary
       opportunity.rs registered primitive/template/grid grammar Candidates
-      artifacts.rs   in-memory universe/evaluation identity-bearing records
+      support.rs     SupportRule and SupportClassifier (O2)
+      authority.rs   CounterfactualAuthority and OracleOutcome (O2)
+      coverage.rs    Representational coverage reconciliation & bundle receipts (O3)
+      artifacts.rs   OpportunityUniverseVersion and OracleEvaluationRecord
     features.rs     D-053 feature-group projection (Expert FeatMap closure) —
                      not in the original §6 table (§4)
     experts/
