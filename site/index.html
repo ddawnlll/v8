@@ -7180,13 +7180,17 @@ table.</p>
     main.rs         CLI entry; one evaluation request per invocation
     data.rs         Dataset: columnar OHLCV + event/available/ingested clocks
     state.rs        FeatureStore, StateView, feature identity
-    oracle/         O0–O1 Target Oracle contracts and deterministic finite
-                    Opportunity Grammar; no support/coverage/evidence writes
+    oracle/         O0–O3 Target Oracle contracts, deterministic grammar,
+                    support/authority classification, representational coverage
+                    reconciliation, and v8.eval.v1 evidence bundle persistence
       taxonomy.rs    three-role taxonomy, authority/value/refusal vocabulary
       utility.rs     versioned after-cost UtilityContract + hard validation
       information.rs PIT FeatureStore adapter and InformationSet boundary
       opportunity.rs registered primitive/template/grid grammar Candidates
-      artifacts.rs   in-memory universe/evaluation identity-bearing records
+      support.rs     SupportRule and SupportClassifier (O2)
+      authority.rs   CounterfactualAuthority and OracleOutcome (O2)
+      coverage.rs    Representational coverage reconciliation &amp; bundle receipts (O3)
+      artifacts.rs   OpportunityUniverseVersion and OracleEvaluationRecord
     features.rs     D-053 feature-group projection (Expert FeatMap closure) —
                      not in the original §6 table (§4)
     experts/
@@ -7801,6 +7805,7 @@ historical design record and this table is the correction layer.</p>
 <p>| D-099 | <strong>Computation is a budgeted decision, not a ritual.</strong> Before a computation expected to exceed five seconds, or an already-green check is repeated, state the decision it could change and the new semantic risk it resolves. Run it only when expected marginal decision value exceeds total cost (runtime, user latency, tool/context overhead, and redundancy). | PROVISIONAL_DECISION | Mandatory semantic-boundary gates still run: changed correctness semantics, determinism/parity/identity boundaries, safety/authority/data-integrity behavior, and explicit handoff gates. Prefer the smallest discriminating check; no suite rerun after documentation/format-only changes; full handoff suite at most once; extra post-green verification is limited to 60 seconds before reporting evidence and remaining uncertainty. See <code>COMPUTATION_BUDGET_POLICY.md</code>. |</p>
 <p>| D-100 | <strong>Python oracle boundary is locked.</strong> <code>src/v8/</code> is a frozen, hash-bound historical parity oracle; <code>v8-core/</code> owns the request and verification path. Python may run only for explicitly named legacy research tooling, monograph generation, and boundary audits. A changed oracle tree requires a registry decision, changelog entry, and new hash; CI rejects unregistered edits and Python pytest/oracle invocation in the Rust gate. | LOCKED_INVARIANT candidate | <code>docs/legacy/PYTHON_ORACLE_LOCK.json</code>, <code>docs/legacy/PYTHON_ORACLE_POLICY.md</code>, and <code>tools/audit_python_boundary.py</code>. The oracle is retained because deleting it would remove the independent S0–S7 reference; this decision does not claim that every legacy Python tool has already been ported. |</p>
 <p>| D-101 | <strong>Target Oracle O0–O1 is a Rust-only contract and measurement-frame substrate.</strong> <code>v8-core/src/oracle/</code> owns exactly the three-role taxonomy, typed refusal vocabulary, versioned after-cost UtilityContract validation, PIT InformationSet adapter, in-memory identity-bearing artifacts, and an Expert-independent finite grammar over explicitly registered primitives/templates/grids. Grammar Candidate identities are in a distinct domain and never enter <code>CandidateRegistry</code>. | PROVISIONAL_DECISION | <code>TARGET_ORACLE_SPEC</code> §§1–7, §17–19. The implementation deliberately omits support/authority classification, coverage, evidence-bundle serialization, reports, Scout, regret attribution, Target-policy optimization, L3 execution, and economic verdicts. O-OR-001 remains open: no production catalog or default grid was invented. Contract tests cover PIT refusal, deterministic G4/G5 identities, universe mutation, direction identity, and lifecycle non-mutation. |</p>
+<p>| D-102 | <strong>Target Oracle O2–O3 implements support/authority classification, representational coverage reconciliation, and v8.eval.v1 receipts in Rust.</strong> <code>v8-core/src/oracle/{support.rs,authority.rs,coverage.rs}</code> classify candidate/action support into orthogonal <code>CounterfactualAuthority</code> and <code>OracleOutcome</code> values without fabricating point estimates. <code>reconcile_coverage</code> measures representational coverage against same-event shipped <code>ExpertEval</code> proposals, binds <code>population_hash</code>, and persists <code>OpportunityUniverseVersion</code>, <code>OracleEvaluationRecord</code>s, and <code>CoverageReceipt</code> finding records directly into the <code>v8.eval.v1</code> evidence bundle with the explicit label <code>NO_ECONOMIC_CLAIM</code>. A development CLI subcommand <code>oracle-coverage</code> is exposed. | PROVISIONAL_DECISION | <code>TARGET_ORACLE_SPEC</code> §5.8, §8.1–§8.5, §9.1–§9.4, §16.1–§16.3, §17.5, §18.1–§18.2; Issue #155. Regret attribution (O4), Target-policy optimization (O5), L3 execution upgrade (O6), and promotion claims (O7) remain deliberately absent. Contract tests cover all 10 acceptance criteria (PIT rejection, L1/L3 refusal, fill ambiguity, horizon, UNKNOWN propagation, G4/G5 determinism, grid mutation, coverage floor, population hash binding, and regret attribution absence). |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -7971,6 +7976,12 @@ named baseline, not disproven forever. None means profitability.</p></section>
 <td>Register a candidate catalog from existing PIT state families and Candidate semantics, then prove its hashes, search size, and candidate population are stable before any protected evaluation.</td>
 <td>O0–O1 supplies only a generic Rust grammar that accepts explicit registered artifacts. No production vocabulary, grid, or defaults are instantiated; expansion remains a new universe/version lineage.</td>
 </tr>
+<tr>
+<td>O-OR-002</td>
+<td>What exact <code>UtilityContract</code> threshold bounds and scalar penalty weights define production deployment families?</td>
+<td>Versioned contract sensitivity band; evaluate policy ranking stability under parameter perturbations before any live capital allocation.</td>
+<td><code>TARGET_ORACLE_SPEC</code> §7.4, D-101. Exact values are deployment-specific and versioned; no universal set is hardcoded.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="resolved">Resolved</h2>
@@ -7983,6 +7994,11 @@ named baseline, not disproven forever. None means profitability.</p></section>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>O-OR-003</td>
+<td><strong>Bound-aware ranking rule for partially identified counterfactuals:</strong> overlapping intervals fail closed (<code>Err(OracleRefusal::InsufficientSupport)</code>), preventing manufactured point estimates or premature dominance claims without registered estimator.</td>
+<td>D-102; <code>v8-core/src/oracle/authority.rs</code> <code>compare_for_ordering</code>; <code>TARGET_ORACLE_SPEC</code> §8.4, §18.1.</td>
+</tr>
 <tr>
 <td>O-017</td>
 <td>Attribution-validity thresholds ratified by the operator on 2026-08-01: <code>execution_share</code> floor = <strong>0.25</strong>; population-divergence threshold = two-sample KS on <code>net_R</code> (executed vs portfolio-rejected) <strong>≤ 0.20</strong></td>
@@ -10107,6 +10123,18 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-19-target-oracle-o2o3-support-coverage-evidence-receipts-d-102">2026-08-19 — Target Oracle O2–O3 support, coverage &amp; evidence receipts (D-102)</h2>
+<p>Added the Rust-owned Target Oracle support/authority classifier and representational
+coverage reconciliation over the frozen Opportunity Universe (#154). The support
+classifier emits orthogonal <code>CounterfactualAuthority</code> and typed <code>OracleOutcome</code>
+values without fabricating point estimates. The coverage engine reconciles
+membership against same-event shipped <code>ExpertEval</code> proposals and persists canonical
+<code>OpportunityUniverseVersion</code>, <code>OracleEvaluationRecord</code>s, and <code>CoverageReceipt</code>
+findings directly into the immutable <code>v8.eval.v1</code> evidence bundle with the explicit
+label <code>NO_ECONOMIC_CLAIM</code>. A development CLI subcommand <code>oracle-coverage</code> is exposed.</p>
+<p>Artifacts changed: <code>v8-core/src/oracle/{support.rs,authority.rs,coverage.rs,artifacts.rs,mod.rs}</code>,
+<code>v8-core/src/main.rs</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>,
+and decision registers; monographs regenerated.</p>
 <h2 id="2026-08-19-target-oracle-o0o1-substrate-d-101">2026-08-19 — Target Oracle O0–O1 substrate (D-101)</h2>
 <p>Added the Rust-owned Target Oracle foundation: the three-role taxonomy and
 typed refusal vocabulary, versioned after-cost <code>UtilityContract</code> validation,

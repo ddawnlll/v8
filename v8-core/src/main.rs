@@ -73,7 +73,8 @@ subcommands:
   cache-check     S5: content-addressed DAG cache identity check
   ledger-check    S5/S7: LEDGER_FORMAT_SPEC §8 cheap tests
   verdict         S7: verdict statistics on reduced tables
-  report          S7: verdict report artifacts + audit";
+  report          S7: verdict report artifacts + audit
+  oracle-coverage O3: Opportunity Universe representational coverage receipt";
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -100,6 +101,7 @@ fn main() {
         "ledger-check" => evidence::ledger_check(&args[2..]),
         "verdict" => statistics::verdict(&args[2..]),
         "report" => report::report(&args[2..]),
+        "oracle-coverage" => cmd_oracle_coverage(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -1198,4 +1200,90 @@ fn req2_cases(bytes: &[u8]) -> Option<Vec<(String, usize)>> {
             })
             .collect(),
     )
+}
+
+fn cmd_oracle_coverage(args: &[String]) -> i32 {
+    if args.is_empty() {
+        eprintln!("usage: v8-core oracle-coverage <request.json>");
+        return 2;
+    }
+    let req_path = &args[0];
+    let bytes = match std::fs::read(req_path) {
+        Ok(b) => b,
+        Err(e) => {
+            eprintln!("error reading {req_path}: {e}");
+            return 1;
+        }
+    };
+    let req_json: serde_json::Value = match serde_json::from_slice(&bytes) {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("error parsing JSON in {req_path}: {e}");
+            return 1;
+        }
+    };
+
+    let universe_val = req_json.get("universe").unwrap_or(&req_json);
+    let universe: oracle::artifacts::OpportunityUniverseVersion = match serde_json::from_value(universe_val.clone()) {
+        Ok(u) => u,
+        Err(e) => {
+            eprintln!("error deserializing OpportunityUniverseVersion: {e}");
+            return 1;
+        }
+    };
+
+    let candidates: Vec<oracle::opportunity::GrammarCandidate> = if let Some(cands_val) = req_json.get("candidates") {
+        match serde_json::from_value(cands_val.clone()) {
+            Ok(c) => c,
+            Err(e) => {
+                eprintln!("error deserializing candidates: {e}");
+                return 1;
+            }
+        }
+    } else {
+        Vec::new()
+    };
+
+    let classifier = oracle::support::SupportClassifier::canonical_l1();
+    let context = oracle::taxonomy::OracleContext {
+        role: oracle::taxonomy::OracleRole::Hindsight,
+        authority: oracle::taxonomy::AuthorityLevel::L1,
+        information_contract_id: universe.information_contract_id.clone(),
+        opportunity_universe_id: universe.universe_id.clone(),
+        utility_contract_id: req_json.get("utility_contract_id").and_then(|v| v.as_str()).unwrap_or("utility-v1").to_string(),
+        policy_class_id: "policy-v1".to_string(),
+        cost_model_id: "cost-v1".to_string(),
+        capacity_model_id: "capacity-v1".to_string(),
+        environment_target_id: "binance-usdt-perp-l1".to_string(),
+    };
+
+    let lineage_id = req_json.get("lineage_id").and_then(|v| v.as_str()).unwrap_or("lineage-default");
+    let requested_auth = match req_json.get("requested_authority").and_then(|v| v.as_str()) {
+        Some("L2") => oracle::taxonomy::AuthorityLevel::L2,
+        Some("L3") => oracle::taxonomy::AuthorityLevel::L3,
+        Some("LIVE_RECEIPT") => oracle::taxonomy::AuthorityLevel::LiveReceipt,
+        _ => oracle::taxonomy::AuthorityLevel::L1,
+    };
+
+    let (receipt, records) = oracle::coverage::reconcile_coverage(
+        &universe,
+        &candidates,
+        &classifier,
+        &[],
+        None,
+        requested_auth,
+        &context,
+        lineage_id,
+    );
+
+    if let Some(out_dir_str) = req_json.get("out_dir").and_then(|v| v.as_str()) {
+        let out_dir = std::path::Path::new(out_dir_str);
+        if let Err(e) = receipt.save_to_bundle(out_dir, &universe, &records) {
+            eprintln!("error saving bundle artifacts: {e}");
+            return 1;
+        }
+    }
+
+    println!("{}", serde_json::to_string_pretty(&receipt).unwrap());
+    0
 }
