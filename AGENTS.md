@@ -55,3 +55,9 @@ Only standalone documentation / tooling scripts in `tools/` may use Python:
 - **PR Traceability Matrix:** Every PR must account for all issue `R#` requirements (`R# → Authority → Implementation → Verification → Receipt`). Unmapped requirements block merge.
 - **Authority Precedence:** Constitution & Registered Decisions > `WORK_ITEM_POLICY.md` > `CONTRIBUTING.md` > Scoped Agent Instructions. If active authorities conflict, STOP and escalate an `OPEN_PIN`.
 
+### 7. Absolute Prohibition on Merging PRs or Direct Pushes to Main (Always PR First)
+- **AGENTS MUST NEVER MERGE PULL REQUESTS** (e.g. `gh pr merge`, `git merge`, or squash merge). All PRs must remain open for maintainer review.
+- **AGENTS MUST NEVER PUSH DIRECTLY TO `main`.**
+- **Always branch, push branch, and create a PR.** All implementation work stops once the PR is opened, verified by CI/checks, and documented. Never self-approve or self-merge.
+
+
