@@ -13,6 +13,7 @@
 - Every change requires `R#` requirement traceability from issue to PR verification receipts.
 - Zero-tolerance anti-hallucination / anti-synthetic data rule: Rule 12 (`NO_ECONOMIC_CLAIM`) strictly enforced.
 - Authority conflicts halt as `OPEN_PIN`.
-- **STRICT RULE: ALWAYS PR FIRST — NEVER MERGE PULL REQUESTS.** Agents must never self-merge PRs or push directly to `main`. Always create a feature branch, push, and open a PR for human review.
+- **STRICT RULE: ALWAYS PR FIRST (HUMAN DIRECTION ONLY).** Agents create PRs strictly under human direction / task assignment. Agents must never merge pull requests autonomously or push directly to `main`. Merging PRs is strictly reserved for human maintainers or requires explicit, standalone human maintainer direction.
+
 
 
