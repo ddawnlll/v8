@@ -193,6 +193,8 @@ pub fn run_investigator_agents(
     hypotheses: &[HypothesisRecord],
     n_trades: usize,
     n_stop_too_tight: usize,
+    bootstrap_p_val: f64,
+    stop_too_tight_mean_mfe: Option<f64>,
 ) -> Vec<FindingRecord> {
     let mut findings = Vec::new();
     let mut idx = 1;
@@ -200,24 +202,26 @@ pub fn run_investigator_agents(
     for h in hypotheses {
         if h.claim.contains("stop-loss geometry") {
             let stt_ratio = if n_trades > 0 { n_stop_too_tight as f64 / n_trades as f64 } else { 0.0 };
-            let supported = stt_ratio > 0.15 && n_stop_too_tight >= 3;
+            let supported = stt_ratio > 0.15 && n_stop_too_tight >= 5;
+            let sample_confidence = if n_trades >= 30 { 0.70 } else { (n_trades as f64 / 30.0) * 0.50 };
 
             findings.push(FindingRecord {
                 finding_id: format!("F-{idx:04}"),
                 scope: serde_json::json!({"expert": "all", "component": "exit_geometry"}),
                 claim: h.claim.clone(),
-                epistemic_status: if supported { "SUPPORTED" } else { "INCONCLUSIVE" }.to_string(),
-                severity: if supported { "HIGH" } else { "LOW" }.to_string(),
-                confidence: if supported { 0.85 } else { 0.40 },
+                epistemic_status: if supported { "SUPPORTED_DIAGNOSTIC" } else { "INSUFFICIENT_EVIDENCE" }.to_string(),
+                severity: if supported { "MEDIUM" } else { "LOW" }.to_string(),
+                confidence: if supported { sample_confidence } else { 0.20 },
                 observations: vec![
                     format!("{n_stop_too_tight}/{n_trades} ({:.1}%) trades satisfied STOP_TOO_TIGHT criteria.", stt_ratio * 100.0),
-                    "Post-exit MFE reaches >= +1.0R after stop trigger.".to_string(),
+                    format!("Bootstrap p-value: {:.4}.", bootstrap_p_val),
                 ],
                 statistical_evidence: serde_json::json!({
                     "n": n_trades,
                     "n_affected": n_stop_too_tight,
-                    "effect_size_R": if supported { 0.15 } else { 0.0 },
-                    "p_value": if supported { 0.02 } else { 0.45 }
+                    "stt_ratio": stt_ratio,
+                    "bootstrap_p_value": bootstrap_p_val,
+                    "post_exit_mfe_r": stop_too_tight_mean_mfe,
                 }),
                 alternative_explanations: vec![
                     "High volatility regime expansion after trade exit.".to_string(),
@@ -228,8 +232,8 @@ pub fn run_investigator_agents(
                     "Effect fails to replicate on OOS partition.".to_string(),
                 ],
                 supporting_artifacts: vec![
-                    "paths/mfe_mae.parquet".to_string(),
-                    "robustness/exit_surface.parquet".to_string(),
+                    "statistics/bootstrap.json".to_string(),
+                    "analysis/anomalies.jsonl".to_string(),
                 ],
                 recommended_next_test: h.derived_challengers.first().cloned().unwrap_or_else(|| "RETEST".to_string()),
             });
@@ -247,14 +251,14 @@ pub fn run_decision_agent(
     let mut idx = 1;
 
     for f in findings {
-        if f.epistemic_status == "SUPPORTED" && f.claim.contains("stop") {
+        if f.epistemic_status == "SUPPORTED_DIAGNOSTIC" && f.claim.contains("stop") {
             recs.push(RecommendationRecord {
                 recommendation_id: format!("REC-{idx:04}"),
-                title: "Widen stop multiplier by 1.5x on high-volatility setups".to_string(),
-                rationale: format!("Supported by Finding {}: {}", f.finding_id, f.observations.first().cloned().unwrap_or_default()),
+                title: "Widen stop multiplier by 1.5x on high-volatility setups (Candidate Challenger)".to_string(),
+                rationale: format!("Supported by Diagnostic Finding {}: {}", f.finding_id, f.observations.first().cloned().unwrap_or_default()),
                 target_expert: "all".to_string(),
                 proposed_parameter_patch: serde_json::json!({"stop_multiplier": 1.5}),
-                expected_improvement_r: 0.12,
+                expected_improvement_r: 0.0, // Zero until formal counterfactual rerun is executed (Constitution Rule 12)
             });
             idx += 1;
         }

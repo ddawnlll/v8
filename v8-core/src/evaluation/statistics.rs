@@ -203,11 +203,12 @@ pub fn run_10_family_null_suite(
                     (0.0, 1.0)
                 } else {
                     let mut samples = Vec::with_capacity(200);
+                    let avg_risk = 0.01;
                     for _ in 0..200 {
                         let mut sm = 0.0f64;
                         for _ in 0..n {
                             let idx = (rng.next_u32() as usize) % bar_returns.len();
-                            sm += bar_returns[idx] / 0.01;
+                            sm += bar_returns[idx] / avg_risk;
                         }
                         samples.push(sm / (n as f64));
                     }
@@ -235,29 +236,97 @@ pub fn run_10_family_null_suite(
                 }
             }
             "ALWAYS_LONG" => {
-                let m = if bar_returns.is_empty() { 0.0 } else { (bar_returns.iter().sum::<f64>() / bar_returns.len() as f64) / 0.01 };
-                let p = if strat_mean > m { 0.01 } else { 0.50 };
-                (m, p)
+                if bar_returns.is_empty() || n == 0 {
+                    (0.0, 1.0)
+                } else {
+                    let mut samples = Vec::with_capacity(200);
+                    let avg_risk = 0.01;
+                    for _ in 0..200 {
+                        let mut sm = 0.0f64;
+                        for _ in 0..n {
+                            let idx = (rng.next_u32() as usize) % bar_returns.len();
+                            sm += bar_returns[idx] / avg_risk;
+                        }
+                        samples.push(sm / (n as f64));
+                    }
+                    let m = samples.iter().sum::<f64>() / 200.0;
+                    let p = samples.iter().filter(|&&v| v >= strat_mean).count() as f64 / 200.0;
+                    (m, p)
+                }
             }
             "ALWAYS_SHORT" => {
-                let m = if bar_returns.is_empty() { 0.0 } else { -(bar_returns.iter().sum::<f64>() / bar_returns.len() as f64) / 0.01 };
-                let p = if strat_mean > m { 0.01 } else { 0.50 };
-                (m, p)
+                if bar_returns.is_empty() || n == 0 {
+                    (0.0, 1.0)
+                } else {
+                    let mut samples = Vec::with_capacity(200);
+                    let avg_risk = 0.01;
+                    for _ in 0..200 {
+                        let mut sm = 0.0f64;
+                        for _ in 0..n {
+                            let idx = (rng.next_u32() as usize) % bar_returns.len();
+                            sm += -bar_returns[idx] / avg_risk;
+                        }
+                        samples.push(sm / (n as f64));
+                    }
+                    let m = samples.iter().sum::<f64>() / 200.0;
+                    let p = samples.iter().filter(|&&v| v >= strat_mean).count() as f64 / 200.0;
+                    (m, p)
+                }
             }
             "INVERTED_SIGNAL" => {
-                let m = -strat_mean;
-                let p = if strat_mean > m { 0.01 } else { 0.99 };
-                (m, p)
+                if n == 0 {
+                    (0.0, 1.0)
+                } else {
+                    let inverted_mean = -strat_mean;
+                    let mut samples = Vec::with_capacity(200);
+                    for _ in 0..200 {
+                        let mut sm = 0.0f64;
+                        for _ in 0..n {
+                            let idx = (rng.next_u32() as usize) % returns_r.len();
+                            sm += -returns_r[idx];
+                        }
+                        samples.push(sm / (n as f64));
+                    }
+                    let p = samples.iter().filter(|&&v| v >= strat_mean).count() as f64 / 200.0;
+                    (inverted_mean, p)
+                }
             }
             "SHUFFLED_EXPERT_LABELS" => {
-                let m = strat_mean * 0.95;
-                let p = if strat_mean > 0.0 { 0.04 } else { 0.50 };
-                (m, p)
+                if n == 0 {
+                    (0.0, 1.0)
+                } else {
+                    let mut samples = Vec::with_capacity(200);
+                    for _ in 0..200 {
+                        let mut sm = 0.0f64;
+                        for _ in 0..n {
+                            let idx = (rng.next_u32() as usize) % returns_r.len();
+                            sm += returns_r[idx];
+                        }
+                        samples.push(sm / (n as f64));
+                    }
+                    let m = samples.iter().sum::<f64>() / 200.0;
+                    let p = samples.iter().filter(|&&v| v >= strat_mean).count() as f64 / 200.0;
+                    (m, p)
+                }
             }
             "MATCHED_REGIME_RANDOM" => {
-                let m = 0.0;
-                let p = if strat_mean > 0.0 { 0.03 } else { 0.60 };
-                (m, p)
+                if bar_returns.is_empty() || n == 0 {
+                    (0.0, 1.0)
+                } else {
+                    let mut samples = Vec::with_capacity(200);
+                    let avg_risk = 0.01;
+                    for _ in 0..200 {
+                        let mut sm = 0.0f64;
+                        for _ in 0..n {
+                            let idx = (rng.next_u32() as usize) % bar_returns.len();
+                            sm += bar_returns[idx] / avg_risk;
+                        }
+                        samples.push(sm / (n as f64));
+                    }
+                    let m = samples.iter().sum::<f64>() / 200.0;
+                    let p = samples.iter().filter(|&&v| v >= strat_mean).count() as f64 / 200.0;
+                    (m, p)
+                }
             }
             _ => (0.0, 1.0),
         };

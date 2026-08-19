@@ -180,17 +180,19 @@ impl EvaluationEngine {
         let mut n_stop_too_tight = 0;
         let mut n_bad_entry = 0;
         for t in trades {
+            // Do not fabricate synthetic offsets; if forward markouts/post-exit MFE are not
+            // physically tracked in the trade row, pass None (fail-closed integrity).
             let class = classify_trade_path(
                 &t.exit_reason,
                 t.net_r,
                 t.gross_r,
                 t.mfe_r,
                 t.mae_r,
-                2,
+                None,
                 t.duration_bars,
                 24,
-                t.mfe_r + 0.8,
-                1.0,
+                None,
+                None,
             );
             if class == PathClassification::StopTooTight {
                 n_stop_too_tight += 1;
@@ -228,8 +230,9 @@ impl EvaluationEngine {
         fs::write(
             stats_dir.join("backtest_overfit.json"),
             serde_json::to_string_pretty(&serde_json::json!({
-                "pbo_score": 0.15,
-                "n_splits": 4
+                "pbo_status": "UNCOMPUTED_WITHOUT_CSCV_PARTITIONS",
+                "pbo_score": serde_json::Value::Null,
+                "n_splits": 0
             }))?,
         )?;
 
@@ -263,7 +266,13 @@ impl EvaluationEngine {
         let hypotheses = run_scout_agents(&self.run_id, &anomalies);
         save_jsonl(&hypotheses, &out.join("analysis").join("hypotheses.jsonl"))?;
 
-        let findings = run_investigator_agents(&hypotheses, trades.len(), n_stop_too_tight);
+        let findings = run_investigator_agents(
+            &hypotheses,
+            trades.len(),
+            n_stop_too_tight,
+            bootstrap.p_value_greater_zero,
+            None,
+        );
         save_jsonl(&findings, &out.join("analysis").join("findings.jsonl"))?;
 
         let recommendations = run_decision_agent(&findings);
@@ -293,7 +302,7 @@ impl EvaluationEngine {
             }))?,
         )?;
 
-        // 9. Summary Metrics & Verdict
+        // 9. Summary Metrics & Verdict (Strict Constitution Rule 12 Enforcement)
         let mean_gross_r = if !trades.is_empty() {
             trades.iter().map(|t| t.gross_r).sum::<f64>() / (trades.len() as f64)
         } else {
@@ -332,14 +341,13 @@ impl EvaluationEngine {
             },
         };
 
+        // Constitution Rule 12: No module may emit SUPPORTED_EDGE without certified multiple-testing receipts
         let economic_verdict = if validity_gates.overall_validity == "INVALID_RUN" {
             "INVALID_RUN".to_string()
         } else if trades.len() < 30 {
             "INSUFFICIENT_EVIDENCE".to_string()
-        } else if mean_net_r > 0.05 && bootstrap.p_value_greater_zero < 0.05 {
-            "SUPPORTED_EDGE".to_string()
         } else {
-            "NO_ECONOMIC_EDGE".to_string()
+            "NO_ECONOMIC_CLAIM".to_string()
         };
 
         // 10. Cross-Run Delta
@@ -381,6 +389,8 @@ impl EvaluationEngine {
         let start_utc = bars.first().map(|b| format!("{}", b.timestamp_ns)).unwrap_or_default();
         let end_utc = bars.last().map(|b| format!("{}", b.timestamp_ns)).unwrap_or_default();
 
+        let (actual_file_count, actual_total_bytes) = count_dir_files_and_size(out).unwrap_or((0, 0));
+
         let manifest = EvaluationManifest {
             schema: SCHEMA_VERSION.to_string(),
             run_id: self.run_id.clone(),
@@ -402,11 +412,11 @@ impl EvaluationEngine {
             validity_gates: validity_gates.clone(),
             economic_verdict,
             summary_metrics: summary_metrics.clone(),
-            critical_findings: findings.iter().filter(|f| f.epistemic_status == "SUPPORTED").map(|f| f.claim.clone()).collect(),
+            critical_findings: findings.iter().filter(|f| f.epistemic_status == "SUPPORTED_DIAGNOSTIC").map(|f| f.claim.clone()).collect(),
             artifacts: ArtifactsSummary {
                 root_dir: out.to_string_lossy().to_string(),
-                total_size_bytes: 1024 * 1024,
-                file_count: 59,
+                total_size_bytes: actual_total_bytes,
+                file_count: actual_file_count,
             },
         };
 
@@ -438,6 +448,26 @@ impl EvaluationEngine {
     }
 }
 
+fn count_dir_files_and_size(path: &Path) -> io::Result<(usize, u64)> {
+    let mut count = 0;
+    let mut size = 0;
+    if path.is_dir() {
+        for entry in fs::read_dir(path)? {
+            let entry = entry?;
+            let p = entry.path();
+            if p.is_dir() {
+                let (sub_c, sub_s) = count_dir_files_and_size(&p)?;
+                count += sub_c;
+                size += sub_s;
+            } else if p.is_file() {
+                count += 1;
+                size += entry.metadata()?.len();
+            }
+        }
+    }
+    Ok((count, size))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -463,8 +493,11 @@ mod tests {
 
     #[test]
     fn test_rust_path_classification() {
-        let c = classify_trade_path("STOP_LOSS", -1.0, -0.9, 0.2, 1.0, 3, 10, 24, 1.5, 1.2);
+        let c = classify_trade_path("STOP_LOSS", -1.0, -0.9, 0.2, 1.0, Some(3), 10, 24, Some(1.5), Some(1.2));
         assert_eq!(c, PathClassification::StopTooTight);
+
+        let c_none = classify_trade_path("STOP_LOSS", -1.0, -0.9, 0.2, 1.0, None, 10, 24, None, None);
+        assert_eq!(c_none, PathClassification::NormalExecution);
     }
 
     #[test]

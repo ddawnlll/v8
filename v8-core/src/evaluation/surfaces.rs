@@ -139,10 +139,11 @@ pub fn compute_exit_surface(
             let mut wins = 0;
 
             for t in trades {
+                let cost_r = (t.gross_r - t.net_r).max(0.0);
                 let r = if t.mae_r >= sm {
-                    -sm
+                    -sm - cost_r
                 } else if t.mfe_r >= tm {
-                    tm
+                    tm - cost_r
                 } else {
                     t.net_r
                 };

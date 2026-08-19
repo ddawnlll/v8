@@ -23,3 +23,20 @@ Only standalone documentation / tooling scripts in `tools/` may use Python:
 - `cargo check --manifest-path v8-core/Cargo.toml`
 - `cargo clippy --manifest-path v8-core/Cargo.toml`
 - `.venv/bin/python tools/audit_python_boundary.py`
+
+## 🚨 STRICT RULE: ZERO-TOLERANCE ANTI-HALLUCINATION & ANTI-SYNTHETIC DATA DIRECTIVE
+
+### 5. Absolute Ban on Synthetic Data, Hardcoded Metrics & Fabricated Inputs in Production/Evaluation Pipelines
+1. **No Hardcoded Statistical Metrics:**
+   - It is strictly forbidden to hardcode p-values (e.g. `0.02`, `0.04`), effect sizes (e.g. `0.15R`), PBO scores, confidence values, or expected improvements (e.g. `+0.12R`) in any runtime, analysis, agent, or evaluation module.
+   - All statistical metrics must be derived exclusively from real computations (`src/statistics/`, genuine bootstrap, WRC, Detrended Null).
+2. **No Synthesized / Offset Inputs:**
+   - It is strictly forbidden to manufacture or offset trade excursion data (e.g. `mfe_r + 0.8`, arbitrary lookback constants) to trigger diagnostic classifiers or agent hypotheses.
+   - If future data or trade markouts are unavailable, the system MUST fail closed or record explicit absence (`None`, `UNRESOLVED`, `NOT_APPLICABLE`) — never a synthetic placeholder.
+3. **Strict Isolation of Synthetic Fixtures:**
+   - Mock or synthetic data is permissible ONLY inside test harnesses (`#[cfg(test)]`) to test edge-case code paths and arithmetic contracts.
+   - Synthetic fixtures must NEVER enter production execution pipelines, evaluation manifests, findings ledgers (`findings.jsonl`), or report generators.
+4. **Enforcement of Constitution Rule 12 (`NO_ECONOMIC_CLAIM`):**
+   - No module or agent may emit `SUPPORTED_EDGE` or claim predictive profitability without certified multiple-testing adjustments (WRC, DSR, Hansen SPA) and a valid authority receipt. All uncertified verdicts must remain `NO_ECONOMIC_CLAIM`.
+5. **No Fictitious Artifact References:**
+   - Generating findings or receipts that reference non-existent files or uncomputed tables (e.g. fictitious parquet paths) is classified as a critical system hallucination. Every referenced artifact must be physically produced and verified on disk.

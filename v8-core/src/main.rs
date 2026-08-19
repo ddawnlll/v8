@@ -34,6 +34,7 @@ mod candidate;
 mod data;
 mod evaluation;
 mod evidence;
+mod exit_ablation;
 mod experiment;
 mod experts;
 mod features;
@@ -103,6 +104,7 @@ fn main() {
         "verdict" => statistics::verdict(&args[2..]),
         "report" => report::report(&args[2..]),
         "oracle-coverage" => cmd_oracle_coverage(&args[2..]),
+        "exit-ablation" => exit_ablation::run(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2

@@ -38,26 +38,26 @@ pub fn classify_trade_path(
     gross_r: f64,
     mfe_r: f64,
     mae_r: f64,
-    time_to_mae: usize,
+    time_to_mae: Option<usize>,
     duration_bars: usize,
     expiry_bars: usize,
-    post_exit_mfe_r: f64,
-    markout_24_r: f64,
+    post_exit_mfe_r: Option<f64>,
+    markout_24_r: Option<f64>,
 ) -> PathClassification {
     let reason_upper = exit_reason.to_uppercase();
 
-    // 1. Stop too tight
-    if reason_upper.contains("STOP") && post_exit_mfe_r >= 1.0 {
+    // 1. Stop too tight (requires verified post-exit MFE)
+    if reason_upper.contains("STOP") && post_exit_mfe_r.is_some_and(|m| m >= 1.0) {
         return PathClassification::StopTooTight;
     }
 
-    // 2. Target too tight
-    if reason_upper.contains("TARGET") && post_exit_mfe_r >= 2.0 {
+    // 2. Target too tight (requires verified post-exit MFE)
+    if reason_upper.contains("TARGET") && post_exit_mfe_r.is_some_and(|m| m >= 2.0) {
         return PathClassification::TargetTooTight;
     }
 
     // 3. Bad entry
-    if time_to_mae <= 1 && mae_r >= 0.5 && mfe_r < 0.05 {
+    if time_to_mae.is_some_and(|t| t <= 1) && mae_r >= 0.5 && mfe_r < 0.05 {
         return PathClassification::BadEntry;
     }
 
@@ -68,7 +68,7 @@ pub fn classify_trade_path(
     }
 
     // 5. Good signal bad execution
-    if markout_24_r >= 0.8 && realized_net_r <= 0.0 && gross_r >= realized_net_r {
+    if markout_24_r.is_some_and(|m| m >= 0.8) && realized_net_r <= 0.0 && gross_r >= realized_net_r {
         return PathClassification::GoodSignalBadExecution;
     }
 
