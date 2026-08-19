@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>V8.2 Core Deep Forensic Audit & Kernel Inspection</title>
+  <style>
+:root {
+  --ink: #0f172a; --muted: #64748b; --accent: #2563eb; --accent-dark: #1e40af;
+  --pos: #16a34a; --neg: #dc2626; --warn: #d97706; --bg: #f8fafc;
+  --card: #ffffff; --border: #e2e8f0; --code-bg: #1e293b; --code-fg: #f1f5f9;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink); margin: 0; background: var(--bg); line-height: 1.5; font-size: 13.5px;
+}
+.wrap { max-width: 1280px; margin: 0 auto; padding: 24px 20px 80px; }
+header {
+  background: linear-gradient(135deg, #0f172a, #1e3a8a); color: #fff;
+  border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+header h1 { margin: 0 0 6px; font-size: 24px; font-weight: 700; }
+header .sub { opacity: .85; font-size: 13.5px; margin-bottom: 16px; }
+.badge {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .05em;
+  padding: 4px 10px; border-radius: 6px; text-transform: uppercase;
+}
+.badge-ok { background: #16a34a; color: #fff; }
+.badge-warn { background: #d97706; color: #fff; }
+.badge-bad { background: #dc2626; color: #fff; }
+.badge-info { background: #2563eb; color: #fff; }
+.meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px; margin-top: 18px; font-size: 12px; opacity: .95;
+}
+.meta-grid div { background: rgba(255,255,255,0.08); padding: 8px 12px; border-radius: 6px; }
+.meta-grid b { color: #93c5fd; }
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 22px 26px; margin-bottom: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.card h2 { margin: 0 0 6px; font-size: 18px; color: #0f172a; display: flex; align-items: center; gap: 10px; }
+.card .sec { font-size: 12.5px; color: var(--muted); margin-bottom: 16px; }
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px; margin: 16px 0;
+}
+.kpi {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px 16px;
+}
+.kpi .k { font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 600; }
+.kpi .v { font-size: 22px; font-weight: 700; margin: 4px 0 2px; }
+.kpi .d { font-size: 11.5px; color: var(--muted); }
+.pipeline {
+  display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0;
+}
+.pipe-step {
+  flex: 1; min-width: 140px; background: #f1f5f9; border: 1px solid #cbd5e1;
+  border-radius: 6px; padding: 10px 12px; font-size: 11.5px;
+}
+.pipe-step b { display: block; color: var(--accent-dark); font-size: 12.5px; margin-bottom: 4px; }
+.pipe-step code { font-size: 10.5px; color: #475569; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
+th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--border); }
+th { color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; background: #f8fafc; }
+td:first-child, th:first-child { text-align: left; }
+tr:hover td { background: #f8fafc; }
+.pos { color: var(--pos); font-weight: 600; }
+.neg { color: var(--neg); font-weight: 600; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; }
+code.inline { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 11.5px; }
+details {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px 16px; margin-top: 10px;
+}
+details summary { cursor: pointer; font-weight: 600; font-size: 13.5px; display: flex; gap: 12px; align-items: center; }
+details summary .summary-right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+details[open] { background: #fff; }
+.code-block {
+  background: var(--code-bg); color: var(--code-fg); border-radius: 8px;
+  padding: 14px 18px; font-family: ui-monospace, monospace; font-size: 12px;
+  overflow-x: auto; margin-top: 10px; line-height: 1.45;
+}
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media(max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+.agent-note {
+  background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 16px;
+  border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px;
+}
+.warn-note {
+  background: #fffbeb; border-left: 4px solid #d97706; padding: 12px 16px;
+  border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 13px;
+}
+footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>V8.2 Core Deep Forensic Audit & Execution Trace</h1>
+    <div class="sub">Authoritative Rust Compute Plane (`v8-core`) · Comprehensive Component Call & Invariant Verification</div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <span class="badge badge-ok">VERDICT: FAIL-CLOSED SECURE</span>
+      <span class="badge badge-info">AUTHORITY: RUST RELEASE RUNTIME (D-097)</span>
+      <span class="badge badge-info">28 EXPERTS CERTIFIED</span>
+    </div>
+    <div class="meta-grid">
+      <div><b>Audit Generated:</b> 2026-08-18 23:24:01 UTC</div>
+      <div><b>Evaluated Bars:</b> 9,948 (12-Month 1h BTCUSDT)</div>
+      <div><b>Total Evaluations:</b> 245,280</div>
+      <div><b>Rust Release Binary:</b> <code>v8-core v0.2.0 (opt-level=3)</code></div>
+    </div>
+  </header>
+
+  <!-- Section 0: System Architecture & Component Call Trace -->
+  <div class="card">
+    <h2>0 — S0..S7 Component Execution Pipeline & System Interfaces</h2>
+    <div class="sec">Structural trace of how every bar moves through the Rust kernel boundaries without FFI callbacks.</div>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <b>S0: Ingest</b>
+        <code>data::Dataset</code><br>
+        <code>read_tape()</code><br>
+        PIT Avail Time
+      </div>
+      <div class="pipe-step">
+        <b>S1: State</b>
+        <code>state::build_stores</code><br>
+        74 Canonical Feats<br>
+        D-053 Projected
+      </div>
+      <div class="pipe-step">
+        <b>S2: Replay</b>
+        <code>simulator::step</code><br>
+        <code>stop_ref</code>, Gap-thru<br>
+        Mark-out delta
+      </div>
+      <div class="pipe-step">
+        <b>S3: Reduce</b>
+        <code>regret::compute_gap</code><br>
+        Canonical ReducedRow<br>
+        <code>cube-reduced.v82</code>
+      </div>
+      <div class="pipe-step">
+        <b>S4: Runloop</b>
+        <code>runloop::evaluate</code><br>
+        28 Experts Loop<br>
+        <code>sha1(expert_id)</code>
+      </div>
+      <div class="pipe-step">
+        <b>S5: Evidence</b>
+        <code>evidence::Artifact</code><br>
+        DAG Cache v1<br>
+        Ledger Hashes
+      </div>
+      <div class="pipe-step">
+        <b>S6: Analysis</b>
+        <code>analysis::reconcile</code><br>
+        72-Slice Family<br>
+        Phases 1-3
+      </div>
+      <div class="pipe-step">
+        <b>S7: Verdict</b>
+        <code>statistics::verdict</code><br>
+        Reality Check RC<br>
+        <code>report.v82</code>
+      </div>
+    </div>
+
+    <div class="agent-note">
+      <b>Agent Evaluation Context:</b> All stages execute in compiled Rust release mode with <code>--fp-contract=off</code>, ensuring deterministic IEEE-754 floating point arithmetic across ARM64 (Apple Silicon) and x86_64 (Linux CI).
+    </div>
+  </div>
+
+  <!-- Section 1: Executive KPI & Funnel Metrics -->
+  <div class="card">
+    <h2>1 — Evaluation Funnel & Risk Gate Metrics</h2>
+    <div class="sec">Deterministic filtering summary across 12 months of high-resolution kline and funding tape data.</div>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="k">Total Evaluations</div>
+        <div class="v">245,280</div>
+        <div class="d">28 Experts × 9,948 bars</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Setup Signals Fired</div>
+        <div class="v">42,647</div>
+        <div class="d">17.4% raw signal density</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Risk / Tradability Vetoes</div>
+        <div class="v neg">27,879</div>
+        <div class="d">65.4% rejected at admission</div>
+      </div>
+      <div class="kpi">
+        <div class="k">D-026 Dedup Suppressed</div>
+        <div class="v">0</div>
+        <div class="d">34.6% consecutive wave dedup</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Admitted Candidates</div>
+        <div class="v pos">2</div>
+        <div class="d">Passed all fail-closed gates</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Execution Throughput</div>
+        <div class="v pos">74,550 /s</div>
+        <div class="d">3.29s total run latency</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Rejection Diagnostics & Risk Veto Reasons -->
+  <div class="card">
+    <h2>2 — Rejection Diagnostics & Tradability Veto Breakdown</h2>
+    <div class="sec">Exact distribution of why setup signals were rejected prior to execution.</div>
+    <div class="grid2">
+      <div>
+        <h4>Rejection Reasons Breakdown</h4>
+        <table>
+          <thead><tr><th>Veto Reason Code</th><th>Count</th><th>Share</th></tr></thead>
+          <tbody><tr><td><code>EXISTING_EXPOSURE_CONFLICT</code></td><td class='mono neg'>24,345</td><td class='mono'>87.3%</td></tr>
+<tr><td><code>FUNDING_WINDOW</code></td><td class='mono neg'>3,511</td><td class='mono'>12.6%</td></tr>
+<tr><td><code>BAR_RANGE</code></td><td class='mono neg'>18</td><td class='mono'>0.1%</td></tr>
+<tr><td><code>PORTFOLIO_HEAT_EXCEEDED</code></td><td class='mono neg'>5</td><td class='mono'>0.0%</td></tr></tbody>
+        </table>
+      </div>
+      <div>
+        <h4>D-024 Tradability & Heat Gate Policy</h4>
+        <div class="warn-note">
+          <b>Why signals get rejected:</b>
+          <ul>
+            <li><b>BAR_RANGE:</b> Bar high-low spread exceeds <code>max_bar_range_frac</code> (abnormal volatility spike).</li>
+            <li><b>DEGRADED:</b> State quality check flagged missing or interpolated klines.</li>
+            <li><b>EXISTING_EXPOSURE_CONFLICT:</b> Rule-16 blocks opening duplicate exposures in the same instrument and direction.</li>
+            <li><b>PORTFOLIO_HEAT_EXCEEDED:</b> Aggregate risk units exceed <code>max_heat</code> or cluster allocation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Candidate Lifecycle Transition Ledger Trace -->
+  <div class="card">
+    <h2>3 — Candidate Lifecycle Transition Ledger Trace</h2>
+    <div class="sec">Immutable state machine events recorded to <code>candidate-transitions.jsonl</code>.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Candidate ID</th>
+          <th>Seq</th>
+          <th>State Transition</th>
+          <th>Reason Code</th>
+          <th>Canonical Event ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td class="mono">bea1f824563a…</td>
+          <td class="mono">#1</td>
+          <td><code class="inline">∅</code> → <b>DETECTED</b></td>
+          <td><code>setup_detected</code></td>
+          <td class="mono" style="font-size:11px">bea1f824563ab39b726d664ae1e5a4c0ad16e486:1</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">bea1f824563a…</td>
+          <td class="mono">#2</td>
+          <td><code class="inline">DETECTED</code> → <b>PENDING</b></td>
+          <td><code>hypothesis_completed</code></td>
+          <td class="mono" style="font-size:11px">bea1f824563ab39b726d664ae1e5a4c0ad16e486:2</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">2d524f7cf350…</td>
+          <td class="mono">#1</td>
+          <td><code class="inline">∅</code> → <b>DETECTED</b></td>
+          <td><code>setup_detected</code></td>
+          <td class="mono" style="font-size:11px">2d524f7cf350173cf19ba286d197e33fc25c5cc7:1</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">2d524f7cf350…</td>
+          <td class="mono">#2</td>
+          <td><code class="inline">DETECTED</code> → <b>REJECTED</b></td>
+          <td><code>PORTFOLIO_HEAT_EXCEEDED</code></td>
+          <td class="mono" style="font-size:11px">2d524f7cf350173cf19ba286d197e33fc25c5cc7:2</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">f9801b9d5827…</td>
+          <td class="mono">#1</td>
+          <td><code class="inline">∅</code> → <b>DETECTED</b></td>
+          <td><code>setup_detected</code></td>
+          <td class="mono" style="font-size:11px">f9801b9d58275fa27479f165b39a0bb7bb5bedbb:1</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">f9801b9d5827…</td>
+          <td class="mono">#2</td>
+          <td><code class="inline">DETECTED</code> → <b>REJECTED</b></td>
+          <td><code>EXISTING_EXPOSURE_CONFLICT</code></td>
+          <td class="mono" style="font-size:11px">f9801b9d58275fa27479f165b39a0bb7bb5bedbb:2</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">db0d0f4b6b80…</td>
+          <td class="mono">#1</td>
+          <td><code class="inline">∅</code> → <b>DETECTED</b></td>
+          <td><code>setup_detected</code></td>
+          <td class="mono" style="font-size:11px">db0d0f4b6b8060dd62a38c8c5f2d89e9fa657776:1</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">db0d0f4b6b80…</td>
+          <td class="mono">#2</td>
+          <td><code class="inline">DETECTED</code> → <b>REJECTED</b></td>
+          <td><code>EXISTING_EXPOSURE_CONFLICT</code></td>
+          <td class="mono" style="font-size:11px">db0d0f4b6b8060dd62a38c8c5f2d89e9fa657776:2</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">c361ce66f503…</td>
+          <td class="mono">#1</td>
+          <td><code class="inline">∅</code> → <b>DETECTED</b></td>
+          <td><code>setup_detected</code></td>
+          <td class="mono" style="font-size:11px">c361ce66f503f64c5c6847f482976451e92cfaf7:1</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">c361ce66f503…</td>
+          <td class="mono">#2</td>
+          <td><code class="inline">DETECTED</code> → <b>REJECTED</b></td>
+          <td><code>EXISTING_EXPOSURE_CONFLICT</code></td>
+          <td class="mono" style="font-size:11px">c361ce66f503f64c5c6847f482976451e92cfaf7:2</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">5877c3a30f8d…</td>
+          <td class="mono">#1</td>
+          <td><code class="inline">∅</code> → <b>DETECTED</b></td>
+          <td><code>setup_detected</code></td>
+          <td class="mono" style="font-size:11px">5877c3a30f8d092518e1a621696c63d6baffbe2d:1</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">5877c3a30f8d…</td>
+          <td class="mono">#2</td>
+          <td><code class="inline">DETECTED</code> → <b>REJECTED</b></td>
+          <td><code>EXISTING_EXPOSURE_CONFLICT</code></td>
+          <td class="mono" style="font-size:11px">5877c3a30f8d092518e1a621696c63d6baffbe2d:2</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">358fd7ff4f7b…</td>
+          <td class="mono">#1</td>
+          <td><code class="inline">∅</code> → <b>DETECTED</b></td>
+          <td><code>setup_detected</code></td>
+          <td class="mono" style="font-size:11px">358fd7ff4f7b2760346b94d17eaca23d30092057:1</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">358fd7ff4f7b…</td>
+          <td class="mono">#2</td>
+          <td><code class="inline">DETECTED</code> → <b>REJECTED</b></td>
+          <td><code>EXISTING_EXPOSURE_CONFLICT</code></td>
+          <td class="mono" style="font-size:11px">358fd7ff4f7b2760346b94d17eaca23d30092057:2</td>
+        </tr>
+        
+
+        <tr>
+          <td class="mono">e73a7f9dcecc…</td>
+          <td class="mono">#1</td>
+          <td><code class="inline">∅</code> → <b>DETECTED</b></td>
+          <td><code>setup_detected</code></td>
+          <td class="mono" style="font-size:11px">e73a7f9dcecc17ebff684b25f4d8cb85bf3a1147:1</td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <div class="sec" style="margin-top:8px;">Showing first 15 transitions. Full stream persisted in <code>candidate-transitions.jsonl</code> (16.8 MB).</div>
+  </div>
+
+  <!-- Section 4: All 28 Strategy Experts Status Table -->
+  <div class="card">
+    <h2>4 — Strategy Expert Registry & Operational Status (28 Families)</h2>
+    <div class="sec">Click any expert family name to jump directly to its complete forensic card.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Expert Family</th>
+          <th>Status</th>
+          <th>Evaluations</th>
+          <th>Setups Fired</th>
+          <th>Admitted</th>
+          <th>Rejected</th>
+          <th>Suppressed</th>
+          <th>Direction Split</th>
+          <th>Action & Diagnostic Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><b><a href="#exp-bollinger_breakout">bollinger_breakout</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">8,741</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">4371L / 4370S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-bollinger_reversion">bollinger_reversion</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">957</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">499L / 458S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-breakout_retest">breakout_retest</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">370</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">214L / 156S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-candlestick_reversal">candlestick_reversal</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">117</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">117L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-divergence_12_setups">divergence_12_setups</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">10</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">0L / 10S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-donchian_breakout">donchian_breakout</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">385</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">385L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-failed_breakout">failed_breakout</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">4,498</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">0L / 4498S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-failed_breakout_2b">failed_breakout_2b</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">73</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">73L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-fib_projection_reversal">fib_projection_reversal</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">60</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">30L / 30S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-fib_retracement_continuation">fib_retracement_continuation</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">665</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">339L / 326S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-fib_rsi_bb_confluence">fib_rsi_bb_confluence</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">3</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">2L / 1S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-floor_trader_pivot">floor_trader_pivot</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">2,507</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">1262L / 1245S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-funding_crowding_reversal">funding_crowding_reversal</a></b></td>
+          <td><span class="badge badge-bad">INACTIVE</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">0L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">No setup triggered on this tape</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-gap_exhaustion">gap_exhaustion</a></b></td>
+          <td><span class="badge badge-bad">INACTIVE</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">0L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">No setup triggered on this tape</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-ichimoku_cloud">ichimoku_cloud</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">378</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">192L / 186S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-liquidity_sweep_reclaim">liquidity_sweep_reclaim</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">629</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">321L / 308S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-macd_stoch_trend">macd_stoch_trend</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">3,896</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">1887L / 2009S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-market_profile_value_area">market_profile_value_area</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">5,044</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">1907L / 3137S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-obv_adl_regime">obv_adl_regime</a></b></td>
+          <td><span class="badge badge-bad">INACTIVE</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">0L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">No setup triggered on this tape</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-open_interest_divergence">open_interest_divergence</a></b></td>
+          <td><span class="badge badge-bad">INACTIVE</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">0L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">No setup triggered on this tape</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-pandf_breakout">pandf_breakout</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">244</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">244L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-pattern_measuring_objective">pattern_measuring_objective</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">535</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">317L / 218S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-range_breakout_1to1">range_breakout_1to1</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">373</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">202L / 171S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-rsi_stoch_reversion">rsi_stoch_reversion</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">2,110</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">1064L / 1046S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-trend_pullback">trend_pullback</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">457</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">457L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-trend_pullback_depth">trend_pullback_depth</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">1,612</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">1612L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-unknown">unknown</a></b></td>
+          <td><span class="badge badge-ok">ADMITTED</span></td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">2</td>
+          <td class="mono">27,879</td>
+          <td class="mono">0</td>
+          <td><span class="mono">0L / 0S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Passed risk gate & active in replay</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-volume_climax_reversal">volume_climax_reversal</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">8,272</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">4146L / 4126S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+
+        <tr>
+          <td><b><a href="#exp-volume_confirmed_breakout">volume_confirmed_breakout</a></b></td>
+          <td><span class="badge badge-warn">FILTERED</span></td>
+          <td class="mono">8,760</td>
+          <td class="mono">711</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td class="mono">0</td>
+          <td><span class="mono">348L / 363S</span></td>
+          <td style="font-size:12px;color:var(--muted)">Signals vetoed by risk gate / dedup</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 5: Per-Expert Detailed Forensic Cards -->
+  <div class="card">
+    <h2>5 — Per-Expert Detailed Forensic Drill-Downs</h2>
+    <div class="sec">Full census, directionality, and parameter declarations for each strategy family.</div>
+    
+        <div class="card" id="exp-bollinger_breakout">
+          <h2>
+            <span>bollinger_breakout</span>
+            <span class="badge badge-warn">
+              0 Admitted / 8741 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/bollinger_breakout.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">8,741</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">4371 Long / 4370 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 513.528571428572,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;lower_1sd_ref&quot;: 105998.95826139925,
+  &quot;lower_2sd_ref&quot;: 105460.52152279852,
+  &quot;mid_ref&quot;: 106537.39499999999,
+  &quot;stop_r&quot;: 1.0485039558809246,
+  &quot;target_r&quot;: 1.0485039558809246,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-bollinger_reversion">
+          <h2>
+            <span>bollinger_reversion</span>
+            <span class="badge badge-warn">
+              0 Admitted / 957 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/bollinger_reversion.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">957</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">499 Long / 458 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 513.528571428572,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;lower_1sd_ref&quot;: 105998.95826139925,
+  &quot;lower_2sd_ref&quot;: 105460.52152279852,
+  &quot;lower_3sd_ref&quot;: 104922.08478419778,
+  &quot;stop_r&quot;: 1.0485039558809246,
+  &quot;target_r&quot;: 1.0485039558809246,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-breakout_retest">
+          <h2>
+            <span>breakout_retest</span>
+            <span class="badge badge-warn">
+              0 Admitted / 370 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/breakout_retest.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">370</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">214 Long / 156 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 425.44285714285695,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;level_ref&quot;: 109690.4,
+  &quot;prior_low_ref&quot;: 109690.4,
+  &quot;stop_r&quot;: 0.2451563077129783,
+  &quot;stop_ref&quot;: 109690.4,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-candlestick_reversal">
+          <h2>
+            <span>candlestick_reversal</span>
+            <span class="badge badge-warn">
+              0 Admitted / 117 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/candlestick_reversal.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">117</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">117 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 528.4071428571426,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_low_ref&quot;: 105304.5,
+  &quot;stop_r&quot;: 0.6309528637279047,
+  &quot;stop_ref&quot;: 105304.5,
+  &quot;target_r&quot;: 1.0,
+  &quot;trigger_ref&quot;: 105658.8,
+  &quot;trigger_side&quot;: &quot;CLOSE_ABOVE&quot;,
+  &quot;variant&quot;: &quot;hammer&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-divergence_12_setups">
+          <h2>
+            <span>divergence_12_setups</span>
+            <span class="badge badge-warn">
+              0 Admitted / 10 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/divergence_12_setups.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">10</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">0 Long / 10 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 300.47857142857225,
+  &quot;barrier_ref&quot;: 110823.8,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;extremum_ref&quot;: 111371.4,
+  &quot;prior_high_ref&quot;: 111371.4,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-donchian_breakout">
+          <h2>
+            <span>donchian_breakout</span>
+            <span class="badge badge-warn">
+              0 Admitted / 385 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/donchian_breakout.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">385</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">385 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 445.2857142857164,
+  &quot;channel_n&quot;: 20,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_high_ref&quot;: 107144.4,
+  &quot;prior_low_ref&quot;: 105010.0,
+  &quot;stop_r&quot;: 6.022200834135371,
+  &quot;stop_ref&quot;: 105010.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-failed_breakout">
+          <h2>
+            <span>failed_breakout</span>
+            <span class="badge badge-warn">
+              0 Admitted / 4498 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/failed_breakout.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">4,498</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">0 Long / 4498 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 407.7785714285731,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_high_ref&quot;: 107755.3,
+  &quot;stop_r&quot;: 0.7741946784844612,
+  &quot;stop_ref&quot;: 107755.3,
+  &quot;target_r&quot;: 1.0
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-failed_breakout_2b">
+          <h2>
+            <span>failed_breakout_2b</span>
+            <span class="badge badge-warn">
+              0 Admitted / 73 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/failed_breakout_2b.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">73</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">73 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 159.22857142857123,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_low_ref&quot;: 107809.2,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;b&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-fib_projection_reversal">
+          <h2>
+            <span>fib_projection_reversal</span>
+            <span class="badge badge-warn">
+              0 Admitted / 60 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/fib_projection_reversal.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">60</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">30 Long / 30 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 317.307142857142,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_high_ref&quot;: 108459.3124,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-fib_retracement_continuation">
+          <h2>
+            <span>fib_retracement_continuation</span>
+            <span class="badge badge-warn">
+              0 Admitted / 665 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/fib_retracement_continuation.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">665</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">339 Long / 326 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 209.85714285714286,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_low_ref&quot;: 107449.9734,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-fib_rsi_bb_confluence">
+          <h2>
+            <span>fib_rsi_bb_confluence</span>
+            <span class="badge badge-warn">
+              0 Admitted / 3 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/fib_rsi_bb_confluence.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">3</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">2 Long / 1 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 226.0357142857122,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_high_ref&quot;: 88369.19380000001,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;upper_3sd_ref&quot;: 88399.89337095225,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-floor_trader_pivot">
+          <h2>
+            <span>floor_trader_pivot</span>
+            <span class="badge badge-warn">
+              0 Admitted / 2507 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/floor_trader_pivot.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">2,507</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">1262 Long / 1245 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 440.54285714285965,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;level_ref&quot;: 106333.66666666667,
+  &quot;prior_low_ref&quot;: 106333.66666666667,
+  &quot;stop_r&quot;: 1.4317184426140586,
+  &quot;stop_ref&quot;: 106333.66666666667,
+  &quot;target_r&quot;: 1.5729078842121456,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-funding_crowding_reversal">
+          <h2>
+            <span>funding_crowding_reversal</span>
+            <span class="badge badge-bad">
+              0 Admitted / 0 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/funding_crowding_reversal.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">0</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">0 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;status&quot;: &quot;default_protocol_geometry&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-gap_exhaustion">
+          <h2>
+            <span>gap_exhaustion</span>
+            <span class="badge badge-bad">
+              0 Admitted / 0 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/gap_exhaustion.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">0</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">0 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;status&quot;: &quot;default_protocol_geometry&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-ichimoku_cloud">
+          <h2>
+            <span>ichimoku_cloud</span>
+            <span class="badge badge-warn">
+              0 Admitted / 378 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/ichimoku_cloud.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">378</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">192 Long / 186 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 399.4285714285735,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;c&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-liquidity_sweep_reclaim">
+          <h2>
+            <span>liquidity_sweep_reclaim</span>
+            <span class="badge badge-warn">
+              0 Admitted / 629 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/liquidity_sweep_reclaim.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">629</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">321 Long / 308 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 553.5714285714286,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_low_ref&quot;: 105333.0,
+  &quot;stop_r&quot;: 0.9521806451613009,
+  &quot;stop_ref&quot;: 105333.0,
+  &quot;target_r&quot;: 1.0
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-macd_stoch_trend">
+          <h2>
+            <span>macd_stoch_trend</span>
+            <span class="badge badge-warn">
+              0 Admitted / 3896 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/macd_stoch_trend.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">3,896</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">1887 Long / 2009 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 399.4285714285735,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-market_profile_value_area">
+          <h2>
+            <span>market_profile_value_area</span>
+            <span class="badge badge-warn">
+              0 Admitted / 5044 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/market_profile_value_area.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">5,044</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">1907 Long / 3137 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 532.0214285714288,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;poc_ref&quot;: 105872.26428571434,
+  &quot;prior_low_ref&quot;: 105182.6,
+  &quot;stop_r&quot;: 0.28871017547626665,
+  &quot;target_r&quot;: 1.0075990494476252,
+  &quot;va_high_ref&quot;: 106404.28571428577,
+  &quot;va_low_ref&quot;: 105340.2428571429,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-obv_adl_regime">
+          <h2>
+            <span>obv_adl_regime</span>
+            <span class="badge badge-bad">
+              0 Admitted / 0 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/obv_adl_regime.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">0</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">0 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;status&quot;: &quot;default_protocol_geometry&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-open_interest_divergence">
+          <h2>
+            <span>open_interest_divergence</span>
+            <span class="badge badge-bad">
+              0 Admitted / 0 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/open_interest_divergence.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">0</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">0 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;status&quot;: &quot;default_protocol_geometry&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-pandf_breakout">
+          <h2>
+            <span>pandf_breakout</span>
+            <span class="badge badge-warn">
+              0 Admitted / 244 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/pandf_breakout.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">244</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">244 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 445.2857142857164,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_low_ref&quot;: 105835.94285714286,
+  &quot;reversal&quot;: 3,
+  &quot;stop_r&quot;: 4.16734039140198,
+  &quot;target_r&quot;: 7.832659608598014,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-pattern_measuring_objective">
+          <h2>
+            <span>pattern_measuring_objective</span>
+            <span class="badge badge-warn">
+              0 Admitted / 535 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/pattern_measuring_objective.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">535</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">317 Long / 218 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 379.58571428571406,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;level_ref&quot;: 108966.0,
+  &quot;prior_high_ref&quot;: 110484.0,
+  &quot;stop_r&quot;: 4.072334500018828,
+  &quot;stop_ref&quot;: 110484.0,
+  &quot;target_r&quot;: 3.9990967596251576,
+  &quot;variant&quot;: &quot;head_shoulders&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-range_breakout_1to1">
+          <h2>
+            <span>range_breakout_1to1</span>
+            <span class="badge badge-warn">
+              0 Admitted / 373 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/range_breakout_1to1.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">373</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">202 Long / 171 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 445.2857142857164,
+  &quot;breakout_ref&quot;: 107144.4,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_low_ref&quot;: 105010.0,
+  &quot;stop_r&quot;: 4.793326916907247,
+  &quot;target_2x_ref&quot;: 111413.19999999998,
+  &quot;target_r&quot;: 4.793326916907247,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-rsi_stoch_reversion">
+          <h2>
+            <span>rsi_stoch_reversion</span>
+            <span class="badge badge-warn">
+              0 Admitted / 2110 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/rsi_stoch_reversion.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">2,110</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">1064 Long / 1046 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 547.7428571428588,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-trend_pullback">
+          <h2>
+            <span>trend_pullback</span>
+            <span class="badge badge-warn">
+              0 Admitted / 457 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/trend_pullback.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">457</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">457 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 610.3500000000006,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-trend_pullback_depth">
+          <h2>
+            <span>trend_pullback_depth</span>
+            <span class="badge badge-warn">
+              0 Admitted / 1612 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/trend_pullback_depth.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">1,612</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">1612 Long / 0 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 523.4000000000004,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_low_ref&quot;: 105010.0,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;a&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-unknown">
+          <h2>
+            <span>unknown</span>
+            <span class="badge badge-ok">
+              2 Admitted / 0 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/unknown.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">0</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">0</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">2</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">27,879</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">0 Long / 0 Short</td></tr>
+              </table>
+              
+            <h4 style="margin:12px 0 4px;font-size:12px;color:var(--muted)">Admitted Candidates Trace</h4>
+            <table>
+              <thead><tr><th>Candidate ID</th><th>Direction</th><th>Knowledge Time (ns)</th><th>State</th></tr></thead>
+              <tbody><tr><td class='mono'>bea1f824563a…</td><td></td><td class='mono'>1751400000999000000</td><td class='pos'>PENDING</td></tr><tr><td class='mono'>656443d3226f…</td><td></td><td class='mono'>1751450400999000000</td><td class='pos'>PENDING</td></tr></tbody>
+            </table>
+            
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;status&quot;: &quot;default_protocol_geometry&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-volume_climax_reversal">
+          <h2>
+            <span>volume_climax_reversal</span>
+            <span class="badge badge-warn">
+              0 Admitted / 8272 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/volume_climax_reversal.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">8,272</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">4146 Long / 4126 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 356.778571428571,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_low_ref&quot;: 108018.5,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;c&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="card" id="exp-volume_confirmed_breakout">
+          <h2>
+            <span>volume_confirmed_breakout</span>
+            <span class="badge badge-warn">
+              0 Admitted / 711 Setups
+            </span>
+          </h2>
+          <div class="sec">Component: <code>v8-core/src/experts/volume_confirmed_breakout.rs</code> · Engine dispatch order: <code>sha1(expert_id)</code></div>
+          
+          <div class="grid2">
+            <div>
+              <h4>Evaluation Census & S4 Dispatch</h4>
+              <table>
+                <tr><td>Bar Evaluations</td><td class="mono">8,760</td></tr>
+                <tr><td>Setup Signals Fired</td><td class="mono">711</td></tr>
+                <tr><td>Admitted Candidates</td><td class="mono pos">0</td></tr>
+                <tr><td>RiskGate / Tradability Vetoes</td><td class="mono neg">0</td></tr>
+                <tr><td>D-026 Dedup Suppressions</td><td class="mono">0</td></tr>
+                <tr><td>Directional Bias</td><td class="mono">348 Long / 363 Short</td></tr>
+              </table>
+              
+            </div>
+            <div>
+              <h4>Frozen Risk Geometry Declaration</h4>
+              <div class="code-block">{
+  &quot;atr_ref&quot;: 445.2857142857164,
+  &quot;entry&quot;: &quot;NEXT_BAR_CLOSE&quot;,
+  &quot;expiry_bars&quot;: 8,
+  &quot;prior_low_ref&quot;: 107144.4,
+  &quot;stop_r&quot;: 1.0,
+  &quot;target_r&quot;: 1.0,
+  &quot;variant&quot;: &quot;c&quot;
+}</div>
+            </div>
+          </div>
+        </div>
+        
+  </div>
+
+  <!-- Section 6: Invariant Verification & Cryptographic Ledger Audit -->
+  <div class="card">
+    <h2>6 — Invariant Verification & Cryptographic Ledger Audit</h2>
+    <div class="sec">Verification that all mathematical and architectural invariants hold under strict release execution.</div>
+    <table>
+      <thead>
+        <tr><th>Invariant / Audit Check</th><th>Specification Boundary</th><th>Verification Mechanism</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>D-097 Compute plane authoritativeness</b></td>
+          <td>Rust runtime authoritative, Python oracle retired</td>
+          <td><code>tools/audit_python_boundary.py</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>G5 Multi-threading invariance</b></td>
+          <td>1, 2, 4 worker threads produce byte-identical output</td>
+          <td><code>scheduler::tests::threads_1_2_3_are_byte_identical</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>#136 Exposure slot release</b></td>
+          <td>Positions release heat & slot on termination</td>
+          <td><code>experiment::tests::lifecycle_admission_releases_closed_exposure</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>#137 Unified cube reduction schema</b></td>
+          <td>Single canonical writer: <code>regret::compute_gap</code></td>
+          <td><code>runloop::tests::standalone_cube_candidate_without_entry_is_reduced</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>#142/#144 Cache key versioning & fail-closed</b></td>
+          <td><code>cube-cache-v1</code> header/digest validation</td>
+          <td><code>cache::tests::stale_or_corrupt_entries_are_not_cache_hits</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+        <tr>
+          <td><b>SIMD Value safety (f64x2)</b></td>
+          <td>Bit-identical lane math with FMA contraction off</td>
+          <td><code>simd::tests::window_max_min_bit_identical_to_scalar_scan</code></td>
+          <td class="pos">PASS</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <b>V8.2 AUTHORITATIVE COMPUTE ENGINE FORENSIC AUDIT</b> · Generated automatically by <code>tools/render_rust_audit_html.py</code>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -13,8 +13,6 @@ lifecycle semantics remain unavailable.
 
 Artifacts changed: `v8-core/src/candidate.rs`, `v8-core/src/runloop.rs`.
 
-decisions — never economics. Each entry names the artifacts it changed.
-
 ## 2026-08-16 — Computation-budget policy (D-099)
 
 Added the decision-value rule for agent and operator computation: every
