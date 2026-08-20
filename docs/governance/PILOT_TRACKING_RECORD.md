@@ -24,7 +24,7 @@ This is a measurement ledger, not a performance scorecard. Friction, missing fie
 | `#178` | `IMPL` | Population Lineage DAG & Reconciliation | Yes | None | 0 | Yes | Nominal (<60s) | Implemented DAG, independent observation, and reconciliation gate |
 | `#177` | `IMPL` | Oracle Independence & Negative Controls | Yes | None | 0 | Yes | Nominal (<60s) | Metamorphic tests & synthetic negative controls |
 | `#180` | `IMPL` | PIT Temporal Fault Injection & Non-Interference | Yes | None | 0 | Yes | Nominal (<60s) | Future perturbation engine & lookahead guards |
-| `P-07` | | | | | | | | |
+| `#179` | `IMPL` | D-116 Independent Simulator Parity & Risk | Yes | None | 0 | Yes | Nominal (<60s) | Dual-engine differential reconciliation & risk metrics |
 | `P-08` | | | | | | | | |
 | `P-09` | | | | | | | | |
 | `P-10` | | | | | | | | |
