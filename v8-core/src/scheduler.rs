@@ -27,7 +27,7 @@
 //!
 //! D-032 file-family registration: `scheduler.rs` — the K4 cell-batch task
 //! scheduler (Backend-1). The DECISION_REGISTER/CHANGELOG entry is the
-//! docs-side of the same record.
+pub mod rename_audit;
 
 use crate::backend::{ReplayCell, ReplayKernel};
 use crate::data::Dataset;

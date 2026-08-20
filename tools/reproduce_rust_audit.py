@@ -208,6 +208,50 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         artifacts["oracle_bundle/multiple_testing.json"] = sha256_file(out_dir / "oracle_bundle" / "multiple_testing.json")
     if (out_dir / "oracle_bundle" / "research_family_ledger.jsonl").exists():
         artifacts["oracle_bundle/research_family_ledger.jsonl"] = sha256_file(out_dir / "oracle_bundle" / "research_family_ledger.jsonl")
+    if (out_dir / "null_world_falsification.json").exists():
+        artifacts["null_world_falsification.json"] = sha256_file(out_dir / "null_world_falsification.json")
+    if (out_dir / "oracle_bundle" / "null_world_falsification.json").exists():
+        artifacts["oracle_bundle/null_world_falsification.json"] = sha256_file(out_dir / "oracle_bundle" / "null_world_falsification.json")
+    if (out_dir / "oracle_bundle" / "o4_regret_decomposition.parquet").exists():
+        artifacts["oracle_bundle/o4_regret_decomposition.parquet"] = sha256_file(out_dir / "oracle_bundle" / "o4_regret_decomposition.parquet")
+    if (out_dir / "oracle_bundle" / "regret_assumption_ledger.json").exists():
+        artifacts["oracle_bundle/regret_assumption_ledger.json"] = sha256_file(out_dir / "oracle_bundle" / "regret_assumption_ledger.json")
+    if (out_dir / "oracle_bundle" / "veto_attribution.parquet").exists():
+        artifacts["oracle_bundle/veto_attribution.parquet"] = sha256_file(out_dir / "oracle_bundle" / "veto_attribution.parquet")
+    if (out_dir / "oracle_bundle" / "veto_attribution_summary.json").exists():
+        artifacts["oracle_bundle/veto_attribution_summary.json"] = sha256_file(out_dir / "oracle_bundle" / "veto_attribution_summary.json")
+    if (out_dir / "oracle_bundle" / "dedup_regret.json").exists():
+        artifacts["oracle_bundle/dedup_regret.json"] = sha256_file(out_dir / "oracle_bundle" / "dedup_regret.json")
+    if (out_dir / "oracle_bundle" / "scheduler_rename_sensitivity.json").exists():
+        artifacts["oracle_bundle/scheduler_rename_sensitivity.json"] = sha256_file(out_dir / "oracle_bundle" / "scheduler_rename_sensitivity.json")
+    if (out_dir / "oracle_bundle" / "expert_joint_regime.parquet").exists():
+        artifacts["oracle_bundle/expert_joint_regime.parquet"] = sha256_file(out_dir / "oracle_bundle" / "expert_joint_regime.parquet")
+    if (out_dir / "oracle_bundle" / "regime_interactions.json").exists():
+        artifacts["oracle_bundle/regime_interactions.json"] = sha256_file(out_dir / "oracle_bundle" / "regime_interactions.json")
+    if (out_dir / "oracle_bundle" / "funding_clock.parquet").exists():
+        artifacts["oracle_bundle/funding_clock.parquet"] = sha256_file(out_dir / "oracle_bundle" / "funding_clock.parquet")
+    if (out_dir / "oracle_bundle" / "drift_monitor.jsonl").exists():
+        artifacts["oracle_bundle/drift_monitor.jsonl"] = sha256_file(out_dir / "oracle_bundle" / "drift_monitor.jsonl")
+    if (out_dir / "oracle_bundle" / "capital_viability_surface.parquet").exists():
+        artifacts["oracle_bundle/capital_viability_surface.parquet"] = sha256_file(out_dir / "oracle_bundle" / "capital_viability_surface.parquet")
+    if (out_dir / "oracle_bundle" / "capital_viability_meta.json").exists():
+        artifacts["oracle_bundle/capital_viability_meta.json"] = sha256_file(out_dir / "oracle_bundle" / "capital_viability_meta.json")
+    if (out_dir / "oracle_bundle" / "path_to_ruin.json").exists():
+        artifacts["oracle_bundle/path_to_ruin.json"] = sha256_file(out_dir / "oracle_bundle" / "path_to_ruin.json")
+    if (out_dir / "oracle_bundle" / "maker_identifiability_receipt.json").exists():
+        artifacts["oracle_bundle/maker_identifiability_receipt.json"] = sha256_file(out_dir / "oracle_bundle" / "maker_identifiability_receipt.json")
+    if (out_dir / "oracle_bundle" / "markouts.parquet").exists():
+        artifacts["oracle_bundle/markouts.parquet"] = sha256_file(out_dir / "oracle_bundle" / "markouts.parquet")
+    if (out_dir / "oracle_bundle" / "scenario_ruin_distribution.parquet").exists():
+        artifacts["oracle_bundle/scenario_ruin_distribution.parquet"] = sha256_file(out_dir / "oracle_bundle" / "scenario_ruin_distribution.parquet")
+    if (out_dir / "oracle_bundle" / "scenario_ruin_meta.json").exists():
+        artifacts["oracle_bundle/scenario_ruin_meta.json"] = sha256_file(out_dir / "oracle_bundle" / "scenario_ruin_meta.json")
+    if (out_dir / "oracle_bundle" / "slippage_at_risk.json").exists():
+        artifacts["oracle_bundle/slippage_at_risk.json"] = sha256_file(out_dir / "oracle_bundle" / "slippage_at_risk.json")
+    if (out_dir / "oracle_bundle" / "recoverability_chain.parquet").exists():
+        artifacts["oracle_bundle/recoverability_chain.parquet"] = sha256_file(out_dir / "oracle_bundle" / "recoverability_chain.parquet")
+    if (out_dir / "oracle_bundle" / "recoverable_gap_waterfall.json").exists():
+        artifacts["oracle_bundle/recoverable_gap_waterfall.json"] = sha256_file(out_dir / "oracle_bundle" / "recoverable_gap_waterfall.json")
 
     return {
         "eval_duration_sec": eval_duration,

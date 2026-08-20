@@ -1,0 +1,9 @@
+{
+  "report_id": "ruin-path-cap-viab-7",
+  "initial_balance_usdt": 1000.0,
+  "min_equity_experienced_usdt": 7.01,
+  "total_rounding_lockout_bars": 32428,
+  "consecutive_loss_streak_to_ruin": 28,
+  "ruin_terminal_state": "COLLATERAL_LOCKOUT_ROUNDING_ZERO",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

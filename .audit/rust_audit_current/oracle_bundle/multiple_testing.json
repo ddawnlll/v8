@@ -1,0 +1,13 @@
+{
+  "report_id": "summary-mt-17331deb9b39",
+  "total_trials": 36,
+  "survived_trials": 10,
+  "pruned_trials": 26,
+  "falsified_trials": 0,
+  "conservation_verified": true,
+  "effective_family_dimensions": 4,
+  "estimated_pbo_score": 0.7222222222222222,
+  "family_deflated_sharpe_ratio": 0.21817298312218497,
+  "status": "MULTIPLE_TESTING_LEDGER_CERTIFIED",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

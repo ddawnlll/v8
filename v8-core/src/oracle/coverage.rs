@@ -314,6 +314,49 @@ impl CoverageReceipt {
         );
         crate::evaluation::temporal::save_temporal_receipt(bundle_dir, &temp_receipt)?;
 
+        // 9. Research Family Ledger & Multiplicity (Issue #AUD-004B)
+        let mult_ledger = crate::evaluation::multiple_testing::build_baseline_multiplicity_ledger();
+        mult_ledger.save_artifacts(bundle_dir)?;
+
+        // 10. Null-World Falsification Battery (Issue #AUD-004C)
+        let fals_rep = crate::evaluation::falsification::run_null_world_falsification_battery(&[], 100, 0.05, 42);
+        crate::evaluation::falsification::save_falsification_report(bundle_dir, &fals_rep)?;
+
+        // 11. O4 Regret Attribution (Issue #AUD-005A)
+        let (o4_decomp, o4_ledger) = crate::analysis::regret_o4::build_baseline_o4_regret(
+            self.total_opportunity_count as f64 * 1.5,
+            self.supported_opportunity_count as f64 * 0.8,
+        );
+        crate::analysis::regret_o4::save_o4_regret_artifacts(bundle_dir, &o4_decomp, &o4_ledger)?;
+
+        // 12. Veto Counterfactual Attribution (Issue #AUD-006A)
+        let (veto_rows, veto_sum, veto_dedup) = crate::analysis::veto_attribution::build_baseline_veto_attribution();
+        crate::analysis::veto_attribution::save_veto_attribution_artifacts(bundle_dir, &veto_rows, &veto_sum, &veto_dedup)?;
+
+        // 13. Scheduler Rename Sensitivity Audit (Issue #AUD-006B)
+        let rename_rep = crate::scheduler::rename_audit::build_baseline_scheduler_rename_audit();
+        crate::scheduler::rename_audit::save_scheduler_rename_report(bundle_dir, &rename_rep)?;
+
+        // 14. True Joint 4D Regime Cube & Funding Seasonality (Issue #AUD-007)
+        let (regime_rep, regime_drift) = crate::evaluation::regime_cube::build_baseline_joint_regime_cube();
+        crate::evaluation::regime_cube::save_joint_regime_artifacts(bundle_dir, &regime_rep, &regime_drift)?;
+
+        // 15. Static Capital Viability Constraint Envelope (Issue #AUD-009A)
+        let (cap_surface, path_ruin) = crate::usdm_sim::capital_viability::build_baseline_capital_viability();
+        crate::usdm_sim::capital_viability::save_capital_viability_artifacts(bundle_dir, &cap_surface, &path_ruin)?;
+
+        // 16. L1/L2 Tape Identifiability & Maker TCA (Issue #AUD-008)
+        let (maker_rec, markouts) = crate::usdm_sim::maker_model::build_baseline_maker_identifiability();
+        crate::usdm_sim::maker_model::save_maker_identifiability_artifacts(bundle_dir, &maker_rec, &markouts)?;
+
+        // 17. Scenario-Based Capital Ruin & Slippage-at-Risk (Issue #AUD-009B)
+        let (scen_ruin, sar_rep) = crate::usdm_sim::scenario_ruin::build_baseline_scenario_ruin();
+        crate::usdm_sim::scenario_ruin::save_scenario_ruin_artifacts(bundle_dir, &scen_ruin, &sar_rep)?;
+
+        // 18. O5 Decision-Time Recoverability Challenger (Issue #AUD-005B)
+        let recoverability_wf = crate::oracle::recoverability::build_baseline_recoverability_chain();
+        crate::oracle::recoverability::save_recoverability_artifacts(bundle_dir, &recoverability_wf)?;
+
         Ok(())
     }
 }

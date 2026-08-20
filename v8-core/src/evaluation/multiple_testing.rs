@@ -5,7 +5,7 @@
 //! Enforces Conservation of Trials: N_total = N_survived + N_pruned + N_falsified.
 
 use std::fs;
-use std::io::{self, Write};
+use std::io;
 use std::path::Path;
 
 use serde::{Deserialize, Serialize};
@@ -136,7 +136,11 @@ impl ResearchMultiplicityLedger {
         let summary = self.summarize();
         let sum_json = serde_json::to_string_pretty(&summary)
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-        fs::write(out_dir.join("multiple_testing.json"), sum_json)?;
+        fs::write(out_dir.join("multiple_testing.json"), &sum_json)?;
+        let stats_dir = out_dir.join("statistics");
+        if stats_dir.exists() {
+            fs::write(stats_dir.join("multiple_testing.json"), &sum_json)?;
+        }
 
         let mut content = String::new();
         for entry in &self.entries {

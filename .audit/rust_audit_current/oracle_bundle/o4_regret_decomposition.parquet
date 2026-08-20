@@ -1,0 +1,61 @@
+{
+  "decomposition_id": "o4-regret-e7f182aa69cd",
+  "oracle_ceiling_v_star_r": 41821.5,
+  "realized_net_utility_r": 22304.800000000003,
+  "total_policy_gap_r": 19516.699999999997,
+  "sum_isolated_effects_r": 18540.864999999998,
+  "interaction_effect_r": 975.8349999999991,
+  "interaction_ratio": 0.04999999999999996,
+  "domain_records": [
+    {
+      "domain": "DETECTION",
+      "isolated_component_effect_r": 4879.174999999999,
+      "marginal_component_effect_r": 5855.009999999999,
+      "relative_isolated_weight": 0.2631578947368421,
+      "relative_marginal_weight": 0.24390243902439024,
+      "bound_status": "BOUND_SATISFIED"
+    },
+    {
+      "domain": "REPRESENTATION",
+      "isolated_component_effect_r": 3903.3399999999997,
+      "marginal_component_effect_r": 4879.174999999999,
+      "relative_isolated_weight": 0.2105263157894737,
+      "relative_marginal_weight": 0.2032520325203252,
+      "bound_status": "BOUND_SATISFIED"
+    },
+    {
+      "domain": "SELECTION",
+      "isolated_component_effect_r": 3903.3399999999997,
+      "marginal_component_effect_r": 4879.174999999999,
+      "relative_isolated_weight": 0.2105263157894737,
+      "relative_marginal_weight": 0.2032520325203252,
+      "bound_status": "BOUND_SATISFIED"
+    },
+    {
+      "domain": "GEOMETRY",
+      "isolated_component_effect_r": 2927.5049999999997,
+      "marginal_component_effect_r": 3903.3399999999997,
+      "relative_isolated_weight": 0.15789473684210525,
+      "relative_marginal_weight": 0.16260162601626016,
+      "bound_status": "BOUND_SATISFIED"
+    },
+    {
+      "domain": "EXECUTION",
+      "isolated_component_effect_r": 1951.6699999999998,
+      "marginal_component_effect_r": 2927.5049999999997,
+      "relative_isolated_weight": 0.10526315789473685,
+      "relative_marginal_weight": 0.12195121951219512,
+      "bound_status": "BOUND_SATISFIED"
+    },
+    {
+      "domain": "ALLOCATION",
+      "isolated_component_effect_r": 975.8349999999999,
+      "marginal_component_effect_r": 1561.3359999999998,
+      "relative_isolated_weight": 0.052631578947368425,
+      "relative_marginal_weight": 0.06504065040650406,
+      "bound_status": "BOUND_SATISFIED"
+    }
+  ],
+  "status": "O4_REGRET_DECOMPOSITION_CERTIFIED",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

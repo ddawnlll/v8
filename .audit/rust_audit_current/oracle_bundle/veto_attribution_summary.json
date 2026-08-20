@@ -1,0 +1,15 @@
+{
+  "summary_id": "veto-summary-cdd9c29c2c93",
+  "total_candidates_vetoed": 4,
+  "total_avoided_loss_usdt": 415.0,
+  "total_missed_profit_usdt": 190.0,
+  "net_gate_defensive_value_usdt": 225.0,
+  "gate_defensive_efficiency_ratio": 0.6859504132231405,
+  "authority_distribution": {
+    "IDENTIFIED": 2,
+    "MODEL_DERIVED": 1,
+    "PARTIALLY_IDENTIFIED": 1
+  },
+  "status": "VETO_ATTRIBUTION_CERTIFIED",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

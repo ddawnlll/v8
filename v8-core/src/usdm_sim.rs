@@ -2,7 +2,10 @@
 //!
 //! Owning Authority: VENUE_AND_CAPITAL_SIMULATION_SPEC.md §§1–11, Decisions D-109..D-116.
 
+pub mod capital_viability;
 pub mod differential;
+pub mod maker_model;
+pub mod scenario_ruin;
 
 use crate::account::{AccountState, MarginMode};
 use crate::allocator::RiskBudgetAllocator;

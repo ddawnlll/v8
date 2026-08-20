@@ -1,0 +1,816 @@
+{
+  "audit_id": "sched-rename-e975c7a1f41b",
+  "num_permutations": 100,
+  "baseline_terminal_pnl_usdt": -992.99,
+  "min_terminal_pnl_usdt": -1007.2592489338042,
+  "max_terminal_pnl_usdt": -978.1363374118722,
+  "mean_terminal_pnl_usdt": -994.0524909736433,
+  "pnl_std_dev_usdt": 8.754521313916356,
+  "pnl_spread_range_usdt": 29.122911521931997,
+  "max_slot_churn_pct": 1.25,
+  "sensitivity_verdict": "LOW_RENAME_SENSITIVITY_STABLE",
+  "runs": [
+    {
+      "permutation_id": 0,
+      "seed": 2746317213,
+      "terminal_pnl_usdt": -1005.3495778169835,
+      "return_pct": -100.53495778169834,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 9
+    },
+    {
+      "permutation_id": 1,
+      "seed": 478163327,
+      "terminal_pnl_usdt": -991.215593635062,
+      "return_pct": -99.1215593635062,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 12
+    },
+    {
+      "permutation_id": 2,
+      "seed": 107420369,
+      "terminal_pnl_usdt": -1006.3109239283581,
+      "return_pct": -100.63109239283581,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 24
+    },
+    {
+      "permutation_id": 3,
+      "seed": 3184935163,
+      "terminal_pnl_usdt": -986.4624536536186,
+      "return_pct": -98.64624536536186,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 3
+    },
+    {
+      "permutation_id": 4,
+      "seed": 1181241943,
+      "terminal_pnl_usdt": -987.541015293552,
+      "return_pct": -98.75410152935521,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 3
+    },
+    {
+      "permutation_id": 5,
+      "seed": 1051802512,
+      "terminal_pnl_usdt": -984.6308012490833,
+      "return_pct": -98.46308012490833,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 10
+    },
+    {
+      "permutation_id": 6,
+      "seed": 958682846,
+      "terminal_pnl_usdt": -983.7918631538937,
+      "return_pct": -98.37918631538936,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 7
+    },
+    {
+      "permutation_id": 7,
+      "seed": 599310825,
+      "terminal_pnl_usdt": -987.7799159140224,
+      "return_pct": -98.77799159140224,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 11
+    },
+    {
+      "permutation_id": 8,
+      "seed": 3163119785,
+      "terminal_pnl_usdt": -992.0269788672307,
+      "return_pct": -99.20269788672307,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 9
+    },
+    {
+      "permutation_id": 9,
+      "seed": 440213415,
+      "terminal_pnl_usdt": -1000.2183044289958,
+      "return_pct": -100.02183044289959,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 7
+    },
+    {
+      "permutation_id": 10,
+      "seed": 2906402157,
+      "terminal_pnl_usdt": -979.3086862116646,
+      "return_pct": -97.93086862116647,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 12
+    },
+    {
+      "permutation_id": 11,
+      "seed": 3181143731,
+      "terminal_pnl_usdt": -987.4639354875051,
+      "return_pct": -98.7463935487505,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 19
+    },
+    {
+      "permutation_id": 12,
+      "seed": 3831882064,
+      "terminal_pnl_usdt": -1004.3371494935974,
+      "return_pct": -100.43371494935973,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 24
+    },
+    {
+      "permutation_id": 13,
+      "seed": 2342331444,
+      "terminal_pnl_usdt": -992.0164947707423,
+      "return_pct": -99.20164947707423,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 0
+    },
+    {
+      "permutation_id": 14,
+      "seed": 373399426,
+      "terminal_pnl_usdt": -993.0034236581151,
+      "return_pct": -99.30034236581152,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 19
+    },
+    {
+      "permutation_id": 15,
+      "seed": 2536146025,
+      "terminal_pnl_usdt": -1000.9261945899776,
+      "return_pct": -100.09261945899777,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 11
+    },
+    {
+      "permutation_id": 16,
+      "seed": 1812140441,
+      "terminal_pnl_usdt": -981.7384660900924,
+      "return_pct": -98.17384660900925,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 0
+    },
+    {
+      "permutation_id": 17,
+      "seed": 136505587,
+      "terminal_pnl_usdt": -989.7431442874988,
+      "return_pct": -98.97431442874988,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 2
+    },
+    {
+      "permutation_id": 18,
+      "seed": 127978094,
+      "terminal_pnl_usdt": -980.7740271156844,
+      "return_pct": -98.07740271156844,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 22
+    },
+    {
+      "permutation_id": 19,
+      "seed": 402418010,
+      "terminal_pnl_usdt": -1000.485583308839,
+      "return_pct": -100.04855833088388,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 2
+    },
+    {
+      "permutation_id": 20,
+      "seed": 939042955,
+      "terminal_pnl_usdt": -997.6195362196563,
+      "return_pct": -99.76195362196563,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 21
+    },
+    {
+      "permutation_id": 21,
+      "seed": 999270936,
+      "terminal_pnl_usdt": -1004.7664776577413,
+      "return_pct": -100.47664776577415,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 11
+    },
+    {
+      "permutation_id": 22,
+      "seed": 2170484433,
+      "terminal_pnl_usdt": -997.5136942366621,
+      "return_pct": -99.75136942366622,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 21
+    },
+    {
+      "permutation_id": 23,
+      "seed": 2585650756,
+      "terminal_pnl_usdt": -999.2106422499205,
+      "return_pct": -99.92106422499205,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 1
+    },
+    {
+      "permutation_id": 24,
+      "seed": 113971123,
+      "terminal_pnl_usdt": -983.715342337263,
+      "return_pct": -98.3715342337263,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 4
+    },
+    {
+      "permutation_id": 25,
+      "seed": 2410529190,
+      "terminal_pnl_usdt": -988.5972271398548,
+      "return_pct": -98.85972271398548,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 7
+    },
+    {
+      "permutation_id": 26,
+      "seed": 854001193,
+      "terminal_pnl_usdt": -995.0126382328067,
+      "return_pct": -99.50126382328067,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 13
+    },
+    {
+      "permutation_id": 27,
+      "seed": 3075280817,
+      "terminal_pnl_usdt": -991.927182444808,
+      "return_pct": -99.19271824448079,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 11
+    },
+    {
+      "permutation_id": 28,
+      "seed": 2791232393,
+      "terminal_pnl_usdt": -993.5138180557275,
+      "return_pct": -99.35138180557274,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 7
+    },
+    {
+      "permutation_id": 29,
+      "seed": 3012167820,
+      "terminal_pnl_usdt": -980.9819033504409,
+      "return_pct": -98.0981903350441,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 16
+    },
+    {
+      "permutation_id": 30,
+      "seed": 2340505846,
+      "terminal_pnl_usdt": -999.6709588439494,
+      "return_pct": -99.96709588439494,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 16
+    },
+    {
+      "permutation_id": 31,
+      "seed": 1801823908,
+      "terminal_pnl_usdt": -980.6920367282252,
+      "return_pct": -98.06920367282251,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 5
+    },
+    {
+      "permutation_id": 32,
+      "seed": 946785248,
+      "terminal_pnl_usdt": -988.5843418344525,
+      "return_pct": -98.85843418344525,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 12
+    },
+    {
+      "permutation_id": 33,
+      "seed": 1929338154,
+      "terminal_pnl_usdt": -1006.9828544068699,
+      "return_pct": -100.698285440687,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 11
+    },
+    {
+      "permutation_id": 34,
+      "seed": 2530876844,
+      "terminal_pnl_usdt": -1003.0686566887829,
+      "return_pct": -100.3068656688783,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 3
+    },
+    {
+      "permutation_id": 35,
+      "seed": 1194819984,
+      "terminal_pnl_usdt": -984.7285737426536,
+      "return_pct": -98.47285737426536,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 24
+    },
+    {
+      "permutation_id": 36,
+      "seed": 3476477323,
+      "terminal_pnl_usdt": -978.1363374118722,
+      "return_pct": -97.81363374118722,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 1
+    },
+    {
+      "permutation_id": 37,
+      "seed": 3733616459,
+      "terminal_pnl_usdt": -1004.485424401176,
+      "return_pct": -100.4485424401176,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 18
+    },
+    {
+      "permutation_id": 38,
+      "seed": 27911967,
+      "terminal_pnl_usdt": -1001.8059598448312,
+      "return_pct": -100.18059598448312,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 16
+    },
+    {
+      "permutation_id": 39,
+      "seed": 3259052811,
+      "terminal_pnl_usdt": -999.0640912768722,
+      "return_pct": -99.90640912768723,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 18
+    },
+    {
+      "permutation_id": 40,
+      "seed": 3460967357,
+      "terminal_pnl_usdt": -997.8181383553447,
+      "return_pct": -99.78181383553448,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 17
+    },
+    {
+      "permutation_id": 41,
+      "seed": 685731524,
+      "terminal_pnl_usdt": -995.8777943079357,
+      "return_pct": -99.58777943079356,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 1
+    },
+    {
+      "permutation_id": 42,
+      "seed": 2998485882,
+      "terminal_pnl_usdt": -985.5048009018102,
+      "return_pct": -98.55048009018103,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 18
+    },
+    {
+      "permutation_id": 43,
+      "seed": 1815115025,
+      "terminal_pnl_usdt": -998.6951067895492,
+      "return_pct": -99.86951067895492,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 10
+    },
+    {
+      "permutation_id": 44,
+      "seed": 1461364854,
+      "terminal_pnl_usdt": -980.0802524312854,
+      "return_pct": -98.00802524312854,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 24
+    },
+    {
+      "permutation_id": 45,
+      "seed": 1193448329,
+      "terminal_pnl_usdt": -983.2296552100191,
+      "return_pct": -98.32296552100192,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 13
+    },
+    {
+      "permutation_id": 46,
+      "seed": 667779376,
+      "terminal_pnl_usdt": -982.8954908134486,
+      "return_pct": -98.28954908134486,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 11
+    },
+    {
+      "permutation_id": 47,
+      "seed": 924765563,
+      "terminal_pnl_usdt": -992.1121500182994,
+      "return_pct": -99.21121500182994,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 22
+    },
+    {
+      "permutation_id": 48,
+      "seed": 4111198819,
+      "terminal_pnl_usdt": -1002.0929626653674,
+      "return_pct": -100.20929626653674,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 11
+    },
+    {
+      "permutation_id": 49,
+      "seed": 3279182318,
+      "terminal_pnl_usdt": -995.4823875540243,
+      "return_pct": -99.54823875540242,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 16
+    },
+    {
+      "permutation_id": 50,
+      "seed": 1445662585,
+      "terminal_pnl_usdt": -984.6482483550825,
+      "return_pct": -98.46482483550825,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 11
+    },
+    {
+      "permutation_id": 51,
+      "seed": 438989805,
+      "terminal_pnl_usdt": -981.7671064634843,
+      "return_pct": -98.17671064634843,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 15
+    },
+    {
+      "permutation_id": 52,
+      "seed": 398340369,
+      "terminal_pnl_usdt": -1001.6650159855537,
+      "return_pct": -100.16650159855539,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 0
+    },
+    {
+      "permutation_id": 53,
+      "seed": 1631775357,
+      "terminal_pnl_usdt": -984.4229821979353,
+      "return_pct": -98.44229821979353,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 9
+    },
+    {
+      "permutation_id": 54,
+      "seed": 415393687,
+      "terminal_pnl_usdt": -994.6580461101044,
+      "return_pct": -99.46580461101043,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 21
+    },
+    {
+      "permutation_id": 55,
+      "seed": 1541804686,
+      "terminal_pnl_usdt": -991.2625562929211,
+      "return_pct": -99.1262556292921,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 7
+    },
+    {
+      "permutation_id": 56,
+      "seed": 3639960595,
+      "terminal_pnl_usdt": -987.5605593922826,
+      "return_pct": -98.75605593922826,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 17
+    },
+    {
+      "permutation_id": 57,
+      "seed": 1477278577,
+      "terminal_pnl_usdt": -1000.8567762470573,
+      "return_pct": -100.08567762470572,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 13
+    },
+    {
+      "permutation_id": 58,
+      "seed": 2592983555,
+      "terminal_pnl_usdt": -1005.0303908894151,
+      "return_pct": -100.50303908894152,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 15
+    },
+    {
+      "permutation_id": 59,
+      "seed": 1136108454,
+      "terminal_pnl_usdt": -996.4736640596323,
+      "return_pct": -99.64736640596323,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 17
+    },
+    {
+      "permutation_id": 60,
+      "seed": 3466589567,
+      "terminal_pnl_usdt": -1003.1787624855752,
+      "return_pct": -100.31787624855752,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 2
+    },
+    {
+      "permutation_id": 61,
+      "seed": 186618211,
+      "terminal_pnl_usdt": -984.3290281889999,
+      "return_pct": -98.43290281889999,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 21
+    },
+    {
+      "permutation_id": 62,
+      "seed": 3134174160,
+      "terminal_pnl_usdt": -989.593412760078,
+      "return_pct": -98.95934127600779,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 19
+    },
+    {
+      "permutation_id": 63,
+      "seed": 1973214822,
+      "terminal_pnl_usdt": -979.5012561623082,
+      "return_pct": -97.95012561623082,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 24
+    },
+    {
+      "permutation_id": 64,
+      "seed": 2303082117,
+      "terminal_pnl_usdt": -997.4414894387043,
+      "return_pct": -99.74414894387043,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 1
+    },
+    {
+      "permutation_id": 65,
+      "seed": 536124280,
+      "terminal_pnl_usdt": -1007.2185129115707,
+      "return_pct": -100.72185129115707,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 3
+    },
+    {
+      "permutation_id": 66,
+      "seed": 4179500364,
+      "terminal_pnl_usdt": -1000.70332245069,
+      "return_pct": -100.07033224506901,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 10
+    },
+    {
+      "permutation_id": 67,
+      "seed": 3961228449,
+      "terminal_pnl_usdt": -1007.2592489338042,
+      "return_pct": -100.72592489338041,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 16
+    },
+    {
+      "permutation_id": 68,
+      "seed": 1625792787,
+      "terminal_pnl_usdt": -1002.7278262460025,
+      "return_pct": -100.27278262460024,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 11
+    },
+    {
+      "permutation_id": 69,
+      "seed": 338444264,
+      "terminal_pnl_usdt": -1006.1856338015972,
+      "return_pct": -100.61856338015971,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 17
+    },
+    {
+      "permutation_id": 70,
+      "seed": 2370996465,
+      "terminal_pnl_usdt": -986.3393323698899,
+      "return_pct": -98.633933236989,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 15
+    },
+    {
+      "permutation_id": 71,
+      "seed": 1259191105,
+      "terminal_pnl_usdt": -996.5737806703523,
+      "return_pct": -99.65737806703522,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 0
+    },
+    {
+      "permutation_id": 72,
+      "seed": 3562265906,
+      "terminal_pnl_usdt": -1002.6196360074779,
+      "return_pct": -100.26196360074779,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 20
+    },
+    {
+      "permutation_id": 73,
+      "seed": 2699987374,
+      "terminal_pnl_usdt": -1000.4118360556296,
+      "return_pct": -100.04118360556295,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 3
+    },
+    {
+      "permutation_id": 74,
+      "seed": 2656522106,
+      "terminal_pnl_usdt": -978.3211859362046,
+      "return_pct": -97.83211859362046,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 18
+    },
+    {
+      "permutation_id": 75,
+      "seed": 3802986287,
+      "terminal_pnl_usdt": -992.7990421723134,
+      "return_pct": -99.27990421723135,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 13
+    },
+    {
+      "permutation_id": 76,
+      "seed": 3701002945,
+      "terminal_pnl_usdt": -990.2625231539837,
+      "return_pct": -99.02625231539837,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 6
+    },
+    {
+      "permutation_id": 77,
+      "seed": 1553210608,
+      "terminal_pnl_usdt": -996.3815812507047,
+      "return_pct": -99.63815812507048,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 4
+    },
+    {
+      "permutation_id": 78,
+      "seed": 2479708607,
+      "terminal_pnl_usdt": -1006.3725129523899,
+      "return_pct": -100.637251295239,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 13
+    },
+    {
+      "permutation_id": 79,
+      "seed": 825873196,
+      "terminal_pnl_usdt": -978.5997764382723,
+      "return_pct": -97.85997764382724,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 13
+    },
+    {
+      "permutation_id": 80,
+      "seed": 3026113008,
+      "terminal_pnl_usdt": -1005.9201800123424,
+      "return_pct": -100.59201800123422,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 0
+    },
+    {
+      "permutation_id": 81,
+      "seed": 298737106,
+      "terminal_pnl_usdt": -982.8029440814329,
+      "return_pct": -98.28029440814329,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 7
+    },
+    {
+      "permutation_id": 82,
+      "seed": 196814233,
+      "terminal_pnl_usdt": -997.5318394100682,
+      "return_pct": -99.75318394100682,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 1
+    },
+    {
+      "permutation_id": 83,
+      "seed": 2840104345,
+      "terminal_pnl_usdt": -1000.9718552997874,
+      "return_pct": -100.09718552997874,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 6
+    },
+    {
+      "permutation_id": 84,
+      "seed": 978815630,
+      "terminal_pnl_usdt": -1005.2387283757361,
+      "return_pct": -100.5238728375736,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 21
+    },
+    {
+      "permutation_id": 85,
+      "seed": 3320303242,
+      "terminal_pnl_usdt": -996.3159320973981,
+      "return_pct": -99.6315932097398,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 4
+    },
+    {
+      "permutation_id": 86,
+      "seed": 1242911821,
+      "terminal_pnl_usdt": -998.6254320901429,
+      "return_pct": -99.86254320901429,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 4
+    },
+    {
+      "permutation_id": 87,
+      "seed": 4231494220,
+      "terminal_pnl_usdt": -981.8733744871213,
+      "return_pct": -98.18733744871213,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 15
+    },
+    {
+      "permutation_id": 88,
+      "seed": 342703921,
+      "terminal_pnl_usdt": -1004.4265468243832,
+      "return_pct": -100.44265468243832,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 15
+    },
+    {
+      "permutation_id": 89,
+      "seed": 3673561638,
+      "terminal_pnl_usdt": -998.8630729620813,
+      "return_pct": -99.88630729620813,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 17
+    },
+    {
+      "permutation_id": 90,
+      "seed": 999829240,
+      "terminal_pnl_usdt": -1004.470816846062,
+      "return_pct": -100.4470816846062,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 16
+    },
+    {
+      "permutation_id": 91,
+      "seed": 3721519026,
+      "terminal_pnl_usdt": -990.0296514242873,
+      "return_pct": -99.00296514242874,
+      "total_trades_admitted": 2463,
+      "slot_churn_count": 13
+    },
+    {
+      "permutation_id": 92,
+      "seed": 433797840,
+      "terminal_pnl_usdt": -1000.7210010844459,
+      "return_pct": -100.07210010844459,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 20
+    },
+    {
+      "permutation_id": 93,
+      "seed": 1632629719,
+      "terminal_pnl_usdt": -996.3995941619353,
+      "return_pct": -99.63995941619352,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 22
+    },
+    {
+      "permutation_id": 94,
+      "seed": 1193887545,
+      "terminal_pnl_usdt": -993.3186555154147,
+      "return_pct": -99.33186555154147,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 20
+    },
+    {
+      "permutation_id": 95,
+      "seed": 1947382419,
+      "terminal_pnl_usdt": -993.448048449711,
+      "return_pct": -99.34480484497111,
+      "total_trades_admitted": 2464,
+      "slot_churn_count": 9
+    },
+    {
+      "permutation_id": 96,
+      "seed": 2730243887,
+      "terminal_pnl_usdt": -1007.2184395958428,
+      "return_pct": -100.72184395958428,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 21
+    },
+    {
+      "permutation_id": 97,
+      "seed": 3582477022,
+      "terminal_pnl_usdt": -998.24956996762,
+      "return_pct": -99.824956996762,
+      "total_trades_admitted": 2462,
+      "slot_churn_count": 17
+    },
+    {
+      "permutation_id": 98,
+      "seed": 1566942273,
+      "terminal_pnl_usdt": -978.5503586540551,
+      "return_pct": -97.85503586540551,
+      "total_trades_admitted": 2460,
+      "slot_churn_count": 20
+    },
+    {
+      "permutation_id": 99,
+      "seed": 698594025,
+      "terminal_pnl_usdt": -1006.1170405383035,
+      "return_pct": -100.61170405383035,
+      "total_trades_admitted": 2461,
+      "slot_churn_count": 21
+    }
+  ],
+  "status": "SCHEDULER_RENAME_AUDIT_CERTIFIED",
+  "claim": "NO_ECONOMIC_CLAIM"
+}
