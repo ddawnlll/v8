@@ -6,6 +6,7 @@
 #![allow(dead_code)]
 
 pub mod agents;
+pub mod authority_surface;
 pub mod html_report;
 pub mod manifest;
 pub mod paths;
@@ -423,6 +424,9 @@ impl EvaluationEngine {
         manifest.save(&out.join("manifest.json"))?;
 
         // 12. Save executive.json & report.html
+        let (authority_records, unknown_report, power_report) = authority_surface::build_expert_authority_surface();
+        authority_surface::save_authority_surface(out, &authority_records, &unknown_report, &power_report)?;
+
         fs::write(
             out.join("executive.json"),
             serde_json::to_string_pretty(&serde_json::json!({

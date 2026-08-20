@@ -137,6 +137,24 @@ pub fn render_html_report(
     out.push_str("  <header>\n    <h1>V8 Evaluation Evidence Report (v8.eval.v1)</h1>\n");
     out.push_str("    <p style=\"color: #8b949e;\">Autonomous Agent Scientific Evidence Substrate & Forensic Audit Report</p>\n  </header>\n  <main>\n");
 
+    // Section 0 — Epistemic & Authority Taxonomy Alignment (Issue #AUD-010)
+    out.push_str(
+        r#"
+    <section id="sec-taxonomy">
+      <h2>Section 0 — Epistemic & Authority Taxonomy Alignment (Issue #AUD-010, Rule 12)</h2>
+      <table>
+        <thead><tr><th>Taxonomy Axis</th><th>Pinned Classification</th><th>Epistemic Guarantee</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Axis 1: Verification Dimension</strong></td><td><span class="badge badge-pass">CONTRACT_VERIFIED</span></td><td>Pure Rust unit, parity, and state invariant verified</td></tr>
+          <tr><td><strong>Axis 2: Economic Evidence Stage</strong></td><td><span class="badge badge-warn">NO_ECONOMIC_CLAIM</span></td><td>Constitution Rule 12: Simulation authority uncertified; zero alpha asserted</td></tr>
+          <tr><td><strong>Axis 3: Counterfactual Authority</strong></td><td><span class="badge badge-info">MODEL_DERIVED</span></td><td>Derived from discrete bar simulation models, not identified venue queue truth</td></tr>
+          <tr><td><strong>Axis 4: Statistical Verdict</strong></td><td><span class="badge badge-warn">INCONCLUSIVE_UNDERPOWERED</span></td><td>Underpowered / unadjusted multiple testing; no economic claim</td></tr>
+        </tbody>
+      </table>
+    </section>
+        "#,
+    );
+
     // Section A
     out.push_str(&format!(
         r#"

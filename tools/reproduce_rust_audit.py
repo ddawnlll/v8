@@ -172,6 +172,12 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         "portfolio_receipt.json": sha256_file(out_dir / "portfolio_receipt.json"),
         "economic-cashflow.jsonl": sha256_file(out_dir / "economic-cashflow.jsonl"),
     }
+    if (out_dir / "oracle_bundle" / "authority_surface.parquet").exists():
+        artifacts["oracle_bundle/authority_surface.parquet"] = sha256_file(out_dir / "oracle_bundle" / "authority_surface.parquet")
+    if (out_dir / "oracle_bundle" / "unknown_reasons.json").exists():
+        artifacts["oracle_bundle/unknown_reasons.json"] = sha256_file(out_dir / "oracle_bundle" / "unknown_reasons.json")
+    if (out_dir / "oracle_bundle" / "power_materiality.json").exists():
+        artifacts["oracle_bundle/power_materiality.json"] = sha256_file(out_dir / "oracle_bundle" / "power_materiality.json")
 
     return {
         "eval_duration_sec": eval_duration,

@@ -234,6 +234,20 @@ impl CoverageReceipt {
                 columns: eval_col_stats,
             },
         );
+        // 5. Authority Surface & Reason Codes (Issue #AUD-010)
+        let (auth_records, unknown_rep, power_rep) = crate::evaluation::authority_surface::build_expert_authority_surface();
+        crate::evaluation::authority_surface::save_authority_surface(bundle_dir, &auth_records, &unknown_rep, &power_rep)?;
+
+        schema_cache.add_table(
+            "authority_surface.parquet",
+            TableStatistics {
+                file_name: "authority_surface.parquet".to_string(),
+                relative_path: "authority_surface.parquet".to_string(),
+                total_rows: auth_records.len(),
+                total_columns: 8,
+                columns: std::collections::HashMap::new(),
+            },
+        );
         schema_cache.save(&analysis_dir.join("schema_cache.json"))?;
 
         Ok(())

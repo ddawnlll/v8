@@ -980,11 +980,11 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     <div class="sub">Authoritative Rust Compute Plane (`v8-core`) · S0..S7 Execution + O0..O3 Target Oracle & Evidence System</div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
       <span class="badge {'badge-ok' if conservation_holds else 'badge-bad'}">ACCOUNTING: {conservation_gate} (Δ=0)</span>
-      <span class="badge badge-ok">VERDICT: FAIL-CLOSED SECURE</span>
-      <span class="badge badge-info">AUTHORITY: RUST RELEASE RUNTIME (D-097)</span>
-      <span class="badge badge-purple">ORACLE: O0–O3 CONTRACT CERTIFIED (D-102)</span>
+      <span class="badge badge-ok">VERIFICATION: 28 EXPERTS CONTRACT_VERIFIED</span>
+      <span class="badge badge-warn">ECONOMIC STAGE: NO_ECONOMIC_CLAIM (RULE 12)</span>
+      <span class="badge badge-purple">AUTHORITY: MODEL_DERIVED (UNCERTIFIED SIMULATOR)</span>
+      <span class="badge badge-info">STATISTICAL VERDICT: INCONCLUSIVE_UNDERPOWERED</span>
       <span class="badge badge-ok">EVIDENCE: v8.eval.v1 SUBSTRATE ACTIVE</span>
-      <span class="badge badge-info">28 EXPERTS CERTIFIED</span>
     </div>
     <div class="meta-grid">
       <div><b>Audit Generated:</b> {now_utc}</div>
@@ -1060,6 +1060,43 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     <div class="agent-note">
       <b>Deterministic Compute & Boundary Guarantees:</b> All stages execute in compiled Rust release mode with <code>--fp-contract=off</code>, ensuring deterministic IEEE-754 floating point arithmetic across ARM64 (Apple Silicon) and x86_64 (Linux CI). Python codebase is strictly frozen (D-100); CI runtime path is pure Rust.
     </div>
+  </div>
+
+  <!-- Section 0.5: Epistemic, Authority & Certification Taxonomy (Issue #AUD-010) -->
+  <div class="card">
+    <h2>0.5 — Epistemic, Authority & Certification Taxonomy (4 Orthogonal Dimensions)</h2>
+    <div class="sec">Enforcement of V8 Constitution Rule 12 (NO_ECONOMIC_CLAIM) across orthogonal verification and economic axes.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Taxonomy Dimension</th>
+          <th>Status / Value</th>
+          <th>Owning Authority & Epistemic Definition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Axis 1: Verification Dimension</b></td>
+          <td><span class="badge badge-ok">CONTRACT_VERIFIED</span></td>
+          <td>Rust unit tests, type invariants, and state-machine transitions verified bit-for-bit.</td>
+        </tr>
+        <tr>
+          <td><b>Axis 2: Economic Evidence Stage</b></td>
+          <td><span class="badge badge-warn">NO_ECONOMIC_CLAIM</span></td>
+          <td>Constitution Rule 12: Simulation authority uncertified; zero alpha asserted.</td>
+        </tr>
+        <tr>
+          <td><b>Axis 3: Counterfactual Authority</b></td>
+          <td><span class="badge badge-purple">MODEL_DERIVED</span></td>
+          <td>Derived from discrete bar simulation models, not identified venue queue truth.</td>
+        </tr>
+        <tr>
+          <td><b>Axis 4: Statistical Verdict</b></td>
+          <td><span class="badge badge-info">INCONCLUSIVE_UNDERPOWERED</span></td>
+          <td>Underpowered / unadjusted multiple testing; no economic claim.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- Section 1: Executive KPI & Funnel Metrics -->
