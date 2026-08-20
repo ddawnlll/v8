@@ -186,6 +186,10 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         artifacts["oracle_bundle/report_reconciliation.json"] = sha256_file(out_dir / "oracle_bundle" / "report_reconciliation.json")
     if (out_dir / "oracle_bundle" / "report_cell_provenance.parquet").exists():
         artifacts["oracle_bundle/report_cell_provenance.parquet"] = sha256_file(out_dir / "oracle_bundle" / "report_cell_provenance.parquet")
+    if (out_dir / "oracle_bundle" / "oracle_independence_receipt.json").exists():
+        artifacts["oracle_bundle/oracle_independence_receipt.json"] = sha256_file(out_dir / "oracle_bundle" / "oracle_independence_receipt.json")
+    if (out_dir / "oracle_bundle" / "negative_control_universe.parquet").exists():
+        artifacts["oracle_bundle/negative_control_universe.parquet"] = sha256_file(out_dir / "oracle_bundle" / "negative_control_universe.parquet")
 
     return {
         "eval_duration_sec": eval_duration,

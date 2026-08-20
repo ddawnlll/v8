@@ -271,6 +271,25 @@ impl CoverageReceipt {
                 columns: std::collections::HashMap::new(),
             },
         );
+
+        // 7. Oracle Independence & Negative Controls (Issue #AUD-001)
+        let (indep_receipt, neg_universe) = crate::oracle::independence::evaluate_oracle_independence(
+            &self.universe_id,
+            &[],
+            &std::collections::HashMap::new(),
+        );
+        crate::oracle::independence::save_independence_artifacts(bundle_dir, &indep_receipt, &neg_universe)?;
+
+        schema_cache.add_table(
+            "negative_control_universe.parquet",
+            TableStatistics {
+                file_name: "negative_control_universe.parquet".to_string(),
+                relative_path: "negative_control_universe.parquet".to_string(),
+                total_rows: neg_universe.total_candidates,
+                total_columns: 7,
+                columns: std::collections::HashMap::new(),
+            },
+        );
         schema_cache.save(&analysis_dir.join("schema_cache.json"))?;
 
         Ok(())
@@ -368,7 +387,7 @@ pub fn reconcile_coverage(
 
         if is_supported && !is_represented {
             *unrepresented_cluster_map
-                .entry((candidate.template_id.clone(), candidate.direction.clone()))
+                .entry((candidate.template_id.clone(), candidate.direction))
                 .or_insert(0) += 1;
         }
 
@@ -396,7 +415,7 @@ pub fn reconcile_coverage(
             template_id: candidate.template_id.clone(),
             instrument: candidate.instrument.clone(),
             timeframe: candidate.timeframe.clone(),
-            direction: candidate.direction.clone(),
+            direction: candidate.direction,
             decision_time: candidate.decision_time,
             is_supported,
             is_represented,

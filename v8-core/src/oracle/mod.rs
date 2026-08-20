@@ -9,6 +9,7 @@
 pub mod artifacts;
 pub mod authority;
 pub mod coverage;
+pub mod independence;
 pub mod information;
 pub mod opportunity;
 pub mod support;

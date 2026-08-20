@@ -78,7 +78,7 @@ impl ParameterGrid {
     }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Direction {
     Long,
     Short,
@@ -453,7 +453,7 @@ impl OpportunityGrammar {
                             template_id: template.template_id.clone(),
                             instrument: instrument.clone(),
                             timeframe: timeframe.clone(),
-                            direction: template.direction.clone(),
+                            direction: template.direction,
                             decision_time: information.decision_time,
                             parameters: parameters.clone(),
                         };
