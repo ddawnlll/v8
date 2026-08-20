@@ -2,6 +2,8 @@
 //!
 //! Owning Authority: VENUE_AND_CAPITAL_SIMULATION_SPEC.md §§1–11, Decisions D-109..D-116.
 
+pub mod differential;
+
 use crate::account::{AccountState, MarginMode};
 use crate::allocator::RiskBudgetAllocator;
 use crate::cashflow::{CashflowLedger, EconomicCashflow};
@@ -523,6 +525,30 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
     let receipt_path = params.out_dir.join("portfolio_receipt.json");
     let json = serde_json::to_string_pretty(&receipt).map_err(|e| e.to_string())?;
     std::fs::write(&receipt_path, json).map_err(|e| e.to_string())?;
+
+    // D-116 Independent Engine Differential Reconciliation (Issue #AUD-003)
+    let diff_trades: Vec<_> = ledger
+        .flows
+        .iter()
+        .map(|c| {
+            (
+                c.candidate_id.clone(),
+                c.event_time,
+                c.symbol.clone(),
+                c.direction.clone(),
+                c.quantity,
+                c.entry_price,
+                c.exit_price,
+                c.commission_usdt,
+                c.funding_cashflow_usdt,
+                c.wallet_balance_after,
+            )
+        })
+        .collect();
+
+    let (risk_report, diff_entries) = differential::reconcile_differential_parity(params.initial_balance, &diff_trades);
+    differential::save_differential_artifacts(&params.out_dir, &risk_report, &diff_entries)
+        .map_err(|e| e.to_string())?;
 
     Ok(receipt)
 }
