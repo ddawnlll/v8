@@ -444,14 +444,13 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                 // D-053 projection: each expert sees only its requires-closure;
                 // a feature outside it is withheld (features.rs — the same
                 // withholding the Python view applies).
-                let projected = features::project_features(&map, closure);
                 let hist = if *allows_history {
                     state::history_bars(store, t, req.history_depth)
                 } else {
                     Vec::new()
                 };
                 let fm = experts::base::FeatMap {
-                    features: &projected,
+                    features: experts::base::ProjectedFeatures::new(&map, closure),
                     history: hist,
                     as_of,
                     symbol: sym,
@@ -835,30 +834,36 @@ fn write_evaluation(
     as_of: i64,
     ev: &experts::base::ExpertEval,
 ) -> Result<(), String> {
-    let draft = ev.draft.as_ref().map(|d| {
-        serde_json::json!({
-        "expert_id": eid,
-        "expert_version": ver,
-        "instrument": sym,
-        "direction": d.direction,
-        "setup_fingerprint": ev.setup_fingerprint,
-        "risk_geometry": d.risk_geometry,
-        "birth_time": d.birth_time,
-        "setup_anchor_event_id": ev.setup_anchor_event_id,
-        "size": 1.0,
-        })
-    });
-    write_line(
-        out,
-        &serde_json::json!({
-        "knowledge_time": as_of,
-        "expert_id": eid,
-        "version": ver,
-        "applicability": ev.applicability,
-        "decision": ev.decision,
-        "draft": draft,
-        }),
-    )
+    if let Some(d) = &ev.draft {
+        let draft = serde_json::json!({
+            "expert_id": eid,
+            "expert_version": ver,
+            "instrument": sym,
+            "direction": d.direction,
+            "setup_fingerprint": ev.setup_fingerprint,
+            "risk_geometry": d.risk_geometry,
+            "birth_time": d.birth_time,
+            "setup_anchor_event_id": ev.setup_anchor_event_id,
+            "size": 1.0,
+        });
+        write_line(
+            out,
+            &serde_json::json!({
+                "knowledge_time": as_of,
+                "expert_id": eid,
+                "version": ver,
+                "applicability": ev.applicability,
+                "decision": ev.decision,
+                "draft": draft,
+            }),
+        )
+    } else {
+        writeln!(
+            out,
+            "{{\"applicability\":\"{}\",\"decision\":\"{}\",\"draft\":null,\"expert_id\":\"{}\",\"knowledge_time\":{},\"version\":\"{}\"}}",
+            ev.applicability, ev.decision, eid, as_of, ver
+        ).map_err(|e| e.to_string())
+    }
 }
 
 /// DETECTED -> REJECTED with the reason, and the ledger record.
@@ -1372,14 +1377,13 @@ mod tests {
                 }
                 for (eid, _) in &table {
                     let closure = features::group_closure(experts::requires_for(eid));
-                    let projected = features::project_features(&map, &closure);
                     let hist = if features::history_allowed(&closure) {
                         state::history_bars(store, t, history_depth)
                     } else {
                         Vec::new()
                     };
                     let fm = experts::base::FeatMap {
-                        features: &projected,
+                        features: experts::base::ProjectedFeatures::new(&map, &closure),
                         history: hist,
                         as_of,
                         symbol: &store.symbol,
@@ -2182,14 +2186,13 @@ mod tests {
                     .map(|(id, _, ver, _)| (*id, *ver))
                 {
                     let closure = features::group_closure(experts::requires_for(eid));
-                    let projected = features::project_features(&map, &closure);
                     let hist = if features::history_allowed(&closure) {
                         state::history_bars(store, t, state::HISTORY_DEPTH_DEFAULT)
                     } else {
                         Vec::new()
                     };
                     let fm = experts::base::FeatMap {
-                        features: &projected,
+                        features: experts::base::ProjectedFeatures::new(&map, &closure),
                         history: hist,
                         as_of,
                         symbol: &store.symbol,

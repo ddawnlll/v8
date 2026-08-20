@@ -176,6 +176,7 @@ pub fn feature_in_closure(name: &str, closure: &std::collections::HashSet<String
 }
 
 /// Project a full bare-keyed feature map down to the closure (project_state).
+#[allow(dead_code)]
 pub fn project_features(
     features: &HashMap<String, Feature>,
     closure: &std::collections::HashSet<String>,

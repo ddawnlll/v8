@@ -1,0 +1,8 @@
+{
+  "total_entities": 28,
+  "identified_count": 0,
+  "unknown_or_model_derived_count": 28,
+  "reason_distribution": {
+    "MODEL_ONLY_COUNTERFACTUAL": 28
+  }
+}

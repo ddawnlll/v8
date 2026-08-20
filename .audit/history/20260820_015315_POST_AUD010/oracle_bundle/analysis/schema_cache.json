@@ -1,0 +1,36 @@
+{
+  "schema": "v8.eval.v1.schema_cache",
+  "root_dir": "C:\\Users\\dresden\\Documents\\v8\\.audit\\rust_audit_current\\oracle_bundle",
+  "tables": {
+    "authority_surface.parquet": {
+      "file_name": "authority_surface.parquet",
+      "relative_path": "authority_surface.parquet",
+      "total_rows": 28,
+      "total_columns": 8,
+      "columns": {}
+    },
+    "economics/oracle_evaluation.parquet": {
+      "file_name": "oracle_evaluation.parquet",
+      "relative_path": "economics/oracle_evaluation.parquet",
+      "total_rows": 27881,
+      "total_columns": 22,
+      "columns": {
+        "point_estimate": {
+          "dtype": "F64",
+          "row_count": 27881,
+          "null_count": 0,
+          "null_rate": 0.0,
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "p1": 0.0,
+          "p25": 0.0,
+          "p50": 0.0,
+          "p75": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        }
+      }
+    }
+  }
+}

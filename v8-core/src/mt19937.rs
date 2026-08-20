@@ -99,6 +99,7 @@ impl MT19937 {
     }
 
     /// `genrand_uint32` — one tempered draw on [0, 2^32).
+    #[inline]
     pub fn next_u32(&mut self) -> u32 {
         if self.mti >= N {
             let mt = &mut self.mt;
@@ -125,6 +126,7 @@ impl MT19937 {
 
     /// `random()` — genrand_res53: `(a*67108864.0 + b) * (1.0/2**53)` with
     /// `a = u32>>5`, `b = u32>>6`. Two tempered words per draw.
+    #[inline]
     pub fn random(&mut self) -> f64 {
         let a = self.next_u32() >> 5;
         let b = self.next_u32() >> 6;
@@ -134,6 +136,7 @@ impl MT19937 {
     /// `getrandbits(k)` — k <= 32: top k bits of one tempered word;
     /// k in (32, 64]: two words, little-endian, partial top word shifted
     /// (`_randommodule.c` `_random_Random_getrandbits_impl`).
+    #[inline]
     pub fn getrandbits(&mut self, k: u64) -> u64 {
         assert!(k <= 64, "getrandbits: k must be <= 64");
         if k == 0 {
@@ -149,6 +152,7 @@ impl MT19937 {
 
     /// `_randbelow_with_getrandbits(n)`: `k = n.bit_length()`, draw
     /// `getrandbits(k)`, reject `r >= n`. `n` must be positive.
+    #[inline]
     pub fn randbelow(&mut self, n: u64) -> u64 {
         assert!(n > 0, "randbelow: n must be positive");
         let k = 64 - n.leading_zeros(); // n.bit_length()
@@ -163,6 +167,7 @@ impl MT19937 {
     /// `randrange(n)` — the single-argument form statistics.py uses
     /// (`randrange(last_entry + 1)`, `_block_bootstrap_indices`): returns
     /// `_randbelow(n)`.
+    #[inline]
     pub fn randrange(&mut self, n: u64) -> u64 {
         self.randbelow(n)
     }

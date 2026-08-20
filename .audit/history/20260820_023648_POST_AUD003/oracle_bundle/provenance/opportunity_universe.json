@@ -1,0 +1,24 @@
+{
+  "universe_id": "universe-btcusdt-1h-v1",
+  "version": "1",
+  "parent_universe_id": null,
+  "instrument_universe": [
+    "BTCUSDT"
+  ],
+  "timeframe_set": [
+    "1h"
+  ],
+  "information_contract_id": "pit-feature-v1",
+  "primitive_registry_hash": "prim-reg-v1-sha1-7a8f9b",
+  "predicate_ir_version": "predicate-ir-v1",
+  "behavior_template_registry_hash": "templ-reg-v1-sha1-3b4c5d",
+  "parameter_grid_hash": "grid-v1-sha1-1e2f3a",
+  "tradability_rule_id": "tradability-d024-v1",
+  "support_rule_id": "canonical-l1-support-v1",
+  "authority_contract_id": "l1-authority-v1",
+  "search_universe_size": 27881,
+  "complexity_budget": 28,
+  "created_at": 1751400000,
+  "code_hash": "code-v8core-v0.2.0",
+  "execution_mode_id": "canonical-l1"
+}

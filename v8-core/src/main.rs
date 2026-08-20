@@ -1131,14 +1131,13 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
         // feature outside it is withheld, exactly like the Python view (an
         // expert reading a withheld feature NO_HABITATs via its _need).
         let closure = features::group_closure(experts::requires_for(&eid));
-        let projected = features::project_features(&map, &closure);
         let hist = if features::history_allowed(&closure) {
             hist
         } else {
             Vec::new()
         };
         let fm = experts::base::FeatMap {
-            features: &projected,
+            features: experts::base::ProjectedFeatures::new(&map, &closure),
             history: hist,
             as_of,
             symbol: &sym,

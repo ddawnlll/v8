@@ -112,14 +112,14 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
     <div class="sub">Authoritative Rust Compute Plane (`v8-core`) · S0..S7 Execution + O0..O3 Target Oracle & Evidence System</div>
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
       <span class="badge badge-ok">ACCOUNTING: PASS (Δ=0)</span>
-      <span class="badge badge-ok">VERDICT: FAIL-CLOSED SECURE</span>
-      <span class="badge badge-info">AUTHORITY: RUST RELEASE RUNTIME (D-097)</span>
-      <span class="badge badge-purple">ORACLE: O0–O3 CONTRACT CERTIFIED (D-102)</span>
+      <span class="badge badge-ok">VERIFICATION: 28 EXPERTS CONTRACT_VERIFIED</span>
+      <span class="badge badge-warn">ECONOMIC STAGE: NO_ECONOMIC_CLAIM (RULE 12)</span>
+      <span class="badge badge-purple">AUTHORITY: MODEL_DERIVED (UNCERTIFIED SIMULATOR)</span>
+      <span class="badge badge-info">STATISTICAL VERDICT: INCONCLUSIVE_UNDERPOWERED</span>
       <span class="badge badge-ok">EVIDENCE: v8.eval.v1 SUBSTRATE ACTIVE</span>
-      <span class="badge badge-info">28 EXPERTS CERTIFIED</span>
     </div>
     <div class="meta-grid">
-      <div><b>Audit Generated:</b> 2026-08-19 07:16:35 UTC</div>
+      <div><b>Audit Generated:</b> 2026-08-20 03:36:55 UTC</div>
       <div><b>Dataset Total Bars:</b> 9,948 (12-Month 1h BTCUSDT)</div>
       <div><b>Warmup Window:</b> 1,188 bars</div>
       <div><b>Eligible / Evaluated Bars:</b> 8,760 bars</div>
@@ -194,6 +194,43 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
     </div>
   </div>
 
+  <!-- Section 0.5: Epistemic, Authority & Certification Taxonomy (Issue #AUD-010) -->
+  <div class="card">
+    <h2>0.5 — Epistemic, Authority & Certification Taxonomy (4 Orthogonal Dimensions)</h2>
+    <div class="sec">Enforcement of V8 Constitution Rule 12 (NO_ECONOMIC_CLAIM) across orthogonal verification and economic axes.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Taxonomy Dimension</th>
+          <th>Status / Value</th>
+          <th>Owning Authority & Epistemic Definition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Axis 1: Verification Dimension</b></td>
+          <td><span class="badge badge-ok">CONTRACT_VERIFIED</span></td>
+          <td>Rust unit tests, type invariants, and state-machine transitions verified bit-for-bit.</td>
+        </tr>
+        <tr>
+          <td><b>Axis 2: Economic Evidence Stage</b></td>
+          <td><span class="badge badge-warn">NO_ECONOMIC_CLAIM</span></td>
+          <td>Constitution Rule 12: Simulation authority uncertified; zero alpha asserted.</td>
+        </tr>
+        <tr>
+          <td><b>Axis 3: Counterfactual Authority</b></td>
+          <td><span class="badge badge-purple">MODEL_DERIVED</span></td>
+          <td>Derived from discrete bar simulation models, not identified venue queue truth.</td>
+        </tr>
+        <tr>
+          <td><b>Axis 4: Statistical Verdict</b></td>
+          <td><span class="badge badge-info">INCONCLUSIVE_UNDERPOWERED</span></td>
+          <td>Underpowered / unadjusted multiple testing; no economic claim.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <!-- Section 1: Executive KPI & Funnel Metrics -->
   <div class="card">
     <h2>1 — Evaluation Funnel & Risk Gate Metrics (Conservation Provenance)</h2>
@@ -227,7 +264,7 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
       <div class="kpi">
         <div class="k">Conservation Invariant (Δ)</div>
         <div class="v pos">Δ = 0 (PASS)</div>
-        <div class="d">42,647 == 14,766 + 27,879 + 2</div>
+        <div class="d">42,647 == 14,766 + 26,107 + 1,774</div>
       </div>
     </div>
   </div>
@@ -451,7 +488,7 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
       <div class="kpi">
         <div class="k">Economic Claim Label</div>
         <div class="v" style="font-size:16px;color:#7c3aed;">NO_ECONOMIC_CLAIM</div>
-        <div class="d">Receipt: <code class="mono">4b9be9a65385…</code></div>
+        <div class="d">Receipt: <code class="mono">f27d64f9bb46…</code></div>
       </div>
     </div>
 
@@ -502,7 +539,7 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
       <tbody>
         
         <tr>
-          <td class="mono"><b>FINDING-ORACLE-COV-4b9be9a6</b></td>
+          <td class="mono"><b>FINDING-ORACLE-COV-f27d64f9</b></td>
           <td><span class="badge badge-purple" style="font-size:10px;">DERIVED_MEASUREMENT</span> Representational coverage of universe universe-btcusdt-1h-v1 is 100.00% (gap: 0.00%)</td>
           <td><span class="badge badge-ok">SUPPORTED</span></td>
           <td><span class="badge badge-info">INFO</span></td>
@@ -525,6 +562,30 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
       </thead>
       <tbody>
         
+        <tr>
+          <td><code>report_cell_provenance.parquet</code></td>
+          <td class="mono">8</td>
+          <td class="mono">6</td>
+          <td><span class="badge badge-ok">PARQUET / TABLE</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>authority_surface.parquet</code></td>
+          <td class="mono">28</td>
+          <td class="mono">8</td>
+          <td><span class="badge badge-ok">PARQUET / TABLE</span></td>
+        </tr>
+        
+
+        <tr>
+          <td><code>negative_control_universe.parquet</code></td>
+          <td class="mono">100</td>
+          <td class="mono">7</td>
+          <td><span class="badge badge-ok">PARQUET / TABLE</span></td>
+        </tr>
+        
+
         <tr>
           <td><code>economics/oracle_evaluation.parquet</code></td>
           <td class="mono">27,881</td>
@@ -1030,140 +1091,6 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
       </thead>
       <tbody>
         
-            <tr >
-              <td><code>M0_FROZEN_BASELINE</code></td>
-              <td class="mono">1,774</td>
-              <td class="mono warn">45.6%</td>
-              <td class="mono neg">-0.1004R</td>
-              <td class="mono neg">-178.13R</td>
-              <td class="mono">0.79</td>
-              <td class="mono neg">+0.00R</td>
-              <td class="mono neg">178.1R</td>
-              <td class="mono neg">-4.67</td>
-              <td class="mono neg">-6.07</td>
-              <td class="mono neg">-6.3%</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M1_WIDER_SL_ONLY</code></td>
-              <td class="mono">1,774</td>
-              <td class="mono pos">53.9%</td>
-              <td class="mono neg">-0.0874R</td>
-              <td class="mono neg">-154.99R</td>
-              <td class="mono">0.83</td>
-              <td class="mono pos">+23.13R</td>
-              <td class="mono neg">155.0R</td>
-              <td class="mono neg">-3.42</td>
-              <td class="mono neg">-4.21</td>
-              <td class="mono neg">-5.7%</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M2_NO_HARD_TP_ONLY</code></td>
-              <td class="mono">1,774</td>
-              <td class="mono neg">32.8%</td>
-              <td class="mono neg">-0.0951R</td>
-              <td class="mono neg">-168.70R</td>
-              <td class="mono">0.84</td>
-              <td class="mono pos">+9.43R</td>
-              <td class="mono neg">168.9R</td>
-              <td class="mono neg">-2.71</td>
-              <td class="mono neg">-5.19</td>
-              <td class="mono neg">-3.3%</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M3_BREAKEVEN_ONLY</code></td>
-              <td class="mono">1,774</td>
-              <td class="mono warn">41.7%</td>
-              <td class="mono neg">-0.1033R</td>
-              <td class="mono neg">-183.26R</td>
-              <td class="mono">0.77</td>
-              <td class="mono neg">-5.13R</td>
-              <td class="mono neg">183.3R</td>
-              <td class="mono neg">-5.00</td>
-              <td class="mono neg">-6.50</td>
-              <td class="mono neg">-6.4%</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M4_PROFIT_LOCK_ONLY</code></td>
-              <td class="mono">1,774</td>
-              <td class="mono warn">42.7%</td>
-              <td class="mono neg">-0.1019R</td>
-              <td class="mono neg">-180.76R</td>
-              <td class="mono">0.78</td>
-              <td class="mono neg">-2.63R</td>
-              <td class="mono neg">180.8R</td>
-              <td class="mono neg">-4.90</td>
-              <td class="mono neg">-6.39</td>
-              <td class="mono neg">-6.3%</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M5_ATR_TRAIL_ONLY</code></td>
-              <td class="mono">1,774</td>
-              <td class="mono warn">41.1%</td>
-              <td class="mono neg">-0.0952R</td>
-              <td class="mono neg">-168.95R</td>
-              <td class="mono">0.78</td>
-              <td class="mono pos">+9.18R</td>
-              <td class="mono neg">171.1R</td>
-              <td class="mono neg">-4.83</td>
-              <td class="mono neg">-6.45</td>
-              <td class="mono neg">-5.9%</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M6_WIDER_SL_PLUS_TRAIL</code></td>
-              <td class="mono">1,774</td>
-              <td class="mono warn">44.3%</td>
-              <td class="mono neg">-0.0875R</td>
-              <td class="mono neg">-155.24R</td>
-              <td class="mono">0.81</td>
-              <td class="mono pos">+22.89R</td>
-              <td class="mono neg">159.8R</td>
-              <td class="mono neg">-4.14</td>
-              <td class="mono neg">-5.39</td>
-              <td class="mono neg">-5.5%</td>
-            </tr>
-            
-
-            <tr style="background:rgba(22,163,74,0.08);font-weight:bold;">
-              <td><code>M7_WIDER_SL_NO_TP_TRAIL</code></td>
-              <td class="mono">1,774</td>
-              <td class="mono neg">35.6%</td>
-              <td class="mono neg">-0.0702R</td>
-              <td class="mono neg">-124.58R</td>
-              <td class="mono">0.85</td>
-              <td class="mono pos">+53.55R</td>
-              <td class="mono neg">128.9R</td>
-              <td class="mono neg">-2.47</td>
-              <td class="mono neg">-4.29</td>
-              <td class="mono neg">-3.2%</td>
-            </tr>
-            
-
-            <tr style="background:rgba(22,163,74,0.08);font-weight:bold;">
-              <td><code>M8_FULL_DYNAMIC_ASYMMETRIC</code></td>
-              <td class="mono">1,774</td>
-              <td class="mono neg">35.0%</td>
-              <td class="mono neg">-0.0714R</td>
-              <td class="mono neg">-126.62R</td>
-              <td class="mono">0.85</td>
-              <td class="mono pos">+51.51R</td>
-              <td class="mono neg">131.0R</td>
-              <td class="mono neg">-2.52</td>
-              <td class="mono neg">-4.38</td>
-              <td class="mono neg">-3.3%</td>
-            </tr>
-            
       </tbody>
     </table>
 
@@ -1183,75 +1110,6 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
           </thead>
           <tbody>
             
-                <tr >
-                  <td><b>Funding_NeutralFunding</b></td>
-                  <td class="mono">1,772</td>
-                  <td class="mono neg">35.0%</td>
-                  <td class="mono neg">-0.0715R</td>
-                  <td class="mono neg">-126.62R</td>
-                  <td class="mono">0.85</td>
-                </tr>
-                
-
-                <tr >
-                  <td><b>Trend_BearTrend</b></td>
-                  <td class="mono">447</td>
-                  <td class="mono neg">34.7%</td>
-                  <td class="mono neg">-0.0572R</td>
-                  <td class="mono neg">-25.56R</td>
-                  <td class="mono">0.88</td>
-                </tr>
-                
-
-                <tr >
-                  <td><b>Trend_BullTrend</b></td>
-                  <td class="mono">425</td>
-                  <td class="mono neg">36.7%</td>
-                  <td class="mono neg">-0.0249R</td>
-                  <td class="mono neg">-10.57R</td>
-                  <td class="mono">0.95</td>
-                </tr>
-                
-
-                <tr >
-                  <td><b>Trend_ChopRange</b></td>
-                  <td class="mono">900</td>
-                  <td class="mono neg">34.4%</td>
-                  <td class="mono neg">-0.1005R</td>
-                  <td class="mono neg">-90.49R</td>
-                  <td class="mono">0.79</td>
-                </tr>
-                
-
-                <tr style="background:rgba(22,163,74,0.08);font-weight:bold;">
-                  <td><b>Vol_HighVol</b></td>
-                  <td class="mono">330</td>
-                  <td class="mono neg">36.7%</td>
-                  <td class="mono pos">+0.1465R</td>
-                  <td class="mono pos">+48.34R</td>
-                  <td class="mono">1.28</td>
-                </tr>
-                
-
-                <tr >
-                  <td><b>Vol_LowVolSqueeze</b></td>
-                  <td class="mono">315</td>
-                  <td class="mono neg">35.6%</td>
-                  <td class="mono neg">-0.1281R</td>
-                  <td class="mono neg">-40.34R</td>
-                  <td class="mono">0.65</td>
-                </tr>
-                
-
-                <tr >
-                  <td><b>Vol_NormalVol</b></td>
-                  <td class="mono">1,127</td>
-                  <td class="mono neg">34.4%</td>
-                  <td class="mono neg">-0.1194R</td>
-                  <td class="mono neg">-134.61R</td>
-                  <td class="mono">0.75</td>
-                </tr>
-                
           </tbody>
         </table>
       </div>
@@ -1268,86 +1126,6 @@ footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 4
             </tr>
           </thead>
           <tbody>
-            
-            <tr >
-              <td><code>M0_FROZEN_BASELINE</code></td>
-              <td class="mono neg">-37.17R</td>
-              <td class="mono neg">-123.62R</td>
-              <td class="mono neg">-0.32R</td>
-              <td class="mono neg">-161.12R</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M1_WIDER_SL_ONLY</code></td>
-              <td class="mono neg">-56.47R</td>
-              <td class="mono neg">-123.62R</td>
-              <td class="mono neg">-0.38R</td>
-              <td class="mono neg">-180.46R</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M2_NO_HARD_TP_ONLY</code></td>
-              <td class="mono neg">-18.93R</td>
-              <td class="mono neg">-123.62R</td>
-              <td class="mono neg">-0.11R</td>
-              <td class="mono neg">-142.65R</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M3_BREAKEVEN_ONLY</code></td>
-              <td class="mono neg">-38.90R</td>
-              <td class="mono neg">-123.62R</td>
-              <td class="mono neg">-0.33R</td>
-              <td class="mono neg">-162.85R</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M4_PROFIT_LOCK_ONLY</code></td>
-              <td class="mono neg">-45.38R</td>
-              <td class="mono neg">-123.62R</td>
-              <td class="mono neg">-0.32R</td>
-              <td class="mono neg">-169.32R</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M5_ATR_TRAIL_ONLY</code></td>
-              <td class="mono neg">-38.11R</td>
-              <td class="mono neg">-123.62R</td>
-              <td class="mono neg">-0.35R</td>
-              <td class="mono neg">-162.08R</td>
-            </tr>
-            
-
-            <tr >
-              <td><code>M6_WIDER_SL_PLUS_TRAIL</code></td>
-              <td class="mono neg">-33.36R</td>
-              <td class="mono neg">-123.62R</td>
-              <td class="mono neg">-0.40R</td>
-              <td class="mono neg">-157.39R</td>
-            </tr>
-            
-
-            <tr style="background:rgba(22,163,74,0.08);font-weight:bold;">
-              <td><code>M7_WIDER_SL_NO_TP_TRAIL</code></td>
-              <td class="mono neg">-28.12R</td>
-              <td class="mono neg">-123.62R</td>
-              <td class="mono neg">-0.54R</td>
-              <td class="mono neg">-152.29R</td>
-            </tr>
-            
-
-            <tr style="background:rgba(22,163,74,0.08);font-weight:bold;">
-              <td><code>M8_FULL_DYNAMIC_ASYMMETRIC</code></td>
-              <td class="mono neg">-29.86R</td>
-              <td class="mono neg">-123.62R</td>
-              <td class="mono neg">-0.53R</td>
-              <td class="mono neg">-154.01R</td>
-            </tr>
             
           </tbody>
         </table>

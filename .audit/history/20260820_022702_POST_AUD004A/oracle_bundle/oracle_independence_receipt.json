@@ -1,0 +1,13 @@
+{
+  "receipt_id": "receipt-indep-68fe5c061853",
+  "universe_id": "universe-btcusdt-1h-v1",
+  "total_universe_opportunities": 0,
+  "total_active_experts": 0,
+  "subset_evaluations": [],
+  "population_invariance_verified": true,
+  "unique_contribution_formula_verified": true,
+  "synthetic_gap_detection_verified": true,
+  "permutation_invariance_verified": true,
+  "status": "INDEPENDENCE_VERIFIED",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

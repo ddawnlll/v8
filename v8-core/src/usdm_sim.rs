@@ -368,14 +368,13 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
             }
 
             for (eid, closure, allows_hist) in &projections {
-                let projected = features::project_features(&map, closure);
                 let hist = if *allows_hist {
                     state::history_bars(store, t, 32)
                 } else {
                     Vec::new()
                 };
                 let fm = crate::experts::base::FeatMap {
-                    features: &projected,
+                    features: crate::experts::base::ProjectedFeatures::new(&map, closure),
                     history: hist,
                     as_of,
                     symbol: &store.symbol,

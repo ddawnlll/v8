@@ -1,7 +1,28 @@
 {
   "schema": "v8.eval.v1.schema_cache",
-  "root_dir": "/Users/hootie/src/v8/.audit/rust_audit_current/oracle_bundle",
+  "root_dir": "C:\\Users\\dresden\\Documents\\v8\\.audit\\rust_audit_current\\oracle_bundle",
   "tables": {
+    "report_cell_provenance.parquet": {
+      "file_name": "report_cell_provenance.parquet",
+      "relative_path": "report_cell_provenance.parquet",
+      "total_rows": 8,
+      "total_columns": 6,
+      "columns": {}
+    },
+    "authority_surface.parquet": {
+      "file_name": "authority_surface.parquet",
+      "relative_path": "authority_surface.parquet",
+      "total_rows": 28,
+      "total_columns": 8,
+      "columns": {}
+    },
+    "negative_control_universe.parquet": {
+      "file_name": "negative_control_universe.parquet",
+      "relative_path": "negative_control_universe.parquet",
+      "total_rows": 100,
+      "total_columns": 7,
+      "columns": {}
+    },
     "economics/oracle_evaluation.parquet": {
       "file_name": "oracle_evaluation.parquet",
       "relative_path": "economics/oracle_evaluation.parquet",

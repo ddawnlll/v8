@@ -1,0 +1,125 @@
+{
+  "nodes": [
+    {
+      "population_id": "ObservedSetupPopulation",
+      "population_hash": "caa091af1a440517eb3cee543982524c16f3efdd",
+      "parent_ids": [],
+      "parent_hashes": [],
+      "cardinality_type": "Partition",
+      "count": 42647,
+      "transform_rule": "evaluations.iter().filter(|e| e.fired).count()",
+      "filter_reason": null
+    },
+    {
+      "population_id": "DedupSuppressedPopulation",
+      "population_hash": "b49b863234f4706af9b257772b8a9118d00bec23",
+      "parent_ids": [
+        "ObservedSetupPopulation"
+      ],
+      "parent_hashes": [
+        "caa091af1a440517eb3cee543982524c16f3efdd"
+      ],
+      "cardinality_type": "Partition",
+      "count": 14766,
+      "transform_rule": "dedup_gate(D-026)",
+      "filter_reason": "DUPLICATE_SETUP_BAR"
+    },
+    {
+      "population_id": "CandidatePopulation",
+      "population_hash": "7057552d5dc59abc1ea81199c22506d86aca5909",
+      "parent_ids": [
+        "ObservedSetupPopulation"
+      ],
+      "parent_hashes": [
+        "caa091af1a440517eb3cee543982524c16f3efdd"
+      ],
+      "cardinality_type": "Partition",
+      "count": 27881,
+      "transform_rule": "pass_dedup_into_candidate_stream",
+      "filter_reason": null
+    },
+    {
+      "population_id": "CounterfactualOutcomePopulation",
+      "population_hash": "d5327757d41e96a9dcac9d5ca1d04db64641ce20",
+      "parent_ids": [
+        "CandidatePopulation"
+      ],
+      "parent_hashes": [
+        "7057552d5dc59abc1ea81199c22506d86aca5909"
+      ],
+      "cardinality_type": "OneToOne",
+      "count": 27881,
+      "transform_rule": "replay_kernel_unconstrained_outcome",
+      "filter_reason": null
+    },
+    {
+      "population_id": "VetoedCandidatePopulation",
+      "population_hash": "ea83be438cae8caeb3da682e6f597750bb777af8",
+      "parent_ids": [
+        "CandidatePopulation"
+      ],
+      "parent_hashes": [
+        "7057552d5dc59abc1ea81199c22506d86aca5909"
+      ],
+      "cardinality_type": "Partition",
+      "count": 26107,
+      "transform_rule": "admission_allocator_veto",
+      "filter_reason": "RISK_OR_CAPACITY_CONSTRAINT"
+    },
+    {
+      "population_id": "AdmittedCandidatePopulation",
+      "population_hash": "ced845b40b7e5f413a3954db0c3adbf8d9517111",
+      "parent_ids": [
+        "CandidatePopulation"
+      ],
+      "parent_hashes": [
+        "7057552d5dc59abc1ea81199c22506d86aca5909"
+      ],
+      "cardinality_type": "Partition",
+      "count": 1774,
+      "transform_rule": "admission_allocator_admit",
+      "filter_reason": null
+    },
+    {
+      "population_id": "FillPopulation",
+      "population_hash": "4f1222192046dfdf49c8bc7fbc4fd7fd5db81aec",
+      "parent_ids": [
+        "AdmittedCandidatePopulation"
+      ],
+      "parent_hashes": [
+        "ced845b40b7e5f413a3954db0c3adbf8d9517111"
+      ],
+      "cardinality_type": "ZeroOrMany",
+      "count": 2460,
+      "transform_rule": "simulator_order_matching_fills",
+      "filter_reason": null
+    },
+    {
+      "population_id": "PositionTransitionPopulation",
+      "population_hash": "e40d66b409cf9f4af4496ddb6d76de5c77cd7406",
+      "parent_ids": [
+        "FillPopulation"
+      ],
+      "parent_hashes": [
+        "4f1222192046dfdf49c8bc7fbc4fd7fd5db81aec"
+      ],
+      "cardinality_type": "OneToOne",
+      "count": 2460,
+      "transform_rule": "wallet_position_transition",
+      "filter_reason": null
+    }
+  ],
+  "cohort": {
+    "cohort_id": "cohort-e9faf2dcf2fd",
+    "dataset_hash": "2503c049511d07a4be36f0052ca66008b1b35a21",
+    "stage_a_setups_hash": "caa091af1a440517eb3cee543982524c16f3efdd",
+    "stage_b_candidates_hash": "7057552d5dc59abc1ea81199c22506d86aca5909",
+    "execution_fills_hash": "4f1222192046dfdf49c8bc7fbc4fd7fd5db81aec",
+    "admitted_candidates_count": 1774,
+    "total_candidates_count": 27881
+  },
+  "stage_a_conservation_valid": true,
+  "stage_b_conservation_valid": true,
+  "overall_dag_valid": true,
+  "reconciliation_block_reason": null
+}

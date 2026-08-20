@@ -108,6 +108,7 @@ pub fn select_block_size(episode_net_r: &[f64]) -> usize {
 
 /// One circular fixed-block bootstrap draw of length n (statistics.py
 /// `_block_bootstrap_indices`), including the D-052 fail-closed invariant.
+#[allow(dead_code)]
 fn block_bootstrap_indices(n: usize, block_size: usize, rng: &mut MT19937) -> Vec<usize> {
     if n == 0 {
         return Vec::new();
@@ -139,12 +140,28 @@ fn block_bootstrap_means(
     if n == 0 {
         return Vec::new();
     }
+    assert!(block_size > 0, "block_size must be positive");
+    assert!(
+        n < 2 || block_size < n,
+        "block_size {block_size} >= n {n}: degenerate block bootstrap \
+         (every resample is a rotation of the whole series)"
+    );
     let mut rng = MT19937::new(seed);
     let mut means = Vec::with_capacity(n_resamples);
+    let mut selected = Vec::with_capacity(n + block_size);
     for _ in 0..n_resamples {
-        let idx = block_bootstrap_indices(n, block_size, &mut rng);
-        let picked: Vec<f64> = idx.iter().map(|&i| net_rs[i]).collect();
-        means.push(fsum(&picked) / n as f64);
+        selected.clear();
+        while selected.len() < n {
+            let start = rng.randrange(n as u64) as usize;
+            if start + block_size <= n {
+                selected.extend_from_slice(&net_rs[start..start + block_size]);
+            } else {
+                selected.extend_from_slice(&net_rs[start..n]);
+                selected.extend_from_slice(&net_rs[0..start + block_size - n]);
+            }
+        }
+        selected.truncate(n);
+        means.push(fsum(&selected) / n as f64);
     }
     means
 }
@@ -463,6 +480,7 @@ fn policy_row(slice_key: &str, p: &PolicySpec, n: usize, mean_utility: Option<f6
 /// `evaluate_slice_recoverability`: returns (discovery attempt rows, result).
 /// Mirrors the oracle's dict field-for-field; the confirmation half is touched
 /// only for `V_A`/`V_R`/`G_R` and the bootstrap.
+#[allow(dead_code)]
 #[allow(clippy::too_many_arguments)]
 pub fn evaluate_slice_recoverability(
     slice_key: &str,
@@ -473,9 +491,30 @@ pub fn evaluate_slice_recoverability(
     discovery_rows: &[Value],
     confirmation_rows: &[Value],
 ) -> Result<(Vec<Value>, Value), String> {
+    let birth = load_birth_features(store_dir, symbol)?;
+    evaluate_slice_recoverability_with_birth(
+        slice_key,
+        expert_id,
+        symbol,
+        direction,
+        &birth,
+        discovery_rows,
+        confirmation_rows,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn evaluate_slice_recoverability_with_birth(
+    slice_key: &str,
+    expert_id: &str,
+    symbol: &str,
+    direction: &str,
+    birth: &HashMap<String, HashMap<&'static str, Option<f64>>>,
+    discovery_rows: &[Value],
+    confirmation_rows: &[Value],
+) -> Result<(Vec<Value>, Value), String> {
     let disc = rows_for(discovery_rows, expert_id, symbol, direction);
     let conf = rows_for(confirmation_rows, expert_id, symbol, direction);
-    let birth = load_birth_features(store_dir, symbol)?;
     let feats_of = |cid: &str| -> HashMap<&'static str, Option<f64>> {
         birth.get(cid).cloned().unwrap_or_default()
     };
@@ -607,6 +646,8 @@ pub fn run_phase3(
     std::fs::create_dir_all(out_dir).map_err(|e| format!("out_dir: {e}"))?;
     let mut results: Vec<Value> = Vec::new();
     let mut all_rows: Vec<Value> = Vec::new();
+    let mut birth_cache: HashMap<String, HashMap<String, HashMap<&'static str, Option<f64>>>> =
+        HashMap::new();
     for key in confirmed_slice_keys {
         let parts: Vec<&str> = key.split('|').collect();
         if parts.len() < 4 {
@@ -618,12 +659,17 @@ pub fn run_phase3(
         let store_dir = store_dirs
             .get(symbol)
             .ok_or_else(|| format!("no store_dir for symbol {symbol}"))?;
-        let (attempts, result) = evaluate_slice_recoverability(
+        if !birth_cache.contains_key(symbol) {
+            let birth = load_birth_features(Path::new(store_dir), symbol)?;
+            birth_cache.insert(symbol.to_string(), birth);
+        }
+        let birth = birth_cache.get(symbol).unwrap();
+        let (attempts, result) = evaluate_slice_recoverability_with_birth(
             key,
             expert_id,
             symbol,
             direction,
-            Path::new(store_dir),
+            birth,
             discovery_rows,
             confirmation_rows,
         )?;

@@ -81,10 +81,16 @@ pub struct AnalysisRequest {
     pub evaluations_path: Option<PathBuf>,
     #[serde(default)]
     pub cube_reduced_path: Option<PathBuf>,
+    #[serde(default = "default_threads")]
+    pub threads: usize,
 }
 
 fn default_out_dir() -> PathBuf {
     PathBuf::from("out")
+}
+
+fn default_threads() -> usize {
+    4
 }
 
 /// Entry point dispatched from main (S6 composition, issue #116). Returns 0 on
@@ -161,6 +167,21 @@ fn read_jsonl(path: &Path) -> Result<Vec<Value>, String> {
     Ok(out)
 }
 
+/// Fast reader for evaluations.jsonl that filters for draft-bearing records before JSON deserialization.
+fn read_evaluations_jsonl(path: &Path) -> Result<Vec<Value>, String> {
+    let text = std::fs::read_to_string(path).map_err(|e| format!("cannot read {path:?}: {e}"))?;
+    let mut out = Vec::new();
+    for (i, line) in text.lines().enumerate() {
+        if line.trim().is_empty() || line.contains("\"draft\":null") || !line.contains("\"draft\"") {
+            continue;
+        }
+        let v: Value =
+            serde_json::from_str(line).map_err(|e| format!("{path:?} line {}: {e}", i + 1))?;
+        out.push(v);
+    }
+    Ok(out)
+}
+
 /// The tape-driven funding schedule (D-041): (boundary_time_ns, rate) pairs
 /// from the tape's funding channel, sorted by boundary time.
 fn funding_schedule(ds: &Dataset) -> Vec<(i64, f64)> {
@@ -193,7 +214,7 @@ fn replay_actual_surface(
     let entry_time = snap.entry_bar_available_time?;
     let store = stores.iter().find(|s| s.symbol == snap.instrument)?;
     let bars = ds.bars.iter().find(|b| b.symbol == snap.instrument)?;
-    let i = bars.available_times.iter().position(|t| *t == entry_time)?;
+    let i = bars.available_times.binary_search(&entry_time).ok()?;
     let raw = snap.raw_draft.as_ref()?;
     let draft = Draft {
         direction: raw
@@ -233,28 +254,74 @@ fn derive_outcomes(
     stores: &[FeatureStore],
     sim: &SimulatorParams,
     funding: &[(i64, f64)],
+    threads: usize,
 ) -> Vec<Value> {
-    let mut out = Vec::new();
-    for snap in snapshots {
-        let Some(s) = replay_actual_surface(snap, ds, stores, sim, funding) else {
-            continue;
-        };
-        let surf = s.reconcile_surface(&snap.candidate_id, "ACTUAL");
-        out.push(json!({
-            "candidate_id": surf.candidate_id,
-            "endpoint": surf.endpoint,
-            "label_status": surf.label_status,
-            "horizon_bars": surf.horizon_bars,
-            "ambiguous_bars": surf.ambiguous_bars,
-            "net_r": surf.net_r,
-            "entry_price": surf.entry_price,
-            "risk_unit_price": surf.risk_unit_price,
-            "mae_r": surf.mae_r,
-            "mfe_r": surf.mfe_r,
-            "market_move_r": surf.market_move_r,
-        }));
+    let n = snapshots.len();
+    if n == 0 {
+        return Vec::new();
     }
-    out
+    let workers = threads.max(1).min(n);
+    if workers <= 1 {
+        let mut out = Vec::new();
+        for snap in snapshots {
+            let Some(s) = replay_actual_surface(snap, ds, stores, sim, funding) else {
+                continue;
+            };
+            let surf = s.reconcile_surface(&snap.candidate_id, "ACTUAL");
+            out.push(json!({
+                "candidate_id": surf.candidate_id,
+                "endpoint": surf.endpoint,
+                "label_status": surf.label_status,
+                "horizon_bars": surf.horizon_bars,
+                "ambiguous_bars": surf.ambiguous_bars,
+                "net_r": surf.net_r,
+                "entry_price": surf.entry_price,
+                "risk_unit_price": surf.risk_unit_price,
+                "mae_r": surf.mae_r,
+                "mfe_r": surf.mfe_r,
+                "market_move_r": surf.market_move_r,
+            }));
+        }
+        out
+    } else {
+        let bounds = crate::scheduler::chunk_bounds(n, workers);
+        let mut results = Vec::with_capacity(n);
+        std::thread::scope(|s| {
+            let mut handles = Vec::with_capacity(workers);
+            for w in 0..workers {
+                let (lo, hi) = (bounds[w], bounds[w + 1]);
+                let chunk_snaps = &snapshots[lo..hi];
+                handles.push(s.spawn(move || {
+                    let mut chunk_out = Vec::with_capacity(hi - lo);
+                    for snap in chunk_snaps {
+                        if let Some(s) = replay_actual_surface(snap, ds, stores, sim, funding) {
+                            let surf = s.reconcile_surface(&snap.candidate_id, "ACTUAL");
+                            chunk_out.push(json!({
+                                "candidate_id": surf.candidate_id,
+                                "endpoint": surf.endpoint,
+                                "label_status": surf.label_status,
+                                "horizon_bars": surf.horizon_bars,
+                                "ambiguous_bars": surf.ambiguous_bars,
+                                "net_r": surf.net_r,
+                                "entry_price": surf.entry_price,
+                                "risk_unit_price": surf.risk_unit_price,
+                                "mae_r": surf.mae_r,
+                                "mfe_r": surf.mfe_r,
+                                "market_move_r": surf.market_move_r,
+                            }));
+                        }
+                    }
+                    chunk_out
+                }));
+            }
+            for h in handles {
+                if let Ok(chunk) = h.join() {
+                    results.extend(chunk);
+                }
+            }
+        });
+        results
+    }
 }
 
 /// Re-derive the states ledger (and the DETECTED transitions' `state_id`) when
@@ -272,6 +339,7 @@ fn derive_state_ledger(
 ) -> (Vec<Value>, Vec<Value>) {
     let mut states: Vec<Value> = Vec::new();
     let mut out: Vec<Value> = Vec::with_capacity(candidates.len());
+    let mut state_cache: HashMap<(String, i64), (String, Value)> = HashMap::new();
     for rec in candidates {
         let mut r = rec.clone();
         if rec.get("to_state").and_then(|v| v.as_str()) != Some("DETECTED")
@@ -285,8 +353,16 @@ fn derive_state_ledger(
             .get("knowledge_time")
             .and_then(|v| v.as_i64())
             .unwrap_or(0);
+        if let Some((sid, state_val)) = state_cache.get(&(sym.to_string(), as_of)) {
+            states.push(state_val.clone());
+            r.as_object_mut()
+                .expect("record is an object")
+                .insert("state_id".to_string(), json!(sid));
+            out.push(r);
+            continue;
+        }
         if let Some(store) = stores.iter().find(|s| s.symbol == sym) {
-            if let Some(i) = store.avail.iter().position(|t| *t == as_of) {
+            if let Ok(i) = store.avail.binary_search(&as_of) {
                 let feats = state::state_features(store, i + 1, as_of, history_depth);
                 let lineage = state::v82_lineage_hash(&feats, sym);
                 let sid = state::v82_state_id(as_of, universe, &lineage);
@@ -309,14 +385,16 @@ fn derive_state_ledger(
                 } else {
                     "COMPLETE"
                 };
-                states.push(json!({
+                let state_val = json!({
                     "state_id": sid,
                     "as_of": as_of,
                     "universe": universe,
                     "features": features,
                     "lineage_hash": lineage,
                     "quality": quality,
-                }));
+                });
+                states.push(state_val.clone());
+                state_cache.insert((sym.to_string(), as_of), (sid.clone(), state_val));
                 r.as_object_mut()
                     .expect("record is an object")
                     .insert("state_id".to_string(), json!(sid));
@@ -372,8 +450,10 @@ fn build_phase0(
 ) -> Vec<(String, Phase0Output)> {
     let mut by_symbol: HashMap<String, Phase0Output> = HashMap::new();
     let mut cid_symbol: HashMap<&str, &str> = HashMap::new();
+    let mut cid_snap: HashMap<&str, &reconcile::CandidateSnapshot> = HashMap::new();
     for s in snapshots {
         cid_symbol.insert(s.candidate_id.as_str(), s.instrument.as_str());
+        cid_snap.insert(s.candidate_id.as_str(), s);
         let entry = by_symbol.entry(s.instrument.clone()).or_default();
         entry.identities.insert(
             s.candidate_id.clone(),
@@ -384,6 +464,8 @@ fn build_phase0(
             },
         );
     }
+
+    let mut accum_cache: HashMap<&str, Option<CubeAccumulators>> = HashMap::new();
 
     let col_str = |name: &str, i: usize| -> Option<String> {
         cube.column(name)?
@@ -416,7 +498,7 @@ fn build_phase0(
         let Some(symbol) = cid_symbol.get(cid.as_str()).map(|s| s.to_string()) else {
             continue;
         };
-        let snap = snapshots.iter().find(|s| s.candidate_id == cid);
+        let snap = cid_snap.get(cid.as_str()).copied();
         let aid = col_str("actual_action_id", i);
         let gap = GapRecord {
             candidate_id: cid.clone(),
@@ -429,7 +511,10 @@ fn build_phase0(
         };
         by_symbol.entry(symbol.clone()).or_default().gaps.push(gap);
         if let (Some(aid), Some(snap)) = (aid, snap) {
-            if let Some(acc) = replay_actual_accumulators(snap, ds, stores, sim, funding) {
+            let acc_opt = accum_cache
+                .entry(snap.candidate_id.as_str())
+                .or_insert_with(|| replay_actual_accumulators(snap, ds, stores, sim, funding));
+            if let Some(acc) = acc_opt.clone() {
                 by_symbol
                     .entry(symbol.clone())
                     .or_default()
@@ -608,16 +693,19 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
         let eval_path = match &req.evaluations_path {
             Some(p) => p.clone(),
             None => {
-                crate::runloop::run_for_analysis(
-                    &req.tape_path,
-                    &universe,
-                    &req.out_dir,
-                    &req.manifest,
-                )?;
-                req.out_dir.join("evaluations.jsonl")
+                let p = req.out_dir.join("evaluations.jsonl");
+                if !p.exists() {
+                    crate::runloop::run_for_analysis(
+                        &req.tape_path,
+                        &universe,
+                        &req.out_dir,
+                        &req.manifest,
+                    )?;
+                }
+                p
             }
         };
-        read_jsonl(&eval_path)?
+        read_evaluations_jsonl(&eval_path)?
     };
     let candidates: Vec<Value> = if !req.candidates.is_empty() {
         req.candidates.clone()
@@ -634,7 +722,7 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     let funding = funding_schedule(&ds);
     let pre_snaps = reconcile::build_snapshots(&candidates, &evaluations, &req.outcomes);
     let outcomes: Vec<Value> = if req.outcomes.is_empty() {
-        derive_outcomes(&pre_snaps, &ds, &stores, &sim, &funding)
+        derive_outcomes(&pre_snaps, &ds, &stores, &sim, &funding, req.threads)
     } else {
         req.outcomes.clone()
     };
@@ -690,17 +778,56 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     let disc_slices: Vec<phase2::SliceRow> = disc.iter().map(slice_row).collect();
     let conf_slices: Vec<phase2::SliceRow> = conf.iter().map(slice_row).collect();
     let declared = phase2::declare_slices();
-    let mut slice_results: Vec<phase2::SliceResult> = Vec::with_capacity(declared.len());
-    for s in &declared {
-        slice_results.push(phase2::score_slice(
-            &s[0],
-            &s[1],
-            &s[2],
-            &s[3],
-            &s[4],
-            &disc_slices,
-        ));
-    }
+    let workers = req.threads.max(1);
+    let slice_results: Vec<phase2::SliceResult> = if workers <= 1 {
+        let mut out = Vec::with_capacity(declared.len());
+        for s in &declared {
+            out.push(phase2::score_slice(
+                &s[0],
+                &s[1],
+                &s[2],
+                &s[3],
+                &s[4],
+                &disc_slices,
+            ));
+        }
+        out
+    } else {
+        let n = declared.len();
+        let workers = workers.min(n);
+        let bounds = crate::scheduler::chunk_bounds(n, workers);
+        let mut results = Vec::with_capacity(n);
+        std::thread::scope(|s| -> Result<Vec<phase2::SliceResult>, String> {
+            let mut handles = Vec::with_capacity(workers);
+            for w in 0..workers {
+                let (lo, hi) = (bounds[w], bounds[w + 1]);
+                let dec = &declared;
+                let slices = &disc_slices;
+                handles.push(s.spawn(move || {
+                    let mut chunk = Vec::with_capacity(hi - lo);
+                    for i in lo..hi {
+                        let item = &dec[i];
+                        chunk.push(phase2::score_slice(
+                            &item[0],
+                            &item[1],
+                            &item[2],
+                            &item[3],
+                            &item[4],
+                            slices,
+                        ));
+                    }
+                    chunk
+                }));
+            }
+            for h in handles {
+                let chunk = h
+                    .join()
+                    .map_err(|_| "worker fault in phase2 slice evaluation".to_string())?;
+                results.extend(chunk);
+            }
+            Ok(results)
+        })?
+    };
     let discovery = phase2::discovery_summary(&slice_results);
     let mut confirmation_ledger = phase2::ConfirmationLedger::new();
     let mut confirmations: Vec<phase2::ConfirmationResult> = Vec::new();

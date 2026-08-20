@@ -1,0 +1,282 @@
+[
+  {
+    "entity_id": "bollinger_breakout",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "bollinger_reversion",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "breakout_retest",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "candlestick_reversal",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "divergence_12_setups",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "donchian_breakout",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "failed_breakout",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "failed_breakout_2b",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "fib_projection_reversal",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "fib_retracement_continuation",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "fib_rsi_bb_confluence",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "floor_trader_pivot",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "funding_crowding_reversal",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "gap_exhaustion",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "ichimoku_cloud",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "liquidity_sweep_reclaim",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "macd_stoch_trend",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "market_profile_value_area",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "obv_adl_regime",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "open_interest_divergence",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "pandf_breakout",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "pattern_measuring_objective",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "range_breakout_1to1",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "rsi_stoch_reversion",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "trend_pullback",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "trend_pullback_depth",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "volume_climax_reversal",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  },
+  {
+    "entity_id": "volume_confirmed_breakout",
+    "entity_type": "EXPERT",
+    "verification_dimension": "ContractVerified",
+    "economic_evidence_stage": "NoEconomicClaim",
+    "counterfactual_authority": "ModelDerived",
+    "statistical_verdict": "InconclusiveUnderpowered",
+    "unknown_reason": "ModelOnlyCounterfactual",
+    "notes": "Unit and contract verified in Rust; simulation uncertified (Constitution Rule 12)"
+  }
+]

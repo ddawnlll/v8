@@ -492,27 +492,41 @@ pub fn reconcile_actual_actions(
     sim: &SimulatorParams,
     funding_schedule: &[(i64, f64)],
 ) -> ReconciliationResult {
-    let mut n_exec = 0usize;
-    let mut n_ok = 0usize;
-    let mut n_bad = 0usize;
-    let mut n_na = 0usize;
-    let mut mismatches: Vec<(String, String)> = Vec::new();
-    let mut max_dev: HashMap<String, f64> = RECONCILE_FLOAT_FIELDS
-        .iter()
-        .map(|f| (f.to_string(), 0.0))
-        .collect();
+    let n = snapshots.len();
+    let workers = 8.min(n.max(1));
+    if workers <= 1 {
+        let mut n_exec = 0usize;
+        let mut n_ok = 0usize;
+        let mut n_bad = 0usize;
+        let mut n_na = 0usize;
+        let mut mismatches: Vec<(String, String)> = Vec::new();
+        let mut max_dev: HashMap<String, f64> = RECONCILE_FLOAT_FIELDS
+            .iter()
+            .map(|f| (f.to_string(), 0.0))
+            .collect();
 
-    for snap in snapshots {
-        if snap.binding_status != BOUND || snap.entry_bar_available_time.is_none() {
-            n_na += 1; // FT010c: never entered -> NOT_APPLICABLE
-            continue;
-        }
-        n_exec += 1;
-        let entry_time = snap.entry_bar_available_time.unwrap();
-        let store = stores.iter().find(|s| s.symbol == snap.instrument);
-        let sym_bars = match bars.iter().find(|b| b.symbol == snap.instrument) {
-            Some(b) => b,
-            None => {
+        for snap in snapshots {
+            if snap.binding_status != BOUND || snap.entry_bar_available_time.is_none() {
+                n_na += 1; // FT010c: never entered -> NOT_APPLICABLE
+                continue;
+            }
+            n_exec += 1;
+            let entry_time = snap.entry_bar_available_time.unwrap();
+            let store = stores.iter().find(|s| s.symbol == snap.instrument);
+            let sym_bars = match bars.iter().find(|b| b.symbol == snap.instrument) {
+                Some(b) => b,
+                None => {
+                    n_bad += 1;
+                    mismatches.push((
+                        snap.candidate_id.clone(),
+                        MISMATCH_REASON_ENTRY_MISSING.to_string(),
+                    ));
+                    continue;
+                }
+            };
+            let i = sym_bars.available_times.binary_search(&entry_time).ok();
+            let obs = snap.observed_outcome.as_ref();
+            if i.is_none() || obs.is_none() || store.is_none() {
                 n_bad += 1;
                 mismatches.push((
                     snap.candidate_id.clone(),
@@ -520,92 +534,243 @@ pub fn reconcile_actual_actions(
                 ));
                 continue;
             }
-        };
-        let i = sym_bars
-            .available_times
-            .iter()
-            .position(|t| *t == entry_time);
-        let obs = snap.observed_outcome.as_ref();
-        if i.is_none() || obs.is_none() || store.is_none() {
-            n_bad += 1;
-            mismatches.push((
-                snap.candidate_id.clone(),
-                MISMATCH_REASON_ENTRY_MISSING.to_string(),
-            ));
-            continue;
-        }
-        let i = i.unwrap();
-        let obs = obs.unwrap();
-        let store = store.unwrap();
+            let i = i.unwrap();
+            let obs = obs.unwrap();
+            let store = store.unwrap();
 
-        let raw = snap.raw_draft.as_ref().unwrap(); // BOUND implies a draft
-        let draft = Draft {
-            direction: raw
-                .get("direction")
-                .and_then(|v| v.as_str())
-                .unwrap_or("")
-                .to_string(),
-            birth_time: raw.get("birth_time").and_then(|v| v.as_i64()).unwrap_or(0),
-            risk_geometry: raw
-                .get("risk_geometry")
-                .and_then(|v| v.as_object())
-                .cloned()
-                .unwrap_or_default(),
-        };
-        let atr_ref = draft.geom_f64("atr_ref");
-        let kernel = ScalarKernel {
-            round_trip_cost_r: sim.round_trip_cost_r,
-            funding_rate_r: sim.funding_rate_r,
-            funding_hours: sim.funding_hours,
-            fill_policy: sim.fill_policy,
-            funding_schedule,
-            round_trip_cost_bps: sim.round_trip_cost_bps,
-            bars: sym_bars,
-            store,
-        };
-        let out = match kernel.run(&draft, i, sym_bars.closes.len(), snap.predicate_ir.as_ref()) {
-            Ok(o) => o,
-            Err(_) => {
-                // The oracle raises on replay failure; the compute plane
-                // records it per-candidate and fails closed instead.
+            let raw = snap.raw_draft.as_ref().unwrap(); // BOUND implies a draft
+            let draft = Draft {
+                direction: raw
+                    .get("direction")
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("")
+                    .to_string(),
+                birth_time: raw.get("birth_time").and_then(|v| v.as_i64()).unwrap_or(0),
+                risk_geometry: raw
+                    .get("risk_geometry")
+                    .and_then(|v| v.as_object())
+                    .cloned()
+                    .unwrap_or_default(),
+            };
+            let atr_ref = draft.geom_f64("atr_ref");
+            let kernel = ScalarKernel {
+                round_trip_cost_r: sim.round_trip_cost_r,
+                funding_rate_r: sim.funding_rate_r,
+                funding_hours: sim.funding_hours,
+                fill_policy: sim.fill_policy,
+                funding_schedule,
+                round_trip_cost_bps: sim.round_trip_cost_bps,
+                bars: sym_bars,
+                store,
+            };
+            let out = match kernel.run(&draft, i, sym_bars.closes.len(), snap.predicate_ir.as_ref()) {
+                Ok(o) => o,
+                Err(_) => {
+                    // The oracle raises on replay failure; the compute plane
+                    // records it per-candidate and fails closed instead.
+                    n_bad += 1;
+                    mismatches.push((snap.candidate_id.clone(), MISMATCH_REASON_FIELD.to_string()));
+                    continue;
+                }
+            };
+            let surface = out.reconcile_surface(&snap.candidate_id, "ACTUAL");
+            if compare_observed(&surface, obs, &mut max_dev) {
+                n_ok += 1;
+            } else {
                 n_bad += 1;
-                mismatches.push((snap.candidate_id.clone(), MISMATCH_REASON_FIELD.to_string()));
-                continue;
+                mismatches.push((
+                    snap.candidate_id.clone(),
+                    format!(
+                        "field_mismatch:{}:{}:{}:atr={}",
+                        snap.expert_id,
+                        snap.direction,
+                        first_mismatched_field(&surface, obs),
+                        atr_ref
+                            .map(|a| format!("{a:.9}"))
+                            .unwrap_or_else(|| "None".into()),
+                    ),
+                ));
             }
-        };
-        let surface = out.reconcile_surface(&snap.candidate_id, "ACTUAL");
-        if compare_observed(&surface, obs, &mut max_dev) {
-            n_ok += 1;
-        } else {
-            n_bad += 1;
-            mismatches.push((
-                snap.candidate_id.clone(),
-                format!(
-                    "field_mismatch:{}:{}:{}:atr={}",
-                    snap.expert_id,
-                    snap.direction,
-                    first_mismatched_field(&surface, obs),
-                    atr_ref
-                        .map(|a| format!("{a:.9}"))
-                        .unwrap_or_else(|| "None".into()),
-                ),
-            ));
         }
-    }
 
-    let verdict = if n_bad == 0 {
-        RECONCILED
+        let verdict = if n_bad == 0 {
+            RECONCILED
+        } else {
+            RECONCILIATION_FAILED
+        };
+        ReconciliationResult {
+            n_executed: n_exec,
+            n_reconciled: n_ok,
+            n_mismatched: n_bad,
+            n_not_applicable: n_na,
+            mismatches,
+            max_abs_deviation: max_dev,
+            verdict: verdict.to_string(),
+        }
     } else {
-        RECONCILIATION_FAILED
-    };
-    ReconciliationResult {
-        n_executed: n_exec,
-        n_reconciled: n_ok,
-        n_mismatched: n_bad,
-        n_not_applicable: n_na,
-        mismatches,
-        max_abs_deviation: max_dev,
-        verdict: verdict.to_string(),
+        let bounds = crate::scheduler::chunk_bounds(n, workers);
+        struct WorkerResult {
+            n_exec: usize,
+            n_ok: usize,
+            n_bad: usize,
+            n_na: usize,
+            mismatches: Vec<(String, String)>,
+            max_dev: HashMap<String, f64>,
+        }
+        let worker_results: Vec<WorkerResult> = std::thread::scope(|s| {
+            let mut handles = Vec::with_capacity(workers);
+            for w in 0..workers {
+                let (lo, hi) = (bounds[w], bounds[w + 1]);
+                let chunk = &snapshots[lo..hi];
+                handles.push(s.spawn(move || {
+                    let mut n_exec = 0usize;
+                    let mut n_ok = 0usize;
+                    let mut n_bad = 0usize;
+                    let mut n_na = 0usize;
+                    let mut mismatches = Vec::new();
+                    let mut max_dev: HashMap<String, f64> = RECONCILE_FLOAT_FIELDS
+                        .iter()
+                        .map(|f| (f.to_string(), 0.0))
+                        .collect();
+                    for snap in chunk {
+                        if snap.binding_status != BOUND || snap.entry_bar_available_time.is_none() {
+                            n_na += 1;
+                            continue;
+                        }
+                        n_exec += 1;
+                        let entry_time = snap.entry_bar_available_time.unwrap();
+                        let store = stores.iter().find(|s| s.symbol == snap.instrument);
+                        let sym_bars = match bars.iter().find(|b| b.symbol == snap.instrument) {
+                            Some(b) => b,
+                            None => {
+                                n_bad += 1;
+                                mismatches.push((
+                                    snap.candidate_id.clone(),
+                                    MISMATCH_REASON_ENTRY_MISSING.to_string(),
+                                ));
+                                continue;
+                            }
+                        };
+                        let i = sym_bars.available_times.binary_search(&entry_time).ok();
+                        let obs = snap.observed_outcome.as_ref();
+                        if i.is_none() || obs.is_none() || store.is_none() {
+                            n_bad += 1;
+                            mismatches.push((
+                                snap.candidate_id.clone(),
+                                MISMATCH_REASON_ENTRY_MISSING.to_string(),
+                            ));
+                            continue;
+                        }
+                        let i = i.unwrap();
+                        let obs = obs.unwrap();
+                        let store = store.unwrap();
+
+                        let raw = snap.raw_draft.as_ref().unwrap();
+                        let draft = Draft {
+                            direction: raw
+                                .get("direction")
+                                .and_then(|v| v.as_str())
+                                .unwrap_or("")
+                                .to_string(),
+                            birth_time: raw.get("birth_time").and_then(|v| v.as_i64()).unwrap_or(0),
+                            risk_geometry: raw
+                                .get("risk_geometry")
+                                .and_then(|v| v.as_object())
+                                .cloned()
+                                .unwrap_or_default(),
+                        };
+                        let atr_ref = draft.geom_f64("atr_ref");
+                        let kernel = ScalarKernel {
+                            round_trip_cost_r: sim.round_trip_cost_r,
+                            funding_rate_r: sim.funding_rate_r,
+                            funding_hours: sim.funding_hours,
+                            fill_policy: sim.fill_policy,
+                            funding_schedule,
+                            round_trip_cost_bps: sim.round_trip_cost_bps,
+                            bars: sym_bars,
+                            store,
+                        };
+                        let out = match kernel.run(&draft, i, sym_bars.closes.len(), snap.predicate_ir.as_ref()) {
+                            Ok(o) => o,
+                            Err(_) => {
+                                n_bad += 1;
+                                mismatches.push((snap.candidate_id.clone(), MISMATCH_REASON_FIELD.to_string()));
+                                continue;
+                            }
+                        };
+                        let surface = out.reconcile_surface(&snap.candidate_id, "ACTUAL");
+                        if compare_observed(&surface, obs, &mut max_dev) {
+                            n_ok += 1;
+                        } else {
+                            n_bad += 1;
+                            mismatches.push((
+                                snap.candidate_id.clone(),
+                                format!(
+                                    "field_mismatch:{}:{}:{}:atr={}",
+                                    snap.expert_id,
+                                    snap.direction,
+                                    first_mismatched_field(&surface, obs),
+                                    atr_ref
+                                        .map(|a| format!("{a:.9}"))
+                                        .unwrap_or_else(|| "None".into()),
+                                ),
+                            ));
+                        }
+                    }
+                    WorkerResult {
+                        n_exec,
+                        n_ok,
+                        n_bad,
+                        n_na,
+                        mismatches,
+                        max_dev,
+                    }
+                }));
+            }
+            let mut out = Vec::with_capacity(workers);
+            for h in handles {
+                if let Ok(res) = h.join() {
+                    out.push(res);
+                }
+            }
+            out
+        });
+        let mut total_exec = 0;
+        let mut total_ok = 0;
+        let mut total_bad = 0;
+        let mut total_na = 0;
+        let mut total_mismatches = Vec::new();
+        let mut combined_max_dev: HashMap<String, f64> = RECONCILE_FLOAT_FIELDS
+            .iter()
+            .map(|f| (f.to_string(), 0.0))
+            .collect();
+        for wr in worker_results {
+            total_exec += wr.n_exec;
+            total_ok += wr.n_ok;
+            total_bad += wr.n_bad;
+            total_na += wr.n_na;
+            total_mismatches.extend(wr.mismatches);
+            for (k, v) in wr.max_dev {
+                let entry = combined_max_dev.entry(k).or_insert(0.0);
+                if v > *entry {
+                    *entry = v;
+                }
+            }
+        }
+        let verdict = if total_bad == 0 {
+            RECONCILED
+        } else {
+            RECONCILIATION_FAILED
+        };
+        ReconciliationResult {
+            n_executed: total_exec,
+            n_reconciled: total_ok,
+            n_mismatched: total_bad,
+            n_not_applicable: total_na,
+            mismatches: total_mismatches,
+            max_abs_deviation: combined_max_dev,
+            verdict: verdict.to_string(),
+        }
     }
 }
 

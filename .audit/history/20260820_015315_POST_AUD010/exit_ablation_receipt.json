@@ -1,0 +1,707 @@
+{
+  "expert_breakdown": {
+    "bollinger_breakout": [
+      -19.292579335637686,
+      11.935429962356734,
+      180
+    ],
+    "bollinger_reversion": [
+      -3.6545460200207085,
+      2.126863359313362,
+      52
+    ],
+    "breakout_retest": [
+      -9.216108105596586,
+      -9.71849473574619,
+      34
+    ],
+    "candlestick_reversal": [
+      -0.00854802813997274,
+      -0.00854802813997274,
+      7
+    ],
+    "failed_breakout": [
+      -1.1856054769152,
+      -1.2951633161378988,
+      9
+    ],
+    "failed_breakout_2b": [
+      4.172734734007356,
+      4.749531758071073,
+      11
+    ],
+    "fib_projection_reversal": [
+      -0.2907688037666252,
+      -0.2907688037666252,
+      1
+    ],
+    "fib_retracement_continuation": [
+      5.289045680144135,
+      2.623194032921038,
+      21
+    ],
+    "floor_trader_pivot": [
+      -8.605868174352645,
+      -1.273750824786364,
+      76
+    ],
+    "ichimoku_cloud": [
+      -6.531278919637549,
+      -2.8471731555331345,
+      48
+    ],
+    "liquidity_sweep_reclaim": [
+      0.21776425365089402,
+      -2.048193889745147,
+      12
+    ],
+    "macd_stoch_trend": [
+      -49.230592196429726,
+      -73.11446193604638,
+      354
+    ],
+    "market_profile_value_area": [
+      -13.882704901020672,
+      -8.3733378555721,
+      41
+    ],
+    "rsi_stoch_reversion": [
+      -1.1784486229315436,
+      5.942031697423732,
+      16
+    ],
+    "trend_pullback": [
+      -1.0818942659392206,
+      -1.5818942659392177,
+      1
+    ],
+    "trend_pullback_depth": [
+      -7.307093981043151,
+      -4.683318587855654,
+      38
+    ],
+    "volume_climax_reversal": [
+      -64.69686462050217,
+      -50.515444410118384,
+      849
+    ],
+    "volume_confirmed_breakout": [
+      -1.6424219059185758,
+      1.756438891459131,
+      24
+    ]
+  },
+  "kernel": "backend::scalar::ScalarKernel",
+  "n_unique_episodes": 1774,
+  "policies": [
+    {
+      "avg_net_r": -0.10040911989292493,
+      "brownian_bridge_expected_net_r": -143.3597615868868,
+      "delta_net_r": 0.0,
+      "description": "Declared frozen geometry (1R SL / 1.5R TP / 8-bar horizon)",
+      "is_net_r": -100.5020900448683,
+      "is_win_rate": 44.354838709677416,
+      "metrics": {
+        "avg_net_r": -0.10040911989292493,
+        "calmar_ratio": -1.0,
+        "kelly_full": -0.12642938659092812,
+        "kelly_half": -0.06321469329546406,
+        "kelly_quarter": -0.03160734664773203,
+        "max_consecutive_losses": 7,
+        "max_drawdown_r": 178.12577869004883,
+        "n_trades": 1774,
+        "profit_factor": 0.7894842397438174,
+        "sharpe_ratio": -4.665901952437399,
+        "sortino_ratio": -6.066757774614663,
+        "total_net_r": -178.12577869004883,
+        "win_rate_pct": 45.60315670800451
+      },
+      "n_episodes": 1774,
+      "name": "M0_FROZEN_BASELINE",
+      "oos_net_r": -77.62368864518116,
+      "oos_win_rate": 46.799116997792495,
+      "profit_factor": 0.7894842397438174,
+      "tca": {
+        "fee_cost_r": 123.61999999999443,
+        "funding_paid_r": 0.32254129542807763,
+        "gross_market_r": -37.17376795013739,
+        "net_r": -161.1163092455599,
+        "slippage_cost_r": 0.0
+      },
+      "total_net_r": -178.12577869004883,
+      "win_rate_pct": 45.60315670800451
+    },
+    {
+      "avg_net_r": -0.0873698721838423,
+      "brownian_bridge_expected_net_r": -136.26720834290015,
+      "delta_net_r": 23.131625435912582,
+      "description": "Wider Initial Stop only (1.5x ATR)",
+      "is_net_r": -87.79426379219892,
+      "is_win_rate": 52.764976958525345,
+      "metrics": {
+        "avg_net_r": -0.0873698721838423,
+        "calmar_ratio": -1.0,
+        "kelly_full": -0.1132310196340802,
+        "kelly_half": -0.0566155098170401,
+        "kelly_quarter": -0.02830775490852005,
+        "max_consecutive_losses": 6,
+        "max_drawdown_r": 154.99415325413625,
+        "n_trades": 1774,
+        "profit_factor": 0.8346895668102989,
+        "sharpe_ratio": -3.4172426872245993,
+        "sortino_ratio": -4.208199048979298,
+        "total_net_r": -154.99415325413625,
+        "win_rate_pct": 53.945885005636974
+      },
+      "n_episodes": 1774,
+      "name": "M1_WIDER_SL_ONLY",
+      "oos_net_r": -67.19988946193776,
+      "oos_win_rate": 55.07726269315674,
+      "profit_factor": 0.8346895668102989,
+      "tca": {
+        "fee_cost_r": 123.61999999999443,
+        "funding_paid_r": 0.37683886567434915,
+        "gross_market_r": -56.46608302343034,
+        "net_r": -180.46292188909914,
+        "slippage_cost_r": 0.0
+      },
+      "total_net_r": -154.99415325413625,
+      "win_rate_pct": 53.945885005636974
+    },
+    {
+      "avg_net_r": -0.09509534591047898,
+      "brownian_bridge_expected_net_r": -168.6991436451897,
+      "delta_net_r": 9.426635044859125,
+      "description": "No Hard TP (Target -> 999.0R)",
+      "is_net_r": -94.98313378701162,
+      "is_win_rate": 32.142857142857146,
+      "metrics": {
+        "avg_net_r": -0.09509534591047898,
+        "calmar_ratio": -0.998662282320542,
+        "kelly_full": -0.06592269497442402,
+        "kelly_half": -0.03296134748721201,
+        "kelly_quarter": -0.016480673743606004,
+        "max_consecutive_losses": 14,
+        "max_drawdown_r": 168.9251177617241,
+        "n_trades": 1774,
+        "profit_factor": 0.8383075527241685,
+        "sharpe_ratio": -2.712111889520797,
+        "sortino_ratio": -5.1881715039451395,
+        "total_net_r": -168.6991436451897,
+        "win_rate_pct": 32.807215332581734
+      },
+      "n_episodes": 1774,
+      "name": "M2_NO_HARD_TP_ONLY",
+      "oos_net_r": -73.71600985817841,
+      "oos_win_rate": 33.443708609271525,
+      "profit_factor": 0.8383075527241685,
+      "tca": {
+        "fee_cost_r": 123.61999999999443,
+        "funding_paid_r": 0.10615284721688273,
+        "gross_market_r": -18.928110710450103,
+        "net_r": -142.65426355766144,
+        "slippage_cost_r": 0.0
+      },
+      "total_net_r": -168.6991436451897,
+      "win_rate_pct": 32.807215332581734
+    },
+    {
+      "avg_net_r": -0.10330104280123652,
+      "brownian_bridge_expected_net_r": -150.80356479406865,
+      "delta_net_r": -5.130271239344751,
+      "description": "Breakeven Roll at +0.8R MFE",
+      "is_net_r": -97.95055356495484,
+      "is_win_rate": 40.78341013824885,
+      "metrics": {
+        "avg_net_r": -0.10330104280123652,
+        "calmar_ratio": -1.0,
+        "kelly_full": -0.12800963114460412,
+        "kelly_half": -0.06400481557230206,
+        "kelly_quarter": -0.03200240778615103,
+        "max_consecutive_losses": 8,
+        "max_drawdown_r": 183.25604992939358,
+        "n_trades": 1774,
+        "profit_factor": 0.7708984436356529,
+        "sharpe_ratio": -4.998528253947788,
+        "sortino_ratio": -6.49989063530209,
+        "total_net_r": -183.25604992939358,
+        "win_rate_pct": 41.65727170236753
+      },
+      "n_episodes": 1774,
+      "name": "M3_BREAKEVEN_ONLY",
+      "oos_net_r": -85.30549636443895,
+      "oos_win_rate": 42.49448123620309,
+      "profit_factor": 0.7708984436356529,
+      "tca": {
+        "fee_cost_r": 123.61999999999443,
+        "funding_paid_r": 0.326350748897708,
+        "gross_market_r": -38.904103990666115,
+        "net_r": -162.85045473955824,
+        "slippage_cost_r": 0.0
+      },
+      "total_net_r": -183.25604992939358,
+      "win_rate_pct": 41.65727170236753
+    },
+    {
+      "avg_net_r": -0.10189241346320418,
+      "brownian_bridge_expected_net_r": -146.50624316604782,
+      "delta_net_r": -2.631362793675379,
+      "description": "Profit Lock at +0.8R MFE to +0.20R margin",
+      "is_net_r": -98.18913925210596,
+      "is_win_rate": 41.705069124423964,
+      "metrics": {
+        "avg_net_r": -0.10189241346320418,
+        "calmar_ratio": -1.0,
+        "kelly_full": -0.12671075365816561,
+        "kelly_half": -0.06335537682908281,
+        "kelly_quarter": -0.031677688414541404,
+        "max_consecutive_losses": 8,
+        "max_drawdown_r": 180.7571414837242,
+        "n_trades": 1774,
+        "profit_factor": 0.7773988905447607,
+        "sharpe_ratio": -4.895228847659611,
+        "sortino_ratio": -6.388176874824446,
+        "total_net_r": -180.7571414837242,
+        "win_rate_pct": 42.728297632469
+      },
+      "n_episodes": 1774,
+      "name": "M4_PROFIT_LOCK_ONLY",
+      "oos_net_r": -82.56800223161858,
+      "oos_win_rate": 43.70860927152318,
+      "profit_factor": 0.7773988905447607,
+      "tca": {
+        "fee_cost_r": 123.61999999999443,
+        "funding_paid_r": 0.3209615866612555,
+        "gross_market_r": -45.37589766816273,
+        "net_r": -169.31685925481844,
+        "slippage_cost_r": 0.0
+      },
+      "total_net_r": -180.7571414837242,
+      "win_rate_pct": 42.728297632469
+    },
+    {
+      "avg_net_r": -0.0952343630627574,
+      "brownian_bridge_expected_net_r": -134.25631955874258,
+      "delta_net_r": 9.180018616717206,
+      "description": "1.2x ATR Trailing Stop only",
+      "is_net_r": -94.04110962411227,
+      "is_win_rate": 39.86175115207373,
+      "metrics": {
+        "avg_net_r": -0.0952343630627574,
+        "calmar_ratio": -0.9874443175284711,
+        "kelly_full": -0.11839864809751419,
+        "kelly_half": -0.05919932404875709,
+        "kelly_quarter": -0.029599662024378547,
+        "max_consecutive_losses": 9,
+        "max_drawdown_r": 171.0939615270614,
+        "n_trades": 1774,
+        "profit_factor": 0.7823144271190615,
+        "sharpe_ratio": -4.83209719865203,
+        "sortino_ratio": -6.453531660787906,
+        "total_net_r": -168.94576007333163,
+        "win_rate_pct": 41.09357384441939
+      },
+      "n_episodes": 1774,
+      "name": "M5_ATR_TRAIL_ONLY",
+      "oos_net_r": -74.90465044921959,
+      "oos_win_rate": 42.27373068432671,
+      "profit_factor": 0.7823144271190615,
+      "tca": {
+        "fee_cost_r": 123.61999999999443,
+        "funding_paid_r": 0.3520454726869939,
+        "gross_market_r": -38.1113980750774,
+        "net_r": -162.08344354775883,
+        "slippage_cost_r": 0.0
+      },
+      "total_net_r": -168.94576007333163,
+      "win_rate_pct": 41.09357384441939
+    },
+    {
+      "avg_net_r": -0.08750872293686389,
+      "brownian_bridge_expected_net_r": -141.83828341238888,
+      "delta_net_r": 22.885304200052303,
+      "description": "Interaction: 1.5x SL + 1.2x ATR Trail",
+      "is_net_r": -86.08748304595592,
+      "is_win_rate": 43.08755760368664,
+      "metrics": {
+        "avg_net_r": -0.08750872293686389,
+        "calmar_ratio": -0.9711826794243147,
+        "kelly_full": -0.11002837671273626,
+        "kelly_half": -0.05501418835636813,
+        "kelly_quarter": -0.027507094178184064,
+        "max_consecutive_losses": 8,
+        "max_drawdown_r": 159.84683188750648,
+        "n_trades": 1774,
+        "profit_factor": 0.8073958683942332,
+        "sharpe_ratio": -4.136945693571133,
+        "sortino_ratio": -5.392172077555106,
+        "total_net_r": -155.24047448999653,
+        "win_rate_pct": 44.25028184892897
+      },
+      "n_episodes": 1774,
+      "name": "M6_WIDER_SL_PLUS_TRAIL",
+      "oos_net_r": -69.152991444041,
+      "oos_win_rate": 45.36423841059602,
+      "profit_factor": 0.8073958683942332,
+      "tca": {
+        "fee_cost_r": 123.61999999999443,
+        "funding_paid_r": 0.40214768976869625,
+        "gross_market_r": -33.36421297646132,
+        "net_r": -157.38636066622445,
+        "slippage_cost_r": 0.0
+      },
+      "total_net_r": -155.24047448999653,
+      "win_rate_pct": 44.25028184892897
+    },
+    {
+      "avg_net_r": -0.07022407780532731,
+      "brownian_bridge_expected_net_r": -124.57751402665065,
+      "delta_net_r": 53.548264663398186,
+      "description": "Interaction: 1.5x SL + No TP + 1.2x ATR Trail",
+      "is_net_r": -55.10092997428311,
+      "is_win_rate": 33.525345622119815,
+      "metrics": {
+        "avg_net_r": -0.07022407780532731,
+        "calmar_ratio": -0.9667668530583425,
+        "kelly_full": -0.0647047309661,
+        "kelly_half": -0.03235236548305,
+        "kelly_quarter": -0.016176182741525,
+        "max_consecutive_losses": 12,
+        "max_drawdown_r": 128.85993518763374,
+        "n_trades": 1774,
+        "profit_factor": 0.8520506055001136,
+        "sharpe_ratio": -2.465068206972004,
+        "sortino_ratio": -4.290504547490516,
+        "total_net_r": -124.57751402665065,
+        "win_rate_pct": 35.569334836527624
+      },
+      "n_episodes": 1774,
+      "name": "M7_WIDER_SL_NO_TP_TRAIL",
+      "oos_net_r": -69.4765840523675,
+      "oos_win_rate": 37.52759381898454,
+      "profit_factor": 0.8520506055001136,
+      "tca": {
+        "fee_cost_r": 123.61999999999443,
+        "funding_paid_r": 0.5403863529200759,
+        "gross_market_r": -28.124941402414052,
+        "net_r": -152.28532775532855,
+        "slippage_cost_r": 0.0
+      },
+      "total_net_r": -124.57751402665065,
+      "win_rate_pct": 35.569334836527624
+    },
+    {
+      "avg_net_r": -0.07137376556248134,
+      "brownian_bridge_expected_net_r": -126.61706010784191,
+      "delta_net_r": 51.508718582206924,
+      "description": "Full Package: 1.5x SL + No TP + 0.8R Profit Lock + 1.2x Trail",
+      "is_net_r": -59.74592958428618,
+      "is_win_rate": 32.6036866359447,
+      "metrics": {
+        "avg_net_r": -0.07137376556248134,
+        "calmar_ratio": -0.9665314946402082,
+        "kelly_full": -0.06553318718178447,
+        "kelly_half": -0.032766593590892235,
+        "kelly_quarter": -0.016383296795446117,
+        "max_consecutive_losses": 13,
+        "max_drawdown_r": 131.00148397644836,
+        "n_trades": 1774,
+        "profit_factor": 0.8481978735343615,
+        "sharpe_ratio": -2.515179572356939,
+        "sortino_ratio": -4.377782723303945,
+        "total_net_r": -126.61706010784191,
+        "win_rate_pct": 35.00563697857948
+      },
+      "n_episodes": 1774,
+      "name": "M8_FULL_DYNAMIC_ASYMMETRIC",
+      "oos_net_r": -66.87113052355582,
+      "oos_win_rate": 37.30684326710817,
+      "profit_factor": 0.8481978735343615,
+      "tca": {
+        "fee_cost_r": 123.61999999999443,
+        "funding_paid_r": 0.525848100052644,
+        "gross_market_r": -29.862414572408767,
+        "net_r": -154.00826267245586,
+        "slippage_cost_r": 0.0
+      },
+      "total_net_r": -126.61706010784191,
+      "win_rate_pct": 35.00563697857948
+    }
+  ],
+  "regime_breakdown": {
+    "BearTrend_HighVol_NormalVolume_NeutralFunding": {
+      "avg_net_r": -0.04489872255242793,
+      "n_trades": 34,
+      "profit_factor": 0.9042372916106606,
+      "regime_name": "BearTrend_HighVol_NormalVolume_NeutralFunding",
+      "total_net_r": -1.5265565667825496,
+      "win_rate_pct": 29.411764705882355
+    },
+    "BearTrend_HighVol_VolumeDrought_NeutralFunding": {
+      "avg_net_r": 0.24132209058141496,
+      "n_trades": 22,
+      "profit_factor": 1.5255598721358343,
+      "regime_name": "BearTrend_HighVol_VolumeDrought_NeutralFunding",
+      "total_net_r": 5.309085992791129,
+      "win_rate_pct": 40.909090909090914
+    },
+    "BearTrend_HighVol_VolumeExpansion_NeutralFunding": {
+      "avg_net_r": -0.10452762031741439,
+      "n_trades": 42,
+      "profit_factor": 0.8408655104563764,
+      "regime_name": "BearTrend_HighVol_VolumeExpansion_NeutralFunding",
+      "total_net_r": -4.390160053331404,
+      "win_rate_pct": 33.33333333333333
+    },
+    "BearTrend_LowVolSqueeze_NormalVolume_NeutralFunding": {
+      "avg_net_r": -0.038517371600298785,
+      "n_trades": 15,
+      "profit_factor": 0.8261020286375289,
+      "regime_name": "BearTrend_LowVolSqueeze_NormalVolume_NeutralFunding",
+      "total_net_r": -0.5777605740044818,
+      "win_rate_pct": 26.666666666666668
+    },
+    "BearTrend_LowVolSqueeze_VolumeDrought_NeutralFunding": {
+      "avg_net_r": -0.05686717250458971,
+      "n_trades": 39,
+      "profit_factor": 0.7945799851137983,
+      "regime_name": "BearTrend_LowVolSqueeze_VolumeDrought_NeutralFunding",
+      "total_net_r": -2.217819727678999,
+      "win_rate_pct": 38.46153846153847
+    },
+    "BearTrend_LowVolSqueeze_VolumeExpansion_NeutralFunding": {
+      "avg_net_r": 0.16149311392911364,
+      "n_trades": 5,
+      "profit_factor": 2.360845683990703,
+      "regime_name": "BearTrend_LowVolSqueeze_VolumeExpansion_NeutralFunding",
+      "total_net_r": 0.8074655696455681,
+      "win_rate_pct": 40.0
+    },
+    "BearTrend_NormalVol_NormalVolume_NeutralFunding": {
+      "avg_net_r": -0.057654301126610484,
+      "n_trades": 101,
+      "profit_factor": 0.8638364903026463,
+      "regime_name": "BearTrend_NormalVol_NormalVolume_NeutralFunding",
+      "total_net_r": -5.823084413787659,
+      "win_rate_pct": 35.64356435643564
+    },
+    "BearTrend_NormalVol_VolumeDrought_NeutralFunding": {
+      "avg_net_r": 0.01908582378014079,
+      "n_trades": 106,
+      "profit_factor": 1.0422960946665332,
+      "regime_name": "BearTrend_NormalVol_VolumeDrought_NeutralFunding",
+      "total_net_r": 2.023097320694924,
+      "win_rate_pct": 35.84905660377358
+    },
+    "BearTrend_NormalVol_VolumeExpansion_NeutralFunding": {
+      "avg_net_r": -0.23084603801287334,
+      "n_trades": 83,
+      "profit_factor": 0.5942678926431555,
+      "regime_name": "BearTrend_NormalVol_VolumeExpansion_NeutralFunding",
+      "total_net_r": -19.160221155068488,
+      "win_rate_pct": 32.53012048192771
+    },
+    "BullTrend_HighVol_NormalVolume_NeutralFunding": {
+      "avg_net_r": 0.31309267708267396,
+      "n_trades": 26,
+      "profit_factor": 1.6787235818070472,
+      "regime_name": "BullTrend_HighVol_NormalVolume_NeutralFunding",
+      "total_net_r": 8.140409604149523,
+      "win_rate_pct": 38.46153846153847
+    },
+    "BullTrend_HighVol_VolumeDrought_NeutralFunding": {
+      "avg_net_r": 0.7887909832197443,
+      "n_trades": 24,
+      "profit_factor": 2.9029727510552363,
+      "regime_name": "BullTrend_HighVol_VolumeDrought_NeutralFunding",
+      "total_net_r": 18.930983597273862,
+      "win_rate_pct": 45.83333333333333
+    },
+    "BullTrend_HighVol_VolumeExpansion_NeutralFunding": {
+      "avg_net_r": -0.058484563231658404,
+      "n_trades": 36,
+      "profit_factor": 0.8952982166728864,
+      "regime_name": "BullTrend_HighVol_VolumeExpansion_NeutralFunding",
+      "total_net_r": -2.1054442763397025,
+      "win_rate_pct": 33.33333333333333
+    },
+    "BullTrend_LowVolSqueeze_NormalVolume_NeutralFunding": {
+      "avg_net_r": -0.5644509201510505,
+      "n_trades": 13,
+      "profit_factor": 0.06208233615359132,
+      "regime_name": "BullTrend_LowVolSqueeze_NormalVolume_NeutralFunding",
+      "total_net_r": -7.3378619619636565,
+      "win_rate_pct": 15.384615384615385
+    },
+    "BullTrend_LowVolSqueeze_VolumeDrought_NeutralFunding": {
+      "avg_net_r": -0.0337944640883807,
+      "n_trades": 41,
+      "profit_factor": 0.8969814511464415,
+      "regime_name": "BullTrend_LowVolSqueeze_VolumeDrought_NeutralFunding",
+      "total_net_r": -1.3855730276236087,
+      "win_rate_pct": 46.34146341463415
+    },
+    "BullTrend_LowVolSqueeze_VolumeExpansion_NeutralFunding": {
+      "avg_net_r": -0.6018991362026535,
+      "n_trades": 3,
+      "profit_factor": 0.2532446762710269,
+      "regime_name": "BullTrend_LowVolSqueeze_VolumeExpansion_NeutralFunding",
+      "total_net_r": -1.8056974086079605,
+      "win_rate_pct": 33.33333333333333
+    },
+    "BullTrend_NormalVol_NormalVolume_NeutralFunding": {
+      "avg_net_r": 0.07925346709282081,
+      "n_trades": 83,
+      "profit_factor": 1.2057199609373612,
+      "regime_name": "BullTrend_NormalVol_NormalVolume_NeutralFunding",
+      "total_net_r": 6.578037768704128,
+      "win_rate_pct": 42.168674698795186
+    },
+    "BullTrend_NormalVol_VolumeDrought_NeutralFunding": {
+      "avg_net_r": -0.2180943651266192,
+      "n_trades": 113,
+      "profit_factor": 0.5761740052180266,
+      "regime_name": "BullTrend_NormalVol_VolumeDrought_NeutralFunding",
+      "total_net_r": -24.64466325930797,
+      "win_rate_pct": 30.973451327433626
+    },
+    "BullTrend_NormalVol_VolumeExpansion_NeutralFunding": {
+      "avg_net_r": -0.08070262107291973,
+      "n_trades": 86,
+      "profit_factor": 0.8171346177070851,
+      "regime_name": "BullTrend_NormalVol_VolumeExpansion_NeutralFunding",
+      "total_net_r": -6.940425412271097,
+      "win_rate_pct": 36.04651162790697
+    },
+    "ChopRange_HighVol_NormalVolume_NeutralFunding": {
+      "avg_net_r": 0.07237174540836132,
+      "n_trades": 55,
+      "profit_factor": 1.1419988332942572,
+      "regime_name": "ChopRange_HighVol_NormalVolume_NeutralFunding",
+      "total_net_r": 3.9804459974598725,
+      "win_rate_pct": 30.909090909090907
+    },
+    "ChopRange_HighVol_VolumeDrought_NeutralFunding": {
+      "avg_net_r": 0.41374116545172296,
+      "n_trades": 31,
+      "profit_factor": 1.8089724394093574,
+      "regime_name": "ChopRange_HighVol_VolumeDrought_NeutralFunding",
+      "total_net_r": 12.825976129003411,
+      "win_rate_pct": 41.935483870967744
+    },
+    "ChopRange_HighVol_VolumeExpansion_NeutralFunding": {
+      "avg_net_r": 0.119581691017847,
+      "n_trades": 60,
+      "profit_factor": 1.2026623588294898,
+      "regime_name": "ChopRange_HighVol_VolumeExpansion_NeutralFunding",
+      "total_net_r": 7.17490146107082,
+      "win_rate_pct": 41.66666666666667
+    },
+    "ChopRange_LowVolSqueeze_NormalVolume_NeutralFunding": {
+      "avg_net_r": -0.3690421700924135,
+      "n_trades": 36,
+      "profit_factor": 0.23690171751499073,
+      "regime_name": "ChopRange_LowVolSqueeze_NormalVolume_NeutralFunding",
+      "total_net_r": -13.285518123326886,
+      "win_rate_pct": 25.0
+    },
+    "ChopRange_LowVolSqueeze_VolumeDrought_NeutralFunding": {
+      "avg_net_r": -0.07022935270496694,
+      "n_trades": 145,
+      "profit_factor": 0.7998711887223766,
+      "regime_name": "ChopRange_LowVolSqueeze_VolumeDrought_NeutralFunding",
+      "total_net_r": -10.183256142220205,
+      "win_rate_pct": 38.62068965517241
+    },
+    "ChopRange_LowVolSqueeze_VolumeExpansion_NeutralFunding": {
+      "avg_net_r": -0.24203831131736975,
+      "n_trades": 18,
+      "profit_factor": 0.4960715345048952,
+      "regime_name": "ChopRange_LowVolSqueeze_VolumeExpansion_NeutralFunding",
+      "total_net_r": -4.356689603712655,
+      "win_rate_pct": 22.22222222222222
+    },
+    "ChopRange_NormalVol_NormalVolume_NeutralFunding": {
+      "avg_net_r": -0.09181223693877696,
+      "n_trades": 176,
+      "profit_factor": 0.7933417217802046,
+      "regime_name": "ChopRange_NormalVol_NormalVolume_NeutralFunding",
+      "total_net_r": -16.158953701224746,
+      "win_rate_pct": 37.5
+    },
+    "ChopRange_NormalVol_VolumeDrought_NeutralFunding": {
+      "avg_net_r": -0.19208106523050567,
+      "n_trades": 260,
+      "profit_factor": 0.6243677704623739,
+      "regime_name": "ChopRange_NormalVol_VolumeDrought_NeutralFunding",
+      "total_net_r": -49.94107695993147,
+      "win_rate_pct": 32.30769230769231
+    },
+    "ChopRange_NormalVol_VolumeExpansion_NeutralFunding": {
+      "avg_net_r": -0.17266135446598133,
+      "n_trades": 119,
+      "profit_factor": 0.6921256086695747,
+      "regime_name": "ChopRange_NormalVol_VolumeExpansion_NeutralFunding",
+      "total_net_r": -20.546701181451777,
+      "win_rate_pct": 30.252100840336134
+    },
+    "Funding_NeutralFunding": {
+      "avg_net_r": -0.07145432285995593,
+      "n_trades": 1772,
+      "profit_factor": 0.8481978735343615,
+      "regime_name": "Funding_NeutralFunding",
+      "total_net_r": -126.61706010784191,
+      "win_rate_pct": 35.045146726862306
+    },
+    "Trend_BearTrend": {
+      "avg_net_r": -0.05717215572152566,
+      "n_trades": 447,
+      "profit_factor": 0.8760405383699346,
+      "regime_name": "Trend_BearTrend",
+      "total_net_r": -25.55595360752197,
+      "win_rate_pct": 34.675615212527966
+    },
+    "Trend_BullTrend": {
+      "avg_net_r": -0.02487113970820348,
+      "n_trades": 425,
+      "profit_factor": 0.9454635555533842,
+      "regime_name": "Trend_BullTrend",
+      "total_net_r": -10.570234375986479,
+      "win_rate_pct": 36.705882352941174
+    },
+    "Trend_ChopRange": {
+      "avg_net_r": -0.10054541347148176,
+      "n_trades": 900,
+      "profit_factor": 0.7915482075895109,
+      "regime_name": "Trend_ChopRange",
+      "total_net_r": -90.49087212433358,
+      "win_rate_pct": 34.44444444444444
+    },
+    "Vol_HighVol": {
+      "avg_net_r": 0.14648376328877258,
+      "n_trades": 330,
+      "profit_factor": 1.276272723838386,
+      "regime_name": "Vol_HighVol",
+      "total_net_r": 48.33964188529495,
+      "win_rate_pct": 36.666666666666664
+    },
+    "Vol_LowVolSqueeze": {
+      "avg_net_r": -0.1280720984110886,
+      "n_trades": 315,
+      "profit_factor": 0.6502357458824465,
+      "regime_name": "Vol_LowVolSqueeze",
+      "total_net_r": -40.34271099949291,
+      "win_rate_pct": 35.55555555555556
+    },
+    "Vol_NormalVol": {
+      "avg_net_r": -0.11944453504316263,
+      "n_trades": 1127,
+      "profit_factor": 0.7524474614043353,
+      "regime_name": "Vol_NormalVol",
+      "total_net_r": -134.61399099364428,
+      "win_rate_pct": 34.42768411712511
+    }
+  },
+  "runtime": "rust_release_v8_core",
+  "tape": "research/tape/btcusdt-1h-12m/tape.jsonl"
+}

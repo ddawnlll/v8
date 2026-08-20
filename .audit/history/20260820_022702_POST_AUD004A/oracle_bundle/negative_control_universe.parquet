@@ -1,0 +1,12 @@
+{
+  "control_id": "neg_ctrl_universe-btcusdt-1h-v1",
+  "total_candidates": 100,
+  "synthetic_injected_count": 100,
+  "baseline_coverage": 1.0,
+  "degraded_coverage": 0.0,
+  "detected_gap_count": 100,
+  "unrepresented_cluster_ids": [
+    "SYNTHETIC_GAP_CLUSTER_1",
+    "SYNTHETIC_GAP_CLUSTER_2"
+  ]
+}
