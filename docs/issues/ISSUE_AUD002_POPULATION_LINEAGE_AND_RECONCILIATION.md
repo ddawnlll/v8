@@ -79,7 +79,7 @@ Build a deterministic Population Lineage DAG that makes distinct evaluation, can
 ```text
 v8-core/src/evaluation/mod.rs
 v8-core/src/evaluation/lineage.rs
-v8-core/src/evaluation/html_report.rs
+v8-core/src/report.rs
 ```
 
 ---

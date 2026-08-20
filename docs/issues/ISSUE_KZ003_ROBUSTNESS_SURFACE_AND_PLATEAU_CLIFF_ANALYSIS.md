@@ -101,7 +101,7 @@ v8-core/src/kaizen/robustness.rs
 
 ## 12. Existing Types / Interfaces to Reuse
 - `v8-core::kaizen::hypothesis::ChallengerFamilySpec`
-- `v8-core::evaluation::surfaces`
+- `v8-core::kaizen::robustness`
 
 ---
 

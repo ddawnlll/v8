@@ -134,6 +134,15 @@ v8-core/
       authority.rs   CounterfactualAuthority and OracleOutcome (O2)
       coverage.rs    Representational coverage reconciliation & bundle receipts (O3)
       artifacts.rs   OpportunityUniverseVersion and OracleEvaluationRecord
+    evaluation/     narrow v8.eval.v1 support family consumed by Oracle O2–O3
+                    and Kaizen; no autonomous engine, verdict, or economic
+                    authority (D-118)
+      agents.rs      typed finding/recommendation records and deterministic helpers
+      authority_surface.rs typed receipt authority classification
+      lineage.rs     deterministic bundle lineage records
+      schema_cache.rs evidence-table schema summaries used by coverage receipts
+      temporal.rs    three-clock temporal validation records
+      mod.rs         support exports and shared TradeRow boundary for Kaizen
     features.rs     D-053 feature-group projection (Expert FeatMap closure) —
                      not in the original §6 table (§4)
     experts/

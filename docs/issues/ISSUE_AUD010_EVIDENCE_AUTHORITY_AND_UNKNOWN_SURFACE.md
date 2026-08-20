@@ -107,7 +107,8 @@ v8-core/src/report.rs
 ## 12. Existing Types / Interfaces to Reuse
 - `v8-core::oracle::taxonomy::AuthorityLevel`
 - `v8-core::oracle::taxonomy::Identifiability`
-- `v8-core::evaluation::html_report::HtmlReport`
+- `v8-core::evaluation::authority_surface`
+- `v8-core::report`
 
 ---
 

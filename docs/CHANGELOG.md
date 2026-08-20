@@ -2,6 +2,37 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-20 — Quantized computation applicability audit
+
+Added an arXiv-verified audit distinguishing V8's current deterministic `f64`
+contract from quantized computation. The audit records the absent quantization
+contract fields, preserves the `NO_ECONOMIC_CLAIM` boundary, and registers
+quantization as a challenger-only open question rather than an implemented
+capability. Rebuilt both canonical monographs.
+
+Artifacts changed: `docs/audits/QUANTIZED_COMPUTATION_AUDIT.md`,
+`docs/tr/QUANTIZED_COMPUTATION_AUDIT.md`, `tools/build_monograph.py`,
+`site/index.html`, `site/tr.html`, `docs/CHANGELOG.md`.
+
+## 2026-08-20 — Remove orphan evaluation engine (D-118, issue #199)
+
+Removed the CLI-unwired duplicate `EvaluationEngine` and its private report,
+manifest, path, regression, statistics, and surface modules. Upstream had
+already closed its unauthorized-verdict and artifact-inventory defects; the
+remaining engine still duplicated the authority path and retained count-derived
+provenance, fixed timestamp/trial metadata, and panic-prone statistics. Kept the
+five support modules consumed by Target Oracle coverage and the shared
+`TradeRow` boundary consumed by Kaizen. The authoritative statistics/report
+path and `NO_ECONOMIC_CLAIM` rule are unchanged.
+
+Artifacts changed: `v8-core/src/evaluation/`,
+`docs/contracts/IMPLEMENTATION_LAYOUT.md`,
+`docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`,
+`docs/issues/ISSUE_AUD002_POPULATION_LINEAGE_AND_RECONCILIATION.md`,
+`docs/issues/ISSUE_AUD010_EVIDENCE_AUTHORITY_AND_UNKNOWN_SURFACE.md`,
+`docs/issues/ISSUE_KZ003_ROBUSTNESS_SURFACE_AND_PLATEAU_CLIFF_ANALYSIS.md`,
+`docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-19 — Deploy V8 Work-Item / PR Governance v1.2 and Start Measured Pilot (D-117)
 
 Deployed the canonical V8 Work-Item, Pull-Request & Merge Governance v1.2 pack across the repository:
