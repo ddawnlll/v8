@@ -1,0 +1,66 @@
+[
+  {
+    "cardinality_type": "Partition",
+    "cell_name": "ObservedSetupPopulation",
+    "cell_value": 42647,
+    "filter_reason": null,
+    "population_hash": "caa091af1a440517eb3cee543982524c16f3efdd",
+    "transform_rule": "evaluations.iter().filter(|e| e.fired).count()"
+  },
+  {
+    "cardinality_type": "Partition",
+    "cell_name": "DedupSuppressedPopulation",
+    "cell_value": 14766,
+    "filter_reason": "DUPLICATE_SETUP_BAR",
+    "population_hash": "b49b863234f4706af9b257772b8a9118d00bec23",
+    "transform_rule": "dedup_gate(D-026)"
+  },
+  {
+    "cardinality_type": "Partition",
+    "cell_name": "CandidatePopulation",
+    "cell_value": 27881,
+    "filter_reason": null,
+    "population_hash": "7057552d5dc59abc1ea81199c22506d86aca5909",
+    "transform_rule": "pass_dedup_into_candidate_stream"
+  },
+  {
+    "cardinality_type": "OneToOne",
+    "cell_name": "CounterfactualOutcomePopulation",
+    "cell_value": 27881,
+    "filter_reason": null,
+    "population_hash": "d5327757d41e96a9dcac9d5ca1d04db64641ce20",
+    "transform_rule": "replay_kernel_unconstrained_outcome"
+  },
+  {
+    "cardinality_type": "Partition",
+    "cell_name": "VetoedCandidatePopulation",
+    "cell_value": 26107,
+    "filter_reason": "RISK_OR_CAPACITY_CONSTRAINT",
+    "population_hash": "ea83be438cae8caeb3da682e6f597750bb777af8",
+    "transform_rule": "admission_allocator_veto"
+  },
+  {
+    "cardinality_type": "Partition",
+    "cell_name": "AdmittedCandidatePopulation",
+    "cell_value": 1774,
+    "filter_reason": null,
+    "population_hash": "ced845b40b7e5f413a3954db0c3adbf8d9517111",
+    "transform_rule": "admission_allocator_admit"
+  },
+  {
+    "cardinality_type": "ZeroOrMany",
+    "cell_name": "FillPopulation",
+    "cell_value": 2460,
+    "filter_reason": null,
+    "population_hash": "4f1222192046dfdf49c8bc7fbc4fd7fd5db81aec",
+    "transform_rule": "simulator_order_matching_fills"
+  },
+  {
+    "cardinality_type": "OneToOne",
+    "cell_name": "PositionTransitionPopulation",
+    "cell_value": 2460,
+    "filter_reason": null,
+    "population_hash": "e40d66b409cf9f4af4496ddb6d76de5c77cd7406",
+    "transform_rule": "wallet_position_transition"
+  }
+]

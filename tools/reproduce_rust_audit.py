@@ -40,6 +40,8 @@ def run_command(cmd: list[str], cwd: Path = ROOT) -> tuple[int, str, str]:
 
 
 def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4) -> dict:
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     req_path = out_dir / "request_evaluate.json"
     
@@ -198,6 +200,14 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         artifacts["implementation_risk.json"] = sha256_file(out_dir / "implementation_risk.json")
     if (out_dir / "differential_economic_ledger.jsonl").exists():
         artifacts["differential_economic_ledger.jsonl"] = sha256_file(out_dir / "differential_economic_ledger.jsonl")
+    if (out_dir / "multiple_testing.json").exists():
+        artifacts["multiple_testing.json"] = sha256_file(out_dir / "multiple_testing.json")
+    if (out_dir / "research_family_ledger.jsonl").exists():
+        artifacts["research_family_ledger.jsonl"] = sha256_file(out_dir / "research_family_ledger.jsonl")
+    if (out_dir / "oracle_bundle" / "multiple_testing.json").exists():
+        artifacts["oracle_bundle/multiple_testing.json"] = sha256_file(out_dir / "oracle_bundle" / "multiple_testing.json")
+    if (out_dir / "oracle_bundle" / "research_family_ledger.jsonl").exists():
+        artifacts["oracle_bundle/research_family_ledger.jsonl"] = sha256_file(out_dir / "oracle_bundle" / "research_family_ledger.jsonl")
 
     return {
         "eval_duration_sec": eval_duration,

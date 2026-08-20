@@ -22,9 +22,62 @@ pub struct ExpertEval {
     pub setup_fingerprint: Option<String>,
 }
 
+/// Zero-allocation projected feature view over a base feature map and expert closure.
+#[derive(Clone, Copy)]
+pub struct ProjectedFeatures<'a> {
+    pub base: &'a HashMap<String, Feature>,
+    pub closure: Option<&'a std::collections::HashSet<String>>,
+}
+
+impl<'a> ProjectedFeatures<'a> {
+    #[inline]
+    pub fn new(
+        base: &'a HashMap<String, Feature>,
+        closure: &'a std::collections::HashSet<String>,
+    ) -> Self {
+        Self {
+            base,
+            closure: Some(closure),
+        }
+    }
+
+    #[allow(dead_code)]
+    #[inline]
+    pub fn unprojected(base: &'a HashMap<String, Feature>) -> Self {
+        Self {
+            base,
+            closure: None,
+        }
+    }
+
+    #[inline]
+    pub fn get(&self, key: &str) -> Option<&'a Feature> {
+        match self.closure {
+            Some(closure) => {
+                if crate::features::feature_in_closure(key, closure) {
+                    self.base.get(key)
+                } else {
+                    None
+                }
+            }
+            None => self.base.get(key),
+        }
+    }
+
+    #[inline]
+    pub fn contains_key(&self, key: &str) -> bool {
+        match self.closure {
+            Some(closure) => {
+                crate::features::feature_in_closure(key, closure) && self.base.contains_key(key)
+            }
+            None => self.base.contains_key(key),
+        }
+    }
+}
+
 /// The per-bar feature view the experts read (the state's feature dict).
 pub struct FeatMap<'a> {
-    pub features: &'a HashMap<String, Feature>,
+    pub features: ProjectedFeatures<'a>,
     pub history: Vec<HistBar>,
     pub as_of: i64,
     /// Request symbol (the Python `state.universe[0]` read); the fingerprint

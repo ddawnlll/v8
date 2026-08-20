@@ -1,0 +1,13 @@
+{
+  "receipt_id": "receipt-pit-71ac69edd7c1",
+  "symbol": "BTCUSDT",
+  "timeframe": "1h",
+  "total_bars_evaluated": 0,
+  "perturbation_rounds": 0,
+  "perturbation_invariance_verified": true,
+  "future_data_leakage_detected": false,
+  "fail_closed_guard_verified": true,
+  "max_bit_level_feature_drift": 0.0,
+  "status": "TEMPORAL_NONINTERFERENCE_VERIFIED",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

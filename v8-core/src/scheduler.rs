@@ -37,7 +37,7 @@ use crate::simulator::Outcome;
 /// bounds[w+1])`. The shape depends only on `(n, workers)` — never on thread
 /// completion order, which is what keeps the parallel decomposition
 /// value-identical to the sequential reference.
-fn chunk_bounds(n: usize, workers: usize) -> Vec<usize> {
+pub fn chunk_bounds(n: usize, workers: usize) -> Vec<usize> {
     if n == 0 {
         return vec![0];
     }

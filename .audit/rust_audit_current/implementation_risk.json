@@ -1,0 +1,17 @@
+{
+  "report_id": "risk-d116-596daef92359",
+  "total_orders_reconciled": 2460,
+  "max_qty_discrepancy": 0.0,
+  "max_fee_discrepancy": 2.9388716999999995,
+  "max_funding_discrepancy": 0.0,
+  "max_wallet_discrepancy": 133.36180782000122,
+  "engine_sensitivity": 0.1333618078200012,
+  "implementation_uncertainty_interval": [
+    -133.36180782000122,
+    133.36180782000122
+  ],
+  "conclusion_stability": "UNSTABLE",
+  "d116_tolerances_satisfied": false,
+  "status": "DIFFERENTIAL_PARITY_DIVERGENCE",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

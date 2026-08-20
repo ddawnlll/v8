@@ -1,10 +1,10 @@
 {
-  "tape_path": "/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl",
+  "tape_path": "C:\\Users\\dresden\\Documents\\v8\\research\\tape\\btcusdt-1h-12m\\tape.jsonl",
   "universe": [
     "BTCUSDT"
   ],
-  "out_dir": "/Users/hootie/src/v8/.audit/rust_audit_current",
+  "out_dir": "C:\\Users\\dresden\\Documents\\v8\\.audit\\rust_audit_current",
   "history_depth": 32,
-  "threads": 4,
+  "threads": 8,
   "engine": "cpu"
 }

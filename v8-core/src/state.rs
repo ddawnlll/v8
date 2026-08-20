@@ -212,12 +212,12 @@ fn sma(values: &[f64], period: usize) -> f64 {
 /// through this. Reductions that mirror explicit `+=` loops (vwap, cmf,
 /// obv, adl) stay plain folds.
 pub fn fsum(values: &[f64]) -> f64 {
-    let mut partials: Vec<f64> = Vec::with_capacity(32);
+    let mut partials = [0.0f64; 48];
+    let mut p_len = 0usize;
     for &x0 in values {
         let mut x = x0;
         let mut i = 0usize;
-        let n = partials.len();
-        for j in 0..n {
+        for j in 0..p_len {
             let y = partials[j];
             let (a, b) = if x.abs() < y.abs() { (y, x) } else { (x, y) };
             let hi = a + b;
@@ -229,16 +229,17 @@ pub fn fsum(values: &[f64]) -> f64 {
             }
             x = hi;
         }
-        partials.truncate(i);
-        if x != 0.0 {
-            partials.push(x);
+        p_len = i;
+        if x != 0.0 && p_len < 48 {
+            partials[p_len] = x;
+            p_len += 1;
         }
     }
     // Final fold, exactly CPython's math_fsum: take the largest partial first,
     // walk down, STOP at the first inexact addition, then the half-even tie
     // fix (sum([1e-16, 1, 1e16]) must round the last digit UP to two).
     let mut hi = 0.0;
-    let mut n = partials.len();
+    let mut n = p_len;
     let mut lo = 0.0;
     if n > 0 {
         n -= 1;

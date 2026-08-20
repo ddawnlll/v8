@@ -174,6 +174,7 @@ fn select_block_size(episode_net_r: &[f64], threshold: f64) -> usize {
 /// picks a uniform start and appends a contiguous run of `block_size` indices
 /// (wrapping past the end) until length n, then truncates. Fail-closed on the
 /// degenerate `block_size >= n` draw (D-052) exactly as the oracle raises.
+#[allow(dead_code)]
 fn block_bootstrap_indices(n: usize, block_size: usize, rng: &mut MT19937) -> Vec<usize> {
     assert!(n > 0, "block bootstrap on an empty series");
     assert!(block_size > 0, "block_size must be positive");
@@ -205,15 +206,27 @@ fn block_bootstrap_means(
     if n == 0 {
         return Vec::new();
     }
+    assert!(block_size > 0, "block_size must be positive");
+    assert!(
+        !(n >= 2 && block_size >= n),
+        "block_size {block_size} >= n {n}: degenerate block bootstrap (every \
+         resample is a rotation of the whole series)"
+    );
     let mut rng = MT19937::new(seed);
     let mut means = Vec::with_capacity(n_resamples);
-    let mut selected = Vec::with_capacity(n);
+    let mut selected = Vec::with_capacity(n + block_size);
     for _ in 0..n_resamples {
-        let idx = block_bootstrap_indices(n, block_size, &mut rng);
         selected.clear();
-        for &i in &idx {
-            selected.push(net_rs[i]);
+        while selected.len() < n {
+            let start = rng.randrange(n as u64) as usize;
+            if start + block_size <= n {
+                selected.extend_from_slice(&net_rs[start..start + block_size]);
+            } else {
+                selected.extend_from_slice(&net_rs[start..n]);
+                selected.extend_from_slice(&net_rs[0..start + block_size - n]);
+            }
         }
+        selected.truncate(n);
         means.push(fsum(&selected) / n as f64);
     }
     means
