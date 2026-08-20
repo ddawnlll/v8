@@ -291,6 +291,28 @@ impl CoverageReceipt {
             },
         );
         schema_cache.save(&analysis_dir.join("schema_cache.json"))?;
+        // 8. Temporal Non-Interference (Issue #AUD-004A)
+        let temp_config = crate::evaluation::temporal::TemporalPerturbationConfig::default();
+        let temp_receipt = crate::evaluation::temporal::evaluate_temporal_noninterference(
+            "BTCUSDT",
+            "1h",
+            &crate::data::SymbolBars {
+                symbol: "BTCUSDT".to_string(),
+                opens: vec![],
+                highs: vec![],
+                lows: vec![],
+                closes: vec![],
+                volumes: vec![],
+                event_times: vec![],
+                available_times: vec![],
+                ingested_times: vec![],
+                venue_sequences: vec![],
+                event_ids: vec![],
+                row_indices: vec![],
+            },
+            &temp_config,
+        );
+        crate::evaluation::temporal::save_temporal_receipt(bundle_dir, &temp_receipt)?;
 
         Ok(())
     }

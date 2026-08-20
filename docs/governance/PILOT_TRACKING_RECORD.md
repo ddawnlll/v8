@@ -23,7 +23,7 @@ This is a measurement ledger, not a performance scorecard. Friction, missing fie
 | `#186` | `GOV` | Epistemic Taxonomy & Authority Surface | Yes | None | 0 | Yes | Nominal (<60s) | Pinned 4 orthogonal axes & Rule 12 enforcement |
 | `#178` | `IMPL` | Population Lineage DAG & Reconciliation | Yes | None | 0 | Yes | Nominal (<60s) | Implemented DAG, independent observation, and reconciliation gate |
 | `#177` | `IMPL` | Oracle Independence & Negative Controls | Yes | None | 0 | Yes | Nominal (<60s) | Metamorphic tests & synthetic negative controls |
-| `P-06` | | | | | | | | |
+| `#180` | `IMPL` | PIT Temporal Fault Injection & Non-Interference | Yes | None | 0 | Yes | Nominal (<60s) | Future perturbation engine & lookahead guards |
 | `P-07` | | | | | | | | |
 | `P-08` | | | | | | | | |
 | `P-09` | | | | | | | | |

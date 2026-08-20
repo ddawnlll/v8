@@ -15,6 +15,7 @@ pub mod regression;
 pub mod schema_cache;
 pub mod statistics;
 pub mod surfaces;
+pub mod temporal;
 
 use std::fs;
 use std::io;
@@ -441,9 +442,26 @@ impl EvaluationEngine {
 
         manifest.save(&out.join("manifest.json"))?;
 
-        // 12. Save executive.json & report.html
+        // 12. Save executive.json, authority surface, & temporal receipt
         let (authority_records, unknown_report, power_report) = authority_surface::build_expert_authority_surface();
         authority_surface::save_authority_surface(out, &authority_records, &unknown_report, &power_report)?;
+
+        let temp_config = temporal::TemporalPerturbationConfig::default();
+        let temp_receipt = temporal::evaluate_temporal_noninterference(&self.symbol, &self.timeframe, &crate::data::SymbolBars {
+            symbol: self.symbol.clone(),
+            opens: vec![],
+            highs: vec![],
+            lows: vec![],
+            closes: vec![],
+            volumes: vec![],
+            event_times: vec![],
+            available_times: vec![],
+            ingested_times: vec![],
+            venue_sequences: vec![],
+            event_ids: vec![],
+            row_indices: vec![],
+        }, &temp_config);
+        temporal::save_temporal_receipt(out, &temp_receipt)?;
 
         fs::write(
             out.join("executive.json"),
