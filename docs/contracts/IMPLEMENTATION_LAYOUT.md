@@ -134,6 +134,13 @@ v8-core/
       authority.rs   CounterfactualAuthority and OracleOutcome (O2)
       coverage.rs    Representational coverage reconciliation & bundle receipts (O3)
       artifacts.rs   OpportunityUniverseVersion and OracleEvaluationRecord
+    evaluation/     v8.eval.v1 evidence system and Target Oracle coverage support
+      authority_surface.rs 4-axis taxonomy and authority reconciliation
+      lineage.rs     population lineage DAG and cross-source reconciliation
+      temporal.rs    PIT temporal fault injection and non-interference
+      multiple_testing.rs zero-alloc multiple testing & corrections
+      agents.rs      typed finding records and deterministic evaluation helpers
+      schema_cache.rs evidence-table schema summaries used by coverage receipts
     features.rs     D-053 feature-group projection (Expert FeatMap closure) —
                      not in the original §6 table (§4)
     experts/

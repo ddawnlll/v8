@@ -14,6 +14,22 @@ Artifacts changed: `tests/parity/conftest.py`,
 `tests/test_parity_binary_path.py`, `docs/CHANGELOG.md`, `site/index.html`,
 `site/tr.html`.
 
+## 2026-08-20 — Quantized-computation applicability audit (D-118, #199)
+
+Added an English/Turkish, arXiv-grounded audit that distinguishes V8's current
+deterministic IEEE-754 `f64` contract from integer/fixed-point/low-bit
+quantization. The audit records the absent quantization contract (representation,
+scale/zero-point, rounding, saturation/overflow, calibration, frozen-OOS error,
+and backend parity), retains quantization as absent by default, and confirms
+that the evaluation evidence suite is bound to Constitution Rule 12
+(`NO_ECONOMIC_CLAIM`) without making an economic or speed claim. The audit is
+wired into both monographs.
+
+Artifacts changed: `docs/audits/QUANTIZED_COMPUTATION_AUDIT.md`,
+`docs/tr/QUANTIZED_COMPUTATION_AUDIT.md`, `tools/build_monograph.py`,
+`docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`,
+`docs/CHANGELOG.md`, and regenerated monographs.
+
 ## 2026-08-19 — Deploy V8 Work-Item / PR Governance v1.2 and Start Measured Pilot (D-117)
 
 Deployed the canonical V8 Work-Item, Pull-Request & Merge Governance v1.2 pack across the repository:
