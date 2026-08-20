@@ -10593,6 +10593,19 @@ değişkenine, arama ailesine, simülatör seviyesine ve portföy kararına bağ
 Bundan daha geniş olan her şey bir V8 olgusu değil, bir deney önerisidir.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-20-hoist-invariant-outcome-cube-code-hash-issue-205-d-083">2026-08-20 — Hoist invariant outcome-cube code hash (issue #205, D-083)</h2>
+<p>Measured the warm S6 parity gate at 87.89 seconds and attributed 95.99 of
+108.74 profiled seconds to 4,422 repeated <code>_code_hash()</code> calls. The legacy
+<code>tools/regret.py</code> evaluator now computes the unchanged decision-path code hash
+once per <code>write_cube</code> invocation and reuses it for every emitted cell. Focused
+tests bind the one-call lifetime, exact row provenance, and standalone fallback.
+The frozen <code>src/v8</code> oracle and all output semantics remain unchanged. The same
+warm S6 parity command passed in 8.14 seconds after the patch versus 87.89
+seconds before it (approximately 9.74x by external wall measurement); the Rust
+binary was not rebuilt in either measured run. This is a local gate-speed
+measurement, not an economic or general compute-speed claim.</p>
+<p>Artifacts changed: <code>tools/regret.py</code>, <code>tests/test_regret_phase0.py</code>,
+<code>docs/CHANGELOG.md</code>, <code>site/index.html</code>, <code>site/tr.html</code>.</p>
 <h2 id="2026-08-19-deploy-v8-work-item-pr-governance-v12-and-start-measured-pilot-d-117">2026-08-19 — Deploy V8 Work-Item / PR Governance v1.2 and Start Measured Pilot (D-117)</h2>
 <p>Deployed the canonical V8 Work-Item, Pull-Request &amp; Merge Governance v1.2 pack across the repository:
 - <strong>5 Issue Forms (<code>.github/ISSUE_TEMPLATE/</code>):</strong> Deployed <code>defect.yml</code>, <code>implementation.yml</code>, <code>research.yml</code>, <code>performance.yml</code>, and <code>governance.yml</code> with universal context-completeness contract (<code>R#</code> traceability, reused contracts, invariants, canonical failure semantics, dependency map, OPEN_PIN triggers).

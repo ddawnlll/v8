@@ -516,15 +516,17 @@ class OutcomeCubeRow:
 def replay_action(store: StoreHandle, sim: CanonicalSimulator, snap: CandidateSnapshot,
                   action: LegalAction, bars: list, idx_by_time: dict,
                   states_by_time: dict, manifest_id: str,
-                  risk_gate_hash: str | None, funding_ok: bool) -> OutcomeCubeRow:
+                  risk_gate_hash: str | None, funding_ok: bool, *,
+                  code_hash: str | None = None) -> OutcomeCubeRow:
     """CONTRACT FT005/FT009: the adapter's ONE new semantic responsibility —
     refuse rather than accept a fabricated number. Every branch either
     returns a MATURE/CENSORED model-derived row or an explicit abstention;
     none falls through to the simulator's degenerate-future behaviour."""
     cost_form = ('flat' if store.manifest.get('round_trip_cost_bps') is None
                 else f"bps:{store.manifest['round_trip_cost_bps']}")
+    resolved_code_hash = _code_hash() if code_hash is None else code_hash
     prov = dict(simulator_hash=sim.hash(), data_hash=store.tape_log.hash,
-               code_hash=_code_hash(), config_hash=sha1_hex(store.manifest),
+               code_hash=resolved_code_hash, config_hash=sha1_hex(store.manifest),
                risk_gate_hash=risk_gate_hash, action_manifest_id=manifest_id,
                evaluator_version=EVALUATOR_VERSION, platform=platform.platform())
 
@@ -621,6 +623,7 @@ def write_cube(store: StoreHandle, cube_path: Path, snapshots: list
     states_by_time = _states_by_time(store)
     risk_gate_hash = (store.report or {}).get('risk_gate_hash')
     funding_ok = _funding_decomposable(store)
+    code_hash = _code_hash()
 
     manifests: dict[str, LegalActionManifest] = {}
     n_rows = 0
@@ -632,7 +635,8 @@ def write_cube(store: StoreHandle, cube_path: Path, snapshots: list
         for action in manifest.actions:
             row = replay_action(store, sim, snap, action, bars, idx_by_time,
                                 states_by_time, manifest.manifest_id,
-                                risk_gate_hash, funding_ok)
+                                risk_gate_hash, funding_ok,
+                                code_hash=code_hash)
             rec = asdict(row)
             rec['source'] = 'regret-cube'
             rec['event_id'] = f'{snap.candidate_id}:{action.action_id}'
