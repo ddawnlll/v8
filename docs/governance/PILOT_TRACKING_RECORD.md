@@ -19,7 +19,7 @@ This is a measurement ledger, not a performance scorecard. Friction, missing fie
 | Issue # | Type | Title | READY w/o Clarification? | Triage Friction / Missing Fields | Review Rounds (Spec vs Code) | Traceability Complete (100%)? | Compute Spent (D-099) | Notes / Observations |
 |---|---|---|---|---|---|---|---|---|
 | `#164` | `IMPL` | Capital-Constrained USDM Simulator | Yes | None (Full R1..R8 & I1..I6 provided) | Pending | Yes | Nominal (<60s) | First issue using v1.2 context-completeness contract |
-| `P-02` | | | | | | | | |
+| `#192` | `GOV` | Branch Protection Enforcement | Yes | None | 0 | Yes | 0s | Enforced remote branch protection on main |
 | `P-03` | | | | | | | | |
 | `P-04` | | | | | | | | |
 | `P-05` | | | | | | | | |

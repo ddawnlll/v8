@@ -395,7 +395,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                             (entry_price + stop_dist, Some(entry_price - target_dist))
                         };
 
-                        let cid = format!("cand-{}-{}-{}", eid, &store.symbol, as_of);
+                        let cid = format!("cand-{}-{}-{}", eid, store.symbol, as_of);
 
                         match allocator.allocate(
                             &cid,
