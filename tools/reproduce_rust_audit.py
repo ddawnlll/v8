@@ -190,6 +190,10 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         artifacts["oracle_bundle/oracle_independence_receipt.json"] = sha256_file(out_dir / "oracle_bundle" / "oracle_independence_receipt.json")
     if (out_dir / "oracle_bundle" / "negative_control_universe.parquet").exists():
         artifacts["oracle_bundle/negative_control_universe.parquet"] = sha256_file(out_dir / "oracle_bundle" / "negative_control_universe.parquet")
+    if (out_dir / "temporal_noninterference_receipt.json").exists():
+        artifacts["temporal_noninterference_receipt.json"] = sha256_file(out_dir / "temporal_noninterference_receipt.json")
+    if (out_dir / "oracle_bundle" / "temporal_noninterference_receipt.json").exists():
+        artifacts["oracle_bundle/temporal_noninterference_receipt.json"] = sha256_file(out_dir / "oracle_bundle" / "temporal_noninterference_receipt.json")
 
     return {
         "eval_duration_sec": eval_duration,
