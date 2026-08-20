@@ -1,23 +1,24 @@
-# [IMPL] Issue #AUD-003: D-116 True Independent Economic Parity & Implementation Risk (F04)
+# [IMPL] Issue #AUD-003: D-116 Independent Simulator Parity & Implementation Risk (F04)
 
-**Status:** READY / PROPOSED  
+**Status:** READY / AMENDED  
 **Issue Type:** `IMPLEMENTATION`  
 **Change Class:** `CONTRACT_IMPLEMENTATION` / `NEW_FILE_FAMILY_OR_MODULE`  
 **Labels:** `type:implementation`, `triage`, `rust`, `P0`, `risk`  
-**Owning Authority:** `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §11, Decision `D-116`, arXiv:2603.20319 (P001).
+**Owning Authority:** `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §10.2 (Independent Engine Parity), Decision `D-116`, arXiv:2603.20319 (P001).  
+**Relationships:** Depends on #178 (Population Lineage DAG).
 
 ---
 
 ## 1. Objective
-Implement a truly independent secondary reference simulator and differential reconciliation harness (`v8-core/src/usdm_sim/differential.rs`), moving D-116 from internal self-consistency unit tests to true engine-differential testing as formalized in arXiv:2603.20319 (*P001*), emitting `EngineSensitivity`, `ImplementationUncertaintyInterval`, and `ConclusionStability` receipts.
+Implement an independent secondary reference simulator and order-by-order differential reconciliation harness in pure Rust (`v8-core/src/usdm_sim/differential.rs`), establishing true engine-differential testing as required by Decision `D-116` and arXiv:2603.20319 (*P001*), enforcing exact normative tolerance thresholds and evaluating implementation stability.
 
 ---
 
 ## 2. Owning Authority
-- **Primary Specification:** [`docs/contracts/VENUE_AND_CAPITAL_SIMULATION_SPEC.md`](docs/contracts/VENUE_AND_CAPITAL_SIMULATION_SPEC.md) §11 (D-116 Independent Engine Verification).
-- **Decision Authority:** `D-116` (Differential execution verification).
+- **Primary Specification:** [`docs/contracts/VENUE_AND_CAPITAL_SIMULATION_SPEC.md`](docs/contracts/VENUE_AND_CAPITAL_SIMULATION_SPEC.md) §10.2 (D-116 Independent Simulator Verification).
+- **Decision Authority:** `D-116` (Dual simulator differential certification).
 - **Academic Literature:**
-  - `P001` (arXiv:2603.20319): *Implementation Risk in Portfolio Backtesting: A Previously Unquantified Source of Error* (Differential backtesting & implementation uncertainty).
+  - `P001` (arXiv:2603.20319): *Implementation Risk in Portfolio Backtesting: A Previously Unquantified Source of Error* (Differential testing & implementation uncertainty).
 
 ---
 
@@ -27,20 +28,28 @@ Implement a truly independent secondary reference simulator and differential rec
 ---
 
 ## 4. Current State
-- The report marks D-116 as `PASS` based on internal `cashflow::tests` and `usdm_sim::tests`.
-- Under the rigorous definitions of P001, executing Rust tests against the same Rust modules proves internal arithmetic consistency, not independent implementation invariance.
-- Differences in discrete order step rounding, margin rounding, fee compounding, and liquidation sequence across independent engines can diverge strategy outcomes.
+- The report currently marks D-116 as `PASS` based on internal `cashflow::tests` and `usdm_sim::tests`.
+- Executing tests against the same Rust codebase confirms self-consistency, not independent implementation parity.
+- Differential verification requires comparing against an isolated reference implementation with contract-pinned tolerance limits.
 
 ---
 
 ## 5. Required End State
-1. **Independent Reference Simulator Harness:**
-   - Standalone reference implementation modeling Binance USD-M matching and margin rules without sharing internal allocator/cashflow helper structs.
+1. **Independent Reference Simulator:**
+   - Standalone reference implementation modeling Binance USD-M matching and margin state without sharing internal helper modules.
 2. **Order-by-Order Differential Ledger:**
-   - Emits `differential_economic_ledger.jsonl` matching fill quantities, fill prices, commission amounts, funding payments, initial/maintenance margin, liquidation trigger points, and terminal wallet equity.
-3. **Implementation Uncertainty Metrics:**
-   - Compute `EngineSensitivity`, `ImplementationUncertaintyInterval`, and `ConclusionStability` emitted to `implementation_risk.json`.
-   - Any divergence exceeding 1e-6 USDT on identical deterministic input triggers failure.
+   - Emits `differential_economic_ledger.jsonl` matching fill quantities, fill prices, fees, funding payments, initial/maintenance margin, and wallet balances.
+3. **Contract-Pinned Tolerance Invariants (D-116 §10.2):**
+   - **Quantity:** Exact ($0.0$ difference).
+   - **Commission / Fee Drag:** $|\Delta \text{Fee}| \le 1.0 \times 10^{-6}$ USDT.
+   - **Funding Cashflow:** $|\Delta \text{Funding}| \le 1.0 \times 10^{-6}$ USDT.
+   - **Terminal Wallet Balance:** $|\Delta \text{Wallet}| \le 1.0 \times 10^{-4}$ USDT.
+4. **Implementation Risk Evaluation:**
+   - Emits `implementation_risk.json` reporting:
+     - `EngineSensitivity`
+     - `ImplementationUncertaintyInterval`
+     - `ConclusionStability`: Evaluated as `STABLE | UNSTABLE | INCONCLUSIVE`.  
+       *(Note: Finding `UNSTABLE` is a valid, successful completion of the audit check; it blocks economic certification without failing the audit issue).*
 
 ---
 
@@ -55,9 +64,9 @@ v8-core/src/audit/differential_engine.rs
 
 ## 7. Verification Gates
 1. `cargo test --manifest-path v8-core/Cargo.toml` passing.
-2. Differential reconciliation test verifying 100% agreement across 10,000 synthetic + real trades.
-3. `implementation_risk.json` generated with `ConclusionStability: Stable`.
-4. Automated gate blocking PR if differential error $> 0.0001\%$.
+2. Differential reconciliation test verifying tolerance compliance on test dataset.
+3. Generation of `implementation_risk.json` with valid `ConclusionStability` state.
+4. Report output updated to show D-116 status derived from differential ledger comparisons.
 
 ---
 
@@ -68,21 +77,21 @@ v8-core/src/audit/differential_engine.rs
 ---
 
 ## 9. Non-Goals / Forbidden Scope
-- Does not replace primary optimized runtime engine in `v8-core/src/usdm_sim/`.
-- Does not change exchange rules or VIP tiers.
+- Does not modify primary simulation rules or fee constants.
+- Does not force `ConclusionStability == STABLE` if the engines diverge.
 
 ---
 
 ## 10. Guards
-- [ ] Reference engine MUST NOT share internal state or helper structs with the primary simulator.
-- [ ] D-116 status in reports MUST reflect differential comparison, not self-consistency unit tests.
+- [ ] Reference engine MUST NOT share mutable state or helper types with primary engine.
+- [ ] Tolerance thresholds must strictly match D-116 §10.2 (exact qty, 1e-6 fees/funding, 1e-4 wallet).
 
 ---
 
 ## 11. Normative Traceability
-- **R1 — Independent Differential Parity:** Full transaction-level equivalence against an isolated reference implementation.  
-  *Authority:* `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §11; Decision `D-116`.
-- **R2 — Implementation Uncertainty Quantification:** Emits `implementation_risk.json` under P001 framework.  
+- **R1 — Independent Engine Differential Parity:** Order-by-order differential ledger matching within D-116 tolerances.  
+  *Authority:* `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §10.2; Decision `D-116`.
+- **R2 — Implementation Uncertainty Quantification:** Emits `implementation_risk.json`.  
   *Authority:* arXiv:2603.20319 §4.
 
 ---
@@ -95,18 +104,23 @@ v8-core/src/audit/differential_engine.rs
 ---
 
 ## 13. Mathematical / Semantic Invariants
-- **I1 — Cashflow Differential Invariant:** $\forall t, |\text{Wallet}_{\text{Primary}}(t) - \text{Wallet}_{\text{Ref}}(t)| < \epsilon$.
-- **I2 — Ranking Invariance:** $\text{Rank}_{\text{Primary}}(\text{Policies}) == \text{Rank}_{\text{Ref}}(\text{Policies})$.
+- **I1 — Quantity Parity:** $\Delta \text{Qty} \equiv 0.0$.
+- **I2 — Fee Parity:** $|\Delta \text{Fee}| \le 10^{-6}\text{ USDT}$.
+- **I3 — Funding Parity:** $|\Delta \text{Funding}| \le 10^{-6}\text{ USDT}$.
+- **I4 — Wallet Parity:** $|\Delta \text{Wallet}| \le 10^{-4}\text{ USDT}$.
 
 ---
 
 ## 14. Canonical Failure Semantics
-- Implementation divergence detected $\implies$ `Err(SimError::DifferentialParityFailure)`.
+- Divergence exceeding D-116 threshold $\implies$ `Record(DifferentialVerdict::TolerancesExceeded)`.
 
 ---
 
 ## 15. Dependency Map
 ```text
+[#178: Population Lineage DAG]
+              │
+              ▼
 Order Stream / Market Tape
            │
      ┌─────┴─────┐

@@ -1,54 +1,55 @@
-# [IMPL] Issue #AUD-008: Maker Fill Probability × Adverse Selection Frontier & Markouts (F13, F14, F16, F29)
+# [RESEARCH] Issue #AUD-008: L1/L2 Tape Identifiability for Passive Execution & Maker TCA (F13, F14, F16, F29)
 
-**Status:** READY / PROPOSED  
-**Issue Type:** `IMPLEMENTATION`  
-**Change Class:** `CONTRACT_IMPLEMENTATION` / `NEW_FILE_FAMILY_OR_MODULE`  
-**Labels:** `type:implementation`, `triage`, `rust`, `P1`, `execution`  
-**Owning Authority:** `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §6–8, arXiv:2502.18625 (P017), arXiv:2409.12721 (P018), arXiv:2603.24137 (P019), arXiv:2608.04373 (P032).
+**Status:** DATA-BLOCKED / RESEARCH  
+**Issue Type:** `RESEARCH`  
+**Change Class:** `NEW_FILE_FAMILY_OR_MODULE`  
+**Labels:** `type:research`, `triage`, `rust`, `P1`, `execution`  
+**Owning Authority:** `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §6, §8, `TARGET_ORACLE_SPEC.md` §8 (Identifiability Bounds), arXiv:2502.18625 (P017), arXiv:2409.12721 (P018).  
+**Relationships:** Blocked on sequenced trade tape / L2 depth.
 
 ---
 
 ## 1. Objective
-Implement passive limit order (Maker) simulation incorporating joint fill probability ($P_{\text{fill}}$), queue position dynamics, post-fill adverse selection markouts, and state-dependent transaction cost surfaces in pure Rust (`v8-core/src/usdm_sim/maker_model.rs`), preventing naive fee-substitution and identifying viable passive alpha.
+Investigate whether the available market data tape supports non-parametric or empirical identification of passive limit order fill probability ($P_{\text{fill}}$), queue position dynamics, and post-fill adverse selection markouts, and determine the empirical boundary between `IDENTIFIED`, `MODEL_DERIVED_STRESS_ONLY`, and `NOT_IDENTIFIABLE` passive execution claims.
 
 ---
 
 ## 2. Owning Authority
 - **Primary Specification:** [`docs/contracts/VENUE_AND_CAPITAL_SIMULATION_SPEC.md`](docs/contracts/VENUE_AND_CAPITAL_SIMULATION_SPEC.md) §6 (TCA & Friction), §8 (Order Execution Fidelity).
+- **Oracle Identifiability:** [`docs/contracts/TARGET_ORACLE_SPEC.md`](docs/contracts/TARGET_ORACLE_SPEC.md) §8 (Execution Authority Bounds).
 - **Academic Literature:**
-  - `P017` (arXiv:2502.18625): *The Market Maker's Dilemma: Navigating Fill Probability vs. Post-Fill Returns*.
+  - `P017` (arXiv:2502.18625): *The Market Maker's Dilemma: Fill Probability vs Post-Fill Returns*.
   - `P018` (arXiv:2409.12721): *Market Simulation under Adverse Selection*.
-  - `P019` (arXiv:2603.24137): *Bridging the Reality Gap in Limit Order Book Simulation*.
-  - `P032` (arXiv:2608.04373): *Public Trader Identity: Adverse Selection and Return Predictability*.
 
 ---
 
 ## 3. Change Class
-`CONTRACT_IMPLEMENTATION` / `NEW_FILE_FAMILY_OR_MODULE`
+`NEW_FILE_FAMILY_OR_MODULE`
 
 ---
 
 ## 4. Current State
-- `v8-core` currently applies unconditional Taker fees (VIP0: 0.05% entry + 0.05% exit = 0.10% roundtrip) to all expert signals.
-- In 1h/15m timeframes, taker friction consumes otherwise positive gross alpha.
-- Simply swapping fees to 0.02% maker without modeling queue position, fill rates, and adverse selection ("winner's curse") is invalid and overestimates passive performance.
+- The runtime currently uses 1h OHLCV bar data. Under `TARGET_ORACLE_SPEC.md` §8, bar data alone cannot identify queue priority, partial fills, or microsecond adverse selection without making unsupported model assumptions.
+- Any passive maker model evaluated on bar data must remain strictly labeled `MODEL_DERIVED_STRESS_ONLY` until calibrated on high-resolution tick/trade data.
 
 ---
 
 ## 5. Required End State
-1. **Maker Fill Probability & Queue Model:**
-   - Joint model: $P_{\text{fill}}(\Delta p, \text{volatility}, \text{volume}, \text{queue\_percentile})$.
-   - Intrabar touch vs fill resolution. Emits `maker_fill_markout.parquet`.
-2. **Post-Fill Markout Distribution:**
-   - 1-bar, 5-bar, 10-bar forward post-fill return curves to quantify adverse selection penalty. Emits `markouts.parquet`.
-3. **Queue Sensitivity & Cost Surface:**
-   - State-dependent transaction cost engine based on volume/volatility stress. Emits `queue_sensitivity.parquet` and `cost_surface.parquet`.
+1. **Identifiability Diagnostic Harness:**
+   - Evaluates whether available tape supports:
+     - (A) Non-parametric fill bounding via Brownian bridge touch probabilities.
+     - (B) Post-fill return trajectories at $+1$, $+5$, $+10$ bar markout horizons.
+2. **Outcome Classification:**
+   - Emit `maker_identifiability_receipt.json` certifying whether passive execution is:
+     - `PASS`: Adequate empirical calibration supported by data.
+     - `DATA_BLOCKED`: Data resolution insufficient for causal claim; restricted to sensitivity stress.
+3. **Artifact Generation:**
+   - Emits `maker_identifiability_receipt.json` and `markouts.parquet`.
 
 ---
 
 ## 6. Expected File / Module Surface
 ```text
-v8-core/src/usdm_sim/mod.rs
 v8-core/src/usdm_sim/maker_model.rs
 v8-core/src/analysis/markouts.rs
 ```
@@ -57,70 +58,60 @@ v8-core/src/analysis/markouts.rs
 
 ## 7. Verification Gates
 1. `cargo test --manifest-path v8-core/Cargo.toml` passing.
-2. Adverse selection test: verifying that higher fill probability in trending regimes coincides with higher initial adverse markout.
-3. Queue sensitivity test: verifying fill rate decreases monotonically with queue depth.
-4. Parquet output validation for markout trajectories.
+2. Zero passive profit claims emitted without explicit `MODEL_DERIVED` authority labels on 1h tape.
+3. Markout trajectory evaluation verifies that post-fill return curves are recorded objectively.
 
 ---
 
 ## 8. Required Evidence Artifacts
-- `maker_fill_markout.parquet`
+- `maker_identifiability_receipt.json`
 - `markouts.parquet`
-- `queue_sensitivity.parquet`
-- `cost_surface.parquet`
 
 ---
 
 ## 9. Non-Goals / Forbidden Scope
-- Does not grant unconditional maker execution authority without sequenced L2/trade tape evidence.
-- Does not replace taker baseline in production runs.
+- Does not grant unconditional maker execution authority on OHLCV-only tape.
+- Does not substitute 0.02% maker fee without modeling adverse selection markouts.
 
 ---
 
 ## 10. Guards
-- [ ] No maker profit claim may be made from fee schedule alone without calibrated fill and adverse selection penalties.
-- [ ] When L2 queue data is unavailable, passive claims must be flagged as `MODEL_DERIVED`.
+- [ ] Fee substitution alone is strictly forbidden under Rule 12 and `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §8.3.
 
 ---
 
 ## 11. Normative Traceability
-- **R1 — Joint Fill / Adverse Selection Modeling:** Enforces joint $P_{\text{fill}} \times \text{Markout}$ frontier.  
-  *Authority:* `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §8.3; arXiv:2502.18625 §2.
-- **R2 — State-Dependent Cost Surfaces:** Frictional stress varies with volatility/spread.  
-  *Authority:* arXiv:2507.09196 §3.
+- **R1 — Execution Identifiability:** Requires explicit data authority for passive claims.  
+  *Authority:* `TARGET_ORACLE_SPEC.md` §8.3; arXiv:2502.18625 §2.
 
 ---
 
 ## 12. Existing Types / Interfaces to Reuse
+- `v8-core::oracle::taxonomy::AuthorityLevel`
+- `v8-core::oracle::taxonomy::Identifiability`
 - `v8-core::venue::VenueContract`
-- `v8-core::cashflow::EconomicCashflow`
-- `v8-core::quant::BrownianBridgeAmbiguity`
 
 ---
 
 ## 13. Mathematical / Semantic Invariants
-- **I1 — Monotonic Distance Fill:** $\frac{\partial P_{\text{fill}}}{\partial (\text{distance})} \le 0$.
-- **I2 — Net Maker Utility:** $\mathbb{E}[U_{\text{maker}}] = P_{\text{fill}} \times (\text{Gross} - \text{Fee}_{\text{maker}} - \text{AdverseMarkout}) - (1 - P_{\text{fill}}) \times \text{OpportunityCost}$.
+- **I1 — Model Derived Constraint:** $\text{DataType} = \text{OHLCV} \implies \text{Authority}(\text{PassiveFill}) \equiv \text{ModelDerived}$.
 
 ---
 
 ## 14. Canonical Failure Semantics
-- Zero fill under adverse movement $\implies$ `Record(FillStatus::UnfilledAdverseMove)`.
+- Insufficient tape resolution $\implies$ `Record(ExecutionIdentifiability::DataBlocked)`.
 
 ---
 
 ## 15. Dependency Map
 ```text
-Order Stream + Market Microstructure
-                 │
-                 ▼
-       [Maker Queue Engine] ──► maker_fill_markout.parquet
-                 │
-                 ▼
-     [Post-Fill Markout Audit] ──► markouts.parquet
+Sequenced Market Tape / Bar Data
+               │
+               ▼
+   [Maker Identifiability Harness] ──► maker_identifiability_receipt.json
 ```
 
 ---
 
 ## 16. Ambiguity / OPEN_PIN Triggers
-- If adverse selection exceeds gross signal expectancy in $>80\%$ of passive fills, flag `UNVIABLE_PASSIVE_ALPHA` and notify.
+- If passive alpha claim is made without accompanying markout analysis, STOP and fail closed.
