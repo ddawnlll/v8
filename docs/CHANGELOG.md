@@ -2,6 +2,22 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-20 — Hoist invariant outcome-cube code hash (issue #205, D-083)
+
+Measured the warm S6 parity gate at 87.89 seconds and attributed 95.99 of
+108.74 profiled seconds to 4,422 repeated `_code_hash()` calls. The legacy
+`tools/regret.py` evaluator now computes the unchanged decision-path code hash
+once per `write_cube` invocation and reuses it for every emitted cell. Focused
+tests bind the one-call lifetime, exact row provenance, and standalone fallback.
+The frozen `src/v8` oracle and all output semantics remain unchanged. The same
+warm S6 parity command passed in 8.14 seconds after the patch versus 87.89
+seconds before it (approximately 9.74x by external wall measurement); the Rust
+binary was not rebuilt in either measured run. This is a local gate-speed
+measurement, not an economic or general compute-speed claim.
+
+Artifacts changed: `tools/regret.py`, `tests/test_regret_phase0.py`,
+`docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-20 — Windows parity binary-path fix (issue #203)
 
 Fixed the shared Python parity fixture to resolve Cargo's exact Windows release

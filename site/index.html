@@ -10972,6 +10972,19 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-20-hoist-invariant-outcome-cube-code-hash-issue-205-d-083">2026-08-20 — Hoist invariant outcome-cube code hash (issue #205, D-083)</h2>
+<p>Measured the warm S6 parity gate at 87.89 seconds and attributed 95.99 of
+108.74 profiled seconds to 4,422 repeated <code>_code_hash()</code> calls. The legacy
+<code>tools/regret.py</code> evaluator now computes the unchanged decision-path code hash
+once per <code>write_cube</code> invocation and reuses it for every emitted cell. Focused
+tests bind the one-call lifetime, exact row provenance, and standalone fallback.
+The frozen <code>src/v8</code> oracle and all output semantics remain unchanged. The same
+warm S6 parity command passed in 8.14 seconds after the patch versus 87.89
+seconds before it (approximately 9.74x by external wall measurement); the Rust
+binary was not rebuilt in either measured run. This is a local gate-speed
+measurement, not an economic or general compute-speed claim.</p>
+<p>Artifacts changed: <code>tools/regret.py</code>, <code>tests/test_regret_phase0.py</code>,
+<code>docs/CHANGELOG.md</code>, <code>site/index.html</code>, <code>site/tr.html</code>.</p>
 <h2 id="2026-08-20-windows-parity-binary-path-fix-issue-203">2026-08-20 — Windows parity binary-path fix (issue #203)</h2>
 <p>Fixed the shared Python parity fixture to resolve Cargo's exact Windows release
 executable name (<code>v8-core.exe</code>) while preserving the extensionless POSIX name,

@@ -13,6 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))   # repo root for tools/
 
 import pytest
+import tools.regret as regret_tools
 
 from v8.experts import TrendPullbackExpert, FailedBreakoutExpert
 from v8.lab import Lab
@@ -22,7 +23,7 @@ from v8.synth import make_synthetic_tape
 
 from tools.regret import (
     load_store, build_snapshots, assert_pit_lineage, reconcile_actual_actions,
-    generate_legal_actions, replay_action, compute_gap, run_phase0,
+    generate_legal_actions, replay_action, write_cube, compute_gap, run_phase0,
     _build_simulator, _bars_by_time, _states_by_time, _funding_decomposable,
     CELL_OK, CELL_UNDEFINED_FUTURE, CELL_NO_ENTRY,
     GAP_COMPUTED, GAP_ABSTAINED_UNDEFINED, GAP_NOT_APPLICABLE_NO_ACTUAL_ACTION,
@@ -181,6 +182,58 @@ def test_gap_invariant_never_negative_on_golden(tmp_path):
         assert r['legal_hindsight_gap'] >= -1e-9, (
             f"{r['candidate_id']}: negative gap means a_actual was not in A_t")
         assert r['tie_cardinality'] == len(r['best_action_ids'])
+
+
+def test_write_cube_computes_code_hash_once_and_reuses_exact_value(
+        tmp_path, monkeypatch):
+    store = load_store(_golden_store(tmp_path))
+    snapshots = build_snapshots(store)
+    calls = 0
+
+    def code_hash():
+        nonlocal calls
+        calls += 1
+        return 'sentinel-code-hash'
+
+    monkeypatch.setattr(regret_tools, '_code_hash', code_hash)
+    cube_path = tmp_path / 'cube.jsonl'
+    _, n_rows = write_cube(store, cube_path, snapshots)
+    rows = AppendOnlyLog(cube_path).read()
+
+    assert n_rows > 1
+    assert calls == 1
+    assert len(rows) == n_rows
+    assert {row['code_hash'] for row in rows} == {'sentinel-code-hash'}
+
+
+def test_replay_action_code_hash_override_preserves_fallback(
+        tmp_path, monkeypatch):
+    store = load_store(_golden_store(tmp_path))
+    snap = next(s for s in build_snapshots(store)
+                if s.binding_status == 'BOUND')
+    action = generate_legal_actions(snap.risk_geometry).actions[0]
+    sim = _build_simulator(store)
+    bars, idx_by_time = _bars_by_time(store)
+    states_by_time = _states_by_time(store)
+    funding_ok = _funding_decomposable(store)
+    calls = 0
+
+    def code_hash():
+        nonlocal calls
+        calls += 1
+        return 'fallback-code-hash'
+
+    monkeypatch.setattr(regret_tools, '_code_hash', code_hash)
+    fallback = replay_action(
+        store, sim, snap, action, bars, idx_by_time, states_by_time,
+        'manifest', None, funding_ok)
+    supplied = replay_action(
+        store, sim, snap, action, bars, idx_by_time, states_by_time,
+        'manifest', None, funding_ok, code_hash='supplied-code-hash')
+
+    assert calls == 1
+    assert fallback.code_hash == 'fallback-code-hash'
+    assert supplied.code_hash == 'supplied-code-hash'
 
 
 # --------------------------------------------------------------------- #
