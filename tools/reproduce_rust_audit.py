@@ -178,6 +178,14 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         artifacts["oracle_bundle/unknown_reasons.json"] = sha256_file(out_dir / "oracle_bundle" / "unknown_reasons.json")
     if (out_dir / "oracle_bundle" / "power_materiality.json").exists():
         artifacts["oracle_bundle/power_materiality.json"] = sha256_file(out_dir / "oracle_bundle" / "power_materiality.json")
+    if (out_dir / "oracle_bundle" / "population_lineage.jsonl").exists():
+        artifacts["oracle_bundle/population_lineage.jsonl"] = sha256_file(out_dir / "oracle_bundle" / "population_lineage.jsonl")
+    if (out_dir / "oracle_bundle" / "cohort_manifest.json").exists():
+        artifacts["oracle_bundle/cohort_manifest.json"] = sha256_file(out_dir / "oracle_bundle" / "cohort_manifest.json")
+    if (out_dir / "oracle_bundle" / "report_reconciliation.json").exists():
+        artifacts["oracle_bundle/report_reconciliation.json"] = sha256_file(out_dir / "oracle_bundle" / "report_reconciliation.json")
+    if (out_dir / "oracle_bundle" / "report_cell_provenance.parquet").exists():
+        artifacts["oracle_bundle/report_cell_provenance.parquet"] = sha256_file(out_dir / "oracle_bundle" / "report_cell_provenance.parquet")
 
     return {
         "eval_duration_sec": eval_duration,
