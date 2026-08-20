@@ -8,6 +8,7 @@
 pub mod agents;
 pub mod authority_surface;
 pub mod html_report;
+pub mod lineage;
 pub mod manifest;
 pub mod paths;
 pub mod regression;
@@ -144,19 +145,36 @@ impl EvaluationEngine {
             fs::create_dir_all(out.join(dir_name))?;
         }
 
-        // 1. Funnel Conservation
+        // 1. Population Lineage DAG & Independent Observation (Issue #AUD-002)
         let n_evals = if evaluations.is_empty() { candidates.len() * 10 } else { evaluations.len() };
-        let n_setups = n_deduplicated + vetoes.len() + trades.len();
+        let observed_setups = if evaluations.is_empty() {
+            n_deduplicated + candidates.len()
+        } else {
+            evaluations.iter().filter(|e| e.fired).count()
+        };
+        let admitted_candidates = candidates.len().saturating_sub(vetoes.len());
+
+        let lineage_dag = lineage::PopulationLineageDag::build(
+            observed_setups,
+            n_deduplicated,
+            candidates.len(),
+            vetoes.len(),
+            admitted_candidates,
+            trades.len(),
+            &format!("{}-{}", self.symbol, self.timeframe),
+        );
+        lineage_dag.save_artifacts(out)?;
+
         let funnel = FunnelConservation::new(
             n_evals,
-            n_setups,
+            observed_setups,
             n_deduplicated,
             vetoes.len(),
-            trades.len(),
+            admitted_candidates,
         );
 
-        // 2. Validity Gates
-        let accounting_mismatch = !funnel.invariant_holds;
+        // 2. Validity Gates (Fail-Closed on DAG violation)
+        let accounting_mismatch = !lineage_dag.overall_dag_valid;
         let validity_gates = ValidityGates::evaluate(
             temporal_leakage,
             accounting_mismatch,

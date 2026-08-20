@@ -21,7 +21,7 @@ This is a measurement ledger, not a performance scorecard. Friction, missing fie
 | `#164` | `IMPL` | Capital-Constrained USDM Simulator | Yes | None (Full R1..R8 & I1..I6 provided) | Pending | Yes | Nominal (<60s) | First issue using v1.2 context-completeness contract |
 | `#192` | `GOV` | Branch Protection Enforcement | Yes | None | 0 | Yes | 0s | Enforced remote branch protection on main |
 | `#186` | `GOV` | Epistemic Taxonomy & Authority Surface | Yes | None | 0 | Yes | Nominal (<60s) | Pinned 4 orthogonal axes & Rule 12 enforcement |
-| `P-04` | | | | | | | | |
+| `#178` | `IMPL` | Population Lineage DAG & Reconciliation | Yes | None | 0 | Yes | Nominal (<60s) | Implemented DAG, independent observation, and reconciliation gate |
 | `P-05` | | | | | | | | |
 | `P-06` | | | | | | | | |
 | `P-07` | | | | | | | | |

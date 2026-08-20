@@ -1132,7 +1132,7 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
       <div class="kpi">
         <div class="k">Conservation Invariant (Δ)</div>
         <div class="v {'pos' if conservation_holds else 'neg'}">Δ = {funnel_delta} ({conservation_gate})</div>
-        <div class="d">42,647 == 14,766 + 27,879 + 2</div>
+        <div class="d">{n_setups:,} == {n_supp:,} + {n_rej:,} + {n_cands:,}</div>
       </div>
     </div>
   </div>

@@ -215,7 +215,7 @@ pub fn render_html_report(
           <tr><td>S1: Setups Triggered</td><td>{}</td></tr>
           <tr><td>S3: Deduplicated (D-026)</td><td>{}</td></tr>
           <tr><td>S5: Vetoed (Risk/Capacity)</td><td>{}</td></tr>
-          <tr><td>S6-S7: Admitted Trades</td><td><strong>{}</strong></td></tr>
+          <tr><td>S5: Admitted Candidates</td><td><strong>{}</strong></td></tr>
         </tbody>
       </table>
     </section>

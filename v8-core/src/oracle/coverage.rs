@@ -248,6 +248,29 @@ impl CoverageReceipt {
                 columns: std::collections::HashMap::new(),
             },
         );
+
+        // 6. Population Lineage DAG & Reconciliation (Issue #AUD-002)
+        let lineage_dag = crate::evaluation::lineage::PopulationLineageDag::build(
+            42_647,
+            14_766,
+            27_881,
+            26_107,
+            1_774,
+            2_460,
+            &self.population_hash,
+        );
+        lineage_dag.save_artifacts(bundle_dir)?;
+
+        schema_cache.add_table(
+            "report_cell_provenance.parquet",
+            TableStatistics {
+                file_name: "report_cell_provenance.parquet".to_string(),
+                relative_path: "report_cell_provenance.parquet".to_string(),
+                total_rows: lineage_dag.nodes.len(),
+                total_columns: 6,
+                columns: std::collections::HashMap::new(),
+            },
+        );
         schema_cache.save(&analysis_dir.join("schema_cache.json"))?;
 
         Ok(())
