@@ -171,14 +171,17 @@ v8-core/
     report.rs       verdict report artifacts, ledger audit checks (hash-bound)
     cache.rs        content-addressed DAG cache
     evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
-    hash.rs         V8.2 canonical bit encoding (D-079)
+    hash.rs         V8.2 canonical bit encoding (D-079) + BLAKE3/SHA-256 (D-120)
     jsonx.rs        Python-json-compatible tape parser (NaN/Infinity literals)
     mt19937.rs      bit-exact CPython Mersenne Twister — not in the original
                      §6 table (§4)
+    error.rs        strongly-typed V8CoreError taxonomy (D-119, #208)
+    path_security.rs path sanitization & traversal defense (D-120, #209)
+    telemetry.rs    tracing & metrics facades (D-120, #209)
+    checkpoint.rs   atomic simulation checkpoint & resume engine (D-122, #211)
     backend/        ReplayKernel boundary + scalar, CPU/SIMD and optional
                     Linux Vulkan f64 GPU backend (D-098)
-    scheduler.rs    deterministic task scheduling/chunking and fail-closed
-                    worker handling
+    scheduler.rs    deterministic task scheduling/chunking, evaluate_typed (D-119)
     runloop.rs      S4 per-bar composition and runtime dispatch wiring
   tests/            empty — parity is proven by #[cfg(test)] unit tests
                      embedded in each src/*.rs module plus the Python-side
@@ -220,6 +223,10 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `tools/vision_backfill.py` | Vision monthly klines -> JSONL PIT tape (three clocks) + audit | CLI `--symbol --interval --month --out [--audit]` | FEED_INGESTION_SPEC §4-5 |
 | `tools/materialize_views.py` | DATASET_SPEC §5 parquet views from a pinned manifest; fails closed on hash mismatch | CLI `--manifest --store` | DATASET_SPEC §5; compile-once (rule 17) |
 | `tests/test_vertical_slice.py` | runnable contract gates (vertical slice) | pytest | audit gate; PROJECT_EVIDENCE_AUDIT |
+| `v8-core/src/error.rs` | Strongly-typed central runtime error taxonomy (`V8CoreError`) | `V8CoreError` enum + error conversions | COMPUTE_CORE_SPEC §4; D-119 |
+| `v8-core/src/path_security.rs` | Path sanitization & traversal defense | `sanitize_path` | FEED_INGESTION_SPEC §5; D-120 |
+| `v8-core/src/telemetry.rs` | Structured tracing & metrics facades | `init_telemetry`, `record_duration_metric` | OPERATIONS_SPEC §2; D-120 |
+| `v8-core/src/checkpoint.rs` | Atomic simulation state checkpoint & resume | `SimulationCheckpoint.save_to_file/load_from_file` | PERSISTENCE_REPLAY_SPEC §4; D-122 |
 
 ## 3. Layering rules
 
@@ -247,6 +254,7 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `statistics.rs`/`analysis.rs` designed as single files (`COMPUTE_CORE_SPEC` §6) | `v8-core/src/statistics/` (4 files, 2,373 lines), `v8-core/src/analysis/` (6 files, 5,030 lines) | **DOCUMENTED, not reversed** — `17e506a`/`5accfc6` (S4-S7 Waves): each surface grew past a comfortable single file during the S6/S7 port (D-091's bounded-surface estimate — `regret_phase1/2/3.py` ≈27 KB, `statistics.py` 767 lines — held for total scope but not for single-file ergonomics); split by pipeline stage (`phase1`/`phase2`/`phase3`/`reconcile`/`outcome` under `analysis/`, `reality_check`/`detrended`/`remaining` under `statistics/`) rather than left as one growing file. Functionally equivalent to the spec's module list; `COMPUTE_CORE_SPEC` §6 itself is left as the original design record, not rewritten |
 | `features.rs`, `runloop.rs`, `mt19937.rs` absent from `COMPUTE_CORE_SPEC` §6's module table | `v8-core/src/features.rs`, `runloop.rs`, `mt19937.rs` | **DOCUMENTED, not reversed** — `17e506a` (`features.rs`, `mt19937.rs`) / `5accfc6` (`runloop.rs`): the S4-S7 design pass discovered three roles the original 12-module table did not name — the D-053 per-Expert feature-group projection (distinct from `FeatureStore`/`StateView`'s whole-tape feature computation), the S4 per-bar composition loop binding `ExpertPlane` output into `CandidateBuffer` (the `evaluate` subcommand's own logic, not reducible to either), and bit-exact CPython RNG reproduction required for S7 verdict-statistics parity. None replaces a named module; each is additive (D-092/D-095) |
 | `tests/parity.rs` designed as a Rust integration-test file (`COMPUTE_CORE_SPEC` §6) | `v8-core/tests/` is empty; parity is proven by `#[cfg(test)]` unit tests inside each `src/*.rs` module plus the Python-side harness `tests/parity/*.py` at the repo root | **DOCUMENTED, not reversed** — `17e506a` onward: every stage gate (S0..S7) is driven from the Python side because the oracle (`src/v8/`) it compares against is Python; a Rust-only `tests/parity.rs` would need to re-embed or shell out to the oracle for no benefit over the existing harness. `PARITY_AND_IDENTITY_SPEC` §5.2 already specifies the Python-driven harness; §6's `tests/parity.rs` line predates that specification |
+| Core modernization modules (`error.rs`, `path_security.rs`, `telemetry.rs`, `checkpoint.rs`, `Dataset::from_mmap_path`) | `v8-core/src/{error, path_security, telemetry, checkpoint, data}.rs` | **DOCUMENTED, not reversed** — D-119..D-122 (Issue #208..#211): Added strongly-typed error taxonomy, path sanitization, metrics/tracing facades, atomic simulation checkpointing, and zero-copy mmap streaming to harden core production runtime |
 
 Divergences are closed by code change; closure is recorded here with the
 closing commit and in the CHANGELOG — never by editing this table alone.

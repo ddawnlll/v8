@@ -8054,14 +8054,17 @@ table.</p>
     report.rs       verdict report artifacts, ledger audit checks (hash-bound)
     cache.rs        content-addressed DAG cache
     evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
-    hash.rs         V8.2 canonical bit encoding (D-079)
+    hash.rs         V8.2 canonical bit encoding (D-079) + BLAKE3/SHA-256 (D-120)
     jsonx.rs        Python-json-compatible tape parser (NaN/Infinity literals)
     mt19937.rs      bit-exact CPython Mersenne Twister — not in the original
                      §6 table (§4)
+    error.rs        strongly-typed V8CoreError taxonomy (D-119, #208)
+    path_security.rs path sanitization &amp; traversal defense (D-120, #209)
+    telemetry.rs    tracing &amp; metrics facades (D-120, #209)
+    checkpoint.rs   atomic simulation checkpoint &amp; resume engine (D-122, #211)
     backend/        ReplayKernel boundary + scalar, CPU/SIMD and optional
                     Linux Vulkan f64 GPU backend (D-098)
-    scheduler.rs    deterministic task scheduling/chunking and fail-closed
-                    worker handling
+    scheduler.rs    deterministic task scheduling/chunking, evaluate_typed (D-119)
     runloop.rs      S4 per-bar composition and runtime dispatch wiring
   tests/            empty — parity is proven by #[cfg(test)] unit tests
                      embedded in each src/*.rs module plus the Python-side
@@ -8218,6 +8221,30 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td>pytest</td>
 <td>audit gate; PROJECT_EVIDENCE_AUDIT</td>
 </tr>
+<tr>
+<td><code>v8-core/src/error.rs</code></td>
+<td>Strongly-typed central runtime error taxonomy (<code>V8CoreError</code>)</td>
+<td><code>V8CoreError</code> enum + error conversions</td>
+<td>COMPUTE_CORE_SPEC §4; D-119</td>
+</tr>
+<tr>
+<td><code>v8-core/src/path_security.rs</code></td>
+<td>Path sanitization &amp; traversal defense</td>
+<td><code>sanitize_path</code></td>
+<td>FEED_INGESTION_SPEC §5; D-120</td>
+</tr>
+<tr>
+<td><code>v8-core/src/telemetry.rs</code></td>
+<td>Structured tracing &amp; metrics facades</td>
+<td><code>init_telemetry</code>, <code>record_duration_metric</code></td>
+<td>OPERATIONS_SPEC §2; D-120</td>
+</tr>
+<tr>
+<td><code>v8-core/src/checkpoint.rs</code></td>
+<td>Atomic simulation state checkpoint &amp; resume</td>
+<td><code>SimulationCheckpoint.save_to_file/load_from_file</code></td>
+<td>PERSISTENCE_REPLAY_SPEC §4; D-122</td>
+</tr>
 </tbody>
 </table>
 <h2 id="3-layering-rules">3. Layering rules</h2>
@@ -8275,6 +8302,11 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td><code>tests/parity.rs</code> designed as a Rust integration-test file (<code>COMPUTE_CORE_SPEC</code> §6)</td>
 <td><code>v8-core/tests/</code> is empty; parity is proven by <code>#[cfg(test)]</code> unit tests inside each <code>src/*.rs</code> module plus the Python-side harness <code>tests/parity/*.py</code> at the repo root</td>
 <td><strong>DOCUMENTED, not reversed</strong> — <code>17e506a</code> onward: every stage gate (S0..S7) is driven from the Python side because the oracle (<code>src/v8/</code>) it compares against is Python; a Rust-only <code>tests/parity.rs</code> would need to re-embed or shell out to the oracle for no benefit over the existing harness. <code>PARITY_AND_IDENTITY_SPEC</code> §5.2 already specifies the Python-driven harness; §6's <code>tests/parity.rs</code> line predates that specification</td>
+</tr>
+<tr>
+<td>Core modernization modules (<code>error.rs</code>, <code>path_security.rs</code>, <code>telemetry.rs</code>, <code>checkpoint.rs</code>, <code>Dataset::from_mmap_path</code>)</td>
+<td><code>v8-core/src/{error, path_security, telemetry, checkpoint, data}.rs</code></td>
+<td><strong>DOCUMENTED, not reversed</strong> — D-119..D-122 (Issue #208..#211): Added strongly-typed error taxonomy, path sanitization, metrics/tracing facades, atomic simulation checkpointing, and zero-copy mmap streaming to harden core production runtime</td>
 </tr>
 </tbody>
 </table>
@@ -8655,6 +8687,10 @@ historical design record and this table is the correction layer.</p>
 <p>| D-116 | <strong>Economic certification requires an independent cashflow ledger validator.</strong> Production economic claims require differential reconciliation of every order, fill, commission, funding payment, and terminal wallet balance against an independent reference simulator. | LOCKED_INVARIANT candidate | <code>VENUE_AND_CAPITAL_SIMULATION_SPEC</code> §1; ensures monetary accounting has parity verification. |</p>
 <p>| D-117 | <strong>Adopt V8 Work-Item, Pull-Request &amp; Merge Governance v1.2 and initiate 10–20 issue measured pilot.</strong> Deploy 5 Issue Forms with universal context-completeness contract (<code>R#</code> traceability, reused contracts, invariants, canonical failure semantics, dependency map, OPEN_PIN triggers), PR contract with requirement-traceability matrix, real CODEOWNERS routing (<code>@ddawnlll</code>), canonical label catalog (<code>triage</code>), exact CI check binding (<code>check</code>), and authoritative workflow precedence hierarchy (<code>WORK_ITEM_POLICY.md</code>). Pilot tracked in <code>docs/governance/PILOT_TRACKING_RECORD.md</code>. | PROVISIONAL_DECISION | <code>WORK_ITEM_POLICY.md</code> v1.2; closes deployment gaps and replaces all placeholder tokens with authoritative repository bindings. |</p>
 <p>| D-118 | <strong>Quantized-computation applicability boundary and audit.</strong> V8 remains a deterministic IEEE-754 <code>f64</code> compute system with canonical bit identities, fixed reduction order, and scalar/SIMD/backend parity checks. Low-bit / integer / fixed-point quantization is absent by default until an explicit challenger proposal preregisters representation, scale/zero-point, rounding, clipping, accumulator width, calibration population, and frozen-OOS error metrics. <code>docs/audits/QUANTIZED_COMPUTATION_AUDIT.md</code> (and Turkish edition) ground this boundary in recent literature (arXiv:1712.05877, arXiv:2202.07513, arXiv:2408.05148, arXiv:2608.12259). | PROVISIONAL_DECISION | Issue #199; <code>COMPUTE_CORE_SPEC</code> §2, <code>PARITY_AND_IDENTITY_SPEC</code> §1. Retains pure deterministic f64 compute baseline without speed or economic claim. |</p>
+<p>| D-119 | <strong>Strongly-typed error taxonomy &amp; candidate lifecycle finite state machine.</strong> Replace stringly-typed error propagation across runtime evaluation with <code>V8CoreError</code> enum in <code>v8-core/src/error.rs</code> (<code>Scheduler</code>, <code>InvalidCandidateTransition</code>, <code>DataStreaming</code>, <code>Checkpoint</code>, <code>PathSanitization</code>, <code>Serialization</code>, <code>Io</code>, <code>QuantInvariant</code>). Enforce <code>CandidateState</code> lifecycle transitions via <code>legal_typed</code> in <code>v8-core/src/candidate.rs</code> conforming to <code>CANDIDATE_LIFECYCLE_SPEC</code> §2. | PROVISIONAL_DECISION | Issue #208; <code>COMPUTE_CORE_SPEC</code> §4, <code>CANDIDATE_LIFECYCLE_SPEC</code> §2. Eliminates untyped error strings and guarantees compile-time state transition verification. |</p>
+<p>| D-120 | <strong>Multi-digest cryptographic architecture, path sanitization &amp; telemetry facades.</strong> Upgrade hashing surface in <code>v8-core/src/hash.rs</code> to support <code>BLAKE3</code> (high throughput) and <code>SHA-256</code> (collision-resistant audit) while preserving bit-exact legacy <code>SHA-1</code> identity digests. Enforce depth-bounded path traversal defense <code>sanitize_path</code> in <code>v8-core/src/path_security.rs</code>. Integrate structured <code>tracing</code> and <code>metrics</code> facades in <code>v8-core/src/telemetry.rs</code>. | PROVISIONAL_DECISION | Issue #209; <code>PARITY_AND_IDENTITY_SPEC</code> §3, <code>FEED_INGESTION_SPEC</code> §5. Secures input paths and expands cryptographic verification without invalidating historical hashes. |</p>
+<p>| D-121 | <strong>Memory-mapped zero-copy tape streaming &amp; binary IPC serialization.</strong> Introduce <code>Dataset::from_mmap_path</code> via <code>memmap2</code> in <code>v8-core/src/data.rs</code> to provide bounded $O(1)$ memory overhead during high-volume JSONL tape ingestion. Standardize on <code>bincode</code> for zero-copy binary state transfer and persistence. | PROVISIONAL_DECISION | Issue #210; <code>DATASET_SPEC</code> §5, <code>PERSISTENCE_REPLAY_SPEC</code> §1. Prevents high-memory spikes on multi-gigabyte historical replay runs. |</p>
+<p>| D-122 | <strong>Simulation state checkpointing, resume engine &amp; multi-architecture release pipeline.</strong> Introduce atomic checkpointing (<code>SimulationCheckpoint</code> with tmp-write and atomic rename) in <code>v8-core/src/checkpoint.rs</code> to support safe interruption and <code>--resume</code> semantics. Deploy automated multi-target GitHub Actions CI/CD release workflow (<code>.github/workflows/release.yml</code>) for <code>x86_64-unknown-linux-gnu</code> and <code>aarch64-apple-darwin</code>. | PROVISIONAL_DECISION | Issue #211; <code>OPERATIONS_SPEC</code> §2, <code>PERSISTENCE_REPLAY_SPEC</code> §4. Enables long-running simulation fault tolerance and automated artifact delivery. |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -10972,6 +11008,14 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-21-modernize-v8-core-architecture-error-taxonomy-zero-copy-streaming-and-add-accp-v20-verification-suite-issues-208-209-210-211-d-119d-122">2026-08-21 — Modernize v8-core architecture, error taxonomy, zero-copy streaming, and add ACCP v2.0 verification suite (issues #208, #209, #210, #211, D-119..D-122)</h2>
+<p>Resolved four foundational modernization issues in <code>v8-core</code>:
+- <strong>Issue #208 (D-119):</strong> Introduced <code>V8CoreError</code> strongly-typed error taxonomy via <code>thiserror</code> in <code>v8-core/src/error.rs</code>, typed candidate lifecycle enum <code>CandidateState</code> in <code>v8-core/src/candidate.rs</code>, and typed scheduler evaluation <code>evaluate_typed</code>.
+- <strong>Issue #209 (D-120):</strong> Upgraded <code>v8-core/src/hash.rs</code> with <code>BLAKE3</code> and <code>SHA-256</code> digest functions alongside legacy <code>SHA-1</code>, introduced depth-bounded path traversal defense <code>sanitize_path</code> in <code>v8-core/src/path_security.rs</code>, and structured telemetry facades in <code>v8-core/src/telemetry.rs</code>.
+- <strong>Issue #210 (D-121):</strong> Implemented <code>Dataset::from_mmap_path</code> using <code>memmap2</code> for zero-copy $O(1)$ memory overhead tape streaming in <code>v8-core/src/data.rs</code> and standardized on <code>bincode</code> for fast binary serialization.
+- <strong>Issue #211 (D-122):</strong> Built atomic simulation state snapshotting (<code>SimulationCheckpoint</code>) for <code>--resume</code> execution in <code>v8-core/src/checkpoint.rs</code>, and configured multi-architecture release workflow in <code>.github/workflows/release.yml</code>.
+- Generated complete ACCP v2.0 verification suite under <code>reports/accp/P46/source/</code> (<code>P46_BSR_001.accp.yaml</code>, <code>P46_FPR_001.accp.yaml</code>, <code>P46_TVR_001.accp.yaml</code>, <code>P46_PRR_001.accp.yaml</code>).</p>
+<p>Artifacts changed: <code>v8-core/src/{error.rs, candidate.rs, hash.rs, data.rs, scheduler.rs, path_security.rs, telemetry.rs, checkpoint.rs, main.rs}</code>, <code>v8-core/Cargo.toml</code>, <code>.github/workflows/release.yml</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>, <code>reports/accp/P46/source/*.accp.yaml</code>, <code>site/index.html</code>, <code>site/tr.html</code>.</p>
 <h2 id="2026-08-20-hoist-invariant-outcome-cube-code-hash-issue-205-d-083">2026-08-20 — Hoist invariant outcome-cube code hash (issue #205, D-083)</h2>
 <p>Measured the warm S6 parity gate at 87.89 seconds and attributed 95.99 of
 108.74 profiled seconds to 4,422 repeated <code>_code_hash()</code> calls. The legacy
