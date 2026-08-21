@@ -15,5 +15,11 @@
 - Authority conflicts halt as `OPEN_PIN`.
 - **STRICT RULE: ALWAYS PR FIRST (HUMAN DIRECTION ONLY).** Agents create PRs strictly under human direction / task assignment. Agents must never merge pull requests autonomously or push directly to `main`. Merging PRs is strictly reserved for human maintainers or requires explicit, standalone human maintainer direction.
 
+## 🚨 ZERO-SHADOW ARCHITECTURE & MANDATORY REGISTRATION
+- Every new subsystem, module, error taxonomy, or cryptographic upgrade MUST register a `D-xxx` decision in `docs/decisions/DECISION_REGISTER.md` (and `docs/tr/`).
+- Every Rust module must be mapped in `docs/contracts/IMPLEMENTATION_LAYOUT.md`.
+- Every change must be recorded in `docs/CHANGELOG.md` and monographs recompiled via `tools/build_monograph.py`.
+
+
 
 
