@@ -11,6 +11,6 @@
   "requiresHir": false,
   "requiresTvr": true,
   "blocksPromotion": true,
-  "compiledAt": "2026-08-21T19:50:26.052454+00:00",
+  "compiledAt": "2026-08-21T20:12:46.076879+00:00",
   "staleAfter": "on_next_commit"
 }

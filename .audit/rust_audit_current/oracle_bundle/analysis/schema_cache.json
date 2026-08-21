@@ -9,13 +9,6 @@
       "total_columns": 7,
       "columns": {}
     },
-    "authority_surface.parquet": {
-      "file_name": "authority_surface.parquet",
-      "relative_path": "authority_surface.parquet",
-      "total_rows": 28,
-      "total_columns": 8,
-      "columns": {}
-    },
     "economics/oracle_evaluation.parquet": {
       "file_name": "oracle_evaluation.parquet",
       "relative_path": "economics/oracle_evaluation.parquet",
@@ -38,6 +31,13 @@
           "max": 0.0
         }
       }
+    },
+    "authority_surface.parquet": {
+      "file_name": "authority_surface.parquet",
+      "relative_path": "authority_surface.parquet",
+      "total_rows": 28,
+      "total_columns": 8,
+      "columns": {}
     },
     "report_cell_provenance.parquet": {
       "file_name": "report_cell_provenance.parquet",

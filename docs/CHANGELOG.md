@@ -2,6 +2,15 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — Historical Market Archetype Registry & Multi-Episode Allegorical Audit Suite (D-125, ALLEGORY-001)
+
+Introduced the 12 Canonical Market Archetypes (A01–A12) across 4 super-classes (Directional Opportunity, Forced-Flow Stress, Low-Opportunity Adversarial, Portfolio Derivatives) into V8's evaluation plane (`v8-core/src/evaluation/allegory.rs`):
+- Enforced zero-hindsight episode bounds and mandatory negative control calibration pairs (anti-allegories) to prevent narrative cherry-picking and single-date overfitting.
+- Built ex-ante candidate admission versus ex-post unconstrained / capital-constrained opportunity frontiers with regret decomposition, warning lead-time, exit latency, and NO_TRADE accuracy metrics.
+- Generated deterministic, Canon-hashed `allegory_scorecard.json` artifact labeled `NO_ECONOMIC_CLAIM` and integrated CLI dispatch via `v8-core allegory-audit`.
+
+Artifacts changed: `v8-core/src/evaluation/allegory.rs`, `v8-core/src/evaluation/mod.rs`, `v8-core/src/main.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-21 — Modernize v8-core architecture, error taxonomy, zero-copy streaming, and add ACCP v2.0 verification suite (issues #208, #209, #210, #211, D-119..D-122)
 
 Resolved four foundational modernization issues in `v8-core`:

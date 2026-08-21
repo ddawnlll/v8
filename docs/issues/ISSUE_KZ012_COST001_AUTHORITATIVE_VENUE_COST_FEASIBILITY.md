@@ -1,9 +1,11 @@
-# Issue (KZ-012 / COST-001): Authoritative Venue Cost, Slippage & Excess Cost Feasibility
+# Issue #219 (KZ-012 / COST-001): Authoritative Venue Cost, Slippage & Excess Cost Feasibility
+
+**Status:** RESOLVED & RATIFIED (D-123)
 
 ## 1. Context & Normative Traceability
-- **R1:** Eliminate the arbitrary 0.07R / 0.10R default cost assumption; bind authoritative Binance USD-M VIP/Tier maker & taker fee schedules.
-- **R2:** Implement quadratic and square-root market impact slippage models ($Slippage \propto \sigma \sqrt{Q / V}$).
-- **R3:** Enforce the RM-11 Excess Cost Feasibility Gate ($w_{min} > w_{realized}$ or $Cost_R > 0.125R \implies FEASIBILITY\_VETO$).
+- **R1:** Eliminate hardcoded cost constants; compute authoritative transaction cost from venue tier schedules in basis points (bps) plus observed fill-vs-mid slippage distributions.
+- **R2:** Convert basis-point friction to setup-specific R-multiples using the candidate's declared risk unit ($Cost_R = Cost_{bps} \times EntryPrice / RiskUnit$).
+- **R3:** Enforce the RM-11 Economic Feasibility Gate: emit $FEASIBILITY\_VETO$ when $ExpectedEdge_{after\_cost} \le 0$ or when breakeven win rate strictly exceeds empirical capability.
 - **Traceability:** D-062, D-063, D-111, `VENUE_AND_CAPITAL_SIMULATION_SPEC` §3–5; arXiv:1705.00109 (Boyd Multi-Period Trading).
 
 ## 2. Reused Types & Existing Contracts
@@ -15,8 +17,8 @@
 - **I3:** Outputs must emit `authoritative_cost_surface.parquet` and `excess_cost_feasibility.json`.
 
 ## 4. Canonical Failure Semantics
-- If fee schedule is unknown or uncertified, fallback to highest taker bracket (0.15R) (fail closed).
+- If fee schedule is unknown or uncertified, fallback to highest taker fee tier (15 bps) converted dynamically to setup R units (fail closed).
 
 ## 5. Dependency & Composition Topology
-- Predecessors: Issue #208 (CAP-001).
-- Successors: Issue #210 (VERIFY-001).
+- Predecessors: #216 (CAP-001).
+- Successors: #218 (VERIFY-001).

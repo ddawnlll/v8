@@ -135,6 +135,7 @@ v8-core/
       coverage.rs    Representational coverage reconciliation & bundle receipts (O3)
       artifacts.rs   OpportunityUniverseVersion and OracleEvaluationRecord
     evaluation/     v8.eval.v1 evidence system and Target Oracle coverage support
+      allegory.rs    12 market archetypes (A01-A12), negative controls & scorecard (D-125)
       authority_surface.rs 4-axis taxonomy and authority reconciliation
       lineage.rs     population lineage DAG and cross-source reconciliation
       temporal.rs    PIT temporal fault injection and non-interference
@@ -227,6 +228,7 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/path_security.rs` | Path sanitization & traversal defense | `sanitize_path` | FEED_INGESTION_SPEC §5; D-120 |
 | `v8-core/src/telemetry.rs` | Structured tracing & metrics facades | `init_telemetry`, `record_duration_metric` | OPERATIONS_SPEC §2; D-120 |
 | `v8-core/src/checkpoint.rs` | Atomic simulation state checkpoint & resume | `SimulationCheckpoint.save_to_file/load_from_file` | PERSISTENCE_REPLAY_SPEC §4; D-122 |
+| `v8-core/src/evaluation/allegory.rs` | 12 market archetypes, negative control calibration, zero-hindsight regret evaluation & scorecard | `AllegoryFamily`, `ArchetypeId`, `AllegoryScorecard`, `evaluate_allegory_suite` | TARGET_ORACLE_SPEC §9; D-125 |
 
 ## 3. Layering rules
 

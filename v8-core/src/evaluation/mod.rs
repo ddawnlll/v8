@@ -6,6 +6,7 @@
 #![allow(dead_code)]
 
 pub mod agents;
+pub mod allegory;
 pub mod authority_surface;
 pub mod falsification;
 pub mod html_report;

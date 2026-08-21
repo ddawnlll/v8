@@ -24,8 +24,14 @@ metrics = "0.24"
 wgpu = { version = "30", default-features = false, features = ["std", "vulkan", "glsl"], optional = true }
 
 [profile.release]
-codegen-units = 1
-lto = true
+opt-level = 3
+lto = "thin"
+codegen-units = 16
+debug = false
+
+[profile.dev]
+opt-level = 2
+debug = 1
 
 [features]
 # Backend-2 GPU (issue #2): pulls wgpu (Vulkan/Metal/HIP via portability). The
