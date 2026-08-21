@@ -1,0 +1,410 @@
+{
+  "AUD_CANCER_001": {
+    "source": "docs/audits/CANONICAL_CANCERS_AND_MEGA_MOVE_AUDIT.accp.yaml",
+    "verdict": {
+      "reportId": "AUD_CANCER_001",
+      "reportType": "BSR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [
+        "BG001",
+        "BG002",
+        "BG003"
+      ],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": true,
+      "compiledAt": "2026-08-21T19:50:26.045634+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "AUD_CANCER_001",
+      "currentReportType": "BSR",
+      "routes": {
+        "NR001": {
+          "recommended_next_report": "FDR",
+          "recommended_next_action": "design_and_implement",
+          "target_refs": [
+            "BSR#BG001",
+            "BSR#BG002",
+            "BSR#BG003"
+          ],
+          "mutation_policy_needed": "mutation_allowed",
+          "auto_advance_safe": "conditional",
+          "requires_human_confirmation": true,
+          "reason": [
+            "Execute 6-issue cancer remediation and extreme-move benchmark."
+          ],
+          "confidence": "high"
+        }
+      },
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "P46_BSR_001": {
+    "source": "reports/accp/P46/source/P46_BSR_001.accp.yaml",
+    "verdict": {
+      "reportId": "P46_BSR_001",
+      "reportType": "BSR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [
+        "BG001",
+        "BG002"
+      ],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": true,
+      "compiledAt": "2026-08-21T19:50:26.052454+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "P46_BSR_001",
+      "currentReportType": "BSR",
+      "routes": {
+        "NR001": {
+          "recommended_next_report": "FPR",
+          "recommended_next_action": "fix",
+          "target_refs": [
+            "BSR#BG001",
+            "BSR#BG002"
+          ],
+          "mutation_policy_needed": "mutation_allowed",
+          "auto_advance_safe": "conditional",
+          "requires_human_confirmation": false,
+          "reason": [
+            "Proceed to Fix Patch Report generation."
+          ],
+          "confidence": "high"
+        }
+      },
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "P46_PRR_001": {
+    "source": "reports/accp/P46/source/P46_PRR_001.accp.yaml",
+    "verdict": {
+      "reportId": "P46_PRR_001",
+      "reportType": "PRR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.055012+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "P46_PRR_001",
+      "currentReportType": "PRR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "P46_TVR_001": {
+    "source": "reports/accp/P46/source/P46_TVR_001.accp.yaml",
+    "verdict": {
+      "reportId": "P46_TVR_001",
+      "reportType": "TVR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.058141+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "P46_TVR_001",
+      "currentReportType": "TVR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "P46_FPR_001": {
+    "source": "reports/accp/P46/source/P46_FPR_001.accp.yaml",
+    "verdict": {
+      "reportId": "P46_FPR_001",
+      "reportType": "FPR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.061947+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "P46_FPR_001",
+      "currentReportType": "FPR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "FCR-V8RR-004": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/FCR-V8RR-004.accp.yaml",
+    "verdict": {
+      "reportId": "FCR-V8RR-004",
+      "reportType": "FCR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.076391+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "FCR-V8RR-004",
+      "currentReportType": "FCR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "PRR-V8RR-006": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/PRR-V8RR-006.accp.yaml",
+    "verdict": {
+      "reportId": "PRR-V8RR-006",
+      "reportType": "PRR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.081979+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "PRR-V8RR-006",
+      "currentReportType": "PRR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "FCR-V8RR-010": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/FCR-V8RR-010.accp.yaml",
+    "verdict": {
+      "reportId": "FCR-V8RR-010",
+      "reportType": "FCR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.087617+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "FCR-V8RR-010",
+      "currentReportType": "FCR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "FCR-V8RR-009": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/FCR-V8RR-009.accp.yaml",
+    "verdict": {
+      "reportId": "FCR-V8RR-009",
+      "reportType": "FCR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.094124+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "FCR-V8RR-009",
+      "currentReportType": "FCR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "FER-V8RR-002": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/FER-V8RR-002.accp.yaml",
+    "verdict": {
+      "reportId": "FER-V8RR-002",
+      "reportType": "FER",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.120251+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "FER-V8RR-002",
+      "currentReportType": "FER",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "FDR-V8RR-003": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/FDR-V8RR-003.accp.yaml",
+    "verdict": {
+      "reportId": "FDR-V8RR-003",
+      "reportType": "FDR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.138133+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "FDR-V8RR-003",
+      "currentReportType": "FDR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "RIR-V8RR-001": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/RIR-V8RR-001.accp.yaml",
+    "verdict": {
+      "reportId": "RIR-V8RR-001",
+      "reportType": "RIR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.157476+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "RIR-V8RR-001",
+      "currentReportType": "RIR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "ECR-V8RR-008": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/ECR-V8RR-008.accp.yaml",
+    "verdict": {
+      "reportId": "ECR-V8RR-008",
+      "reportType": "ECR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.162818+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "ECR-V8RR-008",
+      "currentReportType": "ECR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "TVR-V8RR-005": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/TVR-V8RR-005.accp.yaml",
+    "verdict": {
+      "reportId": "TVR-V8RR-005",
+      "reportType": "TVR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.169459+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "TVR-V8RR-005",
+      "currentReportType": "TVR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "FCR-V8RR-007": {
+    "source": "reports/accp/v8-rr-v02-phase0/source/FCR-V8RR-007.accp.yaml",
+    "verdict": {
+      "reportId": "FCR-V8RR-007",
+      "reportType": "FCR",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.178140+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "FCR-V8RR-007",
+      "currentReportType": "FCR",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  },
+  "FER-V8-PERF-001": {
+    "source": "reports/accp/v8-performance-backend-research/source/FER-V8-PERF-001.accp.yaml",
+    "verdict": {
+      "reportId": "FER-V8-PERF-001",
+      "reportType": "FER",
+      "valid": true,
+      "fatalErrors": [],
+      "warnings": [],
+      "blockingFindings": [],
+      "requiresHir": false,
+      "requiresTvr": true,
+      "blocksPromotion": false,
+      "compiledAt": "2026-08-21T19:50:26.199127+00:00",
+      "staleAfter": "on_next_commit"
+    },
+    "route": {
+      "currentReportId": "FER-V8-PERF-001",
+      "currentReportType": "FER",
+      "routes": {},
+      "valid": true,
+      "diagnostics": []
+    }
+  }
+}

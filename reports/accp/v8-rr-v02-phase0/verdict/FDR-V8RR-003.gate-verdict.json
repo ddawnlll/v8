@@ -1,0 +1,13 @@
+{
+  "reportId": "FDR-V8RR-003",
+  "reportType": "FDR",
+  "valid": true,
+  "fatalErrors": [],
+  "warnings": [],
+  "blockingFindings": [],
+  "requiresHir": false,
+  "requiresTvr": true,
+  "blocksPromotion": false,
+  "compiledAt": "2026-08-21T19:50:26.138133+00:00",
+  "staleAfter": "on_next_commit"
+}

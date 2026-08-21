@@ -1,0 +1,13 @@
+{
+  "reportId": "ECR-V8RR-008",
+  "reportType": "ECR",
+  "valid": true,
+  "fatalErrors": [],
+  "warnings": [],
+  "blockingFindings": [],
+  "requiresHir": false,
+  "requiresTvr": true,
+  "blocksPromotion": false,
+  "compiledAt": "2026-08-21T19:50:26.162818+00:00",
+  "staleAfter": "on_next_commit"
+}

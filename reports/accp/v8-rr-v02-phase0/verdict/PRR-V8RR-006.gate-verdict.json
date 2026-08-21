@@ -1,0 +1,13 @@
+{
+  "reportId": "PRR-V8RR-006",
+  "reportType": "PRR",
+  "valid": true,
+  "fatalErrors": [],
+  "warnings": [],
+  "blockingFindings": [],
+  "requiresHir": false,
+  "requiresTvr": true,
+  "blocksPromotion": false,
+  "compiledAt": "2026-08-21T19:50:26.081979+00:00",
+  "staleAfter": "on_next_commit"
+}

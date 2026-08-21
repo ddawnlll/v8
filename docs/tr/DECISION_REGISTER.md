@@ -87,6 +87,10 @@
 
 | D-122 | **Simülasyon durumu checkpointing, devam motoru ve çoklu mimari sürüm boru hattı.** Güvenli kesinti ve `--resume` semantiğini desteklemek için `v8-core/src/checkpoint.rs` içinde atomik checkpointing (`SimulationCheckpoint`, tmp-yazma ve atomik yeniden adlandırma) ekle. `x86_64-unknown-linux-gnu` ve `aarch64-apple-darwin` için otomatik çoklu hedefli GitHub Actions CI/CD sürüm iş akışını (`.github/workflows/release.yml`) devreye al. | PROVISIONAL_DECISION | Issue #211; `OPERATIONS_SPEC` §2, `PERSISTENCE_REPLAY_SPEC` §4. Uzun süreli simülasyonlarda hata toleransı ve otomatik sürüm dağıtımı sağlar. |
 
+| D-123 | **Kanonik Kanser Taksonomisi ve Mega Hareket Kampanyası Mimarisi.** 6 Kanonik Kök Kanseri (Lot Diskretizasyon Felci, Kuyruk Budayan Çıkış, Uzman Huni Çöküşü, Rejim Körlüğü, Mekanik Taban Yetersizliği, Veri Körlüğü) tescil et ve 05–06 Şubat 2026 BTC çöküş/yükseliş dalgasını kurallı zemin gerçeği (Ground Truth) olarak kabul et. Quantization-Aware Risk Bütçelemesi, Kuyruk Yakalama Verimliliği (TCE), Aday-Kampanya Kümelemesi ve Boyd Dinamik Likidite Tabanını ($CashFloor_t$) onayla. | LOCKED_INVARIANT | `docs/tr/CANONICAL_CANCERS_AND_MEGA_MOVE_AUDIT.md`, `VENUE_AND_CAPITAL_SIMULATION_SPEC` §10; arXiv:1603.06183, arXiv:2602.11708. Sınırsız aday üretimi ile fiziksel sermaye icrası arasındaki boşluğu kapatır. |
+
+| D-124 | **ACCP v2.0 YAML Tabanlı Ajan Kodlama İletişim Protokolü.** 27 resmi rapor türünün tamamında katı YAML kaynak profilini (`.accp.yaml`) kademeli destek seviyeleriyle (`known`, `template_available`, `schema_lite`, `schema_strict`, `gate_blocking`) benimse. Çalışma zamanının ham metin/markdown okumasını yasakla; derlenmiş JSON çıktılarını (`.compiled.json`, `.gate-verdict.json`, `.route-signal.json`) zorunlu kıl. | LOCKED_INVARIANT | `docs/tr/ACCP_V2_SPEC.md`, `WORK_ITEM_POLICY.md` §1–4. Deterministik, şema-doğrulamalı ve kapı-denetlenebilir ajan iletişimini garanti eder. |
+
 Durum sözlüğü kasıtlıdır: `LOCKED_INVARIANT` geçerliliği sınırlar;
 `PROVISIONAL_DECISION` geri alınabilir; `REJECTED_OPTION` adı geçen taban
 çizgiden hariç tutulmuştur, sonsuza dek çürütülmüş değildir. Hiçbiri kârlılık
