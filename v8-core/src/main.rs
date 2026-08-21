@@ -89,7 +89,8 @@ subcommands:
   verdict         S7: verdict statistics on reduced tables
   report          S7: verdict report artifacts + audit
   oracle-coverage O3: Opportunity Universe representational coverage receipt
-  usdm-sim        finite-capital Binance USD-M portfolio simulator";
+  usdm-sim        finite-capital Binance USD-M portfolio simulator
+  allegory-audit  multi-episode historical archetype audit (A01-A12, D-125)";
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -119,6 +120,7 @@ fn main() {
         "oracle-coverage" => cmd_oracle_coverage(&args[2..]),
         "exit-ablation" => exit_ablation::run(&args[2..]),
         "usdm-sim" => cmd_usdm_sim(&args[2..]),
+        "allegory-audit" => cmd_allegory_audit(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -1470,4 +1472,98 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         }
     }
 }
+
+fn cmd_allegory_audit(args: &[String]) -> i32 {
+    let mut tape_path: Option<PathBuf> = None;
+    let mut out_path: Option<PathBuf> = None;
+
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--tape" => {
+                if i + 1 < args.len() {
+                    tape_path = Some(PathBuf::from(&args[i + 1]));
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --tape");
+                    return 2;
+                }
+            }
+            "--out" => {
+                if i + 1 < args.len() {
+                    out_path = Some(PathBuf::from(&args[i + 1]));
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --out");
+                    return 2;
+                }
+            }
+            path_str if !path_str.starts_with('-') => {
+                tape_path = Some(PathBuf::from(path_str));
+                i += 1;
+            }
+            other => {
+                eprintln!("unknown option for allegory-audit: {other}");
+                return 2;
+            }
+        }
+    }
+
+    let tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let out = out_path.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current/allegory_scorecard.json"));
+
+    let rows = match read_tape(&tape) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("cannot read tape {tape:?}: {e}");
+            return 1;
+        }
+    };
+
+    let ds = match data::Dataset::from_rows(rows) {
+        Ok(d) => d,
+        Err(e) => {
+            eprintln!("error parsing dataset: {e:?}");
+            return 1;
+        }
+    };
+
+    let mut bar_rows = Vec::new();
+    for sb in &ds.bars {
+        for i in 0..sb.closes.len() {
+            bar_rows.push(evaluation::BarRow {
+                timestamp_ns: sb.available_times[i],
+                symbol: sb.symbol.clone(),
+                open: sb.opens[i],
+                high: sb.highs[i],
+                low: sb.lows[i],
+                close: sb.closes[i],
+                volume: sb.volumes[i],
+                funding_rate: 0.0,
+            });
+        }
+    }
+
+    let tape_bytes = std::fs::read(&tape).unwrap_or_default();
+    let mut canon = hash::Canon::new();
+    canon.push_str(&String::from_utf8_lossy(&tape_bytes));
+    let tape_hash = canon.finish_sha256_hex();
+
+    let scorecard = evaluation::allegory::evaluate_allegory_suite(&bar_rows, &[], &[], &tape_hash);
+
+    let out_file = if out.is_dir() || out.extension().is_none() {
+        out.join("allegory_scorecard.json")
+    } else {
+        out
+    };
+
+    if let Err(e) = evaluation::allegory::save_allegory_scorecard(&scorecard, &out_file) {
+        eprintln!("failed to write allegory scorecard to {out_file:?}: {e}");
+        return 1;
+    }
+
+    println!("{}", serde_json::to_string_pretty(&scorecard).unwrap());
+    0
+}
+
 

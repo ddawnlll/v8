@@ -1,6 +1,6 @@
 # [IMPL] Issue: Cryptographic Hashing Upgrade, Path Traversal Sanitization, and Structured Telemetry
 
-**Status:** OPEN  
+**Status:** RESOLVED & RATIFIED (D-120)
 **Issue Type:** `IMPLEMENTATION`  
 **Change Class:** `CONTRACT_IMPLEMENTATION` / `CORRECTNESS_SEMANTICS`  
 **Labels:** `type:implementation`, `triage`, `risk:low`  

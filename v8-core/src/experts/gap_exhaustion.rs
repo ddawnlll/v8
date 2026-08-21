@@ -185,9 +185,7 @@ pub fn gap_exhaustion(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
         return no_setup(expert_id, version, fm.as_of);
     }
     let count = count_dir(hist, n - 1, direction);
-    let trade_dir: &str;
-    let pred: Box<dyn Fn(usize, &HistBar) -> bool>;
-    if variant_id == "a" {
+    let (trade_dir, pred): (&str, Box<dyn Fn(usize, &HistBar) -> bool>) = if variant_id == "a" {
         if count < 3 {
             return no_setup(expert_id, version, fm.as_of);
         }
@@ -197,8 +195,10 @@ pub fn gap_exhaustion(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
         if direction == -1 && !(c > o) {
             return no_setup(expert_id, version, fm.as_of);
         }
-        trade_dir = if direction == 1 { "SHORT" } else { "LONG" };
-        pred = Box::new(move |i, b| exhaustion_pred(hist, i, b, direction));
+        (
+            if direction == 1 { "SHORT" } else { "LONG" },
+            Box::new(move |i, b| exhaustion_pred(hist, i, b, direction)),
+        )
     } else if variant_id == "b" {
         let wh = fm.value("window_high_20");
         let wl = fm.value("window_low_20");
@@ -211,16 +211,20 @@ pub fn gap_exhaustion(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
         if count != 1 || (direction == 1 && !(c > top)) || (direction == -1 && !(c < bottom)) {
             return no_setup(expert_id, version, fm.as_of);
         }
-        trade_dir = if direction == 1 { "LONG" } else { "SHORT" };
-        pred = Box::new(move |i, b| breakaway_pred(hist, i, b, direction));
+        (
+            if direction == 1 { "LONG" } else { "SHORT" },
+            Box::new(move |i, b| breakaway_pred(hist, i, b, direction)),
+        )
     } else {
         // 'c' — runaway/midway continuation.
         if count != 2 || (direction == 1 && !(c > top)) || (direction == -1 && !(c < bottom)) {
             return no_setup(expert_id, version, fm.as_of);
         }
-        trade_dir = if direction == 1 { "LONG" } else { "SHORT" };
-        pred = Box::new(move |i, b| runaway_pred(hist, i, b, direction));
-    }
+        (
+            if direction == 1 { "LONG" } else { "SHORT" },
+            Box::new(move |i, b| runaway_pred(hist, i, b, direction)),
+        )
+    };
     // Gap-zone S/R reference, FROZEN at detection: the far side of the zone.
     let (ref_level, stop_r) = if trade_dir == "LONG" {
         (bottom, (close - bottom) / atr)

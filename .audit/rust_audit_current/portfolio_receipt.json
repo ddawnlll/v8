@@ -1,20 +1,19 @@
 {
   "receipt_id": "receipt-usdm-1782864000999000000",
   "initial_balance_usdt": 1000.0,
-  "terminal_equity_usdt": 7.009813569998901,
-  "net_profit_usdt": -992.9901864300011,
-  "total_return_pct": -99.29901864300011,
-  "max_drawdown_pct": 99.3078836768625,
-  "max_margin_utilization_pct": 100.0,
-  "total_fee_drag_usdt": 384.5365197799996,
+  "terminal_equity_usdt": 942.7995404069231,
+  "net_profit_usdt": -57.20045959307686,
+  "total_return_pct": -5.7200459593076864,
+  "max_drawdown_pct": 12.587160436215578,
+  "max_margin_utilization_pct": 19.381541764292447,
+  "total_fee_drag_usdt": 59.615448549151324,
   "total_funding_usdt": 0.0,
-  "n_trades_admitted": 2460,
-  "win_rate_pct": 41.5040650406504,
-  "profit_factor": 0.7462646947493868,
+  "n_trades_admitted": 226,
+  "win_rate_pct": 31.858407079646017,
+  "profit_factor": 1.0048080458462785,
   "rejections_by_reason": {
-    "CAPITAL_CONSTRAINT_REJECTION": 7433,
-    "INSUFFICIENT_AVAILABLE_BALANCE": 297,
-    "QUANTITY_ROUNDS_TO_ZERO": 32428
+    "CHOP_NO_TRADE_REGION_SUPPRESSED": 11,
+    "MIN_EXECUTABLE_RISK_EXCEEDS_BUDGET": 18
   },
   "cashflow_ledger_path": "economic-cashflow.jsonl",
   "venue_contract_hash": "9fb5d2136dbac7de8400e3c5127ff6254f50cf53"

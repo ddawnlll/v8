@@ -156,6 +156,16 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         raise RuntimeError(f"v8-core usdm-sim failed:\nSTDOUT: {out_usdm}\nSTDERR: {err_usdm}")
     usdm_meta = json.loads(out_usdm)
 
+    # 4b. Run v8-core allegory-audit Historical Market Archetype Suite (D-125 / ALLEGORY-001)
+    allegory_out = out_dir / "allegory_scorecard.json"
+    code, out_allegory, err_allegory = run_command([
+        str(binary), "allegory-audit",
+        "--tape", str(tape_path.resolve()),
+        "--out", str(allegory_out.resolve()),
+    ])
+    if code != 0:
+        raise RuntimeError(f"v8-core allegory-audit failed:\nSTDOUT: {out_allegory}\nSTDERR: {err_allegory}")
+
     # 5. Render HTML Report
     render_script = ROOT / "tools" / "render_rust_audit_html.py"
     html_out = out_dir / "report.html"
@@ -172,6 +182,7 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         "analysis.jsonl": sha256_file(out_dir / "analysis.jsonl"),
         "oracle_coverage_receipt.json": sha256_file(out_dir / "oracle_coverage_receipt.json"),
         "portfolio_receipt.json": sha256_file(out_dir / "portfolio_receipt.json"),
+        "allegory_scorecard.json": sha256_file(out_dir / "allegory_scorecard.json"),
         "economic-cashflow.jsonl": sha256_file(out_dir / "economic-cashflow.jsonl"),
     }
     if (out_dir / "oracle_bundle" / "authority_surface.parquet").exists():

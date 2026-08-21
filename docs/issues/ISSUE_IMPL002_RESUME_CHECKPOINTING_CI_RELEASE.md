@@ -1,6 +1,6 @@
 # [IMPL] Issue: Simulation Checkpoint / Resume Mechanism and Automated CI Release Packaging
 
-**Status:** OPEN  
+**Status:** RESOLVED & RATIFIED (D-122)
 **Issue Type:** `IMPLEMENTATION`  
 **Change Class:** `CONTRACT_IMPLEMENTATION` / `NEW_FILE_FAMILY_OR_MODULE`  
 **Labels:** `type:implementation`, `triage`, `risk:medium`  

@@ -136,10 +136,12 @@ impl CashflowLedger {
         self.flows.iter().map(|f| f.gross_market_pnl_usdt).sum()
     }
 
+    #[allow(dead_code)]
     pub fn total_commission(&self) -> f64 {
         self.flows.iter().map(|f| f.commission_usdt).sum()
     }
 
+    #[allow(dead_code)]
     pub fn total_funding(&self) -> f64 {
         self.flows.iter().map(|f| f.funding_cashflow_usdt).sum()
     }

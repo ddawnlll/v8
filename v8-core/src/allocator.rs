@@ -3,6 +3,8 @@
 //!
 //! Owning Authority: VENUE_AND_CAPITAL_SIMULATION_SPEC.md §6, Decisions D-108, D-109.
 
+#![allow(dead_code)]
+
 use crate::account::AccountState;
 use crate::portfolio::PortfolioState;
 use crate::venue::VenueContract;

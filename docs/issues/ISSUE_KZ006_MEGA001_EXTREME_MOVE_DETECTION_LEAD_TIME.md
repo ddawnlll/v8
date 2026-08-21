@@ -1,9 +1,12 @@
-# Issue #205 (KZ-006 / MEGA-001): Extreme Move Detection, Lead-Time & Sensor Recall Benchmark
+# Issue #213 (KZ-006 / MEGA-001): Extreme Move Detection, Lead-Time & Sensor Recall Benchmark
+
+**Status:** RESOLVED & RATIFIED (D-123)
 
 ## 1. Context & Normative Traceability
-- **R1:** Label all extreme 24h market episodes in the 12-month tape where $|Z_{24h}| \ge 3.0\sigma$ (including 05–06 Feb 2026 crash and rebound).
+- **R1:** Label all extreme 24h market episodes in the 12-month tape where $|Z_{24h}| \ge 3.0\sigma$ (including the 05–06 Feb 2026 crash and rebound case study).
 - **R2:** Audit all 28 registered sensors on pre-move lead-time windows ($T-12h, T-8h, T-4h, T-2h, T-1h$).
 - **R3:** Measure Large-Move Recall, Directional Accuracy, and False Alarm Rate per sensor without mutating expert execution paths.
+- **R4:** Diagnostic and Falsification Semantics: This issue does not assume or manufacture alpha; it falsifies sensor timing capability and emits either `MEGA_CAPABILITY_SUPPORTED` or `MEGA_CAPABILITY_FALSIFIED`.
 - **Traceability:** D-123, D-124, `docs/audits/CANONICAL_CANCERS_AND_MEGA_MOVE_AUDIT.md`, `TARGET_ORACLE_SPEC.md` §12.
 
 ## 2. Reused Types & Existing Contracts
@@ -18,5 +21,5 @@
 - If tape lacks price history for a given horizon $h$, return explicit absence `None` (fail closed).
 
 ## 5. Dependency & Composition Topology
-- Predecessors: None (Foundation for Campaign).
-- Successors: Issue #206 (EXIT-001), Issue #207 (CAMP-001).
+- Predecessors: #223 (DATA-001).
+- Successors: #214 (EXIT-001), #215 (CAMP-001), #222 (GOV-001).

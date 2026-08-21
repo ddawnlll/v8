@@ -378,6 +378,15 @@ def parse_all_rust_artifacts(audit_dir: Path) -> dict:
         except Exception:
             pass
 
+    # 8. Parse Allegory Scorecard (D-125 / ALLEGORY-001)
+    allegory_file = audit_dir / "allegory_scorecard.json"
+    data["allegory_scorecard"] = None
+    if allegory_file.exists():
+        try:
+            data["allegory_scorecard"] = json.loads(allegory_file.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+
     return data
 
 
@@ -822,6 +831,120 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     </table>
   </div>
 """
+
+    # Build Allegorical Archetype Registry Scorecard HTML (D-125 / ALLEGORY-001)
+    allegory_section_html = ""
+    sc = data.get("allegory_scorecard")
+    if sc:
+        total_eps = sc.get("total_episodes_evaluated", 0)
+        neg_passed = sc.get("negative_control_calibration_passed", True)
+        sc_scores = sc.get("super_class_scores", {})
+        arch_sums = sc.get("archetype_summaries", {})
+        claim = sc.get("claim", "NO_ECONOMIC_CLAIM")
+        authority = sc.get("epistemic_authority", "MODEL_DERIVED_AUDIT")
+
+        arch_rows = []
+        for code, summary in sorted(arch_sums.items()):
+            name = summary.get("archetype_name", code)
+            s_class = summary.get("super_class", "")
+            n_pos = summary.get("positive_episodes_evaluated", 0)
+            n_neg = summary.get("negative_episodes_evaluated", 0)
+            m_cap = summary.get("mean_capture_efficiency", 0.0)
+            leak_rate = summary.get("negative_control_leakage_rate", 0.0)
+            slip_reg = summary.get("mean_slippage_regret_bps", 0.0)
+            score = summary.get("calibrated_score", 0.0)
+            rating = summary.get("verdict_rating", "DATA_BLOCKED")
+
+            badge_cls = {
+                "ROBUST": "badge-ok",
+                "ADEQUATE": "badge-info",
+                "VULNERABLE": "badge-warn",
+                "DATA_BLOCKED": "badge-warn",
+            }.get(rating, "badge-info")
+
+            arch_rows.append(f"""
+            <tr>
+              <td><code>{html.escape(code)}</code> <b>{html.escape(name)}</b></td>
+              <td><span class="badge badge-info">{html.escape(str(s_class))}</span></td>
+              <td class="mono">{n_pos}</td>
+              <td class="mono">{n_neg}</td>
+              <td class="mono {'pos' if m_cap > 0 else 'neg'}">{m_cap:+.2f}</td>
+              <td class="mono {'neg' if leak_rate > 0.3 else 'pos'}">{leak_rate * 100:.1f}%</td>
+              <td class="mono">{slip_reg:.1f} bps</td>
+              <td class="mono {'pos' if score > 0 else 'neg'}"><b>{score:+.2f}</b></td>
+              <td><span class="badge {badge_cls}">{html.escape(rating)}</span></td>
+            </tr>
+            """)
+
+        arch_table_html = "\n".join(arch_rows)
+
+        sc_kpis = []
+        for sname, sscore in sc_scores.items():
+            sc_kpis.append(f"""
+            <div class="kpi">
+              <div class="k">{html.escape(sname)}</div>
+              <div class="v {'pos' if sscore > 0 else 'neg'}">{sscore:+.2f}</div>
+              <div class="d">Calibrated Archetype Score</div>
+            </div>
+            """)
+        sc_kpis_html = "\n".join(sc_kpis)
+
+        allegory_section_html = f"""
+  <!-- Section 9: Historical Market Archetype Registry & Multi-Episode Allegorical Scorecard (ALLEGORY-001 / D-125) -->
+  <div class="card" style="border-left: 4px solid #8b5cf6;">
+    <h2>
+      <span>9 — Historical Market Archetype Registry & Multi-Episode Allegorical Scorecard (ALLEGORY-001 / D-125)</span>
+      <span class="badge {'badge-ok' if neg_passed else 'badge-bad'}">ANTI_ALLEGORY_CALIBRATED</span>
+      <span class="badge badge-purple">{html.escape(authority)}</span>
+    </h2>
+    <div class="sec">
+      Evaluates candidate selection, execution viability, and risk geometry across 12 canonical market archetypes (A01–A12) organized into 4 super-classes, strictly paired with anti-allegories (negative controls) and zero hindsight leakage.
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="k">Total Episodes Evaluated</div>
+        <div class="v">{total_eps}</div>
+        <div class="d">Positive + Negative Controls</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Negative Control Pairing</div>
+        <div class="v pos">{"VERIFIED" if neg_passed else "FAILED"}</div>
+        <div class="d">Anti-Allegory Whipsaw Calibration</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Epistemic Authority</div>
+        <div class="v" style="font-size:16px;">{html.escape(authority)}</div>
+        <div class="d">{html.escape(claim)}</div>
+      </div>
+    </div>
+
+    <div class="kpi-grid" style="margin-top: 10px;">
+      {sc_kpis_html}
+    </div>
+
+    <h4 style="margin: 18px 0 8px;">12 Canonical Market Archetype Breakdown</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Archetype</th>
+          <th>Super-Class</th>
+          <th>Positive Episodes</th>
+          <th>Negative Controls</th>
+          <th>Mean Capture (TCE)</th>
+          <th>False-Positive Leakage</th>
+          <th>Slippage Regret</th>
+          <th>Calibrated Score</th>
+          <th>Verdict Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        {arch_table_html}
+      </tbody>
+    </table>
+  </div>
+"""
+
 
     # Detailed Forensic Cards for Each Expert
     expert_cards = []
@@ -1407,9 +1530,11 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
 
   {usdm_section_html}
 
-  <!-- Section 9: All 28 Strategy Experts Status Table -->
+  {allegory_section_html}
+
+  <!-- Section 10: All 28 Strategy Experts Status Table -->
   <div class="card">
-    <h2>9 — Strategy Expert Registry & Operational Status (28 Families)</h2>
+    <h2>10 — Strategy Expert Registry & Operational Status (28 Families)</h2>
     <div class="sec">Click any expert family name to jump directly to its complete forensic card.</div>
     <table>
       <thead>
@@ -1431,16 +1556,16 @@ def render_full_forensic_report(data: dict, audit_dir: Path) -> str:
     </table>
   </div>
 
-  <!-- Section 10: Per-Expert Detailed Forensic Cards -->
+  <!-- Section 11: Per-Expert Detailed Forensic Cards -->
   <div class="card">
-    <h2>10 — Per-Expert Detailed Forensic Drill-Downs</h2>
+    <h2>11 — Per-Expert Detailed Forensic Drill-Downs</h2>
     <div class="sec">Full census, directionality, and parameter declarations for each strategy family.</div>
     {expert_cards_html}
   </div>
 
-  <!-- Section 11: Invariant Verification & Cryptographic Ledger Audit -->
+  <!-- Section 12: Invariant Verification & Cryptographic Ledger Audit -->
   <div class="card">
-    <h2>11 — Invariant Verification & Cryptographic Ledger Audit</h2>
+    <h2>12 — Invariant Verification & Cryptographic Ledger Audit</h2>
     <div class="sec">Verification that all mathematical, architectural, and oracle invariants hold under strict release execution.</div>
     <table>
       <thead>

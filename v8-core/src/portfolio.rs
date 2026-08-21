@@ -111,6 +111,7 @@ impl PortfolioState {
     }
 
     /// Checks if a new candidate position is admissible under concurrency and heat limits.
+    #[allow(dead_code)]
     pub fn can_admit_position(&self, additional_risk_usdt: f64, equity: f64) -> Result<(), &'static str> {
         if self.positions.len() >= self.max_concurrency {
             return Err("CAPITAL_CONSTRAINT_REJECTION");
