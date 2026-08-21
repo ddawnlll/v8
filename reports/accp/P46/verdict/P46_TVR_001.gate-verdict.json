@@ -1,0 +1,13 @@
+{
+  "reportId": "P46_TVR_001",
+  "reportType": "TVR",
+  "valid": true,
+  "fatalErrors": [],
+  "warnings": [],
+  "blockingFindings": [],
+  "requiresHir": false,
+  "requiresTvr": true,
+  "blocksPromotion": false,
+  "compiledAt": "2026-08-21T19:50:26.058141+00:00",
+  "staleAfter": "on_next_commit"
+}

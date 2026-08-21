@@ -11,3 +11,9 @@
 
 Compute is evidence work, not a ritual. Run commands only when expected marginal decision value exceeds its cost.
 Keep verification passes focused. CI and test gate is `cargo test --manifest-path v8-core/Cargo.toml`.
+
+## 🚨 ZERO-SHADOW ARCHITECTURE & MANDATORY REGISTRATION
+- Every architectural choice, module, and error taxonomy MUST be registered with a `D-xxx` decision in `docs/decisions/DECISION_REGISTER.md` (and `docs/tr/`).
+- Every Rust module must be mapped in `docs/contracts/IMPLEMENTATION_LAYOUT.md`.
+- Both monographs must be re-generated via `tools/build_monograph.py`.
+

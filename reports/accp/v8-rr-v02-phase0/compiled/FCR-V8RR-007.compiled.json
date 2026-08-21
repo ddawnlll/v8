@@ -1,0 +1,309 @@
+{
+  "report": {
+    "accp_version": "2.0.0",
+    "source_format": "ACCP-YAML",
+    "report_id": "FCR-V8RR-007",
+    "report_type": "FCR",
+    "report_family": "feature",
+    "report_name": "Feature Contract Report",
+    "support_level": "template_available",
+    "plan_id": "v8-rr-v02-phase0",
+    "workspace_id": "none",
+    "repo_root": "C:/Users/dresden/Documents/v8",
+    "git_commit": "1053dc1b819c9012f50294ccf7be7eaaa86b5746",
+    "git_branch": "main",
+    "report_generated_at": "2026-08-10",
+    "report_stale_after": "on_next_commit",
+    "inspection_mode": "contract_freeze",
+    "confidence": "high",
+    "authority": {
+      "reports_are_evidence_only": true,
+      "route_signals_are_advisory": true,
+      "runtime_must_read_compiled_json": true,
+      "raw_yaml_is_not_runtime_authority": true,
+      "rendered_markdown_is_human_preview_only": true
+    },
+    "agent": {
+      "agent_id": "claude-code-session-750e89fd",
+      "agent_role": "repo_agent",
+      "model_name": "claude-sonnet-5",
+      "model_version": "unknown",
+      "session_id": "750e89fd-d8cf-4c8b-a4de-e656675171ce",
+      "prompt_hash": "unknown"
+    },
+    "lineage": {
+      "parent_report": "PRR-V8RR-006",
+      "supersedes": "none",
+      "triggered_by": "user_directive: proceed through Phase 2 (systematicity discovery) after Phase 0/1",
+      "continuation_of": "FCR-V8RR-004",
+      "validates": "none"
+    },
+    "references": [
+      {
+        "id": "R001",
+        "ref": "src/v8/statistics.py",
+        "purpose": "Existing D-044/D-052/METH-* statistical machinery this contract reuses in full."
+      },
+      {
+        "id": "R002",
+        "ref": "docs/decisions/OPEN_DECISIONS.md#O-021",
+        "purpose": "The repository's own already-adopted two-level multiplicity structure (within-family Reality-Check, across-family Bonferroni) \u2014 this contract inherits it rather than inventing a third scheme."
+      },
+      {
+        "id": "R003",
+        "ref": "external_document: Recoverable Regret v0.2, section 10 (Systematicity gate), section 15 Phase 2.",
+        "purpose": "The scientific requirement being made executable."
+      }
+    ],
+    "assumptions": [
+      {
+        "id": "AS001",
+        "assumption": "Phase 2 tests estimands built from Phase-1 cube/gap output only (net_utility, legal_hindsight_gap) \u2014 never from V8's live economic verdict, which stays NO_ECONOMIC_CLAIM independent of anything Phase 2 finds.",
+        "reason": "FCR-V8RR-004 AP005 \u2014 Phase 0/1 outputs are MODEL_DERIVED with no economic authority; a systematicity finding is a research object (docs/registries/CLAIMS_REGISTRY.yaml), not an authority receipt.",
+        "confidence": "high",
+        "how_to_verify": "not_applicable"
+      },
+      {
+        "id": "AS002",
+        "assumption": "The block-bootstrap/Reality-Check machinery in src/v8/statistics.py was built for episode-indexed net_R series from the EXECUTED ledger; applying it to legal_hindsight_gap series (defined over the CANDIDATE population, including non-executed candidates with GAP_NOT_APPLICABLE_NO_ACTUAL_ACTION) requires restricting each slice's series to candidates with gap_status=COMPUTED before calling any estimator \u2014 an explicit filter, not a change to the estimator.",
+        "reason": "reality_check_p_value/bootstrap_ci assume a Sequence[float]; a None or non-COMPUTED gap value is not a float and must never be coerced to 0.0 (that would silently claim a defined result for an abstention).",
+        "confidence": "high",
+        "how_to_verify": "A unit test asserting the Phase-2 slice-builder raises rather than coerces on any non-COMPUTED row."
+      }
+    ],
+    "skipped_inspections": [
+      {
+        "id": "S001",
+        "item": "Cross-family pooling (a single N-configuration statistic replacing the two-level Bonferroni/Reality-Check structure).",
+        "reason": "docs/decisions/OPEN_DECISIONS.md O-021 explicitly defers this pending a validity argument on synthetic data with known ground truth; this contract inherits the interim two-level design rather than resolving O-021.",
+        "risk": "low",
+        "needed_next": "Only if O-021 is separately resolved by the repository's own research track."
+      }
+    ],
+    "sections": {
+      "contract_freeze_summary": {
+        "summary": "Phase 2 REUSES src/v8/statistics.py in full \u2014 no new estimator is written. The only new code is the slice-builder (Phase-1 cube/gap rows -> aligned episode-net_R series per estimand/slice) and the attempt ledger (every slice tested is logged before its result is known, closing the search-accounting loop the task explicitly requires). Seven contracts are frozen: estimands, sampling unit, discovery family, dependence-aware uncertainty method, multiplicity correction, discovery/confirmation split, materiality threshold.",
+        "items": [
+          {
+            "id": "CF001",
+            "label": "DECISION",
+            "text": "Reuse inventory (all EXISTING, all REUSED, none reimplemented): select_block_size (D-052 dependence-aware block sizing), block_bootstrap_means/bootstrap_ci (circular fixed-block bootstrap CI), reality_check_p_value (White 2000 within-family max-statistic p-value), effective_independent_episodes (overlap-adjusted N), practical_significance (economic-magnitude + coverage gate), expected_false_positives/effective_search_size (multiplicity accounting). This is the strongest possible \"prefer reuse\" outcome: zero new statistical code.",
+            "evidence_refs": [
+              "src/v8/statistics.py:243-283 (select_block_size, _block_bootstrap_indices)",
+              "src/v8/statistics.py:393-445 (block_bootstrap_means, bootstrap_ci)",
+              "src/v8/statistics.py:317-393 (reality_check_p_value)",
+              "src/v8/statistics.py:447-472 (effective_independent_episodes)",
+              "src/v8/statistics.py:676-703 (practical_significance)",
+              "src/v8/statistics.py:708-755 (expected_false_positives, effective_search_size)"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "frozen_types": {
+        "summary": "The seven frozen contracts, in the order the task brief requested them.",
+        "items": [
+          {
+            "id": "FT001",
+            "label": "DECISION",
+            "text": "CONTRACT 1 - ESTIMANDS. Two, named explicitly, computed per (Expert, symbol) slice from Phase-1 gap_status=COMPUTED rows only: (a) mean_legal_hindsight_gap = mean(legal_hindsight_gap) \u2014 \"is value systematically left on the table inside the represented action universe\" (v0.2 V_H - V_A analogue, Candidate-local); (b) mean_actual_vs_no_trade = mean(actual_utility - 0.0) = mean(actual_utility) restricted to the same COMPUTED population \u2014 \"is the shipped geometry beating the zero-exposure benchmark\" (the repository's own zero-cost-edge estimand, EXCESS_COST_THRESHOLD_R companion). Both are Candidate-local per FCR-V8RR-004 FT011(iv); NEITHER is a portfolio quantity and neither may be summed across Candidates into a claimed feasible value. Every reported number states WHICH estimand it is; the two are never averaged together.",
+            "evidence_refs": [
+              "FCR-V8RR-004 (FT011)",
+              "external_document: v0.2 section 12 (H1, H2)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT002",
+            "label": "DECISION",
+            "text": "CONTRACT 2 - SAMPLING UNIT. The Candidate is the nominal unit, but Candidates are NOT treated as IID: effective_independent_episodes(n_episodes, max_hold_bars) is reported beside every slice statistic, using max_hold_bars = the slice's own max(horizon_bars) over its COMPUTED population (never a global constant \u2014 different Experts and different legal actions have different expiry_bars). The block-bootstrap block_size (select_block_size, D-052) is the operative dependence unit for every CI/p-value in this contract; a slice is not treated as N independent draws anywhere. Same-symbol overlap (two Candidates from different Experts open at once), same-Expert-different-symbol independence, and cross-symbol correlation (all 6 symbols share the same funding/macro tape) are NOT separately modelled in Phase 2 \u2014 flagged as O-022-adjacent (rule-16 exposure coupling already measured as real and large) and carried as an explicit limitation on every finding, never silently assumed away.",
+            "evidence_refs": [
+              "src/v8/statistics.py:447-472",
+              "docs/decisions/OPEN_DECISIONS.md#O-022"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT003",
+            "label": "DECISION",
+            "text": "CONTRACT 3 - DISCOVERY FAMILY. The searchable dimensions, frozen BEFORE any slice is scored: Expert (the 3 certified pilots \u2014 trend_pullback, failed_breakout, liquidity_sweep_reclaim; extending to the other 25 registered families is a NEW, separately-declared search and re-opens this contract, D-046 discipline), symbol (the 6 downloaded: BTCUSDT, ETHUSDT, SOLUSDT, BNBUSDT, XRPUSDT, DOGEUSDT), estimand (FT001's two), direction (LONG/SHORT, decision-time-defined per FCR-V8RR-004 AP005 \u2014 direction is on the draft, not a context guess). Interaction depth: PAIRWISE ONLY (Expert x symbol x estimand x direction, one flat slice grid) \u2014 no Expert x Expert or symbol x symbol interactions, and NO habitat/context/regime axis (Phase 0/1 carry no such field, FCR-V8RR-004 OM002/CT003; a context claim here would be exactly the manufactured localization the fault-injection habitat case (test_fault_habitat_randomization_is_structurally_non_localizable) proved this instrument refuses). search_universe_size = 3 x 6 x 2 x 2 = 72 declared slices (some may be empty \u2014 an Expert may fire 0 times on a symbol; an empty slice is EXCLUDED_EMPTY, not a null result). Minimum support per slice, frozen pre-discovery: n_computed >= 30 (matches the repository's own RM-08-adjacent floor reasoning) AND effective_independent_episodes >= 8.",
+            "evidence_refs": [
+              "FCR-V8RR-004 (FT001, AP005)",
+              "src/v8/statistics.py:708-755 (effective_search_size)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT004",
+            "label": "DECISION",
+            "text": "CONTRACT 4 - DEPENDENCE-AWARE UNCERTAINTY. bootstrap_ci(series, block_size, n_resamples=2000, seed=<slice-derived>, ci=0.90), with block_size = select_block_size(series) (D-052's corrected n**(1/3)-rate tier rule, autocorrelation-gated, capped at n//2 \u2014 never the repository's old, already-rejected bar-count constants). seed is derived deterministically per slice (sha1 of the slice key, truncated to an int) so the same slice always resamples identically across runs \u2014 never a wall-clock or run-order-dependent seed (rule 9, no wall clock in replay extends to this analysis layer by the same discipline). n_resamples=2000 matches the repository's own already-ratified default (D-052's resamples_for_alpha floor).",
+            "evidence_refs": [
+              "src/v8/statistics.py:243-269 (select_block_size)",
+              "src/v8/statistics.py:419-445 (bootstrap_ci)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT005",
+            "label": "DECISION",
+            "text": "CONTRACT 5 - MULTIPLICITY. Two-level, inherited from O-021's already-adopted interim design rather than a new scheme: (a) WITHIN one Expert's search across its own declared variants \u2014 NOT APPLICABLE in this Phase-2 pass, because the 3 certified pilots each have exactly ONE registered variant (variants_evaluated=1 per docs/EXPERTS_REGISTRY.yaml); reality_check_p_value is therefore not invoked this pass (it requires >=2 aligned configurations) and is reserved for when a challenger variant is registered. (b) ACROSS the 72-slice discovery family \u2014 Bonferroni: alpha_slate = 0.05 / effective_search_size(variants_evaluated=72, search_universe_size=72) = 0.05/72 ~ 0.000694. expected_false_positives(72, 0.05) = 3.6 is reported beside the observed count of nominally-significant slices as the repository's own \"count near expectation is evidence of NO edge\" check (Aronson Ch9 p443, already the module's documented grounding).",
+            "evidence_refs": [
+              "src/v8/statistics.py:708-731 (expected_false_positives)",
+              "src/v8/statistics.py:733-755 (effective_search_size)",
+              "docs/decisions/OPEN_DECISIONS.md#O-021"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT006",
+            "label": "DECISION",
+            "text": "CONTRACT 6 - DISCOVERY / CONFIRMATION SPLIT. The 12-month dev window (2025-07-01..2026-06-30, trimmed 3 days for funding coverage, D-071) splits chronologically at its midpoint into a DISCOVERY interval (first ~6 months) and a CONFIRMATION interval (remaining ~6 months, held untouched during discovery), both still strictly inside the frozen 2026-07-01 holdout \u2014 this is a within-dev split, NOT a claim on the true frozen OOS, which stays reserved for a future preregistered v8_slice_001-style campaign per PREREGISTRATION_V8_SLICE_001. Every slice statistic (FT001-FT005) is computed on discovery ONLY to select candidate systematic findings; a finding is queried against confirmation AT MOST ONCE, after discovery is frozen, and confirmation is never re-queried if a finding fails there (no repair-on-reject, V8_CONSTITUTION rule 11 restated).",
+            "evidence_refs": [
+              "docs/decisions/DECISION_REGISTER.md#D-071 (trimmed dev window)",
+              "docs/charter/V8_CONSTITUTION.md (rule 11)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT007",
+            "label": "DECISION",
+            "text": "CONTRACT 7 - MATERIALITY. practical_significance(series, min_net_r, min_trades) with min_net_r = 0.05 R (half the repository's own RM-17 profit-factor-band-adjacent economic floor reasoning, chosen conservatively small so Phase 2 does not under-report candidate findings for Phase 3 to test) and min_trades = 30 (matches FT003's minimum-support floor exactly, so materiality and support are the same bar, never two silently different numbers).",
+            "evidence_refs": [
+              "src/v8/statistics.py:676-703 (practical_significance)"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "frozen_routes": {
+        "summary": "not_applicable (no service surface); the discovery-family CLI convention only.",
+        "items": [
+          {
+            "id": "FR001",
+            "label": "DECISION",
+            "text": "Frozen CLI (not yet implemented \u2014 this report freezes the contract the implementation must match): python tools/regret_phase2.py --cube-dirs <glob of Phase-1 out dirs> --split discovery|confirmation --out <dir>. Fails closed on any slice whose series contains a non-COMPUTED gap_status row that was not explicitly filtered (AS002).",
+            "evidence_refs": [],
+            "confidence": "high"
+          }
+        ]
+      },
+      "frozen_events": {
+        "summary": "One new ledger, mandated by the task brief itself (\"Record every query/slice subsequently performed against this dataset\" / \"track all human/agent-generated hypothesis queries\").",
+        "items": [
+          {
+            "id": "FE001",
+            "label": "DECISION",
+            "text": "ATTEMPT LEDGER (attempts.jsonl, source=regret-phase2-attempt, event_id=slice_key): one row PER DECLARED SLICE (all 72, including EXCLUDED_EMPTY and INSUFFICIENT_SUPPORT ones) written BEFORE any confirmation-interval query, carrying slice_key, estimand, n_computed, effective_independent_episodes, mean, ci_lower, ci_upper, block_size, alpha_slate, practically_significant, discovery_verdict in {CANDIDATE_SYSTEMATIC, INSUFFICIENT_SUPPORT, EXCLUDED_EMPTY, NOT_MATERIAL, NOT_SIGNIFICANT}. A slice promoted to CANDIDATE_SYSTEMATIC gets exactly one further row when confirmation is queried, confirmation_verdict in {SYSTEMATIC_FINDING, FAILED_CONFIRMATION}. This IS the search-accounting object v0.2 section 10.2 and rule 11 require (\"report the full search family\").",
+            "evidence_refs": [
+              "external_document: v0.2 section 10.2",
+              "docs/charter/V8_CONSTITUTION.md (rule 11)"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "ownership_manifest": {
+        "summary": "Ownership stays split exactly as FCR-V8RR-004 established.",
+        "items": [
+          {
+            "id": "OM001",
+            "label": "DECISION",
+            "text": "src/v8/statistics.py owns every estimator (block sizing, bootstrap, Reality-Check, materiality, multiplicity arithmetic) \u2014 Phase 2 code owns ONLY the slice-builder and the attempt ledger, and calls the module's public functions unmodified. No estimator logic is duplicated or re-derived.",
+            "evidence_refs": [
+              "CF001"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "OM002",
+            "label": "DECISION",
+            "text": "tools/regret.py's cube/gap output remains the ONLY input; Phase 2 never re-runs Lab or the Phase-0 evaluator, and never reads tools/diagnostics.py's population (FCR-V8RR-004 OM003, restated).",
+            "evidence_refs": [
+              "FCR-V8RR-004 (OM003)"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "amendment_policy": {
+        "summary": "Same five amendment rules as FCR-V8RR-004, restated with one Phase-2-specific addition.",
+        "items": [
+          {
+            "id": "AP001",
+            "label": "DECISION",
+            "text": "Extending the discovery family (FT003) to a new Expert, symbol, or estimand is a NEW declared search and requires a new frozen contract (or an explicit, dated amendment to this one) BEFORE it is run \u2014 never added silently mid-discovery, which is exactly the adaptive-search failure mode rule 11 and v0.2 section 10.2 exist to prevent.",
+            "evidence_refs": [
+              "docs/charter/V8_CONSTITUTION.md (rule 11)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "AP002",
+            "label": "DECISION",
+            "text": "A CANDIDATE_SYSTEMATIC finding that fails confirmation (FAILED_CONFIRMATION) is recorded permanently in the attempt ledger and MUST NOT be re-tested on a different split, a different estimand, or a different symbol grouping in search of a passing result (rule 11, \"never repair a rejected hypothesis on frozen OOS\" \u2014 the same discipline extended to the dev-internal discovery/confirmation split).",
+            "evidence_refs": [
+              "docs/charter/V8_CONSTITUTION.md (rule 11)"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "final_status": {
+        "status": "ready",
+        "safe_to_continue": "yes",
+        "requires_hir": "no",
+        "reason": [
+          "All seven contracts frozen with a named, already-tested reuse target for every estimator; zero new statistical code proposed.",
+          "The discovery family, minimum support, and materiality bar are declared BEFORE any slice is scored, closing the exact adaptive-search gap the task brief names."
+        ],
+        "self_assessment": {
+          "required_sections_complete": "yes",
+          "evidence_coverage": "high",
+          "unresolved_gaps": [
+            "Cross-symbol/cross-Expert dependence beyond the block-bootstrap's within-slice handling is named as a limitation (FT002) but not modelled \u2014 O-022-adjacent, deferred by the same reasoning O-021 already uses.",
+            "This contract is frozen but tools/regret_phase2.py (the slice-builder + attempt ledger) is NOT yet implemented; freezing the contract before the implementation is the deliberate order (FCR pattern, matching FCR-V8RR-004 -> tools/regret.py)."
+          ],
+          "confidence_in_own_completeness": "high"
+        }
+      }
+    }
+  },
+  "compiler_expectations": {
+    "source_path": "reports/accp/v8-rr-v02-phase0/source/FCR-V8RR-007.accp.yaml",
+    "compiled_json": "reports/accp/v8-rr-v02-phase0/compiled/FCR-V8RR-007.compiled.json",
+    "ir_json": "reports/accp/v8-rr-v02-phase0/ir/FCR-V8RR-007.ir.json",
+    "gate_verdict_json": "reports/accp/v8-rr-v02-phase0/verdict/FCR-V8RR-007.gate-verdict.json",
+    "route_signal_json": "reports/accp/v8-rr-v02-phase0/route/FCR-V8RR-007.route-signal.json"
+  },
+  "accp_version": "2.0.0",
+  "source_format": "ACCP-YAML",
+  "meta": {
+    "plan_id": "v8-rr-v02-phase0",
+    "workspace_id": "none",
+    "repo_root": "C:/Users/dresden/Documents/v8",
+    "git_commit": "1053dc1b819c9012f50294ccf7be7eaaa86b5746",
+    "git_branch": "main",
+    "report_generated_at": "2026-08-10",
+    "report_stale_after": "on_next_commit",
+    "confidence": "high"
+  },
+  "agent": {
+    "agent_id": "claude-code-session-750e89fd",
+    "agent_role": "repo_agent",
+    "model_name": "claude-sonnet-5",
+    "model_version": "unknown",
+    "session_id": "750e89fd-d8cf-4c8b-a4de-e656675171ce",
+    "prompt_hash": "unknown"
+  },
+  "capabilities": {
+    "can_read_files": true,
+    "can_run_commands": false
+  },
+  "final_status": {
+    "status": "complete",
+    "blocks_promotion": false
+  },
+  "assumptions": {},
+  "skipped_inspections": {},
+  "references": []
+}

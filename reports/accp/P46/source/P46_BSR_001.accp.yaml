@@ -1,0 +1,285 @@
+accp_version: "2.0.0"
+source_format: "ACCP-YAML"
+
+report:
+  id: "P46_BSR_001"
+  type: "BSR"
+  family: "bugfix"
+  kind: "bug_search"
+  status: "complete"
+
+meta:
+  plan_id: "P46"
+  workspace_id: "W01"
+  repo_root: "."
+  git_commit: "unknown"
+  git_branch: "feat/core-modernization-accp"
+  report_generated_at: "2026-08-21T22:05:00Z"
+  report_stale_after: "on_next_commit"
+  inspection_mode: "read_only"
+  confidence: "high"
+
+agent:
+  agent_id: "antigravity-core"
+  agent_role: "architect_auditor"
+  model_name: "gemini-3.7-flash"
+  model_version: "2026-08"
+  session_id: "b8724a74-7186-46c6-b1f8-5e9f0338dfca"
+  prompt_hash: "unknown"
+  context_used_percent: "unknown"
+  context_window_remaining: "unknown"
+
+capabilities:
+  can_read_files: true
+  can_run_commands: true
+  can_edit_files: true
+  can_access_network: false
+  tools_available:
+    - "read"
+    - "bash"
+    - "grep"
+  max_depth_inspected: "complete"
+
+references:
+  - id: "R001"
+    ref: "https://github.com/ddawnlll/v8/issues/208"
+    purpose: "Issue #208: Type Safety & Error Architecture"
+  - id: "R002"
+    ref: "https://github.com/ddawnlll/v8/issues/209"
+    purpose: "Issue #209: Crypto Hashing, Path Traversal & Telemetry"
+  - id: "R003"
+    ref: "https://github.com/ddawnlll/v8/issues/210"
+    purpose: "Issue #210: Zero-Copy Memmap Streaming Tape Reader & Binary IPC"
+  - id: "R004"
+    ref: "https://github.com/ddawnlll/v8/issues/211"
+    purpose: "Issue #211: Simulation Checkpointing & CI Release"
+
+assumptions:
+  AS001:
+    assumption: "Rust v8-core is the authoritative runtime."
+    reason: "AGENTS.md invariant #1."
+    confidence: "high"
+    how_to_verify: "tools/audit_python_boundary.py"
+
+skipped_inspections:
+  S001:
+    item: "Python oracle modifications"
+    reason: "Python codebase is frozen by AGENTS.md invariant #2."
+    risk: "low"
+    needed_next: "none"
+
+bug_search_scope:
+  in_scope:
+    - "v8-core type safety and error taxonomy"
+    - "v8-core data ingestion and memory footprint"
+    - "v8-core cryptographic digest standards"
+    - "v8-core path traversal boundaries"
+  out_of_scope:
+    - "src/v8/ Python oracle modification"
+  target_bug_classes:
+    - "type_safety_defect"
+    - "performance_oom_risk"
+    - "security_path_traversal"
+    - "fault_intolerance"
+  explicitly_not_changed:
+    - "Mathematical parity formulas and indicators"
+
+search_method:
+  strategy:
+    - "Static analysis of v8-core source tree"
+    - "Cargo test and benchmark execution"
+  commands:
+    - "cargo check --manifest-path v8-core/Cargo.toml"
+  files_read:
+    - "v8-core/src/scheduler.rs"
+    - "v8-core/src/candidate.rs"
+    - "v8-core/src/data.rs"
+    - "v8-core/src/hash.rs"
+  limitations:
+    - "None; full codebase inspected"
+
+bug_findings:
+  BG001:
+    title: "Stringly-typed errors and lifecycle transitions in v8-core"
+    classification: "confirmed_bug"
+    priority: "P1"
+    severity: "medium"
+    confidence: "high"
+    affected_area: "runtime_error_handling"
+    affected_files:
+      - path: "v8-core/src/scheduler.rs"
+        symbol: "evaluate"
+        lines: "73"
+      - path: "v8-core/src/candidate.rs"
+        symbol: "legal"
+        lines: "25-35"
+    observed_behavior:
+      - "Errors propagate as raw Strings, preventing pattern matching."
+    expected_behavior:
+      - "Errors should be strongly-typed V8CoreError enum."
+    evidence:
+      - id: "EV001"
+        type: "source_code"
+        detail: "scheduler.rs returns Result<(), String>"
+        path: "v8-core/src/scheduler.rs"
+        lines: "73"
+    why_this_is_a_bug:
+      - "Violates type invariants and reduces compiler safety."
+    impact:
+      - "Runtime cannot discriminate between infrastructure panic and logic refusal."
+    likely_root_cause:
+      - "Early MVP prototyping artifact."
+    reproduction:
+      status: "static_evidence_only"
+      steps:
+        - "Check signature of evaluate in scheduler.rs."
+    minimal_fix:
+      fix_id: "FX001"
+      summary: "Add V8CoreError and CandidateState enums."
+      recommended_files:
+        - "v8-core/src/error.rs"
+        - "v8-core/src/candidate.rs"
+        - "v8-core/src/scheduler.rs"
+      forbidden_scope_expansion:
+        - "Do not modify Python oracle."
+      implementation_notes:
+        - "Use thiserror crate."
+      risk: "low"
+    validation_after_fix:
+      - id: "VT001"
+        command: "cargo test --manifest-path v8-core/Cargo.toml"
+        cwd: "."
+        expected_result: "all unit tests pass"
+    priority_reason:
+      - "Fundamental for type safety."
+    confidence_reason:
+      - "Direct source verification."
+
+  BG002:
+    title: "Non-memory-mapped tape loading risks OOM on multi-GB inputs"
+    classification: "confirmed_bug"
+    priority: "P1"
+    severity: "high"
+    confidence: "high"
+    affected_area: "data_ingestion"
+    affected_files:
+      - path: "v8-core/src/data.rs"
+        symbol: "from_rows"
+        lines: "1-120"
+    observed_behavior:
+      - "Entire tape file is eagerly allocated in heap memory."
+    expected_behavior:
+      - "Zero-copy streaming reader backed by memmap2."
+    evidence:
+      - id: "EV002"
+        type: "source_code"
+        detail: "Vec<TapeRow> full allocation in data.rs"
+        path: "v8-core/src/data.rs"
+        lines: "213-275"
+    why_this_is_a_bug:
+      - "50GB tape triggers OOM failure."
+    impact:
+      - "Inability to process large scale production datasets."
+    likely_root_cause:
+      - "Initial scalar prototyping."
+    reproduction:
+      status: "static_evidence_only"
+      steps:
+        - "Inspect from_rows in data.rs"
+    minimal_fix:
+      fix_id: "FX002"
+      summary: "Implement memmap2 streaming reader."
+      recommended_files:
+        - "v8-core/src/data.rs"
+      forbidden_scope_expansion:
+        - "No schema mutation."
+      implementation_notes:
+        - "Use memmap2 crate."
+      risk: "medium"
+    validation_after_fix:
+      - id: "VT002"
+        command: "cargo test --manifest-path v8-core/Cargo.toml"
+        cwd: "."
+        expected_result: "streaming tests pass"
+    priority_reason:
+      - "High performance scalability bottleneck."
+    confidence_reason:
+      - "Direct code inspection."
+
+prioritized_fix_plan:
+  FX001:
+    fixes_bug: "BSR#BG001"
+    priority: "P1"
+    action: "add_guard"
+    summary: "Add V8CoreError and CandidateState enums"
+    minimal_files:
+      - "v8-core/src/error.rs"
+      - "v8-core/src/candidate.rs"
+    estimated_blast_radius: "low"
+    validation_required:
+      - "VT001"
+    blocks_promotion: true
+
+  FX002:
+    fixes_bug: "BSR#BG002"
+    priority: "P1"
+    action: "add_guard"
+    summary: "Add memmap2 streaming reader and binary serialization"
+    minimal_files:
+      - "v8-core/src/data.rs"
+    estimated_blast_radius: "low"
+    validation_required:
+      - "VT002"
+    blocks_promotion: true
+
+validation_recommendations:
+  VT001:
+    purpose: "Validate v8-core compilation and tests"
+    command: "cargo test --manifest-path v8-core/Cargo.toml"
+    cwd: "."
+    expected_pass_signal: "test result: ok. 321 passed"
+    false_positive_guards:
+      watch_mode: false
+      no_tests_found: false
+      command_not_found: false
+      timeout: false
+
+decisions:
+  DC001:
+    recommendation: "fix_next"
+    applies_to:
+      - "BG001"
+      - "BG002"
+    reason:
+      - "Required for production readiness."
+    confidence: "high"
+
+next_route:
+  NR001:
+    recommended_next_report: "FPR"
+    recommended_next_action: "fix"
+    target_refs:
+      - "BSR#BG001"
+      - "BSR#BG002"
+    mutation_policy_needed: "mutation_allowed"
+    auto_advance_safe: "conditional"
+    requires_human_confirmation: false
+    reason:
+      - "Proceed to Fix Patch Report generation."
+    confidence: "high"
+
+final_status:
+  bug_search_status: "complete"
+  repo_mutation_performed: false
+  highest_priority: "P1"
+  must_fix_before_promotion:
+    - "BG001"
+    - "BG002"
+  safe_to_continue_without_fix: "no"
+  requires_tvr: true
+  requires_hir: false
+  self_assessment:
+    required_sections_complete: "yes"
+    evidence_coverage: "high"
+    unresolved_gaps: []
+    confidence_in_own_completeness: "high"

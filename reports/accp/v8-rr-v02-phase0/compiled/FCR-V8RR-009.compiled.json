@@ -1,0 +1,236 @@
+{
+  "report": {
+    "accp_version": "2.0.0",
+    "source_format": "ACCP-YAML",
+    "report_id": "FCR-V8RR-009",
+    "report_type": "FCR",
+    "report_family": "feature",
+    "report_name": "Feature Contract Report",
+    "support_level": "template_available",
+    "plan_id": "v8-rr-v02-phase0",
+    "workspace_id": "none",
+    "repo_root": "C:/Users/dresden/Documents/v8",
+    "git_commit": "1053dc1b819c9012f50294ccf7be7eaaa86b5746",
+    "git_branch": "main",
+    "report_generated_at": "2026-08-10",
+    "report_stale_after": "on_next_commit",
+    "inspection_mode": "contract_freeze",
+    "confidence": "high",
+    "authority": {
+      "reports_are_evidence_only": true,
+      "route_signals_are_advisory": true,
+      "runtime_must_read_compiled_json": true,
+      "raw_yaml_is_not_runtime_authority": true,
+      "rendered_markdown_is_human_preview_only": true
+    },
+    "agent": {
+      "agent_id": "claude-code-session-750e89fd",
+      "agent_role": "repo_agent",
+      "model_name": "claude-sonnet-5",
+      "model_version": "unknown",
+      "session_id": "750e89fd-d8cf-4c8b-a4de-e656675171ce",
+      "prompt_hash": "unknown"
+    },
+    "lineage": {
+      "parent_report": "FCR-V8RR-007",
+      "supersedes": "none",
+      "triggered_by": "user_directive: Phase 3 recoverability evaluation for confirmed Phase-2 systematic findings",
+      "continuation_of": "FCR-V8RR-004",
+      "validates": "none"
+    },
+    "references": [
+      {
+        "id": "R001",
+        "ref": "docs/decisions/DECISION_REGISTER.md#D-072",
+        "purpose": "The 12 confirmed SYSTEMATIC_FINDING slices this contract tests."
+      },
+      {
+        "id": "R002",
+        "ref": "external_document: Recoverable Regret v0.2, section 6.1 (recoverable policy class), section 15 Phase 3.",
+        "purpose": "The scientific requirement being made executable."
+      }
+    ],
+    "assumptions": [
+      {
+        "id": "AS001",
+        "assumption": "This contract is frozen BEFORE any policy is scored, per the task's own ordering requirement (\"Before testing this, freeze a Phase-3 recoverability contract\").",
+        "reason": "Direct instruction; also the repository's own rule 11/pre-holdout discipline extended to this dev-internal test.",
+        "confidence": "high",
+        "how_to_verify": "not_applicable"
+      }
+    ],
+    "skipped_inspections": [],
+    "sections": {
+      "contract_freeze_summary": {
+        "summary": "Binds (I, Pi, E) for testing whether each of the 12 confirmed mean_legal_hindsight_gap findings (D-072) is decision-time-recoverable. Baseline I = the birth MarketState's already-computed scalar features plus the frozen CandidateDraft fields (no future information, no regeneration of the Candidate). Pi = deterministic single-feature threshold GATES (TRADE vs NO_TRADE) over 3 declared features, plus the mandatory always-trade baseline that reproduces the deployed V8 policy exactly (the containment requirement). E = the SAME chronological discovery/confirmation split Phase 2 already used, reused rather than re-cut.",
+        "items": [
+          {
+            "id": "CF001",
+            "label": "FACT",
+            "text": "Diagnostic groundwork (real command output, this session): for trend_pullback LONG BTCUSDT (one of the 12 confirmed slices), NO_TRADE is the sole or tied best legal action for 136/214 (63.6%) of its COMPUTED candidates \u2014 confirming NO_TRADE, not a wider-target geometry variant, is the dominant driver of the confirmed gap. This is why Pi is built around a TRADE/NO_TRADE gate rather than a geometry-widening rule: the gate targets the action that actually explains most of the measured gap.",
+            "evidence_refs": [
+              "command: this session, best_action_ids inspection on tmp/phase1/btcusdt/out/regret.jsonl"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "frozen_types": {
+        "summary": "The three bound objects plus the promotion rule.",
+        "items": [
+          {
+            "id": "FT001",
+            "label": "DECISION",
+            "text": "I (decision-time information class) = X_t = (S_t, C_t): the birth MarketState's scalar features (as persisted in states.jsonl at the Candidate's own birth_state_id \u2014 never recomputed, never a later clock) UNION the frozen CandidateDraft fields already in the Phase-0 snapshot (expert_id, direction, risk_geometry). No richer representation is used at this pass (v0.2 escalates to a richer phi ONLY after this baseline fails, section 11.1) \u2014 this is the CURRENT V8 representation, restated as the task requires.",
+            "evidence_refs": [
+              "external_document: v0.2 section 15 Phase 3, \"Baseline information class... X_t=(S_t,C_t)\""
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT002",
+            "label": "DECISION",
+            "text": "Pi (admissible policy class), frozen and small by design (v0.2: \"do not start with a powerful unconstrained learner that can memorize the research dataset\"): (a) ALWAYS_TRADE \u2014 the degenerate policy that takes the actual action on every Candidate, included specifically so the deployed V8 policy IS representable in Pi (the task's explicit containment requirement for V_A <= V_R to be assertable); (b) THRESHOLD_GATE(feature, direction, quantile) for feature in {rsi14, bb_pct_b, adx14} (three declared, generic, already-computed decision-time features \u2014 not searched per slice, fixed before any slice is scored), direction in {NO_TRADE_BELOW, NO_TRADE_ABOVE}, quantile in {0.2, 0.4, 0.6, 0.8} of that feature's DISCOVERY-half distribution for that slice. |Pi| = 1 + 3*2*4 = 25 policies per slice. A THRESHOLD_GATE policy selects NO_TRADE (utility 0.0 by FCR-V8RR-004 FT011i) when the gate fires, else the actual action's replayed utility (already in the Phase-0 cube) \u2014 no new replay is performed; the policy only SELECTS among already-certified cube utilities.",
+            "evidence_refs": [
+              "external_document: v0.2 section 15 Phase 3, \"Policy classes... Start simple\""
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT003",
+            "label": "DECISION",
+            "text": "E (protected evaluation environment) = the SAME chronological discovery (first ~6 months, 4,609 Candidates) / confirmation (remaining ~6 months, 4,609 Candidates) split FCR-V8RR-007 already cut for Phase 2 \u2014 reused, not re-cut, so a slice's Phase-2 and Phase-3 evidence share one split and cannot be gamed by re-splitting. Policy SELECTION (argmax mean utility over Pi) happens on DISCOVERY only; V_R and G_R are estimated on CONFIRMATION only, using the SAME selected policy, never re-selected on confirmation data.",
+            "evidence_refs": [
+              "FCR-V8RR-007 (FT006)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT004",
+            "label": "DECISION",
+            "text": "PROMOTION RULE. G_R = V_R - V_A, both means taken over the SAME confirmation-half population (never a mismatched N). Bootstrap (reuse v8.statistics.bootstrap_ci, block_size via select_block_size, same N_RESAMPLES=2000/CI=0.90/seed convention as FCR-V8RR-007 FT004, applied to the per-candidate (policy_utility - actual_utility) delta series) computes a 90% CI on G_R. A slice is RECOVERABLE_WITHIN_CLASS only if ci_lower(G_R) > 0 AND mean(G_R) >= 0.05 R (the same materiality floor as Phase 2, FT007) \u2014 a positive point estimate ALONE never promotes (task: \"should require a prespecified lower-bound/materiality condition, not merely a positive point estimate\"). Otherwise NOT_RECOVERABLE_WITHIN_CLASS \u2014 a SCOPED result (this class, this environment), never an absolute unpredictability claim (v0.2 OUTSIDE table, restated).",
+            "evidence_refs": [
+              "src/v8/statistics.py (bootstrap_ci, select_block_size \u2014 reused unmodified)",
+              "external_document: v0.2 section 11, NOT_RECOVERABLE_WITHIN_CLASS row"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT005",
+            "label": "DECISION",
+            "text": "REPRESENTATION-GAP ESCALATION (deferred, not frozen here): only slices that reach NOT_RECOVERABLE_WITHIN_CLASS on the FT001 baseline are eligible for a SEPARATE, later-declared richer-phi test (v0.2 section 11.1). This contract does not name the richer representation \u2014 naming it now, before the baseline result is known, would itself be an undeclared adaptive search.",
+            "evidence_refs": [
+              "external_document: v0.2 section 11.1"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "frozen_routes": {
+        "summary": "not_applicable (no service surface); CLI convention only.",
+        "items": [
+          {
+            "id": "FR001",
+            "label": "DECISION",
+            "text": "Implementation surface (not yet built at freeze time): tools/regret_phase3.py, reading tmp/phase2's confirmed slice list and tmp/phase1's joined dataset plus each store's states.jsonl for birth features. No new replay \u2014 every utility number is already in the certified Phase-0 cube.",
+            "evidence_refs": [],
+            "confidence": "high"
+          }
+        ]
+      },
+      "frozen_events": {
+        "summary": "One ledger, mirroring Phase 2's attempt-ledger discipline.",
+        "items": [
+          {
+            "id": "FE001",
+            "label": "DECISION",
+            "text": "recoverability_attempts.jsonl: one row per (slice, policy) scored on discovery (25 rows/slice x 12 slices = 300), PLUS one row per slice recording the SELECTED policy's confirmation-half G_R/CI/verdict. Every one of the 25 policies per slice is logged, not just the winner \u2014 closing the same search-accounting requirement Phase 2's attempt ledger closes, now applied to policy selection within Pi.",
+            "evidence_refs": [],
+            "confidence": "high"
+          }
+        ]
+      },
+      "ownership_manifest": {
+        "summary": "Same split as before, restated.",
+        "items": [
+          {
+            "id": "OM001",
+            "label": "DECISION",
+            "text": "v8.statistics owns every estimator (reused unmodified, again). tools/regret_phase3.py owns ONLY the policy enumeration and selection logic; it performs no replay and reads no tape \u2014 every utility it consumes is already a certified Phase-0 cube row.",
+            "evidence_refs": [],
+            "confidence": "high"
+          }
+        ]
+      },
+      "amendment_policy": {
+        "summary": "Same five rules as FCR-V8RR-004/007, restated with the Phase-3-specific containment rule.",
+        "items": [
+          {
+            "id": "AP001",
+            "label": "DECISION",
+            "text": "If ALWAYS_TRADE is ever removed from Pi, the V_A <= V_R inequality this whole phase exists to test becomes unassertable and every downstream G_R is meaningless \u2014 ALWAYS_TRADE''s presence in Pi is therefore itself a frozen invariant, not a configuration choice.",
+            "evidence_refs": [
+              "external_document: v0.2 section 8, \"Required assumptions: the deployed policy is contained in the admissible recoverable policy class\""
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "final_status": {
+        "status": "ready",
+        "safe_to_continue": "yes",
+        "requires_hir": "no",
+        "reason": [
+          "I, Pi, E are all bound to concrete, already-available objects (birth MarketState features, a small enumerable threshold-gate family including the mandatory containment baseline, and Phase 2's own protected split); nothing is invented for this contract.",
+          "The promotion rule requires a materiality floor AND a CI excluding zero, not a bare positive point estimate, per the task's explicit instruction."
+        ],
+        "self_assessment": {
+          "required_sections_complete": "yes",
+          "evidence_coverage": "high",
+          "unresolved_gaps": [
+            "tools/regret_phase3.py is not yet implemented at freeze time (deliberate FCR-before-code ordering, matching FCR-V8RR-004/007's own pattern)."
+          ],
+          "confidence_in_own_completeness": "high"
+        }
+      }
+    }
+  },
+  "compiler_expectations": {
+    "source_path": "reports/accp/v8-rr-v02-phase0/source/FCR-V8RR-009.accp.yaml",
+    "compiled_json": "reports/accp/v8-rr-v02-phase0/compiled/FCR-V8RR-009.compiled.json",
+    "ir_json": "reports/accp/v8-rr-v02-phase0/ir/FCR-V8RR-009.ir.json",
+    "gate_verdict_json": "reports/accp/v8-rr-v02-phase0/verdict/FCR-V8RR-009.gate-verdict.json",
+    "route_signal_json": "reports/accp/v8-rr-v02-phase0/route/FCR-V8RR-009.route-signal.json"
+  },
+  "accp_version": "2.0.0",
+  "source_format": "ACCP-YAML",
+  "meta": {
+    "plan_id": "v8-rr-v02-phase0",
+    "workspace_id": "none",
+    "repo_root": "C:/Users/dresden/Documents/v8",
+    "git_commit": "1053dc1b819c9012f50294ccf7be7eaaa86b5746",
+    "git_branch": "main",
+    "report_generated_at": "2026-08-10",
+    "report_stale_after": "on_next_commit",
+    "confidence": "high"
+  },
+  "agent": {
+    "agent_id": "claude-code-session-750e89fd",
+    "agent_role": "repo_agent",
+    "model_name": "claude-sonnet-5",
+    "model_version": "unknown",
+    "session_id": "750e89fd-d8cf-4c8b-a4de-e656675171ce",
+    "prompt_hash": "unknown"
+  },
+  "capabilities": {
+    "can_read_files": true,
+    "can_run_commands": false
+  },
+  "final_status": {
+    "status": "complete",
+    "blocks_promotion": false
+  },
+  "assumptions": {},
+  "skipped_inspections": {},
+  "references": []
+}

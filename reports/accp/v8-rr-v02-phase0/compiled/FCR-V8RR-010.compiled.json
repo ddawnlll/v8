@@ -1,0 +1,215 @@
+{
+  "report": {
+    "accp_version": "2.0.0",
+    "source_format": "ACCP-YAML",
+    "report_id": "FCR-V8RR-010",
+    "report_type": "FCR",
+    "report_family": "feature",
+    "report_name": "Feature Contract Report",
+    "support_level": "template_available",
+    "plan_id": "v8-rr-v02-phase0",
+    "workspace_id": "none",
+    "repo_root": "C:/Users/dresden/Documents/v8",
+    "git_commit": "1053dc1b819c9012f50294ccf7be7eaaa86b5746",
+    "git_branch": "main",
+    "report_generated_at": "2026-08-10",
+    "report_stale_after": "on_next_commit",
+    "inspection_mode": "contract_freeze",
+    "confidence": "high",
+    "authority": {
+      "reports_are_evidence_only": true,
+      "route_signals_are_advisory": true,
+      "runtime_must_read_compiled_json": true,
+      "raw_yaml_is_not_runtime_authority": true,
+      "rendered_markdown_is_human_preview_only": true
+    },
+    "agent": {
+      "agent_id": "claude-code-session-750e89fd",
+      "agent_role": "repo_agent",
+      "model_name": "claude-sonnet-5",
+      "model_version": "unknown",
+      "session_id": "750e89fd-d8cf-4c8b-a4de-e656675171ce",
+      "prompt_hash": "unknown"
+    },
+    "lineage": {
+      "parent_report": "FCR-V8RR-009",
+      "supersedes": "none",
+      "triggered_by": "user_directive: Phase 4 controlled single-component intervention for a Phase-3-recoverable finding",
+      "continuation_of": "FCR-V8RR-004",
+      "validates": "none"
+    },
+    "references": [
+      {
+        "id": "R001",
+        "ref": "docs/decisions/DECISION_REGISTER.md#D-073",
+        "purpose": "The recoverability result this intervention targets."
+      }
+    ],
+    "assumptions": [],
+    "skipped_inspections": [
+      {
+        "id": "S001",
+        "item": "The other 10 recoverable slices (trend_pullback x 5, failed_breakout on the remaining 2 symbols).",
+        "reason": "Single-component-intervention discipline (v0.2 section 12 H7, \"restricting challenger experiments to one principal changed dimension\") means ONE preregistered intervention this pass; trend_pullback's heterogeneous per-symbol feature/threshold selection (D-073) is flagged as a possible discovery-half overfit and is NOT a coherent single component to intervene on yet.",
+        "risk": "low",
+        "needed_next": "A separate, later FCR if this intervention's result (whichever direction) motivates extending to trend_pullback or to the other failed_breakout symbols with per-symbol thresholds."
+      }
+    ],
+    "sections": {
+      "contract_freeze_summary": {
+        "summary": "ONE preregistered intervention, frozen completely before any code is written: failed_breakout gains a v2 CHALLENGER variant (never mutating v1 in place) that adds exactly one pre-entry filter component \u2014 skip the Candidate when bb_pct_b < 0.70 at the setup bar. Champion v1 is unchanged. Re-evaluated through the SAME certified pipeline (tools/regret.py -> tools/regret_phase1.py) on the SAME 6-symbol store family and the SAME protected discovery/confirmation split, comparing v1 vs v2 on the confirmation half only.",
+        "items": [
+          {
+            "id": "CF001",
+            "label": "DECISION",
+            "text": "Why THIS component, not another: D-073 measured 4 of 6 failed_breakout SHORT symbols independently selecting bb_pct_b NO_TRADE_BELOW at nearly the same threshold (0.729-0.743) \u2014 the only cross-symbol-COHERENT pattern among the 12 recoverable slices (trend_pullback's selections vary by feature AND direction per symbol, flagged in D-073 as a possible overfit and explicitly excluded from this pass, S001). A single declared entry filter is the correct component to isolate: it changes candidate ADMISSION only, touching no direction, geometry, stop, target, or exit logic.",
+            "evidence_refs": [
+              "docs/decisions/DECISION_REGISTER.md#D-073"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "frozen_types": {
+        "summary": "The six elements the task requires frozen before any code.",
+        "items": [
+          {
+            "id": "FT001",
+            "label": "DECISION",
+            "text": "TARGET COMPONENT: candidate admission (pre-entry filter), failed_breakout family, SHORT direction only (the family's only direction). No change to setup detection, trigger, invalidation, geometry, or exit.",
+            "evidence_refs": [],
+            "confidence": "high"
+          },
+          {
+            "id": "FT002",
+            "label": "DECISION",
+            "text": "CHALLENGER: a new class FailedBreakoutV2Expert(FailedBreakoutExpert) in the SAME file (src/v8/experts/failed_breakout.py, D-033 one-file-per-family), expert_id unchanged ('failed_breakout' \u2014 rule 13, a filter addition is a variant of the same hypothesis family, not a new Expert), version='v2', variant_id='b'. evaluate() calls super().evaluate() unmodified, then additionally requires bb_pct_b < 0.70 (a DECLARED ROUND constant \u2014 not any of the 4 measured per-symbol values, precisely so this is ONE intervention rather than 4 refits) at the SAME decision clock the setup already fires on (no new lookahead: bb_pct_b is already in the volatility feature group, already available at the setup bar). NOT added to src/v8/experts/__init__.py or docs/EXPERTS_REGISTRY.yaml at this pass \u2014 a provisional challenger under test, not yet a registry admission (rule 5: promotion requires beating the baseline on this exact comparison first).",
+            "evidence_refs": [
+              "docs/contracts/IMPLEMENTATION_LAYOUT.md (D-033, D-032)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT003",
+            "label": "DECISION",
+            "text": "EXPECTED DIRECTION: v2's mean_actual_utility on the confirmation half should be HIGHER (less negative) than v1's, because the filter removes exactly the candidates D-073's policy search independently flagged as the worst-utility bb_pct_b>=0.70 subset for 4 of 6 symbols. No claim of a positive V_R (rule 12 stays untouched regardless of outcome).",
+            "evidence_refs": [],
+            "confidence": "high"
+          },
+          {
+            "id": "FT004",
+            "label": "DECISION",
+            "text": "MINIMUM EFFECT: mean_actual_utility(v2, confirmation) - mean_actual_utility(v1, confirmation) >= 0.05R (same materiality floor as Phase 2/3, FCR-V8RR-007 FT007/FCR-V8RR-009 FT004 \u2014 one number, never silently different per phase), estimated on the SAME confirmation-half Candidate population both versions are replayed against (matched, not resampled).",
+            "evidence_refs": [],
+            "confidence": "high"
+          },
+          {
+            "id": "FT005",
+            "label": "DECISION",
+            "text": "REJECTION CRITERION: the intervention is REJECTED if the confirmation-half delta's bootstrap CI lower bound (same bootstrap_ci/select_block_size convention, N_RESAMPLES=2000, CI=0.90, seed derived from the comparison key) does not exceed 0, OR if the delta is below the FT004 floor even with a positive CI lower bound (materiality gate, restated). A rejection is a VALID scientific result per the task's own end-state definition and is recorded exactly as such \u2014 not retried with a different threshold (that would be exactly the \"repair a rejected hypothesis\" rule 11 forbids).",
+            "evidence_refs": [
+              "docs/charter/V8_CONSTITUTION.md (rule 11)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT006",
+            "label": "DECISION",
+            "text": "ROLLBACK: trivial by construction \u2014 v2 is an additive class in a file that already contains v1 unchanged; deleting the class (or simply never importing/registering it) fully reverts with zero blast radius on any existing test, golden hash, or registered Expert. No src/v8 file outside failed_breakout.py is touched.",
+            "evidence_refs": [],
+            "confidence": "high"
+          },
+          {
+            "id": "FT007",
+            "label": "DECISION",
+            "text": "PROTECTED EVALUATION PERIOD: the SAME confirmation half (chronological second ~6 months) FCR-V8RR-007/009 already reserved \u2014 reused a third time, never re-cut, so all three phases' evidence shares one untouched holdout-within-dev interval.",
+            "evidence_refs": [
+              "FCR-V8RR-007 (FT006)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FT008",
+            "label": "DECISION",
+            "text": "INTERACTION CHECK (v0.2 section 9.3): if this single-component result is materially different from D-073's policy-search estimate for the SAME symbols (bb_pct_b NO_TRADE_BELOW gate applied post-hoc to Phase-0's cube vs. applied pre-Candidate inside the Expert), the discrepancy is INTERACTION_UNRESOLVED and must be reported as such rather than silently reconciled \u2014 the two mechanisms differ (a post-hoc cube-level gate can't affect episode_key/lifecycle/exposure; a pre-Candidate Expert-level filter changes which Candidates exist at all, which changes exposure-slot contention, D-018/rule 16).",
+            "evidence_refs": [
+              "external_document: v0.2 section 9.3"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "frozen_routes": {
+        "summary": "not_applicable.",
+        "items": []
+      },
+      "frozen_events": {
+        "summary": "not_applicable \u2014 this comparison reuses the existing certified ledgers (v1 already has a store per symbol; v2 needs one fresh store per symbol, built the identical way).",
+        "items": []
+      },
+      "ownership_manifest": {
+        "summary": "v8.simulator/v8.lab own execution unchanged; only src/v8/experts/failed_breakout.py gains the new class.",
+        "items": []
+      },
+      "amendment_policy": {
+        "summary": "A result in either direction is final for THIS declared comparison; extending to other symbols/Experts is a new FCR (S001).",
+        "items": []
+      },
+      "final_status": {
+        "status": "ready",
+        "safe_to_continue": "yes",
+        "requires_hir": "no",
+        "reason": [
+          "All six required elements (target, challenger, direction, minimum effect, rejection criterion, rollback) are frozen with concrete numbers before any code is written.",
+          "Rollback is provably trivial (an unregistered additive class); no existing test, hash, or registered Expert is put at risk."
+        ],
+        "self_assessment": {
+          "required_sections_complete": "yes",
+          "evidence_coverage": "high",
+          "unresolved_gaps": [
+            "The challenger class is not yet implemented at freeze time (deliberate ordering)."
+          ],
+          "confidence_in_own_completeness": "high"
+        }
+      }
+    }
+  },
+  "compiler_expectations": {
+    "source_path": "reports/accp/v8-rr-v02-phase0/source/FCR-V8RR-010.accp.yaml",
+    "compiled_json": "reports/accp/v8-rr-v02-phase0/compiled/FCR-V8RR-010.compiled.json",
+    "ir_json": "reports/accp/v8-rr-v02-phase0/ir/FCR-V8RR-010.ir.json",
+    "gate_verdict_json": "reports/accp/v8-rr-v02-phase0/verdict/FCR-V8RR-010.gate-verdict.json",
+    "route_signal_json": "reports/accp/v8-rr-v02-phase0/route/FCR-V8RR-010.route-signal.json"
+  },
+  "accp_version": "2.0.0",
+  "source_format": "ACCP-YAML",
+  "meta": {
+    "plan_id": "v8-rr-v02-phase0",
+    "workspace_id": "none",
+    "repo_root": "C:/Users/dresden/Documents/v8",
+    "git_commit": "1053dc1b819c9012f50294ccf7be7eaaa86b5746",
+    "git_branch": "main",
+    "report_generated_at": "2026-08-10",
+    "report_stale_after": "on_next_commit",
+    "confidence": "high"
+  },
+  "agent": {
+    "agent_id": "claude-code-session-750e89fd",
+    "agent_role": "repo_agent",
+    "model_name": "claude-sonnet-5",
+    "model_version": "unknown",
+    "session_id": "750e89fd-d8cf-4c8b-a4de-e656675171ce",
+    "prompt_hash": "unknown"
+  },
+  "capabilities": {
+    "can_read_files": true,
+    "can_run_commands": false
+  },
+  "final_status": {
+    "status": "complete",
+    "blocks_promotion": false
+  },
+  "assumptions": {},
+  "skipped_inspections": {},
+  "references": []
+}

@@ -1,0 +1,941 @@
+{
+  "report": {
+    "accp_version": "2.0.0",
+    "source_format": "ACCP-YAML",
+    "report_id": "FER-V8RR-002",
+    "report_type": "FER",
+    "report_family": "feature",
+    "report_name": "Feature Exploration Report",
+    "support_level": "template_available",
+    "plan_id": "v8-rr-v02-phase0",
+    "workspace_id": "none",
+    "repo_root": "C:/Users/dresden/Documents/v8",
+    "git_commit": "1053dc1b819c9012f50294ccf7be7eaaa86b5746",
+    "git_branch": "main",
+    "report_generated_at": "2026-08-10",
+    "report_stale_after": "on_next_commit",
+    "inspection_mode": "read_only",
+    "confidence": "high",
+    "authority": {
+      "reports_are_evidence_only": true,
+      "route_signals_are_advisory": true,
+      "runtime_must_read_compiled_json": true,
+      "raw_yaml_is_not_runtime_authority": true,
+      "rendered_markdown_is_human_preview_only": true
+    },
+    "agent": {
+      "agent_id": "claude-code-session-750e89fd",
+      "agent_role": "repo_agent",
+      "model_name": "claude-opus-5",
+      "model_version": "unknown",
+      "session_id": "750e89fd-d8cf-4c8b-a4de-e656675171ce",
+      "prompt_hash": "unknown"
+    },
+    "lineage": {
+      "parent_report": "RIR-V8RR-001",
+      "supersedes": "none",
+      "triggered_by": "RIR-V8RR-001",
+      "continuation_of": "none",
+      "validates": "none"
+    },
+    "references": [
+      {
+        "id": "R001",
+        "ref": "external_document: Recoverable Regret in Modular Trading Systems v0.2, sections 4 (Ontology), 6 (Formal setting), 7 (Constrained Hindsight Evaluator), 13 (Minimal research architecture), 14 (Certification), 15 Phase 0.",
+        "purpose": "The ontology being mapped onto V8."
+      },
+      {
+        "id": "R002",
+        "ref": "RIR-V8RR-001",
+        "purpose": "Repository facts this exploration is built on."
+      }
+    ],
+    "assumptions": [
+      {
+        "id": "AS001",
+        "assumption": "v0.2 Phase 0 is scoped as \"certify the tape/information/state lineage, Replay Model semantics, legal action enumerator, model-derived outcome generation, and fault-localization suite\" and explicitly excludes economics; therefore nothing in this exploration proposes touching Expert logic, geometry defaults or the economic verdict path.",
+        "reason": "v0.2 section 15 Phase 0 text; V8_CONSTITUTION rules 1 and 12.",
+        "confidence": "high",
+        "how_to_verify": "not_applicable"
+      },
+      {
+        "id": "AS002",
+        "assumption": "The fixed-path (price-taking / no-interference) approximation is acceptable for V8 at Level 1, because the simulator has no market-impact, queue or depth model at all and the tape carries no depth.",
+        "reason": "RIR DM014; SIMULATION_TRUTH_SPEC fidelity ladder pins Level 1; v0.2 section 5.2 requires the approximation to be DECLARED, which the FCR does.",
+        "confidence": "high",
+        "how_to_verify": "Falsified only by adding a depth/impact model, which is out of Phase-0 scope."
+      },
+      {
+        "id": "AS003",
+        "assumption": "Reuse percentages in this report are ranges expressing engineering judgement over measured surface, not a metric with a defined denominator.",
+        "reason": "The task explicitly permits ranges and forbids fabricated precision.",
+        "confidence": "medium",
+        "how_to_verify": "not_applicable"
+      }
+    ],
+    "skipped_inspections": [
+      {
+        "id": "S001",
+        "item": "Quantifying how many of the 28 Expert families would produce a NON-degenerate legal action set (e.g. families whose geometry is fully structural).",
+        "reason": "Phase 0 certifies the mechanism on the two golden pilots; the family sweep is Phase 1 work and would require a real tape (RIR GR009).",
+        "risk": "low",
+        "needed_next": "Run the action-manifest generator over all 28 families once a dev-tape store exists."
+      }
+    ],
+    "sections": {
+      "feature_request_summary": {
+        "summary": "The request is NOT to build the v0.2 system. It is to determine how much of v0.2 already exists inside V8 and what the minimum Phase-0 addition is. The finding is that V8 already implements the load-bearing half of v0.2 - versioned tape, availability-gated point-in-time state with per-feature lineage, immutable clock-free Candidate identity, an append-only lifecycle, and a deterministic versioned replay simulator whose signature is literally Replay(Candidate, action, future tape; M) -> model-derived outcome. What is missing is an explicit legal-action universe, a materialized outcome cube, a hindsight-gap function, and an abstention state.",
+        "items": [
+          {
+            "id": "FS001",
+            "label": "FACT",
+            "text": "v0.2 requires a post-Candidate evaluator that may consume the realized future ONLY through a declared Replay Model to score legal actions, and may never use the future to construct a decision-time distinction. V8 already enforces the second half structurally: MarketState raises FutureRowError on any row with available_time > as_of, and the evaluator being proposed writes nothing into the state path.",
+            "evidence_refs": [
+              "src/v8/marketstate.py:876-890",
+              "tests/test_vertical_slice.py:37 (test_future_row_rejected)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FS002",
+            "label": "FACT",
+            "text": "v0.2 constitutional invariant 1 (\"no candidate, no trade\" / OUTSIDE_CANDIDATE_UNIVERSE) is already a V8 architectural fact rather than a rule to be added: nothing downstream of PHASE 3 can exist without an emitted CandidateDraft, and the candidate store is append-only with legality-checked transitions.",
+            "evidence_refs": [
+              "src/v8/lab.py:787-870",
+              "src/v8/lifecycle.py:13-35"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "FS003",
+            "label": "FACT",
+            "text": "v0.2 constitutional invariant 4 (\"same economic semantics\" - fees, funding, capacity, fill rules shared with the evaluated system) is satisfied by construction if and only if the evaluator calls CanonicalSimulator, because cost has exactly one resolution site (cost_r) and funding exactly one (_apply_funding), and both are bound into sim.hash().",
+            "evidence_refs": [
+              "src/v8/simulator.py:265-279",
+              "src/v8/simulator.py:310-342",
+              "src/v8/simulator.py:658-700"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "existing_surfaces": {
+        "summary": "Strict ontology-to-code mapping. Status vocabulary: EXISTS_ALIGNED | EXISTS_NEEDS_ADAPTER | PARTIAL | MISSING | SEMANTIC_CONFLICT | NOT_NEEDED_PHASE_0. Minimum action vocabulary: REUSE | WRAP | EXTEND_METADATA | EXTRACT_INTERFACE | ADD_SMALL_COMPONENT | DEFER. Fifteen of sixteen v0.2 objects resolve to REUSE, WRAP, EXTEND_METADATA or DEFER; only three require any new code at all, and none requires a new subsystem.",
+        "items": [
+          {
+            "id": "ON001",
+            "label": "FACT",
+            "text": "MarketTape | status EXISTS_ALIGNED | action REUSE. Representation: schema.TapeRow (three never-collapsed clocks + venue_sequence + channel + payload), store.AppendOnlyLog (JSONL, (source,event_id) dedup, replay_tape sorted by (event_time, available_time, venue_sequence)), identity = AppendOnlyLog.hash bound as ExperimentManifest.data_hash and re-checked at Lab.run. Semantic difference from v0.2: none - \"immutable for a certified experiment\" is enforced by append-only storage plus a fail-closed manifest pin.",
+            "evidence_refs": [
+              "src/v8/schema.py:77-92",
+              "src/v8/store.py:14-66",
+              "src/v8/lab.py:980-992"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON002",
+            "label": "FACT",
+            "text": "DecisionTimeInformation I_t | status PARTIAL | action EXTEND_METADATA (documentation only for Phase 0; no class). V8 has NO DecisionTimeInformation object and does not need one: I_t at clock D is exactly {tape rows with available_time <= D}, which is recoverable by replaying the hash-bound tape to D, and its consumption is already witnessed three ways - MarketState.provenance.raw_manifest_hash (digest of every kline row admissible at the clock), FeatureValue.max_input_available_time and calculation_time (when each feature became computable), and FeatureValue.input_lineage_hash (hash of the (event_id, payload_hash) identities of the rows that produced that feature, which moves even when the emitted value round-trips). Semantic difference: raw_manifest_hash is kline-only, so it is a VERIFICATION digest of the kline slice of I_t, not an enumeration of all of I_t. That is sufficient for Phase-0 epistemic traceability and must be written down as such rather than overstated.",
+            "evidence_refs": [
+              "src/v8/marketstate.py:1352-1367",
+              "src/v8/schema.py:149-174",
+              "tests/test_vertical_slice.py:857 (test_per_feature_input_lineage_and_calculation_time)",
+              "tests/test_vertical_slice.py:867 (test_input_lineage_detects_raw_revision_without_value_change)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON003",
+            "label": "FACT",
+            "text": "ObservableState S_t = phi(I_t) | status EXISTS_ALIGNED | action REUSE. Representation: schema.MarketState, built by marketstate.build_state / build_multi_state (= phi), persisted one record per decision clock in states.jsonl. Identity: state_id = sha1(as_of, universe, lineage_hash); lineage_hash binds value + availability + group + feature_version for every feature. phi itself is versioned twice over - provenance.feature_graph_version (sha1 of the FEATURE_GROUPS table) and provenance.code_version (the marketstate.py whole-file source hash). V8 goes FURTHER than v0.2 requires: per-Expert phi_E exists too (project_state, D-053/D-054), so \"what this Expert actually saw\" is a distinct, reproducible object from \"what the system represented\".",
+            "evidence_refs": [
+              "src/v8/schema.py:176-189",
+              "src/v8/marketstate.py:1343-1371",
+              "src/v8/marketstate.py:1500-1546",
+              "src/v8/lab.py:511-520"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON004",
+            "label": "FACT",
+            "text": "Context / Habitat | status PARTIAL | action DEFER (NOT_NEEDED_PHASE_0). There is no first-class regime/habitat object in the decision path. Habitat is expressed two ways: implicitly, as each Expert's self-gating predicate (applicability NOT_APPLICABLE / decision NO_HABITAT in ExpertEvaluation), and descriptively, in report-side helpers (tools/diagnostics._entry_regime, _regime_concentration, _time_of_day, _window_split). v0.2 needs habitat only for Phase-2 slicing (Expert x Context x Direction x Component x Regret); Phase 0 does not compute a slice. Introducing a habitat object now would be an ontology-driven class with no Phase-0 consumer.",
+            "evidence_refs": [
+              "src/v8/schema.py:192-202",
+              "tools/diagnostics.py:1696-1762"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON005",
+            "label": "FACT",
+            "text": "Expert E | status EXISTS_ALIGNED | action REUSE. experts/base.Expert + 28 family modules, each carrying expert_id, version, mechanism_family_id, behavior_family_id, variant_id and a declared `requires` feature-group set audited against docs/EXPERTS_REGISTRY.yaml by tests/test_expert_registry.py. Determinism and falsifiability are constitutional (rules 5, 13). v0.2's \"Expert output is a hypothesis proposal, not a trade obligation\" is already the EXPERT_PROTOCOL wording.",
+            "evidence_refs": [
+              "src/v8/experts/base.py:14-82",
+              "docs/contracts/EXPERT_PROTOCOL.md"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON006",
+            "label": "FACT",
+            "text": "Candidate C | status EXISTS_NEEDS_ADAPTER | action WRAP. Identity, immutability and provenance all exist (see the Candidate audit items CA001-CA009 below). What is missing is a single READ-SIDE view that joins the birth transition (candidates.jsonl) to the frozen draft (evaluations.jsonl) - the edge is a re-derivation of episode_key, not a stored foreign key. A wrapper over the existing ledgers is sufficient; a parallel \"research Candidate\" store is NOT justified and must not be built.",
+            "evidence_refs": [
+              "src/v8/lab.py:804-833",
+              "command: python scratchpad/probe_reconcile.py -> \"candidates=15 drafts_bound=15 unbound=0\""
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON007",
+            "label": "FACT",
+            "text": "Policy | status EXISTS_ALIGNED | action REUSE (no object). v0.2's Policy is V8's deployed decision procedure, which is procedural rather than reified: lab PHASE 2 (trigger predicate) + PHASE 1a (pre-entry invalidation, tradability mask, risk admission, fill) + RiskGate + ExposureBook + ExperimentManifest economics. Phase 0 never needs to call the policy - it only needs its OUTPUT (a_actual), which is in the ledger. Reifying a Policy class would be a pure ontology-noun addition.",
+            "evidence_refs": [
+              "src/v8/lab.py:522-647",
+              "src/v8/lab.py:700-785",
+              "src/v8/risk.py:150-167"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON008",
+            "label": "GAP",
+            "text": "LegalActionSet A(C) | status MISSING as an artifact, DERIVABLE from existing declarations | action ADD_SMALL_COMPONENT (a generator, pure data, no state). See the legal-action audit items LA001-LA006 below. A prototype already exists but is bound to the wrong candidate population (tools/diagnostics.EXIT_VARIANTS, 22 cells).",
+            "evidence_refs": [
+              "tools/diagnostics.py:1607-1629",
+              "src/v8/schema.py:229-259"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON009",
+            "label": "FACT",
+            "text": "ActualAction a | status EXISTS_NEEDS_ADAPTER | action WRAP. Not stored as one object, but exactly reconstructible from three existing facts: the frozen risk_geometry of the DETECTED draft, the entry bar index (= the EXECUTED transition's knowledge_time, which is the entry bar's available_time), and the run manifest economics. Proven by measurement, not inference - see LR001.",
+            "evidence_refs": [
+              "src/v8/lab.py:626-647",
+              "command: python scratchpad/probe_reconcile.py"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON010",
+            "label": "FACT",
+            "text": "ReplayModel M | status EXISTS_ALIGNED | action REUSE. CanonicalSimulator.run(draft, bars, times, thesis_valid) -> CounterfactualOutcome IS the v0.2 signature Replay(C, a, W_>t; M). Version binding already exists and is stronger than v0.2 asks: sim.hash() = sha1(policy-era tag, fill_policy, round_trip_cost_r, funding_rate_r, funding_hours, cost FORM, simulator module source hash), and the tag is bumped once per semantic change by an explicit convention documented in the method. See the replay audit RM001-RM008.",
+            "evidence_refs": [
+              "src/v8/simulator.py:597-656",
+              "src/v8/simulator.py:658-700"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON011",
+            "label": "FACT",
+            "text": "ReplayOutcome tilde-O(C,a|M) | status EXISTS_ALIGNED for the scalar, PARTIAL for the cost decomposition | action REUSE + EXTEND_METADATA at the cube row (never on the record). schema.CounterfactualOutcome already carries net_r, endpoint, label_status, simulator_hash, horizon_bars, label_available_time, mae_r, mfe_r, ambiguous_bars, entry_price, risk_unit_price and market_move_r (a direction-free passive benchmark over the same window). Missing from the RECORD: the per-episode cost charge and funding paid are not persisted (funding_paid_r lives on OpenPosition only), and there is no exit_price (derivable as entry + sign*gross*unit, which tools/diagnostics already does). Adding fields to CounterfactualOutcome would move sim.hash() and re-pin every golden - so the decomposition belongs on the CUBE ROW, computed by the adapter.",
+            "evidence_refs": [
+              "src/v8/schema.py:275-318",
+              "src/v8/simulator.py:136-176",
+              "tools/diagnostics.py:486-500"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON012",
+            "label": "GAP",
+            "text": "ModelDerivedOutcomeCube | status MISSING as an artifact, substrate EXISTS | action ADD_SMALL_COMPONENT reusing store.AppendOnlyLog (and optionally the existing DuckDB/parquet view pattern). No new database is needed or justified: the repository already persists five ledgers as JSONL and materializes five parquet views from them under a pinned manifest.",
+            "evidence_refs": [
+              "src/v8/store.py:14-72",
+              "tools/materialize_views.py:42-149"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON013",
+            "label": "GAP",
+            "text": "LegalHindsightGap g_t^H | status MISSING | action ADD_SMALL_COMPONENT (a pure function over the cube, no state, no persistence of its own beyond a RegretRecord row). Measured to be roughly thirty lines: max over the action set minus the actual-action utility, with explicit tie handling and abstention. See LHG001-LHG004.",
+            "evidence_refs": [
+              "command: python scratchpad/probe_gap.py"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON014",
+            "label": "PARTIAL",
+            "text": "UNKNOWN / abstention | status PARTIAL | action EXTEND_METADATA (a cube-row status enum, not a new type). V8 already carries a rich refusal vocabulary: label_status NOT_EXECUTED / RIGHT_CENSORED, StateQuality DEGRADED with per-feature null_reason, verdict NO_ECONOMIC_CLAIM (authority blocks first), ATTRIBUTION_UNSAFE_LOW_COVERAGE / ATTRIBUTION_UNSAFE_POPULATION_DIVERGENCE, LabReport.economic_note feasibility annotations, the NOT_EVALUABLE feasibility gate, and several documented fail-closed raises. What is missing is a PER-CELL abstention: the cube must be able to say \"this action's outcome is not defined on this tape\" rather than emit a number. This is not a philosophical gap - it is forced by the measured behaviour in the replay audit (RM008).",
+            "evidence_refs": [
+              "src/v8/lab.py:66-78",
+              "src/v8/lab.py:258-283",
+              "src/v8/schema.py:290-299",
+              "command: python scratchpad/probe_gap.py (abstention probe)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON015",
+            "label": "FACT",
+            "text": "Finding | status EXISTS_ALIGNED (documentary) | action REUSE. docs/registries/CLAIMS_REGISTRY.yaml and docs/decisions/OPEN_DECISIONS.md already hold structured, evidence-backed regularities with declared support and resolution criteria (O-022 carries a measured blocking matrix; O-027 carries the 79%/+4.5R post-exit finding). No code object is needed in Phase 0.",
+            "evidence_refs": [
+              "docs/registries/CLAIMS_REGISTRY.yaml",
+              "docs/decisions/OPEN_DECISIONS.md"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON016",
+            "label": "FACT",
+            "text": "Hypothesis H | status EXISTS_ALIGNED (documentary) | action REUSE. docs/PREREGISTRATION_V8_SLICE_001.md plus docs/registries/EXPERIMENT_REGISTRY.yaml plus the constitutional challenger rule (versions evolve by challenger + frozen-OOS + registry decision, never in place) already implement \"must specify expected mechanism and rejection condition\".",
+            "evidence_refs": [
+              "docs/PREREGISTRATION_V8_SLICE_001.md",
+              "docs/charter/V8_CONSTITUTION.md (rules 5, 11, 15)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "ON017",
+            "label": "FACT",
+            "text": "Intervention I | status EXISTS_ALIGNED (documentary + mechanism) | action REUSE. The single-changed-dimension discipline is already constitutional, and the mechanism for a component intervention already exists in code as a geometry override replayed through the same simulator (tools/diagnostics._walk_result sl/tp/expiry/geometry_extra). v0.2 H7 (single-intervention comparison) is therefore already V8 policy rather than a proposal.",
+            "evidence_refs": [
+              "tools/diagnostics.py:378-455",
+              "docs/charter/V8_CONSTITUTION.md (rule 15)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA001",
+            "label": "FACT",
+            "text": "CANDIDATE AUDIT 1 - Is Candidate first-class? YES. It has its own identity function (episode_key), its own ledger (candidates.jsonl), its own state machine with a legality table, its own duplicate-suppression record type, and a constitutional rule that Candidate, order and outcome are distinct immutable records (rule 4).",
+            "evidence_refs": [
+              "src/v8/lifecycle.py:42-146",
+              "docs/charter/V8_CONSTITUTION.md (rule 4)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA002",
+            "label": "FACT",
+            "text": "CANDIDATE AUDIT 2 - Immutable after birth? YES. CandidateDraft is a frozen dataclass; the birth snapshot is merged into the DETECTED transition BEFORE append (so it \"can never be added later\" - the code says so explicitly); the log is append-only with (source,event_id) dedup and a re-validating replay. Corrections append a superseding event.",
+            "evidence_refs": [
+              "src/v8/schema.py:204-206",
+              "src/v8/lifecycle.py:82-108",
+              "src/v8/store.py:35-48"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA003",
+            "label": "FACT",
+            "text": "CANDIDATE AUDIT 3 - Can birth state be reconstructed exactly? YES, and by two independent routes: the DETECTED record carries state_id, and states.jsonl persists the full MarketState for that clock; the ExpertEvaluation record independently carries state_id plus the full draft. The per-Expert VIEW is also reconstructible because project_state is a pure function of (canonical state, declared groups, intervals, depths).",
+            "evidence_refs": [
+              "src/v8/lab.py:511-520",
+              "src/v8/lab.py:824-833",
+              "src/v8/marketstate.py:1500-1546"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA004",
+            "label": "FACT",
+            "text": "CANDIDATE AUDIT 4 - Is Expert/version provenance retained? YES, redundantly: expert_id and expert_version are on the draft, on the evaluation record, on the DETECTED snapshot, and inside the episode_key hash itself, so a version bump necessarily produces a different candidate identity.",
+            "evidence_refs": [
+              "src/v8/lifecycle.py:42-50",
+              "src/v8/lab.py:824-833"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA005",
+            "label": "FACT",
+            "text": "CANDIDATE AUDIT 5 - Are decision-time features stored or reproducibly recoverable? BOTH. states.jsonl stores every feature of every decision clock (DATASET_SPEC layer 2), and the state is independently reproducible because build_state is a pure function of (rows, as_of, universe, feature_version, depth) - which is exactly what the cached-vs-uncached identity test pins.",
+            "evidence_refs": [
+              "src/v8/lab.py:518-520",
+              "tests/test_state_cache_identity.py",
+              "tests/test_vertical_slice.py:824 (test_revision_replay_reproduces_prior_state_hash)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA006",
+            "label": "FACT",
+            "text": "CANDIDATE AUDIT 6 - Is Candidate distinct from order/trade/outcome? YES. The candidate ledger holds transitions; the outcome ledger holds exactly one terminal CounterfactualOutcome per candidate; a PARTIAL_EXIT is a lifecycle position_action and explicitly \"never a CounterfactualOutcome.endpoint\"; ORDER_SUBMITTED and EXECUTED are distinct lifecycle states rather than fields on the candidate.",
+            "evidence_refs": [
+              "src/v8/lifecycle.py:110-136",
+              "src/v8/lab.py:626-628"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA007",
+            "label": "FACT",
+            "text": "CANDIDATE AUDIT 7 - Does lifecycle mutation contaminate historical state? NO. Current state is a PROJECTION of the log (CandidateRegistry._apply_projection), never a mutable field; reactivation after a terminal state has no legal edge; a corrupt log with an illegal transition raises on replay instead of silently projecting an unreachable state.",
+            "evidence_refs": [
+              "src/v8/lifecycle.py:56-80"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA008",
+            "label": "FACT",
+            "text": "CANDIDATE AUDIT 8 - Deterministic unique identity? YES, and deliberately clock-free: the key is anchored to setup_anchor_event_id (the first closed bar of the current consecutive predicate run) rather than the birth timestamp, precisely so a re-detected setup hashes identically. Key stability is a pinned test.",
+            "evidence_refs": [
+              "src/v8/lifecycle.py:42-50",
+              "src/v8/experts/base.py:104-127",
+              "tests/test_vertical_slice.py:174 (test_episode_key_stable_across_consecutive_decision_clocks)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA009",
+            "label": "FACT",
+            "text": "CANDIDATE AUDIT 9 - Can the Candidate universe be frozen for an experiment? YES. One store directory = one immutable run (a second run fails closed); the universe is bound by candidates.hash inside ledger_hash, which additionally binds the manifest config hash and the risk-gate config hash; and the compile-once materialization writes a views_pin over code, view SQL, economics and ledger hash.",
+            "evidence_refs": [
+              "src/v8/lab.py:293-297",
+              "src/v8/lab.py:976-979",
+              "tools/materialize_views.py:119-135"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "CA010",
+            "label": "RISK",
+            "text": "CANDIDATE AUDIT - the one genuine defect. The evaluations ledger carries no candidate_id and the candidates ledger carries no draft, so the Candidate-to-geometry edge is a RE-DERIVATION. It was measured total and exact (15/15) on the golden fixture, but it silently depends on _geometry_version's exclusion list (atr_ref, prior_high_ref, prior_low_ref) staying in sync between the writer and the reader. That coupling must be frozen in the contract, not left implicit.",
+            "evidence_refs": [
+              "src/v8/lab.py:166-173",
+              "src/v8/lab.py:804-812",
+              "command: python scratchpad/probe_reconcile.py"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LA001",
+            "label": "FACT",
+            "text": "LEGAL ACTION AUDIT 1 - NO_TRADE. Zero exposure is genuinely admissible in the evaluated configuration: the system rejects candidates for TRADABILITY_MASK_VETO, EXISTING_EXPOSURE_CONFLICT, PORTFOLIO_HEAT_EXCEEDED and excess_cost, and every such candidate keeps a NOT_EXECUTED record. NO_TRADE therefore needs no simulator call at all - its utility is exactly 0.0 R by definition (no entry, no cost, no funding). Measured: NO_TRADE was the argmax for 8 of 12 executed golden candidates.",
+            "evidence_refs": [
+              "src/v8/lab.py:576-625",
+              "command: python scratchpad/probe_gap.py"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LA002",
+            "label": "FACT",
+            "text": "LEGAL ACTION AUDIT 2 - direction is NOT mutable post-Candidate. direction is fixed on the draft at birth, is part of episode_key, and drives the ExposureBook slot. A direction-flip action would be a DIFFERENT candidate, not a legal alternative for this one. It therefore belongs in the fault-injection harness (v0.2 section 14.3 \"long/short sign flipped -> DIRECTION\") as a deliberately illegal probe, never in A(C).",
+            "evidence_refs": [
+              "src/v8/schema.py:204-215",
+              "src/v8/lifecycle.py:42-50"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LA003",
+            "label": "FACT",
+            "text": "LEGAL ACTION AUDIT 3 - the FINITE enumerable axes, all already implemented and declared-only in the simulator: fill/entry policy (fill_policy in {FILL_AT_BAR_CLOSE, FILL_AT_LIMIT}, anything else fails closed); presence/absence of a declared trigger (trigger_ref + trigger_side in {CLOSE_ABOVE, CLOSE_BELOW}); stop KIND (R-multiple stop_r vs absolute structural stop_ref); management KIND (breakeven roll, chandelier trail, scale-out, time exit - each independently present or absent); and NO_TRADE. pyramid_add_rules is DECLARED BUT FAILS CLOSED and must be excluded from A(C) - including it would make the action set claim a semantics the stepper does not implement.",
+            "evidence_refs": [
+              "src/v8/simulator.py:195-208",
+              "src/v8/simulator.py:420-486",
+              "src/v8/lab.py:726-740"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LA004",
+            "label": "FACT",
+            "text": "LEGAL ACTION AUDIT 4 - the CONTINUOUS parameters, which must be listed separately from the finite axes and can only be sampled on a declared grid: target_r, stop_r, expiry_bars, time_exit_bars, trail_stop_atr, breakeven_roll_at_mfe_r, breakeven_margin_r, scale_out_ratio, scale_out_at_mfe_r, limit_price. A grid over these is a SEARCH, so its cardinality is evidence burden under rule 11 / D-046 and must be recorded in the manifest, exactly as tools/diagnostics already does with EXIT_CROSS_NAMES for its multiplicity correction.",
+            "evidence_refs": [
+              "src/v8/schema.py:229-259",
+              "tools/diagnostics.py:1624-1629"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LA005",
+            "label": "FACT",
+            "text": "LEGAL ACTION AUDIT 5 - the constraint a_actual in A_t is trivially satisfiable and was verified: the shipped geometry of both golden pilots (target_r 1.0, expiry_bars 8) is a cell of the probe grid, and the probe asserted it. Any generated manifest must include the actual action BY CONSTRUCTION (seeded from the draft), not by hoping a grid happens to contain it.",
+            "evidence_refs": [
+              "command: python scratchpad/probe_gap.py -> \"actual action IS in the legal set (tp1_x8 == shipped geometry): True\""
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LA006",
+            "label": "RISK",
+            "text": "LEGAL ACTION AUDIT 6 - the portfolio-feasibility boundary. Changing stop_r changes heat (heat = size * stop_r), which changes what RiskGate would have admitted, which changes which OTHER candidates existed. A Candidate-local cube is therefore valid only under an explicitly declared no-portfolio-interference assumption. v0.2 already requires Phase 1 to stay Candidate-local; O-022 in this repository independently measured that the exposure coupling is real and large (11,673 EXISTING_EXPOSURE_CONFLICT rejections on the dev window, all with a same-direction slot open). The two documents agree, and the assumption must be written into the contract rather than assumed.",
+            "evidence_refs": [
+              "src/v8/risk.py:141-167",
+              "docs/decisions/OPEN_DECISIONS.md (O-022)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RM001",
+            "label": "FACT",
+            "text": "REPLAY MODEL AUDIT 1 - the direct answer. YES: the existing canonical simulator can serve as ReplayModel M with NO rewrite. CanonicalSimulator.run(draft, bars, times, thesis_valid) already takes exactly (Candidate geometry, future tape, decision clocks, the owning Expert's post-entry thesis) and returns a versioned model-derived outcome. The only new code is an adapter that (a) builds the draft variant for an action, (b) slices the future tape from the candidate's entry index, and (c) imposes the abstention boundary.",
+            "evidence_refs": [
+              "src/v8/simulator.py:597-656"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RM002",
+            "label": "FACT",
+            "text": "REPLAY MODEL AUDIT 2 - fill semantics. FILL_AT_BAR_CLOSE fills at the first tail bar's close; FILL_AT_LIMIT rests at risk_geometry[limit_price] and fills exactly at the limit on the first bar whose range trades through it, and never entering is an explicit NOT_EXECUTED rather than a zero. The entry bar is inspected for a FILL only, never for exits, in BOTH modes - the exit loop starts at from_idx = fill_idx + 1 by construction.",
+            "evidence_refs": [
+              "src/v8/simulator.py:575-656"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RM003",
+            "label": "FACT",
+            "text": "REPLAY MODEL AUDIT 3 - barrier ordering and same-bar ambiguity. hit_stop is evaluated before hit_target and wins (STOP_FIRST, conservative); ambiguous_bars counts how many bars needed that decision, so the size of the assumption is measured rather than hidden. A stop fills at the WORSE of barrier and bar open (gap semantics); a target fills exactly at the barrier (limit semantics); EXPIRY / THESIS_INVALIDATED / TIME_EXIT fill at the bar close.",
+            "evidence_refs": [
+              "src/v8/simulator.py:397-416",
+              "src/v8/simulator.py:488-495"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RM004",
+            "label": "FACT",
+            "text": "REPLAY MODEL AUDIT 4 - costs and funding are shared, not re-implemented. cost_r() is the single resolution point for both cost forms; funding settles before any order event of a crossing bar, from either a scalar or a tape-driven schedule, with a missing boundary failing closed. Management updates (breakeven roll, trail) apply from the bar AFTER the one that triggered them, because a bar-atomic OHLC cannot order intrabar events.",
+            "evidence_refs": [
+              "src/v8/simulator.py:265-342",
+              "src/v8/simulator.py:420-462"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RM005",
+            "label": "FACT",
+            "text": "REPLAY MODEL AUDIT 5 - determinism. No wall clock anywhere in the decision path (an executable test enforces it); all clocks are integer nanoseconds carried on rows; two identical fresh runs reproduce every hash (pinned in the golden regression and in test_vertical_slice); the simulator source hash is bound into sim.hash() so a semantic edit cannot silently keep an old identity.",
+            "evidence_refs": [
+              "src/v8/simulator.py:68-72",
+              "tests/test_decision_path_purity.py",
+              "tests/test_golden_backtest.py:206-213"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RM006",
+            "label": "GAP",
+            "text": "REPLAY MODEL AUDIT 6 - latency, precision, capacity, impact. Latency exists only as the gap between event_time and available_time on the tape (it is not modelled inside the simulator). There is NO price/quantity rounding or tick-size model, NO capacity model, and NO market-impact model. These are Level-1 boundaries, correctly fail-closed at Level 1, and must be declared as fixed-path preconditions rather than silently assumed.",
+            "evidence_refs": [
+              "src/v8/schema.py:77-92",
+              "docs/contracts/SIMULATION_TRUTH_SPEC.md (fidelity ladder; Level 1 fail-closed list)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RM007",
+            "label": "FACT",
+            "text": "REPLAY MODEL AUDIT 7 - missing data. The lab validates every tape row at ingest AND at run (non-finite / non-positive OHLC, OHLC invariant violation, negative volume, implausible funding rate all raise); absent features become None with null_reason NOT_YET_AVAILABLE and degrade the state to DEGRADED, which the D-024 mask then vetoes at entry. Missing data therefore fails closed rather than producing a plausible-looking number.",
+            "evidence_refs": [
+              "src/v8/lab.py:125-163",
+              "src/v8/marketstate.py:13-25",
+              "src/v8/risk.py:69-73"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RM008",
+            "label": "RISK",
+            "text": "REPLAY MODEL AUDIT 8 - the ONE genuine boundary defect for a hindsight evaluator. run() returns a NUMBER when the future is degenerate: measured run(draft, [entry_bar_only]) -> (EXPIRY, -0.07, RIGHT_CENSORED, horizon 0) - a manufactured cost-only round trip - and run(draft, []) -> (EXPIRY, 0.0, RIGHT_CENSORED) - a fabricated non-trade. The Lab already knows this and explicitly refuses to call it, recording INVALIDATED_BEFORE_TRIGGER instead, with an in-code rationale (\"a fabricated empty-tail counterfactual ... would merge a non-trade into the outcomes ledger with a fake simulator hash\"). The Phase-0 adapter must impose the SAME refusal at its boundary. This is an adapter contract, not a simulator change: touching run() would move sim.hash() and re-pin every golden for no semantic gain.",
+            "evidence_refs": [
+              "command: python scratchpad/probe_gap.py (abstention probe)",
+              "src/v8/lab.py:749-763",
+              "src/v8/lab.py:895-916"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LR001",
+            "label": "FACT",
+            "text": "LEDGER RECONCILIATION - MEASURED AND EXACT. On the golden fixture (synth seed=7, n_bars=160, TrendPullback + FailedBreakout, round_trip_cost_r 0.07): 15 candidates, 12 EXECUTED, 3 NOT_EXECUTED. Reconstructing each executed candidate's actual action from the stored draft plus the EXECUTED transition's knowledge_time and replaying it through CanonicalSimulator.run gave 0 mismatches out of 12 on (net_r, endpoint, horizon_bars) at tolerance 1e-12 - both with thesis_valid=None and with the owning Expert's still_valid supplied. Replay(C, a_actual, M) == ObservedLedgerOutcome is therefore not an approximation on this fixture; it is an identity, because both paths call the same step().",
+            "evidence_refs": [
+              "command: python scratchpad/probe_reconcile.py -> \"replay(actual) vs ledger: n=12 mismatches=0 (thesis_valid=None)\" and \"... mismatches=0 (thesis_valid=owner.still_valid)\"",
+              "src/v8/lab.py:649-698",
+              "src/v8/simulator.py:526-573"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LR002",
+            "label": "FACT",
+            "text": "LEDGER RECONCILIATION - why it holds structurally, not by luck. The executed path steps positions through sim.step() starting at entry_bar_index + 1; the batch path calls sim.run(), which enters at bars[0] and calls the SAME sim.step() from from_idx = 1 through _exit_loop; the tape-end epilogue in both paths resolves through the single simulator.close_out() formula. The reconciliation test therefore certifies the JOIN (can we find a_actual?) rather than the arithmetic - which is exactly the cheap, high-information Phase-0 anchor the task brief predicted.",
+            "evidence_refs": [
+              "src/v8/lab.py:652-698",
+              "src/v8/simulator.py:526-573",
+              "src/v8/simulator.py:510-524"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LR003",
+            "label": "RISK",
+            "text": "LEDGER RECONCILIATION - the declared exclusions. Three executed-path effects are NOT in the batch path and must be excluded from the reconciled field set or the test will fail for the wrong reason: (a) admission size (verdict.size after the O-016 drawdown ladder) - R-multiples are size-independent by design, so net_r is unaffected, but the reconciler must not compare size; (b) the equity feed and heat accounting; (c) pre-entry gates (tradability veto, risk admission, pre-entry invalidation), which decide WHETHER an entry happened, not what it was worth. Reconcile exactly: net_r, endpoint, horizon_bars, label_status, entry_price, risk_unit_price, mae_r, mfe_r, ambiguous_bars, market_move_r.",
+            "evidence_refs": [
+              "src/v8/lab.py:629-647",
+              "src/v8/simulator.py:158-176"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LR004",
+            "label": "GAP",
+            "text": "LEDGER RECONCILIATION - the population that CANNOT be reconciled, with the precise reason. Candidates whose outcome is INVALIDATED_BEFORE_TRIGGER (measured: 1 of 3 NOT_EXECUTED on the fixture, entry_price 0.0, net_r 0.0) never entered, so there is no actual action to replay and no ObservedLedgerOutcome to compare - the correct classification is NOT_APPLICABLE (no actual action), not a failed reconciliation. The other two NOT_EXECUTED candidates (both TRADABILITY_MASK_VETO) DO carry a full batch counterfactual with a real entry_price, so they are reconcilable against the lab's own batch record but have no OBSERVED counterpart.",
+            "evidence_refs": [
+              "command: python scratchpad/probe_censor.py -> NOT_EXECUTED outcomes and reason codes",
+              "src/v8/lab.py:543-552"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "OC001",
+            "label": "FACT",
+            "text": "OUTCOME CUBE FIT - existing artifacts cover most of the required row without a new database. Per required column: candidate_id EXISTS (episode_key); ReplayModel version EXISTS (simulator_hash, already on every outcome); tape/data version EXISTS (ExperimentManifest.data_hash + persisted manifest.json); utility unit EXISTS (R, defined by simulator.risk_unit and pinned by SIMULATION_TRUTH_SPEC); net utility EXISTS (net_r); exit reason EXISTS (endpoint); holding duration EXISTS (horizon_bars); MFE/MAE EXIST (mfe_r/mae_r); path summaries PARTIAL (ambiguous_bars and market_move_r exist; time_to_mae/time_to_mfe and post_exit_max exist only in the report-side SimTrade, not in the ledger).",
+            "evidence_refs": [
+              "src/v8/schema.py:275-318",
+              "tools/diagnostics.py:125-152"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "OC002",
+            "label": "GAP",
+            "text": "OUTCOME CUBE FIT - the columns that must be COMPUTED by the adapter rather than read. legal action ID (new, from the manifest); gross utility (derivable exactly as net + cost + funding, which tools/diagnostics already does); fees (cost_r(entry, unit) with its declared FORM tag) and funding (funding_paid_r, which lives on OpenPosition and is not persisted on the outcome); epistemic provenance (a constant per run: MODEL_DERIVED, plus the version tuple); failure/UNKNOWN state (new, per ON014). SLIPPAGE IS NOT_APPLICABLE at Level 1 and must be recorded as such rather than as 0.0 - a zero would falsely claim a modelled quantity.",
+            "evidence_refs": [
+              "src/v8/simulator.py:265-279",
+              "src/v8/simulator.py:136-176",
+              "tools/diagnostics.py:486-489"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "OC003",
+            "label": "FACT",
+            "text": "OUTCOME CUBE FIT - censoring must be a first-class cube concern even though the fixture did not exhibit it. Measured: all 108 grid cells on the golden fixture returned MATURE, but the executed candidates had between 2 and 139 bars of future available, so a wider target paired with a longer expiry is exactly the cell that becomes RIGHT_CENSORED near the tape end. Comparing a RIGHT_CENSORED cell against a MATURE cell inside one argmax silently compares an incomplete outcome to a complete one - which is why v0.2 requires abstention when a potentially-maximizing outcome is missing.",
+            "evidence_refs": [
+              "command: python scratchpad/probe_censor.py -> \"cube cells by label_status: {'MATURE': 108}\"; \"bars available after entry, per executed candidate: [2, 19, 23, 47, 55, 80, 85, 87, 114, 114, 124, 139]\""
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LHG001",
+            "label": "FACT",
+            "text": "LEGAL HINDSIGHT GAP - measured feasibility. A 10-action set (NO_TRADE + target_r in {1,2,3} x expiry_bars in {8,24,48}) was replayed for all 12 executed golden candidates (120 cells) and the gap computed. Result: mean gap 1.4070 R, minimum 0.0, and ZERO negative gaps - the v0.2 invariant \"hindsight utility cannot be lower than actual utility for the same Candidate/action universe\" held on every candidate, which is the cheapest available certification that the actual action really is inside the legal set.",
+            "evidence_refs": [
+              "command: python scratchpad/probe_gap.py -> \"n=12 mean_gap=1.4070 min=0.0 negatives=0\""
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LHG002",
+            "label": "FACT",
+            "text": "LEGAL HINDSIGHT GAP - ties are real and frequent, not a theoretical edge case. Three of the twelve candidates had a 3-way tie at the maximum (every target that was never reached collapses onto the same expiry exit). A tie-break rule must therefore be declared in the contract, and the honest default is NOT to pick one - report the tie set and its cardinality, because \"which of these three identical-utility actions was best\" is a question the tape cannot answer.",
+            "evidence_refs": [
+              "command: python scratchpad/probe_gap.py (ties column = 3 for candidates 261bbd66, 65e50007, cd6043ca, f820f953)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LHG003",
+            "label": "FACT",
+            "text": "LEGAL HINDSIGHT GAP - NO_TRADE dominates on this fixture (argmax for 8 of 12), which is the expected and healthy behaviour of a costed evaluator on a population with negative mean utility, and is exactly the reading v0.2 warns must NOT be converted into an engineering directive without the systematicity and recoverability gates. It is recorded here as MODEL_DERIVED on a synthetic contract fixture and carries NO economic content whatsoever.",
+            "evidence_refs": [
+              "command: python scratchpad/probe_gap.py",
+              "docs/charter/V8_CONSTITUTION.md (rules 10, 12)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "LHG004",
+            "label": "FACT",
+            "text": "LEGAL HINDSIGHT GAP - Candidate-local by default is already the repository's own position. Summing per-Candidate maxima across a portfolio would violate rule 16 (one active exposure per instrument-direction) and the measured O-022 coupling; v0.2 independently forbids it in Phase 1. No aggregation beyond per-Candidate is designed here.",
+            "evidence_refs": [
+              "docs/charter/V8_CONSTITUTION.md (rule 16)",
+              "docs/decisions/OPEN_DECISIONS.md (O-022)"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "user_value": {
+        "summary": "The research value is high and unusually well-targeted: three of the repository's own open decisions are exactly the questions v0.2 formalizes, and the Phase-0 instrument is the missing measurement device for all three. The engineering value is that this is a read-only addition - it can be built and certified without touching a single line of the decision path.",
+        "items": [
+          {
+            "id": "UV001",
+            "label": "FACT",
+            "text": "O-027 (is the 1R take-profit clipping a real favorable tail? 79% of target exits continued beyond 2R; mean post-exit max +4.5R; intrabar ambiguity bracket 1.79R wide over 144 double-touch trades) is a hindsight-gap question stated in v0.2's exact vocabulary. Today the repository can only answer it with an unbound diagnostic grid whose authority is NONE; a Candidate-bound outcome cube would make it answerable against the actual ledger population.",
+            "evidence_refs": [
+              "docs/decisions/OPEN_DECISIONS.md (O-027)",
+              "tools/diagnostics.py:1593-1629"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "UV002",
+            "label": "FACT",
+            "text": "O-013 (does active position management beat static geometry?) becomes measurable at zero marginal simulator cost, because breakeven roll, chandelier trail, scale-out and time exit are ALREADY implemented and declared-only in the simulator - they are legal actions waiting for an evaluator, not features waiting to be built.",
+            "evidence_refs": [
+              "docs/decisions/OPEN_DECISIONS.md (O-013)",
+              "src/v8/simulator.py:420-486"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "UV003",
+            "label": "FACT",
+            "text": "O-014 (do executed and portfolio-rejected populations differ systematically?) already has a gate in code (D-027: execution_share floor 0.25, KS <= 0.20) that blocks the economic verdict. v0.2's decomposition explains WHY that gate is the right instrument and where its blind spot is: it compares populations, not actions, so it cannot say whether the loss is in selection, geometry or exit. The cube supplies the missing axis.",
+            "evidence_refs": [
+              "docs/decisions/OPEN_DECISIONS.md (O-014)",
+              "src/v8/lab.py:66-78"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "UV004",
+            "label": "FACT",
+            "text": "The v0.2 epistemic classes map cleanly onto labels the repository already enforces (OBSERVED / MODEL_DERIVED / STATISTICALLY_INFERRED / HYPOTHESIZED / UNKNOWN against LITERATURE_SUPPORTED / PROJECT_EVIDENCE_SUPPORTED / DESIGN_INFERENCE / PROVISIONAL_DECISION / LOCKED_INVARIANT / OPEN_QUESTION / REJECTED_OPTION). They are different axes - v0.2 classifies HOW a claim was produced, V8 classifies WHAT supports it - so they compose rather than compete, and no label vocabulary needs replacing.",
+            "evidence_refs": [
+              "docs/charter/V8_CONSTITUTION.md (rule 2)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "UV005",
+            "label": "INFERENCE",
+            "text": "Because the evaluator lives outside src/v8 and reads only append-only ledgers, it cannot regress the decision path, cannot change any pinned hash bound by the goldens (ledger_hash does not bind tooling_hash), and can be deleted without trace if Phase 0 fails certification. That is the cheapest possible falsification posture for a new instrument.",
+            "evidence_refs": [
+              "src/v8/lab.py:976-979",
+              "src/v8/lab.py:115-122",
+              "tools/diagnostics.py:99-123"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "risks": {
+        "summary": "Five real risks, in descending order of consequence. None is an architectural conflict; four are contract-freezable and one is an environment repair.",
+        "items": [
+          {
+            "id": "RK001",
+            "label": "RISK",
+            "text": "DUPLICATION OF TRUTH. tools/diagnostics.py already owns a legal-action grid, a replay-with-override core and a post-exit continuation measure, operating on a DIFFERENT candidate population (entry = birth + lag 2, no lifecycle, no gates, non-canonical candidate_id). Building a second such engine without a declared relationship would recreate exactly the parallel-truth problem the 2026-08-08 consolidation was performed to remove. Mitigation: the Phase-0 evaluator must be Candidate-bound (ledger population, canonical episode_key) and must state in its module docstring that the diagnostic engine's population is NOT the evaluator's population.",
+            "evidence_refs": [
+              "tools/diagnostics.py:1-17",
+              "tools/diagnostics.py:262-265",
+              "tools/diagnostics.py:1607-1629"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RK002",
+            "label": "RISK",
+            "text": "SILENT ADMISSION OF FABRICATED OUTCOMES. Per RM008, run() returns numbers for degenerate futures. An argmax that admits them would report a hindsight gap built on a trade that could not exist. Mitigation: the adapter's abstention rule is a FROZEN CONTRACT (FCR), and the boundary is a required golden test (a candidate entering on the final bar must produce UNDEFINED_FUTURE, never -cost).",
+            "evidence_refs": [
+              "command: python scratchpad/probe_gap.py (abstention probe)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RK003",
+            "label": "RISK",
+            "text": "CENSORING CONTAMINATION OF THE ARGMAX. A longer-horizon action near the tape end returns RIGHT_CENSORED; silently maximizing over a mixture of MATURE and RIGHT_CENSORED cells produces a gap that is partly an artifact of where the tape stops. Mitigation: the gap function abstains (UNKNOWN_CENSORED) whenever any potentially-maximizing cell is not MATURE, rather than truncating or imputing.",
+            "evidence_refs": [
+              "command: python scratchpad/probe_censor.py",
+              "src/v8/schema.py:290-299"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RK004",
+            "label": "RISK",
+            "text": "GOLDEN BASELINE IS RED. The repository's only end-to-end regression gate currently fails (RIR GR002), with a provenance-only signature but no re-pin. A Phase-0 reconciliation test anchored to a store whose golden does not reproduce cannot distinguish \"the evaluator is wrong\" from \"the baseline moved\". Mitigation: re-pin (or explicitly quarantine) the golden BEFORE step 2 of the implementation plan - this is the reordering justification in the FDR.",
+            "evidence_refs": [
+              "command: python -m pytest tests/test_golden_backtest.py -q"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RK005",
+            "label": "RISK",
+            "text": "SEARCH-BURDEN CREEP. The continuous action axes (LA004) make it trivial to grow the grid until a large gap appears. That is the backtest-overfitting failure mode v0.2 section 10.2 and V8 rule 11 / D-046 both name. Mitigation: the action manifest carries its own cardinality and a version hash, the cardinality is reported with every gap, and Phase 0 computes NO statistics at all - it produces the cube and the gap and stops.",
+            "evidence_refs": [
+              "tools/diagnostics.py:1624-1629",
+              "docs/charter/V8_CONSTITUTION.md (rule 11)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RK006",
+            "label": "RISK",
+            "text": "PROVENANCE PORTABILITY. _code_hash embeds the OS path separator (RIR GR004), so a manifest pinned on POSIX fails closed on Windows and vice versa. v0.2 invariant 6 requires every replay outcome to bind a code version; if that binding is platform-dependent, cross-machine reproduction of a certified cube is impossible. Mitigation: out of Phase-0 scope to fix, but the cube must record the platform alongside the code hash so the limitation is visible rather than silent.",
+            "evidence_refs": [
+              "src/v8/lab.py:103-112"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "open_questions": {
+        "summary": "Four questions that the design deliberately does not answer, each with the reason it is safe to leave open for Phase 0.",
+        "items": [
+          {
+            "id": "OQ001",
+            "label": "GAP",
+            "text": "Where should the evaluator live - tools/ (like diagnostics.py, outside the decision path, no D-032 registry decision needed) or src/v8/ (inside the file family, requiring a register decision + CHANGELOG per D-032)? The FDR recommends tools/, and the reasons are stated there; but this is an operator decision about the file family, not a technical necessity.",
+            "evidence_refs": [
+              "docs/contracts/IMPLEMENTATION_LAYOUT.md:1-8"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "OQ002",
+            "label": "GAP",
+            "text": "Should tools/diagnostics.py's exit grid eventually be RE-EXPRESSED as a consumer of the Phase-0 legal action manifest (removing the duplication) or left as an independent report-side probe? Phase 0 does not need to decide; Phase 1 will, and deciding early would be a refactor the task forbids.",
+            "evidence_refs": [
+              "tools/diagnostics.py:1607-1629"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "id": "OQ003",
+            "label": "GAP",
+            "text": "What is the authoritative utility unit for cross-Candidate comparison once sizing is in play? R is the unambiguous per-Candidate unit and is what Phase 0 uses. The equity/currency reading (equity.py, risk_per_trade) exists but is a portfolio quantity and would drag portfolio feasibility into a Candidate-local evaluator. Left open, with R frozen for Phase 0.",
+            "evidence_refs": [
+              "src/v8/equity.py",
+              "docs/contracts/SIMULATION_TRUTH_SPEC.md (R is a declared price distance, D-028)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "OQ004",
+            "label": "MISSING_EVIDENCE",
+            "text": "Does the reconciliation identity survive a REAL tape (funding schedule active, DEGRADED states, tradability vetoes, heat rejections, multi-month horizons)? Unmeasured (RIR GR009). It is the first thing step 2 of the implementation plan should establish, and a failure there would be a genuine blocker rather than a repair.",
+            "evidence_refs": [
+              "command: ls (no real tape store in the inspected tree)"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "recommendation": {
+        "summary": "PROCEED with a minimal, read-only, Candidate-bound Phase-0 evaluator built on the existing simulator and ledgers. Prefer existing implementation + adapter over new subsystem everywhere; the only genuinely new artifacts are a legal-action manifest generator, a replay adapter with an abstention boundary, a cube writer and a gap function. Reuse assessment and the precise patch surface are in FDR-V8RR-003.",
+        "items": [
+          {
+            "id": "RC001",
+            "label": "DECISION",
+            "text": "REUSE SCORE (ranges, not false precision). Reusable as-is: 65-80% of the Phase-0 system - versioned tape and store, PIT state builder and its lineage, Expert layer, candidate identity and lifecycle ledgers, the canonical simulator as ReplayModel, hashing/provenance, the synthetic fixture, the pytest harness, and the materialization pattern. Reusable with adapters/metadata: 10-20% - the Candidate snapshot join, actual-action binding, cube-row cost/funding decomposition, abstention states. Genuinely new: 10-20% - legal action manifest generator, replay adapter boundary, cube writer, gap function, fault-injection harness. Conceptually conflicting: 0-5% - only naming collisions (RIR GR008) and the NOT_APPLICABLE slippage column.",
+            "evidence_refs": [
+              "ON001",
+              "ON008",
+              "ON012",
+              "ON013"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "id": "RC002",
+            "label": "DECISION",
+            "text": "HIGHEST-COST INTEGRATION POINTS, in order: (1) the abstention boundary, because it is the only place where a correct-looking number is silently wrong (RM008, OC003); (2) the Candidate-to-draft join, because it is a re-derivation coupled to _geometry_version's exclusion list (CA010); (3) the legal action manifest's cardinality discipline, because it is where search burden enters (RK005); (4) re-pinning the golden baseline before anything is anchored to it (RK004).",
+            "evidence_refs": [
+              "RM008",
+              "CA010",
+              "RK004"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RC003",
+            "label": "DECISION",
+            "text": "ANSWER TO THE DECISIVE QUESTION. Yes - V8 can be turned into a certified post-Candidate counterfactual diagnostic system mostly by EXPOSING AND FREEZING semantics that are already present. The four semantics to expose are: the Candidate-to-action join that already exists as a re-derivation; the action vocabulary that is already declared in risk_geometry and the manifest but never enumerated; the replay signature that is already exactly Replay(C,a,W;M) but is only ever called with the actual action; and the refusal discipline that already exists everywhere in the lab but not at the replay boundary.",
+            "evidence_refs": [
+              "LR001",
+              "RM001",
+              "LA003",
+              "RM008"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RC004",
+            "label": "DECISION",
+            "text": "ACCP FIT - where it helps: this evidence chain (RIR/FER/FDR/FCR) as a read-only design record; later IPR or FIR for the implementation patch with diff integrity and a rollback plan; TVR/FGR for validation evidence with real command output; PRR at Phase-0 promotion; ECR to bundle the certification evidence; HIR/DCR only on a genuine blocker or authority conflict. Where it must stay OUT: ACCP does not become the scientific ontology, ACCP reports are NOT ReplayOutcome objects, ACCP does not decide scientific truth, ACCP does not authorize a V8 action, and NO ACCP runtime object, report engine, routing machinery or protocol infrastructure enters src/v8 or the hot path. The repository contains no ACCP infrastructure today, and none is proposed.",
+            "evidence_refs": [
+              "external_document: accp_v2_0_strict_yaml_onefile_master.accp.yaml (authority_boundary; report_type_registry)",
+              "external_document: v0.2 section 18 (Relationship to ACCP)"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "RC005",
+            "label": "DECISION",
+            "text": "EXPLICITLY NOT RECOMMENDED, and excluded from the design: learned oracle, Market Prophet implementation, automatic hypothesis generation, agent swarm, autonomous Kaizen, Shapley attribution, systematicity search engine, Phase-2 multiplicity machinery, recoverability estimator, Phase-3 OPE machinery, representation search, V8 strategy or Expert modification, portfolio-level sums of independent Candidate maxima, and any causal explanation engine. Several of these are additionally forbidden by V8 rules 6 and 14 (router, shared scorer, ranker, RL execution and online learning are ABSENT BY DEFAULT), so building them would breach the constitution, not merely the phase boundary.",
+            "evidence_refs": [
+              "docs/charter/V8_CONSTITUTION.md (rules 6, 14)",
+              "external_document: v0.2 section 3 (Out of scope for v0.2)"
+            ],
+            "confidence": "high"
+          }
+        ]
+      },
+      "final_status": {
+        "status": "complete",
+        "safe_to_continue": "yes",
+        "requires_hir": "no",
+        "reason": [
+          "All sixteen v0.2 ontology objects were mapped to concrete code with a status and a minimum action; none required the verdict \"needs new architecture\".",
+          "The four audits the task demanded (Candidate, legal action set, replay model, ledger reconciliation) were answered with measurement rather than inference, including an exact 12/12 reconciliation and a 120-cell hindsight-gap computation.",
+          "The three risks that could make Phase-0 output scientifically uninterpretable (fabricated degenerate outcomes, censoring contamination, a red golden baseline) are all local and are carried into the FDR and FCR as design constraints."
+        ],
+        "self_assessment": {
+          "required_sections_complete": "yes",
+          "evidence_coverage": "high",
+          "unresolved_gaps": [
+            "Reconciliation on a real tape is unmeasured (OQ004); the identity is proven only on the 160-bar synthetic fixture.",
+            "The reuse percentages are judgement ranges over measured surface, not a metric with a defined denominator (AS003).",
+            "Whether the diagnostic engine''s exit grid should later be folded into the manifest is deliberately left open (OQ002)."
+          ],
+          "confidence_in_own_completeness": "high"
+        }
+      }
+    }
+  },
+  "compiler_expectations": {
+    "source_path": "reports/accp/v8-rr-v02-phase0/source/FER-V8RR-002.accp.yaml",
+    "compiled_json": "reports/accp/v8-rr-v02-phase0/compiled/FER-V8RR-002.compiled.json",
+    "ir_json": "reports/accp/v8-rr-v02-phase0/ir/FER-V8RR-002.ir.json",
+    "gate_verdict_json": "reports/accp/v8-rr-v02-phase0/verdict/FER-V8RR-002.gate-verdict.json",
+    "route_signal_json": "reports/accp/v8-rr-v02-phase0/route/FER-V8RR-002.route-signal.json"
+  },
+  "accp_version": "2.0.0",
+  "source_format": "ACCP-YAML",
+  "meta": {
+    "plan_id": "v8-rr-v02-phase0",
+    "workspace_id": "none",
+    "repo_root": "C:/Users/dresden/Documents/v8",
+    "git_commit": "1053dc1b819c9012f50294ccf7be7eaaa86b5746",
+    "git_branch": "main",
+    "report_generated_at": "2026-08-10",
+    "report_stale_after": "on_next_commit",
+    "confidence": "high"
+  },
+  "agent": {
+    "agent_id": "claude-code-session-750e89fd",
+    "agent_role": "repo_agent",
+    "model_name": "claude-opus-5",
+    "model_version": "unknown",
+    "session_id": "750e89fd-d8cf-4c8b-a4de-e656675171ce",
+    "prompt_hash": "unknown"
+  },
+  "capabilities": {
+    "can_read_files": true,
+    "can_run_commands": false
+  },
+  "final_status": {
+    "status": "complete",
+    "blocks_promotion": false
+  },
+  "assumptions": {},
+  "skipped_inspections": {},
+  "references": []
+}

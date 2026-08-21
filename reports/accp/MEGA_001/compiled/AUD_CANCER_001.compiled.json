@@ -1,0 +1,257 @@
+{
+  "accp_version": "2.0.0",
+  "source_format": "ACCP-YAML",
+  "report": {
+    "id": "AUD_CANCER_001",
+    "type": "BSR",
+    "family": "bugfix",
+    "kind": "bug_search",
+    "status": "complete"
+  },
+  "meta": {
+    "plan_id": "MEGA_001",
+    "workspace_id": "W01",
+    "repo_root": ".",
+    "git_commit": "5dc4d6c",
+    "git_branch": "feat/campaign-audit-remediation-phase2-5",
+    "report_generated_at": "2026-08-21T22:45:00Z",
+    "report_stale_after": "on_next_commit",
+    "inspection_mode": "read_only",
+    "confidence": "high"
+  },
+  "agent": {
+    "agent_id": "v8-audit-agent",
+    "agent_role": "quantitative_auditor",
+    "model_name": "gemini-2.5-pro",
+    "model_version": "2026-08",
+    "session_id": "v8-cancer-register-session",
+    "prompt_hash": "canonical-cancer-audit-v1",
+    "context_used_percent": "unknown",
+    "context_window_remaining": "unknown"
+  },
+  "capabilities": {
+    "can_read_files": true,
+    "can_run_commands": true,
+    "can_edit_files": false,
+    "can_access_network": false,
+    "tools_available": [
+      "read",
+      "bash",
+      "grep"
+    ],
+    "max_depth_inspected": "full_repo"
+  },
+  "references": [
+    "VENUE_AND_CAPITAL_SIMULATION_SPEC.md \u00a71-11",
+    "TARGET_ORACLE_SPEC.md \u00a712",
+    "EVALUATION_EVIDENCE_SYSTEM.md \u00a72-5",
+    "arXiv:1603.06183 (Risk-Constrained Kelly)",
+    "arXiv:2602.11708 (AdaptiveTrend)",
+    "arXiv:2402.05272 (Jump Models & Latency)"
+  ],
+  "assumptions": {
+    "AS001": {
+      "assumption": "The 28-expert baseline was evaluated on BTCUSDT 1h 12m tape.",
+      "reason": "Historical audit baseline run produced -$992.99 on $1000 capital.",
+      "confidence": "high",
+      "how_to_verify": "Check .audit/history/20260819_073625_issue164_baseline_all28"
+    }
+  },
+  "skipped_inspections": {
+    "S001": {
+      "item": "L2 microsecond tick queue simulation",
+      "reason": "1h/4h swing experts do not require L2 tick depth; classified as DATA_BLOCKED without penalty.",
+      "risk": "low",
+      "needed_next": "Focus on volatility/path anomaly detection."
+    }
+  },
+  "bug_search_scope": {
+    "in_scope": [
+      "Capital and lot quantization paralysis",
+      "Tail clipping exit geometry",
+      "Expert allocation and candidate flood",
+      "Portfolio context and regime blindness",
+      "Alpha detection mechanical floor",
+      "Data and sponsorship blindness"
+    ],
+    "out_of_scope": [
+      "High-frequency market making"
+    ],
+    "target_bug_classes": [
+      "execution_paralysis",
+      "tail_clipping",
+      "allocation_contention"
+    ],
+    "explicitly_not_changed": [
+      "Frozen Python oracle"
+    ]
+  },
+  "search_method": {
+    "strategy": [
+      "Analyze full 12-month tape for extreme 24h market episodes.",
+      "Inspect 05-06 Feb 2026 BTC crash (-14%) and pump (+12%) window (bars 5250-5310).",
+      "Trace 191 generated candidate signals against portfolio admission engine."
+    ],
+    "commands": [
+      "python tools/reproduce_rust_audit.py"
+    ],
+    "files_read": [
+      "v8-core/src/usdm_sim/capital_viability.rs",
+      "v8-core/src/analysis/veto_attribution.rs",
+      "v8-core/src/evaluation/regime_cube.rs"
+    ]
+  },
+  "bug_findings": {
+    "BG001": {
+      "title": "KANSER-01: Lot Quantization Paralysis (QUANTITY_ROUNDS_TO_ZERO)",
+      "classification": "confirmed_bug",
+      "priority": "P0",
+      "severity": "critical",
+      "confidence": "high",
+      "affected_area": "capital_simulation",
+      "affected_files": [
+        {
+          "path": "v8-core/src/usdm_sim/capital_viability.rs",
+          "symbol": "compute_critical_capital_envelope"
+        }
+      ],
+      "observed_behavior": [
+        "32,428 candidates rejected because fixed 0.5% risk on sub-$1000 equity is below 0.001 BTC lot step."
+      ],
+      "expected_behavior": [
+        "Quantization-aware risk budgeting must evaluate executable lot feasibility."
+      ],
+      "why_this_is_a_bug": [
+        "Completely paralyzes portfolio execution on 191 candidates during Feb 05 mega move."
+      ],
+      "minimal_fix": {
+        "fix_id": "FX001",
+        "summary": "Deploy Quantization-Aware Risk Budgeting & Boyd Dynamic Liquidity Floor."
+      }
+    },
+    "BG002": {
+      "title": "KANSER-02: Tail Clipping Exit Geometry (Fixed 2R TP)",
+      "classification": "confirmed_bug",
+      "priority": "P1",
+      "severity": "high",
+      "confidence": "high",
+      "affected_area": "simulator_exit",
+      "affected_files": [
+        {
+          "path": "v8-core/src/simulator.rs",
+          "symbol": "take_profit_r"
+        }
+      ],
+      "observed_behavior": [
+        "79% of target exits continued beyond +2R with average post-exit MFE of +4.5R."
+      ],
+      "expected_behavior": [
+        "Dynamic trailing stop (Chandelier ATR / 4h EMA) must preserve right-tail payoff."
+      ],
+      "why_this_is_a_bug": [
+        "Cuts off 10,000$ mega trend profits at 1,000$ boundary."
+      ],
+      "minimal_fix": {
+        "fix_id": "FX002",
+        "summary": "Implement Tail-Preserving Dynamic Trailing Exit Challenger."
+      }
+    },
+    "BG003": {
+      "title": "KANSER-03: Expert Funnel Collapse & Contention Chaos",
+      "classification": "confirmed_bug",
+      "priority": "P1",
+      "severity": "high",
+      "confidence": "high",
+      "affected_area": "candidate_aggregation",
+      "affected_files": [
+        {
+          "path": "v8-core/src/analysis/veto_attribution.rs",
+          "symbol": "dedup_regret"
+        }
+      ],
+      "observed_behavior": [
+        "42,647 triggers led to 14,766 dedup suppressions and only 2 admitted trades."
+      ],
+      "expected_behavior": [
+        "Multi-expert signals must aggregate under single Campaign Latent Event."
+      ],
+      "why_this_is_a_bug": [
+        "Experts act as competing traders instead of cooperative sensors."
+      ],
+      "minimal_fix": {
+        "fix_id": "FX003",
+        "summary": "Candidate-to-Campaign Clustering Engine."
+      }
+    }
+  },
+  "prioritized_fix_plan": {
+    "FX001": {
+      "fixes_bug": "BSR#BG001",
+      "priority": "P0",
+      "action": "implement_contract",
+      "summary": "Quantization-Aware Risk Budgeting & Dynamic Liquidity Floor",
+      "minimal_files": [
+        "v8-core/src/allocator.rs",
+        "v8-core/src/usdm_sim/capital_viability.rs"
+      ],
+      "blocks_promotion": true
+    },
+    "FX002": {
+      "fixes_bug": "BSR#BG002",
+      "priority": "P1",
+      "action": "implement_challenger",
+      "summary": "Tail-Preserving Dynamic Trailing Stop Challenger",
+      "minimal_files": [
+        "v8-core/src/simulator.rs"
+      ],
+      "blocks_promotion": true
+    },
+    "FX003": {
+      "fixes_bug": "BSR#BG003",
+      "priority": "P1",
+      "action": "implement_aggregation",
+      "summary": "Campaign Evidence Aggregation & Clustering",
+      "minimal_files": [
+        "v8-core/src/candidate.rs",
+        "v8-core/src/runloop.rs"
+      ],
+      "blocks_promotion": true
+    }
+  },
+  "next_route": {
+    "NR001": {
+      "recommended_next_report": "FDR",
+      "recommended_next_action": "design_and_implement",
+      "target_refs": [
+        "BSR#BG001",
+        "BSR#BG002",
+        "BSR#BG003"
+      ],
+      "mutation_policy_needed": "mutation_allowed",
+      "auto_advance_safe": "conditional",
+      "requires_human_confirmation": true,
+      "reason": [
+        "Execute 6-issue cancer remediation and extreme-move benchmark."
+      ],
+      "confidence": "high"
+    }
+  },
+  "final_status": {
+    "bug_search_status": "complete",
+    "repo_mutation_performed": false,
+    "highest_priority": "P0",
+    "must_fix_before_promotion": [
+      "BG001",
+      "BG002",
+      "BG003"
+    ],
+    "safe_to_continue_without_fix": "no",
+    "requires_tvr": true,
+    "requires_hir": false,
+    "self_assessment": {
+      "required_sections_complete": "yes",
+      "evidence_coverage": "high",
+      "confidence_in_own_completeness": "high"
+    }
+  }
+}

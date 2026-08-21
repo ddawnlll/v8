@@ -58,6 +58,13 @@ uv venv .venv && uv pip install --python .venv/bin/python -e ".[dev]"   # toolin
 - **Evidence labels** — `LITERATURE_SUPPORTED` / `PROJECT_EVIDENCE_SUPPORTED`
   / `DESIGN_INFERENCE` / `PROVISIONAL_DECISION` / `LOCKED_INVARIANT` /
   `OPEN_QUESTION` / `REJECTED_OPTION`; never interchangeable.
+- **ZERO SHADOW ARCHITECTURE (Mandatory Registration):**
+  1. Every new module, structural pattern, error taxonomy, or cryptographic upgrade MUST register a `D-xxx` decision in `docs/decisions/DECISION_REGISTER.md` (and `docs/tr/DECISION_REGISTER.md`).
+  2. Every module MUST be mapped in `docs/contracts/IMPLEMENTATION_LAYOUT.md`.
+  3. Every architecture change MUST be logged in `docs/CHANGELOG.md`.
+  4. Monograph must be rebuilt immediately (`tools/build_monograph.py`).
+  5. Unregistered shadow code paths are strictly prohibited.
+
 - **Gated components are ABSENT by default**: router, shared scorer, ranker,
   RL execution, online learning (rules 6, 14). Do not implement them.
 - **Learning is offline and registry-gated**; outcome data never mutates an

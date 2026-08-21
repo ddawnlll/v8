@@ -61,5 +61,22 @@ Only standalone documentation / tooling scripts in `tools/` may use Python:
 - **Absolute Ban on Autonomous Merging:** Agents must NEVER merge pull requests (e.g. `gh pr merge`, `git merge`, or squash merge) autonomously. Merging PRs is strictly reserved for human maintainers or requires explicit, standalone human maintainer direction.
 - **No Direct Pushes to Main:** Agents must NEVER push directly to `main`.
 
+## 🚨 STRICT RULE: ZERO-SHADOW ARCHITECTURE & MANDATORY DECISION / MONOGRAPH REGISTRATION
+
+### 8. Absolute Ban on Unregistered Architectural Decisions & Shadow Implementations
+1. **Mandatory D-Series Decision Registration:**
+   - Any architectural extension, structural refactor, new subsystem/module, error taxonomy, cryptographic upgrade, streaming protocol, or IPC/checkpoint mechanism MUST be explicitly registered with a new `D-xxx` decision in [`docs/decisions/DECISION_REGISTER.md`](docs/decisions/DECISION_REGISTER.md) and its Turkish mirror [`docs/tr/DECISION_REGISTER.md`](docs/tr/DECISION_REGISTER.md).
+2. **Contract & Layout Traceability:**
+   - Every newly created Rust module or significant interface MUST be mapped in [`docs/contracts/IMPLEMENTATION_LAYOUT.md`](docs/contracts/IMPLEMENTATION_LAYOUT.md) (§1.1 as-built tree, §2 file-by-file contract, and §4 known divergences table).
+3. **Mandatory Monograph Synchronization:**
+   - When documentation, decisions, contracts, or audits are modified, both English and Turkish single-file monographs MUST be regenerated via:
+     `uv run --with markdown tools/build_monograph.py --lang en --docs docs --out site/index.html`
+     `uv run --with markdown tools/build_monograph.py --lang tr --docs docs/tr --out site/tr.html`
+4. **Mandatory CHANGELOG Entry:**
+   - Every architectural change MUST be recorded in [`docs/CHANGELOG.md`](docs/CHANGELOG.md) with date, associated issue IDs, and modified artifacts list.
+5. **Zero Tolerance for Shadow Architecture:**
+   - Unregistered code paths, hidden heuristics, undocumented data structures, or silent layout changes are classified as severe contract violations and block PR merge.
+
+
 
 

@@ -2,6 +2,17 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-21 — Modernize v8-core architecture, error taxonomy, zero-copy streaming, and add ACCP v2.0 verification suite (issues #208, #209, #210, #211, D-119..D-122)
+
+Resolved four foundational modernization issues in `v8-core`:
+- **Issue #208 (D-119):** Introduced `V8CoreError` strongly-typed error taxonomy via `thiserror` in `v8-core/src/error.rs`, typed candidate lifecycle enum `CandidateState` in `v8-core/src/candidate.rs`, and typed scheduler evaluation `evaluate_typed`.
+- **Issue #209 (D-120):** Upgraded `v8-core/src/hash.rs` with `BLAKE3` and `SHA-256` digest functions alongside legacy `SHA-1`, introduced depth-bounded path traversal defense `sanitize_path` in `v8-core/src/path_security.rs`, and structured telemetry facades in `v8-core/src/telemetry.rs`.
+- **Issue #210 (D-121):** Implemented `Dataset::from_mmap_path` using `memmap2` for zero-copy $O(1)$ memory overhead tape streaming in `v8-core/src/data.rs` and standardized on `bincode` for fast binary serialization.
+- **Issue #211 (D-122):** Built atomic simulation state snapshotting (`SimulationCheckpoint`) for `--resume` execution in `v8-core/src/checkpoint.rs`, and configured multi-architecture release workflow in `.github/workflows/release.yml`.
+- Generated complete ACCP v2.0 verification suite under `reports/accp/P46/source/` (`P46_BSR_001.accp.yaml`, `P46_FPR_001.accp.yaml`, `P46_TVR_001.accp.yaml`, `P46_PRR_001.accp.yaml`).
+
+Artifacts changed: `v8-core/src/{error.rs, candidate.rs, hash.rs, data.rs, scheduler.rs, path_security.rs, telemetry.rs, checkpoint.rs, main.rs}`, `v8-core/Cargo.toml`, `.github/workflows/release.yml`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `reports/accp/P46/source/*.accp.yaml`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-20 — Hoist invariant outcome-cube code hash (issue #205, D-083)
 
 Measured the warm S6 parity gate at 87.89 seconds and attributed 95.99 of

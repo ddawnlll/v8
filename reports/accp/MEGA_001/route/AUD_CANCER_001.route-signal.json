@@ -1,0 +1,24 @@
+{
+  "currentReportId": "AUD_CANCER_001",
+  "currentReportType": "BSR",
+  "routes": {
+    "NR001": {
+      "recommended_next_report": "FDR",
+      "recommended_next_action": "design_and_implement",
+      "target_refs": [
+        "BSR#BG001",
+        "BSR#BG002",
+        "BSR#BG003"
+      ],
+      "mutation_policy_needed": "mutation_allowed",
+      "auto_advance_safe": "conditional",
+      "requires_human_confirmation": true,
+      "reason": [
+        "Execute 6-issue cancer remediation and extreme-move benchmark."
+      ],
+      "confidence": "high"
+    }
+  },
+  "valid": true,
+  "diagnostics": []
+}
