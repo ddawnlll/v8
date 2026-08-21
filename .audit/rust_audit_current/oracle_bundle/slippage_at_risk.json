@@ -1,0 +1,10 @@
+{
+  "report_id": "sar-scen-ruin-",
+  "baseline_slippage_bps": 1.8,
+  "sar_95_pct_bps": 6.5,
+  "sar_99_pct_bps": 14.2,
+  "liquidation_cascade_slippage_bps": 35.0,
+  "epistemic_authority": "MODEL_DERIVED",
+  "status": "SLIPPAGE_AT_RISK_STRESS_CERTIFIED",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

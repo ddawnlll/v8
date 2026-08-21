@@ -7,10 +7,13 @@
 
 pub mod agents;
 pub mod authority_surface;
+pub mod falsification;
 pub mod html_report;
 pub mod lineage;
 pub mod manifest;
+pub mod multiple_testing;
 pub mod paths;
+pub mod regime_cube;
 pub mod regression;
 pub mod schema_cache;
 pub mod statistics;
@@ -233,20 +236,17 @@ impl EvaluationEngine {
         let bootstrap = block_bootstrap(&net_rs, 5, 200, 42);
         let _perms = run_permutation_test(&net_rs, 200, 42);
         let nulls = run_10_family_null_suite(&net_rs, &bar_closes, 42);
-        let dsr = compute_deflated_sharpe_ratio(bootstrap.sharpe_mean, trades.len(), 100);
+        let _dsr = compute_deflated_sharpe_ratio(bootstrap.sharpe_mean, trades.len(), 100);
 
         // Save Statistics JSONs
         let stats_dir = out.join("statistics");
         fs::write(stats_dir.join("bootstrap.json"), serde_json::to_string_pretty(&bootstrap)?)?;
         fs::write(stats_dir.join("nulls.json"), serde_json::to_string_pretty(&nulls)?)?;
-        fs::write(
-            stats_dir.join("multiple_testing.json"),
-            serde_json::to_string_pretty(&serde_json::json!({
-                "cumulative_trials_k": 100,
-                "raw_sharpe": bootstrap.sharpe_mean,
-                "deflated_sharpe_ratio": dsr
-            }))?,
-        )?;
+        let multiplicity_ledger = self::multiple_testing::build_baseline_multiplicity_ledger();
+        multiplicity_ledger.save_artifacts(out)?;
+        let falsification_rep = self::falsification::run_null_world_falsification_battery(&bar_closes, 100, 0.05, 42);
+        self::falsification::save_falsification_report(out, &falsification_rep)?;
+        self::falsification::save_falsification_report(&stats_dir, &falsification_rep)?;
         fs::write(
             stats_dir.join("backtest_overfit.json"),
             serde_json::to_string_pretty(&serde_json::json!({

@@ -1,0 +1,72 @@
+[
+  {
+    "initial_equity_usdt": 100.0,
+    "num_simulations": 200,
+    "empirical_ruin_probability": 0.0,
+    "expected_time_to_ruin_bars": null,
+    "min_terminal_equity_usdt": 90.1537800377917,
+    "median_terminal_equity_usdt": 100.5523901537707,
+    "max_terminal_equity_usdt": 112.44181047538933,
+    "p95_max_drawdown_pct": 45.0
+  },
+  {
+    "initial_equity_usdt": 250.0,
+    "num_simulations": 200,
+    "empirical_ruin_probability": 0.0,
+    "expected_time_to_ruin_bars": null,
+    "min_terminal_equity_usdt": 225.03965548600064,
+    "median_terminal_equity_usdt": 250.38328148415204,
+    "max_terminal_equity_usdt": 279.3035484130562,
+    "p95_max_drawdown_pct": 45.0
+  },
+  {
+    "initial_equity_usdt": 500.0,
+    "num_simulations": 200,
+    "empirical_ruin_probability": 0.0,
+    "expected_time_to_ruin_bars": null,
+    "min_terminal_equity_usdt": 456.42982654536064,
+    "median_terminal_equity_usdt": 501.3070727777815,
+    "max_terminal_equity_usdt": 556.7004603601719,
+    "p95_max_drawdown_pct": 45.0
+  },
+  {
+    "initial_equity_usdt": 1000.0,
+    "num_simulations": 200,
+    "empirical_ruin_probability": 0.0,
+    "expected_time_to_ruin_bars": null,
+    "min_terminal_equity_usdt": 901.9418583744903,
+    "median_terminal_equity_usdt": 1006.9455237571011,
+    "max_terminal_equity_usdt": 1141.4106753879487,
+    "p95_max_drawdown_pct": 45.0
+  },
+  {
+    "initial_equity_usdt": 2500.0,
+    "num_simulations": 200,
+    "empirical_ruin_probability": 0.0,
+    "expected_time_to_ruin_bars": null,
+    "min_terminal_equity_usdt": 2282.977769976246,
+    "median_terminal_equity_usdt": 2517.563239073903,
+    "max_terminal_equity_usdt": 2833.305813524276,
+    "p95_max_drawdown_pct": 45.0
+  },
+  {
+    "initial_equity_usdt": 5000.0,
+    "num_simulations": 200,
+    "empirical_ruin_probability": 0.0,
+    "expected_time_to_ruin_bars": null,
+    "min_terminal_equity_usdt": 4561.853800297115,
+    "median_terminal_equity_usdt": 5035.538645944665,
+    "max_terminal_equity_usdt": 5793.063007679167,
+    "p95_max_drawdown_pct": 45.0
+  },
+  {
+    "initial_equity_usdt": 10000.0,
+    "num_simulations": 200,
+    "empirical_ruin_probability": 0.0,
+    "expected_time_to_ruin_bars": null,
+    "min_terminal_equity_usdt": 9073.215624882869,
+    "median_terminal_equity_usdt": 10111.41634795878,
+    "max_terminal_equity_usdt": 11278.201465571281,
+    "p95_max_drawdown_pct": 45.0
+  }
+]

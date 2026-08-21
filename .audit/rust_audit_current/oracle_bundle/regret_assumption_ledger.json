@@ -1,0 +1,21 @@
+{
+  "ledger_id": "ledger-o4-regret-",
+  "additive_identity_rejected": true,
+  "non_negativity_required": true,
+  "interaction_separability_assumed": true,
+  "high_interaction_threshold": 2.0,
+  "domain_definitions": [
+    "DETECTION",
+    "REPRESENTATION",
+    "SELECTION",
+    "GEOMETRY",
+    "EXECUTION",
+    "ALLOCATION"
+  ],
+  "mathematical_invariants": [
+    "TotalPolicyGap = V*(S_t) - U(pi_realized)",
+    "InteractionEffect = TotalPolicyGap - sum(IsolatedEffects)",
+    "Non-additive: TotalPolicyGap != sum(MarginalEffects)"
+  ],
+  "claim": "NO_ECONOMIC_CLAIM"
+}

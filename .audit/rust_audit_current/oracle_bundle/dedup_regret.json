@@ -1,0 +1,11 @@
+{
+  "report_id": "dedup-regret-000039ae",
+  "total_suppressed_duplicates": 14766,
+  "admitted_parent_candidates": 27881,
+  "parent_win_rate": 0.415,
+  "suppressed_hypothetical_win_rate": 0.412,
+  "signal_redundancy_regret_r": 0.0,
+  "epistemic_authority": "PARTIALLY_IDENTIFIED",
+  "status": "DEDUP_SUPPRESSION_AUDIT_VERIFIED",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

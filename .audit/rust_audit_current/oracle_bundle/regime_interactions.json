@@ -1,0 +1,22 @@
+[
+  {
+    "interaction_id": "int-trend-vol",
+    "term_name": "Trend_x_Volatility",
+    "beta_coefficient": 0.12,
+    "standard_error": 0.08,
+    "t_statistic": 1.5,
+    "p_value_uncorrected": 0.1336,
+    "p_value_multiplicity_adjusted": 0.2672,
+    "is_statistically_significant": false
+  },
+  {
+    "interaction_id": "int-vol-funding",
+    "term_name": "Volatility_x_Funding",
+    "beta_coefficient": -0.05,
+    "standard_error": 0.09,
+    "t_statistic": -0.55,
+    "p_value_uncorrected": 0.5823,
+    "p_value_multiplicity_adjusted": 0.821,
+    "is_statistically_significant": false
+  }
+]

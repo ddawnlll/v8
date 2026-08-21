@@ -27,6 +27,8 @@ pub mod phase1;
 pub mod phase2;
 pub mod phase3;
 pub mod reconcile;
+pub mod regret_o4;
+pub mod veto_attribution;
 
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};

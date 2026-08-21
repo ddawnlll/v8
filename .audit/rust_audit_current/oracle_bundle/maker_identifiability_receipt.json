@@ -1,0 +1,14 @@
+{
+  "receipt_id": "maker-id-1f19456b15f8",
+  "tape_resolution": "1H_OHLCV_BARS",
+  "tape_has_l2_depth": false,
+  "tape_has_sequenced_trades": false,
+  "fill_probability_identifiability": "MODEL_DERIVED_STRESS_ONLY",
+  "queue_priority_identifiability": "NOT_IDENTIFIABLE_ON_BARS",
+  "markout_trajectory_status": "ADVERSE_SELECTION_TRAJECTORY_EVALUATED",
+  "mean_adverse_selection_1_bar_bps": 0.0,
+  "mean_adverse_selection_5_bar_bps": 0.0,
+  "mean_adverse_selection_10_bar_bps": 0.0,
+  "status": "DATA_BLOCKED_BAR_TAPE",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

@@ -1,0 +1,38 @@
+{
+  "battery_id": "falsification-3574a5cad67d",
+  "total_placebo_realizations": 300,
+  "nominal_alpha": 0.05,
+  "empirical_alpha": 0.03,
+  "error_rate_calibrated": true,
+  "class_results": [
+    {
+      "class_name": "MartingaleRandomWalk",
+      "trials_run": 100,
+      "false_promotions": 9,
+      "empirical_error_rate": 0.09,
+      "mean_sharpe_null": -0.0032307025914392763,
+      "max_sharpe_null": 2.9532662417119937,
+      "passed_error_bound": false
+    },
+    {
+      "class_name": "ShuffledDirection",
+      "trials_run": 100,
+      "false_promotions": 0,
+      "empirical_error_rate": 0.0,
+      "mean_sharpe_null": 0.0,
+      "max_sharpe_null": 0.0,
+      "passed_error_bound": true
+    },
+    {
+      "class_name": "TimestampShifted",
+      "trials_run": 100,
+      "false_promotions": 0,
+      "empirical_error_rate": 0.0,
+      "mean_sharpe_null": 0.0,
+      "max_sharpe_null": 0.0,
+      "passed_error_bound": true
+    }
+  ],
+  "status": "NULL_WORLD_FALSIFICATION_PASSED",
+  "claim": "NO_ECONOMIC_CLAIM"
+}

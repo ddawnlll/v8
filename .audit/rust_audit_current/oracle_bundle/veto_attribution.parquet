@@ -1,0 +1,46 @@
+[
+  {
+    "candidate_id": "cand-veto-0000",
+    "expert_id": "expert-v1",
+    "veto_reason": "EXISTING_EXPOSURE_CONFLICT",
+    "avoided_loss_usdt": 120.0,
+    "missed_profit_usdt": 45.0,
+    "net_gate_value_usdt": 75.0,
+    "authority_status": "IDENTIFIED",
+    "hypothetical_mfe_r": 1.2,
+    "hypothetical_mae_r": -0.8
+  },
+  {
+    "candidate_id": "cand-veto-0001",
+    "expert_id": "expert-v2",
+    "veto_reason": "PORTFOLIO_HEAT_EXCEEDED",
+    "avoided_loss_usdt": 85.0,
+    "missed_profit_usdt": 95.0,
+    "net_gate_value_usdt": -10.0,
+    "authority_status": "PARTIALLY_IDENTIFIED",
+    "hypothetical_mfe_r": 1.2,
+    "hypothetical_mae_r": -0.8
+  },
+  {
+    "candidate_id": "cand-veto-0002",
+    "expert_id": "expert-v3",
+    "veto_reason": "CORRELATION_CAP_REACHED",
+    "avoided_loss_usdt": 60.0,
+    "missed_profit_usdt": 30.0,
+    "net_gate_value_usdt": 30.0,
+    "authority_status": "MODEL_DERIVED",
+    "hypothetical_mfe_r": 1.2,
+    "hypothetical_mae_r": -0.8
+  },
+  {
+    "candidate_id": "cand-veto-0003",
+    "expert_id": "expert-v4",
+    "veto_reason": "VOLATILITY_BURST_FILTER",
+    "avoided_loss_usdt": 150.0,
+    "missed_profit_usdt": 20.0,
+    "net_gate_value_usdt": 130.0,
+    "authority_status": "IDENTIFIED",
+    "hypothetical_mfe_r": 1.2,
+    "hypothetical_mae_r": -0.8
+  }
+]

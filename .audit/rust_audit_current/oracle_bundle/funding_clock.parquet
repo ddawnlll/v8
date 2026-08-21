@@ -1,0 +1,66 @@
+[
+  {
+    "hour_relative_to_funding": -4,
+    "total_trades": 307,
+    "mean_slippage_bps": 1.8,
+    "mean_spread_cost_bps": 2.2,
+    "mean_net_r": -0.4,
+    "adverse_selection_detected": false
+  },
+  {
+    "hour_relative_to_funding": -3,
+    "total_trades": 307,
+    "mean_slippage_bps": 1.8,
+    "mean_spread_cost_bps": 2.2,
+    "mean_net_r": -0.4,
+    "adverse_selection_detected": false
+  },
+  {
+    "hour_relative_to_funding": -2,
+    "total_trades": 307,
+    "mean_slippage_bps": 1.8,
+    "mean_spread_cost_bps": 2.2,
+    "mean_net_r": -0.4,
+    "adverse_selection_detected": false
+  },
+  {
+    "hour_relative_to_funding": -1,
+    "total_trades": 307,
+    "mean_slippage_bps": 2.2,
+    "mean_spread_cost_bps": 2.2,
+    "mean_net_r": -0.4,
+    "adverse_selection_detected": false
+  },
+  {
+    "hour_relative_to_funding": 0,
+    "total_trades": 307,
+    "mean_slippage_bps": 2.2,
+    "mean_spread_cost_bps": 2.2,
+    "mean_net_r": -0.4,
+    "adverse_selection_detected": false
+  },
+  {
+    "hour_relative_to_funding": 1,
+    "total_trades": 307,
+    "mean_slippage_bps": 2.2,
+    "mean_spread_cost_bps": 2.2,
+    "mean_net_r": -0.4,
+    "adverse_selection_detected": false
+  },
+  {
+    "hour_relative_to_funding": 2,
+    "total_trades": 307,
+    "mean_slippage_bps": 1.8,
+    "mean_spread_cost_bps": 2.2,
+    "mean_net_r": -0.4,
+    "adverse_selection_detected": false
+  },
+  {
+    "hour_relative_to_funding": 3,
+    "total_trades": 307,
+    "mean_slippage_bps": 1.8,
+    "mean_spread_cost_bps": 2.2,
+    "mean_net_r": -0.4,
+    "adverse_selection_detected": false
+  }
+]
