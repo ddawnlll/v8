@@ -7,6 +7,7 @@ hash, so every parity report is anchored to an immutable oracle
 from __future__ import annotations
 
 import hashlib
+import os
 import subprocess
 from pathlib import Path
 
@@ -14,7 +15,13 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 V8_CORE = REPO_ROOT / "v8-core"
-BINARY = V8_CORE / "target" / "release" / "v8-core"
+
+
+def _binary_name(os_name: str) -> str:
+    return "v8-core.exe" if os_name == "nt" else "v8-core"
+
+
+BINARY = V8_CORE / "target" / "release" / _binary_name(os.name)
 
 
 def pytest_addoption(parser):

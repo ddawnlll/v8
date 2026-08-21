@@ -2,6 +2,18 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-20 — Windows parity binary-path fix (issue #203)
+
+Fixed the shared Python parity fixture to resolve Cargo's exact Windows release
+executable name (`v8-core.exe`) while preserving the extensionless POSIX name,
+stale-source rebuild check, and fail-closed exact-path assertion. Added a focused
+cross-platform naming regression test. No Rust, parity-value, oracle, simulator,
+or economic semantics changed.
+
+Artifacts changed: `tests/parity/conftest.py`,
+`tests/test_parity_binary_path.py`, `docs/CHANGELOG.md`, `site/index.html`,
+`site/tr.html`.
+
 ## 2026-08-19 — Deploy V8 Work-Item / PR Governance v1.2 and Start Measured Pilot (D-117)
 
 Deployed the canonical V8 Work-Item, Pull-Request & Merge Governance v1.2 pack across the repository:
