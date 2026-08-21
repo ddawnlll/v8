@@ -161,20 +161,54 @@ impl Canon {
         }
     }
 
-    /// SHA-1 (hex) of the accumulated bytes — the V8.2 identity digest.
+    /// SHA-1 (hex) of the accumulated bytes — the legacy V8.2 identity digest.
     pub fn finish_sha1_hex(&self) -> String {
         let mut h = Sha1::new();
         h.update(&self.buf);
         let out = h.finalize();
         out.iter().map(|b| format!("{:02x}", b)).collect()
     }
+
+    /// SHA-256 (hex) of the accumulated bytes — modern collision-resistant digest (Issue #209).
+    pub fn finish_sha256_hex(&self) -> String {
+        use sha2::{Digest, Sha256};
+        let mut h = Sha256::new();
+        h.update(&self.buf);
+        let out = h.finalize();
+        out.iter().map(|b| format!("{:02x}", b)).collect()
+    }
+
+    /// BLAKE3 (hex) of the accumulated bytes — high-throughput cryptographic digest (Issue #209).
+    pub fn finish_blake3_hex(&self) -> String {
+        let hash = blake3::hash(&self.buf);
+        hash.to_hex().to_string()
+    }
+
+    /// Raw byte representation of canonical buffer.
+    pub fn as_bytes(&self) -> &[u8] {
+        &self.buf
+    }
 }
 
-/// Convenience: hash one value directly.
+/// Convenience: hash one value directly with SHA-1 (legacy).
 pub fn hash_value(v: &serde_json::Value) -> String {
     let mut c = Canon::new();
     c.push_value(v);
     c.finish_sha1_hex()
+}
+
+/// Convenience: hash one value directly with SHA-256 (Issue #209).
+pub fn hash_value_sha256(v: &serde_json::Value) -> String {
+    let mut c = Canon::new();
+    c.push_value(v);
+    c.finish_sha256_hex()
+}
+
+/// Convenience: hash one value directly with BLAKE3 (Issue #209).
+pub fn hash_value_blake3(v: &serde_json::Value) -> String {
+    let mut c = Canon::new();
+    c.push_value(v);
+    c.finish_blake3_hex()
 }
 
 #[cfg(test)]

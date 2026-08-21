@@ -31,6 +31,7 @@
 
 use crate::backend::{ReplayCell, ReplayKernel};
 use crate::data::Dataset;
+use crate::error::V8CoreError;
 use crate::simulator::Outcome;
 
 /// Contiguous worker-chunk boundaries: worker `w` owns `[bounds[w],
@@ -51,6 +52,18 @@ pub fn chunk_bounds(n: usize, workers: usize) -> Vec<usize> {
         bounds.push(prev + base + usize::from(w < rem));
     }
     bounds
+}
+
+/// Strongly-typed evaluate function returning Result<(), V8CoreError> (Issue #208).
+#[allow(dead_code)]
+pub fn evaluate_typed<K: ReplayKernel + Sync>(
+    threads: usize,
+    kernel: &K,
+    dataset: &Dataset,
+    cells: &[ReplayCell],
+    output: &mut [Outcome],
+) -> Result<(), V8CoreError> {
+    evaluate(threads, kernel, dataset, cells, output).map_err(V8CoreError::Scheduler)
 }
 
 /// Evaluate a `ReplayCell` batch through `kernel` on up to `threads` worker

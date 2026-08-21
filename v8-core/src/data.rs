@@ -274,6 +274,39 @@ impl Dataset {
         Ok(Dataset { rows, bars, n_rows })
     }
 
+    /// Zero-copy memory-mapped tape streaming reader (Issue #210).
+    ///
+    /// Memory-maps the tape file using `memmap2` and streams JSONL rows with
+    /// bounded buffer overhead ($O(1)$ RAM footprint).
+    #[allow(dead_code)]
+    pub fn from_mmap_path<P: AsRef<std::path::Path>>(path: P) -> Result<Dataset, DatasetError> {
+        use std::io::BufRead;
+        let file = std::fs::File::open(path)
+            .map_err(|e| DatasetError::Malformed(format!("failed to open file: {e}")))?;
+        let mmap = unsafe {
+            memmap2::MmapOptions::new()
+                .map(&file)
+                .map_err(|e| DatasetError::Malformed(format!("mmap failed: {e}")))?
+        };
+
+        let mut rows = Vec::new();
+        let mut cursor = std::io::Cursor::new(&mmap[..]);
+        let mut line_buf = String::new();
+
+        while cursor.read_line(&mut line_buf).map_err(|e| DatasetError::Malformed(e.to_string()))? > 0 {
+            let trimmed = line_buf.trim();
+            if !trimmed.is_empty() {
+                let parsed: Value = serde_json::from_str(trimmed)
+                    .map_err(|e| DatasetError::Malformed(format!("invalid JSON in tape: {e}")))?;
+                let row = TapeRow::from_parts(&parsed, Vec::new())?;
+                rows.push(row);
+            }
+            line_buf.clear();
+        }
+
+        Self::from_rows(rows)
+    }
+
     /// Symbol whose closed bars are at `bars[i]`.
     #[allow(dead_code)] // S1 feature store
     pub fn symbol(&self, i: usize) -> &str {

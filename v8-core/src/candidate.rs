@@ -40,6 +40,77 @@ impl TransitionRecord {
     }
 }
 
+/// Strongly-typed candidate lifecycle state (Issue #208).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Deserialize, serde::Serialize)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum CandidateState {
+    Detected,
+    Pending,
+    Triggered,
+    Accepted,
+    OrderSubmitted,
+    Executed,
+    Rejected,
+    Expired,
+    Invalidated,
+    Cancelled,
+    Closed,
+    Archived,
+}
+
+impl CandidateState {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            CandidateState::Detected => "DETECTED",
+            CandidateState::Pending => "PENDING",
+            CandidateState::Triggered => "TRIGGERED",
+            CandidateState::Accepted => "ACCEPTED",
+            CandidateState::OrderSubmitted => "ORDER_SUBMITTED",
+            CandidateState::Executed => "EXECUTED",
+            CandidateState::Rejected => "REJECTED",
+            CandidateState::Expired => "EXPIRED",
+            CandidateState::Invalidated => "INVALIDATED",
+            CandidateState::Cancelled => "CANCELLED",
+            CandidateState::Closed => "CLOSED",
+            CandidateState::Archived => "ARCHIVED",
+        }
+    }
+
+    pub fn parse(s: &str) -> Option<Self> {
+        match s {
+            "DETECTED" => Some(CandidateState::Detected),
+            "PENDING" => Some(CandidateState::Pending),
+            "TRIGGERED" => Some(CandidateState::Triggered),
+            "ACCEPTED" => Some(CandidateState::Accepted),
+            "ORDER_SUBMITTED" => Some(CandidateState::OrderSubmitted),
+            "EXECUTED" => Some(CandidateState::Executed),
+            "REJECTED" => Some(CandidateState::Rejected),
+            "EXPIRED" => Some(CandidateState::Expired),
+            "INVALIDATED" => Some(CandidateState::Invalidated),
+            "CANCELLED" => Some(CandidateState::Cancelled),
+            "CLOSED" => Some(CandidateState::Closed),
+            "ARCHIVED" => Some(CandidateState::Archived),
+            _ => None,
+        }
+    }
+
+    pub fn is_terminal(&self) -> bool {
+        matches!(
+            self,
+            CandidateState::Rejected
+                | CandidateState::Expired
+                | CandidateState::Invalidated
+                | CandidateState::Cancelled
+                | CandidateState::Closed
+                | CandidateState::Archived
+        )
+    }
+
+    pub fn can_transition_to(&self, to: CandidateState) -> bool {
+        legal_typed(Some(*self), to)
+    }
+}
+
 pub const TERMINAL: [&str; 6] = [
     "REJECTED",
     "EXPIRED",
@@ -48,6 +119,33 @@ pub const TERMINAL: [&str; 6] = [
     "CLOSED",
     "ARCHIVED",
 ];
+
+/// Legal transitions with strongly-typed states (Issue #208).
+pub fn legal_typed(from: Option<CandidateState>, to: CandidateState) -> bool {
+    matches!(
+        (from, to),
+        (None, CandidateState::Detected)
+            | (Some(CandidateState::Detected), CandidateState::Pending)
+            | (Some(CandidateState::Detected), CandidateState::Rejected)
+            | (Some(CandidateState::Pending), CandidateState::Triggered)
+            | (Some(CandidateState::Pending), CandidateState::Expired)
+            | (Some(CandidateState::Pending), CandidateState::Invalidated)
+            | (Some(CandidateState::Pending), CandidateState::Rejected)
+            | (Some(CandidateState::Triggered), CandidateState::Accepted)
+            | (Some(CandidateState::Triggered), CandidateState::Invalidated)
+            | (Some(CandidateState::Triggered), CandidateState::Rejected)
+            | (Some(CandidateState::Accepted), CandidateState::OrderSubmitted)
+            | (Some(CandidateState::Accepted), CandidateState::Rejected)
+            | (Some(CandidateState::OrderSubmitted), CandidateState::Executed)
+            | (Some(CandidateState::OrderSubmitted), CandidateState::Cancelled)
+            | (Some(CandidateState::Executed), CandidateState::Closed)
+            | (Some(CandidateState::Invalidated), CandidateState::Archived)
+            | (Some(CandidateState::Expired), CandidateState::Archived)
+            | (Some(CandidateState::Rejected), CandidateState::Archived)
+            | (Some(CandidateState::Cancelled), CandidateState::Archived)
+            | (Some(CandidateState::Closed), CandidateState::Archived)
+    )
+}
 
 /// Legal transitions (CANDIDATE_LIFECYCLE_SPEC §2).
 pub fn legal(from: Option<&str>, to: &str) -> bool {
