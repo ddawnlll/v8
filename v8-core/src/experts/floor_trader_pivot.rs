@@ -75,23 +75,25 @@ pub fn floor_trader_pivot(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
     // integer-valued float, so the `as i64` cast is exact.
     let day_start = n as i64 - bos as i64;
     // Variant 'a' only (the Python default the harness evaluates).
-    let pred: Box<dyn Fn(usize, &HistBar) -> bool>;
-    let (direction, level, stop_price, target_price): (String, f64, f64, f64);
-    if o > pp && c > o {
-        direction = "LONG".into();
-        level = pp;
-        stop_price = pp;
-        target_price = r1;
-        pred = Box::new(move |j, b| (j as i64) >= day_start && b.open > pp && b.close > b.open);
+    let (direction, level, stop_price, target_price, pred): (String, f64, f64, f64, Box<dyn Fn(usize, &HistBar) -> bool>) = if o > pp && c > o {
+        (
+            "LONG".into(),
+            pp,
+            pp,
+            r1,
+            Box::new(move |j, b| (j as i64) >= day_start && b.open > pp && b.close > b.open),
+        )
     } else if o < pp && c < o {
-        direction = "SHORT".into();
-        level = pp;
-        stop_price = pp;
-        target_price = s1;
-        pred = Box::new(move |j, b| (j as i64) >= day_start && b.open < pp && b.close < b.open);
+        (
+            "SHORT".into(),
+            pp,
+            pp,
+            s1,
+            Box::new(move |j, b| (j as i64) >= day_start && b.open < pp && b.close < b.open),
+        )
     } else {
         return no_setup(expert_id, version, fm.as_of);
-    }
+    };
     let (stop_r, target_r) = if direction == "LONG" {
         ((close - stop_price) / atr, (target_price - close) / atr)
     } else {

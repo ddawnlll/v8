@@ -69,14 +69,13 @@ pub fn ichimoku_cloud(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
     let kj_now = midrange(&fm.history, n - 1, KIJUN_N);
     let tk_prev = midrange(&fm.history, n - 2, TENKAN_N);
     let kj_prev = midrange(&fm.history, n - 2, KIJUN_N);
-    let direction: &str;
-    if tk_now > kj_now && tk_prev <= kj_prev && close > kj_now {
-        direction = "LONG";
+    let direction: &str = if tk_now > kj_now && tk_prev <= kj_prev && close > kj_now {
+        "LONG"
     } else if tk_now < kj_now && tk_prev >= kj_prev && close < kj_now {
-        direction = "SHORT";
+        "SHORT"
     } else {
         return no_setup(expert_id, version, fm.as_of);
-    }
+    };
     // The crossing predicate reads the per-bar close (bar[4] in the tuple) and
     // the Tenkan/Kijun midranges at the bar's own index — the anchor is the run
     // start of the current consecutive crossing run (D-026).
