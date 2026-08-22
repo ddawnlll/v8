@@ -31,7 +31,10 @@ pub use exposure::{
     InstrumentType, PayoffStructure, SymbolDescriptor,
 };
 pub use book::{IdentityStatus, OpportunityBook, OpportunityEpisode};
-pub use grammar::{GrammarArchetype, OpportunityGrammar};
+pub use grammar::{
+    CompressionExpansionDetector, GrammarArchetype, MeanReversionDetector, OpportunityDetector,
+    OpportunityGrammar, TrendContinuationDetector, VolatilityExtremeDetector,
+};
 pub use evidence::{
     AbstentionReason, HabitatAssessment, ObserverEvidence, ObserverStance, WitnessScorecard,
 };
