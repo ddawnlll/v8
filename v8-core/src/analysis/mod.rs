@@ -257,14 +257,15 @@ fn derive_outcomes(
     sim: &SimulatorParams,
     funding: &[(i64, f64)],
     threads: usize,
-) -> Vec<Value> {
+) -> (Vec<Value>, HashMap<String, CubeAccumulators>) {
     let n = snapshots.len();
     if n == 0 {
-        return Vec::new();
+        return (Vec::new(), HashMap::new());
     }
     let workers = threads.max(1).min(n);
     if workers <= 1 {
-        let mut out = Vec::new();
+        let mut out = Vec::with_capacity(n);
+        let mut accums = HashMap::with_capacity(n);
         for snap in snapshots {
             let Some(s) = replay_actual_surface(snap, ds, stores, sim, funding) else {
                 continue;
@@ -283,11 +284,25 @@ fn derive_outcomes(
                 "mfe_r": surf.mfe_r,
                 "market_move_r": surf.market_move_r,
             }));
+            accums.insert(
+                snap.candidate_id.clone(),
+                CubeAccumulators {
+                    endpoint: Some(surf.endpoint),
+                    label_status: Some(surf.label_status),
+                    horizon_bars: Some(surf.horizon_bars),
+                    cost_r: Some(s.cost_r),
+                    funding_r: Some(s.funding_r),
+                    mae_r: Some(surf.mae_r),
+                    mfe_r: Some(surf.mfe_r),
+                    ambiguous_bars: Some(surf.ambiguous_bars),
+                },
+            );
         }
-        out
+        (out, accums)
     } else {
         let bounds = crate::scheduler::chunk_bounds(n, workers);
         let mut results = Vec::with_capacity(n);
+        let mut accums = HashMap::with_capacity(n);
         std::thread::scope(|s| {
             let mut handles = Vec::with_capacity(workers);
             for w in 0..workers {
@@ -295,6 +310,7 @@ fn derive_outcomes(
                 let chunk_snaps = &snapshots[lo..hi];
                 handles.push(s.spawn(move || {
                     let mut chunk_out = Vec::with_capacity(hi - lo);
+                    let mut chunk_acc = Vec::with_capacity(hi - lo);
                     for snap in chunk_snaps {
                         if let Some(s) = replay_actual_surface(snap, ds, stores, sim, funding) {
                             let surf = s.reconcile_surface(&snap.candidate_id, "ACTUAL");
@@ -311,18 +327,34 @@ fn derive_outcomes(
                                 "mfe_r": surf.mfe_r,
                                 "market_move_r": surf.market_move_r,
                             }));
+                            chunk_acc.push((
+                                snap.candidate_id.clone(),
+                                CubeAccumulators {
+                                    endpoint: Some(surf.endpoint),
+                                    label_status: Some(surf.label_status),
+                                    horizon_bars: Some(surf.horizon_bars),
+                                    cost_r: Some(s.cost_r),
+                                    funding_r: Some(s.funding_r),
+                                    mae_r: Some(surf.mae_r),
+                                    mfe_r: Some(surf.mfe_r),
+                                    ambiguous_bars: Some(surf.ambiguous_bars),
+                                },
+                            ));
                         }
                     }
-                    chunk_out
+                    (chunk_out, chunk_acc)
                 }));
             }
             for h in handles {
-                if let Ok(chunk) = h.join() {
+                if let Ok((chunk, chunk_acc)) = h.join() {
                     results.extend(chunk);
+                    for (cid, acc) in chunk_acc {
+                        accums.insert(cid, acc);
+                    }
                 }
             }
         });
-        results
+        (results, accums)
     }
 }
 
@@ -338,10 +370,133 @@ fn derive_state_ledger(
     stores: &[FeatureStore],
     universe: &[String],
     history_depth: usize,
+    threads: usize,
 ) -> (Vec<Value>, Vec<Value>) {
     let mut states: Vec<Value> = Vec::new();
     let mut out: Vec<Value> = Vec::with_capacity(candidates.len());
-    let mut state_cache: HashMap<(String, i64), (String, Value)> = HashMap::new();
+    
+    // 1. Collect unique (sym, as_of) requests that need derivation
+    let mut unique_reqs: Vec<(String, i64)> = Vec::new();
+    let mut seen_reqs: std::collections::HashSet<(String, i64)> = std::collections::HashSet::new();
+    for rec in candidates {
+        if rec.get("to_state").and_then(|v| v.as_str()) == Some("DETECTED")
+            && rec.get("state_id").is_none()
+        {
+            let sym = rec.get("instrument").and_then(|v| v.as_str()).unwrap_or("").to_string();
+            let as_of = rec
+                .get("knowledge_time")
+                .and_then(|v| v.as_i64())
+                .unwrap_or(0);
+            if seen_reqs.insert((sym.clone(), as_of)) {
+                unique_reqs.push((sym, as_of));
+            }
+        }
+    }
+
+    // 2. Compute state features and IDs in parallel
+    let n_reqs = unique_reqs.len();
+    let mut state_cache: HashMap<(String, i64), (String, Value)> = HashMap::with_capacity(n_reqs);
+    if n_reqs > 0 {
+        let workers = threads.max(1).min(n_reqs);
+        if workers <= 1 {
+            for (sym, as_of) in &unique_reqs {
+                if let Some(store) = stores.iter().find(|s| s.symbol == *sym) {
+                    if let Ok(i) = store.avail.binary_search(as_of) {
+                        let feats = state::state_features(store, i + 1, *as_of, history_depth);
+                        let lineage = state::v82_lineage_hash(&feats, sym);
+                        let sid = state::v82_state_id(*as_of, universe, &lineage);
+                        let mut features = serde_json::Map::new();
+                        for f in &feats {
+                            features.insert(
+                                format!("{sym}.{}", f.name),
+                                json!({
+                                    "name": f.name,
+                                    "value": f.value,
+                                    "dtype": f.dtype,
+                                    "feature_version": f.feature_version,
+                                    "max_input_available_time": f.max_input_available_time,
+                                    "quality": f.quality,
+                                }),
+                            );
+                        }
+                        let quality = if feats.iter().any(|f| f.quality == "DEGRADED") {
+                            "DEGRADED"
+                        } else {
+                            "COMPLETE"
+                        };
+                        let state_val = json!({
+                            "state_id": sid,
+                            "as_of": as_of,
+                            "universe": universe,
+                            "features": features,
+                            "lineage_hash": lineage,
+                            "quality": quality,
+                        });
+                        state_cache.insert((sym.clone(), *as_of), (sid, state_val));
+                    }
+                }
+            }
+        } else {
+            let bounds = crate::scheduler::chunk_bounds(n_reqs, workers);
+            std::thread::scope(|s| {
+                let mut handles = Vec::with_capacity(workers);
+                for w in 0..workers {
+                    let (lo, hi) = (bounds[w], bounds[w + 1]);
+                    let chunk = &unique_reqs[lo..hi];
+                    handles.push(s.spawn(move || {
+                        let mut chunk_res = Vec::with_capacity(hi - lo);
+                        for (sym, as_of) in chunk {
+                            if let Some(store) = stores.iter().find(|s| s.symbol == *sym) {
+                                if let Ok(i) = store.avail.binary_search(as_of) {
+                                    let feats = state::state_features(store, i + 1, *as_of, history_depth);
+                                    let lineage = state::v82_lineage_hash(&feats, sym);
+                                    let sid = state::v82_state_id(*as_of, universe, &lineage);
+                                    let mut features = serde_json::Map::new();
+                                    for f in &feats {
+                                        features.insert(
+                                            format!("{sym}.{}", f.name),
+                                            json!({
+                                                "name": f.name,
+                                                "value": f.value,
+                                                "dtype": f.dtype,
+                                                "feature_version": f.feature_version,
+                                                "max_input_available_time": f.max_input_available_time,
+                                                "quality": f.quality,
+                                            }),
+                                        );
+                                    }
+                                    let quality = if feats.iter().any(|f| f.quality == "DEGRADED") {
+                                        "DEGRADED"
+                                    } else {
+                                        "COMPLETE"
+                                    };
+                                    let state_val = json!({
+                                        "state_id": sid,
+                                        "as_of": as_of,
+                                        "universe": universe,
+                                        "features": features,
+                                        "lineage_hash": lineage,
+                                        "quality": quality,
+                                    });
+                                    chunk_res.push(((sym.clone(), *as_of), (sid, state_val)));
+                                }
+                            }
+                        }
+                        chunk_res
+                    }));
+                }
+                for h in handles {
+                    if let Ok(chunk_res) = h.join() {
+                        for (k, v) in chunk_res {
+                            state_cache.insert(k, v);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    // 3. Assemble sequential outputs in identical order
     for rec in candidates {
         let mut r = rec.clone();
         if rec.get("to_state").and_then(|v| v.as_str()) != Some("DETECTED")
@@ -360,47 +515,6 @@ fn derive_state_ledger(
             r.as_object_mut()
                 .expect("record is an object")
                 .insert("state_id".to_string(), json!(sid));
-            out.push(r);
-            continue;
-        }
-        if let Some(store) = stores.iter().find(|s| s.symbol == sym) {
-            if let Ok(i) = store.avail.binary_search(&as_of) {
-                let feats = state::state_features(store, i + 1, as_of, history_depth);
-                let lineage = state::v82_lineage_hash(&feats, sym);
-                let sid = state::v82_state_id(as_of, universe, &lineage);
-                let mut features = serde_json::Map::new();
-                for f in &feats {
-                    features.insert(
-                        format!("{sym}.{}", f.name),
-                        json!({
-                            "name": f.name,
-                            "value": f.value,
-                            "dtype": f.dtype,
-                            "feature_version": f.feature_version,
-                            "max_input_available_time": f.max_input_available_time,
-                            "quality": f.quality,
-                        }),
-                    );
-                }
-                let quality = if feats.iter().any(|f| f.quality == "DEGRADED") {
-                    "DEGRADED"
-                } else {
-                    "COMPLETE"
-                };
-                let state_val = json!({
-                    "state_id": sid,
-                    "as_of": as_of,
-                    "universe": universe,
-                    "features": features,
-                    "lineage_hash": lineage,
-                    "quality": quality,
-                });
-                states.push(state_val.clone());
-                state_cache.insert((sym.to_string(), as_of), (sid.clone(), state_val));
-                r.as_object_mut()
-                    .expect("record is an object")
-                    .insert("state_id".to_string(), json!(sid));
-            }
         }
         out.push(r);
     }
@@ -449,6 +563,7 @@ fn build_phase0(
     sim: &SimulatorParams,
     funding: &[(i64, f64)],
     cube: &evidence::ReadBack,
+    cached_accum: &HashMap<String, CubeAccumulators>,
 ) -> Vec<(String, Phase0Output)> {
     let mut by_symbol: HashMap<String, Phase0Output> = HashMap::new();
     let mut cid_symbol: HashMap<&str, &str> = HashMap::new();
@@ -467,61 +582,50 @@ fn build_phase0(
         );
     }
 
-    let mut accum_cache: HashMap<&str, Option<CubeAccumulators>> = HashMap::new();
+    let col_cid = cube.column("candidate_id");
+    let col_aid = cube.column("actual_action_id");
+    let col_act_util = cube.column("actual_utility");
+    let col_best_util = cube.column("best_utility");
+    let col_tie_card = cube.column("tie_cardinality");
+    let col_legal_gap = cube.column("legal_hindsight_gap");
+    let col_gap_stat = cube.column("gap_status");
 
-    let col_str = |name: &str, i: usize| -> Option<String> {
-        cube.column(name)?
-            .get(i)
-            .cloned()
-            .flatten()
-            .and_then(|v| v.as_str().map(|s| s.to_string()))
-    };
-    let col_f64 = |name: &str, i: usize| -> Option<f64> {
-        cube.column(name)?
-            .get(i)
-            .cloned()
-            .flatten()
-            .and_then(|v| v.as_f64())
-    };
-    let col_i64 = |name: &str, i: usize| -> i64 {
-        cube.column(name)
-            .and_then(|c| c.get(i))
-            .cloned()
-            .flatten()
-            .and_then(|v| v.as_i64())
-            .unwrap_or(0)
-    };
-
+    let mut fallback_accum_cache: HashMap<&str, Option<CubeAccumulators>> = HashMap::new();
     let n = cube.row_count();
     for i in 0..n {
-        let Some(cid) = col_str("candidate_id", i) else {
+        let Some(cid) = col_cid.and_then(|c| c.get(i)).and_then(|v| v.as_ref()).and_then(|v| v.as_str()) else {
             continue;
         };
-        let Some(symbol) = cid_symbol.get(cid.as_str()).map(|s| s.to_string()) else {
+        let Some(&symbol) = cid_symbol.get(cid) else {
             continue;
         };
-        let snap = cid_snap.get(cid.as_str()).copied();
-        let aid = col_str("actual_action_id", i);
+        let snap = cid_snap.get(cid).copied();
+        let aid = col_aid.and_then(|c| c.get(i)).and_then(|v| v.as_ref()).and_then(|v| v.as_str());
         let gap = GapRecord {
-            candidate_id: cid.clone(),
-            actual_action_id: aid.clone(),
-            actual_utility: col_f64("actual_utility", i),
-            best_utility: col_f64("best_utility", i),
-            tie_cardinality: col_i64("tie_cardinality", i) as usize,
-            legal_hindsight_gap: col_f64("legal_hindsight_gap", i),
-            gap_status: col_str("gap_status", i).unwrap_or_default(),
+            candidate_id: cid.to_string(),
+            actual_action_id: aid.map(|s| s.to_string()),
+            actual_utility: col_act_util.and_then(|c| c.get(i)).and_then(|v| v.as_ref()).and_then(|v| v.as_f64()),
+            best_utility: col_best_util.and_then(|c| c.get(i)).and_then(|v| v.as_ref()).and_then(|v| v.as_f64()),
+            tie_cardinality: col_tie_card.and_then(|c| c.get(i)).and_then(|v| v.as_ref()).and_then(|v| v.as_i64()).unwrap_or(0) as usize,
+            legal_hindsight_gap: col_legal_gap.and_then(|c| c.get(i)).and_then(|v| v.as_ref()).and_then(|v| v.as_f64()),
+            gap_status: col_gap_stat.and_then(|c| c.get(i)).and_then(|v| v.as_ref()).and_then(|v| v.as_str()).unwrap_or("").to_string(),
         };
-        by_symbol.entry(symbol.clone()).or_default().gaps.push(gap);
-        if let (Some(aid), Some(snap)) = (aid, snap) {
-            let acc_opt = accum_cache
-                .entry(snap.candidate_id.as_str())
-                .or_insert_with(|| replay_actual_accumulators(snap, ds, stores, sim, funding));
-            if let Some(acc) = acc_opt.clone() {
+        by_symbol.entry(symbol.to_string()).or_default().gaps.push(gap);
+        if let (Some(aid_str), Some(snap)) = (aid, snap) {
+            let acc_opt = if let Some(cached) = cached_accum.get(snap.candidate_id.as_str()) {
+                Some(cached.clone())
+            } else {
+                fallback_accum_cache
+                    .entry(snap.candidate_id.as_str())
+                    .or_insert_with(|| replay_actual_accumulators(snap, ds, stores, sim, funding))
+                    .clone()
+            };
+            if let Some(acc) = acc_opt {
                 by_symbol
-                    .entry(symbol.clone())
+                    .entry(symbol.to_string())
                     .or_default()
                     .cubes
-                    .insert((cid, aid), acc);
+                    .insert((cid.to_string(), aid_str.to_string()), acc);
             }
         }
     }
@@ -723,10 +827,10 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     let sim = SimulatorParams::from_json(&req.manifest);
     let funding = funding_schedule(&ds);
     let pre_snaps = reconcile::build_snapshots(&candidates, &evaluations, &req.outcomes);
-    let outcomes: Vec<Value> = if req.outcomes.is_empty() {
+    let (outcomes, cached_accums) = if req.outcomes.is_empty() {
         derive_outcomes(&pre_snaps, &ds, &stores, &sim, &funding, req.threads)
     } else {
-        req.outcomes.clone()
+        (req.outcomes.clone(), HashMap::new())
     };
     let (candidates, states) = if req.states.is_empty() {
         derive_state_ledger(
@@ -734,6 +838,7 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
             &stores,
             &universe,
             state::HISTORY_DEPTH_DEFAULT,
+            req.threads,
         )
     } else {
         (candidates, req.states.clone())
@@ -772,7 +877,7 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     // Phase 1 — opportunity accounting over the cube-reduced table.
     let cube = evidence::read_artifact(&cube_path)
         .map_err(|e| format!("read cube artifact {cube_path:?}: {e}"))?;
-    let per_symbol = build_phase0(&snapshots, &ds, &stores, &sim, &funding, &cube);
+    let per_symbol = build_phase0(&snapshots, &ds, &stores, &sim, &funding, &cube, &cached_accums);
     let joined = phase1::join_dataset(per_symbol);
 
     // Phase 2 — systematicity discovery over the chronological halves.

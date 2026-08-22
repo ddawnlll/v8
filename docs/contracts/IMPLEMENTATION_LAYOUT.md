@@ -229,6 +229,8 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/telemetry.rs` | Structured tracing & metrics facades | `init_telemetry`, `record_duration_metric` | OPERATIONS_SPEC §2; D-120 |
 | `v8-core/src/checkpoint.rs` | Atomic simulation state checkpoint & resume | `SimulationCheckpoint.save_to_file/load_from_file` | PERSISTENCE_REPLAY_SPEC §4; D-122 |
 | `v8-core/src/evaluation/allegory.rs` | 12 market archetypes, negative control calibration, zero-hindsight regret evaluation & scorecard | `AllegoryFamily`, `ArchetypeId`, `AllegoryScorecard`, `evaluate_allegory_suite` | TARGET_ORACLE_SPEC §9; D-125 |
+| `v8-core/src/opportunity/` | V8.3 Challenger Opportunity Sovereignty Engine (7-primitive space, evidence reconciliation, selective utility, basis protection) | `OpportunityGrammar`, `OpportunityBook`, `ExpertWitness`, `EvidenceReconciler`, `ExposureStructure` | V8_CONSTITUTION v0.2 Rules 18–27; D-128..D-130; CC-RES-V8.3-GL-001 |
+
 
 ## 3. Layering rules
 

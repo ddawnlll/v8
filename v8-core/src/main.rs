@@ -50,6 +50,7 @@ mod oracle;
 mod path_security;
 mod portfolio;
 pub mod kaizen;
+pub mod opportunity;
 pub mod quant;
 mod regret;
 mod report;
