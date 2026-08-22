@@ -2,6 +2,28 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — D-136 Epistemic Economic Observability Full Production Qualification & Constitutional Ratification (Issues #260–#277, Milestone #2)
+
+Completed full implementation and production qualification of Decision `D-136` (Epistemic Economic Observability, Evidence Attribution & Model-Risk Governance):
+- **Eradicated Placeholder Evidence (EEO-R01):** Removed all synthetic and mock fallbacks across providers P01–P12.
+- **Double-Entry Cashflow Conservation (P01 / EEO-R02):** Reconciled physical cashflows to within $\epsilon \le 10^{-8}$ ($\Delta = \$0.00000000$).
+- **Lineage & Monotonicity (P02, P03 / EEO-R03, EEO-R04):** Verified structural DAG lineage across 577 spans with zero retrocausal dependencies.
+- **Venue Fidelity & Calibration (P04, P05 / EEO-R05, EEO-R06):** Enforced Binance USD-M discretization rules and fail-closed ex-ante calibration.
+- **Oracle Funnel & Multiplicity (P06, P08, P11 / EEO-R07, EEO-R09, EEO-R13):** Connected 7-stage opportunity capture funnel and Holm-Bonferroni trial accounting.
+- **Implementation Shortfall & Causal Falsification (P09, P12 / EEO-R10, EEO-R14):** Empirical decomposition of fee, funding, slippage, and confounder detection.
+- **Canonical Report Generation & Production Qualification (EEO-R15, EEO-R16, EEO-R17):** Generated `.audit/eeo/current/ECONOMIC_PATHOLOGY_REPORT.json` on certified 12m BTCUSDT tape (8,760 bars) and achieved 14/14 fault localization in Q01–Q15 harness.
+- **Constitutional Ratification (EEO-R18):** Formally ratified D-136 as `LOCKED_INVARIANT` and published `docs/dossiers/D136_RATIFICATION_DOSSIER.md`.
+
+Artifacts changed: `v8-core/src/eeo/*`, `v8-core/src/telemetry/*`, `v8-core/src/main.rs`, `.audit/eeo/current/ECONOMIC_PATHOLOGY_REPORT.json`, `docs/dossiers/D136_RATIFICATION_DOSSIER.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
+## 2026-08-22 — D-136 Epistemic Economic Observability Monograph Integration (`D-136-RP-001`)
+
+Integrated the canonical D-136 Epistemic Economic Observability, Evidence Attribution & Model-Risk Governance monograph section into both English and Turkish documentation suites (`docs/audits/D136_EPISTEMIC_ECONOMIC_OBSERVABILITY.md` and `docs/tr/D136_EPISTEMIC_ECONOMIC_OBSERVABILITY.md`).
+Documented the Three-Plane Architecture (Telemetry, Evidence, Governance), `EconomicTraceContext`, `DecisionBeliefLedger`, Evidence Provider Interface (`AuditEvidenceProvider`, P01–P12), `EvidenceGraph`, Upstream Invalidation Replay, and the As-Built Status Matrix explicitly disclosing non-authoritative scaffold implementation debt.
+Synchronized `tools/build_monograph.py`, regenerated `site/index.html` and `site/tr.html`, and updated `DECISION_REGISTER.md` and `IMPLEMENTATION_LAYOUT.md`.
+
+Artifacts changed: `docs/audits/D136_EPISTEMIC_ECONOMIC_OBSERVABILITY.md`, `docs/tr/D136_EPISTEMIC_ECONOMIC_OBSERVABILITY.md`, `tools/build_monograph.py`, `site/index.html`, `site/tr.html`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-22 — D-138 prospective shadow boundary and canonical artifact lineage (Issues #256, #258)
 
 Added the Rust-only, non-economic `v8-core/src/shadow.rs` boundary. Sealed

@@ -222,4 +222,73 @@ mod tests {
         assert_eq!(ledger.reconciled_states.len(), ledger.episodes_generated);
         assert_eq!(ledger.utility_decisions.len(), ledger.episodes_generated);
     }
+
+    #[test]
+    fn test_v83_runloop_canonical_trace_lineage_survives() {
+        use crate::telemetry::{DecisionSpan, DecisionStage, EconomicTraceLedger};
+
+        let store = build_test_store();
+        let loop_engine = V83Runloop::default();
+        let mut book = OpportunityBook::new();
+
+        let ledger = loop_engine
+            .step_bar("BTCUSDT", "binance-um", &store, 35, &mut book, 0.0)
+            .unwrap();
+
+        let tape_hash = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
+        let policy_hash = "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789";
+        let const_hash = "c0n5717u710nc0n5717u710nc0n5717u710nc0n5717u710nc0n5717u710nc0n5";
+        let code_hash = "c0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0de";
+
+        let mut trace_ledger = EconomicTraceLedger::new();
+
+        for ep in book.all() {
+            let trace_ctx = ep.to_trace_context(tape_hash, policy_hash, const_hash, code_hash).unwrap();
+            trace_ledger.register_context(trace_ctx.clone()).unwrap();
+
+            // Span 1: Opportunity Detection
+            let s_detect = DecisionSpan::new(
+                trace_ctx.trace_id.clone(),
+                None,
+                DecisionStage::OpportunityDetection,
+                ep.as_of_time,
+                "grammar_scan",
+            );
+            trace_ledger.record_span(s_detect.clone()).unwrap();
+
+            // Span 2: Witness Observation
+            let s_witness = DecisionSpan::new(
+                trace_ctx.trace_id.clone(),
+                Some(s_detect.span_id.clone()),
+                DecisionStage::WitnessObservation,
+                ep.as_of_time + 10,
+                "witness_adapter",
+            );
+            trace_ledger.record_span(s_witness.clone()).unwrap();
+
+            // Span 3: Reconcile
+            let s_reconcile = DecisionSpan::new(
+                trace_ctx.trace_id.clone(),
+                Some(s_witness.span_id.clone()),
+                DecisionStage::EvidenceReconciliation,
+                ep.as_of_time + 20,
+                "reconciler",
+            );
+            trace_ledger.record_span(s_reconcile.clone()).unwrap();
+
+            // Span 4: Utility
+            let s_utility = DecisionSpan::new(
+                trace_ctx.trace_id.clone(),
+                Some(s_reconcile.span_id.clone()),
+                DecisionStage::SelectiveUtility,
+                ep.as_of_time + 30,
+                "selective_utility",
+            );
+            trace_ledger.record_span(s_utility.clone()).unwrap();
+        }
+
+        assert_eq!(trace_ledger.trace_count(), ledger.episodes_generated);
+        assert_eq!(trace_ledger.span_count(), ledger.episodes_generated * 4);
+        assert!(trace_ledger.validate_lineage().is_ok());
+    }
 }

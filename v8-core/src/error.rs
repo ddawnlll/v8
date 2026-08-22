@@ -68,6 +68,9 @@ pub enum V8CoreError {
 
     #[error("Campaign lifecycle error: {0}")]
     CampaignLifecycleError(String),
+
+    #[error("Economic trace lineage error: {0}")]
+    TraceLineageError(String),
 }
 
 impl From<std::io::Error> for V8CoreError {

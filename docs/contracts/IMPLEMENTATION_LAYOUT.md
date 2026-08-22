@@ -178,6 +178,20 @@ v8-core/
       tests.rs      Comprehensive unit and property tests
     shadow.rs       Hash-bound prospective shadow manifest, cutoff gate, and
                     canonical artifact bundle verifier (D-138)
+    telemetry/      Canonical telemetry plane, identities & ex-ante Decision Belief Ledger (D-136)
+      mod.rs        telemetry plane boundary & re-exports
+      belief.rs     Point-In-Time DecisionBeliefLedger & BeliefReceipt (EEO-002)
+    eeo/            Epistemic Economic Observability & Evidence Attribution plane (D-136, Ratified)
+      mod.rs        eeo module boundary & re-exports
+      contract.rs   universal AuditEvidenceProvider contract & ProviderRegistry (EEO-003)
+      foundational.rs foundational deterministic providers P01–P04 (EEO-004)
+      graph.rs      directed EvidenceGraph & audit adjudication kernel (EEO-005)
+      diagnostic.rs diagnostic providers P05–P09 & pathology map (EEO-006)
+      replay.rs     registered counterfactual replay engine (EEO-007)
+      alignment.rs  path alignment & pairwise interaction analysis (EEO-008)
+      challenge.rs  multiplicity ledger, challenge providers P11–P12 & common-mode auditor (EEO-009)
+      qualification.rs automated qualification harness Q01–Q15 (EEO-010)
+      report.rs     canonical EconomicPathologyReport generator & disk writer (EEO-R15)
     opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130, D-132)
       mod.rs        7 canonical primitives & OpportunityBook interface
       exposure.rs   EconomicExposureStructure, ExposureResolver, false-collapse defense
