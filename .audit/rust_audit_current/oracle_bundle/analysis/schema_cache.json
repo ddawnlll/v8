@@ -25,18 +25,18 @@
         }
       }
     },
-    "report_cell_provenance.parquet": {
-      "file_name": "report_cell_provenance.parquet",
-      "relative_path": "report_cell_provenance.parquet",
-      "total_rows": 8,
-      "total_columns": 6,
-      "columns": {}
-    },
     "negative_control_universe.parquet": {
       "file_name": "negative_control_universe.parquet",
       "relative_path": "negative_control_universe.parquet",
       "total_rows": 100,
       "total_columns": 7,
+      "columns": {}
+    },
+    "report_cell_provenance.parquet": {
+      "file_name": "report_cell_provenance.parquet",
+      "relative_path": "report_cell_provenance.parquet",
+      "total_rows": 8,
+      "total_columns": 6,
       "columns": {}
     },
     "authority_surface.parquet": {

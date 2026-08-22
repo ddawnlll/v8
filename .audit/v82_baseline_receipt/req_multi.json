@@ -1,0 +1,1 @@
+{"tape_path": "research/tape/multi-1h-dev/tape.jsonl", "universe": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT", "DOGEUSDT"], "out_dir": ".audit/v82_baseline_receipt/evaluate_multi"}

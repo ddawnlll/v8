@@ -2,7 +2,18 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — Ratification of V8.3 Büyük İleri Atılım: Opportunity Sovereignty Constitutional Package (CC-PROP-V8.3-GL-001, CC-RES-V8.3-GL-001, D-128..D-130)
+
+Unanimously ratified by the V8 Central Committee (5-0) under Resolution `CC-RES-V8.3-GL-001`:
+- **Constitutional Overhaul:** Updated `V8_CONSTITUTION.md` (v0.2 EN & TR) with Rules 4, 6, 13, 14, 16, 17 and new foundational Articles 18–27 establishing Opportunity Sovereignty, Observer Constitution, Multiplicity Invariance, First-Class Abstention/NO_TRADE, Correlated Witness Discounting, Falsifiable Opportunity Grammar, False-Collapse Basis Protection, and Constitutional Falsifiability.
+- **P0 Contradiction Resolution (C-V83-001):** Formally resolved the dual opportunity ontology tension between the production decision plane (legacy candidate-centric) and Target Oracle evaluation plane (opportunity universe) in `CONTRADICTION_MAP.md` (EN & TR).
+- **Decisions D-128, D-129, D-130:** Registered V8.3 Challenger Track authorization, P0 contradiction closure, and 7-Primitive / 9-Dimensional Epistemic Witness Architecture in `DECISION_REGISTER.md` (EN & TR).
+- **Production Incumbency:** Preserved 100% exclusive production authority for V8.2 until V8.3 passes all T1–T12 Invariant Tests and G0–G5 Economic Gates on untouched multi-symbol/multi-instrument out-of-sample data.
+
+Artifacts changed: `docs/charter/V8_CONSTITUTION.md`, `docs/tr/V8_CONSTITUTION.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/audits/CONTRADICTION_MAP.md`, `docs/tr/CONTRADICTION_MAP.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-22 — Zero-Allocation Typed Geometry, Direct Indexing & Streaming Hashing in Hot Replay Paths (issues #225, #226, #227, #228, #229, D-127)
+
 
 Eliminated critical hot-path allocations and linear scans across simulation, state, feature projection, and caching:
 - **Issue #225 (PERF-002):** Replaced per-bar dynamic `HashMap<String, Value>` string lookups and `validate_geometry` runs in the inner simulation step loop with strongly-typed `RiskGeometry` struct field offsets.

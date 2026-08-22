@@ -36,6 +36,38 @@ pub enum V8CoreError {
 
     #[error("Quant / Mathematical invariant failure: {0}")]
     QuantInvariant(String),
+
+    #[error("Invalid opportunity state for {opportunity_id}: state {state}, reason: {reason}")]
+    InvalidOpportunityState {
+        opportunity_id: String,
+        state: String,
+        reason: String,
+    },
+
+    #[error("Unresolved economic exposure for symbol '{symbol}' on venue '{venue}': {reason}")]
+    UnresolvedExposure {
+        symbol: String,
+        venue: String,
+        reason: String,
+    },
+
+    #[error("Opportunity identity error for episode '{episode_id}': {reason}")]
+    OpportunityIdentityError {
+        episode_id: String,
+        reason: String,
+    },
+
+    #[error("Invalid exposure structure: {0}")]
+    InvalidExposureStructure(String),
+
+    #[error("Witness reconciliation error: {0}")]
+    WitnessReconciliationError(String),
+
+    #[error("Selective utility error: {0}")]
+    SelectiveUtilityError(String),
+
+    #[error("Campaign lifecycle error: {0}")]
+    CampaignLifecycleError(String),
 }
 
 impl From<std::io::Error> for V8CoreError {

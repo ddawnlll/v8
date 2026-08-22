@@ -329,13 +329,28 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4,
     }
 
 
+def is_binary_stale(binary: Path) -> bool:
+    if not binary.exists():
+        return True
+    binary_mtime = binary.stat().st_mtime
+    src_dir = ROOT / "v8-core" / "src"
+    for p in src_dir.rglob("*.rs"):
+        if p.stat().st_mtime > binary_mtime:
+            return True
+    cargo_toml = ROOT / "v8-core" / "Cargo.toml"
+    if cargo_toml.exists() and cargo_toml.stat().st_mtime > binary_mtime:
+        return True
+    return False
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tape", type=Path, default=DEFAULT_TAPE, help="Path to input tape JSONL")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Target output audit directory")
     parser.add_argument("--threads", type=int, default=os.cpu_count() or 4, help="Worker threads")
     parser.add_argument("--binary", type=Path, default=None, help="Explicit path to v8-core binary")
-    parser.add_argument("--skip-build", action="store_true", help="Skip release compilation if binary exists")
+    parser.add_argument("--skip-build", action="store_true", help="Skip release compilation unconditionally")
+    parser.add_argument("--force-build", action="store_true", help="Force release compilation even if binary is up-to-date")
     parser.add_argument("--verify-determinism", action="store_true", default=True,
                         help="Run an isolated second pass to verify bit-level determinism")
     args = parser.parse_args()
@@ -361,8 +376,9 @@ def main() -> int:
         if sys.platform == "win32":
             binary = binary.with_suffix(".exe")
 
-    if not args.skip_build:
-        print("\n[1/4] Compiling release v8-core binary...", end="", flush=True)
+    should_build = args.force_build or (not args.skip_build and is_binary_stale(binary))
+    if should_build:
+        print("\n[1/4] Source changes detected — compiling release v8-core binary...", end="", flush=True)
         cargo_bin = shutil.which("cargo")
         if not cargo_bin and sys.platform == "win32":
             default_cargo = Path(os.environ.get("USERPROFILE", "")) / ".cargo" / "bin" / "cargo.exe"
@@ -380,7 +396,7 @@ def main() -> int:
         if not binary.exists() and binary.with_suffix(".exe").exists():
             binary = binary.with_suffix(".exe")
     else:
-        print("\n[1/4] Using pre-compiled release v8-core binary...")
+        print("\n[1/4] Release binary is up-to-date (skipping compilation)...")
 
     print(f"Binary verified: {binary}")
 
