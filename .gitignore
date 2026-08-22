@@ -16,6 +16,7 @@ build/
 # Local run stores (lab output dirs)
 *.jsonl
 !research/manifest/*.json
+!docs/governance/*.jsonl
 
 # Downloaded tape (derived from public archives, reproducible)
 research/tape/

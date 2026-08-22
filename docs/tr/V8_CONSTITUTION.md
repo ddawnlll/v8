@@ -144,6 +144,13 @@
     Her icra adımı değişmez bir Token Bütçesi ve Yönetişim Verimliliği makbuzu üretir.
 41. **Kriptografik Anayasa Sürüm Kilidi & Kaizen Bağımsız Denetimi (A4 Düzeltmesi):** Her görev belgesi (`ExecutionMandate`), başladığı andaki `constitution_tree_hash` değerini kilitler. Kaizen kendi orkestrasyonunu kendisi denetleyemez; bağımsız anayasal yargı denetimine tabidir.
 42. **Zorunlu 6 Bölümlük Red-Team Saldırı Tüzüğü:** Red-Team bir onay memuru değil; sistemi yıkmaya ve yanlışlamaya çalışan Popperian bir antikordur. Her teknik teftiş raporu şu 6 bölümü içermek zorundadır: (1) Savunulabilir En Güçlü Yön, (2) Çürütücü En Güçlü Teori / Ölümcül Açık, (3) En Yıkıcı 3 Çöküş Senaryosu, (4) En Gizli 3 Çürüme Riski, (5) Çalıştırılabilir Yanlışlama Testleri, (6) Muhalif Şerh ve Nihai Oy.
+43. **Olağanüstü Mainline İcra Yetkisi ve Kapsam Güvenlik Duvarı (D-135):** Olağanüstü kriz durumlarında (P0 anayasal ihlal, PIT sızıntısı, nakit akışı/defter bozulması, pipeline felci, kritik tekrarlanabilirlik çöküşü), Kaizen `EMERGENCY_EXECUTION_STATE` ilan edebilir ve makine tarafından doğrulanan, süreli, tek kullanımlık bir `EmergencyMergeWarrant` düzenleyebilir.
+    - *(a) Çıplak Push Yasağı:* Çıplak `git push origin main` kesinlikle yasaktır. Push işlemi; `incident_id`, `base_commit`, `constitution_hash`, `allowed_files` ve `rollback_commit` bağlayan geçerli bir kriptografik warrant gerektirir.
+    - *(b) Main Push $\neq$ Başarı İlanı:* Acil mainline birleştirmesi yalnızca yangın söndürmedir; icracı ekonomik başarı veya `SUPPORTED_EDGE` ilan edemez.
+    - *(c) Pre-Push Minimal Gate & Post-Push Full CI:* Push öncesi hızlı derleme, birim testler ve PIT/sentetik sızıntı doğrulaması zorunludur. Push sonrası Full CI ve Red-Team teftişi zorunludur.
+    - *(d) İki Aşamalı Hotfix & Geçici Baş (Provisional Head) Karantinası:* Mainline hotfix'i onaylanana kadar `PROVISIONAL_HEAD` karantinasında kalır; post-push başarısızlığında derhal deterministik `AUTO_ROLLBACK` tetiklenir.
+    - *(e) Sıfır Ekonomik Tuning:* Acil hotfix sırasında hiperparametre, eşik değeri, dağıtıcı veya kazanma oranı optimizasyonu kesinlikle yasaktır.
+    - *(f) Asgari Semantik Delta & Tek Kullanımlık Tüketim:* Tek Olay, Tek İcracı, Tek Merge, Tüketilen Yetki (`warrant.consume()`). Geçici break-glass yazma yetkisi merge ile birlikte atomik olarak iptal edilir.
 
 ## Minimum Tutarlı Mimari (Authority DAG)
 

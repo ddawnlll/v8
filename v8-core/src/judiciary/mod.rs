@@ -11,6 +11,7 @@ pub mod mandate;
 pub mod veto;
 pub mod oversight;
 pub mod kaizen_boundary;
+pub mod emergency;
 
 #[cfg(test)]
 mod tests;
@@ -19,3 +20,4 @@ pub use mandate::{ExecutionMandate, MobilizationTier, TaskLease};
 pub use veto::{VetoProof, JudicialVetoGate, ExpeditedAppealEngine, VetoDecision};
 pub use oversight::{ProceduralCommissioner, TechnicalCommissioner, BlindAuditBundle, JudicialVerdict};
 pub use kaizen_boundary::KaizenConstitutionalAuditor;
+pub use emergency::{EmergencyMergeWarrant, WarrantLifecycleState, MainlineHeadStatus, EmergencyIncidentReason};

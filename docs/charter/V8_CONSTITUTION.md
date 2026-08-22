@@ -145,6 +145,13 @@
     Every run produces an immutable Token Budget & Governance Efficiency receipt.
 41. **Cryptographic Constitution Pinning & Kaizen Self-Audit Ban (Amendment A4):** Every execution mandate pins the immutable `constitution_tree_hash` at checkout. Kaizen possesses zero authority to audit its own orchestration; it is subject to external constitutional judicial review.
 42. **Mandatory 6-Section Red-Team Adversarial Charter:** The Red-Team is an adversarial falsification antibody, not a consensus rubber-stamp. Every audit must structure findings into: (1) Strongest Case For, (2) Strongest Case Against, (3) Top 3 Catastrophic Failures, (4) Top 3 Subtle Failures, (5) Executable Falsification Tests, and (6) Dissenting Opinion / Vote.
+43. **Emergency Mainline Execution Authority & Scope Firewall (D-135):** Under extraordinary operational emergencies (P0 constitutional breach, PIT leakage, cashflow/ledger corruption, canonical pipeline unusable, critical reproducibility failure), Kaizen may declare `EMERGENCY_EXECUTION_STATE` and issue a machine-verified, time-bounded, single-use `EmergencyMergeWarrant`.
+    - *(a) No Bare Push:* Bare `git push origin main` is strictly prohibited. Push requires a valid cryptographic warrant binding `incident_id`, `base_commit`, `constitution_hash`, `allowed_files`, and `rollback_commit`.
+    - *(b) Main Push $\neq$ Success Declaration:* Emergency mainline merge represents containment only; the implementer possesses zero authority to claim economic success or `SUPPORTED_EDGE`.
+    - *(c) Pre-Push Minimal Gate & Post-Push Full CI:* Pre-push requires fast compile, unit tests, and PIT/synthetic leakage verification. Post-push requires mandatory Full CI and Red-Team review.
+    - *(d) Two-Stage Hotfix & Provisional Head Quarantine:* Mainline hotfixes remain in `PROVISIONAL_HEAD` quarantine until certified; post-merge failure immediately triggers deterministic `AUTO_ROLLBACK`.
+    - *(e) Zero Economic Tuning:* Hyperparameter, threshold, allocator, or win-rate tuning is strictly forbidden during emergency hotfixes.
+    - *(f) Minimal Semantic Delta & Single-Use Consumption:* One Incident, One Owner, One Merge, Warrant Consumed (`warrant.consume()`). Temporary break-glass write tokens are atomically revoked upon merge.
 
 ## Minimum Coherent Architecture (Authority DAG)
 

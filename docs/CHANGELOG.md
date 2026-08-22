@@ -2,6 +2,18 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — Ratification & Implementation of D-135: Emergency Mainline Execution Authority & Scope Firewall (CC-BILL-V8.3-D135, Rule 43)
+
+Unanimously ratified by the V8 Central Committee (5-0) with Red-Team adversarial amendments and implemented in Rust:
+- **EmergencyMergeWarrant Protocol (Rule 43):** Authorizes Kaizen to declare `EMERGENCY_EXECUTION_STATE` strictly for operational crises (P0 breach, PIT leakage, ledger corruption, pipeline failure) and issue time-bounded, single-use `EmergencyMergeWarrant` records.
+- **Bare Push Absolute Ban:** Strictly prohibits bare `git push origin main`, requiring cryptographic warrant binding `incident_id`, `base_commit`, `constitution_hash`, `allowed_files`, and `rollback_commit`.
+- **Two-Stage Hotfix & Provisional Head Quarantine:** Mainline commits remain in `PROVISIONAL_HEAD` quarantine pending Post-Push Full CI and Red-Team review; verification failure triggers deterministic `AUTO_ROLLBACK`.
+- **Zero Economic Tuning & Scope Firewall:** Implemented `v8-core/src/judiciary/emergency.rs` with strict rejection of economic, threshold, or parameter tuning during hotfixes.
+- **Single-Use Atomic Revocation:** Warrant is atomically consumed upon merge (`warrant.consume()`) and break-glass write tokens are immediately revoked.
+- **Decision D-135 & Rule 43 Registered:** Recorded in `DECISION_REGISTER.md` (EN & TR), `V8_CONSTITUTION.md` (EN & TR), `COMMITTEE_MEMORY_LEDGER.jsonl`, and `CC_SESSION_20260822_D135_EMERGENCY_AUTHORITY.md`.
+
+Artifacts changed: `v8-core/src/judiciary/emergency.rs`, `v8-core/src/judiciary/mod.rs`, `docs/charter/V8_CONSTITUTION.md`, `docs/tr/V8_CONSTITUTION.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/dossiers/CC_SESSION_20260822_D135_EMERGENCY_AUTHORITY.md`, `docs/governance/COMMITTEE_MEMORY_LEDGER.jsonl`, `docs/CHANGELOG.md`.
+
 ## 2026-08-22 — V8 Phase II Clean-Room Session, Economic Research Readiness Audit & H4 Conflict Decomposition
 
 Completed under strict D-131 Epistemic Authority and D-134 Judicial Oversight mandates:
