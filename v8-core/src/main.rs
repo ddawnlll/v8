@@ -1327,6 +1327,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
     let mut max_concurrency = 3;
     let mut max_heat = 0.05;
     let mut enabled_experts: Option<Vec<String>> = None;
+    let mut engine_mode: Option<String> = None;
 
     let mut i = 0;
     while i < args.len() {
@@ -1413,6 +1414,15 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                     return 2;
                 }
             }
+            "--engine" => {
+                if i + 1 < args.len() {
+                    engine_mode = Some(args[i + 1].clone());
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --engine");
+                    return 2;
+                }
+            }
             path_str if !path_str.starts_with('-') => {
                 // If positional json request argument
                 let bytes = match std::fs::read(path_str) {
@@ -1459,6 +1469,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         max_concurrency,
         max_heat,
         enabled_experts,
+        engine_mode,
     };
 
     match usdm_sim::run_simulation(&params) {

@@ -45,7 +45,7 @@ pub use campaign::{
     PortfolioFeasibilityEngine,
 };
 pub use runloop::{OpportunityCycleLedger, V83Runloop};
-pub use funnel::{CanonicalFunnelReport, CanonicalOpportunityFunnelTracker, OpportunityFunnelStage};
+pub use funnel::{CanonicalFunnelReport, CanonicalOpportunityFunnelTracker, EconomicAuthority, OpportunityFunnelStage};
 
 #[cfg(test)]
 mod tests {

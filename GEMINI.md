@@ -17,6 +17,7 @@ Only standalone documentation / tooling scripts in `tools/` may use Python:
 - `tools/build_monograph.py`
 - `tools/audit_python_boundary.py`
 - `tools/audit_synthetic_leakage.py`
+- `tools/audit_economic_claim.py`
 - `tools/forbidden_names.py`
 
 ### 4. Verification Commands
@@ -25,6 +26,7 @@ Only standalone documentation / tooling scripts in `tools/` may use Python:
 - `cargo clippy --manifest-path v8-core/Cargo.toml`
 - `.venv/bin/python tools/audit_python_boundary.py`
 - `python3 tools/audit_synthetic_leakage.py`
+- `python3 tools/audit_economic_claim.py`
 
 ## 🚨 STRICT RULE: ZERO-TOLERANCE ANTI-HALLUCINATION & ANTI-SYNTHETIC DATA DIRECTIVE
 

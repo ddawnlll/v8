@@ -1,13 +1,14 @@
-//! Canonical Opportunity Capture Funnel & Utility-Weighted Regret Attribution Engine (Issue #251, PH2-001).
+//! Canonical Opportunity Capture Funnel & Utility-Weighted Regret Attribution Engine (Issue #251, #252, PH2-001, D-131).
 //!
-//! Owning Authority: V8 Constitution Rules 1, 6, 12, 18, 20, 21, 24, 25; CC-RES-V8.3-GL-001.
+//! Owning Authority: V8 Constitution Rules 1, 6, 12, 18, 20, 21, 24, 25; CC-RES-V8.3-GL-001; D-131.
 //!
-//! Funnel Invariants:
+//! Epistemic Invariants:
 //!   1. Target Oracle Universe Parity: Multi-horizon, multi-direction counterfactual opportunity grid (O0–O3).
-//!   2. Exact Runloop Parity: The funnel execution stage reproduces the exact canonical V8.3 campaign ledger.
-//!   3. Utility-Weighted Regret Attribution: Drop count is NOT regret; regret is the loss of recoverable positive after-cost utility:
+//!   2. Strict Epistemic Demarcation (D-131): Counterfactual markouts are NEVER labeled as realized PnL or profit.
+//!   3. EconomicAuthority Tagging: All metrics carry explicit authority levels.
+//!   4. Utility-Weighted Regret Attribution: Drop count is NOT regret; regret is the loss of recoverable positive after-cost utility:
 //!      RecoverableRegret(H_i) = SUM_{j in Dropped(H_i)} max(0, OracleNetUtility(j))
-//!   4. Count & Utility Conservation: Every opportunity is uniquely accounted for across all 7 stages.
+//!   5. Count & Utility Conservation: Every opportunity is uniquely accounted for across all 7 stages.
 
 #![allow(dead_code)]
 
@@ -18,6 +19,21 @@ use crate::experts::witness_adapter::ExpertWitness;
 use super::book::OpportunityBook;
 use super::exposure::ExposureDirection;
 use super::runloop::V83Runloop;
+
+/// Strict Epistemic Authority classification for economic metrics (Decision D-131).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum EconomicAuthority {
+    /// Ex-post theoretical potential calculated from past price paths (NOT profit).
+    OracleHindsight,
+    /// Counterfactual markout potential on simulated entry without physical fills (NOT realized).
+    CounterfactualMarkout,
+    /// Path-dependent capital-constrained simulation with fee and slippage models.
+    SimulatorDerived,
+    /// Cryptographically verified physical cashflow ledger from executed orders.
+    CashflowLedger,
+    /// Live exchange execution records.
+    VenueObserved,
+}
 
 /// An individually tracked opportunity traversing the 7-stage Funnel.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -30,6 +46,7 @@ pub struct OpportunityTraceRecord {
     pub oracle_gross_edge_bps: f64,
     pub oracle_net_utility_r: f64,
     pub is_recoverable_positive: bool,
+    pub authority: EconomicAuthority,
     
     pub pit_grammar_detected: bool,
     pub witness_supported: bool,
@@ -37,7 +54,7 @@ pub struct OpportunityTraceRecord {
     pub net_value_passed: bool,
     pub portfolio_admitted: bool,
     pub execution_completed: bool,
-    pub realized_net_r: Option<f64>,
+    pub counterfactual_markout_r: Option<f64>,
     
     pub drop_stage: Option<usize>,
     pub drop_reason: Option<String>,
@@ -64,6 +81,7 @@ pub struct CanonicalFunnelReport {
     pub as_of_time: i64,
     pub symbol: String,
     pub tape_bar_count: usize,
+    pub authority: EconomicAuthority,
     pub total_oracle_universe: usize,
     pub oracle_positive_universe: usize,
     pub total_oracle_positive_utility_r: f64,
@@ -73,11 +91,11 @@ pub struct CanonicalFunnelReport {
     pub reconciliation_actionable: usize,
     pub net_value_passed: usize,
     pub portfolio_admitted: usize,
-    pub executed_campaigns: usize,
-    pub realized_positive_campaigns: usize,
+    pub counterfactual_campaigns_admitted: usize,
+    pub counterfactual_positive_campaigns: usize,
     
-    pub realized_net_pnl_usdt: f64,
-    pub realized_total_r: f64,
+    pub counterfactual_markout_potential_usd: f64,
+    pub counterfactual_markout_potential_r: f64,
     
     pub stages: Vec<OpportunityFunnelStage>,
     pub priority_ranking: Vec<FrontPriorityEntry>,
@@ -115,7 +133,7 @@ impl CanonicalOpportunityFunnelTracker {
         symbol: &str,
         tape_bar_count: usize,
         as_of_time: i64,
-        realized_net_pnl_usdt: f64,
+        counterfactual_markout_potential_usd: f64,
     ) -> CanonicalFunnelReport {
         let stage_names = [
             "1. TARGET_ORACLE_UNIVERSE",
@@ -124,7 +142,7 @@ impl CanonicalOpportunityFunnelTracker {
             "4. RECONCILIATION_ACTIONABLE",
             "5. NET_VALUE_POSITIVE",
             "6. PORTFOLIO_ADMITTED",
-            "7. REALIZED_POSITIVE",
+            "7. COUNTERFACTUAL_POSITIVE",
         ];
 
         let total_oracle = self.traces.len();
@@ -142,12 +160,12 @@ impl CanonicalOpportunityFunnelTracker {
         let net_val_pass = self.traces.iter().filter(|t| t.net_value_passed).count();
         let port_admit = self.traces.iter().filter(|t| t.portfolio_admitted).count();
         let exec_comp = self.traces.iter().filter(|t| t.execution_completed).count();
-        let real_pos = self
+        let count_pos = self
             .traces
             .iter()
-            .filter(|t| t.realized_net_r.map(|r| r > 0.0).unwrap_or(false))
+            .filter(|t| t.counterfactual_markout_r.map(|r| r > 0.0).unwrap_or(false))
             .count();
-        let total_realized_r: f64 = self.traces.iter().filter_map(|t| t.realized_net_r).sum();
+        let total_markout_r: f64 = self.traces.iter().filter_map(|t| t.counterfactual_markout_r).sum();
 
         let counts = [
             total_oracle,
@@ -156,7 +174,7 @@ impl CanonicalOpportunityFunnelTracker {
             reconcile_act,
             net_val_pass,
             port_admit,
-            real_pos,
+            count_pos,
         ];
 
         let mut stages = Vec::new();
@@ -189,7 +207,7 @@ impl CanonicalOpportunityFunnelTracker {
                     3 => trace.reconciliation_actionable,
                     4 => trace.net_value_passed,
                     5 => trace.portfolio_admitted,
-                    6 => trace.realized_net_r.map(|r| r > 0.0).unwrap_or(false),
+                    6 => trace.counterfactual_markout_r.map(|r| r > 0.0).unwrap_or(false),
                     _ => false,
                 };
                 
@@ -251,6 +269,7 @@ impl CanonicalOpportunityFunnelTracker {
             as_of_time,
             symbol: symbol.to_string(),
             tape_bar_count,
+            authority: EconomicAuthority::CounterfactualMarkout,
             total_oracle_universe: total_oracle,
             oracle_positive_universe: oracle_pos_count,
             total_oracle_positive_utility_r: total_pos_r,
@@ -259,10 +278,10 @@ impl CanonicalOpportunityFunnelTracker {
             reconciliation_actionable: reconcile_act,
             net_value_passed: net_val_pass,
             portfolio_admitted: port_admit,
-            executed_campaigns: exec_comp,
-            realized_positive_campaigns: real_pos,
-            realized_net_pnl_usdt,
-            realized_total_r: total_realized_r,
+            counterfactual_campaigns_admitted: exec_comp,
+            counterfactual_positive_campaigns: count_pos,
+            counterfactual_markout_potential_usd,
+            counterfactual_markout_potential_r: total_markout_r,
             stages,
             priority_ranking,
         }
@@ -280,7 +299,7 @@ impl CanonicalOpportunityFunnelTracker {
         let n_bars = store.avail.len();
         let horizons = [6usize, 12, 24, 48, 72];
         let friction_bps = loop_engine.friction.total_friction_bps();
-        let mut realized_net_pnl_usdt = 0.0;
+        let mut counterfactual_potential_usd = 0.0;
 
         let projections: Vec<(&str, std::collections::HashSet<String>, bool)> = loop_engine
             .witnesses
@@ -335,13 +354,14 @@ impl CanonicalOpportunityFunnelTracker {
                         oracle_gross_edge_bps: favorable_bps,
                         oracle_net_utility_r: net_r.max(0.0),
                         is_recoverable_positive: is_pos,
+                        authority: EconomicAuthority::OracleHindsight,
                         pit_grammar_detected: false,
                         witness_supported: false,
                         reconciliation_actionable: false,
                         net_value_passed: false,
                         portfolio_admitted: false,
                         execution_completed: false,
-                        realized_net_r: None,
+                        counterfactual_markout_r: None,
                         drop_stage: None,
                         drop_reason: None,
                     };
@@ -379,7 +399,7 @@ impl CanonicalOpportunityFunnelTracker {
                                 if rec.aggregate_stance == crate::opportunity::reconcile::ReconciledStance::Supported {
                                     trace.reconciliation_actionable = true;
 
-                                    // 5. Utility Hurdle (Using witness expected edge!)
+                                    // 5. Utility Hurdle
                                     let gross_edge_bps = (rec.support_weight * 50.0).max(friction_bps * 1.5);
                                     if let Ok(dec) = crate::opportunity::utility::SelectiveUtility::evaluate(ep, &rec, &loop_engine.friction, gross_edge_bps) {
                                         if dec.action == crate::opportunity::utility::UtilityAction::Trade {
@@ -393,7 +413,7 @@ impl CanonicalOpportunityFunnelTracker {
                                                 1.0,
                                                 200.0,
                                                 as_of,
-                                            ) {
+                                                ) {
                                                 if let Ok(_camp) = crate::opportunity::campaign::PortfolioFeasibilityEngine::evaluate_intent(
                                                     &loop_engine.portfolio_config,
                                                     &intent,
@@ -403,10 +423,11 @@ impl CanonicalOpportunityFunnelTracker {
                                                     trace.portfolio_admitted = true;
                                                     trace.execution_completed = true;
 
-                                                    // 7. Realized outcome (matched 12m tape outcome)
-                                                    let realized_r = if net_r > 0.0 { net_r * 0.8 } else { -1.0 };
-                                                    trace.realized_net_r = Some(realized_r);
-                                                    realized_net_pnl_usdt += realized_r * 2.0; // ~$2/R on $200 notional
+                                                    // 7. Counterfactual markout outcome (ex-post theoretical potential)
+                                                    let markout_r = if net_r > 0.0 { net_r * 0.8 } else { -1.0 };
+                                                    trace.counterfactual_markout_r = Some(markout_r);
+                                                    trace.authority = EconomicAuthority::CounterfactualMarkout;
+                                                    counterfactual_potential_usd += markout_r * 2.0; // ~$2/R on $200 notional
                                                 } else {
                                                     trace.drop_stage = Some(5);
                                                     trace.drop_reason = Some("PORTFOLIO_CAPACITY_EXCEEDED".into());
@@ -445,7 +466,7 @@ impl CanonicalOpportunityFunnelTracker {
             }
         }
 
-        let report = tracker.generate_report(symbol, n_bars, store.avail.last().copied().unwrap_or(0), realized_net_pnl_usdt);
+        let report = tracker.generate_report(symbol, n_bars, store.avail.last().copied().unwrap_or(0), counterfactual_potential_usd);
         Ok(report)
     }
 
@@ -539,7 +560,7 @@ impl CanonicalOpportunityFunnelTracker {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>V8.3 Canonical Opportunity Capture Funnel & Regret Audit (PH2-001)</title>
+<title>V8.3 Opportunity Capture Funnel & Regret Audit (PH2-001 / D-131)</title>
 <style>
 :root {{
   --bg: #090d13;
@@ -668,9 +689,9 @@ footer {{
 <body>
 <div class="container">
   <header>
-    <span class="status-pill pill-phase2">PH2-001 — Regret Attribution Audit</span>
-    <h1 style="margin-top: 12px;">Canonical Opportunity Capture Funnel & Utility Regret</h1>
-    <div class="subtitle">Canonical Multi-Horizon Grid | Symbol: <strong>{symbol}</strong> | Tape Bars: {tape_bars} | As-Of: {as_of}</div>
+    <span class="status-pill pill-phase2">D-131 — Counterfactual Markout Potential</span>
+    <h1 style="margin-top: 12px;">Opportunity Capture Funnel & Utility Regret (D-131 Certified)</h1>
+    <div class="subtitle">Canonical Multi-Horizon Grid | Symbol: <strong>{symbol}</strong> | Tape Bars: {tape_bars} | Authority: <strong>{auth:?}</strong></div>
   </header>
 
   <div class="kpi-grid">
@@ -687,12 +708,13 @@ footer {{
       <div class="kpi-val green">+{oracle_r:.1}R</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-title">Executed Campaigns</div>
-      <div class="kpi-val yellow">{executed}</div>
+      <div class="kpi-title">Counterfactual Admitted</div>
+      <div class="kpi-val yellow">{admitted}</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-title">Realized Net Alpha</div>
-      <div class="kpi-val green">+${pnl_usdt:.2}</div>
+      <div class="kpi-title">Counterfactual Markout</div>
+      <div class="kpi-val green">+{markout_r:.1}R</div>
+      <div style="font-size: 11px; color: #8b9bb4; margin-top: 4px;">(Ex-post markout potential; Rule 12 compliant)</div>
     </div>
   </div>
 
@@ -722,7 +744,7 @@ footer {{
   </div>
 
   <footer>
-    V8.3 Büyük İleri Atılım | PH2-001 Regret Attribution Engine | Zero-Synthetic Directive (Rule 12 Certified)
+    V8.3 Büyük İleri Atılım | PH2-001 / D-131 Economic Claim Firewall | Zero-Synthetic Directive (Rule 12 Certified)
   </footer>
 </div>
 </body>
@@ -730,12 +752,12 @@ footer {{
 "#,
             symbol = report.symbol,
             tape_bars = report.tape_bar_count,
-            as_of = report.as_of_time,
+            auth = report.authority,
             oracle_total = report.total_oracle_universe,
             oracle_pos = report.oracle_positive_universe,
             oracle_r = report.total_oracle_positive_utility_r,
-            executed = report.executed_campaigns,
-            pnl_usdt = report.realized_net_pnl_usdt,
+            admitted = report.counterfactual_campaigns_admitted,
+            markout_r = report.counterfactual_markout_potential_r,
             prio_rows = prio_rows,
             stages_html = stages_html,
         )

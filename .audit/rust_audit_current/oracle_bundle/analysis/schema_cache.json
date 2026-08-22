@@ -2,6 +2,13 @@
   "schema": "v8.eval.v1.schema_cache",
   "root_dir": "C:\\Users\\dresden\\Documents\\v8\\.audit\\rust_audit_current\\oracle_bundle",
   "tables": {
+    "negative_control_universe.parquet": {
+      "file_name": "negative_control_universe.parquet",
+      "relative_path": "negative_control_universe.parquet",
+      "total_rows": 100,
+      "total_columns": 7,
+      "columns": {}
+    },
     "economics/oracle_evaluation.parquet": {
       "file_name": "oracle_evaluation.parquet",
       "relative_path": "economics/oracle_evaluation.parquet",
@@ -24,13 +31,6 @@
           "max": 0.0
         }
       }
-    },
-    "negative_control_universe.parquet": {
-      "file_name": "negative_control_universe.parquet",
-      "relative_path": "negative_control_universe.parquet",
-      "total_rows": 100,
-      "total_columns": 7,
-      "columns": {}
     },
     "report_cell_provenance.parquet": {
       "file_name": "report_cell_provenance.parquet",
