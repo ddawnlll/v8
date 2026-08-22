@@ -2,6 +2,24 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — D-138 prospective shadow boundary and canonical artifact lineage (Issues #256, #258)
+
+Added the Rust-only, non-economic `v8-core/src/shadow.rs` boundary. Sealed
+prospective manifests bind code, configuration, dataset, authority, freeze
+cutoff, incumbent, challenger, and artifact namespace. The runner enforces
+strictly post-freeze chronological observations, content-addressed input
+bindings, idempotent writes, mixed-output rejection, and permanent
+`NO_ECONOMIC_CLAIM` / `PROMOTION_FORBIDDEN` status. Added the `shadow` and
+`artifact-index` CLI subcommands; the latter binds declared audit/report/ledger
+files to one manifest and rejects duplicate or self-referential bundles. Added
+embedded tests for cutoff, deterministic replay, mixed/stale artifact rejection.
+The economic OOS/succession experiment remains separately gated under Issue
+#255 and was not opened.
+
+Artifacts changed: `v8-core/src/shadow.rs`, `v8-core/src/main.rs`,
+`docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`,
+`docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-22 — Removal of retired V8.2 executable tooling (D-137)
 
 Removed the legacy V8.2 Python execution, diagnostic, regret, tape-building,
