@@ -193,6 +193,7 @@ v8-core/
       campaign.rs   ExecutionCampaign & PortfolioFeasibilityEngine
       runloop.rs    V8.3 end-to-end Opportunity Runloop & ledger emission
       harness_t1_t12.rs Constitutional Invariant Harness T1–T12
+      funnel.rs     Opportunity Capture Funnel & Attrition Diagnostic Engine (Phase II)
     scheduler.rs    deterministic task scheduling/chunking, evaluate_typed (D-119)
     runloop.rs      S4 per-bar composition and runtime dispatch wiring
   tests/            empty — parity is proven by #[cfg(test)] unit tests

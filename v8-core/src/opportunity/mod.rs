@@ -24,6 +24,7 @@ pub mod utility;
 pub mod campaign;
 pub mod runloop;
 pub mod harness_t1_t12;
+pub mod funnel;
 
 pub use exposure::{
     EconomicExposureStructure, ExposureDirection, ExposureLeg, ExposureResolver, HorizonClass,
@@ -41,6 +42,7 @@ pub use campaign::{
     PortfolioFeasibilityEngine,
 };
 pub use runloop::{OpportunityCycleLedger, V83Runloop};
+pub use funnel::{OpportunityCaptureFunnelReport, OpportunityFunnelStage, OpportunityFunnelTracker};
 
 #[cfg(test)]
 mod tests {
