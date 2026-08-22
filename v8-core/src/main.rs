@@ -59,6 +59,7 @@ mod regret;
 mod report;
 mod runloop;
 mod scheduler;
+mod shadow;
 mod simd;
 mod simulator;
 mod state;
@@ -93,6 +94,8 @@ subcommands:
   verdict         S7: verdict statistics on reduced tables
   report          S7: verdict report artifacts + audit
   oracle-coverage O3: Opportunity Universe representational coverage receipt
+  shadow          V8.3 prospective shadow provenance and artifact gate
+  artifact-index  bind a declared diagnostic bundle to one shadow manifest
   usdm-sim        finite-capital Binance USD-M portfolio simulator
   allegory-audit  multi-episode historical archetype audit (A01-A12, D-125)
   funnel-audit    V8.3 Opportunity Capture Funnel empirical audit (Phase II)";
@@ -123,6 +126,8 @@ fn main() {
         "verdict" => statistics::verdict(&args[2..]),
         "report" => report::report(&args[2..]),
         "oracle-coverage" => cmd_oracle_coverage(&args[2..]),
+        "shadow" => cmd_shadow(&args[2..]),
+        "artifact-index" => cmd_artifact_index(&args[2..]),
         "exit-ablation" => exit_ablation::run(&args[2..]),
         "usdm-sim" => cmd_usdm_sim(&args[2..]),
         "allegory-audit" => cmd_allegory_audit(&args[2..]),
@@ -1206,6 +1211,88 @@ fn req2_cases(bytes: &[u8]) -> Option<Vec<(String, usize)>> {
     )
 }
 
+fn cmd_shadow(args: &[String]) -> i32 {
+    if args.len() != 1 {
+        eprintln!("usage: v8-core shadow <request.json>");
+        return 2;
+    }
+    let bytes = match std::fs::read(&args[0]) {
+        Ok(bytes) => bytes,
+        Err(err) => {
+            eprintln!("error reading shadow request {}: {err}", args[0]);
+            return 1;
+        }
+    };
+    let request: shadow::ShadowRequest = match serde_json::from_slice(&bytes) {
+        Ok(request) => request,
+        Err(err) => {
+            eprintln!("error parsing shadow request {}: {err}", args[0]);
+            return 1;
+        }
+    };
+    match shadow::run(&request) {
+        Ok(receipt) => {
+            println!(
+                "{}",
+                serde_json::json!({
+                    "subcommand": "shadow",
+                    "status": receipt.status,
+                    "manifest_id": receipt.manifest_id,
+                    "observations": receipt.observations,
+                    "economic_claim": receipt.economic_claim,
+                    "promotion": receipt.promotion,
+                    "artifact_count": receipt.artifacts.len(),
+                })
+            );
+            0
+        }
+        Err(err) => {
+            eprintln!("shadow: {err}");
+            1
+        }
+    }
+}
+
+fn cmd_artifact_index(args: &[String]) -> i32 {
+    if args.len() != 1 {
+        eprintln!("usage: v8-core artifact-index <request.json>");
+        return 2;
+    }
+    let bytes = match std::fs::read(&args[0]) {
+        Ok(bytes) => bytes,
+        Err(err) => {
+            eprintln!("error reading artifact-index request {}: {err}", args[0]);
+            return 1;
+        }
+    };
+    let request: shadow::ArtifactIndexRequest = match serde_json::from_slice(&bytes) {
+        Ok(request) => request,
+        Err(err) => {
+            eprintln!("error parsing artifact-index request {}: {err}", args[0]);
+            return 1;
+        }
+    };
+    match shadow::index_artifacts(&request) {
+        Ok(index) => {
+            println!(
+                "{}",
+                serde_json::json!({
+                    "subcommand": "artifact-index",
+                    "status": "CANONICAL_LINEAGE_BOUND",
+                    "manifest_id": index.manifest_id,
+                    "artifact_count": index.artifacts.len(),
+                    "economic_claim": index.economic_claim,
+                })
+            );
+            0
+        }
+        Err(err) => {
+            eprintln!("artifact-index: {err}");
+            1
+        }
+    }
+}
+
 fn cmd_oracle_coverage(args: &[String]) -> i32 {
     if args.is_empty() {
         eprintln!("usage: v8-core oracle-coverage <request.json>");
@@ -1695,5 +1782,3 @@ fn cmd_funnel_audit(args: &[String]) -> i32 {
     println!("{}", serde_json::to_string_pretty(&report).unwrap());
     0
 }
-
-

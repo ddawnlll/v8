@@ -7673,6 +7673,8 @@ table.</p>
       oversight.rs  ProceduralCommissioner, TechnicalCommissioner, BlindAuditBundle &amp; GovernanceReceipt
       kaizen_boundary.rs External Constitutional Audit &amp; Dual-Key separation for Kaizen
       tests.rs      Comprehensive unit and property tests
+    shadow.rs       Hash-bound prospective shadow manifest, cutoff gate, and
+                    canonical artifact bundle verifier (D-138)
     opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130, D-132)
       mod.rs        7 canonical primitives &amp; OpportunityBook interface
       exposure.rs   EconomicExposureStructure, ExposureResolver, false-collapse defense
@@ -7871,6 +7873,12 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td>Emergency Mainline Execution Authority, Scope Firewall &amp; <code>EmergencyMergeWarrant</code> Protocol</td>
 <td><code>EmergencyMergeWarrant</code>, <code>WarrantLifecycleState</code>, <code>MainlineHeadStatus</code>, <code>EmergencyIncidentReason</code></td>
 <td>V8_CONSTITUTION v0.2 Rule 43; D-135; CC-BILL-V8.3-D135</td>
+</tr>
+<tr>
+<td><code>v8-core/src/shadow.rs</code></td>
+<td>Non-economic prospective shadow boundary; seals code/config/dataset/authority/freeze identities, enforces strict future-only observations, writes allocation-neutral receipts, binds declared diagnostic bundles, and rejects mixed/divergent output bundles</td>
+<td><code>ProspectiveShadowManifest</code>, <code>ShadowRequest</code>, <code>ShadowReceipt</code>, <code>ArtifactIndexRequest</code>, <code>CanonicalArtifactIndex</code>, <code>verify_output_bundle</code>, <code>index_artifacts</code></td>
+<td><code>OPERATIONS_SPEC</code> §1, §4–§6; <code>PERSISTENCE_REPLAY_SPEC</code> §4, §8; D-138; Issues #256/#258</td>
 </tr>
 </tbody>
 </table>
@@ -8106,6 +8114,7 @@ historical design record and this table is the correction layer.</p>
 | D-135 | <strong>Olağanüstü Mainline İcra Yetkisi, Kapsam Güvenlik Duvarı ve <code>EmergencyMergeWarrant</code> Protokolü (Kural 43).</strong> Merkez Komite'nin Red-Team muhalif düzeltmeleriyle birlikte 5-0 oybirliği ile <code>CC-BILL-V8.3-D135</code> altında onaylandı. Kaizen'e operasyonel kriz hallerinde (P0 ihlal, PIT sızıntısı, defter bozulması, pipeline felci) <code>EMERGENCY_EXECUTION_STATE</code> ilan etme ve makine onaylı, süreli, tek kullanımlık <code>EmergencyMergeWarrant</code> düzenleme yetkisi verir. Çıplak push yasağını (<code>git push origin main</code> yasaktır), Pre-Push Asgari Kapılarını, <code>PROVISIONAL_HEAD</code> karantinalı İki Aşamalı Hotfix'i, deterministik <code>AUTO_ROLLBACK</code>'i, atomik break-glass yetki düşürmeyi (<code>warrant.consume()</code>), İcra Komiseri semantik vetosunu ve hotfix sırasında hiperparametre/ekonomik tuning kesin yasağını anayasaya bağlar. | KİLİTLİ_DEĞİŞMEZ | <code>CC-BILL-V8.3-D135</code>, V8 Anayasası Kural 43; <code>v8-core/src/judiciary/emergency.rs</code>. Kritik hotfix icra hızını kriptografik köken ve katı kapsam sınırlarıyla uzlaştırır. |
 | D-136 | <strong>Merkez Komite Düzeltmesi (Rectification), Miras Karantinası ve Breakeven Meydan Okuma Mandası.</strong> Merkez Komite Düzeltme Oturumu (2026-08-22) ile onaylandı. (1) Afakî ekonomik plan üretimini askıya alır; komiserleri münhasıran <code>AUDIT</code>, <code>FALSIFY</code>, <code>IDENTIFY CONTRADICTION</code> ve <code>PROPOSE TEST</code> görevlerine bağlayan 'Önce Mühendis, Sonra Persona' kuralını getirir. (2) Donmuş V8.2 tanı ve araçlarını <code>[NON_CANONICAL / FORENSIC_ONLY]</code> mühürleri ve Ajan Keşif Kalkanlarıyla <code>legacy/v82/</code> altına karantinaya alır. (3) Tek değişkenli <code>CashflowLedger</code> mikro-cerrahi deney protokolünü yasalaştırır; Breakeven Ratchet varyantlarını (A1: <code>+0.5R</code>, A2: <code>+0.75R</code>, A3: <code>+1.0R</code>) <code>v8-core/src/kaizen/exit_trailing.rs</code> ve <code>usdm_sim.rs</code> üzerinde A0 Baseline ile karşılaştırır. 12 aylık tape denetimi A1'in (+0.5R BE) zararı +$12.82 (+%22.4) azalttığını ve kazanma oranını %31.9'dan %42.2'ye çıkardığını somut makbuzla kanıtlamıştır. | KİLİTLİ_DEĞİŞMEZ | <code>docs/governance/COMMITTEE_MEMORY_LEDGER.jsonl</code> MEM-20260822-013..017; <code>v8-core/src/kaizen/exit_trailing.rs</code>, <code>v8-core/src/usdm_sim.rs</code>. |</p>
 <p>| D-137 | <strong>Eski V8.2 Çalıştırılabilir Araçlarının Emekliye Ayrılması.</strong> Karantinadaki V8.2 Python çalıştırma, tanı, regret, tape oluşturma ve araştırma aracı kopyaları hem <code>tools/</code> hem de <code>legacy/v82/</code> altından kaldırıldı; aynı <code>$992</code> profilini sabitleyen eski Rust oracle-coverage modülleri de kaldırıldı. Böylece emekli profil aktif çalışma alanından yeniden üretilemez. Adli receipt/raporlar ve karantina README'si kanonik olmayan tarihsel kanıt olarak korunur. V8.3 Rust Opportunity Runloop ve challenger yürütme yolu değişmeden kalır. | GERİ ALINABİLİR_KARAR | Kullanıcı talimatı; <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>, <code>v8-core/src/oracle/coverage.rs</code>, <code>v8-core/src/oracle/mod.rs</code>, <code>v8-core/src/oracle/recoverability.rs</code>, <code>v8-core/src/scheduler.rs</code>, <code>v8-core/src/scheduler/rename_audit.rs</code>; V8.3 Rust doğrulama kapıları otoritatiftir. |</p>
+<p>| D-138 | <strong>Hash'e bağlı ileriye dönük shadow sınırı ve kanonik artifakt kökeni.</strong> V8.3 ileriye dönük shadow çalışmaları için ekonomik olmayan sınır olarak <code>v8-core/src/shadow.rs</code> dosyasını yetkilendir. Mühürlenmiş <code>ProspectiveShadowManifest</code>; kod, konfigürasyon, veri kümesi, otorite, dondurma kesiti, incumbent, challenger ve artifakt ad alanını bağlar. Tüketilen her gözlemde <code>knowledge_time_ns &gt; freeze_cutoff_ns</code> olmalı ve gözlemler kronolojik kalmalıdır. Çalıştırıcı yalnızca deterministik <code>shadow-manifest.json</code> ve <code>shadow-receipt.json</code> üretir; <code>artifact-index</code> yolu ise tanısal/rapor/defter dosyalarını aynı manifeste bağlar. Farklı üzerine yazmalar, yinelenen isimler, kendine referans veren indeksler ve karışık çıktı dosyaları kapalı-başarısız olur. Tüm çıktılar sürekli <code>NO_ECONOMIC_CLAIM</code> üretir; shadow makbuzları ayrıca <code>PROMOTION_FORBIDDEN</code> üretir. Bu karar ekonomik OOS'u açmaz/değerlendirmez ve halefiyete izin vermez. | PROVISIONAL_DECISION | Issues #256, #258; <code>OPERATIONS_SPEC</code> §1, §4–§6; <code>PERSISTENCE_REPLAY_SPEC</code> §4, §8; D-079, D-120, D-128, D-131. Bu sınır köken ve yaşam döngüsü belirsizliğini çözer; ekonomik halefiyet deneyi (#255) ayrı kapılı kalır. |</p>
 <p>Durum sözlüğü kasıtlıdır: <code>LOCKED_INVARIANT</code> geçerliliği sınırlar;
 <code>PROVISIONAL_DECISION</code> geri alınabilir; <code>REJECTED_OPTION</code> adı geçen taban
 çizgiden hariç tutulmuştur, sonsuza dek çürütülmüş değildir. Hiçbiri kârlılık
@@ -8290,6 +8299,7 @@ anlamına gelmez.</p></section>
 </tr>
 </tbody>
 </table>
+<p>| O-033 | V8.3 ileriye dönük shadow ve halefiyet kararı için hash'e bağlı V8.2 incumbent karşılaştırıcısı nedir? | V8.3 freeze'inden önce değişmez bir incumbent artifaktı veya yeniden üretilebilir bir karşılaştırıcı manifesti sabitle; kod/konfigürasyon/veri/otorite hash'lerini ve tam execution sözleşmesini bağla. V8.2 yeni bir otorite kararı olmadan temsil edilemiyorsa <code>BLOCKED / OPEN_PIN</code> durumunda dur ve ekonomik OOS'u açma. | D-128, G0–G5 temizlenene kadar V8.2'yi incumbent tutar; D-138 ekonomik olmayan shadow sınırını tanımlar. Bu soru ekonomik halefiyet deneyi (#255) için açık kalır. |</p>
 <p>Tümü <code>OPEN_QUESTION</code>'dır. Hiçbir alan bir dashboard sonucu, kayıtsız parametre
 taraması ya da sentetik veriyle sessizce çözülemez.</p></section>
 <section id="sec-evidence-matrix"><h1>EVIDENCE MATRIX</h1><h1 id="v8-kant-matrisi">V8 Kanıt Matrisi</h1>
@@ -10966,6 +10976,21 @@ değişkenine, arama ailesine, simülatör seviyesine ve portföy kararına bağ
 Bundan daha geniş olan her şey bir V8 olgusu değil, bir deney önerisidir.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-22-d-138-prospective-shadow-boundary-and-canonical-artifact-lineage-issues-256-258">2026-08-22 — D-138 prospective shadow boundary and canonical artifact lineage (Issues #256, #258)</h2>
+<p>Added the Rust-only, non-economic <code>v8-core/src/shadow.rs</code> boundary. Sealed
+prospective manifests bind code, configuration, dataset, authority, freeze
+cutoff, incumbent, challenger, and artifact namespace. The runner enforces
+strictly post-freeze chronological observations, content-addressed input
+bindings, idempotent writes, mixed-output rejection, and permanent
+<code>NO_ECONOMIC_CLAIM</code> / <code>PROMOTION_FORBIDDEN</code> status. Added the <code>shadow</code> and
+<code>artifact-index</code> CLI subcommands; the latter binds declared audit/report/ledger
+files to one manifest and rejects duplicate or self-referential bundles. Added
+embedded tests for cutoff, deterministic replay, mixed/stale artifact rejection.
+The economic OOS/succession experiment remains separately gated under Issue</p>
+<h1 id="255-and-was-not-opened">255 and was not opened.</h1>
+<p>Artifacts changed: <code>v8-core/src/shadow.rs</code>, <code>v8-core/src/main.rs</code>,
+<code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>,
+<code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>.</p>
 <h2 id="2026-08-22-removal-of-retired-v82-executable-tooling-d-137">2026-08-22 — Removal of retired V8.2 executable tooling (D-137)</h2>
 <p>Removed the legacy V8.2 Python execution, diagnostic, regret, tape-building,
 and research-tool copies that could recreate the deprecated <code>$992</code> profile,

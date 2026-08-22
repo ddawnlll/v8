@@ -176,6 +176,8 @@ v8-core/
       oversight.rs  ProceduralCommissioner, TechnicalCommissioner, BlindAuditBundle & GovernanceReceipt
       kaizen_boundary.rs External Constitutional Audit & Dual-Key separation for Kaizen
       tests.rs      Comprehensive unit and property tests
+    shadow.rs       Hash-bound prospective shadow manifest, cutoff gate, and
+                    canonical artifact bundle verifier (D-138)
     opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130, D-132)
       mod.rs        7 canonical primitives & OpportunityBook interface
       exposure.rs   EconomicExposureStructure, ExposureResolver, false-collapse defense
@@ -235,6 +237,7 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/evaluation/allegory.rs` | 12 market archetypes, negative control calibration, zero-hindsight regret evaluation & scorecard | `AllegoryFamily`, `ArchetypeId`, `AllegoryScorecard`, `evaluate_allegory_suite` | TARGET_ORACLE_SPEC §9; D-125 |
 | `v8-core/src/opportunity/` | V8.3 Challenger Opportunity Sovereignty Engine (7-primitive space, evidence reconciliation, selective utility, basis protection) | `OpportunityGrammar`, `OpportunityBook`, `ExpertWitness`, `EvidenceReconciler`, `ExposureStructure` | V8_CONSTITUTION v0.2 Rules 18–27; D-128..D-130; CC-RES-V8.3-GL-001 |
 | `v8-core/src/judiciary/emergency.rs` | Emergency Mainline Execution Authority, Scope Firewall & `EmergencyMergeWarrant` Protocol | `EmergencyMergeWarrant`, `WarrantLifecycleState`, `MainlineHeadStatus`, `EmergencyIncidentReason` | V8_CONSTITUTION v0.2 Rule 43; D-135; CC-BILL-V8.3-D135 |
+| `v8-core/src/shadow.rs` | Non-economic prospective shadow boundary; seals code/config/dataset/authority/freeze identities, enforces strict future-only observations, writes allocation-neutral receipts, binds declared diagnostic bundles, and rejects mixed/divergent output bundles | `ProspectiveShadowManifest`, `ShadowRequest`, `ShadowReceipt`, `ArtifactIndexRequest`, `CanonicalArtifactIndex`, `verify_output_bundle`, `index_artifacts` | `OPERATIONS_SPEC` §1, §4–§6; `PERSISTENCE_REPLAY_SPEC` §4, §8; D-138; Issues #256/#258 |
 
 
 ## 3. Layering rules
