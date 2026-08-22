@@ -1625,7 +1625,7 @@ fn cmd_funnel_audit(args: &[String]) -> i32 {
     let store = &stores[0];
     let loop_engine = opportunity::runloop::V83Runloop::default();
 
-    let report = match opportunity::funnel::OpportunityFunnelTracker::evaluate_tape_funnel(
+    let report = match opportunity::funnel::CanonicalOpportunityFunnelTracker::evaluate_tape_canonical(
         store,
         &store.symbol,
         "binance-um",
@@ -1633,12 +1633,12 @@ fn cmd_funnel_audit(args: &[String]) -> i32 {
     ) {
         Ok(r) => r,
         Err(e) => {
-            eprintln!("failed to evaluate tape funnel: {e:?}");
+            eprintln!("failed to evaluate canonical tape funnel: {e:?}");
             return 1;
         }
     };
 
-    let tracker = opportunity::funnel::OpportunityFunnelTracker::default();
+    let tracker = opportunity::funnel::CanonicalOpportunityFunnelTracker::default();
     let html = tracker.render_html(&report);
 
     if let Some(parent) = out.parent() {
