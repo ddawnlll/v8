@@ -40,6 +40,12 @@ pub mod trend_pullback;
 pub mod trend_pullback_depth;
 pub mod volume_climax_reversal;
 pub mod volume_confirmed_breakout;
+pub mod witness_adapter;
+
+#[allow(unused_imports)]
+pub use witness_adapter::{
+    default_28_witness_ensemble, observe_all, ExpertWitness, LegacyExpertWitnessAdapter,
+};
 
 use base::{ExpertEval, FeatMap};
 
