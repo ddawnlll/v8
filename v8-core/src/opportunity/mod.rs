@@ -22,6 +22,8 @@ pub mod evidence;
 pub mod reconcile;
 pub mod utility;
 pub mod campaign;
+pub mod runloop;
+pub mod harness_t1_t12;
 
 pub use exposure::{
     EconomicExposureStructure, ExposureDirection, ExposureLeg, ExposureResolver, HorizonClass,
@@ -34,7 +36,11 @@ pub use evidence::{
 };
 pub use reconcile::{EvidenceReconciler, ReconciledOpportunityState, ReconciledStance};
 pub use utility::{FrictionModel, SelectiveUtility, SelectiveUtilityDecision, UtilityAction};
-pub use campaign::{CampaignIntent, CampaignLeg, CampaignStatus, ExecutionCampaign};
+pub use campaign::{
+    CampaignIntent, CampaignLeg, CampaignStatus, ExecutionCampaign, PortfolioFeasibilityConfig,
+    PortfolioFeasibilityEngine,
+};
+pub use runloop::{OpportunityCycleLedger, V83Runloop};
 
 #[cfg(test)]
 mod tests {

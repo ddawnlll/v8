@@ -168,3 +168,92 @@ impl SelectiveUtility {
         Ok(decision)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::opportunity::book::IdentityStatus;
+    use crate::opportunity::exposure::{EconomicExposureStructure, ExposureDirection};
+
+    fn make_test_data(stance: ReconciledStance, net_confidence: f64) -> (OpportunityEpisode, ReconciledOpportunityState) {
+        let exp = EconomicExposureStructure::single_perp(
+            "BTCUSDT",
+            "BTC",
+            "binance-um",
+            "USDT",
+            ExposureDirection::Long,
+        )
+        .unwrap();
+
+        let ep = OpportunityEpisode::new(
+            exp,
+            1_000_000,
+            2_000_000,
+            24,
+            IdentityStatus::Canonical,
+            "state_hash",
+            "lineage",
+        )
+        .unwrap();
+
+        let mut reconciled = ReconciledOpportunityState {
+            reconciled_id: String::new(),
+            opportunity_id: ep.episode_id.clone(),
+            aggregate_stance: stance,
+            effective_observer_count: 3.0,
+            support_weight: 2.5,
+            contradict_weight: 0.0,
+            abstention_weight: 0.5,
+            contradiction_entropy: 0.0,
+            net_confidence,
+            reconciliation_time: 1_000_000,
+            participating_evidence_ids: vec!["ev1".to_string()],
+        };
+        reconciled.reconciled_id = reconciled.compute_id();
+        (ep, reconciled)
+    }
+
+    #[test]
+    fn test_sub_friction_opportunity_defaults_to_no_trade() {
+        let (ep, reconciled) = make_test_data(ReconciledStance::Supported, 0.5);
+        let friction = FrictionModel::default(); // total hurdle ~ 20bps
+
+        // Gross edge 10bps < friction 15bps
+        let dec = SelectiveUtility::evaluate(&ep, &reconciled, &friction, 20.0).unwrap();
+        assert_eq!(dec.action, UtilityAction::NoTrade);
+        assert!(!dec.is_executable());
+    }
+
+    #[test]
+    fn test_marginal_edge_above_friction_below_uncertainty_defers() {
+        let (ep, reconciled) = make_test_data(ReconciledStance::Supported, 0.8);
+        let friction = FrictionModel::default();
+
+        // 0.8 * 22bps = 17.6bps > friction (15bps) but < hurdle (20bps)
+        let dec = SelectiveUtility::evaluate(&ep, &reconciled, &friction, 22.0).unwrap();
+        assert_eq!(dec.action, UtilityAction::Defer);
+        assert!(!dec.is_executable());
+    }
+
+    #[test]
+    fn test_robust_edge_above_all_hurdles_qualifies_for_trade() {
+        let (ep, reconciled) = make_test_data(ReconciledStance::Supported, 0.9);
+        let friction = FrictionModel::default();
+
+        // 0.9 * 60bps = 54bps >> hurdle (20bps)
+        let dec = SelectiveUtility::evaluate(&ep, &reconciled, &friction, 60.0).unwrap();
+        assert_eq!(dec.action, UtilityAction::Trade);
+        assert!(dec.is_executable());
+        assert!(dec.expected_net_utility > 30.0);
+    }
+
+    #[test]
+    fn test_unsupported_or_contradicted_stance_defaults_to_no_trade() {
+        let (ep, reconciled) = make_test_data(ReconciledStance::Inconclusive, 0.9);
+        let friction = FrictionModel::default();
+
+        let dec = SelectiveUtility::evaluate(&ep, &reconciled, &friction, 100.0).unwrap();
+        assert_eq!(dec.action, UtilityAction::NoTrade);
+        assert!(!dec.is_executable());
+    }
+}

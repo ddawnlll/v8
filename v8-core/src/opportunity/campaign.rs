@@ -175,3 +175,105 @@ impl ExecutionCampaign {
         c.finish_blake3_hex()
     }
 }
+
+/// Portfolio feasibility parameters.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PortfolioFeasibilityConfig {
+    pub max_gross_notional_usdt: f64,
+    pub max_risk_per_opportunity_r: f64,
+    pub max_underlying_concentration: f64,
+    pub initial_cash_usdt: f64,
+}
+
+impl Default for PortfolioFeasibilityConfig {
+    fn default() -> Self {
+        Self {
+            max_gross_notional_usdt: 1000.0,
+            max_risk_per_opportunity_r: 1.0,
+            max_underlying_concentration: 0.35,
+            initial_cash_usdt: 1000.0,
+        }
+    }
+}
+
+/// Engine evaluating portfolio admission feasibility before instantiating an ExecutionCampaign.
+pub struct PortfolioFeasibilityEngine;
+
+impl PortfolioFeasibilityEngine {
+    pub fn evaluate_intent(
+        config: &PortfolioFeasibilityConfig,
+        intent: &CampaignIntent,
+        current_committed_notional: f64,
+        start_time: i64,
+    ) -> Result<ExecutionCampaign, V8CoreError> {
+        let proposed_notional = intent.notional_budget_usdt;
+        if current_committed_notional + proposed_notional > config.max_gross_notional_usdt {
+            return Err(V8CoreError::CampaignLifecycleError(format!(
+                "Portfolio capacity exceeded: current={current_committed_notional} + proposed={proposed_notional} > max={}",
+                config.max_gross_notional_usdt
+            )));
+        }
+
+        let allocated_capital = proposed_notional.min(config.initial_cash_usdt * config.max_underlying_concentration);
+        let target_risk = intent.requested_risk_r.min(config.max_risk_per_opportunity_r);
+
+        let mut legs = Vec::new();
+        for leg in &intent.exposure.legs {
+            legs.push(CampaignLeg::new(
+                &leg.symbol,
+                &leg.venue,
+                leg.weight.abs() * allocated_capital,
+                None,
+            ));
+        }
+
+        ExecutionCampaign::new(
+            intent,
+            allocated_capital,
+            target_risk,
+            legs,
+            vec!["MAX_LOSS_STOP".to_string(), "HORIZON_EXPIRY".to_string()],
+            start_time,
+        )
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::opportunity::exposure::{EconomicExposureStructure, ExposureDirection};
+
+    #[test]
+    fn test_portfolio_feasibility_admission_and_capacity_bound() {
+        let exp = EconomicExposureStructure::single_perp(
+            "BTCUSDT",
+            "BTC",
+            "binance-um",
+            "USDT",
+            ExposureDirection::Long,
+        )
+        .unwrap();
+
+        let intent = CampaignIntent::new(
+            "opp_1",
+            "dec_1",
+            exp.clone(),
+            1.0,
+            250.0,
+            1_000_000,
+        )
+        .unwrap();
+
+        let config = PortfolioFeasibilityConfig::default();
+
+        // 1. Within capacity
+        let camp = PortfolioFeasibilityEngine::evaluate_intent(&config, &intent, 500.0, 1_000_000).unwrap();
+        assert_eq!(camp.opportunity_id, "opp_1");
+        assert_eq!(camp.legs.len(), 1);
+        assert_eq!(camp.legs[0].symbol, "BTCUSDT");
+
+        // 2. Capacity exceeded -> fails closed
+        let breach = PortfolioFeasibilityEngine::evaluate_intent(&config, &intent, 900.0, 1_000_000);
+        assert!(breach.is_err());
+    }
+}

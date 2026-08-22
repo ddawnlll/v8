@@ -182,6 +182,17 @@ v8-core/
     checkpoint.rs   atomic simulation checkpoint & resume engine (D-122, #211)
     backend/        ReplayKernel boundary + scalar, CPU/SIMD and optional
                     Linux Vulkan f64 GPU backend (D-098)
+    opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130)
+      mod.rs        7 canonical primitives & OpportunityBook interface
+      exposure.rs   EconomicExposureStructure, ExposureResolver, false-collapse defense
+      book.rs       OpportunityEpisode & OpportunityBook
+      grammar.rs    Point-in-Time causal OpportunityGrammar
+      evidence.rs   ObserverEvidence, typed stances & 9D WitnessScorecard
+      reconcile.rs  Dependence-aware EvidenceReconciler & N_eff clone collapse
+      utility.rs    SelectiveUtility & cost/friction hurdle filtering
+      campaign.rs   ExecutionCampaign & PortfolioFeasibilityEngine
+      runloop.rs    V8.3 end-to-end Opportunity Runloop & ledger emission
+      harness_t1_t12.rs Constitutional Invariant Harness T1–T12
     scheduler.rs    deterministic task scheduling/chunking, evaluate_typed (D-119)
     runloop.rs      S4 per-bar composition and runtime dispatch wiring
   tests/            empty — parity is proven by #[cfg(test)] unit tests
