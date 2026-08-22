@@ -1331,6 +1331,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
     let mut max_heat = 0.05;
     let mut enabled_experts: Option<Vec<String>> = None;
     let mut engine_mode: Option<String> = None;
+    let mut exit_arm: Option<kaizen::exit_trailing::ExitArm> = None;
 
     let mut i = 0;
     while i < args.len() {
@@ -1426,6 +1427,31 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                     return 2;
                 }
             }
+            "--exit-arm" => {
+                if i + 1 < args.len() {
+                    let val = &args[i + 1];
+                    exit_arm = match val.as_str() {
+                        "chandelier" | "ChandelierATR" => Some(kaizen::exit_trailing::ExitArm::ChandelierATR),
+                        "be05r" | "ChandelierATRWithBE05R" => Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE05R),
+                        "be075r" | "ChandelierATRWithBE075R" => Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE075R),
+                        "be10r" | "ChandelierATRWithBE10R" => Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE10R),
+                        "notp" | "NoTP" => Some(kaizen::exit_trailing::ExitArm::NoTP),
+                        "static1r" | "Static1R" => Some(kaizen::exit_trailing::ExitArm::Static1R),
+                        "static2r" | "Static2R" => Some(kaizen::exit_trailing::ExitArm::Static2R),
+                        "static3r" | "Static3R" => Some(kaizen::exit_trailing::ExitArm::Static3R),
+                        "ema4h" | "EMA4hTrail" => Some(kaizen::exit_trailing::ExitArm::EMA4hTrail),
+                        "hybrid" | "HybridTrail" => Some(kaizen::exit_trailing::ExitArm::HybridTrail),
+                        other => {
+                            eprintln!("unknown exit arm: {other}");
+                            return 2;
+                        }
+                    };
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --exit-arm");
+                    return 2;
+                }
+            }
             path_str if !path_str.starts_with('-') => {
                 // If positional json request argument
                 let bytes = match std::fs::read(path_str) {
@@ -1473,6 +1499,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         max_heat,
         enabled_experts,
         engine_mode,
+        exit_arm,
     };
 
     match usdm_sim::run_simulation(&params) {

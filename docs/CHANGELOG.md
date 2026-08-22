@@ -2,6 +2,33 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — Removal of retired V8.2 executable tooling (D-137)
+
+Removed the legacy V8.2 Python execution, diagnostic, regret, tape-building,
+and research-tool copies that could recreate the deprecated `$992` profile,
+plus the Rust oracle-coverage modules whose baseline-only constructors
+hard-coded that profile into the bundle.
+The frozen forensic receipt/report artifacts and `legacy/v82/README.md` remain;
+no V8.3 Rust runtime path was changed.
+
+Artifacts changed: retired files under `tools/`, `legacy/v82/code/`, and
+`legacy/v82/diagnostics/`; `docs/decisions/DECISION_REGISTER.md`,
+`docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`,
+`v8-core/src/oracle/coverage.rs`, `v8-core/src/oracle/mod.rs`,
+`v8-core/src/oracle/recoverability.rs`, `v8-core/src/scheduler.rs`, and
+`v8-core/src/scheduler/rename_audit.rs`.
+
+## 2026-08-22 — Ratification & Implementation of D-136: Central Committee Rectification, Legacy Quarantine & Breakeven Challenger Mandate
+
+Unanimously ratified by the V8 Central Committee (5-0):
+- **Central Committee Rectification & Suspension:** Suspended speculative economic plan creation; codified strict "Engineer First, Persona Second" mandate restricting commissioners to `AUDIT`, `FALSIFY`, `IDENTIFY CONTRADICTION`, and `PROPOSE TEST`.
+- **Legacy Quarantine:** Organized historical V8.0–V8.2 code, diagnostics, and reports into `legacy/v82/` with `[NON_CANONICAL / FORENSIC_ONLY]` seals and Agent Discovery Guards.
+- **Single-Variable Breakeven Challenger (A1..A3 vs A0):** Codified and implemented Breakeven Ratchet challenger arms (`ChandelierATRWithBE05R`, `BE075R`, `BE10R`) in `v8-core/src/kaizen/exit_trailing.rs` and `usdm_sim.rs`.
+- **Empirical 12M Tape Results:** Evaluated 12-month BTCUSDT tape; verified that A1 (+0.5R BE) reduces loss by +$12.82 (+22.4%) from -$57.20 to -$44.38, lifts win rate from 31.9% to 42.2%, and reduces max drawdown from 12.59% to 11.64% with only +$0.65 fee friction.
+- **Memory Ledger Updated:** Appended learning records MEM-20260822-013..017 to `COMMITTEE_MEMORY_LEDGER.jsonl`.
+
+Artifacts changed: `v8-core/src/kaizen/exit_trailing.rs`, `v8-core/src/usdm_sim.rs`, `v8-core/src/main.rs`, `legacy/v82/*`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/governance/COMMITTEE_MEMORY_LEDGER.jsonl`, `tools/sync_committee_memory.py`, `docs/CHANGELOG.md`.
+
 ## 2026-08-22 — Ratification & Implementation of D-135: Emergency Mainline Execution Authority & Scope Firewall (CC-BILL-V8.3-D135, Rule 43)
 
 Unanimously ratified by the V8 Central Committee (5-0) with Red-Team adversarial amendments and implemented in Rust:

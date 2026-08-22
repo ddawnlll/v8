@@ -8225,39 +8225,12 @@ tools/
   build_monograph.py            docs corpus -&gt; site/index.html, site/tr.html
   data.py                       Binance archive -&gt; verified canonical dataset
                                 (download + SHA-256 + Parquet + DuckDB audit)
-  vision_backfill.py            Vision monthly klines -&gt; JSONL PIT tape + audit
-  build_multi_tape.py           multi-symbol dev tape assembly
-  monitor_tape.py               tape integrity monitoring
-  materialize_views.py          DATASET_SPEC §5 parquet views (DuckDB,
-                                pinned manifest, fail-closed hashes)
-  run_experiment.py             preregistration runner (v8_slice_001)
-  diagnostics.py                consolidated report centre (single report file;
-                                diagnostic.py / diagnostic_report.py /
-                                multi_diagnostic.py / forensics.py are shims);
-                                S7 port target (D-091) — report/audit artifacts
-                                move to report.rs, this file is retired
-  diagnose_experts_dev.py       dev-window expert diagnosis
-  run_fib_rsi_bb_confluence.py  D-076 dev-window experiment runner
-  equity_analysis.py            external-instrument analysis (research only)
-  regret.py                     evaluator Phase 0: snapshots, reconciliation,
-                                LegalActionManifest, Outcome Cube, gap (D-071);
-                                Phase-0 reduction ported as regret.rs (S3),
-                                reconciliation stays as S6 parity reference
-  regret_reference.py           independent reference walk (parity oracle)
-  regret_phase1.py              Candidate-local opportunity accounting (D-072);
-                                S6 port target (D-091) — moves to analysis.rs
-  regret_phase2.py              systematicity discovery (D-072);
-                                S6 port target (D-091) — moves to analysis.rs
-  regret_phase3.py              recoverability evaluation (D-073);
-                                S6 port target (D-091) — moves to analysis.rs
   artifact_status.py            artifact freshness reporting
   download_v8_reading_list.py   research manifest downloader
   index_handbook_pdf.py, extract_handbook_sections.py,
   extract_handbook_endmatter.py, build_handbook_review.py,
   build_full_handbook_review.py, render_visual_previews.py
                                 research-corpus tooling (no decision path)
-  _perf_probe.py                scratch profiling harness (not shipped tooling;
-                                PERFORMANCE_AUDIT_V82)
 tests/
   test_vertical_slice.py        pipeline contract tests (pytest)
   test_state_cache_identity.py  cached vs uncached MarketState, every bar
@@ -8522,18 +8495,6 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td>Binance archive -&gt; verified canonical dataset (download + SHA-256 + Parquet + DuckDB audit)</td>
 <td>CLI <code>build/verify/audit/load</code></td>
 <td>FEED_INGESTION_SPEC §5; DATASET_SPEC §1</td>
-</tr>
-<tr>
-<td><code>tools/vision_backfill.py</code></td>
-<td>Vision monthly klines -&gt; JSONL PIT tape (three clocks) + audit</td>
-<td>CLI <code>--symbol --interval --month --out [--audit]</code></td>
-<td>FEED_INGESTION_SPEC §4-5</td>
-</tr>
-<tr>
-<td><code>tools/materialize_views.py</code></td>
-<td>DATASET_SPEC §5 parquet views from a pinned manifest; fails closed on hash mismatch</td>
-<td>CLI <code>--manifest --store</code></td>
-<td>DATASET_SPEC §5; compile-once (rule 17)</td>
 </tr>
 <tr>
 <td><code>tests/test_vertical_slice.py</code></td>
@@ -9041,7 +9002,9 @@ historical design record and this table is the correction layer.</p>
 | D-132 | <strong>Central Evidence Sovereignty, Sovereign Kaizen &amp; Claim Authorization Act (Rules 28–35).</strong> Ratified under <code>CC-BILL-V8.3-AUTHORITY-003</code> and <code>CC-AMEND-V8.3-KAIZEN-004</code>. Replaces 1D authority with 3D Authority Tensor (<code>EvidenceAuthority</code>, <code>DecisionAuthority</code>, <code>RealizationStatus</code>). Enforces <code>No Naked Economic Claims</code> via <code>ClaimValue&lt;T&gt;</code> across module boundaries. Codifies closed algebra of 6 statutory claim classes (<code>DIAGNOSTIC_SIGNAL</code>, <code>COUNTERFACTUAL_POTENTIAL</code>, <code>RECOVERABLE_REGRET</code>, <code>SIMULATED_CASHFLOW</code>, <code>REALIZED_CASHFLOW</code>, <code>SUPPORTED_EDGE</code>) backed by centralized <code>ClaimRegistry</code> and Renderer Firewall. Establishes adversarial audit doctrine ($\mathbf{IMPLEMENTER \neq AUDITOR \neq VERDICT}$, <code>FALSIFY CLAIM</code>) with CI audit sabotage suite. Establishes <code>KaizenController</code> as the sole sovereign research/verdict engine, demotes USD-M engine to passive <code>ExecutionBackend</code> physics instrument, and establishes <code>v8-core/src/audit/</code> constitutional kernel with <code>FORBIDDEN_LEGACY_IMPORT</code> enforcement. | LOCKED_INVARIANT | V8 Constitution Rules 28–35; CC-BILL-V8.3-AUTHORITY-003, CC-AMEND-V8.3-KAIZEN-004. Eliminates shadow authorities, self-certification, and metric masquerade. |
 | D-133 | <strong>Evidence State Emergency Hotfix Authority &amp; Constitutional Migration Execution (<code>CC-EMERGENCY-DECREE-005</code>).</strong> Enacted under extraordinary Central Committee authority to execute unified constitutional hotfix across 6 milestones (<code>[AUTH]</code>, <code>[CLAIMS]</code>, <code>[AUDIT]</code>, <code>[KAIZEN]</code>, <code>[EXECUTION]</code>, <code>[LEGACY]</code>) with zero bureaucracy and zero economic tuning. Establishes immutable forensic git checkpoint <code>v8-pre-sovereign-hotfix</code>, implements 3D <code>Authority</code>, <code>ClaimValue&lt;T&gt;</code>, <code>ReconciliationReceipt</code>, <code>ClaimRegistry</code>, <code>RendererFirewall</code>, <code>v8-core/src/audit/</code> with 8 automated sabotage tests, <code>KaizenVerdictEngine</code>, <code>ExecutionBackend</code> trait, and <code>tools/audit_reachability.py</code>. Emergency authority automatically expires upon verified migration completion. | LOCKED_INVARIANT | CC-EMERGENCY-DECREE-005, D-132, Rules 28–35. Closes constitutional vulnerability with full test &amp; receipt verification. |
 | D-134 | <strong>V8 Judicial Review, Execution Oversight &amp; Agent Accountability Act (Rules 36–42).</strong> Ratified under <code>CC-BILL-V8.3-JUDICIARY-005-REV2</code> following Yüksek Divan trial <code>RT-001</code>. Formalizes Four-Plane Separation of Powers ($\text{Constitution} \to \text{Judiciary} \to \text{Kaizen} \to \text{Implementer} \to \text{Ledger}$) and establishes the independent Execution Oversight Corps (Procedural and Technical Commissioners with trace/challenge/block capability and zero prod code/merge/success rights). Enforces Amendment A1 (Blind Adversarial protocol with CoT isolation), Amendment A2 (<code>No Naked Veto</code> with panic-test/receipt burden of proof and 1-turn expedited appeal), Amendment A3 (Tier 0–2 Risk-Weighted Mobilization with Token Budget Receipts), Amendment A4 (Cryptographic Constitution Pinning &amp; Kaizen Self-Audit Ban), and the Mandatory 6-Section Red-Team Adversarial Charter preserving dissenting opinions. | LOCKED_INVARIANT | CC-BILL-V8.3-JUDICIARY-005-REV2, V8 Constitution Rules 36–42, Trial RT-001. Eliminates unconstrained oversight vetos, correlated clone consensus, and unchecked executive centralization. |
-| D-135 | <strong>Emergency Mainline Execution Authority, Scope Firewall &amp; <code>EmergencyMergeWarrant</code> Protocol (Rule 43).</strong> Ratified under <code>CC-BILL-V8.3-D135</code> by unanimous 5-0 Central Committee vote with Red-Team adversarial amendments. Authorizes Kaizen to declare <code>EMERGENCY_EXECUTION_STATE</code> strictly under operational crises (P0 breach, PIT leakage, cashflow corruption, pipeline failure) and issue time-bounded, single-use <code>EmergencyMergeWarrant</code> records. Enforces zero bare pushes (<code>git push origin main</code> prohibited), mandatory Pre-Push Minimal Gates, Two-Stage Hotfixes with <code>PROVISIONAL_HEAD</code> quarantine, deterministic <code>AUTO_ROLLBACK</code>, atomic break-glass token revocation (<code>warrant.consume()</code>), Execution Commissioner semantic veto, and an absolute ban on economic/hyperparameter tuning during hotfixes. | LOCKED_INVARIANT | <code>CC-BILL-V8.3-D135</code>, V8 Constitution Rule 43; <code>v8-core/src/judiciary/emergency.rs</code>. Reconciles critical hotfix execution speed with unbreakable cryptographic provenance and scope boundaries. |</p>
+| D-135 | <strong>Emergency Mainline Execution Authority, Scope Firewall &amp; <code>EmergencyMergeWarrant</code> Protocol (Rule 43).</strong> Ratified under <code>CC-BILL-V8.3-D135</code> by unanimous 5-0 Central Committee vote with Red-Team adversarial amendments. Authorizes Kaizen to declare <code>EMERGENCY_EXECUTION_STATE</code> strictly under operational crises (P0 breach, PIT leakage, cashflow corruption, pipeline failure) and issue time-bounded, single-use <code>EmergencyMergeWarrant</code> records. Enforces zero bare pushes (<code>git push origin main</code> prohibited), mandatory Pre-Push Minimal Gates, Two-Stage Hotfixes with <code>PROVISIONAL_HEAD</code> quarantine, deterministic <code>AUTO_ROLLBACK</code>, atomic break-glass token revocation (<code>warrant.consume()</code>), Execution Commissioner semantic veto, and an absolute ban on economic/hyperparameter tuning during hotfixes. | LOCKED_INVARIANT | <code>CC-BILL-V8.3-D135</code>, V8 Constitution Rule 43; <code>v8-core/src/judiciary/emergency.rs</code>. Reconciles critical hotfix execution speed with unbreakable cryptographic provenance and scope boundaries. |
+| D-136 | <strong>Central Committee Rectification, Legacy Quarantine &amp; Breakeven Challenger Mandate.</strong> Ratified under Central Committee Rectification Session (2026-08-22). (1) Suspends speculative economic plan creation; institutes strict "Engineer First, Persona Second" mandate confining commissioners exclusively to <code>AUDIT</code>, <code>FALSIFY</code>, <code>IDENTIFY CONTRADICTION</code>, and <code>PROPOSE TEST</code>. (2) Quarantines frozen V8.2 diagnostics and code into <code>legacy/v82/</code> with <code>[NON_CANONICAL / FORENSIC_ONLY]</code> seals and Agent Discovery Guards. (3) Codifies the single-variable <code>CashflowLedger</code> micro-surgical experimentation protocol, testing Breakeven Ratchet challengers (A1: <code>+0.5R</code>, A2: <code>+0.75R</code>, A3: <code>+1.0R</code>) against A0 Baseline in <code>v8-core/src/kaizen/exit_trailing.rs</code> and <code>usdm_sim.rs</code>. Empirical 12M audit confirms A1 (+0.5R BE) reduces loss by +$12.82 (+22.4%) and lifts win rate from 31.9% to 42.2% with only +$0.65 friction. | LOCKED_INVARIANT | <code>docs/governance/COMMITTEE_MEMORY_LEDGER.jsonl</code> records MEM-20260822-013..017; <code>v8-core/src/kaizen/exit_trailing.rs</code>, <code>v8-core/src/usdm_sim.rs</code>. |
+| D-137 | <strong>Retirement of Deprecated V8.2 Executable Tooling.</strong> The quarantined V8.2 Python execution, diagnostic, regret, tape-building, and research-tool copies are removed from both <code>tools/</code> and <code>legacy/v82/</code>; the obsolete Rust oracle-coverage modules whose baseline-only constructors hard-coded the same <code>$992</code> profile are removed as well. The deprecated profile cannot be recreated through the active workspace. Forensic receipts, reports, and the quarantine README remain available as non-canonical historical evidence. The V8.3 Rust Opportunity Runloop and its challenger execution path are unchanged. | PROVISIONAL_DECISION | User-directed removal; <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>, <code>v8-core/src/oracle/coverage.rs</code>, <code>v8-core/src/oracle/mod.rs</code>, <code>v8-core/src/oracle/recoverability.rs</code>, <code>v8-core/src/scheduler.rs</code>, <code>v8-core/src/scheduler/rename_audit.rs</code>; V8.3 Rust verification gates remain authoritative. |</p>
 <p>Status vocabulary is intentional: <code>LOCKED_INVARIANT</code> constrains validity;
 <code>PROVISIONAL_DECISION</code> is reversible; <code>REJECTED_OPTION</code> means excluded from the
 named baseline, not disproven forever. None means profitability.</p></section>
@@ -11363,6 +11326,27 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-22-removal-of-retired-v82-executable-tooling-d-137">2026-08-22 — Removal of retired V8.2 executable tooling (D-137)</h2>
+<p>Removed the legacy V8.2 Python execution, diagnostic, regret, tape-building,
+and research-tool copies that could recreate the deprecated <code>$992</code> profile,
+plus the Rust oracle-coverage modules whose baseline-only constructors
+hard-coded that profile into the bundle.
+The frozen forensic receipt/report artifacts and <code>legacy/v82/README.md</code> remain;
+no V8.3 Rust runtime path was changed.</p>
+<p>Artifacts changed: retired files under <code>tools/</code>, <code>legacy/v82/code/</code>, and
+<code>legacy/v82/diagnostics/</code>; <code>docs/decisions/DECISION_REGISTER.md</code>,
+<code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>,
+<code>v8-core/src/oracle/coverage.rs</code>, <code>v8-core/src/oracle/mod.rs</code>,
+<code>v8-core/src/oracle/recoverability.rs</code>, <code>v8-core/src/scheduler.rs</code>, and
+<code>v8-core/src/scheduler/rename_audit.rs</code>.</p>
+<h2 id="2026-08-22-ratification-implementation-of-d-136-central-committee-rectification-legacy-quarantine-breakeven-challenger-mandate">2026-08-22 — Ratification &amp; Implementation of D-136: Central Committee Rectification, Legacy Quarantine &amp; Breakeven Challenger Mandate</h2>
+<p>Unanimously ratified by the V8 Central Committee (5-0):
+- <strong>Central Committee Rectification &amp; Suspension:</strong> Suspended speculative economic plan creation; codified strict "Engineer First, Persona Second" mandate restricting commissioners to <code>AUDIT</code>, <code>FALSIFY</code>, <code>IDENTIFY CONTRADICTION</code>, and <code>PROPOSE TEST</code>.
+- <strong>Legacy Quarantine:</strong> Organized historical V8.0–V8.2 code, diagnostics, and reports into <code>legacy/v82/</code> with <code>[NON_CANONICAL / FORENSIC_ONLY]</code> seals and Agent Discovery Guards.
+- <strong>Single-Variable Breakeven Challenger (A1..A3 vs A0):</strong> Codified and implemented Breakeven Ratchet challenger arms (<code>ChandelierATRWithBE05R</code>, <code>BE075R</code>, <code>BE10R</code>) in <code>v8-core/src/kaizen/exit_trailing.rs</code> and <code>usdm_sim.rs</code>.
+- <strong>Empirical 12M Tape Results:</strong> Evaluated 12-month BTCUSDT tape; verified that A1 (+0.5R BE) reduces loss by +$12.82 (+22.4%) from -$57.20 to -$44.38, lifts win rate from 31.9% to 42.2%, and reduces max drawdown from 12.59% to 11.64% with only +$0.65 fee friction.
+- <strong>Memory Ledger Updated:</strong> Appended learning records MEM-20260822-013..017 to <code>COMMITTEE_MEMORY_LEDGER.jsonl</code>.</p>
+<p>Artifacts changed: <code>v8-core/src/kaizen/exit_trailing.rs</code>, <code>v8-core/src/usdm_sim.rs</code>, <code>v8-core/src/main.rs</code>, <code>legacy/v82/*</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/governance/COMMITTEE_MEMORY_LEDGER.jsonl</code>, <code>tools/sync_committee_memory.py</code>, <code>docs/CHANGELOG.md</code>.</p>
 <h2 id="2026-08-22-ratification-implementation-of-d-135-emergency-mainline-execution-authority-scope-firewall-cc-bill-v83-d135-rule-43">2026-08-22 — Ratification &amp; Implementation of D-135: Emergency Mainline Execution Authority &amp; Scope Firewall (CC-BILL-V8.3-D135, Rule 43)</h2>
 <p>Unanimously ratified by the V8 Central Committee (5-0) with Red-Team adversarial amendments and implemented in Rust:
 - <strong>EmergencyMergeWarrant Protocol (Rule 43):</strong> Authorizes Kaizen to declare <code>EMERGENCY_EXECUTION_STATE</code> strictly for operational crises (P0 breach, PIT leakage, ledger corruption, pipeline failure) and issue time-bounded, single-use <code>EmergencyMergeWarrant</code> records.

@@ -7553,39 +7553,12 @@ tools/
   build_monograph.py            docs corpus -&gt; site/index.html, site/tr.html
   data.py                       Binance archive -&gt; verified canonical dataset
                                 (download + SHA-256 + Parquet + DuckDB audit)
-  vision_backfill.py            Vision monthly klines -&gt; JSONL PIT tape + audit
-  build_multi_tape.py           multi-symbol dev tape assembly
-  monitor_tape.py               tape integrity monitoring
-  materialize_views.py          DATASET_SPEC §5 parquet views (DuckDB,
-                                pinned manifest, fail-closed hashes)
-  run_experiment.py             preregistration runner (v8_slice_001)
-  diagnostics.py                consolidated report centre (single report file;
-                                diagnostic.py / diagnostic_report.py /
-                                multi_diagnostic.py / forensics.py are shims);
-                                S7 port target (D-091) — report/audit artifacts
-                                move to report.rs, this file is retired
-  diagnose_experts_dev.py       dev-window expert diagnosis
-  run_fib_rsi_bb_confluence.py  D-076 dev-window experiment runner
-  equity_analysis.py            external-instrument analysis (research only)
-  regret.py                     evaluator Phase 0: snapshots, reconciliation,
-                                LegalActionManifest, Outcome Cube, gap (D-071);
-                                Phase-0 reduction ported as regret.rs (S3),
-                                reconciliation stays as S6 parity reference
-  regret_reference.py           independent reference walk (parity oracle)
-  regret_phase1.py              Candidate-local opportunity accounting (D-072);
-                                S6 port target (D-091) — moves to analysis.rs
-  regret_phase2.py              systematicity discovery (D-072);
-                                S6 port target (D-091) — moves to analysis.rs
-  regret_phase3.py              recoverability evaluation (D-073);
-                                S6 port target (D-091) — moves to analysis.rs
   artifact_status.py            artifact freshness reporting
   download_v8_reading_list.py   research manifest downloader
   index_handbook_pdf.py, extract_handbook_sections.py,
   extract_handbook_endmatter.py, build_handbook_review.py,
   build_full_handbook_review.py, render_visual_previews.py
                                 research-corpus tooling (no decision path)
-  _perf_probe.py                scratch profiling harness (not shipped tooling;
-                                PERFORMANCE_AUDIT_V82)
 tests/
   test_vertical_slice.py        pipeline contract tests (pytest)
   test_state_cache_identity.py  cached vs uncached MarketState, every bar
@@ -7850,18 +7823,6 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td>Binance archive -&gt; verified canonical dataset (download + SHA-256 + Parquet + DuckDB audit)</td>
 <td>CLI <code>build/verify/audit/load</code></td>
 <td>FEED_INGESTION_SPEC §5; DATASET_SPEC §1</td>
-</tr>
-<tr>
-<td><code>tools/vision_backfill.py</code></td>
-<td>Vision monthly klines -&gt; JSONL PIT tape (three clocks) + audit</td>
-<td>CLI <code>--symbol --interval --month --out [--audit]</code></td>
-<td>FEED_INGESTION_SPEC §4-5</td>
-</tr>
-<tr>
-<td><code>tools/materialize_views.py</code></td>
-<td>DATASET_SPEC §5 parquet views from a pinned manifest; fails closed on hash mismatch</td>
-<td>CLI <code>--manifest --store</code></td>
-<td>DATASET_SPEC §5; compile-once (rule 17)</td>
 </tr>
 <tr>
 <td><code>tests/test_vertical_slice.py</code></td>
@@ -8142,7 +8103,9 @@ historical design record and this table is the correction layer.</p>
 | D-132 | <strong>Merkezi Kanıt Egemenliği, Egemen Kaizen ve İddia Yetkilendirme Yasası (Kural 28–35).</strong> <code>CC-BILL-V8.3-AUTHORITY-003</code> ve <code>CC-AMEND-V8.3-KAIZEN-004</code> ile onaylandı. 1 Boyutlu yetkiyi 3 Boyutlu Otorite Tensörü (<code>EvidenceAuthority</code>, <code>DecisionAuthority</code>, <code>RealizationStatus</code>) ile değiştir. Modül sınırlarında <code>ClaimValue&lt;T&gt;</code> ile <code>Çıplak İddia Yasağını</code> uygula. Merkezi <code>ClaimRegistry</code> ve Renderer Firewall ile desteklenen 6 kanuni iddia sınıfından (<code>DIAGNOSTIC_SIGNAL</code>, <code>COUNTERFACTUAL_POTENTIAL</code>, <code>RECOVERABLE_REGRET</code>, <code>SIMULATED_CASHFLOW</code>, <code>REALIZED_CASHFLOW</code>, <code>SUPPORTED_EDGE</code>) oluşan kapalı cebiri yasalaştır. CI sabotaj test takımı ile muhalif denetim doktrinini ($\mathbf{IMPLEMENTER \neq AUDITOR \neq VERDICT}$, <code>FALSIFY CLAIM</code>) kur. <code>KaizenController</code>'ı tek egemen araştırma ve hüküm otoritesi yap, USD-M motorunu pasif <code>ExecutionBackend</code> laboratuvar cihazı statüsüne indir ve <code>FORBIDDEN_LEGACY_IMPORT</code> denetimli <code>v8-core/src/audit/</code> anayasal çekirdeğini tesis et. | KİLİTLİ_DEĞİŞMEZ | V8 Anayasası Kural 28–35; CC-BILL-V8.3-AUTHORITY-003, CC-AMEND-V8.3-KAIZEN-004. Gölge otoriteleri, kendi kendini onaylamayı ve metrik aldatmacasını ortadan kaldırır. |
 | D-133 | <strong>Kanıt Devleti Olağanüstü Hotfix Yetkisi ve Anayasal Geçiş İcrası (<code>CC-EMERGENCY-DECREE-005</code>).</strong> 6 aşamalı birleşik anayasal hotfix'i (<code>[AUTH]</code>, <code>[CLAIMS]</code>, <code>[AUDIT]</code>, <code>[KAIZEN]</code>, <code>[EXECUTION]</code>, <code>[LEGACY]</code>) sıfır bürokrasi ve sıfır ekonomik optimizasyon şartıyla icra etmek üzere Merkez Komite olağanüstü yetkisiyle yürürlüğe kondu. <code>v8-pre-sovereign-hotfix</code> adli git etiketi oluşturuldu, 3D <code>Authority</code>, <code>ClaimValue&lt;T&gt;</code>, <code>ReconciliationReceipt</code>, <code>ClaimRegistry</code>, <code>RendererFirewall</code>, 8 sabotaj testli <code>v8-core/src/audit/</code>, <code>KaizenVerdictEngine</code>, <code>ExecutionBackend</code> ve <code>tools/audit_reachability.py</code> uygulandı. Geçişin eksiksiz doğrulanmasıyla olağanüstü yetki otomatik olarak sona erdi. | KİLİTLİ_DEĞİŞMEZ | CC-EMERGENCY-DECREE-005, D-132, Kural 28–35. Anayasal güvenlik açıklarını tam test ve makbuz doğrulamasıyla kapattı. |
 | D-134 | <strong>V8 Yargısal Denetim, İcra Gözetimi ve Ajan Sorumluluğu Yasası (Kural 36–42).</strong> Yüksek Divan <code>RT-001</code> davası sonrasında <code>CC-BILL-V8.3-JUDICIARY-005-REV2</code> ile onaylandı. Dört Düzlemli Kuvvetler Ayrılığını ($\text{Anayasa} \to \text{Yargı} \to \text{Kaizen} \to \text{İcracı} \to \text{Defter}$) kurumsallaştırır ve bağımsız İcra Teftiş Heyetini (izleme/meydan okuma/bloklama yetkili; kod yazma/merge/başarı ilan etme hakları sıfır olan Usul ve Teknik Komiserler) kurar. A1 Düzeltmesini (CoT tecritli Kör Denetçi Protokolü), A2 Düzeltmesini (panic-testi/makbuz ispatı şartı ve 1 turluk hızlı temyiz ile <code>Gerekçesiz Veto Yasağı</code>), A3 Düzeltmesini (Token Bütçeli Tier 0–2 Kademeli Seferberlik), A4 Düzeltmesini (Kriptografik Anayasa Sürüm Kilidi ve Kaizen'in Kendi Kendini Denetleme Yasağı) ve muhalif şerhleri koruyan Zorunlu 6 Bölümlük Red-Team Saldırı Tüzüğünü anayasaya işler. | KİLİTLİ_DEĞİŞMEZ | CC-BILL-V8.3-JUDICIARY-005-REV2, V8 Anayasası Kurallar 36–42, RT-001 Yargılaması. Sınırsız teftiş vetolarını, korele klon mutabakatını ve kontrolsüz yürütme merkezileşmesini ortadan kaldırır. |
-| D-135 | <strong>Olağanüstü Mainline İcra Yetkisi, Kapsam Güvenlik Duvarı ve <code>EmergencyMergeWarrant</code> Protokolü (Kural 43).</strong> Merkez Komite'nin Red-Team muhalif düzeltmeleriyle birlikte 5-0 oybirliği ile <code>CC-BILL-V8.3-D135</code> altında onaylandı. Kaizen'e operasyonel kriz hallerinde (P0 ihlal, PIT sızıntısı, defter bozulması, pipeline felci) <code>EMERGENCY_EXECUTION_STATE</code> ilan etme ve makine onaylı, süreli, tek kullanımlık <code>EmergencyMergeWarrant</code> düzenleme yetkisi verir. Çıplak push yasağını (<code>git push origin main</code> yasaktır), Pre-Push Asgari Kapılarını, <code>PROVISIONAL_HEAD</code> karantinalı İki Aşamalı Hotfix'i, deterministik <code>AUTO_ROLLBACK</code>'i, atomik break-glass yetki düşürmeyi (<code>warrant.consume()</code>), İcra Komiseri semantik vetosunu ve hotfix sırasında hiperparametre/ekonomik tuning kesin yasağını anayasaya bağlar. | KİLİTLİ_DEĞİŞMEZ | <code>CC-BILL-V8.3-D135</code>, V8 Anayasası Kural 43; <code>v8-core/src/judiciary/emergency.rs</code>. Kritik hotfix icra hızını kriptografik köken ve katı kapsam sınırlarıyla uzlaştırır. |</p>
+| D-135 | <strong>Olağanüstü Mainline İcra Yetkisi, Kapsam Güvenlik Duvarı ve <code>EmergencyMergeWarrant</code> Protokolü (Kural 43).</strong> Merkez Komite'nin Red-Team muhalif düzeltmeleriyle birlikte 5-0 oybirliği ile <code>CC-BILL-V8.3-D135</code> altında onaylandı. Kaizen'e operasyonel kriz hallerinde (P0 ihlal, PIT sızıntısı, defter bozulması, pipeline felci) <code>EMERGENCY_EXECUTION_STATE</code> ilan etme ve makine onaylı, süreli, tek kullanımlık <code>EmergencyMergeWarrant</code> düzenleme yetkisi verir. Çıplak push yasağını (<code>git push origin main</code> yasaktır), Pre-Push Asgari Kapılarını, <code>PROVISIONAL_HEAD</code> karantinalı İki Aşamalı Hotfix'i, deterministik <code>AUTO_ROLLBACK</code>'i, atomik break-glass yetki düşürmeyi (<code>warrant.consume()</code>), İcra Komiseri semantik vetosunu ve hotfix sırasında hiperparametre/ekonomik tuning kesin yasağını anayasaya bağlar. | KİLİTLİ_DEĞİŞMEZ | <code>CC-BILL-V8.3-D135</code>, V8 Anayasası Kural 43; <code>v8-core/src/judiciary/emergency.rs</code>. Kritik hotfix icra hızını kriptografik köken ve katı kapsam sınırlarıyla uzlaştırır. |
+| D-136 | <strong>Merkez Komite Düzeltmesi (Rectification), Miras Karantinası ve Breakeven Meydan Okuma Mandası.</strong> Merkez Komite Düzeltme Oturumu (2026-08-22) ile onaylandı. (1) Afakî ekonomik plan üretimini askıya alır; komiserleri münhasıran <code>AUDIT</code>, <code>FALSIFY</code>, <code>IDENTIFY CONTRADICTION</code> ve <code>PROPOSE TEST</code> görevlerine bağlayan 'Önce Mühendis, Sonra Persona' kuralını getirir. (2) Donmuş V8.2 tanı ve araçlarını <code>[NON_CANONICAL / FORENSIC_ONLY]</code> mühürleri ve Ajan Keşif Kalkanlarıyla <code>legacy/v82/</code> altına karantinaya alır. (3) Tek değişkenli <code>CashflowLedger</code> mikro-cerrahi deney protokolünü yasalaştırır; Breakeven Ratchet varyantlarını (A1: <code>+0.5R</code>, A2: <code>+0.75R</code>, A3: <code>+1.0R</code>) <code>v8-core/src/kaizen/exit_trailing.rs</code> ve <code>usdm_sim.rs</code> üzerinde A0 Baseline ile karşılaştırır. 12 aylık tape denetimi A1'in (+0.5R BE) zararı +$12.82 (+%22.4) azalttığını ve kazanma oranını %31.9'dan %42.2'ye çıkardığını somut makbuzla kanıtlamıştır. | KİLİTLİ_DEĞİŞMEZ | <code>docs/governance/COMMITTEE_MEMORY_LEDGER.jsonl</code> MEM-20260822-013..017; <code>v8-core/src/kaizen/exit_trailing.rs</code>, <code>v8-core/src/usdm_sim.rs</code>. |</p>
+<p>| D-137 | <strong>Eski V8.2 Çalıştırılabilir Araçlarının Emekliye Ayrılması.</strong> Karantinadaki V8.2 Python çalıştırma, tanı, regret, tape oluşturma ve araştırma aracı kopyaları hem <code>tools/</code> hem de <code>legacy/v82/</code> altından kaldırıldı; aynı <code>$992</code> profilini sabitleyen eski Rust oracle-coverage modülleri de kaldırıldı. Böylece emekli profil aktif çalışma alanından yeniden üretilemez. Adli receipt/raporlar ve karantina README'si kanonik olmayan tarihsel kanıt olarak korunur. V8.3 Rust Opportunity Runloop ve challenger yürütme yolu değişmeden kalır. | GERİ ALINABİLİR_KARAR | Kullanıcı talimatı; <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>, <code>v8-core/src/oracle/coverage.rs</code>, <code>v8-core/src/oracle/mod.rs</code>, <code>v8-core/src/oracle/recoverability.rs</code>, <code>v8-core/src/scheduler.rs</code>, <code>v8-core/src/scheduler/rename_audit.rs</code>; V8.3 Rust doğrulama kapıları otoritatiftir. |</p>
 <p>Durum sözlüğü kasıtlıdır: <code>LOCKED_INVARIANT</code> geçerliliği sınırlar;
 <code>PROVISIONAL_DECISION</code> geri alınabilir; <code>REJECTED_OPTION</code> adı geçen taban
 çizgiden hariç tutulmuştur, sonsuza dek çürütülmüş değildir. Hiçbiri kârlılık
@@ -11003,6 +10966,27 @@ değişkenine, arama ailesine, simülatör seviyesine ve portföy kararına bağ
 Bundan daha geniş olan her şey bir V8 olgusu değil, bir deney önerisidir.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-22-removal-of-retired-v82-executable-tooling-d-137">2026-08-22 — Removal of retired V8.2 executable tooling (D-137)</h2>
+<p>Removed the legacy V8.2 Python execution, diagnostic, regret, tape-building,
+and research-tool copies that could recreate the deprecated <code>$992</code> profile,
+plus the Rust oracle-coverage modules whose baseline-only constructors
+hard-coded that profile into the bundle.
+The frozen forensic receipt/report artifacts and <code>legacy/v82/README.md</code> remain;
+no V8.3 Rust runtime path was changed.</p>
+<p>Artifacts changed: retired files under <code>tools/</code>, <code>legacy/v82/code/</code>, and
+<code>legacy/v82/diagnostics/</code>; <code>docs/decisions/DECISION_REGISTER.md</code>,
+<code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>,
+<code>v8-core/src/oracle/coverage.rs</code>, <code>v8-core/src/oracle/mod.rs</code>,
+<code>v8-core/src/oracle/recoverability.rs</code>, <code>v8-core/src/scheduler.rs</code>, and
+<code>v8-core/src/scheduler/rename_audit.rs</code>.</p>
+<h2 id="2026-08-22-ratification-implementation-of-d-136-central-committee-rectification-legacy-quarantine-breakeven-challenger-mandate">2026-08-22 — Ratification &amp; Implementation of D-136: Central Committee Rectification, Legacy Quarantine &amp; Breakeven Challenger Mandate</h2>
+<p>Unanimously ratified by the V8 Central Committee (5-0):
+- <strong>Central Committee Rectification &amp; Suspension:</strong> Suspended speculative economic plan creation; codified strict "Engineer First, Persona Second" mandate restricting commissioners to <code>AUDIT</code>, <code>FALSIFY</code>, <code>IDENTIFY CONTRADICTION</code>, and <code>PROPOSE TEST</code>.
+- <strong>Legacy Quarantine:</strong> Organized historical V8.0–V8.2 code, diagnostics, and reports into <code>legacy/v82/</code> with <code>[NON_CANONICAL / FORENSIC_ONLY]</code> seals and Agent Discovery Guards.
+- <strong>Single-Variable Breakeven Challenger (A1..A3 vs A0):</strong> Codified and implemented Breakeven Ratchet challenger arms (<code>ChandelierATRWithBE05R</code>, <code>BE075R</code>, <code>BE10R</code>) in <code>v8-core/src/kaizen/exit_trailing.rs</code> and <code>usdm_sim.rs</code>.
+- <strong>Empirical 12M Tape Results:</strong> Evaluated 12-month BTCUSDT tape; verified that A1 (+0.5R BE) reduces loss by +$12.82 (+22.4%) from -$57.20 to -$44.38, lifts win rate from 31.9% to 42.2%, and reduces max drawdown from 12.59% to 11.64% with only +$0.65 fee friction.
+- <strong>Memory Ledger Updated:</strong> Appended learning records MEM-20260822-013..017 to <code>COMMITTEE_MEMORY_LEDGER.jsonl</code>.</p>
+<p>Artifacts changed: <code>v8-core/src/kaizen/exit_trailing.rs</code>, <code>v8-core/src/usdm_sim.rs</code>, <code>v8-core/src/main.rs</code>, <code>legacy/v82/*</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/governance/COMMITTEE_MEMORY_LEDGER.jsonl</code>, <code>tools/sync_committee_memory.py</code>, <code>docs/CHANGELOG.md</code>.</p>
 <h2 id="2026-08-22-ratification-implementation-of-d-135-emergency-mainline-execution-authority-scope-firewall-cc-bill-v83-d135-rule-43">2026-08-22 — Ratification &amp; Implementation of D-135: Emergency Mainline Execution Authority &amp; Scope Firewall (CC-BILL-V8.3-D135, Rule 43)</h2>
 <p>Unanimously ratified by the V8 Central Committee (5-0) with Red-Team adversarial amendments and implemented in Rust:
 - <strong>EmergencyMergeWarrant Protocol (Rule 43):</strong> Authorizes Kaizen to declare <code>EMERGENCY_EXECUTION_STATE</code> strictly for operational crises (P0 breach, PIT leakage, ledger corruption, pipeline failure) and issue time-bounded, single-use <code>EmergencyMergeWarrant</code> records.

@@ -12,6 +12,9 @@ pub enum ExitArm {
     ChandelierATR,
     EMA4hTrail,
     HybridTrail,
+    ChandelierATRWithBE05R,  // Challenger A1: +0.5R BE trigger
+    ChandelierATRWithBE075R, // Challenger A2: +0.75R BE trigger
+    ChandelierATRWithBE10R,  // Challenger A3: +1.0R BE trigger
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -217,6 +220,87 @@ impl DynamicTrailingEngine {
                     }
                 }
             }
+            ExitArm::ChandelierATRWithBE05R => {
+                let be_trigger = 0.5;
+                let fee_offset_r = 0.07;
+                if is_long {
+                    if mfe_r >= be_trigger {
+                        let be_level = state.entry_price + (fee_offset_r * state.initial_risk_dist);
+                        if be_level > state.current_stop {
+                            state.current_stop = be_level;
+                        }
+                    }
+                    let chandelier = state.highest_high - (state.chandelier_multiplier * atr);
+                    if chandelier > state.current_stop {
+                        state.current_stop = chandelier;
+                    }
+                } else {
+                    if mfe_r >= be_trigger {
+                        let be_level = state.entry_price - (fee_offset_r * state.initial_risk_dist);
+                        if be_level < state.current_stop || state.current_stop <= 0.0 {
+                            state.current_stop = be_level;
+                        }
+                    }
+                    let chandelier = state.lowest_low + (state.chandelier_multiplier * atr);
+                    if (chandelier < state.current_stop || state.current_stop <= 0.0) && chandelier > 0.0 {
+                        state.current_stop = chandelier;
+                    }
+                }
+            }
+            ExitArm::ChandelierATRWithBE075R => {
+                let be_trigger = 0.75;
+                let fee_offset_r = 0.07;
+                if is_long {
+                    if mfe_r >= be_trigger {
+                        let be_level = state.entry_price + (fee_offset_r * state.initial_risk_dist);
+                        if be_level > state.current_stop {
+                            state.current_stop = be_level;
+                        }
+                    }
+                    let chandelier = state.highest_high - (state.chandelier_multiplier * atr);
+                    if chandelier > state.current_stop {
+                        state.current_stop = chandelier;
+                    }
+                } else {
+                    if mfe_r >= be_trigger {
+                        let be_level = state.entry_price - (fee_offset_r * state.initial_risk_dist);
+                        if be_level < state.current_stop || state.current_stop <= 0.0 {
+                            state.current_stop = be_level;
+                        }
+                    }
+                    let chandelier = state.lowest_low + (state.chandelier_multiplier * atr);
+                    if (chandelier < state.current_stop || state.current_stop <= 0.0) && chandelier > 0.0 {
+                        state.current_stop = chandelier;
+                    }
+                }
+            }
+            ExitArm::ChandelierATRWithBE10R => {
+                let be_trigger = 1.0;
+                let fee_offset_r = 0.07;
+                if is_long {
+                    if mfe_r >= be_trigger {
+                        let be_level = state.entry_price + (fee_offset_r * state.initial_risk_dist);
+                        if be_level > state.current_stop {
+                            state.current_stop = be_level;
+                        }
+                    }
+                    let chandelier = state.highest_high - (state.chandelier_multiplier * atr);
+                    if chandelier > state.current_stop {
+                        state.current_stop = chandelier;
+                    }
+                } else {
+                    if mfe_r >= be_trigger {
+                        let be_level = state.entry_price - (fee_offset_r * state.initial_risk_dist);
+                        if be_level < state.current_stop || state.current_stop <= 0.0 {
+                            state.current_stop = be_level;
+                        }
+                    }
+                    let chandelier = state.lowest_low + (state.chandelier_multiplier * atr);
+                    if (chandelier < state.current_stop || state.current_stop <= 0.0) && chandelier > 0.0 {
+                        state.current_stop = chandelier;
+                    }
+                }
+            }
             _ => {}
         }
 
@@ -258,5 +342,107 @@ mod tests {
         assert_eq!(res.exit_price, 64000.0);
         assert_eq!(res.realized_r, 9.0); // 73000 - 64000 = 9000 / 1000 = 9.0R
         assert!(res.tail_capture_efficiency >= 0.85);
+    }
+
+    #[test]
+    fn test_breakeven_challenger_saves_loss_on_failed_continuation() {
+        // Scenario 1: Long entry at 100, Stop at 90 (risk dist = 10).
+        // Bar 0: High 106, Low 99, Close 105, ATR 8.0 (MFE = +0.6R >= 0.5R trigger).
+        // A0 Chandelier = 106 - (2.5 * 8.0) = 86.0 < 90.0 (stop stays 90.0).
+        // A1 BE05R moves stop to 100.0 + 0.7 = 100.7.
+        // Bar 1: Low 95.0. A1 exits at 100.7 (+0.07R). A0 stays in position.
+        // Bar 2: Low 88.0. A0 exits at 90.0 (-1.0R).
+
+        let bars = [
+            (106.0, 99.0, 105.0, 8.0), // Bar 0: MFE = +0.6R
+            (104.0, 95.0, 96.0, 8.0),  // Bar 1: pulls back below entry
+            (95.0, 88.0, 89.0, 8.0),   // Bar 2: crashes
+        ];
+
+        // Run A0
+        let mut state_a0 = DynamicTrailingEngine::new_state(ExitArm::ChandelierATR, "LONG", 100.0, 90.0, 2.5);
+        let mut exit_a0 = None;
+        for (i, &(h, l, c, atr)) in bars.iter().enumerate() {
+            if let Some(res) = DynamicTrailingEngine::step_bar(&mut state_a0, i, h, l, c, atr, None) {
+                exit_a0 = Some(res);
+                break;
+            }
+        }
+
+        // Run A1
+        let mut state_a1 = DynamicTrailingEngine::new_state(ExitArm::ChandelierATRWithBE05R, "LONG", 100.0, 90.0, 2.5);
+        let mut exit_a1 = None;
+        for (i, &(h, l, c, atr)) in bars.iter().enumerate() {
+            if let Some(res) = DynamicTrailingEngine::step_bar(&mut state_a1, i, h, l, c, atr, None) {
+                exit_a1 = Some(res);
+                break;
+            }
+        }
+
+        assert!(exit_a0.is_some());
+        assert!(exit_a1.is_some());
+
+        let res_a0 = exit_a0.unwrap();
+        let res_a1 = exit_a1.unwrap();
+
+        // A0 exits at bar 2 at initial stop 90.0 (-1.0R)
+        assert_eq!(res_a0.exit_bar, 2);
+        assert_eq!(res_a0.exit_price, 90.0);
+        assert_eq!(res_a0.realized_r, -1.0);
+
+        // A1 exits at bar 1 at BE stop 100.7 (+0.07R)
+        assert_eq!(res_a1.exit_bar, 1);
+        assert_eq!(res_a1.exit_price, 100.7);
+        assert!((res_a1.realized_r - 0.07).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_breakeven_challenger_premature_kill_tradeoff() {
+        // Scenario 2: Long entry at 100, Stop at 90 (risk dist = 10).
+        // Bar 0: High 106, Low 99, Close 105, ATR 3.0 (MFE = +0.6R >= 0.5R trigger).
+        // A0 Chandelier = 106 - (2.5 * 3.0) = 98.5 (stop moves to 98.5).
+        // A1 BE05R moves stop to 100.7.
+        // Bar 1: High 104, Low 100.0, Close 103. A1 stopped out at 100.7 (+0.07R). A0 stays in position (low 100.0 > 98.5).
+        // Bar 2: Mega breakout to High 150 (Chandelier moves to 150 - 7.5 = 142.5).
+        // Bar 3: High 145, Low 140, Close 141. A0 exits at 142.5 (+4.25R).
+
+        let bars = [
+            (106.0, 99.0, 105.0, 3.0),  // Bar 0: MFE = +0.6R
+            (104.0, 100.0, 103.0, 3.0), // Bar 1: minor retrace (hits A1 stop 100.7, stays above A0 stop 98.5)
+            (150.0, 103.0, 148.0, 3.0), // Bar 2: mega move to 150
+            (145.0, 140.0, 141.0, 3.0), // Bar 3: trailing exit
+        ];
+
+        // Run A0
+        let mut state_a0 = DynamicTrailingEngine::new_state(ExitArm::ChandelierATR, "LONG", 100.0, 90.0, 2.5);
+        let mut exit_a0 = None;
+        for (i, &(h, l, c, atr)) in bars.iter().enumerate() {
+            if let Some(res) = DynamicTrailingEngine::step_bar(&mut state_a0, i, h, l, c, atr, None) {
+                exit_a0 = Some(res);
+                break;
+            }
+        }
+
+        // Run A1
+        let mut state_a1 = DynamicTrailingEngine::new_state(ExitArm::ChandelierATRWithBE05R, "LONG", 100.0, 90.0, 2.5);
+        let mut exit_a1 = None;
+        for (i, &(h, l, c, atr)) in bars.iter().enumerate() {
+            if let Some(res) = DynamicTrailingEngine::step_bar(&mut state_a1, i, h, l, c, atr, None) {
+                exit_a1 = Some(res);
+                break;
+            }
+        }
+
+        let res_a0 = exit_a0.unwrap();
+        let res_a1 = exit_a1.unwrap();
+
+        // A1 got prematurely choked at Bar 1
+        assert_eq!(res_a1.exit_bar, 1);
+        assert!((res_a1.realized_r - 0.07).abs() < 1e-6);
+
+        // A0 rode the trend and captured +4.25R (142.5 exit)
+        assert_eq!(res_a0.exit_bar, 3);
+        assert_eq!(res_a0.exit_price, 142.5);
+        assert!((res_a0.realized_r - 4.25).abs() < 1e-6);
     }
 }
