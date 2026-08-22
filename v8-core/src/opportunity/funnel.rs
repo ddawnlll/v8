@@ -763,3 +763,171 @@ footer {{
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::data::Dataset;
+    use crate::state::build_stores;
+    use std::collections::HashMap;
+
+    #[test]
+    fn test_h4_conflict_source_decomposition() {
+        let candidates = [
+            std::path::PathBuf::from("../research/tape/btcusdt-1h-12m/tape.jsonl"),
+            std::path::PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"),
+            std::path::PathBuf::from("c:/Users/dresden/Documents/v8/research/tape/btcusdt-1h-12m/tape.jsonl"),
+        ];
+        let tape_path = candidates.iter().find(|p| p.exists()).cloned().unwrap_or_default();
+        if !tape_path.exists() {
+            println!("Tape not found in candidates, current_dir={:?}", std::env::current_dir());
+            return;
+        }
+
+        let rows = crate::runloop::read_tape(&tape_path.to_path_buf()).unwrap_or_else(|_| Vec::new());
+        if rows.is_empty() {
+            return;
+        }
+        let ds = Dataset::from_rows(rows).unwrap();
+        let stores = build_stores(&ds);
+        let store = &stores[0];
+        let loop_engine = crate::opportunity::runloop::V83Runloop::default();
+
+        let n_bars = store.avail.len();
+        let symbol = &store.symbol;
+        let venue = "binance-um";
+
+        let mut contradictions_by_pair: HashMap<(String, String), usize> = HashMap::new();
+        let mut contradict_counts: HashMap<String, usize> = HashMap::new();
+        let mut support_counts: HashMap<String, usize> = HashMap::new();
+        let mut entropy_bins: [usize; 5] = [0; 5]; // [0..0.3, 0.3..0.5, 0.5..0.6, 0.6..0.693, 0.693+]
+        let mut total_stage3_evals = 0;
+        let mut total_stage3_drops = 0;
+
+        let projections: Vec<_> = loop_engine
+            .witnesses
+            .iter()
+            .map(|w| {
+                let closure = crate::features::group_closure(crate::experts::requires_for(&w.expert_id));
+                let allows_hist = crate::features::history_allowed(&closure);
+                (w, closure, allows_hist)
+            })
+            .collect();
+
+        for bar_idx in 32..n_bars {
+            let as_of = store.avail[bar_idx];
+            let t = bar_idx + 1;
+            let feats = crate::state::state_features(store, t, as_of, 32);
+            let hist = crate::state::history_bars(store, t, 32);
+            let empty_variants = HashMap::new();
+
+            for dir in [
+                crate::opportunity::exposure::ExposureDirection::Long,
+                crate::opportunity::exposure::ExposureDirection::Short,
+            ] {
+                let detected_episodes = loop_engine.grammar.scan_market_state(symbol, venue, store, bar_idx, &loop_engine.resolver).unwrap();
+                let matching_ep = detected_episodes.iter().find(|e| e.exposure.direction == dir);
+
+                if let Some(ep) = matching_ep {
+                    let mut evidences = Vec::with_capacity(loop_engine.witnesses.len());
+                    for (witness, (_, closure, allows_hist)) in loop_engine.witnesses.iter().zip(&projections) {
+                        let expert_hist = if *allows_hist { hist.clone() } else { Vec::new() };
+                        let fm = crate::experts::base::FeatMap {
+                            features: crate::experts::base::ProjectedFeatures::new(&feats, closure),
+                            history: expert_hist,
+                            as_of,
+                            symbol,
+                            variant_overrides: &empty_variants,
+                        };
+                        if let Ok(ev) = witness.observe(ep, &fm) {
+                            evidences.push(ev);
+                        }
+                    }
+
+                    let active_supports = evidences.iter().filter(|e| e.is_active_support()).count();
+                    if active_supports > 0 {
+                        total_stage3_evals += 1;
+                        if let Ok(rec) = crate::opportunity::reconcile::EvidenceReconciler::reconcile(ep, &evidences) {
+                            let ent = rec.contradiction_entropy;
+                            if ent < 0.3 {
+                                entropy_bins[0] += 1;
+                            } else if ent < 0.5 {
+                                entropy_bins[1] += 1;
+                            } else if ent < 0.6 {
+                                entropy_bins[2] += 1;
+                            } else if ent <= 0.69315 {
+                                entropy_bins[3] += 1;
+                            } else {
+                                entropy_bins[4] += 1;
+                            }
+
+                            if rec.aggregate_stance != crate::opportunity::reconcile::ReconciledStance::Supported {
+                                total_stage3_drops += 1;
+
+                                let mut supporters = Vec::new();
+                                let mut contradicters = Vec::new();
+
+                                for ev in &evidences {
+                                    if ev.is_active_support() {
+                                        *support_counts.entry(ev.observer_id.clone()).or_insert(0) += 1;
+                                        supporters.push(ev.observer_id.clone());
+                                    } else if matches!(ev.stance, crate::opportunity::evidence::ObserverStance::Contradict { .. }) {
+                                        *contradict_counts.entry(ev.observer_id.clone()).or_insert(0) += 1;
+                                        contradicters.push(ev.observer_id.clone());
+                                    }
+                                }
+
+                                for s in &supporters {
+                                    for c in &contradicters {
+                                        let pair = (s.clone(), c.clone());
+                                        *contradictions_by_pair.entry(pair).or_insert(0) += 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        let mut report_out = String::new();
+        report_out.push_str("=== H4 CONFLICT SOURCE DECOMPOSITION REPORT ===\n");
+        report_out.push_str(&format!("Total Stage 3 evaluations: {total_stage3_evals}\n"));
+        report_out.push_str(&format!("Total Stage 3 drops (Contradiction/Entropy): {total_stage3_drops}\n"));
+        report_out.push_str(&format!("Entropy distribution: [0..0.3): {}, [0.3..0.5): {}, [0.5..0.6): {}, [0.6..0.693]: {}, [0.693+]: {}\n\n",
+            entropy_bins[0], entropy_bins[1], entropy_bins[2], entropy_bins[3], entropy_bins[4]
+        ));
+
+        let mut top_contradicters: Vec<_> = contradict_counts.into_iter().collect();
+        top_contradicters.sort_by(|a, b| b.1.cmp(&a.1));
+        report_out.push_str("Top Contradicting Experts in Dropped Episodes:\n");
+        for (exp, count) in top_contradicters.iter().take(15) {
+            report_out.push_str(&format!("  - {exp}: {count} contradicts\n"));
+        }
+
+        let mut top_supporters: Vec<_> = support_counts.into_iter().collect();
+        top_supporters.sort_by(|a, b| b.1.cmp(&a.1));
+        report_out.push_str("\nTop Supporting Experts in Dropped Episodes:\n");
+        for (exp, count) in top_supporters.iter().take(15) {
+            report_out.push_str(&format!("  - {exp}: {count} supports\n"));
+        }
+
+        let mut top_pairs: Vec<_> = contradictions_by_pair.into_iter().collect();
+        top_pairs.sort_by(|a, b| b.1.cmp(&a.1));
+        report_out.push_str("\nTop Conflicting Expert Pairs (Supporter vs Contradicter):\n");
+        for ((s, c), count) in top_pairs.iter().take(20) {
+            report_out.push_str(&format!("  - Supporter: {:<30} vs Contradicter: {:<30} -> {} occurrences\n", s, c, count));
+        }
+        report_out.push_str("================================================\n");
+
+        let site_dir = if std::path::Path::new("site").exists() || std::path::Path::new("v8-core").exists() {
+            std::path::PathBuf::from("site")
+        } else {
+            std::path::PathBuf::from("../site")
+        };
+        let _ = std::fs::create_dir_all(&site_dir);
+        let _ = std::fs::write(site_dir.join("h4_decomposition.txt"), &report_out);
+        println!("{report_out}");
+    }
+}
+

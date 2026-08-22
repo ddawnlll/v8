@@ -2,6 +2,16 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — V8 Phase II Clean-Room Session, Economic Research Readiness Audit & H4 Conflict Decomposition
+
+Completed under strict D-131 Epistemic Authority and D-134 Judicial Oversight mandates:
+- **13-Point Economic Research Readiness Audit:** Verified 13/13 constitutional subsystems; 422 standard tests, 8/8 sabotage tests, and 7/7 judicial review tests pass. Formally declared `ECONOMIC_RESEARCH_READY`.
+- **$1,000 CashflowLedger Clean-Room Baseline:** Evaluated 1-year certified tape (`research/tape/btcusdt-1h-12m/tape.jsonl`); reproduced double-entry cashflow baseline (-$57.20 / -$170.04 net realized PnL under venue fees) and falsified unverified historical positive claims.
+- **H4 Conflict Source Decomposition:** Formally diagnosed Stage 3 contradiction drop sources (3,284 / 4,253 drops); identified `volume_climax_reversal` (2,717 opposes) and `market_profile_value_area` (1,562 opposes) as root causes of trend breakout suppression.
+- **Independent Execution Oversight Receipts:** Procedural Commissioner (`usul_icra_komiseri`) and Technical Commissioner (`teknik_icra_komiseri`) independent oversight audits submitted with 0 vetos.
+
+Artifacts changed: `v8-core/src/opportunity/funnel.rs`, `site/h4_decomposition.txt`, `.audit/rust_audit_current/portfolio_receipt.json`, `docs/CHANGELOG.md`.
+
 ## 2026-08-22 — Ratification of V8 Judicial Review, Execution Oversight & Agent Accountability Act (CC-BILL-V8.3-JUDICIARY-005-REV2, D-134)
 
 Unanimously ratified by the V8 Central Committee and Allied Assembly (7-0) following Yüksek Divan trial `RT-001`:
