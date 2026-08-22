@@ -17,6 +17,7 @@
 
 pub mod exposure;
 pub mod book;
+pub mod grammar;
 pub mod evidence;
 pub mod reconcile;
 pub mod utility;
@@ -27,6 +28,7 @@ pub use exposure::{
     InstrumentType, PayoffStructure, SymbolDescriptor,
 };
 pub use book::{IdentityStatus, OpportunityBook, OpportunityEpisode};
+pub use grammar::{GrammarArchetype, OpportunityGrammar};
 pub use evidence::{
     AbstentionReason, HabitatAssessment, ObserverEvidence, ObserverStance, WitnessScorecard,
 };
