@@ -51,39 +51,12 @@ tools/
   build_monograph.py            docs corpus -> site/index.html, site/tr.html
   data.py                       Binance archive -> verified canonical dataset
                                 (download + SHA-256 + Parquet + DuckDB audit)
-  vision_backfill.py            Vision monthly klines -> JSONL PIT tape + audit
-  build_multi_tape.py           multi-symbol dev tape assembly
-  monitor_tape.py               tape integrity monitoring
-  materialize_views.py          DATASET_SPEC §5 parquet views (DuckDB,
-                                pinned manifest, fail-closed hashes)
-  run_experiment.py             preregistration runner (v8_slice_001)
-  diagnostics.py                consolidated report centre (single report file;
-                                diagnostic.py / diagnostic_report.py /
-                                multi_diagnostic.py / forensics.py are shims);
-                                S7 port target (D-091) — report/audit artifacts
-                                move to report.rs, this file is retired
-  diagnose_experts_dev.py       dev-window expert diagnosis
-  run_fib_rsi_bb_confluence.py  D-076 dev-window experiment runner
-  equity_analysis.py            external-instrument analysis (research only)
-  regret.py                     evaluator Phase 0: snapshots, reconciliation,
-                                LegalActionManifest, Outcome Cube, gap (D-071);
-                                Phase-0 reduction ported as regret.rs (S3),
-                                reconciliation stays as S6 parity reference
-  regret_reference.py           independent reference walk (parity oracle)
-  regret_phase1.py              Candidate-local opportunity accounting (D-072);
-                                S6 port target (D-091) — moves to analysis.rs
-  regret_phase2.py              systematicity discovery (D-072);
-                                S6 port target (D-091) — moves to analysis.rs
-  regret_phase3.py              recoverability evaluation (D-073);
-                                S6 port target (D-091) — moves to analysis.rs
   artifact_status.py            artifact freshness reporting
   download_v8_reading_list.py   research manifest downloader
   index_handbook_pdf.py, extract_handbook_sections.py,
   extract_handbook_endmatter.py, build_handbook_review.py,
   build_full_handbook_review.py, render_visual_previews.py
                                 research-corpus tooling (no decision path)
-  _perf_probe.py                scratch profiling harness (not shipped tooling;
-                                PERFORMANCE_AUDIT_V82)
 tests/
   test_vertical_slice.py        pipeline contract tests (pytest)
   test_state_cache_identity.py  cached vs uncached MarketState, every bar
@@ -254,8 +227,6 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `simtruth/` | vendored V7 reference simulation | import-only rewrite (`sim.py`, `market.py`, `features.py`, `events.py`, `indicators.py`, `evaluate.py`) | D-022; authority stays FAIL |
 | `tools/build_monograph.py` | reproducible EN/TR monograph build | CLI `--lang --docs --out` | CHANGELOG build rule |
 | `tools/data.py` | Binance archive -> verified canonical dataset (download + SHA-256 + Parquet + DuckDB audit) | CLI `build/verify/audit/load` | FEED_INGESTION_SPEC §5; DATASET_SPEC §1 |
-| `tools/vision_backfill.py` | Vision monthly klines -> JSONL PIT tape (three clocks) + audit | CLI `--symbol --interval --month --out [--audit]` | FEED_INGESTION_SPEC §4-5 |
-| `tools/materialize_views.py` | DATASET_SPEC §5 parquet views from a pinned manifest; fails closed on hash mismatch | CLI `--manifest --store` | DATASET_SPEC §5; compile-once (rule 17) |
 | `tests/test_vertical_slice.py` | runnable contract gates (vertical slice) | pytest | audit gate; PROJECT_EVIDENCE_AUDIT |
 | `v8-core/src/error.rs` | Strongly-typed central runtime error taxonomy (`V8CoreError`) | `V8CoreError` enum + error conversions | COMPUTE_CORE_SPEC §4; D-119 |
 | `v8-core/src/path_security.rs` | Path sanitization & traversal defense | `sanitize_path` | FEED_INGESTION_SPEC §5; D-120 |

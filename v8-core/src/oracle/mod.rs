@@ -12,8 +12,6 @@ pub mod coverage;
 pub mod independence;
 pub mod information;
 pub mod opportunity;
-pub mod recoverability;
 pub mod support;
 pub mod taxonomy;
 pub mod utility;
-
