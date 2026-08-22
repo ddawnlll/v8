@@ -37,7 +37,8 @@ use crate::backend::{ReplayCell, ReplayKernel};
 use crate::data::{Dataset, SymbolBars};
 use crate::experts::predicate::{self, FeatCtx};
 use crate::simulator::{
-    pyramid_add_rule, risk_unit, validate_geometry, Draft, FillPolicy, Outcome, HOUR_NS,
+    risk_unit, risk_unit_from_geom, validate_geometry, Draft, FillPolicy, Outcome, RiskGeometry,
+    HOUR_NS,
 };
 use crate::state::FeatureStore;
 
@@ -143,6 +144,7 @@ impl<'a> ScalarKernel<'a> {
         &self,
         pos: &Pos,
         draft: &Draft,
+        geom: &RiskGeometry,
         i: usize,
         thesis_valid: bool,
         bar_time: Option<i64>,
@@ -159,23 +161,18 @@ impl<'a> ScalarKernel<'a> {
         ),
         String,
     > {
-        // Defense in depth, not a replacement (issue #70): `run` validates at
-        // admission, but the oracle validates the same draft at step() entry
-        // too — a draft that reaches a per-bar step must be geometrically
-        // sane, never silently book a target_r<0 loss as a TARGET endpoint.
-        validate_geometry(draft)?;
         let (pos, new_settlements) = match bar_time {
             Some(t) => self.apply_funding(pos, draft, t, unit)?,
             None => (pos.clone(), 0),
         };
         let long = draft.direction == "LONG";
         let sign = if long { 1.0 } else { -1.0 };
-        let target_r = draft.geom_f64("target_r").unwrap_or(0.0);
-        let stop_r = draft.geom_f64("stop_r").unwrap_or(0.0);
-        let expiry = draft.geom_i64("expiry_bars").unwrap_or(0);
+        let target_r = geom.target_r.unwrap_or(0.0);
+        let stop_r = geom.stop_r.unwrap_or(0.0);
+        let expiry = geom.expiry_bars.unwrap_or(0);
         let entry = pos.entry_price;
         let target = entry + sign * target_r * unit;
-        let base_stop = match draft.geom_f64("stop_ref") {
+        let base_stop = match geom.stop_ref {
             Some(sr) => sr,
             None => entry - sign * stop_r * unit,
         };
@@ -198,10 +195,14 @@ impl<'a> ScalarKernel<'a> {
             Some("TARGET")
         } else if !thesis_valid {
             Some("THESIS_INVALIDATED")
-        } else if draft.has_geom("time_exit_bars")
-            && bars_held >= draft.geom_i64("time_exit_bars").unwrap_or(0)
-        {
-            Some("TIME_EXIT")
+        } else if let Some(time_exit) = geom.time_exit_bars {
+            if bars_held >= time_exit {
+                Some("TIME_EXIT")
+            } else if bars_held >= expiry {
+                Some("EXPIRY")
+            } else {
+                None
+            }
         } else if bars_held >= expiry {
             Some("EXPIRY")
         } else {
@@ -217,43 +218,28 @@ impl<'a> ScalarKernel<'a> {
         };
         if endpoint.is_none() {
             // --- EXEC-1/2/3 position management (bar-close, non-terminal) ---
-            if let Some(rule) = pyramid_add_rule(draft)? {
-                // The trigger is observed from this completed bar's excursion,
-                // but the add is booked at its close.  That keeps bar-atomic
-                // OHLC ordering intact: an intrabar stop/target always wins
-                // over management, and the newly rolled stop starts next bar.
+            if let Some(rule) = geom.pyramid_add_rule {
                 let add_price = self.bars.closes[i];
                 let favorable_close = sign * (add_price - entry) > 0.0;
                 if !pos.pyramid_added && mfe_r >= rule.at_mfe_r && favorable_close {
                     next.pyramid_added = true;
                     next.pyramid_add_price = Some(add_price);
                     next.pyramid_add_cost_r = self.cost_r(add_price, unit)?;
-                    // Equal-sized add: the midway stop is also the arithmetic
-                    // average entry.  The target deliberately remains anchored
-                    // to the original entry, so both legs realize against the
-                    // same declared target geometry.
                     next.stop_level = Some((entry + add_price) / 2.0);
                 }
             }
-            // Start from the new pyramid midpoint when this bar added a leg;
-            // otherwise preserve the previously effective stop.
             let mut stop_level = next.stop_level;
             let mut stop_rolled = pos.stop_rolled;
-            if draft.has_geom("breakeven_roll_at_mfe_r")
-                && !stop_rolled
-                && mfe_r
-                    >= draft
-                        .geom_f64("breakeven_roll_at_mfe_r")
-                        .unwrap_or(f64::MAX)
-            {
-                let margin = draft
-                    .geom_f64("breakeven_margin_r")
-                    .unwrap_or(self.cost_r(entry, unit).unwrap_or(self.round_trip_cost_r));
-                stop_level = Some(entry - sign * margin * unit);
-                stop_rolled = true;
+            if let Some(be_mfe) = geom.breakeven_roll_at_mfe_r {
+                if !stop_rolled && mfe_r >= be_mfe {
+                    let margin = geom
+                        .breakeven_margin_r
+                        .unwrap_or(self.cost_r(entry, unit).unwrap_or(self.round_trip_cost_r));
+                    stop_level = Some(entry - sign * margin * unit);
+                    stop_rolled = true;
+                }
             }
-            if draft.has_geom("trail_stop_atr") {
-                let k = draft.geom_f64("trail_stop_atr").unwrap_or(0.0);
+            if let Some(k) = geom.trail_stop_atr {
                 let trail = entry + sign * (mfe_r - k) * unit;
                 stop_level = Some(match stop_level {
                     None => {
@@ -274,9 +260,9 @@ impl<'a> ScalarKernel<'a> {
             }
             next.stop_level = stop_level;
             next.stop_rolled = stop_rolled;
-            if draft.geom_f64("scale_out_ratio").unwrap_or(0.0) > 0.0
+            if geom.scale_out_ratio.unwrap_or(0.0) > 0.0
                 && !pos.scaled_out
-                && mfe_r >= draft.geom_f64("scale_out_at_mfe_r").unwrap_or(f64::MAX)
+                && mfe_r >= geom.scale_out_at_mfe_r.unwrap_or(f64::MAX)
             {
                 let f = stop_r / (stop_r + target_r);
                 let leg_r = sign * (self.bars.closes[i] - entry) / unit;
@@ -595,7 +581,8 @@ impl<'a> ScalarKernel<'a> {
         entry: f64,
         entry_time: i64,
     ) -> Result<Outcome, String> {
-        let unit = risk_unit(draft, entry)?;
+        let geom = draft.typed_geometry();
+        let unit = risk_unit_from_geom(&geom, entry)?;
         let mut pos = Pos::new(entry, Some(entry_time));
         let mut horizon = 0i64;
         let mut i = from;
@@ -610,6 +597,9 @@ impl<'a> ScalarKernel<'a> {
                             crate::state::live_window_feature(self.store, t, name, n)
                         },
                         history: &|| Some(crate::state::history_window(self.store, t, 32)),
+                        history_agg: Some(&|feat, n, agg, exclusive| {
+                            crate::state::history_window_agg(self.store, t, 32, feat, n, agg, exclusive)
+                        }),
                     };
                     predicate::evaluate(ir, &draft.risk_geometry, &draft.direction, &ctx)
                 }
@@ -617,7 +607,7 @@ impl<'a> ScalarKernel<'a> {
             };
             let bar_time = self.bars.available_times[i];
             let (closed, endpoint, net_r, label, next, _new_settlements, _cf) =
-                self.step(&pos, draft, i, tv, Some(bar_time), unit)?;
+                self.step(&pos, draft, &geom, i, tv, Some(bar_time), unit)?;
             if let (true, Some(endpoint), Some(net_r)) = (closed, endpoint, net_r) {
                 return Ok(Outcome {
                     endpoint,
@@ -690,14 +680,15 @@ impl<'a> ScalarKernel<'a> {
         entry_time: i64,
     ) -> Result<Outcome, String> {
         use crate::simd::F64x2;
-        let unit = risk_unit(draft, entry)?;
+        let geom = draft.typed_geometry();
+        let unit = risk_unit_from_geom(&geom, entry)?;
         let long = draft.direction == "LONG";
         let sign = if long { 1.0 } else { -1.0 };
-        let target_r = draft.geom_f64("target_r").unwrap_or(0.0);
-        let stop_r = draft.geom_f64("stop_r").unwrap_or(0.0);
-        let expiry = draft.geom_i64("expiry_bars").unwrap_or(0);
+        let target_r = geom.target_r.unwrap_or(0.0);
+        let stop_r = geom.stop_r.unwrap_or(0.0);
+        let expiry = geom.expiry_bars.unwrap_or(0);
         let target = entry + sign * target_r * unit;
-        let base_stop = match draft.geom_f64("stop_ref") {
+        let base_stop = match geom.stop_ref {
             Some(sr) => sr,
             None => entry - sign * stop_r * unit,
         };
@@ -801,6 +792,9 @@ impl<'a> ScalarKernel<'a> {
                             crate::state::live_window_feature(self.store, bar_count, name, n)
                         },
                         history: &|| Some(crate::state::history_window(self.store, bar_count, 32)),
+                        history_agg: Some(&|feat, n, agg, exclusive| {
+                            crate::state::history_window_agg(self.store, bar_count, 32, feat, n, agg, exclusive)
+                        }),
                     };
                     predicate::evaluate(ir, &draft.risk_geometry, &draft.direction, &ctx)
                 }
@@ -819,10 +813,14 @@ impl<'a> ScalarKernel<'a> {
                 Some("TARGET")
             } else if !tv {
                 Some("THESIS_INVALIDATED")
-            } else if draft.has_geom("time_exit_bars")
-                && bars_held >= draft.geom_i64("time_exit_bars").unwrap_or(0)
-            {
-                Some("TIME_EXIT")
+            } else if let Some(time_exit) = geom.time_exit_bars {
+                if bars_held >= time_exit {
+                    Some("TIME_EXIT")
+                } else if bars_held >= expiry {
+                    Some("EXPIRY")
+                } else {
+                    None
+                }
             } else if bars_held >= expiry {
                 Some("EXPIRY")
             } else {
@@ -1055,17 +1053,17 @@ impl<'a> ReplayKernel for ScalarBackend<'a> {
                 output.len()
             ));
         }
+        let mut symbol_map: std::collections::HashMap<&str, (&crate::data::SymbolBars, &crate::state::FeatureStore)> =
+            std::collections::HashMap::with_capacity(dataset.bars.len());
+        for b in &dataset.bars {
+            if let Some(s) = self.stores.iter().find(|s| s.symbol == b.symbol) {
+                symbol_map.insert(&b.symbol, (b, s));
+            }
+        }
         for (cell, slot) in cells.iter().zip(output.iter_mut()) {
-            let bars = dataset
-                .bars
-                .iter()
-                .find(|b| b.symbol == cell.symbol)
-                .ok_or_else(|| format!("scalar evaluate: no bars for symbol {}", cell.symbol))?;
-            let store = self
-                .stores
-                .iter()
-                .find(|s| s.symbol == cell.symbol)
-                .ok_or_else(|| format!("scalar evaluate: no store for symbol {}", cell.symbol))?;
+            let (bars, store) = symbol_map
+                .get(cell.symbol)
+                .ok_or_else(|| format!("scalar evaluate: no bars/store for symbol {}", cell.symbol))?;
             let kernel = ScalarKernel {
                 round_trip_cost_r: self.round_trip_cost_r,
                 funding_rate_r: self.funding_rate_r,

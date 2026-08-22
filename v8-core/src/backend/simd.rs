@@ -73,17 +73,17 @@ impl<'a> ReplayKernel for SimdBackend<'a> {
                 output.len()
             ));
         }
+        let mut symbol_map: std::collections::HashMap<&str, (&crate::data::SymbolBars, &crate::state::FeatureStore)> =
+            std::collections::HashMap::with_capacity(dataset.bars.len());
+        for b in &dataset.bars {
+            if let Some(s) = self.stores.iter().find(|s| s.symbol == b.symbol) {
+                symbol_map.insert(&b.symbol, (b, s));
+            }
+        }
         for (cell, slot) in cells.iter().zip(output.iter_mut()) {
-            let bars = dataset
-                .bars
-                .iter()
-                .find(|b| b.symbol == cell.symbol)
-                .ok_or_else(|| format!("simd evaluate: no bars for symbol {}", cell.symbol))?;
-            let store = self
-                .stores
-                .iter()
-                .find(|s| s.symbol == cell.symbol)
-                .ok_or_else(|| format!("simd evaluate: no store for symbol {}", cell.symbol))?;
+            let (bars, store) = symbol_map
+                .get(cell.symbol)
+                .ok_or_else(|| format!("simd evaluate: no bars/store for symbol {}", cell.symbol))?;
             let kernel = ScalarKernel {
                 round_trip_cost_r: self.round_trip_cost_r,
                 funding_rate_r: self.funding_rate_r,

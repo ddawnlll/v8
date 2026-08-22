@@ -59,11 +59,11 @@ def audit_files(root_dir: str) -> int:
                         violations += 1
 
     if violations == 0:
-        print("✅ Rule 12 Audit: ZERO synthetic leaks or hardcoded metrics found.")
+        print("[OK] Rule 12 Audit: ZERO synthetic leaks or hardcoded metrics found.")
         print("==================================================================\n")
         return 0
     else:
-        print(f"🚨 Rule 12 Audit FAILED: {violations} violation(s) detected.")
+        print(f"[FAIL] Rule 12 Audit FAILED: {violations} violation(s) detected.")
         print("==================================================================\n")
         return 1
 

@@ -117581,7 +117581,7 @@
       }
     },
     {
-      "grammar_candidate_id": "gc-7dd9b07c33c252b0",
+      "grammar_candidate_id": "gc-8f3023577680bde8",
       "universe_id": "universe-btcusdt-1h-v1",
       "template_id": "template-bollinger_breakout",
       "instrument": "BTCUSDT",
@@ -117595,8 +117595,8 @@
         "lower_1sd_ref": 116987.23355688543,
         "lower_2sd_ref": 116729.32711377088,
         "mid_ref": 117245.13999999998,
-        "stop_r": 0.6776439396437435,
-        "target_r": 0.6776439396437435,
+        "stop_r": 0.6776439396437437,
+        "target_r": 0.6776439396437437,
         "variant": "a"
       }
     },
@@ -422059,7 +422059,7 @@
       }
     },
     {
-      "grammar_candidate_id": "gc-95518a79451fad47",
+      "grammar_candidate_id": "gc-ec14c2b46c702cc2",
       "universe_id": "universe-btcusdt-1h-v1",
       "template_id": "template-bollinger_reversion",
       "instrument": "BTCUSDT",
@@ -422070,8 +422070,8 @@
         "atr_ref": 587.2714285714288,
         "entry": "NEXT_BAR_CLOSE",
         "expiry_bars": 8,
-        "stop_r": 1.4460569027913779,
-        "target_r": 1.4460569027913779,
+        "stop_r": 1.4460569027913777,
+        "target_r": 1.4460569027913777,
         "upper_1sd_ref": 76203.26790309788,
         "upper_2sd_ref": 77052.49580619574,
         "upper_3sd_ref": 77901.72370929361,
@@ -422682,7 +422682,7 @@
       }
     },
     {
-      "grammar_candidate_id": "gc-95429f2f1412fd70",
+      "grammar_candidate_id": "gc-798f7e14fa462b6b",
       "universe_id": "universe-btcusdt-1h-v1",
       "template_id": "template-bollinger_breakout",
       "instrument": "BTCUSDT",
@@ -422694,8 +422694,8 @@
         "entry": "NEXT_BAR_CLOSE",
         "expiry_bars": 8,
         "mid_ref": 75354.04000000001,
-        "stop_r": 1.4460569027913779,
-        "target_r": 1.4460569027913779,
+        "stop_r": 1.4460569027913777,
+        "target_r": 1.4460569027913777,
         "upper_1sd_ref": 76203.26790309788,
         "upper_2sd_ref": 77052.49580619574,
         "variant": "a"
@@ -530190,5 +530190,5 @@
   "utility_contract_id": "after-cost-net-utility-v1",
   "lineage_id": "lineage-btcusdt-1h-audit-2026",
   "requested_authority": "L1",
-  "out_dir": "/Users/hootie/src/v8/.audit/rust_audit_current/oracle_bundle"
+  "out_dir": "C:\\Users\\dresden\\Documents\\v8\\.audit\\rust_audit_current\\oracle_bundle"
 }

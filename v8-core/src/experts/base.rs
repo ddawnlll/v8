@@ -22,17 +22,17 @@ pub struct ExpertEval {
     pub setup_fingerprint: Option<String>,
 }
 
-/// Zero-allocation projected feature view over a base feature map and expert closure.
+/// Zero-allocation projected feature view over a base feature slice and expert closure (Issue #226, D-083, D-099).
 #[derive(Clone, Copy)]
 pub struct ProjectedFeatures<'a> {
-    pub base: &'a HashMap<String, Feature>,
+    pub base: &'a [Feature],
     pub closure: Option<&'a std::collections::HashSet<String>>,
 }
 
 impl<'a> ProjectedFeatures<'a> {
     #[inline]
     pub fn new(
-        base: &'a HashMap<String, Feature>,
+        base: &'a [Feature],
         closure: &'a std::collections::HashSet<String>,
     ) -> Self {
         Self {
@@ -43,7 +43,7 @@ impl<'a> ProjectedFeatures<'a> {
 
     #[allow(dead_code)]
     #[inline]
-    pub fn unprojected(base: &'a HashMap<String, Feature>) -> Self {
+    pub fn unprojected(base: &'a [Feature]) -> Self {
         Self {
             base,
             closure: None,
@@ -55,12 +55,12 @@ impl<'a> ProjectedFeatures<'a> {
         match self.closure {
             Some(closure) => {
                 if crate::features::feature_in_closure(key, closure) {
-                    self.base.get(key)
+                    self.base.iter().find(|f| f.name == key)
                 } else {
                     None
                 }
             }
-            None => self.base.get(key),
+            None => self.base.iter().find(|f| f.name == key),
         }
     }
 
@@ -68,9 +68,10 @@ impl<'a> ProjectedFeatures<'a> {
     pub fn contains_key(&self, key: &str) -> bool {
         match self.closure {
             Some(closure) => {
-                crate::features::feature_in_closure(key, closure) && self.base.contains_key(key)
+                crate::features::feature_in_closure(key, closure)
+                    && self.base.iter().any(|f| f.name == key)
             }
-            None => self.base.contains_key(key),
+            None => self.base.iter().any(|f| f.name == key),
         }
     }
 }

@@ -727,6 +727,7 @@ fn cmd_predicate_check(args: &[String]) -> i32 {
                     .or_else(|| windows.get(&format!("{name}{n}")).copied())
             },
             history: &|| Some(history.clone()),
+            history_agg: None,
         };
         let result = experts::predicate::evaluate(&ir, &geom, &direction, &ctx);
         results.push(if result { "true" } else { "false" });
@@ -1128,10 +1129,6 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
         let t = bar_index + 1;
         let as_of = store.avail[bar_index];
         let feats = state::state_features(store, t, as_of, req.history_depth.unwrap_or(32));
-        let mut map = std::collections::HashMap::new();
-        for f in &feats {
-            map.insert(f.name.clone(), f.clone());
-        }
         let hist = state::history_bars(store, t, req.history_depth.unwrap_or(32));
         // D-053 projection: each expert sees only its requires-closure; a
         // feature outside it is withheld, exactly like the Python view (an
@@ -1143,7 +1140,7 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
             Vec::new()
         };
         let fm = experts::base::FeatMap {
-            features: experts::base::ProjectedFeatures::new(&map, &closure),
+            features: experts::base::ProjectedFeatures::new(&feats, &closure),
             history: hist,
             as_of,
             symbol: &sym,
