@@ -12,7 +12,7 @@ use std::collections::HashMap;
 use crate::error::V8CoreError;
 use crate::hash::Canon;
 use super::evidence::{ObserverEvidence, ObserverStance, HabitatAssessment};
-use super::opportunity::OpportunityEpisode;
+use super::book::OpportunityEpisode;
 
 /// Reconciled aggregate stance.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]

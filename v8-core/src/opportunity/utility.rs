@@ -9,7 +9,7 @@
 use serde::{Deserialize, Serialize};
 use crate::error::V8CoreError;
 use crate::hash::Canon;
-use super::opportunity::OpportunityEpisode;
+use super::book::OpportunityEpisode;
 use super::reconcile::{ReconciledOpportunityState, ReconciledStance};
 
 /// Selective utility action.

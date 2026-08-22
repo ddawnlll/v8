@@ -16,7 +16,7 @@
 //! - WitnessScorecard (crate::opportunity::evidence)
 
 pub mod exposure;
-pub mod opportunity;
+pub mod book;
 pub mod evidence;
 pub mod reconcile;
 pub mod utility;
@@ -26,7 +26,7 @@ pub use exposure::{
     EconomicExposureStructure, ExposureDirection, ExposureLeg, HorizonClass, InstrumentType,
     PayoffStructure,
 };
-pub use opportunity::{IdentityStatus, OpportunityBook, OpportunityEpisode};
+pub use book::{IdentityStatus, OpportunityBook, OpportunityEpisode};
 pub use evidence::{
     AbstentionReason, HabitatAssessment, ObserverEvidence, ObserverStance, WitnessScorecard,
 };
@@ -92,7 +92,7 @@ mod tests {
         assert!(evidence.is_active_support());
 
         // 5. ReconciledOpportunityState
-        let reconciled = EvidenceReconciler::reconcile(&episode, &[evidence.clone()])
+        let reconciled = EvidenceReconciler::reconcile(&episode, std::slice::from_ref(&evidence))
             .expect("Reconciliation succeeds");
         assert_eq!(reconciled.aggregate_stance, ReconciledStance::Supported);
         assert_eq!(reconciled.effective_observer_count, 1.0);
@@ -263,7 +263,7 @@ mod tests {
             "lin",
         ).unwrap();
 
-        let rec = EvidenceReconciler::reconcile(&ep, &[ev]).unwrap();
+        let rec = EvidenceReconciler::reconcile(&ep, std::slice::from_ref(&ev)).unwrap();
         let friction = FrictionModel::default(); // total hurdle = 15bps + 5bps = 20bps
 
         // Gross edge is only 5 bps (sub-friction)

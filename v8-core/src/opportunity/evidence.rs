@@ -89,7 +89,7 @@ impl ObserverEvidence {
         let dependency_group = dependency_group.into();
         let data_lineage = data_lineage.into();
 
-        if uncertainty < 0.0 || uncertainty > 1.0 {
+        if !(0.0..=1.0).contains(&uncertainty) {
             return Err(V8CoreError::WitnessReconciliationError(
                 format!("Uncertainty ({uncertainty}) must be bounded in [0.0, 1.0]"),
             ));
