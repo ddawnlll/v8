@@ -359,6 +359,7 @@ fn rsi_series(closes: &[f64], period: usize) -> Vec<f64> {
 }
 
 /// Fast stochastic %K/%D over the trailing window (G-09); flat window -> 50.0.
+#[allow(dead_code)]
 fn stoch(highs: &[f64], lows: &[f64], closes: &[f64], period: usize) -> (f64, f64) {
     let n = closes.len();
     let mut ks = Vec::with_capacity(3);
@@ -379,6 +380,40 @@ fn stoch(highs: &[f64], lows: &[f64], closes: &[f64], period: usize) -> (f64, f6
     }
     let d = fsum(&ks) / 3.0;
     (ks[2], d)
+}
+
+/// Precomputed stochastic %K/%D series over full tape (Issue #229, D-083, D-099).
+pub fn stoch_series(highs: &[f64], lows: &[f64], closes: &[f64], period: usize) -> (Vec<f64>, Vec<f64>) {
+    let n = closes.len();
+    if n < period {
+        return (Vec::new(), Vec::new());
+    }
+    let mut ks = Vec::with_capacity(n - period + 1);
+    for i in (period - 1)..n {
+        let h = highs[i + 1 - period..=i]
+            .iter()
+            .cloned()
+            .fold(f64::NEG_INFINITY, f64::max);
+        let l = lows[i + 1 - period..=i]
+            .iter()
+            .cloned()
+            .fold(f64::INFINITY, f64::min);
+        let k = if h == l {
+            50.0
+        } else {
+            (closes[i] - l) / (h - l) * 100.0
+        };
+        ks.push(k);
+    }
+    let mut ds = Vec::with_capacity(ks.len());
+    for i in 0..ks.len() {
+        if i < 2 {
+            ds.push(ks[i]);
+        } else {
+            ds.push((ks[i - 2] + ks[i - 1] + ks[i]) / 3.0);
+        }
+    }
+    (ks, ds)
 }
 
 fn stochrsi_from(rsis: &[f64], period: usize) -> f64 {
@@ -736,6 +771,8 @@ pub struct FeatureStore {
     pub macd_hist: Vec<f64>,
     pub obv: Vec<f64>,
     pub adl: Vec<f64>,
+    pub stoch_k: Vec<f64>,
+    pub stoch_d: Vec<f64>,
     /// Indexed by bar count t: prior_high[t] = max(highs[0..t-1]), None for t < 2.
     /// UNBOUNDED prefix extremes by design (D-056) — NEVER used for the
     /// pre-entry invalidation gate, which uses the frozen `prior_*_ref` or the
@@ -798,6 +835,7 @@ impl FeatureStore {
 
         let obv = obv_series(&closes, &volumes);
         let adl = adl_series(&highs, &lows, &closes, &volumes);
+        let (stoch_k, stoch_d) = stoch_series(&highs, &lows, &closes, 14);
 
         let mut prior_high: Vec<Option<f64>> = vec![None, None];
         let mut prior_low: Vec<Option<f64>> = vec![None, None];
@@ -894,6 +932,8 @@ impl FeatureStore {
             macd_hist,
             obv,
             adl,
+            stoch_k,
+            stoch_d,
             prior_high,
             prior_low,
             piv_hi,
@@ -1626,7 +1666,7 @@ pub fn state_features(
         );
     }
     if t >= 16 {
-        let (k, d) = stoch(highs, lows, closes, 14);
+        let (k, d) = (store.stoch_k[t - 14], store.stoch_d[t - 14]);
         add(
             &mut out,
             "stoch_k",
@@ -3345,13 +3385,10 @@ pub fn live_feature(store: &FeatureStore, t: usize, name: &str) -> Option<f64> {
         "ema_slow" => (t >= 20).then(|| store.ema_slow[t - 1]),
         "rsi14" => (t >= 15).then(|| store.rsi[t - 15]),
         "stoch_k" => {
-            if t < 16 {
+            if t < 16 || store.stoch_k.len() < t - 13 {
                 return None;
             }
-            let closes = &store.closes[..t];
-            let highs = &store.highs[..t];
-            let lows = &store.lows[..t];
-            Some(stoch(highs, lows, closes, 14).0)
+            Some(store.stoch_k[t - 14])
         }
         "cci20" => (t >= 20).then(|| store.cci[t - 1]),
         "macd" => (t >= 34).then(|| store.macd[t - 1]),
@@ -3374,6 +3411,52 @@ pub fn live_window_feature(store: &FeatureStore, t: usize, name: &str, n: usize)
         // `fold(NEG_INFINITY, f64::max)` reference.
         "window_high" => Some(crate::simd::window_max(&store.highs, lo, hi)),
         "window_low" => Some(crate::simd::window_min(&store.lows, lo, hi)),
+        _ => None,
+    }
+}
+
+/// Direct zero-allocation history window slice aggregation (Issue #229, D-083, D-099).
+pub fn history_window_agg(
+    store: &FeatureStore,
+    t: usize,
+    depth: usize,
+    feat: &str,
+    n: usize,
+    agg: &str,
+    exclusive: bool,
+) -> Option<f64> {
+    let d = depth.min(t);
+    let win_lo = t - d;
+    let hi_idx = if exclusive {
+        d.saturating_sub(1)
+    } else {
+        d
+    };
+    if exclusive && d < n {
+        return None;
+    }
+    let count = if exclusive { n.saturating_sub(1) } else { n };
+    let lo_idx = hi_idx.saturating_sub(count);
+    if lo_idx >= hi_idx {
+        return None;
+    }
+    let slice_lo = win_lo + lo_idx;
+    let slice_hi = win_lo + hi_idx;
+    if slice_hi > store.closes.len() || slice_lo >= slice_hi {
+        return None;
+    }
+    let slice = match feat {
+        "open" => &store.opens[slice_lo..slice_hi],
+        "high" => &store.highs[slice_lo..slice_hi],
+        "low" => &store.lows[slice_lo..slice_hi],
+        "close" => &store.closes[slice_lo..slice_hi],
+        "ema_fast" => &store.ema_fast[slice_lo..slice_hi],
+        "ema_slow" => &store.ema_slow[slice_lo..slice_hi],
+        _ => return None,
+    };
+    match agg {
+        "MAX" => Some(slice.iter().cloned().fold(f64::NEG_INFINITY, f64::max)),
+        "MIN" => Some(slice.iter().cloned().fold(f64::INFINITY, f64::min)),
         _ => None,
     }
 }

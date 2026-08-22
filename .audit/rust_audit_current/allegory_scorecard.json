@@ -1,7 +1,7 @@
 {
-  "scorecard_id": "a8ea3a157c54797a7ee4f9c622b791932e53493875967fb68845a8d9ed4e8a32",
+  "scorecard_id": "630fe8f63b770702e3985129436938f36fe92644aff9ec7b8015254719bf4ed4",
   "schema_version": "v8.allegory.v1",
-  "tape_hash": "fd2b810ad88643e453f391b293f1deefef65284f34c9d3f7ee8566ec0dea2bcd",
+  "tape_hash": "02733caf2df12bdc0f8ddbbb4ed93f6c38d696d5b2f415d559d215024d847ea8",
   "total_episodes_evaluated": 8,
   "super_class_scores": {
     "DirectionalOpportunity": 0.0,

@@ -429,10 +429,6 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
             let t = i + 1;
             let as_of = store.avail[i];
             let feats = state::state_features(store, t, as_of, req.history_depth);
-            let mut map: HashMap<String, state::Feature> = HashMap::new();
-            for f in &feats {
-                map.insert(f.name.clone(), f.clone());
-            }
             let state_quality = if feats.iter().any(|f| f.quality == "DEGRADED") {
                 "DEGRADED"
             } else {
@@ -450,7 +446,7 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                     Vec::new()
                 };
                 let fm = experts::base::FeatMap {
-                    features: experts::base::ProjectedFeatures::new(&map, closure),
+                    features: experts::base::ProjectedFeatures::new(&feats, closure),
                     history: hist,
                     as_of,
                     symbol: sym,
@@ -957,16 +953,17 @@ pub(crate) fn write_cube_reduced(
     let mut dests: Vec<(usize, usize)> = Vec::new();
     let mut manifests: Vec<regret::Manifest> = Vec::with_capacity(pending.len());
     let mut planned: Vec<Vec<Option<regret::Cell>>> = Vec::with_capacity(pending.len());
+    let mut symbol_map: HashMap<&str, (&state::FeatureStore, &crate::data::SymbolBars)> =
+        HashMap::with_capacity(stores.len());
+    for store in stores {
+        if let Some(bars) = ds.bars.iter().find(|b| b.symbol == store.symbol) {
+            symbol_map.insert(&store.symbol, (store, bars));
+        }
+    }
 
     for (ci, cand) in pending.iter().enumerate() {
-        let store = stores
-            .iter()
-            .find(|s| s.symbol == cand.symbol)
-            .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
-        let bars = ds
-            .bars
-            .iter()
-            .find(|b| b.symbol == cand.symbol)
+        let (store, bars) = symbol_map
+            .get(cand.symbol.as_str())
             .ok_or_else(|| format!("no bars for symbol {}", cand.symbol))?;
         let manifest = regret::generate_legal_actions(&cand.risk_geometry);
         let window_end = cand
@@ -1070,24 +1067,7 @@ pub(crate) fn write_cube_reduced(
             simulator::FillPolicy::Limit => "FILL_AT_LIMIT",
         },
     }));
-    let data_hash = hash::hash_value(&Value::Array(
-        ds.rows
-            .iter()
-            .map(|r| {
-                serde_json::json!({
-                    "source": r.source,
-                    "channel": r.channel,
-                    "instrument": r.instrument,
-                    "event_time": r.event_time,
-                    "available_time": r.available_time,
-                    "ingested_time": r.ingested_time,
-                    "venue_sequence": r.venue_sequence,
-                    "event_id": r.event_id,
-                    "payload": r.payload,
-                })
-            })
-            .collect(),
-    ));
+    let data_hash = ds.data_hash.as_str();
     let cache_path = path
         .parent()
         .unwrap_or_else(|| std::path::Path::new("."))
@@ -1105,7 +1085,7 @@ pub(crate) fn write_cube_reduced(
             &pending[*ci].candidate_id,
             &manifests[*ci].actions[*ai].action_id,
             &sim_hash,
-            &data_hash,
+            data_hash,
         );
         cache_keys.push(key.clone());
         match cache_store.get(&key) {
@@ -1371,10 +1351,6 @@ mod tests {
                 let t = i + 1;
                 let as_of = store.avail[i];
                 let feats = state::state_features(store, t, as_of, history_depth);
-                let mut map = HashMap::new();
-                for f in &feats {
-                    map.insert(f.name.clone(), f.clone());
-                }
                 for (eid, _) in &table {
                     let closure = features::group_closure(experts::requires_for(eid));
                     let hist = if features::history_allowed(&closure) {
@@ -1383,7 +1359,7 @@ mod tests {
                         Vec::new()
                     };
                     let fm = experts::base::FeatMap {
-                        features: experts::base::ProjectedFeatures::new(&map, &closure),
+                        features: experts::base::ProjectedFeatures::new(&feats, &closure),
                         history: hist,
                         as_of,
                         symbol: &store.symbol,
@@ -2174,10 +2150,6 @@ mod tests {
                 let t = i + 1;
                 let as_of = store.avail[i];
                 let feats = state::state_features(store, t, as_of, state::HISTORY_DEPTH_DEFAULT);
-                let mut map: HashMap<String, state::Feature> = HashMap::new();
-                for f in &feats {
-                    map.insert(f.name.clone(), f.clone());
-                }
                 for (eid, _) in experts::TABLE
                     .iter()
                     .filter(|(id, _, _, _)| {
@@ -2192,7 +2164,7 @@ mod tests {
                         Vec::new()
                     };
                     let fm = experts::base::FeatMap {
-                        features: experts::base::ProjectedFeatures::new(&map, &closure),
+                        features: experts::base::ProjectedFeatures::new(&feats, &closure),
                         history: hist,
                         as_of,
                         symbol: &store.symbol,

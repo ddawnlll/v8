@@ -199,9 +199,41 @@ pub struct Dataset {
     pub bars: Vec<SymbolBars>,
     /// The tape as parsed, in sorted (event, available, sequence) order.
     pub n_rows: usize,
+    /// Incremental streaming digest of canonical tape rows (Issue #227, D-080, D-120).
+    pub data_hash: String,
 }
 
 impl Dataset {
+    /// Compute deterministic streaming dataset digest without allocating JSON trees.
+    pub fn compute_dataset_hash(rows: &[TapeRow]) -> String {
+        let mut c = crate::hash::Canon::new();
+        c.push_list();
+        c.push_count(rows.len());
+        for r in rows {
+            c.push_map();
+            c.push_count(9);
+            c.push_str("available_time");
+            c.push_i64(r.available_time);
+            c.push_str("channel");
+            c.push_str(&r.channel);
+            c.push_str("event_id");
+            c.push_str(&r.event_id);
+            c.push_str("event_time");
+            c.push_i64(r.event_time);
+            c.push_str("ingested_time");
+            c.push_i64(r.ingested_time);
+            c.push_str("instrument");
+            c.push_str(&r.instrument);
+            c.push_str("payload");
+            c.push_value(&r.payload);
+            c.push_str("source");
+            c.push_str(&r.source);
+            c.push_str("venue_sequence");
+            c.push_i64(r.venue_sequence);
+        }
+        c.finish_sha1_hex()
+    }
+
     /// Ingest a tape of parsed rows. Fails closed on any row the V8.0 oracle
     /// refuses (`_validate_tape_rows`); dedups by (source, event_id) exactly
     /// like `AppendOnlyLog.append` (first occurrence wins, the store's inbox);
@@ -271,7 +303,8 @@ impl Dataset {
             bars.push(b);
         }
         let n_rows = rows.len();
-        Ok(Dataset { rows, bars, n_rows })
+        let data_hash = Dataset::compute_dataset_hash(&rows);
+        Ok(Dataset { rows, bars, n_rows, data_hash })
     }
 
     /// Zero-copy memory-mapped tape streaming reader (Issue #210).

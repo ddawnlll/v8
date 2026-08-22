@@ -26,15 +26,6 @@
 
 use serde_json::Value;
 
-/// The frozen Candidate geometry the kernel replays.
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-pub struct Draft {
-    pub direction: String,
-    #[allow(dead_code)] // placeholder id in sim.run's cf: prefix (oracle parity)
-    pub birth_time: i64,
-    pub risk_geometry: serde_json::Map<String, Value>,
-}
-
 /// One deterministic pyramiding instruction.  Pyramiding is deliberately a
 /// narrow replay primitive rather than a second position model: exactly one
 /// additional unit is bought/sold at the close of the first non-terminal bar
@@ -44,12 +35,87 @@ pub struct Draft {
 /// The JSON form is `pyramid_add_rules: [{"at_mfe_r": 1.0}]`.  Keeping the
 /// outer array makes the geometry forward-compatible with a later, separately
 /// certified multi-add action surface without accepting ambiguous rules today.
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct PyramidAddRule {
     pub at_mfe_r: f64,
 }
 
+/// Zero-allocation, contiguous, typed representation of candidate risk geometry (Issue #225, D-083, D-099).
+#[derive(Debug, Clone, Copy, PartialEq, Default, serde::Serialize, serde::Deserialize)]
+pub struct RiskGeometry {
+    pub target_r: Option<f64>,
+    pub stop_r: Option<f64>,
+    pub expiry_bars: Option<i64>,
+    pub atr_ref: Option<f64>,
+    pub risk_frac: Option<f64>,
+    pub stop_ref: Option<f64>,
+    pub time_exit_bars: Option<i64>,
+    pub limit_price: Option<f64>,
+    pub breakeven_roll_at_mfe_r: Option<f64>,
+    pub breakeven_margin_r: Option<f64>,
+    pub trail_stop_atr: Option<f64>,
+    pub scale_out_ratio: Option<f64>,
+    pub scale_out_at_mfe_r: Option<f64>,
+    pub prior_low_ref: Option<f64>,
+    pub prior_high_ref: Option<f64>,
+    pub trigger_ref: Option<f64>,
+    pub pyramid_add_rule: Option<PyramidAddRule>,
+}
+
+impl RiskGeometry {
+    pub fn from_map(map: &serde_json::Map<String, Value>) -> Self {
+        let f64_val = |k: &str| map.get(k).and_then(|v| v.as_f64());
+        let i64_val = |k: &str| map.get(k).and_then(|v| v.as_i64());
+        let pyramid_add_rule = map.get("pyramid_add_rules").and_then(|v| {
+            v.as_array().and_then(|arr| {
+                if arr.len() == 1 {
+                    arr[0].as_object().and_then(|obj| {
+                        obj.get("at_mfe_r")
+                            .and_then(|mfe| mfe.as_f64())
+                            .map(|at_mfe_r| PyramidAddRule { at_mfe_r })
+                    })
+                } else {
+                    None
+                }
+            })
+        });
+
+        RiskGeometry {
+            target_r: f64_val("target_r"),
+            stop_r: f64_val("stop_r"),
+            expiry_bars: i64_val("expiry_bars"),
+            atr_ref: f64_val("atr_ref"),
+            risk_frac: f64_val("risk_frac"),
+            stop_ref: f64_val("stop_ref"),
+            time_exit_bars: i64_val("time_exit_bars"),
+            limit_price: f64_val("limit_price"),
+            breakeven_roll_at_mfe_r: f64_val("breakeven_roll_at_mfe_r"),
+            breakeven_margin_r: f64_val("breakeven_margin_r"),
+            trail_stop_atr: f64_val("trail_stop_atr"),
+            scale_out_ratio: f64_val("scale_out_ratio"),
+            scale_out_at_mfe_r: f64_val("scale_out_at_mfe_r"),
+            prior_low_ref: f64_val("prior_low_ref"),
+            prior_high_ref: f64_val("prior_high_ref"),
+            trigger_ref: f64_val("trigger_ref"),
+            pyramid_add_rule,
+        }
+    }
+}
+
+/// The frozen Candidate geometry the kernel replays.
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct Draft {
+    pub direction: String,
+    #[allow(dead_code)] // placeholder id in sim.run's cf: prefix (oracle parity)
+    pub birth_time: i64,
+    pub risk_geometry: serde_json::Map<String, Value>,
+}
+
 impl Draft {
+    #[inline]
+    pub fn typed_geometry(&self) -> RiskGeometry {
+        RiskGeometry::from_map(&self.risk_geometry)
+    }
     pub fn geom_f64(&self, key: &str) -> Option<f64> {
         self.risk_geometry.get(key).and_then(|v| v.as_f64())
     }
@@ -90,6 +156,25 @@ pub fn risk_unit(draft: &Draft, entry_price: f64) -> Result<f64, String> {
         "risk_unit: geometry declares neither atr_ref nor risk_frac ({:?})",
         draft.risk_geometry
     ))
+}
+
+pub fn risk_unit_from_geom(geom: &RiskGeometry, entry_price: f64) -> Result<f64, String> {
+    if let Some(atr) = geom.atr_ref {
+        if !(atr > 0.0) {
+            return Err(format!(
+                "risk_unit must be > 0 (got {atr:?}); geometry declares neither a positive atr_ref nor a positive risk_frac"));
+        }
+        return Ok(atr);
+    }
+    if let Some(frac) = geom.risk_frac {
+        let unit = entry_price * frac;
+        if !(unit > 0.0) {
+            return Err(format!(
+                "risk_unit must be > 0 (got {unit:?}); geometry declares neither a positive atr_ref nor a positive risk_frac"));
+        }
+        return Ok(unit);
+    }
+    Err("risk_unit: geometry declares neither atr_ref nor risk_frac".to_string())
 }
 
 /// Fail closed on a geometry that cannot produce a meaningful outcome

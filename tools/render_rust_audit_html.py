@@ -309,8 +309,11 @@ def parse_all_rust_artifacts(audit_dir: Path) -> dict:
             for line in f:
                 if not line.strip():
                     continue
-                t = json.loads(line)
-                data["transition_timeline"].append(t)
+                try:
+                    t = json.loads(line)
+                    data["transition_timeline"].append(t)
+                except Exception:
+                    pass
 
     # 5. Parse analysis.jsonl
     if analysis_file.exists():
@@ -318,7 +321,10 @@ def parse_all_rust_artifacts(audit_dir: Path) -> dict:
             for line in f:
                 if not line.strip():
                     continue
-                data["analysis_records"].append(json.loads(line))
+                try:
+                    data["analysis_records"].append(json.loads(line))
+                except Exception:
+                    pass
 
     # 6. Parse Target Oracle artifacts & evidence bundle
     if oracle_receipt_file.exists():

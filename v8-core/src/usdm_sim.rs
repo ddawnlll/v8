@@ -137,7 +137,6 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
         })
         .collect();
 
-    let mut feature_map: HashMap<String, state::Feature> = HashMap::with_capacity(128);
     let mut bar_votes: Vec<SensorVote> = Vec::with_capacity(32);
 
     for i in 0..n_bars {
@@ -338,18 +337,13 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
         let t = i + 1;
         if t >= 32 && portfolio.positions.len() < params.max_concurrency {
             let feats = state::state_features(store, t, as_of, 32);
-            feature_map.clear();
-            for f in feats {
-                feature_map.insert(f.name.clone(), f);
-            }
-
             let hist = state::history_bars(store, t, 32);
             bar_votes.clear();
 
             for (eid, closure, allows_hist) in &projections {
                 let expert_hist = if *allows_hist { hist.clone() } else { Vec::new() };
                 let fm = crate::experts::base::FeatMap {
-                    features: crate::experts::base::ProjectedFeatures::new(&feature_map, closure),
+                    features: crate::experts::base::ProjectedFeatures::new(&feats, closure),
                     history: expert_hist,
                     as_of,
                     symbol: &store.symbol,

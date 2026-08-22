@@ -2,6 +2,17 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — Zero-Allocation Typed Geometry, Direct Indexing & Streaming Hashing in Hot Replay Paths (issues #225, #226, #227, #228, #229, D-127)
+
+Eliminated critical hot-path allocations and linear scans across simulation, state, feature projection, and caching:
+- **Issue #225 (PERF-002):** Replaced per-bar dynamic `HashMap<String, Value>` string lookups and `validate_geometry` runs in the inner simulation step loop with strongly-typed `RiskGeometry` struct field offsets.
+- **Issue #226 (PERF-003):** Replaced per-bar `HashMap<String, Feature>` allocations and 77 string clones in expert runloop evaluation with zero-copy `ProjectedFeatures<&[Feature]>` slice projections.
+- **Issue #227 (PERF-004):** Eliminated eager full-tape `serde_json::Value` tree allocations in `write_cube_reduced` cache hotpath via precomputed incremental `Dataset.data_hash`.
+- **Issue #228 (PERF-005):** Eliminated repetitive $O(N)$ linear symbol searches across multi-symbol datasets in candidate planning and backend evaluation via pre-indexed $O(1)$ symbol maps.
+- **Issue #229 (PERF-006):** Precomputed full-tape stochastic %K/%D series in $O(N)$ during `FeatureStore::build` and introduced zero-allocation `history_window_agg` in `FeatCtx` for Predicate IR evaluation.
+
+Artifacts changed: `v8-core/src/{simulator.rs, state.rs, experts/predicate.rs, experts/base.rs, backend/scalar.rs, backend/simd.rs, data.rs, runloop.rs, usdm_sim.rs, main.rs}`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-22 — Historical Market Archetype Registry & Multi-Episode Allegorical Audit Suite (D-125, ALLEGORY-001)
 
 Introduced the 12 Canonical Market Archetypes (A01–A12) across 4 super-classes (Directional Opportunity, Forced-Flow Stress, Low-Opportunity Adversarial, Portfolio Derivatives) into V8's evaluation plane (`v8-core/src/evaluation/allegory.rs`):

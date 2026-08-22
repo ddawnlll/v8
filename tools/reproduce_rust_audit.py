@@ -39,9 +39,22 @@ def run_command(cmd: list[str], cwd: Path = ROOT) -> tuple[int, str, str]:
     return p.returncode, p.stdout.strip(), p.stderr.strip()
 
 
-def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4) -> dict:
-    if out_dir.exists():
-        shutil.rmtree(out_dir)
+def safe_rmtree(path: Path, max_retries: int = 5, delay: float = 0.2) -> None:
+    if not path.exists():
+        return
+    for i in range(max_retries):
+        try:
+            shutil.rmtree(path)
+            return
+        except Exception:
+            if i == max_retries - 1:
+                shutil.rmtree(path, ignore_errors=True)
+            else:
+                time.sleep(delay)
+
+
+def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4, render_html: bool = True, verbose: bool = True) -> dict:
+    safe_rmtree(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     req_path = out_dir / "request_evaluate.json"
     
@@ -56,22 +69,38 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
     req_path.write_text(json.dumps(req, indent=2), encoding="utf-8")
 
     # 1. Run v8-core evaluate
+    if verbose:
+        print(f"  -> [1/5] Running S4 evaluate loop ({threads} threads)...", end="", flush=True)
     t0 = time.perf_counter()
     code, out_eval, err_eval = run_command([str(binary), "evaluate", str(req_path)])
     eval_duration = time.perf_counter() - t0
     if code != 0:
+        if verbose:
+            print(" FAILED")
         raise RuntimeError(f"v8-core evaluate failed:\nSTDOUT: {out_eval}\nSTDERR: {err_eval}")
     eval_meta = json.loads(out_eval)
+    n_evals = eval_meta.get("n_evaluations", 0)
+    speed = n_evals / max(eval_duration, 0.001)
+    if verbose:
+        print(f" DONE ({n_evals:,} evals in {eval_duration:.2f}s, {speed:,.0f} evals/sec)")
 
     # 2. Run v8-core analysis
+    if verbose:
+        print("  -> [2/5] Running S6 regret analysis...", end="", flush=True)
     t1 = time.perf_counter()
     code, out_ana, err_ana = run_command([str(binary), "analysis", str(req_path)])
     ana_duration = time.perf_counter() - t1
     if code != 0:
+        if verbose:
+            print(" FAILED")
         raise RuntimeError(f"v8-core analysis failed:\nSTDOUT: {out_ana}\nSTDERR: {err_ana}")
     ana_meta = json.loads(out_ana)
+    if verbose:
+        print(f" DONE ({ana_duration:.2f}s)")
 
     # 3. Run v8-core Target Oracle (O0-O3) representational coverage & evidence bundle
+    if verbose:
+        print("  -> [3/5] Running Target Oracle (O0-O3) coverage...", end="", flush=True)
     t2 = time.perf_counter()
     grammar_candidates = []
     seen = set()
@@ -135,13 +164,19 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
     code, out_oracle, err_oracle = run_command([str(binary), "oracle-coverage", str(oracle_req_path)])
     oracle_duration = time.perf_counter() - t2
     if code != 0:
+        if verbose:
+            print(" FAILED")
         raise RuntimeError(f"v8-core oracle-coverage failed:\nSTDOUT: {out_oracle}\nSTDERR: {err_oracle}")
     
     oracle_receipt_path = out_dir / "oracle_coverage_receipt.json"
     oracle_meta = json.loads(out_oracle)
     oracle_receipt_path.write_text(json.dumps(oracle_meta, indent=2), encoding="utf-8")
+    if verbose:
+        print(f" DONE ({oracle_duration:.2f}s, Receipt: {oracle_meta.get('receipt_id', '')[:16]}...)")
 
     # 4. Run v8-core usdm-sim Capital-Constrained Portfolio Simulation (Issue #164)
+    if verbose:
+        print("  -> [4/5] Running USD-M Capital Simulation & Allegory Suite...", end="", flush=True)
     t3 = time.perf_counter()
     code, out_usdm, err_usdm = run_command([
         str(binary), "usdm-sim",
@@ -153,6 +188,8 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
     ])
     usdm_duration = time.perf_counter() - t3
     if code != 0:
+        if verbose:
+            print(" FAILED")
         raise RuntimeError(f"v8-core usdm-sim failed:\nSTDOUT: {out_usdm}\nSTDERR: {err_usdm}")
     usdm_meta = json.loads(out_usdm)
 
@@ -164,14 +201,27 @@ def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4)
         "--out", str(allegory_out.resolve()),
     ])
     if code != 0:
+        if verbose:
+            print(" FAILED")
         raise RuntimeError(f"v8-core allegory-audit failed:\nSTDOUT: {out_allegory}\nSTDERR: {err_allegory}")
+    if verbose:
+        print(f" DONE ({usdm_duration:.2f}s, Admitted: {usdm_meta.get('n_trades_admitted')})")
 
     # 5. Render HTML Report
-    render_script = ROOT / "tools" / "render_rust_audit_html.py"
     html_out = out_dir / "report.html"
-    code, out_rend, err_rend = run_command([sys.executable, str(render_script), "--audit-dir", str(out_dir), "--out", str(html_out)])
-    if code != 0:
-        raise RuntimeError(f"render_rust_audit_html failed:\n{err_rend or out_rend}")
+    if render_html:
+        if verbose:
+            print("  -> [5/5] Rendering deep-forensic HTML audit report...", end="", flush=True)
+        t4 = time.perf_counter()
+        render_script = ROOT / "tools" / "render_rust_audit_html.py"
+        code, out_rend, err_rend = run_command([sys.executable, str(render_script), "--audit-dir", str(out_dir), "--out", str(html_out)])
+        rend_duration = time.perf_counter() - t4
+        if code != 0:
+            if verbose:
+                print(" FAILED")
+            raise RuntimeError(f"render_rust_audit_html failed:\n{err_rend or out_rend}")
+        if verbose:
+            print(f" DONE ({rend_duration:.2f}s)")
 
     # Compute Artifact Fingerprints
     artifacts = {
@@ -283,7 +333,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tape", type=Path, default=DEFAULT_TAPE, help="Path to input tape JSONL")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Target output audit directory")
-    parser.add_argument("--threads", type=int, default=4, help="Worker threads")
+    parser.add_argument("--threads", type=int, default=os.cpu_count() or 4, help="Worker threads")
     parser.add_argument("--binary", type=Path, default=None, help="Explicit path to v8-core binary")
     parser.add_argument("--skip-build", action="store_true", help="Skip release compilation if binary exists")
     parser.add_argument("--verify-determinism", action="store_true", default=True,
@@ -300,8 +350,8 @@ def main() -> int:
     print("=" * 70)
     print("V8.2 RUST AUDIT REPRODUCTION & TARGET ORACLE EVIDENCE VERIFICATION")
     print("=" * 70)
-    print(f"Target Tape: {tape}")
-    print(f"Output Path: {out}")
+    print(f"Target Tape:    {tape}")
+    print(f"Output Path:    {out}")
     print(f"Worker Threads: {args.threads}")
 
     # 1. Compile Release Binary or Locate
@@ -312,17 +362,21 @@ def main() -> int:
             binary = binary.with_suffix(".exe")
 
     if not args.skip_build:
-        print("\n[1/4] Compiling release v8-core binary...")
+        print("\n[1/4] Compiling release v8-core binary...", end="", flush=True)
         cargo_bin = shutil.which("cargo")
         if not cargo_bin and sys.platform == "win32":
             default_cargo = Path(os.environ.get("USERPROFILE", "")) / ".cargo" / "bin" / "cargo.exe"
             if default_cargo.exists():
                 cargo_bin = str(default_cargo)
         cargo_cmd = [cargo_bin or "cargo", "build", "--release"]
+        t_build = time.perf_counter()
         code, out_cargo, err_cargo = run_command(cargo_cmd, cwd=ROOT / "v8-core")
+        build_dur = time.perf_counter() - t_build
         if code != 0:
+            print(" FAILED")
             print(f"Cargo build failed:\n{err_cargo or out_cargo}")
             return 1
+        print(f" DONE ({build_dur:.2f}s)")
         if not binary.exists() and binary.with_suffix(".exe").exists():
             binary = binary.with_suffix(".exe")
     else:
@@ -332,23 +386,17 @@ def main() -> int:
 
     # 2. Execute Primary Pipeline Pass
     print("\n[2/4] Executing primary audit & oracle pipeline...")
-    pass1 = run_pipeline(binary, tape, out, threads=args.threads)
-    n_evals = pass1["eval_meta"].get("n_evaluations", 0)
-    speed = n_evals / max(pass1["eval_duration_sec"], 0.001)
-    print(f"  -> Processed {n_evals:,} evaluations in {pass1['eval_duration_sec']:.2f}s ({speed:,.0f} evals/sec)")
-    print(f"  -> Regret Analysis completed in {pass1['ana_duration_sec']:.2f}s")
-    print(f"  -> Target Oracle Coverage completed in {pass1['oracle_duration_sec']:.2f}s (Receipt: {pass1['oracle_meta'].get('receipt_id')})")
-    print(f"  -> USD-M Capital Simulation completed in {pass1['usdm_duration_sec']:.2f}s (Trades Admitted: {pass1['usdm_meta'].get('n_trades_admitted')})")
+    pass1 = run_pipeline(binary, tape, out, threads=args.threads, render_html=True, verbose=True)
+    print(f"  -> Pipeline Pass 1 complete in {pass1['total_duration_sec']:.2f}s")
     print(f"  -> Generated HTML report: {pass1['html_report']}")
 
     # 3. Determinism Verification Pass (if enabled)
     if args.verify_determinism:
-        print("\n[3/4] Running independent verification pass (Checking Zero-Jitter Bit-Identity across S0-S7 & Oracle)...")
+        print("\n[3/4] Running independent verification pass (Zero-Jitter Bit-Identity Check)...", flush=True)
         tmp_dir = ROOT / ".audit" / "rust_repro_verify_tmp"
-        if tmp_dir.exists():
-            shutil.rmtree(tmp_dir)
+        safe_rmtree(tmp_dir)
         try:
-            pass2 = run_pipeline(binary, tape, tmp_dir, threads=args.threads)
+            pass2 = run_pipeline(binary, tape, tmp_dir, threads=args.threads, render_html=False, verbose=False)
             
             # Compare every artifact SHA-256
             mismatches = []
@@ -365,8 +413,7 @@ def main() -> int:
             else:
                 print("  [OK] 100% BIT-EXACT DETERMINISM VERIFIED across all generated ledgers and Oracle receipts.")
         finally:
-            if tmp_dir.exists():
-                shutil.rmtree(tmp_dir)
+            safe_rmtree(tmp_dir)
 
     # 4. Print Cryptographic Certificate
     print("\n[4/4] Cryptographic Reproduction Certificate:")

@@ -70,6 +70,8 @@ pub struct FeatCtx<'a> {
     pub live_window: &'a dyn Fn(&str, usize) -> Option<f64>,
     /// The history window (oldest first) of [o, h, l, c, ema_fast, ema_slow].
     pub history: &'a dyn Fn() -> Option<Vec<[f64; 6]>>,
+    /// Optional direct zero-allocation slice window aggregator: (feature, n, agg, exclusive) -> Option<f64>
+    pub history_agg: Option<&'a dyn Fn(&str, usize, &str, bool) -> Option<f64>>,
 }
 
 /// Evaluate a compiled predicate into its three-valued epistemic status (`ThesisStatus`).
@@ -308,10 +310,16 @@ fn operand(
 /// ema_fast/ema_slow); `end` is INCLUSIVE (default) or EXCLUSIVE of the newest
 /// bar (donchian e/f).
 fn window_agg(v: &Value, ctx: &FeatCtx) -> Option<f64> {
-    let hist = (ctx.history)()?;
     let n = v["n"].as_u64()? as usize;
     let feat = v["feature"].as_str()?;
     let exclusive = v.get("end").and_then(|e| e.as_str()) == Some("EXCLUSIVE");
+    let agg = v.get("agg").and_then(|a| a.as_str()).unwrap_or("MAX");
+
+    if let Some(history_agg) = ctx.history_agg {
+        return history_agg(feat, n, agg, exclusive);
+    }
+
+    let hist = (ctx.history)()?;
     let hi = if exclusive {
         hist.len().saturating_sub(1)
     } else {
@@ -339,7 +347,7 @@ fn window_agg(v: &Value, ctx: &FeatCtx) -> Option<f64> {
     let mut acc: Option<f64> = None;
     for b in &hist[lo..hi] {
         let x = idx(b)?;
-        acc = Some(match (v["agg"].as_str(), acc) {
+        acc = Some(match (Some(agg), acc) {
             (Some("MAX"), Some(a)) => a.max(x),
             (Some("MIN"), Some(a)) => a.min(x),
             (Some("MAX"), None) => x,
@@ -461,6 +469,7 @@ mod tests {
             live: &|_| None,
             live_window: &|_, _| None,
             history: &|| None,
+            history_agg: None,
         };
 
         let status = evaluate_status(&ir, &geom, "LONG", &ctx);
@@ -492,11 +501,13 @@ mod tests {
             live: &|name| if name == "close" { Some(105.0) } else { None },
             live_window: &|_, _| None,
             history: &|| None,
+            history_agg: None,
         };
         let ctx_invalid = FeatCtx {
             live: &|name| if name == "close" { Some(95.0) } else { None },
             live_window: &|_, _| None,
             history: &|| None,
+            history_agg: None,
         };
 
         assert_eq!(
