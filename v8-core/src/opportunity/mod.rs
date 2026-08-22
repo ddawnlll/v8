@@ -23,8 +23,8 @@ pub mod utility;
 pub mod campaign;
 
 pub use exposure::{
-    EconomicExposureStructure, ExposureDirection, ExposureLeg, HorizonClass, InstrumentType,
-    PayoffStructure,
+    EconomicExposureStructure, ExposureDirection, ExposureLeg, ExposureResolver, HorizonClass,
+    InstrumentType, PayoffStructure, SymbolDescriptor,
 };
 pub use book::{IdentityStatus, OpportunityBook, OpportunityEpisode};
 pub use evidence::{
