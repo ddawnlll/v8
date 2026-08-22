@@ -1238,6 +1238,7 @@ mod tests {
             "run",
             std::process::id()
         ));
+        let _ = std::fs::remove_dir_all(&out_dir);
         let summary = run_phase3(&keys, &disc_all, &conf_all, &store_dirs, &out_dir).unwrap();
         assert_eq!(
             summary,

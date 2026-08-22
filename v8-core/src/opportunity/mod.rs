@@ -24,13 +24,17 @@ pub mod utility;
 pub mod campaign;
 pub mod runloop;
 pub mod harness_t1_t12;
+pub mod funnel;
 
 pub use exposure::{
     EconomicExposureStructure, ExposureDirection, ExposureLeg, ExposureResolver, HorizonClass,
     InstrumentType, PayoffStructure, SymbolDescriptor,
 };
 pub use book::{IdentityStatus, OpportunityBook, OpportunityEpisode};
-pub use grammar::{GrammarArchetype, OpportunityGrammar};
+pub use grammar::{
+    CompressionExpansionDetector, GrammarArchetype, MeanReversionDetector, OpportunityDetector,
+    OpportunityGrammar, TrendContinuationDetector, VolatilityExtremeDetector,
+};
 pub use evidence::{
     AbstentionReason, HabitatAssessment, ObserverEvidence, ObserverStance, WitnessScorecard,
 };
@@ -41,6 +45,7 @@ pub use campaign::{
     PortfolioFeasibilityEngine,
 };
 pub use runloop::{OpportunityCycleLedger, V83Runloop};
+pub use funnel::{CanonicalFunnelReport, CanonicalOpportunityFunnelTracker, EconomicAuthority, OpportunityFunnelStage};
 
 #[cfg(test)]
 mod tests {

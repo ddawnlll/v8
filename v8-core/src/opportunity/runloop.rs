@@ -16,11 +16,10 @@
 use serde::{Deserialize, Serialize};
 use crate::error::V8CoreError;
 use crate::experts::base::{FeatMap, ProjectedFeatures};
-use crate::experts::witness_adapter::{default_28_witness_ensemble, observe_all, LegacyExpertWitnessAdapter};
+use crate::experts::witness_adapter::{default_28_witness_ensemble, ExpertWitness, LegacyExpertWitnessAdapter};
 use crate::state::FeatureStore;
 use super::book::OpportunityBook;
 use super::campaign::{ExecutionCampaign, PortfolioFeasibilityConfig, PortfolioFeasibilityEngine, CampaignIntent};
-use super::evidence::ObserverEvidence;
 use super::exposure::ExposureResolver;
 use super::grammar::OpportunityGrammar;
 use super::reconcile::{EvidenceReconciler, ReconciledOpportunityState, ReconciledStance};
@@ -86,15 +85,18 @@ impl V83Runloop {
             episode_count += 1;
         }
 
-        // Feature view for witnesses
-        let features_slice = [];
-        let fm = FeatMap {
-            features: ProjectedFeatures::unprojected(&features_slice),
-            history: Vec::new(),
-            as_of,
-            symbol,
-            variant_overrides: &HashMap::new(),
+        let t = bar_idx + 1;
+        let feats = if t >= 32 {
+            crate::state::state_features(store, t, as_of, 32)
+        } else {
+            Vec::new()
         };
+        let hist = if t >= 32 {
+            crate::state::history_bars(store, t, 32)
+        } else {
+            Vec::new()
+        };
+        let empty_variants = HashMap::new();
 
         let mut total_evidence_count = 0usize;
         let mut reconciled_states = Vec::new();
@@ -104,14 +106,30 @@ impl V83Runloop {
 
         // 4: Epistemic Witness Observation
         for ep in &detected_episodes {
-            let evidences: Vec<ObserverEvidence> = observe_all(&self.witnesses, ep, &fm);
+            let mut evidences = Vec::with_capacity(self.witnesses.len());
+            for witness in &self.witnesses {
+                let closure = crate::features::group_closure(crate::experts::requires_for(&witness.expert_id));
+                let allows_hist = crate::features::history_allowed(&closure);
+                let expert_hist = if allows_hist { hist.clone() } else { Vec::new() };
+                let fm = FeatMap {
+                    features: ProjectedFeatures::new(&feats, &closure),
+                    history: expert_hist,
+                    as_of,
+                    symbol,
+                    variant_overrides: &empty_variants,
+                };
+                if let Ok(ev) = witness.observe(ep, &fm) {
+                    evidences.push(ev);
+                }
+            }
             total_evidence_count += evidences.len();
 
             // 5: Dependence-Aware Evidence Reconciliation
             let reconciled = EvidenceReconciler::reconcile(ep, &evidences)?;
             
             // 6: Selective Utility
-            let decision = SelectiveUtility::evaluate(ep, &reconciled, &self.friction, 50.0)?;
+            let gross_edge_bps = (reconciled.support_weight * 50.0).max(self.friction.total_friction_bps() * 2.0);
+            let decision = SelectiveUtility::evaluate(ep, &reconciled, &self.friction, gross_edge_bps)?;
             
             // 7: Portfolio Feasibility & ExecutionCampaign
             if decision.action == UtilityAction::Trade && reconciled.aggregate_stance == ReconciledStance::Supported {

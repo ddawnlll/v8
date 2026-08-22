@@ -19,6 +19,7 @@
 //!   K4 here)
 
 pub mod cpu;
+pub mod execution;
 #[cfg(feature = "gpu")]
 pub mod gpu;
 pub mod scalar;

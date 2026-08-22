@@ -45,6 +45,8 @@ pub struct UsdmSimParams {
     pub max_heat: f64,
     #[serde(default)]
     pub enabled_experts: Option<Vec<String>>,
+    #[serde(default)]
+    pub engine_mode: Option<String>,
 }
 
 fn default_initial_balance() -> f64 {
@@ -85,6 +87,7 @@ pub struct PortfolioReceipt {
 
 /// Runs the USD-M finite-capital simulation engine with Kaizen architecture.
 pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String> {
+    let _ = std::fs::create_dir_all(&params.out_dir);
     let rows = crate::read_tape(&params.tape_path)?;
     let ds = Dataset::from_rows(rows).map_err(|e| e.to_string())?;
     let stores = crate::state::build_stores(&ds);
@@ -115,6 +118,10 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
     let mut trailing_states: HashMap<String, TrailingState> = HashMap::new();
     let mut last_failed_bar: Option<usize> = None;
     let mut last_failed_dir: Option<String> = None;
+
+    let is_v83_engine = params.engine_mode.as_deref() == Some("v8.3") || params.engine_mode.as_deref() == Some("opportunity");
+    let v83_engine = crate::opportunity::runloop::V83Runloop::default();
+    let mut v83_book = crate::opportunity::book::OpportunityBook::new();
 
     let empty_variants = HashMap::new();
     let registry_rows = crate::experts::registry_rows();
@@ -333,151 +340,238 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
         }
         portfolio.update_portfolio_heat(equity);
 
-        // 4. Evaluate Expert hypotheses and cluster into Campaigns (KZ-008 + KZ-018)
+        // 4. Evaluate Opportunities (V8.3) or Expert hypotheses (V8.2)
         let t = i + 1;
         if t >= 32 && portfolio.positions.len() < params.max_concurrency {
-            let feats = state::state_features(store, t, as_of, 32);
-            let hist = state::history_bars(store, t, 32);
-            bar_votes.clear();
-
-            for (eid, closure, allows_hist) in &projections {
-                let expert_hist = if *allows_hist { hist.clone() } else { Vec::new() };
-                let fm = crate::experts::base::FeatMap {
-                    features: crate::experts::base::ProjectedFeatures::new(&feats, closure),
-                    history: expert_hist,
-                    as_of,
-                    symbol: &store.symbol,
-                    variant_overrides: &empty_variants,
-                };
-                let ev = crate::experts::evaluate(eid, &fm);
-                if ev.decision == "CANDIDATE" {
-                    if let Some(draft) = &ev.draft {
-                        let entry_price = current_close;
-                        let stop_r = draft.geom_f64("stop_r").unwrap_or(1.0);
-                        let stop_dist = stop_r * current_atr;
-                        let stop_price = if draft.direction == "LONG" {
-                            entry_price - stop_dist
-                        } else {
-                            entry_price + stop_dist
+            if is_v83_engine {
+                let current_heat = portfolio.portfolio_heat_r;
+                if let Ok(cycle) = v83_engine.step_bar(&store.symbol, "binance-um", store, i, &mut v83_book, current_heat) {
+                    for campaign in cycle.campaigns_launched {
+                        let dir_str = match campaign.exposure.direction {
+                            crate::opportunity::exposure::ExposureDirection::Long => "LONG",
+                            crate::opportunity::exposure::ExposureDirection::Short => "SHORT",
+                            _ => continue,
                         };
 
-                        bar_votes.push(SensorVote {
-                            sensor_id: eid.to_string(),
-                            symbol: store.symbol.clone(),
-                            direction: draft.direction.clone(),
-                            entry_price,
+                        let allowed_risk_usdt = equity * params.risk_fraction;
+                        let stop_dist = current_atr * 1.5;
+                        let stop_price = if dir_str == "LONG" {
+                            current_close - stop_dist
+                        } else {
+                            current_close + stop_dist
+                        };
+
+                        let quant_res = QuantizationRiskEngine::compute_executable_lot(
+                            &store.symbol,
+                            current_close,
                             stop_price,
-                            timestamp_ns: as_of,
-                            bar_index: i,
-                        });
-                    }
-                }
-            }
+                            allowed_risk_usdt,
+                            contract.lot_size_filter.step_size,
+                            contract.lot_size_filter.min_qty,
+                            contract.min_notional,
+                            account.effective_fee_rate(false) * 20_000.0,
+                        );
 
-            // Cluster votes into Multi-Family Campaigns (KZ-008)
-            for vote in bar_votes.drain(..) {
-                let (cluster, is_new) = campaign_reg.ingest_vote(vote, current_close);
+                        if quant_res.allocated_executable_qty > 0.0 {
+                            let entry_price = current_close;
+                            let qty = quant_res.allocated_executable_qty;
+                            let notional = qty * entry_price;
+                            let initial_margin = notional / params.leverage as f64;
 
-                // Only admit if this is a newly formed campaign with diverse family confirmation
-                if is_new && cluster.direction != CampaignDirection::ConflictNeutral {
-                    let dir_str = if cluster.direction == CampaignDirection::Long { "LONG" } else { "SHORT" };
+                            if account.available_balance_usdt() >= initial_margin {
+                                if let Ok(()) = account.lock_margin(initial_margin) {
+                                    let entry_fee = notional * account.effective_fee_rate(false);
+                                    account.deduct_fee(entry_fee);
 
-                    // KZ-018: Cost-Aware No-Trade Region Check
-                    let bars_since_fail = match last_failed_bar {
-                        Some(fb) => i.saturating_sub(fb),
-                        None => 999,
-                    };
-                    let is_same_fail_dir = match &last_failed_dir {
-                        Some(d) => d == dir_str,
-                        None => false,
-                    };
+                                    let bracket = contract.bracket_for_notional(notional);
+                                    let liq = LiquidationModel::calculate_isolated_liquidation_price(
+                                        dir_str,
+                                        entry_price,
+                                        qty,
+                                        initial_margin,
+                                        bracket,
+                                    );
 
-                    let chop_ctx = ChopGateContext {
-                        symbol: store.symbol.clone(),
-                        bar_index: i,
-                        timestamp_ns: as_of,
-                        direction: dir_str.to_string(),
-                        entry_price: cluster.consensus_entry,
-                        structural_stop: cluster.structural_invalidation_price,
-                        expected_gross_excursion_r: 2.5,
-                        venue_roundtrip_friction_bps: 10.0,
-                        bars_since_last_failed_campaign: bars_since_fail,
-                        last_failed_campaign_same_direction: is_same_fail_dir,
-                        rolling_volatility_compression_ratio: 0.85,
-                    };
+                                    let pos_id = format!("pos-{}", campaign.campaign_id);
+                                    let tstate = DynamicTrailingEngine::new_state(
+                                        ExitArm::ChandelierATR,
+                                        dir_str,
+                                        entry_price,
+                                        stop_price,
+                                        2.5,
+                                    );
+                                    trailing_states.insert(pos_id.clone(), tstate);
 
-                    let chop_verdict = CostAwareNoTradeGate::evaluate(&chop_ctx, ChopSuppressionArm::A4CostAndCooldown);
-                    if !chop_verdict.is_admitted {
-                        *rejections.entry("CHOP_NO_TRADE_REGION_SUPPRESSED".to_string()).or_default() += 1;
-                        continue;
-                    }
-
-                    // KZ-009: Quantization-Safe Risk Budgeting
-                    let allowed_risk_usdt = equity * params.risk_fraction;
-                    let quant_res = QuantizationRiskEngine::compute_executable_lot(
-                        &store.symbol,
-                        cluster.consensus_entry,
-                        cluster.structural_invalidation_price,
-                        allowed_risk_usdt,
-                        contract.lot_size_filter.step_size,
-                        contract.lot_size_filter.min_qty,
-                        contract.min_notional,
-                        account.effective_fee_rate(false) * 20_000.0,
-                    );
-
-                    if quant_res.allocated_executable_qty > 0.0 {
-                        let entry_price = cluster.consensus_entry;
-                        let qty = quant_res.allocated_executable_qty;
-                        let notional = qty * entry_price;
-                        let initial_margin = notional / params.leverage as f64;
-
-                        if account.available_balance_usdt() >= initial_margin {
-                            if let Ok(()) = account.lock_margin(initial_margin) {
-                                let entry_fee = notional * account.effective_fee_rate(false);
-                                account.deduct_fee(entry_fee);
-
-                                let bracket = contract.bracket_for_notional(notional);
-                                let liq = LiquidationModel::calculate_isolated_liquidation_price(
-                                    dir_str,
-                                    entry_price,
-                                    qty,
-                                    initial_margin,
-                                    bracket,
-                                );
-
-                                let pos_id = format!("pos-{}", cluster.campaign_id);
-                                let tstate = DynamicTrailingEngine::new_state(
-                                    ExitArm::ChandelierATR,
-                                    dir_str,
-                                    entry_price,
-                                    cluster.structural_invalidation_price,
-                                    2.5,
-                                );
-                                trailing_states.insert(pos_id.clone(), tstate);
-
-                                portfolio.positions.push(OpenPosition {
-                                    position_id: pos_id,
-                                    candidate_id: cluster.campaign_id.clone(),
-                                    symbol: store.symbol.clone(),
-                                    direction: dir_str.to_string(),
-                                    entry_price,
-                                    quantity: qty,
-                                    initial_margin_usdt: initial_margin,
-                                    isolated_margin_usdt: initial_margin,
-                                    leverage: params.leverage,
-                                    entry_time: i as i64,
-                                    stop_loss_price: cluster.structural_invalidation_price,
-                                    take_profit_price: None, // Chandelier trailing exit
-                                    liquidation_price: liq,
-                                    cum_funding_usdt: 0.0,
-                                });
-                                break; // Admitted 1 campaign for this bar
+                                    portfolio.positions.push(OpenPosition {
+                                        position_id: pos_id,
+                                        candidate_id: campaign.opportunity_id.clone(),
+                                        symbol: store.symbol.clone(),
+                                        direction: dir_str.to_string(),
+                                        entry_price,
+                                        quantity: qty,
+                                        initial_margin_usdt: initial_margin,
+                                        isolated_margin_usdt: initial_margin,
+                                        leverage: params.leverage,
+                                        entry_time: i as i64,
+                                        stop_loss_price: stop_price,
+                                        take_profit_price: None,
+                                        liquidation_price: liq,
+                                        cum_funding_usdt: 0.0,
+                                    });
+                                    break;
+                                }
+                            } else {
+                                *rejections.entry("INSUFFICIENT_AVAILABLE_BALANCE".to_string()).or_default() += 1;
                             }
                         } else {
-                            *rejections.entry("INSUFFICIENT_AVAILABLE_BALANCE".to_string()).or_default() += 1;
+                            *rejections.entry("MIN_EXECUTABLE_RISK_EXCEEDS_BUDGET".to_string()).or_default() += 1;
                         }
-                    } else {
-                        *rejections.entry("MIN_EXECUTABLE_RISK_EXCEEDS_BUDGET".to_string()).or_default() += 1;
+                    }
+                }
+            } else {
+                let feats = state::state_features(store, t, as_of, 32);
+                let hist = state::history_bars(store, t, 32);
+                bar_votes.clear();
+
+                for (eid, closure, allows_hist) in &projections {
+                    let expert_hist = if *allows_hist { hist.clone() } else { Vec::new() };
+                    let fm = crate::experts::base::FeatMap {
+                        features: crate::experts::base::ProjectedFeatures::new(&feats, closure),
+                        history: expert_hist,
+                        as_of,
+                        symbol: &store.symbol,
+                        variant_overrides: &empty_variants,
+                    };
+                    let ev = crate::experts::evaluate(eid, &fm);
+                    if ev.decision == "CANDIDATE" {
+                        if let Some(draft) = &ev.draft {
+                            let entry_price = current_close;
+                            let stop_r = draft.geom_f64("stop_r").unwrap_or(1.0);
+                            let stop_dist = stop_r * current_atr;
+                            let stop_price = if draft.direction == "LONG" {
+                                entry_price - stop_dist
+                            } else {
+                                entry_price + stop_dist
+                            };
+
+                            bar_votes.push(SensorVote {
+                                sensor_id: eid.to_string(),
+                                symbol: store.symbol.clone(),
+                                direction: draft.direction.clone(),
+                                entry_price,
+                                stop_price,
+                                timestamp_ns: as_of,
+                                bar_index: i,
+                            });
+                        }
+                    }
+                }
+
+                // Cluster votes into Multi-Family Campaigns (KZ-008)
+                for vote in bar_votes.drain(..) {
+                    let (cluster, is_new) = campaign_reg.ingest_vote(vote, current_close);
+
+                    // Only admit if this is a newly formed campaign with diverse family confirmation
+                    if is_new && cluster.direction != CampaignDirection::ConflictNeutral {
+                        let dir_str = if cluster.direction == CampaignDirection::Long { "LONG" } else { "SHORT" };
+
+                        // KZ-018: Cost-Aware No-Trade Region Check
+                        let bars_since_fail = match last_failed_bar {
+                            Some(fb) => i.saturating_sub(fb),
+                            None => 999,
+                        };
+                        let is_same_fail_dir = match &last_failed_dir {
+                            Some(d) => d == dir_str,
+                            None => false,
+                        };
+
+                        let chop_ctx = ChopGateContext {
+                            symbol: store.symbol.clone(),
+                            bar_index: i,
+                            timestamp_ns: as_of,
+                            direction: dir_str.to_string(),
+                            entry_price: cluster.consensus_entry,
+                            structural_stop: cluster.structural_invalidation_price,
+                            expected_gross_excursion_r: 2.5,
+                            venue_roundtrip_friction_bps: 10.0,
+                            bars_since_last_failed_campaign: bars_since_fail,
+                            last_failed_campaign_same_direction: is_same_fail_dir,
+                            rolling_volatility_compression_ratio: 0.85,
+                        };
+
+                        let chop_verdict = CostAwareNoTradeGate::evaluate(&chop_ctx, ChopSuppressionArm::A4CostAndCooldown);
+                        if !chop_verdict.is_admitted {
+                            *rejections.entry("CHOP_NO_TRADE_REGION_SUPPRESSED".to_string()).or_default() += 1;
+                            continue;
+                        }
+
+                        // KZ-009: Quantization-Safe Risk Budgeting
+                        let allowed_risk_usdt = equity * params.risk_fraction;
+                        let quant_res = QuantizationRiskEngine::compute_executable_lot(
+                            &store.symbol,
+                            cluster.consensus_entry,
+                            cluster.structural_invalidation_price,
+                            allowed_risk_usdt,
+                            contract.lot_size_filter.step_size,
+                            contract.lot_size_filter.min_qty,
+                            contract.min_notional,
+                            account.effective_fee_rate(false) * 20_000.0,
+                        );
+
+                        if quant_res.allocated_executable_qty > 0.0 {
+                            let entry_price = cluster.consensus_entry;
+                            let qty = quant_res.allocated_executable_qty;
+                            let notional = qty * entry_price;
+                            let initial_margin = notional / params.leverage as f64;
+
+                            if account.available_balance_usdt() >= initial_margin {
+                                if let Ok(()) = account.lock_margin(initial_margin) {
+                                    let entry_fee = notional * account.effective_fee_rate(false);
+                                    account.deduct_fee(entry_fee);
+
+                                    let bracket = contract.bracket_for_notional(notional);
+                                    let liq = LiquidationModel::calculate_isolated_liquidation_price(
+                                        dir_str,
+                                        entry_price,
+                                        qty,
+                                        initial_margin,
+                                        bracket,
+                                    );
+
+                                    let pos_id = format!("pos-{}", cluster.campaign_id);
+                                    let tstate = DynamicTrailingEngine::new_state(
+                                        ExitArm::ChandelierATR,
+                                        dir_str,
+                                        entry_price,
+                                        cluster.structural_invalidation_price,
+                                        2.5,
+                                    );
+                                    trailing_states.insert(pos_id.clone(), tstate);
+
+                                    portfolio.positions.push(OpenPosition {
+                                        position_id: pos_id,
+                                        candidate_id: cluster.campaign_id.clone(),
+                                        symbol: store.symbol.clone(),
+                                        direction: dir_str.to_string(),
+                                        entry_price,
+                                        quantity: qty,
+                                        initial_margin_usdt: initial_margin,
+                                        isolated_margin_usdt: initial_margin,
+                                        leverage: params.leverage,
+                                        entry_time: i as i64,
+                                        stop_loss_price: cluster.structural_invalidation_price,
+                                        take_profit_price: None, // Chandelier trailing exit
+                                        liquidation_price: liq,
+                                        cum_funding_usdt: 0.0,
+                                    });
+                                    break; // Admitted 1 campaign for this bar
+                                }
+                            } else {
+                                *rejections.entry("INSUFFICIENT_AVAILABLE_BALANCE".to_string()).or_default() += 1;
+                            }
+                        } else {
+                            *rejections.entry("MIN_EXECUTABLE_RISK_EXCEEDS_BUDGET".to_string()).or_default() += 1;
+                        }
                     }
                 }
             }
@@ -602,6 +696,7 @@ mod tests {
             max_concurrency: 3,
             max_heat: 0.05,
             enabled_experts: None,
+            engine_mode: None,
         };
 
         let res = run_simulation(&params);

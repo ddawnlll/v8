@@ -29,12 +29,14 @@
 mod account;
 mod allocator;
 mod analysis;
+pub mod audit;
 mod authority;
 mod backend;
 mod cache;
 mod candidate;
 mod cashflow;
 mod checkpoint;
+pub mod claims;
 mod data;
 pub mod error;
 mod evaluation;
@@ -49,6 +51,7 @@ mod mt19937;
 mod oracle;
 mod path_security;
 mod portfolio;
+pub mod judiciary;
 pub mod kaizen;
 pub mod opportunity;
 pub mod quant;
@@ -91,7 +94,8 @@ subcommands:
   report          S7: verdict report artifacts + audit
   oracle-coverage O3: Opportunity Universe representational coverage receipt
   usdm-sim        finite-capital Binance USD-M portfolio simulator
-  allegory-audit  multi-episode historical archetype audit (A01-A12, D-125)";
+  allegory-audit  multi-episode historical archetype audit (A01-A12, D-125)
+  funnel-audit    V8.3 Opportunity Capture Funnel empirical audit (Phase II)";
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -122,6 +126,7 @@ fn main() {
         "exit-ablation" => exit_ablation::run(&args[2..]),
         "usdm-sim" => cmd_usdm_sim(&args[2..]),
         "allegory-audit" => cmd_allegory_audit(&args[2..]),
+        "funnel-audit" => cmd_funnel_audit(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -1325,6 +1330,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
     let mut max_concurrency = 3;
     let mut max_heat = 0.05;
     let mut enabled_experts: Option<Vec<String>> = None;
+    let mut engine_mode: Option<String> = None;
 
     let mut i = 0;
     while i < args.len() {
@@ -1411,6 +1417,15 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                     return 2;
                 }
             }
+            "--engine" => {
+                if i + 1 < args.len() {
+                    engine_mode = Some(args[i + 1].clone());
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --engine");
+                    return 2;
+                }
+            }
             path_str if !path_str.starts_with('-') => {
                 // If positional json request argument
                 let bytes = match std::fs::read(path_str) {
@@ -1457,6 +1472,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         max_concurrency,
         max_heat,
         enabled_experts,
+        engine_mode,
     };
 
     match usdm_sim::run_simulation(&params) {
@@ -1561,6 +1577,95 @@ fn cmd_allegory_audit(args: &[String]) -> i32 {
     }
 
     println!("{}", serde_json::to_string_pretty(&scorecard).unwrap());
+    0
+}
+
+fn cmd_funnel_audit(args: &[String]) -> i32 {
+    let mut tape_path = None;
+    let mut out_path = None;
+
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--tape" => {
+                i += 1;
+                if i < args.len() {
+                    tape_path = Some(PathBuf::from(&args[i]));
+                    i += 1;
+                }
+            }
+            "--out" => {
+                i += 1;
+                if i < args.len() {
+                    out_path = Some(PathBuf::from(&args[i]));
+                    i += 1;
+                }
+            }
+            path_str if !path_str.starts_with("--") && tape_path.is_none() => {
+                tape_path = Some(PathBuf::from(path_str));
+                i += 1;
+            }
+            other => {
+                eprintln!("unknown option for funnel-audit: {other}");
+                return 2;
+            }
+        }
+    }
+
+    let tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let out = out_path.unwrap_or_else(|| PathBuf::from("site/funnel_audit.html"));
+
+    let rows = match read_tape(&tape) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("cannot read tape {tape:?}: {e}");
+            return 1;
+        }
+    };
+
+    let ds = match data::Dataset::from_rows(rows) {
+        Ok(d) => d,
+        Err(e) => {
+            eprintln!("error parsing dataset: {e:?}");
+            return 1;
+        }
+    };
+
+    let stores = state::build_stores(&ds);
+    if stores.is_empty() {
+        eprintln!("no stores built from dataset");
+        return 1;
+    }
+    let store = &stores[0];
+    let loop_engine = opportunity::runloop::V83Runloop::default();
+
+    let report = match opportunity::funnel::CanonicalOpportunityFunnelTracker::evaluate_tape_canonical(
+        store,
+        &store.symbol,
+        "binance-um",
+        &loop_engine,
+    ) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("failed to evaluate canonical tape funnel: {e:?}");
+            return 1;
+        }
+    };
+
+    let tracker = opportunity::funnel::CanonicalOpportunityFunnelTracker::default();
+    let html = tracker.render_html(&report);
+
+    if let Some(parent) = out.parent() {
+        let _ = std::fs::create_dir_all(parent);
+    }
+
+    if let Err(e) = std::fs::write(&out, html) {
+        eprintln!("failed to write HTML report to {out:?}: {e}");
+        return 1;
+    }
+
+    println!("Opportunity Capture Funnel Audit written to {:?}", out);
+    println!("{}", serde_json::to_string_pretty(&report).unwrap());
     0
 }
 
