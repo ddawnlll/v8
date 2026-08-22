@@ -180,15 +180,36 @@ v8-core/
     path_security.rs path sanitization & traversal defense (D-120, #209)
     telemetry.rs    tracing & metrics facades (D-120, #209)
     checkpoint.rs   atomic simulation checkpoint & resume engine (D-122, #211)
-    backend/        ReplayKernel boundary + scalar, CPU/SIMD and optional
-                    Linux Vulkan f64 GPU backend (D-098)
-    opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130)
+    authority.rs    3D Authority Tensor (Evidence, Decision, Realization) & ClaimValue<T> (D-132)
+    claims.rs       6 statutory claim classes, ClaimRegistry & RendererFirewall (D-132)
+    audit/          Central Constitutional Audit Kernel & 8 Sabotage Invariants (D-132)
+      mod.rs        audit plane boundary
+      authority.rs  authority monotonicity & receipt verification
+      lineage.rs    Point-In-Time zero future-leakage audit
+      cashflow.rs   double-entry conservation invariant
+      reconciliation.rs witness Merkle root & clone collapse verification
+      independence.rs dual-key implementer != auditor separation
+      sabotage.rs   8-point automated audit-of-audit sabotage suite
+    backend/        ReplayKernel boundary + scalar, CPU/SIMD, optional GPU and
+                    ExecutionBackend venue physics instruments (D-098, D-132)
+      execution.rs  ExecutionBackend trait & BinanceUsdmExecutionBackend physics instrument
+    kaizen/         Sovereign Kaizen research, experiment & verdict engine (D-132)
+      controller.rs KaizenController orchestrating hypotheses, ledger & claims
+      verdict.rs    KaizenVerdictEngine (sole source of normative verdicts)
+    judiciary/      Judicial Review, Execution Oversight & Accountability Plane (D-134)
+      mod.rs        Judiciary plane boundary & re-exports
+      mandate.rs    Typestate ExecutionMandate, MobilizationTier, TaskLease & Capability Scopes
+      veto.rs       VetoProof, JudicialVetoGate, No-Naked-Veto & ExpeditedAppealEngine
+      oversight.rs  ProceduralCommissioner, TechnicalCommissioner, BlindAuditBundle & GovernanceReceipt
+      kaizen_boundary.rs External Constitutional Audit & Dual-Key separation for Kaizen
+      tests.rs      Comprehensive unit and property tests
+    opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130, D-132)
       mod.rs        7 canonical primitives & OpportunityBook interface
       exposure.rs   EconomicExposureStructure, ExposureResolver, false-collapse defense
       book.rs       OpportunityEpisode & OpportunityBook
       grammar.rs    Point-in-Time causal OpportunityGrammar
       evidence.rs   ObserverEvidence, typed stances & 9D WitnessScorecard
-      reconcile.rs  Dependence-aware EvidenceReconciler & N_eff clone collapse
+      reconcile.rs  Dependence-aware EvidenceReconciler, ReconciliationReceipt & N_eff collapse
       utility.rs    SelectiveUtility & cost/friction hurdle filtering
       campaign.rs   ExecutionCampaign & PortfolioFeasibilityEngine
       runloop.rs    V8.3 end-to-end Opportunity Runloop & ledger emission

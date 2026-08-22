@@ -2,6 +2,7 @@ pub mod adaptive;
 pub mod campaign;
 pub mod challenger;
 pub mod chop_suppression;
+pub mod controller;
 pub mod correlation;
 pub mod cost_surface;
 pub mod derivatives;
@@ -17,7 +18,11 @@ pub mod quantization;
 pub mod research_debt;
 pub mod robustness;
 pub mod validation;
+pub mod verdict;
 pub mod verification;
+
+pub use controller::{KaizenController, KaizenControllerConfig};
+pub use verdict::{KaizenVerdict, KaizenVerdictEngine};
 
 pub use adaptive::{
     O032UnblockingCriteria, SweepConfig, SweepEngine, SweepError, SweepMode, SweepReceipt,

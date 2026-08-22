@@ -198,6 +198,7 @@ mod tests {
 
         let mut reconciled = ReconciledOpportunityState {
             reconciled_id: String::new(),
+            receipt_id: "test_receipt_id".to_string(),
             opportunity_id: ep.episode_id.clone(),
             aggregate_stance: stance,
             effective_observer_count: 3.0,

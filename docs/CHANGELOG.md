@@ -2,7 +2,46 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — Ratification of V8 Judicial Review, Execution Oversight & Agent Accountability Act (CC-BILL-V8.3-JUDICIARY-005-REV2, D-134)
+
+Unanimously ratified by the V8 Central Committee and Allied Assembly (7-0) following Yüksek Divan trial `RT-001`:
+- **Four-Plane Separation of Powers (Rule 36):** Formally codified institutional separation ($\text{Constitution} \to \text{Judiciary} \to \text{Kaizen} \to \text{Implementer} \to \text{Ledger}$).
+- **Execution Oversight Corps (Rule 37):** Established independent Procedural & Technical Execution Commissioners with `TRACE`, `CHALLENGE`, and `BLOCK` rights (zero prod code/merge/success rights).
+- **Amendment A1 (Rule 38):** Anti-Clone & Epistemic Diversity Mandate isolating auditors from implementer Chain-of-Thought reasoning (`Blind Protocol`).
+- **Amendment A2 (Rule 39):** `No Naked Veto` with panic-test/receipt burden of proof and guaranteed 1-turn expedited judicial panel appeal.
+- **Amendment A3 (Rule 40):** Tier 0–2 Risk-Weighted Mobilization with Token Budget & Governance Efficiency receipts.
+- **Amendment A4 (Rule 41):** Cryptographic Constitution Pinning (`constitution_tree_hash`) and Kaizen Self-Audit Ban.
+- **Mandatory Red-Team Charter (Rule 42):** Codified 6-part Adversarial Falsification Charter and preserved dissenting opinions.
+- **Decision D-134 Registered:** Formally tescil in `DECISION_REGISTER.md` (EN & TR).
+
+Artifacts changed: `docs/charter/V8_CONSTITUTION.md`, `docs/tr/V8_CONSTITUTION.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/dossiers/CC_SESSION_20260822_JUDICIARY_RATIFICATION.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `v8-core/src/judiciary/*`, `site/index.html`, `site/tr.html`.
+
+## 2026-08-22 — Execution & Verified Completion of Evidence State Emergency Hotfix (CC-EMERGENCY-DECREE-005, D-133)
+
+Enacted under extraordinary Central Committee authority to execute unified constitutional migration across 6 milestones with zero bureaucracy and strictly zero economic tuning:
+- **Milestone 1 `[AUTH]`:** Implemented 3D Authority Tensor (`EvidenceAuthority`, `DecisionAuthority`, `RealizationStatus`), `ClaimValue<T>`, `ExecutionGatekeeper`, and `ReconciliationReceipt` with Merkle witness roots and $N_{\text{eff}} \equiv 1.0$ clone collapse proofs in `v8-core/src/authority.rs` and `reconcile.rs`.
+- **Milestone 2 `[CLAIMS]`:** Codified closed algebra of 6 statutory claim classes, central content-addressed `ClaimRegistry`, and `RendererFirewall` in `v8-core/src/claims.rs`.
+- **Milestone 3 `[AUDIT]`:** Established `v8-core/src/audit/` kernel (`authority.rs`, `lineage.rs`, `cashflow.rs`, `reconciliation.rs`, `independence.rs`) and passed 8/8 automated sabotage tests in `sabotage.rs`.
+- **Milestone 4 `[KAIZEN]`:** Implemented `KaizenVerdictEngine` and `KaizenController` in `v8-core/src/kaizen/` as the single sovereign source of normative verdicts.
+- **Milestone 5 `[EXECUTION]`:** Created `ExecutionBackend` trait and `BinanceUsdmExecutionBackend` in `v8-core/src/backend/execution.rs` as passive venue physics instruments.
+- **Milestone 6 `[LEGACY]`:** Mühürlenen `v8-pre-sovereign-hotfix` adli etiketi, `tools/audit_reachability.py`, and complete elimination of runtime shadow authority paths.
+- **Decision D-133 Registered:** Formally tescil in `DECISION_REGISTER.md` (EN & TR). Emergency authority automatically expired upon 415/415 test pass.
+
+Artifacts changed: `v8-core/src/authority.rs`, `v8-core/src/claims.rs`, `v8-core/src/audit/*`, `v8-core/src/kaizen/controller.rs`, `v8-core/src/kaizen/verdict.rs`, `v8-core/src/backend/execution.rs`, `tools/audit_reachability.py`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`.
+
+## 2026-08-22 — Ratification & Codification of V8 Evidence Constitution v2 & Authority Sovereignty Act (CC-BILL-V8.3-AUTHORITY-003, CC-AMEND-V8.3-KAIZEN-004, D-132)
+
+Unanimously ratified by the V8 Central Committee and Allied Assembly (7-0) under Resolution `V8-CC-SOVEREIGNTY-2026-08-REV2`:
+- **Constitutional Overhaul (Rules 28–35):** Upgraded `V8_CONSTITUTION.md` (v0.3 EN & TR) codifying 3D Authority Tensor (`EvidenceAuthority`, `DecisionAuthority`, `RealizationStatus`), `No Naked Economic Claims` via `ClaimValue<T>`, closed algebra of 6 statutory claim classes with centralized `ClaimRegistry`, Renderer Firewall, and Constitutional Adversarial Audit (`FALSIFY CLAIM`).
+- **Sovereign Kaizen & Execution Physics Instrument:** Designated `KaizenController` as the single sovereign research and verdict authority (`KaizenVerdictEngine`). Demoted USD-M Engine from autonomous decision authority to passive `ExecutionBackend` laboratory instrument modeling venue micro-physics.
+- **Constitutional Audit Kernel & Legacy Import Ban:** Formally established `v8-core/src/audit/` architectural kernel and enforced compile-time legacy isolation (`FORBIDDEN_LEGACY_IMPORT`, `SHADOW_AUTHORITY_PATH` P0 reachability failure).
+- **Decision D-132 Registered:** Formally tescil in `DECISION_REGISTER.md` (EN & TR).
+- **Expanded Roadmap Roadmap Ratified:** Codified execution sequence: `PH2-003A` (Evidence Authority Hardening) $\rightarrow$ `PH2-003A.1` (Claim Registry + Renderer Firewall) $\rightarrow$ `PH2-003A.2` (Central Constitutional Audit Kernel) $\rightarrow$ `PH2-003A.3` (Kaizen Sovereign Controller) $\rightarrow$ `PH2-003A.4` (USD-M Migration) $\rightarrow$ `PH2-003A.5` (Legacy Purge) $\rightarrow$ Independent Red-Team Audit $\rightarrow$ `PH2-003B` (H4 Reconciliation Repair).
+
+Artifacts changed: `docs/charter/V8_CONSTITUTION.md`, `docs/tr/V8_CONSTITUTION.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-22 — Implementation & Succession of V8.3 Büyük İleri Atılım: Opportunity Sovereignty (issues #231..#242, D-128..D-130)
+
 
 Complete, tested, and verified implementation of the entire V8.3 Büyük İleri Atılım milestone in Rust (`v8-core/`):
 - **#231 (V83-001):** Core Types & Module Boundary (`v8-core/src/opportunity/`) establishing the 7 canonical primitives with cryptographic BLAKE3 identity tuples.

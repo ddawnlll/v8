@@ -1,4 +1,4 @@
-# V8 Constitution v0.2 (Ratified under CC-PROP-V8.3-GL-001 / CC-RES-V8.3-GL-001)
+# V8 Constitution v0.3 — Evidence Constitution v2 (Ratified under CC-BILL-V8.3-AUTHORITY-003 & CC-AMEND-V8.3-KAIZEN-004)
 
 1. V8 is a falsification program, not a promise of edge.
 2. A claim is labeled `LITERATURE_SUPPORTED`, `PROJECT_EVIDENCE_SUPPORTED`,
@@ -91,24 +91,92 @@
     Invariant Tests (T1–T12) and Economic Gates (G0–G5). Failure of any invariant
     represents an immediate architectural defeat, strictly prohibiting heuristic
     tolerance relaxation or test-tweaking.
+28. **3-Dimensional Authority Tensor:** Authority is not a 1-dimensional scalar
+    ladder. It is defined across three orthogonal dimensions:
+    $$\text{Authority} = (\text{EvidenceAuthority}, \text{DecisionAuthority}, \text{RealizationStatus})$$
+    where:
+    - $\text{EvidenceAuthority} \in \{\text{Counterfactual}, \text{ModelDerived}, \text{Observed}\}$
+    - $\text{DecisionAuthority} \in \{\text{DiagnosticOnly}, \text{Reconciled}, \text{UtilityEligible}, \text{PortfolioAuthorized}, \text{ExecutionAuthorized}\}$
+    - $\text{RealizationStatus} \in \{\text{Hypothetical}, \text{Simulated}, \text{Filled}, \text{CashflowSettled}\}$
+    A high decision authority grant (e.g. `PortfolioAuthorized`) never promotes epistemic evidence or realization status into reality.
+29. **No Naked Economic Claims:** Internal calculations may use `f64`, but no economic
+    or statistical value may cross a module boundary, enter a report, or influence a
+    decision without typed authority wrapping:
+    $$\text{ClaimValue}\langle T \rangle = \{ \text{value}: T, \text{authority}: \text{Authority}, \text{receipt\_id}: \text{ReceiptId} \}$$
+    Every economic claim requires an immutable cryptographic receipt.
+30. **Closed Algebra of 6 Statutory Claim Classes:** Systems, agents, and reports are
+    strictly restricted to 6 statutory claim classes: `DIAGNOSTIC_SIGNAL`,
+    `COUNTERFACTUAL_POTENTIAL`, `RECOVERABLE_REGRET`, `SIMULATED_CASHFLOW`,
+    `REALIZED_CASHFLOW`, and `SUPPORTED_EDGE`. Every claim is registered in the
+    central `ClaimRegistry`. Transitioning `COUNTERFACTUAL_POTENTIAL` to `REALIZED_CASHFLOW`
+    is legally and architecturally impossible.
+31. **Renderer Firewall:** Visualizers, dashboard renderers, HTML generators, and CLI
+    output formatters are prohibited from arbitrary string formatting. All titles,
+    labels, and metric qualifiers must be derived directly from the certified `ClaimValue`
+    type. Unauthorized use of words such as `realized`, `profit`, `alpha`, or `cashflow`
+    fails compilation and CI verification.
+32. **Constitutional Adversarial Audit & Audit-of-Audit:** The constitutional duty of the
+    independent auditor is not to approve, but to actively falsify claims (`FALSIFY CLAIM`).
+    Economic authorization requires three distinct signatures:
+    $$\text{Implementation Receipt} + \text{Independent Adversarial Audit Receipt} + \text{Verdict Receipt} \implies \text{Authorized Claim}$$
+    The audit system itself is continuously subjected to mandatory automated sabotage tests
+    (tampered hashes, simulated leakage, clone inflation, missing ledgers).
+33. **Sovereign Kaizen Controller:** `KaizenController` is the single sovereign research,
+    experiment, and verdict authority. Subsystems, expert grammars, and simulators emit
+    only passive observation telemetry; only `KaizenVerdictEngine` may issue normative verdicts.
+34. **Execution Physics Instrument Status:** The USD-M engine and venue simulators possess
+    zero autonomous decision authority; they operate strictly as passive laboratory
+    instruments (`ExecutionBackend`) providing venue execution physics (fees, funding,
+    margin, tick/step quantization, and slippage).
+35. **Constitutional Reachability & Forbidden Legacy Import:** All call-graph paths leading
+    to an economic claim must traverse Kaizen (`SHADOW_AUTHORITY_PATH` is a P0 failure).
+    Importing frozen legacy candidate/Python code paths in production is strictly prohibited
+    and enforced by compile-time assertions (`FORBIDDEN_LEGACY_IMPORT`).
+36. **Four-Plane Separation of Powers:** V8 governance operates across 4 strictly separated planes:
+    $$\text{Constitution} \implies \text{Central Committee / Judiciary} \implies \text{Kaizen (Sole Execution Engine)} \implies \text{Implementer / Agents} \implies \text{Double-Entry Ledger}$$
+    The Central Committee decides policy; Judiciary reviews & falsifies; Kaizen orchestrates; Agents implement; Ledger certifies truth.
+37. **Execution Oversight Corps:** Independent Procedural and Technical Commissioners monitor execution runs under strict capability limits: `READ`, `TRACE`, `TEST`, `REPLAY`, `CHALLENGE`, `BLOCK` are permitted; `WRITE PROD CODE`, `MERGE`, and `DECLARE SUCCESS` are strictly forbidden.
+38. **Anti-Clone & Epistemic Diversity Mandate (Amendment A1):** To prevent correlated agent consensus ($N_{\text{eff}} \approx 2$ despite $N=9$), auditors are completely blinded from the implementer's Chain-of-Thought reasoning (`Blind Protocol`). Homogeneous agent consensus carries zero evidentiary value.
+39. **No Naked Veto & Expedited Appeal (Amendment A2):** Arbitrary or unevidenced vetoes are prohibited (`No Naked Veto`). Every block decision must produce a reproducible, panic-inducing Rust unit test (`#[test]`) or receipt violation proof. An expedited 1-turn Judicial Panel appeal is guaranteed against unjust blocks.
+40. **Risk-Weighted Mobilization & Token Budget Firewall (Amendment A3):** Oversight is mobilized in 3 tiers:
+    - *Tier 0 (Routine):* Primary Implementer + Automated CI tests.
+    - *Tier 1 (Material):* Primary Implementer + 1 Execution Commissioner + Automated Audit.
+    - *Tier 2 (Constitutional / Economic):* Full Assembly (5 Committee Agents + Primary Implementer + 2 Execution Commissioners + Red-Team + Verdict Authority).
+    Every run produces an immutable Token Budget & Governance Efficiency receipt.
+41. **Cryptographic Constitution Pinning & Kaizen Self-Audit Ban (Amendment A4):** Every execution mandate pins the immutable `constitution_tree_hash` at checkout. Kaizen possesses zero authority to audit its own orchestration; it is subject to external constitutional judicial review.
+42. **Mandatory 6-Section Red-Team Adversarial Charter:** The Red-Team is an adversarial falsification antibody, not a consensus rubber-stamp. Every audit must structure findings into: (1) Strongest Case For, (2) Strongest Case Against, (3) Top 3 Catastrophic Failures, (4) Top 3 Subtle Failures, (5) Executable Falsification Tests, and (6) Dissenting Opinion / Vote.
 
-## Minimum Coherent Architecture
+## Minimum Coherent Architecture (Authority DAG)
 
 ```text
-versioned point-in-time tape/state
-  -> Economic Exposure / Opportunity Grammar
-  -> Canonical Opportunity Book
-     ├── Expert A -> Stance (Support)
-     ├── Expert B -> Stance (Support)
-     ├── Expert C -> Stance (Abstain)
-     └── Expert D -> Stance (Contradict)
-  -> Evidence Reconciliation (Dependence & Covariance Discounted)
-  -> Reconciled Opportunity State
-  -> Selective Utility Decision (TRADE / NO_TRADE / DEFER)
-  -> Portfolio Feasibility & Factor Covariance Budget
-  -> Execution Campaign (Multi-Leg & Basis Protected)
-  -> Canonical Orders / Fills / Positions / Ledger
-  -> Preregistered Hypothesis Lab & Counterfactual Regret Cube
+                      CONSTITUTION
+                           │
+          ┌────────────────┴────────────────┐
+          │                                 │
+  5 PERSISTENT                        JUDICIARY
+ COMMITTEE AGENTS                       │
+          │                     ┌────────┴────────┐
+          │                     │                 │
+          │               EXECUTION         INDEPENDENT
+          │              COMMISSIONERS        RED TEAM
+          │
+          ▼
+    DECISION REGISTER
+          ↓
+        KAIZEN (Sovereign Orchestration)
+          ↓
+    EXECUTION MANDATE (Constitution Tree Pinned)
+          ↓
+ PRIMARY IMPLEMENTER (Blind Oversight Monitored)
+          ↓
+   WORKER AGENTS
+          ↓
+  BLAKE3 RECEIPTS + CLAIM REGISTRY
+          ↓
+ DOUBLE-ENTRY CASHFLOW LEDGER (Conservation Invariant Verified)
+          ↓
+  KAIZEN VERDICT ENGINE (Tri-Signed: Impl + Audit + Verdict)
 ```
 
 Anything beyond this diagram requires the applicable registry experiment to pass.
+
