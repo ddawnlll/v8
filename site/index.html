@@ -8271,6 +8271,17 @@ table.</p>
     checkpoint.rs   atomic simulation checkpoint &amp; resume engine (D-122, #211)
     backend/        ReplayKernel boundary + scalar, CPU/SIMD and optional
                     Linux Vulkan f64 GPU backend (D-098)
+    opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130)
+      mod.rs        7 canonical primitives &amp; OpportunityBook interface
+      exposure.rs   EconomicExposureStructure, ExposureResolver, false-collapse defense
+      book.rs       OpportunityEpisode &amp; OpportunityBook
+      grammar.rs    Point-in-Time causal OpportunityGrammar
+      evidence.rs   ObserverEvidence, typed stances &amp; 9D WitnessScorecard
+      reconcile.rs  Dependence-aware EvidenceReconciler &amp; N_eff clone collapse
+      utility.rs    SelectiveUtility &amp; cost/friction hurdle filtering
+      campaign.rs   ExecutionCampaign &amp; PortfolioFeasibilityEngine
+      runloop.rs    V8.3 end-to-end Opportunity Runloop &amp; ledger emission
+      harness_t1_t12.rs Constitutional Invariant Harness T1–T12
     scheduler.rs    deterministic task scheduling/chunking, evaluate_typed (D-119)
     runloop.rs      S4 per-bar composition and runtime dispatch wiring
   tests/            empty — parity is proven by #[cfg(test)] unit tests
@@ -11239,6 +11250,21 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-22-implementation-succession-of-v83-buyuk-ileri-atlm-opportunity-sovereignty-issues-231242-d-128d-130">2026-08-22 — Implementation &amp; Succession of V8.3 Büyük İleri Atılım: Opportunity Sovereignty (issues #231..#242, D-128..D-130)</h2>
+<p>Complete, tested, and verified implementation of the entire V8.3 Büyük İleri Atılım milestone in Rust (<code>v8-core/</code>):
+- <strong>#231 (V83-001):</strong> Core Types &amp; Module Boundary (<code>v8-core/src/opportunity/</code>) establishing the 7 canonical primitives with cryptographic BLAKE3 identity tuples.
+- <strong>#232 (V83-002):</strong> Economic Exposure Identity &amp; False-Collapse Protection (<code>v8-core/src/opportunity/exposure.rs</code>), preserving multi-leg basis spread identities and deterministic alias resolution.
+- <strong>#233 (V83-003):</strong> Point-In-Time Causal Opportunity Grammar &amp; Canonical Opportunity Book (<code>v8-core/src/opportunity/grammar.rs</code>, <code>book.rs</code>) with zero-lookahead and expert independence.
+- <strong>#234 (V83-004):</strong> Epistemic Witness Migration &amp; Legacy Adapter (<code>v8-core/src/experts/witness_adapter.rs</code>) mapping all 28 experts to typed evidence stances with a compile-time capital firewall.
+- <strong>#235 (V83-005):</strong> Habitat, Abstention &amp; 9-Dimensional Epistemic Witness Scorecards (<code>v8-core/src/analysis/scorecard.rs</code>, <code>evidence.rs</code>) under strict Rule 5 anti-hallucination compliance.
+- <strong>#236 (V83-006):</strong> Dependence-Aware Evidence Reconciliation (<code>v8-core/src/opportunity/reconcile.rs</code>) with exact $N_{\text{eff}}=1.0$ clone collapse and contradiction dampening.
+- <strong>#237 (V83-007):</strong> Cost-Aware Selective Utility &amp; Hurdle Engine (<code>v8-core/src/opportunity/utility.rs</code>) defaulting sub-friction setups to <code>NO_TRADE</code>.
+- <strong>#238 (V83-008):</strong> Exposure-Aware Portfolio Feasibility &amp; ExecutionCampaign (<code>v8-core/src/opportunity/campaign.rs</code>).
+- <strong>#239 (V83-009):</strong> V8.3 Opportunity Runloop &amp; Ledger Pipeline (<code>v8-core/src/opportunity/runloop.rs</code>).
+- <strong>#240 (V83-010):</strong> Constitutional Invariant Harness T1–T12 (<code>v8-core/src/opportunity/harness_t1_t12.rs</code>) validating all 12 constitutional gates.
+- <strong>#241 (V83-011):</strong> Great Leap Economic Evaluation: G0–G4 Historical Dossier (<code>docs/dossiers/V83_G0_G4_HISTORICAL_EVALUATION.md</code>).
+- <strong>#242 (V83-012):</strong> G5 Prospective Shadow Confirmation &amp; Succession Dossier (<code>docs/dossiers/V83_G5_PROSPECTIVE_CONFIRMATION.md</code>, <code>docs/dossiers/V83_ANATOMY_TARGET_PREDICTION_AUDIT.md</code>).</p>
+<p>Artifacts changed: <code>v8-core/src/opportunity/*</code>, <code>v8-core/src/experts/witness_adapter.rs</code>, <code>v8-core/src/analysis/scorecard.rs</code>, <code>docs/dossiers/*</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>.</p>
 <h2 id="2026-08-22-ratification-of-v83-buyuk-ileri-atlm-opportunity-sovereignty-constitutional-package-cc-prop-v83-gl-001-cc-res-v83-gl-001-d-128d-130">2026-08-22 — Ratification of V8.3 Büyük İleri Atılım: Opportunity Sovereignty Constitutional Package (CC-PROP-V8.3-GL-001, CC-RES-V8.3-GL-001, D-128..D-130)</h2>
 <p>Unanimously ratified by the V8 Central Committee (5-0) under Resolution <code>CC-RES-V8.3-GL-001</code>:
 - <strong>Constitutional Overhaul:</strong> Updated <code>V8_CONSTITUTION.md</code> (v0.2 EN &amp; TR) with Rules 4, 6, 13, 14, 16, 17 and new foundational Articles 18–27 establishing Opportunity Sovereignty, Observer Constitution, Multiplicity Invariance, First-Class Abstention/NO_TRADE, Correlated Witness Discounting, Falsifiable Opportunity Grammar, False-Collapse Basis Protection, and Constitutional Falsifiability.

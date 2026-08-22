@@ -181,7 +181,7 @@ impl EvidenceReconciler {
 
         let aggregate_stance = if total_contradict > total_support {
             ReconciledStance::Contradicted
-        } else if total_support > total_contradict && total_support > total_abstain && contradiction_entropy < 0.5 {
+        } else if total_support > total_contradict && contradiction_entropy < 0.5 {
             ReconciledStance::Supported
         } else if total_active < 1e-9 {
             ReconciledStance::Indeterminate

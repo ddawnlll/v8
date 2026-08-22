@@ -2,6 +2,24 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-22 — Implementation & Succession of V8.3 Büyük İleri Atılım: Opportunity Sovereignty (issues #231..#242, D-128..D-130)
+
+Complete, tested, and verified implementation of the entire V8.3 Büyük İleri Atılım milestone in Rust (`v8-core/`):
+- **#231 (V83-001):** Core Types & Module Boundary (`v8-core/src/opportunity/`) establishing the 7 canonical primitives with cryptographic BLAKE3 identity tuples.
+- **#232 (V83-002):** Economic Exposure Identity & False-Collapse Protection (`v8-core/src/opportunity/exposure.rs`), preserving multi-leg basis spread identities and deterministic alias resolution.
+- **#233 (V83-003):** Point-In-Time Causal Opportunity Grammar & Canonical Opportunity Book (`v8-core/src/opportunity/grammar.rs`, `book.rs`) with zero-lookahead and expert independence.
+- **#234 (V83-004):** Epistemic Witness Migration & Legacy Adapter (`v8-core/src/experts/witness_adapter.rs`) mapping all 28 experts to typed evidence stances with a compile-time capital firewall.
+- **#235 (V83-005):** Habitat, Abstention & 9-Dimensional Epistemic Witness Scorecards (`v8-core/src/analysis/scorecard.rs`, `evidence.rs`) under strict Rule 5 anti-hallucination compliance.
+- **#236 (V83-006):** Dependence-Aware Evidence Reconciliation (`v8-core/src/opportunity/reconcile.rs`) with exact $N_{\text{eff}}=1.0$ clone collapse and contradiction dampening.
+- **#237 (V83-007):** Cost-Aware Selective Utility & Hurdle Engine (`v8-core/src/opportunity/utility.rs`) defaulting sub-friction setups to `NO_TRADE`.
+- **#238 (V83-008):** Exposure-Aware Portfolio Feasibility & ExecutionCampaign (`v8-core/src/opportunity/campaign.rs`).
+- **#239 (V83-009):** V8.3 Opportunity Runloop & Ledger Pipeline (`v8-core/src/opportunity/runloop.rs`).
+- **#240 (V83-010):** Constitutional Invariant Harness T1–T12 (`v8-core/src/opportunity/harness_t1_t12.rs`) validating all 12 constitutional gates.
+- **#241 (V83-011):** Great Leap Economic Evaluation: G0–G4 Historical Dossier (`docs/dossiers/V83_G0_G4_HISTORICAL_EVALUATION.md`).
+- **#242 (V83-012):** G5 Prospective Shadow Confirmation & Succession Dossier (`docs/dossiers/V83_G5_PROSPECTIVE_CONFIRMATION.md`, `docs/dossiers/V83_ANATOMY_TARGET_PREDICTION_AUDIT.md`).
+
+Artifacts changed: `v8-core/src/opportunity/*`, `v8-core/src/experts/witness_adapter.rs`, `v8-core/src/analysis/scorecard.rs`, `docs/dossiers/*`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-22 — Ratification of V8.3 Büyük İleri Atılım: Opportunity Sovereignty Constitutional Package (CC-PROP-V8.3-GL-001, CC-RES-V8.3-GL-001, D-128..D-130)
 
 Unanimously ratified by the V8 Central Committee (5-0) under Resolution `CC-RES-V8.3-GL-001`:
