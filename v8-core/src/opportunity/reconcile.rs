@@ -206,3 +206,168 @@ impl EvidenceReconciler {
         Ok(state)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::opportunity::book::IdentityStatus;
+    use crate::opportunity::evidence::AbstentionReason;
+    use crate::opportunity::exposure::{EconomicExposureStructure, ExposureDirection};
+
+    fn make_test_episode() -> OpportunityEpisode {
+        let exp = EconomicExposureStructure::single_perp(
+            "BTCUSDT",
+            "BTC",
+            "binance-um",
+            "USDT",
+            ExposureDirection::Long,
+        )
+        .unwrap();
+
+        OpportunityEpisode::new(
+            exp,
+            1_000_000,
+            2_000_000,
+            24,
+            IdentityStatus::Canonical,
+            "state_hash",
+            "lineage_hash",
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn test_exact_observer_clone_collapse_n_eff_equals_one() {
+        let ep = make_test_episode();
+
+        // 10 identical clone observers in the same dependency group
+        let mut evidences = Vec::new();
+        for i in 0..10 {
+            evidences.push(
+                ObserverEvidence::new(
+                    &ep.episode_id,
+                    format!("trend_clone_{i}"),
+                    "v1",
+                    "momentum",
+                    "trend",
+                    "dep_trend_group", // Same dependency group
+                    ObserverStance::Support {
+                        confidence: 0.90,
+                        expected_edge_r: 0.50,
+                    },
+                    HabitatAssessment::InHabitat,
+                    0.10,
+                    1_000_000,
+                    "lineage",
+                )
+                .unwrap(),
+            );
+        }
+
+        let reconciled = EvidenceReconciler::reconcile(&ep, &evidences).unwrap();
+
+        // Invariant: N identical clones in 1 group collapse to exactly N_eff = 1.0
+        assert_eq!(reconciled.effective_observer_count, 1.0);
+        // Intra-group support normalized to 0.81 (0.90 * 0.90 uncertainty discount)
+        assert!((reconciled.support_weight - 0.81).abs() < 1e-6);
+        assert_eq!(reconciled.aggregate_stance, ReconciledStance::Supported);
+    }
+
+    #[test]
+    fn test_severe_contradiction_dampens_to_inconclusive() {
+        let ep = make_test_episode();
+
+        let evidences = vec![
+            ObserverEvidence::new(
+                &ep.episode_id,
+                "expert_bull",
+                "v1",
+                "momentum",
+                "trend",
+                "group_a",
+                ObserverStance::Support {
+                    confidence: 0.85,
+                    expected_edge_r: 0.40,
+                },
+                HabitatAssessment::InHabitat,
+                0.10,
+                1_000_000,
+                "lineage",
+            )
+            .unwrap(),
+            ObserverEvidence::new(
+                &ep.episode_id,
+                "expert_bear",
+                "v1",
+                "volatility",
+                "reversal",
+                "group_b",
+                ObserverStance::Contradict {
+                    reason: "Massive overhead resistance".to_string(),
+                    severity: 0.85,
+                },
+                HabitatAssessment::InHabitat,
+                0.10,
+                1_000_000,
+                "lineage",
+            )
+            .unwrap(),
+        ];
+
+        let reconciled = EvidenceReconciler::reconcile(&ep, &evidences).unwrap();
+
+        assert_eq!(reconciled.effective_observer_count, 2.0);
+        assert!(reconciled.contradiction_entropy > 0.60); // High entropy due to severe contradiction
+        assert_eq!(reconciled.aggregate_stance, ReconciledStance::Inconclusive);
+    }
+
+    #[test]
+    fn test_abstention_does_not_corrupt_clean_support() {
+        let ep = make_test_episode();
+
+        let mut evidences = vec![ObserverEvidence::new(
+            &ep.episode_id,
+            "expert_active",
+            "v1",
+            "momentum",
+            "trend",
+            "group_a",
+            ObserverStance::Support {
+                confidence: 0.90,
+                expected_edge_r: 0.50,
+            },
+            HabitatAssessment::InHabitat,
+            0.10,
+            1_000_000,
+            "lineage",
+        )
+        .unwrap()];
+
+        // 3 abstaining out-of-habitat witnesses
+        for i in 0..3 {
+            evidences.push(
+                ObserverEvidence::new(
+                    &ep.episode_id,
+                    format!("expert_abs_{i}"),
+                    "v1",
+                    "derivatives",
+                    "crowding",
+                    format!("group_abs_{i}"),
+                    ObserverStance::Abstain {
+                        reason: AbstentionReason::RegimeMismatch,
+                    },
+                    HabitatAssessment::OutOfHabitat,
+                    0.50,
+                    1_000_000,
+                    "lineage",
+                )
+                .unwrap(),
+            );
+        }
+
+        let reconciled = EvidenceReconciler::reconcile(&ep, &evidences).unwrap();
+        assert_eq!(reconciled.contradict_weight, 0.0);
+        assert_eq!(reconciled.contradiction_entropy, 0.0);
+        assert!((reconciled.support_weight - 0.81).abs() < 1e-6);
+    }
+}
