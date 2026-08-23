@@ -181,8 +181,10 @@ impl Scenario {
             ));
         }
         let mut scaled = self.clone();
-        for value in scaled.input.scalars.values_mut() {
-            *value *= factor;
+        for (name, value) in &mut scaled.input.scalars {
+            if name != "bar_of_session" {
+                *value *= factor;
+            }
         }
         for (name, value) in &mut scaled.input.structured {
             if name == "fib_levels" {
@@ -251,22 +253,29 @@ fn scale_fib_levels(value: &mut serde_json::Value, factor: f64) -> Result<(), V8
         .as_f64()
         .ok_or_else(|| V8CoreError::QuantInvariant("fib anchor must be numeric".into()))?;
     arr[0] = serde_json::json!(anchor * factor);
-    let extensions = arr[3].as_array_mut().ok_or_else(|| {
-        V8CoreError::QuantInvariant("fib extension table must be an array".into())
-    })?;
-    for pair in extensions {
-        let pair = pair
-            .as_array_mut()
-            .ok_or_else(|| V8CoreError::QuantInvariant("fib extension must be a pair".into()))?;
-        if pair.len() != 2 {
-            return Err(V8CoreError::QuantInvariant(
-                "fib extension must contain ratio and level".into(),
-            ));
+    for (index, table_name) in [(2, "fib retracement"), (3, "fib extension")] {
+        if index == 2 && arr[index].is_number() {
+            // Projection manifests use a numeric retracement sentinel; it is
+            // not a price table and therefore has no price-scale transform.
+            continue;
         }
-        let level = pair[1].as_f64().ok_or_else(|| {
-            V8CoreError::QuantInvariant("fib extension level must be numeric".into())
+        let levels = arr[index].as_array_mut().ok_or_else(|| {
+            V8CoreError::QuantInvariant(format!("{table_name} table must be an array"))
         })?;
-        pair[1] = serde_json::json!(level * factor);
+        for pair in levels {
+            let pair = pair.as_array_mut().ok_or_else(|| {
+                V8CoreError::QuantInvariant(format!("{table_name} must be a pair"))
+            })?;
+            if pair.len() != 2 {
+                return Err(V8CoreError::QuantInvariant(format!(
+                    "{table_name} must contain ratio and level"
+                )));
+            }
+            let level = pair[1].as_f64().ok_or_else(|| {
+                V8CoreError::QuantInvariant(format!("{table_name} level must be numeric"))
+            })?;
+            pair[1] = serde_json::json!(level * factor);
+        }
     }
     Ok(())
 }
@@ -737,6 +746,68 @@ pub fn range_breakout_1to1_manifest() -> ExpertQualificationManifest {
             ScenarioClass::Metamorphic,
         ],
         oracle_id: "d141.range-breakout-1to1.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn floor_trader_pivot_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "floor_trader_pivot".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "pivot".into(),
+            behavior_family_id: "range".into(),
+            dependency_group: "dep_pivot".into(),
+            hypothesis: "Within the current session, a PP-upward or PP-downward drift bar with positive declared geometry supports its matching pivot direction.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "pivot_points_day".into(),
+                "bar_of_session".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.floor-trader-pivot.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn fib_retracement_continuation_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "fib_retracement_continuation".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "geometric".into(),
+            behavior_family_id: "continuation".into(),
+            dependency_group: "dep_fib".into(),
+            hypothesis: "A 0.382 retracement touch and reclaim continues the declared impulse direction; the 0.786 level is frozen only as invalidation geometry.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "fib_levels".into(), "history".into()],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.fib-retracement-continuation.declarative".into(),
         oracle_version: "v1".into(),
         seed_manifest: "d141-seeds-v1".into(),
         generator_version: "scenario-foundry-v1".into(),
@@ -1300,6 +1371,130 @@ pub fn range_breakout_1to1_scenarios() -> Vec<Scenario> {
             "range-missing",
             ScenarioClass::Contract,
             "RANGE-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn floor_trader_pivot_scenarios() -> Vec<Scenario> {
+    let pivots = serde_json::json!([100.0, 110.0, 120.0, 130.0, 140.0, 90.0, 80.0, 70.0, 60.0]);
+    let mut long = base_input();
+    long.history[1].open = 101.0;
+    long.history[1].close = 102.0;
+    long.scalars.insert("close".into(), 105.0);
+    long.scalars.insert("bar_of_session".into(), 2.0);
+    long.structured
+        .insert("pivot_points_day".into(), pivots.clone());
+    let mut short = long.clone();
+    short.history[1].open = 99.0;
+    short.history[1].close = 98.0;
+    short.scalars.insert("close".into(), 95.0);
+    let mut negative = long.clone();
+    negative.history[1].close = 101.0;
+    let mut geometry_boundary = long.clone();
+    geometry_boundary.scalars.insert("close".into(), 100.0);
+    let mut missing = long.clone();
+    missing.structured.remove("pivot_points_day");
+    vec![
+        scenario(
+            "pivot-long",
+            ScenarioClass::CanonicalPositive,
+            "PIVOT-LONG",
+            long,
+            ExpectedStance::SupportLong,
+            &["session", "pp-up-drift", "long"],
+        ),
+        scenario(
+            "pivot-short",
+            ScenarioClass::CanonicalPositive,
+            "PIVOT-SHORT",
+            short,
+            ExpectedStance::SupportShort,
+            &["session", "pp-down-drift", "short"],
+        ),
+        scenario(
+            "pivot-negative",
+            ScenarioClass::CanonicalNegative,
+            "PIVOT-NO-DRIFT",
+            negative,
+            ExpectedStance::Abstain,
+            &["no-drift"],
+        ),
+        scenario(
+            "pivot-geometry-boundary",
+            ScenarioClass::Boundary,
+            "PIVOT-ZERO-STOP",
+            geometry_boundary,
+            ExpectedStance::Abstain,
+            &["zero-stop-boundary"],
+        ),
+        scenario(
+            "pivot-missing",
+            ScenarioClass::Contract,
+            "PIVOT-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn fib_retracement_continuation_scenarios() -> Vec<Scenario> {
+    let fib_up = serde_json::json!([120.0, 1.0, [[0.382, 110.0], [0.786, 105.0]], []]);
+    let fib_down = serde_json::json!([80.0, -1.0, [[0.382, 90.0], [0.786, 95.0]], []]);
+    let mut long = base_input();
+    long.history[1].low = 109.0;
+    long.history[1].close = 111.0;
+    long.structured.insert("fib_levels".into(), fib_up.clone());
+    let mut short = base_input();
+    short.history[1].high = 91.0;
+    short.history[1].close = 89.0;
+    short.structured.insert("fib_levels".into(), fib_down);
+    let mut negative = long.clone();
+    negative.history[1].low = 111.0;
+    let mut boundary = long.clone();
+    boundary.history[1].close = 110.0;
+    let mut missing = long.clone();
+    missing.structured.remove("fib_levels");
+    vec![
+        scenario(
+            "fib-retrace-long",
+            ScenarioClass::CanonicalPositive,
+            "FIB-RETRACE-LONG",
+            long,
+            ExpectedStance::SupportLong,
+            &["up-impulse", "retracement-touch", "reclaim", "long"],
+        ),
+        scenario(
+            "fib-retrace-short",
+            ScenarioClass::CanonicalPositive,
+            "FIB-RETRACE-SHORT",
+            short,
+            ExpectedStance::SupportShort,
+            &["down-impulse", "retracement-touch", "reclaim", "short"],
+        ),
+        scenario(
+            "fib-retrace-negative",
+            ScenarioClass::CanonicalNegative,
+            "FIB-RETRACE-NO-TOUCH",
+            negative,
+            ExpectedStance::Abstain,
+            &["no-touch"],
+        ),
+        scenario(
+            "fib-retrace-boundary",
+            ScenarioClass::Boundary,
+            "FIB-RETRACE-EQUAL-CLOSE",
+            boundary,
+            ExpectedStance::Abstain,
+            &["equal-level-boundary"],
+        ),
+        scenario(
+            "fib-retrace-missing",
+            ScenarioClass::Contract,
+            "FIB-RETRACE-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -2271,6 +2466,14 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             range_breakout_1to1_manifest(),
             range_breakout_1to1_scenarios(),
         ),
+        (
+            floor_trader_pivot_manifest(),
+            floor_trader_pivot_scenarios(),
+        ),
+        (
+            fib_retracement_continuation_manifest(),
+            fib_retracement_continuation_scenarios(),
+        ),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -2621,6 +2824,68 @@ mod tests {
     }
 
     #[test]
+    fn floor_trader_pivot_session_and_geometry_contracts_pass() {
+        let manifest = floor_trader_pivot_manifest();
+        let scenarios = floor_trader_pivot_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("floor_trader_pivot", relation, positive)
+                    .unwrap()
+                    .passed,
+                "metamorphic relation {relation:?} failed"
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("floor_trader_pivot", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
+            "mutation survived"
+        );
+    }
+
+    #[test]
+    fn fib_retracement_continuation_scales_retracement_levels_and_passes() {
+        let manifest = fib_retracement_continuation_manifest();
+        let scenarios = fib_retracement_continuation_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("fib_retracement_continuation", relation, positive)
+                    .unwrap()
+                    .passed,
+                "metamorphic relation {relation:?} failed"
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("fib_retracement_continuation", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
+            "mutation survived"
+        );
+    }
+
+    #[test]
     fn all_critical_mutants_are_killed_by_the_pilot_suite() {
         let scenarios = failed_breakout_scenarios();
         let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
@@ -2690,7 +2955,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 8);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 10);
         assert!(!suite
             .passports
             .iter()
