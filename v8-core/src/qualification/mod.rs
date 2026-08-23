@@ -1080,6 +1080,35 @@ pub fn bollinger_reversion_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn bollinger_breakout_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "bollinger_breakout".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "bollinger".into(),
+            behavior_family_id: "breakout".into(),
+            dependency_group: "dep_bollinger".into(),
+            hypothesis: "The registered default branch supports a direction only when the current close strictly crosses its 20-bar Bollinger midpoint; equality abstains and the anchor shares the same recomputed window.".into(),
+            declared_features: vec![
+                "close".into(), "bb_mid".into(), "bb_upper".into(), "bb_lower".into(),
+                "bb_pct_b".into(), "bb_bandwidth".into(), "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary, ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.bollinger-breakout.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 fn base_input() -> ScenarioInput {
     ScenarioInput {
         symbol: "BTCUSDT".into(),
@@ -2287,6 +2316,7 @@ fn bollinger_reversion_world(last_close: f64, upper: bool) -> ScenarioInput {
         ("bb_upper".into(), mid + 2.0 * sd),
         ("bb_lower".into(), mid - 2.0 * sd),
         ("bb_pct_b".into(), 0.0),
+        ("bb_bandwidth".into(), 4.0 * sd / mid),
         ("ema_fast".into(), 100.0),
         ("ema_slow".into(), 100.0),
     ]);
@@ -2337,6 +2367,61 @@ pub fn bollinger_reversion_scenarios() -> Vec<Scenario> {
             "bb-reversion-missing",
             ScenarioClass::Contract,
             "BB-REVERSION-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn bollinger_breakout_scenarios() -> Vec<Scenario> {
+    let long = bollinger_reversion_world(105.0, true);
+    let short = bollinger_reversion_world(95.0, false);
+    let mut boundary = bollinger_reversion_world(100.0, false);
+    // The scalar midpoint is the state feature driving the default gate.  Its
+    // exact equality boundary must not inherit a floating-point summation
+    // residue from fixture construction.
+    boundary.scalars.insert("bb_mid".into(), 100.0);
+    let negative = boundary.clone();
+    let mut missing = long.clone();
+    missing.scalars.remove("bb_bandwidth");
+    vec![
+        scenario(
+            "bb-breakout-long",
+            ScenarioClass::CanonicalPositive,
+            "BB-BREAKOUT-LONG",
+            long,
+            ExpectedStance::SupportLong,
+            &["above-mid", "long"],
+        ),
+        scenario(
+            "bb-breakout-short",
+            ScenarioClass::CanonicalPositive,
+            "BB-BREAKOUT-SHORT",
+            short,
+            ExpectedStance::SupportShort,
+            &["below-mid", "short"],
+        ),
+        scenario(
+            "bb-breakout-mid-negative",
+            ScenarioClass::CanonicalNegative,
+            "BB-BREAKOUT-NO-CROSS",
+            negative,
+            ExpectedStance::Abstain,
+            &["no-mid-cross"],
+        ),
+        scenario(
+            "bb-breakout-mid-equality",
+            ScenarioClass::Boundary,
+            "BB-BREAKOUT-EQUAL-MID",
+            boundary,
+            ExpectedStance::Abstain,
+            &["mid-equality"],
+        ),
+        scenario(
+            "bb-breakout-missing",
+            ScenarioClass::Contract,
+            "BB-BREAKOUT-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -3338,6 +3423,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             bollinger_reversion_manifest(),
             bollinger_reversion_scenarios(),
         ),
+        (
+            bollinger_breakout_manifest(),
+            bollinger_breakout_scenarios(),
+        ),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -3946,6 +4035,33 @@ mod tests {
     }
 
     #[test]
+    fn bollinger_breakout_uses_strict_midpoint_direction_and_history_anchor() {
+        let manifest = bollinger_breakout_manifest();
+        let scenarios = bollinger_breakout_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+        let positive = scenarios.first().unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("bollinger_breakout", relation, positive)
+                    .unwrap()
+                    .passed
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("bollinger_breakout", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed,
+            mutation.non_equivalent_generated
+        );
+    }
+
+    #[test]
     fn all_critical_mutants_are_killed_by_the_pilot_suite() {
         let scenarios = failed_breakout_scenarios();
         let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
@@ -4015,7 +4131,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 17);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 18);
         assert!(!suite
             .passports
             .iter()
