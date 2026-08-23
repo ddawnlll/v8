@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 market-profile value-area semantic qualification
+
+Added test-only qualification for the registered default `market_profile_value_area` branch. It derives the prior-session 68% TPO profile and POC from 12 actual prior bars, then tests both inside-range reversion sides, POC and prior-range equality abstentions, and missing session metadata. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 MACD/stochastic trend semantic qualification
 
 Added test-only qualification for `macd_stoch_trend` using 17-bar stochastic crossover worlds whose declared current K/D values agree with their recomputed history values. Both directionally matching MACD signs, disagreement, zero-line boundary, and missingness are covered. Stochastic K/D are now explicitly treated as dimensionless under price scaling. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.

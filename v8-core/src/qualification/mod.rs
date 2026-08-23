@@ -628,6 +628,17 @@ pub fn macd_stoch_trend_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn market_profile_value_area_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "market_profile_value_area".into(), expert_version: "v1".into(), mechanism_family_id: "market_profile".into(), behavior_family_id: "value_reversion".into(), dependency_group: "dep_session".into(),
+            hypothesis: "The registered default value-area branch reverses toward a TPO-derived prior-session POC only from strictly inside the prior-day range on the matching side of that POC.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "bar_of_session".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
+        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.market-profile-value-area.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     ExpertQualificationManifest {
         schema_version: D141_SCHEMA_VERSION.into(),
@@ -1530,6 +1541,79 @@ pub fn macd_stoch_trend_scenarios() -> Vec<Scenario> {
             "stoch-macd-missing",
             ScenarioClass::Contract,
             "STOCH-MACD-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn market_profile_value_area_scenarios() -> Vec<Scenario> {
+    let mut long = base_input();
+    long.history = (0..13)
+        .map(|index| ScenarioBar {
+            event_id: format!("profile-{index}"),
+            open: 100.0,
+            high: 101.0,
+            low: 99.0,
+            close: if index == 12 { 99.5 } else { 100.0 },
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        })
+        .collect();
+    long.scalars = BTreeMap::from([
+        ("close".into(), 99.5),
+        ("atr".into(), 1.0),
+        ("bar_of_session".into(), 1.0),
+    ]);
+    let mut short = long.clone();
+    short.history[12].close = 100.5;
+    short.scalars.insert("close".into(), 100.5);
+    let mut negative = long.clone();
+    negative.history[12].close = 100.0;
+    negative.scalars.insert("close".into(), 100.0);
+    let mut boundary = long.clone();
+    boundary.history[12].close = 99.0;
+    boundary.scalars.insert("close".into(), 99.0);
+    let mut missing = long.clone();
+    missing.scalars.remove("bar_of_session");
+    vec![
+        scenario(
+            "profile-long",
+            ScenarioClass::CanonicalPositive,
+            "PROFILE-LONG",
+            long,
+            ExpectedStance::SupportLong,
+            &["below-poc", "inside-range", "long"],
+        ),
+        scenario(
+            "profile-short",
+            ScenarioClass::CanonicalPositive,
+            "PROFILE-SHORT",
+            short,
+            ExpectedStance::SupportShort,
+            &["above-poc", "inside-range", "short"],
+        ),
+        scenario(
+            "profile-poc-equality",
+            ScenarioClass::CanonicalNegative,
+            "PROFILE-AT-POC",
+            negative,
+            ExpectedStance::Abstain,
+            &["poc-equality"],
+        ),
+        scenario(
+            "profile-day-low-equality",
+            ScenarioClass::Boundary,
+            "PROFILE-DAY-LOW",
+            boundary,
+            ExpectedStance::Abstain,
+            &["range-equality"],
+        ),
+        scenario(
+            "profile-missing",
+            ScenarioClass::Contract,
+            "PROFILE-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -3690,6 +3774,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
         (breakout_retest_manifest(), breakout_retest_scenarios()),
         (macd_stoch_trend_manifest(), macd_stoch_trend_scenarios()),
         (
+            market_profile_value_area_manifest(),
+            market_profile_value_area_scenarios(),
+        ),
+        (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
         ),
@@ -3939,6 +4027,33 @@ mod tests {
             );
         }
         let mutation = MutationReport::from_receipts(kill_mutants("macd_stoch_trend", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed,
+            mutation.non_equivalent_generated
+        );
+    }
+
+    #[test]
+    fn market_profile_value_area_derives_poc_from_prior_session_tpos() {
+        let manifest = market_profile_value_area_manifest();
+        let scenarios = market_profile_value_area_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+        let positive = scenarios.first().unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("market_profile_value_area", relation, positive)
+                    .unwrap()
+                    .passed
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("market_profile_value_area", &scenarios));
         assert_eq!(
             mutation.non_equivalent_killed,
             mutation.non_equivalent_generated
@@ -4528,7 +4643,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 21);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 22);
         assert!(!suite
             .passports
             .iter()
