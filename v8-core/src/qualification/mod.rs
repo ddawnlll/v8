@@ -639,6 +639,17 @@ pub fn market_profile_value_area_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn pandf_breakout_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "pandf_breakout".into(), expert_version: "v1".into(), mechanism_family_id: "point_and_figure".into(), behavior_family_id: "double_top_breakout".into(), dependency_group: "dep_volatility".into(),
+            hypothesis: "The registered default P&F branch supports LONG only when a current X column strictly exceeds the preceding X-column top after the locked three-box reversal.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
+        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.pandf-breakout.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     ExpertQualificationManifest {
         schema_version: D141_SCHEMA_VERSION.into(),
@@ -1614,6 +1625,74 @@ pub fn market_profile_value_area_scenarios() -> Vec<Scenario> {
             "profile-missing",
             ScenarioClass::Contract,
             "PROFILE-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn pandf_breakout_scenarios() -> Vec<Scenario> {
+    let mut positive = base_input();
+    positive.history = (0..20)
+        .map(|index| {
+            let close = match index {
+                15 => 101.0,
+                16 => 102.0,
+                17 => 103.0,
+                18 => 100.0,
+                19 => 104.0,
+                _ => 100.0,
+            };
+            ScenarioBar {
+                event_id: format!("pandf-{index}"),
+                open: close,
+                high: close + 0.5,
+                low: close - 0.5,
+                close,
+                ema_fast: 0.0,
+                ema_slow: 0.0,
+            }
+        })
+        .collect();
+    positive.scalars = BTreeMap::from([("close".into(), 104.0), ("atr".into(), 1.0)]);
+    let mut negative = positive.clone();
+    negative.history[19].close = 102.0;
+    negative.scalars.insert("close".into(), 102.0);
+    let mut boundary = positive.clone();
+    boundary.history[19].close = 103.0;
+    boundary.scalars.insert("close".into(), 103.0);
+    let mut missing = positive.clone();
+    missing.scalars.remove("atr");
+    vec![
+        scenario(
+            "pandf-double-top",
+            ScenarioClass::CanonicalPositive,
+            "PANDF-DOUBLE-TOP",
+            positive,
+            ExpectedStance::SupportLong,
+            &["three-box-reversal", "strict-top-break", "long"],
+        ),
+        scenario(
+            "pandf-no-reversal",
+            ScenarioClass::CanonicalNegative,
+            "PANDF-NO-BREAK",
+            negative,
+            ExpectedStance::Abstain,
+            &["no-current-x-column"],
+        ),
+        scenario(
+            "pandf-equal-top",
+            ScenarioClass::Boundary,
+            "PANDF-EQUAL-TOP",
+            boundary,
+            ExpectedStance::Abstain,
+            &["strict-top-equality"],
+        ),
+        scenario(
+            "pandf-missing",
+            ScenarioClass::Contract,
+            "PANDF-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -3777,6 +3856,7 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             market_profile_value_area_manifest(),
             market_profile_value_area_scenarios(),
         ),
+        (pandf_breakout_manifest(), pandf_breakout_scenarios()),
         (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
@@ -4643,7 +4723,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 22);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 23);
         assert!(!suite
             .passports
             .iter()

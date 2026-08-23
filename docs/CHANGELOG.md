@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 point-and-figure semantic qualification
+
+Added test-only qualification for the registered default `pandf_breakout` branch using a 20-bar close world that creates the locked 1×ATR box, three-box reversal, and strict double-top X-column breakout. Equality and absence controls fail closed. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 market-profile value-area semantic qualification
 
 Added test-only qualification for the registered default `market_profile_value_area` branch. It derives the prior-session 68% TPO profile and POC from 12 actual prior bars, then tests both inside-range reversion sides, POC and prior-range equality abstentions, and missing session metadata. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
