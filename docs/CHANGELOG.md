@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 candlestick-reversal semantic qualification
+
+Added a test-only qualification contract for the registered default `hammer` variant of `candlestick_reversal`: a prior down bar, bullish small body, lower-shadow minimum, upper-shadow maximum, inclusive equality boundary, and required shape-feature missingness are independently exercised. D-141 price scaling now preserves `body_range_ratio` and `close_position` as dimensionless while scaling price-valued body and shadow quantities. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 open-interest divergence semantic qualification
 
 Added test-only qualification for `open_interest_divergence`, requiring actual OI key presence, positive five-bar price direction, positive volume z-score, and the default long-heavy skew condition. Open interest, skew, and z-score are dimensionless under price scaling. Missing OI remains `NO_HABITAT`; it is never synthesized as zero.

@@ -192,6 +192,8 @@ impl Scenario {
                     | "funding_rate"
                     | "long_short_skew"
                     | "open_interest"
+                    | "body_range_ratio"
+                    | "close_position"
             ) {
                 *value *= factor;
             }
@@ -893,6 +895,43 @@ pub fn open_interest_divergence_manifest() -> ExpertQualificationManifest {
             declared_features: vec!["close".into(), "atr".into(), "open_interest".into(), "long_short_skew".into(), "vol_zscore".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
         },
         scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.open-interest-divergence.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn candlestick_reversal_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "candlestick_reversal".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "candlestick".into(),
+            behavior_family_id: "reversal".into(),
+            dependency_group: "dep_candle_shape".into(),
+            hypothesis: "The registered hammer variant supports LONG only after a down bar when a bullish small body has a lower shadow at least twice its body and an upper shadow no larger than its body.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "real_body".into(),
+                "body_range_ratio".into(),
+                "upper_shadow".into(),
+                "lower_shadow".into(),
+                "close_position".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.candlestick-reversal.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
     }
 }
 
@@ -1742,6 +1781,87 @@ pub fn open_interest_divergence_scenarios() -> Vec<Scenario> {
             "oi-missing",
             ScenarioClass::Contract,
             "OI-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn candlestick_reversal_scenarios() -> Vec<Scenario> {
+    let mut hammer = base_input();
+    hammer.history = vec![
+        ScenarioBar {
+            event_id: "hammer-prior".into(),
+            open: 104.0,
+            high: 105.0,
+            low: 99.0,
+            close: 100.0,
+            ema_fast: 100.0,
+            ema_slow: 100.0,
+        },
+        ScenarioBar {
+            event_id: "hammer-current".into(),
+            open: 100.0,
+            high: 101.0,
+            low: 94.0,
+            close: 101.0,
+            ema_fast: 100.0,
+            ema_slow: 100.0,
+        },
+    ];
+    hammer.scalars = BTreeMap::from([
+        ("close".into(), 101.0),
+        ("atr".into(), 2.0),
+        ("real_body".into(), 1.0),
+        ("body_range_ratio".into(), 1.0 / 7.0),
+        ("upper_shadow".into(), 0.0),
+        ("lower_shadow".into(), 6.0),
+        ("close_position".into(), 1.0),
+    ]);
+    let mut negative = hammer.clone();
+    negative.history[1].low = 98.1;
+    negative.scalars.insert("lower_shadow".into(), 1.9);
+    let mut inclusive_boundary = hammer.clone();
+    inclusive_boundary.history[1].low = 98.0;
+    inclusive_boundary.history[1].high = 101.0;
+    inclusive_boundary
+        .scalars
+        .insert("body_range_ratio".into(), 1.0 / 3.0);
+    inclusive_boundary
+        .scalars
+        .insert("lower_shadow".into(), 2.0);
+    let mut missing = hammer.clone();
+    missing.scalars.remove("close_position");
+    vec![
+        scenario(
+            "hammer-positive",
+            ScenarioClass::CanonicalPositive,
+            "HAMMER-POS",
+            hammer,
+            ExpectedStance::SupportLong,
+            &["down-context", "bullish-body", "long-lower-shadow", "long"],
+        ),
+        scenario(
+            "hammer-negative-short-lower-shadow",
+            ScenarioClass::CanonicalNegative,
+            "HAMMER-SHADOW-TOO-SHORT",
+            negative,
+            ExpectedStance::Abstain,
+            &["lower-shadow-fails"],
+        ),
+        scenario(
+            "hammer-inclusive-boundary",
+            ScenarioClass::Boundary,
+            "HAMMER-INCLUSIVE-RATIOS",
+            inclusive_boundary,
+            ExpectedStance::SupportLong,
+            &["ratio-equality-included"],
+        ),
+        scenario(
+            "hammer-missing-shape-feature",
+            ScenarioClass::Contract,
+            "HAMMER-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -2730,6 +2850,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             open_interest_divergence_manifest(),
             open_interest_divergence_scenarios(),
         ),
+        (
+            candlestick_reversal_manifest(),
+            candlestick_reversal_scenarios(),
+        ),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -3231,6 +3355,33 @@ mod tests {
     }
 
     #[test]
+    fn candlestick_reversal_hammer_contract_and_inclusive_ratios_pass() {
+        let manifest = candlestick_reversal_manifest();
+        let scenarios = candlestick_reversal_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+        let positive = scenarios.first().unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("candlestick_reversal", relation, positive)
+                    .unwrap()
+                    .passed
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("candlestick_reversal", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed,
+            mutation.non_equivalent_generated
+        );
+    }
+
+    #[test]
     fn all_critical_mutants_are_killed_by_the_pilot_suite() {
         let scenarios = failed_breakout_scenarios();
         let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
@@ -3300,7 +3451,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 13);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 14);
         assert!(!suite
             .passports
             .iter()
