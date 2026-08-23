@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 Bollinger-reversion semantic qualification
+
+Added test-only qualification for the registered default `bollinger_reversion` fade branch using internally coherent 20-bar worlds: both 2–3 standard-deviation fade directions, a three-standard-deviation abstention, the inclusive two-standard-deviation boundary, anchor recomputation, and required-state missingness. Price scaling now preserves Bollinger `%B` and bandwidth as dimensionless quantities. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 gap-exhaustion semantic qualification
 
 Added test-only semantic qualification for the registered default third-gap exhaustion branch of `gap_exhaustion`: both directional reversals, continuation/equality failures, frozen zone matching, and missing gap-zone failure are covered. Price scaling now treats gap-zone top/bottom as prices while preserving gap direction as a categorical relation, rather than multiplying the direction label. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.

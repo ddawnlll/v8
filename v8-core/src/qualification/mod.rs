@@ -198,6 +198,8 @@ impl Scenario {
                     | "vol_smooth_ma"
                     | "bar_class"
                     | "gap_dir"
+                    | "bb_pct_b"
+                    | "bb_bandwidth"
             ) {
                 *value *= factor;
             }
@@ -1034,6 +1036,43 @@ pub fn gap_exhaustion_manifest() -> ExpertQualificationManifest {
             ScenarioClass::Metamorphic,
         ],
         oracle_id: "d141.gap-exhaustion.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn bollinger_reversion_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "bollinger_reversion".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "bollinger".into(),
+            behavior_family_id: "mean_reversion".into(),
+            dependency_group: "dep_bollinger".into(),
+            hypothesis: "The registered default fade branch supports a return from the inclusive 2-SD to exclusive 3-SD envelope toward the mean, with its anchor recomputed from the same 20-bar history.".into(),
+            declared_features: vec![
+                "close".into(),
+                "bb_mid".into(),
+                "bb_upper".into(),
+                "bb_lower".into(),
+                "bb_pct_b".into(),
+                "ema_fast".into(),
+                "ema_slow".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.bollinger-reversion.declarative".into(),
         oracle_version: "v1".into(),
         seed_manifest: "d141-seeds-v1".into(),
         generator_version: "scenario-foundry-v1".into(),
@@ -2204,6 +2243,107 @@ pub fn gap_exhaustion_scenarios() -> Vec<Scenario> {
     ]
 }
 
+fn bollinger_reversion_world(last_close: f64, upper: bool) -> ScenarioInput {
+    let mut input = base_input();
+    let mut closes = Vec::with_capacity(20);
+    for index in 0..19 {
+        let close = if index < 10 {
+            if upper {
+                101.5
+            } else {
+                98.5
+            }
+        } else if upper {
+            98.333_333_333_333_33
+        } else {
+            101.666_666_666_666_67
+        };
+        closes.push(close);
+    }
+    closes.push(last_close);
+    let mid = closes.iter().sum::<f64>() / closes.len() as f64;
+    let sd = (closes
+        .iter()
+        .map(|close| (close - mid).powi(2))
+        .sum::<f64>()
+        / closes.len() as f64)
+        .sqrt();
+    input.history = closes
+        .iter()
+        .enumerate()
+        .map(|(index, close)| ScenarioBar {
+            event_id: format!("bb-reversion-{upper}-{index}"),
+            open: *close,
+            high: *close + 1.0,
+            low: *close - 1.0,
+            close: *close,
+            ema_fast: 100.0,
+            ema_slow: 100.0,
+        })
+        .collect();
+    input.scalars = BTreeMap::from([
+        ("close".into(), last_close),
+        ("bb_mid".into(), mid),
+        ("bb_upper".into(), mid + 2.0 * sd),
+        ("bb_lower".into(), mid - 2.0 * sd),
+        ("bb_pct_b".into(), 0.0),
+        ("ema_fast".into(), 100.0),
+        ("ema_slow".into(), 100.0),
+    ]);
+    input
+}
+
+pub fn bollinger_reversion_scenarios() -> Vec<Scenario> {
+    let long = bollinger_reversion_world(95.0, false);
+    let short = bollinger_reversion_world(105.0, true);
+    let negative = bollinger_reversion_world(93.0, false);
+    let inclusive_two_sd = bollinger_reversion_world(100.0 - (40.0_f64 / 3.0).sqrt(), false);
+    let mut missing = long.clone();
+    missing.scalars.remove("bb_pct_b");
+    vec![
+        scenario(
+            "bb-reversion-long",
+            ScenarioClass::CanonicalPositive,
+            "BB-REVERSION-LONG",
+            long,
+            ExpectedStance::SupportLong,
+            &["lower-fade-zone", "long"],
+        ),
+        scenario(
+            "bb-reversion-short",
+            ScenarioClass::CanonicalPositive,
+            "BB-REVERSION-SHORT",
+            short,
+            ExpectedStance::SupportShort,
+            &["upper-fade-zone", "short"],
+        ),
+        scenario(
+            "bb-reversion-beyond-three-sd",
+            ScenarioClass::CanonicalNegative,
+            "BB-REVERSION-BEYOND-THREE",
+            negative,
+            ExpectedStance::Abstain,
+            &["beyond-three-sd"],
+        ),
+        scenario(
+            "bb-reversion-inclusive-two-sd",
+            ScenarioClass::Boundary,
+            "BB-REVERSION-TWO-SD-INCLUSIVE",
+            inclusive_two_sd,
+            ExpectedStance::SupportLong,
+            &["two-sd-equality-included"],
+        ),
+        scenario(
+            "bb-reversion-missing",
+            ScenarioClass::Contract,
+            "BB-REVERSION-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
 pub fn pilot_oracle(id: &str, version: &str, scenarios: &[Scenario]) -> DeclarativeScenarioOracle {
     DeclarativeScenarioOracle::new(
         id,
@@ -3194,6 +3334,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             volume_climax_reversal_scenarios(),
         ),
         (gap_exhaustion_manifest(), gap_exhaustion_scenarios()),
+        (
+            bollinger_reversion_manifest(),
+            bollinger_reversion_scenarios(),
+        ),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -3775,6 +3919,33 @@ mod tests {
     }
 
     #[test]
+    fn bollinger_reversion_recomputes_anchor_bands_and_preserves_boundaries() {
+        let manifest = bollinger_reversion_manifest();
+        let scenarios = bollinger_reversion_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+        let positive = scenarios.first().unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("bollinger_reversion", relation, positive)
+                    .unwrap()
+                    .passed
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("bollinger_reversion", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed,
+            mutation.non_equivalent_generated
+        );
+    }
+
+    #[test]
     fn all_critical_mutants_are_killed_by_the_pilot_suite() {
         let scenarios = failed_breakout_scenarios();
         let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
@@ -3844,7 +4015,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 16);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 17);
         assert!(!suite
             .passports
             .iter()
