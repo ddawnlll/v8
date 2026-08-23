@@ -650,6 +650,17 @@ pub fn pandf_breakout_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn ichimoku_cloud_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "ichimoku_cloud".into(), expert_version: "v1".into(), mechanism_family_id: "ichimoku".into(), behavior_family_id: "tenkan_kijun_cross".into(), dependency_group: "dep_volatility".into(),
+            hypothesis: "The registered Ichimoku branch supports a close-confirmed Tenkan/Kijun crossover only when the 9- and 26-bar midranges cross within the causal history window.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
+        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.ichimoku-cloud.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     ExpertQualificationManifest {
         schema_version: D141_SCHEMA_VERSION.into(),
@@ -1693,6 +1704,87 @@ pub fn pandf_breakout_scenarios() -> Vec<Scenario> {
             "pandf-missing",
             ScenarioClass::Contract,
             "PANDF-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+fn ichimoku_world(long: bool) -> ScenarioInput {
+    let mut input = base_input();
+    input.history = (0..27)
+        .map(|index| {
+            let (high, low, close) = if index == 17 {
+                if long {
+                    (101.0, 90.0, 100.0)
+                } else {
+                    (110.0, 99.0, 100.0)
+                }
+            } else if index == 26 {
+                if long {
+                    (110.0, 99.0, 110.0)
+                } else {
+                    (101.0, 90.0, 90.0)
+                }
+            } else {
+                (101.0, 99.0, 100.0)
+            };
+            ScenarioBar {
+                event_id: format!("ichimoku-{long}-{index}"),
+                open: close,
+                high,
+                low,
+                close,
+                ema_fast: 0.0,
+                ema_slow: 0.0,
+            }
+        })
+        .collect();
+    input.scalars = BTreeMap::from([
+        ("close".into(), if long { 110.0 } else { 90.0 }),
+        ("atr".into(), 2.0),
+    ]);
+    input
+}
+
+pub fn ichimoku_cloud_scenarios() -> Vec<Scenario> {
+    let long = ichimoku_world(true);
+    let short = ichimoku_world(false);
+    let mut boundary = long.clone();
+    boundary.history[26].close = 100.0;
+    boundary.scalars.insert("close".into(), 100.0);
+    let mut missing = long.clone();
+    missing.scalars.remove("atr");
+    vec![
+        scenario(
+            "ichimoku-long",
+            ScenarioClass::CanonicalPositive,
+            "ICHI-LONG",
+            long,
+            ExpectedStance::SupportLong,
+            &["up-cross", "close-above-kijun", "long"],
+        ),
+        scenario(
+            "ichimoku-short",
+            ScenarioClass::CanonicalPositive,
+            "ICHI-SHORT",
+            short,
+            ExpectedStance::SupportShort,
+            &["down-cross", "close-below-kijun", "short"],
+        ),
+        scenario(
+            "ichimoku-kijun-equality",
+            ScenarioClass::Boundary,
+            "ICHI-EQUAL-KIJUN",
+            boundary,
+            ExpectedStance::Abstain,
+            &["strict-close-boundary"],
+        ),
+        scenario(
+            "ichimoku-missing",
+            ScenarioClass::Contract,
+            "ICHI-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -3857,6 +3949,7 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             market_profile_value_area_scenarios(),
         ),
         (pandf_breakout_manifest(), pandf_breakout_scenarios()),
+        (ichimoku_cloud_manifest(), ichimoku_cloud_scenarios()),
         (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
@@ -4723,7 +4816,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 23);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 24);
         assert!(!suite
             .passports
             .iter()
