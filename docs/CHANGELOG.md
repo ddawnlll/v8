@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 open-interest divergence semantic qualification
+
+Added test-only qualification for `open_interest_divergence`, requiring actual OI key presence, positive five-bar price direction, positive volume z-score, and the default long-heavy skew condition. Open interest, skew, and z-score are dimensionless under price scaling. Missing OI remains `NO_HABITAT`; it is never synthesized as zero.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 funding-crowding semantic qualification
 
 Added the test-only semantic contract for `funding_crowding_reversal`: a positive funding extreme is dimensionless and requires a strict five-bar price confirmation before the registered SHORT reversal. Missing funding remains `NO_HABITAT`; no absent derivative feed is represented as zero. No production threshold, opportunity identity, capital authority, or economic verdict changed.
