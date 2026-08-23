@@ -672,6 +672,17 @@ pub fn rsi_stoch_reversion_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn divergence_12_setups_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "divergence_12_setups".into(), expert_version: "v1".into(), mechanism_family_id: "divergence".into(), behavior_family_id: "bearish_standard".into(), dependency_group: "dep_oscillator".into(),
+            hypothesis: "The registered default setup supports SHORT only when two confirmed significant price highs form a higher high while locally recomputed RSI forms a lower high, followed by a strict close below the intervening low.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "rsi14".into(), "swing_high_5".into(), "swing_low_5".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
+        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.divergence-12-setups.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     ExpertQualificationManifest {
         schema_version: D141_SCHEMA_VERSION.into(),
@@ -1895,6 +1906,99 @@ pub fn rsi_stoch_reversion_scenarios() -> Vec<Scenario> {
             "rsi-recovery-missing",
             ScenarioClass::Contract,
             "RSI-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+fn bearish_divergence_world(final_close: f64) -> ScenarioInput {
+    let mut input = base_input();
+    let closes: Vec<f64> = (0..31)
+        .map(|index| match index {
+            0..=14 => 100.0 + index as f64,
+            15 => 113.0,
+            16 => 112.0,
+            17 => 111.0,
+            18 => 110.0,
+            19 => 111.0,
+            20 => 112.0,
+            21 => 113.0,
+            22 => 114.0,
+            23 => 114.5,
+            24 => 115.0,
+            25 => 114.0,
+            26 => 113.0,
+            27 => 112.0,
+            28 => 111.0,
+            29 => 110.0,
+            _ => final_close,
+        })
+        .collect();
+    input.history = closes
+        .iter()
+        .enumerate()
+        .map(|(index, close)| ScenarioBar {
+            event_id: format!("divergence-{index}"),
+            open: *close,
+            high: *close + 0.5,
+            low: *close - 0.5,
+            close: *close,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        })
+        .collect();
+    input.scalars = BTreeMap::from([
+        ("close".into(), final_close),
+        ("atr".into(), 1.0),
+        ("rsi14".into(), 30.0),
+        ("swing_high_5".into(), 115.5),
+        ("swing_low_5".into(), 0.0),
+    ]);
+    input
+}
+
+pub fn divergence_12_setups_scenarios() -> Vec<Scenario> {
+    let positive = bearish_divergence_world(108.0);
+    let negative = bearish_divergence_world(110.0);
+    let boundary = bearish_divergence_world(109.5);
+    let mut missing = positive.clone();
+    missing.scalars.remove("swing_high_5");
+    vec![
+        scenario(
+            "divergence-bearish",
+            ScenarioClass::CanonicalPositive,
+            "DIVERGENCE-BEARISH",
+            positive,
+            ExpectedStance::SupportShort,
+            &[
+                "higher-price-high",
+                "lower-rsi-high",
+                "barrier-break",
+                "short",
+            ],
+        ),
+        scenario(
+            "divergence-no-break",
+            ScenarioClass::CanonicalNegative,
+            "DIVERGENCE-NO-BARRIER-BREAK",
+            negative,
+            ExpectedStance::Abstain,
+            &["barrier-holds"],
+        ),
+        scenario(
+            "divergence-equal-barrier",
+            ScenarioClass::Boundary,
+            "DIVERGENCE-EQUAL-BARRIER",
+            boundary,
+            ExpectedStance::Abstain,
+            &["strict-barrier-boundary"],
+        ),
+        scenario(
+            "divergence-missing",
+            ScenarioClass::Contract,
+            "DIVERGENCE-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -4065,6 +4169,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             rsi_stoch_reversion_scenarios(),
         ),
         (
+            divergence_12_setups_manifest(),
+            divergence_12_setups_scenarios(),
+        ),
+        (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
         ),
@@ -4930,7 +5038,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 25);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 26);
         assert!(!suite
             .passports
             .iter()

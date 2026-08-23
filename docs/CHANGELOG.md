@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 divergence semantic qualification
+
+Added test-only qualification for the registered default `divergence_12_setups` bearish-standard branch. A 31-bar world creates two 5-flank-confirmed significant price highs, a local Wilder-RSI lower high, and a strict close-through of the intervening low; barrier equality and missing swing evidence fail closed. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 RSI-recovery semantic qualification
 
 Added test-only qualification for the registered default `rsi_stoch_reversion` RSI-only branch. Both Wilder-RSI extreme recoveries require the matching strict run-start signal-bar price break; RSI and price equality boundaries plus missingness abstain/fail closed. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
