@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 gap-exhaustion semantic qualification
+
+Added test-only semantic qualification for the registered default third-gap exhaustion branch of `gap_exhaustion`: both directional reversals, continuation/equality failures, frozen zone matching, and missing gap-zone failure are covered. Price scaling now treats gap-zone top/bottom as prices while preserving gap direction as a categorical relation, rather than multiplying the direction label. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 volume-climax reversal semantic qualification
 
 Added the test-only `volume_climax_reversal:v2` qualification contract: strict three-sigma long and short priority gates, the inclusive two-sigma boundary, sub-threshold abstention, and absent volume-statistics failure are independently exercised. The D-141 price-scale relation now preserves raw volume, volume moving-average, and categorical bar class inputs; prices still scale, while these non-price quantities do not. This exposed and repaired a relation typing defect in the existing `volume_confirmed_breakout` metamorphic control. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.

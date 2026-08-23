@@ -27,6 +27,7 @@ D-141 semantic scenarios are Rust `#[cfg(test)]` fixtures. The production CLI ha
 | `open_interest_divergence:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
 | `candlestick_reversal:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
 | `volume_climax_reversal:v2` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `gap_exhaustion:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
 
 The other registered generator-experts are intentionally not counted as passed or failed until they receive their own Behavior Card and manifest. The denominator is 28, not 29: `predicate` is a post-entry thesis evaluator rather than an Expert witness. Registry manifest coverage is reported separately from the executed-test pass rate.
 

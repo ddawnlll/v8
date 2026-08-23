@@ -197,6 +197,7 @@ impl Scenario {
                     | "volume"
                     | "vol_smooth_ma"
                     | "bar_class"
+                    | "gap_dir"
             ) {
                 *value *= factor;
             }
@@ -206,6 +207,8 @@ impl Scenario {
                 scale_fib_levels(value, factor)?;
             } else if name == "consolidation_range" {
                 scale_consolidation_range(value, factor)?;
+            } else if name == "gap_levels" {
+                scale_gap_levels(value, factor)?;
             } else {
                 scale_json_numbers(value, factor)?;
             }
@@ -225,6 +228,34 @@ impl Scenario {
         scaled.scenario_id = format!("{}:scale:{factor}", self.scenario_id);
         Ok(scaled)
     }
+}
+
+fn scale_gap_levels(value: &mut serde_json::Value, factor: f64) -> Result<(), V8CoreError> {
+    let zones = value.as_array_mut().ok_or_else(|| {
+        V8CoreError::QuantInvariant("gap_levels must be an array for price-scale relation".into())
+    })?;
+    for zone in zones {
+        let zone = zone
+            .as_array_mut()
+            .ok_or_else(|| V8CoreError::QuantInvariant("gap level must be an array".into()))?;
+        if zone.len() != 3 {
+            return Err(V8CoreError::QuantInvariant(
+                "gap level must contain top, bottom, and direction".into(),
+            ));
+        }
+        for index in [0, 1] {
+            let level = zone[index].as_f64().ok_or_else(|| {
+                V8CoreError::QuantInvariant("gap level price must be numeric".into())
+            })?;
+            zone[index] = serde_json::json!(level * factor);
+        }
+        if !zone[2].is_number() {
+            return Err(V8CoreError::QuantInvariant(
+                "gap level direction must be numeric".into(),
+            ));
+        }
+    }
+    Ok(())
 }
 
 fn scale_consolidation_range(
@@ -968,6 +999,41 @@ pub fn volume_climax_reversal_manifest() -> ExpertQualificationManifest {
             ScenarioClass::Metamorphic,
         ],
         oracle_id: "d141.volume-climax-reversal.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn gap_exhaustion_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "gap_exhaustion".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "gap".into(),
+            behavior_family_id: "exhaustion_reversal".into(),
+            dependency_group: "dep_gap".into(),
+            hypothesis: "The registered default third-gap exhaustion branch reverses only after three same-direction unfilled gaps, a matching frozen gap zone, and a reversal close through the gap direction.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "gap_dir".into(),
+                "gap_size".into(),
+                "gap_levels".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.gap-exhaustion.declarative".into(),
         oracle_version: "v1".into(),
         seed_manifest: "d141-seeds-v1".into(),
         generator_version: "scenario-foundry-v1".into(),
@@ -1992,6 +2058,152 @@ pub fn volume_climax_reversal_scenarios() -> Vec<Scenario> {
     ]
 }
 
+pub fn gap_exhaustion_scenarios() -> Vec<Scenario> {
+    let mut up_exhaustion = base_input();
+    up_exhaustion.history = vec![
+        ScenarioBar {
+            event_id: "gap-up-0".into(),
+            open: 99.0,
+            high: 100.0,
+            low: 98.0,
+            close: 99.0,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+        ScenarioBar {
+            event_id: "gap-up-1".into(),
+            open: 101.0,
+            high: 102.0,
+            low: 100.0,
+            close: 101.5,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+        ScenarioBar {
+            event_id: "gap-up-2".into(),
+            open: 103.0,
+            high: 104.0,
+            low: 102.0,
+            close: 103.5,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+        ScenarioBar {
+            event_id: "gap-up-3".into(),
+            open: 105.0,
+            high: 106.0,
+            low: 103.0,
+            close: 104.0,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+    ];
+    up_exhaustion.scalars = BTreeMap::from([
+        ("close".into(), 104.0),
+        ("atr".into(), 2.0),
+        ("gap_dir".into(), 1.0),
+        ("gap_size".into(), 1.0),
+    ]);
+    up_exhaustion.structured.insert(
+        "gap_levels".into(),
+        serde_json::json!([[105.0, 104.0, 1.0]]),
+    );
+    let mut down_exhaustion = up_exhaustion.clone();
+    down_exhaustion.history = vec![
+        ScenarioBar {
+            event_id: "gap-down-0".into(),
+            open: 101.0,
+            high: 102.0,
+            low: 100.0,
+            close: 101.0,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+        ScenarioBar {
+            event_id: "gap-down-1".into(),
+            open: 99.0,
+            high: 100.0,
+            low: 98.0,
+            close: 98.5,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+        ScenarioBar {
+            event_id: "gap-down-2".into(),
+            open: 97.0,
+            high: 98.0,
+            low: 96.0,
+            close: 96.5,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+        ScenarioBar {
+            event_id: "gap-down-3".into(),
+            open: 95.0,
+            high: 96.0,
+            low: 94.0,
+            close: 96.0,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+    ];
+    down_exhaustion.scalars.insert("close".into(), 96.0);
+    down_exhaustion.scalars.insert("gap_dir".into(), -1.0);
+    down_exhaustion
+        .structured
+        .insert("gap_levels".into(), serde_json::json!([[96.0, 95.0, -1.0]]));
+    let mut negative = up_exhaustion.clone();
+    negative.history[3].close = 105.5;
+    negative.scalars.insert("close".into(), 105.5);
+    let mut boundary = up_exhaustion.clone();
+    boundary.history[3].close = 105.0;
+    boundary.scalars.insert("close".into(), 105.0);
+    let mut missing = up_exhaustion.clone();
+    missing.structured.remove("gap_levels");
+    vec![
+        scenario(
+            "gap-exhaustion-up",
+            ScenarioClass::CanonicalPositive,
+            "GAP-EXHAUSTION-SHORT",
+            up_exhaustion,
+            ExpectedStance::SupportShort,
+            &["three-up-gaps", "reversal-close", "frozen-zone", "short"],
+        ),
+        scenario(
+            "gap-exhaustion-down",
+            ScenarioClass::CanonicalPositive,
+            "GAP-EXHAUSTION-LONG",
+            down_exhaustion,
+            ExpectedStance::SupportLong,
+            &["three-down-gaps", "reversal-close", "frozen-zone", "long"],
+        ),
+        scenario(
+            "gap-exhaustion-negative",
+            ScenarioClass::CanonicalNegative,
+            "GAP-EXHAUSTION-HOLDS",
+            negative,
+            ExpectedStance::Abstain,
+            &["gap-direction-holds"],
+        ),
+        scenario(
+            "gap-exhaustion-equal-close",
+            ScenarioClass::Boundary,
+            "GAP-EXHAUSTION-EQUAL-OPEN",
+            boundary,
+            ExpectedStance::Abstain,
+            &["strict-reversal-boundary"],
+        ),
+        scenario(
+            "gap-exhaustion-missing-zones",
+            ScenarioClass::Contract,
+            "GAP-EXHAUSTION-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
 pub fn pilot_oracle(id: &str, version: &str, scenarios: &[Scenario]) -> DeclarativeScenarioOracle {
     DeclarativeScenarioOracle::new(
         id,
@@ -2981,6 +3193,7 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             volume_climax_reversal_manifest(),
             volume_climax_reversal_scenarios(),
         ),
+        (gap_exhaustion_manifest(), gap_exhaustion_scenarios()),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -3536,6 +3749,32 @@ mod tests {
     }
 
     #[test]
+    fn gap_exhaustion_binds_zone_direction_and_strict_reversal() {
+        let manifest = gap_exhaustion_manifest();
+        let scenarios = gap_exhaustion_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+        let positive = scenarios.first().unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("gap_exhaustion", relation, positive)
+                    .unwrap()
+                    .passed
+            );
+        }
+        let mutation = MutationReport::from_receipts(kill_mutants("gap_exhaustion", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed,
+            mutation.non_equivalent_generated
+        );
+    }
+
+    #[test]
     fn all_critical_mutants_are_killed_by_the_pilot_suite() {
         let scenarios = failed_breakout_scenarios();
         let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
@@ -3605,7 +3844,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 15);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 16);
         assert!(!suite
             .passports
             .iter()
