@@ -582,6 +582,20 @@ pub fn failed_breakout_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn failed_breakout_2b_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "failed_breakout_2b".into(), expert_version: "v1".into(),
+            mechanism_family_id: "failed_breakout".into(), behavior_family_id: "2b_reclaim".into(), dependency_group: "dep_location".into(),
+            hypothesis: "The registered 2B branch supports LONG only when the prior close is strictly below a positive significant swing low and the current close strictly reclaims it.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "swing_low_10".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
+        },
+        scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic],
+        oracle_id: "d141.failed-breakout-2b.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     ExpertQualificationManifest {
         schema_version: D141_SCHEMA_VERSION.into(),
@@ -1221,6 +1235,77 @@ pub fn failed_breakout_scenarios() -> Vec<Scenario> {
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
+        ),
+    ]
+}
+
+pub fn failed_breakout_2b_scenarios() -> Vec<Scenario> {
+    let mut reclaim = base_input();
+    reclaim.history = vec![
+        ScenarioBar {
+            event_id: "2b-failure".into(),
+            open: 101.0,
+            high: 102.0,
+            low: 98.0,
+            close: 99.0,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+        ScenarioBar {
+            event_id: "2b-reclaim".into(),
+            open: 99.0,
+            high: 102.0,
+            low: 98.0,
+            close: 101.0,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        },
+    ];
+    reclaim.scalars = BTreeMap::from([
+        ("close".into(), 101.0),
+        ("atr".into(), 2.0),
+        ("swing_low_10".into(), 100.0),
+    ]);
+    let mut negative = reclaim.clone();
+    negative.history[1].close = 99.0;
+    negative.scalars.insert("close".into(), 99.0);
+    let mut boundary = reclaim.clone();
+    boundary.history[1].close = 100.0;
+    boundary.scalars.insert("close".into(), 100.0);
+    let mut absent_reference = reclaim.clone();
+    absent_reference.scalars.remove("swing_low_10");
+    vec![
+        scenario(
+            "2b-reclaim-positive",
+            ScenarioClass::CanonicalPositive,
+            "2B-RECLAIM-LONG",
+            reclaim,
+            ExpectedStance::SupportLong,
+            &["prior-below-swing", "strict-reclaim", "long"],
+        ),
+        scenario(
+            "2b-reclaim-negative",
+            ScenarioClass::CanonicalNegative,
+            "2B-NO-RECLAIM",
+            negative,
+            ExpectedStance::Abstain,
+            &["does-not-reclaim"],
+        ),
+        scenario(
+            "2b-reclaim-boundary",
+            ScenarioClass::Boundary,
+            "2B-EQUAL-SWING",
+            boundary,
+            ExpectedStance::Abstain,
+            &["strict-equality-boundary"],
+        ),
+        scenario(
+            "2b-reclaim-absent-reference",
+            ScenarioClass::Contract,
+            "2B-ABSENT-SWING",
+            absent_reference,
+            ExpectedStance::Abstain,
+            &["absent-significant-swing"],
         ),
     ]
 }
@@ -3372,6 +3457,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
     let declarations = vec![
         (failed_breakout_manifest(), failed_breakout_scenarios()),
         (
+            failed_breakout_2b_manifest(),
+            failed_breakout_2b_scenarios(),
+        ),
+        (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
         ),
@@ -3546,6 +3635,33 @@ mod tests {
         let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
         assert_eq!(run.passed(), run.total());
         assert_eq!(run.economic_claim, NO_ECONOMIC_CLAIM);
+    }
+
+    #[test]
+    fn failed_breakout_2b_requires_strict_swing_reclaim() {
+        let manifest = failed_breakout_2b_manifest();
+        let scenarios = failed_breakout_2b_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+        let positive = scenarios.first().unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("failed_breakout_2b", relation, positive)
+                    .unwrap()
+                    .passed
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("failed_breakout_2b", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed,
+            mutation.non_equivalent_generated
+        );
     }
 
     #[test]
@@ -4131,7 +4247,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 18);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 19);
         assert!(!suite
             .passports
             .iter()
