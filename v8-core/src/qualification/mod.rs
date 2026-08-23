@@ -661,6 +661,17 @@ pub fn ichimoku_cloud_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn rsi_stoch_reversion_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "rsi_stoch_reversion".into(), expert_version: "v1".into(), mechanism_family_id: "rsi".into(), behavior_family_id: "extreme_recovery".into(), dependency_group: "dep_oscillator".into(),
+            hypothesis: "The registered RSI-only branch supports a recovered oversold/overbought run only after the current close strictly crosses the run-start signal bar's extreme.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "rsi14".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
+        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.rsi-stoch-reversion.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     ExpertQualificationManifest {
         schema_version: D141_SCHEMA_VERSION.into(),
@@ -1785,6 +1796,105 @@ pub fn ichimoku_cloud_scenarios() -> Vec<Scenario> {
             "ichimoku-missing",
             ScenarioClass::Contract,
             "ICHI-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+fn rsi_recovery_world(long: bool) -> ScenarioInput {
+    let mut input = base_input();
+    input.history = (0..21)
+        .map(|index| {
+            let close = if index == 0 {
+                100.0
+            } else if index <= 14 {
+                if long {
+                    100.0 - index as f64
+                } else {
+                    100.0 + index as f64
+                }
+            } else if long {
+                86.0 + (index - 14) as f64
+            } else {
+                114.0 - (index - 14) as f64
+            };
+            let (high, low) = if index == 19 {
+                if long {
+                    (91.5, 90.5)
+                } else {
+                    (109.5, 108.5)
+                }
+            } else {
+                (close + 0.5, close - 0.5)
+            };
+            ScenarioBar {
+                event_id: format!("rsi-recovery-{long}-{index}"),
+                open: close,
+                high,
+                low,
+                close,
+                ema_fast: 0.0,
+                ema_slow: 0.0,
+            }
+        })
+        .collect();
+    input.scalars = BTreeMap::from([
+        ("close".into(), if long { 92.0 } else { 108.0 }),
+        ("atr".into(), 2.0),
+        ("rsi14".into(), if long { 35.0 } else { 65.0 }),
+    ]);
+    input
+}
+
+pub fn rsi_stoch_reversion_scenarios() -> Vec<Scenario> {
+    let long = rsi_recovery_world(true);
+    let short = rsi_recovery_world(false);
+    let mut boundary = long.clone();
+    boundary.history[20].close = 91.5;
+    boundary.scalars.insert("close".into(), 91.5);
+    let mut negative = long.clone();
+    negative.scalars.insert("rsi14".into(), 30.0);
+    let mut missing = long.clone();
+    missing.scalars.remove("rsi14");
+    vec![
+        scenario(
+            "rsi-recovery-long",
+            ScenarioClass::CanonicalPositive,
+            "RSI-RECOVERY-LONG",
+            long,
+            ExpectedStance::SupportLong,
+            &["oversold-recovery", "signal-high-break", "long"],
+        ),
+        scenario(
+            "rsi-recovery-short",
+            ScenarioClass::CanonicalPositive,
+            "RSI-RECOVERY-SHORT",
+            short,
+            ExpectedStance::SupportShort,
+            &["overbought-recovery", "signal-low-break", "short"],
+        ),
+        scenario(
+            "rsi-recovery-state-boundary",
+            ScenarioClass::CanonicalNegative,
+            "RSI-STATE-EQUAL-OS",
+            negative,
+            ExpectedStance::Abstain,
+            &["rsi-state-boundary"],
+        ),
+        scenario(
+            "rsi-recovery-price-boundary",
+            ScenarioClass::Boundary,
+            "RSI-EQUAL-SIGNAL-HIGH",
+            boundary,
+            ExpectedStance::Abstain,
+            &["strict-trigger-boundary"],
+        ),
+        scenario(
+            "rsi-recovery-missing",
+            ScenarioClass::Contract,
+            "RSI-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -3951,6 +4061,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
         (pandf_breakout_manifest(), pandf_breakout_scenarios()),
         (ichimoku_cloud_manifest(), ichimoku_cloud_scenarios()),
         (
+            rsi_stoch_reversion_manifest(),
+            rsi_stoch_reversion_scenarios(),
+        ),
+        (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
         ),
@@ -4816,7 +4930,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 24);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 25);
         assert!(!suite
             .passports
             .iter()
