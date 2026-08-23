@@ -174,7 +174,9 @@ impl ExpertWitness for LegacyExpertWitnessAdapter {
     }
 }
 
-/// Builds the standard 28-witness ensemble mapped from the registered expert table.
+/// Builds the standard 28-witness ensemble mapped one-for-one from the registered
+/// generator-expert dispatch table. `predicate` is a post-entry thesis evaluator,
+/// not an Expert witness, and is intentionally excluded.
 pub fn default_28_witness_ensemble() -> Vec<LegacyExpertWitnessAdapter> {
     let expert_meta = [
         ("trend_pullback", "momentum", "trend_following", "dep_trend"),
@@ -201,7 +203,6 @@ pub fn default_28_witness_ensemble() -> Vec<LegacyExpertWitnessAdapter> {
         ("open_interest_divergence", "derivatives", "divergence", "dep_derivatives"),
         ("pandf_breakout", "point_figure", "breakout", "dep_breakout"),
         ("pattern_measuring_objective", "chart_pattern", "objective", "dep_pattern"),
-        ("predicate", "logic", "rule", "dep_predicate"),
         ("range_breakout_1to1", "range", "breakout", "dep_breakout"),
         ("rsi_stoch_reversion", "oscillator", "mean_reversion", "dep_reversion"),
         ("volume_climax_reversal", "volume", "climax", "dep_volume"),
@@ -242,7 +243,7 @@ mod tests {
     #[test]
     fn test_witness_ensemble_observes_without_execution_authority() {
         let witnesses = default_28_witness_ensemble();
-        assert_eq!(witnesses.len(), 29); // 28 registered + 1 predicate variant
+        assert_eq!(witnesses.len(), 28);
 
         let exp = EconomicExposureStructure::single_perp(
             "BTCUSDT",
