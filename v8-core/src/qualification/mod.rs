@@ -683,6 +683,17 @@ pub fn divergence_12_setups_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn pattern_measuring_objective_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "pattern_measuring_objective".into(), expert_version: "v1".into(), mechanism_family_id: "pattern".into(), behavior_family_id: "head_shoulders".into(), dependency_group: "dep_location".into(),
+            hypothesis: "The registered default head-and-shoulders branch supports SHORT only when causal three-flank pivots form shoulders around a higher head and the current close strictly breaks the derived neckline.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "window_high_20".into(), "window_low_20".into(), "range_height_20".into(), "consolidation_range".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
+        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.pattern-measuring-objective.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     ExpertQualificationManifest {
         schema_version: D141_SCHEMA_VERSION.into(),
@@ -1999,6 +2010,86 @@ pub fn divergence_12_setups_scenarios() -> Vec<Scenario> {
             "divergence-missing",
             ScenarioClass::Contract,
             "DIVERGENCE-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+fn head_shoulders_world(final_close: f64) -> ScenarioInput {
+    let mut input = base_input();
+    input.history = (0..24)
+        .map(|index| {
+            let (high, low, close) = match index {
+                3 => (105.0, 99.0, 102.0),
+                7 => (101.0, 95.0, 98.0),
+                11 => (110.0, 99.0, 104.0),
+                15 => (101.0, 95.0, 98.0),
+                19 => (105.0, 99.0, 102.0),
+                23 => (final_close + 1.0, final_close - 1.0, final_close),
+                _ => (101.0, 99.0, 100.0),
+            };
+            ScenarioBar {
+                event_id: format!("hs-{index}"),
+                open: close,
+                high,
+                low,
+                close,
+                ema_fast: 0.0,
+                ema_slow: 0.0,
+            }
+        })
+        .collect();
+    input.scalars = BTreeMap::from([
+        ("close".into(), final_close),
+        ("atr".into(), 2.0),
+        ("window_high_20".into(), 110.0),
+        ("window_low_20".into(), 95.0),
+        ("range_height_20".into(), 15.0),
+    ]);
+    input.structured.insert(
+        "consolidation_range".into(),
+        serde_json::json!([110.0, 95.0, 0.02, true]),
+    );
+    input
+}
+
+pub fn pattern_measuring_objective_scenarios() -> Vec<Scenario> {
+    let positive = head_shoulders_world(94.0);
+    let negative = head_shoulders_world(96.0);
+    let boundary = head_shoulders_world(95.0);
+    let mut missing = positive.clone();
+    missing.structured.remove("consolidation_range");
+    vec![
+        scenario(
+            "hs-break",
+            ScenarioClass::CanonicalPositive,
+            "HS-SHORT",
+            positive,
+            ExpectedStance::SupportShort,
+            &["shoulders", "higher-head", "neckline-break", "short"],
+        ),
+        scenario(
+            "hs-no-break",
+            ScenarioClass::CanonicalNegative,
+            "HS-NO-BREAK",
+            negative,
+            ExpectedStance::Abstain,
+            &["neckline-holds"],
+        ),
+        scenario(
+            "hs-equal-neckline",
+            ScenarioClass::Boundary,
+            "HS-EQUAL-NECKLINE",
+            boundary,
+            ExpectedStance::Abstain,
+            &["strict-neckline-boundary"],
+        ),
+        scenario(
+            "hs-missing",
+            ScenarioClass::Contract,
+            "HS-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -4173,6 +4264,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             divergence_12_setups_scenarios(),
         ),
         (
+            pattern_measuring_objective_manifest(),
+            pattern_measuring_objective_scenarios(),
+        ),
+        (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
         ),
@@ -5038,7 +5133,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 26);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 27);
         assert!(!suite
             .passports
             .iter()
