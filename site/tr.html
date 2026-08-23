@@ -1761,7 +1761,7 @@ Tüm çıktılar şema doğrulamalıdır (<code>v8.3-eeo-d136-v1.0</code>) ve <c
 <strong>Kaynağa bağlı tasarım girdisi:</strong> 2026-08-23 tarihinde sağlanan <code>D140_Expert_Proving_Ground_Research.html</code>; SHA-256 <code>28dd925c85c73cc66ccdfc1c0a0c99ac91d0c5ba1e26394f77faa6d8ff4c91d1</code>. Kaynak mimari önerir; V8 otoritesini geçersiz kılmaz ve ekonomik iddia yetkisi vermez.</p>
 <h2 id="1-karar-ve-snr">1. Karar ve sınır</h2>
 <p>D-141, bir <code>ExpertWitness</code> sürümünün nitelendirme altyapısını kurar. Tanığın ilan edilen anlambilimi uygulayıp uygulamadığını, zaman-noktasına ve feature sınırlarına uyup uymadığını, ilan edilmiş gürültü dönüşümlerinde hukuka uygun davranıp davranmadığını ve bilinen kusurlarla yanlışlanıp yanlışlanamadığını ayrı ayrı cevaplar. Kârlılık kanıtlamaz, <code>OpportunityEpisode</code> yaratmaz, sermaye seçmez veya Expert'i terfi ettirmez.</p>
-<p>Sentetik, üretilmiş, metamorfik, mutasyon, sabotaj, EAST ve tarihsel alegori sonuçları yalnız <code>SEMANTIC_QUALIFICATION</code> kanıtıdır ve <code>NO_ECONOMIC_CLAIM</code> üretmelidir. Gerçek-bantta zoraki-çekimserlik atfı, ayrı yetkilendirilmiş dondurulmuş kronolojik OOS kapısı sağlanmadıkça tanısaldır.</p>
+<p>Sentetik, üretilmiş, metamorfik, mutasyon, sabotaj, EAST ve tarihsel alegori girdileri yalnız Rust <code>#[cfg(test)]</code> nitelendirme harness'lerinde izinlidir. Runtime girdisi, evaluation manifest'i veya rapor üretim artifact'i olamazlar. Test kanıtı yalnız <code>SEMANTIC_QUALIFICATION</code>'dır ve <code>NO_ECONOMIC_CLAIM</code> üretmelidir. Gerçek-bantta zoraki-çekimserlik atfı, ayrı yetkilendirilmiş dondurulmuş kronolojik OOS kapısı sağlanmadıkça tanısaldır.</p>
 <h2 id="2-dort-duzlem-sozlesmesi">2. Dört düzlem sözleşmesi</h2>
 <table>
 <thead>
@@ -1803,6 +1803,7 @@ Tüm çıktılar şema doğrulamalıdır (<code>v8.3-eeo-d136-v1.0</code>) ve <c
 <li><strong>Gizlenmiş sert hata yoktur:</strong> gelecek okuması, yön terslemesi ve gizli durum gibi kritik sınıflar tam mutant imhası gerektirir.</li>
 <li><strong>Uydurma kanıt yoktur:</strong> mevcut olmayan kalibrasyon, sonuç, karşıolgusal veya risk verisi <code>None</code>, <code>NotApplicable</code>, <code>Unresolved</code> ya da <code>NO_ECONOMIC_CLAIM</code> olarak kalır.</li>
 <li><strong>Tek sayı sertifikası yoktur:</strong> Passport, otomatik terfi skoru değil; değişmez sonuçları ve metrik vektörlerinin birleşimidir.</li>
+<li><strong>Test-only sentetik sınır:</strong> sentetik senaryo fixture'ları, beklenen tutumlar ve makbuzları yalnız Rust test harness'i tarafından derlenir; production komutları bunları üretemez veya kalıcılaştıramaz.</li>
 </ol>
 <h2 id="4-kanonik-nesneler">4. Kanonik nesneler</h2>
 <p><code>BehaviorCard</code>, kimliği; ekonomik olmayan mekanizma hipotezini; habitatı; setup/tetikleyiciyi; çekimserlik anlamını; simetriyi; geçersiz kılma/zaman aşımını; ilan edilmiş feature'ları; gürültü/sınır boyutlarını ve yasak bağımlılıkları bildirir.</p>
@@ -1839,7 +1840,7 @@ Tüm çıktılar şema doğrulamalıdır (<code>v8.3-eeo-d136-v1.0</code>) ve <c
 </tr>
 </tbody>
 </table>
-<p>İlk pilotlar <code>failed_breakout</code> ve <code>fib_projection_reversal</code>'dır. Yayılım, pilotlar ilgili kapıları geçmeden genişlemez.</p>
+<p>İlk pilotlar <code>failed_breakout</code>, <code>fib_projection_reversal</code> ve <code>liquidity_sweep_reclaim</code>'dır. Yayılım, pilotlar ilgili kapıları geçmeden genişlemez. Yetkili geçiş paydası 28 üyeli generator-expert dispatch tablosudur; <code>predicate</code> post-entry tez değerlendiricisidir, tanık değildir.</p>
 <h2 id="6-senaryo-yeterlilik-ve-ewq">6. Senaryo, yeterlilik ve EWQ</h2>
 <p>Foundry; kanonik pozitif/negatif/sınır/metamorfik/null/koşullu/adversaryal/tarihsel tanı dünyalarını üretir. Kapsam yalnız ilan edilmiş hücrelerde hesaplanır:</p>
 <p><code>Coverage(E) = ağırlıklı ziyaret edilmiş zorunlu hücreler / ağırlıklı ilan edilmiş zorunlu hücreler</code>.</p>
@@ -7920,9 +7921,9 @@ table.</p>
       challenge.rs  multiplicity ledger, challenge providers P11–P12 &amp; common-mode auditor (EEO-009)
       qualification.rs automated qualification harness Q01–Q15 (EEO-010)
       report.rs     canonical EconomicPathologyReport generator &amp; disk writer (EEO-R15)
-    qualification/  Expert Proving Ground semantic qualification plane (D-141)
+    qualification/  Test-only Expert Proving Ground semantic qualification harness (D-141)
       mod.rs        manifests, scenario/oracle runner, metamorphic/mutation/EAST,
-                    typed statistics, passports, attribution, EWQ gates, and pilot receipt writer
+                    typed statistics, passports, attribution, and EWQ gates; no runtime writer
     opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130, D-132)
       mod.rs        7 canonical primitives &amp; OpportunityBook interface
       exposure.rs   EconomicExposureStructure, ExposureResolver, false-collapse defense
@@ -8136,7 +8137,7 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 </tr>
 <tr>
 <td><code>v8-core/src/qualification/</code></td>
-<td>D-141 Expert Proving Ground: manifests, independent scenario oracles, deterministic scenario execution, metamorphic/mutation/EAST qualification, typed statistics, passports, forced-abstention attribution, and EWQ gates</td>
+<td>D-141 test-only Expert Proving Ground: manifests, independent scenario oracles, deterministic scenario execution, metamorphic/mutation/EAST qualification, typed statistics, passports, forced-abstention attribution, and EWQ gates. Synthetic fixtures compile only under <code>#[cfg(test)]</code> and have no runtime writer.</td>
 <td><code>BehaviorCard</code>, <code>ExpertQualificationManifest</code>, <code>Scenario</code>, <code>ScenarioOracle</code>, <code>QualificationRun</code>, <code>EvidenceObject</code>, <code>ExpertPassport</code>, <code>EpistemicVerdict</code></td>
 <td>V8 Constitution Rules 12, 18–27, 44–50; D-129, D-130, D-136, D-139, D-141</td>
 </tr>
@@ -11245,6 +11246,9 @@ değişkenine, arama ailesine, simülatör seviyesine ve portföy kararına bağ
 Bundan daha geniş olan her şey bir V8 olgusu değil, bir deney önerisidir.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-23-d-141-test-only-boundary-and-registry-reconciliation">2026-08-23 — D-141 test-only boundary and registry reconciliation</h2>
+<p>Corrected D-141 to comply with the synthetic-fixture firewall: semantic worlds now compile only in Rust test builds; the production <code>qualify-experts</code> command and persistent synthetic receipt writer are removed. The witness ensemble is reconciled to the authoritative 28-member generator-expert dispatch table by removing <code>predicate</code>, which is a post-entry thesis evaluator rather than an Expert witness. No Expert threshold, opportunity identity, capital authority, or economic verdict changed.</p>
+<p>Artifacts changed: <code>v8-core/src/lib.rs</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/src/experts/witness_adapter.rs</code>, <code>docs/audits/D141_EXPERT_PROVING_GROUND.md</code>, <code>docs/tr/D141_EXPERT_PROVING_GROUND.md</code>, <code>docs/dossiers/D141_QUALIFICATION_DOSSIER.md</code>, <code>docs/tr/D141_QUALIFICATION_DOSSIER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>site/index.html</code>, <code>site/tr.html</code>; removed <code>.audit/d141/current/PILOT_QUALIFICATION_REPORT.json</code>.</p>
 <h2 id="2026-08-23-d-141-expert-proving-ground-alpha-refinery">2026-08-23 — D-141 Expert Proving Ground &amp; Alpha Refinery</h2>
 <p>Registered and implemented D-141 as a provisional, non-economic Expert qualification architecture. The supplied research specification is integrated into English and Turkish monographs as a source-bound design input. The Rust qualification plane provides Behavior Cards, independent Scenario Oracles, deterministic scenario receipts, metamorphic and mutation/sabotage checks, EAST counterexample search, typed statistical evidence, passports, attribution, EWQ gates, and a receipt writer. No Expert threshold, opportunity identity, capital authority, or economic verdict changed by this integration.</p>
 <p>Artifacts changed: <code>v8-core/src/qualification/mod.rs</code>, <code>v8-core/src/lib.rs</code>, <code>v8-core/src/main.rs</code>, <code>docs/audits/D141_EXPERT_PROVING_GROUND.md</code>, <code>docs/tr/D141_EXPERT_PROVING_GROUND.md</code>, <code>docs/dossiers/D141_QUALIFICATION_DOSSIER.md</code>, <code>docs/tr/D141_QUALIFICATION_DOSSIER.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>tools/build_monograph.py</code>, <code>site/index.html</code>, <code>site/tr.html</code>, <code>.audit/d141/current/PILOT_QUALIFICATION_REPORT.json</code>.</p>

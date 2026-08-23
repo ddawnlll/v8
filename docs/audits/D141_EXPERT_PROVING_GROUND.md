@@ -8,7 +8,7 @@
 
 D-141 creates the qualification substrate for an `ExpertWitness` version. It answers separately whether a witness implements its declared semantics, obeys point-in-time and feature boundaries, behaves lawfully under declared nuisance transformations, and can be falsified by known defects. It does **not** establish profitability, create an `OpportunityEpisode`, select capital, or promote a witness.
 
-Synthetic, generated, metamorphic, mutation, sabotage, EAST, and historical-allegory outputs are `SEMANTIC_QUALIFICATION` evidence only and must render `NO_ECONOMIC_CLAIM`. Real-tape forced-abstention attribution is diagnostic until a separately authorized frozen chronological OOS gate supplies the required economic authority.
+Synthetic, generated, metamorphic, mutation, sabotage, EAST, and historical-allegory inputs are permissible **only in `#[cfg(test)]` qualification harnesses**. They are never runtime inputs, evaluation manifests, or report-generator artifacts. Their test evidence is `SEMANTIC_QUALIFICATION` only and must render `NO_ECONOMIC_CLAIM`. Real-tape forced-abstention attribution is diagnostic until a separately authorized frozen chronological OOS gate supplies the required economic authority.
 
 ## 2. Four-plane contract
 
@@ -28,6 +28,7 @@ Synthetic, generated, metamorphic, mutation, sabotage, EAST, and historical-alle
 5. **No masked hard failure:** critical failure classes—future read, direction inversion, and hidden state—require complete kill coverage; aggregate pass rates never waive them.
 6. **No fabricated evidence:** unavailable calibration, outcome, counterfactual, or risk data remains `None`, `NotApplicable`, `Unresolved`, or `NO_ECONOMIC_CLAIM`.
 7. **No scalar certification:** a Passport is a conjunction of invariant results and a metric vector, never an auto-promotion score.
+8. **Test-only synthetic boundary:** synthetic scenario fixtures, expected stances, and their receipts are compiled only by the Rust test harness; production commands cannot generate or persist them.
 
 ## 4. Canonical objects
 
@@ -50,7 +51,7 @@ D141-001 -> 002 -> 003 -> 004 -> 005
 | II — Epistemic Tribunal | 008–010 | EvidenceObject, confidence/e-process result, RiskCertificate, ExpertPassport |
 | III — Alpha Refinery | 011–017 | MarginalContribution, DisplacementCost, InteractionMatrix, PromotionVerdict |
 
-The first pilots are `failed_breakout` and `fib_projection_reversal`. Migration expands only after those pilots complete the relevant gates.
+The first pilots are `failed_breakout`, `fib_projection_reversal`, and `liquidity_sweep_reclaim`. Migration expands only after those pilots complete the relevant gates. The authoritative migration denominator is the 28-member generator-expert dispatch table; `predicate` is a post-entry thesis evaluator, not a witness.
 
 ## 6. Scenario and adequacy requirements
 

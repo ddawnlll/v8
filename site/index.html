@@ -2061,7 +2061,7 @@ All outputs are schema-validated (<code>v8.3-eeo-d136-v1.0</code>) and written t
 <strong>Source-bound design input:</strong> <code>D140_Expert_Proving_Ground_Research.html</code>, SHA-256 <code>28dd925c85c73cc66ccdfc1c0a0c99ac91d0c5ba1e26394f77faa6d8ff4c91d1</code> (supplied 2026-08-23). The source proposes architecture; it does not override V8 authority or authorize economic claims.</p>
 <h2 id="1-decision-and-boundary">1. Decision and boundary</h2>
 <p>D-141 creates the qualification substrate for an <code>ExpertWitness</code> version. It answers separately whether a witness implements its declared semantics, obeys point-in-time and feature boundaries, behaves lawfully under declared nuisance transformations, and can be falsified by known defects. It does <strong>not</strong> establish profitability, create an <code>OpportunityEpisode</code>, select capital, or promote a witness.</p>
-<p>Synthetic, generated, metamorphic, mutation, sabotage, EAST, and historical-allegory outputs are <code>SEMANTIC_QUALIFICATION</code> evidence only and must render <code>NO_ECONOMIC_CLAIM</code>. Real-tape forced-abstention attribution is diagnostic until a separately authorized frozen chronological OOS gate supplies the required economic authority.</p>
+<p>Synthetic, generated, metamorphic, mutation, sabotage, EAST, and historical-allegory inputs are permissible <strong>only in <code>#[cfg(test)]</code> qualification harnesses</strong>. They are never runtime inputs, evaluation manifests, or report-generator artifacts. Their test evidence is <code>SEMANTIC_QUALIFICATION</code> only and must render <code>NO_ECONOMIC_CLAIM</code>. Real-tape forced-abstention attribution is diagnostic until a separately authorized frozen chronological OOS gate supplies the required economic authority.</p>
 <h2 id="2-four-plane-contract">2. Four-plane contract</h2>
 <table>
 <thead>
@@ -2103,6 +2103,7 @@ All outputs are schema-validated (<code>v8.3-eeo-d136-v1.0</code>) and written t
 <li><strong>No masked hard failure:</strong> critical failure classes—future read, direction inversion, and hidden state—require complete kill coverage; aggregate pass rates never waive them.</li>
 <li><strong>No fabricated evidence:</strong> unavailable calibration, outcome, counterfactual, or risk data remains <code>None</code>, <code>NotApplicable</code>, <code>Unresolved</code>, or <code>NO_ECONOMIC_CLAIM</code>.</li>
 <li><strong>No scalar certification:</strong> a Passport is a conjunction of invariant results and a metric vector, never an auto-promotion score.</li>
+<li><strong>Test-only synthetic boundary:</strong> synthetic scenario fixtures, expected stances, and their receipts are compiled only by the Rust test harness; production commands cannot generate or persist them.</li>
 </ol>
 <h2 id="4-canonical-objects">4. Canonical objects</h2>
 <p><code>BehaviorCard</code> declares identity, non-economic mechanism hypothesis, habitat, setup/trigger, abstention semantics, symmetry, invalidation/expiry, declared features, nuisance and boundary dimensions, and forbidden dependencies.</p>
@@ -2139,7 +2140,7 @@ All outputs are schema-validated (<code>v8.3-eeo-d136-v1.0</code>) and written t
 </tr>
 </tbody>
 </table>
-<p>The first pilots are <code>failed_breakout</code> and <code>fib_projection_reversal</code>. Migration expands only after those pilots complete the relevant gates.</p>
+<p>The first pilots are <code>failed_breakout</code>, <code>fib_projection_reversal</code>, and <code>liquidity_sweep_reclaim</code>. Migration expands only after those pilots complete the relevant gates. The authoritative migration denominator is the 28-member generator-expert dispatch table; <code>predicate</code> is a post-entry thesis evaluator, not a witness.</p>
 <h2 id="6-scenario-and-adequacy-requirements">6. Scenario and adequacy requirements</h2>
 <p>The Foundry owns canonical positive, negative, boundary, metamorphic, null, conditional, adversarial, and historical diagnostic worlds. Behavior-space coverage is calculated only over declared cells:</p>
 <p><code>Coverage(E) = weighted visited required cells / weighted declared required cells</code>.</p>
@@ -8682,9 +8683,9 @@ table.</p>
       challenge.rs  multiplicity ledger, challenge providers P11–P12 &amp; common-mode auditor (EEO-009)
       qualification.rs automated qualification harness Q01–Q15 (EEO-010)
       report.rs     canonical EconomicPathologyReport generator &amp; disk writer (EEO-R15)
-    qualification/  Expert Proving Ground semantic qualification plane (D-141)
+    qualification/  Test-only Expert Proving Ground semantic qualification harness (D-141)
       mod.rs        manifests, scenario/oracle runner, metamorphic/mutation/EAST,
-                    typed statistics, passports, attribution, EWQ gates, and pilot receipt writer
+                    typed statistics, passports, attribution, and EWQ gates; no runtime writer
     opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130, D-132)
       mod.rs        7 canonical primitives &amp; OpportunityBook interface
       exposure.rs   EconomicExposureStructure, ExposureResolver, false-collapse defense
@@ -8898,7 +8899,7 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 </tr>
 <tr>
 <td><code>v8-core/src/qualification/</code></td>
-<td>D-141 Expert Proving Ground: manifests, independent scenario oracles, deterministic scenario execution, metamorphic/mutation/EAST qualification, typed statistics, passports, forced-abstention attribution, and EWQ gates</td>
+<td>D-141 test-only Expert Proving Ground: manifests, independent scenario oracles, deterministic scenario execution, metamorphic/mutation/EAST qualification, typed statistics, passports, forced-abstention attribution, and EWQ gates. Synthetic fixtures compile only under <code>#[cfg(test)]</code> and have no runtime writer.</td>
 <td><code>BehaviorCard</code>, <code>ExpertQualificationManifest</code>, <code>Scenario</code>, <code>ScenarioOracle</code>, <code>QualificationRun</code>, <code>EvidenceObject</code>, <code>ExpertPassport</code>, <code>EpistemicVerdict</code></td>
 <td>V8 Constitution Rules 12, 18–27, 44–50; D-129, D-130, D-136, D-139, D-141</td>
 </tr>
@@ -11695,6 +11696,9 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-08-23-d-141-test-only-boundary-and-registry-reconciliation">2026-08-23 — D-141 test-only boundary and registry reconciliation</h2>
+<p>Corrected D-141 to comply with the synthetic-fixture firewall: semantic worlds now compile only in Rust test builds; the production <code>qualify-experts</code> command and persistent synthetic receipt writer are removed. The witness ensemble is reconciled to the authoritative 28-member generator-expert dispatch table by removing <code>predicate</code>, which is a post-entry thesis evaluator rather than an Expert witness. No Expert threshold, opportunity identity, capital authority, or economic verdict changed.</p>
+<p>Artifacts changed: <code>v8-core/src/lib.rs</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/src/experts/witness_adapter.rs</code>, <code>docs/audits/D141_EXPERT_PROVING_GROUND.md</code>, <code>docs/tr/D141_EXPERT_PROVING_GROUND.md</code>, <code>docs/dossiers/D141_QUALIFICATION_DOSSIER.md</code>, <code>docs/tr/D141_QUALIFICATION_DOSSIER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>site/index.html</code>, <code>site/tr.html</code>; removed <code>.audit/d141/current/PILOT_QUALIFICATION_REPORT.json</code>.</p>
 <h2 id="2026-08-23-d-141-expert-proving-ground-alpha-refinery">2026-08-23 — D-141 Expert Proving Ground &amp; Alpha Refinery</h2>
 <p>Registered and implemented D-141 as a provisional, non-economic Expert qualification architecture. The supplied research specification is integrated into English and Turkish monographs as a source-bound design input. The Rust qualification plane provides Behavior Cards, independent Scenario Oracles, deterministic scenario receipts, metamorphic and mutation/sabotage checks, EAST counterexample search, typed statistical evidence, passports, attribution, EWQ gates, and a receipt writer. No Expert threshold, opportunity identity, capital authority, or economic verdict changed by this integration.</p>
 <p>Artifacts changed: <code>v8-core/src/qualification/mod.rs</code>, <code>v8-core/src/lib.rs</code>, <code>v8-core/src/main.rs</code>, <code>docs/audits/D141_EXPERT_PROVING_GROUND.md</code>, <code>docs/tr/D141_EXPERT_PROVING_GROUND.md</code>, <code>docs/dossiers/D141_QUALIFICATION_DOSSIER.md</code>, <code>docs/tr/D141_QUALIFICATION_DOSSIER.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>tools/build_monograph.py</code>, <code>site/index.html</code>, <code>site/tr.html</code>, <code>.audit/d141/current/PILOT_QUALIFICATION_REPORT.json</code>.</p>

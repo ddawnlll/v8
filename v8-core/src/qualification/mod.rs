@@ -510,6 +510,68 @@ pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn liquidity_sweep_reclaim_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "liquidity_sweep_reclaim".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "liquidity".into(),
+            behavior_family_id: "sweep".into(),
+            dependency_group: "dep_liquidity".into(),
+            hypothesis: "A latest-bar breach of the frozen prior extreme followed by a close back inside supports the opposite reclaim.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "history".into()],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.liquidity-sweep-reclaim.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn trend_pullback_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "trend_pullback".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "momentum".into(),
+            behavior_family_id: "trend_following".into(),
+            dependency_group: "dep_trend".into(),
+            hypothesis: "A close below the slow average inside an aligned fast-above-slow trend supports a LONG pullback.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "ema_fast".into(),
+                "ema_slow".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: false,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.trend-pullback.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 fn base_input() -> ScenarioInput {
     ScenarioInput {
         symbol: "BTCUSDT".into(),
@@ -695,6 +757,153 @@ pub fn fib_projection_reversal_scenarios() -> Vec<Scenario> {
             boundary,
             ExpectedStance::Abstain,
             &["extension-boundary"],
+        ),
+    ]
+}
+
+pub fn liquidity_sweep_reclaim_scenarios() -> Vec<Scenario> {
+    let mut long = base_input();
+    long.history = vec![
+        ScenarioBar {
+            event_id: "lsr-long-prior".into(),
+            open: 99.0,
+            high: 100.0,
+            low: 98.0,
+            close: 99.0,
+            ema_fast: 99.0,
+            ema_slow: 99.0,
+        },
+        ScenarioBar {
+            event_id: "lsr-long-sweep".into(),
+            open: 98.0,
+            high: 101.0,
+            low: 97.0,
+            close: 99.0,
+            ema_fast: 99.0,
+            ema_slow: 99.0,
+        },
+    ];
+    long.scalars.insert("close".into(), 99.0);
+
+    let mut short = base_input();
+    short.history = vec![
+        ScenarioBar {
+            event_id: "lsr-short-prior".into(),
+            open: 99.0,
+            high: 100.0,
+            low: 98.0,
+            close: 99.0,
+            ema_fast: 99.0,
+            ema_slow: 99.0,
+        },
+        ScenarioBar {
+            event_id: "lsr-short-sweep".into(),
+            open: 101.0,
+            high: 103.0,
+            low: 98.0,
+            close: 99.0,
+            ema_fast: 99.0,
+            ema_slow: 99.0,
+        },
+    ];
+    short.scalars.insert("close".into(), 99.0);
+
+    let mut negative = long.clone();
+    negative.scalars.insert("close".into(), 97.0);
+    negative.history[1].high = 100.0;
+    let mut boundary = long.clone();
+    boundary.history[1].low = 98.0;
+    boundary.history[1].high = 100.0;
+    let mut missing = long.clone();
+    missing.scalars.remove("atr");
+
+    vec![
+        scenario(
+            "lsr-long",
+            ScenarioClass::CanonicalPositive,
+            "LSR-LONG",
+            long,
+            ExpectedStance::SupportLong,
+            &["sweep-low", "reclaim", "long"],
+        ),
+        scenario(
+            "lsr-short",
+            ScenarioClass::CanonicalPositive,
+            "LSR-SHORT",
+            short,
+            ExpectedStance::SupportShort,
+            &["sweep-high", "reclaim", "short"],
+        ),
+        scenario(
+            "lsr-negative",
+            ScenarioClass::CanonicalNegative,
+            "LSR-NEG",
+            negative,
+            ExpectedStance::Abstain,
+            &["no-reclaim"],
+        ),
+        scenario(
+            "lsr-boundary",
+            ScenarioClass::Boundary,
+            "LSR-BOUNDARY",
+            boundary,
+            ExpectedStance::Abstain,
+            &["equal-extreme"],
+        ),
+        scenario(
+            "lsr-missing",
+            ScenarioClass::Contract,
+            "LSR-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn trend_pullback_scenarios() -> Vec<Scenario> {
+    let mut positive = base_input();
+    positive.scalars.insert("close".into(), 99.0);
+    positive.scalars.insert("ema_fast".into(), 101.0);
+    positive.scalars.insert("ema_slow".into(), 100.0);
+    let mut negative = positive.clone();
+    negative.scalars.insert("close".into(), 100.0);
+    let mut boundary = positive.clone();
+    boundary.scalars.insert("ema_fast".into(), 100.0);
+    let mut missing = positive.clone();
+    missing.scalars.remove("ema_fast");
+    vec![
+        scenario(
+            "tp-positive",
+            ScenarioClass::CanonicalPositive,
+            "TP-POS",
+            positive,
+            ExpectedStance::SupportLong,
+            &["aligned-trend", "pullback", "long"],
+        ),
+        scenario(
+            "tp-negative",
+            ScenarioClass::CanonicalNegative,
+            "TP-NEG",
+            negative,
+            ExpectedStance::Abstain,
+            &["no-pullback"],
+        ),
+        scenario(
+            "tp-boundary",
+            ScenarioClass::Boundary,
+            "TP-BOUNDARY",
+            boundary,
+            ExpectedStance::Abstain,
+            &["flat-trend-boundary"],
+        ),
+        scenario(
+            "tp-missing",
+            ScenarioClass::Contract,
+            "TP-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
         ),
     ]
 }
@@ -1645,6 +1854,11 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
         ),
+        (
+            liquidity_sweep_reclaim_manifest(),
+            liquidity_sweep_reclaim_scenarios(),
+        ),
+        (trend_pullback_manifest(), trend_pullback_scenarios()),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -1806,6 +2020,72 @@ mod tests {
     }
 
     #[test]
+    fn liquidity_sweep_reclaim_canonical_and_metamorphic_contracts_pass() {
+        let manifest = liquidity_sweep_reclaim_manifest();
+        let scenarios = liquidity_sweep_reclaim_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(
+            run.passed(),
+            run.total(),
+            "canonical scenario failure: {:#?}",
+            run.receipts
+        );
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("liquidity_sweep_reclaim", relation, positive)
+                    .unwrap()
+                    .passed,
+                "metamorphic relation {relation:?} failed"
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("liquidity_sweep_reclaim", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
+            "mutation survived"
+        );
+    }
+
+    #[test]
+    fn trend_pullback_canonical_and_metamorphic_contracts_pass() {
+        let manifest = trend_pullback_manifest();
+        let scenarios = trend_pullback_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("trend_pullback", relation, positive)
+                    .unwrap()
+                    .passed,
+                "metamorphic relation {relation:?} failed"
+            );
+        }
+        let mutation = MutationReport::from_receipts(kill_mutants("trend_pullback", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
+            "mutation survived"
+        );
+    }
+
+    #[test]
     fn all_critical_mutants_are_killed_by_the_pilot_suite() {
         let scenarios = failed_breakout_scenarios();
         let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
@@ -1875,7 +2155,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 2);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 4);
         assert!(!suite
             .passports
             .iter()

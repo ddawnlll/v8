@@ -4,24 +4,20 @@
 **Scope:** deterministic semantic qualification only
 **Economic authority:** `NO_ECONOMIC_CLAIM`
 
-## Receipt
+## Test-only evidence boundary
 
-The executable receipt is `.audit/d141/current/PILOT_QUALIFICATION_REPORT.json`, produced by:
-
-```text
-cargo run --manifest-path v8-core/Cargo.toml -- qualify-experts --out .audit/d141/current/PILOT_QUALIFICATION_REPORT.json
-```
-
-The report is only valid when that physical file exists and its manifest/run hashes match the executed code. It contains no profit, return, or promotion assertion.
+D-141 semantic scenarios are Rust `#[cfg(test)]` fixtures. The production CLI has no `qualify-experts` command and no D-141 synthetic receipt writer: this prevents generated worlds from entering runtime evaluation or report artifacts. The authoritative verification is the scoped Rust test output bound to the reviewed code revision; it contains no profit, return, or promotion assertion.
 
 ## Pilot result contract
 
 | Expert | Formal manifest | Semantic verdict | Economic verdict |
 |---|---|---|---|
-| `failed_breakout:v1` | D-141 manifest hash in receipt | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
-| `fib_projection_reversal:v1` | D-141 manifest hash in receipt | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `failed_breakout:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `fib_projection_reversal:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `liquidity_sweep_reclaim:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `trend_pullback:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
 
-The other registered witnesses are intentionally not counted as passed or failed until they receive their own Behavior Card and manifest. Registry manifest coverage is reported separately from the executed-test pass rate.
+The other registered generator-experts are intentionally not counted as passed or failed until they receive their own Behavior Card and manifest. The denominator is 28, not 29: `predicate` is a post-entry thesis evaluator rather than an Expert witness. Registry manifest coverage is reported separately from the executed-test pass rate.
 
 ## Gate interpretation
 

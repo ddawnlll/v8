@@ -29,6 +29,7 @@ pub mod judiciary;
 pub mod kaizen;
 pub mod opportunity;
 pub mod quant;
+#[cfg(test)]
 pub mod qualification;
 pub mod regret;
 pub mod report;

@@ -55,7 +55,6 @@ pub mod judiciary;
 pub mod kaizen;
 pub mod opportunity;
 pub mod quant;
-pub mod qualification;
 mod regret;
 mod report;
 mod runloop;
@@ -102,8 +101,7 @@ subcommands:
   usdm-sim        finite-capital Binance USD-M portfolio simulator
   allegory-audit  multi-episode historical archetype audit (A01-A12, D-125)
   funnel-audit    V8.3 Opportunity Capture Funnel empirical audit (Phase II)
-  eeo-qualify     D-136 Epistemic Economic Observability qualification runner
-  qualify-experts D-141 deterministic semantic pilot qualification report";
+  eeo-qualify     D-136 Epistemic Economic Observability qualification runner";
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -138,38 +136,12 @@ fn main() {
         "allegory-audit" => cmd_allegory_audit(&args[2..]),
         "funnel-audit" => cmd_funnel_audit(&args[2..]),
         "eeo-qualify" => cmd_eeo_qualify(&args[2..]),
-        "qualify-experts" => cmd_qualify_experts(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
         }
     };
     std::process::exit(code);
-}
-
-fn cmd_qualify_experts(args: &[String]) -> i32 {
-    let output = match args {
-        [] => None,
-        [flag, path] if flag == "--out" => Some(path),
-        _ => {
-            eprintln!("usage: v8-core qualify-experts [--out <receipt.json>]");
-            return 2;
-        }
-    };
-    let result = match output {
-        Some(path) => qualification::write_pilot_qualification_report(std::path::Path::new(path)),
-        None => qualification::run_pilot_qualification_suite(),
-    };
-    match result {
-        Ok(report) => {
-            println!("{}", serde_json::to_string_pretty(&report).expect("D-141 report must serialize"));
-            0
-        }
-        Err(error) => {
-            eprintln!("D-141 qualification failed closed: {error}");
-            1
-        }
-    }
 }
 
 fn cmd_gpu_probe(args: &[String]) -> i32 {
