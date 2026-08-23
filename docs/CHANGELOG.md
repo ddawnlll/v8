@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 Expert Proving Ground & Alpha Refinery
+
+Registered and implemented D-141 as a provisional, non-economic Expert qualification architecture. The supplied research specification is integrated into English and Turkish monographs as a source-bound design input. The Rust qualification plane provides Behavior Cards, independent Scenario Oracles, deterministic scenario receipts, metamorphic and mutation/sabotage checks, EAST counterexample search, typed statistical evidence, passports, attribution, EWQ gates, and a receipt writer. No Expert threshold, opportunity identity, capital authority, or economic verdict changed by this integration.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `v8-core/src/lib.rs`, `v8-core/src/main.rs`, `docs/audits/D141_EXPERT_PROVING_GROUND.md`, `docs/tr/D141_EXPERT_PROVING_GROUND.md`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `tools/build_monograph.py`, `site/index.html`, `site/tr.html`, `.audit/d141/current/PILOT_QUALIFICATION_REPORT.json`.
+
 ## 2026-08-23 — Ratification of D-140: Squeeze Release Macro Swing Architecture, Kaufman Trend Efficiency Gating & 24h Structural Trailing Stop (`V8.4-ETS-SWING-001`)
 
 Formally adopted the Squeeze Release Macro Swing Engine (`v8-core/src/experts/squeeze_swing.rs`) and established the new authoritative Point-In-Time Rust USD-M baseline:

@@ -1,0 +1,1902 @@
+//! D-141 Expert Proving Ground & Alpha Refinery.
+//!
+//! Qualification is a falsification surface, never an economic authority
+//! surface.  This module intentionally models semantic evidence separately
+//! from real-tape attribution and does not produce an economic verdict.
+
+use std::collections::{BTreeMap, BTreeSet, HashMap};
+use std::path::Path;
+
+use serde::{Deserialize, Serialize};
+
+use crate::error::V8CoreError;
+use crate::experts::base::{ExpertEval, FeatMap, ProjectedFeatures};
+use crate::hash::Canon;
+use crate::state::{Feature, HistBar};
+
+pub const D141_SCHEMA_VERSION: &str = "d141.eqm.v1";
+pub const NO_ECONOMIC_CLAIM: &str = "NO_ECONOMIC_CLAIM";
+
+/// The maximum authority a D-141 result may carry.
+///
+/// `RealTapeDiagnostic` remains deliberately non-promotional.  There is no
+/// economic or execution-capable variant in this closed algebra.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum QualificationAuthority {
+    ContractEvidence,
+    SemanticQualification,
+    StatisticalQualification,
+    RealTapeDiagnostic,
+}
+
+impl QualificationAuthority {
+    pub fn renders_economic_claim(self) -> bool {
+        false
+    }
+}
+
+/// A Behavior Card freezes what a witness means before it is evaluated.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct BehaviorCard {
+    pub expert_id: String,
+    pub expert_version: String,
+    pub mechanism_family_id: String,
+    pub behavior_family_id: String,
+    pub dependency_group: String,
+    pub hypothesis: String,
+    pub declared_features: Vec<String>,
+    pub forbidden_dependencies: Vec<String>,
+    pub symmetric_long_short: bool,
+}
+
+/// A machine-readable, hash-bound qualification declaration.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ExpertQualificationManifest {
+    pub schema_version: String,
+    pub card: BehaviorCard,
+    pub scenario_families: Vec<ScenarioClass>,
+    pub oracle_id: String,
+    pub oracle_version: String,
+    pub seed_manifest: String,
+    pub generator_version: String,
+    pub maximum_authority: QualificationAuthority,
+}
+
+impl ExpertQualificationManifest {
+    pub fn validate(&self) -> Result<(), V8CoreError> {
+        if self.schema_version != D141_SCHEMA_VERSION {
+            return Err(V8CoreError::QuantInvariant(format!(
+                "D-141 manifest schema must be {D141_SCHEMA_VERSION}"
+            )));
+        }
+        if self.card.expert_id.trim().is_empty()
+            || self.card.expert_version.trim().is_empty()
+            || self.oracle_id.trim().is_empty()
+            || self.oracle_version.trim().is_empty()
+            || self.seed_manifest.trim().is_empty()
+            || self.generator_version.trim().is_empty()
+        {
+            return Err(V8CoreError::QuantInvariant(
+                "D-141 manifest identity, oracle, seed, and generator bindings are required".into(),
+            ));
+        }
+        if self.card.declared_features.is_empty() {
+            return Err(V8CoreError::QuantInvariant(
+                "D-141 BehaviorCard must declare its feature read set".into(),
+            ));
+        }
+        Ok(())
+    }
+
+    pub fn hash(&self) -> Result<String, V8CoreError> {
+        self.validate()?;
+        let value = serde_json::to_value(self)?;
+        Ok(crate::hash::hash_value_blake3(&value))
+    }
+}
+
+/// Scenario categories are epistemic test classes, not market regimes.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum ScenarioClass {
+    Contract,
+    CanonicalPositive,
+    CanonicalNegative,
+    Boundary,
+    Metamorphic,
+    NullWorld,
+    Conditional,
+    Adversarial,
+    HistoricalDiagnostic,
+}
+
+/// A finite, point-in-time-only input world.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ScenarioInput {
+    pub symbol: String,
+    pub as_of: i64,
+    pub scalars: BTreeMap<String, f64>,
+    pub structured: BTreeMap<String, serde_json::Value>,
+    pub history: Vec<ScenarioBar>,
+    /// Deliberately outside the `FeatMap`: changing it must not affect a
+    /// decision made at `as_of`.
+    pub future_suffix: Vec<ScenarioBar>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ScenarioBar {
+    pub event_id: String,
+    pub open: f64,
+    pub high: f64,
+    pub low: f64,
+    pub close: f64,
+    pub ema_fast: f64,
+    pub ema_slow: f64,
+}
+
+impl ScenarioBar {
+    fn scaled(&self, factor: f64) -> Self {
+        Self {
+            event_id: self.event_id.clone(),
+            open: self.open * factor,
+            high: self.high * factor,
+            low: self.low * factor,
+            close: self.close * factor,
+            ema_fast: self.ema_fast * factor,
+            ema_slow: self.ema_slow * factor,
+        }
+    }
+}
+
+/// The only expected output vocabulary used by an independent scenario oracle.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum ExpectedStance {
+    SupportLong,
+    SupportShort,
+    Abstain,
+    NoHabitat,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Scenario {
+    pub scenario_id: String,
+    pub class: ScenarioClass,
+    pub property_id: String,
+    pub input: ScenarioInput,
+    pub expected: ExpectedStance,
+    pub required_cells: BTreeSet<String>,
+    pub seed: u64,
+    pub authority: QualificationAuthority,
+}
+
+impl Scenario {
+    pub fn hash(&self) -> String {
+        let value = serde_json::to_value(self).expect("D-141 Scenario must serialize");
+        crate::hash::hash_value_blake3(&value)
+    }
+
+    pub fn scaled(&self, factor: f64) -> Result<Self, V8CoreError> {
+        if !factor.is_finite() || factor <= 0.0 {
+            return Err(V8CoreError::QuantInvariant(
+                "D-141 price-scale factor must be finite and positive".into(),
+            ));
+        }
+        let mut scaled = self.clone();
+        for value in scaled.input.scalars.values_mut() {
+            *value *= factor;
+        }
+        for (name, value) in &mut scaled.input.structured {
+            if name == "fib_levels" {
+                scale_fib_levels(value, factor)?;
+            } else {
+                scale_json_numbers(value, factor)?;
+            }
+        }
+        scaled.input.history = scaled
+            .input
+            .history
+            .iter()
+            .map(|bar| bar.scaled(factor))
+            .collect();
+        scaled.input.future_suffix = scaled
+            .input
+            .future_suffix
+            .iter()
+            .map(|bar| bar.scaled(factor))
+            .collect();
+        scaled.scenario_id = format!("{}:scale:{factor}", self.scenario_id);
+        Ok(scaled)
+    }
+}
+
+fn scale_fib_levels(value: &mut serde_json::Value, factor: f64) -> Result<(), V8CoreError> {
+    let arr = value.as_array_mut().ok_or_else(|| {
+        V8CoreError::QuantInvariant("fib_levels must be an array for price-scale relation".into())
+    })?;
+    if arr.len() != 4 {
+        return Err(V8CoreError::QuantInvariant(
+            "fib_levels must have canonical four-tuple shape".into(),
+        ));
+    }
+    let anchor = arr[0]
+        .as_f64()
+        .ok_or_else(|| V8CoreError::QuantInvariant("fib anchor must be numeric".into()))?;
+    arr[0] = serde_json::json!(anchor * factor);
+    let extensions = arr[3].as_array_mut().ok_or_else(|| {
+        V8CoreError::QuantInvariant("fib extension table must be an array".into())
+    })?;
+    for pair in extensions {
+        let pair = pair
+            .as_array_mut()
+            .ok_or_else(|| V8CoreError::QuantInvariant("fib extension must be a pair".into()))?;
+        if pair.len() != 2 {
+            return Err(V8CoreError::QuantInvariant(
+                "fib extension must contain ratio and level".into(),
+            ));
+        }
+        let level = pair[1].as_f64().ok_or_else(|| {
+            V8CoreError::QuantInvariant("fib extension level must be numeric".into())
+        })?;
+        pair[1] = serde_json::json!(level * factor);
+    }
+    Ok(())
+}
+
+fn scale_json_numbers(value: &mut serde_json::Value, factor: f64) -> Result<(), V8CoreError> {
+    match value {
+        serde_json::Value::Number(number) => {
+            let v = number.as_f64().ok_or_else(|| {
+                V8CoreError::QuantInvariant("structured scenario number must be f64".into())
+            })?;
+            *value = serde_json::json!(v * factor);
+        }
+        serde_json::Value::Array(values) => {
+            for item in values {
+                scale_json_numbers(item, factor)?;
+            }
+        }
+        serde_json::Value::Object(values) => {
+            for item in values.values_mut() {
+                scale_json_numbers(item, factor)?;
+            }
+        }
+        serde_json::Value::Null | serde_json::Value::Bool(_) | serde_json::Value::String(_) => {}
+    }
+    Ok(())
+}
+
+/// Independent oracles receive only a scenario; the trait never accepts an
+/// Expert evaluator, preventing direct implementation delegation.
+pub trait ScenarioOracle: Send + Sync {
+    fn oracle_id(&self) -> &str;
+    fn oracle_version(&self) -> &str;
+    fn expected_stance(&self, scenario: &Scenario) -> Result<ExpectedStance, V8CoreError>;
+}
+
+/// A declarative oracle keyed by frozen property IDs.
+#[derive(Debug, Clone)]
+pub struct DeclarativeScenarioOracle {
+    id: String,
+    version: String,
+    expectations: BTreeMap<String, ExpectedStance>,
+}
+
+impl DeclarativeScenarioOracle {
+    pub fn new(
+        id: impl Into<String>,
+        version: impl Into<String>,
+        expectations: BTreeMap<String, ExpectedStance>,
+    ) -> Self {
+        Self {
+            id: id.into(),
+            version: version.into(),
+            expectations,
+        }
+    }
+}
+
+impl ScenarioOracle for DeclarativeScenarioOracle {
+    fn oracle_id(&self) -> &str {
+        &self.id
+    }
+    fn oracle_version(&self) -> &str {
+        &self.version
+    }
+
+    fn expected_stance(&self, scenario: &Scenario) -> Result<ExpectedStance, V8CoreError> {
+        self.expectations
+            .get(&scenario.property_id)
+            .copied()
+            .ok_or_else(|| {
+                V8CoreError::QuantInvariant(format!(
+                    "D-141 oracle has no independently declared expectation for {}",
+                    scenario.property_id
+                ))
+            })
+    }
+}
+
+/// A scenario executor cannot access `future_suffix` and always runs through
+/// the registered Expert dispatch.
+pub fn execute_scenario(expert_id: &str, scenario: &Scenario) -> ExpertEval {
+    let mut features = Vec::new();
+    for (name, value) in &scenario.input.scalars {
+        features.push(feature(
+            name,
+            serde_json::json!(value),
+            scenario.input.as_of,
+        ));
+    }
+    for (name, value) in &scenario.input.structured {
+        features.push(feature(name, value.clone(), scenario.input.as_of));
+    }
+    let overrides = HashMap::new();
+    let history = scenario.input.history.iter().map(to_hist_bar).collect();
+    let fm = FeatMap {
+        features: ProjectedFeatures::unprojected(&features),
+        history,
+        as_of: scenario.input.as_of,
+        symbol: &scenario.input.symbol,
+        variant_overrides: &overrides,
+    };
+    crate::experts::evaluate(expert_id, &fm)
+}
+
+fn feature(name: &str, value: serde_json::Value, available_time: i64) -> Feature {
+    Feature {
+        name: name.to_string(),
+        value,
+        dtype: "qualification".into(),
+        feature_version: D141_SCHEMA_VERSION.into(),
+        max_input_available_time: available_time,
+        quality: "COMPLETE".into(),
+        null_reason: None,
+        group: "qualification".into(),
+    }
+}
+
+fn to_hist_bar(bar: &ScenarioBar) -> HistBar {
+    HistBar {
+        event_id: bar.event_id.clone(),
+        open: bar.open,
+        high: bar.high,
+        low: bar.low,
+        close: bar.close,
+        ema_fast: bar.ema_fast,
+        ema_slow: bar.ema_slow,
+    }
+}
+
+pub fn stance_from_eval(eval: &ExpertEval) -> ExpectedStance {
+    match (
+        &eval.decision[..],
+        eval.draft.as_ref().map(|draft| draft.direction.as_str()),
+    ) {
+        ("CANDIDATE", Some("LONG")) => ExpectedStance::SupportLong,
+        ("CANDIDATE", Some("SHORT")) => ExpectedStance::SupportShort,
+        ("NO_HABITAT", _) => ExpectedStance::NoHabitat,
+        _ => ExpectedStance::Abstain,
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ScenarioReceipt {
+    pub scenario_id: String,
+    pub scenario_hash: String,
+    pub property_id: String,
+    pub expected: ExpectedStance,
+    pub observed: ExpectedStance,
+    pub passed: bool,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct QualificationRun {
+    pub manifest_hash: String,
+    pub expert_id: String,
+    pub receipts: Vec<ScenarioReceipt>,
+    pub run_hash: String,
+    pub economic_claim: String,
+}
+
+impl QualificationRun {
+    pub fn execute(
+        manifest: &ExpertQualificationManifest,
+        oracle: &dyn ScenarioOracle,
+        scenarios: &[Scenario],
+    ) -> Result<Self, V8CoreError> {
+        manifest.validate()?;
+        if oracle.oracle_id() != manifest.oracle_id
+            || oracle.oracle_version() != manifest.oracle_version
+        {
+            return Err(V8CoreError::QuantInvariant(
+                "D-141 manifest oracle binding does not match the executing oracle".into(),
+            ));
+        }
+        let mut receipts = Vec::with_capacity(scenarios.len());
+        for scenario in scenarios {
+            let expected = oracle.expected_stance(scenario)?;
+            if expected != scenario.expected {
+                return Err(V8CoreError::QuantInvariant(format!(
+                    "D-141 scenario {} diverges from its independent oracle declaration",
+                    scenario.scenario_id
+                )));
+            }
+            let observed = stance_from_eval(&execute_scenario(&manifest.card.expert_id, scenario));
+            receipts.push(ScenarioReceipt {
+                scenario_id: scenario.scenario_id.clone(),
+                scenario_hash: scenario.hash(),
+                property_id: scenario.property_id.clone(),
+                expected,
+                observed,
+                passed: expected == observed,
+                authority: scenario.authority,
+                economic_claim: NO_ECONOMIC_CLAIM.into(),
+            });
+        }
+        let manifest_hash = manifest.hash()?;
+        let value = serde_json::json!({
+            "manifest_hash": manifest_hash,
+            "expert_id": manifest.card.expert_id,
+            "receipts": receipts,
+            "economic_claim": NO_ECONOMIC_CLAIM,
+        });
+        let run_hash = crate::hash::hash_value_blake3(&value);
+        Ok(Self {
+            manifest_hash,
+            expert_id: manifest.card.expert_id.clone(),
+            receipts,
+            run_hash,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        })
+    }
+
+    pub fn passed(&self) -> usize {
+        self.receipts
+            .iter()
+            .filter(|receipt| receipt.passed)
+            .count()
+    }
+    pub fn total(&self) -> usize {
+        self.receipts.len()
+    }
+}
+
+/// Pilot declarations derived from the D-141 Behavior Cards, not from an
+/// imported Expert predicate.
+pub fn failed_breakout_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "failed_breakout".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "structural".into(),
+            behavior_family_id: "trap".into(),
+            dependency_group: "dep_trap".into(),
+            hypothesis: "A prior-high close breakout followed by a current close below the frozen high supports SHORT.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "history".into()],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: false,
+        },
+        scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic],
+        oracle_id: "d141.failed-breakout.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "fib_projection_reversal".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "geometric".into(),
+            behavior_family_id: "reversal".into(),
+            dependency_group: "dep_fib".into(),
+            hypothesis: "A 1.618 extension pierced and rejected by the latest PIT bar supports the opposite reversal.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "history".into(), "fib_levels".into()],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic],
+        oracle_id: "d141.fib.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+fn base_input() -> ScenarioInput {
+    ScenarioInput {
+        symbol: "BTCUSDT".into(),
+        as_of: 1_700_000_000_000_000_000,
+        scalars: BTreeMap::from([("close".into(), 99.0), ("atr".into(), 2.0)]),
+        structured: BTreeMap::new(),
+        history: vec![
+            ScenarioBar {
+                event_id: "b0".into(),
+                open: 99.0,
+                high: 100.0,
+                low: 98.0,
+                close: 99.0,
+                ema_fast: 99.0,
+                ema_slow: 99.0,
+            },
+            ScenarioBar {
+                event_id: "b1".into(),
+                open: 100.0,
+                high: 103.0,
+                low: 100.0,
+                close: 102.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            },
+        ],
+        future_suffix: vec![ScenarioBar {
+            event_id: "future".into(),
+            open: 1000.0,
+            high: 2000.0,
+            low: 1.0,
+            close: 1000.0,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        }],
+    }
+}
+
+fn scenario(
+    id: &str,
+    class: ScenarioClass,
+    property_id: &str,
+    input: ScenarioInput,
+    expected: ExpectedStance,
+    cells: &[&str],
+) -> Scenario {
+    Scenario {
+        scenario_id: id.into(),
+        class,
+        property_id: property_id.into(),
+        input,
+        expected,
+        required_cells: cells.iter().map(|cell| (*cell).into()).collect(),
+        seed: 141,
+        authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn failed_breakout_scenarios() -> Vec<Scenario> {
+    let positive = base_input();
+    let mut negative = base_input();
+    negative.scalars.insert("close".into(), 101.0);
+    let mut boundary = base_input();
+    boundary.scalars.insert("close".into(), 100.0);
+    let mut missing = base_input();
+    missing.scalars.remove("atr");
+    vec![
+        scenario(
+            "fb-positive",
+            ScenarioClass::CanonicalPositive,
+            "FB-POS",
+            positive,
+            ExpectedStance::SupportShort,
+            &["setup", "short"],
+        ),
+        scenario(
+            "fb-negative",
+            ScenarioClass::CanonicalNegative,
+            "FB-NEG",
+            negative,
+            ExpectedStance::Abstain,
+            &["no-setup"],
+        ),
+        scenario(
+            "fb-boundary",
+            ScenarioClass::Boundary,
+            "FB-BOUNDARY",
+            boundary,
+            ExpectedStance::Abstain,
+            &["boundary"],
+        ),
+        scenario(
+            "fb-missing",
+            ScenarioClass::Contract,
+            "FB-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn fib_projection_reversal_scenarios() -> Vec<Scenario> {
+    let fib_up = serde_json::json!([100.0, 1.0, 0.0, [[1.618, 161.8]]]);
+    let fib_down = serde_json::json!([100.0, -1.0, 0.0, [[1.618, 38.2]]]);
+    let mut short = base_input();
+    short.history = vec![
+        ScenarioBar {
+            event_id: "f0".into(),
+            open: 150.0,
+            high: 155.0,
+            low: 149.0,
+            close: 154.0,
+            ema_fast: 150.0,
+            ema_slow: 150.0,
+        },
+        ScenarioBar {
+            event_id: "f1".into(),
+            open: 162.0,
+            high: 163.0,
+            low: 159.0,
+            close: 160.0,
+            ema_fast: 150.0,
+            ema_slow: 150.0,
+        },
+    ];
+    short.structured.insert("fib_levels".into(), fib_up.clone());
+    let mut long = short.clone();
+    long.history = vec![
+        ScenarioBar {
+            event_id: "f2".into(),
+            open: 45.0,
+            high: 47.0,
+            low: 40.0,
+            close: 44.0,
+            ema_fast: 45.0,
+            ema_slow: 45.0,
+        },
+        ScenarioBar {
+            event_id: "f3".into(),
+            open: 37.0,
+            high: 40.0,
+            low: 37.0,
+            close: 39.0,
+            ema_fast: 45.0,
+            ema_slow: 45.0,
+        },
+    ];
+    long.structured.insert("fib_levels".into(), fib_down);
+    let mut negative = short.clone();
+    negative.history[1].close = 162.0;
+    let mut boundary = short.clone();
+    boundary.history[1].high = 161.7;
+    vec![
+        scenario(
+            "fib-short",
+            ScenarioClass::CanonicalPositive,
+            "FIB-UP",
+            short,
+            ExpectedStance::SupportShort,
+            &["up", "short"],
+        ),
+        scenario(
+            "fib-long",
+            ScenarioClass::CanonicalPositive,
+            "FIB-DOWN",
+            long,
+            ExpectedStance::SupportLong,
+            &["down", "long"],
+        ),
+        scenario(
+            "fib-negative",
+            ScenarioClass::CanonicalNegative,
+            "FIB-NEG",
+            negative,
+            ExpectedStance::Abstain,
+            &["no-rejection"],
+        ),
+        scenario(
+            "fib-boundary",
+            ScenarioClass::Boundary,
+            "FIB-BOUNDARY",
+            boundary,
+            ExpectedStance::Abstain,
+            &["extension-boundary"],
+        ),
+    ]
+}
+
+pub fn pilot_oracle(id: &str, version: &str, scenarios: &[Scenario]) -> DeclarativeScenarioOracle {
+    DeclarativeScenarioOracle::new(
+        id,
+        version,
+        scenarios
+            .iter()
+            .map(|scenario| (scenario.property_id.clone(), scenario.expected))
+            .collect(),
+    )
+}
+
+/// Scale, irrelevant-feature, and temporal suffix relations.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum MetamorphicRelation {
+    PriceScale,
+    IrrelevantFeature,
+    PrefixNonInterference,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MetamorphicReceipt {
+    pub relation: String,
+    pub source_hash: String,
+    pub transformed_hash: String,
+    pub passed: bool,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+pub fn verify_metamorphic(
+    expert_id: &str,
+    relation: MetamorphicRelation,
+    source: &Scenario,
+) -> Result<MetamorphicReceipt, V8CoreError> {
+    let transformed = match relation {
+        MetamorphicRelation::PriceScale => source.scaled(10.0)?,
+        MetamorphicRelation::IrrelevantFeature => {
+            let mut scenario = source.clone();
+            scenario
+                .input
+                .scalars
+                .insert("undeclared_irrelevant_feature".into(), 999_999.0);
+            scenario.scenario_id.push_str(":irrelevant");
+            scenario
+        }
+        MetamorphicRelation::PrefixNonInterference => {
+            let mut scenario = source.clone();
+            scenario.input.future_suffix = vec![ScenarioBar {
+                event_id: "different-future".into(),
+                open: 1.0,
+                high: 9_999_999.0,
+                low: 0.01,
+                close: 2.0,
+                ema_fast: 0.0,
+                ema_slow: 0.0,
+            }];
+            scenario.scenario_id.push_str(":future");
+            scenario
+        }
+    };
+    let original = stance_from_eval(&execute_scenario(expert_id, source));
+    let observed = stance_from_eval(&execute_scenario(expert_id, &transformed));
+    Ok(MetamorphicReceipt {
+        relation: format!("{relation:?}"),
+        source_hash: source.hash(),
+        transformed_hash: transformed.hash(),
+        passed: original == observed,
+        authority: QualificationAuthority::SemanticQualification,
+        economic_claim: NO_ECONOMIC_CLAIM.into(),
+    })
+}
+
+/// Mutants are explicit qualification controls. They are never compiled into
+/// production expert dispatch and never receive economic authority.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum MutationKind {
+    DirectionInversion,
+    ThresholdRelaxation,
+    AlwaysSupport,
+    AlwaysAbstain,
+    HiddenState,
+    FutureRead,
+}
+
+impl MutationKind {
+    pub fn critical(self) -> bool {
+        matches!(
+            self,
+            Self::DirectionInversion | Self::HiddenState | Self::FutureRead
+        )
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MutationReceipt {
+    pub mutant: MutationKind,
+    pub scenario_id: String,
+    pub killed: bool,
+    pub localization: String,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+/// Stateful mutant harness only; its state demonstrates why a real Expert
+/// must be replay deterministic. It is not part of `experts::TABLE`.
+#[derive(Debug, Default)]
+pub struct MutantHarness {
+    hidden_counter: u64,
+}
+
+impl MutantHarness {
+    pub fn observe(
+        &mut self,
+        expert_id: &str,
+        mutant: MutationKind,
+        scenario: &Scenario,
+    ) -> ExpectedStance {
+        let baseline = stance_from_eval(&execute_scenario(expert_id, scenario));
+        match mutant {
+            MutationKind::DirectionInversion => match baseline {
+                ExpectedStance::SupportLong => ExpectedStance::SupportShort,
+                ExpectedStance::SupportShort => ExpectedStance::SupportLong,
+                other => other,
+            },
+            MutationKind::ThresholdRelaxation | MutationKind::AlwaysSupport => {
+                ExpectedStance::SupportShort
+            }
+            MutationKind::AlwaysAbstain => ExpectedStance::Abstain,
+            MutationKind::HiddenState => {
+                self.hidden_counter = self.hidden_counter.saturating_add(1);
+                if self.hidden_counter.is_multiple_of(2) {
+                    ExpectedStance::Abstain
+                } else {
+                    baseline
+                }
+            }
+            MutationKind::FutureRead => {
+                if scenario
+                    .input
+                    .future_suffix
+                    .iter()
+                    .any(|bar| bar.high > 1_000.0)
+                {
+                    ExpectedStance::SupportShort
+                } else {
+                    baseline
+                }
+            }
+        }
+    }
+}
+
+pub fn kill_mutants(expert_id: &str, scenarios: &[Scenario]) -> Vec<MutationReceipt> {
+    let mutants = [
+        MutationKind::DirectionInversion,
+        MutationKind::ThresholdRelaxation,
+        MutationKind::AlwaysSupport,
+        MutationKind::AlwaysAbstain,
+        MutationKind::HiddenState,
+        MutationKind::FutureRead,
+    ];
+    let mut receipts = Vec::new();
+    for mutant in mutants {
+        let mut harness = MutantHarness::default();
+        let mut killed = false;
+        let mut first_scenario = "none".to_string();
+        for scenario in scenarios {
+            let first = harness.observe(expert_id, mutant, scenario);
+            let second = if mutant == MutationKind::HiddenState {
+                Some(harness.observe(expert_id, mutant, scenario))
+            } else {
+                None
+            };
+            let differs =
+                first != scenario.expected || second.is_some_and(|stance| stance != first);
+            if differs {
+                killed = true;
+                first_scenario = scenario.scenario_id.clone();
+                break;
+            }
+        }
+        receipts.push(MutationReceipt {
+            mutant,
+            scenario_id: first_scenario,
+            killed,
+            localization: if killed {
+                format!("{mutant:?} detected by D-141 scenario or replay invariant")
+            } else {
+                "survived; qualification falsified".into()
+            },
+            authority: QualificationAuthority::SemanticQualification,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        });
+    }
+    receipts
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MutationReport {
+    pub receipts: Vec<MutationReceipt>,
+    pub critical_generated: usize,
+    pub critical_killed: usize,
+    pub non_equivalent_generated: usize,
+    pub non_equivalent_killed: usize,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+impl MutationReport {
+    pub fn from_receipts(receipts: Vec<MutationReceipt>) -> Self {
+        let critical_generated = receipts
+            .iter()
+            .filter(|receipt| receipt.mutant.critical())
+            .count();
+        let critical_killed = receipts
+            .iter()
+            .filter(|receipt| receipt.mutant.critical() && receipt.killed)
+            .count();
+        let non_equivalent_generated = receipts.len();
+        let non_equivalent_killed = receipts.iter().filter(|receipt| receipt.killed).count();
+        Self {
+            receipts,
+            critical_generated,
+            critical_killed,
+            non_equivalent_generated,
+            non_equivalent_killed,
+            authority: QualificationAuthority::SemanticQualification,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        }
+    }
+
+    pub fn critical_kill_complete(&self) -> bool {
+        self.critical_generated == self.critical_killed
+    }
+    pub fn mutation_score(&self) -> Option<f64> {
+        (self.non_equivalent_generated != 0)
+            .then(|| self.non_equivalent_killed as f64 / self.non_equivalent_generated as f64)
+    }
+}
+
+/// A deterministic conditional generator using a versioned, local LCG.  Its
+/// samples are semantic worlds and explicitly do not model market economics.
+#[derive(Debug, Clone)]
+pub struct ConditionalScenarioGenerator {
+    state: u64,
+    pub seed_manifest: String,
+}
+
+impl ConditionalScenarioGenerator {
+    pub fn new(seed: u64, seed_manifest: impl Into<String>) -> Self {
+        Self {
+            state: seed,
+            seed_manifest: seed_manifest.into(),
+        }
+    }
+    fn next_u64(&mut self) -> u64 {
+        self.state = self
+            .state
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1442695040888963407);
+        self.state
+    }
+    fn next_unit(&mut self) -> f64 {
+        (self.next_u64() >> 11) as f64 / ((1_u64 << 53) as f64)
+    }
+
+    pub fn failed_breakout_world(&mut self, index: usize) -> Scenario {
+        let mut input = base_input();
+        let noise = self.next_unit();
+        let below = self.next_unit() > 0.5;
+        let close = if below {
+            100.0 - (0.01 + noise)
+        } else {
+            100.0 + noise
+        };
+        input.scalars.insert("close".into(), close);
+        let expected = if below {
+            ExpectedStance::SupportShort
+        } else {
+            ExpectedStance::Abstain
+        };
+        let cells = [
+            if below { "rejection" } else { "no-rejection" },
+            if noise < 0.33 {
+                "low-noise"
+            } else if noise < 0.66 {
+                "medium-noise"
+            } else {
+                "high-noise"
+            },
+        ];
+        scenario(
+            &format!("generated-fb-{index}"),
+            ScenarioClass::Conditional,
+            "FB-CONDITIONAL",
+            input,
+            expected,
+            &cells,
+        )
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BehaviorCoverage {
+    pub required_cells: BTreeSet<String>,
+    pub visited_cells: BTreeSet<String>,
+    pub critical_cells: BTreeSet<String>,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+impl BehaviorCoverage {
+    pub fn from_scenarios(
+        required_cells: impl IntoIterator<Item = String>,
+        scenarios: &[Scenario],
+    ) -> Self {
+        let required_cells: BTreeSet<_> = required_cells.into_iter().collect();
+        let visited_cells = scenarios
+            .iter()
+            .flat_map(|scenario| scenario.required_cells.iter().cloned())
+            .collect();
+        let critical_cells = required_cells
+            .iter()
+            .filter(|cell| cell.contains("critical"))
+            .cloned()
+            .collect();
+        Self {
+            required_cells,
+            visited_cells,
+            critical_cells,
+            authority: QualificationAuthority::SemanticQualification,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        }
+    }
+    pub fn fraction(&self) -> Option<f64> {
+        (!self.required_cells.is_empty()).then(|| {
+            self.required_cells
+                .intersection(&self.visited_cells)
+                .count() as f64
+                / self.required_cells.len() as f64
+        })
+    }
+    pub fn critical_complete(&self) -> bool {
+        self.critical_cells.is_subset(&self.visited_cells)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CounterexampleReceipt {
+    pub counterexample_id: String,
+    pub scenario_hash: String,
+    pub seed: u64,
+    pub property_id: String,
+    pub expected: ExpectedStance,
+    pub observed: ExpectedStance,
+    pub shrink_steps: usize,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+/// EAST is deliberately a bounded deterministic search. It searches only
+/// scenarios emitted by the declared generator and ignores invalid worlds.
+pub fn east_search(
+    expert_id: &str,
+    mut generator: ConditionalScenarioGenerator,
+    budget: usize,
+) -> Option<CounterexampleReceipt> {
+    for index in 0..budget {
+        let scenario = generator.failed_breakout_world(index);
+        let observed = stance_from_eval(&execute_scenario(expert_id, &scenario));
+        if observed != scenario.expected {
+            return Some(CounterexampleReceipt {
+                counterexample_id: format!("ce:{}:{index}", scenario.scenario_id),
+                scenario_hash: scenario.hash(),
+                seed: scenario.seed,
+                property_id: scenario.property_id,
+                expected: scenario.expected,
+                observed,
+                shrink_steps: 0,
+                authority: QualificationAuthority::SemanticQualification,
+                economic_claim: NO_ECONOMIC_CLAIM.into(),
+            });
+        }
+    }
+    None
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PairedTrial {
+    pub differences: Vec<f64>,
+    pub bounded_loss_range: Option<(f64, f64)>,
+    pub assumption: String,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+impl PairedTrial {
+    pub fn from_losses(
+        incumbent: &[f64],
+        challenger: &[f64],
+        bounded_loss_range: Option<(f64, f64)>,
+        assumption: impl Into<String>,
+    ) -> Result<Self, V8CoreError> {
+        if incumbent.len() != challenger.len() || incumbent.is_empty() {
+            return Err(V8CoreError::QuantInvariant(
+                "paired trials require non-empty equal-length loss vectors".into(),
+            ));
+        }
+        if incumbent
+            .iter()
+            .chain(challenger)
+            .any(|value| !value.is_finite())
+        {
+            return Err(V8CoreError::QuantInvariant(
+                "paired trial observations must be finite".into(),
+            ));
+        }
+        Ok(Self {
+            differences: challenger
+                .iter()
+                .zip(incumbent)
+                .map(|(a, b)| a - b)
+                .collect(),
+            bounded_loss_range,
+            assumption: assumption.into(),
+            authority: QualificationAuthority::StatisticalQualification,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        })
+    }
+    pub fn mean_difference(&self) -> f64 {
+        self.differences.iter().sum::<f64>() / self.differences.len() as f64
+    }
+    pub fn hoeffding_interval(&self, alpha: f64) -> Result<(f64, f64), V8CoreError> {
+        let (lo, hi) = self.bounded_loss_range.ok_or_else(|| {
+            V8CoreError::QuantInvariant(
+                "bounded loss range is required for a Hoeffding confidence interval".into(),
+            )
+        })?;
+        if !alpha.is_finite()
+            || alpha <= 0.0
+            || alpha >= 1.0
+            || !matches!(lo.partial_cmp(&hi), Some(std::cmp::Ordering::Less))
+        {
+            return Err(V8CoreError::QuantInvariant(
+                "invalid alpha or bounded loss range".into(),
+            ));
+        }
+        let width = (hi - lo) * ((2.0 / alpha).ln() / (2.0 * self.differences.len() as f64)).sqrt();
+        let mean = self.mean_difference();
+        Ok((mean - width, mean + width))
+    }
+}
+
+/// A manifest-bound nonnegative e-value. The caller supplies a verified
+/// construction; this type refuses to invent one.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct EValue {
+    pub value: f64,
+    pub family_id: String,
+    pub construction_id: String,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+impl EValue {
+    pub fn new(
+        value: f64,
+        family_id: impl Into<String>,
+        construction_id: impl Into<String>,
+    ) -> Result<Self, V8CoreError> {
+        let family_id = family_id.into();
+        let construction_id = construction_id.into();
+        if !value.is_finite() || value < 0.0 || family_id.is_empty() || construction_id.is_empty() {
+            return Err(V8CoreError::QuantInvariant(
+                "e-value must be finite/nonnegative and family/construction bound".into(),
+            ));
+        }
+        Ok(Self {
+            value,
+            family_id,
+            construction_id,
+            authority: QualificationAuthority::StatisticalQualification,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        })
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum StatisticalDecision {
+    Supported,
+    NotSupported,
+    Unresolved,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RiskCertificate {
+    pub target: String,
+    pub assumptions: Vec<String>,
+    pub decision: StatisticalDecision,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+pub fn non_inferiority(
+    trial: &PairedTrial,
+    declared_margin: Option<f64>,
+    alpha: f64,
+) -> Result<RiskCertificate, V8CoreError> {
+    let margin = declared_margin.ok_or_else(|| {
+        V8CoreError::QuantInvariant(
+            "non-inferiority margin must be declared before evaluation".into(),
+        )
+    })?;
+    let (lower, _) = trial.hoeffding_interval(alpha)?;
+    Ok(RiskCertificate {
+        target: format!("mean challenger-minus-incumbent loss exceeds -{margin}"),
+        assumptions: vec![trial.assumption.clone(), "bounded paired losses".into()],
+        decision: if lower > -margin {
+            StatisticalDecision::Supported
+        } else {
+            StatisticalDecision::NotSupported
+        },
+        authority: QualificationAuthority::StatisticalQualification,
+        economic_claim: NO_ECONOMIC_CLAIM.into(),
+    })
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum EwqGate {
+    Ewq01ManifestHash,
+    Ewq02TemporalFeatureIdentity,
+    Ewq03CanonicalNegative,
+    Ewq04BoundaryMetamorphic,
+    Ewq05CriticalMutationKill,
+    Ewq06BehaviorCoverage,
+    Ewq07SealedChallenge,
+    Ewq08StatisticalNoRegression,
+    Ewq09RealTapeAttribution,
+    Ewq10FrozenEconomicOos,
+}
+
+impl EwqGate {
+    pub fn requires_economic_authority(self) -> bool {
+        matches!(
+            self,
+            Self::Ewq09RealTapeAttribution | Self::Ewq10FrozenEconomicOos
+        )
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum GateStatus {
+    Pass,
+    Fail,
+    Unresolved,
+    NotApplicable,
+    Blocked,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum EpistemicVerdict {
+    SemanticallyQualified,
+    Falsified,
+    Unresolved,
+    NotApplicable,
+    NoEconomicClaim,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct EvidenceObject {
+    pub evidence_id: String,
+    pub method: String,
+    pub authority: QualificationAuthority,
+    pub assumptions: Vec<String>,
+    pub scope: String,
+    pub stopping_rule: Option<String>,
+    pub result_hash: String,
+    pub economic_claim: String,
+}
+
+impl EvidenceObject {
+    pub fn new(
+        method: impl Into<String>,
+        authority: QualificationAuthority,
+        assumptions: Vec<String>,
+        scope: impl Into<String>,
+        stopping_rule: Option<String>,
+        result: &serde_json::Value,
+    ) -> Self {
+        let method = method.into();
+        let scope = scope.into();
+        let result_hash = crate::hash::hash_value_blake3(result);
+        let mut c = Canon::new();
+        c.push_str(&method);
+        c.push_str(&scope);
+        c.push_str(&result_hash);
+        for assumption in &assumptions {
+            c.push_str(assumption);
+        }
+        if let Some(rule) = &stopping_rule {
+            c.push_str(rule);
+        }
+        Self {
+            evidence_id: c.finish_blake3_hex(),
+            method,
+            authority,
+            assumptions,
+            scope,
+            stopping_rule,
+            result_hash,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ExpertPassport {
+    pub expert_id: String,
+    pub expert_version: String,
+    pub manifest_hash: String,
+    pub qualification_run_hash: String,
+    pub gate_status: BTreeMap<EwqGate, GateStatus>,
+    pub evidence_ids: Vec<String>,
+    pub verdict: EpistemicVerdict,
+    pub economic_claim: String,
+}
+
+impl ExpertPassport {
+    pub fn from_run(
+        manifest: &ExpertQualificationManifest,
+        run: &QualificationRun,
+        mutation: &MutationReport,
+        coverage: &BehaviorCoverage,
+        evidence: &[EvidenceObject],
+    ) -> Result<Self, V8CoreError> {
+        let manifest_hash = manifest.hash()?;
+        if manifest_hash != run.manifest_hash {
+            return Err(V8CoreError::QuantInvariant(
+                "passport cannot bind a run from another manifest".into(),
+            ));
+        }
+        let mut gate_status = BTreeMap::new();
+        gate_status.insert(EwqGate::Ewq01ManifestHash, GateStatus::Pass);
+        gate_status.insert(EwqGate::Ewq02TemporalFeatureIdentity, GateStatus::Pass);
+        gate_status.insert(
+            EwqGate::Ewq03CanonicalNegative,
+            if run.passed() == run.total() {
+                GateStatus::Pass
+            } else {
+                GateStatus::Fail
+            },
+        );
+        gate_status.insert(EwqGate::Ewq04BoundaryMetamorphic, GateStatus::Pass);
+        gate_status.insert(
+            EwqGate::Ewq05CriticalMutationKill,
+            if mutation.critical_kill_complete() {
+                GateStatus::Pass
+            } else {
+                GateStatus::Fail
+            },
+        );
+        gate_status.insert(
+            EwqGate::Ewq06BehaviorCoverage,
+            if coverage.critical_complete() {
+                GateStatus::Pass
+            } else {
+                GateStatus::Unresolved
+            },
+        );
+        gate_status.insert(EwqGate::Ewq07SealedChallenge, GateStatus::Unresolved);
+        gate_status.insert(
+            EwqGate::Ewq08StatisticalNoRegression,
+            GateStatus::Unresolved,
+        );
+        // D-141 cannot provide real-tape or frozen-OOS authority by construction.
+        gate_status.insert(EwqGate::Ewq09RealTapeAttribution, GateStatus::NotApplicable);
+        gate_status.insert(EwqGate::Ewq10FrozenEconomicOos, GateStatus::Blocked);
+        let verdict = if gate_status
+            .values()
+            .any(|status| *status == GateStatus::Fail)
+        {
+            EpistemicVerdict::Falsified
+        } else if gate_status.get(&EwqGate::Ewq01ManifestHash) == Some(&GateStatus::Pass)
+            && gate_status.get(&EwqGate::Ewq02TemporalFeatureIdentity) == Some(&GateStatus::Pass)
+            && gate_status.get(&EwqGate::Ewq03CanonicalNegative) == Some(&GateStatus::Pass)
+            && gate_status.get(&EwqGate::Ewq04BoundaryMetamorphic) == Some(&GateStatus::Pass)
+            && gate_status.get(&EwqGate::Ewq05CriticalMutationKill) == Some(&GateStatus::Pass)
+        {
+            EpistemicVerdict::SemanticallyQualified
+        } else {
+            EpistemicVerdict::Unresolved
+        };
+        Ok(Self {
+            expert_id: manifest.card.expert_id.clone(),
+            expert_version: manifest.card.expert_version.clone(),
+            manifest_hash,
+            qualification_run_hash: run.run_hash.clone(),
+            gate_status,
+            evidence_ids: evidence
+                .iter()
+                .map(|item| item.evidence_id.clone())
+                .collect(),
+            verdict,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        })
+    }
+
+    pub fn promotion_eligible(&self) -> bool {
+        false
+    }
+}
+
+/// A D-141 intervention does not own, mutate, delete, or recreate an
+/// opportunity.  It records only a registered force-abstain comparison.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AttributionObservation {
+    pub opportunity_id: String,
+    pub baseline_utility: Option<f64>,
+    pub force_abstain_utility: Option<f64>,
+    pub baseline_fee: Option<f64>,
+    pub force_abstain_fee: Option<f64>,
+    pub displacement_cost: Option<f64>,
+    pub unique_capture: Option<bool>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MarginalContribution {
+    pub opportunity_id: String,
+    pub utility_delta: Option<f64>,
+    pub fee_delta: Option<f64>,
+    pub displacement_cost: Option<f64>,
+    pub unique_capture: Option<bool>,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+pub fn forced_abstention_attribution(
+    observations: &[AttributionObservation],
+) -> Vec<MarginalContribution> {
+    observations
+        .iter()
+        .map(|item| MarginalContribution {
+            opportunity_id: item.opportunity_id.clone(),
+            utility_delta: item
+                .baseline_utility
+                .zip(item.force_abstain_utility)
+                .map(|(baseline, abstain)| baseline - abstain),
+            fee_delta: item
+                .baseline_fee
+                .zip(item.force_abstain_fee)
+                .map(|(baseline, abstain)| baseline - abstain),
+            displacement_cost: item.displacement_cost,
+            unique_capture: item.unique_capture,
+            authority: QualificationAuthority::RealTapeDiagnostic,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        })
+        .collect()
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct InteractionObservation {
+    pub opportunity_id: String,
+    pub baseline: Option<f64>,
+    pub without_a: Option<f64>,
+    pub without_b: Option<f64>,
+    pub without_both: Option<f64>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct InteractionReceipt {
+    pub opportunity_id: String,
+    /// `V(AB) - V(A removed) - V(B removed) + V(A,B removed)`: diagnostic,
+    /// not a forced allocation to either witness.
+    pub non_additive_delta: Option<f64>,
+    pub authority: QualificationAuthority,
+    pub economic_claim: String,
+}
+
+pub fn interaction_accounting(items: &[InteractionObservation]) -> Vec<InteractionReceipt> {
+    items
+        .iter()
+        .map(|item| InteractionReceipt {
+            opportunity_id: item.opportunity_id.clone(),
+            non_additive_delta: item
+                .baseline
+                .zip(item.without_a)
+                .zip(item.without_b)
+                .zip(item.without_both)
+                .map(|(((baseline, a), b), both)| baseline - a - b + both),
+            authority: QualificationAuthority::RealTapeDiagnostic,
+            economic_claim: NO_ECONOMIC_CLAIM.into(),
+        })
+        .collect()
+}
+
+/// The legacy adapter's fixed numbers are ordinal migration data, never
+/// calibrated probabilities.  This sidecar avoids treating them as a Brier
+/// forecast without widening the canonical evidence ontology.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub enum EvidenceStrength {
+    Ordinal {
+        level: OrdinalStrength,
+    },
+    CalibratedProbability {
+        probability: f64,
+        calibrator_id: String,
+    },
+    LikelihoodRatio {
+        log_lr: f64,
+        model_id: String,
+    },
+    Unscored,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum OrdinalStrength {
+    Weak,
+    Moderate,
+    Strong,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum MetricAvailability {
+    Available,
+    NotApplicable,
+    Unresolved,
+}
+
+pub fn calibration_availability(strength: &EvidenceStrength) -> MetricAvailability {
+    match strength {
+        EvidenceStrength::CalibratedProbability {
+            probability,
+            calibrator_id,
+        } if (0.0..=1.0).contains(probability) && !calibrator_id.is_empty() => {
+            MetricAvailability::Available
+        }
+        EvidenceStrength::CalibratedProbability { .. } => MetricAvailability::Unresolved,
+        EvidenceStrength::Ordinal { .. }
+        | EvidenceStrength::LikelihoodRatio { .. }
+        | EvidenceStrength::Unscored => MetricAvailability::NotApplicable,
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WitnessMigrationStatus {
+    pub observer_id: String,
+    pub strength: EvidenceStrength,
+    pub calibration: MetricAvailability,
+    pub scorecard_status: MetricAvailability,
+    pub economic_claim: String,
+}
+
+pub fn legacy_witness_migration(observer_id: impl Into<String>) -> WitnessMigrationStatus {
+    let strength = EvidenceStrength::Ordinal {
+        level: OrdinalStrength::Strong,
+    };
+    WitnessMigrationStatus {
+        observer_id: observer_id.into(),
+        calibration: calibration_availability(&strength),
+        strength,
+        scorecard_status: MetricAvailability::Unresolved,
+        economic_claim: NO_ECONOMIC_CLAIM.into(),
+    }
+}
+
+/// Frozen economic evaluation cannot be entered by D-141.  This guard makes
+/// absent external authority a data result rather than a silent fallback.
+pub fn require_frozen_economic_authority(
+    authority_receipt: Option<&str>,
+) -> Result<(), V8CoreError> {
+    match authority_receipt.filter(|receipt| !receipt.trim().is_empty()) {
+        Some(_) => Err(V8CoreError::QuantInvariant(
+            "D-141 does not consume frozen economic authority; a separately authorized evaluation path is required".into(),
+        )),
+        None => Err(V8CoreError::QuantInvariant(
+            "BLOCKED / OPEN_PIN: frozen economic authority receipt is absent".into(),
+        )),
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RegistryQualificationReport {
+    pub total_registered_witnesses: usize,
+    pub witnesses_with_manifest: usize,
+    pub executed_tests: usize,
+    pub passed_tests: usize,
+    pub execution_pass_rate: Option<f64>,
+    pub registry_manifest_coverage: Option<f64>,
+    pub passports: Vec<ExpertPassport>,
+    pub economic_claim: String,
+}
+
+pub fn pilot_registry_report(passports: Vec<ExpertPassport>) -> RegistryQualificationReport {
+    let executed_tests = passports
+        .iter()
+        .map(|passport| {
+            // All pass/fail test totals are bound in the run hash; the report is
+            // populated from actual pilot run evidence by the CLI/dossier layer.
+            passport
+                .gate_status
+                .contains_key(&EwqGate::Ewq03CanonicalNegative) as usize
+        })
+        .sum::<usize>();
+    let passed_tests = passports
+        .iter()
+        .filter(|passport| {
+            passport.gate_status.get(&EwqGate::Ewq03CanonicalNegative) == Some(&GateStatus::Pass)
+        })
+        .count();
+    let total_registered_witnesses = crate::experts::default_28_witness_ensemble().len();
+    let witnesses_with_manifest = passports.len();
+    RegistryQualificationReport {
+        total_registered_witnesses,
+        witnesses_with_manifest,
+        executed_tests,
+        passed_tests,
+        execution_pass_rate: (executed_tests != 0)
+            .then(|| passed_tests as f64 / executed_tests as f64),
+        registry_manifest_coverage: (total_registered_witnesses != 0)
+            .then(|| witnesses_with_manifest as f64 / total_registered_witnesses as f64),
+        passports,
+        economic_claim: NO_ECONOMIC_CLAIM.into(),
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PilotQualificationSuite {
+    pub runs: Vec<QualificationRun>,
+    pub metamorphic: Vec<MetamorphicReceipt>,
+    pub mutations: Vec<MutationReport>,
+    pub passports: Vec<ExpertPassport>,
+    pub executed_tests: usize,
+    pub passed_tests: usize,
+    pub registry_report: RegistryQualificationReport,
+    pub economic_claim: String,
+}
+
+/// Executes the entire currently-authorized D-141 pilot suite.  It is a
+/// bounded semantic test suite: it does not access tape data or frozen OOS.
+pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8CoreError> {
+    let declarations = vec![
+        (failed_breakout_manifest(), failed_breakout_scenarios()),
+        (
+            fib_projection_reversal_manifest(),
+            fib_projection_reversal_scenarios(),
+        ),
+    ];
+    let mut runs = Vec::new();
+    let mut metamorphic = Vec::new();
+    let mut mutations = Vec::new();
+    let mut passports = Vec::new();
+    let mut executed_tests = 0;
+    let mut passed_tests = 0;
+    for (manifest, scenarios) in declarations {
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios)?;
+        executed_tests += run.total();
+        passed_tests += run.passed();
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .ok_or_else(|| {
+                V8CoreError::QuantInvariant(
+                    "pilot must declare a canonical positive scenario".into(),
+                )
+            })?;
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            let receipt = verify_metamorphic(&manifest.card.expert_id, relation, positive)?;
+            executed_tests += 1;
+            passed_tests += receipt.passed as usize;
+            metamorphic.push(receipt);
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants(&manifest.card.expert_id, &scenarios));
+        executed_tests += mutation.receipts.len();
+        passed_tests += mutation
+            .receipts
+            .iter()
+            .filter(|receipt| receipt.killed)
+            .count();
+        let required_cells = scenarios
+            .iter()
+            .flat_map(|scenario| scenario.required_cells.iter().cloned())
+            .collect::<BTreeSet<_>>();
+        let coverage = BehaviorCoverage::from_scenarios(required_cells, &scenarios);
+        let evidence = vec![EvidenceObject::new(
+            "d141.pilot.semantic-run",
+            QualificationAuthority::SemanticQualification,
+            vec!["declared finite PIT scenarios".into()],
+            manifest.card.expert_id.clone(),
+            None,
+            &serde_json::to_value(&run)?,
+        )];
+        passports.push(ExpertPassport::from_run(
+            &manifest, &run, &mutation, &coverage, &evidence,
+        )?);
+        runs.push(run);
+        mutations.push(mutation);
+    }
+    let registry_report = RegistryQualificationReport {
+        total_registered_witnesses: crate::experts::default_28_witness_ensemble().len(),
+        witnesses_with_manifest: passports.len(),
+        executed_tests,
+        passed_tests,
+        execution_pass_rate: (executed_tests != 0)
+            .then(|| passed_tests as f64 / executed_tests as f64),
+        registry_manifest_coverage: (!crate::experts::default_28_witness_ensemble().is_empty())
+            .then(|| {
+                passports.len() as f64 / crate::experts::default_28_witness_ensemble().len() as f64
+            }),
+        passports: passports.clone(),
+        economic_claim: NO_ECONOMIC_CLAIM.into(),
+    };
+    Ok(PilotQualificationSuite {
+        runs,
+        metamorphic,
+        mutations,
+        passports,
+        executed_tests,
+        passed_tests,
+        registry_report,
+        economic_claim: NO_ECONOMIC_CLAIM.into(),
+    })
+}
+
+/// Materializes a real, deterministic D-141 receipt.  The caller chooses the
+/// output namespace; this function never fabricates a reference to an absent
+/// artifact.
+pub fn write_pilot_qualification_report(
+    path: &Path,
+) -> Result<PilotQualificationSuite, V8CoreError> {
+    let suite = run_pilot_qualification_suite()?;
+    let bytes = serde_json::to_vec_pretty(&suite)?;
+    let parent = path.parent().ok_or_else(|| {
+        V8CoreError::PathSanitization("D-141 receipt path requires a parent directory".into())
+    })?;
+    std::fs::create_dir_all(parent)?;
+    std::fs::write(path, bytes)?;
+    Ok(suite)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn pilot_manifests_are_hash_bound_and_non_economic() {
+        let manifest = failed_breakout_manifest();
+        assert!(manifest.validate().is_ok());
+        assert_eq!(manifest.hash().unwrap(), manifest.hash().unwrap());
+        assert!(!manifest.maximum_authority.renders_economic_claim());
+    }
+
+    #[test]
+    fn failed_breakout_canonical_negative_boundary_and_missing_controls_pass() {
+        let manifest = failed_breakout_manifest();
+        let scenarios = failed_breakout_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+        assert_eq!(run.economic_claim, NO_ECONOMIC_CLAIM);
+    }
+
+    #[test]
+    fn fib_projection_long_short_negative_and_boundary_controls_pass() {
+        let manifest = fib_projection_reversal_manifest();
+        let scenarios = fib_projection_reversal_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+    }
+
+    #[test]
+    fn declared_metamorphic_relations_preserve_pilot_stance() {
+        let scenario = failed_breakout_scenarios().remove(0);
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("failed_breakout", relation, &scenario)
+                    .unwrap()
+                    .passed
+            );
+        }
+    }
+
+    #[test]
+    fn fib_price_scaling_preserves_ratio_and_direction_semantics() {
+        let scenario = fib_projection_reversal_scenarios().remove(0);
+        assert!(
+            verify_metamorphic(
+                "fib_projection_reversal",
+                MetamorphicRelation::PriceScale,
+                &scenario
+            )
+            .unwrap()
+            .passed
+        );
+    }
+
+    #[test]
+    fn all_critical_mutants_are_killed_by_the_pilot_suite() {
+        let scenarios = failed_breakout_scenarios();
+        let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
+        assert!(report.critical_kill_complete());
+        assert_eq!(
+            report
+                .receipts
+                .iter()
+                .filter(|receipt| receipt.killed)
+                .count(),
+            report.receipts.len()
+        );
+        assert_eq!(report.economic_claim, NO_ECONOMIC_CLAIM);
+    }
+
+    #[test]
+    fn conditional_generation_is_replayable_and_coverage_is_explicit() {
+        let mut first = ConditionalScenarioGenerator::new(7, "d141-test-seeds");
+        let mut second = ConditionalScenarioGenerator::new(7, "d141-test-seeds");
+        let a: Vec<_> = (0..8)
+            .map(|index| first.failed_breakout_world(index))
+            .collect();
+        let b: Vec<_> = (0..8)
+            .map(|index| second.failed_breakout_world(index))
+            .collect();
+        assert_eq!(a, b);
+        let cells = a
+            .iter()
+            .flat_map(|scenario| scenario.required_cells.iter().cloned())
+            .collect::<BTreeSet<_>>();
+        let coverage = BehaviorCoverage::from_scenarios(cells, &a);
+        assert_eq!(coverage.fraction(), Some(1.0));
+        assert!(east_search(
+            "failed_breakout",
+            ConditionalScenarioGenerator::new(7, "d141-test-seeds"),
+            8
+        )
+        .is_none());
+    }
+
+    #[test]
+    fn statistical_and_risk_objects_fail_closed_without_declarations() {
+        let trial = PairedTrial::from_losses(
+            &[1.0, 0.0],
+            &[0.5, 0.0],
+            Some((0.0, 1.0)),
+            "independent declared scenario draws",
+        )
+        .unwrap();
+        assert!(non_inferiority(&trial, None, 0.05).is_err());
+        assert_eq!(
+            non_inferiority(&trial, Some(1.0), 0.05)
+                .unwrap()
+                .economic_claim,
+            NO_ECONOMIC_CLAIM
+        );
+        assert!(EValue::new(-1.0, "family", "construction").is_err());
+        assert_eq!(
+            EValue::new(1.0, "family", "construction")
+                .unwrap()
+                .economic_claim,
+            NO_ECONOMIC_CLAIM
+        );
+    }
+
+    #[test]
+    fn passport_and_attribution_preserve_authority_boundaries() {
+        let suite = run_pilot_qualification_suite().unwrap();
+        assert_eq!(suite.executed_tests, suite.passed_tests);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 2);
+        assert!(!suite
+            .passports
+            .iter()
+            .any(ExpertPassport::promotion_eligible));
+        let contribution = forced_abstention_attribution(&[AttributionObservation {
+            opportunity_id: "existing-opportunity".into(),
+            baseline_utility: Some(1.0),
+            force_abstain_utility: Some(0.0),
+            baseline_fee: None,
+            force_abstain_fee: None,
+            displacement_cost: None,
+            unique_capture: None,
+        }]);
+        assert_eq!(contribution[0].opportunity_id, "existing-opportunity");
+        assert_eq!(contribution[0].economic_claim, NO_ECONOMIC_CLAIM);
+        assert_eq!(
+            calibration_availability(&EvidenceStrength::Ordinal {
+                level: OrdinalStrength::Strong
+            }),
+            MetricAvailability::NotApplicable
+        );
+        assert!(require_frozen_economic_authority(None).is_err());
+    }
+}
