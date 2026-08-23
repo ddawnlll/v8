@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 volume-climax reversal semantic qualification
+
+Added the test-only `volume_climax_reversal:v2` qualification contract: strict three-sigma long and short priority gates, the inclusive two-sigma boundary, sub-threshold abstention, and absent volume-statistics failure are independently exercised. The D-141 price-scale relation now preserves raw volume, volume moving-average, and categorical bar class inputs; prices still scale, while these non-price quantities do not. This exposed and repaired a relation typing defect in the existing `volume_confirmed_breakout` metamorphic control. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 candlestick-reversal semantic qualification
 
 Added a test-only qualification contract for the registered default `hammer` variant of `candlestick_reversal`: a prior down bar, bullish small body, lower-shadow minimum, upper-shadow maximum, inclusive equality boundary, and required shape-feature missingness are independently exercised. D-141 price scaling now preserves `body_range_ratio` and `close_position` as dimensionless while scaling price-valued body and shadow quantities. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.

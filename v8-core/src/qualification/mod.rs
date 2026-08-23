@@ -194,6 +194,9 @@ impl Scenario {
                     | "open_interest"
                     | "body_range_ratio"
                     | "close_position"
+                    | "volume"
+                    | "vol_smooth_ma"
+                    | "bar_class"
             ) {
                 *value *= factor;
             }
@@ -928,6 +931,43 @@ pub fn candlestick_reversal_manifest() -> ExpertQualificationManifest {
             ScenarioClass::Metamorphic,
         ],
         oracle_id: "d141.candlestick-reversal.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn volume_climax_reversal_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "volume_climax_reversal".into(),
+            expert_version: "v2".into(),
+            mechanism_family_id: "volume".into(),
+            behavior_family_id: "climax_reversal".into(),
+            dependency_group: "dep_volume".into(),
+            hypothesis: "The priority strict-climax gate fades a declared three-sigma volume extreme in the registered trend direction; a two-sigma boundary is inclusive and falls through to its declared variant order.".into(),
+            declared_features: vec![
+                "close".into(),
+                "ema_fast".into(),
+                "ema_slow".into(),
+                "atr".into(),
+                "volume".into(),
+                "vol_zscore".into(),
+                "vol_min_proximity".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.volume-climax-reversal.declarative".into(),
         oracle_version: "v1".into(),
         seed_manifest: "d141-seeds-v1".into(),
         generator_version: "scenario-foundry-v1".into(),
@@ -1862,6 +1902,89 @@ pub fn candlestick_reversal_scenarios() -> Vec<Scenario> {
             "hammer-missing-shape-feature",
             ScenarioClass::Contract,
             "HAMMER-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn volume_climax_reversal_scenarios() -> Vec<Scenario> {
+    let mut strict_downtrend = base_input();
+    strict_downtrend.history = vec![ScenarioBar {
+        event_id: "climax-down".into(),
+        open: 100.0,
+        high: 101.0,
+        low: 90.0,
+        close: 95.0,
+        ema_fast: 90.0,
+        ema_slow: 100.0,
+    }];
+    strict_downtrend.scalars = BTreeMap::from([
+        ("close".into(), 95.0),
+        ("ema_fast".into(), 90.0),
+        ("ema_slow".into(), 100.0),
+        ("atr".into(), 2.0),
+        ("volume".into(), 10_000.0),
+        ("vol_zscore".into(), 3.0),
+        ("vol_min_proximity".into(), 1.0),
+    ]);
+    let mut strict_uptrend = strict_downtrend.clone();
+    strict_uptrend.history[0] = ScenarioBar {
+        event_id: "climax-up".into(),
+        open: 100.0,
+        high: 110.0,
+        low: 99.0,
+        close: 105.0,
+        ema_fast: 110.0,
+        ema_slow: 100.0,
+    };
+    strict_uptrend.scalars.insert("close".into(), 105.0);
+    strict_uptrend.scalars.insert("ema_fast".into(), 110.0);
+    let mut negative = strict_downtrend.clone();
+    negative.scalars.insert("vol_zscore".into(), 1.999_999);
+    let mut inclusive_boundary = strict_uptrend.clone();
+    inclusive_boundary.scalars.insert("vol_zscore".into(), 2.0);
+    let mut missing = strict_downtrend.clone();
+    missing.scalars.remove("vol_zscore");
+    missing.scalars.remove("vol_min_proximity");
+    vec![
+        scenario(
+            "volume-climax-strict-downtrend",
+            ScenarioClass::CanonicalPositive,
+            "CLIMAX-STRICT-LONG",
+            strict_downtrend,
+            ExpectedStance::SupportLong,
+            &["three-sigma", "downtrend", "priority-e", "long"],
+        ),
+        scenario(
+            "volume-climax-strict-uptrend",
+            ScenarioClass::CanonicalPositive,
+            "CLIMAX-STRICT-SHORT",
+            strict_uptrend,
+            ExpectedStance::SupportShort,
+            &["three-sigma", "uptrend", "priority-e", "short"],
+        ),
+        scenario(
+            "volume-climax-below-threshold",
+            ScenarioClass::CanonicalNegative,
+            "CLIMAX-BELOW-TWO-SIGMA",
+            negative,
+            ExpectedStance::Abstain,
+            &["below-two-sigma"],
+        ),
+        scenario(
+            "volume-climax-inclusive-boundary",
+            ScenarioClass::Boundary,
+            "CLIMAX-TWO-SIGMA-INCLUSIVE",
+            inclusive_boundary,
+            ExpectedStance::SupportShort,
+            &["two-sigma-equality", "priority-b", "short"],
+        ),
+        scenario(
+            "volume-climax-missing-volume-statistics",
+            ScenarioClass::Contract,
+            "CLIMAX-MISSING-STATS",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -2854,6 +2977,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             candlestick_reversal_manifest(),
             candlestick_reversal_scenarios(),
         ),
+        (
+            volume_climax_reversal_manifest(),
+            volume_climax_reversal_scenarios(),
+        ),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -3382,6 +3509,33 @@ mod tests {
     }
 
     #[test]
+    fn volume_climax_reversal_respects_priority_and_typed_scaling() {
+        let manifest = volume_climax_reversal_manifest();
+        let scenarios = volume_climax_reversal_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+        let positive = scenarios.first().unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("volume_climax_reversal", relation, positive)
+                    .unwrap()
+                    .passed
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("volume_climax_reversal", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed,
+            mutation.non_equivalent_generated
+        );
+    }
+
+    #[test]
     fn all_critical_mutants_are_killed_by_the_pilot_suite() {
         let scenarios = failed_breakout_scenarios();
         let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
@@ -3451,7 +3605,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 14);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 15);
         assert!(!suite
             .passports
             .iter()
