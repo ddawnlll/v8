@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 breakout-retest semantic qualification
+
+Added test-only qualification for the registered default `breakout_retest` role-reversal branch: both directional prior-breach/retest/strict-hold worlds, no-touch and equality abstentions, and missingness are covered. The D-141 typed history capability now has the runtime-required non-empty list shape rather than a length scalar, repairing a real harness-contract mismatch. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 2B failed-breakout semantic qualification
 
 Added test-only qualification for the registered `failed_breakout_2b` default branch. The contract requires a prior close strictly below a positive significant swing low and a current close strictly reclaiming it; no-reclaim, equality, and an absent swing reference abstain. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
