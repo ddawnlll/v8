@@ -23,6 +23,7 @@ D-141 anlamsal senaryoları Rust `#[cfg(test)]` fixture'larıdır. Production CL
 | `floor_trader_pivot:v1` | test kanıtındaki D-141 manifest hash'i | EWQ-01…06 geçerse yalnız `SEMANTICALLY_QUALIFIED` | `NO_ECONOMIC_CLAIM` |
 | `fib_retracement_continuation:v1` | test kanıtındaki D-141 manifest hash'i | EWQ-01…06 geçerse yalnız `SEMANTICALLY_QUALIFIED` | `NO_ECONOMIC_CLAIM` |
 | `obv_adl_regime:v1` | test kanıtındaki D-141 manifest hash'i | EWQ-01…06 geçerse yalnız `SEMANTICALLY_QUALIFIED` | `NO_ECONOMIC_CLAIM` |
+| `funding_crowding_reversal:v1` | test kanıtındaki D-141 manifest hash'i | EWQ-01…06 geçerse yalnız `SEMANTICALLY_QUALIFIED` | `NO_ECONOMIC_CLAIM` |
 
 Diğer kayıtlı generator-expert'ler kendi Davranış Kartı ve manifestlerini almadan geçmiş/başarısız sayılmaz. Payda 29 değil 28'dir: `predicate` Expert tanığı değil post-entry tez değerlendiricisidir. Registry manifest kapsamı, çalıştırılmış test geçiş oranından ayrı raporlanır.
 

@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 funding-crowding semantic qualification
+
+Added the test-only semantic contract for `funding_crowding_reversal`: a positive funding extreme is dimensionless and requires a strict five-bar price confirmation before the registered SHORT reversal. Missing funding remains `NO_HABITAT`; no absent derivative feed is represented as zero. No production threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 OBV/ADL feature-closure repair
 
 Added a test-only semantic qualification contract for `obv_adl_regime` and corrected its D-053 `REQUIRES` declaration to include the `volatility` and `history` groups read by the implementation. The D-141 executor now represents `history` both as a declared capability feature and as the typed bar window, matching the runtime contract. Price scaling preserves CMF, RSI, z-score, proximity, and session-index values as dimensionless. No threshold, opportunity identity, capital authority, or economic verdict changed.
