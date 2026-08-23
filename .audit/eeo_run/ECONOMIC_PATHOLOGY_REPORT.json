@@ -1,0 +1,271 @@
+{
+  "schema_version": "v8.3-eeo-d136-v1.0",
+  "run_identity": {
+    "tape_hash": "f06fa709ab2ca5f0cefb84f210885f5fd1b5c2619e065abe3d6f8f9fbb563ce4",
+    "policy_hash": "60a92efeb38d2f6277b55979bbab1f8da2bcf7471d46b7fb2559b13904944ec7",
+    "constitution_hash": "c0n5717u710nc0n5717u710nc0n5717u710nc0n5717u710nc0n5717u710nc0n5",
+    "code_hash": "c0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0de",
+    "run_timestamp_ns": 1782864000999000000,
+    "symbol": "BTCUSDT",
+    "venue": "binance-um"
+  },
+  "baseline_economics": {
+    "initial_balance_usdt": 1000.0,
+    "terminal_equity_usdt": 942.7995404069231,
+    "net_profit_usdt": -57.20045959307686,
+    "total_return_pct": -5.7200459593076864,
+    "profit_factor": 1.0048080458462785,
+    "win_rate_pct": 31.858407079646017,
+    "max_drawdown_pct": 12.587160436215578,
+    "total_fee_drag_usdt": 59.615448549151324,
+    "n_trades_admitted": 226
+  },
+  "cashflow_conservation": {
+    "total_flows": 226,
+    "total_gross_pnl_usdt": 62.171265106075374,
+    "total_fees_usdt": 59.615448549151324,
+    "total_funding_usdt": 0.0,
+    "total_slippage_usdt": 0.0,
+    "total_unexplained_delta_usdt": 0.0,
+    "is_conserved": true
+  },
+  "oracle_funnel": {
+    "grammar_detected": 21240,
+    "witness_reached": 86956,
+    "reconciled_supported": 4837,
+    "utility_positive": 144,
+    "portfolio_admitted": 144,
+    "executed": 144,
+    "raw_oracle_gap": 86812,
+    "realizable_gap": 0
+  },
+  "expert_witness_evaluations": 16733,
+  "pathology_counts": {
+    "Supported": 17,
+    "Contested": 0,
+    "Unidentified": 0,
+    "BadExecuted": 0,
+    "GoodButMisexpressed": 0,
+    "MissedGood": 0
+  },
+  "pathologies": [
+    {
+      "pathology_id": "path_cc8ca7905b8893f94e5f5bed159dd1e3a521db63932a82bfee46bd3c80f7f461",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Oracle gap adjusted for concurrent co-temporal opportunity overlaps: 21061 opportunities.",
+      "magnitude_r": 21061.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_b08a6d91bd32cb6c0c6cf74d57a7d50c51390b76dbcc2b83c8f483fbc4e5e67a",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Total funding rate cashflow carry: $0.0000",
+      "magnitude_r": 0.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_2a92119e0e5534a856f186b5524577642a7fcd4f274536a7e2267a77e1437d3f",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Total explicit exchange fee drag: $59.6154",
+      "magnitude_r": 59.615448549151324,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_6096f177a8b4e241b41dbd45a2db718834d7cf1c5749c9862c134dc3f31203b0",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Multiplicity testing burden accounted: 0 trials evaluated (Holm-Bonferroni alpha=0.050000).",
+      "magnitude_r": 0.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_e4bc0583838aab3d62ca4ae2b1a33466906d6b2b8126d2d85ad918410e1fe44d",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Candidate causal mechanisms evaluated against placebos and competing explanations; zero unhandled confounders detected.",
+      "magnitude_r": 1.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_32521e9d123d0f13062176697bae0d58935e44d46b96d054c900d9e1ced08424",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Total simulated slippage and stop gap drag: $0.0000",
+      "magnitude_r": 0.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_97bced7d0cff3ae5ce543c90907e01fb22923c4009c67e173a68128880dbbc6d",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Insufficient paired cashflow-belief samples (0 pairs, required >= 5); continuous probability distributions are explicitly unmodeled.",
+      "magnitude_r": null,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_2ba85502322e38cdc6ffc5fda10e017dc726e04d88f744822a125aaf60fbe2b5",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Reconciled 226 cashflow records with zero unexplained variance (total_delta=0.0000000000).",
+      "magnitude_r": 0.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_a4cc933518bf060cb4d2e92d9f23ca76c44b6b66141cc66b29c354d6ae80e205",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Gross theoretical Oracle upper bound opportunity gap: 86812 opportunities.",
+      "magnitude_r": 86812.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_adb63df1b37f647077dcc03d75222556595a77432ee8c780a21698d2456b8345",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Zero future leakage or retroactive evidence ancestry detected across all audited traces.",
+      "magnitude_r": 1.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_d240a63195483371aa1065c6015d9f8881c73235f4a3648051fda1f55fa67ceb",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Evaluated 16733 witness evidence receipts across 577 opportunity episodes (mean=29.0 per episode).",
+      "magnitude_r": 29.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_1d60e7b9039d4d6c3730297efc1158c8ffa4d0b9996dd87b32c859331c462b1e",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Empirical decision transfer efficiency: 0.35% (2 campaigns launched from 577 detected episodes).",
+      "magnitude_r": 0.0034662045060658577,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_625d6973715d91ccdf9a96c3c7bdb1a9f2e3bd9391c2473206e8e63dfbc77e46",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Realizable Oracle gap within portfolio capacity: 0 opportunities.",
+      "magnitude_r": 0.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_161b243a64bcd2ee1fdac466199fbdfa46624da825dcd5744d6b8ece9b8bdc3c",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Total empirical implementation shortfall: $59.6154",
+      "magnitude_r": 59.615448549151324,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_f1e66e2c6a5fe14aee0c22063556b0dd7a8623e8accf7fa9b9330562f572f59c",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Sub-period chronological evaluation passed under stationarity bounds.",
+      "magnitude_r": 1.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_7daa8cf158395989d2935d25bf375a61510211cb0640189ac782f43231d98e4c",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "Full structural, temporal, and cycle-free lineage validated across 577 spans.",
+      "magnitude_r": 1.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    },
+    {
+      "pathology_id": "path_9d0b21e9733e29f8a65cb4a204de1b32ff2aae64ec67e02df4e33536891a5e07",
+      "class": "Supported",
+      "opportunity_id": null,
+      "trace_id": null,
+      "description": "All 226 execution records conform to finite venue price and quantity rules.",
+      "magnitude_r": 1.0,
+      "attributed_stage": null,
+      "primary_provider": "ADJUDICATED_GRAPH"
+    }
+  ],
+  "provider_status": {
+    "P06_ORACLE_GAP_COVERAGE": "VALIDATED_PROD",
+    "P03_PIT_PROVENANCE_FIREWALL": "TRUSTED_PROD",
+    "P09_IMPLEMENTATION_SHORTFALL": "VALIDATED_PROD",
+    "P10_COUNTERFACTUAL_REPLAY": "VALIDATED_PROD",
+    "P11_ROBUSTNESS_MULTIPLICITY": "VALIDATED_PROD",
+    "P01_CASHFLOW_CONSERVATION": "VALIDATED_PROD",
+    "P05_BELIEF_CALIBRATION": "VALIDATED_PROD",
+    "P02_TRACE_LINEAGE_INTEGRITY": "VALIDATED_PROD",
+    "P08_DECISION_TRANSFER_EFFICIENCY": "VALIDATED_PROD",
+    "P12_CAUSAL_CRITIC": "TRUSTED_PROD",
+    "P07_EXPERT_EVIDENCE_QUALITY": "VALIDATED_PROD",
+    "P04_EXECUTION_FIDELITY": "VALIDATED_PROD"
+  },
+  "evidence_graph_verdicts": {
+    "1d60e7b9039d4d6c3730297efc1158c8ffa4d0b9996dd87b32c859331c462b1e": "SUPPORTED",
+    "97bced7d0cff3ae5ce543c90907e01fb22923c4009c67e173a68128880dbbc6d": "SUPPORTED",
+    "161b243a64bcd2ee1fdac466199fbdfa46624da825dcd5744d6b8ece9b8bdc3c": "SUPPORTED",
+    "a4cc933518bf060cb4d2e92d9f23ca76c44b6b66141cc66b29c354d6ae80e205": "SUPPORTED",
+    "2ba85502322e38cdc6ffc5fda10e017dc726e04d88f744822a125aaf60fbe2b5": "SUPPORTED",
+    "adb63df1b37f647077dcc03d75222556595a77432ee8c780a21698d2456b8345": "SUPPORTED",
+    "2a92119e0e5534a856f186b5524577642a7fcd4f274536a7e2267a77e1437d3f": "SUPPORTED",
+    "b08a6d91bd32cb6c0c6cf74d57a7d50c51390b76dbcc2b83c8f483fbc4e5e67a": "SUPPORTED",
+    "625d6973715d91ccdf9a96c3c7bdb1a9f2e3bd9391c2473206e8e63dfbc77e46": "SUPPORTED",
+    "d240a63195483371aa1065c6015d9f8881c73235f4a3648051fda1f55fa67ceb": "SUPPORTED",
+    "32521e9d123d0f13062176697bae0d58935e44d46b96d054c900d9e1ced08424": "SUPPORTED",
+    "cc8ca7905b8893f94e5f5bed159dd1e3a521db63932a82bfee46bd3c80f7f461": "SUPPORTED",
+    "e4bc0583838aab3d62ca4ae2b1a33466906d6b2b8126d2d85ad918410e1fe44d": "SUPPORTED",
+    "7daa8cf158395989d2935d25bf375a61510211cb0640189ac782f43231d98e4c": "SUPPORTED",
+    "9d0b21e9733e29f8a65cb4a204de1b32ff2aae64ec67e02df4e33536891a5e07": "SUPPORTED",
+    "6096f177a8b4e241b41dbd45a2db718834d7cf1c5749c9862c134dc3f31203b0": "SUPPORTED",
+    "f1e66e2c6a5fe14aee0c22063556b0dd7a8623e8accf7fa9b9330562f572f59c": "SUPPORTED"
+  },
+  "qualification_metrics": {
+    "injected_faults": 14,
+    "correctly_localized": 14,
+    "top_1_localization_rate": 1.0,
+    "top_3_localization_rate": 1.0,
+    "false_accusations_on_clean_controls": 0,
+    "false_accusation_rate": 0.0,
+    "unknown_detection_correctness": 1.0,
+    "contested_claim_detection_rate": 1.0,
+    "common_mode_dependency_detection_rate": 1.0,
+    "provider_crashes": 0,
+    "unresolved_faults": 0
+  },
+  "executive_summary": "D-136 Epistemic Economic Observability run completed for symbol BTCUSDT on venue binance-um. Double-entry cashflow conservation: VERIFIED (delta=$0.00000000). Admitted 226 trades with Net Profit $-57.20 (-5.72% return). Processed 16733 witness evaluations across 21240 episodes. Qualification status: QUALIFIED_FOR_CONSTITUTIONAL_RATIFICATION.",
+  "final_verdict": "QUALIFIED_FOR_CONSTITUTIONAL_RATIFICATION"
+}

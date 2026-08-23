@@ -65,6 +65,7 @@ mod simulator;
 mod state;
 mod statistics;
 pub mod telemetry;
+pub mod temporal;
 pub mod eeo;
 pub mod usdm_sim;
 pub mod venue;
@@ -1422,6 +1423,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
     let mut enabled_experts: Option<Vec<String>> = None;
     let mut engine_mode: Option<String> = None;
     let mut exit_arm: Option<kaizen::exit_trailing::ExitArm> = None;
+    let mut symbol: Option<String> = None;
 
     let mut i = 0;
     while i < args.len() {
@@ -1508,7 +1510,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                     return 2;
                 }
             }
-            "--engine" => {
+            "--engine" | "--engine-mode" => {
                 if i + 1 < args.len() {
                     engine_mode = Some(args[i + 1].clone());
                     i += 2;
@@ -1531,6 +1533,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                         "static3r" | "Static3R" => Some(kaizen::exit_trailing::ExitArm::Static3R),
                         "ema4h" | "EMA4hTrail" => Some(kaizen::exit_trailing::ExitArm::EMA4hTrail),
                         "hybrid" | "HybridTrail" => Some(kaizen::exit_trailing::ExitArm::HybridTrail),
+                        "struct24h" | "Structural24hTrail" => Some(kaizen::exit_trailing::ExitArm::Structural24hTrail),
                         other => {
                             eprintln!("unknown exit arm: {other}");
                             return 2;
@@ -1539,6 +1542,15 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                     i += 2;
                 } else {
                     eprintln!("missing argument for --exit-arm");
+                    return 2;
+                }
+            }
+            "--symbol" => {
+                if i + 1 < args.len() {
+                    symbol = Some(args[i + 1].clone());
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --symbol");
                     return 2;
                 }
             }
@@ -1590,6 +1602,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         enabled_experts,
         engine_mode,
         exit_arm,
+        symbol,
     };
 
     match usdm_sim::run_simulation(&params) {
@@ -1857,7 +1870,8 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
         max_heat: 0.05,
         enabled_experts: None,
         engine_mode: None,
-        exit_arm: Some(kaizen::exit_trailing::ExitArm::ChandelierATR),
+        exit_arm: Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE05R),
+        symbol: None,
     };
 
     let receipt = match usdm_sim::run_simulation(&sim_params) {
@@ -1869,6 +1883,7 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
     };
 
     let cashflow_path = sim_dir.join("economic-cashflow.jsonl");
+    let _ = std::fs::copy(&cashflow_path, out_dir.join("economic-cashflow.jsonl"));
     let cf_content = std::fs::read_to_string(&cashflow_path).unwrap_or_default();
     let mut cashflow_ledger = cashflow::CashflowLedger::new();
     for line in cf_content.lines() {

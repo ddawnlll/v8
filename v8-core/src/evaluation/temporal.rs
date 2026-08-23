@@ -92,16 +92,8 @@ pub fn evaluate_temporal_noninterference(
         let base_close = base_store.closes[t];
         let base_ema = base_store.ema_fast[t];
         let base_obv = base_store.obv[t];
-        let base_atr = if t >= 13 && t - 13 < base_store.atr.len() {
-            Some(base_store.atr[t - 13])
-        } else {
-            None
-        };
-        let base_rsi = if t >= 14 && t - 14 < base_store.rsi.len() {
-            Some(base_store.rsi[t - 14])
-        } else {
-            None
-        };
+        let base_atr = base_store.atr_at(t);
+        let base_rsi = base_store.rsi_at(t);
 
         for (r, &mult) in config.shock_multipliers.iter().enumerate().take(config.rounds) {
             // Create perturbed copy where bars > t are shocked
@@ -134,16 +126,8 @@ pub fn evaluate_temporal_noninterference(
             let pert_close = perturbed_store.closes[t];
             let pert_ema = perturbed_store.ema_fast[t];
             let pert_obv = perturbed_store.obv[t];
-            let pert_atr = if t >= 13 && t - 13 < perturbed_store.atr.len() {
-                Some(perturbed_store.atr[t - 13])
-            } else {
-                None
-            };
-            let pert_rsi = if t >= 14 && t - 14 < perturbed_store.rsi.len() {
-                Some(perturbed_store.rsi[t - 14])
-            } else {
-                None
-            };
+            let pert_atr = perturbed_store.atr_at(t);
+            let pert_rsi = perturbed_store.rsi_at(t);
 
             let drift_close = (pert_close - base_close).abs();
             let drift_ema = (pert_ema - base_ema).abs();

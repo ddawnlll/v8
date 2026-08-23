@@ -121,8 +121,8 @@ v8-core/
       mod.rs        registry
       base.rs       shared Expert contract (mirrors experts/base.py)
       predicate.rs  compiled still_valid IR (PREDICATE_IR_SPEC)
-      <28 files>    one behaviour family per module (mirrors D-033),
-                     all 28 registered Experts ported (D-092)
+      <30 files>    one behaviour family per module (mirrors D-033, D-138, D-140),
+                     all 30 registered Experts ported including squeeze_swing.rs (D-140)
     candidate.rs    CandidateBuffer, lifecycle transitions, ExposureBook
     runloop.rs      S4 per-bar composition: ExpertPlane -> candidates -> the
                      `evaluate` subcommand — not in the original §6 table (§4)
@@ -252,6 +252,9 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/opportunity/` | V8.3 Challenger Opportunity Sovereignty Engine (7-primitive space, evidence reconciliation, selective utility, basis protection) | `OpportunityGrammar`, `OpportunityBook`, `ExpertWitness`, `EvidenceReconciler`, `ExposureStructure` | V8_CONSTITUTION v0.2 Rules 18–27; D-128..D-130; CC-RES-V8.3-GL-001 |
 | `v8-core/src/judiciary/emergency.rs` | Emergency Mainline Execution Authority, Scope Firewall & `EmergencyMergeWarrant` Protocol | `EmergencyMergeWarrant`, `WarrantLifecycleState`, `MainlineHeadStatus`, `EmergencyIncidentReason` | V8_CONSTITUTION v0.2 Rule 43; D-135; CC-BILL-V8.3-D135 |
 | `v8-core/src/shadow.rs` | Non-economic prospective shadow boundary; seals code/config/dataset/authority/freeze identities, enforces strict future-only observations, writes allocation-neutral receipts, binds declared diagnostic bundles, and rejects mixed/divergent output bundles | `ProspectiveShadowManifest`, `ShadowRequest`, `ShadowReceipt`, `ArtifactIndexRequest`, `CanonicalArtifactIndex`, `verify_output_bundle`, `index_artifacts` | `OPERATIONS_SPEC` §1, §4–§6; `PERSISTENCE_REPLAY_SPEC` §4, §8; D-138; Issues #256/#258 |
+| `v8-core/src/temporal/` | V8 Temporal Sovereignty Architecture & Causal Fortress kernel (L0–L10): N-bar aligned `DenseBarSeries`, disjoint `SparseEventSeries`, by-value `CausalFrame` boundary, `ChronosGate` data diode, two-tier `ExecutionAuthority`, and `TemporalIntegrityCertificate` | `DenseBarSeries`, `SparseEventSeries`, `CausalFrame`, `ChronosGate`, `CausalSource`, `BarId`, `FundingEventId`, `DecisionTime`, `TemporalIntegrityCertificate`, `ExecutionAuthority` | V8_CONSTITUTION Rules 44–50; D-139; CC-BILL-V8.3-CAUSAL-FORTRESS-006 |
+| `v8-core/src/audit/mutants.rs` | Adversarial Leak Mutant Falsification suite (LEAK-001..LEAK-012) and 100% kill-rate verifier | `MutantAuditor`, `LeakMutantId`, `MutantKillReceipt` | V8_CONSTITUTION Rule 48; D-139; CC-BILL-V8.3-CAUSAL-FORTRESS-006 |
+
 
 
 ## 3. Layering rules

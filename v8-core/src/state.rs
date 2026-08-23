@@ -956,6 +956,188 @@ impl FeatureStore {
     pub fn bisect_right_times(times: &[i64], as_of: i64) -> usize {
         times.partition_point(|a| *a <= as_of)
     }
+
+    /// Canonically retrieve ATR at bar index (None if not yet warmed up or out of bounds).
+    pub fn atr_at(&self, bar_idx: usize) -> Option<f64> {
+        if bar_idx >= 13 {
+            let offset_idx = bar_idx - 13;
+            if offset_idx < self.atr.len() {
+                Some(self.atr[offset_idx])
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    }
+
+    /// Canonically retrieve Wilder RSI-14 at bar index (None if not yet warmed up or out of bounds).
+    pub fn rsi_at(&self, bar_idx: usize) -> Option<f64> {
+        if bar_idx >= 14 {
+            let offset_idx = bar_idx - 14;
+            if offset_idx < self.rsi.len() {
+                Some(self.rsi[offset_idx])
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    }
+
+    /// Canonically retrieve Wilder ADX-14 at bar index (None if not yet warmed up or out of bounds).
+    pub fn adx_at(&self, bar_idx: usize) -> Option<f64> {
+        if bar_idx >= 27 && bar_idx < self.adx.len() {
+            Some(self.adx[bar_idx])
+        } else {
+            None
+        }
+    }
+
+    /// Canonically retrieve Stochastic %K at bar index (None if not yet warmed up or out of bounds).
+    pub fn stoch_k_at(&self, bar_idx: usize) -> Option<f64> {
+        if bar_idx >= 13 {
+            let offset_idx = bar_idx - 13;
+            if offset_idx < self.stoch_k.len() {
+                Some(self.stoch_k[offset_idx])
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    }
+
+    /// Canonically retrieve Stochastic %D at bar index (None if not yet warmed up or out of bounds).
+    pub fn stoch_d_at(&self, bar_idx: usize) -> Option<f64> {
+        if bar_idx >= 13 {
+            let offset_idx = bar_idx - 13;
+            if offset_idx < self.stoch_d.len() {
+                Some(self.stoch_d[offset_idx])
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    }
+
+    /// Canonically query funding rate as of timestamp (bisect right).
+    pub fn funding_rate_at(&self, as_of: i64) -> f64 {
+        let m = Self::bisect_right_times(&self.funding_avail, as_of);
+        if m > 0 {
+            self.funding_rate[m - 1]
+        } else {
+            0.0
+        }
+    }
+
+    /// Canonically query open interest value as of timestamp (bisect right).
+    pub fn oi_value_at(&self, as_of: i64) -> Option<f64> {
+        let m = Self::bisect_right_times(&self.oi_avail, as_of);
+        if m > 0 {
+            Some(self.oi_value[m - 1])
+        } else {
+            None
+        }
+    }
+
+    /// Dense canonical N-bar aligned ATR series.
+    pub fn dense_atr(&self) -> crate::temporal::DenseBarSeries<f64> {
+        crate::temporal::DenseBarSeries::from_offset_slice(self.closes.len(), 13, &self.atr)
+    }
+
+    /// Dense canonical N-bar aligned RSI series.
+    pub fn dense_rsi(&self) -> crate::temporal::DenseBarSeries<f64> {
+        crate::temporal::DenseBarSeries::from_offset_slice(self.closes.len(), 14, &self.rsi)
+    }
+
+    /// Dense canonical N-bar aligned ADX series.
+    pub fn dense_adx(&self) -> crate::temporal::DenseBarSeries<f64> {
+        crate::temporal::DenseBarSeries::from_vec(
+            (0..self.closes.len()).map(|i| self.adx_at(i)).collect(),
+        )
+    }
+
+    /// Sparse event series for funding rate.
+    pub fn sparse_funding(&self) -> crate::temporal::SparseEventSeries<f64> {
+        crate::temporal::SparseEventSeries::from_pairs(&self.funding_avail, &self.funding_rate)
+    }
+
+    /// Construct a zero-pointer by-value capability boundary CausalFrame at bar index.
+    pub fn causal_frame(&self, bar_idx: usize) -> crate::temporal::CausalFrame {
+        let as_of = if bar_idx < self.avail.len() {
+            self.avail[bar_idx]
+        } else {
+            0
+        };
+        crate::temporal::CausalFrame {
+            bar_id: crate::temporal::BarId(bar_idx as u32),
+            decision_time: crate::temporal::DecisionTime(as_of),
+            open: self.opens.get(bar_idx).copied().unwrap_or(0.0),
+            high: self.highs.get(bar_idx).copied().unwrap_or(0.0),
+            low: self.lows.get(bar_idx).copied().unwrap_or(0.0),
+            close: self.closes.get(bar_idx).copied().unwrap_or(0.0),
+            volume: self.volumes.get(bar_idx).copied().unwrap_or(0.0),
+            atr: self.atr_at(bar_idx),
+            rsi: self.rsi_at(bar_idx),
+            adx: self.adx_at(bar_idx),
+            stoch_k: self.stoch_k_at(bar_idx),
+            stoch_d: self.stoch_d_at(bar_idx),
+            funding_rate: self.funding_rate_at(as_of),
+            open_interest: self.oi_value_at(as_of),
+        }
+    }
+
+    /// Iterate over all CausalFrames sequentially.
+    pub fn causal_frames(&self) -> impl Iterator<Item = crate::temporal::CausalFrame> + '_ {
+        (0..self.closes.len()).map(move |i| self.causal_frame(i))
+    }
+
+    /// Create a CausalSource adapter for ChronosGate data diode.
+    pub fn causal_source(&self) -> FeatureStoreCausalSource<'_> {
+        FeatureStoreCausalSource {
+            store: self,
+            cursor: 0,
+        }
+    }
+
+    /// Create a ChronosGate process data diode wrapping this store.
+    pub fn chronos_gate(&self) -> crate::temporal::ChronosGate<FeatureStoreCausalSource<'_>> {
+        crate::temporal::ChronosGate::new(self.causal_source())
+    }
+}
+
+/// CausalSource implementation for FeatureStore.
+pub struct FeatureStoreCausalSource<'a> {
+    store: &'a FeatureStore,
+    cursor: usize,
+}
+
+impl<'a> crate::temporal::CausalSource for FeatureStoreCausalSource<'a> {
+    type Item = crate::temporal::CausalFrame;
+
+    fn next_frame(&mut self) -> Option<crate::temporal::CausalFrame> {
+        if self.cursor < self.store.closes.len() {
+            let frame = self.store.causal_frame(self.cursor);
+            self.cursor += 1;
+            Some(frame)
+        } else {
+            None
+        }
+    }
+
+    fn peek_time(&self) -> Option<crate::temporal::DecisionTime> {
+        if self.cursor < self.store.avail.len() {
+            Some(crate::temporal::DecisionTime(self.store.avail[self.cursor]))
+        } else {
+            None
+        }
+    }
+
+    fn len(&self) -> usize {
+        self.store.closes.len().saturating_sub(self.cursor)
+    }
 }
 
 // Build stores for every symbol in a dataset.
@@ -1181,7 +1363,7 @@ pub fn build_multi_stores(
 
 /// One emitted feature value (parity compares these fields; hashes are
 /// computed separately and excluded by PARITY_AND_IDENTITY_SPEC §3).
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Feature {
     pub name: String,
     /// Scalar features carry a number; structured features (history,

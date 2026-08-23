@@ -132,51 +132,84 @@ pub struct VenueContract {
 impl VenueContract {
     /// Factory for authoritative Binance BTCUSDT perpetual contract rules.
     pub fn binance_btcusdt_perpetual() -> Self {
-        Self {
-            venue_id: "binance_usdm_v1".to_string(),
-            symbol: "BTCUSDT".to_string(),
-            price_filter: PriceFilter::new(0.1, 1_000_000.0, 0.1),
-            lot_size_filter: LotSizeFilter::new(0.001, 1_000.0, 0.001),
-            min_notional: 5.0,
-            market_lot_size: 100.0,
-            leverage_brackets: vec![
-                LeverageBracket {
-                    tier: 1,
-                    notional_cap: 50_000.0,
-                    max_leverage: 125,
-                    maint_margin_rate: 0.0040,
-                    cum_offset: 0.0,
-                },
-                LeverageBracket {
-                    tier: 2,
-                    notional_cap: 250_000.0,
-                    max_leverage: 100,
-                    maint_margin_rate: 0.0050,
-                    cum_offset: 50.0,
-                },
-                LeverageBracket {
-                    tier: 3,
-                    notional_cap: 1_000_000.0,
-                    max_leverage: 50,
-                    maint_margin_rate: 0.0100,
-                    cum_offset: 1_300.0,
-                },
-                LeverageBracket {
-                    tier: 4,
-                    notional_cap: 5_000_000.0,
-                    max_leverage: 20,
-                    maint_margin_rate: 0.0250,
-                    cum_offset: 16_300.0,
-                },
-                LeverageBracket {
-                    tier: 5,
-                    notional_cap: 10_000_000.0,
-                    max_leverage: 10,
-                    maint_margin_rate: 0.0500,
-                    cum_offset: 141_300.0,
-                },
-            ],
-            fee_schedule: FeeSchedule::default(),
+        Self::for_symbol("BTCUSDT")
+    }
+
+    /// Factory for symbol-specific perpetual contract rules.
+    pub fn for_symbol(symbol: &str) -> Self {
+        match symbol {
+            "SOLUSDT" => Self {
+                venue_id: "binance_usdm_v1".to_string(),
+                symbol: "SOLUSDT".to_string(),
+                price_filter: PriceFilter::new(0.01, 100_000.0, 0.01),
+                lot_size_filter: LotSizeFilter::new(0.01, 100_000.0, 0.01),
+                min_notional: 5.0,
+                market_lot_size: 1000.0,
+                leverage_brackets: vec![
+                    LeverageBracket { tier: 1, notional_cap: 50_000.0, max_leverage: 75, maint_margin_rate: 0.0065, cum_offset: 0.0 },
+                    LeverageBracket { tier: 2, notional_cap: 250_000.0, max_leverage: 50, maint_margin_rate: 0.0100, cum_offset: 875.0 },
+                ],
+                fee_schedule: FeeSchedule::default(),
+            },
+            "ETHUSDT" => Self {
+                venue_id: "binance_usdm_v1".to_string(),
+                symbol: "ETHUSDT".to_string(),
+                price_filter: PriceFilter::new(0.01, 100_000.0, 0.01),
+                lot_size_filter: LotSizeFilter::new(0.001, 10_000.0, 0.001),
+                min_notional: 5.0,
+                market_lot_size: 100.0,
+                leverage_brackets: vec![
+                    LeverageBracket { tier: 1, notional_cap: 50_000.0, max_leverage: 100, maint_margin_rate: 0.0050, cum_offset: 0.0 },
+                    LeverageBracket { tier: 2, notional_cap: 250_000.0, max_leverage: 75, maint_margin_rate: 0.0065, cum_offset: 375.0 },
+                ],
+                fee_schedule: FeeSchedule::default(),
+            },
+            _ => Self {
+                venue_id: "binance_usdm_v1".to_string(),
+                symbol: "BTCUSDT".to_string(),
+                price_filter: PriceFilter::new(0.1, 1_000_000.0, 0.1),
+                lot_size_filter: LotSizeFilter::new(0.001, 1_000.0, 0.001),
+                min_notional: 5.0,
+                market_lot_size: 100.0,
+                leverage_brackets: vec![
+                    LeverageBracket {
+                        tier: 1,
+                        notional_cap: 50_000.0,
+                        max_leverage: 125,
+                        maint_margin_rate: 0.0040,
+                        cum_offset: 0.0,
+                    },
+                    LeverageBracket {
+                        tier: 2,
+                        notional_cap: 250_000.0,
+                        max_leverage: 100,
+                        maint_margin_rate: 0.0050,
+                        cum_offset: 50.0,
+                    },
+                    LeverageBracket {
+                        tier: 3,
+                        notional_cap: 1_000_000.0,
+                        max_leverage: 50,
+                        maint_margin_rate: 0.0100,
+                        cum_offset: 1_300.0,
+                    },
+                    LeverageBracket {
+                        tier: 4,
+                        notional_cap: 5_000_000.0,
+                        max_leverage: 20,
+                        maint_margin_rate: 0.0250,
+                        cum_offset: 16_300.0,
+                    },
+                    LeverageBracket {
+                        tier: 5,
+                        notional_cap: 10_000_000.0,
+                        max_leverage: 10,
+                        maint_margin_rate: 0.0500,
+                        cum_offset: 141_300.0,
+                    },
+                ],
+                fee_schedule: FeeSchedule::default(),
+            },
         }
     }
 

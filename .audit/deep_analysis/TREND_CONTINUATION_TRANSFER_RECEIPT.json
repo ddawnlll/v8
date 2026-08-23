@@ -1,0 +1,218 @@
+{
+  "receipt_id": "receipt-trend-continuation-transfer-audit-v1",
+  "experiment_protocol": "D-138T \u2014 ORACLE RECALL TO REALIZED CASHFLOW TRANSFER AUDIT",
+  "verdict": "TRANSFER_IMPROVED_BUT_NOT_PROFITABLE",
+  "verdict_rationale": "TrendContinuationExpert improved discovery representation (+4,347 candidates, +2,793 Oracle hits, Precision +1.12%), but when entering existing trend campaigns it altered campaign entry timing by 1-2 bars on 4 trades, resulting in -$5.55 net delta (-12.5% return delta).",
+  "canonical_comparative_matrix": {
+    "metric": [
+      "Candidates Emitted",
+      "Oracle-Matched Candidates",
+      "Candidate Precision %",
+      "Episode Discovery Recall %",
+      "Economic Value Recall %",
+      "Admitted Trades",
+      "Gross Market PnL ($)",
+      "Total Fees ($)",
+      "Net Realized PnL ($)",
+      "Gross-to-Net Conversion %",
+      "MFE Retention Ratio %"
+    ],
+    "control_c0": [
+      37820,
+      20160,
+      53.31,
+      9.11,
+      9.03,
+      90,
+      84.85,
+      40.66,
+      44.19,
+      52.08,
+      13.84
+    ],
+    "challenger_c1": [
+      42167,
+      22953,
+      54.43,
+      8.46,
+      8.33,
+      89,
+      78.7,
+      40.05,
+      38.65,
+      49.1,
+      44.18
+    ],
+    "delta": [
+      4347,
+      2793,
+      1.12,
+      -0.65,
+      -0.7,
+      -1,
+      -6.15,
+      -0.61,
+      -5.55,
+      -2.98,
+      30.34
+    ]
+  },
+  "stage_by_stage_funnel_trace": {
+    "stage_1_candidates_emitted": 4347,
+    "stage_1_novel_candidates": 4347,
+    "stage_1_oracle_positive_candidates": 2793,
+    "stage_2_passed_witness": 4347,
+    "stage_3_passed_reconciliation_campaigns": 38,
+    "stage_4_passed_chop_and_margin_gates": 12,
+    "stage_5_passed_portfolio_risk_budgeting": 12,
+    "stage_6_executed_campaign_clusters": 12,
+    "stage_6_new_independent_trades": 3,
+    "stage_6_campaign_timing_interferences": 9
+  },
+  "strategy_attribution_breakdown": {
+    "control_c0": {
+      "bollinger_reversion": {
+        "count": 41,
+        "gross": 3.762941746043969,
+        "fees": 19.338443690468065,
+        "net": -15.57550194442409,
+        "wins": 30
+      },
+      "bollinger_breakout": {
+        "count": 30,
+        "gross": 76.53469184788909,
+        "fees": 15.435665714799786,
+        "net": 61.09902613308932,
+        "wins": 23
+      },
+      "market_profile_value_area": {
+        "count": 3,
+        "gross": -1.0231782102183642,
+        "fees": 0.8078164462479662,
+        "net": -1.8309946564663306,
+        "wins": 2
+      },
+      "pattern_measuring_objective": {
+        "count": 3,
+        "gross": -6.764707142857122,
+        "fees": 0.5016917964285714,
+        "net": -7.266398939285693,
+        "wins": 0
+      },
+      "donchian_breakout": {
+        "count": 6,
+        "gross": 14.791578571428587,
+        "fees": 0.9712676892857143,
+        "net": 13.820310882142872,
+        "wins": 3
+      },
+      "volume_confirmed_breakout": {
+        "count": 2,
+        "gross": 0.8008649999999835,
+        "fees": 0.4428723675,
+        "net": 0.3579926324999835,
+        "wins": 2
+      },
+      "macd_stoch_trend": {
+        "count": 3,
+        "gross": -12.014395071428385,
+        "fees": 2.0198408975357145,
+        "net": -14.034235968964099,
+        "wins": 1
+      },
+      "fib_projection_reversal": {
+        "count": 1,
+        "gross": 8.354871428571409,
+        "fees": 0.5333024357142857,
+        "net": 7.821568992857123,
+        "wins": 1
+      },
+      "liquidity_sweep_reclaim": {
+        "count": 1,
+        "gross": 0.4063161526433251,
+        "fees": 0.6064755580763218,
+        "net": -0.2001594054329967,
+        "wins": 1
+      }
+    },
+    "challenger_c1": {
+      "bollinger_reversion": {
+        "count": 40,
+        "gross": -2.5311030719935252,
+        "fees": 18.83862722374818,
+        "net": -21.369730295741707,
+        "wins": 28
+      },
+      "bollinger_breakout": {
+        "count": 28,
+        "gross": 79.72870485359176,
+        "fees": 14.413588045704927,
+        "net": 65.31511680788685,
+        "wins": 22
+      },
+      "market_profile_value_area": {
+        "count": 4,
+        "gross": 1.3560503612102042,
+        "fees": 0.9821960605336806,
+        "net": 0.37385430067652337,
+        "wins": 3
+      },
+      "pattern_measuring_objective": {
+        "count": 2,
+        "gross": -6.184571428571406,
+        "fees": 0.41438476428571425,
+        "net": -6.59895619285712,
+        "wins": 0
+      },
+      "donchian_breakout": {
+        "count": 6,
+        "gross": 14.791578571428587,
+        "fees": 0.9712676892857143,
+        "net": 13.820310882142872,
+        "wins": 3
+      },
+      "trend_continuation": {
+        "count": 1,
+        "gross": 0.2653589999999822,
+        "fees": 0.2911670205,
+        "net": -0.025808020500017792,
+        "wins": 1
+      },
+      "volume_confirmed_breakout": {
+        "count": 2,
+        "gross": 0.8008649999999835,
+        "fees": 0.4428723675,
+        "net": 0.3579926324999835,
+        "wins": 2
+      },
+      "macd_stoch_trend": {
+        "count": 3,
+        "gross": -12.014395071428385,
+        "fees": 2.0198408975357145,
+        "net": -14.034235968964099,
+        "wins": 1
+      },
+      "fib_projection_reversal": {
+        "count": 1,
+        "gross": 8.354871428571409,
+        "fees": 0.5333024357142857,
+        "net": 7.821568992857123,
+        "wins": 1
+      },
+      "candlestick_reversal": {
+        "count": 1,
+        "gross": -6.274412619279436,
+        "fees": 0.5407279936903603,
+        "net": -6.815140612969796,
+        "wins": 0
+      },
+      "liquidity_sweep_reclaim": {
+        "count": 1,
+        "gross": 0.4063161526433251,
+        "fees": 0.6064755580763218,
+        "net": -0.2001594054329967,
+        "wins": 1
+      }
+    }
+  }
+}

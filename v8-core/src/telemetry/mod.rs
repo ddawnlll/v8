@@ -48,7 +48,7 @@ mod tests {
     use crate::opportunity::book::{IdentityStatus, OpportunityEpisode};
     use crate::opportunity::evidence::{HabitatAssessment, ObserverEvidence, ObserverStance};
     use crate::opportunity::reconcile::{EvidenceReconciler, ReconciledStance};
-    use crate::opportunity::utility::{FrictionModel, SelectiveUtility, UtilityAction};
+    use crate::opportunity::utility::{FrictionModel, SelectiveUtility};
     use crate::opportunity::campaign::{CampaignIntent, PortfolioFeasibilityConfig, PortfolioFeasibilityEngine};
 
     const TAPE_HASH: &str = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";

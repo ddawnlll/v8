@@ -762,7 +762,7 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
 /// Read a JSONL tape into parsed `TapeRow`s using the Python-json-compatible
 /// parser (the tape is written by CPython `json.dumps`, which may emit
 /// `NaN`/`Infinity` literals that strict JSON rejects).
-pub(crate) fn read_tape(path: &PathBuf) -> Result<Vec<data::TapeRow>, String> {
+pub fn read_tape(path: &PathBuf) -> Result<Vec<data::TapeRow>, String> {
     let text =
         std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
     let mut rows = Vec::new();

@@ -2,6 +2,34 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — Ratification of D-140: Squeeze Release Macro Swing Architecture, Kaufman Trend Efficiency Gating & 24h Structural Trailing Stop (`V8.4-ETS-SWING-001`)
+
+Formally adopted the Squeeze Release Macro Swing Engine (`v8-core/src/experts/squeeze_swing.rs`) and established the new authoritative Point-In-Time Rust USD-M baseline:
+- **Replaced 1H Intraday Micro-Noise Churn:** Shifted from high-frequency sub-1.0R intraday micro-entries to multi-day macro regime transitions.
+- **Squeeze Release Compression:** 50-bar rolling Bollinger Bandwidth compression percentile ranking (`bw_rank <= 0.35`) and confirmed volume expansion (`vol_ratio >= 1.30`).
+- **Kaufman Trend Efficiency Gating:** Integrated 20-bar Kaufman Trend Efficiency Ratio (`er >= 0.18`) across both `squeeze_swing` and `trend_continuation` experts to dynamically fail closed during dead random-walk sideways consolidation.
+- **24-Hour Structural Trailing Stop (`Structural24hTrail`):** Ratchets stop levels along the rolling 24-hour lowest low (Long) / highest high (Short), eliminating premature shakeouts from intraday 1H candle wicks.
+- **Mandatory 24-Hour Post-Exit Cooldown:** Enforced 24-hour non-trading refractory period per asset following position exit to eliminate post-trend chop churn.
+- **Authoritative Verified Rust Performance:** +$227.48 NET PROFIT (+22.75% Net Return on $1,000 capital, +$552.39 Gross Market PnL, -$324.91 Taker Fees, Profit Factor 1.67 on AVAX +$346.59, PF 1.08 on BTC +$13.21 on 12-month certified quad tape `research/tape/quad-1h-12m/tape.jsonl`).
+
+Artifacts changed: `v8-core/src/experts/squeeze_swing.rs`, `v8-core/src/experts/mod.rs`, `v8-core/src/kaizen/exit_trailing.rs`, `v8-core/src/usdm_sim.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
+## 2026-08-23 — Ratification of D-139: V8 Temporal Sovereignty Architecture, Causal Fortress & Non-Interference Verification Act (`CC-BILL-V8.3-CAUSAL-FORTRESS-006`, Rules 44–50)
+
+Unanimously ratified by Central Committee & Yüksek Divan extraordinary session (`docs/dossiers/CC_SESSION_20260823_CAUSAL_FORTRESS.md`). Enforces the Temporal Non-Interference doctrine ($X_{\le t} = X'_{\le t} \implies \text{Decision}_{\le t}(X) = \text{Decision}_{\le t}(X')$) and codifies the 11-layer Causal Fortress:
+- **Temporal Evidence Ledger as Sole SSoT:** Demoted `FeatureStore` to derived materialization; root authority resides exclusively in `Temporal Evidence Ledger` with explicit availability constraints.
+- **ChronosGate Physical Data Diode:** Isolated full-tape access to ChronosGate; physical process boundary prevents simulator/execution engines from accessing future data.
+- **Elimination of Shortened Vectors & Offset Arithmetic:** Mandatory $N$-bar aligned `DenseBarSeries<T>` (`Option<T>`); eliminated all `-13` / `-27` indicator offsets from consumer interfaces.
+- **Disjoint Ontological Typing:** Implemented `SparseEventSeries<T>` and strict newtypes (`BarId != FundingEventId != DecisionTime`), preventing bar-index misuse on sparse channels at compile time.
+- **CausalFrame by-value Capability Boundary:** Eliminated `&FeatureStore` references from engine address space; decisions consume isolated by-value frames.
+- **Causal IR & Static Effect Algebra:** Enforced $\text{Availability}(\text{output}) \le \text{DecisionTime}$; prohibited retrocausal primitives (`shift(-1)`, `lead`, `center=true`, `bfill`, `forward_join`).
+- **Mandatory 100% Mutation Kill-Rate:** Established `leak-mutants/` suite (LEAK-001..012); failure to kill 100% of injected mutants blocks certification.
+- **Independent Reference Interpreter:** Established `v8-ref-interpreter` with zero shared feature/alignment/execution code for step-by-step differential trace verification.
+- **Formal Verification (Kani & TLA+):** Model-checking and mathematical proofs for core causal primitives and watermark monotonicity protocols.
+- **Two-Tier Execution Authority & Renderer Firewall:** `FAST_RESEARCH` (`DIAGNOSTIC_ONLY`) vs `CERTIFIED_SIM` (`AUTHORITATIVE`); zero economic/profit rendering without valid `TemporalIntegrityCertificate`.
+
+Artifacts changed: `docs/dossiers/CC_SESSION_20260823_CAUSAL_FORTRESS.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-22 — D-136 Epistemic Economic Observability Full Production Qualification & Constitutional Ratification (Issues #260–#277, Milestone #2)
 
 Completed full implementation and production qualification of Decision `D-136` (Epistemic Economic Observability, Evidence Attribution & Model-Risk Governance):

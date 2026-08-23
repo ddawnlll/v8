@@ -317,7 +317,7 @@ impl CanonicalOpportunityFunnelTracker {
         for bar_idx in 32..n_bars {
             let as_of = store.avail[bar_idx];
             let current_close = store.closes[bar_idx];
-            let current_atr = store.atr.get(bar_idx).copied().unwrap_or(current_close * 0.01);
+            let current_atr = store.atr_at(bar_idx).unwrap_or(current_close * 0.01);
             let t = bar_idx + 1;
             let feats = crate::state::state_features(store, t, as_of, 32);
             let hist = crate::state::history_bars(store, t, 32);
