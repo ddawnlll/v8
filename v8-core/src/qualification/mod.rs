@@ -187,6 +187,8 @@ impl Scenario {
         for (name, value) in &mut scaled.input.structured {
             if name == "fib_levels" {
                 scale_fib_levels(value, factor)?;
+            } else if name == "consolidation_range" {
+                scale_consolidation_range(value, factor)?;
             } else {
                 scale_json_numbers(value, factor)?;
             }
@@ -206,6 +208,34 @@ impl Scenario {
         scaled.scenario_id = format!("{}:scale:{factor}", self.scenario_id);
         Ok(scaled)
     }
+}
+
+fn scale_consolidation_range(
+    value: &mut serde_json::Value,
+    factor: f64,
+) -> Result<(), V8CoreError> {
+    let arr = value.as_array_mut().ok_or_else(|| {
+        V8CoreError::QuantInvariant(
+            "consolidation_range must be an array for price-scale relation".into(),
+        )
+    })?;
+    if arr.len() != 4 {
+        return Err(V8CoreError::QuantInvariant(
+            "consolidation_range must have four fields".into(),
+        ));
+    }
+    for index in [0, 1] {
+        let level = arr[index].as_f64().ok_or_else(|| {
+            V8CoreError::QuantInvariant("consolidation_range price levels must be numeric".into())
+        })?;
+        arr[index] = serde_json::json!(level * factor);
+    }
+    if !arr[2].is_number() || !arr[3].is_boolean() {
+        return Err(V8CoreError::QuantInvariant(
+            "consolidation_range width must be numeric and active flag boolean".into(),
+        ));
+    }
+    Ok(())
 }
 
 fn scale_fib_levels(value: &mut serde_json::Value, factor: f64) -> Result<(), V8CoreError> {
@@ -572,6 +602,148 @@ pub fn trend_pullback_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn trend_pullback_depth_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "trend_pullback_depth".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "momentum".into(),
+            behavior_family_id: "trend_following".into(),
+            dependency_group: "dep_trend".into(),
+            hypothesis: "A fast-above-slow trend with a close inside the inclusive 38.2% upper impulse-retracement band supports a LONG pullback.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "ema_fast".into(),
+                "ema_slow".into(),
+                "swing_high_10".into(),
+                "swing_low_10".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: false,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.trend-pullback-depth.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn donchian_breakout_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "donchian_breakout".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "channel".into(),
+            behavior_family_id: "breakout".into(),
+            dependency_group: "dep_breakout".into(),
+            hypothesis: "A close strictly above the frozen 20-bar channel high supports the registered long-only breakout.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "window_high_20".into(),
+                "window_low_20".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: false,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.donchian-breakout.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn volume_confirmed_breakout_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "volume_confirmed_breakout".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "volume".into(),
+            behavior_family_id: "breakout".into(),
+            dependency_group: "dep_volume".into(),
+            hypothesis: "A strict channel break with a declared volume-confirmation gate supports the breakout direction.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "volume".into(),
+                "vol_smooth_ma".into(),
+                "window_high_20".into(),
+                "window_low_20".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.volume-confirmed-breakout.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn range_breakout_1to1_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "range_breakout_1to1".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "range".into(),
+            behavior_family_id: "breakout".into(),
+            dependency_group: "dep_breakout".into(),
+            hypothesis: "A single-bar strict escape from an active narrow 20-bar consolidation range supports the matching 1:1 breakout direction.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "window_high_20".into(),
+                "window_low_20".into(),
+                "range_height_20".into(),
+                "consolidation_range".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.range-breakout-1to1.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 fn base_input() -> ScenarioInput {
     ScenarioInput {
         symbol: "BTCUSDT".into(),
@@ -608,6 +780,20 @@ fn base_input() -> ScenarioInput {
             ema_slow: 0.0,
         }],
     }
+}
+
+fn channel_history() -> Vec<ScenarioBar> {
+    (0..21)
+        .map(|index| ScenarioBar {
+            event_id: format!("channel-{index}"),
+            open: 95.0,
+            high: if index == 20 { 102.0 } else { 100.0 },
+            low: 90.0,
+            close: if index == 20 { 101.0 } else { 95.0 },
+            ema_fast: 95.0,
+            ema_slow: 95.0,
+        })
+        .collect()
 }
 
 fn scenario(
@@ -901,6 +1087,219 @@ pub fn trend_pullback_scenarios() -> Vec<Scenario> {
             "tp-missing",
             ScenarioClass::Contract,
             "TP-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn trend_pullback_depth_scenarios() -> Vec<Scenario> {
+    let mut positive = base_input();
+    positive.scalars.insert("close".into(), 115.0);
+    positive.scalars.insert("ema_fast".into(), 121.0);
+    positive.scalars.insert("ema_slow".into(), 120.0);
+    positive.scalars.insert("swing_high_10".into(), 120.0);
+    positive.scalars.insert("swing_low_10".into(), 100.0);
+    let mut inclusive_boundary = positive.clone();
+    inclusive_boundary.scalars.insert("close".into(), 112.36);
+    let mut negative = positive.clone();
+    negative.scalars.insert("close".into(), 112.35);
+    let mut flat_trend = positive.clone();
+    flat_trend.scalars.insert("ema_fast".into(), 120.0);
+    let mut missing = positive.clone();
+    missing.scalars.remove("swing_high_10");
+    vec![
+        scenario(
+            "tpd-positive",
+            ScenarioClass::CanonicalPositive,
+            "TPD-POS",
+            positive,
+            ExpectedStance::SupportLong,
+            &["aligned-trend", "depth-under-382", "long"],
+        ),
+        scenario(
+            "tpd-inclusive-boundary",
+            ScenarioClass::Boundary,
+            "TPD-BOUNDARY-INCLUSIVE",
+            inclusive_boundary,
+            ExpectedStance::SupportLong,
+            &["depth-equals-382"],
+        ),
+        scenario(
+            "tpd-negative",
+            ScenarioClass::CanonicalNegative,
+            "TPD-NEG",
+            negative,
+            ExpectedStance::Abstain,
+            &["depth-over-382"],
+        ),
+        scenario(
+            "tpd-flat-trend",
+            ScenarioClass::Boundary,
+            "TPD-FLAT-TREND",
+            flat_trend,
+            ExpectedStance::Abstain,
+            &["flat-trend-boundary"],
+        ),
+        scenario(
+            "tpd-missing",
+            ScenarioClass::Contract,
+            "TPD-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn donchian_breakout_scenarios() -> Vec<Scenario> {
+    let mut positive = base_input();
+    positive.history = channel_history();
+    positive.scalars.insert("close".into(), 101.0);
+    positive.scalars.insert("window_high_20".into(), 100.0);
+    positive.scalars.insert("window_low_20".into(), 90.0);
+    let mut boundary = positive.clone();
+    boundary.scalars.insert("close".into(), 100.0);
+    let mut negative = positive.clone();
+    negative.scalars.insert("close".into(), 99.0);
+    let mut missing = positive.clone();
+    missing.scalars.remove("window_high_20");
+    vec![
+        scenario(
+            "donchian-positive",
+            ScenarioClass::CanonicalPositive,
+            "DONCHIAN-POS",
+            positive,
+            ExpectedStance::SupportLong,
+            &["channel-20", "strict-high-break", "long"],
+        ),
+        scenario(
+            "donchian-boundary",
+            ScenarioClass::Boundary,
+            "DONCHIAN-BOUNDARY",
+            boundary,
+            ExpectedStance::Abstain,
+            &["equal-high-boundary"],
+        ),
+        scenario(
+            "donchian-negative",
+            ScenarioClass::CanonicalNegative,
+            "DONCHIAN-NEG",
+            negative,
+            ExpectedStance::Abstain,
+            &["inside-channel"],
+        ),
+        scenario(
+            "donchian-missing",
+            ScenarioClass::Contract,
+            "DONCHIAN-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn volume_confirmed_breakout_scenarios() -> Vec<Scenario> {
+    let mut positive = base_input();
+    positive.history = channel_history();
+    positive.scalars.insert("close".into(), 101.0);
+    positive.scalars.insert("volume".into(), 130.0);
+    positive.scalars.insert("vol_smooth_ma".into(), 100.0);
+    positive.scalars.insert("window_high_20".into(), 100.0);
+    positive.scalars.insert("window_low_20".into(), 90.0);
+    let mut volume_negative = positive.clone();
+    volume_negative.scalars.insert("volume".into(), 100.0);
+    let mut price_boundary = positive.clone();
+    price_boundary.scalars.insert("close".into(), 100.0);
+    let mut missing = positive.clone();
+    missing.scalars.remove("volume");
+    vec![
+        scenario(
+            "vcb-positive",
+            ScenarioClass::CanonicalPositive,
+            "VCB-POS",
+            positive,
+            ExpectedStance::SupportLong,
+            &["channel-break", "volume-confirmed", "long"],
+        ),
+        scenario(
+            "vcb-volume-negative",
+            ScenarioClass::CanonicalNegative,
+            "VCB-NO-VOLUME",
+            volume_negative,
+            ExpectedStance::Abstain,
+            &["volume-not-confirmed"],
+        ),
+        scenario(
+            "vcb-price-boundary",
+            ScenarioClass::Boundary,
+            "VCB-EQUAL-CHANNEL",
+            price_boundary,
+            ExpectedStance::Abstain,
+            &["equal-channel-boundary"],
+        ),
+        scenario(
+            "vcb-missing",
+            ScenarioClass::Contract,
+            "VCB-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn range_breakout_1to1_scenarios() -> Vec<Scenario> {
+    let mut positive = base_input();
+    positive.history = channel_history();
+    positive.scalars.insert("close".into(), 101.0);
+    positive.scalars.insert("window_high_20".into(), 100.0);
+    positive.scalars.insert("window_low_20".into(), 90.0);
+    positive.scalars.insert("range_height_20".into(), 10.0);
+    positive.structured.insert(
+        "consolidation_range".into(),
+        serde_json::json!([100.0, 90.0, 0.02, true]),
+    );
+    let mut price_boundary = positive.clone();
+    price_boundary.scalars.insert("close".into(), 100.0);
+    let mut wide_range = positive.clone();
+    wide_range.structured.insert(
+        "consolidation_range".into(),
+        serde_json::json!([100.0, 90.0, 0.030_001, true]),
+    );
+    let mut missing = positive.clone();
+    missing.structured.remove("consolidation_range");
+    vec![
+        scenario(
+            "range-positive",
+            ScenarioClass::CanonicalPositive,
+            "RANGE-POS",
+            positive,
+            ExpectedStance::SupportLong,
+            &["channel-break", "narrow-range", "single-bar", "long"],
+        ),
+        scenario(
+            "range-price-boundary",
+            ScenarioClass::Boundary,
+            "RANGE-EQUAL-CHANNEL",
+            price_boundary,
+            ExpectedStance::Abstain,
+            &["equal-channel-boundary"],
+        ),
+        scenario(
+            "range-width-negative",
+            ScenarioClass::CanonicalNegative,
+            "RANGE-WIDE",
+            wide_range,
+            ExpectedStance::Abstain,
+            &["wide-range"],
+        ),
+        scenario(
+            "range-missing",
+            ScenarioClass::Contract,
+            "RANGE-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -1859,6 +2258,19 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             liquidity_sweep_reclaim_scenarios(),
         ),
         (trend_pullback_manifest(), trend_pullback_scenarios()),
+        (
+            trend_pullback_depth_manifest(),
+            trend_pullback_depth_scenarios(),
+        ),
+        (donchian_breakout_manifest(), donchian_breakout_scenarios()),
+        (
+            volume_confirmed_breakout_manifest(),
+            volume_confirmed_breakout_scenarios(),
+        ),
+        (
+            range_breakout_1to1_manifest(),
+            range_breakout_1to1_scenarios(),
+        ),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -2086,6 +2498,129 @@ mod tests {
     }
 
     #[test]
+    fn trend_pullback_depth_inclusive_boundary_and_metamorphic_contracts_pass() {
+        let manifest = trend_pullback_depth_manifest();
+        let scenarios = trend_pullback_depth_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("trend_pullback_depth", relation, positive)
+                    .unwrap()
+                    .passed,
+                "metamorphic relation {relation:?} failed"
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("trend_pullback_depth", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
+            "mutation survived"
+        );
+    }
+
+    #[test]
+    fn donchian_breakout_channel_contract_and_metamorphic_relations_pass() {
+        let manifest = donchian_breakout_manifest();
+        let scenarios = donchian_breakout_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("donchian_breakout", relation, positive)
+                    .unwrap()
+                    .passed,
+                "metamorphic relation {relation:?} failed"
+            );
+        }
+        let mutation = MutationReport::from_receipts(kill_mutants("donchian_breakout", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
+            "mutation survived"
+        );
+    }
+
+    #[test]
+    fn volume_confirmed_breakout_channel_and_volume_contracts_pass() {
+        let manifest = volume_confirmed_breakout_manifest();
+        let scenarios = volume_confirmed_breakout_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("volume_confirmed_breakout", relation, positive)
+                    .unwrap()
+                    .passed,
+                "metamorphic relation {relation:?} failed"
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("volume_confirmed_breakout", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
+            "mutation survived"
+        );
+    }
+
+    #[test]
+    fn range_breakout_preserves_dimensionless_width_under_price_scaling() {
+        let manifest = range_breakout_1to1_manifest();
+        let scenarios = range_breakout_1to1_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("range_breakout_1to1", relation, positive)
+                    .unwrap()
+                    .passed,
+                "metamorphic relation {relation:?} failed"
+            );
+        }
+        let mutation =
+            MutationReport::from_receipts(kill_mutants("range_breakout_1to1", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
+            "mutation survived"
+        );
+    }
+
+    #[test]
     fn all_critical_mutants_are_killed_by_the_pilot_suite() {
         let scenarios = failed_breakout_scenarios();
         let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
@@ -2155,7 +2690,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 4);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 8);
         assert!(!suite
             .passports
             .iter()

@@ -16,6 +16,10 @@ D-141 semantic scenarios are Rust `#[cfg(test)]` fixtures. The production CLI ha
 | `fib_projection_reversal:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
 | `liquidity_sweep_reclaim:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
 | `trend_pullback:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `trend_pullback_depth:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `donchian_breakout:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `volume_confirmed_breakout:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `range_breakout_1to1:v1` | D-141 manifest hash in test evidence | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
 
 The other registered generator-experts are intentionally not counted as passed or failed until they receive their own Behavior Card and manifest. The denominator is 28, not 29: `predicate` is a post-entry thesis evaluator rather than an Expert witness. Registry manifest coverage is reported separately from the executed-test pass rate.
 
