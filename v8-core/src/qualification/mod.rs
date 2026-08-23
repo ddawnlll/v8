@@ -200,6 +200,8 @@ impl Scenario {
                     | "gap_dir"
                     | "bb_pct_b"
                     | "bb_bandwidth"
+                    | "stoch_k"
+                    | "stoch_d"
             ) {
                 *value *= factor;
             }
@@ -612,6 +614,17 @@ pub fn breakout_retest_manifest() -> ExpertQualificationManifest {
             declared_features: vec!["close".into(), "atr".into(), "swing_high_10".into(), "swing_low_10".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
         },
         scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.breakout-retest.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn macd_stoch_trend_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "macd_stoch_trend".into(), expert_version: "v1".into(), mechanism_family_id: "oscillator".into(), behavior_family_id: "trend_crossover".into(), dependency_group: "dep_oscillator".into(),
+            hypothesis: "The registered branch supports a stochastic K/D cross only if the independently declared MACD sign agrees, and the state stochastic values agree with the recomputed 14,3 history window.".into(),
+            declared_features: vec!["close".into(), "stoch_k".into(), "stoch_d".into(), "macd".into(), "macd_signal".into(), "macd_hist".into(), "atr".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
+        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.macd-stoch-trend.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
     }
 }
 
@@ -1410,6 +1423,113 @@ pub fn breakout_retest_scenarios() -> Vec<Scenario> {
             "retest-missing",
             ScenarioClass::Contract,
             "RETEST-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn macd_stoch_trend_scenarios() -> Vec<Scenario> {
+    let mut long = base_input();
+    long.history = (0..17)
+        .map(|index| {
+            let (high, low, close) = match index {
+                15 => (101.0, 90.0, 90.0),
+                16 => (110.0, 90.0, 110.0),
+                _ => (101.0, 99.0, 100.0),
+            };
+            ScenarioBar {
+                event_id: format!("stoch-long-{index}"),
+                open: close,
+                high,
+                low,
+                close,
+                ema_fast: 0.0,
+                ema_slow: 0.0,
+            }
+        })
+        .collect();
+    long.scalars = BTreeMap::from([
+        ("close".into(), 110.0),
+        ("stoch_k".into(), 100.0),
+        ("stoch_d".into(), 50.0),
+        ("macd".into(), 1.0),
+        ("macd_signal".into(), 0.5),
+        ("macd_hist".into(), 0.5),
+        ("atr".into(), 2.0),
+    ]);
+    let mut short = base_input();
+    short.history = (0..17)
+        .map(|index| {
+            let (high, low, close) = match index {
+                15 => (110.0, 99.0, 110.0),
+                16 => (110.0, 90.0, 90.0),
+                _ => (101.0, 99.0, 100.0),
+            };
+            ScenarioBar {
+                event_id: format!("stoch-short-{index}"),
+                open: close,
+                high,
+                low,
+                close,
+                ema_fast: 0.0,
+                ema_slow: 0.0,
+            }
+        })
+        .collect();
+    short.scalars = BTreeMap::from([
+        ("close".into(), 90.0),
+        ("stoch_k".into(), 0.0),
+        ("stoch_d".into(), 50.0),
+        ("macd".into(), -1.0),
+        ("macd_signal".into(), -0.5),
+        ("macd_hist".into(), -0.5),
+        ("atr".into(), 2.0),
+    ]);
+    let mut negative = long.clone();
+    negative.scalars.insert("macd".into(), -1.0);
+    let mut boundary = long.clone();
+    boundary.scalars.insert("macd".into(), 0.0);
+    let mut missing = long.clone();
+    missing.scalars.remove("stoch_d");
+    vec![
+        scenario(
+            "stoch-macd-long",
+            ScenarioClass::CanonicalPositive,
+            "STOCH-MACD-LONG",
+            long,
+            ExpectedStance::SupportLong,
+            &["up-cross", "positive-macd", "long"],
+        ),
+        scenario(
+            "stoch-macd-short",
+            ScenarioClass::CanonicalPositive,
+            "STOCH-MACD-SHORT",
+            short,
+            ExpectedStance::SupportShort,
+            &["down-cross", "negative-macd", "short"],
+        ),
+        scenario(
+            "stoch-macd-disagree",
+            ScenarioClass::CanonicalNegative,
+            "STOCH-MACD-DISAGREE",
+            negative,
+            ExpectedStance::Abstain,
+            &["sign-disagrees"],
+        ),
+        scenario(
+            "stoch-macd-zero",
+            ScenarioClass::Boundary,
+            "STOCH-MACD-ZERO",
+            boundary,
+            ExpectedStance::Abstain,
+            &["zero-macd-boundary"],
+        ),
+        scenario(
+            "stoch-macd-missing",
+            ScenarioClass::Contract,
+            "STOCH-MACD-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -3568,6 +3688,7 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             failed_breakout_2b_scenarios(),
         ),
         (breakout_retest_manifest(), breakout_retest_scenarios()),
+        (macd_stoch_trend_manifest(), macd_stoch_trend_scenarios()),
         (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
@@ -3792,6 +3913,32 @@ mod tests {
             );
         }
         let mutation = MutationReport::from_receipts(kill_mutants("breakout_retest", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed,
+            mutation.non_equivalent_generated
+        );
+    }
+
+    #[test]
+    fn macd_stoch_trend_requires_history_cross_and_macd_agreement() {
+        let manifest = macd_stoch_trend_manifest();
+        let scenarios = macd_stoch_trend_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total());
+        let positive = scenarios.first().unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("macd_stoch_trend", relation, positive)
+                    .unwrap()
+                    .passed
+            );
+        }
+        let mutation = MutationReport::from_receipts(kill_mutants("macd_stoch_trend", &scenarios));
         assert_eq!(
             mutation.non_equivalent_killed,
             mutation.non_equivalent_generated
@@ -4381,7 +4528,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 20);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 21);
         assert!(!suite
             .passports
             .iter()
