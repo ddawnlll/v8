@@ -33,9 +33,9 @@ impl MechanismFamily {
             | "pandf_breakout" | "pattern_measuring_objective" => Self::PriceStructure,
 
             "macd_stoch_trend" | "trend_pullback" | "trend_pullback_depth"
-            | "ichimoku_cloud" | "donchian_breakout" => Self::Trend,
+            | "ichimoku_cloud" | "donchian_breakout" | "trend_continuation" => Self::Trend,
 
-            "bollinger_breakout" | "bollinger_reversion" | "fib_rsi_bb_confluence" => {
+            "bollinger_breakout" | "bollinger_reversion" | "fib_rsi_bb_confluence" | "squeeze_swing" => {
                 Self::Volatility
             }
 

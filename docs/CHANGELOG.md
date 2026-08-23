@@ -2,6 +2,74 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — Ratification of D-140: Squeeze Release Macro Swing Architecture, Kaufman Trend Efficiency Gating & 24h Structural Trailing Stop (`V8.4-ETS-SWING-001`)
+
+Formally adopted the Squeeze Release Macro Swing Engine (`v8-core/src/experts/squeeze_swing.rs`) and established the new authoritative Point-In-Time Rust USD-M baseline:
+- **Replaced 1H Intraday Micro-Noise Churn:** Shifted from high-frequency sub-1.0R intraday micro-entries to multi-day macro regime transitions.
+- **Squeeze Release Compression:** 50-bar rolling Bollinger Bandwidth compression percentile ranking (`bw_rank <= 0.35`) and confirmed volume expansion (`vol_ratio >= 1.30`).
+- **Kaufman Trend Efficiency Gating:** Integrated 20-bar Kaufman Trend Efficiency Ratio (`er >= 0.18`) across both `squeeze_swing` and `trend_continuation` experts to dynamically fail closed during dead random-walk sideways consolidation.
+- **24-Hour Structural Trailing Stop (`Structural24hTrail`):** Ratchets stop levels along the rolling 24-hour lowest low (Long) / highest high (Short), eliminating premature shakeouts from intraday 1H candle wicks.
+- **Mandatory 24-Hour Post-Exit Cooldown:** Enforced 24-hour non-trading refractory period per asset following position exit to eliminate post-trend chop churn.
+- **Authoritative Verified Rust Performance:** +$227.48 NET PROFIT (+22.75% Net Return on $1,000 capital, +$552.39 Gross Market PnL, -$324.91 Taker Fees, Profit Factor 1.67 on AVAX +$346.59, PF 1.08 on BTC +$13.21 on 12-month certified quad tape `research/tape/quad-1h-12m/tape.jsonl`).
+
+Artifacts changed: `v8-core/src/experts/squeeze_swing.rs`, `v8-core/src/experts/mod.rs`, `v8-core/src/kaizen/exit_trailing.rs`, `v8-core/src/usdm_sim.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
+## 2026-08-23 — Ratification of D-139: V8 Temporal Sovereignty Architecture, Causal Fortress & Non-Interference Verification Act (`CC-BILL-V8.3-CAUSAL-FORTRESS-006`, Rules 44–50)
+
+Unanimously ratified by Central Committee & Yüksek Divan extraordinary session (`docs/dossiers/CC_SESSION_20260823_CAUSAL_FORTRESS.md`). Enforces the Temporal Non-Interference doctrine ($X_{\le t} = X'_{\le t} \implies \text{Decision}_{\le t}(X) = \text{Decision}_{\le t}(X')$) and codifies the 11-layer Causal Fortress:
+- **Temporal Evidence Ledger as Sole SSoT:** Demoted `FeatureStore` to derived materialization; root authority resides exclusively in `Temporal Evidence Ledger` with explicit availability constraints.
+- **ChronosGate Physical Data Diode:** Isolated full-tape access to ChronosGate; physical process boundary prevents simulator/execution engines from accessing future data.
+- **Elimination of Shortened Vectors & Offset Arithmetic:** Mandatory $N$-bar aligned `DenseBarSeries<T>` (`Option<T>`); eliminated all `-13` / `-27` indicator offsets from consumer interfaces.
+- **Disjoint Ontological Typing:** Implemented `SparseEventSeries<T>` and strict newtypes (`BarId != FundingEventId != DecisionTime`), preventing bar-index misuse on sparse channels at compile time.
+- **CausalFrame by-value Capability Boundary:** Eliminated `&FeatureStore` references from engine address space; decisions consume isolated by-value frames.
+- **Causal IR & Static Effect Algebra:** Enforced $\text{Availability}(\text{output}) \le \text{DecisionTime}$; prohibited retrocausal primitives (`shift(-1)`, `lead`, `center=true`, `bfill`, `forward_join`).
+- **Mandatory 100% Mutation Kill-Rate:** Established `leak-mutants/` suite (LEAK-001..012); failure to kill 100% of injected mutants blocks certification.
+- **Independent Reference Interpreter:** Established `v8-ref-interpreter` with zero shared feature/alignment/execution code for step-by-step differential trace verification.
+- **Formal Verification (Kani & TLA+):** Model-checking and mathematical proofs for core causal primitives and watermark monotonicity protocols.
+- **Two-Tier Execution Authority & Renderer Firewall:** `FAST_RESEARCH` (`DIAGNOSTIC_ONLY`) vs `CERTIFIED_SIM` (`AUTHORITATIVE`); zero economic/profit rendering without valid `TemporalIntegrityCertificate`.
+
+Artifacts changed: `docs/dossiers/CC_SESSION_20260823_CAUSAL_FORTRESS.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
+## 2026-08-22 — D-136 Epistemic Economic Observability Full Production Qualification & Constitutional Ratification (Issues #260–#277, Milestone #2)
+
+Completed full implementation and production qualification of Decision `D-136` (Epistemic Economic Observability, Evidence Attribution & Model-Risk Governance):
+- **Eradicated Placeholder Evidence (EEO-R01):** Removed all synthetic and mock fallbacks across providers P01–P12.
+- **Double-Entry Cashflow Conservation (P01 / EEO-R02):** Reconciled physical cashflows to within $\epsilon \le 10^{-8}$ ($\Delta = \$0.00000000$).
+- **Lineage & Monotonicity (P02, P03 / EEO-R03, EEO-R04):** Verified structural DAG lineage across 577 spans with zero retrocausal dependencies.
+- **Venue Fidelity & Calibration (P04, P05 / EEO-R05, EEO-R06):** Enforced Binance USD-M discretization rules and fail-closed ex-ante calibration.
+- **Oracle Funnel & Multiplicity (P06, P08, P11 / EEO-R07, EEO-R09, EEO-R13):** Connected 7-stage opportunity capture funnel and Holm-Bonferroni trial accounting.
+- **Implementation Shortfall & Causal Falsification (P09, P12 / EEO-R10, EEO-R14):** Empirical decomposition of fee, funding, slippage, and confounder detection.
+- **Canonical Report Generation & Production Qualification (EEO-R15, EEO-R16, EEO-R17):** Generated `.audit/eeo/current/ECONOMIC_PATHOLOGY_REPORT.json` on certified 12m BTCUSDT tape (8,760 bars) and achieved 14/14 fault localization in Q01–Q15 harness.
+- **Constitutional Ratification (EEO-R18):** Formally ratified D-136 as `LOCKED_INVARIANT` and published `docs/dossiers/D136_RATIFICATION_DOSSIER.md`.
+
+Artifacts changed: `v8-core/src/eeo/*`, `v8-core/src/telemetry/*`, `v8-core/src/main.rs`, `.audit/eeo/current/ECONOMIC_PATHOLOGY_REPORT.json`, `docs/dossiers/D136_RATIFICATION_DOSSIER.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
+## 2026-08-22 — D-136 Epistemic Economic Observability Monograph Integration (`D-136-RP-001`)
+
+Integrated the canonical D-136 Epistemic Economic Observability, Evidence Attribution & Model-Risk Governance monograph section into both English and Turkish documentation suites (`docs/audits/D136_EPISTEMIC_ECONOMIC_OBSERVABILITY.md` and `docs/tr/D136_EPISTEMIC_ECONOMIC_OBSERVABILITY.md`).
+Documented the Three-Plane Architecture (Telemetry, Evidence, Governance), `EconomicTraceContext`, `DecisionBeliefLedger`, Evidence Provider Interface (`AuditEvidenceProvider`, P01–P12), `EvidenceGraph`, Upstream Invalidation Replay, and the As-Built Status Matrix explicitly disclosing non-authoritative scaffold implementation debt.
+Synchronized `tools/build_monograph.py`, regenerated `site/index.html` and `site/tr.html`, and updated `DECISION_REGISTER.md` and `IMPLEMENTATION_LAYOUT.md`.
+
+Artifacts changed: `docs/audits/D136_EPISTEMIC_ECONOMIC_OBSERVABILITY.md`, `docs/tr/D136_EPISTEMIC_ECONOMIC_OBSERVABILITY.md`, `tools/build_monograph.py`, `site/index.html`, `site/tr.html`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
+## 2026-08-22 — D-138 prospective shadow boundary and canonical artifact lineage (Issues #256, #258)
+
+Added the Rust-only, non-economic `v8-core/src/shadow.rs` boundary. Sealed
+prospective manifests bind code, configuration, dataset, authority, freeze
+cutoff, incumbent, challenger, and artifact namespace. The runner enforces
+strictly post-freeze chronological observations, content-addressed input
+bindings, idempotent writes, mixed-output rejection, and permanent
+`NO_ECONOMIC_CLAIM` / `PROMOTION_FORBIDDEN` status. Added the `shadow` and
+`artifact-index` CLI subcommands; the latter binds declared audit/report/ledger
+files to one manifest and rejects duplicate or self-referential bundles. Added
+embedded tests for cutoff, deterministic replay, mixed/stale artifact rejection.
+The economic OOS/succession experiment remains separately gated under Issue
+#255 and was not opened.
+
+Artifacts changed: `v8-core/src/shadow.rs`, `v8-core/src/main.rs`,
+`docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`,
+`docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-22 — Removal of retired V8.2 executable tooling (D-137)
 
 Removed the legacy V8.2 Python execution, diagnostic, regret, tape-building,

@@ -25,6 +25,7 @@ pub mod campaign;
 pub mod runloop;
 pub mod harness_t1_t12;
 pub mod funnel;
+pub mod frontier;
 
 pub use exposure::{
     EconomicExposureStructure, ExposureDirection, ExposureLeg, ExposureResolver, HorizonClass,

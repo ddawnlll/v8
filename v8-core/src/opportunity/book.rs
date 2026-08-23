@@ -81,6 +81,17 @@ impl OpportunityEpisode {
         c.push_str(&self.lineage_hash);
         c.finish_blake3_hex()
     }
+
+    /// Creates an `EconomicTraceContext` bound to this episode.
+    pub fn to_trace_context(
+        &self,
+        tape_hash: &str,
+        policy_hash: &str,
+        constitution_hash: &str,
+        code_hash: &str,
+    ) -> Result<crate::telemetry::EconomicTraceContext, V8CoreError> {
+        crate::telemetry::EconomicTraceContext::from_episode(self, tape_hash, policy_hash, constitution_hash, code_hash)
+    }
 }
 
 /// Canonical Opportunity Book holding Expert-independent opportunity episodes.

@@ -36,6 +36,8 @@ pub mod pattern_measuring_objective;
 pub mod predicate;
 pub mod range_breakout_1to1;
 pub mod rsi_stoch_reversion;
+pub mod squeeze_swing;
+pub mod trend_continuation;
 pub mod trend_pullback;
 pub mod trend_pullback_depth;
 pub mod volume_climax_reversal;

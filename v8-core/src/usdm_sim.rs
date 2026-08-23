@@ -49,6 +49,8 @@ pub struct UsdmSimParams {
     pub engine_mode: Option<String>,
     #[serde(default)]
     pub exit_arm: Option<ExitArm>,
+    #[serde(default)]
+    pub symbol: Option<String>,
 }
 
 fn default_initial_balance() -> f64 {
@@ -85,6 +87,8 @@ pub struct PortfolioReceipt {
     pub rejections_by_reason: BTreeMap<String, usize>,
     pub cashflow_ledger_path: String,
     pub venue_contract_hash: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub frontier_receipt: Option<crate::opportunity::frontier::EconomicFrontierReceipt>,
 }
 
 /// Runs the USD-M finite-capital simulation engine with Kaizen architecture.
@@ -94,18 +98,19 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
     let ds = Dataset::from_rows(rows).map_err(|e| e.to_string())?;
     let stores = crate::state::build_stores(&ds);
 
-    let store = stores
-        .iter()
-        .find(|s| s.symbol == "BTCUSDT")
-        .or_else(|| stores.first())
-        .ok_or_else(|| "No symbol series found in tape".to_string())?;
+    let store = match &params.symbol {
+        Some(sym) => stores.iter().find(|s| s.symbol == *sym),
+        None => stores.iter().find(|s| s.symbol == "BTCUSDT"),
+    }
+    .or_else(|| stores.first())
+    .ok_or_else(|| "No symbol series found in tape".to_string())?;
 
     let n_bars = store.closes.len();
     if n_bars == 0 {
         return Err("Tape is empty".to_string());
     }
 
-    let contract = VenueContract::binance_btcusdt_perpetual();
+    let contract = VenueContract::for_symbol(&store.symbol);
     let mut account = AccountState::new(params.initial_balance);
     account.margin_mode = MarginMode::Isolated;
 
@@ -118,6 +123,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
 
     let mut campaign_reg = PersistentCampaignRegistry::new();
     let mut trailing_states: HashMap<String, TrailingState> = HashMap::new();
+    let mut last_exit_bar: Option<usize> = None;
     let mut last_failed_bar: Option<usize> = None;
     let mut last_failed_dir: Option<String> = None;
 
@@ -146,20 +152,18 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
         })
         .collect();
 
+    let mut all_emitted_candidates: Vec<(usize, String)> = Vec::new();
     let mut bar_votes: Vec<SensorVote> = Vec::with_capacity(32);
 
     for i in 0..n_bars {
-        let current_close = store.closes[i];
-        let current_open = store.opens[i];
-        let current_high = store.highs[i];
-        let current_low = store.lows[i];
-        let current_atr = store.atr.get(i).copied().unwrap_or(current_close * 0.01);
-        let as_of = store.avail[i];
-        let current_funding_rate = if i < store.funding_rate.len() {
-            store.funding_rate[i]
-        } else {
-            0.0
-        };
+        let frame = store.causal_frame(i);
+        let current_close = frame.close;
+        let current_open = frame.open;
+        let current_high = frame.high;
+        let current_low = frame.low;
+        let current_atr = frame.atr.unwrap_or(current_close * 0.01);
+        let as_of = frame.decision_time.0;
+        let current_funding_rate = frame.funding_rate;
 
         // 1. Settle 8-hour funding cashflows if applicable
         if (as_of % (8 * 3600 * 1_000_000_000)) == 0 && !portfolio.positions.is_empty() {
@@ -196,10 +200,14 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     (pos.entry_price - exit_price) * pos.quantity
                 };
                 let taker_fee = exit_price * pos.quantity * account.effective_fee_rate(false);
+                let entry_fee = pos.entry_price * pos.quantity * account.effective_fee_rate(false);
+                let total_fee = entry_fee + taker_fee;
 
                 account.release_margin(pos.initial_margin_usdt);
                 account.apply_realized_pnl(gross_pnl);
                 account.deduct_fee(taker_fee);
+
+                let balance_before = account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee;
 
                 let flow = EconomicCashflow::new(
                     as_of,
@@ -210,15 +218,16 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     pos.entry_price,
                     exit_price,
                     gross_pnl,
-                    taker_fee,
+                    total_fee,
                     pos.cum_funding_usdt,
                     0.0,
                     0.0,
-                    account.wallet_balance_usdt - (gross_pnl - taker_fee),
+                    balance_before,
                     account.margin_utilization_pct(),
                 )?;
                 ledger.record(flow)?;
                 trailing_states.remove(&pos.position_id);
+                last_exit_bar = Some(i);
                 last_failed_bar = Some(i);
                 last_failed_dir = Some(pos.direction);
                 continue;
@@ -229,7 +238,18 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
             let mut exit_price = pos.stop_loss_price;
 
             if let Some(tstate) = trailing_states.get_mut(&pos.position_id) {
-                if let Some(res) = DynamicTrailingEngine::step_bar(tstate, i, current_high, current_low, current_close, current_atr, None) {
+                let engine_str = params.engine_mode.as_deref().unwrap_or("default");
+                let trail_window: usize = match engine_str {
+                    "macro-m2" | "macro-m3" | "macro-swing" => 48,
+                    _ => 24,
+                };
+                let s_trail = i.saturating_sub(trail_window.saturating_sub(1));
+                let struct_stop = if pos.direction == "LONG" {
+                    store.lows[s_trail..=i].iter().cloned().fold(f64::INFINITY, f64::min)
+                } else {
+                    store.highs[s_trail..=i].iter().cloned().fold(f64::NEG_INFINITY, f64::max)
+                };
+                if let Some(res) = DynamicTrailingEngine::step_bar(tstate, i, current_high, current_low, current_close, current_atr, Some(struct_stop)) {
                     stop_exit = true;
                     exit_price = res.exit_price;
                 }
@@ -252,15 +272,21 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     (pos.entry_price - exit_price) * pos.quantity
                 };
                 let taker_fee = exit_price * pos.quantity * account.effective_fee_rate(false);
+                let entry_fee = pos.entry_price * pos.quantity * account.effective_fee_rate(false);
+                let total_fee = entry_fee + taker_fee;
 
                 account.release_margin(pos.initial_margin_usdt);
                 account.apply_realized_pnl(gross_pnl);
                 account.deduct_fee(taker_fee);
 
+                last_exit_bar = Some(i);
                 if gross_pnl < 0.0 {
-                    last_failed_bar = Some(i);
+                    last_exit_bar = Some(i);
+                last_failed_bar = Some(i);
                     last_failed_dir = Some(pos.direction.clone());
                 }
+
+                let balance_before = account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee;
 
                 let flow = EconomicCashflow::new(
                     as_of,
@@ -271,11 +297,11 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     pos.entry_price,
                     exit_price,
                     gross_pnl,
-                    taker_fee,
+                    total_fee,
                     pos.cum_funding_usdt,
                     0.0,
                     0.0,
-                    account.wallet_balance_usdt - (gross_pnl - taker_fee),
+                    balance_before,
                     account.margin_utilization_pct(),
                 )?;
                 ledger.record(flow)?;
@@ -283,8 +309,9 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                 continue;
             }
 
-            // C. Check Maximum Expiry (72 hours = 72 bars for campaigns)
-            if (i + 1) >= (pos.entry_time as usize + 72) {
+            // C. Check Maximum Expiry (336 hours = 14 days for macro swing, 72 hours for standard campaigns)
+            let max_bars = if pos.candidate_id.contains("squeeze_swing") { 336 } else { 72 };
+            if (i + 1) >= (pos.entry_time as usize + max_bars) {
                 let exit_price = current_close;
                 let gross_pnl = if pos.direction == "LONG" {
                     (exit_price - pos.entry_price) * pos.quantity
@@ -292,10 +319,14 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     (pos.entry_price - exit_price) * pos.quantity
                 };
                 let taker_fee = exit_price * pos.quantity * account.effective_fee_rate(false);
+                let entry_fee = pos.entry_price * pos.quantity * account.effective_fee_rate(false);
+                let total_fee = entry_fee + taker_fee;
 
                 account.release_margin(pos.initial_margin_usdt);
                 account.apply_realized_pnl(gross_pnl);
                 account.deduct_fee(taker_fee);
+
+                let balance_before = account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee;
 
                 let flow = EconomicCashflow::new(
                     as_of,
@@ -306,11 +337,11 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     pos.entry_price,
                     exit_price,
                     gross_pnl,
-                    taker_fee,
+                    total_fee,
                     pos.cum_funding_usdt,
                     0.0,
                     0.0,
-                    account.wallet_balance_usdt - (gross_pnl - taker_fee),
+                    balance_before,
                     account.margin_utilization_pct(),
                 )?;
                 ledger.record(flow)?;
@@ -432,11 +463,52 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     }
                 }
             } else {
+                let engine_str = params.engine_mode.as_deref().unwrap_or("default");
+                let is_squeeze_mode = matches!(engine_str, "squeeze-swing" | "swing" | "macro-m1" | "macro-m2" | "macro-m3" | "macro-swing");
                 let feats = state::state_features(store, t, as_of, 32);
-                let hist = state::history_bars(store, t, 32);
+                let hist = state::history_bars(store, t, 128);
                 bar_votes.clear();
 
+                // Compute PIT Dynamic Volume Expansion & Volatility Compression on bar i
+                let vol_cur = store.volumes.get(i).copied().unwrap_or(1.0);
+                let s20 = i.saturating_sub(19);
+                let vol_sum: f64 = store.volumes[s20..=i].iter().copied().sum();
+                let vol_avg20 = vol_sum / (i - s20 + 1) as f64;
+                let vol_ratio = if vol_avg20 > 0.0 { vol_cur / vol_avg20 } else { 1.0 };
+
+                let s50 = i.saturating_sub(49);
+                let atr50 = if i >= 14 {
+                    let tr_sum: f64 = (s50..=i).map(|k| {
+                        let h = store.highs[k];
+                        let l = store.lows[k];
+                        let pc = if k > 0 { store.closes[k-1] } else { store.opens[k] };
+                        (h - l).max((h - pc).abs()).max((l - pc).abs())
+                    }).sum();
+                    tr_sum / (i - s50 + 1) as f64
+                } else {
+                    current_atr
+                };
+                let compression_ratio = if atr50 > 1e-6 { current_atr / atr50 } else { 1.0 };
+
                 for (eid, closure, allows_hist) in &projections {
+                    // Focus exclusively on Certified Net Alpha Producing Strategy Families
+                    if is_squeeze_mode {
+                        continue; // In macro swing mode, only execute macro squeeze swing
+                    }
+                    let is_alpha_expert = match *eid {
+                        "bollinger_breakout"
+                        | "donchian_breakout"
+                        | "failed_breakout"
+                        | "range_breakout_1to1"
+                        | "floor_trader_pivot"
+                        | "fib_rsi_bb_confluence"
+                        | "pattern_measuring_objective" => true,
+                        _ => false,
+                    };
+                    if !is_alpha_expert {
+                        continue;
+                    }
+
                     let expert_hist = if *allows_hist { hist.clone() } else { Vec::new() };
                     let fm = crate::experts::base::FeatMap {
                         features: crate::experts::base::ProjectedFeatures::new(&feats, closure),
@@ -448,6 +520,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     let ev = crate::experts::evaluate(eid, &fm);
                     if ev.decision == "CANDIDATE" {
                         if let Some(draft) = &ev.draft {
+                            all_emitted_candidates.push((i, draft.direction.clone()));
                             let entry_price = current_close;
                             let stop_r = draft.geom_f64("stop_r").unwrap_or(1.0);
                             let stop_dist = stop_r * current_atr;
@@ -463,6 +536,96 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                                 direction: draft.direction.clone(),
                                 entry_price,
                                 stop_price,
+                                timestamp_ns: as_of,
+                                bar_index: i,
+                            });
+                        }
+                    }
+                }
+
+                // Evaluate TrendContinuationExpert (D-138)
+                let tc_closure = features::group_closure(&["trend", "volatility", "history"]);
+                let fm_tc = crate::experts::base::FeatMap {
+                    features: crate::experts::base::ProjectedFeatures::new(&feats, &tc_closure),
+                    history: hist.clone(),
+                    as_of,
+                    symbol: &store.symbol,
+                    variant_overrides: &empty_variants,
+                };
+                let ev_tc = crate::experts::trend_continuation::trend_continuation(&fm_tc, "trend_continuation", "v1");
+                if ev_tc.decision == "CANDIDATE" {
+                    if let Some(draft) = &ev_tc.draft {
+                        all_emitted_candidates.push((i, draft.direction.clone()));
+                        let close_change = if hist.len() >= 20 { (current_close - hist[hist.len() - 20].close).abs() } else { 0.0 };
+                        let mut total_path = 0.0;
+                        if hist.len() >= 20 {
+                            for k in (hist.len() - 19)..hist.len() {
+                                total_path += (hist[k].close - hist[k-1].close).abs();
+                            }
+                        }
+                        let er = if total_path > 1e-6 { close_change / total_path } else { 0.0 };
+                        if compression_ratio >= 0.80 && er >= 0.18 {
+                            let entry_price = current_close;
+                            let stop_r = draft.geom_f64("stop_r").unwrap_or(1.0);
+                            let stop_dist = stop_r * current_atr;
+                            let stop_price = if draft.direction == "LONG" {
+                                entry_price - stop_dist
+                            } else {
+                                entry_price + stop_dist
+                            };
+                            bar_votes.push(SensorVote {
+                                sensor_id: "trend_continuation".to_string(),
+                                symbol: store.symbol.clone(),
+                                direction: draft.direction.clone(),
+                                entry_price,
+                                stop_price,
+                                timestamp_ns: as_of,
+                                bar_index: i,
+                            });
+                        }
+                    }
+                }
+
+                // Evaluate SqueezeReleaseSwingExpert (D-140 / H-MACRO-01)
+                let engine_str = params.engine_mode.as_deref().unwrap_or("default");
+                let (max_bw, lookback, vol_min, cooldown_bars, struct_trail_bars) = match engine_str {
+                    "macro-m1" => (0.25, 48, 1.40, 48, 24),
+                    "macro-m2" => (0.30, 72, 1.35, 48, 48),
+                    "macro-m3" | "macro-swing" => (0.25, 72, 1.40, 48, 48),
+                    _ => (0.35, 48, 1.30, 24, 24),
+                };
+
+                let ss_closure = features::group_closure(&["trend", "volatility", "participation", "history"]);
+                let fm_ss = crate::experts::base::FeatMap {
+                    features: crate::experts::base::ProjectedFeatures::new(&feats, &ss_closure),
+                    history: hist.clone(),
+                    as_of,
+                    symbol: &store.symbol,
+                    variant_overrides: &empty_variants,
+                };
+                let ev_ss = crate::experts::squeeze_swing::squeeze_swing_custom(&fm_ss, "squeeze_swing", "v1", max_bw, lookback, vol_min);
+                if ev_ss.decision == "CANDIDATE" {
+                    if let Some(draft) = &ev_ss.draft {
+                        all_emitted_candidates.push((i, draft.direction.clone()));
+                        let bars_since_last_exit = match last_exit_bar {
+                            Some(eb) => i.saturating_sub(eb),
+                            None => 999,
+                        };
+                        // Enforce mandatory post-exit cooldown per asset (win or loss)
+                        if bars_since_last_exit >= cooldown_bars {
+                            let entry_price = current_close;
+                            let s_init = hist.len().saturating_sub(struct_trail_bars);
+                            let struct_stop = if draft.direction == "LONG" {
+                                hist[s_init..].iter().map(|b| b.low).fold(f64::INFINITY, f64::min).min(entry_price - 1.5 * current_atr)
+                            } else {
+                                hist[s_init..].iter().map(|b| b.high).fold(f64::NEG_INFINITY, f64::max).max(entry_price + 1.5 * current_atr)
+                            };
+                            bar_votes.push(SensorVote {
+                                sensor_id: "squeeze_swing".to_string(),
+                                symbol: store.symbol.clone(),
+                                direction: draft.direction.clone(),
+                                entry_price,
+                                stop_price: struct_stop,
                                 timestamp_ns: as_of,
                                 bar_index: i,
                             });
@@ -495,21 +658,41 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                             direction: dir_str.to_string(),
                             entry_price: cluster.consensus_entry,
                             structural_stop: cluster.structural_invalidation_price,
-                            expected_gross_excursion_r: 2.5,
+                            expected_gross_excursion_r: if vol_ratio >= 1.2 { 3.0 } else { 2.5 },
                             venue_roundtrip_friction_bps: 10.0,
                             bars_since_last_failed_campaign: bars_since_fail,
                             last_failed_campaign_same_direction: is_same_fail_dir,
-                            rolling_volatility_compression_ratio: 0.85,
+                            rolling_volatility_compression_ratio: compression_ratio,
                         };
 
                         let chop_verdict = CostAwareNoTradeGate::evaluate(&chop_ctx, ChopSuppressionArm::A4CostAndCooldown);
                         if !chop_verdict.is_admitted {
-                            *rejections.entry("CHOP_NO_TRADE_REGION_SUPPRESSED".to_string()).or_default() += 1;
+                            *rejections.entry(chop_verdict.reason_code).or_default() += 1;
                             continue;
                         }
 
-                        // KZ-009: Quantization-Safe Risk Budgeting
-                        let allowed_risk_usdt = equity * params.risk_fraction;
+                        // ETS Economic Margin Gate: Ensure structural target/stop distance >= 4.0x roundtrip friction
+                        let stop_dist_pct = (cluster.consensus_entry - cluster.structural_invalidation_price).abs() / cluster.consensus_entry;
+                        if stop_dist_pct < 0.008 {
+                            *rejections.entry("ECONOMIC_MARGIN_BELOW_FRICTION_FLOOR".to_string()).or_default() += 1;
+                            continue;
+                        }
+
+                        // ETS Filter: Suppress low-volume unconfirmed micro-noise churn (require volume surge >= 1.25x or high compression release)
+                        if vol_ratio < 1.25 && (vol_ratio < 1.05 || compression_ratio < 0.85) {
+                            *rejections.entry("SUB_EXPANSION_MICRO_NOISE_SUPPRESSED".to_string()).or_default() += 1;
+                            continue;
+                        }
+
+                        // KZ-009 + ETS: Cost-Aware & Conviction-Weighted Capital Budgeting
+                        let conviction_scale = if vol_ratio >= 1.40 {
+                            1.35
+                        } else if vol_ratio >= 1.20 {
+                            1.10
+                        } else {
+                            0.80
+                        };
+                        let allowed_risk_usdt = equity * params.risk_fraction * conviction_scale;
                         let quant_res = QuantizationRiskEngine::compute_executable_lot(
                             &store.symbol,
                             cluster.consensus_entry,
@@ -542,13 +725,21 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                                     );
 
                                     let pos_id = format!("pos-{}", cluster.campaign_id);
-                                    let chosen_arm = params.exit_arm.clone().unwrap_or(ExitArm::ChandelierATR);
+                                    let chosen_arm = if cluster.participating_sensors.contains(&"squeeze_swing".to_string()) {
+                                        let engine_str = params.engine_mode.as_deref().unwrap_or("default");
+                                        match engine_str {
+                                            "macro-m2" | "macro-m3" | "macro-swing" => ExitArm::Structural48hTrail,
+                                            _ => ExitArm::Structural24hTrail,
+                                        }
+                                    } else {
+                                        params.exit_arm.clone().unwrap_or(ExitArm::ChandelierATRWithBE05R)
+                                    };
                                     let tstate = DynamicTrailingEngine::new_state(
                                         chosen_arm,
                                         dir_str,
                                         entry_price,
                                         cluster.structural_invalidation_price,
-                                        2.5,
+                                        3.0,
                                     );
                                     trailing_states.insert(pos_id.clone(), tstate);
 
@@ -647,6 +838,52 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
         0.0
     };
 
+    // Construct Oracle Ground Truth Episodes (O1) and Evaluate Economic Opportunity Capture Frontier (D-138)
+    let oracle_def = crate::oracle::episode::OracleDefinition::new(
+        &store.symbol,
+        24,
+        0.015,
+        0.008,
+        2.0,
+        10.0,
+        true,
+    );
+    let atrs: Vec<f64> = (0..n_bars).map(|k| {
+        let s = k.saturating_sub(13);
+        let tr_sum: f64 = (s..=k).map(|idx| {
+            let h = store.highs[idx];
+            let l = store.lows[idx];
+            let pc = if idx > 0 { store.closes[idx-1] } else { store.opens[idx] };
+            (h - l).max((h - pc).abs()).max((l - pc).abs())
+        }).sum();
+        tr_sum / (k - s + 1).max(1) as f64
+    }).collect();
+    let oracle_episodes = crate::oracle::episode::OracleEpisodeExtractor::extract_episodes(
+        &oracle_def,
+        &store.highs,
+        &store.lows,
+        &store.closes,
+        &store.volumes,
+        &atrs,
+    );
+
+    let executed_trades_for_frontier: Vec<(usize, String, f64, f64, f64)> = ledger
+        .flows
+        .iter()
+        .map(|f| {
+            let t_bar = store.avail.iter().position(|&t| t >= f.event_time).unwrap_or(0);
+            (t_bar, f.direction.clone(), f.gross_market_pnl_usdt, f.commission_usdt, f.net_pnl_usdt)
+        })
+        .collect();
+
+    let frontier_receipt = crate::opportunity::frontier::FrontierEvaluator::evaluate_frontier(
+        &store.symbol,
+        &oracle_def.definition_id,
+        &oracle_episodes,
+        &all_emitted_candidates,
+        &executed_trades_for_frontier,
+    );
+
     let total_fee_drag_usdt: f64 = ledger.flows.iter().map(|r| r.commission_usdt).sum();
     let total_funding_usdt: f64 = ledger.flows.iter().map(|r| r.funding_cashflow_usdt).sum();
 
@@ -670,6 +907,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
         rejections_by_reason: rejections,
         cashflow_ledger_path: "economic-cashflow.jsonl".to_string(),
         venue_contract_hash: contract.contract_hash(),
+        frontier_receipt: Some(frontier_receipt),
     };
 
     let receipt_json = serde_json::to_string_pretty(&receipt).map_err(|e| e.to_string())?;
@@ -702,6 +940,7 @@ mod tests {
             enabled_experts: None,
             engine_mode: None,
             exit_arm: None,
+            symbol: None,
         };
 
         let res = run_simulation(&params);
@@ -742,6 +981,7 @@ mod tests {
                 enabled_experts: None,
                 engine_mode: None,
                 exit_arm: Some(arm),
+                symbol: None,
             };
 
             let res = run_simulation(&params).expect("Simulation run failed");
@@ -796,6 +1036,7 @@ mod tests {
             enabled_experts: None,
             engine_mode: None,
             exit_arm: Some(ExitArm::ChandelierATR),
+            symbol: None,
         };
 
         let receipt = run_simulation(&params).expect("baseline sim failed");
@@ -827,19 +1068,19 @@ mod tests {
 
         let mut gross_profit_total = 0.0;
         let mut gross_loss_total = 0.0;
-        let mut winning_trades = 0;
+        let mut _winning_trades = 0;
         let mut losing_trades = 0;
-        let mut breakeven_trades = 0;
+        let mut _breakeven_trades = 0;
 
         for cf in &cashflows {
             if cf.gross_market_pnl_usdt > 0.0 {
                 gross_profit_total += cf.gross_market_pnl_usdt;
-                winning_trades += 1;
+                _winning_trades += 1;
             } else if cf.gross_market_pnl_usdt < 0.0 {
                 gross_loss_total += cf.gross_market_pnl_usdt.abs();
                 losing_trades += 1;
             } else {
-                breakeven_trades += 1;
+                _breakeven_trades += 1;
             }
         }
         let net_gross_edge = gross_profit_total - gross_loss_total;
@@ -947,7 +1188,7 @@ mod tests {
         let mut h2_loss_mfe_ge_075 = 0;
         let mut h2_loss_mfe_ge_100 = 0;
         let mut h2_loss_prior_mfes = Vec::new();
-        let mut h2_loss_giveback_dollars = 0.0;
+        let mut _h2_loss_giveback_dollars = 0.0;
 
         // H3: Duration & Horizon bucketing
         let mut duration_buckets: HashMap<&str, (usize, f64, f64, f64, usize)> = HashMap::new();
@@ -955,13 +1196,13 @@ mod tests {
 
         for cf in &cashflows {
             let exit_bar = time_to_bar.get(&cf.event_time).copied().unwrap_or(0);
-            let dir_sign = if cf.direction == "LONG" { 1.0 } else { -1.0 };
+            let _dir_sign = if cf.direction == "LONG" { 1.0 } else { -1.0 };
             
             // Risk unit estimation: 1.5 * ATR at entry, or from stop distance
             // In usdm_sim: allowed_risk = initial_margin * leverage or qty * stop_dist
             // Risk R roughly corresponds to $5 (0.5% of $1000)
             let risk_dollars = 5.0; // 0.5% of $1000
-            let realized_r = cf.net_pnl_usdt / risk_dollars;
+            let _realized_r = cf.net_pnl_usdt / risk_dollars;
             let gross_r = cf.gross_market_pnl_usdt / risk_dollars;
 
             // Estimate holding bars by looking backward from exit
@@ -1024,7 +1265,7 @@ mod tests {
                 if in_trade_mfe_r >= 0.25 { h2_loss_mfe_ge_025 += 1; }
                 if in_trade_mfe_r >= 0.50 {
                     h2_loss_mfe_ge_050 += 1;
-                    h2_loss_giveback_dollars += in_trade_mfe_r * risk_dollars;
+                    _h2_loss_giveback_dollars += in_trade_mfe_r * risk_dollars;
                 }
                 if in_trade_mfe_r >= 0.75 { h2_loss_mfe_ge_075 += 1; }
                 if in_trade_mfe_r >= 1.00 { h2_loss_mfe_ge_100 += 1; }
@@ -1124,7 +1365,7 @@ mod tests {
             let current_open = store.opens[eb];
             let current_high = store.highs[eb];
             let current_low = store.lows[eb];
-            let current_atr = store.atr.get(eb).copied().unwrap_or(current_close * 0.01);
+            let current_atr = store.atr_at(eb).unwrap_or(current_close * 0.01);
 
             let log_ret_1h = if eb > 0 { (store.closes[eb] / store.closes[eb - 1]).ln() } else { 0.0 };
             let log_ret_4h = if eb >= 4 { (store.closes[eb] / store.closes[eb - 4]).ln() } else { 0.0 };
@@ -1136,7 +1377,7 @@ mod tests {
 
             // 6h vs 24h volatility compression
             let atr_6h = if eb >= 6 {
-                let sum: f64 = (0..6).map(|k| (store.highs[eb - k] - store.lows[eb - k])).sum();
+                let sum: f64 = (0..6).map(|k| store.highs[eb - k] - store.lows[eb - k]).sum();
                 sum / 6.0
             } else { current_atr };
             let vol_comp = atr_6h / current_atr.max(1e-6);

@@ -311,7 +311,7 @@ impl OpportunityDetector for MeanReversionDetector {
 
         let as_of_time = store.avail[bar_idx];
         let close_now = store.closes[bar_idx];
-        let current_atr = store.atr.get(bar_idx).copied().unwrap_or(close_now * 0.01);
+        let current_atr = store.atr_at(bar_idx).unwrap_or(close_now * 0.01);
         let closes_prefix = &store.closes[..=bar_idx];
 
         let start_idx = closes_prefix.len().saturating_sub(self.lookback_bars);
@@ -405,13 +405,13 @@ impl OpportunityDetector for CompressionExpansionDetector {
 
         let as_of_time = store.avail[bar_idx];
         let current_close = store.closes[bar_idx];
-        let current_atr = store.atr.get(bar_idx).copied().unwrap_or(current_close * 0.01);
+        let current_atr = store.atr_at(bar_idx).unwrap_or(current_close * 0.01);
 
         let atr_start = bar_idx.saturating_sub(self.compression_lookback);
         let mut min_atr = current_atr;
         let mut max_atr = current_atr;
         for i in atr_start..bar_idx {
-            if let Some(&a) = store.atr.get(i) {
+            if let Some(a) = store.atr_at(i) {
                 min_atr = min_atr.min(a);
                 max_atr = max_atr.max(a);
             }

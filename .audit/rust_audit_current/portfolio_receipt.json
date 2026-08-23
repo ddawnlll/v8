@@ -1,19 +1,41 @@
 {
   "receipt_id": "receipt-usdm-1782864000999000000",
   "initial_balance_usdt": 1000.0,
-  "terminal_equity_usdt": 829.9572558239967,
-  "net_profit_usdt": -170.04274417600334,
-  "total_return_pct": -17.004274417600335,
-  "max_drawdown_pct": 25.257643187834855,
-  "max_margin_utilization_pct": 43.432290617162316,
-  "total_fee_drag_usdt": 103.01021324437704,
+  "terminal_equity_usdt": 1346.5868147275237,
+  "net_profit_usdt": 346.5868147275237,
+  "total_return_pct": 34.65868147275237,
+  "max_drawdown_pct": 8.703444283764293,
+  "max_margin_utilization_pct": 13.074429076665202,
+  "total_fee_drag_usdt": 114.76119538676359,
   "total_funding_usdt": 0.0,
-  "n_trades_admitted": 285,
-  "win_rate_pct": 24.561403508771928,
-  "profit_factor": 0.9098343791752008,
+  "n_trades_admitted": 196,
+  "win_rate_pct": 31.122448979591837,
+  "profit_factor": 1.6711213024384082,
   "rejections_by_reason": {
-    "CHOP_NO_TRADE_REGION_SUPPRESSED": 30
+    "ECONOMIC_MARGIN_BELOW_FRICTION_FLOOR": 44,
+    "SUB_EXPANSION_MICRO_NOISE_SUPPRESSED": 123,
+    "VETO_FAILED_CAMPAIGN_COOLDOWN_ACTIVE": 4
   },
   "cashflow_ledger_path": "economic-cashflow.jsonl",
-  "venue_contract_hash": "9fb5d2136dbac7de8400e3c5127ff6254f50cf53"
+  "venue_contract_hash": "9fb5d2136dbac7de8400e3c5127ff6254f50cf53",
+  "frontier_receipt": {
+    "receipt_id": "d57dd03191d9aff5082cd7aef42ce719c7c0b297da903cd4f0779cf71ea74d1d",
+    "symbol": "AVAXUSDT",
+    "oracle_definition_id": "70e07d9652853973a80fca4d5ef523dab22573a8c5ded523a23e3172b44666ea",
+    "total_oracle_episodes": 605,
+    "captured_oracle_episodes": 96,
+    "episode_discovery_recall_pct": 15.867768595041323,
+    "total_candidates_emitted": 4218,
+    "oracle_matched_candidates": 2962,
+    "candidate_precision_pct": 70.22285443338075,
+    "total_oracle_gross_r": 2675.112562667435,
+    "captured_gross_r": 642.784554628203,
+    "economic_value_recall_pct": 24.02831804532603,
+    "realized_net_pnl_usdt": 346.586814727523,
+    "total_fees_usdt": 114.76119538676359,
+    "gross_to_net_conversion_pct": 75.1248097161328,
+    "mfe_retention_ratio_pct": 53.386638703107934,
+    "oracle_value_realization_pct": 24.02831804532603,
+    "active_red_flags": []
+  }
 }

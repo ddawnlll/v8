@@ -15,6 +15,8 @@ pub enum ExitArm {
     ChandelierATRWithBE05R,  // Challenger A1: +0.5R BE trigger
     ChandelierATRWithBE075R, // Challenger A2: +0.75R BE trigger
     ChandelierATRWithBE10R,  // Challenger A3: +1.0R BE trigger
+    Structural24hTrail,      // D-140 Macro Swing 24h Structural Low/High Trail
+    Structural48hTrail,      // H-MACRO-01 Ultra Swing 48h Structural Low/High Trail
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -298,6 +300,19 @@ impl DynamicTrailingEngine {
                     let chandelier = state.lowest_low + (state.chandelier_multiplier * atr);
                     if (chandelier < state.current_stop || state.current_stop <= 0.0) && chandelier > 0.0 {
                         state.current_stop = chandelier;
+                    }
+                }
+            }
+            ExitArm::Structural24hTrail | ExitArm::Structural48hTrail => {
+                if let Some(struct_stop) = ema_trail {
+                    if is_long {
+                        if struct_stop > state.current_stop {
+                            state.current_stop = struct_stop;
+                        }
+                    } else {
+                        if (struct_stop < state.current_stop || state.current_stop <= 0.0) && struct_stop > 0.0 {
+                            state.current_stop = struct_stop;
+                        }
                     }
                 }
             }

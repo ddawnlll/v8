@@ -34,5 +34,7 @@
 |---|---|---|
 | O-017 | Atıf-geçerliliği eşikleri, operatör tarafından 2026-08-01'de onaylandı: `execution_share` tabanı = **0.25**; popülasyon-diverjansı eşiği = `net_R` (icra edilen vs portföy-reddedilen) üzerinde iki-örneklem KS **≤ 0.20** | Session-2 geliştirme taban çizgisinden holdout öncesi türetildi (execution_share 0.4156, KS 0.073; `v8-dev-2026q2-btcusdt`), `PREREGISTRATION_V8_SLICE_001` §15'e bağlandı. Kapının kendisi D-027'dir; sayılar frozen dilimden önce sabitlenir ve bir karardan sonra asla revize edilemez. |
 
+| O-033 | V8.3 ileriye dönük shadow ve halefiyet kararı için hash'e bağlı V8.2 incumbent karşılaştırıcısı nedir? | V8.3 freeze'inden önce değişmez bir incumbent artifaktı veya yeniden üretilebilir bir karşılaştırıcı manifesti sabitle; kod/konfigürasyon/veri/otorite hash'lerini ve tam execution sözleşmesini bağla. V8.2 yeni bir otorite kararı olmadan temsil edilemiyorsa `BLOCKED / OPEN_PIN` durumunda dur ve ekonomik OOS'u açma. | D-128, G0–G5 temizlenene kadar V8.2'yi incumbent tutar; D-138 ekonomik olmayan shadow sınırını tanımlar. Bu soru ekonomik halefiyet deneyi (#255) için açık kalır. |
+
 Tümü `OPEN_QUESTION`'dır. Hiçbir alan bir dashboard sonucu, kayıtsız parametre
 taraması ya da sentetik veriyle sessizce çözülemez.

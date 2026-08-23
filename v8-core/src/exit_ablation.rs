@@ -171,19 +171,16 @@ pub fn run(args: &[String]) -> i32 {
     println!("Loaded {} unique admitted candidate episodes.", n_unique);
 
     // Compute rolling median ATR and 20-bar avg volume for PIT regime classification
-    let total_bars = sym_bars.highs.len().min(sym_store.atr.len());
+    let total_bars = sym_bars.highs.len();
     let mut atr_rolling_median = vec![0.0; total_bars];
     let mut vol_rolling_avg = vec![0.0; total_bars];
 
     for i in 0..total_bars {
         let start = i.saturating_sub(48);
-        let end = (i + 1).min(sym_store.atr.len());
-        if start < end {
-            let mut window: Vec<f64> = sym_store.atr[start..end].to_vec();
+        let mut window: Vec<f64> = (start..=i).filter_map(|j| sym_store.atr_at(j)).collect();
+        if !window.is_empty() {
             window.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
-            if !window.is_empty() {
-                atr_rolling_median[i] = window[window.len() / 2];
-            }
+            atr_rolling_median[i] = window[window.len() / 2];
         }
 
         let vol_start = i.saturating_sub(20);
@@ -207,10 +204,11 @@ pub fn run(args: &[String]) -> i32 {
         let avg_vol = vol_rolling_avg.get(i).copied().unwrap_or(0.0);
         let ema_fast = sym_store.ema_fast.get(i).copied().unwrap_or(0.0);
         let ema_slow = sym_store.ema_slow.get(i).copied().unwrap_or(0.0);
-        let adx = sym_store.adx.get(i).copied().unwrap_or(0.0);
-        let atr = sym_store.atr.get(i).copied().unwrap_or(0.0);
+        let adx = sym_store.adx_at(i).unwrap_or(0.0);
+        let atr = sym_store.atr_at(i).unwrap_or(0.0);
         let median_atr = atr_rolling_median.get(i).copied().unwrap_or(0.0);
-        let funding = sym_store.funding_rate.get(i).copied().unwrap_or(0.0);
+        let as_of = sym_store.avail.get(i).copied().unwrap_or(0);
+        let funding = sym_store.funding_rate_at(as_of);
 
         let tag = quant::classify_bar_regime(
             close, open, high, low, volume, avg_vol, ema_fast, ema_slow, adx, atr, median_atr,
