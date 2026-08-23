@@ -182,7 +182,10 @@ impl Scenario {
         }
         let mut scaled = self.clone();
         for (name, value) in &mut scaled.input.scalars {
-            if name != "bar_of_session" {
+            if !matches!(
+                name.as_str(),
+                "bar_of_session" | "cmf_20" | "rsi14" | "vol_zscore" | "vol_min_proximity"
+            ) {
                 *value *= factor;
             }
         }
@@ -358,6 +361,14 @@ impl ScenarioOracle for DeclarativeScenarioOracle {
 /// the registered Expert dispatch.
 pub fn execute_scenario(expert_id: &str, scenario: &Scenario) -> ExpertEval {
     let mut features = Vec::new();
+    // `history` is both a capability feature and the typed bar window below.
+    // Experts that assert its declared availability must observe the same
+    // presence contract as experts that only consume the bar sequence.
+    features.push(feature(
+        "history",
+        serde_json::json!(scenario.input.history.len()),
+        scenario.input.as_of,
+    ));
     for (name, value) in &scenario.input.scalars {
         features.push(feature(
             name,
@@ -808,6 +819,34 @@ pub fn fib_retracement_continuation_manifest() -> ExpertQualificationManifest {
             ScenarioClass::Metamorphic,
         ],
         oracle_id: "d141.fib-retracement-continuation.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn obv_adl_regime_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "obv_adl_regime".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "volume".into(),
+            behavior_family_id: "flow".into(),
+            dependency_group: "dep_volume".into(),
+            hypothesis: "A declared CMF oversold regime below the slow average supports the priority long gate; feature closure includes participation, trend, volatility, and history.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "cmf_20".into(), "ema_fast".into(), "ema_slow".into(), "history".into()],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.obv-adl-regime.declarative".into(),
         oracle_version: "v1".into(),
         seed_manifest: "d141-seeds-v1".into(),
         generator_version: "scenario-foundry-v1".into(),
@@ -1495,6 +1534,54 @@ pub fn fib_retracement_continuation_scenarios() -> Vec<Scenario> {
             "fib-retrace-missing",
             ScenarioClass::Contract,
             "FIB-RETRACE-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+pub fn obv_adl_regime_scenarios() -> Vec<Scenario> {
+    let mut positive = base_input();
+    positive.scalars.insert("close".into(), 99.0);
+    positive.scalars.insert("ema_fast".into(), 98.0);
+    positive.scalars.insert("ema_slow".into(), 100.0);
+    positive.scalars.insert("cmf_20".into(), -0.16);
+    let mut negative = positive.clone();
+    negative.scalars.insert("cmf_20".into(), 0.0);
+    let mut boundary = positive.clone();
+    boundary.scalars.insert("cmf_20".into(), -0.15);
+    let mut missing = positive.clone();
+    missing.scalars.remove("cmf_20");
+    vec![
+        scenario(
+            "obv-adl-positive",
+            ScenarioClass::CanonicalPositive,
+            "OBV-ADL-POS",
+            positive,
+            ExpectedStance::SupportLong,
+            &["cmf-oversold", "below-slow", "priority-d", "long"],
+        ),
+        scenario(
+            "obv-adl-negative",
+            ScenarioClass::CanonicalNegative,
+            "OBV-ADL-NEUTRAL",
+            negative,
+            ExpectedStance::Abstain,
+            &["cmf-neutral"],
+        ),
+        scenario(
+            "obv-adl-boundary",
+            ScenarioClass::Boundary,
+            "OBV-ADL-CMF-BOUNDARY",
+            boundary,
+            ExpectedStance::Abstain,
+            &["cmf-equals-boundary"],
+        ),
+        scenario(
+            "obv-adl-missing",
+            ScenarioClass::Contract,
+            "OBV-ADL-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -2474,6 +2561,7 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             fib_retracement_continuation_manifest(),
             fib_retracement_continuation_scenarios(),
         ),
+        (obv_adl_regime_manifest(), obv_adl_regime_scenarios()),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -2886,6 +2974,40 @@ mod tests {
     }
 
     #[test]
+    fn obv_adl_regime_requires_complete_feature_closure_and_passes() {
+        assert_eq!(
+            crate::experts::requires_for("obv_adl_regime"),
+            ["participation", "trend", "volatility", "history"]
+        );
+        let manifest = obv_adl_regime_manifest();
+        let scenarios = obv_adl_regime_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
+        let positive = scenarios
+            .iter()
+            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
+            .unwrap();
+        for relation in [
+            MetamorphicRelation::PriceScale,
+            MetamorphicRelation::IrrelevantFeature,
+            MetamorphicRelation::PrefixNonInterference,
+        ] {
+            assert!(
+                verify_metamorphic("obv_adl_regime", relation, positive)
+                    .unwrap()
+                    .passed,
+                "metamorphic relation {relation:?} failed"
+            );
+        }
+        let mutation = MutationReport::from_receipts(kill_mutants("obv_adl_regime", &scenarios));
+        assert_eq!(
+            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
+            "mutation survived"
+        );
+    }
+
+    #[test]
     fn all_critical_mutants_are_killed_by_the_pilot_suite() {
         let scenarios = failed_breakout_scenarios();
         let report = MutationReport::from_receipts(kill_mutants("failed_breakout", &scenarios));
@@ -2955,7 +3077,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 10);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 11);
         assert!(!suite
             .passports
             .iter()

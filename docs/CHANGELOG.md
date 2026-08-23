@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 OBV/ADL feature-closure repair
+
+Added a test-only semantic qualification contract for `obv_adl_regime` and corrected its D-053 `REQUIRES` declaration to include the `volatility` and `history` groups read by the implementation. The D-141 executor now represents `history` both as a declared capability feature and as the typed bar window, matching the runtime contract. Price scaling preserves CMF, RSI, z-score, proximity, and session-index values as dimensionless. No threshold, opportunity identity, capital authority, or economic verdict changed.
+
+Artifacts changed: `v8-core/src/experts/obv_adl_regime.rs`, `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 pivot and retracement semantic expansion
 
 Added independent test-only qualification contracts for `floor_trader_pivot` and `fib_retracement_continuation`, including the pivot session/drift and positive-geometry boundary plus 0.382 retracement touch/reclaim semantics. Fib price scaling now transforms both retracement and extension level tables while retaining the numeric retracement sentinel used by projection manifests. `bar_of_session` remains dimensionless under price scaling. No production data path, Expert threshold, opportunity identity, capital authority, or economic verdict changed.
