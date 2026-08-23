@@ -683,6 +683,17 @@ pub fn divergence_12_setups_manifest() -> ExpertQualificationManifest {
     }
 }
 
+pub fn fib_rsi_bb_confluence_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "fib_rsi_bb_confluence".into(), expert_version: "v1".into(), mechanism_family_id: "confluence".into(), behavior_family_id: "fib_rsi_bollinger".into(), dependency_group: "dep_oscillator".into(),
+            hypothesis: "The registered strict branch supports only when a locally recomputed Bollinger fade, Wilder-RSI recovery, and a frozen 0.786 Fibonacci reclaim all vote the same direction.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "bb_mid".into(), "bb_upper".into(), "bb_lower".into(), "rsi14".into(), "fib_levels".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
+        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.fib-rsi-bb-confluence.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
 pub fn pattern_measuring_objective_manifest() -> ExpertQualificationManifest {
     ExpertQualificationManifest {
         schema_version: D141_SCHEMA_VERSION.into(),
@@ -2010,6 +2021,88 @@ pub fn divergence_12_setups_scenarios() -> Vec<Scenario> {
             "divergence-missing",
             ScenarioClass::Contract,
             "DIVERGENCE-MISSING",
+            missing,
+            ExpectedStance::NoHabitat,
+            &["missingness"],
+        ),
+    ]
+}
+
+fn fib_rsi_bb_world(last_close: f64, fib_level: f64) -> ScenarioInput {
+    let mut input = base_input();
+    let closes = [
+        97.0, 98.0, 98.0, 94.0, 93.0, 93.0, 96.0, 96.0, 93.0, 92.0, 94.0, 97.0, 93.0, 94.0, 93.0,
+        89.0, 90.0, 86.0, 85.0, 88.0, 86.0, 82.0, 79.0, 82.0, last_close,
+    ];
+    input.history = closes
+        .iter()
+        .enumerate()
+        .map(|(index, close)| ScenarioBar {
+            event_id: format!("fib-rsi-bb-{index}"),
+            open: *close,
+            high: *close + 1.0,
+            low: *close - 1.0,
+            close: *close,
+            ema_fast: 0.0,
+            ema_slow: 0.0,
+        })
+        .collect();
+    input.scalars = BTreeMap::from([
+        ("close".into(), last_close),
+        ("atr".into(), 2.0),
+        ("bb_mid".into(), 89.3),
+        ("bb_upper".into(), 100.5),
+        ("bb_lower".into(), 78.1),
+        ("rsi14".into(), 50.0),
+    ]);
+    input.structured.insert(
+        "fib_levels".into(),
+        serde_json::json!([100.0, 1.0, [[0.786, fib_level]], []]),
+    );
+    input
+}
+
+pub fn fib_rsi_bb_confluence_scenarios() -> Vec<Scenario> {
+    let positive = fib_rsi_bb_world(78.0, 77.5);
+    let negative = fib_rsi_bb_world(78.0, 78.5);
+    let boundary = fib_rsi_bb_world(77.5, 77.5);
+    let mut missing = positive.clone();
+    missing.structured.remove("fib_levels");
+    vec![
+        scenario(
+            "fib-rsi-bb-strict-long",
+            ScenarioClass::CanonicalPositive,
+            "FIB-RSI-BB-LONG",
+            positive,
+            ExpectedStance::SupportLong,
+            &[
+                "bb-fade",
+                "rsi-recovery",
+                "fib-reclaim",
+                "strict-confluence",
+                "long",
+            ],
+        ),
+        scenario(
+            "fib-rsi-bb-fib-miss",
+            ScenarioClass::CanonicalNegative,
+            "FIB-RSI-BB-NO-FIB-RECLAIM",
+            negative,
+            ExpectedStance::Abstain,
+            &["fib-leg-fails"],
+        ),
+        scenario(
+            "fib-rsi-bb-fib-equality",
+            ScenarioClass::Boundary,
+            "FIB-RSI-BB-EQUAL-FIB",
+            boundary,
+            ExpectedStance::Abstain,
+            &["strict-fib-boundary"],
+        ),
+        scenario(
+            "fib-rsi-bb-missing",
+            ScenarioClass::Contract,
+            "FIB-RSI-BB-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -4268,6 +4361,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             pattern_measuring_objective_scenarios(),
         ),
         (
+            fib_rsi_bb_confluence_manifest(),
+            fib_rsi_bb_confluence_scenarios(),
+        ),
+        (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
         ),
@@ -5133,7 +5230,7 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 27);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 28);
         assert!(!suite
             .passports
             .iter()

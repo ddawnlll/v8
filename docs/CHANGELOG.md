@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-23 — D-141 strict Fib/RSI/Bollinger confluence qualification
+
+Completed test-only semantic qualification for the registered default `fib_rsi_bb_confluence` branch. The hash-bound world requires a locally recomputed Bollinger fade, Wilder-RSI recovery, and frozen 0.786 Fibonacci reclaim to agree; an absent Fib reclaim, equality, and missing structure fail closed. All 28 registered generator-experts now have a D-141 semantic manifest; no economic authority was created.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-23 — D-141 measured-pattern semantic qualification
 
 Added test-only qualification for the registered default `pattern_measuring_objective` head-and-shoulders branch. A causal pivot lattice produces two shoulders, a higher head, two neckline troughs, and a strict neckline close-through; equality and required structural-data absence fail closed. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
