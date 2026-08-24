@@ -46,6 +46,11 @@ pub fn failed_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEv
         Some(x) => x,
         None => return no_setup(expert_id, version, fm.as_of),
     };
+    // D-141 Normative Recency Constraint: A failed breakout trap must trigger within 5 bars of the breakout
+    let bars_since_breakout = fm.history.len().saturating_sub(1).saturating_sub(breakout_idx);
+    if bars_since_breakout > 5 {
+        return no_setup(expert_id, version, fm.as_of);
+    }
     if !(close < ref_prior_high) {
         return no_setup(expert_id, version, fm.as_of);
     }

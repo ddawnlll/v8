@@ -1424,6 +1424,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
     let mut engine_mode: Option<String> = None;
     let mut exit_arm: Option<kaizen::exit_trailing::ExitArm> = None;
     let mut symbol: Option<String> = None;
+    let mut is_quad = false;
 
     let mut i = 0;
     while i < args.len() {
@@ -1545,6 +1546,10 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                     return 2;
                 }
             }
+            "--quad" => {
+                is_quad = true;
+                i += 1;
+            }
             "--symbol" => {
                 if i + 1 < args.len() {
                     symbol = Some(args[i + 1].clone());
@@ -1588,8 +1593,10 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         }
     }
 
-    let tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
     let out = out_dir.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current"));
+    let final_engine_mode = engine_mode.or_else(|| Some("squeeze-swing".to_string()));
+    let final_exit_arm = exit_arm;
 
     let params = usdm_sim::UsdmSimParams {
         tape_path: tape,
@@ -1600,19 +1607,58 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         max_concurrency,
         max_heat,
         enabled_experts,
-        engine_mode,
-        exit_arm,
+        engine_mode: final_engine_mode,
+        exit_arm: final_exit_arm,
         symbol,
     };
 
-    match usdm_sim::run_simulation(&params) {
-        Ok(receipt) => {
-            println!("{}", serde_json::to_string_pretty(&receipt).unwrap());
-            0
+    if is_quad {
+        let quad_tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/quad-1h-12m/tape.jsonl"));
+        let symbols = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "AVAXUSDT"];
+        let mut total_trades = 0;
+        let mut total_gross = 0.0;
+        let mut total_fees = 0.0;
+        let mut total_net = 0.0;
+
+        println!("==============================================================================================================");
+        println!(">>> OFFICIAL CANONICAL QUAD BENCHMARK (v8-core usdm-sim --quad) <<<");
+        println!("{:<10} {:<8} {:<9} {:<12} {:<12} {:<14} {:<10} {:<12}", "Asset", "Trades", "WinRate", "Gross ($)", "Fees ($)", "Net PnL ($)", "Return %", "Profit Factor");
+        println!("--------------------------------------------------------------------------------------------------------------");
+
+        for s in symbols {
+            let mut p = params.clone();
+            p.tape_path = quad_tape.clone();
+            p.symbol = Some(s.to_string());
+            match usdm_sim::run_simulation(&p) {
+                Ok(receipt) => {
+                    let gross = receipt.net_profit_usdt + receipt.total_fee_drag_usdt;
+                    total_trades += receipt.n_trades_admitted;
+                    total_gross += gross;
+                    total_fees += receipt.total_fee_drag_usdt;
+                    total_net += receipt.net_profit_usdt;
+                    println!("{:<10} {:<8} {:>6.1}% {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}% {:>10.2}",
+                        s, receipt.n_trades_admitted, receipt.win_rate_pct, gross, receipt.total_fee_drag_usdt, receipt.net_profit_usdt, receipt.total_return_pct, receipt.profit_factor);
+                }
+                Err(e) => {
+                    eprintln!("error for {s}: {e}");
+                    return 1;
+                }
+            }
         }
-        Err(e) => {
-            eprintln!("error in usdm-sim: {e}");
-            1
+        println!("==============================================================================================================");
+        println!("{:<35} {:<8} {:<9} {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}%", "TOTAL REALIZED RUST CASHFLOW", total_trades, "---", total_gross, total_fees, total_net, total_net / params.initial_balance * 100.0);
+        println!("==============================================================================================================");
+        0
+    } else {
+        match usdm_sim::run_simulation(&params) {
+            Ok(receipt) => {
+                println!("{}", serde_json::to_string_pretty(&receipt).unwrap());
+                0
+            }
+            Err(e) => {
+                eprintln!("error in usdm-sim: {e}");
+                1
+            }
         }
     }
 }
@@ -1653,7 +1699,7 @@ fn cmd_allegory_audit(args: &[String]) -> i32 {
         }
     }
 
-    let tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
     let out = out_path.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current/allegory_scorecard.json"));
 
     let rows = match read_tape(&tape) {
@@ -1742,7 +1788,7 @@ fn cmd_funnel_audit(args: &[String]) -> i32 {
         }
     }
 
-    let tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
     let out = out_path.unwrap_or_else(|| PathBuf::from("site/funnel_audit.html"));
 
     let rows = match read_tape(&tape) {
@@ -1831,7 +1877,7 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
         }
     }
 
-    let tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
     let out_dir = out_dir_path.unwrap_or_else(|| PathBuf::from(".audit/eeo/current"));
 
     let rows = match read_tape(&tape) {

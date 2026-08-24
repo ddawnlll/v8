@@ -134,14 +134,22 @@ fn pred_for<'a>(
                 if i < BB_BASE_N - 1 {
                     return false;
                 }
-                b.close > bb[i].unwrap().0
+                let (m, s) = bb[i].unwrap();
+                let upper = m + 2.0 * s;
+                let lower = m - 2.0 * s;
+                let pct = if (upper - lower).abs() > 1e-9 { (b.close - lower) / (upper - lower) } else { 0.5 };
+                b.close > m && pct >= 0.75
             })
         } else {
             Box::new(move |i, b| {
                 if i < BB_BASE_N - 1 {
                     return false;
                 }
-                b.close < bb[i].unwrap().0
+                let (m, s) = bb[i].unwrap();
+                let upper = m + 2.0 * s;
+                let lower = m - 2.0 * s;
+                let pct = if (upper - lower).abs() > 1e-9 { (b.close - lower) / (upper - lower) } else { 0.5 };
+                b.close < m && pct <= 0.25
             })
         }
     } else if variant == "b" {
@@ -237,9 +245,13 @@ pub fn bollinger_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
             Some(v) => v,
             None => return no_habitat(expert_id, version, fm.as_of),
         };
-        if close > mid {
+        let pct = match fm.value("bb_pct_b") {
+            Some(v) => v,
+            None => return no_habitat(expert_id, version, fm.as_of),
+        };
+        if close > mid && pct >= 0.75 {
             ("LONG", "mid_ref")
-        } else if close < mid {
+        } else if close < mid && pct <= 0.25 {
             ("SHORT", "mid_ref")
         } else {
             return no_setup(expert_id, version, fm.as_of);

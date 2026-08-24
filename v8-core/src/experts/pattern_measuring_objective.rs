@@ -177,16 +177,19 @@ fn hs_bottom(hist: &[HistBar]) -> Option<(f64, f64, usize)> {
 /// on the breakout), target = head-to-neckline height. Returns
 /// (direction, level, stop_price, height, anchor).
 fn head_shoulders(hist: &[HistBar]) -> Option<(String, f64, f64, f64, String)> {
+    if hist.len() < 2 { return None; }
     let close = hist[hist.len() - 1].close;
+    let prev_close = hist[hist.len() - 2].close;
     if let Some((head, neckline, ri)) = hs_top(hist) {
-        if close < neckline {
+        // D-141 Fresh Breakout Constraint: The neckline cross must be fresh (within 3 bars of break)
+        if close < neckline && (prev_close >= neckline || hist.len() - 1 - ri <= 3) {
             let pred = |j: usize, bar: &HistBar| j >= ri && bar.close < neckline;
             let anchor = find_setup_anchor(hist, &pred);
             return Some(("SHORT".to_string(), neckline, head, head - neckline, anchor));
         }
     }
     if let Some((head, neckline, ri)) = hs_bottom(hist) {
-        if close > neckline {
+        if close > neckline && (prev_close <= neckline || hist.len() - 1 - ri <= 3) {
             let pred = |j: usize, bar: &HistBar| j >= ri && bar.close > neckline;
             let anchor = find_setup_anchor(hist, &pred);
             return Some(("LONG".to_string(), neckline, head, neckline - head, anchor));
@@ -207,7 +210,8 @@ fn double_detector(hist: &[HistBar]) -> Option<(String, f64, f64, f64, String)> 
         let level = (i2 + 1..i1)
             .map(|j| hist[j].low)
             .fold(f64::INFINITY, f64::min);
-        if h1 > level && h2 > level && close < level {
+        let prev_close = if hist.len() >= 2 { hist[hist.len() - 2].close } else { close };
+        if h1 > level && h2 > level && close < level && (prev_close >= level || hist.len() - 1 - i1 <= 3) {
             let stop = h1.max(h2);
             let pred = |j: usize, bar: &HistBar| j >= i1 && bar.close < level;
             let anchor = find_setup_anchor(hist, &pred);
@@ -221,7 +225,8 @@ fn double_detector(hist: &[HistBar]) -> Option<(String, f64, f64, f64, String)> 
         let level = (i2 + 1..i1)
             .map(|j| hist[j].high)
             .fold(f64::NEG_INFINITY, f64::max);
-        if v1 < level && v2 < level && close > level {
+        let prev_close = if hist.len() >= 2 { hist[hist.len() - 2].close } else { close };
+        if v1 < level && v2 < level && close > level && (prev_close <= level || hist.len() - 1 - i1 <= 3) {
             let stop = v1.min(v2);
             let pred = |j: usize, bar: &HistBar| j >= i1 && bar.close > level;
             let anchor = find_setup_anchor(hist, &pred);

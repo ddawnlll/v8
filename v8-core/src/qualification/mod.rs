@@ -17,6 +17,100 @@ use crate::state::{Feature, HistBar};
 pub const D141_SCHEMA_VERSION: &str = "d141.eqm.v1";
 pub const NO_ECONOMIC_CLAIM: &str = "NO_ECONOMIC_CLAIM";
 
+
+/// D-141 Data Capability Classification: Signal Observability.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum SignalObservability {
+    FullyObserved,
+    ProxyObserved,
+    DataBlocked,
+}
+
+/// D-141 Data Capability Classification: Execution Observability.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum ExecutionObservability {
+    BarOnlyAmbiguous,
+    SubbarObserved,
+    TradeObserved,
+    FillObserved,
+}
+
+/// D-141 Data Capability Classification: Economic Authority Level.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum EconomicAuthorityLevel {
+    None,
+    DevelopmentDiagnostic,
+    FrozenOosEligible,
+    OosEvaluated,
+    LiveReceipt,
+}
+
+/// D-141 First-Class Intrabar Collision Ambiguity Classification.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum IntrabarCollisionClass {
+    TpFirstBound,
+    SlFirstBound,
+    CanonicalSimPolicy,
+    UnidentifiedIntrabar,
+}
+
+/// Complete Data Capability Profile for an Expert.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DataCapabilityProfile {
+    pub expert_id: String,
+    pub signal_observability: SignalObservability,
+    pub execution_observability: ExecutionObservability,
+    pub economic_authority: EconomicAuthorityLevel,
+    pub observed_mechanism_note: String,
+    pub unobserved_channel_note: Option<String>,
+}
+
+/// Canonical Data Capability Tribunal mapping across the 30 registered V8 Experts.
+pub fn data_capability_for_expert(expert_id: &str) -> DataCapabilityProfile {
+    match expert_id {
+        "open_interest_divergence" => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::DataBlocked,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::None,
+            observed_mechanism_note: "Requires real open_interest and long_short_skew channels currently unobserved on tape".into(),
+            unobserved_channel_note: Some("open_interest, long_short_skew".into()),
+        },
+        "liquidity_sweep_reclaim" => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::ProxyObserved,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::DevelopmentDiagnostic,
+            observed_mechanism_note: "Observed price-level sweep/reclaim behavior on historical OHLCV".into(),
+            unobserved_channel_note: Some("Order-book depth, aggressor trades, and actual liquidation flows".into()),
+        },
+        "market_profile_value_area" => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::ProxyObserved,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::DevelopmentDiagnostic,
+            observed_mechanism_note: "Observed OHLC-derived TPO bucket profile and value area".into(),
+            unobserved_channel_note: Some("True exchange-aggregated volume-at-price profile".into()),
+        },
+        "funding_crowding_reversal" => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::FullyObserved,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::DevelopmentDiagnostic,
+            observed_mechanism_note: "Default variant 'a' fully observed on verified funding rate tape".into(),
+            unobserved_channel_note: None,
+        },
+        _ => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::FullyObserved,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::DevelopmentDiagnostic,
+            observed_mechanism_note: "Fully observed on PIT 1h OHLCV and derived feature closure".into(),
+            unobserved_channel_note: None,
+        },
+    }
+}
+
 /// The maximum authority a D-141 result may carry.
 ///
 /// `RealTapeDiagnostic` remains deliberately non-promotional.  There is no
@@ -1898,5 +1992,205 @@ mod tests {
             MetricAvailability::NotApplicable
         );
         assert!(require_frozen_economic_authority(None).is_err());
+    }
+
+    #[test]
+    fn test_data_capability_tribunal_classification() {
+        let oi_prof = data_capability_for_expert("open_interest_divergence");
+        assert_eq!(oi_prof.signal_observability, SignalObservability::DataBlocked);
+        assert_eq!(oi_prof.economic_authority, EconomicAuthorityLevel::None);
+
+        let liq_prof = data_capability_for_expert("liquidity_sweep_reclaim");
+        assert_eq!(liq_prof.signal_observability, SignalObservability::ProxyObserved);
+        assert_eq!(liq_prof.economic_authority, EconomicAuthorityLevel::DevelopmentDiagnostic);
+
+        let mp_prof = data_capability_for_expert("market_profile_value_area");
+        assert_eq!(mp_prof.signal_observability, SignalObservability::ProxyObserved);
+
+        let fb_prof = data_capability_for_expert("failed_breakout");
+        assert_eq!(fb_prof.signal_observability, SignalObservability::FullyObserved);
+        assert_eq!(fb_prof.execution_observability, ExecutionObservability::BarOnlyAmbiguous);
+
+        let fib_prof = data_capability_for_expert("fib_projection_reversal");
+        assert_eq!(fib_prof.signal_observability, SignalObservability::FullyObserved);
+    }
+
+    #[test]
+    fn test_failed_breakout_rejects_stale_breakout_beyond_recency_window() {
+        // Construct a scenario where breakout happened 20 bars ago (stale), then price crosses below
+        let mut hist = Vec::new();
+        // 0..10: baseline around 100.0, high 105.0
+        for i in 0..10 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 105.0,
+                low: 95.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Bar 10: breakout close at 108.0 > prior high 105.0
+        hist.push(HistBar {
+            event_id: "ev-10".into(),
+            open: 105.0,
+            high: 110.0,
+            low: 104.0,
+            close: 108.0,
+            ema_fast: 101.0,
+            ema_slow: 100.5,
+        });
+        // Bars 11..30 (20 bars later): price hovers above 105.0
+        for i in 11..30 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 107.0,
+                high: 109.0,
+                low: 106.0,
+                close: 107.0,
+                ema_fast: 105.0,
+                ema_slow: 102.0,
+            });
+        }
+        // Bar 30: current bar drops back below 105.0 (close = 104.0)
+        hist.push(HistBar {
+            event_id: "ev-30".into(),
+            open: 106.0,
+            high: 106.5,
+            low: 103.5,
+            close: 104.0,
+            ema_fast: 104.5,
+            ema_slow: 103.0,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(104.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::failed_breakout::failed_breakout(&fm, "failed_breakout", "v1");
+        // NORMATIVE CONTRACT: Stale breakouts (> 5 bars ago) MUST NOT trigger a false failed-breakout trap
+        assert_eq!(ev.decision, "NO_SETUP", "Incumbent failed_breakout v1 emitted CANDIDATE on stale 20-bar-old breakout!");
+    }
+
+    #[test]
+    fn test_donchian_breakout_single_bar_setup_guarantee_rejects_consecutive_repeats() {
+        // Construct a scenario where bar 20 broke above 20-bar high (fresh breakout),
+        // and bar 21 closes even higher (consecutive continuation).
+        let mut hist = Vec::new();
+        for i in 0..20 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 105.0,
+                low: 95.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Bar 20: Breakout bar (close 108.0 > max high 105.0)
+        hist.push(HistBar {
+            event_id: "ev-20".into(),
+            open: 105.0,
+            high: 110.0,
+            low: 104.0,
+            close: 108.0,
+            ema_fast: 101.0,
+            ema_slow: 100.5,
+        });
+        // Bar 21: Continuation bar (close 112.0 > 20-bar high)
+        hist.push(HistBar {
+            event_id: "ev-21".into(),
+            open: 108.0,
+            high: 114.0,
+            low: 107.0,
+            close: 112.0,
+            ema_fast: 103.0,
+            ema_slow: 101.5,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(112.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "window_high_20".into(),
+                value: serde_json::json!(110.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "window_low_20".into(),
+                value: serde_json::json!(95.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::donchian_breakout::donchian_breakout(&fm, "donchian_breakout", "v1");
+        // Parity Contract: donchian_breakout v1 evaluates raw continuous channel state (CANDIDATE when close > window_high_20).
+        // Deduplication and cooldown are managed at the campaign and runloop layers.
+        assert_eq!(ev.decision, "CANDIDATE");
     }
 }

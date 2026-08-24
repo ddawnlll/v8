@@ -1,0 +1,42 @@
+{
+  "receipt_id": "receipt-usdm-1782864000999000000",
+  "initial_balance_usdt": 1000.0,
+  "terminal_equity_usdt": 733.2388876746601,
+  "net_profit_usdt": -266.7611123253399,
+  "total_return_pct": -26.676111232533994,
+  "max_drawdown_pct": 27.016646672334538,
+  "max_margin_utilization_pct": 18.50590097289867,
+  "total_fee_drag_usdt": 45.45079099318866,
+  "total_funding_usdt": 0.0,
+  "n_trades_admitted": 123,
+  "win_rate_pct": 17.073170731707318,
+  "profit_factor": 0.4640594548957995,
+  "rejections_by_reason": {
+    "ECONOMIC_MARGIN_BELOW_FRICTION_FLOOR": 179,
+    "SUB_EXPANSION_MICRO_NOISE_SUPPRESSED": 80,
+    "VETO_EXPECTED_EDGE_BELOW_COST_FLOOR": 3,
+    "VETO_FAILED_CAMPAIGN_COOLDOWN_ACTIVE": 9
+  },
+  "cashflow_ledger_path": "economic-cashflow.jsonl",
+  "venue_contract_hash": "36eb680606cd534030099bdd1881ee2dc8449fc4",
+  "frontier_receipt": {
+    "receipt_id": "5450e793c93b66e26a6574cb5ddc3e9cd3a7d71805a9d8cb4a25cad0a466be77",
+    "symbol": "ETHUSDT",
+    "oracle_definition_id": "30215855df56aa7175fe4e1455a2d360d906ec233c5e48622f5cb3d42f321184",
+    "total_oracle_episodes": 552,
+    "captured_oracle_episodes": 59,
+    "episode_discovery_recall_pct": 10.68840579710145,
+    "total_candidates_emitted": 27152,
+    "oracle_matched_candidates": 16646,
+    "candidate_precision_pct": 61.30671773718327,
+    "total_oracle_gross_r": 2417.4519895055537,
+    "captured_gross_r": 299.6755676188222,
+    "economic_value_recall_pct": 12.396339986057612,
+    "realized_net_pnl_usdt": -266.7611123253403,
+    "total_fees_usdt": 45.45079099318866,
+    "gross_to_net_conversion_pct": 0.0,
+    "mfe_retention_ratio_pct": 0.0,
+    "oracle_value_realization_pct": 12.396339986057612,
+    "active_red_flags": []
+  }
+}

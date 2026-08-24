@@ -1,0 +1,45 @@
+{
+  "receipt_id": "receipt-usdm-1782864000999000000",
+  "initial_balance_usdt": 1000.0,
+  "terminal_equity_usdt": 946.5439262979936,
+  "net_profit_usdt": -53.45607370200639,
+  "total_return_pct": -5.345607370200639,
+  "max_drawdown_pct": 10.335325563431127,
+  "max_margin_utilization_pct": 16.639236277698352,
+  "total_fee_drag_usdt": 13.230195455971455,
+  "total_funding_usdt": 0.0,
+  "n_trades_admitted": 30,
+  "win_rate_pct": 23.333333333333332,
+  "profit_factor": 0.5492069845444141,
+  "rejections_by_reason": {
+    "ECONOMIC_MARGIN_BELOW_FRICTION_FLOOR": 169,
+    "MIN_EXECUTABLE_RISK_EXCEEDS_BUDGET": 4,
+    "SUB_EXPANSION_MICRO_NOISE_SUPPRESSED": 43,
+    "VETO_EXPECTED_EDGE_BELOW_COST_FLOOR": 3,
+    "VETO_FAILED_CAMPAIGN_COOLDOWN_ACTIVE": 2
+  },
+  "cashflow_ledger_path": "economic-cashflow.jsonl",
+  "venue_contract_hash": "9fb5d2136dbac7de8400e3c5127ff6254f50cf53",
+  "frontier_receipt": {
+    "receipt_id": "e82a7ff4230bf3fdf41545aef1d633eb10bfb78227de47480e1070950ba7ce55",
+    "symbol": "BTCUSDT",
+    "oracle_definition_id": "78a9edfa45ce42a321bd15c9691b3c05ab7f8e1dae29cd7bb406fd0f280e9bbb",
+    "total_oracle_episodes": 461,
+    "captured_oracle_episodes": 18,
+    "episode_discovery_recall_pct": 3.9045553145336225,
+    "total_candidates_emitted": 28395,
+    "oracle_matched_candidates": 16173,
+    "candidate_precision_pct": 56.95721077654517,
+    "total_oracle_gross_r": 2193.8643864991163,
+    "captured_gross_r": 76.65983995021767,
+    "economic_value_recall_pct": 3.494283439850558,
+    "realized_net_pnl_usdt": -53.45607370200623,
+    "total_fees_usdt": 13.230195455971455,
+    "gross_to_net_conversion_pct": 0.0,
+    "mfe_retention_ratio_pct": 0.0,
+    "oracle_value_realization_pct": 3.494283439850558,
+    "active_red_flags": [
+      "UndertradingRegression"
+    ]
+  }
+}
