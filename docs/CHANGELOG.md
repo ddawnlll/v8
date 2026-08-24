@@ -8,6 +8,12 @@ Aligned the executable D-141 pilot suite with the actually verified pilots and r
 
 Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
 
+## 2026-08-24 — D-145 real-tape economic Kaizen ledger (D-145)
+
+Added a Rust-only, append-only economic iteration ledger over the certified quad tape. The runner evaluates each challenger through the canonical simulator, persists configuration and receipt hashes plus per-asset realized receipts, and counts an iteration only when net cashflow strictly improves while drawdown and margin utilization remain within the fixed baseline safety ceiling. Rejected candidates are retained for audit; no synthetic rows, offset inputs, hardcoded metrics, or economic certification claims are introduced.
+
+Artifacts changed: `v8-core/src/kaizen/iteration.rs`, `v8-core/src/kaizen/mod.rs`, `v8-core/src/bin/kaizen_iterations.rs`, `v8-core/src/usdm_sim.rs`, `v8-core/src/main.rs`, `v8-core/src/experts/mod.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-24 — Ratification of D-144: Sovereign Kaizen Expert Fleet Evolution & Multi-Asset Alpha Optimization (`V8.4-ETS-KAIZEN-004`)
 
 Ratified deep iterative Kaizen evolution for a selected set of expert modules in the Rust compute plane without modifying USD-M engine physics. This entry does not ratify registry-wide completion:

@@ -10,6 +10,7 @@ pub mod diagnosis;
 pub mod exit_trailing;
 pub mod governance;
 pub mod hypothesis;
+pub mod iteration;
 pub mod liquidity_floor;
 pub mod mega;
 pub mod provenance;
@@ -42,6 +43,10 @@ pub use governance::{AntiPruningCompliance, CertificationStatus, GovernanceGuard
 pub use hypothesis::{
     FalsificationRule, FindingGenerator, HypothesisError, HypothesisGenerator, HypothesisRecord,
     ResearchFinding,
+};
+pub use iteration::{
+    candidate_seed_set, EconomicFrontier, EconomicIterationConfig,
+    EconomicIterationReceipt, EconomicIterationRunner, ITERATION_SCHEMA_VERSION,
 };
 pub use liquidity_floor::{DynamicAllocationBudget, DynamicLiquidityFloorEngine, LiquidityFloorBreakdown};
 pub use mega::{ExtremeEpisode, ExtremeMoveDetector, MegaBenchmarkReport, MegaCapabilityStatus, SensorLeadTimeAudit};

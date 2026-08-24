@@ -83,6 +83,7 @@ pub const VARIANT_TABLE: &[(&str, &[&str])] = &[
         "pattern_measuring_objective",
         &["head_shoulders", "double_top", "triangle"],
     ),
+    ("squeeze_swing", &["default", "m1", "m2", "m3"]),
 ];
 
 pub fn validate_variant_overrides(

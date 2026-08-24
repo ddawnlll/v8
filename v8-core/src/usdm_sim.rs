@@ -46,6 +46,8 @@ pub struct UsdmSimParams {
     #[serde(default)]
     pub enabled_experts: Option<Vec<String>>,
     #[serde(default)]
+    pub variant_overrides: HashMap<String, String>,
+    #[serde(default)]
     pub engine_mode: Option<String>,
     #[serde(default)]
     pub exit_arm: Option<ExitArm>,
@@ -93,6 +95,7 @@ pub struct PortfolioReceipt {
 
 /// Runs the USD-M finite-capital simulation engine with Kaizen architecture.
 pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String> {
+    crate::experts::validate_variant_overrides(&params.variant_overrides)?;
     let _ = std::fs::create_dir_all(&params.out_dir);
     let rows = crate::read_tape(&params.tape_path)?;
     let ds = Dataset::from_rows(rows).map_err(|e| e.to_string())?;
@@ -131,7 +134,6 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
     let v83_engine = crate::opportunity::runloop::V83Runloop::default();
     let mut v83_book = crate::opportunity::book::OpportunityBook::new();
 
-    let empty_variants = HashMap::new();
     let registry_rows = crate::experts::registry_rows();
     let projections: Vec<(&str, std::collections::HashSet<String>, bool)> = registry_rows
         .iter()
@@ -525,7 +527,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                         history: expert_hist,
                         as_of,
                         symbol: &store.symbol,
-                        variant_overrides: &empty_variants,
+                        variant_overrides: &params.variant_overrides,
                     };
                     let ev = crate::experts::evaluate(eid, &fm);
                     if ev.decision == "CANDIDATE" {
@@ -565,7 +567,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     history: hist.clone(),
                     as_of,
                     symbol: &store.symbol,
-                    variant_overrides: &empty_variants,
+                    variant_overrides: &params.variant_overrides,
                 };
                 let ev_tc = crate::experts::trend_continuation::trend_continuation(&fm_tc, "trend_continuation", "v1");
                 if ev_tc.decision == "CANDIDATE" {
@@ -605,7 +607,17 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                 // Evaluate SqueezeReleaseSwingExpert (D-140 / H-MACRO-01)
                 let eval_ss = params.enabled_experts.as_ref().unwrap_or(&Vec::new()).is_empty() || params.enabled_experts.as_ref().unwrap_or(&Vec::new()).contains(&"squeeze_swing".to_string());
                 if eval_ss {
-                let engine_str = params.engine_mode.as_deref().unwrap_or("squeeze-swing");
+                let engine_str = params
+                    .variant_overrides
+                    .get("squeeze_swing")
+                    .map(|variant| match variant.as_str() {
+                        "m1" => "macro-m1",
+                        "m2" => "macro-m2",
+                        "m3" => "macro-m3",
+                        _ => "squeeze-swing",
+                    })
+                    .or(params.engine_mode.as_deref())
+                    .unwrap_or("squeeze-swing");
                 let (max_bw, lookback, vol_min, cooldown_bars, struct_trail_bars) = match engine_str {
                     "macro-m1" => (0.25, 48, 1.40, 48, 24),
                     "macro-m2" => (0.30, 72, 1.35, 48, 48),
@@ -619,7 +631,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     history: hist.clone(),
                     as_of,
                     symbol: &store.symbol,
-                    variant_overrides: &empty_variants,
+                    variant_overrides: &params.variant_overrides,
                 };
                 let ev_ss = crate::experts::squeeze_swing::squeeze_swing_custom(&fm_ss, "squeeze_swing", "v1", max_bw, lookback, vol_min);
                 if ev_ss.decision == "CANDIDATE" {
@@ -958,6 +970,7 @@ mod tests {
             max_concurrency: 3,
             max_heat: 0.05,
             enabled_experts: None,
+            variant_overrides: HashMap::new(),
             engine_mode: None,
             exit_arm: None,
             symbol: None,
@@ -999,6 +1012,7 @@ mod tests {
                 max_concurrency: 3,
                 max_heat: 0.05,
                 enabled_experts: None,
+                variant_overrides: HashMap::new(),
                 engine_mode: None,
                 exit_arm: Some(arm),
                 symbol: None,
@@ -1054,6 +1068,7 @@ mod tests {
             max_concurrency: 3,
             max_heat: 0.05,
             enabled_experts: None,
+            variant_overrides: HashMap::new(),
             engine_mode: None,
             exit_arm: Some(ExitArm::ChandelierATR),
             symbol: None,
@@ -1491,4 +1506,3 @@ mod tests {
         println!("==========================================================================================\n");
     }
 }
-
