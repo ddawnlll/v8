@@ -506,7 +506,8 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                         match *eid {
                             "floor_trader_pivot"
                             | "failed_breakout"
-                            | "fib_projection_reversal" => true,
+                            | "fib_projection_reversal"
+                            | "liquidity_sweep_reclaim" => true,
                             _ => false,
                         }
                     } else {
