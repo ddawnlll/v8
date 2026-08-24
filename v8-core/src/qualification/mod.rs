@@ -2193,4 +2193,622 @@ mod tests {
         // Deduplication and cooldown are managed at the campaign and runloop layers.
         assert_eq!(ev.decision, "CANDIDATE");
     }
+
+    #[test]
+    fn test_rsi_stoch_reversion_qualification() {
+        let mut hist = Vec::new();
+        // Construct 30 bars with declining prices to push Wilder RSI into oversold (<30)
+        // and then a reversal bounce on bar 29
+        for i in 0..25 {
+            let p = 120.0 - (i as f64) * 2.0;
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: p + 1.0,
+                high: p + 2.0,
+                low: p - 1.0,
+                close: p,
+                ema_fast: p + 1.0,
+                ema_slow: p + 3.0,
+            });
+        }
+        // Recover bar
+        hist.push(HistBar {
+            event_id: "ev-25".into(),
+            open: 70.0,
+            high: 76.0,
+            low: 69.0,
+            close: 75.0,
+            ema_fast: 72.0,
+            ema_slow: 78.0,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(75.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "rsi14".into(),
+                value: serde_json::json!(28.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "oscillator".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["oscillator", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+        let ev = crate::experts::rsi_stoch_reversion::rsi_stoch_reversion(&fm, "rsi_stoch_reversion", "v1");
+        assert!(ev.decision == "CANDIDATE" || ev.decision == "NO_SETUP");
+    }
+
+    #[test]
+    fn test_failed_breakout_2b_qualification() {
+        let mut hist = Vec::new();
+        for i in 0..20 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 105.0,
+                low: 95.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Bar 19: Prior bar closed below swing low (e.g. at 94.0 < swing_low_10 95.0)
+        hist.push(HistBar {
+            event_id: "ev-20".into(),
+            open: 96.0,
+            high: 96.5,
+            low: 93.5,
+            close: 94.0,
+            ema_fast: 98.0,
+            ema_slow: 99.0,
+        });
+        // Bar 20: Reclaim bar closes back above swing low (at 96.5 > 95.0)
+        hist.push(HistBar {
+            event_id: "ev-21".into(),
+            open: 94.2,
+            high: 97.0,
+            low: 94.0,
+            close: 96.5,
+            ema_fast: 98.2,
+            ema_slow: 99.0,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "history".into(),
+                value: serde_json::json!(true),
+                dtype: "bool".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "history".into(),
+            },
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(96.5),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "swing_low_10".into(),
+                value: serde_json::json!(95.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "inside_bar".into(),
+                value: serde_json::json!(0.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "candle_shape".into(),
+            },
+            Feature {
+                name: "outside_bar".into(),
+                value: serde_json::json!(0.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "candle_shape".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "candle_shape", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::failed_breakout_2b::failed_breakout_2b(&fm, "failed_breakout_2b", "v1");
+        assert_eq!(ev.decision, "CANDIDATE");
+        assert_eq!(ev.draft.as_ref().unwrap().direction, "LONG");
+    }
+
+    #[test]
+    fn test_liquidity_sweep_reclaim_qualification() {
+        let mut hist = Vec::new();
+        for i in 0..20 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 105.0,
+                low: 95.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Liquidity sweep below 95.0 low (dipped to 93.0) and reclaimed close to 96.5
+        hist.push(HistBar {
+            event_id: "ev-20".into(),
+            open: 95.5,
+            high: 97.0,
+            low: 93.0,
+            close: 96.5,
+            ema_fast: 99.0,
+            ema_slow: 100.0,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(96.5),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "window_high_20".into(),
+                value: serde_json::json!(105.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "window_low_20".into(),
+                value: serde_json::json!(95.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::liquidity_sweep_reclaim::liquidity_sweep_reclaim(&fm, "liquidity_sweep_reclaim", "v1");
+        assert_eq!(ev.decision, "CANDIDATE");
+        assert_eq!(ev.draft.as_ref().unwrap().direction, "LONG");
+    }
+
+    #[test]
+    fn test_data_blocked_open_interest_fails_closed() {
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(100.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["raw", "volatility"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: vec![],
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::open_interest_divergence::open_interest_divergence(&fm, "open_interest_divergence", "v1");
+        // Open interest is not present on bar tapes -> MUST fail closed to NO_HABITAT
+        assert_eq!(ev.decision, "NO_HABITAT");
+    }
+
+    #[test]
+    fn test_macd_stoch_trend_qualification() {
+        let mut hist = Vec::new();
+        for i in 0..20 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0 + i as f64,
+                high: 102.0 + i as f64,
+                low: 99.0 + i as f64,
+                close: 101.0 + i as f64,
+                ema_fast: 100.0 + i as f64,
+                ema_slow: 98.0 + i as f64,
+            });
+        }
+        let feats = vec![
+            Feature {
+                name: "history".into(),
+                value: serde_json::json!(true),
+                dtype: "bool".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "history".into(),
+            },
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(120.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "macd".into(),
+                value: serde_json::json!(1.5),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "macd_signal".into(),
+                value: serde_json::json!(0.8),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "macd_hist".into(),
+                value: serde_json::json!(0.7),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "stoch_k".into(),
+                value: serde_json::json!(45.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "oscillator".into(),
+            },
+            Feature {
+                name: "stoch_d".into(),
+                value: serde_json::json!(40.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "oscillator".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["trend", "oscillator", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::macd_stoch_trend::macd_stoch_trend(&fm, "macd_stoch_trend", "v1");
+        assert!(ev.decision == "CANDIDATE" || ev.decision == "NO_SETUP");
+    }
+
+    #[test]
+    fn test_volume_climax_reversal_qualification() {
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(110.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.5),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "ema_fast".into(),
+                value: serde_json::json!(105.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "ema_slow".into(),
+                value: serde_json::json!(100.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "volume".into(),
+                value: serde_json::json!(5000.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "participation".into(),
+            },
+            Feature {
+                name: "vol_zscore".into(),
+                value: serde_json::json!(3.5), // 3.5-sigma volume climax
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "participation".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["trend", "volatility", "participation", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: vec![HistBar {
+                event_id: "ev-0".into(),
+                open: 105.0,
+                high: 111.0,
+                low: 104.0,
+                close: 110.0,
+                ema_fast: 105.0,
+                ema_slow: 100.0,
+            }],
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::volume_climax_reversal::volume_climax_reversal(&fm, "volume_climax_reversal", "v1");
+        assert_eq!(ev.decision, "CANDIDATE");
+        assert_eq!(ev.draft.as_ref().unwrap().direction, "SHORT");
+    }
+
+    #[test]
+    fn test_range_breakout_1to1_qualification() {
+        let mut hist = Vec::new();
+        for i in 0..21 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 102.0,
+                low: 98.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Breakout bar (close 104.0 > 102.0)
+        hist.push(HistBar {
+            event_id: "ev-21".into(),
+            open: 101.0,
+            high: 105.0,
+            low: 100.5,
+            close: 104.0,
+            ema_fast: 101.0,
+            ema_slow: 100.2,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "history".into(),
+                value: serde_json::json!(true),
+                dtype: "bool".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "history".into(),
+            },
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(104.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "window_high_20".into(),
+                value: serde_json::json!(102.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "window_low_20".into(),
+                value: serde_json::json!(98.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "range_height_20".into(),
+                value: serde_json::json!(4.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "consolidation_range".into(),
+                value: serde_json::json!([102.0, 98.0, 0.02, 1.0]),
+                dtype: "array".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "vol_zscore".into(),
+                value: serde_json::json!(1.2),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "participation".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "participation", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::range_breakout_1to1::range_breakout_1to1(&fm, "range_breakout_1to1", "v1");
+        assert_eq!(ev.decision, "CANDIDATE");
+        assert_eq!(ev.draft.as_ref().unwrap().direction, "LONG");
+    }
 }

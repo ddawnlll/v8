@@ -501,12 +501,16 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                 let compression_ratio = if atr50 > 1e-6 { current_atr / atr50 } else { 1.0 };
 
                 for (eid, closure, allows_hist) in &projections {
-                    // Focus exclusively on Certified Net Alpha Producing Strategy Families
-                    let is_alpha_expert = match *eid {
-                        "floor_trader_pivot"
-                        | "failed_breakout"
-                        | "fib_projection_reversal" => true,
-                        _ => false,
+                    // Focus on Certified Net Alpha Producing Strategy Families, or requested experts
+                    let is_alpha_expert = if params.enabled_experts.as_ref().unwrap_or(&Vec::new()).is_empty() {
+                        match *eid {
+                            "floor_trader_pivot"
+                            | "failed_breakout"
+                            | "fib_projection_reversal" => true,
+                            _ => false,
+                        }
+                    } else {
+                        true
                     };
                     if !is_alpha_expert {
                         continue;
@@ -550,6 +554,8 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                 }
 
                 // Evaluate TrendContinuationExpert (D-138)
+                let eval_tc = params.enabled_experts.as_ref().unwrap_or(&Vec::new()).is_empty() || params.enabled_experts.as_ref().unwrap_or(&Vec::new()).contains(&"trend_continuation".to_string());
+                if eval_tc {
                 let tc_closure = features::group_closure(&["trend", "volatility", "history"]);
                 let fm_tc = crate::experts::base::FeatMap {
                     features: crate::experts::base::ProjectedFeatures::new(&feats, &tc_closure),
@@ -592,7 +598,10 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     }
                 }
 
+                } // end eval_tc
                 // Evaluate SqueezeReleaseSwingExpert (D-140 / H-MACRO-01)
+                let eval_ss = params.enabled_experts.as_ref().unwrap_or(&Vec::new()).is_empty() || params.enabled_experts.as_ref().unwrap_or(&Vec::new()).contains(&"squeeze_swing".to_string());
+                if eval_ss {
                 let engine_str = params.engine_mode.as_deref().unwrap_or("squeeze-swing");
                 let (max_bw, lookback, vol_min, cooldown_bars, struct_trail_bars) = match engine_str {
                     "macro-m1" => (0.25, 48, 1.40, 48, 24),
@@ -638,6 +647,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                         }
                     }
                 }
+                } // end eval_ss
 
                 // Cluster votes into Multi-Family Campaigns (KZ-008)
                 for vote in bar_votes.drain(..) {
