@@ -192,6 +192,9 @@ v8-core/
       challenge.rs  multiplicity ledger, challenge providers P11–P12 & common-mode auditor (EEO-009)
       qualification.rs automated qualification harness Q01–Q15 (EEO-010)
       report.rs     canonical EconomicPathologyReport generator & disk writer (EEO-R15)
+    qualification/  Expert Proving Ground semantic qualification plane (D-141)
+      mod.rs        manifests, scenario/oracle runner, metamorphic/mutation/EAST,
+                    typed statistics, passports, attribution, and EWQ gates; test-only
     opportunity/    V8.3 Opportunity Sovereignty plane (D-128, D-129, D-130, D-132)
       mod.rs        7 canonical primitives & OpportunityBook interface
       exposure.rs   EconomicExposureStructure, ExposureResolver, false-collapse defense
@@ -253,6 +256,7 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/judiciary/emergency.rs` | Emergency Mainline Execution Authority, Scope Firewall & `EmergencyMergeWarrant` Protocol | `EmergencyMergeWarrant`, `WarrantLifecycleState`, `MainlineHeadStatus`, `EmergencyIncidentReason` | V8_CONSTITUTION v0.2 Rule 43; D-135; CC-BILL-V8.3-D135 |
 | `v8-core/src/shadow.rs` | Non-economic prospective shadow boundary; seals code/config/dataset/authority/freeze identities, enforces strict future-only observations, writes allocation-neutral receipts, binds declared diagnostic bundles, and rejects mixed/divergent output bundles | `ProspectiveShadowManifest`, `ShadowRequest`, `ShadowReceipt`, `ArtifactIndexRequest`, `CanonicalArtifactIndex`, `verify_output_bundle`, `index_artifacts` | `OPERATIONS_SPEC` §1, §4–§6; `PERSISTENCE_REPLAY_SPEC` §4, §8; D-138; Issues #256/#258 |
 | `v8-core/src/temporal/` | V8 Temporal Sovereignty Architecture & Causal Fortress kernel (L0–L10): N-bar aligned `DenseBarSeries`, disjoint `SparseEventSeries`, by-value `CausalFrame` boundary, `ChronosGate` data diode, two-tier `ExecutionAuthority`, and `TemporalIntegrityCertificate` | `DenseBarSeries`, `SparseEventSeries`, `CausalFrame`, `ChronosGate`, `CausalSource`, `BarId`, `FundingEventId`, `DecisionTime`, `TemporalIntegrityCertificate`, `ExecutionAuthority` | V8_CONSTITUTION Rules 44–50; D-139; CC-BILL-V8.3-CAUSAL-FORTRESS-006 |
+| `v8-core/src/qualification/` | D-141 Expert Proving Ground: manifests, independent scenario oracles, deterministic scenario execution, metamorphic/mutation/EAST qualification, typed statistics, passports, forced-abstention attribution, and EWQ gates | `BehaviorCard`, `ExpertQualificationManifest`, `Scenario`, `ScenarioOracle`, `QualificationRun`, `EvidenceObject`, `ExpertPassport`, `EpistemicVerdict` | V8 Constitution Rules 12, 18–27, 44–50; D-129, D-130, D-136, D-139, D-141 |
 | `v8-core/src/audit/mutants.rs` | Adversarial Leak Mutant Falsification suite (LEAK-001..LEAK-012) and 100% kill-rate verifier | `MutantAuditor`, `LeakMutantId`, `MutantKillReceipt` | V8_CONSTITUTION Rule 48; D-139; CC-BILL-V8.3-CAUSAL-FORTRESS-006 |
 
 
