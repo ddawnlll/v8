@@ -21,7 +21,7 @@ use crate::state::HistBar;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
-pub const REQUIRES: &[&str] = &["participation", "trend", "volatility", "history"];
+pub const REQUIRES: &[&str] = &["participation", "trend"];
 // Declared risk geometry (EXPERT_PROTOCOL §1: risk geometry is "Predeclared
 // entry, stop, target, timeout and sizing inputs"; SIMULATION_TRUTH_SPEC D-028:
 // R is a declared price distance). Fixed values are declared here, never
