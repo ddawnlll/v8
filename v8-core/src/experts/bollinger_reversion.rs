@@ -107,6 +107,7 @@ fn anchor_refs(hist: &[HistBar], anchor_event_id: &str) -> Option<Refs> {
 /// `mid-3sd < close <= mid-2sd`, a-SHORT is `mid+2sd <= close < mid+3sd`
 /// (the 3-SD boundary is open in both — a close beyond 3-SD is a trend).
 fn direction(
+    version: &str,
     variant: &str,
     close: f64,
     bb_mid: f64,
@@ -116,13 +117,23 @@ fn direction(
     ema_slow: f64,
 ) -> (Option<&'static str>, &'static str) {
     if variant == "a" {
-        let mid = bb_mid;
-        let upper_3sd = mid + 1.5 * (bb_upper - mid);
-        let lower_3sd = mid - 1.5 * (mid - bb_lower);
-        if bb_upper <= close && close < upper_3sd {
+        if version == "v1" {
+            let mid = bb_mid;
+            let upper_3sd = mid + 1.5 * (bb_upper - mid);
+            let lower_3sd = mid - 1.5 * (mid - bb_lower);
+            if bb_upper <= close && close < upper_3sd {
+                return (Some("SHORT"), "upper_2sd_ref");
+            }
+            if lower_3sd < close && close <= bb_lower {
+                return (Some("LONG"), "lower_2sd_ref");
+            }
+            return (None, "");
+        }
+        // Tag & Re-entry: close has closed back inside the 2SD band after touching extreme
+        if close < bb_upper && close > bb_mid && (bb_upper - close) < (bb_upper - bb_mid) * 0.5 {
             return (Some("SHORT"), "upper_2sd_ref");
         }
-        if lower_3sd < close && close <= bb_lower {
+        if close > bb_lower && close < bb_mid && (close - bb_lower) < (bb_mid - bb_lower) * 0.5 {
             return (Some("LONG"), "lower_2sd_ref");
         }
         return (None, "");
@@ -172,7 +183,7 @@ fn evaluate_variant(fm: &FeatMap, expert_id: &str, version: &str, variant: &str)
         return no_habitat(expert_id, version, fm.as_of);
     }
     let (dir, ref_key) = direction(
-        variant, close, bb_mid, bb_upper, bb_lower, ema_fast, ema_slow,
+        version, variant, close, bb_mid, bb_upper, bb_lower, ema_fast, ema_slow,
     );
     let direction = match dir {
         Some(d) => d,
@@ -228,13 +239,15 @@ fn evaluate_variant(fm: &FeatMap, expert_id: &str, version: &str, variant: &str)
     if variant == "b" {
         // Setup 3: entry proxy at the 2-SD band, stop under the SMA (two
         // sigma), profit exit at the 1-SD band (one sigma).
+        let stop_r = (2.0 * refs.sd_ref / refs.atr_ref).clamp(0.8, 2.0);
+        let target_r = (refs.sd_ref / refs.atr_ref).clamp(0.8, 2.0);
         geometry.insert(
             "stop_r".to_string(),
-            serde_json::json!(2.0 * refs.sd_ref / refs.atr_ref),
+            serde_json::json!(stop_r),
         );
         geometry.insert(
             "target_r".to_string(),
-            serde_json::json!(refs.sd_ref / refs.atr_ref),
+            serde_json::json!(target_r),
         );
         geometry.insert("mid_ref".to_string(), serde_json::json!(refs.mid_ref));
         if direction == "LONG" {
@@ -259,7 +272,7 @@ fn evaluate_variant(fm: &FeatMap, expert_id: &str, version: &str, variant: &str)
     } else {
         // Setup 2: fade the 2-SD band; the 3-SD stop and the 1-SD target are
         // each one band-sigma away.
-        let r = refs.sd_ref / refs.atr_ref;
+        let r = (refs.sd_ref / refs.atr_ref).clamp(0.8, 2.0);
         geometry.insert("stop_r".to_string(), serde_json::json!(r));
         geometry.insert("target_r".to_string(), serde_json::json!(r));
         if direction == "SHORT" {

@@ -19,8 +19,9 @@ cargo test --manifest-path v8-core/Cargo.toml qualification::tests
 |---|---|---|---|
 | `failed_breakout:v1` | D-141 test manifesti | EWQ-01…06 geçerse yalnız `SEMANTICALLY_QUALIFIED` | `NO_ECONOMIC_CLAIM` |
 | `fib_projection_reversal:v1` | D-141 test manifesti | EWQ-01…06 geçerse yalnız `SEMANTICALLY_QUALIFIED` | `NO_ECONOMIC_CLAIM` |
+| `ichimoku_cloud:v2` | D-141 test manifesti | EWQ-01…06 geçerse yalnız `SEMANTICALLY_QUALIFIED` | `NO_ECONOMIC_CLAIM` |
 
-Diğer kayıtlı tanıklar kendi Davranış Kartı ve manifestlerini almadan geçmiş/başarısız sayılmaz. Registry manifest kapsamı, çalıştırılmış test geçiş oranından ayrı raporlanır.
+Mevcut suite, 28 tanıklı registry içinde 3 pilot tanığı çalıştırır (3/28 = %10,71 manifest kapsamı). Diğer kayıtlı tanıklar kendi Davranış Kartı, senaryoları ve manifestlerini almadan geçmiş/başarısız sayılmaz. Registry manifest kapsamı, çalıştırılmış test geçiş oranından ayrı raporlanır.
 
 ## Kapı yorumu
 

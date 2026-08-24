@@ -21,11 +21,11 @@ pub const REQUIRES: &[&str] = &["location", "volatility", "history"];
 // re-literalized inside evaluate(); a structural target/stop is computed at
 // the call site and overrides the key.
 pub const TARGET_R: f64 = 1.0;
-pub const STOP_R: f64 = 1.0;
+pub const _STOP_R: f64 = 1.0;
 pub const EXPIRY_BARS: i64 = 8;
 
 /// The frozen variant 'a' retracement ratio (self._RATIO['a']).
-const RATIO: f64 = 0.382;
+const _RATIO: f64 = 0.382;
 /// The deepest retracement: the invalidation / stop reference level.
 const DEEP_RETRACEMENT: f64 = 0.786;
 
@@ -64,7 +64,7 @@ fn short_pred(i: usize, b: &HistBar, level: f64) -> bool {
 pub fn fib_retracement_continuation(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
     // `_need` over {sym}.close/.atr/.history/.fib_levels; then the None guards.
-    let _close = match fm.value("close") {
+    let close = match fm.value("close") {
         Some(v) => v,
         None => return no_habitat(expert_id, version, fm.as_of),
     };
@@ -96,10 +96,74 @@ pub fn fib_retracement_continuation(fm: &FeatMap, expert_id: &str, version: &str
     if !(direction == 1.0 || direction == -1.0) || anchor_price <= 0.0 {
         return no_habitat(expert_id, version, fm.as_of);
     }
-    let level = match retracement_level(&fibs, RATIO) {
-        Some(v) => v,
-        None => return no_habitat(expert_id, version, fm.as_of),
+
+    if version == "v1" {
+        let level = match retracement_level(&fibs, 0.382) {
+            Some(v) => v,
+            None => return no_habitat(expert_id, version, fm.as_of),
+        };
+        let deep = match retracement_level(&fibs, DEEP_RETRACEMENT) {
+            Some(v) => v,
+            None => return no_habitat(expert_id, version, fm.as_of),
+        };
+        let (direction_sig, pred): (&str, fn(usize, &HistBar, f64) -> bool) = if direction == 1.0 {
+            ("LONG", long_pred)
+        } else {
+            ("SHORT", short_pred)
+        };
+        let n = fm.history.len();
+        if !pred(n - 1, &fm.history[n - 1], level) {
+            return no_setup(expert_id, version, fm.as_of);
+        }
+        let anchor = find_setup_anchor(&fm.history, &|i, b| pred(i, b, level));
+        let draft = Draft {
+            direction: direction_sig.to_string(),
+            birth_time: fm.as_of,
+            risk_geometry: geom(vec![
+                ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
+                ("target_r", serde_json::json!(TARGET_R)),
+                ("stop_r", serde_json::json!(1.0)),
+                ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
+                ("atr_ref", serde_json::json!(atr)),
+                (
+                    if direction_sig == "LONG" {
+                        "prior_low_ref"
+                    } else {
+                        "prior_high_ref"
+                    },
+                    serde_json::json!(deep),
+                ),
+            ]),
+        };
+        let fingerprint = format!("{sym}:{:.3}:{:.6}:{direction_sig}", 0.382, level);
+        return candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint);
+    }
+
+    let ratios = [0.382, 0.500, 0.618];
+    let mut hit_level: Option<(f64, f64)> = None; // (ratio, level_price)
+
+    let n = fm.history.len();
+    let newest = &fm.history[n - 1];
+
+    for &r in &ratios {
+        if let Some(lvl) = retracement_level(&fibs, r) {
+            let reached_and_reclaimed = if direction == 1.0 {
+                newest.low <= lvl && newest.close > lvl
+            } else {
+                newest.high >= lvl && newest.close < lvl
+            };
+            if reached_and_reclaimed {
+                hit_level = Some((r, lvl));
+                break;
+            }
+        }
+    }
+
+    let (active_ratio, level) = match hit_level {
+        Some(hl) => hl,
+        None => return no_setup(expert_id, version, fm.as_of),
     };
+
     let deep = match retracement_level(&fibs, DEEP_RETRACEMENT) {
         Some(v) => v,
         None => return no_habitat(expert_id, version, fm.as_of),
@@ -109,18 +173,18 @@ pub fn fib_retracement_continuation(fm: &FeatMap, expert_id: &str, version: &str
     } else {
         ("SHORT", short_pred)
     };
-    let n = fm.history.len();
-    if !pred(n - 1, &fm.history[n - 1], level) {
-        return no_setup(expert_id, version, fm.as_of);
-    }
+
     let anchor = find_setup_anchor(&fm.history, &|i, b| pred(i, b, level));
+    let raw_stop_r = (close - deep).abs() / atr;
+    let stop_r = raw_stop_r.clamp(0.8, 2.0);
+
     let draft = Draft {
         direction: direction_sig.to_string(),
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
             ("target_r", serde_json::json!(TARGET_R)),
-            ("stop_r", serde_json::json!(STOP_R)),
+            ("stop_r", serde_json::json!(stop_r)),
             ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
             ("atr_ref", serde_json::json!(atr)),
             // The invalidation reference is FROZEN at detection (prior_*_ref,
@@ -133,8 +197,9 @@ pub fn fib_retracement_continuation(fm: &FeatMap, expert_id: &str, version: &str
                 },
                 serde_json::json!(deep),
             ),
+            ("ratio", serde_json::json!(active_ratio)),
         ]),
     };
-    let fingerprint = format!("{sym}:{:.3}:{:.6}:{direction_sig}", RATIO, level);
+    let fingerprint = format!("{sym}:{:.3}:{:.6}:{direction_sig}", active_ratio, level);
     candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint)
 }

@@ -14,7 +14,7 @@ pub const REQUIRES: &[&str] = &["trend", "volatility", "history"];
 // re-literalized inside evaluate(); a structural target/stop is computed at
 // the call site and overrides the key.
 pub const TARGET_R: f64 = 1.0;
-pub const STOP_R: f64 = 1.0;
+pub const _STOP_R: f64 = 1.0;
 pub const EXPIRY_BARS: i64 = 8;
 
 pub fn trend_pullback(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
@@ -38,22 +38,83 @@ pub fn trend_pullback(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
     if fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }
-    if !(fast > slow && close < slow) {
-        return no_setup(expert_id, version, fm.as_of);
+    if version == "v1" {
+        if !(fast > slow && close < slow) {
+            return no_setup(expert_id, version, fm.as_of);
+        }
+        let pred = |_i: usize, b: &HistBar| b.ema_fast > b.ema_slow && b.close < b.ema_slow;
+        let anchor = find_setup_anchor(&fm.history, &pred);
+        let draft = Draft {
+            direction: "LONG".into(),
+            birth_time: fm.as_of,
+            risk_geometry: geom(vec![
+                ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
+                ("target_r", serde_json::json!(TARGET_R)),
+                ("stop_r", serde_json::json!(1.0)),
+                ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
+                ("atr_ref", serde_json::json!(atr)),
+            ]),
+        };
+        let fingerprint = format!("{sym}:{:.6}:{:.6}", close, slow);
+        return candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint);
     }
-    let pred = |_i: usize, b: &HistBar| b.ema_fast > b.ema_slow && b.close < b.ema_slow;
+
+    let n = fm.history.len();
+    let newest = &fm.history[n - 1];
+
+    // LONG: Uptrend (fast > slow), dipped towards slow EMA and closed back above fast EMA
+    let is_long_reclaim = fast > slow && newest.low <= slow && close > fast;
+    // SHORT: Downtrend (fast < slow), rose towards slow EMA and closed back below fast EMA
+    let is_short_reclaim = fast < slow && newest.high >= slow && close < fast;
+
+    let direction = if is_long_reclaim {
+        "LONG"
+    } else if is_short_reclaim {
+        "SHORT"
+    } else {
+        return no_setup(expert_id, version, fm.as_of);
+    };
+
+    let pred = move |_i: usize, b: &HistBar| {
+        if direction == "LONG" {
+            b.ema_fast > b.ema_slow && b.low <= b.ema_slow && b.close > b.ema_fast
+        } else {
+            b.ema_fast < b.ema_slow && b.high >= b.ema_slow && b.close < b.ema_fast
+        }
+    };
     let anchor = find_setup_anchor(&fm.history, &pred);
+    let stop_price = if direction == "LONG" {
+        newest.low.min(slow - 1.0 * atr)
+    } else {
+        newest.high.max(slow + 1.0 * atr)
+    };
+    let raw_stop_r = if direction == "LONG" {
+        (close - stop_price) / atr
+    } else {
+        (stop_price - close) / atr
+    };
+    let stop_r = raw_stop_r.clamp(0.8, 2.0);
+
     let draft = Draft {
-        direction: "LONG".into(),
+        direction: direction.into(),
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
             ("target_r", serde_json::json!(TARGET_R)),
-            ("stop_r", serde_json::json!(STOP_R)),
+            ("stop_r", serde_json::json!(stop_r)),
             ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
             ("atr_ref", serde_json::json!(atr)),
+            ("variant", serde_json::json!("v2")),
+            (
+                if direction == "LONG" {
+                    "prior_low_ref"
+                } else {
+                    "prior_high_ref"
+                },
+                serde_json::json!(stop_price),
+            ),
         ]),
     };
-    let fingerprint = format!("{sym}:{:.6}:{:.6}", close, slow);
+    let fingerprint = format!("{sym}:{direction}:{close:.6}:{slow:.6}");
     candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint)
 }

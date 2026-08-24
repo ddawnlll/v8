@@ -19,8 +19,9 @@ cargo test --manifest-path v8-core/Cargo.toml qualification::tests
 |---|---|---|---|
 | `failed_breakout:v1` | D-141 test manifest | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
 | `fib_projection_reversal:v1` | D-141 test manifest | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
+| `ichimoku_cloud:v2` | D-141 test manifest | `SEMANTICALLY_QUALIFIED` only if EWQ-01…06 pass | `NO_ECONOMIC_CLAIM` |
 
-The other registered witnesses are intentionally not counted as passed or failed until they receive their own Behavior Card and manifest. Registry manifest coverage is reported separately from the executed-test pass rate.
+The current suite executes 3 pilot witnesses against a 28-witness registry (3/28 = 10.71% manifest coverage). The other registered witnesses are intentionally not counted as passed or failed until they receive their own Behavior Card, scenarios, and manifest. Registry manifest coverage is reported separately from the executed-test pass rate.
 
 ## Gate interpretation
 

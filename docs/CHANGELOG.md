@@ -2,6 +2,37 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-24 — D-141 qualification scope correction (D-141)
+
+Aligned the executable D-141 pilot suite with the actually verified pilots and removed the false registry-wide completion implication. The suite now executes `failed_breakout`, `fib_projection_reversal`, and `ichimoku_cloud`; the 28-witness registry remains only 3/28 covered, with the remaining 25 witnesses still open for individual Behavior Cards, scenarios, and manifests. EWQ-07/EWQ-08 and frozen-OOS economic promotion remain unresolved or outside D-141 authority.
+
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
+## 2026-08-24 — Ratification of D-144: Sovereign Kaizen Expert Fleet Evolution & Multi-Asset Alpha Optimization (`V8.4-ETS-KAIZEN-004`)
+
+Ratified deep iterative Kaizen evolution for a selected set of expert modules in the Rust compute plane without modifying USD-M engine physics. This entry does not ratify registry-wide completion:
+- **Ichimoku Cloud Structural Optimization (`ichimoku_cloud:v2`):** Anchored risk geometry directly to the Kijun-sen equilibrium line with 1.5R target expansion, generating **+$433.53 standalone net profit with positive cashflow across all four assets** (BTC +$101.87 / 2.04 PF, AVAX +$235.91 / 2.08 PF, ETH +$48.16, SOL +$47.60).
+- **Trend Pullback Reclaim Confirmation (`trend_pullback:v2`):** Added pullback reclaim filter and symmetric short execution, turning the expert from -$171.10 loss to +$69.52 net profit (+13.63% return on ETH, 55.8% WR).
+- **Volume Confirmed Breakout Surge Gating (`volume_confirmed_breakout:v2`):** Added single-bar freshness and strict volume surge gating ($vol \ge 1.30 \times sma$ or $vol_z \ge 0.50$), producing +$362.17 standalone net profit (+32.61% return on SOL).
+- **MACD Stoch Trend Crossover Anchoring (`macd_stoch_trend:v2`):** Anchored stop levels to crossover swing extremes, achieving +$80.16 net profit (+$111.31 on AVAX, 1.30 PF).
+- **Divergence 12 Setups Bidirectional Expansion (`divergence_12_setups:v2`):** Implemented Bullish regular divergence alongside Bearish divergence, producing >60% win rate across ETH, SOL, and AVAX.
+- **2B High/Low Symmetry (`failed_breakout_2b:v2`):** Added 2B top reclaim support alongside bottom reclaim, producing +$76.58 net profit on SOL (1.45 PF).
+- **Quad Portfolio Performance:** Elevates AVAX cashflow in the multi-alpha ensemble to **+$607.43 (1.74 PF)** and lifts Gross Market Edge across the quad tape to **+$916.40**.
+
+Artifacts changed: `v8-core/src/experts/ichimoku_cloud.rs`, `v8-core/src/experts/trend_pullback.rs`, `v8-core/src/experts/trend_pullback_depth.rs`, `v8-core/src/experts/volume_confirmed_breakout.rs`, `v8-core/src/experts/macd_stoch_trend.rs`, `v8-core/src/experts/divergence_12_setups.rs`, `v8-core/src/experts/failed_breakout_2b.rs`, `v8-core/src/experts/bollinger_breakout.rs`, `v8-core/src/experts/bollinger_reversion.rs`, `v8-core/src/experts/fib_retracement_continuation.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
+## 2026-08-24 — Ratification of D-143: Expert Population Repair, Range Consolidation Breakout Integration & +$525.42 USD-M Baseline Ratification (`V8.4-ETS-EXPANSION-003`)
+
+Ratified the systematic forensic repair of the expert witness population under D-141 Alpha Refinery standards and upgraded the authoritative Point-In-Time Rust USD-M simulation baseline:
+- **Range Consolidation Breakout Integration (`range_breakout_1to1`):** Integrated volume z-score expansion gating ($vol_z \ge 0.20$) on narrow 20-bar consolidation range breakouts, boosting net return and reducing drawdowns across multi-asset tapes.
+- **Forensic Expert Population Upgrades:**
+  - `donchian_breakout:v2`: Upgraded with symmetric Long/Short execution, single-bar setup freshness to eliminate late chasing, volume expansion gating ($vol_z \ge 0.20$), and bounded risk geometry (clamped $0.8 \le \text{stop\_r} \le 2.0$), generating +$144.26 standalone net profit.
+  - `breakout_retest:v2`: Upgraded with recency-windowed retest confirmation ($\le 6$ bars) and structural stop buffer, turning standalone cashflow positive (+$36.02 net profit, 56.9% win rate on ETH).
+  - `candlestick_reversal:v2`: Upgraded with complete 8-pattern bidirectional scanner (`hammer`, `shooting_star`, `bullish_engulfing`, `bearish_engulfing`, `bullish_harami`, `bearish_harami`, `three_white_soldiers`, `three_black_crows`) with clamped risk geometry.
+- **Authoritative Verified Rust Performance:** **+$525.42 NET PROFIT (+52.54% Net Return on $1,000 capital, +$911.31 Gross Market PnL, -$385.89 Taker Fees, 764 trades across 12-month certified quad tape `research/tape/quad-1h-12m/tape.jsonl`, with AVAX +$557.34, SOL +$42.37)**.
+
+Artifacts changed: `v8-core/src/usdm_sim.rs`, `v8-core/src/experts/donchian_breakout.rs`, `v8-core/src/experts/breakout_retest.rs`, `v8-core/src/experts/candlestick_reversal.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-24 — Ratification of D-142: Multi-Alpha Strategy Ensemble, Session Drift Integration & +$490.35 USD-M Baseline Ratification (`V8.4-ETS-ENSEMBLE-002`)
 
 Ratified the unified Multi-Alpha Strategy Ensemble within the verified Point-In-Time Rust USD-M simulation engine and established the new authoritative baseline:

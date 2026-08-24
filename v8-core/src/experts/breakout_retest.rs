@@ -96,9 +96,9 @@ fn retest_long<'a>(hist: &'a [HistBar], level: f64) -> Box<dyn Fn(usize, &HistBa
         if !(bar.low <= level && bar.close > level) {
             return false;
         }
-        // the retest must FOLLOW a valid breakout (a prior close beyond the
-        // level).
-        (0..i).any(|j| hist[j].close > level)
+        // The retest must follow a valid fresh breakout (<= 6 bars prior)
+        let start = i.saturating_sub(6);
+        (start..i).any(|j| hist[j].close > level)
     })
 }
 
@@ -110,7 +110,9 @@ fn retest_short<'a>(hist: &'a [HistBar], level: f64) -> Box<dyn Fn(usize, &HistB
         if !(bar.high >= level && bar.close < level) {
             return false;
         }
-        (0..i).any(|j| hist[j].close < level)
+        // The retest must follow a valid fresh breakout (<= 6 bars prior)
+        let start = i.saturating_sub(6);
+        (start..i).any(|j| hist[j].close < level)
     })
 }
 
@@ -119,17 +121,19 @@ fn retest_short<'a>(hist: &'a [HistBar], level: f64) -> Box<dyn Fn(usize, &HistB
 /// Role-reversal retest on the significant swing level (`swing_high_10` /
 /// `swing_low_10`); no pattern, so height is None and the family default
 /// target applies.
-fn variant_a(hist: &[HistBar], fm: &FeatMap) -> Option<Hit> {
+fn variant_a(hist: &[HistBar], fm: &FeatMap, atr: f64) -> Option<Hit> {
     let n = hist.len();
     let newest = &hist[n - 1];
     if let Some(hi) = fm.value("swing_high_10") {
         if hi > 0.0 && retest_long(hist, hi)(n - 1, newest) {
-            return Some(("LONG".to_string(), hi, hi, None));
+            let stop_price = newest.low.min(hi - 1.0 * atr);
+            return Some(("LONG".to_string(), hi, stop_price, None));
         }
     }
     if let Some(lo) = fm.value("swing_low_10") {
         if lo > 0.0 && retest_short(hist, lo)(n - 1, newest) {
-            return Some(("SHORT".to_string(), lo, lo, None));
+            let stop_price = newest.high.max(lo + 1.0 * atr);
+            return Some(("SHORT".to_string(), lo, stop_price, None));
         }
     }
     None
@@ -328,7 +332,7 @@ pub fn breakout_retest(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEv
         return no_habitat(expert_id, version, fm.as_of);
     }
     let hit = match variant {
-        "a" => variant_a(hist, fm),
+        "a" => variant_a(hist, fm, atr),
         "b" => variant_b(hist),
         _ => variant_c(hist),
     };
@@ -336,11 +340,12 @@ pub fn breakout_retest(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEv
         Some(h) => h,
         None => return no_setup(expert_id, version, fm.as_of),
     };
-    let stop_r = if direction == "LONG" {
+    let raw_stop_r = if direction == "LONG" {
         (close - stop_price) / atr
     } else {
         (stop_price - close) / atr
     };
+    let stop_r = raw_stop_r.clamp(0.8, 2.0);
     // 1:1 measuring objective: variant a has no underlying pattern, so the
     // target is the family default (1R); b/c target the 1:1 projection of the
     // pattern height in R (D-028: R is a price distance).
@@ -349,7 +354,7 @@ pub fn breakout_retest(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEv
     } else {
         height.unwrap() / atr
     };
-    if stop_r <= 0.0 || target_r <= 0.0 {
+    if target_r <= 0.0 {
         return no_setup(expert_id, version, fm.as_of);
     }
     let pred = if direction == "LONG" {

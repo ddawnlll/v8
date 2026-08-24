@@ -609,7 +609,7 @@ fn base_input() -> ScenarioInput {
         symbol: "BTCUSDT".into(),
         as_of: 1_700_000_000_000_000_000,
         scalars: BTreeMap::from([("close".into(), 99.0), ("atr".into(), 2.0)]),
-        structured: BTreeMap::new(),
+        structured: BTreeMap::from([("history".into(), serde_json::json!(true))]),
         history: vec![
             ScenarioBar {
                 event_id: "b0".into(),
@@ -791,6 +791,157 @@ pub fn fib_projection_reversal_scenarios() -> Vec<Scenario> {
             &["extension-boundary"],
         ),
     ]
+}
+
+pub fn ichimoku_cloud_scenarios() -> Vec<Scenario> {
+    let mut bars = Vec::new();
+    for i in 0..28 {
+        bars.push(ScenarioBar {
+            event_id: format!("ik-{i}"),
+            open: 95.0,
+            high: 100.0,
+            low: if i < 20 { 85.0 } else { 95.0 },
+            close: 95.0,
+            ema_fast: 100.0,
+            ema_slow: 100.0,
+        });
+    }
+    // Bar 28 (n-1): Crossover bar
+    bars.push(ScenarioBar {
+        event_id: "ik-28".into(),
+        open: 95.0,
+        high: 120.0,
+        low: 95.0,
+        close: 115.0,
+        ema_fast: 102.0,
+        ema_slow: 100.0,
+    });
+
+    let mut long_input = base_input();
+    long_input.history = bars;
+    long_input.scalars.insert("close".into(), 115.0);
+    long_input.scalars.insert("atr".into(), 2.0);
+
+    let mut negative_input = long_input.clone();
+    negative_input.scalars.insert("close".into(), 80.0);
+
+    vec![
+        scenario(
+            "ichimoku-positive-long",
+            ScenarioClass::CanonicalPositive,
+            "ICHIMOKU-POS-LONG",
+            long_input,
+            ExpectedStance::SupportLong,
+            &["tenkan-kijun-bull", "long"],
+        ),
+        scenario(
+            "ichimoku-negative",
+            ScenarioClass::CanonicalNegative,
+            "ICHIMOKU-NEG",
+            negative_input,
+            ExpectedStance::Abstain,
+            &["no-cross"],
+        ),
+    ]
+}
+
+pub fn ichimoku_cloud_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "ichimoku_cloud".into(),
+            expert_version: "v2".into(),
+            mechanism_family_id: "equilibrium".into(),
+            behavior_family_id: "cloud_cross".into(),
+            dependency_group: "dep_ichimoku".into(),
+            hypothesis: "Tenkan/Kijun equilibrium crossing with price alignment supports directional trend.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "history".into()],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.ichimoku.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn range_breakout_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "range_breakout_1to1".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "consolidation".into(),
+            behavior_family_id: "range_expansion".into(),
+            dependency_group: "dep_range".into(),
+            hypothesis: "Breakout from a verified narrow consolidation range with volume expansion supports directional expansion.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "window_high_20".into(),
+                "window_low_20".into(),
+                "range_height_20".into(),
+                "consolidation_range".into(),
+                "vol_zscore".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.range_breakout.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn donchian_breakout_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "donchian_breakout".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "trend_breakout".into(),
+            behavior_family_id: "channel_break".into(),
+            dependency_group: "dep_channel".into(),
+            hypothesis: "Close above 20-bar Donchian channel high supports Long channel continuation.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "window_high_20".into(),
+                "window_low_20".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.donchian.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
 }
 
 pub fn pilot_oracle(id: &str, version: &str, scenarios: &[Scenario]) -> DeclarativeScenarioOracle {
@@ -1702,7 +1853,7 @@ pub fn pilot_registry_report(passports: Vec<ExpertPassport>) -> RegistryQualific
             passport.gate_status.get(&EwqGate::Ewq03CanonicalNegative) == Some(&GateStatus::Pass)
         })
         .count();
-    let total_registered_witnesses = crate::experts::default_28_witness_ensemble().len();
+    let total_registered_witnesses = crate::experts::TABLE.len();
     let witnesses_with_manifest = passports.len();
     RegistryQualificationReport {
         total_registered_witnesses,
@@ -1739,6 +1890,7 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
         ),
+        (ichimoku_cloud_manifest(), ichimoku_cloud_scenarios()),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -1797,16 +1949,15 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
         mutations.push(mutation);
     }
     let registry_report = RegistryQualificationReport {
-        total_registered_witnesses: crate::experts::default_28_witness_ensemble().len(),
+        total_registered_witnesses: crate::experts::TABLE.len(),
         witnesses_with_manifest: passports.len(),
         executed_tests,
         passed_tests,
         execution_pass_rate: (executed_tests != 0)
             .then(|| passed_tests as f64 / executed_tests as f64),
-        registry_manifest_coverage: (!crate::experts::default_28_witness_ensemble().is_empty())
-            .then(|| {
-                passports.len() as f64 / crate::experts::default_28_witness_ensemble().len() as f64
-            }),
+        registry_manifest_coverage: (!crate::experts::TABLE.is_empty()).then(|| {
+            passports.len() as f64 / crate::experts::TABLE.len() as f64
+        }),
         passports: passports.clone(),
         economic_claim: NO_ECONOMIC_CLAIM.into(),
     };
@@ -1969,7 +2120,9 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 2);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 3);
+        assert_eq!(suite.registry_report.total_registered_witnesses, 28);
+        assert_eq!(suite.registry_report.registry_manifest_coverage, Some(3.0 / 28.0));
         assert!(!suite
             .passports
             .iter()
@@ -2810,5 +2963,56 @@ mod tests {
         let ev = crate::experts::range_breakout_1to1::range_breakout_1to1(&fm, "range_breakout_1to1", "v1");
         assert_eq!(ev.decision, "CANDIDATE");
         assert_eq!(ev.draft.as_ref().unwrap().direction, "LONG");
+    }
+
+    #[test]
+    fn test_d141_ichimoku_cloud_end_to_end_qualification() {
+        let manifest = ichimoku_cloud_manifest();
+        assert!(manifest.validate().is_ok());
+        let scenarios = ichimoku_cloud_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        eprintln!("ICHIMOKU RECEIPTS: {:#?}", run.receipts);
+        assert_eq!(run.passed(), run.total());
+        assert_eq!(run.total(), 2);
+
+        let mutation_receipts = kill_mutants(&manifest.card.expert_id, &scenarios);
+        let mutation = MutationReport::from_receipts(mutation_receipts);
+        assert!(mutation.critical_kill_complete());
+
+        let coverage = BehaviorCoverage::from_scenarios(
+            ["tenkan-kijun-bull".into(), "no-cross".into()],
+            &scenarios,
+        );
+        assert_eq!(coverage.fraction(), Some(1.0));
+
+        let passport = ExpertPassport::from_run(&manifest, &run, &mutation, &coverage, &[]).unwrap();
+        assert_eq!(passport.verdict, EpistemicVerdict::SemanticallyQualified);
+        assert_eq!(passport.economic_claim, NO_ECONOMIC_CLAIM);
+    }
+
+    #[test]
+    fn test_d141_full_alpha_refinery_pilots_qualification() {
+        let pilots = vec![
+            (failed_breakout_manifest(), failed_breakout_scenarios()),
+            (fib_projection_reversal_manifest(), fib_projection_reversal_scenarios()),
+            (ichimoku_cloud_manifest(), ichimoku_cloud_scenarios()),
+        ];
+        for (manifest, scenarios) in pilots {
+            assert!(manifest.validate().is_ok());
+            let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+            let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+            assert_eq!(run.passed(), run.total());
+
+            let mutation = MutationReport::from_receipts(kill_mutants(&manifest.card.expert_id, &scenarios));
+            assert!(mutation.critical_kill_complete());
+
+            let coverage = BehaviorCoverage::from_scenarios(
+                scenarios.iter().flat_map(|s| s.required_cells.clone()),
+                &scenarios,
+            );
+            let passport = ExpertPassport::from_run(&manifest, &run, &mutation, &coverage, &[]).unwrap();
+            assert_eq!(passport.verdict, EpistemicVerdict::SemanticallyQualified);
+        }
     }
 }

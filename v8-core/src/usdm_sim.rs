@@ -503,15 +503,17 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                 for (eid, closure, allows_hist) in &projections {
                     // Focus on Certified Net Alpha Producing Strategy Families, or requested experts
                     let is_alpha_expert = if params.enabled_experts.as_ref().unwrap_or(&Vec::new()).is_empty() {
-                        match *eid {
+                        matches!(
+                            *eid,
                             "floor_trader_pivot"
-                            | "failed_breakout"
-                            | "fib_projection_reversal"
-                            | "liquidity_sweep_reclaim" => true,
-                            _ => false,
-                        }
+                                | "failed_breakout"
+                                | "fib_projection_reversal"
+                                | "liquidity_sweep_reclaim"
+                                | "range_breakout_1to1"
+                                | "ichimoku_cloud"
+                        )
                     } else {
-                        true
+                        params.enabled_experts.as_ref().unwrap().contains(&eid.to_string())
                     };
                     if !is_alpha_expert {
                         continue;
@@ -538,7 +540,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                                 entry_price + stop_dist
                             };
 
-                            // D-141 Regime Gate: Require minimum trend efficiency (ER >= 0.18 or volume surge >= 1.20)
+                            // D-141/D-144 Regime Gate: Require minimum trend efficiency (ER >= 0.18 or volume surge >= 1.20)
                             if kaufman_er >= 0.18 || vol_ratio >= 1.20 {
                                 bar_votes.push(SensorVote {
                                     sensor_id: eid.to_string(),
@@ -688,9 +690,10 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                             continue;
                         }
 
-                        // ETS Economic Margin Gate: Ensure structural target/stop distance >= 4.0x roundtrip friction
+                        // ETS Economic Margin Gate: Ensure structural target/stop distance >= ATR-scaled friction floor
                         let stop_dist_pct = (cluster.consensus_entry - cluster.structural_invalidation_price).abs() / cluster.consensus_entry;
-                        if stop_dist_pct < 0.008 {
+                        let min_stop_dist_pct = (0.60 * current_atr / cluster.consensus_entry).max(0.008);
+                        if stop_dist_pct < min_stop_dist_pct {
                             *rejections.entry("ECONOMIC_MARGIN_BELOW_FRICTION_FLOOR".to_string()).or_default() += 1;
                             continue;
                         }

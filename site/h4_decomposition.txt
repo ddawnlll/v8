@@ -1,61 +1,61 @@
 === H4 CONFLICT SOURCE DECOMPOSITION REPORT ===
-Total Stage 3 evaluations: 4056
-Total Stage 3 drops (Contradiction/Entropy): 3225
-Entropy distribution: [0..0.3): 158, [0.3..0.5): 828, [0.5..0.6): 417, [0.6..0.693]: 2653, [0.693+]: 0
+Total Stage 3 evaluations: 4071
+Total Stage 3 drops (Contradiction/Entropy): 3088
+Entropy distribution: [0..0.3): 200, [0.3..0.5): 932, [0.5..0.6): 436, [0.6..0.693]: 2503, [0.693+]: 0
 
 Top Contradicting Experts in Dropped Episodes:
-  - volume_climax_reversal: 2813 contradicts
-  - market_profile_value_area: 1538 contradicts
-  - bollinger_reversion: 942 contradicts
+  - volume_climax_reversal: 2712 contradicts
+  - market_profile_value_area: 1547 contradicts
+  - bollinger_reversion: 933 contradicts
   - liquidity_sweep_reclaim: 400 contradicts
-  - bollinger_breakout: 203 contradicts
-  - macd_stoch_trend: 116 contradicts
-  - rsi_stoch_reversion: 113 contradicts
-  - failed_breakout: 74 contradicts
+  - bollinger_breakout: 174 contradicts
+  - candlestick_reversal: 144 contradicts
+  - macd_stoch_trend: 115 contradicts
+  - rsi_stoch_reversion: 112 contradicts
+  - failed_breakout: 75 contradicts
   - fib_retracement_continuation: 56 contradicts
   - trend_pullback_depth: 44 contradicts
-  - trend_pullback: 44 contradicts
+  - trend_pullback: 43 contradicts
   - fib_projection_reversal: 38 contradicts
-  - pandf_breakout: 23 contradicts
+  - pandf_breakout: 22 contradicts
   - ichimoku_cloud: 13 contradicts
-  - candlestick_reversal: 11 contradicts
 
 Top Supporting Experts in Dropped Episodes:
-  - bollinger_breakout: 2473 supports
-  - macd_stoch_trend: 1934 supports
-  - floor_trader_pivot: 1117 supports
-  - volume_confirmed_breakout: 536 supports
-  - trend_pullback_depth: 501 supports
-  - rsi_stoch_reversion: 446 supports
-  - donchian_breakout: 269 supports
-  - volume_climax_reversal: 215 supports
-  - range_breakout_1to1: 188 supports
-  - ichimoku_cloud: 163 supports
-  - breakout_retest: 146 supports
-  - fib_retracement_continuation: 131 supports
-  - market_profile_value_area: 110 supports
-  - pandf_breakout: 79 supports
-  - pattern_measuring_objective: 69 supports
+  - bollinger_breakout: 2371 supports
+  - macd_stoch_trend: 1835 supports
+  - floor_trader_pivot: 1102 supports
+  - candlestick_reversal: 763 supports
+  - volume_confirmed_breakout: 516 supports
+  - trend_pullback_depth: 497 supports
+  - rsi_stoch_reversion: 437 supports
+  - donchian_breakout: 257 supports
+  - volume_climax_reversal: 185 supports
+  - range_breakout_1to1: 183 supports
+  - ichimoku_cloud: 160 supports
+  - fib_retracement_continuation: 128 supports
+  - breakout_retest: 118 supports
+  - market_profile_value_area: 106 supports
+  - pandf_breakout: 77 supports
 
 Top Conflicting Expert Pairs (Supporter vs Contradicter):
-  - Supporter: bollinger_breakout             vs Contradicter: volume_climax_reversal         -> 2295 occurrences
-  - Supporter: macd_stoch_trend               vs Contradicter: volume_climax_reversal         -> 1822 occurrences
+  - Supporter: bollinger_breakout             vs Contradicter: volume_climax_reversal         -> 2199 occurrences
+  - Supporter: macd_stoch_trend               vs Contradicter: volume_climax_reversal         -> 1729 occurrences
   - Supporter: bollinger_breakout             vs Contradicter: market_profile_value_area      -> 1103 occurrences
-  - Supporter: floor_trader_pivot             vs Contradicter: volume_climax_reversal         -> 1071 occurrences
+  - Supporter: floor_trader_pivot             vs Contradicter: volume_climax_reversal         -> 1056 occurrences
   - Supporter: macd_stoch_trend               vs Contradicter: market_profile_value_area      -> 997 occurrences
-  - Supporter: bollinger_breakout             vs Contradicter: bollinger_reversion            -> 942 occurrences
+  - Supporter: bollinger_breakout             vs Contradicter: bollinger_reversion            -> 933 occurrences
   - Supporter: floor_trader_pivot             vs Contradicter: market_profile_value_area      -> 910 occurrences
-  - Supporter: macd_stoch_trend               vs Contradicter: bollinger_reversion            -> 584 occurrences
-  - Supporter: trend_pullback_depth           vs Contradicter: volume_climax_reversal         -> 480 occurrences
-  - Supporter: volume_confirmed_breakout      vs Contradicter: volume_climax_reversal         -> 466 occurrences
-  - Supporter: volume_confirmed_breakout      vs Contradicter: bollinger_reversion            -> 421 occurrences
-  - Supporter: rsi_stoch_reversion            vs Contradicter: volume_climax_reversal         -> 414 occurrences
+  - Supporter: candlestick_reversal           vs Contradicter: volume_climax_reversal         -> 665 occurrences
+  - Supporter: macd_stoch_trend               vs Contradicter: bollinger_reversion            -> 576 occurrences
+  - Supporter: trend_pullback_depth           vs Contradicter: volume_climax_reversal         -> 476 occurrences
+  - Supporter: candlestick_reversal           vs Contradicter: market_profile_value_area      -> 453 occurrences
+  - Supporter: volume_confirmed_breakout      vs Contradicter: volume_climax_reversal         -> 451 occurrences
+  - Supporter: volume_confirmed_breakout      vs Contradicter: bollinger_reversion            -> 413 occurrences
   - Supporter: trend_pullback_depth           vs Contradicter: market_profile_value_area      -> 410 occurrences
+  - Supporter: rsi_stoch_reversion            vs Contradicter: volume_climax_reversal         -> 405 occurrences
   - Supporter: bollinger_breakout             vs Contradicter: liquidity_sweep_reclaim        -> 397 occurrences
   - Supporter: rsi_stoch_reversion            vs Contradicter: market_profile_value_area      -> 312 occurrences
   - Supporter: macd_stoch_trend               vs Contradicter: liquidity_sweep_reclaim        -> 237 occurrences
-  - Supporter: donchian_breakout              vs Contradicter: volume_climax_reversal         -> 235 occurrences
-  - Supporter: donchian_breakout              vs Contradicter: bollinger_reversion            -> 223 occurrences
-  - Supporter: volume_climax_reversal         vs Contradicter: bollinger_breakout             -> 190 occurrences
-  - Supporter: floor_trader_pivot             vs Contradicter: bollinger_reversion            -> 189 occurrences
+  - Supporter: donchian_breakout              vs Contradicter: volume_climax_reversal         -> 226 occurrences
+  - Supporter: donchian_breakout              vs Contradicter: bollinger_reversion            -> 217 occurrences
 ================================================

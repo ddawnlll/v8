@@ -232,10 +232,8 @@ pub fn bollinger_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
     let bb = bb_series(hist);
     let bw = bw_series(&bb);
 
-    // The evaluated variant: the harness instantiates the class-default
-    // variant_id 'a' (BollingerBreakoutExpert()); the full a/b/c machinery is
-    // mirrored so the geometry carries the variant key.
-    let variant = fm.variant(expert_id, "a");
+    let default_var = if version == "v1" { "a" } else { "c" };
+    let variant = fm.variant(expert_id, default_var);
 
     // _direction: decided by the newest bar on the SAME condition the anchor
     // predicate evaluates per history bar (a gate that slides the reference
@@ -315,7 +313,7 @@ pub fn bollinger_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
     if variant == "a" {
         // Setup 1: entry proxy at the 1-SD band; the SMA stop and the 2-SD
         // target are each one band-sigma away (Ch12 p480-481).
-        let r = sd / atr;
+        let r = (sd / atr).clamp(0.8, 2.0);
         entries.push(("target_r", serde_json::json!(r)));
         entries.push(("stop_r", serde_json::json!(r)));
         if direction == "LONG" {
@@ -329,7 +327,7 @@ pub fn bollinger_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Exper
         // Variants b/c: the 2-SD band is already violated at entry; the stop
         // is the central value (book caveat, two sigma away) and the target is
         // the family 1:1 default.
-        let r = 2.0 * sd / atr;
+        let r = (2.0 * sd / atr).clamp(0.8, 2.0);
         entries.push(("target_r", serde_json::json!(r)));
         entries.push(("stop_r", serde_json::json!(r)));
         if direction == "LONG" {
