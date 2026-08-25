@@ -1416,10 +1416,11 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
     let mut tape_path: Option<PathBuf> = None;
     let mut out_dir: Option<PathBuf> = None;
     let mut initial_balance = 1000.0;
-    let mut risk_fraction = 0.005;
+    let mut risk_fraction = 0.0077725;
     let mut leverage = 10;
-    let mut max_concurrency = 3;
+    let mut max_concurrency = 1;
     let mut max_heat = 0.05;
+    let mut decision_stride_bars = 1usize;
     let mut enabled_experts: Option<Vec<String>> = None;
     let mut engine_mode: Option<String> = None;
     let mut exit_arm: Option<kaizen::exit_trailing::ExitArm> = None;
@@ -1489,6 +1490,15 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                     i += 2;
                 } else {
                     eprintln!("missing argument for --max-heat");
+                    return 2;
+                }
+            }
+            "--decision-stride-bars" => {
+                if i + 1 < args.len() {
+                    decision_stride_bars = args[i + 1].parse().unwrap_or(1).max(1);
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --decision-stride-bars");
                     return 2;
                 }
             }
@@ -1595,7 +1605,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
 
     let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
     let out = out_dir.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current"));
-    let final_engine_mode = engine_mode.or_else(|| Some("squeeze-swing".to_string()));
+    let final_engine_mode = engine_mode.or_else(|| Some("macro-m2".to_string()));
     let final_exit_arm = exit_arm;
 
     let params = usdm_sim::UsdmSimParams {
@@ -1606,6 +1616,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         leverage,
         max_concurrency,
         max_heat,
+        decision_stride_bars,
         enabled_experts,
         variant_overrides: std::collections::HashMap::new(),
         engine_mode: final_engine_mode,
@@ -1915,6 +1926,7 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
         leverage: 10,
         max_concurrency: 3,
         max_heat: 0.05,
+        decision_stride_bars: 1,
         enabled_experts: None,
         variant_overrides: std::collections::HashMap::new(),
         engine_mode: None,

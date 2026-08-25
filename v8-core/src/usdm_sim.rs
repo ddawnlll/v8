@@ -43,6 +43,8 @@ pub struct UsdmSimParams {
     pub max_concurrency: usize,
     #[serde(default = "default_max_heat")]
     pub max_heat: f64,
+    #[serde(default = "default_decision_stride_bars")]
+    pub decision_stride_bars: usize,
     #[serde(default)]
     pub enabled_experts: Option<Vec<String>>,
     #[serde(default)]
@@ -70,6 +72,9 @@ fn default_max_concurrency() -> usize {
 fn default_max_heat() -> f64 {
     0.05
 }
+fn default_decision_stride_bars() -> usize {
+    1
+}
 
 /// Structured execution receipt emitted to `.audit/rust_audit_current/portfolio_receipt.json`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -78,6 +83,7 @@ pub struct PortfolioReceipt {
     pub initial_balance_usdt: f64,
     pub terminal_equity_usdt: f64,
     pub net_profit_usdt: f64,
+    pub gross_market_pnl_usdt: f64,
     pub total_return_pct: f64,
     pub max_drawdown_pct: f64,
     pub max_margin_utilization_pct: f64,
@@ -377,7 +383,11 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
 
         // 4. Evaluate Opportunities (V8.3) or Expert hypotheses (V8.2)
         let t = i + 1;
-        if t >= 32 && portfolio.positions.len() < params.max_concurrency {
+        let decision_stride_bars = params.decision_stride_bars.max(1);
+        if t >= 32
+            && portfolio.positions.len() < params.max_concurrency
+            && i % decision_stride_bars == 0
+        {
             if is_v83_engine {
                 let current_heat = portfolio.portfolio_heat_r;
                 if let Ok(cycle) = v83_engine.step_bar(&store.symbol, "binance-um", store, i, &mut v83_book, current_heat) {
@@ -918,6 +928,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
 
     let total_fee_drag_usdt: f64 = ledger.flows.iter().map(|r| r.commission_usdt).sum();
     let total_funding_usdt: f64 = ledger.flows.iter().map(|r| r.funding_cashflow_usdt).sum();
+    let gross_market_pnl_usdt = ledger.total_gross_pnl();
 
     // Persist cashflow ledger
     let cf_path = params.out_dir.join("economic-cashflow.jsonl");
@@ -928,6 +939,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
         initial_balance_usdt: params.initial_balance,
         terminal_equity_usdt: terminal_equity,
         net_profit_usdt: net_profit,
+        gross_market_pnl_usdt,
         total_return_pct,
         max_drawdown_pct,
         max_margin_utilization_pct: max_margin_utilization,
@@ -969,6 +981,7 @@ mod tests {
             leverage: 10,
             max_concurrency: 3,
             max_heat: 0.05,
+            decision_stride_bars: 1,
             enabled_experts: None,
             variant_overrides: HashMap::new(),
             engine_mode: None,
@@ -1011,6 +1024,7 @@ mod tests {
                 leverage: 10,
                 max_concurrency: 3,
                 max_heat: 0.05,
+                decision_stride_bars: 1,
                 enabled_experts: None,
                 variant_overrides: HashMap::new(),
                 engine_mode: None,
@@ -1067,6 +1081,7 @@ mod tests {
             leverage: 10,
             max_concurrency: 3,
             max_heat: 0.05,
+            decision_stride_bars: 1,
             enabled_experts: None,
             variant_overrides: HashMap::new(),
             engine_mode: None,

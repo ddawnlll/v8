@@ -14,9 +14,11 @@ use std::collections::{BTreeMap, HashMap};
 use std::fs::{create_dir_all, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::thread;
 
 pub const ITERATION_SCHEMA_VERSION: &str = "d145.economic-kaizen.v1";
 pub const QUAD_SYMBOLS: [&str; 4] = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "AVAXUSDT"];
+pub const DEFAULT_CHECKPOINT_LABEL: &str = "macro-m2-high-fine-risk-018";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EconomicIterationConfig {
@@ -27,26 +29,35 @@ pub struct EconomicIterationConfig {
     pub leverage: u32,
     pub max_concurrency: usize,
     pub max_heat: f64,
+    pub decision_stride_bars: usize,
     pub enabled_experts: Option<Vec<String>>,
     pub variant_overrides: BTreeMap<String, String>,
     pub engine_mode: Option<String>,
     pub exit_arm: Option<ExitArm>,
+    #[serde(default = "default_symbols")]
+    pub symbols: Vec<String>,
+}
+
+fn default_symbols() -> Vec<String> {
+    QUAD_SYMBOLS.iter().map(|symbol| (*symbol).to_string()).collect()
 }
 
 impl EconomicIterationConfig {
     pub fn baseline(tape_path: impl Into<PathBuf>) -> Self {
         Self {
-            label: "baseline-current".into(),
+            label: DEFAULT_CHECKPOINT_LABEL.into(),
             tape_path: tape_path.into(),
             initial_balance: 1000.0,
-            risk_fraction: 0.005,
+            risk_fraction: 0.0077725,
             leverage: 10,
-            max_concurrency: 3,
+            max_concurrency: 1,
             max_heat: 0.05,
+            decision_stride_bars: 1,
             enabled_experts: None,
             variant_overrides: BTreeMap::new(),
-            engine_mode: Some("squeeze-swing".into()),
+            engine_mode: Some("macro-m2".into()),
             exit_arm: None,
+            symbols: default_symbols(),
         }
     }
 
@@ -59,11 +70,12 @@ impl EconomicIterationConfig {
         UsdmSimParams {
             tape_path: self.tape_path.clone(),
             out_dir,
-            initial_balance: self.initial_balance,
+            initial_balance: self.initial_balance / self.symbols.len().max(1) as f64,
             risk_fraction: self.risk_fraction,
             leverage: self.leverage,
             max_concurrency: self.max_concurrency,
             max_heat: self.max_heat,
+            decision_stride_bars: self.decision_stride_bars,
             enabled_experts: self.enabled_experts.clone(),
             variant_overrides,
             engine_mode: self.engine_mode.clone(),
@@ -80,6 +92,7 @@ impl EconomicIterationConfig {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EconomicFrontier {
     pub total_net_profit_usdt: f64,
+    pub total_gross_market_pnl_usdt: f64,
     pub total_fee_drag_usdt: f64,
     pub max_drawdown_pct: f64,
     pub max_margin_utilization_pct: f64,
@@ -98,6 +111,7 @@ pub struct EconomicIterationReceipt {
     pub frontier_before: Option<EconomicFrontier>,
     pub frontier_after: EconomicFrontier,
     pub total_net_profit_usdt: f64,
+    pub total_gross_market_pnl_usdt: f64,
     pub total_fee_drag_usdt: f64,
     pub max_drawdown_pct: f64,
     pub max_margin_utilization_pct: f64,
@@ -116,6 +130,7 @@ fn frontier(receipts: &[PortfolioReceipt]) -> EconomicFrontier {
     }
     EconomicFrontier {
         total_net_profit_usdt: receipts.iter().map(|r| r.net_profit_usdt).sum(),
+        total_gross_market_pnl_usdt: receipts.iter().map(|r| r.gross_market_pnl_usdt).sum(),
         total_fee_drag_usdt: receipts.iter().map(|r| r.total_fee_drag_usdt).sum(),
         max_drawdown_pct: receipts
             .iter()
@@ -148,6 +163,8 @@ pub struct EconomicIterationRunner {
     pub output_root: PathBuf,
     pub receipt_path: PathBuf,
     pub accepted_iteration_count: usize,
+    pub evaluation_count: usize,
+    pub symbols: Vec<String>,
     pub frontier: EconomicFrontier,
     /// Fixed baseline safety budget for accepted candidates.
     pub safety_max_drawdown_pct: f64,
@@ -159,6 +176,9 @@ impl EconomicIterationRunner {
         baseline: EconomicIterationConfig,
         output_root: impl Into<PathBuf>,
     ) -> Result<(Self, EconomicIterationReceipt), String> {
+        if baseline.symbols.is_empty() {
+            return Err("economic iteration symbol set cannot be empty".into());
+        }
         let output_root = output_root.into();
         create_dir_all(&output_root).map_err(|e| e.to_string())?;
         let receipt_path = output_root.join("iteration_receipts.jsonl");
@@ -175,6 +195,7 @@ impl EconomicIterationRunner {
             frontier_before: None,
             frontier_after: current_frontier.clone(),
             total_net_profit_usdt: current_frontier.total_net_profit_usdt,
+            total_gross_market_pnl_usdt: current_frontier.total_gross_market_pnl_usdt,
             total_fee_drag_usdt: current_frontier.total_fee_drag_usdt,
             max_drawdown_pct: current_frontier.max_drawdown_pct,
             max_margin_utilization_pct: current_frontier.max_margin_utilization_pct,
@@ -187,6 +208,8 @@ impl EconomicIterationRunner {
                 output_root,
                 receipt_path,
                 accepted_iteration_count: 0,
+                evaluation_count: 0,
+                symbols: baseline.symbols.clone(),
                 safety_max_drawdown_pct: current_frontier.max_drawdown_pct,
                 safety_max_margin_utilization_pct: current_frontier.max_margin_utilization_pct,
                 frontier: current_frontier,
@@ -200,7 +223,9 @@ impl EconomicIterationRunner {
         iteration_id: usize,
         mut candidate: EconomicIterationConfig,
     ) -> Result<EconomicIterationReceipt, String> {
+        self.evaluation_count += 1;
         candidate.tape_path = self.tape_path.clone();
+        candidate.symbols = self.symbols.clone();
         let asset_receipts = run_assets(&candidate, &self.output_root, iteration_id)?;
         let candidate_frontier = frontier(&asset_receipts);
         let before = self.frontier.clone();
@@ -246,6 +271,7 @@ impl EconomicIterationRunner {
             frontier_before: Some(before),
             frontier_after: candidate_frontier.clone(),
             total_net_profit_usdt: candidate_frontier.total_net_profit_usdt,
+            total_gross_market_pnl_usdt: candidate_frontier.total_gross_market_pnl_usdt,
             total_fee_drag_usdt: candidate_frontier.total_fee_drag_usdt,
             max_drawdown_pct: candidate_frontier.max_drawdown_pct,
             max_margin_utilization_pct: candidate_frontier.max_margin_utilization_pct,
@@ -261,15 +287,40 @@ fn run_assets(
     output_root: &Path,
     iteration_id: usize,
 ) -> Result<Vec<PortfolioReceipt>, String> {
-    let mut receipts = Vec::with_capacity(QUAD_SYMBOLS.len());
-    for symbol in QUAD_SYMBOLS {
-        let out_dir = output_root
-            .join(format!("iteration-{iteration_id:04}"))
-            .join(symbol);
-        receipts.push(run_simulation(&config.params_for(out_dir, symbol))?);
+    let jobs = config
+        .symbols
+        .iter()
+        .map(|symbol| {
+            let out_dir = output_root
+                .join(format!("iteration-{iteration_id:04}"))
+                .join(symbol);
+            (symbol.clone(), config.params_for(out_dir, symbol))
+        })
+        .collect::<Vec<_>>();
+    let mut receipts_by_symbol = BTreeMap::new();
+    thread::scope(|scope| {
+        let handles = jobs
+            .into_iter()
+            .map(|(symbol, params)| scope.spawn(move || run_simulation(&params).map(|receipt| (symbol, receipt))))
+            .collect::<Vec<_>>();
+        for handle in handles {
+            let result = handle
+                .join()
+                .map_err(|_| "asset simulation thread panicked".to_string())??;
+            receipts_by_symbol.insert(result.0, result.1);
+        }
+        Ok::<(), String>(())
+    })?;
+    let mut receipts = Vec::with_capacity(config.symbols.len());
+    for symbol in &config.symbols {
+        let receipt = receipts_by_symbol
+            .remove(symbol)
+            .ok_or_else(|| format!("missing receipt for configured symbol {symbol}"))?;
+        receipts.push(receipt);
     }
     Ok(receipts)
 }
+
 
 pub fn candidate_seed_set(tape_path: impl Into<PathBuf>) -> Vec<EconomicIterationConfig> {
     let tape_path = tape_path.into();
@@ -285,6 +336,22 @@ pub fn candidate_seed_set(tape_path: impl Into<PathBuf>) -> Vec<EconomicIteratio
     macro_frontier_anchor.label = "frontier-anchor-macro-m1".into();
     macro_frontier_anchor.engine_mode = Some("macro-m1".into());
     let mut candidates = Vec::new();
+
+    for stride in [2usize, 3, 4, 6, 8, 12, 16, 24] {
+        let mut candidate = base.clone();
+        candidate.label = format!("commission-timing-stride-{stride}");
+        candidate.decision_stride_bars = stride;
+        candidates.push(candidate);
+    }
+    for stride in [2usize, 3, 4, 6, 8, 12] {
+        for risk_fraction in [0.0065, 0.007, 0.0075, 0.00775, 0.008, 0.009, 0.01] {
+            let mut candidate = base.clone();
+            candidate.label = format!("commission-timing-stride-{stride}-risk-{risk_fraction}");
+            candidate.decision_stride_bars = stride;
+            candidate.risk_fraction = risk_fraction;
+            candidates.push(candidate);
+        }
+    }
 
     for (anchor_name, anchor) in [("baseline", &base), ("frontier", &frontier_anchor)] {
         for engine_mode in [
@@ -514,9 +581,18 @@ mod tests {
     #[test]
     fn candidate_seed_set_contains_fine_and_subset_challengers() {
         let candidates = candidate_seed_set("research/tape/quad-1h-12m/tape.jsonl");
+        let baseline = EconomicIterationConfig::baseline("research/tape/quad-1h-12m/tape.jsonl");
+        assert_eq!(baseline.label, super::DEFAULT_CHECKPOINT_LABEL);
+        assert_eq!(baseline.risk_fraction, 0.0077725);
+        assert_eq!(baseline.max_concurrency, 1);
+        assert_eq!(baseline.engine_mode.as_deref(), Some("macro-m2"));
         assert!(candidates
             .iter()
             .any(|candidate| candidate.label == "macro-m2-fine-risk-001"));
+        assert!(candidates.iter().any(|candidate| {
+            candidate.label == "commission-timing-stride-12"
+                && candidate.decision_stride_bars == 12
+        }));
         assert!(candidates
             .iter()
             .any(|candidate| candidate.label.starts_with("macro-m1-alpha-subset-")));

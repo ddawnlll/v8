@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-25 — D-146 commission-aware timing challengers and final checkpoint default (D-146)
+
+Made `macro-m2-high-fine-risk-018` the explicit Kaizen default checkpoint, added a real evaluation-count mode and explicit symbol-set selection for bounded challenger scans, and exposed gross market PnL from the cashflow ledger so gross/net/fee comparisons use one accounting source. The Kaizen `initial_balance` is now a total portfolio budget split equally across selected symbols, preventing a 10-symbol run from silently becoming a `$10,000` run. Independent symbol replays now fan out in parallel and merge in declared order. Added decision-stride challengers without changing the tape, fee schedule, fill assumptions, or D-145 safety gate. This is an engineering/selection change only; no profitability or Rule 12 certification is implied.
+
+Artifacts changed: `v8-core/src/usdm_sim.rs`, `v8-core/src/kaizen/iteration.rs`, `v8-core/src/bin/kaizen_iterations.rs`, `v8-core/src/main.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`.
+
 ## 2026-08-24 — D-141 qualification scope correction (D-141)
 
 Aligned the executable D-141 pilot suite with the actually verified pilots and removed the false registry-wide completion implication. The suite now executes `failed_breakout`, `fib_projection_reversal`, and `ichimoku_cloud`; the 28-witness registry remains only 3/28 covered, with the remaining 25 witnesses still open for individual Behavior Cards, scenarios, and manifests. EWQ-07/EWQ-08 and frozen-OOS economic promotion remain unresolved or outside D-141 authority.
