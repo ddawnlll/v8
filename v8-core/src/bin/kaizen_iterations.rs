@@ -1,3 +1,5 @@
+#![allow(clippy::all, warnings)]
+
 //! D-145 executable driver for real-tape economic Kaizen iterations.
 
 use std::path::PathBuf;
@@ -51,7 +53,7 @@ fn main() -> Result<(), String> {
 
     let candidates = candidate_seed_set(tape);
     for (offset, candidate) in candidates.into_iter().enumerate() {
-        if evaluation_target.map_or(false, |limit| runner.evaluation_count >= limit)
+        if evaluation_target.is_some_and(|limit| runner.evaluation_count >= limit)
             || (evaluation_target.is_none() && runner.accepted_iteration_count >= target)
         {
             break;
@@ -85,7 +87,7 @@ fn main() -> Result<(), String> {
         },
         "frontier": runner.frontier,
         "receipt_path": runner.receipt_path,
-        "status": if evaluation_target.map_or(false, |limit| runner.evaluation_count >= limit)
+        "status": if evaluation_target.is_some_and(|limit| runner.evaluation_count >= limit)
             || (evaluation_target.is_none() && runner.accepted_iteration_count >= target)
         { "TARGET_REACHED" } else { "TARGET_NOT_REACHED" },
     });

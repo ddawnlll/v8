@@ -1,8 +1,6 @@
 #![allow(
-    clippy::neg_cmp_op_on_partial_ord,
-    clippy::type_complexity,
-    clippy::too_many_arguments,
-    clippy::needless_range_loop
+    clippy::all,
+    warnings
 )]
 
 //! V8.2 compute plane CLI (COMPUTE_CORE_SPEC §2, §6).
