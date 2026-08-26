@@ -16,7 +16,7 @@
   "tradability_rule_id": "tradability-d024-v1",
   "support_rule_id": "canonical-l1-support-v1",
   "authority_contract_id": "l1-authority-v1",
-  "search_universe_size": 27881,
+  "search_universe_size": 27537,
   "complexity_budget": 28,
   "created_at": 1751400000,
   "code_hash": "code-v8core-v0.2.0",

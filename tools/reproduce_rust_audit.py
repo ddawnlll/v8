@@ -53,6 +53,41 @@ def safe_rmtree(path: Path, max_retries: int = 5, delay: float = 0.2) -> None:
                 time.sleep(delay)
 
 
+def run_pipeline_fast(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4, render_html: bool = True, verbose: bool = True, verify_determinism: bool = True) -> dict:
+    safe_rmtree(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        str(binary), "full-audit",
+        str(tape_path.resolve()),
+        "--out", str(out_dir.resolve()),
+        "--threads", str(threads),
+    ]
+    if not verify_determinism:
+        cmd.append("--no-determinism-check")
+    if not render_html:
+        cmd.append("--no-html")
+
+    if verbose:
+        print(f"  -> Executing unified in-process full-audit ({threads} threads)...", end="", flush=True)
+    t0 = time.perf_counter()
+    code, out, err = run_command(cmd)
+    dur = time.perf_counter() - t0
+    if code != 0:
+        if verbose:
+            print(" FAILED")
+        raise RuntimeError(f"v8-core full-audit failed:\nSTDOUT: {out}\nSTDERR: {err}")
+    if verbose:
+        print(f" DONE ({dur:.2f}s)")
+    
+    summary = json.loads(out)
+    return {
+        "total_duration_sec": dur,
+        "summary": summary,
+        "artifacts": summary.get("artifacts", {}),
+        "html_report": out_dir / "report.html",
+    }
+
+
 def run_pipeline(binary: Path, tape_path: Path, out_dir: Path, threads: int = 4, render_html: bool = True, verbose: bool = True) -> dict:
     safe_rmtree(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -353,6 +388,7 @@ def main() -> int:
     parser.add_argument("--force-build", action="store_true", help="Force release compilation even if binary is up-to-date")
     parser.add_argument("--verify-determinism", action="store_true", default=True,
                         help="Run an isolated second pass to verify bit-level determinism")
+    parser.add_argument("--legacy", action="store_true", help="Run fragmented 11-subprocess legacy pipeline instead of unified full-audit")
     args = parser.parse_args()
 
     tape = args.tape.resolve()
@@ -368,6 +404,7 @@ def main() -> int:
     print(f"Target Tape:    {tape}")
     print(f"Output Path:    {out}")
     print(f"Worker Threads: {args.threads}")
+    print(f"Engine Mode:    {'Legacy Multi-Subprocess' if args.legacy else 'Fast In-Process Unified Engine (D-148)'}")
 
     # 1. Compile Release Binary or Locate
     binary = args.binary
@@ -378,7 +415,7 @@ def main() -> int:
 
     should_build = args.force_build or (not args.skip_build and is_binary_stale(binary))
     if should_build:
-        print("\n[1/4] Source changes detected — compiling release v8-core binary...", end="", flush=True)
+        print("\n[1/3] Source changes detected — compiling release v8-core binary...", end="", flush=True)
         cargo_bin = shutil.which("cargo")
         if not cargo_bin and sys.platform == "win32":
             default_cargo = Path(os.environ.get("USERPROFILE", "")) / ".cargo" / "bin" / "cargo.exe"
@@ -396,12 +433,28 @@ def main() -> int:
         if not binary.exists() and binary.with_suffix(".exe").exists():
             binary = binary.with_suffix(".exe")
     else:
-        print("\n[1/4] Release binary is up-to-date (skipping compilation)...")
+        print("\n[1/3] Release binary is up-to-date (skipping compilation)...")
 
     print(f"Binary verified: {binary}")
 
-    # 2. Execute Primary Pipeline Pass
-    print("\n[2/4] Executing primary audit & oracle pipeline...")
+    # Fast In-Process Path (D-148)
+    if not args.legacy:
+        print("\n[2/3] Executing fast unified in-process audit engine (Issues #306-#309)...")
+        pass1 = run_pipeline_fast(binary, tape, out, threads=args.threads, render_html=True, verbose=True, verify_determinism=args.verify_determinism)
+        print(f"  -> Pipeline complete in {pass1['total_duration_sec']:.2f}s")
+        print(f"  -> Generated HTML report: {pass1['html_report']}")
+
+        print("\n[3/3] Cryptographic Reproduction Certificate:")
+        print("-" * 70)
+        for name, digest in sorted(pass1["artifacts"].items()):
+            print(f"  {name:<45} SHA-256: {digest}")
+        print("-" * 70)
+        print(f"STATUS: REPRODUCED & CERTIFIED PASS (Total Time: {pass1['total_duration_sec']:.2f}s)")
+        print("=" * 70)
+        return 0
+
+    # Legacy Multi-Process Pipeline Pass
+    print("\n[2/4] Executing primary audit & oracle pipeline (Legacy mode)...")
     pass1 = run_pipeline(binary, tape, out, threads=args.threads, render_html=True, verbose=True)
     print(f"  -> Pipeline Pass 1 complete in {pass1['total_duration_sec']:.2f}s")
     print(f"  -> Generated HTML report: {pass1['html_report']}")

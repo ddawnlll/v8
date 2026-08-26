@@ -152,6 +152,8 @@
     - *(d) Two-Stage Hotfix & Provisional Head Quarantine:* Mainline hotfixes remain in `PROVISIONAL_HEAD` quarantine until certified; post-merge failure immediately triggers deterministic `AUTO_ROLLBACK`.
     - *(e) Zero Economic Tuning:* Hyperparameter, threshold, allocator, or win-rate tuning is strictly forbidden during emergency hotfixes.
     - *(f) Minimal Semantic Delta & Single-Use Consumption:* One Incident, One Owner, One Merge, Warrant Consumed (`warrant.consume()`). Temporary break-glass write tokens are atomically revoked upon merge.
+44. **Full-Text Specification & Anchor Invariant (`NO_UNANCHORED_SPEC_ACCEPTANCE` / D-149):**
+    Every constitutional amendment, draft bill, architectural revision, and ratification candidate MUST be permanently preserved as an unabridged, full-text specification under `docs/` (`docs/contracts/`, `docs/charter/`, etc.). Summaries in monographs, decision registers, or PR descriptions must link and anchor directly to this authoritative full-text document. Any bill, decision, or pull request lacking an anchored full-text specification is constitutionally void and strictly inadmissible for ratification (`NO_UNANCHORED_SPEC_ACCEPTANCE`).
 
 ## Minimum Coherent Architecture (Authority DAG)
 

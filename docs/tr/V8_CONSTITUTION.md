@@ -151,6 +151,8 @@
     - *(d) İki Aşamalı Hotfix & Geçici Baş (Provisional Head) Karantinası:* Mainline hotfix'i onaylanana kadar `PROVISIONAL_HEAD` karantinasında kalır; post-push başarısızlığında derhal deterministik `AUTO_ROLLBACK` tetiklenir.
     - *(e) Sıfır Ekonomik Tuning:* Acil hotfix sırasında hiperparametre, eşik değeri, dağıtıcı veya kazanma oranı optimizasyonu kesinlikle yasaktır.
     - *(f) Asgari Semantik Delta & Tek Kullanımlık Tüketim:* Tek Olay, Tek İcracı, Tek Merge, Tüketilen Yetki (`warrant.consume()`). Geçici break-glass yazma yetkisi merge ile birlikte atomik olarak iptal edilir.
+44. **Tam Metin Şartname ve Çıpa Değişmezi (`NO_UNANCHORED_SPEC_ACCEPTANCE` / D-149):**
+    Her anayasa değişikliği, yasa tasarısı, mimari revizyon ve ratifikasyon adayı; `docs/` altında (`docs/contracts/`, `docs/charter/` vb.) eksiksiz ve sansürsüz TAM METİN (full-text) bir şartname olarak saklanmak ZORUNDADIR. Monograflarda, karar sicilinde veya PR açıklamalarında yer alan özetler, doğrudan `docs/` altındaki bu otoritatif tam metne link vermek ve çıpalanmak zorundadır. Tam metin şartnamesi `docs/` altına işlenmemiş hiçbir tasarı veya karar kabul edilemez ve ratifiye edilemez (`NO_UNANCHORED_SPEC_ACCEPTANCE`).
 
 ## Minimum Tutarlı Mimari (Authority DAG)
 

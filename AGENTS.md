@@ -80,6 +80,9 @@ Only standalone documentation / tooling scripts in `tools/` may use Python:
    - Every architectural change MUST be recorded in [`docs/CHANGELOG.md`](docs/CHANGELOG.md) with date, associated issue IDs, and modified artifacts list.
 5. **Zero Tolerance for Shadow Architecture:**
    - Unregistered code paths, hidden heuristics, undocumented data structures, or silent layout changes are classified as severe contract violations and block PR merge.
+6. **Mandatory Full-Text Specification Preservation (`NO_UNANCHORED_SPEC_ACCEPTANCE` / Rule 44):**
+   - Every draft bill, constitutional amendment, or architectural proposal MUST be committed as an unabridged, full-text specification in `docs/` (`docs/contracts/`, `docs/charter/`, etc.).
+   - Monographs and decision registers present summaries and MUST link directly to the authoritative full-text specification. Unanchored proposals or summaries lacking a committed full-text document are strictly prohibited from ratification.
 
 
 
