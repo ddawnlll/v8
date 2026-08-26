@@ -196,6 +196,16 @@ pub fn run_for_analysis(
     out_dir: &std::path::Path,
     manifest: &Value,
 ) -> Result<Value, String> {
+    run_for_analysis_with_threads(tape_path, universe, out_dir, manifest, default_threads())
+}
+
+pub fn run_for_analysis_with_threads(
+    tape_path: &std::path::Path,
+    universe: &[String],
+    out_dir: &std::path::Path,
+    manifest: &Value,
+    threads: usize,
+) -> Result<Value, String> {
     let req = EvaluateRequest {
         tape_path: tape_path.to_path_buf(),
         universe: universe.to_vec(),
@@ -205,7 +215,7 @@ pub fn run_for_analysis(
         max_heat: default_max_heat(),
         max_cluster_heat: default_max_cluster_heat(),
         base_interval: default_base_interval(),
-        threads: default_threads(),
+        threads: threads.max(1),
         engine: default_engine(),
         variant_overrides: HashMap::new(),
         manifest: manifest.clone(),
@@ -811,7 +821,7 @@ fn bar_payload(store: &FeatureStore, i: usize) -> serde_json::Map<String, Value>
 
 fn writer(path: &std::path::Path) -> Result<std::io::BufWriter<std::fs::File>, String> {
     let f = std::fs::File::create(path).map_err(|e| format!("create {path:?}: {e}"))?;
-    Ok(std::io::BufWriter::new(f))
+    Ok(std::io::BufWriter::with_capacity(65536, f))
 }
 
 fn write_line(out: &mut impl Write, v: &Value) -> Result<(), String> {

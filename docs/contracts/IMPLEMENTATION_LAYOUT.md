@@ -167,6 +167,8 @@ v8-core/
       reconciliation.rs witness Merkle root & clone collapse verification
       independence.rs dual-key implementer != auditor separation
       sabotage.rs   8-point automated audit-of-audit sabotage suite
+      full_audit.rs unified high-throughput in-process audit engine & determinism verifier (D-148)
+      html_report.rs native Rust forensic HTML audit report generator (D-148)
     backend/        ReplayKernel boundary + scalar, CPU/SIMD, optional GPU and
                     ExecutionBackend venue physics instruments (D-098, D-132)
       execution.rs  ExecutionBackend trait & BinanceUsdmExecutionBackend physics instrument
@@ -266,6 +268,8 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/kaizen/iteration.rs` | D-145/D-146 real-tape economic Kaizen runner: per-asset canonical USD-M replay, append-only receipts, configuration hashes, final checkpoint default, gross/net/fee frontier fields, explicit timing challengers, fixed safety ceiling, frontier comparison, and fail-closed validation | `EconomicIterationConfig`, `EconomicIterationRunner`, `EconomicIterationReceipt`, `EconomicFrontier`, `candidate_seed_set` | D-032, D-129, D-141, D-145, D-146; Constitution Rule 12 |
 | `v8-core/src/bin/kaizen_iterations.rs` | D-145/D-146 executable driver that bootstraps the real-tape checkpoint, evaluates deterministic challengers, and writes a physical-receipt summary; optional fourth positional argument bounds real evaluations independently of accepted count and fifth selects symbols | `main` CLI: tape, output root, accepted target, optional evaluation target, optional comma-separated symbols | D-145, D-146; `research/tape/quad-1h-12m/tape.jsonl` |
 | `v8-core/src/audit/mutants.rs` | Adversarial Leak Mutant Falsification suite (LEAK-001..LEAK-012) and 100% kill-rate verifier | `MutantAuditor`, `LeakMutantId`, `MutantKillReceipt` | V8_CONSTITUTION Rule 48; D-139; CC-BILL-V8.3-CAUSAL-FORTRESS-006 |
+| `v8-core/src/audit/full_audit.rs` | Unified in-process high-throughput audit engine, post-S4 multithreaded concurrency, and in-memory Pass 2 Zero-Jitter Bit-Identity verification | `run_full_audit`, `execute_pipeline_pass`, `collect_artifact_fingerprints` | Issues #306, #307, #309; D-148 |
+| `v8-core/src/audit/html_report.rs` | Native Rust forensic HTML audit report renderer generating agent-grade forensic reports in <10ms | `render_html_report`, `CSS` | Issue #308; D-148 |
 
 
 

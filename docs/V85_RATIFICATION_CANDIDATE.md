@@ -4,6 +4,10 @@
 
 **Version:** DRAFT-2 (surgical revision of the supplied V8.5 architecture paper)
 
+> [!IMPORTANT]
+> **Authoritative Full-Text Specification:**
+> The complete 35-section V8.5 architectural blueprint and research monograph is permanently recorded in [`docs/contracts/V85_ARCHITECTURE_SPEC.md`](contracts/V85_ARCHITECTURE_SPEC.md). All implementations, claims, and proofs are anchored to that full specification.
+
 This document is a V8 extension proposal, not an active constitutional amendment. Existing V8 Constitution and registered decisions remain authoritative until a maintainer-ratified D-series supersession. The architecture is preserved; this candidate narrows authority and makes the first implementation gate executable.
 
 ## M0 constitutional boundaries

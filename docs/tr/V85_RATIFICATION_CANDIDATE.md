@@ -4,6 +4,10 @@
 
 **Sürüm:** DRAFT-2 (sunulan V8.5 mimarisinin cerrahi revizyonu)
 
+> [!IMPORTANT]
+> **Otoritatif Tam Metin Şartnamesi:**
+> 35 bölümden oluşan eksiksiz V8.5 mimari şartnamesi ve araştırma monografı kalıcı olarak [`docs/tr/V85_ARCHITECTURE_SPEC.md`](V85_ARCHITECTURE_SPEC.md) dosyasında kayıtlıdır. Tüm geliştirmeler, iddialar ve ispatlar bu tam metne çıpalanır.
+
 Bu belge aktif anayasa değişikliği değil, V8 genişletme teklifidir. İnsan maintainer tarafından ratifiye edilmiş bir D-series supersession gelene kadar mevcut V8 Anayasası ve kayıtlı kararlar üst otoritedir. Mimari korunmuş, ilk uygulama kapısındaki yetki sınırları daraltılmıştır.
 
 ## M0 anayasal sınırlar

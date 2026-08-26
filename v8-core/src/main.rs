@@ -99,7 +99,8 @@ subcommands:
   usdm-sim        finite-capital Binance USD-M portfolio simulator
   allegory-audit  multi-episode historical archetype audit (A01-A12, D-125)
   funnel-audit    V8.3 Opportunity Capture Funnel empirical audit (Phase II)
-  eeo-qualify     D-136 Epistemic Economic Observability qualification runner";
+  eeo-qualify     D-136 Epistemic Economic Observability qualification runner
+  full-audit      unified high-throughput in-process audit engine (Issues #306-#309)";
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -134,6 +135,7 @@ fn main() {
         "allegory-audit" => cmd_allegory_audit(&args[2..]),
         "funnel-audit" => cmd_funnel_audit(&args[2..]),
         "eeo-qualify" => cmd_eeo_qualify(&args[2..]),
+        "full-audit" => cmd_full_audit(&args[2..]),
         other => {
             eprintln!("unknown subcommand: {other}\n\n{USAGE}");
             2
@@ -2118,4 +2120,79 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
     println!("==========================================================================================\n");
 
     0
+}
+
+fn cmd_full_audit(args: &[String]) -> i32 {
+    let mut tape_path: Option<PathBuf> = None;
+    let mut out_dir: Option<PathBuf> = None;
+    let mut threads = 4usize;
+    let mut verify_determinism = true;
+    let mut render_html = true;
+
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--tape" | "-t" => {
+                if i + 1 < args.len() {
+                    tape_path = Some(PathBuf::from(&args[i + 1]));
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --tape");
+                    return 2;
+                }
+            }
+            "--out" | "-o" => {
+                if i + 1 < args.len() {
+                    out_dir = Some(PathBuf::from(&args[i + 1]));
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --out");
+                    return 2;
+                }
+            }
+            "--threads" => {
+                if i + 1 < args.len() {
+                    threads = args[i + 1].parse().unwrap_or(4);
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --threads");
+                    return 2;
+                }
+            }
+            "--no-determinism-check" => {
+                verify_determinism = false;
+                i += 1;
+            }
+            "--no-html" => {
+                render_html = false;
+                i += 1;
+            }
+            path_str if !path_str.starts_with('-') && tape_path.is_none() => {
+                tape_path = Some(PathBuf::from(path_str));
+                i += 1;
+            }
+            path_str if !path_str.starts_with('-') && out_dir.is_none() => {
+                out_dir = Some(PathBuf::from(path_str));
+                i += 1;
+            }
+            other => {
+                eprintln!("unknown option for full-audit: {other}");
+                return 2;
+            }
+        }
+    }
+
+    let tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let out = out_dir.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current"));
+
+    match audit::full_audit::run_full_audit(&tape, &out, threads, verify_determinism, render_html) {
+        Ok(summary) => {
+            println!("{}", serde_json::to_string_pretty(&summary).unwrap());
+            0
+        }
+        Err(e) => {
+            eprintln!("full-audit failed: {e}");
+            1
+        }
+    }
 }

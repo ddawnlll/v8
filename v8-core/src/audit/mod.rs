@@ -12,3 +12,5 @@ pub mod reconciliation;
 pub mod independence;
 pub mod sabotage;
 pub mod mutants;
+pub mod full_audit;
+pub mod html_report;

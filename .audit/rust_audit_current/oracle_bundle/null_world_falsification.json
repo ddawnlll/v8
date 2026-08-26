@@ -10,7 +10,7 @@
       "trials_run": 100,
       "false_promotions": 9,
       "empirical_error_rate": 0.09,
-      "mean_sharpe_null": -0.003230702591439214,
+      "mean_sharpe_null": -0.0032307025914392316,
       "max_sharpe_null": 2.9532662417119937,
       "passed_error_bound": false
     },
