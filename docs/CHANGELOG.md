@@ -4,6 +4,12 @@ Format: dated, brief, reversible. This log records document and architecture dec
 
 ## 2026-08-25 — D-146 commission-aware timing challengers and final checkpoint default (D-146)
 
+## 2026-08-26 — V8.5 M0 ratification candidate (provisional)
+
+Added the V8.5 DRAFT-2 architecture as a non-binding M0 ratification candidate. Closed the six constitutional boundaries at the proposal level: read-only `AuthorityProjection`, disjoint `SUPPORTED_EDGE`/`REALIZED_CASHFLOW`, test-only synthetic Foundry at M0, preserved WRC+genuine DSR+Hansen SPA law, immutable EvaluationCase epochs, and explicit blocking statistical implementation debt. No active Constitution rule, runtime Rust code, economic authority or mainline merge is changed by this candidate.
+
+Artifacts changed: `docs/V85_RATIFICATION_CANDIDATE.md`, `docs/issues/ISSUE_V85_RATIFICATION_CANDIDATE.md`, `docs/tr/V85_RATIFICATION_CANDIDATE.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `tools/build_monograph.py`, `site/index.html`, `site/tr.html`.
+
 Made `macro-m2-high-fine-risk-018` the explicit Kaizen default checkpoint, added a real evaluation-count mode and explicit symbol-set selection for bounded challenger scans, and exposed gross market PnL from the cashflow ledger so gross/net/fee comparisons use one accounting source. The Kaizen `initial_balance` is now a total portfolio budget split equally across selected symbols, preventing a 10-symbol run from silently becoming a `$10,000` run. Independent symbol replays now fan out in parallel and merge in declared order. Added decision-stride challengers without changing the tape, fee schedule, fill assumptions, or D-145 safety gate. This is an engineering/selection change only; no profitability or Rule 12 certification is implied.
 
 Artifacts changed: `v8-core/src/usdm_sim.rs`, `v8-core/src/kaizen/iteration.rs`, `v8-core/src/bin/kaizen_iterations.rs`, `v8-core/src/main.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`.

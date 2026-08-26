@@ -1,5 +1,9 @@
 # V8 Implementation Layout — file family v0.1
 
+## V8.5 M0 ratification candidate (non-binding)
+
+`docs/V85_RATIFICATION_CANDIDATE.md` and `docs/issues/ISSUE_V85_RATIFICATION_CANDIDATE.md` are governance-only source artifacts for the V8.5 candidate. They do not authorize runtime changes. Any future Rust implementation must reuse `crate::authority::Authority`, `ClaimRegistry`, D-136 `EvidenceGraph`, D-141 receipts, `shadow.rs`, `judiciary/` and `kaizen/`; a second authority root, claim registry or verdict engine is forbidden. M0 synthetic Foundry/SPG output is test-only. The Turkish mirror is `docs/tr/V85_RATIFICATION_CANDIDATE.md`.
+
 **Status:** PROVISIONAL_DECISION. This contract predetermines every file in
 the research runtime — its responsibility, its public interface, and the
 contract it implements — before that file is written. A new file, rename, or
