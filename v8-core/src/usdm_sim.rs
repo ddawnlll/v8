@@ -43,8 +43,12 @@ pub struct UsdmSimParams {
     pub max_concurrency: usize,
     #[serde(default = "default_max_heat")]
     pub max_heat: f64,
+    #[serde(default = "default_decision_stride_bars")]
+    pub decision_stride_bars: usize,
     #[serde(default)]
     pub enabled_experts: Option<Vec<String>>,
+    #[serde(default)]
+    pub variant_overrides: HashMap<String, String>,
     #[serde(default)]
     pub engine_mode: Option<String>,
     #[serde(default)]
@@ -68,6 +72,9 @@ fn default_max_concurrency() -> usize {
 fn default_max_heat() -> f64 {
     0.05
 }
+fn default_decision_stride_bars() -> usize {
+    1
+}
 
 /// Structured execution receipt emitted to `.audit/rust_audit_current/portfolio_receipt.json`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -76,6 +83,7 @@ pub struct PortfolioReceipt {
     pub initial_balance_usdt: f64,
     pub terminal_equity_usdt: f64,
     pub net_profit_usdt: f64,
+    pub gross_market_pnl_usdt: f64,
     pub total_return_pct: f64,
     pub max_drawdown_pct: f64,
     pub max_margin_utilization_pct: f64,
@@ -93,6 +101,7 @@ pub struct PortfolioReceipt {
 
 /// Runs the USD-M finite-capital simulation engine with Kaizen architecture.
 pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String> {
+    crate::experts::validate_variant_overrides(&params.variant_overrides)?;
     let _ = std::fs::create_dir_all(&params.out_dir);
     let rows = crate::read_tape(&params.tape_path)?;
     let ds = Dataset::from_rows(rows).map_err(|e| e.to_string())?;
@@ -131,7 +140,6 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
     let v83_engine = crate::opportunity::runloop::V83Runloop::default();
     let mut v83_book = crate::opportunity::book::OpportunityBook::new();
 
-    let empty_variants = HashMap::new();
     let registry_rows = crate::experts::registry_rows();
     let projections: Vec<(&str, std::collections::HashSet<String>, bool)> = registry_rows
         .iter()
@@ -238,7 +246,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
             let mut exit_price = pos.stop_loss_price;
 
             if let Some(tstate) = trailing_states.get_mut(&pos.position_id) {
-                let engine_str = params.engine_mode.as_deref().unwrap_or("default");
+                let engine_str = params.engine_mode.as_deref().unwrap_or("squeeze-swing");
                 let trail_window: usize = match engine_str {
                     "macro-m2" | "macro-m3" | "macro-swing" => 48,
                     _ => 24,
@@ -375,7 +383,11 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
 
         // 4. Evaluate Opportunities (V8.3) or Expert hypotheses (V8.2)
         let t = i + 1;
-        if t >= 32 && portfolio.positions.len() < params.max_concurrency {
+        let decision_stride_bars = params.decision_stride_bars.max(1);
+        if t >= 32
+            && portfolio.positions.len() < params.max_concurrency
+            && i % decision_stride_bars == 0
+        {
             if is_v83_engine {
                 let current_heat = portfolio.portfolio_heat_r;
                 if let Ok(cycle) = v83_engine.step_bar(&store.symbol, "binance-um", store, i, &mut v83_book, current_heat) {
@@ -463,11 +475,21 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     }
                 }
             } else {
-                let engine_str = params.engine_mode.as_deref().unwrap_or("default");
-                let is_squeeze_mode = matches!(engine_str, "squeeze-swing" | "swing" | "macro-m1" | "macro-m2" | "macro-m3" | "macro-swing");
+                let engine_str = params.engine_mode.as_deref().unwrap_or("squeeze-swing");
+                let _is_squeeze_mode = matches!(engine_str, "squeeze-swing" | "swing" | "macro-m1" | "macro-m2" | "macro-m3" | "macro-swing");
                 let feats = state::state_features(store, t, as_of, 32);
                 let hist = state::history_bars(store, t, 128);
                 bar_votes.clear();
+
+                // Compute PIT 20-bar Kaufman Trend Efficiency Ratio (ER)
+                let close_change = if hist.len() >= 20 { (current_close - hist[hist.len() - 20].close).abs() } else { 0.0 };
+                let mut total_path = 0.0;
+                if hist.len() >= 20 {
+                    for k in (hist.len() - 19)..hist.len() {
+                        total_path += (hist[k].close - hist[k - 1].close).abs();
+                    }
+                }
+                let kaufman_er = if total_path > 1e-6 { close_change / total_path } else { 0.0 };
 
                 // Compute PIT Dynamic Volume Expansion & Volatility Compression on bar i
                 let vol_cur = store.volumes.get(i).copied().unwrap_or(1.0);
@@ -491,19 +513,19 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                 let compression_ratio = if atr50 > 1e-6 { current_atr / atr50 } else { 1.0 };
 
                 for (eid, closure, allows_hist) in &projections {
-                    // Focus exclusively on Certified Net Alpha Producing Strategy Families
-                    if is_squeeze_mode {
-                        continue; // In macro swing mode, only execute macro squeeze swing
-                    }
-                    let is_alpha_expert = match *eid {
-                        "bollinger_breakout"
-                        | "donchian_breakout"
-                        | "failed_breakout"
-                        | "range_breakout_1to1"
-                        | "floor_trader_pivot"
-                        | "fib_rsi_bb_confluence"
-                        | "pattern_measuring_objective" => true,
-                        _ => false,
+                    // Focus on Certified Net Alpha Producing Strategy Families, or requested experts
+                    let is_alpha_expert = if params.enabled_experts.as_ref().unwrap_or(&Vec::new()).is_empty() {
+                        matches!(
+                            *eid,
+                            "floor_trader_pivot"
+                                | "failed_breakout"
+                                | "fib_projection_reversal"
+                                | "liquidity_sweep_reclaim"
+                                | "range_breakout_1to1"
+                                | "ichimoku_cloud"
+                        )
+                    } else {
+                        params.enabled_experts.as_ref().unwrap().contains(&eid.to_string())
                     };
                     if !is_alpha_expert {
                         continue;
@@ -515,7 +537,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                         history: expert_hist,
                         as_of,
                         symbol: &store.symbol,
-                        variant_overrides: &empty_variants,
+                        variant_overrides: &params.variant_overrides,
                     };
                     let ev = crate::experts::evaluate(eid, &fm);
                     if ev.decision == "CANDIDATE" {
@@ -530,27 +552,32 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                                 entry_price + stop_dist
                             };
 
-                            bar_votes.push(SensorVote {
-                                sensor_id: eid.to_string(),
-                                symbol: store.symbol.clone(),
-                                direction: draft.direction.clone(),
-                                entry_price,
-                                stop_price,
-                                timestamp_ns: as_of,
-                                bar_index: i,
-                            });
+                            // D-141/D-144 Regime Gate: Require minimum trend efficiency (ER >= 0.18 or volume surge >= 1.20)
+                            if kaufman_er >= 0.18 || vol_ratio >= 1.20 {
+                                bar_votes.push(SensorVote {
+                                    sensor_id: eid.to_string(),
+                                    symbol: store.symbol.clone(),
+                                    direction: draft.direction.clone(),
+                                    entry_price,
+                                    stop_price,
+                                    timestamp_ns: as_of,
+                                    bar_index: i,
+                                });
+                            }
                         }
                     }
                 }
 
                 // Evaluate TrendContinuationExpert (D-138)
+                let eval_tc = params.enabled_experts.as_ref().unwrap_or(&Vec::new()).is_empty() || params.enabled_experts.as_ref().unwrap_or(&Vec::new()).contains(&"trend_continuation".to_string());
+                if eval_tc {
                 let tc_closure = features::group_closure(&["trend", "volatility", "history"]);
                 let fm_tc = crate::experts::base::FeatMap {
                     features: crate::experts::base::ProjectedFeatures::new(&feats, &tc_closure),
                     history: hist.clone(),
                     as_of,
                     symbol: &store.symbol,
-                    variant_overrides: &empty_variants,
+                    variant_overrides: &params.variant_overrides,
                 };
                 let ev_tc = crate::experts::trend_continuation::trend_continuation(&fm_tc, "trend_continuation", "v1");
                 if ev_tc.decision == "CANDIDATE" {
@@ -586,8 +613,21 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     }
                 }
 
+                } // end eval_tc
                 // Evaluate SqueezeReleaseSwingExpert (D-140 / H-MACRO-01)
-                let engine_str = params.engine_mode.as_deref().unwrap_or("default");
+                let eval_ss = params.enabled_experts.as_ref().unwrap_or(&Vec::new()).is_empty() || params.enabled_experts.as_ref().unwrap_or(&Vec::new()).contains(&"squeeze_swing".to_string());
+                if eval_ss {
+                let engine_str = params
+                    .variant_overrides
+                    .get("squeeze_swing")
+                    .map(|variant| match variant.as_str() {
+                        "m1" => "macro-m1",
+                        "m2" => "macro-m2",
+                        "m3" => "macro-m3",
+                        _ => "squeeze-swing",
+                    })
+                    .or(params.engine_mode.as_deref())
+                    .unwrap_or("squeeze-swing");
                 let (max_bw, lookback, vol_min, cooldown_bars, struct_trail_bars) = match engine_str {
                     "macro-m1" => (0.25, 48, 1.40, 48, 24),
                     "macro-m2" => (0.30, 72, 1.35, 48, 48),
@@ -601,7 +641,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                     history: hist.clone(),
                     as_of,
                     symbol: &store.symbol,
-                    variant_overrides: &empty_variants,
+                    variant_overrides: &params.variant_overrides,
                 };
                 let ev_ss = crate::experts::squeeze_swing::squeeze_swing_custom(&fm_ss, "squeeze_swing", "v1", max_bw, lookback, vol_min);
                 if ev_ss.decision == "CANDIDATE" {
@@ -632,6 +672,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                         }
                     }
                 }
+                } // end eval_ss
 
                 // Cluster votes into Multi-Family Campaigns (KZ-008)
                 for vote in bar_votes.drain(..) {
@@ -671,9 +712,10 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                             continue;
                         }
 
-                        // ETS Economic Margin Gate: Ensure structural target/stop distance >= 4.0x roundtrip friction
+                        // ETS Economic Margin Gate: Ensure structural target/stop distance >= ATR-scaled friction floor
                         let stop_dist_pct = (cluster.consensus_entry - cluster.structural_invalidation_price).abs() / cluster.consensus_entry;
-                        if stop_dist_pct < 0.008 {
+                        let min_stop_dist_pct = (0.60 * current_atr / cluster.consensus_entry).max(0.008);
+                        if stop_dist_pct < min_stop_dist_pct {
                             *rejections.entry("ECONOMIC_MARGIN_BELOW_FRICTION_FLOOR".to_string()).or_default() += 1;
                             continue;
                         }
@@ -726,7 +768,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
 
                                     let pos_id = format!("pos-{}", cluster.campaign_id);
                                     let chosen_arm = if cluster.participating_sensors.contains(&"squeeze_swing".to_string()) {
-                                        let engine_str = params.engine_mode.as_deref().unwrap_or("default");
+                                        let engine_str = params.engine_mode.as_deref().unwrap_or("squeeze-swing");
                                         match engine_str {
                                             "macro-m2" | "macro-m3" | "macro-swing" => ExitArm::Structural48hTrail,
                                             _ => ExitArm::Structural24hTrail,
@@ -886,6 +928,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
 
     let total_fee_drag_usdt: f64 = ledger.flows.iter().map(|r| r.commission_usdt).sum();
     let total_funding_usdt: f64 = ledger.flows.iter().map(|r| r.funding_cashflow_usdt).sum();
+    let gross_market_pnl_usdt = ledger.total_gross_pnl();
 
     // Persist cashflow ledger
     let cf_path = params.out_dir.join("economic-cashflow.jsonl");
@@ -896,6 +939,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
         initial_balance_usdt: params.initial_balance,
         terminal_equity_usdt: terminal_equity,
         net_profit_usdt: net_profit,
+        gross_market_pnl_usdt,
         total_return_pct,
         max_drawdown_pct,
         max_margin_utilization_pct: max_margin_utilization,
@@ -937,7 +981,9 @@ mod tests {
             leverage: 10,
             max_concurrency: 3,
             max_heat: 0.05,
+            decision_stride_bars: 1,
             enabled_experts: None,
+            variant_overrides: HashMap::new(),
             engine_mode: None,
             exit_arm: None,
             symbol: None,
@@ -978,7 +1024,9 @@ mod tests {
                 leverage: 10,
                 max_concurrency: 3,
                 max_heat: 0.05,
+                decision_stride_bars: 1,
                 enabled_experts: None,
+                variant_overrides: HashMap::new(),
                 engine_mode: None,
                 exit_arm: Some(arm),
                 symbol: None,
@@ -1033,7 +1081,9 @@ mod tests {
             leverage: 10,
             max_concurrency: 3,
             max_heat: 0.05,
+            decision_stride_bars: 1,
             enabled_experts: None,
+            variant_overrides: HashMap::new(),
             engine_mode: None,
             exit_arm: Some(ExitArm::ChandelierATR),
             symbol: None,
@@ -1471,4 +1521,3 @@ mod tests {
         println!("==========================================================================================\n");
     }
 }
-

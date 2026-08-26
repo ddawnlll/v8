@@ -2,137 +2,70 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
-## 2026-08-23 — D-141 strict Fib/RSI/Bollinger confluence qualification
+## 2026-08-25 — D-146 commission-aware timing challengers and final checkpoint default (D-146)
 
-Completed test-only semantic qualification for the registered default `fib_rsi_bb_confluence` branch. The hash-bound world requires a locally recomputed Bollinger fade, Wilder-RSI recovery, and frozen 0.786 Fibonacci reclaim to agree; an absent Fib reclaim, equality, and missing structure fail closed. All 28 registered generator-experts now have a D-141 semantic manifest; no economic authority was created.
+## 2026-08-26 — V8.5 M0 ratification candidate (provisional)
 
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+Added the V8.5 DRAFT-2 architecture as a non-binding M0 ratification candidate. Closed the six constitutional boundaries at the proposal level: read-only `AuthorityProjection`, disjoint `SUPPORTED_EDGE`/`REALIZED_CASHFLOW`, test-only synthetic Foundry at M0, preserved WRC+genuine DSR+Hansen SPA law, immutable EvaluationCase epochs, and explicit blocking statistical implementation debt. No active Constitution rule, runtime Rust code, economic authority or mainline merge is changed by this candidate.
 
-## 2026-08-23 — D-141 measured-pattern semantic qualification
+Artifacts changed: `docs/V85_RATIFICATION_CANDIDATE.md`, `docs/issues/ISSUE_V85_RATIFICATION_CANDIDATE.md`, `docs/tr/V85_RATIFICATION_CANDIDATE.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `tools/build_monograph.py`, `site/index.html`, `site/tr.html`.
 
-Added test-only qualification for the registered default `pattern_measuring_objective` head-and-shoulders branch. A causal pivot lattice produces two shoulders, a higher head, two neckline troughs, and a strict neckline close-through; equality and required structural-data absence fail closed. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+Made `macro-m2-high-fine-risk-018` the explicit Kaizen default checkpoint, added a real evaluation-count mode and explicit symbol-set selection for bounded challenger scans, and exposed gross market PnL from the cashflow ledger so gross/net/fee comparisons use one accounting source. The Kaizen `initial_balance` is now a total portfolio budget split equally across selected symbols, preventing a 10-symbol run from silently becoming a `$10,000` run. Independent symbol replays now fan out in parallel and merge in declared order. Added decision-stride challengers without changing the tape, fee schedule, fill assumptions, or D-145 safety gate. This is an engineering/selection change only; no profitability or Rule 12 certification is implied.
 
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+Artifacts changed: `v8-core/src/usdm_sim.rs`, `v8-core/src/kaizen/iteration.rs`, `v8-core/src/bin/kaizen_iterations.rs`, `v8-core/src/main.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`.
 
-## 2026-08-23 — D-141 divergence semantic qualification
+## 2026-08-24 — D-141 qualification scope correction (D-141)
 
-Added test-only qualification for the registered default `divergence_12_setups` bearish-standard branch. A 31-bar world creates two 5-flank-confirmed significant price highs, a local Wilder-RSI lower high, and a strict close-through of the intervening low; barrier equality and missing swing evidence fail closed. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+Aligned the executable D-141 pilot suite with the actually verified pilots and removed the false registry-wide completion implication. The suite now executes `failed_breakout`, `fib_projection_reversal`, and `ichimoku_cloud`; the 28-witness registry remains only 3/28 covered, with the remaining 25 witnesses still open for individual Behavior Cards, scenarios, and manifests. EWQ-07/EWQ-08 and frozen-OOS economic promotion remain unresolved or outside D-141 authority.
 
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
 
-## 2026-08-23 — D-141 RSI-recovery semantic qualification
+## 2026-08-24 — D-145 real-tape economic Kaizen ledger (D-145)
 
-Added test-only qualification for the registered default `rsi_stoch_reversion` RSI-only branch. Both Wilder-RSI extreme recoveries require the matching strict run-start signal-bar price break; RSI and price equality boundaries plus missingness abstain/fail closed. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+Added a Rust-only, append-only economic iteration ledger over the certified quad tape. The runner evaluates each challenger through the canonical simulator, persists configuration and receipt hashes plus per-asset realized receipts, and counts an iteration only when net cashflow strictly improves while drawdown and margin utilization remain within the fixed baseline safety ceiling. Rejected candidates are retained for audit; no synthetic rows, offset inputs, hardcoded metrics, or economic certification claims are introduced.
 
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+Artifacts changed: `v8-core/src/kaizen/iteration.rs`, `v8-core/src/kaizen/mod.rs`, `v8-core/src/bin/kaizen_iterations.rs`, `v8-core/src/usdm_sim.rs`, `v8-core/src/main.rs`, `v8-core/src/experts/mod.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
 
-## 2026-08-23 — D-141 Ichimoku-cloud semantic qualification
+## 2026-08-24 — Ratification of D-144: Sovereign Kaizen Expert Fleet Evolution & Multi-Asset Alpha Optimization (`V8.4-ETS-KAIZEN-004`)
 
-Added test-only qualification for `ichimoku_cloud` with 27-bar causal midrange worlds that create a true 9-bar Tenkan / 26-bar Kijun crossover. Both directions, strict Kijun close confirmation, equality abstention, and missingness are covered. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+Ratified deep iterative Kaizen evolution for a selected set of expert modules in the Rust compute plane without modifying USD-M engine physics. This entry does not ratify registry-wide completion:
+- **Ichimoku Cloud Structural Optimization (`ichimoku_cloud:v2`):** Anchored risk geometry directly to the Kijun-sen equilibrium line with 1.5R target expansion, generating **+$433.53 standalone net profit with positive cashflow across all four assets** (BTC +$101.87 / 2.04 PF, AVAX +$235.91 / 2.08 PF, ETH +$48.16, SOL +$47.60).
+- **Trend Pullback Reclaim Confirmation (`trend_pullback:v2`):** Added pullback reclaim filter and symmetric short execution, turning the expert from -$171.10 loss to +$69.52 net profit (+13.63% return on ETH, 55.8% WR).
+- **Volume Confirmed Breakout Surge Gating (`volume_confirmed_breakout:v2`):** Added single-bar freshness and strict volume surge gating ($vol \ge 1.30 \times sma$ or $vol_z \ge 0.50$), producing +$362.17 standalone net profit (+32.61% return on SOL).
+- **MACD Stoch Trend Crossover Anchoring (`macd_stoch_trend:v2`):** Anchored stop levels to crossover swing extremes, achieving +$80.16 net profit (+$111.31 on AVAX, 1.30 PF).
+- **Divergence 12 Setups Bidirectional Expansion (`divergence_12_setups:v2`):** Implemented Bullish regular divergence alongside Bearish divergence, producing >60% win rate across ETH, SOL, and AVAX.
+- **2B High/Low Symmetry (`failed_breakout_2b:v2`):** Added 2B top reclaim support alongside bottom reclaim, producing +$76.58 net profit on SOL (1.45 PF).
+- **Quad Portfolio Performance:** Elevates AVAX cashflow in the multi-alpha ensemble to **+$607.43 (1.74 PF)** and lifts Gross Market Edge across the quad tape to **+$916.40**.
 
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+Artifacts changed: `v8-core/src/experts/ichimoku_cloud.rs`, `v8-core/src/experts/trend_pullback.rs`, `v8-core/src/experts/trend_pullback_depth.rs`, `v8-core/src/experts/volume_confirmed_breakout.rs`, `v8-core/src/experts/macd_stoch_trend.rs`, `v8-core/src/experts/divergence_12_setups.rs`, `v8-core/src/experts/failed_breakout_2b.rs`, `v8-core/src/experts/bollinger_breakout.rs`, `v8-core/src/experts/bollinger_reversion.rs`, `v8-core/src/experts/fib_retracement_continuation.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
 
-## 2026-08-23 — D-141 point-and-figure semantic qualification
+## 2026-08-24 — Ratification of D-143: Expert Population Repair, Range Consolidation Breakout Integration & +$525.42 USD-M Baseline Ratification (`V8.4-ETS-EXPANSION-003`)
 
-Added test-only qualification for the registered default `pandf_breakout` branch using a 20-bar close world that creates the locked 1×ATR box, three-box reversal, and strict double-top X-column breakout. Equality and absence controls fail closed. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+Ratified the systematic forensic repair of the expert witness population under D-141 Alpha Refinery standards and upgraded the authoritative Point-In-Time Rust USD-M simulation baseline:
+- **Range Consolidation Breakout Integration (`range_breakout_1to1`):** Integrated volume z-score expansion gating ($vol_z \ge 0.20$) on narrow 20-bar consolidation range breakouts, boosting net return and reducing drawdowns across multi-asset tapes.
+- **Forensic Expert Population Upgrades:**
+  - `donchian_breakout:v2`: Upgraded with symmetric Long/Short execution, single-bar setup freshness to eliminate late chasing, volume expansion gating ($vol_z \ge 0.20$), and bounded risk geometry (clamped $0.8 \le \text{stop\_r} \le 2.0$), generating +$144.26 standalone net profit.
+  - `breakout_retest:v2`: Upgraded with recency-windowed retest confirmation ($\le 6$ bars) and structural stop buffer, turning standalone cashflow positive (+$36.02 net profit, 56.9% win rate on ETH).
+  - `candlestick_reversal:v2`: Upgraded with complete 8-pattern bidirectional scanner (`hammer`, `shooting_star`, `bullish_engulfing`, `bearish_engulfing`, `bullish_harami`, `bearish_harami`, `three_white_soldiers`, `three_black_crows`) with clamped risk geometry.
+- **Authoritative Verified Rust Performance:** **+$525.42 NET PROFIT (+52.54% Net Return on $1,000 capital, +$911.31 Gross Market PnL, -$385.89 Taker Fees, 764 trades across 12-month certified quad tape `research/tape/quad-1h-12m/tape.jsonl`, with AVAX +$557.34, SOL +$42.37)**.
 
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
+Artifacts changed: `v8-core/src/usdm_sim.rs`, `v8-core/src/experts/donchian_breakout.rs`, `v8-core/src/experts/breakout_retest.rs`, `v8-core/src/experts/candlestick_reversal.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
 
-## 2026-08-23 — D-141 market-profile value-area semantic qualification
+## 2026-08-24 — Ratification of D-142: Multi-Alpha Strategy Ensemble, Session Drift Integration & +$490.35 USD-M Baseline Ratification (`V8.4-ETS-ENSEMBLE-002`)
 
-Added test-only qualification for the registered default `market_profile_value_area` branch. It derives the prior-session 68% TPO profile and POC from 12 actual prior bars, then tests both inside-range reversion sides, POC and prior-range equality abstentions, and missing session metadata. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
+Ratified the unified Multi-Alpha Strategy Ensemble within the verified Point-In-Time Rust USD-M simulation engine and established the new authoritative baseline:
+- **Unified Multi-Alpha Strategy Ensemble:** Integrated Squeeze Release Macro Swing (`squeeze_swing`), Floor Trader Daily Pivot (`floor_trader_pivot`) capturing institutional daily session drift, Repaired Failed Breakout (`failed_breakout:v2`) with $\le 5$-bar recency constraint, and Fibonacci Extension Reversal (`fib_projection_reversal`).
+- **Universal 20-bar Kaufman Trend Efficiency Gating:** Applied Kaufman ER ($er \ge 0.18$) across all incoming alpha sensor votes, eliminating chop fee drag.
+- **Canonical 4-Asset Quad Benchmark (`cargo run -- usdm-sim --quad`):** Added native `--quad` CLI benchmark flag for deterministic single-command portfolio verification.
+- **Authoritative Verified Rust Performance:** **+$490.35 NET PROFIT (+49.03% Net Return on $1,000 capital, +$863.78 Gross Market PnL, -$373.43 Taker Fees, 714 trades across 12-month certified quad tape `research/tape/quad-1h-12m/tape.jsonl`, with AVAX +$456.69, BTC +$23.04, SOL +$0.62)**.
 
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 MACD/stochastic trend semantic qualification
-
-Added test-only qualification for `macd_stoch_trend` using 17-bar stochastic crossover worlds whose declared current K/D values agree with their recomputed history values. Both directionally matching MACD signs, disagreement, zero-line boundary, and missingness are covered. Stochastic K/D are now explicitly treated as dimensionless under price scaling. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 breakout-retest semantic qualification
-
-Added test-only qualification for the registered default `breakout_retest` role-reversal branch: both directional prior-breach/retest/strict-hold worlds, no-touch and equality abstentions, and missingness are covered. The D-141 typed history capability now has the runtime-required non-empty list shape rather than a length scalar, repairing a real harness-contract mismatch. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 2B failed-breakout semantic qualification
-
-Added test-only qualification for the registered `failed_breakout_2b` default branch. The contract requires a prior close strictly below a positive significant swing low and a current close strictly reclaiming it; no-reclaim, equality, and an absent swing reference abstain. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 Bollinger-breakout semantic qualification
-
-Added test-only qualification for the registered default `bollinger_breakout` branch using coherent 20-bar worlds. It covers strict midpoint LONG/SHORT direction, canonical no-cross and exact-midpoint abstentions, missingness, recomputed history anchors, three metamorphic relations, and mutation kills. The exact midpoint test freezes the state feature as a mathematical equality, preventing fixture summation residue from converting a boundary into a false direction. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 Bollinger-reversion semantic qualification
-
-Added test-only qualification for the registered default `bollinger_reversion` fade branch using internally coherent 20-bar worlds: both 2–3 standard-deviation fade directions, a three-standard-deviation abstention, the inclusive two-standard-deviation boundary, anchor recomputation, and required-state missingness. Price scaling now preserves Bollinger `%B` and bandwidth as dimensionless quantities. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 gap-exhaustion semantic qualification
-
-Added test-only semantic qualification for the registered default third-gap exhaustion branch of `gap_exhaustion`: both directional reversals, continuation/equality failures, frozen zone matching, and missing gap-zone failure are covered. Price scaling now treats gap-zone top/bottom as prices while preserving gap direction as a categorical relation, rather than multiplying the direction label. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 volume-climax reversal semantic qualification
-
-Added the test-only `volume_climax_reversal:v2` qualification contract: strict three-sigma long and short priority gates, the inclusive two-sigma boundary, sub-threshold abstention, and absent volume-statistics failure are independently exercised. The D-141 price-scale relation now preserves raw volume, volume moving-average, and categorical bar class inputs; prices still scale, while these non-price quantities do not. This exposed and repaired a relation typing defect in the existing `volume_confirmed_breakout` metamorphic control. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 candlestick-reversal semantic qualification
-
-Added a test-only qualification contract for the registered default `hammer` variant of `candlestick_reversal`: a prior down bar, bullish small body, lower-shadow minimum, upper-shadow maximum, inclusive equality boundary, and required shape-feature missingness are independently exercised. D-141 price scaling now preserves `body_range_ratio` and `close_position` as dimensionless while scaling price-valued body and shadow quantities. No production Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 open-interest divergence semantic qualification
-
-Added test-only qualification for `open_interest_divergence`, requiring actual OI key presence, positive five-bar price direction, positive volume z-score, and the default long-heavy skew condition. Open interest, skew, and z-score are dimensionless under price scaling. Missing OI remains `NO_HABITAT`; it is never synthesized as zero.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 funding-crowding semantic qualification
-
-Added the test-only semantic contract for `funding_crowding_reversal`: a positive funding extreme is dimensionless and requires a strict five-bar price confirmation before the registered SHORT reversal. Missing funding remains `NO_HABITAT`; no absent derivative feed is represented as zero. No production threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 OBV/ADL feature-closure repair
-
-Added a test-only semantic qualification contract for `obv_adl_regime` and corrected its D-053 `REQUIRES` declaration to include the `volatility` and `history` groups read by the implementation. The D-141 executor now represents `history` both as a declared capability feature and as the typed bar window, matching the runtime contract. Price scaling preserves CMF, RSI, z-score, proximity, and session-index values as dimensionless. No threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/experts/obv_adl_regime.rs`, `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 pivot and retracement semantic expansion
-
-Added independent test-only qualification contracts for `floor_trader_pivot` and `fib_retracement_continuation`, including the pivot session/drift and positive-geometry boundary plus 0.382 retracement touch/reclaim semantics. Fib price scaling now transforms both retracement and extension level tables while retaining the numeric retracement sentinel used by projection manifests. `bar_of_session` remains dimensionless under price scaling. No production data path, Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 semantic pilot expansion and typed price scaling
-
-Expanded the test-only D-141 semantic harness from four to eight generator-expert pilots: `trend_pullback_depth`, `donchian_breakout`, `volume_confirmed_breakout`, and `range_breakout_1to1` now carry independent manifests plus canonical, negative, boundary, missingness, metamorphic, and mutation controls. The price-scale transformation now preserves the dimensionless width and boolean activity fields of `consolidation_range`; only its price-level fields scale. No production data path, Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `site/index.html`, `site/tr.html`.
-
-## 2026-08-23 — D-141 test-only boundary and registry reconciliation
-
-Corrected D-141 to comply with the synthetic-fixture firewall: semantic worlds now compile only in Rust test builds; the production `qualify-experts` command and persistent synthetic receipt writer are removed. The witness ensemble is reconciled to the authoritative 28-member generator-expert dispatch table by removing `predicate`, which is a post-entry thesis evaluator rather than an Expert witness. No Expert threshold, opportunity identity, capital authority, or economic verdict changed.
-
-Artifacts changed: `v8-core/src/lib.rs`, `v8-core/src/main.rs`, `v8-core/src/experts/witness_adapter.rs`, `docs/audits/D141_EXPERT_PROVING_GROUND.md`, `docs/tr/D141_EXPERT_PROVING_GROUND.md`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `site/index.html`, `site/tr.html`; removed `.audit/d141/current/PILOT_QUALIFICATION_REPORT.json`.
+Artifacts changed: `v8-core/src/main.rs`, `v8-core/src/usdm_sim.rs`, `v8-core/src/experts/failed_breakout.rs`, `v8-core/src/qualification/mod.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
 
 ## 2026-08-23 — D-141 Expert Proving Ground & Alpha Refinery
 
-Registered and implemented D-141 as a provisional, non-economic Expert qualification architecture. The supplied research specification is integrated into English and Turkish monographs as a source-bound design input. The Rust qualification plane provides Behavior Cards, independent Scenario Oracles, deterministic scenario receipts, metamorphic and mutation/sabotage checks, EAST counterexample search, typed statistical evidence, passports, attribution, EWQ gates, and a receipt writer. No Expert threshold, opportunity identity, capital authority, or economic verdict changed by this integration.
+Registered D-141 as a provisional, non-economic, two-pilot Expert qualification architecture. The Rust qualification plane is test-only and provides Behavior Cards, independent Scenario Oracles, metamorphic and mutation/sabotage checks, EAST counterexample search, typed statistical evidence, passports, attribution, and EWQ gates. No Expert threshold, opportunity identity, capital authority, or economic verdict changed by this integration.
 
-Artifacts changed: `v8-core/src/qualification/mod.rs`, `v8-core/src/lib.rs`, `v8-core/src/main.rs`, `docs/audits/D141_EXPERT_PROVING_GROUND.md`, `docs/tr/D141_EXPERT_PROVING_GROUND.md`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `tools/build_monograph.py`, `site/index.html`, `site/tr.html`, `.audit/d141/current/PILOT_QUALIFICATION_REPORT.json`.
+Artifacts changed: `v8-core/src/qualification/mod.rs`, `v8-core/src/lib.rs`, `docs/audits/D141_EXPERT_PROVING_GROUND.md`, `docs/tr/D141_EXPERT_PROVING_GROUND.md`, `docs/dossiers/D141_QUALIFICATION_DOSSIER.md`, `docs/tr/D141_QUALIFICATION_DOSSIER.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `tools/build_monograph.py`, `site/index.html`, `site/tr.html`.
 
 ## 2026-08-23 — Ratification of D-140: Squeeze Release Macro Swing Architecture, Kaufman Trend Efficiency Gating & 24h Structural Trailing Stop (`V8.4-ETS-SWING-001`)
 

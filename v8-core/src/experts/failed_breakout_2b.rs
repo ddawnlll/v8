@@ -91,23 +91,32 @@ fn candle_features_agree(fm: &FeatMap, hist: &[HistBar]) -> bool {
 
 // --- per-variant detection predicates ---------------------------------------
 
-/// 2B non-failure swing: LONG reclaim of the significant swing low.
+/// 2B non-failure swing: LONG reclaim of swing_low_10 OR SHORT reclaim of swing_high_10.
 fn detect_b(fm: &FeatMap, hist: &[HistBar], close: f64) -> Option<(String, String, f64)> {
-    // `sw_low is None or sw_low.value is None or float(sw_low.value) <= 0`.
-    let ref_ = match fm.value("swing_low_10") {
-        Some(v) if v > 0.0 => v,
-        _ => return None,
-    };
     if hist.len() < 2 {
         return None;
     }
     let n = hist.len();
-    if !(hist[n - 2].close < ref_ && close > ref_) {
-        return None;
+
+    // 2B Bottom (Bullish): close dipped below swing_low_10 and closed back above
+    if let Some(sw_low) = fm.value("swing_low_10") {
+        if sw_low > 0.0 && hist[n - 2].close < sw_low && close > sw_low {
+            let pred = |i: usize, bar: &HistBar| i >= 1 && hist[i - 1].close < sw_low && bar.close > sw_low;
+            let anchor = find_setup_anchor(hist, &pred);
+            return Some(("LONG".to_string(), anchor, sw_low));
+        }
     }
-    let pred = |i: usize, bar: &HistBar| i >= 1 && hist[i - 1].close < ref_ && bar.close > ref_;
-    let anchor = find_setup_anchor(hist, &pred);
-    Some(("LONG".to_string(), anchor, ref_))
+
+    // 2B Top (Bearish): close rose above swing_high_10 and closed back below
+    if let Some(sw_high) = fm.value("swing_high_10") {
+        if sw_high > 0.0 && hist[n - 2].close > sw_high && close < sw_high {
+            let pred = |i: usize, bar: &HistBar| i >= 1 && hist[i - 1].close > sw_high && bar.close < sw_high;
+            let anchor = find_setup_anchor(hist, &pred);
+            return Some(("SHORT".to_string(), anchor, sw_high));
+        }
+    }
+
+    None
 }
 
 /// Shared Hikkake sequence (Ch7.4 p230). bullish=true -> variant c, false ->

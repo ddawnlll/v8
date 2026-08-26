@@ -1,0 +1,42 @@
+{
+  "receipt_id": "receipt-usdm-1782864000999000000",
+  "initial_balance_usdt": 1000.0,
+  "terminal_equity_usdt": 835.9897051015736,
+  "net_profit_usdt": -164.01029489842642,
+  "total_return_pct": -16.401029489842642,
+  "max_drawdown_pct": 23.292571355942325,
+  "max_margin_utilization_pct": 17.10913771163893,
+  "total_fee_drag_usdt": 68.44734200517496,
+  "total_funding_usdt": 0.0,
+  "n_trades_admitted": 173,
+  "win_rate_pct": 21.38728323699422,
+  "profit_factor": 0.7748143031684428,
+  "rejections_by_reason": {
+    "ECONOMIC_MARGIN_BELOW_FRICTION_FLOOR": 157,
+    "SUB_EXPANSION_MICRO_NOISE_SUPPRESSED": 116,
+    "VETO_EXPECTED_EDGE_BELOW_COST_FLOOR": 6,
+    "VETO_FAILED_CAMPAIGN_COOLDOWN_ACTIVE": 15
+  },
+  "cashflow_ledger_path": "economic-cashflow.jsonl",
+  "venue_contract_hash": "9fb5d2136dbac7de8400e3c5127ff6254f50cf53",
+  "frontier_receipt": {
+    "receipt_id": "72300314e255727bb2a81115c4137b9095818ddfb71cc4d5ffa453f9c801de84",
+    "symbol": "AVAXUSDT",
+    "oracle_definition_id": "70e07d9652853973a80fca4d5ef523dab22573a8c5ded523a23e3172b44666ea",
+    "total_oracle_episodes": 605,
+    "captured_oracle_episodes": 73,
+    "episode_discovery_recall_pct": 12.066115702479339,
+    "total_candidates_emitted": 27723,
+    "oracle_matched_candidates": 17469,
+    "candidate_precision_pct": 63.01266096742777,
+    "total_oracle_gross_r": 2675.112562667435,
+    "captured_gross_r": 469.275018504634,
+    "economic_value_recall_pct": 17.54225317669271,
+    "realized_net_pnl_usdt": -162.0982039539246,
+    "total_fees_usdt": 68.44734200517496,
+    "gross_to_net_conversion_pct": 0.0,
+    "mfe_retention_ratio_pct": 0.0,
+    "oracle_value_realization_pct": 17.54225317669271,
+    "active_red_flags": []
+  }
+}

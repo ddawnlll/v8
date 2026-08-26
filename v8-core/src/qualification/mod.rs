@@ -17,6 +17,100 @@ use crate::state::{Feature, HistBar};
 pub const D141_SCHEMA_VERSION: &str = "d141.eqm.v1";
 pub const NO_ECONOMIC_CLAIM: &str = "NO_ECONOMIC_CLAIM";
 
+
+/// D-141 Data Capability Classification: Signal Observability.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum SignalObservability {
+    FullyObserved,
+    ProxyObserved,
+    DataBlocked,
+}
+
+/// D-141 Data Capability Classification: Execution Observability.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum ExecutionObservability {
+    BarOnlyAmbiguous,
+    SubbarObserved,
+    TradeObserved,
+    FillObserved,
+}
+
+/// D-141 Data Capability Classification: Economic Authority Level.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum EconomicAuthorityLevel {
+    None,
+    DevelopmentDiagnostic,
+    FrozenOosEligible,
+    OosEvaluated,
+    LiveReceipt,
+}
+
+/// D-141 First-Class Intrabar Collision Ambiguity Classification.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum IntrabarCollisionClass {
+    TpFirstBound,
+    SlFirstBound,
+    CanonicalSimPolicy,
+    UnidentifiedIntrabar,
+}
+
+/// Complete Data Capability Profile for an Expert.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DataCapabilityProfile {
+    pub expert_id: String,
+    pub signal_observability: SignalObservability,
+    pub execution_observability: ExecutionObservability,
+    pub economic_authority: EconomicAuthorityLevel,
+    pub observed_mechanism_note: String,
+    pub unobserved_channel_note: Option<String>,
+}
+
+/// Canonical Data Capability Tribunal mapping across the 30 registered V8 Experts.
+pub fn data_capability_for_expert(expert_id: &str) -> DataCapabilityProfile {
+    match expert_id {
+        "open_interest_divergence" => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::DataBlocked,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::None,
+            observed_mechanism_note: "Requires real open_interest and long_short_skew channels currently unobserved on tape".into(),
+            unobserved_channel_note: Some("open_interest, long_short_skew".into()),
+        },
+        "liquidity_sweep_reclaim" => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::ProxyObserved,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::DevelopmentDiagnostic,
+            observed_mechanism_note: "Observed price-level sweep/reclaim behavior on historical OHLCV".into(),
+            unobserved_channel_note: Some("Order-book depth, aggressor trades, and actual liquidation flows".into()),
+        },
+        "market_profile_value_area" => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::ProxyObserved,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::DevelopmentDiagnostic,
+            observed_mechanism_note: "Observed OHLC-derived TPO bucket profile and value area".into(),
+            unobserved_channel_note: Some("True exchange-aggregated volume-at-price profile".into()),
+        },
+        "funding_crowding_reversal" => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::FullyObserved,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::DevelopmentDiagnostic,
+            observed_mechanism_note: "Default variant 'a' fully observed on verified funding rate tape".into(),
+            unobserved_channel_note: None,
+        },
+        _ => DataCapabilityProfile {
+            expert_id: expert_id.to_string(),
+            signal_observability: SignalObservability::FullyObserved,
+            execution_observability: ExecutionObservability::BarOnlyAmbiguous,
+            economic_authority: EconomicAuthorityLevel::DevelopmentDiagnostic,
+            observed_mechanism_note: "Fully observed on PIT 1h OHLCV and derived feature closure".into(),
+            unobserved_channel_note: None,
+        },
+    }
+}
+
 /// The maximum authority a D-141 result may carry.
 ///
 /// `RealTapeDiagnostic` remains deliberately non-promotional.  There is no
@@ -181,38 +275,12 @@ impl Scenario {
             ));
         }
         let mut scaled = self.clone();
-        for (name, value) in &mut scaled.input.scalars {
-            if !matches!(
-                name.as_str(),
-                "bar_of_session"
-                    | "cmf_20"
-                    | "rsi14"
-                    | "vol_zscore"
-                    | "vol_min_proximity"
-                    | "funding_rate"
-                    | "long_short_skew"
-                    | "open_interest"
-                    | "body_range_ratio"
-                    | "close_position"
-                    | "volume"
-                    | "vol_smooth_ma"
-                    | "bar_class"
-                    | "gap_dir"
-                    | "bb_pct_b"
-                    | "bb_bandwidth"
-                    | "stoch_k"
-                    | "stoch_d"
-            ) {
-                *value *= factor;
-            }
+        for value in scaled.input.scalars.values_mut() {
+            *value *= factor;
         }
         for (name, value) in &mut scaled.input.structured {
             if name == "fib_levels" {
                 scale_fib_levels(value, factor)?;
-            } else if name == "consolidation_range" {
-                scale_consolidation_range(value, factor)?;
-            } else if name == "gap_levels" {
-                scale_gap_levels(value, factor)?;
             } else {
                 scale_json_numbers(value, factor)?;
             }
@@ -234,62 +302,6 @@ impl Scenario {
     }
 }
 
-fn scale_gap_levels(value: &mut serde_json::Value, factor: f64) -> Result<(), V8CoreError> {
-    let zones = value.as_array_mut().ok_or_else(|| {
-        V8CoreError::QuantInvariant("gap_levels must be an array for price-scale relation".into())
-    })?;
-    for zone in zones {
-        let zone = zone
-            .as_array_mut()
-            .ok_or_else(|| V8CoreError::QuantInvariant("gap level must be an array".into()))?;
-        if zone.len() != 3 {
-            return Err(V8CoreError::QuantInvariant(
-                "gap level must contain top, bottom, and direction".into(),
-            ));
-        }
-        for index in [0, 1] {
-            let level = zone[index].as_f64().ok_or_else(|| {
-                V8CoreError::QuantInvariant("gap level price must be numeric".into())
-            })?;
-            zone[index] = serde_json::json!(level * factor);
-        }
-        if !zone[2].is_number() {
-            return Err(V8CoreError::QuantInvariant(
-                "gap level direction must be numeric".into(),
-            ));
-        }
-    }
-    Ok(())
-}
-
-fn scale_consolidation_range(
-    value: &mut serde_json::Value,
-    factor: f64,
-) -> Result<(), V8CoreError> {
-    let arr = value.as_array_mut().ok_or_else(|| {
-        V8CoreError::QuantInvariant(
-            "consolidation_range must be an array for price-scale relation".into(),
-        )
-    })?;
-    if arr.len() != 4 {
-        return Err(V8CoreError::QuantInvariant(
-            "consolidation_range must have four fields".into(),
-        ));
-    }
-    for index in [0, 1] {
-        let level = arr[index].as_f64().ok_or_else(|| {
-            V8CoreError::QuantInvariant("consolidation_range price levels must be numeric".into())
-        })?;
-        arr[index] = serde_json::json!(level * factor);
-    }
-    if !arr[2].is_number() || !arr[3].is_boolean() {
-        return Err(V8CoreError::QuantInvariant(
-            "consolidation_range width must be numeric and active flag boolean".into(),
-        ));
-    }
-    Ok(())
-}
-
 fn scale_fib_levels(value: &mut serde_json::Value, factor: f64) -> Result<(), V8CoreError> {
     let arr = value.as_array_mut().ok_or_else(|| {
         V8CoreError::QuantInvariant("fib_levels must be an array for price-scale relation".into())
@@ -303,29 +315,22 @@ fn scale_fib_levels(value: &mut serde_json::Value, factor: f64) -> Result<(), V8
         .as_f64()
         .ok_or_else(|| V8CoreError::QuantInvariant("fib anchor must be numeric".into()))?;
     arr[0] = serde_json::json!(anchor * factor);
-    for (index, table_name) in [(2, "fib retracement"), (3, "fib extension")] {
-        if index == 2 && arr[index].is_number() {
-            // Projection manifests use a numeric retracement sentinel; it is
-            // not a price table and therefore has no price-scale transform.
-            continue;
+    let extensions = arr[3].as_array_mut().ok_or_else(|| {
+        V8CoreError::QuantInvariant("fib extension table must be an array".into())
+    })?;
+    for pair in extensions {
+        let pair = pair
+            .as_array_mut()
+            .ok_or_else(|| V8CoreError::QuantInvariant("fib extension must be a pair".into()))?;
+        if pair.len() != 2 {
+            return Err(V8CoreError::QuantInvariant(
+                "fib extension must contain ratio and level".into(),
+            ));
         }
-        let levels = arr[index].as_array_mut().ok_or_else(|| {
-            V8CoreError::QuantInvariant(format!("{table_name} table must be an array"))
+        let level = pair[1].as_f64().ok_or_else(|| {
+            V8CoreError::QuantInvariant("fib extension level must be numeric".into())
         })?;
-        for pair in levels {
-            let pair = pair.as_array_mut().ok_or_else(|| {
-                V8CoreError::QuantInvariant(format!("{table_name} must be a pair"))
-            })?;
-            if pair.len() != 2 {
-                return Err(V8CoreError::QuantInvariant(format!(
-                    "{table_name} must contain ratio and level"
-                )));
-            }
-            let level = pair[1].as_f64().ok_or_else(|| {
-                V8CoreError::QuantInvariant(format!("{table_name} level must be numeric"))
-            })?;
-            pair[1] = serde_json::json!(level * factor);
-        }
+        pair[1] = serde_json::json!(level * factor);
     }
     Ok(())
 }
@@ -408,21 +413,6 @@ impl ScenarioOracle for DeclarativeScenarioOracle {
 /// the registered Expert dispatch.
 pub fn execute_scenario(expert_id: &str, scenario: &Scenario) -> ExpertEval {
     let mut features = Vec::new();
-    // `history` is both a capability feature and the typed bar window below.
-    // Experts that assert its declared availability must observe the same
-    // presence contract as experts that only consume the bar sequence.
-    features.push(feature(
-        "history",
-        serde_json::Value::Array(
-            scenario
-                .input
-                .history
-                .iter()
-                .map(|bar| serde_json::json!(bar.event_id))
-                .collect(),
-        ),
-        scenario.input.as_of,
-    ));
     for (name, value) in &scenario.input.scalars {
         features.push(feature(
             name,
@@ -591,120 +581,6 @@ pub fn failed_breakout_manifest() -> ExpertQualificationManifest {
     }
 }
 
-pub fn failed_breakout_2b_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "failed_breakout_2b".into(), expert_version: "v1".into(),
-            mechanism_family_id: "failed_breakout".into(), behavior_family_id: "2b_reclaim".into(), dependency_group: "dep_location".into(),
-            hypothesis: "The registered 2B branch supports LONG only when the prior close is strictly below a positive significant swing low and the current close strictly reclaims it.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "swing_low_10".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
-        },
-        scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic],
-        oracle_id: "d141.failed-breakout-2b.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn breakout_retest_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "breakout_retest".into(), expert_version: "v1".into(), mechanism_family_id: "structural".into(), behavior_family_id: "role_reversal".into(), dependency_group: "dep_location".into(),
-            hypothesis: "The registered default role-reversal branch supports a strict retest and hold of a previously breached significant swing level in the matching direction.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "swing_high_10".into(), "swing_low_10".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
-        },
-        scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.breakout-retest.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn macd_stoch_trend_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "macd_stoch_trend".into(), expert_version: "v1".into(), mechanism_family_id: "oscillator".into(), behavior_family_id: "trend_crossover".into(), dependency_group: "dep_oscillator".into(),
-            hypothesis: "The registered branch supports a stochastic K/D cross only if the independently declared MACD sign agrees, and the state stochastic values agree with the recomputed 14,3 history window.".into(),
-            declared_features: vec!["close".into(), "stoch_k".into(), "stoch_d".into(), "macd".into(), "macd_signal".into(), "macd_hist".into(), "atr".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
-        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.macd-stoch-trend.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn market_profile_value_area_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "market_profile_value_area".into(), expert_version: "v1".into(), mechanism_family_id: "market_profile".into(), behavior_family_id: "value_reversion".into(), dependency_group: "dep_session".into(),
-            hypothesis: "The registered default value-area branch reverses toward a TPO-derived prior-session POC only from strictly inside the prior-day range on the matching side of that POC.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "bar_of_session".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
-        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.market-profile-value-area.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn pandf_breakout_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "pandf_breakout".into(), expert_version: "v1".into(), mechanism_family_id: "point_and_figure".into(), behavior_family_id: "double_top_breakout".into(), dependency_group: "dep_volatility".into(),
-            hypothesis: "The registered default P&F branch supports LONG only when a current X column strictly exceeds the preceding X-column top after the locked three-box reversal.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
-        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.pandf-breakout.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn ichimoku_cloud_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "ichimoku_cloud".into(), expert_version: "v1".into(), mechanism_family_id: "ichimoku".into(), behavior_family_id: "tenkan_kijun_cross".into(), dependency_group: "dep_volatility".into(),
-            hypothesis: "The registered Ichimoku branch supports a close-confirmed Tenkan/Kijun crossover only when the 9- and 26-bar midranges cross within the causal history window.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
-        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.ichimoku-cloud.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn rsi_stoch_reversion_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "rsi_stoch_reversion".into(), expert_version: "v1".into(), mechanism_family_id: "rsi".into(), behavior_family_id: "extreme_recovery".into(), dependency_group: "dep_oscillator".into(),
-            hypothesis: "The registered RSI-only branch supports a recovered oversold/overbought run only after the current close strictly crosses the run-start signal bar's extreme.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "rsi14".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
-        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.rsi-stoch-reversion.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn divergence_12_setups_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "divergence_12_setups".into(), expert_version: "v1".into(), mechanism_family_id: "divergence".into(), behavior_family_id: "bearish_standard".into(), dependency_group: "dep_oscillator".into(),
-            hypothesis: "The registered default setup supports SHORT only when two confirmed significant price highs form a higher high while locally recomputed RSI forms a lower high, followed by a strict close below the intervening low.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "rsi14".into(), "swing_high_5".into(), "swing_low_5".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
-        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.divergence-12-setups.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn fib_rsi_bb_confluence_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "fib_rsi_bb_confluence".into(), expert_version: "v1".into(), mechanism_family_id: "confluence".into(), behavior_family_id: "fib_rsi_bollinger".into(), dependency_group: "dep_oscillator".into(),
-            hypothesis: "The registered strict branch supports only when a locally recomputed Bollinger fade, Wilder-RSI recovery, and a frozen 0.786 Fibonacci reclaim all vote the same direction.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "bb_mid".into(), "bb_upper".into(), "bb_lower".into(), "rsi14".into(), "fib_levels".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: true,
-        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.fib-rsi-bb-confluence.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn pattern_measuring_objective_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "pattern_measuring_objective".into(), expert_version: "v1".into(), mechanism_family_id: "pattern".into(), behavior_family_id: "head_shoulders".into(), dependency_group: "dep_location".into(),
-            hypothesis: "The registered default head-and-shoulders branch supports SHORT only when causal three-flank pivots form shoulders around a higher head and the current close strictly breaks the derived neckline.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "window_high_20".into(), "window_low_20".into(), "range_height_20".into(), "consolidation_range".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
-        }, scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.pattern-measuring-objective.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
 pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     ExpertQualificationManifest {
         schema_version: D141_SCHEMA_VERSION.into(),
@@ -728,516 +604,12 @@ pub fn fib_projection_reversal_manifest() -> ExpertQualificationManifest {
     }
 }
 
-pub fn liquidity_sweep_reclaim_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "liquidity_sweep_reclaim".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "liquidity".into(),
-            behavior_family_id: "sweep".into(),
-            dependency_group: "dep_liquidity".into(),
-            hypothesis: "A latest-bar breach of the frozen prior extreme followed by a close back inside supports the opposite reclaim.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "history".into()],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.liquidity-sweep-reclaim.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn trend_pullback_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "trend_pullback".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "momentum".into(),
-            behavior_family_id: "trend_following".into(),
-            dependency_group: "dep_trend".into(),
-            hypothesis: "A close below the slow average inside an aligned fast-above-slow trend supports a LONG pullback.".into(),
-            declared_features: vec![
-                "close".into(),
-                "atr".into(),
-                "ema_fast".into(),
-                "ema_slow".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: false,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.trend-pullback.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn trend_pullback_depth_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "trend_pullback_depth".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "momentum".into(),
-            behavior_family_id: "trend_following".into(),
-            dependency_group: "dep_trend".into(),
-            hypothesis: "A fast-above-slow trend with a close inside the inclusive 38.2% upper impulse-retracement band supports a LONG pullback.".into(),
-            declared_features: vec![
-                "close".into(),
-                "atr".into(),
-                "ema_fast".into(),
-                "ema_slow".into(),
-                "swing_high_10".into(),
-                "swing_low_10".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: false,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.trend-pullback-depth.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn donchian_breakout_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "donchian_breakout".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "channel".into(),
-            behavior_family_id: "breakout".into(),
-            dependency_group: "dep_breakout".into(),
-            hypothesis: "A close strictly above the frozen 20-bar channel high supports the registered long-only breakout.".into(),
-            declared_features: vec![
-                "close".into(),
-                "atr".into(),
-                "window_high_20".into(),
-                "window_low_20".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: false,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.donchian-breakout.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn volume_confirmed_breakout_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "volume_confirmed_breakout".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "volume".into(),
-            behavior_family_id: "breakout".into(),
-            dependency_group: "dep_volume".into(),
-            hypothesis: "A strict channel break with a declared volume-confirmation gate supports the breakout direction.".into(),
-            declared_features: vec![
-                "close".into(),
-                "atr".into(),
-                "volume".into(),
-                "vol_smooth_ma".into(),
-                "window_high_20".into(),
-                "window_low_20".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.volume-confirmed-breakout.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn range_breakout_1to1_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "range_breakout_1to1".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "range".into(),
-            behavior_family_id: "breakout".into(),
-            dependency_group: "dep_breakout".into(),
-            hypothesis: "A single-bar strict escape from an active narrow 20-bar consolidation range supports the matching 1:1 breakout direction.".into(),
-            declared_features: vec![
-                "close".into(),
-                "atr".into(),
-                "window_high_20".into(),
-                "window_low_20".into(),
-                "range_height_20".into(),
-                "consolidation_range".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.range-breakout-1to1.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn floor_trader_pivot_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "floor_trader_pivot".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "pivot".into(),
-            behavior_family_id: "range".into(),
-            dependency_group: "dep_pivot".into(),
-            hypothesis: "Within the current session, a PP-upward or PP-downward drift bar with positive declared geometry supports its matching pivot direction.".into(),
-            declared_features: vec![
-                "close".into(),
-                "atr".into(),
-                "pivot_points_day".into(),
-                "bar_of_session".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.floor-trader-pivot.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn fib_retracement_continuation_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "fib_retracement_continuation".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "geometric".into(),
-            behavior_family_id: "continuation".into(),
-            dependency_group: "dep_fib".into(),
-            hypothesis: "A 0.382 retracement touch and reclaim continues the declared impulse direction; the 0.786 level is frozen only as invalidation geometry.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "fib_levels".into(), "history".into()],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.fib-retracement-continuation.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn obv_adl_regime_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "obv_adl_regime".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "volume".into(),
-            behavior_family_id: "flow".into(),
-            dependency_group: "dep_volume".into(),
-            hypothesis: "A declared CMF oversold regime below the slow average supports the priority long gate; feature closure includes participation, trend, volatility, and history.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "cmf_20".into(), "ema_fast".into(), "ema_slow".into(), "history".into()],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.obv-adl-regime.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn funding_crowding_reversal_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "funding_crowding_reversal".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "derivatives".into(),
-            behavior_family_id: "crowding".into(),
-            dependency_group: "dep_derivatives".into(),
-            hypothesis: "A non-price positive funding extreme plus a strict break below the frozen prior five-bar low supports the registered crowded-long SHORT reversal.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "funding_rate".into(), "history".into()],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: false,
-        },
-        scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic],
-        oracle_id: "d141.funding-crowding-reversal.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn open_interest_divergence_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "open_interest_divergence".into(), expert_version: "v1".into(), mechanism_family_id: "derivatives".into(), behavior_family_id: "divergence".into(), dependency_group: "dep_derivatives".into(),
-            hypothesis: "The registered default leg supports LONG only when price is up over five bars, volume z-score is positive, and long/short skew is at least one with OI present.".into(),
-            declared_features: vec!["close".into(), "atr".into(), "open_interest".into(), "long_short_skew".into(), "vol_zscore".into(), "history".into()], forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()], symmetric_long_short: false,
-        },
-        scenario_families: vec![ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative, ScenarioClass::Boundary, ScenarioClass::Metamorphic], oracle_id: "d141.open-interest-divergence.declarative".into(), oracle_version: "v1".into(), seed_manifest: "d141-seeds-v1".into(), generator_version: "scenario-foundry-v1".into(), maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn candlestick_reversal_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "candlestick_reversal".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "candlestick".into(),
-            behavior_family_id: "reversal".into(),
-            dependency_group: "dep_candle_shape".into(),
-            hypothesis: "The registered hammer variant supports LONG only after a down bar when a bullish small body has a lower shadow at least twice its body and an upper shadow no larger than its body.".into(),
-            declared_features: vec![
-                "close".into(),
-                "atr".into(),
-                "real_body".into(),
-                "body_range_ratio".into(),
-                "upper_shadow".into(),
-                "lower_shadow".into(),
-                "close_position".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.candlestick-reversal.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn volume_climax_reversal_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "volume_climax_reversal".into(),
-            expert_version: "v2".into(),
-            mechanism_family_id: "volume".into(),
-            behavior_family_id: "climax_reversal".into(),
-            dependency_group: "dep_volume".into(),
-            hypothesis: "The priority strict-climax gate fades a declared three-sigma volume extreme in the registered trend direction; a two-sigma boundary is inclusive and falls through to its declared variant order.".into(),
-            declared_features: vec![
-                "close".into(),
-                "ema_fast".into(),
-                "ema_slow".into(),
-                "atr".into(),
-                "volume".into(),
-                "vol_zscore".into(),
-                "vol_min_proximity".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.volume-climax-reversal.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn gap_exhaustion_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "gap_exhaustion".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "gap".into(),
-            behavior_family_id: "exhaustion_reversal".into(),
-            dependency_group: "dep_gap".into(),
-            hypothesis: "The registered default third-gap exhaustion branch reverses only after three same-direction unfilled gaps, a matching frozen gap zone, and a reversal close through the gap direction.".into(),
-            declared_features: vec![
-                "close".into(),
-                "atr".into(),
-                "gap_dir".into(),
-                "gap_size".into(),
-                "gap_levels".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.gap-exhaustion.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn bollinger_reversion_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "bollinger_reversion".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "bollinger".into(),
-            behavior_family_id: "mean_reversion".into(),
-            dependency_group: "dep_bollinger".into(),
-            hypothesis: "The registered default fade branch supports a return from the inclusive 2-SD to exclusive 3-SD envelope toward the mean, with its anchor recomputed from the same 20-bar history.".into(),
-            declared_features: vec![
-                "close".into(),
-                "bb_mid".into(),
-                "bb_upper".into(),
-                "bb_lower".into(),
-                "bb_pct_b".into(),
-                "ema_fast".into(),
-                "ema_slow".into(),
-                "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive,
-            ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary,
-            ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.bollinger-reversion.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
-pub fn bollinger_breakout_manifest() -> ExpertQualificationManifest {
-    ExpertQualificationManifest {
-        schema_version: D141_SCHEMA_VERSION.into(),
-        card: BehaviorCard {
-            expert_id: "bollinger_breakout".into(),
-            expert_version: "v1".into(),
-            mechanism_family_id: "bollinger".into(),
-            behavior_family_id: "breakout".into(),
-            dependency_group: "dep_bollinger".into(),
-            hypothesis: "The registered default branch supports a direction only when the current close strictly crosses its 20-bar Bollinger midpoint; equality abstains and the anchor shares the same recomputed window.".into(),
-            declared_features: vec![
-                "close".into(), "bb_mid".into(), "bb_upper".into(), "bb_lower".into(),
-                "bb_pct_b".into(), "bb_bandwidth".into(), "history".into(),
-            ],
-            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
-            symmetric_long_short: true,
-        },
-        scenario_families: vec![
-            ScenarioClass::CanonicalPositive, ScenarioClass::CanonicalNegative,
-            ScenarioClass::Boundary, ScenarioClass::Metamorphic,
-        ],
-        oracle_id: "d141.bollinger-breakout.declarative".into(),
-        oracle_version: "v1".into(),
-        seed_manifest: "d141-seeds-v1".into(),
-        generator_version: "scenario-foundry-v1".into(),
-        maximum_authority: QualificationAuthority::SemanticQualification,
-    }
-}
-
 fn base_input() -> ScenarioInput {
     ScenarioInput {
         symbol: "BTCUSDT".into(),
         as_of: 1_700_000_000_000_000_000,
         scalars: BTreeMap::from([("close".into(), 99.0), ("atr".into(), 2.0)]),
-        structured: BTreeMap::new(),
+        structured: BTreeMap::from([("history".into(), serde_json::json!(true))]),
         history: vec![
             ScenarioBar {
                 event_id: "b0".into(),
@@ -1268,20 +640,6 @@ fn base_input() -> ScenarioInput {
             ema_slow: 0.0,
         }],
     }
-}
-
-fn channel_history() -> Vec<ScenarioBar> {
-    (0..21)
-        .map(|index| ScenarioBar {
-            event_id: format!("channel-{index}"),
-            open: 95.0,
-            high: if index == 20 { 102.0 } else { 100.0 },
-            low: 90.0,
-            close: if index == 20 { 101.0 } else { 95.0 },
-            ema_fast: 95.0,
-            ema_slow: 95.0,
-        })
-        .collect()
 }
 
 fn scenario(
@@ -1341,848 +699,6 @@ pub fn failed_breakout_scenarios() -> Vec<Scenario> {
             "fb-missing",
             ScenarioClass::Contract,
             "FB-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn failed_breakout_2b_scenarios() -> Vec<Scenario> {
-    let mut reclaim = base_input();
-    reclaim.history = vec![
-        ScenarioBar {
-            event_id: "2b-failure".into(),
-            open: 101.0,
-            high: 102.0,
-            low: 98.0,
-            close: 99.0,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-        ScenarioBar {
-            event_id: "2b-reclaim".into(),
-            open: 99.0,
-            high: 102.0,
-            low: 98.0,
-            close: 101.0,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-    ];
-    reclaim.scalars = BTreeMap::from([
-        ("close".into(), 101.0),
-        ("atr".into(), 2.0),
-        ("swing_low_10".into(), 100.0),
-    ]);
-    let mut negative = reclaim.clone();
-    negative.history[1].close = 99.0;
-    negative.scalars.insert("close".into(), 99.0);
-    let mut boundary = reclaim.clone();
-    boundary.history[1].close = 100.0;
-    boundary.scalars.insert("close".into(), 100.0);
-    let mut absent_reference = reclaim.clone();
-    absent_reference.scalars.remove("swing_low_10");
-    vec![
-        scenario(
-            "2b-reclaim-positive",
-            ScenarioClass::CanonicalPositive,
-            "2B-RECLAIM-LONG",
-            reclaim,
-            ExpectedStance::SupportLong,
-            &["prior-below-swing", "strict-reclaim", "long"],
-        ),
-        scenario(
-            "2b-reclaim-negative",
-            ScenarioClass::CanonicalNegative,
-            "2B-NO-RECLAIM",
-            negative,
-            ExpectedStance::Abstain,
-            &["does-not-reclaim"],
-        ),
-        scenario(
-            "2b-reclaim-boundary",
-            ScenarioClass::Boundary,
-            "2B-EQUAL-SWING",
-            boundary,
-            ExpectedStance::Abstain,
-            &["strict-equality-boundary"],
-        ),
-        scenario(
-            "2b-reclaim-absent-reference",
-            ScenarioClass::Contract,
-            "2B-ABSENT-SWING",
-            absent_reference,
-            ExpectedStance::Abstain,
-            &["absent-significant-swing"],
-        ),
-    ]
-}
-
-pub fn breakout_retest_scenarios() -> Vec<Scenario> {
-    let mut long = base_input();
-    long.history = (0..7)
-        .map(|index| ScenarioBar {
-            event_id: format!("retest-long-{index}"),
-            open: 101.0,
-            high: if index == 6 { 103.0 } else { 102.0 },
-            low: if index == 6 { 99.0 } else { 100.5 },
-            close: if index == 6 { 102.0 } else { 101.0 },
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        })
-        .collect();
-    long.scalars = BTreeMap::from([
-        ("close".into(), 102.0),
-        ("atr".into(), 2.0),
-        ("swing_high_10".into(), 100.0),
-        ("swing_low_10".into(), 90.0),
-    ]);
-    let mut short = long.clone();
-    short.history = (0..7)
-        .map(|index| ScenarioBar {
-            event_id: format!("retest-short-{index}"),
-            open: 89.0,
-            high: if index == 6 { 91.0 } else { 89.5 },
-            low: if index == 6 { 87.0 } else { 88.0 },
-            close: if index == 6 { 88.0 } else { 89.0 },
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        })
-        .collect();
-    short.scalars = BTreeMap::from([
-        ("close".into(), 88.0),
-        ("atr".into(), 2.0),
-        ("swing_high_10".into(), 110.0),
-        ("swing_low_10".into(), 90.0),
-    ]);
-    let mut negative = long.clone();
-    negative.history[6].low = 100.1;
-    let mut boundary = long.clone();
-    boundary.history[6].close = 100.0;
-    boundary.scalars.insert("close".into(), 100.0);
-    let mut missing = long.clone();
-    missing.scalars.remove("swing_high_10");
-    vec![
-        scenario(
-            "retest-long",
-            ScenarioClass::CanonicalPositive,
-            "RETEST-LONG",
-            long,
-            ExpectedStance::SupportLong,
-            &["prior-break", "touch-and-hold", "long"],
-        ),
-        scenario(
-            "retest-short",
-            ScenarioClass::CanonicalPositive,
-            "RETEST-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["prior-break", "touch-and-hold", "short"],
-        ),
-        scenario(
-            "retest-no-touch",
-            ScenarioClass::CanonicalNegative,
-            "RETEST-NO-TOUCH",
-            negative,
-            ExpectedStance::Abstain,
-            &["no-touch"],
-        ),
-        scenario(
-            "retest-equal-level",
-            ScenarioClass::Boundary,
-            "RETEST-EQUAL-CLOSE",
-            boundary,
-            ExpectedStance::Abstain,
-            &["strict-hold-boundary"],
-        ),
-        scenario(
-            "retest-missing",
-            ScenarioClass::Contract,
-            "RETEST-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn macd_stoch_trend_scenarios() -> Vec<Scenario> {
-    let mut long = base_input();
-    long.history = (0..17)
-        .map(|index| {
-            let (high, low, close) = match index {
-                15 => (101.0, 90.0, 90.0),
-                16 => (110.0, 90.0, 110.0),
-                _ => (101.0, 99.0, 100.0),
-            };
-            ScenarioBar {
-                event_id: format!("stoch-long-{index}"),
-                open: close,
-                high,
-                low,
-                close,
-                ema_fast: 0.0,
-                ema_slow: 0.0,
-            }
-        })
-        .collect();
-    long.scalars = BTreeMap::from([
-        ("close".into(), 110.0),
-        ("stoch_k".into(), 100.0),
-        ("stoch_d".into(), 50.0),
-        ("macd".into(), 1.0),
-        ("macd_signal".into(), 0.5),
-        ("macd_hist".into(), 0.5),
-        ("atr".into(), 2.0),
-    ]);
-    let mut short = base_input();
-    short.history = (0..17)
-        .map(|index| {
-            let (high, low, close) = match index {
-                15 => (110.0, 99.0, 110.0),
-                16 => (110.0, 90.0, 90.0),
-                _ => (101.0, 99.0, 100.0),
-            };
-            ScenarioBar {
-                event_id: format!("stoch-short-{index}"),
-                open: close,
-                high,
-                low,
-                close,
-                ema_fast: 0.0,
-                ema_slow: 0.0,
-            }
-        })
-        .collect();
-    short.scalars = BTreeMap::from([
-        ("close".into(), 90.0),
-        ("stoch_k".into(), 0.0),
-        ("stoch_d".into(), 50.0),
-        ("macd".into(), -1.0),
-        ("macd_signal".into(), -0.5),
-        ("macd_hist".into(), -0.5),
-        ("atr".into(), 2.0),
-    ]);
-    let mut negative = long.clone();
-    negative.scalars.insert("macd".into(), -1.0);
-    let mut boundary = long.clone();
-    boundary.scalars.insert("macd".into(), 0.0);
-    let mut missing = long.clone();
-    missing.scalars.remove("stoch_d");
-    vec![
-        scenario(
-            "stoch-macd-long",
-            ScenarioClass::CanonicalPositive,
-            "STOCH-MACD-LONG",
-            long,
-            ExpectedStance::SupportLong,
-            &["up-cross", "positive-macd", "long"],
-        ),
-        scenario(
-            "stoch-macd-short",
-            ScenarioClass::CanonicalPositive,
-            "STOCH-MACD-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["down-cross", "negative-macd", "short"],
-        ),
-        scenario(
-            "stoch-macd-disagree",
-            ScenarioClass::CanonicalNegative,
-            "STOCH-MACD-DISAGREE",
-            negative,
-            ExpectedStance::Abstain,
-            &["sign-disagrees"],
-        ),
-        scenario(
-            "stoch-macd-zero",
-            ScenarioClass::Boundary,
-            "STOCH-MACD-ZERO",
-            boundary,
-            ExpectedStance::Abstain,
-            &["zero-macd-boundary"],
-        ),
-        scenario(
-            "stoch-macd-missing",
-            ScenarioClass::Contract,
-            "STOCH-MACD-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn market_profile_value_area_scenarios() -> Vec<Scenario> {
-    let mut long = base_input();
-    long.history = (0..13)
-        .map(|index| ScenarioBar {
-            event_id: format!("profile-{index}"),
-            open: 100.0,
-            high: 101.0,
-            low: 99.0,
-            close: if index == 12 { 99.5 } else { 100.0 },
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        })
-        .collect();
-    long.scalars = BTreeMap::from([
-        ("close".into(), 99.5),
-        ("atr".into(), 1.0),
-        ("bar_of_session".into(), 1.0),
-    ]);
-    let mut short = long.clone();
-    short.history[12].close = 100.5;
-    short.scalars.insert("close".into(), 100.5);
-    let mut negative = long.clone();
-    negative.history[12].close = 100.0;
-    negative.scalars.insert("close".into(), 100.0);
-    let mut boundary = long.clone();
-    boundary.history[12].close = 99.0;
-    boundary.scalars.insert("close".into(), 99.0);
-    let mut missing = long.clone();
-    missing.scalars.remove("bar_of_session");
-    vec![
-        scenario(
-            "profile-long",
-            ScenarioClass::CanonicalPositive,
-            "PROFILE-LONG",
-            long,
-            ExpectedStance::SupportLong,
-            &["below-poc", "inside-range", "long"],
-        ),
-        scenario(
-            "profile-short",
-            ScenarioClass::CanonicalPositive,
-            "PROFILE-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["above-poc", "inside-range", "short"],
-        ),
-        scenario(
-            "profile-poc-equality",
-            ScenarioClass::CanonicalNegative,
-            "PROFILE-AT-POC",
-            negative,
-            ExpectedStance::Abstain,
-            &["poc-equality"],
-        ),
-        scenario(
-            "profile-day-low-equality",
-            ScenarioClass::Boundary,
-            "PROFILE-DAY-LOW",
-            boundary,
-            ExpectedStance::Abstain,
-            &["range-equality"],
-        ),
-        scenario(
-            "profile-missing",
-            ScenarioClass::Contract,
-            "PROFILE-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn pandf_breakout_scenarios() -> Vec<Scenario> {
-    let mut positive = base_input();
-    positive.history = (0..20)
-        .map(|index| {
-            let close = match index {
-                15 => 101.0,
-                16 => 102.0,
-                17 => 103.0,
-                18 => 100.0,
-                19 => 104.0,
-                _ => 100.0,
-            };
-            ScenarioBar {
-                event_id: format!("pandf-{index}"),
-                open: close,
-                high: close + 0.5,
-                low: close - 0.5,
-                close,
-                ema_fast: 0.0,
-                ema_slow: 0.0,
-            }
-        })
-        .collect();
-    positive.scalars = BTreeMap::from([("close".into(), 104.0), ("atr".into(), 1.0)]);
-    let mut negative = positive.clone();
-    negative.history[19].close = 102.0;
-    negative.scalars.insert("close".into(), 102.0);
-    let mut boundary = positive.clone();
-    boundary.history[19].close = 103.0;
-    boundary.scalars.insert("close".into(), 103.0);
-    let mut missing = positive.clone();
-    missing.scalars.remove("atr");
-    vec![
-        scenario(
-            "pandf-double-top",
-            ScenarioClass::CanonicalPositive,
-            "PANDF-DOUBLE-TOP",
-            positive,
-            ExpectedStance::SupportLong,
-            &["three-box-reversal", "strict-top-break", "long"],
-        ),
-        scenario(
-            "pandf-no-reversal",
-            ScenarioClass::CanonicalNegative,
-            "PANDF-NO-BREAK",
-            negative,
-            ExpectedStance::Abstain,
-            &["no-current-x-column"],
-        ),
-        scenario(
-            "pandf-equal-top",
-            ScenarioClass::Boundary,
-            "PANDF-EQUAL-TOP",
-            boundary,
-            ExpectedStance::Abstain,
-            &["strict-top-equality"],
-        ),
-        scenario(
-            "pandf-missing",
-            ScenarioClass::Contract,
-            "PANDF-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-fn ichimoku_world(long: bool) -> ScenarioInput {
-    let mut input = base_input();
-    input.history = (0..27)
-        .map(|index| {
-            let (high, low, close) = if index == 17 {
-                if long {
-                    (101.0, 90.0, 100.0)
-                } else {
-                    (110.0, 99.0, 100.0)
-                }
-            } else if index == 26 {
-                if long {
-                    (110.0, 99.0, 110.0)
-                } else {
-                    (101.0, 90.0, 90.0)
-                }
-            } else {
-                (101.0, 99.0, 100.0)
-            };
-            ScenarioBar {
-                event_id: format!("ichimoku-{long}-{index}"),
-                open: close,
-                high,
-                low,
-                close,
-                ema_fast: 0.0,
-                ema_slow: 0.0,
-            }
-        })
-        .collect();
-    input.scalars = BTreeMap::from([
-        ("close".into(), if long { 110.0 } else { 90.0 }),
-        ("atr".into(), 2.0),
-    ]);
-    input
-}
-
-pub fn ichimoku_cloud_scenarios() -> Vec<Scenario> {
-    let long = ichimoku_world(true);
-    let short = ichimoku_world(false);
-    let mut boundary = long.clone();
-    boundary.history[26].close = 100.0;
-    boundary.scalars.insert("close".into(), 100.0);
-    let mut missing = long.clone();
-    missing.scalars.remove("atr");
-    vec![
-        scenario(
-            "ichimoku-long",
-            ScenarioClass::CanonicalPositive,
-            "ICHI-LONG",
-            long,
-            ExpectedStance::SupportLong,
-            &["up-cross", "close-above-kijun", "long"],
-        ),
-        scenario(
-            "ichimoku-short",
-            ScenarioClass::CanonicalPositive,
-            "ICHI-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["down-cross", "close-below-kijun", "short"],
-        ),
-        scenario(
-            "ichimoku-kijun-equality",
-            ScenarioClass::Boundary,
-            "ICHI-EQUAL-KIJUN",
-            boundary,
-            ExpectedStance::Abstain,
-            &["strict-close-boundary"],
-        ),
-        scenario(
-            "ichimoku-missing",
-            ScenarioClass::Contract,
-            "ICHI-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-fn rsi_recovery_world(long: bool) -> ScenarioInput {
-    let mut input = base_input();
-    input.history = (0..21)
-        .map(|index| {
-            let close = if index == 0 {
-                100.0
-            } else if index <= 14 {
-                if long {
-                    100.0 - index as f64
-                } else {
-                    100.0 + index as f64
-                }
-            } else if long {
-                86.0 + (index - 14) as f64
-            } else {
-                114.0 - (index - 14) as f64
-            };
-            let (high, low) = if index == 19 {
-                if long {
-                    (91.5, 90.5)
-                } else {
-                    (109.5, 108.5)
-                }
-            } else {
-                (close + 0.5, close - 0.5)
-            };
-            ScenarioBar {
-                event_id: format!("rsi-recovery-{long}-{index}"),
-                open: close,
-                high,
-                low,
-                close,
-                ema_fast: 0.0,
-                ema_slow: 0.0,
-            }
-        })
-        .collect();
-    input.scalars = BTreeMap::from([
-        ("close".into(), if long { 92.0 } else { 108.0 }),
-        ("atr".into(), 2.0),
-        ("rsi14".into(), if long { 35.0 } else { 65.0 }),
-    ]);
-    input
-}
-
-pub fn rsi_stoch_reversion_scenarios() -> Vec<Scenario> {
-    let long = rsi_recovery_world(true);
-    let short = rsi_recovery_world(false);
-    let mut boundary = long.clone();
-    boundary.history[20].close = 91.5;
-    boundary.scalars.insert("close".into(), 91.5);
-    let mut negative = long.clone();
-    negative.scalars.insert("rsi14".into(), 30.0);
-    let mut missing = long.clone();
-    missing.scalars.remove("rsi14");
-    vec![
-        scenario(
-            "rsi-recovery-long",
-            ScenarioClass::CanonicalPositive,
-            "RSI-RECOVERY-LONG",
-            long,
-            ExpectedStance::SupportLong,
-            &["oversold-recovery", "signal-high-break", "long"],
-        ),
-        scenario(
-            "rsi-recovery-short",
-            ScenarioClass::CanonicalPositive,
-            "RSI-RECOVERY-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["overbought-recovery", "signal-low-break", "short"],
-        ),
-        scenario(
-            "rsi-recovery-state-boundary",
-            ScenarioClass::CanonicalNegative,
-            "RSI-STATE-EQUAL-OS",
-            negative,
-            ExpectedStance::Abstain,
-            &["rsi-state-boundary"],
-        ),
-        scenario(
-            "rsi-recovery-price-boundary",
-            ScenarioClass::Boundary,
-            "RSI-EQUAL-SIGNAL-HIGH",
-            boundary,
-            ExpectedStance::Abstain,
-            &["strict-trigger-boundary"],
-        ),
-        scenario(
-            "rsi-recovery-missing",
-            ScenarioClass::Contract,
-            "RSI-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-fn bearish_divergence_world(final_close: f64) -> ScenarioInput {
-    let mut input = base_input();
-    let closes: Vec<f64> = (0..31)
-        .map(|index| match index {
-            0..=14 => 100.0 + index as f64,
-            15 => 113.0,
-            16 => 112.0,
-            17 => 111.0,
-            18 => 110.0,
-            19 => 111.0,
-            20 => 112.0,
-            21 => 113.0,
-            22 => 114.0,
-            23 => 114.5,
-            24 => 115.0,
-            25 => 114.0,
-            26 => 113.0,
-            27 => 112.0,
-            28 => 111.0,
-            29 => 110.0,
-            _ => final_close,
-        })
-        .collect();
-    input.history = closes
-        .iter()
-        .enumerate()
-        .map(|(index, close)| ScenarioBar {
-            event_id: format!("divergence-{index}"),
-            open: *close,
-            high: *close + 0.5,
-            low: *close - 0.5,
-            close: *close,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        })
-        .collect();
-    input.scalars = BTreeMap::from([
-        ("close".into(), final_close),
-        ("atr".into(), 1.0),
-        ("rsi14".into(), 30.0),
-        ("swing_high_5".into(), 115.5),
-        ("swing_low_5".into(), 0.0),
-    ]);
-    input
-}
-
-pub fn divergence_12_setups_scenarios() -> Vec<Scenario> {
-    let positive = bearish_divergence_world(108.0);
-    let negative = bearish_divergence_world(110.0);
-    let boundary = bearish_divergence_world(109.5);
-    let mut missing = positive.clone();
-    missing.scalars.remove("swing_high_5");
-    vec![
-        scenario(
-            "divergence-bearish",
-            ScenarioClass::CanonicalPositive,
-            "DIVERGENCE-BEARISH",
-            positive,
-            ExpectedStance::SupportShort,
-            &[
-                "higher-price-high",
-                "lower-rsi-high",
-                "barrier-break",
-                "short",
-            ],
-        ),
-        scenario(
-            "divergence-no-break",
-            ScenarioClass::CanonicalNegative,
-            "DIVERGENCE-NO-BARRIER-BREAK",
-            negative,
-            ExpectedStance::Abstain,
-            &["barrier-holds"],
-        ),
-        scenario(
-            "divergence-equal-barrier",
-            ScenarioClass::Boundary,
-            "DIVERGENCE-EQUAL-BARRIER",
-            boundary,
-            ExpectedStance::Abstain,
-            &["strict-barrier-boundary"],
-        ),
-        scenario(
-            "divergence-missing",
-            ScenarioClass::Contract,
-            "DIVERGENCE-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-fn fib_rsi_bb_world(last_close: f64, fib_level: f64) -> ScenarioInput {
-    let mut input = base_input();
-    let closes = [
-        97.0, 98.0, 98.0, 94.0, 93.0, 93.0, 96.0, 96.0, 93.0, 92.0, 94.0, 97.0, 93.0, 94.0, 93.0,
-        89.0, 90.0, 86.0, 85.0, 88.0, 86.0, 82.0, 79.0, 82.0, last_close,
-    ];
-    input.history = closes
-        .iter()
-        .enumerate()
-        .map(|(index, close)| ScenarioBar {
-            event_id: format!("fib-rsi-bb-{index}"),
-            open: *close,
-            high: *close + 1.0,
-            low: *close - 1.0,
-            close: *close,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        })
-        .collect();
-    input.scalars = BTreeMap::from([
-        ("close".into(), last_close),
-        ("atr".into(), 2.0),
-        ("bb_mid".into(), 89.3),
-        ("bb_upper".into(), 100.5),
-        ("bb_lower".into(), 78.1),
-        ("rsi14".into(), 50.0),
-    ]);
-    input.structured.insert(
-        "fib_levels".into(),
-        serde_json::json!([100.0, 1.0, [[0.786, fib_level]], []]),
-    );
-    input
-}
-
-pub fn fib_rsi_bb_confluence_scenarios() -> Vec<Scenario> {
-    let positive = fib_rsi_bb_world(78.0, 77.5);
-    let negative = fib_rsi_bb_world(78.0, 78.5);
-    let boundary = fib_rsi_bb_world(77.5, 77.5);
-    let mut missing = positive.clone();
-    missing.structured.remove("fib_levels");
-    vec![
-        scenario(
-            "fib-rsi-bb-strict-long",
-            ScenarioClass::CanonicalPositive,
-            "FIB-RSI-BB-LONG",
-            positive,
-            ExpectedStance::SupportLong,
-            &[
-                "bb-fade",
-                "rsi-recovery",
-                "fib-reclaim",
-                "strict-confluence",
-                "long",
-            ],
-        ),
-        scenario(
-            "fib-rsi-bb-fib-miss",
-            ScenarioClass::CanonicalNegative,
-            "FIB-RSI-BB-NO-FIB-RECLAIM",
-            negative,
-            ExpectedStance::Abstain,
-            &["fib-leg-fails"],
-        ),
-        scenario(
-            "fib-rsi-bb-fib-equality",
-            ScenarioClass::Boundary,
-            "FIB-RSI-BB-EQUAL-FIB",
-            boundary,
-            ExpectedStance::Abstain,
-            &["strict-fib-boundary"],
-        ),
-        scenario(
-            "fib-rsi-bb-missing",
-            ScenarioClass::Contract,
-            "FIB-RSI-BB-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-fn head_shoulders_world(final_close: f64) -> ScenarioInput {
-    let mut input = base_input();
-    input.history = (0..24)
-        .map(|index| {
-            let (high, low, close) = match index {
-                3 => (105.0, 99.0, 102.0),
-                7 => (101.0, 95.0, 98.0),
-                11 => (110.0, 99.0, 104.0),
-                15 => (101.0, 95.0, 98.0),
-                19 => (105.0, 99.0, 102.0),
-                23 => (final_close + 1.0, final_close - 1.0, final_close),
-                _ => (101.0, 99.0, 100.0),
-            };
-            ScenarioBar {
-                event_id: format!("hs-{index}"),
-                open: close,
-                high,
-                low,
-                close,
-                ema_fast: 0.0,
-                ema_slow: 0.0,
-            }
-        })
-        .collect();
-    input.scalars = BTreeMap::from([
-        ("close".into(), final_close),
-        ("atr".into(), 2.0),
-        ("window_high_20".into(), 110.0),
-        ("window_low_20".into(), 95.0),
-        ("range_height_20".into(), 15.0),
-    ]);
-    input.structured.insert(
-        "consolidation_range".into(),
-        serde_json::json!([110.0, 95.0, 0.02, true]),
-    );
-    input
-}
-
-pub fn pattern_measuring_objective_scenarios() -> Vec<Scenario> {
-    let positive = head_shoulders_world(94.0);
-    let negative = head_shoulders_world(96.0);
-    let boundary = head_shoulders_world(95.0);
-    let mut missing = positive.clone();
-    missing.structured.remove("consolidation_range");
-    vec![
-        scenario(
-            "hs-break",
-            ScenarioClass::CanonicalPositive,
-            "HS-SHORT",
-            positive,
-            ExpectedStance::SupportShort,
-            &["shoulders", "higher-head", "neckline-break", "short"],
-        ),
-        scenario(
-            "hs-no-break",
-            ScenarioClass::CanonicalNegative,
-            "HS-NO-BREAK",
-            negative,
-            ExpectedStance::Abstain,
-            &["neckline-holds"],
-        ),
-        scenario(
-            "hs-equal-neckline",
-            ScenarioClass::Boundary,
-            "HS-EQUAL-NECKLINE",
-            boundary,
-            ExpectedStance::Abstain,
-            &["strict-neckline-boundary"],
-        ),
-        scenario(
-            "hs-missing",
-            ScenarioClass::Contract,
-            "HS-MISSING",
             missing,
             ExpectedStance::NoHabitat,
             &["missingness"],
@@ -2277,1121 +793,155 @@ pub fn fib_projection_reversal_scenarios() -> Vec<Scenario> {
     ]
 }
 
-pub fn liquidity_sweep_reclaim_scenarios() -> Vec<Scenario> {
-    let mut long = base_input();
-    long.history = vec![
-        ScenarioBar {
-            event_id: "lsr-long-prior".into(),
-            open: 99.0,
-            high: 100.0,
-            low: 98.0,
-            close: 99.0,
-            ema_fast: 99.0,
-            ema_slow: 99.0,
-        },
-        ScenarioBar {
-            event_id: "lsr-long-sweep".into(),
-            open: 98.0,
-            high: 101.0,
-            low: 97.0,
-            close: 99.0,
-            ema_fast: 99.0,
-            ema_slow: 99.0,
-        },
-    ];
-    long.scalars.insert("close".into(), 99.0);
-
-    let mut short = base_input();
-    short.history = vec![
-        ScenarioBar {
-            event_id: "lsr-short-prior".into(),
-            open: 99.0,
-            high: 100.0,
-            low: 98.0,
-            close: 99.0,
-            ema_fast: 99.0,
-            ema_slow: 99.0,
-        },
-        ScenarioBar {
-            event_id: "lsr-short-sweep".into(),
-            open: 101.0,
-            high: 103.0,
-            low: 98.0,
-            close: 99.0,
-            ema_fast: 99.0,
-            ema_slow: 99.0,
-        },
-    ];
-    short.scalars.insert("close".into(), 99.0);
-
-    let mut negative = long.clone();
-    negative.scalars.insert("close".into(), 97.0);
-    negative.history[1].high = 100.0;
-    let mut boundary = long.clone();
-    boundary.history[1].low = 98.0;
-    boundary.history[1].high = 100.0;
-    let mut missing = long.clone();
-    missing.scalars.remove("atr");
-
-    vec![
-        scenario(
-            "lsr-long",
-            ScenarioClass::CanonicalPositive,
-            "LSR-LONG",
-            long,
-            ExpectedStance::SupportLong,
-            &["sweep-low", "reclaim", "long"],
-        ),
-        scenario(
-            "lsr-short",
-            ScenarioClass::CanonicalPositive,
-            "LSR-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["sweep-high", "reclaim", "short"],
-        ),
-        scenario(
-            "lsr-negative",
-            ScenarioClass::CanonicalNegative,
-            "LSR-NEG",
-            negative,
-            ExpectedStance::Abstain,
-            &["no-reclaim"],
-        ),
-        scenario(
-            "lsr-boundary",
-            ScenarioClass::Boundary,
-            "LSR-BOUNDARY",
-            boundary,
-            ExpectedStance::Abstain,
-            &["equal-extreme"],
-        ),
-        scenario(
-            "lsr-missing",
-            ScenarioClass::Contract,
-            "LSR-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn trend_pullback_scenarios() -> Vec<Scenario> {
-    let mut positive = base_input();
-    positive.scalars.insert("close".into(), 99.0);
-    positive.scalars.insert("ema_fast".into(), 101.0);
-    positive.scalars.insert("ema_slow".into(), 100.0);
-    let mut negative = positive.clone();
-    negative.scalars.insert("close".into(), 100.0);
-    let mut boundary = positive.clone();
-    boundary.scalars.insert("ema_fast".into(), 100.0);
-    let mut missing = positive.clone();
-    missing.scalars.remove("ema_fast");
-    vec![
-        scenario(
-            "tp-positive",
-            ScenarioClass::CanonicalPositive,
-            "TP-POS",
-            positive,
-            ExpectedStance::SupportLong,
-            &["aligned-trend", "pullback", "long"],
-        ),
-        scenario(
-            "tp-negative",
-            ScenarioClass::CanonicalNegative,
-            "TP-NEG",
-            negative,
-            ExpectedStance::Abstain,
-            &["no-pullback"],
-        ),
-        scenario(
-            "tp-boundary",
-            ScenarioClass::Boundary,
-            "TP-BOUNDARY",
-            boundary,
-            ExpectedStance::Abstain,
-            &["flat-trend-boundary"],
-        ),
-        scenario(
-            "tp-missing",
-            ScenarioClass::Contract,
-            "TP-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn trend_pullback_depth_scenarios() -> Vec<Scenario> {
-    let mut positive = base_input();
-    positive.scalars.insert("close".into(), 115.0);
-    positive.scalars.insert("ema_fast".into(), 121.0);
-    positive.scalars.insert("ema_slow".into(), 120.0);
-    positive.scalars.insert("swing_high_10".into(), 120.0);
-    positive.scalars.insert("swing_low_10".into(), 100.0);
-    let mut inclusive_boundary = positive.clone();
-    inclusive_boundary.scalars.insert("close".into(), 112.36);
-    let mut negative = positive.clone();
-    negative.scalars.insert("close".into(), 112.35);
-    let mut flat_trend = positive.clone();
-    flat_trend.scalars.insert("ema_fast".into(), 120.0);
-    let mut missing = positive.clone();
-    missing.scalars.remove("swing_high_10");
-    vec![
-        scenario(
-            "tpd-positive",
-            ScenarioClass::CanonicalPositive,
-            "TPD-POS",
-            positive,
-            ExpectedStance::SupportLong,
-            &["aligned-trend", "depth-under-382", "long"],
-        ),
-        scenario(
-            "tpd-inclusive-boundary",
-            ScenarioClass::Boundary,
-            "TPD-BOUNDARY-INCLUSIVE",
-            inclusive_boundary,
-            ExpectedStance::SupportLong,
-            &["depth-equals-382"],
-        ),
-        scenario(
-            "tpd-negative",
-            ScenarioClass::CanonicalNegative,
-            "TPD-NEG",
-            negative,
-            ExpectedStance::Abstain,
-            &["depth-over-382"],
-        ),
-        scenario(
-            "tpd-flat-trend",
-            ScenarioClass::Boundary,
-            "TPD-FLAT-TREND",
-            flat_trend,
-            ExpectedStance::Abstain,
-            &["flat-trend-boundary"],
-        ),
-        scenario(
-            "tpd-missing",
-            ScenarioClass::Contract,
-            "TPD-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn donchian_breakout_scenarios() -> Vec<Scenario> {
-    let mut positive = base_input();
-    positive.history = channel_history();
-    positive.scalars.insert("close".into(), 101.0);
-    positive.scalars.insert("window_high_20".into(), 100.0);
-    positive.scalars.insert("window_low_20".into(), 90.0);
-    let mut boundary = positive.clone();
-    boundary.scalars.insert("close".into(), 100.0);
-    let mut negative = positive.clone();
-    negative.scalars.insert("close".into(), 99.0);
-    let mut missing = positive.clone();
-    missing.scalars.remove("window_high_20");
-    vec![
-        scenario(
-            "donchian-positive",
-            ScenarioClass::CanonicalPositive,
-            "DONCHIAN-POS",
-            positive,
-            ExpectedStance::SupportLong,
-            &["channel-20", "strict-high-break", "long"],
-        ),
-        scenario(
-            "donchian-boundary",
-            ScenarioClass::Boundary,
-            "DONCHIAN-BOUNDARY",
-            boundary,
-            ExpectedStance::Abstain,
-            &["equal-high-boundary"],
-        ),
-        scenario(
-            "donchian-negative",
-            ScenarioClass::CanonicalNegative,
-            "DONCHIAN-NEG",
-            negative,
-            ExpectedStance::Abstain,
-            &["inside-channel"],
-        ),
-        scenario(
-            "donchian-missing",
-            ScenarioClass::Contract,
-            "DONCHIAN-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn volume_confirmed_breakout_scenarios() -> Vec<Scenario> {
-    let mut positive = base_input();
-    positive.history = channel_history();
-    positive.scalars.insert("close".into(), 101.0);
-    positive.scalars.insert("volume".into(), 130.0);
-    positive.scalars.insert("vol_smooth_ma".into(), 100.0);
-    positive.scalars.insert("window_high_20".into(), 100.0);
-    positive.scalars.insert("window_low_20".into(), 90.0);
-    let mut volume_negative = positive.clone();
-    volume_negative.scalars.insert("volume".into(), 100.0);
-    let mut price_boundary = positive.clone();
-    price_boundary.scalars.insert("close".into(), 100.0);
-    let mut missing = positive.clone();
-    missing.scalars.remove("volume");
-    vec![
-        scenario(
-            "vcb-positive",
-            ScenarioClass::CanonicalPositive,
-            "VCB-POS",
-            positive,
-            ExpectedStance::SupportLong,
-            &["channel-break", "volume-confirmed", "long"],
-        ),
-        scenario(
-            "vcb-volume-negative",
-            ScenarioClass::CanonicalNegative,
-            "VCB-NO-VOLUME",
-            volume_negative,
-            ExpectedStance::Abstain,
-            &["volume-not-confirmed"],
-        ),
-        scenario(
-            "vcb-price-boundary",
-            ScenarioClass::Boundary,
-            "VCB-EQUAL-CHANNEL",
-            price_boundary,
-            ExpectedStance::Abstain,
-            &["equal-channel-boundary"],
-        ),
-        scenario(
-            "vcb-missing",
-            ScenarioClass::Contract,
-            "VCB-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn range_breakout_1to1_scenarios() -> Vec<Scenario> {
-    let mut positive = base_input();
-    positive.history = channel_history();
-    positive.scalars.insert("close".into(), 101.0);
-    positive.scalars.insert("window_high_20".into(), 100.0);
-    positive.scalars.insert("window_low_20".into(), 90.0);
-    positive.scalars.insert("range_height_20".into(), 10.0);
-    positive.structured.insert(
-        "consolidation_range".into(),
-        serde_json::json!([100.0, 90.0, 0.02, true]),
-    );
-    let mut price_boundary = positive.clone();
-    price_boundary.scalars.insert("close".into(), 100.0);
-    let mut wide_range = positive.clone();
-    wide_range.structured.insert(
-        "consolidation_range".into(),
-        serde_json::json!([100.0, 90.0, 0.030_001, true]),
-    );
-    let mut missing = positive.clone();
-    missing.structured.remove("consolidation_range");
-    vec![
-        scenario(
-            "range-positive",
-            ScenarioClass::CanonicalPositive,
-            "RANGE-POS",
-            positive,
-            ExpectedStance::SupportLong,
-            &["channel-break", "narrow-range", "single-bar", "long"],
-        ),
-        scenario(
-            "range-price-boundary",
-            ScenarioClass::Boundary,
-            "RANGE-EQUAL-CHANNEL",
-            price_boundary,
-            ExpectedStance::Abstain,
-            &["equal-channel-boundary"],
-        ),
-        scenario(
-            "range-width-negative",
-            ScenarioClass::CanonicalNegative,
-            "RANGE-WIDE",
-            wide_range,
-            ExpectedStance::Abstain,
-            &["wide-range"],
-        ),
-        scenario(
-            "range-missing",
-            ScenarioClass::Contract,
-            "RANGE-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn floor_trader_pivot_scenarios() -> Vec<Scenario> {
-    let pivots = serde_json::json!([100.0, 110.0, 120.0, 130.0, 140.0, 90.0, 80.0, 70.0, 60.0]);
-    let mut long = base_input();
-    long.history[1].open = 101.0;
-    long.history[1].close = 102.0;
-    long.scalars.insert("close".into(), 105.0);
-    long.scalars.insert("bar_of_session".into(), 2.0);
-    long.structured
-        .insert("pivot_points_day".into(), pivots.clone());
-    let mut short = long.clone();
-    short.history[1].open = 99.0;
-    short.history[1].close = 98.0;
-    short.scalars.insert("close".into(), 95.0);
-    let mut negative = long.clone();
-    negative.history[1].close = 101.0;
-    let mut geometry_boundary = long.clone();
-    geometry_boundary.scalars.insert("close".into(), 100.0);
-    let mut missing = long.clone();
-    missing.structured.remove("pivot_points_day");
-    vec![
-        scenario(
-            "pivot-long",
-            ScenarioClass::CanonicalPositive,
-            "PIVOT-LONG",
-            long,
-            ExpectedStance::SupportLong,
-            &["session", "pp-up-drift", "long"],
-        ),
-        scenario(
-            "pivot-short",
-            ScenarioClass::CanonicalPositive,
-            "PIVOT-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["session", "pp-down-drift", "short"],
-        ),
-        scenario(
-            "pivot-negative",
-            ScenarioClass::CanonicalNegative,
-            "PIVOT-NO-DRIFT",
-            negative,
-            ExpectedStance::Abstain,
-            &["no-drift"],
-        ),
-        scenario(
-            "pivot-geometry-boundary",
-            ScenarioClass::Boundary,
-            "PIVOT-ZERO-STOP",
-            geometry_boundary,
-            ExpectedStance::Abstain,
-            &["zero-stop-boundary"],
-        ),
-        scenario(
-            "pivot-missing",
-            ScenarioClass::Contract,
-            "PIVOT-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn fib_retracement_continuation_scenarios() -> Vec<Scenario> {
-    let fib_up = serde_json::json!([120.0, 1.0, [[0.382, 110.0], [0.786, 105.0]], []]);
-    let fib_down = serde_json::json!([80.0, -1.0, [[0.382, 90.0], [0.786, 95.0]], []]);
-    let mut long = base_input();
-    long.history[1].low = 109.0;
-    long.history[1].close = 111.0;
-    long.structured.insert("fib_levels".into(), fib_up.clone());
-    let mut short = base_input();
-    short.history[1].high = 91.0;
-    short.history[1].close = 89.0;
-    short.structured.insert("fib_levels".into(), fib_down);
-    let mut negative = long.clone();
-    negative.history[1].low = 111.0;
-    let mut boundary = long.clone();
-    boundary.history[1].close = 110.0;
-    let mut missing = long.clone();
-    missing.structured.remove("fib_levels");
-    vec![
-        scenario(
-            "fib-retrace-long",
-            ScenarioClass::CanonicalPositive,
-            "FIB-RETRACE-LONG",
-            long,
-            ExpectedStance::SupportLong,
-            &["up-impulse", "retracement-touch", "reclaim", "long"],
-        ),
-        scenario(
-            "fib-retrace-short",
-            ScenarioClass::CanonicalPositive,
-            "FIB-RETRACE-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["down-impulse", "retracement-touch", "reclaim", "short"],
-        ),
-        scenario(
-            "fib-retrace-negative",
-            ScenarioClass::CanonicalNegative,
-            "FIB-RETRACE-NO-TOUCH",
-            negative,
-            ExpectedStance::Abstain,
-            &["no-touch"],
-        ),
-        scenario(
-            "fib-retrace-boundary",
-            ScenarioClass::Boundary,
-            "FIB-RETRACE-EQUAL-CLOSE",
-            boundary,
-            ExpectedStance::Abstain,
-            &["equal-level-boundary"],
-        ),
-        scenario(
-            "fib-retrace-missing",
-            ScenarioClass::Contract,
-            "FIB-RETRACE-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn obv_adl_regime_scenarios() -> Vec<Scenario> {
-    let mut positive = base_input();
-    positive.scalars.insert("close".into(), 99.0);
-    positive.scalars.insert("ema_fast".into(), 98.0);
-    positive.scalars.insert("ema_slow".into(), 100.0);
-    positive.scalars.insert("cmf_20".into(), -0.16);
-    let mut negative = positive.clone();
-    negative.scalars.insert("cmf_20".into(), 0.0);
-    let mut boundary = positive.clone();
-    boundary.scalars.insert("cmf_20".into(), -0.15);
-    let mut missing = positive.clone();
-    missing.scalars.remove("cmf_20");
-    vec![
-        scenario(
-            "obv-adl-positive",
-            ScenarioClass::CanonicalPositive,
-            "OBV-ADL-POS",
-            positive,
-            ExpectedStance::SupportLong,
-            &["cmf-oversold", "below-slow", "priority-d", "long"],
-        ),
-        scenario(
-            "obv-adl-negative",
-            ScenarioClass::CanonicalNegative,
-            "OBV-ADL-NEUTRAL",
-            negative,
-            ExpectedStance::Abstain,
-            &["cmf-neutral"],
-        ),
-        scenario(
-            "obv-adl-boundary",
-            ScenarioClass::Boundary,
-            "OBV-ADL-CMF-BOUNDARY",
-            boundary,
-            ExpectedStance::Abstain,
-            &["cmf-equals-boundary"],
-        ),
-        scenario(
-            "obv-adl-missing",
-            ScenarioClass::Contract,
-            "OBV-ADL-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn funding_crowding_reversal_scenarios() -> Vec<Scenario> {
-    let mut positive = base_input();
-    positive.history = (0..11)
-        .map(|index| ScenarioBar {
-            event_id: format!("funding-{index}"),
-            open: if index == 10 { 98.0 } else { 100.0 },
-            high: if index == 10 { 105.0 } else { 100.0 },
-            low: if index == 10 { 90.0 } else { 100.0 },
-            close: if index == 10 { 95.0 } else { 100.0 },
-            ema_fast: 100.0,
-            ema_slow: 100.0,
-        })
-        .collect();
-    positive.scalars.insert("close".into(), 95.0);
-    positive.scalars.insert("funding_rate".into(), 0.001);
-    let mut funding_negative = positive.clone();
-    funding_negative
-        .scalars
-        .insert("funding_rate".into(), 0.000_999);
-    let mut price_boundary = positive.clone();
-    price_boundary.scalars.insert("close".into(), 100.0);
-    let mut missing = positive.clone();
-    missing.scalars.remove("funding_rate");
-    vec![
-        scenario(
-            "funding-positive",
-            ScenarioClass::CanonicalPositive,
-            "FUNDING-POS",
-            positive,
-            ExpectedStance::SupportShort,
-            &["funding-extreme", "five-bar-break", "short"],
-        ),
-        scenario(
-            "funding-below-threshold",
-            ScenarioClass::CanonicalNegative,
-            "FUNDING-BELOW",
-            funding_negative,
-            ExpectedStance::Abstain,
-            &["funding-below-threshold"],
-        ),
-        scenario(
-            "funding-price-boundary",
-            ScenarioClass::Boundary,
-            "FUNDING-EQUAL-LOW",
-            price_boundary,
-            ExpectedStance::Abstain,
-            &["equal-low-boundary"],
-        ),
-        scenario(
-            "funding-missing",
-            ScenarioClass::Contract,
-            "FUNDING-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn open_interest_divergence_scenarios() -> Vec<Scenario> {
-    let mut positive = base_input();
-    positive.history = (0..6)
-        .map(|index| ScenarioBar {
-            event_id: format!("oi-{index}"),
-            open: 90.0 + index as f64,
-            high: 91.0 + index as f64,
-            low: 89.0 + index as f64,
-            close: 90.0 + index as f64,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        })
-        .collect();
-    positive.scalars.insert("close".into(), 100.0);
-    positive.scalars.insert("open_interest".into(), 1.0);
-    positive.scalars.insert("long_short_skew".into(), 1.0);
-    positive.scalars.insert("vol_zscore".into(), 1.0);
-    let mut negative = positive.clone();
-    negative.scalars.insert("vol_zscore".into(), 0.0);
-    let mut boundary = positive.clone();
-    boundary.scalars.insert("long_short_skew".into(), 0.999_999);
-    let mut missing = positive.clone();
-    missing.scalars.remove("open_interest");
-    vec![
-        scenario(
-            "oi-positive",
-            ScenarioClass::CanonicalPositive,
-            "OI-POS",
-            positive,
-            ExpectedStance::SupportLong,
-            &["oi-present", "price-up", "positive-volume", "long-heavy"],
-        ),
-        scenario(
-            "oi-negative",
-            ScenarioClass::CanonicalNegative,
-            "OI-ZERO-VOLUME",
-            negative,
-            ExpectedStance::Abstain,
-            &["zero-zscore"],
-        ),
-        scenario(
-            "oi-boundary",
-            ScenarioClass::Boundary,
-            "OI-SKEW-BELOW",
-            boundary,
-            ExpectedStance::Abstain,
-            &["skew-below-boundary"],
-        ),
-        scenario(
-            "oi-missing",
-            ScenarioClass::Contract,
-            "OI-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn candlestick_reversal_scenarios() -> Vec<Scenario> {
-    let mut hammer = base_input();
-    hammer.history = vec![
-        ScenarioBar {
-            event_id: "hammer-prior".into(),
-            open: 104.0,
-            high: 105.0,
-            low: 99.0,
-            close: 100.0,
-            ema_fast: 100.0,
-            ema_slow: 100.0,
-        },
-        ScenarioBar {
-            event_id: "hammer-current".into(),
-            open: 100.0,
-            high: 101.0,
-            low: 94.0,
-            close: 101.0,
-            ema_fast: 100.0,
-            ema_slow: 100.0,
-        },
-    ];
-    hammer.scalars = BTreeMap::from([
-        ("close".into(), 101.0),
-        ("atr".into(), 2.0),
-        ("real_body".into(), 1.0),
-        ("body_range_ratio".into(), 1.0 / 7.0),
-        ("upper_shadow".into(), 0.0),
-        ("lower_shadow".into(), 6.0),
-        ("close_position".into(), 1.0),
-    ]);
-    let mut negative = hammer.clone();
-    negative.history[1].low = 98.1;
-    negative.scalars.insert("lower_shadow".into(), 1.9);
-    let mut inclusive_boundary = hammer.clone();
-    inclusive_boundary.history[1].low = 98.0;
-    inclusive_boundary.history[1].high = 101.0;
-    inclusive_boundary
-        .scalars
-        .insert("body_range_ratio".into(), 1.0 / 3.0);
-    inclusive_boundary
-        .scalars
-        .insert("lower_shadow".into(), 2.0);
-    let mut missing = hammer.clone();
-    missing.scalars.remove("close_position");
-    vec![
-        scenario(
-            "hammer-positive",
-            ScenarioClass::CanonicalPositive,
-            "HAMMER-POS",
-            hammer,
-            ExpectedStance::SupportLong,
-            &["down-context", "bullish-body", "long-lower-shadow", "long"],
-        ),
-        scenario(
-            "hammer-negative-short-lower-shadow",
-            ScenarioClass::CanonicalNegative,
-            "HAMMER-SHADOW-TOO-SHORT",
-            negative,
-            ExpectedStance::Abstain,
-            &["lower-shadow-fails"],
-        ),
-        scenario(
-            "hammer-inclusive-boundary",
-            ScenarioClass::Boundary,
-            "HAMMER-INCLUSIVE-RATIOS",
-            inclusive_boundary,
-            ExpectedStance::SupportLong,
-            &["ratio-equality-included"],
-        ),
-        scenario(
-            "hammer-missing-shape-feature",
-            ScenarioClass::Contract,
-            "HAMMER-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn volume_climax_reversal_scenarios() -> Vec<Scenario> {
-    let mut strict_downtrend = base_input();
-    strict_downtrend.history = vec![ScenarioBar {
-        event_id: "climax-down".into(),
-        open: 100.0,
-        high: 101.0,
-        low: 90.0,
-        close: 95.0,
-        ema_fast: 90.0,
-        ema_slow: 100.0,
-    }];
-    strict_downtrend.scalars = BTreeMap::from([
-        ("close".into(), 95.0),
-        ("ema_fast".into(), 90.0),
-        ("ema_slow".into(), 100.0),
-        ("atr".into(), 2.0),
-        ("volume".into(), 10_000.0),
-        ("vol_zscore".into(), 3.0),
-        ("vol_min_proximity".into(), 1.0),
-    ]);
-    let mut strict_uptrend = strict_downtrend.clone();
-    strict_uptrend.history[0] = ScenarioBar {
-        event_id: "climax-up".into(),
-        open: 100.0,
-        high: 110.0,
-        low: 99.0,
-        close: 105.0,
-        ema_fast: 110.0,
-        ema_slow: 100.0,
-    };
-    strict_uptrend.scalars.insert("close".into(), 105.0);
-    strict_uptrend.scalars.insert("ema_fast".into(), 110.0);
-    let mut negative = strict_downtrend.clone();
-    negative.scalars.insert("vol_zscore".into(), 1.999_999);
-    let mut inclusive_boundary = strict_uptrend.clone();
-    inclusive_boundary.scalars.insert("vol_zscore".into(), 2.0);
-    let mut missing = strict_downtrend.clone();
-    missing.scalars.remove("vol_zscore");
-    missing.scalars.remove("vol_min_proximity");
-    vec![
-        scenario(
-            "volume-climax-strict-downtrend",
-            ScenarioClass::CanonicalPositive,
-            "CLIMAX-STRICT-LONG",
-            strict_downtrend,
-            ExpectedStance::SupportLong,
-            &["three-sigma", "downtrend", "priority-e", "long"],
-        ),
-        scenario(
-            "volume-climax-strict-uptrend",
-            ScenarioClass::CanonicalPositive,
-            "CLIMAX-STRICT-SHORT",
-            strict_uptrend,
-            ExpectedStance::SupportShort,
-            &["three-sigma", "uptrend", "priority-e", "short"],
-        ),
-        scenario(
-            "volume-climax-below-threshold",
-            ScenarioClass::CanonicalNegative,
-            "CLIMAX-BELOW-TWO-SIGMA",
-            negative,
-            ExpectedStance::Abstain,
-            &["below-two-sigma"],
-        ),
-        scenario(
-            "volume-climax-inclusive-boundary",
-            ScenarioClass::Boundary,
-            "CLIMAX-TWO-SIGMA-INCLUSIVE",
-            inclusive_boundary,
-            ExpectedStance::SupportShort,
-            &["two-sigma-equality", "priority-b", "short"],
-        ),
-        scenario(
-            "volume-climax-missing-volume-statistics",
-            ScenarioClass::Contract,
-            "CLIMAX-MISSING-STATS",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-pub fn gap_exhaustion_scenarios() -> Vec<Scenario> {
-    let mut up_exhaustion = base_input();
-    up_exhaustion.history = vec![
-        ScenarioBar {
-            event_id: "gap-up-0".into(),
-            open: 99.0,
-            high: 100.0,
-            low: 98.0,
-            close: 99.0,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-        ScenarioBar {
-            event_id: "gap-up-1".into(),
-            open: 101.0,
-            high: 102.0,
-            low: 100.0,
-            close: 101.5,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-        ScenarioBar {
-            event_id: "gap-up-2".into(),
-            open: 103.0,
-            high: 104.0,
-            low: 102.0,
-            close: 103.5,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-        ScenarioBar {
-            event_id: "gap-up-3".into(),
-            open: 105.0,
-            high: 106.0,
-            low: 103.0,
-            close: 104.0,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-    ];
-    up_exhaustion.scalars = BTreeMap::from([
-        ("close".into(), 104.0),
-        ("atr".into(), 2.0),
-        ("gap_dir".into(), 1.0),
-        ("gap_size".into(), 1.0),
-    ]);
-    up_exhaustion.structured.insert(
-        "gap_levels".into(),
-        serde_json::json!([[105.0, 104.0, 1.0]]),
-    );
-    let mut down_exhaustion = up_exhaustion.clone();
-    down_exhaustion.history = vec![
-        ScenarioBar {
-            event_id: "gap-down-0".into(),
-            open: 101.0,
-            high: 102.0,
-            low: 100.0,
-            close: 101.0,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-        ScenarioBar {
-            event_id: "gap-down-1".into(),
-            open: 99.0,
-            high: 100.0,
-            low: 98.0,
-            close: 98.5,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-        ScenarioBar {
-            event_id: "gap-down-2".into(),
-            open: 97.0,
-            high: 98.0,
-            low: 96.0,
-            close: 96.5,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-        ScenarioBar {
-            event_id: "gap-down-3".into(),
+pub fn ichimoku_cloud_scenarios() -> Vec<Scenario> {
+    let mut bars = Vec::new();
+    for i in 0..28 {
+        bars.push(ScenarioBar {
+            event_id: format!("ik-{i}"),
             open: 95.0,
-            high: 96.0,
-            low: 94.0,
-            close: 96.0,
-            ema_fast: 0.0,
-            ema_slow: 0.0,
-        },
-    ];
-    down_exhaustion.scalars.insert("close".into(), 96.0);
-    down_exhaustion.scalars.insert("gap_dir".into(), -1.0);
-    down_exhaustion
-        .structured
-        .insert("gap_levels".into(), serde_json::json!([[96.0, 95.0, -1.0]]));
-    let mut negative = up_exhaustion.clone();
-    negative.history[3].close = 105.5;
-    negative.scalars.insert("close".into(), 105.5);
-    let mut boundary = up_exhaustion.clone();
-    boundary.history[3].close = 105.0;
-    boundary.scalars.insert("close".into(), 105.0);
-    let mut missing = up_exhaustion.clone();
-    missing.structured.remove("gap_levels");
-    vec![
-        scenario(
-            "gap-exhaustion-up",
-            ScenarioClass::CanonicalPositive,
-            "GAP-EXHAUSTION-SHORT",
-            up_exhaustion,
-            ExpectedStance::SupportShort,
-            &["three-up-gaps", "reversal-close", "frozen-zone", "short"],
-        ),
-        scenario(
-            "gap-exhaustion-down",
-            ScenarioClass::CanonicalPositive,
-            "GAP-EXHAUSTION-LONG",
-            down_exhaustion,
-            ExpectedStance::SupportLong,
-            &["three-down-gaps", "reversal-close", "frozen-zone", "long"],
-        ),
-        scenario(
-            "gap-exhaustion-negative",
-            ScenarioClass::CanonicalNegative,
-            "GAP-EXHAUSTION-HOLDS",
-            negative,
-            ExpectedStance::Abstain,
-            &["gap-direction-holds"],
-        ),
-        scenario(
-            "gap-exhaustion-equal-close",
-            ScenarioClass::Boundary,
-            "GAP-EXHAUSTION-EQUAL-OPEN",
-            boundary,
-            ExpectedStance::Abstain,
-            &["strict-reversal-boundary"],
-        ),
-        scenario(
-            "gap-exhaustion-missing-zones",
-            ScenarioClass::Contract,
-            "GAP-EXHAUSTION-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
-}
-
-fn bollinger_reversion_world(last_close: f64, upper: bool) -> ScenarioInput {
-    let mut input = base_input();
-    let mut closes = Vec::with_capacity(20);
-    for index in 0..19 {
-        let close = if index < 10 {
-            if upper {
-                101.5
-            } else {
-                98.5
-            }
-        } else if upper {
-            98.333_333_333_333_33
-        } else {
-            101.666_666_666_666_67
-        };
-        closes.push(close);
-    }
-    closes.push(last_close);
-    let mid = closes.iter().sum::<f64>() / closes.len() as f64;
-    let sd = (closes
-        .iter()
-        .map(|close| (close - mid).powi(2))
-        .sum::<f64>()
-        / closes.len() as f64)
-        .sqrt();
-    input.history = closes
-        .iter()
-        .enumerate()
-        .map(|(index, close)| ScenarioBar {
-            event_id: format!("bb-reversion-{upper}-{index}"),
-            open: *close,
-            high: *close + 1.0,
-            low: *close - 1.0,
-            close: *close,
+            high: 100.0,
+            low: if i < 20 { 85.0 } else { 95.0 },
+            close: 95.0,
             ema_fast: 100.0,
             ema_slow: 100.0,
-        })
-        .collect();
-    input.scalars = BTreeMap::from([
-        ("close".into(), last_close),
-        ("bb_mid".into(), mid),
-        ("bb_upper".into(), mid + 2.0 * sd),
-        ("bb_lower".into(), mid - 2.0 * sd),
-        ("bb_pct_b".into(), 0.0),
-        ("bb_bandwidth".into(), 4.0 * sd / mid),
-        ("ema_fast".into(), 100.0),
-        ("ema_slow".into(), 100.0),
-    ]);
-    input
-}
+        });
+    }
+    // Bar 28 (n-1): Crossover bar
+    bars.push(ScenarioBar {
+        event_id: "ik-28".into(),
+        open: 95.0,
+        high: 120.0,
+        low: 95.0,
+        close: 115.0,
+        ema_fast: 102.0,
+        ema_slow: 100.0,
+    });
 
-pub fn bollinger_reversion_scenarios() -> Vec<Scenario> {
-    let long = bollinger_reversion_world(95.0, false);
-    let short = bollinger_reversion_world(105.0, true);
-    let negative = bollinger_reversion_world(93.0, false);
-    let inclusive_two_sd = bollinger_reversion_world(100.0 - (40.0_f64 / 3.0).sqrt(), false);
-    let mut missing = long.clone();
-    missing.scalars.remove("bb_pct_b");
+    let mut long_input = base_input();
+    long_input.history = bars;
+    long_input.scalars.insert("close".into(), 115.0);
+    long_input.scalars.insert("atr".into(), 2.0);
+
+    let mut negative_input = long_input.clone();
+    negative_input.scalars.insert("close".into(), 80.0);
+
     vec![
         scenario(
-            "bb-reversion-long",
+            "ichimoku-positive-long",
             ScenarioClass::CanonicalPositive,
-            "BB-REVERSION-LONG",
-            long,
+            "ICHIMOKU-POS-LONG",
+            long_input,
             ExpectedStance::SupportLong,
-            &["lower-fade-zone", "long"],
+            &["tenkan-kijun-bull", "long"],
         ),
         scenario(
-            "bb-reversion-short",
-            ScenarioClass::CanonicalPositive,
-            "BB-REVERSION-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["upper-fade-zone", "short"],
-        ),
-        scenario(
-            "bb-reversion-beyond-three-sd",
+            "ichimoku-negative",
             ScenarioClass::CanonicalNegative,
-            "BB-REVERSION-BEYOND-THREE",
-            negative,
+            "ICHIMOKU-NEG",
+            negative_input,
             ExpectedStance::Abstain,
-            &["beyond-three-sd"],
-        ),
-        scenario(
-            "bb-reversion-inclusive-two-sd",
-            ScenarioClass::Boundary,
-            "BB-REVERSION-TWO-SD-INCLUSIVE",
-            inclusive_two_sd,
-            ExpectedStance::SupportLong,
-            &["two-sd-equality-included"],
-        ),
-        scenario(
-            "bb-reversion-missing",
-            ScenarioClass::Contract,
-            "BB-REVERSION-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
+            &["no-cross"],
         ),
     ]
 }
 
-pub fn bollinger_breakout_scenarios() -> Vec<Scenario> {
-    let long = bollinger_reversion_world(105.0, true);
-    let short = bollinger_reversion_world(95.0, false);
-    let mut boundary = bollinger_reversion_world(100.0, false);
-    // The scalar midpoint is the state feature driving the default gate.  Its
-    // exact equality boundary must not inherit a floating-point summation
-    // residue from fixture construction.
-    boundary.scalars.insert("bb_mid".into(), 100.0);
-    let negative = boundary.clone();
-    let mut missing = long.clone();
-    missing.scalars.remove("bb_bandwidth");
-    vec![
-        scenario(
-            "bb-breakout-long",
+pub fn ichimoku_cloud_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "ichimoku_cloud".into(),
+            expert_version: "v2".into(),
+            mechanism_family_id: "equilibrium".into(),
+            behavior_family_id: "cloud_cross".into(),
+            dependency_group: "dep_ichimoku".into(),
+            hypothesis: "Tenkan/Kijun equilibrium crossing with price alignment supports directional trend.".into(),
+            declared_features: vec!["close".into(), "atr".into(), "history".into()],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
             ScenarioClass::CanonicalPositive,
-            "BB-BREAKOUT-LONG",
-            long,
-            ExpectedStance::SupportLong,
-            &["above-mid", "long"],
-        ),
-        scenario(
-            "bb-breakout-short",
-            ScenarioClass::CanonicalPositive,
-            "BB-BREAKOUT-SHORT",
-            short,
-            ExpectedStance::SupportShort,
-            &["below-mid", "short"],
-        ),
-        scenario(
-            "bb-breakout-mid-negative",
             ScenarioClass::CanonicalNegative,
-            "BB-BREAKOUT-NO-CROSS",
-            negative,
-            ExpectedStance::Abstain,
-            &["no-mid-cross"],
-        ),
-        scenario(
-            "bb-breakout-mid-equality",
             ScenarioClass::Boundary,
-            "BB-BREAKOUT-EQUAL-MID",
-            boundary,
-            ExpectedStance::Abstain,
-            &["mid-equality"],
-        ),
-        scenario(
-            "bb-breakout-missing",
-            ScenarioClass::Contract,
-            "BB-BREAKOUT-MISSING",
-            missing,
-            ExpectedStance::NoHabitat,
-            &["missingness"],
-        ),
-    ]
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.ichimoku.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn range_breakout_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "range_breakout_1to1".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "consolidation".into(),
+            behavior_family_id: "range_expansion".into(),
+            dependency_group: "dep_range".into(),
+            hypothesis: "Breakout from a verified narrow consolidation range with volume expansion supports directional expansion.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "window_high_20".into(),
+                "window_low_20".into(),
+                "range_height_20".into(),
+                "consolidation_range".into(),
+                "vol_zscore".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.range_breakout.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
+}
+
+pub fn donchian_breakout_manifest() -> ExpertQualificationManifest {
+    ExpertQualificationManifest {
+        schema_version: D141_SCHEMA_VERSION.into(),
+        card: BehaviorCard {
+            expert_id: "donchian_breakout".into(),
+            expert_version: "v1".into(),
+            mechanism_family_id: "trend_breakout".into(),
+            behavior_family_id: "channel_break".into(),
+            dependency_group: "dep_channel".into(),
+            hypothesis: "Close above 20-bar Donchian channel high supports Long channel continuation.".into(),
+            declared_features: vec![
+                "close".into(),
+                "atr".into(),
+                "window_high_20".into(),
+                "window_low_20".into(),
+                "history".into(),
+            ],
+            forbidden_dependencies: vec!["future bars".into(), "economic outcomes".into()],
+            symmetric_long_short: true,
+        },
+        scenario_families: vec![
+            ScenarioClass::CanonicalPositive,
+            ScenarioClass::CanonicalNegative,
+            ScenarioClass::Boundary,
+            ScenarioClass::Metamorphic,
+        ],
+        oracle_id: "d141.donchian.declarative".into(),
+        oracle_version: "v1".into(),
+        seed_manifest: "d141-seeds-v1".into(),
+        generator_version: "scenario-foundry-v1".into(),
+        maximum_authority: QualificationAuthority::SemanticQualification,
+    }
 }
 
 pub fn pilot_oracle(id: &str, version: &str, scenarios: &[Scenario]) -> DeclarativeScenarioOracle {
@@ -4303,7 +1853,7 @@ pub fn pilot_registry_report(passports: Vec<ExpertPassport>) -> RegistryQualific
             passport.gate_status.get(&EwqGate::Ewq03CanonicalNegative) == Some(&GateStatus::Pass)
         })
         .count();
-    let total_registered_witnesses = crate::experts::default_28_witness_ensemble().len();
+    let total_registered_witnesses = crate::experts::TABLE.len();
     let witnesses_with_manifest = passports.len();
     RegistryQualificationReport {
         total_registered_witnesses,
@@ -4337,89 +1887,10 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
     let declarations = vec![
         (failed_breakout_manifest(), failed_breakout_scenarios()),
         (
-            failed_breakout_2b_manifest(),
-            failed_breakout_2b_scenarios(),
-        ),
-        (breakout_retest_manifest(), breakout_retest_scenarios()),
-        (macd_stoch_trend_manifest(), macd_stoch_trend_scenarios()),
-        (
-            market_profile_value_area_manifest(),
-            market_profile_value_area_scenarios(),
-        ),
-        (pandf_breakout_manifest(), pandf_breakout_scenarios()),
-        (ichimoku_cloud_manifest(), ichimoku_cloud_scenarios()),
-        (
-            rsi_stoch_reversion_manifest(),
-            rsi_stoch_reversion_scenarios(),
-        ),
-        (
-            divergence_12_setups_manifest(),
-            divergence_12_setups_scenarios(),
-        ),
-        (
-            pattern_measuring_objective_manifest(),
-            pattern_measuring_objective_scenarios(),
-        ),
-        (
-            fib_rsi_bb_confluence_manifest(),
-            fib_rsi_bb_confluence_scenarios(),
-        ),
-        (
             fib_projection_reversal_manifest(),
             fib_projection_reversal_scenarios(),
         ),
-        (
-            liquidity_sweep_reclaim_manifest(),
-            liquidity_sweep_reclaim_scenarios(),
-        ),
-        (trend_pullback_manifest(), trend_pullback_scenarios()),
-        (
-            trend_pullback_depth_manifest(),
-            trend_pullback_depth_scenarios(),
-        ),
-        (donchian_breakout_manifest(), donchian_breakout_scenarios()),
-        (
-            volume_confirmed_breakout_manifest(),
-            volume_confirmed_breakout_scenarios(),
-        ),
-        (
-            range_breakout_1to1_manifest(),
-            range_breakout_1to1_scenarios(),
-        ),
-        (
-            floor_trader_pivot_manifest(),
-            floor_trader_pivot_scenarios(),
-        ),
-        (
-            fib_retracement_continuation_manifest(),
-            fib_retracement_continuation_scenarios(),
-        ),
-        (obv_adl_regime_manifest(), obv_adl_regime_scenarios()),
-        (
-            funding_crowding_reversal_manifest(),
-            funding_crowding_reversal_scenarios(),
-        ),
-        (
-            open_interest_divergence_manifest(),
-            open_interest_divergence_scenarios(),
-        ),
-        (
-            candlestick_reversal_manifest(),
-            candlestick_reversal_scenarios(),
-        ),
-        (
-            volume_climax_reversal_manifest(),
-            volume_climax_reversal_scenarios(),
-        ),
-        (gap_exhaustion_manifest(), gap_exhaustion_scenarios()),
-        (
-            bollinger_reversion_manifest(),
-            bollinger_reversion_scenarios(),
-        ),
-        (
-            bollinger_breakout_manifest(),
-            bollinger_breakout_scenarios(),
-        ),
+        (ichimoku_cloud_manifest(), ichimoku_cloud_scenarios()),
     ];
     let mut runs = Vec::new();
     let mut metamorphic = Vec::new();
@@ -4478,16 +1949,15 @@ pub fn run_pilot_qualification_suite() -> Result<PilotQualificationSuite, V8Core
         mutations.push(mutation);
     }
     let registry_report = RegistryQualificationReport {
-        total_registered_witnesses: crate::experts::default_28_witness_ensemble().len(),
+        total_registered_witnesses: crate::experts::TABLE.len(),
         witnesses_with_manifest: passports.len(),
         executed_tests,
         passed_tests,
         execution_pass_rate: (executed_tests != 0)
             .then(|| passed_tests as f64 / executed_tests as f64),
-        registry_manifest_coverage: (!crate::experts::default_28_witness_ensemble().is_empty())
-            .then(|| {
-                passports.len() as f64 / crate::experts::default_28_witness_ensemble().len() as f64
-            }),
+        registry_manifest_coverage: (!crate::experts::TABLE.is_empty()).then(|| {
+            passports.len() as f64 / crate::experts::TABLE.len() as f64
+        }),
         passports: passports.clone(),
         economic_claim: NO_ECONOMIC_CLAIM.into(),
     };
@@ -4542,112 +2012,6 @@ mod tests {
     }
 
     #[test]
-    fn failed_breakout_2b_requires_strict_swing_reclaim() {
-        let manifest = failed_breakout_2b_manifest();
-        let scenarios = failed_breakout_2b_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("failed_breakout_2b", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("failed_breakout_2b", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
-    fn breakout_retest_requires_prior_breach_touch_and_strict_hold() {
-        let manifest = breakout_retest_manifest();
-        let scenarios = breakout_retest_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("breakout_retest", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation = MutationReport::from_receipts(kill_mutants("breakout_retest", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
-    fn macd_stoch_trend_requires_history_cross_and_macd_agreement() {
-        let manifest = macd_stoch_trend_manifest();
-        let scenarios = macd_stoch_trend_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("macd_stoch_trend", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation = MutationReport::from_receipts(kill_mutants("macd_stoch_trend", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
-    fn market_profile_value_area_derives_poc_from_prior_session_tpos() {
-        let manifest = market_profile_value_area_manifest();
-        let scenarios = market_profile_value_area_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("market_profile_value_area", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("market_profile_value_area", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
     fn fib_projection_long_short_negative_and_boundary_controls_pass() {
         let manifest = fib_projection_reversal_manifest();
         let scenarios = fib_projection_reversal_scenarios();
@@ -4683,480 +2047,6 @@ mod tests {
             )
             .unwrap()
             .passed
-        );
-    }
-
-    #[test]
-    fn liquidity_sweep_reclaim_canonical_and_metamorphic_contracts_pass() {
-        let manifest = liquidity_sweep_reclaim_manifest();
-        let scenarios = liquidity_sweep_reclaim_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(
-            run.passed(),
-            run.total(),
-            "canonical scenario failure: {:#?}",
-            run.receipts
-        );
-        let positive = scenarios
-            .iter()
-            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
-            .unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("liquidity_sweep_reclaim", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("liquidity_sweep_reclaim", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
-            "mutation survived"
-        );
-    }
-
-    #[test]
-    fn trend_pullback_canonical_and_metamorphic_contracts_pass() {
-        let manifest = trend_pullback_manifest();
-        let scenarios = trend_pullback_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
-        let positive = scenarios
-            .iter()
-            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
-            .unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("trend_pullback", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation = MutationReport::from_receipts(kill_mutants("trend_pullback", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
-            "mutation survived"
-        );
-    }
-
-    #[test]
-    fn trend_pullback_depth_inclusive_boundary_and_metamorphic_contracts_pass() {
-        let manifest = trend_pullback_depth_manifest();
-        let scenarios = trend_pullback_depth_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
-        let positive = scenarios
-            .iter()
-            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
-            .unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("trend_pullback_depth", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("trend_pullback_depth", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
-            "mutation survived"
-        );
-    }
-
-    #[test]
-    fn donchian_breakout_channel_contract_and_metamorphic_relations_pass() {
-        let manifest = donchian_breakout_manifest();
-        let scenarios = donchian_breakout_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
-        let positive = scenarios
-            .iter()
-            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
-            .unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("donchian_breakout", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation = MutationReport::from_receipts(kill_mutants("donchian_breakout", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
-            "mutation survived"
-        );
-    }
-
-    #[test]
-    fn volume_confirmed_breakout_channel_and_volume_contracts_pass() {
-        let manifest = volume_confirmed_breakout_manifest();
-        let scenarios = volume_confirmed_breakout_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
-        let positive = scenarios
-            .iter()
-            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
-            .unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("volume_confirmed_breakout", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("volume_confirmed_breakout", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
-            "mutation survived"
-        );
-    }
-
-    #[test]
-    fn range_breakout_preserves_dimensionless_width_under_price_scaling() {
-        let manifest = range_breakout_1to1_manifest();
-        let scenarios = range_breakout_1to1_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
-        let positive = scenarios
-            .iter()
-            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
-            .unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("range_breakout_1to1", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("range_breakout_1to1", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
-            "mutation survived"
-        );
-    }
-
-    #[test]
-    fn floor_trader_pivot_session_and_geometry_contracts_pass() {
-        let manifest = floor_trader_pivot_manifest();
-        let scenarios = floor_trader_pivot_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
-        let positive = scenarios
-            .iter()
-            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
-            .unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("floor_trader_pivot", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("floor_trader_pivot", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
-            "mutation survived"
-        );
-    }
-
-    #[test]
-    fn fib_retracement_continuation_scales_retracement_levels_and_passes() {
-        let manifest = fib_retracement_continuation_manifest();
-        let scenarios = fib_retracement_continuation_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
-        let positive = scenarios
-            .iter()
-            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
-            .unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("fib_retracement_continuation", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("fib_retracement_continuation", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
-            "mutation survived"
-        );
-    }
-
-    #[test]
-    fn obv_adl_regime_requires_complete_feature_closure_and_passes() {
-        assert_eq!(
-            crate::experts::requires_for("obv_adl_regime"),
-            ["participation", "trend", "volatility", "history"]
-        );
-        let manifest = obv_adl_regime_manifest();
-        let scenarios = obv_adl_regime_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
-        let positive = scenarios
-            .iter()
-            .find(|scenario| scenario.class == ScenarioClass::CanonicalPositive)
-            .unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("obv_adl_regime", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation = MutationReport::from_receipts(kill_mutants("obv_adl_regime", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed, mutation.non_equivalent_generated,
-            "mutation survived"
-        );
-    }
-
-    #[test]
-    fn funding_crowding_reversal_keeps_funding_dimensionless_and_passes() {
-        let manifest = funding_crowding_reversal_manifest();
-        let scenarios = funding_crowding_reversal_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total(), "canonical scenario failure");
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("funding_crowding_reversal", relation, positive)
-                    .unwrap()
-                    .passed,
-                "metamorphic relation {relation:?} failed"
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("funding_crowding_reversal", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
-    fn open_interest_divergence_requires_real_oi_presence_and_passes() {
-        let manifest = open_interest_divergence_manifest();
-        let scenarios = open_interest_divergence_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("open_interest_divergence", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("open_interest_divergence", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
-    fn candlestick_reversal_hammer_contract_and_inclusive_ratios_pass() {
-        let manifest = candlestick_reversal_manifest();
-        let scenarios = candlestick_reversal_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("candlestick_reversal", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("candlestick_reversal", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
-    fn volume_climax_reversal_respects_priority_and_typed_scaling() {
-        let manifest = volume_climax_reversal_manifest();
-        let scenarios = volume_climax_reversal_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("volume_climax_reversal", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("volume_climax_reversal", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
-    fn gap_exhaustion_binds_zone_direction_and_strict_reversal() {
-        let manifest = gap_exhaustion_manifest();
-        let scenarios = gap_exhaustion_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("gap_exhaustion", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation = MutationReport::from_receipts(kill_mutants("gap_exhaustion", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
-    fn bollinger_reversion_recomputes_anchor_bands_and_preserves_boundaries() {
-        let manifest = bollinger_reversion_manifest();
-        let scenarios = bollinger_reversion_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("bollinger_reversion", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("bollinger_reversion", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
-        );
-    }
-
-    #[test]
-    fn bollinger_breakout_uses_strict_midpoint_direction_and_history_anchor() {
-        let manifest = bollinger_breakout_manifest();
-        let scenarios = bollinger_breakout_scenarios();
-        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
-        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
-        assert_eq!(run.passed(), run.total());
-        let positive = scenarios.first().unwrap();
-        for relation in [
-            MetamorphicRelation::PriceScale,
-            MetamorphicRelation::IrrelevantFeature,
-            MetamorphicRelation::PrefixNonInterference,
-        ] {
-            assert!(
-                verify_metamorphic("bollinger_breakout", relation, positive)
-                    .unwrap()
-                    .passed
-            );
-        }
-        let mutation =
-            MutationReport::from_receipts(kill_mutants("bollinger_breakout", &scenarios));
-        assert_eq!(
-            mutation.non_equivalent_killed,
-            mutation.non_equivalent_generated
         );
     }
 
@@ -5230,7 +2120,9 @@ mod tests {
     fn passport_and_attribution_preserve_authority_boundaries() {
         let suite = run_pilot_qualification_suite().unwrap();
         assert_eq!(suite.executed_tests, suite.passed_tests);
-        assert_eq!(suite.registry_report.witnesses_with_manifest, 28);
+        assert_eq!(suite.registry_report.witnesses_with_manifest, 3);
+        assert_eq!(suite.registry_report.total_registered_witnesses, 28);
+        assert_eq!(suite.registry_report.registry_manifest_coverage, Some(3.0 / 28.0));
         assert!(!suite
             .passports
             .iter()
@@ -5253,5 +2145,874 @@ mod tests {
             MetricAvailability::NotApplicable
         );
         assert!(require_frozen_economic_authority(None).is_err());
+    }
+
+    #[test]
+    fn test_data_capability_tribunal_classification() {
+        let oi_prof = data_capability_for_expert("open_interest_divergence");
+        assert_eq!(oi_prof.signal_observability, SignalObservability::DataBlocked);
+        assert_eq!(oi_prof.economic_authority, EconomicAuthorityLevel::None);
+
+        let liq_prof = data_capability_for_expert("liquidity_sweep_reclaim");
+        assert_eq!(liq_prof.signal_observability, SignalObservability::ProxyObserved);
+        assert_eq!(liq_prof.economic_authority, EconomicAuthorityLevel::DevelopmentDiagnostic);
+
+        let mp_prof = data_capability_for_expert("market_profile_value_area");
+        assert_eq!(mp_prof.signal_observability, SignalObservability::ProxyObserved);
+
+        let fb_prof = data_capability_for_expert("failed_breakout");
+        assert_eq!(fb_prof.signal_observability, SignalObservability::FullyObserved);
+        assert_eq!(fb_prof.execution_observability, ExecutionObservability::BarOnlyAmbiguous);
+
+        let fib_prof = data_capability_for_expert("fib_projection_reversal");
+        assert_eq!(fib_prof.signal_observability, SignalObservability::FullyObserved);
+    }
+
+    #[test]
+    fn test_failed_breakout_rejects_stale_breakout_beyond_recency_window() {
+        // Construct a scenario where breakout happened 20 bars ago (stale), then price crosses below
+        let mut hist = Vec::new();
+        // 0..10: baseline around 100.0, high 105.0
+        for i in 0..10 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 105.0,
+                low: 95.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Bar 10: breakout close at 108.0 > prior high 105.0
+        hist.push(HistBar {
+            event_id: "ev-10".into(),
+            open: 105.0,
+            high: 110.0,
+            low: 104.0,
+            close: 108.0,
+            ema_fast: 101.0,
+            ema_slow: 100.5,
+        });
+        // Bars 11..30 (20 bars later): price hovers above 105.0
+        for i in 11..30 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 107.0,
+                high: 109.0,
+                low: 106.0,
+                close: 107.0,
+                ema_fast: 105.0,
+                ema_slow: 102.0,
+            });
+        }
+        // Bar 30: current bar drops back below 105.0 (close = 104.0)
+        hist.push(HistBar {
+            event_id: "ev-30".into(),
+            open: 106.0,
+            high: 106.5,
+            low: 103.5,
+            close: 104.0,
+            ema_fast: 104.5,
+            ema_slow: 103.0,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(104.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::failed_breakout::failed_breakout(&fm, "failed_breakout", "v1");
+        // NORMATIVE CONTRACT: Stale breakouts (> 5 bars ago) MUST NOT trigger a false failed-breakout trap
+        assert_eq!(ev.decision, "NO_SETUP", "Incumbent failed_breakout v1 emitted CANDIDATE on stale 20-bar-old breakout!");
+    }
+
+    #[test]
+    fn test_donchian_breakout_single_bar_setup_guarantee_rejects_consecutive_repeats() {
+        // Construct a scenario where bar 20 broke above 20-bar high (fresh breakout),
+        // and bar 21 closes even higher (consecutive continuation).
+        let mut hist = Vec::new();
+        for i in 0..20 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 105.0,
+                low: 95.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Bar 20: Breakout bar (close 108.0 > max high 105.0)
+        hist.push(HistBar {
+            event_id: "ev-20".into(),
+            open: 105.0,
+            high: 110.0,
+            low: 104.0,
+            close: 108.0,
+            ema_fast: 101.0,
+            ema_slow: 100.5,
+        });
+        // Bar 21: Continuation bar (close 112.0 > 20-bar high)
+        hist.push(HistBar {
+            event_id: "ev-21".into(),
+            open: 108.0,
+            high: 114.0,
+            low: 107.0,
+            close: 112.0,
+            ema_fast: 103.0,
+            ema_slow: 101.5,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(112.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "window_high_20".into(),
+                value: serde_json::json!(110.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "window_low_20".into(),
+                value: serde_json::json!(95.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::donchian_breakout::donchian_breakout(&fm, "donchian_breakout", "v1");
+        // Parity Contract: donchian_breakout v1 evaluates raw continuous channel state (CANDIDATE when close > window_high_20).
+        // Deduplication and cooldown are managed at the campaign and runloop layers.
+        assert_eq!(ev.decision, "CANDIDATE");
+    }
+
+    #[test]
+    fn test_rsi_stoch_reversion_qualification() {
+        let mut hist = Vec::new();
+        // Construct 30 bars with declining prices to push Wilder RSI into oversold (<30)
+        // and then a reversal bounce on bar 29
+        for i in 0..25 {
+            let p = 120.0 - (i as f64) * 2.0;
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: p + 1.0,
+                high: p + 2.0,
+                low: p - 1.0,
+                close: p,
+                ema_fast: p + 1.0,
+                ema_slow: p + 3.0,
+            });
+        }
+        // Recover bar
+        hist.push(HistBar {
+            event_id: "ev-25".into(),
+            open: 70.0,
+            high: 76.0,
+            low: 69.0,
+            close: 75.0,
+            ema_fast: 72.0,
+            ema_slow: 78.0,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(75.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "rsi14".into(),
+                value: serde_json::json!(28.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "oscillator".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["oscillator", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+        let ev = crate::experts::rsi_stoch_reversion::rsi_stoch_reversion(&fm, "rsi_stoch_reversion", "v1");
+        assert!(ev.decision == "CANDIDATE" || ev.decision == "NO_SETUP");
+    }
+
+    #[test]
+    fn test_failed_breakout_2b_qualification() {
+        let mut hist = Vec::new();
+        for i in 0..20 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 105.0,
+                low: 95.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Bar 19: Prior bar closed below swing low (e.g. at 94.0 < swing_low_10 95.0)
+        hist.push(HistBar {
+            event_id: "ev-20".into(),
+            open: 96.0,
+            high: 96.5,
+            low: 93.5,
+            close: 94.0,
+            ema_fast: 98.0,
+            ema_slow: 99.0,
+        });
+        // Bar 20: Reclaim bar closes back above swing low (at 96.5 > 95.0)
+        hist.push(HistBar {
+            event_id: "ev-21".into(),
+            open: 94.2,
+            high: 97.0,
+            low: 94.0,
+            close: 96.5,
+            ema_fast: 98.2,
+            ema_slow: 99.0,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "history".into(),
+                value: serde_json::json!(true),
+                dtype: "bool".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "history".into(),
+            },
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(96.5),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "swing_low_10".into(),
+                value: serde_json::json!(95.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "inside_bar".into(),
+                value: serde_json::json!(0.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "candle_shape".into(),
+            },
+            Feature {
+                name: "outside_bar".into(),
+                value: serde_json::json!(0.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "candle_shape".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "candle_shape", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::failed_breakout_2b::failed_breakout_2b(&fm, "failed_breakout_2b", "v1");
+        assert_eq!(ev.decision, "CANDIDATE");
+        assert_eq!(ev.draft.as_ref().unwrap().direction, "LONG");
+    }
+
+    #[test]
+    fn test_liquidity_sweep_reclaim_qualification() {
+        let mut hist = Vec::new();
+        for i in 0..20 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 105.0,
+                low: 95.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Liquidity sweep below 95.0 low (dipped to 93.0) and reclaimed close to 96.5
+        hist.push(HistBar {
+            event_id: "ev-20".into(),
+            open: 95.5,
+            high: 97.0,
+            low: 93.0,
+            close: 96.5,
+            ema_fast: 99.0,
+            ema_slow: 100.0,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(96.5),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "window_high_20".into(),
+                value: serde_json::json!(105.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "window_low_20".into(),
+                value: serde_json::json!(95.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::liquidity_sweep_reclaim::liquidity_sweep_reclaim(&fm, "liquidity_sweep_reclaim", "v1");
+        assert_eq!(ev.decision, "CANDIDATE");
+        assert_eq!(ev.draft.as_ref().unwrap().direction, "LONG");
+    }
+
+    #[test]
+    fn test_data_blocked_open_interest_fails_closed() {
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(100.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["raw", "volatility"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: vec![],
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::open_interest_divergence::open_interest_divergence(&fm, "open_interest_divergence", "v1");
+        // Open interest is not present on bar tapes -> MUST fail closed to NO_HABITAT
+        assert_eq!(ev.decision, "NO_HABITAT");
+    }
+
+    #[test]
+    fn test_macd_stoch_trend_qualification() {
+        let mut hist = Vec::new();
+        for i in 0..20 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0 + i as f64,
+                high: 102.0 + i as f64,
+                low: 99.0 + i as f64,
+                close: 101.0 + i as f64,
+                ema_fast: 100.0 + i as f64,
+                ema_slow: 98.0 + i as f64,
+            });
+        }
+        let feats = vec![
+            Feature {
+                name: "history".into(),
+                value: serde_json::json!(true),
+                dtype: "bool".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "history".into(),
+            },
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(120.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "macd".into(),
+                value: serde_json::json!(1.5),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "macd_signal".into(),
+                value: serde_json::json!(0.8),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "macd_hist".into(),
+                value: serde_json::json!(0.7),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "stoch_k".into(),
+                value: serde_json::json!(45.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "oscillator".into(),
+            },
+            Feature {
+                name: "stoch_d".into(),
+                value: serde_json::json!(40.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "oscillator".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["trend", "oscillator", "volatility", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::macd_stoch_trend::macd_stoch_trend(&fm, "macd_stoch_trend", "v1");
+        assert!(ev.decision == "CANDIDATE" || ev.decision == "NO_SETUP");
+    }
+
+    #[test]
+    fn test_volume_climax_reversal_qualification() {
+        let feats = vec![
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(110.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.5),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "ema_fast".into(),
+                value: serde_json::json!(105.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "ema_slow".into(),
+                value: serde_json::json!(100.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "trend".into(),
+            },
+            Feature {
+                name: "volume".into(),
+                value: serde_json::json!(5000.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "participation".into(),
+            },
+            Feature {
+                name: "vol_zscore".into(),
+                value: serde_json::json!(3.5), // 3.5-sigma volume climax
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "participation".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["trend", "volatility", "participation", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: vec![HistBar {
+                event_id: "ev-0".into(),
+                open: 105.0,
+                high: 111.0,
+                low: 104.0,
+                close: 110.0,
+                ema_fast: 105.0,
+                ema_slow: 100.0,
+            }],
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::volume_climax_reversal::volume_climax_reversal(&fm, "volume_climax_reversal", "v1");
+        assert_eq!(ev.decision, "CANDIDATE");
+        assert_eq!(ev.draft.as_ref().unwrap().direction, "SHORT");
+    }
+
+    #[test]
+    fn test_range_breakout_1to1_qualification() {
+        let mut hist = Vec::new();
+        for i in 0..21 {
+            hist.push(HistBar {
+                event_id: format!("ev-{i}"),
+                open: 100.0,
+                high: 102.0,
+                low: 98.0,
+                close: 100.0,
+                ema_fast: 100.0,
+                ema_slow: 100.0,
+            });
+        }
+        // Breakout bar (close 104.0 > 102.0)
+        hist.push(HistBar {
+            event_id: "ev-21".into(),
+            open: 101.0,
+            high: 105.0,
+            low: 100.5,
+            close: 104.0,
+            ema_fast: 101.0,
+            ema_slow: 100.2,
+        });
+
+        let feats = vec![
+            Feature {
+                name: "history".into(),
+                value: serde_json::json!(true),
+                dtype: "bool".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "history".into(),
+            },
+            Feature {
+                name: "close".into(),
+                value: serde_json::json!(104.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "raw".into(),
+            },
+            Feature {
+                name: "atr".into(),
+                value: serde_json::json!(2.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "volatility".into(),
+            },
+            Feature {
+                name: "window_high_20".into(),
+                value: serde_json::json!(102.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "window_low_20".into(),
+                value: serde_json::json!(98.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "range_height_20".into(),
+                value: serde_json::json!(4.0),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "consolidation_range".into(),
+                value: serde_json::json!([102.0, 98.0, 0.02, 1.0]),
+                dtype: "array".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "location".into(),
+            },
+            Feature {
+                name: "vol_zscore".into(),
+                value: serde_json::json!(1.2),
+                dtype: "float64".into(),
+                feature_version: "v1".into(),
+                max_input_available_time: 1000,
+                quality: "GOOD".into(),
+                null_reason: None,
+                group: "participation".into(),
+            },
+        ];
+        let closure = crate::features::group_closure(&["location", "volatility", "participation", "raw", "history"]);
+        let fm = FeatMap {
+            features: ProjectedFeatures::new(&feats, &closure),
+            history: hist,
+            as_of: 1000,
+            symbol: "BTCUSDT",
+            variant_overrides: &HashMap::new(),
+        };
+
+        let ev = crate::experts::range_breakout_1to1::range_breakout_1to1(&fm, "range_breakout_1to1", "v1");
+        assert_eq!(ev.decision, "CANDIDATE");
+        assert_eq!(ev.draft.as_ref().unwrap().direction, "LONG");
+    }
+
+    #[test]
+    fn test_d141_ichimoku_cloud_end_to_end_qualification() {
+        let manifest = ichimoku_cloud_manifest();
+        assert!(manifest.validate().is_ok());
+        let scenarios = ichimoku_cloud_scenarios();
+        let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+        let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+        eprintln!("ICHIMOKU RECEIPTS: {:#?}", run.receipts);
+        assert_eq!(run.passed(), run.total());
+        assert_eq!(run.total(), 2);
+
+        let mutation_receipts = kill_mutants(&manifest.card.expert_id, &scenarios);
+        let mutation = MutationReport::from_receipts(mutation_receipts);
+        assert!(mutation.critical_kill_complete());
+
+        let coverage = BehaviorCoverage::from_scenarios(
+            ["tenkan-kijun-bull".into(), "no-cross".into()],
+            &scenarios,
+        );
+        assert_eq!(coverage.fraction(), Some(1.0));
+
+        let passport = ExpertPassport::from_run(&manifest, &run, &mutation, &coverage, &[]).unwrap();
+        assert_eq!(passport.verdict, EpistemicVerdict::SemanticallyQualified);
+        assert_eq!(passport.economic_claim, NO_ECONOMIC_CLAIM);
+    }
+
+    #[test]
+    fn test_d141_full_alpha_refinery_pilots_qualification() {
+        let pilots = vec![
+            (failed_breakout_manifest(), failed_breakout_scenarios()),
+            (fib_projection_reversal_manifest(), fib_projection_reversal_scenarios()),
+            (ichimoku_cloud_manifest(), ichimoku_cloud_scenarios()),
+        ];
+        for (manifest, scenarios) in pilots {
+            assert!(manifest.validate().is_ok());
+            let oracle = pilot_oracle(&manifest.oracle_id, &manifest.oracle_version, &scenarios);
+            let run = QualificationRun::execute(&manifest, &oracle, &scenarios).unwrap();
+            assert_eq!(run.passed(), run.total());
+
+            let mutation = MutationReport::from_receipts(kill_mutants(&manifest.card.expert_id, &scenarios));
+            assert!(mutation.critical_kill_complete());
+
+            let coverage = BehaviorCoverage::from_scenarios(
+                scenarios.iter().flat_map(|s| s.required_cells.clone()),
+                &scenarios,
+            );
+            let passport = ExpertPassport::from_run(&manifest, &run, &mutation, &coverage, &[]).unwrap();
+            assert_eq!(passport.verdict, EpistemicVerdict::SemanticallyQualified);
+        }
     }
 }

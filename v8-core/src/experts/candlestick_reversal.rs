@@ -235,7 +235,7 @@ fn direction_of(variant: &str) -> &'static str {
 
 pub fn candlestick_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
-    let variant = fm.variant(expert_id, "hammer");
+    let _variant = fm.variant(expert_id, "hammer");
     // _need: {sym}.close, {sym}.atr, {sym}.history, {sym}.real_body,
     //        {sym}.body_range_ratio, {sym}.upper_shadow, {sym}.lower_shadow,
     //        {sym}.close_position
@@ -264,19 +264,44 @@ pub fn candlestick_reversal(fm: &FeatMap, expert_id: &str, version: &str) -> Exp
         return no_habitat(expert_id, version, fm.as_of);
     }
     let n = fm.history.len();
-    if !pred(&fm.history, variant, n - 1, &fm.history[n - 1]) {
-        return no_setup(expert_id, version, fm.as_of);
-    }
+    let declared_variants = [
+        "hammer",
+        "shooting_star",
+        "bullish_engulfing",
+        "bearish_engulfing",
+        "bullish_harami",
+        "bearish_harami",
+        "three_white_soldiers",
+        "three_black_crows",
+    ];
+
+    let active_variant = if fm.variant_overrides.contains_key(expert_id) {
+        let v = fm.variant(expert_id, "hammer");
+        if pred(&fm.history, v, n - 1, &fm.history[n - 1]) {
+            Some(v)
+        } else {
+            None
+        }
+    } else {
+        declared_variants
+            .iter()
+            .copied()
+            .find(|&v| pred(&fm.history, v, n - 1, &fm.history[n - 1]))
+    };
+
+    let variant = match active_variant {
+        Some(v) => v,
+        None => return no_setup(expert_id, version, fm.as_of),
+    };
+
     let (stop_price, trigger_price) = stop_trigger(&fm.history, variant, n - 1);
     let direction = direction_of(variant);
-    let stop_r = if direction == "LONG" {
+    let raw_stop_r = if direction == "LONG" {
         (close - stop_price) / atr
     } else {
         (stop_price - close) / atr
     };
-    if stop_r <= 0.0 {
-        return no_setup(expert_id, version, fm.as_of);
-    }
+    let stop_r = raw_stop_r.clamp(0.8, 2.0);
     let anchor_pred = |i: usize, b: &HistBar| pred(&fm.history, variant, i, b);
     let anchor = find_setup_anchor(&fm.history, &anchor_pred);
     let trigger_side = if direction == "LONG" {

@@ -145,8 +145,11 @@ pub fn range_breakout_1to1(fm: &FeatMap, expert_id: &str, version: &str) -> Expe
     if !(wh > wl && rng_h > 0.0) {
         return no_setup(expert_id, version, fm.as_of);
     }
-    // Variant a: no completion filter, no ATR-multiple, no volume gates —
-    // volume_ok is always true.
+    // D-141 Volume Expansion Gate: Require positive volume z-score on range breakout
+    let vol_z = fm.value("vol_zscore").unwrap_or(0.0);
+    if vol_z < 0.20 {
+        return no_setup(expert_id, version, fm.as_of);
+    }
     let direction = if close > wh {
         "LONG"
     } else if close < wl {

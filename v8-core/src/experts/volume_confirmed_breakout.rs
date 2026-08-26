@@ -15,7 +15,7 @@ pub const REQUIRES: &[&str] = &["location", "volatility", "participation", "hist
 // re-literalized inside evaluate(); a structural target/stop is computed at
 // the call site and overrides the key.
 pub const TARGET_R: f64 = 1.0;
-pub const STOP_R: f64 = 1.0;
+pub const _STOP_R: f64 = 1.0;
 pub const EXPIRY_BARS: i64 = 8;
 
 pub fn volume_confirmed_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
@@ -50,33 +50,91 @@ pub fn volume_confirmed_breakout(fm: &FeatMap, expert_id: &str, version: &str) -
     if !(close > long_level || close < short_level) {
         return no_setup(expert_id, version, fm.as_of);
     }
-    // _evaluate_variants: first variant whose volume gate fires, in declared
-    // priority order d, c, b, a.
-    let mut variant: Option<&str> = None;
-    if sma > 0.0 && volume >= 2.0 * sma {
-        if let Some(z) = fm.value("vol_zscore") {
-            if z < 2.0 {
-                variant = Some("d");
+    if version == "v1" {
+        let mut variant: Option<&str> = None;
+        if sma > 0.0 && volume >= 2.0 * sma {
+            if let Some(z) = fm.value("vol_zscore") {
+                if z < 2.0 {
+                    variant = Some("d");
+                }
             }
         }
-    }
-    if variant.is_none() && sma > 0.0 && volume >= 1.2 * sma {
-        variant = Some("c");
-    }
-    if variant.is_none() {
-        if let Some(prox) = fm.value("vol_min_proximity") {
-            if prox < 0.4 && sma > 0.0 && volume > sma {
-                variant = Some("b");
+        if variant.is_none() && sma > 0.0 && volume >= 1.2 * sma {
+            variant = Some("c");
+        }
+        if variant.is_none() {
+            if let Some(prox) = fm.value("vol_min_proximity") {
+                if prox < 0.4 && sma > 0.0 && volume > sma {
+                    variant = Some("b");
+                }
             }
         }
+        if variant.is_none() && sma > 0.0 && volume > sma {
+            variant = Some("a");
+        }
+        let variant = match variant {
+            Some(v) => v,
+            None => return no_setup(expert_id, version, fm.as_of),
+        };
+        let (direction, level, ref_key) = if close > long_level {
+            ("LONG", long_level, "prior_low_ref")
+        } else {
+            ("SHORT", short_level, "prior_high_ref")
+        };
+        let prior_high = |i: usize| -> f64 {
+            let lo = i.saturating_sub(20);
+            fm.history[lo..i]
+                .iter()
+                .map(|b| b.high)
+                .fold(f64::NEG_INFINITY, f64::max)
+        };
+        let prior_low = |i: usize| -> f64 {
+            let lo = i.saturating_sub(20);
+            fm.history[lo..i]
+                .iter()
+                .map(|b| b.low)
+                .fold(f64::INFINITY, f64::min)
+        };
+        let pred: Box<dyn Fn(usize, &HistBar) -> bool> = if direction == "LONG" {
+            Box::new(move |i, b| i > 0 && b.close > prior_high(i))
+        } else {
+            Box::new(move |i, b| i > 0 && b.close < prior_low(i))
+        };
+        let anchor = find_setup_anchor(&fm.history, &*pred);
+        let draft = Draft {
+            direction: direction.to_string(),
+            birth_time: fm.as_of,
+            risk_geometry: geom(vec![
+                ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
+                ("target_r", serde_json::json!(TARGET_R)),
+                ("stop_r", serde_json::json!(1.0)),
+                ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
+                ("atr_ref", serde_json::json!(atr)),
+                ("variant", serde_json::json!(variant)),
+                (ref_key, serde_json::json!(level)),
+            ]),
+        };
+        let fingerprint = format!("{sym}:{:.6}:{:.6}:{}", close, level, variant);
+        return candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint);
     }
-    if variant.is_none() && sma > 0.0 && volume > sma {
-        variant = Some("a");
+
+    let n = fm.history.len();
+    if n >= 2 {
+        let prev_close = fm.history[n - 2].close;
+        if (close > long_level && prev_close > long_level)
+            || (close < short_level && prev_close < short_level)
+        {
+            return no_setup(expert_id, version, fm.as_of);
+        }
     }
-    let variant = match variant {
-        Some(v) => v,
-        None => return no_setup(expert_id, version, fm.as_of),
-    };
+
+    // Strict volume surge gate: require volume >= 1.30 * sma or vol_z >= 0.50
+    let vol_z = fm.value("vol_zscore").unwrap_or(0.0);
+    let is_volume_surge = (sma > 0.0 && volume >= 1.30 * sma) || vol_z >= 0.50;
+    if !is_volume_surge {
+        return no_setup(expert_id, version, fm.as_of);
+    }
+
     let (direction, level, ref_key) = if close > long_level {
         ("LONG", long_level, "prior_low_ref")
     } else {
@@ -95,26 +153,29 @@ pub fn volume_confirmed_breakout(fm: &FeatMap, expert_id: &str, version: &str) -
             .iter()
             .map(|b| b.low)
             .fold(f64::INFINITY, f64::min)
-    };
+        };
     let pred: Box<dyn Fn(usize, &HistBar) -> bool> = if direction == "LONG" {
         Box::new(move |i, b| i > 0 && b.close > prior_high(i))
     } else {
         Box::new(move |i, b| i > 0 && b.close < prior_low(i))
     };
     let anchor = find_setup_anchor(&fm.history, &*pred);
+    let raw_stop_dist = (close - level).abs();
+    let stop_r = (raw_stop_dist / atr).clamp(0.8, 2.0);
+
     let draft = Draft {
         direction: direction.to_string(),
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
             ("target_r", serde_json::json!(TARGET_R)),
-            ("stop_r", serde_json::json!(STOP_R)),
+            ("stop_r", serde_json::json!(stop_r)),
             ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
             ("atr_ref", serde_json::json!(atr)),
-            ("variant", serde_json::json!(variant)),
+            ("variant", serde_json::json!("v2")),
             (ref_key, serde_json::json!(level)),
         ]),
     };
-    let fingerprint = format!("{sym}:{:.6}:{:.6}:{}", close, level, variant);
+    let fingerprint = format!("{sym}:{:.6}:{:.6}:v2", close, level);
     candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint)
 }

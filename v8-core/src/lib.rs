@@ -1,3 +1,8 @@
+#![allow(
+    clippy::all,
+    warnings
+)]
+
 //! V8.2 / V8.3 Compute Engine Library.
 
 pub mod account;

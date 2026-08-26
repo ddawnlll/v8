@@ -1,0 +1,42 @@
+{
+  "receipt_id": "receipt-usdm-1782864000999000000",
+  "initial_balance_usdt": 1000.0,
+  "terminal_equity_usdt": 796.2196540915672,
+  "net_profit_usdt": -203.78034590843276,
+  "total_return_pct": -20.378034590843278,
+  "max_drawdown_pct": 26.033527086902307,
+  "max_margin_utilization_pct": 17.271107400859343,
+  "total_fee_drag_usdt": 69.74434067420142,
+  "total_funding_usdt": 0.0,
+  "n_trades_admitted": 162,
+  "win_rate_pct": 19.753086419753085,
+  "profit_factor": 0.7091998805697143,
+  "rejections_by_reason": {
+    "ECONOMIC_MARGIN_BELOW_FRICTION_FLOOR": 152,
+    "SUB_EXPANSION_MICRO_NOISE_SUPPRESSED": 109,
+    "VETO_EXPECTED_EDGE_BELOW_COST_FLOOR": 5,
+    "VETO_FAILED_CAMPAIGN_COOLDOWN_ACTIVE": 13
+  },
+  "cashflow_ledger_path": "economic-cashflow.jsonl",
+  "venue_contract_hash": "3984af3357cc5cc70b119b51dc9d3f649cb06bc9",
+  "frontier_receipt": {
+    "receipt_id": "93dffd811c43df55d7c3a926c0ca525790588911455ed79409151306f2623dc5",
+    "symbol": "SOLUSDT",
+    "oracle_definition_id": "e15496b18982babf785f890c54678af92525eed00a6386b20e394456c65e377c",
+    "total_oracle_episodes": 590,
+    "captured_oracle_episodes": 59,
+    "episode_discovery_recall_pct": 10.0,
+    "total_candidates_emitted": 27294,
+    "oracle_matched_candidates": 17156,
+    "candidate_precision_pct": 62.856305415109546,
+    "total_oracle_gross_r": 2510.207992586576,
+    "captured_gross_r": 325.2894323085541,
+    "economic_value_recall_pct": 12.958664511834673,
+    "realized_net_pnl_usdt": -203.7803459084332,
+    "total_fees_usdt": 69.74434067420142,
+    "gross_to_net_conversion_pct": 0.0,
+    "mfe_retention_ratio_pct": 0.0,
+    "oracle_value_realization_pct": 12.958664511834673,
+    "active_red_flags": []
+  }
+}

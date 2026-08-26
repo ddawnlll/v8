@@ -19,11 +19,11 @@ pub const REQUIRES: &[&str] = &["trend", "location", "volatility", "history"];
 // re-literalized inside evaluate(); a structural target/stop is computed at
 // the call site and overrides the key.
 pub const TARGET_R: f64 = 1.0;
-pub const STOP_R: f64 = 1.0;
+pub const _STOP_R: f64 = 1.0;
 pub const EXPIRY_BARS: i64 = 8;
 
 /// DEPTH_382 — book verbatim 38.2% retracement gate (variant a).
-const DEPTH_382: f64 = 0.382;
+const _DEPTH_382: f64 = 0.382;
 
 pub fn trend_pullback_depth(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEval {
     let sym = fm.symbol;
@@ -61,40 +61,89 @@ pub fn trend_pullback_depth(fm: &FeatMap, expert_id: &str, version: &str) -> Exp
     if fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }
-    // Trend-alignment gate: `if not (fast > slow)` -> NO_SETUP.
-    if !(fast > slow) {
-        return no_setup(expert_id, version, fm.as_of);
-    }
-    // `_impulse`: the swing pair must be computable (`high > low > 0`); 0.0
-    // swing (no significant pivot) is not a habitat.
     if !(sh > sl && sl > 0.0) {
         return no_habitat(expert_id, version, fm.as_of);
     }
     let rng = sh - sl;
-    let depth = (sh - close) / rng;
-    if !(0.0..=DEPTH_382).contains(&depth) || !(close < sh) {
-        return no_setup(expert_id, version, fm.as_of);
+
+    if version == "v1" {
+        if !(fast > slow) {
+            return no_setup(expert_id, version, fm.as_of);
+        }
+        let depth = (sh - close) / rng;
+        if !(0.0..=0.382).contains(&depth) || !(close < sh) {
+            return no_setup(expert_id, version, fm.as_of);
+        }
+        let lower = sh - 0.382 * rng;
+        let pred = |_i: usize, b: &HistBar| b.ema_fast > b.ema_slow && lower <= b.close && b.close < sh;
+        let anchor = find_setup_anchor(&fm.history, &pred);
+        let draft = Draft {
+            direction: "LONG".into(),
+            birth_time: fm.as_of,
+            risk_geometry: geom(vec![
+                ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
+                ("target_r", serde_json::json!(TARGET_R)),
+                ("stop_r", serde_json::json!(1.0)),
+                ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
+                ("atr_ref", serde_json::json!(atr)),
+                ("prior_low_ref", serde_json::json!(sl)),
+                ("variant", serde_json::json!("a")),
+            ]),
+        };
+        let fingerprint = format!("{sym}:a:LONG:{close:.6}:{sl:.6}");
+        return candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint);
     }
-    // Anchor: first bar of the current run inside the same depth band with the
-    // fan aligned — gate and anchor share ONE reference (the frozen impulse).
-    let lower = sh - DEPTH_382 * rng;
-    let pred = |_i: usize, b: &HistBar| b.ema_fast > b.ema_slow && lower <= b.close && b.close < sh;
+
+    // LONG in uptrend: Pullback into 0.0..0.50 retracement
+    let is_long = fast > slow && close < sh && {
+        let depth = (sh - close) / rng;
+        (0.0..=0.50).contains(&depth)
+    };
+
+    // SHORT in downtrend: Rally into 0.0..0.50 upward retracement
+    let is_short = fast < slow && close > sl && {
+        let depth = (close - sl) / rng;
+        (0.0..=0.50).contains(&depth)
+    };
+
+    let direction = if is_long {
+        "LONG"
+    } else if is_short {
+        "SHORT"
+    } else {
+        return no_setup(expert_id, version, fm.as_of);
+    };
+
+    let pred = move |_i: usize, b: &HistBar| {
+        if direction == "LONG" {
+            b.ema_fast > b.ema_slow && b.close < sh && ((sh - b.close) / rng) <= 0.50
+        } else {
+            b.ema_fast < b.ema_slow && b.close > sl && ((b.close - sl) / rng) <= 0.50
+        }
+    };
     let anchor = find_setup_anchor(&fm.history, &pred);
+    let _stop_price = if direction == "LONG" { sl } else { sh };
+    let raw_stop_r = if direction == "LONG" {
+        (close - sl) / atr
+    } else {
+        (sh - close) / atr
+    };
+    let stop_r = raw_stop_r.clamp(0.8, 2.0);
+
     let draft = Draft {
-        direction: "LONG".into(),
+        direction: direction.into(),
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
             ("target_r", serde_json::json!(TARGET_R)),
-            ("stop_r", serde_json::json!(STOP_R)),
+            ("stop_r", serde_json::json!(stop_r)),
             ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
             ("atr_ref", serde_json::json!(atr)),
             ("prior_low_ref", serde_json::json!(sl)),
-            ("variant", serde_json::json!("a")),
+            ("prior_high_ref", serde_json::json!(sh)),
+            ("variant", serde_json::json!("v2")),
         ]),
     };
-    // Python f-string: f'{sym}:{variant_id}:LONG:{close:.6f}:{ref:.6f}' with
-    // ref = the impulse swing low (sl) for the depth variants.
-    let fingerprint = format!("{sym}:a:LONG:{close:.6}:{sl:.6}");
+    let fingerprint = format!("{sym}:{direction}:{close:.6}:{sl:.6}:{sh:.6}");
     candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint)
 }

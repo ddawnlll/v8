@@ -20,7 +20,7 @@ pub const REQUIRES: &[&str] = &["oscillator", "volatility", "history"];
 // re-literalized inside evaluate(); a structural target/stop is computed at
 // the call site and overrides the key.
 pub const TARGET_R: f64 = 1.0;
-pub const STOP_R: f64 = 1.0;
+pub const _STOP_R: f64 = 1.0;
 pub const EXPIRY_BARS: i64 = 8;
 
 /// Mirror of `_stoch_k_d`: per-bar fast %K and %D = SMA3(%K). Flat 14-bar
@@ -134,16 +134,44 @@ pub fn macd_stoch_trend(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertE
         None => return no_setup(expert_id, version, fm.as_of),
     };
     let anchor = hist[s as usize].event_id.clone();
+    if version == "v1" {
+        let draft = Draft {
+            direction: direction.to_string(),
+            birth_time: fm.as_of,
+            risk_geometry: geom(vec![
+                ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
+                ("target_r", serde_json::json!(TARGET_R)),
+                ("stop_r", serde_json::json!(1.0)),
+                ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
+                ("atr_ref", serde_json::json!(atr)),
+                ("variant", serde_json::json!("a")),
+            ]),
+        };
+        let fingerprint = format!("{sym}:{direction}:{k_now:.6}:{d_now:.6}:{close:.6}");
+        return candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint);
+    }
+    let stop_price = if direction == "LONG" { hist[s as usize].low } else { hist[s as usize].high };
+    let raw_stop_r = (close - stop_price).abs() / atr;
+    let stop_r = raw_stop_r.clamp(0.8, 2.0);
+
     let draft = Draft {
         direction: direction.to_string(),
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
             ("target_r", serde_json::json!(TARGET_R)),
-            ("stop_r", serde_json::json!(STOP_R)),
+            ("stop_r", serde_json::json!(stop_r)),
             ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
             ("atr_ref", serde_json::json!(atr)),
-            ("variant", serde_json::json!("a")),
+            ("variant", serde_json::json!("v2")),
+            (
+                if direction == "LONG" {
+                    "prior_low_ref"
+                } else {
+                    "prior_high_ref"
+                },
+                serde_json::json!(stop_price),
+            ),
         ]),
     };
     let fingerprint = format!("{sym}:{direction}:{k_now:.6}:{d_now:.6}:{close:.6}");

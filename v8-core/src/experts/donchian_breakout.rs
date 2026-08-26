@@ -11,7 +11,7 @@ use crate::simulator::Draft;
 
 pub const PORTED: bool = true;
 pub const VERSION: &str = "v1";
-pub const REQUIRES: &[&str] = &["location", "volatility", "history"];
+pub const REQUIRES: &[&str] = &["location", "volatility", "history", "participation"];
 // Declared risk geometry (EXPERT_PROTOCOL §1: risk geometry is "Predeclared
 // entry, stop, target, timeout and sizing inputs"; SIMULATION_TRUTH_SPEC D-028:
 // R is a declared price distance). Fixed values are declared here, never
@@ -44,31 +44,99 @@ pub fn donchian_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Expert
     if fm.history.is_empty() {
         return no_habitat(expert_id, version, fm.as_of);
     }
-    // Variant a is long-only: direction is LONG iff close breaks the
-    // 20-bar high; a non-break is NO_SETUP (never a short).
-    if !(close > window_high) {
+    if version == "v1" {
+        if !(close > window_high) {
+            return no_setup(expert_id, version, fm.as_of);
+        }
+        let pred = |i: usize, b: &crate::state::HistBar| -> bool {
+            let start = i.saturating_sub(CHANNEL_N);
+            if i <= start {
+                return false;
+            }
+            b.close
+                > fm.history[start..i]
+                    .iter()
+                    .map(|h| h.high)
+                    .fold(f64::NEG_INFINITY, f64::max)
+        };
+        let anchor = find_setup_anchor(&fm.history, &pred);
+        let stop_r = (close - window_low) / atr;
+        let draft = Draft {
+            direction: "LONG".into(),
+            birth_time: fm.as_of,
+            risk_geometry: geom(vec![
+                ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
+                ("target_r", serde_json::json!(TARGET_R)),
+                ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
+                ("atr_ref", serde_json::json!(atr)),
+                ("prior_high_ref", serde_json::json!(window_high)),
+                ("prior_low_ref", serde_json::json!(window_low)),
+                ("channel_n", serde_json::json!(CHANNEL_N)),
+                ("variant", serde_json::json!("a")),
+                ("stop_ref", serde_json::json!(window_low)),
+                ("stop_r", serde_json::json!(stop_r)),
+            ]),
+        };
+        let fingerprint = format!("{sym}:LONG:{close:.6}:{window_high:.6}:{window_low:.6}");
+        return candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint);
+    }
+
+    let direction = if close > window_high {
+        "LONG"
+    } else if close < window_low {
+        "SHORT"
+    } else {
+        return no_setup(expert_id, version, fm.as_of);
+    };
+
+    // Single-bar setup freshness: prior bar must not have already closed beyond breakout level
+    let n = fm.history.len();
+    if n >= 2 {
+        let prev_close = fm.history[n - 2].close;
+        if (direction == "LONG" && prev_close > window_high)
+            || (direction == "SHORT" && prev_close < window_low)
+        {
+            return no_setup(expert_id, version, fm.as_of);
+        }
+    }
+
+    // Volume expansion filter: suppress low-volume false breakouts
+    let vol_z = fm.value("vol_zscore").unwrap_or(0.0);
+    if vol_z < 0.20 {
         return no_setup(expert_id, version, fm.as_of);
     }
-    // D-026 anchor: newest false bar + 1 over the windowed long predicate
-    // (close above the channel_n high of the bars before it).
+
+    // D-026 anchor: newest false bar + 1 over the windowed predicate
     let pred = |i: usize, b: &crate::state::HistBar| -> bool {
         let start = i.saturating_sub(CHANNEL_N);
         if i <= start {
             return false;
         }
-        b.close
-            > fm.history[start..i]
-                .iter()
-                .map(|h| h.high)
-                .fold(f64::NEG_INFINITY, f64::max)
+        if direction == "LONG" {
+            b.close
+                > fm.history[start..i]
+                    .iter()
+                    .map(|h| h.high)
+                    .fold(f64::NEG_INFINITY, f64::max)
+        } else {
+            b.close
+                < fm.history[start..i]
+                    .iter()
+                    .map(|h| h.low)
+                    .fold(f64::INFINITY, f64::min)
+        }
     };
     let anchor = find_setup_anchor(&fm.history, &pred);
-    // Frozen channel-band stop in R (D-028; book Ch12 p486): the level the
-    // breakout left. Issue #63: the structural stop IS that band level
-    // (window_low for a LONG breakout), not an ATR multiple from entry.
-    let stop_r = (close - window_low) / atr;
+    let raw_stop_dist = if direction == "LONG" {
+        close - window_low
+    } else {
+        window_high - close
+    };
+    let stop_r = (raw_stop_dist / atr).clamp(0.8, 2.0);
+    let stop_ref = if direction == "LONG" { window_low } else { window_high };
+
     let draft = Draft {
-        direction: "LONG".into(),
+        direction: direction.into(),
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
@@ -78,11 +146,11 @@ pub fn donchian_breakout(fm: &FeatMap, expert_id: &str, version: &str) -> Expert
             ("prior_high_ref", serde_json::json!(window_high)),
             ("prior_low_ref", serde_json::json!(window_low)),
             ("channel_n", serde_json::json!(CHANNEL_N)),
-            ("variant", serde_json::json!("a")),
-            ("stop_ref", serde_json::json!(window_low)),
+            ("variant", serde_json::json!("v2")),
+            ("stop_ref", serde_json::json!(stop_ref)),
             ("stop_r", serde_json::json!(stop_r)),
         ]),
     };
-    let fingerprint = format!("{sym}:LONG:{close:.6}:{window_high:.6}:{window_low:.6}");
+    let fingerprint = format!("{sym}:{direction}:{close:.6}:{window_high:.6}:{window_low:.6}");
     candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint)
 }

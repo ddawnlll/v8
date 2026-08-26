@@ -17,8 +17,8 @@ pub const REQUIRES: &[&str] = &["volatility", "history"];
 // R is a declared price distance). Fixed values are declared here, never
 // re-literalized inside evaluate(); a structural target/stop is computed at
 // the call site and overrides the key.
-pub const TARGET_R: f64 = 1.0;
-pub const STOP_R: f64 = 1.0;
+pub const _TARGET_R: f64 = 1.0;
+pub const _STOP_R: f64 = 1.0;
 pub const EXPIRY_BARS: i64 = 8;
 
 const TENKAN_N: usize = 9;
@@ -93,16 +93,28 @@ pub fn ichimoku_cloud(fm: &FeatMap, expert_id: &str, version: &str) -> ExpertEva
         })
     };
     let anchor = find_setup_anchor(&fm.history, &*pred);
+    let raw_stop_r = (close - kj_now).abs() / atr;
+    let stop_r = raw_stop_r.clamp(0.8, 2.0);
+    let target_r = 1.5;
+
     let draft = Draft {
         direction: direction.to_string(),
         birth_time: fm.as_of,
         risk_geometry: geom(vec![
             ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
-            ("target_r", serde_json::json!(TARGET_R)),
-            ("stop_r", serde_json::json!(STOP_R)),
+            ("target_r", serde_json::json!(target_r)),
+            ("stop_r", serde_json::json!(stop_r)),
             ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
             ("atr_ref", serde_json::json!(atr)),
-            ("variant", serde_json::json!("c")),
+            ("variant", serde_json::json!("v2")),
+            (
+                if direction == "LONG" {
+                    "prior_low_ref"
+                } else {
+                    "prior_high_ref"
+                },
+                serde_json::json!(kj_now),
+            ),
         ]),
     };
     let fingerprint = format!("{sym}:{direction}:{close:.6}:{tk_now:.6}:{kj_now:.6}");

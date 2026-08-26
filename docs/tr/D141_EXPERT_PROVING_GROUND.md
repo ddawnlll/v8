@@ -8,7 +8,7 @@
 
 D-141, bir `ExpertWitness` sürümünün nitelendirme altyapısını kurar. Tanığın ilan edilen anlambilimi uygulayıp uygulamadığını, zaman-noktasına ve feature sınırlarına uyup uymadığını, ilan edilmiş gürültü dönüşümlerinde hukuka uygun davranıp davranmadığını ve bilinen kusurlarla yanlışlanıp yanlışlanamadığını ayrı ayrı cevaplar. Kârlılık kanıtlamaz, `OpportunityEpisode` yaratmaz, sermaye seçmez veya Expert'i terfi ettirmez.
 
-Sentetik, üretilmiş, metamorfik, mutasyon, sabotaj, EAST ve tarihsel alegori girdileri yalnız Rust `#[cfg(test)]` nitelendirme harness'lerinde izinlidir. Runtime girdisi, evaluation manifest'i veya rapor üretim artifact'i olamazlar. Test kanıtı yalnız `SEMANTIC_QUALIFICATION`'dır ve `NO_ECONOMIC_CLAIM` üretmelidir. Gerçek-bantta zoraki-çekimserlik atfı, ayrı yetkilendirilmiş dondurulmuş kronolojik OOS kapısı sağlanmadıkça tanısaldır.
+Sentetik, üretilmiş, metamorfik, mutasyon, sabotaj, EAST ve tarihsel alegori sonuçları yalnız `SEMANTIC_QUALIFICATION` kanıtıdır ve `NO_ECONOMIC_CLAIM` üretmelidir. Gerçek-bantta zoraki-çekimserlik atfı, ayrı yetkilendirilmiş dondurulmuş kronolojik OOS kapısı sağlanmadıkça tanısaldır.
 
 ## 2. Dört düzlem sözleşmesi
 
@@ -28,7 +28,6 @@ Sentetik, üretilmiş, metamorfik, mutasyon, sabotaj, EAST ve tarihsel alegori g
 5. **Gizlenmiş sert hata yoktur:** gelecek okuması, yön terslemesi ve gizli durum gibi kritik sınıflar tam mutant imhası gerektirir.
 6. **Uydurma kanıt yoktur:** mevcut olmayan kalibrasyon, sonuç, karşıolgusal veya risk verisi `None`, `NotApplicable`, `Unresolved` ya da `NO_ECONOMIC_CLAIM` olarak kalır.
 7. **Tek sayı sertifikası yoktur:** Passport, otomatik terfi skoru değil; değişmez sonuçları ve metrik vektörlerinin birleşimidir.
-8. **Test-only sentetik sınır:** sentetik senaryo fixture'ları, beklenen tutumlar ve makbuzları yalnız Rust test harness'i tarafından derlenir; production komutları bunları üretemez veya kalıcılaştıramaz.
 
 ## 4. Kanonik nesneler
 
@@ -51,7 +50,7 @@ D141-001 -> 002 -> 003 -> 004 -> 005
 | II — Epistemik Mahkeme | 008–010 | EvidenceObject, confidence/e-process sonucu, RiskCertificate, ExpertPassport |
 | III — Alfa Arıtıcısı | 011–017 | MarginalContribution, DisplacementCost, InteractionMatrix, PromotionVerdict |
 
-İlk pilotlar `failed_breakout`, `fib_projection_reversal` ve `liquidity_sweep_reclaim`'dır. Yayılım, pilotlar ilgili kapıları geçmeden genişlemez. Yetkili geçiş paydası 28 üyeli generator-expert dispatch tablosudur; `predicate` post-entry tez değerlendiricisidir, tanık değildir.
+İlk pilotlar `failed_breakout` ve `fib_projection_reversal`'dır. Yayılım, pilotlar ilgili kapıları geçmeden genişlemez.
 
 ## 6. Senaryo, yeterlilik ve EWQ
 

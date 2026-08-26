@@ -17,7 +17,7 @@ pub const REQUIRES: &[&str] = &["oscillator", "location", "volatility", "history
 // re-literalized inside evaluate(); a structural target/stop is computed at
 // the call site and overrides the key.
 pub const TARGET_R: f64 = 1.0;
-pub const STOP_R: f64 = 1.0;
+pub const _STOP_R: f64 = 1.0;
 pub const EXPIRY_BARS: i64 = 8;
 
 // Declared, LOCKED constants (D-036). SWING_N is 5, NOT 10 — the frozen
@@ -109,6 +109,58 @@ fn lattice(
 /// <= i). Returns (barrier, extremum) or None.
 fn setup_at(
     closes: &[f64],
+    highs: &[f64],
+    lows: &[f64],
+    rsi: &[Option<f64>],
+    peaks: &[(usize, f64)],
+    troughs: &[(usize, f64)],
+    i: usize,
+) -> Option<(&'static str, f64, f64)> {
+    // 1. Bearish Divergence (SHORT): Price HH, RSI LH, close breaks below intervening swing low
+    let conf_peaks: Vec<&(usize, f64)> = peaks.iter().filter(|(p, _)| p + SWING_N <= i).collect();
+    if conf_peaks.len() >= 2 {
+        let (i1, p1) = *conf_peaks[conf_peaks.len() - 2];
+        let (i2, p2) = *conf_peaks[conf_peaks.len() - 1];
+        if p2 > p1 {
+            if let (Some(r1), Some(r2)) = (rsi[i1], rsi[i2]) {
+                if r2 < r1 && i2 > i1 + 1 {
+                    let barrier = lows[i1 + 1..i2]
+                        .iter()
+                        .copied()
+                        .fold(f64::INFINITY, f64::min);
+                    if closes[i] < barrier {
+                        return Some(("SHORT", barrier, p2));
+                    }
+                }
+            }
+        }
+    }
+
+    // 2. Bullish Divergence (LONG): Price LL, RSI HL, close reclaims above intervening swing high
+    let conf_troughs: Vec<&(usize, f64)> = troughs.iter().filter(|(p, _)| p + SWING_N <= i).collect();
+    if conf_troughs.len() >= 2 {
+        let (i1, t1) = *conf_troughs[conf_troughs.len() - 2];
+        let (i2, t2) = *conf_troughs[conf_troughs.len() - 1];
+        if t2 < t1 {
+            if let (Some(r1), Some(r2)) = (rsi[i1], rsi[i2]) {
+                if r2 > r1 && i2 > i1 + 1 {
+                    let barrier = highs[i1 + 1..i2]
+                        .iter()
+                        .copied()
+                        .fold(f64::NEG_INFINITY, f64::max);
+                    if closes[i] > barrier {
+                        return Some(("LONG", barrier, t2));
+                    }
+                }
+            }
+        }
+    }
+
+    None
+}
+
+fn setup_at_v1(
+    closes: &[f64],
     lows: &[f64],
     rsi: &[Option<f64>],
     peaks: &[(usize, f64)],
@@ -129,7 +181,7 @@ fn setup_at(
         return None;
     }
     if i2 <= i1 + 1 {
-        return None; // `between` empty — no intervening swing support
+        return None;
     }
     let barrier = lows[i1 + 1..i2]
         .iter()
@@ -161,45 +213,78 @@ pub fn divergence_12_setups(fm: &FeatMap, expert_id: &str, version: &str) -> Exp
     let highs: Vec<f64> = fm.history.iter().map(|b| b.high).collect();
     let lows: Vec<f64> = fm.history.iter().map(|b| b.low).collect();
     let rsi = rsi_per_bar(&closes);
-    let (peaks, _troughs) = lattice(&highs, &lows, SWING_N, atr);
+
+    if version == "v1" {
+        let (peaks, _troughs) = lattice(&highs, &lows, SWING_N, atr);
+        let n = closes.len();
+        let (barrier, extremum) = match setup_at_v1(&closes, &lows, &rsi, &peaks, n - 1) {
+            Some(hit) => hit,
+            None => return no_setup(expert_id, version, fm.as_of),
+        };
+        let sw = match fm.value("swing_high_5") {
+            Some(v) => v,
+            None => return no_habitat(expert_id, version, fm.as_of),
+        };
+        if sw != 0.0 && (extremum - sw).abs() > 1e-9 {
+            return no_setup(expert_id, version, fm.as_of);
+        }
+        let pred = |i: usize, _bar: &HistBar| setup_at_v1(&closes, &lows, &rsi, &peaks, i).is_some();
+        let anchor = find_setup_anchor(&fm.history, &pred);
+        let mut geo = geom(vec![
+            ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
+            ("target_r", serde_json::json!(TARGET_R)),
+            ("stop_r", serde_json::json!(1.0)),
+            ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
+            ("atr_ref", serde_json::json!(atr)),
+            ("variant", serde_json::json!("a")),
+            ("barrier_ref", serde_json::json!(barrier)),
+            ("extremum_ref", serde_json::json!(extremum)),
+        ]);
+        geo.insert("prior_high_ref".into(), serde_json::json!(extremum));
+        let draft = Draft {
+            direction: "SHORT".into(),
+            birth_time: fm.as_of,
+            risk_geometry: geo,
+        };
+        let fingerprint = format!("{sym}:a:SHORT:{barrier:.6}:{extremum:.6}");
+        return candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint);
+    }
+    let (peaks, troughs) = lattice(&highs, &lows, SWING_N, atr);
     let n = closes.len();
-    let (barrier, extremum) = match setup_at(&closes, &lows, &rsi, &peaks, n - 1) {
+    let (direction, barrier, extremum) = match setup_at(&closes, &highs, &lows, &rsi, &peaks, &troughs, n - 1) {
         Some(hit) => hit,
         None => return no_setup(expert_id, version, fm.as_of),
     };
-    // Consistency guard: the window lattice must reproduce the state's
-    // most-recent significant swing in the setup direction (SHORT =>
-    // swing_high_5); 0.0 is the "no significant swing" sentinel.
-    let sw = match fm.value("swing_high_5") {
-        Some(v) => v,
-        None => return no_habitat(expert_id, version, fm.as_of),
+    let pred = |i: usize, _bar: &HistBar| {
+        setup_at(&closes, &highs, &lows, &rsi, &peaks, &troughs, i)
+            .map(|(d, _, _)| d == direction)
+            .unwrap_or(false)
     };
-    if sw != 0.0 && (extremum - sw).abs() > 1e-9 {
-        return no_setup(expert_id, version, fm.as_of);
-    }
-    // D-026 anchor: first bar of the current consecutive run in which the full
-    // setup predicate holds (gate and anchor share the IDENTICAL local series,
-    // so the anchor is reproducible from the gate).
-    let pred = |i: usize, _bar: &HistBar| setup_at(&closes, &lows, &rsi, &peaks, i).is_some();
     let anchor = find_setup_anchor(&fm.history, &pred);
+    let close = closes[n - 1];
+    let raw_stop_r = (close - extremum).abs() / atr;
+    let stop_r = raw_stop_r.clamp(0.8, 2.0);
+
     let mut geo = geom(vec![
         ("entry", serde_json::json!("NEXT_BAR_CLOSE")),
         ("target_r", serde_json::json!(TARGET_R)),
-        ("stop_r", serde_json::json!(STOP_R)),
+        ("stop_r", serde_json::json!(stop_r)),
         ("expiry_bars", serde_json::json!(EXPIRY_BARS)),
         ("atr_ref", serde_json::json!(atr)),
-        ("variant", serde_json::json!("a")),
+        ("variant", serde_json::json!("v2")),
         ("barrier_ref", serde_json::json!(barrier)),
         ("extremum_ref", serde_json::json!(extremum)),
     ]);
-    // SHORT: the frozen divergence extremum (the second peak) doubles as the
-    // pre-entry invalidation level the lifecycle reads (prior_high_ref).
-    geo.insert("prior_high_ref".into(), serde_json::json!(extremum));
+    if direction == "SHORT" {
+        geo.insert("prior_high_ref".into(), serde_json::json!(extremum));
+    } else {
+        geo.insert("prior_low_ref".into(), serde_json::json!(extremum));
+    }
     let draft = Draft {
-        direction: "SHORT".into(),
+        direction: direction.into(),
         birth_time: fm.as_of,
         risk_geometry: geo,
     };
-    let fingerprint = format!("{sym}:a:SHORT:{barrier:.6}:{extremum:.6}");
+    let fingerprint = format!("{sym}:v2:{direction}:{barrier:.6}:{extremum:.6}");
     candidate(expert_id, version, fm.as_of, draft, anchor, fingerprint)
 }
