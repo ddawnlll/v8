@@ -211,6 +211,8 @@ impl CoverageReceipt {
             }
         }
 
+        final_findings.sort_by(|a, b| a.finding_id.cmp(&b.finding_id));
+
         let mut findings_file = fs::File::create(&findings_path)?;
         use std::io::Write;
         for f in &final_findings {

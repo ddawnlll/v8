@@ -1,0 +1,30 @@
+{
+  "2": {
+    "epoch_id": 2,
+    "case_id": "case-c3219c166f443279",
+    "parent_epoch_id": 1,
+    "evidence_delta_hash": "a0a0773bf7a6e6755a3837af682e6d0681fade6daf6d4082fa77c60f83d51bc3",
+    "cumulative_evidence_root": "cum-root-epoch-2",
+    "world_coverage_root": "worldcov-2618831c1d21935b",
+    "monitoring_plan_id": "monplan-b170ed7f6ff8a275",
+    "assurance_receipt_id": "receipt-e2-prospective",
+    "certificate_id": "cert-v85-883a7ff4875f5e2a",
+    "opened_at_ns": 1702592000000000000,
+    "sealed_at_ns": 1702592000100000000,
+    "epoch_digest": "0a9419886bad1ca1fe1277c1071fb96e30921c11c5b40127bab44077d4126e96"
+  },
+  "1": {
+    "epoch_id": 1,
+    "case_id": "case-c3219c166f443279",
+    "parent_epoch_id": null,
+    "evidence_delta_hash": "2082f982be000b07c6144d30ccf68e64b43d9dc8c067304e4a84106dd7e136fa",
+    "cumulative_evidence_root": "cum-root-epoch-1",
+    "world_coverage_root": null,
+    "monitoring_plan_id": null,
+    "assurance_receipt_id": "receipt-e1-baseline",
+    "certificate_id": "cert-v85-272977b796dd3e0b",
+    "opened_at_ns": 1700000000000000000,
+    "sealed_at_ns": 1700000000100000000,
+    "epoch_digest": "462a49a1f9b17042fb5ae458e0bf3e5fd81c2eb6afd4d66c478da664df276b1d"
+  }
+}

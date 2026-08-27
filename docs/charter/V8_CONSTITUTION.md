@@ -154,6 +154,30 @@
     - *(f) Minimal Semantic Delta & Single-Use Consumption:* One Incident, One Owner, One Merge, Warrant Consumed (`warrant.consume()`). Temporary break-glass write tokens are atomically revoked upon merge.
 44. **Full-Text Specification & Anchor Invariant (`NO_UNANCHORED_SPEC_ACCEPTANCE` / D-149):**
     Every constitutional amendment, draft bill, architectural revision, and ratification candidate MUST be permanently preserved as an unabridged, full-text specification under `docs/` (`docs/contracts/`, `docs/charter/`, etc.). Summaries in monographs, decision registers, or PR descriptions must link and anchor directly to this authoritative full-text document. Any bill, decision, or pull request lacking an anchored full-text specification is constitutionally void and strictly inadmissible for ratification (`NO_UNANCHORED_SPEC_ACCEPTANCE`).
+45. **Temporal Non-Interference & Causal Fortress (D-139):**
+    All market observations, indicators, events, and telemetry must satisfy strict point-in-time causality ($X_{\le t} = X'_{\le t} \implies \text{Decision}_{\le t}(X) = \text{Decision}_{\le t}(X')$). Lookahead leakage across the `ChronosGate` data diode is a critical constitutional violation.
+46. **Dense Bar Series & Disjoint Event Typing (D-139):**
+    Shortened indicator vectors are replaced by $N$-bar aligned `DenseBarSeries<T>`. Funding and open interest events occupy disjoint sparse event streams (`BarId != FundingEventId != DecisionTime`).
+47. **Zero-Pointer Causal Frame Capability (D-139):**
+    Decision logic receives only by-value immutable `CausalFrame` slices with explicit availability bounds ($\text{Availability} \le \text{DecisionTime}$).
+48. **Adversarial Leak Mutant 100% Kill-Rate (D-139):**
+    Runtime systems must maintain a verified 100% kill-rate against the `leak-mutants/` suite (LEAK-001 through LEAK-012).
+49. **Two-Tier Execution Authority (D-139):**
+    `FAST_RESEARCH` execution carries `DIAGNOSTIC_ONLY` authority; only `CERTIFIED_SIM` with valid `TemporalIntegrityCertificate` can be submitted for authoritative evaluation.
+50. **PnL Renderer Firewall (D-139):**
+    Economic rendering engines must reject any uncertified tape or simulation lacking a valid `TemporalIntegrityCertificate`.
+51. **Temporal Separation of Policy Identity and Evidence State ($\text{PolicyIdentity} \neq \text{EvidenceState}$ / D-150):**
+    A policy's identity is defined exclusively by its frozen code hash and configuration hash. Its evidence state evolves over time across append-only, cryptographically sealed `EvaluationEpoch` snapshots. History is never rewritten or mutated in place.
+52. **Revocable Non-Scalar Production Evidence Certificate (D-150):**
+    Certificates are multi-dimensional non-scalar vectors representing statutory claims across engineering, semantic, research, structural, economic, opportunity, prospective, and realized domains. A single hard defeater dominates and revokes/defeats the certificate; scalar averaging or collapsing of failure into profit is strictly prohibited.
+53. **Transitive Defeat Propagation & Mandatory Kaizen Handoff (D-150):**
+    A defeater detected in any evaluation tier (including synthetic reverse-stress) propagates transitively to revoke dependent claims. Defeaters are immediately handed off to Kaizen via immutable `KaizenHandoffReceipt` with 8-domain loss attribution for remediation.
+54. **Non-Escalating Read-Only Authority Projection (D-150):**
+    Assurance and evaluation layers consume evidence strictly via read-only non-escalating `AuthorityProjection`. No evaluator or fabric module may mint economic claims or modify `ClaimRegistry` directly.
+55. **Sequential Monitoring Firewall & Time-Valid Inference (D-150):**
+    Continuous monitoring of prospective and deployed policies requires time-valid e-processes or confidence sequences for inferential claims. Repeated fixed-horizon p-values or significance tests are diagnostic-only and carry zero statutory inferential authority.
+56. **Lineage-Relative Holdout Burn & World Coverage Anchor (D-150):**
+    Holdout data used for qualification or diagnostic triage transitions irreversibly to `BURNED_DIAGNOSTIC` relative to that policy lineage and can never satisfy untouched out-of-sample claims. Robustness claims require explicit cryptographic binding to a `WorldCoverageManifest`.
 
 ## Minimum Coherent Architecture (Authority DAG)
 

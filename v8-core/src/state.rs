@@ -574,23 +574,40 @@ fn last_significant_pivot(
     atr_now: f64,
     k: f64,
 ) -> Option<(usize, f64)> {
-    let limit = t as i64 - 1 - n as i64;
-    for (idx, val, rng) in pivs.iter().rev() {
-        if *idx as i64 > limit {
-            continue;
-        }
-        if *rng >= k * atr_now {
-            return Some((*idx, *val));
+    if pivs.is_empty() {
+        return None;
+    }
+    let limit = match (t as i64 - 1 - n as i64).try_into() {
+        Ok(l) => l,
+        Err(_) => return None,
+    };
+    let slice_end = match pivs.binary_search_by_key(&limit, |p| p.0) {
+        Ok(i) => (i + 1).min(pivs.len()),
+        Err(i) => i.min(pivs.len()),
+    };
+    for &(p_idx, val, rng) in pivs[..slice_end].iter().rev() {
+        if p_idx <= limit && rng >= k * atr_now {
+            return Some((p_idx, val));
         }
     }
     None
 }
 
 fn last_confirmed_swing(pivs: &[(usize, f64, f64)], t: usize, n: usize) -> Option<(usize, f64)> {
-    let limit = t as i64 - 1 - n as i64;
-    for (idx, val, _) in pivs.iter().rev() {
-        if *idx as i64 <= limit {
-            return Some((*idx, *val));
+    if pivs.is_empty() {
+        return None;
+    }
+    let limit = match (t as i64 - 1 - n as i64).try_into() {
+        Ok(l) => l,
+        Err(_) => return None,
+    };
+    let slice_end = match pivs.binary_search_by_key(&limit, |p| p.0) {
+        Ok(i) => (i + 1).min(pivs.len()),
+        Err(i) => i.min(pivs.len()),
+    };
+    for &(p_idx, val, _) in pivs[..slice_end].iter().rev() {
+        if p_idx <= limit {
+            return Some((p_idx, val));
         }
     }
     None

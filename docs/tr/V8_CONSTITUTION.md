@@ -153,6 +153,30 @@
     - *(f) Asgari Semantik Delta & Tek Kullanımlık Tüketim:* Tek Olay, Tek İcracı, Tek Merge, Tüketilen Yetki (`warrant.consume()`). Geçici break-glass yazma yetkisi merge ile birlikte atomik olarak iptal edilir.
 44. **Tam Metin Şartname ve Çıpa Değişmezi (`NO_UNANCHORED_SPEC_ACCEPTANCE` / D-149):**
     Her anayasa değişikliği, yasa tasarısı, mimari revizyon ve ratifikasyon adayı; `docs/` altında (`docs/contracts/`, `docs/charter/` vb.) eksiksiz ve sansürsüz TAM METİN (full-text) bir şartname olarak saklanmak ZORUNDADIR. Monograflarda, karar sicilinde veya PR açıklamalarında yer alan özetler, doğrudan `docs/` altındaki bu otoritatif tam metne link vermek ve çıpalanmak zorundadır. Tam metin şartnamesi `docs/` altına işlenmemiş hiçbir tasarı veya karar kabul edilemez ve ratifiye edilemez (`NO_UNANCHORED_SPEC_ACCEPTANCE`).
+45. **Zamansal Müdahalesizlik ve Nedensel Kale (D-139):**
+    Tüm piyasa gözlemleri, indikatörler, olaylar ve telemetri kesin zaman-noktası nedenselliğini sağlamalıdır ($X_{\le t} = X'_{\le t} \implies \text{Karar}_{\le t}(X) = \text{Karar}_{\le t}(X')$). `ChronosGate` veri diyotundan geleceğe sızıntı kritik bir anayasal ihlaldir.
+46. **Yoğun Bar Serileri ve Ayrık Olay Tiplemesi (D-139):**
+    Kısaltılmış indikatör vektörleri yerini $N$-bar hizalı `DenseBarSeries<T>` yapılarına bırakır. Fonlama ve açık pozisyon (OI) olayları ayrık seyrek olay akışlarında yer alır (`BarId != FundingEventId != DecisionTime`).
+47. **Sıfır-İşaretçili Nedensel Çerçeve Yeteneği (D-139):**
+    Karar mantığı yalnızca açık erişilebilirlik sınırlarına sahip değer-bazlı değişmez `CausalFrame` dilimlerini alır ($\text{Erişilebilirlik} \le \text{KararZamanı}$).
+48. **Karşıt Sızıntı Mutantı %100 Yok Etme Oranı (D-139):**
+    Çalışma zamanı sistemleri `leak-mutants/` paketine karşı (LEAK-001 - LEAK-012) doğrulanmış %100 yok etme oranını korumalıdır.
+49. **İki Kademeli Yürütme Otoritesi (D-139):**
+    `FAST_RESEARCH` yürütmesi yalnızca `DIAGNOSTIC_ONLY` yetkisi taşır; sadece geçerli `TemporalIntegrityCertificate` taşıyan `CERTIFIED_SIM` yetkili değerlendirmeye sunulabilir.
+50. **PnL Renderer Güvenlik Duvarı (D-139):**
+    Ekonomik render motorları, geçerli bir `TemporalIntegrityCertificate` taşımayan her türlü sertifikasız bandı veya simülasyonu reddeder.
+51. **Politika Kimliği ve Delil Durumunun Zamansal Ayrımı ($\text{PolitikaKimliği} \neq \text{DelilDurumu}$ / D-150):**
+    Bir politikanın kimliği yalnızca dondurulmuş kod hash'i ve konfigürasyon hash'i ile tanımlanır. Delil durumu zaman içinde yalnızca-ekleme, kriptografik olarak mühürlenmiş `EvaluationEpoch` snapshot'ları üzerinden evrilir. Geçmiş asla yeniden yazılamaz veya yerinde değiştirilemez.
+52. **Geri Alınabilir Skaler-Olmayan Üretim Kanıt Sertifikası (D-150):**
+    Sertifikalar mühendislik, anlamsal, araştırma, yapısal, ekonomik, fırsat, ileriye dönük ve gerçekleşmiş alanlardaki yasal iddiaları temsil eden çok boyutlu skaler-olmayan vektörlerdir. Tek bir sert yenilgi (defeater) baskındır ve sertifikayı iptal eder/düşürür; başarısızlığın kârlılıkla skaler olarak dengelenmesi veya ortalamaya yedirilmesi kesinlikle yasaktır.
+53. **Geçişli Yenilgi Yayılımı ve Zorunlu Kaizen Devri (D-150):**
+    Herhangi bir değerlendirme katmanında (sentetik ters-stres dahil) tespit edilen bir defeater, bağımlı iddiaları iptal etmek üzere geçişli olarak yayılır. Defeater'lar, iyileştirme amacıyla 8-alanlı kayıp atfı içeren değişmez `KaizenHandoffReceipt` aracılığıyla derhal Kaizen'e devredilir.
+54. **Yetki Yükseltmeyen Salt-Okunur Otorite Projeksiyonu (D-150):**
+    Güvence ve değerlendirme katmanları delilleri kesinlikle yetki yükseltmeyen salt-okunur `AuthorityProjection` üzerinden tüketir. Hiçbir değerlendirici veya güvence modülü doğrudan ekonomik iddia basamaz veya `ClaimRegistry`'yi değiştiremez.
+55. **Sıralı İzleme Güvenlik Duvarı ve Zaman Açısından Geçerli Çıkarım (D-150):**
+    Geleceğe dönük ve canlıya alınmış politikaların sürekli izlenmesi, çıkarımsal iddialar için zaman açısından geçerli e-süreçleri veya güven dizileri gerektirir. Tekrarlanan sabit-ufuklu p-değerleri veya anlamlılık testleri yalnızca teşhis amaçlıdır (`DIAGNOSTIC_ONLY`) ve yasal çıkarım yetkisi taşımaz.
+56. **Soya Göreceli Holdout Yakımı ve Dünya Kapsam Çıpalaması (D-150):**
+    Nitelendirme veya teşhis amaçlı kullanılan holdout verisi, o politika soyuna göre geri döndürülemez şekilde `BURNED_DIAGNOSTIC` durumuna geçer ve asla dokunulmamış OOS iddialarını karşılayamaz. Sağlamlık iddiaları, bir `WorldCoverageManifest`e açık kriptografik bağlama gerektirir.
 
 ## Minimum Tutarlı Mimari (Authority DAG)
 

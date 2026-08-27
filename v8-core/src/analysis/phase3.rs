@@ -331,6 +331,42 @@ pub fn load_birth_features(
     Ok(out)
 }
 
+/// Zero-copy in-memory birth features extraction directly from candidates and states vectors.
+pub fn load_birth_features_from_memory(
+    candidates: &[Value],
+    states: &[Value],
+    symbol: &str,
+) -> HashMap<String, HashMap<&'static str, Option<f64>>> {
+    let mut birth_state: HashMap<String, String> = HashMap::new();
+    for rec in candidates {
+        if rec.get("to_state").and_then(|t| t.as_str()) != Some("DETECTED") {
+            continue;
+        }
+        let cid = rec.get("candidate_id").and_then(|c| c.as_str());
+        let sid = rec.get("state_id").and_then(|s| s.as_str());
+        if let (Some(cid), Some(sid)) = (cid, sid) {
+            birth_state.insert(cid.to_string(), sid.to_string());
+        }
+    }
+    let mut states_map: HashMap<String, &Value> = HashMap::new();
+    for rec in states {
+        if let Some(sid) = rec.get("state_id").and_then(|s| s.as_str()) {
+            states_map.insert(sid.to_string(), rec);
+        }
+    }
+    let mut out: HashMap<String, HashMap<&'static str, Option<f64>>> = HashMap::new();
+    for (cid, sid) in &birth_state {
+        if let Some(st) = states_map.get(sid) {
+            let mut feats: HashMap<&'static str, Option<f64>> = HashMap::new();
+            for f in FEATURES {
+                feats.insert(f, feature_value(st, symbol, f));
+            }
+            out.insert(cid.clone(), feats);
+        }
+    }
+    out
+}
+
 // ---------------------------------------------------------------------------
 // the declared policy class (FT002) and its application
 // ---------------------------------------------------------------------------
@@ -643,9 +679,6 @@ pub fn run_phase3(
     store_dirs: &HashMap<String, String>,
     out_dir: &Path,
 ) -> Result<Value, String> {
-    std::fs::create_dir_all(out_dir).map_err(|e| format!("out_dir: {e}"))?;
-    let mut results: Vec<Value> = Vec::new();
-    let mut all_rows: Vec<Value> = Vec::new();
     let mut birth_cache: HashMap<String, HashMap<String, HashMap<&'static str, Option<f64>>>> =
         HashMap::new();
     for key in confirmed_slice_keys {
@@ -655,7 +688,7 @@ pub fn run_phase3(
                 "bad slice_key {key:?}: expected expert|symbol|direction|estimand"
             ));
         }
-        let (expert_id, symbol, direction) = (parts[0], parts[1], parts[2]);
+        let symbol = parts[1];
         let store_dir = store_dirs
             .get(symbol)
             .ok_or_else(|| format!("no store_dir for symbol {symbol}"))?;
@@ -663,7 +696,38 @@ pub fn run_phase3(
             let birth = load_birth_features(Path::new(store_dir), symbol)?;
             birth_cache.insert(symbol.to_string(), birth);
         }
-        let birth = birth_cache.get(symbol).unwrap();
+    }
+    run_phase3_in_memory(
+        confirmed_slice_keys,
+        discovery_rows,
+        confirmation_rows,
+        &birth_cache,
+        out_dir,
+    )
+}
+
+/// Zero-disk in-memory Phase 3 execution with pre-computed birth features cache.
+pub fn run_phase3_in_memory(
+    confirmed_slice_keys: &[String],
+    discovery_rows: &[Value],
+    confirmation_rows: &[Value],
+    birth_cache: &HashMap<String, HashMap<String, HashMap<&'static str, Option<f64>>>>,
+    out_dir: &Path,
+) -> Result<Value, String> {
+    std::fs::create_dir_all(out_dir).map_err(|e| format!("out_dir: {e}"))?;
+    let mut results: Vec<Value> = Vec::new();
+    let mut all_rows: Vec<Value> = Vec::new();
+    for key in confirmed_slice_keys {
+        let parts: Vec<&str> = key.split('|').collect();
+        if parts.len() < 4 {
+            return Err(format!(
+                "bad slice_key {key:?}: expected expert|symbol|direction|estimand"
+            ));
+        }
+        let (expert_id, symbol, direction) = (parts[0], parts[1], parts[2]);
+        let birth = birth_cache
+            .get(symbol)
+            .ok_or_else(|| format!("no birth features cache for symbol {symbol}"))?;
         let (attempts, result) = evaluate_slice_recoverability_with_birth(
             key,
             expert_id,

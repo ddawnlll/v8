@@ -117,6 +117,7 @@ pub fn execute_pipeline_pass(
     threads: usize,
     render_html: bool,
 ) -> Result<Value, String> {
+    let _ = std::fs::remove_dir_all(out_dir);
     std::fs::create_dir_all(out_dir).map_err(|e| format!("cannot create out_dir {out_dir:?}: {e}"))?;
 
     let t_start = Instant::now();
@@ -293,9 +294,12 @@ pub fn execute_pipeline_pass(
             Ok((val, dur))
         });
 
-        // Worker C: USD-M Simulation
+        // Worker C: USD-M Simulation (Zero-Copy with pre-built feature stores)
         let handle_usdm = s.spawn(|| {
             let t = Instant::now();
+            let rows = runloop::read_tape(&tape_path.to_path_buf())?;
+            let ds = Dataset::from_rows(rows).map_err(|e| e.to_string())?;
+            let stores = crate::state::build_stores(&ds);
             let params = usdm_sim::UsdmSimParams {
                 tape_path: tape_path.to_path_buf(),
                 out_dir: out_dir.to_path_buf(),
@@ -311,19 +315,19 @@ pub fn execute_pipeline_pass(
                 exit_arm: None,
                 symbol: None,
             };
-            let res = usdm_sim::run_simulation(&params)
+            let res = usdm_sim::run_simulation_with_stores(&params, &stores)
                 .map(|receipt| serde_json::to_value(&receipt).unwrap_or_default())
                 .map_err(|e| format!("usdm_sim: {e}"));
             let dur = t.elapsed().as_secs_f64();
             res.map(|v| (v, dur))
         });
 
-        // Worker D: Allegory Archetype Suite (A01-A12)
+        // Worker D: Allegory Archetype Suite (A01-A12) (Zero-Copy memory-mapped)
         let handle_allegory = s.spawn(|| {
             let t = Instant::now();
             let rows = runloop::read_tape(&tape_path.to_path_buf())?;
             let ds = Dataset::from_rows(rows).map_err(|e| e.to_string())?;
-            let mut bar_rows = Vec::new();
+            let mut bar_rows = Vec::with_capacity(ds.bars.first().map(|b| b.closes.len()).unwrap_or(0));
             for sb in &ds.bars {
                 for i in 0..sb.closes.len() {
                     bar_rows.push(evaluation::BarRow {
@@ -339,9 +343,11 @@ pub fn execute_pipeline_pass(
                 }
             }
 
-            let tape_bytes = std::fs::read(tape_path).unwrap_or_default();
+            let file = std::fs::File::open(tape_path).unwrap();
+            let mmap = unsafe { memmap2::Mmap::map(&file) }.unwrap_or_else(|_| memmap2::MmapMut::map_anon(0).unwrap().make_read_only().unwrap());
+            let tape_str = std::str::from_utf8(&mmap).unwrap_or("");
             let mut canon = hash::Canon::new();
-            canon.push_str(&String::from_utf8_lossy(&tape_bytes));
+            canon.push_str(tape_str);
             let tape_hash = canon.finish_sha256_hex();
 
             let scorecard = evaluation::allegory::evaluate_allegory_suite(&bar_rows, &[], &[], &tape_hash);
@@ -409,22 +415,36 @@ pub fn run_full_audit(
 ) -> Result<Value, String> {
     let t_total = Instant::now();
 
-    // Pass 1
     eprintln!(">>> V8.2 Fast In-Process Audit Engine (Issues #306, #307, #308, #309) <<<");
-    eprintln!("  -> [1/3] Executing Primary Pipeline Pass (S4 + Concurrency)...");
-    let pass1 = execute_pipeline_pass(tape_path, out_dir, threads, render_html)?;
-    let p1_artifacts = pass1.get("artifacts").and_then(|v| v.as_object()).cloned().unwrap_or_default();
-
-    // Pass 2 (Zero-Jitter Determinism Verification) (#307)
-    if verify_determinism {
-        eprintln!("  -> [2/3] Executing Pass 2 (Zero-Jitter In-Memory Determinism Check)...");
-        let tmp_verify_dir = out_dir.join(".determinism_verify_pass2");
+    let (pass1, p2_artifacts_opt) = if verify_determinism {
+        eprintln!("  -> [1/2] Executing Dual-Pass Concurrent Verification (Bit-Exact Determinism)...");
+        let tmp_verify_dir = std::env::temp_dir().join(format!("v8_determinism_pass2_{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&tmp_verify_dir);
 
-        let pass2 = execute_pipeline_pass(tape_path, &tmp_verify_dir, threads, false)?;
+        let pass_threads = (threads / 2).max(1);
+        let (p1_res, p2_res) = std::thread::scope(|s| {
+            let h1 = s.spawn(|| execute_pipeline_pass(tape_path, out_dir, pass_threads, render_html));
+            let h2 = s.spawn(|| execute_pipeline_pass(tape_path, &tmp_verify_dir, pass_threads, false));
+            (
+                h1.join().unwrap_or_else(|_| Err("pass1 panicked".to_string())),
+                h2.join().unwrap_or_else(|_| Err("pass2 panicked".to_string())),
+            )
+        });
+        let pass1 = p1_res?;
+        let pass2 = p2_res?;
         let p2_artifacts = pass2.get("artifacts").and_then(|v| v.as_object()).cloned().unwrap_or_default();
+        let _ = std::fs::remove_dir_all(&tmp_verify_dir);
+        (pass1, Some(p2_artifacts))
+    } else {
+        eprintln!("  -> [1/1] Executing Primary Pipeline Pass (S4 + Concurrency)...");
+        let pass1 = execute_pipeline_pass(tape_path, out_dir, threads, render_html)?;
+        (pass1, None)
+    };
 
-        // Compare every artifact SHA-256
+    let p1_artifacts = pass1.get("artifacts").and_then(|v| v.as_object()).cloned().unwrap_or_default();
+
+    // Verify determinism if Pass 2 was executed
+    if let Some(p2_artifacts) = p2_artifacts_opt {
         let mut mismatches = Vec::new();
         for (name, h1_val) in &p1_artifacts {
             let h1 = h1_val.as_str().unwrap_or("");
@@ -434,8 +454,6 @@ pub fn run_full_audit(
             }
         }
 
-        let _ = std::fs::remove_dir_all(&tmp_verify_dir);
-
         if !mismatches.is_empty() {
             let mut err = String::from("FATAL: Determinism violation detected!\n");
             for (name, h1, h2) in mismatches {
@@ -443,7 +461,7 @@ pub fn run_full_audit(
             }
             return Err(err);
         }
-        eprintln!("  -> [2/3] [OK] 100% Bit-Exact Determinism Verified across all generated ledgers and Oracle receipts.");
+        eprintln!("  -> [2/2] [OK] 100% Bit-Exact Determinism Verified across all generated ledgers and Oracle receipts.");
     }
 
     eprintln!("  -> [3/3] Emitting Certified Reproduction Certificate...");

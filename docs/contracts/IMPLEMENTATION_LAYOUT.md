@@ -215,9 +215,48 @@ v8-core/
       runloop.rs    V8.3 end-to-end Opportunity Runloop & ledger emission
       harness_t1_t12.rs Constitutional Invariant Harness T1–T12
       funnel.rs     Opportunity Capture Funnel & Attrition Diagnostic Engine (Phase II)
+    assurance/      V8.5 Assurance Fabric & Continuous Evidence Subsystem (D-147, D-149, D-150)
+      mod.rs        assurance module boundary & re-exports
+      case.rs       EvaluationCaseManifest & EvaluationEpoch sealed identity
+      authority.rs  AuthorityProjection read-only non-escalating tensor adapters
+      attestation.rs EvidenceAttestation & cryptographic witness binding
+      claim.rs      9 operational assurance claims & statutory mapping
+      rules.rs      ClaimRule composition algebra (ALL_OF, ANY_OF, THRESHOLD, BOUND_AWARE)
+      provenance.rs ProvenanceGraph & artifact lineage verification
+      common_mode.rs CommonModeGraph & sensor independence auditor
+      defeater.rs   DefeaterReceipt & non-negotiable hard veto propagation
+      adjudicate.rs AssuranceCaseAdjudicator sovereign engine
+      receipt.rs    AssuranceCaseReceipt & SHA-256 digest binding
+      continuous.rs ContinuousEvaluationLedger, EvaluationEpochRecord, EvidenceDelta, KaizenHandoffReceipt (D-150)
+      certificate.rs Non-scalar revocable ProductionEvidenceCertificate with typed lifecycle states (D-150)
+    world/          V8.5 Market World Foundry synthetic market plane (D-147, D-149, D-151, #[cfg(test)])
+      mod.rs        world module boundary & re-exports
+      spec.rs       WorldSpec, WorldFamily & WorldReceipt
+      structural.rs StructuralWorldGenerator (regime, jumps, vol clustering)
+      resample.rs   BlockResampleGenerator
+      surgery.rs    CounterfactualSurgeryEngine (spread widening, gap injection)
+      passport.rs   GeneratorPassport 6D realism validation vector
+      reverse_stress.rs ReverseStressSearchEngine & failure trajectory search
+      learned.rs    LearnedChallengerGenerator stub
+    system_proving/ V8.5 System Proving Ground full-chain stress plane (D-147, D-149)
+      mod.rs        system proving ground boundary
+      run.rs        SystemProvingGroundRunner full pipeline execution
+      metrics.rs    14-dimensional SystemRobustnessVector
+      attribution.rs 7-domain FailureAttributionBreakdown & conservation algebra
+      receipt.rs    SystemProvingGroundReceipt
+    research/       V8.5 Research Integrity & Holdout Management (D-147, D-149)
+      mod.rs        research module boundary
+      data_role.rs  DataRoleLedger (6 statutory data roles)
+      holdout.rs    HoldoutBurnReceipt & irreversible OOS burn transition
+      statistical_plan.rs StatisticalPlan & lifetime trial debt multiplicity control
+    tevv/           V8.5 AI / Kaizen TEVV Probes & Agent Auditability (D-147, D-149)
+      mod.rs        tevv module boundary
+      agent.rs      AgentAuditManifest & ActionAuditReceipt
+      probes.rs     10 Mandatory Integrity Probes & Defeater emission
+      transcript.rs AuditTranscript cryptographic lineage
     scheduler.rs    deterministic task scheduling/chunking, evaluate_typed (D-119)
     runloop.rs      S4 per-bar composition and runtime dispatch wiring
-  tests/            empty — parity is proven by #[cfg(test)] unit tests
+  tests/            Comprehensive test suite (502 tests passed, 0 failed)
                      embedded in each src/*.rs module plus the Python-side
                      harness at repo-root tests/parity/*.py, not a Rust
                      tests/parity.rs integration file as §6 originally named
@@ -270,6 +309,10 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/audit/mutants.rs` | Adversarial Leak Mutant Falsification suite (LEAK-001..LEAK-012) and 100% kill-rate verifier | `MutantAuditor`, `LeakMutantId`, `MutantKillReceipt` | V8_CONSTITUTION Rule 48; D-139; CC-BILL-V8.3-CAUSAL-FORTRESS-006 |
 | `v8-core/src/audit/full_audit.rs` | Unified in-process high-throughput audit engine, post-S4 multithreaded concurrency, and in-memory Pass 2 Zero-Jitter Bit-Identity verification | `run_full_audit`, `execute_pipeline_pass`, `collect_artifact_fingerprints` | Issues #306, #307, #309; D-148 |
 | `v8-core/src/audit/html_report.rs` | Native Rust forensic HTML audit report renderer generating agent-grade forensic reports in <10ms | `render_html_report`, `CSS` | Issue #308; D-148 |
+| `docs/contracts/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md` | Full-text specification of Continuous Epistemic Succession & Living Policy Constitution | Full unabridged contract | V8 Constitution Rule 44; D-149, D-150 |
+| `v8-core/src/assurance/continuous.rs` | Continuous evaluation ledger, EvaluationEpochRecord, EvidenceDelta, KaizenHandoffReceipt, and lineage verifier | `ContinuousEvaluationLedger`, `EvaluationEpochRecord`, `EvidenceDelta`, `KaizenHandoffReceipt` | D-147, D-149, D-150 |
+| `v8-core/src/bin/epistemic_succession.rs` | D-150 executable CLI driver executing multi-epoch epistemic succession, defeater handling, Kaizen handoff, and audit persistence | `main` CLI driver | D-147, D-149, D-150; Rules 51–56 |
+| `v8-core/tests/d150_epistemic_succession_sabotage.rs` | 20-point constitutional sabotage suite verifying D-150 invariants (D150-T01..T20) | 20 automated constitutional sabotage tests | D-147, D-149, D-150 |
 
 
 

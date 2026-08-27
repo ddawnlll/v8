@@ -135,13 +135,12 @@ pub fn analysis(args: &[String]) -> i32 {
 // Ledger + store helpers
 // ---------------------------------------------------------------------------
 
-/// Read a JSONL tape into parsed `TapeRow`s using the Python-json-compatible
-/// parser (the tape is written by CPython `json.dumps`, which may emit
-/// `NaN`/`Infinity` literals that strict JSON rejects).
+/// Read a JSONL tape into parsed `TapeRow`s using memory-mapped scanning.
 fn read_tape(path: &Path) -> Result<Vec<TapeRow>, String> {
-    let text =
-        std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
-    let mut rows = Vec::new();
+    let file = std::fs::File::open(path).map_err(|e| format!("cannot open tape {path:?}: {e}"))?;
+    let mmap = unsafe { memmap2::Mmap::map(&file) }.map_err(|e| format!("mmap tape {path:?}: {e}"))?;
+    let text = std::str::from_utf8(&mmap).map_err(|e| format!("utf8 error in tape {path:?}: {e}"))?;
+    let mut rows = Vec::with_capacity(9000);
     for (i, line) in text.lines().enumerate() {
         if line.trim().is_empty() {
             continue;
@@ -155,9 +154,11 @@ fn read_tape(path: &Path) -> Result<Vec<TapeRow>, String> {
     Ok(rows)
 }
 
-/// Read a JSONL ledger (one JSON value per line, blank lines skipped).
+/// Read a JSONL ledger (one JSON value per line, blank lines skipped) using memory-mapped scanning.
 fn read_jsonl(path: &Path) -> Result<Vec<Value>, String> {
-    let text = std::fs::read_to_string(path).map_err(|e| format!("cannot read {path:?}: {e}"))?;
+    let file = std::fs::File::open(path).map_err(|e| format!("cannot open {path:?}: {e}"))?;
+    let mmap = unsafe { memmap2::Mmap::map(&file) }.map_err(|e| format!("mmap {path:?}: {e}"))?;
+    let text = std::str::from_utf8(&mmap).map_err(|e| format!("utf8 error in {path:?}: {e}"))?;
     let mut out = Vec::new();
     for (i, line) in text.lines().enumerate() {
         if line.trim().is_empty() {
@@ -452,34 +453,36 @@ fn derive_state_ledger(
                                     let feats = state::state_features(store, i + 1, *as_of, history_depth);
                                     let lineage = state::v82_lineage_hash(&feats, sym);
                                     let sid = state::v82_state_id(*as_of, universe, &lineage);
-                                    let mut features = serde_json::Map::new();
+                                    let mut features = serde_json::Map::with_capacity(phase3::FEATURES.len() + 2);
+                                    let mut is_degraded = false;
                                     for f in &feats {
-                                        features.insert(
-                                            format!("{sym}.{}", f.name),
-                                            json!({
-                                                "name": f.name,
-                                                "value": f.value,
-                                                "dtype": f.dtype,
-                                                "feature_version": f.feature_version,
-                                                "max_input_available_time": f.max_input_available_time,
-                                                "quality": f.quality,
-                                            }),
-                                        );
+                                        if f.quality == "DEGRADED" {
+                                            is_degraded = true;
+                                        }
+                                        if phase3::FEATURES.contains(&f.name.as_str()) {
+                                            let mut fmap = serde_json::Map::with_capacity(6);
+                                            fmap.insert("name".to_string(), Value::String(f.name.to_string()));
+                                            fmap.insert("value".to_string(), serde_json::to_value(&f.value).unwrap_or(Value::Null));
+                                            fmap.insert("dtype".to_string(), Value::String(f.dtype.to_string()));
+                                            fmap.insert("feature_version".to_string(), Value::String(f.feature_version.to_string()));
+                                            fmap.insert("max_input_available_time".to_string(), serde_json::to_value(&f.max_input_available_time).unwrap_or(Value::Null));
+                                            fmap.insert("quality".to_string(), Value::String(f.quality.to_string()));
+                                            features.insert(format!("{sym}.{}", f.name), Value::Object(fmap));
+                                        }
                                     }
-                                    let quality = if feats.iter().any(|f| f.quality == "DEGRADED") {
+                                    let quality = if is_degraded {
                                         "DEGRADED"
                                     } else {
                                         "COMPLETE"
                                     };
-                                    let state_val = json!({
-                                        "state_id": sid,
-                                        "as_of": as_of,
-                                        "universe": universe,
-                                        "features": features,
-                                        "lineage_hash": lineage,
-                                        "quality": quality,
-                                    });
-                                    chunk_res.push(((sym.clone(), *as_of), (sid, state_val)));
+                                    let mut state_map = serde_json::Map::with_capacity(6);
+                                    state_map.insert("state_id".to_string(), Value::String(sid.clone()));
+                                    state_map.insert("as_of".to_string(), serde_json::json!(as_of));
+                                    state_map.insert("universe".to_string(), serde_json::json!(universe));
+                                    state_map.insert("features".to_string(), Value::Object(features));
+                                    state_map.insert("lineage_hash".to_string(), Value::String(lineage));
+                                    state_map.insert("quality".to_string(), Value::String(quality.to_string()));
+                                    chunk_res.push(((sym.clone(), *as_of), (sid, Value::Object(state_map))));
                                 }
                             }
                         }
@@ -812,13 +815,18 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
                 p
             }
         };
-        read_evaluations_jsonl(&eval_path)?
+        let t_read_eval = std::time::Instant::now();
+        let res = read_evaluations_jsonl(&eval_path)?;
+        eprintln!("    [S6 Timer] read_evaluations_jsonl: {:.3}s", t_read_eval.elapsed().as_secs_f64());
+        res
     };
+    let t_cands = std::time::Instant::now();
     let candidates: Vec<Value> = if !req.candidates.is_empty() {
         req.candidates.clone()
     } else {
         read_jsonl(&req.out_dir.join("candidates.jsonl"))?
     };
+    eprintln!("    [S6 Timer] read candidates.jsonl: {:.3}s", t_cands.elapsed().as_secs_f64());
     let cube_path = req
         .cube_reduced_path
         .clone()
@@ -828,11 +836,15 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     let sim = SimulatorParams::from_json(&req.manifest);
     let funding = funding_schedule(&ds);
     let pre_snaps = reconcile::build_snapshots(&candidates, &evaluations, &req.outcomes);
+    let t_outcomes = std::time::Instant::now();
     let (outcomes, cached_accums) = if req.outcomes.is_empty() {
         derive_outcomes(&pre_snaps, &ds, &stores, &sim, &funding, req.threads)
     } else {
         (req.outcomes.clone(), HashMap::new())
     };
+    eprintln!("    [S6 Timer] derive_outcomes: {:.3}s", t_outcomes.elapsed().as_secs_f64());
+
+    let t_states = std::time::Instant::now();
     let (candidates, states) = if req.states.is_empty() {
         derive_state_ledger(
             &candidates,
@@ -844,9 +856,11 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
     } else {
         (candidates, req.states.clone())
     };
+    eprintln!("    [S6 Timer] derive_state_ledger: {:.3}s", t_states.elapsed().as_secs_f64());
 
     // Phase 0 — reconciliation (issue #122). Halt on lineage leakage or a
     // non-RECONCILED ledger, exactly like `reconcile`'s fail-closed gate.
+    let t_recon = std::time::Instant::now();
     let snapshots = reconcile::build_snapshots(&candidates, &evaluations, &outcomes);
     let problems = reconcile::assert_pit_lineage(&states, &snapshots);
     if !problems.is_empty() {
@@ -874,14 +888,18 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
             clipped
         ));
     }
+    eprintln!("    [S6 Timer] reconciliation: {:.3}s", t_recon.elapsed().as_secs_f64());
 
     // Phase 1 — opportunity accounting over the cube-reduced table.
+    let t_phase1 = std::time::Instant::now();
     let cube = evidence::read_artifact(&cube_path)
         .map_err(|e| format!("read cube artifact {cube_path:?}: {e}"))?;
     let per_symbol = build_phase0(&snapshots, &ds, &stores, &sim, &funding, &cube, &cached_accums);
     let joined = phase1::join_dataset(per_symbol);
+    eprintln!("    [S6 Timer] phase 1: {:.3}s", t_phase1.elapsed().as_secs_f64());
 
     // Phase 2 — systematicity discovery over the chronological halves.
+    let t_phase2 = std::time::Instant::now();
     let (disc, conf) = split_half(&joined);
     let disc_slices: Vec<phase2::SliceRow> = disc.iter().map(slice_row).collect();
     let conf_slices: Vec<phase2::SliceRow> = conf.iter().map(slice_row).collect();
@@ -948,26 +966,33 @@ pub fn run_analysis(req: &AnalysisRequest) -> Result<Value, String> {
             );
         }
     }
+    eprintln!("    [S6 Timer] phase 2: {:.3}s", t_phase2.elapsed().as_secs_f64());
     let confirmed_keys: Vec<String> = confirmations
         .iter()
         .filter(|c| c.confirmation_verdict == "SYSTEMATIC_FINDING")
         .map(|c| c.slice_key.clone())
         .collect();
 
-    // Phase 3 — recoverability over the confirmed slices.
+    // Phase 3 — recoverability over the confirmed slices (In-Memory Zero-Disk).
+    let t_phase3 = std::time::Instant::now();
     let mut symbols: Vec<String> = joined.iter().map(|r| r.symbol.clone()).collect();
     symbols.sort();
     symbols.dedup();
     let disc_json: Vec<Value> = disc.iter().map(joined_row_to_value).collect();
     let conf_json: Vec<Value> = conf.iter().map(joined_row_to_value).collect();
-    let store_dirs = write_phase3_store_dirs(&req.out_dir, &symbols, &candidates, &states)?;
-    let phase3_summary = phase3::run_phase3(
+    let mut birth_cache = HashMap::new();
+    for sym in &symbols {
+        let b = phase3::load_birth_features_from_memory(&candidates, &states, sym);
+        birth_cache.insert(sym.clone(), b);
+    }
+    let phase3_summary = phase3::run_phase3_in_memory(
         &confirmed_keys,
         &disc_json,
         &conf_json,
-        &store_dirs,
+        &birth_cache,
         &req.out_dir,
     )?;
+    eprintln!("    [S6 Timer] phase 3 (in-memory): {:.3}s", t_phase3.elapsed().as_secs_f64());
 
     // The `analysis.jsonl` artifact: one tagged record per phase row.
     let mut lines: Vec<Value> = Vec::new();

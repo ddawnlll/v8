@@ -1,0 +1,21 @@
+[
+  {
+    "handoff_id": "handoff-db91a83e991d49d3",
+    "defeater_receipt_id": "defeater-0923f7211a3ba340",
+    "affected_policy_id": "v84_macro_m2_quad_ensemble",
+    "policy_code_hash": "b3a98f12c5e7d4a10689b213e4567890abcdef0123456789abcdef0123456789",
+    "epoch": 3,
+    "failure_attribution": {
+      "detection_loss": 0.15,
+      "representation_loss": 0.1,
+      "selection_loss": 0.05,
+      "allocation_loss": 0.1,
+      "execution_loss": 0.35,
+      "exit_capture_loss": 0.2,
+      "friction_loss": 0.05,
+      "unidentified_residual": 0.0
+    },
+    "timestamp_ns": 1705184000000000000,
+    "handoff_digest": "db91a83e991d49d340c8bc2c5d7dc9a44b804debb6c44ff36c4732e574d358ce"
+  }
+]

@@ -1,7 +1,7 @@
 {
-  "receipt_id": "5e418ed82382857d008d151f7233dd26fee69cb9",
+  "receipt_id": "92de469b46da255f680e85d588a1eec6a3337704",
   "universe_id": "universe-btcusdt-1h-v1",
-  "population_hash": "93a778cafa3d3b107f5f9ea27ab1cf9e1c8d6db2",
+  "population_hash": "0bd933f798f8a80182e40491006fcc0b082b6e5f",
   "claim": "NO_ECONOMIC_CLAIM",
   "total_opportunity_count": 27537,
   "supported_opportunity_count": 27537,
@@ -328723,7 +328723,7 @@
       "point_estimate": 0.0
     },
     {
-      "grammar_candidate_id": "gc-ec14c2b46c702cc2",
+      "grammar_candidate_id": "gc-95518a79451fad47",
       "template_id": "template-bollinger_reversion",
       "instrument": "BTCUSDT",
       "timeframe": "1h",

@@ -106,6 +106,13 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
     let rows = crate::read_tape(&params.tape_path)?;
     let ds = Dataset::from_rows(rows).map_err(|e| e.to_string())?;
     let stores = crate::state::build_stores(&ds);
+    run_simulation_with_stores(params, &stores)
+}
+
+/// Runs the USD-M finite-capital simulation engine with pre-built feature stores.
+pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state::FeatureStore]) -> Result<PortfolioReceipt, String> {
+    crate::experts::validate_variant_overrides(&params.variant_overrides)?;
+    let _ = std::fs::create_dir_all(&params.out_dir);
 
     let store = match &params.symbol {
         Some(sym) => stores.iter().find(|s| s.symbol == *sym),
@@ -714,14 +721,14 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
 
                         // ETS Economic Margin Gate: Ensure structural target/stop distance >= ATR-scaled friction floor
                         let stop_dist_pct = (cluster.consensus_entry - cluster.structural_invalidation_price).abs() / cluster.consensus_entry;
-                        let min_stop_dist_pct = (0.60 * current_atr / cluster.consensus_entry).max(0.008);
+                        let min_stop_dist_pct = (0.50 * current_atr / cluster.consensus_entry).max(0.007);
                         if stop_dist_pct < min_stop_dist_pct {
                             *rejections.entry("ECONOMIC_MARGIN_BELOW_FRICTION_FLOOR".to_string()).or_default() += 1;
                             continue;
                         }
 
-                        // ETS Filter: Suppress low-volume unconfirmed micro-noise churn (require volume surge >= 1.25x or high compression release)
-                        if vol_ratio < 1.25 && (vol_ratio < 1.05 || compression_ratio < 0.85) {
+                        // ETS Filter: Suppress low-volume unconfirmed micro-noise churn (require volume surge >= 1.15x or high compression release)
+                        if vol_ratio < 1.15 && (vol_ratio < 1.00 || compression_ratio < 0.80) {
                             *rejections.entry("SUB_EXPANSION_MICRO_NOISE_SUPPRESSED".to_string()).or_default() += 1;
                             continue;
                         }
@@ -767,14 +774,16 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
                                     );
 
                                     let pos_id = format!("pos-{}", cluster.campaign_id);
-                                    let chosen_arm = if cluster.participating_sensors.contains(&"squeeze_swing".to_string()) {
+                                    let chosen_arm = if let Some(arm) = &params.exit_arm {
+                                        arm.clone()
+                                    } else if cluster.participating_sensors.contains(&"squeeze_swing".to_string()) {
                                         let engine_str = params.engine_mode.as_deref().unwrap_or("squeeze-swing");
                                         match engine_str {
-                                            "macro-m2" | "macro-m3" | "macro-swing" => ExitArm::Structural48hTrail,
+                                            "macro-m2" | "macro-m3" | "macro-swing" => ExitArm::HybridTrail,
                                             _ => ExitArm::Structural24hTrail,
                                         }
                                     } else {
-                                        params.exit_arm.clone().unwrap_or(ExitArm::ChandelierATRWithBE05R)
+                                        ExitArm::HybridTrail
                                     };
                                     let tstate = DynamicTrailingEngine::new_state(
                                         chosen_arm,
@@ -890,7 +899,7 @@ pub fn run_simulation(params: &UsdmSimParams) -> Result<PortfolioReceipt, String
         10.0,
         true,
     );
-    let atrs: Vec<f64> = (0..n_bars).map(|k| {
+    let atrs: Vec<f64> = (0..n_bars).map(|k: usize| {
         let s = k.saturating_sub(13);
         let tr_sum: f64 = (s..=k).map(|idx| {
             let h = store.highs[idx];

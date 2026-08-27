@@ -2,6 +2,35 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-08-27 — D-150 Continuous Epistemic Succession & Living Policy Constitution Ratification & Full Implementation (`D-150-SPEC-001`, Rules 51–56)
+
+Ratified and fully implemented D-150 Continuous Epistemic Succession & Living Policy Constitution, codifying the core temporal evidence law $\text{PolicyIdentity} \neq \text{EvidenceState}$ and resolving the lifecycle and evidence state machine for living policies:
+- **Full-Text Canonical Specifications:** Committed complete unabridged specifications in English (`docs/contracts/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md`, all 33 sections) and Turkish (`docs/tr/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md`), and integrated the HTML research paper into `docs/contracts/` and `site/`.
+- **Decision Numbering & Mirror Alignment:** Registered D-150 as Continuous Epistemic Succession & Living Policy Constitution and renumbered Market World Foundry v2 to D-151 across English and Turkish decision registers (`docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`).
+- **Epistemic Succession Engine (`v8-core/src/assurance/continuous.rs`, `certificate.rs`, `mod.rs`):**
+  - Implemented append-only `EvaluationEpoch` succession over sealed `EvaluationCaseManifest`s without historical mutation.
+  - Implemented revocable, non-scalar `ProductionEvidenceCertificate` with typed lifecycle states (`QUALIFIED`/`ACTIVE`, `SUPERSEDED`, `QUARANTINED`, `REVOKED`, `DEFEATED`, `EXPIRED`).
+  - Implemented transitive defeat propagation and mandatory Kaizen handoff via typed `DefeaterReceipt` and `KaizenHandoffReceipt`.
+  - Implemented `WorldCoverageManifest` and sequential `MonitoringPlan` with time-valid e-process/confidence sequence gating.
+- **Dedicated 20-Test Constitutional Sabotage Suite (`v8-core/tests/d150_epistemic_succession_sabotage.rs`):** Verified all 20 canonical sabotage tests (`D150-T01` to `D150-T20`) with 100% pass rate.
+- **Monograph Synchronization:** Rebuilt single-file English and Turkish monographs (`site/index.html`, `site/tr.html`) including D-150 and D-151 sections.
+
+Artifacts changed: `docs/contracts/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md`, `docs/tr/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md`, `docs/contracts/D150_Continuous_Epistemic_Succession_Research_Paper.html`, `site/D150_Continuous_Epistemic_Succession_Research_Paper.html`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `v8-core/src/assurance/continuous.rs`, `v8-core/src/assurance/certificate.rs`, `v8-core/src/assurance/mod.rs`, `v8-core/tests/d150_epistemic_succession_sabotage.rs`, `tools/build_monograph.py`, `site/index.html`, `site/tr.html`, `docs/CHANGELOG.md`.
+
+## 2026-08-26 — V8.5 100% Implementation: Assurance Fabric, Production Growth Court, Market World Foundry, SPG, Research Integrity & Continuous Evidence Certification (Milestone #4, Issues #310–#316)
+
+Implemented 100% of the V8.5 architecture specification across all 7 implementation work-items:
+- **Assurance Fabric MVP (Issue #310, `v8-core/src/assurance/`):** Immutable `EvaluationCaseManifest`, monotonic `EvaluationEpoch`, read-only non-escalating `AuthorityProjection`, `EvidenceAttestation`, 9 operational assurance claims, Boolean/threshold `ClaimRule` algebra, content-addressed `ProvenanceGraph`, `CommonModeGraph` sensor independence, `DefeaterReceipt` hard veto propagation, `AssuranceCaseAdjudicator` sovereign engine, and `AssuranceCaseReceipt`.
+- **Production Growth Court (Issue #311, `v8-core/src/evaluation/`):** Deterministic `ProductionGrowthContract`, exact Long-Horizon Geometric Net Growth (`LGNG`), Anti-Target-Chasing invariant, `DeploymentEquivalentReceipt`, legal single-asset/zero-allocation `ScopeDiagnostics`, and `FrictionRetentionProfile`.
+- **Market World Foundry (Issue #312, `v8-core/src/world/`):** Deterministic `WorldSpec`, `StructuralWorldGenerator` (regime persistence, Poisson jumps, GARCH volatility), `BlockResampleGenerator`, `CounterfactualSurgeryEngine`, non-scalar 6D `GeneratorPassport`, and `ReverseStressSearchEngine`.
+- **System Proving Ground (Issue #313, `v8-core/src/system_proving/`):** Full-chain `SystemProvingGroundRunner` (candidate discovery, multi-expert reconciliation, risk gate, execution sizing, double-entry ledger), 14-dimensional `SystemRobustnessVector`, and 7-domain `FailureAttributionBreakdown` conservation algebra.
+- **Research Integrity & Holdout Management (Issue #314, `v8-core/src/research/`):** Lineage-relative `DataRoleLedger` (6 statutory roles), irreversible `HoldoutBurnReceipt` (`POLICY_FROZEN_OOS` -> `BURNED_DIAGNOSTIC`), and `StatisticalPlan` trial debt multiplicity control.
+- **AI / Kaizen TEVV Probes (Issue #315, `v8-core/src/tevv/`):** `AgentAuditManifest`, `ActionAuditReceipt`, 10 Mandatory Integrity Probes, and cryptographic `AuditTranscript`.
+- **Continuous Lifecycle & Production Evidence Certificate (Issue #316, `v8-core/src/assurance/`):** `ContinuousEvaluationLedger` monotonic epoch progression ($N \rightarrow N+1$), and non-scalar, time-bounded, revocable `ProductionEvidenceCertificate`.
+- **Constitutional Sabotage Suite (`AF-T01` to `AF-T20`):** 100% verified across 7 dedicated test suites (502 total tests passed, 0 failed).
+
+Artifacts changed: `v8-core/src/lib.rs`, `v8-core/src/assurance/*`, `v8-core/src/world/*`, `v8-core/src/system_proving/*`, `v8-core/src/research/*`, `v8-core/src/tevv/*`, `v8-core/src/evaluation/*`, `v8-core/tests/*`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`.
+
 ## 2026-08-26 — D-149 Full-Text Specification & Anchor Invariant (Rule 44, NO_UNANCHORED_SPEC_ACCEPTANCE) & Complete V8.5 Specification Preservation
 
 Ratified Constitution Rule 44 / D-149 requiring all draft bills, constitutional amendments, and architectural proposals to be committed as complete, unabridged full-text specifications in `docs/`. Preserved the complete 35-section V8.5 architecture blueprint in `docs/contracts/V85_ARCHITECTURE_SPEC.md` and anchored `V85_RATIFICATION_CANDIDATE.md` and monograph summaries to it.

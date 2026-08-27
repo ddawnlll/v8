@@ -204,19 +204,48 @@ impl DynamicTrailingEngine {
                 }
             }
             ExitArm::HybridTrail => {
+                let fee_offset_r = 0.05;
                 if is_long {
-                    if mfe_r >= 1.5 && state.current_stop < state.entry_price {
-                        state.current_stop = state.entry_price;
+                    if mfe_r >= 2.5 {
+                        let lock = state.entry_price + (1.5 * state.initial_risk_dist);
+                        if lock > state.current_stop {
+                            state.current_stop = lock;
+                        }
+                    } else if mfe_r >= 1.2 {
+                        let lock = state.entry_price + (0.5 * state.initial_risk_dist);
+                        if lock > state.current_stop {
+                            state.current_stop = lock;
+                        }
+                    } else if mfe_r >= 0.60 {
+                        let be_level = state.entry_price + (fee_offset_r * state.initial_risk_dist);
+                        if be_level > state.current_stop {
+                            state.current_stop = be_level;
+                        }
                     }
-                    let chandelier = state.highest_high - (2.5 * atr);
+                    let mult = if mfe_r >= 2.0 { 1.8 } else if mfe_r >= 1.0 { 2.2 } else { 2.5 };
+                    let chandelier = state.highest_high - (mult * atr);
                     if chandelier > state.current_stop {
                         state.current_stop = chandelier;
                     }
                 } else {
-                    if mfe_r >= 1.5 && state.current_stop > state.entry_price {
-                        state.current_stop = state.entry_price;
+                    if mfe_r >= 2.5 {
+                        let lock = state.entry_price - (1.5 * state.initial_risk_dist);
+                        if lock < state.current_stop || state.current_stop <= 0.0 {
+                            state.current_stop = lock;
+                        }
+                    } else if mfe_r >= 1.2 {
+                        let lock = state.entry_price - (0.5 * state.initial_risk_dist);
+                        if lock < state.current_stop || state.current_stop <= 0.0 {
+                            state.current_stop = lock;
+                        }
+                    } else if mfe_r >= 0.60 {
+                        let be_level = state.entry_price - (fee_offset_r * state.initial_risk_dist);
+                        if be_level < state.current_stop || state.current_stop <= 0.0 {
+                            state.current_stop = be_level;
+                        }
                     }
-                    let chandelier = state.lowest_low + (2.5 * atr);
+                    let mult = if mfe_r >= 2.0 { 1.8 } else if mfe_r >= 1.0 { 2.2 } else { 2.5 };
+                    let chandelier = state.lowest_low + (mult * atr);
                     if (chandelier < state.current_stop || state.current_stop <= 0.0) && chandelier > 0.0 {
                         state.current_stop = chandelier;
                     }

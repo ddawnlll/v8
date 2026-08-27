@@ -769,13 +769,13 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
     }))
 }
 
-/// Read a JSONL tape into parsed `TapeRow`s using the Python-json-compatible
-/// parser (the tape is written by CPython `json.dumps`, which may emit
-/// `NaN`/`Infinity` literals that strict JSON rejects).
+/// Read a JSONL tape into parsed `TapeRow`s using memory-mapped zero-allocation scanning
+/// and the Python-json-compatible parser (CPython `NaN`/`Infinity` literals supported).
 pub fn read_tape(path: &PathBuf) -> Result<Vec<data::TapeRow>, String> {
-    let text =
-        std::fs::read_to_string(path).map_err(|e| format!("cannot read tape {path:?}: {e}"))?;
-    let mut rows = Vec::new();
+    let file = std::fs::File::open(path).map_err(|e| format!("cannot open tape {path:?}: {e}"))?;
+    let mmap = unsafe { memmap2::Mmap::map(&file) }.map_err(|e| format!("mmap tape {path:?}: {e}"))?;
+    let text = std::str::from_utf8(&mmap).map_err(|e| format!("utf8 error in tape {path:?}: {e}"))?;
+    let mut rows = Vec::with_capacity(9000);
     for (i, line) in text.lines().enumerate() {
         if line.trim().is_empty() {
             continue;

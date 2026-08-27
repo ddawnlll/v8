@@ -1,5 +1,9 @@
 # CLAUDE.md — V8 agent guide
 
+## 🚨 MANDATORY AGENT DIRECTIVE: LOAD V8 SKILL & PROTOCOL FIRST
+- **All agents (Claude, Antigravity, subagents, and forks) MUST adhere to the V8 Canonical Engineering Protocol.**
+- When starting work on tasks, features, decisions, or audits, reference and load `.claude/skills/v8/SKILL.md` (`/v8`).
+
 ## 🚨 CRITICAL RULE: RUST ONLY (`v8-core/`) — PYTHON IS DEPRECATED & FROZEN
 - **The authoritative runtime codebase is `v8-core/` (Rust).**
 - **ALL new features, bug fixes, evaluations, refactors, and test suites MUST be in Rust inside `v8-core/`.**
