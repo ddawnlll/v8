@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — D-152 Scenario-Centric Policy Evidence Profile & Quad Demotion (G0–G9)
+
+Registered D-152 as PROVISIONAL_DECISION extending D-147/D-150/D-151 with no locked-invariant mutation. Replaced the single-trajectory headline with `assurance/evidence_profile.rs::PolicyEvidenceProfile` (typed historical diagnostic, scenario cells, robustness topology, frozen-OOS/shadow/live states, gates, non-scalar conclusion). Demoted the 12-month quad to `BURNED_DIAGNOSTIC` diagnostic court: typed `PortfolioReceipt` fields, diagnostic CLI rendering, pathology preserved, promotion leakage blocked by type. Codified passport-scoped synthetic defeater authority and the statistical-triple audit (WRC + genuine DSR + SPA remain the burden; proxy ledger keeps G5 at `NO_ECONOMIC_CLAIM`). Added 14-test adversarial suite `policy_evidence_profile_adversarial.rs`.
+
+Artifacts changed: `docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md`, `docs/tr/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `v8-core/src/assurance/evidence_profile.rs`, `v8-core/src/assurance/mod.rs`, `v8-core/src/usdm_sim.rs`, `v8-core/src/main.rs`, `v8-core/tests/policy_evidence_profile_adversarial.rs`, `docs/CHANGELOG.md`.
+
 ## 2026-08-27 — D-150 Continuous Epistemic Succession & Living Policy Constitution Ratification & Full Implementation (`D-150-SPEC-001`, Rules 51–56)
 
 Ratified and fully implemented D-150 Continuous Epistemic Succession & Living Policy Constitution, codifying the core temporal evidence law $\text{PolicyIdentity} \neq \text{EvidenceState}$ and resolving the lifecycle and evidence state machine for living policies:

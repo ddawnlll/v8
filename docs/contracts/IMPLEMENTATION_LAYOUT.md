@@ -229,6 +229,7 @@ v8-core/
       receipt.rs    AssuranceCaseReceipt & SHA-256 digest binding
       continuous.rs ContinuousEvaluationLedger, EvaluationEpochRecord, EvidenceDelta, KaizenHandoffReceipt (D-150)
       certificate.rs Non-scalar revocable ProductionEvidenceCertificate with typed lifecycle states (D-150)
+      evidence_profile.rs Scenario-centric PolicyEvidenceProfile, DataRole, G0–G9 gates, passport-scoped synthetic defeater authority, statistical-triple audit (D-152)
     world/          V8.5 Market World Foundry synthetic market plane (D-147, D-149, D-151, #[cfg(test)])
       mod.rs        world module boundary & re-exports
       spec.rs       WorldSpec, WorldFamily & WorldReceipt
