@@ -8863,6 +8863,7 @@ table.</p>
       receipt.rs    AssuranceCaseReceipt &amp; SHA-256 digest binding
       continuous.rs ContinuousEvaluationLedger, EvaluationEpochRecord, EvidenceDelta, KaizenHandoffReceipt (D-150)
       certificate.rs Non-scalar revocable ProductionEvidenceCertificate with typed lifecycle states (D-150)
+      evidence_profile.rs Scenario-centric PolicyEvidenceProfile, DataRole, G0–G9 gates, passport-scoped synthetic defeater authority, statistical-triple audit (D-152)
     world/          V8.5 Market World Foundry synthetic market plane (D-147, D-149, D-151, #[cfg(test)])
       mod.rs        world module boundary &amp; re-exports
       spec.rs       WorldSpec, WorldFamily &amp; WorldReceipt
@@ -9866,6 +9867,7 @@ historical design record and this table is the correction layer.</p>
 </tr>
 </tbody>
 </table>
+<p>| D-152 | <strong>Senaryo-Merkezli Politika Delil Profili ve Quad Tenzi̇li (G0–G9).</strong> Tek yörünge manşetini tipli delil topolojisiyle değiştirir (<code>assurance/</code> sahibi <code>PolicyEvidenceProfile</code>: kimlik, yanmış tanı, senaryo hücreleri, sağlamlık topolojisi, dondurulmuş-OOS, gölge, canlı, sertifika, kapılar, skaler olmayan sonuç). 12-aylık quad'ı <code>BURNED_DIAGNOSTIC</code> tanı mahkemesine tenzil eder (tipli makbuz, tanı dili; silme yok, terfi sızıntısı yok). G0–G9 kapı semantiği, pasaport-kapsamlı sentetik yenilgi yetkisi ve istatistiksel üçlü denetimi kanunlaştırır (WRC + gerçek DSR + SPA yükü sürer; proksi defter G5'i <code>NO_ECONOMIC_CLAIM</code>'de tutar). | GEÇİCİ_KARAR | <code>docs/tr/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>v8-core/src/assurance/evidence_profile.rs</code>, <code>v8-core/tests/policy_evidence_profile_adversarial.rs</code>; Kurallar 12, 28–31, 44, 51–56; D-132, D-136, D-141, D-147, D-149, D-150, D-151. |</p>
 <p>Durum sözlüğü kasıtlıdır: <code>LOCKED_INVARIANT</code> geçerliliği sınırlar;
 <code>PROVISIONAL_DECISION</code> geri alınabilir; <code>REJECTED_OPTION</code> adı geçen taban
 çizgiden hariç tutulmuştur, sonsuza dek çürütülmüş değildir. Hiçbiri kârlılık
@@ -12727,6 +12729,9 @@ değişkenine, arama ailesine, simülatör seviyesine ve portföy kararına bağ
 Bundan daha geniş olan her şey bir V8 olgusu değil, bir deney önerisidir.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-09-06-d-152-scenario-centric-policy-evidence-profile-quad-demotion-g0g9">2026-09-06 — D-152 Scenario-Centric Policy Evidence Profile &amp; Quad Demotion (G0–G9)</h2>
+<p>Registered D-152 as PROVISIONAL_DECISION extending D-147/D-150/D-151 with no locked-invariant mutation. Replaced the single-trajectory headline with <code>assurance/evidence_profile.rs::PolicyEvidenceProfile</code> (typed historical diagnostic, scenario cells, robustness topology, frozen-OOS/shadow/live states, gates, non-scalar conclusion). Demoted the 12-month quad to <code>BURNED_DIAGNOSTIC</code> diagnostic court: typed <code>PortfolioReceipt</code> fields, diagnostic CLI rendering, pathology preserved, promotion leakage blocked by type. Codified passport-scoped synthetic defeater authority and the statistical-triple audit (WRC + genuine DSR + SPA remain the burden; proxy ledger keeps G5 at <code>NO_ECONOMIC_CLAIM</code>). Added 14-test adversarial suite <code>policy_evidence_profile_adversarial.rs</code>.</p>
+<p>Artifacts changed: <code>docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>docs/tr/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>v8-core/src/assurance/evidence_profile.rs</code>, <code>v8-core/src/assurance/mod.rs</code>, <code>v8-core/src/usdm_sim.rs</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/tests/policy_evidence_profile_adversarial.rs</code>, <code>docs/CHANGELOG.md</code>.</p>
 <h2 id="2026-08-27-d-150-continuous-epistemic-succession-living-policy-constitution-ratification-full-implementation-d-150-spec-001-rules-5156">2026-08-27 — D-150 Continuous Epistemic Succession &amp; Living Policy Constitution Ratification &amp; Full Implementation (<code>D-150-SPEC-001</code>, Rules 51–56)</h2>
 <p>Ratified and fully implemented D-150 Continuous Epistemic Succession &amp; Living Policy Constitution, codifying the core temporal evidence law $\text{PolicyIdentity} \neq \text{EvidenceState}$ and resolving the lifecycle and evidence state machine for living policies:
 - <strong>Full-Text Canonical Specifications:</strong> Committed complete unabridged specifications in English (<code>docs/contracts/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md</code>, all 33 sections) and Turkish (<code>docs/tr/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md</code>), and integrated the HTML research paper into <code>docs/contracts/</code> and <code>site/</code>.

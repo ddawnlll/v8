@@ -1633,7 +1633,8 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         let mut total_net = 0.0;
 
         println!("==============================================================================================================");
-        println!(">>> OFFICIAL CANONICAL QUAD BENCHMARK (v8-core usdm-sim --quad) <<<");
+        println!(">>> HISTORICAL DIAGNOSTIC COURT -- QUAD TAPE (v8-core usdm-sim --quad) <<<");
+        println!("Data role: BURNED_DIAGNOSTIC | Economic promotion authority: NONE | Verdict: NO_ECONOMIC_CLAIM");
         println!("{:<10} {:<8} {:<9} {:<12} {:<12} {:<14} {:<10} {:<12}", "Asset", "Trades", "WinRate", "Gross ($)", "Fees ($)", "Net PnL ($)", "Return %", "Profit Factor");
         println!("--------------------------------------------------------------------------------------------------------------");
 
@@ -1658,7 +1659,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
             }
         }
         println!("==============================================================================================================");
-        println!("{:<35} {:<8} {:<9} {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}%", "TOTAL REALIZED RUST CASHFLOW", total_trades, "---", total_gross, total_fees, total_net, total_net / params.initial_balance * 100.0);
+        println!("{:<35} {:<8} {:<9} {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}%", "TOTAL SIMULATED DIAGNOSTIC CASHFLOW (BURNED_DIAGNOSTIC, NO PROMOTION AUTHORITY)", total_trades, "---", total_gross, total_fees, total_net, total_net / params.initial_balance * 100.0);
         println!("==============================================================================================================");
         0
     } else {
