@@ -42,6 +42,7 @@ pub struct BenchmarkReceipt {
     pub coverage_factor: f64,
     pub observations: Vec<MetricObservation>,
     pub nearest_defeater: Option<MinimalDefeaterSummary>,
+    pub minerva_robustness: Option<crate::benchmark::minerva::MinervaRobustness>,
     pub projection_grade: ProjectionGrade,
     pub evaluation_duration_sec: f64,
     pub evaluated_at_timestamp_ns: u64,
@@ -64,12 +65,14 @@ impl BenchmarkReceipt {
             1.0,
             Vec::new(),
             None,
+            None,
             ProjectionGrade::GradeU,
             duration_sec,
             timestamp_ns,
         )
     }
 
+    #[allow(clippy::too_many_arguments)]
     pub fn generate_with_context(
         case: &BenchmarkCase,
         domain_results: HashMap<CapabilityDomain, DomainEvaluationResult>,
@@ -78,6 +81,7 @@ impl BenchmarkReceipt {
         coverage_factor: f64,
         observations: Vec<MetricObservation>,
         nearest_defeater: Option<MinimalDefeaterSummary>,
+        minerva_robustness: Option<crate::benchmark::minerva::MinervaRobustness>,
         projection_grade: ProjectionGrade,
         duration_sec: f64,
         timestamp_ns: u64,
@@ -115,6 +119,11 @@ impl BenchmarkReceipt {
             hasher.update(&def.plausibility_distance.to_le_bytes());
         }
 
+        if let Some(ref minerva) = minerva_robustness {
+            hasher.update(&minerva.effective_score.to_le_bytes());
+            hasher.update(&[minerva.seal_granted as u8]);
+        }
+
         let receipt_digest = format!("{:x}", hasher.finalize());
 
         Self {
@@ -127,6 +136,7 @@ impl BenchmarkReceipt {
             coverage_factor,
             observations,
             nearest_defeater,
+            minerva_robustness,
             projection_grade,
             evaluation_duration_sec: duration_sec,
             evaluated_at_timestamp_ns: timestamp_ns,

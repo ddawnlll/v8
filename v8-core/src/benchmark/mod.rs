@@ -1,7 +1,8 @@
 //! V8.5 D-153 Benchmark Fabric Module.
 //!
 //! Provides canonical benchmark evaluation ontology, scoring, execution,
-//! qualification gating, external parity adapters, and diagnostic outcome projection.
+//! qualification gating, external parity adapters, MinervaScore robustness engine,
+//! and diagnostic outcome projection.
 
 pub mod types;
 pub mod case;
@@ -14,6 +15,8 @@ pub mod external;
 pub mod projection;
 pub mod kaizen_feed;
 pub mod observation;
+pub mod minerva;
+pub mod certificate;
 pub mod runner;
 pub mod report;
 
@@ -28,5 +31,7 @@ pub use external::*;
 pub use projection::*;
 pub use kaizen_feed::*;
 pub use observation::*;
+pub use minerva::*;
+pub use certificate::*;
 pub use runner::*;
 pub use report::*;

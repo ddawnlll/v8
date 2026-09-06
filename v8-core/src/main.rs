@@ -2270,7 +2270,7 @@ Subcommands:
             println!("{}", serde_json::to_string_pretty(&case).unwrap());
             0
         }
-        "run" | "eval" => {
+        "run" | "eval" | "certificate" => {
             let policy_id = if args.len() > 1 && !args[1].starts_with("--") {
                 &args[1]
             } else if args.len() > 2 && args[1] == "--case" {
@@ -2308,7 +2308,20 @@ Subcommands:
                         .unwrap_or_else(|_| v8_core::benchmark::ledger::BenchmarkLedger::new());
                     let _ = ledger.append_and_persist(ledger_path, receipt.clone());
 
-                    println!("{}", serde_json::to_string_pretty(&receipt).unwrap());
+                    let sample_returns_bps = [
+                        -45.0, 80.0, 120.0, -20.0, 65.0, 110.0, -35.0, 95.0, 40.0, 150.0,
+                        -60.0, 75.0, 130.0, -15.0, 85.0, 105.0, -25.0, 90.0, 55.0, 140.0,
+                        -50.0, 70.0, 125.0, -30.0, 80.0, 115.0, -40.0, 100.0, 60.0, 160.0,
+                    ];
+                    let proj = v8_core::benchmark::projection::CapitalOutcomeProjection::project_from_returns(
+                        &receipt,
+                        &sample_returns_bps,
+                        1000.0,
+                        false,
+                    ).ok();
+
+                    let cert = v8_core::benchmark::certificate::PolicyCertificate::generate(&receipt, proj.as_ref());
+                    println!("{}", cert.render_ascii());
                     0
                 }
                 Err(e) => {
