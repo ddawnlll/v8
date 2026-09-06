@@ -23,19 +23,31 @@ def main() -> int:
         print("Error: receipt file not found", file=sys.stderr)
         return 1
 
-    with open(inc_p) as f:
-        inc = json.load(f)
-    with open(cha_p) as f:
-        cha = json.load(f)
+    def load_receipt(path: Path) -> dict:
+        content = path.read_text()
+        start = content.find('{')
+        if start != -1:
+            return json.loads(content[start:])
+        return json.loads(content)
 
-    score_delta = cha.get("composite_score", 0.0) - inc.get("composite_score", 0.0)
+    inc = load_receipt(inc_p)
+    cha = load_receipt(cha_p)
+
+    inc_score = inc.get("composite_capability_score", inc.get("composite_score", 0.0))
+    cha_score = cha.get("composite_capability_score", cha.get("composite_score", 0.0))
+    score_delta = cha_score - inc_score
+
     print(f"=== BENCHMARK RECEIPT COMPARISON ===")
-    print(f"Incumbent:  {inc.get('policy_id')} (Score: {inc.get('composite_score', 0.0):.2f})")
-    print(f"Challenger: {cha.get('policy_id')} (Score: {cha.get('composite_score', 0.0):.2f})")
+    print(f"Incumbent:  {inc.get('policy_id')} (Score: {inc_score:.2f})")
+    print(f"Challenger: {cha.get('policy_id')} (Score: {cha_score:.2f})")
     print(f"Score Delta: {score_delta:+.2f}")
     
-    gates_ok = cha.get("gate_vector", {}).get("all_pass", False) if isinstance(cha.get("gate_vector"), dict) else True
-    print(f"Challenger Hard Gates: {'PASS' if gates_ok else 'FAIL'}")
+    gate_vec = cha.get("gate_vector", {})
+    if isinstance(gate_vec, dict):
+        has_hard_fail = any(v in ("Blocked", "BLOCKED", "Defeated", "DEFEATED") for v in gate_vec.values())
+    else:
+        has_hard_fail = False
+    print(f"Challenger Hard Gates: {'FAIL' if has_hard_fail else 'PASS'}")
     return 0
 
 if __name__ == "__main__":
