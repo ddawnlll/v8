@@ -178,6 +178,15 @@
     Continuous monitoring of prospective and deployed policies requires time-valid e-processes or confidence sequences for inferential claims. Repeated fixed-horizon p-values or significance tests are diagnostic-only and carry zero statutory inferential authority.
 56. **Lineage-Relative Holdout Burn & World Coverage Anchor (D-150):**
     Holdout data used for qualification or diagnostic triage transitions irreversibly to `BURNED_DIAGNOSTIC` relative to that policy lineage and can never satisfy untouched out-of-sample claims. Robustness claims require explicit cryptographic binding to a `WorldCoverageManifest`.
+57. **Benchmark Fabric Epistemic Integrity & Non-Collapse (D-153):**
+    - *(a) Benchmark ≠ Assurance:* The Benchmark Fabric is a diagnostic and comparative instrument; it computes capability metrics and relative margins but possesses zero constitutional authority to mint `SUPPORTED_EDGE` or grant deployment readiness.
+    - *(b) CapabilityScore ≠ Readiness:* CapabilityScore measures multi-dimensional capability across governed populations and cannot override any hard verification gate.
+    - *(c) CapabilityScore ≠ Future-Profit Probability:* CapabilityScore is not a probability distribution over future returns. Converting a benchmark score directly into a capital allocation multiplier without an audited `CapitalOutcomeProjection` is constitutionally prohibited.
+    - *(d) Non-Compensable Hard Gates:* Every gate in `GateVector` (G0–G9, B0–B9) is non-compensable; failure in any required gate results in overall benchmark failure regardless of scalar domain scores.
+    - *(e) Synthetic Asymmetry:* Valid synthetic failure may challenge and falsify robustness/stability claims within certified passport scope (`synthetic_fail_may_challenge`); synthetic success confers zero economic edge and cannot prove profitability (`synthetic_pass_confirms_no_edge`).
+    - *(f) External Instrument Boundaries:* External evaluators are instruments behind versioned adapters with explicit semantic mappings, never sovereign authority roots.
+    - *(g) Pristine Data Protection:* Consumed holdout evidence cannot be unburned by renaming or wrapping in benchmark cases; burned diagnostic evaluations must be tagged `BURNED_DIAGNOSTIC` with zero promotion weight.
+    - *(h) Research Trial Debt Accounting:* Benchmark evaluations consume research trial budget; every evaluation across parameter sweeps or challenger iterations increments Kaizen trial debt and inflates the family-wise hurdle rate.
 
 ## Minimum Coherent Architecture (Authority DAG)
 

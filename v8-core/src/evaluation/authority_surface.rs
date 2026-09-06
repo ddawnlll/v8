@@ -15,6 +15,7 @@ use crate::oracle::taxonomy::{
     AuditState, AuthorityError, CounterfactualAuthority, EconomicEvidenceStage,
     StatisticalVerdict, UnknownReasonCode, VerificationDimension,
 };
+use crate::parquet_artifact::write_json_rows;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AuthoritySurfaceRecord {
@@ -115,10 +116,15 @@ pub fn save_authority_surface(
 ) -> io::Result<()> {
     fs::create_dir_all(out_dir)?;
 
-    // 1. authority_surface.parquet (JSON-table representation for v8.eval.v1)
-    let surface_json = serde_json::to_string_pretty(records)
+    // 1. authority_surface.parquet
+    let surface_value = serde_json::to_value(records)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-    fs::write(out_dir.join("authority_surface.parquet"), surface_json)?;
+    write_json_rows(
+        &out_dir.join("authority_surface.parquet"),
+        "authority_surface",
+        &surface_value,
+        None,
+    )?;
 
     // 2. unknown_reasons.json
     let unknown_json = serde_json::to_string_pretty(unknown_report)

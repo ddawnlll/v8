@@ -19,6 +19,7 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use crate::hash::Canon;
+use crate::parquet_artifact::write_json_rows;
 use crate::quant::{FundingRegime, MarketRegimeTag, TrendRegime, VolRegime, VolumeRegime};
 
 /// Single cell in the joint 4D regime cube.
@@ -286,17 +287,27 @@ pub fn save_joint_regime_artifacts(
 ) -> io::Result<()> {
     fs::create_dir_all(out_dir)?;
 
-    let cells_json = serde_json::to_string_pretty(&report.cells)
+    let cells_value = serde_json::to_value(&report.cells)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-    fs::write(out_dir.join("expert_joint_regime.parquet"), cells_json)?;
+    write_json_rows(
+        &out_dir.join("expert_joint_regime.parquet"),
+        "expert_joint_regime",
+        &cells_value,
+        None,
+    )?;
 
     let int_json = serde_json::to_string_pretty(&report.interactions)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
     fs::write(out_dir.join("regime_interactions.json"), int_json)?;
 
-    let fc_json = serde_json::to_string_pretty(&report.funding_clock)
+    let fc_value = serde_json::to_value(&report.funding_clock)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-    fs::write(out_dir.join("funding_clock.parquet"), fc_json)?;
+    write_json_rows(
+        &out_dir.join("funding_clock.parquet"),
+        "funding_clock",
+        &fc_value,
+        None,
+    )?;
 
     let mut drift_lines = String::new();
     for d in drift {

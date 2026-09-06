@@ -2,6 +2,55 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — D-158 Multi-Core Parallelism in Bootstrap Resampling, Reality Check, and Monte Carlo Projections (Issue #336)
+
+Ratified and implemented D-158 under Issue #336 (`PERF011`):
+- **Rayon Parallelism for Monte Carlo Futures:** Parallelized `CapitalOutcomeProjection::simulate_monte_carlo_futures` in `v8-core/src/benchmark/projection.rs` using `rayon::prelude::*` over 10,000 future paths with deterministic per-simulation PRNG seeds (`seed ^ (sim_idx * 0x9e3779b97f4a7c15)`).
+- **Parallel Reality Check & Bootstrap Means:** Added parallelized execution pathways in `v8-core/src/statistics/reality_check.rs` (`reality_check_p_value_parallel` and `block_bootstrap_means_parallel`) enabling multi-core stationary block bootstrap processing with strict bit-level determinism.
+- **Parallel Parameter Sweeps and World Resampling:** Parallelized `ReverseStressSearchEngine::find_minimal_failure_trajectory` over parameter grids in `v8-core/src/world/reverse_stress.rs` and added `StationaryBootstrapGenerator::generate_batch` in `v8-core/src/world/stationary_bootstrap.rs`.
+- **Preserved Determinism and Parity:** Maintained bit-exact determinism across core counts, scheduling orders, and thread pool topologies. Derived `Clone` and `Debug` on `MT19937` to support thread-safe per-worker state construction.
+
+Artifacts changed: `v8-core/Cargo.toml`, `v8-core/src/benchmark/projection.rs`, `v8-core/src/statistics/reality_check.rs`, `v8-core/src/world/reverse_stress.rs`, `v8-core/src/world/stationary_bootstrap.rs`, `v8-core/src/mt19937.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
+## 2026-09-06 — D-155 Integration Test Harness Consolidation & Linker Contention Elimination (Issue #333)
+
+Ratified and implemented D-155 under Issue #333 (`PERF008`):
+- **Consolidated Integration Test Runner:** Unified 14+ independent integration test targets under `v8-core/tests/` into a single consolidated test runner binary `v8-core/tests/integration_tests.rs`, organizing individual suites as submodules under `v8-core/tests/suites/`.
+- **Elimination of Mach-O Linker Storm:** Eliminates 14+ separate linking operations on macOS, avoiding single-threaded linker lock contention on Apple `ld64`.
+- **Preserved Test Invariants:** Maintained complete test semantics, module isolation, and bit-level determinism across all existing test targets.
+
+Artifacts changed: `v8-core/tests/integration_tests.rs`, `v8-core/tests/suites/*`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/issues/ISSUE_PERF008_CONSOLIDATED_TEST_HARNESS_AND_LINKER_OPTIMIZATION.md`, `docs/CHANGELOG.md`.
+
+## 2026-09-06 — D-154 Cargo Profile Split, Fast Workspace Compilation & Isolated Dependency Optimization (Issue #332)
+
+Ratified and implemented D-154 under Issue #332 (`PERF007`):
+- **Cargo Profile Split:** Configured `v8-core/Cargo.toml` to split development and test compilation profiles. Local workspace code compiles with `[profile.dev] opt-level = 0` and `[profile.test] opt-level = 1` with `incremental = true`, eliminating full LLVM optimization passes during routine dev iterations.
+- **Dependency Optimization Isolation:** Heavy external crates (`arrow`, `parquet`, `redb`, `serde`, `rand`) are isolated under `[profile.dev.package."*"] opt-level = 2` and `[profile.test.package."*"] opt-level = 2` to preserve high runtime throughput for external mathematical and storage operations.
+- **Parity Preservation:** Maintained strict `--fp-contract=off` in `.cargo/config.toml` to guarantee bit-exact numerical parity with historical oracle references.
+
+Artifacts changed: `v8-core/Cargo.toml`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/issues/ISSUE_PERF007_CARGO_PROFILE_SPLIT_AND_TEST_COMPILATION_OPTIMIZATION.md`, `docs/CHANGELOG.md`.
+
+## 2026-09-06 — D-153 Benchmark Fabric (BF) Protocol & Multi-Population Evaluation (Rules 57.1–57.8)
+
+Ratified and fully completed the implementation of D-153 Benchmark Fabric against `site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html` and `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md`:
+- **Ontology & Epistemic Separation:** Implemented strict non-collapse invariants (Rule 57): Benchmark != Assurance, CapabilityScore != Readiness, CapabilityScore != Future-Profit Probability. Explicitly separated Question 1 ("Is this a high-integrity quant research system?" -> 0-100 CapabilityScore) from Question 2 ("How much capital if $1,000 invested?" -> Empirical Monte Carlo capital projection).
+- **MinervaScore Robustness Engine (arXiv:2608.23808):** Implemented `v8-core/src/benchmark/minerva.rs` evaluating DSR, PBO, SPA, MinTRL, and Regime Stability signed margins with non-compensable binary robustness seal gating (scores >= 80 and seals strictly require passing all 5 gates; failure caps score < 80). Integrated PRUDEX-Compass (TMLR 2023) 6-axis profile mapping.
+- **10,000 Monte Carlo / Bootstrap Simulated Futures:** Implemented empirical future paths starting from $1,000 initial capital (`v8-core/src/benchmark/projection.rs`) yielding exact P5, P25, P50 (median), P75, P95, worst/best scenario returns, and Risk of Ruin % (drawdown >= 30%) with explicit liquidity capacity and counterfactual notices.
+- **Unified V8 Evidence Dashboard & Policy Certificate:** Implemented `PolicyCertificate` (`v8-core/src/benchmark/certificate.rs`) calculating the multiplicative Readiness Index: $\text{Readiness Index} = \text{Research Capability} \times \text{Evidence Multiplier} \times \text{Robustness} \times \text{Economic Score}$. Rendered in both terminal ASCII box and 3-panel HTML scorecard (`site/benchmark_scorecard.html`), strictly enforcing `STATUS: Research Candidate NOT Production Approved`.
+- **Metric Observations & 10-Domain Architecture:** Implemented `MetricObservation` (`v8-core/src/benchmark/observation.rs`), 10 capability domains with Monograph V1 provisional weights, and penalized harmonic mean scoring with coverage multiplier.
+- **Real Execution Runner:** Implemented `BenchmarkRunner` (`v8-core/src/benchmark/runner.rs`) orchestrating chronological walk-forward, CPCV, real burned diagnostic quad evaluation (treated strictly as one historical cell), Foundry passport qualification, and reverse-stress nearest-defeater search.
+- **External Parity Adapters:** Implemented real series parity evaluation and disagreement detection (`v8-core/src/benchmark/external.rs`) for QuantConnect LEAN, skfolio, and VectorBT with zero hardcoded metrics.
+- **Append-Only Disk Ledger:** Implemented cryptographic hash-chain ledger with disk persistence (`.audit/benchmark/ledger.jsonl`).
+- **Constitutional Sabotage & Integration Suites:** 24/24 BFS sabotage tests (`v8-core/tests/d153_benchmark_fabric_sabotage.rs`) and dedicated Minerva/Dashboard integration tests (`v8-core/tests/d153_minerva_and_dashboard_test.rs`) passing with 100% verification.
+
+Artifacts changed: `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md`, `site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html`, `site/benchmark_scorecard.html`, `docs/decisions/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `v8-core/src/benchmark/*`, `v8-core/src/main.rs`, `v8-core/tests/d153_benchmark_fabric_sabotage.rs`, `v8-core/tests/d153_minerva_and_dashboard_test.rs`, `docs/CHANGELOG.md`.
+
+## 2026-09-06 — D-152 Scenario-Centric Policy Evidence Profile & Quad Demotion (G0–G9)
+
+Registered D-152 as PROVISIONAL_DECISION extending D-147/D-150/D-151 with no locked-invariant mutation. Replaced the single-trajectory headline with `assurance/evidence_profile.rs::PolicyEvidenceProfile` (typed historical diagnostic, scenario cells, robustness topology, frozen-OOS/shadow/live states, gates, non-scalar conclusion). Demoted the 12-month quad to `BURNED_DIAGNOSTIC` diagnostic court: typed `PortfolioReceipt` fields, diagnostic CLI rendering, pathology preserved, promotion leakage blocked by type. Codified passport-scoped synthetic defeater authority and the statistical-triple audit (WRC + genuine DSR + SPA remain the burden; proxy ledger keeps G5 at `NO_ECONOMIC_CLAIM`). Added 14-test adversarial suite `policy_evidence_profile_adversarial.rs`.
+
+Artifacts changed: `docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md`, `docs/tr/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `v8-core/src/assurance/evidence_profile.rs`, `v8-core/src/assurance/mod.rs`, `v8-core/src/usdm_sim.rs`, `v8-core/src/main.rs`, `v8-core/tests/policy_evidence_profile_adversarial.rs`, `docs/CHANGELOG.md`.
+
 ## 2026-08-27 — D-150 Continuous Epistemic Succession & Living Policy Constitution Ratification & Full Implementation (`D-150-SPEC-001`, Rules 51–56)
 
 Ratified and fully implemented D-150 Continuous Epistemic Succession & Living Policy Constitution, codifying the core temporal evidence law $\text{PolicyIdentity} \neq \text{EvidenceState}$ and resolving the lifecycle and evidence state machine for living policies:

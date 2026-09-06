@@ -15,6 +15,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::hash::Canon;
 use crate::mt19937::MT19937;
+use crate::parquet_artifact::write_json_rows;
 
 /// Capital tier empirical ruin probability estimate.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -33,10 +34,10 @@ pub struct TierRuinEstimate {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct SlippageAtRiskReport {
     pub report_id: String,
-    pub baseline_slippage_bps: f64,
-    pub sar_95_pct_bps: f64,
-    pub sar_99_pct_bps: f64,
-    pub liquidation_cascade_slippage_bps: f64,
+    pub baseline_slippage_bps: Option<f64>,
+    pub sar_95_pct_bps: Option<f64>,
+    pub sar_99_pct_bps: Option<f64>,
+    pub liquidation_cascade_slippage_bps: Option<f64>,
     pub epistemic_authority: String,
     pub status: String,
     pub claim: String,
@@ -59,31 +60,72 @@ pub fn run_scenario_ruin_simulation(
     replications: usize,
     seed: u64,
 ) -> (ScenarioRuinReport, SlippageAtRiskReport) {
+    let mut canon = Canon::new();
+    canon.push_u64(seed);
+    canon.push_u64(replications as u64);
+    let report_id = format!("scen-ruin-{}", &canon.finish_sha1_hex()[..12]);
+
+    // A missing trade population or an invalid replication count is an explicit
+    // data block. It must never be expanded with fabricated observations.
+    if trade_net_rs.is_empty() || replications == 0 || trade_net_rs.iter().any(|r| !r.is_finite()) {
+        return (
+            ScenarioRuinReport {
+                report_id: report_id.clone(),
+                total_replications_per_tier: replications,
+                tier_estimates: Vec::new(),
+                stochastic_monotonicity_verified: false,
+                status: "DATA_BLOCKED_MISSING_OR_INVALID_TRADE_INPUT".to_string(),
+                claim: "NO_ECONOMIC_CLAIM".to_string(),
+            },
+            SlippageAtRiskReport {
+                report_id: format!("sar-{}", &report_id[..10]),
+                baseline_slippage_bps: None,
+                sar_95_pct_bps: None,
+                sar_99_pct_bps: None,
+                liquidation_cascade_slippage_bps: None,
+                epistemic_authority: "UNRESOLVED".to_string(),
+                status: "UNRESOLVED_MISSING_LIQUIDITY_INPUT".to_string(),
+                claim: "NO_ECONOMIC_CLAIM".to_string(),
+            },
+        );
+    }
+
     let mut rng = MT19937::new(seed);
     let tiers = [100.0, 250.0, 500.0, 1000.0, 2500.0, 5000.0, 10000.0];
     let mut estimates = Vec::with_capacity(tiers.len());
 
-    let n_trades = trade_net_rs.len().max(50);
-    let mut prev_ruin_prob = 1.1;
+    let n_trades = trade_net_rs.len();
+    let mut prev_ruin_prob: Option<f64> = None;
     let mut monotonic = true;
 
     for &e0 in &tiers {
         let mut ruin_count = 0;
         let mut time_to_ruin_sum = 0.0;
         let mut term_equities = Vec::with_capacity(replications);
+        let mut path_drawdowns = Vec::with_capacity(replications);
 
         for _ in 0..replications {
             let mut equity = e0;
+            let mut peak_equity = equity;
+            let mut max_drawdown_pct: f64 = 0.0;
             let mut ruined = false;
             let mut ruin_step = None;
 
             for step in 0..n_trades {
                 // Random draw with replacement
-                let idx = (rng.random() * n_trades as f64) as usize % n_trades;
-                let r = if !trade_net_rs.is_empty() { trade_net_rs[idx % trade_net_rs.len()] } else { -0.2 };
-                
-                let pnl = equity * 0.005 * r;
+                let idx = rng.randbelow(trade_net_rs.len() as u64) as usize;
+                let r = trade_net_rs[idx];
+
+                // The input is a realized fractional net return. No risk or
+                // slippage assumption is introduced by the simulator.
+                let pnl = equity * r;
                 equity += pnl;
+                peak_equity = peak_equity.max(equity);
+                if peak_equity > 0.0 {
+                    max_drawdown_pct = max_drawdown_pct.max(
+                        ((peak_equity - equity) / peak_equity) * 100.0,
+                    );
+                }
 
                 // Ruin condition: collateral lockout / rounds to zero
                 if equity < 15.0 {
@@ -100,18 +142,27 @@ pub fn run_scenario_ruin_simulation(
             } else {
                 term_equities.push(equity);
             }
+            path_drawdowns.push(max_drawdown_pct);
         }
 
         let p_ruin = ruin_count as f64 / replications as f64;
-        if p_ruin > prev_ruin_prob + 0.02 {
+        if let Some(previous) = prev_ruin_prob {
+            if p_ruin > previous {
+                monotonic = false;
+            }
+        }
+        prev_ruin_prob = Some(p_ruin);
+
+        if term_equities.is_empty() || path_drawdowns.is_empty() {
             monotonic = false;
         }
-        prev_ruin_prob = p_ruin;
 
         term_equities.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
         let med = term_equities[replications / 2];
         let min_e = term_equities.first().cloned().unwrap_or(0.0);
         let max_e = term_equities.last().cloned().unwrap_or(0.0);
+        path_drawdowns.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+        let p95_drawdown = path_drawdowns[((path_drawdowns.len() - 1) * 95) / 100];
 
         let exp_time = if ruin_count > 0 {
             Some(time_to_ruin_sum / ruin_count as f64)
@@ -127,14 +178,9 @@ pub fn run_scenario_ruin_simulation(
             min_terminal_equity_usdt: min_e,
             median_terminal_equity_usdt: med,
             max_terminal_equity_usdt: max_e,
-            p95_max_drawdown_pct: if p_ruin > 0.5 { 100.0 } else { 45.0 },
+            p95_max_drawdown_pct: p95_drawdown,
         });
     }
-
-    let mut canon = Canon::new();
-    canon.push_u64(seed);
-    canon.push_u64(replications as u64);
-    let report_id = format!("scen-ruin-{}", &canon.finish_sha1_hex()[..12]);
 
     let ruin_rep = ScenarioRuinReport {
         report_id: report_id.clone(),
@@ -147,12 +193,12 @@ pub fn run_scenario_ruin_simulation(
 
     let sar_rep = SlippageAtRiskReport {
         report_id: format!("sar-{}", &report_id[..10]),
-        baseline_slippage_bps: 1.8,
-        sar_95_pct_bps: 6.5,
-        sar_99_pct_bps: 14.2,
-        liquidation_cascade_slippage_bps: 35.0,
-        epistemic_authority: "MODEL_DERIVED".to_string(),
-        status: "SLIPPAGE_AT_RISK_STRESS_CERTIFIED".to_string(),
+        baseline_slippage_bps: None,
+        sar_95_pct_bps: None,
+        sar_99_pct_bps: None,
+        liquidation_cascade_slippage_bps: None,
+        epistemic_authority: "UNRESOLVED".to_string(),
+        status: "UNRESOLVED_MISSING_LIQUIDITY_INPUT".to_string(),
         claim: "NO_ECONOMIC_CLAIM".to_string(),
     };
 
@@ -161,8 +207,9 @@ pub fn run_scenario_ruin_simulation(
 
 /// Builds baseline scenario ruin and SaR report.
 pub fn build_baseline_scenario_ruin() -> (ScenarioRuinReport, SlippageAtRiskReport) {
-    let dummy_rs = [-1.0, 1.5, -0.8, -1.2, 2.0, -0.5, 0.4, -1.0, -0.9, 1.8];
-    run_scenario_ruin_simulation(&dummy_rs, 200, 42)
+    // There is no production baseline trade tape. Return the canonical
+    // explicit absence rather than manufacturing one.
+    run_scenario_ruin_simulation(&[], 0, 0)
 }
 
 /// Saves scenario ruin artifacts to disk.
@@ -173,9 +220,27 @@ pub fn save_scenario_ruin_artifacts(
 ) -> io::Result<()> {
     fs::create_dir_all(out_dir)?;
 
-    let ruin_json = serde_json::to_string_pretty(&ruin.tier_estimates)
-        .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-    fs::write(out_dir.join("scenario_ruin_distribution.parquet"), ruin_json)?;
+    if ruin.tier_estimates.is_empty() {
+        let status = serde_json::json!({
+            "status": ruin.status,
+            "claim": ruin.claim,
+            "reason": "No physical trade population was supplied; scenario artifact is not applicable."
+        });
+        fs::write(
+            out_dir.join("scenario_ruin_status.json"),
+            serde_json::to_string_pretty(&status)
+                .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?,
+        )?;
+    } else {
+        let ruin_value = serde_json::to_value(&ruin.tier_estimates)
+            .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+        write_json_rows(
+            &out_dir.join("scenario_ruin_distribution.parquet"),
+            "scenario_ruin_distribution",
+            &ruin_value,
+            Some(&serde_json::to_value(ruin).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?),
+        )?;
+    }
 
     let meta_json = serde_json::to_string_pretty(ruin)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
@@ -195,10 +260,20 @@ mod tests {
     #[test]
     fn test_scenario_ruin_simulation_properties_and_bounds() {
         let (ruin, sar) = build_baseline_scenario_ruin();
-        assert_eq!(ruin.tier_estimates.len(), 7);
-        assert!(ruin.stochastic_monotonicity_verified);
+        assert!(ruin.tier_estimates.is_empty());
+        assert_eq!(ruin.status, "DATA_BLOCKED_MISSING_OR_INVALID_TRADE_INPUT");
         assert_eq!(ruin.claim, "NO_ECONOMIC_CLAIM");
         assert_eq!(sar.claim, "NO_ECONOMIC_CLAIM");
-        assert_eq!(sar.epistemic_authority, "MODEL_DERIVED");
+        assert_eq!(sar.epistemic_authority, "UNRESOLVED");
+    }
+
+    #[test]
+    fn valid_simulation_uses_only_supplied_returns_and_unbiased_indices() {
+        let returns = [0.01, -0.02, 0.015, -0.005, 0.003];
+        let (ruin, sar) = run_scenario_ruin_simulation(&returns, 8, 42);
+        assert_eq!(ruin.tier_estimates.len(), 7);
+        assert!(ruin.tier_estimates.iter().all(|tier| tier.num_simulations == 8));
+        assert!(ruin.tier_estimates.iter().all(|tier| tier.p95_max_drawdown_pct >= 0.0));
+        assert!(sar.sar_95_pct_bps.is_none());
     }
 }
