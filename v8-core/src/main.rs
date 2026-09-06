@@ -47,6 +47,7 @@ mod hash;
 mod jsonx;
 mod mt19937;
 mod oracle;
+mod parquet_artifact;
 mod path_security;
 mod portfolio;
 pub mod judiciary;
@@ -2201,303 +2202,76 @@ fn cmd_full_audit(args: &[String]) -> i32 {
 }
 
 fn cmd_benchmark(args: &[String]) -> i32 {
-    let usage = "usage: v8-core benchmark <subcommand> [options]
-
-Subcommands:
-  audit            run canonical D-153 benchmark fabric validation & self-audit
-  case create      create sealed BenchmarkCase specification
-  run              run end-to-end benchmark evaluation suite on a policy
-  qualify          evaluate generator passport qualification gate
-  external         run commodity execution parity evaluation (LEAN, skfolio, vectorbt)
-  compare          compare incumbent vs challenger receipts with trial debt accounting
-  project          run capital outcome projection over $1,000 initial capital
-  report           render forensic HTML or JSON benchmark scorecard
-  ledger-verify    verify integrity and cryptographic hash chain of disk ledger
-";
-    if args.is_empty() {
+    let usage = "usage: v8-core benchmark <audit|ledger-verify|run --case PATH>";
+    let Some(command) = args.first().map(String::as_str) else {
         eprintln!("{usage}");
         return 2;
-    }
+    };
 
-    match args[0].as_str() {
+    match command {
         "audit" => {
-            println!("=== V8.5 D-153 BENCHMARK FABRIC AUDIT ===");
-            let suite = v8_core::benchmark::scoring::CapabilityScorer::monograph_v1();
-            println!("Domain weights: total 10 domains, sum = {:.2}", 
-                suite.domain_weights.values().sum::<f64>());
-            println!("Provisional Monograph Weights:");
-            for (d, w) in &suite.domain_weights {
-                println!("  {:32} => {:.1}%", d.as_str(), w * 100.0);
-            }
-            println!("Status: ALL 10 DOMAINS, HARD GATES G0-G9, RULE 57 FIREWALLS OPERATIONAL_E2E");
+            let scorer = v8_core::benchmark::scoring::CapabilityScorer::monograph_v1();
+            println!("Benchmark fabric configuration loaded: {} domains", scorer.domain_weights.len());
             0
         }
         "ledger-verify" => {
             let ledger_path = std::path::Path::new(".audit/benchmark/ledger.jsonl");
             match v8_core::benchmark::ledger::BenchmarkLedger::load_from_disk(ledger_path) {
                 Ok(ledger) => {
-                    println!("Benchmark ledger integrity verified successfully at {:?}", ledger_path);
-                    println!("Total entries verified: {}", ledger.entries.len());
+                    println!("Benchmark ledger integrity verified: {} entries", ledger.entries.len());
                     0
                 }
-                Err(e) => {
-                    eprintln!("Benchmark ledger verification failed: {e}");
+                Err(error) => {
+                    eprintln!("Benchmark ledger verification failed: {error}");
                     1
                 }
             }
         }
-        "case" => {
-            let policy_id = if args.len() > 2 { &args[2] } else { "policy_canonical_v8" };
-            let target = v8_core::benchmark::case::PolicyTarget {
-                policy_id: policy_id.to_string(),
-                commit_hash: "v8-canonical".to_string(),
-                binary_digest: "sha256:v8_reference_digest".to_string(),
-                family: "production_candidate".to_string(),
+        "run" => {
+            let Some(case_flag) = args.get(1).map(String::as_str) else {
+                eprintln!("{usage}");
+                return 2;
             };
-            let case = v8_core::benchmark::case::BenchmarkCase::new(
-                format!("case_{policy_id}"),
-                v8_core::benchmark::case::BenchmarkVersion::new_v8_5(),
-                target,
-                v8_core::benchmark::types::CapabilityDomain::ALL.to_vec(),
-                vec![
-                    v8_core::benchmark::types::EvaluationPopulation::BurnedDiagnosticReal,
-                    v8_core::benchmark::types::EvaluationPopulation::ChronologicalWalkForward,
-                    v8_core::benchmark::types::EvaluationPopulation::PurgedCombinatorialKFold,
-                    v8_core::benchmark::types::EvaluationPopulation::FoundrySyntheticNovelty,
-                ],
-                300,
-            );
-            println!("{}", serde_json::to_string_pretty(&case).unwrap());
-            0
-        }
-        "run" | "eval" | "certificate" => {
-            let policy_id = if args.len() > 1 && !args[1].starts_with("--") {
-                &args[1]
-            } else if args.len() > 2 && args[1] == "--case" {
-                &args[2]
-            } else {
-                "policy_canonical_v8"
+            if case_flag != "--case" {
+                eprintln!("{usage}");
+                return 2;
+            }
+            let Some(case_path) = args.get(2) else {
+                eprintln!("{usage}");
+                return 2;
             };
-
-            println!("Running D-153 benchmark evaluation for policy: {policy_id}");
-            let target = v8_core::benchmark::case::PolicyTarget {
-                policy_id: policy_id.to_string(),
-                commit_hash: "v8-canonical".to_string(),
-                binary_digest: "sha256:v8_reference_digest".to_string(),
-                family: "production_candidate".to_string(),
+            let case_text = match std::fs::read_to_string(case_path) {
+                Ok(text) => text,
+                Err(error) => {
+                    eprintln!("DATA_BLOCKED_UNREADABLE_BENCHMARK_CASE:{case_path}:{error}");
+                    return 1;
+                }
             };
-            let case = v8_core::benchmark::case::BenchmarkCase::new(
-                format!("case_{policy_id}"),
-                v8_core::benchmark::case::BenchmarkVersion::new_v8_5(),
-                target,
-                v8_core::benchmark::types::CapabilityDomain::ALL.to_vec(),
-                vec![
-                    v8_core::benchmark::types::EvaluationPopulation::BurnedDiagnosticReal,
-                    v8_core::benchmark::types::EvaluationPopulation::ChronologicalWalkForward,
-                    v8_core::benchmark::types::EvaluationPopulation::PurgedCombinatorialKFold,
-                ],
-                300,
-            );
-
-            let runner = v8_core::benchmark::runner::BenchmarkRunner::default();
-            match runner.run_benchmark(&case) {
+            let case: v8_core::benchmark::case::BenchmarkCase = match serde_json::from_str(&case_text) {
+                Ok(case) => case,
+                Err(error) => {
+                    eprintln!("BLOCKED_INVALID_BENCHMARK_CASE:{error}");
+                    return 1;
+                }
+            };
+            match v8_core::benchmark::runner::BenchmarkRunner::default().run_benchmark(&case) {
                 Ok(receipt) => {
-                    // Persist to disk ledger
-                    let ledger_path = std::path::Path::new(".audit/benchmark/ledger.jsonl");
-                    let mut ledger = v8_core::benchmark::ledger::BenchmarkLedger::load_from_disk(ledger_path)
-                        .unwrap_or_else(|_| v8_core::benchmark::ledger::BenchmarkLedger::new());
-                    let _ = ledger.append_and_persist(ledger_path, receipt.clone());
-
-                    let sample_returns_bps = [
-                        -45.0, 80.0, 120.0, -20.0, 65.0, 110.0, -35.0, 95.0, 40.0, 150.0,
-                        -60.0, 75.0, 130.0, -15.0, 85.0, 105.0, -25.0, 90.0, 55.0, 140.0,
-                        -50.0, 70.0, 125.0, -30.0, 80.0, 115.0, -40.0, 100.0, 60.0, 160.0,
-                    ];
-                    let proj = v8_core::benchmark::projection::CapitalOutcomeProjection::project_from_returns(
-                        &receipt,
-                        &sample_returns_bps,
-                        1000.0,
-                        false,
-                    ).ok();
-
-                    let cert = v8_core::benchmark::certificate::PolicyCertificate::generate(&receipt, proj.as_ref());
-                    println!("{}", cert.render_ascii());
+                    println!("{}", serde_json::to_string_pretty(&receipt).unwrap_or_default());
                     0
                 }
-                Err(e) => {
-                    eprintln!("Benchmark evaluation failed: {e}");
+                Err(error) => {
+                    eprintln!("Benchmark evaluation blocked: {error}");
                     1
                 }
             }
         }
-        "qualify" => {
-            let gen_id = if args.len() > 1 { &args[1] } else { "foundry_generator_v2" };
-            println!("Evaluating generator passport qualification for: {gen_id}");
-            let mut passport = v8_core::world::passport::GeneratorPassport::new_v2(
-                gen_id.to_string(),
-                0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95,
-            );
-            passport.passport_passed = true;
-            match v8_core::benchmark::synthetic::SyntheticEvaluationResult::evaluate_synthetic_finding(
-                &passport,
-                true,
-                None,
-            ) {
-                Ok(res) => {
-                    println!("{}", serde_json::to_string_pretty(&res).unwrap());
-                    0
-                }
-                Err(e) => {
-                    eprintln!("Qualification failed: {e}");
-                    1
-                }
-            }
-        }
-        "external" => {
-            let engine = if args.len() > 1 { args[1].as_str() } else { "lean" };
-            println!("Running external commodity execution parity adapter: {engine}");
-            let report = match engine {
-                "lean" => {
-                    use v8_core::benchmark::external::CommodityExecutionAdapter;
-                    v8_core::benchmark::external::LeanParityAdapter::default().evaluate_parity("pol_target")
-                }
-                "skfolio" => {
-                    use v8_core::benchmark::external::CommodityExecutionAdapter;
-                    v8_core::benchmark::external::SkfolioParityAdapter.evaluate_parity("pol_target")
-                }
-                "vectorbt" => {
-                    use v8_core::benchmark::external::CommodityExecutionAdapter;
-                    v8_core::benchmark::external::VectorBtParityAdapter.evaluate_parity("pol_target")
-                }
-                other => {
-                    eprintln!("unknown external engine: {other} (options: lean, skfolio, vectorbt)");
-                    return 2;
-                }
-            };
-            println!("{}", serde_json::to_string_pretty(&report).unwrap());
-            if report.parity_passed { 0 } else { 1 }
-        }
-        "compare" => {
-            let inc_id = if args.len() > 1 { &args[1] } else { "P151_incumbent" };
-            let chal_id = if args.len() > 2 { &args[2] } else { "P152_challenger" };
-            println!("Comparing incumbent {inc_id} vs challenger {chal_id}");
-
-            let case = v8_core::benchmark::case::BenchmarkCase::new(
-                "case_cmp".into(),
-                v8_core::benchmark::case::BenchmarkVersion::new_v8_5(),
-                v8_core::benchmark::case::PolicyTarget {
-                    policy_id: inc_id.to_string(),
-                    commit_hash: "h1".into(),
-                    binary_digest: "d1".into(),
-                    family: "f".into(),
-                },
-                v8_core::benchmark::types::CapabilityDomain::ALL.to_vec(),
-                vec![v8_core::benchmark::types::EvaluationPopulation::BurnedDiagnosticReal],
-                60,
-            );
-            let runner = v8_core::benchmark::runner::BenchmarkRunner::default();
-            let inc_rcpt = runner.run_benchmark(&case).unwrap();
-
-            let mut case_chal = case.clone();
-            case_chal.target.policy_id = chal_id.to_string();
-            let chal_rcpt = runner.run_benchmark(&case_chal).unwrap();
-
-            let delta = v8_core::benchmark::kaizen_feed::BenchmarkDelta::compute_delta(&inc_rcpt, &chal_rcpt, 3);
-            println!("{}", serde_json::to_string_pretty(&delta).unwrap());
-            0
-        }
-        "project" => {
-            let capital = if args.len() > 1 {
-                args[1].parse::<f64>().unwrap_or(1000.0)
-            } else {
-                1000.0
-            };
-            println!("Running empirical capital projection for initial capital: ${capital:.2}");
-            let target = v8_core::benchmark::case::PolicyTarget {
-                policy_id: "policy_canonical_v8".to_string(),
-                commit_hash: "v8-canonical".to_string(),
-                binary_digest: "sha256:v8_reference_digest".to_string(),
-                family: "production_candidate".to_string(),
-            };
-            let case = v8_core::benchmark::case::BenchmarkCase::new(
-                "case_projection".into(),
-                v8_core::benchmark::case::BenchmarkVersion::new_v8_5(),
-                target,
-                v8_core::benchmark::types::CapabilityDomain::ALL.to_vec(),
-                vec![v8_core::benchmark::types::EvaluationPopulation::BurnedDiagnosticReal],
-                60,
-            );
-            let runner = v8_core::benchmark::runner::BenchmarkRunner::default();
-            let receipt = runner.run_benchmark(&case).unwrap();
-
-            let sample_returns_bps = [
-                -45.0, 80.0, 120.0, -20.0, 65.0, 110.0, -35.0, 95.0, 40.0, 150.0,
-                -60.0, 75.0, 130.0, -15.0, 85.0, 105.0, -25.0, 90.0, 55.0, 140.0,
-                -50.0, 70.0, 125.0, -30.0, 80.0, 115.0, -40.0, 100.0, 60.0, 160.0,
-            ];
-
-            match v8_core::benchmark::projection::CapitalOutcomeProjection::project_from_returns(
-                &receipt,
-                &sample_returns_bps,
-                capital,
-                false,
-            ) {
-                Ok(proj) => {
-                    println!("{}", serde_json::to_string_pretty(&proj).unwrap());
-                    0
-                }
-                Err(e) => {
-                    eprintln!("Capital projection failed: {e}");
-                    1
-                }
-            }
-        }
-        "report" => {
-            let format = if args.len() > 1 { args[1].as_str() } else { "html" };
-            let target = v8_core::benchmark::case::PolicyTarget {
-                policy_id: "policy_canonical_v8".to_string(),
-                commit_hash: "v8-canonical".to_string(),
-                binary_digest: "sha256:v8_reference_digest".to_string(),
-                family: "production_candidate".to_string(),
-            };
-            let case = v8_core::benchmark::case::BenchmarkCase::new(
-                "case_report".into(),
-                v8_core::benchmark::case::BenchmarkVersion::new_v8_5(),
-                target,
-                v8_core::benchmark::types::CapabilityDomain::ALL.to_vec(),
-                vec![v8_core::benchmark::types::EvaluationPopulation::BurnedDiagnosticReal],
-                60,
-            );
-            let runner = v8_core::benchmark::runner::BenchmarkRunner::default();
-            let receipt = runner.run_benchmark(&case).unwrap();
-
-            let sample_returns_bps = [
-                -45.0, 80.0, 120.0, -20.0, 65.0, 110.0, -35.0, 95.0, 40.0, 150.0,
-                -60.0, 75.0, 130.0, -15.0, 85.0, 105.0, -25.0, 90.0, 55.0, 140.0,
-                -50.0, 70.0, 125.0, -30.0, 80.0, 115.0, -40.0, 100.0, 60.0, 160.0,
-            ];
-            let proj = v8_core::benchmark::projection::CapitalOutcomeProjection::project_from_returns(
-                &receipt,
-                &sample_returns_bps,
-                1000.0,
-                false,
-            ).ok();
-
-            if format == "json" {
-                println!("{}", v8_core::benchmark::report::BenchmarkReportGenerator::render_json(&receipt, proj.as_ref()).unwrap());
-            } else {
-                let html = v8_core::benchmark::report::BenchmarkReportGenerator::render_html(&receipt, proj.as_ref());
-                let out_path = std::path::Path::new("site/benchmark_scorecard.html");
-                let _ = std::fs::write(out_path, &html);
-                println!("Forensic HTML scorecard written to: {:?}", out_path);
-                println!("Scorecard size: {} bytes", html.len());
-            }
-            0
+        "case" | "qualify" | "external" | "compare" | "project" | "report" => {
+            eprintln!("BLOCKED_DATA_BACKED_EVALUATOR_REQUIRED:{command}");
+            1
         }
         other => {
-            eprintln!("unknown benchmark subcommand: {other}\n\n{usage}");
+            eprintln!("unknown benchmark subcommand: {other}\n{usage}");
             2
         }
     }
 }
-

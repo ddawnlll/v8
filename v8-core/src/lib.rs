@@ -31,6 +31,7 @@ pub mod jsonx;
 pub mod mt19937;
 pub mod oracle;
 pub mod path_security;
+pub mod parquet_artifact;
 pub mod portfolio;
 pub mod judiciary;
 pub mod kaizen;

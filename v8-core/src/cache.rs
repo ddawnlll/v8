@@ -8,14 +8,15 @@
 //! never change the ledger identity — a request that hits the cache writes
 //! byte-identical artifacts to a request that misses and recomputes.
 //! `cache_check` simulates both paths and asserts artifact-fingerprint
-//! equality (LEDGER_FORMAT_SPEC §8 test 3). The store is an in-memory map
-//! plus an append-only JSONL log, so a later process hits the same entries.
+//! equality (LEDGER_FORMAT_SPEC §8 test 3). Production storage uses redb's
+//! transactional single-table adapter. The legacy JSONL representation is
+//! read once and migrated without changing the canonical key or digest.
 
 use std::collections::HashMap;
 use std::io;
-use std::io::Write;
 use std::path::{Path, PathBuf};
 
+use redb::{Database, ReadableTable, ReadableTableMetadata, TableDefinition};
 use serde_json::Value;
 use sha1::{Digest, Sha1};
 
@@ -117,53 +118,57 @@ pub struct CacheEntry {
 /// Minimal content-addressed store: `sha1(canonical key)` -> outcome. In
 /// memory as a map; when opened at a path, entries are also appended to a
 /// JSONL log (one JSON object per line) so a later process can hit them.
+const CACHE_TABLE: TableDefinition<&str, &[u8]> = TableDefinition::new("cache_entries");
+
+enum CacheBackend {
+    Memory(HashMap<String, CacheEntry>),
+    Durable(Database),
+}
+
 pub struct CacheStore {
-    map: HashMap<String, CacheEntry>,
-    log_path: Option<PathBuf>,
+    backend: CacheBackend,
 }
 
 impl CacheStore {
     pub fn new() -> Self {
         CacheStore {
-            map: HashMap::new(),
-            log_path: None,
+            backend: CacheBackend::Memory(HashMap::new()),
         }
     }
 
-    /// Open a store backed by `log_path`, loading any existing entries (last
-    /// line wins for a repeated digest) and appending future inserts.
-    pub fn open(log_path: &Path) -> io::Result<Self> {
-        let mut store = CacheStore::new();
-        store.log_path = Some(log_path.to_path_buf());
-        if log_path.exists() {
-            let text = std::fs::read_to_string(log_path)?;
-            for (i, line) in text.lines().enumerate() {
-                if line.trim().is_empty() {
-                    continue;
-                }
-                let entry: CacheEntry = serde_json::from_str(line).map_err(|e| {
-                    io::Error::new(
-                        io::ErrorKind::InvalidData,
-                        format!("cache line {}: {e}", i + 1),
-                    )
-                })?;
-                // A stale or hand-edited line must never become a hit merely
-                // because its digest field matches a lookup. Validate both
-                // identity fields before admitting persisted data.
-                if !entry.key.starts_with(&format!("{CACHE_KEY_VERSION}|"))
-                    || key_digest(&entry.key) != entry.digest
-                {
-                    continue;
-                }
-                store.map.insert(entry.digest.clone(), entry);
-            }
+    /// Open a durable redb store. If `path` is a legacy JSONL file, valid
+    /// records are migrated to a sibling `.redb` file and malformed/stale
+    /// records are excluded from the cache. The legacy file remains as an
+    /// audit source until an operator removes it.
+    pub fn open(path: &Path) -> io::Result<Self> {
+        let legacy_jsonl = path.exists() && looks_like_jsonl(path)?;
+        let db_path = if legacy_jsonl
+            || path.extension().and_then(|ext| ext.to_str()) == Some("jsonl")
+        {
+            path.with_extension("redb")
+        } else {
+            path.to_path_buf()
+        };
+        if let Some(parent) = db_path.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        let database = if db_path.exists() {
+            Database::open(&db_path).map_err(redb_io_error)?
+        } else {
+            Database::create(&db_path).map_err(redb_io_error)?
+        };
+        let store = Self {
+            backend: CacheBackend::Durable(database),
+        };
+        if legacy_jsonl {
+            store.migrate_legacy_jsonl(path)?;
         }
         Ok(store)
     }
 
     /// Insert (or overwrite) the outcome for a canonical key and return its
-    /// content address. The entry is appended to the JSONL log first, so a
-    /// failed write leaves the in-memory map untouched (fail closed).
+    /// content address. Durable inserts commit as one redb transaction, so a
+    /// partial write is never visible to readers.
     pub fn insert(&mut self, key: &str, outcome: Value) -> io::Result<String> {
         if !key.starts_with(&format!("{CACHE_KEY_VERSION}|")) {
             return Err(io::Error::new(
@@ -177,30 +182,123 @@ impl CacheStore {
             key: key.to_string(),
             outcome,
         };
-        if let Some(path) = &self.log_path {
-            let mut bytes = serde_json::to_vec(&entry)
-                .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-            bytes.push(b'\n');
-            let mut f = std::fs::OpenOptions::new()
-                .create(true)
-                .append(true)
-                .open(path)?;
-            f.write_all(&bytes)?;
+        let bytes = serde_json::to_vec(&entry)
+            .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+        match &mut self.backend {
+            CacheBackend::Memory(map) => {
+                map.insert(digest.clone(), entry);
+            }
+            CacheBackend::Durable(database) => {
+                let write_txn = database.begin_write().map_err(redb_io_error)?;
+                {
+                    let mut table = write_txn.open_table(CACHE_TABLE).map_err(redb_io_error)?;
+                    table
+                        .insert(digest.as_str(), bytes.as_slice())
+                        .map_err(redb_io_error)?;
+                }
+                write_txn.commit().map_err(redb_io_error)?;
+            }
         }
-        self.map.insert(digest.clone(), entry);
         Ok(digest)
     }
 
-    /// Retrieve the outcome for a canonical key — a hit returns the stored
-    /// outcome, a miss returns None.
-    pub fn get(&self, key: &str) -> Option<&Value> {
-        self.map.get(&key_digest(key)).map(|e| &e.outcome)
+    /// Retrieve an owned outcome for a canonical key. Every persisted value is
+    /// revalidated against both the requested key and its content address.
+    pub fn get(&self, key: &str) -> Option<Value> {
+        let digest = key_digest(key);
+        match &self.backend {
+            CacheBackend::Memory(map) => map
+                .get(&digest)
+                .and_then(|entry| valid_entry(entry, key, &digest))
+                .map(|entry| entry.outcome.clone()),
+            CacheBackend::Durable(database) => {
+                let read_txn = database.begin_read().ok()?;
+                let table = read_txn.open_table(CACHE_TABLE).ok()?;
+                let value = table.get(digest.as_str()).ok()??;
+                let entry: CacheEntry = serde_json::from_slice(value.value()).ok()?;
+                valid_entry(&entry, key, &digest).map(|entry| entry.outcome.clone())
+            }
+        }
     }
 
     #[allow(dead_code)] // exercised by unit tests
     pub fn len(&self) -> usize {
-        self.map.len()
+        match &self.backend {
+            CacheBackend::Memory(map) => map.len(),
+            CacheBackend::Durable(database) => database
+                .begin_read()
+                .ok()
+                .and_then(|txn| txn.open_table(CACHE_TABLE).ok())
+                .and_then(|table| table.len().ok())
+                .and_then(|len| usize::try_from(len).ok())
+                .unwrap_or(0),
+        }
     }
+
+    /// Compact the durable database without changing cache identity.
+    pub fn compact(&mut self) -> io::Result<bool> {
+        match &mut self.backend {
+            CacheBackend::Memory(_) => Ok(false),
+            CacheBackend::Durable(database) => database.compact().map_err(redb_io_error),
+        }
+    }
+
+    fn migrate_legacy_jsonl(&self, path: &Path) -> io::Result<()> {
+        let text = std::fs::read_to_string(path)?;
+        for line in text.lines() {
+            if line.trim().is_empty() {
+                continue;
+            }
+            let entry: CacheEntry = match serde_json::from_str(line) {
+                Ok(entry) => entry,
+                Err(_) => continue,
+            };
+            if valid_entry(&entry, &entry.key, &entry.digest).is_none() {
+                continue;
+            }
+            let bytes = serde_json::to_vec(&entry)
+                .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+            if let CacheBackend::Durable(database) = &self.backend {
+                let write_txn = database.begin_write().map_err(redb_io_error)?;
+                {
+                    let mut table = write_txn.open_table(CACHE_TABLE).map_err(redb_io_error)?;
+                    table
+                        .insert(entry.digest.as_str(), bytes.as_slice())
+                        .map_err(redb_io_error)?;
+                }
+                write_txn.commit().map_err(redb_io_error)?;
+            }
+        }
+        Ok(())
+    }
+}
+
+fn valid_entry<'a>(
+    entry: &'a CacheEntry,
+    requested_key: &str,
+    digest: &str,
+) -> Option<&'a CacheEntry> {
+    if entry.key != requested_key
+        || entry.digest != digest
+        || !entry.key.starts_with(&format!("{CACHE_KEY_VERSION}|"))
+        || key_digest(&entry.key) != entry.digest
+    {
+        return None;
+    }
+    Some(entry)
+}
+
+fn looks_like_jsonl(path: &Path) -> io::Result<bool> {
+    let bytes = std::fs::read(path)?;
+    Ok(bytes
+        .iter()
+        .copied()
+        .find(|byte| !byte.is_ascii_whitespace())
+        == Some(b'{'))
+}
+
+fn redb_io_error(error: impl std::fmt::Display) -> io::Error {
+    io::Error::new(io::ErrorKind::Other, error.to_string())
 }
 
 /// Simulated cube outcome: a deterministic pure function of the key and its
@@ -308,7 +406,7 @@ pub fn cache_check(args: &[String]) -> i32 {
 
     let key = canonical_key(&candidate_id, &action_id, &simulator_hash, &data_hash);
     let digest = key_digest(&key);
-    let log_path = out_dir.join("cache.jsonl");
+    let log_path = out_dir.join("cache.redb");
 
     // MISS path: the outcome is computed, stored, and written to an artifact.
     let outcome = compute_outcome(&key, &digest);
@@ -470,12 +568,12 @@ mod tests {
         assert_eq!(store.get(&k2).unwrap()["net_pnl_bps"], -50);
     }
 
-    /// The JSONL log persists entries: a fresh store over the same path is a
+    /// The durable store persists entries: a fresh store over the same path is a
     /// hit for a key only ever inserted by another store instance.
     #[test]
-    fn jsonl_store_round_trips_across_reopen() {
+    fn durable_store_round_trips_across_reopen() {
         let dir = std::env::temp_dir();
-        let log = dir.join("v82-cache-store.jsonl");
+        let log = dir.join(format!("v82-cache-store-{}.redb", std::process::id()));
         std::fs::remove_file(&log).ok();
         let key = canonical_key("cand-9", "HOLD", "sim-x", "data-y");
         {
@@ -493,8 +591,10 @@ mod tests {
     #[test]
     fn stale_or_corrupt_entries_are_not_cache_hits() {
         let dir = std::env::temp_dir();
-        let log = dir.join("v82-cache-stale.jsonl");
+        let log = dir.join(format!("v82-cache-stale-{}.jsonl", std::process::id()));
+        let migrated = log.with_extension("redb");
         std::fs::remove_file(&log).ok();
+        std::fs::remove_file(&migrated).ok();
         let key = canonical_key("cand-stale", "BUY", "sim-v1", "data-v1");
         let old_key = "cube-cache-v0|cand-stale|BUY|sim-v1|data-v1";
         let stale = serde_json::json!({
@@ -512,6 +612,7 @@ mod tests {
         assert!(store.get(&key).is_none());
         assert_eq!(store.len(), 0);
         std::fs::remove_file(&log).ok();
+        std::fs::remove_file(&migrated).ok();
     }
 
     #[test]
