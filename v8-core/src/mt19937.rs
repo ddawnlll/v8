@@ -25,6 +25,7 @@ const UPPER_MASK: u32 = 0x8000_0000;
 const LOWER_MASK: u32 = 0x7fff_ffff;
 
 /// Bit-exact port of CPython 3.14 `random.Random` (Mersenne Twister 19937).
+#[derive(Clone, Debug)]
 pub struct MT19937 {
     mt: [u32; N],
     mti: usize,
