@@ -2,6 +2,15 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — D-155 Integration Test Harness Consolidation & Linker Contention Elimination (Issue #333)
+
+Ratified and implemented D-155 under Issue #333 (`PERF008`):
+- **Consolidated Integration Test Runner:** Unified 14+ independent integration test targets under `v8-core/tests/` into a single consolidated test runner binary `v8-core/tests/integration_tests.rs`, organizing individual suites as submodules under `v8-core/tests/suites/`.
+- **Elimination of Mach-O Linker Storm:** Eliminates 14+ separate linking operations on macOS, avoiding single-threaded linker lock contention on Apple `ld64`.
+- **Preserved Test Invariants:** Maintained complete test semantics, module isolation, and bit-level determinism across all existing test targets.
+
+Artifacts changed: `v8-core/tests/integration_tests.rs`, `v8-core/tests/suites/*`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/issues/ISSUE_PERF008_CONSOLIDATED_TEST_HARNESS_AND_LINKER_OPTIMIZATION.md`, `docs/CHANGELOG.md`.
+
 ## 2026-09-06 — D-154 Cargo Profile Split, Fast Workspace Compilation & Isolated Dependency Optimization (Issue #332)
 
 Ratified and implemented D-154 under Issue #332 (`PERF007`):
