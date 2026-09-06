@@ -2216,16 +2216,43 @@ fn cmd_benchmark(args: &[String]) -> i32 {
         }
         "ledger-verify" => {
             let ledger_path = std::path::Path::new(".audit/benchmark/ledger.jsonl");
-            match v8_core::benchmark::ledger::BenchmarkLedger::load_from_disk(ledger_path) {
-                Ok(ledger) => {
-                    println!("Benchmark ledger integrity verified: {} entries", ledger.entries.len());
-                    0
-                }
-                Err(error) => {
-                    eprintln!("Benchmark ledger verification failed: {error}");
-                    1
-                }
+            let (ledger, report) =
+                match v8_core::benchmark::ledger::BenchmarkLedger::load_with_report(ledger_path) {
+                    Ok(pair) => pair,
+                    Err(error) => {
+                        eprintln!("Benchmark ledger verification failed: {error}");
+                        return 1;
+                    }
+                };
+            let _ = ledger;
+            for finding in report.findings() {
+                eprintln!("FINDING: {finding}");
             }
+            println!(
+                "Benchmark ledger audit: {} total, {} fully bound & verified,                  {} legacy-unbound, {} artifact-bound",
+                report.total_entries,
+                report.verified_entries,
+                report.legacy_bound_entries,
+                report.receipts_with_artifacts
+            );
+            if !report.is_clean() {
+                eprintln!(
+                    "LEDGER_BLOCKED: {} finding(s); no authority may be derived from this ledger",
+                    report.tamper.len()
+                );
+                return 1;
+            }
+            if !report.is_fully_bound() {
+                // Distinguish "no evidence of tampering" from "evidence bound
+                // well enough to rely on". Legacy rows are the latter's absence,
+                // so this must not print as a plain success (#328 R2).
+                eprintln!(
+                    "LEDGER_PARTIALLY_BOUND: {} row(s) predate the full-content binding and                      cannot grant authority; treat as NO_ECONOMIC_CLAIM",
+                    report.legacy_bound_entries
+                );
+                return 3;
+            }
+            0
         }
         "run" => {
             let Some(case_flag) = args.get(1).map(String::as_str) else {
