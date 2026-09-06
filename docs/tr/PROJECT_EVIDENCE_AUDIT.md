@@ -16,7 +16,7 @@ Dolayısıyla dosyaya-dayalı bir V6 sonucu yoktur.
 | **Doğrulanmamış öneri** | V8'de ya da bir V7 hedef spesifikasyonunda tanımlanan, incelenen dosyalarda kabul edilebilir sonuç kanıtı olmayan mimari ya da deney. |
 
 Mevcut en güçlü ekonomik-sertifikasyon kaydı hâlâ
-`v7/specs/simulation_authority_certification_v1.json` dosyasıdır: `status: FAIL`,
+`v7/specs/simulation_authority_certification_v1.json` dosyasıdır: `status: FAIL`, <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY `v7/specs/simulation_authority_certification_v1.json` belongs to the audited V7 materials, not to this repository tree. -->
 `autopilot_permission: BLOCKED`, `economic_verdict: INVALID_NOT_CERTIFIED` ve
 `profitability_claim: FORBIDDEN`. Dolayısıyla burada incelenen hiçbir proje
 dosyası bir kârlılık iddiasını desteklemez.
@@ -72,7 +72,7 @@ Kaynak: `v7/docs/P1_TIER_B_LITE_FINDINGS.md`.
 
 | Gerilimdeki dosyalar | Dosyaya-dayalı çelişki | Gerekli ele alış |
 |---|---|---|
-| `v7/specs/simulation_authority_certification_v1.json` vs `v7/docs/P1_TIER_B_LITE_FINDINGS.md` | Sertifikasyon, P1 adapter/replay entegrasyonunun ve tek ekonomik API'nin çözülmemiş olduğunu söyler; daha sonraki bulgular belgesi adapter/replay'in uygulandığını ve çalıştırıldığını söyler ama sertifikasyonun kendini güncellememesi gerektiğini açıkça belirtir ve bayat kalır. | Bağımsız bir operatör yeniden çalıştırıp güncelleyene kadar sertifikasyonu mevcut engelleyici otorite olarak ele al. Bulgular o yeniden çalıştırmaya yol gösterebilir, onu geçersiz kılamaz. |
+| `v7/specs/simulation_authority_certification_v1.json` vs `v7/docs/P1_TIER_B_LITE_FINDINGS.md` | Sertifikasyon, P1 adapter/replay entegrasyonunun ve tek ekonomik API'nin çözülmemiş olduğunu söyler; daha sonraki bulgular belgesi adapter/replay'in uygulandığını ve çalıştırıldığını söyler ama sertifikasyonun kendini güncellememesi gerektiğini açıkça belirtir ve bayat kalır. | Bağımsız bir operatör yeniden çalıştırıp güncelleyene kadar sertifikasyonu mevcut engelleyici otorite olarak ele al. Bulgular o yeniden çalıştırmaya yol gösterebilir, onu geçersiz kılamaz. | <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY `v7/specs/simulation_authority_certification_v1.json` belongs to the audited V7 materials, not to this repository tree. -->
 | `v7/SYSTEM.md` / `execution_rl_policy_v1.json` vs bulgular §8 | Hedef tasarım sniper direktif → izleyici → devam eden pozisyon yönetimli execution politikası der; denetim, uygulanan RL'nin keyfi bar pencereleri örneklediğini ve `ACTIVE`'e giremediğini söyler. | Mevcut RL'yi bağımsız, eksik bar-trading deneyi olarak etiketle. Onu entegre Candidate execution olarak sunma. |
 | V8 `Candidate ≠ order` / bağımsız execution dili vs V7 politika otoritesi | V8 bir Candidate ve kurallı yaşam-döngüsü execution'ı çerçeveler; V7 hedef politikası execution RL'ye tüm taraf, hedef risk ve emir kararlarını verir. | Bu, deneysel olarak çözülmesi gereken bir tasarım uyumsuzluğudur: önce atıf için sabit/kurallı bir executor seç ya da öğrenilmiş executor'ın karşı-olgusal atıf sözleşmesini açıkça tanımla. |
 | V8 bağımsız execution iddiası vs V8'in ana hedefteki kendi uyarısı | Ana prompt, alpha ve execution'ın etkileşebileceğini ve istatistiksel olarak bağımsız varsayılmaması gerektiğini söyler. | Yalnızca operasyonel ayrımı/atfı geçici bir değişmez olarak koru; istatistiksel bağımsızlık iddia etme. |

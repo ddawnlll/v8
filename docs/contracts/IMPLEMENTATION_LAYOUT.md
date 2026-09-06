@@ -12,6 +12,8 @@ evolves by challenger, never in place (D-032).
 
 ## 1. Package layout
 
+<!-- AUDIT-DOC-PATHS: ROOT `src/v8` - §1 is the frozen Python oracle module table (AGENTS.md §2), keyed relative to that package. -->
+
 ```text
 src/v8/
   __init__.py        package boundary + version
@@ -256,6 +258,51 @@ v8-core/
       agent.rs      AgentAuditManifest & ActionAuditReceipt
       probes.rs     10 Mandatory Integrity Probes & Defeater emission
       transcript.rs AuditTranscript cryptographic lineage
+    benchmark/      V8.5 Benchmark Fabric — diagnostic, non-sovereign evaluation
+                    plane (D-153, D-156, D-159; Rules 12, 28–31, 44, 57)
+      mod.rs        benchmark module boundary & re-exports (17 submodules)
+      types.rs      canonical G0–G9 GateVector, GateState::Missing,
+                    GateFailureClass, ReadinessStatus, GATE_DESCRIPTORS (D-153 §2.4, #327)
+      case.rs       BenchmarkCase, BenchmarkCaseManifest, BenchmarkVersion;
+                    distinct from an AssuranceCase (D-153 §3.1–3.2)
+      population.rs Walk-forward & CPCV partitioners, purge/embargo, protected
+                    holdout firewall (D-153 §4, Rule 57.4)
+      observation.rs MetricObservation registry & 10 capability domains (D-153 §3.3)
+      scoring.rs    CapabilityScoreCalculator: weighted domains × coverage ×
+                    non-compensable gate product (D-153 §3.4)
+      synthetic.rs  Foundry passport qualification & synthetic asymmetry
+                    (D-153 §2.5, D-150)
+      receipt.rs    BenchmarkReceipt with canonical d153.receipt.v2 digest,
+                    BenchmarkProvenance, ArtifactBinding, with_parity() (D-153, #328, #329)
+      ledger.rs     append-only ledger sealed with the d153.ledger.v2 entry seal,
+                    LedgerTamper / LedgerAuditReport self-audit, legacy_unbound
+                    classification (D-153, #328)
+      parity.rs     policy-bound external parity adapters (LEAN / skfolio /
+                    vectorbt) over two manifest-declared physical ledgers,
+                    SemanticMapping, IEEE-754 bit-pattern equality, derived
+                    non-forgeable diagnostic authority, reconciliation_gaps()
+                    (D-153 §2.6, D-116; #329)
+      external.rs   DisagreementDetector and assert_parity over a verified
+                    ParityReceipt (D-153 §2.6; #329). The fabricated
+                    fixed-vector adapter API that used to live here
+                    (CommodityExecutionAdapter, Lean/Skfolio/VectorBt
+                    ParityAdapter, ExecutionParityReport, evaluate_parity,
+                    parity_passed) is deleted and must not return.
+      gate_authority.rs AuthorityFirewall, cap_authority monotone
+                    non-escalation, assert_no_escalation, ClaimRegistry-routed
+                    authority resolution, certificate status ceiling,
+                    OPEN_PIN_GATE_NAMING (D-152 §§5–6, D-153 §2; #327)
+      certificate.rs PolicyCertificate & Evidence Dashboard; readiness is a
+                    projection of the gate vector, never a local mint (D-153, #327);
+                    report rendering requires VerifiedReceipt (#328)
+      minerva.rs    MinervaScore robustness evaluation (D-153)
+      projection.rs CapitalOutcomeProjection & empirical Monte Carlo futures (D-153 §5)
+      runner.rs     BenchmarkRunner orchestration, parity_request() artifact
+                    declaration boundary, D-156 fail-closed evaluator OPEN_PIN
+                    (D-153 §6, D-156; #329)
+      kaizen_feed.rs Kaizen benchmark feedback & research trial-debt accounting
+                    (D-153 §6)
+      report.rs     JSON/HTML benchmark reports; refuses unverified receipts (D-153, #328)
     scheduler.rs    deterministic task scheduling/chunking, evaluate_typed (D-119)
     runloop.rs      S4 per-bar composition and runtime dispatch wiring
   tests/            Comprehensive test suite (502 tests passed, 0 failed)
@@ -323,9 +370,19 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `docs/contracts/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md` | Full-text specification of Continuous Epistemic Succession & Living Policy Constitution | Full unabridged contract | V8 Constitution Rule 44; D-149, D-150 |
 | `v8-core/src/assurance/continuous.rs` | Continuous evaluation ledger, EvaluationEpochRecord, EvidenceDelta, KaizenHandoffReceipt, and lineage verifier | `ContinuousEvaluationLedger`, `EvaluationEpochRecord`, `EvidenceDelta`, `KaizenHandoffReceipt` | D-147, D-149, D-150 |
 | `v8-core/tests/d150_epistemic_succession_sabotage.rs` | 20-point constitutional sabotage suite verifying D-150 invariants (D150-T01..T20) | 20 automated constitutional sabotage tests | D-147, D-149, D-150 |
-| `v8-core/src/benchmark/` | V8.5 Benchmark Fabric: ontology, cases, receipts, ledger, scoring, populations, synthetic qualification, external parity adapters, empirical capital projection, Monte Carlo futures, MinervaScore robustness engine, Policy Certificate & Evidence Dashboard, kaizen feed, observations, runner, report | `BenchmarkCase`, `BenchmarkReceipt`, `BenchmarkLedger`, `CapabilityScoreCalculator`, `WalkForwardPartitioner`, `CpcvPartitioner`, `LeanParityAdapter`, `SkfolioParityAdapter`, `VectorBtParityAdapter`, `CapitalOutcomeProjection`, `MinervaEvaluator`, `MinervaRobustness`, `PolicyCertificate`, `MetricObservation`, `BenchmarkRunner`, `BenchmarkReportGenerator` | D-153, D-156; Issues #318–#324; Rules 5, 12, 28–31, 44, 57 |
+| `v8-core/src/benchmark/` | V8.5 Benchmark Fabric: ontology, cases, receipts, self-verifying ledger, scoring, populations, synthetic qualification, policy-bound external parity adapters, gate authority firewall, empirical capital projection, Monte Carlo futures, MinervaScore robustness engine, Policy Certificate & Evidence Dashboard, kaizen feed, observations, runner, forensic report | `BenchmarkCase`, `BenchmarkReceipt`, `BenchmarkLedger`, `LedgerAuditReport`, `CapabilityScoreCalculator`, `WalkForwardPartitioner`, `CpcvPartitioner`, `ParityAdapter`, `ParityReceipt`, `SemanticMapping`, `AuthorityFirewall`, `ReadinessVerdict`, `GateVector`, `CapitalOutcomeProjection`, `MinervaEvaluator`, `MinervaRobustness`, `PolicyCertificate`, `MetricObservation`, `BenchmarkRunner`, `BenchmarkReportGenerator`, `VerifiedReceipt` | D-153, D-156, D-159; Issues #318–#324, #327–#330; Rules 5, 12, 28–31, 44, 57 |
+| `v8-core/src/benchmark/types.rs` | Canonical registered gate surface: G0–G9 position/name/owner descriptors and the four-state non-compensable gate lattice. `GateState::Missing` means "never evaluated", is not a pass, and cannot promote readiness. | `GateVector`, `GateState`, `GateFailureClass`, `GATE_DESCRIPTORS`, `ReadinessVerdict`, `ReadinessStatus` | D-153 §2.4, D-152 §5; Issue #327; Rules 28–31, 57 |
+| `v8-core/src/benchmark/gate_authority.rs` | Single boundary between benchmark evidence and authority. Readiness is a monotone non-escalating *projection*; `SUPPORTED_EDGE` resolves only through `ClaimRegistry`; absent/`N/A`/`BLOCKED` required evidence fails closed. Certificates cannot mint their own status. Carries the D-152 vs D-153 G7–G9 naming conflict as an explicit `OPEN_PIN` rather than adjudicating it. | `AuthorityFirewall`, `AuthorityDecision`, `cap_authority`, `assert_no_escalation`, `certificate_status_ceiling`, `BENCHMARK_DIAGNOSTIC_AUTHORITY`, `OPEN_PIN_GATE_NAMING` | D-152 §§5–6, D-153 §2, D-159 §2.1; Issue #327; Rules 12, 28–31, 57 |
+| `v8-core/src/benchmark/receipt.rs` | Content-addressed receipt over the *whole* record via canonical bytes, versioned (`d153.receipt.v2`; `d153.receipt.v1` recognised as legacy). Binds artifact provenance and method versions, rejects non-finite metrics, compares digests in constant time, and refuses a grafted parity receipt on identity/policy/case-hash/artifact conflict. | `BenchmarkReceipt`, `BenchmarkProvenance`, `ArtifactBinding`, `ReceiptVerificationError`, `RECEIPT_DIGEST_VERSION`, `with_parity` | D-153, D-159 §2.2; Issues #328, #329; Rules 5, 12, 44 |
+| `v8-core/src/benchmark/ledger.rs` | Append-only ledger whose `d153.ledger.v2` entry seal folds canonical receipt bytes into the hash chain, so the chain binds content instead of the stored digest. Self-audits with stable tamper codes; pre-v2 rows are classified `legacy_unbound` (never counted verified) and generation regressions are detected. | `BenchmarkLedger`, `BenchmarkLedgerEntry`, `LedgerTamper`, `LedgerAuditReport`, `audit`, `load_with_report` | D-153, D-159 §2.2; Issue #328; Rules 5, 12, 44 |
+| `v8-core/src/benchmark/parity.rs` | Policy-bound external parity, computed from two manifest-declared physical ledgers under a versioned `SemanticMapping`. Bit-pattern (not tolerance) equality per `PARITY_AND_IDENTITY_SPEC`; magnitudes are `Option` so absence is never reported as zero error; placeholder engine/method versions block; authority is derived and non-forgeable; `reconciliation_gaps()` states what is not yet mapped. | `ParityAdapter`, `ParityReceipt`, `ParityOutcome`, `ParityDiagnostics`, `SemanticMapping`, `ParitySubject`, `EngineVersion`, `ParityArtifact`, `MAPPING_VERSION`, `reconciliation_gaps` | D-153 §§2.6, 4.6, D-116, D-159 §2.3; Issue #329; Rules 5, 12, 28–31, 44, 57 |
+| `v8-core/src/benchmark/report.rs` | Forensic JSON/HTML reports. Both renderers accept only `VerifiedReceipt`, whose single constructor recomputes the digest; output stamps the recomputed digest and verification metadata, and HTML refuses unverified receipts. | `BenchmarkReportGenerator`, `VerifiedReceipt` | D-153 §110, D-159 §2.2; Issue #328; Rules 12, 31 |
 | `v8-core/tests/d153_benchmark_fabric_sabotage.rs` | 24-point constitutional sabotage suite verifying D-153 invariants (BFS-001..BFS-024) | 24 automated constitutional sabotage tests | D-153; Rule 57 |
 | `v8-core/tests/d153_minerva_and_dashboard_test.rs` | Integration suite verifying MinervaScore binary robustness seal, 10,000 Monte Carlo futures, and Policy Certificate rendering | Automated end-to-end integration tests | D-153; arXiv:2608.23808; Rule 57 |
+| `v8-core/tests/d152_gate_vector_authority_firewall.rs` | Gate vector canonicalization and authority firewall enforcement: G0–G9 completeness, `Missing` never promotes, monotone non-escalation, registry-routed claims, certificate ceiling, `OPEN_PIN` surfacing | 15 automated tests | D-152 §§5–6, D-159 §2.1; Issue #327; Rules 12, 28–31 |
+| `v8-core/tests/d153_receipt_ledger_selfverify.rs` | Receipt/ledger cryptographic self-verification: canonical digest over the whole receipt, version dispatch, tamper detection at every authority-relevant field, artifact re-hashing, ledger v2 seal chain, legacy-unbound classification, `VerifiedReceipt` render gating | 40 automated tests | D-153, D-159 §2.2; Issue #328; Rules 5, 12, 44 |
+| `v8-core/tests/d153_parity_adapters_policy_bound.rs` | Policy-bound parity: undeclared-artifact and placeholder-version blocking, bit-pattern equality, `None`-not-zero absence semantics, unpaired/unavailable sequence handling, derived non-forgeable authority, receipt graft rejection, and source-level guards that the deleted fabricated literals (`_policy_id`, `evaluate_parity`, `parity_passed`, fixed arrays, ×1.5/×1.2/×1.1 multipliers) cannot return | 50 automated tests | D-153 §2.6, D-116, D-159 §2.3; Issue #329; Rules 5, 12, 28–31, 44 |
+| `tools/audit_doc_path_refs.py` | Negative guard for phantom path citations: resolves repository paths cited in `docs/`, `docs/contracts/` and `docs/tr/` and fails on unresolved references (prose, git object ids and commit shas excluded) | Non-zero exit on any unresolved path | D-159 §2.4; Issue #330; Rules 5, 44 |
 
 
 
@@ -354,8 +411,17 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | D-024 mechanical tradability mask spec-only | `risk.py` + `lab.py` | **CLOSED** — `778ceb1` (build Step 3): declared constants, `TRADABILITY_MASK_VETO`, `NOT_EXECUTED` counterfactual |
 | `statistics.rs`/`analysis.rs` designed as single files (`COMPUTE_CORE_SPEC` §6) | `v8-core/src/statistics/` (4 files, 2,373 lines), `v8-core/src/analysis/` (6 files, 5,030 lines) | **DOCUMENTED, not reversed** — `17e506a`/`5accfc6` (S4-S7 Waves): each surface grew past a comfortable single file during the S6/S7 port (D-091's bounded-surface estimate — `regret_phase1/2/3.py` ≈27 KB, `statistics.py` 767 lines — held for total scope but not for single-file ergonomics); split by pipeline stage (`phase1`/`phase2`/`phase3`/`reconcile`/`outcome` under `analysis/`, `reality_check`/`detrended`/`remaining` under `statistics/`) rather than left as one growing file. Functionally equivalent to the spec's module list; `COMPUTE_CORE_SPEC` §6 itself is left as the original design record, not rewritten |
 | `features.rs`, `runloop.rs`, `mt19937.rs` absent from `COMPUTE_CORE_SPEC` §6's module table | `v8-core/src/features.rs`, `runloop.rs`, `mt19937.rs` | **DOCUMENTED, not reversed** — `17e506a` (`features.rs`, `mt19937.rs`) / `5accfc6` (`runloop.rs`): the S4-S7 design pass discovered three roles the original 12-module table did not name — the D-053 per-Expert feature-group projection (distinct from `FeatureStore`/`StateView`'s whole-tape feature computation), the S4 per-bar composition loop binding `ExpertPlane` output into `CandidateBuffer` (the `evaluate` subcommand's own logic, not reducible to either), and bit-exact CPython RNG reproduction required for S7 verdict-statistics parity. None replaces a named module; each is additive (D-092/D-095) |
-| `tests/parity.rs` designed as a Rust integration-test file (`COMPUTE_CORE_SPEC` §6) | `v8-core/tests/` is empty; parity is proven by `#[cfg(test)]` unit tests inside each `src/*.rs` module plus the Python-side harness `tests/parity/*.py` at the repo root | **DOCUMENTED, not reversed** — `17e506a` onward: every stage gate (S0..S7) is driven from the Python side because the oracle (`src/v8/`) it compares against is Python; a Rust-only `tests/parity.rs` would need to re-embed or shell out to the oracle for no benefit over the existing harness. `PARITY_AND_IDENTITY_SPEC` §5.2 already specifies the Python-driven harness; §6's `tests/parity.rs` line predates that specification |
+| `tests/parity.rs` designed as a Rust integration-test file (`COMPUTE_CORE_SPEC` §6) | `v8-core/tests/` is empty; parity is proven by `#[cfg(test)]` unit tests inside each `src/*.rs` module plus the Python-side harness `tests/parity/*.py` at the repo root | **DOCUMENTED, not reversed** — `17e506a` onward: every stage gate (S0..S7) is driven from the Python side because the oracle (`src/v8/`) it compares against is Python; a Rust-only `tests/parity.rs` would need to re-embed or shell out to the oracle for no benefit over the existing harness. `PARITY_AND_IDENTITY_SPEC` §5.2 already specifies the Python-driven harness; §6's `tests/parity.rs` line predates that specification | <!-- AUDIT-DOC-PATHS: DESIGN_REFERENCE `tests/parity.rs` was designed in COMPUTE_CORE_SPEC §6 and never built; this row is the divergence record that says so. The parity harness that does exist is the Python suite rooted at `tests/parity`. -->
 | Core modernization modules (`error.rs`, `path_security.rs`, `telemetry.rs`, `checkpoint.rs`, `Dataset::from_mmap_path`) | `v8-core/src/{error, path_security, telemetry, checkpoint, data}.rs` | **DOCUMENTED, not reversed** — D-119..D-122 (Issue #208..#211): Added strongly-typed error taxonomy, path sanitization, metrics/tracing facades, atomic simulation checkpointing, and zero-copy mmap streaming to harden core production runtime |
+
+| Benchmark Fabric (`v8-core/src/benchmark/`, 17 modules) absent from `COMPUTE_CORE_SPEC` §6's module table and from this file's own §1.1 tree until D-159 | `v8-core/src/benchmark/` | **DOCUMENTED, not reversed** — the plane was registered by D-153/D-156 but never mapped into the as-built tree. §1.1 and §2 are reconciled under D-159 / issue #330. |
+| D-153 §2.6 "explicit typed adapters with recorded semantic divergence" was implemented as fixed in-process vectors that discarded the policy id, compared hardcoded arrays under a forbidden bps tolerance, and derived drawdown "discrepancies" by multiplying PnL error by 1.5 / 1.2 / 1.1 | `v8-core/src/benchmark/external.rs` (was) -> `v8-core/src/benchmark/parity.rs` (now) | **CLOSED** by #329 — fabricated API deleted, artifact-bound adapters implemented, source-level regression guards added. `PARITY_AND_IDENTITY_SPEC`'s no-tolerance rule is now honoured. |
+| Receipt digest covered an ad-hoc field list and the ledger chain bound the *stored* digest, so fields outside the list could mutate undetected; `PolicyCertificate` could also mint `PRODUCTION_READY` from a scalar score locally | `v8-core/src/benchmark/{receipt,ledger,certificate,report}.rs` | **CLOSED** by #328 / #327 — canonical whole-receipt digest (`d153.receipt.v2`), content-binding ledger seal (`d153.ledger.v2`), `VerifiedReceipt` render gating, and `AuthorityFirewall` certificate ceiling. |
+| `GateVector` carried six positions while D-152 §5 / D-153 §2.4 register nine, and `GateState` could not express "never evaluated" | `v8-core/src/benchmark/types.rs` | **CLOSED** by #327 — canonical G0–G9 with `GateState::Missing`, which is not a pass and cannot promote. |
+| D-152 §5 names G7 prospective shadow / G8 live realization / G9 certificate; D-153 `GateVector` fields are `g7_generalization` / `g8_prospective_shadow` / `g9_live_realization` | `v8-core/src/benchmark/gate_authority.rs::OPEN_PIN_GATE_NAMING` | **OPEN_PIN** — mapping is positional and readiness is identical under either reading; no per-gate narrative depending on the conflict may be authored until a governance decision settles it. Neither register is rewritten by code. |
+| Pre-v2 ledger rows carry no recoverable binding and cannot be made to verify | `.audit/benchmark/ledger.jsonl` (7 rows, all legacy) | **ACCEPTED limitation** — classified `legacy_unbound`, reported as `LEDGER_PARTIALLY_BOUND` at exit `3`. Not deleted, not rewritten, not claimed verified. |
+| D-116 reconciliation covers PnL and fill timing only; commission, funding and terminal-balance parity are unmapped | `v8-core/src/benchmark/parity.rs::reconciliation_gaps` | **DOCUMENTED, not reversed** — the gap is emitted in machine-readable form on every parity receipt so an `ExactMatch` cannot be read as full economic reconciliation. |
+| No registered data-backed benchmark evaluator exists, so `BenchmarkRunner` validates evidence paths but emits no receipt | `v8-core/src/benchmark/runner.rs` | **OPEN_PIN** carried from D-156 (`OPEN_PIN-156-1`). D-153 remains `PROVISIONAL_DECISION` for this reason; D-159 does not close it. |
 
 Divergences are closed by code change; closure is recorded here with the
 closing commit and in the CHANGELOG — never by editing this table alone.

@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-canonical-cancers-and-mega-move-audit">CANONICAL CANCERS AND MEGA MOVE AUDIT</a></li><li><a href="#sec-allegorical-market-archetype-audit">ALLEGORICAL MARKET ARCHETYPE AUDIT</a></li><li><a href="#sec-quantized-computation-audit">QUANTIZED COMPUTATION AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-d136-epistemic-economic-observability">D136 EPISTEMIC ECONOMIC OBSERVABILITY</a></li><li><a href="#sec-d141-expert-proving-ground">D141 EXPERT PROVING GROUND</a></li><li><a href="#sec-v85-ratification-candidate">V85 RATIFICATION CANDIDATE</a></li><li><a href="#sec-d150-continuous-epistemic-succession-spec">D150 CONTINUOUS EPISTEMIC SUCCESSION SPEC</a></li><li><a href="#sec-market-world-foundry-v2-spec">MARKET WORLD FOUNDRY V2 SPEC</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-accp-v2-spec">ACCP V2 SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-venue-and-capital-simulation-spec">VENUE AND CAPITAL SIMULATION SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-kaizen-engine-spec">KAIZEN ENGINE SPEC</a></li><li><a href="#sec-kaizen-benchmark-spec">KAIZEN BENCHMARK SPEC</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-work-item-policy">WORK ITEM POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v03-evidence-constitution-v2-ratified-under-cc-bill-v83-authority-003-cc-amend-v83-kaizen-004">V8 Constitution v0.3 — Evidence Constitution v2 (Ratified under CC-BILL-V8.3-AUTHORITY-003 &amp; CC-AMEND-V8.3-KAIZEN-004)</h1>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Final Research Monograph</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Behavior-Driven Trading Intelligence</h1><p><strong>Final research monograph and architecture specification.</strong> This single file incorporates the complete prior V8 Markdown corpus as document content; no separate Markdown file is required to read it.</p></header><section id="document-status"><h1>Document status and reading rule</h1><p class="status"><strong>PRE-EXPERIMENTAL / EVIDENCE-BOUND.</strong> This document does not claim that V8 is profitable, trader intuition is reliable, or execution has been validated. Its purpose is to separate sourced ideas, design assumptions, and propositions that must be eliminated or supported by experiments.</p><p>Labels have the following meanings: <strong>LITERATURE_SUPPORTED</strong> is a bounded externally supported claim; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> is a local project finding; <strong>DESIGN_INFERENCE</strong> is a testable engineering inference; <strong>PROVISIONAL_DECISION</strong> is reversible; <strong>LOCKED_INVARIANT</strong> is a validity rule; <strong>OPEN_QUESTION</strong> is unresolved; and <strong>REJECTED_OPTION</strong> is excluded from the initial baseline.</p></section><section id="abstract"><h1>Abstract</h1><p>V8 compares the universal-model premise—produce one directional prediction for every market timestamp—with a falsifiable alternative: decompose conditional trading reasoning into explicit, behavior-specific decision modules. The central question is whether this decomposition can produce more useful and robust decisions than an equal-information global timestamp-level predictor.</p><p>That question is not one hypothesis. The existence of behavioral structure, concentration of edge in specific habitats, value of Expert decomposition, value of a Candidate Episode data model, value of selection/quality filtering, need for ranking under capital scarcity, and interaction of execution with alpha must be tested separately. Literature supports the relevance of liquidity, order flow, volatility clustering, market impact, selective prediction, and multiple-testing risk. It does not establish that V8 Experts, a Router, or a Scorer have economic superiority.</p><p>Accordingly, the initial architecture is deliberately small: point-in-time MarketState → 2–3 deterministic self-gating Experts → append-only record of the complete Candidate lifecycle → deterministic acceptance/risk → one canonical Level-1 execution ledger. Router, learned Scorer, Ranker, RL execution, and order-book simulation are not defaults. Each must show value against a simpler deterministic baseline in a preregistered, costed, frozen out-of-sample experiment.</p></section><section id="problem-definition"><h1>Problem definition</h1><h2>The wrongly posed problem: predict direction at every bar</h2><p>A global model compresses heterogeneous processes—trend, range, volatility shock, liquidity depletion, forced liquidation, continuation, and reversal—into one target function. Strong in-sample classification does not show that a signal is selectable after costs, tied to a mechanism, or robust to regime change. The file-grounded V7 evidence makes this distinction necessary: one specific bar-derived feature/executor campaign did not clear its stated economic gate under its stated cost assumptions. That result neither validates nor refutes all behavioral edge or V8 itself.</p><h2>The V8 research problem</h2><p>V8 decomposes “is the next price move up or down?” into four questions: (1) Is there an observable behavior that could be economically meaningful at this time? (2) Can it be formalized ex ante with habitat, setup, trigger, invalidation, and expiry? (3) Once recorded as a Candidate, which hypotheses trigger and what happens under a canonical cost and execution policy? (4) Does a more complex component add measured value beyond the simpler baseline?</p><h2>Success and failure criteria</h2><p>Success is not an attractive backtest or complex diagram. A component is admitted only when it clears a preregistered target with complete trial lineage, point-in-time data, fixed cost/fill assumptions, dependence-aware uncertainty, multiple-testing accounting, and untouched chronological OOS. Failure is also information: reject an Expert, omit a Router, or simplify a Candidate schema. V8’s output is therefore a research laboratory that ties architectural complexity to burden of evidence, not a signal machine.</p></section><section id="introduction"><h1>Introduction: why this research is necessary</h1><p>The most expensive error in trading research is to mistake an observed price shape for a cause, and a selected backtest for edge. A second error is to conceal the first with more features, a larger model, finer routing, or more realistic-looking execution. This monograph keeps economic mechanism, observable behavior, statistical signature, trade rule, and execution choice distinct. Positive evidence at one layer never automatically settles the next layer.</p><p>The document does two jobs. First, it deeply analyzes the accessible work in the supplied 60-entry list across MoE/routing, selective prediction, survival and multi-state lifecycle methods, temporal event modeling, overfitting controls, microstructure, impact, and execution/portfolio decisions. Second, it draws the boundary on transfer: LLM MoE evidence is not financial Expert value; medical survival models are not Candidate PnL; contemporaneous order-flow impact is not forecastability. The valid transfer is primarily at the level of test design and data contracts.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-canonical-cancers-and-mega-move-audit">CANONICAL CANCERS AND MEGA MOVE AUDIT</a></li><li><a href="#sec-allegorical-market-archetype-audit">ALLEGORICAL MARKET ARCHETYPE AUDIT</a></li><li><a href="#sec-quantized-computation-audit">QUANTIZED COMPUTATION AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-d136-epistemic-economic-observability">D136 EPISTEMIC ECONOMIC OBSERVABILITY</a></li><li><a href="#sec-d141-expert-proving-ground">D141 EXPERT PROVING GROUND</a></li><li><a href="#sec-v85-ratification-candidate">V85 RATIFICATION CANDIDATE</a></li><li><a href="#sec-d150-continuous-epistemic-succession-spec">D150 CONTINUOUS EPISTEMIC SUCCESSION SPEC</a></li><li><a href="#sec-d152-scenario-centric-evidence-profile-spec">D152 SCENARIO CENTRIC EVIDENCE PROFILE SPEC</a></li><li><a href="#sec-d153-benchmark-fabric-spec">D153 BENCHMARK FABRIC SPEC</a></li><li><a href="#sec-d156-evidence-artifact-storage-hardening-spec">D156 EVIDENCE ARTIFACT STORAGE HARDENING SPEC</a></li><li><a href="#sec-d159-research-validity-audit-spec">D159 RESEARCH VALIDITY AUDIT SPEC</a></li><li><a href="#sec-market-world-foundry-v2-spec">MARKET WORLD FOUNDRY V2 SPEC</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-accp-v2-spec">ACCP V2 SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-venue-and-capital-simulation-spec">VENUE AND CAPITAL SIMULATION SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-kaizen-engine-spec">KAIZEN ENGINE SPEC</a></li><li><a href="#sec-kaizen-benchmark-spec">KAIZEN BENCHMARK SPEC</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-work-item-policy">WORK ITEM POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-constitution-v03-evidence-constitution-v2-ratified-under-cc-bill-v83-authority-003-cc-amend-v83-kaizen-004">V8 Constitution v0.3 — Evidence Constitution v2 (Ratified under CC-BILL-V8.3-AUTHORITY-003 &amp; CC-AMEND-V8.3-KAIZEN-004)</h1>
 <ol>
 <li>V8 is a falsification program, not a promise of edge.</li>
 <li>A claim is labeled <code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>,
@@ -277,7 +277,7 @@ there is no file-grounded V6 conclusion.</p>
 </tbody>
 </table>
 <p>The strongest available economic-certification record is still
-<code>v7/specs/simulation_authority_certification_v1.json</code>: <code>status: FAIL</code>,
+<code>v7/specs/simulation_authority_certification_v1.json</code>: <code>status: FAIL</code>, <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY <code>v7/specs/simulation_authority_certification_v1.json</code> belongs to the audited V7 materials, not to this repository tree. -->
 <code>autopilot_permission: BLOCKED</code>, <code>economic_verdict: INVALID_NOT_CERTIFIED</code>, and
 <code>profitability_claim: FORBIDDEN</code>. Therefore no project file reviewed here
 supports a profitability claim.</p>
@@ -3130,6 +3130,959 @@ $$\text{Living V8} = \text{Policy Lineage} \times \text{Evidence Lineage} \times
 <li><strong>[R14] Huber-Robust Confidence Sequences</strong>. Wang &amp; Ramdas (2023). <a href="https://arxiv.org/abs/2301.09573">https://arxiv.org/abs/2301.09573</a><br>
     <em>Provides anytime-valid confidence sequences under explicit contamination assumptions.</em></li>
 </ol></section>
+<section id="sec-d152-scenario-centric-evidence-profile-spec"><h1>D152 SCENARIO CENTRIC EVIDENCE PROFILE SPEC</h1><h1 id="d-152-scenario-centric-evidence-profile-quad-demotion-full-text-specification">D-152 Scenario-Centric Evidence Profile &amp; Quad Demotion (Full-Text Specification)</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION · <strong>Date:</strong> 2026-09-06 · <strong>Rules:</strong> 12, 28–31, 44, 51–56
+<strong>Supersession:</strong> extends D-147, D-150, D-151; amends no locked invariant; narrows presentation authority only.
+<strong>Artifacts:</strong> <code>v8-core/src/assurance/evidence_profile.rs</code>, <code>v8-core/tests/policy_evidence_profile_adversarial.rs</code>,
+<code>v8-core/src/usdm_sim.rs</code> (typed receipt), <code>v8-core/src/main.rs</code> (diagnostic rendering).</p>
+<h2 id="1-measurement-crisis">1. Measurement crisis</h2>
+<p>The canonical 12-month quad (<code>research/tape/quad-1h-12m/tape.jsonl</code>) is engineering-diagnostic
+but was psychologically promoted to policy quality (<code>+50.9%</code> headline, <code>TOTAL REALIZED RUST CASHFLOW</code>
+label in <code>main.rs</code>, <code>Net Realized Cashflow</code> label in <code>usdm_sim.rs</code>). That promotion violates Rule 12
+naming (simulated output rendered with realized vocabulary) and collapses five distinct evidence
+domains (retrospective diagnostic, robustness, frozen-OOS replication, prospective shadow, realized
+settlement) into one scalar. D-152 demotes the quad to a typed diagnostic court without deleting it.</p>
+<h2 id="2-ontology-claim-estimand-source-authority-verdict">2. Ontology (claim → estimand → source → authority → verdict)</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Estimand</th>
+<th>Evidence source</th>
+<th>Authority</th>
+<th>Verdict path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diagnostic pathology (fee drag, concentration, funnel)</td>
+<td>after-cost accounting on inspected tape</td>
+<td>burned quad / development tapes</td>
+<td><code>DIAGNOSTIC_SIGNAL</code>, role <code>BURNED_DIAGNOSTIC</code>, promotion <code>NONE</code></td>
+<td>diagnostic state, never edge</td>
+</tr>
+<tr>
+<td>Scenario behavior per cell</td>
+<td>survival / drawdown / retention under declared archetype or world family</td>
+<td>A01–A12 allegories, Foundry families</td>
+<td><code>DIAGNOSTIC_SIGNAL</code> (robustness) or scoped defeater</td>
+<td>visible per-cell, no averaging</td>
+</tr>
+<tr>
+<td>Robustness topology</td>
+<td>nearest validated plausible defeater, failed families, unknowns</td>
+<td>passports + coverage manifest + reverse stress</td>
+<td>negative-only, passport-bound</td>
+<td>defeater or boundary map</td>
+</tr>
+<tr>
+<td>Replication</td>
+<td>after-cost behavior on untouched chronology</td>
+<td>frozen-OOS receipt + preregistered plan</td>
+<td><code>REPLICATION_ONLY</code></td>
+<td>bounded replication only</td>
+</tr>
+<tr>
+<td>Prospective support</td>
+<td>forward survival / drift under sequential monitoring</td>
+<td><code>EvaluationEpoch</code> succession + e-process</td>
+<td><code>PROSPECTIVE_ONLY</code></td>
+<td>support / quarantine / revoke</td>
+</tr>
+<tr>
+<td>Realization</td>
+<td>venue-settled fills, fees, funding, slippage</td>
+<td>physical ledger</td>
+<td><code>REALIZATION_ONLY</code></td>
+<td>cashflow only</td>
+</tr>
+<tr>
+<td>Certified edge</td>
+<td>multiplicity-controlled predictive edge</td>
+<td>WRC + genuine DSR + SPA + ≥3 regimes + reconciliation</td>
+<td><code>SUPPORTED_EDGE</code> via Kaizen only</td>
+<td>edge or <code>NO_ECONOMIC_CLAIM</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>SUPPORTED_EDGE</code>, <code>SIMULATED_CASHFLOW</code>, <code>REALIZED_CASHFLOW</code> remain disjoint and non-convertible.</p>
+<h2 id="3-scenario-court">3. Scenario court</h2>
+<p>Historical archetypes reuse the 12 canonical allegories (A01–A12) with negative controls where
+defined; no hardcoded expected trades; ex-ante decision-time information only. Synthetic families
+reuse the 14 Foundry v2 families. Each <code>ScenarioCell</code> records coverage bars, episode count,
+net utility, survival, max drawdown, fee retention, failure phenotype, authority, and typed status
+(<code>Verified</code> / <code>Falsified</code> / <code>Blocked</code> / <code>Unresolved</code>). Missing coverage is <code>Unresolved</code>, never zero.
+No scalar mean across cells may hide a <code>Falsified</code> cell.</p>
+<h2 id="4-synthetic-asymmetry-audited">4. Synthetic asymmetry (audited)</h2>
+<p><code>synthetic_pass_confirms_no_edge()</code> is identically true: PASS grants nothing. <code>synthetic_fail_may_challenge(passport, claim)</code>
+is true iff <code>passport.passport_passed</code> AND <code>passport.does_not_confer_economic_edge()</code> AND claim ∈
+{<code>StructuralRobustness</code>, <code>EngineeringIntegrity</code>, <code>SemanticIntegrity</code>, <code>ResearchIntegrity</code>}.
+A failing passport authorizes nothing. <code>EconomicReplication</code>, <code>ProspectiveEfficacy</code>,
+<code>RealizedCashflow</code>, <code>DeploymentQualified</code> never accept synthetic evidence (existing
+<code>accepts_synthetic_evidence()</code> preserved). Falsification hypotheses: garbage-generator veto,
+correlated-world inflation, and scenario-tuning are blocked by passport conjunction (10 dims ≥ 0.70),
+per-cell visibility, and lineage-relative burn (see §8).</p>
+<h2 id="5-gates-g0g9">5. Gates G0–G9</h2>
+<ul>
+<li><strong>G0 constitutional/causal integrity</strong> (PIT, ChronosGate, determinism, ledger conservation,
+  receipt integrity, non-escalation, synthetic isolation, claim typing): hard fail blocks all.</li>
+<li><strong>G1 measurement identity</strong> (estimand, data role, lineage, search lineage, cost/execution/world
+  versions, burn marking): hard fail blocks inference.</li>
+<li><strong>G2 historical diagnostic court</strong>: exposes gross/net/fee/funding/slippage/drawdown/concentration/
+  contribution/turnover/funnel/pathology; outcome is diagnostic state, promotion <code>NONE</code>.</li>
+<li><strong>G3 scenario coverage &amp; behavioral robustness</strong>: declared matrix + negative controls +
+  perturbations + cross-asset + friction stress + path topology; hard cells visible; unknown stays unknown.</li>
+<li><strong>G4 adversarial/synthetic falsification</strong>: provenance + passport + plausibility bounds + coverage
+  manifest + minimal-defeater search + reproducibility; PASS mints nothing; FAIL is passport-scoped.</li>
+<li><strong>G5 selection control</strong>: WRC + genuine DSR + SPA remain the active burden. The in-tree
+  <code>ResearchMultiplicityLedger::summarize()</code> uses analytic proxy PBO/DSR formulas and therefore
+  keeps G5 at <code>NO_ECONOMIC_CLAIM</code> (<code>audit_statistical_triple()</code>). No weakening without a
+  <code>MethodSubstitutionReceipt</code> proving equal-or-stronger error control.</li>
+<li><strong>G6 frozen-OOS replication</strong>: frozen identity, untouched chronology, fixed costs/execution,
+  preregistered estimands/plan, dependence-aware uncertainty, full trial lineage. PASS = bounded
+  replication only.</li>
+<li><strong>G7 prospective shadow succession</strong>: <code>EvaluationEpoch</code> forward evidence, survival/drift/drawdown,
+  e-process state; transitions <code>ACTIVE → QUARANTINED → REVOKED</code> enforced by certificate lifecycle.</li>
+<li><strong>G8 live realization</strong>: venue-settled fills/costs/settlement/deviation/capacity/incidents.
+  Historical/synthetic never substitutes.</li>
+<li><strong>G9 certificate</strong>: non-scalar <code>ProductionEvidenceCertificate</code> + profile conclusion; scalar collapse forbidden.</li>
+</ul>
+<h2 id="6-policyevidenceprofile-canonical-output">6. PolicyEvidenceProfile (canonical output)</h2>
+<p><code>v8-core/src/assurance/evidence_profile.rs::PolicyEvidenceProfile</code> aggregates policy/code/config
+hashes, lineage, case/epoch identity, typed historical diagnostic (<code>BURNED_DIAGNOSTIC</code>, promotion
+<code>NONE</code>), scenario cells, <code>RobustnessTopology</code>, <code>FrozenOOSState</code>, <code>ShadowState</code>, <code>LiveState</code>,
+<code>CertificateStatus</code>, gate verdicts, and <code>EconomicConclusion</code> (<code>UNKNOWN</code>, <code>HISTORICALLY_REPLICATED</code>,
+<code>PROSPECTIVELY_SUPPORTED</code>, <code>LIVE_SUPPORTED</code>, <code>NOT_PRODUCTION_SUPPORTED</code>). <code>derive_conclusion()</code>
+returns <code>LiveSupported</code> only with live fills, <code>ProspectivelySupported</code> only with active shadow,
+otherwise <code>NotProductionSupported</code> (frozen-OOS pass alone does not produce production support;
+any G0/G1 block forces not-supported). <code>render_text()</code> prints the quad number only with its
+role and authority. Owner: <code>assurance/</code> (extends certificate lifecycle; no second registry).</p>
+<h2 id="7-quad-demotion-call-graph-enforcement">7. Quad demotion (call-graph enforcement)</h2>
+<ul>
+<li><code>PortfolioReceipt</code> gains <code>evidence_role = "BURNED_DIAGNOSTIC"</code>, <code>promotion_authority = "NONE"</code>
+  (serde-defaulted, backward compatible).</li>
+<li><code>main.rs --quad</code> header becomes <code>HISTORICAL DIAGNOSTIC COURT -- QUAD TAPE</code> with
+  <code>Data role: BURNED_DIAGNOSTIC | Economic promotion authority: NONE | Verdict: NO_ECONOMIC_CLAIM</code>;
+  total line becomes <code>TOTAL SIMULATED DIAGNOSTIC CASHFLOW (BURNED_DIAGNOSTIC, NO PROMOTION AUTHORITY)</code>.</li>
+<li><code>usdm_sim.rs</code> detail labels become <code>Simulated Diagnostic Net</code> / <code>Net Simulated Diagnostic Cashflow</code>.</li>
+<li>Downstream promotion is blocked by type: profile conclusion ignores historical net for support;
+  renderer firewall classes unchanged (<code>SimulatedCashflow</code> header preserved).</li>
+</ul>
+<h2 id="8-lineage-relative-burn">8. Lineage-relative burn</h2>
+<p>The 12-month quad is <code>BURNED_DIAGNOSTIC</code> for the current policy lineage (tuned under D-140–D-144).
+It retains full diagnostic utility and zero promotion authority. Future lineages declare their own
+burn ledger; no tape silently changes role.</p>
+<h2 id="9-falsification-of-this-design-what-would-prove-it-wrong">9. Falsification of this design (what would prove it wrong)</h2>
+<ul>
+<li>Scenario matrix tuned to favor the policy (detected via lineage audit + negative-control gaps).</li>
+<li>Generator-aligned reward (detected via passport-behavior decoupling tests).</li>
+<li>Synthetic veto overreach (blocked by §4 conjunction; test <code>adv_garbage_generator_cannot_veto</code>).</li>
+<li>Correlated-scenario volume inflation (blocked by per-cell visibility; test <code>adv_no_scalar_average_hides_failure</code>).</li>
+<li>Shadow optional stopping (blocked by e-process requirement in G7; monitoring plan id required).</li>
+<li>Certificate decoration (blocked by <code>derive_conclusion()</code> enforcement; test <code>adv_certificate_decorative_without_enforcement</code>).</li>
+<li>Quad dominance persistence (blocked by §7 labels + receipt typing; test <code>adv_quad_cannot_mint_edge</code>).</li>
+<li>Triple-gate redundancy (documented in §5 G5; substitution requires receipt, not prose).</li>
+</ul>
+<h2 id="10-verification">10. Verification</h2>
+<p><code>cargo test</code> 1038 passed / 15 suites including 14-test
+<code>policy_evidence_profile_adversarial.rs</code> (quad promotion, synthetic escalation, holdout reuse
+semantics, cherry-picking, correlated inflation, scalar collapse). <code>cargo check</code> and <code>cargo clippy</code>
+clean. Uncertified economic output remains <code>NO_ECONOMIC_CLAIM</code>.</p></section>
+<section id="sec-d153-benchmark-fabric-spec"><h1>D153 BENCHMARK FABRIC SPEC</h1><h1 id="d-153-benchmark-fabric-specification-full-text-constitutional-specification">D-153 Benchmark Fabric Specification (Full-Text Constitutional Specification)</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION · <strong>Date:</strong> 2026-09-06 · <strong>Rules:</strong> 12, 28–31, 44, 51–57
+<strong>Supersession:</strong> Extends D-147, D-150, D-151, D-152; preserves all locked invariants and epistemic boundaries.
+<strong>Artifacts:</strong> <code>v8-core/src/benchmark/</code>, <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>, <code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code>, <code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code>, <code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code>, <code>v8-core/src/kaizen/</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code>.
+<strong>Turkish mirror:</strong> <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code> (registered 2026-09-07 under D-159; this file is the normative text and the mirror is a translation, not a second authority).</p>
+<blockquote>
+<p><strong>Status correction (D-159, issue #330).</strong> This header previously read
+<code>RATIFIED_DECISION</code> while both decision registers recorded D-153 as
+<code>PROVISIONAL_DECISION</code>. The registers govern status, so the header was the
+divergent side and has been aligned rather than the register escalated. It also
+cited <code>v8-core/tests/benchmark_fabric_adversarial.rs</code>, a file that has never <!-- AUDIT-DOC-PATHS: NEGATIVE_CITATION <code>v8-core/tests/benchmark_fabric_adversarial.rs</code> is cited here precisely because it never existed; the real D-153 suite is <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>. -->
+existed in this repository; the D-153 sabotage suite is
+<code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>. §2.6's "explicit typed
+adapters with recorded semantic divergence" was, at ratification, implemented
+as fixed in-process vectors and is now implemented as the artifact-bound
+adapters of <code>v8-core/src/benchmark/parity.rs</code> (issue #329). Neither correction
+changes any normative requirement in §§2–5.</p>
+</blockquote>
+<hr>
+<h2 id="1-executive-thesis-and-problem-statement">1. Executive Thesis and Problem Statement</h2>
+<p>V8's epistemic infrastructure previously possessed strong individual verification organs:
+- Assurance Fabric and ClaimRegistry (D-131, D-148, D-150)
+- Market World Foundry (D-141, D-144)
+- System Proving Ground (D-141)
+- PolicyEvidenceProfile and G0–G9 scenario gates (D-152)
+- Kaizen research history and debt tracking (D-137, D-145)</p>
+<p>However, cross-policy evaluation lacked a unified, immutable, content-addressed, multi-population benchmark protocol. Without D-153, policy comparisons were vulnerable to:
+1. Benchmark collapse: conflating benchmark capability scores with economic readiness or edge.
+2. Evaluator artifacting: policies optimizing against a specific simulation or backtest harness quirk.
+3. Common-mode failure: identical assumptions between policy generators and evaluators.
+4. Metric compensability: allowing strong performance in benign regimes to mathematically conceal catastrophic failure in tail scenarios.
+5. Inadmissible forward claims: extrapolating synthetic simulation success to future cashflow probability.</p>
+<p>D-153 establishes the <strong>Benchmark Fabric (BF)</strong>: an evidence-bound diagnostic evaluation instrument that evaluates frozen policies across governed real, synthetic, and external reference populations without creating a parallel authority root.</p>
+<hr>
+<h2 id="2-epistemic-hierarchy-non-collapse-invariants-rules-571-578">2. Epistemic Hierarchy &amp; Non-Collapse Invariants (Rules 57.1 – 57.8)</h2>
+<ol>
+<li><strong>Benchmark ≠ Assurance:</strong> The Benchmark Fabric is a diagnostic and comparative instrument. It computes diagnostic indicators, failure topologies, and relative margins. It does NOT grant <code>SUPPORTED_EDGE</code> or deployment authority. Readiness and promotion authority remain exclusively with Assurance Fabric, G0–G9 gates, and ClaimRegistry.</li>
+<li><strong>CapabilityScore ≠ Readiness:</strong> The benchmark CapabilityScore (0.0 to 100.0) measures multidimensional behavioral competence. It does not measure readiness for live execution and cannot override any hard gate.</li>
+<li><strong>CapabilityScore ≠ Future-Profit Probability:</strong> CapabilityScore is not a probability distribution over future returns. Converting a benchmark score directly into a capital allocation multiplier without an audited <code>CapitalOutcomeProjection</code> is constitutionally prohibited.</li>
+<li><strong>Hard Gates Cannot Be Averaged Away:</strong> Each benchmark cell and each gate in <code>GateVector</code> (G0–G9, B0–B9) is non-compensable. A zero or failure in any required gate results in overall benchmark failure, regardless of a 99+ score in other domains.</li>
+<li><strong>Synthetic Asymmetry:</strong> Synthetic evaluations are strictly asymmetric:
+   - Valid synthetic failure (<code>synthetic_fail_may_challenge</code>) may falsify robustness, execution safety, and stability claims within the scope of a certified World Passport.
+   - Synthetic success (<code>synthetic_pass_confirms_no_edge</code>) confers zero economic edge and cannot prove future profitability.</li>
+<li><strong>External Instrument Boundaries:</strong> External evaluators (such as QuantConnect LEAN or external execution referees) are treated as instruments, not sovereign authorities. They must operate behind explicit typed adapters with recorded semantic divergence and parity attribution.</li>
+<li><strong>Holdout and Pristine Data Protection:</strong> Consumed holdout evidence cannot be unburned by renaming or wrapping in benchmark cases. Benchmark runs against burned diagnostic data must be explicitly tagged <code>BURNED_DIAGNOSTIC</code> with zero promotion weight.</li>
+<li><strong>Research Debt and Multiple Testing Accounting:</strong> Benchmark runs consume research trial budget. Every evaluation across parameter sweeps or challenger iterations increments Kaizen trial debt and inflates the family-wise hurdle rate.</li>
+</ol>
+<hr>
+<h2 id="3-benchmark-ontology-schemas">3. Benchmark Ontology &amp; Schemas</h2>
+<h3 id="31-benchmarkversion">3.1 BenchmarkVersion</h3>
+<p>A deterministic, content-addressed version descriptor:
+- <code>version_id</code>: Semantic version string (e.g. <code>v8.5.0-bf1</code>).
+- <code>specification_hash</code>: SHA-256 digest of the complete benchmark specification, population definitions, and metric equations.
+- <code>created_at_utc</code>: ISO-8601 timestamp.
+- <code>population_hashes</code>: Map of population name to immutable manifest hash.
+- <code>is_frozen</code>: Boolean indicating that the benchmark battery is locked against modification.</p>
+<h3 id="32-benchmarkcase-benchmarkcasemanifest">3.2 BenchmarkCase &amp; BenchmarkCaseManifest</h3>
+<p>A single evaluation unit:
+- <code>case_id</code>: Unique identifier (e.g. <code>BC-REAL-CHRON-01</code>, <code>BC-FOUNDRY-VOL-04</code>).
+- <code>population_type</code>: <code>Real</code>, <code>SyntheticFoundry</code>, <code>ExternalReference</code>, or <code>StressDefeater</code>.
+- <code>data_role</code>: <code>BURNED_DIAGNOSTIC</code>, <code>CROSS_VALIDATION</code>, <code>OUT_OF_SAMPLE_FROZEN</code>, <code>SYNTHETIC_GENERATED</code>, or <code>EXTERNAL_INDEPENDENT</code>.
+- <code>archetype_or_family</code>: Specific regime allegory (A01–A12) or Foundry family (F01–F14).
+- <code>environment_spec_hash</code>: Hash of the execution environment parameters (latency, slippage model, fee schedules).
+- <code>input_manifest</code>: Dataset manifest including symbol, resolution, time range, bar count, and data content hash.</p>
+<h3 id="33-metricobservation-the-10-benchmark-domains">3.3 MetricObservation &amp; The 10 Benchmark Domains</h3>
+<p>Observations recorded per case across 10 orthogonal capability domains:
+1. <code>PredictiveEdge</code>: Directional accuracy, after-cost expectancy, information ratio (real populations only).
+2. <code>ExecutionEfficiency</code>: Effective slippage drag, maker fill ratio, spread capture efficiency.
+3. <code>DrawdownResilience</code>: Max drawdown, ulcer index, time to recovery, tail loss variance.
+4. <code>VolatilityAdaptation</code>: Performance under volatility spikes, leverage responsiveness.
+5. <code>StructuralStability</code>: Stationarity of returns, parameter perturbation sensitivity.
+6. <code>RegimeRobustness</code>: Worst-case scenario cell performance across all allegories/families.
+7. <code>TailRiskConfinement</code>: Value-at-Risk containment, conditional drawdown at risk (CDaR).
+8. <code>CostModelIntegrity</code>: Retention of gross gains after realistic and adversarial fee models.
+9. <code>ExternalRefereeParity</code>: Alignment and tracking error vs external execution baselines (LEAN / referee).
+10. <code>DefeaterProximity</code>: Distance to nearest falsifying regime perturbation (reverse stress).</p>
+<p>Each observation records raw value, normalized score [0, 100], confidence interval, and verification status.</p>
+<h3 id="34-capabilityscore-mathematics">3.4 CapabilityScore Mathematics</h3>
+<p>The benchmark score is computed as:
+$$\text{Score} = \left( \sum_{i=1}^{10} w_i \cdot \text{DomainScore}<em>i \right) \times \text{CoverageFactor} \times \prod</em>{j=1}^{m} \mathbf{1}_{{\text{Gate}_j = \text{Pass}}}$$
+Where:
+- $\sum w_i = 1.0$, domain weights are predefined and frozen in <code>BenchmarkVersion</code>.
+- $\text{CoverageFactor} \in [0.0, 1.0]$ penalizes incomplete or skipped scenario cells.
+- If any required gate in <code>GateVector</code> fails, the product is 0 and the final score is forced to 0 (hard failure).</p>
+<hr>
+<h2 id="4-population-taxonomy-adapters">4. Population Taxonomy &amp; Adapters</h2>
+<ol>
+<li><strong>Burned Historical Diagnostic:</strong> Development datasets (including the canonical 12-month quad) used for engineering pathology detection. Always marked <code>BURNED_DIAGNOSTIC</code>.</li>
+<li><strong>Chronological Real Populations:</strong> Walk-forward out-of-sample slices with strictly causal time bounds.</li>
+<li><strong>Purged Combinatorial Cross-Validation (CPCV):</strong> Non-overlapping purged test folds measuring distribution stability across multiple partitions.</li>
+<li><strong>Market World Foundry Populations:</strong> Synthetic worlds generated with verified World Passports (D-141, D-144). Evaluates extreme tails and metamorphic invariance.</li>
+<li><strong>Reverse Stress Defeater Population:</strong> Adversarial minimal perturbation environments designed to locate the policy's failure boundary.</li>
+<li><strong>External Execution Referee:</strong> Independent trade matching and PnL calculation via LEAN reference adapter or independent trade ledger.</li>
+</ol>
+<hr>
+<h2 id="5-capitaloutcomeprojection-probability-boundaries">5. CapitalOutcomeProjection &amp; Probability Boundaries</h2>
+<p><code>CapitalOutcomeProjection</code> represents a disciplined, evidence-bounded forward outcome view:
+- <code>evidence_grade</code>: <code>DiagnosticOnly</code>, <code>SyntheticRobustnessOnly</code>, <code>ReplicationBacked</code>, or <code>EmpiricallyCertified</code>.
+- Forward probability assertions are strictly forbidden if <code>evidence_grade</code> is <code>DiagnosticOnly</code> or <code>SyntheticRobustnessOnly</code>.
+- If synthetic populations are involved, projected forward profit expectancy is clamped to <code>UNSUPPORTED_FORWARD_CLAIM</code>.
+- Reinvestment/compounding models must account for liquidity floors, market capacity, and execution drag.</p>
+<hr>
+<h2 id="6-kaizen-benchmark-integration-trial-debt">6. Kaizen Benchmark Integration &amp; Trial Debt</h2>
+<ol>
+<li><strong>Benchmark Delta Ledger:</strong> Kaizen records an append-only receipt of every benchmark run comparing Challenger vs Incumbent.</li>
+<li><strong>Multiple Testing Adjustments:</strong> Every failed or exploratory benchmark run increments the global trial counter ($N_{\text{trials}}$), strictly increasing the DSR/WRC statistical threshold required for subsequent succession claims.</li>
+<li><strong>Bridge Studies:</strong> When a <code>BenchmarkVersion</code> is updated or recalibrated, a formal bridge study must evaluate both Incumbent and previous baselines on both versions to ensure continuity of standards.</li>
+</ol></section>
+<section id="sec-d156-evidence-artifact-storage-hardening-spec"><h1>D156 EVIDENCE ARTIFACT STORAGE HARDENING SPEC</h1><h1 id="d-156-evidence-artifact-statistical-benchmark-and-cache-hardening-specification">D-156 Evidence, Artifact, Statistical, Benchmark, and Cache Hardening Specification</h1>
+<p><strong>Status:</strong> <code>PROVISIONAL_DECISION</code></p>
+<p><strong>Date:</strong> 2026-09-06</p>
+<p><strong>Issue set:</strong> #318, #319, #320, #321, #322, #323, #324</p>
+<p><strong>Normative relationship:</strong> This document is the complete authoritative specification for the hardening work represented by issues #318 through #324. It operationalizes D-118 f64 invariant governance and the existing V8 evidence, economic-claim, persistence, and benchmark decisions. It does not replace those decisions, reopen frozen economic evidence, or authorize a predictive-profitability claim.</p>
+<p><strong>Implementation branch:</strong> <code>audit/research-validity-20260906</code></p>
+<p><strong>Related PR:</strong> #331, <code>fix: harden ledger artifacts, statistics, cache, and benchmark inputs</code></p>
+<p>This document is intentionally complete. The decision register, changelog, implementation layout, PR description, and monographs are summaries and must link to this file rather than becoming independent specifications.</p>
+<h2 id="1-purpose">1. Purpose</h2>
+<p>The work item set addresses a single integrity boundary: V8 must not turn missing, malformed, synthetic, proxy, or unregistered evidence into a plausible-looking economic artifact.</p>
+<p>The boundary covers:</p>
+<ol>
+<li>finite and explicitly absent floating-point values;</li>
+<li>append-only candidate, cashflow, evidence, and checkpoint persistence;</li>
+<li>physical artifact identity and replay compatibility;</li>
+<li>scenario ruin, Monte Carlo resampling, and Slippage-at-Risk absence semantics;</li>
+<li>standard Parquet publication instead of JSON bytes hidden behind a <code>.parquet</code> suffix;</li>
+<li>statistical kernels that distinguish a diagnostic proxy from a registered estimator;</li>
+<li>benchmark execution that consumes declared physical inputs and refuses to fabricate a receipt;</li>
+<li>durable production cache storage with content-addressed validation and migration from legacy JSONL;</li>
+<li>a complete audit trail for every blocked or admitted path.</li>
+</ol>
+<p>The governing principle is:</p>
+<blockquote>
+<p>Missing authority or missing data is an explicit state. It is never a numeric placeholder, an invented artifact, or an implied economic claim.</p>
+</blockquote>
+<h2 id="2-issue-traceability">2. Issue traceability</h2>
+<h3 id="21-318-d-118-f64-invariant-governance">2.1 #318: D-118 f64 invariant governance</h3>
+<p>D-118 remains the governing source for floating-point identity and invariant policy. D-156 applies that policy at the artifact and evaluation boundaries:</p>
+<ul>
+<li>values exposed as quantitative observations must be finite when present;</li>
+<li><code>NaN</code>, positive infinity, negative infinity, and invalid input series are rejected or converted to an explicit blocked state;</li>
+<li>absence is represented with <code>Option&lt;T&gt;</code>, an explicit status, or a typed error;</li>
+<li>a proxy value cannot occupy a field whose name or contract denotes a certified estimator;</li>
+<li>serializers must preserve IEEE-754 <code>f64</code> values where a finite scalar is part of the physical artifact contract;</li>
+<li>no consumer may infer zero, false, or a successful gate from an absent value.</li>
+</ul>
+<p>D-156 does not introduce a new floating-point tolerance or silently change an existing tolerance. A tolerance change remains a separate decision and must be registered independently.</p>
+<h3 id="22-319-ledger-checkpoint-and-v82-artifact-hardening">2.2 #319: ledger, checkpoint, and V8.2 artifact hardening</h3>
+<p>The candidate registry, cashflow ledger, evidence artifacts, retention records, and simulation checkpoints remain append-only or content-addressed at their respective boundaries. Checkpoints are version-bound and tape-hash-bound. V8.2-compatible evidence headers retain their declared generator, version, tier, hash encoding, and run constants. The Python implementation remains frozen and is not reactivated by this work.</p>
+<h3 id="23-320-scenario-monte-carlo-ruin-and-sar-fallback-semantics">2.3 #320: scenario Monte Carlo, ruin, and SaR fallback semantics</h3>
+<p>Scenario simulation may resample only a supplied physical trade population. It may not manufacture a baseline population, offset observations, or use a hardcoded result to make a report appear complete. If trade returns are absent, empty, non-finite, or the replication request is invalid, ruin estimates remain absent and the report is <code>NO_ECONOMIC_CLAIM</code>. SaR remains unresolved unless physical liquidity/slippage inputs are supplied.</p>
+<h3 id="24-321-physical-parquet-artifact-production">2.4 #321: physical Parquet artifact production</h3>
+<p>Every output whose contract says Parquet must be a standard, readable Parquet file. The writer publishes atomically, records source-order row indices, preserves canonical source rows in <code>row_json</code>, writes nullable typed scalar columns, and records schema and provenance metadata. A file merely containing JSON bytes with a <code>.parquet</code> name is invalid.</p>
+<h3 id="25-322-statistical-kernel-and-proxy-dsrpbospa-corrections">2.5 #322: statistical kernel and proxy DSR/PBO/SPA corrections</h3>
+<p>The statistical layer must distinguish:</p>
+<ul>
+<li>a genuine estimator with a registered method and authority receipt;</li>
+<li>a diagnostic proxy that can be displayed only as a proxy;</li>
+<li>an underpowered or missing-data result;</li>
+<li>a conservation or lineage failure.</li>
+</ul>
+<p>A proxy DSR value is not a genuine DSR result. A multiplicity ledger with no registered PBO/DSR estimator has <code>None</code> for those fields and remains <code>NO_ECONOMIC_CLAIM</code>. No WRC, genuine DSR, or Hansen SPA certification is generated by implication.</p>
+<h3 id="26-323-data-backed-benchmarkrunner">2.6 #323: data-backed BenchmarkRunner</h3>
+<p><code>BenchmarkRunner</code> must validate the declared <code>BenchmarkEvidenceManifest</code> and every physical artifact before any evaluator can emit a receipt. It must not synthesize observations, scores, dates, gates, statistical values, population rows, or authority receipts. The current runner deliberately stops with <code>BLOCKED_REGISTERED_BENCHMARK_EVALUATOR_REQUIRED</code> after physical input validation because a registered data-backed evaluator and its evidence schema are not yet ratified.</p>
+<p>This is a fail-closed completion of the boundary, not permission to restore the historical hardcoded benchmark implementation.</p>
+<h3 id="27-324-production-cache-storage-adapter">2.7 #324: production cache storage adapter</h3>
+<p>The production cache uses the durable <code>redb</code> backend with a versioned canonical key, content-addressed digest, transactional publication, read-back validation, compaction, and guarded migration from valid legacy JSONL records. Malformed, stale, mismatched, or unsupported-version entries are not admitted as cache hits.</p>
+<h2 id="3-authority-and-non-goals">3. Authority and non-goals</h2>
+<h3 id="31-authority-precedence">3.1 Authority precedence</h3>
+<p>The following order applies:</p>
+<ol>
+<li>V8 Constitution and registered D-series decisions;</li>
+<li>this full-text D-156 specification;</li>
+<li>the existing Rust type and module contracts listed below;</li>
+<li>the implementation layout and changelog;</li>
+<li>tests, reports, and human-readable summaries.</li>
+</ol>
+<p>If an implementation conflicts with a higher authority, the implementation fails review. A summary cannot override this specification.</p>
+<h3 id="32-non-goals">3.2 Non-goals</h3>
+<p>D-156 does not:</p>
+<ul>
+<li>certify profitability or predictive edge;</li>
+<li>promote a diagnostic, synthetic, counterfactual, or proxy result to <code>SUPPORTED_EDGE</code>;</li>
+<li>reopen a burned diagnostic tape or frozen holdout;</li>
+<li>introduce a new economic estimator without a separate registered authority receipt;</li>
+<li>reactivate <code>src/v8/</code>, root <code>tests/</code>, or any deprecated Python runtime;</li>
+<li>add a new hidden cache protocol, artifact format, or benchmark population;</li>
+<li>treat a successful compile as evidence of economic validity;</li>
+<li>use a synthetic fixture in a production, evaluation, findings-ledger, or report-generation path.</li>
+</ul>
+<h2 id="4-existing-types-traits-and-contracts-to-reuse">4. Existing types, traits, and contracts to reuse</h2>
+<p>The implementation must reuse the following contracts. New parallel types are prohibited unless a later decision explicitly authorizes them.</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Canonical contract</th>
+<th>Required use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Artifact identity</td>
+<td><code>v8-core/src/evidence.rs::Artifact</code>, <code>RunConstants</code>, <code>ArtifactTier</code>, <code>RetentionStore</code></td>
+<td>Preserve hash encoding, tier semantics, run constants, retention resolution, and byte-stable read-back.</td>
+</tr>
+<tr>
+<td>Candidate persistence</td>
+<td><code>v8-core/src/candidate.rs::CandidateRegistry</code>, <code>TransitionRecord</code></td>
+<td>Append legal transitions, preserve sequence and event hashes, and fail closed on replay divergence.</td>
+</tr>
+<tr>
+<td>Cashflow persistence</td>
+<td><code>v8-core/src/cashflow.rs::CashflowLedger</code>, <code>EconomicCashflow</code></td>
+<td>Preserve conservation checks and physical-ledger provenance.</td>
+</tr>
+<tr>
+<td>Checkpoint persistence</td>
+<td><code>v8-core/src/checkpoint.rs::SimulationCheckpoint</code>, <code>CheckpointHeader</code></td>
+<td>Use versioned, tape-bound, atomically published checkpoints.</td>
+</tr>
+<tr>
+<td>Physical Parquet</td>
+<td><code>v8-core/src/parquet_artifact.rs::write_json_rows</code>, <code>verify_parquet</code>, <code>ParquetArtifactReceipt</code></td>
+<td>Produce and verify actual Parquet files, not disguised JSON.</td>
+</tr>
+<tr>
+<td>Scenario outputs</td>
+<td><code>v8-core/src/usdm_sim/scenario_ruin.rs::ScenarioRuinReport</code>, <code>SlippageAtRiskReport</code></td>
+<td>Preserve explicit absence and <code>NO_ECONOMIC_CLAIM</code>.</td>
+</tr>
+<tr>
+<td>Statistics</td>
+<td><code>v8-core/src/evaluation/statistics.rs</code></td>
+<td>Reuse <code>BootstrapResult</code>, <code>NullModelResult</code>, <code>PermutationResult</code>, and <code>ProxyStatistic</code>; preserve <code>Result</code> and <code>Option</code> semantics.</td>
+</tr>
+<tr>
+<td>Multiplicity</td>
+<td><code>v8-core/src/evaluation/multiple_testing.rs::ResearchMultiplicityLedger</code>, <code>MultipleTestingSummary</code></td>
+<td>Track complete search lineage and trial conservation; do not populate estimator fields without a registered estimator.</td>
+</tr>
+<tr>
+<td>Benchmark input declaration</td>
+<td><code>v8-core/src/benchmark/case.rs::BenchmarkCase</code>, <code>BenchmarkEvidenceManifest</code></td>
+<td>Require non-empty case identity and declared physical evidence paths.</td>
+</tr>
+<tr>
+<td>Benchmark boundary</td>
+<td><code>v8-core/src/benchmark/runner.rs::BenchmarkRunner</code></td>
+<td>Validate physical evidence, then fail closed until the evaluator is registered.</td>
+</tr>
+<tr>
+<td>Cache storage</td>
+<td><code>v8-core/src/cache.rs::CacheStore</code>, <code>CacheEntry</code>, <code>canonical_key</code>, <code>key_digest</code></td>
+<td>Use versioned content-addressed redb storage and validated reads.</td>
+</tr>
+<tr>
+<td>Economic firewall</td>
+<td>Constitution Rule 12 and existing claim/status fields</td>
+<td>Keep all unresolved, proxy, diagnostic, and unregistered outputs at <code>NO_ECONOMIC_CLAIM</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-normative-requirements">5. Normative requirements</h2>
+<p>The following requirements are binding.</p>
+<h3 id="r156-01-finite-present-invariant">R156-01: finite-present invariant</h3>
+<p>A present quantitative scalar must be finite. Any non-finite scalar entering a statistical, scenario, benchmark, cache, or artifact boundary must be rejected or mapped to an explicit blocked state. The implementation must not silently serialize a non-finite value as a valid observation.</p>
+<h3 id="r156-02-absence-preservation">R156-02: absence preservation</h3>
+<p>Missing trade populations, missing episode durations, missing regimes, missing liquidity inputs, missing evidence manifests, and missing estimator receipts must remain absent. <code>None</code>, a blocked status, and a structured error are valid outcomes. Zero, an empty success receipt, or a fabricated default is not a valid substitute.</p>
+<h3 id="r156-03-no-synthetic-production-input">R156-03: no synthetic production input</h3>
+<p>Synthetic fixtures are permitted only in Rust test modules under <code>#[cfg(test)]</code>. Production and evaluation paths must consume physical data or fail closed. Resampling realized input trades for a scenario diagnostic is allowed only when the input population is physically supplied and the resulting output remains <code>NO_ECONOMIC_CLAIM</code>.</p>
+<h3 id="r156-04-no-hardcoded-statistical-or-economic-claim">R156-04: no hardcoded statistical or economic claim</h3>
+<p>P-values, effect sizes, PBO values, confidence values, expected improvements, Sharpe-based certification, and profitability conclusions must be computed by a registered estimator over real inputs. Hardcoded values and historical constants cannot be used to satisfy a gate or populate a receipt.</p>
+<h3 id="r156-05-v82-artifact-lineage">R156-05: V8.2 artifact lineage</h3>
+<p>A V8.2-compatible ledger artifact must retain its physical header and identity contract, including generator/version, hash encoding, tier, and run constants. Artifacts with missing or inconsistent headers do not resolve as valid evidence. Frozen Python files remain a parity oracle only and are not modified.</p>
+<h3 id="r156-06-append-only-candidate-and-cashflow-persistence">R156-06: append-only candidate and cashflow persistence</h3>
+<p>Candidate transitions and physical cashflows must preserve order, legal state transitions, event identity, hash identity, and conservation. A replay mismatch, duplicate inconsistent publication, or malformed record is a hard failure. A later projection cannot rewrite an earlier physical record.</p>
+<h3 id="r156-07-atomic-checkpoint-publication">R156-07: atomic checkpoint publication</h3>
+<p>A checkpoint writer must create its parent directory, write to a temporary file in the target directory, flush and synchronize the temporary file, atomically rename it into place, and synchronize the containing directory where supported. A checkpoint reader must reject an unsupported version or a tape-hash mismatch.</p>
+<h3 id="r156-08-standard-parquet">R156-08: standard Parquet</h3>
+<p><code>write_json_rows</code> must produce a file readable by standard Parquet readers. The artifact must include source-order <code>row_index</code>, a canonical <code>row_json</code> provenance column, nullable typed columns for scalar values, and metadata for artifact kind, row order, f64 encoding, schema manifest, and provenance. Empty or null values must not be converted into an invented zero.</p>
+<h3 id="r156-09-atomic-parquet-publication-and-verification">R156-09: atomic Parquet publication and verification</h3>
+<p>The Parquet file must be written to a temporary sibling and published atomically. The returned receipt must include the path, row count, column count, byte length, and a verification result. <code>verify_parquet</code> must reject an unreadable file and must verify physical row-count readability before a benchmark consumer accepts it.</p>
+<h3 id="r156-10-scenario-ruin-input-boundary">R156-10: scenario ruin input boundary</h3>
+<p>The scenario ruin simulator may consume only the caller-supplied finite <code>trade_net_rs</code> population. Empty input, zero replications, or non-finite input produces <code>DATA_BLOCKED_MISSING_OR_INVALID_TRADE_INPUT</code>. The baseline builder must not invent a trade tape.</p>
+<h3 id="r156-11-sar-epistemic-boundary">R156-11: SaR epistemic boundary</h3>
+<p>The SaR report must retain <code>Option&lt;f64&gt;</code> for baseline and tail values when physical liquidity inputs are unavailable. Missing liquidity input produces <code>UNRESOLVED_MISSING_LIQUIDITY_INPUT</code>, authority <code>UNRESOLVED</code>, and claim <code>NO_ECONOMIC_CLAIM</code>. The implementation must not infer slippage from a nominal constant.</p>
+<h3 id="r156-12-genuine-estimator-distinction">R156-12: genuine estimator distinction</h3>
+<p>A proxy DSR must carry an explicit proxy status, method version, and <code>NO_ECONOMIC_CLAIM</code>. The genuine DSR entry point must refuse execution until a genuine estimator and authority receipt are registered. A proxy cannot be serialized under a genuine-estimator field or consumed by a promotion gate.</p>
+<h3 id="r156-13-multiplicity-conservation">R156-13: multiplicity conservation</h3>
+<p>The multiplicity ledger must preserve the trial accounting identity <code>total = survived + pruned + falsified</code>. It must retain complete family and variant lineage. If there is no search lineage, the status is <code>DATA_BLOCKED_NO_SEARCH_LINEAGE</code>. If the lineage is valid but no genuine estimator has consumed it, the status is <code>MULTIPLICITY_LEDGER_VALID_GENUINE_ESTIMATOR_REQUIRED</code> and the claim remains <code>NO_ECONOMIC_CLAIM</code>.</p>
+<h3 id="r156-14-benchmark-physical-evidence-declaration">R156-14: benchmark physical evidence declaration</h3>
+<p>A benchmark case must have a non-empty case identifier, case hash, evidence manifest, and evidence paths. Every declared path must physically exist and be readable. A Parquet path must pass the standard Parquet verifier. Other artifact paths must pass filesystem metadata validation.</p>
+<h3 id="r156-15-benchmark-evaluator-fail-closed-boundary">R156-15: benchmark evaluator fail-closed boundary</h3>
+<p>After evidence validation, <code>BenchmarkRunner</code> must return <code>BLOCKED_REGISTERED_BENCHMARK_EVALUATOR_REQUIRED</code> until a separately registered evaluator consumes the declared data, emits its own receipt, and satisfies the applicable D-series authority. The runner must not call historical synthetic-world helpers or materialize default metrics.</p>
+<h3 id="r156-16-durable-cache-identity">R156-16: durable cache identity</h3>
+<p>The cache key must include the version prefix, candidate identity, action identity, simulator hash, and data hash. The digest must be derived only from the canonical key. A cache read is valid only when the stored key, stored digest, requested key, and recomputed digest all agree.</p>
+<h3 id="r156-17-transactional-cache-publication">R156-17: transactional cache publication</h3>
+<p>Durable cache inserts must be committed in one redb write transaction. A partial write must not become visible as a valid cache hit. Compaction may reduce storage but must not change identity or outcome bytes.</p>
+<h3 id="r156-18-guarded-legacy-migration">R156-18: guarded legacy migration</h3>
+<p>When opening a legacy JSONL cache, the adapter may migrate only valid, supported-version, digest-consistent records into a sibling redb database. Malformed, stale, or mismatched records are skipped and the source JSONL remains available as an audit source. Migration is not a license to reinterpret an entry.</p>
+<h3 id="r156-19-no-claim-escalation">R156-19: no claim escalation</h3>
+<p>All D-156 scenario, statistical, benchmark, cache, and artifact outputs are engineering or diagnostic evidence. They cannot render <code>SUPPORTED_EDGE</code>, predictive profitability, or production approval. Economic promotion remains governed by the existing WRC, genuine DSR, Hansen SPA, holdout, ledger, and authority requirements.</p>
+<h3 id="r156-20-physical-reference-integrity">R156-20: physical reference integrity</h3>
+<p>A report, receipt, changelog entry, or specification may reference an artifact path only when the path is a contract path, an explicitly declared input path, or a physically produced and verified output. A fictitious Parquet, ledger, receipt, or table reference is a contract violation.</p>
+<h2 id="6-artifact-contracts">6. Artifact contracts</h2>
+<h3 id="61-evidence-artifacts">6.1 Evidence artifacts</h3>
+<p>Evidence artifacts remain governed by <code>Artifact</code> and <code>RunConstants</code>. The artifact header binds the data, code, configuration, simulator, risk gate, evaluator version, hash encoding, and tier. Readers validate the header before consuming rows. The retention store must resolve the referenced tape hash before the artifact is treated as retained evidence.</p>
+<h3 id="62-candidate-and-cashflow-ledgers">6.2 Candidate and cashflow ledgers</h3>
+<p>The candidate registry persists legal transitions and their event hashes. The cashflow ledger persists physical cashflows after the existing conservation checks. These ledgers are not benchmark score stores. A diagnostic or counterfactual value must not be inserted into a realized cashflow field.</p>
+<h3 id="63-checkpoints">6.3 Checkpoints</h3>
+<p><code>SimulationCheckpoint</code> contains a versioned header, bar index, tape hash, and serialized payload. The file publication protocol is temporary write, synchronization, atomic rename, and directory synchronization. Loading with an unexpected version or tape hash returns a checkpoint error. A checkpoint is replay state, not economic evidence.</p>
+<h3 id="64-parquet">6.4 Parquet</h3>
+<p>A Parquet artifact has two layers:</p>
+<ol>
+<li>typed nullable columns for interoperable scalar access;</li>
+<li><code>row_json</code> for canonical source-row provenance and nested values.</li>
+</ol>
+<p>The schema metadata records the artifact kind, source row order, IEEE-754 f64 encoding, a serialized schema manifest, and optional provenance. The adapter does not claim that a Parquet file is authoritative merely because it is readable. Authority comes from the producing contract and receipt.</p>
+<h2 id="7-statistical-and-scenario-semantics">7. Statistical and scenario semantics</h2>
+<h3 id="71-input-validation">7.1 Input validation</h3>
+<p>Statistical functions validate minimum population size, finite values, and requested resampling parameters. Invalid inputs return a <code>Result</code> error. Underpowered or unavailable null models return an explicit unresolved result rather than a fabricated statistic.</p>
+<h3 id="72-null-models">7.2 Null models</h3>
+<p>The null-model suite can record absent episode duration, absent regime information, or absent benchmark data as unresolved. The absence is part of the result and must be rendered as such. A null-model row cannot be silently dropped and cannot be replaced with a convenient p-value.</p>
+<h3 id="73-dsr-pbo-and-spa">7.3 DSR, PBO, and SPA</h3>
+<p><code>compute_proxy_deflated_sharpe_ratio</code> is a mathematical diagnostic with status <code>PROXY_NOT_GENUINE_DSR</code>, method version <code>D153_PROXY_DSR_V1</code>, and claim <code>NO_ECONOMIC_CLAIM</code>. <code>compute_deflated_sharpe_ratio</code> returns <code>BLOCKED_GENUINE_DSR_ESTIMATOR_AND_RECEIPT_REQUIRED</code> until the genuine estimator is registered.</p>
+<p><code>MultipleTestingSummary</code> exposes PBO and family DSR values as <code>Option&lt;f64&gt;</code>. They are populated only after a registered estimator consumes complete lineage and emits its own authority receipt. The ledger itself proves trial conservation, not economic significance.</p>
+<p>D-156 does not silently implement or certify WRC or Hansen SPA. Those estimators remain separate obligations under Rule 12.</p>
+<h3 id="74-scenario-ruin-and-sar">7.4 Scenario ruin and SaR</h3>
+<p>Scenario ruin resamples the supplied realized fractional net-return population. Its status and claim make clear that it is a scenario diagnostic. If no population exists, <code>build_baseline_scenario_ruin</code> produces explicit absence. SaR fields remain <code>None</code> without physical liquidity inputs. The absence is not a zero-slippage assumption.</p>
+<h2 id="8-benchmark-execution-topology">8. Benchmark execution topology</h2>
+<p>The intended topology is:</p>
+<pre><code class="language-text">BenchmarkCase
+  -&gt; BenchmarkEvidenceManifest
+  -&gt; physical path validation
+  -&gt; Parquet verification where applicable
+  -&gt; registered evaluator boundary
+  -&gt; evaluator-owned receipt
+  -&gt; ledger / report projection
+</code></pre>
+<p>The current implementation stops after physical path validation because the registered evaluator boundary is not present. This is intentional. A future evaluator must be added as a separately reviewed Rust implementation, must have a full-text specification and D-series registration, and must expose its evidence inputs and failure semantics before it can emit a <code>BenchmarkReceipt</code>.</p>
+<p>The historical implementation that populated hardcoded metrics or synthetic worlds is not an acceptable fallback.</p>
+<h2 id="9-cache-topology">9. Cache topology</h2>
+<p>The cache path is:</p>
+<pre><code class="language-text">canonical key
+  -&gt; key version validation
+  -&gt; content digest
+  -&gt; redb transactional insert
+  -&gt; validated read-back
+  -&gt; artifact/report consumer
+</code></pre>
+<p>The in-memory adapter remains available for unit-level behavior. Production paths opened with <code>CacheStore::open</code> use redb. Legacy JSONL migration is one-way into a sibling redb file and does not delete the source audit log.</p>
+<h2 id="10-canonical-failure-semantics">10. Canonical failure semantics</h2>
+<p>The following strings are stable integration signals and must not be changed silently:</p>
+<table>
+<thead>
+<tr>
+<th>Boundary</th>
+<th>Failure or unresolved state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Benchmark case</td>
+<td><code>BLOCKED_INVALID_BENCHMARK_CASE</code></td>
+</tr>
+<tr>
+<td>Missing benchmark manifest</td>
+<td><code>DATA_BLOCKED_NO_VERIFIED_BENCHMARK_EVIDENCE</code></td>
+</tr>
+<tr>
+<td>Empty benchmark manifest</td>
+<td><code>DATA_BLOCKED_EMPTY_BENCHMARK_EVIDENCE_MANIFEST</code></td>
+</tr>
+<tr>
+<td>Missing benchmark file</td>
+<td><code>DATA_BLOCKED_MISSING_BENCHMARK_ARTIFACT</code></td>
+</tr>
+<tr>
+<td>Invalid Parquet</td>
+<td><code>DATA_BLOCKED_INVALID_PARQUET_ARTIFACT</code></td>
+</tr>
+<tr>
+<td>Unreadable benchmark file</td>
+<td><code>DATA_BLOCKED_UNREADABLE_BENCHMARK_ARTIFACT</code></td>
+</tr>
+<tr>
+<td>Missing evaluator</td>
+<td><code>BLOCKED_REGISTERED_BENCHMARK_EVALUATOR_REQUIRED</code></td>
+</tr>
+<tr>
+<td>Ruin input</td>
+<td><code>DATA_BLOCKED_MISSING_OR_INVALID_TRADE_INPUT</code></td>
+</tr>
+<tr>
+<td>Missing liquidity</td>
+<td><code>UNRESOLVED_MISSING_LIQUIDITY_INPUT</code></td>
+</tr>
+<tr>
+<td>Missing search lineage</td>
+<td><code>DATA_BLOCKED_NO_SEARCH_LINEAGE</code></td>
+</tr>
+<tr>
+<td>Valid lineage without estimator</td>
+<td><code>MULTIPLICITY_LEDGER_VALID_GENUINE_ESTIMATOR_REQUIRED</code></td>
+</tr>
+<tr>
+<td>Genuine DSR unavailable</td>
+<td><code>BLOCKED_GENUINE_DSR_ESTIMATOR_AND_RECEIPT_REQUIRED</code></td>
+</tr>
+<tr>
+<td>Proxy DSR</td>
+<td><code>PROXY_NOT_GENUINE_DSR</code></td>
+</tr>
+<tr>
+<td>Claim status</td>
+<td><code>NO_ECONOMIC_CLAIM</code></td>
+</tr>
+</tbody>
+</table>
+<p>An error wrapper may add a path or contextual detail after a colon. The semantic prefix must remain machine-detectable.</p>
+<h2 id="11-verification-contract">11. Verification contract</h2>
+<p>The implementation is acceptable only when all applicable checks are run against the isolated PR worktree:</p>
+<ol>
+<li><code>cargo check --manifest-path v8-core/Cargo.toml</code>;</li>
+<li><code>cargo test --manifest-path v8-core/Cargo.toml</code>;</li>
+<li><code>cargo clippy --manifest-path v8-core/Cargo.toml</code>;</li>
+<li><code>.venv/bin/python tools/audit_python_boundary.py</code>;</li>
+<li><code>python3 tools/audit_synthetic_leakage.py</code>;</li>
+<li><code>python3 tools/audit_economic_claim.py</code>;</li>
+<li><code>git diff --check</code>;</li>
+<li>standard Parquet read-back and row-count verification tests;</li>
+<li>checkpoint version and tape-hash rejection tests;</li>
+<li>cache key, digest, transaction, migration, and stale-entry rejection tests;</li>
+<li>statistical finite-input, absence, proxy-status, and genuine-estimator blocking tests;</li>
+<li>benchmark evidence-manifest and evaluator fail-closed tests.</li>
+</ol>
+<p>Tests that use synthetic fixtures must remain inside Rust <code>#[cfg(test)]</code> modules and must never write production findings, receipts, or reports.</p>
+<h2 id="12-open_pins">12. OPEN_PINs</h2>
+<h3 id="open_pin-156-1-registered-data-backed-benchmark-evaluator">OPEN_PIN-156-1: registered data-backed benchmark evaluator</h3>
+<p>Issue #323 names a data-backed <code>BenchmarkRunner</code>, but the repository does not yet contain a ratified evaluator schema that maps physical evidence rows to each benchmark domain, gate, receipt, and authority class. The current runner therefore validates inputs and fails closed. Resolving this pin requires a new full-text evaluator specification, D-series decision, implementation-layout entry, and evidence-backed tests. It must not be resolved by restoring hardcoded metrics or synthetic inputs.</p>
+<h3 id="open_pin-156-2-genuine-multiple-testing-estimator-receipts">OPEN_PIN-156-2: genuine multiple-testing estimator receipts</h3>
+<p>PBO, genuine DSR, WRC, and Hansen SPA remain separate statistical obligations. Their receipt schemas, estimator versions, data-role rules, and authority boundaries must be registered before any value can drive a promotion gate.</p>
+<h3 id="open_pin-156-3-physical-liquidity-input-contract-for-sar">OPEN_PIN-156-3: physical liquidity input contract for SaR</h3>
+<p>The current SaR output is intentionally unresolved without physical liquidity/slippage observations. A future liquidity provider must define time alignment, venue identity, units, missingness, and authority before the fields can become numeric.</p>
+<h3 id="open_pin-156-4-d-118-tolerance-amendments">OPEN_PIN-156-4: D-118 tolerance amendments</h3>
+<p>D-156 applies existing f64 invariants but does not choose new tolerance values. Any change to tolerance, rounding, or bit-identity semantics requires a separate decision and full-text specification.</p>
+<h2 id="13-change-and-migration-rules">13. Change and migration rules</h2>
+<ul>
+<li>Rust changes belong under <code>v8-core/</code>.</li>
+<li><code>src/v8/</code> and root <code>tests/</code> are frozen and must not be modified.</li>
+<li>New artifact formats require a D-series decision and a migration or rejection rule.</li>
+<li>New evaluator or estimator code must not share a module path with a proxy implementation in a way that permits type confusion.</li>
+<li>Existing legacy artifacts may be read only through an explicit compatibility adapter with validation.</li>
+<li>Documentation changes require both monographs to be rebuilt.</li>
+<li>The PR may be updated, but no agent may merge it or push directly to <code>main</code>.</li>
+</ul>
+<h2 id="14-acceptance-statement">14. Acceptance statement</h2>
+<p>D-156 is accepted as a provisional hardening decision when:</p>
+<ol>
+<li>the Rust implementation satisfies the requirements in Section 5;</li>
+<li>physical Parquet, checkpoint, evidence, ledger, scenario, statistics, benchmark, and cache tests pass;</li>
+<li>the mandated audits pass without Python-boundary changes or synthetic leakage;</li>
+<li>the English and Turkish decision registers link to this full-text specification;</li>
+<li>the implementation layout lists all affected modules and the known evaluator OPEN_PIN;</li>
+<li>the English and Turkish monographs are regenerated from the synchronized documentation;</li>
+<li>the PR contains the traceability from issues #318 through #324 to implementation and verification;</li>
+<li>no receipt or report claims economic support beyond the registered authority actually present.</li>
+</ol>
+<p>The unresolved benchmark evaluator and genuine estimator obligations are deliberate, visible, and fail closed. They are not silently marked complete.</p></section>
+<section id="sec-d159-research-validity-audit-spec"><h1>D159 RESEARCH VALIDITY AUDIT SPEC</h1><h1 id="d-159-research-validity-audit-receipt-self-verification-policy-bound-parity-gate-authority-firewall-and-governance-reconciliation-full-text-specification">D-159 Research-Validity Audit: Receipt Self-Verification, Policy-Bound Parity, Gate Authority Firewall and Governance Reconciliation (Full-Text Specification)</h1>
+<p><strong>Status:</strong> PROVISIONAL_DECISION · <strong>Date:</strong> 2026-09-07 · <strong>Rules:</strong> 5, 12, 28–31, 44, 51–57
+<strong>Supersession:</strong> Extends D-153, D-152, D-151, D-150, D-149, D-147, D-138, D-136, D-118, D-116; preserves all locked invariants. Adds no economic authority and relaxes no gate.
+<strong>Issues closed:</strong> #327, #328, #329, #330.
+<strong>Artifacts:</strong> <code>v8-core/src/benchmark/gate_authority.rs</code>, <code>v8-core/src/benchmark/receipt.rs</code>, <code>v8-core/src/benchmark/ledger.rs</code>, <code>v8-core/src/benchmark/parity.rs</code>, <code>v8-core/src/benchmark/external.rs</code>, <code>v8-core/src/benchmark/certificate.rs</code>, <code>v8-core/src/benchmark/runner.rs</code>, <code>v8-core/src/benchmark/types.rs</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code>, <code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code>, <code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code>, <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>, <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>.
+<strong>Turkish mirror:</strong> <code>docs/tr/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code> (translation; the English text in this file is normative).
+<strong>ID allocation note:</strong> D-154, D-155, D-156, D-157 and D-158 were already allocated to the concurrent performance work-stream (#332–#336, branches <code>perf/332-cargo-profile-split</code>, <code>perf/333-consolidated-test-harness</code>, <code>perf/334-bootstrap-scratch-buffer</code>, <code>perf/335-zero-copy-hist-bar</code>, <code>perf/336-rayon-parallelism</code>), several of which are not merged to <code>main</code>. This audit therefore registers under D-159. No D-15x identifier is reused, redefined or double-allocated by this decision.</p>
+<hr>
+<h2 id="1-problem-statement">1. Problem Statement</h2>
+<p>The D-153 Benchmark Fabric shipped with four independent breaks in its trust
+chain. Each one made weak evidence <em>look</em> certified rather than making it
+certifiable:</p>
+<ol>
+<li>
+<p><strong>#327 — the gate vector was not the registered gate vector.</strong>
+   <code>GateVector</code> carried six positions while D-152 §5 and D-153 §2.4 register
+   G0–G9 as nine non-compensable positions, and <code>GateState</code> had no way to
+   express "this gate was never evaluated". A run that simply did not compute
+   G6–G9 read as "nothing failed". Separately, <code>PolicyCertificate</code> derived its
+   own readiness locally and could print <code>PRODUCTION_READY</code> from a scalar
+   <code>CapabilityScore</code>, minting authority inside a renderer.</p>
+</li>
+<li>
+<p><strong>#328 — receipts and the ledger trusted the digest they were storing.</strong>
+   <code>BenchmarkReceipt::compute_digest()</code> hashed a hand-assembled field list, and
+   the ledger wrote <code>digest == entry_hash</code>. Any field outside that list —
+   artifact provenance, method versions, gate provenance — could change under a
+   fixed digest. There was no path that recomputed the digest from canonical
+   bytes at read time, so tampering was undetectable by construction.</p>
+</li>
+<li>
+<p><strong>#329 — external parity was fabricated.</strong>
+   <code>external.rs::evaluate_parity(policy_id)</code> discarded its <code>policy_id</code> argument
+   as <code>_policy_id</code> and compared two hardcoded arrays (<code>[0.012, -0.005, ...]</code>
+   against <code>[0.0121, -0.0049, ...]</code>). <code>fill_timing_mae_ms</code> was hardcoded to
+   <code>0.0</code>, and <code>maximum_drawdown_discrepancy_bps</code> was derived by multiplying the
+   PnL discrepancy by 1.5 / 1.2 / 1.1 per engine. That is not parity against an
+   external engine; it is a fixed vector that always reports a near-miss inside
+   a bps tolerance the parity spec forbids. It satisfied D-153 §2.6 in name only.</p>
+</li>
+<li>
+<p><strong>#330 — governance diverged from the tree.</strong>
+   The D-153 spec header claimed <code>RATIFIED_DECISION</code> while both decision
+   registers said <code>PROVISIONAL_DECISION</code>; the registers, the spec header and the
+   CHANGELOG all cited <code>v8-core/tests/benchmark_fabric_adversarial.rs</code>, a file <!-- AUDIT-DOC-PATHS: NEGATIVE_CITATION <code>v8-core/tests/benchmark_fabric_adversarial.rs</code> is cited here precisely because it never existed; the real D-153 suite is <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>. -->
+   that has never existed; the Turkish full-text mirror of D-153 was missing
+   while the Turkish register cited it; <code>IMPLEMENTATION_LAYOUT.md</code> still
+   described the deleted adapter API; and the CHANGELOG claimed D-153
+   "Ratified and fully completed" while D-156's benchmark-evaluator OPEN_PIN was
+   (and remains) open.</p>
+</li>
+</ol>
+<p>The common failure mode is the same in all four: <strong>a stored assertion was
+treated as its own proof.</strong> D-159 records the replacements and pins the
+properties that prevent recurrence.</p>
+<hr>
+<h2 id="2-normative-requirements">2. Normative Requirements</h2>
+<h3 id="21-gate-vector-and-authority-firewall-327">2.1 Gate vector and authority firewall (#327)</h3>
+<p><strong>R2.1.1</strong> <code>GateVector</code> SHALL expose exactly the registered positions G0–G9.
+<code>types::GATE_DESCRIPTORS</code> is the single source for position → name → owner.</p>
+<p><strong>R2.1.2</strong> <code>GateState</code> SHALL be a four-variant lattice: <code>Pass</code>, <code>Fail</code>,
+<code>Blocked</code>, and <code>Missing</code>. <code>Missing</code> is <strong>not</strong> a pass and is not
+"not-applicable": it means the gate was never computed. <code>readiness()</code> SHALL
+degrade on <code>Missing</code> and SHALL never promote on it.</p>
+<p><strong>R2.1.3</strong> Every gate failure SHALL carry a <code>GateFailureClass</code> so that a
+failure is attributable to data absence, semantic divergence, statistical
+refutation, or policy violation rather than being an opaque boolean.</p>
+<p><strong>R2.1.4</strong> <code>ReadinessVerdict</code> SHALL be produced by
+<code>gate_authority::AuthorityFirewall</code> and SHALL be a <em>projection</em> of inputs.
+No renderer, report, or certificate is permitted to compute authority from
+scratch.</p>
+<p><strong>R2.1.5</strong> <code>cap_authority(a_in, a_out)</code> SHALL enforce monotone
+non-escalation: <code>a_out ≤ a_in</code> under the <code>EvidenceAuthority</code> order. Rendering
+steps SHALL be asserted against this at every stage; the property is checked by
+test, not assumed.</p>
+<p><strong>R2.1.6</strong> Any claim of <code>SUPPORTED_EDGE</code> or production promotion SHALL resolve
+through <code>ClaimRegistry</code>. <code>AuthorityDecision::Registered</code> SHALL be reachable only
+via <code>AuthorityFirewall::route_claim</code>, which verifies registry membership.
+Absent, <code>N/A</code>, <code>UNKNOWN</code>, <code>MISSING</code> or <code>BLOCKED</code> required evidence SHALL yield
+<code>NO_ECONOMIC_CLAIM</code> or <code>BLOCKED</code> — never a pass.</p>
+<p><strong>R2.1.7</strong> <code>PolicyCertificate</code> SHALL NOT be able to derive a status string
+stronger than its gate vector permits. <code>to_status_string()</code> is a function of the
+projected verdict, and <code>MISSING</code>/<code>Blocked</code> gates ceiling the certificate.</p>
+<p><strong>R2.1.8 (OPEN_PIN, carried, not resolved).</strong> D-152 §5 names G7 prospective
+shadow, G8 live realization, G9 certificate; the D-153 <code>GateVector</code> field names
+are <code>g7_generalization</code>, <code>g8_prospective_shadow</code>, <code>g9_live_realization</code>. This
+decision does not adjudicate the conflict. Mapping is positional, neither
+register is rewritten, and the conflict is surfaced as
+<code>OPEN_PIN_GATE_NAMING</code> plus <code>AuthorityDecision::OpenPin</code>. Per-gate narrative
+that depends on which position <em>is</em> the live-realization gate SHALL NOT be
+authored until the register conflict is settled by a governance decision.
+Readiness under either reading is identical, so no gate is weakened by deferral.</p>
+<h3 id="22-cryptographic-receipt-and-ledger-self-verification-328">2.2 Cryptographic receipt and ledger self-verification (#328)</h3>
+<p><strong>R2.2.1</strong> <code>BenchmarkReceipt::compute_digest()</code> SHALL be a canonical digest over
+the <em>whole</em> receipt, produced through <code>crate::hash::Canon</code>, not over an
+ad-hoc field list. No authority-relevant field may live outside the digest.</p>
+<p><strong>R2.2.2</strong> The digest algorithm identity SHALL be versioned and recorded on the
+receipt: <code>d153.receipt.v2</code> is current; <code>d153.receipt.v1</code> is a permanently
+recognised legacy identity. Verification SHALL dispatch on the recorded version
+rather than silently accepting either.</p>
+<p><strong>R2.2.3</strong> <code>BenchmarkProvenance</code> and <code>ArtifactBinding</code> SHALL bind every consumed
+artifact (path, SHA-256, byte length, role) and every method/version string that
+can change a result. Referencing an artifact that was not physically produced and
+verified on disk is a critical system hallucination under the anti-synthetic
+directive, not a documentation slip.</p>
+<p><strong>R2.2.4</strong> A receipt is only evidence once re-verified. <code>verify()</code> SHALL
+recompute from canonical bytes; <code>verify_artifacts()</code> SHALL re-hash the physical
+files; <code>verify_policy_identity()</code> SHALL reject identity drift. Report rendering
+SHALL require a <code>VerifiedReceipt</code>, and the JSON and HTML renderers SHALL stamp
+the recomputed digest and verification metadata so the reader can see which
+digest was checked. HTML SHALL refuse to render an unverified receipt.</p>
+<p><strong>R2.2.5</strong> The ledger SHALL seal each entry with a <code>d153.ledger.v2</code> entry seal
+that folds the full canonical receipt encoding into the hash chain, so the chain
+binds content and not the stored digest. The ledger SHALL expose <code>audit()</code> and
+<code>load_with_report()</code> returning a <code>LedgerAuditReport</code> with stable tamper codes and
+a <code>LedgerTamper</code> classification per row.</p>
+<p><strong>R2.2.6</strong> Digest comparison SHALL be constant-time. Non-finite metric values
+SHALL be rejected at construction rather than canonicalised into a digest. A
+canonical tree that produces an unexpected null SHALL be an error, not a silent
+zero.</p>
+<p><strong>R2.2.7 (Honest legacy boundary).</strong> Rows written before v2 have no recoverable
+binding. The system SHALL classify them <code>legacy_unbound</code>, SHALL NOT count them as
+verified, and SHALL exit <code>3</code> with <code>LEDGER_PARTIALLY_BOUND</code>. On the audit
+repository's real ledger (7 rows, all pre-v2) every row is reported
+legacy-unbound. Deleting or rewriting them is not permitted; claiming they verify
+is not permitted.</p>
+<h3 id="23-policy-bound-external-parity-adapters-329">2.3 Policy-bound external parity adapters (#329)</h3>
+<p><strong>R2.3.1</strong> Parity SHALL be computed from two physical ledger artifacts — a
+native side and a reference side — both of which SHALL be declared in the case
+evidence manifest before evaluation. There is no in-process reference
+implementation and no fixed expected vector.</p>
+<p><strong>R2.3.2</strong> <code>SemanticMapping</code> (version <code>v8.d153.parity.mapping.v1</code>) SHALL declare
+how the two records correspond: pairing key, PnL field, optional fill-time field,
+optional sequence field. A parity result is only meaningful relative to a named
+mapping; the mapping identity is recorded on the receipt. Parity without a
+mapping is undefined, not defaulted.</p>
+<p><strong>R2.3.3</strong> Tolerance-based parity is prohibited by
+<code>docs/contracts/PARITY_AND_IDENTITY_SPEC.md</code>. PnL comparison SHALL use IEEE-754
+bit-pattern equality (<code>to_bits()</code>), not <code>==</code>, so that <code>NaN</code>, signed zero and
+last-bit drift are distinguished rather than averaged away. Outcomes are
+<code>ExactMatch</code>, <code>Diverged</code>, <code>UnsupportedSemantics</code>, <code>UnpairedRecords</code> or
+<code>DataBlocked</code>; there is no "within tolerance" outcome.</p>
+<p><strong>R2.3.4</strong> Fill-time divergence SHALL count as a mismatch wherever both sides
+carry fill times. Where either side lacks fill times, the diagnostic SHALL be
+<code>None</code> — never <code>0.0</code>. Fabricated zero error is prohibited.</p>
+<p><strong>R2.3.5</strong> Drawdown and equity diagnostics SHALL be computed from the equity
+curves, ordered by the declared <code>sequence_field</code> when present. If the mapping
+declares a sequence field but a ledger is only partially sequenced, the drawdown
+diagnostic SHALL be <code>None</code> rather than a best-effort guess.</p>
+<p><strong>R2.3.6</strong> <code>EngineVersion</code> and method versions SHALL be real version or build
+identifiers. Placeholders (<code>"N/A"</code>, <code>"unknown"</code>, <code>"TBD"</code>, empty) SHALL block the
+evaluation (<code>DataBlocked</code>), not pass through.</p>
+<p><strong>R2.3.7</strong> Parity authority SHALL be <em>derived</em>, never stored.
+<code>ParityReceipt::authority()</code> computes from the D-152
+<code>BENCHMARK_DIAGNOSTIC_AUTHORITY</code> ceiling; the serialised receipt exposes
+<code>authority_class()</code> only and carries no <code>authority</code> field that could be forged by
+deserialisation. Parity output is a non-sovereign diagnostic observation.</p>
+<p><strong>R2.3.8</strong> <code>BenchmarkReceipt::with_parity()</code> SHALL reject identity mismatch,
+policy mismatch, case-hash mismatch and conflicting artifact hashes; SHALL merge
+artifact bindings; and SHALL recompute the receipt digest. Parity cannot be
+grafted onto an unrelated receipt.</p>
+<p><strong>R2.3.9 (Honest gap, carried).</strong> <code>reconciliation_gaps()</code> SHALL state explicitly
+that commission, funding and terminal-balance parity are <strong>not</strong> mapped for
+D-116 reconciliation, so a <code>ExactMatch</code> on PnL and fill timing is not mistaken
+for full economic reconciliation.</p>
+<p><strong>R2.3.10</strong> The deleted fabricated API (<code>CommodityExecutionAdapter</code>,
+<code>LeanParityAdapter</code>, <code>SkfolioParityAdapter</code>, <code>VectorBtParityAdapter</code>,
+<code>ExecutionParityReport</code>, <code>evaluate_parity</code>, <code>parity_passed</code>) SHALL NOT return.
+Regression tests assert at source level that the fixed literals, the discarded
+<code>_policy_id</code> parameter and the fabricated drawdown multipliers are absent from
+<code>v8-core/src/benchmark/</code>.</p>
+<h3 id="24-governance-and-documentation-reconciliation-330">2.4 Governance and documentation reconciliation (#330)</h3>
+<p><strong>R2.4.1</strong> Normative status SHALL have exactly one owner per artifact. Where a
+spec header and the decision register disagree on status, the register governs
+and the header is corrected. D-153 remains <code>PROVISIONAL_DECISION</code>.</p>
+<p><strong>R2.4.2</strong> Every path cited by <code>docs/</code>, <code>docs/contracts/</code>, <code>docs/tr/</code> and the
+decision registers SHALL resolve to a file present in the tree. Phantom
+references are a contract violation, not a typo, because they are the mechanism
+by which unproduced artifacts acquire apparent provenance.</p>
+<p><strong>R2.4.3</strong> Rule 44 / D-149 require unabridged full-text specifications, and the
+Turkish register cites Turkish full text. Therefore every decision cited by
+<code>docs/tr/DECISION_REGISTER.md</code> SHALL have an EN source and a TR mirror; a
+register row pointing at a non-existent mirror is a Rule 44 anchor failure.</p>
+<p><strong>R2.4.4</strong> <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code> SHALL be reconciled to the
+as-built tree: new modules registered (§1.1 tree, §2 file contract), deleted API
+surfaces removed, divergences recorded in §4 rather than left as silent drift.</p>
+<p><strong>R2.4.5</strong> <code>docs/CHANGELOG.md</code> completion claims SHALL be bounded by observed
+verification. "Ratified and fully completed" is not permitted while a
+registered OPEN_PIN in the same decision family is open; the entry SHALL state
+what is implemented, what is verified with counts, and what remains blocked.</p>
+<p><strong>R2.4.6</strong> Monographs (<code>site/index.html</code>, <code>site/tr.html</code>) are generated
+artifacts. They SHALL be regenerated by <code>tools/build_monograph.py</code>, never
+hand-edited, so generated HTML cannot drift from its <code>docs/</code> source.</p>
+<p><strong>R2.4.7</strong> A guard SHALL exist for R2.4.2. <code>tools/audit_doc_path_refs.py</code>
+resolves repository paths cited in documentation and fails on unresolved
+references. Prose, git object ids and commit shas are excluded so the guard
+stays actionable instead of being disabled by noise.</p>
+<hr>
+<h2 id="3-explicitly-not-granted">3. Explicitly Not Granted</h2>
+<p>D-159 grants no authority beyond what it constrains. In particular:</p>
+<ol>
+<li>No <code>SUPPORTED_EDGE</code>, no deployment authority, no promotion. Every verdict in
+   scope remains <code>NO_ECONOMIC_CLAIM</code> (Constitution Rule 12).</li>
+<li>D-153 is <strong>not</strong> ratified by this decision and its status is <strong>not</strong>
+   upgraded. <code>PROVISIONAL_DECISION</code> stands.</li>
+<li>The registered benchmark-evaluator OPEN_PIN from D-156 remains <strong>open</strong>: no
+   benchmark receipt is emitted without a registered data-backed evaluator.</li>
+<li>The #327 G7–G9 naming conflict remains an <strong>OPEN_PIN</strong>.</li>
+<li>Pre-v2 ledger rows remain <strong>unbound</strong>, not verified.</li>
+<li>D-116 commission / funding / terminal-balance parity remains <strong>unmapped</strong>.</li>
+<li>No economic metric, p-value, effect size, tolerance or expected improvement
+   is introduced anywhere in this work. The fabricated vectors and multipliers
+   are removed, not recalibrated.</li>
+<li>The audit work in this branch is delivered as a <strong>PR for maintainer review</strong>.
+   It is not merged, and no direct push to <code>main</code> is made.</li>
+</ol>
+<hr>
+<h2 id="4-verification-contract">4. Verification Contract</h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Command / evidence</th>
+<th>Required result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Canonical gate vector + firewall</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml --test d152_gate_vector_authority_firewall</code></td>
+<td>15 passed</td>
+</tr>
+<tr>
+<td>Receipt + ledger self-verification</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml --test d153_receipt_ledger_selfverify</code></td>
+<td>40 passed</td>
+</tr>
+<tr>
+<td>Policy-bound parity adapters</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml --test d153_parity_adapters_policy_bound</code></td>
+<td>50 passed</td>
+</tr>
+<tr>
+<td>BFS sabotage suite</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml --test d153_benchmark_fabric_sabotage</code></td>
+<td>24 passed (BFS-001..024)</td>
+</tr>
+<tr>
+<td>Workspace regression</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml</code></td>
+<td>0 failed</td>
+</tr>
+<tr>
+<td>Lint gate</td>
+<td><code>cargo clippy --manifest-path v8-core/Cargo.toml --all-targets -- -D warnings</code></td>
+<td>clean</td>
+</tr>
+<tr>
+<td>Python boundary frozen</td>
+<td><code>.venv/bin/python tools/audit_python_boundary.py</code></td>
+<td>pass</td>
+</tr>
+<tr>
+<td>Synthetic leakage</td>
+<td><code>python3 tools/audit_synthetic_leakage.py</code></td>
+<td>pass</td>
+</tr>
+<tr>
+<td>Economic claim guard</td>
+<td><code>python3 tools/audit_economic_claim.py</code></td>
+<td>pass</td>
+</tr>
+<tr>
+<td>Doc path references (new, R2.4.2)</td>
+<td><code>python3 tools/audit_doc_path_refs.py</code></td>
+<td>pass with scoped baseline</td>
+</tr>
+<tr>
+<td>Monographs regenerated (R2.4.6)</td>
+<td><code>uv run --with markdown tools/build_monograph.py --lang en|tr ...</code></td>
+<td>regenerated, not edited</td>
+</tr>
+<tr>
+<td>Parity CLI, exact</td>
+<td><code>v8-core benchmark parity …</code> on identical ledgers</td>
+<td><code>PARITY_EXACT_MATCH</code>, exit <code>0</code>, gaps printed</td>
+</tr>
+<tr>
+<td>Parity CLI, divergent</td>
+<td>same on perturbed reference</td>
+<td><code>PARITY_DIVERGED</code>, exit <code>1</code></td>
+</tr>
+<tr>
+<td>Parity CLI, placeholder versions</td>
+<td><code>--engine-version N/A</code></td>
+<td>blocked, exit <code>1</code></td>
+</tr>
+<tr>
+<td>Parity CLI, undeclared artifacts</td>
+<td>unlisted ledger path</td>
+<td>blocked, exit <code>1</code></td>
+</tr>
+<tr>
+<td>Legacy ledger audit</td>
+<td><code>v8-core benchmark ledger audit</code> on <code>.audit/benchmark/ledger.jsonl</code></td>
+<td>7 rows <code>legacy_unbound</code>, exit <code>3</code>, <code>LEDGER_PARTIALLY_BOUND</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-consequences-for-existing-contracts">5. Consequences for Existing Contracts</h2>
+<ul>
+<li><strong>D-153 §2.6</strong> is now implemented as written (typed adapters, recorded
+  semantic divergence, parity attribution) rather than as fixed vectors.
+  §2.6's normative text is unchanged; only its implementation status moved.</li>
+<li><strong>D-152 §5/§6</strong> gains an enforcement point: the firewall is the single
+  boundary between benchmark evidence and authority, and readiness cannot be
+  produced locally by a certificate.</li>
+<li><strong>D-118 / D-138</strong> identity and hashing are reused, not duplicated: <code>Canon</code>
+  canonical bytes and the existing content-addressed artifact hash. D-153's
+  non-goal of "no new identity mechanism without a registered reason" holds.</li>
+<li><strong>D-116</strong> parity reconciliation is narrower than the ledger might imply, and
+  <code>reconciliation_gaps()</code> is the machine-readable statement of that narrowness.</li>
+<li><strong>D-149 / Rule 44</strong> is satisfied for both D-153 (TR mirror added) and this
+  decision (EN full text + TR mirror).</li>
+</ul></section>
 <section id="sec-market-world-foundry-v2-spec"><h1>MARKET WORLD FOUNDRY V2 SPEC</h1><h1 id="market-world-foundry-v2-multi-generator-fleet-dynamic-copula-path-topology-adversarial-falsification-engine-d-151">Market World Foundry v2: Multi-Generator Fleet, Dynamic Copula, Path Topology &amp; Adversarial Falsification Engine (D-151)</h1>
 <h2 id="1-executive-summary-epistemic-invariants">1. Executive Summary &amp; Epistemic Invariants</h2>
 <p>Market World Foundry v2 establishes a 14-generator synthetic market fleet, dynamic copula correlation, 9-state Markov regime engine with Hawkes self-exciting jumps, Politis-Romano stationary bootstrap, path topology invariants, 4-axis multi-dimensional counterfactual surgery, and multi-dimensional adversarial reverse-stress search.</p>
@@ -6239,7 +7192,7 @@ time and simulator processing order.</p>
 <li>scalar reference versus accelerated replica parity before accelerated economics;</li>
 <li>Level N must not silently supply a Level N+1 semantic.</li>
 </ul>
-<p>These align with existing <code>v7/lab/sim.py</code> semantics and audit finding that a
+<p>These align with existing <code>v7/lab/sim.py</code> semantics and audit finding that a <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY <code>v7/lab/sim.py</code> belongs to the audited V7 materials, not to this repository tree. -->
 funding terminal-boundary defect required differential replay. They are
 <strong>PROJECT_EVIDENCE_SUPPORTED engineering controls</strong>, not market evidence.</p>
 <h2 id="evidence-boundary">Evidence boundary</h2>
@@ -8150,8 +9103,8 @@ LIVE-SUPPORTED
 <h3 id="175-integration-with-evaluation-evidence-bundle-v8evalv1">17.5 Integration with Evaluation Evidence Bundle (<code>v8.eval.v1</code>)</h3>
 <p>All Oracle evaluation, regret attribution, and opportunity universe artifacts are stored natively within the <code>v8.eval.v1</code> immutable evidence bundle (<code>EVALUATION_EVIDENCE_SYSTEM.md</code> §4):
 - <code>OpportunityUniverseVersion</code> $\rightarrow$ <code>provenance/opportunity_universe.json</code>
-- <code>OracleEvaluationRecord</code> $\rightarrow$ <code>economics/oracle_evaluation.parquet</code> &amp; <code>statistics/reality_check.json</code>
-- <code>RegretAttributionRecord</code> $\rightarrow$ <code>economics/regret_attribution.parquet</code> &amp; Section S in <code>report.html</code>
+- <code>OracleEvaluationRecord</code> $\rightarrow$ <code>economics/oracle_evaluation.parquet</code> &amp; <code>statistics/reality_check.json</code> <!-- AUDIT-DOC-PATHS: SPECIFIED_OUTPUT <code>statistics/reality_check.json</code> is written by <code>v8-core/src/oracle/coverage.rs</code> inside the <code>v8.eval.v1</code> evidence bundle root, so this bundle-relative name is not a repository tree path. -->
+- <code>RegretAttributionRecord</code> $\rightarrow$ <code>economics/regret_attribution.parquet</code> &amp; Section S in <code>report.html</code> <!-- AUDIT-DOC-PATHS: SPECIFIED_OUTPUT <code>economics/regret_attribution.parquet</code> is written by <code>v8-core/src/oracle/coverage.rs</code> inside the <code>v8.eval.v1</code> evidence bundle root, so this bundle-relative name is not a repository tree path. -->
 - Coverage &amp; Scout Hypotheses $\rightarrow$ <code>analysis/hypotheses.jsonl</code> &amp; <code>analysis/findings.jsonl</code></p>
 <hr>
 <h2 id="18-tests-and-invariants">18. Tests and invariants</h2>
@@ -9465,6 +10418,8 @@ contract it implements — before that file is written. A new file, rename, or
 interface change is a registry decision with a CHANGELOG entry; the layout
 evolves by challenger, never in place (D-032).</p>
 <h2 id="1-package-layout">1. Package layout</h2>
+<!-- AUDIT-DOC-PATHS: ROOT `src/v8` - §1 is the frozen Python oracle module table (AGENTS.md §2), keyed relative to that package. -->
+
 <pre><code class="language-text">src/v8/
   __init__.py        package boundary + version
   schema.py          canonical records + canonical hashing
@@ -9703,6 +10658,51 @@ table.</p>
       agent.rs      AgentAuditManifest &amp; ActionAuditReceipt
       probes.rs     10 Mandatory Integrity Probes &amp; Defeater emission
       transcript.rs AuditTranscript cryptographic lineage
+    benchmark/      V8.5 Benchmark Fabric — diagnostic, non-sovereign evaluation
+                    plane (D-153, D-156, D-159; Rules 12, 28–31, 44, 57)
+      mod.rs        benchmark module boundary &amp; re-exports (17 submodules)
+      types.rs      canonical G0–G9 GateVector, GateState::Missing,
+                    GateFailureClass, ReadinessStatus, GATE_DESCRIPTORS (D-153 §2.4, #327)
+      case.rs       BenchmarkCase, BenchmarkCaseManifest, BenchmarkVersion;
+                    distinct from an AssuranceCase (D-153 §3.1–3.2)
+      population.rs Walk-forward &amp; CPCV partitioners, purge/embargo, protected
+                    holdout firewall (D-153 §4, Rule 57.4)
+      observation.rs MetricObservation registry &amp; 10 capability domains (D-153 §3.3)
+      scoring.rs    CapabilityScoreCalculator: weighted domains × coverage ×
+                    non-compensable gate product (D-153 §3.4)
+      synthetic.rs  Foundry passport qualification &amp; synthetic asymmetry
+                    (D-153 §2.5, D-150)
+      receipt.rs    BenchmarkReceipt with canonical d153.receipt.v2 digest,
+                    BenchmarkProvenance, ArtifactBinding, with_parity() (D-153, #328, #329)
+      ledger.rs     append-only ledger sealed with the d153.ledger.v2 entry seal,
+                    LedgerTamper / LedgerAuditReport self-audit, legacy_unbound
+                    classification (D-153, #328)
+      parity.rs     policy-bound external parity adapters (LEAN / skfolio /
+                    vectorbt) over two manifest-declared physical ledgers,
+                    SemanticMapping, IEEE-754 bit-pattern equality, derived
+                    non-forgeable diagnostic authority, reconciliation_gaps()
+                    (D-153 §2.6, D-116; #329)
+      external.rs   DisagreementDetector and assert_parity over a verified
+                    ParityReceipt (D-153 §2.6; #329). The fabricated
+                    fixed-vector adapter API that used to live here
+                    (CommodityExecutionAdapter, Lean/Skfolio/VectorBt
+                    ParityAdapter, ExecutionParityReport, evaluate_parity,
+                    parity_passed) is deleted and must not return.
+      gate_authority.rs AuthorityFirewall, cap_authority monotone
+                    non-escalation, assert_no_escalation, ClaimRegistry-routed
+                    authority resolution, certificate status ceiling,
+                    OPEN_PIN_GATE_NAMING (D-152 §§5–6, D-153 §2; #327)
+      certificate.rs PolicyCertificate &amp; Evidence Dashboard; readiness is a
+                    projection of the gate vector, never a local mint (D-153, #327);
+                    report rendering requires VerifiedReceipt (#328)
+      minerva.rs    MinervaScore robustness evaluation (D-153)
+      projection.rs CapitalOutcomeProjection &amp; empirical Monte Carlo futures (D-153 §5)
+      runner.rs     BenchmarkRunner orchestration, parity_request() artifact
+                    declaration boundary, D-156 fail-closed evaluator OPEN_PIN
+                    (D-153 §6, D-156; #329)
+      kaizen_feed.rs Kaizen benchmark feedback &amp; research trial-debt accounting
+                    (D-153 §6)
+      report.rs     JSON/HTML benchmark reports; refuses unverified receipts (D-153, #328)
     scheduler.rs    deterministic task scheduling/chunking, evaluate_typed (D-119)
     runloop.rs      S4 per-bar composition and runtime dispatch wiring
   tests/            Comprehensive test suite (502 tests passed, 0 failed)
@@ -10012,9 +11012,45 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 </tr>
 <tr>
 <td><code>v8-core/src/benchmark/</code></td>
-<td>V8.5 Benchmark Fabric: ontology, cases, receipts, ledger, scoring, populations, synthetic qualification, external parity adapters, empirical capital projection, Monte Carlo futures, MinervaScore robustness engine, Policy Certificate &amp; Evidence Dashboard, kaizen feed, observations, runner, report</td>
-<td><code>BenchmarkCase</code>, <code>BenchmarkReceipt</code>, <code>BenchmarkLedger</code>, <code>CapabilityScoreCalculator</code>, <code>WalkForwardPartitioner</code>, <code>CpcvPartitioner</code>, <code>LeanParityAdapter</code>, <code>SkfolioParityAdapter</code>, <code>VectorBtParityAdapter</code>, <code>CapitalOutcomeProjection</code>, <code>MinervaEvaluator</code>, <code>MinervaRobustness</code>, <code>PolicyCertificate</code>, <code>MetricObservation</code>, <code>BenchmarkRunner</code>, <code>BenchmarkReportGenerator</code></td>
-<td>D-153, D-156; Issues #318–#324; Rules 5, 12, 28–31, 44, 57</td>
+<td>V8.5 Benchmark Fabric: ontology, cases, receipts, self-verifying ledger, scoring, populations, synthetic qualification, policy-bound external parity adapters, gate authority firewall, empirical capital projection, Monte Carlo futures, MinervaScore robustness engine, Policy Certificate &amp; Evidence Dashboard, kaizen feed, observations, runner, forensic report</td>
+<td><code>BenchmarkCase</code>, <code>BenchmarkReceipt</code>, <code>BenchmarkLedger</code>, <code>LedgerAuditReport</code>, <code>CapabilityScoreCalculator</code>, <code>WalkForwardPartitioner</code>, <code>CpcvPartitioner</code>, <code>ParityAdapter</code>, <code>ParityReceipt</code>, <code>SemanticMapping</code>, <code>AuthorityFirewall</code>, <code>ReadinessVerdict</code>, <code>GateVector</code>, <code>CapitalOutcomeProjection</code>, <code>MinervaEvaluator</code>, <code>MinervaRobustness</code>, <code>PolicyCertificate</code>, <code>MetricObservation</code>, <code>BenchmarkRunner</code>, <code>BenchmarkReportGenerator</code>, <code>VerifiedReceipt</code></td>
+<td>D-153, D-156, D-159; Issues #318–#324, #327–#330; Rules 5, 12, 28–31, 44, 57</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/types.rs</code></td>
+<td>Canonical registered gate surface: G0–G9 position/name/owner descriptors and the four-state non-compensable gate lattice. <code>GateState::Missing</code> means "never evaluated", is not a pass, and cannot promote readiness.</td>
+<td><code>GateVector</code>, <code>GateState</code>, <code>GateFailureClass</code>, <code>GATE_DESCRIPTORS</code>, <code>ReadinessVerdict</code>, <code>ReadinessStatus</code></td>
+<td>D-153 §2.4, D-152 §5; Issue #327; Rules 28–31, 57</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/gate_authority.rs</code></td>
+<td>Single boundary between benchmark evidence and authority. Readiness is a monotone non-escalating <em>projection</em>; <code>SUPPORTED_EDGE</code> resolves only through <code>ClaimRegistry</code>; absent/<code>N/A</code>/<code>BLOCKED</code> required evidence fails closed. Certificates cannot mint their own status. Carries the D-152 vs D-153 G7–G9 naming conflict as an explicit <code>OPEN_PIN</code> rather than adjudicating it.</td>
+<td><code>AuthorityFirewall</code>, <code>AuthorityDecision</code>, <code>cap_authority</code>, <code>assert_no_escalation</code>, <code>certificate_status_ceiling</code>, <code>BENCHMARK_DIAGNOSTIC_AUTHORITY</code>, <code>OPEN_PIN_GATE_NAMING</code></td>
+<td>D-152 §§5–6, D-153 §2, D-159 §2.1; Issue #327; Rules 12, 28–31, 57</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/receipt.rs</code></td>
+<td>Content-addressed receipt over the <em>whole</em> record via canonical bytes, versioned (<code>d153.receipt.v2</code>; <code>d153.receipt.v1</code> recognised as legacy). Binds artifact provenance and method versions, rejects non-finite metrics, compares digests in constant time, and refuses a grafted parity receipt on identity/policy/case-hash/artifact conflict.</td>
+<td><code>BenchmarkReceipt</code>, <code>BenchmarkProvenance</code>, <code>ArtifactBinding</code>, <code>ReceiptVerificationError</code>, <code>RECEIPT_DIGEST_VERSION</code>, <code>with_parity</code></td>
+<td>D-153, D-159 §2.2; Issues #328, #329; Rules 5, 12, 44</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/ledger.rs</code></td>
+<td>Append-only ledger whose <code>d153.ledger.v2</code> entry seal folds canonical receipt bytes into the hash chain, so the chain binds content instead of the stored digest. Self-audits with stable tamper codes; pre-v2 rows are classified <code>legacy_unbound</code> (never counted verified) and generation regressions are detected.</td>
+<td><code>BenchmarkLedger</code>, <code>BenchmarkLedgerEntry</code>, <code>LedgerTamper</code>, <code>LedgerAuditReport</code>, <code>audit</code>, <code>load_with_report</code></td>
+<td>D-153, D-159 §2.2; Issue #328; Rules 5, 12, 44</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/parity.rs</code></td>
+<td>Policy-bound external parity, computed from two manifest-declared physical ledgers under a versioned <code>SemanticMapping</code>. Bit-pattern (not tolerance) equality per <code>PARITY_AND_IDENTITY_SPEC</code>; magnitudes are <code>Option</code> so absence is never reported as zero error; placeholder engine/method versions block; authority is derived and non-forgeable; <code>reconciliation_gaps()</code> states what is not yet mapped.</td>
+<td><code>ParityAdapter</code>, <code>ParityReceipt</code>, <code>ParityOutcome</code>, <code>ParityDiagnostics</code>, <code>SemanticMapping</code>, <code>ParitySubject</code>, <code>EngineVersion</code>, <code>ParityArtifact</code>, <code>MAPPING_VERSION</code>, <code>reconciliation_gaps</code></td>
+<td>D-153 §§2.6, 4.6, D-116, D-159 §2.3; Issue #329; Rules 5, 12, 28–31, 44, 57</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/report.rs</code></td>
+<td>Forensic JSON/HTML reports. Both renderers accept only <code>VerifiedReceipt</code>, whose single constructor recomputes the digest; output stamps the recomputed digest and verification metadata, and HTML refuses unverified receipts.</td>
+<td><code>BenchmarkReportGenerator</code>, <code>VerifiedReceipt</code></td>
+<td>D-153 §110, D-159 §2.2; Issue #328; Rules 12, 31</td>
 </tr>
 <tr>
 <td><code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code></td>
@@ -10027,6 +11063,30 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td>Integration suite verifying MinervaScore binary robustness seal, 10,000 Monte Carlo futures, and Policy Certificate rendering</td>
 <td>Automated end-to-end integration tests</td>
 <td>D-153; arXiv:2608.23808; Rule 57</td>
+</tr>
+<tr>
+<td><code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code></td>
+<td>Gate vector canonicalization and authority firewall enforcement: G0–G9 completeness, <code>Missing</code> never promotes, monotone non-escalation, registry-routed claims, certificate ceiling, <code>OPEN_PIN</code> surfacing</td>
+<td>15 automated tests</td>
+<td>D-152 §§5–6, D-159 §2.1; Issue #327; Rules 12, 28–31</td>
+</tr>
+<tr>
+<td><code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code></td>
+<td>Receipt/ledger cryptographic self-verification: canonical digest over the whole receipt, version dispatch, tamper detection at every authority-relevant field, artifact re-hashing, ledger v2 seal chain, legacy-unbound classification, <code>VerifiedReceipt</code> render gating</td>
+<td>40 automated tests</td>
+<td>D-153, D-159 §2.2; Issue #328; Rules 5, 12, 44</td>
+</tr>
+<tr>
+<td><code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code></td>
+<td>Policy-bound parity: undeclared-artifact and placeholder-version blocking, bit-pattern equality, <code>None</code>-not-zero absence semantics, unpaired/unavailable sequence handling, derived non-forgeable authority, receipt graft rejection, and source-level guards that the deleted fabricated literals (<code>_policy_id</code>, <code>evaluate_parity</code>, <code>parity_passed</code>, fixed arrays, ×1.5/×1.2/×1.1 multipliers) cannot return</td>
+<td>50 automated tests</td>
+<td>D-153 §2.6, D-116, D-159 §2.3; Issue #329; Rules 5, 12, 28–31, 44</td>
+</tr>
+<tr>
+<td><code>tools/audit_doc_path_refs.py</code></td>
+<td>Negative guard for phantom path citations: resolves repository paths cited in <code>docs/</code>, <code>docs/contracts/</code> and <code>docs/tr/</code> and fails on unresolved references (prose, git object ids and commit shas excluded)</td>
+<td>Non-zero exit on any unresolved path</td>
+<td>D-159 §2.4; Issue #330; Rules 5, 44</td>
 </tr>
 </tbody>
 </table>
@@ -10093,6 +11153,14 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 </tr>
 </tbody>
 </table>
+<p>| Benchmark Fabric (<code>v8-core/src/benchmark/</code>, 17 modules) absent from <code>COMPUTE_CORE_SPEC</code> §6's module table and from this file's own §1.1 tree until D-159 | <code>v8-core/src/benchmark/</code> | <strong>DOCUMENTED, not reversed</strong> — the plane was registered by D-153/D-156 but never mapped into the as-built tree. §1.1 and §2 are reconciled under D-159 / issue #330. |
+| D-153 §2.6 "explicit typed adapters with recorded semantic divergence" was implemented as fixed in-process vectors that discarded the policy id, compared hardcoded arrays under a forbidden bps tolerance, and derived drawdown "discrepancies" by multiplying PnL error by 1.5 / 1.2 / 1.1 | <code>v8-core/src/benchmark/external.rs</code> (was) -&gt; <code>v8-core/src/benchmark/parity.rs</code> (now) | <strong>CLOSED</strong> by #329 — fabricated API deleted, artifact-bound adapters implemented, source-level regression guards added. <code>PARITY_AND_IDENTITY_SPEC</code>'s no-tolerance rule is now honoured. |
+| Receipt digest covered an ad-hoc field list and the ledger chain bound the <em>stored</em> digest, so fields outside the list could mutate undetected; <code>PolicyCertificate</code> could also mint <code>PRODUCTION_READY</code> from a scalar score locally | <code>v8-core/src/benchmark/{receipt,ledger,certificate,report}.rs</code> | <strong>CLOSED</strong> by #328 / #327 — canonical whole-receipt digest (<code>d153.receipt.v2</code>), content-binding ledger seal (<code>d153.ledger.v2</code>), <code>VerifiedReceipt</code> render gating, and <code>AuthorityFirewall</code> certificate ceiling. |
+| <code>GateVector</code> carried six positions while D-152 §5 / D-153 §2.4 register nine, and <code>GateState</code> could not express "never evaluated" | <code>v8-core/src/benchmark/types.rs</code> | <strong>CLOSED</strong> by #327 — canonical G0–G9 with <code>GateState::Missing</code>, which is not a pass and cannot promote. |
+| D-152 §5 names G7 prospective shadow / G8 live realization / G9 certificate; D-153 <code>GateVector</code> fields are <code>g7_generalization</code> / <code>g8_prospective_shadow</code> / <code>g9_live_realization</code> | <code>v8-core/src/benchmark/gate_authority.rs::OPEN_PIN_GATE_NAMING</code> | <strong>OPEN_PIN</strong> — mapping is positional and readiness is identical under either reading; no per-gate narrative depending on the conflict may be authored until a governance decision settles it. Neither register is rewritten by code. |
+| Pre-v2 ledger rows carry no recoverable binding and cannot be made to verify | <code>.audit/benchmark/ledger.jsonl</code> (7 rows, all legacy) | <strong>ACCEPTED limitation</strong> — classified <code>legacy_unbound</code>, reported as <code>LEDGER_PARTIALLY_BOUND</code> at exit <code>3</code>. Not deleted, not rewritten, not claimed verified. |
+| D-116 reconciliation covers PnL and fill timing only; commission, funding and terminal-balance parity are unmapped | <code>v8-core/src/benchmark/parity.rs::reconciliation_gaps</code> | <strong>DOCUMENTED, not reversed</strong> — the gap is emitted in machine-readable form on every parity receipt so an <code>ExactMatch</code> cannot be read as full economic reconciliation. |
+| No registered data-backed benchmark evaluator exists, so <code>BenchmarkRunner</code> validates evidence paths but emits no receipt | <code>v8-core/src/benchmark/runner.rs</code> | <strong>OPEN_PIN</strong> carried from D-156 (<code>OPEN_PIN-156-1</code>). D-153 remains <code>PROVISIONAL_DECISION</code> for this reason; D-159 does not close it. |</p>
 <p>Divergences are closed by code change; closure is recorded here with the
 closing commit and in the CHANGELOG — never by editing this table alone.
 Divergences that are accepted architecture rather than defects awaiting a fix
@@ -10705,7 +11773,7 @@ historical design record and this table is the correction layer.</p>
 </tr>
 <tr>
 <td>D-098</td>
-<td><strong>Optional Linux Vulkan f64 K4 backend is implemented behind the backend boundary.</strong> <code>v8-core/src/backend/gpu.rs</code> provides a real <code>wgpu</code> Vulkan compute path for the static bar-close replay subset; it requires <code>SHADER_F64</code>, runs a no-contraction probe before adoption, validates geometry, and exposes CPU fallback for unavailable/unsupported devices. <code>backend/mod.rs</code> owns dispatch: <code>Auto</code> uses a runtime step threshold plus capability/fill-policy gates, explicit <code>Gpu</code> fails closed, and unsupported thesis/trigger/limit/management/pyramiding cells never enter the GPU kernel. Non-Linux builds report unavailable rather than pretending to dispatch. This supersedes D-096's implementation-status sentence (“backend itself is unlikely to ever be built”) without changing D-084's backend-invariance or f64 requirements.</td>
+<td><strong>Optional Linux Vulkan f64 K4 backend is implemented behind the backend boundary.</strong> <code>v8-core/src/backend/gpu.rs</code> provides a real <code>wgpu</code> Vulkan compute path for the static bar-close replay subset; it requires <code>SHADER_F64</code>, runs a no-contraction probe before adoption, validates geometry, and exposes CPU fallback for unavailable/unsupported devices. <code>v8-core/src/backend/mod.rs</code> owns dispatch: <code>Auto</code> uses a runtime step threshold plus capability/fill-policy gates, explicit <code>Gpu</code> fails closed, and unsupported thesis/trigger/limit/management/pyramiding cells never enter the GPU kernel. Non-Linux builds report unavailable rather than pretending to dispatch. This supersedes D-096's implementation-status sentence (“backend itself is unlikely to ever be built”) without changing D-084's backend-invariance or f64 requirements.</td>
 <td>PROVISIONAL_DECISION</td>
 <td>Local evidence: default/debug/release builds, GPU-feature tests, strict Clippy, Linux-target check, and CPU/SIMD parity all pass; the Apple host correctly fails closed because it has no Vulkan shader-f64 runtime. A physical Linux Vulkan adapter with <code>SHADER_F64</code> is still required to close the runtime GPU golden-parity receipt; no performance or economic claim is made.</td>
 </tr>
@@ -11031,13 +12099,19 @@ historical design record and this table is the correction layer.</p>
 <td>D-153</td>
 <td><strong>Benchmark Fabric (BF) Protocol, Multi-Population Evaluation &amp; Epistemic Boundaries (Rules 57.1–57.8).</strong> Establishes the Benchmark Fabric as a diagnostic and comparative evaluation instrument across governed real, synthetic, and external reference populations (<code>v8-core/src/benchmark/</code>). Enforces strict non-collapse invariants: (1) Benchmark ≠ Assurance; (2) CapabilityScore ≠ readiness; (3) CapabilityScore ≠ future-profit probability; (4) Non-compensable hard gates (<code>GateVector</code>); (5) Synthetic asymmetry (<code>synthetic_pass_confirms_no_edge</code> &amp; <code>synthetic_fail_may_challenge</code>); (6) External evaluators as instruments, not authorities; (7) Burned diagnostic and holdout protection; (8) Research trial debt accounting. Binds 10 capability domains, multi-population receipts, deterministic <code>BenchmarkVersion</code>, typed <code>CapitalOutcomeProjection</code>, and BFS-001..024 constitutional sabotage suite.</td>
 <td>PROVISIONAL_DECISION</td>
-<td><code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code>, <code>v8-core/src/benchmark/</code>, <code>v8-core/tests/benchmark_fabric_adversarial.rs</code>; Rules 12, 28–31, 44, 51–57; D-132, D-136, D-141, D-147, D-149, D-150, D-151, D-152.</td>
+<td><code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code>, <code>v8-core/src/benchmark/</code>, <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code> (BFS-001..024, 24/24), <code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code> (#327, 15 tests), <code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code> (#328, 40 tests), <code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code> (#329, 50 tests); Rules 12, 28–31, 44, 51–57; D-132, D-136, D-141, D-147, D-149, D-150, D-151, D-152, D-159. <strong>Status remains PROVISIONAL:</strong> the D-156 registered benchmark evaluator OPEN_PIN is still open (no receipt is emitted without a registered data-backed evaluator), the #327 G7–G9 naming conflict against D-152 carries its own <code>OPEN_PIN</code>, and #328 records that pre-v2 ledger rows are unbound rather than verified. No D-153 artifact grants economic authority; every verdict remains <code>NO_ECONOMIC_CLAIM</code>.</td>
 </tr>
 <tr>
 <td>D-156</td>
 <td><strong>Evidence, Artifact, Statistical, Benchmark, and Cache Hardening for Issues #318–#324.</strong> Operationalizes D-118 f64 invariants across physical artifacts and evaluation boundaries; hardens append-only candidate/cashflow/evidence persistence and tape-bound atomic checkpoints; replaces disguised JSON with standard Parquet publication and read-back verification; keeps scenario ruin and SaR fail closed when physical trade or liquidity inputs are absent; distinguishes proxy DSR and unresolved multiplicity from genuine registered estimators; validates benchmark evidence paths but blocks receipt creation until a registered data-backed evaluator exists; and makes production cache storage durable through versioned content-addressed redb transactions and guarded legacy migration. All unresolved and proxy outputs remain <code>NO_ECONOMIC_CLAIM</code>.</td>
 <td>PROVISIONAL_DECISION</td>
 <td><code>docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>v8-core/src/parquet_artifact.rs</code>, <code>v8-core/src/checkpoint.rs</code>, <code>v8-core/src/evidence.rs</code>, <code>v8-core/src/evaluation/statistics.rs</code>, <code>v8-core/src/evaluation/multiple_testing.rs</code>, <code>v8-core/src/usdm_sim/scenario_ruin.rs</code>, <code>v8-core/src/benchmark/runner.rs</code>, <code>v8-core/src/cache.rs</code>; Issues #318–#324; D-118, D-122, D-153; Rules 5, 12, 44. OPEN_PIN: registered benchmark evaluator, genuine multiple-testing receipts, and physical SaR liquidity input contract.</td>
+</tr>
+<tr>
+<td>D-159</td>
+<td><strong>Research-validity audit: receipt self-verification, policy-bound parity, gate authority firewall and governance reconciliation (#327, #328, #329, #330).</strong> Closes four trust-chain breaks in the D-153 Benchmark Fabric where a stored assertion was treated as its own proof. (#327) Canonicalizes <code>GateVector</code> to the registered G0–G9, adds the non-compensable <code>GateState::Missing</code>, typed <code>GateFailureClass</code>, and <code>AuthorityFirewall</code> so readiness is a monotone non-escalating projection that resolves any authority claim through <code>ClaimRegistry</code> and fails closed on absence; a certificate can no longer mint <code>PRODUCTION_READY</code> locally. (#328) Replaces the ad-hoc receipt digest with a versioned canonical digest (<code>d153.receipt.v2</code>, legacy <code>d153.receipt.v1</code>) over the whole receipt plus <code>BenchmarkProvenance</code>/<code>ArtifactBinding</code>, constant-time comparison, artifact re-hashing, a <code>d153.ledger.v2</code> entry seal that folds canonical receipt bytes into the chain, <code>LedgerTamper</code>/<code>LedgerAuditReport</code> audit, and report rendering gated on <code>VerifiedReceipt</code>. (#329) Deletes the fabricated fixed-vector parity code (discarded <code>_policy_id</code>, hardcoded arrays, <code>fill_timing_mae_ms = 0.0</code>, drawdown "discrepancies" derived by ×1.5/×1.2/×1.1 multipliers, forbidden bps tolerance) and implements artifact-bound <code>parity.rs</code> adapters: declared native/reference ledgers, <code>SemanticMapping</code> identity, IEEE-754 bit-pattern equality, <code>None</code> instead of invented zeros, placeholder-version blocking, derived non-forgeable diagnostic authority, and machine-readable <code>reconciliation_gaps()</code>. (#330) Reconciles governance with the tree: aligns the D-153 status header to the register's <code>PROVISIONAL_DECISION</code>, removes phantom <code>v8-core/tests/benchmark_fabric_adversarial.rs</code> citations, commits Turkish full-text mirrors for D-153 and D-159 (Rule 44 / D-149), reconciles <code>IMPLEMENTATION_LAYOUT.md</code>, bounds CHANGELOG completion claims to observed verification, regenerates EN/TR monographs via the builder instead of hand-editing, and adds <code>tools/audit_doc_path_refs.py</code> as the path-reference guard. Grants no economic authority: every verdict stays <code>NO_ECONOMIC_CLAIM</code>.</td>
+<td>PROVISIONAL_DECISION</td>
+<td><code>docs/contracts/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code>, <code>docs/tr/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code>, <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>tools/audit_doc_path_refs.py</code>, <code>v8-core/src/benchmark/{gate_authority,receipt,ledger,parity,external,certificate,runner,types}.rs</code>, <code>v8-core/tests/{d152_gate_vector_authority_firewall,d153_receipt_ledger_selfverify,d153_parity_adapters_policy_bound,d153_benchmark_fabric_sabotage}.rs</code>, <code>docs/contracts/{D153_BENCHMARK_FABRIC_SPEC,IMPLEMENTATION_LAYOUT}.md</code>, <code>docs/CHANGELOG.md</code>; Issues #327–#330; D-116, D-118, D-138, D-149, D-150, D-151, D-152, D-153, D-156; Rules 5, 12, 28–31, 44, 51–57. OPEN_PIN (carried, unresolved): D-152 §5 vs D-153 §2 G7–G9 naming conflict; D-156 registered benchmark evaluator; pre-v2 ledger rows unbound; D-116 commission/funding/terminal-balance parity unmapped.</td>
 </tr>
 </tbody>
 </table>
@@ -13363,6 +14437,16 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-09-07-d-159-research-validity-audit-gate-authority-receipt-self-verification-policy-bound-parity-governance-reconciliation-issues-327330">2026-09-07 — D-159 Research-Validity Audit: Gate Authority, Receipt Self-Verification, Policy-Bound Parity, Governance Reconciliation (Issues #327–#330)</h2>
+<p>Registered D-159 as a provisional, fail-closed audit decision covering four independent trust-chain breaks in the D-153 Benchmark Fabric, where in each case a stored assertion was treated as its own proof. Full authoritative English and Turkish specifications are <code>docs/contracts/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code> and <code>docs/tr/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code>. D-153's own status is unchanged (<code>PROVISIONAL_DECISION</code>); this entry adds enforcement, not authority.</p>
+<ul>
+<li><strong>#327 Gate vector / authority firewall:</strong> <code>GateVector</code> canonicalized to the registered G0–G9 with a non-compensable <code>GateState::Missing</code> (never evaluated, never a pass), typed <code>GateFailureClass</code>, and a <code>ReadinessVerdict</code> that is a projection rather than a local computation. New <code>v8-core/src/benchmark/gate_authority.rs</code> enforces monotone non-escalation (<code>cap_authority</code>), routes every authority claim through <code>ClaimRegistry</code>, fails closed on absence, and ceilings <code>PolicyCertificate</code> status so a scalar <code>CapabilityScore</code> can no longer print <code>PRODUCTION_READY</code>. The D-152 §5 versus D-153 §2 G7–G9 naming conflict is carried as an explicit <code>OPEN_PIN</code> (<code>OPEN_PIN_GATE_NAMING</code>), not adjudicated. Verified by 15 tests in <code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code>.</li>
+<li><strong>#328 Receipt and ledger cryptographic self-verification:</strong> the ad-hoc receipt digest is replaced by a canonical <code>crate::hash::Canon</code> digest over the whole receipt, versioned as <code>d153.receipt.v2</code> with <code>d153.receipt.v1</code> recognised as legacy. Added <code>BenchmarkProvenance</code>, <code>ArtifactBinding</code>, <code>verify()</code> / <code>verify_artifacts()</code> / <code>verify_policy_identity()</code>, constant-time digest comparison, non-finite rejection, and report rendering gated on <code>VerifiedReceipt</code> with recomputed-digest stamping in JSON and HTML. The ledger now seals entries with <code>d153.ledger.v2</code>, folding canonical receipt bytes into the chain, and exposes <code>LedgerTamper</code>, stable tamper codes, and <code>LedgerAuditReport</code> via <code>audit()</code> / <code>load_with_report()</code>. Pre-v2 rows are honestly classified <code>legacy_unbound</code> (the repository's real 7-row ledger reports <code>LEDGER_PARTIALLY_BOUND</code> at exit <code>3</code>) and are neither deleted nor claimed verified. Verified by 40 tests in <code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code>.</li>
+<li><strong>#329 Policy-bound external parity adapters:</strong> deleted the fabricated parity surface (<code>CommodityExecutionAdapter</code>, <code>LeanParityAdapter</code>, <code>SkfolioParityAdapter</code>, <code>VectorBtParityAdapter</code>, <code>ExecutionParityReport</code>, <code>evaluate_parity</code>, <code>parity_passed</code>) including its hardcoded comparison arrays, discarded <code>_policy_id</code>, <code>fill_timing_mae_ms = 0.0</code>, ×1.5/×1.2/×1.1 drawdown multipliers and forbidden bps tolerance. Added <code>v8-core/src/benchmark/parity.rs</code>: parity is computed from two manifest-declared physical ledgers under a versioned <code>SemanticMapping</code> (<code>v8.d153.parity.mapping.v1</code>), using IEEE-754 bit-pattern equality, recording <code>None</code> rather than invented zeros when a field or sequence is absent, blocking placeholder engine/method versions, deriving (never storing) non-forgeable diagnostic authority, and emitting machine-readable <code>reconciliation_gaps()</code> that state commission, funding and terminal-balance parity remain unmapped for D-116. Added <code>BenchmarkReceipt::with_parity()</code> and the <code>benchmark parity</code> CLI. Verified by 50 tests in <code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code>, including source-level guards that the deleted literals cannot return.</li>
+<li><strong>#330 Governance and EN/TR reconciliation:</strong> aligned the D-153 spec status header to the register (<code>RATIFIED_DECISION</code> was divergent), removed every phantom <code>benchmark_fabric_adversarial.rs</code> citation, committed the missing Turkish full-text mirrors for D-153 and D-159 (Rule 44 / D-149), reconciled <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code> §§1.1/2/4 for the #327–#329 modules, downgraded the unsupported D-153 "Ratified and fully completed" claim above, regenerated the EN/TR monographs with <code>tools/build_monograph.py</code> rather than hand-editing HTML, and added <code>tools/audit_doc_path_refs.py</code> as the negative path-reference guard. The guard classifies every backticked repository citation as <code>RESOLVED</code>, <code>RUNTIME_OUTPUT</code>, <code>HISTORICAL_RECORD</code>, <code>RETIRED</code>, <code>ROOT_DECLARED</code> or a per-line <code>ALLOWED</code> marker, and fails on <code>UNACCOUNTED</code>; on this branch it reports 0 unaccounted citations across the scanned corpus and its <code>--self-test</code> confirms a phantom cited as existing and an invented source file both exit non-zero.</li>
+</ul>
+<p>No economic metric, p-value, effect size, tolerance, expected improvement or confidence value is introduced anywhere in this work; the fabricated vectors and multipliers are removed rather than recalibrated. Every verdict in scope remains <code>NO_ECONOMIC_CLAIM</code>, and no D-153 or D-159 artifact grants deployment or promotion authority.</p>
+<p>Modified artifacts: <code>docs/contracts/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code>, <code>docs/tr/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code>, <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>, <code>tools/audit_doc_path_refs.py</code>, <code>tools/build_monograph.py</code> (D-152/D-153/D-156/D-159 specs added to the monograph corpus; corpus-selection determinism was fixed separately in <code>a03eb990</code>), <code>site/index.html</code>, <code>site/tr.html</code>, and the Rust/test surfaces listed in the #327–#329 commits on branch <code>audit/research-validity-20260906</code>.</p>
 <h2 id="2026-09-06-deterministic-monograph-corpus-selection-ci-fix-issues-318324">2026-09-06 — Deterministic monograph corpus selection (CI fix, Issues #318–#324)</h2>
 <p>Fixed <code>tools/build_monograph.py</code> so the English monograph excludes the nested Turkish mirror (<code>docs/tr/</code>) and all corpus candidates are selected in stable path order. This prevents filesystem traversal differences between macOS and Linux CI from silently swapping translated sections into <code>site/index.html</code> and breaking the byte-identity probe.</p>
 <p>Modified artifacts: <code>tools/build_monograph.py</code>, <code>docs/CHANGELOG.md</code>, <code>site/index.html</code>, and <code>site/tr.html</code>.</p>
@@ -13380,17 +14464,29 @@ capacity only makes the ambiguity harder to audit.</p></section>
 </ul>
 <p>Modified artifacts: <code>docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>, <code>v8-core/src/parquet_artifact.rs</code>, <code>v8-core/src/cache.rs</code>, <code>v8-core/src/checkpoint.rs</code>, <code>v8-core/src/evidence.rs</code>, <code>v8-core/src/evaluation/statistics.rs</code>, <code>v8-core/src/evaluation/multiple_testing.rs</code>, <code>v8-core/src/usdm_sim/scenario_ruin.rs</code>, and <code>v8-core/src/benchmark/runner.rs</code>.</p>
 <h2 id="2026-09-06-d-153-benchmark-fabric-bf-protocol-multi-population-evaluation-rules-571578">2026-09-06 — D-153 Benchmark Fabric (BF) Protocol &amp; Multi-Population Evaluation (Rules 57.1–57.8)</h2>
-<p>Ratified and fully completed the implementation of D-153 Benchmark Fabric against <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code> and <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>:
+<blockquote>
+<p><strong>Completion claim corrected on 2026-09-07 under D-159 (issue #330).</strong> This entry originally opened with
+"Ratified and fully completed". That was not supported by receipts. D-153 is registered as
+<code>PROVISIONAL_DECISION</code>, not ratified; the D-156 registered benchmark-evaluator <code>OPEN_PIN-156-1</code> was and remains
+open, so no benchmark receipt can be produced from a registered data-backed evaluator. The "External Parity
+Adapters" and "Append-Only Disk Ledger" bullets below were also overstated: parity was implemented as fixed
+in-process vectors and the ledger trusted its own stored digest. Both were replaced by #328 and #329.
+The original text is preserved below with inline corrections so the historical claim stays auditable.</p>
+</blockquote>
+<p>Implemented the D-153 Benchmark Fabric against <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code> and <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, at provisional (not ratified) status:
 - <strong>Ontology &amp; Epistemic Separation:</strong> Implemented strict non-collapse invariants (Rule 57): Benchmark != Assurance, CapabilityScore != Readiness, CapabilityScore != Future-Profit Probability. Explicitly separated Question 1 ("Is this a high-integrity quant research system?" -&gt; 0-100 CapabilityScore) from Question 2 ("How much capital if $1,000 invested?" -&gt; Empirical Monte Carlo capital projection).
 - <strong>MinervaScore Robustness Engine (arXiv:2608.23808):</strong> Implemented <code>v8-core/src/benchmark/minerva.rs</code> evaluating DSR, PBO, SPA, MinTRL, and Regime Stability signed margins with non-compensable binary robustness seal gating (scores &gt;= 80 and seals strictly require passing all 5 gates; failure caps score &lt; 80). Integrated PRUDEX-Compass (TMLR 2023) 6-axis profile mapping.
 - <strong>10,000 Monte Carlo / Bootstrap Simulated Futures:</strong> Implemented empirical future paths starting from $1,000 initial capital (<code>v8-core/src/benchmark/projection.rs</code>) yielding exact P5, P25, P50 (median), P75, P95, worst/best scenario returns, and Risk of Ruin % (drawdown &gt;= 30%) with explicit liquidity capacity and counterfactual notices.
 - <strong>Unified V8 Evidence Dashboard &amp; Policy Certificate:</strong> Implemented <code>PolicyCertificate</code> (<code>v8-core/src/benchmark/certificate.rs</code>) calculating the multiplicative Readiness Index: $\text{Readiness Index} = \text{Research Capability} \times \text{Evidence Multiplier} \times \text{Robustness} \times \text{Economic Score}$. Rendered in both terminal ASCII box and 3-panel HTML scorecard (<code>site/benchmark_scorecard.html</code>), strictly enforcing <code>STATUS: Research Candidate NOT Production Approved</code>.
 - <strong>Metric Observations &amp; 10-Domain Architecture:</strong> Implemented <code>MetricObservation</code> (<code>v8-core/src/benchmark/observation.rs</code>), 10 capability domains with Monograph V1 provisional weights, and penalized harmonic mean scoring with coverage multiplier.
 - <strong>Real Execution Runner:</strong> Implemented <code>BenchmarkRunner</code> (<code>v8-core/src/benchmark/runner.rs</code>) orchestrating chronological walk-forward, CPCV, real burned diagnostic quad evaluation (treated strictly as one historical cell), Foundry passport qualification, and reverse-stress nearest-defeater search.
-- <strong>External Parity Adapters:</strong> Implemented real series parity evaluation and disagreement detection (<code>v8-core/src/benchmark/external.rs</code>) for QuantConnect LEAN, skfolio, and VectorBT with zero hardcoded metrics.
-- <strong>Append-Only Disk Ledger:</strong> Implemented cryptographic hash-chain ledger with disk persistence (<code>.audit/benchmark/ledger.jsonl</code>).
+- <strong>External Parity Adapters:</strong> <em>[2026-09-06 claim incorrect; corrected by #329]</em> <code>external.rs</code> originally evaluated disagreement detection only, and its "parity" path (<code>evaluate_parity(policy_id)</code>) discarded the policy id as <code>_policy_id</code> and compared two hardcoded arrays under a bps tolerance that <code>PARITY_AND_IDENTITY_SPEC</code> forbids, with <code>fill_timing_mae_ms</code> hardcoded to <code>0.0</code> and drawdown "discrepancies" derived by multiplying PnL error by 1.5 / 1.2 / 1.1. That fabricated surface is deleted; LEAN, skfolio and VectorBT parity is now artifact-bound in <code>v8-core/src/benchmark/parity.rs</code> (see the #329 bullet in the D-159 entry above).
+- <strong>Append-Only Disk Ledger:</strong> <em>[2026-09-06 claim overstated; corrected by #328]</em> Implemented a hash-chain ledger with disk persistence (<code>.audit/benchmark/ledger.jsonl</code>), but the chain bound the <em>stored</em> digest rather than canonical receipt bytes, so fields outside the digest list could change undetected. Superseded by the <code>d153.ledger.v2</code> entry seal (see the #328 bullet in the D-159 entry above).
 - <strong>Constitutional Sabotage &amp; Integration Suites:</strong> 24/24 BFS sabotage tests (<code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>) and dedicated Minerva/Dashboard integration tests (<code>v8-core/tests/d153_minerva_and_dashboard_test.rs</code>) passing with 100% verification.</p>
 <p>Artifacts changed: <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code>, <code>site/benchmark_scorecard.html</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>v8-core/src/benchmark/*</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>, <code>v8-core/tests/d153_minerva_and_dashboard_test.rs</code>, <code>docs/CHANGELOG.md</code>.</p>
+<blockquote>
+<p>Note: the register and this log also cited <code>v8-core/tests/benchmark_fabric_adversarial.rs</code>, a file that never existed; the sabotage suite is <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>. All phantom citations are removed under D-159. The Turkish full-text mirror <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code> was missing at this date and is committed under D-159.</p>
+</blockquote>
 <h2 id="2026-09-06-d-152-scenario-centric-policy-evidence-profile-quad-demotion-g0g9">2026-09-06 — D-152 Scenario-Centric Policy Evidence Profile &amp; Quad Demotion (G0–G9)</h2>
 <p>Registered D-152 as PROVISIONAL_DECISION extending D-147/D-150/D-151 with no locked-invariant mutation. Replaced the single-trajectory headline with <code>assurance/evidence_profile.rs::PolicyEvidenceProfile</code> (typed historical diagnostic, scenario cells, robustness topology, frozen-OOS/shadow/live states, gates, non-scalar conclusion). Demoted the 12-month quad to <code>BURNED_DIAGNOSTIC</code> diagnostic court: typed <code>PortfolioReceipt</code> fields, diagnostic CLI rendering, pathology preserved, promotion leakage blocked by type. Codified passport-scoped synthetic defeater authority and the statistical-triple audit (WRC + genuine DSR + SPA remain the burden; proxy ledger keeps G5 at <code>NO_ECONOMIC_CLAIM</code>). Added 14-test adversarial suite <code>policy_evidence_profile_adversarial.rs</code>.</p>
 <p>Artifacts changed: <code>docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>docs/tr/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>v8-core/src/assurance/evidence_profile.rs</code>, <code>v8-core/src/assurance/mod.rs</code>, <code>v8-core/src/usdm_sim.rs</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/tests/policy_evidence_profile_adversarial.rs</code>, <code>docs/CHANGELOG.md</code>.</p>

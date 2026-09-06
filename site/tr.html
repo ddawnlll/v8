@@ -1,4 +1,4 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Nihai Araştırma Monografisi</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Davranış Odaklı Alım Satım Zekâsı</h1><p><strong>Nihai araştırma monografisi ve mimari spesifikasyonu.</strong> Bu tek dosya, önceki V8 Markdown derlemesinin tamamını belge içeriği olarak barındırır; okumak için ayrı bir Markdown dosyası gerekmez.</p></header><section id="document-status"><h1>Belge durumu ve okuma kuralı</h1><p class="status"><strong>ÖN-DENEYSEL / KANITA BAĞLI.</strong> Bu belge V8'in kârlı olduğunu, yatırımcı sezgisinin güvenilir olduğunu veya icranın doğrulandığını iddia etmez. Amacı, kaynaklı fikirleri, tasarım varsayımlarını ve deneylerle elenmesi ya da desteklenmesi gereken önermeleri birbirinden ayırmaktır.</p><p>Etiketler şu anlamlara gelir: <strong>LITERATURE_SUPPORTED</strong> sınırlı, harici destekli bir iddiadır; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> yerel bir proje bulgusudur; <strong>DESIGN_INFERENCE</strong> test edilebilir bir mühendislik çıkarımıdır; <strong>PROVISIONAL_DECISION</strong> geri alınabilirdir; <strong>LOCKED_INVARIANT</strong> bir geçerlilik kuralıdır; <strong>OPEN_QUESTION</strong> çözümlenmemiştir; <strong>REJECTED_OPTION</strong> ise başlangıç taban çizgisinden hariç tutulmuştur.</p></section><section id="abstract"><h1>Özet</h1><p>V8, evrensel-model önermesini—her piyasa zaman damgası için tek bir yön tahmini üretmeyi—yanlışlanabilir bir alternatifle karşılaştırır: koşullu alım satım muhakemesini açık, davranışa özgü karar modüllerine ayrıştırmak. Temel soru, bu ayrıştırmanın eşit bilgiye sahip global zaman-damgası düzeyinde bir tahmin ediciden daha yararlı ve sağlam kararlar üretip üretemeyeceğidir.</p><p>Bu soru tek bir hipotez değildir. Davranışsal yapının varlığı, avantajın belirli habitatlarda yoğunlaşması, Expert ayrıştırmasının değeri, Aday Bölümü (Candidate Episode) veri modelinin değeri, seçim/kalite filtrelemesinin değeri, sermaye kıtlığında sıralama ihtiyacı ve icranın alfa ile etkileşimi ayrı ayrı test edilmelidir. Literatür, likiditenin, emir akışının, oynaklık kümelenmesinin, piyasa etkisinin, seçici tahminin ve çoklu test riskinin ilgisini destekler. V8 Expert'lerinin, bir Yönlendirici'nin (Router) veya bir Skorlayıcı'nın (Scorer) ekonomik üstünlüğe sahip olduğunu kurmaz.</p><p>Buna uygun olarak başlangıç mimarisi bilinçli olarak küçüktür: anlık (point-in-time) MarketState → 2–3 deterministik, kendinden kapılı Expert → eksiksiz Aday yaşam döngüsünün salt-ekle (append-only) kaydı → deterministik kabul/risk → tek bir kanonik Seviye-1 icra defteri. Yönlendirici, öğrenilmiş Skorlayıcı, Sıralayıcı, RL icrası ve emir defteri simülasyonu varsayılan değildir. Her biri, önceden kayıtlı, maliyetlendirilmiş, dondurulmuş bir örnek-dışı (out-of-sample) deneyinde daha basit bir deterministik taban çizgisine karşı değer göstermek zorundadır.</p></section><section id="problem-definition"><h1>Problem tanımı</h1><h2>Yanlış kurulmuş problem: her barda yön tahmin etmek</h2><p>Global bir model, heterojen süreçleri—trend, bant (range), oynaklık şoku, likidite tükenmesi, zorla tasfiye, devam ve tersine dönüş—tek bir hedef fonksiyona sıkıştırır. Güçlü örnek-içi (in-sample) sınıflandırma, bir sinyalin maliyetler sonrası seçilebilir olduğunu, bir mekanizmaya bağlı olduğunu veya rejim değişikliğine karşı sağlam olduğunu göstermez. Dosya tabanlı V7 kanıtı bu ayrımı gerekli kılar: belirli bir bar türevi öznitelik/icracı kampanyası, belirtilen maliyet varsayımları altında açıklanan ekonomik kapıyı geçemedi. Bu sonuç, tüm davranışsal avantajı ne doğrular ne de çürütür; V8'in kendisini de etkilemez.</p><h2>V8 araştırma problemi</h2><p>V8, "sıradaki fiyat hareketi yukarı mı aşağı mı?" sorusunu dört soruya ayrıştırır: (1) Bu anda ekonomik olarak anlamlı olabilecek gözlemlenebilir bir davranış var mı? (2) Habitat, kurulum, tetikleyici, geçersiz kılma ve süre sonu ile önceden (ex ante) biçimselleştirilebilir mi? (3) Bir Aday olarak kaydedildikten sonra hangi hipotezler tetiklenir ve kanonik bir maliyet ve icra politikası altında ne olur? (4) Daha karmaşık bir bileşen, daha basit taban çizgisinin ötesinde ölçülmüş değer ekler mi?</p><h2>Başarı ve başarısızlık ölçütleri</h2><p>Başarı, çekici bir geri test ya da karmaşık bir diyagram değildir. Bir bileşen, yalnızca eksiksiz deneme soyağacı, anlık veri, sabit maliyet/dolum varsayımları, bağımlılık duyarlı belirsizlik, çoklu test muhasebesi ve dokunulmamış kronolojik OOS ile önceden kayıtlı bir hedefi geçtiğinde kabul edilir. Başarısızlık da bilgidir: bir Expert'i reddedin, bir Yönlendirici'yi çıkarın ya da bir Aday şemasını sadeleştirin. Dolayısıyla V8'in çıktısı, mimari karmaşıklığı kanıt yüküne bağlayan bir araştırma laboratuvarıdır; bir sinyal makinesi değildir.</p></section><section id="introduction"><h1>Giriş: bu araştırma neden gerekli</h1><p>Alım satım araştırmasındaki en pahalı hata, gözlemlenen bir fiyat biçimini nedenle ve seçilmiş bir geri testi avantajla karıştırmaktır. İkinci bir hata, ilkini daha fazla öznitelik, daha büyük bir model, daha ince yönlendirme veya daha gerçekçi görünen icra ile gizlemektir. Bu monografi, ekonomik mekanizmayı, gözlemlenebilir davranışı, istatistiksel imzayı, alım satım kuralını ve icra seçimini ayrı tutar. Bir katmandaki olumlu kanıt, bir sonraki katmanı asla otomatik olarak çözmez.</p><p>Bu belge iki iş yapar. İlk olarak, sağlanan 60 maddelik listedeki erişilebilir çalışmaları MoE/yönlendirme, seçici tahmin, sağkalım ve çok durumlu yaşam döngüsü yöntemleri, zamansal olay modellemesi, aşırı uyum kontrolleri, mikro yapı, etki ve icra/portföy kararları kapsamında derinlemesine analiz eder. İkinci olarak, aktarımın sınırını çizer: LLM MoE kanıtı finansal Expert değeri değildir; tıbbi sağkalım modelleri Aday PnL'si değildir; eşzamanlı emir akışı etkisi öngörülebilirlik değildir. Geçerli aktarım esas olarak test tasarımı ve veri sözleşmeleri düzeyindedir.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-canonical-cancers-and-mega-move-audit">CANONICAL CANCERS AND MEGA MOVE AUDIT</a></li><li><a href="#sec-allegorical-market-archetype-audit">ALLEGORICAL MARKET ARCHETYPE AUDIT</a></li><li><a href="#sec-quantized-computation-audit">QUANTIZED COMPUTATION AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-d136-epistemic-economic-observability">D136 EPISTEMIC ECONOMIC OBSERVABILITY</a></li><li><a href="#sec-d141-expert-proving-ground">D141 EXPERT PROVING GROUND</a></li><li><a href="#sec-v85-ratification-candidate">V85 RATIFICATION CANDIDATE</a></li><li><a href="#sec-d150-continuous-epistemic-succession-spec">D150 CONTINUOUS EPISTEMIC SUCCESSION SPEC</a></li><li><a href="#sec-market-world-foundry-v2-spec">MARKET WORLD FOUNDRY V2 SPEC</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-accp-v2-spec">ACCP V2 SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-venue-and-capital-simulation-spec">VENUE AND CAPITAL SIMULATION SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-kaizen-engine-spec">KAIZEN ENGINE SPEC</a></li><li><a href="#sec-kaizen-benchmark-spec">KAIZEN BENCHMARK SPEC</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-work-item-policy">WORK ITEM POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-anayasas-v03-kant-anayasas-v2-cc-bill-v83-authority-003-cc-amend-v83-kaizen-004-ile-onayland">V8 Anayasası v0.3 — Kanıt Anayasası v2 (CC-BILL-V8.3-AUTHORITY-003 &amp; CC-AMEND-V8.3-KAIZEN-004 ile Onaylandı)</h1>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V8 Nihai Araştırma Monografisi</title><style>@page{margin:18mm}body{max-width:1060px;margin:auto;padding:28px 48px;background:#fffdf9;color:#181818;font:15px/1.55 Georgia,serif}h1,h2,h3,h4,th{font-family:Arial,sans-serif}h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}h2{margin-top:2.2rem}h3{margin-top:1.5rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;background:#f0eee8;font:13px/1.45 ui-monospace,monospace}table{border-collapse:collapse;width:100%;font:12px Arial,sans-serif;margin:1rem 0}th,td{border:1px solid #aaa;padding:.4rem;vertical-align:top}th{background:#ece9e1}a{color:#154c78}.status{border-left:4px solid #333;background:#f0eee8;padding:.8rem 1rem}@media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}}</style></head><body><header><h1>V8: Davranış Odaklı Alım Satım Zekâsı</h1><p><strong>Nihai araştırma monografisi ve mimari spesifikasyonu.</strong> Bu tek dosya, önceki V8 Markdown derlemesinin tamamını belge içeriği olarak barındırır; okumak için ayrı bir Markdown dosyası gerekmez.</p></header><section id="document-status"><h1>Belge durumu ve okuma kuralı</h1><p class="status"><strong>ÖN-DENEYSEL / KANITA BAĞLI.</strong> Bu belge V8'in kârlı olduğunu, yatırımcı sezgisinin güvenilir olduğunu veya icranın doğrulandığını iddia etmez. Amacı, kaynaklı fikirleri, tasarım varsayımlarını ve deneylerle elenmesi ya da desteklenmesi gereken önermeleri birbirinden ayırmaktır.</p><p>Etiketler şu anlamlara gelir: <strong>LITERATURE_SUPPORTED</strong> sınırlı, harici destekli bir iddiadır; <strong>PROJECT_EVIDENCE_SUPPORTED</strong> yerel bir proje bulgusudur; <strong>DESIGN_INFERENCE</strong> test edilebilir bir mühendislik çıkarımıdır; <strong>PROVISIONAL_DECISION</strong> geri alınabilirdir; <strong>LOCKED_INVARIANT</strong> bir geçerlilik kuralıdır; <strong>OPEN_QUESTION</strong> çözümlenmemiştir; <strong>REJECTED_OPTION</strong> ise başlangıç taban çizgisinden hariç tutulmuştur.</p></section><section id="abstract"><h1>Özet</h1><p>V8, evrensel-model önermesini—her piyasa zaman damgası için tek bir yön tahmini üretmeyi—yanlışlanabilir bir alternatifle karşılaştırır: koşullu alım satım muhakemesini açık, davranışa özgü karar modüllerine ayrıştırmak. Temel soru, bu ayrıştırmanın eşit bilgiye sahip global zaman-damgası düzeyinde bir tahmin ediciden daha yararlı ve sağlam kararlar üretip üretemeyeceğidir.</p><p>Bu soru tek bir hipotez değildir. Davranışsal yapının varlığı, avantajın belirli habitatlarda yoğunlaşması, Expert ayrıştırmasının değeri, Aday Bölümü (Candidate Episode) veri modelinin değeri, seçim/kalite filtrelemesinin değeri, sermaye kıtlığında sıralama ihtiyacı ve icranın alfa ile etkileşimi ayrı ayrı test edilmelidir. Literatür, likiditenin, emir akışının, oynaklık kümelenmesinin, piyasa etkisinin, seçici tahminin ve çoklu test riskinin ilgisini destekler. V8 Expert'lerinin, bir Yönlendirici'nin (Router) veya bir Skorlayıcı'nın (Scorer) ekonomik üstünlüğe sahip olduğunu kurmaz.</p><p>Buna uygun olarak başlangıç mimarisi bilinçli olarak küçüktür: anlık (point-in-time) MarketState → 2–3 deterministik, kendinden kapılı Expert → eksiksiz Aday yaşam döngüsünün salt-ekle (append-only) kaydı → deterministik kabul/risk → tek bir kanonik Seviye-1 icra defteri. Yönlendirici, öğrenilmiş Skorlayıcı, Sıralayıcı, RL icrası ve emir defteri simülasyonu varsayılan değildir. Her biri, önceden kayıtlı, maliyetlendirilmiş, dondurulmuş bir örnek-dışı (out-of-sample) deneyinde daha basit bir deterministik taban çizgisine karşı değer göstermek zorundadır.</p></section><section id="problem-definition"><h1>Problem tanımı</h1><h2>Yanlış kurulmuş problem: her barda yön tahmin etmek</h2><p>Global bir model, heterojen süreçleri—trend, bant (range), oynaklık şoku, likidite tükenmesi, zorla tasfiye, devam ve tersine dönüş—tek bir hedef fonksiyona sıkıştırır. Güçlü örnek-içi (in-sample) sınıflandırma, bir sinyalin maliyetler sonrası seçilebilir olduğunu, bir mekanizmaya bağlı olduğunu veya rejim değişikliğine karşı sağlam olduğunu göstermez. Dosya tabanlı V7 kanıtı bu ayrımı gerekli kılar: belirli bir bar türevi öznitelik/icracı kampanyası, belirtilen maliyet varsayımları altında açıklanan ekonomik kapıyı geçemedi. Bu sonuç, tüm davranışsal avantajı ne doğrular ne de çürütür; V8'in kendisini de etkilemez.</p><h2>V8 araştırma problemi</h2><p>V8, "sıradaki fiyat hareketi yukarı mı aşağı mı?" sorusunu dört soruya ayrıştırır: (1) Bu anda ekonomik olarak anlamlı olabilecek gözlemlenebilir bir davranış var mı? (2) Habitat, kurulum, tetikleyici, geçersiz kılma ve süre sonu ile önceden (ex ante) biçimselleştirilebilir mi? (3) Bir Aday olarak kaydedildikten sonra hangi hipotezler tetiklenir ve kanonik bir maliyet ve icra politikası altında ne olur? (4) Daha karmaşık bir bileşen, daha basit taban çizgisinin ötesinde ölçülmüş değer ekler mi?</p><h2>Başarı ve başarısızlık ölçütleri</h2><p>Başarı, çekici bir geri test ya da karmaşık bir diyagram değildir. Bir bileşen, yalnızca eksiksiz deneme soyağacı, anlık veri, sabit maliyet/dolum varsayımları, bağımlılık duyarlı belirsizlik, çoklu test muhasebesi ve dokunulmamış kronolojik OOS ile önceden kayıtlı bir hedefi geçtiğinde kabul edilir. Başarısızlık da bilgidir: bir Expert'i reddedin, bir Yönlendirici'yi çıkarın ya da bir Aday şemasını sadeleştirin. Dolayısıyla V8'in çıktısı, mimari karmaşıklığı kanıt yüküne bağlayan bir araştırma laboratuvarıdır; bir sinyal makinesi değildir.</p></section><section id="introduction"><h1>Giriş: bu araştırma neden gerekli</h1><p>Alım satım araştırmasındaki en pahalı hata, gözlemlenen bir fiyat biçimini nedenle ve seçilmiş bir geri testi avantajla karıştırmaktır. İkinci bir hata, ilkini daha fazla öznitelik, daha büyük bir model, daha ince yönlendirme veya daha gerçekçi görünen icra ile gizlemektir. Bu monografi, ekonomik mekanizmayı, gözlemlenebilir davranışı, istatistiksel imzayı, alım satım kuralını ve icra seçimini ayrı tutar. Bir katmandaki olumlu kanıt, bir sonraki katmanı asla otomatik olarak çözmez.</p><p>Bu belge iki iş yapar. İlk olarak, sağlanan 60 maddelik listedeki erişilebilir çalışmaları MoE/yönlendirme, seçici tahmin, sağkalım ve çok durumlu yaşam döngüsü yöntemleri, zamansal olay modellemesi, aşırı uyum kontrolleri, mikro yapı, etki ve icra/portföy kararları kapsamında derinlemesine analiz eder. İkinci olarak, aktarımın sınırını çizer: LLM MoE kanıtı finansal Expert değeri değildir; tıbbi sağkalım modelleri Aday PnL'si değildir; eşzamanlı emir akışı etkisi öngörülebilirlik değildir. Geçerli aktarım esas olarak test tasarımı ve veri sözleşmeleri düzeyindedir.</p></section><nav id="toc"><h2>Contents</h2><ul><li><a href="#sec-v8-constitution">V8 CONSTITUTION</a></li><li><a href="#sec-research-audit">RESEARCH AUDIT</a></li><li><a href="#sec-project-evidence-audit">PROJECT EVIDENCE AUDIT</a></li><li><a href="#sec-canonical-cancers-and-mega-move-audit">CANONICAL CANCERS AND MEGA MOVE AUDIT</a></li><li><a href="#sec-allegorical-market-archetype-audit">ALLEGORICAL MARKET ARCHETYPE AUDIT</a></li><li><a href="#sec-quantized-computation-audit">QUANTIZED COMPUTATION AUDIT</a></li><li><a href="#sec-performance-audit-v82">PERFORMANCE AUDIT V82</a></li><li><a href="#sec-evaluation-evidence-system">EVALUATION EVIDENCE SYSTEM</a></li><li><a href="#sec-d136-epistemic-economic-observability">D136 EPISTEMIC ECONOMIC OBSERVABILITY</a></li><li><a href="#sec-d141-expert-proving-ground">D141 EXPERT PROVING GROUND</a></li><li><a href="#sec-v85-ratification-candidate">V85 RATIFICATION CANDIDATE</a></li><li><a href="#sec-d150-continuous-epistemic-succession-spec">D150 CONTINUOUS EPISTEMIC SUCCESSION SPEC</a></li><li><a href="#sec-d152-scenario-centric-evidence-profile-spec">D152 SCENARIO CENTRIC EVIDENCE PROFILE SPEC</a></li><li><a href="#sec-d153-benchmark-fabric-spec">D153 BENCHMARK FABRIC SPEC</a></li><li><a href="#sec-d156-evidence-artifact-storage-hardening-spec">D156 EVIDENCE ARTIFACT STORAGE HARDENING SPEC</a></li><li><a href="#sec-d159-research-validity-audit-spec">D159 RESEARCH VALIDITY AUDIT SPEC</a></li><li><a href="#sec-market-world-foundry-v2-spec">MARKET WORLD FOUNDRY V2 SPEC</a></li><li><a href="#sec-architecture-spec">ARCHITECTURE SPEC</a></li><li><a href="#sec-accp-v2-spec">ACCP V2 SPEC</a></li><li><a href="#sec-compute-core-spec">COMPUTE CORE SPEC</a></li><li><a href="#sec-compute-scheduling-spec">COMPUTE SCHEDULING SPEC</a></li><li><a href="#sec-market-state-contract">MARKET STATE CONTRACT</a></li><li><a href="#sec-expert-protocol">EXPERT PROTOCOL</a></li><li><a href="#sec-predicate-ir-spec">PREDICATE IR SPEC</a></li><li><a href="#sec-candidate-lifecycle-spec">CANDIDATE LIFECYCLE SPEC</a></li><li><a href="#sec-dataset-spec">DATASET SPEC</a></li><li><a href="#sec-feed-ingestion-spec">FEED INGESTION SPEC</a></li><li><a href="#sec-persistence-replay-spec">PERSISTENCE REPLAY SPEC</a></li><li><a href="#sec-parity-and-identity-spec">PARITY AND IDENTITY SPEC</a></li><li><a href="#sec-ledger-format-spec">LEDGER FORMAT SPEC</a></li><li><a href="#sec-runtime-scheduler-spec">RUNTIME SCHEDULER SPEC</a></li><li><a href="#sec-simulation-truth-spec">SIMULATION TRUTH SPEC</a></li><li><a href="#sec-venue-and-capital-simulation-spec">VENUE AND CAPITAL SIMULATION SPEC</a></li><li><a href="#sec-outcome-cube-spec">OUTCOME CUBE SPEC</a></li><li><a href="#sec-recoverable-regret-protocol">RECOVERABLE REGRET PROTOCOL</a></li><li><a href="#sec-target-oracle-spec">TARGET ORACLE SPEC</a></li><li><a href="#sec-hypothesis-lab-protocol">HYPOTHESIS LAB PROTOCOL</a></li><li><a href="#sec-sweep-protocol">SWEEP PROTOCOL</a></li><li><a href="#sec-operations-spec">OPERATIONS SPEC</a></li><li><a href="#sec-learning-protocol">LEARNING PROTOCOL</a></li><li><a href="#sec-kaizen-engine-spec">KAIZEN ENGINE SPEC</a></li><li><a href="#sec-kaizen-benchmark-spec">KAIZEN BENCHMARK SPEC</a></li><li><a href="#sec-implementation-layout">IMPLEMENTATION LAYOUT</a></li><li><a href="#sec-decision-register">DECISION REGISTER</a></li><li><a href="#sec-open-decisions">OPEN DECISIONS</a></li><li><a href="#sec-evidence-matrix">EVIDENCE MATRIX</a></li><li><a href="#sec-contradiction-map">CONTRADICTION MAP</a></li><li><a href="#sec-source-map">SOURCE MAP</a></li><li><a href="#sec-reading-list">READING LIST</a></li><li><a href="#sec-analysis-moe-selective">analysis moe selective</a></li><li><a href="#sec-analysis-survival-temporal">analysis survival temporal</a></li><li><a href="#sec-analysis-validation-microstructure">analysis validation microstructure</a></li><li><a href="#sec-changelog">CHANGELOG</a></li><li><a href="#sec-roadmap">ROADMAP</a></li><li><a href="#sec-agent-runbook">AGENT RUNBOOK</a></li><li><a href="#sec-computation-budget-policy">COMPUTATION BUDGET POLICY</a></li><li><a href="#sec-work-item-policy">WORK ITEM POLICY</a></li><li><a href="#sec-python-oracle-policy">PYTHON ORACLE POLICY</a></li><li><a href="#sec-claims-registry">CLAIMS REGISTRY</a></li><li><a href="#sec-experiment-registry">EXPERIMENT REGISTRY</a></li><li><a href="#sec-experts-registry">EXPERTS REGISTRY</a></li><li><a href="#sec-preregistration-v8-slice-001">PREREGISTRATION V8 SLICE 001</a></li></ul></nav><section id="sec-v8-constitution"><h1>V8 CONSTITUTION</h1><h1 id="v8-anayasas-v03-kant-anayasas-v2-cc-bill-v83-authority-003-cc-amend-v83-kaizen-004-ile-onayland">V8 Anayasası v0.3 — Kanıt Anayasası v2 (CC-BILL-V8.3-AUTHORITY-003 &amp; CC-AMEND-V8.3-KAIZEN-004 ile Onaylandı)</h1>
 <ol>
 <li>V8 bir falsifikasyon programıdır, edge vaadi değildir.</li>
 <li>Bir iddia <code>LITERATURE_SUPPORTED</code>, <code>PROJECT_EVIDENCE_SUPPORTED</code>,
@@ -265,7 +265,7 @@ Dolayısıyla dosyaya-dayalı bir V6 sonucu yoktur.</p>
 </tbody>
 </table>
 <p>Mevcut en güçlü ekonomik-sertifikasyon kaydı hâlâ
-<code>v7/specs/simulation_authority_certification_v1.json</code> dosyasıdır: <code>status: FAIL</code>,
+<code>v7/specs/simulation_authority_certification_v1.json</code> dosyasıdır: <code>status: FAIL</code>, <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY <code>v7/specs/simulation_authority_certification_v1.json</code> belongs to the audited V7 materials, not to this repository tree. -->
 <code>autopilot_permission: BLOCKED</code>, <code>economic_verdict: INVALID_NOT_CERTIFIED</code> ve
 <code>profitability_claim: FORBIDDEN</code>. Dolayısıyla burada incelenen hiçbir proje
 dosyası bir kârlılık iddiasını desteklemez.</p>
@@ -2756,6 +2756,839 @@ $$\text{Yaşayan V8} = \text{Politika Soyu} \times \text{Delil Soyu} \times \tex
 <li><strong>[R14] Huber-Robust Confidence Sequences</strong>. Wang &amp; Ramdas (2023). <a href="https://arxiv.org/abs/2301.09573">https://arxiv.org/abs/2301.09573</a><br>
     <em>Açık kontaminasyon varsayımları altında her an geçerli güven dizileri sağlar.</em></li>
 </ol></section>
+<section id="sec-d152-scenario-centric-evidence-profile-spec"><h1>D152 SCENARIO CENTRIC EVIDENCE PROFILE SPEC</h1><h1 id="d-152-senaryo-merkezli-delil-profili-ve-quad-tenzili-tam-metin-sartname">D-152 Senaryo-Merkezli Delil Profili ve Quad Tenzi̇li (Tam Metin Şartname)</h1>
+<p><strong>Durum:</strong> PROVISIONAL_DECISION · <strong>Tarih:</strong> 2026-09-06 · <strong>Kurallar:</strong> 12, 28–31, 44, 51–56
+<strong>Ardıllık:</strong> D-147, D-150, D-151'i genişletir; kilitli değişmezi değiştirmez; yalnızca sunum yetkisini daraltır.</p>
+<h2 id="1-olcum-krizi">1. Ölçüm krizi</h2>
+<p>12-aylık quad (<code>research/tape/quad-1h-12m/tape.jsonl</code>) mühendislik tanısı için faydalıdır ancak
+manşet skaler (<code>+%50.9</code>, <code>TOTAL REALIZED RUST CASHFLOW</code>) olarak politika kalitesine terfi ettirildi.
+Bu terfi Kural 12 adlandırmasını ihlal eder (simüle çıktı gerçekleşmiş diliyle yazıldı) ve beş ayrı
+delil alanını (geçmiş tanı, sağlamlık, dondurulmuş-OOS tekrar, ileriye dönük gölge, gerçekleşmiş
+uzlaşı) tek skalere indirger. D-152 quad'ı silmeden tipli tanı mahkemesine tenzil eder.</p>
+<h2 id="2-ontoloji">2. Ontoloji</h2>
+<p>Tanı patolojisi (<code>BURNED_DIAGNOSTIC</code>, terfi <code>NONE</code>), senaryo hücresi (hücre başına görünür, ortalama
+yok), sağlamlık topolojisi (pasaport-bağlı negatif yetki), tekrar (<code>REPLICATION_ONLY</code>), ileriye
+dönük destek (<code>PROSPECTIVE_ONLY</code>), gerçekleşme (<code>REALIZATION_ONLY</code>), sertifikalı edge (yalnızca
+Kaizen + WRC + gerçek DSR + SPA). <code>SUPPORTED_EDGE</code>, <code>SIMULATED_CASHFLOW</code>, <code>REALIZED_CASHFLOW</code>
+ayrık ve birbirine dönüşmez.</p>
+<h2 id="39-ingilizce-tam-metinle-ayn">3–9. (İngilizce tam metinle aynı)</h2>
+<p>Senaryo mahkemesi 12 alegoriyi (A01–A12) ve 14 Foundry ailesini yeniden kullanır; sentetik PASS
+hiçbir şey vermez, sentetik FAIL yalnızca pasaportu geçen jeneratörle ve yalnızca
+<code>StructuralRobustness</code> sınıfı iddialara karşı challenge eder; G0–G9 kapıları §5'teki gibidir;
+kanonik çıktı <code>PolicyEvidenceProfile</code>'dır (<code>assurance/</code> sahibidir); quad etiketleri §7'deki gibi
+tanıya çevrilir; 12-aylık quad mevcut soy için <code>BURNED_DIAGNOSTIC</code>'tir; yanlışlama hipotezleri ve
+14-testlik adversarial paket ile doğrulanır. Ekonomik hüküm <code>NO_ECONOMIC_CLAIM</code> kalır.</p>
+<p>Tam bağlayıcı tanım için İngilizce tam metin
+(<code>docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>) geçerlidir.</p></section>
+<section id="sec-d153-benchmark-fabric-spec"><h1>D153 BENCHMARK FABRIC SPEC</h1><h1 id="d-153-benchmark-fabric-sartnamesi-tam-metin-anayasal-sartname">D-153 Benchmark Fabric Şartnamesi (Tam Metin Anayasal Şartname)</h1>
+<p><strong>Durum:</strong> PROVISIONAL_DECISION · <strong>Tarih:</strong> 2026-09-06 · <strong>Kurallar:</strong> 12, 28–31, 44, 51–57
+<strong>Ardıllık:</strong> D-147, D-150, D-151, D-152'yi genişletir; tüm kilitli değişmezleri ve epistemik sınırları korur.
+<strong>Eserler:</strong> <code>v8-core/src/benchmark/</code>, <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>, <code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code>, <code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code>, <code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code>, <code>v8-core/src/kaizen/</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>.
+<strong>Normatif metin:</strong> Bu dosya İngilizce <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code> metninin Türkçe aynasıdır. Normatif yetki İngilizce tam metindedir; ayna ikinci bir authority değildir ve İngilizce metinle çeliştiği yerde İngilizce metin geçerlidir.</p>
+<blockquote>
+<p><strong>Durum düzeltmesi (D-159, issue #330).</strong> Bu başlık daha önce
+<code>RATIFIED_DECISION</code> gösteriyordu, oysa her iki karar defteri de D-153'ü
+<code>PROVISIONAL_DECISION</code> olarak kaydetmişti. Durumu defterler belirlediği için
+sapan taraf başlıktı ve defter yükseletilmek yerine başlık hizalandı. Ayrıca bu
+başlık <code>v8-core/tests/benchmark_fabric_adversarial.rs</code> dosyasını referans  ediyordu; <!-- AUDIT-DOC-PATHS: NEGATIVE_CITATION <code>v8-core/tests/benchmark_fabric_adversarial.rs</code> is cited here precisely because it never existed; the real D-153 suite is <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>. -->
+bu dosya bu depoda hiç var olmadı. D-153 sabotaj suite'i
+<code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code> dosyasıdır. §2.6'daki
+"anlamsal ayrışma kaydı tutan açık tipli adapterlar" şartı, ratifikasyon
+anında sabit in-process vektörler olarak uygulanmıştı; bugün
+<code>v8-core/src/benchmark/parity.rs</code> içindeki esere bağlı adapterlar olarak
+uygulanmaktadır (issue #329). Her iki düzeltme de §§2–5'teki hiçbir normatif
+şartı değiştirmemektedir.</p>
+</blockquote>
+<hr>
+<h2 id="1-yonetici-tezi-ve-problem-tanm">1. Yönetici Tezi ve Problem Tanımı</h2>
+<p>V8'in epistemik altyapısı önceden güçlü bireysel doğrulama organlarına sahipti:
+- Assurance Fabric ve ClaimRegistry (D-131, D-148, D-150)
+- Market World Foundry (D-141, D-144)
+- System Proving Ground (D-141)
+- PolicyEvidenceProfile ve G0–G9 senaryo kapıları (D-152)
+- Kaizen araştırma geçmişi ve borç takibi (D-137, D-145)</p>
+<p>Ancak politika-arası değerlendirme; birleşik, değişmez, içerik-adresli, çok
+popülasyonlu bir benchmark protokolünden yoksundu. D-153 olmadan politika
+karşılaştırmaları şu açıklıklara açıktı:
+1. Benchmark çökmesi: benchmark yetenek skorlarının ekonomik hazırlık veya edge ile karıştırılması.
+2. Değerlendirici artefact'ı: politikalara, belirli bir simülasyon ya da backtest kabuk tuzağına karşı optimizasyon yapma fırsatı.
+3. Common-mode arızası: politika üreteçleri ile değerlendiriciler arasında özdeş varsayımlar.
+4. Metrik telafisi: ılımlı rejimlerdeki güçlü performansın, kuyruk senaryolarındaki felaketi matematiksel olarak örtmesine izin verilmesi.
+5. Kabul edilemez ileriye dönük iddialar: sentetik simülasyon başarısının gelecekteki nakit akışı olasılığına dışavumu.</p>
+<p>D-153, <strong>Benchmark Fabric (BF)</strong>'i kurar: dondurulmuş politikaları yönetilen
+gerçek, sentetik ve harici referans popülasyonları üzerinde değerlendiren, paralel
+bir authority kökü yaratmadan çalışan, delile bağlı bir tanısal değerlendirme
+ölçüm aletidir.</p>
+<hr>
+<h2 id="2-epistemik-hiyerarsi-ve-cokmeme-degismezleri-kurallar-571-578">2. Epistemik Hiyerarşi ve Çökmeme Değişmezleri (Kurallar 57.1 – 57.8)</h2>
+<ol>
+<li><strong>Benchmark ≠ Assurance:</strong> Benchmark Fabric tanısal ve karşılaştırmalı bir ölçüm aletidir. Tanısal göstergeler, arıza topolojileri ve göreli marjlar hesaplar. <code>SUPPORTED_EDGE</code> veya konuşlandırma yetkisi VERMEZ. Hazırlık ve terfi yetkisi münhasıran Assurance Fabric, G0–G9 kapıları ve ClaimRegistry'de kalır.</li>
+<li><strong>CapabilityScore ≠ Readiness:</strong> Benchmark CapabilityScore (0.0 – 100.0) çok boyutlu davranışsal yeteneği ölçer. Canlı yürütme hazırlığını ölçmez ve hiçbir sert kapıyı geçersiz kılamaz.</li>
+<li><strong>CapabilityScore ≠ Future-Profit Probability:</strong> CapabilityScore, gelecekteki getiriler üzerinde bir olasılık dağılımı değildir. Denetlenmiş bir <code>CapitalOutcomeProjection</code> olmadan bir benchmark skorunun doğrudan bir sermaye tahsis çarpanına dönüştürülmesi anayasal olarak yasaktır.</li>
+<li><strong>Sert Kapılar Ortalama ile Silinemez:</strong> Her benchmark hücresi ve <code>GateVector</code> içindeki her kapı (G0–G9, B0–B9) telafi edilemez. Zorunlu kapılardan herhangi birindeki sıfır veya başarısızlık, diğer alanlardaki 99+ skora rağmen toplam benchmark başarısızlığına yol açar.</li>
+<li><strong>Sentetik Asimetri:</strong> Sentetik değerlendirmeler sıkı biçimde asimetriktir:
+   - Geçerli sentetik başarısızlık (<code>synthetic_fail_may_challenge</code>), sertifikalı bir World Passport kapsamındaki sağlamlık, yürütme güvenliği ve kararlılık iddialarını falsifiye edebilir.
+   - Sentetik başarı (<code>synthetic_pass_confirms_no_edge</code>) sıfır ekonomik edge verir ve gelecekteki kârlılığı kanıtlayamaz.</li>
+<li><strong>Harici Ölçüm Aleti Sınırları:</strong> Harici değerlendiriciler (QuantConnect LEAN veya harici yürütme hakemleri gibi) egemen authority değil, ölçüm aleti olarak ele alınır. Açık tipli adapterların arkasında, anlamsal ayrışma ve parity atıf kaydı tutarak çalışmalıdırlar.</li>
+<li><strong>Holdout ve Pristine Data Koruması:</strong> Tüketilmiş holdout delili, yeniden adlandırarak veya benchmark vakaları içine sararak "unburn" edilemez. Yanmış tanı verisine karşı çalışan benchmark koşuları açıkça <code>BURNED_DIAGNOSTIC</code> olarak etiketlenmeli ve sıfır terfi ağırlığı taşımalıdır.</li>
+<li><strong>Araştırma Borcu ve Çoklu Test Muhasebesi:</strong> Benchmark koşuları araştırma trial bütçesi tüketir. Parametre süpürmeleri veya challenger iterasyonları boyunca her değerlendirme Kaizen trial borcunu artırır ve aile-geneli hurdle rate'i şişirir.</li>
+</ol>
+<hr>
+<h2 id="3-benchmark-ontolojisi-ve-semalar">3. Benchmark Ontolojisi ve Şemaları</h2>
+<h3 id="31-benchmarkversion">3.1 BenchmarkVersion</h3>
+<p>Deterministik, içerik-adresli bir sürüm tanımlayıcısı:
+- <code>version_id</code>: Semantik sürüm dizesi (örn. <code>v8.5.0-bf1</code>).
+- <code>specification_hash</code>: Tam benchmark şartnamesinin, popülasyon tanımlarının ve metrik denklemlerinin SHA-256 özeti.
+- <code>created_at_utc</code>: ISO-8601 zaman damgası.
+- <code>population_hashes</code>: Popülasyon adından değişmez manifest hash'ine eşleme.
+- <code>is_frozen</code>: Benchmark bataryasının değişikliğe kilitli olduğunu gösteren boolean.</p>
+<h3 id="32-benchmarkcase-ve-benchmarkcasemanifest">3.2 BenchmarkCase ve BenchmarkCaseManifest</h3>
+<p>Tek bir değerlendirme birimi:
+- <code>case_id</code>: Benzersiz tanımlayıcı (örn. <code>BC-REAL-CHRON-01</code>, <code>BC-FOUNDRY-VOL-04</code>).
+- <code>population_type</code>: <code>Real</code>, <code>SyntheticFoundry</code>, <code>ExternalReference</code> veya <code>StressDefeater</code>.
+- <code>data_role</code>: <code>BURNED_DIAGNOSTIC</code>, <code>CROSS_VALIDATION</code>, <code>OUT_OF_SAMPLE_FROZEN</code>, <code>SYNTHETIC_GENERATED</code> veya <code>EXTERNAL_INDEPENDENT</code>.
+- <code>archetype_or_family</code>: Belirli rejim alegorisi (A01–A12) veya Foundry ailesi (F01–F14).
+- <code>environment_spec_hash</code>: Yürütme ortamı parametrelerinin (latency, slippage modeli, ücret tarifeleri) hash'i.
+- <code>input_manifest</code>: Enstrüman, çözünürlük, zaman aralığı, bar sayısı ve veri içerik hash'ini içeren veri seti manifesti.</p>
+<h3 id="33-metricobservation-ve-10-benchmark-alan">3.3 MetricObservation ve 10 Benchmark Alanı</h3>
+<p>Vaka başına 10 dik yetenek alanında kaydedilen gözlemler:
+1. <code>PredictiveEdge</code>: Yönsel doğruluk, maliyet sonrası beklenti, bilgi oranı (yalnızca gerçek popülasyonlar).
+2. <code>ExecutionEfficiency</code>: Efektif slippage sürükleme, maker doluş oranı, spread yakalama verimliliği.
+3. <code>DrawdownResilience</code>: Maksimum drawdown, ulcer index, toparlanma süresi, kuyruk kaybı varyansı.
+4. <code>VolatilityAdaptation</code>: Volatilite sıçramaları altında performans, kaldıraç duyarlılığı.
+5. <code>StructuralStability</code>: Getirilerin durağanlığı, parametre perturbasyon duyarlılığı.
+6. <code>RegimeRobustness</code>: Tüm alegori/ailelerdeki en kötü senaryo hücresi performansı.
+7. <code>TailRiskConfinement</code>: Value-at-Risk containment, koşullu drawdown at risk (CDaR).
+8. <code>CostModelIntegrity</code>: Gerçekçi ve düşmanca ücret modelleri sonrası brüt kazançların korunumu.
+9. <code>ExternalRefereeParity</code>: Harici yürütme taban çizgilerine (LEAN / hakem) karşı hizalanma ve takıl hatası.
+10. <code>DefeaterProximity</code>: En yakın falsifiye edici rejim perturbasyonuna uzaklık (reverse stress).</p>
+<p>Her gözlem ham değeri, normalize skoru [0, 100], güven aralığını ve doğrulama durumunu kaydeder.</p>
+<h3 id="34-capabilityscore-matematigi">3.4 CapabilityScore Matematiği</h3>
+<p>Benchmark skoru şöyle hesaplanır:
+$$\text{Score} = \left( \sum_{i=1}^{10} w_i \cdot \text{DomainScore}<em>i \right) \times \text{CoverageFactor} \times \prod</em>{j=1}^{m} \mathbf{1}_{{\text{Gate}_j = \text{Pass}}}$$
+Burada:
+- $\sum w_i = 1.0$; alan ağırlıkları önceden tanımlıdır ve <code>BenchmarkVersion</code> içinde dondurulmuştur.
+- $\text{CoverageFactor} \in [0.0, 1.0]$ eksik veya atlanmış senaryo hücrelerini cezalandırır.
+- <code>GateVector</code> içindeki zorunlu kapılardan herhangi biri başarısız olursa çarpım 0 olur ve nihai skor 0'a zorlanır (sert başarısızlık).</p>
+<hr>
+<h2 id="4-populasyon-taksonomisi-ve-adapterlar">4. Popülasyon Taksonomisi ve Adapterlar</h2>
+<ol>
+<li><strong>Yanmış Tarihsel Tanı:</strong> Mühendislik patolojisi tespiti için kullanılan geliştirme veri setleri (kanonik 12 aylık quad dahil). Her zaman <code>BURNED_DIAGNOSTIC</code> olarak işaretlenir.</li>
+<li><strong>Kronolojik Gerçek Popülasyonlar:</strong> Sıkı nedensel zaman sınırlarına sahip walk-forward örneklem-dışı dilimler.</li>
+<li><strong>Purged Combinatorial Cross-Validation (CPCV):</strong> Birden fazla bölüntü üzerinde dağılım kararlılığını ölçen, örtüşmeyen purged test katları.</li>
+<li><strong>Market World Foundry Popülasyonları:</strong> Doğrulanmış World Passport'larla üretilen sentetik dünyalar (D-141, D-144). Aşırı kuyrukları ve metamorfik değişmezliği değerlendirir.</li>
+<li><strong>Reverse Stress Defeater Popülasyonu:</strong> Politikanın arıza sınırını bulmak için tasarlanmış düşmanca minimal perturbasyon ortamları.</li>
+<li><strong>Harici Yürütme Hakemi:</strong> LEAN referans adapterı veya bağımsız işlem defteri üzerinden bağımsız işlem eşleştirme ve PnL hesaplaması.</li>
+</ol>
+<hr>
+<h2 id="5-capitaloutcomeprojection-ve-olaslk-snrlar">5. CapitalOutcomeProjection ve Olasılık Sınırları</h2>
+<p><code>CapitalOutcomeProjection</code> disiplinli, delil-sınırlı bir ileriye dönük sonuç görünümü temsil eder:
+- <code>evidence_grade</code>: <code>DiagnosticOnly</code>, <code>SyntheticRobustnessOnly</code>, <code>ReplicationBacked</code> veya <code>EmpiricallyCertified</code>.
+- <code>evidence_grade</code> değeri <code>DiagnosticOnly</code> veya <code>SyntheticRobustnessOnly</code> ise ileriye dönük olasılık iddiaları sıkı biçimde yasaktır.
+- Sentetik popülasyonlar işin içindeyse, projekte edilen ileriye dönük kâr beklentisi <code>UNSUPPORTED_FORWARD_CLAIM</code> değerine kenetlenir.
+- Yeniden yatırma/bileşik getiri modelleri likidite tabanlarını, piyasa kapasitesini ve yürütme sürüklemesini hesaba katmalıdır.</p>
+<hr>
+<h2 id="6-kaizen-benchmark-entegrasyonu-ve-trial-borcu">6. Kaizen Benchmark Entegrasyonu ve Trial Borcu</h2>
+<ol>
+<li><strong>Benchmark Delta Defteri:</strong> Kaizen, Challenger ile Incumbent'ı karşılaştıran her benchmark koşusunun append-only bir makbuzunu kaydeder.</li>
+<li><strong>Çoklu Test Düzeltmeleri:</strong> Başarısız olan veya keşif amaçlı her benchmark koşusu genel trial sayacını ($N_{\text{trials}}$) artırır ve sonraki ardıllık iddiaları için gereken DSR/WRC istatistiksel eşiklerini sıkılaştırır.</li>
+<li><strong>Bridge Çalışmaları:</strong> Bir <code>BenchmarkVersion</code> güncellendiğinde veya yeniden kalibre edildiğinde, resmî bir bridge çalışması hem Incumbent'ı hem önceki taban çizgilerini her iki sürümde değerlendirmeli ve standart sürekliliğini garanti etmelidir.</li>
+</ol></section>
+<section id="sec-d156-evidence-artifact-storage-hardening-spec"><h1>D156 EVIDENCE ARTIFACT STORAGE HARDENING SPEC</h1><h1 id="d-156-kant-eser-istatistik-benchmark-ve-onbellek-saglamlastrma-spesifikasyonu">D-156 Kanıt, Eser, İstatistik, Benchmark ve Önbellek Sağlamlaştırma Spesifikasyonu</h1>
+<p><strong>Durum:</strong> <code>PROVISIONAL_DECISION</code></p>
+<p><strong>Tarih:</strong> 2026-09-06</p>
+<p><strong>İssue kümesi:</strong> #318, #319, #320, #321, #322, #323, #324</p>
+<p><strong>Normatif ilişki:</strong> Bu belge #318 ile #324 arasındaki issue'larda tanımlanan sağlamlaştırma çalışmasının eksiksiz ve yetkili spesifikasyonudur. D-118 f64 değişmezlik yönetişimini ve mevcut V8 kanıt, ekonomik iddia, kalıcılık ve benchmark kararlarını işletir. Bu kararların yerine geçmez, dondurulmuş ekonomik kanıtı yeniden açmaz ve öngörücü kârlılık iddiasına yetki vermez.</p>
+<p><strong>Uygulama dalı:</strong> <code>audit/research-validity-20260906</code></p>
+<p><strong>İlgili PR:</strong> #331, <code>fix: harden ledger artifacts, statistics, cache, and benchmark inputs</code></p>
+<p>Bu belge kasıtlı olarak tam metindir. Karar kaydı, changelog, uygulama yerleşimi, PR açıklaması ve monograflar özet niteliğindedir ve bağımsız spesifikasyonlar haline gelmek yerine bu belgeye bağlantı vermelidir.</p>
+<h2 id="1-amac">1. Amaç</h2>
+<p>Bu issue kümesi tek bir bütünlük sınırını ele alır: V8 eksik, bozuk, sentetik, proxy veya kayıtsız kanıtı makul görünen bir ekonomik esere dönüştürmemelidir.</p>
+<p>Sınır aşağıdakileri kapsar:</p>
+<ol>
+<li>sonlu ve açıkça eksik olarak temsil edilen kayan nokta değerleri;</li>
+<li>aday, nakit akışı, kanıt ve checkpoint kalıcılığının yalnızca-ekleme kuralları;</li>
+<li>fiziksel eser kimliği ve replay uyumluluğu;</li>
+<li>senaryo iflası, Monte Carlo yeniden örneklemesi ve SaR eksiklik semantiği;</li>
+<li><code>.parquet</code> uzantısının arkasına gizlenmiş JSON yerine standart Parquet yayını;</li>
+<li>tanısal proxy ile kayıtlı tahmin ediciyi ayıran istatistik çekirdeği;</li>
+<li>ilan edilmiş fiziksel girdileri tüketen ve makbuz uydurmayı reddeden benchmark çalıştırması;</li>
+<li>içerik-adresli doğrulama ve eski JSONL'den geçiş içeren dayanıklı üretim önbelleği;</li>
+<li>engellenen veya kabul edilen her yol için eksiksiz denetim izi.</li>
+</ol>
+<p>Yönetici ilke şöyledir:</p>
+<blockquote>
+<p>Yetki veya veri eksikliği açık bir durumdur. Sayısal yer tutucu, uydurma eser veya ima edilen ekonomik iddia değildir.</p>
+</blockquote>
+<h2 id="2-issue-izlenebilirligi">2. Issue izlenebilirliği</h2>
+<h3 id="21-318-d-118-f64-degismezlik-yonetisimi">2.1 #318: D-118 f64 değişmezlik yönetişimi</h3>
+<p>D-118, kayan nokta kimliği ve değişmezlik politikasının kaynağı olmaya devam eder. D-156 bu politikayı eser ve değerlendirme sınırlarında uygular:</p>
+<ul>
+<li>nicel gözlem olarak dışa açılan değerler mevcut olduklarında sonlu olmalıdır;</li>
+<li><code>NaN</code>, pozitif sonsuz, negatif sonsuz ve geçersiz giriş dizileri reddedilmeli veya açık bir engellenmiş duruma çevrilmelidir;</li>
+<li>eksiklik <code>Option&lt;T&gt;</code>, açık bir durum veya tipleştirilmiş hata ile temsil edilmelidir;</li>
+<li>proxy değer, tescilli bir tahmin ediciyi ifade eden alan adını veya sözleşmeyi dolduramaz;</li>
+<li>sonlu bir <code>f64</code> fiziksel eser sözleşmesinin parçasıysa serileştiriciler IEEE-754 değerini korumalıdır;</li>
+<li>hiçbir tüketici eksikliği sessizce sıfır, yanlış veya başarılı kapı olarak yorumlayamaz.</li>
+</ul>
+<p>D-156 yeni bir kayan nokta toleransı getirmez ve mevcut toleransı sessizce değiştirmez. Tolerans değişikliği ayrı bir karar olarak kaydedilmelidir.</p>
+<h3 id="22-319-defter-checkpoint-ve-v82-eser-saglamlastrmas">2.2 #319: defter, checkpoint ve V8.2 eser sağlamlaştırması</h3>
+<p>Aday kayıt defteri, nakit akışı defteri, kanıt eserleri, retention kayıtları ve simülasyon checkpoint'leri kendi sınırlarında yalnızca-ekleme veya içerik-adresli kalır. Checkpoint'ler sürüme ve tape hash'ine bağlıdır. V8.2 uyumlu kanıt başlıkları ilan edilmiş generator, sürüm, tier, hash kodlaması ve çalışma sabitlerini korur. Python uygulaması donmuş parity oracle olarak kalır ve bu çalışma tarafından yeniden etkinleştirilmez.</p>
+<h3 id="23-320-senaryo-monte-carlo-iflas-ve-sar-fallback-semantigi">2.3 #320: senaryo Monte Carlo, iflas ve SaR fallback semantiği</h3>
+<p>Senaryo simülasyonu yalnızca sağlanmış fiziksel işlem popülasyonunu yeniden örnekleyebilir. Temel popülasyon üretemez, gözlemleri kaydıramaz veya raporu tamamlanmış göstermek için sabit sonuç kullanamaz. İşlem getirileri yoksa, boşsa, sonlu değilse veya tekrar sayısı geçersizse iflas tahminleri eksik kalır ve rapor <code>NO_ECONOMIC_CLAIM</code> olur. Fiziksel likidite/kayma girdisi yoksa SaR çözümlenmemiş kalır.</p>
+<h3 id="24-321-fiziksel-parquet-eseri-uretimi">2.4 #321: fiziksel Parquet eseri üretimi</h3>
+<p>Sözleşmesi Parquet olan her çıktı standart ve okunabilir bir Parquet dosyası olmalıdır. Yazıcı atomik yayın yapar, kaynak sırasındaki satır indekslerini kaydeder, kanonik kaynak satırlarını <code>row_json</code> içinde korur, nullable typed skaler sütunlar yazar ve şema ile provenance metadata'sı kaydeder. Yalnızca <code>.parquet</code> uzantılı JSON baytları geçersizdir.</p>
+<h3 id="25-322-istatistik-cekirdegi-ve-proxy-dsrpbospa-duzeltmeleri">2.5 #322: istatistik çekirdeği ve proxy DSR/PBO/SPA düzeltmeleri</h3>
+<p>İstatistik katmanı şunları ayırmalıdır:</p>
+<ul>
+<li>kayıtlı yöntemi ve yetki makbuzu olan gerçek tahmin edici;</li>
+<li>yalnızca proxy olarak gösterilebilen tanısal proxy;</li>
+<li>yetersiz güçlü veya eksik veri sonucu;</li>
+<li>korunum ya da lineage hatası.</li>
+</ul>
+<p>Proxy DSR gerçek DSR değildir. Kayıtlı PBO/DSR tahmin edicisi olmayan multiplicity defterinde bu alanlar <code>None</code> kalır ve sonuç <code>NO_ECONOMIC_CLAIM</code> olur. WRC, gerçek DSR veya Hansen SPA sertifikasyonu ima yoluyla üretilmez.</p>
+<h3 id="26-323-veriye-dayal-benchmarkrunner">2.6 #323: veriye dayalı BenchmarkRunner</h3>
+<p><code>BenchmarkRunner</code>, herhangi bir değerlendirici makbuz üretebilmeden önce ilan edilmiş <code>BenchmarkEvidenceManifest</code>'i ve her fiziksel eseri doğrulamalıdır. Gözlem, skor, tarih, kapı, istatistik değeri, popülasyon satırı veya yetki makbuzu sentezleyemez. Mevcut çalıştırıcı fiziksel girdi doğrulamasından sonra <code>BLOCKED_REGISTERED_BENCHMARK_EVALUATOR_REQUIRED</code> ile durur; çünkü kayıtlı veriye dayalı değerlendirici ve kanıt şeması henüz onaylanmamıştır.</p>
+<p>Bu, sınırın fail-closed tamamlanmasıdır. Eski sabit metrikli benchmark uygulamasını geri getirme izni değildir.</p>
+<h3 id="27-324-uretim-onbellegi-depolama-adaptoru">2.7 #324: üretim önbelleği depolama adaptörü</h3>
+<p>Üretim önbelleği sürümlü kanonik anahtar, içerik-adresli digest, işlemsel yayın, okuma sonrası doğrulama, compact ve geçerli eski JSONL kayıtlarından kontrollü geçiş içeren dayanıklı <code>redb</code> backend'ini kullanır. Bozuk, eski, uyuşmayan veya desteklenmeyen sürüm kayıtları cache hit olarak kabul edilmez.</p>
+<h2 id="3-yetki-ve-kapsam-ds-konular">3. Yetki ve kapsam dışı konular</h2>
+<h3 id="31-yetki-onceligi">3.1 Yetki önceliği</h3>
+<p>Aşağıdaki sıra geçerlidir:</p>
+<ol>
+<li>V8 Anayasası ve kayıtlı D-serisi kararları;</li>
+<li>bu tam metin D-156 spesifikasyonu;</li>
+<li>aşağıda listelenen mevcut Rust tip ve modül sözleşmeleri;</li>
+<li>uygulama yerleşimi ve changelog;</li>
+<li>testler, raporlar ve insan-okur özetler.</li>
+</ol>
+<p>Uygulama daha yüksek bir yetkiyle çelişirse incelemede başarısızdır. Özet bu spesifikasyonu geçersiz kılamaz.</p>
+<h3 id="32-kapsam-ds-konular">3.2 Kapsam dışı konular</h3>
+<p>D-156 şunları yapmaz:</p>
+<ul>
+<li>kârlılığı veya öngörücü edge'i sertifikalandırmaz;</li>
+<li>tanısal, sentetik, karşı-olgusal veya proxy sonucu <code>SUPPORTED_EDGE</code> yapmaz;</li>
+<li>yakılmış tanısal bandı veya dondurulmuş holdout'u yeniden açmaz;</li>
+<li>ayrı bir kayıtlı yetki makbuzu olmadan yeni ekonomik tahmin edici getirmez;</li>
+<li><code>src/v8/</code>, kök <code>tests/</code> veya kullanımdan kaldırılmış Python runtime'ını yeniden etkinleştirmez;</li>
+<li>gizli cache protokolü, eser formatı veya benchmark popülasyonu eklemez;</li>
+<li>başarılı derlemeyi ekonomik geçerlilik kanıtı saymaz;</li>
+<li>sentetik fixture'ı üretim, değerlendirme, findings defteri veya rapor üretim yolunda kullanmaz.</li>
+</ul>
+<h2 id="4-yeniden-kullanlacak-mevcut-tip-trait-ve-sozlesmeler">4. Yeniden kullanılacak mevcut tip, trait ve sözleşmeler</h2>
+<p>Uygulama aşağıdaki sözleşmeleri yeniden kullanmalıdır. Daha sonraki bir karar açıkça izin vermedikçe paralel yeni tipler yasaktır.</p>
+<table>
+<thead>
+<tr>
+<th>Konu</th>
+<th>Kanonik sözleşme</th>
+<th>Zorunlu kullanım</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Eser kimliği</td>
+<td><code>v8-core/src/evidence.rs::Artifact</code>, <code>RunConstants</code>, <code>ArtifactTier</code>, <code>RetentionStore</code></td>
+<td>Hash kodlamasını, tier anlamını, çalışma sabitlerini, retention çözümünü ve byte-stable read-back'i koru.</td>
+</tr>
+<tr>
+<td>Aday kalıcılığı</td>
+<td><code>v8-core/src/candidate.rs::CandidateRegistry</code>, <code>TransitionRecord</code></td>
+<td>Yasal geçişleri ekle, sıra ve event hash'lerini koru, replay ayrışmasında fail closed ol.</td>
+</tr>
+<tr>
+<td>Nakit akışı kalıcılığı</td>
+<td><code>v8-core/src/cashflow.rs::CashflowLedger</code>, <code>EconomicCashflow</code></td>
+<td>Korunum kontrollerini ve fiziksel defter provenance'ını koru.</td>
+</tr>
+<tr>
+<td>Checkpoint kalıcılığı</td>
+<td><code>v8-core/src/checkpoint.rs::SimulationCheckpoint</code>, <code>CheckpointHeader</code></td>
+<td>Sürümlü, tape-bound, atomik yayınlanan checkpoint kullan.</td>
+</tr>
+<tr>
+<td>Fiziksel Parquet</td>
+<td><code>v8-core/src/parquet_artifact.rs::write_json_rows</code>, <code>verify_parquet</code>, <code>ParquetArtifactReceipt</code></td>
+<td>Gerçek Parquet üret ve doğrula; gizli JSON üretme.</td>
+</tr>
+<tr>
+<td>Senaryo çıktıları</td>
+<td><code>v8-core/src/usdm_sim/scenario_ruin.rs::ScenarioRuinReport</code>, <code>SlippageAtRiskReport</code></td>
+<td>Açık eksiklik ve <code>NO_ECONOMIC_CLAIM</code> durumunu koru.</td>
+</tr>
+<tr>
+<td>İstatistik</td>
+<td><code>v8-core/src/evaluation/statistics.rs</code></td>
+<td><code>BootstrapResult</code>, <code>NullModelResult</code>, <code>PermutationResult</code> ve <code>ProxyStatistic</code> tiplerini kullan; <code>Result</code> ve <code>Option</code> semantiğini koru.</td>
+</tr>
+<tr>
+<td>Multiplicity</td>
+<td><code>v8-core/src/evaluation/multiple_testing.rs::ResearchMultiplicityLedger</code>, <code>MultipleTestingSummary</code></td>
+<td>Arama lineage'ını ve deneme korunumunu izle; kayıtlı tahmin edici olmadan estimator alanlarını doldurma.</td>
+</tr>
+<tr>
+<td>Benchmark girdi bildirimi</td>
+<td><code>v8-core/src/benchmark/case.rs::BenchmarkCase</code>, <code>BenchmarkEvidenceManifest</code></td>
+<td>Dolu case kimliği ve fiziksel kanıt yolları iste.</td>
+</tr>
+<tr>
+<td>Benchmark sınırı</td>
+<td><code>v8-core/src/benchmark/runner.rs::BenchmarkRunner</code></td>
+<td>Fiziksel kanıtı doğrula, sonra değerlendirici kaydedilene kadar fail closed ol.</td>
+</tr>
+<tr>
+<td>Cache depolama</td>
+<td><code>v8-core/src/cache.rs::CacheStore</code>, <code>CacheEntry</code>, <code>canonical_key</code>, <code>key_digest</code></td>
+<td>Sürümlü içerik-adresli redb depolaması ve doğrulanmış okumalar kullan.</td>
+</tr>
+<tr>
+<td>Ekonomik firewall</td>
+<td>Anayasa Kuralı 12 ve mevcut claim/status alanları</td>
+<td>Çözülmemiş, proxy, tanısal ve kayıtsız çıktıları <code>NO_ECONOMIC_CLAIM</code> tut.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-normatif-gereksinimler">5. Normatif gereksinimler</h2>
+<p>Aşağıdaki gereksinimler bağlayıcıdır.</p>
+<h3 id="r156-01-sonlu-mevcut-degismezi">R156-01: sonlu-mevcut değişmezi</h3>
+<p>Mevcut nicel skaler sonlu olmalıdır. İstatistik, senaryo, benchmark, cache veya eser sınırına giren sonlu olmayan skaler reddedilmeli veya açık engellenmiş duruma çevrilmelidir. Uygulama sonlu olmayan değeri geçerli gözlem gibi sessizce serileştiremez.</p>
+<h3 id="r156-02-eksikligi-koruma">R156-02: eksikliği koruma</h3>
+<p>Eksik işlem popülasyonları, eksik episode süreleri, eksik rejimler, eksik likidite girdileri, eksik kanıt manifestoları ve eksik tahmin edici makbuzları eksik kalmalıdır. <code>None</code>, engellenmiş durum ve yapısal hata geçerlidir. Sıfır, boş başarı makbuzu veya uydurma default geçerli ikame değildir.</p>
+<h3 id="r156-03-uretimde-sentetik-girdi-yok">R156-03: üretimde sentetik girdi yok</h3>
+<p>Sentetik fixture yalnızca <code>#[cfg(test)]</code> altındaki Rust test modüllerinde kullanılabilir. Üretim ve değerlendirme yolları fiziksel veri tüketmeli veya fail closed olmalıdır. Gerçekleşmiş giriş işlemlerini senaryo tanısı için yeniden örneklemek yalnızca popülasyon fiziksel olarak sağlandığında ve sonuç <code>NO_ECONOMIC_CLAIM</code> kaldığında serbesttir.</p>
+<h3 id="r156-04-sabit-istatistik-veya-ekonomik-iddia-yok">R156-04: sabit istatistik veya ekonomik iddia yok</h3>
+<p>P-değerleri, etki büyüklükleri, PBO değerleri, güven değerleri, beklenen iyileştirmeler, Sharpe tabanlı sertifikasyon ve kârlılık sonuçları gerçek girdiler üzerinde kayıtlı tahmin ediciyle hesaplanmalıdır. Sabit değerler ve tarihsel sabitler bir kapıyı veya makbuzu doldurmak için kullanılamaz.</p>
+<h3 id="r156-05-v82-eser-lineage">R156-05: V8.2 eser lineage'ı</h3>
+<p>V8.2 uyumlu ledger eseri generator/sürüm, hash kodlaması, tier ve çalışma sabitleri dahil fiziksel başlık ve kimlik sözleşmesini korumalıdır. Başlığı eksik veya tutarsız eser geçerli kanıt olarak çözülemez. Donmuş Python dosyaları yalnızca parity oracle'dır ve değiştirilmez.</p>
+<h3 id="r156-06-aday-ve-nakit-aks-yalnzca-ekleme-kalclg">R156-06: aday ve nakit akışı yalnızca-ekleme kalıcılığı</h3>
+<p>Aday geçişleri ve fiziksel nakit akışları sıra, yasal state transition, event kimliği, hash kimliği ve korunumu korumalıdır. Replay uyuşmazlığı, tutarsız yinelenen yayın veya bozuk kayıt hard failure'dır. Sonraki projection önceki fiziksel kaydı yeniden yazamaz.</p>
+<h3 id="r156-07-atomik-checkpoint-yayn">R156-07: atomik checkpoint yayını</h3>
+<p>Checkpoint yazarı parent dizini oluşturmalı, hedef dizinde geçici dosyaya yazmalı, geçici dosyayı flush ve sync etmeli, atomik rename yapmalı ve mümkünse kapsayan dizini sync etmelidir. Checkpoint okuyucu desteklenmeyen sürümü veya tape hash uyuşmazlığını reddetmelidir.</p>
+<h3 id="r156-08-standart-parquet">R156-08: standart Parquet</h3>
+<p><code>write_json_rows</code> standart Parquet okuyucularının okuyabileceği dosya üretmelidir. Eser kaynak sırasındaki <code>row_index</code>, kanonik kaynak provenance'ı için <code>row_json</code>, skaler değerler için nullable typed sütunlar ve eser türü, sıra, f64 kodlaması, şema manifestosu ve provenance metadata'sını içermelidir. Boş veya null değerler uydurma sıfıra çevrilemez.</p>
+<h3 id="r156-09-atomik-parquet-yayn-ve-dogrulamas">R156-09: atomik Parquet yayını ve doğrulaması</h3>
+<p>Parquet dosyası geçici kardeş dosyaya yazılmalı ve atomik yayınlanmalıdır. Dönen makbuz yol, satır sayısı, sütun sayısı, byte uzunluğu ve doğrulama sonucunu içermelidir. <code>verify_parquet</code> okunamayan dosyayı reddetmeli ve benchmark tüketicisi kabul etmeden önce fiziksel satır sayısının okunabildiğini doğrulamalıdır.</p>
+<h3 id="r156-10-senaryo-iflas-girdi-snr">R156-10: senaryo iflası girdi sınırı</h3>
+<p>Senaryo iflas simülatörü yalnızca çağıranın sağladığı sonlu <code>trade_net_rs</code> popülasyonunu tüketebilir. Boş girdi, sıfır tekrar veya sonlu olmayan girdi <code>DATA_BLOCKED_MISSING_OR_INVALID_TRADE_INPUT</code> üretir. Baseline builder işlem bandı uyduramaz.</p>
+<h3 id="r156-11-sar-epistemik-snr">R156-11: SaR epistemik sınırı</h3>
+<p>Fiziksel likidite girdileri yoksa SaR raporu baseline ve tail değerleri için <code>Option&lt;f64&gt;</code> korumalıdır. Eksik likidite girdisi <code>UNRESOLVED_MISSING_LIQUIDITY_INPUT</code>, authority <code>UNRESOLVED</code> ve claim <code>NO_ECONOMIC_CLAIM</code> üretir. Uygulama nominal sabitten kayma çıkaramaz.</p>
+<h3 id="r156-12-gercek-tahmin-edici-ayrm">R156-12: gerçek tahmin edici ayrımı</h3>
+<p>Proxy DSR açık proxy durumu, method version ve <code>NO_ECONOMIC_CLAIM</code> taşımalıdır. Gerçek DSR giriş noktası, gerçek tahmin edici ve yetki makbuzu kaydedilene kadar reddetmelidir. Proxy gerçek tahmin edici alanı altında serileştirilemez veya terfi kapısı tarafından tüketilemez.</p>
+<h3 id="r156-13-multiplicity-korunumu">R156-13: multiplicity korunumu</h3>
+<p>Multiplicity defteri <code>total = survived + pruned + falsified</code> deneme muhasebesi özdeşliğini korumalıdır. Tam family ve variant lineage'ını tutmalıdır. Arama lineage'ı yoksa durum <code>DATA_BLOCKED_NO_SEARCH_LINEAGE</code> olur. Lineage geçerli fakat gerçek estimator tüketmemişse durum <code>MULTIPLICITY_LEDGER_VALID_GENUINE_ESTIMATOR_REQUIRED</code> olur ve claim <code>NO_ECONOMIC_CLAIM</code> kalır.</p>
+<h3 id="r156-14-benchmark-fiziksel-kant-bildirimi">R156-14: benchmark fiziksel kanıt bildirimi</h3>
+<p>Benchmark case dolu case kimliği, case hash'i, evidence manifestosu ve evidence yollarına sahip olmalıdır. Bildirilen her yol fiziksel olarak mevcut ve okunabilir olmalıdır. Parquet yolu standart Parquet doğrulamasından geçmelidir. Diğer eser yolları dosya metadata doğrulamasından geçmelidir.</p>
+<h3 id="r156-15-benchmark-degerlendiricisinin-fail-closed-snr">R156-15: benchmark değerlendiricisinin fail-closed sınırı</h3>
+<p>Kanıt doğrulamasından sonra <code>BenchmarkRunner</code>, ayrı bir kayıtlı değerlendirici ilan edilmiş veriyi tüketip kendi makbuzunu üretip ilgili D-serisi yetkisini karşılayana kadar <code>BLOCKED_REGISTERED_BENCHMARK_EVALUATOR_REQUIRED</code> döndürmelidir. Runner tarihsel sentetik-dünya yardımcılarını çağıramaz ve default metrik üretemez.</p>
+<h3 id="r156-16-dayankl-cache-kimligi">R156-16: dayanıklı cache kimliği</h3>
+<p>Cache anahtarı sürüm ön eki, candidate kimliği, action kimliği, simulator hash'i ve data hash'ini içermelidir. Digest yalnızca kanonik anahtardan türetilmelidir. Cache okuması yalnızca saklanan anahtar, saklanan digest, istenen anahtar ve yeniden hesaplanan digest birlikte uyuştuğunda geçerlidir.</p>
+<h3 id="r156-17-islemsel-cache-yayn">R156-17: işlemsel cache yayını</h3>
+<p>Dayanıklı cache eklemeleri tek redb write transaction içinde commit edilmelidir. Kısmi yazma geçerli cache hit olarak görünmemelidir. Compact depolamayı azaltabilir ancak kimliği veya çıktı baytlarını değiştiremez.</p>
+<h3 id="r156-18-kontrollu-eski-format-gecisi">R156-18: kontrollü eski format geçişi</h3>
+<p>Eski JSONL cache açılırken yalnızca geçerli, desteklenen sürümde ve digest'i tutarlı kayıtlar kardeş redb veritabanına geçirilebilir. Bozuk, stale veya uyuşmayan kayıtlar atlanır; kaynak JSONL audit kaynağı olarak kalır. Migration kaydı yeniden yorumlama izni değildir.</p>
+<h3 id="r156-19-iddia-yukseltme-yok">R156-19: iddia yükseltme yok</h3>
+<p>Tüm D-156 senaryo, istatistik, benchmark, cache ve eser çıktıları mühendislik veya tanısal kanıttır. <code>SUPPORTED_EDGE</code>, öngörücü kârlılık veya üretim onayı üretemezler. Ekonomik terfi mevcut WRC, gerçek DSR, Hansen SPA, holdout, ledger ve yetki şartlarına bağlıdır.</p>
+<h3 id="r156-20-fiziksel-referans-butunlugu">R156-20: fiziksel referans bütünlüğü</h3>
+<p>Rapor, makbuz, changelog veya spesifikasyon bir eser yoluna ancak yol sözleşme yolu, açıkça bildirilmiş girdi yolu veya fiziksel olarak üretilip doğrulanmış çıktıysa referans verebilir. Uydurma Parquet, ledger, makbuz veya tablo referansı sözleşme ihlalidir.</p>
+<h2 id="6-eser-sozlesmeleri">6. Eser sözleşmeleri</h2>
+<h3 id="61-kant-eserleri">6.1 Kanıt eserleri</h3>
+<p>Kanıt eserleri <code>Artifact</code> ve <code>RunConstants</code> tarafından yönetilir. Eser başlığı veri, kod, konfigürasyon, simulator, risk gate, evaluator version, hash encoding ve tier'ı bağlar. Okuyucular satırları tüketmeden önce başlığı doğrular. Eser retained evidence olarak görülmeden önce retention store referans edilen tape hash'ini çözmelidir.</p>
+<h3 id="62-aday-ve-nakit-aks-defterleri">6.2 Aday ve nakit akışı defterleri</h3>
+<p>Aday registry yasal geçişleri ve event hash'lerini kalıcılaştırır. Nakit akışı defteri mevcut korunum kontrollerinden geçen fiziksel nakit akışlarını kalıcılaştırır. Bu defterler benchmark skor depoları değildir. Tanısal veya karşı-olgusal değer gerçekleşmiş nakit akışı alanına konamaz.</p>
+<h3 id="63-checkpointler">6.3 Checkpoint'ler</h3>
+<p><code>SimulationCheckpoint</code> sürümlü header, bar index'i, tape hash'i ve serileştirilmiş payload içerir. Dosya yayın protokolü geçici yazma, sync, atomik rename ve dizin sync işlemleridir. Beklenmeyen sürüm veya tape hash ile yükleme checkpoint hatası döndürür. Checkpoint replay durumudur, ekonomik kanıt değildir.</p>
+<h3 id="64-parquet">6.4 Parquet</h3>
+<p>Parquet eseri iki katmana sahiptir:</p>
+<ol>
+<li>birlikte çalışabilir skaler erişim için typed nullable sütunlar;</li>
+<li>kanonik kaynak satırı provenance'ı ve iç içe değerler için <code>row_json</code>.</li>
+</ol>
+<p>Şema metadata'sı eser türünü, kaynak satır sırasını, IEEE-754 f64 kodlamasını, serileştirilmiş şema manifestosunu ve isteğe bağlı provenance'ı kaydeder. Adaptör Parquet okunabilir diye onun yetkili olduğunu iddia etmez. Yetki, üreten sözleşme ve makbuzdan gelir.</p>
+<h2 id="7-istatistik-ve-senaryo-semantigi">7. İstatistik ve senaryo semantiği</h2>
+<h3 id="71-girdi-dogrulamas">7.1 Girdi doğrulaması</h3>
+<p>İstatistik fonksiyonları minimum popülasyon büyüklüğünü, sonlu değerleri ve yeniden örnekleme parametrelerini doğrular. Geçersiz girdiler <code>Result</code> hatası döndürür. Yetersiz güçlü veya kullanılamayan null modeller uydurma istatistik yerine açık çözümlenmemiş sonuç döndürür.</p>
+<h3 id="72-null-modeller">7.2 Null modeller</h3>
+<p>Null-model suite eksik episode süresi, eksik rejim bilgisi veya eksik benchmark verisini çözümlenmemiş olarak kaydedebilir. Eksiklik sonucun parçasıdır ve böyle gösterilmelidir. Null-model satırı sessizce atılamaz veya uygun bir p-değeri ile değiştirilemez.</p>
+<h3 id="73-dsr-pbo-ve-spa">7.3 DSR, PBO ve SPA</h3>
+<p><code>compute_proxy_deflated_sharpe_ratio</code>, <code>PROXY_NOT_GENUINE_DSR</code> durumu, <code>D153_PROXY_DSR_V1</code> method version'ı ve <code>NO_ECONOMIC_CLAIM</code> claim'i olan matematiksel bir tanıdır. <code>compute_deflated_sharpe_ratio</code>, gerçek estimator kaydedilene kadar <code>BLOCKED_GENUINE_DSR_ESTIMATOR_AND_RECEIPT_REQUIRED</code> döndürür.</p>
+<p><code>MultipleTestingSummary</code>, PBO ve family DSR değerlerini <code>Option&lt;f64&gt;</code> olarak dışa açar. Bu alanlar ancak kayıtlı estimator eksiksiz lineage'ı tüketip kendi yetki makbuzunu ürettikten sonra doldurulur. Defterin kendisi deneme korunumunu kanıtlar, ekonomik anlamlılığı değil.</p>
+<p>D-156 WRC veya Hansen SPA'yı sessizce uygulamaz veya sertifikalandırmaz. Bu estimator'lar Kural 12 altında ayrı yükümlülüklerdir.</p>
+<h3 id="74-senaryo-iflas-ve-sar">7.4 Senaryo iflası ve SaR</h3>
+<p>Senaryo iflası sağlanan gerçekleşmiş kesirsel net-getiri popülasyonunu yeniden örnekler. Durumu ve claim'i bunun senaryo tanısı olduğunu açıkça gösterir. Popülasyon yoksa <code>build_baseline_scenario_ruin</code> açık eksiklik üretir. Fiziksel likidite girdileri olmadan SaR alanları <code>None</code> kalır. Bu eksiklik sıfır kayma varsayımı değildir.</p>
+<h2 id="8-benchmark-calsma-topolojisi">8. Benchmark çalışma topolojisi</h2>
+<p>Amaçlanan topoloji şöyledir:</p>
+<pre><code class="language-text">BenchmarkCase
+  -&gt; BenchmarkEvidenceManifest
+  -&gt; fiziksel yol doğrulaması
+  -&gt; uygun olduğunda Parquet doğrulaması
+  -&gt; kayıtlı evaluator sınırı
+  -&gt; evaluator'a ait makbuz
+  -&gt; ledger / report projection
+</code></pre>
+<p>Mevcut uygulama fiziksel yol doğrulamasından sonra durur; çünkü kayıtlı evaluator sınırı mevcut değildir. Bu kasıtlıdır. Gelecekteki evaluator ayrı bir gözden geçirilmiş Rust uygulaması olarak eklenmeli, tam metin spesifikasyonu ve D-serisi kaydı bulunmalı, makbuz üretmeden önce kanıt girdilerini ve hata semantiğini açıklamalıdır.</p>
+<p>Sabit metrik veya sentetik dünya üreten tarihsel uygulama kabul edilebilir fallback değildir.</p>
+<h2 id="9-cache-topolojisi">9. Cache topolojisi</h2>
+<p>Cache yolu şöyledir:</p>
+<pre><code class="language-text">kanonik anahtar
+  -&gt; anahtar sürümü doğrulaması
+  -&gt; içerik digest'i
+  -&gt; redb işlemsel ekleme
+  -&gt; doğrulanmış read-back
+  -&gt; eser/rapor tüketicisi
+</code></pre>
+<p>Bellek içi adaptör birim düzeyi davranış için kalabilir. <code>CacheStore::open</code> ile açılan üretim yolları redb kullanır. Eski JSONL migration'ı kardeş redb dosyasına tek yönlüdür ve kaynak audit log'unu silmez.</p>
+<h2 id="10-kanonik-hata-semantigi">10. Kanonik hata semantiği</h2>
+<p>Aşağıdaki dizeler kararlı entegrasyon sinyalleridir ve sessizce değiştirilemez:</p>
+<table>
+<thead>
+<tr>
+<th>Sınır</th>
+<th>Hata veya çözümlenmemiş durum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Benchmark case</td>
+<td><code>BLOCKED_INVALID_BENCHMARK_CASE</code></td>
+</tr>
+<tr>
+<td>Eksik benchmark manifestosu</td>
+<td><code>DATA_BLOCKED_NO_VERIFIED_BENCHMARK_EVIDENCE</code></td>
+</tr>
+<tr>
+<td>Boş benchmark manifestosu</td>
+<td><code>DATA_BLOCKED_EMPTY_BENCHMARK_EVIDENCE_MANIFEST</code></td>
+</tr>
+<tr>
+<td>Eksik benchmark dosyası</td>
+<td><code>DATA_BLOCKED_MISSING_BENCHMARK_ARTIFACT</code></td>
+</tr>
+<tr>
+<td>Geçersiz Parquet</td>
+<td><code>DATA_BLOCKED_INVALID_PARQUET_ARTIFACT</code></td>
+</tr>
+<tr>
+<td>Okunamayan benchmark dosyası</td>
+<td><code>DATA_BLOCKED_UNREADABLE_BENCHMARK_ARTIFACT</code></td>
+</tr>
+<tr>
+<td>Eksik evaluator</td>
+<td><code>BLOCKED_REGISTERED_BENCHMARK_EVALUATOR_REQUIRED</code></td>
+</tr>
+<tr>
+<td>İflas girdisi</td>
+<td><code>DATA_BLOCKED_MISSING_OR_INVALID_TRADE_INPUT</code></td>
+</tr>
+<tr>
+<td>Eksik likidite</td>
+<td><code>UNRESOLVED_MISSING_LIQUIDITY_INPUT</code></td>
+</tr>
+<tr>
+<td>Eksik search lineage</td>
+<td><code>DATA_BLOCKED_NO_SEARCH_LINEAGE</code></td>
+</tr>
+<tr>
+<td>Estimator'sız geçerli lineage</td>
+<td><code>MULTIPLICITY_LEDGER_VALID_GENUINE_ESTIMATOR_REQUIRED</code></td>
+</tr>
+<tr>
+<td>Gerçek DSR kullanılamıyor</td>
+<td><code>BLOCKED_GENUINE_DSR_ESTIMATOR_AND_RECEIPT_REQUIRED</code></td>
+</tr>
+<tr>
+<td>Proxy DSR</td>
+<td><code>PROXY_NOT_GENUINE_DSR</code></td>
+</tr>
+<tr>
+<td>Claim durumu</td>
+<td><code>NO_ECONOMIC_CLAIM</code></td>
+</tr>
+</tbody>
+</table>
+<p>Hata wrapper'ı iki nokta üst üste sonrasında yol veya bağlam ekleyebilir. Anlamsal prefix makine tarafından bulunabilir kalmalıdır.</p>
+<h2 id="11-dogrulama-sozlesmesi">11. Doğrulama sözleşmesi</h2>
+<p>Uygulama ancak tüm uygulanabilir kontroller izole PR worktree'sinde çalıştırıldığında kabul edilebilir:</p>
+<ol>
+<li><code>cargo check --manifest-path v8-core/Cargo.toml</code>;</li>
+<li><code>cargo test --manifest-path v8-core/Cargo.toml</code>;</li>
+<li><code>cargo clippy --manifest-path v8-core/Cargo.toml</code>;</li>
+<li><code>.venv/bin/python tools/audit_python_boundary.py</code>;</li>
+<li><code>python3 tools/audit_synthetic_leakage.py</code>;</li>
+<li><code>python3 tools/audit_economic_claim.py</code>;</li>
+<li><code>git diff --check</code>;</li>
+<li>standart Parquet read-back ve satır sayısı doğrulama testleri;</li>
+<li>checkpoint sürüm ve tape-hash ret testleri;</li>
+<li>cache key, digest, transaction, migration ve stale-entry ret testleri;</li>
+<li>istatistik sonlu-girdi, eksiklik, proxy-status ve gerçek-estimator bloklama testleri;</li>
+<li>benchmark evidence-manifest ve evaluator fail-closed testleri.</li>
+</ol>
+<p>Sentetik fixture kullanan testler Rust <code>#[cfg(test)]</code> modüllerinde kalmalı ve üretim findings, makbuz veya rapor yazmamalıdır.</p>
+<h2 id="12-open_pinler">12. OPEN_PIN'ler</h2>
+<h3 id="open_pin-156-1-kaytl-veriye-dayal-benchmark-evaluator">OPEN_PIN-156-1: kayıtlı veriye dayalı benchmark evaluator'ı</h3>
+<h1 id="323-veriye-dayal-benchmarkrunner-adn-tasr-ancak-repository-henuz-fiziksel-kant-satrlarn-her-benchmark-alanna-kapya-makbuza-ve-authority-snfna-baglayan-kaytl-bir-evaluator-semas-icermemektedir-bu-nedenle-mevcut-runner-girdileri-dogrular-ve-fail-closed-olur-bu-pini-cozmek-icin-yeni-tam-metin-evaluator-spesifikasyonu-d-serisi-karar-uygulama-yerlesimi-kayd-ve-kant-tabanl-testler-gerekir-pin-sabit-metrik-veya-sentetik-girdi-geri-getirilerek-cozulemez">323 veriye dayalı <code>BenchmarkRunner</code> adını taşır; ancak repository henüz fiziksel kanıt satırlarını her benchmark alanına, kapıya, makbuza ve authority sınıfına bağlayan kayıtlı bir evaluator şeması içermemektedir. Bu nedenle mevcut runner girdileri doğrular ve fail closed olur. Bu pin'i çözmek için yeni tam metin evaluator spesifikasyonu, D-serisi kararı, uygulama yerleşimi kaydı ve kanıt tabanlı testler gerekir. Pin sabit metrik veya sentetik girdi geri getirilerek çözülemez.</h1>
+<h3 id="open_pin-156-2-gercek-multiple-testing-estimator-makbuzlar">OPEN_PIN-156-2: gerçek multiple-testing estimator makbuzları</h3>
+<p>PBO, gerçek DSR, WRC ve Hansen SPA ayrı istatistik yükümlülükleri olmaya devam eder. Makbuz şemaları, estimator sürümleri, data-role kuralları ve yetki sınırları kayıt altına alınmadan hiçbir değer terfi kapısını çalıştıramaz.</p>
+<h3 id="open_pin-156-3-sar-icin-fiziksel-likidite-girdi-sozlesmesi">OPEN_PIN-156-3: SaR için fiziksel likidite girdi sözleşmesi</h3>
+<p>Mevcut SaR çıktısı fiziksel likidite/kayma gözlemleri olmadan kasıtlı olarak çözümlenmemiştir. Gelecek bir likidite sağlayıcısı alanlar sayısal hale gelmeden önce zaman hizalamasını, venue kimliğini, birimleri, eksikliği ve yetkiyi tanımlamalıdır.</p>
+<h3 id="open_pin-156-4-d-118-tolerans-degisiklikleri">OPEN_PIN-156-4: D-118 tolerans değişiklikleri</h3>
+<p>D-156 mevcut f64 değişmezliklerini uygular fakat yeni tolerans seçmez. Tolerans, rounding veya bit-identity semantiği değişikliği ayrı bir karar ve tam metin spesifikasyonu gerektirir.</p>
+<h2 id="13-degisiklik-ve-migration-kurallar">13. Değişiklik ve migration kuralları</h2>
+<ul>
+<li>Rust değişiklikleri <code>v8-core/</code> altında olmalıdır.</li>
+<li><code>src/v8/</code> ve kök <code>tests/</code> donmuştur ve değiştirilemez.</li>
+<li>Yeni eser formatları D-serisi kararı ve migration veya ret kuralı gerektirir.</li>
+<li>Yeni evaluator veya estimator kodu proxy uygulamasıyla tip karışıklığına izin veren aynı modül yolunu paylaşmamalıdır.</li>
+<li>Mevcut eski eserler yalnızca açık bir uyumluluk adaptörü ve doğrulama ile okunabilir.</li>
+<li>Dokümantasyon değişikliklerinden sonra iki monograf da yeniden oluşturulmalıdır.</li>
+<li>PR güncellenebilir; ancak hiçbir agent merge yapamaz veya doğrudan <code>main</code>'e push edemez.</li>
+</ul>
+<h2 id="14-kabul-bildirimi">14. Kabul bildirimi</h2>
+<p>D-156 aşağıdaki koşullarda provisional hardening kararı olarak kabul edilir:</p>
+<ol>
+<li>Rust uygulaması Bölüm 5 gereksinimlerini karşılar;</li>
+<li>fiziksel Parquet, checkpoint, evidence, ledger, senaryo, istatistik, benchmark ve cache testleri geçer;</li>
+<li>zorunlu audit'ler Python boundary değişikliği veya sentetik sızıntı olmadan geçer;</li>
+<li>İngilizce ve Türkçe karar kayıtları bu tam metin spesifikasyona bağlantı verir;</li>
+<li>uygulama yerleşimi etkilenen tüm modülleri ve evaluator OPEN_PIN'ini listeler;</li>
+<li>İngilizce ve Türkçe monograflar senkron dokümantasyondan yeniden oluşturulur;</li>
+<li>PR #318 ile #324 arasındaki issue'ların implementation ve verification izini içerir;</li>
+<li>hiçbir makbuz veya rapor, mevcut kayıtlı yetkinin ötesinde ekonomik destek iddia etmez.</li>
+</ol>
+<p>Çözülmemiş benchmark evaluator'ı ve gerçek estimator yükümlülükleri kasıtlı, görünür ve fail closed durumdadır. Sessizce tamamlanmış olarak işaretlenmez.</p></section>
+<section id="sec-d159-research-validity-audit-spec"><h1>D159 RESEARCH VALIDITY AUDIT SPEC</h1><h1 id="d-159-arastrma-gecerligi-denetimi-makbuz-oz-dogrulama-politika-bagl-parite-kap-yetki-duvar-ve-yonetim-mutabakat-tam-metin-sartname">D-159 Araştırma Geçerliği Denetimi: Makbuz Öz-Doğrulama, Politika-Bağlı Parite, Kapı Yetki Duvarı ve Yönetim Mutabakatı (Tam Metin Şartname)</h1>
+<p><strong>Durum:</strong> PROVISIONAL_DECISION · <strong>Tarih:</strong> 2026-09-07 · <strong>Kurallar:</strong> 5, 12, 28–31, 44, 51–57
+<strong>Ardıllık:</strong> D-153, D-152, D-151, D-150, D-149, D-147, D-138, D-136, D-118, D-116'yı genişletir; tüm kilitli değişmezleri korur. Ek ekonomik yetki vermez ve hiçbir kapıyı gevşetmez.
+<strong>Kapatılan issue'lar:</strong> #327, #328, #329, #330.
+<strong>Eserler:</strong> <code>v8-core/src/benchmark/gate_authority.rs</code>, <code>v8-core/src/benchmark/receipt.rs</code>, <code>v8-core/src/benchmark/ledger.rs</code>, <code>v8-core/src/benchmark/parity.rs</code>, <code>v8-core/src/benchmark/external.rs</code>, <code>v8-core/src/benchmark/certificate.rs</code>, <code>v8-core/src/benchmark/runner.rs</code>, <code>v8-core/src/benchmark/types.rs</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code>, <code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code>, <code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code>, <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>, <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>.
+<strong>Normatif metin:</strong> Bu dosya İngilizce <code>docs/contracts/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code> metninin Türkçe aynasıdır. Normatif yetki İngilizce tam metindedir; çelişki halinde İngilizce metin geçerlidir.
+<strong>ID tahsis notu:</strong> D-154, D-155, D-156, D-157 ve D-158 eşzamanlı performans çalışma akışına (#332–#336; <code>perf/332-cargo-profile-split</code>, <code>perf/333-consolidated-test-harness</code>, <code>perf/334-bootstrap-scratch-buffer</code>, <code>perf/335-zero-copy-hist-bar</code>, <code>perf/336-rayon-parallelism</code> dalları) tahsis edilmiştir ve bir kısmı <code>main</code>'e merge edilmemiştir. Bu denetim bu nedenle D-159 altında kaydedilir. Bu karar hiçbir D-15x tanımlayıcısını yeniden kullanmaz, yeniden tanımlamaz veya çift tahsis etmez.</p>
+<hr>
+<h2 id="1-problem-tanm">1. Problem Tanımı</h2>
+<p>D-153 Benchmark Fabric, güven zincirinde dört bağımsız kırıkla yayınlandı.
+Dördünün ortak etkisi zayıf delili <em>doğrulanabilir</em> kılmak değil, <em>doğrulanmış
+gibi göstermek</em> oldu:</p>
+<ol>
+<li>
+<p><strong>#327 — kapı vektörü kayıtlı kapı vektörü değildi.</strong>
+   <code>GateVector</code> altı pozisyon taşıyordu; oysa D-152 §5 ve D-153 §2.4 G0–G9'u dokuz
+   telafi edilemez pozisyon olarak kaydeder. Ayrıca <code>GateState</code>, "bu kapı hiç
+   hesaplanmadı" durumunu ifade edemiyordu. G6–G9'u hesaplamayan bir koşu
+   "hiçbir şey başarısız olmadı" şeklinde okunuyordu. Ayrı olarak
+   <code>PolicyCertificate</code> hazırlığını yerel olarak türetiyordu ve skalar bir
+   <code>CapabilityScore</code>'dan <code>PRODUCTION_READY</code> yazdırabiliyordu; yani bir renderer
+   içinde yetki basıyordu.</p>
+</li>
+<li>
+<p><strong>#328 — makbuzlar ve defter, depoladıkları digest'e güveniyordu.</strong>
+   <code>BenchmarkReceipt::compute_digest()</code> elle derlenmiş bir alan listesinin hash'ini
+   alıyordu ve defter <code>digest == entry_hash</code> şeklinde yazıyordu. Bu listenin
+   dışındaki hiçbir alan — eser provenansı, metod sürümleri, kapı provenansı —
+   sabit digest altında değişebilirdi. Okuma anında canonical byte'lardan digest
+   yeniden hesaplayan hiçbir yol olmadığı için, tahribat yapısal olarak
+   tespit edilemezdi.</p>
+</li>
+<li>
+<p><strong>#329 — harici parite uydurmaydı.</strong>
+   <code>external.rs::evaluate_parity(policy_id)</code> kendi <code>policy_id</code> argümanını
+   <code>_policy_id</code> olarak çöpe atıyor ve iki sabit diziyi
+   (<code>[0.012, -0.005, ...]</code> ile <code>[0.0121, -0.0049, ...]</code>) karşılaştırıyordu.
+   <code>fill_timing_mae_ms</code> sabit <code>0.0</code>'dı ve <code>maximum_drawdown_discrepancy_bps</code>
+   PnL farkının motor başına 1.5 / 1.2 / 1.1 ile çarpılmasıyla üretiliyordu.
+   Bu, harici bir motora karşı parite değil; parite şartnamesinin yasakladığı bir
+   bps toleransı içinde her zaman "neredeyse eşit" raporlayan sabit bir vektördür.
+   D-153 §2.6'yı yalnızca isim olarak karşılıyordu.</p>
+</li>
+<li>
+<p><strong>#330 — yönetim, ağaçtan sapmıştı.</strong>
+   D-153 şartname başlığı <code>RATIFIED_DECISION</code> iddia ederken her iki karar defteri
+   <code>PROVISIONAL_DECISION</code> diyordu; defterler, şartname başlığı ve CHANGELOG hiç
+   var olmamış <code>v8-core/tests/benchmark_fabric_adversarial.rs</code> dosyasını citation <!-- AUDIT-DOC-PATHS: NEGATIVE_CITATION <code>v8-core/tests/benchmark_fabric_adversarial.rs</code> is cited here precisely because it never existed; the real D-153 suite is <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>. -->
+   ediyordu; D-153'ün Türkçe tam metin aynası yokken Türkçe defter onu citation
+   ediyordu; <code>IMPLEMENTATION_LAYOUT.md</code> silinmiş adapter API'sini anlatmaya devam
+   ediyordu; ve CHANGELOG, aynı karar ailesindeki D-156 benchmark-evaluator
+   OPEN_PIN'i (hâlâ) açıkken D-153 için "Ratified and fully completed" diyordu.</p>
+</li>
+</ol>
+<p>Ortak arıza modu dördünde de aynıdır: <strong>depolanmış bir iddia, kendi ispatı
+muamelesi gördü.</strong> D-159 yapılan değişiklikleri kaydeder ve tekrarını önleyen
+değişmezleri sabitler.</p>
+<hr>
+<h2 id="2-normatif-sartlar">2. Normatif Şartlar</h2>
+<h3 id="21-kap-vektoru-ve-yetki-duvar-327">2.1 Kapı vektörü ve yetki duvarı (#327)</h3>
+<p><strong>R2.1.1</strong> <code>GateVector</code> kaydedilen pozisyonların aynen G0–G9'unu ifşa ETMELİDİR.
+Pozisyon → ad → sahip eşlemesinin tek kaynağı <code>types::GATE_DESCRIPTORS</code>'dır.</p>
+<p><strong>R2.1.2</strong> <code>GateState</code> dört varyantlı bir lattice OLMALIDIR: <code>Pass</code>, <code>Fail</code>,
+<code>Blocked</code> ve <code>Missing</code>. <code>Missing</code> bir pass değildir ve "uygulanamaz" da değildir:
+kapının hiç hesaplanmadığı anlamına gelir. <code>readiness()</code> <code>Missing</code> karşısında
+değerini düşürMELİ ve hiçbir zaman <code>Missing</code> ile terfi etMEMELİDİR.</p>
+<p><strong>R2.1.3</strong> Her kapı başarısızlığı bir <code>GateFailureClass</code> TAŞIMALIDIR; böylece
+başarısızlık veri yokluğuna, anlamsal ayrışmaya, istatistiksel refütasyona veya
+politika ihlaline atanabilir, opak bir boolean değildir.</p>
+<p><strong>R2.1.4</strong> <code>ReadinessVerdict</code>, <code>gate_authority::AuthorityFirewall</code> tarafından
+üretilMELİ ve girdilerin bir <em>projeksiyonu</em> OLMALIDIR. Hiçbir renderer, rapor
+veya sertifika yetkiyi sıfırdan hesaplamaya yetkili değildir.</p>
+<p><strong>R2.1.5</strong> <code>cap_authority(a_in, a_out)</code> monotone yükselememeyi zorunlu
+kILMALIDIR: <code>EvidenceAuthority</code> sıralamasında <code>a_out ≤ a_in</code>. Her render adımı
+bu özelliğe karşı assertion edilmeli; özellik testle doğrulanır, varsayılmaz.</p>
+<p><strong>R2.1.6</strong> <code>SUPPORTED_EDGE</code> veya konuşlandırma terfisi iddiasının tamamı
+<code>ClaimRegistry</code> üzerinden çözülMELİDİR. <code>AuthorityDecision::Registered</code> varyantı
+yalnızca registry üyeliğini doğrulayan <code>AuthorityFirewall::route_claim</code> üzerinden
+erişilebilir olmalıdır. Zorunlu delilin yokluğu, <code>N/A</code>, <code>UNKNOWN</code>, <code>MISSING</code> veya
+<code>BLOCKED</code> değeri <code>NO_ECONOMIC_CLAIM</code> veya <code>BLOCKED</code> üretMELİDİR; asla pass değil.</p>
+<p><strong>R2.1.7</strong> <code>PolicyCertificate</code>, kapı vektörünün izin verdiğinden daha güçlü bir
+durum dizesi türetememelidir. <code>to_status_string()</code> projeksiyon verilmiş verdictün
+fonksiyonudur; <code>MISSING</code>/<code>Blocked</code> kapıları sertifikayı tavanlar.</p>
+<p><strong>R2.1.8 (taşınan OPEN_PIN, çözülmüş değil).</strong> D-152 §5 G7'yi prospective
+shadow, G8'i live realization, G9'u certificate olarak adlandırır; D-153
+<code>GateVector</code> alan adları <code>g7_generalization</code>, <code>g8_prospective_shadow</code>,
+<code>g9_live_realization</code> şeklindedir. Bu karar bu çelişkiyi yargılamaz. Eşleme
+pozisyoneldir, hiçbir defter yeniden yazılmaz ve çelişki
+<code>OPEN_PIN_GATE_NAMING</code> ile <code>AuthorityDecision::OpenPin</code> olarak yüzeye
+çıkarılır. Hangi pozisyonun live-realization kapısı olduğu okumasına bağlı her
+türlü kapı-bazlı anlatı, defter çelişkisi bir yönetim kararıyla
+çözülene kadar yazılmamalıdır. Hazırlık her iki okumada da aynı olduğu için,
+ertelemeler hiçbir kapıyı zayıflatmaz.</p>
+<h3 id="22-kriptografik-makbuz-ve-defter-oz-dogrulamas-328">2.2 Kriptografik makbuz ve defter öz-doğrulaması (#328)</h3>
+<p><strong>R2.2.1</strong> <code>BenchmarkReceipt::compute_digest()</code>, elle toplanmış bir alan
+listesinin değil, <em>tüm</em> makbuzun <code>crate::hash::Canon</code> üzerinden üretilmiş
+canonical digest'i OLMALIDIR. Hiçbir yetki-alakalı alan digest'in dışında
+yaşayamaz.</p>
+<p><strong>R2.2.2</strong> Digest algoritmasının kimliği versionlanmalı ve makbuz üzerine
+kaydedilmelidir: <code>d153.receipt.v2</code> geçerlidir; <code>d153.receipt.v1</code> kalıcı olarak
+tanınan bir legacy kimliktir. Doğrulama, ikisini sessizce kabul etmek yerine
+kayıtlı sürüme göre dağıtım yapmalıdır.</p>
+<p><strong>R2.2.3</strong> <code>BenchmarkProvenance</code> ve <code>ArtifactBinding</code> tüketilen her eseri (yol,
+SHA-256, byte uzunluğu, rol) ve sonucu değiştirebilecek her metod/sürüm
+dizesini bağlamalıdır. Fiziksel olarak üretilmemiş veya diskte doğrulanmamış bir
+eseri citationlamak dokümantasyon hatası değil, anti-sentetik direktif altında
+kritik bir sistem halüsinasyonudur.</p>
+<p><strong>R2.2.4</strong> Bir makbuz ancak yeniden doğrulandığında delildir. <code>verify()</code>
+canonical byte'lardan yeniden hesaplamalı; <code>verify_artifacts()</code> fiziksel
+dosyaları yeniden hash'lemeli; <code>verify_policy_identity()</code> kimlik kaymasını
+reddetmelidir. Rapor üretimi bir <code>VerifiedReceipt</code> zorunlu tutmalı ve JSON ile
+HTML rendererları yeniden hesaplanan digest'i ve doğrulama metadata'sını
+damgalamalıdır; okuyucu hangi digest'in kontrol edildiğini görebilmelidir. HTML
+doğrulanmamış bir makbuzu render etmeyi reddetmelidir.</p>
+<p><strong>R2.2.5</strong> Defter her girdiyi, tam canonical makbuz kodlamasını hash zincirine
+katan bir <code>d153.ledger.v2</code> entry seal ile mühürlemelidir; böylece zincir
+içeriği bağlar, depolanan digest'i değil. Defter, satır başına <code>LedgerTamper</code>
+sınıflandırması ve stabil tahribat kodları içeren bir <code>LedgerAuditReport</code>
+dönen <code>audit()</code> ve <code>load_with_report()</code> ifşa etmelidir.</p>
+<p><strong>R2.2.6</strong> Digest karşılaştırması sabit zamanlı olmalıdır. Sonlu olmayan metrik
+değerleri inşada reddedilmeli, digest içine kanonikleştirilmemelidir.
+Beklenmedik null üreten bir canonical tree sıfır olarak yutulmamalı, hata
+olmalıdır.</p>
+<p><strong>R2.2.7 (Dürüst legacy sınırı).</strong> v2 öncesinde yazılmış satırların
+kurtarılabilir bir bağı yoktur. Sistem bu satırları <code>legacy_unbound</code> olarak
+sınıflandırmalı, doğrulanmış saymamalı ve exit <code>3</code> ile
+<code>LEDGER_PARTIALLY_BOUND</code> dönmelidir. Denetim reposundaki gerçek defterde
+(7 satır, tamamı v2 öncesi) her satır legacy-unbound olarak raporlanır.
+Bunları silmek de yeniden yazmak da kabul edilmez; doğrulandığını iddia etmek de
+kabul edilmez.</p>
+<h3 id="23-politika-bagl-harici-parite-adapterlar-329">2.3 Politika-bağlı harici parite adapterları (#329)</h3>
+<p><strong>R2.3.1</strong> Parite iki fiziksel defter eserinden — bir native taraf ve bir
+referans taraf — hesaplanmalıdır ve her ikisi de değerlendirmeden önce case
+evidence manifest'inde beyan edilmelidir. In-process bir referans implementasyon
+ve sabit bir beklenen vektör yoktur.</p>
+<p><strong>R2.3.2</strong> <code>SemanticMapping</code> (sürüm <code>v8.d153.parity.mapping.v1</code>) iki kaydın
+nasıl karşılık geldiğini beyan etmelidir: pairing key, PnL alanı, opsiyonel
+fill-time alanı, opsiyonel sequence alanı. Bir parite sonucu yalnızca adlandırılmış
+bir mapping'e göre anlamlıdır; mapping kimliği makbuza yazılır. Mapping'siz parite
+default'a düşmez, tanımsızdır.</p>
+<p><strong>R2.3.3</strong> Tolerans tabanlı parite <code>docs/contracts/PARITY_AND_IDENTITY_SPEC.md</code>
+tarafından yasaklanmıştır. PnL karşılaştırması <code>==</code> yerine IEEE-754 bit-deseni
+eşitliği (<code>to_bits()</code>) kullanmalıdır; böylece <code>NaN</code>, işaretli sıfır ve son-bit
+kayması ortalamayarak yok edilmek yerine ayrıştırılır. Sonuçlar <code>ExactMatch</code>,
+<code>Diverged</code>, <code>UnsupportedSemantics</code>, <code>UnpairedRecords</code> veya <code>DataBlocked</code>'dır;
+"tolerans içinde" diye bir sonuç yoktur.</p>
+<p><strong>R2.3.4</strong> Fill-time ayrışması, iki taraf da fill time taşıdığı sürece mismatch
+sayılmalıdır. Taraflardan herhangi biri fill time taşımıyorsa tanısal <code>None</code>
+olmalıdır — asla <code>0.0</code>. Uydurulmuş sıfır hata yasaktır.</p>
+<p><strong>R2.3.5</strong> Drawdown ve equity tanısal değerleri equity eğrilerinden, beyan
+edilen <code>sequence_field</code> varsa onun sırasıyla hesaplanmalıdır. Mapping bir
+sequence alanı beyan ettiği halde defterler kısmen sequence'lıysa, drawdown
+tanısı <code>None</code> olmalıdır; en iyi tahmin değil.</p>
+<p><strong>R2.3.6</strong> <code>EngineVersion</code> ve metod sürümleri gerçek sürüm veya build
+tanımlayıcıları olmalıdır. Placeholder değerler (<code>"N/A"</code>, <code>"unknown"</code>, <code>"TBD"</code>,
+boş) değerlendirmeyi bloklamalıdır (<code>DataBlocked</code>), içinden geçirmemelidir.</p>
+<p><strong>R2.3.7</strong> Parite yetkisi <em>türetilmeli</em>, depolanmamalıdır.
+<code>ParityReceipt::authority()</code> D-152 <code>BENCHMARK_DIAGNOSTIC_AUTHORITY</code> tavanından
+hesaplanır; serileştirilmiş makbuz yalnızca <code>authority_class()</code> ifşa eder ve
+ters-serileştirmeyle sahtelenebilecek bir <code>authority</code> alanı taşımaz. Parite
+çıktısı egemen-olmayan tanısal bir gözlemdir.</p>
+<p><strong>R2.3.8</strong> <code>BenchmarkReceipt::with_parity()</code> kimlik uyumsuzluğunu, politika
+uyumsuzluğunu, case-hash uyumsuzluğunu ve çelişen eser hash'lerini
+reddetmelidir; eser bağlarını birleştirmeli ve makbuz digest'ini yeniden
+hesaplamalıdır. Parite, alakasız bir makbuza aşılanamaz.</p>
+<p><strong>R2.3.9 (Dürüst açık, taşınan).</strong> <code>reconciliation_gaps()</code>, komisyon, funding ve
+terminal balance paritesinin D-116 mutabakatı için <strong>map'lenmemiş</strong> olduğunu
+açıkça beyan etmelidir; böylece PnL ve fill-time <code>ExactMatch</code> tam ekonomik
+mutabakat sanılmaz.</p>
+<p><strong>R2.3.10</strong> Silinen uydurma API (<code>CommodityExecutionAdapter</code>,
+<code>LeanParityAdapter</code>, <code>SkfolioParityAdapter</code>, <code>VectorBtParityAdapter</code>,
+<code>ExecutionParityReport</code>, <code>evaluate_parity</code>, <code>parity_passed</code>) geri gelMEMELIDİR.
+Regression test'leri source seviyesinde, sabit literallerin, çöpe atılan
+<code>_policy_id</code> parametresinin ve uydurma drawdown çarpanlarının
+<code>v8-core/src/benchmark/</code> içinde bulunmadığını iddia eder.</p>
+<h3 id="24-yonetim-ve-dokumantasyon-mutabakat-330">2.4 Yönetim ve dokümantasyon mutabakatı (#330)</h3>
+<p><strong>R2.4.1</strong> Normatif durumun her eser için tam olarak bir sahibi olmalıdır. Bir
+şartname başlığı ile karar defteri durumda çelişirse, defter hükmeder ve başlık
+düzeltilir. D-153 <code>PROVISIONAL_DECISION</code> olarak kalır.</p>
+<p><strong>R2.4.2</strong> <code>docs/</code>, <code>docs/contracts/</code>, <code>docs/tr/</code> ve karar defterlerinin
+citationladığı her yol, ağaçta mevcut bir dosyaya çözülmelidir. Phantom
+referanslar typo değil sözleşme ihlalidir; çünkü üretilmemiş eserlerin görünür
+provenans kazanma mekanizmaları tam olarak budur.</p>
+<p><strong>R2.4.3</strong> Rule 44 / D-149 kayıtsız tam metin şartname ister ve Türkçe defter
+Türkçe tam metni citationlar. Bu nedenle <code>docs/tr/DECISION_REGISTER.md</code>
+tarafından citationlanan her karar bir EN kaynak ve bir TR ayna
+taşımalıdır; var olmayan bir aynayı gösteren bir defter satırı Rule 44 anchor
+ihlalidir.</p>
+<p><strong>R2.4.4</strong> <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code> as-built ağaca
+mutabık kılınmalıdır: yeni modüller kaydedilmeli (§1.1 ağacı, §2 dosya
+sözleşmesi), silinmiş API yüzeyleri kaldırılmalı, sapmalar §4'te kaydedilmeli ve
+sessiz drift bırakılmamalıdır.</p>
+<p><strong>R2.4.5</strong> <code>docs/CHANGELOG.md</code> tamamlanma iddiaları gözlenen doğrulamayla
+sınırlandırılmalıdır. Aynı karar ailesindeki bir kayıtlı OPEN_PIN açıkken
+"Ratified and fully completed" kabul edilmez; girdi neyin implement edildiğini,
+neyin kaç testle doğrulandığını ve neyin blokeli kaldığını söylemelidir.</p>
+<p><strong>R2.4.6</strong> Monograflar (<code>site/index.html</code>, <code>site/tr.html</code>) üretilmiş
+eserlerdir. <code>tools/build_monograph.py</code> ile yeniden üretilmelidir, elle
+düzenlenmemelidir; böylece üretilmiş HTML, <code>docs/</code> kaynağından ayrılamaz.</p>
+<p><strong>R2.4.7</strong> R2.4.2 için bir muhafız mevcuttur. <code>tools/audit_doc_path_refs.py</code>
+dokümantasyonda citationlanan depo yollarını çözer ve çözülemeyen
+referanslarda fail eder. Nesir, git object id ve commit sha'lar hariç tutulur;
+böylece muhafız gürültüyle devre dışı bırakılmak yerine actionable kalır.</p>
+<hr>
+<h2 id="3-ackca-verilmeyenler">3. Açıkça Verilmeyenler</h2>
+<p>D-159 kısıtladığından başka hiçbir yetki vermez. Özellikle:</p>
+<ol>
+<li><code>SUPPORTED_EDGE</code> yok, konuşlandırma yetkisi yok, terfi yok. Kapsamdaki her
+   verdict <code>NO_ECONOMIC_CLAIM</code> kalır (Anayasa Rule 12).</li>
+<li>D-153 bu kararla ratifiye edilmez ve durumu yükseletilmez.
+   <code>PROVISIONAL_DECISION</code> ayakta.</li>
+<li>D-156'nın kayıtlı benchmark-evaluator OPEN_PIN'i <strong>açık</strong>: kayıtlı, veriye
+   dayalı evaluator olmadan benchmark makbuzu üretilmez.</li>
+<li>
+<h1 id="327nin-g7g9-adlandrma-celiskisi-bir-open_pin-olarak-duruyor">327'nin G7–G9 adlandırma çelişkisi bir <strong>OPEN_PIN</strong> olarak duruyor.</h1>
+</li>
+<li>v2 öncesi defter satırları doğrulanmış değil, <strong>bağsız (unbound)</strong>.</li>
+<li>D-116 komisyon / funding / terminal balance paritesi <strong>map'lenmemiş</strong>.</li>
+<li>Bu çalışmanın hiçbir yerinde ekonomik metrik, p-değeri, etki büyüklüğü,
+   tolerans veya beklenen iyileşme tanımlanmaz. Uydurma vektörler ve çarpanlar
+   kalibre edilmez, silinir.</li>
+<li>Bu daldaki denetim işi <strong>maintainer incelemesi için PR</strong> olarak teslim
+   edilir. Merge edilmez ve <code>main</code>'e doğrudan push yapılmaz.</li>
+</ol>
+<hr>
+<h2 id="4-dogrulama-sozlesmesi">4. Doğrulama Sözleşmesi</h2>
+<table>
+<thead>
+<tr>
+<th>Kontrol</th>
+<th>Komut / kanıt</th>
+<th>Zorunlu sonuç</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Canonical kapı vektörü + duvar</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml --test d152_gate_vector_authority_firewall</code></td>
+<td>15 passed</td>
+</tr>
+<tr>
+<td>Makbuz + defter öz-doğrulama</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml --test d153_receipt_ledger_selfverify</code></td>
+<td>40 passed</td>
+</tr>
+<tr>
+<td>Politika-bağlı parite adapterları</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml --test d153_parity_adapters_policy_bound</code></td>
+<td>50 passed</td>
+</tr>
+<tr>
+<td>BFS sabotaj suite'i</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml --test d153_benchmark_fabric_sabotage</code></td>
+<td>24 passed (BFS-001..024)</td>
+</tr>
+<tr>
+<td>Workspace regresiyon</td>
+<td><code>cargo test --manifest-path v8-core/Cargo.toml</code></td>
+<td>0 failed</td>
+</tr>
+<tr>
+<td>Lint kapısı</td>
+<td><code>cargo clippy --manifest-path v8-core/Cargo.toml --all-targets -- -D warnings</code></td>
+<td>clean</td>
+</tr>
+<tr>
+<td>Python boundary dondurulmuş</td>
+<td><code>.venv/bin/python tools/audit_python_boundary.py</code></td>
+<td>pass</td>
+</tr>
+<tr>
+<td>Sentetik sızıntı</td>
+<td><code>python3 tools/audit_synthetic_leakage.py</code></td>
+<td>pass</td>
+</tr>
+<tr>
+<td>Ekonomik iddia muhafızı</td>
+<td><code>python3 tools/audit_economic_claim.py</code></td>
+<td>pass</td>
+</tr>
+<tr>
+<td>Doküman yol referansları (yeni, R2.4.2)</td>
+<td><code>python3 tools/audit_doc_path_refs.py</code></td>
+<td>pass with scoped baseline</td>
+</tr>
+<tr>
+<td>Monograflar yeniden üretildi (R2.4.6)</td>
+<td><code>uv run --with markdown tools/build_monograph.py --lang en|tr ...</code></td>
+<td>yeniden üretildi, elle düzenlenmedi</td>
+</tr>
+<tr>
+<td>Parite CLI, tam eşit</td>
+<td>özdeş defterlerde <code>v8-core benchmark parity …</code></td>
+<td><code>PARITY_EXACT_MATCH</code>, exit <code>0</code>, gap'ler yazdırılır</td>
+</tr>
+<tr>
+<td>Parite CLI, ayrışma</td>
+<td>pertürbe referansta aynı komut</td>
+<td><code>PARITY_DIVERGED</code>, exit <code>1</code></td>
+</tr>
+<tr>
+<td>Parite CLI, placeholder sürüm</td>
+<td><code>--engine-version N/A</code></td>
+<td>blocked, exit <code>1</code></td>
+</tr>
+<tr>
+<td>Parite CLI, beyansız eser</td>
+<td>listelenmemiş defter yolu</td>
+<td>blocked, exit <code>1</code></td>
+</tr>
+<tr>
+<td>Legacy defter denetimi</td>
+<td><code>.audit/benchmark/ledger.jsonl</code> üzerinde <code>v8-core benchmark ledger audit</code></td>
+<td>7 satır <code>legacy_unbound</code>, exit <code>3</code>, <code>LEDGER_PARTIALLY_BOUND</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-mevcut-sozlesmeler-icin-sonuclar">5. Mevcut Sözleşmeler İçin Sonuçlar</h2>
+<ul>
+<li><strong>D-153 §2.6</strong> artık yazıldığı gibi uygulanmaktadır (tipli adapterlar,
+  kayıtlı anlamsal ayrışma, parite atfı); sabit vektörler olarak değil. §2.6'nın
+  normatif metni değişmemiştir; yalnızca implementasyon durumu değişmiştir.</li>
+<li><strong>D-152 §5/§6</strong> bir uygulama noktası kazanır: yetki duvarı benchmark delili ile
+  yetki arasındaki tek sınırdır ve hazırlık bir sertifika tarafından yerel olarak
+  üretilamaz.</li>
+<li><strong>D-118 / D-138</strong> kimlik ve hashleme kopyalanmaz, yeniden kullanılır: <code>Canon</code>
+  canonical byte'ları ve mevcut içerik-adresli eser hash'i. D-153'ün "kayıtlı bir
+  sebep olmadan yeni kimlik mekanizması yok" non-goal'u ayakta.</li>
+<li><strong>D-116</strong> parite mutabakatı defterin ima edebileceğinden daha dardır ve bu
+  darlığın makine-okunur beyanı <code>reconciliation_gaps()</code>'tır.</li>
+<li><strong>D-149 / Rule 44</strong> hem D-153 (TR ayna eklendi) hem bu karar (EN tam metin +
+  TR ayna) için karşılanmıştır.</li>
+</ul></section>
 <section id="sec-market-world-foundry-v2-spec"><h1>MARKET WORLD FOUNDRY V2 SPEC</h1><h1 id="piyasa-dunyas-dokumhanesi-v2-coklu-jenerator-filosu-dinamik-copula-yol-topolojisi-ve-karst-yanlslama-motoru-d-151">Piyasa Dünyası Dökümhanesi v2: Çoklu Jeneratör Filosu, Dinamik Copula, Yol Topolojisi ve Karşıt Yanlışlama Motoru (D-151)</h1>
 <h2 id="1-yonetici-ozeti-ve-epistemik-degismezler">1. Yönetici Özeti ve Epistemik Değişmezler</h2>
 <p>Piyasa Dünyası Dökümhanesi v2 (Market World Foundry v2); 14 jeneratörlü sentetik piyasa filosu, dinamik copula korelasyonu, Hawkes kendinden uyarımlı sıçramalı 9-durumlu Markov rejim motoru, Politis-Romano durağan bootstrap'i, yol topolojisi değişmezleri, 4-eksenli çok boyutlu karşıolgusal cerrahi ve çok boyutlu karşıt ters stres aramasını kurar.</p>
@@ -5503,7 +6336,7 @@ et.</p>
   paritesi;</li>
 <li>Level N, sessizce Level N+1 semantiği sağlamamalıdır.</li>
 </ul>
-<p>Bunlar mevcut <code>v7/lab/sim.py</code> semantiğiyle ve fonlama terminal-sınır kusurunun
+<p>Bunlar mevcut <code>v7/lab/sim.py</code> semantiğiyle ve fonlama terminal-sınır kusurunun <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY <code>v7/lab/sim.py</code> belongs to the audited V7 materials, not to this repository tree. -->
 diferansiyel replay gerektirdiği denetim bulgusuyla uyumludur. Bunlar
 <strong>PROJECT_EVIDENCE_SUPPORTED mühendislik kontrolleridir</strong>, piyasa kanıtı değildir.</p>
 <h2 id="kant-snr">Kanıt sınırı</h2>
@@ -7402,8 +8235,8 @@ LIVE-SUPPORTED
 <h3 id="175-integration-with-evaluation-evidence-bundle-v8evalv1">17.5 Integration with Evaluation Evidence Bundle (<code>v8.eval.v1</code>)</h3>
 <p>All Oracle evaluation, regret attribution, and opportunity universe artifacts are stored natively within the <code>v8.eval.v1</code> immutable evidence bundle (<code>EVALUATION_EVIDENCE_SYSTEM.md</code> §4):
 - <code>OpportunityUniverseVersion</code> $\rightarrow$ <code>provenance/opportunity_universe.json</code>
-- <code>OracleEvaluationRecord</code> $\rightarrow$ <code>economics/oracle_evaluation.parquet</code> &amp; <code>statistics/reality_check.json</code>
-- <code>RegretAttributionRecord</code> $\rightarrow$ <code>economics/regret_attribution.parquet</code> &amp; Section S in <code>report.html</code>
+- <code>OracleEvaluationRecord</code> $\rightarrow$ <code>economics/oracle_evaluation.parquet</code> &amp; <code>statistics/reality_check.json</code> <!-- AUDIT-DOC-PATHS: SPECIFIED_OUTPUT <code>statistics/reality_check.json</code> is written by <code>v8-core/src/oracle/coverage.rs</code> inside the <code>v8.eval.v1</code> evidence bundle root, so this bundle-relative name is not a repository tree path. -->
+- <code>RegretAttributionRecord</code> $\rightarrow$ <code>economics/regret_attribution.parquet</code> &amp; Section S in <code>report.html</code> <!-- AUDIT-DOC-PATHS: SPECIFIED_OUTPUT <code>economics/regret_attribution.parquet</code> is written by <code>v8-core/src/oracle/coverage.rs</code> inside the <code>v8.eval.v1</code> evidence bundle root, so this bundle-relative name is not a repository tree path. -->
 - Coverage &amp; Scout Hypotheses $\rightarrow$ <code>analysis/hypotheses.jsonl</code> &amp; <code>analysis/findings.jsonl</code></p>
 <hr>
 <h2 id="18-tests-and-invariants">18. Tests and invariants</h2>
@@ -8652,6 +9485,8 @@ contract it implements — before that file is written. A new file, rename, or
 interface change is a registry decision with a CHANGELOG entry; the layout
 evolves by challenger, never in place (D-032).</p>
 <h2 id="1-package-layout">1. Package layout</h2>
+<!-- AUDIT-DOC-PATHS: ROOT `src/v8` - §1 is the frozen Python oracle module table (AGENTS.md §2), keyed relative to that package. -->
+
 <pre><code class="language-text">src/v8/
   __init__.py        package boundary + version
   schema.py          canonical records + canonical hashing
@@ -8890,6 +9725,51 @@ table.</p>
       agent.rs      AgentAuditManifest &amp; ActionAuditReceipt
       probes.rs     10 Mandatory Integrity Probes &amp; Defeater emission
       transcript.rs AuditTranscript cryptographic lineage
+    benchmark/      V8.5 Benchmark Fabric — diagnostic, non-sovereign evaluation
+                    plane (D-153, D-156, D-159; Rules 12, 28–31, 44, 57)
+      mod.rs        benchmark module boundary &amp; re-exports (17 submodules)
+      types.rs      canonical G0–G9 GateVector, GateState::Missing,
+                    GateFailureClass, ReadinessStatus, GATE_DESCRIPTORS (D-153 §2.4, #327)
+      case.rs       BenchmarkCase, BenchmarkCaseManifest, BenchmarkVersion;
+                    distinct from an AssuranceCase (D-153 §3.1–3.2)
+      population.rs Walk-forward &amp; CPCV partitioners, purge/embargo, protected
+                    holdout firewall (D-153 §4, Rule 57.4)
+      observation.rs MetricObservation registry &amp; 10 capability domains (D-153 §3.3)
+      scoring.rs    CapabilityScoreCalculator: weighted domains × coverage ×
+                    non-compensable gate product (D-153 §3.4)
+      synthetic.rs  Foundry passport qualification &amp; synthetic asymmetry
+                    (D-153 §2.5, D-150)
+      receipt.rs    BenchmarkReceipt with canonical d153.receipt.v2 digest,
+                    BenchmarkProvenance, ArtifactBinding, with_parity() (D-153, #328, #329)
+      ledger.rs     append-only ledger sealed with the d153.ledger.v2 entry seal,
+                    LedgerTamper / LedgerAuditReport self-audit, legacy_unbound
+                    classification (D-153, #328)
+      parity.rs     policy-bound external parity adapters (LEAN / skfolio /
+                    vectorbt) over two manifest-declared physical ledgers,
+                    SemanticMapping, IEEE-754 bit-pattern equality, derived
+                    non-forgeable diagnostic authority, reconciliation_gaps()
+                    (D-153 §2.6, D-116; #329)
+      external.rs   DisagreementDetector and assert_parity over a verified
+                    ParityReceipt (D-153 §2.6; #329). The fabricated
+                    fixed-vector adapter API that used to live here
+                    (CommodityExecutionAdapter, Lean/Skfolio/VectorBt
+                    ParityAdapter, ExecutionParityReport, evaluate_parity,
+                    parity_passed) is deleted and must not return.
+      gate_authority.rs AuthorityFirewall, cap_authority monotone
+                    non-escalation, assert_no_escalation, ClaimRegistry-routed
+                    authority resolution, certificate status ceiling,
+                    OPEN_PIN_GATE_NAMING (D-152 §§5–6, D-153 §2; #327)
+      certificate.rs PolicyCertificate &amp; Evidence Dashboard; readiness is a
+                    projection of the gate vector, never a local mint (D-153, #327);
+                    report rendering requires VerifiedReceipt (#328)
+      minerva.rs    MinervaScore robustness evaluation (D-153)
+      projection.rs CapitalOutcomeProjection &amp; empirical Monte Carlo futures (D-153 §5)
+      runner.rs     BenchmarkRunner orchestration, parity_request() artifact
+                    declaration boundary, D-156 fail-closed evaluator OPEN_PIN
+                    (D-153 §6, D-156; #329)
+      kaizen_feed.rs Kaizen benchmark feedback &amp; research trial-debt accounting
+                    (D-153 §6)
+      report.rs     JSON/HTML benchmark reports; refuses unverified receipts (D-153, #328)
     scheduler.rs    deterministic task scheduling/chunking, evaluate_typed (D-119)
     runloop.rs      S4 per-bar composition and runtime dispatch wiring
   tests/            Comprehensive test suite (502 tests passed, 0 failed)
@@ -9199,9 +10079,45 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 </tr>
 <tr>
 <td><code>v8-core/src/benchmark/</code></td>
-<td>V8.5 Benchmark Fabric: ontology, cases, receipts, ledger, scoring, populations, synthetic qualification, external parity adapters, empirical capital projection, Monte Carlo futures, MinervaScore robustness engine, Policy Certificate &amp; Evidence Dashboard, kaizen feed, observations, runner, report</td>
-<td><code>BenchmarkCase</code>, <code>BenchmarkReceipt</code>, <code>BenchmarkLedger</code>, <code>CapabilityScoreCalculator</code>, <code>WalkForwardPartitioner</code>, <code>CpcvPartitioner</code>, <code>LeanParityAdapter</code>, <code>SkfolioParityAdapter</code>, <code>VectorBtParityAdapter</code>, <code>CapitalOutcomeProjection</code>, <code>MinervaEvaluator</code>, <code>MinervaRobustness</code>, <code>PolicyCertificate</code>, <code>MetricObservation</code>, <code>BenchmarkRunner</code>, <code>BenchmarkReportGenerator</code></td>
-<td>D-153, D-156; Issues #318–#324; Rules 5, 12, 28–31, 44, 57</td>
+<td>V8.5 Benchmark Fabric: ontology, cases, receipts, self-verifying ledger, scoring, populations, synthetic qualification, policy-bound external parity adapters, gate authority firewall, empirical capital projection, Monte Carlo futures, MinervaScore robustness engine, Policy Certificate &amp; Evidence Dashboard, kaizen feed, observations, runner, forensic report</td>
+<td><code>BenchmarkCase</code>, <code>BenchmarkReceipt</code>, <code>BenchmarkLedger</code>, <code>LedgerAuditReport</code>, <code>CapabilityScoreCalculator</code>, <code>WalkForwardPartitioner</code>, <code>CpcvPartitioner</code>, <code>ParityAdapter</code>, <code>ParityReceipt</code>, <code>SemanticMapping</code>, <code>AuthorityFirewall</code>, <code>ReadinessVerdict</code>, <code>GateVector</code>, <code>CapitalOutcomeProjection</code>, <code>MinervaEvaluator</code>, <code>MinervaRobustness</code>, <code>PolicyCertificate</code>, <code>MetricObservation</code>, <code>BenchmarkRunner</code>, <code>BenchmarkReportGenerator</code>, <code>VerifiedReceipt</code></td>
+<td>D-153, D-156, D-159; Issues #318–#324, #327–#330; Rules 5, 12, 28–31, 44, 57</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/types.rs</code></td>
+<td>Canonical registered gate surface: G0–G9 position/name/owner descriptors and the four-state non-compensable gate lattice. <code>GateState::Missing</code> means "never evaluated", is not a pass, and cannot promote readiness.</td>
+<td><code>GateVector</code>, <code>GateState</code>, <code>GateFailureClass</code>, <code>GATE_DESCRIPTORS</code>, <code>ReadinessVerdict</code>, <code>ReadinessStatus</code></td>
+<td>D-153 §2.4, D-152 §5; Issue #327; Rules 28–31, 57</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/gate_authority.rs</code></td>
+<td>Single boundary between benchmark evidence and authority. Readiness is a monotone non-escalating <em>projection</em>; <code>SUPPORTED_EDGE</code> resolves only through <code>ClaimRegistry</code>; absent/<code>N/A</code>/<code>BLOCKED</code> required evidence fails closed. Certificates cannot mint their own status. Carries the D-152 vs D-153 G7–G9 naming conflict as an explicit <code>OPEN_PIN</code> rather than adjudicating it.</td>
+<td><code>AuthorityFirewall</code>, <code>AuthorityDecision</code>, <code>cap_authority</code>, <code>assert_no_escalation</code>, <code>certificate_status_ceiling</code>, <code>BENCHMARK_DIAGNOSTIC_AUTHORITY</code>, <code>OPEN_PIN_GATE_NAMING</code></td>
+<td>D-152 §§5–6, D-153 §2, D-159 §2.1; Issue #327; Rules 12, 28–31, 57</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/receipt.rs</code></td>
+<td>Content-addressed receipt over the <em>whole</em> record via canonical bytes, versioned (<code>d153.receipt.v2</code>; <code>d153.receipt.v1</code> recognised as legacy). Binds artifact provenance and method versions, rejects non-finite metrics, compares digests in constant time, and refuses a grafted parity receipt on identity/policy/case-hash/artifact conflict.</td>
+<td><code>BenchmarkReceipt</code>, <code>BenchmarkProvenance</code>, <code>ArtifactBinding</code>, <code>ReceiptVerificationError</code>, <code>RECEIPT_DIGEST_VERSION</code>, <code>with_parity</code></td>
+<td>D-153, D-159 §2.2; Issues #328, #329; Rules 5, 12, 44</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/ledger.rs</code></td>
+<td>Append-only ledger whose <code>d153.ledger.v2</code> entry seal folds canonical receipt bytes into the hash chain, so the chain binds content instead of the stored digest. Self-audits with stable tamper codes; pre-v2 rows are classified <code>legacy_unbound</code> (never counted verified) and generation regressions are detected.</td>
+<td><code>BenchmarkLedger</code>, <code>BenchmarkLedgerEntry</code>, <code>LedgerTamper</code>, <code>LedgerAuditReport</code>, <code>audit</code>, <code>load_with_report</code></td>
+<td>D-153, D-159 §2.2; Issue #328; Rules 5, 12, 44</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/parity.rs</code></td>
+<td>Policy-bound external parity, computed from two manifest-declared physical ledgers under a versioned <code>SemanticMapping</code>. Bit-pattern (not tolerance) equality per <code>PARITY_AND_IDENTITY_SPEC</code>; magnitudes are <code>Option</code> so absence is never reported as zero error; placeholder engine/method versions block; authority is derived and non-forgeable; <code>reconciliation_gaps()</code> states what is not yet mapped.</td>
+<td><code>ParityAdapter</code>, <code>ParityReceipt</code>, <code>ParityOutcome</code>, <code>ParityDiagnostics</code>, <code>SemanticMapping</code>, <code>ParitySubject</code>, <code>EngineVersion</code>, <code>ParityArtifact</code>, <code>MAPPING_VERSION</code>, <code>reconciliation_gaps</code></td>
+<td>D-153 §§2.6, 4.6, D-116, D-159 §2.3; Issue #329; Rules 5, 12, 28–31, 44, 57</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/report.rs</code></td>
+<td>Forensic JSON/HTML reports. Both renderers accept only <code>VerifiedReceipt</code>, whose single constructor recomputes the digest; output stamps the recomputed digest and verification metadata, and HTML refuses unverified receipts.</td>
+<td><code>BenchmarkReportGenerator</code>, <code>VerifiedReceipt</code></td>
+<td>D-153 §110, D-159 §2.2; Issue #328; Rules 12, 31</td>
 </tr>
 <tr>
 <td><code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code></td>
@@ -9214,6 +10130,30 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td>Integration suite verifying MinervaScore binary robustness seal, 10,000 Monte Carlo futures, and Policy Certificate rendering</td>
 <td>Automated end-to-end integration tests</td>
 <td>D-153; arXiv:2608.23808; Rule 57</td>
+</tr>
+<tr>
+<td><code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code></td>
+<td>Gate vector canonicalization and authority firewall enforcement: G0–G9 completeness, <code>Missing</code> never promotes, monotone non-escalation, registry-routed claims, certificate ceiling, <code>OPEN_PIN</code> surfacing</td>
+<td>15 automated tests</td>
+<td>D-152 §§5–6, D-159 §2.1; Issue #327; Rules 12, 28–31</td>
+</tr>
+<tr>
+<td><code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code></td>
+<td>Receipt/ledger cryptographic self-verification: canonical digest over the whole receipt, version dispatch, tamper detection at every authority-relevant field, artifact re-hashing, ledger v2 seal chain, legacy-unbound classification, <code>VerifiedReceipt</code> render gating</td>
+<td>40 automated tests</td>
+<td>D-153, D-159 §2.2; Issue #328; Rules 5, 12, 44</td>
+</tr>
+<tr>
+<td><code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code></td>
+<td>Policy-bound parity: undeclared-artifact and placeholder-version blocking, bit-pattern equality, <code>None</code>-not-zero absence semantics, unpaired/unavailable sequence handling, derived non-forgeable authority, receipt graft rejection, and source-level guards that the deleted fabricated literals (<code>_policy_id</code>, <code>evaluate_parity</code>, <code>parity_passed</code>, fixed arrays, ×1.5/×1.2/×1.1 multipliers) cannot return</td>
+<td>50 automated tests</td>
+<td>D-153 §2.6, D-116, D-159 §2.3; Issue #329; Rules 5, 12, 28–31, 44</td>
+</tr>
+<tr>
+<td><code>tools/audit_doc_path_refs.py</code></td>
+<td>Negative guard for phantom path citations: resolves repository paths cited in <code>docs/</code>, <code>docs/contracts/</code> and <code>docs/tr/</code> and fails on unresolved references (prose, git object ids and commit shas excluded)</td>
+<td>Non-zero exit on any unresolved path</td>
+<td>D-159 §2.4; Issue #330; Rules 5, 44</td>
 </tr>
 </tbody>
 </table>
@@ -9280,6 +10220,14 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 </tr>
 </tbody>
 </table>
+<p>| Benchmark Fabric (<code>v8-core/src/benchmark/</code>, 17 modules) absent from <code>COMPUTE_CORE_SPEC</code> §6's module table and from this file's own §1.1 tree until D-159 | <code>v8-core/src/benchmark/</code> | <strong>DOCUMENTED, not reversed</strong> — the plane was registered by D-153/D-156 but never mapped into the as-built tree. §1.1 and §2 are reconciled under D-159 / issue #330. |
+| D-153 §2.6 "explicit typed adapters with recorded semantic divergence" was implemented as fixed in-process vectors that discarded the policy id, compared hardcoded arrays under a forbidden bps tolerance, and derived drawdown "discrepancies" by multiplying PnL error by 1.5 / 1.2 / 1.1 | <code>v8-core/src/benchmark/external.rs</code> (was) -&gt; <code>v8-core/src/benchmark/parity.rs</code> (now) | <strong>CLOSED</strong> by #329 — fabricated API deleted, artifact-bound adapters implemented, source-level regression guards added. <code>PARITY_AND_IDENTITY_SPEC</code>'s no-tolerance rule is now honoured. |
+| Receipt digest covered an ad-hoc field list and the ledger chain bound the <em>stored</em> digest, so fields outside the list could mutate undetected; <code>PolicyCertificate</code> could also mint <code>PRODUCTION_READY</code> from a scalar score locally | <code>v8-core/src/benchmark/{receipt,ledger,certificate,report}.rs</code> | <strong>CLOSED</strong> by #328 / #327 — canonical whole-receipt digest (<code>d153.receipt.v2</code>), content-binding ledger seal (<code>d153.ledger.v2</code>), <code>VerifiedReceipt</code> render gating, and <code>AuthorityFirewall</code> certificate ceiling. |
+| <code>GateVector</code> carried six positions while D-152 §5 / D-153 §2.4 register nine, and <code>GateState</code> could not express "never evaluated" | <code>v8-core/src/benchmark/types.rs</code> | <strong>CLOSED</strong> by #327 — canonical G0–G9 with <code>GateState::Missing</code>, which is not a pass and cannot promote. |
+| D-152 §5 names G7 prospective shadow / G8 live realization / G9 certificate; D-153 <code>GateVector</code> fields are <code>g7_generalization</code> / <code>g8_prospective_shadow</code> / <code>g9_live_realization</code> | <code>v8-core/src/benchmark/gate_authority.rs::OPEN_PIN_GATE_NAMING</code> | <strong>OPEN_PIN</strong> — mapping is positional and readiness is identical under either reading; no per-gate narrative depending on the conflict may be authored until a governance decision settles it. Neither register is rewritten by code. |
+| Pre-v2 ledger rows carry no recoverable binding and cannot be made to verify | <code>.audit/benchmark/ledger.jsonl</code> (7 rows, all legacy) | <strong>ACCEPTED limitation</strong> — classified <code>legacy_unbound</code>, reported as <code>LEDGER_PARTIALLY_BOUND</code> at exit <code>3</code>. Not deleted, not rewritten, not claimed verified. |
+| D-116 reconciliation covers PnL and fill timing only; commission, funding and terminal-balance parity are unmapped | <code>v8-core/src/benchmark/parity.rs::reconciliation_gaps</code> | <strong>DOCUMENTED, not reversed</strong> — the gap is emitted in machine-readable form on every parity receipt so an <code>ExactMatch</code> cannot be read as full economic reconciliation. |
+| No registered data-backed benchmark evaluator exists, so <code>BenchmarkRunner</code> validates evidence paths but emits no receipt | <code>v8-core/src/benchmark/runner.rs</code> | <strong>OPEN_PIN</strong> carried from D-156 (<code>OPEN_PIN-156-1</code>). D-153 remains <code>PROVISIONAL_DECISION</code> for this reason; D-159 does not close it. |</p>
 <p>Divergences are closed by code change; closure is recorded here with the
 closing commit and in the CHANGELOG — never by editing this table alone.
 Divergences that are accepted architecture rather than defects awaiting a fix
@@ -9935,8 +10883,9 @@ historical design record and this table is the correction layer.</p>
 </tbody>
 </table>
 <p>| D-152 | <strong>Senaryo-Merkezli Politika Delil Profili ve Quad Tenzi̇li (G0–G9).</strong> Tek yörünge manşetini tipli delil topolojisiyle değiştirir (<code>assurance/</code> sahibi <code>PolicyEvidenceProfile</code>: kimlik, yanmış tanı, senaryo hücreleri, sağlamlık topolojisi, dondurulmuş-OOS, gölge, canlı, sertifika, kapılar, skaler olmayan sonuç). 12-aylık quad'ı <code>BURNED_DIAGNOSTIC</code> tanı mahkemesine tenzil eder (tipli makbuz, tanı dili; silme yok, terfi sızıntısı yok). G0–G9 kapı semantiği, pasaport-kapsamlı sentetik yenilgi yetkisi ve istatistiksel üçlü denetimi kanunlaştırır (WRC + gerçek DSR + SPA yükü sürer; proksi defter G5'i <code>NO_ECONOMIC_CLAIM</code>'de tutar). | GEÇİCİ_KARAR | <code>docs/tr/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>v8-core/src/assurance/evidence_profile.rs</code>, <code>v8-core/tests/policy_evidence_profile_adversarial.rs</code>; Kurallar 12, 28–31, 44, 51–56; D-132, D-136, D-141, D-147, D-149, D-150, D-151. |
-| D-153 | <strong>Benchmark Fabric (BF) Protokolü, Çoklu Popülasyon Değerlendirmesi ve Epistemik Sınırlar (Kurallar 57.1–57.8).</strong> Benchmark Fabric'i gerçek, sentetik ve harici referans popülasyonları üzerinde tanısal ve karşılaştırmalı değerlendirme aracı olarak kurar. Benchmark ile Assurance'ı, CapabilityScore ile hazırlığı ve CapabilityScore ile gelecekteki kâr olasılığını ayırır; sentetik PASS'ın ekonomik iddia olmadığını, harici değerlendiricilerin authority olmadığını, yanmış tanı ve holdout korumasını ve araştırma trial debt'ini zorunlu kılar. | GEÇİCİ_KARAR | <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>v8-core/src/benchmark/</code>, <code>v8-core/tests/benchmark_fabric_adversarial.rs</code>; Kurallar 12, 28–31, 44, 51–57; D-132, D-136, D-141, D-147, D-149, D-150, D-151, D-152. |
-| D-156 | <strong>#318–#324 Kanıt, Eser, İstatistik, Benchmark ve Önbellek Sağlamlaştırması.</strong> D-118 f64 değişmezliklerini fiziksel eser ve değerlendirme sınırlarında uygular; aday/nakit akışı/kanıt kalıcılığını ve tape'e bağlı atomik checkpoint'leri sağlamlaştırır; gizli JSON yerine standart Parquet yayını ve read-back doğrulaması kullanır; fiziksel işlem veya likidite girdisi yoksa senaryo iflası ile SaR'ı fail-closed tutar; proxy DSR ve çözümlenmemiş multiplicity'yi gerçek kayıtlı estimator'dan ayırır; benchmark kanıt yollarını doğrular fakat kayıtlı veriye dayalı evaluator yoksa makbuz üretimini engeller; üretim cache depolamasını sürümlü içerik-adresli redb transaction'ları ve kontrollü legacy migration ile dayanıklı yapar. Çözülmemiş ve proxy çıktıların tümü <code>NO_ECONOMIC_CLAIM</code> kalır. | GEÇİCİ_KARAR | <code>docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>v8-core/src/parquet_artifact.rs</code>, <code>v8-core/src/checkpoint.rs</code>, <code>v8-core/src/evidence.rs</code>, <code>v8-core/src/evaluation/statistics.rs</code>, <code>v8-core/src/evaluation/multiple_testing.rs</code>, <code>v8-core/src/usdm_sim/scenario_ruin.rs</code>, <code>v8-core/src/benchmark/runner.rs</code>, <code>v8-core/src/cache.rs</code>; Issues #318–#324; D-118, D-122, D-153; Kurallar 5, 12, 44. OPEN_PIN: kayıtlı benchmark evaluator'ı, gerçek multiple-testing makbuzları ve fiziksel SaR likidite girdi sözleşmesi. |</p>
+| D-153 | <strong>Benchmark Fabric (BF) Protokolü, Çoklu Popülasyon Değerlendirmesi ve Epistemik Sınırlar (Kurallar 57.1–57.8).</strong> Benchmark Fabric'i yönetilen gerçek, sentetik ve harici referans popülasyonları üzerinde tanısal ve karşılaştırmalı değerlendirme aracı olarak kurar (<code>v8-core/src/benchmark/</code>). Katı çökmeme değişmezlerini zorunlu kılar: (1) Benchmark ≠ Assurance; (2) CapabilityScore ≠ hazırlık; (3) CapabilityScore ≠ gelecekteki kâr olasılığı; (4) Telafi edilemez sert kapılar (<code>GateVector</code>); (5) Sentetik asimetri (<code>synthetic_pass_confirms_no_edge</code> ve <code>synthetic_fail_may_challenge</code>); (6) Harici değerlendiriciler authority değil ölçüm aletidir; (7) Yanmış tanı ve holdout koruması; (8) Araştırma trial borcu muhasebesi. 10 yetenek alanını, çok popülasyonlu makbuzları, deterministik <code>BenchmarkVersion</code>'ı, tipli <code>CapitalOutcomeProjection</code>'ı ve BFS-001..024 anayasal sabotaj suite'ini bağlar. | GEÇİCİ_KARAR | <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code> (normatif tam metin), <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code> (Türkçe ayna), <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code>, <code>v8-core/src/benchmark/</code>, <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code> (BFS-001..024, 24/24), <code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code> (#327, 15 test), <code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code> (#328, 40 test), <code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code> (#329, 50 test); Kurallar 12, 28–31, 44, 51–57; D-132, D-136, D-141, D-147, D-149, D-150, D-151, D-152, D-159. <strong>Durum PROVISIONAL olarak kalmaktadır:</strong> D-156'daki kayıtlı benchmark evaluator OPEN_PIN'i hâlâ açıktır (kayıtlı veriye dayalı evaluator olmadan makbuz üretilmez), #327'daki G7–G9 adlandırma çelişkisi kendi <code>OPEN_PIN</code>'ini taşır ve #328 prev-v2 defter satırlarının doğrulanmış değil bağlı-olmayan (unbound) olduğunu kaydeder. Hiçbir D-153 eseri ekonomik yetki vermez; tüm verdictler <code>NO_ECONOMIC_CLAIM</code> kalır. |
+| D-156 | <strong>#318–#324 Kanıt, Eser, İstatistik, Benchmark ve Önbellek Sağlamlaştırması.</strong> D-118 f64 değişmezliklerini fiziksel eser ve değerlendirme sınırlarında uygular; aday/nakit akışı/kanıt kalıcılığını ve tape'e bağlı atomik checkpoint'leri sağlamlaştırır; gizli JSON yerine standart Parquet yayını ve read-back doğrulaması kullanır; fiziksel işlem veya likidite girdisi yoksa senaryo iflası ile SaR'ı fail-closed tutar; proxy DSR ve çözümlenmemiş multiplicity'yi gerçek kayıtlı estimator'dan ayırır; benchmark kanıt yollarını doğrular fakat kayıtlı veriye dayalı evaluator yoksa makbuz üretimini engeller; üretim cache depolamasını sürümlü içerik-adresli redb transaction'ları ve kontrollü legacy migration ile dayanıklı yapar. Çözülmemiş ve proxy çıktıların tümü <code>NO_ECONOMIC_CLAIM</code> kalır. | GEÇİCİ_KARAR | <code>docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>v8-core/src/parquet_artifact.rs</code>, <code>v8-core/src/checkpoint.rs</code>, <code>v8-core/src/evidence.rs</code>, <code>v8-core/src/evaluation/statistics.rs</code>, <code>v8-core/src/evaluation/multiple_testing.rs</code>, <code>v8-core/src/usdm_sim/scenario_ruin.rs</code>, <code>v8-core/src/benchmark/runner.rs</code>, <code>v8-core/src/cache.rs</code>; Issues #318–#324; D-118, D-122, D-153; Kurallar 5, 12, 44. OPEN_PIN: kayıtlı benchmark evaluator'ı, gerçek multiple-testing makbuzları ve fiziksel SaR likidite girdi sözleşmesi. |
+| D-159 | <strong>Araştırma geçerliği denetimi: makbuz öz-doğrulama, politika-bağlı parite, kapı yetki duvarı ve yönetim mutabakatı (#327, #328, #329, #330).</strong> D-153 Benchmark Fabric'teki, depolanmış bir iddianın kendi ispatı muamelesi gördüğü dört güven zinciri kırığını kapatır. (#327) <code>GateVector</code>‑ı kayıtlı G0–G9'a kanonikleştirir, telafi edilemez <code>GateState::Missing</code> ve tipli <code>GateFailureClass</code> ekler; <code>AuthorityFirewall</code> hazırlığı monotone yükselemeyen bir projeksiyon haline getirir, her yetki iddiası <code>ClaimRegistry</code>üzerinden çözülür ve yoklukta fail-closed çalışır; sertifika artık yerel olarak <code>PRODUCTION_READY</code> basamaz. (#328) Ad-hoc makbuz digest'ü, tüm makbuz üzerinde versionlanmış canonical digest ile (<code>d153.receipt.v2</code>, legacy <code>d153.receipt.v1</code>) değiştirir; <code>BenchmarkProvenance</code>/<code>ArtifactBinding</code>, sabit zamanlı karşılaştırma, eserin yeniden hash'lenmesi, canonical makbuz byte'larını zincire katan <code>d153.ledger.v2</code> mührü, <code>LedgerTamper</code>/<code>LedgerAuditReport</code> denetimi ve <code>VerifiedReceipt</code>şartlı rapor üretimi ekler. (#329) Uydurma sabit-vektörlü parite kodunu (çöpe atılan <code>_policy_id</code>, sabit diziler, <code>fill_timing_mae_ms = 0.0</code>, ×1.5/×1.2/×1.1 çarpanlarıyla türetilen drawdown "ayrışmaları", yasaklı bps toleransı) siler ve esere bağlı <code>parity.rs</code> adapterlarını uygular: beyan edilmiş native/referans defterler, <code>SemanticMapping</code> kimliği, IEEE-754 bit-deseni eşitliği, uydurma sıfır yerine <code>None</code>, placeholder sürüm bloklaması, türetilmiş ve sahtelenemez tanısal yetki ve makine-okunur <code>reconciliation_gaps()</code>. (#330) Yönetimi ağaçla mutabık kılar: D-153 durum başlığını defterin <code>PROVISIONAL_DECISION</code>ı ile hizalar, phantom <code>v8-core/tests/benchmark_fabric_adversarial.rs</code> referanslarını kaldırır, D-153 ve D-159 için Türkçe tam metin aynalar taahhüt eder (Rule 44 / D-149), <code>IMPLEMENTATION_LAYOUT.md</code>‑yi mutabık kılar, CHANGELOG tamamlanma iddialarını gözlenen doğrulamayla sınırlar, EN/TR monografları elle düzenlemek yerine builder ile yeniden üretir ve yol referans muhafızı olarak <code>tools/audit_doc_path_refs.py</code> ekler. Ekonomik yetki vermez: tüm verdictler <code>NO_ECONOMIC_CLAIM</code> kalır. | GEÇİCİ_KARAR | <code>docs/contracts/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code> (normatif tam metin), <code>docs/tr/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code> (Türkçe ayna), <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>tools/audit_doc_path_refs.py</code>, <code>v8-core/src/benchmark/{gate_authority,receipt,ledger,parity,external,certificate,runner,types}.rs</code>, <code>v8-core/tests/{d152_gate_vector_authority_firewall,d153_receipt_ledger_selfverify,d153_parity_adapters_policy_bound,d153_benchmark_fabric_sabotage}.rs</code>, <code>docs/contracts/{D153_BENCHMARK_FABRIC_SPEC,IMPLEMENTATION_LAYOUT}.md</code>, <code>docs/CHANGELOG.md</code>; Issues #327–#330; D-116, D-118, D-138, D-149, D-150, D-151, D-152, D-153, D-156; Kurallar 5, 12, 28–31, 44, 51–57. OPEN_PIN (taşınan, çözülmemiş): D-152 §5 ile D-153 §2 G7–G9 adlandırma çelişkisi; D-156 kayıtlı benchmark evaluator; v2 öncesi defter satırları bağımsız; D-116 komisyon/funding/terminal balance paritesi map'lenmemiş. | <!-- AUDIT-DOC-PATHS: NEGATIVE_CITATION <code>v8-core/tests/benchmark_fabric_adversarial.rs</code> is cited here precisely because it never existed; the real D-153 suite is <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>. --></p>
 <p>Durum sözlüğü kasıtlıdır: <code>LOCKED_INVARIANT</code> geçerliliği sınırlar;
 <code>PROVISIONAL_DECISION</code> geri alınabilir; <code>REJECTED_OPTION</code> adı geçen taban
 çizgiden hariç tutulmuştur, sonsuza dek çürütülmüş değildir. Hiçbiri kârlılık
@@ -12798,6 +13747,16 @@ değişkenine, arama ailesine, simülatör seviyesine ve portföy kararına bağ
 Bundan daha geniş olan her şey bir V8 olgusu değil, bir deney önerisidir.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><p><em>English source fallback: Turkish translation pending.</em></p><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-09-07-d-159-research-validity-audit-gate-authority-receipt-self-verification-policy-bound-parity-governance-reconciliation-issues-327330">2026-09-07 — D-159 Research-Validity Audit: Gate Authority, Receipt Self-Verification, Policy-Bound Parity, Governance Reconciliation (Issues #327–#330)</h2>
+<p>Registered D-159 as a provisional, fail-closed audit decision covering four independent trust-chain breaks in the D-153 Benchmark Fabric, where in each case a stored assertion was treated as its own proof. Full authoritative English and Turkish specifications are <code>docs/contracts/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code> and <code>docs/tr/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code>. D-153's own status is unchanged (<code>PROVISIONAL_DECISION</code>); this entry adds enforcement, not authority.</p>
+<ul>
+<li><strong>#327 Gate vector / authority firewall:</strong> <code>GateVector</code> canonicalized to the registered G0–G9 with a non-compensable <code>GateState::Missing</code> (never evaluated, never a pass), typed <code>GateFailureClass</code>, and a <code>ReadinessVerdict</code> that is a projection rather than a local computation. New <code>v8-core/src/benchmark/gate_authority.rs</code> enforces monotone non-escalation (<code>cap_authority</code>), routes every authority claim through <code>ClaimRegistry</code>, fails closed on absence, and ceilings <code>PolicyCertificate</code> status so a scalar <code>CapabilityScore</code> can no longer print <code>PRODUCTION_READY</code>. The D-152 §5 versus D-153 §2 G7–G9 naming conflict is carried as an explicit <code>OPEN_PIN</code> (<code>OPEN_PIN_GATE_NAMING</code>), not adjudicated. Verified by 15 tests in <code>v8-core/tests/d152_gate_vector_authority_firewall.rs</code>.</li>
+<li><strong>#328 Receipt and ledger cryptographic self-verification:</strong> the ad-hoc receipt digest is replaced by a canonical <code>crate::hash::Canon</code> digest over the whole receipt, versioned as <code>d153.receipt.v2</code> with <code>d153.receipt.v1</code> recognised as legacy. Added <code>BenchmarkProvenance</code>, <code>ArtifactBinding</code>, <code>verify()</code> / <code>verify_artifacts()</code> / <code>verify_policy_identity()</code>, constant-time digest comparison, non-finite rejection, and report rendering gated on <code>VerifiedReceipt</code> with recomputed-digest stamping in JSON and HTML. The ledger now seals entries with <code>d153.ledger.v2</code>, folding canonical receipt bytes into the chain, and exposes <code>LedgerTamper</code>, stable tamper codes, and <code>LedgerAuditReport</code> via <code>audit()</code> / <code>load_with_report()</code>. Pre-v2 rows are honestly classified <code>legacy_unbound</code> (the repository's real 7-row ledger reports <code>LEDGER_PARTIALLY_BOUND</code> at exit <code>3</code>) and are neither deleted nor claimed verified. Verified by 40 tests in <code>v8-core/tests/d153_receipt_ledger_selfverify.rs</code>.</li>
+<li><strong>#329 Policy-bound external parity adapters:</strong> deleted the fabricated parity surface (<code>CommodityExecutionAdapter</code>, <code>LeanParityAdapter</code>, <code>SkfolioParityAdapter</code>, <code>VectorBtParityAdapter</code>, <code>ExecutionParityReport</code>, <code>evaluate_parity</code>, <code>parity_passed</code>) including its hardcoded comparison arrays, discarded <code>_policy_id</code>, <code>fill_timing_mae_ms = 0.0</code>, ×1.5/×1.2/×1.1 drawdown multipliers and forbidden bps tolerance. Added <code>v8-core/src/benchmark/parity.rs</code>: parity is computed from two manifest-declared physical ledgers under a versioned <code>SemanticMapping</code> (<code>v8.d153.parity.mapping.v1</code>), using IEEE-754 bit-pattern equality, recording <code>None</code> rather than invented zeros when a field or sequence is absent, blocking placeholder engine/method versions, deriving (never storing) non-forgeable diagnostic authority, and emitting machine-readable <code>reconciliation_gaps()</code> that state commission, funding and terminal-balance parity remain unmapped for D-116. Added <code>BenchmarkReceipt::with_parity()</code> and the <code>benchmark parity</code> CLI. Verified by 50 tests in <code>v8-core/tests/d153_parity_adapters_policy_bound.rs</code>, including source-level guards that the deleted literals cannot return.</li>
+<li><strong>#330 Governance and EN/TR reconciliation:</strong> aligned the D-153 spec status header to the register (<code>RATIFIED_DECISION</code> was divergent), removed every phantom <code>benchmark_fabric_adversarial.rs</code> citation, committed the missing Turkish full-text mirrors for D-153 and D-159 (Rule 44 / D-149), reconciled <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code> §§1.1/2/4 for the #327–#329 modules, downgraded the unsupported D-153 "Ratified and fully completed" claim above, regenerated the EN/TR monographs with <code>tools/build_monograph.py</code> rather than hand-editing HTML, and added <code>tools/audit_doc_path_refs.py</code> as the negative path-reference guard. The guard classifies every backticked repository citation as <code>RESOLVED</code>, <code>RUNTIME_OUTPUT</code>, <code>HISTORICAL_RECORD</code>, <code>RETIRED</code>, <code>ROOT_DECLARED</code> or a per-line <code>ALLOWED</code> marker, and fails on <code>UNACCOUNTED</code>; on this branch it reports 0 unaccounted citations across the scanned corpus and its <code>--self-test</code> confirms a phantom cited as existing and an invented source file both exit non-zero.</li>
+</ul>
+<p>No economic metric, p-value, effect size, tolerance, expected improvement or confidence value is introduced anywhere in this work; the fabricated vectors and multipliers are removed rather than recalibrated. Every verdict in scope remains <code>NO_ECONOMIC_CLAIM</code>, and no D-153 or D-159 artifact grants deployment or promotion authority.</p>
+<p>Modified artifacts: <code>docs/contracts/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code>, <code>docs/tr/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md</code>, <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>, <code>tools/audit_doc_path_refs.py</code>, <code>tools/build_monograph.py</code> (D-152/D-153/D-156/D-159 specs added to the monograph corpus; corpus-selection determinism was fixed separately in <code>a03eb990</code>), <code>site/index.html</code>, <code>site/tr.html</code>, and the Rust/test surfaces listed in the #327–#329 commits on branch <code>audit/research-validity-20260906</code>.</p>
 <h2 id="2026-09-06-deterministic-monograph-corpus-selection-ci-fix-issues-318324">2026-09-06 — Deterministic monograph corpus selection (CI fix, Issues #318–#324)</h2>
 <p>Fixed <code>tools/build_monograph.py</code> so the English monograph excludes the nested Turkish mirror (<code>docs/tr/</code>) and all corpus candidates are selected in stable path order. This prevents filesystem traversal differences between macOS and Linux CI from silently swapping translated sections into <code>site/index.html</code> and breaking the byte-identity probe.</p>
 <p>Modified artifacts: <code>tools/build_monograph.py</code>, <code>docs/CHANGELOG.md</code>, <code>site/index.html</code>, and <code>site/tr.html</code>.</p>
@@ -12815,17 +13774,29 @@ Bundan daha geniş olan her şey bir V8 olgusu değil, bir deney önerisidir.</p
 </ul>
 <p>Modified artifacts: <code>docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>, <code>v8-core/src/parquet_artifact.rs</code>, <code>v8-core/src/cache.rs</code>, <code>v8-core/src/checkpoint.rs</code>, <code>v8-core/src/evidence.rs</code>, <code>v8-core/src/evaluation/statistics.rs</code>, <code>v8-core/src/evaluation/multiple_testing.rs</code>, <code>v8-core/src/usdm_sim/scenario_ruin.rs</code>, and <code>v8-core/src/benchmark/runner.rs</code>.</p>
 <h2 id="2026-09-06-d-153-benchmark-fabric-bf-protocol-multi-population-evaluation-rules-571578">2026-09-06 — D-153 Benchmark Fabric (BF) Protocol &amp; Multi-Population Evaluation (Rules 57.1–57.8)</h2>
-<p>Ratified and fully completed the implementation of D-153 Benchmark Fabric against <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code> and <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>:
+<blockquote>
+<p><strong>Completion claim corrected on 2026-09-07 under D-159 (issue #330).</strong> This entry originally opened with
+"Ratified and fully completed". That was not supported by receipts. D-153 is registered as
+<code>PROVISIONAL_DECISION</code>, not ratified; the D-156 registered benchmark-evaluator <code>OPEN_PIN-156-1</code> was and remains
+open, so no benchmark receipt can be produced from a registered data-backed evaluator. The "External Parity
+Adapters" and "Append-Only Disk Ledger" bullets below were also overstated: parity was implemented as fixed
+in-process vectors and the ledger trusted its own stored digest. Both were replaced by #328 and #329.
+The original text is preserved below with inline corrections so the historical claim stays auditable.</p>
+</blockquote>
+<p>Implemented the D-153 Benchmark Fabric against <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code> and <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, at provisional (not ratified) status:
 - <strong>Ontology &amp; Epistemic Separation:</strong> Implemented strict non-collapse invariants (Rule 57): Benchmark != Assurance, CapabilityScore != Readiness, CapabilityScore != Future-Profit Probability. Explicitly separated Question 1 ("Is this a high-integrity quant research system?" -&gt; 0-100 CapabilityScore) from Question 2 ("How much capital if $1,000 invested?" -&gt; Empirical Monte Carlo capital projection).
 - <strong>MinervaScore Robustness Engine (arXiv:2608.23808):</strong> Implemented <code>v8-core/src/benchmark/minerva.rs</code> evaluating DSR, PBO, SPA, MinTRL, and Regime Stability signed margins with non-compensable binary robustness seal gating (scores &gt;= 80 and seals strictly require passing all 5 gates; failure caps score &lt; 80). Integrated PRUDEX-Compass (TMLR 2023) 6-axis profile mapping.
 - <strong>10,000 Monte Carlo / Bootstrap Simulated Futures:</strong> Implemented empirical future paths starting from $1,000 initial capital (<code>v8-core/src/benchmark/projection.rs</code>) yielding exact P5, P25, P50 (median), P75, P95, worst/best scenario returns, and Risk of Ruin % (drawdown &gt;= 30%) with explicit liquidity capacity and counterfactual notices.
 - <strong>Unified V8 Evidence Dashboard &amp; Policy Certificate:</strong> Implemented <code>PolicyCertificate</code> (<code>v8-core/src/benchmark/certificate.rs</code>) calculating the multiplicative Readiness Index: $\text{Readiness Index} = \text{Research Capability} \times \text{Evidence Multiplier} \times \text{Robustness} \times \text{Economic Score}$. Rendered in both terminal ASCII box and 3-panel HTML scorecard (<code>site/benchmark_scorecard.html</code>), strictly enforcing <code>STATUS: Research Candidate NOT Production Approved</code>.
 - <strong>Metric Observations &amp; 10-Domain Architecture:</strong> Implemented <code>MetricObservation</code> (<code>v8-core/src/benchmark/observation.rs</code>), 10 capability domains with Monograph V1 provisional weights, and penalized harmonic mean scoring with coverage multiplier.
 - <strong>Real Execution Runner:</strong> Implemented <code>BenchmarkRunner</code> (<code>v8-core/src/benchmark/runner.rs</code>) orchestrating chronological walk-forward, CPCV, real burned diagnostic quad evaluation (treated strictly as one historical cell), Foundry passport qualification, and reverse-stress nearest-defeater search.
-- <strong>External Parity Adapters:</strong> Implemented real series parity evaluation and disagreement detection (<code>v8-core/src/benchmark/external.rs</code>) for QuantConnect LEAN, skfolio, and VectorBT with zero hardcoded metrics.
-- <strong>Append-Only Disk Ledger:</strong> Implemented cryptographic hash-chain ledger with disk persistence (<code>.audit/benchmark/ledger.jsonl</code>).
+- <strong>External Parity Adapters:</strong> <em>[2026-09-06 claim incorrect; corrected by #329]</em> <code>external.rs</code> originally evaluated disagreement detection only, and its "parity" path (<code>evaluate_parity(policy_id)</code>) discarded the policy id as <code>_policy_id</code> and compared two hardcoded arrays under a bps tolerance that <code>PARITY_AND_IDENTITY_SPEC</code> forbids, with <code>fill_timing_mae_ms</code> hardcoded to <code>0.0</code> and drawdown "discrepancies" derived by multiplying PnL error by 1.5 / 1.2 / 1.1. That fabricated surface is deleted; LEAN, skfolio and VectorBT parity is now artifact-bound in <code>v8-core/src/benchmark/parity.rs</code> (see the #329 bullet in the D-159 entry above).
+- <strong>Append-Only Disk Ledger:</strong> <em>[2026-09-06 claim overstated; corrected by #328]</em> Implemented a hash-chain ledger with disk persistence (<code>.audit/benchmark/ledger.jsonl</code>), but the chain bound the <em>stored</em> digest rather than canonical receipt bytes, so fields outside the digest list could change undetected. Superseded by the <code>d153.ledger.v2</code> entry seal (see the #328 bullet in the D-159 entry above).
 - <strong>Constitutional Sabotage &amp; Integration Suites:</strong> 24/24 BFS sabotage tests (<code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>) and dedicated Minerva/Dashboard integration tests (<code>v8-core/tests/d153_minerva_and_dashboard_test.rs</code>) passing with 100% verification.</p>
 <p>Artifacts changed: <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code>, <code>site/benchmark_scorecard.html</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>v8-core/src/benchmark/*</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>, <code>v8-core/tests/d153_minerva_and_dashboard_test.rs</code>, <code>docs/CHANGELOG.md</code>.</p>
+<blockquote>
+<p>Note: the register and this log also cited <code>v8-core/tests/benchmark_fabric_adversarial.rs</code>, a file that never existed; the sabotage suite is <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>. All phantom citations are removed under D-159. The Turkish full-text mirror <code>docs/tr/D153_BENCHMARK_FABRIC_SPEC.md</code> was missing at this date and is committed under D-159.</p>
+</blockquote>
 <h2 id="2026-09-06-d-152-scenario-centric-policy-evidence-profile-quad-demotion-g0g9">2026-09-06 — D-152 Scenario-Centric Policy Evidence Profile &amp; Quad Demotion (G0–G9)</h2>
 <p>Registered D-152 as PROVISIONAL_DECISION extending D-147/D-150/D-151 with no locked-invariant mutation. Replaced the single-trajectory headline with <code>assurance/evidence_profile.rs::PolicyEvidenceProfile</code> (typed historical diagnostic, scenario cells, robustness topology, frozen-OOS/shadow/live states, gates, non-scalar conclusion). Demoted the 12-month quad to <code>BURNED_DIAGNOSTIC</code> diagnostic court: typed <code>PortfolioReceipt</code> fields, diagnostic CLI rendering, pathology preserved, promotion leakage blocked by type. Codified passport-scoped synthetic defeater authority and the statistical-triple audit (WRC + genuine DSR + SPA remain the burden; proxy ledger keeps G5 at <code>NO_ECONOMIC_CLAIM</code>). Added 14-test adversarial suite <code>policy_evidence_profile_adversarial.rs</code>.</p>
 <p>Artifacts changed: <code>docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>docs/tr/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>v8-core/src/assurance/evidence_profile.rs</code>, <code>v8-core/src/assurance/mod.rs</code>, <code>v8-core/src/usdm_sim.rs</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/tests/policy_evidence_profile_adversarial.rs</code>, <code>docs/CHANGELOG.md</code>.</p>

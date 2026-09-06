@@ -39,7 +39,7 @@ Replace memory-inefficient, eager in-RAM tape ingestion (`Vec<TapeRow>`) with a 
 - `v8-core/Cargo.toml` [MODIFY]
 - `v8-core/src/data.rs` [MODIFY]
 - `v8-core/src/runloop.rs` [MODIFY]
-- `v8-core/benches/` [NEW / MODIFY]
+- `v8-core/benches/` [NEW / MODIFY] <!-- AUDIT-DOC-PATHS: PLANNED_MODULE `v8-core/benches/` is the directory this issue creates; it does not exist before the work lands. -->
 
 ---
 
