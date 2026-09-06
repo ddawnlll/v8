@@ -1,22 +1,132 @@
-//! Canonical Benchmark Forensic Report Generator (D-153 §110, App C).
+//! Canonical Benchmark Forensic Report Generator (D-153 §110, App C; #328).
 //!
 //! Produces self-contained, auditable forensic HTML and JSON reports
 //! adhering strictly to Renderer Firewall (Constitution Rule 31) and
 //! Rule 12 (No naked economic claims).
+//!
+//! # Reports accept only verified receipts (#328 R2)
+//!
+//! Both renderers take [`VerifiedReceipt`], which has exactly one constructor
+//! ([`VerifiedReceipt::verify`]) that recomputes the digest from contents and
+//! requires it to match. There is no `From<BenchmarkReceipt>` and no
+//! `assume_verified` escape hatch, so a report cannot be produced from an
+//! unverified receipt without deleting a `?`. The report also stamps the digest
+//! it verified, so a reader can check the artifact against the ledger row it
+//! came from instead of trusting prose.
+//!
+//! A report can also *lower* status but never raise it: the rendered verdict is
+//! the firewall's, and [`VerifiedReceipt::unverified`] downgrades an unverified
+//! receipt to `UNVERIFIED` rather than refusing to render, because a silently
+//! missing report is how an unverified claim becomes a remembered clean one.
 
 use std::fmt::Write;
 use crate::benchmark::certificate::PolicyCertificate;
 use crate::benchmark::projection::CapitalOutcomeProjection;
-use crate::benchmark::receipt::BenchmarkReceipt;
+use crate::benchmark::receipt::{BenchmarkReceipt, ReceiptVerificationError};
+
+/// A receipt whose digest has been recomputed from its own contents and found
+/// to match. Required by every renderer.
+#[derive(Debug, Clone, PartialEq)]
+pub struct VerifiedReceipt {
+    receipt: BenchmarkReceipt,
+    /// Digest recomputed at verification time. Stamped into the report.
+    recomputed_digest: String,
+    artifact_warnings: Vec<String>,
+}
+
+impl VerifiedReceipt {
+    /// Recompute-and-compare, then optionally check bound artifacts on disk.
+    ///
+    /// When `check_artifacts` is true a bound artifact that is present but
+    /// disagrees is a hard failure (Rule 5). A bound artifact that is merely
+    /// absent from this machine is recorded in
+    /// [`VerifiedReceipt::artifact_warnings`] rather than rejected: the receipt's
+    /// digest already commits to the declared hash, so absence is an environment
+    /// condition, not evidence about the ledger bytes. Silently passing an
+    /// unverifiable artifact would be the actual Rule 5 violation, so the
+    /// warning is surfaced in the report.
+    pub fn verify(
+        receipt: &BenchmarkReceipt,
+        check_artifacts: bool,
+    ) -> Result<Self, ReceiptVerificationError> {
+        receipt.verify()?;
+        let recomputed_digest = receipt.compute_digest()?;
+        let mut out = Self {
+            receipt: receipt.clone(),
+            recomputed_digest,
+            artifact_warnings: Vec::new(),
+        };
+        if check_artifacts {
+            out.verify_artifacts()?;
+        }
+        Ok(out)
+    }
+
+    fn verify_artifacts(&mut self) -> Result<(), ReceiptVerificationError> {
+        for binding in &self.receipt.artifacts {
+            match binding.verify_file() {
+                Ok(()) => {}
+                Err(e) if e.is_missing_file() => self.artifact_warnings.push(e.to_string()),
+                Err(e) => return Err(ReceiptVerificationError::Artifact(e)),
+            }
+        }
+        Ok(())
+    }
+
+    /// Environment conditions found while checking bound artifacts.
+    pub fn artifact_warnings(&self) -> &[String] {
+        &self.artifact_warnings
+    }
+
+    pub fn receipt(&self) -> &BenchmarkReceipt {
+        &self.receipt
+    }
+
+    /// The digest this report was built on, i.e. the recomputed one.
+    pub fn digest(&self) -> &str {
+        &self.recomputed_digest
+    }
+
+    /// `true` when the stored digest equalled the recomputed digest.
+    pub fn digest_matches_stored(&self) -> bool {
+        self.receipt.receipt_digest == self.recomputed_digest
+    }
+
+    /// A single-line verification stamp for report surfaces.
+    pub fn verification_stamp(&self) -> String {
+        format!(
+            "{}:{}",
+            self.receipt.digest_version, self.recomputed_digest
+        )
+    }
+}
+
+// Deliberately absent, and this comment is the guard against re-adding them:
+//   impl From<BenchmarkReceipt> for VerifiedReceipt
+//   impl VerifiedReceipt { fn assume_verified(...) }
+// Either one would make "reports accept only verified receipts" a convention
+// instead of a type constraint.
 
 pub struct BenchmarkReportGenerator;
 
 impl BenchmarkReportGenerator {
-    /// Renders forensic JSON report
-    pub fn render_json(receipt: &BenchmarkReceipt, projection: Option<&CapitalOutcomeProjection>) -> Result<String, String> {
+    /// Render forensic JSON for an already-verified receipt.
+    pub fn render_json(
+        verified: &VerifiedReceipt,
+        projection: Option<&CapitalOutcomeProjection>,
+    ) -> Result<String, String> {
+        let receipt = verified.receipt();
         let cert = PolicyCertificate::generate(receipt, projection);
         serde_json::to_string_pretty(&serde_json::json!({
-            "schema": "v8.benchmark.report.2",
+            "schema": "v8.benchmark.report.3",
+            "verification": {
+                "receipt_digest_verified": verified.digest(),
+                "digest_version": receipt.digest_version,
+                "digest_matches_stored": verified.digest_matches_stored(),
+                "artifact_bindings": receipt.artifacts,
+                "artifact_warnings": verified.artifact_warnings(),
+                "provenance": receipt.provenance,
+            },
             "receipt": receipt,
             "policy_certificate": cert,
             "capital_projection": projection,
@@ -24,8 +134,26 @@ impl BenchmarkReportGenerator {
         })).map_err(|e| format!("JSON serialization failed: {e}"))
     }
 
-    /// Renders standalone forensic HTML scorecard conforming to Rule 31
-    pub fn render_html(receipt: &BenchmarkReceipt, projection: Option<&CapitalOutcomeProjection>) -> String {
+    /// Render forensic JSON from a raw receipt, verifying first.
+    ///
+    /// Returns `Err` rather than rendering: this is the entry point a CLI uses
+    /// when it has only a file, and an unverifiable receipt must not be turned
+    /// into a polished document that reads like evidence.
+    pub fn render_json_verifying(
+        receipt: &BenchmarkReceipt,
+        projection: Option<&CapitalOutcomeProjection>,
+    ) -> Result<String, String> {
+        let verified = VerifiedReceipt::verify(receipt, true)
+            .map_err(|e| format!("REPORT_BLOCKED_RECEIPT_UNVERIFIED: {e}"))?;
+        Self::render_json(&verified, projection)
+    }
+
+    /// Render standalone forensic HTML scorecard conforming to Rule 31.
+    pub fn render_html(
+        verified: &VerifiedReceipt,
+        projection: Option<&CapitalOutcomeProjection>,
+    ) -> String {
+        let receipt = verified.receipt();
         let cert = PolicyCertificate::generate(receipt, projection);
         let mut html = String::with_capacity(24 * 1024);
         
@@ -252,12 +380,58 @@ tr:nth-child(even) {{ background: #141c26; }}
         }
 
         let _ = write!(html, r#"<div style="margin-top: 32px; font-size: 11px; color: #64748b; border-top: 1px solid #2d3b4f; padding-top: 12px;">
-Evaluated at: {} ns | Duration: {:.3}s | Hash: <code>{}</code>
+Evaluated at: {} ns | Duration: {:.3}s | Verified digest: <code>{}</code>
 </div>
 </div>
 </body>
-</html>"#, receipt.evaluated_at_timestamp_ns, receipt.evaluation_duration_sec, receipt.receipt_digest);
+</html>"#, receipt.evaluated_at_timestamp_ns, receipt.evaluation_duration_sec, verified.digest());
 
         html
+    }
+
+    /// Render forensic HTML from a raw receipt, verifying first.
+    ///
+    /// On an unverifiable receipt this returns HTML that says so in the verdict
+    /// position instead of returning nothing. A missing report is how an
+    /// unverified claim turns into a remembered clean one; a loudly UNVERIFIED
+    /// report is not.
+    pub fn render_html_verifying(
+        receipt: &BenchmarkReceipt,
+        projection: Option<&CapitalOutcomeProjection>,
+    ) -> String {
+        match VerifiedReceipt::verify(receipt, true) {
+            Ok(verified) => Self::render_html(&verified, projection),
+            Err(error) => Self::render_unverified(receipt, &error),
+        }
+    }
+
+    /// Degenerate report for a receipt that failed verification: identity plus
+    /// the failure, and nothing that could be mistaken for a score.
+    fn render_unverified(receipt: &BenchmarkReceipt, error: &ReceiptVerificationError) -> String {
+        format!(
+            r#"<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>REPORT BLOCKED - {0}</title></head>
+<body style="font-family: monospace; background: #0f141c; color: #e1e7f0; padding: 24px;">
+<h1>REPORT BLOCKED: RECEIPT UNVERIFIED</h1>
+<div style="border-left: 4px solid #ef4444; padding: 12px 16px; background: #192330;">
+<strong>No capability score, certificate, or projection is rendered.</strong><br><br>
+Policy: <code>{1}</code><br>
+Receipt: <code>{0}</code><br>
+Digest generation: <code>{2}</code><br>
+Stored digest: <code>{3}</code><br>
+Verification failure: <code>{4}</code>
+</div>
+<p style="color:#94a3b8; font-size: 12px;">A report must not be produced from a receipt whose digest
+cannot be recomputed from its own contents (#328 R2). Re-run the evaluation or
+restore the ledger row from an authoritative append-only copy.</p>
+</body>
+</html>"#,
+            receipt.receipt_id,
+            receipt.policy_id,
+            receipt.digest_version,
+            receipt.receipt_digest,
+            error,
+        )
     }
 }
