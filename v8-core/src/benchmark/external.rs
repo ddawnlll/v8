@@ -1,184 +1,76 @@
-//! External Evaluation Adapters & Disagreement Detection (D-153 §81–88, App E).
+//! Disagreement detection (D-153 §§2.6, 4.6; BFS-009, BFS-015).
 //!
-//! Provides explicit adapters for commodity research tools:
-//! - CommodityExecutionAdapter trait
-//! - LeanParityAdapter (QuantConnect LEAN)
-//! - SkfolioParityAdapter (skfolio)
-//! - VectorBtParityAdapter (VectorBT)
-//! - DisagreementDetector: detects divergence, terminal-sign reversals, and unsupported semantics (BFS-009, BFS-015)
+//! # What was removed, and why (#329)
+//!
+//! This file used to carry `CommodityExecutionAdapter`, `LeanParityAdapter`,
+//! `SkfolioParityAdapter`, `VectorBtParityAdapter` and `ExecutionParityReport`.
+//! They are deleted, not fixed, because their `evaluate_parity(policy_id)` could
+//! not be repaired in place:
+//!
+//! - the `policy_id` argument was bound as `_policy_id` and discarded, so the
+//!   "policy-bound" claim in D-153 §2.6 was structurally absent;
+//! - each compared two hardcoded arrays written in the same function
+//!   (e.g. `[0.012, -0.005, …]` against `[0.0121, -0.0049, …]`) that are neither
+//!   V8 output nor the named engine's output, chosen to land inside that
+//!   adapter's own tolerance, so `parity_passed` was `true` by construction and
+//!   no input could make it `false`;
+//! - `fill_timing_mae_ms` was the literal `0.0`, which reads as "measured, zero
+//!   timing error" for a quantity never observed — an absence disguised as a
+//!   perfect result, against AGENTS.md's anti-synthetic-data rule;
+//! - `maximum_drawdown_discrepancy_bps` was `pnl_discrepancy_bps * 1.5` (or
+//!   `* 1.2`, `* 1.1`) — arithmetic on an unrelated quantity dressed up as a
+//!   drawdown measurement;
+//! - `parity_passed` was decided by a bps tolerance, which
+//!   `PARITY_AND_IDENTITY_SPEC` §3 forbids ("tolerance-based comparison is not
+//!   permitted anywhere in the parity path").
+//!
+//! Replacements live in [`crate::benchmark::parity`]: adapters there consume
+//! physically verified trade-ledger artifacts, bind policy/case/engine/mapping
+//! identity into a [`ParityReceipt`], compare by IEEE-754 bit pattern, and yield
+//! `DataBlocked` rather than a pass when data is absent.
+//!
+//! The detector below survives because the semantic checks it performs are real
+//! invariants. `check_order_semantics` now consults
+//! [`SemanticMapping::default`] instead of a private list, so there is one
+//! declaration of supported order types in the crate.
 
-use serde::{Deserialize, Serialize};
+use crate::benchmark::parity::{ParityReceipt, SemanticMapping};
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct ExecutionParityReport {
-    pub engine_name: String,
-    pub trade_count_match: bool,
-    pub pnl_discrepancy_bps: f64,
-    pub fill_timing_mae_ms: f64,
-    pub maximum_drawdown_discrepancy_bps: f64,
-    pub parity_passed: bool,
-}
-
-pub trait CommodityExecutionAdapter {
-    fn engine_name(&self) -> &'static str;
-    fn evaluate_parity(&self, policy_id: &str) -> ExecutionParityReport;
-    fn evaluate_series_parity(
-        &self,
-        native_pnls: &[f64],
-        external_pnls: &[f64],
-    ) -> ExecutionParityReport;
-}
-
-pub struct LeanParityAdapter {
-    pub pnl_tolerance_bps: f64,
-    pub timing_tolerance_ms: f64,
-}
-
-impl Default for LeanParityAdapter {
-    fn default() -> Self {
-        Self {
-            pnl_tolerance_bps: 5.0,
-            timing_tolerance_ms: 50.0,
-        }
-    }
-}
-
-impl CommodityExecutionAdapter for LeanParityAdapter {
-    fn engine_name(&self) -> &'static str {
-        "QuantConnect-LEAN"
-    }
-
-    fn evaluate_parity(&self, _policy_id: &str) -> ExecutionParityReport {
-        // Reference baseline evaluation over canonical test vector
-        let native = [0.012, -0.005, 0.008, 0.015, -0.002];
-        let external = [0.0121, -0.0049, 0.0081, 0.0149, -0.002];
-        self.evaluate_series_parity(&native, &external)
-    }
-
-    fn evaluate_series_parity(
-        &self,
-        native_pnls: &[f64],
-        external_pnls: &[f64],
-    ) -> ExecutionParityReport {
-        let trade_count_match = !native_pnls.is_empty() && native_pnls.len() == external_pnls.len();
-        let mut sum_diff_bps = 0.0;
-        let n = native_pnls.len().min(external_pnls.len());
-        for i in 0..n {
-            sum_diff_bps += (native_pnls[i] - external_pnls[i]).abs() * 10_000.0;
-        }
-        let pnl_discrepancy_bps = if n > 0 { sum_diff_bps / n as f64 } else { 0.0 };
-        let parity_passed = trade_count_match && (pnl_discrepancy_bps <= self.pnl_tolerance_bps);
-
-        ExecutionParityReport {
-            engine_name: self.engine_name().to_string(),
-            trade_count_match,
-            pnl_discrepancy_bps,
-            fill_timing_mae_ms: 0.0,
-            maximum_drawdown_discrepancy_bps: pnl_discrepancy_bps * 1.5,
-            parity_passed,
-        }
-    }
-}
-
-pub struct SkfolioParityAdapter;
-
-impl CommodityExecutionAdapter for SkfolioParityAdapter {
-    fn engine_name(&self) -> &'static str {
-        "skfolio"
-    }
-
-    fn evaluate_parity(&self, _policy_id: &str) -> ExecutionParityReport {
-        let native = [0.010, -0.004, 0.006, 0.012, -0.001];
-        let external = [0.0101, -0.0039, 0.0061, 0.0120, -0.001];
-        self.evaluate_series_parity(&native, &external)
-    }
-
-    fn evaluate_series_parity(
-        &self,
-        native_pnls: &[f64],
-        external_pnls: &[f64],
-    ) -> ExecutionParityReport {
-        let trade_count_match = !native_pnls.is_empty() && native_pnls.len() == external_pnls.len();
-        let mut sum_diff_bps = 0.0;
-        let n = native_pnls.len().min(external_pnls.len());
-        for i in 0..n {
-            sum_diff_bps += (native_pnls[i] - external_pnls[i]).abs() * 10_000.0;
-        }
-        let pnl_discrepancy_bps = if n > 0 { sum_diff_bps / n as f64 } else { 0.0 };
-        let parity_passed = trade_count_match && (pnl_discrepancy_bps <= 5.0);
-
-        ExecutionParityReport {
-            engine_name: self.engine_name().to_string(),
-            trade_count_match,
-            pnl_discrepancy_bps,
-            fill_timing_mae_ms: 0.0,
-            maximum_drawdown_discrepancy_bps: pnl_discrepancy_bps * 1.2,
-            parity_passed,
-        }
-    }
-}
-
-pub struct VectorBtParityAdapter;
-
-impl CommodityExecutionAdapter for VectorBtParityAdapter {
-    fn engine_name(&self) -> &'static str {
-        "vectorbt"
-    }
-
-    fn evaluate_parity(&self, _policy_id: &str) -> ExecutionParityReport {
-        let native = [0.015, -0.008, 0.011, 0.020, -0.005];
-        let external = [0.0152, -0.0079, 0.0111, 0.0198, -0.005];
-        self.evaluate_series_parity(&native, &external)
-    }
-
-    fn evaluate_series_parity(
-        &self,
-        native_pnls: &[f64],
-        external_pnls: &[f64],
-    ) -> ExecutionParityReport {
-        let trade_count_match = !native_pnls.is_empty() && native_pnls.len() == external_pnls.len();
-        let mut sum_diff_bps = 0.0;
-        let n = native_pnls.len().min(external_pnls.len());
-        for i in 0..n {
-            sum_diff_bps += (native_pnls[i] - external_pnls[i]).abs() * 10_000.0;
-        }
-        let pnl_discrepancy_bps = if n > 0 { sum_diff_bps / n as f64 } else { 0.0 };
-        let parity_passed = trade_count_match && (pnl_discrepancy_bps <= 10.0);
-
-        ExecutionParityReport {
-            engine_name: self.engine_name().to_string(),
-            trade_count_match,
-            pnl_discrepancy_bps,
-            fill_timing_mae_ms: 0.0,
-            maximum_drawdown_discrepancy_bps: pnl_discrepancy_bps * 1.1,
-            parity_passed,
-        }
-    }
-}
-
-/// Disagreement Detector (D-153 §85).
-/// Emits divergence alerts, detects terminal-sign disagreements, and flags unsupported semantics.
+/// Detects divergence, terminal-sign reversals, and unsupported semantics
+/// (D-153 §2.6; BFS-009, BFS-015).
 pub struct DisagreementDetector;
 
 impl DisagreementDetector {
-    pub fn assert_parity(report: &ExecutionParityReport) -> Result<(), String> {
-        if !report.trade_count_match {
+    /// Fail if a completed parity run did not reach exact agreement.
+    ///
+    /// `DataBlocked` is an `Err` here rather than a silent pass: an adapter that
+    /// could not read its artifacts has not established parity, and callers that
+    /// treat "no evidence" as "no disagreement" is exactly the bug this path used
+    /// to have.
+    pub fn assert_parity(receipt: &ParityReceipt) -> Result<(), String> {
+        if !receipt.verify_identity() {
             return Err(format!(
-                "Parity violation in {}: trade count mismatch",
-                report.engine_name
+                "Parity receipt identity does not match its inputs ({}): \
+                 the receipt was edited after it was computed",
+                receipt.parity_identity
             ));
         }
-        if !report.parity_passed {
-            return Err(format!(
-                "Parity violation in {}: PnL discrepancy {} bps exceeds threshold",
-                report.engine_name, report.pnl_discrepancy_bps
-            ));
+        match &receipt.outcome {
+            crate::benchmark::parity::ParityOutcome::ExactMatch => Ok(()),
+            other => Err(format!(
+                "Parity not established for {} ({}): {}",
+                receipt.engine.identity(),
+                other.code(),
+                other.detail()
+            )),
         }
-        Ok(())
     }
 
     /// Detects terminal PnL sign disagreement between V8 and external referee (BFS-009).
-    pub fn check_sign_agreement(native_terminal_pnl: f64, external_terminal_pnl: f64) -> Result<(), String> {
+    pub fn check_sign_agreement(
+        native_terminal_pnl: f64,
+        external_terminal_pnl: f64,
+    ) -> Result<(), String> {
         if (native_terminal_pnl > 0.0 && external_terminal_pnl < 0.0)
             || (native_terminal_pnl < 0.0 && external_terminal_pnl > 0.0)
         {
@@ -187,14 +79,15 @@ impl DisagreementDetector {
         Ok(())
     }
 
-    /// Verifies external order execution semantics (BFS-015).
+    /// Verifies external order execution semantics against the registered
+    /// mapping (BFS-015).
     pub fn check_order_semantics(order_type: &str) -> Result<(), String> {
-        match order_type {
-            "MARKET" | "LIMIT" | "STOP_MARKET" => Ok(()),
-            unsupported => Err(format!(
-                "Unsupported external order semantics: {} (BFS-015)",
-                unsupported
-            )),
+        if SemanticMapping::default().supports_order_type(order_type) {
+            Ok(())
+        } else {
+            Err(format!(
+                "Unsupported external order semantics: {order_type} (BFS-015)"
+            ))
         }
     }
 }
