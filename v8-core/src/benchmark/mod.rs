@@ -13,6 +13,9 @@ pub mod synthetic;
 pub mod external;
 pub mod projection;
 pub mod kaizen_feed;
+pub mod observation;
+pub mod runner;
+pub mod report;
 
 pub use types::*;
 pub use case::*;
@@ -24,3 +27,6 @@ pub use synthetic::*;
 pub use external::*;
 pub use projection::*;
 pub use kaizen_feed::*;
+pub use observation::*;
+pub use runner::*;
+pub use report::*;

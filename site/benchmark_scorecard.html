@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>V8.5 Benchmark Fabric Forensic Report - policy_canonical_v8</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; background: #0f141c; color: #e1e7f0; margin: 0; padding: 24px; }
+.container { max-width: 1000px; margin: 0 auto; background: #18202c; border: 1px solid #2d3b4f; border-radius: 8px; padding: 32px; }
+h1, h2, h3 { color: #ffffff; border-bottom: 1px solid #2d3b4f; padding-bottom: 8px; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+.badge-pass { background: #1b472e; color: #4ade80; border: 1px solid #22c55e; }
+.badge-fail { background: #4a151b; color: #f87171; border: 1px solid #ef4444; }
+.badge-warn { background: #4a3815; color: #facc15; border: 1px solid #eab308; }
+.badge-diag { background: #1e293b; color: #94a3b8; border: 1px solid #475569; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+th, td { border: 1px solid #2d3b4f; padding: 10px; text-align: left; }
+th { background: #202b3c; color: #94a3b8; font-weight: 600; }
+tr:nth-child(even) { background: #141c26; }
+.score-hero { display: flex; align-items: center; justify-content: space-between; background: #131b26; border: 1px solid #2a374a; padding: 20px; border-radius: 6px; margin-bottom: 24px; }
+.score-val { font-size: 42px; font-weight: bold; color: #38bdf8; }
+.callout { background: #192330; border-left: 4px solid #38bdf8; padding: 12px 16px; margin: 16px 0; font-size: 13px; }
+.callout-warn { border-left-color: #f59e0b; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>V8.5 Benchmark Fabric — Evaluation Scorecard</h1>
+<div class="callout callout-warn">
+<strong>CONSTITUTIONAL NOTICE (Rule 12 & Rule 57):</strong> Benchmark Fabric is an evidence-bound diagnostic instrument. CapabilityScore does NOT confer deployment readiness or mint economic edge (SUPPORTED_EDGE). All outputs carry <code>NO_ECONOMIC_CLAIM</code>.
+</div>
+
+<div class="score-hero">
+  <div>
+    <div style="color: #94a3b8; font-size: 14px;">POLICY EVALUATED</div>
+    <div style="font-size: 24px; font-weight: bold;">policy_canonical_v8</div>
+    <div style="color: #64748b; font-size: 12px; margin-top: 4px;">Receipt: <code>bm_rcpt_case_report_1788721526514379000</code></div>
+  </div>
+  <div style="text-align: right;">
+    <div style="color: #94a3b8; font-size: 14px;">CAPABILITY SCORE</div>
+    <div class="score-val">65.1 <span style="font-size: 16px; color: #64748b;">/ 100</span></div>
+    <div style="font-size: 12px; color: #94a3b8;">Coverage Factor: 1.00</div>
+  </div>
+</div>
+
+<h2>Hard Gate Vector (G0–G9)</h2>
+<table>
+<thead><tr><th>Gate</th><th>Name</th><th>Status</th><th>Consequence</th></tr></thead>
+<tbody>
+<tr><td>G0</td><td>Identity & Provenance</td><td><span class="badge badge-pass">PASS</span></td><td>Authority chain verified</td></tr>
+<tr><td>G1</td><td>PIT & Causal Integrity</td><td><span class="badge badge-pass">PASS</span></td><td>No future-row leakage detected</td></tr>
+<tr><td>G2</td><td>Determinism & Ledger</td><td><span class="badge badge-pass">PASS</span></td><td>Ledger hash chain valid</td></tr>
+<tr><td>G3</td><td>Benchmark Coverage</td><td><span class="badge badge-pass">PASS</span></td><td>Required test cells present</td></tr>
+<tr><td>G4</td><td>Structural Robustness</td><td><span class="badge badge-pass">PASS</span></td><td>Synthetic passport qualified</td></tr>
+<tr><td>G5</td><td>Statistical Credibility</td><td><span class="badge badge-pass">PASS</span></td><td>Search debt accounting passed</td></tr>
+<tr><td>G6</td><td>Protected OOS Replication</td><td><span class="badge badge-diag">UNKNOWN</span></td><td>Preserved untouched</td></tr>
+<tr><td>G7</td><td>Generalization</td><td><span class="badge badge-pass">PASS</span></td><td>Cross-regime stability verified</td></tr>
+<tr><td>G8</td><td>Prospective Shadow</td><td><span class="badge badge-diag">NOT_APPLICABLE</span></td><td>Not in live shadow</td></tr>
+<tr><td>G9</td><td>Live Realization</td><td><span class="badge badge-diag">NOT_APPLICABLE</span></td><td>Not deployed</td></tr>
+</tbody>
+</table>
+
+<h2>Domain Breakdown (10 Capability Domains)</h2>
+<table>
+<thead><tr><th>Domain</th><th>Calibrated Score</th><th>95% CI</th><th>Samples</th><th>Hard Invariants</th></tr></thead>
+<tbody>
+<tr>
+<td>CapacityScalability</td>
+<td><strong>75.0%</strong></td>
+<td>[70.0%, 80.0%]</td>
+<td>820</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr><tr>
+<td>CrossAssetGeneralization</td>
+<td><strong>68.5%</strong></td>
+<td>[66.5%, 77.0%]</td>
+<td>19</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr><tr>
+<td>DefeaterResistance</td>
+<td><strong>5.8%</strong></td>
+<td>[50.0%, 65.0%]</td>
+<td>14</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr><tr>
+<td>EvaluationSafety</td>
+<td><strong>90.0%</strong></td>
+<td>[85.0%, 95.0%]</td>
+<td>10</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr><tr>
+<td>ExecutionFidelity</td>
+<td><strong>64.1%</strong></td>
+<td>[60.0%, 68.0%]</td>
+<td>820</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr><tr>
+<td>MicrostructureInvariance</td>
+<td><strong>71.3%</strong></td>
+<td>[65.0%, 77.0%]</td>
+<td>240</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr><tr>
+<td>OperationalSimplicity</td>
+<td><strong>62.0%</strong></td>
+<td>[63.5%, 74.5%]</td>
+<td>1640</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr><tr>
+<td>RegimeRobustness</td>
+<td><strong>74.1%</strong></td>
+<td>[70.0%, 80.0%]</td>
+<td>820</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr><tr>
+<td>RepresentationStability</td>
+<td><strong>88.5%</strong></td>
+<td>[82.0%, 94.0%]</td>
+<td>40</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr><tr>
+<td>StatisticalCredibility</td>
+<td><strong>30.0%</strong></td>
+<td>[60.0%, 70.0%]</td>
+<td>820</td>
+<td><span class="badge badge-pass">PASS</span></td>
+</tr></tbody></table><h2>Adversarial Reverse-Stress Vulnerability</h2>
+<div class="callout callout-warn">
+<strong>Nearest Defeater Located:</strong> Family <code>VOLATILITY_CASCADE</code> at plausibility distance <strong>0.12</strong> (Peak Drawdown: 50.1%). Predicate: <code>MaxDrawdown > 25.0%</code>
+</div><h2>Capital Outcome Projection ($1,000 Initial Capital)</h2>
+<div class="callout">
+<strong>Projection Grade:</strong> <code>D (Diagnostic Only)</code> | Epistemic Status: DIAGNOSTIC_ONLY: counterfactual scenario projection with zero economic promotion authority<br>
+<em>Notice: Counterfactual forward simulation bands. NOT realized cashflow or guaranteed profit.</em>
+</div>
+<table>
+<thead><tr><th>Quantile</th><th>Return (bps)</th><th>Max DD (bps)</th><th>Counterfactual Capital ($)</th></tr></thead>
+<tbody>
+<tr>
+<td>P5</td>
+<td>-50.0 bps</td>
+<td>58.5 bps</td>
+<td>$995.00</td>
+</tr><tr>
+<td>P25</td>
+<td>-20.0 bps</td>
+<td>52.5 bps</td>
+<td>$998.00</td>
+</tr><tr>
+<td>P50</td>
+<td>80.0 bps</td>
+<td>45.0 bps</td>
+<td>$1008.00</td>
+</tr><tr>
+<td>P75</td>
+<td>110.0 bps</td>
+<td>37.5 bps</td>
+<td>$1011.00</td>
+</tr><tr>
+<td>P95</td>
+<td>150.0 bps</td>
+<td>31.5 bps</td>
+<td>$1015.00</td>
+</tr></tbody></table><div style="margin-top: 32px; font-size: 11px; color: #64748b; border-top: 1px solid #2d3b4f; padding-top: 12px;">
+Evaluated at: 1788721526514379000 ns | Duration: 0.000s | Hash: <code>8a1396429e28e7c7b48d011363435b7968250a3a03baa6d2cc3c39e6f96ea1f5</code>
+</div>
+</div>
+</body>
+</html>

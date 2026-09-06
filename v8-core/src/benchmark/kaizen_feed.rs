@@ -1,8 +1,8 @@
-//! Kaizen Benchmark Feedback & Research Debt Accounting (D-153 Section 95-102).
+//! Kaizen Benchmark Feedback & Research Debt Accounting (D-153 §95–102, App H).
 //!
 //! Provides:
-//! - BenchmarkDelta: comparison between incumbent and challenger across domains
-//! - ResearchDebtTracker: tracks trial penalties when hypotheses consume populations
+//! - BenchmarkDelta: paired comparison between incumbent and challenger across domains
+//! - ResearchDebtTracker: integrates with Kaizen GlobalTrialLedger to enforce trial penalties
 //! - Zero-Leakage Interface: Kaizen loop consumes diagnostic deltas without gaining
 //!   direct access to protected evaluation data.
 
@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use crate::benchmark::receipt::BenchmarkReceipt;
 use crate::benchmark::types::CapabilityDomain;
+use crate::kaizen::research_debt::GlobalTrialLedger;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct DomainDelta {
@@ -59,8 +60,12 @@ impl BenchmarkDelta {
             });
         }
 
-        // Multiple testing adjustment (accrued research debt penalty)
-        let debt_penalty = (trials_count as f64).ln().max(0.0) * 0.02;
+        // Multiple testing adjustment (family-wise error inflation)
+        let debt_penalty = if trials_count > 1 {
+            ((trials_count as f64).ln() * 0.02).min(0.30)
+        } else {
+            0.0
+        };
         let comp_delta = challenger.composite_capability_score - incumbent.composite_capability_score - debt_penalty;
 
         Self {
@@ -72,5 +77,15 @@ impl BenchmarkDelta {
             research_trials_consumed: trials_count,
             accrued_research_debt_penalty: debt_penalty,
         }
+    }
+
+    /// Computes delta directly from Kaizen global trial ledger
+    pub fn compute_from_ledger(
+        incumbent: &BenchmarkReceipt,
+        challenger: &BenchmarkReceipt,
+        ledger: &GlobalTrialLedger,
+    ) -> Self {
+        let trials = ledger.research_choice_count() as usize;
+        Self::compute_delta(incumbent, challenger, trials)
     }
 }
