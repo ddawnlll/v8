@@ -44,3 +44,6 @@ research/handbook_technical_analysis_2016/
 *.db
 .beads-credential-key
 .beads/proxieddb/
+
+# Hermes Kanban worktrees
+.worktrees/
