@@ -198,6 +198,11 @@ tr:nth-child(even) {{ background: #141c26; }}
 <strong>CONSTITUTIONAL NOTICE (Rule 12 & Rule 57):</strong> Benchmark Fabric is an evidence-bound diagnostic instrument. CapabilityScore does NOT confer deployment readiness or mint economic edge (SUPPORTED_EDGE). All outputs carry <code>NO_ECONOMIC_CLAIM</code>.
 </div>
 
+<div class="callout">
+<strong>SELF-VERIFICATION (#328):</strong> rendered from a receipt whose digest was <em>recomputed from its own contents</em> at render time, not read from storage.<br>
+<code>verified_digest = {}</code><br>
+<code>stored_digest_matches = {}</code> | <code>digest_generation = {}</code> | <code>artifact_bindings = {}</code>{}</div>
+
 <div class="readiness-hero">
   <div>
     <div style="color: #94a3b8; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Policy Verdict & Certificate</div>
@@ -242,6 +247,23 @@ tr:nth-child(even) {{ background: #141c26; }}
 <tbody>
 "#,
             receipt.policy_id,
+            verified.digest(),
+            verified.digest_matches_stored(),
+            receipt.digest_version,
+            receipt.artifacts.len(),
+            if verified.artifact_warnings().is_empty() {
+                String::new()
+            } else {
+                let items: Vec<String> = verified
+                    .artifact_warnings()
+                    .iter()
+                    .map(|w| format!("<li><code>{w}</code></li>"))
+                    .collect();
+                format!(
+                    "<br><strong>Bound artifacts not verifiable on this host:</strong><ul>{}</ul>",
+                    items.join("")
+                )
+            },
             status_badge_class,
             cert.status,
             receipt.policy_id,

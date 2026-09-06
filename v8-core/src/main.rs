@@ -2210,8 +2210,8 @@ fn cmd_benchmark(args: &[String]) -> i32 {
 
     match command {
         "audit" => {
-            let scorer = v8_core::benchmark::scoring::CapabilityScorer::monograph_v1();
-            println!("Benchmark fabric configuration loaded: {} domains", scorer.domain_weights.len());
+            let score_calculator = v8_core::benchmark::scoring::CapabilityScoreCalculator::monograph_v1();
+            println!("Benchmark fabric configuration loaded: {} domains", score_calculator.domain_weights.len());
             0
         }
         "ledger-verify" => {

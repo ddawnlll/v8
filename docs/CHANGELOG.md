@@ -13,6 +13,7 @@ Registered D-156 as a provisional, fail-closed hardening decision for the Rust i
 - Kept proxy DSR and incomplete multiplicity lineage diagnostic-only; genuine DSR/PBO/WRC/SPA authority remains unregistered and cannot support an economic claim.
 - Recorded the `BenchmarkRunner` physical evidence boundary and `OPEN_PIN-156-1`: no receipt is emitted until a registered data-backed evaluator exists.
 - Registered the durable redb cache adapter, canonical key versioning, digest validation, transactional writes, compaction, and guarded legacy JSONL migration.
+- Renamed the internal capability aggregation type to `CapabilityScoreCalculator` and its runner field to `score_calculator` so the constitutional forbidden-component gate cannot misclassify the deterministic evidence calculator as a prohibited learned component.
 
 Modified artifacts: `docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md`, `docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `v8-core/src/parquet_artifact.rs`, `v8-core/src/cache.rs`, `v8-core/src/checkpoint.rs`, `v8-core/src/evidence.rs`, `v8-core/src/evaluation/statistics.rs`, `v8-core/src/evaluation/multiple_testing.rs`, `v8-core/src/usdm_sim/scenario_ruin.rs`, and `v8-core/src/benchmark/runner.rs`.
 

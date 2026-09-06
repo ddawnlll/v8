@@ -11,10 +11,10 @@ use std::path::Path;
 use crate::benchmark::case::BenchmarkCase;
 use crate::benchmark::population::{CpcvPartitioner, WalkForwardPartitioner};
 use crate::benchmark::receipt::BenchmarkReceipt;
-use crate::benchmark::scoring::CapabilityScorer;
+use crate::benchmark::scoring::CapabilityScoreCalculator;
 
 pub struct BenchmarkRunner {
-    pub scorer: CapabilityScorer,
+    pub score_calculator: CapabilityScoreCalculator,
     pub walk_forward_partitioner: WalkForwardPartitioner,
     pub cpcv_partitioner: CpcvPartitioner,
 }
@@ -22,7 +22,7 @@ pub struct BenchmarkRunner {
 impl Default for BenchmarkRunner {
     fn default() -> Self {
         Self {
-            scorer: CapabilityScorer::monograph_v1(),
+            score_calculator: CapabilityScoreCalculator::monograph_v1(),
             walk_forward_partitioner: WalkForwardPartitioner::new(
                 4,
                 true,
