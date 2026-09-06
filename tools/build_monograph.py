@@ -85,8 +85,23 @@ NAMES = [
 
 
 def find(docs_dir: Path, name: str) -> Path | None:
-    hits = list(docs_dir.rglob(name))
-    return hits[0] if hits else None
+    """Find a corpus file with stable cross-platform source selection.
+
+    The English corpus lives at ``docs/`` and contains the Turkish mirror at
+    ``docs/tr/``.  ``Path.rglob`` traversal order is filesystem-dependent, so
+    selecting the first hit could silently replace English sections with their
+    Turkish counterparts on CI.  Exclude that nested mirror for the English
+    root and sort all remaining candidates before selecting one.
+    """
+    hits = []
+    for path in docs_dir.rglob(name):
+        if not path.is_file():
+            continue
+        relative = path.relative_to(docs_dir)
+        if docs_dir.name == 'docs' and relative.parts and relative.parts[0] == 'tr':
+            continue
+        hits.append(path)
+    return min(hits, key=lambda path: path.as_posix()) if hits else None
 
 
 def main() -> None:

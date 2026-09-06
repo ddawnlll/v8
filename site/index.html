@@ -13363,6 +13363,9 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-09-06-deterministic-monograph-corpus-selection-ci-fix-issues-318324">2026-09-06 — Deterministic monograph corpus selection (CI fix, Issues #318–#324)</h2>
+<p>Fixed <code>tools/build_monograph.py</code> so the English monograph excludes the nested Turkish mirror (<code>docs/tr/</code>) and all corpus candidates are selected in stable path order. This prevents filesystem traversal differences between macOS and Linux CI from silently swapping translated sections into <code>site/index.html</code> and breaking the byte-identity probe.</p>
+<p>Modified artifacts: <code>tools/build_monograph.py</code>, <code>docs/CHANGELOG.md</code>, <code>site/index.html</code>, and <code>site/tr.html</code>.</p>
 <h2 id="2026-09-06-d-156-evidence-artifact-statistical-benchmark-and-cache-hardening-issues-318324">2026-09-06 — D-156 Evidence, Artifact, Statistical, Benchmark, and Cache Hardening (Issues #318–#324)</h2>
 <p>Registered D-156 as a provisional, fail-closed hardening decision for the Rust implementation in PR #331. The full authoritative English and Turkish specifications are <code>docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code> and <code>docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>.</p>
 <ul>

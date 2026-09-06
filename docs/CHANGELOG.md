@@ -2,6 +2,12 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — Deterministic monograph corpus selection (CI fix, Issues #318–#324)
+
+Fixed `tools/build_monograph.py` so the English monograph excludes the nested Turkish mirror (`docs/tr/`) and all corpus candidates are selected in stable path order. This prevents filesystem traversal differences between macOS and Linux CI from silently swapping translated sections into `site/index.html` and breaking the byte-identity probe.
+
+Modified artifacts: `tools/build_monograph.py`, `docs/CHANGELOG.md`, `site/index.html`, and `site/tr.html`.
+
 ## 2026-09-06 — D-156 Evidence, Artifact, Statistical, Benchmark, and Cache Hardening (Issues #318–#324)
 
 Registered D-156 as a provisional, fail-closed hardening decision for the Rust implementation in PR #331. The full authoritative English and Turkish specifications are `docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md` and `docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md`.
