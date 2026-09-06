@@ -12,11 +12,11 @@ use std::collections::HashMap;
 use crate::benchmark::types::{CapabilityDomain, BoundedScore};
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct CapabilityScorer {
+pub struct CapabilityScoreCalculator {
     pub domain_weights: HashMap<CapabilityDomain, f64>,
 }
 
-impl Default for CapabilityScorer {
+impl Default for CapabilityScoreCalculator {
     fn default() -> Self {
         let mut weights = HashMap::new();
         // Equal weighting by default across 10 capability domains
@@ -27,7 +27,7 @@ impl Default for CapabilityScorer {
     }
 }
 
-impl CapabilityScorer {
+impl CapabilityScoreCalculator {
     pub fn new(weights: HashMap<CapabilityDomain, f64>) -> Self {
         Self { domain_weights: weights }
     }

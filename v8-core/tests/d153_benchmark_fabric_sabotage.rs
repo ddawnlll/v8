@@ -69,9 +69,9 @@ fn test_bfs_002_missing_required_cell_affects_coverage() {
     domain_scores.insert(CapabilityDomain::RegimeRobustness, BoundedScore::new(0.9, 0.85, 0.95, 50, 48.0));
     domain_scores.insert(CapabilityDomain::CrossAssetGeneralization, BoundedScore::new(0.9, 0.85, 0.95, 50, 48.0));
 
-    let scorer = CapabilityScorer::monograph_v1();
-    let full_cov_score = scorer.calculate_aggregate_with_coverage(&domain_scores, 1.0, true);
-    let penalized_score = scorer.calculate_aggregate_with_coverage(&domain_scores, 0.30, true);
+    let score_calculator = CapabilityScoreCalculator::monograph_v1();
+    let full_cov_score = score_calculator.calculate_aggregate_with_coverage(&domain_scores, 1.0, true);
+    let penalized_score = score_calculator.calculate_aggregate_with_coverage(&domain_scores, 0.30, true);
 
     assert!(penalized_score < full_cov_score * 0.5, "BFS-002: Incomplete coverage must penalize capability score");
 }
@@ -110,8 +110,8 @@ fn test_bfs_005_high_score_with_pit_leak_defeats_g1() {
     for d in &CapabilityDomain::ALL {
         domain_scores.insert(*d, BoundedScore::new(0.99, 0.95, 1.0, 100, 95.0));
     }
-    let scorer = CapabilityScorer::monograph_v1();
-    let score = scorer.calculate_aggregate(&domain_scores, !gates.any_hard_failure());
+    let score_calculator = CapabilityScoreCalculator::monograph_v1();
+    let score = score_calculator.calculate_aggregate(&domain_scores, !gates.any_hard_failure());
 
     assert_eq!(score, 0.0, "BFS-005: High score with PIT leak must be capped to 0.0");
     assert!(gates.any_hard_failure());
@@ -184,7 +184,7 @@ fn test_bfs_012_never_trade_policy_precision_gaming_rejected() {
 
 #[test]
 fn test_bfs_013_always_trade_recall_gaming_rejected() {
-    let utility_score = CapabilityScorer::metric_margin_higher_better(-50.0, 0.0, 100.0);
+    let utility_score = CapabilityScoreCalculator::metric_margin_higher_better(-50.0, 0.0, 100.0);
     assert_eq!(utility_score, 0.0, "BFS-013: Negative utility from always-trade gaming receives 0.0 margin");
 }
 
@@ -222,8 +222,8 @@ fn test_bfs_017_arithmetic_mean_cannot_hide_catastrophic_submetric() {
     // Catastrophic collapse in one domain
     domain_scores.insert(CapabilityDomain::RegimeRobustness, BoundedScore::new(0.01, 0.001, 0.02, 100, 95.0));
 
-    let scorer = CapabilityScorer::monograph_v1();
-    let score = scorer.calculate_aggregate(&domain_scores, true);
+    let score_calculator = CapabilityScoreCalculator::monograph_v1();
+    let score = score_calculator.calculate_aggregate(&domain_scores, true);
     assert!(score < 0.15, "BFS-017: Harmonic mean must penalize near-zero critical failure (cannot average away)");
 }
 
@@ -329,9 +329,9 @@ fn test_bfs_024_total_score_wins_while_protected_risk_floor_fails() {
     for d in &CapabilityDomain::ALL {
         domain_scores.insert(*d, BoundedScore::new(0.98, 0.90, 1.0, 100, 95.0));
     }
-    let scorer = CapabilityScorer::monograph_v1();
+    let score_calculator = CapabilityScoreCalculator::monograph_v1();
 
     // Risk floor fails in hard invariant
-    let score = scorer.calculate_aggregate(&domain_scores, false);
+    let score = score_calculator.calculate_aggregate(&domain_scores, false);
     assert_eq!(score, 0.0, "BFS-024: Total score cannot override failed protected risk floor (no promotion)");
 }
