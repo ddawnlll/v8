@@ -2,6 +2,15 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — D-154 Cargo Profile Split, Fast Workspace Compilation & Isolated Dependency Optimization (Issue #332)
+
+Ratified and implemented D-154 under Issue #332 (`PERF007`):
+- **Cargo Profile Split:** Configured `v8-core/Cargo.toml` to split development and test compilation profiles. Local workspace code compiles with `[profile.dev] opt-level = 0` and `[profile.test] opt-level = 1` with `incremental = true`, eliminating full LLVM optimization passes during routine dev iterations.
+- **Dependency Optimization Isolation:** Heavy external crates (`arrow`, `parquet`, `redb`, `serde`, `rand`) are isolated under `[profile.dev.package."*"] opt-level = 2` and `[profile.test.package."*"] opt-level = 2` to preserve high runtime throughput for external mathematical and storage operations.
+- **Parity Preservation:** Maintained strict `--fp-contract=off` in `.cargo/config.toml` to guarantee bit-exact numerical parity with historical oracle references.
+
+Artifacts changed: `v8-core/Cargo.toml`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/issues/ISSUE_PERF007_CARGO_PROFILE_SPLIT_AND_TEST_COMPILATION_OPTIMIZATION.md`, `docs/CHANGELOG.md`.
+
 ## 2026-09-06 — D-153 Benchmark Fabric (BF) Protocol & Multi-Population Evaluation (Rules 57.1–57.8)
 
 Ratified and fully completed the implementation of D-153 Benchmark Fabric against `site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html` and `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md`:

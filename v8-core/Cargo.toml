@@ -35,8 +35,22 @@ panic = "abort"
 debug = false
 
 [profile.dev]
-opt-level = 2
+opt-level = 0
 debug = 1
+incremental = true
+
+# Heavy third-party dependencies are compiled with optimizations so they run fast,
+# while local workspace code builds instantly with opt-level = 0.
+[profile.dev.package."*"]
+opt-level = 2
+
+[profile.test]
+opt-level = 1
+debug = 1
+incremental = true
+
+[profile.test.package."*"]
+opt-level = 2
 
 [features]
 # Backend-2 GPU (issue #2): pulls wgpu (Vulkan/Metal/HIP via portability). The
