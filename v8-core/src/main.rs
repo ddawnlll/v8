@@ -2229,7 +2229,7 @@ fn cmd_benchmark(args: &[String]) -> i32 {
                 eprintln!("FINDING: {finding}");
             }
             println!(
-                "Benchmark ledger audit: {} total, {} fully bound & verified,                  {} legacy-unbound, {} artifact-bound",
+                "Benchmark ledger audit: {} total, {} fully bound & verified, {} legacy-unbound, {} artifact-bound",
                 report.total_entries,
                 report.verified_entries,
                 report.legacy_bound_entries,
@@ -2247,7 +2247,7 @@ fn cmd_benchmark(args: &[String]) -> i32 {
                 // well enough to rely on". Legacy rows are the latter's absence,
                 // so this must not print as a plain success (#328 R2).
                 eprintln!(
-                    "LEDGER_PARTIALLY_BOUND: {} row(s) predate the full-content binding and                      cannot grant authority; treat as NO_ECONOMIC_CLAIM",
+                    "LEDGER_PARTIALLY_BOUND: {} row(s) predate the full-content binding and cannot grant authority; treat as NO_ECONOMIC_CLAIM",
                     report.legacy_bound_entries
                 );
                 return 3;

@@ -38,6 +38,17 @@
 //! cost (a downgrade is only survivable in a suffix that no v2 row precedes) but
 //! it is not a proof.
 //!
+//! A narrower consequence, measured rather than reasoned about: editing a
+//! *legacy* row's gate vector while leaving its `receipt_digest` string untouched
+//! is NOT reported as tampering, because the legacy seal binds only that string
+//! and the legacy digest never included the gate vector. That is the pre-#328
+//! defect, visible in historical data and not retroactively fixable without
+//! rewriting history. The mitigation is deniability rather than detection: such a
+//! row yields `verified_entries == 0` and `is_fully_bound() == false`, so it can
+//! grant nothing. Asserted in
+//! `tests/d153_receipt_ledger_selfverify.rs::legacy_row_content_edit_is_unbound_
+//! not_detected`, so the boundary is a tested contract and not a hope.
+//!
 //! What closes the gap is not more hashing inside the file: it is refusing to let
 //! a not-fully-bound ledger carry authority. [`LedgerAuditReport::is_fully_bound`]
 //! is the gate every authority-carrying consumer must consult, so the worst
