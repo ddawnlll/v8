@@ -318,6 +318,16 @@ pub enum ReceiptVerificationError {
     NonFiniteMetric,
     /// The receipt claims to evaluate one policy but carries another.
     IdentityMismatch { expected: String, actual: String },
+    /// A `null` appeared in the canonical tree at a path that is not a declared
+    /// optional field.
+    ///
+    /// This is how a non-finite `f64` reaches the encoder: serde_json's
+    /// `serialize_f64` rewrites `Nan | Infinite` as JSON `null` rather than
+    /// erroring, so a poisoned score is otherwise indistinguishable from an
+    /// absent one in the tree. The field is either a coerced non-finite value or
+    /// a new `Option` field not yet declared in `NULLABLE_FIELDS`; both must stop
+    /// the pipeline rather than be sealed.
+    UnexpectedNull { path: String },
 }
 
 impl std::fmt::Display for ReceiptVerificationError {
@@ -345,6 +355,10 @@ impl std::fmt::Display for ReceiptVerificationError {
             Self::IdentityMismatch { expected, actual } => write!(
                 f,
                 "RECEIPT_IDENTITY_MISMATCH: expected policy {expected}, receipt carries {actual}"
+            ),
+            Self::UnexpectedNull { path } => write!(
+                f,
+                "RECEIPT_UNEXPECTED_NULL at {path}: either a non-finite metric was                  coerced to null by serde, or an optional field is missing from                  NULLABLE_FIELDS; neither may be sealed"
             ),
         }
     }
@@ -486,13 +500,10 @@ impl BenchmarkReceipt {
     /// version tag is prefixed as a domain separator. Public so an auditor can
     /// dump the exact bytes a digest commits to.
     pub fn canonical_encoding(&self) -> Result<Vec<u8>, ReceiptVerificationError> {
-        let mut probe = self.clone();
-        probe.receipt_digest = String::new();
-
-        // For a BenchmarkReceipt the only way this fails is a non-finite f64,
-        // which serde_json cannot represent at all.
-        let value = serde_json::to_value(&probe).map_err(|_| ReceiptVerificationError::NonFiniteMetric)?;
-
+        let value = self.canonical_tree()?;
+        if let Some(path) = first_unexpected_null(&value, String::new()) {
+            return Err(ReceiptVerificationError::UnexpectedNull { path });
+        }
         let mut canon = Canon::new();
         canon.push_str("BenchmarkReceipt");
         canon.push_str(&self.digest_version);
@@ -500,11 +511,30 @@ impl BenchmarkReceipt {
         Ok(canon.as_bytes().to_vec())
     }
 
+    /// The receipt as the un-encoded tree it is hashed from. Poison checks are
+    /// deliberately *not* applied here, so a caller can ask "is any number
+    /// non-finite?" and "is any null unexpected?" separately and get an exact
+    /// message for each.
+    fn canonical_tree(&self) -> Result<serde_json::Value, ReceiptVerificationError> {
+        let mut probe = self.clone();
+        probe.receipt_digest = String::new();
+        // Non-finite map *keys* are already rejected by serde itself
+        // (`float_key_must_be_finite`); non-finite values are coerced to null by
+        // `serialize_f64` (`Nan | Infinite => write_null`), which is what
+        // `first_unexpected_null` exists to catch.
+        serde_json::to_value(&probe).map_err(|_| ReceiptVerificationError::NonFiniteMetric)
+    }
+
     /// Recompute the digest from current contents.
     ///
     /// Pure with respect to `receipt_digest`: it never reads the stored value,
     /// so a stored digest cannot self-fulfil (issue R2).
     pub fn compute_digest(&self) -> Result<String, ReceiptVerificationError> {
+        // Ordered so a genuinely non-finite score reports as NonFiniteMetric and
+        // not as the generic null-coercion finding.
+        if self.has_non_finite_metric() {
+            return Err(ReceiptVerificationError::NonFiniteMetric);
+        }
         let mut canon = Canon::new();
         canon.push_bytes(&self.canonical_encoding()?);
         Ok(canon.finish_sha256_hex())
@@ -553,8 +583,14 @@ impl BenchmarkReceipt {
 
     /// True when any bound metric is NaN or infinite.
     ///
-    /// Checked structurally over the numeric surface rather than by scanning
-    /// serialized text, so the predicate cannot drift from what is encoded.
+    /// Enumerated over the typed fields so a genuinely non-finite score produces
+    /// `NonFiniteMetric` rather than the generic null-coercion finding.
+    ///
+    /// Drift safety: a `f64` added to a nested type later would be missed by this
+    /// list, but it cannot slip through the seal, because
+    /// [`ReceiptVerificationError::UnexpectedNull`] rejects any coerced
+    /// non-finite at an undeclared path. The two checks are complementary: this
+    /// one is precise, that one is complete.
     pub fn has_non_finite_metric(&self) -> bool {
         let f = |v: f64| !v.is_finite();
         f(self.composite_capability_score)
@@ -646,6 +682,59 @@ impl BenchmarkReceipt {
             });
         }
         Ok(())
+    }
+}
+
+/// Fields that are legitimately `null` in the canonical tree.
+///
+/// Anything *else* that arrives as `null` is either a non-finite `f64` that
+/// serde silently coerced (see [`check_poison`]) or a defect. Keeping this as a
+/// named list is what makes the coercion detectable without a schema; a new
+/// `Option` field must be added here deliberately, and the accompanying test
+/// fails loudly if it is not.
+const NULLABLE_FIELDS: &[&str] = &[
+    "nearest_defeater",
+    "minerva_robustness",
+    "method_version",
+    "defeater_receipt_id",
+    "evidence",
+];
+
+/// Return the path of the first `null` that serde can only have produced by
+/// coercing a non-finite `f64`, or that a new optional field introduced without
+/// being declared.
+///
+/// Without this, `NaN`, `inf` and a genuine recorded absence would all encode
+/// identically — a collision in the identity layer, and the exact class of hole
+/// #328 exists to close.
+fn first_unexpected_null(value: &serde_json::Value, path: String) -> Option<String> {
+    match value {
+        serde_json::Value::Null => {
+            let leaf = path.rsplit('.').next().unwrap_or("");
+            if NULLABLE_FIELDS.contains(&leaf) {
+                None
+            } else {
+                Some(path)
+            }
+        }
+        serde_json::Value::Array(items) => items.iter().enumerate().find_map(|(i, it)| {
+            first_unexpected_null(it, format!("{path}[{i}]"))
+        }),
+        serde_json::Value::Object(map) => {
+            // Sorted so the reported path is deterministic regardless of the
+            // map's iteration order.
+            let mut keys: Vec<&String> = map.keys().collect();
+            keys.sort();
+            keys.into_iter().find_map(|k| {
+                let child_path = if path.is_empty() {
+                    k.clone()
+                } else {
+                    format!("{path}.{k}")
+                };
+                first_unexpected_null(&map[k], child_path)
+            })
+        }
+        _ => None,
     }
 }
 
