@@ -38,3 +38,9 @@ research/handbook_technical_analysis_2016/
 # Raw process logs (reproducible; report artifacts stay tracked)
 .audit/*.log
 .audit_archive_python_base/
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
