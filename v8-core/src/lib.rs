@@ -12,6 +12,7 @@ pub mod assurance;
 pub mod audit;
 pub mod authority;
 pub mod backend;
+pub mod benchmark;
 pub mod cache;
 pub mod candidate;
 pub mod cashflow;

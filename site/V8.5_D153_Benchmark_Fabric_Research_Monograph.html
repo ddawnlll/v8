@@ -1,0 +1,2266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V8.5 Benchmark Fabric Research Monograph</title>
+<style>
+@page{margin:18mm; @bottom-center { content: counter(page); font-size:8pt; }}
+:root{--ink:#181818;--muted:#666;--paper:#fffdf9;--panel:#f0eee8;--line:#aaa;--link:#154c78;--warn:#8a4b08;--bad:#8c1d18;--good:#2b6536;--blue:#eef4f8;--green:#edf6ee;--red:#faebea}
+html{scroll-behavior:smooth}
+body{max-width:1120px;margin:auto;padding:28px 50px;background:var(--paper);color:var(--ink);font:15px/1.58 Georgia,serif}
+h1,h2,h3,h4,th{font-family:Arial,sans-serif}
+h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}
+h2{margin-top:2.2rem}h3{margin-top:1.5rem}
+header h1{font-size:2.2rem;margin-top:.4rem}
+header .subtitle{font:600 1rem/1.5 Arial,sans-serif;color:#444}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.9rem;background:var(--panel);font:12.6px/1.44 ui-monospace,SFMono-Regular,Consolas,monospace;border:1px solid #ddd}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+table{border-collapse:collapse;width:100%;font:12px/1.4 Arial,sans-serif;margin:1rem 0}
+th,td{border:1px solid var(--line);padding:.46rem;vertical-align:top}
+th{background:#ece9e1;text-align:left}
+a{color:var(--link)}
+.status{border-left:4px solid #333;background:var(--panel);padding:.8rem 1rem}
+.callout{border-left:4px solid #154c78;background:#eef4f8;padding:.9rem 1rem;margin:1rem 0}
+.warn{border-left:4px solid var(--warn);background:#fbf3e8;padding:.9rem 1rem;margin:1rem 0}
+.bad{border-left:4px solid var(--bad);background:var(--red);padding:.9rem 1rem;margin:1rem 0}
+.good{border-left:4px solid var(--good);background:var(--green);padding:.9rem 1rem;margin:1rem 0}
+.formula{font:600 16px/1.45 ui-monospace,monospace;background:#f7f5ef;border:1px solid #ddd;padding:.8rem;margin:1rem 0;text-align:center}
+.tag{display:inline-block;font:700 10px/1.2 Arial,sans-serif;padding:.18rem .35rem;border:1px solid #888;border-radius:2px;margin:.05rem}
+.locked-invariant{background:#e9f2ea;border-color:#69866f}
+.provisional-decision{background:#f4efe2;border-color:#9b8255}
+.open-question{background:#faebea;border-color:#a76b67}
+.literature-supported{background:#eaf0f7;border-color:#6882a0}
+.project-evidence-supported{background:#e8f1ee;border-color:#668c7e}
+.design-inference{background:#f1eef7;border-color:#82739b}
+.rejected-option{background:#eee;border-color:#888}
+.cite{font:10px Arial,sans-serif;margin-left:1px}.cite a{text-decoration:none}
+nav ul{columns:2;column-gap:2rem;font:12px/1.5 Arial,sans-serif;padding-left:1.4rem}
+nav li{break-inside:avoid;margin:.18rem 0}
+.small{font-size:.88em;color:var(--muted)}
+.metric{break-inside:avoid}
+.major,.appendix{break-before:page}
+hr{border:0;border-top:1px solid #bbb;margin:2rem 0}
+@media(max-width:800px){body{padding:18px 20px}nav ul{columns:1}table{font-size:11px}}
+@media print{body{padding:0;font-size:10pt;max-width:none}pre{font-size:7.7pt}table{font-size:8.3pt}a{color:#000;text-decoration:none}h1{break-before:page}header h1{break-before:auto}nav{display:none}.major,.appendix{break-before:page}.callout,.warn,.bad,.good,table,pre{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+<h1>V8.5 Benchmark Fabric: Generalization, External Evaluation, Evidence-Gated Scoring &amp; Capital Outcome Projection</h1>
+<p class="subtitle"><strong>Constitutional research monograph, literature synthesis, implementation blueprint and benchmark-governance specification.</strong></p>
+<p><strong>Date:</strong> 2026-09-06 &nbsp;·&nbsp; <strong>Version:</strong> D-153 DRAFT-1 &nbsp;·&nbsp;
+<strong>Status:</strong> RESEARCH / RATIFICATION CANDIDATE / NO NEW ECONOMIC CLAIM</p>
+<p>This standalone paper is designed as a V8.5 sibling monograph. It consolidates the benchmark, overfitting, synthetic-world,
+Oracle, Kaizen, G0–G9, external-tool and $1000-projection design work discussed across the current V8 research thread.</p>
+</header>
+<nav id="toc"><h2>Contents</h2><ul><li><a href="#document-status">Document status and reading rule</a></li><li><a href="#abstract">Abstract</a></li><li><a href="#executive-thesis">Executive thesis</a></li><li><a href="#baseline">Relationship to V8/V8.5 and current project evidence</a></li><li><a href="#problem">Problem definition: benchmark collapse</a></li><li><a href="#ontology">Ontology of a quantitative benchmark</a></li><li><a href="#epistemic-separation">Epistemic separation: score, gate, evidence and projection</a></li><li><a href="#requirements">Recovered project requirements and non-goals</a></li><li><a href="#research-map">Research map and transfer boundary</a></li><li><a href="#prudex">PRUDEX-Compass review</a></li><li><a href="#trademaster">TradeMaster review</a></li><li><a href="#finrl-meta">FinRL-Meta review</a></li><li><a href="#qlib">Qlib review</a></li><li><a href="#multi-oos">Multi-environment OOS research</a></li><li><a href="#cpcv-research">CPCV and multi-path research</a></li><li><a href="#regime-research">Regime-conditional distributional evaluation</a></li><li><a href="#minerva">MinervaScore review</a></li><li><a href="#honest-eval">Search-aware honest evaluation for LLM trading research</a></li><li><a href="#synthetic-research">Synthetic market research</a></li><li><a href="#execution-research">Interactive execution simulation</a></li><li><a href="#industry-stack">Production-grade tool landscape</a></li><li><a href="#constitution">Benchmark Fabric constitutional amendment set</a></li><li><a href="#architecture">Canonical Benchmark Fabric architecture</a></li><li><a href="#benchmark-case">BenchmarkCaseManifest</a></li><li><a href="#evaluation-populations">Evaluation populations and evidence lanes</a></li><li><a href="#data-roles">Data roles, holdout burn and benchmark blindness</a></li><li><a href="#historical-court">Burned historical diagnostic court</a></li><li><a href="#frozen-oos">Frozen chronological OOS court</a></li><li><a href="#walk-forward">Walk-forward evaluation</a></li><li><a href="#cpcv">Combinatorial purged cross-validation</a></li><li><a href="#randomized-cv">Randomized cross-sectional/temporal evaluation</a></li><li><a href="#scenario-cells">Scenario and regime cell lattice</a></li><li><a href="#synthetic-worlds">Synthetic qualification and novelty worlds</a></li><li><a href="#reverse-stress">Reverse stress and nearest defeater</a></li><li><a href="#execution-parity">External execution parity and LEAN referee</a></li><li><a href="#oracle-integration">Three-Oracle integration</a></li><li><a href="#metric-taxonomy">Metric taxonomy and authority</a></li><li><a href="#discovery">Opportunity discovery and recoverability</a></li><li><a href="#economic">Economic quality</a></li><li><a href="#risk">Risk survival</a></li><li><a href="#execution">Execution realism</a></li><li><a href="#generalization">Generalization</a></li><li><a href="#stability">Reliability and stability</a></li><li><a href="#statistics">Statistical credibility</a></li><li><a href="#research-integrity">Research integrity and trial debt</a></li><li><a href="#capability-score">Diagnostic capability score</a></li><li><a href="#hard-gates">Hard gates G0–G9</a></li><li><a href="#anti-gaming">Anti-target-chasing and benchmark-gaming firewall</a></li><li><a href="#projection">Capital outcome projection layer</a></li><li><a href="#projection-1000">The $1,000 one-year question</a></li><li><a href="#projection-aggregation">Projection aggregation and calibration</a></li><li><a href="#confidence">Projection confidence grades</a></li><li><a href="#dashboard">Canonical dashboard/report</a></li><li><a href="#kaizen">Kaizen benchmark succession</a></li><li><a href="#tool-adapters">External tool adapters</a></li><li><a href="#implementation-layout">Implementation layout</a></li><li><a href="#interfaces">Canonical interfaces</a></li><li><a href="#cli">CLI and orchestration</a></li><li><a href="#artifact-schema">Artifact and receipt schema</a></li><li><a href="#benchmark-ledger">Benchmark ledger and historical comparability</a></li><li><a href="#failure-attribution">Failure attribution</a></li><li><a href="#sabotage">Constitutional sabotage suite</a></li><li><a href="#acceptance">Acceptance and promotion rules</a></li><li><a href="#rollout">Implementation plan M0–M7</a></li><li><a href="#decision-register">Decision register</a></li><li><a href="#open-decisions">Open decisions</a></li><li><a href="#evidence-matrix">Evidence matrix</a></li><li><a href="#contradiction-map">Contradiction map</a></li><li><a href="#architecture-diagram">Full architecture diagram</a></li><li><a href="#source-map">Source map</a></li><li><a href="#bibliography">Bibliography</a></li><li><a href="#appendix-a">Appendix A — Metric dictionary</a></li><li><a href="#appendix-b">Appendix B — Example BenchmarkCase JSON</a></li><li><a href="#appendix-c">Appendix C — Example report and scorecard</a></li><li><a href="#appendix-d">Appendix D — $1,000 projection worked example</a></li><li><a href="#appendix-e">Appendix E — External tool decision matrix</a></li><li><a href="#appendix-f">Appendix F — Gate test catalogue</a></li><li><a href="#appendix-g">Appendix G — Scenario catalogue</a></li><li><a href="#appendix-h">Appendix H — Research-debt accounting</a></li><li><a href="#appendix-i">Appendix I — Implementation checklist</a></li><li><a href="#appendix-j">Appendix J — Ratification checklist</a></li></ul></nav><!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V8.5 Benchmark Fabric Research Monograph</title><style>
+@page{margin:18mm; @bottom-center { content: counter(page); font-size:8pt; }}
+:root{--ink:#181818;--muted:#666;--paper:#fffdf9;--panel:#f0eee8;--line:#aaa;--link:#154c78;--warn:#8a4b08;--bad:#8c1d18;--good:#2b6536;--blue:#eef4f8;--green:#edf6ee;--red:#faebea}
+html{scroll-behavior:smooth}
+body{max-width:1120px;margin:auto;padding:28px 50px;background:var(--paper);color:var(--ink);font:15px/1.58 Georgia,serif}
+h1,h2,h3,h4,th{font-family:Arial,sans-serif}
+h1{font-size:1.8rem;margin-top:3rem;border-bottom:2px solid #333;padding-bottom:.3rem}
+h2{margin-top:2.2rem}h3{margin-top:1.5rem}
+header h1{font-size:2.2rem;margin-top:.4rem}
+header .subtitle{font:600 1rem/1.5 Arial,sans-serif;color:#444}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:.9rem;background:var(--panel);font:12.6px/1.44 ui-monospace,SFMono-Regular,Consolas,monospace;border:1px solid #ddd}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+table{border-collapse:collapse;width:100%;font:12px/1.4 Arial,sans-serif;margin:1rem 0}
+th,td{border:1px solid var(--line);padding:.46rem;vertical-align:top}
+th{background:#ece9e1;text-align:left}
+a{color:var(--link)}
+.status{border-left:4px solid #333;background:var(--panel);padding:.8rem 1rem}
+.callout{border-left:4px solid #154c78;background:#eef4f8;padding:.9rem 1rem;margin:1rem 0}
+.warn{border-left:4px solid var(--warn);background:#fbf3e8;padding:.9rem 1rem;margin:1rem 0}
+.bad{border-left:4px solid var(--bad);background:var(--red);padding:.9rem 1rem;margin:1rem 0}
+.good{border-left:4px solid var(--good);background:var(--green);padding:.9rem 1rem;margin:1rem 0}
+.formula{font:600 16px/1.45 ui-monospace,monospace;background:#f7f5ef;border:1px solid #ddd;padding:.8rem;margin:1rem 0;text-align:center}
+.tag{display:inline-block;font:700 10px/1.2 Arial,sans-serif;padding:.18rem .35rem;border:1px solid #888;border-radius:2px;margin:.05rem}
+.locked-invariant{background:#e9f2ea;border-color:#69866f}
+.provisional-decision{background:#f4efe2;border-color:#9b8255}
+.open-question{background:#faebea;border-color:#a76b67}
+.literature-supported{background:#eaf0f7;border-color:#6882a0}
+.project-evidence-supported{background:#e8f1ee;border-color:#668c7e}
+.design-inference{background:#f1eef7;border-color:#82739b}
+.rejected-option{background:#eee;border-color:#888}
+.cite{font:10px Arial,sans-serif;margin-left:1px}.cite a{text-decoration:none}
+nav ul{columns:2;column-gap:2rem;font:12px/1.5 Arial,sans-serif;padding-left:1.4rem}
+nav li{break-inside:avoid;margin:.18rem 0}
+.small{font-size:.88em;color:var(--muted)}
+.metric{break-inside:avoid}
+.major,.appendix{break-before:page}
+hr{border:0;border-top:1px solid #bbb;margin:2rem 0}
+@media(max-width:800px){body{padding:18px 20px}nav ul{columns:1}table{font-size:11px}}
+@media print{body{padding:0;font-size:10pt;max-width:none}pre{font-size:7.7pt}table{font-size:8.3pt}a{color:#000;text-decoration:none}h1{break-before:page}header h1{break-before:auto}nav{display:none}.major,.appendix{break-before:page}.callout,.warn,.bad,.good,table,pre{break-inside:avoid}}
+</style></head><body>
+<header><h1>V8.5 Benchmark Fabric: Generalization, External Evaluation, Capability Measurement &amp; Capital Outcome Projection</h1>
+<p class="subtitle"><strong>Constitutional research monograph, quantitative validation architecture, implementation blueprint and evidence-connection specification.</strong></p>
+<p><strong>Date:</strong> 2026-09-06 &nbsp;·&nbsp; <strong>Version:</strong> V8.5 BF DRAFT-1 &nbsp;·&nbsp; <strong>Status:</strong> RESEARCH / RATIFICATION CANDIDATE / NO ECONOMIC CLAIM</p>
+<p>This standalone monograph is a proposed sibling-and-extension document to the supplied V8.5 Constitution Research Monograph. It consolidates the project's benchmark, overfitting, Oracle, Foundry, Kaizen, evidence-gate and capital-projection discussions into one implementation-oriented evaluation constitution.</p></header>
+<nav id="toc"><h2>Contents</h2><ul><li><a href="#document-status">Document status and reading rule</a></li><li><a href="#abstract">Abstract</a></li><li><a href="#executive-thesis">Executive thesis</a></li><li><a href="#baseline">Relationship to V8/V8.5 and current project evidence</a></li><li><a href="#problem">Problem definition: benchmark collapse</a></li><li><a href="#ontology">Ontology of a quantitative benchmark</a></li><li><a href="#epistemic-separation">Epistemic separation: score, gate, evidence and projection</a></li><li><a href="#requirements">Recovered project requirements and non-goals</a></li><li><a href="#research-map">Research map and transfer boundary</a></li><li><a href="#prudex">PRUDEX-Compass review</a></li><li><a href="#trademaster">TradeMaster review</a></li><li><a href="#finrl-meta">FinRL-Meta review</a></li><li><a href="#qlib">Qlib review</a></li><li><a href="#multi-oos">Multi-environment OOS research</a></li><li><a href="#cpcv-research">CPCV and multi-path research</a></li><li><a href="#regime-research">Regime-conditional distributional evaluation</a></li><li><a href="#minerva">MinervaScore review</a></li><li><a href="#honest-eval">Search-aware honest evaluation for LLM trading research</a></li><li><a href="#synthetic-research">Synthetic market research</a></li><li><a href="#execution-research">Interactive execution simulation</a></li><li><a href="#industry-stack">Production-grade tool landscape</a></li><li><a href="#constitution">Benchmark Fabric constitutional amendment set</a></li><li><a href="#architecture">Canonical Benchmark Fabric architecture</a></li><li><a href="#benchmark-case">BenchmarkCaseManifest</a></li><li><a href="#evaluation-populations">Evaluation populations and evidence lanes</a></li><li><a href="#data-roles">Data roles, holdout burn and benchmark blindness</a></li><li><a href="#historical-court">Burned historical diagnostic court</a></li><li><a href="#frozen-oos">Frozen chronological OOS court</a></li><li><a href="#walk-forward">Walk-forward evaluation</a></li><li><a href="#cpcv">Combinatorial purged cross-validation</a></li><li><a href="#randomized-cv">Randomized cross-sectional/temporal evaluation</a></li><li><a href="#scenario-cells">Scenario and regime cell lattice</a></li><li><a href="#synthetic-worlds">Synthetic qualification and novelty worlds</a></li><li><a href="#reverse-stress">Reverse stress and nearest defeater</a></li><li><a href="#execution-parity">External execution parity and LEAN referee</a></li><li><a href="#oracle-integration">Three-Oracle integration</a></li><li><a href="#metric-taxonomy">Metric taxonomy and authority</a></li><li><a href="#discovery">Opportunity discovery and recoverability</a></li><li><a href="#economic">Economic quality</a></li><li><a href="#risk">Risk survival</a></li><li><a href="#execution">Execution realism</a></li><li><a href="#generalization">Generalization</a></li><li><a href="#stability">Reliability and stability</a></li><li><a href="#statistics">Statistical credibility</a></li><li><a href="#research-integrity">Research integrity and trial debt</a></li><li><a href="#capability-score">Diagnostic capability score</a></li><li><a href="#hard-gates">Hard gates G0–G9</a></li><li><a href="#anti-gaming">Anti-target-chasing and benchmark-gaming firewall</a></li><li><a href="#projection">Capital outcome projection layer</a></li><li><a href="#projection-1000">The $1,000 one-year question</a></li><li><a href="#projection-aggregation">Projection aggregation and calibration</a></li><li><a href="#confidence">Projection confidence grades</a></li><li><a href="#dashboard">Canonical dashboard/report</a></li><li><a href="#kaizen">Kaizen benchmark succession</a></li><li><a href="#tool-adapters">External tool adapters</a></li><li><a href="#implementation-layout">Implementation layout</a></li><li><a href="#interfaces">Canonical interfaces</a></li><li><a href="#cli">CLI and orchestration</a></li><li><a href="#artifact-schema">Artifact and receipt schema</a></li><li><a href="#benchmark-ledger">Benchmark ledger and historical comparability</a></li><li><a href="#failure-attribution">Failure attribution</a></li><li><a href="#sabotage">Constitutional sabotage suite</a></li><li><a href="#acceptance">Acceptance and promotion rules</a></li><li><a href="#rollout">Implementation plan M0–M7</a></li><li><a href="#decision-register">Decision register</a></li><li><a href="#open-decisions">Open decisions</a></li><li><a href="#evidence-matrix">Evidence matrix</a></li><li><a href="#contradiction-map">Contradiction map</a></li><li><a href="#architecture-diagram">Full architecture diagram</a></li><li><a href="#source-map">Source map</a></li><li><a href="#bibliography">Bibliography</a></li><li><a href="#appendix-a">Appendix A — Metric dictionary</a></li><li><a href="#appendix-b">Appendix B — Example BenchmarkCase JSON</a></li><li><a href="#appendix-c">Appendix C — Example report and scorecard</a></li><li><a href="#appendix-d">Appendix D — $1,000 projection worked example</a></li><li><a href="#appendix-e">Appendix E — External tool decision matrix</a></li><li><a href="#appendix-f">Appendix F — Gate test catalogue</a></li><li><a href="#appendix-g">Appendix G — Scenario catalogue</a></li><li><a href="#appendix-h">Appendix H — Research-debt accounting</a></li><li><a href="#appendix-i">Appendix I — Implementation checklist</a></li><li><a href="#appendix-j">Appendix J — Ratification checklist</a></li></ul></nav>
+<section id="document-status"><h1>Document status and reading rule</h1>
+<p class="status"><strong>D-153 RESEARCH MONOGRAPH / PROPOSED BENCHMARK CONSTITUTION / NO NEW ECONOMIC CLAIM.</strong>
+This document is a research and architecture proposal for a V8.5 Benchmark Fabric. It extends, but does not replace, the existing
+V8/V8.5 Assurance Fabric, three-Oracle architecture, DataRoleLedger, Statistical Court, Market World Foundry, System Proving Ground,
+continuous evidence succession, and D-152 scenario-centric evidence profile. Nothing in this document promotes a strategy, certifies
+profitability, converts synthetic evidence into economic authority, or turns a diagnostic score into a deployment permission.</p>
+<p>The reading rule is deliberately strict. <strong>Capability measurement, evidence authority, economic projection, and deployment
+readiness are different objects.</strong> A number may be useful for comparing two frozen policy versions while being legally incapable
+of supporting a profitability claim. Conversely, an admissible economic observation may be too sparse to justify a stable benchmark
+rank. The Benchmark Fabric exists to keep those distinctions explicit rather than to erase them behind a single dashboard number.</p>
+<p>The document inherits the project's epistemic vocabulary:
+<span class="tag literature-supported">LITERATURE_SUPPORTED</span>
+<span class="tag project-evidence-supported">PROJECT_EVIDENCE_SUPPORTED</span>
+<span class="tag design-inference">DESIGN_INFERENCE</span>
+<span class="tag provisional-decision">PROVISIONAL_DECISION</span>
+<span class="tag locked-invariant">LOCKED_INVARIANT</span>
+<span class="tag open-question">OPEN_QUESTION</span>
+<span class="tag rejected-option">REJECTED_OPTION</span>.
+Labels apply to propositions, not to the attractiveness of a chart.</p>
+<div class="callout"><strong>Compatibility rule.</strong> If any proposal below conflicts with an active constitutional invariant,
+the active invariant wins. In particular: no scalar score may certify production readiness; hard defeaters are non-compensable;
+synthetic PASS cannot establish <code>SUPPORTED_EDGE</code>; and a consumed holdout cannot be made pristine again by renaming it.</div>
+</section>
+
+<section id="abstract"><h1>Abstract</h1>
+<p>V8 currently possesses substantial evaluation machinery but lacks a single, coherent benchmark product that answers a simpler operational
+question: <em>is version N+1 genuinely better than version N across a sufficiently broad and independently governed test population?</em>
+The historical 12-month quad run is useful as a diagnostic court, but repeated tuning against the same realized tape makes its headline
+return unsuitable as the main measure of progress. Deriving more metrics—Oracle recall, fee retention, MFE retention, precision—from the
+same tape improves diagnosis but does not create independent evidence.</p>
+<p>This monograph proposes the <strong>V8.5 Benchmark Fabric</strong>: a versioned external-evaluation harness that evaluates a frozen policy
+against a battery of real, resampled, synthetic, adversarial, execution-reference, and prospective populations; produces a multi-dimensional
+capability profile; preserves non-compensable hard gates; and, only when economically admissible evidence exists, emits a separately typed
+capital-outcome projection. It deliberately borrows commodity methods and software where doing so reduces implementation and validation risk:
+purged/walk-forward/CPCV splitting from mature portfolio-research libraries; independent execution replay through LEAN where contracts can be
+matched; standardized reporting concepts from Qlib, TradeMaster, FinRL-Meta and PRUDEX-Compass; and established anti-overfitting methods such
+as White's Reality Check, Hansen's SPA, Deflated Sharpe Ratio and PBO/CSCV.</p>
+<p>The central design is therefore not a new backtester. It is an <strong>adapter, manifest, measurement, and authority system</strong>.
+V8 retains the domain-specific objects that external packages cannot supply: Opportunity sovereignty, Target/Hindsight/Parity Oracles,
+Expert habitats and witness semantics, Recoverable Regret, Market World Foundry, minimal defeater search, claim authority, evidence lineage,
+Kaizen succession, and promotion governance. External engines are treated as independent instruments, not sovereign truth sources.</p>
+<p>A diagnostic <code>CapabilityScore ∈ [0,100]</code> is allowed for regression tracking and research prioritization, but it is explicitly
+separated from the <code>GateVector</code>, <code>ProductionEvidenceCertificate</code>, and <code>CapitalOutcomeProjection</code>. This permits
+a human operator to see “benchmark 68/100, +7.2 vs incumbent” while simultaneously seeing “G5 statistical court BLOCKED; G6 protected OOS
+NOT_RUN; no forward $1000 projection authorized.” The scalar helps answer <em>how much did the system improve?</em>; the gate vector answers
+<em>what are we allowed to believe?</em></p>
+</section>
+
+<section id="executive-thesis"><h1>Executive thesis</h1>
+<div class="callout"><strong>Thesis.</strong> The unit of benchmark evidence is not a metric and not a backtest. It is a
+<code>FrozenPolicy × EvaluationPopulation × Contract × MeasurementPlan</code> result with explicit authority and lineage.</div>
+<pre>OLD PRACTICE
+    policy
+      ↓
+    12-month tape
+      ↓
+    +50.9%
+      ↓
+    "better"
+
+PROPOSED PRACTICE
+    frozen policy identity
+      ↓
+    versioned benchmark case
+      ↓
+    ┌──────── real protected chronology
+    ├──────── walk-forward / CPCV populations
+    ├──────── cross-asset / cross-period cells
+    ├──────── synthetic qualification + novelty
+    ├──────── reverse-stress search
+    ├──────── independent execution replay
+    ├──────── prospective shadow epochs
+    └──────── live receipts when authorized
+      ↓
+    CapabilityProfile + GateVector + FailureTopology
+      ↓
+    EconomicProjection only from admissible economic evidence
+</pre>
+<p>The benchmark has four outputs because the underlying questions are different:</p>
+<table><thead><tr><th>Output</th><th>Question</th><th>Can authorize production?</th></tr></thead><tbody>
+<tr><td><code>CapabilityProfile</code></td><td>Across a standardized battery, where is the policy/system strong or weak?</td><td>No.</td></tr>
+<tr><td><code>CapabilityScore</code></td><td>For a fixed benchmark version, did the challenger improve overall diagnostic capability?</td><td>No.</td></tr>
+<tr><td><code>GateVector</code> + certificate</td><td>Which burdens of proof are satisfied, blocked, unknown, or defeated?</td><td>Only through existing Assurance/Kaizen authority.</td></tr>
+<tr><td><code>CapitalOutcomeProjection</code></td><td>Given admissible economic populations, what conditional one-year capital outcomes are supported?</td><td>Evidence input only; never a promise.</td></tr>
+</tbody></table>
+<p>The architecture is deliberately asymmetric. Positive synthetic performance has limited positive authority; synthetic or adversarial
+failure can be powerful negative evidence. Statistical significance cannot repair causal leakage. High historical return cannot repair
+ledger non-conservation. A high diagnostic score cannot repair a missing protected OOS. This asymmetry is not aesthetic; it follows from
+the different ways evidence can rule out a claim versus establish one.</p>
+</section>
+
+<section id="baseline"><h1>Baseline: what V8 has today and why it is not yet a benchmark</h1>
+<p class="project-evidence-supported"><strong>PROJECT_EVIDENCE_SUPPORTED.</strong> The current V8 evidence architecture already contains most
+of the components needed for a serious benchmark: immutable EvaluationCase identity, AuthorityProjection, claim rules, provenance and
+common-mode graphs, hard defeaters, continuous evidence epochs, a revocable non-scalar ProductionEvidenceCertificate, D-152
+<code>PolicyEvidenceProfile</code>, a Market World Foundry, System Proving Ground, DataRoleLedger, and TEVV probes. The missing object is the
+orchestrated benchmark population and its comparison contract.</p>
+<p>D-152 correctly demoted the 2025-07-01 → 2026-06-30 quad to <code>BURNED_DIAGNOSTIC</code>. That run remains valuable: it exposes fee drag,
+symbol concentration, candidate density, opportunity recall, and execution pathology. It is no longer allowed to masquerade as an untouched
+judge of the policy lineage that was repeatedly developed against it.</p>
+<table><thead><tr><th>Observed diagnostic</th><th>Current interpretation</th><th>What it does not establish</th></tr></thead><tbody>
+<tr><td>Quad simulated return ≈ +50.9% on $1000</td><td>One burned historical trajectory under a declared simulator/cost contract.</td><td>Expected next-year return.</td></tr>
+<tr><td>BTC Oracle episode recall ≈ 13%</td><td>Representational/detection diagnostic on the same historical band.</td><td>Independent generalization evidence.</td></tr>
+<tr><td>BTC Oracle value recall ≈ 15%</td><td>Bounded hindsight/Target-gap diagnostic.</td><td>A 15% probability or 15% of future profit.</td></tr>
+<tr><td>Candidate precision ≈ 61%</td><td>Selection/representation quality under the current Oracle matching contract.</td><td>Trade profitability.</td></tr>
+<tr><td>MFE retention ≈ 41%; gross→net retention ≈ 38%</td><td>Exit/execution/friction pathology.</td><td>Execution realism outside that cost model.</td></tr>
+</tbody></table>
+<p>The core mistake would be to produce ten more metrics from the same trajectory and call the result ten independent pieces of evidence.
+They are different views of one evidence source. The Benchmark Fabric therefore counts <strong>evaluation populations</strong> and their
+dependency structure, not merely metric count.</p>
+</section>
+
+<section id="problem"><h1>The benchmark problem</h1>
+<h2>1. A benchmark is a measurement system, not a score formula</h2>
+<p>A benchmark requires at least five frozen objects: a subject, a population, a contract, a measurement plan, and a comparison rule.
+Without these, a score is a moving target. Changing transaction costs, symbol universe, regime labels, path-generation rules, or metric
+normalization can make version N+1 appear better while the policy itself is unchanged.</p>
+<div class="formula">BenchmarkCase = PolicyIdentity × PopulationManifest × EconomicContract × MeasurementPlan × ComparatorSet</div>
+<h2>2. The evaluator can itself be overfit</h2>
+<p>Once Kaizen sees the benchmark repeatedly, the benchmark becomes part of the training environment. A fixed public battery can eventually
+be gamed even if its data are synthetic. Therefore benchmark evolution needs the same lineage discipline as policy evolution:
+development populations may be visible; qualification populations are sealed; novelty populations are generated or revealed after policy
+freeze; evaluator changes create new benchmark versions and cannot silently rewrite historical ranks.</p>
+<h2>3. No single population answers all questions</h2>
+<p>Historical replay has genuine market geometry but limited path coverage. Synthetic worlds can cover mechanisms never observed in the
+historical window but do not carry empirical frequencies. CPCV can expose path dependence under real samples but does not create truly new
+market history. A second execution engine can falsify implementation assumptions but does not prove alpha. Prospective shadow is strongest
+for temporal generalization but accumulates slowly. A serious benchmark composes these as typed evidence rather than pretending one can
+replace another.</p>
+</section>
+
+<section id="ontology"><h1>Benchmark ontology: the objects that must not collapse</h1>
+<p>The Benchmark Fabric introduces no metaphysical “true score.” It introduces operational objects. The distinctions below are mandatory
+because collapsing them creates direct category errors.</p>
+<table><thead><tr><th>Object</th><th>Meaning</th><th>Forbidden collapse</th></tr></thead><tbody>
+<tr><td><code>PolicyIdentity</code></td><td>Frozen code/config/decision contract.</td><td>≠ evidence state.</td></tr>
+<tr><td><code>EvaluationPopulation</code></td><td>Declared set/distribution of cases or paths.</td><td>≠ real-world probability distribution unless validated as such.</td></tr>
+<tr><td><code>MetricObservation</code></td><td>Measured property under one case/population.</td><td>≠ economic truth.</td></tr>
+<tr><td><code>DomainScore</code></td><td>Normalized diagnostic margin under a benchmark version.</td><td>≠ probability of success.</td></tr>
+<tr><td><code>CapabilityScore</code></td><td>Weighted diagnostic aggregate for same-version comparison.</td><td>≠ readiness or expected return.</td></tr>
+<tr><td><code>GateState</code></td><td>PASS/BLOCKED/UNKNOWN/DEFEATED burden-of-proof result.</td><td>≠ score contribution.</td></tr>
+<tr><td><code>ProjectionDistribution</code></td><td>Conditional capital-outcome distribution from admissible populations.</td><td>≠ guaranteed forecast.</td></tr>
+<tr><td><code>Defeater</code></td><td>Evidence sufficient to invalidate a bounded claim.</td><td>≠ negative vote.</td></tr>
+</tbody></table>
+<p>Most benchmark pathologies are ontological before they are statistical: using Hindsight Oracle value as a selectable strategy target;
+treating synthetic frequency as future probability; treating a score normalization as an estimate of readiness; or treating several
+metrics from one tape as several independent experiments. The architecture must make those mistakes difficult at the type level.</p>
+</section>
+
+<section id="epistemic-separation"><h1>Epistemic separation: observation, inference, projection and authority</h1>
+<p>Every benchmark datum is annotated by epistemic type. A historical ledger value is an observation under a simulator. A bootstrap interval
+is an inference conditional on a resampling scheme. A synthetic stress result is a model-conditional counterexample. A one-year capital
+distribution is a projection conditional on an admissible evidence population and aggregation model. None automatically becomes a claim
+about the live future.</p>
+<pre>OBSERVATION
+    "On protected OOS case X, frozen policy P returned +8.1% after declared costs."
+
+INFERENCE
+    "Across declared dependent OOS folds, the median net utility is positive and
+     the confidence procedure excludes the preregistered null under its assumptions."
+
+MODEL-CONDITIONAL STRESS
+    "A passport-passing liquidity/correlation world at distance d causes 24% MaxDD."
+
+PROJECTION
+    "Given the calibrated projection population and its weighting assumptions,
+     the P50 one-year terminal capital is $1,180."
+
+AUTHORITY
+    "The current AssuranceCase permits ECONOMIC_REPLICATION but not LIVE_SUPPORTED."
+</pre>
+<p>These statements have different falsifiers. The benchmark report must preserve that structure all the way to the renderer.</p>
+</section>
+
+<section id="requirements"><h1>Normative requirements for D-153</h1>
+<ol>
+<li><strong>Version everything that can change a benchmark result:</strong> population, metrics, weights, thresholds, normalization,
+execution adapter, regime classifier, Oracle contract, cost model, aggregation rule, and projection model.</li>
+<li><strong>Freeze before protected evaluation.</strong> Policy and benchmark case manifests are sealed before any protected result is read.</li>
+<li><strong>Count research debt.</strong> Automatically generated, discarded, failed, and unpublished challengers remain trials.</li>
+<li><strong>Preserve dependency.</strong> Ten metrics from one tape are not ten experiments; 20 overlapping folds are not 20 IID observations.</li>
+<li><strong>No hard-gate compensation.</strong> PIT, ledger, causal, authority, statistical, OOS, shadow and live gates remain separate.</li>
+<li><strong>Use external tools as instruments.</strong> LEAN/skfolio/vectorbt/Qlib outputs receive contracts and adapters; they do not gain V8 authority.</li>
+<li><strong>Projection is optional.</strong> If admissible economic populations are insufficient, the correct output is <code>UNKNOWN</code>.</li>
+<li><strong>Benchmark improvement must be attributable.</strong> A challenger delta is decomposed by discovery, selection, risk, execution,
+generalization and failure topology, not just total score.</li>
+<li><strong>Benchmark evolution must not erase history.</strong> A new evaluator version creates a new benchmark series; bridge studies may
+link versions but may not pretend identical semantics.</li>
+<li><strong>Every positive result carries a falsifier.</strong> Reports must state what observation would materially weaken the conclusion.</li>
+</ol>
+</section>
+
+<section id="research-map"><h1>Research map: what the external literature actually contributes</h1>
+<p>The literature does not contain a universally accepted “production-ready autonomous portfolio benchmark.” Instead, several research
+families solve different subproblems. The Benchmark Fabric is justified only if it composes those subproblems without inflating their authority.</p>
+<table><thead><tr><th>Research family</th><th>Representative source</th><th>Transfer into V8</th><th>Boundary</th></tr></thead><tbody>
+<tr><td>Multi-axis trading evaluation</td><td><a href="https://arxiv.org/abs/2302.00586">PRUDEX-Compass (2023)</a></td><td>Evaluate profitability, risk, universality, diversity, reliability, explainability separately.</td><td>Axis score is not production evidence.</td></tr>
+<tr><td>Standardized trading platform benchmarks</td><td><a href="https://papers.nips.cc/paper_files/paper/2023/hash/b8f6f7f2ba4137124ac976286eacb611-Abstract-Datasets_and_Benchmarks.html">TradeMaster (NeurIPS 2023)</a></td><td>Common data/environment/algorithm/evaluation contracts.</td><td>RL benchmark semantics do not define V8 opportunity ontology.</td></tr>
+<tr><td>Market-environment infrastructure</td><td><a href="https://arxiv.org/abs/2211.03107">FinRL-Meta (2022)</a></td><td>Many market environments and reproducible DataOps.</td><td>More environments do not automatically mean independent evidence.</td></tr>
+<tr><td>Quant research platform</td><td><a href="https://arxiv.org/abs/2009.11189">Qlib (2020)</a></td><td>Standardized model/portfolio evaluation and repeated-seed reporting.</td><td>IC/ICIR are not V8's primary economic objective.</td></tr>
+<tr><td>Search-aware validation</td><td><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2326253">PBO/CSCV</a>; <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2460551">DSR</a></td><td>Measure selection-induced optimism and adjusted Sharpe evidence.</td><td>Statistics cannot repair causal leakage or invalid fills.</td></tr>
+<tr><td>Data-snooping control</td><td><a href="https://doi.org/10.1111/1468-0262.00152">White Reality Check</a>; <a href="https://doi.org/10.1198/073500105000000063">Hansen SPA</a></td><td>Family-level comparison under repeated strategy search.</td><td>Assumption-dependent; not a universal pass badge.</td></tr>
+<tr><td>Purged/combinatorial CV</td><td><a href="https://skfolio.org/generated/skfolio.model_selection.CombinatorialPurgedCV.html">skfolio CPCV</a></td><td>Multiple out-of-sample paths with purge/embargo semantics.</td><td>Resampling real history does not create future observations.</td></tr>
+<tr><td>Execution reference engines</td><td><a href="https://www.quantconnect.com/docs/v2/writing-algorithms/reality-modeling">QuantConnect LEAN reality modeling</a></td><td>Independent fill/fee/slippage/buying-power replay.</td><td>LEAN is another model; market impact and venue details remain assumption-sensitive.</td></tr>
+<tr><td>Interactive market simulation</td><td><a href="https://arxiv.org/abs/1904.12066">ABIDES</a></td><td>Escalation path when reactive market impact matters.</td><td>Agent-based simulation does not automatically calibrate future crypto market probabilities.</td></tr>
+<tr><td>Synthetic financial worlds</td><td><a href="https://arxiv.org/abs/2309.07708">Market-GAN</a></td><td>Controllable scenario generation and explicit fidelity/usability tests.</td><td>Visual/stylized-fact realism is not economic authority.</td></tr>
+</tbody></table>
+</section>
+
+<section id="prudex"><h1>PRUDEX-Compass: precedent for multi-axis evaluation</h1>
+<p><span class="tag literature-supported">LITERATURE_SUPPORTED</span>
+PRUDEX-Compass was proposed specifically because profit-only evaluation of financial reinforcement-learning systems is inadequate.
+The framework evaluates eight FinRL methods on four long-term real-world datasets across six perspectives—Profitability, Risk-control,
+Universality, Diversity, Reliability and Explainability—using seventeen measures. This is close to the conceptual problem V8 faces:
+a system can look attractive on return while failing universality, risk, or reliability.</p>
+<p>V8 should transfer the <em>separation of dimensions</em>, not the exact PRUDEX normalizations. A benchmark domain is useful because it keeps
+failure visible. Once domains are collapsed to one score, the normalization and weighting scheme become an additional research choice.
+Therefore D-153 uses PRUDEX as evidence that multi-axis evaluation is a serious benchmark design family, while rejecting any claim that
+its particular axes or weights are universally correct for crypto swing trading.</p>
+<table><thead><tr><th>PRUDEX idea</th><th>V8 analogue</th><th>Transfer decision</th></tr></thead><tbody>
+<tr><td>Profitability</td><td>Economic Quality / LGNG / after-cost utility</td><td>ADOPT concept; V8 metrics differ.</td></tr>
+<tr><td>Risk-control</td><td>Risk Survival / tail / liquidation / recovery</td><td>ADOPT and strengthen with hard limits.</td></tr>
+<tr><td>Universality</td><td>Generalization across time, asset, regime, cost</td><td>ADOPT as a major domain.</td></tr>
+<tr><td>Diversity</td><td>Exposure concentration / effective bets / dependency</td><td>DIAGNOSTIC only; concentration is not automatically bad.</td></tr>
+<tr><td>Reliability</td><td>Rank stability, seed/path dispersion, replication</td><td>ADOPT.</td></tr>
+<tr><td>Explainability</td><td>Failure attribution / Oracle gaps / Expert evidence lineage</td><td>V8 already has stronger domain-specific machinery.</td></tr>
+</tbody></table>
+<p><strong>Falsifier/update:</strong> if a one-dimensional economic objective plus hard constraints predicts out-of-sample policy ranking
+more reliably than the proposed multi-axis profile, the diagnostic score should be simplified. Complexity is not justified merely because
+a published framework has more axes.</p>
+<p class="small">Primary source: <a href="https://arxiv.org/abs/2302.00586">Sun et al., “PRUDEX-Compass: Towards Systematic Evaluation of Reinforcement Learning in Financial Markets,” arXiv:2302.00586.</a></p>
+</section>
+
+<section id="trademaster"><h1>TradeMaster: benchmark as standardized laboratory</h1>
+<p>TradeMaster's useful contribution is organizational rather than ontological. It treats dataset preparation, trading environment,
+algorithm implementation, benchmark execution and reporting as one reproducible platform. This matters because many published comparisons
+are not true comparisons: transaction-cost assumptions, preprocessing, rebalance schedules, reward definitions, and market windows differ.</p>
+<p>For V8, the transferable principle is <strong>all-else-equal evaluation</strong>. A challenger should not be compared with an incumbent under
+different data semantics or execution physics. Every BenchmarkCase therefore pins the information contract, costs, capital, allocator,
+simulator level, population and metric definitions. External tools are invoked only through adapters that produce a canonical V8 receipt.</p>
+<pre>BAD COMPARISON
+    incumbent @ V8 simulator / fee model A / 4 symbols
+    challenger @ external engine / fee model B / 10 symbols
+
+GOOD COMPARISON
+    same FrozenDecisionStream
+    same capital
+    same symbol universe
+    same timestamps
+    same fee/funding contract
+    same allowed execution semantics
+    paired comparison across engines or policies
+</pre>
+<p>TradeMaster is not evidence that RL is appropriate for V8, nor that its metric set defines economic truth. It is evidence that a
+benchmark becomes substantially more credible when data, environment and evaluation are packaged as a repeatable system.</p>
+<p class="small">Source: <a href="https://papers.nips.cc/paper_files/paper/2023/hash/b8f6f7f2ba4137124ac976286eacb611-Abstract-Datasets_and_Benchmarks.html">TradeMaster, NeurIPS 2023 Datasets and Benchmarks track.</a></p>
+</section>
+
+<section id="finrl-meta"><h1>FinRL-Meta: environment multiplicity and DataOps</h1>
+<p>FinRL-Meta explicitly motivates a data-centric infrastructure for financial reinforcement learning around low signal-to-noise,
+survivorship bias and backtest overfitting. It provides a universe of market environments instead of treating one dataset as the entire
+research world. For D-153 the relevant lesson is not “use FinRL”; it is that <strong>evaluation breadth belongs in infrastructure</strong>,
+not in an ad-hoc analyst notebook.</p>
+<p>V8 goes further by attaching authority and dependency to each environment. Ten correlated slices of the same year are not counted as ten
+independent worlds. A synthetic world and a protected real OOS world are not interchangeable. A market environment is therefore represented
+as a typed <code>EvaluationPopulation</code> with lineage, dependence and admissibility.</p>
+<p class="small">Source: <a href="https://arxiv.org/abs/2211.03107">Liu et al., “FinRL-Meta: Market Environments and Benchmarks for Data-Driven Financial Reinforcement Learning,” arXiv:2211.03107.</a></p>
+</section>
+
+<section id="qlib"><h1>Qlib: repeated-seed reporting and model/portfolio separation</h1>
+<p>Microsoft Qlib provides a broad quantitative-research platform and benchmark conventions that distinguish prediction diagnostics
+(IC, ICIR, Rank IC) from portfolio outcomes (annualized return, information ratio, maximum drawdown). Its public benchmark examples report
+mean and standard deviation over repeated random seeds for model results. The transferable point is that a benchmark should expose
+<strong>dispersion and repeatability</strong>, not just the best run.</p>
+<p>V8 is mostly deterministic at the policy/runtime layer, so “seed variability” means something different. Randomness enters through
+synthetic generation, bootstrap populations, randomized subset/time-window evaluation, or stochastic external models. Those seeds are
+therefore benchmark inputs, and the report shows dispersion across them. Deterministic replays should instead be byte-identical;
+variance there is a defect, not uncertainty.</p>
+<table><thead><tr><th>Source of variation</th><th>Expected V8 treatment</th></tr></thead><tbody>
+<tr><td>Same deterministic replay, same request</td><td>Zero variance; bit identity required.</td></tr>
+<tr><td>Bootstrap/CPCV path selection</td><td>Distribution is intentional; preserve dependence.</td></tr>
+<tr><td>Synthetic world seed</td><td>Distribution conditional on generator family/passport.</td></tr>
+<tr><td>Randomized asset subset/window</td><td>Reliability/generalization diagnostic.</td></tr>
+<tr><td>Stochastic learned challenger</td><td>Repeated seeds and full seed ledger required.</td></tr>
+</tbody></table>
+<p class="small">Sources: <a href="https://arxiv.org/abs/2009.11189">Qlib paper, arXiv:2009.11189</a>;
+<a href="https://github.com/microsoft/qlib/blob/main/examples/benchmarks/README.md">Qlib benchmark examples</a>.</p>
+</section>
+
+<section id="multi-oos"><h1>Multi-OOS evaluation: one future slice is not enough for research comparison</h1>
+<p>Several quantitative studies evaluate one fixed policy/hyperparameter family across many out-of-sample setups rather than presenting a
+single favorable test period. One high-dimensional portfolio study evaluates deep-RL approaches across 48 U.S. equity portfolio setups,
+varying portfolio size, stock-selection criteria and transaction-cost assumptions while retaining a common hyperparameter setup. The
+important transfer is the design logic: <strong>hold the policy class fixed while varying the environment dimensions that could expose
+fragility.</strong></p>
+<p>V8's equivalent is not “test every coin and average the return.” The deployment selector is allowed to abstain and concentrate.
+The benchmark instead asks whether the <em>decision process</em> remains lawful and useful as universe, chronology, cost and regime vary.
+A newly added weak asset should not mechanically create a trade; the ability to say NO_TRADE is part of generalization.</p>
+<p class="small">Source: <a href="https://arxiv.org/abs/2112.04755">“High-Dimensional Stock Portfolio Trading with Deep Reinforcement Learning,” arXiv:2112.04755.</a></p>
+</section>
+
+<section id="cpcv-research"><h1>Purging, embargo and combinatorial out-of-sample paths</h1>
+<p>Time-series trading labels and campaigns overlap. Random IID cross-validation can leak information because training observations may
+share future windows, labels, or economic episodes with the test set. Purging removes training observations whose information overlaps
+test observations; embargo inserts a time buffer; combinatorial purged cross-validation (CPCV/CSCV-family designs) creates multiple
+out-of-sample paths instead of a single split.</p>
+<p>For V8, CPCV has a narrow but valuable role: it estimates <strong>path/ranking sensitivity inside already observed real history</strong>.
+It does not manufacture untouched future evidence. Once the historical tape has influenced policy development, CPCV over that tape remains
+diagnostic. This distinction is constitutional:</p>
+<pre>CPCV(BURNED_DIAGNOSTIC)
+    → useful distributional diagnostic
+    → can expose instability / rank reversal
+    → cannot restore POLICY_FROZEN_OOS authority
+
+CPCV(PROTECTED population, preregistered)
+    → may contribute to protected evaluation
+    → still carries dependence structure
+    → does not equal N independent futures
+</pre>
+<p>skfolio provides a practical implementation of <code>CombinatorialPurgedCV</code>, with purging/embargo and multiple test paths;
+its cross-validation tooling can return a population of multi-period portfolios. VectorBT Pro exposes related purged and combinatorial
+splitters for high-throughput research. D-153 should use or validate such commodity primitives rather than casually reimplement them.</p>
+<p class="small">Sources: <a href="https://skfolio.org/generated/skfolio.model_selection.CombinatorialPurgedCV.html">skfolio CPCV documentation</a>;
+<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2326253">Bailey et al., Probability of Backtest Overfitting</a>.</p>
+</section>
+
+<section id="regime-research"><h1>Regime-conditional evaluation: preserve the shape of failure</h1>
+<p>A 2026 regime-conditional portfolio-evaluation study evaluates strategies over 146 walk-forward OOS folds and conditions results on
+realized-volatility and momentum states. Its methodological message is directly relevant: an unconditional full-horizon statistic can
+hide economically important regime dependence. A strategy that is excellent in trends and destructive in high-volatility chop should not
+be described merely by its average Sharpe.</p>
+<p>V8 therefore treats regime cells as a <strong>vulnerability topology</strong>. Regime labels themselves remain measurement constructs:
+they must be causal, versioned, and defined before protected results. The benchmark reports both cell values and coverage. It is forbidden
+to assign a favorable regime label after seeing the outcome.</p>
+<table><thead><tr><th>Cell dimension</th><th>Examples</th><th>Primary use</th></tr></thead><tbody>
+<tr><td>Trend state</td><td>up / down / flat</td><td>Selection and opportunity capture.</td></tr>
+<tr><td>Volatility state</td><td>compressed / normal / shock</td><td>Risk and execution robustness.</td></tr>
+<tr><td>Liquidity state</td><td>normal / thin / vacuum</td><td>Friction and fill sensitivity.</td></tr>
+<tr><td>Cross-asset state</td><td>diversified / correlated / contagion</td><td>Portfolio heat and concentration.</td></tr>
+<tr><td>Funding/basis state</td><td>neutral / crowded long / crowded short</td><td>Perpetual-futures economics.</td></tr>
+</tbody></table>
+<p class="small">Source: <a href="https://arxiv.org/abs/2606.31251">“Regime-Conditional Distributional Comparison …”, arXiv:2606.31251 (2026).</a></p>
+</section>
+
+<section id="minerva"><h1>MinervaScore: the crucial precedent for score + hard gates</h1>
+<p><span class="tag literature-supported">LITERATURE_SUPPORTED</span>
+MinervaScore (August 2026) is unusually close to the design tension in V8. It combines five robustness/statistical components—including
+Deflated Sharpe Ratio, Probability of Backtest Overfitting, SPA, minimum track-record considerations and regime stability—into a raw score
+mapped to 0–100, while reserving high certification bands for strategies that clear all required gates. Its authors explicitly warn that
+the score is <strong>not a probability of future profitability</strong>.</p>
+<p>The paper is also epistemically useful because its own preregistered unseen real-market test did not produce a significant relationship
+between the score and forward returns. Rather than hiding that result, the proposed use is validation/reporting and triage. This is exactly
+the distinction D-153 needs: a scalar can summarize <em>evidence quality and robustness diagnostics</em> without becoming an expected-return
+estimator.</p>
+<div class="formula">DiagnosticScore ≠ Readiness ≠ P(Future Profit)</div>
+<p>V8 should not copy MinervaScore weights or thresholds. The paper is recent, and one study does not establish an industry standard.
+Its value is as a concrete demonstration that <strong>score and gate can coexist without gate compensation</strong>.</p>
+<p class="small">Source: <a href="https://arxiv.org/abs/2608.23808">“MinervaScore: A Composite Robustness Score for Backtested Trading Strategies,” arXiv:2608.23808.</a></p>
+</section>
+
+<section id="honest-eval"><h1>“Honest evaluation”: why statistical sophistication cannot repair leakage</h1>
+<p>A 2026 study of LLM-driven strategy discovery separates structural no-lookahead controls from search-aware statistical correction and
+records every evaluated strategy as research debt. Its most important demonstration is adversarial: a deliberately leaky oracle can achieve
+an absurdly high Sharpe and can still survive statistical corrections such as DSR/PBO. The conclusion is not that those statistics are
+useless; it is that <strong>their null models do not repair a violated causal graph.</strong></p>
+<p>This validates a core V8 ordering rule:</p>
+<pre>G0/G1: identity + PIT/causal integrity
+          ↓
+G2: deterministic/ledger integrity
+          ↓
+G3+: statistical/economic evaluation
+
+If causality fails:
+    stop.
+Do not ask a p-value to save the experiment.
+</pre>
+<p>The same logic applies to evaluator gaming. If an agent sees hidden benchmark answers, optimization has contaminated the test.
+A more conservative confidence interval cannot unsee that information. Therefore structural gates precede statistical gates.</p>
+<p class="small">Source: <a href="https://arxiv.org/abs/2608.27734">“What survives honest evaluation? Leakage-safe, search-aware assessment of LLM-driven trading strategy discovery,” arXiv:2608.27734.</a></p>
+</section>
+
+<section id="synthetic-research"><h1>Synthetic financial research: useful wind tunnels, weak probability authority</h1>
+<p>Recent financial time-series generation research emphasizes controllability, stylized facts, multivariate dependence, factor structure
+and usability under downstream tasks. Market-GAN explicitly evaluates alignment, fidelity and usability; newer GAN/diffusion work targets
+stylized facts and inter-asset correlation; multivariate generators increasingly test tail co-movement and factor structure rather than
+only marginal return histograms.</p>
+<p>This supports the Foundry's insistence that generator realism is a vector. A generator can match marginal returns while failing volatility
+clustering, stress correlation, funding dynamics or the very V8 behavior occupancy used by the policy. Passing one “realism score” is therefore
+insufficient.</p>
+<p>The epistemic boundary remains strict. Synthetic worlds are models. Their scenario frequencies are generated frequencies. Unless a separate,
+validated probabilistic environment model establishes calibration, “20% of synthetic worlds lost money” is not “20% probability of losing
+money next year.” Synthetic data is strongest as <strong>coverage and counterexample machinery</strong>.</p>
+<p class="small">Sources:
+<a href="https://arxiv.org/abs/2309.07708">Market-GAN, arXiv:2309.07708</a>;
+<a href="https://arxiv.org/abs/2605.27113">GAN-Diffusion synthetic financial time series, arXiv:2605.27113</a>;
+<a href="https://arxiv.org/abs/2601.17773">MarketGANs, arXiv:2601.17773</a>.</p>
+</section>
+
+<section id="execution-research"><h1>Execution research: historical replay, reference engines and interactive simulators</h1>
+<p>Execution evaluation has a fidelity ladder. Bar-based replay can be adequate when conclusions are insensitive to intrabar ordering and
+market impact. A more detailed reference engine can expose accounting, fill, fee, buying-power or order-semantics disagreements. Interactive
+agent-based simulators such as ABIDES become relevant only when the policy's own orders plausibly alter the environment or queue/latency
+semantics determine the result.</p>
+<p>LEAN is attractive as an independent referee because its “reality modeling” layer explicitly separates fill, slippage, fee, brokerage,
+buying-power, settlement and capacity assumptions and supports local Docker backtests with machine-readable results. But LEAN is not ground
+truth. A default slippage or fill model can be wrong for a particular crypto venue; market impact is difficult; custom modeling may be
+required. The correct V8 use is <strong>paired disagreement testing</strong>, not outsourcing epistemology.</p>
+<pre>FrozenDecisionStream
+      ├── V8 USD-M simulator
+      └── LEAN adapter with matched contract
+               ↓
+        DisagreementReceipt
+               ↓
+   if material:
+       attribute fee / fill / margin / timing / funding / price-source difference
+       escalate simulator fidelity only where verdict is sensitive
+</pre>
+<p>ABIDES provides an interactive discrete-event market with many agents, exchange mechanics and latency, and ABIDES-Gym exposes benchmark
+tasks. It is a candidate escalation tool if reactive execution becomes binding. It should not be imported merely to make the simulator look
+more sophisticated.</p>
+<p class="small">Sources:
+<a href="https://www.quantconnect.com/docs/v2/writing-algorithms/reality-modeling">LEAN Reality Modeling</a>;
+<a href="https://arxiv.org/abs/1904.12066">ABIDES, arXiv:1904.12066</a>;
+<a href="https://arxiv.org/abs/2110.14771">ABIDES-Gym, arXiv:2110.14771</a>;
+<a href="https://arxiv.org/abs/2411.06389">RL optimal execution using ABIDES, arXiv:2411.06389</a>.</p>
+</section>
+
+<section id="industry-stack"><h1>Industry and open-source stack: buy the commodity, keep the V8-specific epistemology</h1>
+<p>There is no single package that should replace V8's benchmark architecture. The strongest practical design is compositional:
+use mature libraries for commodity mechanics, independently validate their outputs where consequential, and keep V8's authority and
+domain-specific semantics in one place.</p>
+<table><thead><tr><th>Component</th><th>Recommended role</th><th>Why</th><th>Do not delegate</th></tr></thead><tbody>
+<tr><td><strong>skfolio</strong></td><td>Primary open-source splitter/population/risk adapter.</td><td>WalkForward, CombinatorialPurgedCV, randomized CV, portfolio populations, risk measures.</td><td>V8 data roles, trial debt, authority, scenario ontology.</td></tr>
+<tr><td><strong>VectorBT Pro</strong></td><td>Optional DEV acceleration and parameter-surface exploration.</td><td>Fast splitters, walk-forward/purged/CPCV research, large parameter surfaces.</td><td>Protected benchmark sovereignty; every explored variant still counts as a trial.</td></tr>
+<tr><td><strong>QuantConnect LEAN</strong></td><td>Independent execution/accounting referee.</td><td>Mature brokerage/reality models and local reproducible backtesting.</td><td>Do not assume default fills/slippage equal venue truth.</td></tr>
+<tr><td><strong>Qlib</strong></td><td>Research reference / optional model benchmark adapter.</td><td>Standard model/portfolio workflow, repeat-seed reporting, strong ecosystem.</td><td>Opportunity/Expert ontology and economic authority.</td></tr>
+<tr><td><strong>TradeMaster / FinRL-Meta</strong></td><td>Design references and optional external benchmark baselines.</td><td>Standardized financial environments and RL benchmark practice.</td><td>V8's production policy semantics.</td></tr>
+<tr><td><strong>ABIDES</strong></td><td>Execution-fidelity escalation only.</td><td>Interactive market simulation when impact/latency is conclusion-sensitive.</td><td>Future-market probability calibration.</td></tr>
+<tr><td><strong>QuantStats / equivalent</strong></td><td>Commodity reporting cross-check.</td><td>Common risk/return tear-sheet metrics.</td><td>Primary metric definitions where V8 has stricter contracts.</td></tr>
+</tbody></table>
+<h2>Build-vs-buy rule</h2>
+<p>A component should be internal only when at least one of these holds: its semantics are unique to V8; external packages cannot preserve
+the required authority/data-role boundary; an external dependency prevents deterministic/reproducible evaluation; or independent
+implementation is itself needed as a parity oracle. Otherwise, the default is adapter + pinned dependency + parity tests.</p>
+<p>This reverses a common engineering instinct. Rewriting Sharpe, CPCV, portfolio risk or a full generic broker simulator does not make V8
+more sovereign; it increases the amount of unvalidated code between evidence and claim. Sovereignty belongs in the contracts and authority
+layer, not in reinventing standard arithmetic.</p>
+</section>
+
+<section id="constitution"><h1>D-153 Benchmark Fabric — proposed constitutional amendment set</h1>
+<p>The following rules are proposed additions. They deliberately preserve the active V8.5 rule that no scalar score certifies production
+readiness.</p>
+<table><thead><tr><th>#</th><th>Rule</th><th>Status</th></tr></thead><tbody>
+<tr><td>BF-01</td><td><strong>Benchmark ≠ Assurance.</strong> Benchmark Fabric measures; Assurance Fabric adjudicates. Benchmark code cannot mint economic claims or readiness verdicts.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-02</td><td><strong>Scalar Diagnostic Permission.</strong> A 0–100 CapabilityScore may summarize a fixed BenchmarkVersion for regression/progress only.</td><td><span class="tag provisional-decision">PROVISIONAL_DECISION</span></td></tr>
+<tr><td>BF-03</td><td><strong>No Scalar Authority.</strong> CapabilityScore has <code>DIAGNOSTIC_ONLY</code> decision authority and cannot contribute positive authority to SHADOW_READY, LIMITED_LIVE_READY, LIVE_SUPPORTED, SUPPORTED_EDGE or REALIZED_CASHFLOW.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-04</td><td><strong>Hard-gate non-compensation.</strong> No weighted score, profit, Oracle capture or synthetic PASS may offset a hard-gate BLOCKED/DEFEATED state.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-05</td><td><strong>Benchmark identity.</strong> Metric definitions, weights, transforms, cell taxonomy, populations, external tool versions and comparator set are part of <code>BenchmarkVersion</code>.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-06</td><td><strong>Cross-version honesty.</strong> Scores from different BenchmarkVersions are not directly comparable unless an explicit bridge study establishes a mapping with uncertainty.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-07</td><td><strong>Population typing.</strong> BURNED_DIAGNOSTIC, PROTECTED_OOS, CPCV, WALK_FORWARD, RANDOMIZED_REAL, SYNTHETIC_QUALIFICATION, SYNTHETIC_NOVELTY, REVERSE_STRESS, SHADOW and LIVE are distinct population roles.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-08</td><td><strong>Dependency is first-class.</strong> Population and metric observations carry common-mode lineage; counts cannot be interpreted as independent sample size without an explicit dependence model.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-09</td><td><strong>Historical quad cap.</strong> Burned historical performance may contribute to diagnostic pathology and regression but cannot dominate CapabilityScore. Default total score weight ≤10% unless separately ratified.</td><td><span class="tag provisional-decision">PROVISIONAL_DECISION</span></td></tr>
+<tr><td>BF-10</td><td><strong>Protected result blindness.</strong> Benchmark weights, gates, cell definitions and primary metrics are sealed before protected evaluation.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-11</td><td><strong>External engine instrument status.</strong> LEAN, skfolio, vectorbt, Qlib, ABIDES and any future tool produce typed instrument receipts only; none can escalate V8 authority.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-12</td><td><strong>Execution disagreement rule.</strong> Material disagreement between independent execution engines blocks any claim whose sign/rank depends on the disagreement until attributed or bounded.</td><td><span class="tag provisional-decision">PROVISIONAL_DECISION</span></td></tr>
+<tr><td>BF-13</td><td><strong>Synthetic asymmetry.</strong> Synthetic PASS contributes robustness diagnostics; passport-scoped synthetic FAIL may create a hard structural defeater. Neither supplies expected real return.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-14</td><td><strong>Novelty-vault separation.</strong> Synthetic novelty seeds/families intended for qualification are unavailable to policy-generation agents until policy freeze.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-15</td><td><strong>Projection authority.</strong> A CapitalOutcomeProjection may be emitted only when a ProjectionPlan declares admissible populations, weighting/calibration, uncertainty and grade. Otherwise output is UNKNOWN.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-16</td><td><strong>Quantile language.</strong> Empirical path quantiles are not future probabilities unless the ProjectionPlan establishes the probabilistic interpretation.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-17</td><td><strong>Challenger promotion.</strong> A benchmark improvement can support Kaizen selection only if no hard gate regresses, no protected domain collapses behind the aggregate, and required multiplicity debt is paid.</td><td><span class="tag provisional-decision">PROVISIONAL_DECISION</span></td></tr>
+<tr><td>BF-18</td><td><strong>Metric anti-target-chasing.</strong> CapabilityScore and domain scores are forbidden runtime objectives for the production policy.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-19</td><td><strong>Unknown is legal.</strong> Missing projection, underpowered statistics, uncovered scenario cells and unavailable external parity are rendered UNKNOWN rather than zero.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-20</td><td><strong>Renderer disclosure.</strong> Every total score is displayed with BenchmarkVersion, GateVector, evidence grade, coverage, and nearest material defeater.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-21</td><td><strong>Benchmark-of-benchmark.</strong> Benchmark versions are periodically red-teamed for stale populations, metric saturation, rank instability, and evaluator capture.</td><td><span class="tag provisional-decision">PROVISIONAL_DECISION</span></td></tr>
+<tr><td>BF-22</td><td><strong>One-run ban.</strong> No economic progress claim may be based solely on one historical trajectory, even if many metrics are derived from it.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+<tr><td>BF-23</td><td><strong>Paired comparison default.</strong> Incumbent and challenger should be evaluated on the same population cases and contracts where technically possible.</td><td><span class="tag provisional-decision">PROVISIONAL_DECISION</span></td></tr>
+<tr><td>BF-24</td><td><strong>Projection never overrides gates.</strong> An attractive $1000 projection is informational and cannot bypass gate/certificate state.</td><td><span class="tag locked-invariant">LOCKED_INVARIANT</span></td></tr>
+</tbody></table>
+</section>
+
+<section id="architecture"><h1>Canonical Benchmark Fabric architecture</h1>
+<pre>
+                                  V8.5 BENCHMARK FABRIC
+
+                             ┌──────────────────────────┐
+                             │      POLICY REGISTRY     │
+                             │ code + config + lineage  │
+                             └────────────┬─────────────┘
+                                          │ freeze
+                                          ▼
+                             ┌──────────────────────────┐
+                             │   BENCHMARK CASE MANIFEST│
+                             │ benchmark + contracts    │
+                             └────────────┬─────────────┘
+                                          │
+                  ┌───────────────────────┼────────────────────────┐
+                  │                       │                        │
+                  ▼                       ▼                        ▼
+        REAL EVALUATION LANE      WORLD / STRESS LANE      EXTERNAL REF LANE
+        burned diagnostic         synthetic qualification  LEAN execution replay
+        protected OOS             synthetic novelty        skfolio CV populations
+        walk-forward              metamorphic              Qlib/baseline adapters
+        CPCV/randomized           reverse stress           ABIDES if escalated
+                  │                       │                        │
+                  └───────────────────────┼────────────────────────┘
+                                          ▼
+                              ┌─────────────────────────┐
+                              │ CANONICAL OBSERVATIONS  │
+                              │ metrics + lineage + deps│
+                              └────────────┬────────────┘
+                                           │
+                     ┌─────────────────────┼──────────────────────┐
+                     ▼                     ▼                      ▼
+             CAPABILITY ENGINE       FAILURE TOPOLOGY       PROJECTION ENGINE
+             domain margins          nearest defeaters      admissible economic
+             score 0..100            attribution            population only
+                     │                     │                      │
+                     └──────────────┬──────┴───────────────┬─────┘
+                                    ▼                      ▼
+                             BENCHMARK RECEIPT       EVIDENCE ATTESTATIONS
+                                    │                      │
+                                    │                      ▼
+                                    │              ASSURANCE FABRIC
+                                    │                      │
+                                    └──────────────► KAIZEN / REPORT
+</pre>
+<p>The architecture intentionally has two downstream paths. The Benchmark Receipt can be consumed immediately for engineering comparison.
+Only authority-bearing EvidenceAttestations enter the Assurance Fabric. This prevents a score renderer from becoming a shadow verdict engine.</p>
+</section>
+
+<section id="benchmark-case"><h1>BenchmarkCase and BenchmarkVersion contracts</h1>
+<pre>BenchmarkVersion {
+    benchmark_id
+    semantic_version
+    constitution_hash
+    created_at
+    source_map_hash
+
+    domain_definitions[]
+    metric_definitions[]
+    metric_normalizers[]
+    domain_weights[]
+    score_aggregation_version
+
+    gate_contract_id
+    scenario_taxonomy_id
+    population_protocols[]
+    comparator_set[]
+    required_external_tools[]
+    adapter_versions[]
+
+    projection_policy_id
+    reporting_schema_version
+}
+
+BenchmarkCaseManifest {
+    case_id
+    benchmark_version
+    policy_identity {
+        policy_hash
+        code_hash
+        config_hash
+        policy_lineage_id
+    }
+
+    production_growth_contract_id
+    information_contract_id
+    opportunity_universe_version
+    selector_policy_id
+    allocator_policy_id
+    risk_contract_id
+    execution_contract_id
+    cost_model_id
+    capacity_model_id
+
+    population_manifests[]
+    statistical_plan_id
+    projection_plan_id
+
+    sealed_primary_metrics[]
+    sealed_thresholds[]
+    allowed_agent_capabilities[]
+    hidden_assets[]
+
+    created_at
+    seal_hash
+}</pre>
+<h2>Semantic versioning rule</h2>
+<table><thead><tr><th>Change</th><th>Version consequence</th></tr></thead><tbody>
+<tr><td>Renderer-only copy/visual change with identical values</td><td>PATCH</td></tr>
+<tr><td>Add diagnostic metric not used in score/gates/projection</td><td>MINOR</td></tr>
+<tr><td>Change metric formula, domain weight, threshold, scenario taxonomy, population protocol, or projection weighting</td><td>MAJOR for comparability purposes</td></tr>
+<tr><td>Fix a proven implementation bug that changed old results</td><td>New version + explicit invalidation/bridge receipt; never silently rewrite history</td></tr>
+</tbody></table>
+</section>
+
+<section id="evaluation-populations"><h1>Evaluation population taxonomy</h1>
+<p>A benchmark is only as informative as its population design. D-153 uses populations with different epistemic jobs rather than pretending
+all paths are interchangeable.</p>
+<table><thead><tr><th>Population</th><th>Construction</th><th>Policy may have seen?</th><th>Positive authority</th><th>Primary question</th></tr></thead><tbody>
+<tr><td><code>BURNED_HISTORICAL</code></td><td>Existing real tape repeatedly used in development.</td><td>Yes</td><td>Diagnostic only</td><td>Where did the current system make/lose money and why?</td></tr>
+<tr><td><code>PROTECTED_FROZEN_OOS</code></td><td>Untouched chronological real data.</td><td>No</td><td>Economic replication</td><td>Does the frozen policy transfer to unseen chronology?</td></tr>
+<tr><td><code>WALK_FORWARD_REAL</code></td><td>Chronological rolling train/test protocol.</td><td>Depends on lineage</td><td>Protocol-dependent</td><td>How stable is repeated historical transfer?</td></tr>
+<tr><td><code>CPCV_REAL</code></td><td>Purged/embargoed combinatorial real paths.</td><td>Depends</td><td>Usually diagnostic unless preregistered protected population</td><td>How sensitive is result/rank to path partition?</td></tr>
+<tr><td><code>RANDOMIZED_REAL</code></td><td>Predeclared asset subsets and contiguous windows.</td><td>Depends</td><td>Diagnostic/reliability</td><td>Does capability depend on one universe slice?</td></tr>
+<tr><td><code>SYNTHETIC_QUALIFICATION</code></td><td>Sealed passport-passing generator families.</td><td>No seeds/results</td><td>Robustness only</td><td>Does policy survive declared plausible mechanisms?</td></tr>
+<tr><td><code>SYNTHETIC_NOVELTY</code></td><td>New worlds/families revealed after freeze.</td><td>No</td><td>Robustness/defeater</td><td>Has evaluator/policy overfit the known wind tunnel?</td></tr>
+<tr><td><code>REVERSE_STRESS</code></td><td>Adversarial search from declared failure outcome.</td><td>Search space may be known</td><td>Negative/falsification</td><td>What is the nearest plausible way to break it?</td></tr>
+<tr><td><code>EXTERNAL_EXECUTION_REF</code></td><td>Same decisions replayed through independent engine.</td><td>N/A</td><td>Engineering/economic sensitivity</td><td>Is result an artifact of one simulator?</td></tr>
+<tr><td><code>PROSPECTIVE_SHADOW</code></td><td>Future arriving market with frozen policy, no capital-bearing mutation.</td><td>No future</td><td>Prospective</td><td>Does behavior survive real forward time?</td></tr>
+<tr><td><code>LIVE</code></td><td>Actual fills/costs/cashflow.</td><td>No future</td><td>Highest realization for actual deployment</td><td>What actually happened?</td></tr>
+</tbody></table>
+</section>
+
+<section id="data-roles"><h1>Data roles, benchmark roles and lineage-relative burn</h1>
+<p>The existing DataRoleLedger remains authoritative. Benchmark populations add an evaluation role, not a new universal property of data.
+A date interval is not inherently OOS. It is OOS relative to a policy lineage, generator lineage, evaluator version and access history.</p>
+<pre>POLICY_DEV
+    ↓ policy may tune
+BURNED_DIAGNOSTIC
+    ↓ useful forever for diagnosis, never pristine again for same lineage
+
+SEPARATE SEALED STORE
+    POLICY_FROZEN_OOS
+        ↓ one protected opening
+    HoldoutBurnReceipt
+        ↓
+    BURNED_DIAGNOSTIC for that lineage
+
+FUTURE CLOCK
+    PROSPECTIVE_SHADOW
+        ↓ epochs
+    LIVE (only when capital-bearing authority exists)
+</pre>
+<p>Benchmark tooling must make data-role transitions machine-enforced. A convenient library API that loads all arrays into one notebook is a
+risk surface. Protected populations should be capability-restricted so the policy-generation agent cannot “accidentally” inspect them.</p>
+</section>
+
+<section id="historical-court"><h1>The burned historical court: keep it, cap it, exploit it for diagnosis</h1>
+<p>The 12-month quad should not be deleted. Its correct role is analogous to a regression fixture with rich economic telemetry. It answers
+questions that a hidden OOS should not be repeatedly opened to answer: which Expert emits too many candidates, which symbol carries the
+result, where fees dominate, which exit truncates MFE, whether capital quantization creates zero-size orders, and which Oracle gap is largest.</p>
+<p>D-153 therefore gives BURNED_HISTORICAL two uses:</p>
+<ol>
+<li><strong>Pathology bench:</strong> dense attribution and ablation are allowed because evidence authority is already burned.</li>
+<li><strong>Regression sentinel:</strong> an implementation change that unexpectedly destroys or inflates known behavior is immediately visible.</li>
+</ol>
+<p>It is explicitly not the dominant score source. A system can improve +20 points on the burned tape while getting worse on sealed
+qualification worlds. That is exactly the pattern the benchmark must expose.</p>
+</section>
+
+<section id="frozen-oos"><h1>Protected frozen OOS: the economic replication court</h1>
+<p>Protected frozen OOS is expensive evidence because it is consumable. A policy must be frozen before the segment is opened; benchmark
+primary metrics and gates must also be frozen; no repair is allowed after seeing the result without creating a challenger and paying for a
+new protected case.</p>
+<p>The protected court should be broad enough to test the intended deployment envelope, not chosen because it flatters a symbol or period.
+For V8's selective architecture, broad universe evaluation does not mean forced equal allocation. The selector may legally allocate 100%
+of authorized risk to one opportunity or 0% to all opportunities if that is what the frozen policy does.</p>
+<h2>Protected OOS report minimums</h2>
+<ul>
+<li>after-cost geometric growth and terminal equity;</li>
+<li>drawdown, expected shortfall/tail metrics, time under water;</li>
+<li>trade/campaign count and effective episode count;</li>
+<li>symbol and factor concentration;</li>
+<li>Oracle discovery/value transfer diagnostics;</li>
+<li>friction retention and cost sensitivity;</li>
+<li>paired incumbent/challenger differences;</li>
+<li>statistical-plan receipts and multiplicity state;</li>
+<li>coverage and missingness;</li>
+<li>explicit burn receipt.</li>
+</ul>
+</section>
+
+<section id="walk-forward"><h1>Walk-forward evaluation</h1>
+<p>Walk-forward evaluation approximates repeated deployment decisions more faithfully than a single train/test split. At each fold, training
+and optional validation use only the historical prefix available at that time; the evaluation window is strictly later. For V8, the
+policy may be re-estimated only if the experiment is explicitly about a <em>learning procedure</em>. If the subject is one frozen production
+policy, the policy remains frozen and walk-forward windows simply provide multiple chronological observation cells.</p>
+<pre>time ───────────────────────────────────────────────────────────────────►
+
+Fold 1: [ DEV / CALIBRATE ] [ TEST ]
+Fold 2:       [ DEV / CALIBRATE ] [ TEST ]
+Fold 3:             [ DEV / CALIBRATE ] [ TEST ]
+Fold 4:                   [ DEV / CALIBRATE ] [ TEST ]
+
+For frozen-policy benchmark:
+        policy identity does NOT change between test windows.
+</pre>
+<h2>Failure modes to prevent</h2>
+<table><thead><tr><th>Failure</th><th>Why invalid</th><th>Mitigation</th></tr></thead><tbody>
+<tr><td>Reusing test-window results to tune the same policy</td><td>Turns evaluation into development.</td><td>New lineage + burn receipt.</td></tr>
+<tr><td>Overlapping labels/campaign horizons across boundary</td><td>Information leakage.</td><td>Purging/embargo appropriate to maximum information horizon.</td></tr>
+<tr><td>Choosing fold length after seeing ranks</td><td>Evaluator overfit.</td><td>Seal fold protocol in BenchmarkVersion.</td></tr>
+<tr><td>Counting folds as IID</td><td>Overlapping chronology induces dependence.</td><td>Cluster/block-aware uncertainty and explicit dependency graph.</td></tr>
+</tbody></table>
+</section>
+
+<section id="cpcv"><h1>Combinatorial Purged Cross-Validation population</h1>
+<p>CPCV is retained because one chronological split can produce an accidental ranking. The method partitions history into groups, forms
+multiple train/test combinations, purges overlapping information and can create several backtest paths. The output is a <em>population of
+path outcomes</em>, not a single “CV Sharpe.”</p>
+<pre>CPCVReceipt {
+    splitter = SKFO_CPCV | VERIFIED_INTERNAL
+    splitter_version
+    n_folds
+    n_test_folds
+    purge_size
+    embargo_size
+    label_information_horizon
+    path_count
+    path_dependencies
+    path_results[]
+    source_data_role
+    authority
+}</pre>
+<p>For each path the benchmark stores terminal equity, LGNG, MaxDD, tail loss, trade count, friction retention, opportunity capture and
+policy-comparator deltas. Aggregation uses medians, lower-tail quantiles and rank stability; the best path is never the headline.</p>
+<p><strong>Interpretation discipline:</strong> CPCV on burned data can tell us “this policy's apparent edge is partition-sensitive.”
+It cannot tell us “there is a 70% chance the policy works next year.” The paths are transformations of known history, not draws from a
+validated future distribution.</p>
+</section>
+
+<section id="randomized-cv"><h1>Randomized real-window and universe evaluation</h1>
+<p>Randomized evaluation complements CPCV by varying both time and cross-section under preregistered constraints. skfolio's
+<code>MultipleRandomizedCV</code> is one implementation pattern: sample contiguous time windows and asset subsets, then run an inner
+time-aware evaluation. V8 can use the same idea to test whether the system's apparent quality depends on one lucky symbol set.</p>
+<h2>Randomization contract</h2>
+<pre>RandomizedRealPopulation {
+    source_dataset_hash
+    eligible_symbols
+    subset_size_distribution
+    contiguous_window_length_distribution
+    minimum_campaign_completion_buffer
+    selection_seed_set
+    inner_split_protocol
+    cost_contract
+    number_of_cases
+    dependence_estimator
+}</pre>
+<p>Two safeguards are essential. First, the production universe must not be silently replaced by the randomized benchmark universe:
+deployment-equivalent economics remains its own court. Second, the policy is allowed to abstain. Universe expansion tests whether the
+selector rejects irrelevant assets, not whether it trades every sampled asset.</p>
+</section>
+
+<section id="scenario-cells"><h1>Scenario cells: from “average performance” to vulnerability topology</h1>
+<p>D-152 introduced scenario-centric evidence but left many cells unrun. D-153 turns scenario cells into an executable benchmark population.
+A cell is a causal, versioned predicate over the evaluation environment. It is not a story written after the chart is inspected.</p>
+<table><thead><tr><th>Family</th><th>Example cells</th><th>Measurement focus</th></tr></thead><tbody>
+<tr><td>Trend × volatility</td><td>UP_LOWVOL, UP_HIGHVOL, DOWN_LOWVOL, DOWN_HIGHVOL, FLAT_LOWVOL, FLAT_HIGHVOL</td><td>Opportunity selection and regime dependence.</td></tr>
+<tr><td>Transition</td><td>TREND→CHOP, CHOP→BREAKOUT, CALM→SHOCK, SHOCK→RECOVERY</td><td>Late detection and invalidation.</td></tr>
+<tr><td>Liquidity</td><td>NORMAL, THIN, VACUUM, SPREAD_SPIKE</td><td>Execution and friction retention.</td></tr>
+<tr><td>Cross-asset</td><td>DISPERSION, CORR_NORMAL, CORR_TO_ONE, CONTAGION</td><td>Portfolio heat and concentration.</td></tr>
+<tr><td>Derivatives</td><td>FUNDING_NEUTRAL, LONG_CROWDING, SHORT_CROWDING, BASIS_DISLOCATION</td><td>Perpetual-futures drag and reversal.</td></tr>
+<tr><td>Path topology</td><td>SMOOTH_TREND, WICKY_TREND, V_REVERSAL, FALSE_BREAK_CLUSTER</td><td>Exit/stop geometry and tail capture.</td></tr>
+<tr><td>Data/ops</td><td>MISSING_EVENT, STALE_FUNDING, GAP, LATENCY_SPIKE</td><td>Fail-closed operational behavior.</td></tr>
+</tbody></table>
+<h2>Cell scorecard</h2>
+<pre>ScenarioCellReceipt {
+    scenario_taxonomy_version
+    cell_id
+    source_population
+    coverage_count
+    effective_episode_count
+
+    discovery_recall
+    value_recall
+    candidate_precision
+    after_cost_utility
+    max_drawdown
+    tail_loss
+    friction_retention
+    abstention_rate
+    failure_fraction
+
+    confidence_or_bound
+    authority
+    dependency_groups[]
+}</pre>
+<p>A cell with insufficient coverage is <code>UNKNOWN</code>, not a zero and not a PASS. The dashboard highlights holes in the map because
+unknown coverage is itself a research priority.</p>
+</section>
+
+<section id="synthetic-worlds"><h1>Synthetic qualification and novelty worlds</h1>
+<p>The Market World Foundry already contains structural, resampled, volatility, cross-asset, topology, metamorphic, surgery and reverse-stress
+families. D-153's job is not to invent more generators first; it is to connect frozen policy execution to those worlds and record benchmark
+cells with correct authority.</p>
+<h2>Three isolated populations</h2>
+<pre>SYNTHETIC_DEV
+    visible to policy research
+    unlimited iteration
+    no qualification authority
+
+SYNTHETIC_QUALIFICATION
+    sealed seeds/parameter cells
+    generator passport must pass
+    frozen policy only
+    robustness evidence; PASS grants no economic edge
+
+SYNTHETIC_NOVELTY
+    fresh worlds or evaluator-family extensions after policy freeze
+    designed to detect evaluator capture / over-specialization
+    may generate new defeaters
+</pre>
+<h2>Generator passport minimum dimensions</h2>
+<table><thead><tr><th>Dimension</th><th>Examples</th><th>Critical failure consequence</th></tr></thead><tbody>
+<tr><td>Marginal geometry</td><td>return/tail/skew/kurtosis/jumps/drawdowns/wicks</td><td>World cannot challenge claims dependent on that geometry.</td></tr>
+<tr><td>Temporal dependence</td><td>ACF, volatility clustering, persistence, run length</td><td>Trend/chop robustness authority restricted.</td></tr>
+<tr><td>Cross-asset dependence</td><td>rolling/stress correlation, tail dependence, lead-lag</td><td>Portfolio contagion authority restricted.</td></tr>
+<tr><td>Activity/liquidity</td><td>volume, spread/depth proxy, funding/basis</td><td>Execution/funding stress authority restricted.</td></tr>
+<tr><td>V8 occupancy</td><td>Expert habitats, candidates, abstention, MFE/MAE, duration</td><td>Behavioral stress results may be non-representative.</td></tr>
+<tr><td>Failure coverage</td><td>declared extreme-but-plausible regions</td><td>Coverage claim stays incomplete.</td></tr>
+</tbody></table>
+<p>The previous idea that every passport dimension must exceed a threshold such as 0.70 should remain provisional unless each dimension's
+measurement scale and threshold are empirically justified. A threshold can be useful operationally without being ontologically meaningful.
+The benchmark stores both raw passport dimensions and admission state.</p>
+</section>
+
+<section id="reverse-stress"><h1>Reverse stress: nearest plausible defeater as a primary benchmark product</h1>
+<p>Ordinary stress asks what happens under named scenarios. Reverse stress starts with a failure and searches backward for a world that
+causes it. This makes failure proximity measurable.</p>
+<div class="formula">d* = min<sub>θ</sub> Distance(θ, admissible-manifold) &nbsp; subject to &nbsp; Failure(P, θ)=true</div>
+<p>The word “plausible” is dangerous unless operationalized. D-153 therefore requires the distance function, admissible support,
+generator passport and search algorithm to be part of the receipt. A small <code>d*</code> means a failure exists close to the declared
+world manifold; it does not mean that failure has high future probability.</p>
+<h2>Declared failure predicates</h2>
+<ul>
+<li>MaxDD ≥ risk-contract limit;</li>
+<li>liquidation or margin failure;</li>
+<li>FrictionRetention ≤ 0;</li>
+<li>terminal capital below preregistered floor;</li>
+<li>portfolio heat/correlation constraint breach;</li>
+<li>execution divergence sufficient to reverse policy ranking;</li>
+<li>systemic false-positive trade rate above limit;</li>
+<li>PIT, authority, ledger or identity invariant breach.</li>
+</ul>
+<pre>MinimalDefeaterReceipt {
+    policy_hash
+    benchmark_version
+    failure_predicate
+    world_family
+    generator_version
+    passport_hash
+    search_algorithm
+    search_budget
+    distance_metric
+    nearest_failure_distance
+    parameter_vector
+    trajectory_hash
+    failure_attribution
+    reproducibility_seed
+    authority = STRUCTURAL_NEGATIVE
+}</pre>
+<p>Reverse-stress distance is a strong candidate for a <em>headline diagnostic</em> alongside CapabilityScore because it is difficult to
+hide: “score 78, but nearest catastrophic defeater distance 0.04” immediately warns that the aggregate is fragile.</p>
+</section>
+
+<section id="execution-parity"><h1>Independent execution parity: LEAN as referee, not judge</h1>
+<p>The biggest risk in self-contained trading research is common-mode simulator error. If policy and evaluator share the same fee, fill,
+margin or rounding bug, internal reproducibility simply reproduces the bug. D-153 adds a paired external execution lane.</p>
+<h2>Adapter principle</h2>
+<pre>V8 emits:
+    FrozenDecisionStream {
+        timestamp
+        instrument
+        side
+        order_intent
+        quantity / risk intent
+        stop / target / expiry semantics
+        allowed execution type
+    }
+
+Adapter maps to:
+    LEAN-compatible order stream
+
+Both engines consume:
+    same market source where feasible
+    same fee schedule
+    same funding treatment
+    same capital
+    same lot/step/tick constraints
+    same declared order semantics
+
+Result:
+    ExecutionParityReceipt
+</pre>
+<table><thead><tr><th>Disagreement class</th><th>Examples</th><th>Action</th></tr></thead><tbody>
+<tr><td>Accounting</td><td>cash, margin, realized/unrealized PnL mismatch</td><td>P0 investigation; economic claims blocked.</td></tr>
+<tr><td>Quantization</td><td>lot/step/min-notional mismatch</td><td>Fix contract or adapter; deployment-equivalent result blocked.</td></tr>
+<tr><td>Fee/funding</td><td>different schedule/timestamp semantics</td><td>Attribute and bind to venue contract.</td></tr>
+<tr><td>Fill ordering</td><td>same-bar stop/target ambiguity</td><td>Use conservative bound or escalate data fidelity.</td></tr>
+<tr><td>Slippage/impact</td><td>model sensitivity</td><td>Report interval/scenario; do not choose favorable engine.</td></tr>
+<tr><td>Unsupported venue behavior</td><td>queue, partial fill, liquidation semantics not representable</td><td>UNKNOWN or fidelity escalation.</td></tr>
+</tbody></table>
+<p>The acceptance criterion is not perfect identity where models legitimately differ. It is <strong>conclusion robustness</strong>:
+if reasonable, contract-consistent execution models reverse the economic verdict, the evidence is not strong enough for the stronger claim.</p>
+</section>
+
+<section id="oracle-integration"><h1>Oracle integration: ceiling, recoverability and actual capture</h1>
+<p>The Benchmark Fabric consumes the existing exactly-three-Oracle architecture. It creates no “Benchmark Oracle.”</p>
+<table><thead><tr><th>Oracle</th><th>Benchmark role</th><th>Key metric</th><th>Forbidden use</th></tr></thead><tbody>
+<tr><td>PARITY_ORACLE</td><td>Implementation equivalence.</td><td>record/cell parity; failure-mode agreement.</td><td>Profitability.</td></tr>
+<tr><td>HINDSIGHT_ORACLE</td><td>Bounded ex-post opportunity ceiling.</td><td>HindsightGap; representational coverage.</td><td>Direct fitting target or ex-ante selectability.</td></tr>
+<tr><td>TARGET_ORACLE</td><td>Decision-time recoverable comparator within declared feasible policy class.</td><td>Target Decision Transfer Efficiency; RecoverabilityGap.</td><td>Universal perfect trader interpretation.</td></tr>
+</tbody></table>
+<h2>Capture funnel</h2>
+<pre>Hindsight Opportunity Universe
+          ↓ representation
+Decision-time Recoverable Opportunity
+          ↓ detection
+V8 Candidate / Evidence
+          ↓ selection
+Trade-eligible opportunity
+          ↓ allocation
+Execution campaign
+          ↓ fees / funding / slippage / exits
+Net capital growth
+</pre>
+<p>Each arrow has a loss ratio. This is more useful than one “Oracle closeness” number because two systems with the same final capture can
+have radically different research priorities. A detection-poor system needs better habitats/representation; a high-recall, low-net system
+needs selection, exit or friction work.</p>
+<h2>Canonical diagnostics</h2>
+<table><thead><tr><th>Metric</th><th>Formula sketch</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Episode Discovery Recall</td><td>captured recoverable episodes / total recoverable episodes</td><td>Detection breadth.</td></tr>
+<tr><td>Economic Value Recall</td><td>captured recoverable gross utility / total recoverable gross utility</td><td>Value-weighted discovery.</td></tr>
+<tr><td>Candidate Precision</td><td>matched useful candidates / emitted candidates</td><td>Selection noise.</td></tr>
+<tr><td>MFE Retention</td><td>captured favorable excursion / available favorable excursion</td><td>Exit/campaign retention.</td></tr>
+<tr><td>Gross→Net Retention</td><td>net utility / gross utility under compatible sign convention</td><td>Friction/execution conversion.</td></tr>
+<tr><td>Target Transfer Efficiency</td><td>V8 decision-time utility / Target recoverable utility</td><td>End-to-end feasible capture.</td></tr>
+</tbody></table>
+<p>These metrics are calculated per population and scenario cell. The current BTC values from the burned 12-month band remain a baseline
+diagnostic, not an independent proof of future transfer.</p>
+</section>
+
+<section id="metric-taxonomy"><h1>Metric taxonomy: measure the mechanism of loss, not just the endpoint</h1>
+<p>The metric set is organized by causal location in the trading system. This is deliberately different from a generic tear sheet.
+Sharpe, Sortino and MaxDD remain useful, but they cannot identify whether failure came from discovery, selection, allocation, execution,
+exit geometry, or research methodology.</p>
+<table><thead><tr><th>Domain</th><th>Core metrics</th><th>Primary failure question</th></tr></thead><tbody>
+<tr><td>Engineering / data</td><td>PIT kill rate, deterministic parity, ledger conservation, missingness, external replay divergence</td><td>Is the measurement trustworthy?</td></tr>
+<tr><td>Opportunity discovery</td><td>episode recall, value recall, precision, abstention, Target transfer efficiency</td><td>Are useful opportunities represented and found?</td></tr>
+<tr><td>Economic quality</td><td>LGNG, net utility, profit factor, net R, break-even cost, capital efficiency</td><td>Does selected activity create after-cost value?</td></tr>
+<tr><td>Risk survival</td><td>MaxDD, ES/CVaR, time under water, recovery time, liquidation distance, heat</td><td>Can the policy survive compounding?</td></tr>
+<tr><td>Execution</td><td>friction retention, fill sensitivity, fee/funding share, quantization loss, engine divergence</td><td>Does edge survive venue physics?</td></tr>
+<tr><td>Generalization</td><td>cell survival, OOS degradation, cross-asset dispersion, regime rank stability, worst decile</td><td>Is the result local to one path/regime?</td></tr>
+<tr><td>Reliability</td><td>seed/path dispersion, comparator rank stability, coverage, effective sample size</td><td>Would a reasonable rerun change the conclusion?</td></tr>
+<tr><td>Statistics</td><td>WRC, SPA, genuine DSR, PBO, minimum track record / power diagnostics</td><td>How much apparent performance may be selection noise?</td></tr>
+<tr><td>Research integrity</td><td>trial debt, holdout accesses, evaluator version, agent TEVV, search family completeness</td><td>Was the experiment itself honestly generated?</td></tr>
+</tbody></table>
+<p>Each metric has four metadata fields beyond its value: <code>authority</code>, <code>population_role</code>,
+<code>dependency_group</code>, and <code>coverage</code>. A number without those fields is not benchmark-admissible.</p>
+</section>
+
+<section id="discovery"><h1>Domain I — Opportunity discovery and selection quality</h1>
+<p>The discovery domain asks whether V8 sees useful decision-time opportunities and rejects noise. It is intentionally separated from
+profitability because a system can have good representation but lose money through execution or sizing, and can accidentally make money
+despite poor opportunity coverage.</p>
+<h2>Primary measures</h2>
+<table><thead><tr><th>Metric</th><th>Preferred direction</th><th>Normalization note</th></tr></thead><tbody>
+<tr><td>Episode Discovery Recall</td><td>↑</td><td>Against Target-recoverable episodes, not raw hindsight where decision-time support is impossible.</td></tr>
+<tr><td>Economic Value Recall</td><td>↑</td><td>Value-weighted; cap extreme episode dominance or report concentration separately.</td></tr>
+<tr><td>Candidate Precision</td><td>↑</td><td>Must not reward trivial zero-coverage abstention.</td></tr>
+<tr><td>Selective Risk / Coverage curve</td><td>↓ risk at useful coverage</td><td>Evaluate the full curve rather than one threshold when scorer exists.</td></tr>
+<tr><td>NO_TRADE superiority</td><td>↑</td><td>Utility of abstained population should not exceed traded population after costs.</td></tr>
+<tr><td>Target Decision Transfer Efficiency</td><td>↑</td><td>End-to-end decision-time comparator; bounded by declared Target class.</td></tr>
+</tbody></table>
+<h2>Anti-gaming constraint</h2>
+<p>Recall and precision are reported jointly. A policy that emits a candidate every bar can inflate recall; a policy that never trades can
+inflate precision under some definitions. The domain score therefore uses a preregistered coverage-aware utility surface and minimum
+effective episode count. Missing support yields UNKNOWN rather than a favorable score.</p>
+</section>
+
+<section id="economic"><h1>Domain II — Economic quality and geometric growth</h1>
+<p>The primary economic objective remains long-horizon after-cost geometric capital growth under the ProductionGrowthContract. This domain
+does not replace hard risk gates: a high growth estimate can coexist with unacceptable drawdown and therefore cannot authorize deployment.</p>
+<div class="formula">LGNG = exp((1/T) · Σ log(1+r<sub>t,net</sub>)) - 1</div>
+<p>Implementation uses the portfolio's actual cash/equity accounting rather than averaging trade returns. Open positions, fees, funding,
+slippage, liquidation, capital quantization and idle cash must be treated consistently with the deployment contract.</p>
+<table><thead><tr><th>Metric</th><th>Role</th><th>Why included</th></tr></thead><tbody>
+<tr><td>Long-horizon geometric net growth</td><td>Primary economic metric</td><td>Aligns with compounding objective.</td></tr>
+<tr><td>Terminal equity / net PnL</td><td>Reporting</td><td>Answers intuitive capital question under one case.</td></tr>
+<tr><td>Net R per admitted campaign</td><td>Density diagnostic</td><td>Separates trade quality from frequency.</td></tr>
+<tr><td>Profit factor</td><td>Distribution diagnostic</td><td>Useful but sample-size sensitive.</td></tr>
+<tr><td>Break-even cost</td><td>Robustness</td><td>How much cost increase erases net value?</td></tr>
+<tr><td>Friction retention</td><td>Conversion</td><td>What fraction of gross opportunity survives economic frictions?</td></tr>
+<tr><td>Capital utilization</td><td>Diagnostic</td><td>Distinguishes intentional abstention from unusable capital constraints.</td></tr>
+</tbody></table>
+<p>Sharpe/Sortino/Calmar are secondary standardized metrics because they facilitate external comparison, not because V8 treats Gaussian
+return assumptions or volatility as the sole risk concept.</p>
+</section>
+
+<section id="risk"><h1>Domain III — Risk survival and compounding viability</h1>
+<p>Risk is not a penalty term attached to profit after the fact. It is a survival constraint on the ability to continue compounding.
+V8 therefore reports both ordinary drawdown statistics and structural failure events.</p>
+<table><thead><tr><th>Metric</th><th>Meaning</th><th>Gate relationship</th></tr></thead><tbody>
+<tr><td>Max Drawdown</td><td>Largest peak-to-trough portfolio loss.</td><td>Hard limit under ProductionGrowthContract.</td></tr>
+<tr><td>Expected Shortfall / CVaR</td><td>Average tail loss under declared estimator.</td><td>Hard/diagnostic depending authority and sample support.</td></tr>
+<tr><td>Time Under Water</td><td>Duration below prior equity high.</td><td>Compounding/recovery burden.</td></tr>
+<tr><td>Recovery Time</td><td>Time from drawdown trough to recovery.</td><td>Operational survivability.</td></tr>
+<tr><td>Liquidation Distance</td><td>Margin headroom under stress.</td><td>Hard safety gate.</td></tr>
+<tr><td>Correlation-adjusted heat</td><td>Portfolio exposure after common-factor dependence.</td><td>Risk contract.</td></tr>
+<tr><td>Catastrophic Loss Fraction</td><td>Fraction of declared cases crossing catastrophic threshold.</td><td>Synthetic frequency is model-conditional; protected real cases carry empirical authority.</td></tr>
+</tbody></table>
+<p>Risk normalization for the diagnostic score is based on <em>margin to preregistered limits</em>, not arbitrary percentile rank. This makes
+a score interpretable within a benchmark version: a policy far inside the acceptable region scores higher than one barely below the limit,
+while any hard breach still blocks regardless of score.</p>
+</section>
+
+<section id="execution"><h1>Domain IV — Execution and friction realism</h1>
+<p>The execution domain quantifies how much theoretical decision value survives contact with venue mechanics. It combines internal ledger
+diagnostics, cost perturbation, and external-engine comparison.</p>
+<h2>Cost ladder</h2>
+<pre>BASE
+    declared venue fees
+    declared funding
+    baseline slippage
+
+STRESS-1
+    +25% fee/slippage equivalent
+
+STRESS-2
+    +50%
+
+STRESS-3
+    +100%
+
+LIQUIDITY CASES
+    spread widening
+    quantity impact / capacity
+    delayed fills
+    minimum-notional / lot rounding
+</pre>
+<p>The exact ladder is benchmark-versioned and must be economically plausible for the deployment size. A $1000 account and a $10 million
+account have different capacity questions; scaling the dollar result linearly is forbidden without a capacity model.</p>
+<h2>External parity score</h2>
+<p>Execution parity does not require identical trades where the engines implement different legal ambiguity policies. Instead, it measures
+the materiality of disagreement:</p>
+<div class="formula">ExecutionDivergence = distance(V8 ledger, reference ledger) under matched decision stream</div>
+<p>If terminal economic sign, drawdown class, or policy ranking changes under two plausible execution models, the benchmark flags
+<code>EXECUTION_SENSITIVE</code> and caps the execution domain until the fidelity gap is resolved.</p>
+</section>
+
+<section id="generalization"><h1>Domain V — Generalization</h1>
+<p>Generalization is the core reason D-153 exists. The domain measures degradation when moving away from the development trajectory across
+chronology, regimes, symbols, cost states and world families.</p>
+<h2>Generalization vector</h2>
+<pre>GeneralizationVector {
+    protected_oos_margin
+    walk_forward_median_margin
+    cpcv_lower_decile_margin
+    randomized_real_margin
+    cross_asset_rank_stability
+    regime_cell_coverage
+    worst_regime_margin
+    oos_vs_dev_degradation
+    novelty_world_survival
+}</pre>
+<p>There is no presumption that all assets should have positive return. For a selective portfolio system, generalization includes the ability
+to abstain from bad habitats and concentrate capital in good ones. The relevant question is whether the <em>selection policy</em> transfers,
+not whether every symbol individually makes money.</p>
+<h2>Concentration audit</h2>
+<p>A result carried by one asset is not automatically invalid. It is, however, more fragile if the asset was selected after observing its
+outcome. The benchmark distinguishes:</p>
+<ul>
+<li><strong>ex-ante concentration:</strong> legal if produced by frozen selector/allocator;</li>
+<li><strong>ex-post concentration:</strong> selection bias if the winning asset was chosen after seeing performance;</li>
+<li><strong>single-mechanism dependency:</strong> diagnostic vulnerability even when ex-ante legal;</li>
+<li><strong>universe expansion invariance:</strong> adding weak assets must not mechanically increase risk/trade count.</li>
+</ul>
+</section>
+
+<section id="stability"><h1>Domain VI — Reliability, repeatability and rank stability</h1>
+<p>Reliability asks whether a reasonable perturbation of the evaluation procedure changes the conclusion. Deterministic implementation
+variance and epistemic uncertainty are kept separate.</p>
+<table><thead><tr><th>Reliability test</th><th>Expected behavior</th></tr></thead><tbody>
+<tr><td>Repeat identical deterministic run</td><td>Byte-identical output.</td></tr>
+<tr><td>Thread count/backend change</td><td>Value identity within declared deterministic contract.</td></tr>
+<tr><td>CPCV path change</td><td>Economic distribution may vary; report rank stability.</td></tr>
+<tr><td>Synthetic seed change</td><td>Robustness distribution may vary; no cherry-picking.</td></tr>
+<tr><td>Reasonable cost-model perturbation</td><td>Strong systems preserve sign/order within declared tolerance.</td></tr>
+<tr><td>Independent execution engine</td><td>Material differences must be attributable and bounded.</td></tr>
+</tbody></table>
+<p>The domain includes <strong>rank reversal rate</strong>: across evaluation cases, how often does challenger vs incumbent ordering reverse?
+A +2-point total improvement with a 48% rank reversal rate is weak evidence of progress.</p>
+</section>
+
+<section id="statistics"><h1>Domain VII — Statistical credibility and search-aware inference</h1>
+<p>V8 already requires White's Reality Check, genuine DSR and Hansen SPA for stronger edge claims. D-153 preserves that burden while adding
+PBO/CSCV and power/track-record diagnostics where appropriate. The benchmark never treats a checklist of p-values as sufficient.</p>
+<h2>Why several tools coexist</h2>
+<table><thead><tr><th>Method</th><th>Question</th><th>Main limitation</th></tr></thead><tbody>
+<tr><td>White Reality Check</td><td>Did the best strategy in a searched family outperform the benchmark after data-snooping adjustment?</td><td>Can be conservative; depends on bootstrap and family specification.</td></tr>
+<tr><td>Hansen SPA</td><td>Improved test of superior predictive ability relative to benchmark.</td><td>Still requires valid loss series/dependence treatment.</td></tr>
+<tr><td>Deflated Sharpe Ratio</td><td>How surprising is observed Sharpe after selection bias and non-normality adjustments?</td><td>Requires credible trial/search distribution inputs.</td></tr>
+<tr><td>PBO / CSCV</td><td>How often does in-sample selection underperform out-of-sample across combinatorial splits?</td><td>Historical resampling; cannot repair causal leakage.</td></tr>
+<tr><td>Minimum track record / power diagnostics</td><td>Is the sample long/rich enough to distinguish effect from noise?</td><td>Assumption-sensitive.</td></tr>
+</tbody></table>
+<h2>StatisticalTripleReceipt</h2>
+<pre>StatisticalTripleReceipt {
+    search_family_id
+    lifetime_trial_count
+    primary_loss_or_return_series
+    dependence_model
+    block_or_cluster_unit
+
+    white_reality_check
+    hansen_spa
+    genuine_dsr
+
+    optional_pbo
+    power_or_track_record_diagnostic
+
+    assumptions[]
+    violated_assumptions[]
+    verdict = PASS | BLOCKED | INSUFFICIENT_EVIDENCE
+}</pre>
+<p>Proxy implementations are not silently upgraded. If “DSR” is actually a heuristic formula missing required inputs, the typed result remains
+<code>PROXY_DIAGNOSTIC</code> and G5 stays blocked.</p>
+<p class="small">Sources:
+<a href="https://doi.org/10.1111/1468-0262.00152">White (2000)</a>;
+<a href="https://doi.org/10.1198/073500105000000063">Hansen (2005)</a>;
+<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2460551">Deflated Sharpe Ratio</a>;
+<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2326253">Probability of Backtest Overfitting</a>.</p>
+</section>
+
+<section id="research-integrity"><h1>Domain VIII — Research integrity and autonomous-agent search debt</h1>
+<p>In an autonomous Kaizen system, the research process is part of the model. A human analyst may try ten strategies; an agent can try ten
+thousand overnight. The multiplicity problem therefore scales with automation.</p>
+<h2>Lifetime Research Debt Ledger</h2>
+<pre>ResearchTrial {
+    trial_id
+    parent_policy_id
+    generator_agent_id
+    proposal_hash
+    parameter_family
+    data_accesses[]
+    benchmark_accesses[]
+    result_seen_by_agent
+    retained_or_discarded
+    timestamp
+}
+
+ResearchDebtSummary {
+    lifetime_trials
+    family_effective_trials
+    holdout_access_count
+    benchmark_version_access_count
+    discarded_failures
+    missing_trial_ids
+    agent_tevv_status
+}</pre>
+<p>An automatically discarded challenger still counts if its outcome influenced subsequent search. An agent cannot erase multiplicity by
+deleting a branch. Hidden qualification populations and scorer internals are capability-restricted when exposure would turn the benchmark
+into training data.</p>
+<h2>Benchmark gaming probes</h2>
+<ul>
+<li>Does the agent modify tests or metric code instead of the policy?</li>
+<li>Does it detect and exploit a known synthetic seed pattern?</li>
+<li>Does it optimize the total score while degrading a protected domain?</li>
+<li>Does it omit failed runs from the trial ledger?</li>
+<li>Does it read hidden OOS or novelty manifests?</li>
+<li>Does it infer benchmark internals from artifact filenames or timing channels?</li>
+</ul>
+<p>A detected contamination is a structural defeater. Statistical correction is not offered as a cure.</p>
+</section>
+
+<section id="capability-score"><h1>CapabilityScore: a diagnostic scalar without scalar readiness</h1>
+<p>D-153 permits one scalar because Kaizen and humans need a compact regression signal. The score is deliberately constructed from
+<strong>domain margins</strong>, not arbitrary raw metric averages, and is valid only within one BenchmarkVersion.</p>
+<h2>Step 1 — metric margin</h2>
+<p>For a metric where higher is better, define preregistered unacceptable <code>L</code> and strong <code>U</code> reference points:</p>
+<div class="formula">m(x) = clip((x − L)/(U − L), 0, 1)</div>
+<p>For lower-is-better metrics the transform is reversed. Thresholds are measurement references, not metaphysical boundaries. If a metric
+has a hard safety limit, breach is separately represented in GateVector; clipping it to zero does not make the breach compensable.</p>
+<h2>Step 2 — domain score</h2>
+<div class="formula">D<sub>k</sub> = 100 × RobustAggregate({m<sub>kj</sub>}, metric weights, coverage, dependence)</div>
+<p>The default robust aggregate is a preregistered weighted trimmed/geometric construction that penalizes a near-zero critical submetric
+more than an arithmetic mean. Exact function is a benchmark-version decision and must be validated for ranking stability.</p>
+<h2>Step 3 — total diagnostic score</h2>
+<div class="formula">CapabilityScore = Σ w<sub>k</sub>D<sub>k</sub>, &nbsp; Σw<sub>k</sub>=1</div>
+<h2>Provisional V1 domain weights</h2>
+<table><thead><tr><th>Domain</th><th>Weight</th><th>Reason</th></tr></thead><tbody>
+<tr><td>Engineering &amp; Data Integrity diagnostics</td><td>8%</td><td>Important for comparison, but hard failures are gates rather than compensable score.</td></tr>
+<tr><td>Opportunity Discovery &amp; Selection</td><td>12%</td><td>Core V8 mechanism.</td></tr>
+<tr><td>Economic Quality</td><td>15%</td><td>Necessary but deliberately not dominant.</td></tr>
+<tr><td>Risk Survival</td><td>15%</td><td>Compounding requires survival.</td></tr>
+<tr><td>Execution &amp; Friction</td><td>10%</td><td>Large current pathology and independent-model sensitivity.</td></tr>
+<tr><td>Generalization</td><td>20%</td><td>Primary defect of single-tape optimization.</td></tr>
+<tr><td>Reliability / Stability</td><td>8%</td><td>Ranking must survive reasonable perturbations.</td></tr>
+<tr><td>Statistical Credibility</td><td>7%</td><td>Score diagnostic only; stronger requirements remain hard gate.</td></tr>
+<tr><td>Research Integrity diagnostics</td><td>5%</td><td>Most serious failures are hard gates.</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>100%</strong></td><td></td></tr>
+</tbody></table>
+<p><strong>Important:</strong> these weights are a proposal, not a discovered truth. They must be frozen before protected evaluation and
+subjected to sensitivity analysis. If policy ranking changes wildly under defensible weights, the correct conclusion is “ranking unstable,”
+not to choose the weights that favor the preferred policy.</p>
+<h2>Coverage multiplier</h2>
+<p>A domain with missing required cells cannot receive a full score from the cells that happened to run. V1 proposes a bounded coverage
+factor applied inside the domain, while critical missing cells can also trigger G3:</p>
+<div class="formula">D' = D × CoverageFactor, &nbsp; CoverageFactor ∈ [c<sub>min</sub>,1]</div>
+<p>Unknown is preserved in the report. Coverage penalties are not a substitute for a gate when the missing test is mandatory.</p>
+</section>
+
+<section id="hard-gates"><h1>G0–G9 hard gates: the non-compensable spine</h1>
+<table><thead><tr><th>Gate</th><th>Name</th><th>Minimum burden</th><th>Failure consequence</th></tr></thead><tbody>
+<tr><td>G0</td><td>Identity & Provenance</td><td>Policy/code/config/data/benchmark hashes complete; authority path reachable; no shadow path.</td><td>All stronger claims blocked.</td></tr>
+<tr><td>G1</td><td>PIT / Causal Integrity</td><td>ChronosGate, availability clocks, leak-mutant kill rate, no future-row access.</td><td>Experiment invalid; statistics not consulted.</td></tr>
+<tr><td>G2</td><td>Determinism & Ledger Integrity</td><td>Replay identity, conservation, parity/failure-mode agreement.</td><td>Economic values inadmissible.</td></tr>
+<tr><td>G3</td><td>Benchmark Coverage</td><td>Required real/scenario/world/external cells present or explicitly waived by preregistered rule.</td><td>Capability incomplete; stronger robustness claims blocked.</td></tr>
+<tr><td>G4</td><td>Structural Robustness</td><td>Passport-qualified synthetic suite, metamorphic invariants, reverse stress within risk contract.</td><td>SYSTEM_ROBUSTNESS blocked/defeated.</td></tr>
+<tr><td>G5</td><td>Statistical Credibility</td><td>WRC + genuine DSR + Hansen SPA under valid assumptions; lifetime trial debt; optional PBO as specified.</td><td>NO_SUPPORTED_EDGE.</td></tr>
+<tr><td>G6</td><td>Protected OOS Economics</td><td>Frozen policy, deployment-equivalent real OOS, after-cost utility, risk/capacity conditions.</td><td>No economic replication.</td></tr>
+<tr><td>G7</td><td>Generalization</td><td>Predeclared regime/universe/path stability and no catastrophic protected domain collapse.</td><td>Replication scope narrowed or blocked.</td></tr>
+<tr><td>G8</td><td>Prospective Shadow</td><td>Future-only frozen-policy epochs, operational stability, time-valid monitoring plan.</td><td>No LIMITED_LIVE_READY.</td></tr>
+<tr><td>G9</td><td>Live Realization</td><td>Actual reconciled fills/costs/cashflow, capacity/risk/rollback monitoring.</td><td>No LIVE_SUPPORTED / realized deployment claim.</td></tr>
+</tbody></table>
+<h2>Gate algebra</h2>
+<pre>GateState = PASS | BLOCKED | UNKNOWN | DEFEATED | NOT_APPLICABLE
+
+ProductionEvidenceCertificate
+    never computes:
+        average(G0..G9)
+
+Instead:
+    required claims = conjunction / bound-aware rules
+    one hard defeater propagates transitively
+</pre>
+<p>CapabilityScore is printed beside the GateVector, never above it as the primary authority. A report with score 90 and G1=DEFEATED should
+look obviously worse than a report with score 62 and G0–G7 PASS.</p>
+</section>
+
+<section id="anti-gaming"><h1>Anti-gaming design: preventing benchmark overfit from replacing backtest overfit</h1>
+<p>Once a benchmark is optimized repeatedly, it ceases to be a passive judge. D-153 therefore treats evaluator capture as an expected failure
+mode rather than a remote possibility.</p>
+<h2>Five firewalls</h2>
+<ol>
+<li><strong>Public DEV / hidden qualification split.</strong> Policy agents may optimize against DEV batteries but cannot see qualification
+seeds, protected OOS outcomes or scorer internals that would invalidate the test.</li>
+<li><strong>Novelty refresh.</strong> New synthetic/adversarial families can be added as versioned evaluator evidence after policy freeze.
+Historical passes remain truthful for their old coverage but do not automatically cover the new world space.</li>
+<li><strong>Weight sensitivity.</strong> Challenger rank is recomputed across a preregistered neighborhood of defensible score weights.
+High rank reversal downgrades the interpretation.</li>
+<li><strong>Metric mutation tests.</strong> Introduce policies that deliberately exploit a metric proxy—e.g., never trade to improve precision,
+or trade continuously to improve recall—and require the benchmark to reject the gaming strategy.</li>
+<li><strong>Benchmark trial debt.</strong> Repeated benchmark exposures are logged. If an agent has effectively trained on the qualification
+battery, that battery's role is burned for that lineage.</li>
+</ol>
+<h2>Score saturation</h2>
+<p>If mature policies cluster near 95–100, the benchmark has lost discriminatory power. D-153 requires periodic item analysis:
+domain variance, correlation between metrics, difficulty distribution, failure discovery rate and incremental information. Metrics that are
+always passed may remain constitutional invariants but should not consume large diagnostic score weight.</p>
+</section>
+
+<section id="projection"><h1>CapitalOutcomeProjection: the separate answer to “what might $1000 become?”</h1>
+<p>The capital-projection layer is intentionally downstream of evidence classification. It exists because operators need an economically
+intuitive answer, but it is the easiest place to overstate what backtests know. D-153 therefore defines projection as a typed object with an
+evidence grade and explicit probability semantics.</p>
+<pre>CapitalOutcomeProjection {
+    projection_id
+    policy_hash
+    projection_plan_id
+    benchmark_version
+    base_currency
+    initial_capital
+    horizon
+
+    source_populations[]
+    source_authorities[]
+    weighting_model
+    dependence_model
+    cost_model
+    capacity_model
+    compounding_rule
+
+    terminal_capital_summary {
+        minimum_observed_or_bounded
+        p05
+        p25
+        p50
+        mean_if_defined
+        p75
+        p95
+        maximum_observed_or_bounded
+    }
+
+    risk_summary {
+        probability_semantics
+        loss_fraction
+        catastrophic_loss_fraction
+        max_drawdown_distribution
+        time_under_water_distribution
+        liquidation_fraction
+    }
+
+    grade = U | D | C | B | A
+    caveats[]
+    falsifiers[]
+    authority
+}</pre>
+<h2>Evidence grades</h2>
+<table><thead><tr><th>Grade</th><th>Minimum evidence</th><th>Allowed language</th><th>Forbidden language</th></tr></thead><tbody>
+<tr><td><strong>U — Unknown</strong></td><td>No admissible economic population.</td><td>“No supported one-year projection.”</td><td>Any numeric forward estimate.</td></tr>
+<tr><td><strong>D — Diagnostic</strong></td><td>Burned historical/CPCV/synthetic context only.</td><td>“Observed/resampled scenario outcomes under historical/model assumptions.”</td><td>“Expected next-year return,” calibrated probability.</td></tr>
+<tr><td><strong>C — Replicated</strong></td><td>Protected real OOS under deployment-equivalent contract and valid statistical plan.</td><td>“Historical OOS projection band conditional on sampled regimes/contracts.”</td><td>Universal future probability unless calibrated.</td></tr>
+<tr><td><strong>B — Prospective</strong></td><td>C + sufficient prospective shadow epochs and time-valid monitoring.</td><td>“Forward-observed evidence supports the following conditional range.”</td><td>Guarantee or stationarity assumption.</td></tr>
+<tr><td><strong>A — Live-calibrated</strong></td><td>Actual live fills/cashflow plus adequate monitoring history and capacity relevance.</td><td>Calibrated deployment projection within declared scope, with uncertainty.</td><td>Timeless or scale-free expected return.</td></tr>
+</tbody></table>
+<p>A grade is not a school mark. D can contain a beautiful distribution with thousands of simulated paths and still have less future
+authority than a small but clean protected real OOS sample.</p>
+</section>
+
+<section id="projection-1000"><h1>The $1000 one-year question: exact output semantics</h1>
+<p>The operator's question—“if we had $1000 now, roughly how much would we have one year later?”—is legitimate. What changes is the precision
+of the answer. The benchmark must say what kind of answer is available.</p>
+<h2>Current V8 state</h2>
+<div class="callout">
+<strong>Current admissible answer at the D-152 state:</strong> the burned 12-month quad diagnostic reports that $1000 would have ended near
+$1509 under that historical simulator/cost contract. That is a retrospective simulated trajectory, not a supported estimate of the next
+12 months. Because protected frozen OOS, sufficiently broad benchmark populations, and prospective shadow evidence are incomplete, the
+forward one-year projection remains <code>UNKNOWN / Grade D diagnostic only</code>.
+</div>
+<p>This is not excessive caution. The same historical band carried much of policy development, and its positive total is materially
+concentrated in one asset. The Oracle recall, precision and fee metrics extracted from that tape are useful decompositions of the same
+evidence, not new future samples.</p>
+<h2>What a mature answer looks like</h2>
+<pre>V8 CAPITAL OUTCOME PROJECTION
+Policy: P-217 / hash ...
+Initial capital: $1,000
+Horizon: 365 days
+Projection grade: B — PROSPECTIVE
+Probability semantics: calibrated empirical/model mixture under ProjectionPlan v3
+
+Terminal capital:
+    P05    $770
+    P25    $960
+    P50  $1,240
+    Mean $1,310
+    P75  $1,520
+    P95  $2,060
+
+Risk:
+    loss probability estimate       29% [interval ...]
+    terminal < $700                  4% [interval ...]
+    median MaxDD                    13%
+    95th percentile MaxDD           28%
+    liquidation observed             0 / N qualified cases
+
+Important:
+    These are conditional outcomes under the declared evidence population.
+    They are not guaranteed returns and do not override GateVector.
+</pre>
+<p>The numbers above are illustrative schema examples, not V8's current measured forecast.</p>
+</section>
+
+<section id="projection-aggregation"><h1>Projection aggregation: from heterogeneous evidence to a capital distribution</h1>
+<p>The projection engine must resist a seductive but invalid shortcut: mix every historical, CPCV and synthetic path into one bag and call
+its histogram the future distribution. Different sources carry different sampling semantics. D-153 therefore separates <em>scenario
+distribution</em> from <em>probability-calibrated projection</em>.</p>
+<h2>Mode 1 — Empirical scenario distribution</h2>
+<p>Used at Grade D/C when probability calibration is weak. Report quantiles of declared cases with language such as “among these evaluation
+cases.” No claim is made that each case is equally probable in the future.</p>
+<h2>Mode 2 — Regime-conditioned empirical mixture</h2>
+<p>When real protected/prospective data support causal regime frequencies, the ProjectionPlan may weight real OOS cases by a versioned
+regime model. The regime assignment uses only decision-time information. Weight uncertainty is propagated rather than fixed silently.</p>
+<div class="formula">F(y) = Σ<sub>r</sub> π<sub>r</sub> F(y | r, contract, policy)</div>
+<p>Here <code>π_r</code> is not guessed from synthetic frequency; it requires an empirical/calibrated source and carries uncertainty.</p>
+<h2>Mode 3 — Bootstrap / block-resampled future-equity trajectories</h2>
+<p>Block or campaign-level resampling may estimate compounding uncertainty when stationarity assumptions are defensible. The block unit must
+respect dependence and campaign duration. Outputs are tagged model-derived.</p>
+<h2>Mode 4 — Bayesian/model ensemble (future extension)</h2>
+<p>A future ProjectionPlan may combine regime-conditioned empirical evidence, parameter uncertainty and model uncertainty through an explicit
+Bayesian or ensemble model. This is a separate research object and cannot be smuggled in under the label “Monte Carlo.”</p>
+<h2>Synthetic role</h2>
+<p>Synthetic worlds contribute stress bounds, tail scenarios and failure topology. Unless a generator is separately calibrated as a
+probabilistic environment model, its case frequency has <strong>zero direct weight</strong> in the expected-return mixture. A synthetic
+catastrophe can widen the risk narrative or defeat robustness without pretending to know its frequency.</p>
+</section>
+
+<section id="confidence"><h1>Uncertainty, confidence and what would change the answer</h1>
+<p>Every projection and benchmark comparison includes an update rule. This prevents the report from presenting uncertainty as decorative
+error bars.</p>
+<table><thead><tr><th>Observation</th><th>Expected update</th></tr></thead><tbody>
+<tr><td>Protected OOS median net utility turns negative</td><td>Economic replication fails or narrows; projection grade cannot rise.</td></tr>
+<tr><td>Shadow behavior diverges materially from historical OOS</td><td>Prospective validity downgraded; regime/contract assumptions re-examined.</td></tr>
+<tr><td>LEAN/reference replay reverses sign</td><td>Execution-sensitive; projection blocked until disagreement bounded.</td></tr>
+<tr><td>New novelty worlds expose close catastrophic defeater</td><td>Robustness certificate challenged/revoked; score may fall but gate consequence dominates.</td></tr>
+<tr><td>Additional live epochs agree with projected calibration</td><td>Projection grade may increase; uncertainty may narrow within same scope.</td></tr>
+<tr><td>Venue fee/funding/capacity regime changes materially</td><td>New EvaluationCase/ProjectionCase; old projection may expire.</td></tr>
+</tbody></table>
+<p>The benchmark therefore gives the user not only “what we believe” but “what evidence would make us believe something else.”</p>
+</section>
+
+<section id="dashboard"><h1>Canonical human-facing dashboard</h1>
+<p>The dashboard is designed to answer the user's three practical questions in order: <strong>is the measurement valid, is the system improving,
+and what economic range is currently supportable?</strong></p>
+<pre>┌──────────────────────────────────────────────────────────────────────────────┐
+│ V8.5 BENCHMARK FABRIC — POLICY P217 — Benchmark v1.0                       │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ CAPABILITY SCORE               68.4 / 100          Δ incumbent: +6.7       │
+│ Authority: DIAGNOSTIC_ONLY                                                   │
+│ Coverage: 83% required diagnostic cells                                     │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ DOMAINS                                                                      │
+│ Discovery        74   ███████████████░░░░░                                   │
+│ Economic         66   █████████████░░░░░░░                                   │
+│ Risk             79   ████████████████░░░░                                   │
+│ Execution        61   ████████████░░░░░░░░                                   │
+│ Generalization   57   ███████████░░░░░░░░░                                   │
+│ Reliability      72   ██████████████░░░░░░                                   │
+│ Statistics       49   ██████████░░░░░░░░░░                                   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ HARD GATES                                                                   │
+│ G0 identity       PASS      G5 statistics       BLOCKED                      │
+│ G1 PIT            PASS      G6 frozen OOS       NOT_RUN                      │
+│ G2 ledger/parity  PASS      G7 generalization   PARTIAL                      │
+│ G3 coverage       PARTIAL   G8 shadow           NOT_RUN                      │
+│ G4 robustness     PASS      G9 live             NOT_RUN                      │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ NEAREST MATERIAL DEFEATER                                                    │
+│ liquidity-vacuum + correlation-to-one, distance 0.18, MaxDD 23.4%           │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ $1,000 / 1Y CAPITAL PROJECTION                                               │
+│ Grade: U/D — NO SUPPORTED FORWARD PROJECTION                                │
+│ Historical burned diagnostic only: $1,000 → ~$1,509 on 2025-07..2026-06    │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ VERDICT: NOT PRODUCTION-SUPPORTED                                            │
+│ Next evidence bottleneck: genuine statistical triple + protected OOS        │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre>
+<p>The example intentionally shows a relatively respectable score next to a blocked gate. This is a feature: the score is allowed to say
+“the engineering/research system is improving” while the certificate says “we still do not possess admissible economic evidence.”</p>
+</section>
+
+<section id="kaizen"><h1>Kaizen integration: optimize capability without training on the judge</h1>
+<p>Kaizen consumes BenchmarkReceipts as diagnostic evidence. It may propose challengers from failure attribution, but it cannot directly
+optimize the scalar score as a production objective or inspect hidden qualification outcomes while generating the same lineage.</p>
+<h2>Challenger comparison</h2>
+<pre>BenchmarkDelta {
+    incumbent_policy
+    challenger_policy
+    benchmark_version
+
+    total_score_delta
+    domain_deltas[]
+    gate_changes[]
+    protected_case_deltas[]
+    rank_reversal_rate
+    nearest_defeater_delta
+    projection_delta_if_authorized
+
+    research_debt_delta
+    uncertainty
+    attribution
+}</pre>
+<h2>Provisional promotion rule</h2>
+<pre>PROMOTION_CANDIDATE if and only if:
+
+    no hard gate regresses
+    AND no protected critical domain crosses its floor
+    AND total diagnostic improvement ≥ preregistered minimum_effect
+    AND at least one intended causal domain improves
+    AND paired protected evidence supports the change where required
+    AND multiplicity/statistical debt is paid
+    AND benchmark access policy was not violated
+</pre>
+<p>A challenger can be accepted for engineering improvement even if economic authority remains unchanged. Example: an execution-adapter fix
+may raise parity and reliability while leaving the policy's edge claim at NO_ECONOMIC_CLAIM. Kaizen decisions therefore specify the kind of
+improvement, not merely “better/worse.”</p>
+<h2>Failure-first research queue</h2>
+<p>Instead of sorting work solely by score gradient, Kaizen prioritizes bottlenecks:</p>
+<ol>
+<li>hard defeaters;</li>
+<li>blocked gates that prevent the next authority level;</li>
+<li>nearest catastrophic failure surfaces;</li>
+<li>largest Target/actual recoverability loss with decision-time support;</li>
+<li>largest execution/friction conversion loss;</li>
+<li>high-uncertainty/high-information benchmark gaps;</li>
+<li>only then broad score improvements.</li>
+</ol>
+</section>
+
+<section id="tool-adapters"><h1>External tool adapter contracts</h1>
+<h2>1. skfolio adapter</h2>
+<pre>SkfolioAdapter {
+    pinned_version
+    input_return_or_position_contract
+    splitter:
+        WalkForward | CombinatorialPurgedCV | MultipleRandomizedCV
+    purge_embargo_contract
+    portfolio_population_export
+    risk_metric_crosscheck
+    seed_manifest
+}</pre>
+<p>The adapter never lets skfolio decide data roles. V8 passes only the authorized population and records the exact splitter parameters.</p>
+<h2>2. VectorBT Pro adapter</h2>
+<p>DEV-only by default. Useful for high-throughput parameter surfaces, split analysis and research visualization. Every strategy/parameter
+combination whose result can influence search is written to ResearchDebtLedger. Qualification access is capability-restricted.</p>
+<h2>3. LEAN adapter</h2>
+<pre>LeanExecutionAdapter {
+    lean_version
+    docker_image_digest
+    security/market mapping
+    timezone/calendar mapping
+    order-type mapping
+    fee_model_mapping
+    funding_mapping
+    slippage_mapping
+    buying_power_mapping
+    lot_step_tick_mapping
+    market_data_mapping
+    unsupported_semantics[]
+}</pre>
+<p>Any unsupported semantic is explicit. “Closest available” mappings are not silently treated as parity.</p>
+<h2>4. Qlib/TradeMaster baseline adapters</h2>
+<p>These are optional for comparing conventional predictive/RL baselines against V8 under equal information where scientifically useful.
+They are not required for every production policy evaluation. Their main role is to answer architectural research questions such as
+whether behavior-specific decomposition beats an equal-information global baseline.</p>
+<h2>5. ABIDES escalation adapter</h2>
+<p>Only used when Level-1/Level-2 execution conclusions are materially sensitive to reactive impact, latency, queue or participant response.
+The calibration burden rises with fidelity; an elaborate simulator with weak calibration can be less informative than a conservative
+simpler bound.</p>
+</section>
+
+<section id="implementation-layout"><h1>Implementation layout</h1>
+<p>The implementation is additive. Existing assurance, world, system-proving, research and TEVV modules remain canonical. D-153 adds one
+orchestration namespace plus adapters. No new Oracle family, claim registry or production authority is created.</p>
+<pre>v8-core/src/
+  benchmark/
+    mod.rs
+    version.rs
+    case.rs
+    population.rs
+    observation.rs
+    domain.rs
+    score.rs
+    gates.rs
+    delta.rs
+    coverage.rs
+    failure_topology.rs
+    projection.rs
+    report.rs
+    adapters/
+      skfolio.rs
+      vectorbt.rs
+      lean.rs
+      qlib.rs
+      trademaster.rs
+      abides.rs
+
+  assurance/
+    evidence_profile.rs
+    continuous.rs
+    certificate.rs
+    defeater.rs
+
+  world/
+    ... existing Market World Foundry ...
+
+  system_proving/
+    ... existing full-chain runner ...
+
+  research/
+    data_role.rs
+    holdout.rs
+    statistical_plan.rs
+    benchmark_access.rs
+
+  tevv/
+    ... agent/tool/evaluator integrity probes ...
+
+tools/
+  benchmark_run.py
+  benchmark_compare.py
+  benchmark_report.py
+  benchmark_bridge.py
+
+.audit/
+  benchmark/
+    versions/
+    cases/
+    results/
+    projections/
+    bridge_studies/
+</pre>
+<p><strong>Connection law:</strong> every third-party tool returns a canonical typed V8 receipt. Kaizen does not consume raw foreign output
+directly, because doing so would bypass authority, dependency and provenance semantics.</p>
+</section>
+
+<section id="interfaces"><h1>Canonical interfaces</h1>
+<pre>trait BenchmarkPopulationRunner {
+    fn manifest(&self) -> PopulationManifest;
+    fn run(&self, policy: &FrozenPolicy,
+           case: &BenchmarkCaseManifest)
+        -> Result&lt;PopulationReceipt, BenchmarkError&gt;;
+}
+
+trait ExternalInstrumentAdapter {
+    fn instrument_id(&self) -> ExternalInstrumentId;
+    fn pinned_version(&self) -> VersionDigest;
+    fn capability_map(&self) -> CapabilityMap;
+    fn run_reference(&self,
+        decision_stream: &FrozenDecisionStream,
+        contract: &ExecutionContract)
+        -> Result&lt;ExternalInstrumentReceipt, AdapterError&gt;;
+}
+
+trait DomainEvaluator {
+    fn domain_id(&self) -> DomainId;
+    fn evaluate(&self,
+        observations: &[MetricObservation],
+        version: &BenchmarkVersion) -> DomainResult;
+}
+
+trait ProjectionEngine {
+    fn project(&self,
+        policy: &FrozenPolicy,
+        admissible: &[EconomicPopulationReceipt],
+        plan: &ProjectionPlan)
+        -> Result&lt;CapitalOutcomeProjection, ProjectionError&gt;;
+}</pre>
+<p>Every interface may fail with <code>UNKNOWN</code>, <code>UNSUPPORTED</code> or <code>INSUFFICIENT_EVIDENCE</code>. A missing mapping is not
+silently approximated into a favorable number.</p>
+</section>
+
+<section id="cli"><h1>CLI and orchestration</h1>
+<pre>v8 benchmark case create --benchmark v8.benchmark.1 --policy policy.json \
+  --contract production-growth.json --populations populations.toml --seal
+
+v8 benchmark run --case CASE --lane burned,cpcv,synthetic-dev
+v8 benchmark qualify --case CASE --capability-token TOKEN
+v8 benchmark external lean --case CASE --population OOS_001
+v8 benchmark compare --incumbent P151 --challenger P152 --benchmark v8.benchmark.1
+v8 benchmark project --case CASE --initial-capital 1000 --horizon 365d
+v8 benchmark report --case CASE --format html
+v8 benchmark report --case CASE --format json</pre>
+<ul>
+<li>Protected lanes reject unsealed policy/config hashes.</li>
+<li>Qualification refuses callers with policy-write capability in the same evaluation context.</li>
+<li>Projection rejects synthetic-only populations as probability weights.</li>
+<li>Every score renderer includes benchmark version, GateVector, coverage and nearest material defeater.</li>
+</ul>
+</section>
+
+<section id="artifact-schema"><h1>Artifact and receipt schema</h1>
+<table><thead><tr><th>Artifact</th><th>Minimum contents</th><th>Authority</th></tr></thead><tbody>
+<tr><td>BenchmarkCaseManifest</td><td>subject, version, contracts, populations, sealed metrics/gates</td><td>identity</td></tr>
+<tr><td>PopulationReceipt</td><td>cases, roles, seeds, hashes, coverage, dependencies</td><td>population-specific</td></tr>
+<tr><td>MetricBundle</td><td>raw observations, units, uncertainty, authority</td><td>inherited</td></tr>
+<tr><td>DomainResult</td><td>diagnostic score plus critical raw metrics</td><td>DIAGNOSTIC_ONLY</td></tr>
+<tr><td>CapabilityScoreReceipt</td><td>score, weights, sensitivity, coverage</td><td>DIAGNOSTIC_ONLY</td></tr>
+<tr><td>GateVectorReceipt</td><td>G0–G9 states with evidence refs</td><td>read-only Assurance projection</td></tr>
+<tr><td>ExternalExecutionReceipt</td><td>engine version, mappings, divergence, unsupported semantics</td><td>engineering/economic sensitivity</td></tr>
+<tr><td>MinimalDefeaterReceipt</td><td>failure path, distance, attribution, passport</td><td>negative structural authority</td></tr>
+<tr><td>ProjectionReceipt</td><td>sources, grade, quantiles, weighting, caveats</td><td>projection only</td></tr>
+<tr><td>BenchmarkDelta</td><td>paired differences, score/gate/domain changes, uncertainty</td><td>Kaizen diagnostic</td></tr>
+</tbody></table>
+<p>A BenchmarkReceipt digest commits to all transitive inputs that can materially change a result.</p>
+</section>
+
+<section id="benchmark-ledger"><h1>Benchmark ledger and historical comparability</h1>
+<p>The existing Kaizen ledger is extended from tape-centric snapshots to benchmark-versioned evidence profiles. Historical rows are append-only.</p>
+<pre>{
+  "schema": "v8.benchmark.1",
+  "run_id": "20260906_p217_qual_001",
+  "benchmark_version": "1.0.0",
+  "policy_id": "P217",
+  "case_hash": "...",
+  "capability_score": 68.4,
+  "domain_scores": {
+    "discovery": 74.2,
+    "economic": 66.1,
+    "risk": 78.8,
+    "execution": 61.0,
+    "generalization": 57.4,
+    "reliability": 72.0,
+    "statistics": 49.0
+  },
+  "gate_vector": ["PASS","PASS","PASS","PARTIAL","PASS",
+                  "BLOCKED","NOT_RUN","PARTIAL","NOT_RUN","NOT_RUN"],
+  "coverage": 0.83,
+  "nearest_defeater": {"family":"LIQUIDITY_VACUUM","distance":0.18},
+  "projection_grade": "U",
+  "artifact_digest": "..."
+}</pre>
+<p>Different benchmark major versions are not directly subtracted. Bridge studies re-evaluate a frozen reference panel under both versions
+and report rank preservation, score mapping and uncertainty.</p>
+</section>
+
+<section id="failure-attribution"><h1>Failure attribution</h1>
+<table><thead><tr><th>Domain</th><th>Typical evidence</th><th>Likely action</th></tr></thead><tbody>
+<tr><td>Detection</td><td>low Target episode/value recall</td><td>habitat, representation, missing Expert</td></tr>
+<tr><td>Representation</td><td>wrong direction/geometry/expiry</td><td>Opportunity grammar/Candidate semantics</td></tr>
+<tr><td>Reconciliation</td><td>correlated witness inflation or cancellation</td><td>dependency model</td></tr>
+<tr><td>Selection</td><td>false positives, missed NO_TRADE</td><td>utility threshold/calibration</td></tr>
+<tr><td>Allocation</td><td>heat, concentration, quantization</td><td>allocator/risk contract</td></tr>
+<tr><td>Execution</td><td>fees, funding, slippage, engine divergence</td><td>venue physics/order semantics</td></tr>
+<tr><td>Exit</td><td>low MFE retention, churn</td><td>campaign/exit architecture</td></tr>
+<tr><td>Research process</td><td>holdout burn, trial debt, evaluator gaming</td><td>methodology rather than policy</td></tr>
+<tr><td>Evaluator</td><td>weight instability, stale cells, metric exploit</td><td>new BenchmarkVersion</td></tr>
+</tbody></table>
+<p>Attribution uncertainty remains explicit; a failure may have several plausible causes.</p>
+</section>
+
+<section id="sabotage"><h1>Constitutional sabotage suite</h1>
+<table><thead><tr><th>ID</th><th>Sabotage</th><th>Expected result</th></tr></thead><tbody>
+<tr><td>BFS-001</td><td>Change weights after seeing challenger results</td><td>case hash mismatch; invalid</td></tr>
+<tr><td>BFS-002</td><td>Missing required cell averaged as zero</td><td>UNKNOWN preserved; coverage affected</td></tr>
+<tr><td>BFS-003</td><td>Missing cell treated as PASS</td><td>hard failure</td></tr>
+<tr><td>BFS-004</td><td>Synthetic frequency used as future probability</td><td>projection rejects authority</td></tr>
+<tr><td>BFS-005</td><td>High score with PIT leak</td><td>G1 DEFEATED</td></tr>
+<tr><td>BFS-006</td><td>Agent reads novelty seed manifest</td><td>role burns; TEVV defeater</td></tr>
+<tr><td>BFS-007</td><td>Failed trial deleted</td><td>research-debt failure</td></tr>
+<tr><td>BFS-008</td><td>Ten metrics from one tape counted as n=10 evidence</td><td>CommonModeGraph collapses dependence</td></tr>
+<tr><td>BFS-009</td><td>LEAN/V8 terminal-sign disagreement ignored</td><td>execution-sensitive block</td></tr>
+<tr><td>BFS-010</td><td>IID CV on overlapping swing labels</td><td>StatisticalPlan violation</td></tr>
+<tr><td>BFS-011</td><td>CPCV on burned data relabeled pristine OOS</td><td>authority escalation rejected</td></tr>
+<tr><td>BFS-012</td><td>Never-trade policy games precision</td><td>coverage-aware score rejects</td></tr>
+<tr><td>BFS-013</td><td>Always-trade policy games recall</td><td>joint precision/utility rule rejects</td></tr>
+<tr><td>BFS-014</td><td>Regime classifier changed after protected outcomes</td><td>version mismatch</td></tr>
+<tr><td>BFS-015</td><td>Unsupported LEAN order semantics labeled equivalent</td><td>UNSUPPORTED</td></tr>
+<tr><td>BFS-016</td><td>Novelty worlds reuse known seeds</td><td>novelty provenance failure</td></tr>
+<tr><td>BFS-017</td><td>Arithmetic mean hides catastrophic submetric</td><td>critical floor/gate veto</td></tr>
+<tr><td>BFS-018</td><td>$1000 result scaled to $10M without capacity model</td><td>projection scope rejected</td></tr>
+<tr><td>BFS-019</td><td>Live success retroactively legalizes causal leak</td><td>leak remains defeater</td></tr>
+<tr><td>BFS-020</td><td>Historical benchmark row overwritten after bug fix</td><td>append-only violation</td></tr>
+<tr><td>BFS-021</td><td>Runtime policy reads score and alters behavior</td><td>authority violation</td></tr>
+<tr><td>BFS-022</td><td>P95 shown from tiny dependent sample without caveat</td><td>underpowered quantile suppressed</td></tr>
+<tr><td>BFS-023</td><td>DSR proxy labeled genuine DSR</td><td>type mismatch; G5 blocked</td></tr>
+<tr><td>BFS-024</td><td>Total score wins while protected risk floor fails</td><td>promotion veto</td></tr>
+</tbody></table>
+</section>
+
+<section id="acceptance"><h1>Acceptance and promotion rules</h1>
+<h2>Benchmark implementation acceptance</h2>
+<ul>
+<li>Canonical manifests and receipts are hash-stable.</li>
+<li>D-152 profile renders without semantic loss.</li>
+<li>Foundry worlds can traverse the same full policy/system path as admissible real inputs.</li>
+<li>CPCV adapter matches verified toy cases and purge/embargo contracts.</li>
+<li>LEAN adapter provides attributable parity and explicit unsupported states.</li>
+<li>Score cannot alter gates in property tests.</li>
+<li>Projection refuses unauthorized populations.</li>
+<li>Sabotage suite passes.</li>
+<li>Ledger is append-only.</li>
+</ul>
+<h2>Challenger acceptance</h2>
+<pre>ACCEPT_FOR_NEXT_STAGE =
+  paired_progress_is_material
+  AND critical_domain_floors_hold
+  AND no_hard_gate_regression
+  AND no_new_close_catastrophic_defeater
+  AND research_integrity_passes
+  AND stage_required_protected_evidence_exists</pre>
+</section>
+
+<section id="rollout"><h1>Implementation plan — M0 to M7</h1>
+<table><thead><tr><th>Milestone</th><th>Scope</th><th>Exit criteria</th></tr></thead><tbody>
+<tr><td>M0 — Ratification</td><td>ontology, score permission, gates, population roles</td><td>no constitutional conflict</td></tr>
+<tr><td>M1 — Core schemas</td><td>BenchmarkVersion, CaseManifest, MetricObservation, receipts</td><td>hash-stable tests</td></tr>
+<tr><td>M2 — Real populations</td><td>burned, walk-forward, CPCV, randomized real adapters</td><td>population receipts + coverage</td></tr>
+<tr><td>M3 — Foundry wiring</td><td>qualification, novelty, reverse stress through full chain</td><td>passport-scoped benchmark cells</td></tr>
+<tr><td>M4 — External referee</td><td>LEAN adapter and execution disagreement attribution</td><td>paired reference fixtures pass</td></tr>
+<tr><td>M5 — Scoreboard</td><td>domain normalizers, CapabilityScore, GateVector rendering</td><td>anti-gaming fixtures pass</td></tr>
+<tr><td>M6 — Projection</td><td>ProjectionPlan, grades, empirical/conditional distributions</td><td>synthetic-probability firewall passes</td></tr>
+<tr><td>M7 — Autonomous Kaizen</td><td>benchmark delta, hidden qualification access, bridge studies</td><td>end-to-end research-debt and promotion tests</td></tr>
+</tbody></table>
+<p>Implementation should stop at the cheapest fidelity that preserves conclusions. ABIDES/reactive execution is not an M0 dependency.</p>
+</section>
+
+<section id="decision-register"><h1>Decision register</h1>
+<table><thead><tr><th>ID</th><th>Decision</th><th>Status</th></tr></thead><tbody>
+<tr><td>D153-01</td><td>Create Benchmark Fabric as diagnostic orchestration layer, not new authority root.</td><td>PROPOSED</td></tr>
+<tr><td>D153-02</td><td>Allow 0–100 CapabilityScore only for same-version comparison.</td><td>PROPOSED</td></tr>
+<tr><td>D153-03</td><td>Preserve G0–G9 non-compensable hard-gate semantics.</td><td>REQUIRED</td></tr>
+<tr><td>D153-04</td><td>Use skfolio first for open-source purged/CPCV/walk-forward primitives.</td><td>PROPOSED</td></tr>
+<tr><td>D153-05</td><td>Use LEAN as independent execution referee where contracts map.</td><td>PROPOSED</td></tr>
+<tr><td>D153-06</td><td>Keep vectorbt Pro DEV-only by default if adopted.</td><td>PROPOSED</td></tr>
+<tr><td>D153-07</td><td>Capital projection is a separate typed product with evidence grades.</td><td>PROPOSED</td></tr>
+<tr><td>D153-08</td><td>Synthetic FAIL may defeat; synthetic PASS never creates economic edge.</td><td>REQUIRED</td></tr>
+<tr><td>D153-09</td><td>Benchmark major-version changes break direct score comparability.</td><td>PROPOSED</td></tr>
+<tr><td>D153-10</td><td>Current 12-month quad remains burned diagnostic and ≤10% default score influence.</td><td>PROPOSED</td></tr>
+</tbody></table>
+</section>
+
+<section id="open-decisions"><h1>Open decisions</h1>
+<table><thead><tr><th>Question</th><th>Why unresolved</th><th>Required experiment</th></tr></thead><tbody>
+<tr><td>Exact domain weights?</td><td>Normative and Goodhart-sensitive.</td><td>reference-panel rank sensitivity before protected use</td></tr>
+<tr><td>Exact critical metric floors?</td><td>Need ProductionGrowthContract/risk-budget grounding.</td><td>pre-outcome calibration and stress study</td></tr>
+<tr><td>How many CPCV paths?</td><td>Depends on episode count and compute.</td><td>stability-vs-cost study</td></tr>
+<tr><td>How to weight regime projection?</td><td>Future regime probability is uncertain.</td><td>calibrated causal regime model or empirical conservative mixture</td></tr>
+<tr><td>When to escalate to ABIDES?</td><td>Higher fidelity has larger calibration burden.</td><td>execution-sign/rank sensitivity test</td></tr>
+<tr><td>What is a useful novelty refresh cadence?</td><td>Too frequent burns evaluator value; too slow invites gaming.</td><td>benchmark-saturation monitoring</td></tr>
+<tr><td>Should CapabilityScore use geometric or trimmed arithmetic domain aggregation?</td><td>Both have failure modes.</td><td>adversarial score-gaming reference panel</td></tr>
+</tbody></table>
+</section>
+
+<section id="evidence-matrix"><h1>Evidence matrix</h1>
+<table><thead><tr><th>Evidence source</th><th>Engineering</th><th>Robustness</th><th>Economic replication</th><th>Projection</th><th>Live cashflow</th></tr></thead><tbody>
+<tr><td>Burned historical replay</td><td>YES</td><td>diagnostic</td><td>NO pristine claim</td><td>Grade D context</td><td>NO</td></tr>
+<tr><td>CPCV on burned real data</td><td>YES</td><td>diagnostic</td><td>NO pristine claim</td><td>Grade D context</td><td>NO</td></tr>
+<tr><td>Protected frozen OOS</td><td>YES</td><td>YES</td><td>YES</td><td>Grade C candidate</td><td>NO</td></tr>
+<tr><td>Synthetic qualification</td><td>limited</td><td>YES</td><td>NO</td><td>stress bounds only</td><td>NO</td></tr>
+<tr><td>Reverse stress</td><td>limited</td><td>negative/falsification</td><td>NO positive</td><td>tail caveat/bound only</td><td>NO</td></tr>
+<tr><td>LEAN reference replay</td><td>YES</td><td>execution sensitivity</td><td>supporting if contract matched</td><td>model sensitivity</td><td>NO</td></tr>
+<tr><td>Prospective shadow</td><td>YES</td><td>YES</td><td>prospective support</td><td>Grade B candidate</td><td>NO</td></tr>
+<tr><td>Live reconciled fills</td><td>YES</td><td>YES</td><td>YES</td><td>Grade A candidate</td><td>YES</td></tr>
+</tbody></table>
+</section>
+
+<section id="contradiction-map"><h1>Contradiction map</h1>
+<table><thead><tr><th>Tension</th><th>Resolution</th></tr></thead><tbody>
+<tr><td>“No scalar readiness score” vs need for one progress number</td><td>CapabilityScore is diagnostic-only and non-authoritative; GateVector remains sovereign.</td></tr>
+<tr><td>Need many worlds vs synthetic cannot prove economics</td><td>Synthetic expands falsification coverage; protected real OOS/shadow/live supply economic authority.</td></tr>
+<tr><td>Industry tool maturity vs V8 sovereignty</td><td>Tools are instruments through typed adapters; V8 keeps authority semantics.</td></tr>
+<tr><td>Need $1000 answer vs future unknowability</td><td>CapitalOutcomeProjection with grade, conditional distribution and explicit probability semantics.</td></tr>
+<tr><td>Need repeated benchmark optimization vs evaluator overfit</td><td>DEV/qualification/novelty separation, benchmark versioning and access debt.</td></tr>
+<tr><td>Broad universe testing vs selective concentration</td><td>Evaluate selector transfer; do not force equal allocation or symbol-level positivity.</td></tr>
+</tbody></table>
+</section>
+
+<section id="architecture-diagram"><h1>Full architecture diagram</h1>
+<pre>
+                                      ┌─────────────────────────────┐
+                                      │   V8 CONSTITUTION / D-SERIES│
+                                      └──────────────┬──────────────┘
+                                                     │
+                                    ┌────────────────▼────────────────┐
+                                    │       FROZEN POLICY IDENTITY     │
+                                    └────────────────┬────────────────┘
+                                                     │
+                         ┌───────────────────────────▼──────────────────────────┐
+                         │             BENCHMARK CASE MANIFEST                 │
+                         │ contracts · populations · metrics · gates · tools   │
+                         └───────────────┬───────────────────┬─────────────────┘
+                                         │                   │
+            ┌────────────────────────────┘                   └────────────────────────────┐
+            ▼                                                                             ▼
+┌──────────────────────────┐                                                ┌──────────────────────────┐
+│ REAL / CHRONOLOGY LANE   │                                                │ SYNTHETIC / STRESS LANE  │
+│ burned · WF · CPCV · OOS │                                                │ qual · novelty · reverse │
+└────────────┬─────────────┘                                                └────────────┬─────────────┘
+             │                                                                            │
+             ├──────────────────────────────┐              ┌──────────────────────────────┤
+             │                              ▼              ▼                              │
+             │                    ┌─────────────────────────────┐                         │
+             │                    │ SYSTEM PROVING GROUND       │                         │
+             │                    │ Market→Experts→Risk→Exec    │                         │
+             │                    └─────────────┬───────────────┘                         │
+             │                                  │                                         │
+             ▼                                  ▼                                         ▼
+┌──────────────────────────┐       ┌─────────────────────────────┐          ┌──────────────────────────┐
+│ EXTERNAL REF INSTRUMENTS │       │ CANONICAL OBSERVATIONS      │          │ MINIMAL DEFEATERS        │
+│ LEAN · skfolio · Qlib    │──────►│ metrics · deps · authority  │◄─────────│ failure topology         │
+└────────────┬─────────────┘       └─────────────┬───────────────┘          └──────────────────────────┘
+             │                                    │
+             │                 ┌──────────────────┼───────────────────┐
+             │                 ▼                  ▼                   ▼
+             │        CAPABILITY PROFILE       GATE VECTOR      PROJECTION ENGINE
+             │        + score 0..100         read-only Assurance  admissible econ only
+             │                 │                  │                   │
+             └─────────────────┴───────────┬──────┴───────────────────┘
+                                           ▼
+                               ┌────────────────────────────┐
+                               │ BENCHMARK RECEIPT / REPORT │
+                               └────────────┬───────────────┘
+                                            │
+                         ┌──────────────────┴─────────────────┐
+                         ▼                                    ▼
+                 KAIZEN DIAGNOSTICS                    ASSURANCE FABRIC
+                 challenger proposals                  typed adjudication
+                         │                                    │
+                         └──────────────► next policy ◄────────┘
+</pre>
+</section>
+
+<section id="source-map"><h1>Source map</h1>
+<table><thead><tr><th>Design claim</th><th>Primary external support</th><th>V8 transfer</th></tr></thead><tbody>
+<tr><td>Profit-only evaluation is insufficient</td><td>PRUDEX-Compass</td><td>multi-axis profile</td></tr>
+<tr><td>Benchmark needs standardized environment/data/evaluation</td><td>TradeMaster, FinRL-Meta, Qlib</td><td>BenchmarkVersion + CaseManifest</td></tr>
+<tr><td>Repeated search inflates apparent edge</td><td>White, Hansen, DSR, PBO</td><td>G5 Statistical Court + ResearchDebtLedger</td></tr>
+<tr><td>Multiple OOS paths expose ranking instability</td><td>CPCV literature, skfolio</td><td>CPCV population</td></tr>
+<tr><td>Regime-conditioned distributions preserve failure shape</td><td>2026 regime-conditional study</td><td>scenario cell lattice</td></tr>
+<tr><td>Score can coexist with hard gates without becoming future-profit probability</td><td>MinervaScore</td><td>CapabilityScore + GateVector</td></tr>
+<tr><td>Statistical correction cannot repair causal leakage</td><td>2026 honest-evaluation study</td><td>G1 precedes G5</td></tr>
+<tr><td>Synthetic realism is multi-dimensional</td><td>Market-GAN, GAN-diffusion, MarketGANs</td><td>GeneratorPassport vector</td></tr>
+<tr><td>Interactive execution simulation is useful when historical replay is insufficient</td><td>ABIDES, ABIDES-Gym, RL execution work</td><td>fidelity escalation path</td></tr>
+<tr><td>External execution models are useful but model-dependent</td><td>LEAN reality-model docs</td><td>independent referee, not sovereign truth</td></tr>
+</tbody></table>
+</section>
+
+<section id="bibliography"><h1>Bibliography</h1>
+<ol>
+<li id="ref-R01"><strong>R01.</strong> Sun et al. (2023), PRUDEX-Compass: Towards Systematic Evaluation of Reinforcement Learning in Financial Markets. <a href="https://arxiv.org/abs/2302.00586">https://arxiv.org/abs/2302.00586</a><br><span class="small">Six-axis, 17-measure evaluation of FinRL systems across multiple long-horizon real-world datasets; explicitly criticizes profit-only evaluation.</span></li><li id="ref-R02"><strong>R02.</strong> Liu et al. (2022), FinRL-Meta: Market Environments and Benchmarks for Data-Driven Financial Reinforcement Learning. <a href="https://arxiv.org/abs/2211.03107">https://arxiv.org/abs/2211.03107</a><br><span class="small">DataOps-oriented market environment library motivated by low signal-to-noise, survivorship bias, and backtest overfitting; provides many standardized environments.</span></li><li id="ref-R03"><strong>R03.</strong> Yang et al. (2020), Qlib: An AI-oriented Quantitative Investment Platform. <a href="https://arxiv.org/abs/2009.11189">https://arxiv.org/abs/2009.11189</a><br><span class="small">End-to-end quantitative research platform spanning data, modeling, backtesting and deployment-oriented workflows.</span></li><li id="ref-R04"><strong>R04.</strong> Pigorsch &amp; Schäfer (2021), High-Dimensional Stock Portfolio Trading with Deep Reinforcement Learning. <a href="https://arxiv.org/abs/2112.04755">https://arxiv.org/abs/2112.04755</a><br><span class="small">Out-of-sample analysis across 48 US stock portfolio setups, varying portfolio size, stock-selection criteria and transaction costs with one hyperparameter setup.</span></li><li id="ref-R05"><strong>R05.</strong> Nicolini et al. (2024), Hopfield Networks for Asset Allocation. <a href="https://arxiv.org/abs/2407.17645">https://arxiv.org/abs/2407.17645</a><br><span class="small">Portfolio allocation study using combinatorial purged cross-validation across datasets; relevant to leakage-aware multi-path evaluation.</span></li><li id="ref-R06"><strong>R06.</strong> Ozimek (2026), Regime-Conditional Distributional Comparison of Trading Strategies. <a href="https://arxiv.org/abs/2606.31251">https://arxiv.org/abs/2606.31251</a><br><span class="small">Uses 146 walk-forward out-of-sample folds and models strategy comparison conditionally on realized volatility and momentum regimes.</span></li><li id="ref-R07"><strong>R07.</strong> Santoni, Jouanne &amp; Scullin (2026), Equity Strategy Backtesting: Luck or Edge? The MinervaScore. <a href="https://arxiv.org/abs/2608.23808">https://arxiv.org/abs/2608.23808</a><br><span class="small">Combines DSR, PBO, SPA, minimum track record length and regime stability into a 0–100 display while retaining separate non-compensable gates; explicitly not a future-profit probability.</span></li><li id="ref-R08"><strong>R08.</strong> Gençay (2026), What survives honest evaluation? Leakage-safe, search-aware assessment of LLM-driven trading strategy discovery. <a href="https://arxiv.org/abs/2608.27734">https://arxiv.org/abs/2608.27734</a><br><span class="small">Makes search intensity and look-ahead controls structural; shows statistical correction does not repair a deliberately leaky oracle; records every evaluated strategy as research debt.</span></li><li id="ref-R09"><strong>R09.</strong> Xia et al. (2023), Market-GAN: Adding Control to Financial Market Data Generation with Semantic Context. <a href="https://arxiv.org/abs/2309.07708">https://arxiv.org/abs/2309.07708</a><br><span class="small">Controllable synthetic financial data with evaluation of alignment, fidelity, downstream usability and market facts.</span></li><li id="ref-R10"><strong>R10.</strong> Masi, Coletta &amp; Bartolini (2026), High-Quality Synthetic Financial Time-Series using a GAN-Diffusion Framework. <a href="https://arxiv.org/abs/2605.27113">https://arxiv.org/abs/2605.27113</a><br><span class="small">Synthetic multivariate financial generation emphasizing stylized facts and inter-asset correlation structure; realism is multi-dimensional.</span></li><li id="ref-R11"><strong>R11.</strong> Byrd, Hybinette &amp; Balch (2019), ABIDES: Towards High-Fidelity Market Simulation for AI Research. <a href="https://arxiv.org/abs/1904.12066">https://arxiv.org/abs/1904.12066</a><br><span class="small">Agent-based discrete-event market simulator with exchange interaction and configurable latencies.</span></li><li id="ref-R12"><strong>R12.</strong> Amrouni et al. (2021), ABIDES-Gym: Gym Environments for Multi-Agent Discrete Event Simulation and Application to Financial Markets. <a href="https://arxiv.org/abs/2110.14771">https://arxiv.org/abs/2110.14771</a><br><span class="small">Gym environments for daily investor and execution agents on ABIDES.</span></li><li id="ref-R13"><strong>R13.</strong> Hafsi &amp; Vittori (2024), Optimal Execution with Reinforcement Learning. <a href="https://arxiv.org/abs/2411.06389">https://arxiv.org/abs/2411.06389</a><br><span class="small">Uses ABIDES to overcome limitations of purely historical execution data and benchmarks learned execution against standard execution strategies.</span></li><li id="ref-R14"><strong>R14.</strong> Sun et al. (2021), DeepScalper: A Risk-Aware Reinforcement Learning Framework to Capture Fleeting Intraday Trading Opportunities. <a href="https://arxiv.org/abs/2201.09058">https://arxiv.org/abs/2201.09058</a><br><span class="small">Risk-aware intraday trading benchmark across multiple futures.</span></li><li id="ref-R15"><strong>R15.</strong> Sun et al. (2023), TradeMaster: A Holistic Quantitative Trading Platform Empowered by Reinforcement Learning. <a href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/b8f6f7f2ba4137124ac976286eacb611-Abstract.html">https://proceedings.neurips.cc/paper_files/paper/2023/hash/b8f6f7f2ba4137124ac976286eacb611-Abstract.html</a><br><span class="small">NeurIPS Datasets and Benchmarks paper framing RL trading as a full lifecycle problem in engineering, benchmarking and usability.</span></li><li id="ref-R16"><strong>R16.</strong> White (2000), A Reality Check for Data Snooping. <a href="https://doi.org/10.1111/1468-0262.00152">https://doi.org/10.1111/1468-0262.00152</a><br><span class="small">Bootstrap-based test addressing repeated model search and data snooping against a benchmark.</span></li><li id="ref-R17"><strong>R17.</strong> Bailey et al. (2015), The Probability of Backtest Overfitting. <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2326253">https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2326253</a><br><span class="small">Investment-backtest-specific probability of overfitting via combinatorially symmetric cross-validation.</span></li><li id="ref-R18"><strong>R18.</strong> Bailey &amp; López de Prado (2014), The Deflated Sharpe Ratio. <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2460551">https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2460551</a><br><span class="small">Corrects Sharpe-ratio evidence for selection bias under multiple testing and non-normal returns.</span></li><li id="ref-R19"><strong>R19.</strong> Hansen (2005), A Test for Superior Predictive Ability. <a href="https://doi.org/10.1198/073500105000000063">https://doi.org/10.1198/073500105000000063</a><br><span class="small">SPA test improves on the Reality Check by reducing sensitivity to poor and irrelevant alternatives.</span></li><li id="ref-R20"><strong>R20.</strong> Federal Reserve/OCC/FDIC (2026), Interagency Supervisory Guidance on Model Risk Management. <a href="https://www.federalreserve.gov/frrs/guidance/supervisory-guidance-on-model-risk-management.htm">https://www.federalreserve.gov/frrs/guidance/supervisory-guidance-on-model-risk-management.htm</a><br><span class="small">Separates conceptual soundness, outcomes analysis and ongoing monitoring; emphasizes independent effective challenge and fit-for-purpose use.</span></li><li id="ref-R21"><strong>R21.</strong> Basel Committee (2026 consolidated), Stress Testing Principles. <a href="https://www.bis.org/committees/bcbs/basel-consolidated-guidelines/module/rma/30">https://www.bis.org/committees/bcbs/basel-consolidated-guidelines/module/rma/30</a><br><span class="small">Defines stress testing and reverse stress testing as tools for identifying vulnerabilities and adverse scenarios.</span></li><li id="ref-R22"><strong>R22.</strong> NIST (2026), TEVV-Athlon Framework for Evaluating AI Systems. <a href="https://www.nist.gov/artificial-intelligence/ai-research/tevv-athlon-framework-evaluating-ai-systems">https://www.nist.gov/artificial-intelligence/ai-research/tevv-athlon-framework-evaluating-ai-systems</a><br><span class="small">Application-specific, customizable TEVV framework relevant to evaluating agentic Kaizen.</span></li><li id="ref-R23"><strong>R23.</strong> skfolio documentation, CombinatorialPurgedCV. <a href="https://skfolio.org/generated/skfolio.model_selection.CombinatorialPurgedCV.html">https://skfolio.org/generated/skfolio.model_selection.CombinatorialPurgedCV.html</a><br><span class="small">Portfolio model-selection primitive supporting multiple test paths, purging and embargo.</span></li><li id="ref-R24"><strong>R24.</strong> VectorBT PRO documentation, Optimization and Purged CV. <a href="https://vectorbt.pro/features/optimization/">https://vectorbt.pro/features/optimization/</a><br><span class="small">Walk-forward, purged and combinatorial CV with high-throughput parameter evaluation.</span></li><li id="ref-R25"><strong>R25.</strong> QuantConnect LEAN documentation, Reality Modeling. <a href="https://www.quantconnect.com/docs/v2/writing-algorithms/reality-modeling/key-concepts">https://www.quantconnect.com/docs/v2/writing-algorithms/reality-modeling/key-concepts</a><br><span class="small">Configurable fills, fees, slippage, brokerage, buying-power, settlement and capacity models; still model-dependent.</span></li><li id="ref-R26"><strong>R26.</strong> Microsoft Qlib benchmark documentation. <a href="https://github.com/microsoft/qlib/blob/main/examples/benchmarks/README.md">https://github.com/microsoft/qlib/blob/main/examples/benchmarks/README.md</a><br><span class="small">Reports predictive and portfolio metrics with mean/std across 20 random seeds.</span></li><li id="ref-R27"><strong>R27.</strong> skfolio documentation, Multiple Randomized Cross-Validation. <a href="https://skfolio.org/auto_examples/model_selection/plot_1_multiple_randomized_cv.html">https://skfolio.org/auto_examples/model_selection/plot_1_multiple_randomized_cv.html</a><br><span class="small">Resampling across asset subsets and contiguous time windows to capture temporal and cross-sectional variability.</span></li><li id="ref-R28"><strong>R28.</strong> Huh et al. (2026), MarketGANs: Multivariate financial time-series data augmentation using generative adversarial networks. <a href="https://arxiv.org/abs/2601.17773">https://arxiv.org/abs/2601.17773</a><br><span class="small">High-dimensional synthetic returns with factor structure and tail co-movement.</span></li><li id="ref-R29"><strong>R29.</strong> Liu et al. (2023), Dynamic Datasets and Market Environments for Financial Reinforcement Learning. <a href="https://arxiv.org/abs/2304.13174">https://arxiv.org/abs/2304.13174</a><br><span class="small">Dynamic market datasets/environments with emphasis on low SNR, survivorship bias and model overfitting.</span></li><li id="ref-R30"><strong>R30.</strong> skfolio documentation, Model Selection. <a href="https://skfolio.org/user_guide/model_selection.html">https://skfolio.org/user_guide/model_selection.html</a><br><span class="small">Walk-forward and multi-path cross-validation yielding MultiPeriodPortfolio/Population objects.</span></li>
+</ol>
+<p class="small">Bibliography entries are included because they materially informed the design or its transfer boundary. A citation here
+does not imply endorsement of V8, nor does publication status imply that a method is universally valid for V8's data and decision process.</p>
+</section>
+
+<section id="appendix-a" class="appendix"><h1>Appendix A — Metric dictionary</h1>
+<table><thead><tr><th>Metric</th><th>Type</th><th>Preferred direction</th><th>Primary domain</th></tr></thead><tbody>
+<tr><td>LGNG</td><td>economic</td><td>↑</td><td>Economic</td></tr>
+<tr><td>Terminal Equity</td><td>economic</td><td>↑</td><td>Economic</td></tr>
+<tr><td>Net R / Campaign</td><td>economic</td><td>↑</td><td>Economic</td></tr>
+<tr><td>Max Drawdown</td><td>risk</td><td>↓</td><td>Risk</td></tr>
+<tr><td>Expected Shortfall</td><td>risk</td><td>↓</td><td>Risk</td></tr>
+<tr><td>Time Under Water</td><td>risk</td><td>↓</td><td>Risk</td></tr>
+<tr><td>Episode Discovery Recall</td><td>Oracle diagnostic</td><td>↑</td><td>Discovery</td></tr>
+<tr><td>Economic Value Recall</td><td>Oracle diagnostic</td><td>↑</td><td>Discovery</td></tr>
+<tr><td>Candidate Precision</td><td>selection</td><td>↑</td><td>Discovery</td></tr>
+<tr><td>MFE Retention</td><td>exit</td><td>↑</td><td>Execution/Exit</td></tr>
+<tr><td>Friction Retention</td><td>execution</td><td>↑</td><td>Execution</td></tr>
+<tr><td>Break-even Cost</td><td>execution</td><td>↑</td><td>Execution</td></tr>
+<tr><td>Rank Reversal Rate</td><td>reliability</td><td>↓</td><td>Reliability</td></tr>
+<tr><td>Worst-Decile Net Return</td><td>robustness</td><td>↑</td><td>Generalization</td></tr>
+<tr><td>ScenarioFailureFraction</td><td>synthetic robustness</td><td>↓</td><td>Generalization</td></tr>
+<tr><td>Nearest Defeater Distance</td><td>reverse stress</td><td>↑</td><td>Robustness</td></tr>
+<tr><td>PBO</td><td>statistical</td><td>↓</td><td>Statistics</td></tr>
+<tr><td>DSR confidence/statistic</td><td>statistical</td><td>↑ under declared convention</td><td>Statistics</td></tr>
+<tr><td>WRC / SPA</td><td>statistical test</td><td>valid rejection/support under plan</td><td>Statistics</td></tr>
+<tr><td>Trial Debt</td><td>research integrity</td><td>tracked, not minimized cosmetically</td><td>Research Integrity</td></tr>
+</tbody></table>
+</section>
+
+<section id="appendix-b" class="appendix"><h1>Appendix B — Example BenchmarkCase JSON</h1>
+<pre>{
+  "case_id": "BC-2026-09-06-P217",
+  "benchmark_version": "1.0.0",
+  "policy": {
+    "id": "P217",
+    "policy_hash": "sha256:...",
+    "code_hash": "sha256:...",
+    "config_hash": "sha256:..."
+  },
+  "contracts": {
+    "production_growth": "PGC-4",
+    "information": "INFO-19",
+    "risk": "RISK-11",
+    "execution": "EXEC-7",
+    "cost": "COST-USDM-6"
+  },
+  "populations": [
+    "BURNED_QUAD_2025_2026",
+    "CPCV_REAL_V1",
+    "SYNTH_QUAL_V2",
+    "SYNTH_NOVELTY_V1",
+    "LEAN_REF_V1"
+  ],
+  "primary_metrics": [
+    "LGNG","MAX_DD","TARGET_TRANSFER_EFF",
+    "FRICTION_RETENTION","WORST_DECILE_NET"
+  ],
+  "seal_hash": "sha256:..."
+}</pre>
+</section>
+
+<section id="appendix-c" class="appendix"><h1>Appendix C — Example report and scorecard</h1>
+<pre>V8.5 BENCHMARK PROFILE
+BenchmarkVersion: 1.0.0
+Policy: P217
+
+CapabilityScore: 68.4 / 100
+Delta vs incumbent: +6.7
+Coverage: 83%
+
+Discovery        74
+Economic         66
+Risk             79
+Execution        61
+Generalization   57
+Reliability      72
+Statistics       49
+
+G0 PASS
+G1 PASS
+G2 PASS
+G3 PARTIAL
+G4 PASS
+G5 BLOCKED
+G6 NOT_RUN
+G7 PARTIAL
+G8 NOT_RUN
+G9 NOT_RUN
+
+Nearest material defeater:
+LIQUIDITY_VACUUM + CORRELATION_TO_ONE
+distance 0.18
+MaxDD 23.4%
+
+Projection:
+UNKNOWN / Grade U-D
+Historical burned diagnostic:
+$1,000 → ~$1,509 on 2025-07..2026-06
+
+Verdict:
+NOT PRODUCTION-SUPPORTED</pre>
+</section>
+
+<section id="appendix-d" class="appendix"><h1>Appendix D — $1,000 projection worked example</h1>
+<p>This is a <strong>worked schema example</strong>, not a current V8 forecast.</p>
+<pre>Suppose a future policy has:
+  12 protected OOS yearly-equivalent cases
+  24 prospective shadow subperiods
+  validated block dependence treatment
+  no execution-sign divergence
+  acceptable capacity at $1,000
+
+Weighted/bootstrapped one-year terminal outcomes:
+  770, 820, 910, 940, 980, 1010, 1110, 1180,
+  1230, 1320, 1410, 1530, 1650, 1810, 2060, ...
+
+Report:
+  Initial capital: $1,000
+  P05:  $770
+  P25:  $960
+  P50: $1,240
+  P75: $1,520
+  P95: $2,060
+
+The exact quantiles are conditional on the declared population and weighting model.
+Synthetic stress cases are not counted as empirical probability mass unless separately calibrated.</pre>
+</section>
+
+<section id="appendix-e" class="appendix"><h1>Appendix E — External tool decision matrix</h1>
+<table><thead><tr><th>Tool</th><th>Adopt now?</th><th>Role</th><th>Primary risk</th></tr></thead><tbody>
+<tr><td>skfolio</td><td>YES</td><td>CPCV, walk-forward, population/risk utilities</td><td>misusing generic splitter without V8 label horizon</td></tr>
+<tr><td>LEAN</td><td>YES, scoped</td><td>independent execution/accounting referee</td><td>assuming default reality models equal Binance USD-M truth</td></tr>
+<tr><td>VectorBT Pro</td><td>OPTIONAL</td><td>DEV acceleration and large parameter surfaces</td><td>massive hidden trial debt / benchmark gaming</td></tr>
+<tr><td>Qlib</td><td>OPTIONAL</td><td>model/baseline research</td><td>wrong target ontology</td></tr>
+<tr><td>TradeMaster</td><td>REFERENCE/OPTIONAL</td><td>standardized RL baseline practice</td><td>forcing RL framing</td></tr>
+<tr><td>FinRL-Meta</td><td>REFERENCE/OPTIONAL</td><td>environment/DataOps patterns</td><td>environment count mistaken for evidence independence</td></tr>
+<tr><td>ABIDES</td><td>LATER</td><td>reactive execution escalation</td><td>calibration burden</td></tr>
+<tr><td>QuantStats</td><td>OPTIONAL</td><td>tear-sheet cross-check</td><td>generic metrics mistaken for V8 authority</td></tr>
+</tbody></table>
+</section>
+
+<section id="appendix-f" class="appendix"><h1>Appendix F — Gate test catalogue</h1>
+<table><thead><tr><th>Gate</th><th>Representative automated tests</th></tr></thead><tbody>
+<tr><td>G0</td><td>hash closure, provenance reachability, no duplicate authority roots</td></tr>
+<tr><td>G1</td><td>future-row mutant, timestamp availability mutant, post-hoc asset selector mutant</td></tr>
+<tr><td>G2</td><td>ledger conservation, deterministic replay, thread/backend invariance, parity</td></tr>
+<tr><td>G3</td><td>required cell manifest, UNKNOWN propagation, missing-population failure</td></tr>
+<tr><td>G4</td><td>passport, metamorphic, novelty, reverse-stress, catastrophic-limit tests</td></tr>
+<tr><td>G5</td><td>trial debt, WRC, genuine DSR, SPA, assumption validation</td></tr>
+<tr><td>G6</td><td>freeze receipt, protected-role verification, after-cost economic result</td></tr>
+<tr><td>G7</td><td>regime/cross-asset/path degradation and critical-domain floors</td></tr>
+<tr><td>G8</td><td>future-only epoch, operational parity, drift monitoring</td></tr>
+<tr><td>G9</td><td>fill reconciliation, settled cashflow, live risk/capacity/rollback</td></tr>
+</tbody></table>
+</section>
+
+<section id="appendix-g" class="appendix"><h1>Appendix G — Scenario catalogue</h1>
+<pre>TREND:
+  UP_LOW_VOL
+  UP_HIGH_VOL
+  DOWN_LOW_VOL
+  DOWN_HIGH_VOL
+  FLAT_LOW_VOL
+  FLAT_HIGH_VOL
+
+TRANSITION:
+  TREND_TO_CHOP
+  CHOP_TO_BREAKOUT
+  CALM_TO_SHOCK
+  SHOCK_TO_RECOVERY
+  V_REVERSAL
+  FALSE_BREAK_CLUSTER
+
+LIQUIDITY:
+  NORMAL
+  THIN
+  SPREAD_SPIKE
+  LIQUIDITY_VACUUM
+
+CROSS_ASSET:
+  DISPERSION
+  NORMAL_CORRELATION
+  CORRELATION_TO_ONE
+  CONTAGION
+
+DERIVATIVES:
+  FUNDING_NEUTRAL
+  LONG_CROWDING
+  SHORT_CROWDING
+  BASIS_DISLOCATION
+
+PATH_TOPOLOGY:
+  SMOOTH_TREND
+  WICKY_TREND
+  GAP_TREND
+  STAIRCASE
+  BLOWOFF
+  SLOW_GRIND
+
+OPS/DATA:
+  STALE_FUNDING
+  MISSING_BAR
+  LATENCY_SPIKE
+  TIMESTAMP_SKEW
+  VENUE_RULE_CHANGE</pre>
+</section>
+
+<section id="appendix-h" class="appendix"><h1>Appendix H — Research-debt accounting</h1>
+<p>Research debt is counted at the level at which outcomes can influence subsequent search. If 10,000 automatically generated parameter
+variants are scored and only the best is retained, the search family contains 10,000 evaluations, not one published strategy.</p>
+<pre>ResearchDebtLedger {
+  lineage_id
+  trials_total
+  trials_by_family
+  outcomes_seen_by_agent
+  discarded_trials
+  failed_trials
+  benchmark_exposures
+  protected_accesses
+  missing_trial_receipts
+  family_effective_trials_estimate
+}</pre>
+<p>Debt itself is not a moral failure. Unrecorded debt is an epistemic failure.</p>
+</section>
+
+<section id="appendix-i" class="appendix"><h1>Appendix I — Implementation checklist</h1>
+<ul>
+<li>[ ] Ratify Benchmark Fabric as non-authoritative diagnostic layer.</li>
+<li>[ ] Freeze BenchmarkVersion v1 metric definitions and provisional weights.</li>
+<li>[ ] Implement BenchmarkCaseManifest and hash closure.</li>
+<li>[ ] Implement canonical MetricObservation with authority/dependency metadata.</li>
+<li>[ ] Wire current D-152 burned quad into benchmark receipt.</li>
+<li>[ ] Add skfolio CPCV/walk-forward adapter and toy parity tests.</li>
+<li>[ ] Connect Foundry qualification/novelty worlds through System Proving Ground.</li>
+<li>[ ] Add reverse-stress nearest-defeater report.</li>
+<li>[ ] Implement LEAN decision-stream adapter and disagreement taxonomy.</li>
+<li>[ ] Add domain score normalizers and weight-sensitivity analysis.</li>
+<li>[ ] Render GateVector beside every scalar score.</li>
+<li>[ ] Implement ProjectionPlan and grade U/D/C/B/A.</li>
+<li>[ ] Refuse synthetic probability weighting by default.</li>
+<li>[ ] Extend Kaizen ledger to benchmark-versioned deltas.</li>
+<li>[ ] Pass BFS-001..BFS-024 sabotage suite.</li>
+<li>[ ] Run first baseline benchmark; do not promote economic status merely because a score exists.</li>
+</ul>
+</section>
+
+<section id="appendix-j" class="appendix"><h1>Appendix J — Ratification checklist</h1>
+<table><thead><tr><th>Question</th><th>Required answer before ratification</th></tr></thead><tbody>
+<tr><td>Does Benchmark Fabric create a new authority root?</td><td>NO</td></tr>
+<tr><td>Can CapabilityScore certify readiness?</td><td>NO</td></tr>
+<tr><td>Can a hard gate be averaged away?</td><td>NO</td></tr>
+<tr><td>Can synthetic PASS create economic edge?</td><td>NO</td></tr>
+<tr><td>Can synthetic FAIL challenge a passport-scoped robustness claim?</td><td>YES</td></tr>
+<tr><td>Are benchmark weights/metrics sealed before protected results?</td><td>YES</td></tr>
+<tr><td>Is a used holdout burned for the affected lineage?</td><td>YES</td></tr>
+<tr><td>Are third-party tools instruments rather than sovereign judges?</td><td>YES</td></tr>
+<tr><td>Can the $1000 projection be UNKNOWN?</td><td>YES; this is expected when evidence is insufficient.</td></tr>
+<tr><td>Does current burned quad become a forward forecast?</td><td>NO</td></tr>
+<tr><td>Are benchmark major versions explicitly non-comparable without bridge study?</td><td>YES</td></tr>
+<tr><td>Does Kaizen record failed/discarded autonomous trials?</td><td>YES</td></tr>
+</tbody></table>
+<div class="callout"><strong>Ratification thesis:</strong> V8 should know not only whether a policy made money on one tape, but how the
+policy behaves across a governed population of worlds, how fragile that behavior is, how much of the result survives independent execution
+assumptions, what evidence is actually independent, and what level of future economic projection is justified. The benchmark exists to
+make that epistemic state legible without converting uncertainty into false precision.</div>
+</section>
+
+<hr>
+<p class="small"><strong>End of monograph.</strong> All example scores and forward-capital quantiles not explicitly identified as existing
+project evidence are illustrative schemas, not claims about current V8 profitability.</p>
+</body></html>
