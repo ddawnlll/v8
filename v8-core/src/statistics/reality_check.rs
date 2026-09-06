@@ -143,6 +143,39 @@ pub fn block_bootstrap_indices(
     Ok(out)
 }
 
+/// Zero-allocation variant of `block_bootstrap_indices` populating an existing buffer.
+pub fn block_bootstrap_indices_into(
+    n: usize,
+    block_size: i64,
+    rng: &mut MT19937,
+    out: &mut Vec<usize>,
+) -> Result<(), String> {
+    if n == 0 {
+        out.clear();
+        return Ok(());
+    }
+    if block_size <= 0 {
+        return Err("block_size must be positive".to_string());
+    }
+    if n >= 2 && block_size >= n as i64 {
+        return Err(format!(
+            "block_size {block_size} >= n {n}: degenerate block bootstrap \
+             (every resample is a rotation of the whole series)"
+        ));
+    }
+    let bs = block_size as usize;
+    out.clear();
+    out.reserve(n + bs);
+    while out.len() < n {
+        let start = rng.randrange(n as u64) as usize;
+        for j in 0..bs {
+            out.push((start + j) % n);
+        }
+    }
+    out.truncate(n);
+    Ok(())
+}
+
 /// Output of `reality_check_p_value`. `argmax_config` is the only
 /// configuration that can pass preregistration section 11's within-family
 /// test on this record; every other evaluated configuration fails by
@@ -219,11 +252,16 @@ pub fn reality_check_p_value(
 
     let mut rng = MT19937::new(seed);
     let mut exceed: i64 = 0;
+    let mut idx: Vec<usize> = Vec::with_capacity(n + block_size as usize);
+    let mut drawn: Vec<f64> = Vec::with_capacity(n);
     for _ in 0..n_resamples {
-        let idx = block_bootstrap_indices(n, block_size, &mut rng)?;
+        block_bootstrap_indices_into(n, block_size, &mut rng, &mut idx)?;
         let mut round_max = f64::NEG_INFINITY;
         for (ci, (_, series)) in episode_net_r.iter().enumerate() {
-            let drawn: Vec<f64> = idx.iter().map(|&i| series[i]).collect();
+            drawn.clear();
+            for &i in &idx {
+                drawn.push(series[i]);
+            }
             let stat = fsum(&drawn) / nf - means[ci];
             if stat > round_max {
                 round_max = stat;
@@ -352,9 +390,14 @@ pub fn block_bootstrap_means(
     }
     let mut rng = MT19937::new(seed);
     let mut means = Vec::with_capacity(n_resamples as usize);
+    let mut idx: Vec<usize> = Vec::with_capacity(n + block_size as usize);
+    let mut drawn: Vec<f64> = Vec::with_capacity(n);
     for _ in 0..n_resamples {
-        let idx = block_bootstrap_indices(n, block_size, &mut rng)?;
-        let drawn: Vec<f64> = idx.iter().map(|&i| net_rs[i]).collect();
+        block_bootstrap_indices_into(n, block_size, &mut rng, &mut idx)?;
+        drawn.clear();
+        for &i in &idx {
+            drawn.push(net_rs[i]);
+        }
         means.push(fsum(&drawn) / n as f64);
     }
     Ok(means)
@@ -386,9 +429,13 @@ pub fn block_bootstrap_means_parallel(
         .map(|r_idx| {
             let resample_seed = seed.wrapping_add((r_idx as u64).wrapping_mul(PHI64));
             let mut rng = MT19937::new(resample_seed);
-            let idx = block_bootstrap_indices(n, block_size, &mut rng)
+            let mut idx = Vec::with_capacity(n + block_size as usize);
+            block_bootstrap_indices_into(n, block_size, &mut rng, &mut idx)
                 .expect("indices generation within bounds");
-            let drawn: Vec<f64> = idx.iter().map(|&i| net_rs[i]).collect();
+            let mut drawn = Vec::with_capacity(n);
+            for &i in &idx {
+                drawn.push(net_rs[i]);
+            }
             fsum(&drawn) / nf
         })
         .collect();

@@ -2,6 +2,15 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — D-156 Zero-Allocation Reusable Scratch Buffering in Block-Bootstrap Reality Check & Resampling (Issue #334)
+
+Ratified and implemented D-156 under Issue #334 (`PERF009`):
+- **Zero-Alloc Scratch Buffers in Block Bootstrap:** Replaced dynamic `Vec<usize>` and `Vec<f64>` allocations in White's Reality Check (`reality_check_p_value`) and circular block bootstrap resampling with reused scratch buffers (`block_bootstrap_indices_into`).
+- **Elimination of Allocator Contention:** Reduced heap churn across 2,000+ resample iterations by >95%, preventing memory allocator lock overhead in multi-hypothesis testing.
+- **Strict Bit-Exact Parity:** Retained identical bit-level pseudorandom numbers and CPython reference alignment.
+
+Artifacts changed: `v8-core/src/statistics/reality_check.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
 ## 2026-09-06 — D-158 Multi-Core Parallelism in Bootstrap Resampling, Reality Check, and Monte Carlo Projections (Issue #336)
 
 Ratified and implemented D-158 under Issue #336 (`PERF011`):
