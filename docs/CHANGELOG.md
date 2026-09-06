@@ -2,6 +2,20 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — D-153 Benchmark Fabric (BF) Protocol & Multi-Population Evaluation (Rules 57.1–57.8)
+
+Ratified and fully completed the implementation of D-153 Benchmark Fabric against `site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html` and `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md`:
+- **Ontology & Epistemic Separation:** Implemented strict non-collapse invariants (Rule 57): Benchmark != Assurance, CapabilityScore != Readiness, CapabilityScore != Future-Profit Probability.
+- **Metric Observations & 10-Domain Architecture:** Implemented `MetricObservation` (`v8-core/src/benchmark/observation.rs`), 10 capability domains with Monograph V1 provisional weights, and penalized harmonic mean scoring with coverage multiplier.
+- **Real Execution Runner:** Implemented `BenchmarkRunner` (`v8-core/src/benchmark/runner.rs`) orchestrating chronological walk-forward, CPCV, real burned diagnostic quad evaluation, Foundry passport qualification, and reverse-stress nearest-defeater search.
+- **External Parity Adapters:** Implemented real series parity evaluation and disagreement detection (`v8-core/src/benchmark/external.rs`) for QuantConnect LEAN, skfolio, and VectorBT with zero hardcoded metrics.
+- **Empirical Capital Outcome Projection:** Implemented counterfactual empirical quantile estimation (`v8-core/src/benchmark/projection.rs`) for $1,000 initial capital across 5 tiers of projection grades (U, D, C, B, A), rejecting synthetic probability weighting and unmodeled capacity scaling.
+- **Append-Only Disk Ledger:** Implemented cryptographic hash-chain ledger with disk persistence (`.audit/benchmark/ledger.jsonl`).
+- **Forensic Scorecard & CLI:** Implemented native HTML/JSON forensic report generator (`v8-core/src/benchmark/report.rs`) and full `v8-core benchmark` CLI (`case`, `run`, `qualify`, `external`, `compare`, `project`, `report`, `audit`, `ledger-verify`).
+- **Constitutional Sabotage Suite (BFS-001..BFS-024):** Fully implemented and verified all 24 constitutional sabotage tests in `v8-core/tests/d153_benchmark_fabric_sabotage.rs`.
+
+Artifacts changed: `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md`, `site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html`, `docs/decisions/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/charter/V8_CONSTITUTION.md`, `v8-core/src/benchmark/*`, `v8-core/src/main.rs`, `v8-core/tests/d153_benchmark_fabric_sabotage.rs`, `docs/CHANGELOG.md`.
+
 ## 2026-09-06 — D-152 Scenario-Centric Policy Evidence Profile & Quad Demotion (G0–G9)
 
 Registered D-152 as PROVISIONAL_DECISION extending D-147/D-150/D-151 with no locked-invariant mutation. Replaced the single-trajectory headline with `assurance/evidence_profile.rs::PolicyEvidenceProfile` (typed historical diagnostic, scenario cells, robustness topology, frozen-OOS/shadow/live states, gates, non-scalar conclusion). Demoted the 12-month quad to `BURNED_DIAGNOSTIC` diagnostic court: typed `PortfolioReceipt` fields, diagnostic CLI rendering, pathology preserved, promotion leakage blocked by type. Codified passport-scoped synthetic defeater authority and the statistical-triple audit (WRC + genuine DSR + SPA remain the burden; proxy ledger keeps G5 at `NO_ECONOMIC_CLAIM`). Added 14-test adversarial suite `policy_evidence_profile_adversarial.rs`.

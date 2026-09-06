@@ -312,8 +312,10 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/audit/html_report.rs` | Native Rust forensic HTML audit report renderer generating agent-grade forensic reports in <10ms | `render_html_report`, `CSS` | Issue #308; D-148 |
 | `docs/contracts/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md` | Full-text specification of Continuous Epistemic Succession & Living Policy Constitution | Full unabridged contract | V8 Constitution Rule 44; D-149, D-150 |
 | `v8-core/src/assurance/continuous.rs` | Continuous evaluation ledger, EvaluationEpochRecord, EvidenceDelta, KaizenHandoffReceipt, and lineage verifier | `ContinuousEvaluationLedger`, `EvaluationEpochRecord`, `EvidenceDelta`, `KaizenHandoffReceipt` | D-147, D-149, D-150 |
-| `v8-core/src/bin/epistemic_succession.rs` | D-150 executable CLI driver executing multi-epoch epistemic succession, defeater handling, Kaizen handoff, and audit persistence | `main` CLI driver | D-147, D-149, D-150; Rules 51–56 |
 | `v8-core/tests/d150_epistemic_succession_sabotage.rs` | 20-point constitutional sabotage suite verifying D-150 invariants (D150-T01..T20) | 20 automated constitutional sabotage tests | D-147, D-149, D-150 |
+| `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md` | Full-text specification of V8.5 Benchmark Fabric Protocol & Multi-Population Evaluation | Full unabridged contract | V8 Constitution Rules 12, 28–31, 44, 57; D-153 |
+| `v8-core/src/benchmark/` | V8.5 Benchmark Fabric: ontology, cases, receipts, ledger, scoring, populations, synthetic qualification, external parity adapters, empirical capital projection, kaizen feed, observations, runner, report | `BenchmarkCase`, `BenchmarkReceipt`, `BenchmarkLedger`, `CapabilityScorer`, `WalkForwardPartitioner`, `CpcvPartitioner`, `LeanParityAdapter`, `SkfolioParityAdapter`, `VectorBtParityAdapter`, `CapitalOutcomeProjection`, `MetricObservation`, `BenchmarkRunner`, `BenchmarkReportGenerator` | D-153; Rules 12, 28–31, 44, 57 |
+| `v8-core/tests/d153_benchmark_fabric_sabotage.rs` | 24-point constitutional sabotage suite verifying D-153 invariants (BFS-001..BFS-024) | 24 automated constitutional sabotage tests | D-153; Rule 57 |
 
 
 
