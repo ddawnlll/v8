@@ -2,6 +2,20 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — D-156 Evidence, Artifact, Statistical, Benchmark, and Cache Hardening (Issues #318–#324)
+
+Registered D-156 as a provisional, fail-closed hardening decision for the Rust implementation in PR #331. The full authoritative English and Turkish specifications are `docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md` and `docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md`.
+
+- Applied D-118 finite-value and explicit-absence invariants at artifact, scenario, statistics, benchmark, and cache boundaries.
+- Documented append-only candidate/cashflow/evidence persistence, versioned tape-bound atomic checkpoints, and physical V8.2 artifact lineage.
+- Registered real standard Parquet production and verification through `parquet_artifact.rs`; disguised JSON files are not accepted as Parquet.
+- Preserved fail-closed scenario ruin and unresolved SaR behavior when physical trade or liquidity inputs are unavailable.
+- Kept proxy DSR and incomplete multiplicity lineage diagnostic-only; genuine DSR/PBO/WRC/SPA authority remains unregistered and cannot support an economic claim.
+- Recorded the `BenchmarkRunner` physical evidence boundary and `OPEN_PIN-156-1`: no receipt is emitted until a registered data-backed evaluator exists.
+- Registered the durable redb cache adapter, canonical key versioning, digest validation, transactional writes, compaction, and guarded legacy JSONL migration.
+
+Modified artifacts: `docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md`, `docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `v8-core/src/parquet_artifact.rs`, `v8-core/src/cache.rs`, `v8-core/src/checkpoint.rs`, `v8-core/src/evidence.rs`, `v8-core/src/evaluation/statistics.rs`, `v8-core/src/evaluation/multiple_testing.rs`, `v8-core/src/usdm_sim/scenario_ruin.rs`, and `v8-core/src/benchmark/runner.rs`.
+
 ## 2026-09-06 — D-153 Benchmark Fabric (BF) Protocol & Multi-Population Evaluation (Rules 57.1–57.8)
 
 Ratified and fully completed the implementation of D-153 Benchmark Fabric against `site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html` and `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md`:

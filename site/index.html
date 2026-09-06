@@ -9596,6 +9596,7 @@ table.</p>
     report.rs       verdict report artifacts, ledger audit checks (hash-bound)
     cache.rs        content-addressed DAG cache
     evidence.rs     columnar ledger writer (LEDGER_FORMAT_SPEC)
+    parquet_artifact.rs physical standard Parquet adapter, atomic publication, and read-back verification (D-156)
     hash.rs         V8.2 canonical bit encoding (D-079) + BLAKE3/SHA-256 (D-120)
     jsonx.rs        Python-json-compatible tape parser (NaN/Infinity literals)
     mt19937.rs      bit-exact CPython Mersenne Twister — not in the original
@@ -9867,9 +9868,63 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 </tr>
 <tr>
 <td><code>v8-core/src/checkpoint.rs</code></td>
-<td>Atomic simulation state checkpoint &amp; resume</td>
+<td>Atomic simulation state checkpoint &amp; resume with version and tape-hash binding</td>
 <td><code>SimulationCheckpoint.save_to_file/load_from_file</code></td>
-<td>PERSISTENCE_REPLAY_SPEC §4; D-122</td>
+<td>PERSISTENCE_REPLAY_SPEC §4; D-122, D-156</td>
+</tr>
+<tr>
+<td><code>v8-core/src/parquet_artifact.rs</code></td>
+<td>Physical standard Parquet writer and verifier with typed nullable columns, canonical row provenance, atomic publication, and row-count read-back</td>
+<td><code>write_json_rows</code>, <code>verify_parquet</code>, <code>ParquetArtifactReceipt</code></td>
+<td>D-156; Issue #321; Rules 5, 12, 44</td>
+</tr>
+<tr>
+<td><code>v8-core/src/evidence.rs</code></td>
+<td>V8.2-compatible physical evidence headers, run constants, tiers, retention resolution, and byte-stable artifact read-back</td>
+<td><code>Artifact</code>, <code>RunConstants</code>, <code>ArtifactTier</code>, <code>RetentionStore</code>, <code>read_artifact</code>, <code>validate_header</code></td>
+<td>LEDGER_FORMAT_SPEC; D-079, D-156; Issue #319</td>
+</tr>
+<tr>
+<td><code>v8-core/src/candidate.rs</code></td>
+<td>Append-only candidate transition registry and hash-bound replay projection</td>
+<td><code>CandidateRegistry</code>, <code>TransitionRecord</code>, <code>replay_jsonl</code></td>
+<td>D-018, D-026, D-156; Issue #319</td>
+</tr>
+<tr>
+<td><code>v8-core/src/cashflow.rs</code></td>
+<td>Physical cashflow records and conservation-checked append-only publication</td>
+<td><code>EconomicCashflow</code>, <code>CashflowLedger</code>, <code>verify_conservation</code></td>
+<td>D-129, D-131, D-156; Issue #319</td>
+</tr>
+<tr>
+<td><code>v8-core/src/evaluation/statistics.rs</code></td>
+<td>Finite-input statistical kernel, null-model absence, bootstrap/permutation results, and explicitly labelled proxy statistics</td>
+<td><code>BootstrapResult</code>, <code>NullModelResult</code>, <code>PermutationResult</code>, <code>ProxyStatistic</code>, <code>compute_proxy_deflated_sharpe_ratio</code>, <code>compute_deflated_sharpe_ratio</code></td>
+<td>D-118, D-153, D-156; Issue #322; Rule 12</td>
+</tr>
+<tr>
+<td><code>v8-core/src/evaluation/multiple_testing.rs</code></td>
+<td>Complete search-family lineage, trial conservation, optional genuine PBO/DSR fields, and no-claim status when no registered estimator has consumed the lineage</td>
+<td><code>ResearchMultiplicityLedger</code>, <code>MultipleTestingSummary</code></td>
+<td>D-153, D-156; Issue #322; Rule 12</td>
+</tr>
+<tr>
+<td><code>v8-core/src/usdm_sim/scenario_ruin.rs</code></td>
+<td>Physical-trade resampling for scenario ruin and explicit unresolved SaR output without synthetic baseline inputs</td>
+<td><code>ScenarioRuinReport</code>, <code>SlippageAtRiskReport</code>, <code>run_scenario_ruin_simulation</code>, <code>build_baseline_scenario_ruin</code></td>
+<td>D-156; Issue #320; Rules 5, 12</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/runner.rs</code></td>
+<td>Physical evidence manifest validation and fail-closed boundary until a registered data-backed evaluator exists</td>
+<td><code>BenchmarkRunner::run_benchmark</code></td>
+<td>D-153, D-156; Issue #323; Rules 12, 44</td>
+</tr>
+<tr>
+<td><code>v8-core/src/cache.rs</code></td>
+<td>Durable redb cache with versioned canonical identity, digest validation, transactional inserts, compaction, and guarded JSONL migration</td>
+<td><code>CacheStore</code>, <code>CacheEntry</code>, <code>canonical_key</code>, <code>key_digest</code></td>
+<td>D-156; Issue #324; Rules 5, 12</td>
 </tr>
 <tr>
 <td><code>v8-core/src/evaluation/allegory.rs</code></td>
@@ -9959,7 +10014,7 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td><code>v8-core/src/benchmark/</code></td>
 <td>V8.5 Benchmark Fabric: ontology, cases, receipts, ledger, scoring, populations, synthetic qualification, external parity adapters, empirical capital projection, Monte Carlo futures, MinervaScore robustness engine, Policy Certificate &amp; Evidence Dashboard, kaizen feed, observations, runner, report</td>
 <td><code>BenchmarkCase</code>, <code>BenchmarkReceipt</code>, <code>BenchmarkLedger</code>, <code>CapabilityScorer</code>, <code>WalkForwardPartitioner</code>, <code>CpcvPartitioner</code>, <code>LeanParityAdapter</code>, <code>SkfolioParityAdapter</code>, <code>VectorBtParityAdapter</code>, <code>CapitalOutcomeProjection</code>, <code>MinervaEvaluator</code>, <code>MinervaRobustness</code>, <code>PolicyCertificate</code>, <code>MetricObservation</code>, <code>BenchmarkRunner</code>, <code>BenchmarkReportGenerator</code></td>
-<td>D-153; Rules 12, 28–31, 44, 57</td>
+<td>D-153, D-156; Issues #318–#324; Rules 5, 12, 28–31, 44, 57</td>
 </tr>
 <tr>
 <td><code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code></td>
@@ -10977,6 +11032,12 @@ historical design record and this table is the correction layer.</p>
 <td><strong>Benchmark Fabric (BF) Protocol, Multi-Population Evaluation &amp; Epistemic Boundaries (Rules 57.1–57.8).</strong> Establishes the Benchmark Fabric as a diagnostic and comparative evaluation instrument across governed real, synthetic, and external reference populations (<code>v8-core/src/benchmark/</code>). Enforces strict non-collapse invariants: (1) Benchmark ≠ Assurance; (2) CapabilityScore ≠ readiness; (3) CapabilityScore ≠ future-profit probability; (4) Non-compensable hard gates (<code>GateVector</code>); (5) Synthetic asymmetry (<code>synthetic_pass_confirms_no_edge</code> &amp; <code>synthetic_fail_may_challenge</code>); (6) External evaluators as instruments, not authorities; (7) Burned diagnostic and holdout protection; (8) Research trial debt accounting. Binds 10 capability domains, multi-population receipts, deterministic <code>BenchmarkVersion</code>, typed <code>CapitalOutcomeProjection</code>, and BFS-001..024 constitutional sabotage suite.</td>
 <td>PROVISIONAL_DECISION</td>
 <td><code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code>, <code>v8-core/src/benchmark/</code>, <code>v8-core/tests/benchmark_fabric_adversarial.rs</code>; Rules 12, 28–31, 44, 51–57; D-132, D-136, D-141, D-147, D-149, D-150, D-151, D-152.</td>
+</tr>
+<tr>
+<td>D-156</td>
+<td><strong>Evidence, Artifact, Statistical, Benchmark, and Cache Hardening for Issues #318–#324.</strong> Operationalizes D-118 f64 invariants across physical artifacts and evaluation boundaries; hardens append-only candidate/cashflow/evidence persistence and tape-bound atomic checkpoints; replaces disguised JSON with standard Parquet publication and read-back verification; keeps scenario ruin and SaR fail closed when physical trade or liquidity inputs are absent; distinguishes proxy DSR and unresolved multiplicity from genuine registered estimators; validates benchmark evidence paths but blocks receipt creation until a registered data-backed evaluator exists; and makes production cache storage durable through versioned content-addressed redb transactions and guarded legacy migration. All unresolved and proxy outputs remain <code>NO_ECONOMIC_CLAIM</code>.</td>
+<td>PROVISIONAL_DECISION</td>
+<td><code>docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>v8-core/src/parquet_artifact.rs</code>, <code>v8-core/src/checkpoint.rs</code>, <code>v8-core/src/evidence.rs</code>, <code>v8-core/src/evaluation/statistics.rs</code>, <code>v8-core/src/evaluation/multiple_testing.rs</code>, <code>v8-core/src/usdm_sim/scenario_ruin.rs</code>, <code>v8-core/src/benchmark/runner.rs</code>, <code>v8-core/src/cache.rs</code>; Issues #318–#324; D-118, D-122, D-153; Rules 5, 12, 44. OPEN_PIN: registered benchmark evaluator, genuine multiple-testing receipts, and physical SaR liquidity input contract.</td>
 </tr>
 </tbody>
 </table>
@@ -13302,6 +13363,18 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-09-06-d-156-evidence-artifact-statistical-benchmark-and-cache-hardening-issues-318324">2026-09-06 — D-156 Evidence, Artifact, Statistical, Benchmark, and Cache Hardening (Issues #318–#324)</h2>
+<p>Registered D-156 as a provisional, fail-closed hardening decision for the Rust implementation in PR #331. The full authoritative English and Turkish specifications are <code>docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code> and <code>docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>.</p>
+<ul>
+<li>Applied D-118 finite-value and explicit-absence invariants at artifact, scenario, statistics, benchmark, and cache boundaries.</li>
+<li>Documented append-only candidate/cashflow/evidence persistence, versioned tape-bound atomic checkpoints, and physical V8.2 artifact lineage.</li>
+<li>Registered real standard Parquet production and verification through <code>parquet_artifact.rs</code>; disguised JSON files are not accepted as Parquet.</li>
+<li>Preserved fail-closed scenario ruin and unresolved SaR behavior when physical trade or liquidity inputs are unavailable.</li>
+<li>Kept proxy DSR and incomplete multiplicity lineage diagnostic-only; genuine DSR/PBO/WRC/SPA authority remains unregistered and cannot support an economic claim.</li>
+<li>Recorded the <code>BenchmarkRunner</code> physical evidence boundary and <code>OPEN_PIN-156-1</code>: no receipt is emitted until a registered data-backed evaluator exists.</li>
+<li>Registered the durable redb cache adapter, canonical key versioning, digest validation, transactional writes, compaction, and guarded legacy JSONL migration.</li>
+</ul>
+<p>Modified artifacts: <code>docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>docs/tr/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>docs/CHANGELOG.md</code>, <code>v8-core/src/parquet_artifact.rs</code>, <code>v8-core/src/cache.rs</code>, <code>v8-core/src/checkpoint.rs</code>, <code>v8-core/src/evidence.rs</code>, <code>v8-core/src/evaluation/statistics.rs</code>, <code>v8-core/src/evaluation/multiple_testing.rs</code>, <code>v8-core/src/usdm_sim/scenario_ruin.rs</code>, and <code>v8-core/src/benchmark/runner.rs</code>.</p>
 <h2 id="2026-09-06-d-153-benchmark-fabric-bf-protocol-multi-population-evaluation-rules-571578">2026-09-06 — D-153 Benchmark Fabric (BF) Protocol &amp; Multi-Population Evaluation (Rules 57.1–57.8)</h2>
 <p>Ratified and fully completed the implementation of D-153 Benchmark Fabric against <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code> and <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>:
 - <strong>Ontology &amp; Epistemic Separation:</strong> Implemented strict non-collapse invariants (Rule 57): Benchmark != Assurance, CapabilityScore != Readiness, CapabilityScore != Future-Profit Probability. Explicitly separated Question 1 ("Is this a high-integrity quant research system?" -&gt; 0-100 CapabilityScore) from Question 2 ("How much capital if $1,000 invested?" -&gt; Empirical Monte Carlo capital projection).
