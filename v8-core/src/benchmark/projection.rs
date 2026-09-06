@@ -106,7 +106,7 @@ impl CapitalOutcomeProjection {
             vec![0.05, 0.25, 0.50, 0.75, 0.95]
         };
 
-        // Compute cumulative drawdown profile from series
+        // Compute cumulative drawdown profile from the supplied series.
         let mut running_equity = initial_capital_usd;
         let mut peak_equity = initial_capital_usd;
         let mut max_dd_bps = 0.0;
@@ -135,7 +135,7 @@ impl CapitalOutcomeProjection {
             outcome_bands.push(ProjectedOutcomeBand {
                 percentile: p,
                 return_bps: ret_bps,
-                max_drawdown_bps: max_dd_bps * (1.0 - p * 0.5),
+                max_drawdown_bps: max_dd_bps,
                 terminal_capital_usd: terminal,
             });
         }
@@ -155,7 +155,7 @@ impl CapitalOutcomeProjection {
                 10_000,
                 n.min(252),
                 42,
-            ))
+            )?)
         } else {
             None
         };
@@ -184,7 +184,18 @@ impl CapitalOutcomeProjection {
         n_simulations: usize,
         horizon_trades: usize,
         seed: u64,
-    ) -> MonteCarloFutureResult {
+    ) -> Result<MonteCarloFutureResult, String> {
+        if trade_returns_bps.is_empty()
+            || trade_returns_bps.iter().any(|value| !value.is_finite())
+        {
+            return Err("DATA_BLOCKED_MISSING_OR_INVALID_TRADE_RETURNS".to_string());
+        }
+        if !initial_capital_usd.is_finite() || initial_capital_usd <= 0.0 {
+            return Err("BLOCKED_INVALID_INITIAL_CAPITAL".to_string());
+        }
+        if n_simulations == 0 || horizon_trades == 0 {
+            return Err("BLOCKED_INVALID_MONTE_CARLO_DIMENSIONS".to_string());
+        }
         let mut rng = MT19937::new(seed);
         let n_trades = trade_returns_bps.len();
         let ruin_threshold = initial_capital_usd * 0.70; // 30% drawdown
@@ -197,7 +208,7 @@ impl CapitalOutcomeProjection {
             let mut breached_ruin = false;
 
             for _ in 0..horizon_trades {
-                let idx = (rng.next_u32() as usize) % n_trades;
+                let idx = rng.randbelow(n_trades as u64) as usize;
                 let ret_bps = trade_returns_bps[idx];
                 equity += equity * (ret_bps / 10_000.0);
                 if equity <= ruin_threshold {
@@ -232,7 +243,7 @@ impl CapitalOutcomeProjection {
 
         let risk_of_ruin = (ruin_count as f64 / n_simulations as f64) * 100.0;
 
-        MonteCarloFutureResult {
+        Ok(MonteCarloFutureResult {
             n_simulations,
             horizon_trades,
             initial_capital_usd,
@@ -250,33 +261,14 @@ impl CapitalOutcomeProjection {
             worst_scenario_return_pct: ret_pct(worst),
             best_scenario_return_pct: ret_pct(best),
             conditional_notice: "Conditional historical projection, NOT future profit guarantee. Liquidity capacity capped at $100k.".into(),
-        }
+        })
     }
 
     /// Backwards compatible helper for existing receipt-based projection checks
     pub fn project_from_receipt(
-        receipt: &BenchmarkReceipt,
+        _receipt: &BenchmarkReceipt,
         _confidence_level: f64,
     ) -> Result<Self, String> {
-        if receipt.composite_capability_score < 0.20 {
-            return Err("Cannot project outcome: composite capability score is below minimum credibility floor (0.20)".into());
-        }
-
-        // Derive return series from receipt observations if available, else standard diagnostic slice
-        let mut trade_returns = Vec::new();
-        for obs in &receipt.observations {
-            trade_returns.push(obs.raw_value);
-        }
-        if trade_returns.is_empty() {
-            // Use domain calibrated scores scaled to bps
-            for res in receipt.domain_results.values() {
-                trade_returns.push(res.calibrated_score * 100.0);
-            }
-        }
-        if trade_returns.len() < 5 {
-            trade_returns = vec![-50.0, 10.0, 30.0, 60.0, 120.0];
-        }
-
-        Self::project_from_returns(receipt, &trade_returns, 1000.0, false)
+        Err("DATA_BLOCKED_NO_VERIFIED_TRADE_RETURN_ARTIFACT".to_string())
     }
 }

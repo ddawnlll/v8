@@ -20,11 +20,13 @@ pub struct SimulationCheckpoint {
     pub payload_bytes: Vec<u8>,
 }
 
+pub const CHECKPOINT_VERSION: u32 = 1;
+
 impl SimulationCheckpoint {
     pub fn new(bar_index: usize, tape_hash: String, payload: Vec<u8>) -> Self {
         Self {
             header: CheckpointHeader {
-                version: 1,
+                version: CHECKPOINT_VERSION,
                 timestamp: std::time::SystemTime::now()
                     .duration_since(std::time::UNIX_EPOCH)
                     .unwrap_or_default()
@@ -39,13 +41,36 @@ impl SimulationCheckpoint {
     /// Save snapshot atomically to disk using binary encoding.
     pub fn save_to_file<P: AsRef<Path>>(&self, path: P) -> Result<(), V8CoreError> {
         let path = path.as_ref();
-        let tmp_path = path.with_extension("tmp");
+        if self.header.version != CHECKPOINT_VERSION {
+            return Err(V8CoreError::Checkpoint(format!(
+                "unsupported checkpoint version {}",
+                self.header.version
+            )));
+        }
+        let parent = path.parent().unwrap_or_else(|| Path::new("."));
+        std::fs::create_dir_all(parent)
+            .map_err(|e| V8CoreError::Checkpoint(format!("create checkpoint directory: {e}")))?;
+        let tmp_path = parent.join(format!(
+            ".{}.tmp-{}",
+            path.file_name().and_then(|n| n.to_str()).unwrap_or("checkpoint"),
+            std::process::id()
+        ));
         let bytes = bincode::serialize(self)
             .map_err(|e| V8CoreError::Checkpoint(format!("serialize failed: {e}")))?;
-        std::fs::write(&tmp_path, bytes)
+        let mut file = std::fs::OpenOptions::new()
+            .create(true)
+            .truncate(true)
+            .write(true)
+            .open(&tmp_path)
+            .map_err(|e| V8CoreError::Checkpoint(format!("open tmp failed: {e}")))?;
+        use std::io::Write;
+        file.write_all(&bytes)
             .map_err(|e| V8CoreError::Checkpoint(format!("write tmp failed: {e}")))?;
+        file.sync_all()
+            .map_err(|e| V8CoreError::Checkpoint(format!("sync tmp failed: {e}")))?;
         std::fs::rename(&tmp_path, path)
             .map_err(|e| V8CoreError::Checkpoint(format!("rename failed: {e}")))?;
+        sync_directory(parent)?;
         Ok(())
     }
 
@@ -53,9 +78,44 @@ impl SimulationCheckpoint {
     pub fn load_from_file<P: AsRef<Path>>(path: P) -> Result<Self, V8CoreError> {
         let bytes = std::fs::read(path)
             .map_err(|e| V8CoreError::Checkpoint(format!("read file failed: {e}")))?;
-        bincode::deserialize(&bytes)
-            .map_err(|e| V8CoreError::Checkpoint(format!("deserialize failed: {e}")))
+        let checkpoint: Self = bincode::deserialize(&bytes)
+            .map_err(|e| V8CoreError::Checkpoint(format!("deserialize failed: {e}")))?;
+        if checkpoint.header.version != CHECKPOINT_VERSION {
+            return Err(V8CoreError::Checkpoint(format!(
+                "unsupported checkpoint version {}",
+                checkpoint.header.version
+            )));
+        }
+        Ok(checkpoint)
     }
+
+    /// Load only when the persisted checkpoint belongs to the requested tape.
+    pub fn load_for_tape<P: AsRef<Path>>(
+        path: P,
+        expected_tape_hash: &str,
+    ) -> Result<Self, V8CoreError> {
+        let checkpoint = Self::load_from_file(path)?;
+        if checkpoint.header.tape_hash != expected_tape_hash {
+            return Err(V8CoreError::Checkpoint(format!(
+                "checkpoint tape hash mismatch: stored {}, expected {}",
+                checkpoint.header.tape_hash, expected_tape_hash
+            )));
+        }
+        Ok(checkpoint)
+    }
+}
+
+fn sync_directory(path: &Path) -> Result<(), V8CoreError> {
+    #[cfg(unix)]
+    {
+        let dir = std::fs::File::open(path)
+            .map_err(|e| V8CoreError::Checkpoint(format!("open checkpoint directory: {e}")))?;
+        dir.sync_all()
+            .map_err(|e| V8CoreError::Checkpoint(format!("sync checkpoint directory: {e}")))?;
+    }
+    #[cfg(not(unix))]
+    let _ = path;
+    Ok(())
 }
 
 #[cfg(test)]

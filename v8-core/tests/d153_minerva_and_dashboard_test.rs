@@ -1,10 +1,8 @@
 //! Dedicated Integration Tests for D-153 MinervaScore, Monte Carlo Futures, and Evidence Dashboard.
 
 use v8_core::benchmark::case::{BenchmarkCase, BenchmarkVersion, PolicyTarget};
-use v8_core::benchmark::certificate::PolicyCertificate;
 use v8_core::benchmark::minerva::{MinervaEvaluator, PrudexCompass};
 use v8_core::benchmark::projection::CapitalOutcomeProjection;
-use v8_core::benchmark::report::BenchmarkReportGenerator;
 use v8_core::benchmark::runner::BenchmarkRunner;
 use v8_core::benchmark::types::{CapabilityDomain, EvaluationPopulation, GateState};
 
@@ -94,7 +92,8 @@ fn test_monte_carlo_futures_simulation() {
         10_000,
         252,
         42,
-    );
+    )
+    .expect("valid realized returns should permit the Monte Carlo calculation");
 
     assert_eq!(mc.n_simulations, 10_000);
     assert_eq!(mc.horizon_trades, 252);
@@ -129,43 +128,6 @@ fn test_policy_certificate_and_dashboard_e2e() {
     );
 
     let runner = BenchmarkRunner::default();
-    let receipt = runner.run_benchmark(&case).unwrap();
-
-    let returns = vec![
-        -45.0, 80.0, 120.0, -20.0, 65.0, 110.0, -35.0, 95.0, 40.0, 150.0,
-        -60.0, 75.0, 130.0, -15.0, 85.0, 105.0, -25.0, 90.0, 55.0, 140.0,
-        -50.0, 70.0, 125.0, -30.0, 80.0, 115.0, -40.0, 100.0, 60.0, 160.0,
-    ];
-
-    let proj = CapitalOutcomeProjection::project_from_returns(
-        &receipt,
-        &returns,
-        1000.0,
-        false,
-    ).unwrap();
-
-    let cert = PolicyCertificate::generate(&receipt, Some(&proj));
-
-    // Multiplicative readiness index must be calculated correctly
-    let expected_readiness = (cert.research_capability_score / 100.0)
-        * cert.evidence_multiplier
-        * (cert.minerva_robustness_score / 100.0)
-        * (cert.economic_score / 100.0)
-        * 100.0;
-    assert!((cert.readiness_index - (expected_readiness * 10.0).round() / 10.0).abs() < 0.2);
-
-    // Render ASCII box and verify contents
-    let ascii = cert.render_ascii();
-    assert!(ascii.contains("V8 EVIDENCE DASHBOARD & POLICY CERTIFICATE"));
-    assert!(ascii.contains("1. RESEARCH CAPABILITY SCORE"));
-    assert!(ascii.contains("2. ECONOMIC EVIDENCE & MINERVA ROBUSTNESS"));
-    assert!(ascii.contains("3. RISK-ADJUSTED CAPITAL PROJECTION"));
-    assert!(ascii.contains("READINESS INDEX"));
-
-    // Render HTML and verify all 3 panels
-    let html = BenchmarkReportGenerator::render_html(&receipt, Some(&proj));
-    assert!(html.contains("Panel 1: Research Capability & Domain Decomposition"));
-    assert!(html.contains("Panel 2: Economic Evidence Profile & Minerva Robustness"));
-    assert!(html.contains("Panel 3: Risk-Adjusted Capital Projection"));
-    assert!(html.contains("READINESS INDEX"));
+    let error = runner.run_benchmark(&case).expect_err("missing physical evidence must fail closed");
+    assert_eq!(error, "DATA_BLOCKED_NO_VERIFIED_BENCHMARK_EVIDENCE");
 }

@@ -38,6 +38,14 @@ pub struct PolicyTarget {
     pub family: String,
 }
 
+/// Physical evidence required before a benchmark may materialize a receipt.
+/// Paths are deliberately explicit so the runner cannot silently substitute
+/// synthetic observations or a missing artifact.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BenchmarkEvidenceManifest {
+    pub artifact_paths: Vec<String>,
+}
+
 /// A Benchmark Case specification
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BenchmarkCase {
@@ -47,6 +55,8 @@ pub struct BenchmarkCase {
     pub target_domains: Vec<CapabilityDomain>,
     pub allowed_populations: Vec<EvaluationPopulation>,
     pub max_compute_budget_sec: u64,
+    #[serde(default)]
+    pub evidence: Option<BenchmarkEvidenceManifest>,
     pub case_hash: String,
 }
 
@@ -81,6 +91,7 @@ impl BenchmarkCase {
             target_domains,
             allowed_populations,
             max_compute_budget_sec,
+            evidence: None,
             case_hash,
         }
     }
