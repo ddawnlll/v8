@@ -184,6 +184,17 @@ Every run produces an immutable Token Budget &amp; Governance Efficiency receipt
     Continuous monitoring of prospective and deployed policies requires time-valid e-processes or confidence sequences for inferential claims. Repeated fixed-horizon p-values or significance tests are diagnostic-only and carry zero statutory inferential authority.</li>
 <li><strong>Lineage-Relative Holdout Burn &amp; World Coverage Anchor (D-150):</strong>
     Holdout data used for qualification or diagnostic triage transitions irreversibly to <code>BURNED_DIAGNOSTIC</code> relative to that policy lineage and can never satisfy untouched out-of-sample claims. Robustness claims require explicit cryptographic binding to a <code>WorldCoverageManifest</code>.</li>
+<li><strong>Benchmark Fabric Epistemic Integrity &amp; Non-Collapse (D-153):</strong><ul>
+<li><em>(a) Benchmark ≠ Assurance:</em> The Benchmark Fabric is a diagnostic and comparative instrument; it computes capability metrics and relative margins but possesses zero constitutional authority to mint <code>SUPPORTED_EDGE</code> or grant deployment readiness.</li>
+<li><em>(b) CapabilityScore ≠ Readiness:</em> CapabilityScore measures multi-dimensional capability across governed populations and cannot override any hard verification gate.</li>
+<li><em>(c) CapabilityScore ≠ Future-Profit Probability:</em> CapabilityScore is not a probability distribution over future returns. Converting a benchmark score directly into a capital allocation multiplier without an audited <code>CapitalOutcomeProjection</code> is constitutionally prohibited.</li>
+<li><em>(d) Non-Compensable Hard Gates:</em> Every gate in <code>GateVector</code> (G0–G9, B0–B9) is non-compensable; failure in any required gate results in overall benchmark failure regardless of scalar domain scores.</li>
+<li><em>(e) Synthetic Asymmetry:</em> Valid synthetic failure may challenge and falsify robustness/stability claims within certified passport scope (<code>synthetic_fail_may_challenge</code>); synthetic success confers zero economic edge and cannot prove profitability (<code>synthetic_pass_confirms_no_edge</code>).</li>
+<li><em>(f) External Instrument Boundaries:</em> External evaluators are instruments behind versioned adapters with explicit semantic mappings, never sovereign authority roots.</li>
+<li><em>(g) Pristine Data Protection:</em> Consumed holdout evidence cannot be unburned by renaming or wrapping in benchmark cases; burned diagnostic evaluations must be tagged <code>BURNED_DIAGNOSTIC</code> with zero promotion weight.</li>
+<li><em>(h) Research Trial Debt Accounting:</em> Benchmark evaluations consume research trial budget; every evaluation across parameter sweeps or challenger iterations increments Kaizen trial debt and inflates the family-wise hurdle rate.</li>
+</ul>
+</li>
 </ol>
 <h2 id="minimum-coherent-architecture-authority-dag">Minimum Coherent Architecture (Authority DAG)</h2>
 <pre><code class="language-text">                      CONSTITUTION
@@ -9939,16 +9950,28 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 <td>D-147, D-149, D-150</td>
 </tr>
 <tr>
-<td><code>v8-core/src/bin/epistemic_succession.rs</code></td>
-<td>D-150 executable CLI driver executing multi-epoch epistemic succession, defeater handling, Kaizen handoff, and audit persistence</td>
-<td><code>main</code> CLI driver</td>
-<td>D-147, D-149, D-150; Rules 51–56</td>
-</tr>
-<tr>
 <td><code>v8-core/tests/d150_epistemic_succession_sabotage.rs</code></td>
 <td>20-point constitutional sabotage suite verifying D-150 invariants (D150-T01..T20)</td>
 <td>20 automated constitutional sabotage tests</td>
 <td>D-147, D-149, D-150</td>
+</tr>
+<tr>
+<td><code>v8-core/src/benchmark/</code></td>
+<td>V8.5 Benchmark Fabric: ontology, cases, receipts, ledger, scoring, populations, synthetic qualification, external parity adapters, empirical capital projection, Monte Carlo futures, MinervaScore robustness engine, Policy Certificate &amp; Evidence Dashboard, kaizen feed, observations, runner, report</td>
+<td><code>BenchmarkCase</code>, <code>BenchmarkReceipt</code>, <code>BenchmarkLedger</code>, <code>CapabilityScorer</code>, <code>WalkForwardPartitioner</code>, <code>CpcvPartitioner</code>, <code>LeanParityAdapter</code>, <code>SkfolioParityAdapter</code>, <code>VectorBtParityAdapter</code>, <code>CapitalOutcomeProjection</code>, <code>MinervaEvaluator</code>, <code>MinervaRobustness</code>, <code>PolicyCertificate</code>, <code>MetricObservation</code>, <code>BenchmarkRunner</code>, <code>BenchmarkReportGenerator</code></td>
+<td>D-153; Rules 12, 28–31, 44, 57</td>
+</tr>
+<tr>
+<td><code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code></td>
+<td>24-point constitutional sabotage suite verifying D-153 invariants (BFS-001..BFS-024)</td>
+<td>24 automated constitutional sabotage tests</td>
+<td>D-153; Rule 57</td>
+</tr>
+<tr>
+<td><code>v8-core/tests/d153_minerva_and_dashboard_test.rs</code></td>
+<td>Integration suite verifying MinervaScore binary robustness seal, 10,000 Monte Carlo futures, and Policy Certificate rendering</td>
+<td>Automated end-to-end integration tests</td>
+<td>D-153; arXiv:2608.23808; Rule 57</td>
 </tr>
 </tbody>
 </table>
@@ -10948,6 +10971,12 @@ historical design record and this table is the correction layer.</p>
 <td><strong>Scenario-Centric Policy Evidence Profile &amp; Quad Demotion (G0–G9).</strong> Replaces the single-trajectory headline with a typed evidence topology owned by <code>assurance/</code> (<code>PolicyEvidenceProfile</code>: identity, burned diagnostic, scenario cells, robustness topology, frozen-OOS, shadow, live, certificate, gates, non-scalar conclusion). Demotes the 12-month quad to <code>BURNED_DIAGNOSTIC</code> diagnostic court (typed receipt <code>evidence_role</code>/<code>promotion_authority = NONE</code>, diagnostic rendering; no deletion, no promotion leakage). Codifies G0–G9 gate semantics, passport-scoped synthetic defeater authority (PASS grants nothing; FAIL challenges only passport-passing structural claims), and the statistical-triple audit (WRC + genuine DSR + SPA remain the burden; proxy ledger keeps G5 at <code>NO_ECONOMIC_CLAIM</code>).</td>
 <td>PROVISIONAL_DECISION</td>
 <td><code>docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>v8-core/src/assurance/evidence_profile.rs</code>, <code>v8-core/tests/policy_evidence_profile_adversarial.rs</code>, <code>v8-core/src/usdm_sim.rs</code>, <code>v8-core/src/main.rs</code>; Rules 12, 28–31, 44, 51–56; D-132, D-136, D-141, D-147, D-149, D-150, D-151.</td>
+</tr>
+<tr>
+<td>D-153</td>
+<td><strong>Benchmark Fabric (BF) Protocol, Multi-Population Evaluation &amp; Epistemic Boundaries (Rules 57.1–57.8).</strong> Establishes the Benchmark Fabric as a diagnostic and comparative evaluation instrument across governed real, synthetic, and external reference populations (<code>v8-core/src/benchmark/</code>). Enforces strict non-collapse invariants: (1) Benchmark ≠ Assurance; (2) CapabilityScore ≠ readiness; (3) CapabilityScore ≠ future-profit probability; (4) Non-compensable hard gates (<code>GateVector</code>); (5) Synthetic asymmetry (<code>synthetic_pass_confirms_no_edge</code> &amp; <code>synthetic_fail_may_challenge</code>); (6) External evaluators as instruments, not authorities; (7) Burned diagnostic and holdout protection; (8) Research trial debt accounting. Binds 10 capability domains, multi-population receipts, deterministic <code>BenchmarkVersion</code>, typed <code>CapitalOutcomeProjection</code>, and BFS-001..024 constitutional sabotage suite.</td>
+<td>PROVISIONAL_DECISION</td>
+<td><code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code>, <code>v8-core/src/benchmark/</code>, <code>v8-core/tests/benchmark_fabric_adversarial.rs</code>; Rules 12, 28–31, 44, 51–57; D-132, D-136, D-141, D-147, D-149, D-150, D-151, D-152.</td>
 </tr>
 </tbody>
 </table>
@@ -13273,6 +13302,18 @@ capacity only makes the ambiguity harder to audit.</p></section>
 <p>The decisive lesson is not “use PBO,” “use square-root impact,” or “use OFI.” It is to bind each claim to the data, clock, conditioning variable, search family, simulator level, and portfolio decision that can actually support it. Anything broader is an experiment proposal, not a V8 fact.</p></section>
 <section id="sec-changelog"><h1>CHANGELOG</h1><h1 id="v8-changelog">V8 Changelog</h1>
 <p>Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.</p>
+<h2 id="2026-09-06-d-153-benchmark-fabric-bf-protocol-multi-population-evaluation-rules-571578">2026-09-06 — D-153 Benchmark Fabric (BF) Protocol &amp; Multi-Population Evaluation (Rules 57.1–57.8)</h2>
+<p>Ratified and fully completed the implementation of D-153 Benchmark Fabric against <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code> and <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>:
+- <strong>Ontology &amp; Epistemic Separation:</strong> Implemented strict non-collapse invariants (Rule 57): Benchmark != Assurance, CapabilityScore != Readiness, CapabilityScore != Future-Profit Probability. Explicitly separated Question 1 ("Is this a high-integrity quant research system?" -&gt; 0-100 CapabilityScore) from Question 2 ("How much capital if $1,000 invested?" -&gt; Empirical Monte Carlo capital projection).
+- <strong>MinervaScore Robustness Engine (arXiv:2608.23808):</strong> Implemented <code>v8-core/src/benchmark/minerva.rs</code> evaluating DSR, PBO, SPA, MinTRL, and Regime Stability signed margins with non-compensable binary robustness seal gating (scores &gt;= 80 and seals strictly require passing all 5 gates; failure caps score &lt; 80). Integrated PRUDEX-Compass (TMLR 2023) 6-axis profile mapping.
+- <strong>10,000 Monte Carlo / Bootstrap Simulated Futures:</strong> Implemented empirical future paths starting from $1,000 initial capital (<code>v8-core/src/benchmark/projection.rs</code>) yielding exact P5, P25, P50 (median), P75, P95, worst/best scenario returns, and Risk of Ruin % (drawdown &gt;= 30%) with explicit liquidity capacity and counterfactual notices.
+- <strong>Unified V8 Evidence Dashboard &amp; Policy Certificate:</strong> Implemented <code>PolicyCertificate</code> (<code>v8-core/src/benchmark/certificate.rs</code>) calculating the multiplicative Readiness Index: $\text{Readiness Index} = \text{Research Capability} \times \text{Evidence Multiplier} \times \text{Robustness} \times \text{Economic Score}$. Rendered in both terminal ASCII box and 3-panel HTML scorecard (<code>site/benchmark_scorecard.html</code>), strictly enforcing <code>STATUS: Research Candidate NOT Production Approved</code>.
+- <strong>Metric Observations &amp; 10-Domain Architecture:</strong> Implemented <code>MetricObservation</code> (<code>v8-core/src/benchmark/observation.rs</code>), 10 capability domains with Monograph V1 provisional weights, and penalized harmonic mean scoring with coverage multiplier.
+- <strong>Real Execution Runner:</strong> Implemented <code>BenchmarkRunner</code> (<code>v8-core/src/benchmark/runner.rs</code>) orchestrating chronological walk-forward, CPCV, real burned diagnostic quad evaluation (treated strictly as one historical cell), Foundry passport qualification, and reverse-stress nearest-defeater search.
+- <strong>External Parity Adapters:</strong> Implemented real series parity evaluation and disagreement detection (<code>v8-core/src/benchmark/external.rs</code>) for QuantConnect LEAN, skfolio, and VectorBT with zero hardcoded metrics.
+- <strong>Append-Only Disk Ledger:</strong> Implemented cryptographic hash-chain ledger with disk persistence (<code>.audit/benchmark/ledger.jsonl</code>).
+- <strong>Constitutional Sabotage &amp; Integration Suites:</strong> 24/24 BFS sabotage tests (<code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>) and dedicated Minerva/Dashboard integration tests (<code>v8-core/tests/d153_minerva_and_dashboard_test.rs</code>) passing with 100% verification.</p>
+<p>Artifacts changed: <code>docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md</code>, <code>site/V8.5_D153_Benchmark_Fabric_Research_Monograph.html</code>, <code>site/benchmark_scorecard.html</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>v8-core/src/benchmark/*</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/tests/d153_benchmark_fabric_sabotage.rs</code>, <code>v8-core/tests/d153_minerva_and_dashboard_test.rs</code>, <code>docs/CHANGELOG.md</code>.</p>
 <h2 id="2026-09-06-d-152-scenario-centric-policy-evidence-profile-quad-demotion-g0g9">2026-09-06 — D-152 Scenario-Centric Policy Evidence Profile &amp; Quad Demotion (G0–G9)</h2>
 <p>Registered D-152 as PROVISIONAL_DECISION extending D-147/D-150/D-151 with no locked-invariant mutation. Replaced the single-trajectory headline with <code>assurance/evidence_profile.rs::PolicyEvidenceProfile</code> (typed historical diagnostic, scenario cells, robustness topology, frozen-OOS/shadow/live states, gates, non-scalar conclusion). Demoted the 12-month quad to <code>BURNED_DIAGNOSTIC</code> diagnostic court: typed <code>PortfolioReceipt</code> fields, diagnostic CLI rendering, pathology preserved, promotion leakage blocked by type. Codified passport-scoped synthetic defeater authority and the statistical-triple audit (WRC + genuine DSR + SPA remain the burden; proxy ledger keeps G5 at <code>NO_ECONOMIC_CLAIM</code>). Added 14-test adversarial suite <code>policy_evidence_profile_adversarial.rs</code>.</p>
 <p>Artifacts changed: <code>docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>docs/tr/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md</code>, <code>docs/decisions/DECISION_REGISTER.md</code>, <code>docs/tr/DECISION_REGISTER.md</code>, <code>docs/contracts/IMPLEMENTATION_LAYOUT.md</code>, <code>v8-core/src/assurance/evidence_profile.rs</code>, <code>v8-core/src/assurance/mod.rs</code>, <code>v8-core/src/usdm_sim.rs</code>, <code>v8-core/src/main.rs</code>, <code>v8-core/tests/policy_evidence_profile_adversarial.rs</code>, <code>docs/CHANGELOG.md</code>.</p>

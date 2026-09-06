@@ -78,8 +78,10 @@ fn test_bfs_002_missing_required_cell_affects_coverage() {
 
 #[test]
 fn test_bfs_003_missing_cell_treated_as_pass_fails() {
-    let mut gate_vector = GateVector::default();
-    gate_vector.g3_benchmark_coverage = GateState::Unknown; // Missing required cell
+    let gate_vector = GateVector {
+        g3_benchmark_coverage: GateState::Unknown,
+        ..Default::default()
+    };
     assert!(!gate_vector.all_passed(), "BFS-003: GateVector cannot pass when required cell is UNKNOWN");
 }
 
@@ -99,8 +101,10 @@ fn test_bfs_004_synthetic_frequency_rejected_as_future_probability() {
 
 #[test]
 fn test_bfs_005_high_score_with_pit_leak_defeats_g1() {
-    let mut gates = GateVector::default();
-    gates.g1_causal_pit = GateState::Defeated; // Causal PIT leak detected!
+    let gates = GateVector {
+        g1_causal_pit: GateState::Defeated,
+        ..Default::default()
+    };
 
     let mut domain_scores = HashMap::new();
     for d in &CapabilityDomain::ALL {
