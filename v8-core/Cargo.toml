@@ -13,6 +13,10 @@ serde = { version = "1", features = ["derive"] }
 # (measured: "0.9632136759338213" parses 1 ulp low) — it would silently change
 # every request-side float (geometry refs, manifest) and break value parity.
 serde_json = { version = "1", features = ["float_roundtrip"] }
+arrow-array = "59.3.0"
+arrow-schema = "59.3.0"
+parquet = { version = "59.3.0", default-features = false, features = ["arrow", "snap"] }
+redb = "2.6.3"
 sha1 = "0.10"
 sha2 = "0.10"
 blake3 = "1.5"
@@ -31,8 +35,22 @@ panic = "abort"
 debug = false
 
 [profile.dev]
-opt-level = 2
+opt-level = 0
 debug = 1
+incremental = true
+
+# Heavy third-party dependencies are compiled with optimizations so they run fast,
+# while local workspace code builds instantly with opt-level = 0.
+[profile.dev.package."*"]
+opt-level = 2
+
+[profile.test]
+opt-level = 1
+debug = 1
+incremental = true
+
+[profile.test.package."*"]
+opt-level = 2
 
 [features]
 # Backend-2 GPU (issue #2): pulls wgpu (Vulkan/Metal/HIP via portability). The

@@ -34,8 +34,11 @@ pub struct MultipleTestingSummary {
     pub falsified_trials: usize,
     pub conservation_verified: bool,
     pub effective_family_dimensions: usize,
-    pub estimated_pbo_score: f64,
-    pub family_deflated_sharpe_ratio: f64,
+    /// Present only when a registered PBO estimator has consumed a complete
+    /// family lineage and emitted its own receipt.
+    pub estimated_pbo_score: Option<f64>,
+    /// Present only when a registered DSR estimator has emitted a receipt.
+    pub family_deflated_sharpe_ratio: Option<f64>,
     pub status: String,
     pub claim: String,
 }
@@ -90,19 +93,7 @@ impl ResearchMultiplicityLedger {
         for e in &self.entries {
             families.insert(e.family_id.clone());
         }
-        let effective_dims = families.len().max(1);
-
-        // Theoretical PBO and DSR based on family search size
-        let pbo = if total > 0 {
-            (pruned + falsified) as f64 / total as f64
-        } else {
-            0.0
-        };
-        let dsr = if total > 1 {
-            (1.0 / (1.0 + (total as f64).ln())).max(0.0)
-        } else {
-            1.0
-        };
+        let effective_dims = families.len();
 
         let mut canon = Canon::new();
         canon.push_u64(total as u64);
@@ -118,12 +109,14 @@ impl ResearchMultiplicityLedger {
             falsified_trials: falsified,
             conservation_verified: conservation_holds,
             effective_family_dimensions: effective_dims,
-            estimated_pbo_score: pbo,
-            family_deflated_sharpe_ratio: dsr,
-            status: if conservation_holds {
-                "MULTIPLE_TESTING_LEDGER_CERTIFIED".to_string()
-            } else {
+            estimated_pbo_score: None,
+            family_deflated_sharpe_ratio: None,
+            status: if !conservation_holds {
                 "MULTIPLE_TESTING_CONSERVATION_FAIL".to_string()
+            } else if total == 0 {
+                "DATA_BLOCKED_NO_SEARCH_LINEAGE".to_string()
+            } else {
+                "MULTIPLICITY_LEDGER_VALID_GENUINE_ESTIMATOR_REQUIRED".to_string()
             },
             claim: "NO_ECONOMIC_CLAIM".to_string(),
         }
@@ -154,6 +147,7 @@ impl ResearchMultiplicityLedger {
 }
 
 /// Generates baseline research multiplicity ledger across all registered expert families.
+#[cfg(test)]
 pub fn build_baseline_multiplicity_ledger() -> ResearchMultiplicityLedger {
     let mut ledger = ResearchMultiplicityLedger::new();
 
@@ -204,7 +198,7 @@ mod tests {
         assert_eq!(summary.pruned_trials, 1);
         assert_eq!(summary.falsified_trials, 1);
         assert!(summary.conservation_verified);
-        assert_eq!(summary.status, "MULTIPLE_TESTING_LEDGER_CERTIFIED");
+        assert_eq!(summary.status, "MULTIPLICITY_LEDGER_VALID_GENUINE_ESTIMATOR_REQUIRED");
         assert_eq!(summary.claim, "NO_ECONOMIC_CLAIM");
     }
 

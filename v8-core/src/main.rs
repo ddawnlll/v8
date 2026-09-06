@@ -47,6 +47,7 @@ mod hash;
 mod jsonx;
 mod mt19937;
 mod oracle;
+mod parquet_artifact;
 mod path_security;
 mod portfolio;
 pub mod judiciary;
@@ -100,7 +101,8 @@ subcommands:
   allegory-audit  multi-episode historical archetype audit (A01-A12, D-125)
   funnel-audit    V8.3 Opportunity Capture Funnel empirical audit (Phase II)
   eeo-qualify     D-136 Epistemic Economic Observability qualification runner
-  full-audit      unified high-throughput in-process audit engine (Issues #306-#309)";
+  full-audit      unified high-throughput in-process audit engine (Issues #306-#309)
+  benchmark       D-153 V8.5 Benchmark Fabric evaluation runner and audit";
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -109,6 +111,7 @@ fn main() {
         std::process::exit(2);
     }
     let code = match args[1].as_str() {
+        "benchmark" => cmd_benchmark(&args[2..]),
         "ingest" => cmd_ingest(&args[2..]),
         "features" => cmd_features(&args[2..]),
         "predicate-check" => cmd_predicate_check(&args[2..]),
@@ -1633,7 +1636,8 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         let mut total_net = 0.0;
 
         println!("==============================================================================================================");
-        println!(">>> OFFICIAL CANONICAL QUAD BENCHMARK (v8-core usdm-sim --quad) <<<");
+        println!(">>> HISTORICAL DIAGNOSTIC COURT -- QUAD TAPE (v8-core usdm-sim --quad) <<<");
+        println!("Data role: BURNED_DIAGNOSTIC | Economic promotion authority: NONE | Verdict: NO_ECONOMIC_CLAIM");
         println!("{:<10} {:<8} {:<9} {:<12} {:<12} {:<14} {:<10} {:<12}", "Asset", "Trades", "WinRate", "Gross ($)", "Fees ($)", "Net PnL ($)", "Return %", "Profit Factor");
         println!("--------------------------------------------------------------------------------------------------------------");
 
@@ -1658,7 +1662,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
             }
         }
         println!("==============================================================================================================");
-        println!("{:<35} {:<8} {:<9} {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}%", "TOTAL REALIZED RUST CASHFLOW", total_trades, "---", total_gross, total_fees, total_net, total_net / params.initial_balance * 100.0);
+        println!("{:<35} {:<8} {:<9} {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}%", "TOTAL SIMULATED DIAGNOSTIC CASHFLOW (BURNED_DIAGNOSTIC, NO PROMOTION AUTHORITY)", total_trades, "---", total_gross, total_fees, total_net, total_net / params.initial_balance * 100.0);
         println!("==============================================================================================================");
         0
     } else {
@@ -2193,6 +2197,81 @@ fn cmd_full_audit(args: &[String]) -> i32 {
         Err(e) => {
             eprintln!("full-audit failed: {e}");
             1
+        }
+    }
+}
+
+fn cmd_benchmark(args: &[String]) -> i32 {
+    let usage = "usage: v8-core benchmark <audit|ledger-verify|run --case PATH>";
+    let Some(command) = args.first().map(String::as_str) else {
+        eprintln!("{usage}");
+        return 2;
+    };
+
+    match command {
+        "audit" => {
+            let scorer = v8_core::benchmark::scoring::CapabilityScorer::monograph_v1();
+            println!("Benchmark fabric configuration loaded: {} domains", scorer.domain_weights.len());
+            0
+        }
+        "ledger-verify" => {
+            let ledger_path = std::path::Path::new(".audit/benchmark/ledger.jsonl");
+            match v8_core::benchmark::ledger::BenchmarkLedger::load_from_disk(ledger_path) {
+                Ok(ledger) => {
+                    println!("Benchmark ledger integrity verified: {} entries", ledger.entries.len());
+                    0
+                }
+                Err(error) => {
+                    eprintln!("Benchmark ledger verification failed: {error}");
+                    1
+                }
+            }
+        }
+        "run" => {
+            let Some(case_flag) = args.get(1).map(String::as_str) else {
+                eprintln!("{usage}");
+                return 2;
+            };
+            if case_flag != "--case" {
+                eprintln!("{usage}");
+                return 2;
+            }
+            let Some(case_path) = args.get(2) else {
+                eprintln!("{usage}");
+                return 2;
+            };
+            let case_text = match std::fs::read_to_string(case_path) {
+                Ok(text) => text,
+                Err(error) => {
+                    eprintln!("DATA_BLOCKED_UNREADABLE_BENCHMARK_CASE:{case_path}:{error}");
+                    return 1;
+                }
+            };
+            let case: v8_core::benchmark::case::BenchmarkCase = match serde_json::from_str(&case_text) {
+                Ok(case) => case,
+                Err(error) => {
+                    eprintln!("BLOCKED_INVALID_BENCHMARK_CASE:{error}");
+                    return 1;
+                }
+            };
+            match v8_core::benchmark::runner::BenchmarkRunner::default().run_benchmark(&case) {
+                Ok(receipt) => {
+                    println!("{}", serde_json::to_string_pretty(&receipt).unwrap_or_default());
+                    0
+                }
+                Err(error) => {
+                    eprintln!("Benchmark evaluation blocked: {error}");
+                    1
+                }
+            }
+        }
+        "case" | "qualify" | "external" | "compare" | "project" | "report" => {
+            eprintln!("BLOCKED_DATA_BACKED_EVALUATOR_REQUIRED:{command}");
+            1
+        }
+        other => {
+            eprintln!("unknown benchmark subcommand: {other}\n{usage}");
+            2
         }
     }
 }
