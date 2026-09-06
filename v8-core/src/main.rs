@@ -2201,8 +2201,118 @@ fn cmd_full_audit(args: &[String]) -> i32 {
     }
 }
 
+/// Run a policy-bound external parity comparison over declared artifacts (#329).
+///
+/// Exit codes: 0 exact parity, 1 divergence or blocked input, 2 usage error.
+/// Divergence and blocked share 1 because neither supports a parity claim; they
+/// are distinguished on stderr by the `PARITY_*` / `DATA_BLOCKED_*` code so a
+/// caller can branch on the reason without guessing.
+fn cmd_benchmark_parity(args: &[String], usage: &str) -> i32 {
+    let parse = |flag: &str| -> Option<String> {
+        args.iter()
+            .position(|a| a == flag)
+            .and_then(|i| args.get(i + 1))
+            .cloned()
+    };
+    let (Some(case_path), Some(native_path), Some(reference_path)) = (
+        parse("--case"),
+        parse("--native"),
+        parse("--reference"),
+    ) else {
+        eprintln!(
+            "usage: v8-core benchmark parity --case PATH --native LEDGER --reference LEDGER \
+             --engine <lean|skfolio|vectorbt> --engine-version VER"
+        );
+        let _ = usage;
+        return 2;
+    };
+    let engine_name = parse("--engine").unwrap_or_default();
+    let engine_version = parse("--engine-version").unwrap_or_default();
+    let engine = match engine_name.to_ascii_lowercase().as_str() {
+        "lean" => v8_core::benchmark::parity::ReferenceEngine::Lean,
+        "skfolio" => v8_core::benchmark::parity::ReferenceEngine::Skfolio,
+        "vectorbt" => v8_core::benchmark::parity::ReferenceEngine::VectorBt,
+        other => {
+            eprintln!("BLOCKED_UNKNOWN_REFERENCE_ENGINE:{other}");
+            return 2;
+        }
+    };
+    let engine = match v8_core::benchmark::parity::EngineVersion::new(engine, &engine_version) {
+        Ok(engine) => engine,
+        Err(error) => {
+            eprintln!("{error}");
+            return 1;
+        }
+    };
+
+    let case_text = match std::fs::read_to_string(&case_path) {
+        Ok(text) => text,
+        Err(error) => {
+            eprintln!("DATA_BLOCKED_UNREADABLE_BENCHMARK_CASE:{case_path}:{error}");
+            return 1;
+        }
+    };
+    let case: v8_core::benchmark::case::BenchmarkCase = match serde_json::from_str(&case_text) {
+        Ok(case) => case,
+        Err(error) => {
+            eprintln!("BLOCKED_INVALID_BENCHMARK_CASE:{error}");
+            return 1;
+        }
+    };
+
+    let mapping = match parse("--mapping") {
+        None => v8_core::benchmark::parity::SemanticMapping::default(),
+        Some(path) => match std::fs::read_to_string(&path) {
+            Ok(text) => match serde_json::from_str::<v8_core::benchmark::parity::SemanticMapping>(&text) {
+                Ok(mapping) => mapping,
+                Err(error) => {
+                    eprintln!("BLOCKED_INVALID_SEMANTIC_MAPPING:{error}");
+                    return 1;
+                }
+            },
+            Err(error) => {
+                eprintln!("DATA_BLOCKED_UNREADABLE_SEMANTIC_MAPPING:{path}:{error}");
+                return 1;
+            }
+        },
+    };
+
+    let request = match v8_core::benchmark::runner::BenchmarkRunner::default().parity_request(
+        &case,
+        mapping,
+        engine,
+        std::path::Path::new(&native_path),
+        std::path::Path::new(&reference_path),
+        &parse("--method-version").unwrap_or_default(),
+        v8_core::benchmark::parity::now_timestamp_ns(),
+    ) {
+        Ok(request) => request,
+        Err(error) => {
+            eprintln!("{error}");
+            return 1;
+        }
+    };
+
+    let adapter = v8_core::benchmark::parity::ParityAdapter::new(request.engine.engine);
+    let receipt = adapter.run(&request);
+    println!("{}", serde_json::to_string_pretty(&receipt).unwrap_or_default());
+    if receipt.outcome.is_agreement() {
+        return 0;
+    }
+    for gap in &receipt.reconciliation_gaps {
+        eprintln!("SCOPE GAP: {gap}");
+    }
+    eprintln!(
+        "{}: no parity claim may be derived (instrument authority: {})",
+        receipt.outcome.detail(),
+        receipt.authority_class()
+    );
+    1
+}
+
 fn cmd_benchmark(args: &[String]) -> i32 {
-    let usage = "usage: v8-core benchmark <audit|ledger-verify|run --case PATH>";
+    let usage =
+        "usage: v8-core benchmark <audit|ledger-verify|run --case PATH|parity --case PATH --native LEDGER --reference LEDGER>";
     let Some(command) = args.first().map(String::as_str) else {
         eprintln!("{usage}");
         return 2;
@@ -2292,6 +2402,7 @@ fn cmd_benchmark(args: &[String]) -> i32 {
                 }
             }
         }
+        "parity" => cmd_benchmark_parity(&args[1..], usage),
         "case" | "qualify" | "external" | "compare" | "project" | "report" => {
             eprintln!("BLOCKED_DATA_BACKED_EVALUATOR_REQUIRED:{command}");
             1
