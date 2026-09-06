@@ -2,6 +2,15 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — D-157 Elimination of Per-Bar HistBar Heap Allocation & Repeated History Cloning in Runloop (Issue #335)
+
+Ratified and implemented D-157 under Issue #335 (`PERF010`):
+- **Eliminated Redundant History Vector Clones:** Replaced repeated `.clone()` calls on `hist: Vec<HistBar>` across expert branches in `v8-core/src/usdm_sim.rs` with conditional ownership transfer (`std::mem::take`) on final evaluation branches.
+- **Bound Capacity Pre-allocation:** Pre-allocated capacity in `history_bars` to eliminate intermediate vector reallocations.
+- **Zero API Breakage:** Retained exact expert evaluation semantics and output parity.
+
+Artifacts changed: `v8-core/src/state.rs`, `v8-core/src/usdm_sim.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
 ## 2026-09-06 — D-156 Zero-Allocation Reusable Scratch Buffering in Block-Bootstrap Reality Check & Resampling (Issue #334)
 
 Ratified and implemented D-156 under Issue #334 (`PERF009`):
