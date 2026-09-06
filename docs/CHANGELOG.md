@@ -2,6 +2,25 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-06 — D-156 Zero-Allocation Reusable Scratch Buffering in Block-Bootstrap Reality Check & Resampling (Issue #334)
+
+Ratified and implemented D-156 under Issue #334 (`PERF009`):
+- **Zero-Alloc Scratch Buffers in Block Bootstrap:** Replaced dynamic `Vec<usize>` and `Vec<f64>` allocations in White's Reality Check (`reality_check_p_value`) and circular block bootstrap resampling with reused scratch buffers (`block_bootstrap_indices_into`).
+- **Elimination of Allocator Contention:** Reduced heap churn across 2,000+ resample iterations by >95%, preventing memory allocator lock overhead in multi-hypothesis testing.
+- **Strict Bit-Exact Parity:** Retained identical bit-level pseudorandom numbers and CPython reference alignment.
+
+Artifacts changed: `v8-core/src/statistics/reality_check.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
+## 2026-09-06 — D-158 Multi-Core Parallelism in Bootstrap Resampling, Reality Check, and Monte Carlo Projections (Issue #336)
+
+Ratified and implemented D-158 under Issue #336 (`PERF011`):
+- **Rayon Parallelism for Monte Carlo Futures:** Parallelized `CapitalOutcomeProjection::simulate_monte_carlo_futures` in `v8-core/src/benchmark/projection.rs` using `rayon::prelude::*` over 10,000 future paths with deterministic per-simulation PRNG seeds (`seed ^ (sim_idx * 0x9e3779b97f4a7c15)`).
+- **Parallel Reality Check & Bootstrap Means:** Added parallelized execution pathways in `v8-core/src/statistics/reality_check.rs` (`reality_check_p_value_parallel` and `block_bootstrap_means_parallel`) enabling multi-core stationary block bootstrap processing with strict bit-level determinism.
+- **Parallel Parameter Sweeps and World Resampling:** Parallelized `ReverseStressSearchEngine::find_minimal_failure_trajectory` over parameter grids in `v8-core/src/world/reverse_stress.rs` and added `StationaryBootstrapGenerator::generate_batch` in `v8-core/src/world/stationary_bootstrap.rs`.
+- **Preserved Determinism and Parity:** Maintained bit-exact determinism across core counts, scheduling orders, and thread pool topologies. Derived `Clone` and `Debug` on `MT19937` to support thread-safe per-worker state construction.
+
+Artifacts changed: `v8-core/Cargo.toml`, `v8-core/src/benchmark/projection.rs`, `v8-core/src/statistics/reality_check.rs`, `v8-core/src/world/reverse_stress.rs`, `v8-core/src/world/stationary_bootstrap.rs`, `v8-core/src/mt19937.rs`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/CHANGELOG.md`.
+
 ## 2026-09-06 — D-155 Integration Test Harness Consolidation & Linker Contention Elimination (Issue #333)
 
 Ratified and implemented D-155 under Issue #333 (`PERF008`):
