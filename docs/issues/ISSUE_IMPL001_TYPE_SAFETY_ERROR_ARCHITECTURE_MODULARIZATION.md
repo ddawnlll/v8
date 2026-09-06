@@ -44,8 +44,8 @@ Eliminate stringly-typed error and state representations (`Result<T, String>`, c
 - `v8-core/src/error.rs` [NEW]
 - `v8-core/src/scheduler.rs` [MODIFY]
 - `v8-core/src/candidate.rs` [MODIFY]
-- `v8-core/src/state.rs` -> `v8-core/src/state/` [REFACTOR]
-- `v8-core/src/runloop.rs` -> `v8-core/src/runloop/` [REFACTOR]
+- `v8-core/src/state.rs` -> `v8-core/src/state/` [REFACTOR] <!-- AUDIT-DOC-PATHS: PLANNED_MODULE `v8-core/src/state/` is the directory this issue's REFACTOR step creates; the pre-refactor path is the one that exists today. -->
+- `v8-core/src/runloop.rs` -> `v8-core/src/runloop/` [REFACTOR] <!-- AUDIT-DOC-PATHS: PLANNED_MODULE `v8-core/src/runloop/` is the directory this issue's REFACTOR step creates; the pre-refactor path is the one that exists today. -->
 - `v8-core/src/lib.rs` / `v8-core/src/main.rs` [MODIFY]
 
 ---

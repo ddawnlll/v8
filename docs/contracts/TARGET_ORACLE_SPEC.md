@@ -802,8 +802,8 @@ DeploymentCertificate {
 ### 17.5 Integration with Evaluation Evidence Bundle (`v8.eval.v1`)
 All Oracle evaluation, regret attribution, and opportunity universe artifacts are stored natively within the `v8.eval.v1` immutable evidence bundle (`EVALUATION_EVIDENCE_SYSTEM.md` §4):
 - `OpportunityUniverseVersion` $\rightarrow$ `provenance/opportunity_universe.json`
-- `OracleEvaluationRecord` $\rightarrow$ `economics/oracle_evaluation.parquet` & `statistics/reality_check.json`
-- `RegretAttributionRecord` $\rightarrow$ `economics/regret_attribution.parquet` & Section S in `report.html`
+- `OracleEvaluationRecord` $\rightarrow$ `economics/oracle_evaluation.parquet` & `statistics/reality_check.json` <!-- AUDIT-DOC-PATHS: SPECIFIED_OUTPUT `statistics/reality_check.json` is written by `v8-core/src/oracle/coverage.rs` inside the `v8.eval.v1` evidence bundle root, so this bundle-relative name is not a repository tree path. -->
+- `RegretAttributionRecord` $\rightarrow$ `economics/regret_attribution.parquet` & Section S in `report.html` <!-- AUDIT-DOC-PATHS: SPECIFIED_OUTPUT `economics/regret_attribution.parquet` is written by `v8-core/src/oracle/coverage.rs` inside the `v8.eval.v1` evidence bundle root, so this bundle-relative name is not a repository tree path. -->
 - Coverage & Scout Hypotheses $\rightarrow$ `analysis/hypotheses.jsonl` & `analysis/findings.jsonl`
 
 ---

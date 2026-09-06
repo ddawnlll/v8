@@ -1,8 +1,21 @@
 # D-153 Benchmark Fabric Specification (Full-Text Constitutional Specification)
 
-**Status:** RATIFIED_DECISION · **Date:** 2026-09-06 · **Rules:** 12, 28–31, 44, 51–57
+**Status:** PROVISIONAL_DECISION · **Date:** 2026-09-06 · **Rules:** 12, 28–31, 44, 51–57
 **Supersession:** Extends D-147, D-150, D-151, D-152; preserves all locked invariants and epistemic boundaries.
-**Artifacts:** `v8-core/src/benchmark/`, `v8-core/tests/benchmark_fabric_adversarial.rs`, `v8-core/src/kaizen/`, `docs/decisions/DECISION_REGISTER.md`.
+**Artifacts:** `v8-core/src/benchmark/`, `v8-core/tests/d153_benchmark_fabric_sabotage.rs`, `v8-core/tests/d152_gate_vector_authority_firewall.rs`, `v8-core/tests/d153_receipt_ledger_selfverify.rs`, `v8-core/tests/d153_parity_adapters_policy_bound.rs`, `v8-core/src/kaizen/`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/D153_BENCHMARK_FABRIC_SPEC.md`.
+**Turkish mirror:** `docs/tr/D153_BENCHMARK_FABRIC_SPEC.md` (registered 2026-09-07 under D-159; this file is the normative text and the mirror is a translation, not a second authority).
+
+> **Status correction (D-159, issue #330).** This header previously read
+> `RATIFIED_DECISION` while both decision registers recorded D-153 as
+> `PROVISIONAL_DECISION`. The registers govern status, so the header was the
+> divergent side and has been aligned rather than the register escalated. It also
+> cited `v8-core/tests/benchmark_fabric_adversarial.rs`, a file that has never <!-- AUDIT-DOC-PATHS: NEGATIVE_CITATION `v8-core/tests/benchmark_fabric_adversarial.rs` is cited here precisely because it never existed; the real D-153 suite is `v8-core/tests/d153_benchmark_fabric_sabotage.rs`. -->
+> existed in this repository; the D-153 sabotage suite is
+> `v8-core/tests/d153_benchmark_fabric_sabotage.rs`. §2.6's "explicit typed
+> adapters with recorded semantic divergence" was, at ratification, implemented
+> as fixed in-process vectors and is now implemented as the artifact-bound
+> adapters of `v8-core/src/benchmark/parity.rs` (issue #329). Neither correction
+> changes any normative requirement in §§2–5.
 
 ---
 

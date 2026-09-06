@@ -110,7 +110,7 @@ Implement the authoritative finite-capital exchange simulation engine and 4-part
 | **R4** | Implement `RiskBudgetAllocator` with lot-step discretization and typed rejection codes | `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §6, `D-108` | `runloop.rs:dispatch_order` |
 | **R5** | Implement 5-component `EconomicCashflow` ledger with conservation invariants | `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §7, `D-116` | `quant.rs:TcaAttribution` |
 | **R6** | Implement Capital-Constrained Portfolio Hindsight Oracle ($V^*(S_t)$) | `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §8, `D-112` | `quant.rs:partition_by_regime` |
-| **R7** | Implement multidimensional `ExecutionAuthorityProfile` | `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §5.1, `D-114` | `oracle/authority.rs` |
+| **R7** | Implement multidimensional `ExecutionAuthorityProfile` | `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §5.1, `D-114` | `oracle/authority.rs` | <!-- AUDIT-DOC-PATHS: PLANNED_MODULE `oracle/authority.rs` is the target location for R7 work, not an implemented path; `v8-core/src/oracle/authority.rs` is the unrelated existing module. -->
 | **R8** | Implement bounded partial identification (`OutcomeBound`) for intrabar ambiguity | `VENUE_AND_CAPITAL_SIMULATION_SPEC.md` §5.2, `D-115` | `quant.rs:BrownianBridge` |
 
 ---
