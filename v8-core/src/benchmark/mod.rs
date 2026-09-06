@@ -5,6 +5,7 @@
 //! and diagnostic outcome projection.
 
 pub mod types;
+pub mod gate_authority;
 pub mod case;
 pub mod receipt;
 pub mod ledger;
