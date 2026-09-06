@@ -229,6 +229,7 @@ v8-core/
       receipt.rs    AssuranceCaseReceipt & SHA-256 digest binding
       continuous.rs ContinuousEvaluationLedger, EvaluationEpochRecord, EvidenceDelta, KaizenHandoffReceipt (D-150)
       certificate.rs Non-scalar revocable ProductionEvidenceCertificate with typed lifecycle states (D-150)
+      evidence_profile.rs Scenario-centric PolicyEvidenceProfile, DataRole, G0–G9 gates, passport-scoped synthetic defeater authority, statistical-triple audit (D-152)
     world/          V8.5 Market World Foundry synthetic market plane (D-147, D-149, D-151, #[cfg(test)])
       mod.rs        world module boundary & re-exports
       spec.rs       WorldSpec, WorldFamily & WorldReceipt
@@ -311,8 +312,10 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/audit/html_report.rs` | Native Rust forensic HTML audit report renderer generating agent-grade forensic reports in <10ms | `render_html_report`, `CSS` | Issue #308; D-148 |
 | `docs/contracts/D150_CONTINUOUS_EPISTEMIC_SUCCESSION_SPEC.md` | Full-text specification of Continuous Epistemic Succession & Living Policy Constitution | Full unabridged contract | V8 Constitution Rule 44; D-149, D-150 |
 | `v8-core/src/assurance/continuous.rs` | Continuous evaluation ledger, EvaluationEpochRecord, EvidenceDelta, KaizenHandoffReceipt, and lineage verifier | `ContinuousEvaluationLedger`, `EvaluationEpochRecord`, `EvidenceDelta`, `KaizenHandoffReceipt` | D-147, D-149, D-150 |
-| `v8-core/src/bin/epistemic_succession.rs` | D-150 executable CLI driver executing multi-epoch epistemic succession, defeater handling, Kaizen handoff, and audit persistence | `main` CLI driver | D-147, D-149, D-150; Rules 51–56 |
 | `v8-core/tests/d150_epistemic_succession_sabotage.rs` | 20-point constitutional sabotage suite verifying D-150 invariants (D150-T01..T20) | 20 automated constitutional sabotage tests | D-147, D-149, D-150 |
+| `v8-core/src/benchmark/` | V8.5 Benchmark Fabric: ontology, cases, receipts, ledger, scoring, populations, synthetic qualification, external parity adapters, empirical capital projection, Monte Carlo futures, MinervaScore robustness engine, Policy Certificate & Evidence Dashboard, kaizen feed, observations, runner, report | `BenchmarkCase`, `BenchmarkReceipt`, `BenchmarkLedger`, `CapabilityScorer`, `WalkForwardPartitioner`, `CpcvPartitioner`, `LeanParityAdapter`, `SkfolioParityAdapter`, `VectorBtParityAdapter`, `CapitalOutcomeProjection`, `MinervaEvaluator`, `MinervaRobustness`, `PolicyCertificate`, `MetricObservation`, `BenchmarkRunner`, `BenchmarkReportGenerator` | D-153; Rules 12, 28–31, 44, 57 |
+| `v8-core/tests/d153_benchmark_fabric_sabotage.rs` | 24-point constitutional sabotage suite verifying D-153 invariants (BFS-001..BFS-024) | 24 automated constitutional sabotage tests | D-153; Rule 57 |
+| `v8-core/tests/d153_minerva_and_dashboard_test.rs` | Integration suite verifying MinervaScore binary robustness seal, 10,000 Monte Carlo futures, and Policy Certificate rendering | Automated end-to-end integration tests | D-153; arXiv:2608.23808; Rule 57 |
 
 
 

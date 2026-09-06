@@ -13,6 +13,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::hash::Canon;
 use crate::oracle::opportunity::{Direction, GrammarCandidate};
+use crate::parquet_artifact::write_json_rows;
 
 /// Record of an expert subset evaluation during metamorphic testing.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -213,10 +214,15 @@ pub fn save_independence_artifacts(
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
     fs::write(out_dir.join("oracle_independence_receipt.json"), receipt_json)?;
 
-    // 2. negative_control_universe.parquet (JSON-table representation)
-    let neg_json = serde_json::to_string_pretty(neg_control)
+    // 2. negative_control_universe.parquet
+    let neg_value = serde_json::to_value(neg_control)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-    fs::write(out_dir.join("negative_control_universe.parquet"), neg_json)?;
+    write_json_rows(
+        &out_dir.join("negative_control_universe.parquet"),
+        "negative_control_universe",
+        &neg_value,
+        None,
+    )?;
 
     Ok(())
 }

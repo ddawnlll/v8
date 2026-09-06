@@ -206,6 +206,7 @@ pub struct Column {
     dict: Vec<String>,
     /// DictStr per-row ids; a row with an absent value has an id but invalid bit.
     str_ids: Vec<u16>,
+    dict_overflowed: bool,
 }
 
 impl Column {
@@ -219,6 +220,7 @@ impl Column {
             bools: Vec::new(),
             dict: Vec::new(),
             str_ids: Vec::new(),
+            dict_overflowed: false,
         }
     }
 
@@ -257,6 +259,15 @@ impl Column {
             Some(i) => i as u16,
             None => {
                 let i = self.dict.len();
+                if i > u16::MAX as usize {
+                    self.dict_overflowed = true;
+                    // Keep the in-memory shape rectangular. `validate_rows`
+                    // rejects this column before any artifact is published.
+                    self.dict.push(s.to_string());
+                    self.str_ids.push(0);
+                    self.valid.push(true);
+                    return;
+                }
                 self.dict.push(s.to_string());
                 i as u16
             }
@@ -411,6 +422,7 @@ impl Artifact {
     }
 
     pub fn write(&self, path: &Path) -> io::Result<()> {
+        self.validate_rows()?;
         let mut out = Vec::new();
         out.extend_from_slice(MAGIC);
 
@@ -480,7 +492,68 @@ impl Artifact {
                 }
             }
         }
-        std::fs::write(path, &out)
+        let parent = path.parent().unwrap_or_else(|| Path::new("."));
+        std::fs::create_dir_all(parent)?;
+        let tmp = parent.join(format!(
+            ".{}.tmp-{}",
+            path.file_name().and_then(|n| n.to_str()).unwrap_or("artifact"),
+            std::process::id()
+        ));
+        {
+            let mut file = std::fs::File::create(&tmp)?;
+            file.write_all(&out)?;
+            file.sync_all()?;
+        }
+        std::fs::rename(&tmp, path)?;
+        #[cfg(unix)]
+        std::fs::File::open(parent)?.sync_all()?;
+        Ok(())
+    }
+
+    /// Validate all release-mode rectangularity and dictionary invariants before
+    /// any bytes become visible.  This deliberately does not use debug_assert.
+    pub fn validate_rows(&self) -> io::Result<()> {
+        for c in &self.columns {
+            if c.n_rows() != self.n_rows || c.valid.len() != self.n_rows {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidData,
+                    format!(
+                        "column {} has {} values and {} validity bits, expected {}",
+                        c.name,
+                        c.n_rows(),
+                        c.valid.len(),
+                        self.n_rows
+                    ),
+                ));
+            }
+            if c.dtype == DType::DictStr && c.dict.len() > u16::MAX as usize + 1 {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidData,
+                    format!("dictionary {} has {} entries and exceeds u16 ids", c.name, c.dict.len()),
+                ));
+            }
+            if c.dict_overflowed {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidData,
+                    format!("dictionary column {} exceeded u16 id capacity", c.name),
+                ));
+            }
+            if c.dtype == DType::DictStr
+                && c.str_ids.iter().any(|id| *id as usize >= c.dict.len())
+            {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidData,
+                    format!("dictionary column {} contains an out-of-range id", c.name),
+                ));
+            }
+        }
+        if self.n_rows > u32::MAX as usize || self.columns.len() > u16::MAX as usize {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                "artifact row or column count exceeds V82 wire limits",
+            ));
+        }
+        Ok(())
     }
 }
 
