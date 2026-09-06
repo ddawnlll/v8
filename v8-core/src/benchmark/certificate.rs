@@ -18,6 +18,13 @@ pub struct PolicyCertificate {
     pub policy_id: String,
     pub receipt_id: String,
     pub status: String,
+    /// Firewall-derived verdict line (#327 R3). Always one of
+    /// `NO_ECONOMIC_CLAIM` / `BLOCKED` / `READY_NOT_CLAIMED`-class text; a
+    /// certificate carries no registry route, so it can never carry a claim.
+    pub authority_verdict: String,
+    /// Full G0-G9 projection (#327 R1) so no gate can be omitted from the
+    /// rendered certificate.
+    pub gates: Vec<(String, String)>,
     pub research_capability_score: f64,
     pub evidence_multiplier: f64,
     pub minerva_robustness_score: f64,
@@ -60,33 +67,62 @@ impl PolicyCertificate {
             60.0
         };
 
-        // Multiplicative Readiness Index:
-        // Readiness = (Cap / 100) * EvidenceMultiplier * (Rob / 100) * (Econ / 100) * 100
+        // Non-compensable authority (#327 R1, R3): the readiness index below is
+        // a *diagnostic scalar* only. It must never decide production status,
+        // because D-152 §5 G9 forbids scalar collapse and D-153 §2.4 makes each
+        // gate non-compensable. Status is projected from the gate vector
+        // through `gate_authority`, so a certificate cannot mint authority.
         let readiness = (cap_score / 100.0)
             * evidence_multiplier
             * (rob_score / 100.0)
             * (economic_score / 100.0)
             * 100.0;
 
-        let is_production_approved = readiness >= 80.0
-            && seal_granted
-            && receipt.projection_grade.allows_forward_probability()
-            && receipt.gate_vector.all_passed();
+        let _ = seal_granted; // robustness seal is reported, never spent as authority
 
-        let status = if is_production_approved {
-            "STATUS: Production Ready".to_string()
-        } else {
-            "STATUS: Research Candidate NOT Production Approved".to_string()
+        let gate_readiness = receipt.gate_vector.readiness();
+        let decision = crate::benchmark::gate_authority::AuthorityFirewall::without_registry()
+            .decide_from_gates(&receipt.gate_vector);
+
+        // A certificate is a read-only projection. It has no ClaimRegistry
+        // route, therefore `Registered` is unreachable here by construction and
+        // the strongest printable status is "ready for review".
+        let status = match gate_readiness.status {
+            crate::benchmark::types::ReadinessStatus::HardFailure => {
+                "STATUS: BLOCKED (hard gate failure)".to_string()
+            }
+            crate::benchmark::types::ReadinessStatus::Certified => {
+                "STATUS: Research Candidate Ready For Review NOT Production Approved".to_string()
+            }
+            crate::benchmark::types::ReadinessStatus::InsufficientEvidence => {
+                "STATUS: NO_ECONOMIC_CLAIM (Research Candidate, NOT Production Approved)".to_string()
+            }
         };
+        let authority_verdict = crate::benchmark::gate_authority::render_status_line(&decision);
 
         let quad_tape_role = "HISTORICAL DIAGNOSTIC CELL (Non-universal evaluation fold)".to_string();
 
         let monte_carlo = projection.and_then(|p| p.monte_carlo_futures.clone());
 
+        // Full explicit G0-G9 projection; nothing may be omitted from the
+        // rendered certificate (#327 R1).
+        let gates: Vec<(String, String)> = gate_readiness
+            .evaluations
+            .iter()
+            .map(|ev| {
+                (
+                    format!("{}::{}", ev.descriptor.canonical_id.as_str(), ev.descriptor.vector_field),
+                    ev.state.as_str().to_string(),
+                )
+            })
+            .collect();
+
         Self {
             policy_id: receipt.policy_id.clone(),
             receipt_id: receipt.receipt_id.clone(),
             status,
+            authority_verdict,
+            gates,
             research_capability_score: cap_score,
             evidence_multiplier,
             minerva_robustness_score: rob_score,
@@ -115,6 +151,12 @@ impl PolicyCertificate {
         out.push_str(&format!("Policy Target:  {}\n", self.policy_id));
         out.push_str(&format!("Receipt Digest: {}\n", self.receipt_id));
         out.push_str(&format!("Final Verdict:  {}\n", self.status));
+        out.push_str(&format!("Authority:      {}\n", self.authority_verdict));
+        out.push_str("----------------------------------------------------------------------\n");
+        out.push_str("0. HARD GATE VECTOR G0-G9 (non-compensable, D-152 §5):\n");
+        for (gate, state) in &self.gates {
+            out.push_str(&format!("   {:<58} [{}]\n", gate, state));
+        }
         out.push_str("----------------------------------------------------------------------\n");
 
         out.push_str("1. RESEARCH CAPABILITY SCORE (Infrastructure & Integrity):\n");
