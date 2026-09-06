@@ -75,6 +75,12 @@ fn default_max_heat() -> f64 {
 fn default_decision_stride_bars() -> usize {
     1
 }
+fn default_evidence_role() -> String {
+    "BURNED_DIAGNOSTIC".to_string()
+}
+fn default_promotion_authority() -> String {
+    "NONE".to_string()
+}
 
 /// Structured execution receipt emitted to `.audit/rust_audit_current/portfolio_receipt.json`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -95,6 +101,11 @@ pub struct PortfolioReceipt {
     pub rejections_by_reason: BTreeMap<String, usize>,
     pub cashflow_ledger_path: String,
     pub venue_contract_hash: String,
+    /// D-152: quad/tape output is typed diagnostic evidence, never a promotion.
+    #[serde(default = "default_evidence_role")]
+    pub evidence_role: String,
+    #[serde(default = "default_promotion_authority")]
+    pub promotion_authority: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub frontier_receipt: Option<crate::opportunity::frontier::EconomicFrontierReceipt>,
 }
@@ -208,7 +219,11 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
 
             // A. Check Liquidation
             if LiquidationModel::is_liquidated(&pos.direction, liq_price, current_high, current_low) {
-                let exit_price = liq_price;
+                let exit_price = if pos.direction == "LONG" {
+                    liq_price.clamp(current_low, current_high)
+                } else {
+                    liq_price.clamp(current_low, current_high)
+                };
                 let gross_pnl = if pos.direction == "LONG" {
                     (exit_price - pos.entry_price) * pos.quantity
                 } else {
@@ -266,7 +281,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 };
                 if let Some(res) = DynamicTrailingEngine::step_bar(tstate, i, current_high, current_low, current_close, current_atr, Some(struct_stop)) {
                     stop_exit = true;
-                    exit_price = res.exit_price;
+                    exit_price = res.exit_price.clamp(current_low, current_high);
                 }
             } else {
                 let stop_hit = if pos.direction == "LONG" {
@@ -276,7 +291,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 };
                 if stop_hit {
                     stop_exit = true;
-                    exit_price = pos.stop_loss_price;
+                    exit_price = pos.stop_loss_price.clamp(current_low, current_high);
                 }
             }
 
@@ -581,7 +596,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 let tc_closure = features::group_closure(&["trend", "volatility", "history"]);
                 let fm_tc = crate::experts::base::FeatMap {
                     features: crate::experts::base::ProjectedFeatures::new(&feats, &tc_closure),
-                    history: hist.clone(),
+                    history: if eval_ss { hist.clone() } else { std::mem::take(&mut hist) },
                     as_of,
                     symbol: &store.symbol,
                     variant_overrides: &params.variant_overrides,
@@ -645,7 +660,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 let ss_closure = features::group_closure(&["trend", "volatility", "participation", "history"]);
                 let fm_ss = crate::experts::base::FeatMap {
                     features: crate::experts::base::ProjectedFeatures::new(&feats, &ss_closure),
-                    history: hist.clone(),
+                    history: std::mem::take(&mut hist),
                     as_of,
                     symbol: &store.symbol,
                     variant_overrides: &params.variant_overrides,
@@ -960,6 +975,8 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
         rejections_by_reason: rejections,
         cashflow_ledger_path: "economic-cashflow.jsonl".to_string(),
         venue_contract_hash: contract.contract_hash(),
+        evidence_role: default_evidence_role(),
+        promotion_authority: default_promotion_authority(),
         frontier_receipt: Some(frontier_receipt),
     };
 
@@ -1119,7 +1136,7 @@ mod tests {
         println!(">>> V8.3 PHASE II — ECONOMIC LOSS ANATOMY & RAW EMPIRICAL MEASUREMENTS <<<");
         println!("==========================================================================================");
         println!("Total trades admitted: {}", receipt.n_trades_admitted);
-        println!("Net Profit: ${:.2} ({:.2}%)", receipt.net_profit_usdt, receipt.total_return_pct);
+        println!("Simulated Diagnostic Net: ${:.2} ({:.2}%) [BURNED_DIAGNOSTIC, NO PROMOTION AUTHORITY]", receipt.net_profit_usdt, receipt.total_return_pct);
         println!("Total Fee Drag: ${:.2}", receipt.total_fee_drag_usdt);
         println!("Profit Factor: {:.4}", receipt.profit_factor);
         println!("Win Rate: {:.2}%", receipt.win_rate_pct);
@@ -1162,7 +1179,7 @@ mod tests {
         println!("- Slippage / Stop Gap:          $0.0000");
         println!("---------------------------------------------------------------");
         println!("= Terminal Equity:             ${:.4}", receipt.terminal_equity_usdt);
-        println!("= Net Realized Cashflow (PnL): ${:.4} ({:.2}%)", receipt.net_profit_usdt, receipt.total_return_pct);
+        println!("= Net Simulated Diagnostic Cashflow: ${:.4} ({:.2}%) [BURNED_DIAGNOSTIC]", receipt.net_profit_usdt, receipt.total_return_pct);
         
         let calculated_terminal = receipt.initial_balance_usdt + net_gross_edge - total_roundtrip_fees + receipt.total_funding_usdt;
         let diff = (calculated_terminal - receipt.terminal_equity_usdt).abs();

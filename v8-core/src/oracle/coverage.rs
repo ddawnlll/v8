@@ -18,6 +18,7 @@ use crate::evaluation::agents::FindingRecord;
 use crate::evaluation::schema_cache::{compute_numeric_col_stats, SchemaCache, TableStatistics};
 use crate::experts::base::ExpertEval;
 use crate::hash::Canon;
+use crate::parquet_artifact::write_json_rows;
 use crate::regret::Action;
 use crate::simulator::Draft;
 
@@ -117,10 +118,15 @@ impl CoverageReceipt {
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
         fs::write(prov_dir.join("opportunity_universe.json"), universe_json)?;
 
-        // 2. economics/oracle_evaluation.parquet (persisted as newline-delimited json/table for v8.eval.v1)
-        let eval_json = serde_json::to_string_pretty(eval_records)
+        // 2. economics/oracle_evaluation.parquet
+        let eval_value = serde_json::to_value(eval_records)
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-        fs::write(econ_dir.join("oracle_evaluation.parquet"), eval_json)?;
+        write_json_rows(
+            &econ_dir.join("oracle_evaluation.parquet"),
+            "oracle_evaluation",
+            &eval_value,
+            Some(&serde_json::to_value(self).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?),
+        )?;
 
         // 3. analysis/findings.jsonl (coverage findings with hard deduplication invariant)
         let mut findings = Vec::new();
@@ -317,7 +323,9 @@ impl CoverageReceipt {
         crate::evaluation::temporal::save_temporal_receipt(bundle_dir, &temp_receipt)?;
 
         // 9. Research Family Ledger & Multiplicity (Issue #AUD-004B)
-        let mult_ledger = crate::evaluation::multiple_testing::build_baseline_multiplicity_ledger();
+        // Production coverage must not fabricate a research search lineage. An
+        // empty ledger is the explicit absence state until real lineage is supplied.
+        let mult_ledger = crate::evaluation::multiple_testing::ResearchMultiplicityLedger::new();
         mult_ledger.save_artifacts(bundle_dir)?;
 
         // 10. Null-World Falsification Battery (Issue #AUD-004C)

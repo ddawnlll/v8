@@ -39,7 +39,7 @@ use paths::{classify_trade_path, PathClassification};
 use regression::compute_cross_run_delta;
 use schema_cache::{compute_numeric_col_stats, SchemaCache, TableStatistics};
 use statistics::{
-    block_bootstrap, compute_deflated_sharpe_ratio, run_10_family_null_suite, run_permutation_test,
+    block_bootstrap, run_10_family_null_suite_with_resamples, run_permutation_test,
 };
 use surfaces::{compute_cost_surface, compute_exit_surface, compute_fragility_metrics, TradeOutcomeInput};
 
@@ -238,16 +238,34 @@ impl EvaluationEngine {
         let net_rs: Vec<f64> = trades.iter().map(|t| t.net_r).collect();
         let bar_closes: Vec<f64> = bars.iter().map(|b| b.close).collect();
 
-        let bootstrap = block_bootstrap(&net_rs, 5, 200, 42);
-        let _perms = run_permutation_test(&net_rs, 200, 42);
-        let nulls = run_10_family_null_suite(&net_rs, &bar_closes, 42);
-        let _dsr = compute_deflated_sharpe_ratio(bootstrap.sharpe_mean, trades.len(), 100);
+        let resample_count = net_rs.len();
+        let bootstrap = block_bootstrap(&net_rs, 5, resample_count, 42)
+            .map_err(io::Error::other)?;
+        let permutations = run_permutation_test(&net_rs, resample_count, 42)
+            .map_err(io::Error::other)?;
+        let nulls = run_10_family_null_suite_with_resamples(
+            &net_rs,
+            &bar_closes,
+            resample_count,
+            0.05,
+            42,
+        )
+        .map_err(io::Error::other)?;
 
         // Save Statistics JSONs
         let stats_dir = out.join("statistics");
         fs::write(stats_dir.join("bootstrap.json"), serde_json::to_string_pretty(&bootstrap)?)?;
+        fs::write(stats_dir.join("permutation.json"), serde_json::to_string_pretty(&permutations)?)?;
         fs::write(stats_dir.join("nulls.json"), serde_json::to_string_pretty(&nulls)?)?;
-        let multiplicity_ledger = self::multiple_testing::build_baseline_multiplicity_ledger();
+        fs::write(
+            stats_dir.join("deflated_sharpe.json"),
+            serde_json::to_string_pretty(&serde_json::json!({
+                "status": "BLOCKED_GENUINE_DSR_ESTIMATOR_AND_RECEIPT_REQUIRED",
+                "value": serde_json::Value::Null,
+                "claim": "NO_ECONOMIC_CLAIM"
+            }))?,
+        )?;
+        let multiplicity_ledger = self::multiple_testing::ResearchMultiplicityLedger::new();
         multiplicity_ledger.save_artifacts(out)?;
         let falsification_rep = self::falsification::run_null_world_falsification_battery(&bar_closes, 100, 0.05, 42);
         self::falsification::save_falsification_report(out, &falsification_rep)?;
@@ -257,7 +275,7 @@ impl EvaluationEngine {
             serde_json::to_string_pretty(&serde_json::json!({
                 "pbo_status": "UNCOMPUTED_WITHOUT_CSCV_PARTITIONS",
                 "pbo_score": serde_json::Value::Null,
-                "n_splits": 0
+                "n_splits": null
             }))?,
         )?;
 
@@ -548,7 +566,7 @@ mod tests {
     #[test]
     fn test_rust_statistics_bootstrap() {
         let rets = vec![0.5, 0.8, -0.3, 0.2, 1.1, -0.4, 0.6, -0.2, 0.9, 0.4];
-        let res = block_bootstrap(&rets, 2, 100, 42);
+        let res = block_bootstrap(&rets, 2, 100, 42).expect("valid bootstrap input");
         assert!(res.ci_lower_95 <= res.mean_net_r);
         assert!(res.mean_net_r <= res.ci_upper_95);
     }
@@ -557,7 +575,8 @@ mod tests {
     fn test_rust_10_family_null_suite() {
         let rets = vec![0.8, -0.4, 0.5];
         let closes = vec![100.0, 101.0, 100.5, 102.0];
-        let null_res = run_10_family_null_suite(&rets, &closes, 42);
+        let null_res = run_10_family_null_suite_with_resamples(&rets, &closes, 100, 0.05, 42)
+            .expect("valid null-suite input");
         assert_eq!(null_res.len(), 10);
     }
 
@@ -576,11 +595,9 @@ mod tests {
             TradeRow { trade_id: "TR-1".to_string(), candidate_id: "CAN-1".to_string(), symbol: "BTCUSDT".to_string(), expert_id: "bollinger_breakout".to_string(), direction: "LONG".to_string(), entry_ts_ns: 1000, exit_ts_ns: 2000, entry_price: 100.0, exit_price: 104.0, gross_r: 2.0, net_r: 1.85, fee_paid: 0.08, slippage_paid: 0.05, funding_paid: 0.02, exit_reason: "TARGET_HIT".to_string(), duration_bars: 12, mfe_r: 2.0, mae_r: 0.2 },
         ];
 
-        let manifest = engine.execute(&bars, &[], &candidates, &[], &trades, 0, None, false, false, false).unwrap();
-        assert_eq!(manifest.schema, SCHEMA_VERSION);
-        assert_eq!(manifest.funnel_conservation.admitted_trades, 1);
-        assert!(tmp_path.join("manifest.json").is_file());
-        assert!(tmp_path.join("executive.json").is_file());
-        assert!(tmp_path.join("report.html").is_file());
+        let error = engine
+            .execute(&bars, &[], &candidates, &[], &trades, 0, None, false, false, false)
+            .expect_err("one trade must remain blocked as underpowered");
+        assert!(error.to_string().contains("INCONCLUSIVE_UNDERPOWERED_BOOTSTRAP_INPUT"));
     }
 }

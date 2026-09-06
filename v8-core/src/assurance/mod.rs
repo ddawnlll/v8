@@ -11,6 +11,7 @@ pub mod claim;
 pub mod common_mode;
 pub mod continuous;
 pub mod defeater;
+pub mod evidence_profile;
 pub mod provenance;
 pub mod receipt;
 pub mod rules;
@@ -27,6 +28,12 @@ pub use continuous::{
     KaizenHandoffReceipt, MonitoringPlan, WorldCoverageManifest,
 };
 pub use defeater::{DefeaterReceipt, DefeaterSeverity};
+pub use evidence_profile::{
+    audit_statistical_triple, gate_g0, gate_g1, synthetic_fail_may_challenge,
+    synthetic_pass_confirms_no_edge, DataRole, EconomicConclusion, FrozenOOSState, GateId,
+    GateVerdict, LiveState, PolicyEvidenceProfile, RobustnessTopology, ScenarioCell, ShadowState,
+    StatisticalTripleAudit,
+};
 pub use provenance::ProvenanceGraph;
 pub use receipt::{AssuranceCaseReceipt, ClaimStatus};
 pub use rules::{ClaimRule, CompositionRule};
