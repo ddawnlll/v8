@@ -47,6 +47,11 @@ tools/                 # monograph compiler, audits, and explicit legacy tooling
 retained only as the hash-locked historical oracle; see
 `docs/legacy/PYTHON_ORACLE_POLICY.md`.
 
+Verification is local-only; GitHub Actions workflows are removed. Run
+`cargo run --locked --manifest-path v8-core/Cargo.toml --bin check_local`.
+See [the Rust runbook](v8-core/README.md) for real-data acceptance and local
+release checks.
+
 ## Rebuilding the monographs
 
 Reproducible: the same corpus + manifest + script produce byte-identical HTML.

@@ -3,10 +3,13 @@
 From the repository root:
 
 ```sh
-cargo check --locked --manifest-path v8-core/Cargo.toml
-cargo test --locked --manifest-path v8-core/Cargo.toml
-cargo clippy --locked --manifest-path v8-core/Cargo.toml --all-targets -- -D warnings
+cargo run --locked --manifest-path v8-core/Cargo.toml --bin check_local
 ```
+
+Verification runs only locally. This command runs the oracle-boundary,
+anti-synthetic, economic-claim and forbidden-name audits, then `cargo check`,
+the Rust test suite, and Clippy with warnings denied. It stops on failure.
+There are no GitHub Actions workflows or required GitHub CI checks.
 
 The explicit real-data acceptance check requires the existing Binance BTCUSDT
 hourly tape, adjacent `source.json`, and the source ZIP archives. It fails if
@@ -38,9 +41,16 @@ execution model before live certification.
 
 This baseline makes no profitability, live-execution, or recovery certification
 claim. Outputs retain `promotion_authority: NONE`. The real-data check is ignored
-by default so ordinary CI does not silently depend on a developer's private or
+by default so ordinary local checks do not silently depend on private or
 untracked data. Run it explicitly when validating a runnable baseline.
 
-The ordinary CI registry gate is Rust. Frozen Python differential parity and
-monograph checks remain available on manual CI dispatch or release tags, rather
-than gating ordinary Rust development.
+GPU and release checks are explicit local operations when needed:
+
+```sh
+cargo check --locked --manifest-path v8-core/Cargo.toml --features gpu
+cargo test --locked --manifest-path v8-core/Cargo.toml --release
+```
+
+Hardware GPU parity requires a suitable Linux/Vulkan device. Release packaging,
+frozen-oracle differential checks, and monograph generation are manual local
+operations; pushing a branch or tag triggers no GitHub workflow.
