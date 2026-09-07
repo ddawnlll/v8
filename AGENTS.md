@@ -111,3 +111,11 @@ boundary) only:
 
 
 
+### 7. Pull Request Governance & Merge Authority (Human Direction Only)
+- **Always PR First:** All code edits, fixes, and features must be implemented on a feature branch and submitted as a Pull Request for maintainer review.
+- **PR Actions Under Human Direction Only:** Agents create and update PRs strictly under human direction / task assignment.
+- **Absolute Ban on Autonomous Merging:** Agents must NEVER merge pull requests (e.g. `gh pr merge`, `git merge`, or squash merge) autonomously. Merging PRs is strictly reserved for human maintainers or requires explicit, standalone human maintainer direction.
+- **No Direct Pushes to Main:** Agents must NEVER push directly to `main`.
+
+
+
