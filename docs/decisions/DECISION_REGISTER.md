@@ -161,3 +161,5 @@
 Status vocabulary is intentional: `LOCKED_INVARIANT` constrains validity;
 `PROVISIONAL_DECISION` is reversible; `REJECTED_OPTION` means excluded from the
 named baseline, not disproven forever. None means profitability.
+
+| D-161 | **V8.6 CLI delegation to clap (#351/M09).** Registers cli.rs command schema, existing domain dispatch, valid-input/default compatibility, explicit exit-2 rejection of malformed/duplicate/unknown/excess CLI input and help exit 0. No economic semantics or higher authority changed. | PROVISIONAL_DECISION | [Full specification](../contracts/D161_V86_CLI_DELEGATION_SPEC.md); [preserved V8.6 full text](../contracts/V8_6_PRODUCTION_RECALIBRATION_FULL_TEXT.html); M09; Rule 44. Verification pending. |

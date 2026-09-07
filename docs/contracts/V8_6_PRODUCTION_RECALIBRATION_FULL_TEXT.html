@@ -1,0 +1,1071 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V8.6 Production Recalibration — Research Monograph and Architecture Specification</title>
+<style>
+@page{margin:18mm}
+:root{
+  --paper:#fffdf9;
+  --ink:#181818;
+  --muted:#585858;
+  --line:#aaa;
+  --soft:#f0eee8;
+  --soft2:#f7f5ef;
+  --link:#154c78;
+  --green:#285c3b;
+  --amber:#7a5410;
+  --red:#7b2727;
+}
+html{scroll-behavior:smooth}
+body{
+  max-width:1060px;
+  margin:auto;
+  padding:28px 48px 72px;
+  background:var(--paper);
+  color:var(--ink);
+  font:15px/1.58 Georgia,"Times New Roman",serif;
+}
+h1,h2,h3,h4,h5,th,.sans{font-family:Arial,Helvetica,sans-serif}
+h1{
+  font-size:1.8rem;
+  margin-top:3rem;
+  border-bottom:2px solid #333;
+  padding-bottom:.3rem;
+  letter-spacing:-.01em;
+}
+h2{margin-top:2.2rem;font-size:1.35rem}
+h3{margin-top:1.5rem;font-size:1.08rem}
+h4{margin-top:1.25rem;font-size:1rem}
+p{margin:.7rem 0}
+a{color:var(--link)}
+code{
+  font:0.9em ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  background:#f3f1ea;
+  padding:.05rem .22rem;
+  border-radius:2px;
+}
+pre{
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  padding:.8rem;
+  background:var(--soft);
+  border:1px solid #d5d0c6;
+  font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+table{
+  border-collapse:collapse;
+  width:100%;
+  font:12px Arial,Helvetica,sans-serif;
+  margin:1rem 0 1.4rem;
+}
+th,td{border:1px solid var(--line);padding:.45rem;vertical-align:top}
+th{background:#ece9e1}
+blockquote{
+  margin:1rem 0;
+  padding:.6rem 1rem;
+  border-left:4px solid #555;
+  background:#f7f5ef;
+}
+.status{
+  border-left:4px solid #333;
+  background:var(--soft);
+  padding:.8rem 1rem;
+}
+.status.green{border-color:var(--green)}
+.status.amber{border-color:var(--amber)}
+.status.red{border-color:var(--red)}
+.small{font-size:.86em;color:var(--muted)}
+.tag{
+  font:700 10px Arial,sans-serif;
+  letter-spacing:.04em;
+  border:1px solid #999;
+  padding:.08rem .28rem;
+  white-space:nowrap;
+}
+.keep{color:var(--green)}
+.replace{color:#164d7c}
+.archive{color:var(--amber)}
+.reject{color:var(--red)}
+.toc ul{columns:2;column-gap:2.5rem}
+.toc li{break-inside:avoid;margin:.2rem 0}
+.eq{
+  margin:1rem auto;
+  padding:.7rem 1rem;
+  text-align:center;
+  background:#f7f5ef;
+  border:1px solid #d8d3c8;
+  font-family:Georgia,serif;
+}
+hr{border:0;border-top:1px solid #aaa;margin:2rem 0}
+header .subtitle{font-size:1.05rem;color:#333}
+header .meta{font:12px Arial,sans-serif;color:#555;margin-top:1rem}
+.decision{
+  border:1px solid #999;
+  background:#faf8f2;
+  padding:.7rem .9rem;
+  margin:.8rem 0;
+}
+.decision strong{font-family:Arial,sans-serif}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+ul.tight li,ol.tight li{margin:.25rem 0}
+.note{font-size:.92em;background:#f8f6f0;border:1px solid #d6d0c4;padding:.6rem .8rem}
+.footnotes{font-size:.86em;color:#444}
+@media(max-width:760px){
+  body{padding:20px}
+  .toc ul{columns:1}
+  .two-col{display:block}
+}
+@media print{
+  body{padding:0;font-size:10pt}
+  pre{font-size:8pt}
+  a{color:#000;text-decoration:none}
+  h1{break-before:page}
+  .toc h1{break-before:auto}
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>V8.6: Production Recalibration of a Behavior-Driven Trading Research System</h1>
+<p class="subtitle"><strong>Research monograph, architecture specification, migration doctrine, and falsification protocol.</strong></p>
+<p><strong>Primary objective:</strong> reduce V8 to the smallest scientifically defensible trading-intelligence layer and place generic execution/accounting responsibility on a production-grade trading substrate. The project is optimized for time-to-trustworthy-economic-result rather than infrastructure ownership, architectural novelty, or legacy parity preservation.</p>
+<div class="meta">
+Revision: Draft V8.6-RC0 · Date: 2026-09-07 · Language: English · Primary implementation language: Rust · Proposed execution substrate: NautilusTrader · Status: PROVISIONAL / PRE-VALIDATION
+</div>
+</header>
+
+<section id="document-status">
+<h1>Document status and reading rule</h1>
+<p class="status amber"><strong>PROVISIONAL ARCHITECTURE / NO ECONOMIC CLAIM.</strong> This document does not claim that V8.6 is profitable, that NautilusTrader is semantically correct for every Binance USDⓈ-M condition, or that any historical V8 profit figure is economically valid. It defines a new implementation direction and the evidence required to promote that direction.</p>
+<p>Every statement in this monograph belongs to one of the following classes:</p>
+<table>
+<thead><tr><th>Label</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><strong>PROJECT_EVIDENCE</strong></td><td>Observed in repository audits, static source inspection, prior project artifacts, or reported project experiments.</td></tr>
+<tr><td><strong>DESIGN_DECISION</strong></td><td>A V8.6 policy choice. It may intentionally depart from earlier project recommendations.</td></tr>
+<tr><td><strong>LOCKED_INVARIANT</strong></td><td>A validity condition that must fail closed.</td></tr>
+<tr><td><strong>PROVISIONAL_ASSUMPTION</strong></td><td>Used to make progress but must remain visible and falsifiable.</td></tr>
+<tr><td><strong>OPEN_QUESTION</strong></td><td>Unresolved; the system must not fabricate certainty around it.</td></tr>
+<tr><td><strong>REJECTED_OPTION</strong></td><td>Explicitly excluded from the V8.6 baseline.</td></tr>
+</tbody>
+</table>
+<p>The central reading rule is:</p>
+<blockquote><strong>Market truth outranks implementation parity; production responsibility is external by default; V8-specific semantics survive only when they are necessary to preserve the research question or a hard validity invariant.</strong></blockquote>
+</section>
+
+<section id="abstract">
+<h1>Abstract</h1>
+<p>V8 began as a behavior-driven trading research program built around explicit Experts, causal market state, candidate lifecycle semantics, deterministic replay, research authority, and falsification-oriented evaluation. Over rapid AI-assisted development, the implementation accumulated parallel decision universes, simulator-specific semantics, duplicated statistical routines, dead governance subsystems, multiple reporting surfaces, and a custom USDⓈ-M execution/accounting engine carrying large semantic responsibility. Subsequent audits identified both architectural sediment and execution-validity defects. The resulting problem is not merely code size: V8 owns too many responsibilities whose correctness must be continuously re-proven before any economic result can be trusted.</p>
+<p>V8.6 changes the objective function. The system no longer optimizes for preservation of the V8 simulator ontology or global bit-for-bit parity with a frozen Python oracle. Instead it optimizes for <em>time to a stable, reproducible, after-cost economic verdict on a production-grade execution substrate</em>. The behavioral research thesis remains: point-in-time market state is evaluated by explicit Expert logic that produces candidates, which are admitted under finite-capital and portfolio-risk policy. Generic order lifecycle, fills, positions, fees, funding bookkeeping, and account mutation are delegated to NautilusTrader. V8 retains causal eligibility, Expert/candidate semantics, portfolio policy, Binance-specific conformance checks not guaranteed by the substrate, independent reconciliation, and scientific promotion rules.</p>
+<p>The same recalibration is applied to the rest of the repository. S4 becomes the single canonical decision stack; the parallel V83/opportunity decision universe is removed from the active path. Dead Kaizen governance, unused evaluation surfaces, duplicate estimators, redundant HTML reporters, dead harnesses, and generic infrastructure are archived or delegated. Persistent agent-memory architecture is rejected in favor of a minimal PI-based coding workflow where repository state and versioned specifications are authoritative.</p>
+<p>The proposed architecture is intentionally boring: <code>PIT data → state/features → Experts → candidate/decision/admission → OrderIntent → Nautilus → execution/cashflow ledger → reconciliation → statistics → economic receipt</code>. V8.6 succeeds only if this path is deterministic, causally valid, venue-honest, auditable with small independent witnesses, and capable of producing a falsifiable after-cost OOS result without reconstructing a second exchange simulator or governance bureaucracy around the substrate.</p>
+</section>
+
+<section id="problem">
+<h1>1. Problem definition</h1>
+
+<h2>1.1 The project-level failure mode</h2>
+<p>The primary failure mode is not insufficient implementation capacity. AI-assisted coding made implementation cheap enough that solved infrastructure, speculative governance, and unvalidated product semantics could be added faster than they could be reviewed, validated, maintained, or removed. This created an asymmetry:</p>
+<div class="eq">Implementation capacity ≫ validation capacity + review bandwidth + maintenance capacity.</div>
+<p>As a result, code existence began to substitute for demonstrated necessity. An architectural idea could rapidly become a module, a module could rapidly become a subsystem, and a subsystem could acquire tests and documentation before the project had established that the subsystem belonged in the product at all.</p>
+
+<h2>1.2 The economic problem</h2>
+<p>The product does not need a sophisticated research platform for its own sake. The product needs a stable process for answering a narrower question:</p>
+<div class="eq"><strong>Does the V8 Expert system produce reproducible positive after-cost expectancy on genuinely out-of-sample data under executable market assumptions?</strong></div>
+<p>Any infrastructure that does not shorten the path to a credible answer is a cost center. Any simulator or evaluator that produces precise but invalid outcomes is worse than an explicit unknown.</p>
+
+<h2>1.3 The implementation problem</h2>
+<p>Two competing instincts emerged:</p>
+<ol class="tight">
+<li>preserve the custom simulator because it encodes V8-specific semantics and parity controls; or</li>
+<li>replace commodity execution/accounting with a mature trading engine and recalibrate V8 around that substrate.</li>
+</ol>
+<p>V8.6 chooses the second path, while preserving the small set of V8 semantics that define the research question rather than the legacy implementation.</p>
+</section>
+
+<section id="evidence">
+<h1>2. Evidence base and repository diagnosis</h1>
+
+<h2>2.1 Static ownership audit</h2>
+<p><span class="tag">PROJECT_EVIDENCE</span> The infrastructure ownership audit inspected <code>v8-core/src</code> as approximately 81,324 Rust lines and classified most of the tree as V8-specific product semantics rather than commodity infrastructure. Approximate ownership composition was reported as ~88% product semantics, ~7% replaceable commodity carrier, ~3% integration/adaptation, ~0.5% legacy/accidental duplication, and ~0.7% unclassified.</p>
+<p>This finding changed the diagnosis. V8 cannot be substantially simplified merely by replacing libraries. The larger problem is <strong>semantic proliferation</strong>: too many V8-specific concepts, governance surfaces, and parallel product paths accumulated without proving that they were necessary.</p>
+
+<h2>2.2 Direct commodity-replacement opportunity</h2>
+<p><span class="tag">PROJECT_EVIDENCE</span> The audit estimated a defensible immediate reduction of roughly 2,200–3,800 owned LOC after deleting dead/duplicate code, replacing reporting/thread-pool/CLI/RNG utilities, and accounting for new adapters. This is useful but only ~3–5% of the Rust core.</p>
+
+<h2>2.3 Product-semantic tribunal</h2>
+<p><span class="tag">PROJECT_EVIDENCE</span> A follow-up semantic audit found materially larger simplification opportunities:</p>
+<table>
+<thead><tr><th>Finding</th><th>Observed condition</th><th>V8.6 consequence</th></tr></thead>
+<tbody>
+<tr><td>Two decision universes</td><td>S4 is the default path; V83/opportunity is a separate opt-in path using the same Experts/features but different decision semantics.</td><td>One canonical stack is mandatory.</td></tr>
+<tr><td>Kaizen sediment</td><td>Only a minority of Kaizen LOC was on the active economic path; ~4.5k LOC formed a mostly self-contained governance universe.</td><td>Archive dead governance.</td></tr>
+<tr><td>Analysis duplication</td><td>Core analysis is live, but estimator/bootstrap/CI logic is duplicated across modules.</td><td>Keep analysis; consolidate math.</td></tr>
+<tr><td>Evaluation/authority mismatch</td><td>Large evaluation surfaces wrote evidence bundles without feeding the final statistical authority verdict.</td><td>Collapse evidence and authority into a single visible path.</td></tr>
+<tr><td>Opportunity ambiguity</td><td>Opportunity/V83 is either a genuine second product stack or inactive sediment when disabled.</td><td>Remove from baseline; revive only as a challenger experiment.</td></tr>
+</tbody>
+</table>
+
+<h2>2.4 Execution-validity failure cluster</h2>
+<p><span class="tag">PROJECT_EVIDENCE</span> Prior research-validity work identified a cluster of defects around the custom USDⓈ-M simulation path, including trailing-stop fill behavior, liquidation price source, funding timing, portfolio admission, leverage/margin arithmetic, same-bar stop/target handling, and risks of double-settlement after naive fixes. The exact historical scope of each defect must remain revision-bound, but the cluster demonstrates a deeper point: custom ownership of exchange execution semantics creates a large verification surface.</p>
+
+<h2>2.5 What the audits did not prove</h2>
+<p>The audits were predominantly static. They did not prove that NautilusTrader will reproduce correct Binance USDⓈ-M economics, that the V8 custom implementation is always wrong, that Rust compilation is the main iteration bottleneck, or that any historical PnL is valid. V8.6 therefore treats the architecture shift as a design decision with explicit acceptance gates, not as a conclusion mechanically implied by the audits.</p>
+</section>
+
+<section id="research-question">
+<h1>3. Research objective, hypotheses, and success criteria</h1>
+
+<h2>3.1 Primary research question</h2>
+<p><strong>RQ1.</strong> Does explicit behavior-specialized Expert decomposition produce reproducible positive after-cost expectancy under a stable, causally valid execution/accounting substrate?</p>
+
+<h2>3.2 Secondary engineering questions</h2>
+<ol>
+<li><strong>RQ2.</strong> Can generic execution/accounting responsibility be transferred to NautilusTrader without reconstructing an equivalent custom engine in the adapter?</li>
+<li><strong>RQ3.</strong> Can V8 preserve point-in-time causality, finite-capital risk policy, and venue conformance while discarding legacy simulator parity?</li>
+<li><strong>RQ4.</strong> Can the active product path be compressed to one decision universe and one authority path without losing research-essential semantics?</li>
+<li><strong>RQ5.</strong> Does repository simplification measurably reduce time-to-result, regression surface, and decision ambiguity?</li>
+</ol>
+
+<h2>3.3 Hypotheses</h2>
+<table>
+<thead><tr><th>ID</th><th>Hypothesis</th><th>Failure condition</th></tr></thead>
+<tbody>
+<tr><td>H1</td><td>A production execution substrate reduces owned economic-state responsibility relative to <code>usdm_sim</code>.</td><td>The adapter recreates matching/account/margin engines or produces an equally large validation surface.</td></tr>
+<tr><td>H2</td><td>Legacy global bit-parity is not necessary to evaluate V8's economic thesis.</td><td>Dropping parity makes candidate/feature semantics non-reproducible or destroys causal comparability.</td></tr>
+<tr><td>H3</td><td>One canonical S4 decision path is sufficient for the V8.6 baseline.</td><td>A preregistered V83 challenger demonstrates indispensable incremental value.</td></tr>
+<tr><td>H4</td><td>Semantic austerity reduces maintenance without removing hard validity protections.</td><td>A removed subsystem is shown to enforce a unique hard gate not represented elsewhere.</td></tr>
+<tr><td>H5</td><td>Explicit uncertainty is safer than simulator-specific fabricated certainty for unavailable market microstructure.</td><td>Higher-fidelity authoritative data is available and the uncertainty treatment discards material usable evidence.</td></tr>
+</tbody>
+</table>
+
+<h2>3.4 Definition of success</h2>
+<p>V8.6 is successful when one frozen Expert policy can be run end-to-end through the new path and the following are simultaneously true:</p>
+<ul>
+<li>same frozen inputs and configuration reproduce the same candidate, intent, execution, and cashflow ledgers;</li>
+<li>no decision uses data before its availability/eligibility time;</li>
+<li>fees, funding, realized PnL, position state, and account state reconcile exactly once;</li>
+<li>unknown venue semantics are surfaced rather than silently approximated;</li>
+<li>the result is after-cost and can be labeled either <code>NO_ECONOMIC_CLAIM</code> or a properly supported economic verdict;</li>
+<li>the active architecture contains no second default decision universe and no second sovereign simulator.</li>
+</ul>
+</section>
+
+<section id="doctrine">
+<h1>4. V8.6 doctrine: Production &gt; Infrastructure</h1>
+<p><span class="tag">DESIGN_DECISION</span> V8.6 adopts the following engineering doctrine:</p>
+<ol>
+<li><strong>Infrastructure has no independent value.</strong> It exists only to shorten the path to a trustworthy product result.</li>
+<li><strong>Solved commodity problems are dependencies by default.</strong> Custom implementations require a domain-semantic reason.</li>
+<li><strong>V8-specific is not synonymous with necessary.</strong> Product semantics must also justify their existence.</li>
+<li><strong>AI implementation capacity does not create organizational capacity.</strong> “The agent can code it” is not an admission criterion.</li>
+<li><strong>Market truth outranks implementation heritage.</strong> Legacy parity is evidence, not sovereignty.</li>
+<li><strong>Unknown is an allowed output.</strong> Missing mark prices or unobserved intrabar paths do not authorize invented certainty.</li>
+<li><strong>One canonical path beats multiple partially governed paths.</strong></li>
+<li><strong>Deletion and delegation are first-class engineering work.</strong></li>
+</ol>
+</section>
+
+<section id="architecture">
+<h1>5. Canonical V8.6 architecture</h1>
+
+<h2>5.1 Minimum coherent path</h2>
+<pre>
+PIT MARKET EVIDENCE
+        │
+        ▼
+STATE / FEATURES
+        │
+        ▼
+EXPERTS
+        │
+        ▼
+S4 CANDIDATE / DECISION / ADMISSION
+        │
+        ▼
+ORDER INTENT
+        │
+        ▼
+NAUTILUS EXECUTION / ACCOUNTING
+        │
+        ├── order lifecycle
+        ├── matching / fills
+        ├── positions
+        ├── fees
+        ├── funding bookkeeping
+        └── account state
+        │
+        ▼
+EXECUTION EVENT / CASHFLOW EVENT / ACCOUNT SNAPSHOT
+        │
+        ▼
+V8 RECONCILIATION + VENUE CONFORMANCE
+        │
+        ▼
+CANONICAL STATISTICS
+        │
+        ▼
+ECONOMIC RECEIPT / NO_ECONOMIC_CLAIM
+</pre>
+
+<h2>5.2 Separation of responsibilities</h2>
+<table>
+<thead><tr><th>Responsibility</th><th>Owner</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Causal market-state construction</td><td><strong>V8</strong></td><td>Point-in-time availability and eligibility are V8 hard invariants.</td></tr>
+<tr><td>Expert semantics</td><td><strong>V8</strong></td><td>Core product thesis.</td></tr>
+<tr><td>Candidate identity/lifecycle</td><td><strong>V8</strong></td><td>Must remain distinct from order/fill.</td></tr>
+<tr><td>Portfolio policy</td><td><strong>V8</strong></td><td>Heat, concurrency, exposure conflict, sizing intent.</td></tr>
+<tr><td>Generic order lifecycle</td><td><strong>Nautilus</strong></td><td>Transferred responsibility.</td></tr>
+<tr><td>Fills / positions / generic account mutation</td><td><strong>Nautilus</strong></td><td>Transferred subject to data-fidelity and conformance gates.</td></tr>
+<tr><td>Fees / funding bookkeeping</td><td><strong>Nautilus</strong></td><td>V8 independently reconciles boundary arithmetic.</td></tr>
+<tr><td>Historical venue facts</td><td><strong>V8 conformance layer</strong></td><td>Filters, brackets, fee tier, account mode, mark-data availability where not guaranteed by substrate.</td></tr>
+<tr><td>Statistical promotion</td><td><strong>V8</strong></td><td>Minimal, explicit, real methods only.</td></tr>
+<tr><td>Execution/account diagnostic comparison</td><td><strong>Small witnesses</strong></td><td>No second full simulator.</td></tr>
+</tbody>
+</table>
+
+<h2>5.3 Architectural prohibition</h2>
+<p class="status red"><strong>NO ADAPTER-ENGINE REIMPLEMENTATION.</strong> If the Nautilus boundary requires V8 to recreate matching, order-state, generic account state, or a full isolated-margin engine, the transfer has failed. The correct response is to reduce claims, change data/venue scope, or reconsider the substrate—not to rebuild <code>usdm_sim</code> behind a new interface.</p>
+</section>
+
+<section id="nautilus">
+<h1>6. NautilusTrader as execution substrate</h1>
+
+<h2>6.1 Why V8.6 selects Nautilus</h2>
+<p><span class="tag">DESIGN_DECISION</span> The selection is not based on a claim that Nautilus perfectly implements V8's historical semantics. It is selected because the project objective now values mature order/execution/accounting infrastructure, stable production-oriented responsibility ownership, and reduction of custom exchange-state code more highly than preservation of the old simulator's ontology.</p>
+<p>The migration therefore accepts a deliberate loss of some historical parity. Old simulator outputs become legacy evidence and failure cases rather than constitutional targets.</p>
+
+<h2>6.2 Known semantic gaps</h2>
+<p>The following gaps remain explicit and must not be hidden by the adapter:</p>
+<ul>
+<li><strong>Entry timing:</strong> bar callback timing can differ from V8's prior next-bar semantics. V8 must schedule eligibility explicitly rather than rely on engine convenience.</li>
+<li><strong>Intrabar path:</strong> engine bar heuristics are not historical path reconstruction.</li>
+<li><strong>Funding boundaries:</strong> event timing and settlement identity must be mapped explicitly and tested for exactly-once behavior.</li>
+<li><strong>Margin/account mode:</strong> generic margin models do not automatically certify historical Binance isolated-margin semantics, leverage brackets, cumulative offsets, or liquidation charges.</li>
+<li><strong>Mark-price liquidation:</strong> absence of authoritative mark data blocks authoritative liquidation claims.</li>
+<li><strong>Licensing/integration topology:</strong> process separation is the default initial topology to isolate licensing and reduce direct coupling; legal review may authorize alternatives later.</li>
+</ul>
+
+<h2>6.3 Integration topology</h2>
+<pre>
+V8 Rust process
+  ├─ causal data
+  ├─ Experts
+  ├─ candidate/admission
+  └─ OrderIntent.jsonl / IPC-equivalent boundary
+                │
+                ▼
+Nautilus execution process
+  ├─ order lifecycle
+  ├─ fills
+  ├─ positions
+  ├─ fees
+  ├─ funding
+  └─ account snapshots
+                │
+                ▼
+ExecutionEvent / CashflowEvent / AccountSnapshot
+                │
+                ▼
+V8 reconciliation + evaluation
+</pre>
+<p>The transport mechanism is deliberately uninteresting. File boundary, pipe, or a small stable RPC may be used; V8.6 does not create an IPC platform project.</p>
+</section>
+
+<section id="legacy-sim">
+<h1>7. Disposition of the legacy USDⓈ-M simulator</h1>
+
+<h2>7.1 Authority status</h2>
+<p><span class="tag">DESIGN_DECISION</span> <code>usdm_sim</code> is demoted from sovereign economic authority to <strong>legacy diagnostic/reference implementation</strong>.</p>
+
+<h2>7.2 What is preserved</h2>
+<ul>
+<li>regression cases that encode previously discovered failures;</li>
+<li>small isolated arithmetic witnesses when they are simpler than the production path;</li>
+<li>historical fixtures useful for differential debugging;</li>
+<li>documentation of past assumptions and failure modes.</li>
+</ul>
+
+<h2>7.3 What is not preserved</h2>
+<ul>
+<li>exact reproduction of old PnL headlines;</li>
+<li>global CPython bit-for-bit parity as a release requirement;</li>
+<li>legacy matching/account lifecycle simply because tests already exist;</li>
+<li>simulator-specific governance or receipt machinery that duplicates the V8.6 authority path.</li>
+</ul>
+
+<h2>7.4 F1–F8 as migration assets</h2>
+<p>The validity defects discovered in the old engine are not merely reasons to discard code. They become adversarial regression cases for the new path. At minimum, V8.6 must carry targeted tests for: gap-aware trailing behavior, mark-vs-trade liquidation source, funding boundaries, risk admission, leverage/bracket arithmetic, duplicate funding prevention, purge/partition integrity where relevant, and same-bar ambiguity.</p>
+</section>
+
+<section id="semantics">
+<h1>8. Semantic recalibration</h1>
+
+<table>
+<thead><tr><th>Legacy semantic</th><th>V8.6 status</th><th>Interpretation</th></tr></thead>
+<tbody>
+<tr><td>PIT / temporal causality</td><td><strong class="keep">LOCKED</strong></td><td>Research-validity requirement independent of engine.</td></tr>
+<tr><td>Availability ≤ eligibility ≤ decision/execution ordering</td><td><strong class="keep">LOCKED</strong></td><td>Must be explicit in the intent scheduler.</td></tr>
+<tr><td>Candidate ≠ Order ≠ Fill ≠ Position ≠ Outcome</td><td><strong class="keep">LOCKED</strong></td><td>Protects attribution and economic-object identity.</td></tr>
+<tr><td>Portfolio heat / concurrency / exposure conflicts</td><td><strong class="keep">LOCKED</strong></td><td>V8 product/risk policy.</td></tr>
+<tr><td>Global CPython bit parity</td><td><strong class="archive">DEMOTED</strong></td><td>Reference/diagnostic only.</td></tr>
+<tr><td>Frozen Python oracle sovereignty</td><td><strong class="archive">DEMOTED</strong></td><td>Useful witness, not market truth.</td></tr>
+<tr><td>R-space replay as execution ontology</td><td><strong class="archive">DEMOTED</strong></td><td>May survive as a tiny analytical kernel.</td></tr>
+<tr><td>STOP_FIRST as historical path truth</td><td><strong class="reject">REJECTED</strong></td><td>Conservative policy, not observed history.</td></tr>
+<tr><td>Ambiguous stop/target bars</td><td><strong class="keep">EXPLICIT UNKNOWN / SENSITIVITY</strong></td><td>Use higher fidelity data or report bounds.</td></tr>
+<tr><td>Typed canonical identity/provenance</td><td><strong class="keep">KEEP SMALL</strong></td><td>Canonical encoding is V8; digest primitives are delegated.</td></tr>
+<tr><td>Exact same-input replay</td><td><strong class="keep">LOCKED</strong></td><td>Mechanical stability requirement.</td></tr>
+</tbody>
+</table>
+
+<h2>8.1 Ambiguous bars</h2>
+<p>For OHLC bars in which both stop and target could have been reached, the true path is unknown. V8.6 must not label an arbitrary engine path as historical truth. The preferred hierarchy is:</p>
+<ol>
+<li>use higher-fidelity trade/quote data when available;</li>
+<li>otherwise record the event as ambiguous;</li>
+<li>compute sensitivity or a bounded outcome interval where practical;</li>
+<li>block promotion if the economic conclusion depends materially on the unresolved path.</li>
+</ol>
+
+<h2>8.2 Liquidation</h2>
+<p>Liquidation claims require the correct price ontology. If historical mark-price information is absent, the system must emit an explicit status such as <code>NO_LIQUIDATION_AUTHORITY</code>. Trade OHLC must not be silently substituted for mark price to create false precision.</p>
+</section>
+
+<section id="decision-stack">
+<h1>9. One canonical decision universe</h1>
+
+<h2>9.1 S4 is canonical</h2>
+<p><span class="tag">DESIGN_DECISION</span> S4 becomes the only baseline decision path for V8.6. This is not a claim that S4 is economically superior to V83. It is a complexity-control decision: one baseline is required before another decision universe can be tested.</p>
+
+<h2>9.2 V83 / opportunity disposition</h2>
+<p>V83/opportunity is removed from the active default path and archived as an experimental challenger. It may return only through a preregistered comparison in which it must beat S4 on an explicit metric while preserving validity and risk constraints.</p>
+<p>Diagnostic-only surfaces around the V83 stack—write-only funnels, unused harnesses, receipt-only paths with no promotion effect—are removed unless a current consumer is demonstrated.</p>
+
+<h2>9.3 No hidden dual governance</h2>
+<p>No production or research command may select a second decision universe through a hidden configuration flag. A challenger is a separate experiment with an explicit manifest and must never silently share economic authority with the baseline.</p>
+</section>
+
+<section id="kaizen">
+<h1>10. Kaizen recalibration</h1>
+
+<h2>10.1 Governance sediment</h2>
+<p>Static source review reported that the majority of Kaizen code was not called by the active economic path. V8.6 archives controller/verdict/validation/verification/adaptive/diagnosis/hypothesis/challenger/governance layers that exist primarily as a self-contained research bureaucracy.</p>
+
+<h2>10.2 What remains</h2>
+<p>Only functions with a demonstrated role in the current product path or a clearly defined offline research workflow may remain. Economic behavior-mutating overlays are disabled by default during validity restoration because they make attribution harder.</p>
+
+<h2>10.3 Offline iteration, not sovereignty</h2>
+<p>Kaizen may survive as an offline research assistant that proposes or records challenger hypotheses. It does not receive sovereign runtime authority and cannot silently alter a frozen policy or promote a claim.</p>
+</section>
+
+<section id="evaluation">
+<h1>11. Evaluation and research authority</h1>
+
+<h2>11.1 Collapse the evidence empire</h2>
+<p>The previous architecture accumulated multiple evidence, assurance, audit, report, and authority surfaces. V8.6 replaces these with one visible sequence:</p>
+<pre>
+raw run artifacts
+      ↓
+reconciliation
+      ↓
+canonical statistics
+      ↓
+assumption / ambiguity register
+      ↓
+trial + search lineage
+      ↓
+economic receipt
+</pre>
+
+<h2>11.2 Authority rule</h2>
+<p>A module that does not feed a promotion gate or enforce a hard invariant is not “authority-critical” merely because it produces an evidence bundle. Such output may remain diagnostic, but it must be labeled and must not grow into a parallel governance subsystem.</p>
+
+<h2>11.3 Statistical implementation</h2>
+<ul>
+<li>One canonical implementation per statistical primitive.</li>
+<li>Duplicate bootstrap/block-size/CI functions are consolidated.</li>
+<li>Proxy PBO/DSR labels are forbidden.</li>
+<li>If a method is not correctly implemented, the correct result is <code>NOT_COMPUTED</code>, not a surrogate metric with the same name.</li>
+<li>External mature statistical implementations may be used as independent verification when they reduce owned responsibility.</li>
+</ul>
+
+<h2>11.4 Search and OOS lineage</h2>
+<p>Every human or agent trial counts. Opening a holdout consumes information. V8.6 maintains a minimal append-only trial ledger containing policy/config hash, dataset identity, timestamps, trial family, result status, and whether the sample remains genuinely unexposed.</p>
+</section>
+
+<section id="infra">
+<h1>12. Commodity infrastructure program</h1>
+<table>
+<thead><tr><th>Area</th><th>Status</th><th>Implementation doctrine</th></tr></thead>
+<tbody>
+<tr><td>Order/execution/accounting</td><td><strong class="replace">NAUTILUS</strong></td><td>Production substrate; V8 retains thin conformance.</td></tr>
+<tr><td>CLI parsing</td><td><strong class="replace">DELEGATE</strong></td><td><code>clap</code>; V8 keeps command semantics only.</td></tr>
+<tr><td>Thread pool / work scheduling</td><td><strong class="replace">DELEGATE</strong></td><td><code>rayon</code> or standard primitives; deterministic merge stays in V8.</td></tr>
+<tr><td>Production RNG</td><td><strong class="replace">DELEGATE</strong></td><td><code>rand</code> family.</td></tr>
+<tr><td>CPython RNG parity shim</td><td><strong class="archive">FROZEN REFERENCE</strong></td><td>No general production use.</td></tr>
+<tr><td>HTML/reporting</td><td><strong class="replace">ONE TEMPLATE SYSTEM</strong></td><td>Askama/Minijinja or equivalent; remove hand-built duplicate reporters.</td></tr>
+<tr><td>Serialization</td><td><strong class="replace">SERDE/STANDARD FORMATS</strong></td><td>No custom generic serializer project.</td></tr>
+<tr><td>Hashing</td><td><strong class="replace">DELEGATE DIGEST</strong></td><td>V8 retains canonical encoding/identity only.</td></tr>
+<tr><td>Columnar storage</td><td><strong class="archive">DEFER</strong></td><td>JSONL is acceptable for the narrow trial; Arrow/Parquet only when scale demands it.</td></tr>
+<tr><td>Property/fuzz testing</td><td><strong class="replace">MATURE TOOLING</strong></td><td>proptest/cargo-fuzz/bolero as appropriate.</td></tr>
+<tr><td>GPU backend</td><td><strong class="archive">FREEZE</strong></td><td>No work without a measured workload and speedup requirement.</td></tr>
+<tr><td>Distributed runtime / DB platform / cache service / dashboards</td><td><strong class="reject">DO NOT BUILD</strong></td><td>Introduce only after a concrete product bottleneck appears.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="data">
+<h1>13. Data contract and point-in-time causality</h1>
+
+<h2>13.1 Causal record</h2>
+<p>Every market observation capable of affecting a decision should expose, where applicable:</p>
+<pre>
+event_time
+effective_time
+publication_time
+ingest_time
+availability_time
+eligibility_time
+source_id / source_hash
+venue_sequence or equivalent ordering evidence
+</pre>
+<p>Not every source will have every timestamp. Missing semantics must be explicit.</p>
+
+<h2>13.2 Prefix invariance</h2>
+<p><span class="tag">LOCKED_INVARIANT</span> Future data may not alter past decisions. If two tapes share an identical causally available prefix, all V8 decisions over that prefix must remain identical.</p>
+<div class="eq">X≤t = X′≤t ⇒ Decision≤t(X) = Decision≤t(X′)</div>
+
+<h2>13.3 Execution eligibility</h2>
+<p>The fact that a bar is stamped at time <em>t</em> does not imply that a signal computed from that bar was executable at the same stamped price. V8.6 separates observation availability from execution eligibility and schedules intents accordingly.</p>
+</section>
+
+<section id="venue">
+<h1>14. Venue conformance layer</h1>
+
+<h2>14.1 Scope</h2>
+<p>The venue layer is not a second simulator. It is a small set of time-versioned facts and validators required to decide whether the execution substrate is being used consistently with the intended historical venue regime.</p>
+
+<h2>14.2 Required historical facts</h2>
+<ul>
+<li>instrument/tick/lot/min-notional rules;</li>
+<li>fee schedule and assumed account tier;</li>
+<li>funding event schedule and rate source;</li>
+<li>leverage brackets and cumulative offsets when margin claims depend on them;</li>
+<li>account mode (isolated/cross) and position mode where material;</li>
+<li>mark/index channels when liquidation or margin calculations require them.</li>
+</ul>
+
+<h2>14.3 Fail-closed policy</h2>
+<p>If a venue fact is unavailable and the result materially depends on it, the affected claim is disabled. V8.6 does not fill missing venue history with current exchange settings without an explicit assumption label.</p>
+</section>
+
+<section id="risk">
+<h1>15. Portfolio and risk authority</h1>
+
+<h2>15.1 V8-owned risk</h2>
+<p>The following are product-level policy and therefore remain in V8:</p>
+<ul>
+<li>finite-capital admission;</li>
+<li>portfolio heat;</li>
+<li>concurrency limits;</li>
+<li>exposure conflict handling;</li>
+<li>symbol/instrument/exposure identity mapping;</li>
+<li>candidate sizing intent before venue quantization.</li>
+</ul>
+
+<h2>15.2 Engine-owned risk primitives</h2>
+<p>Nautilus may enforce generic instrument/account constraints. V8 does not duplicate them merely for symmetry. Where V8 policy is stricter than the engine, V8 rejects before producing an executable intent.</p>
+
+<h2>15.3 Admission token</h2>
+<p>A useful implementation pattern is to produce a small immutable admission record:</p>
+<pre>
+AdmissionDecision {
+    candidate_id,
+    decision_time,
+    eligibility_time,
+    quantity_intent,
+    exposure_id,
+    risk_budget,
+    policy_version,
+    accepted | rejected(reason)
+}
+</pre>
+<p>The token is not a second order model. It records why V8 authorized an intent before the execution substrate takes over.</p>
+</section>
+
+<section id="stability">
+<h1>16. Stability definition</h1>
+
+<h2>16.1 Mechanical stability</h2>
+<p>“Stable” in V8.6 means:</p>
+<ul>
+<li>same frozen input + same code/config + same pinned dependency versions → same candidates;</li>
+<li>same intents → same execution/cashflow ledger under deterministic backtest conditions;</li>
+<li>all state transitions are reproducible and attributable;</li>
+<li>no hidden state leaks across runs;</li>
+<li>agent memory cannot alter economic behavior.</li>
+</ul>
+
+<h2>16.2 Economic stability</h2>
+<p>Mechanical determinism is necessary but insufficient. Economic robustness requires sensitivity analysis across plausible costs, execution uncertainty, market regimes, and genuinely out-of-sample periods. A strategy that is deterministic but collapses under small realistic perturbations is not economically stable.</p>
+</section>
+
+<section id="agent">
+<h1>17. Agent and development workflow</h1>
+
+<h2>17.1 PI is the default harness</h2>
+<p><span class="tag">DESIGN_DECISION</span> V8.6 closes the agent-platform problem. PI is the default coding harness because the current objective values a simple, transparent implementation loop more than memory-heavy orchestration.</p>
+
+<h2>17.2 Repository truth over persistent memory</h2>
+<ul>
+<li>Current code, tests, manifests, and versioned specifications are authoritative.</li>
+<li>Persistent memory is minimized; stale architecture decisions must not silently bias new work.</li>
+<li>Stable rules live in a short repository instruction file.</li>
+<li>Architecture decisions live in versioned ADRs/monographs.</li>
+<li>Every task begins from current repository state and explicitly named evidence.</li>
+</ul>
+
+<h2>17.3 Explicitly rejected agent work</h2>
+<p>No new agent memory graph, autonomous long-term learning layer, beads-like epistemic memory system, multi-agent governance platform, or agent benchmark infrastructure is permitted in V8.6 unless a measured development bottleneck first demonstrates need.</p>
+</section>
+
+<section id="migration">
+<h1>18. Migration program</h1>
+
+<h2>18.1 Migration principle</h2>
+<p>The migration is not a clean-room V9 rewrite. It is a controlled recalibration of the active path. Proven product semantics are retained; legacy infrastructure authority is retired; dead semantics are archived.</p>
+
+<h2>18.2 Stage A — Freeze and inventory</h2>
+<ul>
+<li>pin revision, dependency versions, one reference tape, one Expert family, and current candidate schema;</li>
+<li>record current output artifacts for debugging only;</li>
+<li>disable feature additions.</li>
+</ul>
+
+<h2>18.3 Stage B — Semantic austerity</h2>
+<ul>
+<li>archive dead Kaizen governance;</li>
+<li>archive dead evaluation surfaces and unused harnesses;</li>
+<li>consolidate duplicate statistics;</li>
+<li>collapse reporters into one template path;</li>
+<li>mark V83/opportunity non-canonical.</li>
+</ul>
+
+<h2>18.4 Stage C — New execution boundary</h2>
+<p>Create the minimum substrate-independent contracts:</p>
+<pre>
+OrderIntent
+ExecutionEvent
+CashflowEvent
+AccountSnapshot
+</pre>
+<p>No compatibility wrapper should preserve obsolete <code>usdm_sim</code> API shape unless the new path genuinely needs that shape.</p>
+
+<h2>18.5 Stage D — Nautilus integration</h2>
+<ul>
+<li>translate admitted V8 intents into Nautilus orders;</li>
+<li>receive fills, position transitions, fee/funding events, and account snapshots;</li>
+<li>reconcile all cash movements;</li>
+<li>pin versions and runtime configuration.</li>
+</ul>
+
+<h2>18.6 Stage E — Venue truth</h2>
+<ul>
+<li>add historical conformance inputs;</li>
+<li>enforce mark-data gate;</li>
+<li>verify funding boundaries and deduplication;</li>
+<li>verify minimum/lot/tick constraints and account mode assumptions.</li>
+</ul>
+
+<h2>18.7 Stage F — Authority path</h2>
+<ul>
+<li>one canonical statistical implementation;</li>
+<li>one assumption/ambiguity register;</li>
+<li>one trial ledger;</li>
+<li>one economic receipt.</li>
+</ul>
+
+<h2>18.8 Stage G — Frozen validation run</h2>
+<p>Run the same frozen policy at least twice. Compare candidate stream, admissions, intents, fills, fees, funding, cashflow ledger, position state, and final equity. Any unexplained divergence blocks promotion.</p>
+</section>
+
+<section id="gates">
+<h1>19. V8.6 validity and release gates</h1>
+<table>
+<thead><tr><th>Gate</th><th>Requirement</th><th>Failure status</th></tr></thead>
+<tbody>
+<tr><td>G0 — Single path</td><td>One canonical S4 decision universe.</td><td>BLOCK</td></tr>
+<tr><td>G1 — Causal input</td><td>No decision consumes future/unavailable information.</td><td>NO_ECONOMIC_CLAIM</td></tr>
+<tr><td>G2 — Thin execution adapter</td><td>No recreated matching/account engine.</td><td>ARCHITECTURE FAIL</td></tr>
+<tr><td>G3 — Exactly-once economics</td><td>Fee, funding, realized PnL and account mutations reconcile exactly once.</td><td>NO_ECONOMIC_CLAIM</td></tr>
+<tr><td>G4 — Venue honesty</td><td>Required historical facts are present or explicitly unknown.</td><td>AFFECTED CLAIM DISABLED</td></tr>
+<tr><td>G5 — Determinism</td><td>Repeated frozen runs yield identical ledgers.</td><td>BLOCK</td></tr>
+<tr><td>G6 — Ambiguity discipline</td><td>Unobserved intrabar path cannot silently decide promoted economics.</td><td>NO_ECONOMIC_CLAIM</td></tr>
+<tr><td>G7 — Risk admission</td><td>Heat/concurrency/exposure policy is enforced before execution.</td><td>BLOCK</td></tr>
+<tr><td>G8 — Statistical honesty</td><td>No proxy method is presented under a standard statistical name.</td><td>BLOCK PROMOTION</td></tr>
+<tr><td>G9 — Search/OOS lineage</td><td>Trial family and sample exposure are recorded.</td><td>OOS CLAIM INVALID</td></tr>
+<tr><td>G10 — Product relevance</td><td>New subsystem materially shortens time to a trustworthy result.</td><td>SCOPE REJECTED</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="tests">
+<h1>20. Required falsification tests</h1>
+
+<h2>20.1 Temporal tests</h2>
+<ul>
+<li>prefix invariance under appended future data;</li>
+<li>availability/eligibility delay tests;</li>
+<li>signal on bar <em>N</em> cannot receive impossible price from bar <em>N</em> when policy requires later eligibility.</li>
+</ul>
+
+<h2>20.2 Funding tests</h2>
+<ul>
+<li>entry immediately before funding;</li>
+<li>entry exactly at funding boundary;</li>
+<li>exit immediately before/at/after boundary;</li>
+<li>terminal funding event;</li>
+<li>replay window equivalence;</li>
+<li>exactly-once settlement identity.</li>
+</ul>
+
+<h2>20.3 Execution ambiguity tests</h2>
+<ul>
+<li>gap through stop;</li>
+<li>bar touches stop and target;</li>
+<li>order submitted after observation cannot retroactively fill at unavailable price;</li>
+<li>rejected or modified stop transition behavior.</li>
+</ul>
+
+<h2>20.4 Risk tests</h2>
+<ul>
+<li>heat=0 rejects all new admissions;</li>
+<li>concurrency cap is non-bypassable;</li>
+<li>exposure conflict is invariant to Expert duplication;</li>
+<li>lot/min-notional boundary conditions;</li>
+<li>finite capital cannot be exceeded by same-bar multiple admissions.</li>
+</ul>
+
+<h2>20.5 Accounting tests</h2>
+<ul>
+<li>cash conservation;</li>
+<li>fee accounting;</li>
+<li>funding accounting;</li>
+<li>realized/unrealized transition consistency;</li>
+<li>position close returns account to expected state.</li>
+</ul>
+</section>
+
+<section id="metrics">
+<h1>21. Measurement plan</h1>
+
+<h2>21.1 Engineering metrics</h2>
+<table>
+<thead><tr><th>Metric</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>Owned commodity LOC</td><td>Track responsibility reduction, not code golf.</td></tr>
+<tr><td>Active semantic LOC</td><td>Track product-path complexity.</td></tr>
+<tr><td>Number of canonical economic paths</td><td>Must equal 1.</td></tr>
+<tr><td>Warm edit-to-test time</td><td>Actual iteration cost.</td></tr>
+<tr><td>Replay time</td><td>Research throughput.</td></tr>
+<tr><td>Peak memory</td><td>Hardware feasibility.</td></tr>
+<tr><td>Adapter LOC</td><td>Guard against dependency reimplementation.</td></tr>
+<tr><td>Unexplained reconciliation differences</td><td>Must trend to zero before economic promotion.</td></tr>
+</tbody>
+</table>
+
+<h2>21.2 Economic metrics</h2>
+<p>Economic metrics are computed only after mechanical/causal gates pass. At minimum:</p>
+<ul>
+<li>after-cost return / expectancy;</li>
+<li>profit factor and drawdown with uncertainty;</li>
+<li>trade count and exposure;</li>
+<li>funding/fees/slippage attribution;</li>
+<li>regime sensitivity;</li>
+<li>ambiguous-execution sensitivity;</li>
+<li>OOS / development separation;</li>
+<li>baseline/challenger comparison.</li>
+</ul>
+</section>
+
+<section id="decision-register">
+<h1>22. Decision register</h1>
+<table>
+<thead><tr><th>ID</th><th>Decision</th><th>Status</th><th>Reversal condition</th></tr></thead>
+<tbody>
+<tr><td>D86-001</td><td>Production &gt; Infrastructure becomes the primary engineering objective.</td><td>RATIFY</td><td>Only if infrastructure ownership is itself shown to create product edge or materially lower verification cost.</td></tr>
+<tr><td>D86-002</td><td>Rust remains the V8 implementation language.</td><td>RATIFY</td><td>Measured language/tooling bottleneck dominates iteration after simplification.</td></tr>
+<tr><td>D86-003</td><td>NautilusTrader becomes the execution/accounting substrate.</td><td>PROVISIONAL RATIFY</td><td>Adapter must recreate equivalent engine, licensing blocks deployment, or conformance failures are irreducible.</td></tr>
+<tr><td>D86-004</td><td><code>usdm_sim</code> loses sovereign authority.</td><td>RATIFY</td><td>No planned reversal; may remain reference-only.</td></tr>
+<tr><td>D86-005</td><td>S4 is the only canonical baseline decision stack.</td><td>RATIFY</td><td>V83 wins a preregistered challenger test.</td></tr>
+<tr><td>D86-006</td><td>V83/opportunity leaves active default path.</td><td>RATIFY</td><td>Same as D86-005.</td></tr>
+<tr><td>D86-007</td><td>Dead Kaizen governance is archived.</td><td>RATIFY</td><td>A removed component is shown to enforce a unique current hard invariant.</td></tr>
+<tr><td>D86-008</td><td>Evaluation collapses to one authority path.</td><td>RATIFY</td><td>Additional layer proves distinct decision-changing value.</td></tr>
+<tr><td>D86-009</td><td>Global CPython bit parity is demoted from constitutional requirement.</td><td>RATIFY</td><td>A specific product semantic cannot otherwise be reproduced.</td></tr>
+<tr><td>D86-010</td><td>STOP_FIRST is not historical truth.</td><td>RATIFY</td><td>Never; it may remain a conservative sensitivity scenario.</td></tr>
+<tr><td>D86-011</td><td>PI is the default coding harness; persistent memory is minimized.</td><td>RATIFY</td><td>Measured task failures demonstrate a stable missing capability.</td></tr>
+<tr><td>D86-012</td><td>No V9 rewrite during recalibration.</td><td>RATIFY</td><td>Only a fundamental product thesis change justifies V9.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="implementation">
+<h1>23. Proposed implementation layout</h1>
+<pre>
+v8-core/
+  src/
+    data/
+      mod.rs
+      pit.rs
+      tape.rs
+
+    state/
+      mod.rs
+      features.rs
+      identity.rs
+
+    experts/
+      ...
+
+    candidate/
+      mod.rs
+      lifecycle.rs
+      admission.rs
+
+    portfolio/
+      exposure.rs
+      heat.rs
+      sizing.rs
+
+    execution/
+      intent.rs
+      events.rs
+      nautilus_adapter.rs
+      reconciliation.rs
+      conformance.rs
+
+    statistics/
+      mod.rs
+      canonical.rs
+
+    research/
+      trial_ledger.rs
+      receipt.rs
+      assumptions.rs
+
+    bin/
+      v8.rs
+
+legacy/
+  usdm_sim/
+  python_oracle/
+  archived_kaizen/
+  archived_v83/
+  archived_evaluation/
+
+docs/
+  V8_6_PRODUCTION_RECALIBRATION.html
+  decisions/
+  contracts/
+</pre>
+<p>This layout is illustrative, not an instruction to create directory taxonomy for its own sake. The implementation should prefer fewer modules when responsibilities remain understandable.</p>
+</section>
+
+<section id="antigoals">
+<h1>24. Explicit anti-goals</h1>
+<ul>
+<li>No V9 architecture redesign.</li>
+<li>No new Expert families during validity restoration.</li>
+<li>No learned router, learned scorer, learned execution, or MoE controller.</li>
+<li>No new campaign ontology.</li>
+<li>No Benchmark Fabric expansion.</li>
+<li>No GPU/SIMD platform work.</li>
+<li>No distributed scheduler.</li>
+<li>No custom database/catalog platform.</li>
+<li>No live multi-venue expansion before the historical path is trustworthy.</li>
+<li>No agent-memory platform.</li>
+<li>No dashboard/certificate empire.</li>
+<li>No “research paper” ceremony that is not backed by executable requirements.</li>
+</ul>
+</section>
+
+<section id="threats">
+<h1>25. Threats to validity</h1>
+
+<h2>25.1 Production-grade does not imply correct-for-V8</h2>
+<p>Nautilus maturity cannot substitute for explicit conformance. It may contain assumptions unsuitable for the exact historical experiment, and integration can introduce new errors.</p>
+
+<h2>25.2 Static audit bias</h2>
+<p>Several simplification judgments originate from static call-graph/source inspection. Public APIs or unusual tooling could theoretically invoke apparently dead code. Archive-before-delete is therefore preferred for the first migration.</p>
+
+<h2>25.3 Semantic loss during simplification</h2>
+<p>Removing governance layers may accidentally remove a unique invariant that was poorly wired rather than truly unnecessary. Every removed subsystem should be mapped to the invariant it formerly claimed to enforce.</p>
+
+<h2>25.4 Data insufficiency</h2>
+<p>The current tape may be insufficient for authoritative liquidation or intrabar-path claims. Architecture cannot repair absent historical evidence.</p>
+
+<h2>25.5 Historical-result anchoring</h2>
+<p>Old positive backtests can psychologically anchor decisions even after simulator validity is questioned. V8.6 treats them as burned diagnostics unless re-established under the new authority path.</p>
+
+<h2>25.6 Rewrite temptation</h2>
+<p>Once architecture is being simplified, agents may propose adjacent redesigns. V8.6 forbids expansion during recalibration to avoid recreating the same complexity under cleaner names.</p>
+</section>
+
+<section id="reversal">
+<h1>26. Reversal and rollback doctrine</h1>
+<p>A production-first decision must remain falsifiable. The system should reverse a V8.6 choice when measured evidence shows that the choice increases total verification/maintenance burden or changes the research question in an unacceptable way.</p>
+
+<h2>26.1 Nautilus reversal</h2>
+<p>Reconsider Nautilus if:</p>
+<ul>
+<li>the adapter approaches the complexity of the retired engine;</li>
+<li>necessary historical Binance semantics cannot be expressed without a substantial custom engine;</li>
+<li>deterministic repeated runs cannot be obtained;</li>
+<li>licensing constraints are incompatible with intended distribution/deployment;</li>
+<li>another mature substrate demonstrably satisfies the written slice with lower total integration cost.</li>
+</ul>
+
+<h2>26.2 Semantic austerity reversal</h2>
+<p>Restore archived code only if a concrete current consumer and a unique validity/product function are demonstrated. Git history is the archive; speculative future use is not sufficient.</p>
+</section>
+
+<section id="open">
+<h1>27. Open questions</h1>
+<ol>
+<li>What exact historical Binance USDⓈ-M mark-price dataset can be sourced for the evaluation period?</li>
+<li>Which Nautilus account/margin model most closely matches the targeted historical account mode?</li>
+<li>What is the minimum process-boundary schema that avoids duplicating order semantics?</li>
+<li>Which V8 Experts are sufficiently stable to serve as the first frozen policy slice?</li>
+<li>What statistical kernel is necessary for the first economic verdict, and which advanced methods can be deferred?</li>
+<li>How much of the existing state/feature bit-parity machinery remains necessary once global Python-oracle sovereignty is removed?</li>
+<li>What old reports, gates, or CI workflows become stale immediately after the V8.6 authority change?</li>
+</ol>
+</section>
+
+<section id="roadmap">
+<h1>28. 24-hour implementation sequence</h1>
+<table>
+<thead><tr><th>Window</th><th>Objective</th><th>Deliverable</th></tr></thead>
+<tbody>
+<tr><td>0–2h</td><td>Freeze revision/policy/tape; create migration branch; forbid feature work.</td><td>Frozen manifest.</td></tr>
+<tr><td>2–5h</td><td>Archive obvious semantic sediment and redundant reporters/statistics.</td><td>Smaller active call graph.</td></tr>
+<tr><td>5–8h</td><td>Define <code>OrderIntent</code>, <code>ExecutionEvent</code>, <code>CashflowEvent</code>, <code>AccountSnapshot</code>.</td><td>Stable execution boundary.</td></tr>
+<tr><td>8–14h</td><td>Integrate pinned Nautilus path for one frozen policy/tape.</td><td>End-to-end fills/account ledger.</td></tr>
+<tr><td>14–17h</td><td>Add venue conformance and missing-data gates.</td><td>Explicit assumptions + fail-closed cases.</td></tr>
+<tr><td>17–20h</td><td>Collapse statistics/research receipt path.</td><td>One authority path.</td></tr>
+<tr><td>20–24h</td><td>Repeated frozen run + reconciliation + defect repair.</td><td>V8.6 diagnostic receipt.</td></tr>
+</tbody>
+</table>
+<p>The sequence is intentionally aggressive because implementation is AI-assisted. The constraint is not code-generation speed; it is semantic review. Parallel workers should operate only on independent tasks that converge on the same frozen architecture.</p>
+</section>
+
+<section id="constitution">
+<h1>29. V8.6 Constitution</h1>
+<ol>
+<li><strong>V8 is a trading research product, not an infrastructure company.</strong></li>
+<li><strong>Production &gt; Infrastructure.</strong></li>
+<li><strong>One decision universe, one execution boundary, one ledger, one authority path.</strong></li>
+<li><strong>Experts and causal research semantics are the core product; generic execution/accounting are dependencies.</strong></li>
+<li><strong>Legacy implementation parity is subordinate to market-valid semantics.</strong></li>
+<li><strong>No future data may alter a past decision.</strong></li>
+<li><strong>Candidate, order, fill, position, and outcome are distinct economic objects.</strong></li>
+<li><strong>Unknown market state is preferable to fabricated precision.</strong></li>
+<li><strong>No economic claim without exactly-once cashflow reconciliation.</strong></li>
+<li><strong>No promoted liquidation claim without the required price ontology.</strong></li>
+<li><strong>No adapter may recreate the dependency it claims to adopt.</strong></li>
+<li><strong>V8-specific code must justify itself; “custom” is not an exemption from austerity.</strong></li>
+<li><strong>Every added component must beat its simpler baseline or enforce a unique hard invariant.</strong></li>
+<li><strong>Every trial counts; OOS exposure burns information.</strong></li>
+<li><strong>Repository truth outranks agent memory.</strong></li>
+<li><strong>AI can implement a subsystem; that does not mean V8 should own it.</strong></li>
+<li><strong>The final architecture should look boring.</strong></li>
+</ol>
+</section>
+
+<section id="references">
+<h1>30. Project references and evidence lineage</h1>
+<p>This monograph is grounded primarily in the project's own repository audits and architecture reviews. They should be retained beside this document so that policy decisions can be traced back to the evidence that motivated them.</p>
+<ol>
+<li><em>V8 Altyapı Sahipliği Denetimi — Ana Rapor.</em> Static repository ownership audit, revision <code>c2539cd8ac906132f3d665174c22252183f421db</code>.</li>
+<li><em>II. Operasyon: Ürün-Semantik Mahkemesi.</em> Static consumer-chain audit covering S4/V83, Kaizen, analysis, evaluation, and opportunity semantics.</li>
+<li><em>V8 Research Validity Investigation — 2026-09-06.</em> Project validity review identifying execution/accounting and evaluation defects.</li>
+<li><em>V8 Product-First Substrate Plan.</em> Ownership-boundary and Nautilus feasibility review.</li>
+<li><em>Nautilus architecture objection / recalibration review.</em> Project note covering ontology, parity, licensing, and process-boundary trade-offs.</li>
+<li><em>V8 Final Research Monograph.</em> Prior comprehensive research/architecture corpus; retained as historical specification and evidence source, not as automatically binding V8.6 authority.</li>
+</ol>
+</section>
+
+<section id="appendix-a">
+<h1>Appendix A — Migration disposition matrix</h1>
+<table>
+<thead><tr><th>Subsystem</th><th>V8.6 disposition</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td>Experts</td><td>KEEP</td><td>Core thesis.</td></tr>
+<tr><td>State/features</td><td>KEEP, REVIEW PARITY BURDEN</td><td>Causal semantics core; some legacy parity may be removable.</td></tr>
+<tr><td>Candidate lifecycle</td><td>KEEP</td><td>Attribution core.</td></tr>
+<tr><td>S4 runloop</td><td>KEEP / SIMPLIFY</td><td>Canonical baseline.</td></tr>
+<tr><td>V83/opportunity runloop</td><td>ARCHIVE</td><td>Parallel decision universe.</td></tr>
+<tr><td>Kaizen runtime overlays</td><td>DISABLE</td><td>Confound validity attribution.</td></tr>
+<tr><td>Kaizen governance universe</td><td>ARCHIVE</td><td>Mostly outside active economic path.</td></tr>
+<tr><td>Analysis core</td><td>KEEP</td><td>Live consumer path.</td></tr>
+<tr><td>Duplicate analysis/statistical helpers</td><td>CONSOLIDATE</td><td>One implementation per primitive.</td></tr>
+<tr><td>Evaluation evidence bundles</td><td>SHRINK</td><td>Diagnostics only unless tied to a gate.</td></tr>
+<tr><td>Dead evaluation modules</td><td>ARCHIVE</td><td>No production consumer.</td></tr>
+<tr><td>Qualification mega-surface</td><td>REVIEW/SHRINK</td><td>Keep only semantics tied to current experiment.</td></tr>
+<tr><td>EEO/judiciary/assurance</td><td>REVIEW/SHRINK</td><td>Retain unique hard invariants only.</td></tr>
+<tr><td>TEVV agent audit</td><td>ARCHIVE UNLESS CURRENT NEED</td><td>Agent platform problem is closed; PI is baseline.</td></tr>
+<tr><td>usdm_sim</td><td>LEGACY REFERENCE</td><td>No longer sovereign.</td></tr>
+<tr><td>Nautilus adapter</td><td>NEW, THIN</td><td>Execution/accounting transfer.</td></tr>
+<tr><td>Venue conformance</td><td>KEEP SMALL</td><td>Historical facts and fail-closed checks.</td></tr>
+<tr><td>Custom scheduler</td><td>WRAP/REPLACE</td><td>Commodity pool delegated.</td></tr>
+<tr><td>GPU</td><td>FREEZE</td><td>No measured need.</td></tr>
+<tr><td>Custom HTML reporters</td><td>REPLACE</td><td>Commodity presentation layer.</td></tr>
+<tr><td>Canonical identity encoding</td><td>KEEP SMALL</td><td>Stable cross-cutting semantics.</td></tr>
+<tr><td>Digest algorithm implementations</td><td>DELEGATE</td><td>Commodity cryptographic primitive.</td></tr>
+<tr><td>CPython MT19937 shim</td><td>FROZEN REFERENCE</td><td>Only where historical parity still has diagnostic value.</td></tr>
+<tr><td>Production RNG</td><td>DELEGATE</td><td>Mature standard implementation.</td></tr>
+<tr><td>Benchmark Fabric expansion</td><td>FREEZE</td><td>Not needed for first trustworthy experiment.</td></tr>
+<tr><td>World Foundry expansion</td><td>FREEZE</td><td>Useful later; not on current critical path.</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="appendix-b">
+<h1>Appendix B — Definition of done</h1>
+<p class="status green"><strong>V8.6 is done when the architecture becomes boring enough that the research question is visible again.</strong></p>
+<p>A frozen Expert policy must pass through a single causal decision path, produce intents, execute on a pinned production-grade substrate, emit an exactly reconciled economic ledger, and produce an assumption-aware statistical receipt. The result must be reproducible without relying on hidden agent memory, a second simulator, parallel product semantics, or decorative governance layers. Only after that point may V8 resume serious alpha iteration.</p>
+</section>
+
+<section id="appendix-c">
+<h1>Appendix C — One-to-One Component Mapping</h1>
+<p>Each row below binds one audited component (file + owned LOC, denominator 81,324) to its exact disposition and, where external, to a pinned crate version, license, and primary source. Subsystem rationale lives in Appendix A; this appendix is the executable edge list. Status: binding for W-phase execution; version pins change only by recorded decision.</p>
+<table>
+<thead>
+<tr><th>Component (file, LOC)</th><th>Disposition</th><th>Exact counterpart (version + license + source)</th><th>Anchor</th></tr>
+</thead>
+<tbody>
+<tr><td><code>v8-core/src/scheduler.rs</code> (476)</td><td>WRAP</td><td><code>rayon</code> <strong>1.12.0</strong>, MIT OR Apache-2.0 — <code>crates.io/api/v1/crates/rayon/1.12.0</code> (V8 keeps deterministic merge adapter)</td><td>§12 · ANA-A1</td></tr>
+<tr><td><code>backend/cpu.rs</code> (116) + <code>backend/simd.rs</code> (448) + <code>simd.rs</code> (595)</td><td>WRAP</td><td><code>rayon</code> 1.12.0 + <code>wide</code> <strong>1.7.0</strong>, Zlib OR Apache-2.0 OR MIT — bit-equality re-proof required (D-088)</td><td>§12 · ANA-A2</td></tr>
+<tr><td><code>report.rs</code> (1,292) + <code>audit/html_report.rs</code> (575) + <code>evaluation/html_report.rs</code> (335)</td><td>REPLACE</td><td><code>askama</code> <strong>0.16.1</strong>, MIT OR Apache-2.0 (fallback: <code>minijinja</code> <strong>2.24.0</strong>, Apache-2.0; 3.0.0-alpha must not be pinned)</td><td>§12 · ANA-A4</td></tr>
+<tr><td><code>v8-core/src/mt19937.rs</code> (333)</td><td>SHRINK + WRAP</td><td><code>rand</code> <strong>0.10.2</strong> + <code>rand_distr</code> <strong>0.6.0</strong>, MIT OR Apache-2.0 (file frozen as CPython-parity shim only)</td><td>§12 · ANA-A5</td></tr>
+<tr><td><code>main.rs</code> parse share (~500 est.)</td><td>WRAP</td><td><code>clap</code> <strong>4.6.6</strong>, MIT OR Apache-2.0 (command semantics stay in V8)</td><td>§12 · ANA-A7</td></tr>
+<tr><td>Digest call sites (<code>hash.rs</code> encoding stays)</td><td>WRAP (as-is)</td><td><code>sha2</code> 0.11.0 / <code>blake3</code> 1.8.7 (already delegated)</td><td>§12 · ANA-A9</td></tr>
+<tr><td><code>checkpoint.rs</code> (77)</td><td>DELETE</td><td>— (subject to reachability-check receipt)</td><td>ANA-A10</td></tr>
+<tr><td><code>world/learned.rs</code> (11)</td><td>DELETE</td><td>— (resurrectable from history)</td><td>ANA-A11</td></tr>
+<tr><td>Dead evaluation modules, 7 files (1,330)</td><td>ARCHIVE</td><td>Partial check only: <code>statrs</code> <strong>0.19.1</strong>, MIT — covers classical tests, NOT White Reality Check / block bootstrap (module list verified)</td><td>§11 · ANA-A12</td></tr>
+<tr><td>Duplicated estimators (~700 est.)</td><td>CONSOLIDATE</td><td>Target: in-tree <code>statistics/*</code> (no external candidate; bit-equality diff gate)</td><td>§11.3 · ANA-B5/B6</td></tr>
+<tr><td>World generic processes (~400 est.)</td><td>REPLACE</td><td><code>statrs</code> 0.19.1 + <code>rand_distr</code> 0.6.0 (surgery/stress/passport excluded)</td><td>ANA-B9</td></tr>
+<tr><td><code>usdm_sim</code> + venue/capital (~9k)</td><td>TRANSFER</td><td>NautilusTrader <strong>v1.231.0</strong>, <strong>LGPL-3.0</strong> — separate-process topology, file boundary, no Rust static link (<code>github.com/nautechsystems/nautilus_trader</code>, branch <code>develop</code>)</td><td>§6 · ANA-B1/B16</td></tr>
+<tr><td><code>backend/gpu.rs</code> (856)</td><td>FREEZE</td><td>No action until measured workload (<code>cubecl</code> excluded: pre-release)</td><td>§12 · ANA-A3</td></tr>
+<tr><td>Columnar carrier (future)</td><td>DEFER</td><td><code>parquet</code> + <code>arrow</code> <strong>59.3.0</strong>, Apache-2.0 — JSONL until scale demands (full parity re-proof required)</td><td>§12 · ANA-A6</td></tr>
+</tbody>
+</table>
+<p>Coverage: this appendix plus Appendix A accounts for all 233 files (81,324 LOC). Rows without an external counterpart are V8-owned by verdict (KEEP / ARCHIVE / CONSOLIDATE) with anchors to the ANA-LİSTE master table.</p>
+</section>
+
+</body>
+</html>
