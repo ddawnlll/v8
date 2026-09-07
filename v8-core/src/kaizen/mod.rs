@@ -2,6 +2,7 @@ pub mod adaptive;
 pub mod campaign;
 pub mod challenger;
 pub mod chop_suppression;
+pub mod controller;
 pub mod diagnosis;
 pub mod exit_trailing;
 pub mod hypothesis;
@@ -10,6 +11,7 @@ pub mod quantization;
 pub mod research_debt;
 pub mod robustness;
 pub mod validation;
+pub mod verdict;
 
 
 pub use adaptive::{
@@ -18,6 +20,7 @@ pub use adaptive::{
 pub use campaign::{CampaignCluster, CampaignDirection, MechanismFamily, PersistentCampaignRegistry, SensorVote};
 pub use challenger::{ChallengerFamilySpec, ChallengerVariant, DiscreteParameterRange};
 pub use chop_suppression::{ChopGateContext, ChopSuppressionArm, ChopVerdict, CostAwareNoTradeGate};
+pub use controller::{KaizenController, KaizenControllerConfig};
 pub use diagnosis::{
     EvidenceRequirement, EvidenceValidity, ExpertForensics, ExpertId, FailureTag,
     ForensicAssessment, ForensicsError, RegimeForensics, ReplicationStatus, VariantId,
@@ -42,3 +45,4 @@ pub use validation::{
     HoldoutState, PurgedWfaEngine, TimeRange, WfaCampaignReceipt, WfaCampaignSpec,
     WfaCampaignVerdict, WfaFoldReceipt, WfaFoldSpec,
 };
+pub use verdict::{KaizenVerdict, KaizenVerdictEngine};
