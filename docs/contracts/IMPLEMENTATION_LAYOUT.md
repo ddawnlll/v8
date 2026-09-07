@@ -392,8 +392,6 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `v8-core/src/evaluation/{friction,production_growth,scope}.rs`, `v8-core/src/system_proving/mod.rs` | Quarantined test-only surfaces: sole live consumer is the matching integration test; growth into production gates requires authority (`needs:authority`). | Header marker comments | D-160 §§2, 7; Issues #345, #347 |
 | `docs/contracts/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md` | Full-text specification of the V8.6 Phase-1 execution-lane charter (attic dispositions, W1 amendment, W4 verdicts, D-153 immutability, dirty-911 disposition, migration authority) | Full unabridged contract | V8 Constitution Rule 44; D-149, D-160 |
 
-
-
 ## 3. Layering rules
 
 - Import direction is acyclic and one-way:
