@@ -3,6 +3,7 @@
 //! Generates resampled market worlds with geometrically distributed random block lengths.
 //! Preserves weak stationary dependency and autocorrelation without fixed block boundary artifacts.
 
+use rayon::prelude::*;
 use crate::world::spec::{WorldBar, WorldReceipt, WorldSpec};
 
 pub struct StationaryBootstrapGenerator;
@@ -66,5 +67,18 @@ impl StationaryBootstrapGenerator {
         }
 
         WorldReceipt::new(spec.clone(), bars)
+    }
+
+    /// Parallel multi-world generation over slice of seeds or scenario specs.
+    pub fn generate_batch(
+        source_bars: &[WorldBar],
+        mean_block_length: usize,
+        seeds: &[u64],
+        spec: &WorldSpec,
+    ) -> Vec<WorldReceipt> {
+        seeds
+            .par_iter()
+            .map(|&seed| Self::generate(source_bars, mean_block_length, seed, spec))
+            .collect()
     }
 }

@@ -6,6 +6,7 @@
 //! Emits concrete, structured MinimalDefeater vulnerability receipts for Kaizen evolution.
 
 use serde::{Deserialize, Serialize};
+use rayon::prelude::*;
 use crate::world::spec::{WorldFamily, WorldReceipt, WorldSpec};
 use crate::world::structural::StructuralWorldGenerator;
 
@@ -55,11 +56,8 @@ impl ReverseStressSearchEngine {
         base_spec: &WorldSpec,
         max_drawdown_threshold_pct: f64,
     ) -> Option<MinimalDefeaterReceipt> {
-        let mut best_defeater: Option<MinimalDefeaterReceipt> = None;
-        let mut min_distance = f64::INFINITY;
-
-        // Sweep parameter grid over plausibility manifold
-        for step in 1..=15 {
+        // Sweep parameter grid over plausibility manifold in parallel
+        (1..=15).into_par_iter().filter_map(|step| {
             let scale = step as f64 / 5.0; // 0.2, 0.4, 0.6 ... 3.0
             let theta = ReverseStressVector {
                 crash_depth_pct: 10.0 + (step as f64 * 3.0),
@@ -99,9 +97,8 @@ impl ReverseStressSearchEngine {
                 }
             }
 
-            if max_dd >= max_drawdown_threshold_pct && distance < min_distance {
-                min_distance = distance;
-                best_defeater = Some(MinimalDefeaterReceipt {
+            if max_dd >= max_drawdown_threshold_pct {
+                Some(MinimalDefeaterReceipt {
                     search_id: format!("rev-stress-{}-{}", spec.seed, step),
                     minimal_vector: theta.clone(),
                     plausibility_distance: distance,
@@ -112,11 +109,15 @@ impl ReverseStressSearchEngine {
                         theta.vol_multiplier, theta.spread_multiplier, theta.false_breakout_rate * 100.0, theta.correlation_spike
                     ),
                     failure_receipt: receipt,
-                });
-                break; // Found minimal step
+                })
+            } else {
+                None
             }
-        }
-
-        best_defeater
+        }).min_by(|a, b| {
+            a.plausibility_distance
+                .partial_cmp(&b.plausibility_distance)
+                .unwrap_or(std::cmp::Ordering::Equal)
+                .then_with(|| a.search_id.cmp(&b.search_id))
+        })
     }
 }

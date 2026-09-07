@@ -18,6 +18,7 @@
 
 use crate::mt19937::MT19937;
 use crate::state::fsum;
+use rayon::prelude::*;
 
 /// One executed episode's net_R plus the exposure that produced it.
 ///
@@ -142,6 +143,39 @@ pub fn block_bootstrap_indices(
     Ok(out)
 }
 
+/// Zero-allocation variant of `block_bootstrap_indices` populating an existing buffer.
+pub fn block_bootstrap_indices_into(
+    n: usize,
+    block_size: i64,
+    rng: &mut MT19937,
+    out: &mut Vec<usize>,
+) -> Result<(), String> {
+    if n == 0 {
+        out.clear();
+        return Ok(());
+    }
+    if block_size <= 0 {
+        return Err("block_size must be positive".to_string());
+    }
+    if n >= 2 && block_size >= n as i64 {
+        return Err(format!(
+            "block_size {block_size} >= n {n}: degenerate block bootstrap \
+             (every resample is a rotation of the whole series)"
+        ));
+    }
+    let bs = block_size as usize;
+    out.clear();
+    out.reserve(n + bs);
+    while out.len() < n {
+        let start = rng.randrange(n as u64) as usize;
+        for j in 0..bs {
+            out.push((start + j) % n);
+        }
+    }
+    out.truncate(n);
+    Ok(())
+}
+
 /// Output of `reality_check_p_value`. `argmax_config` is the only
 /// configuration that can pass preregistration section 11's within-family
 /// test on this record; every other evaluated configuration fails by
@@ -218,11 +252,16 @@ pub fn reality_check_p_value(
 
     let mut rng = MT19937::new(seed);
     let mut exceed: i64 = 0;
+    let mut idx: Vec<usize> = Vec::with_capacity(n + block_size as usize);
+    let mut drawn: Vec<f64> = Vec::with_capacity(n);
     for _ in 0..n_resamples {
-        let idx = block_bootstrap_indices(n, block_size, &mut rng)?;
+        block_bootstrap_indices_into(n, block_size, &mut rng, &mut idx)?;
         let mut round_max = f64::NEG_INFINITY;
         for (ci, (_, series)) in episode_net_r.iter().enumerate() {
-            let drawn: Vec<f64> = idx.iter().map(|&i| series[i]).collect();
+            drawn.clear();
+            for &i in &idx {
+                drawn.push(series[i]);
+            }
             let stat = fsum(&drawn) / nf - means[ci];
             if stat > round_max {
                 round_max = stat;
@@ -232,6 +271,90 @@ pub fn reality_check_p_value(
             exceed += 1;
         }
     }
+    let p_value = exceed as f64 / n_resamples as f64;
+
+    Ok(RealityCheckResult {
+        observed_max,
+        argmax_config,
+        p_value,
+        n_resamples,
+        block_size,
+        seed,
+    })
+}
+
+/// Parallel evaluation of White's Reality Check where each resample is generated
+/// with a deterministic per-resample derived seed (`seed ^ (resample_idx * 0x9E3779B97F4A7C15)`),
+/// utilizing Rayon to scale across all available CPU cores.
+pub fn reality_check_p_value_parallel(
+    episode_net_r: &[(&str, &[f64])],
+    block_size: i64,
+    n_resamples: i64,
+    seed: u64,
+) -> Result<RealityCheckResult, String> {
+    if episode_net_r.is_empty() {
+        return Err("at least one configuration required".to_string());
+    }
+    let n = episode_net_r[0].1.len();
+    for (name, series) in episode_net_r.iter() {
+        if series.len() != n {
+            return Err(format!(
+                "all series must have equal length: {} has {} != {}",
+                name,
+                series.len(),
+                n
+            ));
+        }
+    }
+    if n == 0 {
+        return Err("cannot compute reality check on empty series".to_string());
+    }
+    if block_size <= 0 {
+        return Err("block_size must be positive".to_string());
+    }
+    if n_resamples <= 0 {
+        return Err("n_resamples must be positive".to_string());
+    }
+
+    let nf = n as f64;
+    let means: Vec<f64> = episode_net_r
+        .iter()
+        .map(|(_, series)| fsum(series) / nf)
+        .collect();
+
+    let mut observed_max = f64::NEG_INFINITY;
+    let mut argmax_config = episode_net_r[0].0.to_string();
+    for (ci, (name, _)) in episode_net_r.iter().enumerate() {
+        if means[ci] > observed_max {
+            observed_max = means[ci];
+            argmax_config = (*name).to_string();
+        }
+    }
+
+    const PHI64: u64 = 0x9e3779b97f4a7c15;
+    let exceed: i64 = (0..n_resamples)
+        .into_par_iter()
+        .map(|r_idx| {
+            let resample_seed = seed.wrapping_add((r_idx as u64).wrapping_mul(PHI64));
+            let mut rng = MT19937::new(resample_seed);
+            let idx = block_bootstrap_indices(n, block_size, &mut rng)
+                .expect("indices generation within bounds");
+            let mut round_max = f64::NEG_INFINITY;
+            for (ci, (_, series)) in episode_net_r.iter().enumerate() {
+                let drawn: Vec<f64> = idx.iter().map(|&i| series[i]).collect();
+                let stat = fsum(&drawn) / nf - means[ci];
+                if stat > round_max {
+                    round_max = stat;
+                }
+            }
+            if round_max >= observed_max {
+                1i64
+            } else {
+                0i64
+            }
+        })
+        .sum();
+
     let p_value = exceed as f64 / n_resamples as f64;
 
     Ok(RealityCheckResult {
@@ -267,11 +390,56 @@ pub fn block_bootstrap_means(
     }
     let mut rng = MT19937::new(seed);
     let mut means = Vec::with_capacity(n_resamples as usize);
+    let mut idx: Vec<usize> = Vec::with_capacity(n + block_size as usize);
+    let mut drawn: Vec<f64> = Vec::with_capacity(n);
     for _ in 0..n_resamples {
-        let idx = block_bootstrap_indices(n, block_size, &mut rng)?;
-        let drawn: Vec<f64> = idx.iter().map(|&i| net_rs[i]).collect();
+        block_bootstrap_indices_into(n, block_size, &mut rng, &mut idx)?;
+        drawn.clear();
+        for &i in &idx {
+            drawn.push(net_rs[i]);
+        }
         means.push(fsum(&drawn) / n as f64);
     }
+    Ok(means)
+}
+
+/// Parallel evaluation of circular fixed-block bootstrap resample means,
+/// where each resample index is generated from a deterministic per-resample seed.
+pub fn block_bootstrap_means_parallel(
+    net_rs: &[f64],
+    block_size: i64,
+    n_resamples: i64,
+    seed: u64,
+) -> Result<Vec<f64>, String> {
+    let n = net_rs.len();
+    if n == 0 {
+        return Ok(Vec::new());
+    }
+    if n_resamples <= 0 {
+        return Err("n_resamples must be positive".to_string());
+    }
+    if block_size <= 0 {
+        return Err("block_size must be positive".to_string());
+    }
+
+    const PHI64: u64 = 0x9e3779b97f4a7c15;
+    let nf = n as f64;
+    let means: Vec<f64> = (0..n_resamples)
+        .into_par_iter()
+        .map(|r_idx| {
+            let resample_seed = seed.wrapping_add((r_idx as u64).wrapping_mul(PHI64));
+            let mut rng = MT19937::new(resample_seed);
+            let mut idx = Vec::with_capacity(n + block_size as usize);
+            block_bootstrap_indices_into(n, block_size, &mut rng, &mut idx)
+                .expect("indices generation within bounds");
+            let mut drawn = Vec::with_capacity(n);
+            for &i in &idx {
+                drawn.push(net_rs[i]);
+            }
+            fsum(&drawn) / nf
+        })
+        .collect();
+
     Ok(means)
 }
 
@@ -479,5 +647,23 @@ mod tests {
             block_bootstrap_indices(0, 4, &mut MT19937::new(42)).unwrap(),
             Vec::<usize>::new()
         );
+    }
+
+    /// Parallel implementations produce deterministic results given the same seed.
+    #[test]
+    fn parallel_implementations_deterministic_and_consistent() {
+        let a = [0.1, -0.2, 0.3, 0.15, -0.05, 0.25, -0.1, 0.2];
+        let b = [0.05, -0.15, 0.2, 0.1, 0.0, 0.1, -0.05, 0.15];
+        let fam: &[(&str, &[f64])] = &[("v1", &a), ("v2", &b)];
+
+        let res1 = reality_check_p_value_parallel(fam, 4, 100, 42).unwrap();
+        let res2 = reality_check_p_value_parallel(fam, 4, 100, 42).unwrap();
+        assert_eq!(res1.observed_max, res2.observed_max);
+        assert_eq!(res1.argmax_config, res2.argmax_config);
+        assert_eq!(res1.p_value, res2.p_value);
+
+        let means1 = block_bootstrap_means_parallel(&a, 4, 100, 42).unwrap();
+        let means2 = block_bootstrap_means_parallel(&a, 4, 100, 42).unwrap();
+        assert_eq!(means1, means2);
     }
 }

@@ -11,6 +11,7 @@
 //! - 10,000 Monte Carlo bootstrap future paths ($1,000 baseline) with Risk of Ruin %.
 
 use serde::{Deserialize, Serialize};
+use rayon::prelude::*;
 use crate::benchmark::receipt::BenchmarkReceipt;
 use crate::benchmark::types::ProjectionGrade;
 use crate::mt19937::MT19937;
@@ -196,26 +197,37 @@ impl CapitalOutcomeProjection {
         if n_simulations == 0 || horizon_trades == 0 {
             return Err("BLOCKED_INVALID_MONTE_CARLO_DIMENSIONS".to_string());
         }
-        let mut rng = MT19937::new(seed);
         let n_trades = trade_returns_bps.len();
         let ruin_threshold = initial_capital_usd * 0.70; // 30% drawdown
-        let mut ruin_count = 0usize;
 
-        let mut terminal_equities = Vec::with_capacity(n_simulations);
+        // Parallel Monte Carlo simulation across scenarios with deterministic per-simulation seed.
+        // Seed mixing uses splitmix64 constant for independent, reproducible streams per scenario.
+        let results: Vec<(f64, bool)> = (0..n_simulations)
+            .into_par_iter()
+            .map(|sim_idx| {
+                let sim_seed = seed
+                    .wrapping_add((sim_idx as u64).wrapping_mul(0x9E37_79B9_7F4A_7C15))
+                    .wrapping_add(1);
+                let mut rng = MT19937::new(sim_seed);
+                let mut equity = initial_capital_usd;
+                let mut breached_ruin = false;
 
-        for _ in 0..n_simulations {
-            let mut equity = initial_capital_usd;
-            let mut breached_ruin = false;
-
-            for _ in 0..horizon_trades {
-                let idx = rng.randbelow(n_trades as u64) as usize;
-                let ret_bps = trade_returns_bps[idx];
-                equity += equity * (ret_bps / 10_000.0);
-                if equity <= ruin_threshold {
-                    breached_ruin = true;
+                for _ in 0..horizon_trades {
+                    let idx = rng.randbelow(n_trades as u64) as usize;
+                    let ret_bps = trade_returns_bps[idx];
+                    equity += equity * (ret_bps / 10_000.0);
+                    if equity <= ruin_threshold {
+                        breached_ruin = true;
+                    }
                 }
-            }
 
+                (equity, breached_ruin)
+            })
+            .collect();
+
+        let mut ruin_count = 0usize;
+        let mut terminal_equities = Vec::with_capacity(n_simulations);
+        for (equity, breached_ruin) in results {
             if breached_ruin {
                 ruin_count += 1;
             }
