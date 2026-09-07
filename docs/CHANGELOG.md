@@ -2,6 +2,20 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-07 — D-161 V8.6 Infrastructure Delegation & Execution Boundary Ratification (M04–M12)
+
+Registered D-161 delegating general infrastructure responsibilities to verified mature crates while retaining V8 domain semantics:
+- **CLI (M09):** migrated argument parsing to `clap` v4 (`v8-core/src/cli.rs`), preserving subcommands, inputs, and strict exit code conventions.
+- **Scheduling (M10):** migrated thread-pool and chunked parallel mapping to `rayon` v1 (`v8-core/src/scheduler.rs`), preserving deterministic chunk partitioning and index-ordered aggregation.
+- **RNG (M11):** introduced `v8-core/src/rnd.rs` using standard `rand` v0.8 primitives (`StdRng`), isolating MT19937 to historical CPython parity shims.
+- **Reporting (M12):** unified report HTML templating onto `minijinja` (`v8-core/src/report_template.rs`), replacing string concatenation.
+- **Execution Boundary & Cashflow (M04, M08):** formalized `AdmissionDecision`, `OrderIntent`, `ExecutionEvent`, `CashflowEvent`, and `AccountSnapshot` schemas (`v8-core/src/execution_boundary.rs`) with independent double-entry cashflow conservation reconciliation (`CashflowReconciler`).
+- **Verification:** verified with targeted test suite `v8-core/tests/v86_migration_verification.rs`.
+
+No economic metric is claimed; every verdict remains `NO_ECONOMIC_CLAIM`.
+
+Modified artifacts: `docs/decisions/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `v8-core/Cargo.toml`, `v8-core/src/main.rs`, `v8-core/src/lib.rs`, `v8-core/src/cli.rs`, `v8-core/src/scheduler.rs`, `v8-core/src/rnd.rs`, `v8-core/src/report_template.rs`, `v8-core/src/execution_boundary.rs`, `v8-core/tests/v86_migration_verification.rs`.
+
 ## 2026-09-07 — D-160 V8.6 Phase-1 Execution-Lane Charter (Issues #344–#347, PR #361)
 
 Registered D-160 as the charter putting the repository in V8.6-implementation-ready state without changing runtime behavior. Full authoritative English and Turkish specifications are `docs/contracts/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md` and `docs/tr/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md`.

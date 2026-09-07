@@ -1,7 +1,4 @@
-#![allow(
-    clippy::all,
-    warnings
-)]
+#![allow(clippy::all, warnings)]
 
 //! V8.2 compute plane CLI (COMPUTE_CORE_SPEC §2, §6).
 //!
@@ -35,6 +32,7 @@ mod candidate;
 mod cashflow;
 pub mod claims;
 mod data;
+pub mod eeo;
 pub mod error;
 mod evaluation;
 mod evidence;
@@ -44,14 +42,14 @@ mod experts;
 mod features;
 mod hash;
 mod jsonx;
+pub mod judiciary;
+pub mod kaizen;
 mod mt19937;
+pub mod opportunity;
 mod oracle;
 mod parquet_artifact;
 mod path_security;
 mod portfolio;
-pub mod judiciary;
-pub mod kaizen;
-pub mod opportunity;
 pub mod quant;
 mod regret;
 mod report;
@@ -64,84 +62,82 @@ mod state;
 mod statistics;
 pub mod telemetry;
 pub mod temporal;
-pub mod eeo;
 pub mod usdm_sim;
 pub mod venue;
 
+pub mod cli;
+pub mod execution_boundary;
+pub mod report_template;
+pub mod rnd;
+
+use clap::Parser;
 use std::path::PathBuf;
 
 use serde_json::Value;
 
-const USAGE: &str = "v8-core <subcommand> <request.json|...>
-
-subcommands:
-  ingest          ingest a tape into a Dataset and write the dataset artifact
-  features        compute FeatureStore/StateView values (stage S1)
-  predicate-check evaluate compiled still_valid IR bytes (stage S2)
-  replay          run the ReplayKernel over a candidate batch (stage S2)
-  bench           benchmark CPU/Auto/GPU replay selection on a request
-  gpu-probe       run the optional Vulkan f64 compute probe
-  gpu-parity      compare the GPU replay against the scalar CPU golden case
-  cube            stream the Outcome Cube to reduced tables (stage S3)
-  evaluate-check  batch per-bar ExpertPlane draft check (stage S4)
-  evaluate        full per-bar ExpertPlane -> candidates -> reduce loop (S4)
-  experiment      run the frozen v8_slice_001 Phase-4 admission/evaluation boundary
-  registry        print the 28-expert dispatch table with ported flags (S4)
-  reconcile       S6: reconciliation (CandidateSnapshot join + PIT lineage)
-  analysis        S6: regret phases 1-3 (opportunity/systematicity/recover)
-  cache-check     S5: content-addressed DAG cache identity check
-  ledger-check    S5/S7: LEDGER_FORMAT_SPEC §8 cheap tests
-  verdict         S7: verdict statistics on reduced tables
-  report          S7: verdict report artifacts + audit
-  oracle-coverage O3: Opportunity Universe representational coverage receipt
-  shadow          V8.3 prospective shadow provenance and artifact gate
-  artifact-index  bind a declared diagnostic bundle to one shadow manifest
-  usdm-sim        finite-capital Binance USD-M portfolio simulator
-  allegory-audit  multi-episode historical archetype audit (A01-A12, D-125)
-  funnel-audit    V8.3 Opportunity Capture Funnel empirical audit (Phase II)
-  eeo-qualify     D-136 Epistemic Economic Observability qualification runner
-  full-audit      unified high-throughput in-process audit engine (Issues #306-#309)
-  benchmark       D-153 V8.5 Benchmark Fabric evaluation runner and audit";
-
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-    if args.len() < 2 {
-        eprintln!("{USAGE}");
-        std::process::exit(2);
-    }
-    let code = match args[1].as_str() {
-        "benchmark" => cmd_benchmark(&args[2..]),
-        "ingest" => cmd_ingest(&args[2..]),
-        "features" => cmd_features(&args[2..]),
-        "predicate-check" => cmd_predicate_check(&args[2..]),
-        "replay" => cmd_replay(&args[2..]),
-        "bench" => cmd_bench(&args[2..]),
-        "gpu-probe" => cmd_gpu_probe(&args[2..]),
-        "gpu-parity" => cmd_gpu_parity(&args[2..]),
-        "cube" => cmd_cube(&args[2..]),
-        "evaluate-check" => cmd_evaluate_check(&args[2..]),
-        "registry" => cmd_registry(),
-        "evaluate" => runloop::run(&args[2..]),
-        "experiment" => experiment::run(&args[2..]),
-        "reconcile" => analysis::reconcile(&args[2..]),
-        "analysis" => analysis::analysis(&args[2..]),
-        "cache-check" => cache::cache_check(&args[2..]),
-        "ledger-check" => evidence::ledger_check(&args[2..]),
-        "verdict" => statistics::verdict(&args[2..]),
-        "report" => report::report(&args[2..]),
-        "oracle-coverage" => cmd_oracle_coverage(&args[2..]),
-        "shadow" => cmd_shadow(&args[2..]),
-        "artifact-index" => cmd_artifact_index(&args[2..]),
-        "exit-ablation" => exit_ablation::run(&args[2..]),
-        "usdm-sim" => cmd_usdm_sim(&args[2..]),
-        "allegory-audit" => cmd_allegory_audit(&args[2..]),
-        "funnel-audit" => cmd_funnel_audit(&args[2..]),
-        "eeo-qualify" => cmd_eeo_qualify(&args[2..]),
-        "full-audit" => cmd_full_audit(&args[2..]),
-        other => {
-            eprintln!("unknown subcommand: {other}\n\n{USAGE}");
-            2
+    let cli = match cli::Cli::try_parse() {
+        Ok(c) => c,
+        Err(e) => {
+            e.print().unwrap();
+            std::process::exit(e.exit_code());
         }
+    };
+
+    let code = match cli.command {
+        cli::Commands::Benchmark { args } => cmd_benchmark(&args),
+        cli::Commands::Ingest(req) => cmd_ingest(&[req.request_path.to_string_lossy().to_string()]),
+        cli::Commands::Features(req) => {
+            cmd_features(&[req.request_path.to_string_lossy().to_string()])
+        }
+        cli::Commands::PredicateCheck {
+            ir_path,
+            input_path,
+        } => cmd_predicate_check(&[
+            ir_path.to_string_lossy().to_string(),
+            input_path.to_string_lossy().to_string(),
+        ]),
+        cli::Commands::Replay(req) => cmd_replay(&[req.request_path.to_string_lossy().to_string()]),
+        cli::Commands::Bench(req) => cmd_bench(&[req.request_path.to_string_lossy().to_string()]),
+        cli::Commands::GpuProbe => cmd_gpu_probe(&[]),
+        cli::Commands::GpuParity => cmd_gpu_parity(&[]),
+        cli::Commands::Cube(req) => cmd_cube(&[req.request_path.to_string_lossy().to_string()]),
+        cli::Commands::EvaluateCheck(req) => {
+            cmd_evaluate_check(&[req.request_path.to_string_lossy().to_string()])
+        }
+        cli::Commands::Registry => cmd_registry(),
+        cli::Commands::Evaluate { args } => runloop::run(&args),
+        cli::Commands::Experiment { args } => experiment::run(&args),
+        cli::Commands::Reconcile { args } => analysis::reconcile(&args),
+        cli::Commands::Analysis { args } => analysis::analysis(&args),
+        cli::Commands::CacheCheck { args } => cache::cache_check(&args),
+        cli::Commands::LedgerCheck { args } => evidence::ledger_check(&args),
+        cli::Commands::Verdict { args } => statistics::verdict(&args),
+        cli::Commands::Report { args } => report::report(&args),
+        cli::Commands::OracleCoverage { args } => cmd_oracle_coverage(&args),
+        cli::Commands::Shadow(req) => cmd_shadow(&req.request_path),
+        cli::Commands::ArtifactIndex(req) => cmd_artifact_index(&req.request_path),
+        cli::Commands::ExitAblation { args } => exit_ablation::run(&args),
+        cli::Commands::UsdmSim { args } => cmd_usdm_sim(&args),
+        cli::Commands::AllegoryAudit { args } => cmd_allegory_audit(&args),
+        cli::Commands::FunnelAudit { args } => cmd_funnel_audit(&args),
+        cli::Commands::EeoQualify { args } => cmd_eeo_qualify(&args),
+        cli::Commands::FullAudit {
+            mut tape, mut out, threads, no_determinism_check, no_html, paths,
+        } => {
+            let mut paths = paths.into_iter();
+            if tape.is_none() { tape = paths.next(); }
+            if out.is_none() { out = paths.next(); }
+            if paths.next().is_some() {
+                eprintln!("full-audit: excess positional paths");
+                std::process::exit(2);
+            }
+            cmd_full_audit(
+                tape.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl")),
+                out.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current")),
+                threads, !no_determinism_check, !no_html,
+            )
+        },
     };
     std::process::exit(code);
 }
@@ -1217,22 +1213,18 @@ fn req2_cases(bytes: &[u8]) -> Option<Vec<(String, usize)>> {
     )
 }
 
-fn cmd_shadow(args: &[String]) -> i32 {
-    if args.len() != 1 {
-        eprintln!("usage: v8-core shadow <request.json>");
-        return 2;
-    }
-    let bytes = match std::fs::read(&args[0]) {
+fn cmd_shadow(request_path: &std::path::Path) -> i32 {
+    let bytes = match std::fs::read(request_path) {
         Ok(bytes) => bytes,
         Err(err) => {
-            eprintln!("error reading shadow request {}: {err}", args[0]);
+            eprintln!("error reading shadow request {}: {err}", request_path.display());
             return 1;
         }
     };
     let request: shadow::ShadowRequest = match serde_json::from_slice(&bytes) {
         Ok(request) => request,
         Err(err) => {
-            eprintln!("error parsing shadow request {}: {err}", args[0]);
+            eprintln!("error parsing shadow request {}: {err}", request_path.display());
             return 1;
         }
     };
@@ -1259,22 +1251,18 @@ fn cmd_shadow(args: &[String]) -> i32 {
     }
 }
 
-fn cmd_artifact_index(args: &[String]) -> i32 {
-    if args.len() != 1 {
-        eprintln!("usage: v8-core artifact-index <request.json>");
-        return 2;
-    }
-    let bytes = match std::fs::read(&args[0]) {
+fn cmd_artifact_index(request_path: &std::path::Path) -> i32 {
+    let bytes = match std::fs::read(request_path) {
         Ok(bytes) => bytes,
         Err(err) => {
-            eprintln!("error reading artifact-index request {}: {err}", args[0]);
+            eprintln!("error reading artifact-index request {}: {err}", request_path.display());
             return 1;
         }
     };
     let request: shadow::ArtifactIndexRequest = match serde_json::from_slice(&bytes) {
         Ok(request) => request,
         Err(err) => {
-            eprintln!("error parsing artifact-index request {}: {err}", args[0]);
+            eprintln!("error parsing artifact-index request {}: {err}", request_path.display());
             return 1;
         }
     };
@@ -1321,25 +1309,27 @@ fn cmd_oracle_coverage(args: &[String]) -> i32 {
     };
 
     let universe_val = req_json.get("universe").unwrap_or(&req_json);
-    let universe: oracle::artifacts::OpportunityUniverseVersion = match serde_json::from_value(universe_val.clone()) {
-        Ok(u) => u,
-        Err(e) => {
-            eprintln!("error deserializing OpportunityUniverseVersion: {e}");
-            return 1;
-        }
-    };
-
-    let candidates: Vec<oracle::opportunity::GrammarCandidate> = if let Some(cands_val) = req_json.get("candidates") {
-        match serde_json::from_value(cands_val.clone()) {
-            Ok(c) => c,
+    let universe: oracle::artifacts::OpportunityUniverseVersion =
+        match serde_json::from_value(universe_val.clone()) {
+            Ok(u) => u,
             Err(e) => {
-                eprintln!("error deserializing candidates: {e}");
+                eprintln!("error deserializing OpportunityUniverseVersion: {e}");
                 return 1;
             }
-        }
-    } else {
-        Vec::new()
-    };
+        };
+
+    let candidates: Vec<oracle::opportunity::GrammarCandidate> =
+        if let Some(cands_val) = req_json.get("candidates") {
+            match serde_json::from_value(cands_val.clone()) {
+                Ok(c) => c,
+                Err(e) => {
+                    eprintln!("error deserializing candidates: {e}");
+                    return 1;
+                }
+            }
+        } else {
+            Vec::new()
+        };
 
     let classifier = oracle::support::SupportClassifier::canonical_l1();
     let context = oracle::taxonomy::OracleContext {
@@ -1347,14 +1337,21 @@ fn cmd_oracle_coverage(args: &[String]) -> i32 {
         authority: oracle::taxonomy::AuthorityLevel::L1,
         information_contract_id: universe.information_contract_id.clone(),
         opportunity_universe_id: universe.universe_id.clone(),
-        utility_contract_id: req_json.get("utility_contract_id").and_then(|v| v.as_str()).unwrap_or("utility-v1").to_string(),
+        utility_contract_id: req_json
+            .get("utility_contract_id")
+            .and_then(|v| v.as_str())
+            .unwrap_or("utility-v1")
+            .to_string(),
         policy_class_id: "policy-v1".to_string(),
         cost_model_id: "cost-v1".to_string(),
         capacity_model_id: "capacity-v1".to_string(),
         environment_target_id: "binance-usdt-perp-l1".to_string(),
     };
 
-    let lineage_id = req_json.get("lineage_id").and_then(|v| v.as_str()).unwrap_or("lineage-default");
+    let lineage_id = req_json
+        .get("lineage_id")
+        .and_then(|v| v.as_str())
+        .unwrap_or("lineage-default");
     let requested_auth = match req_json.get("requested_authority").and_then(|v| v.as_str()) {
         Some("L2") => oracle::taxonomy::AuthorityLevel::L2,
         Some("L3") => oracle::taxonomy::AuthorityLevel::L3,
@@ -1362,34 +1359,39 @@ fn cmd_oracle_coverage(args: &[String]) -> i32 {
         _ => oracle::taxonomy::AuthorityLevel::L1,
     };
 
-    let expert_proposals: Vec<(String, experts::base::ExpertEval)> = if let Some(props_val) = req_json.get("expert_proposals") {
-        serde_json::from_value(props_val.clone()).unwrap_or_default()
-    } else {
-        // Synthesize proposal matches from candidates generated by shipped experts
-        let mut props = Vec::new();
-        for c in &candidates {
-            let expert_id = c.template_id.strip_prefix("template-").unwrap_or(&c.template_id).to_string();
-            let dir_str = match c.direction {
-                oracle::opportunity::Direction::Long => "LONG".to_string(),
-                oracle::opportunity::Direction::Short => "SHORT".to_string(),
-            };
-            props.push((
-                expert_id,
-                experts::base::ExpertEval {
-                    applicability: "APPLICABLE".to_string(),
-                    decision: "CANDIDATE".to_string(),
-                    draft: Some(simulator::Draft {
-                        direction: dir_str,
-                        birth_time: c.decision_time,
-                        risk_geometry: serde_json::Map::new(),
-                    }),
-                    setup_anchor_event_id: Some(c.grammar_candidate_id.clone()),
-                    setup_fingerprint: None,
-                },
-            ));
-        }
-        props
-    };
+    let expert_proposals: Vec<(String, experts::base::ExpertEval)> =
+        if let Some(props_val) = req_json.get("expert_proposals") {
+            serde_json::from_value(props_val.clone()).unwrap_or_default()
+        } else {
+            // Synthesize proposal matches from candidates generated by shipped experts
+            let mut props = Vec::new();
+            for c in &candidates {
+                let expert_id = c
+                    .template_id
+                    .strip_prefix("template-")
+                    .unwrap_or(&c.template_id)
+                    .to_string();
+                let dir_str = match c.direction {
+                    oracle::opportunity::Direction::Long => "LONG".to_string(),
+                    oracle::opportunity::Direction::Short => "SHORT".to_string(),
+                };
+                props.push((
+                    expert_id,
+                    experts::base::ExpertEval {
+                        applicability: "APPLICABLE".to_string(),
+                        decision: "CANDIDATE".to_string(),
+                        draft: Some(simulator::Draft {
+                            direction: dir_str,
+                            birth_time: c.decision_time,
+                            risk_geometry: serde_json::Map::new(),
+                        }),
+                        setup_anchor_event_id: Some(c.grammar_candidate_id.clone()),
+                        setup_fingerprint: None,
+                    },
+                ));
+            }
+            props
+        };
 
     let (receipt, records) = oracle::coverage::reconcile_coverage(
         &universe,
@@ -1516,7 +1518,8 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                             "failed_breakout_2b".to_string(),
                         ]);
                     } else {
-                        enabled_experts = Some(val.split(',').map(|s| s.trim().to_string()).collect());
+                        enabled_experts =
+                            Some(val.split(',').map(|s| s.trim().to_string()).collect());
                     }
                     i += 2;
                 } else {
@@ -1546,17 +1549,29 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                 if i + 1 < args.len() {
                     let val = &args[i + 1];
                     exit_arm = match val.as_str() {
-                        "chandelier" | "ChandelierATR" => Some(kaizen::exit_trailing::ExitArm::ChandelierATR),
-                        "be05r" | "ChandelierATRWithBE05R" => Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE05R),
-                        "be075r" | "ChandelierATRWithBE075R" => Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE075R),
-                        "be10r" | "ChandelierATRWithBE10R" => Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE10R),
+                        "chandelier" | "ChandelierATR" => {
+                            Some(kaizen::exit_trailing::ExitArm::ChandelierATR)
+                        }
+                        "be05r" | "ChandelierATRWithBE05R" => {
+                            Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE05R)
+                        }
+                        "be075r" | "ChandelierATRWithBE075R" => {
+                            Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE075R)
+                        }
+                        "be10r" | "ChandelierATRWithBE10R" => {
+                            Some(kaizen::exit_trailing::ExitArm::ChandelierATRWithBE10R)
+                        }
                         "notp" | "NoTP" => Some(kaizen::exit_trailing::ExitArm::NoTP),
                         "static1r" | "Static1R" => Some(kaizen::exit_trailing::ExitArm::Static1R),
                         "static2r" | "Static2R" => Some(kaizen::exit_trailing::ExitArm::Static2R),
                         "static3r" | "Static3R" => Some(kaizen::exit_trailing::ExitArm::Static3R),
                         "ema4h" | "EMA4hTrail" => Some(kaizen::exit_trailing::ExitArm::EMA4hTrail),
-                        "hybrid" | "HybridTrail" => Some(kaizen::exit_trailing::ExitArm::HybridTrail),
-                        "struct24h" | "Structural24hTrail" => Some(kaizen::exit_trailing::ExitArm::Structural24hTrail),
+                        "hybrid" | "HybridTrail" => {
+                            Some(kaizen::exit_trailing::ExitArm::HybridTrail)
+                        }
+                        "struct24h" | "Structural24hTrail" => {
+                            Some(kaizen::exit_trailing::ExitArm::Structural24hTrail)
+                        }
                         other => {
                             eprintln!("unknown exit arm: {other}");
                             return 2;
@@ -1639,7 +1654,9 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
             eprintln!("  gap {}: {}", g.name, g.note);
         }
     }
-    let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let tape = tape_path
+        .clone()
+        .unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
     let out = out_dir.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current"));
     let final_engine_mode = engine_mode.or_else(|| Some("macro-m2".to_string()));
     let final_exit_arm = exit_arm;
@@ -1661,7 +1678,8 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
     };
 
     if is_quad {
-        let quad_tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/quad-1h-12m/tape.jsonl"));
+        let quad_tape =
+            tape_path.unwrap_or_else(|| PathBuf::from("research/tape/quad-1h-12m/tape.jsonl"));
         let symbols = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "AVAXUSDT"];
         let mut total_trades = 0;
         let mut total_gross = 0.0;
@@ -1671,7 +1689,17 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         println!("==============================================================================================================");
         println!(">>> HISTORICAL DIAGNOSTIC COURT -- QUAD TAPE (v8-core usdm-sim --quad) <<<");
         println!("Data role: BURNED_DIAGNOSTIC | Economic promotion authority: NONE | Verdict: NO_ECONOMIC_CLAIM");
-        println!("{:<10} {:<8} {:<9} {:<12} {:<12} {:<14} {:<10} {:<12}", "Asset", "Trades", "WinRate", "Gross ($)", "Fees ($)", "Net PnL ($)", "Return %", "Profit Factor");
+        println!(
+            "{:<10} {:<8} {:<9} {:<12} {:<12} {:<14} {:<10} {:<12}",
+            "Asset",
+            "Trades",
+            "WinRate",
+            "Gross ($)",
+            "Fees ($)",
+            "Net PnL ($)",
+            "Return %",
+            "Profit Factor"
+        );
         println!("--------------------------------------------------------------------------------------------------------------");
 
         for s in symbols {
@@ -1685,8 +1713,17 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                     total_gross += gross;
                     total_fees += receipt.total_fee_drag_usdt;
                     total_net += receipt.net_profit_usdt;
-                    println!("{:<10} {:<8} {:>6.1}% {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}% {:>10.2}",
-                        s, receipt.n_trades_admitted, receipt.win_rate_pct, gross, receipt.total_fee_drag_usdt, receipt.net_profit_usdt, receipt.total_return_pct, receipt.profit_factor);
+                    println!(
+                        "{:<10} {:<8} {:>6.1}% {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}% {:>10.2}",
+                        s,
+                        receipt.n_trades_admitted,
+                        receipt.win_rate_pct,
+                        gross,
+                        receipt.total_fee_drag_usdt,
+                        receipt.net_profit_usdt,
+                        receipt.total_return_pct,
+                        receipt.profit_factor
+                    );
                 }
                 Err(e) => {
                     eprintln!("error for {s}: {e}");
@@ -1695,7 +1732,16 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
             }
         }
         println!("==============================================================================================================");
-        println!("{:<35} {:<8} {:<9} {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}%", "TOTAL SIMULATED DIAGNOSTIC CASHFLOW (BURNED_DIAGNOSTIC, NO PROMOTION AUTHORITY)", total_trades, "---", total_gross, total_fees, total_net, total_net / params.initial_balance * 100.0);
+        println!(
+            "{:<35} {:<8} {:<9} {:>10.2}$ -{:>8.2}$ {:>12.2}$ {:>8.2}%",
+            "TOTAL SIMULATED DIAGNOSTIC CASHFLOW (BURNED_DIAGNOSTIC, NO PROMOTION AUTHORITY)",
+            total_trades,
+            "---",
+            total_gross,
+            total_fees,
+            total_net,
+            total_net / params.initial_balance * 100.0
+        );
         println!("==============================================================================================================");
         0
     } else {
@@ -1748,8 +1794,11 @@ fn cmd_allegory_audit(args: &[String]) -> i32 {
         }
     }
 
-    let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
-    let out = out_path.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current/allegory_scorecard.json"));
+    let tape = tape_path
+        .clone()
+        .unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let out = out_path
+        .unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current/allegory_scorecard.json"));
 
     let rows = match read_tape(&tape) {
         Ok(r) => r,
@@ -1837,7 +1886,9 @@ fn cmd_funnel_audit(args: &[String]) -> i32 {
         }
     }
 
-    let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let tape = tape_path
+        .clone()
+        .unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
     let out = out_path.unwrap_or_else(|| PathBuf::from("site/funnel_audit.html"));
 
     let rows = match read_tape(&tape) {
@@ -1864,18 +1915,19 @@ fn cmd_funnel_audit(args: &[String]) -> i32 {
     let store = &stores[0];
     let loop_engine = opportunity::runloop::V83Runloop::default();
 
-    let report = match opportunity::funnel::CanonicalOpportunityFunnelTracker::evaluate_tape_canonical(
-        store,
-        &store.symbol,
-        "binance-um",
-        &loop_engine,
-    ) {
-        Ok(r) => r,
-        Err(e) => {
-            eprintln!("failed to evaluate canonical tape funnel: {e:?}");
-            return 1;
-        }
-    };
+    let report =
+        match opportunity::funnel::CanonicalOpportunityFunnelTracker::evaluate_tape_canonical(
+            store,
+            &store.symbol,
+            "binance-um",
+            &loop_engine,
+        ) {
+            Ok(r) => r,
+            Err(e) => {
+                eprintln!("failed to evaluate canonical tape funnel: {e:?}");
+                return 1;
+            }
+        };
 
     let tracker = opportunity::funnel::CanonicalOpportunityFunnelTracker::default();
     let html = tracker.render_html(&report);
@@ -1926,7 +1978,9 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
         }
     }
 
-    let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+    let tape = tape_path
+        .clone()
+        .unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
     let out_dir = out_dir_path.unwrap_or_else(|| PathBuf::from(".audit/eeo/current"));
 
     let rows = match read_tape(&tape) {
@@ -1991,18 +2045,19 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
 
     // 2. Run Canonical Funnel
     let loop_engine = opportunity::runloop::V83Runloop::default();
-    let funnel_report = match opportunity::funnel::CanonicalOpportunityFunnelTracker::evaluate_tape_canonical(
-        store,
-        &store.symbol,
-        "binance-um",
-        &loop_engine,
-    ) {
-        Ok(r) => r,
-        Err(e) => {
-            eprintln!("failed to evaluate canonical opportunity funnel: {e:?}");
-            return 1;
-        }
-    };
+    let funnel_report =
+        match opportunity::funnel::CanonicalOpportunityFunnelTracker::evaluate_tape_canonical(
+            store,
+            &store.symbol,
+            "binance-um",
+            &loop_engine,
+        ) {
+            Ok(r) => r,
+            Err(e) => {
+                eprintln!("failed to evaluate canonical opportunity funnel: {e:?}");
+                return 1;
+            }
+        };
 
     // 3. Step runloop over tape to record telemetry
     let mut book = opportunity::book::OpportunityBook::new();
@@ -2012,8 +2067,10 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
 
     let tape_bytes = std::fs::read(&tape).unwrap_or_default();
     let tape_hash = blake3::hash(&tape_bytes).to_hex().to_string();
-    let policy_hash = "60a92efeb38d2f6277b55979bbab1f8da2bcf7471d46b7fb2559b13904944ec7".to_string();
-    let constitution_hash = "c0n5717u710nc0n5717u710nc0n5717u710nc0n5717u710nc0n5717u710nc0n5".to_string();
+    let policy_hash =
+        "60a92efeb38d2f6277b55979bbab1f8da2bcf7471d46b7fb2559b13904944ec7".to_string();
+    let constitution_hash =
+        "c0n5717u710nc0n5717u710nc0n5717u710nc0n5717u710nc0n5717u710nc0n5".to_string();
     let code_hash = "c0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0dec0de".to_string();
 
     let n_bars = store.closes.len();
@@ -2021,13 +2078,22 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
     let committed = 0.0;
 
     for b_idx in 32..step_limit {
-        if let Ok(cycle) = loop_engine.step_bar(&store.symbol, "binance-um", store, b_idx, &mut book, committed) {
+        if let Ok(cycle) = loop_engine.step_bar(
+            &store.symbol,
+            "binance-um",
+            store,
+            b_idx,
+            &mut book,
+            committed,
+        ) {
             cycle_ledgers.push(cycle);
         }
     }
 
     for ep in book.all() {
-        if let Ok(ctx) = ep.to_trace_context(&tape_hash, &policy_hash, &constitution_hash, &code_hash) {
+        if let Ok(ctx) =
+            ep.to_trace_context(&tape_hash, &policy_hash, &constitution_hash, &code_hash)
+        {
             let _ = trace_ledger.register_context(ctx.clone());
             let s_detect = telemetry::DecisionSpan::new(
                 ctx.trace_id.clone(),
@@ -2040,17 +2106,30 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
         }
     }
 
-    let prov = telemetry::TraceProvenance::new(&tape_hash, &policy_hash, &constitution_hash, &code_hash).unwrap();
+    let prov =
+        telemetry::TraceProvenance::new(&tape_hash, &policy_hash, &constitution_hash, &code_hash)
+            .unwrap();
     let scope_trace_ids: Vec<_> = trace_ledger.contexts().keys().cloned().collect();
-    let scope = eeo::EvidenceScope::range(&store.symbol, "binance-um", store.avail[0], store.avail[n_bars - 1], scope_trace_ids);
+    let scope = eeo::EvidenceScope::range(
+        &store.symbol,
+        "binance-um",
+        store.avail[0],
+        store.avail[n_bars - 1],
+        scope_trace_ids,
+    );
 
     let mult_ledger = eeo::ResearchMultiplicityLedger::new();
-    let ev_ctx = eeo::EvidenceContext::new(&trace_ledger, &belief_ledger, &scope, store.avail[n_bars - 1])
-        .with_cashflow_ledger(&cashflow_ledger)
-        .with_cycle_ledgers(&cycle_ledgers)
-        .with_oracle_funnel(&funnel_report)
-        .with_multiplicity_ledger(&mult_ledger)
-        .with_provenance(&prov);
+    let ev_ctx = eeo::EvidenceContext::new(
+        &trace_ledger,
+        &belief_ledger,
+        &scope,
+        store.avail[n_bars - 1],
+    )
+    .with_cashflow_ledger(&cashflow_ledger)
+    .with_cycle_ledgers(&cycle_ledgers)
+    .with_oracle_funnel(&funnel_report)
+    .with_multiplicity_ledger(&mult_ledger)
+    .with_provenance(&prov);
 
     // 4. Registry and Provider Evaluation
     let mut registry = eeo::ProviderRegistry::new();
@@ -2061,7 +2140,9 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
     registry.register(Box::new(eeo::P05BeliefCalibrationProvider::default()));
     registry.register(Box::new(eeo::P06OracleGapCoverageProvider::default()));
     registry.register(Box::new(eeo::P07ExpertEvidenceQualityProvider::default()));
-    registry.register(Box::new(eeo::P08DecisionTransferEfficiencyProvider::default()));
+    registry.register(Box::new(
+        eeo::P08DecisionTransferEfficiencyProvider::default(),
+    ));
     registry.register(Box::new(eeo::P09ImplementationShortfallProvider::default()));
     registry.register(Box::new(eeo::P11RobustnessMultiplicityProvider::default()));
     registry.register(Box::new(eeo::P12CausalCriticProvider::default()));
@@ -2119,8 +2200,12 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
         utility_positive: funnel_report.net_value_passed,
         portfolio_admitted: funnel_report.portfolio_admitted,
         executed: funnel_report.counterfactual_campaigns_admitted,
-        raw_oracle_gap: funnel_report.total_oracle_universe.saturating_sub(funnel_report.counterfactual_campaigns_admitted),
-        realizable_gap: funnel_report.portfolio_admitted.saturating_sub(funnel_report.counterfactual_campaigns_admitted),
+        raw_oracle_gap: funnel_report
+            .total_oracle_universe
+            .saturating_sub(funnel_report.counterfactual_campaigns_admitted),
+        realizable_gap: funnel_report
+            .portfolio_admitted
+            .saturating_sub(funnel_report.counterfactual_campaigns_admitted),
     };
 
     let expert_witness_evals: usize = cycle_ledgers.iter().map(|c| c.evidence_count).sum();
@@ -2148,8 +2233,14 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
     println!("Report written to: {:?}", report_json_path);
     println!("Final Verdict: {}", report.final_verdict);
     println!("Executive Summary: {}", report.executive_summary);
-    println!("Trades Admitted: {}", report.baseline_economics.n_trades_admitted);
-    println!("Net Profit: ${:.2} ({:.2}%)", report.baseline_economics.net_profit_usdt, report.baseline_economics.total_return_pct);
+    println!(
+        "Trades Admitted: {}",
+        report.baseline_economics.n_trades_admitted
+    );
+    println!(
+        "Net Profit: ${:.2} ({:.2}%)",
+        report.baseline_economics.net_profit_usdt, report.baseline_economics.total_return_pct
+    );
     println!("Cashflow Conservation: VERIFIED (delta=$0.00000000)");
     println!("Witness Evaluations: {}", report.expert_witness_evaluations);
     println!("Pathology Counts: {:?}", report.pathology_counts);
@@ -2159,68 +2250,13 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
     0
 }
 
-fn cmd_full_audit(args: &[String]) -> i32 {
-    let mut tape_path: Option<PathBuf> = None;
-    let mut out_dir: Option<PathBuf> = None;
-    let mut threads = 4usize;
-    let mut verify_determinism = true;
-    let mut render_html = true;
-
-    let mut i = 0;
-    while i < args.len() {
-        match args[i].as_str() {
-            "--tape" | "-t" => {
-                if i + 1 < args.len() {
-                    tape_path = Some(PathBuf::from(&args[i + 1]));
-                    i += 2;
-                } else {
-                    eprintln!("missing argument for --tape");
-                    return 2;
-                }
-            }
-            "--out" | "-o" => {
-                if i + 1 < args.len() {
-                    out_dir = Some(PathBuf::from(&args[i + 1]));
-                    i += 2;
-                } else {
-                    eprintln!("missing argument for --out");
-                    return 2;
-                }
-            }
-            "--threads" => {
-                if i + 1 < args.len() {
-                    threads = args[i + 1].parse().unwrap_or(4);
-                    i += 2;
-                } else {
-                    eprintln!("missing argument for --threads");
-                    return 2;
-                }
-            }
-            "--no-determinism-check" => {
-                verify_determinism = false;
-                i += 1;
-            }
-            "--no-html" => {
-                render_html = false;
-                i += 1;
-            }
-            path_str if !path_str.starts_with('-') && tape_path.is_none() => {
-                tape_path = Some(PathBuf::from(path_str));
-                i += 1;
-            }
-            path_str if !path_str.starts_with('-') && out_dir.is_none() => {
-                out_dir = Some(PathBuf::from(path_str));
-                i += 1;
-            }
-            other => {
-                eprintln!("unknown option for full-audit: {other}");
-                return 2;
-            }
-        }
-    }
-
-    let tape = tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
-    let out = out_dir.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current"));
+fn cmd_full_audit(
+    tape: PathBuf,
+    out: PathBuf,
+    threads: usize,
+    verify_determinism: bool,
+    render_html: bool,
+) -> i32 {
 
     match audit::full_audit::run_full_audit(&tape, &out, threads, verify_determinism, render_html) {
         Ok(summary) => {
@@ -2247,11 +2283,9 @@ fn cmd_benchmark_parity(args: &[String], usage: &str) -> i32 {
             .and_then(|i| args.get(i + 1))
             .cloned()
     };
-    let (Some(case_path), Some(native_path), Some(reference_path)) = (
-        parse("--case"),
-        parse("--native"),
-        parse("--reference"),
-    ) else {
+    let (Some(case_path), Some(native_path), Some(reference_path)) =
+        (parse("--case"), parse("--native"), parse("--reference"))
+    else {
         eprintln!(
             "usage: v8-core benchmark parity --case PATH --native LEDGER --reference LEDGER \
              --engine <lean|skfolio|vectorbt> --engine-version VER"
@@ -2296,13 +2330,15 @@ fn cmd_benchmark_parity(args: &[String], usage: &str) -> i32 {
     let mapping = match parse("--mapping") {
         None => v8_core::benchmark::parity::SemanticMapping::default(),
         Some(path) => match std::fs::read_to_string(&path) {
-            Ok(text) => match serde_json::from_str::<v8_core::benchmark::parity::SemanticMapping>(&text) {
-                Ok(mapping) => mapping,
-                Err(error) => {
-                    eprintln!("BLOCKED_INVALID_SEMANTIC_MAPPING:{error}");
-                    return 1;
+            Ok(text) => {
+                match serde_json::from_str::<v8_core::benchmark::parity::SemanticMapping>(&text) {
+                    Ok(mapping) => mapping,
+                    Err(error) => {
+                        eprintln!("BLOCKED_INVALID_SEMANTIC_MAPPING:{error}");
+                        return 1;
+                    }
                 }
-            },
+            }
             Err(error) => {
                 eprintln!("DATA_BLOCKED_UNREADABLE_SEMANTIC_MAPPING:{path}:{error}");
                 return 1;
@@ -2328,7 +2364,10 @@ fn cmd_benchmark_parity(args: &[String], usage: &str) -> i32 {
 
     let adapter = v8_core::benchmark::parity::ParityAdapter::new(request.engine.engine);
     let receipt = adapter.run(&request);
-    println!("{}", serde_json::to_string_pretty(&receipt).unwrap_or_default());
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&receipt).unwrap_or_default()
+    );
     if receipt.outcome.is_agreement() {
         return 0;
     }
@@ -2353,8 +2392,12 @@ fn cmd_benchmark(args: &[String]) -> i32 {
 
     match command {
         "audit" => {
-            let score_calculator = v8_core::benchmark::scoring::CapabilityScoreCalculator::monograph_v1();
-            println!("Benchmark fabric configuration loaded: {} domains", score_calculator.domain_weights.len());
+            let score_calculator =
+                v8_core::benchmark::scoring::CapabilityScoreCalculator::monograph_v1();
+            println!(
+                "Benchmark fabric configuration loaded: {} domains",
+                score_calculator.domain_weights.len()
+            );
             0
         }
         "ledger-verify" => {
@@ -2417,16 +2460,20 @@ fn cmd_benchmark(args: &[String]) -> i32 {
                     return 1;
                 }
             };
-            let case: v8_core::benchmark::case::BenchmarkCase = match serde_json::from_str(&case_text) {
-                Ok(case) => case,
-                Err(error) => {
-                    eprintln!("BLOCKED_INVALID_BENCHMARK_CASE:{error}");
-                    return 1;
-                }
-            };
+            let case: v8_core::benchmark::case::BenchmarkCase =
+                match serde_json::from_str(&case_text) {
+                    Ok(case) => case,
+                    Err(error) => {
+                        eprintln!("BLOCKED_INVALID_BENCHMARK_CASE:{error}");
+                        return 1;
+                    }
+                };
             match v8_core::benchmark::runner::BenchmarkRunner::default().run_benchmark(&case) {
                 Ok(receipt) => {
-                    println!("{}", serde_json::to_string_pretty(&receipt).unwrap_or_default());
+                    println!(
+                        "{}",
+                        serde_json::to_string_pretty(&receipt).unwrap_or_default()
+                    );
                     0
                 }
                 Err(error) => {

@@ -156,7 +156,10 @@ v8-core/
     jsonx.rs        Python-json-compatible tape parser (NaN/Infinity literals)
     mt19937.rs      bit-exact CPython Mersenne Twister — not in the original
                      §6 table (§4)
-    error.rs        strongly-typed V8CoreError taxonomy (D-119, #208)
+    cli.rs          command-line parser via clap v4 (D-161, M09)
+    execution_boundary.rs formal execution boundary, order intent and cashflow reconciliation (D-161, M04/M08)
+    rnd.rs          versioned production RNG streams via standard rand (D-161, M11)
+    report_template.rs unified forensic report rendering via minijinja (D-161, M12)
     path_security.rs path sanitization & traversal defense (D-120, #209)
     telemetry.rs    tracing & metrics facades (D-120, #209)
     checkpoint.rs   atomic simulation checkpoint & resume engine (D-122, #211)

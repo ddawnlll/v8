@@ -58,4 +58,9 @@ pub mod usdm_sim;
 pub mod venue;
 pub mod world;
 
+pub mod cli;
+pub mod execution_boundary;
+pub mod report_template;
+pub mod rnd;
+
 pub use runloop::read_tape;

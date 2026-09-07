@@ -165,3 +165,9 @@ Adoption of v1.2 begins with a measured pilot over the next 10–20 issues track
 5. **D-099 Compute Efficiency:** Verification compute spent per PR.
 
 Pilot findings will serve as empirical evidence for the future v1.3 governance revision.
+
+## 9. V8.6 mandatory lifecycle fields (#370)
+
+Every issue, including one created through CLI/API, must include Owner, Lifecycle, full 40-character Base SHA, Completed R IDs, Remaining R IDs, Dependencies, and Evidence. GitHub assignee and state label are authoritative metadata; the body must agree before READY. Completed and remaining sets must be disjoint and cover all normative requirements. NONE is valid for no completed requirements; PENDING is the honest evidence state before execution, never PASS.
+
+The five issue forms collect these fields. **Form validation does not enforce API submissions.** Rust validator and CI enforcement under #370 remain PENDING until implemented and tested; this policy does not claim automation already exists. A dependency or authority gap prevents READY for the affected work. Each PR maps all issue R IDs to implementation, verification and revision-bound physical evidence. Required post-merge receipts must exist before completed closure; superseded work identifies its successor without claiming implementation.

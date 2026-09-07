@@ -117,3 +117,5 @@ Durum sözlüğü kasıtlıdır: `LOCKED_INVARIANT` geçerliliği sınırlar;
 `PROVISIONAL_DECISION` geri alınabilir; `REJECTED_OPTION` adı geçen taban
 çizgiden hariç tutulmuştur, sonsuza dek çürütülmüş değildir. Hiçbiri kârlılık
 anlamına gelmez.
+
+| D-161 | **V8.6 CLI ayrıştırmasını clap'e devretme (#351/M09).** cli.rs komut şeması, mevcut alan dispatch'i, geçerli girdi/varsayılan uyumu; bozuk/yinelenen/bilinmeyen/fazla CLI girdide açık çıkış 2, help çıkış 0. Ekonomik semantik veya üst yetki değişmez. | PROVISIONAL_DECISION | [Tam sözleşme](D161_V86_CLI_DELEGATION_SPEC.md); [korunan V8.6 tam metin](../contracts/V8_6_PRODUCTION_RECALIBRATION_FULL_TEXT.html); M09; Rule 44. Doğrulama bekleniyor. |

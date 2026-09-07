@@ -96,7 +96,6 @@ pub fn evaluate<K: ReplayKernel + Sync>(
     let workers = threads.min(cells.len());
     let bounds = chunk_bounds(cells.len(), workers);
     // Split `output` into disjoint per-worker slices once, up front
-    // (split_at_mut is the only borrow the scope needs to see).
     let mut chunks: Vec<&mut [Outcome]> = Vec::with_capacity(workers);
     let mut rest = &mut output[..];
     for w in 0..workers {
@@ -105,31 +104,24 @@ pub fn evaluate<K: ReplayKernel + Sync>(
         chunks.push(head);
         rest = tail;
     }
-    std::thread::scope(|s| -> Result<(), String> {
-        let mut handles = Vec::with_capacity(workers);
-        // into_iter moves each disjoint `&mut [Outcome]` out of `chunks` one
-        // at a time — the borrows were created by split_at_mut, so no worker
-        // can alias another's output slice.
-        let mut chunk_iter = chunks.into_iter();
-        for w in 0..workers {
-            let (lo, hi) = (bounds[w], bounds[w + 1]);
-            let chunk = &cells[lo..hi];
-            let out = chunk_iter.next().expect("one output chunk per worker");
-            handles.push(s.spawn(move || kernel.evaluate(dataset, chunk, out)));
-        }
-        for h in handles {
-            match h.join() {
-                Ok(Ok(())) => {}
-                Ok(Err(e)) => return Err(e),
-                Err(_) => {
-                    return Err(
-                        "scheduler: worker fault while evaluating a cell chunk — partial results are never published"
-                            .to_string(),
-                    )
-                }
-            }
-        }
-        Ok(())
+
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(workers)
+        .build()
+        .map_err(|e| format!("scheduler: failed to initialize rayon thread pool: {e}"))?;
+
+    pool.install(|| {
+        use rayon::prelude::*;
+        let cell_chunks: Vec<&[ReplayCell]> = (0..workers)
+            .map(|w| &cells[bounds[w]..bounds[w + 1]])
+            .collect();
+
+        chunks
+            .into_par_iter()
+            .zip(cell_chunks.into_par_iter())
+            .map(|(out_chunk, in_chunk)| kernel.evaluate(dataset, in_chunk, out_chunk))
+            .collect::<Result<Vec<()>, String>>()
+            .map(|_| ())
     })
 }
 
@@ -138,9 +130,8 @@ pub fn evaluate<K: ReplayKernel + Sync>(
 ///
 /// A task's own `Err` is a task RESULT — the caller owns the failure policy
 /// (a per-cell replay error becomes the cube's NOT_EVALUABLE_ACTION cell, it
-/// does not fail the batch). An infrastructure fault — a worker panic or a
-/// join failure — fails the whole call (§7): `Err` is returned and no partial
-/// result list is produced.
+/// does not fail the batch). An infrastructure fault fails the whole call (§7):
+/// `Err` is returned and no partial result list is produced.
 #[allow(dead_code)]
 pub fn parallel_map<T: Send, F: Fn(usize) -> Result<T, String> + Sync>(
     threads: usize,
@@ -152,37 +143,32 @@ pub fn parallel_map<T: Send, F: Fn(usize) -> Result<T, String> + Sync>(
     }
     let workers = threads.min(n);
     let bounds = chunk_bounds(n, workers);
-    let mut results: Vec<Result<T, String>> = Vec::with_capacity(n);
-    std::thread::scope(|s| -> Result<(), String> {
-        let mut handles = Vec::with_capacity(workers);
-        for w in 0..workers {
-            let (lo, hi) = (bounds[w], bounds[w + 1]);
-            handles.push(s.spawn(move || {
+
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(workers)
+        .build()
+        .map_err(|e| format!("scheduler: failed to initialize rayon thread pool: {e}"))?;
+
+    pool.install(|| {
+        use rayon::prelude::*;
+        let chunk_results: Vec<Vec<Result<T, String>>> = (0..workers)
+            .into_par_iter()
+            .map(|w| {
+                let (lo, hi) = (bounds[w], bounds[w + 1]);
                 let mut chunk = Vec::with_capacity(hi - lo);
                 for i in lo..hi {
                     chunk.push(f(i));
                 }
                 chunk
-            }));
-        }
-        for (w, h) in handles.into_iter().enumerate() {
-            let chunk = match h.join() {
-                Ok(c) => c,
-                Err(_) => {
-                    return Err(
-                        "scheduler: worker fault while evaluating a task — partial results are never published"
-                            .to_string(),
-                    )
-                }
-            };
-            // Workers are joined in worker order and each produced a
-            // contiguous [lo, hi) slice, so extend preserves index order.
-            debug_assert_eq!(chunk.len(), bounds[w + 1] - bounds[w]);
+            })
+            .collect();
+
+        let mut results = Vec::with_capacity(n);
+        for chunk in chunk_results {
             results.extend(chunk);
         }
-        Ok(())
-    })?;
-    Ok(results)
+        Ok(results)
+    })
 }
 
 #[cfg(test)]
