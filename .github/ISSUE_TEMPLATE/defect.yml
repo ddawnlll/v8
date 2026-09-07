@@ -144,3 +144,55 @@ body:
           required: true
         - label: "If the owning contract is ambiguous, I will open/escalate an OPEN_PIN rather than invent an interpretation."
           required: true
+  - type: input
+    id: owner
+    attributes:
+      label: Owner
+      description: "Accountable GitHub login; the actual assignee must match before READY."
+    validations:
+      required: true
+  - type: dropdown
+    id: lifecycle
+    attributes:
+      label: Lifecycle
+      description: "Must match the state label. New issues begin in triage."
+      options:
+        - state:triage
+        - state:blocked
+    validations:
+      required: true
+  - type: input
+    id: base_sha
+    attributes:
+      label: Base SHA
+      description: "Full 40-character commit SHA against which scope was checked."
+    validations:
+      required: true
+  - type: textarea
+    id: completed_requirements
+    attributes:
+      label: Completed R IDs
+      description: "List completed R IDs with implementation/verification evidence, or NONE. Branch delivery alone does not mean completion."
+    validations:
+      required: true
+  - type: textarea
+    id: remaining_requirements
+    attributes:
+      label: Remaining R IDs
+      description: "List every remaining R ID. Completed and remaining sets must be disjoint and cover all requirements."
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: "Issue/PR links and exact blocking requirements, or NONE with reason."
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: "Revision-bound CI/test/physical artifact links. Say PENDING when not produced; do not invent receipts."
+    validations:
+      required: true
