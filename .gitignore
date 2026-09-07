@@ -46,6 +46,11 @@ research/handbook_technical_analysis_2016/
 .audit/**/*.stdout
 .audit/**/*.stderr
 .audit/**/*.sha256
+# Giant generated oracle-coverage dumps (2026-09-08 consolidation: ~950k lines,
+# reproducible from the tracked tape via the oracle-coverage binary; kept on disk,
+# never tracked).
+.audit/history/20260819_094539_post-kaizen-kz001-kz005/request_oracle_coverage.json
+.audit/history/20260819_094539_post-kaizen-kz001-kz005/oracle_coverage_receipt.json
 .audit_archive_python_base/
 
 # Beads / Dolt files (added by bd init)
