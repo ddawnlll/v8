@@ -53,6 +53,7 @@ pub mod telemetry;
 pub mod temporal;
 pub mod tevv;
 pub mod eeo;
+pub mod execution;
 pub mod usdm_sim;
 pub mod venue;
 pub mod world;
