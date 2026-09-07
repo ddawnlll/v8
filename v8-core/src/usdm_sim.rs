@@ -180,6 +180,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
 
     let mut all_emitted_candidates: Vec<(usize, String)> = Vec::new();
     let mut bar_votes: Vec<SensorVote> = Vec::with_capacity(32);
+    let mut next_funding = 0;
 
     for i in 0..n_bars {
         let frame = store.causal_frame(i);
@@ -189,20 +190,22 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
         let current_low = frame.low;
         let current_atr = frame.atr.unwrap_or(current_close * 0.01);
         let as_of = frame.decision_time.0;
-        let current_funding_rate = frame.funding_rate;
-
-        // 1. Settle 8-hour funding cashflows if applicable
-        if (as_of % (8 * 3600 * 1_000_000_000)) == 0 && !portfolio.positions.is_empty() {
-            for pos in &mut portfolio.positions {
-                let notional = pos.quantity * current_open;
-                let funding_cf = if pos.direction == "LONG" {
-                    -notional * current_funding_rate
-                } else {
-                    notional * current_funding_rate
-                };
-                account.apply_funding(funding_cf);
-                pos.cum_funding_usdt += funding_cf;
-            }
+        // Consume observed settlement events once, at availability. Decision
+        // clocks need not fall exactly on a funding boundary. The existing
+        // bar model values notional at this bar's open, not a venue mark price.
+        while next_funding < store.funding_avail.len()
+            && store.funding_avail[next_funding] <= as_of
+        {
+            let settlement_time = store.funding_event_times[next_funding];
+            let current_funding_rate = store.funding_rate[next_funding];
+            apply_funding_event(
+                &mut account,
+                &mut portfolio.positions,
+                settlement_time,
+                current_funding_rate,
+                current_open,
+            )?;
+            next_funding += 1;
         }
 
         // 2. Evaluate active open positions against bar price action (Dynamic Chandelier Trailing)
@@ -237,7 +240,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 account.apply_realized_pnl(gross_pnl);
                 account.deduct_fee(taker_fee);
 
-                let balance_before = account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee;
+                let balance_before = account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee - pos.cum_funding_usdt;
 
                 let flow = EconomicCashflow::new(
                     as_of,
@@ -316,7 +319,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                     last_failed_dir = Some(pos.direction.clone());
                 }
 
-                let balance_before = account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee;
+                let balance_before = account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee - pos.cum_funding_usdt;
 
                 let flow = EconomicCashflow::new(
                     as_of,
@@ -356,7 +359,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 account.apply_realized_pnl(gross_pnl);
                 account.deduct_fee(taker_fee);
 
-                let balance_before = account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee;
+                let balance_before = account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee - pos.cum_funding_usdt;
 
                 let flow = EconomicCashflow::new(
                     as_of,
@@ -849,6 +852,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
             (pos.entry_price - last_close) * pos.quantity
         };
         let taker_fee = last_close * pos.quantity * account.effective_fee_rate(false);
+        let entry_fee = pos.entry_price * pos.quantity * account.effective_fee_rate(false);
         account.release_margin(pos.initial_margin_usdt);
         account.apply_realized_pnl(gross_pnl);
         account.deduct_fee(taker_fee);
@@ -862,17 +866,29 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
             pos.entry_price,
             last_close,
             gross_pnl,
-            taker_fee,
+            entry_fee + taker_fee,
             pos.cum_funding_usdt,
             0.0,
             0.0,
-            account.wallet_balance_usdt - (gross_pnl - taker_fee),
+            account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee - pos.cum_funding_usdt,
             account.margin_utilization_pct(),
         )?;
         ledger.record(flow)?;
     }
 
+    // All positions are closed; do not count the last floating PnL twice.
+    account.unrealized_pnl_usdt = 0.0;
     let terminal_equity = account.equity_usdt();
+    let reconciled_equity =
+        params.initial_balance + ledger.flows.iter().map(|f| f.net_pnl_usdt).sum::<f64>();
+    if !terminal_equity.is_finite()
+        || !reconciled_equity.is_finite()
+        || (terminal_equity - reconciled_equity).abs() > 1e-6
+    {
+        return Err(format!(
+            "terminal equity does not reconcile: account={terminal_equity}, ledger={reconciled_equity}"
+        ));
+    }
     let net_profit = terminal_equity - params.initial_balance;
     let total_return_pct = (net_profit / params.initial_balance) * 100.0;
 
@@ -986,9 +1002,69 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
     Ok(receipt)
 }
 
+/// Applies an observed event only to exposure already open at settlement.
+fn apply_funding_event(
+    account: &mut AccountState,
+    positions: &mut [OpenPosition],
+    settlement_time: i64,
+    rate: f64,
+    price: f64,
+) -> Result<(), String> {
+    if !rate.is_finite() || !price.is_finite() || price <= 0.0 {
+        return Err("invalid funding observation".into());
+    }
+    for pos in positions {
+        if pos.entry_time >= settlement_time {
+            continue;
+        }
+        let sign = match pos.direction.as_str() {
+            "LONG" => -1.0,
+            "SHORT" => 1.0,
+            _ => return Err("invalid funding position direction".into()),
+        };
+        let cashflow = sign * pos.quantity * price * rate;
+        account.apply_funding(cashflow);
+        pos.cum_funding_usdt += cashflow;
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn funding_uses_settlement_exposure_and_signed_observation() {
+        let position = |direction: &str, entry_time| OpenPosition {
+            position_id: format!("{direction}-{entry_time}"),
+            candidate_id: "candidate".into(),
+            symbol: "BTCUSDT".into(),
+            direction: direction.into(),
+            entry_price: 100.0,
+            quantity: 2.0,
+            initial_margin_usdt: 20.0,
+            isolated_margin_usdt: 20.0,
+            leverage: 10,
+            entry_time,
+            stop_loss_price: 90.0,
+            take_profit_price: None,
+            liquidation_price: 80.0,
+            cum_funding_usdt: 0.0,
+        };
+        let mut account = AccountState::new(1000.0);
+        let mut positions = vec![
+            position("LONG", 1),
+            position("SHORT", 1),
+            position("LONG", 9),
+        ];
+        apply_funding_event(&mut account, &mut positions, 8, 0.01, 100.0).unwrap();
+        assert_eq!(positions[0].cum_funding_usdt, -2.0);
+        assert_eq!(positions[1].cum_funding_usdt, 2.0);
+        assert_eq!(positions[2].cum_funding_usdt, 0.0);
+        assert_eq!(account.wallet_balance_usdt, 1000.0);
+        assert!(apply_funding_event(&mut account, &mut positions, 16, f64::NAN, 100.0).is_err());
+        assert_eq!(account.wallet_balance_usdt, 1000.0);
+    }
 
     #[test]
     fn test_usdm_sim_execution_on_certified_tape() {
@@ -1547,4 +1623,3 @@ mod tests {
         println!("==========================================================================================\n");
     }
 }
-

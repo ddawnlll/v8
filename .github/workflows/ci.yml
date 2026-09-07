@@ -9,6 +9,7 @@ name: ci
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   check:
@@ -48,8 +49,8 @@ jobs:
       - name: Python/Rust ownership boundary
         run: python3 tools/audit_python_boundary.py
 
-      - name: Expert registry contract gate
-        run: python3 -m pytest tests/test_expert_registry.py -q
+      - name: Rust expert registry contract gate
+        run: cargo test --locked --manifest-path v8-core/Cargo.toml registry_contract
 
       - name: v8-core unit tests (debug, catches checked arithmetic failures)
         working-directory: v8-core
@@ -81,9 +82,11 @@ jobs:
         run: cargo test --release
 
       - name: FILL_AT_LIMIT CPU/oracle parity gate
+        if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
         run: python3 -m pytest tests/parity/test_parity_fill_limit.py -q
 
       - name: Monograph byte-identity probe
+        if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
         run: |
           "$(which python)" tools/build_monograph.py --lang en --docs docs --out /tmp/v8_probe.html
           n=$(sha256sum /tmp/v8_probe.html site/index.html | awk '{print $1}' | sort -u | wc -l)

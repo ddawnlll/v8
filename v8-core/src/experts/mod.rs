@@ -373,6 +373,33 @@ mod variant_tests {
     use std::collections::HashMap;
 
     #[test]
+    fn registry_contract() {
+        use std::collections::BTreeSet;
+
+        let dispatch: BTreeSet<_> = super::TABLE.iter().map(|row| row.0).collect();
+        let requirements: BTreeSet<_> = super::REQUIRES_TABLE.iter().map(|row| row.0).collect();
+        assert!(!dispatch.is_empty());
+        assert_eq!(
+            dispatch.len(),
+            super::TABLE.len(),
+            "duplicate expert dispatch"
+        );
+        assert_eq!(
+            requirements.len(),
+            super::REQUIRES_TABLE.len(),
+            "duplicate feature declaration"
+        );
+        assert_eq!(
+            dispatch, requirements,
+            "dispatch and feature declarations differ"
+        );
+        for (id, _, version, ported) in super::TABLE {
+            assert!(!id.is_empty() && !version.is_empty());
+            assert!(ported, "unported expert {id} in authoritative registry");
+        }
+    }
+
+    #[test]
     fn variant_overrides_are_explicit_and_fail_closed() {
         let mut ok = HashMap::new();
         ok.insert(

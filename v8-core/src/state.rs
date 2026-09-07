@@ -806,6 +806,8 @@ pub struct FeatureStore {
     pub event_ids: Vec<String>,
     // funding / open-interest channels (latest admissible per clock).
     pub funding_avail: Vec<i64>,
+    /// Settlement event clocks, distinct from when the rates became available.
+    pub funding_event_times: Vec<i64>,
     pub funding_rate: Vec<f64>,
     pub oi_avail: Vec<i64>,
     pub oi_value: Vec<f64>,
@@ -905,6 +907,7 @@ impl FeatureStore {
         }
 
         let mut funding_avail = Vec::new();
+        let mut funding_event_times = Vec::new();
         let mut funding_rate = Vec::new();
         let mut oi_avail = Vec::new();
         let mut oi_value = Vec::new();
@@ -914,6 +917,7 @@ impl FeatureStore {
             match r.channel.as_str() {
                 "funding" if r.instrument == bars.symbol => {
                     funding_avail.push(r.available_time);
+                    funding_event_times.push(r.event_time);
                     funding_rate.push(r.payload["funding_rate"].as_f64().unwrap_or(0.0));
                 }
                 "open_interest" if r.instrument == bars.symbol => {
@@ -962,6 +966,7 @@ impl FeatureStore {
             bar_event_times,
             event_ids: bars.event_ids.clone(),
             funding_avail,
+            funding_event_times,
             funding_rate,
             oi_avail,
             oi_value,
@@ -3739,4 +3744,3 @@ pub struct DecisionState {
     pub account: crate::account::AccountState,
     pub portfolio: crate::portfolio::PortfolioState,
 }
-
