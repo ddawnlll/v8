@@ -213,7 +213,7 @@ pub fn resolve_lane(mode: Option<&str>) -> Result<ExecutionLaneId, String> {
     match mode {
         None => Ok(ExecutionLaneId::Usdm),
         Some(s) => ExecutionLaneId::parse(s)
-            .ok_or_else(|| format!("unknown engine-mode `{s}`: expected `usdm` or `nautilus`")),
+            .ok_or_else(|| format!("unknown execution-lane `{s}`: expected `usdm` or `nautilus`")),
     }
 }
 

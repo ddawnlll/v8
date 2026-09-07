@@ -16,6 +16,9 @@ sonrasinda bana oncesi ve sonrasi d-153 audit raporunu sun karsilastiralim.`
   `resolve_lane` (unknown → Err), `UsdmLane`, `NautilusLane::venue_config`,
   `calibrate()` (Mapped/Unmapped/NotApplicable; sentetik sıfır yok).
 - `v8-core/src/lib.rs`: `pub mod execution;`
+- `v8-core/src/main.rs`: `--execution-lane usdm|nautilus` bayrağı (varsayılan `usdm`);
+  bilinmeyen değer fail-closed (exit 2); `nautilus` seçiminde kalibrasyon gap'leri
+  stderr'e yazılır, koşu usdm referansı üzerinden devam eder (W14'e kadar).
 - Yeni testler: `lane_resolution_fails_closed_on_unknown`,
   `nautilus_calibration_never_fabricates` (13 lib testi içinde yeşil).
 

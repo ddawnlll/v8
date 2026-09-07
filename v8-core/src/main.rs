@@ -1425,6 +1425,7 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
     let mut decision_stride_bars = 1usize;
     let mut enabled_experts: Option<Vec<String>> = None;
     let mut engine_mode: Option<String> = None;
+    let mut execution_lane: Option<String> = None;
     let mut exit_arm: Option<kaizen::exit_trailing::ExitArm> = None;
     let mut symbol: Option<String> = None;
     let mut is_quad = false;
@@ -1532,6 +1533,15 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
                     return 2;
                 }
             }
+            "--execution-lane" => {
+                if i + 1 < args.len() {
+                    execution_lane = Some(args[i + 1].clone());
+                    i += 2;
+                } else {
+                    eprintln!("missing argument for --execution-lane");
+                    return 2;
+                }
+            }
             "--exit-arm" => {
                 if i + 1 < args.len() {
                     let val = &args[i + 1];
@@ -1605,6 +1615,30 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         }
     }
 
+    let lane = match v8_core::execution::resolve_lane(execution_lane.as_deref()) {
+        Ok(l) => l,
+        Err(e) => {
+            eprintln!("{e}");
+            return 2;
+        }
+    };
+    if lane == v8_core::execution::ExecutionLaneId::Nautilus {
+        use v8_core::execution::ExecutionLane;
+        let nlane = v8_core::execution::NautilusLane {
+            initial_balance,
+            risk_fraction,
+            leverage,
+            venue: "BINANCE".into(),
+        };
+        let report = nlane.calibrate();
+        eprintln!(
+            "execution-lane=nautilus unmapped={} (W14 open; routing via usdm reference until parity proven)",
+            report.unmapped_count
+        );
+        for g in report.gaps() {
+            eprintln!("  gap {}: {}", g.name, g.note);
+        }
+    }
     let tape = tape_path.clone().unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
     let out = out_dir.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current"));
     let final_engine_mode = engine_mode.or_else(|| Some("macro-m2".to_string()));
