@@ -1,4 +1,5 @@
-#![allow(clippy::all, warnings)]
+// Causal future shock test suite
+#[allow(clippy::all, warnings)]
 
 //! Causal Fortress & Future-Shock Prefix Non-Interference Fuzzing Suite (D-139, Rules 44–50, CC-BILL-V8.3-CAUSAL-FORTRESS-006).
 //!
