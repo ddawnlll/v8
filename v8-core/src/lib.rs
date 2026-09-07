@@ -16,7 +16,6 @@ pub mod benchmark;
 pub mod cache;
 pub mod candidate;
 pub mod cashflow;
-pub mod checkpoint;
 pub mod claims;
 pub mod data;
 pub mod error;
