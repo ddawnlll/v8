@@ -93,3 +93,16 @@ Exact active CI check identity on GitHub Actions: `check` (workflow: `ci`).
 - [ ] No synthetic statistical metrics or fabricated trade markouts.
 - [ ] CODEOWNERS review obtained from real repository maintainers (`@ddawnlll`).
 - [ ] This PR does not auto-close the tracking issue if post-merge default-branch smoke validation is pending.
+
+## 10. Work-item lifecycle receipt
+
+- **Owner / actual assignee:**
+- **Lifecycle / actual state label:**
+- **Base SHA (full commit):**
+- **Linked issue and complete R-ID set:**
+- **Completed R IDs with evidence:**
+- **Remaining R IDs:**
+- **Blocking dependencies:**
+- **Evidence SHA / CI runs / physical artifacts:**
+
+Completed and remaining requirement sets must be disjoint and exhaustive. A proposed path is not a produced artifact. Branch tests do not satisfy a required post-merge/default-branch gate. Superseded work must name its replacement and must not be represented as implemented.

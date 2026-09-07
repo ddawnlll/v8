@@ -113,3 +113,9 @@ Her PR, `.github/PULL_REQUEST_TEMPLATE.md` kullanılarak açılmalı ve şu gere
 ## 7. Ölçülen 10–20 Issue Pilotu
 
 v1.2 kuralları, `docs/governance/PILOT_TRACKING_RECORD.md` içinde takip edilen 10–20 issue'luk ölçümlü pilot ile işletilmeye başlanmıştır.
+
+## 9. V8.6 zorunlu yaşam döngüsü alanları (#370)
+
+CLI/API ile açılanlar dahil bütün issue'larda Owner, Lifecycle, 40 karakterlik tam Base SHA, Completed R IDs, Remaining R IDs, Dependencies ve Evidence bulunur. GitHub assignee ve state etiketi esas metaveridir; READY öncesi body bunlarla uyuşmalıdır. Tamamlanan ve kalan kümeler ayrık olmalı ve bütün normatif gereksinimleri kapsamalıdır. Tamamlanan gereksinim yoksa NONE, henüz üretilmemiş kanıt için PENDING kullanılır; PASS uydurulmaz.
+
+Beş issue formu alanları toplar. **Form doğrulaması API üzerinden açılan issue'ları zorlamaz.** #370 Rust doğrulayıcı ve CI uygulaması kodlanıp test edilene kadar PENDING'dir; bu politika otomasyonun var olduğunu iddia etmez. Bağımlılık veya yetki açığı ilgili işin READY olmasını engeller. Her PR bütün R kimliklerini implementation, doğrulama ve revision'a bağlı fiziksel kanıtla eşler. Gerekli merge sonrası kanıt olmadan completed kapanış yapılmaz; superseded iş implementation tamamlandı iddiası olmadan halefini gösterir.
