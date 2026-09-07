@@ -1,0 +1,15 @@
+{
+  "receipt_id": "1a3cf7aa2bbcee472fd443c4051d9102b805e474",
+  "universe_id": "w2-gate",
+  "population_hash": "2a695ae751f3d198c95a5de52748ea6c3fd98a62",
+  "claim": "NO_ECONOMIC_CLAIM",
+  "total_opportunity_count": 0,
+  "supported_opportunity_count": 0,
+  "unsupported_opportunity_count": 0,
+  "represented_supported_count": 0,
+  "unrepresented_supported_count": 0,
+  "representational_coverage": 0.0,
+  "representational_coverage_gap": 1.0,
+  "unrepresented_clusters": [],
+  "members": []
+}
