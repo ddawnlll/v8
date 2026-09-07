@@ -1,0 +1,20 @@
+>>> V8.2 Fast In-Process Audit Engine (Issues #306, #307, #308, #309) <<<
+  -> [1/2] Executing Dual-Pass Concurrent Verification (Bit-Exact Determinism)...
+    [S6 Timer] read_evaluations_jsonl: 0.141s
+    [S6 Timer] read_evaluations_jsonl: 0.117s
+    [S6 Timer] read candidates.jsonl: 0.146s
+    [S6 Timer] read candidates.jsonl: 0.169s
+    [S6 Timer] derive_outcomes: 0.001s
+    [S6 Timer] derive_outcomes: 0.001s
+    [S6 Timer] derive_state_ledger: 0.629s
+    [S6 Timer] derive_state_ledger: 0.661s
+    [S6 Timer] reconciliation: 0.229s
+    [S6 Timer] phase 1: 0.012s
+    [S6 Timer] phase 2: 0.003s
+    [S6 Timer] phase 3 (in-memory): 0.056s
+    [S6 Timer] reconciliation: 0.205s
+    [S6 Timer] phase 1: 0.041s
+    [S6 Timer] phase 2: 0.003s
+    [S6 Timer] phase 3 (in-memory): 0.056s
+  -> [2/2] [OK] 100% Bit-Exact Determinism Verified across all generated ledgers and Oracle receipts.
+  -> [3/3] Emitting Certified Reproduction Certificate...

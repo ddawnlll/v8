@@ -14,6 +14,7 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use crate::hash::Canon;
+use crate::parquet_artifact::write_json_rows;
 
 /// Post-fill adverse selection markout entry for a single trade or fill event.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -145,9 +146,14 @@ pub fn save_maker_identifiability_artifacts(
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
     fs::write(out_dir.join("maker_identifiability_receipt.json"), rep_json)?;
 
-    let mark_json = serde_json::to_string_pretty(markouts)
+    let mark_value = serde_json::to_value(markouts)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-    fs::write(out_dir.join("markouts.parquet"), mark_json)?;
+    write_json_rows(
+        &out_dir.join("markouts.parquet"),
+        "markouts",
+        &mark_value,
+        None,
+    )?;
 
     Ok(())
 }

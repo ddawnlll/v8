@@ -253,6 +253,32 @@ impl CandidateRegistry {
 
     /// Append the lifecycle records as JSONL without rewriting prior records.
     pub fn append_jsonl(&self, path: &std::path::Path) -> Result<(), String> {
+        // `CandidateRegistry` is a materialized projection, so a caller may
+        // legitimately invoke this method more than once after adding a new
+        // transition.  Replaying the whole projection into an append-only file
+        // would duplicate every historical event.  Read only the durable event
+        // ids and publish the missing suffix.  A malformed existing line is a
+        // hard failure rather than a reason to append beside an untrusted log.
+        let mut persisted = HashSet::new();
+        if path.exists() {
+            let file = std::fs::File::open(path)
+                .map_err(|e| format!("open existing transition log {path:?}: {e}"))?;
+            for (line_no, line) in std::io::BufReader::new(file).lines().enumerate() {
+                let line = line.map_err(|e| format!("read transition line {}: {e}", line_no + 1))?;
+                if line.trim().is_empty() {
+                    continue;
+                }
+                let record: TransitionRecord = serde_json::from_str(&line)
+                    .map_err(|e| format!("parse transition line {}: {e}", line_no + 1))?;
+                if !persisted.insert(record.event_id.clone()) {
+                    return Err(format!(
+                        "duplicate event id already published in transition log: {}",
+                        record.event_id
+                    ));
+                }
+            }
+        }
+
         let file = std::fs::OpenOptions::new()
             .create(true)
             .append(true)
@@ -260,10 +286,17 @@ impl CandidateRegistry {
             .map_err(|e| format!("open transition log {path:?}: {e}"))?;
         let mut out = std::io::BufWriter::new(file);
         for record in &self.records {
+            if persisted.contains(&record.event_id) {
+                continue;
+            }
             serde_json::to_writer(&mut out, record).map_err(|e| e.to_string())?;
             out.write_all(b"\n").map_err(|e| e.to_string())?;
+            persisted.insert(record.event_id.clone());
         }
-        out.flush().map_err(|e| e.to_string())
+        out.flush().map_err(|e| e.to_string())?;
+        out.get_ref()
+            .sync_data()
+            .map_err(|e| format!("sync transition log {path:?}: {e}"))
     }
 
     /// Read a JSONL transition log and rebuild its materialized projection.

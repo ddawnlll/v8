@@ -55,7 +55,7 @@ et.
   paritesi;
 * Level N, sessizce Level N+1 semantiği sağlamamalıdır.
 
-Bunlar mevcut `v7/lab/sim.py` semantiğiyle ve fonlama terminal-sınır kusurunun
+Bunlar mevcut `v7/lab/sim.py` semantiğiyle ve fonlama terminal-sınır kusurunun <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY `v7/lab/sim.py` belongs to the audited V7 materials, not to this repository tree. -->
 diferansiyel replay gerektirdiği denetim bulgusuyla uyumludur. Bunlar
 **PROJECT_EVIDENCE_SUPPORTED mühendislik kontrolleridir**, piyasa kanıtı değildir.
 

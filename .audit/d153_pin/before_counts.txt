@@ -1,0 +1,10 @@
+### v8-core/target/debug/deps/d153_benchmark_fabric_sabotage-53cec69f538ce32e
+test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+### v8-core/target/debug/deps/d153_minerva_and_dashboard_test-3a1b4f44568066ff
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+### v8-core/target/debug/deps/d153_parity_adapters_policy_bound-51ae9cbb91531c98
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+### v8-core/target/debug/deps/d153_receipt_ledger_selfverify-036aeb04b3edebd5
+test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+### v8-core/target/debug/deps/d152_gate_vector_authority_firewall-08602e345462ce70
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

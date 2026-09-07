@@ -23,6 +23,7 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use crate::hash::Canon;
+use crate::parquet_artifact::write_json_rows;
 
 /// Six canonical regret domains.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -213,9 +214,14 @@ pub fn save_o4_regret_artifacts(
 ) -> io::Result<()> {
     fs::create_dir_all(out_dir)?;
 
-    let decomp_json = serde_json::to_string_pretty(decomp)
+    let decomp_value = serde_json::to_value(decomp)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-    fs::write(out_dir.join("o4_regret_decomposition.parquet"), &decomp_json)?;
+    write_json_rows(
+        &out_dir.join("o4_regret_decomposition.parquet"),
+        "o4_regret_decomposition",
+        &decomp_value,
+        None,
+    )?;
 
     let ledger_json = serde_json::to_string_pretty(ledger)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;

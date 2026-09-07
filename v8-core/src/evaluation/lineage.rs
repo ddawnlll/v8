@@ -13,6 +13,7 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use crate::hash::Canon;
+use crate::parquet_artifact::write_json_rows;
 
 /// Edge Cardinality Type along DAG transitions.
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Serialize, Deserialize)]
@@ -303,7 +304,7 @@ impl PopulationLineageDag {
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
         fs::write(out_dir.join("report_reconciliation.json"), recon_json)?;
 
-        // 4. report_cell_provenance.parquet (JSON-table representation)
+        // 4. report_cell_provenance.parquet
         let mut provenance_records = Vec::new();
         for node in &self.nodes {
             provenance_records.push(serde_json::json!({
@@ -315,9 +316,14 @@ impl PopulationLineageDag {
                 "filter_reason": node.filter_reason,
             }));
         }
-        let prov_json = serde_json::to_string_pretty(&provenance_records)
+        let prov_value = serde_json::to_value(&provenance_records)
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-        fs::write(out_dir.join("report_cell_provenance.parquet"), prov_json)?;
+        write_json_rows(
+            &out_dir.join("report_cell_provenance.parquet"),
+            "report_cell_provenance",
+            &prov_value,
+            None,
+        )?;
 
         Ok(())
     }

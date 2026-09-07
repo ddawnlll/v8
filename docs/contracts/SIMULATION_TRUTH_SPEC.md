@@ -82,7 +82,7 @@ time and simulator processing order.
 * scalar reference versus accelerated replica parity before accelerated economics;
 * Level N must not silently supply a Level N+1 semantic.
 
-These align with existing `v7/lab/sim.py` semantics and audit finding that a
+These align with existing `v7/lab/sim.py` semantics and audit finding that a <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY `v7/lab/sim.py` belongs to the audited V7 materials, not to this repository tree. -->
 funding terminal-boundary defect required differential replay. They are
 **PROJECT_EVIDENCE_SUPPORTED engineering controls**, not market evidence.
 

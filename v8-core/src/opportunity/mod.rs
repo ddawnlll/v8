@@ -23,7 +23,6 @@ pub mod reconcile;
 pub mod utility;
 pub mod campaign;
 pub mod runloop;
-pub mod harness_t1_t12;
 pub mod funnel;
 pub mod frontier;
 

@@ -1081,7 +1081,7 @@ pub(crate) fn write_cube_reduced(
     let cache_path = path
         .parent()
         .unwrap_or_else(|| std::path::Path::new("."))
-        .join("cube-cache.jsonl");
+        .join("cube-cache.redb");
     let mut cache_store = cache::CacheStore::open(&cache_path)
         .map_err(|e| format!("open cube cache {cache_path:?}: {e}"))?;
     let mut cache_keys = Vec::with_capacity(batch.len());
@@ -1099,7 +1099,7 @@ pub(crate) fn write_cube_reduced(
         );
         cache_keys.push(key.clone());
         match cache_store.get(&key) {
-            Some(value) => results[i] = Ok(cache::outcome_from_value(value)?),
+            Some(value) => results[i] = Ok(cache::outcome_from_value(&value)?),
             None => misses.push(i),
         }
     }

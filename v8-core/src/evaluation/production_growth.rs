@@ -1,3 +1,6 @@
+// QUARANTINE (W2 / V8.6 Phase 1): test-only surface, sole consumer is
+// v8-core/tests/production_growth_contract.rs. Growth requires authority
+// (`needs:authority`); do not wire into production gates.
 //! Production Growth Contract & LGNG Geometric Growth Algebra (D-147, D-149, M0_CLOSED, M2).
 //!
 //! Enforces:

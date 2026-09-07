@@ -1,3 +1,6 @@
+// QUARANTINE (W2 / V8.6 Phase 1): test-only surface, sole consumer is
+// v8-core/tests/production_growth_contract.rs. Growth requires authority
+// (`needs:authority`); do not wire into production gates.
 //! Opportunity Universe Breadth vs Capital Allocation Diagnostics (D-147, D-149, M2).
 //!
 //! Invariant: Broad opportunity universe may legally produce zero allocations or single-asset

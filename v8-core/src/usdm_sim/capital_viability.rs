@@ -18,6 +18,7 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use crate::hash::Canon;
+use crate::parquet_artifact::write_json_rows;
 
 /// Critical capital envelope components for a single candidate geometry.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -220,9 +221,14 @@ pub fn save_capital_viability_artifacts(
 ) -> io::Result<()> {
     fs::create_dir_all(out_dir)?;
 
-    let surface_json = serde_json::to_string_pretty(&surface.tiers)
+    let surface_value = serde_json::to_value(&surface.tiers)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-    fs::write(out_dir.join("capital_viability_surface.parquet"), surface_json)?;
+    write_json_rows(
+        &out_dir.join("capital_viability_surface.parquet"),
+        "capital_viability_surface",
+        &surface_value,
+        None,
+    )?;
 
     let meta_json = serde_json::to_string_pretty(surface)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;

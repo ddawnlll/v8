@@ -4,7 +4,8 @@
 
 use serde::{Deserialize, Serialize};
 use std::fs::OpenOptions;
-use std::io::{BufWriter, Write};
+use std::collections::HashSet;
+use std::io::{BufRead, BufWriter, Write};
 use std::path::Path;
 
 /// 5-Component Economic Cashflow Event Record (VENUE_AND_CAPITAL_SIMULATION_SPEC §7).
@@ -115,19 +116,44 @@ impl CashflowLedger {
         Ok(())
     }
 
-    /// Writes all ledger entries to `economic-cashflow.jsonl`.
+    /// Publishes only cashflow records not already present in the append-only
+    /// ledger.  The canonical JSON record is used as the idempotence key because
+    /// the legacy cashflow schema predates a dedicated event id.
     pub fn write_jsonl(&self, path: &Path) -> std::io::Result<()> {
+        let mut persisted = HashSet::new();
+        if path.exists() {
+            let file = std::fs::File::open(path)?;
+            for line in std::io::BufReader::new(file).lines() {
+                let line = line?;
+                if line.trim().is_empty() {
+                    continue;
+                }
+                let flow: EconomicCashflow = serde_json::from_str(&line).map_err(|e| {
+                    std::io::Error::new(std::io::ErrorKind::InvalidData, e)
+                })?;
+                flow.verify_conservation().map_err(|e| {
+                    std::io::Error::new(std::io::ErrorKind::InvalidData, e)
+                })?;
+                persisted.insert(serde_json::to_string(&flow).map_err(|e| {
+                    std::io::Error::new(std::io::ErrorKind::InvalidData, e)
+                })?);
+            }
+        }
+
         let file = OpenOptions::new()
             .create(true)
-            .write(true)
-            .truncate(true)
+            .append(true)
             .open(path)?;
         let mut writer = BufWriter::new(file);
         for f in &self.flows {
             let json = serde_json::to_string(f)?;
+            if !persisted.insert(json.clone()) {
+                continue;
+            }
             writeln!(writer, "{json}")?;
         }
         writer.flush()?;
+        writer.get_ref().sync_data()?;
         Ok(())
     }
 

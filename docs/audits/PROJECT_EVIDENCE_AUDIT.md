@@ -16,7 +16,7 @@ there is no file-grounded V6 conclusion.
 | **Unverified proposal** | Architecture or experiment described in V8 or a V7 target spec, with no admissible outcome evidence in the reviewed files. |
 
 The strongest available economic-certification record is still
-`v7/specs/simulation_authority_certification_v1.json`: `status: FAIL`,
+`v7/specs/simulation_authority_certification_v1.json`: `status: FAIL`, <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY `v7/specs/simulation_authority_certification_v1.json` belongs to the audited V7 materials, not to this repository tree. -->
 `autopilot_permission: BLOCKED`, `economic_verdict: INVALID_NOT_CERTIFIED`, and
 `profitability_claim: FORBIDDEN`. Therefore no project file reviewed here
 supports a profitability claim.
@@ -72,7 +72,7 @@ Source: `v7/docs/P1_TIER_B_LITE_FINDINGS.md`.
 
 | Files in tension | File-grounded contradiction | Required handling |
 |---|---|---|
-| `v7/specs/simulation_authority_certification_v1.json` vs `v7/docs/P1_TIER_B_LITE_FINDINGS.md` | Certification says P1 adapter/replay integration and single economic API are unresolved; the later findings document says the adapter/replay were implemented and run, but expressly says certification should not self-update and remains stale. | Treat certification as the current blocking authority until an independent operator reruns and updates it. The findings may guide that rerun, not override it. |
+| `v7/specs/simulation_authority_certification_v1.json` vs `v7/docs/P1_TIER_B_LITE_FINDINGS.md` | Certification says P1 adapter/replay integration and single economic API are unresolved; the later findings document says the adapter/replay were implemented and run, but expressly says certification should not self-update and remains stale. | Treat certification as the current blocking authority until an independent operator reruns and updates it. The findings may guide that rerun, not override it. | <!-- AUDIT-DOC-PATHS: FOREIGN_REPOSITORY `v7/specs/simulation_authority_certification_v1.json` belongs to the audited V7 materials, not to this repository tree. -->
 | `v7/SYSTEM.md` / `execution_rl_policy_v1.json` vs findings §8 | Target design says sniper directive → tracker → execution policy with ongoing position management; the audit says implemented RL sampled arbitrary bar windows and could not enter `ACTIVE`. | Label current RL as standalone, incomplete bar-trading experimentation. Do not represent it as integrated Candidate execution. |
 | V8 `Candidate ≠ order` / independent execution language vs V7 policy authority | V8 frames a Candidate and canonical lifecycle execution; V7 target policy grants execution RL all side, target exposure, and order decisions. | This is a design incompatibility to resolve experimentally: choose a fixed/canonical executor for attribution first, or explicitly define the learned executor’s counterfactual attribution contract. |
 | V8 independent execution claim vs V8’s own caveat in the master goal | The master prompt says alpha and execution may interact and must not be assumed statistically independent. | Preserve only operational separation/attribution as a provisional invariant; do not claim statistical independence. |

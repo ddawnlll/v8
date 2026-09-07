@@ -18,6 +18,7 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use crate::hash::Canon;
+use crate::parquet_artifact::write_json_rows;
 
 /// Counterfactual epistemic authority level.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -177,9 +178,14 @@ pub fn save_veto_attribution_artifacts(
 ) -> io::Result<()> {
     fs::create_dir_all(out_dir)?;
 
-    let rows_json = serde_json::to_string_pretty(rows)
+    let rows_value = serde_json::to_value(rows)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-    fs::write(out_dir.join("veto_attribution.parquet"), &rows_json)?;
+    write_json_rows(
+        &out_dir.join("veto_attribution.parquet"),
+        "veto_attribution",
+        &rows_value,
+        None,
+    )?;
 
     let sum_json = serde_json::to_string_pretty(summary)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
