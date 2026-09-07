@@ -37,6 +37,15 @@ research/handbook_technical_analysis_2016/
 
 # Raw process logs (reproducible; report artifacts stay tracked)
 .audit/*.log
+# Ephemeral audit process outputs (governance reset 2026-09-07):
+# logs, normalized diffs, captured stdout/stderr and sidecar hashes are
+# local/CI artifacts. Repo keeps only canonical release evidence manifests
+# and release-persistent evidence (receipts, seals, manifests).
+.audit/**/*.log
+.audit/**/*.norm
+.audit/**/*.stdout
+.audit/**/*.stderr
+.audit/**/*.sha256
 .audit_archive_python_base/
 
 # Beads / Dolt files (added by bd init)

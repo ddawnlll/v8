@@ -2,7 +2,7 @@
 
 Welcome to the V8 research and development repository.
 
-V8 operates under strict evidence-based, contract-first governance. All collaborative work follows the canonical **[V8 Work-Item, Pull-Request & Merge Governance Policy](docs/WORK_ITEM_POLICY.md)**.
+V8 operates under tiered governance ([reset note](docs/GOVERNANCE_RESET_V86_2026-09-07.md)). Ordinary development (Tier A/B) works trunk-based: `edit → relevant checks → commit to main → continue`, no mandatory issue/branch/PR. The **[Work-Item & Merge Governance Policy](docs/WORK_ITEM_POLICY.md)** applies to Tier C/D evidence and release claims only.
 
 ## 1. Filing Work Items
 

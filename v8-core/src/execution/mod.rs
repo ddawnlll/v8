@@ -147,7 +147,10 @@ impl ExecutionLane for NautilusLane {
     fn describe(&self) -> BTreeMap<String, String> {
         let mut m = self.venue_config();
         m.insert("lane".into(), "nautilus".into());
-        m.insert("engine".into(), "nautilus_trader 0.63 matching engine".into());
+        m.insert(
+            "engine".into(),
+            "nautilus_trader 0.63 matching engine".into(),
+        );
         m
     }
 
@@ -172,7 +175,8 @@ impl ExecutionLane for NautilusLane {
                 usdm_value: Some(self.risk_fraction.to_string()),
                 nautilus_value: None,
                 status: CalibrationStatus::Unmapped,
-                note: "V8 position-sizing knob; no Nautilus venue counterpart (strategy-side)".into(),
+                note: "V8 position-sizing knob; no Nautilus venue counterpart (strategy-side)"
+                    .into(),
             },
             CalibrationDimension {
                 name: "execution/maker_fill_probability".into(),

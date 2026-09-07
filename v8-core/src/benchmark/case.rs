@@ -60,6 +60,33 @@ pub struct BenchmarkCase {
     pub case_hash: String,
 }
 
+/// Canonical case-hash computation shared by construction and verification.
+/// Any field drift after construction fails `verify_hash` instead of
+/// silently rebinding the case to new inputs.
+pub fn compute_case_hash(
+    case_id: &str,
+    version: &BenchmarkVersion,
+    target: &PolicyTarget,
+    target_domains: &[CapabilityDomain],
+    allowed_populations: &[EvaluationPopulation],
+    max_compute_budget_sec: u64,
+) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(case_id.as_bytes());
+    hasher.update(version.spec_hash.as_bytes());
+    hasher.update(target.policy_id.as_bytes());
+    hasher.update(target.commit_hash.as_bytes());
+    hasher.update(target.binary_digest.as_bytes());
+    for d in target_domains {
+        hasher.update(d.as_str().as_bytes());
+    }
+    for p in allowed_populations {
+        hasher.update(format!("{:?}", p).as_bytes());
+    }
+    hasher.update(&max_compute_budget_sec.to_le_bytes());
+    format!("{:x}", hasher.finalize())
+}
+
 impl BenchmarkCase {
     pub fn new(
         case_id: String,
@@ -69,20 +96,14 @@ impl BenchmarkCase {
         allowed_populations: Vec<EvaluationPopulation>,
         max_compute_budget_sec: u64,
     ) -> Self {
-        let mut hasher = Sha256::new();
-        hasher.update(case_id.as_bytes());
-        hasher.update(version.spec_hash.as_bytes());
-        hasher.update(target.policy_id.as_bytes());
-        hasher.update(target.commit_hash.as_bytes());
-        hasher.update(target.binary_digest.as_bytes());
-        for d in &target_domains {
-            hasher.update(d.as_str().as_bytes());
-        }
-        for p in &allowed_populations {
-            hasher.update(format!("{:?}", p).as_bytes());
-        }
-        hasher.update(&max_compute_budget_sec.to_le_bytes());
-        let case_hash = format!("{:x}", hasher.finalize());
+        let case_hash = compute_case_hash(
+            &case_id,
+            &version,
+            &target,
+            &target_domains,
+            &allowed_populations,
+            max_compute_budget_sec,
+        );
 
         Self {
             case_id,
@@ -94,5 +115,18 @@ impl BenchmarkCase {
             evidence: None,
             case_hash,
         }
+    }
+
+    /// Recompute the canonical hash and compare: true only when every hashed
+    /// field is byte-identical to construction time.
+    pub fn verify_hash(&self) -> bool {
+        compute_case_hash(
+            &self.case_id,
+            &self.version,
+            &self.target,
+            &self.target_domains,
+            &self.allowed_populations,
+            self.max_compute_budget_sec,
+        ) == self.case_hash
     }
 }

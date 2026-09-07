@@ -2,7 +2,14 @@
 
 **Document Status:** `LOCKED_INVARIANT / PROVISIONAL_DECISION (v1.2 Pilot)`  
 **Owning Authority:** V8 Constitution, D-099, D-117  
-**Canonical Scope:** Repository-wide collaborative development workflow (Issue → PR → Review → Merge).
+**Canonical Scope:** Tier C/D evidence & release-claim workflow (benchmark evaluators, parity, monographs, economic claims).
+
+> **Governance reset 2026-09-07 (owner-authorized):** this policy NO LONGER governs
+> Tier A/B ordinary development (refactor, modules, CLI, architecture migration).
+> Tier A/B default is `edit → relevant checks → commit to main → continue` with the
+> fast gate (fmt on touched lines + clippy/build + relevant tests). No mandatory
+> issue, work item, branch, PR, traceability matrix, or approval. Full reset note:
+> [`docs/GOVERNANCE_RESET_V86_2026-09-07.md`](docs/GOVERNANCE_RESET_V86_2026-09-07.md).
 
 ---
 
