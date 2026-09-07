@@ -134,8 +134,19 @@ pub enum Commands {
     /// Unified high-throughput in-process audit engine (Issues #306-#309)
     #[command(name = "full-audit")]
     FullAudit {
-        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
-        args: Vec<String>,
+        #[arg(long, short = 't')]
+        tape: Option<PathBuf>,
+        #[arg(long, short = 'o')]
+        out: Option<PathBuf>,
+        #[arg(long, default_value_t = 4)]
+        threads: usize,
+        #[arg(long)]
+        no_determinism_check: bool,
+        #[arg(long)]
+        no_html: bool,
+        /// Legacy positional tape/output paths, filling options not supplied by flags.
+        #[arg(num_args = 0..=2)]
+        paths: Vec<PathBuf>,
     },
     /// D-153 V8.5 Benchmark Fabric evaluation runner and audit
     Benchmark {

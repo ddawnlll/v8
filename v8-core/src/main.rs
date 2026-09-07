@@ -122,7 +122,22 @@ fn main() {
         cli::Commands::AllegoryAudit { args } => cmd_allegory_audit(&args),
         cli::Commands::FunnelAudit { args } => cmd_funnel_audit(&args),
         cli::Commands::EeoQualify { args } => cmd_eeo_qualify(&args),
-        cli::Commands::FullAudit { args } => cmd_full_audit(&args),
+        cli::Commands::FullAudit {
+            mut tape, mut out, threads, no_determinism_check, no_html, paths,
+        } => {
+            let mut paths = paths.into_iter();
+            if tape.is_none() { tape = paths.next(); }
+            if out.is_none() { out = paths.next(); }
+            if paths.next().is_some() {
+                eprintln!("full-audit: excess positional paths");
+                std::process::exit(2);
+            }
+            cmd_full_audit(
+                tape.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl")),
+                out.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current")),
+                threads, !no_determinism_check, !no_html,
+            )
+        },
     };
     std::process::exit(code);
 }
@@ -2201,69 +2216,13 @@ fn cmd_eeo_qualify(args: &[String]) -> i32 {
     0
 }
 
-fn cmd_full_audit(args: &[String]) -> i32 {
-    let mut tape_path: Option<PathBuf> = None;
-    let mut out_dir: Option<PathBuf> = None;
-    let mut threads = 4usize;
-    let mut verify_determinism = true;
-    let mut render_html = true;
-
-    let mut i = 0;
-    while i < args.len() {
-        match args[i].as_str() {
-            "--tape" | "-t" => {
-                if i + 1 < args.len() {
-                    tape_path = Some(PathBuf::from(&args[i + 1]));
-                    i += 2;
-                } else {
-                    eprintln!("missing argument for --tape");
-                    return 2;
-                }
-            }
-            "--out" | "-o" => {
-                if i + 1 < args.len() {
-                    out_dir = Some(PathBuf::from(&args[i + 1]));
-                    i += 2;
-                } else {
-                    eprintln!("missing argument for --out");
-                    return 2;
-                }
-            }
-            "--threads" => {
-                if i + 1 < args.len() {
-                    threads = args[i + 1].parse().unwrap_or(4);
-                    i += 2;
-                } else {
-                    eprintln!("missing argument for --threads");
-                    return 2;
-                }
-            }
-            "--no-determinism-check" => {
-                verify_determinism = false;
-                i += 1;
-            }
-            "--no-html" => {
-                render_html = false;
-                i += 1;
-            }
-            path_str if !path_str.starts_with('-') && tape_path.is_none() => {
-                tape_path = Some(PathBuf::from(path_str));
-                i += 1;
-            }
-            path_str if !path_str.starts_with('-') && out_dir.is_none() => {
-                out_dir = Some(PathBuf::from(path_str));
-                i += 1;
-            }
-            other => {
-                eprintln!("unknown option for full-audit: {other}");
-                return 2;
-            }
-        }
-    }
-
-    let tape =
-        tape_path.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
-    let out = out_dir.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current"));
+fn cmd_full_audit(
+    tape: PathBuf,
+    out: PathBuf,
+    threads: usize,
+    verify_determinism: bool,
+    render_html: bool,
+) -> i32 {
 
     match audit::full_audit::run_full_audit(&tape, &out, threads, verify_determinism, render_html) {
         Ok(summary) => {
