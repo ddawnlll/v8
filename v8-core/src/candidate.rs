@@ -358,8 +358,6 @@ impl CandidateRegistry {
         }
         Ok(registry)
     }
-
-    /// Apply one transition, mirroring `CandidateRegistry.apply`. Returns the
     /// (event_hash, sequence, event_id) for the ledger record.
     #[allow(clippy::too_many_arguments)]
     pub fn apply(
