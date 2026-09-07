@@ -1,0 +1,2 @@
+cargo test: 1148 passed (21 suites)
+cargo clippy: No issues found
