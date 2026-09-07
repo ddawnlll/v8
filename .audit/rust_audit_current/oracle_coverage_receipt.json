@@ -328723,7 +328723,7 @@
       "point_estimate": 0.0
     },
     {
-      "grammar_candidate_id": "gc-95518a79451fad47",
+      "grammar_candidate_id": "gc-ec14c2b46c702cc2",
       "template_id": "template-bollinger_reversion",
       "instrument": "BTCUSDT",
       "timeframe": "1h",
