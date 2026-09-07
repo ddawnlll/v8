@@ -115,8 +115,8 @@ fn main() {
         cli::Commands::Verdict { args } => statistics::verdict(&args),
         cli::Commands::Report { args } => report::report(&args),
         cli::Commands::OracleCoverage { args } => cmd_oracle_coverage(&args),
-        cli::Commands::Shadow { args } => cmd_shadow(&args),
-        cli::Commands::ArtifactIndex { args } => cmd_artifact_index(&args),
+        cli::Commands::Shadow(req) => cmd_shadow(&req.request_path),
+        cli::Commands::ArtifactIndex(req) => cmd_artifact_index(&req.request_path),
         cli::Commands::ExitAblation { args } => exit_ablation::run(&args),
         cli::Commands::UsdmSim { args } => cmd_usdm_sim(&args),
         cli::Commands::AllegoryAudit { args } => cmd_allegory_audit(&args),
@@ -1198,22 +1198,18 @@ fn req2_cases(bytes: &[u8]) -> Option<Vec<(String, usize)>> {
     )
 }
 
-fn cmd_shadow(args: &[String]) -> i32 {
-    if args.len() != 1 {
-        eprintln!("usage: v8-core shadow <request.json>");
-        return 2;
-    }
-    let bytes = match std::fs::read(&args[0]) {
+fn cmd_shadow(request_path: &std::path::Path) -> i32 {
+    let bytes = match std::fs::read(request_path) {
         Ok(bytes) => bytes,
         Err(err) => {
-            eprintln!("error reading shadow request {}: {err}", args[0]);
+            eprintln!("error reading shadow request {}: {err}", request_path.display());
             return 1;
         }
     };
     let request: shadow::ShadowRequest = match serde_json::from_slice(&bytes) {
         Ok(request) => request,
         Err(err) => {
-            eprintln!("error parsing shadow request {}: {err}", args[0]);
+            eprintln!("error parsing shadow request {}: {err}", request_path.display());
             return 1;
         }
     };
@@ -1240,22 +1236,18 @@ fn cmd_shadow(args: &[String]) -> i32 {
     }
 }
 
-fn cmd_artifact_index(args: &[String]) -> i32 {
-    if args.len() != 1 {
-        eprintln!("usage: v8-core artifact-index <request.json>");
-        return 2;
-    }
-    let bytes = match std::fs::read(&args[0]) {
+fn cmd_artifact_index(request_path: &std::path::Path) -> i32 {
+    let bytes = match std::fs::read(request_path) {
         Ok(bytes) => bytes,
         Err(err) => {
-            eprintln!("error reading artifact-index request {}: {err}", args[0]);
+            eprintln!("error reading artifact-index request {}: {err}", request_path.display());
             return 1;
         }
     };
     let request: shadow::ArtifactIndexRequest = match serde_json::from_slice(&bytes) {
         Ok(request) => request,
         Err(err) => {
-            eprintln!("error parsing artifact-index request {}: {err}", args[0]);
+            eprintln!("error parsing artifact-index request {}: {err}", request_path.display());
             return 1;
         }
     };

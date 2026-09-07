@@ -97,16 +97,10 @@ pub enum Commands {
         args: Vec<String>,
     },
     /// V8.3 prospective shadow provenance and artifact gate
-    Shadow {
-        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
-        args: Vec<String>,
-    },
+    Shadow(RequestArg),
     /// Bind a declared diagnostic bundle to one shadow manifest
     #[command(name = "artifact-index")]
-    ArtifactIndex {
-        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
-        args: Vec<String>,
-    },
+    ArtifactIndex(RequestArg),
     /// Exit ablation experiment
     #[command(name = "exit-ablation")]
     ExitAblation {
