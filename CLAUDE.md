@@ -127,9 +127,13 @@ user latency, context/tool overhead, and redundancy).
 The canonical, reader-facing version is
 `docs/COMPUTATION_BUDGET_POLICY.md`; `rules.md` is the short root-level copy.
 
-## Work-Item & PR Governance (v1.2)
+## Workflow: Trunk-Based, Tiered Governance (reset 2026-09-07, owner-authorized)
 
-- **Collaborative workflow:** Defined in `docs/WORK_ITEM_POLICY.md` and `CONTRIBUTING.md`.
-- **Precedence Hierarchy:** Constitution & Decisions > `WORK_ITEM_POLICY.md` > `CONTRIBUTING.md` > Scoped Agent Instructions. If active authorities conflict, STOP and open/escalate an `OPEN_PIN`.
-- **Traceability Rule:** Every work item must satisfy the Universal Context-Completeness Contract (R# traceability, reused contracts, invariants, canonical failure semantics, dependency map, OPEN_PIN triggers). Every PR requires a complete `R#` traceability matrix.
+- **Default:** `edit → relevant checks → commit to main → continue` (Tier A/B).
+  PRs and issues are NOT normal development primitives in this solo-dev + agent
+  workflow. Full policy in `docs/GOVERNANCE_RESET_V86_2026-09-07.md`.
+- **Fast development gate (Tier A/B):** fmt clean on touched lines + `cargo clippy`/
+  compile + relevant tests.
+- **Work directly on `main`:** `main` = latest coherent dev state, not a certified release.
+- **Tier A/B implementation:** needs NO D-xxx, layout mapping, monograph rebuild, or CHANGELOG entry.
 

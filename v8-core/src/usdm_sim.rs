@@ -500,7 +500,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 let engine_str = params.engine_mode.as_deref().unwrap_or("squeeze-swing");
                 let _is_squeeze_mode = matches!(engine_str, "squeeze-swing" | "swing" | "macro-m1" | "macro-m2" | "macro-m3" | "macro-swing");
                 let feats = state::state_features(store, t, as_of, 32);
-                let hist = state::history_bars(store, t, 128);
+                let mut hist = state::history_bars(store, t, 128);
                 bar_votes.clear();
 
                 // Compute PIT 20-bar Kaufman Trend Efficiency Ratio (ER)
@@ -596,7 +596,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 let tc_closure = features::group_closure(&["trend", "volatility", "history"]);
                 let fm_tc = crate::experts::base::FeatMap {
                     features: crate::experts::base::ProjectedFeatures::new(&feats, &tc_closure),
-                    history: if eval_ss { hist.clone() } else { std::mem::take(&mut hist) },
+                    history: if eval_tc { hist.clone() } else { std::mem::take(&mut hist) },
                     as_of,
                     symbol: &store.symbol,
                     variant_overrides: &params.variant_overrides,

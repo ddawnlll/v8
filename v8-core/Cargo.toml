@@ -28,7 +28,6 @@ tracing = "0.1"
 metrics = "0.24"
 rayon = "1.10"
 wgpu = { version = "30", default-features = false, features = ["std", "vulkan", "glsl"], optional = true }
-rayon = "1.10.0"
 rand = "0.8.5"
 rand_distr = "0.4.3"
 minijinja = "2.7.0"

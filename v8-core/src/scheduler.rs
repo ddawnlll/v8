@@ -110,19 +110,34 @@ pub fn evaluate<K: ReplayKernel + Sync>(
         .build()
         .map_err(|e| format!("scheduler: failed to initialize rayon thread pool: {e}"))?;
 
-    pool.install(|| {
-        use rayon::prelude::*;
-        let cell_chunks: Vec<&[ReplayCell]> = (0..workers)
-            .map(|w| &cells[bounds[w]..bounds[w + 1]])
-            .collect();
+    let res = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+        pool.install(|| {
+            use rayon::prelude::*;
+            let cell_chunks: Vec<&[ReplayCell]> = (0..workers)
+                .map(|w| &cells[bounds[w]..bounds[w + 1]])
+                .collect();
 
-        chunks
-            .into_par_iter()
-            .zip(cell_chunks.into_par_iter())
-            .map(|(out_chunk, in_chunk)| kernel.evaluate(dataset, in_chunk, out_chunk))
-            .collect::<Result<Vec<()>, String>>()
-            .map(|_| ())
-    })
+            chunks
+                .into_par_iter()
+                .zip(cell_chunks.into_par_iter())
+                .map(|(out_chunk, in_chunk)| kernel.evaluate(dataset, in_chunk, out_chunk))
+                .collect::<Result<Vec<()>, String>>()
+                .map(|_| ())
+        })
+    }));
+    match res {
+        Ok(inner) => inner,
+        Err(payload) => {
+            let msg = if let Some(s) = payload.downcast_ref::<&str>() {
+                s.to_string()
+            } else if let Some(s) = payload.downcast_ref::<String>() {
+                s.clone()
+            } else {
+                "unknown".to_string()
+            };
+            Err(format!("scheduler: worker fault: {msg}"))
+        }
+    }
 }
 
 /// Run `f` over indices `0..n` on up to `threads` threads, collecting the
@@ -149,26 +164,41 @@ pub fn parallel_map<T: Send, F: Fn(usize) -> Result<T, String> + Sync>(
         .build()
         .map_err(|e| format!("scheduler: failed to initialize rayon thread pool: {e}"))?;
 
-    pool.install(|| {
-        use rayon::prelude::*;
-        let chunk_results: Vec<Vec<Result<T, String>>> = (0..workers)
-            .into_par_iter()
-            .map(|w| {
-                let (lo, hi) = (bounds[w], bounds[w + 1]);
-                let mut chunk = Vec::with_capacity(hi - lo);
-                for i in lo..hi {
-                    chunk.push(f(i));
-                }
-                chunk
-            })
-            .collect();
+    let res = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+        pool.install(|| {
+            use rayon::prelude::*;
+            let chunk_results: Vec<Vec<Result<T, String>>> = (0..workers)
+                .into_par_iter()
+                .map(|w| {
+                    let (lo, hi) = (bounds[w], bounds[w + 1]);
+                    let mut chunk = Vec::with_capacity(hi - lo);
+                    for i in lo..hi {
+                        chunk.push(f(i));
+                    }
+                    chunk
+                })
+                .collect();
 
-        let mut results = Vec::with_capacity(n);
-        for chunk in chunk_results {
-            results.extend(chunk);
+            let mut results = Vec::with_capacity(n);
+            for chunk in chunk_results {
+                results.extend(chunk);
+            }
+            Ok(results)
+        })
+    }));
+    match res {
+        Ok(inner) => inner,
+        Err(payload) => {
+            let msg = if let Some(s) = payload.downcast_ref::<&str>() {
+                s.to_string()
+            } else if let Some(s) = payload.downcast_ref::<String>() {
+                s.clone()
+            } else {
+                "unknown".to_string()
+            };
+            Err(format!("scheduler: worker fault: {msg}"))
         }
-        Ok(results)
-    })
+    }
 }
 
 #[cfg(test)]
