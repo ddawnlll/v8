@@ -1,0 +1,11 @@
+cargo test: 1148 passed (21 suites)
+cargo clippy: No issues found
+--- per-issue LANE receipts (2026-09-07, worktree exec/v86-autonomous) ---
+runloop (covers #62 D-057 gate, #66 invalidation, #67 dead-field, #68 slot order, #70 geometry tests): 48 passed
+checkpoint (IMPL002): 2 passed
+scheduler (AUD006B declared order): 12 passed
+backend incl. validate_geometry call sites scalar:439/mod:259/gpu:438 (#70): 42 passed
+cache (PERF004, D-156 durable redb): 14 passed
+geometry filter (#70 fail-closed incl. runloop:2225-2265): 4 passed
+slot_conflict (#68 regression probe runloop:1626): 2 passed
+full suite re-verified green after ledger commits: 1148 passed (21 suites), clippy clean

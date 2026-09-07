@@ -2,6 +2,21 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-07 — D-160 V8.6 Phase-1 Execution-Lane Charter (Issues #344–#347, PR #361)
+
+Registered D-160 as the charter putting the repository in V8.6-implementation-ready state without changing runtime behavior. Full authoritative English and Turkish specifications are `docs/contracts/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md` and `docs/tr/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md`.
+
+- **Attic dispositions:** W1 moved 9 dead kaizen-governance modules to `v8-core/attic/kaizen-governance/`; W2 moved 7 dead evaluation surfaces to `v8-core/attic/evaluation/` and removed the `EvaluationEngine` orchestrator (row carriers `BarRow`/`CandidateRow`/`TradeRow` retained for live consumers); W3 moved the dead-code quartet to `v8-core/attic/w3-dead-quartet/`. Attic directories are not compiled; relocated citations classify as `RETIRED` under `tools/audit_doc_path_refs.py`.
+- **W1 amendment:** `kaizen/{controller,verdict}.rs` reverted to the live tree after `tools/audit_reachability.py` (D-132/Rule 35) failed post-W1 — constitutional gate outranks zero-caller heuristics. Reachability back to PASS (100%).
+- **Verdicts with receipts:** W1 KEEP on the 7 consumer-backed kaizen files (OPEN_PIN closed); W4 `differential.rs` KEEP-dormant (D-116 mandates a secondary reference engine; successor owned by W14) and `system_proving/*` KEEP + quarantine-tag; quarantine tags on `evaluation/{friction,production_growth,scope}.rs` (`.audit/w4/VERDICT.md`).
+- **D-153 immutability:** the verification table is pinned (`.audit/d153_pin/baseline.json`, 132/132) and registered as a STOP-on-drift constraint; the D-153 row itself is untouched.
+- **Dirty-911:** the stale-fork uncommitted work is not ported (pre-split base; porting would smuggle unregistered behavior changes and void the W2 bundle seal); novel claims preserved as Phase-2 work items (`.audit/dirty911/DECISION.md`).
+- **Gates (all green):** `cargo check` rc=0 zero warnings; oracle-coverage stdout byte-identical; full-audit certificate byte-identical modulo 10 wall-clock fields; D-153 pin 132 unchanged across W1/W2/W3.
+
+No economic metric is introduced; every verdict remains `NO_ECONOMIC_CLAIM`.
+
+Modified artifacts: `docs/contracts/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md`, `docs/tr/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md`, `docs/decisions/DECISION_REGISTER.md`, `docs/tr/DECISION_REGISTER.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/CHANGELOG.md`, `site/index.html`, `site/tr.html`, `v8-core/attic/*`, lane receipts under `.audit/{d153_pin,w2,w3,w4,dirty911}/`.
+
 ## 2026-09-07 — D-159 Research-Validity Audit: Gate Authority, Receipt Self-Verification, Policy-Bound Parity, Governance Reconciliation (Issues #327–#330)
 
 Registered D-159 as a provisional, fail-closed audit decision covering four independent trust-chain breaks in the D-153 Benchmark Fabric, where in each case a stored assertion was treated as its own proof. Full authoritative English and Turkish specifications are `docs/contracts/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md` and `docs/tr/D159_RESEARCH_VALIDITY_AUDIT_SPEC.md`. D-153's own status is unchanged (`PROVISIONAL_DECISION`); this entry adds enforcement, not authority.

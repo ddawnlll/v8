@@ -1,0 +1,135 @@
+======================================================================
+>>> DOCUMENTATION PATH-REFERENCE AUDIT (D-159 R2.4.2 / Rules 5, 44) <<<
+======================================================================
+markdown files scanned        : 166
+path citations audited        : 1183
+  RESOLVED                    : 954
+  RUNTIME_OUTPUT              : 28 distinct 12
+  HISTORICAL_RECORD           : 72
+  RETIRED (existed in history): 80 distinct 24
+  ALLOWED (marked)            : 44 distinct 11
+  UNACCOUNTED (failing)       : 5 distinct 3
+
+RETIRED citations (real predecessors, absent from the current tree; documentation staleness, not fabrication):
+  research/pipeline_v2/
+      docs/decisions/DECISION_REGISTER.md:55
+      docs/tr/DECISION_REGISTER.md:55
+  research/revision/
+      docs/decisions/DECISION_REGISTER.md:55
+      docs/tr/DECISION_REGISTER.md:55
+  research/text/
+      docs/decisions/DECISION_REGISTER.md:55
+      docs/tr/DECISION_REGISTER.md:55
+  tools/_perf_probe.py
+      docs/audits/PERFORMANCE_AUDIT_V82.md:31
+  tools/build_v8_revision.py
+      docs/decisions/DECISION_REGISTER.md:55
+      docs/tr/DECISION_REGISTER.md:55
+  tools/diagnostic.py
+      docs/decisions/DECISION_REGISTER.md:69
+      docs/decisions/DECISION_REGISTER.md:69
+      docs/tr/DECISION_REGISTER.md:69
+      ... and 1 more site(s)
+  tools/diagnostics.py
+      docs/decisions/DECISION_REGISTER.md:75
+  tools/generate_10k_gemini_master_html.py
+      docs/decisions/DECISION_REGISTER.md:55
+      docs/tr/DECISION_REGISTER.md:55
+  tools/generate_gemini_master_html.py
+      docs/decisions/DECISION_REGISTER.md:55
+      docs/tr/DECISION_REGISTER.md:55
+  tools/materialize_views.py
+      docs/PREREGISTRATION_V8_SLICE_001.md:135
+      docs/contracts/DATASET_SPEC.md:156
+      docs/decisions/DECISION_REGISTER.md:42
+      ... and 1 more site(s)
+  tools/regret.py
+      docs/STATUS_REPORT.md:31
+      docs/audits/PERFORMANCE_AUDIT_V82.md:144
+      docs/contracts/COMPUTE_CORE_SPEC.md:77
+      ... and 10 more site(s)
+  tools/regret_phase1.py
+      docs/decisions/DECISION_REGISTER.md:76
+      docs/protocols/RECOVERABLE_REGRET_PROTOCOL.md:5
+  tools/regret_phase2.py
+      docs/decisions/DECISION_REGISTER.md:76
+      docs/protocols/RECOVERABLE_REGRET_PROTOCOL.md:6
+  tools/regret_phase3.py
+      docs/decisions/DECISION_REGISTER.md:77
+      docs/protocols/RECOVERABLE_REGRET_PROTOCOL.md:6
+  tools/regret_reference.py
+      docs/decisions/DECISION_REGISTER.md:75
+      docs/protocols/RECOVERABLE_REGRET_PROTOCOL.md:5
+      docs/protocols/RECOVERABLE_REGRET_PROTOCOL.md:82
+      ... and 1 more site(s)
+  tools/run_experiment.py
+      docs/PLAN_V8_FULL.md:34
+      docs/decisions/DECISION_REGISTER.md:48
+      docs/decisions/DECISION_REGISTER.md:50
+      ... and 2 more site(s)
+  tools/vision_backfill.py
+      docs/AGENT_RUNBOOK.md:166
+      docs/AGENT_RUNBOOK.md:173
+      docs/AGENT_RUNBOOK.md:252
+      ... and 5 more site(s)
+  v8-core/src/checkpoint.rs
+      docs/contracts/IMPLEMENTATION_LAYOUT.md:349
+      docs/decisions/DECISION_REGISTER.md:126
+      docs/decisions/DECISION_REGISTER.md:157
+      ... and 3 more site(s)
+  v8-core/src/evaluation/manifest.rs
+      docs/issues/ISSUE_V83_URGENT_AUDIT_ARTIFACT_CANONICALIZATION.md:46
+      docs/issues/ISSUE_V83_URGENT_PROSPECTIVE_SHADOW_RUNNER.md:53
+  v8-core/src/evaluation/paths.rs
+      docs/issues/ISSUE_V83_URGENT_PROSPECTIVE_SHADOW_RUNNER.md:54
+  v8-core/src/evaluation/statistics.rs
+      docs/contracts/D156_EVIDENCE_ARTIFACT_STORAGE_HARDENING_SPEC.md:124
+      docs/contracts/IMPLEMENTATION_LAYOUT.md:354
+      docs/decisions/DECISION_REGISTER.md:157
+      ... and 3 more site(s)
+  v8-core/src/experts/port.rs
+      docs/STATUS_REPORT.md:63
+  v8-core/src/oracle/recoverability.rs
+      docs/decisions/DECISION_REGISTER.md:141
+      docs/issues/ISSUE_AUD005B_O5_RECOVERABILITY_CHALLENGER.md:13
+      docs/tr/DECISION_REGISTER.md:94
+  v8-core/src/scheduler/rename_audit.rs
+      docs/decisions/DECISION_REGISTER.md:141
+      docs/issues/ISSUE_AUD006B_SCHEDULER_RENAME_SENSITIVITY.md:13
+      docs/tr/DECISION_REGISTER.md:94
+
+RUNTIME_OUTPUT citations (produced by code, not tracked as source):
+  .audit/benchmark/ledger.jsonl  (4 site(s))
+  .audit/benchmark_ledger.jsonl  (2 site(s))
+  analysis/findings.jsonl  (1 site(s))
+  analysis/hypotheses.jsonl  (1 site(s))
+  economics/oracle_evaluation.parquet  (1 site(s))
+  provenance/opportunity_universe.json  (1 site(s))
+  research/tape/btcusdt-1h-12m/manifest_dev.json  (1 site(s))
+  research/tape/btcusdt-1h-12m/views4/views_manifest.json  (1 site(s))
+  research/tape/multi-1h-4y/  (1 site(s))
+  research/tape/multi-1h-dev/  (2 site(s))
+  research/tape/quad-1h-12m/tape.jsonl  (12 site(s))
+  robustness/parameter_surface.parquet  (1 site(s))
+
+UNACCOUNTED PATH CITATIONS:
+  benchmark/kaizen_feed.rs
+      docs/contracts/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md:32
+      docs/tr/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md:32
+  evaluation/mod.rs
+      docs/contracts/IMPLEMENTATION_LAYOUT.md:387
+  tests/production_growth_contract.rs
+      docs/contracts/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md:34
+      docs/tr/D160_V86_PHASE1_EXECUTION_LANE_SPEC.md:34
+
+FAIL: a cited repository path is unaccounted for.
+
+Every cited path must be RESOLVED on disk, or be a runtime artifact that code
+actually writes, or be a historical changelog record, or name a predecessor that
+existed in git history, or carry an explicit per-line
+`<!-- AUDIT-DOC-PATHS: <CLASS> <reason> -->` marker.
+
+A path that has never existed anywhere in this tree or its history and is not
+registered as a deliberate negative/design citation is a fabricated provenance
+claim (AGENTS.md anti-synthetic directive §5; D-159 R2.4.2). Correct the citation,
+produce the artifact, or mark the line with its reason. Do not weaken this guard.

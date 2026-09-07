@@ -5,7 +5,6 @@
 
 pub mod composer;
 pub mod cross_asset;
-pub mod learned;
 pub mod metamorphic;
 pub mod passport;
 pub mod path_topology;
@@ -19,7 +18,6 @@ pub mod surgery;
 
 pub use composer::{EnsembleAgreementStatus, WorldComposer};
 pub use cross_asset::CrossAssetContagionGenerator;
-pub use learned::LearnedChallengerGenerator;
 pub use metamorphic::{MetamorphicTransform, MetamorphicWorldGenerator};
 pub use passport::GeneratorPassport;
 pub use path_topology::{PathGeometryType, PathTopologyGenerator};

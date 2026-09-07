@@ -33,7 +33,6 @@ mod backend;
 mod cache;
 mod candidate;
 mod cashflow;
-mod checkpoint;
 pub mod claims;
 mod data;
 pub mod error;
