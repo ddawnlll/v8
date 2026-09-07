@@ -33,7 +33,9 @@ from v8.synth import make_synthetic_tape
 REPO = Path(__file__).resolve().parents[1]
 REGISTRY = REPO / 'docs' / 'EXPERTS_REGISTRY.yaml'
 
-PILOTS = (TrendPullbackExpert, FailedBreakoutExpert, LiquiditySweepReclaimExpert)
+PILOTS = (TrendPullbackExpert, FailedBreakoutExpert, LiquiditySweepReclaimExpert,
+          TrendExhaustionReversalExpert, CompressionBreakoutExpert,
+          VolumeRangeBreakoutExpert)
 
 # Every implemented expert family (code-side projection source for the registry).
 ALL_EXPERTS = [
@@ -58,6 +60,9 @@ CONSUMPTION = {
     'trend_pullback': {'close', 'ema_fast', 'ema_slow', 'atr', 'history'},
     'failed_breakout': {'close', 'atr', 'history'},
     'liquidity_sweep_reclaim': {'close', 'atr', 'history'},
+    'trend_exhaustion_reversal': {'atr', 'history', 'close'},
+    'compression_breakout': {'atr', 'history'},
+    'volume_range_breakout': {'atr', 'relative_volume', 'range_ratio', 'history'},
 }
 
 
@@ -109,6 +114,8 @@ def test_registry_yaml_parses():
             'declared search cannot be smaller than what it retained')
         if entry['expert_id'] in DATA_BLOCKED:
             assert entry['status'] == 'DATA_BLOCKED'
+        elif entry['expert_id'] in REJECTED:
+            assert entry['status'] == 'REJECTED'
         else:
             assert entry['status'] == 'FORMALIZED'
 
@@ -140,6 +147,46 @@ def test_pilot_ontology_declared():
     # Distinct mechanism + setup + invalidation -> a separate Expert, not a
     # variant of the failed-breakout family (EXPERT_PROTOCOL section 1).
     assert ids['liquidity_sweep_reclaim'][0] != ids['failed_breakout'][0]
+
+
+def _state(history, relative_volume=2.0, range_ratio=2.0):
+    """Small closed-bar state fixtures for rule-level Expert probes."""
+    def fv(name, value):
+        return FeatureValue(name, value, 'float', 'v1', 1,
+                            group=FEATURE_TO_GROUP.get(name.rsplit('.', 1)[-1], 'raw'))
+    features = {
+        'SOLUSDT.close': fv('SOLUSDT.close', history[-1][4]),
+        'SOLUSDT.atr': fv('SOLUSDT.atr', 1.0),
+        'SOLUSDT.history': FeatureValue('SOLUSDT.history', tuple(history), 'history', 'v2', 1, group='history'),
+        'SOLUSDT.relative_volume': fv('SOLUSDT.relative_volume', relative_volume),
+        'SOLUSDT.range_ratio': fv('SOLUSDT.range_ratio', range_ratio),
+    }
+    return MarketState('fixture', 1, ('SOLUSDT',), features, 'fixture')
+
+
+def test_handbook_candidate_rules_are_executable():
+    """Each newly formalized family emits a deterministic candidate on its
+    declared closed-bar predicate.  This is a contract probe, not economics."""
+    base = [(f'e{i}', 100.0, 101.0, 99.0, 100.0, 101.0, 100.0) for i in range(28)]
+    reversal = base + [('e28', 101.0, 102.0, 100.0, 101.0, 105.0, 100.0),
+                       ('e29', 102.0, 103.0, 101.0, 102.0, 105.0, 100.0),
+                       ('e30', 103.0, 104.0, 102.0, 103.0, 105.0, 100.0),
+                       ('e31', 99.0, 100.0, 98.0, 99.0, 105.0, 100.0)]
+    assert TrendExhaustionReversalExpert().evaluate(_state(reversal)).draft is not None
+
+    quiet = [(f'c{i}', 100.0, 101.0, 99.0, 100.0, 101.0, 100.0) for i in range(16)]
+    quiet += [(f'c{i}', 100.0, 100.1, 100.0, 100.05, 101.0, 100.0) for i in range(16, 20)]
+    quiet += [('c20', 100.0, 103.0, 99.0, 102.0, 101.0, 100.0)]
+    assert CompressionBreakoutExpert().evaluate(_state(quiet)).draft is not None
+
+    breakout = [(f'v{i}', 100.0, 101.0, 99.0, 100.0, 101.0, 100.0) for i in range(31)]
+    breakout += [('v31', 102.0, 104.0, 102.0, 103.0, 101.0, 100.0)]
+    assert VolumeRangeBreakoutExpert().evaluate(_state(breakout)).draft is not None
+
+
+def test_weekly_interval_is_explicitly_supported():
+    from v8.lab import _INTERVAL_NS
+    assert _INTERVAL_NS['1w'] == 7 * 24 * 60 * 60 * 1_000_000_000
 
 
 def test_expert_requires_audited_against_consumption():

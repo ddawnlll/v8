@@ -53,7 +53,7 @@ src/v8/
   synth.py           deterministic synthetic tape
   simtruth/          vendored V7 lab — engineering only, authority NOT
                      renewed (D-022)
-tools/
+  tools/
   build_monograph.py            docs corpus -> site/index.html, site/tr.html
   data.py                       Binance archive -> verified canonical dataset
                                 (download + SHA-256 + Parquet + DuckDB audit)
@@ -335,6 +335,9 @@ change is a registry decision with a CHANGELOG entry. Owning contracts are
 | `experts/trend_pullback.py` | trend-pullback-continuation family | `TrendPullbackExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
 | `experts/failed_breakout.py` | failed-breakout-reentry family | `FailedBreakoutExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
 | `experts/liquidity_sweep_reclaim.py` | liquidity-sweep-reclaim family (third pilot, D-042) | `LiquiditySweepReclaimExpert` | EXPERT_PROTOCOL; ROADMAP Phase 3 |
+| `experts/trend_exhaustion_reversal.py` | closed-bar run-break reversal family | `TrendExhaustionReversalExpert` | EXPERT_PROTOCOL; D-044 |
+| `experts/compression_breakout.py` | closed-bar volatility compression then range-break family | `CompressionBreakoutExpert` | EXPERT_PROTOCOL; D-044 |
+| `experts/volume_range_breakout.py` | venue-volume and realized-range confirmed breakout family | `VolumeRangeBreakoutExpert` | EXPERT_PROTOCOL; D-044 |
 | `lifecycle.py` | legal transitions; registry projection; episode identity; exposure book | `CandidateRegistry.apply/is_duplicate`, `episode_key`, `ExposureBook` | CANDIDATE_LIFECYCLE_SPEC §2; D-018, D-026 |
 | `risk.py` | deterministic admission; size-aware heat (`size*stop_r`); equity drawdown ladder; trade-unit/min-trades gates | `RiskGate.admit/release`; `RiskVerdict`; `equity.RiskState` | CANDIDATE_LIFECYCLE_SPEC §6; D-023, D-048 |
 | `equity.py` | deterministic fixed-fractional equity + drawdown ladder (RM-06/O-016 challenger) and trade-unit budget (RM-07) | `RiskState`, `DRAWDOWN_BANDS`, `trade_units_for` | CANDIDATE_LIFECYCLE_SPEC §6; D-048 |
