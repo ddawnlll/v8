@@ -29,9 +29,9 @@ büyüklüğü, tolerans, beklenen iyileşme veya güven değeri üretilmemişti
 |---|---|---|---|
 | W1 (#344) | `v8-core/attic/kaizen-governance/` (net 9 dosya) | `correlation`, `derivatives`, `governance`, `mega`, `provenance`, `pyramiding`, `cost_surface`, `liquidity_floor`, `verification` | Sıfır-kullanıcı taraması; `cargo check` yeşil |
 | W1 düzeltmesi | canlı ağaca iade | `kaizen/{controller,verdict}.rs` | §3 (anayasal kapı, sıfır-kullanıcı sezgiselinden üstündür) |
-| W1 KEEP | canlı, OPEN_PIN kapandı | `campaign`, `chop_suppression`, `exit_trailing`, `quantization`, `research_debt` + kapanışı (`challenger`, `diagnosis`, `hypothesis`, `adaptive`, `robustness`, `validation`, `iteration`) | Canlı kullanıcılar: `usdm_sim.rs`, `main.rs`, `benchmark/kaizen_feed.rs`, `d153_benchmark_fabric_sabotage` |
+| W1 KEEP | canlı, OPEN_PIN kapandı | `campaign`, `chop_suppression`, `exit_trailing`, `quantization`, `research_debt` + kapanışı (`challenger`, `diagnosis`, `hypothesis`, `adaptive`, `robustness`, `validation`, `iteration`) | Canlı kullanıcılar: `v8-core/src/usdm_sim.rs`, `v8-core/src/main.rs`, `v8-core/src/benchmark/kaizen_feed.rs`, `v8-core/tests/d153_benchmark_fabric_sabotage.rs` |
 | W2 (#345) | `v8-core/attic/evaluation/` (7 dosya) | `manifest`, `statistics`, `surfaces`, `paths`, `regression`, `html_report`, `deployment_case` + `EvaluationEngine` tasfiyesi | §4 demet kapısı |
-| W2 karantina | canlı, etiketli | `friction`, `production_growth`, `scope` (büyümek için `needs:authority`; tek kullanıcı `tests/production_growth_contract.rs`) | 5/5 test yeşil |
+| W2 karantina | canlı, etiketli | `friction`, `production_growth`, `scope` (büyümek için `needs:authority`; tek kullanıcı `v8-core/tests/production_growth_contract.rs`) | 5/5 test yeşil |
 | W3 (#346) | `v8-core/attic/w3-dead-quartet/` (4 dosya) | `checkpoint`, `world/learned`, `analysis/scorecard`, `opportunity/harness_t1_t12` | Dosya-başı kullanıcı taramaları; `cargo check` yeşil |
 | W4 (#347) | taşıma yok | `differential.rs` KEEP (uyur); `system_proving/*` KEEP + karantina etiketi | `.audit/w4/VERDICT.md` R2(a–c) makbuzları |
 

@@ -29,9 +29,9 @@ tolerance, expected improvement, or confidence value is introduced.
 |---|---|---|---|
 | W1 (#344) | `v8-core/attic/kaizen-governance/` (9 files net) | `correlation`, `derivatives`, `governance`, `mega`, `provenance`, `pyramiding`, `cost_surface`, `liquidity_floor`, `verification` | Zero-caller scan; `cargo check` green |
 | W1 amendment | reverted to live | `kaizen/{controller,verdict}.rs` | §3 (constitutional gate outranks zero-caller heuristic) |
-| W1 KEEP | live, OPEN_PIN closed | `campaign`, `chop_suppression`, `exit_trailing`, `quantization`, `research_debt` + closure (`challenger`, `diagnosis`, `hypothesis`, `adaptive`, `robustness`, `validation`, `iteration`) | Live consumers: `usdm_sim.rs`, `main.rs`, `benchmark/kaizen_feed.rs`, `d153_benchmark_fabric_sabotage` |
+| W1 KEEP | live, OPEN_PIN closed | `campaign`, `chop_suppression`, `exit_trailing`, `quantization`, `research_debt` + closure (`challenger`, `diagnosis`, `hypothesis`, `adaptive`, `robustness`, `validation`, `iteration`) | Live consumers: `v8-core/src/usdm_sim.rs`, `v8-core/src/main.rs`, `v8-core/src/benchmark/kaizen_feed.rs`, `v8-core/tests/d153_benchmark_fabric_sabotage.rs` |
 | W2 (#345) | `v8-core/attic/evaluation/` (7 files) | `manifest`, `statistics`, `surfaces`, `paths`, `regression`, `html_report`, `deployment_case` + `EvaluationEngine` gut | §4 bundle gate |
-| W2 quarantine | live, tagged | `friction`, `production_growth`, `scope` (`needs:authority` to grow; sole consumer `tests/production_growth_contract.rs`) | 5/5 tests green |
+| W2 quarantine | live, tagged | `friction`, `production_growth`, `scope` (`needs:authority` to grow; sole consumer `v8-core/tests/production_growth_contract.rs`) | 5/5 tests green |
 | W3 (#346) | `v8-core/attic/w3-dead-quartet/` (4 files) | `checkpoint`, `world/learned`, `analysis/scorecard`, `opportunity/harness_t1_t12` | Per-file consumer scans; `cargo check` green |
 | W4 (#347) | no moves | `differential.rs` KEEP (dormant); `system_proving/*` KEEP + quarantine-tag | `.audit/w4/VERDICT.md` receipts R2(a–c) |
 

@@ -1,0 +1,20 @@
+v8-core/target/debug/deps/ai_agent_tevv_sabotage-58632d55ae724470 :: |running 2 tests|test test_af_t16_actions_without_transcript_receipts_are_inadmissible ... ok|
+v8-core/target/debug/deps/assurance_fabric_sabotage-7b61cfff257be3f0 :: |running 7 tests|test test_af_t01_synthetic_evidence_cannot_satisfy_economic_claims ... ok|
+v8-core/target/debug/deps/causal_future_shock-f7797285c99ac319 :: |running 5 tests|test test_d139_dense_and_sparse_series_algebra ... ok|
+v8-core/target/debug/deps/continuous_certificate_lifecycle-e2ac0663763b3886 :: |running 3 tests|test test_af_t08_time_bounded_certificate_expires_after_horizon ... ok|
+v8-core/target/debug/deps/d150_epistemic_succession_sabotage-bad1d20838046f41 :: |running 20 tests|test test_d150_t01_mutate_sealed_evaluation_case ... ok|
+v8-core/target/debug/deps/d152_gate_vector_authority_firewall-08602e345462ce70 :: |running 15 tests|test certificate_without_registry_cannot_mint_authority ... ok|
+v8-core/target/debug/deps/d153_benchmark_fabric_sabotage-53cec69f538ce32e :: |running 24 tests|test test_bfs_003_missing_cell_treated_as_pass_fails ... ok|
+v8-core/target/debug/deps/d153_minerva_and_dashboard_test-3a1b4f44568066ff :: |running 3 tests|test test_minerva_hard_gating_and_seal_denial ... ok|
+v8-core/target/debug/deps/d153_parity_adapters_policy_bound-51ae9cbb91531c98 :: |running 50 tests|test default_mapping_version_is_the_registered_one ... ok|
+v8-core/target/debug/deps/d153_receipt_ledger_selfverify-036aeb04b3edebd5 :: |running 40 tests|test canonical_encoding_is_stable_and_public ... ok|
+v8-core/target/debug/deps/data_role_holdout_burn-8861a98474de4b47 :: |running 2 tests|test test_research_multiplicity_and_trial_debt_accounting ... ok|
+v8-core/target/debug/deps/epistemic_succession-1cc0fd60fda0da46 :: |running 0 tests||
+v8-core/target/debug/deps/kaizen_iterations-b0dac95d9551380d :: |running 0 tests||
+v8-core/target/debug/deps/policy_evidence_profile_adversarial-271273705595164f :: |running 14 tests|test adv_certificate_decorative_without_enforcement ... ok|
+v8-core/target/debug/deps/production_growth_contract-ede4fee1bb7e3624 :: |running 5 tests|test test_af_t10_broad_universe_single_asset_allocation_is_legal ... ok|
+v8-core/target/debug/deps/system_proving_ground-0d582d4b451c0bdb :: |running 2 tests|test test_af_t18_failure_attribution_conservation_and_domain_mapping ... ok|
+v8-core/target/debug/deps/v8_core-7e7dca3bc99a26e9 :: |running 441 tests|test account::tests::test_margin_exhaustion_rejection ... ok|
+v8-core/target/debug/deps/v8_core-e23b88f52b6d851e :: |running 468 tests|test account::tests::test_margin_locking_and_equity ... ok|
+v8-core/target/debug/deps/world_foundry_isolation-83394f55713550f1 :: |running 3 tests|test test_af_t13_generator_validity_and_economic_validity_are_separate_claims ... ok|
+v8-core/target/debug/deps/world_foundry_v2_falsification-885992e10ca3c0f2 :: |running 8 tests|test test_v2_generator_passport_non_scalar_conjunction ... ok|
