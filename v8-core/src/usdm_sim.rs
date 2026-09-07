@@ -219,7 +219,11 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
 
             // A. Check Liquidation
             if LiquidationModel::is_liquidated(&pos.direction, liq_price, current_high, current_low) {
-                let exit_price = liq_price;
+                let exit_price = if pos.direction == "LONG" {
+                    liq_price.clamp(current_low, current_high)
+                } else {
+                    liq_price.clamp(current_low, current_high)
+                };
                 let gross_pnl = if pos.direction == "LONG" {
                     (exit_price - pos.entry_price) * pos.quantity
                 } else {
@@ -277,7 +281,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 };
                 if let Some(res) = DynamicTrailingEngine::step_bar(tstate, i, current_high, current_low, current_close, current_atr, Some(struct_stop)) {
                     stop_exit = true;
-                    exit_price = res.exit_price;
+                    exit_price = res.exit_price.clamp(current_low, current_high);
                 }
             } else {
                 let stop_hit = if pos.direction == "LONG" {
@@ -287,7 +291,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 };
                 if stop_hit {
                     stop_exit = true;
-                    exit_price = pos.stop_loss_price;
+                    exit_price = pos.stop_loss_price.clamp(current_low, current_high);
                 }
             }
 
@@ -592,7 +596,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 let tc_closure = features::group_closure(&["trend", "volatility", "history"]);
                 let fm_tc = crate::experts::base::FeatMap {
                     features: crate::experts::base::ProjectedFeatures::new(&feats, &tc_closure),
-                    history: hist.clone(),
+                    history: if eval_ss { hist.clone() } else { std::mem::take(&mut hist) },
                     as_of,
                     symbol: &store.symbol,
                     variant_overrides: &params.variant_overrides,
@@ -656,7 +660,7 @@ pub fn run_simulation_with_stores(params: &UsdmSimParams, stores: &[crate::state
                 let ss_closure = features::group_closure(&["trend", "volatility", "participation", "history"]);
                 let fm_ss = crate::experts::base::FeatMap {
                     features: crate::experts::base::ProjectedFeatures::new(&feats, &ss_closure),
-                    history: hist.clone(),
+                    history: std::mem::take(&mut hist),
                     as_of,
                     symbol: &store.symbol,
                     variant_overrides: &params.variant_overrides,
