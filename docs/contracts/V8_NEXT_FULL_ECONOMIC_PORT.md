@@ -2271,3 +2271,25 @@ result. This does not guarantee failure-artifact creation on a failed filesystem
 The test exposed the native DataActor positional constructor restriction; stop
 handle assignment now occurs after construction. Full suite: 418 passed;
 Ruff/mypy clean. Stream economic integration and reconnect qualification remain open.
+
+## Native stream warmup-to-expert observation
+
+Stream capture accepts verified warmup manifests and a frozen grammar selection.
+On the first native quote for each instrument it builds a receipt-qualified frame
+and runs the existing grammar/catalog, recording opportunity identity and all
+64 stances separately from quote records. Repeated quotes with unchanged warmup
+state do not repeatedly run dataframe work. Unavailable/gapped history remains
+unavailable; at the next expected hourly boundary the source becomes
+NEXT_CLOSED_BAR_REQUIRED instead of silently reusing stale history. This initial
+warmup path does not yet update from live closed bars. No calibration or execution
+is supplied; every observation remains UNVERIFIED_CALIBRATION.
+
+Actual fresh BTC/ETH REST warmup plus native quote run:
+/tmp/v8-stream-observation-1788880094368009000/stream, 2955 quotes and one 64-stance
+observation per instrument. Quote/observation/session hashes were emitted.
+The final source also records absolute warmup manifest paths for retrieval; that
+metadata-only addition followed the running process's module load. The temporal
+test checks pre-receipt exclusion, catalog output, repeated-quote suppression and
+expiry at the next hourly boundary. Full suite: 419 passed; Ruff/mypy clean.
+Live bar updates, reconnect recovery, economic calibration and paper admission
+remain incomplete; this is a prospective observation path, not economic operation.

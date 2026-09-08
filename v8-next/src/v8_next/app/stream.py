@@ -21,6 +21,7 @@ from nautilus_trader.live import LiveNode
 from nautilus_trader.model import InstrumentId, QuoteTick, TraderId
 
 from v8_next.app.observe import source_hash
+from v8_next.economics.stream_observation import StreamObservations
 from v8_next.evaluation.store import canonical
 
 INSTRUMENTS = ("BTCUSDT-PERP.BINANCE", "ETHUSDT-PERP.BINANCE")
@@ -32,6 +33,8 @@ class QuoteRecorder(DataActor):
         self.output = output
         self.stop_node: Callable[[], None] | None = None
         self.count = 0
+        self.observations: StreamObservations | None = None
+        self.observation_output: TextIO | None = None
         self.failure: str | None = None
 
     def on_start(self) -> None:
@@ -71,6 +74,11 @@ class QuoteRecorder(DataActor):
             )
             self.output.flush()
             self.count += 1
+            if self.observations is not None and self.observation_output is not None:
+                observation = self.observations.observe(str(quote.instrument_id), quote.ts_init)
+                if observation is not None:
+                    self.observation_output.write(canonical(observation) + "\n")
+                    self.observation_output.flush()
         except Exception as error:
             self.failure = f"{type(error).__name__}: {error}"
             if self.stop_node is not None:
@@ -78,14 +86,24 @@ class QuoteRecorder(DataActor):
             raise
 
 
-async def capture_stream(destination: Path, duration_seconds: int) -> dict:
+async def capture_stream(
+    destination: Path,
+    duration_seconds: int,
+    *,
+    manifests: tuple[Path, ...] = (),
+    grammar: str = "range-breakout-48-v1",
+) -> dict:
     if duration_seconds <= 0:
         raise ValueError("positive observation duration required")
+    observations = StreamObservations(manifests, grammar) if manifests else None
     destination.mkdir(parents=True, exist_ok=False)
     (destination / "session.json").write_text(
         canonical(
             dict(
                 instruments=INSTRUMENTS,
+                grammar=grammar,
+                warmup_manifest_hashes=observations.source_hashes if observations else [],
+                warmup_manifests=[str(p.resolve()) for p in manifests],
                 started_ns=time.time_ns(),
                 duration_seconds=duration_seconds,
                 code_and_lock_hash=source_hash(),
@@ -105,9 +123,14 @@ async def capture_stream(destination: Path, duration_seconds: int) -> dict:
         ),
     )
     node = builder.build()
-    with (destination / "quotes.jsonl").open("x") as output:
+    with (
+        (destination / "quotes.jsonl").open("x") as output,
+        (destination / "observations.jsonl").open("x") as observation_output,
+    ):
         actor = QuoteRecorder(output)
         actor.stop_node = node.handle().stop
+        actor.observations = observations
+        actor.observation_output = observation_output
         node.add_actor(actor)
 
         async def stop_after() -> None:
@@ -121,10 +144,15 @@ async def capture_stream(destination: Path, duration_seconds: int) -> dict:
                 raise ValueError(actor.failure)
             output.flush()
             os.fsync(output.fileno())
+            observation_output.flush()
+            os.fsync(observation_output.fileno())
             with (destination / "quotes.jsonl").open("rb") as recorded:
                 quotes_hash = hashlib.file_digest(recorded, "sha256").hexdigest()
             result = dict(
                 quote_sha256=quotes_hash,
+                observation_sha256=hashlib.sha256(
+                    (destination / "observations.jsonl").read_bytes()
+                ).hexdigest(),
                 session_sha256=hashlib.sha256(
                     (destination / "session.json").read_bytes()
                 ).hexdigest(),
@@ -160,8 +188,21 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("destination", type=Path)
     parser.add_argument("--duration-seconds", type=int, required=True)
+    parser.add_argument("--warmup-manifest", type=Path, action="append", default=[])
+    parser.add_argument("--grammar", default="range-breakout-48-v1")
     args = parser.parse_args()
-    print(json.dumps(asyncio.run(capture_stream(args.destination, args.duration_seconds))))
+    print(
+        json.dumps(
+            asyncio.run(
+                capture_stream(
+                    args.destination,
+                    args.duration_seconds,
+                    manifests=tuple(args.warmup_manifest),
+                    grammar=args.grammar,
+                )
+            )
+        )
+    )
 
 
 if __name__ == "__main__":
