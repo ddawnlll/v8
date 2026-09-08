@@ -1194,3 +1194,15 @@ mirrored funding D, structural distances and late/missing input rejection.
 Coverage is 28 families/62 protected policies, not full lifecycle completion.
 Auxiliary capture, durable source/replay binding and ongoing invalidation remain
 unfinished; historical trial calls without auxiliary data abstain.
+
+## Verified captured funding as auxiliary observations
+
+load_settled_funding decodes the existing hash-verified funding artifact into
+positioning readings. Availability is capture receipt, never historical funding
+time. An explicit positive max_age_ns expires each observation from settlement;
+it is a caller economic policy, not an inferred venue interval. Old records can
+therefore already be expired at receipt. Duplicate identical rows collapse;
+conflicting values, wrong symbols, future settlements and non-finite rates fail.
+Tests also prove receipt-time gating and reject substituted source bytes. This
+adapter does not certify historical PIT or authenticate the venue; CLI policy
+binding, repeated-capture reconciliation and OI/ratio acquisition remain open.
