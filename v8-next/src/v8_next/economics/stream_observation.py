@@ -15,6 +15,7 @@ from v8_next.domain.config import PositioningPolicy
 from v8_next.domain.market import Candle, frame_at
 from v8_next.domain.positioning import Metric, PositioningReading, positioning_at
 from v8_next.economics.grammar import POLICIES, grammar_opportunity
+from v8_next.economics.regime import observe_regime
 from v8_next.evaluation.store import canonical
 from v8_next.experts.catalog import observe_all
 
@@ -198,6 +199,9 @@ class StreamObservations:
             grammar=self.grammar,
             positioning_values=positioning,
             positioning_policy=self.positioning_policy.model_dump(mode="json"),
+            regime=asdict(observe_regime(frame, readings=self.readings))
+            if status == "READY"
+            else None,
             latest_closed_bar_ns=latest_end,
             candle_source_hashes=sorted({c.source_hash for c in frame.candles}),
             capture_manifest_hashes=self.source_hashes,

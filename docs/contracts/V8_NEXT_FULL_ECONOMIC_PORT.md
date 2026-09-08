@@ -1,5 +1,24 @@
 # V8-next full economic port
 
+## Descriptive regime observation boundary
+
+Stream READY observations now include `volume20-settled-funding-v1`: current-inclusive
+20-closed-bar relative volume and receipt-qualified, unexpired settled funding.
+Thresholds preserve quant.rs (volume 1.30/0.70; funding +/-0.00015). Source inspection
+found its only classifier caller in exit_ablation.rs used 21 volume bars despite
+the 20-bar comment, partial windows and missing-to-normal fallbacks. This new
+version explicitly requires 20 complete continuous bars and leaves missing or
+zero-denominator volume absent. Funding retains the configured source validity
+interval and is not a prediction of the next settlement. Existing stream source
+hashes, positioning policy and decision clocks bind the observation inputs.
+
+Trend/volatility remain absent pending feature qualification; habitat remains
+UNQUALIFIED. Descriptive labels do not authorize experts or provide calibrated
+utility. Regime-conditioned outcome fitting, preregistered expert habitats and
+production calibration remain incomplete. Relevant regime/stream/replay tests:
+26 passed, covering warmup, gaps, window exclusion, funding knowledge and expiry.
+Legacy stream artifacts retain their frozen runtime requirement.
+
 Owner scope: “hepsini ekle o zaman”. This extends the first-slice acceptance;
 that acceptance does not establish completion of the full economic product.
 Legacy code is reference only, never a runtime dependency. No real-money
