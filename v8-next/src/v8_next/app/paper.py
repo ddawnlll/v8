@@ -167,7 +167,12 @@ def _step_locked(run: Path, config: dict[str, str], *, replay_only: bool) -> dic
             ),
         )
     if not replay_only:
-        manifests.append(capture(run / f"capture-{time.time_ns()}"))
+        manifests.append(
+            capture(
+                run / f"capture-{time.time_ns()}",
+                funding_start_ms=int(str(frozen["frozen_ns"])) // 1_000_000,
+            )
+        )
     if not manifests:
         raise ValueError("no captured session to replay")
     for manifest in manifests:

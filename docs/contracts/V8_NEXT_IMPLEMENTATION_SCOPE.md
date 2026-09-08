@@ -361,3 +361,26 @@ setup 0.118 s in the existing project environment, SPA qualification 1.546 s
 process wall time, and the full research-enabled suite 2.072 s process wall time
 (48 tests passed; pytest reported 1.83 s). These scopes/environments differ and
 must not be presented as equivalent speed comparisons. No Rust speedup is inferred.
+
+### Bounded prospective funding acquisition
+
+Paper capture now requests funding history from the frozen session start through
+an explicit request-time end, with limit 1000, retaining the exact query in the
+hashed source manifest. It rejects a saturated response rather than silently
+assuming the earliest 1000 records exhaust the window. Such sessions require a
+bounded pagination extension; they cannot continue with truncated funding history.
+Duplicate/out-of-order and out-of-window funding timestamps also reject capture.
+Standalone historical capture retains its previous recent-history behavior.
+
+Official Binance funding-history documentation specifies inclusive start/end
+milliseconds, ascending results and truncation at the limit:
+https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data
+(Get Funding Rate History). This supports bounded acquisition, not a guarantee
+that the venue never publishes late records. A response window ends before its
+receipt and before subsequent quote receipt; coverage must not be extended to
+those later times. Funding coverage classification is not yet upgraded by this
+change. No calibration or admission gate is relaxed.
+
+Capture boundary tests exercise exact query parameters and saturated-response
+failure without a valid manifest. Full local suite passed 56 tests in 2.42 s
+pytest time (`/tmp/v8-next-bounded-funding-tests.log`); Ruff and mypy passed.

@@ -13,15 +13,23 @@ from urllib.request import urlopen
 BASE = "https://fapi.binance.com"
 
 
-def capture(destination: Path, symbol: str = "BTCUSDT") -> Path:
+def capture(
+    destination: Path, symbol: str = "BTCUSDT", *, funding_start_ms: int | None = None
+) -> Path:
     """Write immutable raw responses and a manifest; never send authenticated requests."""
     if not symbol.isascii() or not symbol.isalnum():
         raise ValueError("symbol must be an ASCII alphanumeric venue symbol")
+    funding_params: dict[str, str | int] = {"symbol": symbol, "limit": 100}
+    if funding_start_ms is not None:
+        end_ms = time.time_ns() // 1_000_000
+        if type(funding_start_ms) is not int or not 0 <= funding_start_ms <= end_ms:
+            raise ValueError("invalid funding history start")
+        funding_params.update(startTime=funding_start_ms, endTime=end_ms, limit=1000)
     destination.mkdir(parents=True, exist_ok=False)
     requests: dict[str, tuple[str, dict[str, str | int]]] = {
         "instruments": ("/fapi/v1/exchangeInfo", {}),
         "bars": ("/fapi/v1/klines", {"symbol": symbol, "interval": "1h", "limit": 500}),
-        "funding": ("/fapi/v1/fundingRate", {"symbol": symbol, "limit": 100}),
+        "funding": ("/fapi/v1/fundingRate", funding_params),
         "funding_schedule": ("/fapi/v1/premiumIndex", {"symbol": symbol}),
         "quote": ("/fapi/v1/ticker/bookTicker", {"symbol": symbol}),
     }
@@ -39,6 +47,15 @@ def capture(destination: Path, symbol: str = "BTCUSDT") -> Path:
             item["symbol"] == symbol for item in payload["symbols"]
         ):
             raise ValueError("instrument absent from current venue metadata")
+        if name == "funding" and funding_start_ms is not None:
+            if not isinstance(payload, list) or len(payload) >= 1000:
+                raise ValueError("funding history possibly truncated; bounded pagination required")
+            boundaries = [int(row["fundingTime"]) for row in payload]
+            if boundaries != sorted(set(boundaries)) or any(
+                row["symbol"] != symbol or not funding_start_ms <= boundary <= end_ms
+                for row, boundary in zip(payload, boundaries, strict=True)
+            ):
+                raise ValueError("funding response outside requested chronology")
         path = destination / f"{name}.json"
         path.write_bytes(raw)
         artifacts.append(
