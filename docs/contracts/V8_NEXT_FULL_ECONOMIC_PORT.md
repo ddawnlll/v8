@@ -1155,3 +1155,14 @@ not its less precise prose about POC holding levels. Tests verify all four
 variants in both directions, exact structural prices and opportunity-limited
 expiry. Protected coverage reaches 25 families/48 policies; ongoing validity and
 full economic operation remain unfinished.
+
+## Failed-move B–G campaign connections
+
+failed-move:b/c/d/e/f/g:v2 now reuse their causal observation predicates with the
+source family's declared one-range stop/target and eight-bar expiry. Reference
+levels distinguish setup and later validity; source geometry does not make them
+structural stops. Unit-geometry paths explicitly require all 14 volatility bars,
+so short observation warmups cannot produce a partial-window risk estimate.
+Tests exercise actual B–G setups, directional geometry and insufficient-volatility
+rejection. Protected coverage reaches 26 families/54 policies. Funding/OI data
+connections, ongoing validity and full economic operation remain outstanding.

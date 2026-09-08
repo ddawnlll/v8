@@ -64,3 +64,46 @@ def test_b_uses_confirmed_significant_swing():
     assert observe_failed_move(frame, opportunity, variant="b").kind == StanceKind.SUPPORT
     with pytest.raises(ValueError, match="unsupported"):
         failed_move(frame, "a")
+
+
+@pytest.mark.parametrize("variant", list("bcdefg"))
+def test_failed_move_campaigns_use_declared_unit_geometry_with_full_volatility(variant):
+    from v8_next.economics.protection import protection_at
+
+    rows = [(100, 101, 99, 100)] * 40
+    side = "LONG"
+    if variant == "b":
+        rows[15] = (100, 101, 90, 100)
+        rows[-2:] = [(89, 90, 88, 89), (91, 92, 90, 91)]
+    elif variant in {"c", "d"}:
+        rows[-4:] = [
+            (100, 110, 90, 100),
+            (100, 105, 95, 100),
+            (94, 96, 92, 94),
+            (106, 107, 105, 106),
+        ]
+        if variant == "d":
+            rows = [(200 - o, 200 - low, 200 - high, 200 - close) for o, high, low, close in rows]
+            side = "SHORT"
+    elif variant == "e":
+        rows[-1] = (98, 101, 97, 100)
+    elif variant == "f":
+        rows[-2:] = [(102, 103, 101, 102), (98, 99, 97, 98)]
+        side = "SHORT"
+    else:
+        rows[-2:] = [(98, 100, 80, 98), (100, 101, 99, 100)]
+    frame, opportunity = context(rows)
+    protection = protection_at(
+        frame, replace(opportunity, direction=side), f"failed-move:{variant}:v2", Decimal(".01")
+    )
+    assert protection is not None
+    span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+    assert 0 <= span - abs(frame.candles[-1].close - protection.stop_price) < Decimal(".01")
+    assert protection.expires_ns == frame.decision_ns + 8
+    short, opportunity = context(rows[-4:])
+    assert (
+        protection_at(
+            short, replace(opportunity, direction=side), f"failed-move:{variant}:v2", Decimal(".01")
+        )
+        is None
+    )

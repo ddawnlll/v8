@@ -18,6 +18,7 @@ from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.climax import observe_volume_climax
 from v8_next.experts.confluence import observe_confluence
 from v8_next.experts.divergence import observe_divergence
+from v8_next.experts.failed_moves import observe_failed_move
 from v8_next.experts.features import significant_swings
 from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import gap_setup
@@ -68,6 +69,7 @@ PROTECTION_POLICIES = frozenset(
         "breakout-retest:b:v2",
         "breakout-retest:c:v2",
         *(f"profile:{v}:v2" for v in "abcd"),
+        *(f"failed-move:{v}:v2" for v in "bcdefg"),
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -130,10 +132,11 @@ def protection_at(
         "fib-projection": observe_fib_projection,
         "confluence": partial(observe_confluence, variant=variant),
         "divergence": partial(observe_divergence, variant=variant),
+        "failed-move": partial(observe_failed_move, variant=variant),
     }
     if family in unit_geometry_observers:
         observer = unit_geometry_observers[family]
-        if observer(frame, opportunity).kind != StanceKind.SUPPORT:
+        if len(frame.candles) < 14 or observer(frame, opportunity).kind != StanceKind.SUPPORT:
             return None
         span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
         if span <= 0:
