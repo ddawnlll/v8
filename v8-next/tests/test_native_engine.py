@@ -186,7 +186,8 @@ def test_expiry_closes_native_position_and_charges_exit_fee():
     assert Decimal(position["average_close_price"]) == Decimal(10000)
 
 
-def test_observer_through_admission_to_native_fill():
+@pytest.mark.parametrize("observer", ["squeeze", "breakout_baseline"])
+def test_observer_through_admission_to_native_fill(observer):
     from v8_next.adapters.economic_paper import EconomicPaperAdapter
     from v8_next.domain.market import Candle, frame_at
     from v8_next.economics.controller import InstrumentConstraints
@@ -217,6 +218,8 @@ def test_observer_through_admission_to_native_fill():
             )
         )
     decision_ns = 69 * hour + 10**9
+    if observer == "breakout_baseline":
+        candles = candles[-49:]  # Baseline requires grammar warmup, not squeeze warmup.
     frame = frame_at("BTCUSDT-PERP.BINANCE", decision_ns, tuple(candles))
 
     # Test-only calibrated evidence. Product does not load this fixture or mint a receipt.
@@ -231,6 +234,7 @@ def test_observer_through_admission_to_native_fill():
         InstrumentConstraints(Decimal("0.001"), Decimal("0.001"), Decimal(1), Decimal(1)),
         Decimal(100),
         calibration,
+        observer=observer,
     )
     state = run_qualified_engine(strategy=strategy, offset=69 * hour)
     assert len(state["orders"]) == 1

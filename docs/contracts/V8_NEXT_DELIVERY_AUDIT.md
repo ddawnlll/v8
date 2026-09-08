@@ -96,3 +96,24 @@ Four focused tests passed in 0.50 s (`/tmp/v8-next-funding-cutoff-tests.log`). T
 corrects omitted known cashflows; it does not certify global funding completeness
 or authorize readmission/calibration. Open-position mark-to-market freshness is
 also distinct from the revised cash balance.
+
+### Executable baseline comparison
+
+The frozen range-breakout baseline now runs through the same economic controller,
+portfolio admission and native campaign adapter as the squeeze observer, omitting
+only the compression filter. Its stance retains no execution authority. The
+native test parametrizes both observers; the baseline uses 49 grammar bars and
+therefore does not inherit the squeeze observer's 69-bar warmup requirement.
+
+The combined report recomputes baseline native state using the source-verified
+capture set and the same simulation configuration, beside the recorded and
+recomputed variant state. Missing calibration remains missing in both paths.
+It does not turn matching no-trade balances into a paired loss sample or p-value;
+qualified account intervals, funding coverage and inference integration remain open.
+
+Actual public-data execution produced
+`/var/folders/db/04433_v94tv8xpr31czl2j200000gn/T/v8-next-baseline-gtocueq3/comparison.json`.
+Both paths recorded zero orders and NO_ECONOMIC_CLAIM. This is the first native
+baseline report check, not evidence of economic equivalence. Process log:
+`/tmp/v8-next-baseline-report.log`. Full suite: 53 passed in 1.99 s pytest time
+(`/tmp/v8-next-baseline-full.log`); Ruff and mypy passed.

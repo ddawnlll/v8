@@ -84,6 +84,20 @@ def opportunity_at(frame: CausalFrame) -> Opportunity | None:
     )
 
 
+def observe_breakout_baseline(frame: CausalFrame, opportunity: Opportunity | None) -> Stance:
+    """The frozen comparison omits only the compression filter, not admission."""
+    return Stance(
+        "range-breakout-baseline",
+        "range-breakout-data",
+        StanceKind.SUPPORT if opportunity else StanceKind.ABSTAIN,
+        "GRAMMAR_BREAKOUT" if opportunity else "NO_OPPORTUNITY",
+        opportunity.opportunity_id if opportunity else None,
+        frame.decision_ns,
+        mechanism_family="range-breakout-hypothesis",
+        version="range-breakout-without-compression-v1",
+    )
+
+
 def observe_squeeze(
     frame: CausalFrame, opportunity: Opportunity | None, observer_id: str = "squeeze-swing"
 ) -> Stance:

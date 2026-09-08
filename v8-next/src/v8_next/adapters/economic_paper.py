@@ -14,6 +14,7 @@ from v8_next.economics.controller import InstrumentConstraints, decide_campaign
 from v8_next.economics.decisions import (
     Opportunity,
     UtilityInputs,
+    observe_breakout_baseline,
     observe_squeeze,
     opportunity_at,
 )
@@ -35,8 +36,13 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         constraints: InstrumentConstraints,
         requested_notional: Decimal,
         calibration: CalibrationProvider | None = None,
+        *,
+        observer: str = "squeeze",
     ) -> None:
         super().__init__(())
+        if observer not in {"squeeze", "breakout_baseline"}:
+            raise ValueError("unknown frozen observer comparison")
+        self.observer = observer
         self.frames = frames
         self.limits = limits
         self.constraints = constraints
@@ -54,7 +60,8 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         if frame is None:
             return
         opportunity = opportunity_at(frame)
-        stance = observe_squeeze(frame, opportunity)
+        observe = observe_squeeze if self.observer == "squeeze" else observe_breakout_baseline
+        stance = observe(frame, opportunity)
         record: dict[str, object] = {
             "decision_ns": quote.ts_init,
             "stance": asdict(stance),

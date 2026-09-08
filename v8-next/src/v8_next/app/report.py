@@ -6,12 +6,24 @@ from pathlib import Path
 from typing import Any
 
 from v8_next.app.evaluate import evaluate
+from v8_next.app.paper import replay_account
 from v8_next.evaluation.calibration import inspect_calibration_source
 
 
 def report(run: Path, decision_ns: int) -> dict[str, Any]:
     observations = evaluate(run)
     outcomes = inspect_calibration_source(run, decision_ns)
+    frozen = json.loads((run / "policy.json").read_text())
+    if frozen["policy"]["baseline"] != "range-breakout-without-compression-v1":
+        raise ValueError("unsupported frozen baseline definition")
+    checkpoint = json.loads((run / "paper-state.json").read_text())
+    # The source inspector above verifies these exact captures and the recorded
+    # squeeze decisions. The baseline shares clocks, costs and admission policy.
+    baseline = replay_account(
+        [run / name for name in checkpoint["manifests"]],
+        frozen["policy"]["paper_config"],
+        observer="breakout_baseline",
+    )
     return {
         "schema_version": 1,
         "claim_status": "NO_ECONOMIC_CLAIM",
@@ -21,6 +33,11 @@ def report(run: Path, decision_ns: int) -> dict[str, Any]:
             "status": "NOT_COMPUTED",
             "reason": outcomes["reason"],
             "paired_loss_sample": None,
+            "baseline_native_replay": baseline,
+            "variant_native_state": checkpoint["native_state"],
+            "replay_scope": "SAME_CAPTURE_AND_ADMISSION_POLICY_SIMULATED_DIAGNOSTIC",
+            "loss_status": "NO_QUALIFIED_PAIRED_ACCOUNT_INTERVALS",
+            "no_trade_is_not_edge_evidence": True,
             "spa": None,
             "wrc": None,
             "dsr": None,

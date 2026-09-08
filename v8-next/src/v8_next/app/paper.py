@@ -31,7 +31,9 @@ from v8_next.evaluation.store import ResearchStore, canonical
 from v8_next.risk.admission import RiskLimits
 
 
-def replay_account(manifests: list[Path], config: dict[str, str]) -> dict[str, Any]:
+def replay_account(
+    manifests: list[Path], config: dict[str, str], *, observer: str = "squeeze"
+) -> dict[str, Any]:
     PaperConfig.model_validate(config)
     if not manifests:
         raise ValueError("no prospective captures")
@@ -91,6 +93,7 @@ def replay_account(manifests: list[Path], config: dict[str, str]) -> dict[str, A
                 Decimal(filters["MIN_NOTIONAL"]["notional"]),
             ),
             Decimal(config["max_notional"]),
+            observer=observer,
         )
         engine.add_strategy(strategy)
         engine.add_data(quotes)
