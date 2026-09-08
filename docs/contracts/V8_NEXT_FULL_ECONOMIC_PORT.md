@@ -741,3 +741,20 @@ multiplicity lowering confidence, positive return-scale invariance, deterministi
 results, invalid input rejection and family API integration. The four numerical
 method paths now exist, but their qualified real-data benchmark workflow and
 prospective evidence remain completion requirements.
+
+## Native marked equity at common bar boundaries
+
+Historical trials now retain one cash-plus-unrealized equity observation per
+source bar, including bars without a selection and bars with open exposure.
+Nautilus Position.unrealized_pnl values actual open positions at the source bar
+close; native cash already incorporates settled costs. Cross-instrument exposure
+without a price rejects instead of being omitted. Source hashes and observation
+clocks accompany each mark.
+
+The phase is explicitly PRE_STRATEGY_BAR_CALLBACK, before campaign actions.
+It is not terminal equity for every event sharing that timestamp. Terminal
+account state remains separate; no fabricated balancing adjustment joins them.
+Native tests cover open-position valuation, one mark per bar and unchanged
+prefix equity under a changed future suffix. These diagnostic modeled historical
+marks still need interval-return alignment, explicit research plans and full
+family/OOS integration before qualified benchmark use.

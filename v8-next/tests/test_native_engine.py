@@ -602,8 +602,8 @@ def test_historical_trial_uses_next_bar_and_future_suffix_cannot_change_prior_de
         campaign_policy="donchian:a:v2",
     )
 
-    def run(source):
-        trial = HistoricalTrial(source, policy)
+    def run(source, selected_policy=policy):
+        trial = HistoricalTrial(source, selected_policy)
         bars = [
             Bar(
                 BarType.from_str("BTCUSDT-PERP.BINANCE-1-HOUR-LAST-EXTERNAL"),
@@ -622,6 +622,13 @@ def test_historical_trial_uses_next_bar_and_future_suffix_cannot_change_prior_de
 
     first, state = run(candles)
     assert first.campaigns
+    assert first.failure is None
+    assert len(first.equity_marks) == len(candles)
+    assert Decimal(first.equity_marks[0]["equity"]) == Decimal(10000)
+    assert all(
+        Decimal(mark["equity"]) == Decimal(mark["cash"]) + Decimal(mark["unrealized_pnl"])
+        for mark in first.equity_marks
+    )
     entry_events = [
         event
         for event in first.order_events
@@ -635,8 +642,15 @@ def test_historical_trial_uses_next_bar_and_future_suffix_cannot_change_prior_de
     )
     second, _ = run(changed)
     assert first.decisions[:27] == second.decisions[:27]
+    assert first.equity_marks[:27] == second.equity_marks[:27]
     assert all(c.available_ns is None for c in candles)
     assert state["claim_status"] == "NO_ECONOMIC_CLAIM"
+    held, _ = run(candles, policy.model_copy(update={"campaign_policy": "timeout-only-v1"}))
+    assert held.failure is None
+    marks = [m for m in held.equity_marks if m["open_positions"]]
+    assert marks
+    assert any(Decimal(m["unrealized_pnl"]) > 0 for m in marks)
+    assert Decimal(marks[-1]["equity"]) > Decimal(marks[-1]["cash"])
 
 
 def test_native_close_sample_reconciles_funding_and_fees_once():

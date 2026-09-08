@@ -36,6 +36,7 @@ class HistoricalTrial(PaperCampaignAdapter):
         self.prefix: list[Candle] = []
         self.policy = policy
         self.decisions: list[dict[str, Any]] = []
+        self.equity_marks: list[dict[str, Any]] = []
         self.failure: str | None = None
 
     def on_start(self) -> None:
@@ -51,6 +52,7 @@ class HistoricalTrial(PaperCampaignAdapter):
             raise
 
     def process_bar(self, bar: Bar) -> None:
+        self.mark_equity(bar)
         # Prior decisions execute no earlier than the NEXT real bar close. The
         # native bar model supplies fills; no synthetic QuoteTick is constructed.
         self.advance_campaigns(
@@ -132,3 +134,43 @@ class HistoricalTrial(PaperCampaignAdapter):
         self.campaigns += (campaign,)
         record["reason"] = "COUNTERFACTUAL_POLICY_SELECTED_NOT_UTILITY_ADMITTED"
         record["campaign_id"] = campaign.campaign_id
+
+    def mark_equity(self, bar: Bar) -> None:
+        """Native cash plus native position valuation, before callback actions.
+
+        This is not end-of-timestamp equity: orders submitted by this callback
+        and subsequent same-clock events can still change cash and exposure.
+        """
+        candle = self.source[bar.ts_event]
+        if candle.instrument_id != str(bar.bar_type.instrument_id):
+            raise ValueError("equity source instrument mismatch")
+        if self.equity_marks and bar.ts_event <= self.equity_marks[-1]["end_ns"]:
+            raise ValueError("equity boundaries must increase")
+        account = self.cache.account_for_venue(Venue("BINANCE"))
+        if account is None:
+            raise ValueError("native equity account missing")
+        currency = Currency.from_str("USDT")
+        cash = account.balance_total(currency).as_decimal()
+        unrealized = Decimal(0)
+        positions = self.cache.positions_open()
+        for position in positions:
+            if position.instrument_id != bar.bar_type.instrument_id:
+                raise ValueError("unpriced cross-instrument exposure")
+            pnl = position.unrealized_pnl(bar.close)
+            if pnl.currency != currency:
+                raise ValueError("equity currency mismatch")
+            unrealized += pnl.as_decimal()
+        self.equity_marks.append(
+            {
+                "end_ns": bar.ts_event,
+                "observed_ns": bar.ts_init,
+                "phase": "PRE_STRATEGY_BAR_CALLBACK",
+                "currency": "USDT",
+                "cash": str(cash),
+                "unrealized_pnl": str(unrealized),
+                "equity": str(cash + unrealized),
+                "open_positions": len(positions),
+                "close_price": str(bar.close.as_decimal()),
+                "source_hash": candle.source_hash,
+            }
+        )

@@ -70,6 +70,7 @@ def run_trial(
             "calibration_eligible": False,
             "promotion_eligible": False,
             "account": state,
+            "equity_marks": trial.equity_marks,
             "decisions": trial.decisions,
             "campaigns": [c.to_record() for c in trial.campaigns],
             "campaign_observations": trial.campaign_observations(state),
