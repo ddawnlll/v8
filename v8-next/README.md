@@ -175,3 +175,12 @@ the fixed-capital simulator before its first event. This optional diagnostic
 replays prefixes repeatedly and becomes expensive on long sessions. Irregular
 capture intervals, unqualified equity marks and venue revisions prevent automatic
 use as a statistical loss sample; the option does not call SPA or authorize claims.
+
+For explicitly exploratory research, `report --exploratory-spa BLOCK REPS SEED`
+computes the trajectory and requests the optional arch SPA adapter. Install the
+`research` extra and pass all three parameters; no plan defaults are invented.
+Loss is negative incremental simulated cash return per capture interval. Missing
+intervals and degenerate differentials produce an explicit absent result, not a
+p-value. A calculated result remains `NOT_VERIFIED_EXPLORATORY_ONLY`: irregular
+sampling, full search history, funding revisions and preregistration are unresolved.
+It cannot supply utility, satisfy the constitutional WRC gate or promote a claim.

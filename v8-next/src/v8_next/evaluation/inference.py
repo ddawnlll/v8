@@ -83,3 +83,62 @@ def spa_diagnostic(
         "pbo": None,
         "promotion_eligible": False,
     }
+
+
+def trajectory_spa_diagnostic(
+    trajectory: dict[str, Any], *, decision_ns: int, block_size: int, reps: int, seed: int
+) -> dict[str, Any]:
+    """Explicit exploratory computation, never qualification of the source series.
+
+    Loss is negative incremental cash return per recorded capture interval.
+    Irregular sampling and venue revisions remain methodological limitations.
+    The caller-supplied plan is not presented as preregistered.
+    """
+    from decimal import Decimal
+
+    empty: dict[str, Any] = {
+        "status": "NO_PAIRED_INTERVALS",
+        "result": None,
+        "claim_status": "NO_ECONOMIC_CLAIM",
+        "promotion_eligible": False,
+        "preregistration": "NOT_VERIFIED_EXPLORATORY_ONLY",
+        "loss": "negative_incremental_simulated_cash_return_per_capture_interval",
+        "limitations": trajectory.get("limitations", []),
+    }
+    if block_size < 1 or reps < 2 or seed < 0:
+        raise ValueError("explicit valid exploratory bootstrap parameters required")
+    rows = trajectory["rows"]
+    if not rows:
+        return empty
+    series: dict[str, list[IntervalLoss]] = {"breakout_baseline": [], "squeeze": []}
+    for row in rows:
+        for name in series:
+            value = row[name]["incremental_cash_return"]
+            if value is None:
+                return {**empty, "status": "MISSING_CASH_INTERVAL_NO_IMPUTATION"}
+            series[name].append(
+                IntervalLoss(row["start_ns"], row["end_ns"], row["end_ns"], -Decimal(value))
+            )
+    baseline, variant = tuple(series["breakout_baseline"]), tuple(series["squeeze"])
+    differences = paired_differentials(
+        baseline,
+        variant,
+        frozen_ns=rows[0]["start_ns"],
+        evaluation_end_ns=rows[-1]["end_ns"],
+        decision_ns=decision_ns,
+    )
+    if len(set(differences)) < 2:
+        return {**empty, "status": "DEGENERATE_DIFFERENTIAL_NO_PVALUE"}
+    if block_size >= len(rows):
+        return {**empty, "status": "INSUFFICIENT_INTERVALS_FOR_REQUESTED_BLOCK"}
+    result = spa_diagnostic(
+        baseline,
+        {"squeeze": variant},
+        frozen_ns=rows[0]["start_ns"],
+        evaluation_end_ns=rows[-1]["end_ns"],
+        decision_ns=decision_ns,
+        block_size=block_size,
+        reps=reps,
+        seed=seed,
+    )
+    return {**empty, "status": "COMPUTED_EXPLORATORY_NOT_QUALIFIED", "result": result}

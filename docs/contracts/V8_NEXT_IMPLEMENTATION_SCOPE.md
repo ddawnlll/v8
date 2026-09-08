@@ -456,3 +456,21 @@ The source-prefix/missingness test and report test passed (2 tests, 0.36 s pytes
 had zero observed cash change in both intervals and inference eligibility remained
 false. Native process log: `/tmp/v8-next-trajectory-real.log`. Ruff and mypy passed
 for the implementation (26 source files).
+
+### Exploratory source-to-SPA integration
+
+The optional report flag `--exploratory-spa BLOCK REPS SEED` now connects the
+source-verified, prefix-recomputed paired cash series to the genuine arch SPA
+adapter. It declares negative incremental cash return as the diagnostic loss,
+checks chronology through `paired_differentials`, propagates missing intervals,
+and refuses a p-value for a constant paired difference. Caller parameters are
+explicit but not asserted to be preregistered. This exploratory operation does
+not change `inference_eligible` on the source trajectory or provide calibrated
+utility/claim authority; it is not the missing protected-inference certification.
+
+Three focused inference/report tests passed in 1.50 s pytest time
+(`/tmp/v8-next-exploratory-spa-tests.log`); Ruff and mypy passed. Actual two-capture
+input produced `/tmp/v8-next-exploratory-real.json` with
+`DEGENERATE_DIFFERENTIAL_NO_PVALUE`, null result and NO_ECONOMIC_CLAIM. No fixture
+p-value entered the production artifact. The positive calculation test remains
+isolated test data and asserts exact scope rather than an invented expected p-value.

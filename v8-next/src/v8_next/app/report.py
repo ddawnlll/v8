@@ -12,10 +12,17 @@ from v8_next.app.paper import replay_account
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.evaluation.calibration import inspect_calibration_source
 from v8_next.evaluation.cash_return import terminal_cash_return
+from v8_next.evaluation.inference import trajectory_spa_diagnostic
 from v8_next.evaluation.trajectory import cash_trajectory
 
 
-def report(run: Path, decision_ns: int, *, include_trajectory: bool = False) -> dict[str, Any]:
+def report(
+    run: Path,
+    decision_ns: int,
+    *,
+    include_trajectory: bool = False,
+    exploratory_spa: tuple[int, int, int] | None = None,
+) -> dict[str, Any]:
     observations = evaluate(run)
     outcomes = inspect_calibration_source(run, decision_ns)
     frozen = json.loads((run / "policy.json").read_text())
@@ -39,6 +46,16 @@ def report(run: Path, decision_ns: int, *, include_trajectory: bool = False) -> 
         frozen["policy"]["paper_config"],
         int(checkpoint["revised_accounting"]["accounting_as_of_ns"]),
     )
+    trajectory = (
+        cash_trajectory(
+            [run / name for name in checkpoint["manifests"]],
+            frozen["policy"]["paper_config"],
+            int(frozen["frozen_ns"]),
+            decision_ns,
+        )
+        if include_trajectory or exploratory_spa is not None
+        else None
+    )
     return {
         "schema_version": 1,
         "claim_status": "NO_ECONOMIC_CLAIM",
@@ -48,13 +65,15 @@ def report(run: Path, decision_ns: int, *, include_trajectory: bool = False) -> 
             "status": "NOT_COMPUTED",
             "reason": outcomes["reason"],
             "paired_loss_sample": None,
-            "cash_trajectory": cash_trajectory(
-                [run / name for name in checkpoint["manifests"]],
-                frozen["policy"]["paper_config"],
-                int(frozen["frozen_ns"]),
-                decision_ns,
+            "cash_trajectory": trajectory,
+            "exploratory_spa": trajectory_spa_diagnostic(
+                trajectory,
+                decision_ns=decision_ns,
+                block_size=exploratory_spa[0],
+                reps=exploratory_spa[1],
+                seed=exploratory_spa[2],
             )
-            if include_trajectory
+            if exploratory_spa is not None and trajectory is not None
             else None,
             "baseline_cash_return": terminal_cash_return(
                 baseline_accounting, Decimal(frozen["policy"]["paper_config"]["initial_balance"])
@@ -90,8 +109,14 @@ def main() -> None:
         action="store_true",
         help="Replay every capture prefix; cost grows with session length",
     )
+    parser.add_argument("--exploratory-spa", nargs=3, type=int, metavar=("BLOCK", "REPS", "SEED"))
     args = parser.parse_args()
-    result = report(args.run_directory, args.decision_ns, include_trajectory=args.trajectory)
+    result = report(
+        args.run_directory,
+        args.decision_ns,
+        include_trajectory=args.trajectory,
+        exploratory_spa=tuple(args.exploratory_spa) if args.exploratory_spa else None,
+    )
     with args.output.open("x") as output:
         json.dump(result, output, indent=2)
         output.write("\n")
