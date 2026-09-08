@@ -165,9 +165,13 @@ def main() -> None:
     parser.add_argument("destination", type=Path)
     parser.add_argument("--symbol", default="BTCUSDT")
     parser.add_argument("--include-open-interest", action="store_true")
+    parser.add_argument("--account-ratio-period", choices=sorted(RATIO_PERIODS))
     args = parser.parse_args()
     manifest = capture(
-        args.destination, args.symbol, include_open_interest=args.include_open_interest
+        args.destination,
+        args.symbol,
+        include_open_interest=args.include_open_interest,
+        account_ratio_period=args.account_ratio_period,
     )
     verify(manifest)
     print(manifest)

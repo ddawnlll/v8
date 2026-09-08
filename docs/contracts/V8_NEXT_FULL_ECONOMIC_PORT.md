@@ -1696,3 +1696,12 @@ The existing timestamp summary remains compatible and conservative when any
 instrument lacks payment. Six settlement tests pass with wrong-instrument and
 receipt-clock adversarial assertions; Ruff/mypy clean. This corrects matching
 semantics without certifying funding completeness or changing admission gates.
+
+## Standalone capture account-ratio option
+
+The public capture CLI now exposes --account-ratio-period with the existing
+supported period set, forwarding it to the same verified acquisition path used
+by paper configuration. Actual CLI acquisition with 5m ratio and open interest
+succeeded: /tmp/v8-next-ratio-cli-qualification-1957096/manifest.json. This is
+real public snapshot data, not historical PIT evidence or calibrated edge.
+Ruff/mypy pass. No new infrastructure or private exchange access was added.
