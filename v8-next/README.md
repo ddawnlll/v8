@@ -113,3 +113,19 @@ These versions were read from the locked installed environment, not inferred
 from upstream latest documentation. macOS ARM64 execution is demonstrated here;
 Linux installation/execution has not been exercised in this workspace. Local
 writer locking uses POSIX `flock`; Windows is not a qualified target.
+
+Optional numerical research integration:
+
+```sh
+uv sync --project v8-next --locked --extra dev --extra research
+uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_inference.py
+```
+
+`evaluation.inference.spa_diagnostic` delegates stationary-bootstrap SPA to
+`arch` 8.0.0 with explicit block size, repetitions and seed. It consumes paired
+chronological losses and returns all three named p-value variants with dependency
+versions. It does not verify data provenance, complete search history or pristine
+holdout status, and cannot authorize utility or claims. Real outcome ingestion is
+not yet connected; the integration test uses isolated synthetic loss fixtures.
+WRC/DSR/PBO remain missing. Optional dependencies include SciPy, pandas and
+statsmodels through arch; normal paper commands do not require the research extra.

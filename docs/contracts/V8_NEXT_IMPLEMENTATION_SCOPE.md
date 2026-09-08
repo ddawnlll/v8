@@ -334,3 +334,16 @@ chronology and strictly pre-decision outcome availability before calculating
 paired loss differences. It rejects missing/nonfinite losses and cannot validate
 source authority, holdout pristine status or an estimator by itself. Its isolated
 fixture test checks sign, missing rows, reordering, future knowledge and boundaries.
+
+### Installed SPA adapter
+
+The installed `arch` 8.0.0 source was inspected, confirming the shallow
+RealityCheck alias and lower/consistent/upper outputs. `evaluation/inference.py`
+now delegates a specifically labeled stationary, studentized, non-nested SPA
+calculation, with required caller-supplied block length, repetitions and seed.
+It records the null sign convention, sample interval count and actual numerical
+dependency versions. This is not a constitutional WRC substitution or an economic
+receipt issuer. Exact duplicate alternative loss columns preserve returned
+p-values in the qualification test; missing and degenerate inputs fail closed.
+The optional research extra is locked. No real sample inference has been claimed;
+connecting verified account outcomes and preregistered lineage remains unfinished.
