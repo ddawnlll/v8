@@ -2451,3 +2451,23 @@ replayed. Artifact /tmp/v8-stream-recovery-check-1788884197123557000, log
 /tmp/v8-stream-recovery-check.log. This tests control wiring, not a real network
 outage or successful position-bearing recovery. Full suite 434 passed;
 Ruff/mypy clean. Economic calibration and paper admission remain outstanding.
+
+## Native cohort component estimates
+
+Calibration source inspection optionally accepts an explicit block-size/reps/seed
+plan and computes joint circular-block means/mean standard errors using arch and
+NumPy. Price, commissions, observed funding, other adjustments and net return use
+the same resampling draws, ordered by campaign entry time and equally weighted.
+Only a fully closed, cash-reconciled cohort with complete components is accepted;
+amount identities and their entry-notional fractions must reconcile exactly,
+and all realization knowledge must precede the decision cutoff. Outputs bind
+source content and library versions. No missing outcome is zero-filled or dropped.
+
+These are in-sample native-model component estimates, not expected utility, measured
+market impact, a calendar-time bootstrap, multiplicity/OOS certification or a
+calibration receipt. Existing gross_edge/uncertainty authority fields remain absent
+and eligibility remains false. Tests check joint cost relationships, reproducible
+uncertainty and rejection of incomplete, future or inconsistent inputs. Full suite
+436 passed; final two component tests pass after version metadata addition, Ruff
+clean and prior full mypy clean. Qualified conditioning/holdout methodology and a
+production calibration provider remain required.

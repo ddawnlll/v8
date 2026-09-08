@@ -16,7 +16,9 @@ from v8_next.app.paper import replay_account
 from v8_next.domain.campaign import PaperCampaign
 
 
-def inspect_calibration_source(run: Path, decision_ns: int) -> dict[str, Any]:
+def inspect_calibration_source(
+    run: Path, decision_ns: int, *, bootstrap_plan: tuple[int, int, int] | None = None
+) -> dict[str, Any]:
     """Recompute source accounting; never trust a serialized verified flag.
 
     This is evidence admission, not an estimator or a certificate issuer. No
@@ -60,6 +62,18 @@ def inspect_calibration_source(run: Path, decision_ns: int) -> dict[str, Any]:
         recomputed["funding_coverage"],
     )
     reason = blockers[0]
+    component_estimates = None
+    if bootstrap_plan is not None:
+        from v8_next.evaluation.component_estimates import estimate_components
+
+        block_size, reps, seed = bootstrap_plan
+        component_estimates = estimate_components(
+            recomputed["outcomes"],
+            decision_ns=decision_ns,
+            block_size=block_size,
+            reps=reps,
+            seed=seed,
+        )
     return {
         "claim_status": "NO_ECONOMIC_CLAIM",
         "source_policy_hash": evaluation["policy_hash"],
@@ -75,6 +89,7 @@ def inspect_calibration_source(run: Path, decision_ns: int) -> dict[str, Any]:
         "outcome_realization": recomputed["realization"],
         "funding_coverage": recomputed["funding_coverage"],
         "closed_outcomes": sorted(closed, key=lambda p: (p["closed_ns"], p["instrument_id"])),
+        "component_estimates": component_estimates,
         "eligible_for_utility": False,
         "reason": reason,
         "blockers": blockers,
@@ -107,8 +122,16 @@ def main() -> None:
     parser.add_argument("run_directory", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--decision-ns", type=int, required=True)
+    parser.add_argument("--block-size", type=int)
+    parser.add_argument("--reps", type=int)
+    parser.add_argument("--seed", type=int)
     args = parser.parse_args()
-    result = inspect_calibration_source(args.run_directory, args.decision_ns)
+    plan = (args.block_size, args.reps, args.seed)
+    if any(v is not None for v in plan) and any(v is None for v in plan):
+        raise ValueError("component estimates require block-size, reps and seed together")
+    result = inspect_calibration_source(
+        args.run_directory, args.decision_ns, bootstrap_plan=plan if plan[0] is not None else None
+    )
     with args.output.open("x") as output:
         json.dump(result, output, indent=2)
         output.write("\n")
