@@ -44,6 +44,12 @@ def _replay_stream(
         with (run / filename).open("rb") as stream:
             if hashlib.file_digest(stream, "sha256").hexdigest() != result[key]:
                 raise ValueError("stream artifact hash mismatch")
+    if "positioning_sha256" in result:
+        if (
+            hashlib.sha256((run / "positioning.jsonl").read_bytes()).hexdigest()
+            != result["positioning_sha256"]
+        ):
+            raise ValueError("stream positioning artifact hash mismatch")
     session = json.loads((run / "session.json").read_text())
     if session["code_and_lock_hash"] != source_hash():
         raise ValueError("stream replay requires frozen runtime")
@@ -89,12 +95,30 @@ def _replay_stream(
         if len(rows) != count:
             raise ValueError("stream event count mismatch")
         events.extend((row["sequence"], kind, row) for row in rows)
+    if "positioning_sha256" in result:
+        rows = [json.loads(line) for line in (run / "positioning.jsonl").read_text().splitlines()]
+        if len(rows) != result["positioning_count"]:
+            raise ValueError("stream positioning count mismatch")
+        events.extend((row["sequence"], "positioning", row) for row in rows)
     events.sort(key=lambda event: event[0])
     recomputed = []
     last_quotes: dict[str, int] = {}
     for expected, (sequence, kind, row) in enumerate(events):
         if type(sequence) is not int or sequence != expected:
             raise ValueError("stream callback order missing or duplicated")
+        if kind == "positioning":
+            if (
+                observer is None
+                or not session["started_ns"] <= row["applied_ns"] <= result["ended_ns"]
+            ):
+                raise ValueError("unqualified positioning application")
+            paths = tuple(Path(p) for p in row["manifests"])
+            if [hashlib.sha256(p.read_bytes()).hexdigest() for p in paths] != row[
+                "manifest_hashes"
+            ]:
+                raise ValueError("stream positioning manifest changed")
+            observer.refresh_positioning(paths, row["applied_ns"])
+            continue
         if row["instrument_id"] not in session["instruments"]:
             raise ValueError("unexpected stream instrument")
         if kind == "bar":

@@ -41,10 +41,38 @@ class QuoteRecorder(DataActor):
         self.last_quote_ns: dict[str, int] = {}
         self.count = 0
         self.bar_count = 0
+        self.positioning_count = 0
+        self.positioning_output: TextIO | None = None
         self.bar_output: TextIO | None = None
         self.observations: StreamObservations | None = None
         self.observation_output: TextIO | None = None
         self.failure: str | None = None
+
+    def apply_positioning_capture(self, manifests: tuple[Path, ...], applied_ns: int) -> None:
+        """Record auxiliary application in the same sequence as native callbacks."""
+        if self.failure is not None:
+            raise ValueError("cannot refresh a failed stream")
+        try:
+            if self.observations is None or self.positioning_output is None:
+                raise ValueError("positioning update requires observation and recording paths")
+            if applied_ns > time.time_ns():
+                raise ValueError("positioning application reaches future")
+            paths = tuple(p.resolve() for p in manifests)
+            row = dict(
+                sequence=self.count + self.bar_count + self.positioning_count,
+                applied_ns=applied_ns,
+                manifests=[str(p) for p in paths],
+                manifest_hashes=[hashlib.sha256(p.read_bytes()).hexdigest() for p in paths],
+            )
+            self.observations.refresh_positioning(paths, applied_ns)
+            self.positioning_output.write(canonical(row) + "\n")
+            self.positioning_output.flush()
+            self.positioning_count += 1
+        except Exception as error:
+            self.failure = f"{type(error).__name__}: {error}"
+            if self.stop_node is not None:
+                self.stop_node()
+            raise
 
     def on_start(self) -> None:
         for name in INSTRUMENTS:
@@ -105,7 +133,7 @@ class QuoteRecorder(DataActor):
             if self.bar_output is None or self.observations is None:
                 raise ValueError("closed-bar recorder not configured")
             record = dict(
-                sequence=self.count + self.bar_count,
+                sequence=self.count + self.bar_count + self.positioning_count,
                 instrument_id=instrument,
                 start_ns=end - hour,
                 end_ns=end,
@@ -160,7 +188,7 @@ class QuoteRecorder(DataActor):
             self.output.write(
                 canonical(
                     dict(
-                        sequence=self.count + self.bar_count,
+                        sequence=self.count + self.bar_count + self.positioning_count,
                         instrument_id=str(quote.instrument_id),
                         event_ns=quote.ts_event,
                         received_ns=quote.ts_init,
@@ -180,7 +208,9 @@ class QuoteRecorder(DataActor):
             if self.observations is not None and self.observation_output is not None:
                 observation = self.observations.observe(str(quote.instrument_id), quote.ts_init)
                 if observation is not None:
-                    observation["trigger_sequence"] = self.count + self.bar_count - 1
+                    observation["trigger_sequence"] = (
+                        self.count + self.bar_count + self.positioning_count - 1
+                    )
                     self.observation_output.write(canonical(observation) + "\n")
                     self.observation_output.flush()
         except Exception as error:
@@ -316,6 +346,7 @@ async def capture_stream(
         (destination / "quotes.jsonl").open("x") as output,
         (destination / "observations.jsonl").open("x") as observation_output,
         (destination / "bars.jsonl").open("x") as bar_output,
+        (destination / "positioning.jsonl").open("x") as positioning_output,
     ):
         actor = QuoteRecorder(output)
         actor.stop_node = node.handle().stop
@@ -323,6 +354,7 @@ async def capture_stream(
         actor.observations = observations
         actor.observation_output = observation_output
         actor.bar_output = bar_output
+        actor.positioning_output = positioning_output
         node.add_actor(actor)
 
         async def stop_after() -> None:
@@ -334,6 +366,8 @@ async def capture_stream(
             await node.run_async()
             if actor.failure and actor.health_halt is None:
                 raise ValueError(actor.failure)
+            positioning_output.flush()
+            os.fsync(positioning_output.fileno())
             bar_output.flush()
             os.fsync(bar_output.fileno())
             output.flush()
@@ -345,6 +379,10 @@ async def capture_stream(
             result = dict(
                 quote_sha256=quotes_hash,
                 bar_count=actor.bar_count,
+                positioning_count=actor.positioning_count,
+                positioning_sha256=hashlib.sha256(
+                    (destination / "positioning.jsonl").read_bytes()
+                ).hexdigest(),
                 bar_sha256=hashlib.sha256((destination / "bars.jsonl").read_bytes()).hexdigest(),
                 observation_sha256=hashlib.sha256(
                     (destination / "observations.jsonl").read_bytes()

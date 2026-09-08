@@ -13,7 +13,9 @@ from v8_next.evaluation.store import canonical
 from v8_next.evaluation.stream_replay import replay_stream
 
 
-@pytest.mark.parametrize("mutation", [None, "sequence", "observation", "health", "false_halt"])
+@pytest.mark.parametrize(
+    "mutation", [None, "sequence", "observation", "health", "false_halt", "positioning"]
+)
 def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutation):
     hour = 3600 * 10**9
     instrument = "BTCUSDT-PERP.BINANCE"
@@ -64,6 +66,10 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
             2 * hour + 1,
         )
     )
+    if mutation == "positioning":
+        actor.positioning_output = io.StringIO()
+        actor.apply_positioning_capture((source,), 2 * hour + 5)
+        (tmp_path / "positioning.jsonl").write_text(actor.positioning_output.getvalue())
     actor.on_quote(quote(2 * hour + 10))
     (tmp_path / "quotes.jsonl").write_text(actor.output.getvalue())
     (tmp_path / "bars.jsonl").write_text(actor.bar_output.getvalue())
@@ -77,6 +83,7 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
     (tmp_path / "session.json").write_text(
         canonical(
             dict(
+                started_ns=hour,
                 code_and_lock_hash="fixture",
                 warmup_manifests=[str(source)],
                 warmup_manifest_hashes=actor.observations.source_hashes,
@@ -86,6 +93,13 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
         )
     )
     result = dict(quote_count=2, bar_count=1, ended_ns=3 * hour)
+    if mutation == "positioning":
+        result.update(
+            positioning_count=1,
+            positioning_sha256=hashlib.sha256(
+                (tmp_path / "positioning.jsonl").read_bytes()
+            ).hexdigest(),
+        )
     if mutation in {"health", "false_halt"}:
         session = json.loads((tmp_path / "session.json").read_text())
         session.update(started_ns=hour, max_quote_silence_ns=5)
@@ -116,7 +130,7 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
         assert report["status"] == (
             "HALTED_PREFIX_REPRODUCED" if mutation == "health" else "OBSERVATIONS_REPRODUCED"
         )
-        assert report["event_count"] == 3
+        assert report["event_count"] == (4 if mutation == "positioning" else 3)
         assert report["observation_count"] == 2
         from v8_next.evaluation.stream_replay import restore_stream
 

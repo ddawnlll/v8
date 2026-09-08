@@ -2926,3 +2926,19 @@ This is the application primitive for the remaining intra-session refresh path.
 It is not yet called by the running native stream: durable application events,
 replay ordering and asynchronous public capture wiring still must be connected.
 No continuous refresh capability is claimed at this checkpoint.
+
+## Stream auxiliary application event recording and replay
+
+QuoteRecorder.apply_positioning_capture records verified manifest paths/hashes and
+application time in positioning.jsonl, using the same contiguous sequence as
+quote/bar callbacks. Errors retain stream failure and request native shutdown.
+Completed sessions fsync/hash the auxiliary file and report its event count;
+replay checks file/source hashes, session-time bounds and shared sequence before
+applying the same causal refresh primitive. Restored observation state retains
+applied auxiliary state through parent replay. Existing no-update sessions remain
+replayable under the matching runtime path. The interleaving/restart test includes
+an auxiliary application between a native bar and its following quote; full suite
+474 passed, Ruff/mypy clean. The atomic reading/availability test separately
+qualifies value changes. Automatic intra-session public capture is not wired yet;
+this checkpoint provides the recording boundary, not completed periodic refresh.
+No crash-prefix recovery or private venue execution is implied.
