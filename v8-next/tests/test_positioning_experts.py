@@ -111,3 +111,39 @@ def test_all_positioning_volume_patterns(variant, close, volume, skew, side):
         observe_open_interest(frame, opportunity, variant=variant, readings=late).reason
         == "MISSING_POSITIONING"
     )
+
+
+@pytest.mark.parametrize(
+    "family,metric,value",
+    [
+        ("funding-crowding-reversal", "settled_funding_rate", -0.001),
+        ("open-interest-divergence", "long_short_ratio", 1),
+    ],
+)
+def test_selected_policy_receives_only_causally_available_positioning(family, metric, value):
+    from v8_next.economics.observer_policy import policy_stances
+
+    frame, opportunity = context()
+    readings = (reading(metric, value), reading("open_interest", 1000))
+    selected = policy_stances(frame, opportunity, f"families:{family}", readings=readings)
+    assert len(selected) == 4
+    assert all(s.observer_id == family for s in selected)
+    assert any(s.kind == StanceKind.SUPPORT for s in selected)
+    for unavailable in (
+        (),
+        tuple(replace(r, available_ns=101) for r in readings),
+        tuple(replace(r, instrument_id="other") for r in readings),
+        tuple(
+            replace(r, event_ns=98, received_ns=98, available_ns=98, valid_until_ns=100)
+            for r in readings
+        ),
+    ):
+        assert all(
+            s.kind == StanceKind.ABSTAIN
+            for s in policy_stances(
+                frame,
+                opportunity,
+                f"families:{family}",
+                readings=unavailable,
+            )
+        )

@@ -1166,3 +1166,15 @@ so short observation warmups cannot produce a partial-window risk estimate.
 Tests exercise actual B–G setups, directional geometry and insufficient-volatility
 rejection. Protected coverage reaches 26 families/54 policies. Funding/OI data
 connections, ongoing validity and full economic operation remain outstanding.
+
+
+## Causal positioning selection transport
+
+Selected observer policies now accept typed positioning readings and forward them
+to the catalog. EconomicPaperAdapter accepts the same explicit input and passes
+it through selection; absent input remains empty, never inferred from candles.
+Selection tests cover funding and OI families, unavailable/future/expired and
+other-instrument observations. Existing positioning resolution retains conflict
+rejection and decision-time filtering. This is transport, not source qualification:
+public auxiliary capture, durable replay identity, protected funding/OI campaigns
+and historical trial wiring remain outstanding.

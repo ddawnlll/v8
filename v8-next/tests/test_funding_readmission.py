@@ -10,7 +10,13 @@ def test_closed_position_blocks_calibration_and_readmission(monkeypatch):
     opportunity = Opportunity("next", "exposure", "BTCUSDT-PERP.BINANCE", "LONG", 1, 100)
     stance = Stance("observer", "group", StanceKind.SUPPORT, "test", "next", 10)
     monkeypatch.setattr(economic_paper, "grammar_opportunity", lambda *_: opportunity)
-    monkeypatch.setattr(economic_paper, "policy_stances", lambda *_: (stance,))
+    observed_readings = []
+
+    def selected_stances(*_, readings):
+        observed_readings.append(readings)
+        return (stance,)
+
+    monkeypatch.setattr(economic_paper, "policy_stances", selected_stances)
     monkeypatch.setattr(economic_paper.PaperCampaignAdapter, "on_quote", lambda *_: None)
 
     def forbidden_calibration(*_):
@@ -49,6 +55,7 @@ def test_closed_position_blocks_calibration_and_readmission(monkeypatch):
     subject.on_quote(SimpleNamespace(ts_init=10))
     assert subject.decisions[-1]["reason"] == "UNRECONCILED_FUNDING_AFTER_EXPOSURE"
     assert not subject.campaigns
+    assert observed_readings == [subject.positioning_readings]
 
 
 def test_economic_callback_failure_persists_and_stops_later_admission():

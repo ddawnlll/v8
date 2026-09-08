@@ -1,6 +1,7 @@
 """Explicit experiment selection; observer choice never supplies calibration."""
 
 from v8_next.domain.market import CausalFrame
+from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.decisions import (
     Opportunity,
     Stance,
@@ -60,7 +61,11 @@ def validate_observer_policy(policy: str) -> str:
 
 
 def policy_stances(
-    frame: CausalFrame, opportunity: Opportunity | None, policy: str
+    frame: CausalFrame,
+    opportunity: Opportunity | None,
+    policy: str,
+    *,
+    readings: tuple[PositioningReading, ...] = (),
 ) -> tuple[Stance, ...]:
     validate_observer_policy(policy)
     if policy == "squeeze":
@@ -68,4 +73,6 @@ def policy_stances(
     if policy == "breakout_baseline":
         return (observe_breakout_baseline(frame, opportunity),)
     families = set(policy.removeprefix("families:").split(","))
-    return tuple(s for s in observe_all(frame, opportunity) if s.observer_id in families)
+    return tuple(
+        s for s in observe_all(frame, opportunity, readings=readings) if s.observer_id in families
+    )

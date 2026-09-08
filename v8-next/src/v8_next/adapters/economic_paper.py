@@ -10,6 +10,7 @@ from nautilus_trader.model import Currency, InstrumentId, QuoteTick, Venue
 
 from v8_next.adapters.campaign import PaperCampaignAdapter
 from v8_next.domain.market import CausalFrame
+from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.controller import InstrumentConstraints, decide_campaign
 from v8_next.economics.decisions import (
     Opportunity,
@@ -42,6 +43,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         grammar: str = "range-breakout-48-v1",
         campaign_policy: str = "timeout-only-v1",
         stop_budget: StopBudget | None = None,
+        positioning_readings: tuple[PositioningReading, ...] = (),
     ) -> None:
         super().__init__(())
         self.observer = validate_observer_policy(observer)
@@ -52,6 +54,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             raise ValueError("unknown campaign policy")
         self.campaign_policy = campaign_policy
         self.stop_budget = stop_budget
+        self.positioning_readings = positioning_readings
         self.frames = frames
         self.limits = limits
         self.constraints = constraints
@@ -88,7 +91,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             and opportunity.direction in {"LONG", "SHORT"}
             else None
         )
-        stances = policy_stances(frame, resolved, self.observer)
+        stances = policy_stances(frame, resolved, self.observer, readings=self.positioning_readings)
         stance = stances[0]
         record: dict[str, object] = {
             "decision_ns": quote.ts_init,
