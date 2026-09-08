@@ -196,6 +196,24 @@ class PaperCampaignAdapter(Strategy):
             ):
                 self.thesis_invalidated.setdefault(campaign.campaign_id, frame.decision_ns)
 
+    def has_unresolved_campaign(self, instrument_id: str) -> bool:
+        """Submitted intent remains occupied before native cache catches up."""
+        closed = {row["campaign_id"] for row in self.position_closures.values()}
+        for campaign in self.campaigns:
+            if campaign.instrument_id != instrument_id or campaign.campaign_id in closed:
+                continue
+            if campaign.campaign_id in self.expired | self.invalidated:
+                continue
+            order = self.cache.order(ClientOrderId(campaign.campaign_id))
+            if (
+                order is not None
+                and str(order.status) in {"CANCELED", "REJECTED", "DENIED", "EXPIRED"}
+                and order.filled_qty.as_decimal() == 0
+            ):
+                continue
+            return True
+        return False
+
     def advance_campaigns(
         self,
         instrument_id: InstrumentId,

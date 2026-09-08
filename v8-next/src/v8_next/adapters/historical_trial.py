@@ -139,7 +139,10 @@ class HistoricalTrial(PaperCampaignAdapter):
             if c.campaign_id not in self.submitted | self.expired | self.invalidated
         )
         if (
-            any(str(p.instrument_id) == candle.instrument_id for p in self.cache.positions_open())
+            self.has_unresolved_campaign(candle.instrument_id)
+            or any(
+                str(p.instrument_id) == candle.instrument_id for p in self.cache.positions_open()
+            )
             or any(str(o.instrument_id) == candle.instrument_id for o in self.cache.orders_open())
             or any(
                 c.instrument_id == candle.instrument_id and c.campaign_id in pending_ids

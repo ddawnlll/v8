@@ -2832,3 +2832,24 @@ terminal nonentries and one unresolved selection; closed cash reconciles, but fu
 selection estimation remains incomplete. These are historical model diagnostics,
 not prospective admission or venue accounting qualification. Initial divergent
 reports are retained at /tmp/v8-current-portfolio-1788887203063462000.
+
+## Prevent same-instrument admission before native cache updates
+
+The remaining unresolved campaign in the real portfolio run was not missing data:
+its .039 ETH entry merged with a prior .039 entry into one .078 netting lifetime.
+HistoricalTrial advanced/submitted the earlier campaign, then admitted another
+opportunity in the same callback while the native position was not visible yet.
+Admission now consults unresolved campaign ownership in addition to native open
+orders/positions. A campaign remains occupied until confirmed native closure,
+unsubmitted expiry/invalidation, or a terminal entry order with zero fill. Partial
+canceled entries remain occupied. No custom OMS or speculative fill is introduced.
+Tests cover cache-lag occupancy, instrument isolation, closure, canceled zero fill
+and canceled partial fill. Full suite 469 passed; Ruff/mypy clean.
+
+Actual source rerun /tmp/v8-campaign-occupancy-1788887419008117000/result.json
+(log /tmp/v8-campaign-occupancy.log) now yields 30 selections, 24 closures, six
+terminal nonentries and zero unresolved campaigns, with cash reconciled. Full
+selection uncertainty is computable, still METHOD_AND_OOS_QUALIFICATION_REQUIRED.
+The changed cohort results from preventing overlapping admission, not deleting
+inconvenient outcomes. Historical model/fee/funding limitations remain; this is
+not production calibration or prospective economic qualification.

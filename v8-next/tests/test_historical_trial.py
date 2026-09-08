@@ -279,3 +279,33 @@ def test_component_plan_is_registered_before_execution_and_changes_trial_identit
         assert store.family_size("h") == 0
     finally:
         store.close()
+
+
+def test_submitted_campaign_occupies_instrument_before_native_cache_update():
+    from decimal import Decimal
+    from types import SimpleNamespace
+
+    from v8_next.adapters.campaign import PaperCampaignAdapter
+    from v8_next.domain.campaign import PaperCampaign
+
+    campaign = PaperCampaign("queued", "op", "ETHUSDT-PERP.BINANCE", "LONG", Decimal(1), 1, 10)
+    state = SimpleNamespace(
+        campaigns=(campaign,),
+        position_closures={},
+        expired=set(),
+        invalidated=set(),
+        cache=SimpleNamespace(order=lambda _: None),
+    )
+    assert PaperCampaignAdapter.has_unresolved_campaign(state, campaign.instrument_id)
+    assert not PaperCampaignAdapter.has_unresolved_campaign(state, "BTCUSDT-PERP.BINANCE")
+    state.position_closures = {"closed": {"campaign_id": "queued"}}
+    assert not PaperCampaignAdapter.has_unresolved_campaign(state, campaign.instrument_id)
+    state.position_closures = {}
+    state.cache.order = lambda _: SimpleNamespace(
+        status="CANCELED", filled_qty=SimpleNamespace(as_decimal=lambda: Decimal(0))
+    )
+    assert not PaperCampaignAdapter.has_unresolved_campaign(state, campaign.instrument_id)
+    state.cache.order = lambda _: SimpleNamespace(
+        status="CANCELED", filled_qty=SimpleNamespace(as_decimal=lambda: Decimal(".5"))
+    )
+    assert PaperCampaignAdapter.has_unresolved_campaign(state, campaign.instrument_id)
