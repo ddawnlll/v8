@@ -123,6 +123,17 @@ def test_pattern_retests_and_mirrors(variant):
     )
     assert result.kind == StanceKind.SUPPORT
     assert result.variant_id == variant
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(
+        replace(frame, candles=tuple(bars)),
+        replace(opportunity, direction="SHORT"),
+        f"breakout-retest:{variant}:v2",
+        Decimal(".01"),
+    )
+    assert protection is not None
+    assert protection.target_price == (65 if variant == "b" else 45)
+    assert protection.expires_ns == frame.decision_ns + 8
     mirror = tuple(
         replace(c, open=250 - c.open, close=250 - c.close, low=250 - c.high, high=250 - c.low)
         for c in bars

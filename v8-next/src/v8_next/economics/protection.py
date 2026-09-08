@@ -26,6 +26,7 @@ from v8_next.experts.levels import daily_pivots, observe_floor_pivot, observe_ra
 from v8_next.experts.measuring import VARIANTS, measuring_setup
 from v8_next.experts.momentum import observe_macd_stoch, observe_obv_adl
 from v8_next.experts.pandf import pandf_setup
+from v8_next.experts.patterns import pattern_retest_setup
 from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
 from v8_next.experts.reversion import (
     bollinger_fade_distance,
@@ -58,6 +59,8 @@ PROTECTION_POLICIES = frozenset(
         "divergence:b:v2",
         "liquidity-reclaim:a:v2",
         "breakout-retest:a:v2",
+        "breakout-retest:b:v2",
+        "breakout-retest:c:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -133,7 +136,9 @@ def protection_at(
         stop, target = close - sign * span, close + sign * span
     elif family in {"liquidity-reclaim", "breakout-retest"}:
         reclaim_observer = (
-            observe_liquidity_reclaim if family == "liquidity-reclaim" else observe_breakout_retest
+            observe_liquidity_reclaim
+            if family == "liquidity-reclaim"
+            else partial(observe_breakout_retest, variant=variant)
         )
         if (
             len(frame.candles) < 14
@@ -146,6 +151,13 @@ def protection_at(
         if family == "liquidity-reclaim":
             prior = frame.candles[:-1]
             stop = min(c.low for c in prior) if sign == 1 else max(c.high for c in prior)
+        elif variant != "a":
+            setup = pattern_retest_setup(frame, variant)
+            assert setup is not None
+            risk_distance = min(
+                Decimal(2) * span, max(Decimal(".8") * span, (close - setup.stop_reference) * sign)
+            )
+            stop = close - sign * risk_distance
         else:
             high_index, low_index = significant_swings(frame)
             index = high_index if sign == 1 else low_index
@@ -160,7 +172,12 @@ def protection_at(
                 Decimal(2) * span, max(Decimal(".8") * span, (close - reference) * sign)
             )
             stop = close - sign * risk_distance
-        target = close + sign * span
+        if family == "breakout-retest" and variant != "a":
+            setup = pattern_retest_setup(frame, variant)
+            assert setup is not None
+            target = close + sign * abs(setup.extreme - setup.level)
+        else:
+            target = close + sign * span
     elif family == "floor-pivot":
         if observe_floor_pivot(frame, opportunity).kind != StanceKind.SUPPORT:
             return None

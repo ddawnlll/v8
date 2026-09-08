@@ -1132,3 +1132,15 @@ requirements; no independent signals were introduced. Tests distinguish level
 from wick stops, mirrored reclaim behavior and stale retest rejection. Pattern
 retest b/c measured targets remain unfinished. Coverage: 24 families/42 protected
 policies; this does not establish complete economic operation.
+
+## Pattern retest B/C measured campaigns
+
+Pattern detection now exposes the selected structure alongside direction, sharing
+one predicate between observation and protection. breakout-retest:b/c:v2 retains
+one full pattern-height target with the source clamped structural stop. Double
+patterns use their outer extreme; H&S uses right shoulder for top and left shoulder
+for bottom, matching the actual source asymmetry rather than silently symmetrizing
+it. Source 0.8–2-range stop clamp and eight-bar expiry remain. Tests distinguish
+25-unit double-pattern and 45-unit H&S targets from the generic one-range target.
+Protected policy count is 44 across 24 families; campaign invalidation, remaining
+families and the wider operational scope are still incomplete.

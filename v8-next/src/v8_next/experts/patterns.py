@@ -38,6 +38,7 @@ class PatternStructure:
     level: Decimal
     extreme: Decimal
     right_index: int
+    stop_reference: Decimal
 
 
 def pattern_structures(frame: CausalFrame, variant: str) -> tuple[PatternStructure, ...]:
@@ -90,11 +91,12 @@ def pattern_structures(frame: CausalFrame, variant: str) -> tuple[PatternStructu
             valid = level < price(head) if top else level > price(head)
             extreme = price(head)
         if valid:
-            structures.append(PatternStructure(side, level, extreme, right))
+            stop_reference = extreme if variant == "b" else price(right if top else left)
+            structures.append(PatternStructure(side, level, extreme, right, stop_reference))
     return tuple(structures)
 
 
-def pattern_retest_direction(frame: CausalFrame, variant: str) -> str | None:
+def pattern_retest_setup(frame: CausalFrame, variant: str) -> PatternStructure | None:
     for structure in pattern_structures(frame, variant):
         breached = any(
             c.close < structure.level
@@ -103,5 +105,10 @@ def pattern_retest_direction(frame: CausalFrame, variant: str) -> str | None:
             for c in frame.candles[structure.right_index : -1]
         )
         if breached and retests(frame, structure.direction, structure.level):
-            return structure.direction
+            return structure
     return None
+
+
+def pattern_retest_direction(frame: CausalFrame, variant: str) -> str | None:
+    setup = pattern_retest_setup(frame, variant)
+    return setup.direction if setup is not None else None
