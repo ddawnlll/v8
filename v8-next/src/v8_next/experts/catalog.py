@@ -4,6 +4,7 @@ from collections.abc import Callable
 from functools import partial
 
 from v8_next.domain.market import CausalFrame
+from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.decisions import Opportunity, Stance, observe_squeeze
 from v8_next.experts.bollinger import observe_bollinger_breakout
 from v8_next.experts.breakouts import observe_failed_breakout, observe_volume_breakout
@@ -18,6 +19,7 @@ from v8_next.experts.ichimoku import observe_ichimoku
 from v8_next.experts.levels import observe_floor_pivot, observe_range_breakout
 from v8_next.experts.measuring import observe_measuring
 from v8_next.experts.momentum import observe_macd_stoch, observe_obv_adl
+from v8_next.experts.positioning import observe_funding, observe_open_interest
 from v8_next.experts.profile import observe_profile
 from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
 from v8_next.experts.reversion import observe_bollinger_reversion, observe_rsi_reversion
@@ -56,6 +58,15 @@ OBSERVERS: tuple[Observer, ...] = (
 )
 
 
-def observe_all(frame: CausalFrame, opportunity: Opportunity | None) -> tuple[Stance, ...]:
+def observe_all(
+    frame: CausalFrame,
+    opportunity: Opportunity | None,
+    *,
+    readings: tuple[PositioningReading, ...] = (),
+) -> tuple[Stance, ...]:
     """Inspect existing opportunities; adding observers cannot create episodes."""
-    return tuple(observer(frame, opportunity) for observer in OBSERVERS)
+    return tuple(observer(frame, opportunity) for observer in OBSERVERS) + tuple(
+        observer(frame, opportunity, variant=variant, readings=readings)
+        for observer in (observe_funding, observe_open_interest)
+        for variant in ("a", "b", "c", "d")
+    )

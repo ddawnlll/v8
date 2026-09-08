@@ -59,9 +59,11 @@ def test_historical_callback_prefix_is_invariant_and_preserves_unknown_clock():
     assert all(d["claim_status"] == "NO_ECONOMIC_CLAIM" for d in prefix)
     assert all(d["admission"] == "REJECTED_MISSING_CALIBRATION" for d in prefix)
 
-    assert all(len(d["expert_diagnostics"]) == 50 for d in prefix)
+    assert all(len(d["expert_diagnostics"]) == 58 for d in prefix)
     assert {s["observer_id"] for s in prefix[-1]["expert_diagnostics"]} == {
         "squeeze-swing",
+        "funding-crowding-reversal",
+        "open-interest-divergence",
         "pattern-measuring-objective",
         "failed-breakout-2b",
         "market-profile-value-area",

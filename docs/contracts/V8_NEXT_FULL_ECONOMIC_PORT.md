@@ -372,3 +372,35 @@ families plus squeeze. Remaining observation families are divergence_12_setups,
 funding_crowding_reversal, open_interest_divergence and pandf_breakout. Downstream
 economic integration, variants not yet covered elsewhere, calibration and
 prospective operation remain completion requirements.
+
+## Causal positioning and funding observations
+
+Added immutable PositioningReading with instrument, metric, event/receipt/known
+clocks, explicit validity endpoint and source identity. Unknown/future readings
+are unavailable, expired latest observations cannot fall back to older values,
+conflicting versions reject, and exact duplicates are idempotent. There is no
+invented validity duration. This carrier does not authenticate its source hash;
+a future capture adapter must verify physical artifacts before supplying it.
+
+Funding a/b/c/d is reconstructed from the frozen Python economic reference:
+a positive-funding reversal, b negative-funding reversal, c either with observed
+OI, d contrary trade at a ten-bar price extension. The Rust file currently reads
+the variant label but executes only the a price gate for every label; that defect
+is not propagated. `funding-settled-causal-v2` explicitly uses settled historical
+funding readings, never swaps forecasts/settlements silently. Forecast-based
+experiments would require a separately frozen metric and policy definition.
+
+Open-interest a/b/c/d preserves its actual proxy methodology: valid OI presence,
+long/short ratio, volume z-score and five-bar price direction. It does NOT estimate
+OI change/divergence; the family name is not a claim that it does. Flat price
+falls on the source's not-price-up branch. All required auxiliary values must
+actually exist; absent OI is not a zero or a synthetic positioning estimate.
+
+Catalog accepts explicitly supplied readings and emits these eight additional
+stances. Existing historical callbacks supply none and therefore abstain. Tests
+exercise causal absence/revision handling and each price/positioning branch.
+Capture/replay ingestion of these auxiliary readings remains OPEN; this is an
+observation implementation, not a working live derivatives-data pipeline.
+The catalog now covers observations for 26/28 active TABLE families plus squeeze,
+58 stances. Divergence12 and P&F remain missing; downstream economic integration
+and real prospective qualification remain required.
