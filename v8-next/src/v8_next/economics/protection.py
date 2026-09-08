@@ -17,6 +17,7 @@ from v8_next.experts.candlestick import VARIANTS as CANDLE_VARIANTS
 from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.climax import observe_volume_climax
 from v8_next.experts.confluence import observe_confluence
+from v8_next.experts.divergence import observe_divergence
 from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.ichimoku import observe_ichimoku
@@ -51,6 +52,8 @@ PROTECTION_POLICIES = frozenset(
         "confluence:b:v2",
         "floor-pivot:a:v2",
         "range-breakout:a:v2",
+        "divergence:a:v2",
+        "divergence:b:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -112,6 +115,7 @@ def protection_at(
         "fib-retracement": observe_fib_retracement,
         "fib-projection": observe_fib_projection,
         "confluence": partial(observe_confluence, variant=variant),
+        "divergence": partial(observe_divergence, variant=variant),
     }
     if family in unit_geometry_observers:
         observer = unit_geometry_observers[family]

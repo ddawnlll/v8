@@ -47,6 +47,15 @@ def test_actual_rsi_divergence_and_confirmed_geometry(variant, mirror, direction
     assert setup.barrier == (108 if not mirror else 192)
     opportunity = Opportunity("o", "e", "i", direction, 41, 50)
     assert observe_divergence(frame, opportunity, variant=variant).kind == StanceKind.SUPPORT
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(frame, opportunity, f"divergence:{variant}:v2", Decimal(".01"))
+    assert protection is not None
+    span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+    assert 0 <= span - abs(frame.candles[-1].close - protection.stop_price) < Decimal(".01")
+    assert 0 <= span - abs(protection.target_price - frame.candles[-1].close) < Decimal(".01")
+    assert protection.stop_price != setup.extremum
+    assert protection.expires_ns == 49
     # A price break cannot authorize a pivot before its right flank exists.
     early = replace(frame, decision_ns=37, candles=frame.candles[:37])
     assert divergence_setup(early, variant) is None

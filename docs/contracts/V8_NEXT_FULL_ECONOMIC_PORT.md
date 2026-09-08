@@ -1107,3 +1107,16 @@ Both retain eight-bar expiry and tighten rounding toward entry. Tests cover
 long/short reflection, exact structural pivot prices and range-height semantics.
 Protected coverage is twenty-one families/38 policies; other families and full
 prospective economic operation remain incomplete.
+
+## Divergence A/B protected geometry
+
+Added divergence:a/b:v2 campaign policies over the existing confirmed RSI/price
+setups. Rust active v1 declares 1R:1R:8bar for bearish A; the frozen historical
+Python family specification explicitly gives the same default for A/B. The
+source's barrier/extremum references belong to still-valid logic, not substitutes
+for the declared stop. Tests verify both directions, one-range tick-rounded
+geometry, eight-bar expiry and distinction from the structural extremum.
+
+This adds geometry only: ongoing barrier/extremum invalidation remains separate
+unfinished campaign management work. Protected coverage reaches twenty-two
+families/40 policies, not a full-product completion claim.
