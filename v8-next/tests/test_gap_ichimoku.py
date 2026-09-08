@@ -1,0 +1,93 @@
+from dataclasses import replace
+from decimal import Decimal
+
+import pytest
+
+from v8_next.domain.market import Candle, CausalFrame
+from v8_next.economics.decisions import Opportunity, StanceKind
+from v8_next.experts.gaps import gap_setup, observe_gap
+from v8_next.experts.ichimoku import observe_ichimoku
+
+
+def context(closes):
+    bars = tuple(
+        Candle(
+            "i",
+            i,
+            i + 1,
+            Decimal(p),
+            Decimal(p) + 1,
+            Decimal(p) - 1,
+            Decimal(p),
+            Decimal(10),
+            i + 1,
+            i + 1,
+            "fixture",
+        )
+        for i, p in enumerate(closes)
+    )
+    return CausalFrame("i", len(bars), bars), Opportunity(
+        "o", "e", "i", "LONG", len(bars), len(bars) + 10
+    )
+
+
+def mirror(frame):
+    return replace(
+        frame,
+        candles=tuple(
+            replace(c, open=200 - c.open, close=200 - c.close, high=200 - c.low, low=200 - c.high)
+            for c in frame.candles
+        ),
+    )
+
+
+@pytest.mark.parametrize(
+    "variant,count,direction", [("a", 3, "SHORT"), ("b", 1, "LONG"), ("c", 2, "LONG")]
+)
+def test_gap_sequence_and_directional_mirror(variant, count, direction):
+    frame, opportunity = context([100] * (21 - count) + [110 + 10 * i for i in range(count)])
+    bars = list(frame.candles)
+    bars[-1] = replace(bars[-1], close=bars[-1].open + (-1 if variant == "a" else 1))
+    frame = replace(frame, candles=tuple(bars))
+    setup = gap_setup(frame, variant)
+    assert setup is not None and setup.same_direction_count == count
+    assert setup.direction == direction
+    assert setup.top > setup.bottom
+    assert (
+        observe_gap(frame, replace(opportunity, direction=direction), variant=variant).kind
+        == StanceKind.SUPPORT
+    )
+    inverse = "SHORT" if direction == "LONG" else "LONG"
+    assert (
+        observe_gap(mirror(frame), replace(opportunity, direction=inverse), variant=variant).kind
+        == StanceKind.SUPPORT
+    )
+    wrong = "b" if variant != "b" else "c"
+    assert gap_setup(frame, wrong) is None
+
+
+def test_gap_count_requires_full_window_and_data_gaps_reject():
+    frame, opportunity = context([100] * 20 + [110])
+    assert gap_setup(replace(frame, candles=frame.candles[1:]), "b") is None
+    gap = replace(frame, candles=frame.candles[:5] + frame.candles[6:])
+    assert observe_gap(gap, opportunity, variant="b").reason == "SOURCE_GAP"
+    with pytest.raises(ValueError, match="unsupported gap variant"):
+        gap_setup(frame, "unknown")
+
+
+def test_ichimoku_requires_cross_not_persistent_alignment():
+    frame, opportunity = context([110] * 10 + [100] * 16 + [125])
+    bars = list(frame.candles)
+    bars[12] = replace(bars[12], low=Decimal(90))
+    frame = replace(frame, candles=tuple(bars))
+    assert observe_ichimoku(frame, opportunity).kind == StanceKind.SUPPORT
+    assert (
+        observe_ichimoku(mirror(frame), replace(opportunity, direction="SHORT")).kind
+        == StanceKind.SUPPORT
+    )
+    next_bar = replace(bars[-1], start_ns=27, end_ns=28, available_ns=28, received_ns=28)
+    continued = replace(frame, candles=(*frame.candles, next_bar), decision_ns=28)
+    assert observe_ichimoku(continued, opportunity).kind == StanceKind.ABSTAIN
+    assert (
+        observe_ichimoku(replace(frame, candles=frame.candles[:-1]), opportunity).reason == "WARMUP"
+    )

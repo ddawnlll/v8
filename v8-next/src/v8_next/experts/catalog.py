@@ -9,6 +9,8 @@ from v8_next.experts.bollinger import observe_bollinger_breakout
 from v8_next.experts.breakouts import observe_failed_breakout, observe_volume_breakout
 from v8_next.experts.candlestick import VARIANTS, observe_candlestick
 from v8_next.experts.donchian import observe_donchian
+from v8_next.experts.gaps import observe_gap
+from v8_next.experts.ichimoku import observe_ichimoku
 from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
 from v8_next.experts.reversion import observe_bollinger_reversion, observe_rsi_reversion
 from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
@@ -16,6 +18,8 @@ from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 Observer = Callable[[CausalFrame, Opportunity | None], Stance]
 OBSERVERS: tuple[Observer, ...] = (
     observe_squeeze,
+    observe_ichimoku,
+    *(partial(observe_gap, variant=v) for v in ("a", "b", "c")),
     *(partial(observe_bollinger_breakout, variant=v) for v in ("a", "b", "c")),
     observe_candlestick,
     *(partial(observe_candlestick, variant=v) for v in VARIANTS),

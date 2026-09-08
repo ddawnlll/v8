@@ -171,3 +171,30 @@ Tests verify unchanged anchor references as the run extends, all three mirrored
 variants and rejection of c when the prior bandwidth is merely tied. The native
 historical catalog now contains 24 stances from twelve families. Campaign execution
 of this geometry and complete economic-capability port remain outstanding.
+
+## Ichimoku crossover and gap sequences
+
+The active `ichimoku_cloud` code implements a fresh Tenkan9/Kijun26 midrange
+cross, previous-side equality allowed, with the current close aligned beyond
+Kijun. It does not implement a displaced Senkou cloud or Chikou confirmation;
+those are not inferred from the family name. Complete current and prior windows
+require 27 bars. Its Rust VERSION is v1 but its emitted variant is v2; the new
+observation preserves this actual variant label. All values are causal rolling
+high/low midranges through Polars. Persistent alignment without a new cross
+abstains; tests exercise both directions and next-bar suppression.
+
+Gap a observes reversal after at least three same-direction gaps in the trailing
+20 transitions; b observes the first gap beyond the prior 20-bar range with a
+continuation close; c observes the second gap with a continuation close. Twenty
+transitions require 21 actual candles: the new implementation rejects shorter
+partial gap-count histories. Strict opening beyond the prior high/low defines
+a price gap. Noncontiguous timestamps instead produce SOURCE_GAP abstention.
+GapSetup retains the current gap's top/bottom and directional structural stop.
+The source's gap-level inventory tests fills only on subsequent closes: a current
+new gap is necessarily its last zone, so no custom zone inventory is needed for
+these current-gap observations. This does not qualify future gap-zone persistence
+or execution. Tests cover counts, directional mirrors, wrong variants and gaps.
+
+Historical diagnostics now contain 28 stances from fourteen families. Their
+presence is not qualification of the remaining campaign, allocation, calibration,
+benchmark, portfolio or operational scope.
