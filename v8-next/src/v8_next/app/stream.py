@@ -34,6 +34,9 @@ class QuoteRecorder(DataActor):
         super().__init__()
         self.output = output
         self.stop_node: Callable[[], None] | None = None
+        self.max_quote_silence_ns: int | None = None
+        self.health_started_ns: int | None = None
+        self.last_quote_ns: dict[str, int] = {}
         self.count = 0
         self.bar_count = 0
         self.bar_output: TextIO | None = None
@@ -46,6 +49,36 @@ class QuoteRecorder(DataActor):
             self.subscribe_quotes(InstrumentId.from_str(name))
             if self.observations is not None:
                 self.subscribe_bars(BarType.from_str(f"{name}-1-HOUR-LAST-EXTERNAL"))
+        if self.max_quote_silence_ns is not None:
+            self.health_started_ns = self.clock.timestamp_ns()
+            self.clock.set_timer_ns(
+                "v8-quote-health", self.max_quote_silence_ns, callback=self.on_time_event
+            )
+
+    def on_time_event(self, event: object) -> None:
+        self.check_quote_health(self.clock.timestamp_ns())
+
+    def check_quote_health(self, now_ns: int) -> None:
+        if (
+            self.failure is not None
+            or self.max_quote_silence_ns is None
+            or self.health_started_ns is None
+        ):
+            return
+        stale = [
+            name
+            for name in INSTRUMENTS
+            if now_ns - self.last_quote_ns.get(name, self.health_started_ns)
+            >= self.max_quote_silence_ns
+        ]
+        if stale:
+            self.failure = "QUOTE_SILENCE: " + ",".join(stale)
+            if self.stop_node is not None:
+                self.stop_node()
+
+    def on_stop(self) -> None:
+        if self.max_quote_silence_ns is not None:
+            self.clock.cancel_timer("v8-quote-health")
 
     def on_bar(self, bar: Bar) -> None:
         if self.failure is not None:
@@ -134,6 +167,7 @@ class QuoteRecorder(DataActor):
                 + "\n"
             )
             self.output.flush()
+            self.last_quote_ns[str(quote.instrument_id)] = quote.ts_init
             self.count += 1
             if self.observations is not None and self.observation_output is not None:
                 observation = self.observations.observe(str(quote.instrument_id), quote.ts_init)
@@ -173,9 +207,14 @@ async def capture_stream(
     resume_from: Path | None = None,
     backfill_manifests: tuple[Path, ...] = (),
     refresh_on_resume: bool = False,
+    max_quote_silence_ns: int | None = None,
 ) -> dict:
     if duration_seconds <= 0:
         raise ValueError("positive observation duration required")
+    if max_quote_silence_ns is not None and (
+        type(max_quote_silence_ns) is not int or max_quote_silence_ns <= 0
+    ):
+        raise ValueError("positive quote silence threshold required")
     observations: StreamObservations | None
     parent_hash = None
     if resume_from is not None:
@@ -217,6 +256,7 @@ async def capture_stream(
                 parent_result_sha256=parent_hash,
                 grammar=grammar,
                 refresh_on_resume=refresh_on_resume,
+                max_quote_silence_ns=max_quote_silence_ns,
                 warmup_manifest_hashes=sorted(
                     hashlib.sha256(p.read_bytes()).hexdigest() for p in manifests
                 ),
@@ -251,6 +291,7 @@ async def capture_stream(
     ):
         actor = QuoteRecorder(output)
         actor.stop_node = node.handle().stop
+        actor.max_quote_silence_ns = max_quote_silence_ns
         actor.observations = observations
         actor.observation_output = observation_output
         actor.bar_output = bar_output
@@ -320,6 +361,7 @@ def main() -> None:
     parser.add_argument("--resume-from", type=Path)
     parser.add_argument("--backfill-manifest", type=Path, action="append", default=[])
     parser.add_argument("--refresh-on-resume", action="store_true")
+    parser.add_argument("--max-quote-silence-ns", type=int)
     args = parser.parse_args()
     print(
         json.dumps(
@@ -332,6 +374,7 @@ def main() -> None:
                     resume_from=args.resume_from,
                     backfill_manifests=tuple(args.backfill_manifest),
                     refresh_on_resume=args.refresh_on_resume,
+                    max_quote_silence_ns=args.max_quote_silence_ns,
                 )
             )
         )

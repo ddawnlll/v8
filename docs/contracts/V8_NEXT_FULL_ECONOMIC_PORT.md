@@ -2402,3 +2402,20 @@ replay. Log /tmp/v8-stream-auto-backfill.log. A selection test checks only stale
 instruments are requested. Full suite: 428 passed; Ruff/mypy clean. This qualifies
 explicit restart-time automatic capture, not native mid-session outage detection
 or crash recovery. Economic calibration and paper admission remain incomplete.
+
+## Native quote-silence health admission
+
+Optional --max-quote-silence-ns freezes an explicit health threshold. The native
+actor clock checks each instrument separately at that interval and requests node
+stop on silence; the existing failure result path prevents successful-session
+acceptance. A busy instrument cannot conceal another instrument with no quotes.
+Timer sampling means detection can lag the threshold by up to one check interval
+under normal event processing; this is not a hard real-time deadline or proof of
+network disconnection. Native connectivity/retry remains owned by Nautilus.
+
+A test covers one active/one silent instrument and exactly one stop request.
+Actual native timer-enabled public capture with a 3-second threshold completed
+at /tmp/v8-stream-health-1788883905986773000: 1993 events replayed, no health failure;
+log /tmp/v8-stream-health.log. No artificial production outage was created and
+mid-session recovery is not claimed. Full suite 429 passed; Ruff/mypy clean.
+Economic calibration, automatic failure recovery and paper admission remain open.

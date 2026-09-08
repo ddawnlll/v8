@@ -292,3 +292,21 @@ def test_automatic_refresh_only_requests_stale_instruments(tmp_path, monkeypatch
     paths = capture_missing_warmup(tmp_path, observer, 2 * hour + 100)
     assert requested == ["BTCUSDT"]
     assert paths == (tmp_path / "backfill-BTCUSDT" / "manifest.json",)
+
+
+def test_native_health_policy_checks_each_instrument_and_stops_once():
+    from v8_next.app.stream import INSTRUMENTS
+
+    actor = QuoteRecorder(io.StringIO())
+    stopped = []
+    actor.stop_node = lambda: stopped.append(True)
+    actor.max_quote_silence_ns = 10
+    actor.health_started_ns = 100
+    actor.last_quote_ns[INSTRUMENTS[0]] = 109
+    actor.check_quote_health(109)
+    assert actor.failure is None
+    actor.check_quote_health(110)
+    assert actor.failure == "QUOTE_SILENCE: " + INSTRUMENTS[1]
+    actor.check_quote_health(120)
+    assert stopped == [True]
+    assert actor.count == 0
