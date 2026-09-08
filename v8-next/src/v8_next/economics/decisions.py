@@ -153,7 +153,7 @@ def observe_squeeze(
             reason = "NO_VOLUME_EXPANSION"
         elif abs(numeric(close[-1]) - numeric(close[0])) / path < 0.18:
             reason = "LOW_EFFICIENCY"
-        elif variant != "baseline" and not (
+        elif not (
             opportunity.instrument_id == frame.instrument_id
             and (
                 (

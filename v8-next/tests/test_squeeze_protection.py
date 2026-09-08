@@ -42,3 +42,20 @@ def test_squeeze_uses_source_range_geometry_and_macro_expiry():
         stance = policy_stances(frame, opportunity, f"squeeze:{variant}")[0]
         assert stance.reason == "WARMUP"
         assert protection_at(frame, opportunity, f"squeeze:{variant}:v2", D(".001")) is None
+
+    from dataclasses import replace
+
+    from v8_next.economics.decisions import observe_squeeze
+
+    for changed in ({"direction": "SHORT"}, {"instrument_id": "ETH"}):
+        assert observe_squeeze(frame, replace(opportunity, **changed)).kind == "ABSTAIN"
+    mirrored = tuple(
+        replace(c, open=200 - c.open, close=200 - c.close, high=200 - c.low, low=200 - c.high)
+        for c in bars
+    )
+    short_frame = replace(frame, candles=mirrored)
+    short_opportunity = replace(opportunity, direction="SHORT")
+    short = protection_at(short_frame, short_opportunity, "squeeze:baseline:v2", D(".001"))
+    assert short is not None
+    assert short.stop_price == mirrored[-1].close + D(".004")
+    assert short.target_price == mirrored[-1].close - D(".008")

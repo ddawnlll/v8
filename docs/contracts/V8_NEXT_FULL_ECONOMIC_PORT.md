@@ -1855,3 +1855,14 @@ new product's baseline convention. Tests exercise m1 support/protection and
 72-bar variants rejecting insufficient history. Existing full suite passes
 (390 tests), focused assertions pass, Ruff/mypy clean. Full variant qualification
 and prospective economic admission remain unfinished.
+
+## Squeeze baseline direction/domain qualification
+
+The baseline squeeze observer now checks the same instrument and actual prior
+48-bar breakout direction itself, as the new variants already do. Relying only
+on the caller's opportunity was unsafe when selecting broader grammars: a long
+compression release could otherwise support an unrelated short opportunity.
+Mirrored long/short protection tests verify two/four-range geometry, and mismatched
+direction/instrument abstains. This deliberately tightens the previous baseline
+behavior and therefore changes frozen runtime identity. Full suite: 390 passed;
+Ruff/mypy clean. No calibration or execution authority is inferred from support.
