@@ -47,3 +47,13 @@ def test_measured_pattern_target_is_distance_from_observed_close():
         replace(frame, candles=tuple(bars)), opportunity, "measuring:double_top:v2", D(1)
     )
     assert (protection.stop_price, protection.target_price) == (120, 65)
+
+
+def test_donchian_exit_retains_unclamped_channel_low_not_generic_stop():
+    frame, opportunity = context([100] * 20 + [110])
+    protection = protection_at(frame, opportunity, "donchian:a:v2", D(".01"))
+    assert (protection.stop_price, protection.target_price) == (D("99.5"), 111)
+    assert (
+        protection_at(frame, replace(opportunity, direction="SHORT"), "donchian:a:v2", D(".01"))
+        is None
+    )

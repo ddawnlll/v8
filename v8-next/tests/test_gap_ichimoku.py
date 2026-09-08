@@ -91,3 +91,23 @@ def test_ichimoku_requires_cross_not_persistent_alignment():
     assert (
         observe_ichimoku(replace(frame, candles=frame.candles[:-1]), opportunity).reason == "WARMUP"
     )
+
+
+@pytest.mark.parametrize(
+    "variant,count,direction", [("a", 3, "SHORT"), ("b", 1, "LONG"), ("c", 2, "LONG")]
+)
+@pytest.mark.parametrize("inverse", [False, True])
+def test_gap_campaign_keeps_zone_stop_and_one_range_target(variant, count, direction, inverse):
+    from v8_next.economics.protection import protection_at
+
+    frame, opportunity = context([100] * (21 - count) + [110 + 10 * i for i in range(count)])
+    bars = list(frame.candles)
+    bars[-1] = replace(bars[-1], close=bars[-1].open + (-1 if variant == "a" else 1))
+    frame = replace(frame, candles=tuple(bars))
+    if inverse:
+        frame = mirror(frame)
+        direction = "SHORT" if direction == "LONG" else "LONG"
+    opportunity = replace(opportunity, direction=direction)
+    protection = protection_at(frame, opportunity, f"gap:{variant}:v2", Decimal(1))
+    assert protection.stop_price == gap_setup(frame, variant).stop_reference
+    assert protection.target_price == frame.candles[-1].close + (2 if direction == "LONG" else -2)

@@ -561,3 +561,23 @@ same path rejects without calibration. Full suite passed 224 tests; three furthe
 geometry tests verify P&F tick tightening/missing setup, Bollinger 2R mapping and
 measured target origin. Ruff and mypy pass. Other expert geometry policies,
 portfolio risk allocation, real calibration and prospective operation remain open.
+
+## Donchian, gap and candle campaign geometry
+
+Added twelve further explicit v2 protection policies: donchian:a, gap:a/b/c and
+all eight named candlestick patterns. Donchian active v1 preserves the preceding
+20-bar low as an unclamped LONG stop with a one-range14 target. Gap preserves its
+selected gap-zone stop and one-range14 directional target. Candlestick preserves
+its structural reference in the setup, then applies the source's declared
+0.8–2.0 range14 stop-distance clamp and one-range14 target. These policies retain
+the shared eight-bar bound and tick rounding, and require a complete positive
+range14 rather than inventing an ATR. A named pattern without a current matching
+setup, wrong direction or absent range cannot create protected admission.
+
+As with prior v2 policies, absolute exit prices are frozen at decision close for
+next-quote native entry, not claimed identical to legacy NEXT_BAR_CLOSE fills.
+Unit tests exercise all eight candle directions, all six directional gap cases,
+clamp/target arithmetic and the unclamped Donchian channel. All 242 tests pass;
+Ruff and mypy are clean. There are now 22 explicit protected policy variants
+across six expert families. Remaining expert exit semantics, actual data-derived
+calibration, portfolio allocation and prospective qualification remain open.

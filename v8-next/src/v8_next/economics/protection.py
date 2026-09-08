@@ -6,12 +6,18 @@ from decimal import ROUND_CEILING, ROUND_FLOOR, Decimal
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity
 from v8_next.experts.bollinger import band_setup
+from v8_next.experts.candlestick import VARIANTS as CANDLE_VARIANTS
+from v8_next.experts.candlestick import candle_pattern
+from v8_next.experts.gaps import gap_setup
 from v8_next.experts.measuring import VARIANTS, measuring_setup
 from v8_next.experts.pandf import pandf_setup
 
 PROTECTION_POLICIES = frozenset(
     {
         "timeout-only-v1",
+        "donchian:a:v2",
+        *(f"gap:{v}:v2" for v in "abc"),
+        *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
         *(f"bollinger:{v}:v2" for v in "abc"),
         *(f"measuring:{v}:v2" for v in VARIANTS),
@@ -60,7 +66,35 @@ def protection_at(
     family, variant, _ = policy.split(":")
     sign = 1 if opportunity.direction == "LONG" else -1
     close = frame.candles[-1].close
-    if family == "pandf":
+    if family in {"donchian", "gap", "candlestick"}:
+        if len(frame.candles) < 14:
+            return None
+        span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+        if span <= 0:
+            return None
+        if family == "donchian":
+            if sign != 1 or len(frame.candles) < 21:
+                return None
+            prior = frame.candles[-21:-1]
+            if close <= max(c.high for c in prior):
+                return None
+            stop = min(c.low for c in prior)
+        elif family == "gap":
+            gap = gap_setup(frame, variant)
+            if gap is None or gap.direction != opportunity.direction:
+                return None
+            stop = gap.stop_reference
+        else:
+            candle = candle_pattern(frame, variant)
+            if candle is None or candle.direction != opportunity.direction:
+                return None
+            raw_distance = (close - candle.stop_reference) * sign
+            if raw_distance <= 0:
+                return None
+            distance = min(Decimal(2) * span, max(Decimal(".8") * span, raw_distance))
+            stop = close - sign * distance
+        target = close + sign * span
+    elif family == "pandf":
         pf = pandf_setup(frame, variant)
         if pf is None or pf.direction != opportunity.direction:
             return None

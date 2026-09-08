@@ -86,3 +86,37 @@ def test_auto_selection_and_explicit_variant_do_not_invent_a_hit():
     with pytest.raises(ValueError, match="unsupported candlestick variant"):
         observe_candlestick(frame, opportunity, variant="unknown")
     assert observe_candlestick(frame, None).kind == StanceKind.ABSTAIN
+
+
+@pytest.mark.parametrize("variant", list(BULLISH))
+@pytest.mark.parametrize("short", [False, True])
+def test_pattern_campaign_uses_declared_clamp_and_one_range_target(variant, short):
+    from v8_next.economics.protection import protection_at
+
+    rows = [(100, 101, 99, 100)] * 14 + BULLISH[variant]
+    if short:
+        rows = [(200 - o, 200 - low, 200 - high, 200 - close) for o, high, low, close in rows]
+        variant = MIRRORS[variant]
+    frame, opportunity = context(rows)
+    opportunity = replace(opportunity, direction="SHORT" if short else "LONG")
+    sign = -1 if short else 1
+    protection = protection_at(frame, opportunity, f"candlestick:{variant}:v2", Decimal(".01"))
+    assert protection is not None
+    span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+    close = frame.candles[-1].close
+    pattern = candle_pattern(frame, variant)
+    declared_stop = min(
+        2 * span, max(Decimal(".8") * span, (close - pattern.stop_reference) * sign)
+    )
+    assert 0 <= declared_stop - (close - protection.stop_price) * sign < Decimal(".01")
+    assert 0 <= span - (protection.target_price - close) * sign < Decimal(".01")
+    assert protection.expires_ns == frame.decision_ns + 8
+    assert (
+        protection_at(
+            replace(frame, candles=frame.candles[-4:]),
+            opportunity,
+            f"candlestick:{variant}:v2",
+            Decimal(".01"),
+        )
+        is None
+    )
