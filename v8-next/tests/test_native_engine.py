@@ -923,20 +923,53 @@ def test_two_native_instruments_keep_timeout_and_brackets_isolated():
     usdt = Currency.from_str("USDT")
     venue = Venue("BINANCE")
     engine = BacktestEngine(BacktestEngineConfig(bypass_logging=True))
-    campaigns = tuple(
-        PaperCampaign(
-            symbol,
-            symbol,
-            f"{symbol}USDT-PERP.BINANCE",
-            "LONG",
-            Decimal("0.010"),
-            10**9,
-            expiry * 10**9,
-            Decimal(90),
-            Decimal(110),
+    from v8_next.economics.allocation import AllocationProposal, allocate_ordered
+    from v8_next.economics.controller import InstrumentConstraints
+    from v8_next.economics.decisions import Opportunity, Stance, StanceKind, UtilityInputs
+    from v8_next.economics.protection import CampaignProtection
+    from v8_next.risk.admission import RiskLimits, RiskSnapshot
+
+    proposals = tuple(
+        AllocationProposal(
+            Opportunity(
+                symbol, symbol, f"{symbol}USDT-PERP.BINANCE", "LONG", 10**9, expiry * 10**9
+            ),
+            (Stance("test", "test", StanceKind.SUPPORT, "test-only", symbol, 10**9),),
+            UtilityInputs(
+                Decimal(10), Decimal(1), Decimal(1), Decimal(1), Decimal(1), Decimal(1), "test-only"
+            ),
+            True,
+            InstrumentConstraints(Decimal(".001"), Decimal(".001"), Decimal(1), Decimal(1)),
+            Decimal(100),
+            Decimal("1.10"),
+            CampaignProtection(
+                "pandf:a:v2",
+                symbol,
+                f"{symbol}USDT-PERP.BINANCE",
+                "LONG",
+                10**9,
+                expiry * 10**9,
+                Decimal(90),
+                Decimal(110),
+            ),
         )
         for symbol, expiry in (("BTC", 3), ("ETH", 10))
     )
+    decisions = allocate_ordered(
+        proposals,
+        {
+            symbol: RiskSnapshot(
+                Decimal(10000), Decimal(0), Decimal(0), Decimal(0), 10**9, True, Decimal(0)
+            )
+            for symbol in ("BTC", "ETH")
+        },
+        RiskLimits(Decimal(1), Decimal(1), Decimal(100), 0),
+        decision_ns=10**9,
+        already_allocated=frozenset(),
+    )
+    assert all(d.reason == "PAPER_CAMPAIGN_ADMITTED" for d in decisions)
+    campaigns = tuple(d.campaign for d in decisions)
+    assert sum(c.quantity * Decimal(110) for c in campaigns) == Decimal("2.20")
     adapter = PaperCampaignAdapter(campaigns)
     try:
         engine.add_venue(
@@ -983,14 +1016,14 @@ def test_two_native_instruments_keep_timeout_and_brackets_isolated():
         engine.add_strategy(adapter)
         engine.run()
         assert adapter.callback_failure is None
-        assert adapter.submitted == {"BTC", "ETH"}
-        assert adapter.exit_requested == {"BTC"}
+        assert adapter.submitted == {"paper-BTC", "paper-ETH"}
+        assert adapter.exit_requested == {"paper-BTC"}
         opened = engine.cache.positions_open()
         assert len(opened) == 1
         assert str(opened[0].instrument_id) == "ETHUSDT-PERP.BINANCE"
         assert {str(o.client_order_id) for o in engine.cache.orders_open()} == {
-            "ETH-stop",
-            "ETH-target",
+            "paper-ETH-stop",
+            "paper-ETH-target",
         }
         assert len(adapter.position_closures) == 1
         assert (

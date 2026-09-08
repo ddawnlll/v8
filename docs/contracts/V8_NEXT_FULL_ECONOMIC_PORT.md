@@ -1798,3 +1798,13 @@ only BTC. The test uses synthetic fixtures exclusively inside the test harness.
 Focused native test passes, Ruff clean. This qualifies cross-instrument timeout
 isolation in the existing adapter, not multi-asset economic admission, funding
 reconciliation, live operation or prospective economic evidence.
+
+## Allocation-to-native two-instrument qualification
+
+The simultaneous native campaign test now starts with actual AllocationProposal
+admission against shared account snapshots. Test-only utility inputs authorize
+two protected campaigns whose worst-band reservation totals 2.20. These generated
+campaigns execute in Nautilus; BTC timeout still leaves ETH and its protection
+intact. Focused integration test and Ruff pass. Calibration is explicitly a
+fixture, not a production provider; real feed-driven multi-asset admission and
+post-position accounting remain unfinished.
