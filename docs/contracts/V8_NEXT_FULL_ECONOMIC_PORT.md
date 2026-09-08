@@ -1705,3 +1705,14 @@ by paper configuration. Actual CLI acquisition with 5m ratio and open interest
 succeeded: /tmp/v8-next-ratio-cli-qualification-1957096/manifest.json. This is
 real public snapshot data, not historical PIT evidence or calibrated edge.
 Ruff/mypy pass. No new infrastructure or private exchange access was added.
+
+## Protected paper campaigns use allocation admission
+
+Protected EconomicPaperAdapter proposals now pass through allocate_ordered using
+the native portfolio snapshot and stop exposure. Timeout-only/missing geometry
+keeps the existing controller path. Single-exposure gating remains pending broader
+native execution qualification. The integration exposed a real minimum-notional
+case: a 1.05 quote-currency request cannot fund a 0.010 quantity across a 113 band
+ceiling. Native tests now verify rejection at 1.05 and successful bracket lifecycle
+at 1.13, with no calibration bypass. Full suite: 386 passed; implementation
+Ruff/mypy clean. Real calibration and post-position accounting remain open.

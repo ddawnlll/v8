@@ -456,7 +456,8 @@ def test_entry_gap_invalidates_bracket_without_any_order():
 
 
 @pytest.mark.parametrize("verified", [True, False])
-def test_pandf_geometry_through_economic_admission_to_native_bracket(verified):
+@pytest.mark.parametrize("requested", ["1.05", "1.13"])
+def test_pandf_geometry_through_economic_admission_to_native_bracket(verified, requested):
     from v8_next.adapters.economic_paper import EconomicPaperAdapter
     from v8_next.domain.market import Candle, CausalFrame
     from v8_next.economics.controller import InstrumentConstraints
@@ -492,7 +493,7 @@ def test_pandf_geometry_through_economic_admission_to_native_bracket(verified):
         {frame.decision_ns: frame},
         RiskLimits(Decimal(1), Decimal(1), Decimal(100), 0),
         InstrumentConstraints(Decimal(".001"), Decimal(".001"), Decimal(1), Decimal(1)),
-        Decimal("1.05"),
+        Decimal(requested),
         calibration if verified else None,
         observer="families:pandf-breakout",
         grammar="volatility-extreme-v2",
@@ -511,6 +512,11 @@ def test_pandf_geometry_through_economic_admission_to_native_bracket(verified):
         assert record["reason"] == "UNVERIFIED_CALIBRATION"
         assert not state["orders"]
         return
+    if requested == "1.05":
+        assert record["reason"] == "BELOW_VENUE_MINIMUM"
+        assert not state["orders"]
+        return
+    assert strategy.campaigns[0].quantity * Decimal(113) <= Decimal(requested)
     assert record["reason"] == "PAPER_CAMPAIGN_ADMITTED"
     assert len(state["orders"]) == 3 and state["positions"][0]["is_closed"]
     assert strategy.campaigns[0].stop_price == 101

@@ -12,6 +12,7 @@ from v8_next.adapters.campaign import PaperCampaignAdapter
 from v8_next.adapters.portfolio_risk import native_portfolio_risk
 from v8_next.domain.market import CausalFrame
 from v8_next.domain.positioning import PositioningReading
+from v8_next.economics.allocation import AllocationProposal, allocate_ordered
 from v8_next.economics.controller import InstrumentConstraints, decide_campaign
 from v8_next.economics.decisions import (
     Opportunity,
@@ -169,25 +170,49 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                     if protection
                     else None
                 )
-            decision = decide_campaign(
-                opportunity,
-                stances,
-                utility,
-                snapshot,
-                self.limits,
-                self.constraints,
-                quote.ts_init,
-                quote.ask_price.as_decimal()
-                if opportunity.direction == "LONG"
-                else quote.bid_price.as_decimal(),
-                self.requested_notional,
-                frozenset(self.allocated),
-                calibration_verified=verified,
-                protection=protection,
-                protection_required=self.campaign_policy != "timeout-only-v1",
-                stop_budget=self.stop_budget,
-                stop_exposure=portfolio.stop_exposure if self.stop_budget is not None else None,
-            )
+            if protection is not None:
+                decision = allocate_ordered(
+                    (
+                        AllocationProposal(
+                            opportunity,
+                            stances,
+                            utility,
+                            verified,
+                            self.constraints,
+                            quote.ask_price.as_decimal()
+                            if opportunity.direction == "LONG"
+                            else quote.bid_price.as_decimal(),
+                            self.requested_notional,
+                            protection,
+                        ),
+                    ),
+                    portfolio.snapshots,
+                    self.limits,
+                    decision_ns=quote.ts_init,
+                    already_allocated=frozenset(self.allocated),
+                    stop_budget=self.stop_budget,
+                    stop_exposure=portfolio.stop_exposure if self.stop_budget is not None else None,
+                )[0]
+            else:
+                decision = decide_campaign(
+                    opportunity,
+                    stances,
+                    utility,
+                    snapshot,
+                    self.limits,
+                    self.constraints,
+                    quote.ts_init,
+                    quote.ask_price.as_decimal()
+                    if opportunity.direction == "LONG"
+                    else quote.bid_price.as_decimal(),
+                    self.requested_notional,
+                    frozenset(self.allocated),
+                    calibration_verified=verified,
+                    protection=protection,
+                    protection_required=self.campaign_policy != "timeout-only-v1",
+                    stop_budget=self.stop_budget,
+                    stop_exposure=portfolio.stop_exposure if self.stop_budget is not None else None,
+                )
             record["reason"] = decision.reason
             if decision.campaign is not None:
                 self.allocated.add(opportunity.opportunity_id)
