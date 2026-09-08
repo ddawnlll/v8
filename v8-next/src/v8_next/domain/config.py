@@ -71,4 +71,13 @@ class PaperConfig(PositioningPolicy):
             raise ValueError("unknown campaign policy")
         return value
 
+    symbols: tuple[Literal["BTCUSDT", "ETHUSDT"], ...] = ("BTCUSDT",)
+
+    @field_validator("symbols")
+    @classmethod
+    def valid_symbols(cls, value: tuple[str, ...]) -> tuple[str, ...]:
+        if not value or len(set(value)) != len(value):
+            raise ValueError("nonempty unique paper symbols required")
+        return value
+
     calibration_source_run: str | None = None

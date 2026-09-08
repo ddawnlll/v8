@@ -7,6 +7,30 @@ from v8_next.app.paper import load_policy_config
 from v8_next.domain.config import PaperConfig
 
 
+def test_paper_symbol_universe_is_validated_and_frozen(tmp_path):
+    from v8_next.app.observe import initialize
+    from v8_next.domain.config import PaperConfig
+
+    config = dict(
+        maker_fee="0",
+        taker_fee="0",
+        initial_balance="10000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+        symbols=["BTCUSDT", "ETHUSDT"],
+    )
+    assert PaperConfig.model_validate(config).symbols == ("BTCUSDT", "ETHUSDT")
+    frozen = initialize(tmp_path / "session", config)
+    assert frozen["policy"]["instruments"] == ["BTCUSDT-PERP.BINANCE", "ETHUSDT-PERP.BINANCE"]
+    with pytest.raises(ValueError, match="frozen"):
+        initialize(tmp_path / "session", {**config, "symbols": ["BTCUSDT"]})
+    for symbols in ([], ["BTCUSDT", "BTCUSDT"], ["UNKNOWN"]):
+        with pytest.raises(ValueError):
+            PaperConfig.model_validate({**config, "symbols": symbols})
+
+
+
+
 def test_policy_file_freshness_is_validated_and_frozen(tmp_path):
     path = tmp_path / "selection.json"
     policy = {

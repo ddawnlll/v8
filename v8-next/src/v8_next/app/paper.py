@@ -54,8 +54,8 @@ def replay_account(
         metadata = json.loads(manifest.read_text())
         artifact = next(a for a in metadata["artifacts"] if a["path"] == "quote.json")
         row = json.loads((manifest.parent / "quote.json").read_text())
-        if row["symbol"] not in {"BTCUSDT", "ETHUSDT"}:
-            raise ValueError("paper scope is BTCUSDT/ETHUSDT")
+        if row["symbol"] not in parsed.symbols:
+            raise ValueError("capture outside configured paper symbols")
         instrument_id = row["symbol"] + "-PERP.BINANCE"
         instrument_manifests.setdefault(instrument_id, manifest)
         received = int(artifact["received_time_ns"])
@@ -240,19 +240,21 @@ def _step_locked(run: Path, config: dict[str, Any], *, replay_only: bool) -> dic
             ),
         )
     if not replay_only:
-        manifests.append(
-            capture(
-                run / f"capture-{time.time_ns()}",
-                # Retain all session liabilities and the pre-session settled
-                # observation window. Receipt-time gating still applies.
-                funding_start_ms=max(
-                    0, int(str(frozen["frozen_ns"])) - (parsed.funding_max_age_ns or 0)
+        for symbol in parsed.symbols:
+            manifests.append(
+                capture(
+                    run / f"capture-{time.time_ns()}-{symbol}",
+                    symbol=symbol,
+                    # Retain all session liabilities and the pre-session settled
+                    # observation window. Receipt-time gating still applies.
+                    funding_start_ms=max(
+                        0, int(str(frozen["frozen_ns"])) - (parsed.funding_max_age_ns or 0)
+                    )
+                    // 1_000_000,
+                    include_open_interest=parsed.open_interest_max_age_ns is not None,
+                    account_ratio_period=parsed.account_ratio_period,
                 )
-                // 1_000_000,
-                include_open_interest=parsed.open_interest_max_age_ns is not None,
-                account_ratio_period=parsed.account_ratio_period,
             )
-        )
     if not manifests:
         raise ValueError("no captured session to replay")
     for manifest in manifests:
@@ -305,6 +307,7 @@ def load_policy_config(path: Path) -> dict[str, Any]:
         "account_ratio_period",
         "account_ratio_max_age_ns",
         "calibration_source_run",
+        "symbols",
     }
     if not isinstance(policy, dict) or set(policy) - allowed:
         raise ValueError("policy config must contain only economic policy fields")

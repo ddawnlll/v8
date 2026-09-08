@@ -58,7 +58,9 @@ def initialize(run: Path, paper_config: dict[str, Any] | None = None) -> dict[st
     """Freeze before fetching any prospective data; changed code requires a new run."""
     policy: dict[str, object] = {
         "code_and_lock_hash": source_hash(),
-        "instrument": "BTCUSDT-PERP.BINANCE",
+        "instruments": [
+            symbol + "-PERP.BINANCE" for symbol in (paper_config or {}).get("symbols", ["BTCUSDT"])
+        ],
         "observer": "squeeze-observer-v1",
         "execution_grammar_policy": (paper_config or {}).get(
             "grammar_policy", "range-breakout-48-v1"

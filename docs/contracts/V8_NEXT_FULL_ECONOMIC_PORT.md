@@ -1,5 +1,26 @@
 # V8-next full economic port
 
+## BTC/ETH paper capture and process restart
+
+PaperConfig now freezes symbols (default BTCUSDT; optional BTCUSDT/ETHUSDT unique
+nonempty tuple). Policy JSON accepts `"symbols": ["BTCUSDT", "ETHUSDT"]`.
+Session metadata records the instrument universe; replay rejects captures outside
+the configured universe. Each step captures every configured symbol using its own
+receipt clocks and symbol-specific directory, then rebuilds one native account and
+the shared revised accounting view. REST captures are sequential, not a fabricated
+synchronous portfolio snapshot. Existing single-writer/checkpoint validation stays.
+
+Fresh public acceptance: /tmp/v8-multi-session-z4j5an4a contains frozen policy,
+input-config.json, four raw capture manifests, research.sqlite and paper-state.json.
+First process captured BTC/ETH (two quotes). A separate process replayed the saved
+checkpoint before collecting a second BTC/ETH pair: four quotes, zero orders,
+10000 USDT simulated cash. Logs /tmp/v8-multi-session-capture.log and
+/tmp/v8-multi-session-restart.log. Zero orders reflect missing calibration, not
+forced acceptance. Full suite 494 passed before the extra universe test; 14 relevant
+policy/recovery tests passed afterward; Ruff/mypy clean. This validates prospective
+multi-instrument no-position continuation, not continuous execution or qualified
+position-bearing recovery. Calibration and online funding admission remain open.
+
 ## Shared BTC/ETH revised accounting
 
 Frozen-campaign accounting now registers BTC/ETH in one native account, keys
