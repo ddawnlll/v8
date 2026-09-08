@@ -364,3 +364,36 @@ def test_stream_funding_observation_enters_at_receipt_and_abstains_on_expiry(tmp
     assert stance(end + 5)["kind"] == "SUPPORT"
     assert stance(end + 20)["kind"] == "ABSTAIN"
     assert observer.needs_positioning_refresh(symbol, end + 20)
+
+
+def test_auxiliary_refresh_is_atomic_and_available_only_after_application(tmp_path, monkeypatch):
+    from decimal import Decimal
+
+    from v8_next.domain.positioning import PositioningReading, positioning_at
+    from v8_next.economics.stream_observation import StreamObservations
+
+    observer = StreamObservations((), "range-breakout-48-v1")
+    observer.candles = {"BTC": ()}
+    path = tmp_path / "capture.json"
+    path.write_text("{}")
+    reading = PositioningReading("BTC", "open_interest", Decimal(10), 10, 11, 11, 30, "source")
+    monkeypatch.setattr(observer, "load_positioning", lambda _: (reading,))
+    bars = observer.candles
+    observer.refresh_positioning((path,), 20)
+    assert observer.candles is bars
+    assert positioning_at(observer.readings, "BTC", "open_interest", 19) is None
+    assert positioning_at(observer.readings, "BTC", "open_interest", 20) == 10
+    assert positioning_at(observer.readings, "BTC", "open_interest", 30) is None
+    original = (observer.readings, observer.source_hashes, observer.positioning_update_ns)
+    conflict = PositioningReading("BTC", "open_interest", Decimal(11), 10, 21, 21, 30, "changed")
+    monkeypatch.setattr(observer, "load_positioning", lambda _: (conflict,))
+    with pytest.raises(ValueError, match="conflicting"):
+        observer.refresh_positioning((path,), 22)
+    assert (observer.readings, observer.source_hashes, observer.positioning_update_ns) == original
+    with pytest.raises(ValueError, match="clock"):
+        observer.refresh_positioning((path,), 20)
+    future = PositioningReading("BTC", "open_interest", Decimal(11), 10, 25, 25, 30, "later")
+    monkeypatch.setattr(observer, "load_positioning", lambda _: (future,))
+    with pytest.raises(ValueError, match="future"):
+        observer.refresh_positioning((path,), 23)
+    assert (observer.readings, observer.source_hashes, observer.positioning_update_ns) == original

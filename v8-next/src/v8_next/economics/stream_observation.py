@@ -31,6 +31,7 @@ class StreamObservations:
         self.grammar = grammar
         self.positioning_policy = positioning_policy or PositioningPolicy()
         self.readings: tuple[PositioningReading, ...] = ()
+        self.positioning_update_ns = 0
         self.candles: dict[str, tuple[Candle, ...]] = {}
         self.source_hashes = sorted(hashlib.sha256(p.read_bytes()).hexdigest() for p in manifests)
         self.emitted: dict[str, tuple[str, str, int | None, str]] = {}
@@ -55,6 +56,41 @@ class StreamObservations:
                 path, period=policy.account_ratio_period, max_age_ns=policy.account_ratio_max_age_ns
             )
         return readings
+
+    def refresh_positioning(self, manifests: tuple[Path, ...], applied_ns: int) -> None:
+        """Apply verified auxiliary captures without touching native candle history.
+
+        Runtime caller must durably record this application event for replay.
+        Availability includes application time; receipt and expiry stay unchanged.
+        """
+        if type(applied_ns) is not int or applied_ns <= self.positioning_update_ns:
+            raise ValueError("positioning application clock must advance")
+        readings = self.readings
+        hashes = set(self.source_hashes)
+        for path in manifests:
+            added = self.load_positioning(path)
+            if any(
+                r.instrument_id not in self.candles or r.received_ns > applied_ns for r in added
+            ):
+                raise ValueError("unknown instrument or future positioning receipt")
+            readings += tuple(
+                replace(r, available_ns=max(r.available_ns, applied_ns))
+                if r.available_ns is not None
+                else r
+                for r in added
+            )
+            hashes.add(hashlib.sha256(path.read_bytes()).hexdigest())
+        for instrument in self.candles:
+            metrics: tuple[Metric, ...] = (
+                "settled_funding_rate",
+                "open_interest",
+                "long_short_ratio",
+            )
+            for metric in metrics:
+                positioning_at(readings, instrument, metric, applied_ns)
+        self.readings = readings
+        self.source_hashes = sorted(hashes)
+        self.positioning_update_ns = applied_ns
 
     def needs_positioning_refresh(self, instrument: str, as_of_ns: int) -> bool:
         enabled: tuple[tuple[Metric, int | None], ...] = (

@@ -2911,3 +2911,18 @@ against .039 ownership), while the admission-fixed report
 /tmp/v8-campaign-occupancy-1788887419008117000/result.json passes closed-cash
 reconciliation. This was a check of retained source reports, not a fresh venue
 run or replay certification. Full production calibration/operation remain open.
+
+## Atomic auxiliary application boundary for streaming refresh
+
+StreamObservations.refresh_positioning applies verified capture readings without
+reloading/revising native candles. It retains original event/receipt/expiry clocks
+and advances availability to at least application time; unknown availability stays
+unknown. Unknown instruments, future receipts, nonadvancing application clocks
+and conflicting known versions reject atomically, preserving readings/source
+hashes and prior application state. Tests prove no pre-application visibility,
+expiry preservation, unchanged candle object and rollback on conflicts/future
+receipts. Full suite 473 passed; Ruff/mypy clean.
+This is the application primitive for the remaining intra-session refresh path.
+It is not yet called by the running native stream: durable application events,
+replay ordering and asynchronous public capture wiring still must be connected.
+No continuous refresh capability is claimed at this checkpoint.
