@@ -1,0 +1,242 @@
+# V8-next implementation scope
+
+Status: owner-authorized development architecture; not a release or economic
+certification. Started 2026-09-08. This document does not amend economic claim
+requirements in `site/index.html`. The current explicit owner instruction
+supersedes Rust-only development for `v8-next/`; legacy Python and Rust remain
+untouched reference implementations. No legacy runtime imports or compilation.
+
+## Boundary
+
+Python owns opportunity identity, observer stances, reconciliation, utility,
+exposure admission, experiment lineage and claim gating. Nautilus owns generic
+event processing, simulated execution, orders, positions and accounts. Polars
+owns dataframe computation. Standard libraries own persistence primitives.
+No custom simulator, OMS, scheduler or engine fork is authorized by this design.
+
+The intended flow is real data → PIT frame → opportunity grammar/book ← expert
+stances → reconciliation → utility → portfolio admission → execution campaign
+→ Nautilus → accounting and evaluation. A Nautilus strategy is an adapter, not
+an expert with capital authority. Initial universe is narrow Binance USD-M;
+no live private execution, money movement or account changes are enabled.
+
+## Engine checkpoint
+
+The initially present package skeleton pinned 1.231.0. Development now pins
+2.0.0rc4: this is explicitly a prerelease dependency, not a stability claim.
+The Python 3.12 wheel installs without compiling legacy Rust. Tagged source
+`https://github.com/nautechsystems/nautilus_trader/blob/v2.0.0rc4/crates/backtest/src/exchange.rs`
+contains native funding settlement and duplicate settlement tracking.
+`tests/test_native_engine.py` qualifies a synthetic long position, commission,
+funding debit and duplicate funding event through the public engine API.
+It is test-only arithmetic evidence, never economic evidence.
+
+Real captured data was replayed through the native engine: 499 closed candles,
+62 funding records (with source mark prices), 623 engine iterations, no strategy
+and no orders. Local raw manifest: `/tmp/v8-next-capture-20260908-initial/manifest.json`;
+native diagnostic output: `/tmp/v8-next-native-real.log`. These temporary paths
+are development evidence, not permanent release artifacts. Explicit fee inputs
+were simulation assumptions 0.0002 maker / 0.0005 taker and initial balance
+10000 USDT. No measured fee schedule or economic result is claimed.
+
+Exact Binance margin brackets, liquidation and sandbox funding remain UNVERIFIED.
+Bounded local replay recovery and public-data prospective no-trade operation now
+exist; these do not establish live venue recovery or position-bearing prospective
+economic qualification. A passing unit checkpoint does not satisfy those remaining
+acceptance requirements.
+The generic NETTING/MARGIN test is not evidence of exact venue isolated-margin
+behavior. A dependency fork is not the default remedy for missing capabilities.
+
+## Data and clocks
+
+Capture stores original public REST responses, source URLs, request/receipt
+timestamps and SHA-256 hashes. Existing capture directories cannot be replaced.
+A manifest is only written after every request succeeds. Partial directories
+without a manifest are not valid runs. Hashes detect substitution relative to
+the manifest; they do not authenticate Binance or make the manifest tamper-proof.
+
+Historical REST availability is UNKNOWN, not inferred from candle close or ETL
+time. The decoded historical candle therefore cannot enter an authoritative
+historical PIT frame. Current incomplete candles are excluded. Prospective
+observation requires separately recorded receipt knowledge and a frozen policy.
+Any research-only historical timing model must be explicitly labeled and cannot
+silently upgrade these records to certified simulation.
+
+## Constitutional mapping and remaining work
+
+| Requirement | Executable evidence / remaining implementation |
+|---|---|
+| PIT/non-interference | `test_causality.py`; `test_historical_observer.py` checks changed future suffix against prior decisions. Historical modeled clocks remain diagnostic. |
+| Feed clone invariance | Exact duplicate bars deduplicated; conflicting versions rejected; dependency groups deduplicated in reconciliation. |
+| No fictitious artifacts | Capture verifier rejects absent/substituted/external references; hashes do not authenticate the source. |
+| Fee/funding conservation | Native open/close/duplicate/late-settlement qualification; position-bearing prospective coverage remains unqualified. |
+| Opportunity independent of observers | `opportunity_at` binds grammar/exposure/instrument/direction/bar boundary; economic tests cover clone invariance. |
+| Observer lacks execution authority | Frozen `Stance` contains observations; separate controller creates `PaperCampaign`, native adapter submits orders. |
+| Utility and exposure admission | Controller/risk tests cover missing calibration, costs, stale state, exposure caps, quantity rounding and duplicate campaigns. Real calibration provider is absent. |
+| Claim/receipt/verdict separation | Capture, decisions, evaluation and accounting retain NO_ECONOMIC_CLAIM; no promotion path exists. Full qualified calibration/claim receipts remain absent. |
+| Holdout/search-family accounting | SQLite frozen comparison trials, immutable burn records and idempotent decisions; full statistical evaluation remains missing. |
+| Lifecycle | Atomic observation/decision lifecycle with terminal-state and time-order tests; broader campaign lifecycle integration remains incomplete. |
+| Recovery and telemetry | Paper restart reconstructs native and revised accounting, validates policy/source boundaries and rejects divergence before new capture; structured step logs exist. Concurrent writers and durable crash boundaries remain unqualified. |
+
+Runtime checks, Python typing and adversarial tests replace Rust-specific
+implementation mechanisms, not the economic requirements. They are not claimed
+equivalent to Rust compile-time enforcement. No claim promotion path may open
+until its required constitutional receipts and independent checks exist.
+
+## Delivery requirements still active
+
+Complete the economic slice, genuine native execution adapter, prospective
+paper path, restart/reconciliation, telemetry, methodology-preserving evaluator,
+dependency/latency evidence and operator commands. A no-trade result is valid
+when calibration is absent, but does not establish execution qualification.
+Actual fills must be qualified independently without forcing production trades.
+Live entry points remain disabled. No profitability or readiness claim follows
+from this development milestone.
+
+## Initial economic definitions
+
+`economics/decisions.py` implements an observer-independent 48-prior-bar breakout
+grammar for BTC/USD linear perpetual exposure. Identity binds the grammar,
+instrument, exposure, direction and breakout candle end, never observer identity
+or delayed observation clock. Each breakout candle is a discrete episode in this
+initial grammar; competing grammar definitions would constitute research trials.
+
+The observer is derived from `v8-core/src/experts/squeeze_swing.rs`: compressed
+20-bar bandwidth, volume expansion and efficiency filtering. It retains default
+0.35 bandwidth-rank, 1.30 volume-ratio and 0.18 efficiency thresholds as hypothesis
+definitions, not computed confidence or proven edge. Complete 20-bar windows
+over 50 bandwidth values require 69 closes. Undefined volume/bandwidth abstains;
+legacy fallback values of one and partial warmup windows are not reproduced.
+The opportunity lookback explicitly means 48 PRIOR candles rather than the
+legacy slice's 47 prior candles. This is a versioned semantic choice, not parity.
+The immediately simpler comparison is the same breakout grammar without the
+compression observer. Neither is automatically eligible for execution.
+
+Reconciliation deduplicates dependency groups and abstains/rejects contradictory
+stances, without vote-based confidence. Utility arithmetic subtracts all provided
+costs and uncertainty and rejects missing calibration. Portfolio/campaign authorization is implemented in the controller and qualified
+with isolated native tests. Real calibration receipt verification remains
+outstanding; the arithmetic function alone cannot authorize execution. No custom capital or expected-edge defaults
+are embedded in runtime code.
+
+## Measured development feedback (2026-09-08)
+
+`tests/measure_feedback.py` creates a separate environment, installs the locked
+wheel-based dependencies, runs imports and scoped verification, and records exact
+commands, exit codes and installed versions. A fresh environment can use cached
+downloads and must not be described as a cold-network installation.
+
+Verified local artifact: `/tmp/v8-next-feedback-verified.json`. Observed wall
+times in that run: cached fresh-environment setup 0.303 s; first native import
+process 3.429 s; subsequent native import process 0.074 s; scoped economic tests
+5.587 s; native integration tests 1.341 s; Ruff 0.486 s; mypy 2.172 s. All command
+exit codes were zero. These are process wall times on this host, not engine
+throughput or equivalent Rust/Python speedup estimates. Initial imports and OS
+caches materially affect the measurements. The earlier measurement captured a
+real mypy failure that was corrected before this successful run.
+
+Paper CLI now logs structured completion/failure events with measured duration
+and observed capture/order/position counts. Funding status is incomplete for
+any session with position history until online settlement integration exists;
+the zero-exposure status cannot be reused for a funded session.
+
+## Final funding and revised accounting
+
+Executable qualification found that 2.0.0rc4 rejects a final funding update whose
+settlement boundary precedes its replay receipt timestamp (`Late funding boundary`).
+Passing late REST history into the ordinary online event path is therefore invalid.
+The product must not substitute an estimated rate or invent timely availability.
+
+`adapters/settlements.py` retains settlement time and actual receipt time separately.
+Its boundary-timed native events are exclusively for accounting replay at a cutoff
+where the final record was already received. `adapters/accounting_replay.py` owns
+that boundary: it creates only the fixed-campaign execution adapter and runs no
+observers, calibration, allocator, or historical decision callbacks. Thus revised
+simulated cash accounting cannot retroactively change a prospective decision.
+The paper checkpoint records this view separately from its original native state.
+
+The isolated native test proves that a late record replayed this way charges the
+position held at settlement, including when the position has since closed, and
+matches the timely settlement balance. This is test-only semantic qualification.
+Real prospective runs have so far had no admitted positions, and their accounting
+view makes no position-bearing funding claim. Coverage is explicitly limited to
+observed final records, not a certified assertion that no settlement is missing.
+Using revised accounting to admit subsequent real paper campaigns still requires
+the calibration/authority boundary and complete funding coverage policy; those
+requirements are not satisfied by the zero-position demonstration.
+
+
+## Historical observer diagnostic and current acceptance evidence
+
+`python -m v8_next.app.backtest` connects native bar callbacks to the same
+opportunity and squeeze observer functions. It retains original unknown historical
+availability in every output, alongside explicitly modeled close-time availability.
+It never authorizes orders from uncalibrated observations. This is an observer
+diagnostic, not a qualified economic backtest or a replacement for prospective
+measurements. Current metadata and assumed fees remain visible limitations.
+
+Actual captured input `/tmp/v8-next-capture-20260908-initial/manifest.json`
+produced `/tmp/v8-next-historical-observer.json`: 499 decisions, 19 breakout
+opportunities, four compression-breakout stances, zero orders. These are observed
+counts from that file, not expected performance or independent statistical trials.
+The CLI writes the JSON artifact separately from native engine logs.
+
+The subsequent full local suite passed 33 tests in 0.89 seconds of pytest-reported
+time (`/tmp/v8-next-tests-current.log`); this is not process wall time or a Rust
+comparison. Ruff passed. The preceding implementation type check passed for
+20 source files. The callback-prefix test is separate from the real native-run
+check: neither alone establishes all execution or statistical requirements.
+
+## Prospective continuation check
+
+A fresh frozen-policy session at `/tmp/v8-next-prospective-current` completed:
+first public Binance capture → native paper replay → separate-process
+`--replay-only` restart → second public capture → evaluation. The restart
+recomputed both the native state and the revised fixed-campaign accounting
+before advancing. Evaluation retained two decisions for two captures (not three
+for the intervening replay); native state retained two quote observations and
+zero orders/positions. No calibration or opportunity was manufactured.
+
+Physical evidence: `paper-state.json`, `policy.json`, `research.sqlite` and raw
+capture manifests in that directory; process logs at
+`/tmp/v8-next-prospective-current-first.log`,
+`/tmp/v8-next-prospective-current-restart.log`, and
+`/tmp/v8-next-prospective-current-second.log`; evaluation at
+`/tmp/v8-next-prospective-current-evaluation.json`.
+This establishes bounded no-position session continuation only. It does not
+qualify position-bearing funding coverage, long-running recovery, profitability,
+or real-money operation. Statistical outputs remain null and promotion blocked.
+
+## Development delivery audit (not completion certification)
+
+The full current test suite passed 45 tests in 1.01 s pytest-reported time;
+log `/tmp/v8-next-full-current.log`. Recent type checking covers 21 source files.
+Paper inputs now use one Pydantic contract before directory creation; the same
+contract applies to direct replay calls. Local paper writers use an OS advisory
+lock and checkpoint fsync/atomic replacement. Neither proves network-filesystem
+or power-loss recovery of the entire artifact directory.
+
+Current executable paths are capture, historical observer diagnostic, prospective
+observe/paper, read-only evaluation and outcome-source inspection. Positive
+observer-to-native-fill and late-funding behavior are qualified in isolated tests;
+real prospective samples currently have no admitted trades. That absence must
+not be repaired with invented utility inputs. The source inspector recomputes
+campaign decisions before accounting and distinguishes open from closed outcomes.
+It still does not implement an eligible calibrated forecast provider.
+
+Remaining delivery work is specifically:
+
+- Finish methodology-to-code/source mapping for the initial benchmark: null,
+  loss alignment, dependence unit, chronological split and family scope. Existing
+  null statistics are honest missing outputs, not implemented inference.
+- Resolve the real-data economic execution acceptance boundary without forced
+  trades or false calibration; preserve independently tested positive adapter
+  behavior and explicitly qualify any chosen narrower operational scope.
+- Establish the supported funding coverage/admission policy for subsequent
+  position-bearing operation. Current code blocks readmission after position
+  history because the online account is not reconciled by revised accounting.
+- Consolidate final operator instructions, exact installed dependency versions,
+  authoritative product navigation and durable evidence references. Temporary
+  developer artifacts are not release receipts.
+- Perform a requirement-by-requirement final audit after the above; current green
+  tests and the development commit do not establish goal completion.

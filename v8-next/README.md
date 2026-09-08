@@ -1,0 +1,97 @@
+# V8-next (development, NO_ECONOMIC_CLAIM)
+
+Python economic control plane over NautilusTrader. Legacy Rust and Python are
+not imported, compiled or modified by these commands.
+
+From the repository root:
+
+```sh
+uv sync --project v8-next --extra dev --locked
+uv run --project v8-next python -m v8_next.adapters.binance_capture /tmp/v8-capture-new
+uv run --project v8-next python -m v8_next.adapters.native_tape /tmp/v8-capture-new/manifest.json --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000
+uv run --project v8-next --extra dev pytest -q v8-next/tests
+uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests
+uv run --project v8-next --extra dev mypy v8-next/src
+```
+
+The example fee rates and initial balance are explicit simulation assumptions,
+not a statement of the user's actual commission schedule or capital. Capture
+uses public REST only. Choose a new directory for each capture. Historical
+availability remains unknown. The native replay is explicitly diagnostic-only,
+uses current instrument metadata, and currently has no economic strategy attached.
+It therefore creates no orders. This is not yet the completed paper product.
+
+The pinned engine is **2.0.0rc4**, a prerelease. The native test qualifies fees,
+funding and duplicate funding settlement using isolated synthetic test inputs.
+It does not establish venue liquidation or live correctness. Polars calculates
+the squeeze observer's features; missing calibration rejects utility admission.
+
+See [full scope](../docs/contracts/V8_NEXT_IMPLEMENTATION_SCOPE.md) for the
+constitutional mapping, remaining work and source/version rationale.
+
+Prospective decision observation (execution is not attached yet):
+
+```sh
+uv run --project v8-next python -m v8_next.app.observe /tmp/v8-observation-new
+uv run --project v8-next python -m v8_next.app.observe /tmp/v8-observation-new --replay-capture /tmp/v8-observation-new/capture-REPLACE_WITH_ACTUAL_ID/manifest.json
+```
+
+The first command freezes source/config/lock identity before requesting new data.
+Each response becomes known at its actual local receipt for future decisions;
+this does not establish historical availability. Identical capture replay after
+restart does not duplicate the decision. Different code requires a new run.
+Missing calibration stays missing, with no engine order submission. This command
+is a prospective observation precursor, not the completed funded paper service.
+
+Read-only diagnostic evaluation of a recorded run:
+
+```sh
+uv run --project v8-next python -m v8_next.app.evaluate /tmp/v8-observation-new
+```
+
+This verifies policy, decision and source hashes, counts recorded observations,
+and explicitly leaves unsupported economic/statistical results absent. Snapshot
+counts are not independent samples. It cannot authorize economic promotion.
+
+Bounded native paper account (currently no verified calibration, so no campaigns):
+
+```sh
+uv run --project v8-next python -m v8_next.app.paper /tmp/v8-paper-new --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000 --max-notional 100 --max-exposure-fraction 0.1
+uv run --project v8-next python -m v8_next.app.paper /tmp/v8-paper-new --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000 --max-notional 100 --max-exposure-fraction 0.1 --replay-only
+```
+
+Each non-replay invocation captures another real snapshot. Before extending a
+session, it recreates the previously recorded native account and compares its
+economic state. Historical bars are not injected into the prospective account.
+Quotes retain venue event time and local receipt time. These sparse REST snapshots
+are not a continuous execution feed. The positive admission-to-fill route is qualified with test-only calibration;
+production calibration verification and online funding remain outstanding; a zero-position account does not qualify either behavior.
+
+Historical observer diagnostic (real captured bars, explicitly modeled close-time
+availability; not a qualified PIT/economic backtest):
+
+```sh
+uv run --project v8-next python -m v8_next.app.backtest \
+  /path/to/capture/manifest.json /path/to/new-result.json \
+  --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000
+```
+
+Fees and starting capital above are explicit simulation assumptions. The native
+bar callback evaluates every causal prefix, records baseline/opportunity/stance
+and missing-calibration rejection, and exports native account state. No strategy
+order is authorized without calibration. Historical availability stays unknown
+in the output; modeled frames cannot support prospective or profitability claims.
+
+Inspect prospective outcome sources before a proposed decision timestamp:
+
+```sh
+uv run --project v8-next python -m v8_next.evaluation.calibration \
+  /path/to/paper-run /path/to/new-inspection.json --decision-ns DECISION_UNIX_NS
+```
+
+This read-only command verifies inputs and recomputes native accounting. It
+separates open and closed positions, preserves simulated realization and funding
+coverage, and requires the accounting cutoff to precede the proposed decision.
+It is a source inspector, not a calibrated estimator: absent qualified outcomes
+leave utility eligibility false and edge/uncertainty null. The timestamp argument
+is an evaluation cutoff request, not evidence that a prospective decision occurred.

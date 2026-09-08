@@ -1,0 +1,112 @@
+"""Thin quote-to-economic-controller adapter for the local native paper engine."""
+
+from __future__ import annotations
+
+from dataclasses import asdict
+from decimal import Decimal
+from typing import Callable
+
+from nautilus_trader.model import Currency, InstrumentId, QuoteTick, Venue
+
+from v8_next.adapters.campaign import PaperCampaignAdapter
+from v8_next.domain.market import CausalFrame
+from v8_next.economics.controller import InstrumentConstraints, decide_campaign
+from v8_next.economics.decisions import (
+    Opportunity,
+    UtilityInputs,
+    observe_squeeze,
+    opportunity_at,
+)
+from v8_next.risk.admission import RiskLimits, RiskSnapshot
+
+CalibrationProvider = Callable[[Opportunity, int], tuple[UtilityInputs, bool]]
+
+
+class EconomicPaperAdapter(PaperCampaignAdapter):
+    def __new__(cls, *args: object, **kwargs: object) -> EconomicPaperAdapter:
+        # The native Strategy allocator accepts only its engine config; domain
+        # constructor arguments belong to Python __init__, not the native base.
+        return super().__new__(cls)
+
+    def __init__(
+        self,
+        frames: dict[int, CausalFrame],
+        limits: RiskLimits,
+        constraints: InstrumentConstraints,
+        requested_notional: Decimal,
+        calibration: CalibrationProvider | None = None,
+    ) -> None:
+        super().__init__(())
+        self.frames = frames
+        self.limits = limits
+        self.constraints = constraints
+        self.requested_notional = requested_notional
+        self.calibration = calibration
+        self.decisions: list[dict[str, object]] = []
+        self.allocated: set[str] = set()
+
+    def on_start(self) -> None:
+        self.subscribe_quotes(InstrumentId.from_str("BTCUSDT-PERP.BINANCE"))
+
+    def on_quote(self, quote: QuoteTick) -> None:
+        super().on_quote(quote)
+        frame = self.frames.get(quote.ts_init)
+        if frame is None:
+            return
+        opportunity = opportunity_at(frame)
+        stance = observe_squeeze(frame, opportunity)
+        record: dict[str, object] = {
+            "decision_ns": quote.ts_init,
+            "stance": asdict(stance),
+            "opportunity": asdict(opportunity) if opportunity else None,
+            "claim_status": "NO_ECONOMIC_CLAIM",
+        }
+        if not frame.candles or quote.ts_init - frame.candles[-1].end_ns > 2 * 3600 * 10**9:
+            record["reason"] = "STALE_DATA"
+        elif opportunity is None:
+            record["reason"] = stance.reason
+        elif self.cache.positions_open() or self.cache.orders_open():
+            record["reason"] = "ONE_ACTIVE_EXPOSURE_LIMIT"
+        elif self.cache.positions():
+            # Closed positions can still have late funding liabilities. The online
+            # account is not reconciled by the separate revised-accounting view.
+            record["reason"] = "UNRECONCILED_FUNDING_AFTER_EXPOSURE"
+        else:
+            account = self.cache.account_for_venue(Venue("BINANCE"))
+            if account is None:
+                raise ValueError("native paper account unavailable")
+            # Initial scope permits only one open campaign. Entry is considered
+            # only when positions/orders are empty, so exposure and reservations
+            # are observed zero, not guessed missing portfolio values.
+            snapshot = RiskSnapshot(
+                account.balance_total(Currency.from_str("USDT")).as_decimal(),
+                Decimal(0),
+                Decimal(0),
+                Decimal(0),
+                quote.ts_init,
+                True,
+            )
+            utility, verified = (
+                self.calibration(opportunity, quote.ts_init)
+                if self.calibration
+                else (UtilityInputs(None, None, None, None, None, None, None), False)
+            )
+            decision = decide_campaign(
+                opportunity,
+                (stance,),
+                utility,
+                snapshot,
+                self.limits,
+                self.constraints,
+                quote.ts_init,
+                max(quote.bid_price.as_decimal(), quote.ask_price.as_decimal()),
+                self.requested_notional,
+                frozenset(self.allocated),
+                calibration_verified=verified,
+            )
+            record["reason"] = decision.reason
+            if decision.campaign is not None:
+                self.allocated.add(opportunity.opportunity_id)
+                self.campaigns += (decision.campaign,)
+                record["campaign_id"] = decision.campaign.campaign_id
+        self.decisions.append(record)
