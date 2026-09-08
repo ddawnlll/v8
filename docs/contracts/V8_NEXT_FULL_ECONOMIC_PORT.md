@@ -1551,3 +1551,13 @@ protected expert-family continuation wiring, not full product port acceptance.
 The minimal squeeze policy, integrated calibration, multi-instrument allocation,
 continuous/reconciled funding operation and prospective position-bearing evidence
 still require completion and independent qualification.
+
+## Calibration source runtime identity
+
+Calibration source inspection now requires the current code/dependency identity
+to equal the source run's frozen identity before any evaluation or replay. A
+matching recomputed output under different code is insufficient policy evidence;
+missing identity also rejects. Tests preserve forged-campaign rejection and prove
+changed/missing runtime rejection before source recomputation. Three focused tests
+pass; mypy clean. This does not introduce a calibration estimator or claim receipt;
+real eligible outcome estimation and economic admission remain unfinished.

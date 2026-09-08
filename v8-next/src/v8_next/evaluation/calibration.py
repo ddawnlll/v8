@@ -11,6 +11,7 @@ from typing import Any
 from v8_next.adapters.accounting_replay import replay_frozen_campaigns
 from v8_next.adapters.engine_state import reconcile_replay
 from v8_next.app.evaluate import evaluate
+from v8_next.app.observe import source_hash
 from v8_next.app.paper import replay_account
 from v8_next.domain.campaign import PaperCampaign
 
@@ -21,8 +22,10 @@ def inspect_calibration_source(run: Path, decision_ns: int) -> dict[str, Any]:
     This is evidence admission, not an estimator or a certificate issuer. No
     forecast value is produced until a complete eligible outcome sample exists.
     """
-    evaluation = evaluate(run)
     frozen = json.loads((run / "policy.json").read_text())
+    if frozen["policy"].get("code_and_lock_hash") != source_hash():
+        raise ValueError("calibration requires the source run frozen runtime")
+    evaluation = evaluate(run)
     checkpoint = json.loads((run / "paper-state.json").read_text())
     if checkpoint["policy_hash"] != evaluation["policy_hash"]:
         raise ValueError("accounting belongs to another policy")
