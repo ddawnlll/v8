@@ -221,3 +221,23 @@ freshness and fixed daily references rather than merely testing helper formulas.
 Historical diagnostics now include 30 stances across sixteen families. These
 remain observations; full campaign, allocation, calibration and prospective
 position-bearing operation are still open requirements.
+
+## CMF/close-count regime and MACD/stochastic
+
+Added `obv_adl_regime` with the actual d/c/b/a priority. Its so-called OBV slope
+is the net sign count over ten close changes (threshold +/-3), not a newly
+implemented OBV estimator. CMF20 and EMA5/20 use native-backed calculations.
+Zero total volume is missing CMF and abstains; the source null-to-zero fallback
+is not copied. Flat individual candles contribute zero signed flow under the
+source convention. Variant d is intentionally asymmetric: oversold CMF below
+-0.15 with close below slow EMA observes LONG; no mirrored d-SHORT is invented.
+Tests exercise every branch and its priority/boundaries, plus computed features.
+
+`macd_stoch_trend` uses EMA12-EMA26, stochastic K14/D3 and a confirmed directional
+K/D run aligned with MACD's sign. The source permits later bars in that run;
+it is not changed to a one-bar crossover. Full stochastic windows and the source
+MACD feature's 34-bar availability are required. A run starting before complete
+D values cannot claim an observed crossing. Flat ranges use the declared neutral
+K=50 convention. Tests cover actual recovery in both directions, flat-price
+abstention and warmup. Historical callbacks now run 32 stances across eighteen
+families, without changing the admitted squeeze policy or certifying economics.
