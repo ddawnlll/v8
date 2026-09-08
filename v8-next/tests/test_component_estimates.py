@@ -76,3 +76,23 @@ def test_component_estimates_do_not_pool_unlike_or_unknown_cohorts(change):
         "EXPLICIT_COHORT_CONDITIONING_REQUIRED",
         "COHORT_IDENTITY_UNAVAILABLE",
     }
+
+
+def test_realized_r_uses_filled_risk_and_keeps_incomplete_cohort_absent():
+    data = sample()
+    for row in data["rows"]:
+        row.update(initial_filled_stop_risk="0.5", net_r=str(2 * int(row["native_net_pnl"])))
+    report = estimate_components(data, decision_ns=30, block_size=2, reps=99, seed=7)
+    r = report["estimates"]["net_r"]
+    nominal = report["estimates"]["net_return_on_entry_notional"]
+    assert r["mean"] == 2 * nominal["mean"]
+    assert r["mean_standard_error"] == 2 * nominal["mean_standard_error"]
+    assert report["eligible_for_utility"] is False
+    data["rows"][0]["net_r"] = "999"
+    with pytest.raises(ValueError, match="realized R"):
+        estimate_components(data, decision_ns=30, block_size=2, reps=99, seed=7)
+    data["rows"][0]["net_r"] = None
+    report = estimate_components(data, decision_ns=30, block_size=2, reps=99, seed=7)
+    assert "net_r" not in report["estimates"]
+    assert report["sample_count"] == 4
+    assert report["r_estimation_status"] == "COMPLETE_PROTECTED_COHORT_REQUIRED"

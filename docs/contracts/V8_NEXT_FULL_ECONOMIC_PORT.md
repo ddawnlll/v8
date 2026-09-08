@@ -2533,3 +2533,16 @@ diagnostic assumptions, not optimized production policy. Log:
 /tmp/v8-stream-positioning.log. Full suite 442 passed; final 20 affected stream
 cases pass after supervisor CLI wiring, Ruff/mypy clean. Economic calibration and
 paper admission remain incomplete.
+
+## Joint uncertainty for realized protected R
+
+Component estimation now includes net_r in the same circular-block resampling
+matrix when every selected campaign supplies its initial filled stop risk and
+realized R. Each R value must exactly reconcile native net cash divided by that
+positive risk. A missing protected outcome suppresses the entire R estimate,
+without selecting only convenient closed/protected rows or changing the nominal
+component cohort. Tests verify joint scaling of means and mean standard errors,
+reject inconsistent R, and preserve missingness. Full suite 443 passed; Ruff and
+mypy (80 source files) clean. This is descriptive realized model R uncertainty,
+not expected utility, a constitutional gate pass or OOS calibration. Strategy/
+regime conditioning and production calibration remain incomplete.

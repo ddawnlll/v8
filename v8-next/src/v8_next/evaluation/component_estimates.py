@@ -48,6 +48,12 @@ def estimate_components(
         raise ValueError("invalid component resampling plan")
     ordered = sorted(rows, key=lambda r: (r["opened_ns"], r["closed_ns"], r["campaign_id"]))
     values = []
+    r_complete = all(
+        r.get("net_r") is not None and r.get("initial_filled_stop_risk") is not None for r in rows
+    )
+    result["r_estimation_status"] = (
+        "COMPLETE_PROTECTED_COHORT" if r_complete else "COMPLETE_PROTECTED_COHORT_REQUIRED"
+    )
     for row in ordered:
         if not row["opened_ns"] <= row["closed_ns"] <= row["observed_ns"] < decision_ns:
             raise ValueError("component evidence reaches future")
@@ -72,7 +78,16 @@ def estimate_components(
             raise ValueError("component cash arithmetic does not reconcile")
         if [v / notional for v in amounts] != [*vector, net]:
             raise ValueError("component fractions do not match native cash amounts")
-        values.append([float(v) for v in (*vector, net)])
+        sample = [float(v) for v in (*vector, net)]
+        if r_complete:
+            risk = Decimal(row["initial_filled_stop_risk"])
+            net_r = Decimal(row["net_r"])
+            if not risk.is_finite() or risk <= 0 or not net_r.is_finite():
+                raise ValueError("invalid realized R denominator or value")
+            if amounts[4] / risk != net_r:
+                raise ValueError("realized R does not match native cash and initial risk")
+            sample.append(float(net_r))
+        values.append(sample)
     matrix = np.asarray(values)
     if not np.isfinite(matrix).all():
         raise ValueError("component conversion overflow")
@@ -82,7 +97,7 @@ def estimate_components(
     standard_errors = means.std(axis=0, ddof=1)
     if not np.isfinite(standard_errors).all():
         raise ValueError("nonfinite component uncertainty")
-    names = (*FIELDS, "net_return_on_entry_notional")
+    names = (*FIELDS, "net_return_on_entry_notional", *(("net_r",) if r_complete else ()))
     return {
         **result,
         "reason": "METHOD_AND_OUT_OF_SAMPLE_QUALIFICATION_REQUIRED",
