@@ -758,3 +758,20 @@ Native tests cover open-position valuation, one mark per bar and unchanged
 prefix equity under a changed future suffix. These diagnostic modeled historical
 marks still need interval-return alignment, explicit research plans and full
 family/OOS integration before qualified benchmark use.
+
+## Complete fixed-capital period losses
+
+Trial output now projects adjacent native equity marks into negative equity
+change divided by fixed initial capital. The first actual mark is the starting
+valuation; no invented pre-data equity or terminal adjustment is added. All
+intervals must have identical duration, currency and callback phase. Missing,
+repeated, nonfinite or unreconciled marks reject. Computation time supplies
+availability, not modeled historical callback time. These are net periodic
+capital contributions, not compounded returns or risk-free-adjusted DSR inputs.
+
+The captured real 499-bar Donchian development replay produced 499 equity marks
+and 498 intervals in /tmp/v8-next-equity-intervals.json. This remains diagnostic
+and promotion-ineligible. Tests cover unrealized gains/losses, fixed denominator,
+actual availability and malformed boundaries. Full suite: 268 tests passed;
+Ruff/mypy clean. Complete-family experiment execution, explicit excess-return
+specification and qualified OOS plans remain required for benchmark integration.

@@ -14,6 +14,7 @@ from v8_next.adapters.historical_trial import HistoricalTrial
 from v8_next.adapters.native_tape import build_engine
 from v8_next.app.observe import source_hash
 from v8_next.domain.config import PaperConfig
+from v8_next.evaluation.equity import equity_losses
 from v8_next.evaluation.outcomes import observed_outcomes
 from v8_next.evaluation.store import ResearchStore, canonical
 
@@ -56,6 +57,10 @@ def run_trial(
                 f"historical trial callback failed: {trial.failure or trial.callback_failure}"
             )
         state = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
+        computed_ns = time.time_ns()
+        losses = equity_losses(
+            trial.equity_marks, capital=policy.initial_balance, computed_ns=computed_ns
+        )
         return {
             **metadata,
             "trial_id": trial_id,
@@ -71,6 +76,17 @@ def run_trial(
             "promotion_eligible": False,
             "account": state,
             "equity_marks": trial.equity_marks,
+            "computed_ns": computed_ns,
+            "period_loss_definition": "NEGATIVE_EQUITY_CHANGE_OVER_FIXED_INITIAL_CAPITAL",
+            "period_losses": [
+                {
+                    "start_ns": row.start_ns,
+                    "end_ns": row.end_ns,
+                    "available_ns": row.available_ns,
+                    "loss": str(row.loss),
+                }
+                for row in losses
+            ],
             "decisions": trial.decisions,
             "campaigns": [c.to_record() for c in trial.campaigns],
             "campaign_observations": trial.campaign_observations(state),
