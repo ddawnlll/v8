@@ -446,3 +446,26 @@ historical prefix invariance. All 28 active TABLE families now have observation
 implementations, plus squeeze, yielding 64 catalog stances. This does not assert
 all variant/campaign semantics or product operation: broader opportunity grammar,
 calibration, portfolio integration and prospective qualification remain open.
+
+## Frozen observer selection reaches native admission
+
+PaperConfig now accepts observer_policy (default squeeze for the existing named
+experiment). `families:donchian-breakout` selects all observations from that
+family; multiple comma-separated family names must be unique and sorted.
+Unknown/empty names reject. Selected stances retain their existing dependency
+groups, so variants cannot manufacture independent votes. The native economic
+adapter now passes the complete selected tuple to reconciliation/admission and
+records it with the policy name. Config and execution policy are frozen before
+capture and checked on restart; explicit baseline replay remains independently
+named. The historical squeeze observation study is still a separate diagnostic.
+Cash trajectory/SPA still compare the explicitly labeled squeeze and baseline,
+not arbitrary selected-family performance; session selection is reported apart.
+
+A real native-engine test boundary now exercises Donchian observation through
+controller admission and native fill using test-only calibration, alongside
+squeeze and baseline. All three reject without calibration and produce no orders
+or positions and unchanged cash. This does not supply production calibration.
+Checks: 197 tests passed before final report-label additions; registry/selection
+and frozen-policy tests included. Opportunity grammar is still the original BTC
+breakout scope. Auxiliary capture ingestion, per-variant selection, broader
+opportunity/regime semantics, campaign geometry and real calibration remain open.

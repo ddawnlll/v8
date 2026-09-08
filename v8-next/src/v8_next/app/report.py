@@ -30,7 +30,7 @@ def report(
         raise ValueError("unsupported frozen baseline definition")
     checkpoint = json.loads((run / "paper-state.json").read_text())
     # The source inspector above verifies these exact captures and the recorded
-    # squeeze decisions. The baseline shares clocks, costs and admission policy.
+    # selected-policy decisions. The baseline shares clocks, costs and admission policy.
     baseline = replay_account(
         [run / name for name in checkpoint["manifests"]],
         frozen["policy"]["paper_config"],
@@ -58,6 +58,7 @@ def report(
     )
     return {
         "schema_version": 1,
+        "execution_observer_policy": frozen["policy"].get("execution_observer_policy", "squeeze"),
         "claim_status": "NO_ECONOMIC_CLAIM",
         "observations": observations,
         "outcomes": outcomes,

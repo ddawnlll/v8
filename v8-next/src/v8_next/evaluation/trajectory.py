@@ -56,6 +56,8 @@ def cash_trajectory(
         previous_ns = cutoff
     return {
         "rows": rows,
+        "comparison_policies": ["breakout_baseline", "squeeze"],
+        "session_execution_policy": config.get("observer_policy", "squeeze"),
         "claim_status": "NO_ECONOMIC_CLAIM",
         "scope": "CAPTURE_PREFIX_CASH_DIAGNOSTIC_NOT_QUALIFIED_LOSS_SAMPLE",
         "initial_cash_change": "0",  # Funded simulator has no events before its first capture.

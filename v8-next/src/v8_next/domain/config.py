@@ -2,7 +2,9 @@
 
 from decimal import Decimal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from v8_next.economics.observer_policy import validate_observer_policy
 
 
 class PaperConfig(BaseModel):
@@ -13,3 +15,10 @@ class PaperConfig(BaseModel):
     initial_balance: Decimal = Field(gt=0)
     max_notional: Decimal = Field(gt=0)
     max_exposure_fraction: Decimal = Field(gt=0, le=1)
+
+    observer_policy: str = "squeeze"
+
+    @field_validator("observer_policy")
+    @classmethod
+    def valid_observer_policy(cls, value: str) -> str:
+        return validate_observer_policy(value)

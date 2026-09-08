@@ -32,9 +32,10 @@ from v8_next.risk.admission import RiskLimits
 
 
 def replay_account(
-    manifests: list[Path], config: dict[str, str], *, observer: str = "squeeze"
+    manifests: list[Path], config: dict[str, str], *, observer: str | None = None
 ) -> dict[str, Any]:
-    PaperConfig.model_validate(config)
+    parsed = PaperConfig.model_validate(config)
+    selected_observer = observer if observer is not None else parsed.observer_policy
     if not manifests:
         raise ValueError("no prospective captures")
     quotes = []
@@ -93,7 +94,7 @@ def replay_account(
                 Decimal(filters["MIN_NOTIONAL"]["notional"]),
             ),
             Decimal(config["max_notional"]),
-            observer=observer,
+            observer=selected_observer,
         )
         engine.add_strategy(strategy)
         engine.add_data(quotes)

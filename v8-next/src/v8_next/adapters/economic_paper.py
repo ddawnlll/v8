@@ -14,10 +14,9 @@ from v8_next.economics.controller import InstrumentConstraints, decide_campaign
 from v8_next.economics.decisions import (
     Opportunity,
     UtilityInputs,
-    observe_breakout_baseline,
-    observe_squeeze,
     opportunity_at,
 )
+from v8_next.economics.observer_policy import policy_stances, validate_observer_policy
 from v8_next.risk.admission import RiskLimits, RiskSnapshot
 
 CalibrationProvider = Callable[[Opportunity, int], tuple[UtilityInputs, bool]]
@@ -40,9 +39,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         observer: str = "squeeze",
     ) -> None:
         super().__init__(())
-        if observer not in {"squeeze", "breakout_baseline"}:
-            raise ValueError("unknown frozen observer comparison")
-        self.observer = observer
+        self.observer = validate_observer_policy(observer)
         self.frames = frames
         self.limits = limits
         self.constraints = constraints
@@ -60,11 +57,13 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         if frame is None:
             return
         opportunity = opportunity_at(frame)
-        observe = observe_squeeze if self.observer == "squeeze" else observe_breakout_baseline
-        stance = observe(frame, opportunity)
+        stances = policy_stances(frame, opportunity, self.observer)
+        stance = stances[0]
         record: dict[str, object] = {
             "decision_ns": quote.ts_init,
             "stance": asdict(stance),
+            "stances": [asdict(s) for s in stances],
+            "observer_policy": self.observer,
             "opportunity": asdict(opportunity) if opportunity else None,
             "claim_status": "NO_ECONOMIC_CLAIM",
         }
@@ -100,7 +99,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             )
             decision = decide_campaign(
                 opportunity,
-                (stance,),
+                stances,
                 utility,
                 snapshot,
                 self.limits,

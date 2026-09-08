@@ -28,7 +28,9 @@ from v8_next.adapters.campaign import PaperCampaign, PaperCampaignAdapter
 from v8_next.adapters.engine_state import economic_state, reconcile_replay
 
 
-def run_qualified_engine(close=False, strategy=None, offset=0, funding_delay=0, final_replay=False):
+def run_qualified_engine(
+    close=False, strategy=None, offset=0, funding_delay=0, final_replay=False, expect_entry=True
+):
     usdt = Currency.from_str("USDT")
     instrument_id = InstrumentId(Symbol("BTCUSDT-PERP"), Venue("BINANCE"))
     instrument = CryptoPerpetual(
@@ -116,6 +118,13 @@ def run_qualified_engine(close=False, strategy=None, offset=0, funding_delay=0, 
             engine.add_data([mark])
         engine.add_data([funding, funding])
         engine.run()
+        if not expect_entry:
+            assert not engine.cache.positions()
+            assert not engine.cache.orders()
+            assert engine.cache.account_for_venue(Venue("BINANCE")).balance_total(
+                usdt
+            ).as_decimal() == Decimal(10000)
+            return economic_state(engine, Venue("BINANCE"), usdt)
         assert len(engine.cache.positions_open()) == (0 if close else 1), [
             (d["reason"], d["stance"]["reason"]) for d in getattr(strategy, "decisions", [])
         ]
@@ -186,8 +195,9 @@ def test_expiry_closes_native_position_and_charges_exit_fee():
     assert Decimal(position["average_close_price"]) == Decimal(10000)
 
 
-@pytest.mark.parametrize("observer", ["squeeze", "breakout_baseline"])
-def test_observer_through_admission_to_native_fill(observer):
+@pytest.mark.parametrize("observer", ["squeeze", "breakout_baseline", "families:donchian-breakout"])
+@pytest.mark.parametrize("verified", [True, False])
+def test_observer_through_admission_to_native_fill(observer, verified):
     from v8_next.adapters.economic_paper import EconomicPaperAdapter
     from v8_next.domain.market import Candle, frame_at
     from v8_next.economics.controller import InstrumentConstraints
@@ -233,12 +243,15 @@ def test_observer_through_admission_to_native_fill(observer):
         RiskLimits(Decimal(1), Decimal("0.1"), Decimal(100), 0),
         InstrumentConstraints(Decimal("0.001"), Decimal("0.001"), Decimal(1), Decimal(1)),
         Decimal(100),
-        calibration,
+        calibration if verified else None,
         observer=observer,
     )
-    state = run_qualified_engine(strategy=strategy, offset=69 * hour)
-    assert len(state["orders"]) == 1
-    assert strategy.decisions[0]["reason"] == "PAPER_CAMPAIGN_ADMITTED"
+    state = run_qualified_engine(strategy=strategy, offset=69 * hour, expect_entry=verified)
+    assert len(state["orders"]) == int(verified)
+    assert strategy.decisions[0]["reason"] == (
+        "PAPER_CAMPAIGN_ADMITTED" if verified else "UNVERIFIED_CALIBRATION"
+    )
+    assert strategy.decisions[0]["observer_policy"] == observer
 
 
 @pytest.mark.parametrize("close", [False, True])
