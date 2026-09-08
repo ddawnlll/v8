@@ -1450,3 +1450,15 @@ historical trial and revised replay carry the indicator rule. Tests cover moving
 current-window extrema, both directions, equality, warmup and serialization.
 Full suite: 368 passing; Ruff/mypy clean. EMA and other remaining validity rules,
 calibration, portfolio and operational qualification remain unfinished.
+
+## EMA trend thesis continuation
+
+Trend pullback now carries ema5-above-ema20 validity; depth combines the same
+live alignment with its frozen confirmed impulse swing low. The calculation
+reuses Polars-backed trend_emas and its existing seed/warmup convention. An intact
+trend can remain valid without a fresh below-EMA entry setup. Fast<=slow invalidates;
+missing warmup remains unknown. Tests separate continued trend from new entry,
+flat alignment failure, structural-depth failure and serialization. Existing
+native/historical/revised replay machinery carries both forms. Full suite passes
+(369 tests), Ruff/mypy clean. This is not completion of all remaining methodology,
+calibration, portfolio or operational requirements.

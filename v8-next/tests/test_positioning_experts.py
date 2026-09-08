@@ -275,3 +275,20 @@ def test_live_channel_validity_uses_prior_window_not_current_wick():
     assert PaperCampaign.from_record(campaign.to_record()) == campaign
     with pytest.raises(ValueError, match="ambiguous"):
         replace(campaign, close_invalidation_price=Decimal(90))
+
+
+def test_ema_validity_does_not_require_a_new_pullback_signal():
+    from v8_next.domain.campaign import PaperCampaign
+
+    frame, _ = context()
+    campaign = PaperCampaign(
+        "c", "o", "i", "LONG", Decimal(1), 1, 200, validity_indicator="ema5-above-ema20"
+    )
+    # Latest close is above the slow EMA: no pullback entry, intact uptrend.
+    assert campaign.invalidated_by_close(frame) is False
+    flat = replace(frame, candles=frame.candles[:-1])
+    assert campaign.invalidated_by_close(flat) is True
+    assert campaign.invalidated_by_close(replace(frame, candles=frame.candles[-19:])) is None
+    depth = replace(campaign, close_invalidation_price=Decimal(103))
+    assert depth.invalidated_by_close(frame) is True
+    assert PaperCampaign.from_record(depth.to_record()) == depth

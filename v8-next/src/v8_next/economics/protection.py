@@ -99,9 +99,9 @@ class CampaignProtection:
 
     def __post_init__(self) -> None:
         if self.validity_indicator is not None and (
-            self.validity_indicator != "kijun26"
+            self.validity_indicator not in {"kijun26", "ema5-above-ema20"}
             or self.live_channel_bars is not None
-            or self.close_invalidation_price is not None
+            or (self.close_invalidation_price is not None and self.validity_indicator == "kijun26")
         ):
             raise ValueError("unknown or ambiguous indicator validity")
         if self.live_channel_bars is not None and (
@@ -170,6 +170,10 @@ def protection_at(
         span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
         if span <= 0:
             return None
+        if family == "trend-depth":
+            _, low_index = significant_swings(frame)
+            assert low_index is not None
+            invalidation_price = frame.candles[low_index].low
         # Active Rust v1 declares one range unit each way, not its alternate
         # v2 structural stop. Execution remains V8-next frozen absolute geometry.
         stop, target = close - sign * span, close + sign * span
@@ -380,5 +384,7 @@ def protection_at(
         target,
         invalidation_price,
         20 if family == "donchian" else None,
-        "kijun26" if family == "ichimoku" else None,
+        "kijun26"
+        if family == "ichimoku"
+        else ("ema5-above-ema20" if family in {"trend-pullback", "trend-depth"} else None),
     )
