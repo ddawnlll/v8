@@ -1286,7 +1286,8 @@ def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse,
         engine.dispose()
 
 
-def test_historical_native_generates_two_protected_instrument_campaigns():
+@pytest.mark.parametrize("requested", ["100", "6000"])
+def test_historical_native_generates_two_protected_instrument_campaigns(requested):
     from nautilus_trader.model import Bar, BarType
 
     from v8_next.adapters.historical_trial import HistoricalTrial
@@ -1320,8 +1321,8 @@ def test_historical_native_generates_two_protected_instrument_campaigns():
         maker_fee=".001",
         taker_fee=".001",
         initial_balance="10000",
-        max_notional="100",
-        max_exposure_fraction=".1",
+        max_notional=requested,
+        max_exposure_fraction=".9",
         observer_policy="families:donchian-breakout",
         grammar_policy="trend-continuation-v2",
         campaign_policy="donchian:a:v2",
@@ -1385,8 +1386,14 @@ def test_historical_native_generates_two_protected_instrument_campaigns():
         assert len(engine.cache.positions_open()) == 2
         assert len(trial.equity_marks) == 28
         assert all(
-            c.quantity * max(c.stop_price, c.target_price) <= Decimal(100) for c in trial.campaigns
+            c.quantity * max(c.stop_price, c.target_price) <= Decimal(requested)
+            for c in trial.campaigns
         )
+        assert sum(
+            c.quantity * max(c.stop_price, c.target_price) for c in trial.campaigns
+        ) <= Decimal(10000)
+        if requested == "6000":
+            assert trial.campaigns[1].quantity < trial.campaigns[0].quantity
         assert all(
             event["event_ns"]
             > next(

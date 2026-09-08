@@ -2091,3 +2091,12 @@ and its fixtures to the inspected native API. Both generated positions remain
 open and each respects its protected notional bound. Full suite: 402 passed;
 Ruff clean. Test data remains isolated; this establishes historical experimental
 integration, not calibrated paper or live operation.
+
+## Generated portfolio shared-capital exhaustion
+
+The generated BTC/ETH native trial now also requests 6000 per opportunity against
+10000 shared capital (90% individual exposure cap). The second admitted quantity
+is smaller and combined protected-band notional stays within 10000; both campaigns
+still fill under the native fixture. The ordinary 100-per-opportunity case also
+passes. Two focused integration cases and Ruff pass. This tests budget sharing,
+not risk-free loss bounds or real-world margin qualification.
