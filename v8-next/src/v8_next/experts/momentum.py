@@ -7,7 +7,7 @@ import polars as pl
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
-from v8_next.experts.features import close_series, trend_emas
+from v8_next.experts.features import close_series, macd_line, trend_emas
 
 
 def regime_hit(
@@ -95,9 +95,7 @@ def observe_macd_stoch(frame: CausalFrame, opportunity: Opportunity | None) -> S
             .alias("k")
         )["k"]
         d = k.rolling_mean(3)
-        macd = numeric(
-            (closes.ewm_mean(span=12, adjust=False) - closes.ewm_mean(span=26, adjust=False))[-1]
-        )
+        macd = macd_line(frame)
         above = macd > 0
         mask = ((k > d) if above else (k < d)).fill_null(False)
         reason = "NO_CONFIRMED_STOCH_RUN"

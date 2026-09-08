@@ -99,9 +99,12 @@ class CampaignProtection:
 
     def __post_init__(self) -> None:
         if self.validity_indicator is not None and (
-            self.validity_indicator not in {"kijun26", "ema5-above-ema20"}
+            self.validity_indicator not in {"kijun26", "ema5-above-ema20", "macd-zero"}
             or self.live_channel_bars is not None
-            or (self.close_invalidation_price is not None and self.validity_indicator == "kijun26")
+            or (
+                self.close_invalidation_price is not None
+                and self.validity_indicator != "ema5-above-ema20"
+            )
         ):
             raise ValueError("unknown or ambiguous indicator validity")
         if self.live_channel_bars is not None and (
@@ -393,5 +396,11 @@ def protection_at(
         20 if family == "donchian" else None,
         "kijun26"
         if family == "ichimoku"
-        else ("ema5-above-ema20" if family in {"trend-pullback", "trend-depth"} else None),
+        else (
+            "ema5-above-ema20"
+            if family in {"trend-pullback", "trend-depth"}
+            else "macd-zero"
+            if family == "macd-stoch"
+            else None
+        ),
     )

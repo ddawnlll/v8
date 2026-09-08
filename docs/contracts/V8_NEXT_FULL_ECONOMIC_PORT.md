@@ -1472,3 +1472,14 @@ protective stop. Existing native exit and replay paths consume the serialized
 levels; tests assert the references alongside unchanged risk geometry. Full suite
 passes (369 tests), Ruff/mypy clean. MACD's live zero-line rule remains separate
 and is not approximated by these structural references.
+
+## Shared MACD zero-line validity
+
+MACD/stochastic campaign validity now holds long only above zero and short only
+below zero, as source still_valid specifies. A shared macd_line calculation serves
+both entry observation and continuation; Polars EMA12/26 use existing first-close
+seeding and the source state.rs 34-bar availability gate. Zero invalidates both
+directions; incomplete windows remain unknown. The serialized indicator routes
+through existing native/historical/revised replay paths without requiring another
+stochastic entry run. Full suite passes (371 tests), Ruff/mypy clean. Broader
+remaining economic requirements are not completed by this change.

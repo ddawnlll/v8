@@ -292,3 +292,17 @@ def test_ema_validity_does_not_require_a_new_pullback_signal():
     depth = replace(campaign, close_invalidation_price=Decimal(103))
     assert depth.invalidated_by_close(frame) is True
     assert PaperCampaign.from_record(depth.to_record()) == depth
+
+
+@pytest.mark.parametrize("side", ["LONG", "SHORT"])
+def test_macd_zero_validity_and_warmup(side):
+    from v8_next.domain.campaign import PaperCampaign
+
+    frame, _ = context()
+    campaign = PaperCampaign(
+        "c", "o", "i", side, Decimal(1), 1, 200, validity_indicator="macd-zero"
+    )
+    assert campaign.invalidated_by_close(frame) is (side == "SHORT")
+    assert campaign.invalidated_by_close(replace(frame, candles=frame.candles[:-1])) is True
+    assert campaign.invalidated_by_close(replace(frame, candles=frame.candles[-33:])) is None
+    assert PaperCampaign.from_record(campaign.to_record()) == campaign

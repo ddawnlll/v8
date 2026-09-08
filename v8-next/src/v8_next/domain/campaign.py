@@ -31,9 +31,12 @@ class PaperCampaign:
             raise ValueError("invalid campaign expiry")
 
         if self.validity_indicator is not None and (
-            self.validity_indicator not in {"kijun26", "ema5-above-ema20"}
+            self.validity_indicator not in {"kijun26", "ema5-above-ema20", "macd-zero"}
             or self.live_channel_bars is not None
-            or (self.close_invalidation_price is not None and self.validity_indicator == "kijun26")
+            or (
+                self.close_invalidation_price is not None
+                and self.validity_indicator != "ema5-above-ema20"
+            )
         ):
             raise ValueError("unknown or ambiguous indicator validity")
         if self.live_channel_bars is not None and (
@@ -74,6 +77,12 @@ class PaperCampaign:
         if candle.end_ns <= self.decision_ns:
             return None
         sign = 1 if self.direction == "LONG" else -1
+        if self.validity_indicator == "macd-zero":
+            from v8_next.experts.features import macd_line
+
+            if len(frame.candles) < 34:
+                return None
+            return macd_line(frame) * sign <= 0
         reference = self.close_invalidation_price
         if self.validity_indicator == "ema5-above-ema20":
             from v8_next.experts.features import trend_emas

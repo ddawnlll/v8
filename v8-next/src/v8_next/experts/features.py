@@ -93,3 +93,13 @@ def significant_swings(frame: CausalFrame, strength: int = 10) -> tuple[int | No
         indices = (mask & (ranges >= threshold)).fill_null(False).arg_true()
         found.append(int(indices[-1]) if len(indices) else None)
     return found[0], found[1]
+
+
+def macd_line(frame: CausalFrame) -> float:
+    """Source 34-bar availability; first-close EMA12 minus EMA26."""
+    if len(frame.candles) < 34:
+        raise ValueError("MACD requires 34 bars")
+    closes = close_series(frame)
+    return numeric(
+        (closes.ewm_mean(span=12, adjust=False) - closes.ewm_mean(span=26, adjust=False))[-1]
+    )
