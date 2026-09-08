@@ -71,6 +71,13 @@ def test_real_pivot_feature_to_reclaim_and_projection_both_directions(
         frame, replace(opportunity, direction=direction), policy, Decimal(".01")
     )
     assert protection is not None
+    impulse = fib_impulse(frame)
+    expected = (
+        impulse.retracement(Decimal(".786"))
+        if observer is observe_fib_retracement
+        else impulse.extension(Decimal("1.618"))
+    )
+    assert protection.close_invalidation_price == expected
     span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
     assert 0 <= span - abs(Decimal(close) - protection.stop_price) < Decimal(".01")
     assert 0 <= span - abs(protection.target_price - Decimal(close)) < Decimal(".01")

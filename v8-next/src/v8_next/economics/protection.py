@@ -21,7 +21,7 @@ from v8_next.experts.confluence import observe_confluence
 from v8_next.experts.divergence import observe_divergence
 from v8_next.experts.failed_moves import observe_failed_move
 from v8_next.experts.features import significant_swings
-from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
+from v8_next.experts.fibonacci import fib_impulse, observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.ichimoku import observe_ichimoku
 from v8_next.experts.levels import (
@@ -180,6 +180,14 @@ def protection_at(
             prior = frame.candles[-21:-1]
             invalidation_price = (
                 max(c.high for c in prior) if sign == 1 else min(c.low for c in prior)
+            )
+        if family in {"fib-retracement", "fib-projection"}:
+            impulse = fib_impulse(frame)
+            assert impulse is not None
+            invalidation_price = (
+                impulse.retracement(Decimal(".786"))
+                if family == "fib-retracement"
+                else impulse.extension(Decimal("1.618"))
             )
         if family == "trend-depth":
             _, low_index = significant_swings(frame)

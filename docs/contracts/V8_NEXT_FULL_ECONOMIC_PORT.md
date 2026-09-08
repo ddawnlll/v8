@@ -1506,3 +1506,13 @@ references, not tick-rounded stops, feed shared campaign close validity. Tests
 cover breakout variants in both directions and mirrored fade outer bands. Full
 suite passes (373 tests), Ruff/mypy clean. No additional inactive fade variant
 or complete economic-operation claim is introduced.
+
+## Fibonacci continuation references
+
+Active retracement campaigns retain the confirmed impulse's 78.6% retracement
+as the invalidation level; projection reversals retain the rejected 161.8%
+extension. Both follow source still_valid and use the same confirmed impulse as
+observation, distinct from active one-range stops. Controller and native/revised
+replay already serialize/evaluate these references. Relevant tests verify exact
+levels and directional setups (4 passed); Ruff/mypy clean. Confluence has mixed
+strict/non-strict boundary and oscillator conditions and remains separate work.
