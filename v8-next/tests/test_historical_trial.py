@@ -7,6 +7,69 @@ from v8_next.domain.config import PaperConfig
 from v8_next.evaluation.store import ResearchStore
 
 
+def test_native_warmup_accumulates_history_without_selection(monkeypatch):
+    from decimal import Decimal as D
+
+    from nautilus_trader.model import Bar, BarType, Price, Quantity
+    from test_native_engine import run_qualified_engine
+
+    from v8_next.adapters.historical_trial import HistoricalTrial
+    from v8_next.domain.market import Candle
+
+    hour = 3600 * 10**9
+    instrument = "BTCUSDT-PERP.BINANCE"
+    source = tuple(
+        Candle(
+            instrument,
+            i * hour,
+            (i + 1) * hour,
+            D(10000),
+            D(10001),
+            D(9999),
+            D(10000),
+            D(1),
+            (i + 1) * hour,
+            None,
+            "test-only",
+        )
+        for i in range(4)
+    )
+    bars = [
+        Bar(
+            BarType.from_str(instrument + "-1-HOUR-LAST-EXTERNAL"),
+            Price.from_str("10000.00"),
+            Price.from_str("10001.00"),
+            Price.from_str("9999.00"),
+            Price.from_str("10000.00"),
+            Quantity.from_str("1.000"),
+            c.end_ns,
+            c.end_ns,
+        )
+        for c in source
+    ]
+    seen = []
+
+    def grammar(frame, policy):
+        seen.append((frame.decision_ns, len(frame.candles)))
+        return None
+
+    monkeypatch.setattr("v8_next.adapters.historical_trial.grammar_opportunity", grammar)
+    policy = PaperConfig(
+        maker_fee="0",
+        taker_fee="0",
+        initial_balance="10000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+    )
+    trial = HistoricalTrial(source, policy, selection_start_ns=3 * hour, selection_end_ns=4 * hour)
+    state = run_qualified_engine(strategy=trial, bar_data=bars, standard_assertions=False)
+    assert trial.failure is None
+    assert seen == [(3 * hour, 3)]
+    assert [r["reason"] for r in trial.decisions[:2]] == ["WARMUP_ONLY_SELECTION_NOT_STARTED"] * 2
+    assert trial.decisions[-1]["reason"] == "FOLLOWUP_ONLY_SELECTION_CLOSED"
+    assert not state["orders"] and not trial.campaigns
+
+
 def test_development_trial_cannot_consume_registered_holdout(tmp_path):
     manifest = tmp_path / "holdout.json"
     manifest.write_text("{}")

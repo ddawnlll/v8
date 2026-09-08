@@ -27,13 +27,25 @@ def run_forward(manifest: Path, store: ResearchStore, plan_id: str) -> dict[str,
             or hashlib.sha256(manifest.read_bytes()).hexdigest() != dataset_hash
         ):
             raise ValueError("forward input/runtime changed during execution")
-        result = _run_trial(manifest, policy, store, "forward:" + plan_id, "HOLDOUT")
+        result = _run_trial(
+            manifest,
+            policy,
+            store,
+            "forward:" + plan_id,
+            "HOLDOUT",
+            selection_start_ns=plan.start_ns,
+            selection_end_ns=plan.end_ns,
+        )
         if result["frozen_policy"]["code_and_lock_hash"] != code_hash:
             raise ValueError("forward runtime changed during trial")
         results[name] = result
     losses = {
         name: equity_losses(
-            result["equity_marks"],
+            [
+                mark
+                for mark in result["equity_marks"]
+                if plan.start_ns <= mark["end_ns"] <= plan.end_ns
+            ],
             capital=plan.policies[name].initial_balance,
             computed_ns=result["computed_ns"],
         )
@@ -53,6 +65,12 @@ def run_forward(manifest: Path, store: ResearchStore, plan_id: str) -> dict[str,
     return {
         "plan_id": plan_id,
         "dataset_hash": dataset_hash,
+        "selection_window": {
+            "start_ns": plan.start_ns,
+            "end_ns": plan.end_ns,
+            "interval": "[start,end)",
+        },
+        "warmup_bars": plan.warmup_bars,
         "scope": "PREREGISTERED_FORWARD_WINDOW_MODELED_REPLAY",
         "claim_status": "NO_ECONOMIC_CLAIM",
         "promotion_eligible": False,

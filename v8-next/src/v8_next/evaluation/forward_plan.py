@@ -22,12 +22,15 @@ class ForwardPlan(BaseModel):
     block_size: StrictInt = Field(gt=0)
     reps: StrictInt = Field(ge=2)
     seed: StrictInt = Field(ge=0)
+    warmup_bars: StrictInt = Field(default=0, ge=0)
 
     @model_validator(mode="after")
     def valid(self) -> Self:
         hour = 3600 * 10**9
         if self.start_ns >= self.end_ns or self.start_ns % hour or self.end_ns % hour:
             raise ValueError("explicit ordered hourly forward boundaries required")
+        if self.start_ns - self.warmup_bars * hour < 0:
+            raise ValueError("warmup extends before source epoch")
         if self.baseline not in self.policies or any(not k.strip() for k in self.policies):
             raise ValueError("named policies and a member baseline required")
         if self.block_size >= (self.end_ns - self.start_ns) // hour - 1:
@@ -108,12 +111,13 @@ def bind_forward_data(
         if not row[2] < plan.start_ns < plan.end_ns <= now:
             raise ValueError("forward observation window not completed or not preregistered")
         hour = 3600 * 10**9
-        if len(candles) != (plan.end_ns - plan.start_ns) // hour:
+        source_start = plan.start_ns - plan.warmup_bars * hour
+        if len(candles) != (plan.end_ns - source_start) // hour:
             raise ValueError("incomplete forward source window")
         for i, candle in enumerate(candles):
             if (
                 candle.instrument_id != plan.instrument_id
-                or candle.start_ns != plan.start_ns + i * hour
+                or candle.start_ns != source_start + i * hour
                 or candle.end_ns != candle.start_ns + hour
             ):
                 raise ValueError("forward source identity or chronology mismatch")

@@ -32,6 +32,7 @@ def run_trial(
     accounting_as_of_ns: int | None = None,
     component_plan: tuple[int, int, int] | None = None,
     selection_end_ns: int | None = None,
+    selection_start_ns: int | None = None,
 ) -> dict[str, Any]:
     return _run_trial(
         manifest,
@@ -43,6 +44,7 @@ def run_trial(
         accounting_as_of_ns=accounting_as_of_ns,
         component_plan=component_plan,
         selection_end_ns=selection_end_ns,
+        selection_start_ns=selection_start_ns,
     )
 
 
@@ -57,6 +59,7 @@ def _run_trial(
     accounting_as_of_ns: int | None = None,
     component_plan: tuple[int, int, int] | None = None,
     selection_end_ns: int | None = None,
+    selection_start_ns: int | None = None,
 ) -> dict[str, Any]:
     if not family.strip():
         raise ValueError("explicit research family required")
@@ -75,6 +78,12 @@ def _run_trial(
         type(selection_end_ns) is not int or selection_end_ns <= 0
     ):
         raise ValueError("invalid campaign selection cutoff")
+    if selection_start_ns is not None and (
+        type(selection_start_ns) is not int
+        or selection_start_ns < 0
+        or (selection_end_ns is not None and selection_start_ns >= selection_end_ns)
+    ):
+        raise ValueError("invalid campaign selection start")
     manifests = (manifest, *additional_manifests)
     portfolio = bool(additional_manifests)
     if portfolio and (accounting_as_of_ns is None or not 0 < accounting_as_of_ns <= time.time_ns()):
@@ -102,6 +111,8 @@ def _run_trial(
     }
     if selection_end_ns is not None:
         frozen["selection_end_ns"] = selection_end_ns
+    if selection_start_ns is not None:
+        frozen["selection_start_ns"] = selection_start_ns
     if component_plan is not None:
         frozen["component_plan"] = dict(
             zip(("block_size", "reps", "seed"), component_plan, strict=True)
@@ -163,7 +174,12 @@ def _run_trial(
             manifest, policy.maker_fee, policy.taker_fee, policy.initial_balance
         )
     try:
-        trial = HistoricalTrial(candles, policy, selection_end_ns=selection_end_ns)
+        trial = HistoricalTrial(
+            candles,
+            policy,
+            selection_end_ns=selection_end_ns,
+            selection_start_ns=selection_start_ns,
+        )
         engine.add_strategy(trial)
         engine.run()
         if trial.failure is not None or trial.callback_failure is not None:

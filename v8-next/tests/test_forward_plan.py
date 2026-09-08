@@ -54,6 +54,43 @@ def test_invalid_family_and_time_plan_reject():
     payload["baseline"] = "missing"
     with pytest.raises(ValueError):
         ForwardPlan.model_validate(payload)
+
+
+def test_forward_warmup_is_frozen_and_requires_complete_source(tmp_path, monkeypatch):
+    from decimal import Decimal
+
+    from v8_next.domain.market import Candle
+    from v8_next.evaluation.forward_plan import bind_forward_data
+
+    payload = plan().model_dump()
+    payload["warmup_bars"] = 5
+    planned = ForwardPlan.model_validate(payload)
+    monkeypatch.setattr("v8_next.evaluation.forward_plan.time.time_ns", lambda: HOUR)
+    store = ResearchStore(tmp_path / "warmup.sqlite")
+    try:
+        freeze_forward_plan(store, "warm", planned, "code")
+        candles = tuple(
+            Candle(
+                planned.instrument_id,
+                i * HOUR,
+                (i + 1) * HOUR,
+                Decimal(10),
+                Decimal(11),
+                Decimal(9),
+                Decimal(10),
+                Decimal(1),
+                21 * HOUR,
+                None,
+                "test-only",
+            )
+            for i in range(5, 20)
+        )
+        monkeypatch.setattr("v8_next.evaluation.forward_plan.time.time_ns", lambda: 21 * HOUR)
+        with pytest.raises(ValueError, match="incomplete"):
+            bind_forward_data(store, "warm", "missing", candles[5:], "code")
+        assert bind_forward_data(store, "warm", "complete", candles, "code") == planned
+    finally:
+        store.close()
     payload = plan().model_dump()
     payload["end_ns"] = payload["start_ns"]
     with pytest.raises(ValueError):
@@ -135,7 +172,9 @@ def test_forward_runner_executes_every_frozen_policy_with_holdout_role(tmp_path,
     monkeypatch.setattr("v8_next.evaluation.forward_plan.time.time_ns", lambda: 21 * HOUR)
     calls = []
 
-    def trial(manifest, policy, store, family, role):
+    def trial(manifest, policy, store, family, role, *, selection_start_ns, selection_end_ns):
+        assert selection_start_ns == 10 * HOUR
+        assert selection_end_ns == 20 * HOUR
         calls.append((policy.observer_policy, family, role))
         scale = int(policy.observer_policy == "breakout_baseline")
         marks = [

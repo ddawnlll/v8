@@ -1,5 +1,29 @@
 # V8-next full economic port
 
+## Warmup separated from forward economic selection
+
+ForwardPlan now freezes optional warmup_bars (default zero for existing plans).
+Source binding requires the complete contiguous warmup plus observation window;
+history cannot silently grow or shift after registration. HistoricalTrial accepts
+a frozen selection_start_ns and selection_end_ns: pre-start bars update causal
+history without grammar/campaign selection; the end remains exclusive and later
+bars can only manage existing campaigns. Trial identity includes both boundaries.
+The forward runner passes these boundaries and computes comparison losses from
+equity marks inside the declared window, excluding warmup cash observations.
+This enables warmed experts at the start of a preregistered forward experiment;
+it remains a native bar-model diagnostic, not calibrated utility or live authority.
+
+Real existing BTC capture (499 bars) ran with the first 99 callbacks warmup-only,
+selection from 1787446800000000000 to 1788706800000000000 exclusive and later
+followup-only callbacks. One baseline campaign was selected inside the bounds;
+no trade was forced. Result and local registry:
+/var/folders/db/04433_v94tv8xpr31czl2j200000gn/T/v8-selection-window-2asueu_0.
+This is historical diagnostic evidence, not a new prospective experiment. The
+fees .0002/.0005 and 10000 initial capital are explicit simulation assumptions.
+Native tests verify warmup callbacks do not reach grammar and the first eligible
+callback sees accumulated history. Frozen-plan tests reject missing warmup.
+493 tests passed; Ruff/mypy clean. Full economic operation remains unfinished.
+
 ## Handoff correction and native-backed regime integration
 
 The external agent's GOAL_COMPLETE report is rejected: its inspector still always

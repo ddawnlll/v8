@@ -40,6 +40,7 @@ class HistoricalTrial(PaperCampaignAdapter):
         policy: PaperConfig,
         *,
         selection_end_ns: int | None = None,
+        selection_start_ns: int | None = None,
     ) -> None:
         super().__init__(())
         self.source = {(c.instrument_id, c.end_ns): c for c in source}
@@ -52,6 +53,13 @@ class HistoricalTrial(PaperCampaignAdapter):
             type(selection_end_ns) is not int or selection_end_ns <= 0
         ):
             raise ValueError("invalid campaign selection cutoff")
+        if selection_start_ns is not None and (
+            type(selection_start_ns) is not int
+            or selection_start_ns < 0
+            or (selection_end_ns is not None and selection_start_ns >= selection_end_ns)
+        ):
+            raise ValueError("invalid campaign selection start")
+        self.selection_start_ns = selection_start_ns
         self.selection_end_ns = selection_end_ns
         self.policy = policy
         self.decisions: list[dict[str, Any]] = []
@@ -96,6 +104,17 @@ class HistoricalTrial(PaperCampaignAdapter):
         prefix = self.prefixes[candle.instrument_id]
         prefix.append(replace(candle, available_ns=candle.end_ns))
         frame = frame_at(candle.instrument_id, bar.ts_init, tuple(prefix))
+        if self.selection_start_ns is not None and bar.ts_init < self.selection_start_ns:
+            self.decisions.append(
+                dict(
+                    decision_ns=bar.ts_init,
+                    opportunity=None,
+                    authority="OFFLINE_COUNTERFACTUAL",
+                    claim_status="NO_ECONOMIC_CLAIM",
+                    reason="WARMUP_ONLY_SELECTION_NOT_STARTED",
+                )
+            )
+            return
         self.observe_validity(frame)
         # Prior decisions execute no earlier than the NEXT real bar close. The
         # native bar model supplies fills; no synthetic QuoteTick is constructed.
