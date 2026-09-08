@@ -48,6 +48,8 @@ def decide_campaign(
     claims. The app must supply it only from the calibration verification boundary.
     Until that boundary exists, production callers must leave it false.
     """
+    if opportunity.identity_status != "CANONICAL" or opportunity.direction not in {"LONG", "SHORT"}:
+        return CampaignDecision("UNRESOLVED_OPPORTUNITY_IDENTITY")
     if opportunity.opportunity_id in already_allocated:
         return CampaignDecision("DUPLICATE_OPPORTUNITY")
     if decision_ns < opportunity.anchor_ns:

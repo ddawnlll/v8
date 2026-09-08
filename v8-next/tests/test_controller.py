@@ -6,8 +6,11 @@ from v8_next.economics.decisions import Opportunity, Stance, StanceKind, Utility
 from v8_next.risk.admission import RiskLimits, RiskSnapshot
 
 
-def decision(*, verified=True, allocated=frozenset(), stance_ns=10, expires=100):
+def decision(
+    *, verified=True, allocated=frozenset(), stance_ns=10, expires=100, identity="CANONICAL"
+):
     opportunity = Opportunity("o", "btc", "BTCUSDT-PERP.BINANCE", "LONG", 1, expires)
+    opportunity = replace(opportunity, identity_status=identity)
     stance = Stance("observer", "group", StanceKind.SUPPORT, "setup", "o", stance_ns)
     return decide_campaign(
         opportunity,
@@ -35,3 +38,8 @@ def test_missing_authority_future_evidence_and_expiry_reject():
     assert decision(verified=False).reason == "UNVERIFIED_CALIBRATION"
     assert decision(stance_ns=11).reason == "FUTURE_EVIDENCE"
     assert decision(expires=10).reason == "EXPIRED"
+
+
+def test_ambiguous_identity_cannot_be_overridden_by_calibration():
+    for identity in ("AMBIGUOUS", "UNKNOWN"):
+        assert decision(identity=identity).reason == "UNRESOLVED_OPPORTUNITY_IDENTITY"

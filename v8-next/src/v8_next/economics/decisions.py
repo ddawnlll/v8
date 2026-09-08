@@ -35,6 +35,7 @@ class Opportunity:
     anchor_ns: int
     expires_ns: int
     grammar_version: str = "range-breakout-48-v1"
+    identity_status: str = "CANONICAL"
 
 
 @dataclass(frozen=True)

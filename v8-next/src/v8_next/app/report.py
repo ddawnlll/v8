@@ -58,6 +58,9 @@ def report(
     )
     return {
         "schema_version": 1,
+        "execution_grammar_policy": frozen["policy"].get(
+            "execution_grammar_policy", "range-breakout-48-v1"
+        ),
         "execution_observer_policy": frozen["policy"].get("execution_observer_policy", "squeeze"),
         "claim_status": "NO_ECONOMIC_CLAIM",
         "observations": observations,

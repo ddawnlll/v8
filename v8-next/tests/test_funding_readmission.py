@@ -9,7 +9,7 @@ from v8_next.economics.decisions import Opportunity, Stance, StanceKind
 def test_closed_position_blocks_calibration_and_readmission(monkeypatch):
     opportunity = Opportunity("next", "exposure", "BTCUSDT-PERP.BINANCE", "LONG", 1, 100)
     stance = Stance("observer", "group", StanceKind.SUPPORT, "test", "next", 10)
-    monkeypatch.setattr(economic_paper, "opportunity_at", lambda _: opportunity)
+    monkeypatch.setattr(economic_paper, "grammar_opportunity", lambda *_: opportunity)
     monkeypatch.setattr(economic_paper, "policy_stances", lambda *_: (stance,))
     monkeypatch.setattr(economic_paper.PaperCampaignAdapter, "on_quote", lambda *_: None)
 

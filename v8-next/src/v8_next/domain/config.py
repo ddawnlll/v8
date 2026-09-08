@@ -4,6 +4,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from v8_next.economics.grammar import POLICIES
 from v8_next.economics.observer_policy import validate_observer_policy
 
 
@@ -22,3 +23,12 @@ class PaperConfig(BaseModel):
     @classmethod
     def valid_observer_policy(cls, value: str) -> str:
         return validate_observer_policy(value)
+
+    grammar_policy: str = "range-breakout-48-v1"
+
+    @field_validator("grammar_policy")
+    @classmethod
+    def valid_grammar(cls, value: str) -> str:
+        if value not in POLICIES:
+            raise ValueError("unknown opportunity grammar")
+        return value

@@ -59,6 +59,9 @@ def initialize(run: Path, paper_config: dict[str, str] | None = None) -> dict[st
         "code_and_lock_hash": source_hash(),
         "instrument": "BTCUSDT-PERP.BINANCE",
         "observer": "squeeze-observer-v1",
+        "execution_grammar_policy": (paper_config or {}).get(
+            "grammar_policy", "range-breakout-48-v1"
+        ),
         "execution_observer_policy": (paper_config or {}).get("observer_policy", "squeeze"),
         "baseline": "range-breakout-without-compression-v1",
         "mode": "PROSPECTIVE_DECISION_OBSERVATION",

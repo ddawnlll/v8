@@ -197,7 +197,8 @@ def test_expiry_closes_native_position_and_charges_exit_fee():
 
 @pytest.mark.parametrize("observer", ["squeeze", "breakout_baseline", "families:donchian-breakout"])
 @pytest.mark.parametrize("verified", [True, False])
-def test_observer_through_admission_to_native_fill(observer, verified):
+@pytest.mark.parametrize("grammar", ["range-breakout-48-v1", "trend-continuation-v2"])
+def test_observer_through_admission_to_native_fill(observer, verified, grammar):
     from v8_next.adapters.economic_paper import EconomicPaperAdapter
     from v8_next.domain.market import Candle, frame_at
     from v8_next.economics.controller import InstrumentConstraints
@@ -245,6 +246,7 @@ def test_observer_through_admission_to_native_fill(observer, verified):
         Decimal(100),
         calibration if verified else None,
         observer=observer,
+        grammar=grammar,
     )
     state = run_qualified_engine(strategy=strategy, offset=69 * hour, expect_entry=verified)
     assert len(state["orders"]) == int(verified)

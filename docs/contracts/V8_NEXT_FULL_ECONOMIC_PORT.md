@@ -469,3 +469,36 @@ Checks: 197 tests passed before final report-label additions; registry/selection
 and frozen-policy tests included. Opportunity grammar is still the original BTC
 breakout scope. Auxiliary capture ingestion, per-variant selection, broader
 opportunity/regime semantics, campaign geometry and real calibration remain open.
+
+## Independent G0–G3 grammar policies
+
+Added individually selectable `volatility-extreme-v2`, `trend-continuation-v2`,
+`mean-reversion-v2`, `compression-expansion-v2` alongside the old range grammar.
+They port the actual predicates from v8-core/src/opportunity/grammar.rs:
+G0 current-inclusive population z20 >=1.8 with .3 ambiguity band; G1 SMA8/24
+alignment and directional current close beyond fast SMA; G2 mean20 +/-2.2 mean
+range14 with a reversal close; G3 current mean range14 in the lower quartile of
+49 range observations and absolute one-bar return >.008. These are frozen
+hypothesis thresholds, not hardcoded computed metrics. No expert signals or
+performance outputs enter grammar generation. BasisDislocation had an enum but
+no detector in this Rust source and is not claimed ported.
+
+V2 deliberately removes the source's missing-ATR fallback to 1% of price and
+its epsilon-created dispersion. Compression needs all 49 complete range14
+observations (62 bars). G0 emits UNKNOWN neutral and AMBIGUOUS near-boundary
+records; neither may reach execution even with calibrated inputs. Horizon uses
+actual regular bar duration (G0 48/neutral4, G1 24, G2 12, G3 24), not an implicit
+one-hour multiplier. Anchor remains market candle close, distinct from receipt
+clock. Grammar/version, duration, direction and exposure participate in identity.
+These are newly versioned measurement coordinates, not legacy identity parity.
+
+Paper replay reads grammar_policy from frozen config; native integration tests
+exercise both old range and new trend grammars with squeeze, baseline and
+Donchian observers, with/without test-only calibration. The no-filter baseline
+uses the same selected grammar; its legacy identifier remains breakout_baseline,
+so reports explicitly carry execution_grammar_policy. Historical observation
+rows remain the separate old range/squeeze study, not selected-policy outcomes.
+209 tests pass, Ruff and mypy clean. G2 tests demonstrate reversion episodes
+without a channel breakout. Full simultaneous modular grammar/book arbitration,
+multi-instrument exposure, calibration and portfolio/campaign behavior remain
+open; this adds selectable independent economic episode types, not those layers.

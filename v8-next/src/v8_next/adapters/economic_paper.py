@@ -14,8 +14,8 @@ from v8_next.economics.controller import InstrumentConstraints, decide_campaign
 from v8_next.economics.decisions import (
     Opportunity,
     UtilityInputs,
-    opportunity_at,
 )
+from v8_next.economics.grammar import POLICIES, grammar_opportunity
 from v8_next.economics.observer_policy import policy_stances, validate_observer_policy
 from v8_next.risk.admission import RiskLimits, RiskSnapshot
 
@@ -37,9 +37,13 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         calibration: CalibrationProvider | None = None,
         *,
         observer: str = "squeeze",
+        grammar: str = "range-breakout-48-v1",
     ) -> None:
         super().__init__(())
         self.observer = validate_observer_policy(observer)
+        if grammar not in POLICIES:
+            raise ValueError("unknown opportunity grammar")
+        self.grammar = grammar
         self.frames = frames
         self.limits = limits
         self.constraints = constraints
@@ -56,8 +60,15 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         frame = self.frames.get(quote.ts_init)
         if frame is None:
             return
-        opportunity = opportunity_at(frame)
-        stances = policy_stances(frame, opportunity, self.observer)
+        opportunity = grammar_opportunity(frame, self.grammar)
+        resolved = (
+            opportunity
+            if opportunity
+            and opportunity.identity_status == "CANONICAL"
+            and opportunity.direction in {"LONG", "SHORT"}
+            else None
+        )
+        stances = policy_stances(frame, resolved, self.observer)
         stance = stances[0]
         record: dict[str, object] = {
             "decision_ns": quote.ts_init,
@@ -71,6 +82,8 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             record["reason"] = "STALE_DATA"
         elif opportunity is None:
             record["reason"] = stance.reason
+        elif resolved is None:
+            record["reason"] = "UNRESOLVED_OPPORTUNITY_IDENTITY"
         elif self.cache.positions_open() or self.cache.orders_open():
             record["reason"] = "ONE_ACTIVE_EXPOSURE_LIMIT"
         elif self.cache.positions():
