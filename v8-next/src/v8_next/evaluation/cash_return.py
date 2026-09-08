@@ -5,7 +5,7 @@ from typing import Any
 
 from nautilus_trader.model import Money
 
-from v8_next.adapters.settlements import position_funding_query_coverage
+from v8_next.adapters.settlements import funding_exposure_history, position_funding_query_coverage
 
 
 def terminal_cash_return(account: dict[str, Any], initial_balance: Decimal) -> dict[str, Any]:
@@ -43,9 +43,10 @@ def terminal_cash_return(account: dict[str, Any], initial_balance: Decimal) -> d
         for o in account["orders"]
     ):
         return {**result, "status": "OPEN_ORDER_REMAINS"}
-    if account["positions"]:
+    exposures = funding_exposure_history(account)
+    if exposures:
         coverage = position_funding_query_coverage(
-            account["positions"],
+            exposures,
             account.get("funding_query_windows", []),
             account["accounting_as_of_ns"],
         )

@@ -2230,3 +2230,14 @@ funding cutoff check retains its original two-capture input. Open-campaign outpu
 also explicitly retains its missing outcome. Full suite remains 414 tests, all
 passing; Ruff/mypy clean. This prevents sample loss under netting reuse, but does
 not qualify statistical calibration, funding finality or continuous paper operation.
+
+## Funding coverage includes retired netting lifetimes
+
+Revised accounting and terminal cash-return projection now derive exposure
+coverage from the union of native current positions and retained closure events.
+Duplicate cache/event lifetimes are counted once; earlier closed campaigns remain
+subject to funding query coverage after the netting cache has been reused. A
+regression test supplies coverage only for the latest closed campaign and verifies
+that cash-return computation rejects until the earlier lifetime is also covered.
+This remains observed-history accounting, not a finality certificate. Full suite:
+415 passed; Ruff/mypy clean. Calibration and continuous paper scope remain open.

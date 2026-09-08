@@ -273,3 +273,48 @@ def test_funding_coverage_combines_known_overlapping_windows_without_bridging_ga
         row = position_funding_query_coverage([position], [first, second | changed], 40)[0]
         assert row["query_status"] == "EXPOSURE_NOT_FULLY_QUERIED"
         assert row["source_sha256"] == []
+
+
+def test_funding_coverage_retains_prior_netting_campaign():
+    from v8_next.adapters.settlements import funding_exposure_history
+    from v8_next.evaluation.cash_return import terminal_cash_return
+
+    latest = dict(instrument_id="BTC", opened_ns=30, closed_ns=40, is_closed=True)
+    old = dict(instrument_id="BTC", opened_ns=10, closed_ns=20)
+    account = dict(
+        positions=[latest],
+        position_closures=[old, latest],
+        orders=[],
+        balance_total="100 USDT",
+        currency="USDT",
+        realization="SIMULATED",
+        accounting_as_of_ns=50,
+        missing_announced_settlements=[],
+        funding_query_windows=[
+            dict(
+                instrument_id="BTC",
+                start_inclusive_ns=30,
+                end_inclusive_ns=40,
+                received_ns=45,
+                source_sha256="recent",
+            )
+        ],
+    )
+    assert len(funding_exposure_history(account)) == 2
+    assert (
+        terminal_cash_return(account, Decimal(100))["status"]
+        == "FUNDING_EXPOSURE_NOT_FULLY_QUERIED"
+    )
+    account["funding_query_windows"].append(
+        dict(
+            instrument_id="BTC",
+            start_inclusive_ns=10,
+            end_inclusive_ns=20,
+            received_ns=45,
+            source_sha256="prior",
+        )
+    )
+    assert (
+        terminal_cash_return(account, Decimal(100))["status"]
+        == "COMPUTED_UNDER_OBSERVED_FUNDING_HISTORY"
+    )

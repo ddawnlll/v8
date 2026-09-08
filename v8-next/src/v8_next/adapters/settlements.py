@@ -250,3 +250,20 @@ def position_funding_query_coverage(
             }
         )
     return result
+
+
+def funding_exposure_history(account: dict[str, Any]) -> list[dict[str, Any]]:
+    """Union native cache lifetimes with closure history lost through netting reuse."""
+    lifetimes = {}
+    for position in account["positions"]:
+        row = {
+            key: position[key] for key in ("instrument_id", "opened_ns", "closed_ns", "is_closed")
+        }
+        lifetimes[(row["instrument_id"], row["opened_ns"], row["closed_ns"])] = row
+    for closure in account.get("position_closures", []):
+        row = {key: closure[key] for key in ("instrument_id", "opened_ns", "closed_ns")}
+        if row["closed_ns"] is None:
+            raise ValueError("native closure lacks close time")
+        row["is_closed"] = True
+        lifetimes[(row["instrument_id"], row["opened_ns"], row["closed_ns"])] = row
+    return sorted(lifetimes.values(), key=lambda row: (row["instrument_id"], row["opened_ns"]))

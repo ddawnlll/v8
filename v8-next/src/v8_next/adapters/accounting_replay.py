@@ -15,6 +15,7 @@ from v8_next.adapters.engine_state import economic_state
 from v8_next.adapters.native_tape import build_engine
 from v8_next.adapters.settlements import (
     final_funding,
+    funding_exposure_history,
     funding_query_windows,
     missing_announced_settlements,
     position_funding_query_coverage,
@@ -120,7 +121,7 @@ def replay_frozen_campaigns(
         ]
         result["funding_query_windows"] = funding_query_windows(manifests, accounting_as_of_ns)
         result["position_funding_query_coverage"] = position_funding_query_coverage(
-            result["positions"], result["funding_query_windows"], accounting_as_of_ns
+            funding_exposure_history(result), result["funding_query_windows"], accounting_as_of_ns
         )
         result["funding_coverage"] = "OBSERVED_FINAL_RECORDS_ONLY_NOT_COMPLETENESS_CERTIFIED"
         missing = missing_announced_settlements(
