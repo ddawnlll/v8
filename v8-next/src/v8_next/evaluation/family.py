@@ -56,8 +56,7 @@ def family_losses(
         config = frozen["config"]
         signature = (
             result["dataset_hash"],
-            frozen["code_and_lock_hash"],
-            frozen["execution_model"],
+            canonical({key: value for key, value in frozen.items() if key != "config"}),
             tuple(config[k] for k in ("initial_balance", "maker_fee", "taker_fee")),
             tuple(
                 (m["end_ns"], m["source_hash"], m["close_price"]) for m in result["equity_marks"]

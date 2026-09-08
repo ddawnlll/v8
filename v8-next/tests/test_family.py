@@ -220,3 +220,35 @@ def test_comparison_pbo_requires_full_candidate_set_not_baseline(tmp_path):
             compare_family(results, **kwargs, pbo_plan=CSCVPlan(2, "mean_return", 2, ()))
     finally:
         store.close()
+
+
+@pytest.mark.parametrize(
+    "field", ["accounting_as_of_ns", "allocation_priority", "capture_manifest_hashes"]
+)
+def test_family_rejects_different_frozen_execution_assumptions(tmp_path, field):
+    store, results = setup_family(tmp_path)
+    try:
+        # Both are legitimately registered policies: reject incompatibility,
+        # not merely a tampered policy hash.
+        store.db.execute("DELETE FROM trials")
+        for i, result in enumerate(results):
+            frozen = result["frozen_policy"]
+            frozen.update(
+                accounting_as_of_ns=150,
+                allocation_priority="ASCENDING",
+                capture_manifest_hashes=["source-a", "source-b"],
+            )
+            if i:
+                frozen[field] = {
+                    "accounting_as_of_ns": 160,
+                    "allocation_priority": "DESCENDING",
+                    "capture_manifest_hashes": ["source-a", "source-c"],
+                }[field]
+            ph = hashlib.sha256(canonical(frozen).encode()).hexdigest()
+            tid = hashlib.sha256(canonical(["f", "data", ph]).encode()).hexdigest()
+            result.update(policy_hash=ph, trial_id=tid)
+            store.register_trial(tid, "f", ph, "data", "DEVELOPMENT", 100)
+        with pytest.raises(ValueError, match="incompatible"):
+            family_losses(results, store=store, family="f", decision_ns=300)
+    finally:
+        store.close()

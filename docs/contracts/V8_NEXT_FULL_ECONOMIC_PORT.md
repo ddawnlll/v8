@@ -2153,3 +2153,23 @@ clean. Tests explicitly reject overlapping holdout windows before native executi
 and require a valid cutoff/unique source manifests. Complete multi-policy family
 statistical qualification, calibrated economic admission and continuous paper
 operation remain required.
+
+## Portfolio family comparison qualification
+
+Family comparison now requires identical frozen execution assumptions outside
+policy config, including accounting cutoff, allocation ordering and capture
+manifest identities. Previously only runtime/model and basic costs were compared;
+different accounting knowledge could therefore pass the compatibility check.
+Three adversarial tests use correctly registered, internally valid identities
+and reject these assumption differences, rather than relying on hash tampering.
+
+Real BTC/ETH captures completed two registered development sizing policies (50
+versus 100 requested notional) with one shared accounting cutoff. Complete result
+artifacts and local registry are in /tmp/v8-portfolio-family-1788879028630056000/;
+comparison.json was computed across 497 aligned intervals with explicit block
+size 24, 999 replications and seed 42. These are diagnostic procedure parameters,
+not selected optimal statistical settings. The local family includes both trials;
+it does not certify all prior search history. Promotion remains false and this
+is not OOS, calibrated utility or an economic claim. Full suite: 408 passed;
+focused Ruff and full mypy clean. Continuous paper, online accounting and genuine
+calibration qualification remain incomplete.
