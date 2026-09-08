@@ -128,6 +128,11 @@ def test_bollinger_fade_protection_uses_clamped_sigma_not_unit_range():
             Decimal(".01"),
         )
         assert protection is not None
+        from v8_next.experts.features import close_series
+
+        series = close_series(frame)
+        expected = Decimal(str(series.mean())) + sign * 3 * Decimal(str(series.std(ddof=0)))
+        assert abs(protection.close_invalidation_price - expected) < Decimal("1e-12")
         # Sigma exceeds 2 * mean range (.2); geometry is clamped to .4.
         assert abs(frame.candles[-1].close - protection.stop_price) == Decimal(".4")
         assert abs(protection.target_price - frame.candles[-1].close) == Decimal(".4")

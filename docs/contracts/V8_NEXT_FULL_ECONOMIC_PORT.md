@@ -1495,3 +1495,14 @@ changes; insufficient data stays unknown. Tests cover directional extremes,
 neutrality, warmup, serialization and protection binding. Full suite passes
 (373 tests), with the added protection assertion checked in focused tests.
 Bollinger and remaining family/economic requirements are still open.
+
+## Frozen Bollinger continuation bands
+
+Breakout A retains the setup-run midpoint; B/C retain the broken two-sigma band.
+Active fade A retains its setup-run adverse three-sigma boundary. Fade distance
+and validity now derive together from the same anchor calculation, preserving
+existing clamped risk distance while preventing later band drift. These exact
+references, not tick-rounded stops, feed shared campaign close validity. Tests
+cover breakout variants in both directions and mirrored fade outer bands. Full
+suite passes (373 tests), Ruff/mypy clean. No additional inactive fade variant
+or complete economic-operation claim is introduced.

@@ -1,5 +1,6 @@
 """Active v1/a Bollinger fade and RSI recovery expert observations."""
 
+from dataclasses import dataclass
 from decimal import Decimal
 
 from v8_next.domain.market import CausalFrame
@@ -76,7 +77,13 @@ def observe_rsi_reversion(frame: CausalFrame, opportunity: Opportunity | None) -
     )
 
 
-def bollinger_fade_distance(frame: CausalFrame) -> Decimal | None:
+@dataclass(frozen=True)
+class FadeGeometry:
+    distance: Decimal
+    invalidation_price: Decimal
+
+
+def bollinger_fade_geometry(frame: CausalFrame) -> FadeGeometry | None:
     """Freeze clamped sigma/range geometry at the current fade run's first bar."""
     if len(frame.candles) < 20 or not frame.continuous:
         return None
@@ -99,4 +106,11 @@ def bollinger_fade_distance(frame: CausalFrame) -> Decimal | None:
     sigma = Decimal(str(numeric(deviations[anchor])))
     if span <= 0 or sigma <= 0:
         return None
-    return min(Decimal(2) * span, max(Decimal(".8") * span, sigma))
+    distance = min(Decimal(2) * span, max(Decimal(".8") * span, sigma))
+    mid = Decimal(str(numeric(means[anchor])))
+    return FadeGeometry(distance, mid + (3 if side == "SHORT" else -3) * sigma)
+
+
+def bollinger_fade_distance(frame: CausalFrame) -> Decimal | None:
+    geometry = bollinger_fade_geometry(frame)
+    return geometry.distance if geometry else None

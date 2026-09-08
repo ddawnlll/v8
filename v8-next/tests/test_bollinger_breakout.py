@@ -51,6 +51,16 @@ def test_variants_and_mirrored_band_breaks(variant):
         )
         assert stance.kind == StanceKind.SUPPORT
         assert stance.variant_id == variant
+        from v8_next.economics.protection import protection_at
+
+        setup = band_setup(frame, variant)
+        protection = protection_at(
+            frame, replace(opportunity, direction=side), f"bollinger:{variant}:v2", Decimal(".01")
+        )
+        expected = Decimal(str(setup.mid_reference))
+        if variant != "a":
+            expected += (1 if side == "LONG" else -1) * 2 * Decimal(str(setup.sd_reference))
+        assert protection.close_invalidation_price == expected
 
 
 def test_c_requires_prior_fresh_bandwidth_low_not_just_breakout():

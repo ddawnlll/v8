@@ -38,7 +38,7 @@ from v8_next.experts.positioning import observe_funding, observe_open_interest
 from v8_next.experts.profile import observe_profile, tpo_profile
 from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
 from v8_next.experts.reversion import (
-    bollinger_fade_distance,
+    bollinger_fade_geometry,
     observe_bollinger_reversion,
     observe_rsi_reversion,
 )
@@ -302,10 +302,11 @@ def protection_at(
     elif family == "bollinger-reversion":
         if observe_bollinger_reversion(frame, opportunity).kind != StanceKind.SUPPORT:
             return None
-        fade_distance = bollinger_fade_distance(frame)
-        if fade_distance is None:
+        fade = bollinger_fade_geometry(frame)
+        if fade is None:
             return None
-        stop, target = close - sign * fade_distance, close + sign * fade_distance
+        stop, target = close - sign * fade.distance, close + sign * fade.distance
+        invalidation_price = fade.invalidation_price
     elif family == "failed-breakout":
         if (
             len(frame.candles) < 14
@@ -366,6 +367,9 @@ def protection_at(
         band = band_setup(frame, variant)
         if band is None or band.direction != opportunity.direction:
             return None
+        invalidation_price = Decimal(str(band.mid_reference))
+        if variant != "a":
+            invalidation_price += sign * 2 * Decimal(str(band.sd_reference))
         span = Decimal(str(band.mean_range_reference))
         stop = close - sign * Decimal(str(band.stop_r)) * span
         target = close + sign * Decimal(str(band.target_r)) * span
