@@ -1,7 +1,7 @@
 """Revalue frozen paper campaigns using only final funding known at the cutoff."""
 
 import json
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -10,6 +10,7 @@ from nautilus_trader.model import Currency, InstrumentId, Price, Quantity, Quote
 
 from v8_next.adapters.binance_capture import verify
 from v8_next.adapters.campaign import PaperCampaignAdapter
+from v8_next.adapters.captured_market import load_candles
 from v8_next.adapters.engine_state import economic_state
 from v8_next.adapters.native_tape import build_engine
 from v8_next.adapters.settlements import (
@@ -19,6 +20,7 @@ from v8_next.adapters.settlements import (
     position_funding_query_coverage,
 )
 from v8_next.domain.campaign import PaperCampaign
+from v8_next.domain.market import CausalFrame, frame_at
 
 
 def replay_frozen_campaigns(
@@ -34,6 +36,7 @@ def replay_frozen_campaigns(
     coverage beyond the final settlement records actually supplied by the venue.
     """
     quotes = []
+    validity_frames: dict[int, CausalFrame] = {}
     for manifest in manifests:
         verify(manifest)
         metadata = json.loads(manifest.read_text())
@@ -47,6 +50,13 @@ def replay_frozen_campaigns(
         event = int(row["time"]) * 10**6
         if event > received or Decimal(row["bidPrice"]) > Decimal(row["askPrice"]):
             raise ValueError("invalid quote clocks or spread")
+        if any(c.close_invalidation_price is not None for c in campaigns):
+            candles = load_candles(manifest)
+            validity_frames[received] = frame_at(
+                "BTCUSDT-PERP.BINANCE",
+                received,
+                tuple(replace(c, available_ns=c.received_ns) for c in candles),
+            )
         quotes.append(
             QuoteTick(
                 InstrumentId.from_str("BTCUSDT-PERP.BINANCE"),
@@ -77,6 +87,7 @@ def replay_frozen_campaigns(
     )
     try:
         execution = PaperCampaignAdapter(campaigns)
+        execution.validity_frames = validity_frames
         engine.add_strategy(execution)
         engine.add_data(quotes)
         for settlement in settlements:

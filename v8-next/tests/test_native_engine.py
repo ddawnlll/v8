@@ -836,3 +836,56 @@ def test_native_open_position_stop_risk_projection():
         )
         is None
     )
+
+
+@pytest.mark.parametrize("pending", [False, True])
+def test_thesis_invalidation_cancels_pending_or_closes_native_position(pending):
+    from v8_next.domain.market import Candle, CausalFrame
+
+    second = 10**9
+    decision = second if pending else 0
+    campaign = PaperCampaign(
+        "thesis",
+        "op",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".01"),
+        decision,
+        100 * second,
+        Decimal(9900),
+        Decimal(10100),
+        Decimal(9995),
+    )
+    strategy = PaperCampaignAdapter((campaign,))
+    candle = Candle(
+        "BTCUSDT-PERP.BINANCE",
+        second,
+        2 * second,
+        Decimal(9995),
+        Decimal(9996),
+        Decimal(9994),
+        Decimal(9995),
+        Decimal(1),
+        2 * second,
+        2 * second,
+        "test-only",
+    )
+    strategy.validity_frames = {
+        2 * second: CausalFrame("BTCUSDT-PERP.BINANCE", 2 * second, (candle,))
+    }
+    state = run_qualified_engine(strategy=strategy, standard_assertions=False)
+    assert strategy.callback_failure is None
+    assert strategy.thesis_invalidated == {"thesis": 2 * second}
+    restored = PaperCampaignAdapter((PaperCampaign.from_record(campaign.to_record()),))
+    restored.validity_frames = dict(strategy.validity_frames)
+    replay = run_qualified_engine(strategy=restored, standard_assertions=False)
+    reconcile_replay(state, replay)
+    assert restored.thesis_invalidated == strategy.thesis_invalidated
+    if pending:
+        assert not state["orders"]
+        assert "thesis" in strategy.invalidated
+    else:
+        assert strategy.exit_requested == {"thesis"}
+        assert len(state["positions"]) == 1
+        assert state["positions"][0]["is_closed"]
+        assert state["positions"][0]["closed_ns"] < campaign.expires_ns

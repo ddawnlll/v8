@@ -1345,3 +1345,21 @@ source strict long-above/short-below rule. It does not reevaluate the entry sign
 Tests cover both D directions, distinction from stop, later-bar eligibility and
 serialization. Native close dispatch and durable invalidation replay are still
 unfinished; this commit does not claim operational thesis exits are active.
+
+## Native thesis exit and accounting replay
+
+PaperCampaignAdapter evaluates frozen close-validity barriers at matching native
+quote receipt callbacks before advancing campaigns. A later observed invalidating
+close prevents pending entry or routes an existing campaign through the native
+cancel/reduce-only-close path. Existing filled-exit ownership guards remain.
+The invalidation timestamp is recorded separately from entry invalidation and
+native fill records. EconomicPaperAdapter supplies its causal frames; revised
+accounting rebuilds the same receipt-known frames from verified capture candles,
+without rerunning expert selection or calibration. Unknown validity does not
+cancel existing native protective orders.
+
+Native tests cover both pending and position-bearing cases, close before timeout,
+serialized campaign restoration and identical engine-state replay. Full suite:
+364 tests before the added repeat-replay assertions; focused native tests pass
+with those assertions. This activates the funding frozen-barrier rule only;
+other expert-specific validity and wider operational requirements remain open.

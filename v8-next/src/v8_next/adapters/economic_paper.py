@@ -56,6 +56,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         self.stop_budget = stop_budget
         self.positioning_readings = positioning_readings
         self.frames = frames
+        self.validity_frames = frames
         self.limits = limits
         self.constraints = constraints
         self.requested_notional = requested_notional

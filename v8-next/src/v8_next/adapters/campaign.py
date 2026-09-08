@@ -15,6 +15,7 @@ from nautilus_trader.model import (
 from nautilus_trader.trading import Strategy
 
 from v8_next.domain.campaign import PaperCampaign
+from v8_next.domain.market import CausalFrame
 
 
 class PaperCampaignAdapter(Strategy):
@@ -48,6 +49,8 @@ class PaperCampaignAdapter(Strategy):
         self.expired: set[str] = set()
         self.invalidated: set[str] = set()
         self.exit_requested: set[str] = set()
+        self.validity_frames: dict[int, CausalFrame] = {}
+        self.thesis_invalidated: dict[str, int] = {}
         self.exit_order_ids: dict[str, set[str]] = {}
 
     def on_order_event(self, event: Any) -> None:
@@ -132,6 +135,7 @@ class PaperCampaignAdapter(Strategy):
                 "invalidated_before_submission": c.campaign_id in self.invalidated,
                 "expired_before_submission": c.campaign_id in self.expired,
                 "exit_requested": c.campaign_id in self.exit_requested,
+                "thesis_invalidated_ns": self.thesis_invalidated.get(c.campaign_id),
                 "entry_order": next(
                     (o for o in state["orders"] if o["client_order_id"] == c.campaign_id), None
                 ),
@@ -148,6 +152,15 @@ class PaperCampaignAdapter(Strategy):
         if self.callback_failure is not None:
             return
         try:
+            frame = self.validity_frames.get(quote.ts_init)
+            if frame is not None:
+                if frame.decision_ns != quote.ts_init:
+                    raise ValueError("validity frame clock differs from native callback")
+                for campaign in self.campaigns:
+                    if campaign.instrument_id == str(quote.instrument_id) and (
+                        campaign.invalidated_by_close(frame) is True
+                    ):
+                        self.thesis_invalidated.setdefault(campaign.campaign_id, quote.ts_init)
             self.advance_campaigns(
                 quote.instrument_id,
                 quote.ts_init,
@@ -180,8 +193,8 @@ class PaperCampaignAdapter(Strategy):
                     continue
                 if (
                     observed_ns >= campaign.expires_ns
-                    and campaign.campaign_id not in self.exit_requested
-                ):
+                    or campaign.campaign_id in self.thesis_invalidated
+                ) and campaign.campaign_id not in self.exit_requested:
                     # Initial netting scope: the owning app must admit at most one
                     # active campaign per instrument. Engine owns close execution.
                     self.cancel_all_orders(instrument_id)
@@ -198,6 +211,8 @@ class PaperCampaignAdapter(Strategy):
                     )
                     self.exit_requested.add(campaign.campaign_id)
                 continue
+            if campaign.campaign_id in self.thesis_invalidated:
+                self.invalidated.add(campaign.campaign_id)
             if campaign.campaign_id in self.expired or campaign.campaign_id in self.invalidated:
                 continue
             if observed_ns >= campaign.expires_ns:
