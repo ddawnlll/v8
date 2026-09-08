@@ -79,3 +79,29 @@ def test_depth_uses_confirmed_pivots_not_rolling_extremes():
     assert observe_trend_depth(short, opportunity).reason == "WARMUP"
     flat, flat_opportunity = context([100] * 40)
     assert observe_trend_depth(flat, flat_opportunity).reason == "MISSING_CONFIRMED_SWING"
+
+
+def test_active_trend_campaigns_freeze_one_range_stop_target_and_timeout():
+    from v8_next.economics.protection import protection_at
+
+    frame, opportunity = context(list(range(100, 140)) + [128])
+    protection = protection_at(frame, opportunity, "trend-pullback:a:v2", Decimal(".01"))
+    assert protection is not None
+    assert protection.stop_price == Decimal(126)
+    assert protection.target_price == Decimal(130)
+    assert protection.expires_ns == frame.decision_ns + 8
+    assert (
+        protection_at(
+            frame, replace(opportunity, direction="SHORT"), "trend-pullback:a:v2", Decimal(".01")
+        )
+        is None
+    )
+    frame, opportunity = swing_context()
+    protection = protection_at(frame, opportunity, "trend-depth:a:v2", Decimal(".01"))
+    assert protection is not None
+    span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+    assert 0 < frame.candles[-1].close - protection.stop_price <= span
+    assert 0 < protection.target_price - frame.candles[-1].close <= span
+    assert protection.stop_price != frame.candles[10].low  # Active v1 is not the v2 swing stop.
+    flat, flat_opportunity = context([100] * 40)
+    assert protection_at(flat, flat_opportunity, "trend-depth:a:v2", Decimal(".01")) is None

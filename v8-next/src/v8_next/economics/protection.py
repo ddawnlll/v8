@@ -4,18 +4,21 @@ from dataclasses import dataclass
 from decimal import ROUND_CEILING, ROUND_FLOOR, Decimal
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity
+from v8_next.economics.decisions import Opportunity, StanceKind
 from v8_next.experts.bollinger import band_setup
 from v8_next.experts.candlestick import VARIANTS as CANDLE_VARIANTS
 from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.measuring import VARIANTS, measuring_setup
 from v8_next.experts.pandf import pandf_setup
+from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 
 PROTECTION_POLICIES = frozenset(
     {
         "timeout-only-v1",
         "donchian:a:v2",
+        "trend-pullback:a:v2",
+        "trend-depth:a:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -66,7 +69,17 @@ def protection_at(
     family, variant, _ = policy.split(":")
     sign = 1 if opportunity.direction == "LONG" else -1
     close = frame.candles[-1].close
-    if family in {"donchian", "gap", "candlestick"}:
+    if family in {"trend-pullback", "trend-depth"}:
+        observer = observe_trend_pullback if family == "trend-pullback" else observe_trend_depth
+        if observer(frame, opportunity).kind != StanceKind.SUPPORT:
+            return None
+        span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+        if span <= 0:
+            return None
+        # Active Rust v1 declares one range unit each way, not its alternate
+        # v2 structural stop. Execution remains V8-next frozen absolute geometry.
+        stop, target = close - sign * span, close + sign * span
+    elif family in {"donchian", "gap", "candlestick"}:
         if len(frame.candles) < 14:
             return None
         span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14

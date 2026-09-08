@@ -1011,3 +1011,19 @@ pre-submission band budget to a 1 USDT actual-entry stop risk. Missing protectio
 and a native entry already present reject reservation classification. Concurrent
 admission and handling partially filled/native in-flight entry risk remain open;
 this change does not relax the current one-active-exposure product gate.
+
+## Active trend-family campaign geometry
+
+Added trend-pullback:a:v2 and trend-depth:a:v2 protected campaign policies, using
+the already ported active observation predicates. The source active v1 branches
+in experts/trend_pullback.rs and experts/trend_pullback_depth.rs both declare
+stop_r=1, target_r=1 and expiry_bars=8. The alternate Rust v2 structural stop
+branches are not silently substituted. V8-next freezes one mean-range14 distance
+on each side of observed close, with existing tick tightening and native bracket
+execution. The v2 suffix denotes the new absolute-price execution convention,
+not source v2 expert logic or historical fill parity.
+
+Tests exercise actual EMA pullback and confirmed-swing depth setups, no-setup/
+wrong-direction rejection, one-range geometry and eight-bar expiry. This extends
+protected execution coverage to eight expert families (24 policies); other
+families/variants and the remaining economic operation requirements remain open.
