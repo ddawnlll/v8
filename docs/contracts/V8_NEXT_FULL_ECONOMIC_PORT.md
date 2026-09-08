@@ -2590,3 +2590,22 @@ state. Full suite 447 passed; Ruff and mypy (80 source files) clean.
 This is not global information-leakage certification: undeclared data, auxiliary
 source timing, cross-asset dependence and concurrent store changes are not covered.
 No utility eligibility or OOS qualification is granted by this guard.
+
+## Registered trial component-estimation path
+
+Development trial API/CLI now accepts --component-plan BLOCK REPS SEED. The plan
+is validated and bound into the frozen trial identity before source decoding or
+native execution; changing it records a distinct research trial, while identical
+reruns retain identity. Holdout-role trials cannot fit components. Estimates use
+the same recomputed native outcomes emitted by the trial, preserving incomplete
+cohorts and all existing no-claim restrictions. Tests check registration before
+execution, changed-plan search counting, idempotence and holdout rejection.
+Full suite 448 passed; Ruff/mypy clean.
+
+Actual captured BTC Donchian development run with explicit plan (2,99,7):
+/tmp/v8-planned-components-1788885885102740000/result.json, registry alongside,
+log /tmp/v8-planned-components.log. The real selected cohort was not fully closed;
+component estimates correctly remained absent with COMPLETE_CLOSED_COHORT_REQUIRED.
+No terminal close was forced and no campaign was omitted to obtain an estimate.
+This native historical run remains diagnostic, not prospective calibration or
+protected out-of-sample evidence. Production calibration is still incomplete.

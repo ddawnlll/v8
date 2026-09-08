@@ -242,3 +242,36 @@ def test_portfolio_trial_requires_cutoff_and_unique_sources(tmp_path):
         assert store.family_size("p") == 0
     finally:
         store.close()
+
+
+def test_component_plan_is_registered_before_execution_and_changes_trial_identity(
+    tmp_path, monkeypatch
+):
+    import v8_next.app.trial as module
+
+    manifest = tmp_path / "capture.json"
+    manifest.write_text("{}")
+    policy = PaperConfig(
+        maker_fee="0",
+        taker_fee="0",
+        initial_balance="1000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+    )
+    store = ResearchStore(tmp_path / "research.sqlite")
+
+    def stop_before_engine(path):
+        assert store.family_size("planned") >= 1
+        raise ValueError("test capture unavailable")
+
+    monkeypatch.setattr(module, "load_candles", stop_before_engine)
+    try:
+        for plan in ((2, 99, 7), (2, 99, 8), (2, 99, 7)):
+            with pytest.raises(ValueError, match="test capture"):
+                run_trial(manifest, policy, store, "planned", component_plan=plan)
+        assert store.family_size("planned") == 2
+        with pytest.raises(ValueError, match="protected holdout"):
+            module._run_trial(manifest, policy, store, "h", "HOLDOUT", component_plan=(2, 99, 7))
+        assert store.family_size("h") == 0
+    finally:
+        store.close()

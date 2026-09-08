@@ -30,6 +30,7 @@ def run_trial(
     *,
     additional_manifests: tuple[Path, ...] = (),
     accounting_as_of_ns: int | None = None,
+    component_plan: tuple[int, int, int] | None = None,
 ) -> dict[str, Any]:
     return _run_trial(
         manifest,
@@ -39,6 +40,7 @@ def run_trial(
         "DEVELOPMENT",
         additional_manifests=additional_manifests,
         accounting_as_of_ns=accounting_as_of_ns,
+        component_plan=component_plan,
     )
 
 
@@ -51,9 +53,21 @@ def _run_trial(
     *,
     additional_manifests: tuple[Path, ...] = (),
     accounting_as_of_ns: int | None = None,
+    component_plan: tuple[int, int, int] | None = None,
 ) -> dict[str, Any]:
     if not family.strip():
         raise ValueError("explicit research family required")
+    if component_plan is not None:
+        block_size, reps, seed = component_plan
+        if role != "DEVELOPMENT":
+            raise ValueError("component fitting cannot consume protected holdout")
+        if (
+            any(type(v) is not int for v in component_plan)
+            or block_size < 1
+            or reps < 2
+            or seed < 0
+        ):
+            raise ValueError("invalid component plan")
     manifests = (manifest, *additional_manifests)
     portfolio = bool(additional_manifests)
     if portfolio and (accounting_as_of_ns is None or not 0 < accounting_as_of_ns <= time.time_ns()):
@@ -79,6 +93,10 @@ def _run_trial(
         "execution_model": "NATIVE_OHLC_NEXT_BAR_CLOSE_TRIAL_V1",
         "role": role,
     }
+    if component_plan is not None:
+        frozen["component_plan"] = dict(
+            zip(("block_size", "reps", "seed"), component_plan, strict=True)
+        )
     if portfolio:
         frozen.update(
             execution_model="NATIVE_OHLC_ALIGNED_PORTFOLIO_V1",
@@ -163,7 +181,7 @@ def _run_trial(
         losses = equity_losses(
             trial.equity_marks, capital=policy.initial_balance, computed_ns=computed_ns
         )
-        return {
+        result: dict[str, Any] = {
             **metadata,
             "trial_id": trial_id,
             "family": family,
@@ -216,6 +234,18 @@ def _run_trial(
                 "not_a_calibration_receipt",
             ],
         }
+        if component_plan is not None:
+            from v8_next.evaluation.component_estimates import estimate_components
+
+            block_size, reps, seed = component_plan
+            result["component_estimates"] = estimate_components(
+                result["outcomes"],
+                decision_ns=computed_ns,
+                block_size=block_size,
+                reps=reps,
+                seed=seed,
+            )
+        return result
     finally:
         engine.dispose()
 
@@ -229,6 +259,7 @@ def main() -> None:
     parser.add_argument("--family", required=True)
     parser.add_argument("--additional-manifest", type=Path, action="append", default=[])
     parser.add_argument("--accounting-as-of-ns", type=int)
+    parser.add_argument("--component-plan", type=int, nargs=3, metavar=("BLOCK", "REPS", "SEED"))
     args = parser.parse_args()
     if args.output.exists():
         raise ValueError("trial output already exists")
@@ -242,6 +273,7 @@ def main() -> None:
             args.family,
             additional_manifests=tuple(args.additional_manifest),
             accounting_as_of_ns=args.accounting_as_of_ns,
+            component_plan=tuple(args.component_plan) if args.component_plan is not None else None,
         )
         with args.output.open("x") as stream:
             stream.write(canonical(result) + "\n")
