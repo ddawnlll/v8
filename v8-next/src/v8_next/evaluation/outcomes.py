@@ -52,6 +52,26 @@ def observed_outcomes(
             ):
                 raise ValueError("terminal unsubmitted campaign has execution evidence")
             terminal_without_entry.add(key)
+        entry = observation["entry_order"]
+        if entry is not None and entry["status"] in {"REJECTED", "DENIED", "CANCELED", "EXPIRED"}:
+            quantity = Decimal(entry["filled_qty"])
+            if not quantity.is_finite() or quantity < 0:
+                raise ValueError("invalid terminal entry filled quantity")
+            if quantity == 0:
+                matching = [o for o in account["orders"] if o["client_order_id"] == key]
+                if (
+                    matching != [entry]
+                    or entry["instrument_id"] != by_id[key]["instrument_id"]
+                    or observation["position_closures"]
+                    or any(e["event_type"] == "OrderFilled" for e in observation["entry_events"])
+                    or any(
+                        o["status"] not in {"REJECTED", "DENIED", "CANCELED", "EXPIRED"}
+                        or Decimal(o["filled_qty"]) != 0
+                        for o in observation["exit_orders"]
+                    )
+                ):
+                    raise ValueError("terminal zero-fill entry has contradictory native evidence")
+                terminal_without_entry.add(key)
     closed = {}
     for event in closures:
         key = event["campaign_id"]

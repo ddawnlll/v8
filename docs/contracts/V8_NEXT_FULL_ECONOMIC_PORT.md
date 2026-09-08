@@ -2882,3 +2882,17 @@ expiry. Full suite 471 passed; Ruff/mypy clean. This qualifies a native lifecycl
 boundary using synthetic test inputs, not economic edge or real-money operation.
 Full port, production calibration and prospective position-bearing acceptance
 remain incomplete.
+
+## Resolve native terminal zero-fill selections in evaluation
+
+Outcome evaluation now recognizes native rejected/denied/canceled/expired entry
+orders with zero filled quantity as terminal nonentries when the observation's
+entry exactly matches the native account order and instrument, no fill/closure
+evidence conflicts, and attached exits are terminal with zero fill. Partial fills
+remain unresolved without actual closure. Such selections retain absent R and
+entry-notional returns; complete-selection cash derives from reconciled account
+change rather than invented execution metrics.
+A real native-engine synthetic affordability rejection qualifies this path; a
+contradictory OrderFilled record rejects. Full suite 472 passed; Ruff/mypy clean.
+This handles failed execution attempts in sample completeness without silently
+dropping them. Production calibration and prospective paper admission remain open.

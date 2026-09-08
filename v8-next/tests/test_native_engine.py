@@ -1752,3 +1752,36 @@ def test_rejected_unfilled_entry_cannot_timeout_a_successor():
     assert "unaffordable" not in strategy.exit_requested
     assert len(state["positions"]) == 1 and not state["positions"][0]["is_closed"]
     assert strategy.callback_failure is None
+
+
+def test_native_rejected_selection_is_resolved_without_entry_return():
+    from copy import deepcopy
+
+    from v8_next.evaluation.outcomes import observed_outcomes
+
+    campaign = PaperCampaign(
+        "rejected-outcome",
+        "rejected-op",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(2),
+        10**9,
+        7 * 10**9,
+    )
+    strategy = PaperCampaignAdapter((campaign,))
+    state = run_qualified_engine(strategy=strategy, standard_assertions=False)
+    observations = strategy.campaign_observations(state)
+    result = observed_outcomes(
+        [campaign.to_record()], [], state, Decimal(10000), campaign_observations=observations
+    )
+    assert result["terminal_without_entry_count"] == 1
+    assert result["unresolved_campaign_count"] == 0
+    assert result["rows"][0]["net_r"] is None
+    assert result["rows"][0]["net_return_on_entry_notional"] is None
+    assert Decimal(result["selection_cash_scorecard"]["total_return_on_initial_capital"]) == 0
+    bad = deepcopy(observations)
+    bad[0]["entry_events"].append({"event_type": "OrderFilled"})
+    with pytest.raises(ValueError, match="contradictory"):
+        observed_outcomes(
+            [campaign.to_record()], [], state, Decimal(10000), campaign_observations=bad
+        )
