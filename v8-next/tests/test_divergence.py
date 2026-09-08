@@ -54,6 +54,38 @@ def test_actual_rsi_divergence_and_confirmed_geometry(variant, mirror, direction
     span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
     assert 0 <= span - abs(frame.candles[-1].close - protection.stop_price) < Decimal(".01")
     assert 0 <= span - abs(protection.target_price - frame.candles[-1].close) < Decimal(".01")
+    expected = (
+        max(setup.barrier, setup.extremum)
+        if direction == "LONG"
+        else min(setup.barrier, setup.extremum)
+    )
+    assert protection.close_invalidation_price == expected
+    from v8_next.domain.campaign import PaperCampaign
+
+    campaign = PaperCampaign(
+        "c",
+        "o",
+        frame.instrument_id,
+        direction,
+        Decimal(1),
+        0,
+        1000,
+        close_invalidation_price=expected,
+    )
+    for close in (setup.barrier, setup.extremum, frame.candles[-1].close):
+        last = replace(
+            frame.candles[-1],
+            close=close,
+            high=max(close, frame.candles[-1].high),
+            low=min(close, frame.candles[-1].low),
+        )
+        current = replace(frame, candles=(*frame.candles[:-1], last))
+        violated = (
+            (close <= setup.barrier or close <= setup.extremum)
+            if direction == "LONG"
+            else (close >= setup.barrier or close >= setup.extremum)
+        )
+        assert campaign.invalidated_by_close(current) is violated
     assert protection.stop_price != setup.extremum
     assert protection.expires_ns == 49
     # A price break cannot authorize a pivot before its right flank exists.

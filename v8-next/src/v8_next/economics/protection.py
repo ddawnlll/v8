@@ -18,7 +18,7 @@ from v8_next.experts.candlestick import VARIANTS as CANDLE_VARIANTS
 from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.climax import observe_volume_climax
 from v8_next.experts.confluence import observe_confluence
-from v8_next.experts.divergence import observe_divergence
+from v8_next.experts.divergence import divergence_setup, observe_divergence
 from v8_next.experts.failed_moves import observe_failed_move
 from v8_next.experts.features import close_series, significant_swings
 from v8_next.experts.fibonacci import fib_impulse, observe_fib_projection, observe_fib_retracement
@@ -194,6 +194,15 @@ def protection_at(
                 impulse.retracement(Decimal(".786"))
                 if family == "fib-retracement"
                 else impulse.extension(Decimal("1.618"))
+            )
+        if family == "divergence":
+            divergence = divergence_setup(frame, variant)
+            assert divergence is not None
+            # Both strict same-side constraints reduce to the tighter level.
+            invalidation_price = (
+                max(divergence.barrier, divergence.extremum)
+                if sign == 1
+                else min(divergence.barrier, divergence.extremum)
             )
         if family == "confluence":
             impulse = fib_impulse(frame)

@@ -1528,3 +1528,14 @@ is serialized through native/historical/revised replay. Tests distinguish these
 boundaries in both directions and roundtrip the composite campaign. The prior
 full suite passed (373 tests); added focused composite assertions also pass.
 This preserves source methodology, not a full economic-operation claim.
+
+## Divergence confirmation and extremum validity
+
+Divergence A/B now carries the conjunction of strict barrier and second-extremum
+hold conditions. Because both constrain the same close and direction, the exact
+predicate reduces to max(barrier, extremum) for long and min for short; no
+additional exit infrastructure is needed. The frozen tighter level feeds existing
+native/replay validity, distinct from active one-range stops. Tests compare the
+reduced predicate against both original inequalities at each boundary and the
+observed close, in mirrored setups. Three relevant tests pass; Ruff/mypy clean.
+Remaining failed-move and broader economic requirements stay open.
