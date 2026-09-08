@@ -122,10 +122,10 @@ def protection_at(
     elif family == "bollinger-reversion":
         if observe_bollinger_reversion(frame, opportunity).kind != StanceKind.SUPPORT:
             return None
-        distance = bollinger_fade_distance(frame)
-        if distance is None:
+        fade_distance = bollinger_fade_distance(frame)
+        if fade_distance is None:
             return None
-        stop, target = close - sign * distance, close + sign * distance
+        stop, target = close - sign * fade_distance, close + sign * fade_distance
     elif family == "failed-breakout":
         if (
             len(frame.candles) < 14
