@@ -2646,3 +2646,22 @@ A native expired-before-first-quote test verifies terminal classification, absen
 returns and rejection of contradictory submission evidence. Full suite 450 passed;
 Ruff and mypy clean. A completion-aware policy-level estimator still needs an
 explicit denominator and selection methodology; this status is not calibration.
+
+## Complete-selection cash scorecard
+
+Outcomes now report total native cash change over fixed initial capital and its
+per-selection mean only when every selection has either a native closure or a
+verified terminal non-entry, all native positions/orders are terminal and cash
+reconciles. The denominator includes all selections. This does not fabricate
+entry-notional returns or R for nonentries and does not replace R-based gates.
+Native tests combine one closed campaign and one expired nonentry, verify the
+full denominator, and reject unresolved or cash-inconsistent cohorts. Full suite
+451 passed; Ruff/mypy clean.
+
+Actual source replay using the prior frozen 72-hour-followup configuration:
+/tmp/v8-selection-cash-1788886166421060000/result.json, log
+/tmp/v8-selection-cash.log. Its 17 selections are resolved (12 closures, five
+terminal nonentries), enabling the descriptive complete-selection cash scorecard.
+This remains a tiny modeled-position diagnostic on previously inspected historical
+data, with unqualified funding completeness/microstructure; no prospective edge,
+expected utility, statistical significance or production readiness is claimed.

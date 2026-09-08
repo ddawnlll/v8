@@ -1500,3 +1500,44 @@ def test_expired_unsubmitted_campaign_is_terminal_without_fabricated_r():
         observed_outcomes(
             [campaign.to_record()], [], state, Decimal(10000), campaign_observations=bad
         )
+
+
+def test_selection_cash_includes_terminal_nonentries_but_not_unresolved_selections():
+    from v8_next.evaluation.outcomes import observed_outcomes
+
+    expired = PaperCampaign(
+        "expired-selection", "expired-op", "BTCUSDT-PERP.BINANCE", "LONG", Decimal(".010"), 1, 2
+    )
+    filled = PaperCampaign(
+        "filled-selection",
+        "filled-op",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".010"),
+        10**9,
+        3 * 10**9,
+    )
+    strategy = PaperCampaignAdapter((expired, filled))
+    state = run_qualified_engine(strategy=strategy, close=True, standard_assertions=False)
+    records = [c.to_record() for c in strategy.campaigns]
+    closures = list(strategy.position_closures.values())
+    observations = strategy.campaign_observations(state)
+    result = observed_outcomes(
+        records, closures, state, Decimal(10000), campaign_observations=observations
+    )
+    score = result["selection_cash_scorecard"]
+    assert result["closed_outcome_count"] == 1
+    assert result["terminal_without_entry_count"] == 1
+    assert score["status"] == "COMPLETE_SELECTED_COHORT"
+    assert (
+        Decimal(score["mean_cash_return_per_selection"])
+        == Decimal(result["native_cash_change"]) / 10000 / 2
+    )
+    assert result["risk_unit_scorecard"]["mean_net_r"] is None
+    unresolved = observed_outcomes(records, closures, state, Decimal(10000))
+    assert unresolved["selection_cash_scorecard"]["mean_cash_return_per_selection"] is None
+    changed = dict(state, balance_total="9999.99 USDT")
+    unreconciled = observed_outcomes(
+        records, closures, changed, Decimal(10000), campaign_observations=observations
+    )
+    assert unreconciled["selection_cash_scorecard"]["total_return_on_initial_capital"] is None

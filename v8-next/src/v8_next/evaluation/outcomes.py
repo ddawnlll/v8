@@ -186,12 +186,28 @@ def observed_outcomes(
         for o in account["orders"]
     )
     reconciled = terminal and residual == 0
+    unresolved = len(rows) - len(returns) - len(terminal_without_entry)
+    selection_complete = bool(rows) and unresolved == 0 and reconciled
     risk_values = [Decimal(row["net_r"]) for row in rows if row["net_r"] is not None]
     risk_complete = bool(rows) and len(risk_values) == len(rows) and reconciled
 
     return {
         "rows": rows,
         "selected_campaign_count": len(rows),
+        "selection_cash_scorecard": {
+            "status": "COMPLETE_SELECTED_COHORT"
+            if selection_complete
+            else "INCOMPLETE_OR_UNRECONCILED_COHORT",
+            "initial_capital": str(initial_balance),
+            "total_return_on_initial_capital": str(cash_change / initial_balance)
+            if selection_complete
+            else None,
+            "mean_cash_return_per_selection": str(cash_change / initial_balance / len(rows))
+            if selection_complete
+            else None,
+            "denominator": "fixed_initial_capital_times_all_selected_campaigns",
+            "scope": "DESCRIPTIVE_SELECTION_CASH_NOT_R_OR_EXPECTED_UTILITY",
+        },
         "risk_unit_scorecard": {
             "mean_net_r": str(sum(risk_values, Decimal(0)) / len(risk_values))
             if risk_complete
@@ -208,7 +224,7 @@ def observed_outcomes(
         "closed_outcome_count": len(returns),
         "missing_outcome_count": len(rows) - len(returns),
         "terminal_without_entry_count": len(terminal_without_entry),
-        "unresolved_campaign_count": len(rows) - len(returns) - len(terminal_without_entry),
+        "unresolved_campaign_count": unresolved,
         "native_closed_net_pnl": str(net_total),
         "native_cash_change": str(cash_change),
         "cash_reconciliation_residual": str(residual),
