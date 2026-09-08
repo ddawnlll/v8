@@ -71,6 +71,13 @@ class PaperCampaignAdapter(Strategy):
     def on_position_closed(self, event: Any) -> None:
         try:
             self.snapshot_position_close(event)
+            # A reduce-only stop can close the remaining position with only a
+            # partial fill of its original quantity. Native OCO need not cancel
+            # siblings on that partial fill; end the campaign's remaining exits.
+            owned_exits = self.exit_order_ids.get(str(event.opening_order_id), set())
+            for order in self.cache.orders_open():
+                if str(order.client_order_id) in owned_exits:
+                    self.cancel_order(order.client_order_id)
         except Exception as error:
             self.callback_failure = f"{type(error).__name__}: {error}"
             raise

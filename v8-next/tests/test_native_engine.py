@@ -1544,7 +1544,10 @@ def test_selection_cash_includes_terminal_nonentries_but_not_unresolved_selectio
 
 
 @pytest.mark.parametrize("direction", ["LONG", "SHORT"])
-def test_partial_native_reduction_updates_stop_risk_from_remaining_quantity(direction):
+@pytest.mark.parametrize("stop_after_reduction", [False, True])
+def test_partial_native_reduction_updates_stop_risk_from_remaining_quantity(
+    direction, stop_after_reduction
+):
     from nautilus_trader.model import OrderSide
 
     from v8_next.adapters.stop_exposure import native_stop_exposure
@@ -1590,10 +1593,35 @@ def test_partial_native_reduction_updates_stop_risk_from_remaining_quantity(dire
         Decimal(10100 if direction == "LONG" else 9900),
     )
     subject = Reducing((campaign,))
-    run_qualified_engine(
+    stop = 9900 if direction == "LONG" else 10100
+    state = run_qualified_engine(
         strategy=subject,
         standard_assertions=False,
-        quote_times=(10**9, 2 * 10**9, 4 * 10**9, 5 * 10**9),
+        quote_times=(10**9, 2 * 10**9, 4 * 10**9, 5 * 10**9, 6 * 10**9),
+        quote_prices=(10000, 10000, 10000, 10000, stop if stop_after_reduction else 10000),
     )
     assert (Decimal(".010"), Decimal("1")) in subject.samples
     assert (Decimal(".005"), Decimal(".5")) in subject.samples
+    if stop_after_reduction:
+        assert subject.callback_failure is None, subject.callback_failure
+        assert subject.position_closures, subject.exit_order_ids
+        from v8_next.evaluation.outcomes import observed_outcomes
+
+        assert len(state["positions"]) == 1 and state["positions"][0]["is_closed"]
+        stop_order = next(o for o in state["orders"] if o["client_order_id"] == "partial-risk-stop")
+        target = next(o for o in state["orders"] if o["client_order_id"] == "partial-risk-target")
+        assert Decimal(stop_order["filled_qty"]) == Decimal(".005")
+        assert target["status"] == "CANCELED"
+        outcomes = observed_outcomes(
+            [campaign.to_record()], list(subject.position_closures.values()), state, Decimal(10000)
+        )
+        assert outcomes["reconciliation"] == "CLOSED_CASH_RECONCILED"
+        row = outcomes["rows"][0]
+        # Funding is at t=3; the reduction is submitted on the t=4 quote.
+        assert Decimal(row["observed_funding_pnl"]) == Decimal(
+            "-1" if direction == "LONG" else "1"
+        )
+        assert Decimal(row["native_price_pnl"]) == Decimal("-.5")
+        assert Decimal(row["observed_commissions"]) == Decimal(
+            ".1995" if direction == "LONG" else ".2005"
+        )

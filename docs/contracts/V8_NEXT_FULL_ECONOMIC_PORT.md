@@ -2768,3 +2768,20 @@ amendment states and remaining unbounded market-entry fills still return absent
 risk, correctly preventing further admission. The test does not qualify partial
 entry fills, private venue behavior, OCO recovery or position-bearing prospective
 paper continuation. Those broader requirements remain incomplete.
+
+## Cancel remaining campaign exits on native position closure
+
+Extended partial-reduction qualification exposed a real adapter gap: after a
+.010 position is reduced to .005, its original .010 reduce-only stop can close the
+remaining position with a partial order fill while native OCO leaves the target
+ACCEPTED. The adapter now responds to confirmed PositionClosed by requesting
+native cancellation of only that campaign's still-open exit IDs. It uses the
+pinned Strategy.cancel_order(ClientOrderId) API; no custom order lifecycle or
+position inference is introduced. Callback failures remain retained and fatal.
+
+Long/short native tests verify remaining stop fill .005, no reverse position,
+terminal sibling cancellation, closed-cash reconciliation, actual commissions and
+funding timing. Fixture funding at t=3 precedes the reduction submitted at t=4,
+so funding correctly uses the original .010, not the later .005. Duplicate fixture
+funding still settles once. Full suite 462 passed; Ruff/mypy clean. These are
+synthetic native boundary tests, not prospective execution or venue qualification.
