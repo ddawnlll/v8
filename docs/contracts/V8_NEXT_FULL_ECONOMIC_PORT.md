@@ -1269,3 +1269,16 @@ It was fresh under an explicitly supplied 300-second development policy; this
 policy is not an inferred or recommended trading threshold. This demonstrates
 public acquisition and decoding, not positioning-strategy profitability, OI change
 measurement or full paper execution. Long/short-ratio acquisition remains missing.
+
+## Explicit global account-ratio source
+
+Optional account_ratio_period capture uses the public globalLongShortAccountRatio
+endpoint with explicit supported period and limit=1. load_account_ratio checks
+source period against policy, validates symbol/finite nonnegative value/clocks,
+and makes the measurement available only at receipt. It does not recalculate
+longShortRatio from rounded account proportions. This is all-trader account-count
+skew, not top-trader or position-notional skew. Official documentation inspected:
+https://developers.binance.com/docs/derivatives/usds-margined-futures/market-data/rest-api/Long-Short-Ratio
+The documentation defines timestamp as period end in milliseconds. Tests qualify
+capture, source-period mismatch and receipt gating. Paper configuration/CLI and
+real public acquisition remain unfinished for this input.

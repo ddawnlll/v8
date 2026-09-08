@@ -129,3 +129,29 @@ def test_optional_open_interest_capture_and_receipt(tmp_path, monkeypatch):
     assert positioning_at(*args, 3_000_000_000) is None
     old = binance_capture.capture(tmp_path / "without-oi")
     assert load_open_interest(old, max_age_ns=1) == ()
+
+
+def test_account_ratio_capture_has_explicit_period_and_knowledge_time(tmp_path, monkeypatch):
+    from v8_next.adapters.captured_market import load_account_ratio
+
+    def response(url, **kwargs):
+        payload = []
+        if "exchangeInfo" in url:
+            payload = {"symbols": [{"symbol": "BTCUSDT"}]}
+        elif "globalLongShortAccountRatio" in url:
+            assert "period=5m" in url
+            payload = [{"symbol": "BTCUSDT", "timestamp": 1000, "longShortRatio": "1.2"}]
+        return io.BytesIO(json.dumps(payload).encode())
+
+    monkeypatch.setattr(binance_capture, "urlopen", response)
+    monkeypatch.setattr(binance_capture.time, "time_ns", lambda: 2_000_000_000)
+    path = binance_capture.capture(tmp_path / "ratio", account_ratio_period="5m")
+    readings = load_account_ratio(path, period="5m", max_age_ns=2_000_000_000)
+    assert positioning_at(
+        readings, "BTCUSDT-PERP.BINANCE", "long_short_ratio", 2_000_000_000
+    ) == Decimal("1.2")
+    assert (
+        positioning_at(readings, "BTCUSDT-PERP.BINANCE", "long_short_ratio", 1_999_999_999) is None
+    )
+    with pytest.raises(ValueError, match="differs"):
+        load_account_ratio(path, period="1h", max_age_ns=2_000_000_000)

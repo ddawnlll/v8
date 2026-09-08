@@ -11,6 +11,7 @@ from urllib.parse import parse_qs, urlencode, urlsplit
 from urllib.request import urlopen
 
 BASE = "https://fapi.binance.com"
+RATIO_PERIODS = frozenset({"5m", "15m", "30m", "1h", "2h", "4h", "6h", "12h", "1d"})
 
 
 def capture(
@@ -19,6 +20,7 @@ def capture(
     *,
     funding_start_ms: int | None = None,
     include_open_interest: bool = False,
+    account_ratio_period: str | None = None,
 ) -> Path:
     """Write immutable raw responses and a manifest; never send authenticated requests."""
     if not symbol.isascii() or not symbol.isalnum():
@@ -29,6 +31,8 @@ def capture(
         if type(funding_start_ms) is not int or not 0 <= funding_start_ms <= end_ms:
             raise ValueError("invalid funding history start")
         funding_params.update(startTime=funding_start_ms, endTime=end_ms, limit=1000)
+    if account_ratio_period is not None and account_ratio_period not in RATIO_PERIODS:
+        raise ValueError("unsupported account ratio period")
     destination.mkdir(parents=True, exist_ok=False)
     requests: dict[str, tuple[str, dict[str, str | int]]] = {
         "instruments": ("/fapi/v1/exchangeInfo", {}),
@@ -39,6 +43,11 @@ def capture(
     }
     if include_open_interest:
         requests["open_interest"] = ("/fapi/v1/openInterest", {"symbol": symbol})
+    if account_ratio_period is not None:
+        requests["account_ratio"] = (
+            "/futures/data/globalLongShortAccountRatio",
+            {"symbol": symbol, "period": account_ratio_period, "limit": 1},
+        )
     artifacts = []
     for name, (endpoint, params) in requests.items():
         url = BASE + endpoint + ("?" + urlencode(params) if params else "")
@@ -115,9 +124,14 @@ def validate_capture(manifest_path: Path) -> None:
         "quote.json": "/fapi/v1/ticker/bookTicker",
         "funding_schedule.json": "/fapi/v1/premiumIndex",
         "open_interest.json": "/fapi/v1/openInterest",
+        "account_ratio.json": "/futures/data/globalLongShortAccountRatio",
     }
     names = [a["path"] for a in manifest["artifacts"]]
-    required = set(endpoints) - {"funding_schedule.json", "open_interest.json"}
+    required = set(endpoints) - {
+        "funding_schedule.json",
+        "open_interest.json",
+        "account_ratio.json",
+    }
     if len(names) != len(set(names)) or not required <= set(names) or set(names) - set(endpoints):
         raise ValueError("incomplete, duplicate or unknown capture artifacts")
     for artifact in manifest["artifacts"]:
@@ -130,6 +144,10 @@ def validate_capture(manifest_path: Path) -> None:
             raise ValueError("capture source symbol mismatch")
         if name == "bars.json" and query.get("interval") != ["1h"]:
             raise ValueError("unsupported bar interval")
+        if name == "account_ratio.json" and (
+            len(query.get("period", [])) != 1 or query["period"][0] not in RATIO_PERIODS
+        ):
+            raise ValueError("unsupported account ratio capture period")
         requested, received = artifact["request_time_ns"], artifact["received_time_ns"]
         if type(requested) is not int or type(received) is not int or not 0 < requested <= received:
             raise ValueError("invalid capture clocks")

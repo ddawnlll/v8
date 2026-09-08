@@ -3,6 +3,7 @@
 import json
 from decimal import Decimal
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 
 from v8_next.adapters.binance_capture import validate_capture
 from v8_next.domain.market import Candle
@@ -101,3 +102,42 @@ def load_open_interest(manifest_path: Path, *, max_age_ns: int) -> tuple[Positio
             source_hash=artifact["sha256"],
         ),
     )
+
+
+def load_account_ratio(
+    manifest_path: Path, *, period: str, max_age_ns: int
+) -> tuple[PositioningReading, ...]:
+    """Global account-count ratio, not top-trader or position-notional ratio."""
+    from v8_next.adapters.binance_capture import RATIO_PERIODS
+
+    if period not in RATIO_PERIODS or type(max_age_ns) is not int or max_age_ns <= 0:
+        raise ValueError("explicit ratio period and positive freshness required")
+    validate_capture(manifest_path)
+    manifest = json.loads(manifest_path.read_text())
+    artifact = next((a for a in manifest["artifacts"] if a["path"] == "account_ratio.json"), None)
+    if artifact is None:
+        return ()
+    if parse_qs(urlsplit(artifact["source_url"]).query).get("period") != [period]:
+        raise ValueError("ratio source period differs from policy")
+    rows = json.loads((manifest_path.parent / "account_ratio.json").read_text())
+    if not isinstance(rows, list):
+        raise ValueError("account ratio response must be a list")
+    result: dict[int, PositioningReading] = {}
+    for row in rows:
+        if row["symbol"] != manifest["symbol"] or type(row["timestamp"]) is not int:
+            raise ValueError("invalid ratio symbol or timestamp")
+        event = row["timestamp"] * 1_000_000
+        reading = PositioningReading(
+            instrument_id=f"{manifest['symbol']}-PERP.BINANCE",
+            metric="long_short_ratio",
+            value=Decimal(str(row["longShortRatio"])),
+            event_ns=event,
+            received_ns=artifact["received_time_ns"],
+            available_ns=artifact["received_time_ns"],
+            valid_until_ns=event + max_age_ns,
+            source_hash=artifact["sha256"],
+        )
+        if event in result and result[event] != reading:
+            raise ValueError("conflicting account ratio observations")
+        result[event] = reading
+    return tuple(result[t] for t in sorted(result))
