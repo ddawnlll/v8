@@ -34,7 +34,14 @@ def test_closed_position_blocks_calibration_and_readmission(monkeypatch):
         cache=SimpleNamespace(
             positions_open=lambda: [],
             orders_open=lambda: [],
-            positions=lambda: [SimpleNamespace(is_closed=True)],
+            positions=lambda: [
+                SimpleNamespace(
+                    instrument_id="BTCUSDT-PERP.BINANCE",
+                    ts_opened=1,
+                    ts_closed=5,
+                    is_closed=True,
+                )
+            ],
         ),
         calibration=forbidden_calibration,
         decisions=[],
@@ -117,3 +124,130 @@ def test_campaign_callback_failure_is_retained_for_accounting_replay():
     assert subject.callback_failure == "ValueError: invalid campaign geometry"
     subject.on_quote(quote)
     assert not subject.submitted
+
+
+def _readmission_subject(monkeypatch, reconciliation):
+    from decimal import Decimal
+
+    from v8_next.economics.controller import InstrumentConstraints
+    from v8_next.economics.decisions import UtilityInputs
+    from v8_next.risk.admission import RiskLimits, RiskSnapshot
+
+    opportunity = Opportunity("next", "exposure", "BTCUSDT-PERP.BINANCE", "LONG", 1, 100)
+    stance = Stance("observer", "group", StanceKind.SUPPORT, "test", "next", 10)
+    monkeypatch.setattr(economic_paper, "grammar_opportunity", lambda *_: opportunity)
+    monkeypatch.setattr(
+        economic_paper, "policy_stances", lambda *_, readings: (stance,)
+    )
+    monkeypatch.setattr(economic_paper.PaperCampaignAdapter, "on_quote", lambda *_: None)
+
+    calls = []
+
+    def fake_portfolio(*_, **kwargs):
+        calls.append(kwargs)
+        return SimpleNamespace(
+            snapshots={
+                "exposure": RiskSnapshot(
+                    Decimal(10000), Decimal(0), Decimal(0), Decimal(0), 10, True
+                )
+            },
+            stop_exposure=None,
+        )
+
+    monkeypatch.setattr(economic_paper, "native_portfolio_risk", fake_portfolio)
+
+    def calibration(*_):
+        return (
+            UtilityInputs(
+                Decimal(10),
+                Decimal(1),
+                Decimal(1),
+                Decimal(1),
+                Decimal(1),
+                Decimal(1),
+                "test-only",
+            ),
+            True,
+        )
+
+    closed = SimpleNamespace(
+        instrument_id="BTCUSDT-PERP.BINANCE", ts_opened=1, ts_closed=5, is_closed=True
+    )
+    adapter_cache = SimpleNamespace(
+        positions_open=lambda: [],
+        orders_open=lambda: [],
+        positions=lambda: [closed],
+        account_for_venue=lambda *_: SimpleNamespace(
+            balance_total=lambda *_: SimpleNamespace(as_decimal=lambda: Decimal(10000))
+        ),
+    )
+
+    class Harness(economic_paper.EconomicPaperAdapter):
+        @property
+        def cache(self):
+            return adapter_cache
+
+    subject = Harness(
+        {
+            10: SimpleNamespace(
+                instrument_id="BTCUSDT-PERP.BINANCE",
+                decision_ns=10,
+                continuous=False,
+                candles=[SimpleNamespace(end_ns=9)],
+            )
+        },
+        RiskLimits(Decimal(1), Decimal(1), Decimal(100), 0),
+        InstrumentConstraints(Decimal(1), Decimal(1), Decimal(1), Decimal(1)),
+        Decimal(100),
+        calibration,
+        funding_reconciliation=reconciliation,
+    )
+    quote = SimpleNamespace(
+        ts_init=10,
+        ts_event=9,
+        instrument_id="BTCUSDT-PERP.BINANCE",
+        ask_price=SimpleNamespace(as_decimal=lambda: Decimal(100)),
+        bid_price=SimpleNamespace(as_decimal=lambda: Decimal(100)),
+    )
+    return subject, quote, calls
+
+
+def test_reconciled_funding_readmits_closed_exposure(monkeypatch):
+    seen = []
+
+    def reconciled(lifetimes, decision_ns):
+        seen.append((lifetimes, decision_ns))
+        return {"reconciled": True, "query_status": "BOUNDED_RESPONSE_COVERS_EXPOSURE"}
+
+    subject, quote, _ = _readmission_subject(monkeypatch, reconciled)
+    subject.on_quote(quote)
+    assert seen == (
+        [
+            (
+                [
+                    {
+                        "instrument_id": "BTCUSDT-PERP.BINANCE",
+                        "opened_ns": 1,
+                        "closed_ns": 5,
+                        "is_closed": True,
+                    }
+                ],
+                10,
+            )
+        ]
+    )
+    record = subject.decisions[-1]
+    assert record["reason"] == "PAPER_CAMPAIGN_ADMITTED"
+    assert record["funding_coverage"]["reconciled"] is True
+    assert len(subject.campaigns) == 1
+
+
+def test_unreconciled_verdict_keeps_blocking_after_close(monkeypatch):
+    def denied(lifetimes, decision_ns):
+        return {"reconciled": False, "query_status": "EXPOSURE_NOT_FULLY_QUERIED"}
+
+    subject, quote, _ = _readmission_subject(monkeypatch, denied)
+    subject.on_quote(quote)
+    record = subject.decisions[-1]
+    assert record["reason"] == "UNRECONCILED_FUNDING_AFTER_EXPOSURE"
+    assert not subject.campaigns

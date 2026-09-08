@@ -12,7 +12,7 @@ import time
 from dataclasses import replace
 from decimal import Decimal
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from nautilus_trader.model import (
     Currency,
@@ -36,7 +36,13 @@ from v8_next.adapters.captured_market import (
 from v8_next.adapters.economic_paper import EconomicPaperAdapter
 from v8_next.adapters.engine_state import economic_state, reconcile_replay
 from v8_next.adapters.native_tape import build_engine, capture_native_inputs
-from v8_next.adapters.settlements import final_funding
+from v8_next.adapters.settlements import (
+    FinalFunding,
+    final_funding,
+    funding_query_windows,
+    missing_announced_settlements,
+    position_funding_query_coverage,
+)
 from v8_next.app.observe import initialize, observe_capture
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.config import PaperConfig
@@ -47,6 +53,46 @@ from v8_next.economics.controller import InstrumentConstraints
 from v8_next.economics.decisions import UtilityInputs
 from v8_next.evaluation.store import ResearchStore, canonical
 from v8_next.risk.admission import RiskLimits
+
+
+def build_funding_reconciliation(
+    manifest_receipts: tuple[tuple[int, Path], ...],
+    settlements: tuple[FinalFunding, ...],
+    session_start_ns: int,
+) -> Callable[[list[dict[str, Any]], int], dict[str, Any]]:
+    """Readmit closed lifetimes only under verified bounded funding coverage.
+
+    Manifests become known by their quote receipt; coverage is evaluated with
+    records known by each decision, never future receipts. Every lifetime must
+    be fully covered by contiguous bounded responses and no announced
+    settlement may be missing. Anything else fails closed. Query coverage is
+    not venue cash-settlement finality and never mints economic authority.
+    """
+
+    def reconciled(
+        lifetimes: list[dict[str, Any]], decision_ns: int
+    ) -> dict[str, Any]:
+        known = [path for received, path in manifest_receipts if received <= decision_ns]
+        if not lifetimes:
+            return {"reconciled": False, "reason": "NO_LIFETIME_HISTORY"}
+        if not known:
+            return {"reconciled": False, "reason": "NO_KNOWN_SOURCE"}
+        windows = funding_query_windows(known, decision_ns)
+        coverage = position_funding_query_coverage(lifetimes, windows, decision_ns)
+        records = tuple(s for s in settlements if s.received_ns <= decision_ns)
+        missing = missing_announced_settlements(known, records, session_start_ns, decision_ns)
+        verdict = all(
+            item["query_status"] == "BOUNDED_RESPONSE_COVERS_EXPOSURE" for item in coverage
+        ) and missing == ()
+        return {
+            "reconciled": verdict,
+            "coverage": coverage,
+            "missing_announced_settlements": missing,
+            "known_manifests": len(known),
+            "known_settlements": len(records),
+        }
+
+    return reconciled
 
 
 def replay_account(
@@ -69,6 +115,7 @@ def replay_account(
     frames: dict[int | tuple[str, int], CausalFrame] = {}
     positioning_readings: list[PositioningReading] = []
     instrument_manifests: dict[str, Path] = {}
+    manifest_receipts: list[tuple[int, Path]] = []
     for manifest in manifests:
         verify(manifest)
         metadata = json.loads(manifest.read_text())
@@ -79,6 +126,7 @@ def replay_account(
         instrument_id = row["symbol"] + "-PERP.BINANCE"
         instrument_manifests.setdefault(instrument_id, manifest)
         received = int(artifact["received_time_ns"])
+        manifest_receipts.append((received, manifest))
         event = int(row["time"]) * 1_000_000
         if event > received:
             raise ValueError("venue clock ahead of local receipt; clock qualification required")
@@ -171,25 +219,6 @@ def replay_account(
                     True,
                 )
 
-        strategy = EconomicPaperAdapter(
-            frames,
-            RiskLimits(
-                Decimal(1),
-                Decimal(config["max_exposure_fraction"]),
-                Decimal(config["max_notional"]),
-                0,
-            ),
-            constraints_by_instrument,
-            Decimal(config["max_notional"]),
-            calibration=calibration_provider,
-            observer=selected_observer,
-            grammar=parsed.grammar_policy,
-            campaign_policy=parsed.campaign_policy,
-            stop_budget=parsed.stop_budget,
-            positioning_readings=tuple(positioning_readings),
-            experiment=experiment,
-        )
-        engine.add_strategy(strategy)
         quotes.sort(key=lambda q: (q.ts_init, str(q.instrument_id), q.ts_event))
         # Prospective online funding: verified final settlements enter the engine
         # at capture receipt, never backdated to their boundary. The pinned engine
@@ -197,8 +226,7 @@ def replay_account(
         # knowledge time; the verified boundary/rate/mark are retained below for
         # coverage accounting. A settlement with no open position at receipt is
         # a native no-op; with exposure it debits the actually open quantity.
-        # This does not certify completeness and does not lift the
-        # post-exposure readmission guard in the adapter.
+        # Coverage-gated readmission below never certifies venue finality.
         online_inputs: list[tuple[int, int, object]] = [(q.ts_init, 0, q) for q in quotes]
         funding_settlements = final_funding(
             manifests,
@@ -233,6 +261,30 @@ def replay_account(
                     ),
                 )
             )
+        strategy = EconomicPaperAdapter(
+            frames,
+            RiskLimits(
+                Decimal(1),
+                Decimal(config["max_exposure_fraction"]),
+                Decimal(config["max_notional"]),
+                0,
+            ),
+            constraints_by_instrument,
+            Decimal(config["max_notional"]),
+            calibration=calibration_provider,
+            observer=selected_observer,
+            grammar=parsed.grammar_policy,
+            campaign_policy=parsed.campaign_policy,
+            stop_budget=parsed.stop_budget,
+            positioning_readings=tuple(positioning_readings),
+            experiment=experiment,
+            funding_reconciliation=build_funding_reconciliation(
+                tuple(manifest_receipts),
+                funding_settlements,
+                min(q.ts_event for q in quotes),
+            ),
+        )
+        engine.add_strategy(strategy)
         online_inputs.sort(key=lambda item: (item[0], item[1]))
         engine.add_data([item[2] for item in online_inputs])
         engine.run()

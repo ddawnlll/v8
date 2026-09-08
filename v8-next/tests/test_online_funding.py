@@ -22,12 +22,14 @@ def _write_artifact(directory: Path, name: str, payload: bytes, source_url: str,
 
 
 def _copy_manifest(tmp_path: Path, name: str, quote_time_ms: int, quote_received_ns: int,
-                   funding_rows: list[dict], funding_received_ns: int) -> Path:
+                   funding_rows: list[dict], funding_received_ns: int,
+                   funding_url: str | None = None,
+                   schedule_row: dict | None = None) -> Path:
     dest = tmp_path / name
     dest.mkdir()
     manifest = json.loads((SOURCE / "manifest.json").read_text())
     quote_url = next(a["source_url"] for a in manifest["artifacts"] if a["path"] == "quote.json")
-    funding_url = next(
+    funding_url = funding_url or next(
         a["source_url"] for a in manifest["artifacts"] if a["path"] == "funding.json"
     )
     artifacts = []
@@ -53,8 +55,13 @@ def _copy_manifest(tmp_path: Path, name: str, quote_time_ms: int, quote_received
             )
         else:
             payload = (SOURCE / path).read_bytes()
+            if path == "funding_schedule.json" and schedule_row is not None:
+                payload = json.dumps(schedule_row).encode()
             (dest / path).write_bytes(payload)
-            artifacts.append({**artifact})
+            artifact = {**artifact}
+            if path == "funding_schedule.json" and schedule_row is not None:
+                artifact["sha256"] = hashlib.sha256(payload).hexdigest()
+            artifacts.append(artifact)
     (dest / "manifest.json").write_text(
         json.dumps(
             {
@@ -146,3 +153,119 @@ def test_online_funding_never_backdates_knowledge(tmp_path):
 
 def test_real_capture_source_present():
     assert SOURCE.is_dir(), "real capture fixture required for manifest bytes"
+
+
+def _bounded_url(start_ms: int, end_ms: int) -> str:
+    return (
+        "https://fapi.binance.com/fapi/v1/fundingRate?"
+        f"symbol=BTCUSDT&limit=1000&startTime={start_ms}&endTime={end_ms}"
+    )
+
+
+def _covering_manifests(tmp_path, quote_ms, first_received, second_received):
+    from v8_next.app.paper import build_funding_reconciliation
+
+    window_start_ms = quote_ms - 60_000
+    window_end_ms = quote_ms + 55_000
+    rows = [
+        {"symbol": "BTCUSDT", "fundingTime": quote_ms - 30_000,
+         "fundingRate": "0.00010000", "markPrice": "78457.40000000"},
+        {"symbol": "BTCUSDT", "fundingTime": quote_ms + 20_000,
+         "fundingRate": "0.00010000", "markPrice": "78457.40000000"},
+    ]
+    old_row = {
+        "symbol": "BTCUSDT",
+        "fundingTime": 1788854400002,
+        "fundingRate": "0.00008180",
+        "markPrice": "78445.10000000",
+    }
+    first = _copy_manifest(
+        tmp_path, "capture-1", quote_ms, first_received, [old_row],
+        1788872560148803000,
+    )
+    second = _copy_manifest(
+        tmp_path, "capture-2", quote_ms + 60_000, second_received, rows,
+        window_end_ms * 1_000_000 + 2_000_000_000,
+        funding_url=_bounded_url(window_start_ms, window_end_ms),
+    )
+    receipts = (
+        (first_received, first),
+        (second_received, second),
+    )
+    return receipts, build_funding_reconciliation(receipts, (), quote_ms * 1_000_000)
+
+
+def test_covered_lifetime_readmits_without_missing_announcement(tmp_path):
+    quote_ms = 1788872560902
+    first_received = 1788872560959620000
+    second_received = first_received + 60_000_000_000
+    _, reconciled = _covering_manifests(tmp_path, quote_ms, first_received, second_received)
+    opened = quote_ms * 1_000_000
+    lifetimes = [{
+        "instrument_id": "BTCUSDT-PERP.BINANCE",
+        "opened_ns": opened,
+        "closed_ns": opened + 50_000_000_000,
+        "is_closed": True,
+    }]
+    verdict = reconciled(lifetimes, second_received)
+    assert verdict["reconciled"] is True
+    assert verdict["coverage"][0]["query_status"] == "BOUNDED_RESPONSE_COVERS_EXPOSURE"
+    assert verdict["missing_announced_settlements"] == ()
+
+
+def test_exposure_beyond_queried_window_stays_blocked(tmp_path):
+    quote_ms = 1788872560902
+    first_received = 1788872560959620000
+    second_received = first_received + 60_000_000_000
+    _, reconciled = _covering_manifests(tmp_path, quote_ms, first_received, second_received)
+    opened = quote_ms * 1_000_000
+    lifetimes = [{
+        "instrument_id": "BTCUSDT-PERP.BINANCE",
+        "opened_ns": opened,
+        "closed_ns": opened + 58_000_000_000,
+        "is_closed": True,
+    }]
+    verdict = reconciled(lifetimes, second_received)
+    assert verdict["reconciled"] is False
+    assert verdict["coverage"][0]["query_status"] == "EXPOSURE_NOT_FULLY_QUERIED"
+
+
+def test_announced_but_unsettled_boundary_stays_blocked(tmp_path):
+    quote_ms = 1788872560902
+    first_received = 1788872560959620000
+    second_received = first_received + 60_000_000_000
+    schedule = {
+        "symbol": "BTCUSDT",
+        "markPrice": "78457.40000000",
+        "lastFundingRate": "0.00010000",
+        "nextFundingTime": quote_ms + 30_000,
+        "time": quote_ms,
+    }
+    window_start_ms = quote_ms - 60_000
+    window_end_ms = quote_ms + 55_000
+    rows = [
+        {"symbol": "BTCUSDT", "fundingTime": quote_ms - 30_000,
+         "fundingRate": "0.00010000", "markPrice": "78457.40000000"},
+    ]
+    # Rows stop before the announced boundary: no settlement evidence follows.
+    first = _copy_manifest(
+        tmp_path, "capture-1", quote_ms, first_received, rows,
+        window_end_ms * 1_000_000 + 2_000_000_000,
+        funding_url=_bounded_url(window_start_ms, window_end_ms),
+        schedule_row=schedule,
+    )
+    from v8_next.app.paper import build_funding_reconciliation
+
+    reconciled = build_funding_reconciliation(
+        ((first_received, first),), (), quote_ms * 1_000_000
+    )
+    opened = quote_ms * 1_000_000
+    lifetimes = [{
+        "instrument_id": "BTCUSDT-PERP.BINANCE",
+        "opened_ns": opened,
+        "closed_ns": opened + 50_000_000_000,
+        "is_closed": True,
+    }]
+    verdict = reconciled(lifetimes, second_received)
+    assert verdict["reconciled"] is False
+    assert verdict["missing_announced_settlements"] != ()

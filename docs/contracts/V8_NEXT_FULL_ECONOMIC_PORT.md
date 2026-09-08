@@ -3207,3 +3207,32 @@ quote/funding timing: pre-window rows excluded (0 applied), an in-window
 receipt-known row applied once with unchanged no-position cash, and a
 late-received row excluded from the earlier window. Full suite: 512 passed;
 Ruff/mypy clean.
+
+## Coverage-gated funding readmission after closed exposure
+
+The online paper adapter no longer blocks forever after the first position
+lifetime. After the existing open-position/order/pending guards, closed
+lifetimes (native cache plus closure history through netting reuse) must be
+fully covered by contiguous verified bounded funding responses known by the
+decision, with no missing announced settlement; otherwise the decision stays
+UNRECONCILED_FUNDING_AFTER_EXPOSURE and never reaches calibration. Coverage
+uses the existing position_funding_query_coverage /
+missing_announced_settlements boundaries: legacy unbounded responses establish
+no interval, absent schedule evidence fails closed, and query coverage is
+recorded as BOUNDED_RESPONSE_COVERS_EXPOSURE with cashflow_finality
+UNQUALIFIED — never a venue settlement certificate. Each decision retains its
+lifetimes and coverage detail for audit. paper.py supplies the verdict closure
+over quote-receipt-known manifests and receipt-known applied settlements via
+build_funding_reconciliation; with no reconciliation input the guard keeps
+blocking as before. Readmission still requires verified calibration and all
+existing risk/protection admission, so no economic authority is minted.
+
+Tests: adapter-level readmission (stub verdict true admits a test-calibrated
+campaign and receives exact lifetimes; false keeps blocking without touching
+calibration) and reconciliation boundaries on crafted verified manifests
+(covered lifetime readmits, beyond-window exposure stays blocked, announced
+but unsettled boundary stays blocked). Full suite: 517 passed; Ruff/mypy
+clean. Real single-capture replay unchanged: one quote, zero settlements,
+10000 USDT, NO_OPPORTUNITY. Open-position restart continues through
+deterministic full-session replay; continuous position-bearing operation,
+production calibration and venue margin/liquidation remain open.

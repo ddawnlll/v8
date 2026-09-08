@@ -12,6 +12,7 @@ from nautilus_trader.model import Currency, InstrumentId, QuoteTick, Venue
 from v8_next.adapters.campaign import PaperCampaignAdapter
 from v8_next.adapters.portfolio_equity import EquityMark
 from v8_next.adapters.portfolio_risk import native_portfolio_risk
+from v8_next.adapters.settlements import funding_exposure_history
 from v8_next.domain.experiment import RulePaperExperiment
 from v8_next.domain.market import CausalFrame
 from v8_next.domain.positioning import PositioningReading
@@ -19,16 +20,24 @@ from v8_next.economics.allocation import AllocationProposal, allocate_ordered
 from v8_next.economics.controller import InstrumentConstraints, decide_campaign
 from v8_next.economics.decisions import (
     Opportunity,
+    Stance,
     UtilityInputs,
 )
 from v8_next.economics.grammar import POLICIES, grammar_opportunity
 from v8_next.economics.observer_policy import policy_stances, validate_observer_policy
 from v8_next.economics.protection import PROTECTION_POLICIES, protection_at
-from v8_next.economics.regime import observe_regime
+from v8_next.economics.regime import RegimeObservation, observe_regime
 from v8_next.risk.admission import RiskLimits
 from v8_next.risk.sizing import StopBudget
 
 CalibrationProvider = Callable[[Opportunity, int], tuple[UtilityInputs, bool]]
+# Closed-lifetime funding evidence to a readmission verdict. The callable
+# receives native exposure lifetimes plus closure history (instrument_id,
+# opened_ns, closed_ns, is_closed) and the decision clock, and returns a
+# mapping with at least a "reconciled" boolean plus auditable detail.
+# None (the default) means no reconciliation input: any position history
+# keeps blocking. A verdict never certifies venue cash settlement.
+FundingReconciliation = Callable[[list[dict[str, object]], int], dict[str, object]]
 
 
 class EconomicPaperAdapter(PaperCampaignAdapter):
@@ -51,6 +60,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         stop_budget: StopBudget | None = None,
         positioning_readings: tuple[PositioningReading, ...] = (),
         experiment: RulePaperExperiment | None = None,
+        funding_reconciliation: FundingReconciliation | None = None,
     ) -> None:
         super().__init__(())
         self.observer = validate_observer_policy(observer)
@@ -77,6 +87,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             raise ValueError("missing per-instrument constraints")
         self.requested_notional = requested_notional
         self.calibration = calibration
+        self.funding_reconciliation = funding_reconciliation
         self.decisions: list[dict[str, object]] = []
         self.allocated: set[str] = set()
 
@@ -145,109 +156,162 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         ):
             record["reason"] = "ONE_ACTIVE_EXPOSURE_LIMIT"
         elif self.cache.positions():
-            # Closed positions can still have late funding liabilities. The online
-            # account is not reconciled by the separate revised-accounting view.
-            record["reason"] = "UNRECONCILED_FUNDING_AFTER_EXPOSURE"
-        else:
-            account = self.cache.account_for_venue(Venue("BINANCE"))
-            if account is None:
-                raise ValueError("native paper account unavailable")
-            # Earlier guards establish no position history or outstanding entry;
-            # cash equity therefore has no unresolved position funding adjustment.
-            portfolio = native_portfolio_risk(
-                self.cache,
-                self.campaigns,
-                pending_ids=frozenset(),
-                instrument_exposures={opportunity.instrument_id: opportunity.exposure_id},
-                marks={
-                    str(quote.instrument_id): EquityMark(
-                        quote.ask_price, quote.ts_event, quote.ts_init
-                    )
-                },
-                equity=account.balance_total(Currency.from_str("USDT")).as_decimal(),
-                accounting_reconciled=True,
-                observed_ns=quote.ts_init,
+            # Earlier guards establish no open position, open order, unprojected
+            # submission or pending campaign. Closed lifetimes can still carry
+            # late funding liabilities, so readmission requires verified query
+            # coverage for every lifetime, never a zero-risk assumption.
+            lifetimes = funding_exposure_history(
+                {
+                    "positions": [
+                        {
+                            "instrument_id": str(position.instrument_id),
+                            "opened_ns": position.ts_opened,
+                            "closed_ns": position.ts_closed,
+                            "is_closed": position.is_closed,
+                        }
+                        for position in self.cache.positions()
+                    ],
+                    "position_closures": [
+                        {
+                            "instrument_id": record["instrument_id"],
+                            "opened_ns": record["opened_ns"],
+                            "closed_ns": record["closed_ns"],
+                        }
+                        for record in self.closed_position_records()
+                    ],
+                }
             )
-            if portfolio is None:
-                record["reason"] = "UNRECONCILED_PORTFOLIO_RISK"
-                self.decisions.append(record)
-                return
-            snapshot = portfolio.snapshots[opportunity.exposure_id]
-            utility, verified = (
-                self.calibration(opportunity, quote.ts_init)
-                if self.calibration and self.experiment is None
-                else (UtilityInputs(None, None, None, None, None, None, None), False)
-            )
-            protection = None
-            if self.campaign_policy != "timeout-only-v1":
-                instrument = self.cache.instrument(quote.instrument_id)
-                if instrument is None:
-                    raise ValueError("protection instrument metadata missing")
-                protection = protection_at(
-                    frame,
-                    opportunity,
-                    self.campaign_policy,
-                    instrument.price_increment.as_decimal(),
-                    readings=self.positioning_readings,
-                )
-                record["protection"] = (
-                    {
-                        k: str(v) if isinstance(v, Decimal) else v
-                        for k, v in asdict(protection).items()
-                    }
-                    if protection
-                    else None
-                )
-            if protection is not None:
-                decision = allocate_ordered(
-                    (
-                        AllocationProposal(
-                            opportunity,
-                            stances,
-                            utility,
-                            verified,
-                            constraints,
-                            quote.ask_price.as_decimal()
-                            if opportunity.direction == "LONG"
-                            else quote.bid_price.as_decimal(),
-                            self.requested_notional,
-                            protection,
-                            decision_regime=regime,
-                        ),
-                    ),
-                    portfolio.snapshots,
-                    self.limits,
-                    decision_ns=quote.ts_init,
-                    already_allocated=frozenset(self.allocated),
-                    stop_budget=self.stop_budget,
-                    stop_exposure=portfolio.stop_exposure if self.stop_budget is not None else None,
-                    experiment=self.experiment,
-                )[0]
+            funding_detail: dict[str, object] = {
+                "reconciled": False,
+                "reason": "NO_RECONCILIATION_INPUT",
+            }
+            if self.funding_reconciliation is not None:
+                funding_detail = self.funding_reconciliation(lifetimes, quote.ts_init)
+            record["funding_lifetimes"] = lifetimes
+            record["funding_coverage"] = funding_detail
+            if not funding_detail.get("reconciled"):
+                record["reason"] = "UNRECONCILED_FUNDING_AFTER_EXPOSURE"
             else:
-                decision = decide_campaign(
-                    opportunity,
-                    stances,
-                    utility,
-                    snapshot,
-                    self.limits,
-                    constraints,
-                    quote.ts_init,
-                    quote.ask_price.as_decimal()
-                    if opportunity.direction == "LONG"
-                    else quote.bid_price.as_decimal(),
-                    self.requested_notional,
-                    frozenset(self.allocated),
-                    calibration_verified=verified,
-                    experiment=self.experiment,
-                    decision_regime=regime,
-                    protection=protection,
-                    protection_required=self.campaign_policy != "timeout-only-v1",
-                    stop_budget=self.stop_budget,
-                    stop_exposure=portfolio.stop_exposure if self.stop_budget is not None else None,
+                self._admit(
+                    quote, frame, opportunity, resolved, stances, regime, record, constraints
                 )
-            record["reason"] = decision.reason
-            if decision.campaign is not None:
-                self.allocated.add(opportunity.opportunity_id)
-                self.campaigns += (decision.campaign,)
-                record["campaign_id"] = decision.campaign.campaign_id
+        else:
+            self._admit(
+                quote, frame, opportunity, resolved, stances, regime, record, constraints
+            )
+        self.decisions.append(record)
+
+    def _admit(
+        self,
+        quote: QuoteTick,
+        frame: CausalFrame,
+        opportunity: Opportunity,
+        resolved: Opportunity | None,
+        stances: tuple[Stance, ...],
+        regime: RegimeObservation,
+        record: dict[str, object],
+        constraints: InstrumentConstraints,
+    ) -> None:
+        """Shared portfolio/utility/protection admission after all exposure guards."""
+        account = self.cache.account_for_venue(Venue("BINANCE"))
+        if account is None:
+            raise ValueError("native paper account unavailable")
+        # Earlier guards establish no position history or outstanding entry;
+        # cash equity therefore has no unresolved position funding adjustment.
+        portfolio = native_portfolio_risk(
+            self.cache,
+            self.campaigns,
+            pending_ids=frozenset(),
+            instrument_exposures={opportunity.instrument_id: opportunity.exposure_id},
+            marks={
+                str(quote.instrument_id): EquityMark(
+                    quote.ask_price, quote.ts_event, quote.ts_init
+                )
+            },
+            equity=account.balance_total(Currency.from_str("USDT")).as_decimal(),
+            accounting_reconciled=True,
+            observed_ns=quote.ts_init,
+        )
+        if portfolio is None:
+            record["reason"] = "UNRECONCILED_PORTFOLIO_RISK"
+            self.decisions.append(record)
+            return
+        snapshot = portfolio.snapshots[opportunity.exposure_id]
+        utility, verified = (
+            self.calibration(opportunity, quote.ts_init)
+            if self.calibration and self.experiment is None
+            else (UtilityInputs(None, None, None, None, None, None, None), False)
+        )
+        protection = None
+        if self.campaign_policy != "timeout-only-v1":
+            instrument = self.cache.instrument(quote.instrument_id)
+            if instrument is None:
+                raise ValueError("protection instrument metadata missing")
+            protection = protection_at(
+                frame,
+                opportunity,
+                self.campaign_policy,
+                instrument.price_increment.as_decimal(),
+                readings=self.positioning_readings,
+            )
+            record["protection"] = (
+                {
+                    k: str(v) if isinstance(v, Decimal) else v
+                    for k, v in asdict(protection).items()
+                }
+                if protection
+                else None
+            )
+        if protection is not None:
+            decision = allocate_ordered(
+                (
+                    AllocationProposal(
+                        opportunity,
+                        stances,
+                        utility,
+                        verified,
+                        constraints,
+                        quote.ask_price.as_decimal()
+                        if opportunity.direction == "LONG"
+                        else quote.bid_price.as_decimal(),
+                        self.requested_notional,
+                        protection,
+                        decision_regime=regime,
+                    ),
+                ),
+                portfolio.snapshots,
+                self.limits,
+                decision_ns=quote.ts_init,
+                already_allocated=frozenset(self.allocated),
+                stop_budget=self.stop_budget,
+                stop_exposure=portfolio.stop_exposure if self.stop_budget is not None else None,
+                experiment=self.experiment,
+            )[0]
+        else:
+            decision = decide_campaign(
+                opportunity,
+                stances,
+                utility,
+                snapshot,
+                self.limits,
+                constraints,
+                quote.ts_init,
+                quote.ask_price.as_decimal()
+                if opportunity.direction == "LONG"
+                else quote.bid_price.as_decimal(),
+                self.requested_notional,
+                frozenset(self.allocated),
+                calibration_verified=verified,
+                experiment=self.experiment,
+                decision_regime=regime,
+                protection=protection,
+                protection_required=self.campaign_policy != "timeout-only-v1",
+                stop_budget=self.stop_budget,
+                stop_exposure=portfolio.stop_exposure if self.stop_budget is not None else None,
+            )
+        record["reason"] = decision.reason
+        if decision.campaign is not None:
+            self.allocated.add(opportunity.opportunity_id)
+            self.campaigns += (decision.campaign,)
+            record["campaign_id"] = decision.campaign.campaign_id
         self.decisions.append(record)
