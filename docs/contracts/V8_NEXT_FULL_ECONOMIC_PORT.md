@@ -2100,3 +2100,14 @@ is smaller and combined protected-band notional stays within 10000; both campaig
 still fill under the native fixture. The ordinary 100-per-opportunity case also
 passes. Two focused integration cases and Ruff pass. This tests budget sharing,
 not risk-free loss bounds or real-world margin qualification.
+
+## Real ETH native data qualification
+
+Captured actual ETHUSDT public data, open interest and 5m account ratio at
+/tmp/v8-next-eth-portfolio-2181277/manifest.json. Existing native_tape mapping
+successfully replayed 499 closed bars and 62 funding events (623 iterations),
+zero orders/positions. Log: /tmp/v8-eth-native.log. Explicit simulation assumptions
+were maker 0.0002, taker 0.0005, initial cash 10000. The current metadata/generic
+1x and modeled historical timing limitations remain in the output. This proves
+real ETH instrument/data decoding, not combined BTC/ETH portfolio execution;
+common capture-window engine composition is still required.
