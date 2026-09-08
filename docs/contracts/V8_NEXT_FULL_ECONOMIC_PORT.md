@@ -1402,3 +1402,14 @@ volumes use the instrument's required precision; the initial invalid-precision
 fixture was rejected by Nautilus and was corrected, not treated as a fill.
 This test qualifies the historical integration beyond reference serialization;
 it does not supply real calibration or prospective economic evidence.
+
+## Pivot, range and gap close-validity rules
+
+Floor pivot retains the exact unrounded traded pivot for thesis validity; range
+breakout retains the broken prior-range high/low rather than its range-height
+stop. Gap A/B/C retains bottom for long and top for short per source still_valid.
+All feed the existing native/revised replay validity path. Tests cover mirrored
+levels, gap variants and the distinction between rounded pivot stop and exact
+pivot validity. Donchian is intentionally not assigned a frozen barrier: its
+source validity uses a live channel and needs a separate rule. Fifteen relevant
+tests passed, with Ruff/mypy clean. Remaining economic scope stays open.

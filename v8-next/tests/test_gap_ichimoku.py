@@ -109,7 +109,11 @@ def test_gap_campaign_keeps_zone_stop_and_one_range_target(variant, count, direc
         direction = "SHORT" if direction == "LONG" else "LONG"
     opportunity = replace(opportunity, direction=direction)
     protection = protection_at(frame, opportunity, f"gap:{variant}:v2", Decimal(1))
-    assert protection.stop_price == gap_setup(frame, variant).stop_reference
+    setup = gap_setup(frame, variant)
+    assert protection.close_invalidation_price == (
+        setup.bottom if direction == "LONG" else setup.top
+    )
+    assert protection.stop_price == setup.stop_reference
     assert protection.target_price == frame.candles[-1].close + (2 if direction == "LONG" else -2)
 
 

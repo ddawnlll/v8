@@ -64,6 +64,8 @@ def test_daily_pivot_uses_last_close_and_stays_fixed_within_session():
         mirrored, replace(opportunity, direction="SHORT"), "floor-pivot:a:v2", Decimal(".01")
     )
     assert short is not None
+    assert protection.close_invalidation_price == levels.pivot
+    assert short.close_invalidation_price == daily_pivots(mirrored).pivot
     assert short.stop_price == 250 - protection.stop_price
     assert short.target_price == 250 - protection.target_price
     assert daily_pivots(replace(frame, candles=frame.candles[1:])) is None
@@ -93,6 +95,7 @@ def test_range_requires_volume_and_fresh_breakout():
 
     protection = protection_at(frame, opportunity, "range-breakout:a:v2", Decimal(".01"))
     assert protection is not None
+    assert protection.close_invalidation_price == Decimal("100.5")
     assert (protection.stop_price, protection.target_price) == (101, 103)
     mirrored = replace(
         frame,
@@ -105,6 +108,7 @@ def test_range_requires_volume_and_fresh_breakout():
         mirrored, replace(opportunity, direction="SHORT"), "range-breakout:a:v2", Decimal(".01")
     )
     assert short is not None and (short.stop_price, short.target_price) == (149, 147)
+    assert short.close_invalidation_price == Decimal("149.5")
     # One prior-range height around observation close, not the prior low (99.5).
     flat = replace(breakout, volume=Decimal(10))
     assert (

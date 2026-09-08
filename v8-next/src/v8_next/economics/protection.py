@@ -251,11 +251,13 @@ def protection_at(
         levels = daily_pivots(frame)
         assert levels is not None
         stop = levels.pivot
+        invalidation_price = levels.pivot
         target = levels.resistance1 if sign == 1 else levels.support1
     elif family == "range-breakout":
         if observe_range_breakout(frame, opportunity).kind != StanceKind.SUPPORT:
             return None
         prior = frame.candles[-21:-1]
+        invalidation_price = max(c.high for c in prior) if sign == 1 else min(c.low for c in prior)
         height = max(c.high for c in prior) - min(c.low for c in prior)
         stop, target = close - sign * height, close + sign * height
     elif family == "ichimoku":
@@ -307,6 +309,7 @@ def protection_at(
             if gap is None or gap.direction != opportunity.direction:
                 return None
             stop = gap.stop_reference
+            invalidation_price = gap.bottom if sign == 1 else gap.top
         else:
             candle = candle_pattern(frame, variant)
             if candle is None or candle.direction != opportunity.direction:
