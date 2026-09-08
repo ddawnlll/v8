@@ -196,7 +196,12 @@ def _step_locked(run: Path, config: dict[str, Any], *, replay_only: bool) -> dic
         manifests.append(
             capture(
                 run / f"capture-{time.time_ns()}",
-                funding_start_ms=int(str(frozen["frozen_ns"])) // 1_000_000,
+                # Retain all session liabilities and the pre-session settled
+                # observation window. Receipt-time gating still applies.
+                funding_start_ms=max(
+                    0, int(str(frozen["frozen_ns"])) - (parsed.funding_max_age_ns or 0)
+                )
+                // 1_000_000,
                 include_open_interest=parsed.open_interest_max_age_ns is not None,
                 account_ratio_period=parsed.account_ratio_period,
             )

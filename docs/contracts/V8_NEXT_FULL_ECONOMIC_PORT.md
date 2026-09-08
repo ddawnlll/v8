@@ -1316,3 +1316,19 @@ capture, zero orders. Fee/freshness/limit values were explicit development
 assumptions. This is no-trade acquisition/recovery evidence only, not position-
 bearing operation or calibrated economic success. Policy remains source-frozen;
 subsequent source edits require a new run as designed.
+
+## Initial funding observation window correction
+
+Paper capture previously began funding history at policy freeze, excluding the
+last settled rate still valid under a configured freshness window. Requests now
+begin at max(0, freeze - funding_max_age_ns), preserving the full session's
+liabilities as well as the initial observation window. No historical availability
+is inferred: rates are still known only at capture receipt. Boundary tests cover
+no policy, a pre-freeze window and epoch clamping.
+
+Real paper acquisition at /tmp/v8-next-funding-window-1788872557488881000 returned
+one funding record; receipt-causal lookup at the quote decision returned
+0.00008180. Zero orders were generated. Log: /tmp/v8-funding-window-check.log.
+The eight-hour freshness and fee/limit inputs were explicit development
+assumptions, not optimized economic settings. Long sessions still fail on bounded
+funding-history truncation until pagination/settlement continuation is qualified.

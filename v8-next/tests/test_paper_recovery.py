@@ -73,3 +73,26 @@ def test_active_writer_blocks_second_process_and_exit_releases_lock(tmp_path, mo
         process.communicate(timeout=5)
     assert process.returncode == 0
     assert paper.step(tmp_path, CONFIG) == {"entered": True}
+
+
+@pytest.mark.parametrize(
+    "age,expected", [(None, 10000), (3_000_000_000, 7000), (20_000_000_000, 0)]
+)
+def test_initial_capture_includes_fresh_pre_session_funding(tmp_path, monkeypatch, age, expected):
+    frozen_ns = 10_000_000_000
+    monkeypatch.setattr(paper, "initialize", lambda *_: {"frozen_ns": frozen_ns})
+    seen = []
+
+    class Captured(Exception):
+        pass
+
+    def capture_boundary(destination, **kwargs):
+        seen.append(kwargs)
+        raise Captured
+
+    monkeypatch.setattr(paper, "capture", capture_boundary)
+    with pytest.raises(Captured):
+        paper.step(tmp_path, {**CONFIG, "funding_max_age_ns": age})
+    assert seen[0]["funding_start_ms"] == expected
+    assert seen[0]["include_open_interest"] is False
+    assert seen[0]["account_ratio_period"] is None
