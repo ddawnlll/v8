@@ -919,7 +919,7 @@ def test_thesis_invalidation_cancels_pending_or_closes_native_position(pending):
         assert state["positions"][0]["closed_ns"] < campaign.expires_ns
 
 
-def test_two_native_instruments_keep_timeout_and_brackets_isolated():
+def run_two_native_instruments(frozen_campaigns=None):
     usdt = Currency.from_str("USDT")
     venue = Venue("BINANCE")
     engine = BacktestEngine(BacktestEngineConfig(bypass_logging=True))
@@ -955,21 +955,24 @@ def test_two_native_instruments_keep_timeout_and_brackets_isolated():
         )
         for symbol, expiry in (("BTC", 3), ("ETH", 10))
     )
-    decisions = allocate_ordered(
-        proposals,
-        {
-            symbol: RiskSnapshot(
-                Decimal(10000), Decimal(0), Decimal(0), Decimal(0), 10**9, True, Decimal(0)
-            )
-            for symbol in ("BTC", "ETH")
-        },
-        RiskLimits(Decimal(1), Decimal(1), Decimal(100), 0),
-        decision_ns=10**9,
-        already_allocated=frozenset(),
-    )
-    assert all(d.reason == "PAPER_CAMPAIGN_ADMITTED" for d in decisions)
-    campaigns = tuple(d.campaign for d in decisions)
-    assert sum(c.quantity * Decimal(110) for c in campaigns) == Decimal("2.20")
+    if frozen_campaigns is None:
+        decisions = allocate_ordered(
+            proposals,
+            {
+                symbol: RiskSnapshot(
+                    Decimal(10000), Decimal(0), Decimal(0), Decimal(0), 10**9, True, Decimal(0)
+                )
+                for symbol in ("BTC", "ETH")
+            },
+            RiskLimits(Decimal(1), Decimal(1), Decimal(100), 0),
+            decision_ns=10**9,
+            already_allocated=frozenset(),
+        )
+        assert all(d.reason == "PAPER_CAMPAIGN_ADMITTED" for d in decisions)
+        campaigns = tuple(d.campaign for d in decisions)
+        assert sum(c.quantity * Decimal(110) for c in campaigns) == Decimal("2.20")
+    else:
+        campaigns = tuple(PaperCampaign.from_record(record) for record in frozen_campaigns)
     adapter = PaperCampaignAdapter(campaigns)
     try:
         engine.add_venue(
@@ -1030,5 +1033,18 @@ def test_two_native_instruments_keep_timeout_and_brackets_isolated():
             next(iter(adapter.position_closures.values()))["instrument_id"]
             == "BTCUSDT-PERP.BINANCE"
         )
+        return (
+            economic_state(engine, venue, usdt),
+            [campaign.to_record() for campaign in campaigns],
+        )
     finally:
         engine.dispose()
+
+
+def test_two_native_instruments_keep_timeout_and_brackets_isolated():
+    expected, campaigns = run_two_native_instruments()
+    # Serialization simulates restoring frozen campaign artifacts, not rerunning
+    # calibration or allocation under a new decision state.
+    recovered, restored = run_two_native_instruments(json.loads(json.dumps(campaigns)))
+    assert restored == campaigns
+    reconcile_replay(expected, recovered)

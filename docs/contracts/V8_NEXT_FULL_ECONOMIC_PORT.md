@@ -1808,3 +1808,13 @@ campaigns execute in Nautilus; BTC timeout still leaves ETH and its protection
 intact. Focused integration test and Ruff pass. Calibration is explicitly a
 fixture, not a production provider; real feed-driven multi-asset admission and
 post-position accounting remain unfinished.
+
+## Mixed open/closed two-instrument replay qualification
+
+The two-instrument native fixture now serializes admitted campaigns and restores
+them into a fresh engine without rerunning allocation. Full economic state
+comparison covers balances, commissions, order status and both the closed BTC
+and still-open ETH position. The fresh engine preserves the same protective
+orders and timeout isolation. Focused test and Ruff pass. This is bounded native
+replay with test data, not crash-safe live recovery or funding-qualified paper
+continuation.
