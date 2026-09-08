@@ -1206,3 +1206,15 @@ conflicting values, wrong symbols, future settlements and non-finite rates fail.
 Tests also prove receipt-time gating and reject substituted source bytes. This
 adapter does not certify historical PIT or authenticate the venue; CLI policy
 binding, repeated-capture reconciliation and OI/ratio acquisition remain open.
+
+## Paper funding policy wiring
+
+PaperConfig now carries optional strict positive funding_max_age_ns. Paper replay
+loads verified funding readings from every capture when this policy is explicit,
+and supplies them to economic selection/protection. Missing policy means no
+funding input. Each reading remains unavailable until its own receipt even when
+all capture files are loaded before replay. Repeated unchanged event/value/expiry
+records are corroborating receipts, not conflicts; changed values or validity
+remain rejected once both are known. Tests exercise late revision gating and
+repeat-receipt behavior. Config serialization binds freshness into frozen policy.
+No historical trial timing upgrade or OI capture is implied.

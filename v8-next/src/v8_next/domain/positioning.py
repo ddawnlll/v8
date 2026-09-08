@@ -50,8 +50,14 @@ def positioning_at(
     by_event: dict[int, PositioningReading] = {}
     for reading in known:
         existing = by_event.get(reading.event_ns)
-        if existing is not None and existing != reading:
-            raise ValueError("conflicting positioning versions require explicit revision policy")
+        if existing is not None:
+            if existing.value != reading.value or existing.valid_until_ns != reading.valid_until_ns:
+                raise ValueError(
+                    "conflicting positioning versions require explicit revision policy"
+                )
+            # Repeated captures of an unchanged settlement are corroboration,
+            # not revisions. Both have already passed decision-time filtering.
+            continue
         by_event[reading.event_ns] = reading
     if not by_event:
         return None

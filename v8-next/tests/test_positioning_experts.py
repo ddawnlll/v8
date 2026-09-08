@@ -198,3 +198,15 @@ def test_positioning_campaign_structural_stop(family, variant, close, volume, si
         )
         is None
     )
+
+
+def test_repeated_receipts_do_not_create_revisions_or_future_leakage():
+    first = reading("settled_funding_rate", 0.001)
+    repeated = replace(first, received_ns=102, available_ns=102, source_hash="second-capture")
+    args = ("i", "settled_funding_rate")
+    assert positioning_at((repeated, first), *args, 100) == first.value
+    assert positioning_at((repeated, first), *args, 102) == first.value
+    revised = replace(repeated, value=Decimal(".002"))
+    assert positioning_at((first, revised), *args, 101) == first.value
+    with pytest.raises(ValueError, match="conflicting"):
+        positioning_at((first, revised), *args, 102)

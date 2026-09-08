@@ -18,7 +18,7 @@ from nautilus_trader.model import Currency, InstrumentId, Price, Quantity, Quote
 
 from v8_next.adapters.accounting_replay import replay_frozen_campaigns
 from v8_next.adapters.binance_capture import capture, verify
-from v8_next.adapters.captured_market import load_candles
+from v8_next.adapters.captured_market import load_candles, load_settled_funding
 from v8_next.adapters.economic_paper import EconomicPaperAdapter
 from v8_next.adapters.engine_state import economic_state, reconcile_replay
 from v8_next.adapters.native_tape import build_engine
@@ -26,6 +26,7 @@ from v8_next.app.observe import initialize, observe_capture
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.config import PaperConfig
 from v8_next.domain.market import frame_at
+from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.controller import InstrumentConstraints
 from v8_next.evaluation.store import ResearchStore, canonical
 from v8_next.risk.admission import RiskLimits
@@ -40,6 +41,7 @@ def replay_account(
         raise ValueError("no prospective captures")
     quotes = []
     frames = {}
+    positioning_readings: list[PositioningReading] = []
     for manifest in manifests:
         verify(manifest)
         metadata = json.loads(manifest.read_text())
@@ -53,6 +55,10 @@ def replay_account(
             raise ValueError("venue clock ahead of local receipt; clock qualification required")
         if Decimal(row["bidPrice"]) > Decimal(row["askPrice"]):
             raise ValueError("crossed quote")
+        if parsed.funding_max_age_ns is not None:
+            positioning_readings.extend(
+                load_settled_funding(manifest, max_age_ns=parsed.funding_max_age_ns)
+            )
         candles = load_candles(manifest)
         known = tuple(replace(c, available_ns=c.received_ns) for c in candles)
         frames[received] = frame_at("BTCUSDT-PERP.BINANCE", received, known)
@@ -98,6 +104,7 @@ def replay_account(
             grammar=parsed.grammar_policy,
             campaign_policy=parsed.campaign_policy,
             stop_budget=parsed.stop_budget,
+            positioning_readings=tuple(positioning_readings),
         )
         engine.add_strategy(strategy)
         engine.add_data(quotes)

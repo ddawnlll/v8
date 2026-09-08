@@ -21,6 +21,7 @@ class PaperConfig(BaseModel):
     max_exposure_fraction: Decimal = Field(gt=0, le=1)
 
     stop_budget: StopBudget | None = None
+    funding_max_age_ns: int | None = Field(default=None, gt=0, strict=True)
 
     @model_validator(mode="after")
     def protected_sizing(self) -> Self:
