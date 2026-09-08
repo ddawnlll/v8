@@ -1391,3 +1391,14 @@ reference is substituted after entry. Existing controller/native/accounting path
 carry and evaluate these barriers. Geometry tests cover their exact references
 and mirrored profile/reclaim cases. Full suite passes (364 tests). Other families'
 non-level validity rules and broader economic delivery remain incomplete.
+
+## Historical bar thesis-exit qualification
+
+A native HistoricalTrial test now opens a serialized protected campaign, supplies
+an invalidating later bar close inside the stop/target band, verifies actual
+position closure before expiry, and reconstructs identical native state on a
+second run. Three pre-action equity marks remain present. Test bar prices and
+volumes use the instrument's required precision; the initial invalid-precision
+fixture was rejected by Nautilus and was corrected, not treated as a fill.
+This test qualifies the historical integration beyond reference serialization;
+it does not supply real calibration or prospective economic evidence.

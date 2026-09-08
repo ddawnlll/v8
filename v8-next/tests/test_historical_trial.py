@@ -54,3 +54,78 @@ def test_callback_failure_is_retained_even_if_native_engine_logs_it():
     assert trial.failure == "ValueError: missing source"
     trial.on_bar(None)
     assert not trial.decisions
+
+
+def test_historical_native_thesis_exit_precedes_timeout_and_replays():
+    from decimal import Decimal
+
+    from nautilus_trader.model import Bar, BarType, Price, Quantity
+    from test_native_engine import run_qualified_engine
+
+    from v8_next.adapters.engine_state import reconcile_replay
+    from v8_next.adapters.historical_trial import HistoricalTrial
+    from v8_next.domain.campaign import PaperCampaign
+    from v8_next.domain.market import Candle
+
+    hour = 3600 * 10**9
+    source = tuple(
+        Candle(
+            "BTCUSDT-PERP.BINANCE",
+            i * hour,
+            (i + 1) * hour,
+            Decimal(price),
+            Decimal(price + 1),
+            Decimal(price - 1),
+            Decimal(price),
+            Decimal(1),
+            (i + 1) * hour,
+            None,
+            "isolated-test",
+        )
+        for i, price in enumerate((10000, 9995, 9996))
+    )
+    bars = [
+        Bar(
+            BarType.from_str("BTCUSDT-PERP.BINANCE-1-HOUR-LAST-EXTERNAL"),
+            Price.from_str(format(c.open, ".2f")),
+            Price.from_str(format(c.high, ".2f")),
+            Price.from_str(format(c.low, ".2f")),
+            Price.from_str(format(c.close, ".2f")),
+            Quantity.from_str("1.000"),
+            c.end_ns,
+            c.end_ns,
+        )
+        for c in source
+    ]
+    policy = PaperConfig(
+        maker_fee=".001",
+        taker_fee=".001",
+        initial_balance="10000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+    )
+    campaign = PaperCampaign(
+        "historical-thesis",
+        "op",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".01"),
+        0,
+        10 * hour,
+        Decimal(9900),
+        Decimal(10100),
+        Decimal(9995),
+    )
+    results = []
+    for _ in range(2):
+        trial = HistoricalTrial(source, policy)
+        trial.campaigns = (PaperCampaign.from_record(campaign.to_record()),)
+        state = run_qualified_engine(strategy=trial, bar_data=bars, standard_assertions=False)
+        assert trial.failure is None
+        assert trial.thesis_invalidated == {campaign.campaign_id: 2 * hour}
+        assert trial.exit_requested == {campaign.campaign_id}
+        assert state["positions"][0]["is_closed"]
+        assert state["positions"][0]["closed_ns"] < campaign.expires_ns
+        assert len(trial.equity_marks) == 3
+        results.append(state)
+    reconcile_replay(*results)
