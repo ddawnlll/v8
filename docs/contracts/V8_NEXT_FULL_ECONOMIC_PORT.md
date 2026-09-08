@@ -2471,3 +2471,14 @@ uncertainty and rejection of incomplete, future or inconsistent inputs. Full sui
 436 passed; final two component tests pass after version metadata addition, Ruff
 clean and prior full mypy clean. Qualified conditioning/holdout methodology and a
 production calibration provider remain required.
+
+## Outcome cohort identity for component estimation
+
+Native outcome rows now retain campaign instrument and direction, including rows
+with missing returns. Component estimation records its instrument/direction
+conditioning and refuses mixed or unknown identities rather than silently pooling
+BTC/ETH or long/short cohorts. No automatic partitioning/search or selection of
+winning subgroups is introduced. Three tests cover unlike instruments, unlike
+directions and unavailable direction; full suite 439 passed, Ruff/mypy clean.
+This is only basic cohort identity. Strategy/regime conditioning, preregistered
+sample construction, OOS qualification and usable economic calibration remain open.

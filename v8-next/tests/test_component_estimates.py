@@ -11,6 +11,8 @@ def sample():
         rows=[
             dict(
                 campaign_id=str(i),
+                instrument_id="BTCUSDT-PERP.BINANCE",
+                direction="LONG",
                 status="CLOSED_UNDER_NATIVE_MODEL",
                 opened_ns=i + 1,
                 closed_ns=i + 10,
@@ -59,3 +61,18 @@ def test_incomplete_sample_and_unreconciled_fractions_cannot_supply_estimate():
         estimate_components(data, decision_ns=30, block_size=2, reps=99, seed=7)
     with pytest.raises(ValueError, match="future"):
         estimate_components(sample(), decision_ns=20, block_size=2, reps=99, seed=7)
+
+
+@pytest.mark.parametrize(
+    "change",
+    [{"instrument_id": "ETHUSDT-PERP.BINANCE"}, {"direction": "SHORT"}, {"direction": None}],
+)
+def test_component_estimates_do_not_pool_unlike_or_unknown_cohorts(change):
+    data = sample()
+    data["rows"][0].update(change)
+    report = estimate_components(data, decision_ns=30, block_size=2, reps=99, seed=7)
+    assert report["estimates"] is None
+    assert report["reason"] in {
+        "EXPLICIT_COHORT_CONDITIONING_REQUIRED",
+        "COHORT_IDENTITY_UNAVAILABLE",
+    }

@@ -31,6 +31,13 @@ def estimate_components(
     rows = outcomes["rows"]
     if not rows or any(r["status"] != "CLOSED_UNDER_NATIVE_MODEL" for r in rows):
         return {**result, "reason": "COMPLETE_CLOSED_COHORT_REQUIRED"}
+    if any(not r.get("instrument_id") or r.get("direction") not in {"LONG", "SHORT"} for r in rows):
+        return {**result, "reason": "COHORT_IDENTITY_UNAVAILABLE"}
+    identities = {(r["instrument_id"], r["direction"]) for r in rows}
+    if len(identities) != 1:
+        return {**result, "reason": "EXPLICIT_COHORT_CONDITIONING_REQUIRED"}
+    instrument, direction = next(iter(identities))
+    result["conditioning"] = dict(instrument_id=instrument, direction=direction)
     if outcomes["reconciliation"] != "CLOSED_CASH_RECONCILED":
         return {**result, "reason": "RECONCILED_COHORT_REQUIRED"}
     if any(any(r.get(k) is None for k in FIELDS) for r in rows):

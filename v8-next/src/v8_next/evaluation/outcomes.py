@@ -55,6 +55,8 @@ def observed_outcomes(
         row: dict[str, Any] = {
             "campaign_id": key,
             "opportunity_id": campaign["opportunity_id"],
+            "instrument_id": campaign["instrument_id"],
+            "direction": campaign["direction"],
             "status": "NO_CLOSED_NATIVE_OUTCOME",
             "net_return_on_entry_notional": None,
         }
