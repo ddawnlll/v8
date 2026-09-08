@@ -151,3 +151,50 @@ def test_compare_cli_rejects_missing_family_without_writing_report(tmp_path, mon
     with pytest.raises(ValueError, match="incomplete"):
         main()
     assert not output.exists()
+
+
+def test_comparison_pbo_requires_full_candidate_set_not_baseline(tmp_path):
+    from v8_next.evaluation.family import compare_family
+    from v8_next.evaluation.overfitting import CSCVPlan
+
+    store, results = setup_family(tmp_path)
+    try:
+        third = deepcopy(results[1])
+        third["frozen_policy"]["config"]["policy"] = "c"
+        third["policy_hash"] = hashlib.sha256(
+            canonical(third["frozen_policy"]).encode()
+        ).hexdigest()
+        third["trial_id"] = hashlib.sha256(
+            canonical(["f", "data", third["policy_hash"]]).encode()
+        ).hexdigest()
+        store.register_trial(
+            third["trial_id"], "f", third["policy_hash"], "data", "DEVELOPMENT", 100
+        )
+        results.append(third)
+        for j, result in enumerate(results):
+            result["equity_marks"] = [
+                {
+                    **result["equity_marks"][0],
+                    "end_ns": i * 10,
+                    "observed_ns": i * 10,
+                    "equity": str(100 + j * i * i),
+                    "unrealized_pnl": str(j * i * i),
+                }
+                for i in range(1, 10)
+            ]
+        kwargs = dict(
+            store=store,
+            family="f",
+            baseline_trial_id=results[0]["trial_id"],
+            decision_ns=300,
+            block_size=2,
+            reps=19,
+            seed=12,
+        )
+        plan = CSCVPlan(2, "mean_return", 2, tuple(r["trial_id"] for r in results[1:]))
+        report = compare_family(results, **kwargs, pbo_plan=plan)
+        assert report["diagnostic"]["pbo"] is not None
+        with pytest.raises(ValueError, match="complete registered"):
+            compare_family(results, **kwargs, pbo_plan=CSCVPlan(2, "mean_return", 2, ()))
+    finally:
+        store.close()

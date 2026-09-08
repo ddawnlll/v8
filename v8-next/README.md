@@ -232,3 +232,11 @@ runtime, fees and capital must match. SPA/WRC use complete aligned marked-equity
 intervals, including open exposure. Outputs retain input hashes and remain
 DEVELOPMENT_EXPLORATION_NOT_OOS and NO_ECONOMIC_CLAIM. Undefined statistics reject
 without dropping candidates. PBO/DSR and protected OOS plans are not inferred.
+
+Optional `--pbo-plan /absolute/path/cscv.json` adds CSCV/PBO. The JSON must
+contain exactly `partitions` (even integer), `metric` (`mean_return` or `sharpe`),
+`max_splits` (integer budget), and `registered_variants` (all non-baseline trial
+IDs). At least two candidates in addition to the baseline are required. The
+interval count must divide evenly; no truncation or sampled substitute occurs.
+Plan bytes are hashed in the comparison inputs. This remains exploratory PBO,
+not protected OOS or proof of complete external search history.

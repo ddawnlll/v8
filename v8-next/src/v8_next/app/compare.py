@@ -7,6 +7,7 @@ import time
 from pathlib import Path
 
 from v8_next.evaluation.family import compare_family
+from v8_next.evaluation.overfitting import CSCVPlan
 from v8_next.evaluation.store import ResearchStore, canonical
 
 
@@ -20,6 +21,7 @@ def main() -> None:
     parser.add_argument("--block-size", required=True, type=int)
     parser.add_argument("--reps", required=True, type=int)
     parser.add_argument("--seed", required=True, type=int)
+    parser.add_argument("--pbo-plan", type=Path, help="Explicit CSCV JSON plan; baseline excluded")
     args = parser.parse_args()
     if args.output.exists():
         raise ValueError("comparison output already exists")
@@ -31,6 +33,29 @@ def main() -> None:
         raw = path.read_bytes()
         records.append(json.loads(raw))
         inputs.append({"path": str(path.resolve()), "sha256": hashlib.sha256(raw).hexdigest()})
+    pbo_plan = None
+    if args.pbo_plan is not None:
+        raw = args.pbo_plan.read_bytes()
+        plan = json.loads(raw)
+        if set(plan) != {"partitions", "metric", "max_splits", "registered_variants"}:
+            raise ValueError("PBO plan requires exactly the documented fields")
+        if (
+            type(plan["partitions"]) is not int
+            or type(plan["max_splits"]) is not int
+            or plan["metric"] not in {"mean_return", "sharpe"}
+            or not isinstance(plan["registered_variants"], list)
+            or any(not isinstance(v, str) or not v for v in plan["registered_variants"])
+        ):
+            raise ValueError("invalid typed PBO plan")
+        pbo_plan = CSCVPlan(
+            plan["partitions"],
+            plan["metric"],
+            plan["max_splits"],
+            tuple(plan["registered_variants"]),
+        )
+        inputs.append(
+            {"path": str(args.pbo_plan.resolve()), "sha256": hashlib.sha256(raw).hexdigest()}
+        )
     store = ResearchStore(args.store)
     try:
         decision_ns = time.time_ns()
@@ -43,6 +68,7 @@ def main() -> None:
             block_size=args.block_size,
             reps=args.reps,
             seed=args.seed,
+            pbo_plan=pbo_plan,
         )
         report["inputs"] = inputs
         report["decision_ns"] = decision_ns

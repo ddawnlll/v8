@@ -6,6 +6,7 @@ from typing import Any
 
 from v8_next.evaluation.alignment import IntervalLoss, paired_differentials
 from v8_next.evaluation.equity import equity_losses
+from v8_next.evaluation.overfitting import CSCVPlan
 from v8_next.evaluation.store import ResearchStore, canonical
 
 
@@ -91,6 +92,7 @@ def compare_family(
     block_size: int,
     reps: int,
     seed: int,
+    pbo_plan: CSCVPlan | None = None,
 ) -> dict[str, Any]:
     """Explicit baseline SPA/WRC on the full local development family.
 
@@ -112,6 +114,7 @@ def compare_family(
         block_size=block_size,
         reps=reps,
         seed=seed,
+        pbo_plan=pbo_plan,
     )
     return {
         "family": family,

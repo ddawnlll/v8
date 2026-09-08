@@ -809,3 +809,21 @@ compared 498 intervals; temporary files /tmp/v8-family-protected.json,
 and diagnostic output. The explicit 12-block/999-repetition/42-seed selection
 is a development choice, not a certified statistical plan. No edge, OOS or
 calibration claim follows from this integration run.
+
+## Explicit family CSCV integration
+
+compare_family and app.compare now accept an optional explicit CSCV plan. CLI
+JSON schema checks require partition count, metric, split budget and the complete
+non-baseline candidate IDs; plan bytes join the hashed inputs. Existing numerical
+checks reject omitted candidates, insufficient families, non-divisible intervals,
+duplicate performance and undefined split scores without dropping observations.
+
+A real-data development integration used three fresh trials on the same 499-bar
+capture: Donchian observations/trend grammar with timeout, Donchian-protected and
+Bollinger-protected campaign policies. Timeout was the explicit baseline. The
+remaining two candidates produced SPA/WRC and PBO on all 498 intervals, with six
+CSCV blocks, mean-return scoring and all 20 combinations. Temporary artifacts
+are /tmp/v8-pbo-{timeout,donchian,bollinger}.json and /tmp/v8-pbo-comparison.json.
+These experimental policy combinations/parameters are not preregistered OOS
+plans or calibration evidence. DSR excess-return and independence specification,
+protected OOS, production calibration and portfolio operation remain open.
