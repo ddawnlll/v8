@@ -1759,3 +1759,12 @@ and incomplete funding cannot be hidden behind the selected policy's first
 rejection reason. Missing baseline position records remain explicitly unavailable.
 This is diagnostic readiness, not a replacement for aligned paired intervals or
 statistical qualification. Five report/calibration tests pass; Ruff/mypy clean.
+
+## Explicit funding capture interval from CLI
+
+Standalone capture exposes --funding-start-ms (inclusive Unix milliseconds),
+forwarded to the existing bounded request path. End time is recorded at capture;
+saturated responses still reject rather than silently truncate. CLI help and the
+two bounded-response tests pass, Ruff clean. This exposes existing acquisition
+semantics for operator-selected exposure windows; pagination and cashflow
+finality remain unresolved.

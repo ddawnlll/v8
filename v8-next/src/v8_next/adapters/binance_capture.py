@@ -166,10 +166,14 @@ def main() -> None:
     parser.add_argument("--symbol", default="BTCUSDT")
     parser.add_argument("--include-open-interest", action="store_true")
     parser.add_argument("--account-ratio-period", choices=sorted(RATIO_PERIODS))
+    parser.add_argument(
+        "--funding-start-ms", type=int, help="Inclusive funding-history start, Unix milliseconds"
+    )
     args = parser.parse_args()
     manifest = capture(
         args.destination,
         args.symbol,
+        funding_start_ms=args.funding_start_ms,
         include_open_interest=args.include_open_interest,
         account_ratio_period=args.account_ratio_period,
     )
