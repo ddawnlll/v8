@@ -1664,3 +1664,14 @@ Tests cover two-instrument pending reservations and actual native open-position
 projection through the existing engine fixture. Full suite: 383 passed;
 Ruff/mypy clean. The paper app still needs reconciled accounting and multi-asset
 feed/admission integration before this projection can enable continuous operation.
+
+## Paper admission uses native portfolio projection
+
+EconomicPaperAdapter now obtains both notional snapshots and optional stop
+exposure from native_portfolio_risk instead of constructing local zero-valued
+risk snapshots. Existing empty-order/position/history guards justify cash equity
+and no unresolved funding in this initial admission branch. Missing projection
+records UNRECONCILED_PORTFOLIO_RISK and creates no campaign. The single-exposure
+and post-position funding guards remain; this integration does not claim their
+resolution or enable multiple native campaigns. Full suite: 383 passed;
+Ruff/mypy clean, including existing native economic admission tests.

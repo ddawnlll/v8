@@ -9,6 +9,7 @@ from typing import Callable
 from nautilus_trader.model import Currency, InstrumentId, QuoteTick, Venue
 
 from v8_next.adapters.campaign import PaperCampaignAdapter
+from v8_next.adapters.portfolio_risk import native_portfolio_risk
 from v8_next.domain.market import CausalFrame
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.controller import InstrumentConstraints, decide_campaign
@@ -19,8 +20,8 @@ from v8_next.economics.decisions import (
 from v8_next.economics.grammar import POLICIES, grammar_opportunity
 from v8_next.economics.observer_policy import policy_stances, validate_observer_policy
 from v8_next.economics.protection import PROTECTION_POLICIES, protection_at
-from v8_next.risk.admission import RiskLimits, RiskSnapshot
-from v8_next.risk.sizing import StopBudget, StopExposure
+from v8_next.risk.admission import RiskLimits
+from v8_next.risk.sizing import StopBudget
 
 CalibrationProvider = Callable[[Opportunity, int], tuple[UtilityInputs, bool]]
 
@@ -126,17 +127,23 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             account = self.cache.account_for_venue(Venue("BINANCE"))
             if account is None:
                 raise ValueError("native paper account unavailable")
-            # Initial scope permits only one open campaign. Entry is considered
-            # only when positions/orders are empty, so exposure and reservations
-            # are observed zero, not guessed missing portfolio values.
-            snapshot = RiskSnapshot(
-                account.balance_total(Currency.from_str("USDT")).as_decimal(),
-                Decimal(0),
-                Decimal(0),
-                Decimal(0),
-                quote.ts_init,
-                True,
+            # Earlier guards establish no position history or outstanding entry;
+            # cash equity therefore has no unresolved position funding adjustment.
+            portfolio = native_portfolio_risk(
+                self.cache,
+                self.campaigns,
+                pending_ids=frozenset(),
+                instrument_exposures={opportunity.instrument_id: opportunity.exposure_id},
+                marks={str(quote.instrument_id): (quote.ask_price.as_decimal(), quote.ts_init)},
+                equity=account.balance_total(Currency.from_str("USDT")).as_decimal(),
+                accounting_reconciled=True,
+                observed_ns=quote.ts_init,
             )
+            if portfolio is None:
+                record["reason"] = "UNRECONCILED_PORTFOLIO_RISK"
+                self.decisions.append(record)
+                return
+            snapshot = portfolio.snapshots[opportunity.exposure_id]
             utility, verified = (
                 self.calibration(opportunity, quote.ts_init)
                 if self.calibration
@@ -179,9 +186,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                 protection=protection,
                 protection_required=self.campaign_policy != "timeout-only-v1",
                 stop_budget=self.stop_budget,
-                stop_exposure=StopExposure(Decimal(0), 0, quote.ts_init, True)
-                if self.stop_budget is not None
-                else None,
+                stop_exposure=portfolio.stop_exposure if self.stop_budget is not None else None,
             )
             record["reason"] = decision.reason
             if decision.campaign is not None:
