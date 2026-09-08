@@ -89,6 +89,8 @@ def test_momentum_protected_geometry_requires_real_setup(prices, policy):
     frame, opportunity = context(prices)
     protection = protection_at(frame, opportunity, policy, Decimal(".01"))
     assert protection is not None
+    if policy == "obv-adl:active:v2":
+        assert protection.close_invalidation_price == frame.candles[-1].low
     assert protection.stop_price == frame.candles[-1].close - 2
     assert protection.target_price == frame.candles[-1].close + 2
     assert protection.expires_ns == frame.decision_ns + 8

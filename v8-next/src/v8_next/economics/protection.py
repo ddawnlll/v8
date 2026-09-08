@@ -170,6 +170,13 @@ def protection_at(
         span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
         if span <= 0:
             return None
+        if family in {"obv-adl", "volume-climax"}:
+            invalidation_price = frame.candles[-1].low if sign == 1 else frame.candles[-1].high
+        elif family == "volume-breakout":
+            prior = frame.candles[-21:-1]
+            invalidation_price = (
+                max(c.high for c in prior) if sign == 1 else min(c.low for c in prior)
+            )
         if family == "trend-depth":
             _, low_index = significant_swings(frame)
             assert low_index is not None

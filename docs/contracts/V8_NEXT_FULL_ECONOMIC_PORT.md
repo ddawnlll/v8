@@ -1462,3 +1462,13 @@ flat alignment failure, structural-depth failure and serialization. Existing
 native/historical/revised replay machinery carries both forms. Full suite passes
 (369 tests), Ruff/mypy clean. This is not completion of all remaining methodology,
 calibration, portfolio or operational requirements.
+
+## Volume-family frozen validity
+
+OBV/ADL and volume-climax campaigns retain the detection bar's low for long/high
+for short. Volume-confirmed breakout retains the broken prior twenty-bar extreme.
+These are the source still_valid references, distinct from their active one-range
+protective stop. Existing native exit and replay paths consume the serialized
+levels; tests assert the references alongside unchanged risk geometry. Full suite
+passes (369 tests), Ruff/mypy clean. MACD's live zero-line rule remains separate
+and is not approximated by these structural references.

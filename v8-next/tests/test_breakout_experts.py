@@ -103,6 +103,10 @@ def test_volume_campaign_requires_actual_volume_gate_in_each_direction():
         protection = protection_at(frame, opportunity, "volume-breakout:active:v2", Decimal(".01"))
         assert protection is not None
         sign = 1 if direction == "LONG" else -1
+        prior = frame.candles[-21:-1]
+        assert protection.close_invalidation_price == (
+            max(c.high for c in prior) if sign == 1 else min(c.low for c in prior)
+        )
         assert (Decimal(close) - protection.stop_price) * sign == 2
         assert (protection.target_price - Decimal(close)) * sign == 2
         flat_volume = replace(
