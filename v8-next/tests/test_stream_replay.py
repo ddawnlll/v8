@@ -13,7 +13,7 @@ from v8_next.evaluation.store import canonical
 from v8_next.evaluation.stream_replay import replay_stream
 
 
-@pytest.mark.parametrize("mutation", [None, "sequence", "observation"])
+@pytest.mark.parametrize("mutation", [None, "sequence", "observation", "health", "false_halt"])
 def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutation):
     hour = 3600 * 10**9
     instrument = "BTCUSDT-PERP.BINANCE"
@@ -86,6 +86,20 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
         )
     )
     result = dict(quote_count=2, bar_count=1, ended_ns=3 * hour)
+    if mutation in {"health", "false_halt"}:
+        session = json.loads((tmp_path / "session.json").read_text())
+        session.update(started_ns=hour, max_quote_silence_ns=5)
+        (tmp_path / "session.json").write_text(canonical(session))
+        result.update(
+            status="HALTED_QUOTE_SILENCE",
+            health_halt=dict(
+                checked_ns=3 * hour,
+                started_ns=hour,
+                threshold_ns=5,
+                instruments=[instrument] if mutation == "health" else [],
+            ),
+        )
+
     for filename, key in (
         ("quotes.jsonl", "quote_sha256"),
         ("bars.jsonl", "bar_sha256"),
@@ -94,11 +108,14 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
     ):
         result[key] = hashlib.sha256((tmp_path / filename).read_bytes()).hexdigest()
     (tmp_path / "result.json").write_text(json.dumps(result))
-    if mutation:
+    if mutation in {"sequence", "observation", "false_halt"}:
         with pytest.raises(ValueError):
             replay_stream(tmp_path)
     else:
         report = replay_stream(tmp_path)
+        assert report["status"] == (
+            "HALTED_PREFIX_REPRODUCED" if mutation == "health" else "OBSERVATIONS_REPRODUCED"
+        )
         assert report["event_count"] == 3
         assert report["observation_count"] == 2
         from v8_next.evaluation.stream_replay import restore_stream

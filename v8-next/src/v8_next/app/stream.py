@@ -36,6 +36,7 @@ class QuoteRecorder(DataActor):
         self.stop_node: Callable[[], None] | None = None
         self.max_quote_silence_ns: int | None = None
         self.health_started_ns: int | None = None
+        self.health_halt: dict | None = None
         self.last_quote_ns: dict[str, int] = {}
         self.count = 0
         self.bar_count = 0
@@ -72,6 +73,12 @@ class QuoteRecorder(DataActor):
             >= self.max_quote_silence_ns
         ]
         if stale:
+            self.health_halt = dict(
+                checked_ns=now_ns,
+                started_ns=self.health_started_ns,
+                threshold_ns=self.max_quote_silence_ns,
+                instruments=stale,
+            )
             self.failure = "QUOTE_SILENCE: " + ",".join(stale)
             if self.stop_node is not None:
                 self.stop_node()
@@ -304,7 +311,7 @@ async def capture_stream(
         stopper = asyncio.create_task(stop_after())
         try:
             await node.run_async()
-            if actor.failure:
+            if actor.failure and actor.health_halt is None:
                 raise ValueError(actor.failure)
             bar_output.flush()
             os.fsync(bar_output.fileno())
@@ -326,7 +333,10 @@ async def capture_stream(
                 ).hexdigest(),
                 quote_count=actor.count,
                 ended_ns=time.time_ns(),
-                status="OBSERVED" if actor.count else "NO_QUOTES_OBSERVED",
+                status="HALTED_QUOTE_SILENCE"
+                if actor.health_halt
+                else ("OBSERVED" if actor.count else "NO_QUOTES_OBSERVED"),
+                health_halt=actor.health_halt,
                 claim_status="NO_ECONOMIC_CLAIM",
             )
             (destination / "result.json").write_text(canonical(result) + "\n")

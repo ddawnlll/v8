@@ -2419,3 +2419,16 @@ at /tmp/v8-stream-health-1788883905986773000: 1993 events replayed, no health fa
 log /tmp/v8-stream-health.log. No artificial production outage was created and
 mid-session recovery is not claimed. Full suite 429 passed; Ruff/mypy clean.
 Economic calibration, automatic failure recovery and paper admission remain open.
+
+## Recoverable quote-silence stops
+
+A native timer quote-silence stop now seals flushed/hashed input artifacts with
+HALTED_QUOTE_SILENCE and structured check/start/threshold/instrument facts. It is
+not reported as healthy completion. Replay derives the silent instruments from
+recorded quote receipts, verifies chronology and emits HALTED_PREFIX_REPRODUCED;
+verified state can then use the existing restart/backfill path. Other callback,
+validation or storage errors still reject via failure.json and are not recoverable
+through this path. Tests restore a valid halted parent and reject an invented
+silence claim; full suite 431 passed, Ruff/mypy clean. No real network outage is
+claimed. Automated recovery orchestration and economic calibration/admission
+remain incomplete.

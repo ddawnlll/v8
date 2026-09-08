@@ -88,6 +88,7 @@ def _replay_stream(
         events.extend((row["sequence"], kind, row) for row in rows)
     events.sort(key=lambda event: event[0])
     recomputed = []
+    last_quotes: dict[str, int] = {}
     for expected, (sequence, kind, row) in enumerate(events):
         if type(sequence) is not int or sequence != expected:
             raise ValueError("stream callback order missing or duplicated")
@@ -112,6 +113,7 @@ def _replay_stream(
                 )
             )
         else:
+            last_quotes[row["instrument_id"]] = row["received_ns"]
             if not 0 < row["event_ns"] <= row["received_ns"] <= row["recorded_ns"]:
                 raise ValueError("invalid stream quote clocks")
             if observer is not None:
@@ -119,11 +121,32 @@ def _replay_stream(
                 if observation is not None:
                     observation["trigger_sequence"] = sequence
                     recomputed.append(observation)
+    halt = result.get("health_halt")
+    if (result.get("status") == "HALTED_QUOTE_SILENCE") != (halt is not None):
+        raise ValueError("inconsistent stream halt status")
+    if halt is not None:
+        threshold = halt["threshold_ns"]
+        checked, started = halt["checked_ns"], halt["started_ns"]
+        if (
+            type(threshold) is not int
+            or threshold <= 0
+            or threshold != session.get("max_quote_silence_ns")
+            or not session["started_ns"] <= started <= checked <= result["ended_ns"]
+            or any(t > checked for t in last_quotes.values())
+        ):
+            raise ValueError("invalid stream health halt clocks")
+        stale = [
+            name
+            for name in session["instruments"]
+            if checked - last_quotes.get(name, started) >= threshold
+        ]
+        if not stale or stale != halt["instruments"]:
+            raise ValueError("stream health halt does not match recorded quote silence")
     recorded = [json.loads(line) for line in (run / "observations.jsonl").read_text().splitlines()]
     if canonical(recomputed) != canonical(recorded):
         raise ValueError("stream observation replay diverged")
     return dict(
-        status="OBSERVATIONS_REPRODUCED",
+        status="HALTED_PREFIX_REPRODUCED" if halt else "OBSERVATIONS_REPRODUCED",
         event_count=len(events),
         observation_count=len(recomputed),
         claim_status="NO_ECONOMIC_CLAIM",
