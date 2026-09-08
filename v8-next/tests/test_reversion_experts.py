@@ -112,3 +112,34 @@ def test_rsi_campaign_geometry_tracks_recovery_direction():
         assert protection.expires_ns == frame.decision_ns + 8
     frame, opportunity = context(prices[:-2])
     assert protection_at(frame, opportunity, "rsi-reversion:a:v2", Decimal(".01")) is None
+
+
+def test_bollinger_fade_protection_uses_clamped_sigma_not_unit_range():
+    from v8_next.economics.protection import protection_at
+
+    for sign, direction in [(1, "SHORT"), (-1, "LONG")]:
+        values = [100 + (-1) ** i for i in range(19)] + [100 + sign * 3]
+        frame, opportunity = context(values)
+        protection = protection_at(
+            frame,
+            replace(opportunity, direction=direction),
+            "bollinger-reversion:a:v2",
+            Decimal(".01"),
+        )
+        assert protection is not None
+        # Sigma exceeds 2 * mean range (.2); geometry is clamped to .4.
+        assert abs(frame.candles[-1].close - protection.stop_price) == Decimal(".4")
+        assert abs(protection.target_price - frame.candles[-1].close) == Decimal(".4")
+
+
+def test_fade_run_keeps_anchor_volatility_when_later_bar_range_changes():
+    from v8_next.experts.reversion import bollinger_fade_distance
+
+    frame, _ = context([100 + (-1) ** i for i in range(19)] + [103, Decimal("103.2")])
+    assert bollinger_fade_distance(frame) == Decimal(".4")
+    changed = replace(
+        frame,
+        candles=frame.candles[:-1]
+        + (replace(frame.candles[-1], high=Decimal(120), low=Decimal(90)),),
+    )
+    assert bollinger_fade_distance(changed) == Decimal(".4")

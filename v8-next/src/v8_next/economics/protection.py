@@ -16,7 +16,11 @@ from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.measuring import VARIANTS, measuring_setup
 from v8_next.experts.pandf import pandf_setup
-from v8_next.experts.reversion import observe_rsi_reversion
+from v8_next.experts.reversion import (
+    bollinger_fade_distance,
+    observe_bollinger_reversion,
+    observe_rsi_reversion,
+)
 from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 
 PROTECTION_POLICIES = frozenset(
@@ -28,6 +32,7 @@ PROTECTION_POLICIES = frozenset(
         "rsi-reversion:a:v2",
         "volume-breakout:active:v2",
         "failed-breakout:a:v2",
+        "bollinger-reversion:a:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -94,6 +99,13 @@ def protection_at(
         # Active Rust v1 declares one range unit each way, not its alternate
         # v2 structural stop. Execution remains V8-next frozen absolute geometry.
         stop, target = close - sign * span, close + sign * span
+    elif family == "bollinger-reversion":
+        if observe_bollinger_reversion(frame, opportunity).kind != StanceKind.SUPPORT:
+            return None
+        distance = bollinger_fade_distance(frame)
+        if distance is None:
+            return None
+        stop, target = close - sign * distance, close + sign * distance
     elif family == "failed-breakout":
         if (
             len(frame.candles) < 14

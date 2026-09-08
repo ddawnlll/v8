@@ -1,5 +1,7 @@
 """Active v1/a Bollinger fade and RSI recovery expert observations."""
 
+from decimal import Decimal
+
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
@@ -72,3 +74,29 @@ def observe_rsi_reversion(frame: CausalFrame, opportunity: Opportunity | None) -
         direction=direction,
         reason=reason,
     )
+
+
+def bollinger_fade_distance(frame: CausalFrame) -> Decimal | None:
+    """Freeze clamped sigma/range geometry at the current fade run's first bar."""
+    if len(frame.candles) < 20 or not frame.continuous:
+        return None
+    closes = close_series(frame)
+    means = closes.rolling_mean(20)
+    deviations = closes.rolling_std(20, ddof=0)
+    directions = [
+        bollinger_direction(float(closes[i]), numeric(means[i]), numeric(deviations[i]))
+        if i >= 19
+        else None
+        for i in range(len(closes))
+    ]
+    side = directions[-1]
+    if side is None:
+        return None
+    anchor = len(closes) - 1
+    while anchor > 19 and directions[anchor - 1] == side:
+        anchor -= 1
+    span = sum((c.high - c.low for c in frame.candles[anchor - 13 : anchor + 1]), Decimal(0)) / 14
+    sigma = Decimal(str(numeric(deviations[anchor])))
+    if span <= 0 or sigma <= 0:
+        return None
+    return min(Decimal(2) * span, max(Decimal(".8") * span, sigma))

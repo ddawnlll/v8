@@ -1057,3 +1057,15 @@ warmup or a break older than five bars yields no protection.
 Tests distinguish the 101 structural stop from a 102 one-range stop, verify a
 newer reference at 104 and reject stale setups. Protected coverage reaches eleven
 families/27 policies; this is not complete expert or operational port coverage.
+
+## Bollinger fade campaign geometry
+
+bollinger-reversion:a:v2 preserves the source active-a geometry: freeze population
+sigma20 and mean-range14 at the first bar of the current consecutive fade run,
+then clamp sigma to [0.8, 2.0] anchor range units for both stop and target distance.
+Polars owns rolling moments; the small economic helper owns anchor selection.
+Native absolute-price placement remains relative to current observed close and
+uses the established tick and eight-bar rules, not historical entry-fill parity.
+Tests cover long/short bands, clamp behavior and frozen anchor volatility even
+when a later bar's high/low range changes. Protected scope is twelve families/
+28 policies; other family geometry and operational work remain incomplete.
