@@ -45,3 +45,51 @@ def wilder_rsi(closes: pl.Series, period: int = 14) -> tuple[float | None, ...]:
         .alias("rsi")
     )["rsi"]
     return (None,) * period + tuple(float(v) for v in values)
+
+
+def trend_emas(frame: CausalFrame) -> tuple[float, float]:
+    closes = close_series(frame)
+    if len(closes) < 20:
+        raise ValueError("EMA warmup requires 20 bars")
+    return (
+        numeric(closes.ewm_mean(span=5, adjust=False)[-1]),
+        numeric(closes.ewm_mean(span=20, adjust=False)[-1]),
+    )
+
+
+def significant_swings(frame: CausalFrame, strength: int = 10) -> tuple[int | None, int | None]:
+    """Latest strict, confirmed pivots with bar range >= current mean range14.
+
+    Indices refer to the supplied causal prefix. Right-hand confirmation uses
+    only bars already inside that prefix. This preserves the legacy significance
+    hypothesis (mean high-low range, not a silently substituted Wilder ATR).
+    """
+    if strength < 1:
+        raise ValueError("positive pivot strength required")
+    if not frame.continuous:
+        raise ValueError("source gap")
+    if len(frame.candles) < max(14, 2 * strength + 1):
+        return None, None
+    values = pl.DataFrame(
+        {
+            "high": [float(c.high) for c in frame.candles],
+            "low": [float(c.low) for c in frame.candles],
+        }
+    )
+    if not all(values[c].is_finite().all() for c in ("high", "low")):
+        raise ValueError("price outside finite float domain")
+    ranges = values["high"] - values["low"]
+    threshold = numeric(ranges.tail(14).mean())
+    if threshold <= 0:
+        return None, None
+    found: list[int | None] = []
+    for name, high in (("high", True), ("low", False)):
+        series = values[name]
+        rolling = series.rolling_max(strength) if high else series.rolling_min(strength)
+        left, right = rolling.shift(1), rolling.shift(-strength)
+        mask = (
+            ((series > left) & (series > right)) if high else ((series < left) & (series < right))
+        )
+        indices = (mask & (ranges >= threshold)).fill_null(False).arg_true()
+        found.append(int(indices[-1]) if len(indices) else None)
+    return found[0], found[1]

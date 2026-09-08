@@ -86,3 +86,24 @@ exclusion from the price channel, volume priority/boundaries and actual 100-bar
 d/b feature paths. Native historical prefix invariance covers the six-observer
 catalog. These observation ports still do not provide campaign geometry,
 independent opportunity grammars, calibration or qualified live execution.
+
+## Active trend observations and causal swing features
+
+Added active registry families `trend_pullback` and `trend_pullback_depth` v1/a.
+`trend_continuation.rs` exists but is not in the canonical 28-entry TABLE; its
+presence alone does not make it an active expert. Pullback is long-only:
+EMA5 > EMA20 with close below EMA20. Depth is long-only with aligned EMAs and
+close below the significant swing high but within 38.2% of its high/low range.
+The inactive v2 reclaim and 50%-depth branches are not silently substituted.
+
+EMA5/20 uses the supplied causal prefix with first-close seed, adjust=False,
+and 20-bar availability, delegated to Polars. Freeze the supplied-history origin
+in deployment/research configuration; varying the origin changes EMA state.
+Significant swing10 is not a ten-bar rolling extreme: it is a strict pivot with
+ten completed bars on either side and pivot-bar range at least the current
+14-bar mean high-low range. This legacy range convention is preserved explicitly,
+not mislabeled as standard gap-aware ATR. Polars calculates neighboring extremes;
+only fully confirmed prefix pivots are usable. Missing pivots remain absent.
+Tests verify EMA recurrence, long-only behavior, delayed pivot availability, ties,
+and older confirmed pivots versus trailing-window extrema. Native diagnostic
+callbacks now include eight observations; broader product integration remains open.
