@@ -15,6 +15,8 @@ def decision(
     identity="CANONICAL",
     protection=None,
     required=False,
+    stop_budget=None,
+    stop_exposure=None,
 ):
     opportunity = Opportunity("o", "btc", "BTCUSDT-PERP.BINANCE", "LONG", 1, expires)
     opportunity = replace(opportunity, identity_status=identity)
@@ -33,6 +35,8 @@ def decision(
         calibration_verified=verified,
         protection=protection,
         protection_required=required,
+        stop_budget=stop_budget,
+        stop_exposure=stop_exposure,
     )
 
 
@@ -75,3 +79,23 @@ def test_geometry_is_bound_to_opportunity_clocks_and_price():
     )
     campaign = decision(protection=protection, required=True).campaign
     assert (campaign.stop_price, campaign.target_price, campaign.expires_ns) == (90, 110, 50)
+
+
+def test_stop_risk_sizing_reaches_venue_rounding_without_bypassing_calibration():
+    from v8_next.economics.protection import CampaignProtection
+    from v8_next.risk.sizing import StopBudget, StopExposure
+
+    protection = CampaignProtection(
+        "pandf:a:v2", "o", "BTCUSDT-PERP.BINANCE", "LONG", 10, 50, D(90), D(110)
+    )
+    kwargs = dict(
+        protection=protection,
+        stop_budget=StopBudget(D(".00333"), D(".05"), 3),
+        stop_exposure=StopExposure(D(0), 0, 10, True),
+    )
+    result = decision(**kwargs)
+    assert result.campaign.quantity == D(".33")
+    assert result.campaign.quantity * D(10) <= D("3.33")
+    assert decision(verified=False, **kwargs).reason == "UNVERIFIED_CALIBRATION"
+    kwargs["stop_exposure"] = None
+    assert decision(**kwargs).reason == "MISSING_STOP_RISK_INPUTS"

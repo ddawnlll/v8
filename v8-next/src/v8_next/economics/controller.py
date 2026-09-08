@@ -13,6 +13,7 @@ from v8_next.economics.decisions import (
 )
 from v8_next.economics.protection import CampaignProtection
 from v8_next.risk.admission import RiskLimits, RiskSnapshot, admit
+from v8_next.risk.sizing import StopBudget, StopExposure, stop_budget_notional
 
 
 @dataclass(frozen=True)
@@ -44,6 +45,8 @@ def decide_campaign(
     calibration_verified: bool,
     protection: CampaignProtection | None = None,
     protection_required: bool = False,
+    stop_budget: StopBudget | None = None,
+    stop_exposure: StopExposure | None = None,
 ) -> CampaignDecision:
     """Caller must verify calibration provenance and reserve admitted risk atomically.
 
@@ -85,6 +88,23 @@ def decide_campaign(
     utility_result = utility_admission(utility)
     if utility_result != "UTILITY_ELIGIBLE":
         return CampaignDecision(utility_result)
+    if stop_budget is not None:
+        if protection is None or stop_exposure is None:
+            return CampaignDecision("MISSING_STOP_RISK_INPUTS")
+        sized, reason = stop_budget_notional(
+            snapshot,
+            stop_exposure,
+            stop_budget,
+            price=price,
+            stop=protection.stop_price,
+            direction=opportunity.direction,
+            decision_ns=decision_ns,
+        )
+        if sized is None:
+            return CampaignDecision(reason)
+        requested_notional = min(requested_notional, sized)
+    elif stop_exposure is not None:
+        return CampaignDecision("MISSING_STOP_BUDGET_POLICY")
     admitted = admit(
         snapshot,
         limits,

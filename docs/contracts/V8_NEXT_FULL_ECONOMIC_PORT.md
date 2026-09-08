@@ -942,3 +942,21 @@ from making an incomplete economic run look successful. Tests inject campaign
 and economic failures, verify retained reasons and prevent subsequent admission;
 existing native execution tests still pass. This is not a funding-continuation
 implementation or an authorization to remove its guard.
+
+## Stop-distance allocation policy
+
+Ported the economic rule from v8-core/src/allocator.rs: equity times explicit
+risk fraction divided by directional stop distance determines raw quantity.
+The controller now accepts an optional StopBudget and reconciled StopExposure,
+including reserved nominal risk/concurrency. Missing, stale, unreconciled or
+capacity-exceeding state rejects. The proposed budget must fit the heat limit;
+existing notional/exposure caps and venue lot rounding still constrain quantity.
+No old leverage defaults, custom margin/account model or order infrastructure
+is imported. Directional geometry is validated rather than absolute-distance
+acceptance of a stop on the wrong side. Fees/gaps can exceed nominal stop loss;
+this is not a maximum-loss guarantee.
+
+Tests verify long/short sizing, pending reservations, heat/concurrency rejection,
+exact lot-floor behavior and that verified utility remains required. Native
+portfolio-to-StopExposure projection and active app policy configuration remain
+to be connected; this controller capability is not full multi-asset allocation.
