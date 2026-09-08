@@ -890,3 +890,19 @@ proof of cross-asset independence. Legacy records without coverage and data
 outside this registry remain unqualified. An eventual OOS runner must register
 verified holdout coverage and bind the frozen plan before evaluation. No existing
 historical dataset has been retroactively declared pristine by this change.
+
+## Future experiment plan freeze
+
+ForwardPlan declares hourly future boundaries, named policy family, baseline,
+common capital/fees and explicit SPA/WRC sampling parameters. app.plan records
+its full content and runtime source/lock hash atomically, using internal wall
+clock registration. Windows already started reject new registrations. Identical
+retries preserve the original record; changed policy/code cannot reuse an ID.
+The plan is revalidated at registration, including duplicate policies and family
+compatibility. This is an experiment specification, not an authority receipt.
+
+Tests cover restart/idempotence, no backdating, changed-runtime rejection and
+invalid family/window definitions. No genuine experiment is declared completed
+by a frozen plan. Execution/coverage binding, acquisition availability, embargo
+and protected OOS evaluation remain open. Local database/clock trust and outside
+access cannot be established by these checks.

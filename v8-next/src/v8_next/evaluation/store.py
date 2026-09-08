@@ -26,6 +26,9 @@ class ResearchStore:
                 trial_id TEXT PRIMARY KEY, family TEXT NOT NULL,
                 policy_hash TEXT NOT NULL, dataset_hash TEXT NOT NULL,
                 role TEXT NOT NULL, registered_ns INTEGER NOT NULL);
+            CREATE TABLE IF NOT EXISTS forward_plans (
+                plan_id TEXT PRIMARY KEY, payload TEXT NOT NULL,
+                digest TEXT NOT NULL, registered_ns INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS dataset_windows (
                 dataset_hash TEXT NOT NULL, instrument_id TEXT NOT NULL,
                 start_ns INTEGER NOT NULL, end_ns INTEGER NOT NULL,

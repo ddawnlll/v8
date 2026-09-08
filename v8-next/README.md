@@ -253,3 +253,11 @@ aligned reference observations; no default zero series is inserted. The artifact
 hash, metadata and reference values are retained. Schema validation does not
 certify the reference source or independent-trial assumption. DSR is confidence,
 not a p-value, and does not promote these development observations.
+
+Freeze a future hourly experiment with `python -m v8_next.app.plan plan.json
+--id NAME --store research.sqlite` (using the same uv environment). The JSON
+requires `instrument_id`, future UTC-hour-aligned `start_ns`/`end_ns`, `policies`
+(a name-to-PaperConfig mapping), member `baseline`, `block_size`, `reps`, `seed`.
+The registry stores the full plan, source/lock hash and actual registration clock.
+Changed plans cannot reuse an ID; identical retries retain the original clock.
+Recording a plan does not run the experiment or establish protected OOS evidence.
