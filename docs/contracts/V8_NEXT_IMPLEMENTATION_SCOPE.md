@@ -311,3 +311,26 @@ restart at `/tmp/v8-next-wheel-paper`; logs are
 `/tmp/v8-next-wheel-paper.log` and `/tmp/v8-next-wheel-paper-restart.log`.
 This validates installed-package execution on this macOS host without legacy
 runtime imports/builds, not cross-platform or profitable trading qualification.
+
+### Upstream multiple-comparison API finding
+
+Official `arch` documentation/source was inspected at
+https://arch.readthedocs.io/en/latest/multiple-comparison/generated/arch.bootstrap.SPA.html
+and https://arch.readthedocs.io/en/latest/_modules/arch/bootstrap/multiple_comparison.html.
+The exposed API consumes T baseline losses and a T-by-k alternative loss matrix,
+with explicit bootstrap scheme, block size, replication count, studentization and
+seed controls. It emits lower/consistent/upper p-values. The documented source
+implements `RealityCheck` as a shallow subclass of `SPA`; the class name alone
+therefore does not establish V8's historical WRC settings or method equivalence.
+
+Next integration must pin an installable release and inspect that installed
+source, choose explicit settings from the preregistered method, preserve joint
+row resampling across the family, and label the exact returned p-value variant.
+The latest-docs finding is API research, not installed-release qualification.
+No p-value was calculated from the current missing economic outcome sample.
+
+`evaluation/alignment.py` now enforces a complete shared half-open interval
+chronology and strictly pre-decision outcome availability before calculating
+paired loss differences. It rejects missing/nonfinite losses and cannot validate
+source authority, holdout pristine status or an estimator by itself. Its isolated
+fixture test checks sign, missing rows, reordering, future knowledge and boundaries.
