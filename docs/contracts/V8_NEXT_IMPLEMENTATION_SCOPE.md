@@ -437,3 +437,22 @@ inference orchestration. Tests prove rejection occurs before even a deliberately
 corrupted outcome is decoded, and access after a matching record still preserves
 claim gates. Ten focused tests passed in 0.12 s (`/tmp/v8-next-holdout-access.log`);
 Ruff and mypy passed.
+
+### Capture-prefix economic trajectory
+
+`report --trajectory` connects verified source sessions to a paired baseline/squeeze
+cash trajectory. For each chronological capture prefix it reruns economic decisions
+and fixed-campaign native accounting using the same cutoff for both policies.
+Incremental change uses adjacent cumulative values only; either missing endpoint
+makes the increment missing. No later capture or funding receipt enters an earlier
+row. The series remains a descriptive irregular-interval cash diagnostic, not a
+qualified loss sample or an estimator. Full-prefix replay is deliberately optional
+because total work grows quadratically with capture count; no scheduler/cache
+framework was added.
+
+The source-prefix/missingness test and report test passed (2 tests, 0.36 s pytest;
+`/tmp/v8-next-trajectory-tests.log`). Actual two-capture public data produced
+`/tmp/v8-next-real-trajectory.json` via the production report command: both policies
+had zero observed cash change in both intervals and inference eligibility remained
+false. Native process log: `/tmp/v8-next-trajectory-real.log`. Ruff and mypy passed
+for the implementation (26 source files).

@@ -12,9 +12,10 @@ from v8_next.app.paper import replay_account
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.evaluation.calibration import inspect_calibration_source
 from v8_next.evaluation.cash_return import terminal_cash_return
+from v8_next.evaluation.trajectory import cash_trajectory
 
 
-def report(run: Path, decision_ns: int) -> dict[str, Any]:
+def report(run: Path, decision_ns: int, *, include_trajectory: bool = False) -> dict[str, Any]:
     observations = evaluate(run)
     outcomes = inspect_calibration_source(run, decision_ns)
     frozen = json.loads((run / "policy.json").read_text())
@@ -47,6 +48,14 @@ def report(run: Path, decision_ns: int) -> dict[str, Any]:
             "status": "NOT_COMPUTED",
             "reason": outcomes["reason"],
             "paired_loss_sample": None,
+            "cash_trajectory": cash_trajectory(
+                [run / name for name in checkpoint["manifests"]],
+                frozen["policy"]["paper_config"],
+                int(frozen["frozen_ns"]),
+                decision_ns,
+            )
+            if include_trajectory
+            else None,
             "baseline_cash_return": terminal_cash_return(
                 baseline_accounting, Decimal(frozen["policy"]["paper_config"]["initial_balance"])
             ),
@@ -76,8 +85,13 @@ def main() -> None:
     parser.add_argument("run_directory", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--decision-ns", type=int, required=True)
+    parser.add_argument(
+        "--trajectory",
+        action="store_true",
+        help="Replay every capture prefix; cost grows with session length",
+    )
     args = parser.parse_args()
-    result = report(args.run_directory, args.decision_ns)
+    result = report(args.run_directory, args.decision_ns, include_trajectory=args.trajectory)
     with args.output.open("x") as output:
         json.dump(result, output, indent=2)
         output.write("\n")

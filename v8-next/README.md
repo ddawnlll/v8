@@ -166,3 +166,12 @@ first capture/paper, 0.433 s replay-only restart and 3.553 s continuation. These
 include different work and are not language-speed comparisons. Full suite passed
 58 tests in 2.30 s pytest time (`/tmp/v8-next-integrated-suite.log`). Temporary
 artifacts are development evidence, not permanent release certificates.
+
+Add `--trajectory` to the combined report command to replay every capture prefix
+for both policies. Each row exposes cumulative and incremental cash change using
+only that prefix's available records. Missing values propagate across the affected
+increment; they are never imputed or skipped. The initial cash change is zero in
+the fixed-capital simulator before its first event. This optional diagnostic
+replays prefixes repeatedly and becomes expensive on long sessions. Irregular
+capture intervals, unqualified equity marks and venue revisions prevent automatic
+use as a statistical loss sample; the option does not call SPA or authorize claims.
