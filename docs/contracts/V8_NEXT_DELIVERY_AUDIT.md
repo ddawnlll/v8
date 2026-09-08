@@ -14,7 +14,7 @@ permission excuses incorrect implemented behavior or fabricated qualification.
 | Clock distinction/PIT | Immutable Candle/CausalFrame, unknown historical availability, prospective receipt conversion, prefix tests | Implemented for current response versions; historical replay explicitly modeled |
 | Economic identity and observer boundary | Opportunity hash independent of observer, frozen Stance; separate controller and campaign adapter | Implemented for BTC linear exposure grammar |
 | Clone invariance | Feed dedup/conflict test; stance group reconciliation; campaign opportunity dedup; SPA duplicate-column test | Covered within narrow single-instrument scope |
-| Lifecycle/rejections/abstention/expiry | Transactional decisions/lifecycle; deadline sweep; restart/idempotence tests | Observation lifecycle implemented; submitted campaign lifecycle not yet written to research store |
+| Lifecycle/rejections/abstention/expiry | Transactional decisions/lifecycle; deadline sweep; restart/idempotence tests | Observation lifecycle implemented; native entry events and order snapshots now persist and survive SQLite reopen/evaluation; exit association remains incomplete |
 | After-cost utility and exposure limits | Utility and risk/controller tests; real app supplies no calibrated edge | Missing calibration fails closed; positive path qualified only in isolated tests |
 | Native orders/fills/positions | Test observer → controller → native fill; fee, expiry close and deterministic subprocess state tests | Native positive semantics demonstrated with test fixtures, no real-input admitted fill |
 | Fees/funding and account outputs | Native commission and duplicate/late funding tests; fixed-campaign revised accounting | Accounting replay implemented; complete funding coverage is unqualified and subsequent exposure admission blocked |
@@ -41,3 +41,25 @@ repeating no-position capture demonstrations. Any unavailable empirical quantity
 must remain absent, and no production calibration may be fabricated to force
 entry. A genuine external blocker must be identified specifically; missing
 implementation alone is not an external blocker.
+
+## Campaign persistence checkpoint
+
+The shared `PaperCampaignAdapter.campaign_observations` projection now carries
+native entry callbacks and the native entry-order snapshot into paper checkpoint
+state and the transactional SQLite campaign observation history. Replaying the
+same observation is idempotent; conflicting contents at the same observation time
+are rejected. Evaluation checks the stored payload hash and retains SIMULATED
+classification. A submission flag is not converted into a fill.
+
+`test_native_order_callbacks_survive_store_restart_and_evaluation` executes a
+native test-only fill, uses that production projection, writes SQLite, closes and
+reopens the store, repeats the observation, and reads the unchanged fill through
+the production evaluator. The focused native/store/evaluator suite passed 16 tests
+in 1.41 s pytest time; `/tmp/v8-next-campaign-persistence-tests.log`. Ruff and mypy
+passed (24 source files). These are fixture-based integration checks, not real
+market economic evidence or process-crash durability qualification.
+
+This closes the entry-event persistence gap only. Generated closing-order IDs are
+not yet bound to campaign history; position settlement and funding completeness
+must not be inferred from these entry snapshots. The paired-outcome and funding
+continuation gaps above remain open.

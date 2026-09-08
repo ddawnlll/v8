@@ -69,6 +69,25 @@ def evaluate(run: Path) -> dict[str, Any]:
                 "SELECT * FROM lifecycle ORDER BY opportunity_id,sequence"
             )
         ]
+        campaign_observations = []
+        has_campaign_table = (
+            connection.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='campaign_observations'"
+            ).fetchone()
+            is not None
+        )
+        if has_campaign_table:
+            for identity, observed_ns, text, digest in connection.execute(
+                "SELECT * FROM campaign_observations ORDER BY observed_ns,campaign_id"
+            ):
+                if hashlib.sha256(text.encode()).hexdigest() != digest:
+                    raise ValueError("campaign observation hash mismatch")
+                observation = json.loads(text)
+                if observation.get("realization") != "SIMULATED":
+                    raise ValueError("unauthorized campaign realization upgrade")
+                if observation.get("campaign_id") != identity:
+                    raise ValueError("campaign observation identity mismatch")
+                campaign_observations.append({"observed_ns": observed_ns, **observation})
         burns = [
             dict(zip(("lineage", "dataset_hash", "burned_ns"), row, strict=True))
             for row in connection.execute("SELECT * FROM burns ORDER BY lineage,dataset_hash")
@@ -81,6 +100,11 @@ def evaluate(run: Path) -> dict[str, Any]:
         "claim_class": "DIAGNOSTIC_SIGNAL",
         "policy_hash": policy_hash,
         "decision_count": len(decisions),
+        "campaign_history": {
+            "status": "RECORDED" if has_campaign_table else "UNAVAILABLE_LEGACY_SCHEMA",
+            "observations": campaign_observations,
+            "authority": "SIMULATED_SNAPSHOTS_NOT_VENUE_SETTLEMENT",
+        },
         "research_lineage": {
             "trials": trials,
             "registered_family_sizes": dict(sorted(Counter(t["family"] for t in trials).items())),

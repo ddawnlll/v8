@@ -93,3 +93,21 @@ def test_no_signal_observation_expires_pending_opportunity_after_restart(tmp_pat
         assert store.db.execute("SELECT COUNT(*) FROM lifecycle").fetchone()[0] == len(rows)
     finally:
         store.close()
+
+
+def test_campaign_observation_restart_and_divergence(tmp_path):
+    path = tmp_path / "research.sqlite"
+    store = ResearchStore(path)
+    payload = {"submitted": True, "realization": "SIMULATED", "entry_order": {"status": "FILLED"}}
+    store.record_campaign_observation("campaign", 10, payload)
+    store.close()
+    store = ResearchStore(path)
+    try:
+        store.record_campaign_observation("campaign", 10, payload)
+        with pytest.raises(ValueError, match="diverged"):
+            store.record_campaign_observation("campaign", 10, {"submitted": False})
+        with pytest.raises(ValueError, match="backwards"):
+            store.record_campaign_observation("campaign", 9, payload)
+        assert store.db.execute("SELECT COUNT(*) FROM campaign_observations").fetchone()[0] == 1
+    finally:
+        store.close()

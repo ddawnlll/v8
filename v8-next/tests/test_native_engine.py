@@ -235,3 +235,62 @@ def test_observer_through_admission_to_native_fill():
     state = run_qualified_engine(strategy=strategy, offset=69 * hour)
     assert len(state["orders"]) == 1
     assert strategy.decisions[0]["reason"] == "PAPER_CAMPAIGN_ADMITTED"
+
+
+def test_native_order_callbacks_survive_store_restart_and_evaluation(tmp_path):
+    import hashlib
+    import json
+
+    from v8_next.app.evaluate import evaluate
+    from v8_next.evaluation.store import ResearchStore, canonical
+
+    strategy = PaperCampaignAdapter(
+        (
+            PaperCampaign(
+                "callback-test",
+                "callback-opportunity",
+                "BTCUSDT-PERP.BINANCE",
+                "LONG",
+                Decimal("0.010"),
+                1_000_000_000,
+                5_000_000_000,
+            ),
+        )
+    )
+    state = run_qualified_engine(strategy=strategy)
+    fills = [e for e in strategy.order_events if e["event_type"] == "OrderFilled"]
+    assert len(fills) == 1
+    assert Decimal(fills[0]["fill_quantity"]) == Decimal("0.010")
+    assert Decimal(fills[0]["fill_price"]) == Decimal(10000)
+    assert fills[0]["event_ns"] > 1_000_000_000
+
+    observations = strategy.campaign_observations(state)
+    assert observations[0]["entry_order"]["status"] == "FILLED"
+    policy = {"test_only": True}
+    policy_hash = hashlib.sha256(canonical(policy).encode()).hexdigest()
+    (tmp_path / "policy.json").write_text(
+        json.dumps({"policy": policy, "policy_hash": policy_hash})
+    )
+    store = ResearchStore(tmp_path / "research.sqlite")
+    try:
+        for observation in observations:
+            store.record_campaign_observation(
+                observation["campaign_id"], 4_000_000_000, observation
+            )
+    finally:
+        store.close()
+    # Open a new connection as a restarted process would; duplicate replay is a no-op.
+    recovered = ResearchStore(tmp_path / "research.sqlite")
+    try:
+        for observation in observations:
+            recovered.record_campaign_observation(
+                observation["campaign_id"], 4_000_000_000, observation
+            )
+    finally:
+        recovered.close()
+    report = evaluate(tmp_path)
+    history = report["campaign_history"]["observations"]
+    assert len(history) == 1
+    assert history[0]["entry_events"] == observations[0]["entry_events"]
+    assert history[0]["realization"] == "SIMULATED"
+    assert report["claim_status"] == "NO_ECONOMIC_CLAIM"

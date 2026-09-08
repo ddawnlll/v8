@@ -16,6 +16,9 @@ def test_evaluator_reports_registry_without_claiming_adjustment(tmp_path):
         store.register_trial("baseline", "family", digest, "test-data", "DEVELOPMENT", 1)
         store.register_trial("observer", "family", digest, "test-data", "DEVELOPMENT", 1)
         store.burn_holdout("family", "held-out", 2)
+        store.record_campaign_observation(
+            "campaign", 2, {"campaign_id": "campaign", "realization": "SIMULATED"}
+        )
         report = evaluate(tmp_path)
         assert report["research_lineage"]["registered_family_sizes"] == {"family": 2}
         assert report["research_lineage"]["holdout_burns"] == [
@@ -23,6 +26,11 @@ def test_evaluator_reports_registry_without_claiming_adjustment(tmp_path):
         ]
         assert report["research_lineage"]["multiplicity_adjustment"] is None
         assert report["claim_status"] == "NO_ECONOMIC_CLAIM"
+        assert report["campaign_history"]["observations"][0]["campaign_id"] == "campaign"
+        store.db.execute("UPDATE campaign_observations SET digest='tampered'")
+        with pytest.raises(ValueError, match="campaign observation hash"):
+            evaluate(tmp_path)
+        store.db.execute("DELETE FROM campaign_observations")
         store.register_trial("foreign", "family", "other-policy", "test-data", "DEVELOPMENT", 3)
         with pytest.raises(ValueError, match="trial belongs"):
             evaluate(tmp_path)

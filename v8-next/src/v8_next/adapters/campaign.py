@@ -1,6 +1,7 @@
 """Native simulated execution of pre-admitted campaigns; no economic decisions."""
 
 from decimal import Decimal
+from typing import Any
 
 from nautilus_trader.model import ClientOrderId, InstrumentId, OrderSide, Quantity, QuoteTick
 from nautilus_trader.trading import Strategy
@@ -31,10 +32,46 @@ class PaperCampaignAdapter(Strategy):
                     < min(campaign.expires_ns, other.expires_ns)
                 ):
                     raise ValueError("overlapping netting campaigns are outside initial scope")
+        self.order_events: list[dict[str, Any]] = []
         self.campaigns = campaigns
         self.submitted: set[str] = set()
         self.expired: set[str] = set()
         self.exit_requested: set[str] = set()
+
+    def on_order_event(self, event: Any) -> None:
+        """Observe native transitions; do not infer fills from submission flags."""
+        self.order_events.append(
+            {
+                "event_type": type(event).__name__,
+                "client_order_id": str(event.client_order_id),
+                "instrument_id": str(event.instrument_id),
+                "event_ns": event.ts_event,
+                "received_ns": event.ts_init,
+                "fill_price": str(event.last_px) if hasattr(event, "last_px") else None,
+                "fill_quantity": str(event.last_qty) if hasattr(event, "last_qty") else None,
+                "commission": str(event.commission) if hasattr(event, "commission") else None,
+            }
+        )
+
+    def campaign_observations(self, state: dict[str, Any]) -> list[dict[str, Any]]:
+        """Project native entry evidence; submission alone is never a fill."""
+        return [
+            {
+                "campaign_id": c.campaign_id,
+                "opportunity_id": c.opportunity_id,
+                "entry_events": [
+                    e for e in self.order_events if e["client_order_id"] == c.campaign_id
+                ],
+                "submitted": c.campaign_id in self.submitted,
+                "expired_before_submission": c.campaign_id in self.expired,
+                "exit_requested": c.campaign_id in self.exit_requested,
+                "entry_order": next(
+                    (o for o in state["orders"] if o["client_order_id"] == c.campaign_id), None
+                ),
+                "realization": "SIMULATED",
+            }
+            for c in self.campaigns
+        ]
 
     def on_start(self) -> None:
         for instrument in sorted({c.instrument_id for c in self.campaigns}):

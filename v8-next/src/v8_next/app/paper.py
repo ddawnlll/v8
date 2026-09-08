@@ -27,7 +27,7 @@ from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.config import PaperConfig
 from v8_next.domain.market import frame_at
 from v8_next.economics.controller import InstrumentConstraints
-from v8_next.evaluation.store import canonical
+from v8_next.evaluation.store import ResearchStore, canonical
 from v8_next.risk.admission import RiskLimits
 
 
@@ -102,6 +102,7 @@ def replay_account(manifests: list[Path], config: dict[str, str]) -> dict[str, A
         state["campaigns"] = [
             {**asdict(c), "quantity": str(c.quantity)} for c in strategy.campaigns
         ]
+        state["campaign_observations"] = strategy.campaign_observations(state)
         state["funding_status"] = (
             "UNVERIFIED_ONLINE_FUNDING"
             if state["positions"]
@@ -178,6 +179,12 @@ def _step_locked(run: Path, config: dict[str, str], *, replay_only: bool) -> dic
         for a in json.loads(p.read_text())["artifacts"]
     )
     revised_accounting = replay_frozen_campaigns(manifests, campaigns, config, cutoff)
+    store = ResearchStore(run / "research.sqlite")
+    try:
+        for observation in state["campaign_observations"]:
+            store.record_campaign_observation(observation["campaign_id"], cutoff, observation)
+    finally:
+        store.close()
     result = {
         "policy_hash": frozen["policy_hash"],
         "manifests": [str(p.relative_to(run)) for p in manifests],

@@ -18,6 +18,10 @@ class ResearchStore:
         self.db = sqlite3.connect(path, isolation_level=None)
         self.db.execute("PRAGMA foreign_keys=ON")
         self.db.executescript("""
+            CREATE TABLE IF NOT EXISTS campaign_observations (
+                campaign_id TEXT NOT NULL, observed_ns INTEGER NOT NULL,
+                payload TEXT NOT NULL, digest TEXT NOT NULL,
+                PRIMARY KEY(campaign_id, observed_ns));
             CREATE TABLE IF NOT EXISTS trials (
                 trial_id TEXT PRIMARY KEY, family TEXT NOT NULL,
                 policy_hash TEXT NOT NULL, dataset_hash TEXT NOT NULL,
@@ -38,6 +42,37 @@ class ResearchStore:
 
     def close(self) -> None:
         self.db.close()
+
+    def record_campaign_observation(
+        self, campaign_id: str, observed_ns: int, payload: dict[str, Any]
+    ) -> None:
+        """Persist native observations, not an independent order state machine."""
+        text = canonical(payload)
+        digest = hashlib.sha256(text.encode()).hexdigest()
+        self.db.execute("BEGIN IMMEDIATE")
+        try:
+            existing = self.db.execute(
+                "SELECT payload,digest FROM campaign_observations WHERE campaign_id=? AND observed_ns=?",
+                (campaign_id, observed_ns),
+            ).fetchone()
+            if existing is not None:
+                if existing != (text, digest):
+                    raise ValueError("campaign observation replay diverged")
+            else:
+                latest = self.db.execute(
+                    "SELECT MAX(observed_ns) FROM campaign_observations WHERE campaign_id=?",
+                    (campaign_id,),
+                ).fetchone()[0]
+                if latest is not None and observed_ns < latest:
+                    raise ValueError("campaign observation moved backwards")
+                self.db.execute(
+                    "INSERT INTO campaign_observations VALUES (?,?,?,?)",
+                    (campaign_id, observed_ns, text, digest),
+                )
+            self.db.execute("COMMIT")
+        except BaseException:
+            self.db.execute("ROLLBACK")
+            raise
 
     def register_trial(
         self,
