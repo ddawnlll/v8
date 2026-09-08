@@ -95,3 +95,21 @@ coverage, and requires the accounting cutoff to precede the proposed decision.
 It is a source inspector, not a calibrated estimator: absent qualified outcomes
 leave utility eligibility false and edge/uncertainty null. The timestamp argument
 is an evaluation cutoff request, not evidence that a prospective decision occurred.
+
+Verified local environment (Python 3.12.12; exact resolution in `uv.lock`):
+
+| Dependency | Installed version | Used responsibility |
+|---|---|---|
+| NautilusTrader | 2.0.0rc4 | Native simulation, orders, positions, accounts |
+| Polars | 1.44.1 | Observer rolling features |
+| NumPy | 2.5.3 | Native ecosystem dependency; no custom estimator yet |
+| Pydantic | 2.13.5 | External paper configuration validation |
+| pytest | 9.1.1 | Qualification tests |
+| Hypothesis | 6.167.1 | Causal property tests |
+| Ruff | 0.16.6 | Formatting and lint |
+| mypy | 2.3.1 | Python type checks |
+
+These versions were read from the locked installed environment, not inferred
+from upstream latest documentation. macOS ARM64 execution is demonstrated here;
+Linux installation/execution has not been exercised in this workspace. Local
+writer locking uses POSIX `flock`; Windows is not a qualified target.
