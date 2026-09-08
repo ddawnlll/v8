@@ -307,3 +307,28 @@ Still missing active TABLE observation families are:
 
 These counts do not assert completed variants, campaign semantics or economic
 integration. The broader requirements at the start of this document remain open.
+
+## Complete-session Market Profile a/b/c/d
+
+Added prior-session TPO profile and all four reaction variants. NumPy difference
+arrays/cumulative sums count one TPO per touched price bucket per candle. V8 owns
+the source methodology: maximum-count POC, nearest session midpoint then lower
+bucket ties; greedy larger-neighbor value-area expansion, left on ties, to ceil
+68% of TPOs. A disconnected profile that cannot reach that share abstains instead
+of returning the source's underfilled area labeled as value area. A 100000-bucket
+resource guard fails explicitly, never silently changes bucket width.
+
+As with daily pivot, the new complete-session version requires all 24 hourly bars
+of the previous UTC day, not a possibly truncated 12-bar prior-session suffix.
+Bucket width remains detection-time mean high-low range14 under the source's
+range convention; Decimal bucket boundaries replace float-floor ambiguity. The
+version is `market-profile-complete-session-v2`, not a legacy numeric parity claim.
+Variants a/b/d revert inside prior-day extremes toward POC from its center, value
+area or half-bucket deviation respectively. Variant c uses >=55% directional TPO
+tail pressure and an initiative close beyond value area inside prior-day range.
+
+Tests establish exact TPO totals/POC/coverage, tie handling, disconnected absence,
+complete prior-day availability and all four actual feature-to-stance paths.
+The catalog has 23 families (22 active TABLE families plus squeeze), 41 stances.
+Six active TABLE observation families remain missing; downstream economic scope
+remains open regardless of these observer counts.

@@ -16,6 +16,7 @@ from v8_next.experts.gaps import observe_gap
 from v8_next.experts.ichimoku import observe_ichimoku
 from v8_next.experts.levels import observe_floor_pivot, observe_range_breakout
 from v8_next.experts.momentum import observe_macd_stoch, observe_obv_adl
+from v8_next.experts.profile import observe_profile
 from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
 from v8_next.experts.reversion import observe_bollinger_reversion, observe_rsi_reversion
 from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
@@ -23,6 +24,7 @@ from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 Observer = Callable[[CausalFrame, Opportunity | None], Stance]
 OBSERVERS: tuple[Observer, ...] = (
     observe_squeeze,
+    *(partial(observe_profile, variant=v) for v in ("a", "b", "c", "d")),
     observe_volume_climax,
     *(partial(observe_confluence, variant=v) for v in ("a", "b")),
     observe_fib_retracement,

@@ -5,7 +5,7 @@ from decimal import Decimal
 
 import polars as pl
 
-from v8_next.domain.market import CausalFrame
+from v8_next.domain.market import Candle, CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
 
@@ -21,7 +21,7 @@ class PivotLevels:
     support1: Decimal
 
 
-def daily_pivots(frame: CausalFrame) -> PivotLevels | None:
+def previous_session_bars(frame: CausalFrame) -> tuple[Candle, ...] | None:
     """Previous complete UTC day's H/L/final close, fixed throughout the session."""
     if not frame.continuous:
         raise ValueError("source gap")
@@ -38,9 +38,16 @@ def daily_pivots(frame: CausalFrame) -> PivotLevels | None:
         or any(c.end_ns - c.start_ns != HOUR_NS for c in previous)
     ):
         return None
+    return previous
+
+
+def daily_pivots(frame: CausalFrame) -> PivotLevels | None:
+    previous = previous_session_bars(frame)
+    if previous is None:
+        return None
     high, low = max(c.high for c in previous), min(c.low for c in previous)
     pivot = (high + low + previous[-1].close) / 3
-    return PivotLevels(session, pivot, 2 * pivot - low, 2 * pivot - high)
+    return PivotLevels(previous[-1].end_ns, pivot, 2 * pivot - low, 2 * pivot - high)
 
 
 def observe_floor_pivot(frame: CausalFrame, opportunity: Opportunity | None) -> Stance:
