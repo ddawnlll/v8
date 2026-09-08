@@ -26,11 +26,11 @@ from v8_next.adapters.captured_market import (
 )
 from v8_next.adapters.economic_paper import EconomicPaperAdapter
 from v8_next.adapters.engine_state import economic_state, reconcile_replay
-from v8_next.adapters.native_tape import build_engine
+from v8_next.adapters.native_tape import build_engine, capture_native_inputs
 from v8_next.app.observe import initialize, observe_capture
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.config import PaperConfig
-from v8_next.domain.market import frame_at
+from v8_next.domain.market import CausalFrame, frame_at
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.controller import InstrumentConstraints
 from v8_next.economics.decisions import UtilityInputs
@@ -46,15 +46,18 @@ def replay_account(
     if not manifests:
         raise ValueError("no prospective captures")
     quotes = []
-    frames = {}
+    frames: dict[int | tuple[str, int], CausalFrame] = {}
     positioning_readings: list[PositioningReading] = []
+    instrument_manifests: dict[str, Path] = {}
     for manifest in manifests:
         verify(manifest)
         metadata = json.loads(manifest.read_text())
         artifact = next(a for a in metadata["artifacts"] if a["path"] == "quote.json")
         row = json.loads((manifest.parent / "quote.json").read_text())
-        if row["symbol"] != "BTCUSDT":
-            raise ValueError("initial paper scope is BTCUSDT")
+        if row["symbol"] not in {"BTCUSDT", "ETHUSDT"}:
+            raise ValueError("paper scope is BTCUSDT/ETHUSDT")
+        instrument_id = row["symbol"] + "-PERP.BINANCE"
+        instrument_manifests.setdefault(instrument_id, manifest)
         received = int(artifact["received_time_ns"])
         event = int(row["time"]) * 1_000_000
         if event > received:
@@ -79,10 +82,13 @@ def replay_account(
             )
         candles = load_candles(manifest)
         known = tuple(replace(c, available_ns=c.received_ns) for c in candles)
-        frames[received] = frame_at("BTCUSDT-PERP.BINANCE", received, known)
+        key = (instrument_id, received)
+        if key in frames:
+            raise ValueError("duplicate paper instrument receipt")
+        frames[key] = frame_at(instrument_id, received, known)
         quotes.append(
             QuoteTick(
-                InstrumentId.from_str("BTCUSDT-PERP.BINANCE"),
+                InstrumentId.from_str(instrument_id),
                 Price.from_str(row["bidPrice"]),
                 Price.from_str(row["askPrice"]),
                 Quantity.from_str(row["bidQty"]),
@@ -99,10 +105,24 @@ def replay_account(
         historical_data=False,
     )
     try:
-        metadata = json.loads((manifests[0].parent / "instruments.json").read_text())
-        instrument = next(i for i in metadata["symbols"] if i["symbol"] == "BTCUSDT")
-        filters = {f["filterType"]: f for f in instrument["filters"]}
-        lot = filters["MARKET_LOT_SIZE"]
+        constraints_by_instrument = {}
+        for index, (instrument_id, manifest) in enumerate(instrument_manifests.items()):
+            if index:
+                _, native_instrument, _, _ = capture_native_inputs(
+                    manifest, parsed.maker_fee, parsed.taker_fee
+                )
+                engine.add_instrument(native_instrument)
+            metadata = json.loads((manifest.parent / "instruments.json").read_text())
+            symbol = instrument_id.split("-")[0]
+            instrument = next(i for i in metadata["symbols"] if i["symbol"] == symbol)
+            filters = {f["filterType"]: f for f in instrument["filters"]}
+            lot = filters["MARKET_LOT_SIZE"]
+            constraints_by_instrument[instrument_id] = InstrumentConstraints(
+                Decimal(lot["stepSize"]),
+                Decimal(lot["minQty"]),
+                Decimal(lot["maxQty"]),
+                Decimal(filters["MIN_NOTIONAL"]["notional"]),
+            )
         calibration_provider = None
         if parsed.calibration_source_run is not None:
             source_run_path = Path(parsed.calibration_source_run)
@@ -139,12 +159,7 @@ def replay_account(
                 Decimal(config["max_notional"]),
                 0,
             ),
-            InstrumentConstraints(
-                Decimal(lot["stepSize"]),
-                Decimal(lot["minQty"]),
-                Decimal(lot["maxQty"]),
-                Decimal(filters["MIN_NOTIONAL"]["notional"]),
-            ),
+            constraints_by_instrument,
             Decimal(config["max_notional"]),
             calibration=calibration_provider,
             observer=selected_observer,
@@ -154,12 +169,14 @@ def replay_account(
             positioning_readings=tuple(positioning_readings),
         )
         engine.add_strategy(strategy)
+        quotes.sort(key=lambda q: (q.ts_init, str(q.instrument_id), q.ts_event))
         engine.add_data(quotes)
         engine.run()
         if strategy.callback_failure is not None:
             raise ValueError(f"paper callback failed: {strategy.callback_failure}")
         state = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
         state["quote_count"] = len(quotes)
+        state["instruments"] = sorted(instrument_manifests)
         state["campaign_status"] = "NO_VERIFIED_CALIBRATION"
         state["economic_decisions"] = strategy.decisions
         state["campaigns"] = [c.to_record() for c in strategy.campaigns]

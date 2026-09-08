@@ -59,7 +59,7 @@ def test_closed_position_blocks_calibration_and_readmission(monkeypatch):
         Decimal(100),
         forbidden_calibration,
     )
-    subject.on_quote(SimpleNamespace(ts_init=10))
+    subject.on_quote(SimpleNamespace(ts_init=10, instrument_id="BTCUSDT-PERP.BINANCE"))
     assert subject.decisions[-1]["reason"] == "UNRECONCILED_FUNDING_AFTER_EXPOSURE"
     assert not subject.campaigns
     assert observed_readings == [subject.positioning_readings]

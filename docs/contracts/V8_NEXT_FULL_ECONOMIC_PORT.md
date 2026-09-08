@@ -1,5 +1,28 @@
 # V8-next full economic port
 
+## Two-instrument economic paper replay input
+
+replay_account now accepts BTC/ETH captures in one native account, installs each
+instrument and routes frames by (instrument_id, receipt_ns), preventing same-clock
+cross-instrument overwrites. Quotes are ordered by receipt/instrument/event and
+constraints are read from each instrument's captured venue metadata. Adapter
+subscriptions follow its frame universe; mismatched clocks/identities and missing
+per-instrument constraints reject. Legacy single-instrument frame mappings remain
+accepted. Native validity frames use the same compound identity.
+
+Existing real BTC/ETH public captures replayed in both manifest orders with equal
+reconciled outputs: two quotes, two economic decisions, zero orders and native
+10000 USDT cash. Artifact result.json:
+/var/folders/db/04433_v94tv8xpr31czl2j200000gn/T/v8-multi-paper-bjmopk1f;
+log /tmp/v8-multi-paper-check.log. These are retained historical receipt samples,
+not a new prospective position-bearing acceptance. Tests also qualify same-clock
+frame isolation. Full suite 494 passed; Ruff and mypy clean.
+
+The existing one-active-exposure/funding guards are unchanged. This does not yet
+provide simultaneous capital allocation, BTC/ETH capture orchestration in step(),
+continuous economic execution or multi-instrument revised accounting. Those remain
+explicit completion work; no missing calibration was promoted into authority.
+
 ## Warmup separated from forward economic selection
 
 ForwardPlan now freezes optional warmup_bars (default zero for existing plans).

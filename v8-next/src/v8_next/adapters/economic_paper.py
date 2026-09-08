@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import asdict
 from decimal import Decimal
 from typing import Callable
@@ -37,9 +38,9 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
 
     def __init__(
         self,
-        frames: dict[int, CausalFrame],
+        frames: Mapping[int | tuple[str, int], CausalFrame],
         limits: RiskLimits,
-        constraints: InstrumentConstraints,
+        constraints: InstrumentConstraints | Mapping[str, InstrumentConstraints],
         requested_notional: Decimal,
         calibration: CalibrationProvider | None = None,
         *,
@@ -59,19 +60,26 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         self.campaign_policy = campaign_policy
         self.stop_budget = stop_budget
         self.positioning_readings = positioning_readings
-        self.frames = frames
-        self.validity_frames = {
-            (frame.instrument_id, clock): frame for clock, frame in frames.items()
-        }
+        self.frames: dict[tuple[str, int], CausalFrame] = {}
+        for key, frame in frames.items():
+            identity = key if isinstance(key, tuple) else (frame.instrument_id, key)
+            if identity != (frame.instrument_id, frame.decision_ns) or identity in self.frames:
+                raise ValueError("duplicate or mismatched paper frame identity")
+            self.frames[identity] = frame
+        self.validity_frames = dict(self.frames)
         self.limits = limits
         self.constraints = constraints
+        self.instruments = frozenset(key[0] for key in self.frames)
+        if isinstance(constraints, Mapping) and not self.instruments <= constraints.keys():
+            raise ValueError("missing per-instrument constraints")
         self.requested_notional = requested_notional
         self.calibration = calibration
         self.decisions: list[dict[str, object]] = []
         self.allocated: set[str] = set()
 
     def on_start(self) -> None:
-        self.subscribe_quotes(InstrumentId.from_str("BTCUSDT-PERP.BINANCE"))
+        for instrument in sorted(self.instruments):
+            self.subscribe_quotes(InstrumentId.from_str(instrument))
 
     def on_quote(self, quote: QuoteTick) -> None:
         if self.callback_failure is not None:
@@ -87,9 +95,14 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         super().on_quote(quote)
         if self.callback_failure is not None:
             return
-        frame = self.frames.get(quote.ts_init)
+        frame = self.frames.get((str(quote.instrument_id), quote.ts_init))
         if frame is None:
             return
+        constraints = (
+            self.constraints[str(quote.instrument_id)]
+            if isinstance(self.constraints, Mapping)
+            else self.constraints
+        )
         opportunity = grammar_opportunity(frame, self.grammar)
         resolved = (
             opportunity
@@ -189,7 +202,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                             stances,
                             utility,
                             verified,
-                            self.constraints,
+                            constraints,
                             quote.ask_price.as_decimal()
                             if opportunity.direction == "LONG"
                             else quote.bid_price.as_decimal(),
@@ -212,7 +225,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                     utility,
                     snapshot,
                     self.limits,
-                    self.constraints,
+                    constraints,
                     quote.ts_init,
                     quote.ask_price.as_decimal()
                     if opportunity.direction == "LONG"
