@@ -306,3 +306,31 @@ def test_native_order_callbacks_survive_store_restart_and_evaluation(tmp_path, c
     assert history[0]["exit_events"] == observations[0]["exit_events"]
     assert history[0]["realization"] == "SIMULATED"
     assert report["claim_status"] == "NO_ECONOMIC_CLAIM"
+
+
+def test_closed_native_cash_return_includes_fees_and_funding_once():
+    from v8_next.evaluation.cash_return import terminal_cash_return
+
+    state = run_qualified_engine(close=True)
+    state["accounting_as_of_ns"] = 8_000_000_000
+    state["funding_query_windows"] = [
+        {
+            "instrument_id": "BTCUSDT-PERP.BINANCE",
+            "start_inclusive_ns": 0,
+            "end_inclusive_ns": 7_000_000_000,
+            "received_ns": 8_000_000_000,
+            "source_sha256": "test-only",
+        }
+    ]
+    state["missing_announced_settlements"] = []
+    result = terminal_cash_return(state, Decimal(10000))
+    assert Decimal(result["return"]) == Decimal("-0.00012")
+    assert result["claim_status"] == "NO_ECONOMIC_CLAIM"
+    state["funding_query_windows"] = []
+    assert terminal_cash_return(state, Decimal(10000))["return"] is None
+    open_state = run_qualified_engine()
+    open_state["accounting_as_of_ns"] = 4_000_000_000
+    assert (
+        terminal_cash_return(open_state, Decimal(10000))["status"]
+        == "OPEN_POSITION_REQUIRES_EQUITY_MARK"
+    )

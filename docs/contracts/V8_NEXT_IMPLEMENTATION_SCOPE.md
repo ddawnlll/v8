@@ -405,3 +405,21 @@ are retained. `BOUNDED_RESPONSE_COVERS_EXPOSURE` remains separate from cashflow
 finality, which stays UNQUALIFIED. This supports identifying the exact data gap;
 it does not authorize economic claims or readmission. Seven focused tests passed
 in 0.49 s (`/tmp/v8-next-exposure-funding-tests.log`); mypy passed.
+
+### Descriptive terminal cash return
+
+The combined report now derives each simulated terminal cash return as
+`(native terminal balance - initial balance) / initial balance`. Native commissions
+and observed funding are already included and are never subtracted again. This
+fixed-capital diagnostic rejects open orders, leaves open-position results missing
+without a qualified equity mark, and requires bounded funding history covering
+every closed exposure plus no unresolved announcement reconciliation. A no-position
+account can report its actual cash change; it is not an edge observation.
+
+This is a descriptive result under the observed venue history, explicitly subject
+to later revisions, not cashflow finality, calibrated utility, constitutional
+scorecard substitution or a paired statistical sample. All inference/claim gates
+remain unchanged. The native close test produces the expected test-only return
+including both commissions and funding once, and rejects missing coverage/open
+positions. Eleven focused native/report tests passed in 1.54 s pytest time
+(`/tmp/v8-next-cash-return-tests.log`); Ruff and mypy passed (25 source files).

@@ -11,6 +11,7 @@ from v8_next.app.evaluate import evaluate
 from v8_next.app.paper import replay_account
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.evaluation.calibration import inspect_calibration_source
+from v8_next.evaluation.cash_return import terminal_cash_return
 
 
 def report(run: Path, decision_ns: int) -> dict[str, Any]:
@@ -46,6 +47,13 @@ def report(run: Path, decision_ns: int) -> dict[str, Any]:
             "status": "NOT_COMPUTED",
             "reason": outcomes["reason"],
             "paired_loss_sample": None,
+            "baseline_cash_return": terminal_cash_return(
+                baseline_accounting, Decimal(frozen["policy"]["paper_config"]["initial_balance"])
+            ),
+            "variant_cash_return": terminal_cash_return(
+                checkpoint["revised_accounting"],
+                Decimal(frozen["policy"]["paper_config"]["initial_balance"]),
+            ),
             "baseline_native_replay": baseline,
             "variant_native_state": checkpoint["native_state"],
             "baseline_revised_accounting": baseline_accounting,
