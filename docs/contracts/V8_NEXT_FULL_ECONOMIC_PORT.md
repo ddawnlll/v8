@@ -929,3 +929,16 @@ The runner is PREREGISTERED_FORWARD_WINDOW_MODELED_REPLAY. REST historical
 availability remains modeled, so this is not qualified prospective execution.
 Continuous acquisition/PIT, warmup and embargo methodology, exact venue behavior,
 calibration and the broader portfolio/expert requirements remain incomplete.
+
+## Paper callback failure propagation
+
+Review of position-bearing continuation confirmed the online account still lacks
+late-final-funding reconciliation; the existing readmission block remains necessary.
+An independent correctness gap was fixed: quote/campaign and economic callbacks
+now retain exceptions in callback_failure, which existing paper/accounting app
+checks reject after native replay. Later quote callbacks cannot admit additional
+campaigns after failure. This prevents a native engine that logs callback errors
+from making an incomplete economic run look successful. Tests inject campaign
+and economic failures, verify retained reasons and prevent subsequent admission;
+existing native execution tests still pass. This is not a funding-continuation
+implementation or an authorization to remove its guard.

@@ -49,3 +49,57 @@ def test_closed_position_blocks_calibration_and_readmission(monkeypatch):
     subject.on_quote(SimpleNamespace(ts_init=10))
     assert subject.decisions[-1]["reason"] == "UNRECONCILED_FUNDING_AFTER_EXPOSURE"
     assert not subject.campaigns
+
+
+def test_economic_callback_failure_persists_and_stops_later_admission():
+    from decimal import Decimal
+
+    import pytest
+
+    from v8_next.economics.controller import InstrumentConstraints
+    from v8_next.risk.admission import RiskLimits
+
+    class Failing(economic_paper.EconomicPaperAdapter):
+        calls = 0
+
+        def process_economic_quote(self, quote):
+            self.calls += 1
+            raise ValueError("economic calculation unavailable")
+
+    subject = Failing(
+        {},
+        RiskLimits(Decimal(1), Decimal(1), Decimal(100), 0),
+        InstrumentConstraints(Decimal(1), Decimal(1), Decimal(1), Decimal(1)),
+        Decimal(100),
+    )
+    with pytest.raises(ValueError, match="unavailable"):
+        subject.on_quote(None)
+    assert subject.callback_failure == "ValueError: economic calculation unavailable"
+    subject.on_quote(None)
+    assert subject.calls == 1
+    assert not subject.campaigns
+
+
+def test_campaign_callback_failure_is_retained_for_accounting_replay():
+    from decimal import Decimal
+
+    import pytest
+
+    from v8_next.adapters.campaign import PaperCampaignAdapter
+
+    class Failing(PaperCampaignAdapter):
+        def advance_campaigns(self, *args):
+            raise ValueError("invalid campaign geometry")
+
+    subject = Failing(())
+    quote = SimpleNamespace(
+        instrument_id="test",
+        ts_init=10,
+        ask_price=SimpleNamespace(as_decimal=lambda: Decimal(10)),
+        bid_price=SimpleNamespace(as_decimal=lambda: Decimal(10)),
+    )
+    with pytest.raises(ValueError, match="geometry"):
+        subject.on_quote(quote)
+    assert subject.callback_failure == "ValueError: invalid campaign geometry"
+    subject.on_quote(quote)
+    assert not subject.submitted

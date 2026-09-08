@@ -61,7 +61,19 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         self.subscribe_quotes(InstrumentId.from_str("BTCUSDT-PERP.BINANCE"))
 
     def on_quote(self, quote: QuoteTick) -> None:
+        if self.callback_failure is not None:
+            return
+        try:
+            self.process_economic_quote(quote)
+        except Exception as error:
+            if self.callback_failure is None:
+                self.callback_failure = f"{type(error).__name__}: {error}"
+            raise
+
+    def process_economic_quote(self, quote: QuoteTick) -> None:
         super().on_quote(quote)
+        if self.callback_failure is not None:
+            return
         frame = self.frames.get(quote.ts_init)
         if frame is None:
             return

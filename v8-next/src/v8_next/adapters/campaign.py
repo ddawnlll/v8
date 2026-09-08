@@ -145,12 +145,18 @@ class PaperCampaignAdapter(Strategy):
             self.subscribe_quotes(InstrumentId.from_str(instrument))
 
     def on_quote(self, quote: QuoteTick) -> None:
-        self.advance_campaigns(
-            quote.instrument_id,
-            quote.ts_init,
-            quote.ask_price.as_decimal(),
-            quote.bid_price.as_decimal(),
-        )
+        if self.callback_failure is not None:
+            return
+        try:
+            self.advance_campaigns(
+                quote.instrument_id,
+                quote.ts_init,
+                quote.ask_price.as_decimal(),
+                quote.bid_price.as_decimal(),
+            )
+        except Exception as error:
+            self.callback_failure = f"{type(error).__name__}: {error}"
+            raise
 
     def advance_campaigns(
         self,
