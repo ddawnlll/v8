@@ -10,7 +10,7 @@ from decimal import Decimal
 from v8_next.economics.controller import CampaignDecision, InstrumentConstraints, decide_campaign
 from v8_next.economics.decisions import Opportunity, Stance, UtilityInputs
 from v8_next.economics.protection import CampaignProtection
-from v8_next.risk.admission import RiskLimits, RiskSnapshot
+from v8_next.risk.admission import RiskLimits, RiskSnapshot, admit
 from v8_next.risk.sizing import StopBudget, StopExposure
 
 
@@ -66,25 +66,47 @@ def allocate_ordered(
             account_state = identity
         elif identity != account_state:
             raise ValueError("allocation snapshots disagree on global account state")
+        bounded_snapshot = replace(
+            snapshot,
+            reserved_notional=snapshot.reserved_notional + reserved,
+            exposure_reserved_notional=(
+                snapshot.reserved_notional
+                if snapshot.exposure_reserved_notional is None
+                else snapshot.exposure_reserved_notional
+            )
+            + by_exposure.get(exposure, Decimal(0)),
+        )
+        bound_price = max(proposal.protection.stop_price, proposal.protection.target_price)
+        capacity = admit(
+            bounded_snapshot,
+            limits,
+            decision_ns,
+            bound_price,
+            proposal.requested_notional,
+            proposal.constraints.step,
+            proposal.constraints.min_quantity,
+            proposal.constraints.max_quantity,
+            proposal.constraints.min_notional,
+        )
+        requested = (
+            capacity.quantity * proposal.price if capacity.quantity is not None else Decimal(0)
+        )
+        if stop_budget is not None:
+            band = abs(proposal.protection.target_price - proposal.protection.stop_price)
+            if band > 0:
+                requested = min(
+                    requested, snapshot.equity * stop_budget.risk_fraction / band * proposal.price
+                )
         decision = decide_campaign(
             proposal.opportunity,
             proposal.stances,
             proposal.utility,
-            replace(
-                snapshot,
-                reserved_notional=snapshot.reserved_notional + reserved,
-                exposure_reserved_notional=(
-                    snapshot.reserved_notional
-                    if snapshot.exposure_reserved_notional is None
-                    else snapshot.exposure_reserved_notional
-                )
-                + by_exposure.get(exposure, Decimal(0)),
-            ),
+            bounded_snapshot,
             limits,
             proposal.constraints,
             decision_ns,
             proposal.price,
-            proposal.requested_notional,
+            requested,
             frozenset(used),
             calibration_verified=proposal.calibration_verified,
             protection=proposal.protection,
@@ -94,7 +116,11 @@ def allocate_ordered(
         )
         results.append(decision)
         if decision.campaign is not None:
-            notional = decision.campaign.quantity * proposal.price
+            # Unsubmitted market entry can occur anywhere inside the permitted
+            # stop/target band. Match native_stop_exposure's reservation bound.
+            notional = decision.campaign.quantity * max(
+                proposal.protection.stop_price, proposal.protection.target_price
+            )
             reserved += notional
             by_exposure[exposure] = by_exposure.get(exposure, Decimal(0)) + notional
             used.add(proposal.opportunity.opportunity_id)
@@ -103,7 +129,7 @@ def allocate_ordered(
                     current_stop_exposure,
                     open_and_reserved_risk=current_stop_exposure.open_and_reserved_risk
                     + decision.campaign.quantity
-                    * abs(proposal.price - proposal.protection.stop_price),
+                    * abs(proposal.protection.target_price - proposal.protection.stop_price),
                     active_and_reserved_campaigns=current_stop_exposure.active_and_reserved_campaigns
                     + 1,
                 )

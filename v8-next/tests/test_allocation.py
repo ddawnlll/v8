@@ -36,15 +36,19 @@ def allocate(proposals, snapshots=None, allocated=frozenset()):
 
 def test_batch_cannot_spend_same_capital_twice():
     results = allocate([proposal("a"), proposal("b"), proposal("c")])
-    assert [r.campaign.quantity if r.campaign else None for r in results] == [D(6), D(4), None]
+    assert [r.campaign.quantity if r.campaign else None for r in results] == [
+        D("5.4"),
+        D("3.6"),
+        None,
+    ]
 
 
 def test_rejection_does_not_reserve_and_duplicate_cannot_allocate_twice():
     results = allocate([proposal("a", verified=False), proposal("a"), proposal("a"), proposal("b")])
     assert results[0].reason == "UNVERIFIED_CALIBRATION"
-    assert results[1].campaign.quantity == D(6)
+    assert results[1].campaign.quantity == D("5.4")
     assert results[2].reason == "DUPLICATE_OPPORTUNITY"
-    assert results[3].campaign.quantity == D(4)
+    assert results[3].campaign.quantity == D("3.6")
     assert allocate([proposal("a")], allocated=frozenset({"a"}))[0].campaign is None
 
 
@@ -52,7 +56,7 @@ def test_account_state_must_be_shared_across_exposures():
     snapshot = RiskSnapshot(D(1000), D(0), D(0), D(0), 10, True)
     proposals = [proposal("a"), proposal("b", "eth")]
     results = allocate(proposals, {"btc": snapshot, "eth": snapshot})
-    assert sum(r.campaign.quantity * D(100) for r in results) == D(1000)
+    assert sum(r.campaign.quantity * D(100) for r in results) == D(900)
     with pytest.raises(ValueError, match="global account state"):
         allocate(proposals, {"btc": snapshot, "eth": replace(snapshot, equity=D(2000))})
     with pytest.raises(ValueError, match="missing exposure"):
@@ -62,7 +66,7 @@ def test_account_state_must_be_shared_across_exposures():
 def test_lot_rounding_reserves_actual_admitted_quantity():
     first = replace(proposal("a"), requested_notional=D(605))
     results = allocate([first, proposal("b")])
-    assert [r.campaign.quantity for r in results] == [D(6), D(4)]
+    assert [r.campaign.quantity for r in results] == [D("5.5"), D("3.5")]
 
 
 def test_batch_stop_heat_and_concurrency_reserve_each_accepted_campaign():
@@ -81,14 +85,18 @@ def test_batch_stop_heat_and_concurrency_reserve_each_accepted_campaign():
 
     empty = StopExposure(D(0), 0, 10, True)
     results = run(StopBudget(D("0.01"), D("0.02"), 10), empty)
-    assert [r.campaign.quantity if r.campaign else None for r in results] == [D(1), D(1), None]
+    assert [r.campaign.quantity if r.campaign else None for r in results] == [
+        D("0.5"),
+        D("0.5"),
+        None,
+    ]
     assert results[2].reason == "PORTFOLIO_HEAT_EXCEEDED"
     results = run(StopBudget(D("0.01"), D("0.1"), 1), empty)
     assert results[1].reason == "CAMPAIGN_CONCURRENCY_LIMIT"
     results = run(
         StopBudget(D("0.01"), D("0.1"), 1), empty, [proposal("a", verified=False), proposal("b")]
     )
-    assert results[1].campaign.quantity == D(1)
+    assert results[1].campaign.quantity == D("0.5")
     assert empty.open_and_reserved_risk == 0
     assert run(StopBudget(D("0.01"), D("0.1"), 1), None)[0].reason == "MISSING_STOP_RISK_INPUTS"
     assert run(None, empty)[0].reason == "MISSING_STOP_BUDGET_POLICY"
@@ -108,6 +116,10 @@ def test_distinct_exposure_budgets_share_global_reservations_only():
         decision_ns=10,
         already_allocated=frozenset(),
     )
-    assert [r.campaign.quantity if r.campaign else None for r in results] == [D(4), D(5), None]
+    assert [r.campaign.quantity if r.campaign else None for r in results] == [
+        D("3.6"),
+        D("4.5"),
+        None,
+    ]
     with pytest.raises(ValueError, match="exposure reservations exceed"):
         allocate([proposal("a")], {"btc": replace(snapshot, exposure_reserved_notional=D(101))})

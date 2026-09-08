@@ -1635,3 +1635,16 @@ correlation offsets. A two-instrument test verifies preexisting BTC reservations
 independent ETH capacity and shared global exhaustion. Full suite: 382 passed;
 Ruff/mypy clean. Native snapshot production and batch execution remain separate
 integration requirements; this does not establish live portfolio qualification.
+
+## Unsubmitted campaign price-band reservations
+
+Batch admission now bounds quantity using the maximum protected band price for
+notional and the full stop-to-target distance for nominal stop risk, matching
+native_stop_exposure's unsubmitted reservation interpretation. Both the first
+admission and later reservations use these bounds; simply reserving a larger
+amount after admission would itself permit over-allocation. Lot rounding remains
+native instrument constrained. Updated tests cover shared capital, per-exposure
+capacity and heat with these conservative pending-entry bounds. Actual market
+gaps can exceed the band: this is not a guaranteed execution price or maximum
+loss. Native submission/reconciliation integration remains outstanding.
+Full suite passes (382 tests); focused allocation tests and Ruff/mypy pass.
