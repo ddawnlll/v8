@@ -96,3 +96,18 @@ def test_batch_stop_heat_and_concurrency_reserve_each_accepted_campaign():
         run(StopBudget(D("0.01"), D("0.1"), 1), replace(empty, as_of_ns=9))[0].reason
         == "STALE_OR_FUTURE_STOP_EXPOSURE"
     )
+
+
+def test_distinct_exposure_budgets_share_global_reservations_only():
+    snapshot = RiskSnapshot(D(1000), D(0), D(0), D(100), 10, True, D(100))
+    eth = replace(snapshot, exposure_reserved_notional=D(0))
+    results = allocate_ordered(
+        (proposal("a"), proposal("b", "eth"), proposal("c")),
+        {"btc": snapshot, "eth": eth},
+        RiskLimits(D(1), D("0.5"), D(1000), 10),
+        decision_ns=10,
+        already_allocated=frozenset(),
+    )
+    assert [r.campaign.quantity if r.campaign else None for r in results] == [D(4), D(5), None]
+    with pytest.raises(ValueError, match="exposure reservations exceed"):
+        allocate([proposal("a")], {"btc": replace(snapshot, exposure_reserved_notional=D(101))})

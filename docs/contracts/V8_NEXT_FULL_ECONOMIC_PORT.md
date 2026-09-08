@@ -1623,3 +1623,15 @@ budget would exceed portfolio heat; no implicit remaining-heat sizing was added.
 Five allocation tests pass, including shared heat/concurrency exhaustion and
 missing/stale inputs; Ruff/mypy clean. Native batch execution and calibration
 qualification are still required before this can authorize product operation.
+
+## Exposure-specific reservation accounting
+
+RiskSnapshot now optionally carries exposure_reserved_notional separately from
+global reserved_notional. Missing detail retains the conservative legacy scalar
+behavior; supplied detail must be finite, nonnegative and no larger than global
+reservations. Ordered allocation reserves new admissions globally and against
+only their own exposure. It does not net away opposing campaigns or invent
+correlation offsets. A two-instrument test verifies preexisting BTC reservations,
+independent ETH capacity and shared global exhaustion. Full suite: 382 passed;
+Ruff/mypy clean. Native snapshot production and batch execution remain separate
+integration requirements; this does not establish live portfolio qualification.

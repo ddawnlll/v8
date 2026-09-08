@@ -40,11 +40,13 @@ def allocate_ordered(
 
     Exposure snapshots share one global account state. Initial scalar reservation
     semantics conservatively charge all existing reservations to every exposure;
-    newly accepted notional is likewise charged globally before the next proposal.
+    explicit exposure reservations narrow that charge when supplied. New batch
+    reservations charge the global limit and only their own exposure limit.
     Native multi-instrument execution still requires separate qualification.
     """
     used = set(already_allocated)
     reserved = Decimal(0)
+    by_exposure: dict[str, Decimal] = {}
     current_stop_exposure = stop_exposure
     results = []
     account_state = None
@@ -68,7 +70,16 @@ def allocate_ordered(
             proposal.opportunity,
             proposal.stances,
             proposal.utility,
-            replace(snapshot, reserved_notional=snapshot.reserved_notional + reserved),
+            replace(
+                snapshot,
+                reserved_notional=snapshot.reserved_notional + reserved,
+                exposure_reserved_notional=(
+                    snapshot.reserved_notional
+                    if snapshot.exposure_reserved_notional is None
+                    else snapshot.exposure_reserved_notional
+                )
+                + by_exposure.get(exposure, Decimal(0)),
+            ),
             limits,
             proposal.constraints,
             decision_ns,
@@ -83,7 +94,9 @@ def allocate_ordered(
         )
         results.append(decision)
         if decision.campaign is not None:
-            reserved += decision.campaign.quantity * proposal.price
+            notional = decision.campaign.quantity * proposal.price
+            reserved += notional
+            by_exposure[exposure] = by_exposure.get(exposure, Decimal(0)) + notional
             used.add(proposal.opportunity.opportunity_id)
             if current_stop_exposure is not None:
                 current_stop_exposure = replace(

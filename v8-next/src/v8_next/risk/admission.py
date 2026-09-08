@@ -12,6 +12,8 @@ class RiskSnapshot:
     reserved_notional: Decimal
     as_of_ns: int
     reconciled: bool
+    # None retains the conservative single-scalar reservation contract.
+    exposure_reserved_notional: Decimal | None = None
 
 
 @dataclass(frozen=True)
@@ -39,7 +41,13 @@ def admit(
     max_quantity: Decimal,
     min_notional: Decimal,
 ) -> Admission:
+    exposure_reserved = (
+        snapshot.reserved_notional
+        if snapshot.exposure_reserved_notional is None
+        else snapshot.exposure_reserved_notional
+    )
     values = (
+        exposure_reserved,
         snapshot.equity,
         snapshot.gross_notional,
         snapshot.exposure_notional,
@@ -56,6 +64,8 @@ def admit(
     )
     if any(not value.is_finite() or value < 0 for value in values):
         raise ValueError("risk inputs must be finite and nonnegative")
+    if exposure_reserved > snapshot.reserved_notional:
+        raise ValueError("exposure reservations exceed global reservations")
     if price == 0 or step == 0 or max_quantity < min_quantity:
         raise ValueError("invalid instrument constraints")
     if limits.max_snapshot_age_ns < 0:
@@ -72,7 +82,7 @@ def admit(
         - snapshot.reserved_notional,
         snapshot.equity * limits.max_exposure_fraction
         - snapshot.exposure_notional
-        - snapshot.reserved_notional,
+        - exposure_reserved,
     )
     if capacity <= 0:
         return Admission(None, "NO_CAPACITY")
