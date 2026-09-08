@@ -1541,3 +1541,59 @@ def test_selection_cash_includes_terminal_nonentries_but_not_unresolved_selectio
         records, closures, changed, Decimal(10000), campaign_observations=observations
     )
     assert unreconciled["selection_cash_scorecard"]["total_return_on_initial_capital"] is None
+
+
+@pytest.mark.parametrize("direction", ["LONG", "SHORT"])
+def test_partial_native_reduction_updates_stop_risk_from_remaining_quantity(direction):
+    from nautilus_trader.model import OrderSide
+
+    from v8_next.adapters.stop_exposure import native_stop_exposure
+
+    class Reducing(PaperCampaignAdapter):
+        reduced = False
+        samples = None
+
+        def on_quote(self, quote):
+            super().on_quote(quote)
+            if self.samples is None:
+                self.samples = []
+            positions = self.cache.positions_open()
+            if not positions:
+                return
+            risk = native_stop_exposure(
+                self.cache, self.campaigns, pending_campaigns=False, observed_ns=quote.ts_init
+            )
+            if risk is not None:
+                self.samples.append(
+                    (positions[0].quantity.as_decimal(), risk.open_and_reserved_risk)
+                )
+            if not self.reduced:
+                self.reduced = True
+                self.submit_order(
+                    self.order_factory.market(
+                        instrument_id=quote.instrument_id,
+                        order_side=OrderSide.SELL if direction == "LONG" else OrderSide.BUY,
+                        quantity=Quantity.from_str("0.005"),
+                        reduce_only=True,
+                    )
+                )
+
+    campaign = PaperCampaign(
+        "partial-risk",
+        "partial-risk-op",
+        "BTCUSDT-PERP.BINANCE",
+        direction,
+        Decimal(".010"),
+        10**9,
+        10 * 10**9,
+        Decimal(9900 if direction == "LONG" else 10100),
+        Decimal(10100 if direction == "LONG" else 9900),
+    )
+    subject = Reducing((campaign,))
+    run_qualified_engine(
+        strategy=subject,
+        standard_assertions=False,
+        quote_times=(10**9, 2 * 10**9, 4 * 10**9, 5 * 10**9),
+    )
+    assert (Decimal(".010"), Decimal("1")) in subject.samples
+    assert (Decimal(".005"), Decimal(".5")) in subject.samples

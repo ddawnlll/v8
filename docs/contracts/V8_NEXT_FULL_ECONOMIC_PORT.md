@@ -2751,3 +2751,20 @@ remain. Tests reject applying the exemption to position history, preserve missin
 funding after fills, and reject nonfinite quantities. Full suite 458 passed;
 Ruff/mypy clean. This does not qualify settlement finality or position-bearing
 paper accounting, which remain open requirements.
+
+## Native partial position reduction and stop-risk qualification
+
+Added native long/short integration qualification that opens a protected .010
+position, submits a native reduce-only .005 market reduction, and reads subsequent
+cache state. Existing stop-risk projection correctly changes from 1 to .5 using
+remaining .005 quantity while retaining sufficient native reduce-only protection.
+No parallel position ledger or inferred fill is introduced. Both directions and
+the existing full-position risk test pass (three relevant cases); Ruff clean.
+All numbers here are isolated synthetic test inputs, not economic observations.
+
+This narrows the outstanding partial-fill limitation: completed partial position
+reductions with confirmed protection are already measurable. Inflight entry or
+amendment states and remaining unbounded market-entry fills still return absent
+risk, correctly preventing further admission. The test does not qualify partial
+entry fills, private venue behavior, OCO recovery or position-bearing prospective
+paper continuation. Those broader requirements remain incomplete.
