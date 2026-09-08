@@ -309,3 +309,31 @@ def test_submitted_campaign_occupies_instrument_before_native_cache_update():
         status="CANCELED", filled_qty=SimpleNamespace(as_decimal=lambda: Decimal(".5"))
     )
     assert PaperCampaignAdapter.has_unresolved_campaign(state, campaign.instrument_id)
+
+
+def test_cross_instrument_risk_waits_for_submitted_entry_projection():
+    from decimal import Decimal
+    from types import SimpleNamespace
+
+    from v8_next.adapters.campaign import PaperCampaignAdapter
+
+    state = SimpleNamespace(
+        submitted={"BTC-entry"},
+        position_closures={},
+        cache=SimpleNamespace(order=lambda _: None, positions_open=lambda: []),
+    )
+    assert PaperCampaignAdapter.has_unprojected_submission(state)
+    state.cache.order = lambda _: SimpleNamespace(
+        status="FILLED", filled_qty=SimpleNamespace(as_decimal=lambda: Decimal(1))
+    )
+    assert PaperCampaignAdapter.has_unprojected_submission(state)
+    state.cache.positions_open = lambda: [SimpleNamespace(opening_order_id="BTC-entry")]
+    assert not PaperCampaignAdapter.has_unprojected_submission(state)
+    state.cache.positions_open = lambda: []
+    state.position_closures = {"closed": {"campaign_id": "BTC-entry"}}
+    assert not PaperCampaignAdapter.has_unprojected_submission(state)
+    state.position_closures = {}
+    state.cache.order = lambda _: SimpleNamespace(
+        status="REJECTED", filled_qty=SimpleNamespace(as_decimal=lambda: Decimal(0))
+    )
+    assert not PaperCampaignAdapter.has_unprojected_submission(state)

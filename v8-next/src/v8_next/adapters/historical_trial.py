@@ -178,6 +178,9 @@ class HistoricalTrial(PaperCampaignAdapter):
         if equity is None or any(value is None for value in exposure_map.values()):
             record["reason"] = "UNQUALIFIED_PORTFOLIO_VALUATION"
             return
+        if self.has_unprojected_submission():
+            record["reason"] = "UNPROJECTED_NATIVE_SUBMISSION"
+            return
         portfolio = native_portfolio_risk(
             self.cache,
             self.campaigns,

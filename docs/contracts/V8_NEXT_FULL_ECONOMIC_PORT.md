@@ -2853,3 +2853,18 @@ selection uncertainty is computable, still METHOD_AND_OOS_QUALIFICATION_REQUIRED
 The changed cohort results from preventing overlapping admission, not deleting
 inconvenient outcomes. Historical model/fee/funding limitations remain; this is
 not production calibration or prospective economic qualification.
+
+## Unprojected submission blocks further portfolio admission
+
+The cache-lag audit extends across instruments: submitted IDs without a matching
+native open position, recorded closure or zero-filled terminal entry cannot be
+valued as zero risk. The campaign adapter exposes this unresolved projection state;
+historical portfolio admission records UNPROJECTED_NATIVE_SUBMISSION and paper's
+active-exposure guard blocks until native state catches up. No price bound is
+invented for an unbounded pending market fill. Once a matching position exists,
+existing native portfolio/stop-risk checks still qualify its protection and marks.
+Tests cover absent cache entries, filled entry before position visibility,
+confirmed positions, closures and zero-filled terminal rejections. Full suite
+470 passed; Ruff/mypy clean. This protects admission during dispatch latency;
+it does not implement partial-entry price bounds, live recovery or calibrated
+paper authority. Full economic port requirements remain incomplete.

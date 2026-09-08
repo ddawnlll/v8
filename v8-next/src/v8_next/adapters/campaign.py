@@ -196,6 +196,21 @@ class PaperCampaignAdapter(Strategy):
             ):
                 self.thesis_invalidated.setdefault(campaign.campaign_id, frame.decision_ns)
 
+    def has_unprojected_submission(self) -> bool:
+        """Do not price dispatched entries as zero while native state is pending."""
+        accounted = {row["campaign_id"] for row in self.position_closures.values()}
+        accounted.update(str(p.opening_order_id) for p in self.cache.positions_open())
+        for identity in self.submitted - accounted:
+            order = self.cache.order(ClientOrderId(identity))
+            if (
+                order is not None
+                and str(order.status) in {"CANCELED", "REJECTED", "DENIED", "EXPIRED"}
+                and order.filled_qty.as_decimal() == 0
+            ):
+                continue
+            return True
+        return False
+
     def has_unresolved_campaign(self, instrument_id: str) -> bool:
         """Submitted intent remains occupied before native cache catches up."""
         closed = {row["campaign_id"] for row in self.position_closures.values()}

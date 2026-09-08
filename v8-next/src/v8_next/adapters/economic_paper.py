@@ -115,7 +115,8 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         elif resolved is None:
             record["reason"] = "UNRESOLVED_OPPORTUNITY_IDENTITY"
         elif (
-            self.cache.positions_open()
+            self.has_unprojected_submission()
+            or self.cache.positions_open()
             or self.cache.orders_open()
             or any(
                 c.campaign_id not in self.submitted | self.expired | self.invalidated
