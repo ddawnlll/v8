@@ -844,3 +844,16 @@ remain explicit DSRPlan inputs, not inferred validation. Tests cover subtraction
 sign, availability, absent references and the full family-to-DSR path. No genuine
 reference dataset was invented to produce a real-data DSR result. A CLI reference
 artifact contract and economic source qualification remain open.
+
+## DSR reference artifact and CLI
+
+app.compare accepts --dsr-reference with a validated explicit plan/reference
+artifact. Pydantic owns schema validation: unknown fields, missing returns,
+nonfinite values, non-USDT currency and missing source/basis metadata reject.
+The fixed-capital convention must be declared and its denominator must match
+all trials. The existing family path checks alignment, availability and complete
+candidate IDs. The exact input hash, metadata and reference series are retained
+in the output. No reference source is certified by schema validation, and no
+zero-return dataset is generated to force DSR availability. Tests validate the
+artifact contract; existing family tests exercise the DSR numerical connection.
+Real source qualification, protected OOS and production calibration remain open.

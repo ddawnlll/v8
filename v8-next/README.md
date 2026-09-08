@@ -240,3 +240,16 @@ IDs). At least two candidates in addition to the baseline are required. The
 interval count must divide evenly; no truncation or sampled substitute occurs.
 Plan bytes are hashed in the comparison inputs. This remains exploratory PBO,
 not protected OOS or proof of complete external search history.
+
+Optional `--dsr-reference /absolute/path/reference.json` enables DSR only with
+an explicit reference series and independence plan. Required fields:
+`currency` = `USDT`, `convention` =
+`NEGATIVE_REFERENCE_RETURN_OVER_FIXED_INITIAL_CAPITAL`, `capital` matching the
+trials, `selected_variant`, `registered_variants` (all non-baseline IDs),
+`effective_independent_trials`, `independence_basis`, `reference_basis`,
+`source_identity`, and `intervals`. Each interval requires `start_ns`, `end_ns`,
+`available_ns` and decimal `loss` (negative reference return). Supply actual
+aligned reference observations; no default zero series is inserted. The artifact
+hash, metadata and reference values are retained. Schema validation does not
+certify the reference source or independent-trial assumption. DSR is confidence,
+not a p-value, and does not promote these development observations.
