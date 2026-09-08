@@ -1120,3 +1120,15 @@ geometry, eight-bar expiry and distinction from the structural extremum.
 This adds geometry only: ongoing barrier/extremum invalidation remains separate
 unfinished campaign management work. Protected coverage reaches twenty-two
 families/40 policies, not a full-product completion claim.
+
+## Liquidity reclaim and swing retest geometry
+
+Added liquidity-reclaim:a:v2 with its source structural stop at the swept prior
+level, not the wick extreme. Added breakout-retest:a:v2 using the confirmed swing
+level plus one volatility-unit buffer, the more conservative current wick, and
+source 0.8–2-unit stop clamp. Both target one mean-range unit and expire after
+eight bars. Existing observation predicates retain recent-breach and confirmation
+requirements; no independent signals were introduced. Tests distinguish level
+from wick stops, mirrored reclaim behavior and stale retest rejection. Pattern
+retest b/c measured targets remain unfinished. Coverage: 24 families/42 protected
+policies; this does not establish complete economic operation.

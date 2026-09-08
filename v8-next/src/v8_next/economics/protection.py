@@ -18,6 +18,7 @@ from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.climax import observe_volume_climax
 from v8_next.experts.confluence import observe_confluence
 from v8_next.experts.divergence import observe_divergence
+from v8_next.experts.features import significant_swings
 from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.ichimoku import observe_ichimoku
@@ -25,6 +26,7 @@ from v8_next.experts.levels import daily_pivots, observe_floor_pivot, observe_ra
 from v8_next.experts.measuring import VARIANTS, measuring_setup
 from v8_next.experts.momentum import observe_macd_stoch, observe_obv_adl
 from v8_next.experts.pandf import pandf_setup
+from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
 from v8_next.experts.reversion import (
     bollinger_fade_distance,
     observe_bollinger_reversion,
@@ -54,6 +56,8 @@ PROTECTION_POLICIES = frozenset(
         "range-breakout:a:v2",
         "divergence:a:v2",
         "divergence:b:v2",
+        "liquidity-reclaim:a:v2",
+        "breakout-retest:a:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -127,6 +131,36 @@ def protection_at(
         # Active Rust v1 declares one range unit each way, not its alternate
         # v2 structural stop. Execution remains V8-next frozen absolute geometry.
         stop, target = close - sign * span, close + sign * span
+    elif family in {"liquidity-reclaim", "breakout-retest"}:
+        reclaim_observer = (
+            observe_liquidity_reclaim if family == "liquidity-reclaim" else observe_breakout_retest
+        )
+        if (
+            len(frame.candles) < 14
+            or reclaim_observer(frame, opportunity).kind != StanceKind.SUPPORT
+        ):
+            return None
+        span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+        if span <= 0:
+            return None
+        if family == "liquidity-reclaim":
+            prior = frame.candles[:-1]
+            stop = min(c.low for c in prior) if sign == 1 else max(c.high for c in prior)
+        else:
+            high_index, low_index = significant_swings(frame)
+            index = high_index if sign == 1 else low_index
+            assert index is not None
+            level = frame.candles[index].high if sign == 1 else frame.candles[index].low
+            reference = (
+                min(frame.candles[-1].low, level - span)
+                if sign == 1
+                else max(frame.candles[-1].high, level + span)
+            )
+            risk_distance = min(
+                Decimal(2) * span, max(Decimal(".8") * span, (close - reference) * sign)
+            )
+            stop = close - sign * risk_distance
+        target = close + sign * span
     elif family == "floor-pivot":
         if observe_floor_pivot(frame, opportunity).kind != StanceKind.SUPPORT:
             return None

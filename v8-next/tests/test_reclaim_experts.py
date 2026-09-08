@@ -69,6 +69,15 @@ def test_retest_needs_prior_breach_within_six_bars(distance, expected):
     )
     stance = observe_breakout_retest(replace(frame, candles=tuple(bars)), opportunity)
     assert (stance.kind == StanceKind.SUPPORT) is expected
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(
+        replace(frame, candles=tuple(bars)), opportunity, "breakout-retest:a:v2", Decimal(".01")
+    )
+    assert (protection is not None) is expected
+    if protection is not None:
+        assert protection.stop_price == 108
+        assert protection.target_price == 113
     # A mirrored downside setup must produce a SHORT observation.
     mirrored = tuple(
         replace(c, open=200 - c.open, high=200 - c.low, low=200 - c.high, close=200 - c.close)
@@ -135,3 +144,24 @@ def test_unknown_retest_variant_rejected():
     frame, opportunity = context([100] * 30)
     with pytest.raises(ValueError, match="unsupported retest variant"):
         observe_breakout_retest(frame, opportunity, variant="unknown")
+
+
+def test_sweep_campaign_stop_is_prior_level_not_sweep_extreme():
+    from v8_next.economics.protection import protection_at
+
+    frame, opportunity = context([100] * 21)
+    bars = (*frame.candles[:-1], replace(frame.candles[-1], low=Decimal(95)))
+    frame = replace(frame, candles=bars)
+    protection = protection_at(frame, opportunity, "liquidity-reclaim:a:v2", Decimal(".01"))
+    assert protection is not None and protection.stop_price == 99
+    mirrored = replace(
+        frame,
+        candles=tuple(
+            replace(c, open=200 - c.open, close=200 - c.close, high=200 - c.low, low=200 - c.high)
+            for c in bars
+        ),
+    )
+    short = protection_at(
+        mirrored, replace(opportunity, direction="SHORT"), "liquidity-reclaim:a:v2", Decimal(".01")
+    )
+    assert short is not None and short.stop_price == 101
