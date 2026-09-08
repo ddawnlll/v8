@@ -184,3 +184,8 @@ intervals and degenerate differentials produce an explicit absent result, not a
 p-value. A calculated result remains `NOT_VERIFIED_EXPLORATORY_ONLY`: irregular
 sampling, full search history, funding revisions and preregistration are unresolved.
 It cannot supply utility, satisfy the constitutional WRC gate or promote a claim.
+
+First-slice acceptance and current installed artifact evidence:
+[requirement-by-requirement audit](../docs/contracts/V8_NEXT_FIRST_SLICE_ACCEPTANCE.md).
+This is a working research/prospective no-trade slice, not calibrated or live-money
+readiness. Explicit missing-calibration, funding and claim gates remain closed.

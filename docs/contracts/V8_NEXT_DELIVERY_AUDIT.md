@@ -200,3 +200,12 @@ capacity and venue quantity constraints. Unknown calibration still prevents actu
 production admission. Tests cover rejection/expiry/invalidation terminality and
 restart persistence; these do not create a calibrated production provider. The
 remaining evaluation integration cannot be closed by another persistence wrapper.
+
+## First-slice closure audit
+
+The current requirement-by-requirement assessment and installed artifact set are
+recorded in [V8_NEXT_FIRST_SLICE_ACCEPTANCE.md](V8_NEXT_FIRST_SLICE_ACCEPTANCE.md).
+That assessment distinguishes the owner's explicitly permitted missing-calibration
+NO_TRADE behavior from future qualified financial/research operation. It supersedes
+this running log's earlier expansion of first-slice closure to require those future
+capabilities. The limitations and claim gates documented here remain in force.
