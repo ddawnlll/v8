@@ -73,6 +73,8 @@ def _replay_stream(
             observer is None
             or observer.grammar != session["grammar"]
             or observer.positioning_policy != policy
+            or json.loads((parent / "session.json").read_text()).get("positioning_refresh_seconds")
+            != session.get("positioning_refresh_seconds")
             or json.loads((parent / "session.json").read_text())["warmup_manifest_hashes"]
             != session["warmup_manifest_hashes"]
         ):

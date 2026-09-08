@@ -442,3 +442,39 @@ def test_background_positioning_capture_applies_only_to_running_session(
         assert (actor.failure is not None) == (mode == "failure")
 
     asyncio.run(scenario())
+
+
+def test_resumed_stream_inherits_refresh_interval_and_rejects_change(tmp_path, monkeypatch):
+    import asyncio
+    from types import SimpleNamespace
+
+    from v8_next.app.stream import capture_stream
+    from v8_next.domain.config import PositioningPolicy
+    from v8_next.economics.stream_observation import StreamObservations
+
+    parent = tmp_path / "parent"
+    parent.mkdir()
+    (parent / "session.json").write_text(
+        json.dumps({"warmup_manifests": [], "positioning_refresh_seconds": 30})
+    )
+    (parent / "result.json").write_text(json.dumps({"ended_ns": 1}))
+    observer = StreamObservations(
+        (), "range-breakout-48-v1", PositioningPolicy(open_interest_max_age_ns=100)
+    )
+    monkeypatch.setattr("v8_next.evaluation.stream_replay.restore_stream", lambda _: observer)
+
+    def stop_before_native(*args, **kwargs):
+        raise ValueError("native sentinel")
+
+    monkeypatch.setattr("v8_next.app.stream.LiveNode", SimpleNamespace(builder=stop_before_native))
+    child = tmp_path / "child"
+    with pytest.raises(ValueError, match="native sentinel"):
+        asyncio.run(capture_stream(child, 1, resume_from=parent))
+    assert json.loads((child / "session.json").read_text())["positioning_refresh_seconds"] == 30
+    with pytest.raises(ValueError, match="cannot change positioning refresh"):
+        asyncio.run(
+            capture_stream(
+                tmp_path / "changed", 1, resume_from=parent, positioning_refresh_seconds=40
+            )
+        )
+    assert not (tmp_path / "changed").exists()

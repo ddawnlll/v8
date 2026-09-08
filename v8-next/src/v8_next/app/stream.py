@@ -324,6 +324,13 @@ async def capture_stream(
             raise ValueError("resume cannot change positioning freshness policy")
         grammar = observations.grammar
         parent_session = json.loads((resume_from / "session.json").read_text())
+        inherited_interval = parent_session.get("positioning_refresh_seconds")
+        if (
+            positioning_refresh_seconds is not None
+            and positioning_refresh_seconds != inherited_interval
+        ):
+            raise ValueError("resume cannot change positioning refresh interval")
+        positioning_refresh_seconds = inherited_interval
         manifests = tuple(Path(p) for p in parent_session["warmup_manifests"])
         parent_raw = (resume_from / "result.json").read_bytes()
         if json.loads(parent_raw)["ended_ns"] > time.time_ns():

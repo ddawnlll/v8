@@ -28,6 +28,7 @@ def test_only_sealed_quote_silence_restarts_with_backfill(tmp_path, monkeypatch,
         duration_seconds=100,
         max_restarts=1,
         max_quote_silence_ns=10,
+        positioning_refresh_seconds=30,
     )
     if mode == "error":
         with pytest.raises(ValueError, match="invalid source"):
@@ -36,6 +37,8 @@ def test_only_sealed_quote_silence_restarts_with_backfill(tmp_path, monkeypatch,
         return
     result = asyncio.run(job)
     assert len(calls) == 2
+    assert all(call["positioning_refresh_seconds"] == 30 for call in calls)
+    assert result["positioning_refresh_seconds"] == 30
     assert calls[0]["resume_from"] is None
     assert calls[1]["resume_from"] == tmp_path / "run" / "session-000"
     assert calls[1]["refresh_on_resume"] is True

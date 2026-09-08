@@ -2965,3 +2965,17 @@ recorded events reproduced. Log /tmp/v8-periodic-positioning.log. The 20-second 
 an observation stream, not economic paper execution; production calibration and
 position-bearing prospective operation are still incomplete. Recovery supervisor
 configuration propagation is a remaining integration step.
+
+## Preserve intra-session refresh across recovery
+
+The recovery CLI/API now forwards positioning_refresh_seconds to every native
+session and records it in the run summary. Direct resume inherits the parent's
+interval when omitted and rejects an explicit change within the same lineage.
+Replay likewise checks child/parent interval agreement. No resume silently disables
+periodic auxiliary capture. Tests inspect the inherited session metadata before
+native startup, reject changed intervals before destination creation, and verify
+supervisor propagation on both attempts. Full suite 477 passed before the final
+inheritance test; all 26 affected stream/recovery/replay tests pass afterward.
+Ruff/mypy clean before that test-only addition. This completes configuration wiring,
+not a real outage/reconnect certification or economic paper execution. Production
+calibration and prospective position-bearing acceptance remain open.
