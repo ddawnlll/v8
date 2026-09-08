@@ -1675,3 +1675,13 @@ records UNRECONCILED_PORTFOLIO_RISK and creates no campaign. The single-exposure
 and post-position funding guards remain; this integration does not claim their
 resolution or enable multiple native campaigns. Full suite: 383 passed;
 Ruff/mypy clean, including existing native economic admission tests.
+
+## Funding query coverage across captures
+
+Position coverage now accepts a contiguous chain of overlapping bounded REST
+responses known by the accounting cutoff, retaining hashes of the contributing
+sources. It never bridges a gap, crosses instruments or consumes a later receipt.
+The check remains conservative about interval endpoints and does not infer a
+funding schedule. Six settlement tests pass, including chained coverage and
+adversarial gap/future/wrong-instrument cases; Ruff/mypy clean. Coverage still
+reports cashflow_finality=UNQUALIFIED and does not lift the online funding guard.

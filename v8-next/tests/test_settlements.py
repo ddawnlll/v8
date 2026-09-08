@@ -214,3 +214,30 @@ def test_funding_query_coverage_uses_actual_exposure_lifetime():
     assert position_funding_query_coverage([position], [window], 29)[0]["source_sha256"] == []
     with pytest.raises(ValueError, match="exposure interval"):
         position_funding_query_coverage([{**position, "closed_ns": None}], [window], 40)
+
+
+def test_funding_coverage_combines_known_overlapping_windows_without_bridging_gaps():
+    from v8_next.adapters.settlements import position_funding_query_coverage
+
+    position = {"instrument_id": "BTC", "opened_ns": 10, "closed_ns": 30, "is_closed": True}
+    first = {
+        "instrument_id": "BTC",
+        "start_inclusive_ns": 5,
+        "end_inclusive_ns": 20,
+        "received_ns": 25,
+        "source_sha256": "first",
+    }
+    second = {
+        "instrument_id": "BTC",
+        "start_inclusive_ns": 20,
+        "end_inclusive_ns": 35,
+        "received_ns": 40,
+        "source_sha256": "second",
+    }
+    row = position_funding_query_coverage([position], [second, first], 40)[0]
+    assert row["source_sha256"] == ["first", "second"]
+    assert row["cashflow_finality"] == "UNQUALIFIED"
+    for changed in ({"start_inclusive_ns": 21}, {"received_ns": 41}, {"instrument_id": "ETH"}):
+        row = position_funding_query_coverage([position], [first, second | changed], 40)[0]
+        assert row["query_status"] == "EXPOSURE_NOT_FULLY_QUERIED"
+        assert row["source_sha256"] == []

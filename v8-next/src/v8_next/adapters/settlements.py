@@ -185,7 +185,7 @@ def funding_query_windows(
 def position_funding_query_coverage(
     positions: list[dict[str, Any]], windows: list[dict[str, int | str]], cutoff: int
 ) -> list[dict[str, Any]]:
-    """Match native exposure lifetimes to a full bounded response per position.
+    """Match native exposure lifetimes to contiguous bounded response coverage.
 
     Query coverage is not funding finality or venue cash settlement. Open positions
     require coverage through cutoff; closed positions through their actual close.
@@ -196,14 +196,33 @@ def position_funding_query_coverage(
         end = position["closed_ns"] if position["is_closed"] else cutoff
         if type(start) is not int or type(end) is not int or not 0 <= start <= end <= cutoff:
             raise ValueError("invalid native exposure interval")
-        sources = [
-            window["source_sha256"]
-            for window in windows
-            if window["instrument_id"] == position["instrument_id"]
-            and int(window["start_inclusive_ns"]) <= start
-            and int(window["end_inclusive_ns"]) >= end
-            and int(window["received_ns"]) <= cutoff
-        ]
+        candidates = sorted(
+            (
+                window
+                for window in windows
+                if window["instrument_id"] == position["instrument_id"]
+                and int(window["received_ns"]) <= cutoff
+            ),
+            key=lambda window: (int(window["start_inclusive_ns"]), int(window["end_inclusive_ns"])),
+        )
+        covered_to = start
+        sources = []
+        complete = False
+        for window in candidates:
+            left, right = int(window["start_inclusive_ns"]), int(window["end_inclusive_ns"])
+            if left < 0 or right < left:
+                raise ValueError("invalid funding coverage interval")
+            if right < covered_to:
+                continue
+            if left > covered_to:
+                break
+            sources.append(window["source_sha256"])
+            covered_to = right
+            if covered_to >= end:
+                complete = True
+                break
+        if not complete:
+            sources = []
         result.append(
             {
                 "instrument_id": position["instrument_id"],
