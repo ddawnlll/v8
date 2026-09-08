@@ -28,24 +28,17 @@ from nautilus_trader.model import (
 )
 
 from v8_next.adapters.captured_market import load_candles
+from v8_next.domain.market import Candle
 
 
-def build_engine(
+def capture_native_inputs(
     manifest_path: Path,
     maker_fee: Decimal,
     taker_fee: Decimal,
-    initial_balance: Decimal,
-    *,
-    historical_data: bool = True,
-) -> tuple[BacktestEngine, dict[str, Any]]:
-    """Historical timing model is diagnostic-only, never a certified PIT conversion.
-
-    Caller owns disposal. Fees are explicit simulation assumptions, not observed fees.
-    """
-    if any(not x.is_finite() or x < 0 for x in (maker_fee, taker_fee, initial_balance)):
-        raise ValueError("finite nonnegative simulation inputs required")
-    if initial_balance == 0:
-        raise ValueError("positive initial balance required")
+) -> tuple[tuple[Candle, ...], CryptoPerpetual, list[Bar], Currency]:
+    """Decode verified capture data without allocating an execution engine."""
+    if any(not x.is_finite() or x < 0 for x in (maker_fee, taker_fee)):
+        raise ValueError("finite nonnegative fee assumptions required")
     candles = load_candles(manifest_path)
     if not candles:
         raise ValueError("no completed real candles")
@@ -92,6 +85,27 @@ def build_engine(
         )
         for c in candles
     ]
+    return candles, instrument, bars, currency
+
+
+def build_engine(
+    manifest_path: Path,
+    maker_fee: Decimal,
+    taker_fee: Decimal,
+    initial_balance: Decimal,
+    *,
+    historical_data: bool = True,
+) -> tuple[BacktestEngine, dict[str, Any]]:
+    """Historical timing model is diagnostic-only, never a certified PIT conversion.
+
+    Caller owns disposal. Fees are explicit simulation assumptions, not observed fees.
+    """
+    if any(not x.is_finite() or x < 0 for x in (maker_fee, taker_fee, initial_balance)):
+        raise ValueError("finite nonnegative simulation inputs required")
+    if initial_balance == 0:
+        raise ValueError("positive initial balance required")
+    candles, instrument, bars, currency = capture_native_inputs(manifest_path, maker_fee, taker_fee)
+    instrument_id = instrument.id
     engine = BacktestEngine(BacktestEngineConfig())
     try:
         engine.add_venue(

@@ -2111,3 +2111,20 @@ were maker 0.0002, taker 0.0005, initial cash 10000. The current metadata/generi
 1x and modeled historical timing limitations remain in the output. This proves
 real ETH instrument/data decoding, not combined BTC/ETH portfolio execution;
 common capture-window engine composition is still required.
+
+## Real capture portfolio engine composition
+
+Extracted capture_native_inputs from the existing mapper and added a thin
+build_portfolio_engine composition path. It requires unique instruments, USDT
+settlement, a common continuous hourly interval and source knowledge by cutoff;
+it rejects internal gaps rather than filling them. One native venue/account owns
+all instruments, bars and final funding. Historical timing/current metadata,
+generic 1x margin and unqualified funding finality remain diagnostic limitations.
+
+Actual BTC and ETH captures ran through HistoricalTrial: 996 source bars, 498
+portfolio equity rows, 41 counterfactual campaigns and 106 native orders. Artifact:
+/tmp/v8-real-portfolio-2187488.json; log: /tmp/v8-real-portfolio.log. This was an
+unregistered development qualification, explicitly not inference/search evidence
+or economic admission. Full existing suite: 403 passed; Ruff/mypy clean. Registered
+portfolio trial CLI, complete source/result artifacts and statistical integration
+are still required before using this path for economic evaluation.
