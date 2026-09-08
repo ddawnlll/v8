@@ -10,15 +10,16 @@ from nautilus_trader.model import Bar, BarType, Currency, Venue
 
 from v8_next.adapters.campaign import PaperCampaignAdapter
 from v8_next.adapters.portfolio_equity import EquityMark, aligned_native_equity
+from v8_next.adapters.portfolio_risk import native_portfolio_risk
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.config import PaperConfig
 from v8_next.domain.market import Candle, frame_at
-from v8_next.economics.decisions import reconcile
+from v8_next.economics.decisions import linear_exposure_id, reconcile
 from v8_next.economics.grammar import grammar_opportunity
 from v8_next.economics.observer_policy import policy_stances
 from v8_next.economics.protection import protection_at
-from v8_next.risk.admission import RiskLimits, RiskSnapshot, admit
-from v8_next.risk.sizing import StopExposure, stop_budget_notional
+from v8_next.risk.admission import RiskLimits, admit
+from v8_next.risk.sizing import stop_budget_notional
 
 
 class HistoricalTrial(PaperCampaignAdapter):
@@ -110,11 +111,19 @@ class HistoricalTrial(PaperCampaignAdapter):
         if result != "SUPPORTED_OBSERVATION":
             record["reason"] = result
             return
-        pending = any(
-            c.campaign_id not in self.submitted | self.expired | self.invalidated
+        pending_ids = frozenset(
+            c.campaign_id
             for c in self.campaigns
+            if c.campaign_id not in self.submitted | self.expired | self.invalidated
         )
-        if self.cache.positions_open() or self.cache.orders_open() or pending:
+        if (
+            any(str(p.instrument_id) == candle.instrument_id for p in self.cache.positions_open())
+            or any(str(o.instrument_id) == candle.instrument_id for o in self.cache.orders_open())
+            or any(
+                c.instrument_id == candle.instrument_id and c.campaign_id in pending_ids
+                for c in self.campaigns
+            )
+        ):
             record["reason"] = "EXPERIMENT_EXPOSURE_OCCUPIED"
             return
         instrument = self.cache.instrument(bar.bar_type.instrument_id)
@@ -127,14 +136,39 @@ class HistoricalTrial(PaperCampaignAdapter):
         if self.policy.campaign_policy != "timeout-only-v1" and protection is None:
             record["reason"] = "MISSING_CAMPAIGN_GEOMETRY"
             return
-        snapshot = RiskSnapshot(
-            account.balance_total(Currency.from_str("USDT")).as_decimal(),
-            Decimal(0),
-            Decimal(0),
-            Decimal(0),
-            bar.ts_init,
-            True,
+        marks = {
+            key: EquityMark(value.close, value.ts_event, value.ts_init)
+            for key, value in self.boundary_bars.items()
+        }
+        equity = aligned_native_equity(
+            self.cache,
+            marks,
+            required_instruments=self.instruments,
+            boundary_ns=bar.ts_event,
+            observed_ns=bar.ts_init,
+            venue=Venue("BINANCE"),
+            currency=Currency.from_str("USDT"),
         )
+        exposure_map = {key: linear_exposure_id(key) for key in self.instruments}
+        if equity is None or any(value is None for value in exposure_map.values()):
+            record["reason"] = "UNQUALIFIED_PORTFOLIO_VALUATION"
+            return
+        portfolio = native_portfolio_risk(
+            self.cache,
+            self.campaigns,
+            pending_ids=pending_ids,
+            instrument_exposures={
+                key: value for key, value in exposure_map.items() if value is not None
+            },
+            marks=marks,
+            equity=sum(equity, Decimal(0)),
+            accounting_reconciled=True,
+            observed_ns=bar.ts_init,
+        )
+        if portfolio is None:
+            record["reason"] = "UNQUALIFIED_PORTFOLIO_RISK"
+            return
+        snapshot = portfolio.snapshots[opportunity.exposure_id]
         valuation_price = (
             max(protection.stop_price, protection.target_price)
             if protection is not None
@@ -147,7 +181,7 @@ class HistoricalTrial(PaperCampaignAdapter):
                 return
             sized, reason = stop_budget_notional(
                 snapshot,
-                StopExposure(Decimal(0), 0, bar.ts_init, True),
+                portfolio.stop_exposure,
                 self.policy.stop_budget,
                 price=bar.close.as_decimal(),
                 stop=protection.stop_price,

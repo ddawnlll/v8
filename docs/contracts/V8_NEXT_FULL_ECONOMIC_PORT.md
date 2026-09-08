@@ -2066,3 +2066,16 @@ qualification still applies. Tests cover distinct identities under range,
 volatility, trend and mean-reversion grammars. Grammar tests pass, Ruff/mypy
 clean. Paper capture remains BTC-only and historical global exposure admission
 is not widened by this change; portfolio acceptance remains separate work.
+
+## Historical native portfolio admission
+
+HistoricalTrial now rejects occupied exposure per instrument rather than globally,
+and builds admission snapshots from complete native portfolio valuation and risk
+projection. Other instruments' open/pending protected campaigns consume shared
+notional and stop-risk budgets; same-instrument overlap remains prohibited.
+Unknown universe mappings, incomplete marks, unprotected/unqualified native
+reservations and in-flight orders fail closed. Equity uses current native cash
+plus PnL under the explicitly historical accounting model; this does not relax
+the separate paper funding reconciliation guard. Full suite: 401 passed;
+mypy clean. Generated multi-instrument opportunity-to-fill qualification is still
+required beyond the existing seeded multi-position tests.
