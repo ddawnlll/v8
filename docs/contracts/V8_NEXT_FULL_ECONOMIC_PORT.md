@@ -1818,3 +1818,14 @@ and still-open ETH position. The fresh engine preserves the same protective
 orders and timeout isolation. Focused test and Ruff pass. This is bounded native
 replay with test data, not crash-safe live recovery or funding-qualified paper
 continuation.
+
+## Multi-instrument native funding and replay
+
+Extended the allocation/native replay fixture with a final funding update for
+both instruments after BTC has closed while ETH remains open. Explicit native
+mark prices are supplied and each funding event is duplicated. The resulting
+balance is exactly 9999.987 from initial 10000: three 0.001 commissions plus a
+single 0.01 ETH funding debit. BTC receives no post-close debit. Fresh-engine
+replay preserves the complete economic state. All inputs are test fixtures;
+this does not establish REST settlement completeness or actual venue cashflow
+finality. Full suite: 389 passed; Ruff clean.

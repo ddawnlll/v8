@@ -1016,6 +1016,15 @@ def run_two_native_instruments(frozen_campaigns=None):
                     for t in (1, 2, 3, 4, 5)
                 ]
             )
+        from nautilus_trader.model import MarkPriceUpdate
+
+        for symbol in ("BTC", "ETH"):
+            identity = InstrumentId.from_str(f"{symbol}USDT-PERP.BINANCE")
+            engine.add_data([MarkPriceUpdate(identity, Price(100, 2), 4 * 10**9, 4 * 10**9)])
+            funding = FundingRateUpdate(
+                identity, Decimal("0.01"), 4 * 10**9, 4 * 10**9, next_funding_ns=4 * 10**9
+            )
+            engine.add_data([funding, funding])
         engine.add_strategy(adapter)
         engine.run()
         assert adapter.callback_failure is None
@@ -1033,6 +1042,8 @@ def run_two_native_instruments(frozen_campaigns=None):
             next(iter(adapter.position_closures.values()))["instrument_id"]
             == "BTCUSDT-PERP.BINANCE"
         )
+        state = economic_state(engine, venue, usdt)
+        assert Decimal(state["balance_total"].split()[0]) == Decimal("9999.987")
         return (
             economic_state(engine, venue, usdt),
             [campaign.to_record() for campaign in campaigns],
