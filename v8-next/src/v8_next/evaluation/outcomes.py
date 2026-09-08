@@ -88,6 +88,10 @@ def observed_outcomes(
             <= event["observed_ns"]
         ):
             raise ValueError("closure ownership or timing mismatch")
+        allocated = Decimal(campaign["quantity"])
+        peak = Decimal(event["peak_quantity"])
+        if not allocated.is_finite() or not peak.is_finite() or not 0 < peak <= allocated:
+            raise ValueError("native closure quantity exceeds campaign ownership or is invalid")
         closed[key] = event
 
     def cash(value: str) -> Decimal:

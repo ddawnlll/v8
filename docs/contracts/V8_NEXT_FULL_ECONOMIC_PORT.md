@@ -2896,3 +2896,18 @@ A real native-engine synthetic affordability rejection qualifies this path; a
 contradictory OrderFilled record rejects. Full suite 472 passed; Ruff/mypy clean.
 This handles failed execution attempts in sample completeness without silently
 dropping them. Production calibration and prospective paper admission remain open.
+
+## Reject pooled native position attribution beyond campaign quantity
+
+Outcome attribution now requires positive finite native peak quantity no larger
+than the owning campaign's allocated quantity. Current single-entry campaign
+semantics do not permit silently attributing a pooled/scaled netting position to
+one smaller campaign merely because total account cash reconciles. Native two-
+lifetime tests reject a doubled peak while preserving ordinary and partially
+reduced campaign outcomes. Full suite 472 passed; Ruff/mypy clean.
+The new arithmetic ownership guard rejects the retained faulty real portfolio
+report /tmp/v8-ordered-portfolio-1788887298731309000/result-0.json (.078 native peak
+against .039 ownership), while the admission-fixed report
+/tmp/v8-campaign-occupancy-1788887419008117000/result.json passes closed-cash
+reconciliation. This was a check of retained source reports, not a fresh venue
+run or replay certification. Full production calibration/operation remain open.

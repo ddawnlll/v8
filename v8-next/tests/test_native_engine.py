@@ -779,6 +779,10 @@ def test_two_closed_campaigns_survive_same_native_netting_id_and_reconcile():
     assert sample["closed_outcome_count"] == 2
     assert sample["reconciliation"] == "CLOSED_CASH_RECONCILED"
     assert Decimal(sample["native_closed_net_pnl"]) == Decimal("-1.4")
+    pooled = deepcopy(closures)
+    pooled[0]["peak_quantity"] = ".020"
+    with pytest.raises(ValueError, match="quantity exceeds campaign"):
+        observed_outcomes(records, pooled, state, Decimal(10000))
     corrupted = deepcopy(closures)
     corrupted[0]["realized_pnl"] = "-2.00000000 USDT"
     bad = observed_outcomes(records, corrupted, state, Decimal(10000))
