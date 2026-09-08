@@ -384,3 +384,13 @@ change. No calibration or admission gate is relaxed.
 Capture boundary tests exercise exact query parameters and saturated-response
 failure without a valid manifest. Full local suite passed 56 tests in 2.42 s
 pytest time (`/tmp/v8-next-bounded-funding-tests.log`); Ruff and mypy passed.
+
+Revised accounting now exposes verified `funding_query_windows`: inclusive query
+start/end, actual response receipt and source hash. It rechecks the persisted URL,
+request clocks, response limit, instrument and timestamp ordering rather than
+trusting a serialized completeness flag. Responses unavailable at the accounting
+cutoff are excluded; old unbounded requests supply no explicit interval. Query
+coverage is never extended to the later accounting cutoff. The output is labeled
+`BOUNDED_RESPONSE_NOT_FINALITY_CERTIFICATE`; overall funding qualification and
+readmission remain unchanged. Six focused capture/settlement tests passed in
+0.54 s (`/tmp/v8-next-funding-windows.log`), and mypy passed for 24 source files.

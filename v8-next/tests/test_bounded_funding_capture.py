@@ -33,6 +33,15 @@ def test_explicit_funding_window_does_not_accept_saturated_response(
     else:
         manifest = capture(target, funding_start_ms=5)
         assert manifest.is_file()
+        from v8_next.adapters.settlements import funding_query_windows
+
+        assert funding_query_windows([manifest], 19_000_000) == []
+        windows = funding_query_windows([manifest], 25_000_000)
+        assert len(windows) == 1
+        assert windows[0]["start_inclusive_ns"] == 5_000_000
+        assert windows[0]["end_inclusive_ns"] == 20_000_000
+        assert windows[0]["received_ns"] == 20_000_000
+        assert windows[0]["status"] == "BOUNDED_RESPONSE_NOT_FINALITY_CERTIFICATE"
     funding_url = next(url for url in urls if "fundingRate" in url)
     query = parse_qs(urlsplit(funding_url).query)
     assert query == {

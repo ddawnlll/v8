@@ -123,3 +123,58 @@ def missing_announced_settlements(
         return None
     settled = {r.boundary_ns for r in records}
     return tuple(sorted(announced - settled))
+
+
+def funding_query_windows(
+    manifests: list[Path], accounting_as_of_ns: int
+) -> list[dict[str, int | str]]:
+    """Observed REST response coverage, not a guarantee against later venue revisions."""
+    from urllib.parse import parse_qs, urlsplit
+
+    windows = []
+    for manifest in manifests:
+        verify(manifest)
+        metadata = json.loads(manifest.read_text())
+        artifact = next(a for a in metadata["artifacts"] if a["path"] == "funding.json")
+        received = int(artifact["received_time_ns"])
+        if received > accounting_as_of_ns:
+            continue
+        url = urlsplit(artifact["source_url"])
+        query = parse_qs(url.query)
+        if not {"startTime", "endTime"} <= query.keys():
+            continue  # Legacy recent-history requests establish no explicit interval.
+        if (url.scheme, url.netloc, url.path) != (
+            "https",
+            "fapi.binance.com",
+            "/fapi/v1/fundingRate",
+        ) or query.get("symbol") != [metadata["symbol"]]:
+            raise ValueError("invalid bounded funding source")
+        if any(len(query.get(key, [])) != 1 for key in ("startTime", "endTime", "limit")):
+            raise ValueError("ambiguous funding query")
+        start, end, limit = (int(query[key][0]) for key in ("startTime", "endTime", "limit"))
+        requested = int(artifact["request_time_ns"])
+        if (
+            not 0 <= start <= end
+            or not end * 10**6 <= requested <= received
+            or not 1 <= limit <= 1000
+        ):
+            raise ValueError("invalid funding query boundaries")
+        rows = json.loads((manifest.parent / "funding.json").read_text())
+        if not isinstance(rows, list) or len(rows) >= limit:
+            raise ValueError("funding response may be truncated")
+        times = [int(row["fundingTime"]) for row in rows]
+        if times != sorted(set(times)) or any(
+            row["symbol"] != metadata["symbol"] or not start <= boundary <= end
+            for row, boundary in zip(rows, times, strict=True)
+        ):
+            raise ValueError("funding response outside bounded query")
+        windows.append(
+            {
+                "start_inclusive_ns": start * 10**6,
+                "end_inclusive_ns": end * 10**6,
+                "received_ns": received,
+                "source_sha256": artifact["sha256"],
+                "status": "BOUNDED_RESPONSE_NOT_FINALITY_CERTIFICATE",
+            }
+        )
+    return sorted(windows, key=lambda w: (int(w["start_inclusive_ns"]), int(w["end_inclusive_ns"])))

@@ -12,7 +12,11 @@ from v8_next.adapters.binance_capture import verify
 from v8_next.adapters.campaign import PaperCampaignAdapter
 from v8_next.adapters.engine_state import economic_state
 from v8_next.adapters.native_tape import build_engine
-from v8_next.adapters.settlements import final_funding, missing_announced_settlements
+from v8_next.adapters.settlements import (
+    final_funding,
+    funding_query_windows,
+    missing_announced_settlements,
+)
 from v8_next.domain.campaign import PaperCampaign
 
 
@@ -84,6 +88,7 @@ def replay_frozen_campaigns(
         result["settlement_sources"] = [
             {**asdict(s), "rate": str(s.rate), "mark_price": str(s.mark_price)} for s in settlements
         ]
+        result["funding_query_windows"] = funding_query_windows(manifests, accounting_as_of_ns)
         result["funding_coverage"] = "OBSERVED_FINAL_RECORDS_ONLY_NOT_COMPLETENESS_CERTIFIED"
         missing = missing_announced_settlements(
             manifests, settlements, quotes[0].ts_init, accounting_as_of_ns
