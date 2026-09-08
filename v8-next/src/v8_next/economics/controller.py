@@ -12,6 +12,7 @@ from v8_next.economics.decisions import (
     utility_admission,
 )
 from v8_next.economics.protection import CampaignProtection
+from v8_next.economics.regime import RegimeObservation
 from v8_next.risk.admission import RiskLimits, RiskSnapshot, admit
 from v8_next.risk.sizing import StopBudget, StopExposure, stop_budget_notional
 
@@ -43,6 +44,7 @@ def decide_campaign(
     already_allocated: frozenset[str],
     *,
     calibration_verified: bool,
+    decision_regime: RegimeObservation | None = None,
     protection: CampaignProtection | None = None,
     protection_required: bool = False,
     stop_budget: StopBudget | None = None,
@@ -136,5 +138,6 @@ def decide_campaign(
             protection.live_channel_bars if protection else None,
             protection.validity_indicator if protection else None,
             protection.close_breach_price if protection else None,
+            decision_regime=decision_regime,
         ),
     )

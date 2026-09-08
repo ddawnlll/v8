@@ -33,6 +33,7 @@ from v8_next.domain.config import PaperConfig
 from v8_next.domain.market import frame_at
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.controller import InstrumentConstraints
+from v8_next.economics.decisions import UtilityInputs
 from v8_next.evaluation.store import ResearchStore, canonical
 from v8_next.risk.admission import RiskLimits
 
@@ -102,6 +103,34 @@ def replay_account(
         instrument = next(i for i in metadata["symbols"] if i["symbol"] == "BTCUSDT")
         filters = {f["filterType"]: f for f in instrument["filters"]}
         lot = filters["MARKET_LOT_SIZE"]
+        calibration_provider = None
+        if parsed.calibration_source_run is not None:
+            source_run_path = Path(parsed.calibration_source_run)
+
+            def calibration_provider(
+                opportunity: Any, decision_ns: int
+            ) -> tuple[UtilityInputs, bool]:
+                from v8_next.evaluation.calibration import inspect_calibration_source
+
+                inspection = inspect_calibration_source(source_run_path, decision_ns)
+                if not inspection.get("eligible_for_utility", False):
+                    return (
+                        UtilityInputs(None, None, None, None, None, None, None),
+                        False,
+                    )
+                return (
+                    UtilityInputs(
+                        gross_edge=inspection.get("gross_edge"),
+                        fees=None,
+                        spread=None,
+                        slippage=None,
+                        funding_cost=None,
+                        uncertainty=inspection.get("uncertainty"),
+                        calibration_receipt=None,
+                    ),
+                    True,
+                )
+
         strategy = EconomicPaperAdapter(
             frames,
             RiskLimits(
@@ -117,6 +146,7 @@ def replay_account(
                 Decimal(filters["MIN_NOTIONAL"]["notional"]),
             ),
             Decimal(config["max_notional"]),
+            calibration=calibration_provider,
             observer=selected_observer,
             grammar=parsed.grammar_policy,
             campaign_policy=parsed.campaign_policy,
@@ -257,6 +287,7 @@ def load_policy_config(path: Path) -> dict[str, Any]:
         "open_interest_max_age_ns",
         "account_ratio_period",
         "account_ratio_max_age_ns",
+        "calibration_source_run",
     }
     if not isinstance(policy, dict) or set(policy) - allowed:
         raise ValueError("policy config must contain only economic policy fields")

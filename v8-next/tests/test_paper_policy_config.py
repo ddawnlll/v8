@@ -14,6 +14,7 @@ def test_policy_file_freshness_is_validated_and_frozen(tmp_path):
         "campaign_policy": "funding:b:v2",
         "funding_max_age_ns": 3600000000000,
         "open_interest_max_age_ns": 300000000000,
+        "calibration_source_run": "/path/to/source",
     }
     path.write_text(json.dumps(policy))
     config = dict(
@@ -26,6 +27,7 @@ def test_policy_file_freshness_is_validated_and_frozen(tmp_path):
     config.update(load_policy_config(path))
     parsed = PaperConfig.model_validate(config)
     assert parsed.funding_max_age_ns == policy["funding_max_age_ns"]
+    assert parsed.calibration_source_run == "/path/to/source"
     run = tmp_path / "run"
     frozen = initialize(run, config)
     assert frozen["policy"]["paper_config"] == config

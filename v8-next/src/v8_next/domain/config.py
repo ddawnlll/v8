@@ -70,3 +70,5 @@ class PaperConfig(PositioningPolicy):
         if value not in PROTECTION_POLICIES:
             raise ValueError("unknown campaign policy")
         return value
+
+    calibration_source_run: str | None = None

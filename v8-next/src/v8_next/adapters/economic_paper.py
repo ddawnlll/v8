@@ -22,6 +22,7 @@ from v8_next.economics.decisions import (
 from v8_next.economics.grammar import POLICIES, grammar_opportunity
 from v8_next.economics.observer_policy import policy_stances, validate_observer_policy
 from v8_next.economics.protection import PROTECTION_POLICIES, protection_at
+from v8_next.economics.regime import observe_regime
 from v8_next.risk.admission import RiskLimits
 from v8_next.risk.sizing import StopBudget
 
@@ -99,6 +100,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         )
         stances = policy_stances(frame, resolved, self.observer, readings=self.positioning_readings)
         stance = stances[0]
+        regime = observe_regime(frame, readings=self.positioning_readings)
         record: dict[str, object] = {
             "decision_ns": quote.ts_init,
             "stance": asdict(stance),
@@ -106,6 +108,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             "observer_policy": self.observer,
             "campaign_policy": self.campaign_policy,
             "opportunity": asdict(opportunity) if opportunity else None,
+            "regime": asdict(regime),
             "claim_status": "NO_ECONOMIC_CLAIM",
         }
         if not frame.candles or quote.ts_init - frame.candles[-1].end_ns > 2 * 3600 * 10**9:
@@ -192,6 +195,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                             else quote.bid_price.as_decimal(),
                             self.requested_notional,
                             protection,
+                            decision_regime=regime,
                         ),
                     ),
                     portfolio.snapshots,
@@ -216,6 +220,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                     self.requested_notional,
                     frozenset(self.allocated),
                     calibration_verified=verified,
+                    decision_regime=regime,
                     protection=protection,
                     protection_required=self.campaign_policy != "timeout-only-v1",
                     stop_budget=self.stop_budget,

@@ -10,6 +10,7 @@ from decimal import Decimal
 from v8_next.economics.controller import CampaignDecision, InstrumentConstraints, decide_campaign
 from v8_next.economics.decisions import Opportunity, Stance, UtilityInputs
 from v8_next.economics.protection import CampaignProtection
+from v8_next.economics.regime import RegimeObservation
 from v8_next.risk.admission import RiskLimits, RiskSnapshot, admit
 from v8_next.risk.sizing import StopBudget, StopExposure
 
@@ -24,6 +25,7 @@ class AllocationProposal:
     price: Decimal
     requested_notional: Decimal
     protection: CampaignProtection
+    decision_regime: RegimeObservation | None = None
 
 
 def allocate_ordered(
@@ -109,6 +111,7 @@ def allocate_ordered(
             requested,
             frozenset(used),
             calibration_verified=proposal.calibration_verified,
+            decision_regime=proposal.decision_regime,
             protection=proposal.protection,
             protection_required=True,
             stop_budget=stop_budget,

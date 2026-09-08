@@ -86,3 +86,36 @@ def test_funding_knowledge_expiry_and_thresholds():
         assert observe_regime(CausalFrame("BTC", 99, ()), readings=(reading,)).funding is None
         assert observe_regime(CausalFrame("BTC", 110, ()), readings=(reading,)).funding is None
     assert observe_regime(frame([])).funding is None
+
+
+def test_trend_and_volatility_regime_classification():
+    # Warmup gating: <28 bars for trend, <62 bars for volatility
+    candles_20 = tuple(
+        Candle("BTC", i, i + 1, D(100), D(105), D(95), D(100), D(10), i + 1, i + 1, "s")
+        for i in range(20)
+    )
+    reg_20 = observe_regime(CausalFrame("BTC", 20, candles_20))
+    assert reg_20.trend is None
+    assert reg_20.volatility is None
+
+    # Trend requires 28 bars: flat prices -> ADX is 0 -> ChopRange
+    candles_28 = tuple(
+        Candle("BTC", i, i + 1, D(100), D(105), D(95), D(100), D(10), i + 1, i + 1, "s")
+        for i in range(28)
+    )
+    reg_28 = observe_regime(CausalFrame("BTC", 28, candles_28))
+    assert reg_28.trend == "ChopRange"
+    assert reg_28.volatility is None
+
+    # A 49-value range14 window requires 62 continuous bars
+    candles_61 = tuple(
+        Candle("BTC", i, i + 1, D(100), D(105), D(95), D(100), D(10), i + 1, i + 1, "s")
+        for i in range(61)
+    )
+    reg_61 = observe_regime(CausalFrame("BTC", 61, candles_61))
+    assert reg_61.volatility is None
+    from dataclasses import replace
+
+    extra = replace(candles_61[-1], start_ns=61, end_ns=62, received_ns=62, available_ns=62)
+    assert observe_regime(CausalFrame("BTC", 62, candles_61 + (extra,))).volatility == "NormalVol"
+    assert observe_regime(frame([10] * 62)).volatility is None

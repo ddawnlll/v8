@@ -103,3 +103,78 @@ def macd_line(frame: CausalFrame) -> float:
     return numeric(
         (closes.ewm_mean(span=12, adjust=False) - closes.ewm_mean(span=26, adjust=False))[-1]
     )
+
+
+def _ohlc_columns(
+    highs: list[float], lows: list[float], closes: list[float], period: int
+) -> pl.DataFrame:
+    if type(period) is not int or period < 1:
+        raise ValueError("positive integer indicator period required")
+    if len(highs) != len(lows) or len(highs) != len(closes):
+        raise ValueError("aligned indicator inputs required")
+    if any(not math.isfinite(v) for column in (highs, lows, closes) for v in column):
+        raise ValueError("non-finite indicator input")
+    if any(not 0 < lo <= close <= hi for hi, lo, close in zip(highs, lows, closes, strict=True)):
+        raise ValueError("invalid indicator price range")
+    return pl.DataFrame(
+        {"high": highs, "low": lows, "close": closes},
+        schema={"high": pl.Float64, "low": pl.Float64, "close": pl.Float64},
+    )
+
+
+def _wilder(values: pl.Series, period: int) -> pl.Series:
+    seed = numeric(values.head(period).mean())
+    return pl.concat([pl.Series([seed]), values.slice(period)]).ewm_mean(
+        alpha=1 / period, adjust=False
+    )
+
+
+def adx_series(
+    highs: list[float], lows: list[float], closes: list[float], period: int = 14
+) -> list[float | None]:
+    """Wilder DMI: SMA seed, first ADX at index 2*period-1; absent warmup.
+
+    Polars owns vector arithmetic and smoothing. Supplied history origin is part
+    of the experiment: truncating that origin changes recursive indicators.
+    """
+    data = _ohlc_columns(highs, lows, closes, period)
+    if len(closes) < 2 * period:
+        return [None] * len(closes)
+    data = data.with_columns(
+        pl.max_horizontal(
+            pl.col("high") - pl.col("low"),
+            (pl.col("high") - pl.col("close").shift()).abs(),
+            (pl.col("low") - pl.col("close").shift()).abs(),
+        ).alias("tr"),
+        pl.col("high").diff().alias("up"),
+        (-pl.col("low").diff()).alias("down"),
+    ).slice(1)
+    data = data.with_columns(
+        pl.when((pl.col("up") > pl.col("down")) & (pl.col("up") > 0))
+        .then(pl.col("up"))
+        .otherwise(0.0)
+        .alias("plus"),
+        pl.when((pl.col("down") > pl.col("up")) & (pl.col("down") > 0))
+        .then(pl.col("down"))
+        .otherwise(0.0)
+        .alias("minus"),
+    )
+    smooth = pl.DataFrame({key: _wilder(data[key], period) for key in ("tr", "plus", "minus")})
+    dx = smooth.select(
+        pl.when((pl.col("tr") > 0) & ((pl.col("plus") + pl.col("minus")) > 0))
+        .then(100 * (pl.col("plus") - pl.col("minus")).abs() / (pl.col("plus") + pl.col("minus")))
+        .otherwise(0.0)
+        .alias("dx")
+    )["dx"]
+    return [None] * (2 * period - 1) + [numeric(v) for v in _wilder(dx, period)]
+
+
+def simple_atr_series(highs: list[float], lows: list[float], period: int = 14) -> list[float]:
+    """Legacy range14, NOT gap-aware ATR; complete rolling high-low means."""
+    data = _ohlc_columns(highs, lows, lows, period)
+    if len(highs) < period:
+        return []
+    result = data.select((pl.col("high") - pl.col("low")).rolling_mean(period).alias("range"))[
+        "range"
+    ]
+    return [numeric(v) for v in result.slice(period - 1)]

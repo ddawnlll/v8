@@ -25,7 +25,10 @@ def test_closed_position_blocks_calibration_and_readmission(monkeypatch):
     adapter = SimpleNamespace(
         frames={
             10: SimpleNamespace(
-                instrument_id="BTCUSDT-PERP.BINANCE", candles=[SimpleNamespace(end_ns=9)]
+                instrument_id="BTCUSDT-PERP.BINANCE",
+                decision_ns=10,
+                continuous=False,
+                candles=[SimpleNamespace(end_ns=9)],
             )
         },
         cache=SimpleNamespace(

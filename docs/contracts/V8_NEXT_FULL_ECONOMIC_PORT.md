@@ -1,5 +1,33 @@
 # V8-next full economic port
 
+## Handoff correction and native-backed regime integration
+
+The external agent's GOAL_COMPLETE report is rejected: its inspector still always
+returns eligible_for_utility=false, the paper adapter remains BTC-only, online
+funding readmission remains blocked and position-bearing recovery is unqualified.
+Root synthetic/economic audits do not scan v8-next and cannot certify this port.
+
+Retained its paper/allocation/controller decision-regime wiring and calibration
+source configuration. Corrected the provider's positional uncertainty/funding
+field mismatch using named UtilityInputs fields. This connection is still only
+source inspection: absent costs/receipt and absent eligibility remain rejection,
+not an operational calibrated forecast. No certificate was manufactured.
+
+Replaced custom Python indicator loops with Polars vector arithmetic, rolling
+means and SMA-seeded Wilder smoothing. ADX14 first exists at index 27; trend uses
+ADX>20, first-close EMA5/EMA20 and price alignment. Range14 is explicitly mean
+high-low, not gap-aware ATR. Volatility uses 49 complete range14 values (62 bars),
+matching the legacy i-48..=i window; zero denominator remains absent. Version is
+adx14-range14-median49-volume20-funding-v2; existing serialized v1 records retain
+their identity. Input periods, alignment and finite prices are validated. Clocks
+are taken from the actual CausalFrame without fabricating missing decision time.
+Habitat qualification and regime-conditioned calibration remain outstanding.
+
+Tests cover both directional trends, ADX warmup/prefix invariance, invalid input,
+range-vs-true-ATR semantics, zero denominators and complete volatility warmup.
+Full suite 491 passed; mypy 82 files and Ruff clean. This is development progress,
+not completion or a new real-market prospective execution acceptance.
+
 ## Frozen decision regimes in historical campaign outcomes
 
 Historical policy decisions now record the causal descriptive regime and freeze

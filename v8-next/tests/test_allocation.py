@@ -123,3 +123,15 @@ def test_distinct_exposure_budgets_share_global_reservations_only():
     ]
     with pytest.raises(ValueError, match="exposure reservations exceed"):
         allocate([proposal("a")], {"btc": replace(snapshot, exposure_reserved_notional=D(101))})
+
+
+def test_allocation_passes_decision_regime_to_campaign():
+    from v8_next.economics.regime import RegimeObservation
+
+    regime = RegimeObservation(
+        "BTCUSDT-PERP.BINANCE", 10, "NormalVolume", "NeutralFunding", "1.0", "0.0"
+    )
+    p = replace(proposal("a"), decision_regime=regime)
+    results = allocate([p])
+    assert results[0].campaign is not None
+    assert results[0].campaign.decision_regime == regime
