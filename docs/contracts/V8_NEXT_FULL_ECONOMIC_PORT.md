@@ -1946,3 +1946,13 @@ native bars supply their explicit event/init clocks. Native tests reject stale
 events with fresh receipts, future receipts and reversed clocks; all 39 native
 tests pass, Ruff/mypy clean. This strengthens mark eligibility before common
 multi-asset evaluation-phase alignment is implemented.
+
+## Shared market mark clocks for notional risk
+
+Native portfolio risk now consumes EquityMark with separate event/receipt clocks,
+matching native equity eligibility. It rejects future/reversed timestamps and
+uses event age against an explicit max_mark_age_ns (default exact boundary).
+Paper passes actual quote event/init clocks; current flat admission remains
+unchanged. Native position tests use real callback clocks. Full suite: 391
+passed; Ruff/mypy clean. This unifies valuation inputs without enabling unsupported
+continuous multi-asset accounting or relaxing freshness silently.

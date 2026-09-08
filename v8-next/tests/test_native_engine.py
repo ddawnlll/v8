@@ -799,6 +799,7 @@ def test_native_open_position_stop_risk_projection():
                     )
                     is None
                 )
+                from v8_next.adapters.portfolio_equity import EquityMark
                 from v8_next.adapters.portfolio_risk import native_portfolio_risk
 
                 projection = native_portfolio_risk(
@@ -806,7 +807,11 @@ def test_native_open_position_stop_risk_projection():
                     self.campaigns,
                     pending_ids=frozenset(),
                     instrument_exposures={str(quote.instrument_id): "btc"},
-                    marks={str(quote.instrument_id): (quote.ask_price.as_decimal(), quote.ts_init)},
+                    marks={
+                        str(quote.instrument_id): EquityMark(
+                            quote.ask_price, quote.ts_event, quote.ts_init
+                        )
+                    },
                     equity=Decimal(10000),
                     accounting_reconciled=True,
                     observed_ns=quote.ts_init,

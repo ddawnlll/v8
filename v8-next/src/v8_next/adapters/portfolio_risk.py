@@ -6,6 +6,7 @@ from typing import Any
 
 from nautilus_trader.model import InstrumentId
 
+from v8_next.adapters.portfolio_equity import EquityMark
 from v8_next.adapters.stop_exposure import native_stop_exposure
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.risk.admission import RiskSnapshot
@@ -24,11 +25,12 @@ def native_portfolio_risk(
     *,
     pending_ids: frozenset[str],
     instrument_exposures: dict[str, str],
-    marks: dict[str, tuple[Decimal, int]],
+    marks: dict[str, EquityMark],
     equity: Decimal,
     accounting_reconciled: bool,
     observed_ns: int,
     settlement_currency: str = "USDT",
+    max_mark_age_ns: int = 0,
 ) -> PortfolioRisk | None:
     """Caller supplies reconciled quote-currency equity and linear instrument map.
 
@@ -36,6 +38,8 @@ def native_portfolio_risk(
     observation clock. Missing marks/protection or in-flight entries return
     absence. This does not compute funding equity or support inverse contracts.
     """
+    if observed_ns < 0 or max_mark_age_ns < 0:
+        raise ValueError("invalid risk mark clock policy")
     if not accounting_reconciled:
         return None
     if not equity.is_finite() or equity < 0:
@@ -65,9 +69,13 @@ def native_portfolio_risk(
         instrument = str(position.instrument_id)
         if instrument not in instrument_exposures or instrument not in marks:
             return None
-        price, known_ns = marks[instrument]
-        if known_ns != observed_ns:
+        mark = marks[instrument]
+        if (
+            not 0 <= mark.event_ns <= mark.observed_ns <= observed_ns
+            or observed_ns - mark.event_ns > max_mark_age_ns
+        ):
             return None
+        price = mark.price.as_decimal()
         if not price.is_finite() or price <= 0:
             raise ValueError("invalid portfolio mark")
         gross[instrument_exposures[instrument]] += position.quantity.as_decimal() * price

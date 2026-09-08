@@ -9,6 +9,7 @@ from typing import Callable
 from nautilus_trader.model import Currency, InstrumentId, QuoteTick, Venue
 
 from v8_next.adapters.campaign import PaperCampaignAdapter
+from v8_next.adapters.portfolio_equity import EquityMark
 from v8_next.adapters.portfolio_risk import native_portfolio_risk
 from v8_next.domain.market import CausalFrame
 from v8_next.domain.positioning import PositioningReading
@@ -137,7 +138,11 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                 self.campaigns,
                 pending_ids=frozenset(),
                 instrument_exposures={opportunity.instrument_id: opportunity.exposure_id},
-                marks={str(quote.instrument_id): (quote.ask_price.as_decimal(), quote.ts_init)},
+                marks={
+                    str(quote.instrument_id): EquityMark(
+                        quote.ask_price, quote.ts_event, quote.ts_init
+                    )
+                },
                 equity=account.balance_total(Currency.from_str("USDT")).as_decimal(),
                 accounting_reconciled=True,
                 observed_ns=quote.ts_init,
