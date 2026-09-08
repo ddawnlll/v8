@@ -2241,3 +2241,21 @@ regression test supplies coverage only for the latest closed campaign and verifi
 that cash-return computation rejects until the earlier lifetime is also covered.
 This remains observed-history accounting, not a finality certificate. Full suite:
 415 passed; Ruff/mypy clean. Calibration and continuous paper scope remain open.
+
+## Native continuous public quote input
+
+Added `python -m v8_next.app.stream DEST --duration-seconds N`: the pinned native
+LiveNode and BinanceDataClientFactory own websocket/event handling. A DataActor
+subscribes BTC/ETH USD-M quotes and writes normalized native bid/ask/size plus
+venue event, native receipt and local record timestamps. The session records
+runtime identity/universe; unknown clocks or invalid prices fail. Only a public
+data client is registered: no execution client, strategy or private order path.
+Standard asyncio supplies the bounded observation stop, not a custom scheduler.
+
+Actual run /tmp/v8-native-stream-first (log /tmp/v8-native-stream-first.log)
+received 20314 quote records during a 15-second node lifetime including startup,
+and completed native shutdown. This establishes native streaming connectivity,
+not persistent economic operation, raw wire authenticity, reconnect completeness
+or paper execution. Two recorder tests check preserved clocks and reversed-clock
+rejection. Full suite 417 passed; Ruff/mypy clean. Causal feature warmup, stream
+recovery/gap handling and connection to economic admission remain required.
