@@ -1685,3 +1685,14 @@ The check remains conservative about interval endpoints and does not infer a
 funding schedule. Six settlement tests pass, including chained coverage and
 adversarial gap/future/wrong-instrument cases; Ruff/mypy clean. Coverage still
 reports cashflow_finality=UNQUALIFIED and does not lift the online funding guard.
+
+## Funding announcement identity and knowledge cutoff
+
+Observed announcement matching now keys settlement evidence by instrument and
+boundary together. A same-time payment for another instrument cannot satisfy
+an announcement. Final records must also have boundary <= receipt <= evaluation
+cutoff; future or pre-boundary receipts cannot conceal missing settlement.
+The existing timestamp summary remains compatible and conservative when any
+instrument lacks payment. Six settlement tests pass with wrong-instrument and
+receipt-clock adversarial assertions; Ruff/mypy clean. This corrects matching
+semantics without certifying funding completeness or changing admission gates.

@@ -58,6 +58,18 @@ def test_announced_boundary_requires_final_record_without_using_forecast_rate(tm
         "test-only",
     )
     assert missing_announced_settlements([manifest], (final,), 0, 30_000_000) == ()
+    from dataclasses import replace
+
+    # Matching timestamps cannot substitute for the correct instrument or a
+    # receipt known at the evaluation cutoff.
+    for changed in (
+        {"instrument_id": "ETHUSDT-PERP.BINANCE"},
+        {"received_ns": 31_000_000},
+        {"received_ns": 19_000_000},
+    ):
+        assert missing_announced_settlements(
+            [manifest], (replace(final, **changed),), 0, 30_000_000
+        ) == (20_000_000,)
 
 
 def test_revised_accounting_settles_after_last_quote_before_cutoff(tmp_path, monkeypatch):

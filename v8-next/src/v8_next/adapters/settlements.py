@@ -99,7 +99,7 @@ def missing_announced_settlements(
     *observed* announcement, not proof that no unobserved schedule change occurred.
     The premiumIndex rate is a forecast and is never consumed as a final rate.
     """
-    announced: set[int] = set()
+    announced: set[tuple[str, int]] = set()
     saw_schedule = False
     for manifest in manifests:
         verify(manifest)
@@ -119,11 +119,15 @@ def missing_announced_settlements(
         boundary = int(row["nextFundingTime"]) * 10**6
         saw_schedule = True
         if start_ns <= boundary <= end_ns and received < boundary:
-            announced.add(boundary)
+            announced.add((f"{metadata['symbol']}-PERP.BINANCE", boundary))
     if not saw_schedule:
         return None
-    settled = {r.boundary_ns for r in records}
-    return tuple(sorted(announced - settled))
+    settled = {
+        (r.instrument_id, r.boundary_ns)
+        for r in records
+        if r.boundary_ns <= r.received_ns <= end_ns
+    }
+    return tuple(sorted({boundary for _, boundary in announced - settled}))
 
 
 def funding_query_windows(
