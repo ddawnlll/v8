@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import sqlite3
+import time
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -27,6 +28,21 @@ def evaluate(run: Path) -> dict[str, Any]:
     )
     decisions = []
     try:
+        # One SQLite snapshot binds access checks to the outcomes subsequently read.
+        connection.execute("BEGIN")
+        protected = connection.execute(
+            "SELECT t.family,t.dataset_hash,t.registered_ns,b.burned_ns "
+            "FROM trials t LEFT JOIN burns b ON b.lineage=t.family "
+            "AND b.dataset_hash=t.dataset_hash WHERE t.role='HOLDOUT'"
+        ).fetchall()
+        now = time.time_ns()
+        if any(
+            burned is None or not registered <= burned <= now
+            for _, _, registered, burned in protected
+        ):
+            raise ValueError(
+                "protected holdout requires a prior lineage-specific consumption record"
+            )
         for text, digest in connection.execute(
             "SELECT payload,digest FROM decisions ORDER BY decision_id"
         ):
@@ -109,6 +125,7 @@ def evaluate(run: Path) -> dict[str, Any]:
             "trials": trials,
             "registered_family_sizes": dict(sorted(Counter(t["family"] for t in trials).items())),
             "holdout_burns": burns,
+            "holdout_access": "PRIOR_CONSUMPTION_REQUIRED; NO_PRISTINE_HOLDOUT_CERTIFICATION",
             "scope": "LOCAL_REGISTER_NOT_PROOF_OF_COMPLETE_SEARCH_HISTORY",
             "multiplicity_adjustment": None,
         },

@@ -423,3 +423,17 @@ remain unchanged. The native close test produces the expected test-only return
 including both commissions and funding once, and rejects missing coverage/open
 positions. Eleven focused native/report tests passed in 1.54 s pytest time
 (`/tmp/v8-next-cash-return-tests.log`); Ruff and mypy passed (25 source files).
+
+### Protected outcome read boundary
+
+The read-only evaluator now checks registered HOLDOUT trials before reading any
+decision payload. Each requires an existing consumption record for its own family
+and dataset, with a timestamp no earlier than registration and no later than the
+current read. A burn in another family does not grant access. The check and outcome
+reads share one SQLite transaction snapshot. The evaluator does not silently burn
+a holdout, and an existing burn does not certify first-use OOS validity or permit
+claims. This is an access boundary on the local registry, not complete protected
+inference orchestration. Tests prove rejection occurs before even a deliberately
+corrupted outcome is decoded, and access after a matching record still preserves
+claim gates. Ten focused tests passed in 0.12 s (`/tmp/v8-next-holdout-access.log`);
+Ruff and mypy passed.

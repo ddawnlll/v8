@@ -36,3 +36,28 @@ def test_evaluator_reports_registry_without_claiming_adjustment(tmp_path):
             evaluate(tmp_path)
     finally:
         store.close()
+
+
+def test_protected_holdout_is_checked_before_outcome_read(tmp_path):
+    policy = {"test_only": True}
+    digest = hashlib.sha256(canonical(policy).encode()).hexdigest()
+    (tmp_path / "policy.json").write_text(json.dumps({"policy": policy, "policy_hash": digest}))
+    store = ResearchStore(tmp_path / "research.sqlite")
+    try:
+        store.register_trial("protected", "family", digest, "held-out", "HOLDOUT", 10)
+        # Deliberately unreadable outcome: preflight must refuse before decoding it.
+        store.db.execute("INSERT INTO decisions VALUES ('x','not-json','wrong-hash')")
+        with pytest.raises(ValueError, match="protected holdout"):
+            evaluate(tmp_path)
+        store.burn_holdout("other-family", "held-out", 20)
+        with pytest.raises(ValueError, match="protected holdout"):
+            evaluate(tmp_path)
+        store.burn_holdout("family", "held-out", 20)
+        with pytest.raises(ValueError, match="decision hash mismatch"):
+            evaluate(tmp_path)
+        store.db.execute("DELETE FROM decisions")
+        result = evaluate(tmp_path)
+        assert result["promotion"].startswith("BLOCKED")
+        assert result["research_lineage"]["multiplicity_adjustment"] is None
+    finally:
+        store.close()
