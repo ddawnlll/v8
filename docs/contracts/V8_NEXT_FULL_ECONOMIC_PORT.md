@@ -1228,3 +1228,13 @@ support or protection at that decision. The timely capture supports funding B
 and its protection but creates no campaign without verified calibration. Both
 cases execute through Nautilus callbacks; these are isolated fixtures, not real
 prospective economic observations or a completed operational acceptance.
+
+## Paper CLI economic policy input
+
+The paper command accepts --policy-config PATH for JSON observer_policy,
+grammar_policy, campaign_policy, stop_budget and funding_max_age_ns. Financial
+CLI assumptions remain separate and cannot be overridden from that file. The
+combined configuration is validated before session work and frozen before any
+capture; changing freshness or selection requires a new run. Tests verify
+roundtrip freeze, changed-policy rejection, strict freshness integers and forbidden
+fields. No value is selected on the owner's behalf or economic eligibility minted.

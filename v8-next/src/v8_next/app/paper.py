@@ -33,7 +33,7 @@ from v8_next.risk.admission import RiskLimits
 
 
 def replay_account(
-    manifests: list[Path], config: dict[str, str], *, observer: str | None = None
+    manifests: list[Path], config: dict[str, Any], *, observer: str | None = None
 ) -> dict[str, Any]:
     parsed = PaperConfig.model_validate(config)
     selected_observer = observer if observer is not None else parsed.observer_policy
@@ -115,9 +115,7 @@ def replay_account(
         state["quote_count"] = len(quotes)
         state["campaign_status"] = "NO_VERIFIED_CALIBRATION"
         state["economic_decisions"] = strategy.decisions
-        state["campaigns"] = [
-            c.to_record() for c in strategy.campaigns
-        ]
+        state["campaigns"] = [c.to_record() for c in strategy.campaigns]
         state["campaign_observations"] = strategy.campaign_observations(state)
         state["funding_status"] = (
             "UNVERIFIED_ONLINE_FUNDING"
@@ -133,7 +131,7 @@ def replay_account(
         engine.dispose()
 
 
-def step(run: Path, config: dict[str, str], *, replay_only: bool = False) -> dict[str, Any]:
+def step(run: Path, config: dict[str, Any], *, replay_only: bool = False) -> dict[str, Any]:
     """One local writer per session; the OS releases the lock on process exit."""
     PaperConfig.model_validate(config)
     run.mkdir(parents=True, exist_ok=True)
@@ -148,7 +146,7 @@ def step(run: Path, config: dict[str, str], *, replay_only: bool = False) -> dic
             fcntl.flock(lock, fcntl.LOCK_UN)
 
 
-def _step_locked(run: Path, config: dict[str, str], *, replay_only: bool) -> dict[str, Any]:
+def _step_locked(run: Path, config: dict[str, Any], *, replay_only: bool) -> dict[str, Any]:
     frozen = initialize(run, config)
     manifests = sorted(run.glob("capture-*/manifest.json"))
     checkpoint = run / "paper-state.json"
@@ -166,10 +164,7 @@ def _step_locked(run: Path, config: dict[str, str], *, replay_only: bool) -> dic
                 raise ValueError("paper capture manifest changed")
         recovered = replay_account(prior_paths, config)
         reconcile_replay(saved["native_state"], recovered)
-        prior_campaigns = tuple(
-            PaperCampaign.from_record(c)
-            for c in recovered["campaigns"]
-        )
+        prior_campaigns = tuple(PaperCampaign.from_record(c) for c in recovered["campaigns"])
         reconcile_replay(
             saved["revised_accounting"],
             replay_frozen_campaigns(
@@ -191,9 +186,7 @@ def _step_locked(run: Path, config: dict[str, str], *, replay_only: bool) -> dic
     for manifest in manifests:
         observe_capture(run, manifest, frozen)
     state = replay_account(manifests, config)
-    campaigns = tuple(
-        PaperCampaign.from_record(c) for c in state["campaigns"]
-    )
+    campaigns = tuple(PaperCampaign.from_record(c) for c in state["campaigns"])
     cutoff = max(
         int(a["received_time_ns"])
         for p in manifests
@@ -227,6 +220,21 @@ def _step_locked(run: Path, config: dict[str, str], *, replay_only: bool) -> dic
     return result
 
 
+def load_policy_config(path: Path) -> dict[str, Any]:
+    """Economic choices only; CLI account/fee assumptions cannot be overridden."""
+    policy = json.loads(path.read_text())
+    allowed = {
+        "observer_policy",
+        "grammar_policy",
+        "campaign_policy",
+        "stop_budget",
+        "funding_max_age_ns",
+    }
+    if not isinstance(policy, dict) or set(policy) - allowed:
+        raise ValueError("policy config must contain only economic policy fields")
+    return dict(policy)
+
+
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     parser = argparse.ArgumentParser(description=__doc__)
@@ -236,15 +244,21 @@ def main() -> None:
     parser.add_argument("--initial-balance", type=Decimal, required=True)
     parser.add_argument("--max-notional", type=Decimal, required=True)
     parser.add_argument("--max-exposure-fraction", type=Decimal, required=True)
+    parser.add_argument(
+        "--policy-config", type=Path, help="JSON economic policy selection and freshness"
+    )
     parser.add_argument("--replay-only", action="store_true")
     args = parser.parse_args()
-    config = {
+    config: dict[str, Any] = {
         "maker_fee": str(args.maker_fee),
         "taker_fee": str(args.taker_fee),
         "initial_balance": str(args.initial_balance),
         "max_notional": str(args.max_notional),
         "max_exposure_fraction": str(args.max_exposure_fraction),
     }
+    if args.policy_config is not None:
+        config.update(load_policy_config(args.policy_config))
+    PaperConfig.model_validate(config)
     started = time.perf_counter()
     try:
         result = step(args.run_directory, config, replay_only=args.replay_only)

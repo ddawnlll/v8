@@ -9,6 +9,7 @@ import json
 import time
 from dataclasses import asdict, replace
 from pathlib import Path
+from typing import Any
 
 from v8_next.adapters.binance_capture import capture, verify
 from v8_next.adapters.captured_market import load_candles
@@ -53,7 +54,7 @@ def source_hash() -> str:
     return digest.hexdigest()
 
 
-def initialize(run: Path, paper_config: dict[str, str] | None = None) -> dict[str, object]:
+def initialize(run: Path, paper_config: dict[str, Any] | None = None) -> dict[str, object]:
     """Freeze before fetching any prospective data; changed code requires a new run."""
     policy: dict[str, object] = {
         "code_and_lock_hash": source_hash(),
