@@ -73,6 +73,16 @@ def observed_outcomes(
                 ),
                 Decimal(0),
             )
+            other_adjustments = sum(
+                (
+                    cash(a["pnl_change"])
+                    for a in outcome["adjustments"]
+                    if a["adjustment_type"] != "FUNDING" and a["pnl_change"] is not None
+                ),
+                Decimal(0),
+            )
+            components_known = all(a["pnl_change"] is not None for a in outcome["adjustments"])
+            price_pnl = net + fees - funding - other_adjustments if components_known else None
             value = net / notional
             returns.append(float(value))
             net_total += net
@@ -82,6 +92,17 @@ def observed_outcomes(
                 native_net_pnl=str(net),
                 observed_commissions=str(fees),
                 observed_funding_pnl=str(funding),
+                observed_other_adjustment_pnl=str(other_adjustments),
+                native_price_pnl=str(price_pnl) if price_pnl is not None else None,
+                price_return_on_entry_notional=str(price_pnl / notional)
+                if price_pnl is not None
+                else None,
+                commission_fraction=str(fees / notional),
+                funding_return_on_entry_notional=str(funding / notional),
+                other_adjustment_return_on_entry_notional=str(other_adjustments / notional),
+                component_status="DECOMPOSED_NATIVE_PNL"
+                if components_known
+                else "MISSING_ADJUSTMENT_PNL",
                 net_return_on_entry_notional=str(value),
                 opened_ns=outcome["opened_ns"],
                 closed_ns=outcome["closed_ns"],

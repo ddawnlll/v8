@@ -1956,3 +1956,14 @@ Paper passes actual quote event/init clocks; current flat admission remains
 unchanged. Native position tests use real callback clocks. Full suite: 391
 passed; Ruff/mypy clean. This unifies valuation inputs without enabling unsupported
 continuous multi-asset accounting or relaxing freshness silently.
+
+## Observed return component decomposition
+
+Closed native outcome rows now separate price PnL from commissions, funding and
+other native PnL adjustments, with entry-notional normalized components. The
+identity is net = price - commissions + funding + other adjustments; costs are
+not subtracted twice. Missing adjustment PnL withholds the derived price component
+and marks the decomposition incomplete. This is descriptive native accounting,
+not expected gross edge, calibrated utility or measured execution costs.
+The native fee/funding test verifies exact reconstruction of net return; all 39
+native tests pass, Ruff/mypy clean. Calibration remains ineligible.

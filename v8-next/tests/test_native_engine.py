@@ -694,6 +694,13 @@ def test_native_close_sample_reconciles_funding_and_fees_once():
     assert row["observed_commissions"] == "0.20000000"
     assert row["observed_funding_pnl"] == "-1.00000000"
     assert Decimal(row["net_return_on_entry_notional"]) == Decimal("-.012")
+    assert Decimal(row["native_price_pnl"]) == 0
+    assert (
+        Decimal(row["price_return_on_entry_notional"])
+        - Decimal(row["commission_fraction"])
+        + Decimal(row["funding_return_on_entry_notional"])
+        + Decimal(row["other_adjustment_return_on_entry_notional"])
+    ) == Decimal(row["net_return_on_entry_notional"])
     assert not sample["calibration_eligible"]
 
 
