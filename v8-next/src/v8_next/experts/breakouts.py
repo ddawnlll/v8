@@ -1,6 +1,7 @@
 """Failed and volume-confirmed breakout observations from active Rust v1."""
 
 from dataclasses import replace
+from decimal import Decimal
 
 import polars as pl
 
@@ -9,18 +10,24 @@ from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
 
 
+def last_close_breakout(frame: CausalFrame) -> tuple[int, Decimal] | None:
+    """Latest close break and its frozen prior high in the supplied history."""
+    if not frame.candles:
+        return None
+    prior = frame.candles[0].high
+    breakout = None
+    for index, bar in enumerate(frame.candles[1:], start=1):
+        if bar.close > prior:
+            breakout = (index, prior)
+        prior = max(prior, bar.high)
+    return breakout
+
+
 def observe_failed_breakout(frame: CausalFrame, opportunity: Opportunity | None) -> Stance:
     reason = context_reason(frame, opportunity, 2)
     direction = None
     if reason is None:
-        # Cumulative prior high, not a rolling channel: preserve the supplied
-        # history window's definition and freeze the level at the latest break.
-        prior = frame.candles[0].high
-        breakout = None
-        for index, bar in enumerate(frame.candles[1:], start=1):
-            if bar.close > prior:
-                breakout = (index, prior)
-            prior = max(prior, bar.high)
+        breakout = last_close_breakout(frame)
         reason = "NO_PRIOR_BREAKOUT"
         if breakout is not None:
             index, level = breakout

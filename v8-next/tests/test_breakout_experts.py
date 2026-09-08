@@ -112,3 +112,20 @@ def test_volume_campaign_requires_actual_volume_gate_in_each_direction():
             protection_at(flat_volume, opportunity, "volume-breakout:active:v2", Decimal(".01"))
             is None
         )
+
+
+def test_failed_campaign_stop_is_frozen_breakout_level_not_range_multiple():
+    from v8_next.economics.protection import protection_at
+
+    frame, opportunity = inputs([100] * 20 + [103, 100])
+    protection = protection_at(frame, opportunity, "failed-breakout:a:v2", Decimal(".01"))
+    assert protection is not None
+    assert protection.stop_price == 101
+    assert protection.target_price == 98
+    assert protection.expires_ns == frame.decision_ns + 8
+    # A newer break supersedes the older reference; do not reuse the first level.
+    frame, opportunity = inputs([100] * 20 + [103, 100, 106, 103])
+    protection = protection_at(frame, opportunity, "failed-breakout:a:v2", Decimal(".01"))
+    assert protection is not None and protection.stop_price == 104
+    stale, opportunity = inputs([100] * 20 + [103] + [100] * 6)
+    assert protection_at(stale, opportunity, "failed-breakout:a:v2", Decimal(".01")) is None

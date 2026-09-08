@@ -1043,3 +1043,17 @@ geometry, expiry and missing recovery/volume rejection. Protected campaign
 coverage is now ten families/26 policies, not complete expert migration. Missing
 families, allocation integration, auxiliary market data and prospective operation
 requirements remain open.
+
+## Failed-breakout structural campaign protection
+
+failed-breakout:a:v2 uses the latest close-break's frozen prior high as the SHORT
+stop, matching failed_breakout.rs Issue #63 semantics. It does not substitute a
+one-range or clamped stop. Target remains one mean-range14 below observation
+close, with eight-bar expiry and existing tick/native execution rules. The shared
+last_close_breakout helper now supplies both the observation and geometry path,
+so a newer break supersedes the old reference consistently. Missing volatility
+warmup or a break older than five bars yields no protection.
+
+Tests distinguish the 101 structural stop from a 102 one-range stop, verify a
+newer reference at 104 and reject stale setups. Protected coverage reaches eleven
+families/27 policies; this is not complete expert or operational port coverage.

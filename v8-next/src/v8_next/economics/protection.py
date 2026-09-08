@@ -6,7 +6,11 @@ from decimal import ROUND_CEILING, ROUND_FLOOR, Decimal
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, StanceKind
 from v8_next.experts.bollinger import band_setup
-from v8_next.experts.breakouts import observe_volume_breakout
+from v8_next.experts.breakouts import (
+    last_close_breakout,
+    observe_failed_breakout,
+    observe_volume_breakout,
+)
 from v8_next.experts.candlestick import VARIANTS as CANDLE_VARIANTS
 from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.gaps import gap_setup
@@ -23,6 +27,7 @@ PROTECTION_POLICIES = frozenset(
         "trend-depth:a:v2",
         "rsi-reversion:a:v2",
         "volume-breakout:active:v2",
+        "failed-breakout:a:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -89,6 +94,19 @@ def protection_at(
         # Active Rust v1 declares one range unit each way, not its alternate
         # v2 structural stop. Execution remains V8-next frozen absolute geometry.
         stop, target = close - sign * span, close + sign * span
+    elif family == "failed-breakout":
+        if (
+            len(frame.candles) < 14
+            or observe_failed_breakout(frame, opportunity).kind != StanceKind.SUPPORT
+        ):
+            return None
+        breakout = last_close_breakout(frame)
+        assert breakout is not None
+        stop = breakout[1]
+        span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+        if span <= 0:
+            return None
+        target = close - span
     elif family in {"donchian", "gap", "candlestick"}:
         if len(frame.candles) < 14:
             return None
