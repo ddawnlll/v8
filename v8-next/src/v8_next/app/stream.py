@@ -152,16 +152,38 @@ async def capture_stream(
     duration_seconds: int,
     *,
     manifests: tuple[Path, ...] = (),
-    grammar: str = "range-breakout-48-v1",
+    grammar: str | None = None,
+    resume_from: Path | None = None,
 ) -> dict:
     if duration_seconds <= 0:
         raise ValueError("positive observation duration required")
-    observations = StreamObservations(manifests, grammar) if manifests else None
+    observations: StreamObservations | None
+    parent_hash = None
+    if resume_from is not None:
+        from v8_next.evaluation.stream_replay import restore_stream
+
+        if manifests:
+            raise ValueError("resume inherits warmup sources")
+        observations = restore_stream(resume_from)
+        if grammar is not None and grammar != observations.grammar:
+            raise ValueError("resume cannot change grammar")
+        grammar = observations.grammar
+        parent_session = json.loads((resume_from / "session.json").read_text())
+        manifests = tuple(Path(p) for p in parent_session["warmup_manifests"])
+        parent_raw = (resume_from / "result.json").read_bytes()
+        if json.loads(parent_raw)["ended_ns"] > time.time_ns():
+            raise ValueError("resume source reaches future")
+        parent_hash = hashlib.sha256(parent_raw).hexdigest()
+    else:
+        grammar = grammar or "range-breakout-48-v1"
+        observations = StreamObservations(manifests, grammar) if manifests else None
     destination.mkdir(parents=True, exist_ok=False)
     (destination / "session.json").write_text(
         canonical(
             dict(
                 instruments=INSTRUMENTS,
+                resume_from=str(resume_from.resolve()) if resume_from else None,
+                parent_result_sha256=parent_hash,
                 grammar=grammar,
                 warmup_manifest_hashes=observations.source_hashes if observations else [],
                 warmup_manifests=[str(p.resolve()) for p in manifests],
@@ -256,7 +278,8 @@ def main() -> None:
     parser.add_argument("destination", type=Path)
     parser.add_argument("--duration-seconds", type=int, required=True)
     parser.add_argument("--warmup-manifest", type=Path, action="append", default=[])
-    parser.add_argument("--grammar", default="range-breakout-48-v1")
+    parser.add_argument("--grammar")
+    parser.add_argument("--resume-from", type=Path)
     args = parser.parse_args()
     print(
         json.dumps(
@@ -266,6 +289,7 @@ def main() -> None:
                     args.duration_seconds,
                     manifests=tuple(args.warmup_manifest),
                     grammar=args.grammar,
+                    resume_from=args.resume_from,
                 )
             )
         )

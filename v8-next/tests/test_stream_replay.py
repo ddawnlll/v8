@@ -85,7 +85,7 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
             )
         )
     )
-    result = dict(quote_count=2, bar_count=1)
+    result = dict(quote_count=2, bar_count=1, ended_ns=3 * hour)
     for filename, key in (
         ("quotes.jsonl", "quote_sha256"),
         ("bars.jsonl", "bar_sha256"),
@@ -101,3 +101,35 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
         report = replay_stream(tmp_path)
         assert report["event_count"] == 3
         assert report["observation_count"] == 2
+        from v8_next.evaluation.stream_replay import restore_stream
+
+        restored = restore_stream(tmp_path)
+        assert restored.candles[instrument][-1].end_ns == 2 * hour
+        assert restored.observe(instrument, 2 * hour + 20) is None
+        child = tmp_path / "child"
+        child.mkdir()
+        session = json.loads((tmp_path / "session.json").read_text())
+        session.update(
+            resume_from=str(tmp_path),
+            started_ns=4 * hour,
+            parent_result_sha256=hashlib.sha256(
+                (tmp_path / "result.json").read_bytes()
+            ).hexdigest(),
+        )
+        (child / "session.json").write_text(canonical(session))
+        child_result = dict(quote_count=0, bar_count=0, ended_ns=5 * hour)
+        for filename, key in (
+            ("quotes.jsonl", "quote_sha256"),
+            ("bars.jsonl", "bar_sha256"),
+            ("observations.jsonl", "observation_sha256"),
+            ("session.json", "session_sha256"),
+        ):
+            if filename != "session.json":
+                (child / filename).write_text("")
+            child_result[key] = hashlib.sha256((child / filename).read_bytes()).hexdigest()
+        (child / "result.json").write_text(canonical(child_result))
+        assert replay_stream(child)["event_count"] == 0
+        assert restore_stream(child).candles[instrument][-1].end_ns == 2 * hour
+        (tmp_path / "result.json").write_text("{}")
+        with pytest.raises(ValueError, match="parent changed"):
+            replay_stream(child)

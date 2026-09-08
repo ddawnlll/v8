@@ -2347,3 +2347,23 @@ then READY with 64 stances after actual bar receipt. This qualifies real native
 closed-bar delivery and observation progression for that run. It does not qualify
 reconnect/backfill, economic calibration or paper execution. Full suite: 425 passed;
 Ruff/mypy clean.
+
+## Verified stream restart lineage
+
+Stream capture accepts --resume-from for a completed prior stream. It verifies
+and replays the parent, restores candles and emitted observation states, inherits
+grammar/warmup inputs and freezes the parent result hash in a new immutable session.
+Replay recursively restores this lineage, rejecting changed parents, cycles,
+future parent completion and policy mismatch. This is clean-session restart,
+not reconnect backfill or crash-prefix recovery. Missing intervening closed bars
+still fail closed and are not synthesized. The in-memory diagnostic replay cost
+grows with lineage history and is not a custom runtime checkpoint engine.
+
+Tests restore post-bar state without duplicating observations, replay a linked
+child and reject changed parent identity. Actual native runs:
+/tmp/v8-stream-resume-1788883419131346000/first (1960 quotes) and /second (2025).
+The resumed session reproduced all observations (zero new observations because
+the same closed candle was already observed); native subscriptions and controlled
+shutdown succeeded in both. Log /tmp/v8-stream-resume.log. Full suite 425 passed;
+Ruff/mypy clean. Network interruption/backfill and calibrated paper operation
+remain outstanding.

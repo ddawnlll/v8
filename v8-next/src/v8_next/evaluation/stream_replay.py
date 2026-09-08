@@ -14,6 +14,23 @@ from v8_next.evaluation.store import canonical
 
 
 def replay_stream(run: Path) -> dict[str, Any]:
+    return _replay_stream(run, frozenset())[0]
+
+
+def restore_stream(run: Path) -> StreamObservations:
+    _, observer = _replay_stream(run, frozenset())
+    if observer is None:
+        raise ValueError("stream has no economic observation state")
+    return observer
+
+
+def _replay_stream(
+    run: Path, ancestors: frozenset[Path]
+) -> tuple[dict[str, Any], StreamObservations | None]:
+    run = run.resolve()
+    if run in ancestors:
+        raise ValueError("cyclic stream lineage")
+    ancestors = ancestors | {run}
     if (run / "failure.json").exists():
         raise ValueError("failed stream cannot be accepted as a complete replay")
     result = json.loads((run / "result.json").read_text())
@@ -36,6 +53,20 @@ def replay_stream(run: Path) -> dict[str, Any]:
     ):
         raise ValueError("stream warmup manifest changed")
     observer = StreamObservations(paths, session["grammar"]) if paths else None
+    if session.get("resume_from") is not None:
+        parent = Path(session["resume_from"])
+        raw = (parent / "result.json").read_bytes()
+        if hashlib.sha256(raw).hexdigest() != session["parent_result_sha256"]:
+            raise ValueError("stream parent changed")
+        if json.loads(raw)["ended_ns"] > session["started_ns"]:
+            raise ValueError("stream parent reaches future")
+        _, observer = _replay_stream(parent, ancestors)
+        if (
+            observer is None
+            or observer.grammar != session["grammar"]
+            or observer.source_hashes != session["warmup_manifest_hashes"]
+        ):
+            raise ValueError("resumed stream policy mismatch")
     events: list[tuple[int, str, dict[str, Any]]] = []
     for kind, filename, count in (
         ("quote", "quotes.jsonl", result["quote_count"]),
@@ -87,7 +118,7 @@ def replay_stream(run: Path) -> dict[str, Any]:
         observation_count=len(recomputed),
         claim_status="NO_ECONOMIC_CLAIM",
         limitation="Recorded inputs only; no guarantee of omitted venue events or reconnect completeness",
-    )
+    ), observer
 
 
 def main() -> None:
