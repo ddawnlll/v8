@@ -99,7 +99,8 @@ class CampaignProtection:
 
     def __post_init__(self) -> None:
         if self.validity_indicator is not None and (
-            self.validity_indicator not in {"kijun26", "ema5-above-ema20", "macd-zero"}
+            self.validity_indicator
+            not in {"kijun26", "ema5-above-ema20", "macd-zero", "rsi14-reversion"}
             or self.live_channel_bars is not None
             or (
                 self.close_invalidation_price is not None
@@ -401,6 +402,8 @@ def protection_at(
             if family in {"trend-pullback", "trend-depth"}
             else "macd-zero"
             if family == "macd-stoch"
+            else "rsi14-reversion"
+            if family == "rsi-reversion"
             else None
         ),
     )

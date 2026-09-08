@@ -306,3 +306,19 @@ def test_macd_zero_validity_and_warmup(side):
     assert campaign.invalidated_by_close(replace(frame, candles=frame.candles[:-1])) is True
     assert campaign.invalidated_by_close(replace(frame, candles=frame.candles[-33:])) is None
     assert PaperCampaign.from_record(campaign.to_record()) == campaign
+
+
+@pytest.mark.parametrize("side", ["LONG", "SHORT"])
+def test_rsi_reversion_thesis_tracks_extreme_zone(side):
+    from v8_next.domain.campaign import PaperCampaign
+
+    frame, _ = context()
+    campaign = PaperCampaign(
+        "c", "o", "i", side, Decimal(1), 1, 200, validity_indicator="rsi14-reversion"
+    )
+    # Flat history followed by a gain produces RSI=100 under the declared seed.
+    assert campaign.invalidated_by_close(frame) is (side == "SHORT")
+    flat = replace(frame, candles=frame.candles[:-1])
+    assert campaign.invalidated_by_close(flat) is False  # flat RSI is neutral 50
+    assert campaign.invalidated_by_close(replace(frame, candles=frame.candles[-14:])) is None
+    assert PaperCampaign.from_record(campaign.to_record()) == campaign

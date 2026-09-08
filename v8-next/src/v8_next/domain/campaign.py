@@ -31,7 +31,8 @@ class PaperCampaign:
             raise ValueError("invalid campaign expiry")
 
         if self.validity_indicator is not None and (
-            self.validity_indicator not in {"kijun26", "ema5-above-ema20", "macd-zero"}
+            self.validity_indicator
+            not in {"kijun26", "ema5-above-ema20", "macd-zero", "rsi14-reversion"}
             or self.live_channel_bars is not None
             or (
                 self.close_invalidation_price is not None
@@ -77,6 +78,15 @@ class PaperCampaign:
         if candle.end_ns <= self.decision_ns:
             return None
         sign = 1 if self.direction == "LONG" else -1
+        if self.validity_indicator == "rsi14-reversion":
+            from v8_next.experts.features import close_series, wilder_rsi
+
+            if len(frame.candles) < 15:
+                return None
+            rsi = wilder_rsi(close_series(frame))[-1]
+            if rsi is None:
+                return None
+            return rsi <= 30 if sign == 1 else rsi >= 70
         if self.validity_indicator == "macd-zero":
             from v8_next.experts.features import macd_line
 

@@ -105,6 +105,7 @@ def test_rsi_campaign_geometry_tracks_recovery_direction():
             frame, replace(opportunity, direction=direction), "rsi-reversion:a:v2", Decimal(".01")
         )
         assert protection is not None
+        assert protection.validity_indicator == "rsi14-reversion"
         sign = 1 if direction == "LONG" else -1
         close = frame.candles[-1].close
         assert (close - protection.stop_price) * sign == Decimal(".2")

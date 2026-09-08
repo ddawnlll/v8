@@ -1483,3 +1483,15 @@ directions; incomplete windows remain unknown. The serialized indicator routes
 through existing native/historical/revised replay paths without requiring another
 stochastic entry run. Full suite passes (371 tests), Ruff/mypy clean. Broader
 remaining economic requirements are not completed by this change.
+
+## RSI active reversion continuation
+
+Active RSI reversion A now carries rsi14-reversion validity. Long remains valid
+only above RSI30, short below RSI70, matching source still_valid; re-entering the
+extreme (including equality) invalidates. It reuses the observer's Polars-backed
+Wilder RSI seed/recurrence and neutral flat-series convention, without requiring
+a new recovery-price entry trigger. Fifteen bars are required for fourteen price
+changes; insufficient data stays unknown. Tests cover directional extremes,
+neutrality, warmup, serialization and protection binding. Full suite passes
+(373 tests), with the added protection assertion checked in focused tests.
+Bollinger and remaining family/economic requirements are still open.
