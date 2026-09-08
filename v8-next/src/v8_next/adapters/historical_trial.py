@@ -1,5 +1,7 @@
 """Offline policy experiment. Never a calibrated economic admission path."""
 
+import hashlib
+import json
 from dataclasses import asdict, replace
 from decimal import Decimal
 from typing import Any
@@ -225,6 +227,22 @@ class HistoricalTrial(PaperCampaignAdapter):
             raise ValueError("incomplete native equity valuation")
         cash, unrealized = projected
         positions = self.cache.positions_open()
+        valuation_inputs = {
+            key: {
+                "price": str(value.close.as_decimal()),
+                "event_ns": value.ts_event,
+                "observed_ns": value.ts_init,
+                "source_hash": self.source[(key, value.ts_event)].source_hash,
+            }
+            for key, value in sorted(self.boundary_bars.items())
+        }
+        source_identity = (
+            candle.source_hash
+            if len(self.instruments) == 1
+            else hashlib.sha256(
+                json.dumps(valuation_inputs, sort_keys=True, separators=(",", ":")).encode()
+            ).hexdigest()
+        )
         self.equity_marks.append(
             {
                 "end_ns": bar.ts_event,
@@ -235,7 +253,8 @@ class HistoricalTrial(PaperCampaignAdapter):
                 "unrealized_pnl": str(unrealized),
                 "equity": str(cash + unrealized),
                 "open_positions": len(positions),
-                "close_price": str(bar.close.as_decimal()),
-                "source_hash": candle.source_hash,
+                "close_price": str(bar.close.as_decimal()) if len(self.instruments) == 1 else None,
+                "source_hash": source_identity,
+                "valuation_inputs": valuation_inputs,
             }
         )

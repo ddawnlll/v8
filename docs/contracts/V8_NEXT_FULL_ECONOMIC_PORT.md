@@ -2004,3 +2004,14 @@ Tests verify no decision/equity before complete input, one equity observation
 per completed boundary, deterministic symbol order and missing-boundary failure.
 Full suite: 392 passed; mypy clean. Native multi-source HistoricalTrial end-to-end
 qualification and complete portfolio evaluation provenance remain required.
+
+## Portfolio valuation input provenance
+
+Historical equity rows now retain per-instrument valuation_inputs containing
+price, event/init clocks and original candle source hash. For multiple instruments,
+source_hash is the SHA-256 of the canonical sorted input map and close_price is
+absent rather than pretending the last callback price values the portfolio.
+Single-instrument source identity/close fields retain their meaning. This makes
+existing family source-signature comparison distinguish different portfolio
+input sets. Full suite: 392 passed; Ruff/mypy clean. Multi-source native end-to-end
+qualification and corresponding artifact verification remain required.
