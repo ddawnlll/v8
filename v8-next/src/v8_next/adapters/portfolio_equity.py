@@ -10,6 +10,7 @@ from nautilus_trader.model import Currency, Price, Venue
 @dataclass(frozen=True)
 class EquityMark:
     price: Price
+    event_ns: int
     observed_ns: int
 
 
@@ -41,7 +42,11 @@ def native_equity(
         if position.instrument_id.venue != venue:
             continue
         mark = marks.get(str(position.instrument_id))
-        if mark is None or not 0 <= observed_ns - mark.observed_ns <= max_mark_age_ns:
+        if (
+            mark is None
+            or not 0 <= mark.event_ns <= mark.observed_ns <= observed_ns
+            or observed_ns - mark.event_ns > max_mark_age_ns
+        ):
             return None
         if mark.price.as_decimal() <= 0:
             raise ValueError("nonpositive equity mark")

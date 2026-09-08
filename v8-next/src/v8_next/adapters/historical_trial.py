@@ -188,7 +188,7 @@ class HistoricalTrial(PaperCampaignAdapter):
             raise ValueError("equity boundaries must increase")
         projected = native_equity(
             self.cache,
-            {str(bar.bar_type.instrument_id): EquityMark(bar.close, bar.ts_init)},
+            {str(bar.bar_type.instrument_id): EquityMark(bar.close, bar.ts_event, bar.ts_init)},
             venue=Venue("BINANCE"),
             currency=Currency.from_str("USDT"),
             observed_ns=bar.ts_init,

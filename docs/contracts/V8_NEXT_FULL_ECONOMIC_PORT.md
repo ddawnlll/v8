@@ -1936,3 +1936,13 @@ value the remaining ETH position at an explicit mark and reject missing/stale
 marks. Full suite passed 391 tests before those additional assertions; focused
 native test passes afterward, Ruff/mypy clean. Common evaluation-phase alignment
 is still required before enabling multi-instrument historical callbacks.
+
+## Portfolio mark event/receipt separation
+
+EquityMark now requires both event and observed timestamps. Valuation requires
+0 <= event <= receipt <= valuation clock and measures freshness from event time,
+so a newly received stale market price cannot qualify as current. Historical
+native bars supply their explicit event/init clocks. Native tests reject stale
+events with fresh receipts, future receipts and reversed clocks; all 39 native
+tests pass, Ruff/mypy clean. This strengthens mark eligibility before common
+multi-asset evaluation-phase alignment is implemented.
