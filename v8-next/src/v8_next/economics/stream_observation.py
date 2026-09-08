@@ -51,6 +51,29 @@ class StreamObservations:
         self.candles[candle.instrument_id] = (*previous, candle)
         return True
 
+    def backfill(self, manifests: tuple[Path, ...], as_of_ns: int) -> None:
+        """Apply verified received bars atomically without revising old observations."""
+        original = self.candles
+        self.candles = dict(original)
+        hashes = set(self.source_hashes)
+        try:
+            for path in manifests:
+                bars = load_candles(path)
+                if not bars or bars[0].instrument_id not in original:
+                    raise ValueError("backfill requires an existing instrument")
+                for bar in bars:
+                    if bar.received_ns > as_of_ns:
+                        raise ValueError("backfill unknown at restart")
+                    # Older history outside retained warmup is not a new update.
+                    if bar.end_ns <= original[bar.instrument_id][0].start_ns:
+                        continue
+                    self.add_closed_candle(replace(bar, available_ns=bar.received_ns))
+                hashes.add(hashlib.sha256(path.read_bytes()).hexdigest())
+        except Exception:
+            self.candles = original
+            raise
+        self.source_hashes = sorted(hashes)
+
     def observe(self, instrument: str, received_ns: int) -> dict[str, Any] | None:
         frame = frame_at(instrument, received_ns, self.candles.get(instrument, ()))
         status = "READY"

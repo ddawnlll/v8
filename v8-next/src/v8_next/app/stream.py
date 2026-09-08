@@ -154,6 +154,7 @@ async def capture_stream(
     manifests: tuple[Path, ...] = (),
     grammar: str | None = None,
     resume_from: Path | None = None,
+    backfill_manifests: tuple[Path, ...] = (),
 ) -> dict:
     if duration_seconds <= 0:
         raise ValueError("positive observation duration required")
@@ -177,6 +178,11 @@ async def capture_stream(
     else:
         grammar = grammar or "range-breakout-48-v1"
         observations = StreamObservations(manifests, grammar) if manifests else None
+    started_ns = time.time_ns()
+    if backfill_manifests:
+        if resume_from is None or observations is None:
+            raise ValueError("backfill requires a resumed observation session")
+        observations.backfill(backfill_manifests, started_ns)
     destination.mkdir(parents=True, exist_ok=False)
     (destination / "session.json").write_text(
         canonical(
@@ -185,9 +191,15 @@ async def capture_stream(
                 resume_from=str(resume_from.resolve()) if resume_from else None,
                 parent_result_sha256=parent_hash,
                 grammar=grammar,
-                warmup_manifest_hashes=observations.source_hashes if observations else [],
+                warmup_manifest_hashes=sorted(
+                    hashlib.sha256(p.read_bytes()).hexdigest() for p in manifests
+                ),
+                backfill_manifests=[str(p.resolve()) for p in backfill_manifests],
+                backfill_manifest_hashes=sorted(
+                    hashlib.sha256(p.read_bytes()).hexdigest() for p in backfill_manifests
+                ),
                 warmup_manifests=[str(p.resolve()) for p in manifests],
-                started_ns=time.time_ns(),
+                started_ns=started_ns,
                 duration_seconds=duration_seconds,
                 code_and_lock_hash=source_hash(),
                 scope="PUBLIC_NATIVE_QUOTES_NOT_ECONOMIC_OPERATION",
@@ -280,6 +292,7 @@ def main() -> None:
     parser.add_argument("--warmup-manifest", type=Path, action="append", default=[])
     parser.add_argument("--grammar")
     parser.add_argument("--resume-from", type=Path)
+    parser.add_argument("--backfill-manifest", type=Path, action="append", default=[])
     args = parser.parse_args()
     print(
         json.dumps(
@@ -290,6 +303,7 @@ def main() -> None:
                     manifests=tuple(args.warmup_manifest),
                     grammar=args.grammar,
                     resume_from=args.resume_from,
+                    backfill_manifests=tuple(args.backfill_manifest),
                 )
             )
         )

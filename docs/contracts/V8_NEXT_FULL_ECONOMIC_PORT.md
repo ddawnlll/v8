@@ -2367,3 +2367,21 @@ the same closed candle was already observed); native subscriptions and controlle
 shutdown succeeded in both. Log /tmp/v8-stream-resume.log. Full suite 425 passed;
 Ruff/mypy clean. Network interruption/backfill and calibrated paper operation
 remain outstanding.
+
+## Receipt-qualified restart backfill
+
+Resumed streams accept explicit --backfill-manifest inputs. Verified captures
+extend existing instrument histories atomically, preserve original duplicate
+receipt times and reject revisions or unresolved gaps. New bars retain actual
+capture receipt availability; prior observation states are not recomputed or
+rewritten. Session metadata hashes the separate backfill manifests and replay
+applies them after verified parent restoration at the recorded restart time.
+Inherited warmup identity remains distinct from cumulative backfill provenance.
+
+Tests check future-receipt exclusion, recovery to a current frame, rollback when
+a later bar reveals a gap, and child-session replay with backfill after parent
+restoration. Full suite 427 passed before the final child-backfill test extension;
+the 12 affected stream/replay cases pass after that extension, Ruff/mypy clean.
+No real network outage was induced or claimed. Automatic reconnect detection and
+capture orchestration are still required; this is explicit verified restart
+backfill, not calibrated economic paper operation.

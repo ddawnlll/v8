@@ -116,6 +116,26 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
                 (tmp_path / "result.json").read_bytes()
             ).hexdigest(),
         )
+        from dataclasses import replace
+
+        backfill = tmp_path / "backfill.json"
+        backfill.write_text('{"kind":"backfill-fixture"}')
+        third = replace(
+            seed,
+            start_ns=2 * hour,
+            end_ns=3 * hour,
+            received_ns=4 * hour,
+            available_ns=None,
+            source_hash="third",
+        )
+        monkeypatch.setattr(
+            "v8_next.economics.stream_observation.load_candles",
+            lambda p: (third,) if p == backfill else (seed,),
+        )
+        session.update(
+            backfill_manifests=[str(backfill)],
+            backfill_manifest_hashes=[hashlib.sha256(backfill.read_bytes()).hexdigest()],
+        )
         (child / "session.json").write_text(canonical(session))
         child_result = dict(quote_count=0, bar_count=0, ended_ns=5 * hour)
         for filename, key in (
@@ -129,7 +149,7 @@ def test_stream_replays_interleaved_bars_and_quotes(tmp_path, monkeypatch, mutat
             child_result[key] = hashlib.sha256((child / filename).read_bytes()).hexdigest()
         (child / "result.json").write_text(canonical(child_result))
         assert replay_stream(child)["event_count"] == 0
-        assert restore_stream(child).candles[instrument][-1].end_ns == 2 * hour
+        assert restore_stream(child).candles[instrument][-1].end_ns == 3 * hour
         (tmp_path / "result.json").write_text("{}")
         with pytest.raises(ValueError, match="parent changed"):
             replay_stream(child)

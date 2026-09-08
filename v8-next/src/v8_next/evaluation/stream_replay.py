@@ -64,9 +64,19 @@ def _replay_stream(
         if (
             observer is None
             or observer.grammar != session["grammar"]
-            or observer.source_hashes != session["warmup_manifest_hashes"]
+            or json.loads((parent / "session.json").read_text())["warmup_manifest_hashes"]
+            != session["warmup_manifest_hashes"]
         ):
             raise ValueError("resumed stream policy mismatch")
+    backfills = tuple(Path(p) for p in session.get("backfill_manifests", []))
+    if sorted(hashlib.sha256(p.read_bytes()).hexdigest() for p in backfills) != session.get(
+        "backfill_manifest_hashes", []
+    ):
+        raise ValueError("stream backfill manifest changed")
+    if backfills:
+        if observer is None or session.get("resume_from") is None:
+            raise ValueError("backfill without resumed observation state")
+        observer.backfill(backfills, session["started_ns"])
     events: list[tuple[int, str, dict[str, Any]]] = []
     for kind, filename, count in (
         ("quote", "quotes.jsonl", result["quote_count"]),

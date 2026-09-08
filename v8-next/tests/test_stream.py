@@ -199,3 +199,59 @@ def test_native_binance_bar_boundary_reaches_stream_frame(monkeypatch, offset):
     assert observation["latest_closed_bar_ns"] == hour
     assert observation["candle_source_hashes"] == [stored.source_hash]
     assert len(observation["stances"]) == 64
+
+
+@pytest.mark.parametrize("gap", [False, True])
+def test_restart_backfill_is_receipt_qualified_and_atomic(tmp_path, monkeypatch, gap):
+    from dataclasses import replace
+    from decimal import Decimal
+
+    from v8_next.domain.market import Candle
+    from v8_next.economics.stream_observation import StreamObservations
+
+    hour = 3600 * 10**9
+    instrument = "BTCUSDT-PERP.BINANCE"
+    observer = StreamObservations((), "range-breakout-48-v1")
+    first = Candle(
+        instrument,
+        0,
+        hour,
+        Decimal(100),
+        Decimal(101),
+        Decimal(99),
+        Decimal(100),
+        Decimal(1),
+        hour + 1,
+        hour + 1,
+        "first",
+    )
+    observer.add_closed_candle(first)
+    receipt = 5 * hour + 1 if gap else 3 * hour + 1
+    second = replace(
+        first,
+        start_ns=hour,
+        end_ns=2 * hour,
+        received_ns=receipt,
+        available_ns=None,
+        source_hash="backfill",
+    )
+    third = replace(second, start_ns=(3 if gap else 2) * hour, end_ns=(4 if gap else 3) * hour)
+    path = tmp_path / "backfill.json"
+    path.write_text("{}")
+    monkeypatch.setattr(
+        "v8_next.economics.stream_observation.load_candles", lambda _: (second, third)
+    )
+    if gap:
+        with pytest.raises(ValueError, match="gap"):
+            observer.backfill((path,), receipt)
+        assert observer.candles[instrument] == (first,)
+        assert observer.source_hashes == []
+    else:
+        with pytest.raises(ValueError, match="unknown"):
+            observer.backfill((path,), receipt - 1)
+        observer.backfill((path,), receipt)
+        assert observer.observe(instrument, receipt - 1)["latest_closed_bar_ns"] == hour
+        row = observer.observe(instrument, receipt)
+        assert row["latest_closed_bar_ns"] == 3 * hour
+        assert row["warmup_status"] == "READY"
+        assert len(observer.source_hashes) == 1
