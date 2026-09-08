@@ -64,6 +64,7 @@ def test_baseline_revalues_its_own_campaigns_at_variant_cutoff(tmp_path, monkeyp
             "accounting_as_of_ns": cutoff,
             "funding_coverage": "UNQUALIFIED",
             "realization": "SIMULATED",
+            "positions": [{"is_closed": True}, {"is_closed": False}],
         }
 
     monkeypatch.setattr("v8_next.app.report.evaluate", lambda run: {})
@@ -77,3 +78,7 @@ def test_baseline_revalues_its_own_campaigns_at_variant_cutoff(tmp_path, monkeyp
     assert comparison["paired_loss_sample"] is None
     assert comparison["spa"] is None
     assert result["promotion_eligible"] is False
+
+    assert "OPEN_OUTCOME_CENSORING_POLICY_REQUIRED" in comparison["baseline_blockers"]
+    assert "FUNDING_COVERAGE_UNQUALIFIED" in comparison["baseline_blockers"]
+    assert comparison["variant_blockers"] == ["FUNDING_COVERAGE_UNQUALIFIED"]

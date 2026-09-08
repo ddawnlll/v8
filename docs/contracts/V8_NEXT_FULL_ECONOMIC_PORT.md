@@ -1750,3 +1750,12 @@ or horizon policy: selecting only completed outcomes can bias calibration.
 Funding and statistical-family requirements remain visible simultaneously, and
 eligible_for_utility remains false. Four calibration-source tests pass;
 Ruff/mypy clean. No estimator, fabricated utility or authority promotion was added.
+
+## Baseline and variant sample readiness in reports
+
+Comparison reports now expose baseline_blockers computed from the baseline's
+own revised accounting, separately from variant_blockers. Baseline open outcomes
+and incomplete funding cannot be hidden behind the selected policy's first
+rejection reason. Missing baseline position records remain explicitly unavailable.
+This is diagnostic readiness, not a replacement for aligned paired intervals or
+statistical qualification. Five report/calibration tests pass; Ruff/mypy clean.

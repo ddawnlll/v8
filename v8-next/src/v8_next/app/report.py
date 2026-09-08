@@ -10,7 +10,7 @@ from v8_next.adapters.accounting_replay import replay_frozen_campaigns
 from v8_next.app.evaluate import evaluate
 from v8_next.app.paper import replay_account
 from v8_next.domain.campaign import PaperCampaign
-from v8_next.evaluation.calibration import inspect_calibration_source
+from v8_next.evaluation.calibration import inspect_calibration_source, outcome_sample_blockers
 from v8_next.evaluation.cash_return import terminal_cash_return
 from v8_next.evaluation.inference import trajectory_spa_diagnostic
 from v8_next.evaluation.trajectory import cash_trajectory
@@ -70,6 +70,12 @@ def report(
         "comparison": {
             "status": "NOT_COMPUTED",
             "reason": outcomes["reason"],
+            "variant_blockers": outcomes.get("blockers", [outcomes["reason"]]),
+            "baseline_blockers": outcome_sample_blockers(
+                baseline_accounting["positions"], baseline_accounting["funding_coverage"]
+            )
+            if "positions" in baseline_accounting
+            else ["BASELINE_OUTCOME_SAMPLE_UNAVAILABLE"],
             "paired_loss_sample": None,
             "cash_trajectory": trajectory,
             "exploratory_spa": trajectory_spa_diagnostic(
