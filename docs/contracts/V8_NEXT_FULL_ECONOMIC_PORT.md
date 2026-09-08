@@ -1866,3 +1866,12 @@ Mirrored long/short protection tests verify two/four-range geometry, and mismatc
 direction/instrument abstains. This deliberately tightens the previous baseline
 behavior and therefore changes frozen runtime identity. Full suite: 390 passed;
 Ruff/mypy clean. No calibration or execution authority is inferred from support.
+
+## Macro squeeze window qualification
+
+Added positive m2/m3 observation and protection tests with complete 73-bar input
+in both directions. Changing only the oldest prior bar's high/low blocks the
+72-prior-bar breakout, proving that endpoint is included rather than silently
+using 71 bars. Both variants then abstain and withhold protection. Two squeeze
+tests pass, Ruff clean. These synthetic behavioral checks do not certify
+strategy economics or complete the remaining product requirements.
