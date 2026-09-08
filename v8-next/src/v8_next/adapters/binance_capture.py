@@ -10,6 +10,8 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlencode, urlsplit
 from urllib.request import urlopen
 
+from v8_next.adapters.funding_history import capture_pages, funding_artifacts
+
 BASE = "https://fapi.binance.com"
 RATIO_PERIODS = frozenset({"5m", "15m", "30m", "1h", "2h", "4h", "6h", "12h", "1d"})
 
@@ -52,6 +54,9 @@ def capture(
     requests["quote"] = ("/fapi/v1/ticker/bookTicker", {"symbol": symbol})
     artifacts = []
     for name, (endpoint, params) in requests.items():
+        if name == "funding" and funding_start_ms is not None:
+            artifacts.extend(capture_pages(destination, symbol, funding_start_ms, end_ms))
+            continue
         url = BASE + endpoint + ("?" + urlencode(params) if params else "")
         requested_ns = time.time_ns()
         with urlopen(url, timeout=30) as response:
@@ -64,15 +69,6 @@ def capture(
             item["symbol"] == symbol for item in payload["symbols"]
         ):
             raise ValueError("instrument absent from current venue metadata")
-        if name == "funding" and funding_start_ms is not None:
-            if not isinstance(payload, list) or len(payload) >= 1000:
-                raise ValueError("funding history possibly truncated; bounded pagination required")
-            boundaries = [int(row["fundingTime"]) for row in payload]
-            if boundaries != sorted(set(boundaries)) or any(
-                row["symbol"] != symbol or not funding_start_ms <= boundary <= end_ms
-                for row, boundary in zip(payload, boundaries, strict=True)
-            ):
-                raise ValueError("funding response outside requested chronology")
         path = destination / f"{name}.json"
         path.write_bytes(raw)
         artifacts.append(
@@ -128,6 +124,12 @@ def validate_capture(manifest_path: Path) -> None:
         "open_interest.json": "/fapi/v1/openInterest",
         "account_ratio.json": "/futures/data/globalLongShortAccountRatio",
     }
+    pages = funding_artifacts(manifest)
+    for i, page in enumerate(pages):
+        expected = "funding.json" if i == 0 else f"funding-page-{i:03d}.json"
+        if page["path"] != expected:
+            raise ValueError("invalid funding page sequence")
+        endpoints[expected] = "/fapi/v1/fundingRate"
     names = [a["path"] for a in manifest["artifacts"]]
     required = set(endpoints) - {
         "funding_schedule.json",

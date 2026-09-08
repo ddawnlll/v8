@@ -2173,3 +2173,29 @@ it does not certify all prior search history. Promotion remains false and this
 is not OOS, calibrated utility or an economic claim. Full suite: 408 passed;
 focused Ruff and full mypy clean. Continuous paper, online accounting and genuine
 calibration qualification remain incomplete.
+
+## Bounded funding history pagination
+
+Explicit funding-start captures now paginate ascending funding responses using
+last fundingTime + 1 millisecond and a fixed inclusive end. Binance documents
+inclusive millisecond bounds, ascending results and a 1000-record maximum:
+https://developers.binance.com/en/docs/catalog/core-trading-derivatives-trading-usd-s-m-futures/api/rest-api/market-data#get-funding-rate-history
+Each response is stored unchanged with its own URL, hash and request/receipt
+clocks (funding.json, funding-page-001.json, ...). Invalid chronology, duplicate
+timestamps, unexpected payloads and a 100-request safety cap fail without issuing
+a complete manifest. No funding schedule is inferred and no rows are synthesized.
+
+Capture validation, positioning readings, native historical replay and final
+accounting readers now consume all funding pages. Saturated responses establish
+coverage only through the last returned millisecond (including its nanosecond
+extent), never to the requested end. Adjacent inclusive integer-nanosecond windows
+can join; an actual missing nanosecond remains a gap. The former gap fixture was
+corrected from adjacent [..20],[21..] to an actual gap [..20],[22..].
+
+An isolated 1002-record fixture verifies two pages, full rate/accounting decoding
+and incomplete exposure coverage when the second page is absent. Duplicate-page
+chronology rejects without a manifest. Actual public BTC capture over 400 days:
+/tmp/v8-paged-funding-1788879300207363000/manifest.json, 1200 records in two pages;
+log /tmp/v8-paged-funding.log. These are observed REST records, not cashflow finality
+or certified historical availability. Full suite 409 passed; Ruff/mypy clean.
+Online funding reconciliation and calibrated continuous paper admission remain open.

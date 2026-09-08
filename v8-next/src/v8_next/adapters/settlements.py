@@ -11,6 +11,7 @@ from typing import Any
 from nautilus_trader.model import FundingRateUpdate, InstrumentId, MarkPriceUpdate, Price
 
 from v8_next.adapters.binance_capture import verify
+from v8_next.adapters.funding_history import funding_artifacts
 
 
 @dataclass(frozen=True)
@@ -56,37 +57,39 @@ def final_funding(
     for manifest in manifests:
         verify(manifest)
         metadata = json.loads(manifest.read_text())
-        artifact = next(a for a in metadata["artifacts"] if a["path"] == "funding.json")
-        if not artifact["source_url"].startswith("https://fapi.binance.com/fapi/v1/fundingRate?"):
-            raise ValueError("only final funding history is accepted, never forecasts")
-        received = int(artifact["received_time_ns"])
-        if received > accounting_as_of_ns:
-            continue
-        for row in json.loads((manifest.parent / "funding.json").read_text()):
-            if row["symbol"] != metadata["symbol"]:
-                raise ValueError("funding instrument mismatch")
-            boundary = int(row["fundingTime"]) * 1_000_000
-            if not start_ns <= boundary <= end_ns:
+        for artifact in funding_artifacts(metadata):
+            if not artifact["source_url"].startswith(
+                "https://fapi.binance.com/fapi/v1/fundingRate?"
+            ):
+                raise ValueError("only final funding history is accepted, never forecasts")
+            received = int(artifact["received_time_ns"])
+            if received > accounting_as_of_ns:
                 continue
-            if not row.get("markPrice"):
-                raise ValueError("settlement mark missing")
-            record = FinalFunding(
-                f"{row['symbol']}-PERP.BINANCE",
-                boundary,
-                received,
-                Decimal(row["fundingRate"]),
-                Decimal(row["markPrice"]),
-                artifact["sha256"],
-            )
-            record.execution_replay_events(accounting_as_of_ns)
-            key = (record.instrument_id, boundary)
-            old = records.get(key)
-            if old is not None:
-                if (old.rate, old.mark_price) != (record.rate, record.mark_price):
-                    raise ValueError("conflicting final funding records")
-                if old.received_ns <= received:
+            for row in json.loads((manifest.parent / artifact["path"]).read_text()):
+                if row["symbol"] != metadata["symbol"]:
+                    raise ValueError("funding instrument mismatch")
+                boundary = int(row["fundingTime"]) * 1_000_000
+                if not start_ns <= boundary <= end_ns:
                     continue
-            records[key] = record
+                if not row.get("markPrice"):
+                    raise ValueError("settlement mark missing")
+                record = FinalFunding(
+                    f"{row['symbol']}-PERP.BINANCE",
+                    boundary,
+                    received,
+                    Decimal(row["fundingRate"]),
+                    Decimal(row["markPrice"]),
+                    artifact["sha256"],
+                )
+                record.execution_replay_events(accounting_as_of_ns)
+                key = (record.instrument_id, boundary)
+                old = records.get(key)
+                if old is not None:
+                    if (old.rate, old.mark_price) != (record.rate, record.mark_price):
+                        raise ValueError("conflicting final funding records")
+                    if old.received_ns <= received:
+                        continue
+                records[key] = record
     return tuple(records[key] for key in sorted(records))
 
 
@@ -140,49 +143,53 @@ def funding_query_windows(
     for manifest in manifests:
         verify(manifest)
         metadata = json.loads(manifest.read_text())
-        artifact = next(a for a in metadata["artifacts"] if a["path"] == "funding.json")
-        received = int(artifact["received_time_ns"])
-        if received > accounting_as_of_ns:
-            continue
-        url = urlsplit(artifact["source_url"])
-        query = parse_qs(url.query)
-        if not {"startTime", "endTime"} <= query.keys():
-            continue  # Legacy recent-history requests establish no explicit interval.
-        if (url.scheme, url.netloc, url.path) != (
-            "https",
-            "fapi.binance.com",
-            "/fapi/v1/fundingRate",
-        ) or query.get("symbol") != [metadata["symbol"]]:
-            raise ValueError("invalid bounded funding source")
-        if any(len(query.get(key, [])) != 1 for key in ("startTime", "endTime", "limit")):
-            raise ValueError("ambiguous funding query")
-        start, end, limit = (int(query[key][0]) for key in ("startTime", "endTime", "limit"))
-        requested = int(artifact["request_time_ns"])
-        if (
-            not 0 <= start <= end
-            or not end * 10**6 <= requested <= received
-            or not 1 <= limit <= 1000
-        ):
-            raise ValueError("invalid funding query boundaries")
-        rows = json.loads((manifest.parent / "funding.json").read_text())
-        if not isinstance(rows, list) or len(rows) >= limit:
-            raise ValueError("funding response may be truncated")
-        times = [int(row["fundingTime"]) for row in rows]
-        if times != sorted(set(times)) or any(
-            row["symbol"] != metadata["symbol"] or not start <= boundary <= end
-            for row, boundary in zip(rows, times, strict=True)
-        ):
-            raise ValueError("funding response outside bounded query")
-        windows.append(
-            {
-                "instrument_id": f"{metadata['symbol']}-PERP.BINANCE",
-                "start_inclusive_ns": start * 10**6,
-                "end_inclusive_ns": end * 10**6,
-                "received_ns": received,
-                "source_sha256": artifact["sha256"],
-                "status": "BOUNDED_RESPONSE_NOT_FINALITY_CERTIFICATE",
-            }
-        )
+        for artifact in funding_artifacts(metadata):
+            received = int(artifact["received_time_ns"])
+            if received > accounting_as_of_ns:
+                continue
+            url = urlsplit(artifact["source_url"])
+            query = parse_qs(url.query)
+            if not {"startTime", "endTime"} <= query.keys():
+                continue  # Legacy recent-history requests establish no explicit interval.
+            if (url.scheme, url.netloc, url.path) != (
+                "https",
+                "fapi.binance.com",
+                "/fapi/v1/fundingRate",
+            ) or query.get("symbol") != [metadata["symbol"]]:
+                raise ValueError("invalid bounded funding source")
+            if any(len(query.get(key, [])) != 1 for key in ("startTime", "endTime", "limit")):
+                raise ValueError("ambiguous funding query")
+            start, end, limit = (int(query[key][0]) for key in ("startTime", "endTime", "limit"))
+            requested = int(artifact["request_time_ns"])
+            if (
+                not 0 <= start <= end
+                or not end * 10**6 <= requested <= received
+                or not 1 <= limit <= 1000
+            ):
+                raise ValueError("invalid funding query boundaries")
+            rows = json.loads((manifest.parent / artifact["path"]).read_text())
+            if not isinstance(rows, list) or len(rows) > limit:
+                raise ValueError("funding response may be truncated")
+            times = [int(row["fundingTime"]) for row in rows]
+            if times != sorted(set(times)) or any(
+                row["symbol"] != metadata["symbol"] or not start <= boundary <= end
+                for row, boundary in zip(rows, times, strict=True)
+            ):
+                raise ValueError("funding response outside bounded query")
+            if len(rows) == limit:
+                end = times[-1]  # Saturated page certifies no interval beyond its last record.
+            windows.append(
+                {
+                    "instrument_id": f"{metadata['symbol']}-PERP.BINANCE",
+                    "start_inclusive_ns": start * 10**6,
+                    "end_inclusive_ns": (end + 1) * 10**6 - 1
+                    if len(rows) == limit
+                    else end * 10**6,
+                    "received_ns": received,
+                    "source_sha256": artifact["sha256"],
+                    "status": "BOUNDED_RESPONSE_NOT_FINALITY_CERTIFICATE",
+                }
+            )
     return sorted(windows, key=lambda w: (int(w["start_inclusive_ns"]), int(w["end_inclusive_ns"])))
 
 
@@ -210,7 +217,7 @@ def position_funding_query_coverage(
             key=lambda window: (int(window["start_inclusive_ns"]), int(window["end_inclusive_ns"])),
         )
         covered_to = start
-        sources = []
+        sources: list[int | str] = []
         complete = False
         for window in candidates:
             left, right = int(window["start_inclusive_ns"]), int(window["end_inclusive_ns"])
@@ -218,7 +225,7 @@ def position_funding_query_coverage(
                 raise ValueError("invalid funding coverage interval")
             if right < covered_to:
                 continue
-            if left > covered_to:
+            if left > covered_to + (1 if sources else 0):
                 break
             sources.append(window["source_sha256"])
             covered_to = right

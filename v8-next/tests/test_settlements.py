@@ -249,7 +249,7 @@ def test_funding_coverage_combines_known_overlapping_windows_without_bridging_ga
     row = position_funding_query_coverage([position], [second, first], 40)[0]
     assert row["source_sha256"] == ["first", "second"]
     assert row["cashflow_finality"] == "UNQUALIFIED"
-    for changed in ({"start_inclusive_ns": 21}, {"received_ns": 41}, {"instrument_id": "ETH"}):
+    for changed in ({"start_inclusive_ns": 22}, {"received_ns": 41}, {"instrument_id": "ETH"}):
         row = position_funding_query_coverage([position], [first, second | changed], 40)[0]
         assert row["query_status"] == "EXPOSURE_NOT_FULLY_QUERIED"
         assert row["source_sha256"] == []

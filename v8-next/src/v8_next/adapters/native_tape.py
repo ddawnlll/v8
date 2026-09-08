@@ -28,6 +28,7 @@ from nautilus_trader.model import (
 )
 
 from v8_next.adapters.captured_market import load_candles
+from v8_next.adapters.funding_history import funding_artifacts
 from v8_next.domain.market import Candle
 
 
@@ -119,7 +120,11 @@ def build_engine(
         engine.add_instrument(instrument)
         if historical_data:
             engine.add_data(bars)
-        funding_rows = json.loads((manifest_path.parent / "funding.json").read_text())
+        funding_rows = [
+            row
+            for artifact in funding_artifacts(json.loads(manifest_path.read_text()))
+            for row in json.loads((manifest_path.parent / artifact["path"]).read_text())
+        ]
         settlements = 0
         for row in funding_rows:
             if not historical_data:
