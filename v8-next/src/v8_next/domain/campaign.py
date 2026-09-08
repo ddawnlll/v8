@@ -21,6 +21,7 @@ class PaperCampaign:
     close_invalidation_price: Decimal | None = None
     live_channel_bars: int | None = None
     validity_indicator: str | None = None
+    close_breach_price: Decimal | None = None
 
     def __post_init__(self) -> None:
         if self.direction not in {"LONG", "SHORT"}:
@@ -30,13 +31,17 @@ class PaperCampaign:
         if self.expires_ns <= self.decision_ns:
             raise ValueError("invalid campaign expiry")
 
+        if self.close_breach_price is not None and (
+            not self.close_breach_price.is_finite() or self.close_breach_price <= 0
+        ):
+            raise ValueError("invalid strict close breach reference")
         if self.validity_indicator is not None and (
             self.validity_indicator
             not in {"kijun26", "ema5-above-ema20", "macd-zero", "rsi14-reversion"}
             or self.live_channel_bars is not None
             or (
                 self.close_invalidation_price is not None
-                and self.validity_indicator != "ema5-above-ema20"
+                and self.validity_indicator not in {"ema5-above-ema20", "rsi14-reversion"}
             )
         ):
             raise ValueError("unknown or ambiguous indicator validity")
@@ -68,6 +73,7 @@ class PaperCampaign:
             self.close_invalidation_price is None
             and self.live_channel_bars is None
             and self.validity_indicator is None
+            and self.close_breach_price is None
         ):
             return None
         if frame.instrument_id != self.instrument_id:
@@ -78,6 +84,16 @@ class PaperCampaign:
         if candle.end_ns <= self.decision_ns:
             return None
         sign = 1 if self.direction == "LONG" else -1
+        if (
+            self.close_breach_price is not None
+            and (candle.close - self.close_breach_price) * sign < 0
+        ):
+            return True
+        if (
+            self.close_invalidation_price is not None
+            and (candle.close - self.close_invalidation_price) * sign <= 0
+        ):
+            return True
         if self.validity_indicator == "rsi14-reversion":
             from v8_next.experts.features import close_series, wilder_rsi
 
@@ -114,6 +130,8 @@ class PaperCampaign:
                 return None
             window = frame.candles[-26:]
             reference = (max(c.high for c in window) + min(c.low for c in window)) / 2
+        if reference is None and self.close_breach_price is not None:
+            return False
         assert reference is not None
         return (candle.close - reference) * sign <= 0
 
@@ -126,7 +144,13 @@ class PaperCampaign:
     @classmethod
     def from_record(cls, record: dict[str, Any]) -> "PaperCampaign":
         decoded = dict(record)
-        for key in ("quantity", "stop_price", "target_price", "close_invalidation_price"):
+        for key in (
+            "quantity",
+            "stop_price",
+            "target_price",
+            "close_invalidation_price",
+            "close_breach_price",
+        ):
             if decoded.get(key) is not None:
                 decoded[key] = Decimal(decoded[key])
         return cls(**decoded)

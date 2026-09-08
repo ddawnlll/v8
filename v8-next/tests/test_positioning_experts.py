@@ -322,3 +322,31 @@ def test_rsi_reversion_thesis_tracks_extreme_zone(side):
     assert campaign.invalidated_by_close(flat) is False  # flat RSI is neutral 50
     assert campaign.invalidated_by_close(replace(frame, candles=frame.candles[-14:])) is None
     assert PaperCampaign.from_record(campaign.to_record()) == campaign
+
+
+def test_confluence_equality_and_independent_failure_conditions():
+    from v8_next.domain.campaign import PaperCampaign
+
+    frame, _ = context()
+    frame = replace(frame, candles=frame.candles[:-1])  # close=100, RSI=50
+    campaign = PaperCampaign(
+        "c",
+        "o",
+        "i",
+        "LONG",
+        Decimal(1),
+        1,
+        200,
+        close_invalidation_price=Decimal(90),
+        validity_indicator="rsi14-reversion",
+        close_breach_price=Decimal(100),
+    )
+    assert campaign.invalidated_by_close(frame) is False  # equality at Fib is allowed
+    assert replace(campaign, close_breach_price=Decimal(101)).invalidated_by_close(frame) is True
+    assert (
+        replace(campaign, close_invalidation_price=Decimal(100)).invalidated_by_close(frame) is True
+    )
+    assert PaperCampaign.from_record(campaign.to_record()) == campaign
+    short = replace(campaign, direction="SHORT", close_invalidation_price=Decimal(110))
+    assert short.invalidated_by_close(frame) is False
+    assert replace(short, close_breach_price=Decimal(99)).invalidated_by_close(frame) is True

@@ -135,5 +135,6 @@ def decide_campaign(
             protection.close_invalidation_price if protection else None,
             protection.live_channel_bars if protection else None,
             protection.validity_indicator if protection else None,
+            protection.close_breach_price if protection else None,
         ),
     )

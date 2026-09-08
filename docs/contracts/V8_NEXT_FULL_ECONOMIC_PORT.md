@@ -1516,3 +1516,15 @@ observation, distinct from active one-range stops. Controller and native/revised
 replay already serialize/evaluate these references. Relevant tests verify exact
 levels and directional setups (4 passed); Ruff/mypy clean. Confluence has mixed
 strict/non-strict boundary and oscillator conditions and remains separate work.
+
+## Confluence composite continuation
+
+Confluence A/B now freezes the 78.6% impulse level and detection-time adverse
+three-sigma band, and combines them with live RSI reversion validity. A strict
+cross of the Fibonacci level invalidates (equality allowed); equality at the
+outer band invalidates; RSI re-entry also invalidates. Known price failures are
+checked even if oscillator warmup is missing. The additional strict breach level
+is serialized through native/historical/revised replay. Tests distinguish these
+boundaries in both directions and roundtrip the composite campaign. The prior
+full suite passed (373 tests); added focused composite assertions also pass.
+This preserves source methodology, not a full economic-operation claim.

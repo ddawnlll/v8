@@ -54,6 +54,7 @@ def replay_frozen_campaigns(
             c.close_invalidation_price is not None
             or c.live_channel_bars is not None
             or c.validity_indicator is not None
+            or c.close_breach_price is not None
             for c in campaigns
         ):
             candles = load_candles(manifest)

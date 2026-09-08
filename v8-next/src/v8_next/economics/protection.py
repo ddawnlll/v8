@@ -20,7 +20,7 @@ from v8_next.experts.climax import observe_volume_climax
 from v8_next.experts.confluence import observe_confluence
 from v8_next.experts.divergence import observe_divergence
 from v8_next.experts.failed_moves import observe_failed_move
-from v8_next.experts.features import significant_swings
+from v8_next.experts.features import close_series, significant_swings
 from v8_next.experts.fibonacci import fib_impulse, observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.ichimoku import observe_ichimoku
@@ -96,15 +96,20 @@ class CampaignProtection:
     close_invalidation_price: Decimal | None = None
     live_channel_bars: int | None = None
     validity_indicator: str | None = None
+    close_breach_price: Decimal | None = None
 
     def __post_init__(self) -> None:
+        if self.close_breach_price is not None and (
+            not self.close_breach_price.is_finite() or self.close_breach_price <= 0
+        ):
+            raise ValueError("invalid strict close breach reference")
         if self.validity_indicator is not None and (
             self.validity_indicator
             not in {"kijun26", "ema5-above-ema20", "macd-zero", "rsi14-reversion"}
             or self.live_channel_bars is not None
             or (
                 self.close_invalidation_price is not None
-                and self.validity_indicator != "ema5-above-ema20"
+                and self.validity_indicator not in {"ema5-above-ema20", "rsi14-reversion"}
             )
         ):
             raise ValueError("unknown or ambiguous indicator validity")
@@ -153,6 +158,7 @@ def protection_at(
     sign = 1 if opportunity.direction == "LONG" else -1
     close = frame.candles[-1].close
     invalidation_price = None
+    breach_price = None
     unit_geometry_observers: dict[str, Callable[[CausalFrame, Opportunity | None], Stance]] = {
         "trend-pullback": observe_trend_pullback,
         "trend-depth": observe_trend_depth,
@@ -188,6 +194,14 @@ def protection_at(
                 impulse.retracement(Decimal(".786"))
                 if family == "fib-retracement"
                 else impulse.extension(Decimal("1.618"))
+            )
+        if family == "confluence":
+            impulse = fib_impulse(frame)
+            assert impulse is not None
+            breach_price = impulse.retracement(Decimal(".786"))
+            closes = close_series(frame).tail(20)
+            invalidation_price = Decimal(str(closes.mean())) - sign * 3 * Decimal(
+                str(closes.std(ddof=0))
             )
         if family == "trend-depth":
             _, low_index = significant_swings(frame)
@@ -415,7 +429,8 @@ def protection_at(
             else "macd-zero"
             if family == "macd-stoch"
             else "rsi14-reversion"
-            if family == "rsi-reversion"
+            if family in {"rsi-reversion", "confluence"}
             else None
         ),
+        breach_price,
     )
