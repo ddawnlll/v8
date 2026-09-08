@@ -184,6 +184,7 @@ def test_positioning_campaign_structural_stop(family, variant, close, volume, si
     )
     reference = min(c.low for c in window) if sign == 1 else max(c.high for c in window)
     expected = reference - sign * 2 if family == "funding" and variant == "d" else reference
+    assert protection.close_invalidation_price == reference
     assert protection.stop_price == expected
     assert protection.target_price == close + sign * 2
     assert protection.expires_ns == 108

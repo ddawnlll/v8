@@ -1363,3 +1363,18 @@ serialized campaign restoration and identical engine-state replay. Full suite:
 364 tests before the added repeat-replay assertions; focused native tests pass
 with those assertions. This activates the funding frozen-barrier rule only;
 other expert-specific validity and wider operational requirements remain open.
+
+## OI validity and shared historical close handling
+
+OI A–D now freeze the recent price extreme as their close-validity barrier, as
+open_interest_divergence.py still_valid specifies: strict close above for long,
+below for short. This uses the unrounded source level, not a venue-rounded stop.
+All positioning geometry tests now assert the retained source reference.
+
+The common native adapter exposes observe_validity for both quote and historical
+bar paths. HistoricalTrial builds its current causal frame and checks existing
+campaign theses before advancing native entry/exit, while retaining pre-action
+native equity marking. Newly selected campaigns receive the frozen barrier too.
+Historical auxiliary data remains absent unless explicitly supplied; this does
+not turn REST receipt-time readings into historical PIT data. Full suite passes
+(364 tests); economic calibration and remaining family validity are still open.

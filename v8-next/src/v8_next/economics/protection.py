@@ -177,8 +177,7 @@ def protection_at(
         else:
             window = frame.candles[-6:-1]
         stop = min(c.low for c in window) if sign == 1 else max(c.high for c in window)
-        if family == "funding":
-            invalidation_price = stop
+        invalidation_price = stop
         if family == "funding" and variant == "d":
             stop -= sign * span
         target = close + sign * span

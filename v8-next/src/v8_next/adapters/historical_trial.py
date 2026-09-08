@@ -54,14 +54,15 @@ class HistoricalTrial(PaperCampaignAdapter):
 
     def process_bar(self, bar: Bar) -> None:
         self.mark_equity(bar)
+        candle = self.source[bar.ts_event]
+        self.prefix.append(replace(candle, available_ns=candle.end_ns))
+        frame = frame_at(candle.instrument_id, bar.ts_init, tuple(self.prefix))
+        self.observe_validity(frame)
         # Prior decisions execute no earlier than the NEXT real bar close. The
         # native bar model supplies fills; no synthetic QuoteTick is constructed.
         self.advance_campaigns(
             bar.bar_type.instrument_id, bar.ts_init, bar.close.as_decimal(), bar.close.as_decimal()
         )
-        candle = self.source[bar.ts_event]
-        self.prefix.append(replace(candle, available_ns=candle.end_ns))
-        frame = frame_at(candle.instrument_id, bar.ts_init, tuple(self.prefix))
         opportunity = grammar_opportunity(frame, self.policy.grammar_policy)
         record: dict[str, Any] = {
             "decision_ns": bar.ts_init,
@@ -150,6 +151,7 @@ class HistoricalTrial(PaperCampaignAdapter):
             protection.expires_ns if protection else opportunity.expires_ns,
             protection.stop_price if protection else None,
             protection.target_price if protection else None,
+            protection.close_invalidation_price if protection else None,
         )
         self.campaigns += (campaign,)
         record["reason"] = "COUNTERFACTUAL_POLICY_SELECTED_NOT_UTILITY_ADMITTED"

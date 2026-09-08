@@ -156,11 +156,7 @@ class PaperCampaignAdapter(Strategy):
             if frame is not None:
                 if frame.decision_ns != quote.ts_init:
                     raise ValueError("validity frame clock differs from native callback")
-                for campaign in self.campaigns:
-                    if campaign.instrument_id == str(quote.instrument_id) and (
-                        campaign.invalidated_by_close(frame) is True
-                    ):
-                        self.thesis_invalidated.setdefault(campaign.campaign_id, quote.ts_init)
+                self.observe_validity(frame)
             self.advance_campaigns(
                 quote.instrument_id,
                 quote.ts_init,
@@ -170,6 +166,14 @@ class PaperCampaignAdapter(Strategy):
         except Exception as error:
             self.callback_failure = f"{type(error).__name__}: {error}"
             raise
+
+    def observe_validity(self, frame: CausalFrame) -> None:
+        """Shared causal close policy for quote and historical bar adapters."""
+        for campaign in self.campaigns:
+            if campaign.instrument_id == frame.instrument_id and (
+                campaign.invalidated_by_close(frame) is True
+            ):
+                self.thesis_invalidated.setdefault(campaign.campaign_id, frame.decision_ns)
 
     def advance_campaigns(
         self,
