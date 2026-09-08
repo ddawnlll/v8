@@ -181,3 +181,22 @@ does that allowance prove the unimplemented calibrated-provider or protected
 inference paths. Remaining scope decisions must be justified against the actual
 owner objective rather than either automatically expanding to a fully qualified
 trading product or calling all missing paths complete because no trades occurred.
+
+### Decision persistence audit finding
+
+Inspection of `app/paper.py`, `adapters/economic_paper.py`, `app/report.py` and the
+current installed-wheel checkpoint confirms native economic decisions already
+persist in `native_state.economic_decisions`. Restart recomputes and compares this
+state, and the report includes the same decisions under its variant native state.
+The actual installed artifact contains one native NO_OPPORTUNITY decision, exactly
+identical between checkpoint and report, with NO_ECONOMIC_CLAIM. No additional
+SQLite decision table is needed merely to duplicate this persisted information.
+The SQLite observer-decision stream remains a separate earlier receipt observation;
+it must not be mislabeled as the engine's admission decision stream.
+
+Controller/risk/domain source and lifecycle tests were re-read: allocation requires
+reconciled evidence, explicit calibration verification, after-cost utility, exposure
+capacity and venue quantity constraints. Unknown calibration still prevents actual
+production admission. Tests cover rejection/expiry/invalidation terminality and
+restart persistence; these do not create a calibrated production provider. The
+remaining evaluation integration cannot be closed by another persistence wrapper.
