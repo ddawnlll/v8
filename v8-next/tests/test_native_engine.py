@@ -787,6 +787,21 @@ def test_native_open_position_stop_risk_projection():
                     )
                     is None
                 )
+            pending_ids = frozenset(
+                c.campaign_id
+                for c in self.campaigns
+                if c.campaign_id not in self.submitted | self.expired | self.invalidated
+            )
+            if pending_ids:
+                reserved = native_stop_exposure(
+                    self.cache,
+                    self.campaigns,
+                    pending_campaigns=True,
+                    pending_ids=pending_ids,
+                    observed_ns=quote.ts_init,
+                )
+                assert reserved is not None
+                assert reserved.open_and_reserved_risk == Decimal(2)
             self.samples.append(
                 native_stop_exposure(
                     self.cache,

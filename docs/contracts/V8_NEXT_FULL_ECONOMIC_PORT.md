@@ -994,3 +994,20 @@ removing the stop from the observed cache view returns absence. Pending campaign
 risk likewise stays absent. Native engine/order/account ownership is unchanged.
 Concurrent admission, reservation valuation and online funding continuation are
 still required before using open-position snapshots to expand product operation.
+
+## Unsubmitted protected-campaign reservation bounds
+
+Stop exposure projection can now receive explicit unsubmitted campaign IDs.
+For each protected campaign it reserves quantity times the full stop-to-target
+reference-price band and counts one concurrency slot. This is a conservative
+nominal pre-submission budget, not a predicted fill or maximum realized loss;
+the existing entry check requires the reference price strictly within that band,
+while native gaps/slippage remain separate execution risk. Unknown, expired,
+unprotected or already-native-submitted entries do not become zero reservations.
+Trial terminal reports pass their actual unsubmitted ID set to this projection.
+
+Tests cover combined long/short reservations and native transition from a 2 USDT
+pre-submission band budget to a 1 USDT actual-entry stop risk. Missing protection
+and a native entry already present reject reservation classification. Concurrent
+admission and handling partially filled/native in-flight entry risk remain open;
+this change does not relax the current one-active-exposure product gate.

@@ -15,6 +15,7 @@ def native_stop_exposure(
     *,
     pending_campaigns: bool,
     observed_ns: int,
+    pending_ids: frozenset[str] = frozenset(),
 ) -> StopExposure | None:
     """Return absence for unpriced reservations or incomplete native protection.
 
@@ -22,17 +23,37 @@ def native_stop_exposure(
     orders. Nominal absolute entry-to-stop risk matches the legacy heat rule;
     no profit offset, gap guarantee or funding reconciliation is implied.
     """
-    if pending_campaigns:
+    if pending_campaigns and not pending_ids:
         return None
+    if pending_ids and not pending_campaigns:
+        raise ValueError("inconsistent pending campaign declaration")
     owners = {c.campaign_id: c for c in campaigns}
     if len(owners) != len(campaigns):
         raise ValueError("duplicate campaign ownership")
     orders = {str(o.client_order_id): o for o in cache.orders_open()}
     recognized = set()
     total = Decimal(0)
+    if not pending_ids <= owners.keys():
+        raise ValueError("unknown pending campaign")
+    known_order_ids = {str(order_id) for order_id in cache.order_ids()} if pending_ids else set()
+    for pending_id in pending_ids:
+        pending = owners[pending_id]
+        if (
+            pending.stop_price is None
+            or pending.target_price is None
+            or not pending.decision_ns <= observed_ns < pending.expires_ns
+        ):
+            return None
+        # No fill is predicted: reserve the full permitted reference-price band.
+        # Native slippage/gaps can exceed nominal stop risk after submission.
+        if pending_id in known_order_ids:
+            return None  # Submitted/terminal entry is not an unsubmitted reservation.
+        total += pending.quantity * abs(pending.target_price - pending.stop_price)
     positions = cache.positions_open()
     for position in positions:
         owner_id = str(position.opening_order_id)
+        if owner_id in pending_ids:
+            return None
         owner = owners.get(owner_id)
         stop = orders.get(owner_id + "-stop")
         if owner is None or stop is None or not isinstance(stop, StopMarketOrder):
@@ -67,4 +88,4 @@ def native_stop_exposure(
             recognized.add(target_id)
     if set(orders) - recognized:
         return None  # Entry/unknown reservations need a separate authoritative risk bound.
-    return StopExposure(total, len(positions), observed_ns, True)
+    return StopExposure(total, len(positions) + len(pending_ids), observed_ns, True)

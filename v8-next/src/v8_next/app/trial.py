@@ -80,6 +80,11 @@ def _run_trial(
                 f"historical trial callback failed: {trial.failure or trial.callback_failure}"
             )
         state = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
+        pending_ids = frozenset(
+            c.campaign_id
+            for c in trial.campaigns
+            if c.campaign_id not in trial.submitted | trial.expired | trial.invalidated
+        )
         stop_exposure = native_stop_exposure(
             engine.cache,
             trial.campaigns,
@@ -88,6 +93,7 @@ def _run_trial(
                 for c in trial.campaigns
             ),
             observed_ns=candles[-1].end_ns,
+            pending_ids=pending_ids,
         )
         computed_ns = time.time_ns()
         losses = equity_losses(
