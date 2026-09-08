@@ -105,6 +105,7 @@ def test_pattern_campaign_uses_declared_clamp_and_one_range_target(variant, shor
     span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
     close = frame.candles[-1].close
     pattern = candle_pattern(frame, variant)
+    assert protection.close_invalidation_price == pattern.trigger_reference
     declared_stop = min(
         2 * span, max(Decimal(".8") * span, (close - pattern.stop_reference) * sign)
     )

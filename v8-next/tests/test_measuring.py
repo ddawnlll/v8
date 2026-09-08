@@ -43,6 +43,10 @@ def test_pattern_break_has_measuring_height_and_rejects_stale_break(variant, hea
     setup = measuring_setup(frame, variant)
     assert setup.direction == "SHORT" and setup.level == 95
     assert setup.stop_reference == head and setup.target_distance == head - 95
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(frame, opportunity, f"measuring:{variant}:v2", Decimal(".01"))
+    assert protection.close_invalidation_price == 95
     assert observe_measuring(frame, opportunity, variant=variant).kind == StanceKind.SUPPORT
     bars[-2] = replace(
         bars[-2], open=Decimal(90), close=Decimal(90), low=Decimal(89), high=Decimal(91)
@@ -72,5 +76,11 @@ def test_triangle_requires_confirmed_convergence_and_narrow_prior_range():
         observe_measuring(frame, replace(opportunity, direction="LONG"), variant="triangle").kind
         == StanceKind.SUPPORT
     )
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(
+        frame, replace(opportunity, direction="LONG"), "measuring:triangle:v2", Decimal(".01")
+    )
+    assert protection.close_invalidation_price == 101
     bars[32] = replace(bars[32], high=Decimal("101.1"))
     assert measuring_setup(replace(frame, candles=tuple(bars)), "triangle") is None

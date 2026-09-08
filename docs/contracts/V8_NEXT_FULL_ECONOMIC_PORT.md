@@ -1426,3 +1426,15 @@ windows remain unknown; simultaneous frozen/live validity definitions reject.
 The live predicate is generic, but active Donchian selection remains long-only.
 Tests cover warmup, current-wick exclusion and serialization; full suite passes
 (366 tests), Ruff/mypy clean. Other validity and operational scope remain open.
+
+## Candle, measuring and point-and-figure validity
+
+Eight candle variants now retain the source trigger_reference for close validity,
+not the clamped protective stop. Measuring H&S/double/triangle retains the frozen
+completion line. Point-and-figure A–D retains the breakout column origin (lowest
+X/highest O), consistent with the source stop/validity reference. Existing native,
+historical and revised-accounting paths evaluate these serialized references.
+Tests check all candle/P&F variants and three measured patterns; the full suite
+passes (366 tests), Ruff/mypy clean. This does not complete remaining dynamic
+indicator validity, calibration, multi-instrument allocation or prospective
+position-bearing operations.

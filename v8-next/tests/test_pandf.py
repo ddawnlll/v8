@@ -45,6 +45,10 @@ def test_all_breakouts_and_column_anchored_geometry(variant, prices, direction, 
     assert setup.column_start_ns == len(frame.candles)
     opportunity = Opportunity("o", "e", "i", direction, frame.decision_ns, frame.decision_ns + 10)
     assert observe_pandf(frame, opportunity, variant=variant).kind == StanceKind.SUPPORT
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(frame, opportunity, f"pandf:{variant}:v2", Decimal(".01"))
+    assert protection.close_invalidation_price == stop
 
 
 def test_reversal_boundary_and_sub_box_movements():

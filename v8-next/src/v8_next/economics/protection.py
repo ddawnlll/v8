@@ -321,6 +321,7 @@ def protection_at(
             candle = candle_pattern(frame, variant)
             if candle is None or candle.direction != opportunity.direction:
                 return None
+            invalidation_price = candle.trigger_reference
             raw_distance = (close - candle.stop_reference) * sign
             if raw_distance <= 0:
                 return None
@@ -332,11 +333,13 @@ def protection_at(
         if pf is None or pf.direction != opportunity.direction:
             return None
         stop, target = pf.stop, pf.target
+        invalidation_price = pf.stop
     elif family == "measuring":
         measured = measuring_setup(frame, variant)
         if measured is None or measured.direction != opportunity.direction:
             return None
         stop, target = measured.stop_reference, close + sign * measured.target_distance
+        invalidation_price = measured.level
     else:
         band = band_setup(frame, variant)
         if band is None or band.direction != opportunity.direction:
