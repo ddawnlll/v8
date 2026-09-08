@@ -133,3 +133,26 @@ and equal cutoff. Native settlement arithmetic remains covered separately by the
 funding tests. Five focused tests passed in 0.71 s pytest time; log
 `/tmp/v8-next-paired-accounting-tests.log`. Ruff and mypy passed. No claim gates or
 calibration permission changed.
+
+### Integrated current-source acceptance
+
+At development source 560ce297, the updated bounded funding acquisition,
+query/exposure coverage, campaign persistence, paired native/revised report and
+descriptive returns ran together on actual public Binance data. The separate
+process sequence was capture → replay-only restart → another capture → report.
+The database retained two decisions, and both strategies had zero positions with
+computed zero cash change. No inference result or calibration was manufactured.
+
+Evidence directory:
+`/var/folders/db/04433_v94tv8xpr31czl2j200000gn/T/v8-next-integrated-zdmhjllz/`.
+Inspect `acceptance.json`, `report.json`, `paper-state.json`, `research.sqlite`,
+capture manifests and stage logs. Measured process wall times: 3.935 s initial,
+0.433 s restart, 3.553 s continuation; all zero exit codes. The full suite passed
+58 tests in 2.30 s pytest time (`/tmp/v8-next-integrated-suite.log`). These are
+current-source integration checks, not a new profitability/readiness claim.
+
+Remaining full-goal work is not erased by this no-position result: protected
+paired-outcome/inference orchestration and production calibration are absent,
+and position-bearing continued admission still rejects unresolved online funding.
+Native positive execution/accounting tests establish local simulator behavior;
+they do not supply real calibration observations or venue finality.

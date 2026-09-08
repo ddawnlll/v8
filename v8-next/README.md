@@ -142,3 +142,27 @@ fails if either source verification fails. It explicitly reports why no paired
 economic comparison is available; it does not turn no-trade observations into
 artificial loss samples or call SPA on missing outcomes. Native logs remain on
 stdout/stderr while the result is written to the requested new JSON file.
+
+The combined report also executes the frozen breakout baseline through the same
+admission/native engine path, then revalues its own campaigns using the same
+funding cutoff as the squeeze variant. Both native and revised accounting views
+are retained. `baseline_cash_return` and `variant_cash_return` are descriptive
+fixed-capital terminal cash returns only: open positions or unqueried funding
+exposure leave them missing. They are not calibrated edge estimates or samples
+for SPA. Zero return from a verified no-position account does not establish skill.
+
+Paper captures request an explicit funding-history interval from session freeze
+to request time. A response at the 1000-record limit rejects the capture; pagination
+for longer sessions remains unsupported. Revised accounting reports query windows
+and per-position coverage separately from cashflow finality. It does not assume
+an eight-hour funding schedule or use forecast rates as settled payments.
+
+Latest integrated local check (2026-09-08): real public capture, separate-process
+restart, another capture, and combined report all completed. Artifacts are under
+`/var/folders/db/04433_v94tv8xpr31czl2j200000gn/T/v8-next-integrated-zdmhjllz/`
+(`acceptance.json`, `report.json`, captures, checkpoint, SQLite and per-stage logs).
+There were two decisions and no positions. Measured process times were 3.935 s
+first capture/paper, 0.433 s replay-only restart and 3.553 s continuation. These
+include different work and are not language-speed comparisons. Full suite passed
+58 tests in 2.30 s pytest time (`/tmp/v8-next-integrated-suite.log`). Temporary
+artifacts are development evidence, not permanent release certificates.
