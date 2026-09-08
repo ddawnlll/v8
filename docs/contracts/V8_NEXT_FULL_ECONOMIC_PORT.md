@@ -2025,3 +2025,14 @@ Each mark retains both instrument sources; cash remains the observed native
 balance in this warmup/no-trade fixture. Both native cases pass, Ruff clean.
 This qualifies callback alignment/provenance through the engine, not simultaneous
 historical economic allocations or position-bearing multi-source performance.
+
+## Position-bearing historical portfolio boundaries
+
+Extended actual native multi-source bar tests with two explicitly seeded
+execution-only test campaigns. Both BTC and ETH positions open, and the final
+single boundary equity row observes both positions using complete marks. The
+same assertions pass under reversed instrument insertion order and without
+positions. Four focused cases pass; full suite passes 396 tests, Ruff clean.
+Prices remain flat in this fixture, so it establishes multi-position coverage
+and callback isolation, not nonzero portfolio-return accuracy or economic
+admission. The seeded campaigns never enter production evidence.

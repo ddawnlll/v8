@@ -1158,7 +1158,8 @@ def test_two_native_instruments_keep_timeout_and_brackets_isolated():
 
 
 @pytest.mark.parametrize("reverse", [False, True])
-def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse):
+@pytest.mark.parametrize("position_bearing", [False, True])
+def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse, position_bearing):
     from nautilus_trader.model import Bar, BarType
 
     from v8_next.adapters.historical_trial import HistoricalTrial
@@ -1195,6 +1196,22 @@ def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse)
         max_exposure_fraction=".1",
     )
     trial = HistoricalTrial(source, policy)
+    if position_bearing:
+        # Explicit execution fixtures, not calibration or production admission.
+        trial.campaigns = tuple(
+            PaperCampaign(
+                f"seed-{symbol}",
+                f"seed-{symbol}",
+                f"{symbol}USDT-PERP.BINANCE",
+                "LONG",
+                Decimal(".010"),
+                hour,
+                10 * hour,
+                Decimal(90),
+                Decimal(120),
+            )
+            for symbol in symbols
+        )
     usdt = Currency.from_str("USDT")
     engine = BacktestEngine(BacktestEngineConfig(bypass_logging=True))
     try:
@@ -1242,6 +1259,9 @@ def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse)
         engine.add_strategy(trial)
         engine.run()
         assert trial.failure is None
+        if position_bearing:
+            assert len(engine.cache.positions_open()) == 2
+            assert trial.equity_marks[-1]["open_positions"] == 2
         assert len(trial.decisions) == 6
         assert len(trial.equity_marks) == 3
         assert [m["end_ns"] for m in trial.equity_marks] == [hour, 2 * hour, 3 * hour]
