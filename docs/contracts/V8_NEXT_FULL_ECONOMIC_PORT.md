@@ -280,3 +280,30 @@ computed three-leg positive behavior from isolated OHLC fixtures. Prefix replay
 covers both variants. No confidence or profitability is inferred from agreement.
 The historical catalog now emits 36 stances across twenty-one families; remaining
 expert and full economic-operation requirements are still open.
+
+## Volume climax and active-registry reconciliation
+
+Added volume_climax_reversal's active VERSION=v2, with e/d/c/b/a precedence:
+strict 3-sigma trend fade, 2-sigma reversal bar, low-volume proximity fade, then
+2-sigma buying/selling climax. Volume and range percentile ranks count <= ties
+on the trailing 100 bars. Reversal uses the actual five-bar close comparison and
+candle color. Constant volume provides neither z-score nor min/max proximity
+and abstains rather than inventing a neutral statistic. Tests cover every branch,
+priority boundaries and an actual computed strict-climax observation.
+
+Registry accounting correction: counts reported above are executable catalog
+families, not fractions of the Rust active TABLE. Squeeze is an additional family
+outside the current 28-entry TABLE. The current 22 catalog families represent
+observations for 21 active TABLE families plus squeeze, with 37 stances total.
+Still missing active TABLE observation families are:
+
+- divergence_12_setups
+- failed_breakout_2b
+- funding_crowding_reversal
+- market_profile_value_area
+- open_interest_divergence
+- pandf_breakout
+- pattern_measuring_objective
+
+These counts do not assert completed variants, campaign semantics or economic
+integration. The broader requirements at the start of this document remain open.
