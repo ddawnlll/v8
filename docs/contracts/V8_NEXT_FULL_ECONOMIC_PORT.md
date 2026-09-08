@@ -424,3 +424,25 @@ clean, mypy clean on 50 source files. Catalog now emits 60 stances and covers
 27/28 active TABLE families plus squeeze. P&F remains absent; opportunity,
 calibration, portfolio/campaign integration and prospective qualification remain
 open requirements, not implied by observer coverage.
+
+## Point-and-figure economic representation
+
+Added a/b double-top/bottom and c/d triple-top/bottom breakouts. The close-based
+transform seeds an X column at the first close, fixes its box to detection-time
+mean high-low range14, and reverses at three boxes. This is a small economic
+representation with source-specific rules, not a replacement event/execution
+engine. Columns retain endpoints and integer step counts instead of allocating
+one object per box. Decimal arithmetic replaces floating box-boundary rounding;
+this is not a bit-for-bit numerical parity claim. The current column must exceed
+all required preceding same-direction extremes strictly. Column origin supplies
+the stop; its step count times three boxes supplies the target distance. Both
+must leave strictly positive risk/reward distances at the observed close.
+
+The setup records column start separately from observation time, retaining the
+source anchor distinction. Four variants share one dependency group and gain no
+capital authorization. Tests cover all variants, reversal equality, sub-box
+moves, equal prior extremes, insufficient columns, compact huge box counts and
+historical prefix invariance. All 28 active TABLE families now have observation
+implementations, plus squeeze, yielding 64 catalog stances. This does not assert
+all variant/campaign semantics or product operation: broader opportunity grammar,
+calibration, portfolio integration and prospective qualification remain open.

@@ -20,6 +20,7 @@ from v8_next.experts.ichimoku import observe_ichimoku
 from v8_next.experts.levels import observe_floor_pivot, observe_range_breakout
 from v8_next.experts.measuring import observe_measuring
 from v8_next.experts.momentum import observe_macd_stoch, observe_obv_adl
+from v8_next.experts.pandf import observe_pandf
 from v8_next.experts.positioning import observe_funding, observe_open_interest
 from v8_next.experts.profile import observe_profile
 from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
@@ -29,6 +30,7 @@ from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 Observer = Callable[[CausalFrame, Opportunity | None], Stance]
 OBSERVERS: tuple[Observer, ...] = (
     observe_squeeze,
+    *(partial(observe_pandf, variant=v) for v in ("a", "b", "c", "d")),
     *(partial(observe_divergence, variant=v) for v in ("a", "b")),
     *(partial(observe_measuring, variant=v) for v in ("head_shoulders", "double_top", "triangle")),
     *(partial(observe_failed_move, variant=v) for v in ("b", "c", "d", "e", "f", "g")),
