@@ -1,5 +1,27 @@
 # V8-next full economic port
 
+## Shared BTC/ETH revised accounting
+
+Frozen-campaign accounting now registers BTC/ETH in one native account, keys
+validity/quotes by instrument and receipt, and orders callbacks deterministically.
+Each campaign must belong to an instrument with a known quote by its decision
+time. Duplicate instrument/receipt inputs reject. Engine metadata is selected
+from each instrument's earliest eligible quote capture, not an arbitrary first
+manifest (which may be unknown at the accounting cutoff). Funding events are
+limited to registered instruments; existing cutoff and source validation remain.
+
+Native test-only positive coverage holds both BTC and ETH positions, applies
+their separate funding records once and reconciles shared cash to 9997.80 USDT
+from 10000 under explicit fixture fees/funding. Reversing manifest input order
+reproduces the result. Synthetic captures remain confined to tests.
+Real retained public BTC/ETH captures also replay in both orders with no campaigns,
+10000 USDT cash and NOT_APPLICABLE_NO_POSITION_EXPOSURE. Result:
+/var/folders/db/04433_v94tv8xpr31czl2j200000gn/T/v8-multi-accounting-aoghk94o/result.json;
+log /tmp/v8-multi-accounting-check.log. This is not real position-bearing acceptance.
+Full suite 494 passed before the additional two-instrument assertions; the expanded
+eight-test settlement suite then passed, with Ruff/mypy clean. Online funding
+reconciliation/readmission, capture orchestration and calibrated paper remain open.
+
 ## Two-instrument economic paper replay input
 
 replay_account now accepts BTC/ETH captures in one native account, installs each

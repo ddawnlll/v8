@@ -12,7 +12,7 @@ from v8_next.adapters.binance_capture import verify
 from v8_next.adapters.campaign import PaperCampaignAdapter
 from v8_next.adapters.captured_market import load_candles
 from v8_next.adapters.engine_state import economic_state
-from v8_next.adapters.native_tape import build_engine
+from v8_next.adapters.native_tape import build_engine, capture_native_inputs
 from v8_next.adapters.settlements import (
     final_funding,
     funding_exposure_history,
@@ -38,6 +38,8 @@ def replay_frozen_campaigns(
     coverage beyond the final settlement records actually supplied by the venue.
     """
     quotes = []
+    instruments: dict[str, tuple[int, Path]] = {}
+    quote_keys: set[tuple[str, int]] = set()
     validity_frames: dict[tuple[str, int], CausalFrame] = {}
     for manifest in manifests:
         verify(manifest)
@@ -47,8 +49,14 @@ def replay_frozen_campaigns(
         if received > accounting_as_of_ns:
             continue
         row = json.loads((manifest.parent / "quote.json").read_text())
-        if row["symbol"] != "BTCUSDT":
+        if row["symbol"] not in {"BTCUSDT", "ETHUSDT"}:
             raise ValueError("unsupported accounting instrument")
+        instrument_id = row["symbol"] + "-PERP.BINANCE"
+        if (instrument_id, received) in quote_keys:
+            raise ValueError("duplicate accounting instrument receipt")
+        quote_keys.add((instrument_id, received))
+        if instrument_id not in instruments or received < instruments[instrument_id][0]:
+            instruments[instrument_id] = (received, manifest)
         event = int(row["time"]) * 10**6
         if event > received or Decimal(row["bidPrice"]) > Decimal(row["askPrice"]):
             raise ValueError("invalid quote clocks or spread")
@@ -60,14 +68,14 @@ def replay_frozen_campaigns(
             for c in campaigns
         ):
             candles = load_candles(manifest)
-            validity_frames[("BTCUSDT-PERP.BINANCE", received)] = frame_at(
-                "BTCUSDT-PERP.BINANCE",
+            validity_frames[(instrument_id, received)] = frame_at(
+                instrument_id,
                 received,
                 tuple(replace(c, available_ns=c.received_ns) for c in candles),
             )
         quotes.append(
             QuoteTick(
-                InstrumentId.from_str("BTCUSDT-PERP.BINANCE"),
+                InstrumentId.from_str(instrument_id),
                 Price.from_str(row["bidPrice"]),
                 Price.from_str(row["askPrice"]),
                 Quantity.from_str(row["bidQty"]),
@@ -78,22 +86,32 @@ def replay_frozen_campaigns(
         )
     if not quotes:
         raise ValueError("no quotes known by accounting cutoff")
-    quotes.sort(key=lambda q: q.ts_init)
+    quotes.sort(key=lambda q: (q.ts_init, str(q.instrument_id), q.ts_event))
     if any(
-        c.decision_ns < quotes[0].ts_init or c.decision_ns > accounting_as_of_ns for c in campaigns
+        c.instrument_id not in instruments
+        or c.decision_ns < instruments[c.instrument_id][0]
+        or c.decision_ns > accounting_as_of_ns
+        for c in campaigns
     ):
         raise ValueError("campaign outside captured accounting window")
     settlements = final_funding(
         manifests, quotes[0].ts_init, accounting_as_of_ns, accounting_as_of_ns
     )
+    instrument_sources = [item[1][1] for item in sorted(instruments.items())]
+    settlements = tuple(s for s in settlements if s.instrument_id in instruments)
     engine, _ = build_engine(
-        manifests[0],
+        instrument_sources[0],
         Decimal(config["maker_fee"]),
         Decimal(config["taker_fee"]),
         Decimal(config["initial_balance"]),
         historical_data=False,
     )
     try:
+        for manifest in instrument_sources[1:]:
+            _, instrument, _, _ = capture_native_inputs(
+                manifest, Decimal(config["maker_fee"]), Decimal(config["taker_fee"])
+            )
+            engine.add_instrument(instrument)
         execution = PaperCampaignAdapter(campaigns)
         execution.validity_frames = validity_frames
         engine.add_strategy(execution)
@@ -106,6 +124,7 @@ def replay_frozen_campaigns(
         if execution.callback_failure is not None:
             raise ValueError(f"accounting callback failed: {execution.callback_failure}")
         result = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
+        result["instruments"] = sorted(instruments)
         result["position_closures"] = execution.closed_position_records()
         result["campaign_observations"] = execution.campaign_observations(result)
         result["outcomes"] = observed_outcomes(

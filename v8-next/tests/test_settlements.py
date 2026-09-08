@@ -216,6 +216,62 @@ def test_revised_accounting_settles_after_last_quote_before_cutoff(tmp_path, mon
     assert Decimal(cycles["outcomes"]["cash_reconciliation_residual"]) == 0
     assert cycles["outcomes"]["calibration_eligible"] is False
 
+    # Two instruments share cash, but never funding/position identity. All cloned
+    # capture material below is isolated test data, not a production artifact.
+    eth = CryptoPerpetual(
+        instrument_id=InstrumentId.from_str("ETHUSDT-PERP.BINANCE"),
+        raw_symbol=Symbol("ETHUSDT"),
+        base_currency=Currency.from_str("ETH"),
+        quote_currency=Currency.from_str("USDT"),
+        settlement_currency=Currency.from_str("USDT"),
+        is_inverse=False,
+        price_precision=2,
+        size_precision=3,
+        price_increment=Price.from_str("0.01"),
+        size_increment=Quantity.from_str("0.001"),
+        maker_fee=Decimal("0.001"),
+        taker_fee=Decimal("0.001"),
+        ts_event=0,
+        ts_init=0,
+    )
+    monkeypatch.setattr(
+        "v8_next.adapters.accounting_replay.capture_native_inputs",
+        lambda *_: ((), eth, (), Currency.from_str("USDT")),
+    )
+    eth_manifests = []
+    for original in manifests[:2]:
+        folder = tmp_path / ("eth-" + original.parent.name)
+        folder.mkdir()
+        metadata = json.loads(original.read_text().replace("BTCUSDT", "ETHUSDT"))
+        for artifact in metadata["artifacts"]:
+            raw = (
+                (original.parent / artifact["path"])
+                .read_text()
+                .replace("BTCUSDT", "ETHUSDT")
+                .encode()
+            )
+            (folder / artifact["path"]).write_bytes(raw)
+            artifact["sha256"] = hashlib.sha256(raw).hexdigest()
+        target = folder / "manifest.json"
+        target.write_text(json.dumps(metadata))
+        eth_manifests.append(target)
+    eth_campaign = replace(
+        campaign, campaign_id="eth", opportunity_id="eth-op", instrument_id="ETHUSDT-PERP.BINANCE"
+    )
+    combined = manifests[:2] + eth_manifests
+    portfolio = replay_frozen_campaigns(combined, (campaign, eth_campaign), config, 4 * 10**9)
+    assert len(portfolio["positions"]) == 2
+    assert len(portfolio["settlement_sources"]) == 2
+    assert Decimal(portfolio["balance_total"].split()[0]) == Decimal("9997.80")
+    from v8_next.adapters.engine_state import reconcile_replay
+
+    repeated = replay_frozen_campaigns(
+        list(reversed(combined)), (campaign, eth_campaign), config, 4 * 10**9
+    )
+    reconcile_replay(portfolio, repeated)
+    with pytest.raises(ValueError, match="duplicate accounting"):
+        replay_frozen_campaigns(combined + combined[:1], (), config, 4 * 10**9)
+
 
 def test_funding_query_coverage_uses_actual_exposure_lifetime():
     from v8_next.adapters.settlements import position_funding_query_coverage
