@@ -2079,3 +2079,15 @@ plus PnL under the explicitly historical accounting model; this does not relax
 the separate paper funding reconciliation guard. Full suite: 401 passed;
 mypy clean. Generated multi-instrument opportunity-to-fill qualification is still
 required beyond the existing seeded multi-position tests.
+
+## Generated multi-instrument campaign qualification and native API correction
+
+A new native test now generates BTC and ETH opportunities from 28 bars through
+trend-continuation grammar and Donchian observation/protection. Both campaigns
+pass shared risk admission and fill after their decision clocks; no campaign is
+seeded. The test exposed an actual pending-reservation API mismatch: pinned
+Nautilus Cache has client_order_ids(), not order_ids(). Updated the risk reader
+and its fixtures to the inspected native API. Both generated positions remain
+open and each respects its protected notional bound. Full suite: 402 passed;
+Ruff clean. Test data remains isolated; this establishes historical experimental
+integration, not calibrated paper or live operation.

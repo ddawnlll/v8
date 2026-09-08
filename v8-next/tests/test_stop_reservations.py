@@ -10,7 +10,7 @@ def test_pending_band_risk_counts_without_inventing_fill():
         orders_open=lambda: [],
         orders_inflight=lambda: [],
         positions_open=lambda: [],
-        order_ids=lambda: [],
+        client_order_ids=lambda: [],
     )
     campaigns = (
         PaperCampaign("a", "a", "BTC", "LONG", D(2), 10, 100, D(90), D(110)),
@@ -28,7 +28,7 @@ def test_unprotected_or_already_submitted_pending_is_not_zero_risk():
         orders_open=lambda: [],
         orders_inflight=lambda: [],
         positions_open=lambda: [],
-        order_ids=lambda: [],
+        client_order_ids=lambda: [],
     )
     campaign = PaperCampaign("a", "a", "BTC", "LONG", D(2), 10, 100)
     assert (
@@ -38,7 +38,7 @@ def test_unprotected_or_already_submitted_pending_is_not_zero_risk():
         is None
     )
     protected = PaperCampaign("a", "a", "BTC", "LONG", D(2), 10, 100, D(90), D(110))
-    cache.order_ids = lambda: ["a"]
+    cache.client_order_ids = lambda: ["a"]
     assert (
         native_stop_exposure(
             cache,
@@ -58,7 +58,7 @@ def test_native_portfolio_pending_projection_preserves_exposure_budgets():
         orders_open=lambda: [],
         orders_inflight=lambda: [],
         positions_open=lambda: [],
-        order_ids=lambda: [],
+        client_order_ids=lambda: [],
     )
     metadata = SimpleNamespace(
         is_inverse=False,

@@ -37,7 +37,7 @@ def native_stop_exposure(
     total = Decimal(0)
     if not pending_ids <= owners.keys():
         raise ValueError("unknown pending campaign")
-    known_order_ids = {str(order_id) for order_id in cache.order_ids()} if pending_ids else set()
+    known_order_ids = {str(order_id) for order_id in cache.client_order_ids()} if pending_ids else set()
     for pending_id in pending_ids:
         pending = owners[pending_id]
         if (

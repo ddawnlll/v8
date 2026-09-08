@@ -1284,3 +1284,117 @@ def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse,
         )
     finally:
         engine.dispose()
+
+
+def test_historical_native_generates_two_protected_instrument_campaigns():
+    from nautilus_trader.model import Bar, BarType
+
+    from v8_next.adapters.historical_trial import HistoricalTrial
+    from v8_next.domain.config import PaperConfig
+    from v8_next.domain.market import Candle
+
+    hour = 3600 * 10**9
+    symbols = ["BTC", "ETH"]
+
+    def close_at(symbol, t):
+        return 104 if t >= 25 else 100
+
+    source = tuple(
+        Candle(
+            f"{symbol}USDT-PERP.BINANCE",
+            (t - 1) * hour,
+            t * hour,
+            Decimal(close_at(symbol, t)),
+            Decimal(close_at(symbol, t) + 1),
+            Decimal(close_at(symbol, t) - 1),
+            Decimal(close_at(symbol, t)),
+            Decimal(1),
+            10 * hour,
+            None,
+            f"test-{symbol}-{t}",
+        )
+        for symbol in symbols
+        for t in range(1, 29)
+    )
+    policy = PaperConfig(
+        maker_fee=".001",
+        taker_fee=".001",
+        initial_balance="10000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+        observer_policy="families:donchian-breakout",
+        grammar_policy="trend-continuation-v2",
+        campaign_policy="donchian:a:v2",
+    )
+    trial = HistoricalTrial(source, policy)
+    usdt = Currency.from_str("USDT")
+    engine = BacktestEngine(BacktestEngineConfig(bypass_logging=True))
+    try:
+        engine.add_venue(
+            Venue("BINANCE"),
+            OmsType.NETTING,
+            AccountType.MARGIN,
+            [Money(10000, usdt)],
+            default_leverage=Decimal(1),
+        )
+        for symbol in symbols:
+            identity = InstrumentId.from_str(f"{symbol}USDT-PERP.BINANCE")
+            engine.add_instrument(
+                CryptoPerpetual(
+                    instrument_id=identity,
+                    raw_symbol=Symbol(f"{symbol}USDT"),
+                    base_currency=Currency.from_str(symbol),
+                    quote_currency=usdt,
+                    settlement_currency=usdt,
+                    is_inverse=False,
+                    price_precision=2,
+                    size_precision=3,
+                    price_increment=Price(0.01, 2),
+                    size_increment=Quantity(0.001, 3),
+                    min_quantity=Quantity(0.001, 3),
+                    max_quantity=Quantity(100, 3),
+                    min_notional=Money(1, usdt),
+                    ts_event=0,
+                    ts_init=0,
+                )
+            )
+            bar_type = BarType.from_str(f"{identity}-1-HOUR-LAST-EXTERNAL")
+            engine.add_data(
+                [
+                    Bar(
+                        bar_type,
+                        Price(close_at(symbol, t), 2),
+                        Price(close_at(symbol, t) + 1, 2),
+                        Price(close_at(symbol, t) - 1, 2),
+                        Price(close_at(symbol, t), 2),
+                        Quantity(1, 3),
+                        t * hour,
+                        t * hour,
+                    )
+                    for t in range(1, 29)
+                ]
+            )
+        engine.add_strategy(trial)
+        engine.run()
+        assert trial.failure is None
+        assert len(trial.campaigns) == 2
+        assert {c.instrument_id for c in trial.campaigns} == {
+            "BTCUSDT-PERP.BINANCE",
+            "ETHUSDT-PERP.BINANCE",
+        }
+        assert len(engine.cache.positions_open()) == 2
+        assert len(trial.equity_marks) == 28
+        assert all(
+            c.quantity * max(c.stop_price, c.target_price) <= Decimal(100) for c in trial.campaigns
+        )
+        assert all(
+            event["event_ns"]
+            > next(
+                c.decision_ns for c in trial.campaigns if c.campaign_id == event["client_order_id"]
+            )
+            for event in trial.order_events
+            if event["event_type"] == "OrderFilled"
+            and event["client_order_id"] in {c.campaign_id for c in trial.campaigns}
+        )
+    finally:
+        engine.dispose()
