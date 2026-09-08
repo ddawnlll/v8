@@ -58,13 +58,16 @@ class QuoteRecorder(DataActor):
             if applied_ns > time.time_ns():
                 raise ValueError("positioning application reaches future")
             paths = tuple(p.resolve() for p in manifests)
+            expected_hashes = tuple(hashlib.sha256(p.read_bytes()).hexdigest() for p in paths)
             row = dict(
                 sequence=self.count + self.bar_count + self.positioning_count,
                 applied_ns=applied_ns,
                 manifests=[str(p) for p in paths],
-                manifest_hashes=[hashlib.sha256(p.read_bytes()).hexdigest() for p in paths],
+                manifest_hashes=list(expected_hashes),
             )
-            self.observations.refresh_positioning(paths, applied_ns)
+            self.observations.refresh_positioning(
+                paths, applied_ns, expected_hashes=expected_hashes
+            )
             self.positioning_output.write(canonical(row) + "\n")
             self.positioning_output.flush()
             self.positioning_count += 1

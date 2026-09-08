@@ -2979,3 +2979,15 @@ inheritance test; all 26 affected stream/recovery/replay tests pass afterward.
 Ruff/mypy clean before that test-only addition. This completes configuration wiring,
 not a real outage/reconnect certification or economic paper execution. Production
 calibration and prospective position-bearing acceptance remain open.
+
+## Bind auxiliary application to recorded manifest bytes
+
+Actor and replay now pass the exact recorded manifest hashes into atomic refresh.
+The refresh checks hashes before decoding and again before committing readings,
+source hashes or application clock. A manifest changed during loading therefore
+cannot commit a reading set with a different recorded identity. Mutation tests
+verify both pre-load rejection and rollback on a loader-time change. Full suite
+479 passed; mypy typing corrected afterward and passes, Ruff clean. This is local
+manifest consistency, not source authentication or filesystem transactionality;
+underlying artifacts retain their existing reader verification. Full economic
+operation and calibration remain incomplete.

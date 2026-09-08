@@ -119,7 +119,9 @@ def _replay_stream(
                 "manifest_hashes"
             ]:
                 raise ValueError("stream positioning manifest changed")
-            observer.refresh_positioning(paths, row["applied_ns"])
+            observer.refresh_positioning(
+                paths, row["applied_ns"], expected_hashes=tuple(row["manifest_hashes"])
+            )
             continue
         if row["instrument_id"] not in session["instruments"]:
             raise ValueError("unexpected stream instrument")

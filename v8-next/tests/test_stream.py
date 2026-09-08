@@ -478,3 +478,26 @@ def test_resumed_stream_inherits_refresh_interval_and_rejects_change(tmp_path, m
             )
         )
     assert not (tmp_path / "changed").exists()
+
+
+def test_positioning_manifest_mutation_rejects_before_state_commit(tmp_path, monkeypatch):
+    import hashlib
+
+    from v8_next.economics.stream_observation import StreamObservations
+
+    observer = StreamObservations((), "range-breakout-48-v1")
+    path = tmp_path / "manifest.json"
+    path.write_text("{}")
+    expected = (hashlib.sha256(path.read_bytes()).hexdigest(),)
+
+    def changed(_):
+        path.write_text('{"changed":true}')
+        return ()
+
+    monkeypatch.setattr(observer, "load_positioning", changed)
+    with pytest.raises(ValueError, match="during application"):
+        observer.refresh_positioning((path,), 1, expected_hashes=expected)
+    assert observer.positioning_update_ns == 0
+    assert observer.source_hashes == [] and observer.readings == ()
+    with pytest.raises(ValueError, match="before application"):
+        observer.refresh_positioning((path,), 1, expected_hashes=expected)

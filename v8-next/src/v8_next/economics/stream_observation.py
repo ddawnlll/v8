@@ -57,7 +57,13 @@ class StreamObservations:
             )
         return readings
 
-    def refresh_positioning(self, manifests: tuple[Path, ...], applied_ns: int) -> None:
+    def refresh_positioning(
+        self,
+        manifests: tuple[Path, ...],
+        applied_ns: int,
+        *,
+        expected_hashes: tuple[str, ...] | None = None,
+    ) -> None:
         """Apply verified auxiliary captures without touching native candle history.
 
         Runtime caller must durably record this application event for replay.
@@ -65,6 +71,9 @@ class StreamObservations:
         """
         if type(applied_ns) is not int or applied_ns <= self.positioning_update_ns:
             raise ValueError("positioning application clock must advance")
+        actual_hashes = tuple(hashlib.sha256(p.read_bytes()).hexdigest() for p in manifests)
+        if expected_hashes is not None and expected_hashes != actual_hashes:
+            raise ValueError("positioning manifest changed before application")
         readings = self.readings
         hashes = set(self.source_hashes)
         for path in manifests:
@@ -79,7 +88,9 @@ class StreamObservations:
                 else r
                 for r in added
             )
-            hashes.add(hashlib.sha256(path.read_bytes()).hexdigest())
+        if tuple(hashlib.sha256(p.read_bytes()).hexdigest() for p in manifests) != actual_hashes:
+            raise ValueError("positioning manifest changed during application")
+        hashes.update(actual_hashes)
         for instrument in self.candles:
             metrics: tuple[Metric, ...] = (
                 "settled_funding_rate",
