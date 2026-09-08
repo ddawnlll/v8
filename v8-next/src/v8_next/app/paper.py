@@ -101,6 +101,8 @@ def replay_account(
         engine.add_strategy(strategy)
         engine.add_data(quotes)
         engine.run()
+        if strategy.callback_failure is not None:
+            raise ValueError(f"paper callback failed: {strategy.callback_failure}")
         state = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
         state["quote_count"] = len(quotes)
         state["campaign_status"] = "NO_VERIFIED_CALIBRATION"

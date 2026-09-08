@@ -1,0 +1,119 @@
+"""Observed native campaign outcomes, not estimated edge or a calibration receipt."""
+
+from decimal import Decimal
+from typing import Any
+
+import numpy as np
+from nautilus_trader.model import Money
+
+
+def observed_outcomes(
+    campaigns: list[dict[str, Any]],
+    closures: list[dict[str, Any]],
+    account: dict[str, Any],
+    initial_balance: Decimal,
+) -> dict[str, Any]:
+    """Caller verifies/replays sources. Native net PnL already includes costs.
+
+    Closed-position events retain separate campaigns when a netting cache ID is
+    reused. Unfilled/open selections are kept as missing returns, never zeros.
+    """
+    if not initial_balance.is_finite() or initial_balance <= 0:
+        raise ValueError("positive initial capital required")
+    if account.get("currency") != "USDT" or account.get("realization") != "SIMULATED":
+        raise ValueError("unsupported outcome account")
+    by_id = {c["campaign_id"]: c for c in campaigns}
+    if len(by_id) != len(campaigns):
+        raise ValueError("duplicate outcome campaign")
+    closed = {}
+    for event in closures:
+        key = event["campaign_id"]
+        if key not in by_id or key in closed:
+            raise ValueError("unknown or repeated campaign closure")
+        campaign = by_id[key]
+        if (
+            event["instrument_id"] != campaign["instrument_id"]
+            or event["opening_order_id"] != key
+            or event["entry_side"] != ("BUY" if campaign["direction"] == "LONG" else "SELL")
+            or not campaign["decision_ns"]
+            < event["opened_ns"]
+            <= event["closed_ns"]
+            <= event["observed_ns"]
+        ):
+            raise ValueError("closure ownership or timing mismatch")
+        closed[key] = event
+
+    def cash(value: str) -> Decimal:
+        money = Money.from_str(value)
+        if str(money.currency) != "USDT":
+            raise ValueError("outcome currency mismatch")
+        return money.as_decimal()
+
+    rows, returns = [], []
+    net_total = Decimal(0)
+    for key, campaign in by_id.items():
+        row: dict[str, Any] = {
+            "campaign_id": key,
+            "opportunity_id": campaign["opportunity_id"],
+            "status": "NO_CLOSED_NATIVE_OUTCOME",
+            "net_return_on_entry_notional": None,
+        }
+        outcome = closed.get(key)
+        if outcome is not None:
+            notional = Decimal(outcome["average_open_price"]) * Decimal(outcome["peak_quantity"])
+            if not notional.is_finite() or notional <= 0:
+                raise ValueError("invalid native entry notional")
+            net = cash(outcome["realized_pnl"])
+            fees = sum((cash(c) for c in outcome["commissions"]), Decimal(0))
+            funding = sum(
+                (
+                    cash(a["pnl_change"])
+                    for a in outcome["adjustments"]
+                    if a["adjustment_type"] == "FUNDING" and a["pnl_change"] is not None
+                ),
+                Decimal(0),
+            )
+            value = net / notional
+            returns.append(float(value))
+            net_total += net
+            row.update(
+                status="CLOSED_UNDER_NATIVE_MODEL",
+                entry_notional=str(notional),
+                native_net_pnl=str(net),
+                observed_commissions=str(fees),
+                observed_funding_pnl=str(funding),
+                net_return_on_entry_notional=str(value),
+                opened_ns=outcome["opened_ns"],
+                closed_ns=outcome["closed_ns"],
+                observed_ns=outcome["observed_ns"],
+            )
+        rows.append(row)
+    cash_change = cash(account["balance_total"]) - initial_balance
+    residual = cash_change - net_total
+    terminal = all(p["is_closed"] for p in account["positions"]) and all(
+        o["status"] in {"FILLED", "CANCELED", "REJECTED", "DENIED", "EXPIRED"}
+        for o in account["orders"]
+    )
+    reconciled = terminal and residual == 0
+    return {
+        "rows": rows,
+        "selected_campaign_count": len(rows),
+        "closed_outcome_count": len(returns),
+        "missing_outcome_count": len(rows) - len(returns),
+        "native_closed_net_pnl": str(net_total),
+        "native_cash_change": str(cash_change),
+        "cash_reconciliation_residual": str(residual),
+        "reconciliation": "CLOSED_CASH_RECONCILED" if reconciled else "OPEN_OR_UNRECONCILED",
+        "conditional_mean_closed_return": float(np.mean(returns))
+        if returns and reconciled
+        else None,
+        "calibration_eligible": False,
+        "claim_status": "NO_ECONOMIC_CLAIM",
+        "scope": "DESCRIPTIVE_NATIVE_MODEL_OUTCOMES_NOT_POLICY_EDGE",
+        "limitations": [
+            "closed_sample_conditions_on_execution_and_completion",
+            "correlated_or_overlapping_samples_not_independent",
+            "observed_funding_is_not_venue_finality",
+            "native_execution_assumptions_not_measured_costs",
+        ],
+    }

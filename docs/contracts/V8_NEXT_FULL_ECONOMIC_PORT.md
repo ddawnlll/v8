@@ -620,3 +620,33 @@ historical-trial guard tests then passed. Native tests establish actual later-ba
 entry and future-suffix decision invariance. Ruff/mypy pass. Real calibration,
 qualified outcome sample construction, statistical correction and prospective
 paper operation remain open; an offline experiment is not their completion.
+
+## Campaign outcomes survive native netting reuse
+
+PaperCampaignAdapter now snapshots each native PositionClosed event with its
+opening/closing order ownership, clocks, entry/exit prices, peak quantity,
+realized PnL, commissions and adjustment records. The same netting position ID
+can be reused without erasing earlier campaign closures. Conflicting duplicate
+closures reject. Callback failures are retained and cause paper, revised
+accounting and historical-trial apps to reject incomplete output, rather than
+accepting a native-engine log as successful collection.
+
+Observed outcome projection binds closures back to campaign/instrument/direction
+and requires entry strictly after decision. It preserves unclosed/unfilled
+selections as missing returns, never zero. Native realized PnL already contains
+commissions and observed funding: components are exposed but not deducted twice.
+Entry-notional returns are descriptive conditional outcomes, not expected edge.
+An aggregate conditional mean is omitted unless no native exposure/orders remain
+and all closed PnL reconciles exactly to native cash change. Unknown/repeated
+closures or currency/clock mismatches reject; discrepancies remain explicit.
+
+On the existing real 499-bar Donchian experiment, 21 selections yielded 15 closed
+campaign outcomes and 6 missing outcomes. Closed net PnL reconciled exactly to
+native cash change; temporary evidence is /tmp/v8-next-real-outcomes.json. This
+still has calibration_eligible=false and NO_ECONOMIC_CLAIM: historical availability,
+execution assumptions, funding completeness and statistical selection are not
+qualified by cash reconciliation. Native tests prove that two successive closes
+sharing one netting ID remain separate and reconcile, that fees/funding are
+counted once, and that open/missing/corrupted outcomes cannot produce a complete
+sample. All 249 tests pass; Ruff/mypy clean. Real calibration and full benchmark
+inference remain open requirements.

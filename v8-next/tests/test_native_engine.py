@@ -38,6 +38,7 @@ def run_qualified_engine(
     quote_prices=None,
     standard_assertions=True,
     bar_data=None,
+    quote_times=None,
 ):
     usdt = Currency.from_str("USDT")
     instrument_id = InstrumentId(Symbol("BTCUSDT-PERP"), Venue("BINANCE"))
@@ -103,7 +104,8 @@ def run_qualified_engine(
                     t + offset,
                 )
                 for index, t in enumerate(
-                    (
+                    quote_times
+                    or (
                         (1_000_000_000, 2_000_000_000, 4_000_000_000, 6_000_000_000)
                         if close
                         else (1_000_000_000, 2_000_000_000, 4_000_000_000)
@@ -635,3 +637,94 @@ def test_historical_trial_uses_next_bar_and_future_suffix_cannot_change_prior_de
     assert first.decisions[:27] == second.decisions[:27]
     assert all(c.available_ns is None for c in candles)
     assert state["claim_status"] == "NO_ECONOMIC_CLAIM"
+
+
+def test_native_close_sample_reconciles_funding_and_fees_once():
+    from v8_next.evaluation.outcomes import observed_outcomes
+
+    campaign = PaperCampaign(
+        "sample", "o", "BTCUSDT-PERP.BINANCE", "LONG", Decimal(".010"), 10**9, 5 * 10**9
+    )
+    strategy = PaperCampaignAdapter((campaign,))
+    state = run_qualified_engine(strategy=strategy, close=True)
+    sample = observed_outcomes(
+        [campaign.to_record()], list(strategy.position_closures.values()), state, Decimal(10000)
+    )
+    assert sample["reconciliation"] == "CLOSED_CASH_RECONCILED"
+    assert sample["native_closed_net_pnl"] == "-1.20000000"
+    row = sample["rows"][0]
+    assert row["observed_commissions"] == "0.20000000"
+    assert row["observed_funding_pnl"] == "-1.00000000"
+    assert Decimal(row["net_return_on_entry_notional"]) == Decimal("-.012")
+    assert not sample["calibration_eligible"]
+
+
+def test_reused_netting_id_keeps_each_campaign_closure():
+    from v8_next.evaluation.outcomes import observed_outcomes
+
+    first = PaperCampaign(
+        "sample-first", "first-o", "BTCUSDT-PERP.BINANCE", "LONG", Decimal(".010"), 10**9, 3 * 10**9
+    )
+    second = PaperCampaign(
+        "sample-second",
+        "second-o",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".010"),
+        4 * 10**9,
+        20 * 10**9,
+    )
+    strategy = PaperCampaignAdapter((first, second))
+    state = run_qualified_engine(strategy=strategy, close=True, standard_assertions=False)
+    sample = observed_outcomes(
+        [c.to_record() for c in strategy.campaigns],
+        list(strategy.position_closures.values()),
+        state,
+        Decimal(10000),
+    )
+    assert sample["closed_outcome_count"] == 1 and sample["missing_outcome_count"] == 1
+    assert sample["rows"][0]["status"] == "CLOSED_UNDER_NATIVE_MODEL"
+    assert sample["rows"][1]["net_return_on_entry_notional"] is None
+    assert sample["conditional_mean_closed_return"] is None
+    assert sample["reconciliation"] == "OPEN_OR_UNRECONCILED"
+
+
+def test_two_closed_campaigns_survive_same_native_netting_id_and_reconcile():
+    from copy import deepcopy
+
+    from v8_next.evaluation.outcomes import observed_outcomes
+
+    campaigns = (
+        PaperCampaign(
+            "one", "o1", "BTCUSDT-PERP.BINANCE", "LONG", Decimal(".010"), 10**9, 3 * 10**9
+        ),
+        PaperCampaign(
+            "two", "o2", "BTCUSDT-PERP.BINANCE", "LONG", Decimal(".010"), 4 * 10**9, 7 * 10**9
+        ),
+    )
+    strategy = PaperCampaignAdapter(campaigns)
+    state = run_qualified_engine(
+        strategy=strategy,
+        standard_assertions=False,
+        quote_times=tuple(t * 10**9 for t in (1, 2, 4, 6, 8)),
+    )
+    closures = list(strategy.position_closures.values())
+    assert len(closures) == 2 and len({c["position_id"] for c in closures}) == 1
+    records = [c.to_record() for c in campaigns]
+    sample = observed_outcomes(records, closures, state, Decimal(10000))
+    assert sample["closed_outcome_count"] == 2
+    assert sample["reconciliation"] == "CLOSED_CASH_RECONCILED"
+    assert Decimal(sample["native_closed_net_pnl"]) == Decimal("-1.4")
+    corrupted = deepcopy(closures)
+    corrupted[0]["realized_pnl"] = "-2.00000000 USDT"
+    bad = observed_outcomes(records, corrupted, state, Decimal(10000))
+    assert (
+        bad["reconciliation"] == "OPEN_OR_UNRECONCILED"
+        and bad["conditional_mean_closed_return"] is None
+    )
+    with pytest.raises(ValueError, match="repeated"):
+        observed_outcomes(records, closures + closures[:1], state, Decimal(10000))
+    corrupted = deepcopy(closures)
+    corrupted[0]["opened_ns"] = campaigns[0].decision_ns
+    with pytest.raises(ValueError, match="timing"):
+        observed_outcomes(records, corrupted, state, Decimal(10000))

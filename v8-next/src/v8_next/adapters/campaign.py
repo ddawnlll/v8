@@ -41,6 +41,8 @@ class PaperCampaignAdapter(Strategy):
                 ):
                     raise ValueError("overlapping netting campaigns are outside initial scope")
         self.order_events: list[dict[str, Any]] = []
+        self.position_closures: dict[str, dict[str, Any]] = {}
+        self.callback_failure: str | None = None
         self.campaigns = campaigns
         self.submitted: set[str] = set()
         self.expired: set[str] = set()
@@ -63,11 +65,55 @@ class PaperCampaignAdapter(Strategy):
             }
         )
 
+    def on_position_closed(self, event: Any) -> None:
+        try:
+            self.snapshot_position_close(event)
+        except Exception as error:
+            self.callback_failure = f"{type(error).__name__}: {error}"
+            raise
+
+    def snapshot_position_close(self, event: Any) -> None:
+        """Snapshot each native close before a netting ID is reused."""
+        opening_id = str(event.opening_order_id)
+        position = self.cache.position(event.position_id)
+        if position is None:
+            raise ValueError("closed native position missing from cache")
+        record = {
+            "campaign_id": opening_id,
+            "instrument_id": str(event.instrument_id),
+            "position_id": str(event.position_id),
+            "opening_order_id": opening_id,
+            "closing_order_id": str(event.closing_order_id),
+            "opened_ns": event.ts_opened,
+            "closed_ns": event.ts_closed,
+            "observed_ns": event.ts_init,
+            "entry_side": str(event.entry),
+            "average_open_price": str(event.avg_px_open),
+            "average_close_price": str(event.avg_px_close),
+            "peak_quantity": str(event.peak_qty),
+            "realized_pnl": str(event.realized_pnl),
+            "currency": str(event.currency),
+            "commissions": sorted(str(c) for c in position.commissions()),
+            "adjustments": [
+                {k: v for k, v in a.to_dict().items() if k not in {"event_id", "reason"}}
+                for a in position.adjustments()
+            ],
+            "realization": "SIMULATED",
+            "claim_status": "NO_ECONOMIC_CLAIM",
+        }
+        key = f"{opening_id}:{event.ts_opened}:{event.ts_closed}"
+        if key in self.position_closures and self.position_closures[key] != record:
+            raise ValueError("native position closure changed")
+        self.position_closures[key] = record
+
     def campaign_observations(self, state: dict[str, Any]) -> list[dict[str, Any]]:
         """Project native entry evidence; submission alone is never a fill."""
         return [
             {
                 "campaign_id": c.campaign_id,
+                "position_closures": [
+                    r for r in self.position_closures.values() if r["campaign_id"] == c.campaign_id
+                ],
                 "opportunity_id": c.opportunity_id,
                 "entry_events": [
                     e for e in self.order_events if e["client_order_id"] == c.campaign_id

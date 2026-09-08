@@ -14,6 +14,7 @@ from v8_next.adapters.historical_trial import HistoricalTrial
 from v8_next.adapters.native_tape import build_engine
 from v8_next.app.observe import source_hash
 from v8_next.domain.config import PaperConfig
+from v8_next.evaluation.outcomes import observed_outcomes
 from v8_next.evaluation.store import ResearchStore, canonical
 
 
@@ -50,8 +51,10 @@ def run_trial(
         trial = HistoricalTrial(candles, policy)
         engine.add_strategy(trial)
         engine.run()
-        if trial.failure is not None:
-            raise ValueError(f"historical trial callback failed: {trial.failure}")
+        if trial.failure is not None or trial.callback_failure is not None:
+            raise ValueError(
+                f"historical trial callback failed: {trial.failure or trial.callback_failure}"
+            )
         state = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
         return {
             **metadata,
@@ -70,6 +73,13 @@ def run_trial(
             "decisions": trial.decisions,
             "campaigns": [c.to_record() for c in trial.campaigns],
             "campaign_observations": trial.campaign_observations(state),
+            "position_closures": list(trial.position_closures.values()),
+            "outcomes": observed_outcomes(
+                [c.to_record() for c in trial.campaigns],
+                list(trial.position_closures.values()),
+                state,
+                policy.initial_balance,
+            ),
             "funding_coverage": "OBSERVED_RECORDS_NOT_COMPLETENESS_CERTIFIED",
             "limitations": [
                 "modeled_close_availability",

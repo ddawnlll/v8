@@ -76,13 +76,16 @@ def replay_frozen_campaigns(
         historical_data=False,
     )
     try:
-        engine.add_strategy(PaperCampaignAdapter(campaigns))
+        execution = PaperCampaignAdapter(campaigns)
+        engine.add_strategy(execution)
         engine.add_data(quotes)
         for settlement in settlements:
             mark, funding = settlement.execution_replay_events(accounting_as_of_ns)
             engine.add_data([mark])
             engine.add_data([funding])
         engine.run()
+        if execution.callback_failure is not None:
+            raise ValueError(f"accounting callback failed: {execution.callback_failure}")
         result = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
         result["view"] = "REVISED_SIMULATED_ACCOUNTING_FROZEN_DECISIONS"
         result["accounting_as_of_ns"] = accounting_as_of_ns
