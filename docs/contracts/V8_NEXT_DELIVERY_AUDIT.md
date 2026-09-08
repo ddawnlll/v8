@@ -79,3 +79,20 @@ campaign with a native close fill. Eight native tests passed in 1.45 s
 without duplicate observations; this supersedes the missing closing-ID association
 noted above. Complete funding coverage, production calibration and paired economic
 outcome ingestion remain separate unfinished requirements.
+
+### Funding cutoff correction
+
+Revised accounting previously bounded settlement selection and missing-announcement
+checks by the last quote receipt. This omitted a funding boundary after that quote
+but before the declared accounting cutoff while a position remained open. Both
+ranges now extend through the accounting cutoff. Final-record availability is
+still independently enforced; no decision callbacks run on revised funding events.
+
+`test_revised_accounting_settles_after_last_quote_before_cutoff` runs the real
+capture decoding and native accounting with test-only instrument/data fixtures.
+Before final receipt, the announced settlement remains missing and the balance
+includes only entry commission; after receipt, native funding debits the position.
+Four focused tests passed in 0.50 s (`/tmp/v8-next-funding-cutoff-tests.log`). This
+corrects omitted known cashflows; it does not certify global funding completeness
+or authorize readmission/calibration. Open-position mark-to-market freshness is
+also distinct from the revised cash balance.

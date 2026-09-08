@@ -61,7 +61,7 @@ def replay_frozen_campaigns(
     ):
         raise ValueError("campaign outside captured accounting window")
     settlements = final_funding(
-        manifests, quotes[0].ts_init, quotes[-1].ts_init, accounting_as_of_ns
+        manifests, quotes[0].ts_init, accounting_as_of_ns, accounting_as_of_ns
     )
     engine, _ = build_engine(
         manifests[0],
@@ -86,7 +86,7 @@ def replay_frozen_campaigns(
         ]
         result["funding_coverage"] = "OBSERVED_FINAL_RECORDS_ONLY_NOT_COMPLETENESS_CERTIFIED"
         missing = missing_announced_settlements(
-            manifests, settlements, quotes[0].ts_init, quotes[-1].ts_init
+            manifests, settlements, quotes[0].ts_init, accounting_as_of_ns
         )
         result["missing_announced_settlements"] = list(missing) if missing is not None else None
         if missing:
