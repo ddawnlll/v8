@@ -775,3 +775,20 @@ and promotion-ineligible. Tests cover unrealized gains/losses, fixed denominator
 actual availability and malformed boundaries. Full suite: 268 tests passed;
 Ruff/mypy clean. Complete-family experiment execution, explicit excess-return
 specification and qualified OOS plans remain required for benchmark integration.
+
+## Registered family to SPA/WRC connection
+
+family_losses requires every locally registered family trial, including attempts
+without results (which block comparison rather than vanish). It verifies frozen
+policy/trial hashes against registry metadata, development role, computation
+chronology, common source marks/dataset/runtime and cash/fee assumptions. Losses
+are recomputed from native marks rather than trusted from cached report fields.
+compare_family then invokes SPA/WRC with an explicitly selected member baseline
+and explicit bootstrap parameters. Degenerate inputs reject without discarding
+candidates. PBO/DSR plans and protected forward OOS are not inferred.
+
+This enforces local registry coverage, not completeness of undisclosed research
+history or artifact authenticity. Comparing historical development results does
+not establish preregistration, OOS status, calibration or economic authority.
+Tests cover incomplete/duplicate families, omitted failed attempts, altered
+source/policy, future computation clocks and the numerical integration path.

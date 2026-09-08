@@ -1,0 +1,119 @@
+import hashlib
+from copy import deepcopy
+
+import pytest
+
+from v8_next.evaluation.family import family_losses
+from v8_next.evaluation.store import ResearchStore, canonical
+
+
+def setup_family(tmp_path):
+    store = ResearchStore(tmp_path / "family.sqlite")
+    results = []
+    for name in ("a", "b"):
+        frozen = dict(
+            role="DEVELOPMENT",
+            code_and_lock_hash="code",
+            execution_model="native",
+            config=dict(initial_balance="100", maker_fee="0", taker_fee="0", policy=name),
+        )
+        ph = hashlib.sha256(canonical(frozen).encode()).hexdigest()
+        tid = hashlib.sha256(canonical(["f", "data", ph]).encode()).hexdigest()
+        store.register_trial(tid, "f", ph, "data", "DEVELOPMENT", 100)
+        marks = [
+            dict(
+                end_ns=t,
+                observed_ns=t,
+                phase="PRE_STRATEGY_BAR_CALLBACK",
+                currency="USDT",
+                cash="100",
+                unrealized_pnl="0",
+                equity="100",
+                source_hash="fixture",
+                close_price="10",
+            )
+            for t in (10, 20, 30)
+        ]
+        results.append(
+            dict(
+                trial_id=tid,
+                family="f",
+                dataset_hash="data",
+                policy_hash=ph,
+                frozen_policy=frozen,
+                registered_ns=100,
+                computed_ns=200,
+                scope="OFFLINE_COUNTERFACTUAL_POLICY_EXPERIMENT",
+                promotion_eligible=False,
+                calibration_eligible=False,
+                equity_marks=marks,
+            )
+        )
+    return store, results
+
+
+def test_complete_family_recomputes_instead_of_trusting_cached_losses(tmp_path):
+    store, results = setup_family(tmp_path)
+    try:
+        results[0]["period_losses"] = "untrusted cached field"
+        losses = family_losses(results, store=store, family="f", decision_ns=300)
+        assert len(losses) == 2
+        assert all(row.loss == 0 for rows in losses.values() for row in rows)
+        with pytest.raises(ValueError, match="incomplete"):
+            family_losses(results[:1], store=store, family="f", decision_ns=300)
+    finally:
+        store.close()
+
+
+@pytest.mark.parametrize(
+    "mutation", ["source", "identity", "future", "duplicate", "missing_failed"]
+)
+def test_incompatible_or_omitted_trials_reject(tmp_path, mutation):
+    store, original = setup_family(tmp_path)
+    results = deepcopy(original)
+    try:
+        if mutation == "source":
+            results[1]["equity_marks"][0]["source_hash"] = "changed"
+        elif mutation == "identity":
+            results[1]["frozen_policy"]["config"]["maker_fee"] = ".01"
+        elif mutation == "future":
+            results[1]["computed_ns"] = 301
+        elif mutation == "duplicate":
+            results[1] = results[0]
+        else:
+            store.register_trial("failed", "f", "p", "data", "DEVELOPMENT", 100)
+        with pytest.raises(ValueError):
+            family_losses(results, store=store, family="f", decision_ns=300)
+    finally:
+        store.close()
+
+
+def test_family_connects_real_valuation_shape_to_numerical_diagnostics(tmp_path):
+    from v8_next.evaluation.family import compare_family
+
+    store, results = setup_family(tmp_path)
+    try:
+        for result in results:
+            result["equity_marks"] = [
+                {**result["equity_marks"][0], "end_ns": t, "observed_ns": t}
+                for t in range(10, 90, 10)
+            ]
+        for i, mark in enumerate(results[1]["equity_marks"]):
+            mark["equity"] = str(100 + i * i)
+            mark["unrealized_pnl"] = str(i * i)
+        report = compare_family(
+            results,
+            store=store,
+            family="f",
+            baseline_trial_id=results[0]["trial_id"],
+            decision_ns=300,
+            block_size=2,
+            reps=19,
+            seed=12,
+        )
+        assert report["diagnostic"]["sample_intervals"] == 7
+        assert report["diagnostic"]["wrc"]
+        assert report["promotion_eligible"] is False
+        assert report["scope"] == "DEVELOPMENT_EXPLORATION_NOT_OOS"
+    finally:
+        store.close()
