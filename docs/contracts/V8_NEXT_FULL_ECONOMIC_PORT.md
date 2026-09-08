@@ -2498,3 +2498,16 @@ R-unavailable. Full suite 441 passed before the final absent-stop assertion;
 all native engine tests pass afterward. Ruff/mypy clean. Component estimates stay
 in entry-notional fractions and must not be silently substituted for R thresholds.
 Production calibration and economic paper admission remain incomplete.
+
+## Complete-cohort descriptive R scorecard
+
+Native outcomes now include an explicit realized R scorecard: observed/missing R
+counts and an equally weighted mean only when every selected campaign has a
+closed protected outcome and total cash is reconciled. Missing/open/unprotected
+rows prevent a cohort mean rather than being silently excluded. The scorecard
+flows through existing trial and revised-accounting outputs; it is descriptive
+model R, not a gate pass, expected edge or portfolio-weighted return. Native
+long/short tests check complete and deliberately incomplete selected cohorts.
+Full suite 441 passed; final 47 native tests pass after incomplete-cohort assertions,
+Ruff/mypy clean before that assertion-only extension. Economic calibration and
+paper admission remain open.

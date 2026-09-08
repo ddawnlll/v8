@@ -152,9 +152,25 @@ def observed_outcomes(
         for o in account["orders"]
     )
     reconciled = terminal and residual == 0
+    risk_values = [Decimal(row["net_r"]) for row in rows if row["net_r"] is not None]
+    risk_complete = bool(rows) and len(risk_values) == len(rows) and reconciled
+
     return {
         "rows": rows,
         "selected_campaign_count": len(rows),
+        "risk_unit_scorecard": {
+            "mean_net_r": str(sum(risk_values, Decimal(0)) / len(risk_values))
+            if risk_complete
+            else None,
+            "observed_r_count": len(risk_values),
+            "missing_r_count": len(rows) - len(risk_values),
+            "status": "COMPLETE_SELECTED_COHORT"
+            if risk_complete
+            else "INCOMPLETE_OR_UNRECONCILED_COHORT",
+            "weighting": "equal_per_selected_campaign",
+            "basis": "actual_filled_entry_to_original_stop",
+            "scope": "DESCRIPTIVE_REALIZED_MODEL_R_NOT_EXPECTED_EDGE",
+        },
         "closed_outcome_count": len(returns),
         "missing_outcome_count": len(rows) - len(returns),
         "native_closed_net_pnl": str(net_total),

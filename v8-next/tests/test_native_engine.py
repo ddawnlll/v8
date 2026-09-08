@@ -691,6 +691,8 @@ def test_native_close_sample_reconciles_funding_and_fees_once():
     assert sample["reconciliation"] == "CLOSED_CASH_RECONCILED"
     assert sample["native_closed_net_pnl"] == "-1.20000000"
     row = sample["rows"][0]
+    assert sample["risk_unit_scorecard"]["mean_net_r"] is None
+    assert sample["risk_unit_scorecard"]["missing_r_count"] == 1
     assert row["net_r"] is None
     assert row["r_status"] == "ORIGINAL_STOP_UNAVAILABLE"
     assert row["observed_commissions"] == "0.20000000"
@@ -1428,9 +1430,22 @@ def test_native_outcome_r_uses_original_stop_and_cost_inclusive_pnl(direction, s
     )
     strategy = PaperCampaignAdapter((campaign,))
     state = run_qualified_engine(strategy=strategy, close=True, standard_assertions=False)
-    outcome = observed_outcomes(
+    summary = observed_outcomes(
         [campaign.to_record()], list(strategy.position_closures.values()), state, Decimal(10000)
-    )["rows"][0]
+    )
+    outcome = summary["rows"][0]
+    assert summary["risk_unit_scorecard"]["mean_net_r"] == outcome["net_r"]
+    assert summary["risk_unit_scorecard"]["missing_r_count"] == 0
     assert Decimal(outcome["initial_filled_stop_risk"]) == 1
     assert Decimal(outcome["net_r"]) == Decimal(outcome["native_net_pnl"])
     assert outcome["r_status"] == "COMPUTED_FROM_FILLED_ENTRY_AND_ORIGINAL_STOP"
+    missing = campaign.to_record() | {"campaign_id": "unfilled", "opportunity_id": "unfilled-op"}
+    incomplete = observed_outcomes(
+        [campaign.to_record(), missing],
+        list(strategy.position_closures.values()),
+        state,
+        Decimal(10000),
+    )["risk_unit_scorecard"]
+    assert incomplete["observed_r_count"] == 1
+    assert incomplete["missing_r_count"] == 1
+    assert incomplete["mean_net_r"] is None
