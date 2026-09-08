@@ -37,6 +37,7 @@ def run_qualified_engine(
     expect_entry=True,
     quote_prices=None,
     standard_assertions=True,
+    bar_data=None,
 ):
     usdt = Currency.from_str("USDT")
     instrument_id = InstrumentId(Symbol("BTCUSDT-PERP"), Venue("BINANCE"))
@@ -51,6 +52,9 @@ def run_qualified_engine(
         size_precision=3,
         price_increment=Price(0.01, 2),
         size_increment=Quantity(0.001, 3),
+        min_quantity=Quantity(0.001, 3),
+        max_quantity=Quantity(100, 3),
+        min_notional=Money(1, usdt),
         ts_event=0,
         ts_init=0,
         margin_init=Decimal("1"),
@@ -86,7 +90,9 @@ def run_qualified_engine(
             )
         )
         engine.add_data(
-            [
+            bar_data
+            if bar_data is not None
+            else [
                 QuoteTick(
                     instrument_id,
                     Price(quote_prices[index] if quote_prices else 10000, 2),
@@ -512,3 +518,120 @@ def test_pandf_geometry_through_economic_admission_to_native_bracket(verified):
         o["client_order_id"].endswith("-target") and o["status"] == "FILLED"
         for o in state["orders"]
     )
+
+
+def test_completed_bracket_cannot_timeout_a_successor_position():
+
+    class Successor(PaperCampaignAdapter):
+        def on_quote(self, quote):
+            super().on_quote(quote)
+            if quote.ts_init == 4 * 10**9:
+                self.campaigns += (
+                    PaperCampaign(
+                        "successor",
+                        "next",
+                        "BTCUSDT-PERP.BINANCE",
+                        "LONG",
+                        Decimal(".010"),
+                        quote.ts_init,
+                        20 * 10**9,
+                    ),
+                )
+
+    campaign = PaperCampaign(
+        "first",
+        "first-o",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".010"),
+        10**9,
+        5 * 10**9,
+        Decimal(9900),
+        Decimal(10100),
+    )
+    strategy = Successor((campaign,))
+    state = run_qualified_engine(
+        strategy=strategy,
+        close=True,
+        quote_prices=[10000, 10000, 10120, 10120],
+        standard_assertions=False,
+    )
+    assert not strategy.exit_requested
+    assert any(
+        o["client_order_id"] == "successor" and o["status"] == "FILLED" for o in state["orders"]
+    )
+
+
+def test_historical_trial_uses_next_bar_and_future_suffix_cannot_change_prior_decisions():
+    from dataclasses import replace
+
+    from nautilus_trader.model import Bar, BarType
+
+    from v8_next.adapters.historical_trial import HistoricalTrial
+    from v8_next.domain.config import PaperConfig
+    from v8_next.domain.market import Candle
+
+    hour = 3600 * 10**9
+    prices = [100] * 24 + [104, "104.25", 106, 107, 108, 109]
+    candles = tuple(
+        Candle(
+            "BTCUSDT-PERP.BINANCE",
+            i * hour,
+            (i + 1) * hour,
+            Decimal(p),
+            Decimal(p) + Decimal(".5"),
+            Decimal(p) - Decimal(".5"),
+            Decimal(p),
+            Decimal(10),
+            100 * hour,
+            None,
+            "fixture",
+        )
+        for i, p in enumerate(prices)
+    )
+    policy = PaperConfig(
+        maker_fee=".001",
+        taker_fee=".001",
+        initial_balance="10000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+        observer_policy="families:donchian-breakout",
+        grammar_policy="trend-continuation-v2",
+        campaign_policy="donchian:a:v2",
+    )
+
+    def run(source):
+        trial = HistoricalTrial(source, policy)
+        bars = [
+            Bar(
+                BarType.from_str("BTCUSDT-PERP.BINANCE-1-HOUR-LAST-EXTERNAL"),
+                Price.from_str(format(c.open, ".2f")),
+                Price.from_str(format(c.high, ".2f")),
+                Price.from_str(format(c.low, ".2f")),
+                Price.from_str(format(c.close, ".2f")),
+                Quantity.from_str(format(c.volume, ".3f")),
+                c.end_ns,
+                c.end_ns,
+            )
+            for c in source
+        ]
+        state = run_qualified_engine(strategy=trial, bar_data=bars, standard_assertions=False)
+        return trial, state
+
+    first, state = run(candles)
+    assert first.campaigns
+    entry_events = [
+        event
+        for event in first.order_events
+        if event["client_order_id"] == first.campaigns[0].campaign_id
+        and event["event_type"] == "OrderFilled"
+    ]
+    assert entry_events[0]["event_ns"] > first.campaigns[0].decision_ns
+    changed = candles[:27] + tuple(
+        replace(c, open=c.open * 2, high=c.high * 2, low=c.low * 2, close=c.close * 2)
+        for c in candles[27:]
+    )
+    second, _ = run(changed)
+    assert first.decisions[:27] == second.decisions[:27]
+    assert all(c.available_ns is None for c in candles)
+    assert state["claim_status"] == "NO_ECONOMIC_CLAIM"

@@ -581,3 +581,42 @@ clamp/target arithmetic and the unclamped Donchian channel. All 242 tests pass;
 Ruff and mypy are clean. There are now 22 explicit protected policy variants
 across six expert families. Remaining expert exit semantics, actual data-derived
 calibration, portfolio allocation and prospective qualification remain open.
+
+## Real-data native counterfactual experiment path
+
+Added HistoricalTrial and app.trial, an explicit DEVELOPMENT experiment path
+using the pinned native OHLC execution model. It applies the frozen grammar,
+observer reconciliation, declared geometry and exposure budget to measure rule
+outcomes without inventing utility or calibration receipts. This is distinct
+from production economic admission; its selection reason is
+COUNTERFACTUAL_POLICY_SELECTED_NOT_UTILITY_ADMITTED. No QuoteTick or market
+input is synthesized. Prior selections execute no earlier than the next real
+bar callback. Gaps beyond frozen protection invalidate entry. Native engine owns
+fills, contingent orders, cash and observed funding settlement.
+
+ResearchStore registers policy/source/lock/execution-model and dataset identities
+before replay; registered HOLDOUT datasets reject in this development command.
+Failed attempts remain in the search-family count. Strategy callback failures
+are retained and reject the app result even when the native engine merely logs
+the Python exception. Full result includes actual native events, campaigns and
+account state; calibration_eligible and promotion_eligible remain false.
+
+Real replay uncovered and fixed stale exit authority: a campaign closed by a
+native protective fill must not later cancel/close a successor at its original
+timeout. A native filled exit now terminates that campaign's exit authority.
+A targeted regression covers this; no inferred custom fill state was introduced.
+
+Development evidence: the existing verified real capture
+/tmp/v8-next-capture-20260908-initial/manifest.json supplied 499 bars. Frozen
+Donchian/trend-continuation with Donchian exits selected 21 experiment campaigns
+and produced 50 native order records. Corrected replay was identical across two
+runs; the earlier pre-fix trial is invalidated as economic evidence. Outputs are
+development-only temporary artifacts, not release receipts. Historical spread,
+slippage, funding completeness and venue margin remain unqualified. Native
+netting cache position count is not a count of independent trade outcomes.
+
+Full regression passed 245 tests before the callback-failure addition; both
+historical-trial guard tests then passed. Native tests establish actual later-bar
+entry and future-suffix decision invariance. Ruff/mypy pass. Real calibration,
+qualified outcome sample construction, statistical correction and prospective
+paper operation remain open; an offline experiment is not their completion.

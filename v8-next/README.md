@@ -189,3 +189,29 @@ First-slice acceptance and current installed artifact evidence:
 [requirement-by-requirement audit](../docs/contracts/V8_NEXT_FIRST_SLICE_ACCEPTANCE.md).
 This is a working research/prospective no-trade slice, not calibrated or live-money
 readiness. Explicit missing-calibration, funding and claim gates remain closed.
+
+### Offline policy experiments on real captures
+
+`v8_next.app.trial` runs an explicitly DEVELOPMENT-only counterfactual policy
+through Nautilus historical bars. It measures what the frozen rule would do;
+it does not mint utility estimates or authorize production trades. Use a JSON
+PaperConfig with explicit fees, balance, notional/exposure caps and selected
+observer_policy, grammar_policy and campaign_policy:
+
+```sh
+uv run --project v8-next --extra dev --extra research python -m v8_next.app.trial \
+  /absolute/path/capture/manifest.json /absolute/path/policy.json \
+  /absolute/path/trial-result.json \
+  --store /absolute/path/research.sqlite --family declared-development-family
+```
+
+The trial is registered before replay, including source/lock hash, config,
+execution model and dataset hash. A dataset registered HOLDOUT in that store
+cannot be consumed here. Output creation is exclusive. Use the same research
+store to preserve the attempted-trial count, including unsuccessful choices.
+Native callbacks execute prior selections on a later real bar; no synthetic
+quotes or fabricated calibration enter this path. Outputs include campaigns,
+order events, native account state and explicit limitations. OHLC path assumptions,
+unmeasured historical spread/slippage, current metadata and incomplete funding
+qualification make these outputs **ineligible for calibration or edge claims**.
+The production paper controller still requires separately verified calibration.

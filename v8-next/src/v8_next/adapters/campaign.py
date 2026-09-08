@@ -99,19 +99,42 @@ class PaperCampaignAdapter(Strategy):
             self.subscribe_quotes(InstrumentId.from_str(instrument))
 
     def on_quote(self, quote: QuoteTick) -> None:
+        self.advance_campaigns(
+            quote.instrument_id,
+            quote.ts_init,
+            quote.ask_price.as_decimal(),
+            quote.bid_price.as_decimal(),
+        )
+
+    def advance_campaigns(
+        self,
+        instrument_id: InstrumentId,
+        observed_ns: int,
+        buy_reference: Decimal,
+        sell_reference: Decimal,
+    ) -> None:
+        """Advance at a native callback; references validate entry, never manufacture fills."""
         for campaign in self.campaigns:
-            if campaign.instrument_id != str(quote.instrument_id):
+            if campaign.instrument_id != str(instrument_id):
                 continue
             if campaign.campaign_id in self.submitted:
+                # A native filled exit terminates this campaign's exit authority.
+                # Otherwise its later timeout could close a successor netting position.
+                if any(
+                    (order := self.cache.order(ClientOrderId(exit_id))) is not None
+                    and str(order.status) == "FILLED"
+                    for exit_id in self.exit_order_ids.get(campaign.campaign_id, set())
+                ):
+                    continue
                 if (
-                    quote.ts_init >= campaign.expires_ns
+                    observed_ns >= campaign.expires_ns
                     and campaign.campaign_id not in self.exit_requested
                 ):
                     # Initial netting scope: the owning app must admit at most one
                     # active campaign per instrument. Engine owns close execution.
-                    self.cancel_all_orders(quote.instrument_id)
+                    self.cancel_all_orders(instrument_id)
                     exit_tag = f"v8-campaign-exit:{campaign.campaign_id}"
-                    self.close_all_positions(quote.instrument_id, reduce_only=True, tags=[exit_tag])
+                    self.close_all_positions(instrument_id, reduce_only=True, tags=[exit_tag])
                     # Native-generated IDs remain authoritative. Tags bind intent
                     # without guessing ownership from instrument or fill time.
                     self.exit_order_ids.setdefault(campaign.campaign_id, set()).update(
@@ -125,16 +148,16 @@ class PaperCampaignAdapter(Strategy):
                 continue
             if campaign.campaign_id in self.expired or campaign.campaign_id in self.invalidated:
                 continue
-            if quote.ts_init >= campaign.expires_ns:
+            if observed_ns >= campaign.expires_ns:
                 self.expired.add(campaign.campaign_id)
                 continue
-            if quote.ts_init <= campaign.decision_ns:
+            if observed_ns <= campaign.decision_ns:
                 continue
             client_id = ClientOrderId(campaign.campaign_id)
             if self.cache.order(client_id) is not None:
                 self.submitted.add(campaign.campaign_id)
                 continue
-            instrument = self.cache.instrument(quote.instrument_id)
+            instrument = self.cache.instrument(instrument_id)
             if instrument is None:
                 raise ValueError("campaign instrument missing")
             quantity_text = format(campaign.quantity, f".{instrument.size_precision}f")
@@ -144,11 +167,7 @@ class PaperCampaignAdapter(Strategy):
                 prices = [campaign.stop_price, campaign.target_price]
                 if any(p % instrument.price_increment.as_decimal() != 0 for p in prices):
                     raise ValueError("campaign protection violates venue price increment")
-                entry_price = (
-                    quote.ask_price.as_decimal()
-                    if campaign.direction == "LONG"
-                    else quote.bid_price.as_decimal()
-                )
+                entry_price = buy_reference if campaign.direction == "LONG" else sell_reference
                 sign = 1 if campaign.direction == "LONG" else -1
                 if (entry_price - campaign.stop_price) * sign <= 0 or (
                     campaign.target_price - entry_price
@@ -159,7 +178,7 @@ class PaperCampaignAdapter(Strategy):
                 target_id = ClientOrderId(campaign.campaign_id + "-target")
                 self.exit_order_ids[campaign.campaign_id] = {str(stop_id), str(target_id)}
                 orders = self.order_factory.bracket(
-                    instrument_id=quote.instrument_id,
+                    instrument_id=instrument_id,
                     order_side=OrderSide.BUY if campaign.direction == "LONG" else OrderSide.SELL,
                     quantity=Quantity.from_str(quantity_text),
                     entry_order_type=OrderType.MARKET,
@@ -178,7 +197,7 @@ class PaperCampaignAdapter(Strategy):
                 self.submitted.add(campaign.campaign_id)
                 continue
             order = self.order_factory.market(
-                instrument_id=quote.instrument_id,
+                instrument_id=instrument_id,
                 order_side=OrderSide.BUY if campaign.direction == "LONG" else OrderSide.SELL,
                 quantity=Quantity.from_str(quantity_text),
                 client_order_id=client_id,
