@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.metadata
 import json
 import time
 from dataclasses import asdict, replace
@@ -28,7 +29,27 @@ def source_hash() -> str:
     for path in sorted(root.rglob("*.py")):
         digest.update(path.relative_to(root).as_posix().encode())
         digest.update(path.read_bytes())
-    digest.update((root.parents[1] / "uv.lock").read_bytes())
+    lock = root.parents[1] / "uv.lock"
+    if lock.is_file():
+        digest.update(b"source-lock:")
+        digest.update(lock.read_bytes())
+    else:
+        digest.update(b"installed-distribution:")
+    # Include actual versions in either mode; a lock file alone does not establish
+    # that the running interpreter uses that resolution. This is version identity,
+    # not authentication of dependency binaries.
+    for name in (
+        "nautilus-trader",
+        "numpy",
+        "polars",
+        "polars-runtime-32",
+        "pydantic",
+        "pydantic-core",
+        "annotated-types",
+        "typing-extensions",
+        "typing-inspection",
+    ):
+        digest.update(f"{name}=={importlib.metadata.version(name)}\n".encode())
     return digest.hexdigest()
 
 

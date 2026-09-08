@@ -293,3 +293,21 @@ Current output contract: WRC/SPA/DSR/PBO, calibrated edge, uncertainty and econo
 comparison stay null until their real eligible samples and actual methods exist.
 Promotional gates remain closed. This preserves missingness; it is not completion
 of the statistical implementation or evidence that the null was accepted.
+
+## Installed-package acceptance
+
+A distributable wheel was built at
+`/tmp/v8-next-wheel-check/v8_next-0.1.0-py3-none-any.whl`, installed with the locked
+runtime dependency export in `/tmp/v8-next-wheel-env`, and invoked from `/tmp`
+using Python `-I` (isolated imports). This exposed and corrected a repository-only
+`uv.lock` path assumption in policy initialization. Source mode binds the lock
+and actual runtime dependency versions; wheel mode binds package Python sources
+and actual runtime dependency versions. Neither authenticates native binaries.
+Changing a dependency version prevents reuse of a frozen policy, covered by
+`test_policy_identity.py`. Source-mode and wheel-mode hashes intentionally differ.
+
+The installed wheel completed a real public-data paper step and separate-process
+restart at `/tmp/v8-next-wheel-paper`; logs are
+`/tmp/v8-next-wheel-paper.log` and `/tmp/v8-next-wheel-paper-restart.log`.
+This validates installed-package execution on this macOS host without legacy
+runtime imports/builds, not cross-platform or profitable trading qualification.
