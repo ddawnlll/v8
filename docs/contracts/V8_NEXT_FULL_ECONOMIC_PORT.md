@@ -107,3 +107,24 @@ only fully confirmed prefix pivots are usable. Missing pivots remain absent.
 Tests verify EMA recurrence, long-only behavior, delayed pivot availability, ties,
 and older confirmed pivots versus trailing-window extrema. Native diagnostic
 callbacks now include eight observations; broader product integration remains open.
+
+## Sweep/reclaim and three retest variants
+
+`liquidity_sweep_reclaim` preserves strict penetration and close reclaim of the
+supplied prefix's preceding extrema, with LONG precedence if both sides qualify.
+`breakout_retest` now has executable a/b/c observations: significant swing
+role reversal; double-top/bottom validation-level retest; and head-and-shoulders
+neckline retest. Retests require a prior close beyond the level within six bars,
+not merely the current candle's breach. Pattern pivots are strict, strength three,
+and require completed right flanks. H&S selects the extremal head and strongest
+flanking shoulders, with the legacy flat-neckline rules and first-on-tie selection.
+The pattern-derived validation level must have been breached after the right
+structure pivot. Unsupported variants reject explicitly.
+
+Default and both pattern variants are included in historical diagnostics: twelve
+stances across ten families. All variants in a family retain the same dependency
+group; they cannot manufacture independent evidence. The fixed squeeze admission
+policy remains separate from these diagnostic stances. Unit tests qualify mirrored
+patterns, rejection without level contact, recency endpoints, strict sweep bounds
+and variant validation; native prefix tests include all twelve stances. Campaign
+stop/target geometry and opportunity grammar coverage still require integration.

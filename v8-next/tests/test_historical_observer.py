@@ -59,7 +59,7 @@ def test_historical_callback_prefix_is_invariant_and_preserves_unknown_clock():
     assert all(d["claim_status"] == "NO_ECONOMIC_CLAIM" for d in prefix)
     assert all(d["admission"] == "REJECTED_MISSING_CALIBRATION" for d in prefix)
 
-    assert all(len(d["expert_diagnostics"]) == 8 for d in prefix)
+    assert all(len(d["expert_diagnostics"]) == 12 for d in prefix)
     assert {s["observer_id"] for s in prefix[-1]["expert_diagnostics"]} == {
         "squeeze-swing",
         "donchian-breakout",
@@ -69,4 +69,6 @@ def test_historical_callback_prefix_is_invariant_and_preserves_unknown_clock():
         "volume-confirmed-breakout",
         "trend-pullback",
         "trend-pullback-depth",
+        "liquidity-sweep-reclaim",
+        "breakout-retest",
     }
