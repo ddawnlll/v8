@@ -1698,3 +1698,17 @@ def test_partial_stop_closure_cannot_timeout_successor_netting_position():
         o["client_order_id"] == "next-after-partial" and o["status"] == "FILLED"
         for o in state["orders"]
     )
+
+
+def test_closure_report_order_is_independent_of_native_callback_insertion():
+    subject = PaperCampaignAdapter(())
+    records = [
+        dict(closed_ns=20, opened_ns=10, instrument_id="ETH", campaign_id="b"),
+        dict(closed_ns=20, opened_ns=10, instrument_id="BTC", campaign_id="a"),
+        dict(closed_ns=19, opened_ns=10, instrument_id="ETH", campaign_id="c"),
+    ]
+    subject.position_closures = {r["campaign_id"]: r for r in records}
+    first = subject.closed_position_records()
+    subject.position_closures = {r["campaign_id"]: r for r in reversed(records)}
+    assert subject.closed_position_records() == first
+    assert [r["campaign_id"] for r in first] == ["c", "a", "b"]

@@ -106,7 +106,7 @@ def replay_frozen_campaigns(
         if execution.callback_failure is not None:
             raise ValueError(f"accounting callback failed: {execution.callback_failure}")
         result = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
-        result["position_closures"] = list(execution.position_closures.values())
+        result["position_closures"] = execution.closed_position_records()
         result["campaign_observations"] = execution.campaign_observations(result)
         result["outcomes"] = observed_outcomes(
             [c.to_record() for c in campaigns],

@@ -116,6 +116,18 @@ class PaperCampaignAdapter(Strategy):
             raise ValueError("native position closure changed")
         self.position_closures[key] = record
 
+    def closed_position_records(self) -> list[dict[str, Any]]:
+        """Stable report ordering; retain native event timestamps unchanged."""
+        return sorted(
+            self.position_closures.values(),
+            key=lambda row: (
+                row["closed_ns"],
+                row["instrument_id"],
+                row["campaign_id"],
+                row["opened_ns"],
+            ),
+        )
+
     def campaign_observations(self, state: dict[str, Any]) -> list[dict[str, Any]]:
         """Project native entry evidence; submission alone is never a fill."""
         return [

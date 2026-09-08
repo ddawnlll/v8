@@ -225,10 +225,10 @@ def _run_trial(
             "decisions": trial.decisions,
             "campaigns": [c.to_record() for c in trial.campaigns],
             "campaign_observations": trial.campaign_observations(state),
-            "position_closures": list(trial.position_closures.values()),
+            "position_closures": trial.closed_position_records(),
             "outcomes": observed_outcomes(
                 [c.to_record() for c in trial.campaigns],
-                list(trial.position_closures.values()),
+                trial.closed_position_records(),
                 state,
                 policy.initial_balance,
                 economic_policy=policy.model_dump(mode="json"),

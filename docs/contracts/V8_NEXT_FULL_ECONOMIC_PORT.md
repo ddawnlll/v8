@@ -2813,3 +2813,22 @@ verifies native settlement quantity ordering using isolated synthetic fixtures,
 not real venue settlement finality or prospective funding availability. No runtime
 implementation change was needed for this boundary. Full economic port remains
 open, including production calibration and position-bearing prospective operation.
+
+## Real portfolio replay after lifecycle fixes
+
+Real BTC/ETH portfolio replay with reversed capture argument order exposed only
+closure-report insertion-order divergence; account, campaigns, outcome values,
+estimates and trial identity were already identical. The adapter now provides
+closed_position_records ordered by native close timestamp, instrument, campaign
+and opening timestamp, used by trial/accounting reports. No native event time or
+execution ordering is rewritten. Unit qualification checks same-time cross-asset
+ordering and reverse insertion. Full suite 468 passed; Ruff/mypy clean.
+
+Recomputed real evidence: /tmp/v8-ordered-portfolio-1788887298731309000/result-0.json
+and result-1.json; log /tmp/v8-ordered-portfolio.log. Both input orders now agree on
+account, campaigns, closures, outcomes, selection estimate and trial identity;
+registry family size remains one. There are 34 selections, 25 closures, eight
+terminal nonentries and one unresolved selection; closed cash reconciles, but full
+selection estimation remains incomplete. These are historical model diagnostics,
+not prospective admission or venue accounting qualification. Initial divergent
+reports are retained at /tmp/v8-current-portfolio-1788887203063462000.
