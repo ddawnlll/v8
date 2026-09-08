@@ -62,3 +62,37 @@ def test_compression_requires_complete_nonconstant_ranges_and_price_move():
 def test_grammar_rejects_unknown_policy():
     with pytest.raises(ValueError):
         grammar_opportunity(frame([100] * 25), "invented")
+
+
+@pytest.mark.parametrize(
+    "policy,prices",
+    [
+        ("range-breakout-48-v1", [100] * 48 + [120]),
+        ("volatility-extreme-v2", [100] * 24 + [120]),
+        ("trend-continuation-v2", list(range(100, 125))),
+        ("mean-reversion-v2", [100] * 23 + [112, 110]),
+    ],
+)
+def test_eth_opportunity_identity_is_separate_from_btc(policy, prices):
+    btc = frame(prices)
+    eth = replace(
+        btc,
+        instrument_id="ETHUSDT-PERP.BINANCE",
+        candles=tuple(replace(c, instrument_id="ETHUSDT-PERP.BINANCE") for c in btc.candles),
+    )
+    first, second = grammar_opportunity(btc, policy), grammar_opportunity(eth, policy)
+    assert first is not None and second is not None
+    assert first.direction == second.direction
+    assert second.exposure_id == "ETH/USD:linear-perpetual"
+    assert first.opportunity_id != second.opportunity_id
+    assert (
+        grammar_opportunity(
+            replace(
+                eth,
+                instrument_id="UNKNOWN",
+                candles=tuple(replace(c, instrument_id="UNKNOWN") for c in eth.candles),
+            ),
+            policy,
+        )
+        is None
+    )

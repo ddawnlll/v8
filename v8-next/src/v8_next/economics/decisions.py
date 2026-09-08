@@ -52,14 +52,23 @@ class Stance:
     variant_id: str = "baseline"
 
 
+def linear_exposure_id(instrument_id: str) -> str | None:
+    """Explicit initial USD-M universe; native metadata must still qualify contracts."""
+    return {
+        "BTCUSDT-PERP.BINANCE": "BTC/USD:linear-perpetual",
+        "ETHUSDT-PERP.BINANCE": "ETH/USD:linear-perpetual",
+    }.get(instrument_id)
+
+
 def opportunity_at(frame: CausalFrame) -> Opportunity | None:
     """Grammar is independent of observer identity and observation multiplicity.
 
     v1 treats each breakout candle as a discrete measurement episode. Its anchor
     is the closed market candle, never the clock on which an observer notices it.
-    Only single-leg linear USD-M BTC exposure is initially supported.
+    Only explicitly mapped single-leg linear USD-M exposure is supported.
     """
-    if frame.instrument_id != "BTCUSDT-PERP.BINANCE":
+    exposure = linear_exposure_id(frame.instrument_id)
+    if exposure is None:
         return None
     if not frame.continuous or len(frame.candles) < 49:
         return None
@@ -70,7 +79,6 @@ def opportunity_at(frame: CausalFrame) -> Opportunity | None:
         direction = "SHORT"
     else:
         return None
-    exposure = "BTC/USD:linear-perpetual"
     identity = json.dumps(
         ["range-breakout-48-v1", exposure, frame.instrument_id, direction, current.end_ns],
         separators=(",", ":"),

@@ -7,7 +7,7 @@ from decimal import Decimal
 import polars as pl
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, numeric, opportunity_at
+from v8_next.economics.decisions import Opportunity, linear_exposure_id, numeric, opportunity_at
 from v8_next.experts.features import close_series
 
 POLICIES = frozenset(
@@ -27,7 +27,8 @@ def grammar_opportunity(frame: CausalFrame, policy: str) -> Opportunity | None:
     if policy == "range-breakout-48-v1":
         return opportunity_at(frame)
     bars = frame.candles
-    if frame.instrument_id != "BTCUSDT-PERP.BINANCE" or not frame.continuous:
+    exposure = linear_exposure_id(frame.instrument_id)
+    if exposure is None or not frame.continuous:
         return None
     warmup = (
         62
@@ -81,7 +82,6 @@ def grammar_opportunity(frame: CausalFrame, policy: str) -> Opportunity | None:
     duration = bars[-1].end_ns - bars[-1].start_ns
     if any(c.end_ns - c.start_ns != duration for c in bars):
         raise ValueError("grammar requires regular bar durations")
-    exposure = "BTC/USD:linear-perpetual"
     anchor = bars[-1].end_ns
     identity = json.dumps(
         [policy, exposure, frame.instrument_id, direction, anchor, duration], separators=(",", ":")

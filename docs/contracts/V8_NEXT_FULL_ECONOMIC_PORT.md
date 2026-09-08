@@ -2056,3 +2056,13 @@ changed prices, source membership and invalid clocks, while native multi-source
 marks continue through evaluation. Full suite: 397 passed; Ruff/mypy clean.
 Hashes bind the supplied records, not external venue authenticity; source replay
 and remaining economic qualification still apply.
+
+## Explicit ETH opportunity universe
+
+Opportunity grammars now share an explicit BTC/ETH USD-M exposure mapping.
+ETH setup identities bind ETH exposure and instrument rather than BTC constants;
+unknown contracts remain outside the universe and native contract metadata
+qualification still applies. Tests cover distinct identities under range,
+volatility, trend and mean-reversion grammars. Grammar tests pass, Ruff/mypy
+clean. Paper capture remains BTC-only and historical global exposure admission
+is not widened by this change; portfolio acceptance remains separate work.
