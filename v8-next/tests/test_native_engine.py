@@ -1155,3 +1155,106 @@ def test_two_native_instruments_keep_timeout_and_brackets_isolated():
     recovered, restored = run_two_native_instruments(json.loads(json.dumps(campaigns)))
     assert restored == campaigns
     reconcile_replay(expected, recovered)
+
+
+@pytest.mark.parametrize("reverse", [False, True])
+def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse):
+    from nautilus_trader.model import Bar, BarType
+
+    from v8_next.adapters.historical_trial import HistoricalTrial
+    from v8_next.domain.config import PaperConfig
+    from v8_next.domain.market import Candle
+    from v8_next.evaluation.equity import equity_losses
+
+    hour = 3600 * 10**9
+    symbols = ["BTC", "ETH"]
+    if reverse:
+        symbols.reverse()
+    source = tuple(
+        Candle(
+            f"{symbol}USDT-PERP.BINANCE",
+            (t - 1) * hour,
+            t * hour,
+            Decimal(100),
+            Decimal(101),
+            Decimal(99),
+            Decimal(100),
+            Decimal(1),
+            10 * hour,
+            None,
+            f"test-{symbol}-{t}",
+        )
+        for symbol in symbols
+        for t in (1, 2, 3)
+    )
+    policy = PaperConfig(
+        maker_fee=".001",
+        taker_fee=".001",
+        initial_balance="10000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+    )
+    trial = HistoricalTrial(source, policy)
+    usdt = Currency.from_str("USDT")
+    engine = BacktestEngine(BacktestEngineConfig(bypass_logging=True))
+    try:
+        engine.add_venue(
+            Venue("BINANCE"),
+            OmsType.NETTING,
+            AccountType.MARGIN,
+            [Money(10000, usdt)],
+            default_leverage=Decimal(1),
+        )
+        for symbol in symbols:
+            identity = InstrumentId.from_str(f"{symbol}USDT-PERP.BINANCE")
+            engine.add_instrument(
+                CryptoPerpetual(
+                    instrument_id=identity,
+                    raw_symbol=Symbol(f"{symbol}USDT"),
+                    base_currency=Currency.from_str(symbol),
+                    quote_currency=usdt,
+                    settlement_currency=usdt,
+                    is_inverse=False,
+                    price_precision=2,
+                    size_precision=3,
+                    price_increment=Price(0.01, 2),
+                    size_increment=Quantity(0.001, 3),
+                    ts_event=0,
+                    ts_init=0,
+                )
+            )
+            bar_type = BarType.from_str(f"{identity}-1-HOUR-LAST-EXTERNAL")
+            engine.add_data(
+                [
+                    Bar(
+                        bar_type,
+                        Price(100, 2),
+                        Price(101, 2),
+                        Price(99, 2),
+                        Price(100, 2),
+                        Quantity(1, 3),
+                        t * hour,
+                        t * hour,
+                    )
+                    for t in (1, 2, 3)
+                ]
+            )
+        engine.add_strategy(trial)
+        engine.run()
+        assert trial.failure is None
+        assert len(trial.decisions) == 6
+        assert len(trial.equity_marks) == 3
+        assert [m["end_ns"] for m in trial.equity_marks] == [hour, 2 * hour, 3 * hour]
+        for i, mark in enumerate(trial.equity_marks, 1):
+            assert Decimal(mark["equity"]) == Decimal(10000)
+            assert mark["close_price"] is None
+            assert set(mark["valuation_inputs"]) == {f"{s}USDT-PERP.BINANCE" for s in symbols}
+            assert {v["source_hash"] for v in mark["valuation_inputs"].values()} == {
+                f"test-{s}-{i}" for s in symbols
+            }
+        assert (
+            len(equity_losses(trial.equity_marks, capital=Decimal(10000), computed_ns=10 * hour))
+            == 2
+        )
+    finally:
+        engine.dispose()

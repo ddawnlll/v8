@@ -2015,3 +2015,13 @@ Single-instrument source identity/close fields retain their meaning. This makes
 existing family source-signature comparison distinguish different portfolio
 input sets. Full suite: 392 passed; Ruff/mypy clean. Multi-source native end-to-end
 qualification and corresponding artifact verification remain required.
+
+## Native multi-source historical boundary qualification
+
+Actual Nautilus bar tests now feed BTC and ETH at three identical hour boundaries
+in both instrument insertion orders. Six callbacks produce six observation
+decisions but exactly three portfolio equity marks and two evaluation intervals.
+Each mark retains both instrument sources; cash remains the observed native
+balance in this warmup/no-trade fixture. Both native cases pass, Ruff clean.
+This qualifies callback alignment/provenance through the engine, not simultaneous
+historical economic allocations or position-bearing multi-source performance.
