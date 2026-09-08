@@ -53,3 +53,28 @@ def test_trajectory_spa_preserves_missingness_and_exploratory_scope():
     flat = trajectory_spa_diagnostic({"rows": rows}, **kwargs)
     assert flat["status"] == "DEGENERATE_DIFFERENTIAL_NO_PVALUE"
     assert flat["result"] is None
+
+
+def test_explicit_cscv_plan_populates_family_diagnostic_without_promoting():
+    from v8_next.evaluation.overfitting import CSCVPlan
+
+    pytest.importorskip("arch")
+    baseline = tuple(IntervalLoss(i, i + 1, i + 1, Decimal(0)) for i in range(12))
+    variants = {
+        "a": tuple(IntervalLoss(i, i + 1, i + 1, Decimal(-1 - i % 3)) for i in range(12)),
+        "b": tuple(IntervalLoss(i, i + 1, i + 1, Decimal(-1 - i % 2)) for i in range(12)),
+    }
+    result = spa_diagnostic(
+        baseline,
+        variants,
+        frozen_ns=0,
+        evaluation_end_ns=12,
+        decision_ns=13,
+        block_size=2,
+        reps=29,
+        seed=2,
+        pbo_plan=CSCVPlan(2, "mean_return", 2, ("a", "b")),
+    )
+    assert result["pbo"]["split_count"] == 2
+    assert not result["pbo"]["promotion_eligible"]
+    assert result["dsr"] is None

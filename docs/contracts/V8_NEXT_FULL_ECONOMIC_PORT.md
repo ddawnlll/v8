@@ -676,3 +676,36 @@ exact tie inclusion (a strict-tail implementation would fail). Library-backed
 checks cover seed repeatability, duplicate-column invariance, missing chronology
 and degenerate input rejection. This is methodology retained with a mature
 resampler, not a custom bootstrap infrastructure port.
+
+## Explicit CSCV/PBO diagnostic
+
+Source: Bailey, Borwein, Lopez de Prado and Zhu, The Probability of Backtest
+Overfitting (2015 author version), sections 2.2 and 3.1:
+https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf
+The Rust multiplicity ledger had no genuine PBO implementation to preserve.
+The new diagnostic partitions aligned return intervals into equal contiguous
+blocks, evaluates every half/complement combination, selects IS maxima and
+computes OOS relative-rank logits. NumPy computes scores; SciPy supplies ranks.
+
+CSCVPlan explicitly selects mean return or nonannualized sample Sharpe,
+partition count, exact-work budget and the declared complete candidate list.
+Inputs must be negative net periodic-return losses with equal interval duration.
+Missing variants/values, irregular intervals, duplicate performance columns,
+undefined split Sharpe or excess combinatorial work reject without silently
+truncating data, dropping folds or sampling a different estimator. Training
+score ties share equal weight; OOS ties use midranks, and zero logit counts as
+an overfit outcome. These discrete tie conventions are an explicit V8 versioned
+policy, not unspecified behavior attributed to the paper. Exact duplicate
+performance is not automatically equated with identical economic strategies.
+
+spa_diagnostic accepts an optional CSCVPlan and returns the separately typed PBO
+result; without a plan it remains None. A family of one variant cannot yield
+PBO and the existing two-path cash report does not invent a larger search family.
+The registry-list parameter verifies declared coverage, not undisclosed research
+history. CSCV is not a forward simulation or a substitute for untouched holdout;
+no source qualification, calibrated edge or promotion authority is minted.
+
+Tests include analytically known persistent-winner, reversed-regime and six-fold
+outcomes, tie weighting, repeatability and invalid family/data/work plans. The
+family numerical API integration is also exercised. DSR and qualified real-data
+statistical plans remain open.

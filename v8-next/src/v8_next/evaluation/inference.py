@@ -7,6 +7,7 @@ from typing import Any
 import numpy as np
 
 from v8_next.evaluation.alignment import IntervalLoss, paired_differentials
+from v8_next.evaluation.overfitting import CSCVPlan, pbo_diagnostic
 from v8_next.evaluation.reality_check import reality_check_diagnostic
 
 
@@ -20,6 +21,7 @@ def spa_diagnostic(
     block_size: int,
     reps: int,
     seed: int,
+    pbo_plan: CSCVPlan | None = None,
 ) -> dict[str, Any]:
     """Stationary bootstrap, studentized SPA, all columns resampled jointly.
 
@@ -90,7 +92,18 @@ def spa_diagnostic(
             seed=seed,
         ),
         "dsr": None,
-        "pbo": None,
+        "pbo": pbo_diagnostic(
+            variants,
+            registered_variants=pbo_plan.registered_variants,
+            frozen_ns=frozen_ns,
+            evaluation_end_ns=evaluation_end_ns,
+            decision_ns=decision_ns,
+            partitions=pbo_plan.partitions,
+            metric=pbo_plan.metric,
+            max_splits=pbo_plan.max_splits,
+        )
+        if pbo_plan is not None
+        else None,
         "promotion_eligible": False,
     }
 
