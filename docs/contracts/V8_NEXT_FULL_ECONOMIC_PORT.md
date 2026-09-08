@@ -1027,3 +1027,19 @@ Tests exercise actual EMA pullback and confirmed-swing depth setups, no-setup/
 wrong-direction rejection, one-range geometry and eight-bar expiry. This extends
 protected execution coverage to eight expert families (24 policies); other
 families/variants and the remaining economic operation requirements remain open.
+
+## RSI recovery and volume-confirmed campaign geometry
+
+Added rsi-reversion:a:v2 and volume-breakout:active:v2. Both reuse their active
+observer predicates rather than introducing another signal definition. Source
+rsi_stoch_reversion.rs variant a and volume_confirmed_breakout.rs active v1
+explicitly declare one volatility unit stop/target and eight-bar expiry. Volume
+policy retains the existing observed d/c/b/a priority selector; its name does
+not falsely imply only variant a. Frozen native absolute geometry and tick
+rounding follow the established new-product convention.
+
+Tests cover actual long and short recovery/breakout patterns, exact one-range
+geometry, expiry and missing recovery/volume rejection. Protected campaign
+coverage is now ten families/26 policies, not complete expert migration. Missing
+families, allocation integration, auxiliary market data and prospective operation
+requirements remain open.

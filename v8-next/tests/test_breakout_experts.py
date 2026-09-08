@@ -92,3 +92,23 @@ def test_hundred_bar_volume_statistics_select_specific_variants(last_volume, var
     stance = observe_volume_breakout(frame, replace(opportunity, direction="LONG"))
     assert stance.kind == StanceKind.SUPPORT
     assert stance.variant_id == variant
+
+
+def test_volume_campaign_requires_actual_volume_gate_in_each_direction():
+    from v8_next.economics.protection import protection_at
+
+    for close, direction in [(103, "LONG"), (97, "SHORT")]:
+        frame, opportunity = inputs([100] * 20 + [close], [10] * 20 + [20])
+        opportunity = replace(opportunity, direction=direction)
+        protection = protection_at(frame, opportunity, "volume-breakout:active:v2", Decimal(".01"))
+        assert protection is not None
+        sign = 1 if direction == "LONG" else -1
+        assert (Decimal(close) - protection.stop_price) * sign == 2
+        assert (protection.target_price - Decimal(close)) * sign == 2
+        flat_volume = replace(
+            frame, candles=tuple(replace(c, volume=Decimal(10)) for c in frame.candles)
+        )
+        assert (
+            protection_at(flat_volume, opportunity, "volume-breakout:active:v2", Decimal(".01"))
+            is None
+        )

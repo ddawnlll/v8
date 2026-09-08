@@ -93,3 +93,22 @@ def test_observer_context_rejects_cross_instrument_and_abstains_gaps(observe):
     gap = replace(frame, candles=frame.candles[:3] + frame.candles[4:])
     assert observe(gap, opportunity).reason == "SOURCE_GAP"
     assert observe(frame, None).kind == StanceKind.ABSTAIN
+
+
+def test_rsi_campaign_geometry_tracks_recovery_direction():
+    from v8_next.economics.protection import protection_at
+
+    prices = list(range(120, 99, -1)) + [105, 107, 110]
+    for values, direction in [(prices, "LONG"), ([240 - p for p in prices], "SHORT")]:
+        frame, opportunity = context(values)
+        protection = protection_at(
+            frame, replace(opportunity, direction=direction), "rsi-reversion:a:v2", Decimal(".01")
+        )
+        assert protection is not None
+        sign = 1 if direction == "LONG" else -1
+        close = frame.candles[-1].close
+        assert (close - protection.stop_price) * sign == Decimal(".2")
+        assert (protection.target_price - close) * sign == Decimal(".2")
+        assert protection.expires_ns == frame.decision_ns + 8
+    frame, opportunity = context(prices[:-2])
+    assert protection_at(frame, opportunity, "rsi-reversion:a:v2", Decimal(".01")) is None

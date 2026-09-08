@@ -6,11 +6,13 @@ from decimal import ROUND_CEILING, ROUND_FLOOR, Decimal
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, StanceKind
 from v8_next.experts.bollinger import band_setup
+from v8_next.experts.breakouts import observe_volume_breakout
 from v8_next.experts.candlestick import VARIANTS as CANDLE_VARIANTS
 from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.measuring import VARIANTS, measuring_setup
 from v8_next.experts.pandf import pandf_setup
+from v8_next.experts.reversion import observe_rsi_reversion
 from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 
 PROTECTION_POLICIES = frozenset(
@@ -19,6 +21,8 @@ PROTECTION_POLICIES = frozenset(
         "donchian:a:v2",
         "trend-pullback:a:v2",
         "trend-depth:a:v2",
+        "rsi-reversion:a:v2",
+        "volume-breakout:active:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -69,8 +73,14 @@ def protection_at(
     family, variant, _ = policy.split(":")
     sign = 1 if opportunity.direction == "LONG" else -1
     close = frame.candles[-1].close
-    if family in {"trend-pullback", "trend-depth"}:
-        observer = observe_trend_pullback if family == "trend-pullback" else observe_trend_depth
+    unit_geometry_observers = {
+        "trend-pullback": observe_trend_pullback,
+        "trend-depth": observe_trend_depth,
+        "rsi-reversion": observe_rsi_reversion,
+        "volume-breakout": observe_volume_breakout,
+    }
+    if family in unit_geometry_observers:
+        observer = unit_geometry_observers[family]
         if observer(frame, opportunity).kind != StanceKind.SUPPORT:
             return None
         span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
