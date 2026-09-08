@@ -1178,3 +1178,19 @@ other-instrument observations. Existing positioning resolution retains conflict
 rejection and decision-time filtering. This is transport, not source qualification:
 public auxiliary capture, durable replay identity, protected funding/OI campaigns
 and historical trial wiring remain outstanding.
+
+## Funding and positioning campaign geometry
+
+funding:a/b/c/d:v2 and open-interest:a/b/c/d:v2 now require their selected
+causal auxiliary-data observation before producing protection. Funding A/B/C
+uses the preceding five-bar extreme excluding the current bar; D uses the
+current-inclusive ten-bar extreme plus one mean-range14 unit. This preserves
+funding_crowding_reversal.rs active A and the frozen Python B/C/D definitions.
+OI uses the current-inclusive five-bar extreme from open_interest_divergence.rs.
+All target one range unit and expire after eight bars, limited by opportunity
+expiry. No missing auxiliary data is inferred. EconomicPaperAdapter carries the
+same readings into protection as into selection. Tests cover all variants,
+mirrored funding D, structural distances and late/missing input rejection.
+Coverage is 28 families/62 protected policies, not full lifecycle completion.
+Auxiliary capture, durable source/replay binding and ongoing invalidation remain
+unfinished; historical trial calls without auxiliary data abstain.

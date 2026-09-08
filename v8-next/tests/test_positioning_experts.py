@@ -147,3 +147,54 @@ def test_selected_policy_receives_only_causally_available_positioning(family, me
                 readings=unavailable,
             )
         )
+
+
+@pytest.mark.parametrize(
+    "family,variant,close,volume,side,funding",
+    [
+        ("funding", "a", 98, 20, "SHORT", 0.001),
+        ("funding", "b", 102, 20, "LONG", -0.001),
+        ("funding", "c", 98, 20, "SHORT", 0.001),
+        ("funding", "d", 102, 20, "SHORT", 0.001),
+        ("funding", "d", 98, 20, "LONG", -0.001),
+        ("open-interest", "a", 102, 20, "LONG", 0),
+        ("open-interest", "b", 102, 0, "SHORT", 0),
+        ("open-interest", "c", 98, 20, "SHORT", 0),
+        ("open-interest", "d", 98, 0, "LONG", 0),
+    ],
+)
+def test_positioning_campaign_structural_stop(family, variant, close, volume, side, funding):
+    from v8_next.economics.protection import protection_at
+
+    frame, opportunity = context(close, volume)
+    opportunity = replace(opportunity, direction=side)
+    readings = (
+        reading("settled_funding_rate", funding),
+        reading("open_interest", 1000),
+        reading("long_short_ratio", 1 if volume else 0.5),
+    )
+    policy = f"{family}:{variant}:v2"
+    protection = protection_at(frame, opportunity, policy, Decimal(".01"), readings=readings)
+    assert protection is not None
+    sign = 1 if side == "LONG" else -1
+    window = (
+        frame.candles[-5:]
+        if family == "open-interest"
+        else (frame.candles[-10:] if variant == "d" else frame.candles[-6:-1])
+    )
+    reference = min(c.low for c in window) if sign == 1 else max(c.high for c in window)
+    expected = reference - sign * 2 if family == "funding" and variant == "d" else reference
+    assert protection.stop_price == expected
+    assert protection.target_price == close + sign * 2
+    assert protection.expires_ns == 108
+    assert protection_at(frame, opportunity, policy, Decimal(".01")) is None
+    assert (
+        protection_at(
+            frame,
+            opportunity,
+            policy,
+            Decimal(".01"),
+            readings=tuple(replace(r, available_ns=101) for r in readings),
+        )
+        is None
+    )

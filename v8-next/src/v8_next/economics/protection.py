@@ -6,6 +6,7 @@ from decimal import ROUND_CEILING, ROUND_FLOOR, Decimal
 from functools import partial
 
 from v8_next.domain.market import CausalFrame
+from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.decisions import Opportunity, Stance, StanceKind
 from v8_next.experts.bollinger import band_setup
 from v8_next.experts.breakouts import (
@@ -33,6 +34,7 @@ from v8_next.experts.measuring import VARIANTS, measuring_setup
 from v8_next.experts.momentum import observe_macd_stoch, observe_obv_adl
 from v8_next.experts.pandf import pandf_setup
 from v8_next.experts.patterns import pattern_retest_setup
+from v8_next.experts.positioning import observe_funding, observe_open_interest
 from v8_next.experts.profile import observe_profile, tpo_profile
 from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
 from v8_next.experts.reversion import (
@@ -68,6 +70,8 @@ PROTECTION_POLICIES = frozenset(
         "breakout-retest:a:v2",
         "breakout-retest:b:v2",
         "breakout-retest:c:v2",
+        *(f"funding:{v}:v2" for v in "abcd"),
+        *(f"open-interest:{v}:v2" for v in "abcd"),
         *(f"profile:{v}:v2" for v in "abcd"),
         *(f"failed-move:{v}:v2" for v in "bcdefg"),
         *(f"gap:{v}:v2" for v in "abc"),
@@ -102,7 +106,12 @@ class CampaignProtection:
 
 
 def protection_at(
-    frame: CausalFrame, opportunity: Opportunity, policy: str, tick: Decimal
+    frame: CausalFrame,
+    opportunity: Opportunity,
+    policy: str,
+    tick: Decimal,
+    *,
+    readings: tuple[PositioningReading, ...] = (),
 ) -> CampaignProtection | None:
     if policy not in PROTECTION_POLICIES:
         raise ValueError("unknown campaign policy")
@@ -144,6 +153,27 @@ def protection_at(
         # Active Rust v1 declares one range unit each way, not its alternate
         # v2 structural stop. Execution remains V8-next frozen absolute geometry.
         stop, target = close - sign * span, close + sign * span
+    elif family in {"funding", "open-interest"}:
+        positioning_observer = observe_funding if family == "funding" else observe_open_interest
+        if (
+            len(frame.candles) < 14
+            or positioning_observer(frame, opportunity, variant=variant, readings=readings).kind
+            != StanceKind.SUPPORT
+        ):
+            return None
+        span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+        if span <= 0:
+            return None
+        if family == "open-interest":
+            window = frame.candles[-5:]
+        elif variant == "d":
+            window = frame.candles[-10:]
+        else:
+            window = frame.candles[-6:-1]
+        stop = min(c.low for c in window) if sign == 1 else max(c.high for c in window)
+        if family == "funding" and variant == "d":
+            stop -= sign * span
+        target = close + sign * span
     elif family in {"liquidity-reclaim", "breakout-retest"}:
         reclaim_observer = (
             observe_liquidity_reclaim

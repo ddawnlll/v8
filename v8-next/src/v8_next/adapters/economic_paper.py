@@ -151,6 +151,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                     opportunity,
                     self.campaign_policy,
                     instrument.price_increment.as_decimal(),
+                    readings=self.positioning_readings,
                 )
                 record["protection"] = (
                     {
