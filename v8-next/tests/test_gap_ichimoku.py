@@ -130,8 +130,33 @@ def test_ichimoku_campaign_clamps_kijun_distance_and_targets_one_point_five_rang
         opportunity = replace(opportunity, direction="SHORT")
     protection = protection_at(frame, opportunity, "ichimoku:cross:v2", Decimal(".01"))
     assert protection is not None
+    assert protection.validity_indicator == "kijun26"
     # Kijun is far away; stop caps at 2 ranges, target is 1.5 ranges.
     span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
     close = frame.candles[-1].close
     assert abs(close - protection.stop_price) == 2 * span
     assert abs(close - protection.target_price) == Decimal("1.5") * span
+
+
+@pytest.mark.parametrize("side", ["LONG", "SHORT"])
+def test_live_kijun_validity_updates_with_current_window(side):
+    from v8_next.domain.campaign import PaperCampaign
+
+    frame, _ = context([100] * 26)
+    campaign = PaperCampaign(
+        "c",
+        "o",
+        frame.instrument_id,
+        side,
+        Decimal(1),
+        0,
+        frame.decision_ns + 10,
+        validity_indicator="kijun26",
+    )
+    assert campaign.invalidated_by_close(frame) is True  # equality invalidates both sides
+    moved = replace(
+        frame, candles=(*frame.candles[:-1], replace(frame.candles[-1], high=Decimal(110)))
+    )
+    assert campaign.invalidated_by_close(moved) is (side == "LONG")
+    assert campaign.invalidated_by_close(replace(frame, candles=frame.candles[-25:])) is None
+    assert PaperCampaign.from_record(campaign.to_record()) == campaign

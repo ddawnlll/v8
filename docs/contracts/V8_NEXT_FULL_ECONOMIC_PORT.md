@@ -1438,3 +1438,15 @@ Tests check all candle/P&F variants and three measured patterns; the full suite
 passes (366 tests), Ruff/mypy clean. This does not complete remaining dynamic
 indicator validity, calibration, multi-instrument allocation or prospective
 position-bearing operations.
+
+## Live Kijun thesis validity
+
+Ichimoku cross campaigns now serialize validity_indicator=kijun26 and use the
+current-inclusive 26-bar high/low midpoint for continued validity, matching the
+source still_valid method. Long close must remain strictly above, short below;
+equality invalidates. This differs from Donchian's prior-only channel. Incomplete
+windows remain unknown and ambiguous mixed validity definitions reject. Controller,
+historical trial and revised replay carry the indicator rule. Tests cover moving
+current-window extrema, both directions, equality, warmup and serialization.
+Full suite: 368 passing; Ruff/mypy clean. EMA and other remaining validity rules,
+calibration, portfolio and operational qualification remain unfinished.

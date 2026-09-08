@@ -51,7 +51,9 @@ def replay_frozen_campaigns(
         if event > received or Decimal(row["bidPrice"]) > Decimal(row["askPrice"]):
             raise ValueError("invalid quote clocks or spread")
         if any(
-            c.close_invalidation_price is not None or c.live_channel_bars is not None
+            c.close_invalidation_price is not None
+            or c.live_channel_bars is not None
+            or c.validity_indicator is not None
             for c in campaigns
         ):
             candles = load_candles(manifest)

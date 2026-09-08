@@ -20,6 +20,7 @@ class PaperCampaign:
     target_price: Decimal | None = None
     close_invalidation_price: Decimal | None = None
     live_channel_bars: int | None = None
+    validity_indicator: str | None = None
 
     def __post_init__(self) -> None:
         if self.direction not in {"LONG", "SHORT"}:
@@ -29,6 +30,12 @@ class PaperCampaign:
         if self.expires_ns <= self.decision_ns:
             raise ValueError("invalid campaign expiry")
 
+        if self.validity_indicator is not None and (
+            self.validity_indicator != "kijun26"
+            or self.live_channel_bars is not None
+            or self.close_invalidation_price is not None
+        ):
+            raise ValueError("unknown or ambiguous indicator validity")
         if self.live_channel_bars is not None and (
             type(self.live_channel_bars) is not int
             or self.live_channel_bars <= 0
@@ -53,7 +60,11 @@ class PaperCampaign:
         Only a later completed causal bar may invalidate a frozen entry thesis.
         Missing input does not manufacture either validity or invalidity.
         """
-        if self.close_invalidation_price is None and self.live_channel_bars is None:
+        if (
+            self.close_invalidation_price is None
+            and self.live_channel_bars is None
+            and self.validity_indicator is None
+        ):
             return None
         if frame.instrument_id != self.instrument_id:
             raise ValueError("campaign validity instrument mismatch")
@@ -69,6 +80,11 @@ class PaperCampaign:
                 return None
             prior = frame.candles[-self.live_channel_bars - 1 : -1]
             reference = min(c.low for c in prior) if sign == 1 else max(c.high for c in prior)
+        if self.validity_indicator == "kijun26":
+            if len(frame.candles) < 26:
+                return None
+            window = frame.candles[-26:]
+            reference = (max(c.high for c in window) + min(c.low for c in window)) / 2
         assert reference is not None
         return (candle.close - reference) * sign <= 0
 

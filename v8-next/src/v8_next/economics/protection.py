@@ -95,8 +95,15 @@ class CampaignProtection:
     target_price: Decimal
     close_invalidation_price: Decimal | None = None
     live_channel_bars: int | None = None
+    validity_indicator: str | None = None
 
     def __post_init__(self) -> None:
+        if self.validity_indicator is not None and (
+            self.validity_indicator != "kijun26"
+            or self.live_channel_bars is not None
+            or self.close_invalidation_price is not None
+        ):
+            raise ValueError("unknown or ambiguous indicator validity")
         if self.live_channel_bars is not None and (
             type(self.live_channel_bars) is not int
             or self.live_channel_bars <= 0
@@ -373,4 +380,5 @@ def protection_at(
         target,
         invalidation_price,
         20 if family == "donchian" else None,
+        "kijun26" if family == "ichimoku" else None,
     )
