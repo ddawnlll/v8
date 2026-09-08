@@ -2045,3 +2045,14 @@ is exactly +0.05 and equity 10000.05; the flat-account cases remain at 10000.
 Both insertion orders pass with separate source/price inputs and one row per
 boundary. Four focused native tests pass, Ruff clean. Values are test arithmetic,
 not measured strategy returns or evidence of profitability.
+
+## Evaluation verifies portfolio valuation inputs
+
+Equity-loss construction now checks detailed valuation provenance when present:
+complete stable instrument universe, positive finite prices, common boundary,
+known receipt clocks and canonical source identity. Mixed detailed/legacy schemas
+in one series reject; legacy single-source rows remain readable. Tests reject
+changed prices, source membership and invalid clocks, while native multi-source
+marks continue through evaluation. Full suite: 397 passed; Ruff/mypy clean.
+Hashes bind the supplied records, not external venue authenticity; source replay
+and remaining economic qualification still apply.

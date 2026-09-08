@@ -1,5 +1,7 @@
 """Diagnostic fixed-capital returns from complete native bar equity marks."""
 
+import hashlib
+import json
 from decimal import Decimal
 from typing import Any
 
@@ -19,6 +21,8 @@ def equity_losses(
         raise ValueError("positive capital and at least two equity marks required")
     values = []
     times = []
+    input_universe = None
+    detailed = "valuation_inputs" in marks[0]
     for mark in marks:
         if mark["phase"] != "PRE_STRATEGY_BAR_CALLBACK" or mark["currency"] != "USDT":
             raise ValueError("incompatible equity valuation convention")
@@ -35,6 +39,35 @@ def equity_losses(
             raise ValueError("unreconciled or nonfinite equity mark")
         if not mark["source_hash"]:
             raise ValueError("missing equity source identity")
+        if ("valuation_inputs" in mark) != detailed:
+            raise ValueError("mixed equity provenance schemas")
+        if detailed:
+            inputs = mark["valuation_inputs"]
+            if not isinstance(inputs, dict) or not inputs:
+                raise ValueError("missing portfolio valuation inputs")
+            universe = frozenset(inputs)
+            if input_universe is not None and universe != input_universe:
+                raise ValueError("portfolio valuation universe changed")
+            input_universe = universe
+            for item in inputs.values():
+                price = Decimal(item["price"])
+                if (
+                    not price.is_finite()
+                    or price <= 0
+                    or not item["source_hash"]
+                    or item["event_ns"] != end
+                    or not end <= item["observed_ns"] <= observed
+                ):
+                    raise ValueError("invalid portfolio valuation input")
+            identity = (
+                next(iter(inputs.values()))["source_hash"]
+                if len(inputs) == 1
+                else hashlib.sha256(
+                    json.dumps(inputs, sort_keys=True, separators=(",", ":")).encode()
+                ).hexdigest()
+            )
+            if identity != mark["source_hash"]:
+                raise ValueError("portfolio valuation identity mismatch")
         times.append(end)
         values.append(equity)
     duration = times[1] - times[0]

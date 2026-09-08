@@ -46,3 +46,34 @@ def test_missing_or_incompatible_marks_reject(field, value):
     source[-1][field] = value
     with pytest.raises(ValueError):
         equity_losses(source, capital=Decimal(100), computed_ns=1000)
+
+
+def test_portfolio_input_identity_and_universe_are_verified():
+    import hashlib
+    import json
+    from copy import deepcopy
+
+    source = marks()
+    for mark in source:
+        mark["valuation_inputs"] = {
+            symbol: {
+                "price": "100",
+                "event_ns": mark["end_ns"],
+                "observed_ns": mark["observed_ns"],
+                "source_hash": f"test-{symbol}",
+            }
+            for symbol in ("BTC", "ETH")
+        }
+        mark["source_hash"] = hashlib.sha256(
+            json.dumps(mark["valuation_inputs"], sort_keys=True, separators=(",", ":")).encode()
+        ).hexdigest()
+    assert len(equity_losses(source, capital=Decimal(100), computed_ns=1000)) == 2
+    for field, value in (("price", "101"), ("event_ns", 0), ("observed_ns", 1001)):
+        changed = deepcopy(source)
+        changed[1]["valuation_inputs"]["ETH"][field] = value
+        with pytest.raises(ValueError):
+            equity_losses(changed, capital=Decimal(100), computed_ns=1000)
+    changed = deepcopy(source)
+    del changed[1]["valuation_inputs"]["ETH"]
+    with pytest.raises(ValueError, match="universe"):
+        equity_losses(changed, capital=Decimal(100), computed_ns=1000)
