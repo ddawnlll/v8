@@ -13,6 +13,7 @@ from v8_next.adapters.captured_market import load_candles
 from v8_next.adapters.engine_state import economic_state
 from v8_next.adapters.historical_trial import HistoricalTrial
 from v8_next.adapters.native_tape import build_engine
+from v8_next.adapters.portfolio_tape import build_portfolio_engine
 from v8_next.adapters.stop_exposure import native_stop_exposure
 from v8_next.app.observe import source_hash
 from v8_next.domain.config import PaperConfig
@@ -22,9 +23,23 @@ from v8_next.evaluation.store import ResearchStore, canonical
 
 
 def run_trial(
-    manifest: Path, policy: PaperConfig, store: ResearchStore, family: str
+    manifest: Path,
+    policy: PaperConfig,
+    store: ResearchStore,
+    family: str,
+    *,
+    additional_manifests: tuple[Path, ...] = (),
+    accounting_as_of_ns: int | None = None,
 ) -> dict[str, Any]:
-    return _run_trial(manifest, policy, store, family, "DEVELOPMENT")
+    return _run_trial(
+        manifest,
+        policy,
+        store,
+        family,
+        "DEVELOPMENT",
+        additional_manifests=additional_manifests,
+        accounting_as_of_ns=accounting_as_of_ns,
+    )
 
 
 def _run_trial(
@@ -33,10 +48,24 @@ def _run_trial(
     store: ResearchStore,
     family: str,
     role: Literal["DEVELOPMENT", "HOLDOUT"],
+    *,
+    additional_manifests: tuple[Path, ...] = (),
+    accounting_as_of_ns: int | None = None,
 ) -> dict[str, Any]:
     if not family.strip():
         raise ValueError("explicit research family required")
-    dataset_hash = hashlib.sha256(manifest.read_bytes()).hexdigest()
+    manifests = (manifest, *additional_manifests)
+    portfolio = bool(additional_manifests)
+    if portfolio and (accounting_as_of_ns is None or not 0 < accounting_as_of_ns <= time.time_ns()):
+        raise ValueError("portfolio requires an explicit known accounting cutoff")
+    if not portfolio and accounting_as_of_ns is not None:
+        raise ValueError("accounting cutoff currently requires a portfolio trial")
+    sources = sorted(hashlib.sha256(path.read_bytes()).hexdigest() for path in manifests)
+    if len(set(sources)) != len(sources):
+        raise ValueError("duplicate capture manifest")
+    dataset_hash = (
+        hashlib.sha256(canonical(sources).encode()).hexdigest() if portfolio else sources[0]
+    )
     if (
         role == "DEVELOPMENT"
         and store.db.execute(
@@ -44,12 +73,19 @@ def _run_trial(
         ).fetchone()
     ):
         raise ValueError("protected holdout cannot be used as a development trial")
-    frozen = {
+    frozen: dict[str, Any] = {
         "config": policy.model_dump(mode="json"),
         "code_and_lock_hash": source_hash(),
         "execution_model": "NATIVE_OHLC_NEXT_BAR_CLOSE_TRIAL_V1",
         "role": role,
     }
+    if portfolio:
+        frozen.update(
+            execution_model="NATIVE_OHLC_ALIGNED_PORTFOLIO_V1",
+            accounting_as_of_ns=accounting_as_of_ns,
+            allocation_priority="INSTRUMENT_ID_ASCENDING",
+            capture_manifest_hashes=sources,
+        )
     policy_hash = hashlib.sha256(canonical(frozen).encode()).hexdigest()
     trial_id = hashlib.sha256(canonical([family, dataset_hash, policy_hash]).encode()).hexdigest()
     existing = store.db.execute(
@@ -57,20 +93,48 @@ def _run_trial(
     ).fetchone()
     registered = existing[0] if existing else time.time_ns()
     store.register_trial(trial_id, family, policy_hash, dataset_hash, role, registered)
-    candles = load_candles(manifest)
-    if any(c.instrument_id != "BTCUSDT-PERP.BINANCE" for c in candles):
-        raise ValueError("initial historical trial scope is BTCUSDT")
-    if not candles:
-        raise ValueError("empty trial dataset")
-    store.register_dataset_window(
-        dataset_hash,
-        "BTCUSDT-PERP.BINANCE",
-        min(c.start_ns for c in candles),
-        max(c.end_ns for c in candles),
-    )
-    engine, metadata = build_engine(
-        manifest, policy.maker_fee, policy.taker_fee, policy.initial_balance
-    )
+    captured = [load_candles(path) for path in manifests]
+    for candles in captured:
+        if not candles:
+            raise ValueError("empty trial dataset")
+        instruments = {c.instrument_id for c in candles}
+        if len(instruments) != 1:
+            raise ValueError("capture must contain one instrument")
+        instrument = next(iter(instruments))
+        if not portfolio and instrument != "BTCUSDT-PERP.BINANCE":
+            raise ValueError("initial historical trial scope is BTCUSDT")
+        # Full captured coverage conservatively includes discarded outer bars.
+        store.register_dataset_window(
+            dataset_hash,
+            instrument,
+            min(c.start_ns for c in candles),
+            max(c.end_ns for c in candles),
+        )
+    if portfolio:
+        assert accounting_as_of_ns is not None
+        engine, candles = build_portfolio_engine(
+            manifests,
+            maker_fee=policy.maker_fee,
+            taker_fee=policy.taker_fee,
+            initial_balance=policy.initial_balance,
+            accounting_as_of_ns=accounting_as_of_ns,
+        )
+        metadata = {
+            "claim_status": "NO_ECONOMIC_CLAIM",
+            "timing_model": "historical_close_assumed_available_not_certified",
+            "metadata_scope": "current_metadata_not_historical_universe",
+            "margin_scope": "generic_1x_netting_not_venue_liquidation_qualification",
+            "bar_count": len(candles),
+            "capture_manifest_hashes": sources,
+            "instruments": sorted({c.instrument_id for c in candles}),
+            "common_start_ns": candles[0].start_ns,
+            "common_end_ns": candles[-1].end_ns,
+        }
+    else:
+        candles = captured[0]
+        engine, metadata = build_engine(
+            manifest, policy.maker_fee, policy.taker_fee, policy.initial_balance
+        )
     try:
         trial = HistoricalTrial(candles, policy)
         engine.add_strategy(trial)
@@ -162,13 +226,22 @@ def main() -> None:
     parser.add_argument("output", type=Path)
     parser.add_argument("--store", type=Path, required=True)
     parser.add_argument("--family", required=True)
+    parser.add_argument("--additional-manifest", type=Path, action="append", default=[])
+    parser.add_argument("--accounting-as-of-ns", type=int)
     args = parser.parse_args()
     if args.output.exists():
         raise ValueError("trial output already exists")
     policy = PaperConfig.model_validate_json(args.policy.read_text())
     store = ResearchStore(args.store)
     try:
-        result = run_trial(args.manifest, policy, store, args.family)
+        result = run_trial(
+            args.manifest,
+            policy,
+            store,
+            args.family,
+            additional_manifests=tuple(args.additional_manifest),
+            accounting_as_of_ns=args.accounting_as_of_ns,
+        )
         with args.output.open("x") as stream:
             stream.write(canonical(result) + "\n")
     finally:

@@ -2128,3 +2128,28 @@ unregistered development qualification, explicitly not inference/search evidence
 or economic admission. Full existing suite: 403 passed; Ruff/mypy clean. Registered
 portfolio trial CLI, complete source/result artifacts and statistical integration
 are still required before using this path for economic evaluation.
+
+## Registered portfolio historical trials
+
+The existing trial app now accepts repeatable --additional-manifest and an
+explicit --accounting-as-of-ns. Portfolio source identity hashes the sorted capture
+manifest hashes; the frozen policy binds the native aligned model, accounting
+cutoff and instrument-ID allocation priority. Each instrument's full captured
+window is registered conservatively before execution, so wrapping an overlapping
+holdout capture in a portfolio cannot bypass local holdout protection. Failed
+registered attempts remain in the family count. The existing single-source and
+forward paths retain their API/model. Portfolio results include complete native
+account, campaigns, observations, closures, equity valuation inputs and losses;
+all remain diagnostic, calibration/promotion ineligible.
+
+Actual verified BTC/ETH captures produced a registered development result at
+/tmp/v8-registered-portfolio-1788878913314367000/result.json and research.sqlite:
+498 equity rows, 41 campaigns. Reversing capture argument order with the same
+cutoff reproduced trial/dataset/policy identities, account, campaigns and equity,
+with one registry entry. Logs are /tmp/v8-registered-portfolio.log and
+/tmp/v8-registered-portfolio-replay.log. These are temporary development artifacts,
+not release evidence or an economic claim. Full suite: 405 passed; Ruff and mypy
+clean. Tests explicitly reject overlapping holdout windows before native execution
+and require a valid cutoff/unique source manifests. Complete multi-policy family
+statistical qualification, calibrated economic admission and continuous paper
+operation remain required.

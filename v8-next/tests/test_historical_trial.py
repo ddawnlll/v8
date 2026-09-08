@@ -171,3 +171,74 @@ def test_portfolio_boundary_waits_for_all_instruments_once():
     trial.on_bar(bar("BTC", 20))
     with pytest.raises(ValueError, match="incomplete"):
         trial.on_bar(bar("ETH", 30))
+
+
+def test_portfolio_trial_cannot_wrap_overlapping_holdout(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+
+    import v8_next.app.trial as module
+
+    first, second = tmp_path / "btc.json", tmp_path / "eth.json"
+    first.write_text('{"source":"btc"}')
+    second.write_text('{"source":"eth"}')
+    monkeypatch.setattr(
+        module,
+        "load_candles",
+        lambda path: (
+            SimpleNamespace(
+                instrument_id="BTC" if path == first else "ETH", start_ns=10, end_ns=20
+            ),
+        ),
+    )
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("must reject holdout before native execution")
+
+    monkeypatch.setattr(module, "build_portfolio_engine", forbidden)
+    store = ResearchStore(tmp_path / "research.sqlite")
+    policy = PaperConfig(
+        maker_fee="0",
+        taker_fee="0",
+        initial_balance="1000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+    )
+    try:
+        store.register_trial("h", "holdout", "p", "different-capture", "HOLDOUT", 1)
+        store.register_dataset_window("different-capture", "ETH", 15, 25)
+        with pytest.raises(ValueError, match="overlapping"):
+            run_trial(
+                first,
+                policy,
+                store,
+                "portfolio",
+                additional_manifests=(second,),
+                accounting_as_of_ns=30,
+            )
+        # Failed attempts remain in search history.
+        assert store.family_size("portfolio") == 1
+    finally:
+        store.close()
+
+
+def test_portfolio_trial_requires_cutoff_and_unique_sources(tmp_path):
+    first = tmp_path / "capture.json"
+    first.write_text("{}")
+    store = ResearchStore(tmp_path / "research.sqlite")
+    policy = PaperConfig(
+        maker_fee="0",
+        taker_fee="0",
+        initial_balance="1000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+    )
+    try:
+        with pytest.raises(ValueError, match="explicit known accounting cutoff"):
+            run_trial(first, policy, store, "p", additional_manifests=(first,))
+        with pytest.raises(ValueError, match="duplicate capture"):
+            run_trial(
+                first, policy, store, "p", additional_manifests=(first,), accounting_as_of_ns=1
+            )
+        assert store.family_size("p") == 0
+    finally:
+        store.close()
