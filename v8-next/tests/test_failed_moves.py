@@ -97,6 +97,7 @@ def test_failed_move_campaigns_use_declared_unit_geometry_with_full_volatility(v
         frame, replace(opportunity, direction=side), f"failed-move:{variant}:v2", Decimal(".01")
     )
     assert protection is not None
+    assert protection.close_invalidation_price == failed_move(frame, variant).reference
     span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
     assert 0 <= span - abs(frame.candles[-1].close - protection.stop_price) < Decimal(".01")
     assert protection.expires_ns == frame.decision_ns + 8

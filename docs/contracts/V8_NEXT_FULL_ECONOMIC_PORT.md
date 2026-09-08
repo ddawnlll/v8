@@ -1539,3 +1539,15 @@ native/replay validity, distinct from active one-range stops. Tests compare the
 reduced predicate against both original inequalities at each boundary and the
 observed close, in mirrored setups. Three relevant tests pass; Ruff/mypy clean.
 Remaining failed-move and broader economic requirements stay open.
+
+## Failed-move continuation references
+
+Failed-move B–G now preserves each selected setup's reference through campaign
+close validity: confirmed swing, inside-bar side, prior gap side, prior Kijun or
+prior range as applicable. No shared arbitrary stop is substituted. Existing
+variant tests verify reference retention alongside source one-range geometry;
+full suite passes (374 tests), Ruff/mypy clean. This completes this pass over
+protected expert-family continuation wiring, not full product port acceptance.
+The minimal squeeze policy, integrated calibration, multi-instrument allocation,
+continuous/reconciled funding operation and prospective position-bearing evidence
+still require completion and independent qualification.

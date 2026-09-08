@@ -19,7 +19,7 @@ from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.climax import observe_volume_climax
 from v8_next.experts.confluence import observe_confluence
 from v8_next.experts.divergence import divergence_setup, observe_divergence
-from v8_next.experts.failed_moves import observe_failed_move
+from v8_next.experts.failed_moves import failed_move, observe_failed_move
 from v8_next.experts.features import close_series, significant_swings
 from v8_next.experts.fibonacci import fib_impulse, observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import gap_setup
@@ -195,6 +195,10 @@ def protection_at(
                 if family == "fib-retracement"
                 else impulse.extension(Decimal("1.618"))
             )
+        if family == "failed-move":
+            failure = failed_move(frame, variant)
+            assert failure is not None
+            invalidation_price = failure.reference
         if family == "divergence":
             divergence = divergence_setup(frame, variant)
             assert divergence is not None
