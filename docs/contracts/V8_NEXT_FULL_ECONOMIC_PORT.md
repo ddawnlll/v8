@@ -1251,3 +1251,21 @@ readings with explicit event-based freshness. Older captures without this option
 artifact return no readings. Tests cover actual capture/verification/decoding
 boundaries with isolated responses, causal availability and expiry. Paper config
 wiring, ratio acquisition and real public qualification remain outstanding.
+
+## OI policy wiring and real public capture
+
+PaperConfig/--policy-config accepts open_interest_max_age_ns as an explicit strict
+positive integer. Paper captures request OI only when configured, then decode all
+available receipts into the existing causal observer/protection path. The setting
+is frozen with the run; changes require a new run. Tests cover strict validation
+and restart identity; the complete suite passes (351 tests).
+
+A real unauthenticated capture succeeded at
+/tmp/v8-next-public-oi-1788872219674838000/manifest.json. The verified decoder read
+BTCUSDT OI 109201.379, event_ns 1788872216074000000, received_ns
+1788872223557289000, source SHA256
+04a7951b81a2cc94c546236fc5a9a5f47a63be27f0d2e82986cb22757e58fb50.
+It was fresh under an explicitly supplied 300-second development policy; this
+policy is not an inferred or recommended trading threshold. This demonstrates
+public acquisition and decoding, not positioning-strategy profitability, OI change
+measurement or full paper execution. Long/short-ratio acquisition remains missing.

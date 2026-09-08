@@ -22,6 +22,7 @@ class PaperConfig(BaseModel):
 
     stop_budget: StopBudget | None = None
     funding_max_age_ns: int | None = Field(default=None, gt=0, strict=True)
+    open_interest_max_age_ns: int | None = Field(default=None, gt=0, strict=True)
 
     @model_validator(mode="after")
     def protected_sizing(self) -> Self:

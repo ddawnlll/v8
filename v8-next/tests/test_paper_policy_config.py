@@ -13,6 +13,7 @@ def test_policy_file_freshness_is_validated_and_frozen(tmp_path):
         "observer_policy": "families:funding-crowding-reversal",
         "campaign_policy": "funding:b:v2",
         "funding_max_age_ns": 3600000000000,
+        "open_interest_max_age_ns": 300000000000,
     }
     path.write_text(json.dumps(policy))
     config = dict(
@@ -31,9 +32,13 @@ def test_policy_file_freshness_is_validated_and_frozen(tmp_path):
     assert initialize(run, config) == frozen
     with pytest.raises(ValueError, match="frozen"):
         initialize(run, {**config, "funding_max_age_ns": 1})
+    with pytest.raises(ValueError, match="frozen"):
+        initialize(run, {**config, "open_interest_max_age_ns": 1})
     for invalid in (True, "100", 0, -1):
         with pytest.raises(ValueError):
             PaperConfig.model_validate({**config, "funding_max_age_ns": invalid})
+        with pytest.raises(ValueError):
+            PaperConfig.model_validate({**config, "open_interest_max_age_ns": invalid})
 
 
 @pytest.mark.parametrize("payload", [{"maker_fee": "0"}, {"unknown": 1}, []])

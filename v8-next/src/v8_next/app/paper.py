@@ -18,7 +18,7 @@ from nautilus_trader.model import Currency, InstrumentId, Price, Quantity, Quote
 
 from v8_next.adapters.accounting_replay import replay_frozen_campaigns
 from v8_next.adapters.binance_capture import capture, verify
-from v8_next.adapters.captured_market import load_candles, load_settled_funding
+from v8_next.adapters.captured_market import load_candles, load_open_interest, load_settled_funding
 from v8_next.adapters.economic_paper import EconomicPaperAdapter
 from v8_next.adapters.engine_state import economic_state, reconcile_replay
 from v8_next.adapters.native_tape import build_engine
@@ -58,6 +58,10 @@ def replay_account(
         if parsed.funding_max_age_ns is not None:
             positioning_readings.extend(
                 load_settled_funding(manifest, max_age_ns=parsed.funding_max_age_ns)
+            )
+        if parsed.open_interest_max_age_ns is not None:
+            positioning_readings.extend(
+                load_open_interest(manifest, max_age_ns=parsed.open_interest_max_age_ns)
             )
         candles = load_candles(manifest)
         known = tuple(replace(c, available_ns=c.received_ns) for c in candles)
@@ -147,6 +151,7 @@ def step(run: Path, config: dict[str, Any], *, replay_only: bool = False) -> dic
 
 
 def _step_locked(run: Path, config: dict[str, Any], *, replay_only: bool) -> dict[str, Any]:
+    parsed = PaperConfig.model_validate(config)
     frozen = initialize(run, config)
     manifests = sorted(run.glob("capture-*/manifest.json"))
     checkpoint = run / "paper-state.json"
@@ -179,6 +184,7 @@ def _step_locked(run: Path, config: dict[str, Any], *, replay_only: bool) -> dic
             capture(
                 run / f"capture-{time.time_ns()}",
                 funding_start_ms=int(str(frozen["frozen_ns"])) // 1_000_000,
+                include_open_interest=parsed.open_interest_max_age_ns is not None,
             )
         )
     if not manifests:
@@ -229,6 +235,7 @@ def load_policy_config(path: Path) -> dict[str, Any]:
         "campaign_policy",
         "stop_budget",
         "funding_max_age_ns",
+        "open_interest_max_age_ns",
     }
     if not isinstance(policy, dict) or set(policy) - allowed:
         raise ValueError("policy config must contain only economic policy fields")
