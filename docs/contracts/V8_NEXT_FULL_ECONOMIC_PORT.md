@@ -502,3 +502,29 @@ rows remain the separate old range/squeeze study, not selected-policy outcomes.
 without a channel breakout. Full simultaneous modular grammar/book arbitration,
 multi-instrument exposure, calibration and portfolio/campaign behavior remain
 open; this adds selectable independent economic episode types, not those layers.
+
+## Native campaign protection
+
+PaperCampaign can now retain frozen stop/target prices together or neither.
+Malformed, nonfinite, nonpositive or inverted protection rejects before the
+engine. Central record serialization preserves Decimal precision through paper
+checkpoints, calibration inspection, trajectory and revised-accounting replay.
+The existing controller still emits timeout-only campaigns; choosing expert
+geometry and binding it to calibrated admission remains a separate open step.
+
+The native adapter submits a Nautilus bracket order list: market entry,
+stop-market protection and limit take-profit with deterministic child IDs.
+Native contingency handling owns activation, fills and sibling cancellation.
+No Python price-touch fill logic exists. Before submission, an executable quote
+outside the frozen protection interval invalidates the entry; invalidation is
+reported separately from timeout. Price increments must match venue metadata.
+Timeout cancels remaining protective orders and requests a native reduce-only
+close while preserving both child and timeout exit identities in observations.
+
+Native tests cover LONG/SHORT target and stop fills with sibling cancellation,
+timeout cleanup, deterministic replay and pre-entry gap invalidation. These are
+synthetic test-only execution checks, not prospective economic evidence. Full
+suite passed 215 tests after the adapter change; six additional domain/record
+validation tests passed. This qualifies the pinned local engine bracket path,
+not actual Binance venue OCO or partial-fill/reconnect behavior. Position-bearing
+prospective continuation and expert-specific geometry admission remain open.

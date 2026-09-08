@@ -29,7 +29,14 @@ from v8_next.adapters.engine_state import economic_state, reconcile_replay
 
 
 def run_qualified_engine(
-    close=False, strategy=None, offset=0, funding_delay=0, final_replay=False, expect_entry=True
+    close=False,
+    strategy=None,
+    offset=0,
+    funding_delay=0,
+    final_replay=False,
+    expect_entry=True,
+    quote_prices=None,
+    standard_assertions=True,
 ):
     usdt = Currency.from_str("USDT")
     instrument_id = InstrumentId(Symbol("BTCUSDT-PERP"), Venue("BINANCE"))
@@ -82,17 +89,19 @@ def run_qualified_engine(
             [
                 QuoteTick(
                     instrument_id,
-                    Price(10000, 2),
-                    Price(10000, 2),
+                    Price(quote_prices[index] if quote_prices else 10000, 2),
+                    Price(quote_prices[index] if quote_prices else 10000, 2),
                     Quantity(1, 3),
                     Quantity(1, 3),
                     t + offset,
                     t + offset,
                 )
-                for t in (
-                    (1_000_000_000, 2_000_000_000, 4_000_000_000, 6_000_000_000)
-                    if close
-                    else (1_000_000_000, 2_000_000_000, 4_000_000_000)
+                for index, t in enumerate(
+                    (
+                        (1_000_000_000, 2_000_000_000, 4_000_000_000, 6_000_000_000)
+                        if close
+                        else (1_000_000_000, 2_000_000_000, 4_000_000_000)
+                    )
                 )
             ]
         )
@@ -118,6 +127,8 @@ def run_qualified_engine(
             engine.add_data([mark])
         engine.add_data([funding, funding])
         engine.run()
+        if not standard_assertions:
+            return economic_state(engine, Venue("BINANCE"), usdt)
         if not expect_entry:
             assert not engine.cache.positions()
             assert not engine.cache.orders()
@@ -349,3 +360,88 @@ def test_closed_native_cash_return_includes_fees_and_funding_once():
         terminal_cash_return(open_state, Decimal(10000))["status"]
         == "OPEN_POSITION_REQUIRES_EQUITY_MARK"
     )
+
+
+@pytest.mark.parametrize(
+    "direction,stop,target,final_price,filled",
+    [
+        ("LONG", 9900, 10100, 10120, "target"),
+        ("LONG", 9900, 10100, 9880, "stop"),
+        ("SHORT", 10100, 9900, 9880, "target"),
+        ("SHORT", 10100, 9900, 10120, "stop"),
+    ],
+)
+def test_native_bracket_closes_and_cancels_sibling(direction, stop, target, final_price, filled):
+    campaign = PaperCampaign(
+        "bracket",
+        "opportunity",
+        "BTCUSDT-PERP.BINANCE",
+        direction,
+        Decimal(".010"),
+        10**9,
+        10 * 10**9,
+        Decimal(stop),
+        Decimal(target),
+    )
+    strategy = PaperCampaignAdapter((campaign,))
+    state = run_qualified_engine(
+        strategy=strategy, quote_prices=[10000, 10000, final_price], standard_assertions=False
+    )
+    orders = {o["client_order_id"]: o for o in state["orders"]}
+    assert len(orders) == 3
+    assert orders["bracket"]["status"] == "FILLED"
+    assert orders["bracket-" + filled]["status"] == "FILLED"
+    assert orders["bracket-" + ("stop" if filled == "target" else "target")]["status"] == "CANCELED"
+    assert len(state["positions"]) == 1 and state["positions"][0]["is_closed"]
+    observations = strategy.campaign_observations(state)
+    assert len(observations[0]["exit_orders"]) == 2
+    assert any(e["event_type"] == "OrderFilled" for e in observations[0]["exit_events"])
+    assert PaperCampaign.from_record(campaign.to_record()) == campaign
+
+
+def test_bracket_timeout_cancels_protection_and_replays_identically():
+    campaign = PaperCampaign(
+        "timeout-bracket",
+        "opportunity",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".010"),
+        10**9,
+        5 * 10**9,
+        Decimal(9900),
+        Decimal(10100),
+    )
+    states = []
+    for _ in range(2):
+        strategy = PaperCampaignAdapter((campaign,))
+        state = run_qualified_engine(strategy=strategy, close=True, standard_assertions=False)
+        orders = {o["client_order_id"]: o for o in state["orders"]}
+        assert len(orders) == 4
+        assert orders["timeout-bracket-stop"]["status"] == "CANCELED"
+        assert orders["timeout-bracket-target"]["status"] == "CANCELED"
+        assert state["positions"][0]["is_closed"]
+        assert len(strategy.campaign_observations(state)[0]["exit_orders"]) == 3
+        states.append(state)
+    reconcile_replay(*states)
+
+
+def test_entry_gap_invalidates_bracket_without_any_order():
+    campaign = PaperCampaign(
+        "gap-bracket",
+        "opportunity",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".010"),
+        10**9,
+        10 * 10**9,
+        Decimal(9900),
+        Decimal(10100),
+    )
+    strategy = PaperCampaignAdapter((campaign,))
+    state = run_qualified_engine(
+        strategy=strategy, quote_prices=[10000, 10200, 10000], standard_assertions=False
+    )
+    assert not state["orders"] and not state["positions"]
+    observation = strategy.campaign_observations(state)[0]
+    assert observation["invalidated_before_submission"]
+    assert not observation["expired_before_submission"]

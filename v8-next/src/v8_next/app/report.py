@@ -37,7 +37,7 @@ def report(
         observer="breakout_baseline",
     )
     baseline_campaigns = tuple(
-        PaperCampaign(**{**campaign, "quantity": Decimal(campaign["quantity"])})
+        PaperCampaign.from_record(campaign)
         for campaign in baseline["campaigns"]
     )
     baseline_accounting = replay_frozen_campaigns(

@@ -9,7 +9,7 @@ import json
 import logging
 import os
 import time
-from dataclasses import asdict, replace
+from dataclasses import replace
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -105,7 +105,7 @@ def replay_account(
         state["campaign_status"] = "NO_VERIFIED_CALIBRATION"
         state["economic_decisions"] = strategy.decisions
         state["campaigns"] = [
-            {**asdict(c), "quantity": str(c.quantity)} for c in strategy.campaigns
+            c.to_record() for c in strategy.campaigns
         ]
         state["campaign_observations"] = strategy.campaign_observations(state)
         state["funding_status"] = (
@@ -156,7 +156,7 @@ def _step_locked(run: Path, config: dict[str, str], *, replay_only: bool) -> dic
         recovered = replay_account(prior_paths, config)
         reconcile_replay(saved["native_state"], recovered)
         prior_campaigns = tuple(
-            PaperCampaign(**{**c, "quantity": Decimal(c["quantity"])})
+            PaperCampaign.from_record(c)
             for c in recovered["campaigns"]
         )
         reconcile_replay(
@@ -181,7 +181,7 @@ def _step_locked(run: Path, config: dict[str, str], *, replay_only: bool) -> dic
         observe_capture(run, manifest, frozen)
     state = replay_account(manifests, config)
     campaigns = tuple(
-        PaperCampaign(**{**c, "quantity": Decimal(c["quantity"])}) for c in state["campaigns"]
+        PaperCampaign.from_record(c) for c in state["campaigns"]
     )
     cutoff = max(
         int(a["received_time_ns"])

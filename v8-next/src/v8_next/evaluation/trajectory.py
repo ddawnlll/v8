@@ -38,7 +38,7 @@ def cash_trajectory(
         for observer in previous:
             state = replay_account(manifests[:count], config, observer=observer)
             campaigns = tuple(
-                PaperCampaign(**{**c, "quantity": Decimal(c["quantity"])})
+                PaperCampaign.from_record(c)
                 for c in state["campaigns"]
             )
             account = replay_frozen_campaigns(manifests[:count], campaigns, config, cutoff)

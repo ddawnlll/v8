@@ -3,7 +3,15 @@
 from decimal import Decimal
 from typing import Any
 
-from nautilus_trader.model import ClientOrderId, InstrumentId, OrderSide, Quantity, QuoteTick
+from nautilus_trader.model import (
+    ClientOrderId,
+    InstrumentId,
+    OrderSide,
+    OrderType,
+    Price,
+    Quantity,
+    QuoteTick,
+)
 from nautilus_trader.trading import Strategy
 
 from v8_next.domain.campaign import PaperCampaign
@@ -36,6 +44,7 @@ class PaperCampaignAdapter(Strategy):
         self.campaigns = campaigns
         self.submitted: set[str] = set()
         self.expired: set[str] = set()
+        self.invalidated: set[str] = set()
         self.exit_requested: set[str] = set()
         self.exit_order_ids: dict[str, set[str]] = {}
 
@@ -74,6 +83,7 @@ class PaperCampaignAdapter(Strategy):
                     if o["client_order_id"] in self.exit_order_ids.get(c.campaign_id, set())
                 ],
                 "submitted": c.campaign_id in self.submitted,
+                "invalidated_before_submission": c.campaign_id in self.invalidated,
                 "expired_before_submission": c.campaign_id in self.expired,
                 "exit_requested": c.campaign_id in self.exit_requested,
                 "entry_order": next(
@@ -104,14 +114,16 @@ class PaperCampaignAdapter(Strategy):
                     self.close_all_positions(quote.instrument_id, reduce_only=True, tags=[exit_tag])
                     # Native-generated IDs remain authoritative. Tags bind intent
                     # without guessing ownership from instrument or fill time.
-                    self.exit_order_ids[campaign.campaign_id] = {
-                        str(order.client_order_id)
-                        for order in self.cache.orders()
-                        if exit_tag in (order.tags or [])
-                    }
+                    self.exit_order_ids.setdefault(campaign.campaign_id, set()).update(
+                        {
+                            str(order.client_order_id)
+                            for order in self.cache.orders()
+                            if exit_tag in (order.tags or [])
+                        }
+                    )
                     self.exit_requested.add(campaign.campaign_id)
                 continue
-            if campaign.campaign_id in self.expired:
+            if campaign.campaign_id in self.expired or campaign.campaign_id in self.invalidated:
                 continue
             if quote.ts_init >= campaign.expires_ns:
                 self.expired.add(campaign.campaign_id)
@@ -128,6 +140,43 @@ class PaperCampaignAdapter(Strategy):
             quantity_text = format(campaign.quantity, f".{instrument.size_precision}f")
             if Decimal(quantity_text) != campaign.quantity:
                 raise ValueError("campaign quantity exceeds venue precision")
+            if campaign.stop_price is not None and campaign.target_price is not None:
+                prices = [campaign.stop_price, campaign.target_price]
+                if any(p % instrument.price_increment.as_decimal() != 0 for p in prices):
+                    raise ValueError("campaign protection violates venue price increment")
+                entry_price = (
+                    quote.ask_price.as_decimal()
+                    if campaign.direction == "LONG"
+                    else quote.bid_price.as_decimal()
+                )
+                sign = 1 if campaign.direction == "LONG" else -1
+                if (entry_price - campaign.stop_price) * sign <= 0 or (
+                    campaign.target_price - entry_price
+                ) * sign <= 0:
+                    self.invalidated.add(campaign.campaign_id)
+                    continue
+                stop_id = ClientOrderId(campaign.campaign_id + "-stop")
+                target_id = ClientOrderId(campaign.campaign_id + "-target")
+                self.exit_order_ids[campaign.campaign_id] = {str(stop_id), str(target_id)}
+                orders = self.order_factory.bracket(
+                    instrument_id=quote.instrument_id,
+                    order_side=OrderSide.BUY if campaign.direction == "LONG" else OrderSide.SELL,
+                    quantity=Quantity.from_str(quantity_text),
+                    entry_order_type=OrderType.MARKET,
+                    entry_client_order_id=client_id,
+                    sl_trigger_price=Price.from_str(
+                        format(campaign.stop_price, f".{instrument.price_precision}f")
+                    ),
+                    sl_client_order_id=stop_id,
+                    tp_price=Price.from_str(
+                        format(campaign.target_price, f".{instrument.price_precision}f")
+                    ),
+                    tp_post_only=False,
+                    tp_client_order_id=target_id,
+                )
+                self.submit_order_list(orders)
+                self.submitted.add(campaign.campaign_id)
+                continue
             order = self.order_factory.market(
                 instrument_id=quote.instrument_id,
                 order_side=OrderSide.BUY if campaign.direction == "LONG" else OrderSide.SELL,

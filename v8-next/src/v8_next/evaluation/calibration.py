@@ -5,7 +5,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
@@ -44,7 +43,7 @@ def inspect_calibration_source(run: Path, decision_ns: int) -> dict[str, Any]:
     recovered_decisions = replay_account(paths, frozen["policy"]["paper_config"])
     reconcile_replay(checkpoint["native_state"], recovered_decisions)
     campaigns = tuple(
-        PaperCampaign(**{**c, "quantity": Decimal(c["quantity"])})
+        PaperCampaign.from_record(c)
         for c in recovered_decisions["campaigns"]
     )
     recomputed = replay_frozen_campaigns(paths, campaigns, frozen["policy"]["paper_config"], cutoff)
