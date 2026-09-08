@@ -14,7 +14,16 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-from nautilus_trader.model import Currency, InstrumentId, Price, Quantity, QuoteTick, Venue
+from nautilus_trader.model import (
+    Currency,
+    FundingRateUpdate,
+    InstrumentId,
+    MarkPriceUpdate,
+    Price,
+    Quantity,
+    QuoteTick,
+    Venue,
+)
 
 from v8_next.adapters.accounting_replay import replay_frozen_campaigns
 from v8_next.adapters.binance_capture import capture, verify
@@ -27,6 +36,7 @@ from v8_next.adapters.captured_market import (
 from v8_next.adapters.economic_paper import EconomicPaperAdapter
 from v8_next.adapters.engine_state import economic_state, reconcile_replay
 from v8_next.adapters.native_tape import build_engine, capture_native_inputs
+from v8_next.adapters.settlements import final_funding
 from v8_next.app.observe import initialize, observe_capture
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.config import PaperConfig
@@ -181,7 +191,50 @@ def replay_account(
         )
         engine.add_strategy(strategy)
         quotes.sort(key=lambda q: (q.ts_init, str(q.instrument_id), q.ts_event))
-        engine.add_data(quotes)
+        # Prospective online funding: verified final settlements enter the engine
+        # at capture receipt, never backdated to their boundary. The pinned engine
+        # rejects past-clock data, so both event and receipt clocks are the
+        # knowledge time; the verified boundary/rate/mark are retained below for
+        # coverage accounting. A settlement with no open position at receipt is
+        # a native no-op; with exposure it debits the actually open quantity.
+        # This does not certify completeness and does not lift the
+        # post-exposure readmission guard in the adapter.
+        online_inputs: list[tuple[int, int, object]] = [(q.ts_init, 0, q) for q in quotes]
+        funding_settlements = final_funding(
+            manifests,
+            min(q.ts_event for q in quotes),
+            max(q.ts_init for q in quotes),
+            max(q.ts_init for q in quotes),
+        )
+        for settlement in funding_settlements:
+            instrument = InstrumentId.from_str(settlement.instrument_id)
+            online_inputs.append(
+                (
+                    settlement.received_ns,
+                    1,
+                    MarkPriceUpdate(
+                        instrument,
+                        Price.from_str(str(settlement.mark_price)),
+                        settlement.received_ns,
+                        settlement.received_ns,
+                    ),
+                )
+            )
+            online_inputs.append(
+                (
+                    settlement.received_ns,
+                    2,
+                    FundingRateUpdate(
+                        instrument,
+                        settlement.rate,
+                        settlement.received_ns,
+                        settlement.received_ns,
+                        next_funding_ns=settlement.received_ns,
+                    ),
+                )
+            )
+        online_inputs.sort(key=lambda item: (item[0], item[1]))
+        engine.add_data([item[2] for item in online_inputs])
         engine.run()
         if strategy.callback_failure is not None:
             raise ValueError(f"paper callback failed: {strategy.callback_failure}")
@@ -199,6 +252,18 @@ def replay_account(
             if state["positions"]
             else "NO_EXPOSURE_IN_SESSION_NO_FUNDING_LIABILITY"
         )
+        state["online_funding_settlements_applied"] = len(funding_settlements)
+        state["online_funding_settlements"] = [
+            {
+                "instrument_id": s.instrument_id,
+                "boundary_ns": s.boundary_ns,
+                "received_ns": s.received_ns,
+                "rate": str(s.rate),
+                "mark_price": str(s.mark_price),
+                "source_sha256": s.source_sha256,
+            }
+            for s in funding_settlements
+        ]
         state["limitations"] = [
             "sampled_REST_quotes_not_continuous_execution_feed",
             "positive_campaign_and_online_funding_integration_pending",

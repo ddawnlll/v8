@@ -3185,3 +3185,25 @@ This verifies application, source binding, restart state and active expert input
 on real data. It is a clean restart, not a network-outage/crash-prefix test, and
 contains no execution client, orders or calibrated economic authorization.
 Production calibration and prospective position-bearing operation remain open.
+
+## Online paper applies verified final funding at receipt
+
+replay_account now feeds verified final-funding settlements into the online
+paper engine, ordered by capture receipt alongside quotes. The pinned engine
+rejects past-clock data, so both event clocks are the knowledge time; the
+verified boundary/rate/mark/source hash are retained per settlement in
+`online_funding_settlements` for coverage accounting. Nothing is backdated:
+records with boundaries outside the session window or received after the
+cutoff are excluded by the existing final_funding bounds. A settlement with
+no open position is a native no-op; with exposure it debits the actually open
+quantity at receipt, which may differ from venue boundary-time quantity.
+
+State exposes `online_funding_settlements_applied` and the per-settlement
+provenance list. The post-exposure `UNRECONCILED_FUNDING_AFTER_EXPOSURE`
+readmission guard is unchanged: coverage-based readmission, production
+calibration and continuous position-bearing operation remain open.
+Tests in test_online_funding.py copy real instrument/bar bytes and craft
+quote/funding timing: pre-window rows excluded (0 applied), an in-window
+receipt-known row applied once with unchanged no-position cash, and a
+late-received row excluded from the earlier window. Full suite: 512 passed;
+Ruff/mypy clean.
