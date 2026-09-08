@@ -668,8 +668,13 @@ def test_historical_trial_uses_next_bar_and_future_suffix_cannot_change_prior_de
     assert sized.campaigns
     assert sized.campaigns[0].quantity < first.campaigns[0].quantity
     first_sized = sized.campaigns[0]
-    entry_reference = candles[24].close
-    assert first_sized.quantity * (entry_reference - first_sized.stop_price) <= Decimal(".1")
+    full_band = abs(first_sized.target_price - first_sized.stop_price)
+    assert first_sized.quantity * full_band <= Decimal(".1")
+    assert (first_sized.quantity + Decimal(".001")) * full_band > Decimal(".1")
+    first_campaign = first.campaigns[0]
+    ceiling = max(first_campaign.stop_price, first_campaign.target_price)
+    assert first_campaign.quantity * ceiling <= policy.max_notional
+    assert (first_campaign.quantity + Decimal(".001")) * ceiling > policy.max_notional
 
 
 def test_native_close_sample_reconciles_funding_and_fees_once():

@@ -1899,3 +1899,12 @@ runtime identity; old results are not silently relabeled. Historical trials
 remain counterfactual policy experiments, not utility-admitted economic orders.
 Full suite: 391 passed; Ruff/mypy passed before the final minimum-notional guard,
 and the full suite also passed after that guard.
+
+## Native historical reservation boundary assertions
+
+Strengthened the historical native integration test to verify full-band nominal
+stop risk, rather than the obsolete decision-close distance. The admitted lot
+fits its explicit budget and one additional venue lot would exceed it. The same
+maximal-feasible-lot check covers protected notional at the band ceiling. All
+39 native integration tests pass; Ruff clean. These assertions qualify the
+recent sizing change, not economic profitability or complete operation.
