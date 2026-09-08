@@ -1332,3 +1332,16 @@ one funding record; receipt-causal lookup at the quote decision returned
 The eight-hour freshness and fee/limit inputs were explicit development
 assumptions, not optimized economic settings. Long sessions still fail on bounded
 funding-history truncation until pagination/settlement continuation is qualified.
+
+## Frozen funding thesis validity reference
+
+Funding protection now retains the source confirmation barrier separately from
+its executable stop, and controller admission carries it into the serialized
+campaign. This distinction is essential for D: its stop includes one range unit
+beyond the barrier, but source still_valid rejects a close at/through the bare
+barrier. PaperCampaign.invalidated_by_close returns an explicit unknown when the
+reference or a later continuous causal bar is absent; otherwise it evaluates the
+source strict long-above/short-below rule. It does not reevaluate the entry signal.
+Tests cover both D directions, distinction from stop, later-bar eligibility and
+serialization. Native close dispatch and durable invalidation replay are still
+unfinished; this commit does not claim operational thesis exits are active.

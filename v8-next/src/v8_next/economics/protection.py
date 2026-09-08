@@ -93,8 +93,13 @@ class CampaignProtection:
     expires_ns: int
     stop_price: Decimal
     target_price: Decimal
+    close_invalidation_price: Decimal | None = None
 
     def __post_init__(self) -> None:
+        if self.close_invalidation_price is not None and (
+            not self.close_invalidation_price.is_finite() or self.close_invalidation_price <= 0
+        ):
+            raise ValueError("invalid close invalidation reference")
         if self.policy not in PROTECTION_POLICIES or self.policy == "timeout-only-v1":
             raise ValueError("unknown protected campaign policy")
         if self.direction not in {"LONG", "SHORT"} or self.expires_ns <= self.observed_ns:
@@ -129,6 +134,7 @@ def protection_at(
     family, variant, _ = policy.split(":")
     sign = 1 if opportunity.direction == "LONG" else -1
     close = frame.candles[-1].close
+    invalidation_price = None
     unit_geometry_observers: dict[str, Callable[[CausalFrame, Opportunity | None], Stance]] = {
         "trend-pullback": observe_trend_pullback,
         "trend-depth": observe_trend_depth,
@@ -171,6 +177,8 @@ def protection_at(
         else:
             window = frame.candles[-6:-1]
         stop = min(c.low for c in window) if sign == 1 else max(c.high for c in window)
+        if family == "funding":
+            invalidation_price = stop
         if family == "funding" and variant == "d":
             stop -= sign * span
         target = close + sign * span
@@ -345,4 +353,5 @@ def protection_at(
         expires,
         stop,
         target,
+        invalidation_price,
     )

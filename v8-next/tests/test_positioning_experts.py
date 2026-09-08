@@ -210,3 +210,47 @@ def test_repeated_receipts_do_not_create_revisions_or_future_leakage():
     assert positioning_at((first, revised), *args, 101) == first.value
     with pytest.raises(ValueError, match="conflicting"):
         positioning_at((first, revised), *args, 102)
+
+
+@pytest.mark.parametrize("side,close,funding", [("SHORT", 102, 0.001), ("LONG", 98, -0.001)])
+def test_funding_d_freezes_distinct_close_thesis_barrier(side, close, funding):
+    from v8_next.domain.campaign import PaperCampaign
+    from v8_next.economics.protection import protection_at
+
+    frame, opportunity = context(close)
+    protection = protection_at(
+        frame,
+        replace(opportunity, direction=side),
+        "funding:d:v2",
+        Decimal(".01"),
+        readings=(reading("settled_funding_rate", funding),),
+    )
+    assert protection is not None
+    barrier = Decimal(close + (1 if side == "SHORT" else -1))
+    assert protection.close_invalidation_price == barrier
+    assert protection.stop_price != barrier
+    campaign = PaperCampaign(
+        "c",
+        "o",
+        "i",
+        side,
+        Decimal(1),
+        100,
+        110,
+        protection.stop_price,
+        protection.target_price,
+        barrier,
+    )
+    assert PaperCampaign.from_record(campaign.to_record()) == campaign
+    assert campaign.invalidated_by_close(frame) is None
+    current = replace(
+        frame.candles[-1],
+        start_ns=100,
+        end_ns=101,
+        received_ns=101,
+        available_ns=101,
+        close=barrier,
+    )
+    later = CausalFrame("i", 101, (*frame.candles, current))
+    assert campaign.invalidated_by_close(later) is True
+    assert campaign.invalidated_by_close(replace(later, candles=())) is None

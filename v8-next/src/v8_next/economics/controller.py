@@ -132,5 +132,6 @@ def decide_campaign(
             else opportunity.expires_ns,
             protection.stop_price if protection else None,
             protection.target_price if protection else None,
+            protection.close_invalidation_price if protection else None,
         ),
     )
