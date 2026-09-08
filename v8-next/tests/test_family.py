@@ -117,3 +117,37 @@ def test_family_connects_real_valuation_shape_to_numerical_diagnostics(tmp_path)
         assert report["scope"] == "DEVELOPMENT_EXPLORATION_NOT_OOS"
     finally:
         store.close()
+
+
+def test_compare_cli_rejects_missing_family_without_writing_report(tmp_path, monkeypatch):
+    from v8_next.app.compare import main
+
+    store, results = setup_family(tmp_path)
+    store.close()
+    source = tmp_path / "one.json"
+    source.write_text(canonical(results[0]))
+    output = tmp_path / "report.json"
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "compare",
+            str(source),
+            "--output",
+            str(output),
+            "--store",
+            str(tmp_path / "family.sqlite"),
+            "--family",
+            "f",
+            "--baseline",
+            results[0]["trial_id"],
+            "--block-size",
+            "1",
+            "--reps",
+            "19",
+            "--seed",
+            "12",
+        ],
+    )
+    with pytest.raises(ValueError, match="incomplete"):
+        main()
+    assert not output.exists()

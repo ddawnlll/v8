@@ -215,3 +215,20 @@ order events, native account state and explicit limitations. OHLC path assumptio
 unmeasured historical spread/slippage, current metadata and incomplete funding
 qualification make these outputs **ineligible for calibration or edge claims**.
 The production paper controller still requires separately verified calibration.
+
+Compare all recorded members of one development family with an explicit baseline:
+
+```sh
+uv run --project v8-next --extra dev --extra research python -m v8_next.app.compare \
+  /absolute/path/baseline.json /absolute/path/variant.json \
+  --store /absolute/path/research.sqlite --family declared-development-family \
+  --baseline BASELINE_TRIAL_ID --block-size 12 --reps 999 --seed 42 \
+  --output /absolute/path/comparison.json
+```
+
+Bootstrap values above are examples, not approved statistical plans. Include every
+trial registered in that family; missing/failed attempts block comparison. Sources,
+runtime, fees and capital must match. SPA/WRC use complete aligned marked-equity
+intervals, including open exposure. Outputs retain input hashes and remain
+DEVELOPMENT_EXPLORATION_NOT_OOS and NO_ECONOMIC_CLAIM. Undefined statistics reject
+without dropping candidates. PBO/DSR and protected OOS plans are not inferred.

@@ -792,3 +792,20 @@ history or artifact authenticity. Comparing historical development results does
 not establish preregistration, OOS status, calibration or economic authority.
 Tests cover incomplete/duplicate families, omitted failed attempts, altered
 source/policy, future computation clocks and the numerical integration path.
+
+## Executable development comparison command
+
+app.compare reads recorded trial JSON files, requires an existing research store,
+explicit family/baseline/bootstrap inputs and writes an exclusive comparison
+artifact only after successful validation/inference. Input byte hashes and paths
+are recorded. It does not transform development observations into protected OOS.
+A missing family member test proves no report is written on rejection.
+
+Two fresh trials on the existing real 499-bar capture compared the same Donchian
+observation/trend grammar with protected versus timeout-only exits. Both used
+identical declared fee/capital assumptions and code. The command successfully
+compared 498 intervals; temporary files /tmp/v8-family-protected.json,
+/tmp/v8-family-timeout.json and /tmp/v8-family-comparison.json contain the inputs
+and diagnostic output. The explicit 12-block/999-repetition/42-seed selection
+is a development choice, not a certified statistical plan. No edge, OOS or
+calibration claim follows from this integration run.
