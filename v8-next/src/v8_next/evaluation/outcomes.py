@@ -111,6 +111,7 @@ def observed_outcomes(
             "economic_policy_sha256": policy_hash,
             "opportunity_id": campaign["opportunity_id"],
             "decision_ns": campaign["decision_ns"],
+            "decision_regime": campaign.get("decision_regime"),
             "instrument_id": campaign["instrument_id"],
             "direction": campaign["direction"],
             "status": "TERMINAL_WITHOUT_ENTRY"

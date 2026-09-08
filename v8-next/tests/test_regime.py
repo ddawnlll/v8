@@ -1,8 +1,49 @@
 from decimal import Decimal as D
 
+import pytest
+
 from v8_next.domain.market import Candle, CausalFrame
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.regime import observe_regime
+
+
+def test_campaign_freezes_decision_regime_and_restores_it():
+    from dataclasses import replace
+
+    from v8_next.domain.campaign import PaperCampaign
+    from v8_next.evaluation.outcomes import observed_outcomes
+
+    regime = observe_regime(frame([10] * 20))
+    campaign = PaperCampaign("c", "o", "BTC", "LONG", D(1), 100, 200, decision_regime=regime)
+    restored = PaperCampaign.from_record(campaign.to_record())
+    assert restored == campaign
+    with pytest.raises(ValueError, match="regime identity"):
+        replace(campaign, decision_ns=101)
+    with pytest.raises(ValueError, match="regime identity"):
+        replace(campaign, instrument_id="ETH")
+    # Later market conditions cannot relabel this campaign.
+    assert observe_regime(frame([10] * 19 + [100])).volume == "VolumeExpansion"
+    assert restored.decision_regime.volume == "NormalVolume"
+    sample = observed_outcomes(
+        [restored.to_record()],
+        [],
+        {
+            "currency": "USDT",
+            "realization": "SIMULATED",
+            "balance_total": "100 USDT",
+            "positions": [],
+            "orders": [],
+        },
+        D(100),
+    )
+    assert sample["rows"][0]["decision_regime"] == campaign.to_record()["decision_regime"]
+    assert sample["rows"][0]["net_r"] is None
+    assert (
+        PaperCampaign.from_record(
+            {k: v for k, v in campaign.to_record().items() if k != "decision_regime"}
+        ).decision_regime
+        is None
+    )
 
 
 def frame(volumes: list[int]) -> CausalFrame:

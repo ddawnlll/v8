@@ -5,6 +5,7 @@ from decimal import Decimal
 from typing import Any
 
 from v8_next.domain.market import CausalFrame
+from v8_next.economics.regime import RegimeObservation
 
 
 @dataclass(frozen=True)
@@ -22,8 +23,14 @@ class PaperCampaign:
     live_channel_bars: int | None = None
     validity_indicator: str | None = None
     close_breach_price: Decimal | None = None
+    decision_regime: RegimeObservation | None = None
 
     def __post_init__(self) -> None:
+        if self.decision_regime is not None and (
+            self.decision_regime.instrument_id != self.instrument_id
+            or self.decision_regime.decision_ns != self.decision_ns
+        ):
+            raise ValueError("campaign regime identity or decision clock mismatch")
         if self.direction not in {"LONG", "SHORT"}:
             raise ValueError("invalid campaign direction")
         if not self.quantity.is_finite() or self.quantity <= 0:
@@ -144,6 +151,8 @@ class PaperCampaign:
     @classmethod
     def from_record(cls, record: dict[str, Any]) -> "PaperCampaign":
         decoded = dict(record)
+        if decoded.get("decision_regime") is not None:
+            decoded["decision_regime"] = RegimeObservation(**decoded["decision_regime"])
         for key in (
             "quantity",
             "stop_price",

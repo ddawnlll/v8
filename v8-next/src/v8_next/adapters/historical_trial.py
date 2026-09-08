@@ -18,6 +18,7 @@ from v8_next.economics.decisions import linear_exposure_id, reconcile
 from v8_next.economics.grammar import grammar_opportunity
 from v8_next.economics.observer_policy import policy_stances
 from v8_next.economics.protection import protection_at
+from v8_next.economics.regime import observe_regime
 from v8_next.risk.admission import RiskLimits, admit
 from v8_next.risk.sizing import stop_budget_notional
 
@@ -113,11 +114,13 @@ class HistoricalTrial(PaperCampaignAdapter):
             )
             return
         opportunity = grammar_opportunity(frame, self.policy.grammar_policy)
+        regime = observe_regime(frame)
         record: dict[str, Any] = {
             "decision_ns": bar.ts_init,
             "opportunity": asdict(opportunity) if opportunity else None,
             "authority": "OFFLINE_COUNTERFACTUAL",
             "claim_status": "NO_ECONOMIC_CLAIM",
+            "regime": asdict(regime),
         }
         self.decisions.append(record)
         if (
@@ -257,6 +260,7 @@ class HistoricalTrial(PaperCampaignAdapter):
             protection.live_channel_bars if protection else None,
             protection.validity_indicator if protection else None,
             protection.close_breach_price if protection else None,
+            decision_regime=regime,
         )
         self.campaigns += (campaign,)
         record["reason"] = "COUNTERFACTUAL_POLICY_SELECTED_NOT_UTILITY_ADMITTED"

@@ -1,5 +1,18 @@
 # V8-next full economic port
 
+## Frozen decision regimes in historical campaign outcomes
+
+Historical policy decisions now record the causal descriptive regime and freeze
+it in each selected PaperCampaign. Serialization/recovery retains the value;
+campaign construction rejects instrument or decision-clock mismatch. Outcome rows
+carry the original decision_regime rather than recomputing it from later returns.
+Old campaign records remain readable with absent regime. Historical trial does
+not yet supply qualified auxiliary readings, so its funding regime remains absent;
+its bar availability remains the explicitly labeled historical diagnostic model.
+This does not authorize habitat filtering, regime-conditioned utility or economic
+claims. Full suite 482 passed, Ruff and mypy clean; added outcome-retention assertion
+also passed afterward in the three-test regime suite.
+
 ## Descriptive regime observation boundary
 
 Stream READY observations now include `volume20-settled-funding-v1`: current-inclusive
