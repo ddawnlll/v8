@@ -18,6 +18,14 @@ from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.market import CausalFrame
 
 
+def terminal_unfilled_entry(order: Any) -> bool:
+    return (
+        order is not None
+        and str(order.status) in {"CANCELED", "REJECTED", "DENIED", "EXPIRED"}
+        and order.filled_qty.as_decimal() == 0
+    )
+
+
 class PaperCampaignAdapter(Strategy):
     """Use only in BacktestEngine. App must validate receipts before construction.
 
@@ -202,11 +210,7 @@ class PaperCampaignAdapter(Strategy):
         accounted.update(str(p.opening_order_id) for p in self.cache.positions_open())
         for identity in self.submitted - accounted:
             order = self.cache.order(ClientOrderId(identity))
-            if (
-                order is not None
-                and str(order.status) in {"CANCELED", "REJECTED", "DENIED", "EXPIRED"}
-                and order.filled_qty.as_decimal() == 0
-            ):
+            if terminal_unfilled_entry(order):
                 continue
             return True
         return False
@@ -220,11 +224,7 @@ class PaperCampaignAdapter(Strategy):
             if campaign.campaign_id in self.expired | self.invalidated:
                 continue
             order = self.cache.order(ClientOrderId(campaign.campaign_id))
-            if (
-                order is not None
-                and str(order.status) in {"CANCELED", "REJECTED", "DENIED", "EXPIRED"}
-                and order.filled_qty.as_decimal() == 0
-            ):
+            if terminal_unfilled_entry(order):
                 continue
             return True
         return False
@@ -241,6 +241,8 @@ class PaperCampaignAdapter(Strategy):
             if campaign.instrument_id != str(instrument_id):
                 continue
             if campaign.campaign_id in self.submitted:
+                if terminal_unfilled_entry(self.cache.order(ClientOrderId(campaign.campaign_id))):
+                    continue
                 if any(
                     c["campaign_id"] == campaign.campaign_id
                     for c in self.position_closures.values()

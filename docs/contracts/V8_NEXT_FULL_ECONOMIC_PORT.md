@@ -2868,3 +2868,17 @@ confirmed positions, closures and zero-filled terminal rejections. Full suite
 470 passed; Ruff/mypy clean. This protects admission during dispatch latency;
 it does not implement partial-entry price bounds, live recovery or calibrated
 paper authority. Full economic port requirements remain incomplete.
+
+## Terminal unfilled entry has no later exit authority
+
+The zero-fill terminal-entry rule now applies consistently to admission occupancy,
+native projection and campaign advancement. A rejected/denied/canceled/expired
+entry with no fill cannot later invoke instrument-wide timeout close/cancel on a
+successor. Partially filled terminal entries do not receive this exemption.
+The shared predicate replaces duplicated checks without adding order state.
+Native regression submits an unaffordable test entry, verifies its actual native
+rejection and zero fill, then opens a successor which remains open beyond the old
+expiry. Full suite 471 passed; Ruff/mypy clean. This qualifies a native lifecycle
+boundary using synthetic test inputs, not economic edge or real-money operation.
+Full port, production calibration and prospective position-bearing acceptance
+remain incomplete.

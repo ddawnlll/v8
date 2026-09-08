@@ -1712,3 +1712,43 @@ def test_closure_report_order_is_independent_of_native_callback_insertion():
     subject.position_closures = {r["campaign_id"]: r for r in reversed(records)}
     assert subject.closed_position_records() == first
     assert [r["campaign_id"] for r in first] == ["c", "a", "b"]
+
+
+def test_rejected_unfilled_entry_cannot_timeout_a_successor():
+    class RejectedThenNext(PaperCampaignAdapter):
+        def on_quote(self, quote):
+            super().on_quote(quote)
+            if quote.ts_init == 3 * 10**9:
+                self.campaigns += (
+                    PaperCampaign(
+                        "after-reject",
+                        "after-reject-op",
+                        str(quote.instrument_id),
+                        "LONG",
+                        Decimal(".010"),
+                        quote.ts_init,
+                        20 * 10**9,
+                    ),
+                )
+
+    campaign = PaperCampaign(
+        "unaffordable",
+        "unaffordable-op",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(2),
+        10**9,
+        7 * 10**9,
+    )
+    strategy = RejectedThenNext((campaign,))
+    state = run_qualified_engine(
+        strategy=strategy,
+        standard_assertions=False,
+        quote_times=tuple(t * 10**9 for t in (1, 2, 3, 4, 8, 9)),
+    )
+    first = next(o for o in state["orders"] if o["client_order_id"] == "unaffordable")
+    assert first["status"] in {"REJECTED", "DENIED"}
+    assert Decimal(first["filled_qty"]) == 0
+    assert "unaffordable" not in strategy.exit_requested
+    assert len(state["positions"]) == 1 and not state["positions"][0]["is_closed"]
+    assert strategy.callback_failure is None
