@@ -62,12 +62,34 @@ def test_real_pivot_feature_to_reclaim_and_projection_both_directions(
     )
     frame = replace(frame, candles=(*frame.candles[:-1], last))
     assert observer(frame, replace(opportunity, direction=direction)).kind == StanceKind.SUPPORT
+    from v8_next.economics.protection import protection_at
+
+    policy = (
+        "fib-retracement:a:v2" if observer is observe_fib_retracement else "fib-projection:a:v2"
+    )
+    protection = protection_at(
+        frame, replace(opportunity, direction=direction), policy, Decimal(".01")
+    )
+    assert protection is not None
+    span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+    assert 0 <= span - abs(Decimal(close) - protection.stop_price) < Decimal(".01")
+    assert 0 <= span - abs(protection.target_price - Decimal(close)) < Decimal(".01")
+    assert protection.expires_ns == 45
     mirrored = replace(
         frame,
         candles=tuple(
             replace(c, open=250 - c.open, close=250 - c.close, high=250 - c.low, low=250 - c.high)
             for c in frame.candles
         ),
+    )
+    assert (
+        protection_at(
+            mirrored,
+            replace(opportunity, direction="SHORT" if direction == "LONG" else "LONG"),
+            policy,
+            Decimal(".01"),
+        )
+        is not None
     )
     assert (
         observer(

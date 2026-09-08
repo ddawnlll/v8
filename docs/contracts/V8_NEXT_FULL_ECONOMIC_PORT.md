@@ -1083,3 +1083,15 @@ Tests verify momentum/climax setup-dependent geometry, no-volume/no-setup
 rejection and long/short mirrored Ichimoku geometry. Native execution stays in
 the common bracket adapter. Coverage reaches sixteen families/32 protected
 policies, still not full variant, auxiliary-data or operational completion.
+
+## Fibonacci and confluence campaign connections
+
+Added fib-retracement:a:v2, fib-projection:a:v2 and confluence:a/b:v2. Source
+active paths all declare one mean-range volatility unit per stop/target and
+eight-bar expiry. Retracement's alternate deep structural stop branch is not
+substituted for active v1. Existing confirmed-pivot/extension observations and
+strict-versus-majority confluence rules supply setup eligibility unchanged.
+Tests exercise both Fibonacci directions and ensure majority confluence cannot
+silently qualify the strict campaign. Tick rounding preserves nominal distances.
+Protected coverage is nineteen families/36 policies; source/variant and complete
+operational requirements remain outstanding.

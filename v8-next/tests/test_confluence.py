@@ -61,6 +61,13 @@ def test_real_bands_and_impulse_produce_majority_without_fabricated_rsi_vote():
         StanceKind.SUPPORT if legs[1] == "LONG" else StanceKind.ABSTAIN
     )
     assert observe_confluence(frame, None, variant="b").kind == StanceKind.ABSTAIN
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(frame, opportunity, "confluence:b:v2", Decimal(".01"))
+    assert protection is not None
+    assert protection.expires_ns == frame.decision_ns + 8
+    strict = protection_at(frame, opportunity, "confluence:a:v2", Decimal(".01"))
+    assert (strict is not None) == (legs[1] == "LONG")
 
 
 def test_strict_confluence_with_computed_recovery_leg():

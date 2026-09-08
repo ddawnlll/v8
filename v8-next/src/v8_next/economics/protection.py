@@ -1,10 +1,12 @@
 """Frozen exit geometry: economic policy only, never simulated fill logic."""
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from decimal import ROUND_CEILING, ROUND_FLOOR, Decimal
+from functools import partial
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, StanceKind
+from v8_next.economics.decisions import Opportunity, Stance, StanceKind
 from v8_next.experts.bollinger import band_setup
 from v8_next.experts.breakouts import (
     last_close_breakout,
@@ -14,6 +16,8 @@ from v8_next.experts.breakouts import (
 from v8_next.experts.candlestick import VARIANTS as CANDLE_VARIANTS
 from v8_next.experts.candlestick import candle_pattern
 from v8_next.experts.climax import observe_volume_climax
+from v8_next.experts.confluence import observe_confluence
+from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.ichimoku import observe_ichimoku
 from v8_next.experts.measuring import VARIANTS, measuring_setup
@@ -40,6 +44,10 @@ PROTECTION_POLICIES = frozenset(
         "macd-stoch:active:v2",
         "volume-climax:active:v2",
         "ichimoku:cross:v2",
+        "fib-retracement:a:v2",
+        "fib-projection:a:v2",
+        "confluence:a:v2",
+        "confluence:b:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -90,7 +98,7 @@ def protection_at(
     family, variant, _ = policy.split(":")
     sign = 1 if opportunity.direction == "LONG" else -1
     close = frame.candles[-1].close
-    unit_geometry_observers = {
+    unit_geometry_observers: dict[str, Callable[[CausalFrame, Opportunity | None], Stance]] = {
         "trend-pullback": observe_trend_pullback,
         "trend-depth": observe_trend_depth,
         "rsi-reversion": observe_rsi_reversion,
@@ -98,6 +106,9 @@ def protection_at(
         "obv-adl": observe_obv_adl,
         "macd-stoch": observe_macd_stoch,
         "volume-climax": observe_volume_climax,
+        "fib-retracement": observe_fib_retracement,
+        "fib-projection": observe_fib_projection,
+        "confluence": partial(observe_confluence, variant=variant),
     }
     if family in unit_geometry_observers:
         observer = unit_geometry_observers[family]
