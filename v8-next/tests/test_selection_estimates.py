@@ -42,3 +42,31 @@ def test_selection_estimate_keeps_nonentries_in_denominator_and_rejects_missing_
     mixed = deepcopy(source)
     mixed["rows"][0]["economic_policy_sha256"] = "b" * 64
     assert estimate_selection_cash(mixed, **plan)["estimate"] is None
+
+
+def test_single_completed_selection_preserves_report_without_bootstrap():
+    source = dict(
+        reconciliation="CLOSED_CASH_RECONCILED",
+        native_cash_change="1",
+        selection_cash_scorecard=dict(
+            status="COMPLETE_SELECTED_COHORT",
+            initial_capital="100",
+            mean_cash_return_per_selection="0.01",
+        ),
+        rows=[
+            dict(
+                campaign_id="one",
+                decision_ns=1,
+                economic_policy_sha256="a" * 64,
+                status="CLOSED_UNDER_NATIVE_MODEL",
+                native_net_pnl="1",
+            )
+        ],
+    )
+    result = estimate_selection_cash(source, block_size=2, reps=99, seed=7)
+    assert result["estimate"] is None
+    assert result["reason"] == "INSUFFICIENT_SAMPLES_FOR_FROZEN_BLOCK"
+    assert result["block_size"] == 2 and result["sample_count"] == 1
+    source["native_cash_change"] = "2"
+    with pytest.raises(ValueError, match="reconcile"):
+        estimate_selection_cash(source, block_size=2, reps=99, seed=7)

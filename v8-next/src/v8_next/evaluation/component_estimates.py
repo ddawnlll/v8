@@ -34,6 +34,14 @@ def estimate_components(
         estimates=None,
         source_sha256=hashlib.sha256(canonical(outcomes).encode()).hexdigest(),
     )
+    if (
+        any(type(v) is not int for v in (block_size, reps, seed))
+        or block_size < 1
+        or reps < 2
+        or seed < 0
+    ):
+        raise ValueError("invalid resampling plan")
+    result.update(block_size=block_size, reps=reps, seed=seed, sample_count=len(outcomes["rows"]))
     rows = outcomes["rows"]
     if training_window is not None:
         start, end = training_window
@@ -71,8 +79,6 @@ def estimate_components(
         return {**result, "reason": "COMPONENTS_UNAVAILABLE"}
     if len({r["campaign_id"] for r in rows}) != len(rows):
         raise ValueError("duplicate component sample")
-    if not 1 <= block_size < len(rows) or reps < 2 or seed < 0:
-        raise ValueError("invalid component resampling plan")
     ordered = sorted(rows, key=lambda r: (r["opened_ns"], r["closed_ns"], r["campaign_id"]))
     values = []
     r_complete = all(
@@ -120,6 +126,8 @@ def estimate_components(
     matrix = np.asarray(values)
     if not np.isfinite(matrix).all():
         raise ValueError("component conversion overflow")
+    if len(rows) <= block_size:
+        return {**result, "reason": "INSUFFICIENT_SAMPLES_FOR_FROZEN_BLOCK"}
     bootstrap = importlib.import_module("arch.bootstrap")
     sampler = bootstrap.CircularBlockBootstrap(block_size, matrix, seed=seed)
     means = np.asarray([positional[0].mean(axis=0) for positional, _ in sampler.bootstrap(reps)])

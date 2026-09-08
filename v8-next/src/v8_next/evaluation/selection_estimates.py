@@ -26,6 +26,14 @@ def estimate_selection_cash(
         estimate=None,
         source_sha256=hashlib.sha256(canonical(outcomes).encode()).hexdigest(),
     )
+    if (
+        any(type(v) is not int for v in (block_size, reps, seed))
+        or block_size < 1
+        or reps < 2
+        or seed < 0
+    ):
+        raise ValueError("invalid resampling plan")
+    result.update(block_size=block_size, reps=reps, seed=seed, sample_count=len(outcomes["rows"]))
     rows = outcomes["rows"]
     score = outcomes["selection_cash_scorecard"]
     if (
@@ -41,13 +49,6 @@ def estimate_selection_cash(
         raise ValueError("duplicate selection")
     if any(type(r.get("decision_ns")) is not int or r["decision_ns"] < 0 for r in rows):
         raise ValueError("selection decision clock unavailable")
-    if (
-        any(type(v) is not int for v in (block_size, reps, seed))
-        or not 1 <= block_size < len(rows)
-        or reps < 2
-        or seed < 0
-    ):
-        raise ValueError("invalid selection resampling plan")
     capital = Decimal(score["initial_capital"])
     if not capital.is_finite() or capital <= 0:
         raise ValueError("invalid selection capital")
@@ -70,6 +71,8 @@ def estimate_selection_cash(
     values = np.asarray([float(v / capital) for v in cash])
     if not np.isfinite(values).all():
         raise ValueError("selection cash conversion overflow")
+    if len(rows) <= block_size:
+        return {**result, "reason": "INSUFFICIENT_SAMPLES_FOR_FROZEN_BLOCK"}
     bootstrap = importlib.import_module("arch.bootstrap")
     sampler = bootstrap.CircularBlockBootstrap(block_size, values, seed=seed)
     means = np.asarray([args[0].mean() for args, _ in sampler.bootstrap(reps)])

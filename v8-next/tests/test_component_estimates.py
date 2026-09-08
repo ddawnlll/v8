@@ -131,3 +131,16 @@ def test_training_window_rejects_late_labels_and_outside_selections_without_slic
         estimate_components(data, **kwargs, training_window=(1, 21))["reason"]
         == "CAMPAIGN_SELECTION_CLOCK_UNAVAILABLE"
     )
+
+
+def test_small_cohort_keeps_frozen_plan_without_manufacturing_uncertainty():
+    result = estimate_components(sample(), decision_ns=30, block_size=4, reps=99, seed=7)
+    assert result["estimates"] is None
+    assert result["reason"] == "INSUFFICIENT_SAMPLES_FOR_FROZEN_BLOCK"
+    assert result["sample_count"] == result["block_size"] == 4
+    corrupt = sample()
+    corrupt["rows"][0]["observed_ns"] = 31
+    with pytest.raises(ValueError, match="future"):
+        estimate_components(corrupt, decision_ns=30, block_size=4, reps=99, seed=7)
+    with pytest.raises(ValueError, match="resampling plan"):
+        estimate_components(sample(), decision_ns=30, block_size=True, reps=99, seed=7)

@@ -2686,3 +2686,17 @@ is not a significance test or evidence of edge; the same historically inspected
 source, native execution and incomplete funding qualification limitations apply.
 Artifact predates the final import-format-only edit. Production calibration,
 protected OOS methodology and economic paper integration remain incomplete.
+
+## Preserve valid trials with insufficient resampling samples
+
+Component and full-selection estimators now distinguish an invalid resampling
+plan from a valid frozen block larger than the available cohort. Small complete
+cohorts retain sample count and original block/reps/seed, returning absent
+estimates with INSUFFICIENT_SAMPLES_FOR_FROZEN_BLOCK rather than aborting the
+registered trial and losing its outcome report. No automatic block adjustment or
+fabricated uncertainty occurs. Source cash/clock validation still precedes this
+statistical insufficiency result, so small cohorts do not hide corrupt evidence.
+Strict integer plan validation also rejects booleans. Tests cover singleton and
+exact-block-size cohorts, preserved plans, future labels and cash inconsistencies.
+Full suite 454 passed; Ruff/mypy (81 source files) clean. Production calibration,
+OOS qualification and continuous economic paper remain incomplete.
