@@ -153,3 +153,21 @@ port preserves the actual hypothesis; correcting that condition requires a new
 version/trial, not a silent semantic change. It is not a profitability endorsement.
 Tests cover all eight patterns, mirrored direction, decline context, zero-body
 rejection, four-bar soldier context, strict trigger bound and override behavior.
+
+## Bollinger breakout a/b/c and frozen references
+
+Added three Bollinger breakout variants. Variant a requires a directional close
+past the middle band and percent-b >=0.75 or <=0.25; b requires a strict two-sigma
+band violation. Variant c adds the previous bar's bandwidth strictly below its
+preceding ten bandwidth values, requiring 31 bars. All rolling computations use
+Polars with complete 20-close population windows. Flat bands abstain instead of
+imputing a percent-b. No absolute 1e-9 price-width fallback is copied; the declared
+positive-dispersion formula applies across instrument scales.
+
+`BandSetup` preserves the first bar in the current consecutive directional setup
+run, its middle/sigma and 14-bar mean high-low range. Declared stop/target R ratios
+and eight-bar expiry are retained as hypothesis geometry, never expected edge.
+Tests verify unchanged anchor references as the run extends, all three mirrored
+variants and rejection of c when the prior bandwidth is merely tied. The native
+historical catalog now contains 24 stances from twelve families. Campaign execution
+of this geometry and complete economic-capability port remain outstanding.

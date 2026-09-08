@@ -5,6 +5,7 @@ from functools import partial
 
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, observe_squeeze
+from v8_next.experts.bollinger import observe_bollinger_breakout
 from v8_next.experts.breakouts import observe_failed_breakout, observe_volume_breakout
 from v8_next.experts.candlestick import VARIANTS, observe_candlestick
 from v8_next.experts.donchian import observe_donchian
@@ -15,6 +16,7 @@ from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 Observer = Callable[[CausalFrame, Opportunity | None], Stance]
 OBSERVERS: tuple[Observer, ...] = (
     observe_squeeze,
+    *(partial(observe_bollinger_breakout, variant=v) for v in ("a", "b", "c")),
     observe_candlestick,
     *(partial(observe_candlestick, variant=v) for v in VARIANTS),
     observe_donchian,
