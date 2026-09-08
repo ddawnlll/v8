@@ -109,6 +109,11 @@ class HistoricalTrial(PaperCampaignAdapter):
             bar.ts_init,
             True,
         )
+        valuation_price = (
+            max(protection.stop_price, protection.target_price)
+            if protection is not None
+            else bar.close.as_decimal()
+        )
         requested = self.policy.max_notional
         if self.policy.stop_budget is not None:
             if protection is None:
@@ -126,12 +131,18 @@ class HistoricalTrial(PaperCampaignAdapter):
             if sized is None:
                 record["reason"] = reason
                 return
-            requested = min(requested, sized)
+            # Match protected paper allocation: reserve the full unsubmitted
+            # band, not a predicted close-price fill.
+            band = abs(protection.target_price - protection.stop_price)
+            requested = min(
+                requested,
+                snapshot.equity * self.policy.stop_budget.risk_fraction / band * valuation_price,
+            )
         admission = admit(
             snapshot,
             RiskLimits(Decimal(1), self.policy.max_exposure_fraction, self.policy.max_notional, 0),
             bar.ts_init,
-            bar.close.as_decimal(),
+            valuation_price,
             requested,
             instrument.size_increment.as_decimal(),
             instrument.min_quantity.as_decimal(),
@@ -140,6 +151,9 @@ class HistoricalTrial(PaperCampaignAdapter):
         )
         if admission.quantity is None:
             record["reason"] = admission.reason
+            return
+        if admission.quantity * bar.close.as_decimal() < instrument.min_notional.as_decimal():
+            record["reason"] = "BELOW_VENUE_MINIMUM"
             return
         campaign = PaperCampaign(
             "trial-" + opportunity.opportunity_id,

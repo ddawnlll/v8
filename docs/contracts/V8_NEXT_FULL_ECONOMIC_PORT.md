@@ -1887,3 +1887,15 @@ metric or order was introduced. Output records source/runtime identity and
 receipt-known diagnostic scope. This verifies selectable wiring on real input,
 not positive-signal economics. Source review confirmed the 0.18 efficiency
 threshold remains common to the variants.
+
+## Historical trial and paper reservation alignment
+
+Protected historical trials now size notional at the maximum protected-band
+price and nominal stop risk over the full band, matching unsubmitted paper
+allocation assumptions. The existing stop budget reconciliation/heat checks
+remain; venue minimum notional is also checked at the observed decision price.
+Timeout-only trials retain their previous sizing. This changes frozen trial
+runtime identity; old results are not silently relabeled. Historical trials
+remain counterfactual policy experiments, not utility-admitted economic orders.
+Full suite: 391 passed; Ruff/mypy passed before the final minimum-notional guard,
+and the full suite also passed after that guard.
