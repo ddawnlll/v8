@@ -2609,3 +2609,23 @@ component estimates correctly remained absent with COMPLETE_CLOSED_COHORT_REQUIR
 No terminal close was forced and no campaign was omitted to obtain an estimate.
 This native historical run remains diagnostic, not prospective calibration or
 protected out-of-sample evidence. Production calibration is still incomplete.
+
+## Separate campaign selection and outcome followup
+
+Development trial API/CLI accepts --selection-end-ns, bound into frozen identity
+before execution. At and after this cutoff the native adapter continues equity,
+existing campaign advancement and thesis invalidation, but generates no new
+opportunities/campaigns. Followup bars emit FOLLOWUP_ONLY_SELECTION_CLOSED. Native
+integration tests demonstrate an existing campaign closes by its actual thesis
+rule during followup, without a forced terminal liquidation, and replay agrees.
+Full suite 449 passed; Ruff/mypy clean.
+
+Actual captured BTC diagnostic with a declared 72-hour followup tail and component
+plan (2,99,7): /tmp/v8-followup-components-1788885982455403000/result.json, log
+/tmp/v8-followup-components.log. It selected 17 campaigns and retained 12 native
+closure records. Component estimates remain absent for the incomplete selected
+cohort; no selection was dropped. Missing closure does not imply an open position
+(unfilled/expired selections also lack realized position returns). This is a new
+exploratory trial on previously inspected data, not an untouched holdout. The
+72-hour choice is a diagnostic assumption, not a fitted or certified horizon.
+Production sample methodology and calibration remain unfinished.

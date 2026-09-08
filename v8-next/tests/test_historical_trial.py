@@ -61,7 +61,8 @@ def test_callback_failure_is_retained_even_if_native_engine_logs_it():
     assert not trial.decisions
 
 
-def test_historical_native_thesis_exit_precedes_timeout_and_replays():
+@pytest.mark.parametrize("followup_only", [False, True])
+def test_historical_native_thesis_exit_precedes_timeout_and_replays(followup_only):
     from decimal import Decimal
 
     from nautilus_trader.model import Bar, BarType, Price, Quantity
@@ -123,7 +124,7 @@ def test_historical_native_thesis_exit_precedes_timeout_and_replays():
     )
     results = []
     for _ in range(2):
-        trial = HistoricalTrial(source, policy)
+        trial = HistoricalTrial(source, policy, selection_end_ns=hour if followup_only else None)
         trial.campaigns = (PaperCampaign.from_record(campaign.to_record()),)
         state = run_qualified_engine(strategy=trial, bar_data=bars, standard_assertions=False)
         assert trial.failure is None
@@ -132,6 +133,9 @@ def test_historical_native_thesis_exit_precedes_timeout_and_replays():
         assert state["positions"][0]["is_closed"]
         assert state["positions"][0]["closed_ns"] < campaign.expires_ns
         assert len(trial.equity_marks) == 3
+        if followup_only:
+            assert all(r["reason"] == "FOLLOWUP_ONLY_SELECTION_CLOSED" for r in trial.decisions)
+            assert len(trial.campaigns) == 1
         results.append(state)
     reconcile_replay(*results)
 

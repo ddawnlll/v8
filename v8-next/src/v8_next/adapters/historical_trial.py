@@ -33,7 +33,13 @@ class HistoricalTrial(PaperCampaignAdapter):
     def __new__(cls, *args: object, **kwargs: object) -> "HistoricalTrial":
         return super().__new__(cls)
 
-    def __init__(self, source: tuple[Candle, ...], policy: PaperConfig) -> None:
+    def __init__(
+        self,
+        source: tuple[Candle, ...],
+        policy: PaperConfig,
+        *,
+        selection_end_ns: int | None = None,
+    ) -> None:
         super().__init__(())
         self.source = {(c.instrument_id, c.end_ns): c for c in source}
         if len(self.source) != len(source):
@@ -41,6 +47,11 @@ class HistoricalTrial(PaperCampaignAdapter):
         self.instruments = frozenset(c.instrument_id for c in source)
         self.prefixes: dict[str, list[Candle]] = {instrument: [] for instrument in self.instruments}
         self.boundary_bars: dict[str, Bar] = {}
+        if selection_end_ns is not None and (
+            type(selection_end_ns) is not int or selection_end_ns <= 0
+        ):
+            raise ValueError("invalid campaign selection cutoff")
+        self.selection_end_ns = selection_end_ns
         self.policy = policy
         self.decisions: list[dict[str, Any]] = []
         self.equity_marks: list[dict[str, Any]] = []
@@ -90,6 +101,17 @@ class HistoricalTrial(PaperCampaignAdapter):
         self.advance_campaigns(
             bar.bar_type.instrument_id, bar.ts_init, bar.close.as_decimal(), bar.close.as_decimal()
         )
+        if self.selection_end_ns is not None and bar.ts_init >= self.selection_end_ns:
+            self.decisions.append(
+                dict(
+                    decision_ns=bar.ts_init,
+                    opportunity=None,
+                    authority="OFFLINE_COUNTERFACTUAL",
+                    claim_status="NO_ECONOMIC_CLAIM",
+                    reason="FOLLOWUP_ONLY_SELECTION_CLOSED",
+                )
+            )
+            return
         opportunity = grammar_opportunity(frame, self.policy.grammar_policy)
         record: dict[str, Any] = {
             "decision_ns": bar.ts_init,
