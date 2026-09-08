@@ -24,6 +24,7 @@ from v8_next.economics.decisions import (
     UtilityInputs,
 )
 from v8_next.economics.grammar import POLICIES, grammar_opportunity
+from v8_next.economics.habitat import HABITAT_VERSION, apply_habitat
 from v8_next.economics.observer_policy import policy_stances, validate_observer_policy
 from v8_next.economics.protection import PROTECTION_POLICIES, protection_at
 from v8_next.economics.regime import RegimeObservation, observe_regime
@@ -128,6 +129,9 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         stances = policy_stances(frame, resolved, self.observer, readings=self.positioning_readings)
         stance = stances[0]
         regime = observe_regime(frame, readings=self.positioning_readings)
+        # Habitat demotion is abstention-only and causal: originals stay in the
+        # record while admission uses the adjusted tuple.
+        habitat_stances, habitat_report = apply_habitat(stances, regime, resolved)
         record: dict[str, object] = {
             "decision_ns": quote.ts_init,
             "stance": asdict(stance),
@@ -136,6 +140,9 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             "campaign_policy": self.campaign_policy,
             "opportunity": asdict(opportunity) if opportunity else None,
             "regime": asdict(regime),
+            "habitat_version": HABITAT_VERSION,
+            "habitat": habitat_report,
+            "admitted_stances": [asdict(s) for s in habitat_stances],
             "claim_status": "NO_ECONOMIC_CLAIM",
             "authority": "RULE_PAPER_EXPERIMENT" if self.experiment else "CALIBRATED_PAPER",
         }
@@ -193,11 +200,25 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                 record["reason"] = "UNRECONCILED_FUNDING_AFTER_EXPOSURE"
             else:
                 self._admit(
-                    quote, frame, opportunity, resolved, stances, regime, record, constraints
+                    quote,
+                    frame,
+                    opportunity,
+                    resolved,
+                    habitat_stances,
+                    regime,
+                    record,
+                    constraints,
                 )
         else:
             self._admit(
-                quote, frame, opportunity, resolved, stances, regime, record, constraints
+                quote,
+                frame,
+                opportunity,
+                resolved,
+                habitat_stances,
+                regime,
+                record,
+                constraints,
             )
         self.decisions.append(record)
 

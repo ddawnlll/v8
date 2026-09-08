@@ -16,6 +16,7 @@ from v8_next.domain.config import PaperConfig
 from v8_next.domain.market import Candle, frame_at
 from v8_next.economics.decisions import linear_exposure_id, reconcile
 from v8_next.economics.grammar import grammar_opportunity
+from v8_next.economics.habitat import HABITAT_VERSION, apply_habitat
 from v8_next.economics.observer_policy import policy_stances
 from v8_next.economics.protection import protection_at
 from v8_next.economics.regime import observe_regime
@@ -151,7 +152,11 @@ class HistoricalTrial(PaperCampaignAdapter):
             return
         stances = policy_stances(frame, opportunity, self.policy.observer_policy)
         record["stances"] = [asdict(s) for s in stances]
-        result = reconcile(opportunity, stances)
+        habitat_stances, habitat_report = apply_habitat(stances, regime, opportunity)
+        record["habitat_version"] = HABITAT_VERSION
+        record["habitat"] = habitat_report
+        record["admitted_stances"] = [asdict(s) for s in habitat_stances]
+        result = reconcile(opportunity, habitat_stances)
         if result != "SUPPORTED_OBSERVATION":
             record["reason"] = result
             return

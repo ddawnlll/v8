@@ -232,6 +232,11 @@ def test_observer_through_admission_to_native_fill(observer, verified, grammar):
             if index < 20
             else Decimal(100) + Decimal(index) / 100
         )
+        # Habitat precondition for the squeeze rows: genuinely measured
+        # compression at decision time. Early bars carry a wide downward range
+        # so the trailing median stays large while the recent range is tight;
+        # highs stay near close so the LONG breakout hypotheses still hold.
+        wide = index <= 43
         candles.append(
             Candle(
                 "BTCUSDT-PERP.BINANCE",
@@ -239,7 +244,7 @@ def test_observer_through_admission_to_native_fill(observer, verified, grammar):
                 (index + 1) * hour,
                 close,
                 close + Decimal("0.001"),
-                close - Decimal("0.001"),
+                close - (Decimal("1.0") if wide else Decimal("0.001")),
                 close,
                 Decimal(3 if index == 68 else 1),
                 (index + 1) * hour,

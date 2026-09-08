@@ -3236,3 +3236,32 @@ clean. Real single-capture replay unchanged: one quote, zero settlements,
 10000 USDT, NO_OPPORTUNITY. Open-position restart continues through
 deterministic full-session replay; continuous position-bearing operation,
 production calibration and venue margin/liquidation remain open.
+
+## Versioned habitat/abstention bound to decision time
+
+New economics/habitat.py (HABITAT_VERSION=habitat-trend-vol-v1) binds
+decision-time trend/volatility cells to expert habitat. The rule is
+abstention-only and causal: out-of-habitat SUPPORT and CONTRADICT both become
+ABSTAIN with reason OUT_OF_HABITAT, never support, utility, or authority.
+Original stances stay in the record beside admitted_stances and a per-stance
+habitat report, so nothing is relabeled from outcomes after the fact. Missing
+regime cells abstain (fail closed); misaligned or unbound inputs are
+NOT_APPLICABLE; families without an entry stay UNQUALIFIED with unchanged
+behavior. The table is keyed by observer_id (the selection key), not behavior
+family, because the frozen baseline stance inherits the compression-breakout
+default family without sharing the compression-release thesis.
+
+v1 covers only the default single-strategy path: squeeze-swing requires the
+frozen LowVolSqueeze volatility cell and is trend-agnostic. No new thresholds
+are fitted; the thesis (compression release) reuses the frozen regime labels.
+Both prospective paper and historical trial apply the same shared function
+before reconcile/admission, so counterfactuals follow identical discipline.
+
+Real-data diagnostic (development trial habitat-check-v1 on the existing
+499-bar BTC capture, squeeze/range/timeout-only, /tmp/v8-habitat-trial.json):
+499 decisions, 19 squeeze-bound; 15 already-abstain, 3 SUPPORT demoted
+OUT_OF_HABITAT (all NormalVol), 1 SUPPORT IN_HABITAT (BearTrend/LowVolSqueeze)
+selected counterfactually with NO_ECONOMIC_CLAIM. The rule actively bites on
+real observations without manufacturing support. Full suite: 522 passed;
+Ruff/mypy clean (84 files). Broader family habitats remain future versioned
+entries, not silent extensions.
