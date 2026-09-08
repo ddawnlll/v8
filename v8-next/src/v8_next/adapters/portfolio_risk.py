@@ -4,6 +4,8 @@ from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
 
+from nautilus_trader.model import InstrumentId
+
 from v8_next.adapters.stop_exposure import native_stop_exposure
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.risk.admission import RiskSnapshot
@@ -26,6 +28,7 @@ def native_portfolio_risk(
     equity: Decimal,
     accounting_reconciled: bool,
     observed_ns: int,
+    settlement_currency: str = "USDT",
 ) -> PortfolioRisk | None:
     """Caller supplies reconciled quote-currency equity and linear instrument map.
 
@@ -37,6 +40,16 @@ def native_portfolio_risk(
         return None
     if not equity.is_finite() or equity < 0:
         raise ValueError("invalid reconciled equity")
+    for instrument_id in instrument_exposures:
+        instrument = cache.instrument(InstrumentId.from_str(instrument_id))
+        if (
+            instrument is None
+            or instrument.is_inverse
+            or str(instrument.quote_currency) != settlement_currency
+            or str(instrument.settlement_currency) != settlement_currency
+            or instrument.multiplier.as_decimal() != 1
+        ):
+            return None
     stop = native_stop_exposure(
         cache,
         campaigns,

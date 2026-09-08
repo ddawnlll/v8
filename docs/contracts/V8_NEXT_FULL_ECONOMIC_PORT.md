@@ -1716,3 +1716,14 @@ case: a 1.05 quote-currency request cannot fund a 0.010 quantity across a 113 ba
 ceiling. Native tests now verify rejection at 1.05 and successful bracket lifecycle
 at 1.13, with no calibration bypass. Full suite: 386 passed; implementation
 Ruff/mypy clean. Real calibration and post-position accounting remain open.
+
+## Native contract valuation boundary
+
+Portfolio projection now inspects native instrument metadata before using linear
+quantity-times-price valuation. Missing metadata, inverse contracts, mismatched
+quote/settlement currencies and non-unit multipliers return absence. The explicit
+settlement currency defaults to the current USDT scope; no FX conversion is
+invented. Tests reject inverse and mismatched settlement instruments, while the
+native economic and open-position tests pass with actual engine metadata.
+Full suite: 386 passed; Ruff/mypy clean. Broader contract support remains outside
+this projection until its valuation is implemented and qualified.

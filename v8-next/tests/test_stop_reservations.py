@@ -45,13 +45,20 @@ def test_native_portfolio_pending_projection_preserves_exposure_budgets():
     from v8_next.adapters.portfolio_risk import native_portfolio_risk
 
     cache = SimpleNamespace(orders_open=lambda: [], positions_open=lambda: [], order_ids=lambda: [])
+    metadata = SimpleNamespace(
+        is_inverse=False,
+        quote_currency="USDT",
+        settlement_currency="USDT",
+        multiplier=SimpleNamespace(as_decimal=lambda: D(1)),
+    )
+    cache.instrument = lambda _: metadata
     campaigns = (
-        PaperCampaign("a", "a", "BTC", "LONG", D(2), 10, 100, D(90), D(110)),
-        PaperCampaign("b", "b", "ETH", "SHORT", D(3), 10, 100, D(50), D(40)),
+        PaperCampaign("a", "a", "BTC.BINANCE", "LONG", D(2), 10, 100, D(90), D(110)),
+        PaperCampaign("b", "b", "ETH.BINANCE", "SHORT", D(3), 10, 100, D(50), D(40)),
     )
     kwargs = dict(
         pending_ids=frozenset({"a", "b"}),
-        instrument_exposures={"BTC": "btc", "ETH": "eth"},
+        instrument_exposures={"BTC.BINANCE": "btc", "ETH.BINANCE": "eth"},
         marks={},
         equity=D(1000),
         accounting_reconciled=True,
@@ -68,7 +75,13 @@ def test_native_portfolio_pending_projection_preserves_exposure_budgets():
     )
     assert (
         native_portfolio_risk(
-            cache, campaigns, **(kwargs | {"instrument_exposures": {"BTC": "btc"}})
+            cache, campaigns, **(kwargs | {"instrument_exposures": {"BTC.BINANCE": "btc"}})
         )
         is None
     )
+
+    metadata.is_inverse = True
+    assert native_portfolio_risk(cache, campaigns, **kwargs) is None
+    metadata.is_inverse = False
+    metadata.settlement_currency = "BTC"
+    assert native_portfolio_risk(cache, campaigns, **kwargs) is None
