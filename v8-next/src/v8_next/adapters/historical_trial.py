@@ -152,6 +152,7 @@ class HistoricalTrial(PaperCampaignAdapter):
             protection.stop_price if protection else None,
             protection.target_price if protection else None,
             protection.close_invalidation_price if protection else None,
+            protection.live_channel_bars if protection else None,
         )
         self.campaigns += (campaign,)
         record["reason"] = "COUNTERFACTUAL_POLICY_SELECTED_NOT_UTILITY_ADMITTED"

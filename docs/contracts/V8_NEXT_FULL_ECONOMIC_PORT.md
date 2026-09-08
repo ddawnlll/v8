@@ -1413,3 +1413,16 @@ levels, gap variants and the distinction between rounded pivot stop and exact
 pivot validity. Donchian is intentionally not assigned a frozen barrier: its
 source validity uses a live channel and needs a separate rule. Fifteen relevant
 tests passed, with Ruff/mypy clean. Remaining economic scope stays open.
+
+## Donchian live channel validity
+
+Donchian active A campaigns now carry live_channel_bars=20 through protection,
+admission, serialization, historical trial and revised-accounting replay. The
+close-validity evaluator recomputes the prior twenty-bar low (long) or high
+(short), excluding the current bar, matching state.rs fixed-window feature
+bounds and the source expert's channel exit. It does not freeze entry-time channel
+levels or allow the current adverse wick to move the exit threshold. Incomplete
+windows remain unknown; simultaneous frozen/live validity definitions reject.
+The live predicate is generic, but active Donchian selection remains long-only.
+Tests cover warmup, current-wick exclusion and serialization; full suite passes
+(366 tests), Ruff/mypy clean. Other validity and operational scope remain open.

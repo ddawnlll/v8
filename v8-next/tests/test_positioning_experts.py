@@ -255,3 +255,23 @@ def test_funding_d_freezes_distinct_close_thesis_barrier(side, close, funding):
     later = CausalFrame("i", 101, (*frame.candles, current))
     assert campaign.invalidated_by_close(later) is True
     assert campaign.invalidated_by_close(replace(later, candles=())) is None
+
+
+def test_live_channel_validity_uses_prior_window_not_current_wick():
+    from v8_next.domain.campaign import PaperCampaign
+
+    frame, _ = context()
+    campaign = PaperCampaign("c", "o", "i", "LONG", Decimal(1), 1, 200, live_channel_bars=20)
+    assert campaign.invalidated_by_close(frame) is False
+    broken = replace(
+        frame,
+        candles=(
+            *frame.candles[:-1],
+            replace(frame.candles[-1], close=Decimal(99), low=Decimal(50)),
+        ),
+    )
+    assert campaign.invalidated_by_close(broken) is True
+    assert campaign.invalidated_by_close(replace(frame, candles=frame.candles[-20:])) is None
+    assert PaperCampaign.from_record(campaign.to_record()) == campaign
+    with pytest.raises(ValueError, match="ambiguous"):
+        replace(campaign, close_invalidation_price=Decimal(90))

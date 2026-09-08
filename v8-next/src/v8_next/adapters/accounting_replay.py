@@ -50,7 +50,10 @@ def replay_frozen_campaigns(
         event = int(row["time"]) * 10**6
         if event > received or Decimal(row["bidPrice"]) > Decimal(row["askPrice"]):
             raise ValueError("invalid quote clocks or spread")
-        if any(c.close_invalidation_price is not None for c in campaigns):
+        if any(
+            c.close_invalidation_price is not None or c.live_channel_bars is not None
+            for c in campaigns
+        ):
             candles = load_candles(manifest)
             validity_frames[received] = frame_at(
                 "BTCUSDT-PERP.BINANCE",

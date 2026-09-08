@@ -94,8 +94,15 @@ class CampaignProtection:
     stop_price: Decimal
     target_price: Decimal
     close_invalidation_price: Decimal | None = None
+    live_channel_bars: int | None = None
 
     def __post_init__(self) -> None:
+        if self.live_channel_bars is not None and (
+            type(self.live_channel_bars) is not int
+            or self.live_channel_bars <= 0
+            or self.close_invalidation_price is not None
+        ):
+            raise ValueError("invalid or ambiguous live channel validity")
         if self.close_invalidation_price is not None and (
             not self.close_invalidation_price.is_finite() or self.close_invalidation_price <= 0
         ):
@@ -362,4 +369,5 @@ def protection_at(
         stop,
         target,
         invalidation_price,
+        20 if family == "donchian" else None,
     )

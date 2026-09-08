@@ -19,6 +19,7 @@ class PaperCampaign:
     stop_price: Decimal | None = None
     target_price: Decimal | None = None
     close_invalidation_price: Decimal | None = None
+    live_channel_bars: int | None = None
 
     def __post_init__(self) -> None:
         if self.direction not in {"LONG", "SHORT"}:
@@ -28,6 +29,12 @@ class PaperCampaign:
         if self.expires_ns <= self.decision_ns:
             raise ValueError("invalid campaign expiry")
 
+        if self.live_channel_bars is not None and (
+            type(self.live_channel_bars) is not int
+            or self.live_channel_bars <= 0
+            or self.close_invalidation_price is not None
+        ):
+            raise ValueError("invalid or ambiguous live channel validity")
         if self.close_invalidation_price is not None and (
             not self.close_invalidation_price.is_finite() or self.close_invalidation_price <= 0
         ):
@@ -46,7 +53,7 @@ class PaperCampaign:
         Only a later completed causal bar may invalidate a frozen entry thesis.
         Missing input does not manufacture either validity or invalidity.
         """
-        if self.close_invalidation_price is None:
+        if self.close_invalidation_price is None and self.live_channel_bars is None:
             return None
         if frame.instrument_id != self.instrument_id:
             raise ValueError("campaign validity instrument mismatch")
@@ -56,7 +63,14 @@ class PaperCampaign:
         if candle.end_ns <= self.decision_ns:
             return None
         sign = 1 if self.direction == "LONG" else -1
-        return (candle.close - self.close_invalidation_price) * sign <= 0
+        reference = self.close_invalidation_price
+        if self.live_channel_bars is not None:
+            if len(frame.candles) < self.live_channel_bars + 1:
+                return None
+            prior = frame.candles[-self.live_channel_bars - 1 : -1]
+            reference = min(c.low for c in prior) if sign == 1 else max(c.high for c in prior)
+        assert reference is not None
+        return (candle.close - reference) * sign <= 0
 
     def to_record(self) -> dict[str, Any]:
         return {
