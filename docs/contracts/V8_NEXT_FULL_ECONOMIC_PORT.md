@@ -261,3 +261,22 @@ reclaim/rejection paths. Existing strength-three pattern tests remain green.
 The diagnostic catalog now contains 34 stances from twenty families. Fibonacci
 confluence and other remaining expert families, as well as downstream full-product
 requirements, are still open; this is not an economic-operation completion claim.
+
+## Fibonacci/RSI/Bollinger confluence
+
+Added both confluence variants: a requires all three directional observations;
+b requires two, including the source's behavior when the third contradicts.
+This is an internal hypothesis predicate, not evidence reconciliation or a
+statistical independence claim. Both variants share a dependency group.
+The legs are the two-to-three-sigma Bollinger fade zone, observed Wilder-RSI
+recovery run (LONG precedence), and 78.6% confirmed-impulse retracement reclaim.
+The RSI leg does not borrow the separate RSI expert's signal-candle extreme
+trigger: the source confluence deliberately uses the recovered oscillator run.
+A confirmed impulse is required even for the majority variant. Full-prefix RSI
+supplies one consistent current value instead of conflicting local/global seeds.
+
+Tests exhaust all 27 directional/missing vote combinations and establish actual
+computed three-leg positive behavior from isolated OHLC fixtures. Prefix replay
+covers both variants. No confidence or profitability is inferred from agreement.
+The historical catalog now emits 36 stances across twenty-one families; remaining
+expert and full economic-operation requirements are still open.

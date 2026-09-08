@@ -1,0 +1,89 @@
+"""Three-leg hypothesis; agreement is not independent statistical evidence."""
+
+from dataclasses import replace
+from decimal import Decimal
+
+from v8_next.domain.market import CausalFrame
+from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.experts.common import context_reason, directional_stance
+from v8_next.experts.features import close_series, wilder_rsi
+from v8_next.experts.fibonacci import fib_impulse
+from v8_next.experts.reversion import bollinger_direction
+
+
+def recovery_direction(values: tuple[float | None, ...]) -> str | None:
+    if not values or values[-1] is None:
+        return None
+    for side, threshold in (("LONG", 30), ("SHORT", 70)):
+
+        def recovered(value: float | None, side: str = side, threshold: int = threshold) -> bool:
+            return value is not None and (
+                value > threshold if side == "LONG" else value < threshold
+            )
+
+        if not recovered(values[-1]):
+            continue
+        start = len(values) - 1
+        while start > 0 and recovered(values[start - 1]):
+            start -= 1
+        if start > 0 and values[start - 1] is not None:
+            return side
+    return None
+
+
+def confluence_direction(
+    votes: tuple[str | None, str | None, str | None], variant: str
+) -> str | None:
+    if variant not in {"a", "b"}:
+        raise ValueError("unsupported confluence variant")
+    if any(v not in {None, "LONG", "SHORT"} for v in votes):
+        raise ValueError("invalid observation direction")
+    for direction in ("LONG", "SHORT"):
+        if votes.count(direction) >= (3 if variant == "a" else 2):
+            return direction
+    return None
+
+
+def confluence_legs(frame: CausalFrame) -> tuple[str | None, str | None, str | None] | None:
+    impulse = fib_impulse(frame)
+    if impulse is None or len(frame.candles) < 21:
+        return None
+    closes = close_series(frame)
+    bb = bollinger_direction(
+        numeric(closes[-1]), numeric(closes.tail(20).mean()), numeric(closes.tail(20).std(ddof=0))
+    )
+    rsi = recovery_direction(wilder_rsi(closes))
+    level = impulse.retracement(Decimal("0.786"))
+    current = frame.candles[-1]
+    reclaimed = (
+        current.low <= level < current.close
+        if impulse.direction == "LONG"
+        else current.high >= level > current.close
+    )
+    return bb, rsi, impulse.direction if reclaimed else None
+
+
+def observe_confluence(
+    frame: CausalFrame, opportunity: Opportunity | None, *, variant: str = "a"
+) -> Stance:
+    if variant not in {"a", "b"}:
+        raise ValueError("unsupported confluence variant")
+    reason = context_reason(frame, opportunity, 21)
+    direction = None
+    if reason is None:
+        legs = confluence_legs(frame)
+        if legs is None:
+            reason = "MISSING_CONFIRMED_IMPULSE"
+        else:
+            direction = confluence_direction(legs, variant)
+            reason = "INDICATOR_CONFLUENCE" if direction else "NO_CONFLUENCE"
+    stance = directional_stance(
+        frame,
+        opportunity,
+        family="fib-rsi-bb-confluence",
+        dependency="ohlcv-fib-rsi-bands-v1",
+        mechanism="retracement-reversion-confluence-hypothesis",
+        direction=direction,
+        reason=reason,
+    )
+    return replace(stance, variant_id=variant)
