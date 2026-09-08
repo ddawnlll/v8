@@ -26,6 +26,10 @@ class ResearchStore:
                 trial_id TEXT PRIMARY KEY, family TEXT NOT NULL,
                 policy_hash TEXT NOT NULL, dataset_hash TEXT NOT NULL,
                 role TEXT NOT NULL, registered_ns INTEGER NOT NULL);
+            CREATE TABLE IF NOT EXISTS dataset_windows (
+                dataset_hash TEXT NOT NULL, instrument_id TEXT NOT NULL,
+                start_ns INTEGER NOT NULL, end_ns INTEGER NOT NULL,
+                PRIMARY KEY(dataset_hash, instrument_id));
             CREATE TABLE IF NOT EXISTS burns (
                 lineage TEXT NOT NULL, dataset_hash TEXT NOT NULL,
                 burned_ns INTEGER NOT NULL,
@@ -105,6 +109,55 @@ class ResearchStore:
                 raise ValueError("dataset cannot mix protected holdout and observed research roles")
             if existing is None:
                 self.db.execute("INSERT INTO trials VALUES (?,?,?,?,?,?)", values)
+            self.db.execute("COMMIT")
+        except BaseException:
+            self.db.execute("ROLLBACK")
+            raise
+
+    def register_dataset_window(
+        self, dataset_hash: str, instrument_id: str, start_ns: int, end_ns: int
+    ) -> None:
+        """Conservative half-open source coverage, including feature warmup.
+
+        This guards locally declared overlap, not unseen datasets or cross-asset
+        information leakage. The caller derives coverage from verified input.
+        """
+        if not instrument_id or not 0 <= start_ns < end_ns:
+            raise ValueError("invalid dataset coverage")
+        self.db.execute("BEGIN IMMEDIATE")
+        try:
+            roles = {
+                r[0]
+                for r in self.db.execute(
+                    "SELECT DISTINCT role FROM trials WHERE dataset_hash=?", (dataset_hash,)
+                )
+            }
+            if not roles:
+                raise ValueError("register trial before dataset coverage")
+            previous = self.db.execute(
+                "SELECT start_ns,end_ns FROM dataset_windows WHERE dataset_hash=? AND instrument_id=?",
+                (dataset_hash, instrument_id),
+            ).fetchone()
+            if previous is not None and previous != (start_ns, end_ns):
+                raise ValueError("dataset coverage cannot be rewritten")
+            overlapping = {
+                r[0]
+                for r in self.db.execute(
+                    "SELECT DISTINCT t.role FROM dataset_windows w JOIN trials t "
+                    "ON t.dataset_hash=w.dataset_hash WHERE w.instrument_id=? "
+                    "AND w.start_ns < ? AND w.end_ns > ?",
+                    (instrument_id, end_ns, start_ns),
+                )
+            }
+            if ("HOLDOUT" in roles and overlapping - {"HOLDOUT"}) or (
+                roles - {"HOLDOUT"} and "HOLDOUT" in overlapping
+            ):
+                raise ValueError("overlapping observed and holdout dataset windows")
+            if previous is None:
+                self.db.execute(
+                    "INSERT INTO dataset_windows VALUES (?,?,?,?)",
+                    (dataset_hash, instrument_id, start_ns, end_ns),
+                )
             self.db.execute("COMMIT")
         except BaseException:
             self.db.execute("ROLLBACK")

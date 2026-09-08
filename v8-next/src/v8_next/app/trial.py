@@ -45,6 +45,14 @@ def run_trial(
     candles = load_candles(manifest)
     if any(c.instrument_id != "BTCUSDT-PERP.BINANCE" for c in candles):
         raise ValueError("initial historical trial scope is BTCUSDT")
+    if not candles:
+        raise ValueError("empty trial dataset")
+    store.register_dataset_window(
+        dataset_hash,
+        "BTCUSDT-PERP.BINANCE",
+        min(c.start_ns for c in candles),
+        max(c.end_ns for c in candles),
+    )
     engine, metadata = build_engine(
         manifest, policy.maker_fee, policy.taker_fee, policy.initial_balance
     )

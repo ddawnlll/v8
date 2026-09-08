@@ -161,3 +161,21 @@ def test_concurrent_holdout_and_development_registration_cannot_both_commit(tmp_
     with ThreadPoolExecutor(max_workers=2) as executor:
         results = list(executor.map(register, ("HOLDOUT", "DEVELOPMENT")))
     assert sorted(results) == [False, True]
+
+
+@pytest.mark.parametrize("first,second", [("DEVELOPMENT", "HOLDOUT"), ("HOLDOUT", "DEVELOPMENT")])
+def test_different_manifests_cannot_hide_overlapping_holdout_windows(tmp_path, first, second):
+    store = ResearchStore(tmp_path / "research.sqlite")
+    try:
+        store.register_trial("a", "a", "p", "hash-a", first, 1)
+        store.register_dataset_window("hash-a", "BTC", 10, 30)
+        store.register_trial("b", "b", "p", "hash-b", second, 2)
+        with pytest.raises(ValueError, match="overlapping"):
+            store.register_dataset_window("hash-b", "BTC", 20, 40)
+        assert store.family_size("b") == 1  # Failed attempt remains counted.
+        store.register_dataset_window("hash-b", "BTC", 30, 40)  # Adjacent is not overlap.
+        store.register_dataset_window("hash-b", "ETH", 10, 30)
+        with pytest.raises(ValueError, match="cannot be rewritten"):
+            store.register_dataset_window("hash-a", "BTC", 10, 29)
+    finally:
+        store.close()

@@ -873,3 +873,20 @@ This protects known local dataset identities, not overlapping observations in
 separately hashed manifests, undisclosed external access or alternative registries.
 It does not by itself qualify a protected OOS run. Window/observation lineage and
 frozen plan integration remain necessary, along with the rest of the full port.
+
+## Cross-manifest coverage protection
+
+The registry now records immutable half-open dataset coverage per instrument.
+Historical trial execution derives its range from verified source candles,
+including warmup, and registers it before building/running the native engine.
+Coverage insertion checks overlapping HOLDOUT versus observed roles atomically,
+across different manifest hashes and families. Failed attempts remain in the
+trial registry. Exact adjacent boundaries are allowed; same-instrument overlap
+rejects in either role direction. Tests cover overlap, adjacency, distinct
+instruments and attempted coverage rewrites.
+
+This is conservative declared source coverage, not embargo/purge methodology or
+proof of cross-asset independence. Legacy records without coverage and data
+outside this registry remain unqualified. An eventual OOS runner must register
+verified holdout coverage and bind the frozen plan before evaluation. No existing
+historical dataset has been retroactively declared pristine by this change.
