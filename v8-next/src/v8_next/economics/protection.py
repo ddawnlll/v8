@@ -48,6 +48,9 @@ PROTECTION_POLICIES = frozenset(
     {
         "timeout-only-v1",
         "squeeze:baseline:v2",
+        "squeeze:m1:v2",
+        "squeeze:m2:v2",
+        "squeeze:m3:v2",
         "donchian:a:v2",
         "trend-pullback:a:v2",
         "trend-depth:a:v2",
@@ -175,7 +178,7 @@ def protection_at(
         "failed-move": partial(observe_failed_move, variant=variant),
     }
     if family == "squeeze":
-        if observe_squeeze(frame, opportunity).kind != StanceKind.SUPPORT:
+        if observe_squeeze(frame, opportunity, variant=variant).kind != StanceKind.SUPPORT:
             return None
         # Legacy state::atr_series is mean high-low range, not Wilder true range.
         span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14

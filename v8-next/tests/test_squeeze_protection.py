@@ -31,3 +31,14 @@ def test_squeeze_uses_source_range_geometry_and_macro_expiry():
     assert result.stop_price == bars[-1].close - D(".004")
     assert result.target_price == bars[-1].close + D(".008")
     assert result.expires_ns == 69 + 336
+
+    from v8_next.economics.observer_policy import policy_stances
+
+    m1 = policy_stances(frame, opportunity, "squeeze:m1")[0]
+    assert m1.variant_id == "m1"
+    assert m1.kind == "SUPPORT"
+    assert protection_at(frame, opportunity, "squeeze:m1:v2", D(".001")) is not None
+    for variant in ("m2", "m3"):
+        stance = policy_stances(frame, opportunity, f"squeeze:{variant}")[0]
+        assert stance.reason == "WARMUP"
+        assert protection_at(frame, opportunity, f"squeeze:{variant}:v2", D(".001")) is None

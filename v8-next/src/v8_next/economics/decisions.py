@@ -100,7 +100,11 @@ def observe_breakout_baseline(frame: CausalFrame, opportunity: Opportunity | Non
 
 
 def observe_squeeze(
-    frame: CausalFrame, opportunity: Opportunity | None, observer_id: str = "squeeze-swing"
+    frame: CausalFrame,
+    opportunity: Opportunity | None,
+    observer_id: str = "squeeze-swing",
+    *,
+    variant: str = "baseline",
 ) -> Stance:
     """Repo squeeze_swing economic hypothesis, with complete-window warmup.
 
@@ -108,11 +112,20 @@ def observe_squeeze(
     20-close efficiency. Full windows require 69 closes. Missing volume is not
     replaced with one; degenerate bandwidth/volume produces abstention.
     """
+    parameters = {
+        "baseline": (0.35, 48, 1.30),
+        "m1": (0.25, 48, 1.40),
+        "m2": (0.30, 72, 1.35),
+        "m3": (0.25, 72, 1.40),
+    }
+    if variant not in parameters:
+        raise ValueError("unknown squeeze variant")
+    rank_limit, lookback, volume_limit = parameters[variant]
     kind = StanceKind.ABSTAIN
     reason = "NO_OPPORTUNITY"
     if not frame.continuous:
         reason = "SOURCE_GAP"
-    elif len(frame.candles) < 69:
+    elif len(frame.candles) < max(69, lookback + 1):
         reason = "WARMUP"
     elif opportunity is not None:
         values = pl.DataFrame(
@@ -134,12 +147,28 @@ def observe_squeeze(
         path = numeric(close.diff().abs().sum())
         if hi <= lo or volume_mean <= 0 or path <= 0:
             reason = "DEGENERATE_FEATURE"
-        elif (latest - lo) / (hi - lo) > 0.35:
+        elif (latest - lo) / (hi - lo) > rank_limit:
             reason = "NO_COMPRESSION"
-        elif numeric(values["volume"][-1]) / volume_mean < 1.30:
+        elif numeric(values["volume"][-1]) / volume_mean < volume_limit:
             reason = "NO_VOLUME_EXPANSION"
         elif abs(numeric(close[-1]) - numeric(close[0])) / path < 0.18:
             reason = "LOW_EFFICIENCY"
+        elif variant != "baseline" and not (
+            opportunity.instrument_id == frame.instrument_id
+            and (
+                (
+                    opportunity.direction == "LONG"
+                    and frame.candles[-1].close
+                    > max(c.high for c in frame.candles[-lookback - 1 : -1])
+                )
+                or (
+                    opportunity.direction == "SHORT"
+                    and frame.candles[-1].close
+                    < min(c.low for c in frame.candles[-lookback - 1 : -1])
+                )
+            )
+        ):
+            reason = "NO_VARIANT_BREAKOUT"
         else:
             kind, reason = StanceKind.SUPPORT, "COMPRESSION_BREAKOUT"
     return Stance(
@@ -149,6 +178,7 @@ def observe_squeeze(
         reason,
         opportunity.opportunity_id if opportunity else None,
         frame.decision_ns,
+        variant_id=variant,
     )
 
 

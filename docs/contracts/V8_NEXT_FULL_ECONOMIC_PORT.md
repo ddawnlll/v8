@@ -1841,3 +1841,17 @@ Tick rounding uses existing risk-tightening rules. This is the active baseline
 policy, not m1/m2/m3 variant parity, and retains current native quote execution
 rather than claiming legacy NEXT_BAR_CLOSE entry parity. Full suite: 390 passed;
 Ruff/mypy clean. Real calibration and integrated economic operation remain open.
+
+## Explicit squeeze variant selection
+
+Added selectable squeeze:m1/m2/m3 observers and matching protection policies.
+Source rank/lookback/volume thresholds are (0.25,48,1.40), (0.30,72,1.35),
+(0.25,72,1.40). Variants require their own prior-bar breakout and complete
+lookback in addition to existing feature warmup; the baseline preserves its
+existing grammar-bound behavior. Stance variant IDs distinguish experiment
+selection without manufacturing independent evidence. New policies use explicit
+prior 48/72 bars rather than the legacy slice's 47/71, consistent with the
+new product's baseline convention. Tests exercise m1 support/protection and
+72-bar variants rejecting insufficient history. Existing full suite passes
+(390 tests), focused assertions pass, Ruff/mypy clean. Full variant qualification
+and prospective economic admission remain unfinished.

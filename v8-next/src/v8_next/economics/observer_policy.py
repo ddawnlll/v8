@@ -48,7 +48,7 @@ FAMILIES = frozenset(
 
 
 def validate_observer_policy(policy: str) -> str:
-    if policy in {"squeeze", "breakout_baseline"}:
+    if policy in {"squeeze", "squeeze:m1", "squeeze:m2", "squeeze:m3", "breakout_baseline"}:
         return policy
     if not policy.startswith("families:"):
         raise ValueError("unknown observer policy")
@@ -70,6 +70,8 @@ def policy_stances(
     validate_observer_policy(policy)
     if policy == "squeeze":
         return (observe_squeeze(frame, opportunity),)
+    if policy.startswith("squeeze:"):
+        return (observe_squeeze(frame, opportunity, variant=policy.split(":")[1]),)
     if policy == "breakout_baseline":
         return (observe_breakout_baseline(frame, opportunity),)
     families = set(policy.removeprefix("families:").split(","))
