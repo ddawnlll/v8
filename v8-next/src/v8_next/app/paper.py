@@ -96,6 +96,7 @@ def replay_account(
             Decimal(config["max_notional"]),
             observer=selected_observer,
             grammar=parsed.grammar_policy,
+            campaign_policy=parsed.campaign_policy,
         )
         engine.add_strategy(strategy)
         engine.add_data(quotes)

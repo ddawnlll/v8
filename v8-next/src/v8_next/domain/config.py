@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from v8_next.economics.grammar import POLICIES
 from v8_next.economics.observer_policy import validate_observer_policy
+from v8_next.economics.protection import PROTECTION_POLICIES
 
 
 class PaperConfig(BaseModel):
@@ -31,4 +32,13 @@ class PaperConfig(BaseModel):
     def valid_grammar(cls, value: str) -> str:
         if value not in POLICIES:
             raise ValueError("unknown opportunity grammar")
+        return value
+
+    campaign_policy: str = "timeout-only-v1"
+
+    @field_validator("campaign_policy")
+    @classmethod
+    def valid_campaign_policy(cls, value: str) -> str:
+        if value not in PROTECTION_POLICIES:
+            raise ValueError("unknown campaign policy")
         return value

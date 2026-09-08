@@ -1,0 +1,104 @@
+"""Frozen exit geometry: economic policy only, never simulated fill logic."""
+
+from dataclasses import dataclass
+from decimal import ROUND_CEILING, ROUND_FLOOR, Decimal
+
+from v8_next.domain.market import CausalFrame
+from v8_next.economics.decisions import Opportunity
+from v8_next.experts.bollinger import band_setup
+from v8_next.experts.measuring import VARIANTS, measuring_setup
+from v8_next.experts.pandf import pandf_setup
+
+PROTECTION_POLICIES = frozenset(
+    {
+        "timeout-only-v1",
+        *(f"pandf:{v}:v2" for v in "abcd"),
+        *(f"bollinger:{v}:v2" for v in "abc"),
+        *(f"measuring:{v}:v2" for v in VARIANTS),
+    }
+)
+
+
+@dataclass(frozen=True)
+class CampaignProtection:
+    policy: str
+    opportunity_id: str
+    instrument_id: str
+    direction: str
+    observed_ns: int
+    expires_ns: int
+    stop_price: Decimal
+    target_price: Decimal
+
+    def __post_init__(self) -> None:
+        if self.policy not in PROTECTION_POLICIES or self.policy == "timeout-only-v1":
+            raise ValueError("unknown protected campaign policy")
+        if self.direction not in {"LONG", "SHORT"} or self.expires_ns <= self.observed_ns:
+            raise ValueError("invalid protection direction or clocks")
+        if any(not p.is_finite() or p <= 0 for p in (self.stop_price, self.target_price)):
+            raise ValueError("invalid protection prices")
+        if (self.target_price - self.stop_price) * (1 if self.direction == "LONG" else -1) <= 0:
+            raise ValueError("inverted protection")
+
+
+def protection_at(
+    frame: CausalFrame, opportunity: Opportunity, policy: str, tick: Decimal
+) -> CampaignProtection | None:
+    if policy not in PROTECTION_POLICIES:
+        raise ValueError("unknown campaign policy")
+    if policy == "timeout-only-v1":
+        return None
+    if not tick.is_finite() or tick <= 0:
+        raise ValueError("positive venue tick required")
+    if (
+        opportunity.instrument_id != frame.instrument_id
+        or opportunity.anchor_ns > frame.decision_ns
+    ):
+        raise ValueError("protection outside opportunity domain")
+    if not frame.continuous or not frame.candles or opportunity.direction not in {"LONG", "SHORT"}:
+        return None
+    family, variant, _ = policy.split(":")
+    sign = 1 if opportunity.direction == "LONG" else -1
+    close = frame.candles[-1].close
+    if family == "pandf":
+        pf = pandf_setup(frame, variant)
+        if pf is None or pf.direction != opportunity.direction:
+            return None
+        stop, target = pf.stop, pf.target
+    elif family == "measuring":
+        measured = measuring_setup(frame, variant)
+        if measured is None or measured.direction != opportunity.direction:
+            return None
+        stop, target = measured.stop_reference, close + sign * measured.target_distance
+    else:
+        band = band_setup(frame, variant)
+        if band is None or band.direction != opportunity.direction:
+            return None
+        span = Decimal(str(band.mean_range_reference))
+        stop = close - sign * Decimal(str(band.stop_r)) * span
+        target = close + sign * Decimal(str(band.target_r)) * span
+    # Tighten stop and round target toward entry, never silently enlarge price risk.
+    stop = (stop / tick).to_integral_value(
+        rounding=ROUND_CEILING if sign == 1 else ROUND_FLOOR
+    ) * tick
+    target = (target / tick).to_integral_value(
+        rounding=ROUND_FLOOR if sign == 1 else ROUND_CEILING
+    ) * tick
+    if stop <= 0 or target <= 0 or (close - stop) * sign <= 0 or (target - close) * sign <= 0:
+        return None
+    duration = frame.candles[-1].end_ns - frame.candles[-1].start_ns
+    if any(c.end_ns - c.start_ns != duration for c in frame.candles):
+        raise ValueError("protection requires regular bars")
+    expires = min(opportunity.expires_ns, frame.candles[-1].end_ns + 8 * duration)
+    if expires <= frame.decision_ns:
+        return None
+    return CampaignProtection(
+        policy,
+        opportunity.opportunity_id,
+        frame.instrument_id,
+        opportunity.direction,
+        frame.decision_ns,
+        expires,
+        stop,
+        target,
+    )

@@ -528,3 +528,36 @@ suite passed 215 tests after the adapter change; six additional domain/record
 validation tests passed. This qualifies the pinned local engine bracket path,
 not actual Binance venue OCO or partial-fill/reconnect behavior. Position-bearing
 prospective continuation and expert-specific geometry admission remain open.
+
+## Expert geometry reaches economic admission
+
+Frozen PaperConfig.campaign_policy selects timeout-only-v1 or one of ten source
+geometry policies: pandf:a/b/c/d:v2, bollinger:a/b/c:v2 and
+measuring:head_shoulders/double_top/triangle:v2. This selection is part of the
+existing frozen config/hash and is carried by economic decision/report records.
+The source setup must exist with the admitted opportunity's direction. A missing
+or opposite-direction setup never silently becomes an unprotected campaign.
+
+CampaignProtection binds geometry to opportunity, instrument, direction and
+observation/expiry clocks. Controller rejects missing required, mismatched,
+future/expired or price-invalid geometry before creating a campaign. Full
+calibration, utility and risk checks still apply. P&F retains structural stop and
+column-projection target; measuring retains structural stop and measured distance
+from decision close; Bollinger uses frozen range times its declared stop/target R.
+Expiry is at most eight actual bars from observed candle close and no later than
+the opportunity expiry. Stop rounds toward entry and target toward entry using
+venue tick; collapsed geometry rejects instead of widening risk.
+
+These are explicitly v2 execution hypotheses: absolute prices freeze at observed
+close and entry uses the next eligible quote/native market order, not the legacy
+NEXT_BAR_CLOSE execution convention. No same-tick decision fill or retroactive
+geometry update is introduced. Calibration must be obtained for this exact
+policy; old policy results are not interchangeable. Existing fixture-only
+calibration remains the only positive authority test source.
+
+Native integration verifies P&F setup -> independent grammar -> observer ->
+calibrated test admission -> bracket target fill and stop cancellation, and the
+same path rejects without calibration. Full suite passed 224 tests; three further
+geometry tests verify P&F tick tightening/missing setup, Bollinger 2R mapping and
+measured target origin. Ruff and mypy pass. Other expert geometry policies,
+portfolio risk allocation, real calibration and prospective operation remain open.

@@ -445,3 +445,70 @@ def test_entry_gap_invalidates_bracket_without_any_order():
     observation = strategy.campaign_observations(state)[0]
     assert observation["invalidated_before_submission"]
     assert not observation["expired_before_submission"]
+
+
+@pytest.mark.parametrize("verified", [True, False])
+def test_pandf_geometry_through_economic_admission_to_native_bracket(verified):
+    from v8_next.adapters.economic_paper import EconomicPaperAdapter
+    from v8_next.domain.market import Candle, CausalFrame
+    from v8_next.economics.controller import InstrumentConstraints
+    from v8_next.economics.decisions import UtilityInputs
+    from v8_next.risk.admission import RiskLimits
+
+    second = 10**9
+    prices = [100] * 20 + [104, 100, 105]
+    candles = tuple(
+        Candle(
+            "BTCUSDT-PERP.BINANCE",
+            i * second,
+            (i + 1) * second,
+            Decimal(p),
+            Decimal(p) + Decimal(".5"),
+            Decimal(p) - Decimal(".5"),
+            Decimal(p),
+            Decimal(1),
+            (i + 1) * second,
+            (i + 1) * second,
+            "synthetic-test-only",
+        )
+        for i, p in enumerate(prices)
+    )
+    frame = CausalFrame("BTCUSDT-PERP.BINANCE", 23 * second, candles)
+
+    def calibration(*_):
+        return UtilityInputs(
+            Decimal(10), Decimal(1), Decimal(1), Decimal(1), Decimal(1), Decimal(1), "test-only"
+        ), True
+
+    strategy = EconomicPaperAdapter(
+        {frame.decision_ns: frame},
+        RiskLimits(Decimal(1), Decimal(1), Decimal(100), 0),
+        InstrumentConstraints(Decimal(".001"), Decimal(".001"), Decimal(1), Decimal(1)),
+        Decimal("1.05"),
+        calibration if verified else None,
+        observer="families:pandf-breakout",
+        grammar="volatility-extreme-v2",
+        campaign_policy="pandf:a:v2",
+    )
+    state = run_qualified_engine(
+        strategy=strategy,
+        offset=22 * second,
+        quote_prices=[105, 105, 120],
+        standard_assertions=False,
+    )
+    record = strategy.decisions[0]
+    assert Decimal(record["protection"]["stop_price"]) == 101
+    assert Decimal(record["protection"]["target_price"]) == 113
+    if not verified:
+        assert record["reason"] == "UNVERIFIED_CALIBRATION"
+        assert not state["orders"]
+        return
+    assert record["reason"] == "PAPER_CAMPAIGN_ADMITTED"
+    assert len(state["orders"]) == 3 and state["positions"][0]["is_closed"]
+    assert strategy.campaigns[0].stop_price == 101
+    assert strategy.campaigns[0].target_price == 113
+    assert strategy.campaigns[0].expires_ns == 31 * second
+    assert any(
+        o["client_order_id"].endswith("-target") and o["status"] == "FILLED"
+        for o in state["orders"]
+    )

@@ -37,8 +37,7 @@ def report(
         observer="breakout_baseline",
     )
     baseline_campaigns = tuple(
-        PaperCampaign.from_record(campaign)
-        for campaign in baseline["campaigns"]
+        PaperCampaign.from_record(campaign) for campaign in baseline["campaigns"]
     )
     baseline_accounting = replay_frozen_campaigns(
         [run / name for name in checkpoint["manifests"]],
@@ -58,6 +57,9 @@ def report(
     )
     return {
         "schema_version": 1,
+        "campaign_policy": frozen["policy"]["paper_config"].get(
+            "campaign_policy", "timeout-only-v1"
+        ),
         "execution_grammar_policy": frozen["policy"].get(
             "execution_grammar_policy", "range-breakout-48-v1"
         ),

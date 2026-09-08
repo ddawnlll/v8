@@ -7,7 +7,14 @@ from v8_next.risk.admission import RiskLimits, RiskSnapshot
 
 
 def decision(
-    *, verified=True, allocated=frozenset(), stance_ns=10, expires=100, identity="CANONICAL"
+    *,
+    verified=True,
+    allocated=frozenset(),
+    stance_ns=10,
+    expires=100,
+    identity="CANONICAL",
+    protection=None,
+    required=False,
 ):
     opportunity = Opportunity("o", "btc", "BTCUSDT-PERP.BINANCE", "LONG", 1, expires)
     opportunity = replace(opportunity, identity_status=identity)
@@ -24,6 +31,8 @@ def decision(
         D(100),
         allocated,
         calibration_verified=verified,
+        protection=protection,
+        protection_required=required,
     )
 
 
@@ -43,3 +52,26 @@ def test_missing_authority_future_evidence_and_expiry_reject():
 def test_ambiguous_identity_cannot_be_overridden_by_calibration():
     for identity in ("AMBIGUOUS", "UNKNOWN"):
         assert decision(identity=identity).reason == "UNRESOLVED_OPPORTUNITY_IDENTITY"
+
+
+def test_geometry_is_bound_to_opportunity_clocks_and_price():
+    from v8_next.economics.protection import CampaignProtection
+
+    protection = CampaignProtection(
+        "pandf:a:v2", "o", "BTCUSDT-PERP.BINANCE", "LONG", 10, 50, D(90), D(110)
+    )
+    assert decision(required=True).reason == "MISSING_CAMPAIGN_GEOMETRY"
+    assert (
+        decision(protection=replace(protection, opportunity_id="other")).reason
+        == "MISMATCHED_CAMPAIGN_GEOMETRY"
+    )
+    assert (
+        decision(protection=replace(protection, observed_ns=11)).reason
+        == "INVALID_CAMPAIGN_GEOMETRY_CLOCK"
+    )
+    assert (
+        decision(protection=replace(protection, stop_price=D(100))).reason
+        == "PRICE_OUTSIDE_CAMPAIGN_GEOMETRY"
+    )
+    campaign = decision(protection=protection, required=True).campaign
+    assert (campaign.stop_price, campaign.target_price, campaign.expires_ns) == (90, 110, 50)

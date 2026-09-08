@@ -17,6 +17,7 @@ from v8_next.economics.decisions import (
 )
 from v8_next.economics.grammar import POLICIES, grammar_opportunity
 from v8_next.economics.observer_policy import policy_stances, validate_observer_policy
+from v8_next.economics.protection import PROTECTION_POLICIES, protection_at
 from v8_next.risk.admission import RiskLimits, RiskSnapshot
 
 CalibrationProvider = Callable[[Opportunity, int], tuple[UtilityInputs, bool]]
@@ -38,12 +39,16 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         *,
         observer: str = "squeeze",
         grammar: str = "range-breakout-48-v1",
+        campaign_policy: str = "timeout-only-v1",
     ) -> None:
         super().__init__(())
         self.observer = validate_observer_policy(observer)
         if grammar not in POLICIES:
             raise ValueError("unknown opportunity grammar")
         self.grammar = grammar
+        if campaign_policy not in PROTECTION_POLICIES:
+            raise ValueError("unknown campaign policy")
+        self.campaign_policy = campaign_policy
         self.frames = frames
         self.limits = limits
         self.constraints = constraints
@@ -75,6 +80,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             "stance": asdict(stance),
             "stances": [asdict(s) for s in stances],
             "observer_policy": self.observer,
+            "campaign_policy": self.campaign_policy,
             "opportunity": asdict(opportunity) if opportunity else None,
             "claim_status": "NO_ECONOMIC_CLAIM",
         }
@@ -110,6 +116,25 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                 if self.calibration
                 else (UtilityInputs(None, None, None, None, None, None, None), False)
             )
+            protection = None
+            if self.campaign_policy != "timeout-only-v1":
+                instrument = self.cache.instrument(quote.instrument_id)
+                if instrument is None:
+                    raise ValueError("protection instrument metadata missing")
+                protection = protection_at(
+                    frame,
+                    opportunity,
+                    self.campaign_policy,
+                    instrument.price_increment.as_decimal(),
+                )
+                record["protection"] = (
+                    {
+                        k: str(v) if isinstance(v, Decimal) else v
+                        for k, v in asdict(protection).items()
+                    }
+                    if protection
+                    else None
+                )
             decision = decide_campaign(
                 opportunity,
                 stances,
@@ -118,10 +143,14 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                 self.limits,
                 self.constraints,
                 quote.ts_init,
-                max(quote.bid_price.as_decimal(), quote.ask_price.as_decimal()),
+                quote.ask_price.as_decimal()
+                if opportunity.direction == "LONG"
+                else quote.bid_price.as_decimal(),
                 self.requested_notional,
                 frozenset(self.allocated),
                 calibration_verified=verified,
+                protection=protection,
+                protection_required=self.campaign_policy != "timeout-only-v1",
             )
             record["reason"] = decision.reason
             if decision.campaign is not None:
