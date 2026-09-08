@@ -128,3 +128,28 @@ policy remains separate from these diagnostic stances. Unit tests qualify mirror
 patterns, rejection without level contact, recency endpoints, strict sweep bounds
 and variant validation; native prefix tests include all twelve stances. Campaign
 stop/target geometry and opportunity grammar coverage still require integration.
+
+## Eight candlestick variants
+
+`candlestick_reversal` now supplies hammer, shooting star, bullish/bearish
+engulfing, bullish/bearish harami, three white soldiers and three black crows.
+No override uses the source's ordered first-matching variant selection, despite
+the stale Rust header describing hammer-only dispatch. Explicit variants are
+independent diagnostic stances sharing one dependency group. The historical
+catalog now emits 21 stances from eleven families, including automatic selection.
+
+`CandlePattern` preserves the source-defined structural stop, trigger, direction
+and completion clock, without quantity or execution authority. Pattern detection
+is not trigger crossing; campaign admission must still enforce its separate
+policy. Three-candle patterns require their preceding opposite-color context bar
+and a close beyond the second candle's extreme. Zero bodies, missing pattern
+context and unsupported variants do not become signals. Decimal price arithmetic
+expresses the one-third body boundary as 3*body <= range, without float rounding.
+
+Source discrepancy preserved explicitly: bearish harami's executable inequality
+is min(previous open,close) < current open and current close < max(previous
+open,close). It does not fully enforce the prose's two-sided body nesting. This
+port preserves the actual hypothesis; correcting that condition requires a new
+version/trial, not a silent semantic change. It is not a profitability endorsement.
+Tests cover all eight patterns, mirrored direction, decline context, zero-body
+rejection, four-bar soldier context, strict trigger bound and override behavior.
