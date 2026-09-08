@@ -1378,3 +1378,16 @@ native equity marking. Newly selected campaigns receive the frozen barrier too.
 Historical auxiliary data remains absent unless explicitly supplied; this does
 not turn REST receipt-time readings into historical PIT data. Full suite passes
 (364 tests); economic calibration and remaining family validity are still open.
+
+## Structural family thesis references
+
+Liquidity reclaim now retains its swept level; failed breakout retains the
+original failed-breakout barrier; retest A retains its swing level and B/C the
+pattern neckline/validation level. These follow the frozen Python still_valid
+rules, with strict close on the retained side. Retest validity is distinct from
+its buffered/clamped stop. Profile A/B/D retain prior-day extremes; initiative C
+retains POC, explicitly distinct from its opposite-value-area stop. No moving
+reference is substituted after entry. Existing controller/native/accounting paths
+carry and evaluate these barriers. Geometry tests cover their exact references
+and mirrored profile/reclaim cases. Full suite passes (364 tests). Other families'
+non-level validity rules and broader economic delivery remain incomplete.

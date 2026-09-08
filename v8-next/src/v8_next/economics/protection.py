@@ -198,9 +198,11 @@ def protection_at(
         if family == "liquidity-reclaim":
             prior = frame.candles[:-1]
             stop = min(c.low for c in prior) if sign == 1 else max(c.high for c in prior)
+            invalidation_price = stop
         elif variant != "a":
             setup = pattern_retest_setup(frame, variant)
             assert setup is not None
+            invalidation_price = setup.level
             risk_distance = min(
                 Decimal(2) * span, max(Decimal(".8") * span, (close - setup.stop_reference) * sign)
             )
@@ -210,6 +212,7 @@ def protection_at(
             index = high_index if sign == 1 else low_index
             assert index is not None
             level = frame.candles[index].high if sign == 1 else frame.candles[index].low
+            invalidation_price = level
             reference = (
                 min(frame.candles[-1].low, level - span)
                 if sign == 1
@@ -235,10 +238,12 @@ def protection_at(
         if profile is None:
             return None
         if variant == "c":
+            invalidation_price = profile.poc
             stop = profile.value_low if sign == 1 else profile.value_high
             target = profile.day_high if sign == 1 else profile.day_low
         else:
             stop = profile.day_low if sign == 1 else profile.day_high
+            invalidation_price = stop
             target = profile.poc
     elif family == "floor-pivot":
         if observe_floor_pivot(frame, opportunity).kind != StanceKind.SUPPORT:
@@ -279,6 +284,7 @@ def protection_at(
         breakout = last_close_breakout(frame)
         assert breakout is not None
         stop = breakout[1]
+        invalidation_price = stop
         span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
         if span <= 0:
             return None

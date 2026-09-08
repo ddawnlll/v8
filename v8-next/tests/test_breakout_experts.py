@@ -120,6 +120,7 @@ def test_failed_campaign_stop_is_frozen_breakout_level_not_range_multiple():
     frame, opportunity = inputs([100] * 20 + [103, 100])
     protection = protection_at(frame, opportunity, "failed-breakout:a:v2", Decimal(".01"))
     assert protection is not None
+    assert protection.close_invalidation_price == 101
     assert protection.stop_price == 101
     assert protection.target_price == 98
     assert protection.expires_ns == frame.decision_ns + 8

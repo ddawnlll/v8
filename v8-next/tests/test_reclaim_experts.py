@@ -76,6 +76,7 @@ def test_retest_needs_prior_breach_within_six_bars(distance, expected):
     )
     assert (protection is not None) is expected
     if protection is not None:
+        assert protection.close_invalidation_price == 110
         assert protection.stop_price == 108
         assert protection.target_price == 113
     # A mirrored downside setup must produce a SHORT observation.
@@ -132,6 +133,7 @@ def test_pattern_retests_and_mirrors(variant):
         Decimal(".01"),
     )
     assert protection is not None
+    assert protection.close_invalidation_price == 95
     assert protection.target_price == (65 if variant == "b" else 45)
     assert protection.expires_ns == frame.decision_ns + 8
     mirror = tuple(
@@ -165,6 +167,7 @@ def test_sweep_campaign_stop_is_prior_level_not_sweep_extreme():
     frame = replace(frame, candles=bars)
     protection = protection_at(frame, opportunity, "liquidity-reclaim:a:v2", Decimal(".01"))
     assert protection is not None and protection.stop_price == 99
+    assert protection.close_invalidation_price == 99
     mirrored = replace(
         frame,
         candles=tuple(
@@ -176,3 +179,4 @@ def test_sweep_campaign_stop_is_prior_level_not_sweep_extreme():
         mirrored, replace(opportunity, direction="SHORT"), "liquidity-reclaim:a:v2", Decimal(".01")
     )
     assert short is not None and short.stop_price == 101
+    assert short.close_invalidation_price == 101

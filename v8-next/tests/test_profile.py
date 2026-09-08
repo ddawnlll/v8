@@ -55,6 +55,7 @@ def test_complete_session_to_each_profile_variant(variant, close):
     assert (protection.stop_price, protection.target_price) == (
         (100, 110) if variant == "c" else (90, 100)
     )
+    assert protection.close_invalidation_price == (100 if variant == "c" else 90)
     assert protection.expires_ns == opportunity.expires_ns
     mirrored = replace(
         frame,
@@ -67,6 +68,7 @@ def test_complete_session_to_each_profile_variant(variant, close):
         mirrored, replace(opportunity, direction="SHORT"), f"profile:{variant}:v2", Decimal(".01")
     )
     assert short is not None
+    assert short.close_invalidation_price == (100 if variant == "c" else 110)
     assert (short.stop_price, short.target_price) == ((100, 90) if variant == "c" else (110, 100))
     assert (
         observe_profile(
