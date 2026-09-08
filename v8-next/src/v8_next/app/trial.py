@@ -204,6 +204,7 @@ def _run_trial(
                 list(trial.position_closures.values()),
                 state,
                 policy.initial_balance,
+                economic_policy=policy.model_dump(mode="json"),
             ),
             "funding_coverage": "OBSERVED_RECORDS_NOT_COMPLETENESS_CERTIFIED",
             "limitations": [

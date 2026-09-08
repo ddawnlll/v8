@@ -113,6 +113,7 @@ def replay_frozen_campaigns(
             result["position_closures"],
             result,
             Decimal(config["initial_balance"]),
+            economic_policy=config,
         )
         result["view"] = "REVISED_SIMULATED_ACCOUNTING_FROZEN_DECISIONS"
         result["accounting_as_of_ns"] = accounting_as_of_ns

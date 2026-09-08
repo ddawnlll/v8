@@ -1,10 +1,13 @@
 """Observed native campaign outcomes, not estimated edge or a calibration receipt."""
 
+import hashlib
 from decimal import Decimal
 from typing import Any
 
 import numpy as np
 from nautilus_trader.model import Money
+
+from v8_next.evaluation.store import canonical
 
 
 def observed_outcomes(
@@ -12,6 +15,8 @@ def observed_outcomes(
     closures: list[dict[str, Any]],
     account: dict[str, Any],
     initial_balance: Decimal,
+    *,
+    economic_policy: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Caller verifies/replays sources. Native net PnL already includes costs.
 
@@ -49,11 +54,15 @@ def observed_outcomes(
             raise ValueError("outcome currency mismatch")
         return money.as_decimal()
 
+    policy_hash = (
+        hashlib.sha256(canonical(economic_policy).encode()).hexdigest() if economic_policy else None
+    )
     rows, returns = [], []
     net_total = Decimal(0)
     for key, campaign in by_id.items():
         row: dict[str, Any] = {
             "campaign_id": key,
+            "economic_policy_sha256": policy_hash,
             "opportunity_id": campaign["opportunity_id"],
             "instrument_id": campaign["instrument_id"],
             "direction": campaign["direction"],

@@ -11,6 +11,7 @@ def sample():
         rows=[
             dict(
                 campaign_id=str(i),
+                economic_policy_sha256="a" * 64,
                 instrument_id="BTCUSDT-PERP.BINANCE",
                 direction="LONG",
                 status="CLOSED_UNDER_NATIVE_MODEL",
@@ -96,3 +97,15 @@ def test_realized_r_uses_filled_risk_and_keeps_incomplete_cohort_absent():
     assert "net_r" not in report["estimates"]
     assert report["sample_count"] == 4
     assert report["r_estimation_status"] == "COMPLETE_PROTECTED_COHORT_REQUIRED"
+
+
+@pytest.mark.parametrize("identity", [None, "b" * 64])
+def test_different_or_unavailable_economic_policies_are_not_pooled(identity):
+    data = sample()
+    data["rows"][0]["economic_policy_sha256"] = identity
+    report = estimate_components(data, decision_ns=30, block_size=2, reps=99, seed=7)
+    assert report["estimates"] is None
+    assert report["reason"] in {
+        "ECONOMIC_POLICY_IDENTITY_UNAVAILABLE",
+        "EXPLICIT_POLICY_CONDITIONING_REQUIRED",
+    }

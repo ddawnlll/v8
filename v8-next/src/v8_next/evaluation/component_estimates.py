@@ -33,6 +33,12 @@ def estimate_components(
         return {**result, "reason": "COMPLETE_CLOSED_COHORT_REQUIRED"}
     if any(not r.get("instrument_id") or r.get("direction") not in {"LONG", "SHORT"} for r in rows):
         return {**result, "reason": "COHORT_IDENTITY_UNAVAILABLE"}
+    policy_hashes = {r.get("economic_policy_sha256") for r in rows}
+    if None in policy_hashes or "" in policy_hashes:
+        return {**result, "reason": "ECONOMIC_POLICY_IDENTITY_UNAVAILABLE"}
+    if len(policy_hashes) != 1:
+        return {**result, "reason": "EXPLICIT_POLICY_CONDITIONING_REQUIRED"}
+    result["economic_policy_sha256"] = next(iter(policy_hashes))
     identities = {(r["instrument_id"], r["direction"]) for r in rows}
     if len(identities) != 1:
         return {**result, "reason": "EXPLICIT_COHORT_CONDITIONING_REQUIRED"}

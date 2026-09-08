@@ -1431,9 +1431,23 @@ def test_native_outcome_r_uses_original_stop_and_cost_inclusive_pnl(direction, s
     strategy = PaperCampaignAdapter((campaign,))
     state = run_qualified_engine(strategy=strategy, close=True, standard_assertions=False)
     summary = observed_outcomes(
-        [campaign.to_record()], list(strategy.position_closures.values()), state, Decimal(10000)
+        [campaign.to_record()],
+        list(strategy.position_closures.values()),
+        state,
+        Decimal(10000),
+        economic_policy={"campaign_policy": "protected-test-policy"},
     )
     outcome = summary["rows"][0]
+    alternative = observed_outcomes(
+        [campaign.to_record()],
+        list(strategy.position_closures.values()),
+        state,
+        Decimal(10000),
+        economic_policy={"campaign_policy": "different-test-policy"},
+    )
+    assert len(outcome["economic_policy_sha256"]) == 64
+    assert outcome["economic_policy_sha256"] != alternative["rows"][0]["economic_policy_sha256"]
+    assert outcome["net_r"] == alternative["rows"][0]["net_r"]
     assert summary["risk_unit_scorecard"]["mean_net_r"] == outcome["net_r"]
     assert summary["risk_unit_scorecard"]["missing_r_count"] == 0
     assert Decimal(outcome["initial_filled_stop_risk"]) == 1

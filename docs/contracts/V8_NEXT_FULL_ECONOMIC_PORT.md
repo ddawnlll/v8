@@ -2546,3 +2546,17 @@ reject inconsistent R, and preserve missingness. Full suite 443 passed; Ruff and
 mypy (80 source files) clean. This is descriptive realized model R uncertainty,
 not expected utility, a constitutional gate pass or OOS calibration. Strategy/
 regime conditioning and production calibration remain incomplete.
+
+## Economic policy conditioning of outcome estimates
+
+Historical trials and revised paper accounting now bind each outcome row to the
+canonical economic configuration hash. Component estimation refuses absent or
+mixed policy identities in addition to its existing instrument/direction checks.
+This prevents pooling different strategy, protection or cost configurations as a
+single cohort. Generic outcome arithmetic may still run without policy metadata,
+but those rows cannot supply component estimates. Native outcome tests verify
+that a policy change changes cohort identity without changing realized cash/R;
+component tests reject mixed and missing policies. Full suite 445 passed before
+the final native identity assertions; affected native/component tests pass after.
+Ruff and mypy clean. A hash is grouping identity, not source authentication,
+preregistration or regime conditioning. Production calibration remains incomplete.
