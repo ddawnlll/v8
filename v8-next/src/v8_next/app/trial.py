@@ -4,7 +4,7 @@ import argparse
 import hashlib
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from nautilus_trader.model import Currency, Venue
 
@@ -22,18 +22,31 @@ from v8_next.evaluation.store import ResearchStore, canonical
 def run_trial(
     manifest: Path, policy: PaperConfig, store: ResearchStore, family: str
 ) -> dict[str, Any]:
+    return _run_trial(manifest, policy, store, family, "DEVELOPMENT")
+
+
+def _run_trial(
+    manifest: Path,
+    policy: PaperConfig,
+    store: ResearchStore,
+    family: str,
+    role: Literal["DEVELOPMENT", "HOLDOUT"],
+) -> dict[str, Any]:
     if not family.strip():
         raise ValueError("explicit research family required")
     dataset_hash = hashlib.sha256(manifest.read_bytes()).hexdigest()
-    if store.db.execute(
-        "SELECT 1 FROM trials WHERE dataset_hash=? AND role='HOLDOUT'", (dataset_hash,)
-    ).fetchone():
+    if (
+        role == "DEVELOPMENT"
+        and store.db.execute(
+            "SELECT 1 FROM trials WHERE dataset_hash=? AND role='HOLDOUT'", (dataset_hash,)
+        ).fetchone()
+    ):
         raise ValueError("protected holdout cannot be used as a development trial")
     frozen = {
         "config": policy.model_dump(mode="json"),
         "code_and_lock_hash": source_hash(),
         "execution_model": "NATIVE_OHLC_NEXT_BAR_CLOSE_TRIAL_V1",
-        "role": "DEVELOPMENT",
+        "role": role,
     }
     policy_hash = hashlib.sha256(canonical(frozen).encode()).hexdigest()
     trial_id = hashlib.sha256(canonical([family, dataset_hash, policy_hash]).encode()).hexdigest()
@@ -41,7 +54,7 @@ def run_trial(
         "SELECT registered_ns FROM trials WHERE trial_id=?", (trial_id,)
     ).fetchone()
     registered = existing[0] if existing else time.time_ns()
-    store.register_trial(trial_id, family, policy_hash, dataset_hash, "DEVELOPMENT", registered)
+    store.register_trial(trial_id, family, policy_hash, dataset_hash, role, registered)
     candles = load_candles(manifest)
     if any(c.instrument_id != "BTCUSDT-PERP.BINANCE" for c in candles):
         raise ValueError("initial historical trial scope is BTCUSDT")

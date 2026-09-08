@@ -1,12 +1,14 @@
 """Freeze a future observation experiment, not a claim or execution permit."""
 
 import hashlib
+import json
 import time
 from typing import Literal, Self
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, model_validator
 
 from v8_next.domain.config import PaperConfig
+from v8_next.domain.market import Candle
 from v8_next.evaluation.store import ResearchStore, canonical
 
 
@@ -28,7 +30,7 @@ class ForwardPlan(BaseModel):
             raise ValueError("explicit ordered hourly forward boundaries required")
         if self.baseline not in self.policies or any(not k.strip() for k in self.policies):
             raise ValueError("named policies and a member baseline required")
-        if self.block_size >= (self.end_ns - self.start_ns) // hour:
+        if self.block_size >= (self.end_ns - self.start_ns) // hour - 1:
             raise ValueError("bootstrap block must be shorter than planned sample")
         values = list(self.policies.values())
         if len({p.model_dump_json() for p in values}) != len(values):
@@ -77,3 +79,55 @@ def freeze_forward_plan(
         store.db.execute("ROLLBACK")
         raise
     return digest
+
+
+def bind_forward_data(
+    store: ResearchStore,
+    plan_id: str,
+    dataset_hash: str,
+    candles: tuple[Candle, ...],
+    code_and_lock_hash: str,
+) -> ForwardPlan:
+    """Bind one complete future source window; no result or OOS certification.
+
+    Caller must hash/verify the manifest and source bytes. A persisted binding
+    survives later evaluation failure; a different dataset cannot replace it.
+    """
+    store.db.execute("BEGIN IMMEDIATE")
+    try:
+        row = store.db.execute(
+            "SELECT payload,digest,registered_ns FROM forward_plans WHERE plan_id=?", (plan_id,)
+        ).fetchone()
+        if row is None or hashlib.sha256(row[0].encode()).hexdigest() != row[1]:
+            raise ValueError("missing or corrupted forward plan")
+        payload = json.loads(row[0])
+        plan = ForwardPlan.model_validate(payload["plan"])
+        if payload["code_and_lock_hash"] != code_and_lock_hash:
+            raise ValueError("forward runtime differs from frozen plan")
+        now = time.time_ns()
+        if not row[2] < plan.start_ns < plan.end_ns <= now:
+            raise ValueError("forward observation window not completed or not preregistered")
+        hour = 3600 * 10**9
+        if len(candles) != (plan.end_ns - plan.start_ns) // hour:
+            raise ValueError("incomplete forward source window")
+        for i, candle in enumerate(candles):
+            if (
+                candle.instrument_id != plan.instrument_id
+                or candle.start_ns != plan.start_ns + i * hour
+                or candle.end_ns != candle.start_ns + hour
+            ):
+                raise ValueError("forward source identity or chronology mismatch")
+        existing = store.db.execute(
+            "SELECT dataset_hash FROM forward_bindings WHERE plan_id=?", (plan_id,)
+        ).fetchone()
+        if existing is not None and existing[0] != dataset_hash:
+            raise ValueError("forward plan already bound to another dataset")
+        if existing is None:
+            store.db.execute(
+                "INSERT INTO forward_bindings VALUES (?,?,?)", (plan_id, dataset_hash, now)
+            )
+        store.db.execute("COMMIT")
+    except BaseException:
+        store.db.execute("ROLLBACK")
+        raise
+    return plan

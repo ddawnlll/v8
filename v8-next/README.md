@@ -261,3 +261,20 @@ requires `instrument_id`, future UTC-hour-aligned `start_ns`/`end_ns`, `policies
 The registry stores the full plan, source/lock hash and actual registration clock.
 Changed plans cannot reuse an ID; identical retries retain the original clock.
 Recording a plan does not run the experiment or establish protected OOS evidence.
+
+After that future source window completes, execute the frozen family:
+
+```sh
+uv run --project v8-next --extra dev --extra research python -m v8_next.app.forward \
+  /absolute/path/capture/manifest.json --plan-id NAME \
+  --store /absolute/path/research.sqlite --output /absolute/path/forward.json
+```
+
+The capture must contain exactly the declared hourly source window. Code/lock
+must match the frozen plan. Its first bar supplies the first equity mark, so N
+bars yield N-1 measured intervals; no pre-window balance is invented. All planned
+policies run; degenerate comparisons reject rather than drop candidates. A plan
+binds permanently to one dataset even if later execution fails; same-data retries
+are reproducibility attempts, not fresh holdouts. The result is
+PREREGISTERED_FORWARD_WINDOW_MODELED_REPLAY, not certified prospective execution:
+historical availability, venue fills/costs and outside access remain unqualified.

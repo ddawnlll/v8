@@ -29,6 +29,9 @@ class ResearchStore:
             CREATE TABLE IF NOT EXISTS forward_plans (
                 plan_id TEXT PRIMARY KEY, payload TEXT NOT NULL,
                 digest TEXT NOT NULL, registered_ns INTEGER NOT NULL);
+            CREATE TABLE IF NOT EXISTS forward_bindings (
+                plan_id TEXT PRIMARY KEY REFERENCES forward_plans(plan_id),
+                dataset_hash TEXT NOT NULL, bound_ns INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS dataset_windows (
                 dataset_hash TEXT NOT NULL, instrument_id TEXT NOT NULL,
                 start_ns INTEGER NOT NULL, end_ns INTEGER NOT NULL,

@@ -906,3 +906,26 @@ invalid family/window definitions. No genuine experiment is declared completed
 by a frozen plan. Execution/coverage binding, acquisition availability, embargo
 and protected OOS evaluation remain open. Local database/clock trust and outside
 access cannot be established by these checks.
+
+## Frozen forward-window runner
+
+app.forward binds a registered plan to one complete verified source window after
+its end, checks the frozen source/lock hash and executes every declared policy
+through the shared native trial path with HOLDOUT registry role. This role cannot
+mix with known development datasets/windows. The plan binding is atomic and
+survives later failure; another manifest cannot replace it. Same-data retries
+remain the same plan/trial identities. All policies feed the declared baseline
+SPA/WRC plan, without selective omission. No economic/calibration authority is
+created. Runtime/manifest changes between policies reject.
+
+The source window has N hourly bars and N-1 pre-callback equity intervals; the
+first bar establishes starting valuation. Bootstrap size validation accounts for
+this. No pre-window equity is synthesized. Tests cover incomplete/early windows,
+changed code, permanent binding and runner orchestration through real numerical
+inference with test-only fixtures. Existing native trial tests cover the shared
+execution path. No completed real future window has been claimed as tested.
+
+The runner is PREREGISTERED_FORWARD_WINDOW_MODELED_REPLAY. REST historical
+availability remains modeled, so this is not qualified prospective execution.
+Continuous acquisition/PIT, warmup and embargo methodology, exact venue behavior,
+calibration and the broader portfolio/expert requirements remain incomplete.
