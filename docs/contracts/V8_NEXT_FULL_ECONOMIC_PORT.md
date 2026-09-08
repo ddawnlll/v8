@@ -65,3 +65,24 @@ observed; richer opportunity generation and campaign geometry remain outstanding
 Tests exercise band boundaries, both observed directions, recovery-bar ordering,
 RSI seed/recurrence, warmup, gap/instrument rejection and future-prefix invariance
 through native bar callbacks. No claim of full four-family economic parity follows.
+
+## Failed and volume-confirmed breakout observations
+
+The executable catalog now also includes `failed_breakout` and
+`volume_confirmed_breakout`, both active Rust v1 semantics. Failed breakout
+uses the newest close above the maximum preceding high in the supplied history,
+freezes that preceding high, and observes SHORT only on a strict return below
+it within five bars. A newer breakout replaces the reference. This window-relative
+hypothesis needs a frozen history policy in any future deployment configuration.
+
+Volume-confirmed breakout uses the preceding 20-bar price channel, the current-
+inclusive 20-bar volume mean, and optional current-inclusive 100-bar population
+z-score/min-max proximity, as defined in Rust state.rs. Priority is d (>=2x mean
+and z<2), c (>=1.2x), b (>mean and proximity<0.4), then a (>mean). Missing or
+zero-dispersion optional statistics remain absent, never fabricated z/proximity.
+The other branches remain available when their own operands suffice. Unselected
+variants are explicitly UNRESOLVED. Tests cover both price directions, current-bar
+exclusion from the price channel, volume priority/boundaries and actual 100-bar
+d/b feature paths. Native historical prefix invariance covers the six-observer
+catalog. These observation ports still do not provide campaign geometry,
+independent opportunity grammars, calibration or qualified live execution.

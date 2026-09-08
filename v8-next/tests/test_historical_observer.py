@@ -59,10 +59,12 @@ def test_historical_callback_prefix_is_invariant_and_preserves_unknown_clock():
     assert all(d["claim_status"] == "NO_ECONOMIC_CLAIM" for d in prefix)
     assert all(d["admission"] == "REJECTED_MISSING_CALIBRATION" for d in prefix)
 
-    assert all(len(d["expert_diagnostics"]) == 4 for d in prefix)
+    assert all(len(d["expert_diagnostics"]) == 6 for d in prefix)
     assert {s["observer_id"] for s in prefix[-1]["expert_diagnostics"]} == {
         "squeeze-swing",
         "donchian-breakout",
         "bollinger-reversion",
         "rsi-stoch-reversion",
+        "failed-breakout",
+        "volume-confirmed-breakout",
     }

@@ -4,6 +4,7 @@ from collections.abc import Callable
 
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, observe_squeeze
+from v8_next.experts.breakouts import observe_failed_breakout, observe_volume_breakout
 from v8_next.experts.donchian import observe_donchian
 from v8_next.experts.reversion import observe_bollinger_reversion, observe_rsi_reversion
 
@@ -13,6 +14,8 @@ OBSERVERS: tuple[Observer, ...] = (
     observe_donchian,
     observe_bollinger_reversion,
     observe_rsi_reversion,
+    observe_failed_breakout,
+    observe_volume_breakout,
 )
 
 
