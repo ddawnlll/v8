@@ -22,11 +22,17 @@ from v8_next.experts.features import significant_swings
 from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.ichimoku import observe_ichimoku
-from v8_next.experts.levels import daily_pivots, observe_floor_pivot, observe_range_breakout
+from v8_next.experts.levels import (
+    daily_pivots,
+    observe_floor_pivot,
+    observe_range_breakout,
+    previous_session_bars,
+)
 from v8_next.experts.measuring import VARIANTS, measuring_setup
 from v8_next.experts.momentum import observe_macd_stoch, observe_obv_adl
 from v8_next.experts.pandf import pandf_setup
 from v8_next.experts.patterns import pattern_retest_setup
+from v8_next.experts.profile import observe_profile, tpo_profile
 from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
 from v8_next.experts.reversion import (
     bollinger_fade_distance,
@@ -61,6 +67,7 @@ PROTECTION_POLICIES = frozenset(
         "breakout-retest:a:v2",
         "breakout-retest:b:v2",
         "breakout-retest:c:v2",
+        *(f"profile:{v}:v2" for v in "abcd"),
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -178,6 +185,21 @@ def protection_at(
             target = close + sign * abs(setup.extreme - setup.level)
         else:
             target = close + sign * span
+    elif family == "profile":
+        if observe_profile(frame, opportunity, variant=variant).kind != StanceKind.SUPPORT:
+            return None
+        previous = previous_session_bars(frame)
+        assert previous is not None
+        bucket = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+        profile = tpo_profile(previous, bucket)
+        if profile is None:
+            return None
+        if variant == "c":
+            stop = profile.value_low if sign == 1 else profile.value_high
+            target = profile.day_high if sign == 1 else profile.day_low
+        else:
+            stop = profile.day_low if sign == 1 else profile.day_high
+            target = profile.poc
     elif family == "floor-pivot":
         if observe_floor_pivot(frame, opportunity).kind != StanceKind.SUPPORT:
             return None

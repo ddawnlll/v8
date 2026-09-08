@@ -48,6 +48,26 @@ def test_complete_session_to_each_profile_variant(variant, close):
     frame = CausalFrame("i", 25 * HOUR_NS, (*prior, candle(24, close - 0.5, close + 0.5, close)))
     opportunity = Opportunity("o", "e", "i", "LONG", 25 * HOUR_NS, 26 * HOUR_NS)
     assert observe_profile(frame, opportunity, variant=variant).kind == StanceKind.SUPPORT
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(frame, opportunity, f"profile:{variant}:v2", Decimal(".01"))
+    assert protection is not None
+    assert (protection.stop_price, protection.target_price) == (
+        (100, 110) if variant == "c" else (90, 100)
+    )
+    assert protection.expires_ns == opportunity.expires_ns
+    mirrored = replace(
+        frame,
+        candles=tuple(
+            replace(c, open=200 - c.open, close=200 - c.close, high=200 - c.low, low=200 - c.high)
+            for c in frame.candles
+        ),
+    )
+    short = protection_at(
+        mirrored, replace(opportunity, direction="SHORT"), f"profile:{variant}:v2", Decimal(".01")
+    )
+    assert short is not None
+    assert (short.stop_price, short.target_price) == ((100, 90) if variant == "c" else (110, 100))
     assert (
         observe_profile(
             replace(frame, candles=frame.candles[1:]), opportunity, variant=variant

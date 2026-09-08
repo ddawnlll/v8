@@ -1144,3 +1144,14 @@ it. Source 0.8–2-range stop clamp and eight-bar expiry remain. Tests distingui
 25-unit double-pattern and 45-unit H&S targets from the generic one-range target.
 Protected policy count is 44 across 24 families; campaign invalidation, remaining
 families and the wider operational scope are still incomplete.
+
+## Market-profile campaign geometry
+
+profile:a/b/c/d:v2 uses the existing complete-prior-session TPO implementation.
+Reversion variants A/B/D stop at the previous day's extreme and target POC;
+initiative C stops at the opposite value-area edge and targets the prior-day
+extreme. These match market_profile_value_area.rs's executable stop/target rules,
+not its less precise prose about POC holding levels. Tests verify all four
+variants in both directions, exact structural prices and opportunity-limited
+expiry. Protected coverage reaches 25 families/48 policies; ongoing validity and
+full economic operation remain unfinished.
