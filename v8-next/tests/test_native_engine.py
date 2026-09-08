@@ -701,6 +701,21 @@ def test_native_close_sample_reconciles_funding_and_fees_once():
         + Decimal(row["funding_return_on_entry_notional"])
         + Decimal(row["other_adjustment_return_on_entry_notional"])
     ) == Decimal(row["net_return_on_entry_notional"])
+    from copy import deepcopy
+
+    for kind, field in (
+        ("FUNDING", "observed_funding_pnl"),
+        ("OTHER", "observed_other_adjustment_pnl"),
+    ):
+        incomplete = deepcopy(list(strategy.position_closures.values()))
+        incomplete[0]["adjustments"].append({"adjustment_type": kind, "pnl_change": None})
+        missing = observed_outcomes([campaign.to_record()], incomplete, state, Decimal(10000))[
+            "rows"
+        ][0]
+        assert missing[field] is None
+        assert missing["native_price_pnl"] is None
+        assert missing["component_status"] == "MISSING_ADJUSTMENT_PNL"
+        assert missing["native_net_pnl"] == row["native_net_pnl"]
     assert not sample["calibration_eligible"]
 
 

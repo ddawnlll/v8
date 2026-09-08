@@ -1967,3 +1967,12 @@ and marks the decomposition incomplete. This is descriptive native accounting,
 not expected gross edge, calibrated utility or measured execution costs.
 The native fee/funding test verifies exact reconstruction of net return; all 39
 native tests pass, Ruff/mypy clean. Calibration remains ineligible.
+
+## Missing adjustment components remain absent
+
+Observed return decomposition now withholds funding/other-adjustment amounts
+and normalized returns when that component contains an unknown native PnL change.
+It does not report a partial sum as the full component. The known native net PnL
+remains available, while derived price PnL is withheld. Native test variations
+cover missing funding and missing non-funding adjustments; focused test passes,
+Ruff/mypy clean. This preserves missingness, not calibration eligibility.

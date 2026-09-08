@@ -81,7 +81,17 @@ def observed_outcomes(
                 ),
                 Decimal(0),
             )
-            components_known = all(a["pnl_change"] is not None for a in outcome["adjustments"])
+            funding_known = all(
+                a["pnl_change"] is not None
+                for a in outcome["adjustments"]
+                if a["adjustment_type"] == "FUNDING"
+            )
+            other_known = all(
+                a["pnl_change"] is not None
+                for a in outcome["adjustments"]
+                if a["adjustment_type"] != "FUNDING"
+            )
+            components_known = funding_known and other_known
             price_pnl = net + fees - funding - other_adjustments if components_known else None
             value = net / notional
             returns.append(float(value))
@@ -91,15 +101,17 @@ def observed_outcomes(
                 entry_notional=str(notional),
                 native_net_pnl=str(net),
                 observed_commissions=str(fees),
-                observed_funding_pnl=str(funding),
-                observed_other_adjustment_pnl=str(other_adjustments),
+                observed_funding_pnl=str(funding) if funding_known else None,
+                observed_other_adjustment_pnl=str(other_adjustments) if other_known else None,
                 native_price_pnl=str(price_pnl) if price_pnl is not None else None,
                 price_return_on_entry_notional=str(price_pnl / notional)
                 if price_pnl is not None
                 else None,
                 commission_fraction=str(fees / notional),
-                funding_return_on_entry_notional=str(funding / notional),
-                other_adjustment_return_on_entry_notional=str(other_adjustments / notional),
+                funding_return_on_entry_notional=str(funding / notional) if funding_known else None,
+                other_adjustment_return_on_entry_notional=str(other_adjustments / notional)
+                if other_known
+                else None,
                 component_status="DECOMPOSED_NATIVE_PNL"
                 if components_known
                 else "MISSING_ADJUSTMENT_PNL",
