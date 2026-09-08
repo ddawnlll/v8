@@ -24,6 +24,7 @@ from v8_next.economics.decisions import (
     reconcile,
     utility_admission,
 )
+from v8_next.experts.catalog import observe_all
 
 
 class HistoricalObserver(Strategy):
@@ -53,6 +54,7 @@ class HistoricalObserver(Strategy):
                 "modeled_available_ns": candle.end_ns,
                 "opportunity": asdict(opportunity) if opportunity else None,
                 "stance": asdict(stance),
+                "expert_diagnostics": [asdict(s) for s in observe_all(frame, opportunity)],
                 "baseline": "BREAKOUT" if opportunity else "NO_OPPORTUNITY",
                 "reconciliation": reconcile(opportunity, (stance,)) if opportunity else None,
                 "admission": utility_admission(
