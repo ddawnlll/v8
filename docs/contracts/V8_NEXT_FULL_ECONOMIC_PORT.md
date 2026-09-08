@@ -198,3 +198,26 @@ or execution. Tests cover counts, directional mirrors, wrong variants and gaps.
 Historical diagnostics now contain 28 stances from fourteen families. Their
 presence is not qualification of the remaining campaign, allocation, calibration,
 benchmark, portfolio or operational scope.
+
+## Session pivot correction and narrow-range breakout
+
+Added floor-trader pivot drift and range-breakout-1to1 observations. Daily pivot
+has an explicit semantic correction/version: `floor-trader-pivot-utc-session-v2`
+uses the previous complete UTC day's high, low and LAST close, fixed for the
+current session. The Rust state function instead uses the prior rolling 24 bars
+and their FIRST close, despite daily-session descriptions. That accidental formula
+is not promoted into the new daily product. Exact hourly coverage and day endpoints
+are required; missing history abstains. Directional drift needs positive remaining
+room to R1/S1; crossing an already-passed target does not qualify. This is a new
+versioned hypothesis, not numerical parity with legacy daily-pivot results.
+
+Range breakout retains the actual active volume gate (z>=0.20 over 100 bars),
+prior 20-bar channel, width/current-close <=3%, and rejection if the immediately
+preceding bar already broke its own prior channel. The stale source header's
+"no volume gates" is not followed. Missing dispersion abstains. The breakout
+bar cannot enlarge its own prior channel. Tests cover actual volume rejection,
+freshness and fixed daily references rather than merely testing helper formulas.
+
+Historical diagnostics now include 30 stances across sixteen families. These
+remain observations; full campaign, allocation, calibration and prospective
+position-bearing operation are still open requirements.
