@@ -21,6 +21,7 @@ from v8_next.adapters.settlements import (
 )
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.market import CausalFrame, frame_at
+from v8_next.evaluation.outcomes import observed_outcomes
 
 
 def replay_frozen_campaigns(
@@ -104,6 +105,14 @@ def replay_frozen_campaigns(
         if execution.callback_failure is not None:
             raise ValueError(f"accounting callback failed: {execution.callback_failure}")
         result = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
+        result["position_closures"] = list(execution.position_closures.values())
+        result["campaign_observations"] = execution.campaign_observations(result)
+        result["outcomes"] = observed_outcomes(
+            [c.to_record() for c in campaigns],
+            result["position_closures"],
+            result,
+            Decimal(config["initial_balance"]),
+        )
         result["view"] = "REVISED_SIMULATED_ACCOUNTING_FROZEN_DECISIONS"
         result["accounting_as_of_ns"] = accounting_as_of_ns
         result["settlement_sources"] = [

@@ -45,19 +45,20 @@ def inspect_calibration_source(run: Path, decision_ns: int) -> dict[str, Any]:
         paths.append(path)
     recovered_decisions = replay_account(paths, frozen["policy"]["paper_config"])
     reconcile_replay(checkpoint["native_state"], recovered_decisions)
-    campaigns = tuple(
-        PaperCampaign.from_record(c)
-        for c in recovered_decisions["campaigns"]
-    )
+    campaigns = tuple(PaperCampaign.from_record(c) for c in recovered_decisions["campaigns"])
     recomputed = replay_frozen_campaigns(paths, campaigns, frozen["policy"]["paper_config"], cutoff)
     reconcile_replay(revised, recomputed)
     positions = recomputed["positions"]
-    closed = [p for p in positions if p["is_closed"]]
+    closed = recomputed["position_closures"]
+    open_positions = [p for p in positions if not p["is_closed"]]
     if any(
         p["closed_ns"] is None or not p["opened_ns"] <= p["closed_ns"] <= cutoff for p in closed
     ):
         raise ValueError("closed outcome has invalid accounting clocks")
-    blockers = outcome_sample_blockers(positions, recomputed["funding_coverage"])
+    blockers = outcome_sample_blockers(
+        [{**p, "is_closed": True} for p in closed] + open_positions,
+        recomputed["funding_coverage"],
+    )
     reason = blockers[0]
     return {
         "claim_status": "NO_ECONOMIC_CLAIM",
@@ -69,7 +70,8 @@ def inspect_calibration_source(run: Path, decision_ns: int) -> dict[str, Any]:
         "campaign_decisions_recomputed": True,
         "position_records": len(positions),
         "closed_position_records": len(closed),
-        "open_position_records": len(positions) - len(closed),
+        "open_position_records": len(open_positions),
+        "campaign_outcomes": recomputed["outcomes"],
         "outcome_realization": recomputed["realization"],
         "funding_coverage": recomputed["funding_coverage"],
         "closed_outcomes": sorted(closed, key=lambda p: (p["closed_ns"], p["instrument_id"])),

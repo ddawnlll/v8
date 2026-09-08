@@ -125,7 +125,7 @@ def test_revised_accounting_settles_after_last_quote_before_cutoff(tmp_path, mon
     # settlement cutoff selection and native accounting all run unchanged.
     monkeypatch.setattr("v8_next.adapters.accounting_replay.build_engine", test_engine)
     manifests = []
-    for second in (1, 2):
+    for second in (1, 2, 3, 4, 5, 6):
         folder = tmp_path / str(second)
         folder.mkdir()
         artifacts = []
@@ -186,15 +186,35 @@ def test_revised_accounting_settles_after_last_quote_before_cutoff(tmp_path, mon
         10 * 10**9,
     )
     config = {"maker_fee": "0.001", "taker_fee": "0.001", "initial_balance": "10000"}
-    unknown = replay_frozen_campaigns(manifests, (campaign,), config, 3 * 10**9)
+    unknown = replay_frozen_campaigns(manifests[:2], (campaign,), config, 3 * 10**9)
     assert unknown["settlement_sources"] == []
     assert unknown["missing_announced_settlements"] == [3 * 10**9]
-    known = replay_frozen_campaigns(manifests, (campaign,), config, 4 * 10**9)
+    known = replay_frozen_campaigns(manifests[:2], (campaign,), config, 4 * 10**9)
     assert len(known["settlement_sources"]) == 1
     assert known["missing_announced_settlements"] == []
     assert Decimal(unknown["balance_total"].split()[0]) == Decimal("9999.90")
     assert Decimal(known["balance_total"].split()[0]) == Decimal("9998.90")
     assert known["realization"] == "SIMULATED"
+    assert known["outcomes"]["missing_outcome_count"] == 1
+    assert known["position_closures"] == []
+    from dataclasses import replace
+
+    first = replace(campaign, expires_ns=2_500_000_000)
+    second = replace(
+        campaign,
+        campaign_id="second-cycle",
+        opportunity_id="second-op",
+        decision_ns=3_000_000_000,
+        expires_ns=4_500_000_000,
+    )
+    cycles = replay_frozen_campaigns(manifests, (first, second), config, 6_000_000_000)
+    assert {c["campaign_id"] for c in cycles["position_closures"]} == {
+        first.campaign_id,
+        second.campaign_id,
+    }
+    assert cycles["outcomes"]["closed_outcome_count"] == 2
+    assert Decimal(cycles["outcomes"]["cash_reconciliation_residual"]) == 0
+    assert cycles["outcomes"]["calibration_eligible"] is False
 
 
 def test_funding_query_coverage_uses_actual_exposure_lifetime():

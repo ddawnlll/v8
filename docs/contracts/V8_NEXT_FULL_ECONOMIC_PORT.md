@@ -2213,3 +2213,20 @@ cases cover gaps, overlap, changed query end, reversed receipt ordering and earl
 termination. Actual two-page BTC capture still decodes 1200 records. Full suite:
 414 passed; Ruff/mypy clean. This strengthens input integrity only, not funding
 finality or completion of the outstanding economic/continuous-paper scope.
+
+## Revised accounting retains campaign outcome history
+
+Revised frozen-campaign accounting now persists native position closure events,
+campaign observations and the existing descriptive outcome decomposition. The
+calibration inspector reads closures from this event history rather than treating
+the current netting position cache as the historical sample. Open positions still
+come from native current state; no missing return is replaced with zero and no
+calibration provider/authority is introduced. Outputs remain utility-ineligible.
+
+The native revised-accounting fixture now additionally executes two sequential
+campaigns on the same instrument. Both campaign closures survive and their total
+net PnL reconciles exactly to native cash change. The original after-last-quote
+funding cutoff check retains its original two-capture input. Open-campaign output
+also explicitly retains its missing outcome. Full suite remains 414 tests, all
+passing; Ruff/mypy clean. This prevents sample loss under netting reuse, but does
+not qualify statistical calibration, funding finality or continuous paper operation.
