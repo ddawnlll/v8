@@ -1069,3 +1069,17 @@ uses the established tick and eight-bar rules, not historical entry-fill parity.
 Tests cover long/short bands, clamp behavior and frozen anchor volatility even
 when a later bar's high/low range changes. Protected scope is twelve families/
 28 policies; other family geometry and operational work remain incomplete.
+
+## Momentum, climax and Ichimoku campaign connections
+
+Added obv-adl:active:v2, macd-stoch:active:v2 and volume-climax:active:v2 using
+the source active paths' one-range stop/target and eight-bar expiry. Existing
+observer variant priority and no-setup behavior remain the signal authority.
+Ichimoku:cross:v2 separately retains current Kijun26 distance clamped to 0.8–2
+mean-range14 units and a 1.5-unit target, as ichimoku_cloud.rs specifies. It
+requires the actual crossing predicate, not persistent trend alignment.
+
+Tests verify momentum/climax setup-dependent geometry, no-volume/no-setup
+rejection and long/short mirrored Ichimoku geometry. Native execution stays in
+the common bracket adapter. Coverage reaches sixteen families/32 protected
+policies, still not full variant, auxiliary-data or operational completion.

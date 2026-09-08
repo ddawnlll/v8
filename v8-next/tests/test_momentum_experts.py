@@ -74,3 +74,23 @@ def test_macd_stochastic_recovery_and_mirror():
     assert observe_macd_stoch(flat, flat_opportunity).kind == StanceKind.ABSTAIN
     warmup = replace(frame, candles=frame.candles[:33])
     assert observe_macd_stoch(warmup, opportunity).reason == "WARMUP"
+
+
+@pytest.mark.parametrize(
+    "prices,policy",
+    [
+        (list(range(100, 130)), "obv-adl:active:v2"),
+        (list(range(100, 140)) + [137, 135, 140], "macd-stoch:active:v2"),
+    ],
+)
+def test_momentum_protected_geometry_requires_real_setup(prices, policy):
+    from v8_next.economics.protection import protection_at
+
+    frame, opportunity = context(prices)
+    protection = protection_at(frame, opportunity, policy, Decimal(".01"))
+    assert protection is not None
+    assert protection.stop_price == frame.candles[-1].close - 2
+    assert protection.target_price == frame.candles[-1].close + 2
+    assert protection.expires_ns == frame.decision_ns + 8
+    flat, opportunity = context([100] * 40)
+    assert protection_at(flat, opportunity, policy, Decimal(".01")) is None

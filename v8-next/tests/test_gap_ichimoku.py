@@ -111,3 +111,23 @@ def test_gap_campaign_keeps_zone_stop_and_one_range_target(variant, count, direc
     protection = protection_at(frame, opportunity, f"gap:{variant}:v2", Decimal(1))
     assert protection.stop_price == gap_setup(frame, variant).stop_reference
     assert protection.target_price == frame.candles[-1].close + (2 if direction == "LONG" else -2)
+
+
+@pytest.mark.parametrize("inverse", [False, True])
+def test_ichimoku_campaign_clamps_kijun_distance_and_targets_one_point_five_ranges(inverse):
+    from v8_next.economics.protection import protection_at
+
+    frame, opportunity = context([110] * 10 + [100] * 16 + [125])
+    bars = list(frame.candles)
+    bars[12] = replace(bars[12], low=Decimal(90))
+    frame = replace(frame, candles=tuple(bars))
+    if inverse:
+        frame = mirror(frame)
+        opportunity = replace(opportunity, direction="SHORT")
+    protection = protection_at(frame, opportunity, "ichimoku:cross:v2", Decimal(".01"))
+    assert protection is not None
+    # Kijun is far away; stop caps at 2 ranges, target is 1.5 ranges.
+    span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+    close = frame.candles[-1].close
+    assert abs(close - protection.stop_price) == 2 * span
+    assert abs(close - protection.target_price) == Decimal("1.5") * span

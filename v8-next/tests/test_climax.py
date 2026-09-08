@@ -52,3 +52,11 @@ def test_native_volume_statistics_drive_strict_climax_and_flat_volume_abstains()
     stance = observe_volume_climax(spike, opportunity)
     assert stance.kind == StanceKind.SUPPORT and stance.variant_id == "e"
     assert stance.decision_ns == 100
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(spike, opportunity, "volume-climax:active:v2", Decimal(".01"))
+    assert protection is not None
+    assert protection.stop_price == spike.candles[-1].close + 3
+    assert protection.target_price == spike.candles[-1].close - 3
+    assert protection.expires_ns == 108
+    assert protection_at(frame, opportunity, "volume-climax:active:v2", Decimal(".01")) is None

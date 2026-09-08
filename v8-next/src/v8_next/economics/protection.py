@@ -13,8 +13,11 @@ from v8_next.experts.breakouts import (
 )
 from v8_next.experts.candlestick import VARIANTS as CANDLE_VARIANTS
 from v8_next.experts.candlestick import candle_pattern
+from v8_next.experts.climax import observe_volume_climax
 from v8_next.experts.gaps import gap_setup
+from v8_next.experts.ichimoku import observe_ichimoku
 from v8_next.experts.measuring import VARIANTS, measuring_setup
+from v8_next.experts.momentum import observe_macd_stoch, observe_obv_adl
 from v8_next.experts.pandf import pandf_setup
 from v8_next.experts.reversion import (
     bollinger_fade_distance,
@@ -33,6 +36,10 @@ PROTECTION_POLICIES = frozenset(
         "volume-breakout:active:v2",
         "failed-breakout:a:v2",
         "bollinger-reversion:a:v2",
+        "obv-adl:active:v2",
+        "macd-stoch:active:v2",
+        "volume-climax:active:v2",
+        "ichimoku:cross:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -88,6 +95,9 @@ def protection_at(
         "trend-depth": observe_trend_depth,
         "rsi-reversion": observe_rsi_reversion,
         "volume-breakout": observe_volume_breakout,
+        "obv-adl": observe_obv_adl,
+        "macd-stoch": observe_macd_stoch,
+        "volume-climax": observe_volume_climax,
     }
     if family in unit_geometry_observers:
         observer = unit_geometry_observers[family]
@@ -99,6 +109,16 @@ def protection_at(
         # Active Rust v1 declares one range unit each way, not its alternate
         # v2 structural stop. Execution remains V8-next frozen absolute geometry.
         stop, target = close - sign * span, close + sign * span
+    elif family == "ichimoku":
+        if observe_ichimoku(frame, opportunity).kind != StanceKind.SUPPORT:
+            return None
+        window = frame.candles[-26:]
+        kijun = (max(c.high for c in window) + min(c.low for c in window)) / 2
+        span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+        if span <= 0:
+            return None
+        distance = min(Decimal(2) * span, max(Decimal(".8") * span, abs(close - kijun)))
+        stop, target = close - sign * distance, close + sign * Decimal("1.5") * span
     elif family == "bollinger-reversion":
         if observe_bollinger_reversion(frame, opportunity).kind != StanceKind.SUPPORT:
             return None
