@@ -332,3 +332,23 @@ complete prior-day availability and all four actual feature-to-stance paths.
 The catalog has 23 families (22 active TABLE families plus squeeze), 41 stances.
 Six active TABLE observation families remain missing; downstream economic scope
 remains open regardless of these observer counts.
+
+## Failed-breakout 2B variants b through g
+
+Added six active variants: b significant-swing close reclaim in both directions;
+c/d bullish/bearish Hikkake inside-bar false break and reclaim within three bars;
+e opening gap reversed through the prior extreme; f SHORT-only failed 26-bar
+midrange/cloud proxy; g prior 20-bar range close-through failure in both directions.
+The false-move candle is excluded from the cloud/range it broke. Hikkake searches
+only the three eligible recent false moves, newest first, equivalent to the
+source's full backward scan plus recency rejection. Inside/outside shape is
+computed directly from the same immutable candles, removing duplicate feature
+cross-check plumbing. FailedMove retains the frozen reference and completion
+clock; this does not yet implement every campaign/run-anchor consequence.
+
+Tests cover every variant, mirrored Hikkake, exact 1/2/3-bar eligibility versus
+4-bar rejection, significant swing references and false-bar exclusion. Historical
+catalog now contains 47 stances from 24 families (23 of 28 active TABLE families
+plus squeeze). Remaining active observation families: divergence_12_setups,
+funding_crowding_reversal, open_interest_divergence, pandf_breakout and
+pattern_measuring_objective. All downstream full-product requirements remain open.
