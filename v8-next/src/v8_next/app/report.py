@@ -2,11 +2,14 @@
 
 import argparse
 import json
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
+from v8_next.adapters.accounting_replay import replay_frozen_campaigns
 from v8_next.app.evaluate import evaluate
 from v8_next.app.paper import replay_account
+from v8_next.domain.campaign import PaperCampaign
 from v8_next.evaluation.calibration import inspect_calibration_source
 
 
@@ -24,6 +27,16 @@ def report(run: Path, decision_ns: int) -> dict[str, Any]:
         frozen["policy"]["paper_config"],
         observer="breakout_baseline",
     )
+    baseline_campaigns = tuple(
+        PaperCampaign(**{**campaign, "quantity": Decimal(campaign["quantity"])})
+        for campaign in baseline["campaigns"]
+    )
+    baseline_accounting = replay_frozen_campaigns(
+        [run / name for name in checkpoint["manifests"]],
+        baseline_campaigns,
+        frozen["policy"]["paper_config"],
+        int(checkpoint["revised_accounting"]["accounting_as_of_ns"]),
+    )
     return {
         "schema_version": 1,
         "claim_status": "NO_ECONOMIC_CLAIM",
@@ -35,6 +48,8 @@ def report(run: Path, decision_ns: int) -> dict[str, Any]:
             "paired_loss_sample": None,
             "baseline_native_replay": baseline,
             "variant_native_state": checkpoint["native_state"],
+            "baseline_revised_accounting": baseline_accounting,
+            "variant_revised_accounting": checkpoint["revised_accounting"],
             "replay_scope": "SAME_CAPTURE_AND_ADMISSION_POLICY_SIMULATED_DIAGNOSTIC",
             "loss_status": "NO_QUALIFIED_PAIRED_ACCOUNT_INTERVALS",
             "no_trade_is_not_edge_evidence": True,

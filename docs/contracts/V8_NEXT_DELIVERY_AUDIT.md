@@ -117,3 +117,19 @@ Both paths recorded zero orders and NO_ECONOMIC_CLAIM. This is the first native
 baseline report check, not evidence of economic equivalence. Process log:
 `/tmp/v8-next-baseline-report.log`. Full suite: 53 passed in 1.99 s pytest time
 (`/tmp/v8-next-baseline-full.log`); Ruff and mypy passed.
+
+### Paired revised-accounting boundary
+
+The combined report now revalues the baseline's own frozen campaigns using the
+same captured sources and accounting cutoff as the verified variant accounting.
+Both revised views are exposed separately from the original native decision
+states. This prevents an unfunded baseline native balance being compared with a
+funding-adjusted variant balance. It does not establish funding completeness or
+create an eligible loss sample.
+
+The report-composition test uses deliberately distinct baseline and variant
+campaign sets to check ownership, Decimal quantity restoration, verification order
+and equal cutoff. Native settlement arithmetic remains covered separately by the
+funding tests. Five focused tests passed in 0.71 s pytest time; log
+`/tmp/v8-next-paired-accounting-tests.log`. Ruff and mypy passed. No claim gates or
+calibration permission changed.
