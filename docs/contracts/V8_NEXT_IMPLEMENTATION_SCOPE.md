@@ -394,3 +394,14 @@ coverage is never extended to the later accounting cutoff. The output is labeled
 `BOUNDED_RESPONSE_NOT_FINALITY_CERTIFICATE`; overall funding qualification and
 readmission remain unchanged. Six focused capture/settlement tests passed in
 0.54 s (`/tmp/v8-next-funding-windows.log`), and mypy passed for 24 source files.
+
+Each revised native position now includes a query-coverage assessment against its
+actual open/close timestamps and instrument. An open position requires a response
+covering through the accounting cutoff; a closed position requires coverage through
+its native close. The current session-prefix acquisition requires one bounded
+response covering the whole position, and does not infer coverage across disjoint
+windows. Future-received responses cannot establish past coverage. Source hashes
+are retained. `BOUNDED_RESPONSE_COVERS_EXPOSURE` remains separate from cashflow
+finality, which stays UNQUALIFIED. This supports identifying the exact data gap;
+it does not authorize economic claims or readmission. Seven focused tests passed
+in 0.49 s (`/tmp/v8-next-exposure-funding-tests.log`); mypy passed.

@@ -183,3 +183,34 @@ def test_revised_accounting_settles_after_last_quote_before_cutoff(tmp_path, mon
     assert Decimal(unknown["balance_total"].split()[0]) == Decimal("9999.90")
     assert Decimal(known["balance_total"].split()[0]) == Decimal("9998.90")
     assert known["realization"] == "SIMULATED"
+
+
+def test_funding_query_coverage_uses_actual_exposure_lifetime():
+    from v8_next.adapters.settlements import position_funding_query_coverage
+
+    position = {
+        "instrument_id": "BTCUSDT-PERP.BINANCE",
+        "opened_ns": 10,
+        "closed_ns": 20,
+        "is_closed": True,
+    }
+    window = {
+        "instrument_id": position["instrument_id"],
+        "start_inclusive_ns": 5,
+        "end_inclusive_ns": 25,
+        "received_ns": 30,
+        "source_sha256": "test-only",
+    }
+    closed = position_funding_query_coverage([position], [window], 40)[0]
+    assert closed["query_status"] == "BOUNDED_RESPONSE_COVERS_EXPOSURE"
+    assert closed["cashflow_finality"] == "UNQUALIFIED"
+    for changed in (
+        {"is_closed": False, "closed_ns": None},
+        {"opened_ns": 4},
+        {"instrument_id": "ETHUSDT-PERP.BINANCE"},
+    ):
+        row = position_funding_query_coverage([{**position, **changed}], [window], 40)[0]
+        assert row["query_status"] == "EXPOSURE_NOT_FULLY_QUERIED"
+    assert position_funding_query_coverage([position], [window], 29)[0]["source_sha256"] == []
+    with pytest.raises(ValueError, match="exposure interval"):
+        position_funding_query_coverage([{**position, "closed_ns": None}], [window], 40)

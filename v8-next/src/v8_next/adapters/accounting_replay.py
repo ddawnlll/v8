@@ -16,6 +16,7 @@ from v8_next.adapters.settlements import (
     final_funding,
     funding_query_windows,
     missing_announced_settlements,
+    position_funding_query_coverage,
 )
 from v8_next.domain.campaign import PaperCampaign
 
@@ -89,6 +90,9 @@ def replay_frozen_campaigns(
             {**asdict(s), "rate": str(s.rate), "mark_price": str(s.mark_price)} for s in settlements
         ]
         result["funding_query_windows"] = funding_query_windows(manifests, accounting_as_of_ns)
+        result["position_funding_query_coverage"] = position_funding_query_coverage(
+            result["positions"], result["funding_query_windows"], accounting_as_of_ns
+        )
         result["funding_coverage"] = "OBSERVED_FINAL_RECORDS_ONLY_NOT_COMPLETENESS_CERTIFIED"
         missing = missing_announced_settlements(
             manifests, settlements, quotes[0].ts_init, accounting_as_of_ns

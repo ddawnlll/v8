@@ -6,6 +6,7 @@ import json
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
+from typing import Any
 
 from nautilus_trader.model import FundingRateUpdate, InstrumentId, MarkPriceUpdate, Price
 
@@ -170,6 +171,7 @@ def funding_query_windows(
             raise ValueError("funding response outside bounded query")
         windows.append(
             {
+                "instrument_id": f"{metadata['symbol']}-PERP.BINANCE",
                 "start_inclusive_ns": start * 10**6,
                 "end_inclusive_ns": end * 10**6,
                 "received_ns": received,
@@ -178,3 +180,41 @@ def funding_query_windows(
             }
         )
     return sorted(windows, key=lambda w: (int(w["start_inclusive_ns"]), int(w["end_inclusive_ns"])))
+
+
+def position_funding_query_coverage(
+    positions: list[dict[str, Any]], windows: list[dict[str, int | str]], cutoff: int
+) -> list[dict[str, Any]]:
+    """Match native exposure lifetimes to a full bounded response per position.
+
+    Query coverage is not funding finality or venue cash settlement. Open positions
+    require coverage through cutoff; closed positions through their actual close.
+    """
+    result = []
+    for position in positions:
+        start = position["opened_ns"]
+        end = position["closed_ns"] if position["is_closed"] else cutoff
+        if type(start) is not int or type(end) is not int or not 0 <= start <= end <= cutoff:
+            raise ValueError("invalid native exposure interval")
+        sources = [
+            window["source_sha256"]
+            for window in windows
+            if window["instrument_id"] == position["instrument_id"]
+            and int(window["start_inclusive_ns"]) <= start
+            and int(window["end_inclusive_ns"]) >= end
+            and int(window["received_ns"]) <= cutoff
+        ]
+        result.append(
+            {
+                "instrument_id": position["instrument_id"],
+                "opened_ns": start,
+                "exposure_end_ns": end,
+                "is_closed": position["is_closed"],
+                "query_status": "BOUNDED_RESPONSE_COVERS_EXPOSURE"
+                if sources
+                else "EXPOSURE_NOT_FULLY_QUERIED",
+                "source_sha256": sorted(set(sources)),
+                "cashflow_finality": "UNQUALIFIED",
+            }
+        )
+    return result
