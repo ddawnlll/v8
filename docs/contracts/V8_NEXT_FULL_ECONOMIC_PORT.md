@@ -2800,3 +2800,16 @@ timeout; no old exit request occurs. Existing two-instrument isolation/replay an
 full-bracket successor checks also pass. Full suite 463 passed; Ruff/mypy clean.
 This is executable lifecycle qualification, not calibrated production admission
 or prospective venue recovery. Full economic port requirements remain open.
+
+## Funding quantity across native partial-reduction timing
+
+Expanded native long/short qualification with reduction fills both before and
+after the t=3 funding boundary. Tests inspect actual OrderFilled event timestamps,
+then require funding on .005 when reduction filled at t=2.5 and on .010 when it
+filled at t=4. Subsequent stop closure still reconciles native price PnL, fees and
+funding with account cash. Duplicate funding updates supplied by the fixture do
+not double-charge. All eight relevant native cases passed; Ruff clean. This
+verifies native settlement quantity ordering using isolated synthetic fixtures,
+not real venue settlement finality or prospective funding availability. No runtime
+implementation change was needed for this boundary. Full economic port remains
+open, including production calibration and position-bearing prospective operation.

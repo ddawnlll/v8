@@ -1545,8 +1545,9 @@ def test_selection_cash_includes_terminal_nonentries_but_not_unresolved_selectio
 
 @pytest.mark.parametrize("direction", ["LONG", "SHORT"])
 @pytest.mark.parametrize("stop_after_reduction", [False, True])
+@pytest.mark.parametrize("reduction_before_funding", [False, True])
 def test_partial_native_reduction_updates_stop_risk_from_remaining_quantity(
-    direction, stop_after_reduction
+    direction, stop_after_reduction, reduction_before_funding
 ):
     from nautilus_trader.model import OrderSide
 
@@ -1597,7 +1598,13 @@ def test_partial_native_reduction_updates_stop_risk_from_remaining_quantity(
     state = run_qualified_engine(
         strategy=subject,
         standard_assertions=False,
-        quote_times=(10**9, 2 * 10**9, 4 * 10**9, 5 * 10**9, 6 * 10**9),
+        quote_times=(
+            10**9,
+            2 * 10**9,
+            2500000000 if reduction_before_funding else 4 * 10**9,
+            5 * 10**9,
+            6 * 10**9,
+        ),
         quote_prices=(10000, 10000, 10000, 10000, stop if stop_after_reduction else 10000),
     )
     assert (Decimal(".010"), Decimal("1")) in subject.samples
@@ -1617,8 +1624,19 @@ def test_partial_native_reduction_updates_stop_risk_from_remaining_quantity(
         )
         assert outcomes["reconciliation"] == "CLOSED_CASH_RECONCILED"
         row = outcomes["rows"][0]
-        # Funding is at t=3; the reduction is submitted on the t=4 quote.
-        assert Decimal(row["observed_funding_pnl"]) == Decimal("-1" if direction == "LONG" else "1")
+        # Funding is at t=3; actual native reduction is before or after it.
+        reduction = next(
+            e
+            for e in subject.order_events
+            if e["event_type"] == "OrderFilled"
+            and e["client_order_id"] not in {"partial-risk", "partial-risk-stop"}
+        )
+        assert (reduction["event_ns"] < 3 * 10**9) == reduction_before_funding
+        funded_quantity = Decimal(".005" if reduction_before_funding else ".010")
+        expected_funding = (
+            funded_quantity * 10000 * Decimal(".01") * (-1 if direction == "LONG" else 1)
+        )
+        assert Decimal(row["observed_funding_pnl"]) == expected_funding
         assert Decimal(row["native_price_pnl"]) == Decimal("-.5")
         assert Decimal(row["observed_commissions"]) == Decimal(
             ".1995" if direction == "LONG" else ".2005"
