@@ -1875,3 +1875,15 @@ in both directions. Changing only the oldest prior bar's high/low blocks the
 using 71 bars. Both variants then abstain and withhold protection. Two squeeze
 tests pass, Ruff clean. These synthetic behavioral checks do not certify
 strategy economics or complete the remaining product requirements.
+
+## Real snapshot squeeze configuration qualification
+
+Validated all four observer/protection selections through PaperConfig and ran
+policy_stances over a previously verified real BTC capture, with bars becoming
+known only at their recorded receipts. Artifact: /tmp/v8-squeeze-real-2070118.json;
+source: /tmp/v8-next-ratio-cli-qualification-1957096/manifest.json. All variants
+returned NO_OPPORTUNITY under volatility-extreme-v2; no fabricated opportunity,
+metric or order was introduced. Output records source/runtime identity and
+receipt-known diagnostic scope. This verifies selectable wiring on real input,
+not positive-signal economics. Source review confirmed the 0.18 efficiency
+threshold remains common to the variants.
