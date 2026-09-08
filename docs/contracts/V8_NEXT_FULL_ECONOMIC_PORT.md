@@ -2482,3 +2482,19 @@ winning subgroups is introduced. Three tests cover unlike instruments, unlike
 directions and unavailable direction; full suite 439 passed, Ruff/mypy clean.
 This is only basic cohort identity. Strategy/regime conditioning, preregistered
 sample construction, OOS qualification and usable economic calibration remain open.
+
+## Explicit realized R units for protected outcomes
+
+Closed native outcome rows now expose initial_filled_stop_risk and net_r using
+actual average entry, filled peak quantity and the original campaign stop. Net R
+uses native cost-inclusive PnL, so fees/funding are not subtracted again. Missing
+stops or entry at/beyond the stop leave R unavailable rather than inventing a
+risk denominator. This is realized model R, not planned portfolio risk, expected
+edge, a maximum-loss guarantee or a full constitutional benchmark gate.
+
+Native long and short protected campaign tests establish a one-unit initial
+filled stop risk and exact net-PnL/R conversion. An unprotected close remains
+R-unavailable. Full suite 441 passed before the final absent-stop assertion;
+all native engine tests pass afterward. Ruff/mypy clean. Component estimates stay
+in entry-notional fractions and must not be silently substituted for R thresholds.
+Production calibration and economic paper admission remain incomplete.

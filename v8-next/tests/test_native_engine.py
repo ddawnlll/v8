@@ -691,6 +691,8 @@ def test_native_close_sample_reconciles_funding_and_fees_once():
     assert sample["reconciliation"] == "CLOSED_CASH_RECONCILED"
     assert sample["native_closed_net_pnl"] == "-1.20000000"
     row = sample["rows"][0]
+    assert row["net_r"] is None
+    assert row["r_status"] == "ORIGINAL_STOP_UNAVAILABLE"
     assert row["observed_commissions"] == "0.20000000"
     assert row["observed_funding_pnl"] == "-1.00000000"
     assert Decimal(row["net_return_on_entry_notional"]) == Decimal("-.012")
@@ -1405,3 +1407,30 @@ def test_historical_native_generates_two_protected_instrument_campaigns(requeste
         )
     finally:
         engine.dispose()
+
+
+@pytest.mark.parametrize(
+    "direction,stop,target", [("LONG", "9900", "10100"), ("SHORT", "10100", "9900")]
+)
+def test_native_outcome_r_uses_original_stop_and_cost_inclusive_pnl(direction, stop, target):
+    from v8_next.evaluation.outcomes import observed_outcomes
+
+    campaign = PaperCampaign(
+        "risk-unit",
+        "risk-op",
+        "BTCUSDT-PERP.BINANCE",
+        direction,
+        Decimal(".010"),
+        10**9,
+        5 * 10**9,
+        Decimal(stop),
+        Decimal(target),
+    )
+    strategy = PaperCampaignAdapter((campaign,))
+    state = run_qualified_engine(strategy=strategy, close=True, standard_assertions=False)
+    outcome = observed_outcomes(
+        [campaign.to_record()], list(strategy.position_closures.values()), state, Decimal(10000)
+    )["rows"][0]
+    assert Decimal(outcome["initial_filled_stop_risk"]) == 1
+    assert Decimal(outcome["net_r"]) == Decimal(outcome["native_net_pnl"])
+    assert outcome["r_status"] == "COMPUTED_FROM_FILLED_ENTRY_AND_ORIGINAL_STOP"

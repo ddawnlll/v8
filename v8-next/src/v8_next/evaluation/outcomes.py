@@ -59,6 +59,9 @@ def observed_outcomes(
             "direction": campaign["direction"],
             "status": "NO_CLOSED_NATIVE_OUTCOME",
             "net_return_on_entry_notional": None,
+            "initial_filled_stop_risk": None,
+            "net_r": None,
+            "r_status": "NO_CLOSED_PROTECTED_OUTCOME",
         }
         outcome = closed.get(key)
         if outcome is not None:
@@ -98,6 +101,25 @@ def observed_outcomes(
             value = net / notional
             returns.append(float(value))
             net_total += net
+            if campaign.get("stop_price") is not None:
+                stop = Decimal(campaign["stop_price"])
+                entry = Decimal(outcome["average_open_price"])
+                quantity = Decimal(outcome["peak_quantity"])
+                distance = (entry - stop) * (1 if campaign["direction"] == "LONG" else -1)
+                if not stop.is_finite() or stop <= 0:
+                    raise ValueError("invalid original campaign stop")
+                if distance > 0:
+                    risk = distance * quantity
+                    row.update(
+                        initial_filled_stop_risk=str(risk),
+                        net_r=str(net / risk),
+                        r_status="COMPUTED_FROM_FILLED_ENTRY_AND_ORIGINAL_STOP",
+                    )
+                else:
+                    row["r_status"] = "ENTRY_AT_OR_BEYOND_ORIGINAL_STOP"
+            else:
+                row["r_status"] = "ORIGINAL_STOP_UNAVAILABLE"
+
             row.update(
                 status="CLOSED_UNDER_NATIVE_MODEL",
                 entry_notional=str(notional),
