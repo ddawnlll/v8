@@ -7,6 +7,7 @@ from typing import Any
 import numpy as np
 
 from v8_next.evaluation.alignment import IntervalLoss, paired_differentials
+from v8_next.evaluation.reality_check import reality_check_diagnostic
 
 
 def spa_diagnostic(
@@ -78,7 +79,16 @@ def spa_diagnostic(
         "seed": seed,
         "variants": names,
         "pvalues": pvalues,
-        "wrc": None,
+        "wrc": reality_check_diagnostic(
+            baseline,
+            variants,
+            frozen_ns=frozen_ns,
+            evaluation_end_ns=evaluation_end_ns,
+            decision_ns=decision_ns,
+            block_size=block_size,
+            reps=reps,
+            seed=seed,
+        ),
         "dsr": None,
         "pbo": None,
         "promotion_eligible": False,

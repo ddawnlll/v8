@@ -650,3 +650,29 @@ sharing one netting ID remain separate and reconcile, that fees/funding are
 counted once, and that open/missing/corrupted outcomes cannot produce a complete
 sample. All 249 tests pass; Ruff/mypy clean. Real calibration and full benchmark
 inference remain open requirements.
+
+## White Reality Check numerical path
+
+Added WHITE_MAX_MEAN_CIRCULAR_BLOCK_V2 on aligned baseline-minus-variant loss
+intervals. It preserves reality_check.rs's compound-null centering on each
+variant's own observed mean, joint resampling of every column, family maximum
+and inclusive >= exceedance fraction. arch.bootstrap.CircularBlockBootstrap owns
+the sampler; NumPy owns reductions. The installed arch RealityCheck is a shallow
+SPA subclass, so it is not substituted for V8's circular-block/inclusive-tail
+contract. V2 uses the library RNG instead of reproducing the legacy MT19937 draw
+sequence; deterministic repetition within the pinned environment is tested.
+Mean ties use lexicographic variant identity rather than dictionary insertion.
+
+Existing exploratory SPA output now also includes a separately labeled WRC
+result using the explicit same seed/block-size/repetition plan; SPA remains
+stationary and WRC remains circular fixed-block. Their numerical outputs do not
+establish source admissibility, preregistration, independent samples, complete
+search-family accounting or any claim authority. DSR and PBO remain absent.
+The real campaign-conditional outcome sample is not silently treated as aligned
+policy loss intervals, so no p-value is fabricated for the earlier 15 outcomes.
+
+A hand-enumerated draw test checks common resampling, per-column centering and
+exact tie inclusion (a strict-tail implementation would fail). Library-backed
+checks cover seed repeatability, duplicate-column invariance, missing chronology
+and degenerate input rejection. This is methodology retained with a mature
+resampler, not a custom bootstrap infrastructure port.

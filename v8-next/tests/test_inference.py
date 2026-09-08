@@ -18,7 +18,9 @@ def test_spa_is_repeatable_and_never_promotes_test_fixture():
     assert set(result["pvalues"]) == {"lower", "consistent", "upper"}
     assert all(0 <= v <= 1 for v in result["pvalues"].values())
     assert not result["promotion_eligible"]
-    assert result["wrc"] is result["dsr"] is result["pbo"] is None
+    assert result["dsr"] is result["pbo"] is None
+    assert result["wrc"]["bootstrap"] == "circular_fixed_block_joint_columns"
+    assert cloned["wrc"]["p_value"] == result["wrc"]["p_value"]
     with pytest.raises(ValueError, match="degenerate"):
         spa_diagnostic(baseline, {"clone": baseline}, **kwargs)
 
