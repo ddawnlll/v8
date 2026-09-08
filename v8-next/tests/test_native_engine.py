@@ -1047,6 +1047,40 @@ def run_two_native_instruments(frozen_campaigns=None):
             next(iter(adapter.position_closures.values()))["instrument_id"]
             == "BTCUSDT-PERP.BINANCE"
         )
+        from v8_next.adapters.portfolio_equity import EquityMark, native_equity
+
+        marks = {"ETHUSDT-PERP.BINANCE": EquityMark(Price(110, 2), 5 * 10**9)}
+        valuation = native_equity(
+            engine.cache,
+            marks,
+            venue=venue,
+            currency=usdt,
+            observed_ns=5 * 10**9,
+            max_mark_age_ns=0,
+        )
+        assert valuation == (Decimal("9999.987"), Decimal(".1"))
+        assert (
+            native_equity(
+                engine.cache,
+                {},
+                venue=venue,
+                currency=usdt,
+                observed_ns=5 * 10**9,
+                max_mark_age_ns=0,
+            )
+            is None
+        )
+        assert (
+            native_equity(
+                engine.cache,
+                marks,
+                venue=venue,
+                currency=usdt,
+                observed_ns=6 * 10**9,
+                max_mark_age_ns=0,
+            )
+            is None
+        )
         state = economic_state(engine, venue, usdt)
         assert Decimal(state["balance_total"].split()[0]) == Decimal("9999.987")
         return (

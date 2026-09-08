@@ -1924,3 +1924,15 @@ do not prove this valuation contract. No subscription or claim gate was widened
 under the false assumption that tuple keys alone establish portfolio backtesting.
 This narrows the integration dependency: portfolio valuation/aligned interval
 construction precedes multi-instrument HistoricalTrial enablement.
+
+## Shared native equity projection
+
+Added native_equity: cash plus native per-position unrealized PnL using explicit
+instrument marks and a caller-declared freshness limit. Missing/future/stale marks
+or currency mismatch return absence; no FX or funding correction is fabricated.
+HistoricalTrial now uses this projection with its current single-bar exact-clock
+mark, preserving its single-instrument scope. Native two-instrument replay tests
+value the remaining ETH position at an explicit mark and reject missing/stale
+marks. Full suite passed 391 tests before those additional assertions; focused
+native test passes afterward, Ruff/mypy clean. Common evaluation-phase alignment
+is still required before enabling multi-instrument historical callbacks.

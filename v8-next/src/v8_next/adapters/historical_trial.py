@@ -7,6 +7,7 @@ from typing import Any
 from nautilus_trader.model import Bar, BarType, Currency, Venue
 
 from v8_next.adapters.campaign import PaperCampaignAdapter
+from v8_next.adapters.portfolio_equity import EquityMark, native_equity
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.config import PaperConfig
 from v8_next.domain.market import Candle, frame_at
@@ -185,20 +186,18 @@ class HistoricalTrial(PaperCampaignAdapter):
             raise ValueError("equity source instrument mismatch")
         if self.equity_marks and bar.ts_event <= self.equity_marks[-1]["end_ns"]:
             raise ValueError("equity boundaries must increase")
-        account = self.cache.account_for_venue(Venue("BINANCE"))
-        if account is None:
-            raise ValueError("native equity account missing")
-        currency = Currency.from_str("USDT")
-        cash = account.balance_total(currency).as_decimal()
-        unrealized = Decimal(0)
+        projected = native_equity(
+            self.cache,
+            {str(bar.bar_type.instrument_id): EquityMark(bar.close, bar.ts_init)},
+            venue=Venue("BINANCE"),
+            currency=Currency.from_str("USDT"),
+            observed_ns=bar.ts_init,
+            max_mark_age_ns=0,
+        )
+        if projected is None:
+            raise ValueError("incomplete native equity valuation")
+        cash, unrealized = projected
         positions = self.cache.positions_open()
-        for position in positions:
-            if position.instrument_id != bar.bar_type.instrument_id:
-                raise ValueError("unpriced cross-instrument exposure")
-            pnl = position.unrealized_pnl(bar.close)
-            if pnl.currency != currency:
-                raise ValueError("equity currency mismatch")
-            unrealized += pnl.as_decimal()
         self.equity_marks.append(
             {
                 "end_ns": bar.ts_event,
