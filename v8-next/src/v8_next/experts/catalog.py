@@ -11,6 +11,7 @@ from v8_next.experts.breakouts import observe_failed_breakout, observe_volume_br
 from v8_next.experts.candlestick import VARIANTS, observe_candlestick
 from v8_next.experts.climax import observe_volume_climax
 from v8_next.experts.confluence import observe_confluence
+from v8_next.experts.divergence import observe_divergence
 from v8_next.experts.donchian import observe_donchian
 from v8_next.experts.failed_moves import observe_failed_move
 from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
@@ -28,6 +29,7 @@ from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 Observer = Callable[[CausalFrame, Opportunity | None], Stance]
 OBSERVERS: tuple[Observer, ...] = (
     observe_squeeze,
+    *(partial(observe_divergence, variant=v) for v in ("a", "b")),
     *(partial(observe_measuring, variant=v) for v in ("head_shoulders", "double_top", "triangle")),
     *(partial(observe_failed_move, variant=v) for v in ("b", "c", "d", "e", "f", "g")),
     *(partial(observe_profile, variant=v) for v in ("a", "b", "c", "d")),

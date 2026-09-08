@@ -404,3 +404,23 @@ observation implementation, not a working live derivatives-data pipeline.
 The catalog now covers observations for 26/28 active TABLE families plus squeeze,
 58 stances. Divergence12 and P&F remain missing; downstream economic integration
 and real prospective qualification remain required.
+
+## Confirmed RSI divergence
+
+Added divergence a (bearish) and b (bullish) observations, preserving the actual
+implemented frozen Python pair rather than claiming twelve distinct setups.
+The active Rust v1 path implements the bearish case. Strict strength-five pivots
+must have range at least the current mean high-low range14; the latest two
+confirmed pivots require opposing Wilder RSI14 movement and a strict current
+close through the intervening price barrier. RSI uses the shared full-prefix
+seed convention, removing the old window/global feature cross-check. Setup
+records preserve both pivot clocks, the right-flank confirmation clock, barrier
+and extreme. No expected edge or capital authority is assigned.
+
+Actual-price synthetic unit fixtures cover both directions, missing right-flank
+confirmation, barrier equality and absent oscillator divergence. Historical
+prefix invariance includes both new variants. Checks: 180 tests passed, Ruff
+clean, mypy clean on 50 source files. Catalog now emits 60 stances and covers
+27/28 active TABLE families plus squeeze. P&F remains absent; opportunity,
+calibration, portfolio/campaign integration and prospective qualification remain
+open requirements, not implied by observer coverage.
