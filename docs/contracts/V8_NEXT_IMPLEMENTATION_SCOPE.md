@@ -347,3 +347,17 @@ receipt issuer. Exact duplicate alternative loss columns preserve returned
 p-values in the qualification test; missing and degenerate inputs fail closed.
 The optional research extra is locked. No real sample inference has been claimed;
 connecting verified account outcomes and preregistered lineage remains unfinished.
+
+### Updated feedback after optional inference integration
+
+Fresh isolated dev environment measurements in
+`/tmp/v8-next-feedback-final-scope.json`: cached setup 0.216 s, first native import
+2.314 s, subsequent import 0.074 s, focused economic tests 4.165 s, native
+integration tests 1.125 s, Ruff 0.484 s, mypy 2.130 s. All exited zero. The dev
+measurement deliberately excludes the optional research dependencies.
+
+Separately, `/tmp/v8-next-research-feedback.json` records cached research-extra
+setup 0.118 s in the existing project environment, SPA qualification 1.546 s
+process wall time, and the full research-enabled suite 2.072 s process wall time
+(48 tests passed; pytest reported 1.83 s). These scopes/environments differ and
+must not be presented as equivalent speed comparisons. No Rust speedup is inferred.
