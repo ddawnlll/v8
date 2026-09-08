@@ -48,9 +48,14 @@ def test_callback_failure_is_retained_even_if_native_engine_logs_it():
         max_notional="100",
         max_exposure_fraction=".1",
     )
+    from types import SimpleNamespace
+
     trial = Failing((), policy)
+    trial.instruments = frozenset({"BTC"})
+    trial.mark_equity = lambda bar: None
+    bar = SimpleNamespace(bar_type=SimpleNamespace(instrument_id="BTC"), ts_event=10, ts_init=10)
     with pytest.raises(ValueError, match="missing source"):
-        trial.on_bar(None)
+        trial.on_bar(bar)
     assert trial.failure == "ValueError: missing source"
     trial.on_bar(None)
     assert not trial.decisions
@@ -129,3 +134,40 @@ def test_historical_native_thesis_exit_precedes_timeout_and_replays():
         assert len(trial.equity_marks) == 3
         results.append(state)
     reconcile_replay(*results)
+
+
+def test_portfolio_boundary_waits_for_all_instruments_once():
+    from types import SimpleNamespace
+
+    from v8_next.adapters.historical_trial import HistoricalTrial
+
+    class Recording(HistoricalTrial):
+        def mark_equity(self, bar):
+            self.events.append("equity")
+
+        def process_bar(self, bar):
+            self.events.append(str(bar.bar_type.instrument_id))
+
+    policy = PaperConfig(
+        maker_fee="0",
+        taker_fee="0",
+        initial_balance="1000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+    )
+    trial = Recording((), policy)
+    trial.instruments = frozenset({"BTC", "ETH"})
+    trial.events = []
+
+    def bar(symbol, clock=10):
+        return SimpleNamespace(
+            bar_type=SimpleNamespace(instrument_id=symbol), ts_event=clock, ts_init=clock
+        )
+
+    trial.on_bar(bar("ETH"))
+    assert trial.events == []
+    trial.on_bar(bar("BTC"))
+    assert trial.events == ["equity", "BTC", "ETH"]
+    trial.on_bar(bar("BTC", 20))
+    with pytest.raises(ValueError, match="incomplete"):
+        trial.on_bar(bar("ETH", 30))

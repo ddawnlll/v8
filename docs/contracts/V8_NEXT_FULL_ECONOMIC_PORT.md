@@ -1988,3 +1988,19 @@ verify complete valuation and missing/stale boundary rejection. Focused test and
 Ruff/mypy pass. Event-phase invocation and one-row-per-boundary integration remain
 the next dependency; this helper does not itself implement a scheduler or claim
 multi-instrument HistoricalTrial completion.
+
+## Historical portfolio boundary integration
+
+HistoricalTrial now keys source bars by instrument/time and maintains per-symbol
+feature prefixes. It subscribes to the source universe and waits for all symbols
+at each historical boundary before emitting one native equity mark and processing
+symbol callbacks in stable sorted order. The explicit historical model requires
+event==init; missing/duplicate boundaries reject, including incomplete terminal
+input. Native engine processing remains upstream-owned; this is callback input
+alignment, not a replacement scheduler. Existing single-exposure trial admission
+still limits simultaneous experimental campaigns and app capture remains narrow.
+
+Tests verify no decision/equity before complete input, one equity observation
+per completed boundary, deterministic symbol order and missing-boundary failure.
+Full suite: 392 passed; mypy clean. Native multi-source HistoricalTrial end-to-end
+qualification and complete portfolio evaluation provenance remain required.

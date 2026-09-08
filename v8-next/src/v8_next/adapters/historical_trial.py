@@ -7,7 +7,7 @@ from typing import Any
 from nautilus_trader.model import Bar, BarType, Currency, Venue
 
 from v8_next.adapters.campaign import PaperCampaignAdapter
-from v8_next.adapters.portfolio_equity import EquityMark, native_equity
+from v8_next.adapters.portfolio_equity import EquityMark, aligned_native_equity
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.config import PaperConfig
 from v8_next.domain.market import Candle, frame_at
@@ -32,32 +32,55 @@ class HistoricalTrial(PaperCampaignAdapter):
 
     def __init__(self, source: tuple[Candle, ...], policy: PaperConfig) -> None:
         super().__init__(())
-        self.source = {c.end_ns: c for c in source}
+        self.source = {(c.instrument_id, c.end_ns): c for c in source}
         if len(self.source) != len(source):
             raise ValueError("duplicate trial candle boundary")
-        self.prefix: list[Candle] = []
+        self.instruments = frozenset(c.instrument_id for c in source)
+        self.prefixes: dict[str, list[Candle]] = {instrument: [] for instrument in self.instruments}
+        self.boundary_bars: dict[str, Bar] = {}
         self.policy = policy
         self.decisions: list[dict[str, Any]] = []
         self.equity_marks: list[dict[str, Any]] = []
         self.failure: str | None = None
 
     def on_start(self) -> None:
-        self.subscribe_bars(BarType.from_str("BTCUSDT-PERP.BINANCE-1-HOUR-LAST-EXTERNAL"))
+        for instrument in sorted(self.instruments):
+            self.subscribe_bars(BarType.from_str(f"{instrument}-1-HOUR-LAST-EXTERNAL"))
 
     def on_bar(self, bar: Bar) -> None:
         if self.failure is not None:
             return
         try:
-            self.process_bar(bar)
+            if bar.ts_init != bar.ts_event:
+                raise ValueError("historical boundary requires explicit close-time model")
+            instrument = str(bar.bar_type.instrument_id)
+            if instrument not in self.instruments:
+                raise ValueError("unexpected trial instrument")
+            if self.boundary_bars and any(
+                b.ts_event != bar.ts_event for b in self.boundary_bars.values()
+            ):
+                raise ValueError("incomplete portfolio bar boundary")
+            if instrument in self.boundary_bars:
+                raise ValueError("duplicate portfolio boundary bar")
+            self.boundary_bars[instrument] = bar
+            if self.boundary_bars.keys() == self.instruments:
+                self.mark_equity(bar)
+                for key in sorted(self.boundary_bars):
+                    self.process_bar(self.boundary_bars[key])
+                self.boundary_bars.clear()
         except Exception as error:
             self.failure = f"{type(error).__name__}: {error}"
             raise
 
+    def on_stop(self) -> None:
+        if self.boundary_bars and self.failure is None:
+            self.failure = "ValueError: incomplete terminal portfolio bar boundary"
+
     def process_bar(self, bar: Bar) -> None:
-        self.mark_equity(bar)
-        candle = self.source[bar.ts_event]
-        self.prefix.append(replace(candle, available_ns=candle.end_ns))
-        frame = frame_at(candle.instrument_id, bar.ts_init, tuple(self.prefix))
+        candle = self.source[(str(bar.bar_type.instrument_id), bar.ts_event)]
+        prefix = self.prefixes[candle.instrument_id]
+        prefix.append(replace(candle, available_ns=candle.end_ns))
+        frame = frame_at(candle.instrument_id, bar.ts_init, tuple(prefix))
         self.observe_validity(frame)
         # Prior decisions execute no earlier than the NEXT real bar close. The
         # native bar model supplies fills; no synthetic QuoteTick is constructed.
@@ -181,18 +204,22 @@ class HistoricalTrial(PaperCampaignAdapter):
         This is not end-of-timestamp equity: orders submitted by this callback
         and subsequent same-clock events can still change cash and exposure.
         """
-        candle = self.source[bar.ts_event]
+        candle = self.source[(str(bar.bar_type.instrument_id), bar.ts_event)]
         if candle.instrument_id != str(bar.bar_type.instrument_id):
             raise ValueError("equity source instrument mismatch")
         if self.equity_marks and bar.ts_event <= self.equity_marks[-1]["end_ns"]:
             raise ValueError("equity boundaries must increase")
-        projected = native_equity(
+        projected = aligned_native_equity(
             self.cache,
-            {str(bar.bar_type.instrument_id): EquityMark(bar.close, bar.ts_event, bar.ts_init)},
+            {
+                key: EquityMark(value.close, value.ts_event, value.ts_init)
+                for key, value in self.boundary_bars.items()
+            },
             venue=Venue("BINANCE"),
             currency=Currency.from_str("USDT"),
             observed_ns=bar.ts_init,
-            max_mark_age_ns=0,
+            required_instruments=self.instruments,
+            boundary_ns=bar.ts_event,
         )
         if projected is None:
             raise ValueError("incomplete native equity valuation")
