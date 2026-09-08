@@ -11,6 +11,7 @@ from v8_next.economics.controller import CampaignDecision, InstrumentConstraints
 from v8_next.economics.decisions import Opportunity, Stance, UtilityInputs
 from v8_next.economics.protection import CampaignProtection
 from v8_next.risk.admission import RiskLimits, RiskSnapshot
+from v8_next.risk.sizing import StopBudget, StopExposure
 
 
 @dataclass(frozen=True)
@@ -32,6 +33,8 @@ def allocate_ordered(
     *,
     decision_ns: int,
     already_allocated: frozenset[str],
+    stop_budget: StopBudget | None = None,
+    stop_exposure: StopExposure | None = None,
 ) -> tuple[CampaignDecision, ...]:
     """Input order is the declared priority, never implicitly sorted by votes.
 
@@ -42,6 +45,7 @@ def allocate_ordered(
     """
     used = set(already_allocated)
     reserved = Decimal(0)
+    current_stop_exposure = stop_exposure
     results = []
     account_state = None
     for proposal in proposals:
@@ -74,9 +78,20 @@ def allocate_ordered(
             calibration_verified=proposal.calibration_verified,
             protection=proposal.protection,
             protection_required=True,
+            stop_budget=stop_budget,
+            stop_exposure=current_stop_exposure,
         )
         results.append(decision)
         if decision.campaign is not None:
             reserved += decision.campaign.quantity * proposal.price
             used.add(proposal.opportunity.opportunity_id)
+            if current_stop_exposure is not None:
+                current_stop_exposure = replace(
+                    current_stop_exposure,
+                    open_and_reserved_risk=current_stop_exposure.open_and_reserved_risk
+                    + decision.campaign.quantity
+                    * abs(proposal.price - proposal.protection.stop_price),
+                    active_and_reserved_campaigns=current_stop_exposure.active_and_reserved_campaigns
+                    + 1,
+                )
     return tuple(results)

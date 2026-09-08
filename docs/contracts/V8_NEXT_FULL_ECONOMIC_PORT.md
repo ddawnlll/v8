@@ -1610,3 +1610,16 @@ Full suite: 380 passed; Ruff/mypy clean (71 source files). This module is not ye
 wired into native multi-instrument execution and does not add portfolio stop-heat
 allocation. Those integrations and the remaining full economic requirements
 remain open; no production calibration or trading authority was enabled.
+
+## Shared stop-risk allocation
+
+Ordered allocation now accepts the existing explicit StopBudget and reconciled
+StopExposure. Each accepted lot-rounded quantity reserves its nominal distance
+to stop and one campaign slot before the next admission. Rejections consume
+neither; the supplied snapshot remains immutable. Missing, stale or unmatched
+budget/exposure inputs retain controller rejection semantics. Nominal stop risk
+is not a gap-loss guarantee. Existing policy rejects when a full per-campaign
+budget would exceed portfolio heat; no implicit remaining-heat sizing was added.
+Five allocation tests pass, including shared heat/concurrency exhaustion and
+missing/stale inputs; Ruff/mypy clean. Native batch execution and calibration
+qualification are still required before this can authorize product operation.

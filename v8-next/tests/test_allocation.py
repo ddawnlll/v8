@@ -63,3 +63,36 @@ def test_lot_rounding_reserves_actual_admitted_quantity():
     first = replace(proposal("a"), requested_notional=D(605))
     results = allocate([first, proposal("b")])
     assert [r.campaign.quantity for r in results] == [D(6), D(4)]
+
+
+def test_batch_stop_heat_and_concurrency_reserve_each_accepted_campaign():
+    from v8_next.risk.sizing import StopBudget, StopExposure
+
+    def run(budget, exposure, proposals=None):
+        return allocate_ordered(
+            tuple(proposals or [proposal("a"), proposal("b"), proposal("c")]),
+            {"btc": RiskSnapshot(D(1000), D(0), D(0), D(0), 10, True)},
+            RiskLimits(D(1), D(1), D(1000), 10),
+            decision_ns=10,
+            already_allocated=frozenset(),
+            stop_budget=budget,
+            stop_exposure=exposure,
+        )
+
+    empty = StopExposure(D(0), 0, 10, True)
+    results = run(StopBudget(D("0.01"), D("0.02"), 10), empty)
+    assert [r.campaign.quantity if r.campaign else None for r in results] == [D(1), D(1), None]
+    assert results[2].reason == "PORTFOLIO_HEAT_EXCEEDED"
+    results = run(StopBudget(D("0.01"), D("0.1"), 1), empty)
+    assert results[1].reason == "CAMPAIGN_CONCURRENCY_LIMIT"
+    results = run(
+        StopBudget(D("0.01"), D("0.1"), 1), empty, [proposal("a", verified=False), proposal("b")]
+    )
+    assert results[1].campaign.quantity == D(1)
+    assert empty.open_and_reserved_risk == 0
+    assert run(StopBudget(D("0.01"), D("0.1"), 1), None)[0].reason == "MISSING_STOP_RISK_INPUTS"
+    assert run(None, empty)[0].reason == "MISSING_STOP_BUDGET_POLICY"
+    assert (
+        run(StopBudget(D("0.01"), D("0.1"), 1), replace(empty, as_of_ns=9))[0].reason
+        == "STALE_OR_FUTURE_STOP_EXPOSURE"
+    )
