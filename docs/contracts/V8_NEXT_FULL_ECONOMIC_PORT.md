@@ -2306,3 +2306,23 @@ checks duplicate/revision/gap behavior. Full suite: 420 passed; Ruff/mypy clean.
 The native Binance closed-bar decoder/subscription is not wired yet; this contract
 must not be described as live bar-update qualification. Economic admission,
 reconnect backfill and continuous paper operation remain outstanding.
+
+## Native closed Binance bars wired into streaming frames
+
+Warmup-enabled native streaming now subscribes hourly EXTERNAL/LAST bars for
+BTC/ETH. The pinned upstream futures parser checks is_closed and timestamps bars
+at Binance's inclusive close millisecond; the native data client forwards these
+as Data::Bar. Inspected exact tagged source:
+https://github.com/nautechsystems/nautilus_trader/blob/v2.0.0rc4/crates/adapters/binance/src/futures/websocket/streams/parse_data.rs
+https://github.com/nautechsystems/nautilus_trader/blob/v2.0.0rc4/crates/adapters/binance/src/futures/data.rs
+
+The callback validates hourly boundary/type and receipt clocks, adds exactly one
+millisecond to form V8's exclusive end, persists normalized bar inputs and binds
+their canonical record hash to the candle. The next quote runs observations on
+the advanced frame. Invalid bars stop the node through the existing failure path.
+Successful results include the bar file hash/count. Two native Bar-object tests
+verify inclusive-close conversion, hash propagation into 64 stances and rejection
+of a wrongly shifted timestamp. Full suite: 422 passed; Ruff/mypy clean. No actual
+hour-boundary websocket bar was observed during this change; production delivery
+at a real boundary and reconnect/backfill remain qualification work. This does
+not enable calibrated paper execution or claim full continuous operation.

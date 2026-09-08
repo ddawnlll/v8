@@ -18,9 +18,10 @@ from nautilus_trader.adapters.binance import (
 )
 from nautilus_trader.common import DataActor, Environment
 from nautilus_trader.live import LiveNode
-from nautilus_trader.model import InstrumentId, QuoteTick, TraderId
+from nautilus_trader.model import Bar, BarType, InstrumentId, QuoteTick, TraderId
 
 from v8_next.app.observe import source_hash
+from v8_next.domain.market import Candle
 from v8_next.economics.stream_observation import StreamObservations
 from v8_next.evaluation.store import canonical
 
@@ -33,6 +34,8 @@ class QuoteRecorder(DataActor):
         self.output = output
         self.stop_node: Callable[[], None] | None = None
         self.count = 0
+        self.bar_count = 0
+        self.bar_output: TextIO | None = None
         self.observations: StreamObservations | None = None
         self.observation_output: TextIO | None = None
         self.failure: str | None = None
@@ -40,6 +43,61 @@ class QuoteRecorder(DataActor):
     def on_start(self) -> None:
         for name in INSTRUMENTS:
             self.subscribe_quotes(InstrumentId.from_str(name))
+            if self.observations is not None:
+                self.subscribe_bars(BarType.from_str(f"{name}-1-HOUR-LAST-EXTERNAL"))
+
+    def on_bar(self, bar: Bar) -> None:
+        if self.failure is not None:
+            return
+        try:
+            instrument = str(bar.bar_type.instrument_id)
+            hour, millisecond = 3600 * 10**9, 10**6
+            end = bar.ts_event + millisecond
+            if (
+                instrument not in INSTRUMENTS
+                or str(bar.bar_type) != f"{instrument}-1-HOUR-LAST-EXTERNAL"
+                or end % hour != 0
+                or not 0 < end <= bar.ts_init <= time.time_ns()
+            ):
+                raise ValueError("unqualified Binance closed-bar clocks or type")
+            if self.bar_output is None or self.observations is None:
+                raise ValueError("closed-bar recorder not configured")
+            record = dict(
+                instrument_id=instrument,
+                start_ns=end - hour,
+                end_ns=end,
+                native_event_ns=bar.ts_event,
+                received_ns=bar.ts_init,
+                open=str(bar.open),
+                high=str(bar.high),
+                low=str(bar.low),
+                close=str(bar.close),
+                volume=str(bar.volume),
+                source="NAUTILUS_BINANCE_CLOSED_KLINE_V2_0_0RC4",
+            )
+            serialized = canonical(record)
+            candle = Candle(
+                instrument,
+                end - hour,
+                end,
+                bar.open.as_decimal(),
+                bar.high.as_decimal(),
+                bar.low.as_decimal(),
+                bar.close.as_decimal(),
+                bar.volume.as_decimal(),
+                bar.ts_init,
+                bar.ts_init,
+                hashlib.sha256(serialized.encode()).hexdigest(),
+            )
+            self.bar_output.write(serialized + "\n")
+            self.bar_output.flush()
+            self.observations.add_closed_candle(candle)
+            self.bar_count += 1
+        except Exception as error:
+            self.failure = f"{type(error).__name__}: {error}"
+            if self.stop_node is not None:
+                self.stop_node()
+            raise
 
     def on_quote(self, quote: QuoteTick) -> None:
         if self.failure is not None:
@@ -126,11 +184,13 @@ async def capture_stream(
     with (
         (destination / "quotes.jsonl").open("x") as output,
         (destination / "observations.jsonl").open("x") as observation_output,
+        (destination / "bars.jsonl").open("x") as bar_output,
     ):
         actor = QuoteRecorder(output)
         actor.stop_node = node.handle().stop
         actor.observations = observations
         actor.observation_output = observation_output
+        actor.bar_output = bar_output
         node.add_actor(actor)
 
         async def stop_after() -> None:
@@ -142,6 +202,8 @@ async def capture_stream(
             await node.run_async()
             if actor.failure:
                 raise ValueError(actor.failure)
+            bar_output.flush()
+            os.fsync(bar_output.fileno())
             output.flush()
             os.fsync(output.fileno())
             observation_output.flush()
@@ -150,6 +212,8 @@ async def capture_stream(
                 quotes_hash = hashlib.file_digest(recorded, "sha256").hexdigest()
             result = dict(
                 quote_sha256=quotes_hash,
+                bar_count=actor.bar_count,
+                bar_sha256=hashlib.sha256((destination / "bars.jsonl").read_bytes()).hexdigest(),
                 observation_sha256=hashlib.sha256(
                     (destination / "observations.jsonl").read_bytes()
                 ).hexdigest(),

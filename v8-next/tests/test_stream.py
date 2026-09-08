@@ -152,3 +152,50 @@ def test_closed_stream_bar_advances_once_without_revision_or_gap(tmp_path, monke
                 available_ns=4 * hour + 1,
             )
         )
+
+
+@pytest.mark.parametrize("offset", [0, 1_000_000])
+def test_native_binance_bar_boundary_reaches_stream_frame(monkeypatch, offset):
+    from nautilus_trader.model import Bar, BarType
+
+    from v8_next.economics.stream_observation import StreamObservations
+
+    hour = 3600 * 10**9
+    monkeypatch.setattr("v8_next.app.stream.time.time_ns", lambda: hour + 100)
+    actor = QuoteRecorder(io.StringIO())
+    actor.observations = StreamObservations((), "range-breakout-48-v1")
+    actor.bar_output = io.StringIO()
+    actor.observation_output = io.StringIO()
+    bar = Bar(
+        BarType.from_str("BTCUSDT-PERP.BINANCE-1-HOUR-LAST-EXTERNAL"),
+        Price.from_str("100.00"),
+        Price.from_str("101.00"),
+        Price.from_str("99.00"),
+        Price.from_str("100.00"),
+        Quantity.from_str("1.000"),
+        hour - 1_000_000 + offset,
+        hour + 10,
+    )
+    if offset:
+        with pytest.raises(ValueError, match="closed-bar"):
+            actor.on_bar(bar)
+        assert actor.bar_count == 0
+        return
+    actor.on_bar(bar)
+    stored = actor.observations.candles["BTCUSDT-PERP.BINANCE"][0]
+    assert (stored.start_ns, stored.end_ns, stored.received_ns) == (0, hour, hour + 10)
+    actor.on_quote(
+        QuoteTick(
+            InstrumentId.from_str("BTCUSDT-PERP.BINANCE"),
+            Price.from_str("100.00"),
+            Price.from_str("100.01"),
+            Quantity.from_str("1.000"),
+            Quantity.from_str("1.000"),
+            hour + 15,
+            hour + 20,
+        )
+    )
+    observation = json.loads(actor.observation_output.getvalue())
+    assert observation["latest_closed_bar_ns"] == hour
+    assert observation["candle_source_hashes"] == [stored.source_hash]
+    assert len(observation["stances"]) == 64
