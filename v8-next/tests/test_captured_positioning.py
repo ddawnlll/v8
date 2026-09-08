@@ -155,3 +155,36 @@ def test_account_ratio_capture_has_explicit_period_and_knowledge_time(tmp_path, 
     )
     with pytest.raises(ValueError, match="differs"):
         load_account_ratio(path, period="1h", max_age_ns=2_000_000_000)
+
+
+def test_auxiliary_capture_precedes_decision_quote(tmp_path, monkeypatch):
+    from itertools import count
+
+    from v8_next.adapters.captured_market import load_account_ratio, load_open_interest
+
+    def response(url, **kwargs):
+        payload = []
+        if "exchangeInfo" in url:
+            payload = {"symbols": [{"symbol": "BTCUSDT"}]}
+        elif "openInterest" in url:
+            payload = {"symbol": "BTCUSDT", "time": 1, "openInterest": "100"}
+        elif "globalLongShortAccountRatio" in url:
+            payload = [{"symbol": "BTCUSDT", "timestamp": 1, "longShortRatio": "1.2"}]
+        return io.BytesIO(json.dumps(payload).encode())
+
+    clocks = count(2_000_000, 1_000_000)
+    monkeypatch.setattr(binance_capture, "urlopen", response)
+    monkeypatch.setattr(binance_capture.time, "time_ns", lambda: next(clocks))
+    path = binance_capture.capture(
+        tmp_path / "ordered", include_open_interest=True, account_ratio_period="5m"
+    )
+    artifacts = json.loads(path.read_text())["artifacts"]
+    assert artifacts[-1]["path"] == "quote.json"
+    decision = artifacts[-1]["received_time_ns"]
+    oi = load_open_interest(path, max_age_ns=100_000_000)
+    ratio = load_account_ratio(path, period="5m", max_age_ns=100_000_000)
+    assert all(r.received_ns < decision for r in (*oi, *ratio))
+    assert positioning_at(oi, "BTCUSDT-PERP.BINANCE", "open_interest", decision) == 100
+    assert positioning_at(ratio, "BTCUSDT-PERP.BINANCE", "long_short_ratio", decision) == Decimal(
+        "1.2"
+    )

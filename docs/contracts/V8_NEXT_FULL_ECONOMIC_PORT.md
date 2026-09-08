@@ -1300,3 +1300,19 @@ ratio was 1.2873 with event_ns 1788872100000000000 and receipt_ns
 The explicit 600-second development freshness check passed. These are acquisition
 observations, not fitted policy choices or profitability evidence. Full economic
 calibration, campaign validity, portfolio and continuous operational work remain.
+
+## Decision quote follows auxiliary receipts
+
+Capture now requests its decision quote after optional OI/account-ratio inputs.
+Previously those requests followed the quote, so the new inputs were correctly
+unavailable at the same capture's decision. Reordering requests makes timely use
+possible without changing timestamps. A strictly increasing-clock test proves
+both auxiliary receipts precede quote receipt. The full suite passes (357 tests).
+
+A real paper step with funding/OI/account-ratio policies and a replay-only restart
+succeeded at /tmp/v8-next-positioning-paper-1788872464386406000; the full returned
+state matched on restart. Log: /tmp/v8-positioning-paper-check.log. One public
+capture, zero orders. Fee/freshness/limit values were explicit development
+assumptions. This is no-trade acquisition/recovery evidence only, not position-
+bearing operation or calibrated economic success. Policy remains source-frozen;
+subsequent source edits require a new run as designed.

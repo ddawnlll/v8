@@ -39,7 +39,6 @@ def capture(
         "bars": ("/fapi/v1/klines", {"symbol": symbol, "interval": "1h", "limit": 500}),
         "funding": ("/fapi/v1/fundingRate", funding_params),
         "funding_schedule": ("/fapi/v1/premiumIndex", {"symbol": symbol}),
-        "quote": ("/fapi/v1/ticker/bookTicker", {"symbol": symbol}),
     }
     if include_open_interest:
         requests["open_interest"] = ("/fapi/v1/openInterest", {"symbol": symbol})
@@ -48,6 +47,9 @@ def capture(
             "/futures/data/globalLongShortAccountRatio",
             {"symbol": symbol, "period": account_ratio_period, "limit": 1},
         )
+    # The economic decision uses this quote receipt. Acquire auxiliary inputs
+    # first so the same capture can use them without backdating availability.
+    requests["quote"] = ("/fapi/v1/ticker/bookTicker", {"symbol": symbol})
     artifacts = []
     for name, (endpoint, params) in requests.items():
         url = BASE + endpoint + ("?" + urlencode(params) if params else "")
