@@ -1829,3 +1829,15 @@ single 0.01 ETH funding debit. BTC receives no post-close debit. Fresh-engine
 replay preserves the complete economic state. All inputs are test fixtures;
 this does not establish REST settlement completeness or actual venue cashflow
 finality. Full suite: 389 passed; Ruff clean.
+
+## Squeeze baseline protected campaign
+
+Added selectable squeeze:baseline:v2 protection: two source range units to stop,
+four to target, expiry capped at 336 bars and the opportunity lifetime. Source:
+v8-core/src/experts/squeeze_swing.rs constants and state.rs::atr_series, whose
+ATR label actually means trailing 14-bar mean high-low range, not Wilder true
+range. Existing squeeze observation is required; no calibrated edge is inferred.
+Tick rounding uses existing risk-tightening rules. This is the active baseline
+policy, not m1/m2/m3 variant parity, and retains current native quote execution
+rather than claiming legacy NEXT_BAR_CLOSE entry parity. Full suite: 390 passed;
+Ruff/mypy clean. Real calibration and integrated economic operation remain open.

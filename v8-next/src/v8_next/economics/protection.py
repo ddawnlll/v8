@@ -7,7 +7,7 @@ from functools import partial
 
 from v8_next.domain.market import CausalFrame
 from v8_next.domain.positioning import PositioningReading
-from v8_next.economics.decisions import Opportunity, Stance, StanceKind
+from v8_next.economics.decisions import Opportunity, Stance, StanceKind, observe_squeeze
 from v8_next.experts.bollinger import band_setup
 from v8_next.experts.breakouts import (
     last_close_breakout,
@@ -47,6 +47,7 @@ from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 PROTECTION_POLICIES = frozenset(
     {
         "timeout-only-v1",
+        "squeeze:baseline:v2",
         "donchian:a:v2",
         "trend-pullback:a:v2",
         "trend-depth:a:v2",
@@ -173,7 +174,15 @@ def protection_at(
         "divergence": partial(observe_divergence, variant=variant),
         "failed-move": partial(observe_failed_move, variant=variant),
     }
-    if family in unit_geometry_observers:
+    if family == "squeeze":
+        if observe_squeeze(frame, opportunity).kind != StanceKind.SUPPORT:
+            return None
+        # Legacy state::atr_series is mean high-low range, not Wilder true range.
+        span = sum((c.high - c.low for c in frame.candles[-14:]), Decimal(0)) / 14
+        if span <= 0:
+            return None
+        stop, target = close - sign * 2 * span, close + sign * 4 * span
+    elif family in unit_geometry_observers:
         observer = unit_geometry_observers[family]
         if len(frame.candles) < 14 or observer(frame, opportunity).kind != StanceKind.SUPPORT:
             return None
@@ -420,7 +429,10 @@ def protection_at(
     duration = frame.candles[-1].end_ns - frame.candles[-1].start_ns
     if any(c.end_ns - c.start_ns != duration for c in frame.candles):
         raise ValueError("protection requires regular bars")
-    expires = min(opportunity.expires_ns, frame.candles[-1].end_ns + 8 * duration)
+    expires = min(
+        opportunity.expires_ns,
+        frame.candles[-1].end_ns + (336 if family == "squeeze" else 8) * duration,
+    )
     if expires <= frame.decision_ns:
         return None
     return CampaignProtection(
