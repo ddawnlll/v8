@@ -1727,3 +1727,17 @@ invented. Tests reject inverse and mismatched settlement instruments, while the
 native economic and open-position tests pass with actual engine metadata.
 Full suite: 386 passed; Ruff/mypy clean. Broader contract support remains outside
 this projection until its valuation is implemented and qualified.
+
+## Real paper/restart qualification after portfolio integration
+
+Ran the production paper step against a new actual public capture with
+families:pandf-breakout / volatility-extreme-v2 / pandf:a:v2, 5m account ratio
+and open interest. Explicit simulation assumptions: maker=0.0002, taker=0.0005,
+initial cash=10000, requested notional=100, exposure fraction=0.1; auxiliary
+freshness 600s ratio / 300s OI. Immediate replay-only restart produced an exactly
+equal returned result. Artifact directory:
+/tmp/v8-next-allocation-real-1978039; native process log:
+/tmp/v8-allocation-real-restart.log. One capture, zero orders/positions.
+This validates real acquisition and deterministic no-trade restart after the
+integration. It does not prove that an eligible opportunity exercised allocation,
+position-bearing operation, calibration, funding completeness or profitability.
