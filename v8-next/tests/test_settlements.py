@@ -318,3 +318,19 @@ def test_funding_coverage_retains_prior_netting_campaign():
         terminal_cash_return(account, Decimal(100))["status"]
         == "COMPUTED_UNDER_OBSERVED_FUNDING_HISTORY"
     )
+
+
+def test_no_exposure_is_not_funding_finality_and_fills_prevent_exemption():
+    from v8_next.adapters.accounting_replay import funding_coverage_status
+
+    account = dict(positions=[], position_closures=[], orders=[])
+    assert funding_coverage_status(account, (10,)) == "NOT_APPLICABLE_NO_POSITION_EXPOSURE"
+    account["orders"] = [{"filled_qty": "0.001"}]
+    assert funding_coverage_status(account, (10,)) == "INCOMPLETE_ANNOUNCED_SETTLEMENT_MISSING"
+    assert (
+        funding_coverage_status(account, ())
+        == "OBSERVED_FINAL_RECORDS_ONLY_NOT_COMPLETENESS_CERTIFIED"
+    )
+    account["orders"] = [{"filled_qty": "NaN"}]
+    with pytest.raises(ValueError, match="filled quantity"):
+        funding_coverage_status(account, ())

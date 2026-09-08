@@ -125,13 +125,23 @@ def replay_frozen_campaigns(
         result["position_funding_query_coverage"] = position_funding_query_coverage(
             funding_exposure_history(result), result["funding_query_windows"], accounting_as_of_ns
         )
-        result["funding_coverage"] = "OBSERVED_FINAL_RECORDS_ONLY_NOT_COMPLETENESS_CERTIFIED"
         missing = missing_announced_settlements(
             manifests, settlements, quotes[0].ts_init, accounting_as_of_ns
         )
         result["missing_announced_settlements"] = list(missing) if missing is not None else None
-        if missing:
-            result["funding_coverage"] = "INCOMPLETE_ANNOUNCED_SETTLEMENT_MISSING"
+        result["funding_coverage"] = funding_coverage_status(result, missing)
         return result
     finally:
         engine.dispose()
+
+
+def funding_coverage_status(account: dict[str, Any], missing: tuple[int, ...] | None) -> str:
+    """No exposure is inapplicability, never certification of settlement data."""
+    filled = [Decimal(order["filled_qty"]) for order in account["orders"]]
+    if any(not quantity.is_finite() or quantity < 0 for quantity in filled):
+        raise ValueError("invalid native filled quantity")
+    if not funding_exposure_history(account) and not any(quantity > 0 for quantity in filled):
+        return "NOT_APPLICABLE_NO_POSITION_EXPOSURE"
+    if missing:
+        return "INCOMPLETE_ANNOUNCED_SETTLEMENT_MISSING"
+    return "OBSERVED_FINAL_RECORDS_ONLY_NOT_COMPLETENESS_CERTIFIED"

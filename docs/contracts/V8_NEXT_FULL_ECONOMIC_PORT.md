@@ -2735,3 +2735,19 @@ trial-family review. No positive calibration or forced trade was inserted. Fees
 simulation assumptions. This verifies the new source-to-estimator connection on
 real capture, process restart and continued data; it does not establish
 position-bearing recovery, funding completeness or continuous economic admission.
+
+## Funding applicability for a verified no-exposure account
+
+Revised accounting distinguishes NOT_APPLICABLE_NO_POSITION_EXPOSURE from funding
+coverage certification. The exemption requires no native position/closure lifetime
+and no positive native order filled quantity. Filled orders conservatively prevent
+exemption even if position history is absent; malformed quantities reject. Missing
+announced settlements remain visible in their own field, but cannot create a
+funding liability for an account that never held exposure. Accounts with any
+exposure retain the existing incomplete/unqualified funding statuses.
+Calibration removes only the irrelevant funding blocker for empty position
+history and this explicit status; no-executed-sample and statistical blockers
+remain. Tests reject applying the exemption to position history, preserve missing
+funding after fills, and reject nonfinite quantities. Full suite 458 passed;
+Ruff/mypy clean. This does not qualify settlement finality or position-bearing
+paper accounting, which remain open requirements.

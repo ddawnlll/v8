@@ -100,3 +100,12 @@ def test_recomputed_paper_report_includes_full_selection_estimator(tmp_path, mon
     assert result["selection_cash_estimate"]["reason"] == "COMPLETE_RECONCILED_SELECTION_REQUIRED"
     assert result["accounting_recomputed"] is True
     assert result["eligible_for_utility"] is False
+
+
+def test_no_exposure_funding_status_does_not_exempt_position_history():
+    status = "NOT_APPLICABLE_NO_POSITION_EXPOSURE"
+    assert "FUNDING_COVERAGE_UNQUALIFIED" not in calibration.outcome_sample_blockers([], status)
+    assert "NO_EXECUTED_OUTCOME_SAMPLE" in calibration.outcome_sample_blockers([], status)
+    assert "FUNDING_COVERAGE_UNQUALIFIED" in calibration.outcome_sample_blockers(
+        [{"is_closed": True}], status
+    )

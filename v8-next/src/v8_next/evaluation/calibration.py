@@ -145,7 +145,9 @@ def outcome_sample_blockers(positions: list[dict[str, Any]], funding_coverage: s
         blockers.append("NO_CLOSED_OUTCOME_SAMPLE")
     if any(not p["is_closed"] for p in positions):
         blockers.append("OPEN_OUTCOME_CENSORING_POLICY_REQUIRED")
-    if funding_coverage != "COMPLETE":
+    if funding_coverage != "COMPLETE" and not (
+        not positions and funding_coverage == "NOT_APPLICABLE_NO_POSITION_EXPOSURE"
+    ):
         blockers.append("FUNDING_COVERAGE_UNQUALIFIED")
     blockers.append("STATISTICAL_METHOD_AND_TRIAL_FAMILY_REVIEW_REQUIRED")
     return blockers
