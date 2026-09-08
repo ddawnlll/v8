@@ -1618,10 +1618,65 @@ def test_partial_native_reduction_updates_stop_risk_from_remaining_quantity(
         assert outcomes["reconciliation"] == "CLOSED_CASH_RECONCILED"
         row = outcomes["rows"][0]
         # Funding is at t=3; the reduction is submitted on the t=4 quote.
-        assert Decimal(row["observed_funding_pnl"]) == Decimal(
-            "-1" if direction == "LONG" else "1"
-        )
+        assert Decimal(row["observed_funding_pnl"]) == Decimal("-1" if direction == "LONG" else "1")
         assert Decimal(row["native_price_pnl"]) == Decimal("-.5")
         assert Decimal(row["observed_commissions"]) == Decimal(
             ".1995" if direction == "LONG" else ".2005"
         )
+
+
+def test_partial_stop_closure_cannot_timeout_successor_netting_position():
+    from nautilus_trader.model import OrderSide
+
+    class Sequence(PaperCampaignAdapter):
+        def on_quote(self, quote):
+            super().on_quote(quote)
+            if quote.ts_init == 4 * 10**9:
+                self.submit_order(
+                    self.order_factory.market(
+                        instrument_id=quote.instrument_id,
+                        order_side=OrderSide.SELL,
+                        quantity=Quantity.from_str("0.005"),
+                        reduce_only=True,
+                    )
+                )
+            if quote.ts_init == 7 * 10**9:
+                assert len(self.position_closures) == 1
+                self.campaigns += (
+                    PaperCampaign(
+                        "next-after-partial",
+                        "next-op",
+                        str(quote.instrument_id),
+                        "LONG",
+                        Decimal(".010"),
+                        quote.ts_init,
+                        20 * 10**9,
+                    ),
+                )
+
+    first = PaperCampaign(
+        "partial-first",
+        "first-op",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".010"),
+        10**9,
+        10 * 10**9,
+        Decimal(9900),
+        Decimal(10100),
+    )
+    strategy = Sequence((first,))
+    state = run_qualified_engine(
+        strategy=strategy,
+        standard_assertions=False,
+        quote_times=tuple(t * 10**9 for t in (1, 2, 4, 6, 7, 8, 11, 12)),
+        quote_prices=(10000, 10000, 10000, 9900, 9900, 9900, 9900, 9900),
+    )
+    assert strategy.callback_failure is None
+    assert "partial-first" not in strategy.exit_requested
+    assert len(state["positions"]) == 1
+    assert not state["positions"][0]["is_closed"]
+    assert any(
+        o["client_order_id"] == "next-after-partial" and o["status"] == "FILLED"
+        for o in state["orders"]
+    )

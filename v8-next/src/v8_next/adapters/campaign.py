@@ -196,6 +196,11 @@ class PaperCampaignAdapter(Strategy):
             if campaign.instrument_id != str(instrument_id):
                 continue
             if campaign.campaign_id in self.submitted:
+                if any(
+                    c["campaign_id"] == campaign.campaign_id
+                    for c in self.position_closures.values()
+                ):
+                    continue  # A native closure ends authority even after a partial exit fill.
                 # A native filled exit terminates this campaign's exit authority.
                 # Otherwise its later timeout could close a successor netting position.
                 if any(

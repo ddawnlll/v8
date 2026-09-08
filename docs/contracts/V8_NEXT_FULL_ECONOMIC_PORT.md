@@ -2785,3 +2785,18 @@ funding timing. Fixture funding at t=3 precedes the reduction submitted at t=4,
 so funding correctly uses the original .010, not the later .005. Duplicate fixture
 funding still settles once. Full suite 462 passed; Ruff/mypy clean. These are
 synthetic native boundary tests, not prospective execution or venue qualification.
+
+## Closed campaign cannot act on a successor after partial stop fill
+
+A second lifecycle gap followed the residual-exit fix: checking only FILLED exit
+orders does not establish terminal campaign authority when a partial stop closed
+the remaining position and was then canceled. The adapter now also checks recorded
+native PositionClosed ownership before any timeout/thesis action. A closed campaign
+therefore cannot cancel orders or close a successor using the reused netting ID.
+
+Native regression opens .010, reduces .005, closes the rest via stop, then admits
+a later test-only campaign. The successor remains open past the first campaign's
+timeout; no old exit request occurs. Existing two-instrument isolation/replay and
+full-bracket successor checks also pass. Full suite 463 passed; Ruff/mypy clean.
+This is executable lifecycle qualification, not calibrated production admission
+or prospective venue recovery. Full economic port requirements remain open.
