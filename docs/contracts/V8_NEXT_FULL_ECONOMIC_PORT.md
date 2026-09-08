@@ -2293,3 +2293,16 @@ test checks pre-receipt exclusion, catalog output, repeated-quote suppression an
 expiry at the next hourly boundary. Full suite: 419 passed; Ruff/mypy clean.
 Live bar updates, reconnect recovery, economic calibration and paper admission
 remain incomplete; this is a prospective observation path, not economic operation.
+
+## Streaming closed-candle progression contract
+
+StreamObservations can now accept explicitly receipt-qualified closed hourly
+candles, advance its frame and emit a new observation for the new boundary.
+Replay of the same OHLCV preserves original knowledge time and emits no duplicate;
+changed historical values, gaps, backwards updates or malformed hourly clocks
+reject. Observation identity now includes latest closed boundary and candle source
+hashes. A test moves stale warmup back to ready with the next known candle and
+checks duplicate/revision/gap behavior. Full suite: 420 passed; Ruff/mypy clean.
+The native Binance closed-bar decoder/subscription is not wired yet; this contract
+must not be described as live bar-update qualification. Economic admission,
+reconnect backfill and continuous paper operation remain outstanding.

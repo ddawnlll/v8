@@ -95,3 +95,60 @@ def test_stream_warmup_uses_receipt_and_expires_at_next_bar(tmp_path, monkeypatc
     assert row["admission_status"] == "UNVERIFIED_CALIBRATION"
     assert observer.observe(symbol, hour + 11) is None
     assert observer.observe(symbol, 2 * hour)["warmup_status"] == "NEXT_CLOSED_BAR_REQUIRED"
+
+
+def test_closed_stream_bar_advances_once_without_revision_or_gap(tmp_path, monkeypatch):
+    from dataclasses import replace
+    from decimal import Decimal
+
+    from v8_next.domain.market import Candle
+    from v8_next.economics.stream_observation import StreamObservations
+
+    hour = 3600 * 10**9
+    symbol = "BTCUSDT-PERP.BINANCE"
+    observer = StreamObservations((), "range-breakout-48-v1")
+    first = Candle(
+        symbol,
+        0,
+        hour,
+        Decimal(100),
+        Decimal(101),
+        Decimal(99),
+        Decimal(100),
+        Decimal(1),
+        hour + 1,
+        hour + 1,
+        "first",
+    )
+    assert observer.add_closed_candle(first)
+    assert observer.observe(symbol, hour + 1)["latest_closed_bar_ns"] == hour
+    assert observer.observe(symbol, 2 * hour)["warmup_status"] == "NEXT_CLOSED_BAR_REQUIRED"
+    second = replace(
+        first,
+        start_ns=hour,
+        end_ns=2 * hour,
+        received_ns=2 * hour + 1,
+        available_ns=2 * hour + 1,
+        source_hash="second",
+    )
+    assert observer.add_closed_candle(second)
+    row = observer.observe(symbol, 2 * hour + 1)
+    assert row["warmup_status"] == "READY"
+    assert row["candle_source_hashes"] == ["first", "second"]
+    assert not observer.add_closed_candle(
+        replace(second, received_ns=2 * hour + 2, available_ns=2 * hour + 2)
+    )
+    assert observer.observe(symbol, 2 * hour + 2) is None
+    assert observer.candles[symbol][-1].received_ns == 2 * hour + 1
+    with pytest.raises(ValueError, match="revision"):
+        observer.add_closed_candle(replace(second, close=Decimal(101)))
+    with pytest.raises(ValueError, match="gap"):
+        observer.add_closed_candle(
+            replace(
+                second,
+                start_ns=3 * hour,
+                end_ns=4 * hour,
+                received_ns=4 * hour + 1,
+                available_ns=4 * hour + 1,
+            )
+        )
