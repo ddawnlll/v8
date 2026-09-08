@@ -11,16 +11,9 @@ from v8_next.economics.protection import PROTECTION_POLICIES
 from v8_next.risk.sizing import StopBudget
 
 
-class PaperConfig(BaseModel):
-    model_config = ConfigDict(extra="forbid", frozen=True, allow_inf_nan=False)
+class PositioningPolicy(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
-    maker_fee: Decimal = Field(ge=0)
-    taker_fee: Decimal = Field(ge=0)
-    initial_balance: Decimal = Field(gt=0)
-    max_notional: Decimal = Field(gt=0)
-    max_exposure_fraction: Decimal = Field(gt=0, le=1)
-
-    stop_budget: StopBudget | None = None
     funding_max_age_ns: int | None = Field(default=None, gt=0, strict=True)
     open_interest_max_age_ns: int | None = Field(default=None, gt=0, strict=True)
 
@@ -30,11 +23,27 @@ class PaperConfig(BaseModel):
     account_ratio_max_age_ns: int | None = Field(default=None, gt=0, strict=True)
 
     @model_validator(mode="after")
+    def ratio_pair(self) -> Self:
+        if (self.account_ratio_period is None) != (self.account_ratio_max_age_ns is None):
+            raise ValueError("account ratio requires both period and freshness")
+        return self
+
+
+class PaperConfig(PositioningPolicy):
+    model_config = ConfigDict(extra="forbid", frozen=True, allow_inf_nan=False)
+
+    maker_fee: Decimal = Field(ge=0)
+    taker_fee: Decimal = Field(ge=0)
+    initial_balance: Decimal = Field(gt=0)
+    max_notional: Decimal = Field(gt=0)
+    max_exposure_fraction: Decimal = Field(gt=0, le=1)
+
+    stop_budget: StopBudget | None = None
+
+    @model_validator(mode="after")
     def protected_sizing(self) -> Self:
         if self.stop_budget is not None and self.campaign_policy == "timeout-only-v1":
             raise ValueError("stop budget requires a protected campaign policy")
-        if (self.account_ratio_period is None) != (self.account_ratio_max_age_ns is None):
-            raise ValueError("account ratio requires both period and freshness")
         return self
 
     observer_policy: str = "squeeze"

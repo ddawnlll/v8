@@ -2511,3 +2511,25 @@ long/short tests check complete and deliberately incomplete selected cohorts.
 Full suite 441 passed; final 47 native tests pass after incomplete-cohort assertions,
 Ruff/mypy clean before that assertion-only extension. Economic calibration and
 paper admission remain open.
+
+## Auxiliary positioning inputs in native stream observations
+
+Shared PositioningPolicy validation now serves PaperConfig and native stream
+capture/recovery. Explicit funding/OI/ratio freshness choices are frozen in session
+metadata and replayed. Verified warmup/backfill readers supply actual auxiliary
+records to the existing 64-stance catalog; missing/expired values stay absent.
+Automatic restart capture requests configured OI/ratio data and refreshes expired
+auxiliary inputs even when candles are current. This remains capture-time data,
+not continuous native OI/final-funding subscriptions.
+
+Observation suppression now compares the last state per instrument rather than
+all previously seen states: unavailable → available → expired must emit the final
+abstention. A causal funding test verifies that transition and actual observer
+support only after receipt. Actual BTC/ETH auxiliary-enabled stream:
+/tmp/v8-stream-positioning-1788885087659692000/stream; 246 events, two observations,
+all reproduced. Both outputs contain observed final funding, OI and 5m account
+ratio values. Example freshness choices (12h funding, 60s OI, 600s ratio) are explicit
+diagnostic assumptions, not optimized production policy. Log:
+/tmp/v8-stream-positioning.log. Full suite 442 passed; final 20 affected stream
+cases pass after supervisor CLI wiring, Ruff/mypy clean. Economic calibration and
+paper admission remain incomplete.

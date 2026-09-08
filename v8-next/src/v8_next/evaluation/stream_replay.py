@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from v8_next.app.observe import source_hash
+from v8_next.domain.config import PositioningPolicy
 from v8_next.domain.market import Candle
 from v8_next.economics.stream_observation import StreamObservations
 from v8_next.evaluation.store import canonical
@@ -52,7 +53,8 @@ def _replay_stream(
         != session["warmup_manifest_hashes"]
     ):
         raise ValueError("stream warmup manifest changed")
-    observer = StreamObservations(paths, session["grammar"]) if paths else None
+    policy = PositioningPolicy.model_validate(session.get("positioning_policy", {}))
+    observer = StreamObservations(paths, session["grammar"], policy) if paths else None
     if session.get("resume_from") is not None:
         parent = Path(session["resume_from"])
         raw = (parent / "result.json").read_bytes()
@@ -64,6 +66,7 @@ def _replay_stream(
         if (
             observer is None
             or observer.grammar != session["grammar"]
+            or observer.positioning_policy != policy
             or json.loads((parent / "session.json").read_text())["warmup_manifest_hashes"]
             != session["warmup_manifest_hashes"]
         ):

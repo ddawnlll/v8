@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from v8_next.app.stream import capture_stream
+from v8_next.domain.config import PositioningPolicy
 from v8_next.evaluation.store import canonical
 
 
@@ -20,6 +21,7 @@ async def run_observation(
     max_restarts: int,
     max_quote_silence_ns: int,
     grammar: str = "range-breakout-48-v1",
+    positioning_policy: PositioningPolicy | None = None,
 ) -> dict[str, Any]:
     if not manifests or type(max_restarts) is not int or not 0 <= max_restarts <= 10:
         raise ValueError("warmup and a bounded restart count (0..10) required")
@@ -42,6 +44,7 @@ async def run_observation(
             remaining,
             manifests=manifests if parent is None else (),
             grammar=grammar,
+            positioning_policy=positioning_policy,
             resume_from=parent,
             refresh_on_resume=parent is not None,
             max_quote_silence_ns=max_quote_silence_ns,
@@ -80,6 +83,7 @@ def main() -> None:
     parser.add_argument("--max-restarts", type=int, required=True)
     parser.add_argument("--max-quote-silence-ns", type=int, required=True)
     parser.add_argument("--grammar", default="range-breakout-48-v1")
+    parser.add_argument("--positioning-policy", type=Path)
     args = parser.parse_args()
     print(
         canonical(
@@ -91,6 +95,11 @@ def main() -> None:
                     max_restarts=args.max_restarts,
                     max_quote_silence_ns=args.max_quote_silence_ns,
                     grammar=args.grammar,
+                    positioning_policy=PositioningPolicy.model_validate_json(
+                        args.positioning_policy.read_text()
+                    )
+                    if args.positioning_policy
+                    else None,
                 )
             )
         )

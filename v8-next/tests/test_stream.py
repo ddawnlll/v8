@@ -284,7 +284,7 @@ def test_automatic_refresh_only_requests_stale_instruments(tmp_path, monkeypatch
         )
     requested = []
 
-    def capture(path, symbol):
+    def capture(path, symbol, **kwargs):
         requested.append(symbol)
         return path / "manifest.json"
 
@@ -310,3 +310,57 @@ def test_native_health_policy_checks_each_instrument_and_stops_once():
     actor.check_quote_health(120)
     assert stopped == [True]
     assert actor.count == 0
+
+
+def test_stream_funding_observation_enters_at_receipt_and_abstains_on_expiry(tmp_path, monkeypatch):
+    from decimal import Decimal
+
+    from v8_next.domain.config import PositioningPolicy
+    from v8_next.domain.market import Candle
+    from v8_next.domain.positioning import PositioningReading
+    from v8_next.economics.stream_observation import StreamObservations
+
+    hour = 3600 * 10**9
+    end = 100 * hour
+    symbol = "BTCUSDT-PERP.BINANCE"
+    bars = tuple(
+        Candle(
+            symbol,
+            i * hour,
+            (i + 1) * hour,
+            Decimal(100),
+            Decimal(101),
+            Decimal(89 if i == 99 else 99),
+            Decimal(90 if i == 99 else 100),
+            Decimal(1),
+            end + 1,
+            None,
+            "bars",
+        )
+        for i in range(100)
+    )
+    reading = PositioningReading(
+        symbol, "settled_funding_rate", Decimal(".002"), end, end + 5, end + 5, end + 20, "funding"
+    )
+    path = tmp_path / "manifest.json"
+    path.write_text("{}")
+    monkeypatch.setattr("v8_next.economics.stream_observation.load_candles", lambda _: bars)
+    monkeypatch.setattr(
+        "v8_next.economics.stream_observation.load_settled_funding", lambda *a, **k: (reading,)
+    )
+    observer = StreamObservations(
+        (path,), "trend-continuation-v2", PositioningPolicy(funding_max_age_ns=20)
+    )
+
+    def stance(clock):
+        row = observer.observe(symbol, clock)
+        return next(
+            s
+            for s in row["stances"]
+            if s["behavior_family"] == "funding-crowding-reversal" and s["variant_id"] == "a"
+        )
+
+    assert stance(end + 4)["kind"] == "ABSTAIN"
+    assert stance(end + 5)["kind"] == "SUPPORT"
+    assert stance(end + 20)["kind"] == "ABSTAIN"
+    assert observer.needs_positioning_refresh(symbol, end + 20)

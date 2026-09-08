@@ -22,6 +22,7 @@ from nautilus_trader.model import Bar, BarType, InstrumentId, QuoteTick, TraderI
 
 from v8_next.adapters.binance_capture import capture
 from v8_next.app.observe import source_hash
+from v8_next.domain.config import PositioningPolicy
 from v8_next.domain.market import Candle
 from v8_next.economics.stream_observation import StreamObservations
 from v8_next.evaluation.store import canonical
@@ -199,9 +200,21 @@ def capture_missing_warmup(
     for instrument, bars in sorted(observations.candles.items()):
         if instrument not in INSTRUMENTS:
             raise ValueError("unsupported automatic backfill instrument")
-        if not bars or bars[-1].end_ns < expected_end:
+        if (
+            not bars
+            or bars[-1].end_ns < expected_end
+            or observations.needs_positioning_refresh(instrument, as_of_ns)
+        ):
             symbol = instrument.removesuffix("-PERP.BINANCE")
-            paths.append(capture(destination / f"backfill-{symbol}", symbol))
+            paths.append(
+                capture(
+                    destination / f"backfill-{symbol}",
+                    symbol,
+                    include_open_interest=observations.positioning_policy.open_interest_max_age_ns
+                    is not None,
+                    account_ratio_period=observations.positioning_policy.account_ratio_period,
+                )
+            )
     return tuple(paths)
 
 
@@ -215,6 +228,7 @@ async def capture_stream(
     backfill_manifests: tuple[Path, ...] = (),
     refresh_on_resume: bool = False,
     max_quote_silence_ns: int | None = None,
+    positioning_policy: PositioningPolicy | None = None,
 ) -> dict:
     if duration_seconds <= 0:
         raise ValueError("positive observation duration required")
@@ -232,6 +246,8 @@ async def capture_stream(
         observations = restore_stream(resume_from)
         if grammar is not None and grammar != observations.grammar:
             raise ValueError("resume cannot change grammar")
+        if positioning_policy is not None and positioning_policy != observations.positioning_policy:
+            raise ValueError("resume cannot change positioning freshness policy")
         grammar = observations.grammar
         parent_session = json.loads((resume_from / "session.json").read_text())
         manifests = tuple(Path(p) for p in parent_session["warmup_manifests"])
@@ -241,7 +257,9 @@ async def capture_stream(
         parent_hash = hashlib.sha256(parent_raw).hexdigest()
     else:
         grammar = grammar or "range-breakout-48-v1"
-        observations = StreamObservations(manifests, grammar) if manifests else None
+        observations = (
+            StreamObservations(manifests, grammar, positioning_policy) if manifests else None
+        )
     if refresh_on_resume and (resume_from is None or observations is None or backfill_manifests):
         raise ValueError("automatic refresh requires resume without explicit backfills")
     destination.mkdir(parents=True, exist_ok=False)
@@ -262,6 +280,9 @@ async def capture_stream(
                 resume_from=str(resume_from.resolve()) if resume_from else None,
                 parent_result_sha256=parent_hash,
                 grammar=grammar,
+                positioning_policy=observations.positioning_policy.model_dump(mode="json")
+                if observations
+                else {},
                 refresh_on_resume=refresh_on_resume,
                 max_quote_silence_ns=max_quote_silence_ns,
                 warmup_manifest_hashes=sorted(
@@ -372,6 +393,7 @@ def main() -> None:
     parser.add_argument("--backfill-manifest", type=Path, action="append", default=[])
     parser.add_argument("--refresh-on-resume", action="store_true")
     parser.add_argument("--max-quote-silence-ns", type=int)
+    parser.add_argument("--positioning-policy", type=Path)
     args = parser.parse_args()
     print(
         json.dumps(
@@ -385,6 +407,11 @@ def main() -> None:
                     backfill_manifests=tuple(args.backfill_manifest),
                     refresh_on_resume=args.refresh_on_resume,
                     max_quote_silence_ns=args.max_quote_silence_ns,
+                    positioning_policy=PositioningPolicy.model_validate_json(
+                        args.positioning_policy.read_text()
+                    )
+                    if args.positioning_policy
+                    else None,
                 )
             )
         )
