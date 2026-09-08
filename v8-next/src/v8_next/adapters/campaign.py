@@ -49,7 +49,7 @@ class PaperCampaignAdapter(Strategy):
         self.expired: set[str] = set()
         self.invalidated: set[str] = set()
         self.exit_requested: set[str] = set()
-        self.validity_frames: dict[int, CausalFrame] = {}
+        self.validity_frames: dict[tuple[str, int], CausalFrame] = {}
         self.thesis_invalidated: dict[str, int] = {}
         self.exit_order_ids: dict[str, set[str]] = {}
 
@@ -152,10 +152,12 @@ class PaperCampaignAdapter(Strategy):
         if self.callback_failure is not None:
             return
         try:
-            frame = self.validity_frames.get(quote.ts_init)
+            frame = self.validity_frames.get((str(quote.instrument_id), quote.ts_init))
             if frame is not None:
-                if frame.decision_ns != quote.ts_init:
-                    raise ValueError("validity frame clock differs from native callback")
+                if frame.decision_ns != quote.ts_init or frame.instrument_id != str(
+                    quote.instrument_id
+                ):
+                    raise ValueError("validity frame identity differs from native callback")
                 self.observe_validity(frame)
             self.advance_campaigns(
                 quote.instrument_id,

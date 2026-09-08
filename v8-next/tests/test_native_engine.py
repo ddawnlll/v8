@@ -896,7 +896,10 @@ def test_thesis_invalidation_cancels_pending_or_closes_native_position(pending):
         "test-only",
     )
     strategy.validity_frames = {
-        2 * second: CausalFrame("BTCUSDT-PERP.BINANCE", 2 * second, (candle,))
+        ("BTCUSDT-PERP.BINANCE", 2 * second): CausalFrame(
+            "BTCUSDT-PERP.BINANCE", 2 * second, (candle,)
+        ),
+        ("ETHUSDT-PERP.BINANCE", 2 * second): CausalFrame("ETHUSDT-PERP.BINANCE", 2 * second, ()),
     }
     state = run_qualified_engine(strategy=strategy, standard_assertions=False)
     assert strategy.callback_failure is None

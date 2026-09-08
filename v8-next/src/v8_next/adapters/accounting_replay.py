@@ -36,7 +36,7 @@ def replay_frozen_campaigns(
     coverage beyond the final settlement records actually supplied by the venue.
     """
     quotes = []
-    validity_frames: dict[int, CausalFrame] = {}
+    validity_frames: dict[tuple[str, int], CausalFrame] = {}
     for manifest in manifests:
         verify(manifest)
         metadata = json.loads(manifest.read_text())
@@ -58,7 +58,7 @@ def replay_frozen_campaigns(
             for c in campaigns
         ):
             candles = load_candles(manifest)
-            validity_frames[received] = frame_at(
+            validity_frames[("BTCUSDT-PERP.BINANCE", received)] = frame_at(
                 "BTCUSDT-PERP.BINANCE",
                 received,
                 tuple(replace(c, available_ns=c.received_ns) for c in candles),

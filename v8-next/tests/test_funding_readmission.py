@@ -23,7 +23,11 @@ def test_closed_position_blocks_calibration_and_readmission(monkeypatch):
         raise AssertionError("unreconciled account must not reach calibration/admission")
 
     adapter = SimpleNamespace(
-        frames={10: SimpleNamespace(candles=[SimpleNamespace(end_ns=9)])},
+        frames={
+            10: SimpleNamespace(
+                instrument_id="BTCUSDT-PERP.BINANCE", candles=[SimpleNamespace(end_ns=9)]
+            )
+        },
         cache=SimpleNamespace(
             positions_open=lambda: [],
             orders_open=lambda: [],

@@ -58,7 +58,9 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         self.stop_budget = stop_budget
         self.positioning_readings = positioning_readings
         self.frames = frames
-        self.validity_frames = frames
+        self.validity_frames = {
+            (frame.instrument_id, clock): frame for clock, frame in frames.items()
+        }
         self.limits = limits
         self.constraints = constraints
         self.requested_notional = requested_notional

@@ -1778,3 +1778,13 @@ position/open-order view from being mistaken for zero outstanding risk. Pricing
 and reconciling partial/in-flight reservations remains unfinished; no custom OMS
 was introduced. Full suite: 388 passed; Ruff/mypy clean. The test explicitly
 exercises an in-flight-only cache without allowing other zero-state reads.
+
+## Instrument-scoped native validity frames
+
+Campaign validity frames are now keyed by instrument plus receipt clock, avoiding
+same-time cross-instrument overwrites. Native callbacks validate both identity
+components before applying thesis rules. Economic paper and revised accounting
+construct the same keyed representation. Native thesis exit/replay tests include
+an unrelated ETH frame at the identical BTC clock and retain the BTC outcome.
+Full suite: 388 passed; implementation Ruff/mypy clean. This removes a multi-asset
+collision without claiming complete multi-asset data or campaign operation.
