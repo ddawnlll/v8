@@ -1171,15 +1171,19 @@ def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse,
     symbols = ["BTC", "ETH"]
     if reverse:
         symbols.reverse()
+
+    def close_at(symbol, t):
+        return (110 if symbol == "BTC" else 95) if t == 3 else 100
+
     source = tuple(
         Candle(
             f"{symbol}USDT-PERP.BINANCE",
             (t - 1) * hour,
             t * hour,
             Decimal(100),
-            Decimal(101),
-            Decimal(99),
-            Decimal(100),
+            Decimal(max(101, close_at(symbol, t))),
+            Decimal(min(99, close_at(symbol, t))),
+            Decimal(close_at(symbol, t)),
             Decimal(1),
             10 * hour,
             None,
@@ -1246,9 +1250,9 @@ def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse,
                     Bar(
                         bar_type,
                         Price(100, 2),
-                        Price(101, 2),
-                        Price(99, 2),
-                        Price(100, 2),
+                        Price(max(101, close_at(symbol, t)), 2),
+                        Price(min(99, close_at(symbol, t)), 2),
+                        Price(close_at(symbol, t), 2),
                         Quantity(1, 3),
                         t * hour,
                         t * hour,
@@ -1266,7 +1270,9 @@ def test_historical_native_multi_source_has_one_equity_row_per_boundary(reverse,
         assert len(trial.equity_marks) == 3
         assert [m["end_ns"] for m in trial.equity_marks] == [hour, 2 * hour, 3 * hour]
         for i, mark in enumerate(trial.equity_marks, 1):
-            assert Decimal(mark["equity"]) == Decimal(10000)
+            expected_pnl = Decimal(".05") if position_bearing and i == 3 else Decimal(0)
+            assert Decimal(mark["unrealized_pnl"]) == expected_pnl
+            assert Decimal(mark["equity"]) == Decimal(10000) + expected_pnl
             assert mark["close_price"] is None
             assert set(mark["valuation_inputs"]) == {f"{s}USDT-PERP.BINANCE" for s in symbols}
             assert {v["source_hash"] for v in mark["valuation_inputs"].values()} == {

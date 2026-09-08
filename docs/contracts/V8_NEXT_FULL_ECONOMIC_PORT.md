@@ -2036,3 +2036,12 @@ positions. Four focused cases pass; full suite passes 396 tests, Ruff clean.
 Prices remain flat in this fixture, so it establishes multi-position coverage
 and callback isolation, not nonzero portfolio-return accuracy or economic
 admission. The seeded campaigns never enter production evidence.
+
+## Nonzero native multi-position valuation
+
+The aligned historical fixture now moves BTC from 100 to 110 and ETH from 100
+to 95 after both 0.010 long entries. The final native unrealized portfolio PnL
+is exactly +0.05 and equity 10000.05; the flat-account cases remain at 10000.
+Both insertion orders pass with separate source/price inputs and one row per
+boundary. Four focused native tests pass, Ruff clean. Values are test arithmetic,
+not measured strategy returns or evidence of profitability.
