@@ -1908,3 +1908,19 @@ fits its explicit budget and one additional venue lot would exceed it. The same
 maximal-feasible-lot check covers protected notional at the band ceiling. All
 39 native integration tests pass; Ruff clean. These assertions qualify the
 recent sizing change, not economic profitability or complete operation.
+
+## Multi-instrument historical valuation dependency audit
+
+Inspected HistoricalTrial before widening subscriptions/source keys. Its source
+map and prefix are single-instrument, but changing those alone is insufficient:
+mark_equity rejects any open position on another instrument and requires strictly
+increasing bar boundaries, excluding equal-time cross-instrument callbacks.
+Existing paired interval evaluation expects the resulting single chronological
+account series. Consequently the next multi-asset historical step must first
+supply a coherent portfolio mark at each evaluation boundary, with explicit
+known-price freshness and missing-mark behavior, and avoid double-counting two
+same-time callbacks as two economic intervals. Native campaign isolation tests
+do not prove this valuation contract. No subscription or claim gate was widened
+under the false assumption that tuple keys alone establish portfolio backtesting.
+This narrows the integration dependency: portfolio valuation/aligned interval
+construction precedes multi-instrument HistoricalTrial enablement.
