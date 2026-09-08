@@ -156,3 +156,28 @@ paired-outcome/inference orchestration and production calibration are absent,
 and position-bearing continued admission still rejects unresolved online funding.
 Native positive execution/accounting tests establish local simulator behavior;
 they do not supply real calibration observations or venue finality.
+
+### Current installed wheel verification
+
+The earlier wheel evidence predates later implementation. Source cb72dc83 was
+rebuilt as a wheel, installed into a fresh Python 3.12 environment from the locked
+runtime export, and executed using `python -I` with working directory `/tmp`.
+Actual public capture, separate-process restart and the combined report succeeded.
+The report retained one decision (restart did not duplicate it), simulated zero
+cash change and NO_ECONOMIC_CLAIM. Full source suite passed 59 tests in 3.00 s
+pytest time (`/tmp/v8-next-delivery-suite.log`).
+
+Current installed artifact directory:
+`/var/folders/db/04433_v94tv8xpr31czl2j200000gn/T/v8-next-delivery-wheel-e4okuzmv/`.
+It contains `dist/v8_next-0.1.0-py3-none-any.whl`, exact `requirements.txt`, isolated
+`env/`, `setup.log`, `capture.log`, `restart.log`, `report.log`, `report.json` and
+`paper/` source/checkpoint/database artifacts. This replaces reliance on the older
+wheel for current packaging acceptance; it remains local macOS development evidence.
+
+The closure audit must distinguish the objective's explicit NO_TRADE/missing-data
+allowance from missing implementation. Absence of empirical edge, DSR/PBO or a
+profitability claim is not itself a failed first-slice acceptance criterion. Nor
+does that allowance prove the unimplemented calibrated-provider or protected
+inference paths. Remaining scope decisions must be justified against the actual
+owner objective rather than either automatically expanding to a fully qualified
+trading product or calling all missing paths complete because no trades occurred.
