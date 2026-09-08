@@ -2715,3 +2715,23 @@ Full suite 455 passed before the final integration test; all eight affected test
 passed afterward. Ruff/mypy clean before that test-only addition. Estimates remain
 descriptive, and source report eligibility/gross edge/uncertainty authority fields
 stay false/absent. Production calibration and economic paper admission are open.
+
+## Current real paper source-inspection acceptance
+
+Fresh public Binance capture created /tmp/v8-paper-selection-1788886525607830000.
+A separate process replayed that session and ran inspect_calibration_source with
+explicit plan (2,99,7) and the session research store. Both campaign decisions and
+revised native accounting recomputed successfully. A subsequent process appended
+a second real capture and repeated source inspection successfully. Physical reports
+are calibration-inspection.json and calibration-inspection-continued.json in that
+run; logs /tmp/v8-paper-selection-current.log, /tmp/v8-paper-selection-replay.log,
+and /tmp/v8-paper-selection-continued.log.
+
+Both captures remain zero-order/zero-position observations. Selection sample count
+is zero and estimates absent; eligibility stays false. Reported blockers include
+NO_EXECUTED_OUTCOME_SAMPLE, FUNDING_COVERAGE_UNQUALIFIED and statistical method/
+trial-family review. No positive calibration or forced trade was inserted. Fees
+(.0002/.0005), initial capital 10000 and maximum notional 100 are explicit local
+simulation assumptions. This verifies the new source-to-estimator connection on
+real capture, process restart and continued data; it does not establish
+position-bearing recovery, funding completeness or continuous economic admission.
