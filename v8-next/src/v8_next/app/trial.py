@@ -232,6 +232,7 @@ def _run_trial(
                 state,
                 policy.initial_balance,
                 economic_policy=policy.model_dump(mode="json"),
+                campaign_observations=trial.campaign_observations(state),
             ),
             "funding_coverage": "OBSERVED_RECORDS_NOT_COMPLETENESS_CERTIFIED",
             "limitations": [

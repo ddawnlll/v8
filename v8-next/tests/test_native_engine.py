@@ -1463,3 +1463,40 @@ def test_native_outcome_r_uses_original_stop_and_cost_inclusive_pnl(direction, s
     assert incomplete["observed_r_count"] == 1
     assert incomplete["missing_r_count"] == 1
     assert incomplete["mean_net_r"] is None
+
+
+def test_expired_unsubmitted_campaign_is_terminal_without_fabricated_r():
+    from copy import deepcopy
+
+    from v8_next.evaluation.outcomes import observed_outcomes
+
+    campaign = PaperCampaign(
+        "never-entered",
+        "never-entered-op",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".010"),
+        1,
+        2,
+    )
+    strategy = PaperCampaignAdapter((campaign,))
+    state = run_qualified_engine(strategy=strategy, standard_assertions=False)
+    observations = strategy.campaign_observations(state)
+    result = observed_outcomes(
+        [campaign.to_record()],
+        [],
+        state,
+        Decimal(10000),
+        campaign_observations=observations,
+    )
+    assert result["terminal_without_entry_count"] == 1
+    assert result["unresolved_campaign_count"] == 0
+    assert result["rows"][0]["status"] == "TERMINAL_WITHOUT_ENTRY"
+    assert result["rows"][0]["net_r"] is None
+    assert result["rows"][0]["net_return_on_entry_notional"] is None
+    bad = deepcopy(observations)
+    bad[0]["submitted"] = True
+    with pytest.raises(ValueError, match="execution evidence"):
+        observed_outcomes(
+            [campaign.to_record()], [], state, Decimal(10000), campaign_observations=bad
+        )

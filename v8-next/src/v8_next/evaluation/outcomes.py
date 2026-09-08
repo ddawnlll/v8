@@ -17,6 +17,7 @@ def observed_outcomes(
     initial_balance: Decimal,
     *,
     economic_policy: dict[str, Any] | None = None,
+    campaign_observations: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Caller verifies/replays sources. Native net PnL already includes costs.
 
@@ -30,10 +31,31 @@ def observed_outcomes(
     by_id = {c["campaign_id"]: c for c in campaigns}
     if len(by_id) != len(campaigns):
         raise ValueError("duplicate outcome campaign")
+    observations = {o["campaign_id"]: o for o in campaign_observations or []}
+    if len(observations) != len(campaign_observations or []) or observations.keys() - by_id.keys():
+        raise ValueError("duplicate or unknown campaign observation")
+    terminal_without_entry = set()
+    for key, observation in observations.items():
+        if (
+            observation["opportunity_id"] != by_id[key]["opportunity_id"]
+            or observation["realization"] != "SIMULATED"
+        ):
+            raise ValueError("campaign observation identity mismatch")
+        if observation["invalidated_before_submission"] or observation["expired_before_submission"]:
+            if (
+                observation["submitted"]
+                or observation["entry_order"] is not None
+                or observation["entry_events"]
+                or observation["exit_orders"]
+                or observation["position_closures"]
+                or any(o["client_order_id"] == key for o in account["orders"])
+            ):
+                raise ValueError("terminal unsubmitted campaign has execution evidence")
+            terminal_without_entry.add(key)
     closed = {}
     for event in closures:
         key = event["campaign_id"]
-        if key not in by_id or key in closed:
+        if key not in by_id or key in closed or key in terminal_without_entry:
             raise ValueError("unknown or repeated campaign closure")
         campaign = by_id[key]
         if (
@@ -67,7 +89,9 @@ def observed_outcomes(
             "decision_ns": campaign["decision_ns"],
             "instrument_id": campaign["instrument_id"],
             "direction": campaign["direction"],
-            "status": "NO_CLOSED_NATIVE_OUTCOME",
+            "status": "TERMINAL_WITHOUT_ENTRY"
+            if key in terminal_without_entry
+            else "NO_CLOSED_NATIVE_OUTCOME",
             "net_return_on_entry_notional": None,
             "initial_filled_stop_risk": None,
             "net_r": None,
@@ -183,6 +207,8 @@ def observed_outcomes(
         },
         "closed_outcome_count": len(returns),
         "missing_outcome_count": len(rows) - len(returns),
+        "terminal_without_entry_count": len(terminal_without_entry),
+        "unresolved_campaign_count": len(rows) - len(returns) - len(terminal_without_entry),
         "native_closed_net_pnl": str(net_total),
         "native_cash_change": str(cash_change),
         "cash_reconciliation_residual": str(residual),

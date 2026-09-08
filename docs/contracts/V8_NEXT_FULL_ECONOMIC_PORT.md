@@ -2629,3 +2629,20 @@ cohort; no selection was dropped. Missing closure does not imply an open positio
 exploratory trial on previously inspected data, not an untouched holdout. The
 72-hour choice is a diagnostic assumption, not a fitted or certified horizon.
 Production sample methodology and calibration remain unfinished.
+
+## Distinguish terminal non-entry from unresolved campaign outcomes
+
+Inspection of the prior real 17-selection/12-closure run established that all five
+remaining campaigns were invalidated before submission, with no entry order or
+entry events. They were not open positions. Trial and revised-accounting outcome
+reports now consume adapter campaign observations and identify
+TERMINAL_WITHOUT_ENTRY, terminal_without_entry_count and unresolved_campaign_count.
+Terminal non-entry requires matching campaign/opportunity identity, simulated
+origin and absence of contradictory entry/exit/closure evidence. Duplicate or
+unknown observation identities reject. No entry-notional return or realized R is
+invented for selections with no fill/risk denominator; existing missing-return
+counts and estimator restrictions remain unchanged.
+A native expired-before-first-quote test verifies terminal classification, absent
+returns and rejection of contradictory submission evidence. Full suite 450 passed;
+Ruff and mypy clean. A completion-aware policy-level estimator still needs an
+explicit denominator and selection methodology; this status is not calibration.
