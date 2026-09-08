@@ -129,3 +129,16 @@ holdout status, and cannot authorize utility or claims. Real outcome ingestion i
 not yet connected; the integration test uses isolated synthetic loss fixtures.
 WRC/DSR/PBO remain missing. Optional dependencies include SciPy, pandas and
 statsmodels through arch; normal paper commands do not require the research extra.
+
+Combined paper report, including recomputed outcome provenance:
+
+```sh
+uv run --project v8-next python -m v8_next.app.report \
+  /path/to/paper-run /path/to/new-report.json --decision-ns DECISION_UNIX_NS
+```
+
+This combines observation/lineage evaluation and campaign/accounting replay. It
+fails if either source verification fails. It explicitly reports why no paired
+economic comparison is available; it does not turn no-trade observations into
+artificial loss samples or call SPA on missing outcomes. Native logs remain on
+stdout/stderr while the result is written to the requested new JSON file.
