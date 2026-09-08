@@ -46,6 +46,26 @@ def test_daily_pivot_uses_last_close_and_stays_fixed_within_session():
         daily_pivots(replace(frame, candles=frame.candles[:-1], decision_ns=25 * HOUR_NS)) == levels
     )
     assert observe_floor_pivot(frame, opportunity).kind == StanceKind.SUPPORT
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(frame, opportunity, "floor-pivot:a:v2", Decimal(".01"))
+    assert protection is not None
+    assert protection.stop_price == Decimal("100.34")
+    assert protection.target_price == Decimal("101.66")
+    assert protection.expires_ns == 34 * HOUR_NS
+    mirrored = replace(
+        frame,
+        candles=tuple(
+            replace(c, open=250 - c.open, close=250 - c.close, high=250 - c.low, low=250 - c.high)
+            for c in frame.candles
+        ),
+    )
+    short = protection_at(
+        mirrored, replace(opportunity, direction="SHORT"), "floor-pivot:a:v2", Decimal(".01")
+    )
+    assert short is not None
+    assert short.stop_price == 250 - protection.stop_price
+    assert short.target_price == 250 - protection.target_price
     assert daily_pivots(replace(frame, candles=frame.candles[1:])) is None
     overshot = replace(bars[-1], close=Decimal(110), high=Decimal(120))
     assert (
@@ -69,6 +89,23 @@ def test_range_requires_volume_and_fresh_breakout():
     )
     frame = replace(frame, candles=(*frame.candles[:-1], breakout))
     assert observe_range_breakout(frame, opportunity).kind == StanceKind.SUPPORT
+    from v8_next.economics.protection import protection_at
+
+    protection = protection_at(frame, opportunity, "range-breakout:a:v2", Decimal(".01"))
+    assert protection is not None
+    assert (protection.stop_price, protection.target_price) == (101, 103)
+    mirrored = replace(
+        frame,
+        candles=tuple(
+            replace(c, open=250 - c.open, close=250 - c.close, high=250 - c.low, low=250 - c.high)
+            for c in frame.candles
+        ),
+    )
+    short = protection_at(
+        mirrored, replace(opportunity, direction="SHORT"), "range-breakout:a:v2", Decimal(".01")
+    )
+    assert short is not None and (short.stop_price, short.target_price) == (149, 147)
+    # One prior-range height around observation close, not the prior low (99.5).
     flat = replace(breakout, volume=Decimal(10))
     assert (
         observe_range_breakout(

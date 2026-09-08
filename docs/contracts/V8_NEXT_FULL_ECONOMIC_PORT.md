@@ -1095,3 +1095,15 @@ Tests exercise both Fibonacci directions and ensure majority confluence cannot
 silently qualify the strict campaign. Tick rounding preserves nominal distances.
 Protected coverage is nineteen families/36 policies; source/variant and complete
 operational requirements remain outstanding.
+
+## Session pivot and range-height campaign geometry
+
+Added floor-pivot:a:v2 and range-breakout:a:v2. Pivot protection uses the previous
+complete UTC session's pivot stop and R1/S1 target, preserving the already explicit
+session-data correction rather than reintroducing the legacy rolling-day bug.
+Range breakout uses one prior-20-bar range height on each side of observed close,
+matching source stop_r=target_r=range_height/atr (not a literal prior-low stop).
+Both retain eight-bar expiry and tighten rounding toward entry. Tests cover
+long/short reflection, exact structural pivot prices and range-height semantics.
+Protected coverage is twenty-one families/38 policies; other families and full
+prospective economic operation remain incomplete.

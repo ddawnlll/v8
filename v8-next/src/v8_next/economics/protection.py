@@ -20,6 +20,7 @@ from v8_next.experts.confluence import observe_confluence
 from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import gap_setup
 from v8_next.experts.ichimoku import observe_ichimoku
+from v8_next.experts.levels import daily_pivots, observe_floor_pivot, observe_range_breakout
 from v8_next.experts.measuring import VARIANTS, measuring_setup
 from v8_next.experts.momentum import observe_macd_stoch, observe_obv_adl
 from v8_next.experts.pandf import pandf_setup
@@ -48,6 +49,8 @@ PROTECTION_POLICIES = frozenset(
         "fib-projection:a:v2",
         "confluence:a:v2",
         "confluence:b:v2",
+        "floor-pivot:a:v2",
+        "range-breakout:a:v2",
         *(f"gap:{v}:v2" for v in "abc"),
         *(f"candlestick:{v}:v2" for v in CANDLE_VARIANTS),
         *(f"pandf:{v}:v2" for v in "abcd"),
@@ -120,6 +123,19 @@ def protection_at(
         # Active Rust v1 declares one range unit each way, not its alternate
         # v2 structural stop. Execution remains V8-next frozen absolute geometry.
         stop, target = close - sign * span, close + sign * span
+    elif family == "floor-pivot":
+        if observe_floor_pivot(frame, opportunity).kind != StanceKind.SUPPORT:
+            return None
+        levels = daily_pivots(frame)
+        assert levels is not None
+        stop = levels.pivot
+        target = levels.resistance1 if sign == 1 else levels.support1
+    elif family == "range-breakout":
+        if observe_range_breakout(frame, opportunity).kind != StanceKind.SUPPORT:
+            return None
+        prior = frame.candles[-21:-1]
+        height = max(c.high for c in prior) - min(c.low for c in prior)
+        stop, target = close - sign * height, close + sign * height
     elif family == "ichimoku":
         if observe_ichimoku(frame, opportunity).kind != StanceKind.SUPPORT:
             return None
