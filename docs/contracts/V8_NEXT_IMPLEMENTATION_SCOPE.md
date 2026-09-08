@@ -240,3 +240,56 @@ Remaining delivery work is specifically:
   developer artifacts are not release receipts.
 - Perform a requirement-by-requirement final audit after the above; current green
   tests and the development commit do not establish goal completion.
+
+## Initial statistical methodology boundary
+
+Source anchors:
+
+- `TARGET_ORACLE_SPEC.md` §§13.1–13.4 separates historical replication,
+  prospective shadow and live realization. Its header is NORMATIVE REFERENCE /
+  IMPLEMENTATION-READY / ECONOMICALLY UNVALIDATED, not evidence of profitability.
+- That specification §§14.1–14.3 requires chronological partitions, dependence
+  awareness and registration of economically selected grammar, policy, cost and
+  execution changes. Overlapping opportunities are not independent IID trades.
+- `EXPERT_PROTOCOL.md` family/variant section retains within-family variant
+  correction by White's block-bootstrap max statistic. Its older Expert-produced
+  Candidate taxonomy must not override the current observer/opportunity boundary.
+- `V85_ARCHITECTURE_SPEC.md` V85-P0-005 explicitly retains WRC + genuine DSR +
+  Hansen SPA until ratified substitution. Its suggestion that other methods may
+  eventually be appropriate is not authorization to drop those gates here.
+
+For the initial observer comparison, the baseline is the identical 48-prior-bar
+breakout opportunity grammar without the squeeze filter. Comparison must use
+identical opportunity identities, causal decision timestamps, execution scope,
+cost inputs and capital constraints. Snapshot counts currently emitted by
+`app/evaluate.py` describe coverage only; neither support frequency nor a
+no-trade account balance estimates utility improvement.
+
+A future executable family test must define its economic loss before inspecting
+protected outcomes. With a declared loss L, improvement is d[k,t] = L[baseline,t]
+- L[variant_k,t], so positive differential favors the variant. The family null is
+that no evaluated variant has positive expected differential. This equation is
+an interface/sign convention, not an implemented WRC or a substitution for the
+constitutional scorecard. Missing outcomes cannot be filled with zero. No-trade
+cash returns can be zero only when an actual reconciled account interval supports
+that value; absence of markout, funding or execution evidence remains missing.
+
+Loss rows must be aligned on the same declared chronology across all variants.
+Do not independently resample variant columns or overlapping opportunity trades.
+The resampling block/cluster unit and length require a preregistered dependence
+plan; the current capture sample establishes neither. No default block length,
+alpha spend, sample-size threshold or confidence estimate is invented by this
+slice. No inference library is installed merely to label missing work as complete.
+
+Current persistence records the baseline and observer as two comparisons in the
+local compression-breakout family. It does not prove the repository's full search
+history contains only two trials. Future threshold, grammar, cost or execution
+selection must remain in the relevant family/lineage; cloning an observer is not
+a new independent observation. A holdout is lineage-relative and use burns its
+protected role. The SQLite burn primitive exists, but no protected-OOS inference
+command yet consumes data, so no OOS certification is claimed.
+
+Current output contract: WRC/SPA/DSR/PBO, calibrated edge, uncertainty and economic
+comparison stay null until their real eligible samples and actual methods exist.
+Promotional gates remain closed. This preserves missingness; it is not completion
+of the statistical implementation or evidence that the null was accepted.
