@@ -2665,3 +2665,24 @@ terminal nonentries), enabling the descriptive complete-selection cash scorecard
 This remains a tiny modeled-position diagnostic on previously inspected historical
 data, with unqualified funding completeness/microstructure; no prospective edge,
 expected utility, statistical significance or production readiness is claimed.
+
+## Full-selection cash uncertainty in registered trials
+
+Registered component plans now also estimate mean cash return per selection with
+arch circular-block resampling in campaign-decision order. The complete source
+cohort and one known economic policy are required. Closed native net cash and
+verified nonentry cash absence reconcile to total account change and the existing
+selection scorecard before estimation. Nonentry cash absence is not a fabricated
+filled-trade return or R. Unknown selections reject; no cohort filtering occurs.
+Outputs retain explicit capital/sizing dependence, event-order block limitations,
+source hash, library version and no-utility/no-claim scope. Tests cover inclusion
+of nonentries, deterministic uncertainty, unresolved rows, cash mismatch and mixed
+policies. Full suite 452 passed; mypy 81 files clean; Ruff import ordering fixed.
+
+Actual recomputed BTC source run /tmp/v8-selection-estimate-1788886300418716000/result.json
+(log /tmp/v8-selection-estimate.log) produced an estimate over all 17 selections
+with explicit diagnostic plan (2,99,7). Its standard error exceeds its mean. This
+is not a significance test or evidence of edge; the same historically inspected
+source, native execution and incomplete funding qualification limitations apply.
+Artifact predates the final import-format-only edit. Production calibration,
+protected OOS methodology and economic paper integration remain incomplete.

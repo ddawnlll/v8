@@ -246,8 +246,12 @@ def _run_trial(
         }
         if component_plan is not None:
             from v8_next.evaluation.component_estimates import estimate_components
+            from v8_next.evaluation.selection_estimates import estimate_selection_cash
 
             block_size, reps, seed = component_plan
+            result["selection_cash_estimate"] = estimate_selection_cash(
+                result["outcomes"], block_size=block_size, reps=reps, seed=seed
+            )
             result["component_estimates"] = estimate_components(
                 result["outcomes"],
                 decision_ns=computed_ns,
