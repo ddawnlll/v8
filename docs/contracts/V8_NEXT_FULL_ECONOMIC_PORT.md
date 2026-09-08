@@ -1788,3 +1788,13 @@ construct the same keyed representation. Native thesis exit/replay tests include
 an unrelated ETH frame at the identical BTC clock and retain the BTC outcome.
 Full suite: 388 passed; implementation Ruff/mypy clean. This removes a multi-asset
 collision without claiming complete multi-asset data or campaign operation.
+
+## Two-instrument native campaign isolation qualification
+
+Added an actual native-engine test with simultaneous BTC and ETH protected
+campaigns and identical quote clocks. BTC expires and closes while ETH remains
+open with both its protective orders intact; native closure snapshots contain
+only BTC. The test uses synthetic fixtures exclusively inside the test harness.
+Focused native test passes, Ruff clean. This qualifies cross-instrument timeout
+isolation in the existing adapter, not multi-asset economic admission, funding
+reconciliation, live operation or prospective economic evidence.

@@ -917,3 +917,85 @@ def test_thesis_invalidation_cancels_pending_or_closes_native_position(pending):
         assert len(state["positions"]) == 1
         assert state["positions"][0]["is_closed"]
         assert state["positions"][0]["closed_ns"] < campaign.expires_ns
+
+
+def test_two_native_instruments_keep_timeout_and_brackets_isolated():
+    usdt = Currency.from_str("USDT")
+    venue = Venue("BINANCE")
+    engine = BacktestEngine(BacktestEngineConfig(bypass_logging=True))
+    campaigns = tuple(
+        PaperCampaign(
+            symbol,
+            symbol,
+            f"{symbol}USDT-PERP.BINANCE",
+            "LONG",
+            Decimal("0.010"),
+            10**9,
+            expiry * 10**9,
+            Decimal(90),
+            Decimal(110),
+        )
+        for symbol, expiry in (("BTC", 3), ("ETH", 10))
+    )
+    adapter = PaperCampaignAdapter(campaigns)
+    try:
+        engine.add_venue(
+            venue,
+            OmsType.NETTING,
+            AccountType.MARGIN,
+            [Money(10000, usdt)],
+            default_leverage=Decimal(1),
+        )
+        for symbol in ("BTC", "ETH"):
+            identity = InstrumentId.from_str(f"{symbol}USDT-PERP.BINANCE")
+            engine.add_instrument(
+                CryptoPerpetual(
+                    instrument_id=identity,
+                    raw_symbol=Symbol(f"{symbol}USDT"),
+                    base_currency=Currency.from_str(symbol),
+                    quote_currency=usdt,
+                    settlement_currency=usdt,
+                    is_inverse=False,
+                    price_precision=2,
+                    size_precision=3,
+                    price_increment=Price(0.01, 2),
+                    size_increment=Quantity(0.001, 3),
+                    maker_fee=Decimal("0.001"),
+                    taker_fee=Decimal("0.001"),
+                    ts_event=0,
+                    ts_init=0,
+                )
+            )
+            engine.add_data(
+                [
+                    QuoteTick(
+                        identity,
+                        Price(100, 2),
+                        Price(100, 2),
+                        Quantity(1, 3),
+                        Quantity(1, 3),
+                        t * 10**9,
+                        t * 10**9,
+                    )
+                    for t in (1, 2, 3, 4, 5)
+                ]
+            )
+        engine.add_strategy(adapter)
+        engine.run()
+        assert adapter.callback_failure is None
+        assert adapter.submitted == {"BTC", "ETH"}
+        assert adapter.exit_requested == {"BTC"}
+        opened = engine.cache.positions_open()
+        assert len(opened) == 1
+        assert str(opened[0].instrument_id) == "ETHUSDT-PERP.BINANCE"
+        assert {str(o.client_order_id) for o in engine.cache.orders_open()} == {
+            "ETH-stop",
+            "ETH-target",
+        }
+        assert len(adapter.position_closures) == 1
+        assert (
+            next(iter(adapter.position_closures.values()))["instrument_id"]
+            == "BTCUSDT-PERP.BINANCE"
+        )
+    finally:
+        engine.dispose()
