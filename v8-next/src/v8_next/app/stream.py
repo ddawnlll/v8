@@ -20,6 +20,7 @@ from nautilus_trader.common import DataActor, Environment
 from nautilus_trader.live import LiveNode
 from nautilus_trader.model import Bar, BarType, InstrumentId, QuoteTick, TraderId
 
+from v8_next.adapters.binance_capture import capture
 from v8_next.app.observe import source_hash
 from v8_next.domain.market import Candle
 from v8_next.economics.stream_observation import StreamObservations
@@ -147,6 +148,22 @@ class QuoteRecorder(DataActor):
             raise
 
 
+def capture_missing_warmup(
+    destination: Path, observations: StreamObservations, as_of_ns: int
+) -> tuple[Path, ...]:
+    """Bounded public refresh; native engine still owns live connectivity."""
+    hour = 3600 * 10**9
+    expected_end = as_of_ns // hour * hour
+    paths = []
+    for instrument, bars in sorted(observations.candles.items()):
+        if instrument not in INSTRUMENTS:
+            raise ValueError("unsupported automatic backfill instrument")
+        if not bars or bars[-1].end_ns < expected_end:
+            symbol = instrument.removesuffix("-PERP.BINANCE")
+            paths.append(capture(destination / f"backfill-{symbol}", symbol))
+    return tuple(paths)
+
+
 async def capture_stream(
     destination: Path,
     duration_seconds: int,
@@ -155,6 +172,7 @@ async def capture_stream(
     grammar: str | None = None,
     resume_from: Path | None = None,
     backfill_manifests: tuple[Path, ...] = (),
+    refresh_on_resume: bool = False,
 ) -> dict:
     if duration_seconds <= 0:
         raise ValueError("positive observation duration required")
@@ -178,12 +196,19 @@ async def capture_stream(
     else:
         grammar = grammar or "range-breakout-48-v1"
         observations = StreamObservations(manifests, grammar) if manifests else None
+    if refresh_on_resume and (resume_from is None or observations is None or backfill_manifests):
+        raise ValueError("automatic refresh requires resume without explicit backfills")
+    destination.mkdir(parents=True, exist_ok=False)
+    if refresh_on_resume:
+        assert observations is not None
+        backfill_manifests = await asyncio.to_thread(
+            capture_missing_warmup, destination, observations, time.time_ns()
+        )
     started_ns = time.time_ns()
     if backfill_manifests:
         if resume_from is None or observations is None:
             raise ValueError("backfill requires a resumed observation session")
         observations.backfill(backfill_manifests, started_ns)
-    destination.mkdir(parents=True, exist_ok=False)
     (destination / "session.json").write_text(
         canonical(
             dict(
@@ -191,6 +216,7 @@ async def capture_stream(
                 resume_from=str(resume_from.resolve()) if resume_from else None,
                 parent_result_sha256=parent_hash,
                 grammar=grammar,
+                refresh_on_resume=refresh_on_resume,
                 warmup_manifest_hashes=sorted(
                     hashlib.sha256(p.read_bytes()).hexdigest() for p in manifests
                 ),
@@ -293,6 +319,7 @@ def main() -> None:
     parser.add_argument("--grammar")
     parser.add_argument("--resume-from", type=Path)
     parser.add_argument("--backfill-manifest", type=Path, action="append", default=[])
+    parser.add_argument("--refresh-on-resume", action="store_true")
     args = parser.parse_args()
     print(
         json.dumps(
@@ -304,6 +331,7 @@ def main() -> None:
                     grammar=args.grammar,
                     resume_from=args.resume_from,
                     backfill_manifests=tuple(args.backfill_manifest),
+                    refresh_on_resume=args.refresh_on_resume,
                 )
             )
         )

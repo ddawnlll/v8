@@ -255,3 +255,40 @@ def test_restart_backfill_is_receipt_qualified_and_atomic(tmp_path, monkeypatch,
         assert row["latest_closed_bar_ns"] == 3 * hour
         assert row["warmup_status"] == "READY"
         assert len(observer.source_hashes) == 1
+
+
+def test_automatic_refresh_only_requests_stale_instruments(tmp_path, monkeypatch):
+    from decimal import Decimal
+
+    from v8_next.app.stream import capture_missing_warmup
+    from v8_next.domain.market import Candle
+    from v8_next.economics.stream_observation import StreamObservations
+
+    hour = 3600 * 10**9
+    observer = StreamObservations((), "range-breakout-48-v1")
+    for symbol, end in (("BTCUSDT", hour), ("ETHUSDT", 2 * hour)):
+        observer.add_closed_candle(
+            Candle(
+                f"{symbol}-PERP.BINANCE",
+                end - hour,
+                end,
+                Decimal(100),
+                Decimal(101),
+                Decimal(99),
+                Decimal(100),
+                Decimal(1),
+                end + 1,
+                end + 1,
+                symbol,
+            )
+        )
+    requested = []
+
+    def capture(path, symbol):
+        requested.append(symbol)
+        return path / "manifest.json"
+
+    monkeypatch.setattr("v8_next.app.stream.capture", capture)
+    paths = capture_missing_warmup(tmp_path, observer, 2 * hour + 100)
+    assert requested == ["BTCUSDT"]
+    assert paths == (tmp_path / "backfill-BTCUSDT" / "manifest.json",)

@@ -2385,3 +2385,20 @@ the 12 affected stream/replay cases pass after that extension, Ruff/mypy clean.
 No real network outage was induced or claimed. Automatic reconnect detection and
 capture orchestration are still required; this is explicit verified restart
 backfill, not calibrated economic paper operation.
+
+## Automatic stale-warmup capture on restart
+
+--refresh-on-resume identifies instruments behind the latest closed hourly
+boundary, fetches fresh public captures using the existing capture adapter, and
+applies verified receipt-qualified backfills before the native node starts.
+Explicit and automatic backfill modes cannot mix. Fetch/validation failures leave
+an incomplete new directory rather than a started session. Current instruments
+are not unnecessarily fetched; no scheduler or new connectivity engine is added.
+
+Actual stale BTC/ETH warmup → stop → automatic refresh → native restart completed
+at /tmp/v8-stream-auto-backfill-1788883735899110000. The second session observed
+882 events and two READY outputs with 64 stances each, reproduced by lineage
+replay. Log /tmp/v8-stream-auto-backfill.log. A selection test checks only stale
+instruments are requested. Full suite: 428 passed; Ruff/mypy clean. This qualifies
+explicit restart-time automatic capture, not native mid-session outage detection
+or crash recovery. Economic calibration and paper admission remain incomplete.
