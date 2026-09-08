@@ -7,6 +7,7 @@ reservations. This module neither executes orders nor invents calibrated utility
 from dataclasses import dataclass, replace
 from decimal import Decimal
 
+from v8_next.domain.experiment import RulePaperExperiment
 from v8_next.economics.controller import CampaignDecision, InstrumentConstraints, decide_campaign
 from v8_next.economics.decisions import Opportunity, Stance, UtilityInputs
 from v8_next.economics.protection import CampaignProtection
@@ -37,6 +38,7 @@ def allocate_ordered(
     already_allocated: frozenset[str],
     stop_budget: StopBudget | None = None,
     stop_exposure: StopExposure | None = None,
+    experiment: RulePaperExperiment | None = None,
 ) -> tuple[CampaignDecision, ...]:
     """Input order is the declared priority, never implicitly sorted by votes.
 
@@ -111,6 +113,7 @@ def allocate_ordered(
             requested,
             frozenset(used),
             calibration_verified=proposal.calibration_verified,
+            experiment=experiment,
             decision_regime=proposal.decision_regime,
             protection=proposal.protection,
             protection_required=True,

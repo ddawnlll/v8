@@ -64,7 +64,15 @@ def inspect_calibration_source(
     evaluation = evaluate(run)
     if checkpoint["policy_hash"] != evaluation["policy_hash"]:
         raise ValueError("accounting belongs to another policy")
-    recovered_decisions = replay_account(paths, frozen["policy"]["paper_config"])
+    recovered_decisions = replay_account(
+        paths,
+        frozen["policy"]["paper_config"],
+        **(
+            {"experiment_frozen_ns": frozen["frozen_ns"]}
+            if frozen["policy"]["paper_config"].get("experiment_window")
+            else {}
+        ),
+    )
     reconcile_replay(checkpoint["native_state"], recovered_decisions)
     campaigns = tuple(PaperCampaign.from_record(c) for c in recovered_decisions["campaigns"])
     recomputed = replay_frozen_campaigns(paths, campaigns, frozen["policy"]["paper_config"], cutoff)

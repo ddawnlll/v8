@@ -36,11 +36,13 @@ def cash_trajectory(
             "last_manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
         }
         for observer in previous:
-            state = replay_account(manifests[:count], config, observer=observer)
-            campaigns = tuple(
-                PaperCampaign.from_record(c)
-                for c in state["campaigns"]
+            state = replay_account(
+                manifests[:count],
+                config,
+                observer=observer,
+                **({"experiment_frozen_ns": frozen_ns} if config.get("experiment_window") else {}),
             )
+            campaigns = tuple(PaperCampaign.from_record(c) for c in state["campaigns"])
             account = replay_frozen_campaigns(manifests[:count], campaigns, config, cutoff)
             outcome = terminal_cash_return(account, Decimal(config["initial_balance"]))
             current = Decimal(outcome["return"]) if outcome["return"] is not None else None

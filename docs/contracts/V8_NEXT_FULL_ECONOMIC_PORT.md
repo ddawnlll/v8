@@ -1,5 +1,32 @@
 # V8-next full economic port
 
+## Preregistered rule-paper measurement path
+
+Implemented the separate local measurement contract in
+[V8_NEXT_RULE_PAPER_EXPERIMENT.md](V8_NEXT_RULE_PAPER_EXPERIMENT.md).
+Optional experiment_window=[start_ns,end_ns] requires protected campaign policy,
+rejects mixing a calibration source and must be frozen before start. Default paper
+still rejects missing calibration. Explicit experiments use actual observer
+reconciliation and shared protection/risk/sizing/native execution without invented
+utility or receipts. Decisions and session state identify rule measurement; claim
+status remains NO_ECONOMIC_CLAIM. Selection is [start,end), exits continue afterward.
+Replay, source inspection, report and trajectory propagate the original freeze
+clock. Existing position/funding guards are not lifted.
+
+Native tests cover normal unverified rejection, experiment selection without a
+calibration callback, before-start/end rejection, venue minimum rejection and
+actual bracket fills. Registration tests reject backdating and policy ambiguity.
+509 tests passed, Ruff/mypy clean. Fresh BTC/ETH experiment
+/tmp/v8-rule-paper-49du8byu used explicit .0002/.0005 fees, 10000 simulated capital,
+100 maximum notional, Donchian observation/protection and a one-hour frozen window.
+Both captured decisions were NO_OPPORTUNITY; zero orders were manufactured.
+Separate-process replay/source inspection retains eligible_for_utility=false and
+NO_EXECUTED_OUTCOME_SAMPLE. Logs /tmp/v8-rule-paper-acceptance.log and
+/tmp/v8-rule-paper-restart.log; inspection.json is inside the session directory.
+This removes the software dependency on already-proven edge for explicit research
+measurement, not the statistical or accounting requirements for calibrated trading.
+Positive real prospective samples, online funding and continuous execution remain.
+
 ## BTC/ETH paper capture and process restart
 
 PaperConfig now freezes symbols (default BTCUSDT; optional BTCUSDT/ETHUSDT unique

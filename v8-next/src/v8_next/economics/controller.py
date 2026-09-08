@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 
 from v8_next.domain.campaign import PaperCampaign
+from v8_next.domain.experiment import RulePaperExperiment
 from v8_next.economics.decisions import (
     Opportunity,
     Stance,
@@ -44,6 +45,7 @@ def decide_campaign(
     already_allocated: frozenset[str],
     *,
     calibration_verified: bool,
+    experiment: RulePaperExperiment | None = None,
     decision_regime: RegimeObservation | None = None,
     protection: CampaignProtection | None = None,
     protection_required: bool = False,
@@ -54,8 +56,15 @@ def decide_campaign(
 
     A true verification flag is not a certificate or a way to promote economic
     claims. The app must supply it only from the calibration verification boundary.
-    Until that boundary exists, production callers must leave it false.
+    Until that boundary exists, production callers must leave it false. An
+    explicit preregistered rule experiment measures policy responses without a
+    forecast; it retains identity/protection/risk checks and a distinct result.
     """
+    if experiment is not None:
+        if not experiment.start_ns <= decision_ns < experiment.end_ns:
+            return CampaignDecision("OUTSIDE_RULE_EXPERIMENT_WINDOW")
+        if protection is None:
+            return CampaignDecision("RULE_EXPERIMENT_REQUIRES_PROTECTION")
     if opportunity.identity_status != "CANONICAL" or opportunity.direction not in {"LONG", "SHORT"}:
         return CampaignDecision("UNRESOLVED_OPPORTUNITY_IDENTITY")
     if opportunity.opportunity_id in already_allocated:
@@ -85,11 +94,12 @@ def decide_campaign(
             protection.target_price - price
         ) * sign <= 0:
             return CampaignDecision("PRICE_OUTSIDE_CAMPAIGN_GEOMETRY")
-    if not calibration_verified:
-        return CampaignDecision("UNVERIFIED_CALIBRATION")
-    utility_result = utility_admission(utility)
-    if utility_result != "UTILITY_ELIGIBLE":
-        return CampaignDecision(utility_result)
+    if experiment is None:
+        if not calibration_verified:
+            return CampaignDecision("UNVERIFIED_CALIBRATION")
+        utility_result = utility_admission(utility)
+        if utility_result != "UTILITY_ELIGIBLE":
+            return CampaignDecision(utility_result)
     if stop_budget is not None:
         if protection is None or stop_exposure is None:
             return CampaignDecision("MISSING_STOP_RISK_INPUTS")
@@ -121,7 +131,7 @@ def decide_campaign(
     if admitted.quantity is None:
         return CampaignDecision(admitted.reason)
     return CampaignDecision(
-        "PAPER_CAMPAIGN_ADMITTED",
+        "RULE_PAPER_EXPERIMENT_SELECTED" if experiment is not None else "PAPER_CAMPAIGN_ADMITTED",
         PaperCampaign(
             "paper-" + opportunity.opportunity_id,
             opportunity.opportunity_id,

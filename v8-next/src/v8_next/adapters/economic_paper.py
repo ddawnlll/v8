@@ -12,6 +12,7 @@ from nautilus_trader.model import Currency, InstrumentId, QuoteTick, Venue
 from v8_next.adapters.campaign import PaperCampaignAdapter
 from v8_next.adapters.portfolio_equity import EquityMark
 from v8_next.adapters.portfolio_risk import native_portfolio_risk
+from v8_next.domain.experiment import RulePaperExperiment
 from v8_next.domain.market import CausalFrame
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.allocation import AllocationProposal, allocate_ordered
@@ -49,9 +50,11 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         campaign_policy: str = "timeout-only-v1",
         stop_budget: StopBudget | None = None,
         positioning_readings: tuple[PositioningReading, ...] = (),
+        experiment: RulePaperExperiment | None = None,
     ) -> None:
         super().__init__(())
         self.observer = validate_observer_policy(observer)
+        self.experiment = experiment
         if grammar not in POLICIES:
             raise ValueError("unknown opportunity grammar")
         self.grammar = grammar
@@ -123,6 +126,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             "opportunity": asdict(opportunity) if opportunity else None,
             "regime": asdict(regime),
             "claim_status": "NO_ECONOMIC_CLAIM",
+            "authority": "RULE_PAPER_EXPERIMENT" if self.experiment else "CALIBRATED_PAPER",
         }
         if not frame.candles or quote.ts_init - frame.candles[-1].end_ns > 2 * 3600 * 10**9:
             record["reason"] = "STALE_DATA"
@@ -171,7 +175,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             snapshot = portfolio.snapshots[opportunity.exposure_id]
             utility, verified = (
                 self.calibration(opportunity, quote.ts_init)
-                if self.calibration
+                if self.calibration and self.experiment is None
                 else (UtilityInputs(None, None, None, None, None, None, None), False)
             )
             protection = None
@@ -217,6 +221,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                     already_allocated=frozenset(self.allocated),
                     stop_budget=self.stop_budget,
                     stop_exposure=portfolio.stop_exposure if self.stop_budget is not None else None,
+                    experiment=self.experiment,
                 )[0]
             else:
                 decision = decide_campaign(
@@ -233,6 +238,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                     self.requested_notional,
                     frozenset(self.allocated),
                     calibration_verified=verified,
+                    experiment=self.experiment,
                     decision_regime=regime,
                     protection=protection,
                     protection_required=self.campaign_policy != "timeout-only-v1",

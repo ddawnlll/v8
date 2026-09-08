@@ -3,7 +3,7 @@
 from decimal import Decimal
 from typing import Literal, Self
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator, model_validator
 
 from v8_next.economics.grammar import POLICIES
 from v8_next.economics.observer_policy import validate_observer_policy
@@ -79,5 +79,17 @@ class PaperConfig(PositioningPolicy):
         if not value or len(set(value)) != len(value):
             raise ValueError("nonempty unique paper symbols required")
         return value
+
+    experiment_window: tuple[StrictInt, StrictInt] | None = None
+
+    @model_validator(mode="after")
+    def valid_experiment(self) -> Self:
+        if self.experiment_window is not None:
+            start, end = self.experiment_window
+            if not 0 < start < end or self.campaign_policy == "timeout-only-v1":
+                raise ValueError("ordered experiment window and protected campaign required")
+            if self.calibration_source_run is not None:
+                raise ValueError("rule experiment cannot claim calibrated source admission")
+        return self
 
     calibration_source_run: str | None = None

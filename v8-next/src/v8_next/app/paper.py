@@ -30,6 +30,7 @@ from v8_next.adapters.native_tape import build_engine, capture_native_inputs
 from v8_next.app.observe import initialize, observe_capture
 from v8_next.domain.campaign import PaperCampaign
 from v8_next.domain.config import PaperConfig
+from v8_next.domain.experiment import RulePaperExperiment
 from v8_next.domain.market import CausalFrame, frame_at
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.controller import InstrumentConstraints
@@ -39,9 +40,18 @@ from v8_next.risk.admission import RiskLimits
 
 
 def replay_account(
-    manifests: list[Path], config: dict[str, Any], *, observer: str | None = None
+    manifests: list[Path],
+    config: dict[str, Any],
+    *,
+    observer: str | None = None,
+    experiment_frozen_ns: int | None = None,
 ) -> dict[str, Any]:
     parsed = PaperConfig.model_validate(config)
+    experiment = None
+    if parsed.experiment_window is not None:
+        if experiment_frozen_ns is None:
+            raise ValueError("experiment replay requires verified policy freeze time")
+        experiment = RulePaperExperiment(experiment_frozen_ns, *parsed.experiment_window)
     selected_observer = observer if observer is not None else parsed.observer_policy
     if not manifests:
         raise ValueError("no prospective captures")
@@ -167,6 +177,7 @@ def replay_account(
             campaign_policy=parsed.campaign_policy,
             stop_budget=parsed.stop_budget,
             positioning_readings=tuple(positioning_readings),
+            experiment=experiment,
         )
         engine.add_strategy(strategy)
         quotes.sort(key=lambda q: (q.ts_init, str(q.instrument_id), q.ts_event))
@@ -177,7 +188,9 @@ def replay_account(
         state = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
         state["quote_count"] = len(quotes)
         state["instruments"] = sorted(instrument_manifests)
-        state["campaign_status"] = "NO_VERIFIED_CALIBRATION"
+        state["campaign_status"] = (
+            "RULE_EXPERIMENT_NOT_CALIBRATED" if experiment else "NO_VERIFIED_CALIBRATION"
+        )
         state["economic_decisions"] = strategy.decisions
         state["campaigns"] = [c.to_record() for c in strategy.campaigns]
         state["campaign_observations"] = strategy.campaign_observations(state)
@@ -213,6 +226,9 @@ def step(run: Path, config: dict[str, Any], *, replay_only: bool = False) -> dic
 def _step_locked(run: Path, config: dict[str, Any], *, replay_only: bool) -> dict[str, Any]:
     parsed = PaperConfig.model_validate(config)
     frozen = initialize(run, config)
+    replay_options: dict[str, Any] = (
+        {"experiment_frozen_ns": int(str(frozen["frozen_ns"]))} if parsed.experiment_window else {}
+    )
     manifests = sorted(run.glob("capture-*/manifest.json"))
     checkpoint = run / "paper-state.json"
     if checkpoint.exists():
@@ -227,7 +243,7 @@ def _step_locked(run: Path, config: dict[str, Any], *, replay_only: bool) -> dic
         for path, expected in zip(prior_paths, saved["manifest_hashes"], strict=True):
             if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
                 raise ValueError("paper capture manifest changed")
-        recovered = replay_account(prior_paths, config)
+        recovered = replay_account(prior_paths, config, **replay_options)
         reconcile_replay(saved["native_state"], recovered)
         prior_campaigns = tuple(PaperCampaign.from_record(c) for c in recovered["campaigns"])
         reconcile_replay(
@@ -259,7 +275,7 @@ def _step_locked(run: Path, config: dict[str, Any], *, replay_only: bool) -> dic
         raise ValueError("no captured session to replay")
     for manifest in manifests:
         observe_capture(run, manifest, frozen)
-    state = replay_account(manifests, config)
+    state = replay_account(manifests, config, **replay_options)
     campaigns = tuple(PaperCampaign.from_record(c) for c in state["campaigns"])
     cutoff = max(
         int(a["received_time_ns"])
@@ -308,6 +324,7 @@ def load_policy_config(path: Path) -> dict[str, Any]:
         "account_ratio_max_age_ns",
         "calibration_source_run",
         "symbols",
+        "experiment_window",
     }
     if not isinstance(policy, dict) or set(policy) - allowed:
         raise ValueError("policy config must contain only economic policy fields")

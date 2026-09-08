@@ -13,6 +13,7 @@ from typing import Any
 
 from v8_next.adapters.binance_capture import capture, verify
 from v8_next.adapters.captured_market import load_candles
+from v8_next.domain.experiment import RulePaperExperiment
 from v8_next.domain.market import frame_at
 from v8_next.economics.decisions import (
     UtilityInputs,
@@ -79,9 +80,12 @@ def initialize(run: Path, paper_config: dict[str, Any] | None = None) -> dict[st
         if existing["policy"] != policy:
             raise ValueError("frozen policy/code changed; start a new run")
         return dict(existing)
+    frozen_ns = time.time_ns()
+    if (paper_config or {}).get("experiment_window") is not None:
+        RulePaperExperiment(frozen_ns, *(paper_config or {})["experiment_window"])
     frozen = {
         "policy": policy,
-        "frozen_ns": time.time_ns(),
+        "frozen_ns": frozen_ns,
         "policy_hash": hashlib.sha256(canonical(policy).encode()).hexdigest(),
     }
     with path.open("x") as stream:

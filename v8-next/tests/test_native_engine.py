@@ -457,7 +457,10 @@ def test_entry_gap_invalidates_bracket_without_any_order():
 
 @pytest.mark.parametrize("verified", [True, False])
 @pytest.mark.parametrize("requested", ["1.05", "1.13"])
-def test_pandf_geometry_through_economic_admission_to_native_bracket(verified, requested):
+@pytest.mark.parametrize("experiment_window", [None, (22, 24), (24, 30), (20, 23)])
+def test_pandf_geometry_through_economic_admission_to_native_bracket(
+    verified, requested, experiment_window
+):
     from v8_next.adapters.economic_paper import EconomicPaperAdapter
     from v8_next.domain.market import Candle, CausalFrame
     from v8_next.economics.controller import InstrumentConstraints
@@ -483,8 +486,16 @@ def test_pandf_geometry_through_economic_admission_to_native_bracket(verified, r
         for i, p in enumerate(prices)
     )
     frame = CausalFrame("BTCUSDT-PERP.BINANCE", 23 * second, candles)
+    from v8_next.domain.experiment import RulePaperExperiment
+
+    experiment = (
+        RulePaperExperiment(1, *(t * second for t in experiment_window))
+        if experiment_window
+        else None
+    )
 
     def calibration(*_):
+        assert experiment is None, "rule measurement must not pretend to calibrate"
         return UtilityInputs(
             Decimal(10), Decimal(1), Decimal(1), Decimal(1), Decimal(1), Decimal(1), "test-only"
         ), True
@@ -498,6 +509,7 @@ def test_pandf_geometry_through_economic_admission_to_native_bracket(verified, r
         observer="families:pandf-breakout",
         grammar="volatility-extreme-v2",
         campaign_policy="pandf:a:v2",
+        experiment=experiment,
     )
     state = run_qualified_engine(
         strategy=strategy,
@@ -508,7 +520,11 @@ def test_pandf_geometry_through_economic_admission_to_native_bracket(verified, r
     record = strategy.decisions[0]
     assert Decimal(record["protection"]["stop_price"]) == 101
     assert Decimal(record["protection"]["target_price"]) == 113
-    if not verified:
+    if experiment_window is not None and experiment_window != (22, 24):
+        assert record["reason"] == "OUTSIDE_RULE_EXPERIMENT_WINDOW"
+        assert not state["orders"]
+        return
+    if not verified and experiment is None:
         assert record["reason"] == "UNVERIFIED_CALIBRATION"
         assert not state["orders"]
         return
@@ -517,7 +533,10 @@ def test_pandf_geometry_through_economic_admission_to_native_bracket(verified, r
         assert not state["orders"]
         return
     assert strategy.campaigns[0].quantity * Decimal(113) <= Decimal(requested)
-    assert record["reason"] == "PAPER_CAMPAIGN_ADMITTED"
+    assert record["reason"] == (
+        "RULE_PAPER_EXPERIMENT_SELECTED" if experiment else "PAPER_CAMPAIGN_ADMITTED"
+    )
+    assert record["claim_status"] == "NO_ECONOMIC_CLAIM"
     assert len(state["orders"]) == 3 and state["positions"][0]["is_closed"]
     assert strategy.campaigns[0].stop_price == 101
     assert strategy.campaigns[0].target_price == 113

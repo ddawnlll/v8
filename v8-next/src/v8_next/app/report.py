@@ -35,6 +35,11 @@ def report(
         [run / name for name in checkpoint["manifests"]],
         frozen["policy"]["paper_config"],
         observer="breakout_baseline",
+        **(
+            {"experiment_frozen_ns": frozen["frozen_ns"]}
+            if frozen["policy"]["paper_config"].get("experiment_window")
+            else {}
+        ),
     )
     baseline_campaigns = tuple(
         PaperCampaign.from_record(campaign) for campaign in baseline["campaigns"]
