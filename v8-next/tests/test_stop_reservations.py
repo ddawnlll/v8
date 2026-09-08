@@ -39,3 +39,36 @@ def test_unprotected_or_already_submitted_pending_is_not_zero_risk():
         )
         is None
     )
+
+
+def test_native_portfolio_pending_projection_preserves_exposure_budgets():
+    from v8_next.adapters.portfolio_risk import native_portfolio_risk
+
+    cache = SimpleNamespace(orders_open=lambda: [], positions_open=lambda: [], order_ids=lambda: [])
+    campaigns = (
+        PaperCampaign("a", "a", "BTC", "LONG", D(2), 10, 100, D(90), D(110)),
+        PaperCampaign("b", "b", "ETH", "SHORT", D(3), 10, 100, D(50), D(40)),
+    )
+    kwargs = dict(
+        pending_ids=frozenset({"a", "b"}),
+        instrument_exposures={"BTC": "btc", "ETH": "eth"},
+        marks={},
+        equity=D(1000),
+        accounting_reconciled=True,
+        observed_ns=20,
+    )
+    result = native_portfolio_risk(cache, campaigns, **kwargs)
+    assert result.snapshots["btc"].reserved_notional == D(370)
+    assert result.snapshots["btc"].exposure_reserved_notional == D(220)
+    assert result.snapshots["eth"].exposure_reserved_notional == D(150)
+    assert result.stop_exposure.open_and_reserved_risk == D(70)
+    assert (
+        native_portfolio_risk(cache, campaigns, **(kwargs | {"accounting_reconciled": False}))
+        is None
+    )
+    assert (
+        native_portfolio_risk(
+            cache, campaigns, **(kwargs | {"instrument_exposures": {"BTC": "btc"}})
+        )
+        is None
+    )

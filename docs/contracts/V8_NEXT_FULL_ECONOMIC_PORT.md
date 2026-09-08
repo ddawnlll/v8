@@ -1648,3 +1648,19 @@ capacity and heat with these conservative pending-entry bounds. Actual market
 gaps can exceed the band: this is not a guaranteed execution price or maximum
 loss. Native submission/reconciliation integration remains outstanding.
 Full suite passes (382 tests); focused allocation tests and Ruff/mypy pass.
+
+## Native portfolio risk projection
+
+A read-only adapter now projects native open-position quantities at explicit
+same-clock marks into global and per-exposure notionals, plus unsubmitted
+protected-band reservations. Existing native stop coverage validates protection
+and supplies portfolio heat/campaign count. Unknown instruments, missing marks,
+unreconciled accounting and unsupported in-flight entries return absence.
+The caller must supply reconciled same-quote-currency equity and the supported
+linear instrument mapping, synchronously on the native event thread. This does
+not calculate funding-adjusted equity or claim inverse-contract support.
+
+Tests cover two-instrument pending reservations and actual native open-position
+projection through the existing engine fixture. Full suite: 383 passed;
+Ruff/mypy clean. The paper app still needs reconciled accounting and multi-asset
+feed/admission integration before this projection can enable continuous operation.

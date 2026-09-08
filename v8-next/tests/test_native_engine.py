@@ -787,6 +787,24 @@ def test_native_open_position_stop_risk_projection():
                     )
                     is None
                 )
+                from v8_next.adapters.portfolio_risk import native_portfolio_risk
+
+                projection = native_portfolio_risk(
+                    self.cache,
+                    self.campaigns,
+                    pending_ids=frozenset(),
+                    instrument_exposures={str(quote.instrument_id): "btc"},
+                    marks={str(quote.instrument_id): (quote.ask_price.as_decimal(), quote.ts_init)},
+                    equity=Decimal(10000),
+                    accounting_reconciled=True,
+                    observed_ns=quote.ts_init,
+                )
+                assert projection is not None
+                assert projection.snapshots["btc"].gross_notional == sum(
+                    p.quantity.as_decimal() * quote.ask_price.as_decimal()
+                    for p in self.cache.positions_open()
+                )
+                assert projection.snapshots["btc"].reserved_notional == 0
             pending_ids = frozenset(
                 c.campaign_id
                 for c in self.campaigns
