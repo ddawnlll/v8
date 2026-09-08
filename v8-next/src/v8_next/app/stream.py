@@ -2,8 +2,11 @@
 
 import argparse
 import asyncio
+import hashlib
 import json
+import os
 import time
+from collections.abc import Callable
 from pathlib import Path
 from typing import TextIO
 
@@ -27,6 +30,7 @@ class QuoteRecorder(DataActor):
     def __init__(self, output: TextIO) -> None:
         super().__init__()
         self.output = output
+        self.stop_node: Callable[[], None] | None = None
         self.count = 0
         self.failure: str | None = None
 
@@ -35,6 +39,8 @@ class QuoteRecorder(DataActor):
             self.subscribe_quotes(InstrumentId.from_str(name))
 
     def on_quote(self, quote: QuoteTick) -> None:
+        if self.failure is not None:
+            return
         try:
             observed = time.time_ns()
             if (
@@ -67,6 +73,8 @@ class QuoteRecorder(DataActor):
             self.count += 1
         except Exception as error:
             self.failure = f"{type(error).__name__}: {error}"
+            if self.stop_node is not None:
+                self.stop_node()
             raise
 
 
@@ -99,6 +107,7 @@ async def capture_stream(destination: Path, duration_seconds: int) -> dict:
     node = builder.build()
     with (destination / "quotes.jsonl").open("x") as output:
         actor = QuoteRecorder(output)
+        actor.stop_node = node.handle().stop
         node.add_actor(actor)
 
         async def stop_after() -> None:
@@ -110,7 +119,15 @@ async def capture_stream(destination: Path, duration_seconds: int) -> dict:
             await node.run_async()
             if actor.failure:
                 raise ValueError(actor.failure)
+            output.flush()
+            os.fsync(output.fileno())
+            with (destination / "quotes.jsonl").open("rb") as recorded:
+                quotes_hash = hashlib.file_digest(recorded, "sha256").hexdigest()
             result = dict(
+                quote_sha256=quotes_hash,
+                session_sha256=hashlib.sha256(
+                    (destination / "session.json").read_bytes()
+                ).hexdigest(),
                 quote_count=actor.count,
                 ended_ns=time.time_ns(),
                 status="OBSERVED" if actor.count else "NO_QUOTES_OBSERVED",
@@ -118,6 +135,21 @@ async def capture_stream(destination: Path, duration_seconds: int) -> dict:
             )
             (destination / "result.json").write_text(canonical(result) + "\n")
             return result
+        except Exception as error:
+            (destination / "failure.json").write_text(
+                canonical(
+                    dict(
+                        status="FAILED",
+                        error_type=type(error).__name__,
+                        callback_failure=actor.failure,
+                        completed_quote_count=actor.count,
+                        ended_ns=time.time_ns(),
+                        claim_status="NO_ECONOMIC_CLAIM",
+                    )
+                )
+                + "\n"
+            )
+            raise
         finally:
             stopper.cancel()
             await asyncio.gather(stopper, return_exceptions=True)

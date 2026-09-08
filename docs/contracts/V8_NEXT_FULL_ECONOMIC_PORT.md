@@ -2259,3 +2259,15 @@ not persistent economic operation, raw wire authenticity, reconnect completeness
 or paper execution. Two recorder tests check preserved clocks and reversed-clock
 rejection. Full suite 417 passed; Ruff/mypy clean. Causal feature warmup, stream
 recovery/gap handling and connection to economic admission remain required.
+
+## Native stream failure and artifact boundary
+
+Quote recording now requests native node stop on the first callback failure and
+suppresses subsequent records. A disk-write failure test verifies exactly one
+stop request and no completed record. Successful capture fsyncs quotes before
+hashing the complete file and session metadata into its result; failed runs emit
+a separate failure artifact when storage remains writable and never a successful
+result. This does not guarantee failure-artifact creation on a failed filesystem.
+The test exposed the native DataActor positional constructor restriction; stop
+handle assignment now occurs after construction. Full suite: 418 passed;
+Ruff/mypy clean. Stream economic integration and reconnect qualification remain open.

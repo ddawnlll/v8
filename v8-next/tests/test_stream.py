@@ -33,3 +33,30 @@ def test_native_quote_record_preserves_receipt_and_rejects_reversed_clocks(
         row = json.loads(output.getvalue())
         assert (row["event_ns"], row["received_ns"], row["recorded_ns"]) == (10, 20, 30)
         assert actor.count == 1
+
+
+def test_disk_failure_stops_native_node_once_and_suppresses_later_records(monkeypatch):
+    monkeypatch.setattr("v8_next.app.stream.time.time_ns", lambda: 30)
+
+    class BrokenOutput(io.StringIO):
+        def write(self, text):
+            raise OSError("disk unavailable")
+
+    stopped = []
+    actor = QuoteRecorder(BrokenOutput())
+    actor.stop_node = lambda: stopped.append(True)
+    quote = QuoteTick(
+        InstrumentId.from_str("BTCUSDT-PERP.BINANCE"),
+        Price.from_str("100.00"),
+        Price.from_str("100.01"),
+        Quantity.from_str("1.000"),
+        Quantity.from_str("1.000"),
+        10,
+        20,
+    )
+    with pytest.raises(OSError):
+        actor.on_quote(quote)
+    actor.on_quote(quote)
+    assert stopped == [True]
+    assert actor.count == 0
+    assert actor.failure == "OSError: disk unavailable"
