@@ -1575,3 +1575,20 @@ Tests use known draw means for exact arithmetic and native library repeatability
 clone uncertainty compares within floating-point tolerance. Full run passed 375
 other tests; the corrected focused WRC tests pass. Calibration admission remains
 separate unfinished work.
+
+## Real-data effect output qualification and policy labels
+
+The complete registered donchian-pbo-development-v1 family was recomputed through
+compare using existing real-source trial artifacts (498 intervals), explicit
+baseline, block=12/reps=999/seed=42. Output:
+/tmp/v8-real-family-effect-estimates.json. Both candidate mean baseline-relative
+loss improvements were negative (-2.434467222891568e-6 and
+-2.1580937188755034e-6 per fixed-initial-capital interval), with bootstrap mean
+standard errors 1.4702927152347783e-6 and 1.5427975911227134e-6. These remain
+in-sample historical-model comparisons, not prospective calibration or proof of
+profitability. No utility admission was opened.
+
+Family reports now include trial_policies keyed by validated trial ID so effect
+magnitudes can be interpreted against actual frozen observer/campaign/fee/risk
+settings rather than opaque hashes alone. This is a presentation of existing
+validated configuration, not another authority mechanism.

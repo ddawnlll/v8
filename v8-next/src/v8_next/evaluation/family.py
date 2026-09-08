@@ -149,6 +149,10 @@ def compare_family(
     return {
         "family": family,
         "baseline_trial_id": baseline_trial_id,
+        "trial_policies": {
+            result["trial_id"]: result["frozen_policy"]["config"]
+            for result in sorted(results, key=lambda result: result["trial_id"])
+        },
         "registered_trial_ids": sorted([baseline_trial_id, *losses]),
         "scope": "DEVELOPMENT_EXPLORATION_NOT_OOS",
         "promotion_eligible": False,
