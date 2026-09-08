@@ -1,7 +1,7 @@
 """Validated external simulation assumptions; no economic defaults."""
 
 from decimal import Decimal
-from typing import Self
+from typing import Literal, Self
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -24,10 +24,17 @@ class PaperConfig(BaseModel):
     funding_max_age_ns: int | None = Field(default=None, gt=0, strict=True)
     open_interest_max_age_ns: int | None = Field(default=None, gt=0, strict=True)
 
+    account_ratio_period: (
+        Literal["5m", "15m", "30m", "1h", "2h", "4h", "6h", "12h", "1d"] | None
+    ) = None
+    account_ratio_max_age_ns: int | None = Field(default=None, gt=0, strict=True)
+
     @model_validator(mode="after")
     def protected_sizing(self) -> Self:
         if self.stop_budget is not None and self.campaign_policy == "timeout-only-v1":
             raise ValueError("stop budget requires a protected campaign policy")
+        if (self.account_ratio_period is None) != (self.account_ratio_max_age_ns is None):
+            raise ValueError("account ratio requires both period and freshness")
         return self
 
     observer_policy: str = "squeeze"

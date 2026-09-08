@@ -1282,3 +1282,21 @@ https://developers.binance.com/docs/derivatives/usds-margined-futures/market-dat
 The documentation defines timestamp as period end in milliseconds. Tests qualify
 capture, source-period mismatch and receipt gating. Paper configuration/CLI and
 real public acquisition remain unfinished for this input.
+
+## Account ratio paper policy and public acquisition
+
+Paper policy now accepts account_ratio_period and account_ratio_max_age_ns only
+as a complete pair. The period is a supported literal and freshness a strict
+positive integer; both are frozen with the session. Capture requests the chosen
+period and paper replay loads the verified observations into existing causal
+selection/protection. Missing optional artifacts remain absent. The full suite
+passes (356 tests), including incomplete/invalid policy rejection.
+
+Real public capture succeeded at
+/tmp/v8-next-public-ratio-1788872382073361000/manifest.json. The 5m global account
+ratio was 1.2873 with event_ns 1788872100000000000 and receipt_ns
+1788872385753220000; artifact SHA256
+921674c6f24ab87ff239e9d7d79c19974f492abc890a71da33e916295d0f8228.
+The explicit 600-second development freshness check passed. These are acquisition
+observations, not fitted policy choices or profitability evidence. Full economic
+calibration, campaign validity, portfolio and continuous operational work remain.

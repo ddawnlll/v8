@@ -47,3 +47,24 @@ def test_policy_file_cannot_override_execution_assumptions(tmp_path, payload):
     path.write_text(json.dumps(payload))
     with pytest.raises(ValueError, match="economic policy"):
         load_policy_config(path)
+
+
+@pytest.mark.parametrize(
+    "fields",
+    [
+        {"account_ratio_period": "5m"},
+        {"account_ratio_max_age_ns": 100},
+        {"account_ratio_period": "2m", "account_ratio_max_age_ns": 100},
+        {"account_ratio_period": "5m", "account_ratio_max_age_ns": True},
+    ],
+)
+def test_ratio_requires_complete_explicit_policy(fields):
+    base = dict(
+        maker_fee=".0002",
+        taker_fee=".0005",
+        initial_balance="10000",
+        max_notional="100",
+        max_exposure_fraction=".1",
+    )
+    with pytest.raises(ValueError):
+        PaperConfig.model_validate({**base, **fields})
