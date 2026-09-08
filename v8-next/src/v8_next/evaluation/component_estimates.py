@@ -19,7 +19,13 @@ FIELDS = (
 
 
 def estimate_components(
-    outcomes: dict[str, Any], *, decision_ns: int, block_size: int, reps: int, seed: int
+    outcomes: dict[str, Any],
+    *,
+    decision_ns: int,
+    block_size: int,
+    reps: int,
+    seed: int,
+    training_window: tuple[int, int] | None = None,
 ) -> dict[str, Any]:
     result: dict[str, Any] = dict(
         scope="NATIVE_MODEL_COHORT_COMPONENTS_NOT_EXPECTED_UTILITY",
@@ -29,6 +35,21 @@ def estimate_components(
         source_sha256=hashlib.sha256(canonical(outcomes).encode()).hexdigest(),
     )
     rows = outcomes["rows"]
+    if training_window is not None:
+        start, end = training_window
+        if (
+            any(type(t) is not int for t in (start, end, decision_ns))
+            or not 0 < start < end <= decision_ns
+        ):
+            raise ValueError("invalid training window")
+        result["training_window"] = dict(start_ns=start, end_ns=end, interval="[start,end)")
+        if any(type(r.get("decision_ns")) is not int for r in rows):
+            return {**result, "reason": "CAMPAIGN_SELECTION_CLOCK_UNAVAILABLE"}
+        if any(not start <= r["decision_ns"] < end for r in rows):
+            return {**result, "reason": "SOURCE_COHORT_OUTSIDE_TRAINING_WINDOW"}
+        if any(type(r.get("observed_ns")) is not int or r["observed_ns"] >= end for r in rows):
+            return {**result, "reason": "TRAINING_OUTCOMES_NOT_AVAILABLE_AT_CUTOFF"}
+
     if not rows or any(r["status"] != "CLOSED_UNDER_NATIVE_MODEL" for r in rows):
         return {**result, "reason": "COMPLETE_CLOSED_COHORT_REQUIRED"}
     if any(not r.get("instrument_id") or r.get("direction") not in {"LONG", "SHORT"} for r in rows):
@@ -61,6 +82,8 @@ def estimate_components(
         "COMPLETE_PROTECTED_COHORT" if r_complete else "COMPLETE_PROTECTED_COHORT_REQUIRED"
     )
     for row in ordered:
+        if training_window is not None and not row["decision_ns"] < row["opened_ns"]:
+            raise ValueError("campaign selection must precede entry")
         if not row["opened_ns"] <= row["closed_ns"] <= row["observed_ns"] < decision_ns:
             raise ValueError("component evidence reaches future")
         vector = [Decimal(row[k]) for k in FIELDS]

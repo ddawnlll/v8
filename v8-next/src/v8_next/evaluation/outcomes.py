@@ -64,6 +64,7 @@ def observed_outcomes(
             "campaign_id": key,
             "economic_policy_sha256": policy_hash,
             "opportunity_id": campaign["opportunity_id"],
+            "decision_ns": campaign["decision_ns"],
             "instrument_id": campaign["instrument_id"],
             "direction": campaign["direction"],
             "status": "NO_CLOSED_NATIVE_OUTCOME",

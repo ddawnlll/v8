@@ -17,13 +17,19 @@ from v8_next.domain.campaign import PaperCampaign
 
 
 def inspect_calibration_source(
-    run: Path, decision_ns: int, *, bootstrap_plan: tuple[int, int, int] | None = None
+    run: Path,
+    decision_ns: int,
+    *,
+    bootstrap_plan: tuple[int, int, int] | None = None,
+    training_window: tuple[int, int] | None = None,
 ) -> dict[str, Any]:
     """Recompute source accounting; never trust a serialized verified flag.
 
     This is evidence admission, not an estimator or a certificate issuer. No
     forecast value is produced until a complete eligible outcome sample exists.
     """
+    if training_window is not None and bootstrap_plan is None:
+        raise ValueError("training window requires a bootstrap plan")
     frozen = json.loads((run / "policy.json").read_text())
     if frozen["policy"].get("code_and_lock_hash") != source_hash():
         raise ValueError("calibration requires the source run frozen runtime")
@@ -73,6 +79,7 @@ def inspect_calibration_source(
             block_size=block_size,
             reps=reps,
             seed=seed,
+            training_window=training_window,
         )
     return {
         "claim_status": "NO_ECONOMIC_CLAIM",
@@ -125,12 +132,20 @@ def main() -> None:
     parser.add_argument("--block-size", type=int)
     parser.add_argument("--reps", type=int)
     parser.add_argument("--seed", type=int)
+    parser.add_argument("--training-start-ns", type=int)
+    parser.add_argument("--training-end-ns", type=int)
     args = parser.parse_args()
     plan = (args.block_size, args.reps, args.seed)
     if any(v is not None for v in plan) and any(v is None for v in plan):
         raise ValueError("component estimates require block-size, reps and seed together")
+    window = (args.training_start_ns, args.training_end_ns)
+    if any(v is not None for v in window) and (any(v is None for v in window) or plan[0] is None):
+        raise ValueError("training window requires both endpoints and a bootstrap plan")
     result = inspect_calibration_source(
-        args.run_directory, args.decision_ns, bootstrap_plan=plan if plan[0] is not None else None
+        args.run_directory,
+        args.decision_ns,
+        bootstrap_plan=plan if plan[0] is not None else None,
+        training_window=window if window[0] is not None else None,
     )
     with args.output.open("x") as output:
         json.dump(result, output, indent=2)

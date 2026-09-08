@@ -15,7 +15,8 @@ def sample():
                 instrument_id="BTCUSDT-PERP.BINANCE",
                 direction="LONG",
                 status="CLOSED_UNDER_NATIVE_MODEL",
-                opened_ns=i + 1,
+                decision_ns=i + 1,
+                opened_ns=i + 2,
                 closed_ns=i + 10,
                 observed_ns=20,
                 entry_notional="1",
@@ -109,3 +110,24 @@ def test_different_or_unavailable_economic_policies_are_not_pooled(identity):
         "ECONOMIC_POLICY_IDENTITY_UNAVAILABLE",
         "EXPLICIT_POLICY_CONDITIONING_REQUIRED",
     }
+
+
+def test_training_window_rejects_late_labels_and_outside_selections_without_slicing():
+    data = sample()
+    kwargs = dict(decision_ns=30, block_size=2, reps=99, seed=7)
+    complete = estimate_components(data, **kwargs, training_window=(1, 21))
+    assert complete["sample_count"] == 4
+    assert complete["training_window"]["end_ns"] == 21
+    late = estimate_components(data, **kwargs, training_window=(1, 20))
+    assert late["estimates"] is None
+    assert late["reason"] == "TRAINING_OUTCOMES_NOT_AVAILABLE_AT_CUTOFF"
+    outside = estimate_components(data, **kwargs, training_window=(2, 21))
+    assert outside["estimates"] is None
+    assert outside["reason"] == "SOURCE_COHORT_OUTSIDE_TRAINING_WINDOW"
+    with pytest.raises(ValueError, match="training window"):
+        estimate_components(data, **kwargs, training_window=(1, 31))
+    del data["rows"][0]["decision_ns"]
+    assert (
+        estimate_components(data, **kwargs, training_window=(1, 21))["reason"]
+        == "CAMPAIGN_SELECTION_CLOCK_UNAVAILABLE"
+    )

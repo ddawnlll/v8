@@ -2560,3 +2560,19 @@ component tests reject mixed and missing policies. Full suite 445 passed before
 the final native identity assertions; affected native/component tests pass after.
 Ruff and mypy clean. A hash is grouping identity, not source authentication,
 preregistration or regime conditioning. Production calibration remains incomplete.
+
+## Explicit training interval admission
+
+Outcome rows preserve campaign decision clocks. Optional calibration CLI
+--training-start-ns/--training-end-ns freezes a half-open training interval for
+component estimation. Every selected campaign decision must lie inside it and
+precede actual entry; every realized outcome must have been observed before its
+end. A mixed/outside source cohort or late/missing label rejects the estimate,
+without silently filtering winners, open campaigns or held-out rows. Both bounds
+and an explicit bootstrap plan are required. The interval cannot extend past the
+calibration decision. Tests cover complete inclusion, late labels at the exact
+boundary, outside selection, missing decision clocks and future windows.
+Full suite 446 passed; final component tests pass after entry-clock validation;
+Ruff/mypy clean. This is caller-declared training admission, not proof that the
+interval was preregistered or that a protected holdout remained unseen. Research
+store/OOS qualification and the production utility provider remain incomplete.
