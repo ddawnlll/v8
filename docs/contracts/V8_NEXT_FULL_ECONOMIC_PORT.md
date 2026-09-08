@@ -857,3 +857,19 @@ in the output. No reference source is certified by schema validation, and no
 zero-return dataset is generated to force DSR availability. Tests validate the
 artifact contract; existing family tests exercise the DSR numerical connection.
 Real source qualification, protected OOS and production calibration remain open.
+
+## Dataset role contamination guard
+
+ResearchStore.register_trial now prevents one dataset hash from combining HOLDOUT
+with DEVELOPMENT or PROSPECTIVE, across trial names, policy IDs and families.
+Previously the app trial precheck only prevented one direction and could race
+with another registration. Registry lookup, role validation and insertion now
+share BEGIN IMMEDIATE, so concurrent conflicting admissions cannot both commit.
+Existing identical registrations remain idempotent, and failed registration rolls
+back without contaminating subsequent work. Tests cover both directions, restart,
+renaming, independent datasets and concurrent contenders.
+
+This protects known local dataset identities, not overlapping observations in
+separately hashed manifests, undisclosed external access or alternative registries.
+It does not by itself qualify a protected OOS run. Window/observation lineage and
+frozen plan integration remain necessary, along with the rest of the full port.

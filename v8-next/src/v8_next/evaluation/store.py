@@ -86,12 +86,29 @@ class ResearchStore:
         if role not in {"DEVELOPMENT", "HOLDOUT", "PROSPECTIVE"}:
             raise ValueError("unknown data role")
         values = (trial_id, family, policy_hash, dataset_hash, role, registered_ns)
-        existing = self.db.execute("SELECT * FROM trials WHERE trial_id=?", (trial_id,)).fetchone()
-        if existing is not None:
-            if existing != values:
+        self.db.execute("BEGIN IMMEDIATE")
+        try:
+            existing = self.db.execute(
+                "SELECT * FROM trials WHERE trial_id=?", (trial_id,)
+            ).fetchone()
+            if existing is not None and existing != values:
                 raise ValueError("trial identity cannot be rewritten")
-            return
-        self.db.execute("INSERT INTO trials VALUES (?,?,?,?,?,?)", values)
+            roles = {
+                row[0]
+                for row in self.db.execute(
+                    "SELECT DISTINCT role FROM trials WHERE dataset_hash=?", (dataset_hash,)
+                )
+            }
+            if (role == "HOLDOUT" and roles - {"HOLDOUT"}) or (
+                role != "HOLDOUT" and "HOLDOUT" in roles
+            ):
+                raise ValueError("dataset cannot mix protected holdout and observed research roles")
+            if existing is None:
+                self.db.execute("INSERT INTO trials VALUES (?,?,?,?,?,?)", values)
+            self.db.execute("COMMIT")
+        except BaseException:
+            self.db.execute("ROLLBACK")
+            raise
 
     def family_size(self, family: str) -> int:
         result = self.db.execute("SELECT COUNT(*) FROM trials WHERE family=?", (family,)).fetchone()

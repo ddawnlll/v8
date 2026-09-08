@@ -111,3 +111,53 @@ def test_campaign_observation_restart_and_divergence(tmp_path):
         assert store.db.execute("SELECT COUNT(*) FROM campaign_observations").fetchone()[0] == 1
     finally:
         store.close()
+
+
+@pytest.mark.parametrize(
+    "first,second",
+    [
+        ("DEVELOPMENT", "HOLDOUT"),
+        ("PROSPECTIVE", "HOLDOUT"),
+        ("HOLDOUT", "DEVELOPMENT"),
+        ("HOLDOUT", "PROSPECTIVE"),
+    ],
+)
+def test_dataset_role_cannot_be_laundered_by_new_family_or_restart(tmp_path, first, second):
+    path = tmp_path / "research.sqlite"
+    store = ResearchStore(path)
+    store.register_trial("original", "family-a", "policy-a", "same-data", first, 1)
+    store.close()
+    store = ResearchStore(path)
+    try:
+        with pytest.raises(ValueError, match="cannot mix"):
+            store.register_trial("renamed", "family-b", "policy-b", "same-data", second, 2)
+        assert store.family_size("family-b") == 0
+        store.register_trial("other", "family-b", "policy-b", "different-data", second, 3)
+        assert store.family_size("family-b") == 1
+    finally:
+        store.close()
+
+
+def test_concurrent_holdout_and_development_registration_cannot_both_commit(tmp_path):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+
+    path = tmp_path / "research.sqlite"
+    ResearchStore(path).close()
+    barrier = Barrier(2)
+
+    def register(role):
+        store = ResearchStore(path)
+        try:
+            barrier.wait()
+            try:
+                store.register_trial(role, role, "p", "same-data", role, 1)
+                return True
+            except ValueError:
+                return False
+        finally:
+            store.close()
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        results = list(executor.map(register, ("HOLDOUT", "DEVELOPMENT")))
+    assert sorted(results) == [False, True]
