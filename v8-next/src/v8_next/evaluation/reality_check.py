@@ -51,10 +51,26 @@ def reality_check_diagnostic(
     bootstrap = importlib.import_module("arch.bootstrap")
     sampler = bootstrap.CircularBlockBootstrap(block_size, matrix, seed=seed)
     exceed = 0
+    draw_means = []
     for positional, _ in sampler.bootstrap(reps):
-        null_max = float(np.max(positional[0].mean(axis=0) - means))
+        draw_mean = positional[0].mean(axis=0)
+        draw_means.append(draw_mean)
+        null_max = float(np.max(draw_mean - means))
         exceed += int(null_max >= observed)
+    standard_errors = np.std(np.asarray(draw_means), axis=0, ddof=1)
+    if not np.isfinite(standard_errors).all():
+        raise ValueError("nonfinite bootstrap mean uncertainty")
     return {
+        "effect_estimates": {
+            name: {
+                "mean_baseline_minus_variant_loss": float(means[index]),
+                "bootstrap_mean_standard_error": float(standard_errors[index]),
+            }
+            for index, name in enumerate(names)
+        },
+        "effect_units": "same_as_input_interval_loss",
+        "effect_scope": "IN_SAMPLE_BASELINE_RELATIVE_NOT_GROSS_EDGE_OR_UTILITY",
+        "uncertainty_method": "sample_sd_of_joint_circular_block_means_ddof_1",
         "method": "WHITE_MAX_MEAN_CIRCULAR_BLOCK_V2",
         "library": "arch.bootstrap.CircularBlockBootstrap",
         "library_version": importlib.metadata.version("arch"),

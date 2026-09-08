@@ -1561,3 +1561,17 @@ missing identity also rejects. Tests preserve forged-campaign rejection and prov
 changed/missing runtime rejection before source recomputation. Three focused tests
 pass; mypy clean. This does not introduce a calibration estimator or claim receipt;
 real eligible outcome estimation and economic admission remain unfinished.
+
+## Economic effect magnitude alongside WRC
+
+WRC now reports each candidate's observed mean baseline-minus-variant interval
+loss and the sample standard deviation of bootstrap means, using the same joint
+circular-block draws as its existing family test. No extra resampling, zero-loss
+imputation or gross-edge assumption is introduced. Outputs explicitly retain
+input-loss units and in-sample baseline-relative scope; standard error is not a
+confidence bound, calibrated forecast, multiplicity-adjusted interval or utility
+receipt. Existing compare-family output carries these values automatically.
+Tests use known draw means for exact arithmetic and native library repeatability;
+clone uncertainty compares within floating-point tolerance. Full run passed 375
+other tests; the corrected focused WRC tests pass. Calibration admission remains
+separate unfinished work.

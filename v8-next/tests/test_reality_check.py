@@ -42,6 +42,10 @@ def test_compound_null_joint_draws_and_inclusive_ties(monkeypatch):
     assert result["observed_max"] == 1
     assert result["exceedances"] == 2 and result["p_value"] == 2 / 3
     assert result["argmax_variant"] == "a"
+    assert result["effect_estimates"] == {
+        name: {"mean_baseline_minus_variant_loss": 1.0, "bootstrap_mean_standard_error": 1.0}
+        for name in ("a", "b")
+    }
     assert not result["promotion_eligible"]
 
 
@@ -54,6 +58,13 @@ def test_real_library_repeatability_clone_invariance_and_bad_alignment():
     assert result == reality_check_diagnostic(baseline, {"a": candidate}, **plan)
     cloned = reality_check_diagnostic(baseline, {"b": candidate, "a": candidate}, **plan)
     assert result["p_value"] == cloned["p_value"]
+    assert result["effect_estimates"]["a"] == pytest.approx(cloned["effect_estimates"]["b"])
+    expected_mean = np.mean(
+        [float(b.loss - c.loss) for b, c in zip(baseline, candidate, strict=True)]
+    )
+    assert result["effect_estimates"]["a"]["mean_baseline_minus_variant_loss"] == pytest.approx(
+        expected_mean
+    )
     assert 0 <= result["p_value"] <= 1
     incomplete = (replace(candidate[0], loss=None), *candidate[1:])
     with pytest.raises(ValueError, match="missing"):
