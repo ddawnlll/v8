@@ -14,7 +14,11 @@ BASE = "https://fapi.binance.com"
 
 
 def capture(
-    destination: Path, symbol: str = "BTCUSDT", *, funding_start_ms: int | None = None
+    destination: Path,
+    symbol: str = "BTCUSDT",
+    *,
+    funding_start_ms: int | None = None,
+    include_open_interest: bool = False,
 ) -> Path:
     """Write immutable raw responses and a manifest; never send authenticated requests."""
     if not symbol.isascii() or not symbol.isalnum():
@@ -33,6 +37,8 @@ def capture(
         "funding_schedule": ("/fapi/v1/premiumIndex", {"symbol": symbol}),
         "quote": ("/fapi/v1/ticker/bookTicker", {"symbol": symbol}),
     }
+    if include_open_interest:
+        requests["open_interest"] = ("/fapi/v1/openInterest", {"symbol": symbol})
     artifacts = []
     for name, (endpoint, params) in requests.items():
         url = BASE + endpoint + ("?" + urlencode(params) if params else "")
@@ -108,9 +114,10 @@ def validate_capture(manifest_path: Path) -> None:
         "funding.json": "/fapi/v1/fundingRate",
         "quote.json": "/fapi/v1/ticker/bookTicker",
         "funding_schedule.json": "/fapi/v1/premiumIndex",
+        "open_interest.json": "/fapi/v1/openInterest",
     }
     names = [a["path"] for a in manifest["artifacts"]]
-    required = set(endpoints) - {"funding_schedule.json"}
+    required = set(endpoints) - {"funding_schedule.json", "open_interest.json"}
     if len(names) != len(set(names)) or not required <= set(names) or set(names) - set(endpoints):
         raise ValueError("incomplete, duplicate or unknown capture artifacts")
     for artifact in manifest["artifacts"]:
@@ -137,8 +144,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("destination", type=Path)
     parser.add_argument("--symbol", default="BTCUSDT")
+    parser.add_argument("--include-open-interest", action="store_true")
     args = parser.parse_args()
-    manifest = capture(args.destination, args.symbol)
+    manifest = capture(
+        args.destination, args.symbol, include_open_interest=args.include_open_interest
+    )
     verify(manifest)
     print(manifest)
 

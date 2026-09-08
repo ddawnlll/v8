@@ -1238,3 +1238,16 @@ combined configuration is validated before session work and frozen before any
 capture; changing freshness or selection requires a new run. Tests verify
 roundtrip freeze, changed-policy rejection, strict freshness integers and forbidden
 fields. No value is selected on the owner's behalf or economic eligibility minted.
+
+## Optional public OI snapshot capture
+
+Capture supports --include-open-interest, storing the unmodified public response
+from /fapi/v1/openInterest with URL, hash and request/receipt times. Official
+Binance Open Interest documentation was inspected: the response is present OI,
+with openInterest, symbol and millisecond transaction time; it is not an OI
+change series. Source: https://developers.binance.com/docs/derivatives/usds-margined-futures/market-data/rest-api/Open-Interest
+load_open_interest validates the complete capture and decodes receipt-available
+readings with explicit event-based freshness. Older captures without this optional
+artifact return no readings. Tests cover actual capture/verification/decoding
+boundaries with isolated responses, causal availability and expiry. Paper config
+wiring, ratio acquisition and real public qualification remain outstanding.

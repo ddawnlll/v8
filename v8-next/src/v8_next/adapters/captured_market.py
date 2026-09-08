@@ -74,3 +74,30 @@ def load_settled_funding(
             raise ValueError("conflicting captured funding rates")
         result[event_ns] = reading
     return tuple(result[t] for t in sorted(result))
+
+
+def load_open_interest(manifest_path: Path, *, max_age_ns: int) -> tuple[PositioningReading, ...]:
+    """Present OI snapshot; absence remains absent in older capture schemas."""
+    if type(max_age_ns) is not int or max_age_ns <= 0:
+        raise ValueError("positive OI freshness policy required")
+    validate_capture(manifest_path)
+    manifest = json.loads(manifest_path.read_text())
+    artifact = next((a for a in manifest["artifacts"] if a["path"] == "open_interest.json"), None)
+    if artifact is None:
+        return ()
+    row = json.loads((manifest_path.parent / "open_interest.json").read_text())
+    if row["symbol"] != manifest["symbol"] or type(row["time"]) is not int:
+        raise ValueError("invalid OI symbol or event timestamp")
+    event_ns = row["time"] * 1_000_000
+    return (
+        PositioningReading(
+            instrument_id=f"{manifest['symbol']}-PERP.BINANCE",
+            metric="open_interest",
+            value=Decimal(str(row["openInterest"])),
+            event_ns=event_ns,
+            received_ns=artifact["received_time_ns"],
+            available_ns=artifact["received_time_ns"],
+            valid_until_ns=event_ns + max_age_ns,
+            source_hash=artifact["sha256"],
+        ),
+    )

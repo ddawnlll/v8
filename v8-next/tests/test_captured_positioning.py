@@ -105,3 +105,27 @@ def test_verified_capture_reaches_native_paper_decisions(tmp_path, monkeypatch, 
     assert bool(supporting) is not late
     assert (record.get("protection") is not None) is not late
     assert not strategy.campaigns  # Observations do not manufacture calibration.
+
+
+def test_optional_open_interest_capture_and_receipt(tmp_path, monkeypatch):
+    from v8_next.adapters.captured_market import load_open_interest
+
+    def response(url, **kwargs):
+        payload = []
+        if "exchangeInfo" in url:
+            payload = {"symbols": [{"symbol": "BTCUSDT"}]}
+        elif "openInterest" in url:
+            payload = {"symbol": "BTCUSDT", "time": 1000, "openInterest": "123.456"}
+        return io.BytesIO(json.dumps(payload).encode())
+
+    monkeypatch.setattr(binance_capture, "urlopen", response)
+    monkeypatch.setattr(binance_capture.time, "time_ns", lambda: 2_000_000_000)
+    path = binance_capture.capture(tmp_path / "with-oi", include_open_interest=True)
+    readings = load_open_interest(path, max_age_ns=2_000_000_000)
+    assert readings[0].value == Decimal("123.456")
+    args = (readings, "BTCUSDT-PERP.BINANCE", "open_interest")
+    assert positioning_at(*args, 1_999_999_999) is None
+    assert positioning_at(*args, 2_000_000_000) == Decimal("123.456")
+    assert positioning_at(*args, 3_000_000_000) is None
+    old = binance_capture.capture(tmp_path / "without-oi")
+    assert load_open_interest(old, max_age_ns=1) == ()
