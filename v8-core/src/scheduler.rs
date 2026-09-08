@@ -31,6 +31,33 @@ use crate::backend::{ReplayCell, ReplayKernel};
 use crate::data::Dataset;
 use crate::error::V8CoreError;
 use crate::simulator::Outcome;
+use std::{cell::RefCell, sync::Arc};
+
+thread_local! {
+    // Retain only the most recently requested pool on each caller thread.
+    // No job, dataset, output or domain state survives a call. Changing the
+    // worker count replaces the pool; caller exit releases it.
+    static CALLER_POOL: RefCell<Option<(usize, Arc<rayon::ThreadPool>)>> = const { RefCell::new(None) };
+}
+
+fn pool_for(workers: usize) -> Result<Arc<rayon::ThreadPool>, String> {
+    CALLER_POOL.with(|slot| {
+        let mut slot = slot.borrow_mut();
+        if let Some((count, pool)) = slot.as_ref() {
+            if *count == workers {
+                return Ok(Arc::clone(pool));
+            }
+        }
+        let pool = Arc::new(
+            rayon::ThreadPoolBuilder::new()
+                .num_threads(workers)
+                .build()
+                .map_err(|e| format!("scheduler: failed to initialize rayon thread pool: {e}"))?,
+        );
+        *slot = Some((workers, Arc::clone(&pool)));
+        Ok(pool)
+    })
+}
 
 /// Contiguous worker-chunk boundaries: worker `w` owns `[bounds[w],
 /// bounds[w+1])`. The shape depends only on `(n, workers)` — never on thread
@@ -105,10 +132,7 @@ pub fn evaluate<K: ReplayKernel + Sync>(
         rest = tail;
     }
 
-    let pool = rayon::ThreadPoolBuilder::new()
-        .num_threads(workers)
-        .build()
-        .map_err(|e| format!("scheduler: failed to initialize rayon thread pool: {e}"))?;
+    let pool = pool_for(workers)?;
 
     let res = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
         pool.install(|| {
@@ -159,10 +183,7 @@ pub fn parallel_map<T: Send, F: Fn(usize) -> Result<T, String> + Sync>(
     let workers = threads.min(n);
     let bounds = chunk_bounds(n, workers);
 
-    let pool = rayon::ThreadPoolBuilder::new()
-        .num_threads(workers)
-        .build()
-        .map_err(|e| format!("scheduler: failed to initialize rayon thread pool: {e}"))?;
+    let pool = pool_for(workers)?;
 
     let res = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
         pool.install(|| {
@@ -204,6 +225,51 @@ pub fn parallel_map<T: Send, F: Fn(usize) -> Result<T, String> + Sync>(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn repeated_jobs_preserve_order_worker_count_and_failure_isolation() {
+        for workers in [2, 4, 4, 2] {
+            let expected: Vec<_> = (0..32).map(|i| Ok(i + workers)).collect();
+            assert_eq!(
+                parallel_map(workers, 32, &|i| {
+                    assert_eq!(rayon::current_num_threads(), workers);
+                    Ok(i + workers)
+                })
+                .unwrap(),
+                expected
+            );
+        }
+        let failed = parallel_map::<usize, _>(4, 8, &|i| {
+            if i == 3 {
+                panic!("intentional worker failure");
+            }
+            Ok(i)
+        });
+        assert!(failed.unwrap_err().contains("intentional worker failure"));
+        let values = parallel_map(4, 8, &|i| {
+            if i == 3 {
+                Err("task failure".into())
+            } else {
+                Ok(i)
+            }
+        })
+        .unwrap();
+        assert_eq!(values[3], Err("task failure".into()));
+        assert_eq!(values[7], Ok(7));
+    }
+
+    #[test]
+    fn nested_parallel_jobs_complete_without_sharing_results() {
+        let result = parallel_map(2, 4, &|outer| {
+            parallel_map(2, 4, &|inner| Ok(outer * 4 + inner))
+        })
+        .unwrap();
+        for (outer, row) in result.into_iter().enumerate() {
+            assert_eq!(
+                row.unwrap(),
+                (0..4).map(|i| Ok(outer * 4 + i)).collect::<Vec<_>>()
+            );
+        }
+    }
     use crate::backend::scalar::ScalarBackend;
     use crate::data::TapeRow;
     use crate::simulator::{Draft, FillPolicy, HOUR_NS};

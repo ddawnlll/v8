@@ -110,7 +110,7 @@ impl V83Runloop {
             for witness in &self.witnesses {
                 let closure = crate::features::group_closure(crate::experts::requires_for(&witness.expert_id));
                 let allows_hist = crate::features::history_allowed(&closure);
-                let expert_hist = if allows_hist { hist.clone() } else { Vec::new() };
+                let expert_hist = if allows_hist { hist.as_slice() } else { &[] };
                 let fm = FeatMap {
                     features: ProjectedFeatures::new(&feats, &closure),
                     history: expert_hist,

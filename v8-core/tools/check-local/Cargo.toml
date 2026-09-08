@@ -1,0 +1,10 @@
+[package]
+name = "v8-check-local"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Bootstrap the verifier without compiling the engine or Nautilus first.
+[[bin]]
+name = "check_local"
+path = "../../src/bin/check_local.rs"

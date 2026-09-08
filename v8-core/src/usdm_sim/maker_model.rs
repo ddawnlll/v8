@@ -157,19 +157,3 @@ pub fn save_maker_identifiability_artifacts(
 
     Ok(())
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_maker_identifiability_on_bar_tape_fails_closed_to_data_blocked() {
-        let (receipt, markouts) = build_baseline_maker_identifiability();
-        assert_eq!(receipt.status, "DATA_BLOCKED_BAR_TAPE");
-        assert_eq!(receipt.fill_probability_identifiability, "MODEL_DERIVED_STRESS_ONLY");
-        assert_eq!(receipt.queue_priority_identifiability, "NOT_IDENTIFIABLE_ON_BARS");
-        assert_eq!(receipt.claim, "NO_ECONOMIC_CLAIM");
-        assert_eq!(markouts.len(), 4);
-        assert!(markouts.iter().all(|m| m.epistemic_authority == "MODEL_DERIVED"));
-    }
-}

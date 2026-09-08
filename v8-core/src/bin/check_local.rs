@@ -14,7 +14,10 @@ fn run(root: &Path, program: &str, args: &[&str]) {
 }
 
 fn main() {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .ancestors()
+        .find(|path| path.join("v8-core/Cargo.toml").is_file())
+        .expect("local verifier must be inside the V8 repository");
     let python = if root.join(".venv/bin/python").is_file() {
         ".venv/bin/python"
     } else {
@@ -29,16 +32,8 @@ fn main() {
         run(root, python, &[script]);
     }
     let manifest = "v8-core/Cargo.toml";
-    run(
-        root,
-        "cargo",
-        &["check", "--locked", "--manifest-path", manifest],
-    );
-    run(
-        root,
-        "cargo",
-        &["test", "--locked", "--manifest-path", manifest],
-    );
+    // All-target Clippy already typechecks the library, binaries and tests.
+    // A separate cargo check duplicates that work after each source edit.
     run(
         root,
         "cargo",
@@ -52,6 +47,11 @@ fn main() {
             "-D",
             "warnings",
         ],
+    );
+    run(
+        root,
+        "cargo",
+        &["test", "--locked", "--manifest-path", manifest],
     );
     println!("\nLocal verification passed. No economic or live-readiness claim.");
 }

@@ -3,6 +3,22 @@ use clap::Parser;
 use v8_core::cli::{Cli, Commands};
 
 #[test]
+fn h4_diagnostic_requires_explicit_paths_and_fails_on_absent_tape() {
+    assert!(Cli::try_parse_from(["v8-core", "h4-decomposition"]).is_err());
+    let missing = std::env::current_exe().unwrap().join("no-tape.jsonl");
+    let result = std::process::Command::new(env!("CARGO_BIN_EXE_v8-core"))
+        .arg("h4-decomposition")
+        .arg("--tape")
+        .arg(&missing)
+        .arg("--out")
+        .arg(missing.join("no-report.txt"))
+        .output()
+        .unwrap();
+    assert_eq!(result.status.code(), Some(1));
+    assert!(!result.stderr.is_empty());
+}
+
+#[test]
 fn defaults_and_explicit_options() {
     let Commands::FullAudit {
         tape,

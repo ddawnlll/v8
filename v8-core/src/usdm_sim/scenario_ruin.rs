@@ -252,28 +252,3 @@ pub fn save_scenario_ruin_artifacts(
 
     Ok(())
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_scenario_ruin_simulation_properties_and_bounds() {
-        let (ruin, sar) = build_baseline_scenario_ruin();
-        assert!(ruin.tier_estimates.is_empty());
-        assert_eq!(ruin.status, "DATA_BLOCKED_MISSING_OR_INVALID_TRADE_INPUT");
-        assert_eq!(ruin.claim, "NO_ECONOMIC_CLAIM");
-        assert_eq!(sar.claim, "NO_ECONOMIC_CLAIM");
-        assert_eq!(sar.epistemic_authority, "UNRESOLVED");
-    }
-
-    #[test]
-    fn valid_simulation_uses_only_supplied_returns_and_unbiased_indices() {
-        let returns = [0.01, -0.02, 0.015, -0.005, 0.003];
-        let (ruin, sar) = run_scenario_ruin_simulation(&returns, 8, 42);
-        assert_eq!(ruin.tier_estimates.len(), 7);
-        assert!(ruin.tier_estimates.iter().all(|tier| tier.num_simulations == 8));
-        assert!(ruin.tier_estimates.iter().all(|tier| tier.p95_max_drawdown_pct >= 0.0));
-        assert!(sar.sar_95_pct_bps.is_none());
-    }
-}

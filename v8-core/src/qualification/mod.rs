@@ -424,10 +424,10 @@ pub fn execute_scenario(expert_id: &str, scenario: &Scenario) -> ExpertEval {
         features.push(feature(name, value.clone(), scenario.input.as_of));
     }
     let overrides = HashMap::new();
-    let history = scenario.input.history.iter().map(to_hist_bar).collect();
+    let history: Vec<_> = scenario.input.history.iter().map(to_hist_bar).collect();
     let fm = FeatMap {
         features: ProjectedFeatures::unprojected(&features),
-        history,
+        history: &history,
         as_of: scenario.input.as_of,
         symbol: &scenario.input.symbol,
         variant_overrides: &overrides,
@@ -2242,7 +2242,7 @@ mod tests {
         let closure = crate::features::group_closure(&["location", "volatility", "raw", "history"]);
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: hist,
+            history: &hist,
             as_of: 1000,
             symbol: "BTCUSDT",
             variant_overrides: &HashMap::new(),
@@ -2335,7 +2335,7 @@ mod tests {
         let closure = crate::features::group_closure(&["location", "volatility", "raw", "history"]);
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: hist,
+            history: &hist,
             as_of: 1000,
             symbol: "BTCUSDT",
             variant_overrides: &HashMap::new(),
@@ -2410,7 +2410,7 @@ mod tests {
         let closure = crate::features::group_closure(&["oscillator", "volatility", "raw", "history"]);
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: hist,
+            history: &hist,
             as_of: 1000,
             symbol: "BTCUSDT",
             variant_overrides: &HashMap::new(),
@@ -2519,7 +2519,7 @@ mod tests {
         let closure = crate::features::group_closure(&["location", "volatility", "candle_shape", "raw", "history"]);
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: hist,
+            history: &hist,
             as_of: 1000,
             symbol: "BTCUSDT",
             variant_overrides: &HashMap::new(),
@@ -2600,7 +2600,7 @@ mod tests {
         let closure = crate::features::group_closure(&["location", "volatility", "raw", "history"]);
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: hist,
+            history: &hist,
             as_of: 1000,
             symbol: "BTCUSDT",
             variant_overrides: &HashMap::new(),
@@ -2638,7 +2638,7 @@ mod tests {
         let closure = crate::features::group_closure(&["raw", "volatility"]);
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: vec![],
+            history: &[],
             as_of: 1000,
             symbol: "BTCUSDT",
             variant_overrides: &HashMap::new(),
@@ -2748,7 +2748,7 @@ mod tests {
         let closure = crate::features::group_closure(&["trend", "oscillator", "volatility", "raw", "history"]);
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: hist,
+            history: &hist,
             as_of: 1000,
             symbol: "BTCUSDT",
             variant_overrides: &HashMap::new(),
@@ -2825,7 +2825,7 @@ mod tests {
         let closure = crate::features::group_closure(&["trend", "volatility", "participation", "raw", "history"]);
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: vec![HistBar {
+            history: &[HistBar {
                 event_id: "ev-0".into(),
                 open: 105.0,
                 high: 111.0,
@@ -2954,7 +2954,7 @@ mod tests {
         let closure = crate::features::group_closure(&["location", "volatility", "participation", "raw", "history"]);
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: hist,
+            history: &hist,
             as_of: 1000,
             symbol: "BTCUSDT",
             variant_overrides: &HashMap::new(),

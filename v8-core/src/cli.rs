@@ -21,6 +21,13 @@ pub struct Cli {
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
+    /// Generate the historical H4 conflict report from explicit real tape input
+    H4Decomposition {
+        #[arg(long)]
+        tape: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+    },
     /// Ingest a tape into a Dataset and write the dataset artifact (S0)
     Ingest(RequestArg),
     /// Compute FeatureStore/StateView values (stage S1)

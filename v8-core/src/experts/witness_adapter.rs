@@ -268,7 +268,7 @@ mod tests {
         let features_slice = [];
         let fm = FeatMap {
             features: ProjectedFeatures::unprojected(&features_slice),
-            history: Vec::new(),
+            history: &[],
             as_of: 1_000_000,
             symbol: "BTCUSDT",
             variant_overrides: &HashMap::new(),

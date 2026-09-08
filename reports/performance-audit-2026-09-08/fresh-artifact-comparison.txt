@@ -1,0 +1,10 @@
+arm=0 file=economic-cashflow.jsonl cmp_exit=0
+arm=0 file=portfolio_receipt.json cmp_exit=0
+arm=1 file=economic-cashflow.jsonl cmp_exit=0
+arm=1 file=portfolio_receipt.json cmp_exit=0
+arm=2 file=economic-cashflow.jsonl cmp_exit=0
+arm=2 file=portfolio_receipt.json cmp_exit=0
+arm=3 file=economic-cashflow.jsonl cmp_exit=0
+arm=3 file=portfolio_receipt.json cmp_exit=0
+arm=4 file=economic-cashflow.jsonl cmp_exit=0
+arm=4 file=portfolio_receipt.json cmp_exit=0

@@ -255,22 +255,22 @@ pub fn collect_for_experiment(
 }
 
 /// One admitted (PENDING) candidate, held for the S2/S3 reduce pass.
-pub(crate) struct PendingCandidate {
-    pub(crate) candidate_id: String,
-    pub(crate) direction: String,
-    pub(crate) birth_time: i64,
-    pub(crate) entry_bar: Option<usize>,
-    pub(crate) window_end: Option<usize>,
-    pub(crate) risk_geometry: serde_json::Map<String, Value>,
-    pub(crate) symbol: String,
-    pub(crate) thesis: Option<Value>,
+pub struct PendingCandidate {
+    pub candidate_id: String,
+    pub direction: String,
+    pub birth_time: i64,
+    pub entry_bar: Option<usize>,
+    pub window_end: Option<usize>,
+    pub risk_geometry: serde_json::Map<String, Value>,
+    pub symbol: String,
+    pub thesis: Option<Value>,
     /// Pre-entry invalidation levels (issue #66 / D-059): the frozen
     /// `prior_low_ref` / `prior_high_ref` when the draft declares one, else
     /// the bounded windowed extreme over the bars before birth (D-034).
     /// `None` is used by the standalone cube request, which has no lifecycle
     /// snapshot to re-check.
-    pub(crate) prior_low: Option<f64>,
-    pub(crate) prior_high: Option<f64>,
+    pub prior_low: Option<f64>,
+    pub prior_high: Option<f64>,
 }
 
 /// The bounded windowed prior extreme over the `PRIOR_WINDOW_BARS` bars before
@@ -445,15 +445,22 @@ fn evaluate(req: &EvaluateRequest) -> Result<Value, String> {
                 "COMPLETE"
             };
             let bar_map = bar_payload(store, i);
+            // One immutable history per bar; projection still withholds it from
+            // experts whose declared feature closure does not permit history.
+            let history = if projections.iter().any(|(_, _, _, needed)| *needed) {
+                state::history_bars(store, t, req.history_depth)
+            } else {
+                Vec::new()
+            };
 
             for (eid, ver, closure, allows_history) in &projections {
                 // D-053 projection: each expert sees only its requires-closure;
                 // a feature outside it is withheld (features.rs — the same
                 // withholding the Python view applies).
                 let hist = if *allows_history {
-                    state::history_bars(store, t, req.history_depth)
+                    history.as_slice()
                 } else {
-                    Vec::new()
+                    &[]
                 };
                 let fm = experts::base::FeatMap {
                     features: experts::base::ProjectedFeatures::new(&feats, closure),
@@ -914,7 +921,7 @@ fn push_opt_f64(col: &mut evidence::Column, v: Option<f64>) {
 }
 
 #[allow(clippy::too_many_arguments)]
-pub(crate) fn write_cube_reduced(
+pub fn write_cube_reduced(
     path: &std::path::Path,
     pending: &[PendingCandidate],
     stores: &[FeatureStore],
@@ -1370,7 +1377,7 @@ mod tests {
                     };
                     let fm = experts::base::FeatMap {
                         features: experts::base::ProjectedFeatures::new(&feats, &closure),
-                        history: hist,
+                        history: &hist,
                         as_of,
                         symbol: &store.symbol,
                         variant_overrides: &HashMap::new(),
@@ -2175,7 +2182,7 @@ mod tests {
                     };
                     let fm = experts::base::FeatMap {
                         features: experts::base::ProjectedFeatures::new(&feats, &closure),
-                        history: hist,
+                        history: &hist,
                         as_of,
                         symbol: &store.symbol,
                         variant_overrides: &HashMap::new(),

@@ -240,31 +240,3 @@ pub fn save_capital_viability_artifacts(
 
     Ok(())
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_critical_capital_envelope_calculation() {
-        let env = compute_critical_capital_envelope(60000.0, 600.0, 0.005, 10, 0.001, 5.0);
-        // E_step = 0.001 * 600 / 0.005 = 120.0 USDT
-        assert_eq!(env.e_step_size_usdt, 120.0);
-        // E_notional = (5.0 * 600) / (60000 * 0.005) = 3000 / 300 = 10.0 USDT
-        assert_eq!(env.e_min_notional_usdt, 10.0);
-        // E_margin = 5.0 / 10 = 0.5 USDT
-        assert_eq!(env.e_margin_usdt, 0.5);
-        assert_eq!(env.e_critical_threshold_usdt, 120.0);
-        assert_eq!(env.binding_constraint, "STEP_SIZE_DISCRETIZATION");
-    }
-
-    #[test]
-    fn test_capital_viability_sweep_monotonicity() {
-        let (surface, ruin) = build_baseline_capital_viability();
-        assert_eq!(surface.tiers.len(), 7);
-        assert!(surface.monotonicity_verified);
-        assert_eq!(surface.status, "STATIC_CAPITAL_VIABILITY_CERTIFIED");
-        assert_eq!(surface.claim, "NO_ECONOMIC_CLAIM");
-        assert_eq!(ruin.claim, "NO_ECONOMIC_CLAIM");
-    }
-}

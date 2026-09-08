@@ -21,54 +21,14 @@
 //! `threads` and `engine` are scheduling details and never appear in any hash
 //! (PARITY_AND_IDENTITY_SPEC G5; COMPUTE_SCHEDULING_SPEC §1).
 
-mod account;
-mod allocator;
-mod analysis;
-pub mod audit;
-mod authority;
-mod backend;
-mod cache;
-mod candidate;
-mod cashflow;
-pub mod claims;
-mod data;
-pub mod eeo;
-pub mod error;
-mod evaluation;
-mod evidence;
-mod exit_ablation;
-mod experiment;
-mod experts;
-mod features;
-mod hash;
-mod jsonx;
-pub mod judiciary;
-pub mod kaizen;
-mod mt19937;
-pub mod opportunity;
-mod oracle;
-mod parquet_artifact;
-mod path_security;
-mod portfolio;
-pub mod quant;
-mod regret;
-mod report;
-mod runloop;
-mod scheduler;
-mod shadow;
-mod simd;
-mod simulator;
-mod state;
-mod statistics;
-pub mod telemetry;
-pub mod temporal;
-pub mod usdm_sim;
-pub mod venue;
-
-pub mod cli;
-pub mod execution_boundary;
-pub mod report_template;
-pub mod rnd;
+use v8_core::{
+    account, allocator, analysis, audit, authority, backend, cache, candidate, cashflow, claims,
+    cli, data, eeo, error, evaluation, evidence, execution_boundary, exit_ablation, experiment,
+    experts, features, hash, jsonx, judiciary, kaizen, mt19937, opportunity, oracle,
+    parquet_artifact, path_security, portfolio, quant, regret, report, report_template, rnd,
+    runloop, scheduler, shadow, simd, simulator, state, statistics, telemetry, temporal, usdm_sim,
+    venue,
+};
 
 use clap::Parser;
 use std::path::PathBuf;
@@ -85,6 +45,17 @@ fn main() {
     };
 
     let code = match cli.command {
+        cli::Commands::H4Decomposition { tape, out } => {
+            match opportunity::funnel::conflict_source_decomposition(&tape).and_then(|report| {
+                std::fs::write(&out, report).map_err(|e| format!("write {out:?}: {e}"))
+            }) {
+                Ok(()) => 0,
+                Err(error) => {
+                    eprintln!("{error}");
+                    1
+                }
+            }
+        }
         cli::Commands::Benchmark { args } => cmd_benchmark(&args),
         cli::Commands::Ingest(req) => cmd_ingest(&[req.request_path.to_string_lossy().to_string()]),
         cli::Commands::Features(req) => {
@@ -123,11 +94,20 @@ fn main() {
         cli::Commands::FunnelAudit { args } => cmd_funnel_audit(&args),
         cli::Commands::EeoQualify { args } => cmd_eeo_qualify(&args),
         cli::Commands::FullAudit {
-            mut tape, mut out, threads, no_determinism_check, no_html, paths,
+            mut tape,
+            mut out,
+            threads,
+            no_determinism_check,
+            no_html,
+            paths,
         } => {
             let mut paths = paths.into_iter();
-            if tape.is_none() { tape = paths.next(); }
-            if out.is_none() { out = paths.next(); }
+            if tape.is_none() {
+                tape = paths.next();
+            }
+            if out.is_none() {
+                out = paths.next();
+            }
             if paths.next().is_some() {
                 eprintln!("full-audit: excess positional paths");
                 std::process::exit(2);
@@ -135,9 +115,11 @@ fn main() {
             cmd_full_audit(
                 tape.unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl")),
                 out.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current")),
-                threads, !no_determinism_check, !no_html,
+                threads,
+                !no_determinism_check,
+                !no_html,
             )
-        },
+        }
     };
     std::process::exit(code);
 }
@@ -1154,7 +1136,7 @@ fn cmd_evaluate_check(args: &[String]) -> i32 {
         };
         let fm = experts::base::FeatMap {
             features: experts::base::ProjectedFeatures::new(&feats, &closure),
-            history: hist,
+            history: &hist,
             as_of,
             symbol: &sym,
             variant_overrides: &req.variant_overrides,

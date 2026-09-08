@@ -142,13 +142,12 @@ impl CacheStore {
     /// audit source until an operator removes it.
     pub fn open(path: &Path) -> io::Result<Self> {
         let legacy_jsonl = path.exists() && looks_like_jsonl(path)?;
-        let db_path = if legacy_jsonl
-            || path.extension().and_then(|ext| ext.to_str()) == Some("jsonl")
-        {
-            path.with_extension("redb")
-        } else {
-            path.to_path_buf()
-        };
+        let db_path =
+            if legacy_jsonl || path.extension().and_then(|ext| ext.to_str()) == Some("jsonl") {
+                path.with_extension("redb")
+            } else {
+                path.to_path_buf()
+            };
         if let Some(parent) = db_path.parent() {
             std::fs::create_dir_all(parent)?;
         }
@@ -182,13 +181,13 @@ impl CacheStore {
             key: key.to_string(),
             outcome,
         };
-        let bytes = serde_json::to_vec(&entry)
-            .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
         match &mut self.backend {
             CacheBackend::Memory(map) => {
                 map.insert(digest.clone(), entry);
             }
             CacheBackend::Durable(database) => {
+                let bytes = serde_json::to_vec(&entry)
+                    .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
                 let write_txn = database.begin_write().map_err(redb_io_error)?;
                 {
                     let mut table = write_txn.open_table(CACHE_TABLE).map_err(redb_io_error)?;
@@ -245,30 +244,34 @@ impl CacheStore {
 
     fn migrate_legacy_jsonl(&self, path: &Path) -> io::Result<()> {
         let text = std::fs::read_to_string(path)?;
-        for line in text.lines() {
-            if line.trim().is_empty() {
-                continue;
-            }
-            let entry: CacheEntry = match serde_json::from_str(line) {
-                Ok(entry) => entry,
-                Err(_) => continue,
-            };
-            if valid_entry(&entry, &entry.key, &entry.digest).is_none() {
-                continue;
-            }
-            let bytes = serde_json::to_vec(&entry)
-                .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
-            if let CacheBackend::Durable(database) = &self.backend {
-                let write_txn = database.begin_write().map_err(redb_io_error)?;
-                {
-                    let mut table = write_txn.open_table(CACHE_TABLE).map_err(redb_io_error)?;
-                    table
-                        .insert(entry.digest.as_str(), bytes.as_slice())
-                        .map_err(redb_io_error)?;
+        let CacheBackend::Durable(database) = &self.backend else {
+            return Ok(());
+        };
+        // Opening a migrated store succeeds only after the complete import.
+        // Commit once at that boundary; keep the original file for recovery.
+        // Ordinary insert() retains its per-write durability contract.
+        let write_txn = database.begin_write().map_err(redb_io_error)?;
+        {
+            let mut table = write_txn.open_table(CACHE_TABLE).map_err(redb_io_error)?;
+            for line in text.lines() {
+                if line.trim().is_empty() {
+                    continue;
                 }
-                write_txn.commit().map_err(redb_io_error)?;
+                let entry: CacheEntry = match serde_json::from_str(line) {
+                    Ok(entry) => entry,
+                    Err(_) => continue,
+                };
+                if valid_entry(&entry, &entry.key, &entry.digest).is_none() {
+                    continue;
+                }
+                let bytes = serde_json::to_vec(&entry)
+                    .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+                table
+                    .insert(entry.digest.as_str(), bytes.as_slice())
+                    .map_err(redb_io_error)?;
             }
         }
+        write_txn.commit().map_err(redb_io_error)?;
         Ok(())
     }
 }
@@ -621,6 +624,47 @@ mod tests {
         let old = "cube-cache-v0|cand|BUY|sim|data";
         assert_ne!(current, old);
         assert_ne!(key_digest(&current), key_digest(old));
+    }
+
+    #[test]
+    fn migration_commits_valid_entries_with_last_write_wins_and_preserves_source() {
+        let root = std::env::temp_dir().join(format!(
+            "v8-cache-import-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        struct Cleanup(std::path::PathBuf);
+        impl Drop for Cleanup {
+            fn drop(&mut self) {
+                let _ = std::fs::remove_dir_all(&self.0);
+            }
+        }
+        std::fs::create_dir(&root).unwrap();
+        let _cleanup = Cleanup(root.clone());
+        let source = root.join("legacy.jsonl");
+        let key = canonical_key("candidate", "HOLD", "sim", "tape");
+        let entry = |value| CacheEntry {
+            digest: key_digest(&key),
+            key: key.clone(),
+            outcome: serde_json::json!(value),
+        };
+        let text = format!(
+            "{}\nnot json\n{}\n",
+            serde_json::to_string(&entry(1)).unwrap(),
+            serde_json::to_string(&entry(2)).unwrap()
+        );
+        std::fs::write(&source, &text).unwrap();
+        {
+            let store = CacheStore::open(&source).unwrap();
+            assert_eq!(store.len(), 1);
+            assert_eq!(store.get(&key), Some(serde_json::json!(2)));
+        }
+        assert_eq!(std::fs::read_to_string(&source).unwrap(), text);
+        let store = CacheStore::open(&source.with_extension("redb")).unwrap();
+        assert_eq!(store.get(&key), Some(serde_json::json!(2)));
     }
 
     #[test]

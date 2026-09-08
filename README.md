@@ -48,7 +48,7 @@ retained only as the hash-locked historical oracle; see
 `docs/legacy/PYTHON_ORACLE_POLICY.md`.
 
 Verification is local-only; GitHub Actions workflows are removed. Run
-`cargo run --locked --manifest-path v8-core/Cargo.toml --bin check_local`.
+`cargo run --locked --manifest-path v8-core/tools/check-local/Cargo.toml`.
 See [the Rust runbook](v8-core/README.md) for real-data acceptance and local
 release checks.
 

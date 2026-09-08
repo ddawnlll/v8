@@ -1,33 +1,35 @@
-# Contributing to V8
+# Development workflow
 
-Welcome to the V8 research and development repository.
+The authoritative runtime and tests are Rust in `v8-core/`. The Python oracle
+under `src/v8/` and its historical `tests/` harness are frozen.
 
-V8 operates under tiered governance ([reset note](docs/GOVERNANCE_RESET_V86_2026-09-07.md)). Ordinary development (Tier A/B) works trunk-based: `edit → relevant checks → commit to main → continue`, no mandatory issue/branch/PR. The **[Work-Item & Merge Governance Policy](docs/WORK_ITEM_POLICY.md)** applies to Tier C/D evidence and release claims only.
+Follow the [owner-authorized governance reset](docs/GOVERNANCE_RESET_V86_2026-09-07.md):
+ordinary work uses `edit → relevant checks → commit to main`. Issues, PRs,
+monograph regeneration and release certificates are not per-edit gates.
 
-## 1. Filing Work Items
+For an affected library test from the repository root:
 
-All changes originate from a structured issue filed under one of the 5 Issue Forms:
-- **`[DEFECT]`**: Observed contradiction with an existing contract, invariant, or baseline.
-- **`[IMPL]`**: Implementation or wiring of a pinned decision/contract without inventing new semantics.
-- **`[RESEARCH]`**: Preregistration of a falsifiable hypothesis, benchmark, or challenger experiment.
-- **`[PERF]`**: Measured profile-driven compute optimization with bitwise/semantic parity invariants.
-- **`[GOV]`**: Formal decision record (D-series), OPEN_PIN resolution, or registry mutation.
+```sh
+cargo test --locked --manifest-path v8-core/Cargo.toml --lib FILTER
+```
 
-Blank issues are disabled. Every work item must satisfy the **Universal Context-Completeness Contract** (R# traceability, reused contracts, invariants, canonical failure semantics, dependency map, OPEN_PIN triggers) before reaching `READY` state.
+For the complete local correctness gate:
 
-## 2. Collaborative PR Workflow
+```sh
+cargo run --locked --manifest-path v8-core/tools/check-local/Cargo.toml
+```
 
-1. Create a focused branch from `main`: `<type>/<issue-number>-<short-description>`.
-2. Ensure every PR implements requirements directly mapped to the linked issue via the **PR Traceability Matrix** (`R# → Owning Authority → Implementation Surface → Verification Gate → Receipt`).
-3. Maintain zero runtime changes for governance/documentation PRs.
-4. Pass all active verification gates (`tools/forbidden_names.py`, `tools/audit_python_boundary.py`, `cargo test`, `cargo clippy`, and monograph byte-identity probe).
-5. Obtain review from authoritative domain owners defined in [`.github/CODEOWNERS`](.github/CODEOWNERS).
+This dependency-free launcher runs the policy audits, all-target Clippy and the
+Rust test suite. Clippy includes typechecking; a separate `cargo check` is useful
+when requested on its own, but is not repeated inside the full gate. Both root
+and `v8-core/` commands inherit the same compiler flags from `.cargo/config.toml`.
+GitHub Actions are retired; verification is local.
 
-## 3. Precedence & Governance Authority
+Format touched Rust code and retain causality, arithmetic, cache integrity,
+durability and authority checks. Do not fabricate market/economic evidence or
+weaken assertions to improve timings. USD-M-specific tests are retired by owner
+direction during the Nautilus migration; this does not certify the new engine.
 
-- **Semantic Domain Rule:** The [V8 Constitution](docs/charter/V8_CONSTITUTION.md), owning contracts in [`docs/contracts/`](docs/contracts/), and the [Decision Register](docs/decisions/DECISION_REGISTER.md) own semantic truth.
-- **Collaborative Workflow Rule:** [`docs/WORK_ITEM_POLICY.md`](docs/WORK_ITEM_POLICY.md) owns the Issue → PR → review → merge process.
-- **Session / Runbook Rule:** Task-specific instructions (`CLAUDE.md`, `docs/AGENT_RUNBOOK.md`) apply only within their explicitly declared scope.
-- **Conflict Rule:** If active authorities conflict, implementation stops immediately and opens an `OPEN_PIN`. Unknown owning semantics are not implementer discretion.
-
-For detailed guidelines, labels, merge rules, and verification requirements, read the canonical **[WORK_ITEM_POLICY.md](docs/WORK_ITEM_POLICY.md)**.
+GPU, release, frozen-oracle differential, and monograph checks belong to their
+explicit risk/release boundaries. See [the Rust runbook](v8-core/README.md) and
+[performance notes](v8-core/PERFORMANCE.md) for commands and measured limitations.

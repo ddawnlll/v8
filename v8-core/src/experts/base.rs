@@ -79,7 +79,9 @@ impl<'a> ProjectedFeatures<'a> {
 /// The per-bar feature view the experts read (the state's feature dict).
 pub struct FeatMap<'a> {
     pub features: ProjectedFeatures<'a>,
-    pub history: Vec<HistBar>,
+    /// Immutable, bar-scoped history. Empty when the expert's feature closure
+    /// disallows history; sharing cannot grant additional feature access.
+    pub history: &'a [HistBar],
     pub as_of: i64,
     /// Request symbol (the Python `state.universe[0]` read); the fingerprint
     /// prefix. The ported pilots hardcoded "SOLUSDT" here — that broke value

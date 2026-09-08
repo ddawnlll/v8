@@ -1,0 +1,8 @@
+Initial audited commit: 7840520e
+Later HEAD: e1481afd525edb2b8bd4b4dd5b5068fbfedd105e
+Tape SHA-256: 4812c6dc9e8b206246ca088eed2fe5460495c65314dcbbafa09cc1ba0d0a0f3f  research/tape/btcusdt-1h-12m/tape.jsonl
+Cargo.lock SHA-256: de05f75e73d3a1958fab4138c6f8abcb6e7952b39c0dce7fa5917c62b1afa836  v8-core/Cargo.lock
+Toolchain: rustc 1.96.0-nightly (562dee482 2026-03-21)
+cargo 1.96.0-nightly (e84cb639e 2026-03-21)
+
+Final observed HEAD: 07f183cc2a561c6405e476faf8a52062948290de (concurrent work; not the initial timing baseline)

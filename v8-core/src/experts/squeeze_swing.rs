@@ -248,7 +248,7 @@ mod tests {
 
         let fm = FeatMap {
             features: ProjectedFeatures::new(&feats, &closure),
-            history: hist,
+            history: &hist,
             as_of: 1000,
             symbol: "BTCUSDT",
             variant_overrides: &std::collections::HashMap::new(),

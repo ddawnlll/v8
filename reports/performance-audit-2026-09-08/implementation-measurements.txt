@@ -1,0 +1,388 @@
+
+SOURCE: /tmp/v8-perf-implementation/pool-before.txt
+
+running 1 test
+repeat=0 fresh_500=173.652542ms reused_500=6.418542ms
+repeat=1 fresh_500=306.678042ms reused_500=46.486375ms
+repeat=2 fresh_500=149.551292ms reused_500=33.710792ms
+test tests::compare_pool_lifetime ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.72s
+
+
+SOURCE: /tmp/v8-perf-implementation/migration-before.txt
+
+running 1 test
+repeat=0 batched=false elapsed=843.759625ms
+repeat=0 batched=true elapsed=2.013792ms
+repeat=1 batched=false elapsed=742.39725ms
+repeat=1 batched=true elapsed=1.996792ms
+repeat=2 batched=false elapsed=745.896834ms
+repeat=2 batched=true elapsed=11.914625ms
+test tests::commit_scope ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.59s
+
+
+SOURCE: /tmp/v8-perf-implementation/retained-1.time
+        2.15 real         0.47 user         0.46 sys
+            82968576  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               16962  page reclaims
+                1051  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                6067  voluntary context switches
+               12296  involuntary context switches
+            36185547  instructions retired
+            29094179  cycles elapsed
+             1327368  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/retained-2.time
+        0.96 real         0.48 user         0.45 sys
+            76365824  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               17063  page reclaims
+                   4  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                6461  voluntary context switches
+               10693  involuntary context switches
+            38168722  instructions retired
+            34294792  cycles elapsed
+             1327368  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/retained-3.time
+        1.02 real         0.50 user         0.47 sys
+            75530240  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               16975  page reclaims
+                  11  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                6772  voluntary context switches
+                9212  involuntary context switches
+            36282023  instructions retired
+            33382623  cycles elapsed
+             1310984  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/concurrency-1-1.time
+        1.69 real         0.32 user         0.17 sys
+            50413568  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                4641  page reclaims
+                   1  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                1675  voluntary context switches
+                2301  involuntary context switches
+          4136401449  instructions retired
+          1179187173  cycles elapsed
+            32539056  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/concurrency-1-2.time
+        1.74 real         0.36 user         0.20 sys
+            50659328  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                4651  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                1698  voluntary context switches
+                1993  involuntary context switches
+          4145328796  instructions retired
+          1252456470  cycles elapsed
+            31900080  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/concurrency-11-1.time
+        0.85 real         0.37 user         0.32 sys
+            75055104  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                5990  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                5752  voluntary context switches
+                6065  involuntary context switches
+          4291198235  instructions retired
+          1590243075  cycles elapsed
+            63652320  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/concurrency-11-2.time
+        0.87 real         0.36 user         0.34 sys
+            70172672  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                5715  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                6083  voluntary context switches
+                7050  involuntary context switches
+          4322918131  instructions retired
+          1571872970  cycles elapsed
+            58769888  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/concurrency-4-1.time
+        1.01 real         0.38 user         0.25 sys
+            60194816  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                5294  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                4045  voluntary context switches
+                3452  involuntary context switches
+          4228476202  instructions retired
+          1297316901  cycles elapsed
+            40681904  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/concurrency-4-2.time
+        1.08 real         0.37 user         0.25 sys
+            60293120  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                5326  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                4350  voluntary context switches
+                3484  involuntary context switches
+          4221788437  instructions retired
+          1284155917  cycles elapsed
+            39256520  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/h4-final-a.time
+        2.94 real         1.08 user         0.05 sys
+            47185920  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                3086  page reclaims
+                 365  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   6  voluntary context switches
+                9274  involuntary context switches
+         10321900871  instructions retired
+          3436757607  cycles elapsed
+            40026520  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/h4-final-b.time
+        1.84 real         1.03 user         0.02 sys
+            47349760  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                3461  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+                2177  involuntary context switches
+         10258173775  instructions retired
+          3139055141  cycles elapsed
+            40190360  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/current-full-2.time
+    Finished `test` profile [optimized + debuginfo] target(s) in 0.17s
+     Running unittests src/lib.rs (v8-core/target/debug/deps/v8_core-4c289e07a0a9c361)
+     Running unittests src/bin/check_local.rs (v8-core/target/debug/deps/check_local-f781e389d3096d2c)
+     Running unittests src/bin/epistemic_succession.rs (v8-core/target/debug/deps/epistemic_succession-0d1f40095fc0d0fa)
+     Running unittests src/bin/kaizen_iterations.rs (v8-core/target/debug/deps/kaizen_iterations-d7eb0ce313e83758)
+     Running unittests src/bin/nautilus_instruments.rs (v8-core/target/debug/deps/nautilus_instruments-29f69d3a59fc6be0)
+     Running unittests src/main.rs (v8-core/target/debug/deps/v8_core-225dfe1e1f904303)
+     Running tests/d153_parity_adapters_policy_bound.rs (v8-core/target/debug/deps/d153_parity_adapters_policy_bound-db0a836fd868eb1d)
+     Running tests/d153_receipt_ledger_selfverify.rs (v8-core/target/debug/deps/d153_receipt_ledger_selfverify-29c08f2e1afb138d)
+     Running tests/integration_tests.rs (v8-core/target/debug/deps/integration_tests-9729cc98490c889c)
+     Running tests/nautilus_real_execution.rs (v8-core/target/debug/deps/nautilus_real_execution-66b05cb8c172afe3)
+error: test failed, to rerun pass `--test nautilus_real_execution`
+     Running tests/v86_cli_full_audit.rs (v8-core/target/debug/deps/v86_cli_full_audit-96ceb6df6e6828e1)
+     Running tests/v86_cli_request_envelopes.rs (v8-core/target/debug/deps/v86_cli_request_envelopes-21f68d83978ff7c7)
+     Running tests/v86_migration_verification.rs (v8-core/target/debug/deps/v86_migration_verification-694093bc09b7a147)
+   Doc-tests v8_core
+error: 1 target failed:
+    `--test nautilus_real_execution`
+        3.17 real         1.94 user         0.64 sys
+           553238528  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               68744  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   1  signals received
+                6346  voluntary context switches
+                9422  involuntary context switches
+          2439696856  instructions retired
+           754933396  cycles elapsed
+           114901640  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/current-full-3.time
+    Finished `test` profile [optimized + debuginfo] target(s) in 0.16s
+     Running unittests src/lib.rs (v8-core/target/debug/deps/v8_core-4c289e07a0a9c361)
+     Running unittests src/bin/check_local.rs (v8-core/target/debug/deps/check_local-f781e389d3096d2c)
+     Running unittests src/bin/epistemic_succession.rs (v8-core/target/debug/deps/epistemic_succession-0d1f40095fc0d0fa)
+     Running unittests src/bin/kaizen_iterations.rs (v8-core/target/debug/deps/kaizen_iterations-d7eb0ce313e83758)
+     Running unittests src/bin/nautilus_instruments.rs (v8-core/target/debug/deps/nautilus_instruments-29f69d3a59fc6be0)
+     Running unittests src/main.rs (v8-core/target/debug/deps/v8_core-225dfe1e1f904303)
+     Running tests/d153_parity_adapters_policy_bound.rs (v8-core/target/debug/deps/d153_parity_adapters_policy_bound-db0a836fd868eb1d)
+     Running tests/d153_receipt_ledger_selfverify.rs (v8-core/target/debug/deps/d153_receipt_ledger_selfverify-29c08f2e1afb138d)
+     Running tests/integration_tests.rs (v8-core/target/debug/deps/integration_tests-9729cc98490c889c)
+     Running tests/nautilus_real_execution.rs (v8-core/target/debug/deps/nautilus_real_execution-66b05cb8c172afe3)
+error: test failed, to rerun pass `--test nautilus_real_execution`
+     Running tests/v86_cli_full_audit.rs (v8-core/target/debug/deps/v86_cli_full_audit-96ceb6df6e6828e1)
+     Running tests/v86_cli_request_envelopes.rs (v8-core/target/debug/deps/v86_cli_request_envelopes-21f68d83978ff7c7)
+     Running tests/v86_migration_verification.rs (v8-core/target/debug/deps/v86_migration_verification-694093bc09b7a147)
+   Doc-tests v8_core
+error: 1 target failed:
+    `--test nautilus_real_execution`
+        3.19 real         1.91 user         0.66 sys
+           553451520  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               68947  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   1  signals received
+                6174  voluntary context switches
+                9868  involuntary context switches
+          2425568007  instructions retired
+           748974545  cycles elapsed
+           113459848  peak memory footprint
+
+SOURCE: /tmp/v8-perf-implementation/retained-1.log
+test result: ok. 113 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 468 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.81s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+SOURCE: /tmp/v8-perf-implementation/retained-2.log
+test result: ok. 113 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 468 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.80s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+SOURCE: /tmp/v8-perf-implementation/retained-3.log
+test result: ok. 113 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 468 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.84s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+SOURCE: /tmp/v8-perf-implementation/current-full-3.log
+test result: ok. 468 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.88s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 113 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+thread 'test_nautilus_real_execution_e2e' (17199678) panicked at tests/nautilus_real_execution.rs:82:5:
+Nautilus should execute trades on historical tape
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+23b48582aaca895b20454ce61f5723741fe7e88f7c8fcf242c10f02ad2d980b0  v8-core/Cargo.toml
+3b82ce46bd462011d458516fe5821a63449d5a2f990018c5d9e7f331bf5ffaba  v8-core/Cargo.lock
+495c69d1db93f25f53e3d0d2d40d812313366cc368de317871c2ace6c6ffafa4  rust-toolchain.toml
+b48e80ff20a722c02d8fd809de8d37e33941172bf06f9fe4a0e87c57d0bb3213  v8-core/src/main.rs
+60af4311c6f45579df3c83b572f3531cece854d218415796134ae1f47101dfe3  v8-core/src/execution/nautilus/data.rs
+9eb72561bc48d36a94da8eaafab46190996989951e1073595099795fc4406523  v8-core/src/execution/nautilus/strategy.rs
+d79753709a2a05f64e6f891bc455e576356ddf70a262aef23299d49d0a2294d6  v8-core/tests/nautilus_real_execution.rs

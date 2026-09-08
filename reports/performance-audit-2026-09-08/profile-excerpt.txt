@@ -1,0 +1,50 @@
+Analysis of sampling v8_core-42acbce3b243e668 (pid 51688) every 1 millisecond
+Process:         v8_core-42acbce3b243e668 [51688]
+Path:            /Users/USER/*/v8_core-42acbce3b243e668
+Load Address:    0x10259c000
+Identifier:      v8_core-42acbce3b243e668
+Version:         ???
+Code Type:       ARM64
+Parent Process:  zsh [51677]
+Target Type:     live task
+
+Date/Time:       2026-09-08 02:26:52.319 +0300
+Launch Time:     2026-09-08 02:26:52.241 +0300
+OS Version:      macOS 26.1 (25B78)
+Report Version:  7
+Analysis Tool:   /usr/bin/sample
+
+Physical footprint:         18.7M
+Physical footprint (peak):  37.4M
+Idle exit:                  untracked
+----
+
+Call graph:
+    62 Thread_16927167: Main Thread
+    + 45 start  (in dyld) + 7104  [0x195689d04]
+      !               : 781 _RNvNtCsenar1sA6KFD_7v8_core8usdm_sim14run_simulation  (in v8_core-42acbce3b243e668) + 672  [0x1028bff98]  usdm_sim.rs:120
+Sort by top of stack, same collapsed (when >= 5):
+        semaphore_timedwait_trap  (in libsystem_kernel.dylib)        936
+        _xzm_free  (in libsystem_malloc.dylib)        111
+        _RNvNtCsenar1sA6KFD_7v8_core5state4fsum  (in v8_core-42acbce3b243e668)        92
+        _xzm_xzone_malloc_tiny  (in libsystem_malloc.dylib)        90
+        mach_msg2_trap  (in dyld)        56
+        _platform_memmove  (in libsystem_platform.dylib)        42
+        _xzm_xzone_malloc  (in libsystem_malloc.dylib)        40
+        mach_absolute_time  (in libsystem_kernel.dylib)        37
+        _malloc_zone_malloc  (in libsystem_malloc.dylib)        36
+        <deduplicated_symbol>  (in libsystem_malloc.dylib)        32
+        _free  (in libsystem_malloc.dylib)        31
+        _platform_memset  (in libsystem_platform.dylib)        30
+        _RNvNtNtCsenar1sA6KFD_7v8_core7experts15failed_breakout15failed_breakout  (in v8_core-42acbce3b243e668)        28
+        _RNvMs2_NtCs1aco3oOFlWb_5alloc7raw_vecNtB5_11RawVecInner10deallocateCskaGno5GzNjh_5gimli  (in v8_core-42acbce3b243e668)        26
+        _platform_memcmp  (in libsystem_platform.dylib)        18
+        _RNvXsa_NtCs1aco3oOFlWb_5alloc3vecINtB5_3VecNtNtCsenar1sA6KFD_7v8_core5state7HistBarENtNtCs322AsuLpRYg_4core5clone5Clone5cloneBJ_  (in v8_core-42acbce3b243e668)        17
+        _RNvMNtCsenar1sA6KFD_7v8_core5jsonxNtB2_6Parser12parse_string  (in v8_core-42acbce3b243e668)        14
+        _RNvNtCsenar1sA6KFD_7v8_core5state13feature_group  (in v8_core-42acbce3b243e668)        14
+        _RNvNtCsenar1sA6KFD_7v8_core5state14state_features  (in v8_core-42acbce3b243e668)        14
+        _RNvCs1m1ltf7UOCZ_7___rustc11___rdl_alloc  (in v8_core-42acbce3b243e668)        12
+        _RNvNtNtCs322AsuLpRYg_4core3str8converts9from_utf8  (in v8_core-42acbce3b243e668)        11
+        _RNvNtCsenar1sA6KFD_7v8_core5state3add  (in v8_core-42acbce3b243e668)        10
+        _RNvXs4_NtCs1aco3oOFlWb_5alloc6stringNtB5_6StringNtNtCs322AsuLpRYg_4core5clone5Clone5clone  (in v8_core-42acbce3b243e668)        10
+        pow  (in libsystem_m.dylib)        10
