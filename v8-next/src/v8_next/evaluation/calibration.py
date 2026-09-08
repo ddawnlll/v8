@@ -57,14 +57,8 @@ def inspect_calibration_source(run: Path, decision_ns: int) -> dict[str, Any]:
         p["closed_ns"] is None or not p["opened_ns"] <= p["closed_ns"] <= cutoff for p in closed
     ):
         raise ValueError("closed outcome has invalid accounting clocks")
-    if not positions:
-        reason = "NO_EXECUTED_OUTCOME_SAMPLE"
-    elif not closed:
-        reason = "NO_CLOSED_OUTCOME_SAMPLE"
-    elif recomputed["funding_coverage"] != "COMPLETE":
-        reason = "FUNDING_COVERAGE_UNQUALIFIED"
-    else:
-        reason = "STATISTICAL_METHOD_AND_TRIAL_FAMILY_REVIEW_REQUIRED"
+    blockers = outcome_sample_blockers(positions, recomputed["funding_coverage"])
+    reason = blockers[0]
     return {
         "claim_status": "NO_ECONOMIC_CLAIM",
         "source_policy_hash": evaluation["policy_hash"],
@@ -81,9 +75,29 @@ def inspect_calibration_source(run: Path, decision_ns: int) -> dict[str, Any]:
         "closed_outcomes": sorted(closed, key=lambda p: (p["closed_ns"], p["instrument_id"])),
         "eligible_for_utility": False,
         "reason": reason,
+        "blockers": blockers,
         "gross_edge": None,
         "uncertainty": None,
     }
+
+
+def outcome_sample_blockers(positions: list[dict[str, Any]], funding_coverage: str) -> list[str]:
+    """Report all unresolved sample gates; closed-only selection can be biased.
+
+    This is not a calibration estimator. Open outcomes need an explicit censoring
+    or horizon methodology before closed observations can define a sample.
+    """
+    blockers = []
+    if not positions:
+        blockers.append("NO_EXECUTED_OUTCOME_SAMPLE")
+    elif not any(p["is_closed"] for p in positions):
+        blockers.append("NO_CLOSED_OUTCOME_SAMPLE")
+    if any(not p["is_closed"] for p in positions):
+        blockers.append("OPEN_OUTCOME_CENSORING_POLICY_REQUIRED")
+    if funding_coverage != "COMPLETE":
+        blockers.append("FUNDING_COVERAGE_UNQUALIFIED")
+    blockers.append("STATISTICAL_METHOD_AND_TRIAL_FAMILY_REVIEW_REQUIRED")
+    return blockers
 
 
 def main() -> None:

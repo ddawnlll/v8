@@ -1741,3 +1741,12 @@ equal returned result. Artifact directory:
 This validates real acquisition and deterministic no-trade restart after the
 integration. It does not prove that an eligible opportunity exercised allocation,
 position-bearing operation, calibration, funding completeness or profitability.
+
+## Calibration sample censoring visibility
+
+Calibration inspection now lists every unresolved sample gate rather than only
+one precedence reason. Mixed open/closed positions explicitly require a censoring
+or horizon policy: selecting only completed outcomes can bias calibration.
+Funding and statistical-family requirements remain visible simultaneously, and
+eligible_for_utility remains false. Four calibration-source tests pass;
+Ruff/mypy clean. No estimator, fabricated utility or authority promotion was added.

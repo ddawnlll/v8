@@ -49,3 +49,16 @@ def test_calibration_rejects_missing_or_changed_runtime_before_replay(
     monkeypatch.setattr(calibration, "replay_account", forbidden)
     with pytest.raises(ValueError, match="frozen runtime"):
         calibration.inspect_calibration_source(tmp_path, 20)
+
+
+def test_open_outcomes_cannot_silently_disappear_from_calibration_sample():
+    from v8_next.evaluation.calibration import outcome_sample_blockers
+
+    blockers = outcome_sample_blockers([{"is_closed": True}, {"is_closed": False}], "UNQUALIFIED")
+    assert "OPEN_OUTCOME_CENSORING_POLICY_REQUIRED" in blockers
+    assert "FUNDING_COVERAGE_UNQUALIFIED" in blockers
+    assert "STATISTICAL_METHOD_AND_TRIAL_FAMILY_REVIEW_REQUIRED" in blockers
+    assert outcome_sample_blockers([], "COMPLETE")[0] == "NO_EXECUTED_OUTCOME_SAMPLE"
+    assert outcome_sample_blockers([{"is_closed": True}], "COMPLETE") == [
+        "STATISTICAL_METHOD_AND_TRIAL_FAMILY_REVIEW_REQUIRED"
+    ]
