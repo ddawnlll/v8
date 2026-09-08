@@ -1,0 +1,65 @@
+from dataclasses import replace
+from decimal import Decimal as D
+
+import pytest
+
+from v8_next.economics.allocation import AllocationProposal, allocate_ordered
+from v8_next.economics.controller import InstrumentConstraints
+from v8_next.economics.decisions import Opportunity, Stance, StanceKind, UtilityInputs
+from v8_next.economics.protection import CampaignProtection
+from v8_next.risk.admission import RiskLimits, RiskSnapshot
+
+
+def proposal(identity, exposure="btc", verified=True):
+    instrument = f"{exposure.upper()}USDT-PERP.BINANCE"
+    return AllocationProposal(
+        Opportunity(identity, exposure, instrument, "LONG", 1, 100),
+        (Stance("observer", "group", StanceKind.SUPPORT, "setup", identity, 10),),
+        UtilityInputs(D(10), D(1), D(1), D(1), D(1), D(1), "test-only"),
+        verified,
+        InstrumentConstraints(D("0.1"), D("0.1"), D(100), D(10)),
+        D(100),
+        D(600),
+        CampaignProtection("pandf:a:v2", identity, instrument, "LONG", 10, 50, D(90), D(110)),
+    )
+
+
+def allocate(proposals, snapshots=None, allocated=frozenset()):
+    return allocate_ordered(
+        tuple(proposals),
+        snapshots or {"btc": RiskSnapshot(D(1000), D(0), D(0), D(0), 10, True)},
+        RiskLimits(D(1), D(1), D(1000), 10),
+        decision_ns=10,
+        already_allocated=allocated,
+    )
+
+
+def test_batch_cannot_spend_same_capital_twice():
+    results = allocate([proposal("a"), proposal("b"), proposal("c")])
+    assert [r.campaign.quantity if r.campaign else None for r in results] == [D(6), D(4), None]
+
+
+def test_rejection_does_not_reserve_and_duplicate_cannot_allocate_twice():
+    results = allocate([proposal("a", verified=False), proposal("a"), proposal("a"), proposal("b")])
+    assert results[0].reason == "UNVERIFIED_CALIBRATION"
+    assert results[1].campaign.quantity == D(6)
+    assert results[2].reason == "DUPLICATE_OPPORTUNITY"
+    assert results[3].campaign.quantity == D(4)
+    assert allocate([proposal("a")], allocated=frozenset({"a"}))[0].campaign is None
+
+
+def test_account_state_must_be_shared_across_exposures():
+    snapshot = RiskSnapshot(D(1000), D(0), D(0), D(0), 10, True)
+    proposals = [proposal("a"), proposal("b", "eth")]
+    results = allocate(proposals, {"btc": snapshot, "eth": snapshot})
+    assert sum(r.campaign.quantity * D(100) for r in results) == D(1000)
+    with pytest.raises(ValueError, match="global account state"):
+        allocate(proposals, {"btc": snapshot, "eth": replace(snapshot, equity=D(2000))})
+    with pytest.raises(ValueError, match="missing exposure"):
+        allocate(proposals)
+
+
+def test_lot_rounding_reserves_actual_admitted_quantity():
+    first = replace(proposal("a"), requested_notional=D(605))
+    results = allocate([first, proposal("b")])
+    assert [r.campaign.quantity for r in results] == [D(6), D(4)]

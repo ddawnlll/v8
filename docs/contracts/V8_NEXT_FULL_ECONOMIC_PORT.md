@@ -1592,3 +1592,21 @@ Family reports now include trial_policies keyed by validated trial ID so effect
 magnitudes can be interpreted against actual frozen observer/campaign/fee/risk
 settings rather than opaque hashes alone. This is a presentation of existing
 validated configuration, not another authority mechanism.
+
+## Ordered portfolio allocation planning
+
+Added a pure ordered batch admission boundary using existing campaign/risk
+admission. Explicit caller priority determines order; accepted lot-rounded
+notional is reserved before evaluating the next proposal. Rejected and duplicate
+opportunities consume no additional reservation. Per-exposure snapshots must
+agree on global equity, gross exposure, reservations, time and reconciliation.
+The existing scalar reservation model conservatively charges reservations to
+all exposures; this is not diversified exposure optimization. Caller remains
+responsible for atomic application and verified calibration provenance.
+
+Four tests cover aggregate capital exhaustion, rejection/duplicate handling,
+inconsistent or missing account snapshots and lot-rounded reservation amounts.
+Full suite: 380 passed; Ruff/mypy clean (71 source files). This module is not yet
+wired into native multi-instrument execution and does not add portfolio stop-heat
+allocation. Those integrations and the remaining full economic requirements
+remain open; no production calibration or trading authority was enabled.
