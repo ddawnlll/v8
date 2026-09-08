@@ -37,6 +37,7 @@ class PaperCampaignAdapter(Strategy):
         self.submitted: set[str] = set()
         self.expired: set[str] = set()
         self.exit_requested: set[str] = set()
+        self.exit_order_ids: dict[str, set[str]] = {}
 
     def on_order_event(self, event: Any) -> None:
         """Observe native transitions; do not infer fills from submission flags."""
@@ -61,6 +62,16 @@ class PaperCampaignAdapter(Strategy):
                 "opportunity_id": c.opportunity_id,
                 "entry_events": [
                     e for e in self.order_events if e["client_order_id"] == c.campaign_id
+                ],
+                "exit_events": [
+                    e
+                    for e in self.order_events
+                    if e["client_order_id"] in self.exit_order_ids.get(c.campaign_id, set())
+                ],
+                "exit_orders": [
+                    o
+                    for o in state["orders"]
+                    if o["client_order_id"] in self.exit_order_ids.get(c.campaign_id, set())
                 ],
                 "submitted": c.campaign_id in self.submitted,
                 "expired_before_submission": c.campaign_id in self.expired,
@@ -89,7 +100,15 @@ class PaperCampaignAdapter(Strategy):
                     # Initial netting scope: the owning app must admit at most one
                     # active campaign per instrument. Engine owns close execution.
                     self.cancel_all_orders(quote.instrument_id)
-                    self.close_all_positions(quote.instrument_id, reduce_only=True)
+                    exit_tag = f"v8-campaign-exit:{campaign.campaign_id}"
+                    self.close_all_positions(quote.instrument_id, reduce_only=True, tags=[exit_tag])
+                    # Native-generated IDs remain authoritative. Tags bind intent
+                    # without guessing ownership from instrument or fill time.
+                    self.exit_order_ids[campaign.campaign_id] = {
+                        str(order.client_order_id)
+                        for order in self.cache.orders()
+                        if exit_tag in (order.tags or [])
+                    }
                     self.exit_requested.add(campaign.campaign_id)
                 continue
             if campaign.campaign_id in self.expired:

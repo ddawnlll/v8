@@ -237,7 +237,8 @@ def test_observer_through_admission_to_native_fill():
     assert strategy.decisions[0]["reason"] == "PAPER_CAMPAIGN_ADMITTED"
 
 
-def test_native_order_callbacks_survive_store_restart_and_evaluation(tmp_path):
+@pytest.mark.parametrize("close", [False, True])
+def test_native_order_callbacks_survive_store_restart_and_evaluation(tmp_path, close):
     import hashlib
     import json
 
@@ -257,15 +258,23 @@ def test_native_order_callbacks_survive_store_restart_and_evaluation(tmp_path):
             ),
         )
     )
-    state = run_qualified_engine(strategy=strategy)
+    state = run_qualified_engine(strategy=strategy, close=close)
     fills = [e for e in strategy.order_events if e["event_type"] == "OrderFilled"]
-    assert len(fills) == 1
+    assert len(fills) == (2 if close else 1)
     assert Decimal(fills[0]["fill_quantity"]) == Decimal("0.010")
     assert Decimal(fills[0]["fill_price"]) == Decimal(10000)
     assert fills[0]["event_ns"] > 1_000_000_000
 
     observations = strategy.campaign_observations(state)
     assert observations[0]["entry_order"]["status"] == "FILLED"
+    assert len(observations[0]["exit_orders"]) == int(close)
+    if close:
+        assert observations[0]["exit_orders"][0]["status"] == "FILLED"
+        exit_fills = [e for e in observations[0]["exit_events"] if e["event_type"] == "OrderFilled"]
+        assert len(exit_fills) == 1
+        assert exit_fills[0]["client_order_id"] != "callback-test"
+        assert exit_fills[0]["event_ns"] >= 5_000_000_000
+    observed_ns = 6_000_000_000 if close else 4_000_000_000
     policy = {"test_only": True}
     policy_hash = hashlib.sha256(canonical(policy).encode()).hexdigest()
     (tmp_path / "policy.json").write_text(
@@ -274,9 +283,7 @@ def test_native_order_callbacks_survive_store_restart_and_evaluation(tmp_path):
     store = ResearchStore(tmp_path / "research.sqlite")
     try:
         for observation in observations:
-            store.record_campaign_observation(
-                observation["campaign_id"], 4_000_000_000, observation
-            )
+            store.record_campaign_observation(observation["campaign_id"], observed_ns, observation)
     finally:
         store.close()
     # Open a new connection as a restarted process would; duplicate replay is a no-op.
@@ -284,7 +291,7 @@ def test_native_order_callbacks_survive_store_restart_and_evaluation(tmp_path):
     try:
         for observation in observations:
             recovered.record_campaign_observation(
-                observation["campaign_id"], 4_000_000_000, observation
+                observation["campaign_id"], observed_ns, observation
             )
     finally:
         recovered.close()
@@ -292,5 +299,6 @@ def test_native_order_callbacks_survive_store_restart_and_evaluation(tmp_path):
     history = report["campaign_history"]["observations"]
     assert len(history) == 1
     assert history[0]["entry_events"] == observations[0]["entry_events"]
+    assert history[0]["exit_events"] == observations[0]["exit_events"]
     assert history[0]["realization"] == "SIMULATED"
     assert report["claim_status"] == "NO_ECONOMIC_CLAIM"

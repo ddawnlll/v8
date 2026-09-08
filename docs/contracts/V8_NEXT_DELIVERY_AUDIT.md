@@ -63,3 +63,19 @@ This closes the entry-event persistence gap only. Generated closing-order IDs ar
 not yet bound to campaign history; position settlement and funding completeness
 must not be inferred from these entry snapshots. The paired-outcome and funding
 continuation gaps above remain open.
+
+### Native exit association
+
+Closing orders now carry a native order tag binding the originating campaign.
+The adapter reads the engine-generated client IDs from tagged cached orders and
+projects both exit callbacks and exit-order state into the same persisted
+observation. It does not infer ownership from fill timestamps or instrument alone,
+and does not implement a second order state machine. The installed rc4 public
+`close_all_positions(..., tags=...)` API was exercised by the native test.
+
+The persistence/evaluation test now covers both an open position and an expired
+campaign with a native close fill. Eight native tests passed in 1.45 s
+(`/tmp/v8-next-exit-tests.log`). Entry and exit evidence survive store reopening
+without duplicate observations; this supersedes the missing closing-ID association
+noted above. Complete funding coverage, production calibration and paired economic
+outcome ingestion remain separate unfinished requirements.
