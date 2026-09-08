@@ -977,3 +977,20 @@ protection requirements, risk/heat constraints and serialization roundtrip.
 This connects an economic sizing policy, not generic portfolio infrastructure.
 Open-position stop-risk projection, concurrent allocation, funding reconciliation
 and genuine calibration remain incomplete.
+
+## Native protective-stop exposure projection
+
+native_stop_exposure reads native open netting positions and their campaign-owned
+active reduce-only stop-market orders. It checks instrument, exit side, trigger
+price and sufficient remaining stop quantity. Nominal heat is actual entry-to-stop
+absolute distance times current native quantity, preserving the legacy convention.
+Unknown ownership/orders, missing protection or unpriced pending campaigns yield
+None rather than zero. A covered native state yields StopExposure; this structural
+reconciliation does not certify funding or guarantee maximum realized loss.
+
+Trial reports now retain that projection. A native-engine test holds a protected
+0.01 BTC position with 100 USDT stop distance and observes 1 USDT nominal risk;
+removing the stop from the observed cache view returns absence. Pending campaign
+risk likewise stays absent. Native engine/order/account ownership is unchanged.
+Concurrent admission, reservation valuation and online funding continuation are
+still required before using open-position snapshots to expand product operation.

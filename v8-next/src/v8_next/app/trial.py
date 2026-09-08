@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import time
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Literal
 
@@ -12,6 +13,7 @@ from v8_next.adapters.captured_market import load_candles
 from v8_next.adapters.engine_state import economic_state
 from v8_next.adapters.historical_trial import HistoricalTrial
 from v8_next.adapters.native_tape import build_engine
+from v8_next.adapters.stop_exposure import native_stop_exposure
 from v8_next.app.observe import source_hash
 from v8_next.domain.config import PaperConfig
 from v8_next.evaluation.equity import equity_losses
@@ -78,6 +80,15 @@ def _run_trial(
                 f"historical trial callback failed: {trial.failure or trial.callback_failure}"
             )
         state = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
+        stop_exposure = native_stop_exposure(
+            engine.cache,
+            trial.campaigns,
+            pending_campaigns=any(
+                c.campaign_id not in trial.submitted | trial.expired | trial.invalidated
+                for c in trial.campaigns
+            ),
+            observed_ns=candles[-1].end_ns,
+        )
         computed_ns = time.time_ns()
         losses = equity_losses(
             trial.equity_marks, capital=policy.initial_balance, computed_ns=computed_ns
@@ -96,6 +107,12 @@ def _run_trial(
             "calibration_eligible": False,
             "promotion_eligible": False,
             "account": state,
+            "stop_exposure": {
+                **asdict(stop_exposure),
+                "open_and_reserved_risk": str(stop_exposure.open_and_reserved_risk),
+            }
+            if stop_exposure is not None
+            else None,
             "equity_marks": trial.equity_marks,
             "computed_ns": computed_ns,
             "period_loss_definition": "NEGATIVE_EQUITY_CHANGE_OVER_FIXED_INITIAL_CAPITAL",

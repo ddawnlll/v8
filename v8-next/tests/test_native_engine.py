@@ -755,3 +755,69 @@ def test_two_closed_campaigns_survive_same_native_netting_id_and_reconcile():
     corrupted[0]["opened_ns"] = campaigns[0].decision_ns
     with pytest.raises(ValueError, match="timing"):
         observed_outcomes(records, corrupted, state, Decimal(10000))
+
+
+def test_native_open_position_stop_risk_projection():
+    from v8_next.adapters.stop_exposure import native_stop_exposure
+
+    class Observing(PaperCampaignAdapter):
+        samples = None
+
+        def on_quote(self, quote):
+            super().on_quote(quote)
+            if self.samples is None:
+                self.samples = []
+            if self.cache.positions_open():
+                from types import SimpleNamespace
+
+                incomplete = SimpleNamespace(
+                    positions_open=self.cache.positions_open,
+                    orders_open=lambda: [
+                        o
+                        for o in self.cache.orders_open()
+                        if not str(o.client_order_id).endswith("-stop")
+                    ],
+                )
+                assert (
+                    native_stop_exposure(
+                        incomplete,
+                        self.campaigns,
+                        pending_campaigns=False,
+                        observed_ns=quote.ts_init,
+                    )
+                    is None
+                )
+            self.samples.append(
+                native_stop_exposure(
+                    self.cache,
+                    self.campaigns,
+                    pending_campaigns=any(
+                        c.campaign_id not in self.submitted | self.expired | self.invalidated
+                        for c in self.campaigns
+                    ),
+                    observed_ns=quote.ts_init,
+                )
+            )
+
+    campaign = PaperCampaign(
+        "risk",
+        "risk-opp",
+        "BTCUSDT-PERP.BINANCE",
+        "LONG",
+        Decimal(".010"),
+        10**9,
+        10 * 10**9,
+        Decimal(9900),
+        Decimal(10100),
+    )
+    subject = Observing((campaign,))
+    run_qualified_engine(strategy=subject, standard_assertions=False)
+    valid = [s for s in subject.samples if s is not None and s.active_and_reserved_campaigns]
+    assert valid
+    assert valid[-1].open_and_reserved_risk == Decimal(1)
+    assert (
+        native_stop_exposure(
+            subject.cache, subject.campaigns, pending_campaigns=True, observed_ns=10**10
+        )
+        is None
+    )
