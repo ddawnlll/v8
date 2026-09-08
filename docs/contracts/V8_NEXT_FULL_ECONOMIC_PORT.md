@@ -2991,3 +2991,20 @@ verify both pre-load rejection and rollback on a loader-time change. Full suite
 manifest consistency, not source authentication or filesystem transactionality;
 underlying artifacts retain their existing reader verification. Full economic
 operation and calibration remain incomplete.
+
+## Real auxiliary-refresh restart acceptance
+
+Actual public BTC/ETH run /tmp/v8-refresh-restart-1788888409224984000 completed two
+20-second native sessions. First: 3969 quotes plus one recorded auxiliary update;
+second: 3557 quotes plus one update. Both replayed exactly (3970 and 3558 events,
+four observations each). The second session inherited the 5-second refresh setting
+without respecification and used existing automatic restart backfill. First-session
+stale warmup correctly produced no expert stances; after backfill, each of the four
+second-session observations contained 64 stances and actual refreshed OI values.
+Physical summary acceptance.json, session manifests/events/results and log
+/tmp/v8-refresh-restart.log retain the evidence. The explicit 60-second OI freshness
+and 5-second refresh are diagnostic choices; capture/shutdown adds wall time.
+This verifies application, source binding, restart state and active expert input
+on real data. It is a clean restart, not a network-outage/crash-prefix test, and
+contains no execution client, orders or calibrated economic authorization.
+Production calibration and prospective position-bearing operation remain open.
