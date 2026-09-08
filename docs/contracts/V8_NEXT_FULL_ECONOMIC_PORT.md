@@ -2576,3 +2576,17 @@ Full suite 446 passed; final component tests pass after entry-clock validation;
 Ruff/mypy clean. This is caller-declared training admission, not proof that the
 interval was preregistered or that a protected holdout remained unseen. Research
 store/OOS qualification and the production utility provider remain incomplete.
+
+## Calibration source guard against declared holdout coverage
+
+Calibration accepts an existing --research-store and checks every verified source
+capture's full candle interval, including feature warmup, against locally declared
+HOLDOUT windows before evaluation or accounting replay. Half-open touching windows
+are allowed; any actual same-instrument overlap rejects without burning or
+reclassifying the holdout. The report distinguishes LOCAL_DECLARED_CANDLE_COVERAGE_ONLY
+from NOT_CHECKED when no store is supplied. Tests cover warmup overlap, both edges,
+whole overlap, adjacent intervals, different instruments and unchanged pristine
+state. Full suite 447 passed; Ruff and mypy (80 source files) clean.
+This is not global information-leakage certification: undeclared data, auxiliary
+source timing, cross-asset dependence and concurrent store changes are not covered.
+No utility eligibility or OOS qualification is granted by this guard.

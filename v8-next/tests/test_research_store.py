@@ -179,3 +179,19 @@ def test_different_manifests_cannot_hide_overlapping_holdout_windows(tmp_path, f
             store.register_dataset_window("hash-a", "BTC", 10, 29)
     finally:
         store.close()
+
+
+def test_training_source_holdout_overlap_includes_warmup_and_preserves_holdout(tmp_path):
+    store = ResearchStore(tmp_path / "research.sqlite")
+    try:
+        store.register_trial("held", "family", "policy", "data", "HOLDOUT", 1)
+        store.register_dataset_window("data", "BTC", 100, 200)
+        for start, end in ((50, 101), (199, 250), (100, 200)):
+            with pytest.raises(ValueError, match="protected holdout"):
+                store.assert_no_holdout_overlap("BTC", start, end)
+        store.assert_no_holdout_overlap("BTC", 0, 100)
+        store.assert_no_holdout_overlap("BTC", 200, 300)
+        store.assert_no_holdout_overlap("ETH", 100, 200)
+        assert store.holdout_pristine("family", "data")
+    finally:
+        store.close()

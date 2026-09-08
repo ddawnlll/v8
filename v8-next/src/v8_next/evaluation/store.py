@@ -169,6 +169,22 @@ class ResearchStore:
             self.db.execute("ROLLBACK")
             raise
 
+    def assert_no_holdout_overlap(self, instrument_id: str, start_ns: int, end_ns: int) -> None:
+        """Reject declared protected coverage before consuming training evidence.
+
+        Full source coverage includes warmup. This read-only check neither burns
+        holdouts nor proves that undeclared datasets are clean.
+        """
+        if not instrument_id or not 0 <= start_ns < end_ns:
+            raise ValueError("invalid training source coverage")
+        overlap = self.db.execute(
+            "SELECT 1 FROM dataset_windows w JOIN trials t ON t.dataset_hash=w.dataset_hash "
+            "WHERE t.role='HOLDOUT' AND w.instrument_id=? AND w.start_ns < ? AND w.end_ns > ? LIMIT 1",
+            (instrument_id, end_ns, start_ns),
+        ).fetchone()
+        if overlap is not None:
+            raise ValueError("training source overlaps protected holdout")
+
     def family_size(self, family: str) -> int:
         result = self.db.execute("SELECT COUNT(*) FROM trials WHERE family=?", (family,)).fetchone()
         return int(result[0])

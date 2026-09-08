@@ -9,11 +9,13 @@ from pathlib import Path
 from typing import Any
 
 from v8_next.adapters.accounting_replay import replay_frozen_campaigns
+from v8_next.adapters.captured_market import load_candles
 from v8_next.adapters.engine_state import reconcile_replay
 from v8_next.app.evaluate import evaluate
 from v8_next.app.observe import source_hash
 from v8_next.app.paper import replay_account
 from v8_next.domain.campaign import PaperCampaign
+from v8_next.evaluation.store import ResearchStore
 
 
 def inspect_calibration_source(
@@ -22,6 +24,7 @@ def inspect_calibration_source(
     *,
     bootstrap_plan: tuple[int, int, int] | None = None,
     training_window: tuple[int, int] | None = None,
+    research_store: ResearchStore | None = None,
 ) -> dict[str, Any]:
     """Recompute source accounting; never trust a serialized verified flag.
 
@@ -33,10 +36,7 @@ def inspect_calibration_source(
     frozen = json.loads((run / "policy.json").read_text())
     if frozen["policy"].get("code_and_lock_hash") != source_hash():
         raise ValueError("calibration requires the source run frozen runtime")
-    evaluation = evaluate(run)
     checkpoint = json.loads((run / "paper-state.json").read_text())
-    if checkpoint["policy_hash"] != evaluation["policy_hash"]:
-        raise ValueError("accounting belongs to another policy")
     revised = checkpoint["revised_accounting"]
     cutoff = int(revised["accounting_as_of_ns"])
     if cutoff >= decision_ns:
@@ -51,6 +51,19 @@ def inspect_calibration_source(
         if hashlib.sha256(path.read_bytes()).hexdigest() != expected_hash:
             raise ValueError("calibration source hash mismatch")
         paths.append(path)
+    if research_store is not None:
+        for path in paths:
+            candles = load_candles(path)
+            if not candles or len({c.instrument_id for c in candles}) != 1:
+                raise ValueError("training source requires single-instrument candle coverage")
+            research_store.assert_no_holdout_overlap(
+                candles[0].instrument_id,
+                min(c.start_ns for c in candles),
+                max(c.end_ns for c in candles),
+            )
+    evaluation = evaluate(run)
+    if checkpoint["policy_hash"] != evaluation["policy_hash"]:
+        raise ValueError("accounting belongs to another policy")
     recovered_decisions = replay_account(paths, frozen["policy"]["paper_config"])
     reconcile_replay(checkpoint["native_state"], recovered_decisions)
     campaigns = tuple(PaperCampaign.from_record(c) for c in recovered_decisions["campaigns"])
@@ -83,6 +96,9 @@ def inspect_calibration_source(
         )
     return {
         "claim_status": "NO_ECONOMIC_CLAIM",
+        "holdout_overlap_check": "LOCAL_DECLARED_CANDLE_COVERAGE_ONLY"
+        if research_store is not None
+        else "NOT_CHECKED",
         "source_policy_hash": evaluation["policy_hash"],
         "source_checkpoint_sha256": hashlib.sha256(
             (run / "paper-state.json").read_bytes()
@@ -132,6 +148,7 @@ def main() -> None:
     parser.add_argument("--block-size", type=int)
     parser.add_argument("--reps", type=int)
     parser.add_argument("--seed", type=int)
+    parser.add_argument("--research-store", type=Path)
     parser.add_argument("--training-start-ns", type=int)
     parser.add_argument("--training-end-ns", type=int)
     args = parser.parse_args()
@@ -141,12 +158,22 @@ def main() -> None:
     window = (args.training_start_ns, args.training_end_ns)
     if any(v is not None for v in window) and (any(v is None for v in window) or plan[0] is None):
         raise ValueError("training window requires both endpoints and a bootstrap plan")
-    result = inspect_calibration_source(
-        args.run_directory,
-        args.decision_ns,
-        bootstrap_plan=plan if plan[0] is not None else None,
-        training_window=window if window[0] is not None else None,
-    )
+    store = None
+    if args.research_store is not None:
+        if not args.research_store.is_file():
+            raise ValueError("research store must already exist")
+        store = ResearchStore(args.research_store)
+    try:
+        result = inspect_calibration_source(
+            args.run_directory,
+            args.decision_ns,
+            bootstrap_plan=plan if plan[0] is not None else None,
+            training_window=window if window[0] is not None else None,
+            research_store=store,
+        )
+    finally:
+        if store is not None:
+            store.close()
     with args.output.open("x") as output:
         json.dump(result, output, indent=2)
         output.write("\n")
