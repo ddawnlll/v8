@@ -97,6 +97,7 @@ def replay_account(
             observer=selected_observer,
             grammar=parsed.grammar_policy,
             campaign_policy=parsed.campaign_policy,
+            stop_budget=parsed.stop_budget,
         )
         engine.add_strategy(strategy)
         engine.add_data(quotes)

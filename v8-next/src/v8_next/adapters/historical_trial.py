@@ -15,6 +15,7 @@ from v8_next.economics.grammar import grammar_opportunity
 from v8_next.economics.observer_policy import policy_stances
 from v8_next.economics.protection import protection_at
 from v8_next.risk.admission import RiskLimits, RiskSnapshot, admit
+from v8_next.risk.sizing import StopExposure, stop_budget_notional
 
 
 class HistoricalTrial(PaperCampaignAdapter):
@@ -99,19 +100,38 @@ class HistoricalTrial(PaperCampaignAdapter):
         if self.policy.campaign_policy != "timeout-only-v1" and protection is None:
             record["reason"] = "MISSING_CAMPAIGN_GEOMETRY"
             return
+        snapshot = RiskSnapshot(
+            account.balance_total(Currency.from_str("USDT")).as_decimal(),
+            Decimal(0),
+            Decimal(0),
+            Decimal(0),
+            bar.ts_init,
+            True,
+        )
+        requested = self.policy.max_notional
+        if self.policy.stop_budget is not None:
+            if protection is None:
+                record["reason"] = "MISSING_STOP_RISK_INPUTS"
+                return
+            sized, reason = stop_budget_notional(
+                snapshot,
+                StopExposure(Decimal(0), 0, bar.ts_init, True),
+                self.policy.stop_budget,
+                price=bar.close.as_decimal(),
+                stop=protection.stop_price,
+                direction=opportunity.direction,
+                decision_ns=bar.ts_init,
+            )
+            if sized is None:
+                record["reason"] = reason
+                return
+            requested = min(requested, sized)
         admission = admit(
-            RiskSnapshot(
-                account.balance_total(Currency.from_str("USDT")).as_decimal(),
-                Decimal(0),
-                Decimal(0),
-                Decimal(0),
-                bar.ts_init,
-                True,
-            ),
+            snapshot,
             RiskLimits(Decimal(1), self.policy.max_exposure_fraction, self.policy.max_notional, 0),
             bar.ts_init,
             bar.close.as_decimal(),
-            self.policy.max_notional,
+            requested,
             instrument.size_increment.as_decimal(),
             instrument.min_quantity.as_decimal(),
             instrument.max_quantity.as_decimal(),

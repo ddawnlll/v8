@@ -12,6 +12,16 @@ class StopBudget:
     max_heat_fraction: Decimal
     max_concurrency: int
 
+    def __post_init__(self) -> None:
+        if (
+            not self.risk_fraction.is_finite()
+            or not self.max_heat_fraction.is_finite()
+            or not 0 < self.risk_fraction <= self.max_heat_fraction <= 1
+            or type(self.max_concurrency) is not int
+            or self.max_concurrency < 1
+        ):
+            raise ValueError("invalid stop budget policy")
+
 
 @dataclass(frozen=True)
 class StopExposure:

@@ -652,6 +652,19 @@ def test_historical_trial_uses_next_bar_and_future_suffix_cannot_change_prior_de
     assert any(Decimal(m["unrealized_pnl"]) > 0 for m in marks)
     assert Decimal(marks[-1]["equity"]) > Decimal(marks[-1]["cash"])
 
+    from v8_next.risk.sizing import StopBudget
+
+    sized, _ = run(
+        candles,
+        policy.model_copy(update={"stop_budget": StopBudget(Decimal(".00001"), Decimal(".01"), 1)}),
+    )
+    assert sized.failure is None
+    assert sized.campaigns
+    assert sized.campaigns[0].quantity < first.campaigns[0].quantity
+    first_sized = sized.campaigns[0]
+    entry_reference = candles[24].close
+    assert first_sized.quantity * (entry_reference - first_sized.stop_price) <= Decimal(".1")
+
 
 def test_native_close_sample_reconciles_funding_and_fees_once():
     from v8_next.evaluation.outcomes import observed_outcomes

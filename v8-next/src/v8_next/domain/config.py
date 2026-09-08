@@ -1,12 +1,14 @@
 """Validated external simulation assumptions; no economic defaults."""
 
 from decimal import Decimal
+from typing import Self
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from v8_next.economics.grammar import POLICIES
 from v8_next.economics.observer_policy import validate_observer_policy
 from v8_next.economics.protection import PROTECTION_POLICIES
+from v8_next.risk.sizing import StopBudget
 
 
 class PaperConfig(BaseModel):
@@ -17,6 +19,14 @@ class PaperConfig(BaseModel):
     initial_balance: Decimal = Field(gt=0)
     max_notional: Decimal = Field(gt=0)
     max_exposure_fraction: Decimal = Field(gt=0, le=1)
+
+    stop_budget: StopBudget | None = None
+
+    @model_validator(mode="after")
+    def protected_sizing(self) -> Self:
+        if self.stop_budget is not None and self.campaign_policy == "timeout-only-v1":
+            raise ValueError("stop budget requires a protected campaign policy")
+        return self
 
     observer_policy: str = "squeeze"
 

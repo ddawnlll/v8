@@ -278,3 +278,10 @@ binds permanently to one dataset even if later execution fails; same-data retrie
 are reproducibility attempts, not fresh holdouts. The result is
 PREREGISTERED_FORWARD_WINDOW_MODELED_REPLAY, not certified prospective execution:
 historical availability, venue fills/costs and outside access remain unqualified.
+
+PaperConfig optionally accepts `stop_budget` with explicit `risk_fraction`,
+`max_heat_fraction` and `max_concurrency`. A protected campaign policy is required.
+Both offline trials and paper admission then cap requested notional by the
+stop-distance budget before venue quantity rounding. Current app scope still
+requires an empty native portfolio/order set and no pending campaign; this does
+not enable concurrent portfolio allocation or bypass missing calibration/funding.

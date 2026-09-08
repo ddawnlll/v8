@@ -960,3 +960,20 @@ Tests verify long/short sizing, pending reservations, heat/concurrency rejection
 exact lot-floor behavior and that verified utility remains required. Native
 portfolio-to-StopExposure projection and active app policy configuration remain
 to be connected; this controller capability is not full multi-asset allocation.
+
+## Stop budgets connected to active applications
+
+PaperConfig now freezes optional explicit StopBudget settings and rejects them
+with timeout-only campaign policy. Both historical trial and economic paper
+paths size against observed native equity and frozen stop geometry, then apply
+existing notional caps/venue lot floors. The paper empty-exposure gate also
+includes unsubmitted pending campaigns, so reservations are not silently zero.
+The zero StopExposure supplied in this initial path is conditional on no open
+native positions/orders or pending campaign; concurrent positions remain blocked.
+
+Native tests run the same real-engine fixture with/without a small stop budget,
+verify reduced campaign quantity and bounded nominal risk. Config tests cover
+protection requirements, risk/heat constraints and serialization roundtrip.
+This connects an economic sizing policy, not generic portfolio infrastructure.
+Open-position stop-risk projection, concurrent allocation, funding reconciliation
+and genuine calibration remain incomplete.

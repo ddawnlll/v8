@@ -19,6 +19,7 @@ from v8_next.economics.grammar import POLICIES, grammar_opportunity
 from v8_next.economics.observer_policy import policy_stances, validate_observer_policy
 from v8_next.economics.protection import PROTECTION_POLICIES, protection_at
 from v8_next.risk.admission import RiskLimits, RiskSnapshot
+from v8_next.risk.sizing import StopBudget, StopExposure
 
 CalibrationProvider = Callable[[Opportunity, int], tuple[UtilityInputs, bool]]
 
@@ -40,6 +41,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         observer: str = "squeeze",
         grammar: str = "range-breakout-48-v1",
         campaign_policy: str = "timeout-only-v1",
+        stop_budget: StopBudget | None = None,
     ) -> None:
         super().__init__(())
         self.observer = validate_observer_policy(observer)
@@ -49,6 +51,7 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
         if campaign_policy not in PROTECTION_POLICIES:
             raise ValueError("unknown campaign policy")
         self.campaign_policy = campaign_policy
+        self.stop_budget = stop_budget
         self.frames = frames
         self.limits = limits
         self.constraints = constraints
@@ -102,7 +105,14 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
             record["reason"] = stance.reason
         elif resolved is None:
             record["reason"] = "UNRESOLVED_OPPORTUNITY_IDENTITY"
-        elif self.cache.positions_open() or self.cache.orders_open():
+        elif (
+            self.cache.positions_open()
+            or self.cache.orders_open()
+            or any(
+                c.campaign_id not in self.submitted | self.expired | self.invalidated
+                for c in self.campaigns
+            )
+        ):
             record["reason"] = "ONE_ACTIVE_EXPOSURE_LIMIT"
         elif self.cache.positions():
             # Closed positions can still have late funding liabilities. The online
@@ -163,6 +173,10 @@ class EconomicPaperAdapter(PaperCampaignAdapter):
                 calibration_verified=verified,
                 protection=protection,
                 protection_required=self.campaign_policy != "timeout-only-v1",
+                stop_budget=self.stop_budget,
+                stop_exposure=StopExposure(Decimal(0), 0, quote.ts_init, True)
+                if self.stop_budget is not None
+                else None,
             )
             record["reason"] = decision.reason
             if decision.campaign is not None:
