@@ -1218,3 +1218,13 @@ records are corroborating receipts, not conflicts; changed values or validity
 remain rejected once both are known. Tests exercise late revision gating and
 repeat-receipt behavior. Config serialization binds freshness into frozen policy.
 No historical trial timing upgrade or OI capture is implied.
+
+## Captured funding native boundary qualification
+
+Native paper integration tests now carry hash-verified test capture funding
+through decoding, selected family observation and structural protection. An
+otherwise identical capture received one nanosecond after decision produces no
+support or protection at that decision. The timely capture supports funding B
+and its protection but creates no campaign without verified calibration. Both
+cases execute through Nautilus callbacks; these are isolated fixtures, not real
+prospective economic observations or a completed operational acceptance.
