@@ -1,0 +1,101 @@
+"""Recompute captured native-stream observations in recorded callback order."""
+
+import argparse
+import hashlib
+import json
+from decimal import Decimal
+from pathlib import Path
+from typing import Any
+
+from v8_next.app.observe import source_hash
+from v8_next.domain.market import Candle
+from v8_next.economics.stream_observation import StreamObservations
+from v8_next.evaluation.store import canonical
+
+
+def replay_stream(run: Path) -> dict[str, Any]:
+    if (run / "failure.json").exists():
+        raise ValueError("failed stream cannot be accepted as a complete replay")
+    result = json.loads((run / "result.json").read_text())
+    for filename, key in (
+        ("session.json", "session_sha256"),
+        ("quotes.jsonl", "quote_sha256"),
+        ("bars.jsonl", "bar_sha256"),
+        ("observations.jsonl", "observation_sha256"),
+    ):
+        with (run / filename).open("rb") as stream:
+            if hashlib.file_digest(stream, "sha256").hexdigest() != result[key]:
+                raise ValueError("stream artifact hash mismatch")
+    session = json.loads((run / "session.json").read_text())
+    if session["code_and_lock_hash"] != source_hash():
+        raise ValueError("stream replay requires frozen runtime")
+    paths = tuple(Path(p) for p in session["warmup_manifests"])
+    if (
+        sorted(hashlib.sha256(p.read_bytes()).hexdigest() for p in paths)
+        != session["warmup_manifest_hashes"]
+    ):
+        raise ValueError("stream warmup manifest changed")
+    observer = StreamObservations(paths, session["grammar"]) if paths else None
+    events: list[tuple[int, str, dict[str, Any]]] = []
+    for kind, filename, count in (
+        ("quote", "quotes.jsonl", result["quote_count"]),
+        ("bar", "bars.jsonl", result["bar_count"]),
+    ):
+        rows = [json.loads(line) for line in (run / filename).read_text().splitlines()]
+        if len(rows) != count:
+            raise ValueError("stream event count mismatch")
+        events.extend((row["sequence"], kind, row) for row in rows)
+    events.sort(key=lambda event: event[0])
+    recomputed = []
+    for expected, (sequence, kind, row) in enumerate(events):
+        if type(sequence) is not int or sequence != expected:
+            raise ValueError("stream callback order missing or duplicated")
+        if row["instrument_id"] not in session["instruments"]:
+            raise ValueError("unexpected stream instrument")
+        if kind == "bar":
+            if observer is None:
+                raise ValueError("bar without configured observation path")
+            observer.add_closed_candle(
+                Candle(
+                    row["instrument_id"],
+                    row["start_ns"],
+                    row["end_ns"],
+                    Decimal(row["open"]),
+                    Decimal(row["high"]),
+                    Decimal(row["low"]),
+                    Decimal(row["close"]),
+                    Decimal(row["volume"]),
+                    row["received_ns"],
+                    row["received_ns"],
+                    hashlib.sha256(canonical(row).encode()).hexdigest(),
+                )
+            )
+        else:
+            if not 0 < row["event_ns"] <= row["received_ns"] <= row["recorded_ns"]:
+                raise ValueError("invalid stream quote clocks")
+            if observer is not None:
+                observation = observer.observe(row["instrument_id"], row["received_ns"])
+                if observation is not None:
+                    observation["trigger_sequence"] = sequence
+                    recomputed.append(observation)
+    recorded = [json.loads(line) for line in (run / "observations.jsonl").read_text().splitlines()]
+    if canonical(recomputed) != canonical(recorded):
+        raise ValueError("stream observation replay diverged")
+    return dict(
+        status="OBSERVATIONS_REPRODUCED",
+        event_count=len(events),
+        observation_count=len(recomputed),
+        claim_status="NO_ECONOMIC_CLAIM",
+        limitation="Recorded inputs only; no guarantee of omitted venue events or reconnect completeness",
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("run", type=Path)
+    args = parser.parse_args()
+    print(canonical(replay_stream(args.run)))
+
+
+if __name__ == "__main__":
+    main()

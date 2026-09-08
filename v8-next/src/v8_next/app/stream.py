@@ -63,6 +63,7 @@ class QuoteRecorder(DataActor):
             if self.bar_output is None or self.observations is None:
                 raise ValueError("closed-bar recorder not configured")
             record = dict(
+                sequence=self.count + self.bar_count,
                 instrument_id=instrument,
                 start_ns=end - hour,
                 end_ns=end,
@@ -117,6 +118,7 @@ class QuoteRecorder(DataActor):
             self.output.write(
                 canonical(
                     dict(
+                        sequence=self.count + self.bar_count,
                         instrument_id=str(quote.instrument_id),
                         event_ns=quote.ts_event,
                         received_ns=quote.ts_init,
@@ -135,6 +137,7 @@ class QuoteRecorder(DataActor):
             if self.observations is not None and self.observation_output is not None:
                 observation = self.observations.observe(str(quote.instrument_id), quote.ts_init)
                 if observation is not None:
+                    observation["trigger_sequence"] = self.count + self.bar_count - 1
                     self.observation_output.write(canonical(observation) + "\n")
                     self.observation_output.flush()
         except Exception as error:

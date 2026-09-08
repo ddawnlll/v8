@@ -2326,3 +2326,24 @@ of a wrongly shifted timestamp. Full suite: 422 passed; Ruff/mypy clean. No actu
 hour-boundary websocket bar was observed during this change; production delivery
 at a real boundary and reconnect/backfill remain qualification work. This does
 not enable calibrated paper execution or claim full continuous operation.
+
+## Native stream deterministic observation replay and real hour boundary
+
+Quote and bar records now carry one shared callback sequence. Stream replay
+verifies artifact hashes, frozen runtime, warmup identities, complete sequence and
+counts, then rebuilds frames and compares all recorded observations. Rehashed
+but semantically altered sequences/observations reject in tests. This reproduces
+recorded inputs, not absent exchange messages or an authenticated venue history.
+The replay implementation is a bounded in-memory diagnostic, not a replacement
+native event engine or a live recovery service.
+
+Actual short run /tmp/v8-stream-replayed-1788883049362301000 reproduced 4545 events
+and two observations. A second unchanged-runtime run crossed the actual 16:00 UTC
+hour boundary: /tmp/v8-stream-hour-1788883097862721000; log
+/tmp/v8-stream-hour-boundary.log. It received 118473 events including two real
+closed hourly bars, and reproduced all six observations. Both instruments first
+reported READY, then NEXT_CLOSED_BAR_REQUIRED while the new close was unavailable,
+then READY with 64 stances after actual bar receipt. This qualifies real native
+closed-bar delivery and observation progression for that run. It does not qualify
+reconnect/backfill, economic calibration or paper execution. Full suite: 425 passed;
+Ruff/mypy clean.
