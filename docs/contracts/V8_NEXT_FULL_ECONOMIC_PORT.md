@@ -352,3 +352,23 @@ catalog now contains 47 stances from 24 families (23 of 28 active TABLE families
 plus squeeze). Remaining active observation families: divergence_12_setups,
 funding_crowding_reversal, open_interest_divergence, pandf_breakout and
 pattern_measuring_objective. All downstream full-product requirements remain open.
+
+## Pattern measuring objectives
+
+Added head_shoulders, double_top (both directions) and triangle observations.
+Retest and measuring families now share PatternStructure extraction rather than
+copying H&S/double-pivot scans. MeasuringSetup retains validation level, structural
+stop, measured target distance and completion clock; the target is a declared
+projection, not expected profit. H&S/double use the actual fresh-cross OR within
+three bars of the right structure pivot condition. That source rule is not
+misdescribed as a general rolling three-bars-since-break rule. Triangle requires
+declining confirmed pivot highs and rising confirmed pivot lows in the prior
+20-bar range, <=3% width/current-close and a current close beyond the range.
+
+Tests exercise actual patterns, projected distance, stale-cross rejection,
+triangle convergence and existing retest/Fibonacci behavior after shared-helper
+refactoring. The catalog emits 50 stances from 25 families: 24 of 28 active TABLE
+families plus squeeze. Remaining observation families are divergence_12_setups,
+funding_crowding_reversal, open_interest_divergence and pandf_breakout. Downstream
+economic integration, variants not yet covered elsewhere, calibration and
+prospective operation remain completion requirements.

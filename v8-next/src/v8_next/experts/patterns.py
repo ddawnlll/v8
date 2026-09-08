@@ -3,6 +3,7 @@
 These are observation hypotheses, not calibrated economic forecasts.
 """
 
+from dataclasses import dataclass
 from decimal import Decimal
 
 import polars as pl
@@ -31,10 +32,19 @@ def retests(frame: CausalFrame, direction: str, level: Decimal) -> bool:
     return current.high >= level > current.close and any(c.close < level for c in recent)
 
 
-def pattern_retest_direction(frame: CausalFrame, variant: str) -> str | None:
+@dataclass(frozen=True)
+class PatternStructure:
+    direction: str
+    level: Decimal
+    extreme: Decimal
+    right_index: int
+
+
+def pattern_structures(frame: CausalFrame, variant: str) -> tuple[PatternStructure, ...]:
     if variant not in {"b", "c"}:
         raise ValueError("unsupported pattern retest variant")
     bars = frame.candles
+    structures: list[PatternStructure] = []
     highs, lows = pattern_pivots(frame, high=True), pattern_pivots(frame, high=False)
     # Top before bottom matches the legacy pattern variants' precedence.
     for side, peaks, troughs in (("SHORT", highs, lows), ("LONG", lows, highs)):
@@ -52,6 +62,7 @@ def pattern_retest_direction(frame: CausalFrame, variant: str) -> str | None:
                 continue
             level = min(c.low for c in between) if top else max(c.high for c in between)
             valid = all(price(i) > level if top else price(i) < level for i in (left, right))
+            extreme = max(price(left), price(right)) if top else min(price(left), price(right))
         else:
             if len(peaks) < 3 or len(troughs) < 2:
                 continue
@@ -77,7 +88,20 @@ def pattern_retest_direction(frame: CausalFrame, variant: str) -> str | None:
                 else min(min(left_levels), min(right_levels))
             )
             valid = level < price(head) if top else level > price(head)
-        breached = any(c.close < level if top else c.close > level for c in bars[right:-1])
-        if valid and breached and retests(frame, side, level):
-            return side
+            extreme = price(head)
+        if valid:
+            structures.append(PatternStructure(side, level, extreme, right))
+    return tuple(structures)
+
+
+def pattern_retest_direction(frame: CausalFrame, variant: str) -> str | None:
+    for structure in pattern_structures(frame, variant):
+        breached = any(
+            c.close < structure.level
+            if structure.direction == "SHORT"
+            else c.close > structure.level
+            for c in frame.candles[structure.right_index : -1]
+        )
+        if breached and retests(frame, structure.direction, structure.level):
+            return structure.direction
     return None
