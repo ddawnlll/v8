@@ -57,3 +57,39 @@ def native_equity(
     if not cash.is_finite() or not unrealized.is_finite():
         raise ValueError("non-finite native equity")
     return cash, unrealized
+
+
+def aligned_native_equity(
+    cache: Any,
+    marks: dict[str, EquityMark],
+    *,
+    required_instruments: frozenset[str],
+    boundary_ns: int,
+    observed_ns: int,
+    venue: Venue,
+    currency: Currency,
+) -> tuple[Decimal, Decimal] | None:
+    """Value one complete market boundary, never forward-fill absent inputs.
+
+    Caller invokes this once at its declared account/decision phase after all
+    required inputs are known. This function does not schedule or mutate events.
+    Open positions outside the declared universe also prevent partial valuation.
+    """
+    if not required_instruments or not 0 <= boundary_ns <= observed_ns:
+        raise ValueError("invalid aligned equity boundary")
+    selected = {}
+    for instrument in required_instruments:
+        mark = marks.get(instrument)
+        if mark is None or mark.event_ns != boundary_ns:
+            return None
+        if not boundary_ns <= mark.observed_ns <= observed_ns:
+            return None
+        selected[instrument] = mark
+    return native_equity(
+        cache,
+        selected,
+        venue=venue,
+        currency=currency,
+        observed_ns=observed_ns,
+        max_mark_age_ns=observed_ns - boundary_ns,
+    )

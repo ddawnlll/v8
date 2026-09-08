@@ -1976,3 +1976,15 @@ It does not report a partial sum as the full component. The known native net PnL
 remains available, while derived price PnL is withheld. Native test variations
 cover missing funding and missing non-funding adjustments; focused test passes,
 Ruff/mypy clean. This preserves missingness, not calibration eligibility.
+
+## Complete-universe equity boundary
+
+Added aligned_native_equity: every explicitly required instrument must have a
+mark for the same market boundary, received by valuation time. It delegates
+cash/PnL to native_equity and never forward-fills absent inputs. Even a currently
+flat required instrument must supply its boundary mark, preventing changing
+sample membership with position state. Native integration tests with BTC/ETH
+verify complete valuation and missing/stale boundary rejection. Focused test and
+Ruff/mypy pass. Event-phase invocation and one-row-per-boundary integration remain
+the next dependency; this helper does not itself implement a scheduler or claim
+multi-instrument HistoricalTrial completion.

@@ -1124,6 +1124,20 @@ def run_two_native_instruments(frozen_campaigns=None):
                 )
                 is None
             )
+        from v8_next.adapters.portfolio_equity import aligned_native_equity
+
+        common = dict(
+            required_instruments=frozenset({"BTCUSDT-PERP.BINANCE", "ETHUSDT-PERP.BINANCE"}),
+            boundary_ns=5 * 10**9,
+            observed_ns=5 * 10**9,
+            venue=venue,
+            currency=usdt,
+        )
+        assert aligned_native_equity(engine.cache, marks, **common) is None
+        complete = marks | {"BTCUSDT-PERP.BINANCE": EquityMark(Price(100, 2), 5 * 10**9, 5 * 10**9)}
+        assert aligned_native_equity(engine.cache, complete, **common) == valuation
+        stale = complete | {"BTCUSDT-PERP.BINANCE": EquityMark(Price(100, 2), 4 * 10**9, 5 * 10**9)}
+        assert aligned_native_equity(engine.cache, stale, **common) is None
         state = economic_state(engine, venue, usdt)
         assert Decimal(state["balance_total"].split()[0]) == Decimal("9999.987")
         return (
