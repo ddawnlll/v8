@@ -82,10 +82,20 @@ def inspect_calibration_source(
     )
     reason = blockers[0]
     component_estimates = None
+    selection_cash_estimate = None
     if bootstrap_plan is not None:
         from v8_next.evaluation.component_estimates import estimate_components
+        from v8_next.evaluation.selection_estimates import estimate_selection_cash
 
         block_size, reps, seed = bootstrap_plan
+        selection_cash_estimate = estimate_selection_cash(
+            recomputed["outcomes"],
+            block_size=block_size,
+            reps=reps,
+            seed=seed,
+            training_window=training_window,
+            accounting_as_of_ns=cutoff,
+        )
         component_estimates = estimate_components(
             recomputed["outcomes"],
             decision_ns=decision_ns,
@@ -113,6 +123,7 @@ def inspect_calibration_source(
         "funding_coverage": recomputed["funding_coverage"],
         "closed_outcomes": sorted(closed, key=lambda p: (p["closed_ns"], p["instrument_id"])),
         "component_estimates": component_estimates,
+        "selection_cash_estimate": selection_cash_estimate,
         "eligible_for_utility": False,
         "reason": reason,
         "blockers": blockers,

@@ -62,3 +62,41 @@ def test_open_outcomes_cannot_silently_disappear_from_calibration_sample():
     assert outcome_sample_blockers([{"is_closed": True}], "COMPLETE") == [
         "STATISTICAL_METHOD_AND_TRIAL_FAMILY_REVIEW_REQUIRED"
     ]
+
+
+def test_recomputed_paper_report_includes_full_selection_estimator(tmp_path, monkeypatch):
+    monkeypatch.setattr(calibration, "source_hash", lambda: "fixture-runtime")
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text("{}")
+    (tmp_path / "policy.json").write_text(
+        json.dumps({"policy": {"paper_config": {}, "code_and_lock_hash": "fixture-runtime"}})
+    )
+    native = {"campaigns": []}
+    revised = dict(
+        accounting_as_of_ns=10,
+        positions=[],
+        position_closures=[],
+        funding_coverage="COMPLETE",
+        realization="SIMULATED",
+        outcomes=dict(
+            rows=[],
+            reconciliation="CLOSED_CASH_RECONCILED",
+            selection_cash_scorecard={"status": "INCOMPLETE_OR_UNRECONCILED_COHORT"},
+        ),
+    )
+    checkpoint = dict(
+        policy_hash="test-policy",
+        manifests=["manifest.json"],
+        manifest_hashes=[hashlib.sha256(manifest.read_bytes()).hexdigest()],
+        native_state=native,
+        revised_accounting=revised,
+    )
+    (tmp_path / "paper-state.json").write_text(json.dumps(checkpoint))
+    monkeypatch.setattr(calibration, "evaluate", lambda _: {"policy_hash": "test-policy"})
+    monkeypatch.setattr(calibration, "replay_account", lambda *_: native)
+    monkeypatch.setattr(calibration, "replay_frozen_campaigns", lambda *_: revised)
+    result = calibration.inspect_calibration_source(tmp_path, 20, bootstrap_plan=(1, 99, 7))
+    assert result["selection_cash_estimate"]["estimate"] is None
+    assert result["selection_cash_estimate"]["reason"] == "COMPLETE_RECONCILED_SELECTION_REQUIRED"
+    assert result["accounting_recomputed"] is True
+    assert result["eligible_for_utility"] is False

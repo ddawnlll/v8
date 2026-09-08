@@ -12,7 +12,13 @@ from v8_next.evaluation.store import canonical
 
 
 def estimate_selection_cash(
-    outcomes: dict[str, Any], *, block_size: int, reps: int, seed: int
+    outcomes: dict[str, Any],
+    *,
+    block_size: int,
+    reps: int,
+    seed: int,
+    training_window: tuple[int, int] | None = None,
+    accounting_as_of_ns: int | None = None,
 ) -> dict[str, Any]:
     """No cohort filtering. Nonentry has no cash flow, not a fabricated filled R.
 
@@ -49,6 +55,17 @@ def estimate_selection_cash(
         raise ValueError("duplicate selection")
     if any(type(r.get("decision_ns")) is not int or r["decision_ns"] < 0 for r in rows):
         raise ValueError("selection decision clock unavailable")
+    if training_window is not None:
+        start, end = training_window
+        if any(type(v) is not int for v in (start, end)) or not 0 < start < end:
+            raise ValueError("invalid selection training interval")
+        result["training_window"] = dict(start_ns=start, end_ns=end)
+        if type(accounting_as_of_ns) is not int or accounting_as_of_ns < 0:
+            raise ValueError("selection training requires accounting knowledge cutoff")
+        if accounting_as_of_ns >= end:
+            return {**result, "reason": "TRAINING_ACCOUNTING_NOT_AVAILABLE_AT_CUTOFF"}
+        if any(not start <= r["decision_ns"] < end for r in rows):
+            return {**result, "reason": "SOURCE_COHORT_OUTSIDE_TRAINING_WINDOW"}
     capital = Decimal(score["initial_capital"])
     if not capital.is_finite() or capital <= 0:
         raise ValueError("invalid selection capital")

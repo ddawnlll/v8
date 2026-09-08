@@ -2700,3 +2700,18 @@ Strict integer plan validation also rejects booleans. Tests cover singleton and
 exact-block-size cohorts, preserved plans, future labels and cash inconsistencies.
 Full suite 454 passed; Ruff/mypy (81 source files) clean. Production calibration,
 OOS qualification and continuous economic paper remain incomplete.
+
+## Recomputed paper source to selection-cash estimation
+
+Calibration source inspection now emits selection_cash_estimate alongside closed
+component estimates, using the same explicit bootstrap plan only after campaign
+and accounting replays reconcile. Optional training intervals require every
+selection decision inside the interval and the full revised accounting knowledge
+cutoff strictly before its end; a late revised view cannot supply earlier training
+evidence. This conservative whole-view guard does not cherry-pick earlier labels.
+Tests cover exact-end rejection, missing accounting cutoff, outside selections
+and integration through the source inspector with no-position recomputed data.
+Full suite 455 passed before the final integration test; all eight affected tests
+passed afterward. Ruff/mypy clean before that test-only addition. Estimates remain
+descriptive, and source report eligibility/gross edge/uncertainty authority fields
+stay false/absent. Production calibration and economic paper admission are open.
