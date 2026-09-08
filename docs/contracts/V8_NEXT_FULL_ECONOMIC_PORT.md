@@ -2432,3 +2432,22 @@ through this path. Tests restore a valid halted parent and reject an invented
 silence claim; full suite 431 passed, Ruff/mypy clean. No real network outage is
 claimed. Automated recovery orchestration and economic calibration/admission
 remain incomplete.
+
+## Bounded native observation recovery orchestration
+
+`python -m v8_next.app.stream_run` composes native sessions with explicit total
+observation budget, quote-silence threshold and restart count (0..10). Only sealed
+HALTED_QUOTE_SILENCE triggers verified parent restoration and automatic stale
+backfill. Other exceptions propagate without retries. Every attempt has its own
+immutable directory and the run summary binds result hashes. Native connection
+and shutdown overhead may extend wall time beyond the observation budget; this
+is not a hard real-time supervisor or execution engine.
+
+Three orchestration tests cover recovery, exhaustion and non-retryable source
+failure. A deliberate 1ms health-threshold qualification on actual public native
+clients stopped before quotes in both attempts, restarted once with backfill and
+terminated HALTED_RESTART_LIMIT as configured. Both zero-event halted prefixes
+replayed. Artifact /tmp/v8-stream-recovery-check-1788884197123557000, log
+/tmp/v8-stream-recovery-check.log. This tests control wiring, not a real network
+outage or successful position-bearing recovery. Full suite 434 passed;
+Ruff/mypy clean. Economic calibration and paper admission remain outstanding.
