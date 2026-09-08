@@ -23,6 +23,8 @@ def native_stop_exposure(
     orders. Nominal absolute entry-to-stop risk matches the legacy heat rule;
     no profit offset, gap guarantee or funding reconciliation is implied.
     """
+    if cache.orders_inflight():
+        return None  # Submitted entries/amendments have no qualified reservation bound yet.
     if pending_campaigns and not pending_ids:
         return None
     if pending_ids and not pending_campaigns:

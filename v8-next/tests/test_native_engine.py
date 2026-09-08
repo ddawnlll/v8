@@ -778,6 +778,7 @@ def test_native_open_position_stop_risk_projection():
 
                 incomplete = SimpleNamespace(
                     positions_open=self.cache.positions_open,
+                    orders_inflight=self.cache.orders_inflight,
                     orders_open=lambda: [
                         o
                         for o in self.cache.orders_open()

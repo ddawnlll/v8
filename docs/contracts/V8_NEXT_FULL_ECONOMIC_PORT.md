@@ -1768,3 +1768,13 @@ saturated responses still reject rather than silently truncate. CLI help and the
 two bounded-response tests pass, Ruff clean. This exposes existing acquisition
 semantics for operator-selected exposure windows; pagination and cashflow
 finality remain unresolved.
+
+## Native in-flight reservation gap
+
+Confirmed the pinned native cache exposes orders_inflight. Stop/portfolio risk
+projection now returns absence while any submitted/in-flight order exists,
+including the interval before it appears in orders_open. This prevents a flat
+position/open-order view from being mistaken for zero outstanding risk. Pricing
+and reconciling partial/in-flight reservations remains unfinished; no custom OMS
+was introduced. Full suite: 388 passed; Ruff/mypy clean. The test explicitly
+exercises an in-flight-only cache without allowing other zero-state reads.

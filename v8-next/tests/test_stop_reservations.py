@@ -6,7 +6,12 @@ from v8_next.domain.campaign import PaperCampaign
 
 
 def test_pending_band_risk_counts_without_inventing_fill():
-    cache = SimpleNamespace(orders_open=lambda: [], positions_open=lambda: [], order_ids=lambda: [])
+    cache = SimpleNamespace(
+        orders_open=lambda: [],
+        orders_inflight=lambda: [],
+        positions_open=lambda: [],
+        order_ids=lambda: [],
+    )
     campaigns = (
         PaperCampaign("a", "a", "BTC", "LONG", D(2), 10, 100, D(90), D(110)),
         PaperCampaign("b", "b", "ETH", "SHORT", D(3), 10, 100, D(50), D(40)),
@@ -19,7 +24,12 @@ def test_pending_band_risk_counts_without_inventing_fill():
 
 
 def test_unprotected_or_already_submitted_pending_is_not_zero_risk():
-    cache = SimpleNamespace(orders_open=lambda: [], positions_open=lambda: [], order_ids=lambda: [])
+    cache = SimpleNamespace(
+        orders_open=lambda: [],
+        orders_inflight=lambda: [],
+        positions_open=lambda: [],
+        order_ids=lambda: [],
+    )
     campaign = PaperCampaign("a", "a", "BTC", "LONG", D(2), 10, 100)
     assert (
         native_stop_exposure(
@@ -44,7 +54,12 @@ def test_unprotected_or_already_submitted_pending_is_not_zero_risk():
 def test_native_portfolio_pending_projection_preserves_exposure_budgets():
     from v8_next.adapters.portfolio_risk import native_portfolio_risk
 
-    cache = SimpleNamespace(orders_open=lambda: [], positions_open=lambda: [], order_ids=lambda: [])
+    cache = SimpleNamespace(
+        orders_open=lambda: [],
+        orders_inflight=lambda: [],
+        positions_open=lambda: [],
+        order_ids=lambda: [],
+    )
     metadata = SimpleNamespace(
         is_inverse=False,
         quote_currency="USDT",
@@ -85,3 +100,8 @@ def test_native_portfolio_pending_projection_preserves_exposure_budgets():
     metadata.is_inverse = False
     metadata.settlement_currency = "BTC"
     assert native_portfolio_risk(cache, campaigns, **kwargs) is None
+
+
+def test_inflight_order_cannot_appear_as_zero_risk_flat_account():
+    cache = SimpleNamespace(orders_inflight=lambda: [object()])
+    assert native_stop_exposure(cache, (), pending_campaigns=False, observed_ns=20) is None
