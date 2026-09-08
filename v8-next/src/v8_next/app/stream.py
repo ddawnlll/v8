@@ -248,6 +248,49 @@ def capture_missing_warmup(
     return tuple(paths)
 
 
+def capture_positioning_inputs(
+    destination: Path, instruments: tuple[str, ...], policy: PositioningPolicy
+) -> tuple[Path, ...]:
+    return tuple(
+        capture(
+            destination / instrument.split("-")[0],
+            symbol=instrument.split("-")[0],
+            include_open_interest=policy.open_interest_max_age_ns is not None,
+            account_ratio_period=policy.account_ratio_period,
+        )
+        for instrument in instruments
+    )
+
+
+async def refresh_positioning_loop(
+    actor: QuoteRecorder, destination: Path, interval: int, stopped: asyncio.Event
+) -> None:
+    try:
+        while not stopped.is_set() and actor.failure is None:
+            try:
+                await asyncio.wait_for(stopped.wait(), timeout=interval)
+                return
+            except TimeoutError:
+                pass
+            if actor.observations is None:
+                raise ValueError("positioning refresh requires observations")
+            policy = actor.observations.positioning_policy
+            instruments = tuple(sorted(actor.observations.candles))
+            paths = await asyncio.to_thread(
+                capture_positioning_inputs,
+                destination / f"positioning-capture-{time.time_ns()}",
+                instruments,
+                policy,
+            )
+            if stopped.is_set() or actor.failure is not None:
+                return
+            actor.apply_positioning_capture(paths, time.time_ns())
+    except Exception as error:
+        actor.failure = f"{type(error).__name__}: {error}"
+        if actor.stop_node is not None:
+            actor.stop_node()
+
+
 async def capture_stream(
     destination: Path,
     duration_seconds: int,
@@ -259,6 +302,7 @@ async def capture_stream(
     refresh_on_resume: bool = False,
     max_quote_silence_ns: int | None = None,
     positioning_policy: PositioningPolicy | None = None,
+    positioning_refresh_seconds: int | None = None,
 ) -> dict:
     if duration_seconds <= 0:
         raise ValueError("positive observation duration required")
@@ -290,6 +334,13 @@ async def capture_stream(
         observations = (
             StreamObservations(manifests, grammar, positioning_policy) if manifests else None
         )
+    if positioning_refresh_seconds is not None:
+        if type(positioning_refresh_seconds) is not int or positioning_refresh_seconds <= 0:
+            raise ValueError("positive positioning refresh interval required")
+        if observations is None or not any(
+            v is not None for v in observations.positioning_policy.model_dump().values()
+        ):
+            raise ValueError("positioning refresh requires warmup and enabled auxiliary inputs")
     if refresh_on_resume and (resume_from is None or observations is None or backfill_manifests):
         raise ValueError("automatic refresh requires resume without explicit backfills")
     destination.mkdir(parents=True, exist_ok=False)
@@ -314,6 +365,7 @@ async def capture_stream(
                 if observations
                 else {},
                 refresh_on_resume=refresh_on_resume,
+                positioning_refresh_seconds=positioning_refresh_seconds,
                 max_quote_silence_ns=max_quote_silence_ns,
                 warmup_manifest_hashes=sorted(
                     hashlib.sha256(p.read_bytes()).hexdigest() for p in manifests
@@ -357,13 +409,29 @@ async def capture_stream(
         actor.positioning_output = positioning_output
         node.add_actor(actor)
 
+        refresh_stopped = asyncio.Event()
+
         async def stop_after() -> None:
             await asyncio.sleep(duration_seconds)
+            refresh_stopped.set()
             node.handle().stop()
 
         stopper = asyncio.create_task(stop_after())
+        refresher = (
+            asyncio.create_task(
+                refresh_positioning_loop(
+                    actor, destination, positioning_refresh_seconds, refresh_stopped
+                )
+            )
+            if positioning_refresh_seconds is not None
+            else None
+        )
         try:
             await node.run_async()
+            refresh_stopped.set()
+            if refresher is not None:
+                refresher.cancel()
+                await asyncio.gather(refresher, return_exceptions=True)
             if actor.failure and actor.health_halt is None:
                 raise ValueError(actor.failure)
             positioning_output.flush()
@@ -416,6 +484,10 @@ async def capture_stream(
             )
             raise
         finally:
+            refresh_stopped.set()
+            if refresher is not None:
+                refresher.cancel()
+                await asyncio.gather(refresher, return_exceptions=True)
             stopper.cancel()
             await asyncio.gather(stopper, return_exceptions=True)
             node.dispose()
@@ -432,6 +504,7 @@ def main() -> None:
     parser.add_argument("--refresh-on-resume", action="store_true")
     parser.add_argument("--max-quote-silence-ns", type=int)
     parser.add_argument("--positioning-policy", type=Path)
+    parser.add_argument("--positioning-refresh-seconds", type=int)
     args = parser.parse_args()
     print(
         json.dumps(
@@ -445,6 +518,7 @@ def main() -> None:
                     backfill_manifests=tuple(args.backfill_manifest),
                     refresh_on_resume=args.refresh_on_resume,
                     max_quote_silence_ns=args.max_quote_silence_ns,
+                    positioning_refresh_seconds=args.positioning_refresh_seconds,
                     positioning_policy=PositioningPolicy.model_validate_json(
                         args.positioning_policy.read_text()
                     )

@@ -397,3 +397,48 @@ def test_auxiliary_refresh_is_atomic_and_available_only_after_application(tmp_pa
     with pytest.raises(ValueError, match="future"):
         observer.refresh_positioning((path,), 23)
     assert (observer.readings, observer.source_hashes, observer.positioning_update_ns) == original
+
+
+@pytest.mark.parametrize("mode", ["apply", "stop_during_capture", "failure"])
+def test_background_positioning_capture_applies_only_to_running_session(
+    tmp_path, monkeypatch, mode
+):
+    import asyncio
+    from types import SimpleNamespace
+
+    from v8_next.app.stream import refresh_positioning_loop
+    from v8_next.domain.config import PositioningPolicy
+
+    async def scenario():
+        stopped = asyncio.Event()
+        loop = asyncio.get_running_loop()
+        applied, stops = [], []
+        actor = SimpleNamespace(
+            failure=None,
+            stop_node=lambda: stops.append(True),
+            observations=SimpleNamespace(
+                candles={"BTCUSDT-PERP.BINANCE": ()},
+                positioning_policy=PositioningPolicy(open_interest_max_age_ns=100),
+            ),
+        )
+
+        def capture_inputs(destination, instruments, policy):
+            assert instruments == ("BTCUSDT-PERP.BINANCE",)
+            if mode == "failure":
+                raise ValueError("capture failed")
+            if mode == "stop_during_capture":
+                loop.call_soon_threadsafe(stopped.set)
+            return (tmp_path / "manifest.json",)
+
+        def apply(paths, applied_ns):
+            applied.append(paths)
+            stopped.set()
+
+        actor.apply_positioning_capture = apply
+        monkeypatch.setattr("v8_next.app.stream.capture_positioning_inputs", capture_inputs)
+        await refresh_positioning_loop(actor, tmp_path, 0, stopped)
+        assert len(applied) == (1 if mode == "apply" else 0)
+        assert bool(stops) == (mode == "failure")
+        assert (actor.failure is not None) == (mode == "failure")
+
+    asyncio.run(scenario())

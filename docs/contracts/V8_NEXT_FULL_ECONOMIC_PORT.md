@@ -2942,3 +2942,26 @@ an auxiliary application between a native bar and its following quote; full suit
 qualifies value changes. Automatic intra-session public capture is not wired yet;
 this checkpoint provides the recording boundary, not completed periodic refresh.
 No crash-prefix recovery or private venue execution is implied.
+
+## Intra-session public positioning refresh
+
+Native stream CLI/API accepts explicit --positioning-refresh-seconds with warmup
+and enabled auxiliary inputs. Standard asyncio orchestration waits between captures
+and runs the existing public capture client in a worker thread; frozen instrument
+and freshness inputs cross that boundary, not mutable observer state. Completed
+captures apply through the recorded causal update path only while the session is
+running. Capture failures retain stream failure and stop the native node. Stop or
+cancellation prevents late HTTP completion from mutating a sealed session; in-flight
+HTTP requests themselves may finish and leave unreferenced capture files.
+The interval is recorded in session metadata. Capture duration adds to cadence;
+it is not a hard real-time data freshness guarantee or a new execution scheduler.
+Tests cover application, stop-during-capture and capture failure. Full suite 477
+passed; Ruff clean and mypy clean for implementation before test-only additions.
+
+Actual BTC/ETH public stream /tmp/v8-periodic-positioning-1788888144138266000:
+11245 quotes, one OI-enabled auxiliary application, four observations; all 11246
+recorded events reproduced. Log /tmp/v8-periodic-positioning.log. The 20-second run,
+5-second refresh interval and 60-second OI age are diagnostic choices. It remains
+an observation stream, not economic paper execution; production calibration and
+position-bearing prospective operation are still incomplete. Recovery supervisor
+configuration propagation is a remaining integration step.
