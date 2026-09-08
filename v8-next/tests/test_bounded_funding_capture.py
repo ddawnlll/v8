@@ -108,3 +108,39 @@ def test_paginated_history_keeps_raw_pages_and_receipts(tmp_path, monkeypatch):
         position_funding_query_coverage([position], windows[:1], 2000_000_000)[0]["query_status"]
         == "EXPOSURE_NOT_FULLY_QUERIED"
     )
+
+
+@pytest.mark.parametrize("change", ["gap", "overlap", "end", "clock", "terminal"])
+def test_funding_page_chain_rejects_discontinuity(tmp_path, change):
+    from v8_next.adapters.funding_history import validate_page_chain
+
+    pages = []
+    for i, (start, stop) in enumerate(((0, 1000), (1000, 1002))):
+        name = "funding.json" if i == 0 else "funding-page-001.json"
+        (tmp_path / name).write_text(
+            json.dumps([dict(symbol="BTCUSDT", fundingTime=t) for t in range(start, stop)])
+        )
+        pages.append(
+            dict(
+                path=name,
+                source_url=f"https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&startTime={start}&endTime=2000&limit=1000",
+                request_time_ns=3000_000_000,
+                received_time_ns=3000_000_000,
+            )
+        )
+    metadata = dict(symbol="BTCUSDT", artifacts=pages)
+    validate_page_chain(tmp_path, metadata)
+    if change in {"gap", "overlap"}:
+        pages[1]["source_url"] = pages[1]["source_url"].replace(
+            "startTime=1000", f"startTime={1001 if change == 'gap' else 999}"
+        )
+    elif change == "end":
+        pages[1]["source_url"] = pages[1]["source_url"].replace("endTime=2000", "endTime=2001")
+    elif change == "clock":
+        pages[1]["request_time_ns"] -= 1
+    else:
+        (tmp_path / "funding.json").write_text(
+            json.dumps([dict(symbol="BTCUSDT", fundingTime=999)])
+        )
+    with pytest.raises(ValueError):
+        validate_page_chain(tmp_path, metadata)

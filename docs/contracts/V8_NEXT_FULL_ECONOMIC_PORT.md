@@ -2199,3 +2199,17 @@ chronology rejects without a manifest. Actual public BTC capture over 400 days:
 log /tmp/v8-paged-funding.log. These are observed REST records, not cashflow finality
 or certified historical availability. Full suite 409 passed; Ruff/mypy clean.
 Online funding reconciliation and calibrated continuous paper admission remain open.
+
+## Funding page-chain integrity
+
+Multi-page consumers now validate consecutive page names, exact cursor continuity,
+unchanged query end/symbol/limit, ascending unique response timestamps and causal
+page request/receipt ordering. A page after a short terminal response, or a final
+saturated page that still leaves the requested interval unfinished, rejects.
+This is invoked by complete capture validation and final accounting/query coverage
+readers. Legacy single-page coverage rules remain conservative; no complete
+history claim is inferred from a lone saturated response. Five adversarial chain
+cases cover gaps, overlap, changed query end, reversed receipt ordering and early
+termination. Actual two-page BTC capture still decodes 1200 records. Full suite:
+414 passed; Ruff/mypy clean. This strengthens input integrity only, not funding
+finality or completion of the outstanding economic/continuous-paper scope.

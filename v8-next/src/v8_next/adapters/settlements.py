@@ -11,7 +11,7 @@ from typing import Any
 from nautilus_trader.model import FundingRateUpdate, InstrumentId, MarkPriceUpdate, Price
 
 from v8_next.adapters.binance_capture import verify
-from v8_next.adapters.funding_history import funding_artifacts
+from v8_next.adapters.funding_history import funding_artifacts, validate_page_chain
 
 
 @dataclass(frozen=True)
@@ -57,6 +57,7 @@ def final_funding(
     for manifest in manifests:
         verify(manifest)
         metadata = json.loads(manifest.read_text())
+        validate_page_chain(manifest.parent, metadata)
         for artifact in funding_artifacts(metadata):
             if not artifact["source_url"].startswith(
                 "https://fapi.binance.com/fapi/v1/fundingRate?"
@@ -143,6 +144,7 @@ def funding_query_windows(
     for manifest in manifests:
         verify(manifest)
         metadata = json.loads(manifest.read_text())
+        validate_page_chain(manifest.parent, metadata)
         for artifact in funding_artifacts(metadata):
             received = int(artifact["received_time_ns"])
             if received > accounting_as_of_ns:

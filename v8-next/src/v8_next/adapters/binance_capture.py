@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlencode, urlsplit
 from urllib.request import urlopen
 
-from v8_next.adapters.funding_history import capture_pages, funding_artifacts
+from v8_next.adapters.funding_history import capture_pages, funding_artifacts, validate_page_chain
 
 BASE = "https://fapi.binance.com"
 RATIO_PERIODS = frozenset({"5m", "15m", "30m", "1h", "2h", "4h", "6h", "12h", "1d"})
@@ -124,6 +124,7 @@ def validate_capture(manifest_path: Path) -> None:
         "open_interest.json": "/fapi/v1/openInterest",
         "account_ratio.json": "/futures/data/globalLongShortAccountRatio",
     }
+    validate_page_chain(manifest_path.parent, manifest)
     pages = funding_artifacts(manifest)
     for i, page in enumerate(pages):
         expected = "funding.json" if i == 0 else f"funding-page-{i:03d}.json"
