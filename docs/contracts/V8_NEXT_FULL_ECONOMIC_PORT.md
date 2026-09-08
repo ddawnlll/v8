@@ -241,3 +241,23 @@ D values cannot claim an observed crossing. Flat ranges use the declared neutral
 K=50 convention. Tests cover actual recovery in both directions, flat-price
 abstention and warmup. Historical callbacks now run 32 stances across eighteen
 families, without changing the admitted squeeze policy or certifying economics.
+
+## Fibonacci continuation and projection
+
+Added active v1 Fibonacci retracement continuation (38.2% touch/reclaim) and
+projection reversal (161.8% extension touch/rejection). A shared immutable
+FibImpulse records origin/extreme, their source clocks and the later pivot's
+confirmation clock. Levels are Decimal formulas derived from that impulse,
+including the 78.6% deep invalidation reference. No fitted ratios or edge scores.
+
+Source distinction: Fibonacci uses the latest confirmed strength-10 pivots WITHOUT
+the significant-swing range filter used by pullback-depth. Pattern pivot extraction
+now accepts an explicit strength and still requires both completed flanks. A pivot
+that is simultaneously the latest high and low cannot define temporal impulse
+direction and remains absent; the legacy arbitrary downward tie case is not copied.
+Tests prove delayed confirmation, frozen origin/extreme levels and both mirrored
+reclaim/rejection paths. Existing strength-three pattern tests remain green.
+
+The diagnostic catalog now contains 34 stances from twenty families. Fibonacci
+confluence and other remaining expert families, as well as downstream full-product
+requirements, are still open; this is not an economic-operation completion claim.

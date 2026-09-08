@@ -10,12 +10,16 @@ import polars as pl
 from v8_next.domain.market import CausalFrame
 
 
-def pattern_pivots(frame: CausalFrame, *, high: bool) -> tuple[int, ...]:
+def pattern_pivots(frame: CausalFrame, *, high: bool, strength: int = 3) -> tuple[int, ...]:
+    if strength < 1:
+        raise ValueError("positive pivot strength required")
+    if not frame.continuous:
+        raise ValueError("source gap")
     values = pl.Series([float(c.high if high else c.low) for c in frame.candles])
     if not values.is_finite().all():
         raise ValueError("price outside finite float domain")
-    roll = values.rolling_max(3) if high else values.rolling_min(3)
-    left, right = roll.shift(1), roll.shift(-3)
+    roll = values.rolling_max(strength) if high else values.rolling_min(strength)
+    left, right = roll.shift(1), roll.shift(-strength)
     mask = (values > left) & (values > right) if high else (values < left) & (values < right)
     return tuple(int(i) for i in mask.fill_null(False).arg_true())
 

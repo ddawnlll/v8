@@ -9,6 +9,7 @@ from v8_next.experts.bollinger import observe_bollinger_breakout
 from v8_next.experts.breakouts import observe_failed_breakout, observe_volume_breakout
 from v8_next.experts.candlestick import VARIANTS, observe_candlestick
 from v8_next.experts.donchian import observe_donchian
+from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import observe_gap
 from v8_next.experts.ichimoku import observe_ichimoku
 from v8_next.experts.levels import observe_floor_pivot, observe_range_breakout
@@ -20,6 +21,8 @@ from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
 Observer = Callable[[CausalFrame, Opportunity | None], Stance]
 OBSERVERS: tuple[Observer, ...] = (
     observe_squeeze,
+    observe_fib_retracement,
+    observe_fib_projection,
     observe_obv_adl,
     observe_macd_stoch,
     observe_floor_pivot,
