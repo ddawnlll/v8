@@ -709,3 +709,35 @@ Tests include analytically known persistent-winner, reversed-regime and six-fold
 outcomes, tie weighting, repeatability and invalid family/data/work plans. The
 family numerical API integration is also exercised. DSR and qualified real-data
 statistical plans remain open.
+
+## Genuine DSR numerical path with declared independence
+
+Source: Bailey and Lopez de Prado, The Deflated Sharpe Ratio (2014), equation 2:
+https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf
+The Rust multiplicity ledger supplied no estimator. DSRPlan now declares the
+selected variant, complete comparison IDs, effective independent trial count and
+its stated basis. The numerical method uses the family's sample Sharpe variance
+to approximate the maximum under a zero-Sharpe null, then computes the selected
+strategy's confidence using sample length, skewness and Pearson kurtosis.
+SciPy supplies Normal quantiles/CDF and moments; NumPy supplies reductions.
+
+Inputs must be negative net excess returns on aligned equal-duration intervals.
+Sharpe is nonannualized with sample SD ddof=1; skew/kurtosis use uncorrected
+central moments (bias=True, Pearson rather than excess kurtosis). Independent
+trials must equal one or lie between two and the declared family size. N=1 has
+no multiplicity threshold; the large-N approximation is not extrapolated through
+fractional values between one and two. Unknown/duplicate/omitted variants,
+missing observations, undefined Sharpe or unidentified variance reject.
+
+The API returns dsr_confidence, explicitly not a p-value. Optional DSRPlan wires
+it into the family diagnostic alongside SPA/WRC and optional PBO. No default
+independence estimate, annualization factor or fabricated null distribution is
+inserted. A caller-supplied basis is not certified independence; serial dependence,
+source provenance, complete search history and power remain unqualified. There
+is no promotion or calibration authority in this numerical result.
+
+Tests establish the analytic zero-Sharpe/N=1 half-confidence case, increased
+multiplicity lowering confidence, positive return-scale invariance, deterministic
+results, invalid input rejection and family API integration. The four numerical
+method paths now exist, but their qualified real-data benchmark workflow and
+prospective evidence remain completion requirements.
