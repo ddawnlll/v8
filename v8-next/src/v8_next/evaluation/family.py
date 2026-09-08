@@ -5,7 +5,9 @@ from decimal import Decimal
 from typing import Any
 
 from v8_next.evaluation.alignment import IntervalLoss, paired_differentials
+from v8_next.evaluation.deflated_sharpe import DSRPlan, deflated_sharpe_diagnostic
 from v8_next.evaluation.equity import equity_losses
+from v8_next.evaluation.excess import excess_losses
 from v8_next.evaluation.overfitting import CSCVPlan
 from v8_next.evaluation.store import ResearchStore, canonical
 
@@ -93,6 +95,9 @@ def compare_family(
     reps: int,
     seed: int,
     pbo_plan: CSCVPlan | None = None,
+    dsr_plan: DSRPlan | None = None,
+    reference_losses: tuple[IntervalLoss, ...] | None = None,
+    reference_basis: str | None = None,
 ) -> dict[str, Any]:
     """Explicit baseline SPA/WRC on the full local development family.
 
@@ -101,6 +106,11 @@ def compare_family(
     """
     from v8_next.evaluation.inference import spa_diagnostic
 
+    if dsr_plan is None:
+        if reference_losses is not None or reference_basis is not None:
+            raise ValueError("excess reference supplied without DSR plan")
+    elif reference_losses is None or not reference_basis or not reference_basis.strip():
+        raise ValueError("DSR requires explicit reference losses and basis")
     losses = family_losses(results, store=store, family=family, decision_ns=decision_ns)
     if baseline_trial_id not in losses:
         raise ValueError("baseline must be an explicit registered family member")
@@ -116,6 +126,26 @@ def compare_family(
         seed=seed,
         pbo_plan=pbo_plan,
     )
+    if dsr_plan is not None:
+        assert reference_losses is not None
+        diagnostic["dsr"] = deflated_sharpe_diagnostic(
+            excess_losses(losses, reference_losses, decision_ns=decision_ns),
+            plan=dsr_plan,
+            frozen_ns=baseline[0].start_ns,
+            evaluation_end_ns=baseline[-1].end_ns,
+            decision_ns=decision_ns,
+        )
+        diagnostic["dsr_reference_losses"] = [
+            {
+                "start_ns": row.start_ns,
+                "end_ns": row.end_ns,
+                "available_ns": row.available_ns,
+                "loss": str(row.loss),
+            }
+            for row in reference_losses
+        ]
+        diagnostic["dsr_reference_basis"] = reference_basis
+        diagnostic["dsr_reference_status"] = "CALLER_SUPPLIED_NOT_SOURCE_CERTIFIED"
     return {
         "family": family,
         "baseline_trial_id": baseline_trial_id,

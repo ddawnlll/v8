@@ -194,6 +194,28 @@ def test_comparison_pbo_requires_full_candidate_set_not_baseline(tmp_path):
         plan = CSCVPlan(2, "mean_return", 2, tuple(r["trial_id"] for r in results[1:]))
         report = compare_family(results, **kwargs, pbo_plan=plan)
         assert report["diagnostic"]["pbo"] is not None
+        from decimal import Decimal
+
+        from v8_next.evaluation.alignment import IntervalLoss
+        from v8_next.evaluation.deflated_sharpe import DSRPlan
+
+        dsr = DSRPlan(results[1]["trial_id"], plan.registered_variants, 2, "test-only assumption")
+        reference = tuple(
+            IntervalLoss(i * 10, (i + 1) * 10, 210, Decimal("-.001")) for i in range(1, 9)
+        )
+        with pytest.raises(ValueError, match="requires explicit reference"):
+            compare_family(results, **kwargs, dsr_plan=dsr)
+        report = compare_family(
+            results,
+            **kwargs,
+            dsr_plan=dsr,
+            reference_losses=reference,
+            reference_basis="test fixture",
+        )
+        assert 0 <= report["diagnostic"]["dsr"]["dsr_confidence"] <= 1
+        assert (
+            report["diagnostic"]["dsr_reference_status"] == "CALLER_SUPPLIED_NOT_SOURCE_CERTIFIED"
+        )
         with pytest.raises(ValueError, match="complete registered"):
             compare_family(results, **kwargs, pbo_plan=CSCVPlan(2, "mean_return", 2, ()))
     finally:

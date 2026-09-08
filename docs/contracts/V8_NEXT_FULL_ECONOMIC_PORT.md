@@ -827,3 +827,20 @@ are /tmp/v8-pbo-{timeout,donchian,bollinger}.json and /tmp/v8-pbo-comparison.jso
 These experimental policy combinations/parameters are not preregistered OOS
 plans or calibration evidence. DSR excess-return and independence specification,
 protected OOS, production calibration and portfolio operation remain open.
+
+## Explicit excess-return connection for family DSR
+
+The family API accepts DSR only with an explicit aligned negative reference-return
+series and a stated basis. Candidate loss minus reference loss yields negative
+excess return; availability is the later input clock. Missing, future or misaligned
+reference values reject, never becoming assumed zeros. Baseline remains excluded
+from the candidate family. SPA/WRC/PBO continue to use their original net-return
+inputs; only DSR receives reference-subtracted returns.
+
+The report retains the reference series/basis and labels it caller-supplied,
+not source-certified. Currency, fixed-capital convention and suitability of the
+reference must be established by its supplier. Independent-trial assumptions
+remain explicit DSRPlan inputs, not inferred validation. Tests cover subtraction
+sign, availability, absent references and the full family-to-DSR path. No genuine
+reference dataset was invented to produce a real-data DSR result. A CLI reference
+artifact contract and economic source qualification remain open.
