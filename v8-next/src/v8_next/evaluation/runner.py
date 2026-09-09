@@ -41,7 +41,11 @@ from v8_next.evaluation.gate_resolution import (
     evaluate_g9_certificate_authority,
 )
 from v8_next.evaluation.parity import ArtifactBinding
-from v8_next.evaluation.scoring import compute_capability_score, evaluate_gate_vector
+from v8_next.evaluation.scoring import (
+    compute_capability_breakdown,
+    compute_capability_score,
+    evaluate_gate_vector,
+)
 
 
 class BenchmarkCase(BaseModel):
@@ -73,6 +77,7 @@ class BenchmarkRunResult(BaseModel):
     native_ledger_binding: ArtifactBinding
     claim_record: StatutoryClaimRecord | None = None
     gate_metrics: dict[str, Any] | None = None
+    domain_scores: dict[str, Any] | None = None
 
 
 class BenchmarkRunner:
@@ -131,6 +136,13 @@ class BenchmarkRunner:
         abstain_rate = abstain_count / total_expert_votes
 
         coverage_factor = 0.60
+        breakdown = compute_capability_breakdown(
+            pnl_series=pnl_series,
+            total_bars=total_bars,
+            total_trades=total_trades,
+            abstain_rate=abstain_rate,
+            coverage_factor=coverage_factor,
+        )
         capability_score = compute_capability_score(
             pnl_series=pnl_series,
             total_bars=total_bars,
@@ -308,4 +320,5 @@ class BenchmarkRunner:
             native_ledger_binding=artifact_binding,
             claim_record=claim_record,
             gate_metrics=gate_metrics if resolve_gates else None,
+            domain_scores=breakdown["domains"] or None,
         )

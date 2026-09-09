@@ -72,28 +72,42 @@ def test_classify_market_regimes_4_partitions(real_candles: list[Candle]):
 
 
 def test_g3_scenario_robustness(real_candles: list[Candle]):
-    """G3: Backtest on 4 regimes, verify drawdown & return variance bounded."""
+    """G3: honest sample floors — empty regimes fail closed with named reason."""
     regimes = classify_market_regimes(candles=real_candles, slice_length=25)
     cfg = ExpertStrategyConfig(min_support_quorum=1, max_contradiction_tolerance=28)
-    state, metrics = evaluate_g3_scenario_robustness(regimes, cfg, max_drawdown_limit=0.25)
-    assert state == GateState.PASS
-    assert metrics["passed"] is True
-    assert metrics["max_observed_drawdown"] <= 0.25
-    assert metrics["max_observed_variance"] <= 0.20
+    state, metrics = evaluate_g3_scenario_robustness(regimes, cfg)
+    assert metrics["max_drawdown_limit"] == 0.10
+    assert metrics["min_trades_per_regime"] == 1
     assert len(metrics["regimes"]) == 4
+    if metrics["empty_regimes"]:
+        assert state == GateState.BLOCKED
+        assert "INSUFFICIENT_REGIME_TRADES" in metrics["reason"]
+        for name in metrics["empty_regimes"]:
+            assert metrics["regimes"][name]["trades"] == 0
+    else:
+        assert metrics["min_regime_trades"] >= 1
+        assert state == GateState.PASS
+        assert metrics["passed"] is True
+        assert metrics["max_observed_drawdown"] <= 0.10
+        assert metrics["max_observed_variance"] <= 0.20
 
 
 def test_g4_synthetic_falsification_adversarial_shock(real_candles: list[Candle]):
-    """G4: Verify bracket stop-loss protects capital under slippage, latency, drop shocks."""
+    """G4: survival without shocked executions fails closed (vacuous PASS banned)."""
     cfg = ExpertStrategyConfig(
         min_support_quorum=1,
         max_contradiction_tolerance=28,
         bracket_stop_pct=Decimal("0.02"),
     )
     state, metrics = evaluate_g4_synthetic_falsification(real_candles, cfg)
-    assert state == GateState.PASS
-    assert metrics["account_survived"] is True
-    assert metrics["final_equity"] >= 7000.0
+    assert metrics["min_closed_trades"] == 2
+    if metrics["closed_trades"] < 2:
+        assert state == GateState.BLOCKED
+        assert "INSUFFICIENT_SHOCK_SAMPLE" in metrics["reason"]
+    else:
+        assert metrics["account_survived"] is True
+        assert metrics["final_equity"] >= 7000.0
+        assert state == GateState.PASS
 
 
 def test_g5_selection_control_dsr_and_wrc():
@@ -104,16 +118,26 @@ def test_g5_selection_control_dsr_and_wrc():
     assert metrics["passed"] is True
     assert metrics["dsr_confidence"] >= 0.95
     assert metrics["adjusted_bonferroni_pvalue"] <= 0.05
+    assert metrics["own_sample_count"] == 30
+    assert metrics["sample_source"] == "own_track"
 
 
 def test_g6_frozen_oos_replication(real_candles: list[Candle]):
-    """G6: Split IS (8m/67%) and Frozen OOS (4m/33%), verify retention >= 60%."""
+    """G6: profit retention, not balance ratio — unprofitable legs fail closed."""
     cfg = ExpertStrategyConfig(min_support_quorum=1, max_contradiction_tolerance=28)
     state, metrics = evaluate_g6_frozen_oos(real_candles, cfg, min_retention_ratio=0.60)
-    assert state == GateState.PASS
-    assert metrics["passed"] is True
-    assert metrics["retention_ratio"] >= 0.60
-    assert metrics["oos_final_balance"] >= 8000.0
+    assert "is_profit" in metrics and "oos_profit" in metrics
+    if state == GateState.BLOCKED:
+        assert metrics["reason"] is not None
+        assert any(
+            code in metrics["reason"]
+            for code in ("NO_IS_EDGE_TO_RETAIN", "PROFIT_RETENTION_BREACH", "OOS_BLOWUP")
+        )
+    else:
+        assert metrics["passed"] is True
+        assert metrics["is_profit"] > 0
+        assert metrics["retention_ratio"] >= 0.60
+        assert metrics["oos_final_balance"] >= 8000.0
 
 
 def test_g7_prospective_shadow_streaming(tmp_path: Path, real_candles: list[Candle]):
@@ -192,7 +216,13 @@ def test_g9_claim_registry_and_certificate_authority(tmp_path: Path):
 
 
 def test_end_to_end_benchmark_runner_resolved_gates(tmp_path: Path):
-    """End-to-end integration test: BenchmarkRunner with resolve_gates=True."""
+    """End-to-end: honest fail-closed chain on real tape (no vacuous PASS).
+
+    On the current tape the policy barely fires, so G3/G4/G6 fail closed with
+    named reasons, G5 discloses its regime-fallback source, no claim is minted
+    and the certificate stays BLOCKED. The test pins the honesty machinery
+    (reasons, disclosure, no-claim), not tape-dependent counts.
+    """
     if not DEFAULT_TAPE_PATH.exists():
         pytest.skip("Real tape not found")
     candles = load_tape_candles(DEFAULT_TAPE_PATH, limit=500)
@@ -210,29 +240,36 @@ def test_end_to_end_benchmark_runner_resolved_gates(tmp_path: Path):
         resolve_gates=True,
     )
 
-    # Gate Vector verification
+    # Structural gates hold on real data
     assert result.gates.g0_identity == GateState.PASS
     assert result.gates.g1_causal_pit == GateState.PASS
     assert result.gates.g2_determinism_ledger == GateState.PASS
-    assert result.gates.g3_benchmark_coverage == GateState.PASS
-    assert result.gates.g4_structural_robustness == GateState.PASS
-    assert result.gates.g5_statistical_credibility == GateState.PASS
-    assert result.gates.g6_protected_oos == GateState.PASS
+
+    # Thin-sample gates fail closed with named reasons
+    gm = result.gate_metrics or {}
+    for gname, reason_code in (
+        ("g3", "INSUFFICIENT_REGIME_TRADES"),
+        ("g4", "INSUFFICIENT_SHOCK_SAMPLE"),
+        ("g6", None),
+    ):
+        state = getattr(result.gates, {"g3": "g3_benchmark_coverage", "g4": "g4_structural_robustness", "g6": "g6_protected_oos"}[gname])
+        assert state == GateState.BLOCKED, f"{gname} must fail closed on thin samples"
+        assert gm[gname]["reason"] is not None
+        if reason_code is not None:
+            assert reason_code in gm[gname]["reason"]
+    assert gm["g6"]["reason"] is not None
+
+    # G5 discloses its sample source; G7 holds its window; G8 stays out of scope
+    assert gm["g5"]["sample_source"] in ("own_track", "regime_fallback")
+    assert gm["g5"]["own_sample_count"] <= result.total_trades + len(candles)
     assert result.gates.g7_generalization == GateState.PASS
     assert result.gates.g8_prospective_shadow == GateState.NOT_APPLICABLE
-    assert result.gates.g9_live_realization == GateState.PASS
 
-    # Readiness Verdict: Certified -> READY_NOT_CLAIMED
+    # No claim minted; certificate fails closed; ledger verifies
+    assert result.claim_record is None
     verdict = result.gates.readiness()
-    assert verdict.status == ReadinessStatus.Certified
-    assert "READY_NOT_CLAIMED" in result.certificate.authority_verdict
-    assert "Ready For Review" in result.certificate.status
-
-    # Claim record verification
-    assert result.claim_record is not None
-    assert result.claim_record.claim_class == StatutoryClaimClass.ReadyNotClaimed
-    assert result.claim_record.verify_signature() is True
-
-    # Ledger chain verification
+    assert verdict.status == ReadinessStatus.HardFailure
+    assert "BLOCKED" in result.certificate.status
+    assert "NO_ECONOMIC_CLAIM" in result.certificate.authority_verdict or "BLOCKED" in result.certificate.authority_verdict
     chain_ok, _ = runner.ledger.verify_chain()
     assert chain_ok is True

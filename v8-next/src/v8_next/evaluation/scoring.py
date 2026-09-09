@@ -9,7 +9,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import Mapping
+from typing import Any, Mapping
 
 import numpy as np
 
@@ -93,6 +93,67 @@ class CapabilityScoreCalculator:
         return raw * 100.0
 
 
+def compute_capability_breakdown(
+    pnl_series: list[float],
+    total_bars: int,
+    total_trades: int,
+    abstain_rate: float,
+    coverage_factor: float = 0.60,
+) -> dict[str, Any]:
+    """Per-domain capability breakdown for loop engineering.
+
+    Returns {domain: {score, band_low, band_high, weight, sample_size}} plus
+    the aggregate. An agent asking 'why did I stall at 8.8' reads this, not
+    the scalar. Empty/underpowered input yields empty domains (never zeros
+    disguised as measurements).
+    """
+    calc = CapabilityScoreCalculator.monograph_v1()
+    if not pnl_series or total_trades == 0:
+        return {"domains": {}, "aggregate": 0.0, "coverage_factor": coverage_factor}
+
+    arr = np.array(pnl_series, dtype=np.float64)
+    std = float(np.std(arr)) if len(arr) > 1 else 0.01
+    mean = float(np.mean(arr))
+    sharpe_proxy = (mean / std) if std > 1e-9 else 0.5
+
+    exec_val = float(np.clip(sharpe_proxy * 0.25 + 0.10, 0.05, 0.50))
+    op_val = float(np.clip(1.0 - abstain_rate * 0.3, 0.10, 0.60))
+    def_val = 0.15 if total_trades >= 1 else 0.01
+    micro_val = float(np.clip(0.10 + (total_bars / 500.0) * 0.10, 0.05, 0.30))
+
+    raw = {
+        CapabilityDomain.ExecutionFidelity: (exec_val, 0.8, 1.2, total_trades),
+        CapabilityDomain.OperationalSimplicity: (op_val, 0.8, 1.2, total_bars),
+        CapabilityDomain.DefeaterResistance: (def_val, 0.7, 1.3, total_trades),
+        CapabilityDomain.MicrostructureInvariance: (micro_val, 0.75, 1.25, total_bars),
+    }
+    domain_scores = {
+        domain: BoundedScore(
+            value=v,
+            lower_diagnostic_band=v * lo,
+            upper_diagnostic_band=v * hi,
+            sample_size=n,
+            effective_sample_size=float(n),
+        )
+        for domain, (v, lo, hi, n) in raw.items()
+    }
+    score = calc.calculate_aggregate_with_coverage(
+        domain_scores=domain_scores,
+        coverage_factor=coverage_factor,
+        hard_invariants_passed=True,
+    )
+    domains: dict[str, Any] = {}
+    for domain, bs in domain_scores.items():
+        domains[domain.value] = {
+            "score": round(bs.value * 100.0, 1),
+            "band_low": round(bs.lower_diagnostic_band * 100.0, 1),
+            "band_high": round(bs.upper_diagnostic_band * 100.0, 1),
+            "weight": calc.domain_weights.get(domain, 0.10),
+            "sample_size": bs.sample_size,
+        }
+    return {"domains": domains, "aggregate": round(score, 1), "coverage_factor": coverage_factor}
+
+
 def compute_capability_score(
     pnl_series: list[float],
     total_bars: int,
@@ -101,64 +162,14 @@ def compute_capability_score(
     coverage_factor: float = 0.60,
 ) -> float:
     """Compute multidimensional CapabilityScore in [0.0, 100.0] per D-153 §76."""
-    calc = CapabilityScoreCalculator.monograph_v1()
-
-    # If small diagnostic sample or underpowered trade count
-    if not pnl_series or total_trades == 0:
-        return 0.0
-
-    arr = np.array(pnl_series, dtype=np.float64)
-    std = float(np.std(arr)) if len(arr) > 1 else 0.01
-    mean = float(np.mean(arr))
-    sharpe_proxy = (mean / std) if std > 1e-9 else 0.5
-
-    # Derive bounded scores for evaluated domains
-    # ExecutionFidelity
-    exec_val = float(np.clip(sharpe_proxy * 0.25 + 0.10, 0.05, 0.50))
-    # OperationalSimplicity
-    op_val = float(np.clip(1.0 - abstain_rate * 0.3, 0.10, 0.60))
-    # DefeaterResistance
-    def_val = 0.15 if total_trades >= 1 else 0.01
-    # MicrostructureInvariance
-    micro_val = float(np.clip(0.10 + (total_bars / 500.0) * 0.10, 0.05, 0.30))
-
-    domain_scores = {
-        CapabilityDomain.ExecutionFidelity: BoundedScore(
-            value=exec_val,
-            lower_diagnostic_band=exec_val * 0.8,
-            upper_diagnostic_band=exec_val * 1.2,
-            sample_size=total_trades,
-            effective_sample_size=float(total_trades),
-        ),
-        CapabilityDomain.OperationalSimplicity: BoundedScore(
-            value=op_val,
-            lower_diagnostic_band=op_val * 0.8,
-            upper_diagnostic_band=op_val * 1.2,
-            sample_size=total_bars,
-            effective_sample_size=float(total_bars),
-        ),
-        CapabilityDomain.DefeaterResistance: BoundedScore(
-            value=def_val,
-            lower_diagnostic_band=def_val * 0.7,
-            upper_diagnostic_band=def_val * 1.3,
-            sample_size=total_trades,
-            effective_sample_size=float(total_trades),
-        ),
-        CapabilityDomain.MicrostructureInvariance: BoundedScore(
-            value=micro_val,
-            lower_diagnostic_band=micro_val * 0.75,
-            upper_diagnostic_band=micro_val * 1.25,
-            sample_size=total_bars,
-            effective_sample_size=float(total_bars),
-        ),
-    }
-
-    score = calc.calculate_aggregate_with_coverage(
-        domain_scores=domain_scores,
+    breakdown = compute_capability_breakdown(
+        pnl_series=pnl_series,
+        total_bars=total_bars,
+        total_trades=total_trades,
+        abstain_rate=abstain_rate,
         coverage_factor=coverage_factor,
-        hard_invariants_passed=True,
     )
-    return round(score, 1)
+    return float(breakdown["aggregate"])
 
 
 def evaluate_gate_vector(

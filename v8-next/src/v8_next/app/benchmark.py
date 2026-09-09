@@ -12,63 +12,9 @@ from decimal import Decimal
 from pathlib import Path
 
 from v8_next.adapters.expert_strategy import ExpertStrategyConfig
-from v8_next.domain.market import Candle
 from v8_next.evaluation.gate_resolution import DEFAULT_TAPE_PATH, load_tape_candles
 from v8_next.evaluation.report import generate_forensic_html_report
 from v8_next.evaluation.runner import BenchmarkCase, BenchmarkRunner
-
-
-def build_synthetic_benchmark_dataset() -> list[Candle]:
-    """Build a deterministic causal market sequence for benchmark evaluation."""
-    hour_ns = 3600 * 10**9
-    candles = [
-        Candle(
-            "BTCUSDT-PERP.BINANCE",
-            i * hour_ns,
-            (i + 1) * hour_ns,
-            Decimal("100"),
-            Decimal("100.5"),
-            Decimal("99.5"),
-            Decimal("100"),
-            Decimal("100"),
-            (i + 1) * hour_ns,
-            (i + 1) * hour_ns,
-            "benchmark-feed",
-        )
-        for i in range(48)
-    ]
-    # Breakout candles
-    candles.append(
-        Candle(
-            "BTCUSDT-PERP.BINANCE",
-            48 * hour_ns,
-            49 * hour_ns,
-            Decimal("101"),
-            Decimal("122"),
-            Decimal("100"),
-            Decimal("120"),
-            Decimal("500"),
-            49 * hour_ns,
-            49 * hour_ns,
-            "benchmark-feed",
-        )
-    )
-    candles.append(
-        Candle(
-            "BTCUSDT-PERP.BINANCE",
-            49 * hour_ns,
-            50 * hour_ns,
-            Decimal("120"),
-            Decimal("125"),
-            Decimal("119"),
-            Decimal("123"),
-            Decimal("200"),
-            50 * hour_ns,
-            50 * hour_ns,
-            "benchmark-feed",
-        )
-    )
-    return candles
 
 
 def main() -> int:
@@ -118,12 +64,16 @@ def main() -> int:
     runner = BenchmarkRunner(output_dir=args.output_dir)
 
     tape_file = Path(args.tape_path)
-    if tape_file.exists() and args.resolve_gates:
-        print(f"[+] Loading verified real Binance market tape from {tape_file}...")
-        candles = load_tape_candles(tape_file, limit=500)
-        print(f"[+] Loaded {len(candles)} real hourly bars.")
-    else:
-        candles = build_synthetic_benchmark_dataset()
+    if not tape_file.exists():
+        print(
+            f"error: real tape not found at {tape_file}; synthetic fallback is "
+            "banned for benchmark runs (full D-153 rule).",
+            file=sys.stderr,
+        )
+        return 2
+    print(f"[+] Loading verified real Binance market tape from {tape_file}...")
+    candles = load_tape_candles(tape_file, limit=500)
+    print(f"[+] Loaded {len(candles)} real hourly bars.")
 
     result = runner.run(
         case,
@@ -135,6 +85,27 @@ def main() -> int:
     )
     print(f"[+] Nautilus Backtest Completed: {result.total_bars} bars, {result.total_trades} trades")
     print(f"[+] Capability Score: {result.capability_score:.1f} / 100")
+    if result.domain_scores:
+        print("[+] Per-domain breakdown (loop engineering: lowest first):")
+        for name, d in sorted(result.domain_scores.items(), key=lambda kv: kv[1]["score"]):
+            print(
+                f"    {name:<28} {d['score']:>5.1f}  "
+                f"band[{d['band_low']:.1f},{d['band_high']:.1f}]  "
+                f"w={d['weight']:.2f}  n={d['sample_size']}"
+            )
+    else:
+        print("[+] Per-domain breakdown: absent (no trades — nothing to decompose)")
+    if result.gate_metrics:
+        print("[+] Gate metric deltas:")
+        for gname in sorted(result.gate_metrics):
+            m = result.gate_metrics[gname]
+            if isinstance(m, dict):
+                keys = ", ".join(f"{k}={m[k]}" for k in list(m)[:6])
+                print(f"    {gname}: {keys}")
+    elif args.resolve_gates:
+        print("[+] Gate metric deltas: battery ran but emitted no metrics")
+    else:
+        print("[+] Gates G3-G9 unresolved (diagnostic cell); re-run without --diagnostic-only")
     print(f"[+] Ledger Entry Hash: {result.ledger_entry_hash[:16]}...{result.ledger_entry_hash[-8:]}")
     print(f"[+] Bound Artifact: {result.native_ledger_binding.path} (SHA: {result.native_ledger_binding.sha256_hex[:12]}...)")
 

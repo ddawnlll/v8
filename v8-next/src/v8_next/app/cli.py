@@ -6,6 +6,7 @@ Usage:
     python -m v8_next.app.cli benchmark [--case-id ID] [--output-dir DIR]
         [--html-out PATH] [--all-pass] [--diagnostic-only]
         [--tape-path PATH] [--live-fills PATH]
+    python -m v8_next.app.cli books [--mapping-id ID]
 
 `status` is the project dashboard: git revision, tape inventory, code/test
 footprint, and the latest benchmark receipt rendered as the canonical
@@ -19,6 +20,7 @@ import argparse
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any
 
 from v8_next.evaluation.benchmark_receipt import BenchmarkLedger
 from v8_next.evaluation.certificate import PolicyCertificate
@@ -105,6 +107,36 @@ def cmd_status(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_books(args: argparse.Namespace) -> int:
+    from v8_next.books.registry import MAPPINGS, build_case, coverage, get_mapping
+
+    package_root = Path(__file__).resolve().parents[3]
+    if args.mapping_id:
+        m = get_mapping(args.mapping_id)
+        case = build_case(args.mapping_id)
+        print(f"mapping: {m.mapping_id}")
+        print(f"  book: {m.filename}")
+        print(f"  experts: {', '.join(m.experts) or '(evaluation discipline)'}")
+        print(f"  grammar: {m.grammar_policy}  regimes: {m.regime_family}")
+        print(f"  case: {case.case_id} policy={case.policy_id} pop={case.allowed_populations[0]}")
+        print(f"  notes: {m.notes}")
+        return 0
+    cov: dict[str, Any] = {"mapping_ids": [m.mapping_id for m in MAPPINGS]}
+    for root in (package_root.parent, package_root):
+        found = coverage(root / "books")
+        if found["total"]:
+            cov = found
+            break
+    print(f"library: {cov['total']} files  mapped: {cov['mapped']}  unmapped: {cov['unmapped']}")
+    print(f"mapped ids: {', '.join(cov['mapping_ids'])}")
+    sample = cov.get("unmapped_sample", [])
+    if sample:
+        print("unmapped sample:")
+        for name in sample[:10]:
+            print(f"  - {name}")
+    return 0
+
+
 def cmd_benchmark(argv: list[str]) -> int:
     from v8_next.app import benchmark as benchmark_mod
 
@@ -137,6 +169,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_bench.add_argument("--diagnostic-only", dest="resolve_gates", action="store_false")
     p_bench.add_argument("--tape-path", default=None)
     p_bench.add_argument("--live-fills", default=None)
+
+    p_books = sub.add_parser("books", help="Literature → BenchmarkCase registry.")
+    p_books.add_argument("--mapping-id", default=None)
     return parser
 
 
@@ -147,6 +182,10 @@ def main(argv: list[str] | None = None) -> int:
         if rest:
             parser.error(f"unexpected args for status: {' '.join(rest)}")
         return args.func(args)
+    if args.command == "books":
+        if rest:
+            parser.error(f"unexpected args for books: {' '.join(rest)}")
+        return cmd_books(args)
     if args.command == "benchmark":
         from v8_next.evaluation.gate_resolution import DEFAULT_TAPE_PATH
 

@@ -223,13 +223,16 @@ def classify_market_regimes(
 def evaluate_g3_scenario_robustness(
     regimes: dict[str, list[Candle]],
     strategy_config: ExpertStrategyConfig | None = None,
-    max_drawdown_limit: float = 0.25,
+    max_drawdown_limit: float = 0.10,
+    min_trades_per_regime: int = 1,
 ) -> tuple[GateState, dict[str, Any]]:
     """G3: Scenario Robustness (g3_benchmark_coverage).
 
     Executes backtests across the 4 primary market regimes (Bull Trend, Bear Crash,
     Chop/Range, High-Vol Spill) and verifies that maximum drawdown and return variance
-    do not explode across regimes.
+    do not explode across regimes. Every evaluated regime must contribute at least
+    `min_trades_per_regime` trades: robustness across a regime with zero trades is
+    unmeasurable and fails closed with INSUFFICIENT_REGIME_TRADES.
     """
     cfg = strategy_config or ExpertStrategyConfig(
         min_support_quorum=1,
@@ -289,8 +292,12 @@ def evaluate_g3_scenario_robustness(
     max_observed_dd = max(drawdowns) if drawdowns else 0.0
     max_observed_var = max(return_variances) if return_variances else 0.0
 
+    empty_regimes = sorted(n for n, r in regime_results.items() if r["trades"] < min_trades_per_regime)
+    min_regime_trades = min((r["trades"] for r in regime_results.values()), default=0)
+
     passed = (
         len(regime_results) == 4
+        and not empty_regimes
         and max_observed_dd <= max_drawdown_limit
         and math.isfinite(max_observed_var)
         and max_observed_var <= 0.20
@@ -301,6 +308,17 @@ def evaluate_g3_scenario_robustness(
         "regimes": regime_results,
         "max_observed_drawdown": max_observed_dd,
         "max_observed_variance": max_observed_var,
+        "max_drawdown_limit": max_drawdown_limit,
+        "min_trades_per_regime": min_trades_per_regime,
+        "min_regime_trades": min_regime_trades,
+        "empty_regimes": empty_regimes,
+        "reason": None
+        if passed
+        else (
+            f"INSUFFICIENT_REGIME_TRADES: {empty_regimes} below {min_trades_per_regime}"
+            if empty_regimes
+            else f"DRAWDOWN_OR_VARIANCE_BREACH: dd={max_observed_dd:.4f} var={max_observed_var:.6f}"
+        ),
         "passed": passed,
     }
     return state, metrics
@@ -309,6 +327,7 @@ def evaluate_g3_scenario_robustness(
 def evaluate_g4_synthetic_falsification(
     candles: Sequence[Candle],
     strategy_config: ExpertStrategyConfig | None = None,
+    min_closed_trades: int = 2,
 ) -> tuple[GateState, dict[str, Any]]:
     """G4: Synthetic Falsification (g4_structural_robustness).
 
@@ -317,6 +336,9 @@ def evaluate_g4_synthetic_falsification(
     - Latency shock: 500ms base + 200ms insert latency jitter
     - Drop rate: 5% random order drop/unfill
     - Verifies bracket stop-loss protects capital and account does not bust.
+
+    Survival without executions proves nothing: at least `min_closed_trades`
+    shocked fills must close, else INSUFFICIENT_SHOCK_SAMPLE fails closed.
     """
     bracket_cfg = strategy_config or ExpertStrategyConfig(
         min_support_quorum=1,
@@ -345,16 +367,26 @@ def evaluate_g4_synthetic_falsification(
     opened = backtest_result["opened_positions"]
     closed = backtest_result["closed_positions"]
 
-    # Invariant: Account did not bust (equity remains > 70% initial), stop-losses functioned
+    # Invariant: Account did not bust (equity remains > 70% initial), stop-losses functioned,
+    # AND the shock battery actually executed (survival with no fills is vacuous).
     no_bust = final_equity >= 7000.0
     all_finite = math.isfinite(final_equity)
+    enough_shock_sample = len(closed) >= min_closed_trades
 
-    passed = no_bust and all_finite
+    passed = no_bust and all_finite and enough_shock_sample
     state = GateState.PASS if passed else GateState.BLOCKED
     metrics = {
         "final_equity": round(final_equity, 2),
         "total_trades": len(opened),
         "closed_trades": len(closed),
+        "min_closed_trades": min_closed_trades,
+        "reason": None
+        if passed
+        else (
+            f"INSUFFICIENT_SHOCK_SAMPLE: {len(closed)} closed < {min_closed_trades}"
+            if not enough_shock_sample
+            else f"SHOCK_BUST_OR_NONFINITE: equity={final_equity:.2f}"
+        ),
         "shock_taker_fee": float(shock_taker_fee),
         "adversarial_models": ["ProbabilisticFill(drop=0.05, slip=1.0)", "StaticLatency(500ms+200ms)"],
         "bracket_stop_loss_pct": float(bracket_cfg.bracket_stop_pct or Decimal("0.02")),
@@ -375,6 +407,8 @@ def evaluate_g5_selection_control(
     registered parameter/execution variants.
     """
     raw_series = list(pnl_series)
+    own_sample_count = len(raw_series)
+    sample_source = "own_track" if own_sample_count >= 20 else "regime_fallback"
 
     # If trade series is too short (< 20 intervals for multi-testing power), extract empirical trade returns from market regimes or tape
     if len(raw_series) < 20:
@@ -498,6 +532,14 @@ def evaluate_g5_selection_control(
             "wrc_pvalue": round(wrc_p, 6),
             "trials": num_trials,
             "sample_intervals": t_steps,
+            "own_sample_count": own_sample_count,
+            "sample_source": sample_source,
+            "reason": None
+            if passed
+            else (
+                f"SELECTION_CONTROL_BREACH: dsr_conf={dsr_conf:.4f} bonf_p={bonf_p:.6f} "
+                f"(source={sample_source}, own_n={own_sample_count})"
+            ),
             "passed": passed,
         }
         return state, metrics
@@ -513,7 +555,11 @@ def evaluate_g6_frozen_oos(
     """G6: Frozen Out-of-Sample (OOS) Replication (g6_protected_oos).
 
     Splits dataset into In-Sample (IS: first 67% / 8 months) and Frozen OOS (last 33% / 4 months).
-    Runs strategy with frozen parameters on OOS and proves it retains at least 60% of IS performance.
+    Runs strategy with frozen parameters on OOS and proves it retains at least 60% of IS
+    PROFIT (not balance ratio): retention = oos_profit / is_profit. An unprofitable IS
+    cannot be replicated (BLOCKED: no edge to retain); an unprofitable OOS retains
+    nothing (BLOCKED: negative retention). The blow-up guard (OOS balance >= 8000)
+    stays as a separate survival floor.
     """
     cfg = strategy_config or ExpertStrategyConfig(
         min_support_quorum=1,
@@ -547,10 +593,26 @@ def evaluate_g6_frozen_oos(
     is_balance = extract_account_balance(account_is, default=10000.0)
     oos_balance = extract_account_balance(account_oos, default=10000.0)
 
-    # Retention ratio: OOS preserved capital without out-of-sample blow-up
-    retention_ratio = min(1.5, max(0.0, (oos_balance / 10000.0) / (is_balance / 10000.0)))
+    is_profit = is_balance - 10000.0
+    oos_profit = oos_balance - 10000.0
+    if is_profit <= 0:
+        return GateState.BLOCKED, {
+            "is_bars": is_bars,
+            "is_trades": is_trades,
+            "is_final_balance": round(is_balance, 2),
+            "oos_bars": oos_bars,
+            "oos_trades": oos_trades,
+            "oos_final_balance": round(oos_balance, 2),
+            "is_profit": round(is_profit, 2),
+            "oos_profit": round(oos_profit, 2),
+            "retention_ratio": None,
+            "reason": f"NO_IS_EDGE_TO_RETAIN: is_profit={is_profit:.2f} <= 0",
+            "passed": False,
+        }
+    retention_ratio = oos_profit / is_profit
+    no_blowup = oos_balance >= 8000.0
 
-    passed = retention_ratio >= min_retention_ratio and oos_balance >= 8000.0
+    passed = retention_ratio >= min_retention_ratio and no_blowup
     state = GateState.PASS if passed else GateState.BLOCKED
     metrics = {
         "is_bars": is_bars,
@@ -559,8 +621,17 @@ def evaluate_g6_frozen_oos(
         "oos_bars": oos_bars,
         "oos_trades": oos_trades,
         "oos_final_balance": round(oos_balance, 2),
+        "is_profit": round(is_profit, 2),
+        "oos_profit": round(oos_profit, 2),
         "retention_ratio": round(retention_ratio, 4),
         "trade_freq_retention": round(freq_retention, 4),
+        "reason": None
+        if passed
+        else (
+            f"OOS_BLOWUP: balance={oos_balance:.2f}"
+            if not no_blowup
+            else f"PROFIT_RETENTION_BREACH: {retention_ratio:.4f} < {min_retention_ratio}"
+        ),
         "passed": passed,
     }
     return state, metrics
@@ -574,13 +645,22 @@ def evaluate_g7_prospective_shadow(
     """G7: Prospective Shadow Succession (g7_generalization).
 
     Evaluates sequential prospective streaming observations using an e-process martingale
-    and drift monitoring. Saves trajectory to disk.
+    and drift monitoring. Saves trajectory to disk. Requires a full 100-bar shadow
+    window: a shorter stream cannot establish drift stability and fails closed with
+    INSUFFICIENT_SHADOW_WINDOW.
     """
     out_dir = output_dir or Path("artifacts/benchmarks")
     out_dir.mkdir(parents=True, exist_ok=True)
     shadow_log = out_dir / "g7_prospective_shadow.jsonl"
 
-    stream_candles = tuple(candles[-100:] if len(candles) >= 100 else candles)
+    if len(candles) < 100:
+        return GateState.BLOCKED, {
+            "window_bars": len(candles),
+            "required_window_bars": 100,
+            "reason": f"INSUFFICIENT_SHADOW_WINDOW: {len(candles)} < 100",
+            "passed": False,
+        }
+    stream_candles = tuple(candles[-100:])
     cfg = strategy_config or ExpertStrategyConfig(
         min_support_quorum=1,
         max_contradiction_tolerance=28,
