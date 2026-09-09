@@ -25,6 +25,22 @@ def _bars(n: int = 60, start: int = 1_000_000_000, step: int = 3_600_000_000_000
     return out
 
 
+def test_mechanics_trend_benchmark_is_causal() -> None:
+    # Spiking the last close must not rewrite earlier exposure: decisions at
+    # bar i use closed bar i-1 only. (Guards the 1-bar lookahead that once
+    # inflated a sleeve 4.5x.)
+    legs = {
+        "A-PERP.BINANCE": [100.0 * (1.001**i) for i in range(120)],
+        "B-PERP.BINANCE": [50.0 * (0.999**i) for i in range(120)],
+    }
+    base = eb.compute_multileg_family(legs, 10000.0, 0.0005)["simple_trend"]["exposure"]
+    spiked = dict(legs)
+    spiked["A-PERP.BINANCE"] = list(legs["A-PERP.BINANCE"])
+    spiked["A-PERP.BINANCE"][-1] *= 2.0
+    alt = eb.compute_multileg_family(spiked, 10000.0, 0.0005)["simple_trend"]["exposure"]
+    assert base[:-1] == alt[:-1]
+
+
 def test_mechanics_pair_positions_time_ordered() -> None:
     opened = [
         {"position_id": "X", "instrument_id": "I", "event_ns": 3, "side": "LONG",

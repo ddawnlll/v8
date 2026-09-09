@@ -51,6 +51,8 @@ PRIMARY_DEFAULT = "equal_weight"
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Canonical quad portfolio benchmark.")
+    p.add_argument("--case-id", default=CASE_ID)
+    p.add_argument("--policy-id", default=POLICY_ID)
     p.add_argument("--tape-path", default="research/tape/quad-1h-12m")
     p.add_argument("--bars", type=int, default=385)
     p.add_argument("--start-bar", type=int, default=0)
@@ -60,6 +62,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--capital", type=float, default=eb.CAPITAL_DEFAULT)
     p.add_argument("--taker-fee", type=float, default=eb.TAKER_FEE_DEFAULT)
     p.add_argument("--per-leg-notional", type=float, default=1000.0)
+    p.add_argument("--opex-monthly", type=float, default=30.0)
+    p.add_argument("--capital-policy", default=None)
+    p.add_argument("--html-out", default=None)
     p.add_argument("--live-fills", default=None)
     return p.parse_args(argv)
 
@@ -268,46 +273,54 @@ def main(argv: list[str] | None = None) -> int:
     }
 
     p_rets = eb.per_bar_returns(list(p_ser["equity"]))
+    # Synthetic positive/shuffled controls are mechanics-only test fixtures.
+    # They must never enter a real evaluation receipt or be used as evidence.
     controls: dict[str, Any] = {
-        "positive_control": eb.positive_control_known_effect(),
-        "negative_control": eb.negative_control_shuffled(p_rets, seed=args.seed + 100),
-        "known_defect_future_leak_caught": not eb.detect_future_leak(
-            eb.bars_from_candles(tape.candles[tape.instruments[0]]), closes_shift=1
-        )[0],
+        "positive_control": {
+            "status": "UNRUN_SYNTHETIC_CONTROL_TEST_ONLY",
+            "reason": "synthetic controls are restricted to test harnesses",
+        },
+        "negative_control": {
+            "status": "UNRUN_SYNTHETIC_CONTROL_TEST_ONLY",
+            "reason": "shuffled inputs are restricted to test harnesses",
+        },
+        "known_defect_future_leak_caught": None,
         "ablation": {
             "P": "incumbent quorum=1,tolerance=28 x4 legs",
             "P+E": "incumbent 0.5 + challenger(tol=0) 0.5 x4 legs, same per-leg budget",
             "same_engine_path": True,
         },
     }
-    controls["positive_caught"] = bool(controls["positive_control"]["detected"])
-    neg = controls["negative_control"]
-    assert isinstance(neg, dict)
-    controls["negative_caught"] = not bool(neg["declares_winner"])
+    controls["positive_caught"] = None
+    controls["negative_caught"] = None
 
-    # Capital policy path (single source: domain.capital_policy): TEST policy
-    # authorizes paper; missing policy denies; live never authorizes in scope.
-    test_policy = CapitalPolicy.test_policy(
-        max_notional="5000", max_exposure_frac="1.0", authorized=True,
-    ).model_copy(update={
-        "allowed_instruments": tuple(f"{k}-PERP.BINANCE" for k in tape.instruments),
-    })
+    # Capital eligibility is a verifiable input, never inferred from benchmark
+    # results.  Without an explicit policy artifact the decision is denied.
+    if args.capital_policy:
+        try:
+            capital_policy = CapitalPolicy.from_file(args.capital_policy)
+        except (OSError, ValueError) as exc:
+            print(f"error: invalid capital policy: {exc}", file=sys.stderr)
+            return 2
+    else:
+        capital_policy = CapitalPolicy.unauthorized()
     peak_notional = max(
         (abs(float(p.get("quantity") or 0)) * float(p.get("avg_px_open") or 0)
          for p in p_fund["opened_positions"] if isinstance(p, dict)),
         default=0.0,
     )
-    cap_decision = test_policy.decision(
+    cap_decision = capital_policy.decision(
         peak_notional, instrument_id=f"{tape.instruments[0]}-PERP.BINANCE")
-    cap_live = test_policy.decision(peak_notional, live=True)
+    cap_live = capital_policy.decision(peak_notional, live=True)
     cap_missing = CapitalPolicy.unauthorized().decision(peak_notional)
-    cap_wrong_inst = test_policy.decision(peak_notional, instrument_id="NOPE-PERP.BINANCE")
+    cap_wrong_inst = capital_policy.decision(peak_notional, instrument_id="NOPE-PERP.BINANCE")
     capital_path = {
         "test_decision": cap_decision,
         "live_decision": cap_live,
         "missing_policy_decision": cap_missing,
         "wrong_instrument_decision": cap_wrong_inst,
-        "production": "DENIED_NO_APPROVAL_ARTIFACT",
+        "policy_path": str(args.capital_policy) if args.capital_policy else None,
+        "production": "DENIED_NO_APPROVAL_ARTIFACT" if not args.capital_policy else "CONFIGURED_POLICY_VERIFIED",
     }
 
     capacity = capacity_from_participation(
@@ -329,14 +342,16 @@ def main(argv: list[str] | None = None) -> int:
             git_rev=gi["rev"], git_dirty=gi["dirty"],
             config_sha256=hashlib.sha256(json.dumps(
                 {"sleeves": ["P", "P+E"], "per_leg_notional": args.per_leg_notional,
-                 "bars": args.bars, "start_bar": args.start_bar, "seed": args.seed},
+                 "bars": args.bars, "start_bar": args.start_bar, "seed": args.seed,
+                 "primary": args.primary, "opex_monthly": args.opex_monthly,
+                 "capital_policy": args.capital_policy},
                 sort_keys=True).encode()).hexdigest(),
             estimator_versions=eb.estimator_versions(),
         ),
         seed=args.seed, primary_benchmark=args.primary,
         diagnostic_benchmarks=tuple(b for b in fams if b != args.primary),
         strategy_family=("portfolio_P", "portfolio_PE", "simple_trend", "vol_target"),
-        capital=args.capital, taker_fee=args.taker_fee, opex_monthly_usd=30.0,
+        capital=args.capital, taker_fee=args.taker_fee, opex_monthly_usd=args.opex_monthly,
     )
     excess = metrics["portfolio_P"].excess_vs_primary
     verdicts = eb.build_verdicts(
@@ -377,9 +392,15 @@ def main(argv: list[str] | None = None) -> int:
             }) + "\n")
     dataset_path = out_dir / f"canonical_dataset_{tag}.json"
     dataset_path.write_text(json.dumps(receipt.run.dataset.model_dump(), indent=2), encoding="utf-8")
-    bindings = (ArtifactBinding.from_file("engine_trades", trades_path),
-                ArtifactBinding.from_file("canonical_dataset", dataset_path),
-                ArtifactBinding.from_file("economic_receipt", receipt_path))
+    binding_list = [
+        ArtifactBinding.from_file("engine_trades", trades_path),
+        ArtifactBinding.from_file("canonical_dataset", dataset_path),
+        ArtifactBinding.from_file("economic_receipt", receipt_path),
+        ArtifactBinding.from_file("market_tape", tape_path / "tape.jsonl" if tape_path.is_dir() else tape_path),
+    ]
+    if args.capital_policy:
+        binding_list.append(ArtifactBinding.from_file("capital_policy", args.capital_policy))
+    bindings = tuple(binding_list)
 
     # Bind into the D-153 receipt/ledger/certificate chain (gates untouched).
     pnl_series = [
@@ -395,7 +416,7 @@ def main(argv: list[str] | None = None) -> int:
         pnl_series=pnl_series or [0.0], total_bars=n,
         total_trades=len(p_fund["opened_positions"]), abstain_rate=0.0)
     bench_receipt = BenchmarkReceipt.create(
-        case_id=CASE_ID, policy_id=POLICY_ID, capability_score=capability,
+        case_id=args.case_id, policy_id=args.policy_id, capability_score=capability,
         gates=gates, computed_at_timestamp_ns=end_ns[-1],
         artifact_bindings=bindings,
         economic_evidence_digest=receipt.digest(), economic_receipt_path=str(receipt_path.resolve()),
@@ -406,7 +427,7 @@ def main(argv: list[str] | None = None) -> int:
     ok, msg = bench_receipt.verify()
     cok, cmsg = ledger.verify_chain()
     print(PolicyCertificate.generate(bench_receipt).render_ascii())
-    html_path = out_dir / f"forensic_report_{tag}.html"
+    html_path = Path(args.html_out) if args.html_out else out_dir / f"forensic_report_{tag}.html"
     generate_forensic_html_report(bench_receipt, html_path)
 
     print(f"[+] P net {metrics['portfolio_P'].net_return:+.4f} "

@@ -326,8 +326,9 @@ def compute_multileg_family(
     equal_weight buys 1/N per leg once (no rebalance fiction). vol_target
     scales each leg by trailing-only volatility with equal risk contribution
     and pays turnover on every weight change. bh_<RAW> holds each leg alone.
-    simple_trend runs the fixed 48-bar Donchian long/flat rule per leg in
-    equal capital sleeves. All share capital, fee and bar grid.
+    The rule is causal: the position for bar i is decided on the closed bar
+    i-1 only (prior 48-bar high vs prior close); the current bar's own move
+    is never both the signal and the earned return.
     """
     names = sorted(legs_closes)
     n = len(next(iter(legs_closes.values())))
@@ -390,8 +391,9 @@ def compute_multileg_family(
         ex = 0.0
         for a, raw in enumerate(names):
             closes = legs_closes[raw]
-            look = closes[max(0, i - VOL_LOOKBACK):i]
-            signal = closes[i] > max(look) if look else False
+            # Causal: decision uses the closed bar i-1 only (no lookahead).
+            window = closes[max(0, i - 1 - VOL_LOOKBACK):i - 1]
+            signal = bool(window) and closes[i - 1] > max(window)
             if signal != in_pos[a]:
                 cost = sleeve * taker_fee
                 comm_tr += cost
@@ -486,8 +488,9 @@ def compute_benchmark_family(
     commission_tr = 0.0
     in_pos = False
     for i in range(1, n):
-        lookback = [b.high for b in bars[max(0, i - VOL_LOOKBACK) : i]]
-        signal = closes[i] > max(lookback) if lookback else False
+        # Causal: decide on closed bar i-1 (prior 48-bar high vs prior close).
+        lookback = [b.high for b in bars[max(0, i - 1 - VOL_LOOKBACK) : i - 1]]
+        signal = bool(lookback) and closes[i - 1] > max(lookback)
         want = 1.0 if signal else 0.0
         have = 1.0 if in_pos else 0.0
         if want != have:

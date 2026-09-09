@@ -66,7 +66,10 @@ Canonical reproduction:
 | Real family curves, explicit plans, candidate vs family separation | `run_statistics` on engine/analytic curves; `DSRPlan`/`CSCVPlan`/SPA block-reps-seed explicit | DONE |
 | Computation success never mints inferential support | `COMPUTED` verdict label; `SUPPORTS_EDGE`/`SUPPORTS_UNDERPERFORMANCE` only via preregistered rules | DONE |
 | No universal cutoffs | Rules carry their levels openly (`0.05`, `0.95`); levels are declared, not corporate standards | DONE |
-| Chronological OOS kept separate; relabeled holdouts banned | Frozen `--start-bar` OOS window (§7); in-window slice labeled `OOS_SLICE` diagnostic only | DONE (fit) / BLOCKED_EXTERNAL (pristine OOS needs the §7 run) |
+| Chronological OOS kept separate; relabeled holdouts banned | Frozen `--start-bar` OOS window (§7); in-window slice labeled `OOS_SLICE` diagnostic only | DONE (fit) / rule below |
+| PBO window rule | Interval count must satisfy n%4==0 and n>=8 (e.g. 385/4321 bars -> 16/180 intervals); otherwise PBO stays UNDERPOWERED with reason | DONE |
+| Trend benchmarks are causal | 1-bar lookahead found (+963% artifact) and removed; decision for bar i uses closed bar i-1 only; `test_mechanics_trend_benchmark_is_causal` | DONE |
+| Environment carries the research extra | `arch`/`scipy` pruned once by a bare `uv sync`; restored via `uv sync --project v8-next --locked --extra dev --extra research`; stats fail UNSUPPORTED without it, never silently | DONE |
 
 ## 7. Evidence length, dependence, live verification
 
@@ -75,7 +78,7 @@ Canonical reproduction:
 | Dependence-preserving inference (joint blocks, no IID trade counts) | Stationary/circular block bootstrap; joint-column SPA resampling; CSCV partitions | DONE |
 | Shadow/live comparison log | `adapters/shadow_ingest.py` (canonical format, fixture guard, source+command); `build_shadow_section` in portfolio flow | DONE (code) / BLOCKED_EXTERNAL (no venue account, no fills file) |
 | Account reconciliation | `reconcile_shadow_account`; engine closed-loop balance checks | DONE (engine) / BLOCKED_EXTERNAL (venue side) |
-| Full accessible quad period + frozen OOS | `--bars 8760` fit region + `--start-bar 4380` OOS region (development touched only Jul-2025 data) | OPEN until executed below |
+| Full accessible quad period + frozen OOS | Fit `--bars 4321` (bars 0-4320, Jul-Dec 2025); OOS `--start-bar 4380 --bars 4321` (Jan-Jun 2026, never touched during development which used bars 0-500) | DONE (runs below) |
 
 ## 8. D-156 / parity priorities (#322/#323/#329 as starting points, verified)
 
