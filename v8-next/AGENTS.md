@@ -30,6 +30,12 @@ Use the owner-authorized tiered reset in `../docs/GOVERNANCE_RESET_V86_2026-09-0
 A development commit is not a release receipt or goal-completion claim.
 
 Synthetic data belongs only in tests, never in capture/evaluation artifacts.
+Evaluation-claim tests (firing counts, scores, gates, PnL, certificates) MUST
+run BenchmarkCase on a real population via BenchmarkRunner and MUST skip when
+the tape is absent. Synthetic candles are allowed ONLY for mechanics/arithmetic
+unit tests (pattern triggers, lifecycle transitions, ledger math) explicitly
+marked MECHANICS ONLY with zero evaluative weight. No test may assert economic
+performance on synthetic data.
 Missing calibration, funding coverage, timestamps or statistical outputs must
 stay missing. Do not force trades to make an acceptance run look successful.
 Historical close-time availability is a labeled diagnostic model, never measured

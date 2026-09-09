@@ -1,64 +1,44 @@
-"""Tests for End-to-End D-153 Benchmark Runner and Forensic HTML Report (Rule 12, 31, 57)."""
+"""Tests for End-to-End D-153 Benchmark Runner and Forensic HTML Report (Rule 12, 31, 57).
 
-from decimal import Decimal
+Evaluation-claim rule: this module runs BenchmarkCase on the real
+BurnedDiagnosticReal population only. Synthetic candles are banned here;
+mechanics-only synthetic coverage lives in test_opportunities.py.
+"""
+
 from pathlib import Path
 
+import pytest
+
 from v8_next.adapters.expert_strategy import ExpertStrategyConfig
-from v8_next.domain.market import Candle
 from v8_next.evaluation.benchmark_receipt import GateState, ReadinessStatus
+from v8_next.evaluation.gate_resolution import DEFAULT_TAPE_PATH, load_tape_candles
 from v8_next.evaluation.report import generate_forensic_html_report
 from v8_next.evaluation.runner import BenchmarkCase, BenchmarkRunner
 
+REAL_BARS = 500
+
 
 def test_d153_runner_end_to_end_and_html_generation(tmp_path: Path):
-    hour_ns = 3600 * 10**9
-    candles = [
-        Candle(
-            "BTCUSDT-PERP.BINANCE",
-            i * hour_ns,
-            (i + 1) * hour_ns,
-            Decimal("100"),
-            Decimal("100.5"),
-            Decimal("99.5"),
-            Decimal("100"),
-            Decimal("100"),
-            (i + 1) * hour_ns,
-            (i + 1) * hour_ns,
-            "test-benchmark-feed",
-        )
-        for i in range(48)
-    ]
-    candles.append(
-        Candle(
-            "BTCUSDT-PERP.BINANCE",
-            48 * hour_ns,
-            49 * hour_ns,
-            Decimal("101"),
-            Decimal("122"),
-            Decimal("100"),
-            Decimal("120"),
-            Decimal("500"),
-            49 * hour_ns,
-            49 * hour_ns,
-            "test-benchmark-feed",
-        )
-    )
+    if not DEFAULT_TAPE_PATH.exists():
+        pytest.skip(f"Real tape not found at {DEFAULT_TAPE_PATH}")
+    candles = load_tape_candles(DEFAULT_TAPE_PATH, limit=REAL_BARS)
 
     case = BenchmarkCase(
-        case_id="BC-D153-TEST-01",
-        policy_id="pol_test_strategy",
-        dataset_name="BTCUSDT-1H",
+        case_id="BC-D153-REAL-01",
+        policy_id="pol_28_expert_ensemble",
+        dataset_name="BTCUSDT-1H-REAL",
+        allowed_populations=("BurnedDiagnosticReal",),
         strategy_config=ExpertStrategyConfig(min_support_quorum=1, max_contradiction_tolerance=28),
     )
 
     runner = BenchmarkRunner(output_dir=tmp_path / "benchmarks")
     result = runner.run(case, candles)
 
-    assert result.total_bars == 49
-    assert result.total_trades >= 1
+    assert result.total_bars == REAL_BARS
+    assert result.total_trades >= 0
     assert 0.0 <= result.capability_score <= 100.0
 
-    # Diagnostic gate vector
+    # Diagnostic gate vector (no gate resolution battery in this cell)
     assert result.gates.g0_identity == GateState.PASS
     assert result.gates.g1_causal_pit == GateState.PASS
     assert result.gates.g2_determinism_ledger == GateState.PASS

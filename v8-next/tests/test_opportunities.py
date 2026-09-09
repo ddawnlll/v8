@@ -154,8 +154,12 @@ def test_opportunity_book_ttl_expiration():
     assert transitioned[0].status == OpportunityStatus.EXPIRED
 
 
-def test_expert_strategy_populates_opportunity_book_with_admitted_episodes():
-    """Strategy populates OpportunityBook with CONFIRMED and ADMITTED episodes."""
+def test_expert_strategy_admission_wiring_synthetic():
+    """MECHANICS ONLY (synthetic): book CONFIRMED/ADMITTED wiring on order submit.
+
+    Proves plumbing, carries zero evaluative weight. Real firing behavior is
+    measured on the BurnedDiagnosticReal population below.
+    """
     # Build 48 flat bars, then bar 49 breakout
     candles_list = [make_test_candle(i, 100, 100.5, 99.5, 100) for i in range(48)]
     candles_list.append(make_test_candle(48, 101, 122, 100, 120, volume=500.0))
@@ -181,3 +185,41 @@ def test_expert_strategy_populates_opportunity_book_with_admitted_episodes():
     assert admitted_opp.entry_price == Decimal("120")
     assert admitted_opp.stop_price is not None
     assert admitted_opp.target_price is not None
+
+
+def test_expert_strategy_real_tape_firing_telemetry():
+    """EVALUATIVE (real tape): firing telemetry on BurnedDiagnosticReal.
+
+    Full D-153 rule: opportunity/decision/trade counts are measured on the
+    real population, never on synthetic candles. Counts are structural
+    (non-empty pipeline, valid geometry); exact numbers are tape-dependent
+    and must NOT be pinned here.
+    """
+    from v8_next.evaluation.gate_resolution import DEFAULT_TAPE_PATH, load_tape_candles
+
+    if not DEFAULT_TAPE_PATH.exists():
+        pytest.skip(f"Real tape not found at {DEFAULT_TAPE_PATH}")
+    candles = tuple(load_tape_candles(DEFAULT_TAPE_PATH, limit=2000))
+
+    config = ExpertStrategyConfig(
+        min_support_quorum=1,
+        max_contradiction_tolerance=28,
+        bracket_stop_pct=Decimal("0.02"),
+        bracket_target_pct=Decimal("0.04"),
+    )
+    result = run_expert_strategy_backtest(candles, config)
+    book: OpportunityBook = result["opportunity_book"]
+    decisions = result["decisions"]
+
+    # One decision per bar: pipeline is live end to end
+    assert len(decisions) == len(candles)
+    # Policy fires on real data: at least one opportunity detected
+    assert len(book) >= 1
+    # Every record carries executable geometry and a valid lifecycle status
+    valid_statuses = set(OpportunityStatus)
+    for rec in book.all():
+        assert rec.status in valid_statuses
+        assert rec.entry_price is not None
+        assert rec.stop_price is not None
+        assert rec.target_price is not None
+        assert rec.as_of_time_ns <= rec.valid_until_ns
