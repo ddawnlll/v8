@@ -179,6 +179,7 @@ def test_d153_divergence_detected_without_arbitrary_multipliers(temp_ledger_dir:
     assert receipt.outcome == ParityOutcomeKind.DIVERGED
     assert receipt.diagnostics is not None
     assert receipt.diagnostics.mismatched_records == 1
+    assert receipt.diagnostics.mean_abs_divergence_bps is not None
     assert abs(receipt.diagnostics.mean_abs_divergence_bps - 5.0) < 1e-4
 
 
@@ -378,5 +379,6 @@ def test_d153_nautilus_backtest_ledger_parity_roundtrip(temp_ledger_dir: Path):
 
     assert receipt.outcome == ParityOutcomeKind.EXACT_MATCH
     assert receipt.is_agreement()
+    assert receipt.diagnostics is not None
     assert receipt.diagnostics.paired_records == len(positions)
     assert receipt.diagnostics.mismatched_records == 0

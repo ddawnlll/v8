@@ -337,7 +337,7 @@ def test_research_store_campaign_observation_and_lifecycle_records(tmp_path: Pat
 
 
 def test_duckdb_olap_integration(tmp_path: Path):
-    import duckdb
+    duckdb = pytest.importorskip("duckdb")
 
     db_path = tmp_path / "research.sqlite"
     store = ResearchStore(db_path)
