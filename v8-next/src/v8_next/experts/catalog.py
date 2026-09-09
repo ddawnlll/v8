@@ -1,4 +1,10 @@
-"""Executable observations only; not a declaration of full expert migration."""
+"""Authoritative catalog and observation entry point for all 28 canonical active experts.
+
+Epistemic Demarcation:
+Experts are epistemic witnesses, NOT economic sovereigns.
+They observe pre-existing Opportunities and emit typed evidence stances.
+They have ZERO capital, portfolio, or execution authority.
+"""
 
 from collections.abc import Callable
 from functools import partial
@@ -24,8 +30,36 @@ from v8_next.experts.pandf import observe_pandf
 from v8_next.experts.positioning import observe_funding, observe_open_interest
 from v8_next.experts.profile import observe_profile
 from v8_next.experts.reclaim import observe_breakout_retest, observe_liquidity_reclaim
+from v8_next.experts.registry import (
+    CANONICAL_28_EXPERTS,
+    EXPERT_REGISTRY,
+    REQUIRES_TABLE,
+    VARIANT_TABLE,
+    ExpertSpec,
+    get_expert,
+    observe_all_28,
+    observe_expert,
+    registry_rows,
+    validate_variant_overrides,
+)
 from v8_next.experts.reversion import observe_bollinger_reversion, observe_rsi_reversion
 from v8_next.experts.trend import observe_trend_depth, observe_trend_pullback
+
+__all__ = [
+    "CANONICAL_28_EXPERTS",
+    "EXPERT_REGISTRY",
+    "OBSERVERS",
+    "REQUIRES_TABLE",
+    "VARIANT_TABLE",
+    "ExpertSpec",
+    "Observer",
+    "get_expert",
+    "observe_all",
+    "observe_all_28",
+    "observe_expert",
+    "registry_rows",
+    "validate_variant_overrides",
+]
 
 Observer = Callable[[CausalFrame, Opportunity | None], Stance]
 OBSERVERS: tuple[Observer, ...] = (
@@ -68,7 +102,7 @@ def observe_all(
     *,
     readings: tuple[PositioningReading, ...] = (),
 ) -> tuple[Stance, ...]:
-    """Inspect existing opportunities; adding observers cannot create episodes."""
+    """Inspect existing opportunities across all observers; adding observers cannot create episodes."""
     return tuple(observer(frame, opportunity) for observer in OBSERVERS) + tuple(
         observer(frame, opportunity, variant=variant, readings=readings)
         for observer in (observe_funding, observe_open_interest)

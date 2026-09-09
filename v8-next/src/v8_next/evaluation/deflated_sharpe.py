@@ -94,6 +94,15 @@ def deflated_sharpe_diagnostic(
         raise ValueError("invalid Sharpe sampling variance")
     z = (sr - expected_max) * sqrt(len(baseline) - 1) / sqrt(variance_term)
     confidence = float(stats.norm.cdf(z))
+    from v8_next.evaluation.multitest import multiple_testing_correction
+
+    raw_pvalues = {}
+    for i, name in enumerate(names):
+        ttest_res = stats.ttest_1samp(matrix[:, i], 0.0, alternative="greater")
+        raw_pvalues[name] = float(ttest_res.pvalue)
+
+    multi_test_adjustments = multiple_testing_correction(raw_pvalues)
+
     return {
         "method": "BAILEY_LOPEZ_DE_PRADO_DSR_V1",
         "dsr_confidence": confidence,
@@ -110,8 +119,10 @@ def deflated_sharpe_diagnostic(
         "independence_basis": plan.independence_basis,
         "input_measure": "negative_net_excess_period_return",
         "moment_bias_correction": False,
+        "multiple_testing": multi_test_adjustments,
         "dependency_versions": {
-            name: importlib.metadata.version(name) for name in ("numpy", "scipy")
+            name: importlib.metadata.version(name)
+            for name in ("numpy", "scipy", "statsmodels")
         },
         "claim_status": "NO_ECONOMIC_CLAIM",
         "promotion_eligible": False,

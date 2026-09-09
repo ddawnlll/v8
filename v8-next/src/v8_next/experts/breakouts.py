@@ -3,8 +3,6 @@
 from dataclasses import replace
 from decimal import Decimal
 
-import polars as pl
-
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
@@ -12,15 +10,17 @@ from v8_next.experts.common import context_reason, directional_stance
 
 def last_close_breakout(frame: CausalFrame) -> tuple[int, Decimal] | None:
     """Latest close break and its frozen prior high in the supplied history."""
-    if not frame.candles:
+    if len(frame.candles) < 2:
         return None
-    prior = frame.candles[0].high
-    breakout = None
-    for index, bar in enumerate(frame.candles[1:], start=1):
-        if bar.close > prior:
-            breakout = (index, prior)
-        prior = max(prior, bar.high)
-    return breakout
+    highs = frame.df["high"]
+    closes = frame.df["close"]
+    priors = highs.cum_max().shift(1)
+    breaks = (closes > priors).fill_null(False).arg_true()
+    if len(breaks) == 0:
+        return None
+    index = int(breaks[-1])
+    level = Decimal(str(numeric(priors[index])))
+    return index, level
 
 
 def observe_failed_breakout(frame: CausalFrame, opportunity: Opportunity | None) -> Stance:
@@ -67,15 +67,17 @@ def observe_volume_breakout(frame: CausalFrame, opportunity: Opportunity | None)
     reason = context_reason(frame, opportunity, 21)
     direction, variant = None, None
     if reason is None:
-        current, prior = frame.candles[-1], frame.candles[-21:-1]
+        current = frame.candles[-1]
+        chan_high = Decimal(str(numeric(frame.df["high"].slice(-21, 20).max())))
+        chan_low = Decimal(str(numeric(frame.df["low"].slice(-21, 20).min())))
         side = (
             "LONG"
-            if current.close > max(c.high for c in prior)
-            else ("SHORT" if current.close < min(c.low for c in prior) else None)
+            if current.close > chan_high
+            else ("SHORT" if current.close < chan_low else None)
         )
         reason = "NO_CHANNEL_BREAKOUT"
         if side is not None:
-            volumes = pl.Series([float(c.volume) for c in frame.candles])
+            volumes = frame.df["volume"]
             if not volumes.is_finite().all():
                 raise ValueError("volume outside finite float domain")
             mean = numeric(volumes.tail(20).mean())

@@ -6,8 +6,6 @@ These are observation hypotheses, not calibrated economic forecasts.
 from dataclasses import dataclass
 from decimal import Decimal
 
-import polars as pl
-
 from v8_next.domain.market import CausalFrame
 
 
@@ -16,7 +14,7 @@ def pattern_pivots(frame: CausalFrame, *, high: bool, strength: int = 3) -> tupl
         raise ValueError("positive pivot strength required")
     if not frame.continuous:
         raise ValueError("source gap")
-    values = pl.Series([float(c.high if high else c.low) for c in frame.candles])
+    values = frame.df["high"] if high else frame.df["low"]
     if not values.is_finite().all():
         raise ValueError("price outside finite float domain")
     roll = values.rolling_max(strength) if high else values.rolling_min(strength)
@@ -26,10 +24,12 @@ def pattern_pivots(frame: CausalFrame, *, high: bool, strength: int = 3) -> tupl
 
 
 def retests(frame: CausalFrame, direction: str, level: Decimal) -> bool:
-    current, recent = frame.candles[-1], frame.candles[-7:-1]
+    current = frame.candles[-1]
+    recent_closes = frame.df["close"].slice(-7, 6)
+    lvl = float(level)
     if direction == "LONG":
-        return current.low <= level < current.close and any(c.close > level for c in recent)
-    return current.high >= level > current.close and any(c.close < level for c in recent)
+        return current.low <= level < current.close and bool((recent_closes > lvl).any())
+    return current.high >= level > current.close and bool((recent_closes < lvl).any())
 
 
 @dataclass(frozen=True)
@@ -97,12 +97,16 @@ def pattern_structures(frame: CausalFrame, variant: str) -> tuple[PatternStructu
 
 
 def pattern_retest_setup(frame: CausalFrame, variant: str) -> PatternStructure | None:
+    closes = frame.df["close"]
+    n_candles = len(frame.candles)
     for structure in pattern_structures(frame, variant):
-        breached = any(
-            c.close < structure.level
+        n_bars = n_candles - 1 - structure.right_index
+        mid_closes = closes.slice(structure.right_index, n_bars)
+        lvl = float(structure.level)
+        breached = (
+            bool((mid_closes < lvl).any())
             if structure.direction == "SHORT"
-            else c.close > structure.level
-            for c in frame.candles[structure.right_index : -1]
+            else bool((mid_closes > lvl).any())
         )
         if breached and retests(frame, structure.direction, structure.level):
             return structure

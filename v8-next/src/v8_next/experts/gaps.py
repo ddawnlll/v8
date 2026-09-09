@@ -4,7 +4,7 @@ from dataclasses import dataclass, replace
 from decimal import Decimal
 
 from v8_next.domain.market import Candle, CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance
+from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
 
 
@@ -49,10 +49,10 @@ def gap_setup(frame: CausalFrame, variant: str = "a") -> GapSetup | None:
             return None
         if not (current.close > top if gap == 1 else current.close < bottom):
             return None
+        prev_high = Decimal(str(numeric(frame.df["high"].slice(-21, 20).max())))
+        prev_low = Decimal(str(numeric(frame.df["low"].slice(-21, 20).min())))
         if variant == "b" and not (
-            current.open > max(c.high for c in bars[:-1])
-            if gap == 1
-            else current.open < min(c.low for c in bars[:-1])
+            current.open > prev_high if gap == 1 else current.open < prev_low
         ):
             return None
         direction = "LONG" if gap == 1 else "SHORT"

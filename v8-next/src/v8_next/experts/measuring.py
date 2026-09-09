@@ -4,7 +4,7 @@ from dataclasses import dataclass, replace
 from decimal import Decimal
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance
+from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
 from v8_next.experts.patterns import pattern_pivots, pattern_structures
 
@@ -50,7 +50,8 @@ def measuring_setup(frame: CausalFrame, variant: str = "head_shoulders") -> Meas
         return None
     if not (bars[highs[0]].high > bars[highs[-1]].high and bars[lows[0]].low < bars[lows[-1]].low):
         return None
-    high, low = max(c.high for c in bars[-21:-1]), min(c.low for c in bars[-21:-1])
+    high = Decimal(str(numeric(frame.df["high"].slice(-21, 20).max())))
+    low = Decimal(str(numeric(frame.df["low"].slice(-21, 20).min())))
     height = high - low
     if height <= 0 or height / current.close > Decimal("0.03") or not low <= previous.close <= high:
         return None

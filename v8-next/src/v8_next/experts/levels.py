@@ -3,8 +3,6 @@
 from dataclasses import dataclass, replace
 from decimal import Decimal
 
-import polars as pl
-
 from v8_next.domain.market import Candle, CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
@@ -42,12 +40,28 @@ def previous_session_bars(frame: CausalFrame) -> tuple[Candle, ...] | None:
 
 
 def daily_pivots(frame: CausalFrame) -> PivotLevels | None:
-    previous = previous_session_bars(frame)
-    if previous is None:
+    if not frame.continuous:
+        raise ValueError("source gap")
+    df = frame.df
+    if len(df) == 0:
         return None
-    high, low = max(c.high for c in previous), min(c.low for c in previous)
-    pivot = (high + low + previous[-1].close) / 3
-    return PivotLevels(previous[-1].end_ns, pivot, 2 * pivot - low, 2 * pivot - high)
+    session = int(df["start_ns"][-1]) // DAY_NS * DAY_NS
+    prev_mask = (df["start_ns"] >= session - DAY_NS) & (df["end_ns"] <= session)
+    prev_indices = prev_mask.arg_true()
+    if len(prev_indices) != 24:
+        return None
+    start_idx, end_idx = int(prev_indices[0]), int(prev_indices[-1])
+    if int(df["start_ns"][start_idx]) != session - DAY_NS or int(df["end_ns"][end_idx]) != session:
+        return None
+    durations = df["end_ns"].slice(start_idx, 24) - df["start_ns"].slice(start_idx, 24)
+    if not (durations == HOUR_NS).all():
+        return None
+    high = Decimal(str(numeric(df["high"].slice(start_idx, 24).max())))
+    low = Decimal(str(numeric(df["low"].slice(start_idx, 24).min())))
+    close = Decimal(str(numeric(df["close"][end_idx])))
+    pivot = (high + low + close) / 3
+    end_ns = int(df["end_ns"][end_idx])
+    return PivotLevels(end_ns, pivot, 2 * pivot - low, 2 * pivot - high)
 
 
 def observe_floor_pivot(frame: CausalFrame, opportunity: Opportunity | None) -> Stance:
@@ -80,9 +94,10 @@ def observe_range_breakout(frame: CausalFrame, opportunity: Opportunity | None) 
     reason = context_reason(frame, opportunity, 100)
     direction = None
     if reason is None:
-        current, prior = frame.candles[-1], frame.candles[-21:-1]
-        high, low = max(c.high for c in prior), min(c.low for c in prior)
-        volumes = pl.Series([float(c.volume) for c in frame.candles[-100:]])
+        current = frame.candles[-1]
+        high = Decimal(str(numeric(frame.df["high"].slice(-21, 20).max())))
+        low = Decimal(str(numeric(frame.df["low"].slice(-21, 20).min())))
+        volumes = frame.df["volume"].tail(100)
         if not volumes.is_finite().all():
             raise ValueError("volume outside finite float domain")
         sd = numeric(volumes.std(ddof=0))
@@ -94,12 +109,13 @@ def observe_range_breakout(frame: CausalFrame, opportunity: Opportunity | None) 
                 reason = "NO_VOLUME_EXPANSION"
             else:
                 side = "LONG" if current.close > high else "SHORT" if current.close < low else None
-                preceding = frame.candles[-22:-2]
                 previous = frame.candles[-2]
+                prec_high = Decimal(str(numeric(frame.df["high"].slice(-22, 20).max())))
+                prec_low = Decimal(str(numeric(frame.df["low"].slice(-22, 20).min())))
                 prior_broke = (
-                    previous.close > max(c.high for c in preceding)
+                    previous.close > prec_high
                     if side == "LONG"
-                    else previous.close < min(c.low for c in preceding)
+                    else previous.close < prec_low
                 )
                 if side and not prior_broke:
                     direction, reason = side, "FRESH_NARROW_RANGE_BREAKOUT"

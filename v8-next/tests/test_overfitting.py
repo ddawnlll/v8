@@ -71,3 +71,35 @@ def test_missing_family_and_data_are_not_dropped():
     pytest.importorskip("scipy")
     with pytest.raises(ValueError, match="undefined Sharpe"):
         evaluate([1] * 4, [2] * 4, metric="sharpe")
+
+
+def test_cpcv_purging_and_embargo():
+    pytest.importorskip("scipy")
+    pytest.importorskip("polars")
+    a = losses([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    b = losses([12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1])
+    plan = dict(
+        registered_variants=("a", "b"),
+        frozen_ns=0,
+        evaluation_end_ns=12,
+        decision_ns=13,
+        partitions=4,
+        metric="mean_return",
+        max_splits=10,
+        purge_bars=1,
+        embargo_bars=1,
+    )
+    result = pbo_diagnostic({"a": a, "b": b}, **plan)  # type: ignore[arg-type]
+    assert result["method"] == "CPCV_PURGED_EQUAL_WEIGHT_TIES_V2"
+    assert result["purge_bars"] == 1
+    assert result["embargo_bars"] == 1
+    assert "no_purging_of_overlapping_trade_labels" not in result["limitations"]
+    assert "polars" in result["dependency_versions"]
+    assert 0 <= result["pbo"] <= 1
+
+    # Negative purge_bars or excessive purge + embargo error
+    with pytest.raises(ValueError, match="non-negative"):
+        pbo_diagnostic({"a": a, "b": b}, **{**plan, "purge_bars": -1})  # type: ignore[arg-type]
+    with pytest.raises(ValueError, match="less than partition block size"):
+        pbo_diagnostic({"a": a, "b": b}, **{**plan, "purge_bars": 2, "embargo_bars": 1})  # type: ignore[arg-type]
+

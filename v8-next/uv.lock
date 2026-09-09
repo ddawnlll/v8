@@ -578,6 +578,8 @@ dev = [
 ]
 research = [
     { name = "arch" },
+    { name = "scipy" },
+    { name = "statsmodels" },
 ]
 
 [package.metadata]
@@ -591,6 +593,8 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.10.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9.0" },
+    { name = "scipy", marker = "extra == 'research'", specifier = ">=1.14.0" },
+    { name = "statsmodels", marker = "extra == 'research'", specifier = ">=0.14.0" },
 ]
 provides-extras = ["dev", "research"]
 

@@ -2,8 +2,6 @@
 
 from dataclasses import replace
 
-import polars as pl
-
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
@@ -46,9 +44,8 @@ def observe_volume_climax(frame: CausalFrame, opportunity: Opportunity | None) -
     reason = context_reason(frame, opportunity, 100)
     hit = None
     if reason is None:
-        bars = frame.candles[-100:]
-        volumes = pl.Series([float(c.volume) for c in bars])
-        ranges = pl.Series([float(c.high - c.low) for c in bars])
+        volumes = frame.df["volume"].tail(100)
+        ranges = (frame.df["high"] - frame.df["low"]).tail(100)
         if not volumes.is_finite().all() or not ranges.is_finite().all():
             raise ValueError("non-finite native feature input")
         sd = numeric(volumes.std(ddof=0))
@@ -63,8 +60,8 @@ def observe_volume_climax(frame: CausalFrame, opportunity: Opportunity | None) -
         if z is not None or proximity is not None:
             volume_rank = numeric((volumes <= current_volume).mean())
             range_rank = numeric((ranges <= numeric(ranges[-1])).mean())
-            current = bars[-1]
-            rising = current.close > bars[-6].close
+            current = frame.candles[-1]
+            rising = current.close > frame.candles[-6].close
             reversal = current.close < current.open if rising else current.close > current.open
             high_volume_reversal = reversal and (volume_rank >= 0.8 or range_rank >= 0.8)
             fast, slow = trend_emas(frame)

@@ -2,6 +2,9 @@
 
 from dataclasses import dataclass
 from decimal import Decimal
+from functools import cached_property
+
+import polars as pl
 
 
 @dataclass(frozen=True)
@@ -54,6 +57,44 @@ class CausalFrame:
         return all(
             a.end_ns == b.start_ns for a, b in zip(self.candles, self.candles[1:], strict=False)
         )
+
+    @cached_property
+    def df(self) -> pl.DataFrame:
+        if not self.candles:
+            return pl.DataFrame(
+                schema={
+                    "start_ns": pl.Int64,
+                    "end_ns": pl.Int64,
+                    "open": pl.Float64,
+                    "high": pl.Float64,
+                    "low": pl.Float64,
+                    "close": pl.Float64,
+                    "volume": pl.Float64,
+                }
+            )
+        return pl.DataFrame(
+            {
+                "start_ns": [c.start_ns for c in self.candles],
+                "end_ns": [c.end_ns for c in self.candles],
+                "open": [float(c.open) for c in self.candles],
+                "high": [float(c.high) for c in self.candles],
+                "low": [float(c.low) for c in self.candles],
+                "close": [float(c.close) for c in self.candles],
+                "volume": [float(c.volume) for c in self.candles],
+            },
+            schema={
+                "start_ns": pl.Int64,
+                "end_ns": pl.Int64,
+                "open": pl.Float64,
+                "high": pl.Float64,
+                "low": pl.Float64,
+                "close": pl.Float64,
+                "volume": pl.Float64,
+            },
+        )
+
+    def lazy(self) -> pl.LazyFrame:
+        return self.df.lazy()
 
 
 def frame_at(instrument_id: str, decision_ns: int, candles: tuple[Candle, ...]) -> CausalFrame:

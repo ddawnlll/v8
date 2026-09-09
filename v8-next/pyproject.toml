@@ -24,6 +24,8 @@ dev = [
 ]
 research = [
     "arch>=8.0.0",
+    "scipy>=1.14.0",
+    "statsmodels>=0.14.0",
 ]
 
 [tool.setuptools.packages.find]

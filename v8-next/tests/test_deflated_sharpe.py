@@ -35,6 +35,9 @@ def test_zero_sharpe_one_effective_trial_is_half_confidence_not_significance():
     assert result["skewness"] == 0 and result["pearson_kurtosis"] == 1
     assert result["quantity_type"] == "CONFIDENCE_NOT_P_VALUE"
     assert not result["promotion_eligible"]
+    assert "multiple_testing" in result
+    assert set(result["multiple_testing"]["adjustments"]) == {"bonferroni", "holm", "fdr_bh", "fdr_by"}
+    assert result["dependency_versions"]["statsmodels"] is not None
     adjusted = calculate(family(), replace(plan, effective_independent_trials=3))
     assert adjusted["expected_max_null_sharpe"] > 0
     assert adjusted["dsr_confidence"] < 0.5

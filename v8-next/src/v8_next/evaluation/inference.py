@@ -24,6 +24,7 @@ def spa_diagnostic(
     seed: int,
     pbo_plan: CSCVPlan | None = None,
     dsr_plan: DSRPlan | None = None,
+    wrc_bootstrap: str = "circular",
 ) -> dict[str, Any]:
     """Stationary bootstrap, studentized SPA, all columns resampled jointly.
 
@@ -64,6 +65,16 @@ def spa_diagnostic(
     pvalues = {str(k): float(v) for k, v in test.pvalues.items()}
     if any(not np.isfinite(v) or not 0 <= v <= 1 for v in pvalues.values()):
         raise ValueError("invalid library inference output")
+
+    stats = importlib.import_module("scipy.stats")
+    from v8_next.evaluation.multitest import multiple_testing_correction
+
+    raw_variant_pvalues = {}
+    for i, name in enumerate(names):
+        ttest_res = stats.ttest_1samp(differences[:, i], 0.0, alternative="greater")
+        raw_variant_pvalues[name] = float(ttest_res.pvalue)
+    multi_test = multiple_testing_correction(raw_variant_pvalues)
+
     return {
         "claim_status": "NO_ECONOMIC_CLAIM",
         "method": "arch.SPA",
@@ -83,6 +94,7 @@ def spa_diagnostic(
         "seed": seed,
         "variants": names,
         "pvalues": pvalues,
+        "multiple_testing": multi_test,
         "wrc": reality_check_diagnostic(
             baseline,
             variants,
@@ -92,6 +104,7 @@ def spa_diagnostic(
             block_size=block_size,
             reps=reps,
             seed=seed,
+            bootstrap=wrc_bootstrap,
         ),
         "dsr": deflated_sharpe_diagnostic(
             variants,
@@ -111,6 +124,8 @@ def spa_diagnostic(
             partitions=pbo_plan.partitions,
             metric=pbo_plan.metric,
             max_splits=pbo_plan.max_splits,
+            purge_bars=pbo_plan.purge_bars,
+            embargo_bars=pbo_plan.embargo_bars,
         )
         if pbo_plan is not None
         else None,

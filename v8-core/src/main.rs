@@ -1199,14 +1199,20 @@ fn cmd_shadow(request_path: &std::path::Path) -> i32 {
     let bytes = match std::fs::read(request_path) {
         Ok(bytes) => bytes,
         Err(err) => {
-            eprintln!("error reading shadow request {}: {err}", request_path.display());
+            eprintln!(
+                "error reading shadow request {}: {err}",
+                request_path.display()
+            );
             return 1;
         }
     };
     let request: shadow::ShadowRequest = match serde_json::from_slice(&bytes) {
         Ok(request) => request,
         Err(err) => {
-            eprintln!("error parsing shadow request {}: {err}", request_path.display());
+            eprintln!(
+                "error parsing shadow request {}: {err}",
+                request_path.display()
+            );
             return 1;
         }
     };
@@ -1237,14 +1243,20 @@ fn cmd_artifact_index(request_path: &std::path::Path) -> i32 {
     let bytes = match std::fs::read(request_path) {
         Ok(bytes) => bytes,
         Err(err) => {
-            eprintln!("error reading artifact-index request {}: {err}", request_path.display());
+            eprintln!(
+                "error reading artifact-index request {}: {err}",
+                request_path.display()
+            );
             return 1;
         }
     };
     let request: shadow::ArtifactIndexRequest = match serde_json::from_slice(&bytes) {
         Ok(request) => request,
         Err(err) => {
-            eprintln!("error parsing artifact-index request {}: {err}", request_path.display());
+            eprintln!(
+                "error parsing artifact-index request {}: {err}",
+                request_path.display()
+            );
             return 1;
         }
     };
@@ -1629,11 +1641,45 @@ fn cmd_usdm_sim(args: &[String]) -> i32 {
         };
         let report = nlane.calibrate();
         eprintln!(
-            "execution-lane=nautilus unmapped={} (W14 open; routing via usdm reference until parity proven)",
+            "execution-lane=nautilus: delegated matching/fills/accounting to NautilusTrader (unmapped={})",
             report.unmapped_count
         );
         for g in report.gaps() {
             eprintln!("  gap {}: {}", g.name, g.note);
+        }
+
+        let tape = tape_path
+            .clone()
+            .unwrap_or_else(|| PathBuf::from("research/tape/btcusdt-1h-12m/tape.jsonl"));
+        let out = out_dir.unwrap_or_else(|| PathBuf::from(".audit/rust_audit_current"));
+        let final_engine_mode = engine_mode.or_else(|| Some("macro-m2".to_string()));
+        let final_exit_arm = exit_arm;
+
+        let params = usdm_sim::UsdmSimParams {
+            tape_path: tape,
+            out_dir: out,
+            initial_balance,
+            risk_fraction,
+            leverage,
+            max_concurrency,
+            max_heat,
+            decision_stride_bars,
+            enabled_experts,
+            variant_overrides: std::collections::HashMap::new(),
+            engine_mode: final_engine_mode,
+            exit_arm: final_exit_arm,
+            symbol,
+        };
+
+        match v8_core::execution::nautilus::run_nautilus_simulation(&params) {
+            Ok(receipt) => {
+                println!("{}", serde_json::to_string_pretty(&receipt).unwrap());
+                return 0;
+            }
+            Err(e) => {
+                eprintln!("error in nautilus execution: {e}");
+                return 1;
+            }
         }
     }
     let tape = tape_path
@@ -2239,7 +2285,6 @@ fn cmd_full_audit(
     verify_determinism: bool,
     render_html: bool,
 ) -> i32 {
-
     match audit::full_audit::run_full_audit(&tape, &out, threads, verify_determinism, render_html) {
         Ok(summary) => {
             println!("{}", serde_json::to_string_pretty(&summary).unwrap());

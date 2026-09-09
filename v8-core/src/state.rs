@@ -769,6 +769,7 @@ fn bar_class(
 }
 
 /// Per-symbol precomputed series (mirror of `build_bar_series`).
+#[derive(Clone)]
 pub struct FeatureStore {
     pub symbol: String,
     pub closes: Vec<f64>,

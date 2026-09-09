@@ -4,7 +4,7 @@ from dataclasses import dataclass, replace
 from decimal import Decimal
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance
+from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
 from v8_next.experts.features import significant_swings
 
@@ -60,13 +60,14 @@ def failed_move(frame: CausalFrame, variant: str = "b") -> FailedMove | None:
         elif current.open > previous.high > current.close:
             hit = "SHORT", previous.high
     elif variant == "f":
-        prior_cloud = bars[-28:-2]
-        level = (max(c.high for c in prior_cloud) + min(c.low for c in prior_cloud)) / 2
+        cloud_high = Decimal(str(numeric(frame.df["high"].slice(-28, 26).max())))
+        cloud_low = Decimal(str(numeric(frame.df["low"].slice(-28, 26).min())))
+        level = (cloud_high + cloud_low) / 2
         if previous.close > level > current.close:
             hit = "SHORT", level
     else:
-        prior_range = bars[-22:-2]
-        high, low = max(c.high for c in prior_range), min(c.low for c in prior_range)
+        high = Decimal(str(numeric(frame.df["high"].slice(-22, 20).max())))
+        low = Decimal(str(numeric(frame.df["low"].slice(-22, 20).min())))
         if high > low:
             if previous.close < low < current.close:
                 hit = "LONG", low

@@ -2,8 +2,6 @@
 
 from dataclasses import replace
 
-import polars as pl
-
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
@@ -13,8 +11,8 @@ def observe_ichimoku(frame: CausalFrame, opportunity: Opportunity | None) -> Sta
     reason = context_reason(frame, opportunity, 27)
     direction = None
     if reason is None:
-        highs = pl.Series([float(c.high) for c in frame.candles])
-        lows = pl.Series([float(c.low) for c in frame.candles])
+        highs = frame.df["high"]
+        lows = frame.df["low"]
         if not highs.is_finite().all() or not lows.is_finite().all():
             raise ValueError("price outside finite float domain")
         tenkan = (highs.rolling_max(9) + lows.rolling_min(9)) / 2

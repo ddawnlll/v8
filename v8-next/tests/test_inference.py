@@ -103,3 +103,35 @@ def test_explicit_dsr_plan_populates_confidence_field_separately():
     assert 0 <= result["dsr"]["dsr_confidence"] <= 1
     assert "p_value" not in result["dsr"]
     assert result["pbo"] is None
+    assert "multiple_testing" in result
+    assert set(result["multiple_testing"]["adjustments"]) == {"bonferroni", "holm", "fdr_bh", "fdr_by"}
+
+
+def test_spa_diagnostic_stationary_bootstrap_and_cpcv_purging():
+    from v8_next.evaluation.overfitting import CSCVPlan
+
+    pytest.importorskip("arch")
+    baseline = tuple(IntervalLoss(i, i + 1, i + 1, Decimal(0)) for i in range(24))
+    variants = {
+        "a": tuple(IntervalLoss(i, i + 1, i + 1, Decimal(-1 - i % 3)) for i in range(24)),
+        "b": tuple(IntervalLoss(i, i + 1, i + 1, Decimal(-1 - i % 2)) for i in range(24)),
+    }
+    result = spa_diagnostic(
+        baseline,
+        variants,
+        frozen_ns=0,
+        evaluation_end_ns=24,
+        decision_ns=25,
+        block_size=2,
+        reps=29,
+        seed=3,
+        pbo_plan=CSCVPlan(4, "mean_return", 10, ("a", "b"), purge_bars=1, embargo_bars=1),
+        wrc_bootstrap="stationary",
+    )
+    assert result["wrc"]["bootstrap"] == "stationary_geometric_block_joint_columns"
+    assert result["wrc"]["library"] == "arch.bootstrap.StationaryBootstrap"
+    assert result["pbo"]["method"] == "CPCV_PURGED_EQUAL_WEIGHT_TIES_V2"
+    assert result["pbo"]["purge_bars"] == 1
+    assert result["pbo"]["embargo_bars"] == 1
+    assert "multiple_testing" in result
+

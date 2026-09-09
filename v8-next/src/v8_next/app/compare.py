@@ -42,7 +42,9 @@ def main() -> None:
     if args.pbo_plan is not None:
         raw = args.pbo_plan.read_bytes()
         plan = json.loads(raw)
-        if set(plan) != {"partitions", "metric", "max_splits", "registered_variants"}:
+        required_fields = {"partitions", "metric", "max_splits", "registered_variants"}
+        allowed_fields = required_fields | {"purge_bars", "embargo_bars"}
+        if not (required_fields <= set(plan) <= allowed_fields):
             raise ValueError("PBO plan requires exactly the documented fields")
         if (
             type(plan["partitions"]) is not int
@@ -50,6 +52,8 @@ def main() -> None:
             or plan["metric"] not in {"mean_return", "sharpe"}
             or not isinstance(plan["registered_variants"], list)
             or any(not isinstance(v, str) or not v for v in plan["registered_variants"])
+            or type(plan.get("purge_bars", 0)) is not int
+            or type(plan.get("embargo_bars", 0)) is not int
         ):
             raise ValueError("invalid typed PBO plan")
         pbo_plan = CSCVPlan(
@@ -57,6 +61,8 @@ def main() -> None:
             plan["metric"],
             plan["max_splits"],
             tuple(plan["registered_variants"]),
+            purge_bars=plan.get("purge_bars", 0),
+            embargo_bars=plan.get("embargo_bars", 0),
         )
         inputs.append(
             {"path": str(args.pbo_plan.resolve()), "sha256": hashlib.sha256(raw).hexdigest()}

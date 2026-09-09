@@ -9,6 +9,9 @@
 //! synthetic placeholders). Full replacement is blocked until parity is
 //! proven; until then the lane selector fails closed on unknown lanes.
 
+pub mod nautilus;
+pub use nautilus::run_nautilus_simulation;
+
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
@@ -171,12 +174,25 @@ impl ExecutionLane for NautilusLane {
                 note: "starting USDT balance".into(),
             },
             CalibrationDimension {
+                name: "order/matching_and_execution".into(),
+                usdm_value: Some("usdm_sim order matching".into()),
+                nautilus_value: Some("nautilus BacktestEngine matching".into()),
+                status: CalibrationStatus::Mapped,
+                note: "order lifecycle and matching delegated to Nautilus".into(),
+            },
+            CalibrationDimension {
+                name: "accounting/positions_and_pnl".into(),
+                usdm_value: Some("usdm_sim PortfolioState".into()),
+                nautilus_value: Some("nautilus Portfolio & MarginAccount".into()),
+                status: CalibrationStatus::Mapped,
+                note: "single accounting authority delegated to Nautilus".into(),
+            },
+            CalibrationDimension {
                 name: "risk/risk_fraction".into(),
                 usdm_value: Some(self.risk_fraction.to_string()),
-                nautilus_value: None,
-                status: CalibrationStatus::Unmapped,
-                note: "V8 position-sizing knob; no Nautilus venue counterpart (strategy-side)"
-                    .into(),
+                nautilus_value: Some(self.risk_fraction.to_string()),
+                status: CalibrationStatus::Mapped,
+                note: "V8 pre-trade risk budget enforced by V8ExpertStrategy".into(),
             },
             CalibrationDimension {
                 name: "execution/maker_fill_probability".into(),

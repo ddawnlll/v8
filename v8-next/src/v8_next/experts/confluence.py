@@ -3,6 +3,8 @@
 from dataclasses import replace
 from decimal import Decimal
 
+import polars as pl
+
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
@@ -14,18 +16,13 @@ from v8_next.experts.reversion import bollinger_direction
 def recovery_direction(values: tuple[float | None, ...]) -> str | None:
     if not values or values[-1] is None:
         return None
+    s = pl.Series("rsi", [v for v in values], dtype=pl.Float64)
     for side, threshold in (("LONG", 30), ("SHORT", 70)):
-
-        def recovered(value: float | None, side: str = side, threshold: int = threshold) -> bool:
-            return value is not None and (
-                value > threshold if side == "LONG" else value < threshold
-            )
-
-        if not recovered(values[-1]):
+        rec_mask = ((s > threshold) if side == "LONG" else (s < threshold)).fill_null(False)
+        if not rec_mask[-1]:
             continue
-        start = len(values) - 1
-        while start > 0 and recovered(values[start - 1]):
-            start -= 1
+        false_indices = (~rec_mask).arg_true()
+        start = int(false_indices[-1]) + 1 if len(false_indices) else 0
         if start > 0 and values[start - 1] is not None:
             return side
     return None

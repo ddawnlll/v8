@@ -6,7 +6,7 @@ whether the price-channel observation is present.
 """
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, StanceKind
+from v8_next.economics.decisions import Opportunity, Stance, StanceKind, numeric
 
 
 def observe_donchian(frame: CausalFrame, opportunity: Opportunity | None) -> Stance:
@@ -23,8 +23,8 @@ def observe_donchian(frame: CausalFrame, opportunity: Opportunity | None) -> Sta
     elif len(frame.candles) < 21:
         reason = "WARMUP"
     elif opportunity is not None:
-        prior = frame.candles[-21:-1]
-        if frame.candles[-1].close <= max(c.high for c in prior):
+        channel_high_val = numeric(frame.df["high"].slice(-21, 20).max())
+        if numeric(frame.df["close"][-1]) <= channel_high_val:
             reason = "NO_CHANNEL_BREAKOUT"
         else:
             kind = StanceKind.SUPPORT if opportunity.direction == "LONG" else StanceKind.CONTRADICT

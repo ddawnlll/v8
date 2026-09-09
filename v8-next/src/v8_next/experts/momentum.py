@@ -34,14 +34,7 @@ def observe_obv_adl(frame: CausalFrame, opportunity: Opportunity | None) -> Stan
     reason = context_reason(frame, opportunity, 20)
     hit = None
     if reason is None:
-        values = pl.DataFrame(
-            {
-                "close": [float(c.close) for c in frame.candles[-20:]],
-                "high": [float(c.high) for c in frame.candles[-20:]],
-                "low": [float(c.low) for c in frame.candles[-20:]],
-                "volume": [float(c.volume) for c in frame.candles[-20:]],
-            }
-        )
+        values = frame.df.select(["close", "high", "low", "volume"]).tail(20)
         if not all(values[c].is_finite().all() for c in values.columns):
             raise ValueError("non-finite native feature input")
         total = numeric(values["volume"].sum())
@@ -81,8 +74,8 @@ def observe_macd_stoch(frame: CausalFrame, opportunity: Opportunity | None) -> S
     direction = None
     if reason is None:
         closes = close_series(frame)
-        highs = pl.Series([float(c.high) for c in frame.candles])
-        lows = pl.Series([float(c.low) for c in frame.candles])
+        highs = frame.df["high"]
+        lows = frame.df["low"]
         if not highs.is_finite().all() or not lows.is_finite().all():
             raise ValueError("non-finite native feature input")
         high, low = highs.rolling_max(14), lows.rolling_min(14)
@@ -100,9 +93,8 @@ def observe_macd_stoch(frame: CausalFrame, opportunity: Opportunity | None) -> S
         mask = ((k > d) if above else (k < d)).fill_null(False)
         reason = "NO_CONFIRMED_STOCH_RUN"
         if macd != 0 and mask[-1]:
-            start = len(mask) - 1
-            while start > 0 and mask[start - 1]:
-                start -= 1
+            false_indices = (~mask).arg_true()
+            start = int(false_indices[-1]) + 1 if len(false_indices) else 0
             if start > 0 and k[start - 1] is not None and d[start - 1] is not None:
                 direction, reason = ("LONG" if above else "SHORT"), "MACD_ALIGNED_STOCH_RUN"
     return directional_stance(

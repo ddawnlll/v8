@@ -2,8 +2,6 @@
 
 from dataclasses import dataclass, replace
 
-import polars as pl
-
 from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import Opportunity, Stance, numeric
 from v8_next.experts.common import context_reason, directional_stance
@@ -46,12 +44,10 @@ def band_setup(frame: CausalFrame, variant: str = "a") -> BandSetup | None:
         direction, mask = "SHORT", short
     else:
         return None
-    anchor = len(closes) - 1
-    while anchor > 0 and mask[anchor - 1]:
-        anchor -= 1
-    mean_range = numeric(
-        pl.Series([float(c.high - c.low) for c in frame.candles[anchor - 13 : anchor + 1]]).mean()
-    )
+    false_indices = (~mask).arg_true()
+    anchor = int(false_indices[-1]) + 1 if len(false_indices) else 0
+    ranges = frame.df["high"] - frame.df["low"]
+    mean_range = numeric(ranges.slice(anchor - 13, 14).mean())
     anchor_sd = numeric(sd[anchor])
     if mean_range <= 0 or anchor_sd <= 0:
         return None

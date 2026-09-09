@@ -73,3 +73,27 @@ def test_real_library_repeatability_clone_invariance_and_bad_alignment():
         reality_check_diagnostic(baseline, {"a": baseline}, **plan)
     with pytest.raises(ValueError, match="bootstrap"):
         reality_check_diagnostic(baseline, {"a": candidate}, **{**plan, "block_size": 30})
+
+
+def test_stationary_bootstrap_and_arch_reality_check():
+    pytest.importorskip("arch")
+    baseline = series([i % 3 for i in range(30)])
+    candidate = series([i % 5 for i in range(30)])
+    plan = dict(
+        frozen_ns=0,
+        evaluation_end_ns=30,
+        decision_ns=31,
+        block_size=3,
+        reps=199,
+        seed=12,
+        bootstrap="stationary",
+    )
+    result = reality_check_diagnostic(baseline, {"a": candidate}, **plan)
+    assert result["bootstrap"] == "stationary_geometric_block_joint_columns"
+    assert result["library"] == "arch.bootstrap.StationaryBootstrap"
+    assert 0 <= result["p_value"] <= 1
+    assert result["arch_reality_check"] is not None
+    assert result["arch_reality_check"]["method"] == "arch.bootstrap.RealityCheck"
+    assert "upper_wrc_pvalue" in result["arch_reality_check"]
+    assert 0 <= result["arch_reality_check"]["upper_wrc_pvalue"] <= 1
+
