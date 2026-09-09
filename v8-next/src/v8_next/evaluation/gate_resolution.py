@@ -61,8 +61,16 @@ def extract_account_balance(account: dict[str, Any], default: float = 10000.0) -
 def load_tape_candles(
     tape_path: Path | str | None = None,
     limit: int | None = None,
+    instrument: str | None = None,
 ) -> list[Candle]:
-    """Load real BTCUSDT 1-hour candles from verified venue capture tape using Polars."""
+    """Load real 1-hour candles from verified venue capture tape using Polars.
+
+    When ``instrument`` is given (e.g. ``\"BTCUSDT\"`` on the multi-symbol
+    ``multi-1h-4y`` tape), only kline rows for that instrument are returned
+    and the limit applies *after* the filter, so interleaved symbols never
+    leak into a single-instrument candle series. ``None`` keeps the legacy
+    single-symbol behaviour (BTCUSDT-PERP.BINANCE).
+    """
     p = Path(tape_path) if tape_path is not None else DEFAULT_TAPE_PATH
     if not p.exists():
         raise FileNotFoundError(f"Tape dataset not found at {p}")
@@ -74,7 +82,7 @@ def load_tape_candles(
         else:
             import zipfile
 
-            zip_files = sorted(p.glob("BTCUSDT-1h-*.zip"))
+            zip_files = sorted(p.glob(f"{instrument or 'BTCUSDT'}-1h-*.zip"))
             if not zip_files:
                 raise FileNotFoundError(f"No kline files found in directory {p}")
             candles: list[Candle] = []
@@ -87,7 +95,7 @@ def load_tape_candles(
                                 for row in df_csv.iter_rows(named=True):
                                     candles.append(
                                         Candle(
-                                            instrument_id="BTCUSDT-PERP.BINANCE",
+                                            instrument_id=f"{instrument or 'BTCUSDT'}-PERP.BINANCE",
                                             start_ns=int(row["open_time"]) * 1_000_000,
                                             end_ns=(int(row["close_time"]) + 1) * 1_000_000,
                                             open=Decimal(str(row["open"])),
@@ -106,13 +114,16 @@ def load_tape_candles(
 
     df = pl.read_ndjson(p)
     kline_df = df.filter(pl.col("channel") == "kline")
+    if instrument is not None:
+        kline_df = kline_df.filter(pl.col("instrument") == instrument)
     if limit is not None:
         kline_df = kline_df.head(limit)
 
     payloads = kline_df["payload"].to_list()
+    symbol = instrument or "BTCUSDT"
     candles = [
         Candle(
-            instrument_id="BTCUSDT-PERP.BINANCE",
+            instrument_id=f"{symbol}-PERP.BINANCE",
             start_ns=int(row["open_time_ms"]) * 1_000_000,
             end_ns=(int(row["close_time_ms"]) + 1) * 1_000_000,
             open=Decimal(str(row["open"])),
