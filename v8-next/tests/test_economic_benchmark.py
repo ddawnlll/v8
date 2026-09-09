@@ -203,7 +203,7 @@ def test_economic_benchmark_real_tape_end_to_end(tmp_path: Path) -> None:
     # No invented universal PASS: statistical support never flips economic/capital.
     assert set(receipt["metrics"]) >= {"incumbent", "challenger", "btc_buy_hold", "cash"}
     assert (tmp_path / "econ" / "economic_report.md").is_file()
-    assert (tmp_path / "econ" / "incumbent_trades.jsonl").is_file()
+    assert list((tmp_path / "econ").glob("incumbent_trades_*.jsonl"))
     # Missing-data honesty: funding stays missing, live stays unrun.
     assert receipt["metrics"]["incumbent"]["funding_cost"] is None
     assert receipt["shadow_live"]["model_vs_real_fills"] == "UNRUN"

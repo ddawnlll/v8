@@ -58,6 +58,7 @@ class ExpertStrategyConfig:
     min_support_quorum: int = 1
     max_contradiction_tolerance: int = 0
     order_quantity: Decimal = Decimal("0.01")
+    target_notional: Decimal | None = None
     bracket_stop_pct: Decimal | None = None
     bracket_target_pct: Decimal | None = None
     max_concurrent_positions: int = 1
@@ -217,11 +218,24 @@ class ExpertEnsembleStrategy(Strategy):
                 instrument = self.cache.instrument(self.instrument_id)
                 if instrument is not None:
                     side = OrderSide.BUY if opportunity.direction == "LONG" else OrderSide.SELL
-                    qty_str = format(self.ensemble_config.order_quantity, f".{instrument.size_precision}f")
-                    quantity = Quantity.from_str(qty_str)
+                    base_qty = self.ensemble_config.order_quantity
+                    if self.ensemble_config.target_notional is not None:
+                        px = bar.close.as_decimal()
+                        step = instrument.size_increment.as_decimal()
+                        if px > 0 and step > 0:
+                            steps = (self.ensemble_config.target_notional / px) // step
+                            base_qty = steps * step
+                    qty_str = format(base_qty, f".{instrument.size_precision}f")
+                    quantity: Quantity | None = None
+                    if Decimal(qty_str) < instrument.min_quantity.as_decimal():
+                        action = "BELOW_MIN_QUANTITY"
+                    else:
+                        quantity = Quantity.from_str(qty_str)
 
                     # Determine if bracket protection order list is configured
-                    if (
+                    if quantity is None:
+                        pass
+                    elif (
                         self.ensemble_config.bracket_stop_pct is not None
                         and self.ensemble_config.bracket_target_pct is not None
                     ):
@@ -315,6 +329,7 @@ class ExpertEnsembleStrategy(Strategy):
                 "instrument_id": str(getattr(event, "instrument_id", "")),
                 "realized_pnl": str(getattr(event, "realized_pnl", "")),
                 "realized_return": str(getattr(event, "realized_return", "")),
+                "avg_px_close": str(getattr(event, "avg_px_close", "") or ""),
                 "event_ns": getattr(event, "ts_event", 0),
             }
         )

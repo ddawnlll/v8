@@ -300,6 +300,98 @@ def max_drawdown(equity: Sequence[float]) -> float:
     return worst
 
 
+def compute_multileg_family(
+    legs_closes: dict[str, list[float]],
+    capital: float = CAPITAL_DEFAULT,
+    taker_fee: float = TAKER_FEE_DEFAULT,
+) -> dict[str, dict[str, Any]]:
+    """Costed passive benchmarks over a real multi-asset universe.
+
+    equal_weight buys 1/N per leg once (no rebalance fiction). vol_target
+    scales each leg by trailing-only volatility with equal risk contribution
+    and pays turnover on every weight change. bh_<RAW> holds each leg alone.
+    simple_trend runs the fixed 48-bar Donchian long/flat rule per leg in
+    equal capital sleeves. All share capital, fee and bar grid.
+    """
+    names = sorted(legs_closes)
+    n = len(next(iter(legs_closes.values())))
+    fams: dict[str, dict[str, Any]] = {}
+    fams["cash"] = {"equity": [capital] * n, "turnover": 0.0, "commission": 0.0,
+                    "n_trades": 0, "exposure": [0.0] * n}
+    for raw in names:
+        closes = legs_closes[raw]
+        shares = (capital * (1.0 - taker_fee)) / closes[0]
+        fams[f"bh_{raw.split('.')[0]}"] = {
+            "equity": [shares * c for c in closes], "turnover": 1.0,
+            "commission": capital * taker_fee, "n_trades": 1, "exposure": [1.0] * n,
+        }
+    k = len(names)
+    eq_ew = [capital * (1.0 - taker_fee)]
+    for i in range(1, n):
+        r = sum(legs_closes[w][i] / legs_closes[w][i - 1] - 1.0 for w in names) / k
+        eq_ew.append(eq_ew[-1] * (1.0 + r))
+    fams["equal_weight"] = {"equity": eq_ew, "turnover": 1.0,
+                            "commission": capital * taker_fee, "n_trades": k,
+                            "exposure": [1.0] * n}
+    target_pb = VOL_TARGET_ANNUAL / math.sqrt(HOURS_PER_YEAR)
+    eq_vt = [capital]
+    exp_vt = [0.0]
+    turn_vt = 0.0
+    comm_vt = 0.0
+    prev_w = [0.0] * k
+    for i in range(1, n):
+        inv = []
+        for leg in names:
+            rets = [legs_closes[leg][j] / legs_closes[leg][j - 1] - 1.0
+                    for j in range(max(1, i - VOL_LOOKBACK + 1), i + 1)]
+            sd = float(np.std(np.asarray(rets), ddof=1)) if len(rets) >= 2 else 0.0
+            inv.append(1.0 / sd if sd > 1e-12 else 0.0)
+        tot = sum(inv)
+        raw_w = [v / tot if tot > 0 else 0.0 for v in inv]
+        port_vol = math.sqrt(sum(
+            (raw_w[a] * (1.0 / inv[a] if inv[a] > 0 else 0.0)) ** 2 for a in range(k)
+        )) if tot > 0 else 0.0
+        scale = min(target_pb / port_vol, MAX_LEVERAGE) if port_vol > 1e-12 else 0.0
+        wts = [x * scale for x in raw_w]
+        cost = sum(abs(wts[a] - prev_w[a]) for a in range(k)) * eq_vt[-1] * taker_fee
+        comm_vt += cost
+        turn_vt += sum(abs(wts[a] - prev_w[a]) for a in range(k))
+        r = sum(wts[a] * (legs_closes[names[a]][i] / legs_closes[names[a]][i - 1] - 1.0)
+                for a in range(k))
+        eq_vt.append(eq_vt[-1] * (1.0 + r) - cost)
+        exp_vt.append(sum(wts))
+        prev_w = wts
+    fams["vol_target"] = {"equity": eq_vt, "turnover": turn_vt, "commission": comm_vt,
+                          "n_trades": 0, "exposure": exp_vt}
+    sleeve = capital / k
+    eq_tr = [capital]
+    exp_tr = [0.0]
+    turn_tr = 0.0
+    comm_tr = 0.0
+    in_pos = [False] * k
+    for i in range(1, n):
+        day_r = 0.0
+        ex = 0.0
+        for a, raw in enumerate(names):
+            closes = legs_closes[raw]
+            look = closes[max(0, i - VOL_LOOKBACK):i]
+            signal = closes[i] > max(look) if look else False
+            if signal != in_pos[a]:
+                cost = sleeve * taker_fee
+                comm_tr += cost
+                turn_tr += 1.0 / k
+                eq_tr[-1] -= cost
+                in_pos[a] = signal
+            if in_pos[a]:
+                day_r += (closes[i] / closes[i - 1] - 1.0) / k
+                ex += 1.0 / k
+        eq_tr.append(eq_tr[-1] * (1.0 + day_r))
+        exp_tr.append(ex)
+    fams["simple_trend"] = {"equity": eq_tr, "turnover": turn_tr, "commission": comm_tr,
+                            "n_trades": 0, "exposure": exp_tr}
+    return fams
+
+
 def compute_benchmark_family(
     bars: Sequence[BarView],
     capital: float = CAPITAL_DEFAULT,
@@ -403,6 +495,47 @@ def compute_benchmark_family(
     return fams
 
 
+def pair_positions(
+    opened: list[Any], closed: list[Any]
+) -> list[tuple[dict[str, Any], dict[str, Any] | None]]:
+    """Pair opens to closes in time order per (instrument, position slot).
+
+    Under NETTING, sequential positions on one instrument+strategy slot reuse
+    the same position_id, so id-keyed matching collides. With max one
+    concurrent position per slot, chronological pairing is exact; any break
+    (close before open, leftover opens) leaves the close unpaired rather than
+    misattributed.
+    """
+    def key(o: Any) -> tuple[str, str]:
+        return (str(o.get("instrument_id", "")), str(o.get("position_id", "")))
+
+    opens: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for o in opened:
+        if isinstance(o, dict):
+            opens.setdefault(key(o), []).append(o)
+    closes: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for c in closed:
+        if isinstance(c, dict):
+            closes.setdefault(key(c), []).append(c)
+    pairs: list[tuple[dict[str, Any], dict[str, Any] | None]] = []
+    for k, olist in opens.items():
+        olist.sort(key=lambda o: int(o.get("event_ns", 0) or 0))
+        clist = sorted(closes.get(k, []), key=lambda c: int(c.get("event_ns", 0) or 0))
+        ci = 0
+        for o in olist:
+            match: dict[str, Any] | None = None
+            o_ns = int(o.get("event_ns", 0) or 0)
+            while ci < len(clist):
+                c_ns = int(clist[ci].get("event_ns", 0) or 0)
+                if c_ns > o_ns:
+                    match = clist[ci]
+                    ci += 1
+                    break
+                ci += 1
+            pairs.append((o, match))
+    return pairs
+
+
 def strategy_series_from_engine(
     engine_result: dict[str, Any],
     bars: Sequence[BarView],
@@ -422,7 +555,10 @@ def strategy_series_from_engine(
 
     opened = engine_result.get("opened_positions", [])
     closed = engine_result.get("closed_positions", [])
-    close_by_id = {c.get("position_id"): c for c in closed if isinstance(c, dict)}
+    pairs = pair_positions(
+        [p for p in opened if isinstance(p, dict)],
+        [c for c in closed if isinstance(c, dict)],
+    )
 
     reported_comm_total = 0.0
     for pos in engine_result.get("account", {}).get("positions", []):
@@ -469,9 +605,7 @@ def strategy_series_from_engine(
 
     # Position intervals: open bar -> close bar with signed exposure.
     events: dict[int, list[tuple[str, float, float]]] = {}
-    for pos in opened:
-        if not isinstance(pos, dict):
-            continue
+    for pos, clo in pairs:
         try:
             o_idx = idx_of.get(int(pos.get("event_ns", -1)), None)
         except (ValueError, TypeError):
@@ -486,25 +620,21 @@ def strategy_series_from_engine(
             continue
         d = 1.0 if side in ("BUY", "LONG") else -1.0
         events.setdefault(o_idx, []).append(("open", d * q, px))
-        c = close_by_id.get(pos.get("position_id"))
-        if isinstance(c, dict):
+        if isinstance(clo, dict):
             try:
-                c_idx = idx_of.get(int(c.get("event_ns", -1)), None)
+                c_idx = idx_of.get(int(clo.get("event_ns", -1)), None)
             except (ValueError, TypeError):
                 c_idx = None
             if c_idx is not None and c_idx > o_idx:
                 events.setdefault(c_idx, []).append(("close", 0.0, 0.0))
     # Authoritative realized PnL per close bar (engine net of its own fees).
     realized_by_bar: dict[int, float] = {}
-    for pos in opened:
-        if not isinstance(pos, dict):
-            continue
-        c = close_by_id.get(pos.get("position_id"))
-        if not isinstance(c, dict) or not c.get("realized_pnl"):
+    for _pos, clo in pairs:
+        if not isinstance(clo, dict) or not clo.get("realized_pnl"):
             continue
         try:
-            c_idx = idx_of.get(int(c.get("event_ns", -1)), None)
-            val = float(str(c["realized_pnl"]).split()[0])
+            c_idx = idx_of.get(int(clo.get("event_ns", -1)), None)
+            val = float(str(clo["realized_pnl"]).split()[0])
         except (ValueError, TypeError):
             continue
         if c_idx is not None:
@@ -564,6 +694,225 @@ def strategy_series_from_engine(
             "implied_drag": commission,
             "balance_total": balance_total,
         },
+        "n_trades": n_trades,
+    }
+
+
+def portfolio_series_from_engine(
+    engine_result: dict[str, Any],
+    legs_closes: dict[str, list[float]],
+    end_ns: list[int],
+    capital: float = CAPITAL_DEFAULT,
+    taker_fee: float = TAKER_FEE_DEFAULT,
+    legs_quotevols: dict[str, list[float]] | None = None,
+    funding_rows: Sequence[Any] | None = None,
+    funding_measured_drag: float | None = None,
+    funding_trades_identical: bool = False,
+) -> dict[str, Any]:
+    """Per-bar portfolio equity across legs from one shared-account engine run.
+
+    legs_closes maps full instrument ids to per-bar closes on the shared
+    end_ns timeline. Funding is measured by dual-run balance difference under
+    verified identical trade signatures (the engine embeds settled funding in
+    realized PnL, so single-run gap arithmetic cannot isolate it); the
+    analytic row x open-position expectation is retained only as a
+    cross-check. Unreconciled funding stays UNVERIFIED, never zero-filled.
+    Participation per position leg is fill notional over real quote volume.
+    """
+    n = len(end_ns)
+    idx_of = {ns: i for i, ns in enumerate(end_ns)}
+    opened = engine_result.get("opened_positions", [])
+    closed = engine_result.get("closed_positions", [])
+    pairs = pair_positions(
+        [p for p in opened if isinstance(p, dict)],
+        [c for c in closed if isinstance(c, dict)],
+    )
+
+    fills = [
+        o
+        for o in engine_result.get("account", {}).get("orders", [])
+        if o.get("status") == "FILLED" and o.get("average_price") is not None
+    ]
+    est_comm_total = sum(
+        float(o.get("filled_qty") or 0) * float(o.get("average_price") or 0) * taker_fee
+        for o in fills
+    )
+
+    # Per-position intervals on their own leg (pair-indexed: NETTING slots
+    # reuse position ids, so id-keyed matching would collide).
+    events: dict[int, list[tuple[str, str, float, float]]] = {}
+    infos: dict[int, dict[str, Any]] = {}
+    for pi, (pos, clo) in enumerate(pairs):
+        inst = str(pos.get("instrument_id", ""))
+        closes = legs_closes.get(inst)
+        if closes is None or len(closes) != n:
+            continue
+        try:
+            o_idx = idx_of.get(int(pos.get("event_ns", -1)), None)
+            q = float(pos.get("quantity") or 0)
+            px = float(pos.get("avg_px_open") or 0)
+        except (ValueError, TypeError):
+            continue
+        if o_idx is None:
+            continue
+        side = str(pos.get("side", "")).upper()
+        d = 1.0 if side in ("BUY", "LONG") else -1.0
+        events.setdefault(o_idx, []).append(("open", inst, d * q, px))
+        infos[pi] = {"instrument": inst, "qty": d * q, "open_px": px, "open_idx": o_idx,
+                     "close_idx": None}
+        if isinstance(clo, dict):
+            try:
+                c_idx = idx_of.get(int(clo.get("event_ns", -1)), None)
+            except (ValueError, TypeError):
+                c_idx = None
+            if c_idx is not None and c_idx > o_idx:
+                events.setdefault(c_idx, []).append(("close", inst, 0.0, 0.0))
+                infos[pi]["close_idx"] = c_idx
+
+    sum_realized = 0.0
+    for c in closed:
+        if isinstance(c, dict) and c.get("realized_pnl"):
+            try:
+                sum_realized += float(str(c["realized_pnl"]).split()[0])
+            except (ValueError, TypeError):
+                pass
+    try:
+        balance_total = float(str(engine_result["account"]["balance_total"]).split()[0])
+    except (KeyError, ValueError, TypeError, AttributeError):
+        balance_total = capital
+
+    equity = [capital]
+    exposure = [0.0]
+    live: dict[str, list[float]] = {}  # inst -> [qty, avg]
+    turnover = 0.0
+    n_trades = 0
+    prev_mtm: dict[str, float] = {}
+    for i in range(1, n):
+        for kind, inst, qd, px in events.get(i, []):
+            if kind == "open":
+                live[inst] = [qd, px]
+                turnover += abs(qd) * px / capital
+                n_trades += 1
+            else:
+                live.pop(inst, None)
+                prev_mtm.pop(inst, None)
+        step_pnl = 0.0
+        gross = 0.0
+        for inst, (qd, avg) in live.items():
+            closes = legs_closes[inst]
+            mtm = qd * (closes[i] - avg)
+            step_pnl += mtm - prev_mtm.get(inst, 0.0)
+            prev_mtm[inst] = mtm
+            gross += abs(qd * closes[i])
+        equity.append(equity[-1] + step_pnl)
+        exposure.append(gross / equity[-2] if equity[-2] > 0 else 0.0)
+
+    # Open-position mtm at the last bar + entry commissions of open positions.
+    # balance_total carries realized (net) of closed positions minus entry
+    # commissions of still-open ones; it does not carry their unrealized.
+    open_mtm = 0.0
+    open_entry_comm = 0.0
+    for _pid, info in infos.items():
+        if info["close_idx"] is None:
+            closes = legs_closes[info["instrument"]]
+            open_mtm += info["qty"] * (closes[-1] - info["open_px"])
+            open_entry_comm += abs(info["qty"]) * info["open_px"] * taker_fee
+
+    # Funding reconciliation: expected from real rows x open positions.
+    # Same-bar open/close vs boundary ordering is ambiguous at event
+    # granularity, so the expectation is a range over both conventions.
+    funding_expected = 0.0
+    funding_boundaries = 0
+    per_boundary: list[float] = []
+    for row in funding_rows or []:
+        inst_full = f"{getattr(row, 'instrument', '')}-PERP.BINANCE"
+        closes = legs_closes.get(inst_full)
+        if closes is None:
+            continue
+        try:
+            boundary = int(getattr(row, "funding_time_ms", -1)) * 1_000_000
+            rate = float(getattr(row, "funding_rate", 0))
+        except (ValueError, TypeError):
+            continue
+        b_idx = next((i for i, ns in enumerate(end_ns) if ns >= boundary), None)
+        if b_idx is None:
+            continue
+        for _pid, info in infos.items():
+            if info["instrument"] != inst_full:
+                continue
+            notion = abs(info["qty"]) * closes[b_idx]
+            leg = -math.copysign(1.0, info["qty"]) * notion * rate
+            held_strict = info["open_idx"] < b_idx and (info["close_idx"] is None or info["close_idx"] > b_idx)
+            held_loose = info["open_idx"] <= b_idx and (info["close_idx"] is None or info["close_idx"] >= b_idx)
+            if held_strict:
+                funding_expected += leg
+                funding_boundaries += 1
+            if held_loose:
+                per_boundary.append(leg)
+    funding_paid = -funding_measured_drag if funding_measured_drag is not None else 0.0
+    # Tolerance is data-derived: the largest single-boundary settlement held
+    # (one event-ordering difference) plus dust. No invented coefficient.
+    dust = (max((abs(v) for v in per_boundary), default=0.0)) + 0.02
+    funding_ok = (
+        funding_measured_drag is not None
+        and funding_trades_identical
+        and abs(funding_measured_drag - (-funding_expected)) <= dust
+    )
+    fed = bool(funding_rows)
+    base_loop = abs((balance_total - capital) - sum_realized + open_entry_comm)
+    if fed and funding_ok:
+        cost_basis = "VERIFIED_ENGINE_FUNDING"
+    elif fed:
+        cost_basis = "FUNDING_UNVERIFIED"
+    elif base_loop <= 0.02:
+        cost_basis = "VERIFIED_ENGINE"
+        funding_paid = 0.0
+    else:
+        cost_basis = "ESTIMATED"
+    loop_err = abs(funding_measured_drag - (-funding_expected)) if (fed and funding_measured_drag is not None) else base_loop
+
+    drift = (balance_total - equity[-1]) / max(1, n - 1)
+    adj = [equity[0]]
+    for i in range(1, n):
+        adj.append(adj[-1] + (equity[i] - equity[i - 1]) + drift)
+
+    # Participation: entry/exit notional over real bar quote volume.
+    participations: list[float] = []
+    if legs_quotevols:
+        for _pid, info in infos.items():
+            qv = legs_quotevols.get(info["instrument"])
+            if not qv:
+                continue
+            o_not = abs(info["qty"]) * info["open_px"]
+            if qv[info["open_idx"]] > 0:
+                participations.append(o_not / qv[info["open_idx"]])
+            if info["close_idx"] is not None:
+                closes = legs_closes[info["instrument"]]
+                x_not = abs(info["qty"]) * closes[info["close_idx"]]
+                if qv[info["close_idx"]] > 0:
+                    participations.append(x_not / qv[info["close_idx"]])
+    return {
+        "equity": adj,
+        "raw_equity": list(equity),
+        "exposure": exposure,
+        "turnover": turnover,
+        "commission": est_comm_total,
+        "funding": funding_paid if fed else None,
+        "funding_expected": funding_expected if fed else None,
+        "funding_reconciled": funding_ok if fed else None,
+        "funding_boundaries_held": funding_boundaries,
+        "cost_basis": cost_basis,
+        "cost_reconciliation": {
+            "estimated_commission_total": est_comm_total,
+            "sum_realized_pnl": sum_realized,
+            "open_mtm_last": open_mtm,
+            "balance_delta": balance_total - capital,
+            "funding_paid_implied": funding_paid,
+            "funding_expected": funding_expected,
+            "closed_loop_error": loop_err,
+            "balance_total": balance_total,
+        },
+        "participation": participations,
         "n_trades": n_trades,
     }
 
@@ -798,11 +1147,54 @@ def capacity_table(
     capital: float,
     taker_fee: float,
 ) -> list[dict[str, Any]]:
-    """Linear-fee capacity scenarios + breakeven extra cost. Nonlinear impact unmodeled."""
+    """Capacity scenarios bounded to 1h bar data resolution.
+
+    MODELED (supported by 1h OHLCV bars + explicit config):
+      - taker fee: linear notional * taker_fee (config fee, reconciled vs engine commission estimate)
+      - turnover notional/capital: sum |qty*px|/capital from bar-close fill accounting
+      - slippage proxy: bar close used as fill proxy; no intraday spread/slippage distribution
+
+    UNMODELED (requires data NOT present in 1h bars; no coefficients invented):
+      - market impact / price impact vs order-book depth
+      - participation rate vs ADV / queue position / % volume
+      - intraday slippage distribution / bid-ask spread (requires tick/L2)
+      - nonlinear liquidity / capacity curvature (no depth, no intraday volume distribution)
+
+    If 1h bars are the only market data, the claim 'strategy capacity at N*capital
+    with preserved edge net of impact/participation' CANNOT be validated. Linear
+    rows are accounting extrapolations only, not capacity validations.
+    """
     notionals = turnover * capital
     breakeven_bp = (net_excess * capital / notionals * 1e4) if notionals > 0 else None
+    data_resolution = "1h OHLCV bars (open/high/low/close/volume; no L2, no tick, no spread, no depth)"
+    modeled = [
+        "taker_fee linear (notional * taker_fee from config; bar-close fill proxy)",
+        "turnover notional/capital (bar-close qty*px accounting)",
+        "slippage proxy = bar close only (intraday slippage distribution NOT measured)",
+    ]
+    unmodeled = [
+        "market impact / price impact vs depth (requires L2/order-book, not in 1h bars)",
+        "participation rate / %ADV / queue position (requires intraday volume/ADV, not in 1h bars)",
+        "intraday slippage distribution / bid-ask spread (requires tick/trade & quote data)",
+        "nonlinear liquidity/capacity curvature (no depth; no impact coefficients invented)",
+    ]
     rows: list[dict[str, Any]] = []
     for mult in (1.0, 10.0, 100.0):
+        if mult == 1.0:
+            validation_note = (
+                "1x = observed window accounting only; impact/participation still UNMODELED "
+                "even at 1x (no L2/ADV to validate)"
+            )
+            claim_validated = "NO: impact/participation cannot be validated from 1h bars at any scale"
+        else:
+            validation_note = (
+                f"CANNOT BE VALIDATED from 1h bars alone at {mult:.0f}x: requires L2 depth and "
+                "ADV/participation data not present; linear extrapolation shown for accounting only; "
+                "no impact coefficients invented"
+            )
+            claim_validated = (
+                "NO: capacity with preserved edge at scale cannot be validated without tick/L2/ADV"
+            )
         rows.append(
             {
                 "capital_mult": mult,
@@ -810,7 +1202,15 @@ def capacity_table(
                 "assumed_fee_bp": taker_fee * 1e4,
                 "linear_net_excess": net_excess * mult,
                 "breakeven_extra_cost_bp": breakeven_bp,
-                "note": "linear carry; impact/liquidity nonlinearity NOT modeled",
+                "data_resolution": data_resolution,
+                "modeled": list(modeled),
+                "unmodeled": list(unmodeled),
+                "validation_note": validation_note,
+                "claim_validated": claim_validated,
+                # legacy key kept for backward compatibility
+                "note": "MODELED: taker fee (linear) + bar-close turnover/slippage proxy; "
+                "UNMODELED: impact, participation/ADV, intraday slippage/spread, liquidity nonlinearity "
+                "(no L2/tick/ADV in 1h bars; no coefficients invented)",
             }
         )
     return rows
@@ -1007,7 +1407,7 @@ def render_report(receipt: EconomicReceipt) -> str:
         json.dumps(r.portfolio_mix, indent=2, default=str),
         "```",
         "",
-        "## Capacity scenarios (linear-fee assumption)",
+        "## Capacity scenarios — bounded to 1h bar resolution (MODELED vs UNMODELED)",
         "",
         "```json",
         json.dumps(r.capacity_scenarios, indent=2, default=str),

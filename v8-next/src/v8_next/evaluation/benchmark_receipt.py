@@ -19,8 +19,7 @@ from pydantic import BaseModel, ConfigDict
 
 from v8_next.evaluation.parity import ArtifactBinding
 
-RECEIPT_DIGEST_VERSION = "v8.5-digest-v2"
-
+RECEIPT_DIGEST_VERSION = "v8.5-digest-v3"
 
 class GateState(StrEnum):
     PASS = "PASS"
@@ -237,6 +236,8 @@ class BenchmarkReceipt(BaseModel):
     artifact_bindings: tuple[ArtifactBinding, ...] = ()
     computed_at_timestamp_ns: int
     receipt_digest: str = ""
+    economic_evidence_digest: str = ""
+    economic_receipt_path: str = ""
 
     @classmethod
     def create(
@@ -248,6 +249,8 @@ class BenchmarkReceipt(BaseModel):
         computed_at_timestamp_ns: int,
         coverage_factor: float = 0.60,
         artifact_bindings: Sequence[ArtifactBinding] = (),
+        economic_evidence_digest: str = "",
+        economic_receipt_path: str = "",
     ) -> BenchmarkReceipt:
         sorted_bindings = sorted(artifact_bindings, key=lambda b: (b.role, b.path))
         bindings_canon = [
@@ -263,6 +266,8 @@ class BenchmarkReceipt(BaseModel):
             [getattr(gates, f).value for f in sorted(gates.__class__.model_fields)],
             bindings_canon,
             computed_at_timestamp_ns,
+            economic_evidence_digest,
+            economic_receipt_path,
         ]
         digest = hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
 
@@ -276,6 +281,8 @@ class BenchmarkReceipt(BaseModel):
             artifact_bindings=tuple(sorted_bindings),
             computed_at_timestamp_ns=computed_at_timestamp_ns,
             receipt_digest=digest,
+            economic_evidence_digest=economic_evidence_digest,
+            economic_receipt_path=economic_receipt_path,
         )
 
     def verify(self) -> tuple[bool, str]:
@@ -295,6 +302,8 @@ class BenchmarkReceipt(BaseModel):
             [getattr(self.gates, f).value for f in sorted(self.gates.__class__.model_fields)],
             bindings_canon,
             self.computed_at_timestamp_ns,
+            self.economic_evidence_digest,
+            self.economic_receipt_path,
         ]
         expected_digest = hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
         if expected_digest != self.receipt_digest:

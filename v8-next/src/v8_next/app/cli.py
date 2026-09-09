@@ -185,6 +185,17 @@ def build_parser() -> argparse.ArgumentParser:
     p_econ.add_argument("--taker-fee", type=float, default=0.0005)
     p_econ.add_argument("--opex-monthly", type=float, default=30.0)
     p_econ.add_argument("--live-fills", default=None)
+
+    p_port = sub.add_parser("benchmark-portfolio", help="Canonical quad portfolio benchmark (receipt chain).")
+    p_port.add_argument("--tape-path", default="research/tape/quad-1h-12m")
+    p_port.add_argument("--bars", type=int, default=385)
+    p_port.add_argument("--output-dir", default="artifacts/portfolio-benchmark")
+    p_port.add_argument("--primary", default="equal_weight")
+    p_port.add_argument("--seed", type=int, default=7)
+    p_port.add_argument("--capital", type=float, default=10000.0)
+    p_port.add_argument("--taker-fee", type=float, default=0.0005)
+    p_port.add_argument("--per-leg-notional", type=float, default=1000.0)
+    p_port.add_argument("--live-fills", default=None)
     return parser
 
 
@@ -220,6 +231,19 @@ def main(argv: list[str] | None = None) -> int:
             passthrough += ["--live-fills", args.live_fills]
         passthrough += rest
         return economic_mod.main(passthrough)
+    if args.command == "benchmark-portfolio":
+        from v8_next.app import portfolio as portfolio_mod
+
+        passthrough = []
+        for key in (
+            "tape_path", "bars", "output_dir", "primary", "seed",
+            "capital", "taker_fee", "per_leg_notional",
+        ):
+            passthrough += [f"--{key.replace('_', '-')}", str(getattr(args, key))]
+        if args.live_fills:
+            passthrough += ["--live-fills", args.live_fills]
+        passthrough += rest
+        return portfolio_mod.main(passthrough)
     if args.command == "benchmark":
         from v8_next.evaluation.gate_resolution import DEFAULT_TAPE_PATH
 

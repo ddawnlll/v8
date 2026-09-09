@@ -153,8 +153,27 @@ code {{ font-family: ui-monospace, monospace; background: #0f172a; padding: 2px 
     html_content += """</tbody>
 </table>
 
+<h2>Economic Evidence Attachment</h2>
+<table>
+<thead><tr><th>Field</th><th>Value</th></tr></thead>
+<tbody>
+"""
+    econ_digest = receipt.economic_evidence_digest or "(none attached)"
+    econ_path = receipt.economic_receipt_path or "(none)"
+    html_content += f"""  <tr>
+    <td><code>economic_evidence_digest</code></td>
+    <td><code>{econ_digest[:32]}...</code></td>
+  </tr>
+  <tr>
+    <td><code>economic_receipt_path</code></td>
+    <td><code>{econ_path}</code></td>
+  </tr>
+"""
+    html_content += """</tbody>
+</table>
+
 <div style="margin-top: 32px; font-size: 11px; color: #64748b; border-top: 1px solid #334155; padding-top: 12px;">
-V8.5 Benchmark Fabric Forensic Ledger & Certificate Firewall — Built in accordance with D-153 & D-152.
+V8.5 Benchmark Fabric Forensic Ledger & Certificate Firewall - Built in accordance with D-153 & D-152.
 </div>
 </div>
 </body>
