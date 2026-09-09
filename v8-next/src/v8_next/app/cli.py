@@ -172,6 +172,19 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_books = sub.add_parser("books", help="Literature → BenchmarkCase registry.")
     p_books.add_argument("--mapping-id", default=None)
+
+    p_econ = sub.add_parser("benchmark-economic", help="Real-data economic comparison (NO_ECONOMIC_CLAIM).")
+    p_econ.add_argument("--tape-path", default="research/tape/btcusdt-1h-12m")
+    p_econ.add_argument("--bars", type=int, default=500)
+    p_econ.add_argument("--output-dir", default="artifacts/economic-benchmark")
+    p_econ.add_argument("--primary", default="btc_buy_hold")
+    p_econ.add_argument("--challenger-quorum", type=int, default=1)
+    p_econ.add_argument("--challenger-tolerance", type=int, default=0)
+    p_econ.add_argument("--seed", type=int, default=7)
+    p_econ.add_argument("--capital", type=float, default=10000.0)
+    p_econ.add_argument("--taker-fee", type=float, default=0.0005)
+    p_econ.add_argument("--opex-monthly", type=float, default=30.0)
+    p_econ.add_argument("--live-fills", default=None)
     return parser
 
 
@@ -186,6 +199,27 @@ def main(argv: list[str] | None = None) -> int:
         if rest:
             parser.error(f"unexpected args for books: {' '.join(rest)}")
         return cmd_books(args)
+    if args.command == "benchmark-economic":
+        from v8_next.app import economic as economic_mod
+
+        passthrough = []
+        for key in (
+            "tape_path",
+            "bars",
+            "output_dir",
+            "primary",
+            "challenger_quorum",
+            "challenger_tolerance",
+            "seed",
+            "capital",
+            "taker_fee",
+            "opex_monthly",
+        ):
+            passthrough += [f"--{key.replace('_', '-')}", str(getattr(args, key))]
+        if args.live_fills:
+            passthrough += ["--live-fills", args.live_fills]
+        passthrough += rest
+        return economic_mod.main(passthrough)
     if args.command == "benchmark":
         from v8_next.evaluation.gate_resolution import DEFAULT_TAPE_PATH
 
