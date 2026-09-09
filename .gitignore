@@ -61,3 +61,8 @@ research/handbook_technical_analysis_2016/
 
 # Hermes Kanban worktrees
 .worktrees/
+
+# D153 benchmark run outputs (local CLI executions: trade ledgers, ledger
+# registry, forensic HTML, G7 shadow logs). Reproducible via
+# `uv run --project v8-next python -m v8_next.app.benchmark`; never tracked.
+artifacts/

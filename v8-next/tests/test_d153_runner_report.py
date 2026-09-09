@@ -1,0 +1,102 @@
+"""Tests for End-to-End D-153 Benchmark Runner and Forensic HTML Report (Rule 12, 31, 57)."""
+
+from decimal import Decimal
+from pathlib import Path
+
+from v8_next.adapters.expert_strategy import ExpertStrategyConfig
+from v8_next.domain.market import Candle
+from v8_next.evaluation.benchmark_receipt import GateState, ReadinessStatus
+from v8_next.evaluation.report import generate_forensic_html_report
+from v8_next.evaluation.runner import BenchmarkCase, BenchmarkRunner
+
+
+def test_d153_runner_end_to_end_and_html_generation(tmp_path: Path):
+    hour_ns = 3600 * 10**9
+    candles = [
+        Candle(
+            "BTCUSDT-PERP.BINANCE",
+            i * hour_ns,
+            (i + 1) * hour_ns,
+            Decimal("100"),
+            Decimal("100.5"),
+            Decimal("99.5"),
+            Decimal("100"),
+            Decimal("100"),
+            (i + 1) * hour_ns,
+            (i + 1) * hour_ns,
+            "test-benchmark-feed",
+        )
+        for i in range(48)
+    ]
+    candles.append(
+        Candle(
+            "BTCUSDT-PERP.BINANCE",
+            48 * hour_ns,
+            49 * hour_ns,
+            Decimal("101"),
+            Decimal("122"),
+            Decimal("100"),
+            Decimal("120"),
+            Decimal("500"),
+            49 * hour_ns,
+            49 * hour_ns,
+            "test-benchmark-feed",
+        )
+    )
+
+    case = BenchmarkCase(
+        case_id="BC-D153-TEST-01",
+        policy_id="pol_test_strategy",
+        dataset_name="BTCUSDT-1H",
+        strategy_config=ExpertStrategyConfig(min_support_quorum=1, max_contradiction_tolerance=28),
+    )
+
+    runner = BenchmarkRunner(output_dir=tmp_path / "benchmarks")
+    result = runner.run(case, candles)
+
+    assert result.total_bars == 49
+    assert result.total_trades >= 1
+    assert 0.0 <= result.capability_score <= 100.0
+
+    # Diagnostic gate vector
+    assert result.gates.g0_identity == GateState.PASS
+    assert result.gates.g1_causal_pit == GateState.PASS
+    assert result.gates.g2_determinism_ledger == GateState.PASS
+    assert result.gates.g3_benchmark_coverage == GateState.UNKNOWN
+    assert result.gates.g8_prospective_shadow == GateState.MISSING
+    assert result.gates.g9_live_realization == GateState.MISSING
+
+    # Readiness verdict & Certificate
+    verdict = result.gates.readiness()
+    assert verdict.status == ReadinessStatus.InsufficientEvidence
+    assert "NO_ECONOMIC_CLAIM" in result.certificate.status
+    assert 0.0 <= result.certificate.readiness_index <= 100.0
+
+    # Terminal ASCII rendering check
+    ascii_out = result.certificate.render_ascii()
+    assert "G0ConstitutionalIntegrity::g0_identity" in ascii_out
+    assert "G9Certificate::g9_live_realization" in ascii_out
+    assert "READINESS INDEX:" in ascii_out
+
+    # Check ledger persistence
+    assert len(runner.ledger) == 1
+    chain_ok, _ = runner.ledger.verify_chain()
+    assert chain_ok is True
+
+    # Generate and verify forensic HTML report
+    html_path = tmp_path / "benchmarks" / "report.html"
+    is_valid = generate_forensic_html_report(result.receipt, html_path)
+    assert is_valid is True
+    assert html_path.is_file()
+
+    html_text = html_path.read_text(encoding="utf-8")
+    assert "V8.5 Benchmark Fabric" in html_text
+    assert "CONSTITUTIONAL NOTICE (Rule 12 & Rule 57)" in html_text
+    assert "Hard-Gate Verification Matrix (G0-G9 Non-Compensable)" in html_text
+    assert "G0ConstitutionalIntegrity::g0_identity" in html_text
+    assert result.receipt.receipt_digest in html_text
+
+    # Test all-pass mode
+    result_all_pass = runner.run(case, candles, all_pass_mode=True)
+    assert result_all_pass.gates.all_pass() is True
+    assert "Ready For Review" in result_all_pass.certificate.status

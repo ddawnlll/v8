@@ -39,6 +39,13 @@ from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.decisions import Opportunity, StanceKind, opportunity_at
 from v8_next.economics.grammar import grammar_opportunity
 from v8_next.experts.registry import observe_all_28
+from v8_next.opportunities.book import OpportunityBook
+from v8_next.opportunities.exposure import ExposureResolver
+from v8_next.opportunities.models import (
+    ExposureDirection,
+    OpportunityRecord,
+    OpportunityStatus,
+)
 
 
 @dataclass(frozen=True)
@@ -85,6 +92,10 @@ class ExpertEnsembleStrategy(Strategy):
         self.source_candles = source_candles or {}
         self.readings = readings
 
+        # Opportunity book & exposure resolver
+        self.opportunity_book = OpportunityBook()
+        self.exposure_resolver = ExposureResolver()
+
         # Internal state & diagnostic ledgers
         self.candles: list[Candle] = []
         self.decisions: list[dict[str, Any]] = []
@@ -119,28 +130,74 @@ class ExpertEnsembleStrategy(Strategy):
             )
         self.candles.append(candle)
 
-        # 2. Build CausalFrame
+        # 2. Advance OpportunityBook with newly closed candle (invalidation & TTL check)
+        self.opportunity_book.on_candle(candle)
+
+        # 3. Build CausalFrame
         frame = frame_at(str(self.instrument_id), bar.ts_init, tuple(self.candles))
 
-        # 3. Detect Opportunity
+        # 4. Detect Opportunity
         opportunity: Opportunity | None
         if self.ensemble_config.grammar_policy == "range-breakout-48-v1":
             opportunity = opportunity_at(frame)
         else:
             opportunity = grammar_opportunity(frame, self.ensemble_config.grammar_policy)
 
-        # 4. Invoke all 28 canonical active witnesses
+        # 5. Record into OpportunityBook if newly detected
+        record: OpportunityRecord | None = None
+        if opportunity is not None:
+            dir_enum = (
+                ExposureDirection.LONG
+                if opportunity.direction == "LONG"
+                else ExposureDirection.SHORT
+            )
+            raw_sym = str(self.instrument_id).split(".")[0].replace("-PERP", "")
+            venue_str = "binance-um"
+            try:
+                exposure = self.exposure_resolver.resolve_ticker(raw_sym, venue_str, dir_enum)
+            except Exception:
+                from v8_next.opportunities.models import EconomicExposureStructure
+                exposure = EconomicExposureStructure.single_perp(
+                    raw_sym, raw_sym.replace("USDT", ""), venue_str, "USDT", dir_enum
+                )
+
+            entry_px = bar.close.as_decimal()
+            stop_px: Decimal | None = None
+            target_px: Decimal | None = None
+            if self.ensemble_config.bracket_stop_pct is not None:
+                stop_dist = entry_px * self.ensemble_config.bracket_stop_pct
+                stop_px = entry_px - stop_dist if dir_enum == ExposureDirection.LONG else entry_px + stop_dist
+            if self.ensemble_config.bracket_target_pct is not None:
+                target_dist = entry_px * self.ensemble_config.bracket_target_pct
+                target_px = entry_px + target_dist if dir_enum == ExposureDirection.LONG else entry_px - target_dist
+
+            record = OpportunityRecord.create(
+                exposure=exposure,
+                instrument_id=str(self.instrument_id),
+                direction=dir_enum,
+                entry_price=entry_px,
+                stop_price=stop_px,
+                target_price=target_px,
+                as_of_time_ns=candle.end_ns,
+                valid_until_ns=opportunity.expires_ns,
+                status=OpportunityStatus.CANDIDATE,
+            )
+            self.opportunity_book.insert(record)
+
+        # 6. Invoke all 28 canonical active witnesses
         stances = observe_all_28(frame, opportunity, readings=self.readings)
         supports = [s for s in stances if s.kind == StanceKind.SUPPORT]
         contradicts = [s for s in stances if s.kind == StanceKind.CONTRADICT]
         abstains = [s for s in stances if s.kind == StanceKind.ABSTAIN]
 
-        # 5. Evaluate Consensus & Admission
+        # 7. Evaluate Consensus & Admission
         is_supported = (
             opportunity is not None
             and len(supports) >= self.ensemble_config.min_support_quorum
             and len(contradicts) <= self.ensemble_config.max_contradiction_tolerance
         )
+        if record is not None and is_supported:
+            self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.CONFIRMED)
 
         # 6. Execute Native Orders via NautilusTrader OrderFactory
         action = "NO_ACTION"
@@ -190,6 +247,8 @@ class ExpertEnsembleStrategy(Strategy):
                             tp_price=tp_price,
                         )
                         self.submit_order_list(order_list)
+                        if record is not None:
+                            self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
                         action = f"SUBMITTED_BRACKET_{side.name}_{qty_str}"
                     else:
                         order = self.order_factory.market(
@@ -198,6 +257,8 @@ class ExpertEnsembleStrategy(Strategy):
                             quantity=quantity,
                         )
                         self.submit_order(order)
+                        if record is not None:
+                            self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
                         action = f"SUBMITTED_MARKET_{side.name}_{qty_str}"
             else:
                 action = "POSITION_OCCUPIED"
@@ -269,6 +330,9 @@ def run_expert_strategy_backtest(
     venue: str = "BINANCE",
     currency: str = "USDT",
     readings: tuple[PositioningReading, ...] = (),
+    fill_model: Any = None,
+    latency_model: Any = None,
+    fee_model: Any = None,
 ) -> dict[str, Any]:
     """Execute the 28-expert ensemble strategy through NautilusTrader's BacktestEngine.
 
@@ -328,6 +392,9 @@ def run_expert_strategy_backtest(
             AccountType.MARGIN,
             [Money(float(initial_balance), curr)],
             default_leverage=Decimal(1),
+            fill_model=fill_model,
+            latency_model=latency_model,
+            fee_model=fee_model,
         )
         engine.add_instrument(instrument)
         engine.add_data(bars)
@@ -351,6 +418,7 @@ def run_expert_strategy_backtest(
             "opened_positions": strategy.opened_positions,
             "closed_positions": strategy.closed_positions,
             "account": account_state,
+            "opportunity_book": strategy.opportunity_book,
         }
     finally:
         engine.dispose()
