@@ -119,6 +119,58 @@ def test_mechanics_allocator_mix_shape() -> None:
 
 
 # ---------------------------------------------------------------------------
+# Error-path separation: bad data must never mint an economic verdict,
+# and no statistical state may ever flip capital.
+# ---------------------------------------------------------------------------
+
+
+def test_mechanics_invalid_data_yields_no_economic_verdict() -> None:
+    stats = {
+        "dsr": {"verdict": "SUPPORTED_DESCRIPTIVE"},
+        "pbo": {"verdict": "SUPPORTED_DESCRIPTIVE"},
+        "spa": {"verdict": "SUPPORTED_DESCRIPTIVE"},
+    }
+    v = eb.build_verdicts(
+        chrono_ok=False,
+        chrono_note="NON_MONOTONIC_TIME_7",
+        excess=0.05,  # positive excess must NOT leak through invalid data
+        stats=stats,
+        mix={"incremental_net": 0.01},
+        cost_basis_ok=True,
+        funding_missing=False,
+        live_fills_present=True,
+        parity_ok=True,
+    )
+    assert v.research_validity == "INVALID"
+    assert v.economic == "INCONCLUSIVE"
+    assert v.capital == "NOT_AUTHORIZED"
+
+
+def test_mechanics_failed_estimators_stay_unsuccessful() -> None:
+    stats = {
+        "dsr": {"verdict": "UNDERPOWERED", "reason": "boom"},
+        "pbo": {"verdict": "UNDERPOWERED", "reason": "boom"},
+        "spa": {"verdict": "UNSUPPORTED", "reason": "arch absent"},
+    }
+    v = eb.build_verdicts(
+        chrono_ok=True,
+        chrono_note="OK",
+        excess=0.05,
+        stats=stats,
+        mix={"incremental_net": 0.01},
+        cost_basis_ok=True,
+        funding_missing=True,
+        live_fills_present=False,
+        parity_ok=True,
+    )
+    assert v.statistical in ("UNDERPOWERED", "UNSUPPORTED")
+    assert v.statistical != "SUPPORTED"
+    assert v.economic == "POSITIVE_DESCRIPTIVE"  # descriptive only
+    assert v.capital == "NOT_AUTHORIZED"
+    assert "NO_ECONOMIC_CLAIM" == eb.EconomicReceipt.__pydantic_fields__["claim_status"].default
+
+
+# ---------------------------------------------------------------------------
 # Evaluative: real tape only
 # ---------------------------------------------------------------------------
 
