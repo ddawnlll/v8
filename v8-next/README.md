@@ -7,6 +7,18 @@ From the repository root:
 
 ```sh
 uv sync --project v8-next --extra dev --locked
+uv run --project v8-next python -m v8_next.app.cli status
+uv run --project v8-next python -m v8_next.app.cli benchmark --diagnostic-only
+```
+
+`cli status` is the project dashboard: git revision, tape inventory,
+code/test footprint, and the latest benchmark receipt rendered as the
+canonical readiness table (no engine run, no claims). `cli benchmark`
+delegates to the D-153 end-to-end battery and refuses synthetic fallback
+when the real tape is absent. The per-module commands below remain for
+narrow manual steps; new evaluative workflows go through the CLI.
+
+```sh
 uv run --project v8-next python -m v8_next.adapters.binance_capture /tmp/v8-capture-new
 uv run --project v8-next python -m v8_next.adapters.native_tape /tmp/v8-capture-new/manifest.json --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000
 uv run --project v8-next --extra dev pytest -q v8-next/tests

@@ -15,6 +15,9 @@ dependencies = [
     "pydantic>=2.10.0",
 ]
 
+[project.scripts]
+v8-next = "v8_next.app.cli:main"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.3.0",
