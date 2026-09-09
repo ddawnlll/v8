@@ -8,6 +8,7 @@ import math
 from dataclasses import dataclass
 from decimal import Decimal
 from enum import StrEnum
+from typing import Any
 
 import polars as pl
 
@@ -136,12 +137,7 @@ def observe_squeeze(
     elif len(frame.candles) < max(69, lookback + 1):
         reason = "WARMUP"
     elif opportunity is not None:
-        values = pl.DataFrame(
-            {
-                "close": [float(c.close) for c in frame.candles],
-                "volume": [float(c.volume) for c in frame.candles],
-            }
-        )
+        values = frame.df.select(["close", "volume"])
         features = values.with_columns(
             (4 * pl.col("close").rolling_std(20, ddof=0) / pl.col("close").rolling_mean(20)).alias(
                 "bandwidth"
@@ -153,6 +149,8 @@ def observe_squeeze(
         volume_mean = numeric(features["volume_mean"][-1])
         close = values["close"].tail(20)
         path = numeric(close.diff().abs().sum())
+        chan_high = Decimal(str(numeric(frame.df["high"].slice(-lookback - 1, lookback).max())))
+        chan_low = Decimal(str(numeric(frame.df["low"].slice(-lookback - 1, lookback).min())))
         if hi <= lo or volume_mean <= 0 or path <= 0:
             reason = "DEGENERATE_FEATURE"
         elif (latest - lo) / (hi - lo) > rank_limit:
@@ -164,16 +162,8 @@ def observe_squeeze(
         elif not (
             opportunity.instrument_id == frame.instrument_id
             and (
-                (
-                    opportunity.direction == "LONG"
-                    and frame.candles[-1].close
-                    > max(c.high for c in frame.candles[-lookback - 1 : -1])
-                )
-                or (
-                    opportunity.direction == "SHORT"
-                    and frame.candles[-1].close
-                    < min(c.low for c in frame.candles[-lookback - 1 : -1])
-                )
+                (opportunity.direction == "LONG" and frame.candles[-1].close > chan_high)
+                or (opportunity.direction == "SHORT" and frame.candles[-1].close < chan_low)
             )
         ):
             reason = "NO_VARIANT_BREAKOUT"
@@ -204,6 +194,66 @@ def reconcile(opportunity: Opportunity, stances: tuple[Stance, ...]) -> str:
         if any(StanceKind.SUPPORT in kinds for kinds in groups.values())
         else "ABSTAIN"
     )
+
+
+def build_reconciliation_receipt(
+    opportunity: Opportunity,
+    stances: tuple[Stance, ...],
+    reconciliation_ns: int,
+) -> Any:
+    """Build an immutable reconciliation receipt (Mutabakat Fişi) from opportunity stances."""
+    from v8_next.evaluation.store import DependencyGroupProof, ReconciliationReceipt, canonical
+
+    if any(s.opportunity_id != opportunity.opportunity_id for s in stances):
+        raise ValueError("evidence belongs to another opportunity")
+
+    groups: dict[str, list[Stance]] = {}
+    for stance in sorted(stances, key=lambda s: (s.dependency_group, s.observer_id)):
+        groups.setdefault(stance.dependency_group, []).append(stance)
+
+    proofs: list[DependencyGroupProof] = []
+    group_stances: dict[str, str] = {}
+    for group_name, group_list in sorted(groups.items()):
+        kinds = tuple(s.kind.value for s in group_list)
+        if any(s.kind == StanceKind.CONTRADICT for s in group_list):
+            eff = "CONTRADICT"
+        elif any(s.kind == StanceKind.SUPPORT for s in group_list):
+            eff = "SUPPORT"
+        else:
+            eff = "ABSTAIN"
+        group_stances[group_name] = eff
+        proofs.append(
+            DependencyGroupProof(
+                dependency_group=group_name,
+                raw_evidence_count=len(group_list),
+                kinds=kinds,
+                effective_stance=eff,
+            )
+        )
+
+    if any(eff == "CONTRADICT" for eff in group_stances.values()):
+        agg = "CONTRADICTED"
+    elif any(eff == "SUPPORT" for eff in group_stances.values()):
+        agg = "SUPPORTED_OBSERVATION"
+    else:
+        agg = "ABSTAIN"
+
+    evidence_ids = tuple(sorted(s.observer_id for s in stances))
+    receipt_id = hashlib.sha256(
+        canonical([opportunity.opportunity_id, reconciliation_ns, evidence_ids, agg]).encode()
+    ).hexdigest()
+
+    return ReconciliationReceipt(
+        receipt_id=receipt_id,
+        opportunity_id=opportunity.opportunity_id,
+        reconciler_algorithm_id="v8-reconciler-independent-groups",
+        reconciler_algorithm_version="1.0.0-v8next",
+        reconciliation_ns=reconciliation_ns,
+        participating_evidence_ids=evidence_ids,
+        dependency_group_proofs=tuple(proofs),
+        aggregate_stance=agg,
+    )
+
 
 
 @dataclass(frozen=True)
