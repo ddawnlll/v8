@@ -134,6 +134,7 @@ def test_mechanics_invalid_data_yields_no_economic_verdict() -> None:
         chrono_ok=False,
         chrono_note="NON_MONOTONIC_TIME_7",
         excess=0.05,  # positive excess must NOT leak through invalid data
+        excess_ci=(0.01, 0.09),
         stats=stats,
         mix={"incremental_net": 0.01},
         cost_basis_ok=True,
@@ -156,6 +157,7 @@ def test_mechanics_failed_estimators_stay_unsuccessful() -> None:
         chrono_ok=True,
         chrono_note="OK",
         excess=0.05,
+        excess_ci=(0.01, 0.09),
         stats=stats,
         mix={"incremental_net": 0.01},
         cost_basis_ok=True,
@@ -168,6 +170,35 @@ def test_mechanics_failed_estimators_stay_unsuccessful() -> None:
     assert v.economic == "POSITIVE_DESCRIPTIVE"  # descriptive only
     assert v.capital == "NOT_AUTHORIZED"
     assert "NO_ECONOMIC_CLAIM" == eb.EconomicReceipt.__pydantic_fields__["claim_status"].default
+
+
+def test_mechanics_rules_fire_only_on_registrations() -> None:
+    base = {
+        "chrono_ok": True, "chrono_note": "OK", "excess": -0.02,
+        "mix": {"incremental_net": 0.0}, "cost_basis_ok": True,
+        "funding_missing": False, "live_fills_present": False, "parity_ok": True,
+    }
+    computed = {
+        "dsr": {"verdict": "COMPUTED", "dsr_confidence": 0.5,
+                "selected_sharpe_nonannualized": -0.1, "selected_variant": "x"},
+        "pbo": {"verdict": "COMPUTED"},
+        "spa": {"verdict": "COMPUTED", "pvalues": {"consistent": 0.4}},
+        "variant_excess_vs_baseline": -0.01,
+    }
+    v = eb.build_verdicts(**base, excess_ci=(-0.05, 0.03), stats=dict(computed))
+    assert v.statistical == "INCONCLUSIVE"
+    v = eb.build_verdicts(**base, excess_ci=(-0.05, -0.01), stats=dict(computed))
+    assert v.statistical == "SUPPORTS_UNDERPERFORMANCE"
+    edge_spa = dict(computed)
+    edge_spa["variant_excess_vs_baseline"] = 0.02
+    edge_spa["spa"] = {"verdict": "COMPUTED", "pvalues": {"consistent": 0.01}}
+    v = eb.build_verdicts(**base, excess_ci=(-0.05, 0.03), stats=edge_spa)
+    assert v.statistical == "SUPPORTS_EDGE"
+    edge_dsr = dict(computed)
+    edge_dsr["dsr"] = {"verdict": "COMPUTED", "dsr_confidence": 0.97,
+                       "selected_sharpe_nonannualized": 0.4, "selected_variant": "y"}
+    v = eb.build_verdicts(**base, excess_ci=(-0.05, 0.03), stats=edge_dsr)
+    assert v.statistical == "SUPPORTS_EDGE"
 
 
 # ---------------------------------------------------------------------------
@@ -199,7 +230,7 @@ def test_economic_benchmark_real_tape_end_to_end(tmp_path: Path) -> None:
     receipt = json.loads((tmp_path / "econ" / "economic_receipt.json").read_text())
     assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
     assert receipt["verdicts"]["capital"] == "NOT_AUTHORIZED"
-    assert receipt["verdicts"]["statistical"] in ("SUPPORTED", "UNDERPOWERED", "UNSUPPORTED")
+    assert receipt["verdicts"]["statistical"] in ("SUPPORTS_EDGE", "SUPPORTS_UNDERPERFORMANCE", "INCONCLUSIVE", "UNDERPOWERED", "UNSUPPORTED")
     # No invented universal PASS: statistical support never flips economic/capital.
     assert set(receipt["metrics"]) >= {"incumbent", "challenger", "btc_buy_hold", "cash"}
     assert (tmp_path / "econ" / "economic_report.md").is_file()

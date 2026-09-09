@@ -107,10 +107,14 @@ def test_mechanics_shadow_section_paths(tmp_path: Path) -> None:
 def test_mechanics_capacity_bounds_from_participation() -> None:
     from v8_next.app.portfolio import capacity_from_participation
 
-    rows = capacity_from_participation([1e-6, 2e-6], 10000.0)
-    assert len(rows) == 3
-    assert rows[0]["max_capital_linear"] == pytest.approx(10000.0 * 0.01 / 2e-6)
-    assert all(r["impact_beyond"] == "UNVERIFIED_NO_IMPACT_MODEL" for r in rows)
+    rows = capacity_from_participation([1e-6, 2e-6], 10000.0, [0.001, -0.002, 0.0015] * 50)
+    measured = [r for r in rows if r["kind"] == "MEASURED_LINEAR_BOUND"]
+    hyps = [r for r in rows if r["kind"] == "HYPOTHETICAL_SCENARIO"]
+    assert len(measured) == 3 and len(hyps) == 3
+    assert measured[0]["max_capital_linear"] == pytest.approx(10000.0 * 0.01 / 2e-6)
+    assert all(r["impact_beyond"] == "UNVERIFIED_NO_IMPACT_MODEL" for r in measured)
+    assert all(h["k_status"] == "HYPOTHETICAL_UNCALIBRATED" for h in hyps)
+    assert all(h["impact_bps_at_peak"] is not None for h in hyps)
     assert capacity_from_participation([], 10000.0)[0]["max_capital_linear"] is None
 
 

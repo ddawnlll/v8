@@ -189,6 +189,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_port = sub.add_parser("benchmark-portfolio", help="Canonical quad portfolio benchmark (receipt chain).")
     p_port.add_argument("--tape-path", default="research/tape/quad-1h-12m")
     p_port.add_argument("--bars", type=int, default=385)
+    p_port.add_argument("--start-bar", type=int, default=0)
     p_port.add_argument("--output-dir", default="artifacts/portfolio-benchmark")
     p_port.add_argument("--primary", default="equal_weight")
     p_port.add_argument("--seed", type=int, default=7)
@@ -236,7 +237,7 @@ def main(argv: list[str] | None = None) -> int:
 
         passthrough = []
         for key in (
-            "tape_path", "bars", "output_dir", "primary", "seed",
+            "tape_path", "bars", "start_bar", "output_dir", "primary", "seed",
             "capital", "taker_fee", "per_leg_notional",
         ):
             passthrough += [f"--{key.replace('_', '-')}", str(getattr(args, key))]

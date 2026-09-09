@@ -50,6 +50,8 @@ VerdictState = Literal[
     "NEGATIVE",
     "INCONCLUSIVE",
     "SUPPORTED",
+    "SUPPORTS_EDGE",
+    "SUPPORTS_UNDERPERFORMANCE",
     "UNDERPOWERED",
     "UNSUPPORTED",
     "HELPFUL_DESCRIPTIVE",
@@ -59,6 +61,18 @@ VerdictState = Literal[
     "UNRUN",
     "NOT_AUTHORIZED",
 ]
+
+# Preregistered inferential rules. Declared before any run and applied
+# mechanically: computation success alone never mints inferential support.
+# - SPA_EDGE_RULE: joint SPA consistent p < alpha AND the best variant's
+#   excess vs baseline is positive  => SUPPORTS_EDGE (family-vs-baseline).
+# - DSR_EDGE_RULE: DSR confidence >= level AND selected Sharpe > 0
+#   => SUPPORTS_EDGE (selected-variant).
+# - EXCESS_CI_RULE: 95% block-bootstrap CI of per-bar excess entirely below
+#   zero => SUPPORTS_UNDERPERFORMANCE (strategy-vs-primary). Entirely above
+#   zero does NOT mint edge (direction must survive the SPA/DSR family rules).
+SPA_EDGE_ALPHA = 0.05
+DSR_EDGE_CONFIDENCE = 0.95
 
 BENCHMARK_IDS = (
     "cash",
@@ -117,6 +131,8 @@ class MetricSet(BaseModel):
 
     net_return: float
     excess_vs_primary: float | None
+    excess_ci_low: float | None = None
+    excess_ci_high: float | None = None
     sharpe_per_bar: float
     sharpe_annualized: float
     sharpe_ci_low: float | None
@@ -939,13 +955,20 @@ def metrics_for_curve(
     degenerate = raw_nonzero_bars < 10
     net = (equity[-1] / equity[0] - 1.0) if equity[0] > 0 else 0.0
     excess = None
+    excess_ci: tuple[float | None, float | None] = (None, None)
     if primary_equity is not None and len(primary_equity) == len(equity):
         p_net = (primary_equity[-1] / primary_equity[0] - 1.0) if primary_equity[0] > 0 else 0.0
         excess = net - p_net
+        e_rets = per_bar_returns(list(primary_equity))
+        if len(e_rets) == len(rets):
+            diff = [a - b for a, b in zip(rets, e_rets, strict=False)]
+            excess_ci = block_bootstrap_ci(diff)
     tail = float(np.mean(np.sort(np.asarray(rets))[: max(1, int(0.05 * len(rets)))])) if rets else 0.0
     return MetricSet(
         net_return=net,
         excess_vs_primary=excess,
+        excess_ci_low=excess_ci[0],
+        excess_ci_high=excess_ci[1],
         sharpe_per_bar=s_pb,
         sharpe_annualized=s_ann,
         sharpe_ci_low=ci_lo,
@@ -1029,6 +1052,16 @@ def run_statistics(
     frozen, eval_end, decision = first
     stats["intervals_per_variant"] = len(next(iter(losses.values()))) if losses else 0
     stats["interval_bars"] = INTERVAL_BARS
+    base_eq = list(family_equity[baseline_id])
+    base_net = base_eq[-1] / base_eq[0] - 1.0 if base_eq[0] > 0 else 0.0
+    best = float("-inf")
+    for name, eq in family_equity.items():
+        if name == baseline_id:
+            continue
+        eq = list(eq)
+        net = eq[-1] / eq[0] - 1.0 if eq[0] > 0 else 0.0
+        best = max(best, net - base_net)
+    stats["variant_excess_vs_baseline"] = best if best > float("-inf") else None
 
     dsr_names = sorted(n for n in losses if n != baseline_id)
     try:
@@ -1050,10 +1083,9 @@ def run_statistics(
             evaluation_end_ns=eval_end,
             decision_ns=decision,
         )
-        stats["dsr"]["verdict"] = "SUPPORTED_DESCRIPTIVE"
+        stats["dsr"]["verdict"] = "COMPUTED"
     except Exception as e:  # fail closed, keep reason
-        stats["dsr"] = {"verdict": "UNDERPowered".upper(), "reason": f"{type(e).__name__}: {e}"}
-        stats["dsr"]["verdict"] = "UNDERPOWERED"
+        stats["dsr"] = {"verdict": "UNDERPOWERED", "reason": f"{type(e).__name__}: {e}"}
 
     n_intervals = stats["intervals_per_variant"]
     partitions = 4 if n_intervals % 4 == 0 and n_intervals >= 8 else 0
@@ -1069,7 +1101,7 @@ def run_statistics(
                 metric="mean_return",
                 max_splits=64,
             )
-            stats["pbo"]["verdict"] = "SUPPORTED_DESCRIPTIVE"
+            stats["pbo"]["verdict"] = "COMPUTED"
         except Exception as e:
             stats["pbo"] = {"verdict": "UNDERPOWERED", "reason": f"{type(e).__name__}: {e}"}
     else:
@@ -1092,7 +1124,7 @@ def run_statistics(
             reps=reps,
             seed=seed,
         )
-        stats["spa"]["verdict"] = "SUPPORTED_DESCRIPTIVE"
+        stats["spa"]["verdict"] = "COMPUTED"
     except Exception as e:
         stats["spa"] = {
             "verdict": "UNSUPPORTED",
@@ -1260,6 +1292,7 @@ def build_verdicts(
     chrono_ok: bool,
     chrono_note: str,
     excess: float | None,
+    excess_ci: tuple[float | None, float | None] | None,
     stats: dict[str, Any],
     mix: dict[str, Any],
     cost_basis_ok: bool,
@@ -1283,20 +1316,62 @@ def build_verdicts(
     else:
         economic = "NEGATIVE"
         eco_note = "net excess vs primary is not positive on this window"
-    dsr_v = str(stats.get("dsr", {}).get("verdict", "UNDERPOWERED"))
-    spa_v = str(stats.get("spa", {}).get("verdict", "UNSUPPORTED"))
-    pbo_v = str(stats.get("pbo", {}).get("verdict", "UNDERPOWERED"))
-    supported = dsr_v.startswith("SUPPORTED") or spa_v.startswith("SUPPORTED") or pbo_v.startswith("SUPPORTED")
-    unsupported = dsr_v == "UNSUPPORTED" or spa_v == "UNSUPPORTED" or pbo_v == "UNSUPPORTED"
-    if supported:
-        statistical: VerdictState = "SUPPORTED"
-        stat_note = f"DSR={dsr_v} PBO={pbo_v} SPA={spa_v}; descriptive, family-scoped"
-    elif unsupported:
-        statistical = "UNSUPPORTED"
-        stat_note = f"estimator absent or failed: DSR={dsr_v} PBO={pbo_v} SPA={spa_v}"
+    dsr = stats.get("dsr", {})
+    spa = stats.get("spa", {})
+    pbo = stats.get("pbo", {})
+    dsr_v = str(dsr.get("verdict", "UNDERPOWERED"))
+    spa_v = str(spa.get("verdict", "UNSUPPORTED"))
+    pbo_v = str(pbo.get("verdict", "UNDERPOWERED"))
+    computed = f"DSR={dsr_v} PBO={pbo_v} SPA={spa_v}"
+    if dsr_v != "COMPUTED" and pbo_v != "COMPUTED" and spa_v != "COMPUTED":
+        statistical: VerdictState = (
+            "UNSUPPORTED"
+            if spa_v == "UNSUPPORTED" or dsr_v == "UNSUPPORTED"
+            else "UNDERPOWERED"
+        )
+        stat_note = f"no estimator output: {computed}"
     else:
-        statistical = "UNDERPOWERED"
-        stat_note = f"insufficient power: DSR={dsr_v} PBO={pbo_v} SPA={spa_v}"
+        # Preregistered rules, applied mechanically. Computation alone mints nothing.
+        spa_p = None
+        try:
+            spa_p = float(spa.get("pvalues", {}).get("consistent", float("nan")))
+        except (ValueError, TypeError):
+            spa_p = None
+        dsr_conf = dsr.get("dsr_confidence")
+        dsr_sr = dsr.get("selected_sharpe_nonannualized")
+        dsr_sel = dsr.get("selected_variant")
+        best_excess = None
+        for key in ("variant_excess_vs_baseline",):
+            if key in stats and isinstance(stats[key], (int, float)):
+                best_excess = float(stats[key])
+        edge_hits: list[str] = []
+        if spa_p is not None and spa_p < SPA_EDGE_ALPHA and (best_excess or 0.0) > 0:
+            edge_hits.append(f"SPA_EDGE_RULE(p={spa_p:.4f}<{SPA_EDGE_ALPHA},excess>0)")
+        if (
+            isinstance(dsr_conf, (int, float))
+            and isinstance(dsr_sr, (int, float))
+            and dsr_conf >= DSR_EDGE_CONFIDENCE
+            and dsr_sr > 0
+        ):
+            edge_hits.append(
+                f"DSR_EDGE_RULE(conf={dsr_conf:.4f}>={DSR_EDGE_CONFIDENCE},{dsr_sel},sharpe>0)"
+            )
+        ci_lo, ci_hi = excess_ci if excess_ci else (None, None)
+        under_hit = (
+            ci_lo is not None and ci_hi is not None and ci_hi < 0
+        )
+        if edge_hits:
+            statistical = "SUPPORTS_EDGE"
+            stat_note = "fired: " + "; ".join(edge_hits)
+        elif under_hit:
+            statistical = "SUPPORTS_UNDERPERFORMANCE"
+            assert ci_lo is not None and ci_hi is not None
+            stat_note = (
+                f"fired: EXCESS_CI_RULE(excess 95% CI [{ci_lo:.5f},{ci_hi:.5f}]<0)"
+            )
+        else:
+            statistical = "INCONCLUSIVE"
+            stat_note = f"computed but no preregistered rule fired: {computed}"
     inc = mix.get("incremental_net")
     if inc is None:
         portfolio: VerdictState = "INCONCLUSIVE"
@@ -1362,8 +1437,11 @@ def render_report(receipt: EconomicReceipt) -> str:
         "",
         "## Metrics (cost-adjusted, shared basis)",
         "",
-        "| curve | net | excess vs primary | Sharpe_ann [CI] | maxDD | turn | commission | funding |",
-        "|---|---|---|---|---|---|---|---|",
+        "All money columns in USDT on the run capital "
+        f"({r.run.capital:.2f} USDT); returns are fractions of that capital.",
+        "",
+        "| curve | net | $P&L | excess vs primary | Sharpe_ann [CI] | maxDD | turn | commission $ | funding $ |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for name, m in r.metrics.items():
         ci = (
@@ -1375,11 +1453,24 @@ def render_report(receipt: EconomicReceipt) -> str:
             ci += " DEGENERATE-VARIANCE"
         ex = f"{m.excess_vs_primary:.4f}" if m.excess_vs_primary is not None else "—"
         fd = f"{m.funding_cost:.2f}" if m.funding_cost is not None else "MISSING"
+        pnl = m.net_return * r.run.capital
         lines.append(
-            f"| {name} | {m.net_return:.4f} | {ex} | {m.sharpe_annualized:.3f} {ci} "
+            f"| {name} | {m.net_return:.4f} | {pnl:.2f} | {ex} | {m.sharpe_annualized:.3f} {ci} "
             f"| {m.max_drawdown:.4f} | {m.turnover_notional_over_capital:.3f} "
             f"| {m.commission_cost:.2f} | {fd} |"
         )
+    mix = r.portfolio_mix
+    if isinstance(mix, dict) and mix.get("scope") == "ENGINE_LEVEL_SAME_BUDGET":
+        lines += [
+            "",
+            "Budget note: P and P+E run at engine level with the same total "
+            "per-leg notional budget and risk rules. P+E splits each leg 50/50 "
+            "across incumbent and challenger sleeves, so the measured "
+            "incremental isolates exactly one change: the contradiction-"
+            "tolerance gate (28 -> 0) at half risk each. It is not a sum of "
+            "standalone P&Ls.",
+            "",
+        ]
     lines += [
         "",
         "## Chronological OOS (frozen split; never relabeled)",

@@ -53,6 +53,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Canonical quad portfolio benchmark.")
     p.add_argument("--tape-path", default="research/tape/quad-1h-12m")
     p.add_argument("--bars", type=int, default=385)
+    p.add_argument("--start-bar", type=int, default=0)
     p.add_argument("--output-dir", default="artifacts/portfolio-benchmark")
     p.add_argument("--primary", default=PRIMARY_DEFAULT)
     p.add_argument("--seed", type=int, default=7)
@@ -84,25 +85,55 @@ def build_shadow_section(
 
 
 def capacity_from_participation(
-    participations: Sequence[float], capital: float
+    participations: Sequence[float],
+    capital: float,
+    p_bar_returns: Sequence[float] | None = None,
+    k_grid: tuple[float, ...] = (0.1, 0.5, 1.0),
 ) -> list[dict[str, Any]]:
     """Participation-bound capacity from real bar quote volumes.
 
-    Linear extrapolation only: the capital at which the largest observed
-    participation would cross 1%/5%/10%. Slippage/impact beyond participation
-    is an UNVERIFIED claim (no impact model is calibrated).
+    Measured part: linear extrapolation to 1%/5%/10% peak participation.
+    Scenario part: square-root impact k*sigma*sqrt(p) with HYPOTHETICAL k.
+    sigma is measured (std of portfolio per-bar returns); k is not calibrated
+    to any venue data, so scenarios never read as measured capacity.
+    Slippage/impact beyond participation is an UNVERIFIED claim.
     """
+    import math as _math
+
+    import numpy as _np
+
     out: list[dict[str, Any]] = []
     peak = max(participations) if participations else 0.0
     for threshold in (0.01, 0.05, 0.10):
         max_cap = capital * threshold / peak if peak > 0 else None
         out.append(
             {
+                "kind": "MEASURED_LINEAR_BOUND",
                 "participation_threshold": threshold,
                 "observed_peak_participation": peak,
                 "max_capital_linear": max_cap,
                 "basis": "LINEAR_EXTRAPOLATION_OF_MEASURED_PARTICIPATION",
                 "impact_beyond": "UNVERIFIED_NO_IMPACT_MODEL",
+            }
+        )
+    sigma = None
+    if p_bar_returns:
+        arr = _np.asarray(list(p_bar_returns), dtype=float)
+        if arr.size >= 2:
+            sigma = float(arr.std(ddof=1))
+    for k in k_grid:
+        out.append(
+            {
+                "kind": "HYPOTHETICAL_SCENARIO",
+                "model": "sqrt_impact_k_sigma_sqrt_p",
+                "k": k,
+                "k_status": "HYPOTHETICAL_UNCALIBRATED",
+                "sigma_per_bar": sigma,
+                "impact_bps_at_peak": (
+                    k * sigma * _math.sqrt(peak) * 1e4
+                    if sigma is not None and peak > 0
+                    else None
+                ),
             }
         )
     return out
@@ -116,7 +147,7 @@ def main(argv: list[str] | None = None) -> int:
     if not tape_path.exists():
         print(f"error: real tape not found at {tape_path}; synthetic fallback banned.", file=sys.stderr)
         return 2
-    tape: MultiTape = load_multitape(tape_path, limit=args.bars)
+    tape: MultiTape = load_multitape(tape_path, limit=args.bars, offset=args.start_bar)
     n = tape.n_bars
     end_ns = [c.end_ns for c in tape.candles[tape.instruments[0]]]
     print(f"[+] quad tape: {list(tape.instruments)} x {n} bars, {len(tape.funding)} funding rows")
@@ -279,7 +310,8 @@ def main(argv: list[str] | None = None) -> int:
         "production": "DENIED_NO_APPROVAL_ARTIFACT",
     }
 
-    capacity = capacity_from_participation(p_ser.get("participation", []), args.capital)
+    capacity = capacity_from_participation(
+        p_ser.get("participation", []), args.capital, p_rets)
     live_path = Path(args.live_fills) if args.live_fills else None
     shadow = build_shadow_section(args.live_fills, p_fund["account"])
     shadow["live_fills_arg"] = str(live_path) if live_path else None
@@ -297,7 +329,8 @@ def main(argv: list[str] | None = None) -> int:
             git_rev=gi["rev"], git_dirty=gi["dirty"],
             config_sha256=hashlib.sha256(json.dumps(
                 {"sleeves": ["P", "P+E"], "per_leg_notional": args.per_leg_notional,
-                 "bars": args.bars, "seed": args.seed}, sort_keys=True).encode()).hexdigest(),
+                 "bars": args.bars, "start_bar": args.start_bar, "seed": args.seed},
+                sort_keys=True).encode()).hexdigest(),
             estimator_versions=eb.estimator_versions(),
         ),
         seed=args.seed, primary_benchmark=args.primary,
@@ -308,6 +341,7 @@ def main(argv: list[str] | None = None) -> int:
     excess = metrics["portfolio_P"].excess_vs_primary
     verdicts = eb.build_verdicts(
         chrono_ok=True, chrono_note="OK; leak_probe=OK", excess=excess, stats=stats,
+        excess_ci=(metrics["portfolio_P"].excess_ci_low, metrics["portfolio_P"].excess_ci_high),
         mix={"incremental_net": mix["incremental_net"]},
         cost_basis_ok=p_ser["cost_basis"] == "VERIFIED_ENGINE_FUNDING",
         funding_missing=False, live_fills_present=bool(shadow.get("live_fills_present")),

@@ -50,8 +50,14 @@ def _file_sha(p: Path) -> str:
     return h.hexdigest()
 
 
-def load_multitape(tape_path: Path | str, limit: int | None = None) -> MultiTape:
-    """Load every instrument in the quad tape with aligned chronological bars."""
+def load_multitape(
+    tape_path: Path | str, limit: int | None = None, offset: int = 0
+) -> MultiTape:
+    """Load every instrument in the quad tape with aligned chronological bars.
+
+    offset skips that many leading bars per leg (frozen-OOS windowing); limit
+    caps the leg length after the offset.
+    """
     p = Path(tape_path)
     if p.is_dir():
         p = p / "tape.jsonl"
@@ -68,6 +74,8 @@ def load_multitape(tape_path: Path | str, limit: int | None = None) -> MultiTape
     leg_maps: dict[str, dict[int, tuple[Candle, float]]] = {}
     for inst in instruments:
         sub = kline.filter(pl.col("instrument") == inst)
+        if offset:
+            sub = sub.slice(offset)
         if limit is not None:
             sub = sub.head(limit)
         m: dict[int, tuple[Candle, float]] = {}
