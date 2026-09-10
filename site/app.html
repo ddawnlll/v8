@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V8 — Canlı Durum • Ultramode</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0a0f18;--card:#111b2b;--card2:#0f1a2a;--border:#1e2f4a;--text:#e6eef8;--muted:#8da0bf;--accent:#38bdf8;--good:#4ade80;--warn:#facc15;--bad:#f87171;--radius:12px}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui}
+a{color:var(--accent)} .container{max-width:1280px;margin:0 auto;padding:20px 16px 40px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.badges{display:flex;gap:8px} .badge{padding:6px 10px;border-radius:999px;font-weight:800;font-size:11px;border:1px solid}
+.badge-up{background:#0e2e1a;color:var(--good);border-color:#1a5a2e}.badge-stale{background:#3a1414;color:var(--bad);border-color:#7a1a1a}
+.grid{display:grid;gap:14px}.g-3{grid-template-columns:repeat(3,1fr)}.g-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.g-3,.g-2{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:12px;padding:14px}
+.card h3{margin:0 0 8px;font-size:11px;letter-spacing:.8px;color:var(--muted);text-transform:uppercase}
+.big{font-size:30px;font-weight:900}.muted{color:var(--muted);font-size:12px}
+.heat{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.heat div{padding:8px 6px;border-radius:8px;text-align:center;font-weight:800;font-size:11px;border:1px solid var(--border)}
+.pass{background:#0e2e1a;color:var(--good)}.unknown{background:#1a2336;color:var(--warn)}.missing{background:#2a1414;color:var(--bad)}
+.list{list-style:none;margin:0;padding:0}.list li{padding:8px 10px;border:1px solid var(--border);border-radius:10px;margin:6px 0;background:#0d1524;display:flex;justify-content:space-between}
+pre{margin:0;white-space:pre-wrap;word-break:break-word;background:#0b1322;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:12px;max-height:300px;overflow:auto}
+.stale{display:none;background:#3a1414;color:#fecaca;border:1px solid #7a1a1a;border-radius:10px;padding:10px 12px;margin:12px 0}
+</style></head><body>
+<div class="container">
+<div class="top"><div><h1 style="margin:0">V8 — Canlı Durum <span style="color:var(--muted);font-weight:600">Ultramode</span></h1><small style="color:var(--muted)">quad-1h-12m • BTC/ETH/SOL/AVAX • 500 bar • <span id="gen">—</span></small></div>
+<div class="badges"><span id="badge" class="badge badge-up">CANLI</span><span id="srv" class="badge" style="background:#0d1524;color:var(--muted)">srv up</span><span id="wrk" class="badge" style="background:#0d1524;color:var(--muted)">worker up</span></div></div>
+<div id="stale" class="stale">⚠️ Güncelleme kesildi</div>
+<div class="grid g-3" style="margin-top:14px">
+<div class="card"><h3>Cap / Readiness</h3><div class="big" id="cap">—</div><div class="muted" id="readiness">—</div><canvas id="capChart" height="90"></canvas></div>
+<div class="card"><h3>Şu an</h3><div id="running" class="muted">—</div><hr style="border:none;border-top:1px solid var(--border);margin:10px 0"><div class="muted">Ledger: <span id="ledgerCount">—</span> • Last: <span id="lastEntry">—</span><br>Updated: <span id="updated">—</span></div></div>
+<div class="card"><h3>Gate Vector</h3><div class="heat" id="gates"></div><div class="muted" id="gateNote" style="margin-top:8px">—</div></div>
+</div>
+<div class="grid g-2" style="margin-top:14px">
+<div class="card"><h3>Son değişiklikler</h3><pre id="bulletin">Yükleniyor…</pre></div>
+<div class="card"><h3>Ekonomik</h3><div id="economic" class="muted">—</div></div>
+</div>
+<div class="grid g-3" style="margin-top:14px">
+<div class="card"><h3>Ready</h3><ul id="ready" class="list"></ul></div>
+<div class="card"><h3>Blocked</h3><ul id="blocked" class="list"></ul></div>
+<div class="card"><h3>Done</h3><ul id="done" class="list"></ul></div>
+</div>
+<div class="card" style="margin-top:14px"><h3>Kanıt</h3><div class="muted">Ledger: <a href="../artifacts/benchmarks/benchmark_ledger.jsonl" target="_blank">ledger</a> • Report: <a href="../artifacts/benchmarks/forensic_report.html" target="_blank">report</a> • Bulletin: <a href="../artifacts/bulletin.md" target="_blank">bulletin.md</a> • App: <a href="status.json" target="_blank">status.json</a></div></div>
+</div>
+<script>
+let chart;
+function gateClass(v){return v==='PASS'?'pass':v==='MISSING'?'missing':'unknown'}
+async function refresh(){
+ try{
+  const r=await fetch('status.json?ts='+Date.now(),{cache:'no-store'}); const j=await r.json();
+  document.getElementById('gen').textContent=j.generated_at||'—';
+  document.getElementById('updated').textContent=j.bulletin?.last_update||'—';
+  document.getElementById('srv').textContent='srv '+(j.server_status||'—');
+  document.getElementById('wrk').textContent='worker '+(j.worker_status||'—');
+  const cap=j.ledger?.cap; const rd=j.readiness?.readiness;
+  document.getElementById('cap').textContent=cap!=null?cap.toFixed(1)+' / 100':'—';
+  const rdEl=document.getElementById('readiness');
+  if(rd!=null){
+    rdEl.innerHTML='Readiness '+rd.toFixed(1)+' / 100 <span style="opacity:.7">(bileşik: cap × evidence × robustness × economic / 100²)</span><br><span style="font-size:11px;opacity:.6">kaynak: '+(j.readiness.source||'—')+' • '+((j.readiness.source_mtime||'').slice(0,16))+'</span>';
+  } else {
+    rdEl.innerHTML='<span style="opacity:.7">Readiness: yayınlanmadı — bağımsız sertifika artifact\'ı yok</span>';
+  }
+  document.getElementById('ledgerCount').textContent=j.ledger?.count||0;
+  document.getElementById('lastEntry').textContent=j.ledger?.last_entry||'—';
+  const gates=j.ledger?.gates||{}; const order=['g0_identity','g1_causal_pit','g2_determinism_ledger','g3_benchmark_coverage','g4_structural_robustness','g5_statistical_credibility','g6_protected_oos','g7_generalization','g8_prospective_shadow','g9_live_realization'];
+  const gEl=document.getElementById('gates'); gEl.innerHTML=''; order.forEach(k=>{const v=gates[k]||'UNKNOWN'; const d=document.createElement('div'); d.className=gateClass(v); d.textContent=k.split('_')[0].toUpperCase()+': '+v; gEl.appendChild(d);});
+  document.getElementById('bulletin').textContent=(j.bulletin?.raw||'').slice(0,5000)||'—';
+  document.getElementById('economic').textContent='Last cap '+(cap||'—')+' • Ledger '+(j.ledger?.count||0)+' entries';
+  const fill=(id,arr)=>{const ul=document.getElementById(id); ul.innerHTML=''; if(!arr||!arr.length){ul.innerHTML='<li><span class="muted">—</span></li>';return;} arr.forEach(x=>{const li=document.createElement('li'); li.innerHTML=`<span><b>${x.id||''}</b> ${x.title||''}</span><small>${x.at||''}</small>`; ul.appendChild(li);});};
+  fill('ready',j.kanban?.ready); fill('blocked',j.kanban?.blocked); fill('done',j.kanban?.recent_done||[]);
+  const run=j.kanban?.running||[]; document.getElementById('running').innerHTML= run.length? run.map(x=>`<b>${x.id}</b> ${x.title}`).join('<br>') : '<span class="muted">Boş — scout 30m bekleniyor</span>';
+  const hist=j.ledger?.history||[]; if(hist.length){const labels=hist.map((_,i)=>i+1); const caps=hist.map(h=>h.cap); const ctx=document.getElementById('capChart').getContext('2d'); if(chart) chart.destroy(); chart=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'cap',data:caps,borderColor:'#38bdf8',backgroundColor:'rgba(56,189,248,0.15)',tension:0.3,fill:true,pointRadius:2}]},options:{plugins:{legend:{display:false}},scales:{x:{grid:{color:'#1a2336'},ticks:{color:'#8da0bf'}},y:{grid:{color:'#1a2336'},ticks:{color:'#8da0bf'},min:0,max:100}},animation:false}});}
+  const gen=j.generated_at? new Date(j.generated_at):null; const stale=gen && (Date.now()-gen.getTime()>30*60*1000);
+  document.getElementById('stale').style.display=stale?'block':'none'; document.getElementById('badge').textContent=stale?'STALE':'CANLI'; document.getElementById('badge').className=stale?'badge badge-stale':'badge badge-up';
+ }catch(e){ document.getElementById('stale').style.display='block'; document.getElementById('stale').textContent='⚠️ '+e; }
+}
+refresh(); setInterval(refresh,15000);
+</script>
+</body></html>
