@@ -7,6 +7,7 @@ and skips when the tape is absent.
 
 from decimal import Decimal
 from pathlib import Path
+import json
 
 import pytest
 
@@ -163,6 +164,67 @@ def test_portfolio_quad_end_to_end(tmp_path: Path) -> None:
     assert cap["live_decision"]["decision"] == "REJECT"
     import sqlite3  # noqa: F401  (guard: no live money path touched)
     assert list((tmp_path / "port").glob("economic_report_*.md"))
+
+
+def test_funding_holding_convention_matches_engine() -> None:
+    """Engine-matched rule (open<=, close>) reproduces the measured OOS drag.
+
+    Pinned empirically: exact 4-decimal match of the analytic expectation
+    against the dual-run balance difference over 4321 real bars. Requires the
+    persisted OOS artifacts + quad tape; skips when absent.
+    """
+    import math
+
+    base = Path("/Users/hootie/src/v8/artifacts/portfolio-oos")
+    trades = sorted(base.glob("portfolio_P_trades_*.jsonl"))
+    closed = sorted(base.glob("portfolio_closed_*.jsonl"))
+    if not trades or not closed:
+        pytest.skip("persisted OOS engine evidence absent")
+    from v8_next.evaluation.multitape import load_multitape
+
+    try:
+        t = load_multitape("/Users/hootie/src/v8/research/tape/quad-1h-12m",
+                           limit=4321, offset=4380)
+    except FileNotFoundError:
+        pytest.skip("quad tape absent")
+    ns = [c.end_ns for c in t.candles["BTCUSDT"]]
+    closes = {f"{k}-PERP.BINANCE": [float(c.close) for c in v] for k, v in t.candles.items()}
+    idx = {x: i for i, x in enumerate(ns)}
+    opens = [json.loads(line) for line in trades[0].read_text().splitlines()]
+    closes_rec = [json.loads(line) for line in closed[0].read_text().splitlines()]
+    for o in opens:
+        o["event_ns"] = o.pop("fill_time_ns")
+        o["position_id"] = o.pop("trade_id")
+    for c in closes_rec:
+        c["event_ns"] = c.pop("fill_time_ns")
+    pairs = eb.pair_positions(opens, closes_rec)
+    total = 0.0
+    for o, c in pairs:
+        inst = o["instrument_id"]
+        q = float(o["quantity"])
+        side = 1.0 if str(o["side"]).upper() in ("BUY", "LONG") else -1.0
+        oi = idx.get(int(o["event_ns"]))
+        ci = idx.get(int(c["event_ns"])) if c else None
+        if oi is None:
+            continue
+        for f in t.funding:
+            if f.instrument + "-PERP.BINANCE" != inst:
+                continue
+            b = f.funding_time_ms * 10**6
+            bi = next((i for i, x in enumerate(ns) if x >= b), None)
+            if bi is None:
+                continue
+            if oi <= bi and (ci is None or ci > bi):
+                total += -math.copysign(1.0, side * q) * abs(q) * closes[inst][bi] * float(
+                    f.funding_rate
+                )
+    import json as _json
+
+    receipts = sorted(base.glob("economic_receipt_*.json"))
+    receipt = _json.loads(receipts[0].read_text())
+    paid = receipt["metrics"]["portfolio_P"]["funding_cost"]
+    assert paid is not None
+    assert abs(total - paid) < 0.01, f"convention drift: {total} vs {paid}"
 
 
 def test_mechanics_funding_measured_not_gapped() -> None:

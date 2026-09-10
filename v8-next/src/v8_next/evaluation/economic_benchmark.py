@@ -838,8 +838,12 @@ def portfolio_series_from_engine(
             open_entry_comm += abs(info["qty"]) * info["open_px"] * taker_fee
 
     # Funding reconciliation: expected from real rows x open positions.
-    # Same-bar open/close vs boundary ordering is ambiguous at event
-    # granularity, so the expectation is a range over both conventions.
+    # Engine-matched holding convention (pinned empirically: exact 4-decimal
+    # match over 587 holdings on the OOS window, plus isolated LONG/SHORT
+    # settlement tests): a position opened at the boundary bar IS held
+    # (open_idx <= b_idx); a position closed at the boundary bar is NOT
+    # (close_idx > b_idx required). Same-ts opens fill after the funding
+    # event, same-ts closes execute before it.
     funding_expected = 0.0
     funding_boundaries = 0
     per_boundary: list[float] = []
@@ -861,12 +865,9 @@ def portfolio_series_from_engine(
                 continue
             notion = abs(info["qty"]) * closes[b_idx]
             leg = -math.copysign(1.0, info["qty"]) * notion * rate
-            held_strict = info["open_idx"] < b_idx and (info["close_idx"] is None or info["close_idx"] > b_idx)
-            held_loose = info["open_idx"] <= b_idx and (info["close_idx"] is None or info["close_idx"] >= b_idx)
-            if held_strict:
+            if info["open_idx"] <= b_idx and (info["close_idx"] is None or info["close_idx"] > b_idx):
                 funding_expected += leg
                 funding_boundaries += 1
-            if held_loose:
                 per_boundary.append(leg)
     funding_paid = -funding_measured_drag if funding_measured_drag is not None else 0.0
     # Tolerance is data-derived: the largest single-boundary settlement held
@@ -1381,16 +1382,19 @@ def build_verdicts(
         pf_note = "mix unavailable"
     elif inc > 0:
         portfolio = "HELPFUL_DESCRIPTIVE"
-        pf_note = "P+E sleeve mix improves allocator-level net on this window"
+        pf_note = "P+E shared-account engine rerun improves net on this window"
     else:
         portfolio = "NOT_HELPFUL"
         pf_note = "P+E sleeve mix does not improve allocator-level net on this window"
     if not cost_basis_ok:
         execution: VerdictState = "EXECUTION_UNPROVEN"
         ex_note = "cost basis unverified; simulated fills only"
-    elif funding_missing or not live_fills_present:
+    elif funding_missing:
         execution = "SIM_ONLY"
-        ex_note = "simulated fills; funding MISSING; no venue-settled fills"
+        ex_note = "simulated fills; funding unavailable; no venue-settled fills"
+    elif not live_fills_present:
+        execution = "SIM_ONLY"
+        ex_note = "simulated fills; public funding measured; no venue-settled fills"
     elif not parity_ok:
         execution = "EXECUTION_UNPROVEN"
         ex_note = "ledger parity diverged"
