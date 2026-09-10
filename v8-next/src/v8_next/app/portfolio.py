@@ -22,6 +22,8 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any, Sequence
 
+from v8_next.adapters.execution_models import DEFAULT_PROFILE as DEFAULT_EXECUTION_PROFILE
+from v8_next.adapters.execution_models import PROFILES as EXECUTION_PROFILES
 from v8_next.adapters.portfolio_backtest import (
     SleeveSpec,
     run_portfolio_backtest,
@@ -66,6 +68,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--capital-policy", default=None)
     p.add_argument("--html-out", default=None)
     p.add_argument("--live-fills", default=None)
+    p.add_argument(
+        "--execution-profile",
+        default=DEFAULT_EXECUTION_PROFILE,
+        help=(
+            "Nautilus simulated-execution profile: fill model, fee model and "
+            "latency model actually in force. One of: "
+            f"{', '.join(sorted(EXECUTION_PROFILES))}"
+        ),
+    )
     return p.parse_args(argv)
 
 
@@ -168,6 +179,7 @@ def main(argv: list[str] | None = None) -> int:
         "per_leg_notional": Decimal(str(args.per_leg_notional)),
         "taker_fee": Decimal(str(args.taker_fee)),
         "initial_balance": Decimal(str(args.capital)),
+        "execution_profile": args.execution_profile,
     }
     print("[+] engine P (funding + no-funding dual) ...", flush=True)
     p_fund = run_portfolio_backtest(
