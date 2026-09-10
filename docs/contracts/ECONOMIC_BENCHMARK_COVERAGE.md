@@ -93,7 +93,7 @@ Canonical reproduction:
 
 | PDF recommendation | Code + flow | Status |
 |---|---|---|
-| Score never allocates money; separate risk budget + exit conditions | `domain/capital_policy.py` (single source): TEST accept, missing/live/wrong-instrument REJECT | DONE (code) |
+| Score never allocates money; separate risk budget + exit conditions | `domain/capital_policy.py` (single source): file-or-unauthorized governing flow, TEST accept-path evidence, missing/live/wrong-instrument REJECT | DONE (code) |
 | Production authorization | Human-signed approval required; no approval artifact exists | BLOCKED_EXTERNAL (human decision) |
 
 ## Explicitly not claimed
