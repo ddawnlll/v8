@@ -166,3 +166,98 @@ def test_fill_records_are_json_safe_and_match_the_reported_count() -> None:
             assert value is None or isinstance(value, (bool, int, float, str, list))
         # must survive a strict JSON round-trip (no NaN/Inf leaking through)
         json.dumps(rec, allow_nan=False)
+
+
+# Absolute path on purpose: DEFAULT_TAPE_PATH is relative and resolves against
+# whatever cwd the suite runs from, which silently skipped these checks.
+BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+
+
+def test_d153_runner_measures_determinism_and_binds_the_execution_profile(tmp_path) -> None:
+    """G2 goes from a permanent UNRUN to measured rerun-parity evidence.
+
+    The single-instrument runner is executed twice with explicit execution
+    semantics, and the two fill signatures must match. This is the gate's own
+    reason string changing from DETERMINISM_RERUN_NOT_PERFORMED to a measured
+    verdict, not an assertion that the engine is deterministic by assumption.
+    """
+    if not BTC_TAPE.exists():
+        pytest.skip(f"single-asset real tape absent at {BTC_TAPE}")
+
+    from v8_next.adapters.execution_models import profile_digest
+    from v8_next.adapters.expert_strategy import ExpertStrategyConfig
+    from v8_next.evaluation.gate_resolution import load_tape_candles
+    from v8_next.evaluation.runner import BenchmarkCase, BenchmarkRunner
+
+    candles = load_tape_candles(BTC_TAPE, limit=120)
+    if not candles:
+        pytest.skip("tape loaded no candles")
+
+    case = BenchmarkCase(
+        case_id="BC-EXEC-DETERMINISM",
+        policy_id="pol_28_expert_ensemble",
+        dataset_name="BTCUSDT-1H-PERP",
+        strategy_config=ExpertStrategyConfig(
+            min_support_quorum=1,
+            max_contradiction_tolerance=28,
+            bracket_stop_pct=Decimal("0.02"),
+            bracket_target_pct=Decimal("0.04"),
+        ),
+    )
+    result = BenchmarkRunner(output_dir=tmp_path).run(
+        case,
+        candles,
+        resolve_gates=False,
+        execution_profile="realistic",
+        measure_determinism=True,
+    )
+
+    g2 = result.gate_metrics["g2"]
+    assert g2["status"] in ("PASS", "UNKNOWN"), g2
+    if g2["status"] == "PASS":
+        assert g2["reason"] == "DETERMINISM_RERUN_EXACT_FILL_MATCH"
+        assert g2["positions_match"] is True
+        assert g2["fills_count"] > 0
+        assert len(g2["fill_signature"]) == 64
+    else:
+        # an empty fill set cannot evidence parity, and must say so
+        assert g2["reason"] == "NO_FILLS_TO_COMPARE"
+
+    execution = result.gate_metrics["execution"]
+    assert execution["profile"] == "realistic"
+    assert execution["digest"] == profile_digest("realistic")
+    assert execution["evidence_class"] == "MODELLED_EXECUTION_ASSUMPTION_NOT_VENUE_TRUTH"
+
+
+def test_d153_runner_without_a_profile_claims_no_execution_semantics(tmp_path) -> None:
+    """Omitting the profile must not silently imply one."""
+    if not BTC_TAPE.exists():
+        pytest.skip(f"single-asset real tape absent at {BTC_TAPE}")
+
+    from v8_next.adapters.expert_strategy import ExpertStrategyConfig
+    from v8_next.evaluation.gate_resolution import load_tape_candles
+    from v8_next.evaluation.runner import BenchmarkCase, BenchmarkRunner
+
+    candles = load_tape_candles(BTC_TAPE, limit=60)
+    if not candles:
+        pytest.skip("tape loaded no candles")
+
+    case = BenchmarkCase(
+        case_id="BC-EXEC-UNSPECIFIED",
+        policy_id="pol_28_expert_ensemble",
+        dataset_name="BTCUSDT-1H-PERP",
+        strategy_config=ExpertStrategyConfig(
+            min_support_quorum=1,
+            max_contradiction_tolerance=28,
+            bracket_stop_pct=Decimal("0.02"),
+            bracket_target_pct=Decimal("0.04"),
+        ),
+    )
+    result = BenchmarkRunner(output_dir=tmp_path).run(case, candles, resolve_gates=False)
+    assert result.gate_metrics is not None
+    execution = result.gate_metrics["execution"]
+    assert execution["profile"] is None
+    assert execution["evidence_class"] == "UNSPECIFIED_EXECUTION_SEMANTICS"
+    # no profile was declared, so no digest may be claimed for one
+    assert "digest" not in execution
+    assert execution["fills_count"] >= 0

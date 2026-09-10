@@ -337,6 +337,29 @@ def test_shortfall_uses_the_same_instrument_decision() -> None:
     assert block["slippage_bps_mean"] == pytest.approx(100.0)
 
 
+def test_cross_series_reference_is_rejected_not_averaged() -> None:
+    """Regression: a single-instrument config over a multi-asset tape gave -5.8e7 bps."""
+    block = _execution_telemetry(
+        _profile(), [], "DataFrame",
+        [{"instrument_id": LEG, "side": "BUY", "avg_px_open": "105000.0", "event_ns": 300}],
+        # same instrument id, but the price belongs to a different asset's series
+        [{"instrument_id": LEG, "decision_ns": 200, "close": "20.0"}],
+    )
+    assert block["slippage_samples"] == 0
+    assert block["slippage_rejected_cross_series"] == 1
+    assert block["slippage_bps_mean"] is None
+
+
+def test_same_series_reference_within_band_is_still_measured() -> None:
+    block = _execution_telemetry(
+        _profile(), [], "DataFrame",
+        [{"instrument_id": LEG, "side": "BUY", "avg_px_open": "101.0", "event_ns": 300}],
+        [{"instrument_id": LEG, "decision_ns": 200, "close": "100.0"}],
+    )
+    assert block["slippage_samples"] == 1
+    assert block["slippage_rejected_cross_series"] == 0
+
+
 def test_telemetry_uses_the_last_decision_at_or_before_the_fill() -> None:
     block = _execution_telemetry(
         _profile(), [], "list",

@@ -35,6 +35,16 @@ from nautilus_trader.model import (
 from nautilus_trader.trading import Strategy
 
 from v8_next.adapters.engine_state import economic_state
+from v8_next.adapters.execution_models import (
+    ExecutionProfile,
+    resolve_profile,
+    venue_kwargs,
+)
+from v8_next.adapters.execution_telemetry import (
+    execution_telemetry,
+    fill_signature,
+    native_fill_records,
+)
 from v8_next.domain.market import Candle, CausalFrame, build_candle_dataframe, frame_at
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.decisions import Opportunity, StanceKind, opportunity_at
@@ -390,6 +400,7 @@ def run_expert_strategy_backtest(
     fill_model: Any = None,
     latency_model: Any = None,
     fee_model: Any = None,
+    execution_profile: str | ExecutionProfile | None = None,
 ) -> dict[str, Any]:
     """Execute the 28-expert ensemble strategy through NautilusTrader's BacktestEngine.
 
@@ -440,6 +451,26 @@ def run_expert_strategy_backtest(
         for c in candles
     ]
 
+    # Execution semantics: an explicit profile supplies the fill/fee/latency
+    # models plus the liquidity-consumption and queue-position knobs. Explicit
+    # model arguments still win over the profile, so existing callers that pass
+    # their own models keep behaving exactly as before.
+    profile = resolve_profile(execution_profile) if execution_profile is not None else None
+    if profile is not None:
+        venue_exec: dict[str, Any] = dict(venue_kwargs(profile))
+        if fill_model is not None:
+            venue_exec["fill_model"] = fill_model
+        if latency_model is not None:
+            venue_exec["latency_model"] = latency_model
+        if fee_model is not None:
+            venue_exec["fee_model"] = fee_model
+    else:
+        venue_exec = {
+            "fill_model": fill_model,
+            "latency_model": latency_model,
+            "fee_model": fee_model,
+        }
+
     # 3. Instantiate Engine and Strategy
     engine = BacktestEngine(
         BacktestEngineConfig(
@@ -454,9 +485,7 @@ def run_expert_strategy_backtest(
             AccountType.MARGIN,
             [Money(float(initial_balance), curr)],
             default_leverage=Decimal(1),
-            fill_model=fill_model,
-            latency_model=latency_model,
-            fee_model=fee_model,
+            **venue_exec,
         )
         engine.add_instrument(instrument)
         engine.add_data(bars)
@@ -470,6 +499,27 @@ def run_expert_strategy_backtest(
 
         # 5. Extract Economic State & Diagnostics
         account_state = economic_state(engine, ven, curr)
+
+        # Measured execution evidence. When no profile was declared, no
+        # execution semantics are claimed: only the facts that do not depend on
+        # the model (fill count, fill identity) are reported.
+        fill_records, fill_report_type = native_fill_records(engine)
+        if profile is not None:
+            execution_block = execution_telemetry(
+                profile,
+                fill_records,
+                fill_report_type,
+                strategy.opened_positions,
+                [{**d, "instrument_id": str(instrument_id)} for d in strategy.decisions],
+            )
+        else:
+            execution_block = {
+                "profile": None,
+                "evidence_class": "UNSPECIFIED_EXECUTION_SEMANTICS",
+                "fills_count": len(fill_records),
+                "fills_report_type": fill_report_type,
+                "fill_signature": fill_signature(fill_records),
+            }
         return {
             "strategy_id": str(strategy.strategy_id),
             "instrument_id": str(instrument_id),
@@ -480,6 +530,7 @@ def run_expert_strategy_backtest(
             "opened_positions": strategy.opened_positions,
             "closed_positions": strategy.closed_positions,
             "account": account_state,
+            "execution": execution_block,
             "opportunity_book": strategy.opportunity_book,
         }
     finally:

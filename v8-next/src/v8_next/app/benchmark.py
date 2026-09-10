@@ -45,6 +45,24 @@ def main() -> int:
         default=None,
         help="Optional path to venue-settled fills.jsonl for G8 verification",
     )
+    parser.add_argument(
+        "--execution-profile",
+        default=None,
+        help=(
+            "Nautilus simulated-execution profile (baseline | realistic | "
+            "volume_aware): fill model, fee model, latency model plus the "
+            "liquidity/queue knobs. Omit to keep engine defaults; the receipt "
+            "then reports no declared execution semantics instead of implying one."
+        ),
+    )
+    parser.add_argument(
+        "--determinism-rerun",
+        action="store_true",
+        help=(
+            "Re-execute the engine and compare fill signatures, turning G2 from "
+            "UNRUN into measured evidence. Doubles engine runtime."
+        ),
+    )
     args = parser.parse_args()
 
     print(f"=== Starting D-153 Benchmark Execution: {args.case_id} ===")
@@ -80,7 +98,21 @@ def main() -> int:
         resolve_gates=args.resolve_gates,
         tape_path=tape_file if tape_file.exists() else None,
         live_fills_path=Path(args.live_fills) if args.live_fills else None,
+        execution_profile=args.execution_profile,
+        measure_determinism=args.determinism_rerun,
     )
+    execution = result.gate_metrics.get("execution") if result.gate_metrics else None
+    if execution:
+        print(
+            f"[+] Execution profile: {execution.get('profile')} "
+            f"(digest {str(execution.get('digest'))[:12]}) | "
+            f"fills={execution.get('fills_count')} "
+            f"shortfall_bps={execution.get('slippage_bps_mean')} "
+            f"samples={execution.get('slippage_samples')} | "
+            f"evidence={execution.get('evidence_class')}"
+        )
+    g2 = (result.gate_metrics or {}).get("g2", {})
+    print(f"[+] G2 determinism: {g2.get('status')} ({g2.get('reason')})")
     print(f"[+] Nautilus Backtest Completed: {result.total_bars} bars, {result.total_trades} trades")
     print(f"[+] Capability Score: {result.capability_score:.1f} / 100")
     if result.domain_scores:

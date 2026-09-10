@@ -19,6 +19,7 @@ from typing import Any, Sequence
 
 from pydantic import BaseModel, ConfigDict
 
+from v8_next.adapters.execution_models import ExecutionProfile
 from v8_next.adapters.expert_strategy import (
     ExpertStrategyConfig,
     run_expert_strategy_backtest,
@@ -173,12 +174,19 @@ class BenchmarkRunner:
         tape_path: Path | str | None = None,
         live_fills_path: Path | str | None = None,
         capital_policy: CapitalPolicy | str | Path | None = None,
+        execution_profile: str | ExecutionProfile | None = None,
+        measure_determinism: bool = False,
     ) -> BenchmarkRunResult:
         """Execute the complete benchmark run.
 
         capital_policy: None -> safe unauthorized default (no live orders, no promotion).
         Accepts CapitalPolicy instance, path to JSON, or None. Test policies verify accept/reject.
         Never prompts, never blocks.
+
+        execution_profile: named Nautilus simulated-execution profile (fill model,
+        fee model, latency model, liquidity/queue knobs). None keeps the engine
+        defaults, and the receipt then reports that no execution semantics were
+        declared rather than implying a model that was never chosen.
         """
         # 0. Capital policy validation (Task 4): safe unauthorized default, no live orders.
         if isinstance(capital_policy, CapitalPolicy):
@@ -205,6 +213,7 @@ class BenchmarkRunner:
         backtest_result = run_expert_strategy_backtest(
             tuple(candles),
             case.strategy_config,
+            execution_profile=execution_profile,
         )
 
         opened_positions = backtest_result["opened_positions"]
@@ -238,12 +247,75 @@ class BenchmarkRunner:
         abstain_rate = abstain_count / total_expert_votes
 
         coverage_factor = 0.60
+        # Measured execution evidence from the engine run feeds ExecutionFidelity
+        # in place of the PnL-Sharpe proxy whenever real fills were measured.
+        execution_evidence = backtest_result.get("execution") or {}
+
+        # Optional measured determinism rerun. The G2 gate previously reported
+        # UNRUN_DETERMINISM_RERUN_NOT_PERFORMED because nothing ever compared two
+        # engine executions. With explicit execution semantics the fill
+        # signature is a real identity to compare, so G2 becomes measurable
+        # evidence instead of a permanent UNKNOWN. Opt-in: it doubles engine time.
+        g2_metric: dict[str, Any] = {
+            "status": "UNRUN",
+            "reason": "DETERMINISM_RERUN_NOT_PERFORMED",
+            "note": "single engine execution only; rerun-parity check not performed; UNKNOWN, never PASS",
+        }
+        if measure_determinism:
+            rerun = run_expert_strategy_backtest(
+                tuple(candles),
+                case.strategy_config,
+                execution_profile=execution_profile,
+            )
+            first_exec = backtest_result.get("execution") or {}
+            second_exec = rerun.get("execution") or {}
+            first_sig = first_exec.get("fill_signature")
+            second_sig = second_exec.get("fill_signature")
+            fills = int(first_exec.get("fills_count") or 0)
+            positions_match = (
+                backtest_result["opened_positions"] == rerun["opened_positions"]
+                and backtest_result.get("closed_positions", [])
+                == rerun.get("closed_positions", [])
+            )
+            if fills == 0 or not first_sig or not second_sig:
+                g2_metric = {
+                    "status": "UNKNOWN",
+                    "reason": "NO_FILLS_TO_COMPARE",
+                    "fills_count": fills,
+                    "note": "an empty fill set cannot evidence rerun parity; UNKNOWN, never PASS",
+                }
+            elif first_sig == second_sig and positions_match:
+                g2_metric = {
+                    "status": "PASS",
+                    "reason": "DETERMINISM_RERUN_EXACT_FILL_MATCH",
+                    "fill_signature": first_sig,
+                    "fills_count": fills,
+                    "positions_match": True,
+                }
+            else:
+                g2_metric = {
+                    "status": "FAIL",
+                    "reason": "DETERMINISM_RERUN_DIVERGED",
+                    "fill_signature_first": first_sig,
+                    "fill_signature_second": second_sig,
+                    "positions_match": positions_match,
+                    "fills_count": fills,
+                }
+        # G2 gate state from the measured rerun (UNKNOWN when not measured).
+        _g2_state = (
+            GateState.PASS
+            if g2_metric.get("status") == "PASS"
+            else GateState.BLOCKED
+            if g2_metric.get("status") == "FAIL"
+            else GateState.UNKNOWN
+        )
         breakdown = compute_capability_breakdown(
             pnl_series=pnl_series,
             total_bars=total_bars,
             total_trades=total_trades,
             abstain_rate=abstain_rate,
             coverage_factor=coverage_factor,
+            execution=execution_evidence,
         )
         capability_score = compute_capability_score(
             pnl_series=pnl_series,
@@ -251,6 +323,7 @@ class BenchmarkRunner:
             total_trades=total_trades,
             abstain_rate=abstain_rate,
             coverage_factor=coverage_factor,
+            execution=execution_evidence,
         )
 
         gate_metrics: dict[str, Any] = {}
@@ -258,16 +331,13 @@ class BenchmarkRunner:
         pre_pass = False
         # Structural gate inputs: G0 measured above; G1/G2 unmeasured here.
         gate_metrics["g0"] = dict(_lineage_info)
+        gate_metrics["execution"] = dict(execution_evidence)
         gate_metrics["g1"] = {
             "status": "UNRUN",
             "reason": "CAUSAL_PIT_NOT_MEASURED_IN_RUNNER",
             "note": "per-bar decision-vs-availability audit not performed; UNKNOWN, never PASS",
         }
-        gate_metrics["g2"] = {
-            "status": "UNRUN",
-            "reason": "DETERMINISM_RERUN_NOT_PERFORMED",
-            "note": "single engine execution only; rerun-parity check not performed; UNKNOWN, never PASS",
-        }
+        gate_metrics["g2"] = dict(g2_metric)
 
         if resolve_gates:
             # 1. G3: Scenario Robustness across 4 market regimes
@@ -309,6 +379,7 @@ class BenchmarkRunner:
                 mismatches=None,
                 has_continuous_lineage=_lineage_ok,
                 is_causal_pit=None,
+                g2_state=_g2_state,
                 g3_state=g3_state,
                 g4_state=g4_state,
                 g5_state=g5_state,
@@ -325,6 +396,7 @@ class BenchmarkRunner:
                 mismatches=None,
                 has_continuous_lineage=_lineage_ok,
                 is_causal_pit=None,
+                g2_state=_g2_state,
             )
 
         # 3. Export physical trade ledger to disk

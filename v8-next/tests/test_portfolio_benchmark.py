@@ -5,9 +5,9 @@ evaluative weight. Evaluative section runs the quad engine path on real tape
 and skips when the tape is absent.
 """
 
+import json
 from decimal import Decimal
 from pathlib import Path
-import json
 
 import pytest
 

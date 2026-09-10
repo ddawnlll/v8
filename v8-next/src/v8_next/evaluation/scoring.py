@@ -222,6 +222,7 @@ def evaluate_gate_vector(
     has_continuous_lineage: bool | None = True,
     is_causal_pit: bool | None = True,
     has_data_gaps: bool = False,
+    g2_state: GateState | None = None,
     g3_state: GateState | None = None,
     g4_state: GateState | None = None,
     g5_state: GateState | None = None,
@@ -249,7 +250,11 @@ def evaluate_gate_vector(
         g1 = GateState.PASS if is_causal_pit else GateState.BLOCKED
 
     # G2 Determinism Ledger: zero non-deterministic mismatches (None -> UNKNOWN).
-    if mismatches is None:
+    # A measured rerun-parity state, when supplied, wins over the mismatch count:
+    # the rerun compares two real engine executions, which is direct evidence.
+    if g2_state is not None:
+        g2 = g2_state
+    elif mismatches is None:
         g2 = GateState.UNKNOWN
     else:
         g2 = GateState.PASS if mismatches == 0 else GateState.BLOCKED
