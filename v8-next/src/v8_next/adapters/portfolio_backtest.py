@@ -19,7 +19,8 @@ from decimal import Decimal
 from typing import Any
 
 from nautilus_trader.backtest import BacktestEngine
-from nautilus_trader.config import BacktestEngineConfig
+from nautilus_trader.common import LogLevel
+from nautilus_trader.config import BacktestEngineConfig, LoggerConfig
 from nautilus_trader.model import (
     AccountType,
     Bar,
@@ -141,7 +142,12 @@ def run_portfolio_backtest(
         raise ValueError(f"sleeve fractions must sum to 1.0, got {frac}")
     curr = Currency.from_str(currency)
     ven = Venue(venue)
-    engine = BacktestEngine(BacktestEngineConfig(bypass_logging=True))
+    engine = BacktestEngine(
+        BacktestEngineConfig(
+            bypass_logging=True,
+            logging=LoggerConfig(stdout_level=LogLevel.WARNING),
+        )
+    )
     try:
         engine.add_venue(
             ven,
