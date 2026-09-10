@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "v8-next"
+version = "0.1.0"
+description = "V8-Next: Python economic/control plane with production execution libraries"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "nautilus-trader==2.0.0rc4",
+    "polars>=1.44.0",
+    "numpy>=2.0.0",
+    "pydantic>=2.10.0",
+]
+
+[project.scripts]
+v8-next = "v8_next.app.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "hypothesis>=6.120.0",
+    "ruff>=0.9.0",
+    "mypy>=1.14.0",
+]
+research = [
+    "arch>=8.0.0",
+    "scipy>=1.14.0",
+    "statsmodels>=0.14.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
