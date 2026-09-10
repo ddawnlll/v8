@@ -35,6 +35,15 @@ from v8_next.adapters.captured_market import (
 )
 from v8_next.adapters.economic_paper import EconomicPaperAdapter
 from v8_next.adapters.engine_state import economic_state, reconcile_replay
+from v8_next.adapters.execution_models import resolve_profile
+from v8_next.adapters.execution_telemetry import (
+    execution_friction_inputs,
+    execution_telemetry,
+    fill_signature,
+    load_execution_telemetry,
+    native_fill_records,
+    persist_execution_telemetry,
+)
 from v8_next.adapters.native_tape import build_engine, capture_native_inputs
 from v8_next.adapters.settlements import (
     FinalFunding,
@@ -101,6 +110,7 @@ def replay_account(
     *,
     observer: str | None = None,
     experiment_frozen_ns: int | None = None,
+    execution_profile: str | None = None,
 ) -> dict[str, Any]:
     parsed = PaperConfig.model_validate(config)
     experiment = None
@@ -165,12 +175,13 @@ def replay_account(
                 received,
             )
         )
-    engine, _ = build_engine(
+    engine, engine_meta = build_engine(
         manifests[0],
         Decimal(config["maker_fee"]),
         Decimal(config["taker_fee"]),
         Decimal(config["initial_balance"]),
         historical_data=False,
+        execution_profile=execution_profile,
     )
     try:
         constraints_by_instrument = {}
@@ -206,15 +217,22 @@ def replay_account(
                         UtilityInputs(None, None, None, None, None, None, None),
                         False,
                     )
+                # Friction comes from the source run's own measured execution
+                # telemetry. If that artifact is absent, malformed, or fails its
+                # digest, every field stays None so the decision keeps failing
+                # closed on missing calibration instead of assuming a free cost.
+                friction = execution_friction_inputs(
+                    load_execution_telemetry(source_run_path / "execution_telemetry.json")
+                )
                 return (
                     UtilityInputs(
                         gross_edge=inspection.get("gross_edge"),
-                        fees=None,
-                        spread=None,
-                        slippage=None,
-                        funding_cost=None,
+                        fees=friction.get("fees"),
+                        spread=friction.get("spread"),
+                        slippage=friction.get("slippage"),
+                        funding_cost=friction.get("funding_cost"),
                         uncertainty=inspection.get("uncertainty"),
-                        calibration_receipt=None,
+                        calibration_receipt=friction.get("calibration_receipt"),
                     ),
                     True,
                 )
@@ -320,12 +338,42 @@ def replay_account(
             "sampled_REST_quotes_not_continuous_execution_feed",
             "positive_campaign_and_online_funding_integration_pending",
         ]
+        # Measured execution evidence, so a later calibration read can cite the
+        # friction this run actually produced instead of assuming one. The
+        # engine metadata records the semantics that were in force.
+        fill_records, fill_report_type = native_fill_records(engine)
+        if execution_profile is not None:
+            state["execution"] = execution_telemetry(
+                resolve_profile(execution_profile),
+                fill_records,
+                fill_report_type,
+                getattr(strategy, "opened_positions", []),
+                [
+                    {**d, "instrument_id": str(d.get("instrument_id", ""))}
+                    for d in strategy.decisions
+                ],
+            )
+        else:
+            state["execution"] = {
+                "profile": None,
+                "evidence_class": "UNSPECIFIED_EXECUTION_SEMANTICS",
+                "fills_count": len(fill_records),
+                "fill_report_type": fill_report_type,
+                "fill_signature": fill_signature(fill_records),
+            }
+        state["execution_semantics"] = engine_meta.get("execution_semantics")
         return state
     finally:
         engine.dispose()
 
 
-def step(run: Path, config: dict[str, Any], *, replay_only: bool = False) -> dict[str, Any]:
+def step(
+    run: Path,
+    config: dict[str, Any],
+    *,
+    replay_only: bool = False,
+    execution_profile: str | None = None,
+) -> dict[str, Any]:
     """One local writer per session; the OS releases the lock on process exit."""
     PaperConfig.model_validate(config)
     run.mkdir(parents=True, exist_ok=True)
@@ -335,17 +383,27 @@ def step(run: Path, config: dict[str, Any], *, replay_only: bool = False) -> dic
         except BlockingIOError as error:
             raise RuntimeError("paper session already has an active writer") from error
         try:
-            return _step_locked(run, config, replay_only=replay_only)
+            return _step_locked(
+                run, config, replay_only=replay_only, execution_profile=execution_profile
+            )
         finally:
             fcntl.flock(lock, fcntl.LOCK_UN)
 
 
-def _step_locked(run: Path, config: dict[str, Any], *, replay_only: bool) -> dict[str, Any]:
+def _step_locked(
+    run: Path,
+    config: dict[str, Any],
+    *,
+    replay_only: bool,
+    execution_profile: str | None = None,
+) -> dict[str, Any]:
     parsed = PaperConfig.model_validate(config)
     frozen = initialize(run, config)
     replay_options: dict[str, Any] = (
         {"experiment_frozen_ns": int(str(frozen["frozen_ns"]))} if parsed.experiment_window else {}
     )
+    if execution_profile is not None:
+        replay_options["execution_profile"] = execution_profile
     manifests = sorted(run.glob("capture-*/manifest.json"))
     checkpoint = run / "paper-state.json"
     if checkpoint.exists():
@@ -461,6 +519,15 @@ def main() -> None:
         "--policy-config", type=Path, help="JSON economic policy selection and freshness"
     )
     parser.add_argument("--replay-only", action="store_true")
+    parser.add_argument(
+        "--execution-profile",
+        default=None,
+        help=(
+            "Nautilus simulated-execution profile (baseline | realistic | "
+            "volume_aware) for the paper engine. Omit to keep engine defaults; "
+            "the run then records no declared execution semantics."
+        ),
+    )
     args = parser.parse_args()
     config: dict[str, Any] = {
         "maker_fee": str(args.maker_fee),
@@ -474,7 +541,12 @@ def main() -> None:
     PaperConfig.model_validate(config)
     started = time.perf_counter()
     try:
-        result = step(args.run_directory, config, replay_only=args.replay_only)
+        result = step(
+            args.run_directory,
+            config,
+            replay_only=args.replay_only,
+            execution_profile=args.execution_profile,
+        )
     except Exception as error:
         logging.error(
             json.dumps(
@@ -487,6 +559,13 @@ def main() -> None:
             )
         )
         raise
+    # Persist the measured execution evidence next to the run state, so a later
+    # calibration read can cite the friction this run actually produced.
+    execution = (result.get("native_state") or {}).get("execution")
+    if execution:
+        persist_execution_telemetry(
+            args.run_directory / "execution_telemetry.json", execution
+        )
     logging.info(
         json.dumps(
             {

@@ -28,6 +28,12 @@ from nautilus_trader.model import (
 )
 
 from v8_next.adapters.captured_market import load_candles
+from v8_next.adapters.execution_models import (
+    ExecutionProfile,
+    profile_summary,
+    resolve_profile,
+    venue_kwargs,
+)
 from v8_next.adapters.funding_history import funding_artifacts
 from v8_next.domain.market import Candle
 
@@ -96,10 +102,15 @@ def build_engine(
     initial_balance: Decimal,
     *,
     historical_data: bool = True,
+    execution_profile: str | ExecutionProfile | None = None,
 ) -> tuple[BacktestEngine, dict[str, Any]]:
     """Historical timing model is diagnostic-only, never a certified PIT conversion.
 
     Caller owns disposal. Fees are explicit simulation assumptions, not observed fees.
+
+    execution_profile: named Nautilus simulated-execution profile. None keeps the
+    engine defaults, and the returned metadata then reports no declared execution
+    semantics rather than implying a model nobody chose.
     """
     if any(not x.is_finite() or x < 0 for x in (maker_fee, taker_fee, initial_balance)):
         raise ValueError("finite nonnegative simulation inputs required")
@@ -108,6 +119,7 @@ def build_engine(
     candles, instrument, bars, currency = capture_native_inputs(manifest_path, maker_fee, taker_fee)
     instrument_id = instrument.id
     engine = BacktestEngine(BacktestEngineConfig())
+    profile = resolve_profile(execution_profile) if execution_profile is not None else None
     try:
         engine.add_venue(
             Venue("BINANCE"),
@@ -116,6 +128,7 @@ def build_engine(
             [Money.from_str(f"{initial_balance} {currency}")],
             default_leverage=Decimal(1),
             liquidation_enabled=False,
+            **(venue_kwargs(profile) if profile is not None else {}),
         )
         engine.add_instrument(instrument)
         if historical_data:
@@ -164,6 +177,14 @@ def build_engine(
             "initial_balance_assumption": str(initial_balance),
             "bar_count": len(bars),
             "funding_event_count": settlements,
+            "execution_semantics": (
+                profile_summary(profile)
+                if profile is not None
+                else {
+                    "profile": None,
+                    "evidence_class": "UNSPECIFIED_EXECUTION_SEMANTICS",
+                }
+            ),
         }
     except BaseException:
         engine.dispose()

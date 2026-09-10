@@ -167,6 +167,79 @@ def fill_signature(records: list[dict[str, Any]]) -> str:
 MAX_REFERENCE_RATIO = 1.5
 
 
+def persist_execution_telemetry(path: Any, block: dict[str, Any]) -> Any:
+    """Write an execution-telemetry artifact that carries its own digest.
+
+    The digest covers every field except ``sha256`` itself, so a reader can
+    detect later edits. Friction values taken from this file are therefore
+    traceable to the run that measured them, rather than assumed.
+    """
+    import hashlib as _hl
+    import json as _js
+    from pathlib import Path as _Path
+
+    out = _Path(path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    body = {k: v for k, v in block.items() if k != "sha256"}
+    digest = _hl.sha256(_js.dumps(body, sort_keys=True, default=str).encode()).hexdigest()
+    out.write_text(
+        _js.dumps({**body, "sha256": digest}, indent=2, sort_keys=True, default=str),
+        encoding="utf-8",
+    )
+    return out
+
+
+def load_execution_telemetry(path: Any) -> dict[str, Any]:
+    """Load a telemetry artifact written by :func:`persist_execution_telemetry`.
+
+    Returns ``{}`` when the file is absent, unreadable, malformed, or fails its
+    own digest. An empty result keeps a consumer failing closed on missing
+    evidence instead of receiving a cost that was never measured.
+    """
+    import hashlib as _hl
+    import json as _js
+    from pathlib import Path as _Path
+
+    src = _Path(path)
+    if not src.exists():
+        return {}
+    try:
+        payload = _js.loads(src.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    if not isinstance(payload, dict):
+        return {}
+    recorded = payload.get("sha256")
+    body = {k: v for k, v in payload.items() if k != "sha256"}
+    computed = _hl.sha256(_js.dumps(body, sort_keys=True, default=str).encode()).hexdigest()
+    if recorded != computed:
+        return {}
+    return body
+
+
+def execution_friction_inputs(block: dict[str, Any]) -> dict[str, Any]:
+    """Map a telemetry block onto the friction fields a utility decision needs.
+
+    Only measured values are returned. A field with no measurement is omitted so
+    the caller keeps its ``None`` (fail-closed) rather than receiving a zero that
+    would be read as a free cost.
+    """
+    if not block:
+        return {}
+    samples = block.get("slippage_samples") or 0
+    out: dict[str, Any] = {}
+    if samples > 0 and isinstance(block.get("slippage_bps_mean"), (int, float)):
+        mean_bps = float(block["slippage_bps_mean"])
+        out["slippage"] = abs(mean_bps) / 1e4
+    total = block.get("commission_total")
+    if isinstance(total, (int, float)):
+        out["fees"] = abs(float(total))
+    digest = block.get("digest")
+    if digest:
+        out["calibration_receipt"] = f"execution_profile:{block.get('profile')}:{digest}"
+    return out
+
+
 def execution_telemetry(
     profile: ExecutionProfile,
     fill_records: list[dict[str, Any]],

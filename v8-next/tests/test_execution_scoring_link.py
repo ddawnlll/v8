@@ -97,3 +97,113 @@ def test_no_trades_keeps_an_empty_domain_set_and_names_the_reason() -> None:
     assert out["domains"] == {}
     assert out["aggregate"] == 0.0
     assert out["execution_fidelity_source"] == "NO_TRADES"
+
+
+# ------------------------------------------------- telemetry -> utility inputs
+
+
+def test_execution_telemetry_artifact_round_trips_and_detects_tampering(tmp_path) -> None:
+    from v8_next.adapters.execution_telemetry import (
+        load_execution_telemetry,
+        persist_execution_telemetry,
+    )
+
+    block = {
+        "profile": "realistic",
+        "digest": "abc123",
+        "fills_count": 5,
+        "slippage_samples": 3,
+        "slippage_bps_mean": 2.0,
+        "commission_total": 1.5,
+    }
+    path = persist_execution_telemetry(tmp_path / "execution_telemetry.json", block)
+    assert load_execution_telemetry(path) == block
+
+    # tampering is detected by the artifact's own digest
+    import json
+
+    tampered = dict(block)
+    tampered["slippage_bps_mean"] = 999.0
+    path.write_text(json.dumps({**tampered, "sha256": json.loads(path.read_text())["sha256"]}))
+    assert load_execution_telemetry(path) == {}
+
+
+def test_absent_or_malformed_artifact_yields_nothing(tmp_path) -> None:
+    from v8_next.adapters.execution_telemetry import load_execution_telemetry
+
+    assert load_execution_telemetry(tmp_path / "missing.json") == {}
+    bad = tmp_path / "bad.json"
+    bad.write_text("{not json")
+    assert load_execution_telemetry(bad) == {}
+
+
+def test_friction_inputs_only_report_measured_values() -> None:
+    from v8_next.adapters.execution_telemetry import execution_friction_inputs
+
+    assert execution_friction_inputs({}) == {}
+    # no samples -> no slippage field at all (the caller's None must survive)
+    no_samples = execution_friction_inputs({"slippage_samples": 0, "commission_total": 1.5})
+    assert "slippage" not in no_samples
+    assert no_samples["fees"] == pytest.approx(1.5)
+
+    measured = execution_friction_inputs(
+        {
+            "profile": "realistic",
+            "digest": "d" * 64,
+            "slippage_samples": 3,
+            "slippage_bps_mean": -2.0,
+            "commission_total": 1.5,
+        }
+    )
+    assert measured["slippage"] == pytest.approx(2.0 / 1e4)
+    assert measured["fees"] == pytest.approx(1.5)
+    assert measured["calibration_receipt"] == f"execution_profile:realistic:{'d' * 64}"
+
+
+def test_partially_measured_friction_still_fails_closed() -> None:
+    """Only fees and slippage are measured, so spread and funding stay None.
+
+    UtilityInputs.net() requires every friction term, so admission must keep
+    rejecting on missing calibration rather than treating unmeasured terms as
+    free. This pins that the wiring does not accidentally open the gate.
+    """
+    from decimal import Decimal
+
+    from v8_next.adapters.execution_telemetry import execution_friction_inputs
+    from v8_next.economics.decisions import UtilityInputs, utility_admission
+
+    friction = execution_friction_inputs(
+        {"profile": "realistic", "digest": "d" * 64, "slippage_samples": 3,
+         "slippage_bps_mean": 2.0, "commission_total": 1.5}
+    )
+    inputs = UtilityInputs(
+        gross_edge=Decimal("10"),
+        fees=Decimal(str(friction["fees"])),
+        spread=None,
+        slippage=Decimal(str(friction["slippage"])),
+        funding_cost=None,
+        uncertainty=Decimal("0.5"),
+        calibration_receipt=friction["calibration_receipt"],
+    )
+    assert utility_admission(inputs) == "REJECTED_MISSING_CALIBRATION"
+
+
+def test_fully_measured_friction_lets_the_admission_evaluate() -> None:
+    """With every friction term measured the decision evaluates, not rejects."""
+    from decimal import Decimal
+
+    from v8_next.economics.decisions import UtilityInputs, utility_admission
+
+    def inputs(gross_edge: str) -> UtilityInputs:
+        return UtilityInputs(
+            gross_edge=Decimal(gross_edge),
+            fees=Decimal("1"),
+            spread=Decimal("1"),
+            slippage=Decimal("1"),
+            funding_cost=Decimal("1"),
+            uncertainty=Decimal("0.5"),
+            calibration_receipt="execution_profile:realistic:" + "d" * 64,
+        )
+
+    assert utility_admission(inputs("10")) == "UTILITY_ELIGIBLE"
+    assert utility_admission(inputs("2")) == "REJECTED_SUB_FRICTION"
