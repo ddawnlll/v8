@@ -1,0 +1,439 @@
+"""Economic benchmark command: real data -> ledger -> benchmark -> stats -> report.
+
+Single-command reproduction:
+    uv run --project v8-next python -m v8_next.app.economic \
+        --tape-path research/tape/btcusdt-1h-12m --bars 500 \
+        --output-dir artifacts/economic-benchmark --primary btc_buy_hold
+
+Sends no orders, opens no private clients, allocates no capital. Reads public
+tape data and replays it through the local Nautilus engine only.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import sys
+from decimal import Decimal
+from pathlib import Path
+from typing import Any, Sequence
+
+from v8_next.adapters.expert_strategy import ExpertStrategyConfig, run_expert_strategy_backtest
+from v8_next.evaluation import economic_benchmark as eb
+from v8_next.evaluation.gate_resolution import load_tape_candles
+from v8_next.evaluation.parity import ArtifactBinding
+
+
+def tape_fingerprint(tape_path: Path) -> str:
+    h = hashlib.sha256()
+    if tape_path.is_dir():
+        for child in sorted(tape_path.iterdir()):
+            h.update(child.name.encode())
+            h.update(str(child.stat().st_size).encode())
+            if child.suffix == ".CHECKSUM" or child.name.endswith("CHECKSUM"):
+                h.update(child.read_bytes())
+    else:
+        h.update(tape_path.read_bytes())
+    return h.hexdigest()
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="V8 economic benchmark (NO_ECONOMIC_CLAIM).")
+    p.add_argument("--tape-path", default="research/tape/btcusdt-1h-12m")
+    p.add_argument("--bars", type=int, default=500)
+    p.add_argument("--output-dir", default="artifacts/economic-benchmark")
+    p.add_argument("--primary", default="btc_buy_hold", choices=list(eb.BENCHMARK_IDS))
+    p.add_argument("--challenger-quorum", type=int, default=1)
+    p.add_argument("--challenger-tolerance", type=int, default=0)
+    p.add_argument("--seed", type=int, default=7)
+    p.add_argument("--capital", type=float, default=eb.CAPITAL_DEFAULT)
+    p.add_argument("--taker-fee", type=float, default=eb.TAKER_FEE_DEFAULT)
+    p.add_argument("--opex-monthly", type=float, default=30.0)
+    p.add_argument("--live-fills", default=None)
+    # Capital policy (Task 4): no live orders; missing file stays unauthorized safely; no prompt.
+    p.add_argument("--capital-policy", default=None, help="Path to capital policy JSON (max_notional, max_exposure_frac, authorized). Absent -> unauthorized safe default.")
+    p.add_argument("--max-notional", type=str, default=None, help="Override max_notional (decimal string) for test/CLI policy.")
+    p.add_argument("--max-exposure-frac", type=str, default=None, help="Override max_exposure_frac (decimal string, (0,1]) for test/CLI policy.")
+    return p.parse_args(argv)
+
+
+def resolve_capital_policy(args: argparse.Namespace) -> Any:
+    """Resolve CapitalPolicy from file and/or CLI overrides. Pure, non-blocking.
+
+    Precedence: file -> CLI overrides -> safe unauthorized default.
+    No live orders, no private clients, no interactive approval.
+
+    CLI overrides can only ADJUST sizing fields; they can never authorize.
+    Authorization comes exclusively from a policy file with authorized=true.
+    There is deliberately no --capital-authorized flag: a CLI switch must not
+    be able to mint capital permission.
+    """
+    from v8_next.domain.capital_policy import CapitalPolicy
+
+    policy = CapitalPolicy.from_file(getattr(args, "capital_policy", None))
+    max_n = getattr(args, "max_notional", None)
+    max_f = getattr(args, "max_exposure_frac", None)
+    # CLI overrides produce a test policy; merging preserves file base unless overridden.
+    # authorized is never touched here: file base (default False) always stands.
+    if max_n is not None or max_f is not None:
+        base = policy.model_dump()
+        if max_n is not None:
+            base["max_notional"] = max_n
+        if max_f is not None:
+            base["max_exposure_frac"] = max_f
+        base["authorized"] = policy.authorized
+        policy = CapitalPolicy(**base)
+    return policy
+
+
+def run_engine(
+    candles: list[Any],
+    quorum: int,
+    tolerance: int,
+    capital: float,
+    fee: float,
+) -> dict[str, Any]:
+    cfg = ExpertStrategyConfig(
+        min_support_quorum=quorum,
+        max_contradiction_tolerance=tolerance,
+        bracket_stop_pct=Decimal("0.02"),
+        bracket_target_pct=Decimal("0.04"),
+    )
+    return run_expert_strategy_backtest(
+        tuple(candles),
+        cfg,
+        taker_fee=Decimal(str(fee)),
+        initial_balance=Decimal(str(capital)),
+    )
+
+
+def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[str, Any]]:
+    tape_path = Path(args.tape_path)
+    if not tape_path.exists():
+        print(f"error: real tape not found at {tape_path}; synthetic fallback banned.", file=sys.stderr)
+        raise SystemExit(2)
+    candles = load_tape_candles(tape_path, limit=args.bars)
+    bars = eb.bars_from_candles(candles)
+    chrono_ok, chrono_note = eb.validate_chronology(bars)
+    leak_ok, leak_note = eb.detect_future_leak(bars)
+    if not chrono_ok or not leak_ok:
+        raise SystemExit(f"INVALID input data: {chrono_note} / {leak_note}")
+
+    # Task 4 capital policy decision path: no live orders, absent stays unauthorized, test policies gate accept/reject
+    _capital_policy = resolve_capital_policy(args)
+    _capital_decision = _capital_policy.decision()
+    print(f"[+] capital policy: authorized={_capital_policy.authorized} max_notional={_capital_policy.max_notional} max_exposure_frac={_capital_policy.max_exposure_frac} decision={_capital_decision['decision']} ({_capital_decision['reason']})", flush=True)
+
+    gi = eb.git_info()
+    cfg_obj = {
+        "incumbent": {"quorum": 1, "tolerance": 28},
+        "challenger": {"quorum": args.challenger_quorum, "tolerance": args.challenger_tolerance},
+        "bracket": ["0.02", "0.04"],
+        "bars": args.bars,
+        "seed": args.seed,
+        "capital_policy": _capital_policy.to_receipt_fields(),
+        "capital_decision": _capital_decision,
+    }
+    run = eb.RunIdentity(
+        dataset=eb.DatasetIdentity(
+            tape_path=str(tape_path),
+            tape_sha256=tape_fingerprint(tape_path),
+            universe=("BTCUSDT-PERP.BINANCE",),
+            period_start_ns=bars[0].end_ns,
+            period_end_ns=bars[-1].end_ns,
+            n_bars=len(bars),
+            source_hashes=tuple(c.source_hash for c in candles[:3]) + tuple(c.source_hash for c in candles[-3:]),
+        ),
+        code=eb.CodeIdentity(
+            git_rev=gi["rev"],
+            git_dirty=gi["dirty"],
+            config_sha256=hashlib.sha256(json.dumps(cfg_obj, sort_keys=True).encode()).hexdigest(),
+            estimator_versions=eb.estimator_versions(),
+        ),
+        seed=args.seed,
+        primary_benchmark=args.primary,
+        diagnostic_benchmarks=tuple(b for b in eb.BENCHMARK_IDS if b != args.primary),
+        strategy_family=(
+            "incumbent_q1_t28",
+            f"challenger_q{args.challenger_quorum}_t{args.challenger_tolerance}",
+            "simple_trend",
+            "vol_target",
+        ),
+        capital=args.capital,
+        taker_fee=args.taker_fee,
+        opex_monthly_usd=args.opex_monthly,
+    )
+
+    print("[+] running incumbent engine replay (quorum=1,tol=28) ...", flush=True)
+    inc_res = run_engine(candles, 1, 28, args.capital, args.taker_fee)
+    print(
+        "[+] running challenger engine replay (quorum=%d,tol=%d) ..."
+        % (args.challenger_quorum, args.challenger_tolerance),
+        flush=True,
+    )
+    ch_res = run_engine(
+        candles, args.challenger_quorum, args.challenger_tolerance, args.capital, args.taker_fee
+    )
+    print("[+] determinism rerun of incumbent ...", flush=True)
+    inc_res2 = run_engine(candles, 1, 28, args.capital, args.taker_fee)
+
+    def eng_digest(r: dict[str, Any]) -> str:
+        bal = str(r["account"]["balance_total"])
+        n = len(r["opened_positions"])
+        realized = sum(
+            float(str(c.get("realized_pnl", "0").split()[0]))
+            for c in r.get("closed_positions", [])
+            if isinstance(c, dict) and c.get("realized_pnl")
+        )
+        return hashlib.sha256(f"{bal}|{n}|{realized:.8f}".encode()).hexdigest()
+
+    parity_ok = eng_digest(inc_res) == eng_digest(inc_res2)
+
+    inc_ser = eb.strategy_series_from_engine(inc_res, bars, args.capital, args.taker_fee)
+    ch_ser = eb.strategy_series_from_engine(ch_res, bars, args.capital, args.taker_fee)
+    fams = eb.compute_benchmark_family(bars, args.capital, args.taker_fee)
+
+    curves: dict[str, dict[str, Any]] = {
+        "incumbent": inc_ser,
+        "challenger": ch_ser,
+    }
+    for bid, fam in fams.items():
+        curves[bid] = {
+            "equity": fam["equity"],
+            "exposure": fam["exposure"],
+            "turnover": float(fam["turnover"]),
+            "commission": float(fam["commission"]),
+            "funding": None,
+            "cost_basis": "ANALYTIC_MODEL",
+            "n_trades": int(fam["n_trades"]),
+        }
+    primary_eq: list[float] = list(curves[args.primary]["equity"])
+
+    def raw_count(key: str) -> int | None:
+        raw = curves[key].get("raw_equity")
+        if not raw:
+            return None
+        steps = [abs(b - a) for a, b in zip(raw, raw[1:], strict=False)]
+        return sum(1 for s in steps if s > 1e-9)
+
+    metrics = {
+        name: eb.metrics_for_curve(
+            list(c["equity"]),
+            list(c["exposure"]),
+            float(c["turnover"]),
+            float(c["commission"]),
+            None,
+            str(c["cost_basis"]),
+            primary_eq,
+            int(c["n_trades"]),
+            raw_count(name),
+        )
+        for name, c in curves.items()
+    }
+    # Frozen chronological OOS: last N bars, renormalized to segment start.
+    oos_n = len(bars) - eb.OOS_FIT_BARS
+    oos_metrics: dict[str, eb.MetricSet] = {}
+    if oos_n >= 48:
+        for name, c in curves.items():
+            eq = list(c["equity"])[eb.OOS_FIT_BARS :]
+            ex = list(c["exposure"])[eb.OOS_FIT_BARS :]
+            raw = list(c.get("raw_equity") or eq)[eb.OOS_FIT_BARS :]
+            base = eq[0] if eq[0] > 0 else args.capital
+            eq_n = [v / base * args.capital for v in eq]
+            pe = primary_eq[eb.OOS_FIT_BARS :]
+            pbase = pe[0] if pe[0] > 0 else args.capital
+            pe_n = [v / pbase * args.capital for v in pe]
+            raw_steps = [abs(b - a) for a, b in zip(raw, raw[1:], strict=False)]
+            oos_metrics[name] = eb.metrics_for_curve(
+                eq_n, ex, float(c["turnover"]), float(c["commission"]), None,
+                str(c["cost_basis"]) + "+OOS_SLICE", pe_n, int(c["n_trades"]),
+                sum(1 for s in raw_steps if s > 1e-9) if raw_steps else None,
+            )
+
+    fam_eq: dict[str, Sequence[float]] = {
+        "incumbent": [float(v) for v in inc_ser["equity"]],
+        "challenger": [float(v) for v in ch_ser["equity"]],
+        "simple_trend": [float(v) for v in fams["simple_trend"]["equity"]],
+        "vol_target": [float(v) for v in fams["vol_target"]["equity"]],
+        args.primary: [float(v) for v in primary_eq],
+    }
+    stats = eb.run_statistics(fam_eq, [b.end_ns for b in bars], args.primary, seed=args.seed)
+
+    inc_rets = eb.per_bar_returns(list(inc_ser["equity"]))
+    ch_rets = eb.per_bar_returns(list(ch_ser["equity"]))
+    mix = eb.allocator_mix(inc_rets, ch_rets)
+    neg = eb.negative_control_shuffled(inc_rets, seed=args.seed + 100)
+    pos = eb.positive_control_known_effect()
+    shifted = [eb.BarView(b.end_ns, b.open, b.high, b.low, b.close) for b in bars]
+    leak_caught = not eb.detect_future_leak(shifted, closes_shift=1)[0]
+    controls = {
+        "positive_control": pos,
+        "positive_caught": bool(pos["detected"]) == bool(pos["expected"]),
+        "negative_control": neg,
+        "negative_caught": bool(neg["declares_winner"]) == bool(neg["expected"]),
+        "known_defect_future_leak_caught": leak_caught,
+        "known_defect_zero_latency": {
+            "status": "CAUGHT_BY_DESIGN",
+            "reason": "no latency model attached; execution stays SIM_ONLY",
+        },
+        "ablation": {
+            "incumbent": "quorum=1,tolerance=28",
+            "challenger": f"quorum={args.challenger_quorum},tolerance={args.challenger_tolerance}",
+            "ablated_component": "contradiction-tolerance gate (28->0: contradiction-intolerant)",
+            "same_engine_path": True,
+        },
+    }
+
+    excess = metrics["incumbent"].excess_vs_primary
+    cap_table = eb.capacity_table(excess or 0.0, metrics["incumbent"].turnover_notional_over_capital, args.capital, args.taker_fee)
+    live_path = Path(args.live_fills) if args.live_fills else None
+    live_present = bool(live_path and live_path.is_file())
+    shadow_live = {
+        "backtest_shadow_signal": "UNRUN",
+        "shadow_vs_real_orders": "UNRUN",
+        "model_vs_real_fills": "UNRUN",
+        "account_reconciliation": "UNRUN_NO_VENUE_ACCOUNT",
+        "live_fills_path": str(live_path) if live_path else None,
+        "live_fills_present": live_present,
+        "reason": "no venue-settled fills supplied; nothing simulated in their place",
+    }
+    cost_ok = inc_ser["cost_basis"] == "VERIFIED_ENGINE"
+    verdicts = eb.build_verdicts(
+        chrono_ok=chrono_ok and leak_ok,
+        chrono_note=f"{chrono_note}; leak_probe={leak_note}",
+        excess=excess,
+        excess_ci=(metrics["incumbent"].excess_ci_low, metrics["incumbent"].excess_ci_high),
+        stats=stats,
+        mix=mix,
+        cost_basis_ok=cost_ok,
+        funding_missing=True,
+        live_fills_present=live_present,
+        parity_ok=parity_ok,
+    )
+    months = len(bars) / (30 * 24)
+    opex_total = args.opex_monthly * months
+    strat_net = metrics["incumbent"].net_return * args.capital
+    limitations = [
+        "Single 500-bar BTCUSDT window; no cross-asset generalization claimed.",
+        "Funding settlement not fed to engine; funding cost MISSING on all legs.",
+        "OPEX shown separately: business net = %.2f - %.2f (opex) on incumbent leg." % (strat_net, opex_total),
+        "P+E is allocator-level sleeve rerun, not joint engine execution.",
+        "Data resolution (1h OHLCV bars: open/high/low/close/volume; no L2/tick/spread/depth) "
+        "SUPPORTS: linear taker fee (notional * taker_fee, config) and bar-close turnover/slippage proxy only.",
+        "Capacity UNMODELED (requires data NOT in 1h bars; no coefficients invented): market impact / price impact vs depth, "
+        "participation rate / %ADV / queue position, intraday slippage distribution / bid-ask spread, "
+        "liquidity curvature / nonlinearity.",
+        "Claim that CANNOT be validated from 1h bars: 'capacity at N*capital (10x/100x) with preserved edge net of impact/participation' — "
+        "requires L2 depth + ADV/participation + tick spread data not present; linear 10x/100x rows are accounting extrapolations, not validations. "
+        "Even at 1x, impact/participation remain UNVALIDATED.",
+        "Vol-target/simple-trend are analytic models with assumed taker fee, not engine fills.",
+        "Benchmarks exclude funding on the same basis as the strategy (comparable).",
+        "MINERVA-style statistical confidence (if any) carries zero economic/capital authority.",
+    ]
+    _capital_fields = _capital_policy.to_receipt_fields()
+    _extended_limitations = list(limitations)
+    if not _capital_policy.authorized:
+        _extended_limitations.append(
+            f"Capital policy UNAUTHORIZED (max_notional={_capital_fields['max_notional']} max_exposure_frac={_capital_fields['max_exposure_frac']}): no live orders, no capital permission; CLI sizing overrides (--max-notional/--max-exposure-frac) can never authorize, only a policy file with authorized=true can."
+        )
+    receipt = eb.EconomicReceipt(
+        receipt_id=run.digest()[:32],
+        run=run,
+        metrics=metrics,
+        oos_metrics=oos_metrics,
+        verdicts=verdicts,
+        statistics=stats,
+        controls=controls,
+        portfolio_mix=mix,
+        capacity_scenarios=cap_table,
+        parity={"engine_rerun_parity": "EXACT_MATCH" if parity_ok else "DIVERGED", "capital_policy": _capital_fields, "capital_decision": _capital_decision},
+        shadow_live=shadow_live,
+        operating_net={
+            "status": "DATA_BLOCKED",
+            "claim_status": "NO_ECONOMIC_CLAIM",
+            "reason": "physical venue fee, final funding, and OPEX artifacts are required",
+            "strategy_net": None,
+            "operating_net": None,
+        },
+        limitations=_extended_limitations,
+    )
+    aux = {
+        "capital_policy": _capital_fields,
+        "capital_decision": _capital_decision,
+        "inc_digest": eng_digest(inc_res),
+        "inc_digest_rerun": eng_digest(inc_res2),
+        "engine_trades": [
+            {
+                "trade_id": p.get("position_id"),
+                "side": p.get("side"),
+                "quantity": p.get("quantity"),
+                "fill_time_ns": p.get("event_ns"),
+            }
+            for p in inc_res.get("opened_positions", [])
+        ],
+        "challenger_trades": [
+            {
+                "trade_id": p.get("position_id"),
+                "side": p.get("side"),
+                "quantity": p.get("quantity"),
+                "fill_time_ns": p.get("event_ns"),
+            }
+            for p in ch_res.get("opened_positions", [])
+        ],
+    }
+    return receipt, aux
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    out_dir = Path(args.output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    receipt, aux = build_receipt(args)
+
+    # Version bound artifacts per run config: never overwrite a file an older
+    # ledger entry is bound to (the chain fail-closed on exactly this).
+    tag = receipt.receipt_id[:8]
+    trades_path = out_dir / f"incumbent_trades_{tag}.jsonl"
+    with open(trades_path, "w", encoding="utf-8") as f:
+        for row in aux["engine_trades"]:
+            f.write(json.dumps(row) + "\n")
+    challenger_path = out_dir / f"challenger_trades_{tag}.jsonl"
+    with open(challenger_path, "w", encoding="utf-8") as f:
+        for row in aux["challenger_trades"]:
+            f.write(json.dumps(row) + "\n")
+    dataset_path = out_dir / f"canonical_dataset_{tag}.json"
+    dataset_path.write_text(
+        json.dumps(receipt.run.dataset.model_dump(), indent=2), encoding="utf-8"
+    )
+    bind_trades = ArtifactBinding.from_file("engine_trades", trades_path)
+    bind_data = ArtifactBinding.from_file("canonical_dataset", dataset_path)
+    ok1, _ = bind_trades.verify()
+    ok2, _ = bind_data.verify()
+    parity = dict(receipt.parity)
+    parity["artifact_bindings"] = [bind_trades.model_dump(), bind_data.model_dump()]
+    parity["bindings_verified"] = bool(ok1 and ok2)
+    receipt = receipt.model_copy(update={"parity": parity})
+
+    receipt_path = out_dir / f"economic_receipt_{tag}.json"
+    receipt_path.write_text(receipt.model_dump_json(indent=2), encoding="utf-8")
+    report_path = out_dir / f"economic_report_{tag}.md"
+    report_path.write_text(eb.render_report(receipt), encoding="utf-8")
+    # Version bound artifacts per run (see portfolio.py): never overwrite a
+    # file an older ledger entry is bound to.
+
+    # Determinism: receipt digest must be stable for fixed inputs (rerun check).
+    print(f"[+] receipt: {receipt.receipt_id} digest: {receipt.digest()[:16]}...")
+    for name, m in receipt.metrics.items():
+        ex = f"{m.excess_vs_primary:+.4f}" if m.excess_vs_primary is not None else "n/a"
+        print(f"    {name:<12} net {m.net_return:+.4f} excess {ex} Sharpe_ann {m.sharpe_annualized:+.3f}")
+    v = receipt.verdicts
+    print(f"[+] validity={v.research_validity} economic={v.economic} statistical={v.statistical}")
+    print(f"[+] portfolio={v.portfolio} execution={v.execution} capital={v.capital}")
+    print(f"[+] parity(engine rerun)={parity['engine_rerun_parity']} bindings={parity['bindings_verified']}")
+    print(f"[+] wrote {receipt_path} + {report_path}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
