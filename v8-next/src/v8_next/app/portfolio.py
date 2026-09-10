@@ -399,11 +399,17 @@ def main(argv: list[str] | None = None) -> int:
         funding_missing=False, live_fills_present=bool(shadow.get("live_fills_present")),
         parity_ok=det_ok,
     )
+    # Measured execution evidence from the funded engine run: the fill/latency/
+    # fee semantics actually in force plus the frictions they produced. It is
+    # bound into the receipt so a reader can see which execution model the
+    # numbers came from, and it feeds the ExecutionFidelity domain below.
+    execution_evidence = p_fund.get("execution") or {}
     receipt = eb.EconomicReceipt(
         receipt_id=run.digest()[:32], run=run, metrics=metrics, oos_metrics=oos_metrics,
         verdicts=verdicts, statistics=stats, controls=controls, portfolio_mix=mix,
         capacity_scenarios=capacity, parity={"engine_rerun_parity": "EXACT_MATCH" if det_ok else "DIVERGED"},
         shadow_live=shadow,
+        execution=execution_evidence,
         limitations=[
             "Mark proxy: funding settlement marks use leg closes at the boundary.",
             "P+E is engine-level shared-account execution, not post-hoc summation.",
@@ -456,14 +462,18 @@ def main(argv: list[str] | None = None) -> int:
         float(str(c.get("realized_pnl", "0").split()[0]))
         for c in p_fund["closed_positions"] if isinstance(c, dict) and c.get("realized_pnl")
     ]
+    # execution_evidence (bound above) feeds the ExecutionFidelity domain in
+    # place of the PnL Sharpe proxy.
     gates = evaluate_gate_vector(total_bars=n, total_trades=len(p_fund["opened_positions"]),
                                  pnl_series=pnl_series or [0.0])
     capability = compute_capability_score(
         pnl_series=pnl_series or [0.0], total_bars=n,
-        total_trades=len(p_fund["opened_positions"]), abstain_rate=0.0)
+        total_trades=len(p_fund["opened_positions"]), abstain_rate=0.0,
+        execution=execution_evidence)
     _breakdown = compute_capability_breakdown(
         pnl_series=pnl_series or [0.0], total_bars=n,
-        total_trades=len(p_fund["opened_positions"]), abstain_rate=0.0)
+        total_trades=len(p_fund["opened_positions"]), abstain_rate=0.0,
+        execution=execution_evidence)
     bench_receipt = BenchmarkReceipt.create(
         case_id=args.case_id, policy_id=args.policy_id, capability_score=capability,
         gates=gates, computed_at_timestamp_ns=end_ns[-1],
@@ -484,6 +494,10 @@ def main(argv: list[str] | None = None) -> int:
                     "per_leg_notional": args.per_leg_notional,
                     "opex_monthly": args.opex_monthly,
                     "capital_policy": capital_policy.to_receipt_fields(),
+                    # Execution semantics are part of the run identity: a
+                    # different fill/latency/fee model is a different run.
+                    "execution_profile": execution_evidence.get("profile"),
+                    "execution_profile_digest": execution_evidence.get("digest"),
                 },
                 sort_keys=True,
                 default=str,
@@ -502,6 +516,14 @@ def main(argv: list[str] | None = None) -> int:
     print(f"[+] P net {metrics['portfolio_P'].net_return:+.4f} "
           f"P+E net {metrics['portfolio_PE'].net_return:+.4f} "
           f"incremental {mix['incremental_net']:+.4f}")
+    print(
+        f"[+] execution profile={execution_evidence.get('profile')} "
+        f"(digest {str(execution_evidence.get('digest'))[:12]}) "
+        f"fills={execution_evidence.get('fills_count')} "
+        f"shortfall_bps={execution_evidence.get('slippage_bps_mean')} "
+        f"samples={execution_evidence.get('slippage_samples')} "
+        f"latency={execution_evidence.get('latency_observability')}"
+    )
     v = verdicts
     print(f"[+] validity={v.research_validity} economic={v.economic} statistical={v.statistical}")
     print(f"[+] portfolio={v.portfolio} execution={v.execution} capital={v.capital}")

@@ -343,6 +343,7 @@ def _execution_telemetry(
     block = profile_summary(profile)
     block.update(
         {
+            "fill_signature": _fill_signature(fill_records),
             "fills_count": len(fill_records),
             "fills_report_type": fill_report_type,
             "slippage_samples": len(slippage_bps),

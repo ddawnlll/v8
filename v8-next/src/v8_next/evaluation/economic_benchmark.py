@@ -29,7 +29,7 @@ from decimal import Decimal
 from typing import Any, Literal, Sequence
 
 import numpy as np
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 HOURS_PER_YEAR = 365.0 * 24.0
 TAKER_FEE_DEFAULT = 0.0005
@@ -182,6 +182,11 @@ class EconomicReceipt(BaseModel):
     parity: dict[str, Any]
     shadow_live: dict[str, Any]
     limitations: list[str]
+    #: Measured execution evidence: the fill/latency/fee semantics actually in
+    #: force plus the frictions they produced (shortfall, order lifetime,
+    #: commissions, fill signature). Empty when no execution telemetry was
+    #: produced -- never populated with placeholder or assumed values.
+    execution: dict[str, Any] = Field(default_factory=dict)
     claim_status: Literal["NO_ECONOMIC_CLAIM"] = "NO_ECONOMIC_CLAIM"
 
     def digest(self) -> str:

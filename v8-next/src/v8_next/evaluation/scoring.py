@@ -93,12 +93,40 @@ class CapabilityScoreCalculator:
         return raw * 100.0
 
 
+#: Declared diagnostic convention (NOT a calibration): a mean absolute
+#: implementation shortfall of this many basis points scores zero execution
+#: fidelity. Published with every score so the convention is auditable and can
+#: be replaced by a calibrated reference once one exists.
+EXECUTION_FIDELITY_REFERENCE_BPS = 10.0
+
+
+def _execution_fidelity(
+    sharpe_proxy: float,
+    execution: Mapping[str, Any] | None,
+) -> tuple[float, str]:
+    """ExecutionFidelity from measured shortfall when it exists, else the proxy.
+
+    The previous value was a rescaled PnL Sharpe that contained no execution
+    information at all. Measured implementation shortfall is preferred; when no
+    fills were measured the proxy is retained and its source published, so a
+    score is never silently attributed to execution evidence it does not have.
+    """
+    if execution:
+        samples = execution.get("slippage_samples") or 0
+        mean_bps = execution.get("slippage_bps_mean")
+        if samples > 0 and isinstance(mean_bps, (int, float)):
+            fidelity = 1.0 - abs(float(mean_bps)) / EXECUTION_FIDELITY_REFERENCE_BPS
+            return float(np.clip(fidelity, 0.05, 0.50)), "MEASURED_IMPLEMENTATION_SHORTFALL"
+    return float(np.clip(sharpe_proxy * 0.25 + 0.10, 0.05, 0.50)), "PNL_SHARPE_PROXY"
+
+
 def compute_capability_breakdown(
     pnl_series: list[float],
     total_bars: int,
     total_trades: int,
     abstain_rate: float,
     coverage_factor: float = 0.60,
+    execution: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Per-domain capability breakdown for loop engineering.
 
@@ -109,14 +137,20 @@ def compute_capability_breakdown(
     """
     calc = CapabilityScoreCalculator.monograph_v1()
     if not pnl_series or total_trades == 0:
-        return {"domains": {}, "aggregate": 0.0, "coverage_factor": coverage_factor}
+        return {
+            "domains": {},
+            "aggregate": 0.0,
+            "coverage_factor": coverage_factor,
+            "execution_fidelity_source": "NO_TRADES",
+            "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
+        }
 
     arr = np.array(pnl_series, dtype=np.float64)
     std = float(np.std(arr)) if len(arr) > 1 else 0.01
     mean = float(np.mean(arr))
     sharpe_proxy = (mean / std) if std > 1e-9 else 0.5
 
-    exec_val = float(np.clip(sharpe_proxy * 0.25 + 0.10, 0.05, 0.50))
+    exec_val, exec_source = _execution_fidelity(sharpe_proxy, execution)
     op_val = float(np.clip(1.0 - abstain_rate * 0.3, 0.10, 0.60))
     def_val = 0.15 if total_trades >= 1 else 0.01
     micro_val = float(np.clip(0.10 + (total_bars / 500.0) * 0.10, 0.05, 0.30))
@@ -151,7 +185,13 @@ def compute_capability_breakdown(
             "weight": calc.domain_weights.get(domain, 0.10),
             "sample_size": bs.sample_size,
         }
-    return {"domains": domains, "aggregate": round(score, 1), "coverage_factor": coverage_factor}
+    return {
+        "domains": domains,
+        "aggregate": round(score, 1),
+        "coverage_factor": coverage_factor,
+        "execution_fidelity_source": exec_source,
+        "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
+    }
 
 
 def compute_capability_score(
@@ -160,6 +200,7 @@ def compute_capability_score(
     total_trades: int,
     abstain_rate: float,
     coverage_factor: float = 0.60,
+    execution: Mapping[str, Any] | None = None,
 ) -> float:
     """Compute multidimensional CapabilityScore in [0.0, 100.0] per D-153 §76."""
     breakdown = compute_capability_breakdown(
@@ -168,6 +209,7 @@ def compute_capability_score(
         total_trades=total_trades,
         abstain_rate=abstain_rate,
         coverage_factor=coverage_factor,
+        execution=execution,
     )
     return float(breakdown["aggregate"])
 
