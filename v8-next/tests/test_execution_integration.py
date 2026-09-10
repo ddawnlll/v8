@@ -153,6 +153,56 @@ def test_slippage_model_actually_changes_fill_prices_on_real_tape() -> None:
     assert baseline["fill_signature"] != realistic["fill_signature"]
 
 
+def test_which_knobs_actually_change_execution_on_bar_data() -> None:
+    """Measure, not assume, what each forwarded knob does on the real tape.
+
+    Toggled in isolation against a control profile: ``bar_execution`` is wired and
+    changes execution; the depth-dependent knobs are accepted but inert without an
+    L2/L3 book. If a future Nautilus version makes them effective this test fails
+    and the published summary must be corrected -- which is the point.
+    """
+    from v8_next.adapters.execution_models import ExecutionProfile
+
+    def profile(**overrides) -> ExecutionProfile:
+        base = {
+            "name": "knob_probe",
+            "fill_model": "default",
+            "prob_fill_on_limit": 1.0,
+            "prob_slippage": 0.0,
+            "random_seed": 0,
+        }
+        base.update(overrides)
+        return ExecutionProfile(**base)
+
+    def run(p: ExecutionProfile):
+        tape = _load()
+        return run_portfolio_backtest(
+            tape.candles,
+            SLEEVES_P,
+            tape.funding,
+            per_leg_notional=Decimal("1000"),
+            taker_fee=Decimal("0.0005"),
+            initial_balance=Decimal("10000"),
+            funding_dropped=tape.funding_dropped,
+            execution_profile=p,
+        )
+
+    control = run(profile())
+    if control["execution"]["fills_count"] == 0:
+        pytest.skip("no fills on this window; knob effects are not observable")
+
+    no_bar_execution = run(profile(bar_execution=False))
+    assert no_bar_execution["execution"]["fills_count"] == 0
+    assert no_bar_execution["fill_signature"] != control["fill_signature"]
+
+    for knob in ("liquidity_consumption", "queue_position"):
+        toggled = run(profile(**{knob: True}))
+        assert toggled["fill_signature"] == control["fill_signature"], (
+            f"{knob} now changes execution on bar data; the published "
+            "inert_knobs_without_depth_data list must be updated"
+        )
+
+
 def test_fill_records_are_json_safe_and_match_the_reported_count() -> None:
     import json
 

@@ -21,6 +21,16 @@ These are *model assumptions*, not measurements. A profile name is reported
 verbatim (e.g. ``realistic``), its parameters are published in the digest, and
 nothing here may be presented as venue-observed execution. Venue truth requires
 real fills (G8 ``UNRUN_NO_VENUE_ACCOUNT`` stays unresolved by construction).
+
+Measured limits of the available knobs (real tape, bar data, default L1 book):
+
+* ``bar_execution`` changes execution (fills 5 -> 0 when disabled) and is wired;
+* ``fill_model`` changes fill prices (slippage 0.0 -> 0.0004 bps measured);
+* ``liquidity_consumption``, ``queue_position``, ``use_market_order_acks`` and
+  ``price_protection_points`` produce **no observable difference** without L2/L3
+  depth. They are still accepted and forwarded, and the summary reports them as
+  ``inert_knobs_without_depth_data`` so a profile cannot imply realism it is not
+  delivering.
 """
 
 from __future__ import annotations
@@ -61,6 +71,12 @@ FILL_MODEL_IS_SLIPPED: dict[str, bool] = {
     "volume_sensitive": True,
 }
 
+#: Knobs the engine accepts but that need an order book with displayed depth to
+#: do anything. Measured on the real tape: with bar data and the default L1 book
+#: both are inert, so a profile that enables them without depth data publishes
+#: them as inert instead of claiming realism it cannot deliver.
+DEPTH_DEPENDENT_KNOBS: tuple[str, ...] = ("liquidity_consumption", "queue_position")
+
 
 @dataclass(frozen=True)
 class ExecutionProfile:
@@ -87,6 +103,11 @@ class ExecutionProfile:
     queue_position: bool = False
     use_market_order_acks: bool = False
     price_protection_points: int | None = None
+    #: Whether the caller has order-book depth (L2/L3) data for this run. The
+    #: depth-dependent knobs are accepted by the engine but have no observable
+    #: effect without a book to consume from, so the summary reports them as
+    #: inert rather than letting a profile imply realism it cannot deliver.
+    depth_data_available: bool = False
 
     def __post_init__(self) -> None:
         if self.fill_model not in FILL_MODEL_REGISTRY:
@@ -224,6 +245,7 @@ def profile_digest(profile: str | ExecutionProfile) -> str:
 def profile_summary(profile: str | ExecutionProfile) -> dict[str, Any]:
     """Publishable description of the execution semantics in force."""
     p = resolve_profile(profile)
+    enabled_depth_knobs = [k for k in DEPTH_DEPENDENT_KNOBS if getattr(p, k)]
     return {
         "profile": p.name,
         "digest": profile_digest(p),
@@ -246,6 +268,15 @@ def profile_summary(profile: str | ExecutionProfile) -> dict[str, Any]:
         "queue_position": p.queue_position,
         "use_market_order_acks": p.use_market_order_acks,
         "price_protection_points": p.price_protection_points,
+        "depth_data_available": p.depth_data_available,
+        # Measured on the real tape with bar data and the default L1 book:
+        # bar_execution changes fills; these knobs are accepted by the engine but
+        # produce no observable difference without L2/L3 depth. Publishing them
+        # as inert keeps a profile from implying realism it cannot deliver.
+        "depth_dependent_knobs_enabled": enabled_depth_knobs,
+        "inert_knobs_without_depth_data": (
+            [] if p.depth_data_available else enabled_depth_knobs
+        ),
         # These are modelled assumptions, never venue-observed execution.
         "evidence_class": "MODELLED_EXECUTION_ASSUMPTION_NOT_VENUE_TRUTH",
     }

@@ -131,6 +131,37 @@ def test_summary_never_claims_venue_truth() -> None:
         assert s["profile"] == name
 
 
+def test_depth_dependent_knobs_are_reported_as_inert_without_depth_data() -> None:
+    """A knob that does nothing must not be presented as if it does."""
+    from v8_next.adapters.execution_models import DEPTH_DEPENDENT_KNOBS
+
+    assert set(DEPTH_DEPENDENT_KNOBS) == {"liquidity_consumption", "queue_position"}
+
+    # realistic enables both, and declares no depth data
+    summary = profile_summary("realistic")
+    assert summary["depth_data_available"] is False
+    assert summary["inert_knobs_without_depth_data"] == summary["depth_dependent_knobs_enabled"]
+    assert set(summary["depth_dependent_knobs_enabled"]) == set(DEPTH_DEPENDENT_KNOBS)
+
+    # declaring depth data clears the inert flag without changing the knobs
+    with_depth = ExecutionProfile(
+        name="depth",
+        fill_model="default",
+        prob_fill_on_limit=1.0,
+        prob_slippage=0.0,
+        random_seed=0,
+        liquidity_consumption=True,
+        queue_position=True,
+        depth_data_available=True,
+    )
+    s = profile_summary(with_depth)
+    assert s["inert_knobs_without_depth_data"] == []
+    assert set(s["depth_dependent_knobs_enabled"]) == set(DEPTH_DEPENDENT_KNOBS)
+
+    # baseline enables no depth-dependent knob at all
+    assert profile_summary("baseline")["depth_dependent_knobs_enabled"] == []
+
+
 # ---------------------------------------------------------------- validation
 
 
