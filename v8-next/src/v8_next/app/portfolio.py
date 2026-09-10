@@ -392,8 +392,19 @@ def main(argv: list[str] | None = None) -> int:
             }) + "\n")
     dataset_path = out_dir / f"canonical_dataset_{tag}.json"
     dataset_path.write_text(json.dumps(receipt.run.dataset.model_dump(), indent=2), encoding="utf-8")
+    closed_path = out_dir / f"portfolio_closed_{tag}.jsonl"
+    with open(closed_path, "w", encoding="utf-8") as f:
+        for c in p_fund["closed_positions"]:
+            if not isinstance(c, dict):
+                continue
+            f.write(json.dumps({
+                "position_id": c.get("position_id"), "instrument_id": c.get("instrument_id"),
+                "realized_pnl": c.get("realized_pnl"), "avg_px_close": c.get("avg_px_close"),
+                "fill_time_ns": c.get("event_ns"),
+            }) + "\n")
     binding_list = [
         ArtifactBinding.from_file("engine_trades", trades_path),
+        ArtifactBinding.from_file("engine_closed_trades", closed_path),
         ArtifactBinding.from_file("canonical_dataset", dataset_path),
         ArtifactBinding.from_file("economic_receipt", receipt_path),
         ArtifactBinding.from_file("market_tape", tape_path / "tape.jsonl" if tape_path.is_dir() else tape_path),
