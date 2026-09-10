@@ -6,6 +6,8 @@ set -euo pipefail
 
 REV="${1:-HEAD}"
 WT=/tmp/v8-clean-repro
+git worktree remove --force "$WT" 2>/dev/null || true
+git worktree prune
 rm -rf "$WT"
 git worktree add --detach "$WT" "$REV"
 cd "$WT"
