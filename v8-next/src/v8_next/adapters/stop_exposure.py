@@ -22,6 +22,17 @@ def native_stop_exposure(
     Current scope is native netting positions with campaign-owned stop-market
     orders. Nominal absolute entry-to-stop risk matches the legacy heat rule;
     no profit offset, gap guarantee or funding reconciliation is implied.
+
+    Reservation bases (deliberate, document the transition):
+    - Pending (unsubmitted, fill price unknown): worst-case band
+      qty*|target-stop|. Fill can occur anywhere inside the permitted band,
+      so the reservation assumes the far edge.
+    - Open (entry known): realized distance qty*|entry-stop|.
+    On fill the booked heat therefore drops from band to distance. That is a
+    genuine risk reduction (entry realized inside the band), not freed
+    headroom from nowhere; consumers must expect the step, not treat it as
+    spare limit. allocation.allocate_ordered books the pending (band) basis
+    for in-batch reservations to match this function.
     """
     if cache.orders_inflight():
         return None  # Submitted entries/amendments have no qualified reservation bound yet.

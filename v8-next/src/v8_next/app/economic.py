@@ -51,7 +51,40 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--taker-fee", type=float, default=eb.TAKER_FEE_DEFAULT)
     p.add_argument("--opex-monthly", type=float, default=30.0)
     p.add_argument("--live-fills", default=None)
+    # Capital policy (Task 4): no live orders; missing file stays unauthorized safely; no prompt.
+    p.add_argument("--capital-policy", default=None, help="Path to capital policy JSON (max_notional, max_exposure_frac, authorized). Absent -> unauthorized safe default.")
+    p.add_argument("--max-notional", type=str, default=None, help="Override max_notional (decimal string) for test/CLI policy.")
+    p.add_argument("--max-exposure-frac", type=str, default=None, help="Override max_exposure_frac (decimal string, (0,1]) for test/CLI policy.")
     return p.parse_args(argv)
+
+
+def resolve_capital_policy(args: argparse.Namespace) -> Any:
+    """Resolve CapitalPolicy from file and/or CLI overrides. Pure, non-blocking.
+
+    Precedence: file -> CLI overrides -> safe unauthorized default.
+    No live orders, no private clients, no interactive approval.
+
+    CLI overrides can only ADJUST sizing fields; they can never authorize.
+    Authorization comes exclusively from a policy file with authorized=true.
+    There is deliberately no --capital-authorized flag: a CLI switch must not
+    be able to mint capital permission.
+    """
+    from v8_next.domain.capital_policy import CapitalPolicy
+
+    policy = CapitalPolicy.from_file(getattr(args, "capital_policy", None))
+    max_n = getattr(args, "max_notional", None)
+    max_f = getattr(args, "max_exposure_frac", None)
+    # CLI overrides produce a test policy; merging preserves file base unless overridden.
+    # authorized is never touched here: file base (default False) always stands.
+    if max_n is not None or max_f is not None:
+        base = policy.model_dump()
+        if max_n is not None:
+            base["max_notional"] = max_n
+        if max_f is not None:
+            base["max_exposure_frac"] = max_f
+        base["authorized"] = policy.authorized
+        policy = CapitalPolicy(**base)
+    return policy
 
 
 def run_engine(
@@ -87,6 +120,11 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
     if not chrono_ok or not leak_ok:
         raise SystemExit(f"INVALID input data: {chrono_note} / {leak_note}")
 
+    # Task 4 capital policy decision path: no live orders, absent stays unauthorized, test policies gate accept/reject
+    _capital_policy = resolve_capital_policy(args)
+    _capital_decision = _capital_policy.decision()
+    print(f"[+] capital policy: authorized={_capital_policy.authorized} max_notional={_capital_policy.max_notional} max_exposure_frac={_capital_policy.max_exposure_frac} decision={_capital_decision['decision']} ({_capital_decision['reason']})", flush=True)
+
     gi = eb.git_info()
     cfg_obj = {
         "incumbent": {"quorum": 1, "tolerance": 28},
@@ -94,6 +132,8 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
         "bracket": ["0.02", "0.04"],
         "bars": args.bars,
         "seed": args.seed,
+        "capital_policy": _capital_policy.to_receipt_fields(),
+        "capital_decision": _capital_decision,
     }
     run = eb.RunIdentity(
         dataset=eb.DatasetIdentity(
@@ -263,6 +303,7 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
         chrono_ok=chrono_ok and leak_ok,
         chrono_note=f"{chrono_note}; leak_probe={leak_note}",
         excess=excess,
+        excess_ci=(metrics["incumbent"].excess_ci_low, metrics["incumbent"].excess_ci_high),
         stats=stats,
         mix=mix,
         cost_basis_ok=cost_ok,
@@ -278,11 +319,24 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
         "Funding settlement not fed to engine; funding cost MISSING on all legs.",
         "OPEX shown separately: business net = %.2f - %.2f (opex) on incumbent leg." % (strat_net, opex_total),
         "P+E is allocator-level sleeve rerun, not joint engine execution.",
-        "Capacity table assumes linear fees; impact/liquidity nonlinearity unmodeled.",
+        "Data resolution (1h OHLCV bars: open/high/low/close/volume; no L2/tick/spread/depth) "
+        "SUPPORTS: linear taker fee (notional * taker_fee, config) and bar-close turnover/slippage proxy only.",
+        "Capacity UNMODELED (requires data NOT in 1h bars; no coefficients invented): market impact / price impact vs depth, "
+        "participation rate / %ADV / queue position, intraday slippage distribution / bid-ask spread, "
+        "liquidity curvature / nonlinearity.",
+        "Claim that CANNOT be validated from 1h bars: 'capacity at N*capital (10x/100x) with preserved edge net of impact/participation' — "
+        "requires L2 depth + ADV/participation + tick spread data not present; linear 10x/100x rows are accounting extrapolations, not validations. "
+        "Even at 1x, impact/participation remain UNVALIDATED.",
         "Vol-target/simple-trend are analytic models with assumed taker fee, not engine fills.",
         "Benchmarks exclude funding on the same basis as the strategy (comparable).",
         "MINERVA-style statistical confidence (if any) carries zero economic/capital authority.",
     ]
+    _capital_fields = _capital_policy.to_receipt_fields()
+    _extended_limitations = list(limitations)
+    if not _capital_policy.authorized:
+        _extended_limitations.append(
+            f"Capital policy UNAUTHORIZED (max_notional={_capital_fields['max_notional']} max_exposure_frac={_capital_fields['max_exposure_frac']}): no live orders, no capital permission; CLI sizing overrides (--max-notional/--max-exposure-frac) can never authorize, only a policy file with authorized=true can."
+        )
     receipt = eb.EconomicReceipt(
         receipt_id=run.digest()[:32],
         run=run,
@@ -293,11 +347,13 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
         controls=controls,
         portfolio_mix=mix,
         capacity_scenarios=cap_table,
-        parity={"engine_rerun_parity": "EXACT_MATCH" if parity_ok else "DIVERGED"},
+        parity={"engine_rerun_parity": "EXACT_MATCH" if parity_ok else "DIVERGED", "capital_policy": _capital_fields, "capital_decision": _capital_decision},
         shadow_live=shadow_live,
-        limitations=limitations,
+        limitations=_extended_limitations,
     )
     aux = {
+        "capital_policy": _capital_fields,
+        "capital_decision": _capital_decision,
         "inc_digest": eng_digest(inc_res),
         "inc_digest_rerun": eng_digest(inc_res2),
         "engine_trades": [
@@ -328,15 +384,18 @@ def main(argv: list[str] | None = None) -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     receipt, aux = build_receipt(args)
 
-    trades_path = out_dir / "incumbent_trades.jsonl"
+    # Version bound artifacts per run config: never overwrite a file an older
+    # ledger entry is bound to (the chain fail-closed on exactly this).
+    tag = receipt.receipt_id[:8]
+    trades_path = out_dir / f"incumbent_trades_{tag}.jsonl"
     with open(trades_path, "w", encoding="utf-8") as f:
         for row in aux["engine_trades"]:
             f.write(json.dumps(row) + "\n")
-    challenger_path = out_dir / "challenger_trades.jsonl"
+    challenger_path = out_dir / f"challenger_trades_{tag}.jsonl"
     with open(challenger_path, "w", encoding="utf-8") as f:
         for row in aux["challenger_trades"]:
             f.write(json.dumps(row) + "\n")
-    dataset_path = out_dir / "canonical_dataset.json"
+    dataset_path = out_dir / f"canonical_dataset_{tag}.json"
     dataset_path.write_text(
         json.dumps(receipt.run.dataset.model_dump(), indent=2), encoding="utf-8"
     )
@@ -349,10 +408,12 @@ def main(argv: list[str] | None = None) -> int:
     parity["bindings_verified"] = bool(ok1 and ok2)
     receipt = receipt.model_copy(update={"parity": parity})
 
-    receipt_path = out_dir / "economic_receipt.json"
+    receipt_path = out_dir / f"economic_receipt_{tag}.json"
     receipt_path.write_text(receipt.model_dump_json(indent=2), encoding="utf-8")
-    report_path = out_dir / "economic_report.md"
+    report_path = out_dir / f"economic_report_{tag}.md"
     report_path.write_text(eb.render_report(receipt), encoding="utf-8")
+    # Version bound artifacts per run (see portfolio.py): never overwrite a
+    # file an older ledger entry is bound to.
 
     # Determinism: receipt digest must be stable for fixed inputs (rerun check).
     print(f"[+] receipt: {receipt.receipt_id} digest: {receipt.digest()[:16]}...")

@@ -1,7 +1,7 @@
 """Benchmark CLI command (D-153 End-to-End Benchmark Runner & Report).
 
 Usage:
-    python -m v8_next.app.benchmark [--case-id ID] [--output-dir DIR] [--html-out PATH] [--all-pass]
+    python -m v8_next.app.benchmark [--case-id ID] [--output-dir DIR] [--html-out PATH]
 """
 
 from __future__ import annotations
@@ -23,7 +23,6 @@ def main() -> int:
     parser.add_argument("--policy-id", default="pol_28_expert_ensemble", help="Target Policy ID")
     parser.add_argument("--output-dir", default="artifacts/benchmarks", help="Output artifact directory")
     parser.add_argument("--html-out", default="artifacts/benchmarks/forensic_report.html", help="HTML report output path")
-    parser.add_argument("--all-pass", action="store_true", help="Force all-pass state for certification test")
     parser.add_argument(
         "--resolve-gates",
         action="store_true",
@@ -78,7 +77,6 @@ def main() -> int:
     result = runner.run(
         case,
         candles,
-        all_pass_mode=args.all_pass,
         resolve_gates=args.resolve_gates,
         tape_path=tape_file if tape_file.exists() else None,
         live_fills_path=Path(args.live_fills) if args.live_fills else None,

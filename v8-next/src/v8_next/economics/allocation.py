@@ -96,11 +96,23 @@ def allocate_ordered(
             capacity.quantity * proposal.price if capacity.quantity is not None else Decimal(0)
         )
         if stop_budget is not None:
-            band = abs(proposal.protection.target_price - proposal.protection.stop_price)
-            if band > 0:
+            # Same contract as sizing.stop_budget_notional (budget/distance*price):
+            # risk is measured entry-to-stop, direction-aware. The full
+            # stop-to-target band is NOT the sizing basis (it only bounds the
+            # worst-case pending reservation in StopExposure).
+            direction = proposal.opportunity.direction
+            if direction == "LONG":
+                distance = proposal.price - proposal.protection.stop_price
+            elif direction == "SHORT":
+                distance = proposal.protection.stop_price - proposal.price
+            else:
+                distance = Decimal(0)
+            if distance > 0:
                 requested = min(
-                    requested, snapshot.equity * stop_budget.risk_fraction / band * proposal.price
+                    requested, snapshot.equity * stop_budget.risk_fraction / distance * proposal.price
                 )
+            # distance <= 0 flows to decide_campaign, which rejects invalid
+            # geometry with PRICE_OUTSIDE_CAMPAIGN_GEOMETRY.
         decision = decide_campaign(
             proposal.opportunity,
             proposal.stances,
@@ -123,7 +135,10 @@ def allocate_ordered(
         results.append(decision)
         if decision.campaign is not None:
             # Unsubmitted market entry can occur anywhere inside the permitted
-            # stop/target band. Match native_stop_exposure's reservation bound.
+            # stop/target band. Book the worst-case (band) basis to match
+            # native_stop_exposure's pending reservation. After fill, native
+            # re-measures on realized entry-to-stop distance, so booked heat
+            # steps down by design (see native_stop_exposure docstring).
             notional = decision.campaign.quantity * max(
                 proposal.protection.stop_price, proposal.protection.target_price
             )

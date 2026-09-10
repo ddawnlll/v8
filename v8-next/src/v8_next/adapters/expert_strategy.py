@@ -35,7 +35,7 @@ from nautilus_trader.model import (
 from nautilus_trader.trading import Strategy
 
 from v8_next.adapters.engine_state import economic_state
-from v8_next.domain.market import Candle, frame_at
+from v8_next.domain.market import Candle, CausalFrame, build_candle_dataframe, frame_at
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.decisions import Opportunity, StanceKind, opportunity_at
 from v8_next.economics.grammar import grammar_opportunity
@@ -47,6 +47,29 @@ from v8_next.opportunities.models import (
     OpportunityRecord,
     OpportunityStatus,
 )
+
+_FIXED_AGGREGATION_NS = {
+    "SECOND": 1_000_000_000,
+    "MINUTE": 60_000_000_000,
+    "HOUR": 3_600_000_000_000,
+    "DAY": 86_400_000_000_000,
+    "WEEK": 604_800_000_000_000,
+}
+
+
+def _bar_duration_ns(bar: Bar) -> int:
+    """Derive a bar's duration from its own BarType; never assume 1h.
+
+    Raises on non-fixed aggregations (e.g. MONTH, tick-based) instead of
+    guessing start_ns, which would silently corrupt causal alignment.
+    """
+    spec = bar.bar_type.spec  # BarSpecification(step, aggregation, price_type)
+    agg = getattr(spec.aggregation, "name", str(spec.aggregation))
+    name = str(agg).split(".")[-1].upper()
+    step = int(spec.step)
+    if name not in _FIXED_AGGREGATION_NS or step <= 0:
+        raise ValueError(f"non-fixed bar aggregation {agg!r}; refusing to guess start_ns")
+    return step * _FIXED_AGGREGATION_NS[name]
 
 
 @dataclass(frozen=True)
@@ -92,6 +115,9 @@ class ExpertEnsembleStrategy(Strategy):
         self.instrument_id = InstrumentId.from_str(self.ensemble_config.instrument_id)
         self.bar_type = BarType.from_str(self.ensemble_config.bar_type_str)
         self.source_candles = source_candles or {}
+        ordered_source = tuple(sorted(self.source_candles.values(), key=lambda c: c.end_ns))
+        self._ordered_source = ordered_source
+        self._source_prefix_df = build_candle_dataframe(ordered_source) if ordered_source else None
         self.readings = readings
 
         # Opportunity book & exposure resolver
@@ -112,11 +138,21 @@ class ExpertEnsembleStrategy(Strategy):
     def on_bar(self, bar: Bar) -> None:
         """Process incoming native Bar tick through the 28-expert ensemble."""
         # 1. Obtain or construct causal Candle
+        use_prefix = False
         if bar.ts_event in self.source_candles:
             candle = self.source_candles[bar.ts_event]
+            # Positional guard: the prefix cache is only valid while the live
+            # sequence is exactly the ordered source (identity + position).
+            # Any deviation (gap, reorder, duplicate) falls back to frame_at.
+            if (
+                self._source_prefix_df is not None
+                and len(self.candles) < len(self._ordered_source)
+                and self._ordered_source[len(self.candles)] is candle
+            ):
+                use_prefix = True
         else:
-            time_unit = 3600 * 10**9  # default 1 hour in ns
-            start_ns = bar.ts_event - time_unit if bar.ts_event >= time_unit else 0
+            duration_ns = _bar_duration_ns(bar)
+            start_ns = bar.ts_event - duration_ns if bar.ts_event >= duration_ns else 0
             candle = Candle(
                 instrument_id=str(self.instrument_id),
                 start_ns=start_ns,
@@ -136,7 +172,12 @@ class ExpertEnsembleStrategy(Strategy):
         self.opportunity_book.on_candle(candle)
 
         # 3. Build CausalFrame
-        frame = frame_at(str(self.instrument_id), bar.ts_init, tuple(self.candles))
+        if use_prefix:
+            frame = CausalFrame.from_ordered_prefix(
+                str(self.instrument_id), bar.ts_init, tuple(self.candles), self._source_prefix_df
+            )
+        else:
+            frame = frame_at(str(self.instrument_id), bar.ts_init, tuple(self.candles))
 
         # 4. Detect Opportunity
         opportunity: Opportunity | None

@@ -12,7 +12,6 @@ Resolves Gates G3 through G9 through genuine empirical calculations:
 
 from __future__ import annotations
 
-import hashlib
 import json
 import math
 from dataclasses import dataclass
@@ -674,6 +673,11 @@ def evaluate_g7_prospective_shadow(
 
     # Initialize e-process martingale E_t = prod_{k=1}^t (1 + lambda_k * (X_k - mu_0))
     e_process_val = 1.0
+    # Unclipped twin judged by the gate. The logged trajectory stays clipped
+    # for display stability, but judging the clipped value against bounds
+    # inside the clip range is a tautology (clip [0.01, 19.0] vs pass
+    # [0.01, 20.0) can never fail). The gate must see the real process.
+    e_process_raw = 1.0
     drift_val = 0.0
     ref_mean = float(stream_candles[0].close) if stream_candles else 100.0
 
@@ -686,6 +690,11 @@ def evaluate_g7_prospective_shadow(
 
         betting_lambda = 0.1
         update = 1.0 + betting_lambda * np.tanh(ret * 10.0)
+        e_process_raw = e_process_raw * update
+        if not math.isfinite(e_process_raw):
+            # Exploded/vanished wealth is a verdict, not a crash: pin it and
+            # keep the window (drift still judged on the last bar).
+            e_process_raw = float("inf") if e_process_raw > 0 else 0.0
         e_process_val = float(np.clip(e_process_val * update, 0.01, 19.0))
         drift_val = float(abs(ret))
 
@@ -706,45 +715,101 @@ def evaluate_g7_prospective_shadow(
         for r in trajectory:
             f.write(json.dumps(r) + "\n")
 
-    passed = 0.01 <= e_process_val < 20.0 and drift_val < 0.15
+    passed = 0.01 <= e_process_raw < 20.0 and drift_val < 0.15
     state = GateState.PASS if passed else GateState.BLOCKED
     metrics = {
         "final_e_process": round(e_process_val, 4),
+        "final_e_process_raw": (
+            round(e_process_raw, 4) if math.isfinite(e_process_raw) else str(e_process_raw)
+        ),
         "final_drift": round(drift_val, 6),
         "shadow_steps": len(trajectory),
         "log_path": str(shadow_log),
         "passed": passed,
     }
+    if not passed:
+        metrics["reason"] = (
+            "E_PROCESS_OUT_OF_BAND"
+            if not (0.01 <= e_process_raw < 20.0)
+            else "DRIFT_EXCEEDED"
+        )
     return state, metrics
 
 
 def evaluate_g8_live_realization(
     live_fills_path: Path | str | None = None,
+    *,
+    source: str = "live",
+    account: dict[str, Any] | None = None,
 ) -> tuple[GateState, dict[str, Any]]:
     """G8: Live Realization (g8_prospective_shadow).
 
-    In Research / Candidate Phase: strategy is not connected to a live venue.
-    Per D-152 §5, G8 is marked NOT_APPLICABLE (Diagnostic Fold), removing the blockage.
-    If live venue fills are physically present, G8 transitions to PASS.
+    Real venue-settled fills vs simulated account reconciliation.
+    Fixture files are NEVER counted as live (FIXTURE_NOT_LIVE).
+    Absent venue/account => UNRUN_NO_VENUE_ACCOUNT (NOT_APPLICABLE diagnostic fold).
+    Documented format/source/command in every branch per SHADOW_LIVE_DATA_SPEC.md.
     """
-    if live_fills_path is not None:
-        p = Path(live_fills_path)
-        if p.exists() and p.stat().st_size > 0:
-            content = p.read_bytes()
-            sha256_digest = hashlib.sha256(content).hexdigest()
-            lines = [json.loads(line_str) for line_str in content.decode("utf-8").splitlines() if line_str.strip()]
-            if lines:
-                return GateState.PASS, {
-                    "mode": "LIVE_VENUE_SETTLED",
-                    "fills_count": len(lines),
-                    "path": str(p),
-                    "sha256": sha256_digest,
-                }
+    from v8_next.adapters.shadow_ingest import (
+        is_fixture_path,
+        load_shadow_fills,
+        reconcile_shadow_account,
+    )
 
-    # Research / Candidate Phase: D-152 §5 Diagnostic Fold
+    spec_ref = "docs/contracts/SHADOW_LIVE_DATA_SPEC.md"
+    base_doc = {
+        "format": "jsonl per SHADOW_LIVE_DATA_SPEC.md: {fill_id,instrument,price,qty,side,venue_time_ns,order_id}",
+        "source": "venue private REST GET /fapi/v1/userTrades (requires BINANCE_API_KEY)",
+        "command": "uv run --project v8-next python -m v8_next.adapters.shadow_ingest verify --fills artifacts/shadow_fills.jsonl",
+        "spec": spec_ref,
+    }
+
+    # Fixture guard: never count fixture as live, even if well-formed
+    if live_fills_path is not None and (source == "fixture" or is_fixture_path(Path(live_fills_path))):
+        return GateState.BLOCKED, {
+            **base_doc,
+            "mode": "FIXTURE_NOT_LIVE",
+            "reason": f"fixture path not counted as live: {live_fills_path}",
+            "fixture_guard": True,
+            "clause": "fixture never substitutes for venue-settled fills",
+        }
+
+    if live_fills_path is not None:
+        fills, meta = load_shadow_fills(live_fills_path, source=source)
+        mode = meta.get("mode")
+        if mode == "FIXTURE_NOT_LIVE":
+            return GateState.BLOCKED, {**base_doc, **meta}
+        if mode == "LIVE_VENUE_SETTLED":
+            # Reconciliation against AccountState is what turns fills into a
+            # verified realization. Without an account there is no
+            # reconciliation: PASS is explicitly labeled unreconciled so no
+            # consumer can mistake it for a matched realization.
+            recon = reconcile_shadow_account(fills, account) if account is not None else None
+            out: dict[str, Any] = {**base_doc, **meta, "mode": "LIVE_VENUE_SETTLED"}
+            if recon is not None:
+                out["reconciliation"] = recon
+                out["account_reconciliation"] = recon  # alias for spec
+                out["account_reconciled"] = True
+            else:
+                out["reconciliation"] = "UNRUN_NO_ACCOUNT"
+                out["account_reconciled"] = False
+            return GateState.PASS, out
+        if mode in ("UNRUN_NO_VENUE_ACCOUNT", "MALFORMED_SHADOW_FILE"):
+            # Malformed or absent but path was given => BLOCKED (explicit claim attempted)
+            state = GateState.BLOCKED if mode == "MALFORMED_SHADOW_FILE" else GateState.NOT_APPLICABLE
+            return state, {**base_doc, **meta}
+
+    # No path supplied: research / candidate phase => diagnostic fold.
+    # No ambient probe: a stray file in the working directory must never
+    # promote a gate. Explicit --live-fills is the only PASS route.
     return GateState.NOT_APPLICABLE, {
+        **base_doc,
         "mode": "DIAGNOSTIC_FOLD",
+        "status": "UNRUN_NO_VENUE_ACCOUNT",
+        "reason": "no venue account / no file at artifacts/shadow_fills.jsonl",
+        "expected_command": "uv run --project v8-next python -m v8_next.adapters.shadow_ingest fetch --symbol BTCUSDT --out artifacts/shadow_fills.jsonl  # requires BINANCE_API_KEY",
         "clause": "D-152 §5 (Research / Candidate fold unblocks pipeline without claiming live fills)",
+        "funding_note": "quad funding is public in research/tape/quad-1h-12m/tape.jsonl; see funding_history.quad_funding_summary",
+        "unrun_detail": "UNRUN_NO_VENUE_ACCOUNT",
     }
 
 

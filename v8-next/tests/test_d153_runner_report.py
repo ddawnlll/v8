@@ -38,10 +38,12 @@ def test_d153_runner_end_to_end_and_html_generation(tmp_path: Path):
     assert result.total_trades >= 0
     assert 0.0 <= result.capability_score <= 100.0
 
-    # Diagnostic gate vector (no gate resolution battery in this cell)
+    # Diagnostic gate vector (no gate resolution battery in this cell).
+    # G0 is genuinely measured from candle lineage; G1/G2 have no measurement
+    # in the runner and resolve to UNKNOWN (never PASS).
     assert result.gates.g0_identity == GateState.PASS
-    assert result.gates.g1_causal_pit == GateState.PASS
-    assert result.gates.g2_determinism_ledger == GateState.PASS
+    assert result.gates.g1_causal_pit == GateState.UNKNOWN
+    assert result.gates.g2_determinism_ledger == GateState.UNKNOWN
     assert result.gates.g3_benchmark_coverage == GateState.UNKNOWN
     assert result.gates.g8_prospective_shadow == GateState.MISSING
     assert result.gates.g9_live_realization == GateState.MISSING
@@ -76,7 +78,6 @@ def test_d153_runner_end_to_end_and_html_generation(tmp_path: Path):
     assert "G0ConstitutionalIntegrity::g0_identity" in html_text
     assert result.receipt.receipt_digest in html_text
 
-    # Test all-pass mode
-    result_all_pass = runner.run(case, candles, all_pass_mode=True)
-    assert result_all_pass.gates.all_pass() is True
-    assert "Ready For Review" in result_all_pass.certificate.status
+    # No forced-pass mode exists: gates cannot be certified without evidence.
+    # The all_pass backdoor was removed; a bare diagnostic run never holds.
+    assert result.gates.all_pass() is False

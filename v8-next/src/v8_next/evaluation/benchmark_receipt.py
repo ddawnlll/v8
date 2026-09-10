@@ -19,7 +19,7 @@ from pydantic import BaseModel, ConfigDict
 
 from v8_next.evaluation.parity import ArtifactBinding
 
-RECEIPT_DIGEST_VERSION = "v8.5-digest-v3"
+RECEIPT_DIGEST_VERSION = "v8.5-digest-v4"
 
 class GateState(StrEnum):
     PASS = "PASS"
@@ -238,6 +238,10 @@ class BenchmarkReceipt(BaseModel):
     receipt_digest: str = ""
     economic_evidence_digest: str = ""
     economic_receipt_path: str = ""
+    # Canonical input identity bound into the digest (v4): tape/data digest,
+    # strategy config, bar count/span, capital assumptions. Any input
+    # substitution changes this binding and fails verification.
+    input_binding: str = ""
 
     @classmethod
     def create(
@@ -251,6 +255,7 @@ class BenchmarkReceipt(BaseModel):
         artifact_bindings: Sequence[ArtifactBinding] = (),
         economic_evidence_digest: str = "",
         economic_receipt_path: str = "",
+        input_binding: str = "",
     ) -> BenchmarkReceipt:
         sorted_bindings = sorted(artifact_bindings, key=lambda b: (b.role, b.path))
         bindings_canon = [
@@ -268,6 +273,7 @@ class BenchmarkReceipt(BaseModel):
             computed_at_timestamp_ns,
             economic_evidence_digest,
             economic_receipt_path,
+            input_binding,
         ]
         digest = hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
 
@@ -283,6 +289,7 @@ class BenchmarkReceipt(BaseModel):
             receipt_digest=digest,
             economic_evidence_digest=economic_evidence_digest,
             economic_receipt_path=economic_receipt_path,
+            input_binding=input_binding,
         )
 
     def verify(self) -> tuple[bool, str]:
@@ -305,6 +312,10 @@ class BenchmarkReceipt(BaseModel):
             self.economic_evidence_digest,
             self.economic_receipt_path,
         ]
+        # input_binding joined the digest at v4; older receipts verify under
+        # their own version's canon so historical ledgers keep verifying.
+        if self.digest_version != "v8.5-digest-v3":
+            canon.append(self.input_binding)
         expected_digest = hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
         if expected_digest != self.receipt_digest:
             return False, f"DIGEST_TAMPERED: expected {expected_digest}, stored {self.receipt_digest}"

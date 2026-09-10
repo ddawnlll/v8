@@ -85,18 +85,21 @@ def test_batch_stop_heat_and_concurrency_reserve_each_accepted_campaign():
 
     empty = StopExposure(D(0), 0, 10, True)
     results = run(StopBudget(D("0.01"), D("0.02"), 10), empty)
+    # Distance-based sizing (budget/distance*price = 10/10*100): qty 1.0.
+    # Worst-case band booking (1.0*20) exhausts the 0.02 heat budget at once.
     assert [r.campaign.quantity if r.campaign else None for r in results] == [
-        D("0.5"),
-        D("0.5"),
+        D("1.0"),
+        None,
         None,
     ]
+    assert results[1].reason == "PORTFOLIO_HEAT_EXCEEDED"
     assert results[2].reason == "PORTFOLIO_HEAT_EXCEEDED"
     results = run(StopBudget(D("0.01"), D("0.1"), 1), empty)
     assert results[1].reason == "CAMPAIGN_CONCURRENCY_LIMIT"
     results = run(
         StopBudget(D("0.01"), D("0.1"), 1), empty, [proposal("a", verified=False), proposal("b")]
     )
-    assert results[1].campaign.quantity == D("0.5")
+    assert results[1].campaign.quantity == D("1.0")
     assert empty.open_and_reserved_risk == 0
     assert run(StopBudget(D("0.01"), D("0.1"), 1), None)[0].reason == "MISSING_STOP_RISK_INPUTS"
     assert run(None, empty)[0].reason == "MISSING_STOP_BUDGET_POLICY"

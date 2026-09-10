@@ -170,20 +170,35 @@ def main(argv: list[str] | None = None) -> int:
         "initial_balance": Decimal(str(args.capital)),
     }
     print("[+] engine P (funding + no-funding dual) ...", flush=True)
-    p_fund = run_portfolio_backtest(tape.candles, sleeves_p, tape.funding, **kw)
-    p_nofund = run_portfolio_backtest(tape.candles, sleeves_p, (), **kw)
+    p_fund = run_portfolio_backtest(
+        tape.candles, sleeves_p, tape.funding, funding_dropped=tape.funding_dropped, **kw
+    )
+    p_nofund = run_portfolio_backtest(
+        tape.candles, sleeves_p, (), funding_dropped=tape.funding_dropped, **kw
+    )
     print("[+] engine P+E (funding + no-funding dual) ...", flush=True)
-    pe_fund = run_portfolio_backtest(tape.candles, sleeves_pe, tape.funding, **kw)
+    pe_fund = run_portfolio_backtest(
+        tape.candles, sleeves_pe, tape.funding, funding_dropped=tape.funding_dropped, **kw
+    )
     print("[+] determinism rerun P ...", flush=True)
-    p_nofund2 = run_portfolio_backtest(tape.candles, sleeves_p, (), **kw)
+    p_nofund2 = run_portfolio_backtest(
+        tape.candles, sleeves_p, (), funding_dropped=tape.funding_dropped, **kw
+    )
 
     p_ident = trade_signature(p_nofund) == trade_signature(p_fund)
-    pe_nf = run_portfolio_backtest(tape.candles, sleeves_pe, (), **kw)
+    pe_nf = run_portfolio_backtest(
+        tape.candles, sleeves_pe, (), funding_dropped=tape.funding_dropped, **kw
+    )
     pe_ident = trade_signature(pe_nf) == trade_signature(pe_fund)
     det_ok = trade_signature(p_nofund) == trade_signature(p_nofund2)
     if not (p_ident and pe_ident):
         print("error: funding feed changed trade signatures; measurement invalid", file=sys.stderr)
         return 2
+    print(
+        f"[+] funding coverage: P={p_fund['funding_coverage']} "
+        f"(fed={p_fund['funding_settlements_fed']} dropped_at_load={p_fund['funding_dropped_at_load']} "
+        f"out_of_window={p_fund['funding_out_of_window']} unknown_leg={p_fund['funding_unknown_leg']})"
+    )
     p_drag = float(str(p_nofund["account"]["balance_total"]).split()[0]) - float(
         str(p_fund["account"]["balance_total"]).split()[0]
     )
@@ -442,6 +457,26 @@ def main(argv: list[str] | None = None) -> int:
         gates=gates, computed_at_timestamp_ns=end_ns[-1],
         artifact_bindings=bindings,
         economic_evidence_digest=receipt.digest(), economic_receipt_path=str(receipt_path.resolve()),
+        input_binding=hashlib.sha256(
+            json.dumps(
+                {
+                    "tape_sha256": tape.tape_sha256,
+                    "case_id": args.case_id,
+                    "policy_id": args.policy_id,
+                    "bars": n,
+                    "start_bar": args.start_bar,
+                    "span_ns": [end_ns[0], end_ns[-1]],
+                    "seed": args.seed,
+                    "capital": args.capital,
+                    "taker_fee": args.taker_fee,
+                    "per_leg_notional": args.per_leg_notional,
+                    "opex_monthly": args.opex_monthly,
+                    "capital_policy": capital_policy.to_receipt_fields(),
+                },
+                sort_keys=True,
+                default=str,
+            ).encode()
+        ).hexdigest(),
     )
     ledger = BenchmarkLedger.load_jsonl(out_dir / "benchmark_ledger.jsonl")
     entry = ledger.append(bench_receipt)

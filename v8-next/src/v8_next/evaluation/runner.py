@@ -11,7 +11,9 @@ Orchestrates:
 
 from __future__ import annotations
 
+import hashlib
 import json
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -21,6 +23,7 @@ from v8_next.adapters.expert_strategy import (
     ExpertStrategyConfig,
     run_expert_strategy_backtest,
 )
+from v8_next.domain.capital_policy import CapitalPolicy
 from v8_next.domain.market import Candle
 from v8_next.evaluation.benchmark_receipt import (
     BenchmarkLedger,
@@ -80,6 +83,79 @@ class BenchmarkRunResult(BaseModel):
     domain_scores: dict[str, Any] | None = None
 
 
+def measure_candle_lineage(candles: Sequence[Candle]) -> tuple[bool | None, dict[str, Any]]:
+    """Genuine G0 input: single-instrument, gap-free, overlap-free ordering.
+
+    Returns (lineage_ok, info). None means unmeasurable (no candles) and must
+    resolve to UNKNOWN downstream, never PASS.
+    """
+    if not candles:
+        return None, {"status": "UNRUN", "reason": "NO_CANDLES"}
+    instruments = sorted({c.instrument_id for c in candles})
+    if len(instruments) != 1:
+        return False, {
+            "status": "BLOCKED",
+            "reason": "MIXED_INSTRUMENTS",
+            "instruments": instruments,
+            "n_bars": len(candles),
+        }
+    ordered = sorted(candles, key=lambda c: (c.start_ns, c.end_ns))
+    for a, b in zip(ordered, ordered[1:], strict=False):
+        if b.start_ns < a.end_ns:
+            return False, {
+                "status": "BLOCKED",
+                "reason": "OVERLAP_OR_DUPLICATE",
+                "at_ns": b.start_ns,
+                "n_bars": len(candles),
+            }
+        if b.start_ns > a.end_ns:
+            return False, {
+                "status": "BLOCKED",
+                "reason": "LINEAGE_GAP",
+                "gap_ns": [a.end_ns, b.start_ns],
+                "n_bars": len(candles),
+            }
+    return True, {
+        "status": "MEASURED",
+        "reason": "SINGLE_INSTRUMENT_GAP_FREE",
+        "instrument": instruments[0],
+        "n_bars": len(candles),
+        "span_ns": [ordered[0].start_ns, ordered[-1].end_ns],
+    }
+
+
+def build_input_binding(
+    case: BenchmarkCase,
+    candles: Sequence[Candle],
+    capital_fields: dict[str, Any],
+) -> str:
+    """Canonical input identity for the receipt digest (v4).
+
+    Binds case/policy identity, strategy config, bar count/span, per-candle
+    keys (ns bounds, close, instrument, source hash) and capital assumptions.
+    Any tape/config substitution changes this digest and fails verification.
+    """
+    per_candle = [
+        [c.start_ns, c.end_ns, str(c.close), c.instrument_id, c.source_hash] for c in candles
+    ]
+    candles_digest = hashlib.sha256(
+        json.dumps(per_candle, separators=(",", ":")).encode()
+    ).hexdigest()
+    payload = {
+        "case_id": case.case_id,
+        "policy_id": case.policy_id,
+        "dataset": case.dataset_name,
+        "strategy_config": json.dumps(asdict(case.strategy_config), sort_keys=True, default=str),
+        "n_bars": len(candles),
+        "span_ns": [candles[0].start_ns, candles[-1].end_ns] if candles else [],
+        "candles_digest": candles_digest,
+        "capital": capital_fields,
+    }
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, default=str).encode()
+    ).hexdigest()
+
+
 class BenchmarkRunner:
     """Executes a benchmark case through NautilusTrader and records cryptographic receipt."""
 
@@ -93,12 +169,38 @@ class BenchmarkRunner:
         self,
         case: BenchmarkCase,
         candles: Sequence[Candle],
-        all_pass_mode: bool = False,
         resolve_gates: bool = False,
         tape_path: Path | str | None = None,
         live_fills_path: Path | str | None = None,
+        capital_policy: CapitalPolicy | str | Path | None = None,
     ) -> BenchmarkRunResult:
-        """Execute the complete benchmark run."""
+        """Execute the complete benchmark run.
+
+        capital_policy: None -> safe unauthorized default (no live orders, no promotion).
+        Accepts CapitalPolicy instance, path to JSON, or None. Test policies verify accept/reject.
+        Never prompts, never blocks.
+        """
+        # 0. Capital policy validation (Task 4): safe unauthorized default, no live orders.
+        if isinstance(capital_policy, CapitalPolicy):
+            _cp = capital_policy
+        elif isinstance(capital_policy, (str, Path)):
+            _cp = CapitalPolicy.from_file(capital_policy)
+        elif capital_policy is None:
+            _cp = CapitalPolicy.unauthorized()
+        else:
+            _cp = CapitalPolicy.model_validate(capital_policy)  # dict-like
+        _capital_decision = _cp.decision()
+        # Expose for downstream parity; no prompt, no live order path.
+        # Unauthorized policy does NOT block execution; it gates capital verdict only.
+        # Engine still runs locally (paper/simulation); no venue orders emitted.
+
+        # 0b. Genuine G0 lineage input (measured, never assumed).
+        # G1 (causal PIT) and G2 (determinism rerun) have no measurement in this
+        # runner, so they resolve to UNKNOWN downstream via None (never PASS).
+        _lineage_ok, _lineage_info = measure_candle_lineage(tuple(candles))
+        # 0c. Canonical input identity bound into the receipt digest (v4).
+        _input_binding = build_input_binding(case, tuple(candles), _cp.to_receipt_fields())
+
         # 1. Run NautilusTrader Backtest
         backtest_result = run_expert_strategy_backtest(
             tuple(candles),
@@ -154,6 +256,18 @@ class BenchmarkRunner:
         gate_metrics: dict[str, Any] = {}
         claim_record: StatutoryClaimRecord | None = None
         pre_pass = False
+        # Structural gate inputs: G0 measured above; G1/G2 unmeasured here.
+        gate_metrics["g0"] = dict(_lineage_info)
+        gate_metrics["g1"] = {
+            "status": "UNRUN",
+            "reason": "CAUSAL_PIT_NOT_MEASURED_IN_RUNNER",
+            "note": "per-bar decision-vs-availability audit not performed; UNKNOWN, never PASS",
+        }
+        gate_metrics["g2"] = {
+            "status": "UNRUN",
+            "reason": "DETERMINISM_RERUN_NOT_PERFORMED",
+            "note": "single engine execution only; rerun-parity check not performed; UNKNOWN, never PASS",
+        }
 
         if resolve_gates:
             # 1. G3: Scenario Robustness across 4 market regimes
@@ -186,16 +300,15 @@ class BenchmarkRunner:
                 st == GateState.PASS
                 for st in (g3_state, g4_state, g5_state, g6_state, g7_state)
             )
-            g9_pre_state = GateState.PASS if all_pass_mode else GateState.MISSING
+            g9_pre_state = GateState.MISSING
 
             gates = evaluate_gate_vector(
                 total_bars=total_bars,
                 total_trades=total_trades,
                 pnl_series=pnl_series,
-                mismatches=0,
-                has_continuous_lineage=True,
-                is_causal_pit=True,
-                all_pass_mode=all_pass_mode,
+                mismatches=None,
+                has_continuous_lineage=_lineage_ok,
+                is_causal_pit=None,
                 g3_state=g3_state,
                 g4_state=g4_state,
                 g5_state=g5_state,
@@ -209,10 +322,9 @@ class BenchmarkRunner:
                 total_bars=total_bars,
                 total_trades=total_trades,
                 pnl_series=pnl_series,
-                mismatches=0,
-                has_continuous_lineage=True,
-                is_causal_pit=True,
-                all_pass_mode=all_pass_mode,
+                mismatches=None,
+                has_continuous_lineage=_lineage_ok,
+                is_causal_pit=None,
             )
 
         # 3. Export physical trade ledger to disk
@@ -255,6 +367,7 @@ class BenchmarkRunner:
             gates=gates,
             computed_at_timestamp_ns=computed_at_ns,
             artifact_bindings=bindings,
+            input_binding=_input_binding,
         )
 
         # 5. Append to append-only BenchmarkLedger
@@ -273,15 +386,14 @@ class BenchmarkRunner:
                     live_realization_verified=(gates.g8_prospective_shadow == GateState.PASS),
                 )
                 gate_metrics["g9"] = g9_m
-                if g9_state == GateState.PASS or all_pass_mode:
+                if g9_state == GateState.PASS:
                     gates = evaluate_gate_vector(
                         total_bars=total_bars,
                         total_trades=total_trades,
                         pnl_series=pnl_series,
-                        mismatches=0,
-                        has_continuous_lineage=True,
-                        is_causal_pit=True,
-                        all_pass_mode=all_pass_mode,
+                        mismatches=None,
+                        has_continuous_lineage=_lineage_ok,
+                        is_causal_pit=None,
                         g3_state=g3_state,
                         g4_state=g4_state,
                         g5_state=g5_state,
@@ -298,7 +410,13 @@ class BenchmarkRunner:
                         gates=gates,
                         computed_at_timestamp_ns=computed_at_ns,
                         artifact_bindings=bindings,
+                        input_binding=_input_binding,
                     )
+                    # The post-G9 receipt is a NEW record: append it so the
+                    # returned receipt is bound in the ledger (never orphaned).
+                    # The claim above stays parented to the pre-G9 entry.
+                    entry = self.ledger.append(receipt)
+                    self.ledger.save_jsonl(self.ledger_path)
             else:
                 gate_metrics["g9"] = {
                     "status": "BLOCKED",
@@ -307,6 +425,15 @@ class BenchmarkRunner:
 
         # 7. Generate PolicyCertificate
         certificate = PolicyCertificate.generate(receipt)
+
+        # Attach capital policy decision to gate_metrics (always, non-blocking).
+        # Does not emit live orders, does not block execution, does not prompt.
+        _capital_gate_metrics = {"capital_policy": _cp.to_receipt_fields(), "capital_decision": _capital_decision}
+        if gate_metrics is not None:
+            gate_metrics = {**gate_metrics, **_capital_gate_metrics}
+        else:
+            # Always expose capital decision even in diagnostic-only mode (safe unauthorized default)
+            gate_metrics = _capital_gate_metrics
 
         return BenchmarkRunResult(
             case=case,
@@ -319,6 +446,6 @@ class BenchmarkRunner:
             ledger_entry_hash=entry.entry_hash,
             native_ledger_binding=artifact_binding,
             claim_record=claim_record,
-            gate_metrics=gate_metrics if resolve_gates else None,
+            gate_metrics=gate_metrics,
             domain_scores=breakdown["domains"] or None,
         )

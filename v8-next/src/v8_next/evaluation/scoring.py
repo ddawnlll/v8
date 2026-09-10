@@ -176,11 +176,10 @@ def evaluate_gate_vector(
     total_bars: int,
     total_trades: int,
     pnl_series: list[float],
-    mismatches: int = 0,
-    has_continuous_lineage: bool = True,
-    is_causal_pit: bool = True,
+    mismatches: int | None = 0,
+    has_continuous_lineage: bool | None = True,
+    is_causal_pit: bool | None = True,
     has_data_gaps: bool = False,
-    all_pass_mode: bool = False,
     g3_state: GateState | None = None,
     g4_state: GateState | None = None,
     g5_state: GateState | None = None,
@@ -189,29 +188,29 @@ def evaluate_gate_vector(
     g8_state: GateState | None = None,
     g9_state: GateState | None = None,
 ) -> GateVector:
-    """Evaluate G0-G9 hard gates per D-152 §5 and D-153 specifications."""
-    if all_pass_mode:
-        return GateVector(
-            g0_identity=GateState.PASS,
-            g1_causal_pit=GateState.PASS,
-            g2_determinism_ledger=GateState.PASS,
-            g3_benchmark_coverage=GateState.PASS,
-            g4_structural_robustness=GateState.PASS,
-            g5_statistical_credibility=GateState.PASS,
-            g6_protected_oos=GateState.PASS,
-            g7_generalization=GateState.PASS,
-            g8_prospective_shadow=GateState.PASS,
-            g9_live_realization=GateState.PASS,
-        )
+    """Evaluate G0-G9 hard gates per D-152 §5 and D-153 specifications.
 
-    # G0 Identity: verified lineage and no data gaps
-    g0 = GateState.PASS if (has_continuous_lineage and not has_data_gaps) else GateState.BLOCKED
+    Unmeasured structural inputs (None) resolve to UNKNOWN, never PASS:
+    no gate may certify what was not empirically established.
+    """
+    # G0 Identity: verified lineage and no data gaps.
+    # None (unmeasured) resolves to UNKNOWN, never PASS.
+    if has_continuous_lineage is None:
+        g0 = GateState.UNKNOWN
+    else:
+        g0 = GateState.PASS if (has_continuous_lineage and not has_data_gaps) else GateState.BLOCKED
 
-    # G1 Causal PIT: strict point-in-time causation
-    g1 = GateState.PASS if is_causal_pit else GateState.BLOCKED
+    # G1 Causal PIT: strict point-in-time causation (None -> UNKNOWN).
+    if is_causal_pit is None:
+        g1 = GateState.UNKNOWN
+    else:
+        g1 = GateState.PASS if is_causal_pit else GateState.BLOCKED
 
-    # G2 Determinism Ledger: zero non-deterministic mismatches
-    g2 = GateState.PASS if mismatches == 0 else GateState.BLOCKED
+    # G2 Determinism Ledger: zero non-deterministic mismatches (None -> UNKNOWN).
+    if mismatches is None:
+        g2 = GateState.UNKNOWN
+    else:
+        g2 = GateState.PASS if mismatches == 0 else GateState.BLOCKED
 
     # G3 Benchmark Coverage: historical diagnostic cell or verified scenario robustness
     g3 = g3_state if g3_state is not None else GateState.UNKNOWN

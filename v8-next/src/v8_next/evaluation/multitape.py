@@ -12,6 +12,7 @@ import hashlib
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
+from typing import Any
 
 import polars as pl
 
@@ -36,10 +37,27 @@ class MultiTape:
     funding: tuple[FundingRow, ...]
     tape_path: str
     tape_sha256: str
+    # Malformed funding records skipped at load (never silently free).
+    # Consumers must surface this alongside funding cost, not ignore it.
+    funding_dropped: int = 0
+    funding_raw_count: int = 0
 
     @property
     def n_bars(self) -> int:
         return min(len(v) for v in self.candles.values()) if self.candles else 0
+
+
+def funding_interval_hours(payload: dict[str, Any]) -> float:
+    """Extract the funding interval, accepting known key variants.
+
+    Falls back to the 8h venue convention only when the record carries no
+    interval key at all; callers still report that the default applied.
+    """
+    for key in ("funding_interval_hours", "fundingIntervalHours", "interval_hours"):
+        value = payload.get(key)
+        if value is not None:
+            return float(value)
+    return 8.0
 
 
 def _file_sha(p: Path) -> str:
@@ -107,33 +125,46 @@ def load_multitape(
     volumes = {inst: tuple(leg_maps[inst][ns][1] for ns in common_sorted) for inst in instruments}
 
     funding: list[FundingRow] = []
-    if "funding" in df["channel"].unique().to_list():
-        for row in df.filter(pl.col("channel") == "funding")["payload"].to_list():
-            try:
-                funding.append(
-                    FundingRow(
-                        instrument=str(row.get("instrument") or ""),
-                        funding_time_ms=int(row["funding_time_ms"]),
-                        funding_rate=Decimal(str(row["funding_rate"])),
-                        interval_hours=float(row.get("funding_interval_hours") or 8.0),
-                    )
+    funding_raw = (
+        df.filter(pl.col("channel") == "funding")["payload"].to_list()
+        if "funding" in df["channel"].unique().to_list()
+        else []
+    )
+    funding_dropped = 0
+    for row in funding_raw:
+        try:
+            funding.append(
+                FundingRow(
+                    instrument=str(row.get("instrument") or ""),
+                    funding_time_ms=int(row["funding_time_ms"]),
+                    funding_rate=Decimal(str(row["funding_rate"])),
+                    interval_hours=funding_interval_hours(row),
                 )
-            except (KeyError, ValueError, TypeError):
-                continue
+            )
+        except (KeyError, ValueError, TypeError):
+            # Never silently free: dropped records are counted on the tape.
+            funding_dropped += 1
     # Attribute instrument names from the sibling column when payload lacks them.
     if funding and not funding[0].instrument:
         names = df.filter(pl.col("channel") == "funding")["instrument"].to_list()
         payloads = df.filter(pl.col("channel") == "funding")["payload"].to_list()
-        funding = [
-            FundingRow(
-                instrument=str(nm),
-                funding_time_ms=int(pay["funding_time_ms"]),
-                funding_rate=Decimal(str(pay["funding_rate"])),
-                interval_hours=float(pay.get("funding_interval_hours") or 8.0),
-            )
-            for nm, pay in zip(names, payloads, strict=False)
-            if "funding_time_ms" in pay and "funding_rate" in pay
-        ]
+        rebuilt: list[FundingRow] = []
+        for nm, pay in zip(names, payloads, strict=False):
+            if "funding_time_ms" not in pay or "funding_rate" not in pay:
+                funding_dropped += 1
+                continue
+            try:
+                rebuilt.append(
+                    FundingRow(
+                        instrument=str(nm),
+                        funding_time_ms=int(pay["funding_time_ms"]),
+                        funding_rate=Decimal(str(pay["funding_rate"])),
+                        interval_hours=funding_interval_hours(pay),
+                    )
+                )
+            except (KeyError, ValueError, TypeError):
+                funding_dropped += 1
+        funding = rebuilt
     return MultiTape(
         instruments=tuple(instruments),
         candles=candles,
@@ -141,5 +172,7 @@ def load_multitape(
         funding=tuple(sorted(funding, key=lambda r: r.funding_time_ms)),
         tape_path=str(p),
         tape_sha256=sha,
+        funding_dropped=funding_dropped,
+        funding_raw_count=len(funding_raw),
     )
 

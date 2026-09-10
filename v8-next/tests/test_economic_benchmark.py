@@ -227,13 +227,15 @@ def test_economic_benchmark_real_tape_end_to_end(tmp_path: Path) -> None:
     assert rc == 0
     import json
 
-    receipt = json.loads((tmp_path / "econ" / "economic_receipt.json").read_text())
+    receipts = sorted((tmp_path / "econ").glob("economic_receipt_*.json"))
+    assert receipts, "tagged economic receipt missing"
+    receipt = json.loads(receipts[0].read_text())
     assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
     assert receipt["verdicts"]["capital"] == "NOT_AUTHORIZED"
     assert receipt["verdicts"]["statistical"] in ("SUPPORTS_EDGE", "SUPPORTS_UNDERPERFORMANCE", "INCONCLUSIVE", "UNDERPOWERED", "UNSUPPORTED")
     # No invented universal PASS: statistical support never flips economic/capital.
     assert set(receipt["metrics"]) >= {"incumbent", "challenger", "btc_buy_hold", "cash"}
-    assert (tmp_path / "econ" / "economic_report.md").is_file()
+    assert list((tmp_path / "econ").glob("economic_report_*.md")), "tagged economic report missing"
     assert list((tmp_path / "econ").glob("incumbent_trades_*.jsonl"))
     # Missing-data honesty: funding stays missing, live stays unrun.
     assert receipt["metrics"]["incumbent"]["funding_cost"] is None

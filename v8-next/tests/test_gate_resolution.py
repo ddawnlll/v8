@@ -170,6 +170,10 @@ def test_g8_live_realization_modes(tmp_path: Path):
     assert state_live == GateState.PASS
     assert metrics_live["mode"] == "LIVE_VENUE_SETTLED"
     assert metrics_live["fills_count"] == 1
+    # No account supplied: PASS must be explicitly labeled unreconciled,
+    # never mistaken for a matched realization.
+    assert metrics_live["account_reconciled"] is False
+    assert metrics_live["reconciliation"] == "UNRUN_NO_ACCOUNT"
 
 
 def test_g9_claim_registry_and_certificate_authority(tmp_path: Path):
@@ -240,10 +244,10 @@ def test_end_to_end_benchmark_runner_resolved_gates(tmp_path: Path):
         resolve_gates=True,
     )
 
-    # Structural gates hold on real data
+    # Structural gates: G0 measured from real lineage; G1/G2 unmeasured -> UNKNOWN.
     assert result.gates.g0_identity == GateState.PASS
-    assert result.gates.g1_causal_pit == GateState.PASS
-    assert result.gates.g2_determinism_ledger == GateState.PASS
+    assert result.gates.g1_causal_pit == GateState.UNKNOWN
+    assert result.gates.g2_determinism_ledger == GateState.UNKNOWN
 
     # Thin-sample gates fail closed with named reasons
     gm = result.gate_metrics or {}

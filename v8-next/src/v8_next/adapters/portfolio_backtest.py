@@ -129,11 +129,17 @@ def run_portfolio_backtest(
     bracket_stop_pct: Decimal | None = Decimal("0.02"),
     bracket_target_pct: Decimal | None = Decimal("0.04"),
     readings: tuple[PositioningReading, ...] = (),
+    funding_dropped: int = 0,
 ) -> dict[str, Any]:
     """Execute the portfolio through one shared Nautilus account.
 
     legs maps raw symbols (BTCUSDT) to chronological candles; instrument ids
     are derived as <RAW>-PERP.BINANCE.
+
+    funding_dropped counts malformed funding records skipped at tape load
+    (MultiTape.funding_dropped). It is reported in the result, never ignored:
+    a zero-funding P&L with dropped records is flagged, not presented as
+    fully-covered.
     """
     if not legs:
         raise ValueError("at least one instrument leg required")
@@ -185,16 +191,21 @@ def run_portfolio_backtest(
                 engine.add_strategy(strat)
 
         settlements = 0
+        out_of_window = 0
+        unknown_leg = 0
         for row in funding:
             boundary = row.funding_time_ms * 1_000_000
             if not window_start <= boundary <= window_end:
+                out_of_window += 1
                 continue
             fund_iid = InstrumentId.from_str(f"{row.instrument}-PERP.BINANCE")
             leg = legs.get(row.instrument)
             if leg is None:
+                unknown_leg += 1
                 continue
             mark = next((float(c.close) for c in leg if c.end_ns >= boundary), None)
             if mark is None:
+                unknown_leg += 1
                 continue
             engine.add_data([MarkPriceUpdate(fund_iid, Price(mark, 2), boundary, boundary)])
             engine.add_data([
@@ -224,6 +235,22 @@ def run_portfolio_backtest(
             "account": account,
             "funding_settlements_fed": settlements,
             "funding_rows_available": len(funding),
+            # Coverage accounting: a zero-funding P&L must be distinguishable
+            # from a fully-covered one. NO_FUNDING_ROWS is explicit (the
+            # no-fund experimental arm or a tape without funding records);
+            # DROPPED_RECORDS flags cost that never reached the engine.
+            "funding_dropped_at_load": funding_dropped,
+            "funding_out_of_window": out_of_window,
+            "funding_unknown_leg": unknown_leg,
+            "funding_coverage": (
+                "NO_FUNDING_ROWS"
+                if not funding
+                else (
+                    "DROPPED_RECORDS"
+                    if (funding_dropped or unknown_leg)
+                    else "FULL"
+                )
+            ),
         }
     finally:
         engine.dispose()
