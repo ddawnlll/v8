@@ -314,8 +314,18 @@ def main(argv: list[str] | None = None) -> int:
     cap_live = capital_policy.decision(peak_notional, live=True)
     cap_missing = CapitalPolicy.unauthorized().decision(peak_notional)
     cap_wrong_inst = capital_policy.decision(peak_notional, instrument_id="NOPE-PERP.BINANCE")
+    # Accept-path evidence (non-governing): a controlled TEST policy proves the
+    # accept branch end-to-end. It never authorizes the run (see verdict).
+    test_policy = CapitalPolicy.test_policy(
+        max_notional="5000", max_exposure_frac="1.0", authorized=True
+    ).model_copy(update={
+        "allowed_instruments": tuple(f"{k}-PERP.BINANCE" for k in tape.instruments),
+    })
+    cap_test_accept = test_policy.decision(
+        peak_notional, instrument_id=f"{tape.instruments[0]}-PERP.BINANCE")
     capital_path = {
         "test_decision": cap_decision,
+        "test_policy_accept_path": cap_test_accept,
         "live_decision": cap_live,
         "missing_policy_decision": cap_missing,
         "wrong_instrument_decision": cap_wrong_inst,
@@ -388,6 +398,7 @@ def main(argv: list[str] | None = None) -> int:
             f.write(json.dumps({
                 "trade_id": p.get("position_id"), "instrument_id": p.get("instrument_id"),
                 "side": p.get("side"), "quantity": p.get("quantity"),
+                "avg_px_open": p.get("avg_px_open"),
                 "fill_time_ns": p.get("event_ns"),
             }) + "\n")
     dataset_path = out_dir / f"canonical_dataset_{tag}.json"

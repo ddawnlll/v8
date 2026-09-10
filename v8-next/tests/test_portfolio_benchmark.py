@@ -162,6 +162,7 @@ def test_portfolio_quad_end_to_end(tmp_path: Path) -> None:
     cap = json.loads(caps[0].read_text())
     assert cap["missing_policy_decision"]["decision"] == "REJECT"
     assert cap["live_decision"]["decision"] == "REJECT"
+    assert cap["test_policy_accept_path"]["decision"] == "ACCEPT"
     import sqlite3  # noqa: F401  (guard: no live money path touched)
     assert list((tmp_path / "port").glob("economic_report_*.md"))
 
