@@ -95,29 +95,59 @@ class CapabilityScoreCalculator:
 
 #: Declared diagnostic convention (NOT a calibration): a mean absolute
 #: implementation shortfall of this many basis points scores zero execution
-#: fidelity. Published with every score so the convention is auditable and can
-#: be replaced by a calibrated reference once one exists.
+#: fidelity, and a measured shortfall of zero scores the top of the domain's
+#: declared [0.0, 1.0] range. Published with every score so the convention is
+#: auditable and can be replaced by a calibrated reference once one exists.
 EXECUTION_FIDELITY_REFERENCE_BPS = 10.0
+
+#: The measured statistic the convention above is declared over: the mean
+#: *magnitude* of the per-fill implementation shortfall, published by
+#: ``v8_next.adapters.execution_telemetry.execution_telemetry``. The signed mean
+#: is deliberately NOT used: adverse and favourable fills cancel in it, so a
+#: window whose fills all deviated can still average to ~0 bps.
+EXECUTION_FIDELITY_SHORTFALL_FIELD = "slippage_bps_abs_mean"
 
 
 def _execution_fidelity(
     sharpe_proxy: float,
     execution: Mapping[str, Any] | None,
-) -> tuple[float, str]:
+) -> tuple[float, str, float | None]:
     """ExecutionFidelity from measured shortfall when it exists, else the proxy.
 
     The previous value was a rescaled PnL Sharpe that contained no execution
     information at all. Measured implementation shortfall is preferred; when no
     fills were measured the proxy is retained and its source published, so a
     score is never silently attributed to execution evidence it does not have.
+
+    Declared measured mapping: ``1 - shortfall_bps / EXECUTION_FIDELITY_REFERENCE_BPS``
+    clipped to the domain's declared [0.0, 1.0] range. The measured branch is
+    therefore neither floored at nor capped by the proxy's undeclared
+    [0.05, 0.50] band, which is what made every run publish a constant 0.50:
+    0 bps must publish 1.0, and the 10 bps reference must publish 0.0. The third
+    element is the shortfall value the score was computed from (None when the
+    proxy was used), so the mapping stays auditable in the published breakdown.
     """
     if execution:
         samples = execution.get("slippage_samples") or 0
-        mean_bps = execution.get("slippage_bps_mean")
-        if samples > 0 and isinstance(mean_bps, (int, float)):
-            fidelity = 1.0 - abs(float(mean_bps)) / EXECUTION_FIDELITY_REFERENCE_BPS
-            return float(np.clip(fidelity, 0.05, 0.50)), "MEASURED_IMPLEMENTATION_SHORTFALL"
-    return float(np.clip(sharpe_proxy * 0.25 + 0.10, 0.05, 0.50)), "PNL_SHARPE_PROXY"
+        shortfall_bps = execution.get(EXECUTION_FIDELITY_SHORTFALL_FIELD)
+        if not isinstance(shortfall_bps, (int, float)):
+            # A block persisted before the magnitude statistic existed still
+            # carries measured evidence; |signed mean| is the same quantity minus
+            # the cancellation between favourable and adverse fills.
+            shortfall_bps = execution.get("slippage_bps_mean")
+        if samples > 0 and isinstance(shortfall_bps, (int, float)):
+            measured = abs(float(shortfall_bps))
+            fidelity = 1.0 - measured / EXECUTION_FIDELITY_REFERENCE_BPS
+            return (
+                float(np.clip(fidelity, 0.0, 1.0)),
+                "MEASURED_IMPLEMENTATION_SHORTFALL",
+                measured,
+            )
+    return (
+        float(np.clip(sharpe_proxy * 0.25 + 0.10, 0.05, 0.50)),
+        "PNL_SHARPE_PROXY",
+        None,
+    )
 
 
 def compute_capability_breakdown(
@@ -143,6 +173,7 @@ def compute_capability_breakdown(
             "coverage_factor": coverage_factor,
             "execution_fidelity_source": "NO_TRADES",
             "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
+            "execution_fidelity_shortfall_bps": None,
         }
 
     arr = np.array(pnl_series, dtype=np.float64)
@@ -150,7 +181,7 @@ def compute_capability_breakdown(
     mean = float(np.mean(arr))
     sharpe_proxy = (mean / std) if std > 1e-9 else 0.5
 
-    exec_val, exec_source = _execution_fidelity(sharpe_proxy, execution)
+    exec_val, exec_source, exec_shortfall_bps = _execution_fidelity(sharpe_proxy, execution)
     op_val = float(np.clip(1.0 - abstain_rate * 0.3, 0.10, 0.60))
     def_val = 0.15 if total_trades >= 1 else 0.01
     micro_val = float(np.clip(0.10 + (total_bars / 500.0) * 0.10, 0.05, 0.30))
@@ -191,6 +222,12 @@ def compute_capability_breakdown(
         "coverage_factor": coverage_factor,
         "execution_fidelity_source": exec_source,
         "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
+        # The measured input the ExecutionFidelity score was computed from, so a
+        # reader can check the published score against the declared mapping
+        # instead of trusting that the domain was bound to execution evidence.
+        "execution_fidelity_shortfall_bps": (
+            round(exec_shortfall_bps, 6) if exec_shortfall_bps is not None else None
+        ),
     }
 
 
