@@ -1,0 +1,85 @@
+{
+  "after_version_resolved_verifier": {
+    "artifacts_intact": true,
+    "chain_valid": true,
+    "digests_valid": true,
+    "entries": 20,
+    "invalid_entries": [],
+    "overall": "OK"
+  },
+  "before_legacy_verifier": {
+    "available": true,
+    "digest_failures": [
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 0,
+        "verdict": "DIGEST_TAMPERED: expected b2b5636042769a1f5442405c21e63293ca3819ca003608cc36017d606cc732e9, stored 5e12587f5ee921e72879f465af7a33010ea79244f03c64de2b20622a91e24ea3"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 1,
+        "verdict": "DIGEST_TAMPERED: expected b2b5636042769a1f5442405c21e63293ca3819ca003608cc36017d606cc732e9, stored 5e12587f5ee921e72879f465af7a33010ea79244f03c64de2b20622a91e24ea3"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 2,
+        "verdict": "DIGEST_TAMPERED: expected b2b5636042769a1f5442405c21e63293ca3819ca003608cc36017d606cc732e9, stored 5e12587f5ee921e72879f465af7a33010ea79244f03c64de2b20622a91e24ea3"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 3,
+        "verdict": "DIGEST_TAMPERED: expected b2b5636042769a1f5442405c21e63293ca3819ca003608cc36017d606cc732e9, stored 5e12587f5ee921e72879f465af7a33010ea79244f03c64de2b20622a91e24ea3"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 4,
+        "verdict": "DIGEST_TAMPERED: expected 5140a7c66cb23af3f8be4f9711c5dccfead123990235ffd29803868cdb31db22, stored ff419c36d14151a666dacfc9beaa03fefa3148e6a247cc4de13e2464ad4df512"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 5,
+        "verdict": "DIGEST_TAMPERED: expected 7698654356b116626a8d594adaa6deab048e413770596ca7ea931792f559a013, stored ae6281fbc1d6fdd101b2bbfbe7c539716264dd11c30dab1a5a095069a08da84e"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 6,
+        "verdict": "DIGEST_TAMPERED: expected 7698654356b116626a8d594adaa6deab048e413770596ca7ea931792f559a013, stored ae6281fbc1d6fdd101b2bbfbe7c539716264dd11c30dab1a5a095069a08da84e"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 7,
+        "verdict": "DIGEST_TAMPERED: expected 1dd0e3d237d244bc338423961fb6af25b82ed0fefd7364445874a6aadce12bd9, stored a82e8b34144c161fd3238ab8fdecf36f44c1ffef557dfba525c1b8ec48e75c9d"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 8,
+        "verdict": "DIGEST_TAMPERED: expected 1dd0e3d237d244bc338423961fb6af25b82ed0fefd7364445874a6aadce12bd9, stored a82e8b34144c161fd3238ab8fdecf36f44c1ffef557dfba525c1b8ec48e75c9d"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 9,
+        "verdict": "DIGEST_TAMPERED: expected 1dd0e3d237d244bc338423961fb6af25b82ed0fefd7364445874a6aadce12bd9, stored a82e8b34144c161fd3238ab8fdecf36f44c1ffef557dfba525c1b8ec48e75c9d"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 10,
+        "verdict": "DIGEST_TAMPERED: expected 7698654356b116626a8d594adaa6deab048e413770596ca7ea931792f559a013, stored ae6281fbc1d6fdd101b2bbfbe7c539716264dd11c30dab1a5a095069a08da84e"
+      },
+      {
+        "digest_version": "v8.5-digest-v2",
+        "sequence_number": 11,
+        "verdict": "DIGEST_TAMPERED: expected 1dd0e3d237d244bc338423961fb6af25b82ed0fefd7364445874a6aadce12bd9, stored a82e8b34144c161fd3238ab8fdecf36f44c1ffef557dfba525c1b8ec48e75c9d"
+      }
+    ],
+    "entries_with_digest_failures": 12,
+    "revision": "HEAD",
+    "verify_chain": {
+      "message": "ENTRY_RECEIPT_INVALID at 0: DIGEST_TAMPERED: expected b2b5636042769a1f5442405c21e63293ca3819ca003608cc36017d606cc732e9, stored 5e12587f5ee921e72879f465af7a33010ea79244f03c64de2b20622a91e24ea3",
+      "ok": false
+    }
+  },
+  "ledger": "artifacts/benchmarks/benchmark_ledger.jsonl",
+  "ledger_sha256_after": "657b2183871675d7a75ae8f1df4fd98d3529733d8856155579a775d3bfb3dccc",
+  "ledger_sha256_before": "657b2183871675d7a75ae8f1df4fd98d3529733d8856155579a775d3bfb3dccc",
+  "ledger_unchanged": true
+}

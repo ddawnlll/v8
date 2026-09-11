@@ -1,0 +1,264 @@
+{
+  "entries": 20,
+  "ledger": "artifacts/benchmarks/benchmark_ledger.jsonl",
+  "ledger_bytes": 23441,
+  "ledger_sha256_before": "657b2183871675d7a75ae8f1df4fd98d3529733d8856155579a775d3bfb3dccc",
+  "note": "read-only analysis of the original bytes; the ledger was never rewritten and no digest was re-derived into it",
+  "per_entry": [
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "67759520d81f8fba8407d0f68336d40c1714c04f16536f9ac1146ef17e8ba03b",
+      "parent_entry_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 0,
+      "stored_digest": "5e12587f5ee921e72879f465af7a33010ea79244f03c64de2b20622a91e24ea3"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "367d8a98953b85391ae0b6bbf6fe430927b5d7e9695dcecdf7be8cc0d837f2b0",
+      "parent_entry_hash": "67759520d81f8fba8407d0f68336d40c1714c04f16536f9ac1146ef17e8ba03b",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 1,
+      "stored_digest": "5e12587f5ee921e72879f465af7a33010ea79244f03c64de2b20622a91e24ea3"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "c8c127e76cba716e673dbfcddf978fe2ddc7ddd3b9adcea2de4a0a888d057144",
+      "parent_entry_hash": "367d8a98953b85391ae0b6bbf6fe430927b5d7e9695dcecdf7be8cc0d837f2b0",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 2,
+      "stored_digest": "5e12587f5ee921e72879f465af7a33010ea79244f03c64de2b20622a91e24ea3"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "5afe126513a3649842014f37cbfb608c16f1b480b0f3208984571a58539f715b",
+      "parent_entry_hash": "c8c127e76cba716e673dbfcddf978fe2ddc7ddd3b9adcea2de4a0a888d057144",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 3,
+      "stored_digest": "5e12587f5ee921e72879f465af7a33010ea79244f03c64de2b20622a91e24ea3"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "b2c0662ad9a3b239dd8caf13acd20a7e52018a30baac48e35e78696b86e4310e",
+      "parent_entry_hash": "5afe126513a3649842014f37cbfb608c16f1b480b0f3208984571a58539f715b",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 4,
+      "stored_digest": "ff419c36d14151a666dacfc9beaa03fefa3148e6a247cc4de13e2464ad4df512"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "68048e4ff460456e13d1bec384f7fb87cc931677128d2c988cc400580a01ef2c",
+      "parent_entry_hash": "b2c0662ad9a3b239dd8caf13acd20a7e52018a30baac48e35e78696b86e4310e",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 5,
+      "stored_digest": "ae6281fbc1d6fdd101b2bbfbe7c539716264dd11c30dab1a5a095069a08da84e"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "e3c3596cc7518e95366c698f3fda1b2d5ef3301efd4a0d734253d323d84a2c53",
+      "parent_entry_hash": "68048e4ff460456e13d1bec384f7fb87cc931677128d2c988cc400580a01ef2c",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 6,
+      "stored_digest": "ae6281fbc1d6fdd101b2bbfbe7c539716264dd11c30dab1a5a095069a08da84e"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "3f3a557d00a11917d98b06c1f485f4cb858b8783362dc644abd349430eda8fcd",
+      "parent_entry_hash": "e3c3596cc7518e95366c698f3fda1b2d5ef3301efd4a0d734253d323d84a2c53",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 7,
+      "stored_digest": "a82e8b34144c161fd3238ab8fdecf36f44c1ffef557dfba525c1b8ec48e75c9d"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "74637e4a858fb1690fadf265a3cf91d0e1f35b5ead85daeac09cd1e56f112b85",
+      "parent_entry_hash": "3f3a557d00a11917d98b06c1f485f4cb858b8783362dc644abd349430eda8fcd",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 8,
+      "stored_digest": "a82e8b34144c161fd3238ab8fdecf36f44c1ffef557dfba525c1b8ec48e75c9d"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "0ae1c30b1f8bf14dc7d152505a93117b9c7fabec241bf9246e69a10034d8a0bb",
+      "parent_entry_hash": "74637e4a858fb1690fadf265a3cf91d0e1f35b5ead85daeac09cd1e56f112b85",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 9,
+      "stored_digest": "a82e8b34144c161fd3238ab8fdecf36f44c1ffef557dfba525c1b8ec48e75c9d"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "957ee5a29c34e6d99c73155869f8b6043154c4e076016c90ef6dd6436294699c",
+      "parent_entry_hash": "0ae1c30b1f8bf14dc7d152505a93117b9c7fabec241bf9246e69a10034d8a0bb",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 10,
+      "stored_digest": "ae6281fbc1d6fdd101b2bbfbe7c539716264dd11c30dab1a5a095069a08da84e"
+    },
+    {
+      "canon_fields": 9,
+      "digest_version": "v8.5-digest-v2",
+      "entry_hash": "e5d285a94ae678d9673cca6c90520fec5ba9c12e5a14f1d14720980211bb7ee6",
+      "parent_entry_hash": "957ee5a29c34e6d99c73155869f8b6043154c4e076016c90ef6dd6436294699c",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 11,
+      "stored_digest": "a82e8b34144c161fd3238ab8fdecf36f44c1ffef557dfba525c1b8ec48e75c9d"
+    },
+    {
+      "canon_fields": 11,
+      "digest_version": "v8.5-digest-v3",
+      "entry_hash": "85ce98debe5c4dc2e7a456459ab3e49350421cce73d7df1417cf8f79c300f614",
+      "parent_entry_hash": "e5d285a94ae678d9673cca6c90520fec5ba9c12e5a14f1d14720980211bb7ee6",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 12,
+      "stored_digest": "c8888b7c8cbb50d6fe8c8ddc12da051233cc986c67d6ac4ebe36bf1ea44c6873"
+    },
+    {
+      "canon_fields": 12,
+      "digest_version": "v8.5-digest-v4",
+      "entry_hash": "c3ad6ea30b57a41c9596ec2595178f9fbe2bd0f4d6265b0794517bfa1945c8fe",
+      "parent_entry_hash": "85ce98debe5c4dc2e7a456459ab3e49350421cce73d7df1417cf8f79c300f614",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 13,
+      "stored_digest": "f7a82c7ff75e8332fc42164245f5379782b227069e62bfc6de35f6e3b581bc1b"
+    },
+    {
+      "canon_fields": 12,
+      "digest_version": "v8.5-digest-v4",
+      "entry_hash": "b324a3ab0adf9eb3f1807d94944dd383cc782ece59f5394ade3edaefe538f0a6",
+      "parent_entry_hash": "c3ad6ea30b57a41c9596ec2595178f9fbe2bd0f4d6265b0794517bfa1945c8fe",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 14,
+      "stored_digest": "3f70e8482c4ffc28ea38fdbe6e8dcef39f680efcbbb4118c8abbb98e04be8f39"
+    },
+    {
+      "canon_fields": 12,
+      "digest_version": "v8.5-digest-v4",
+      "entry_hash": "93cf5c986a3557eafb64537abe5badc1b1d260ce2ae336b3a109373ea08554cd",
+      "parent_entry_hash": "b324a3ab0adf9eb3f1807d94944dd383cc782ece59f5394ade3edaefe538f0a6",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 15,
+      "stored_digest": "578a12fc3bdf1854552be09f2ed3e898667016c5988f959cd1c005c0f89a7604"
+    },
+    {
+      "canon_fields": 12,
+      "digest_version": "v8.5-digest-v4",
+      "entry_hash": "b9bbd95e28795c82f252ef5893c066c96d2228c24a21dd6423baf3ee8336513d",
+      "parent_entry_hash": "93cf5c986a3557eafb64537abe5badc1b1d260ce2ae336b3a109373ea08554cd",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 16,
+      "stored_digest": "a4bd4d48a9962e92f914083821c919d5dbeedbd6a7eecfab8950c0c03f713bd7"
+    },
+    {
+      "canon_fields": 12,
+      "digest_version": "v8.5-digest-v4",
+      "entry_hash": "7c4f48f23be933588912f15d0081f7680742ea96d2104c51d6a04d0cae12c553",
+      "parent_entry_hash": "b9bbd95e28795c82f252ef5893c066c96d2228c24a21dd6423baf3ee8336513d",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 17,
+      "stored_digest": "3a1449b3a52b24a3b8bc01c3dfe72a58d9361a83333c1163aae56dfbbd3d7942"
+    },
+    {
+      "canon_fields": 12,
+      "digest_version": "v8.5-digest-v4",
+      "entry_hash": "5f31864881fbff82d3c6c77a426e4027debd29df503c93007342c6406dd460b0",
+      "parent_entry_hash": "7c4f48f23be933588912f15d0081f7680742ea96d2104c51d6a04d0cae12c553",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 18,
+      "stored_digest": "98acaf4d152c17e9da18ca007c91f6030169a8622aef42f103052ec3eec0bb33"
+    },
+    {
+      "canon_fields": 12,
+      "digest_version": "v8.5-digest-v4",
+      "entry_hash": "54be83ce33084d28e819ceefbb6875a21ef0606c6bb087d1e483baa38af5b10d",
+      "parent_entry_hash": "5f31864881fbff82d3c6c77a426e4027debd29df503c93007342c6406dd460b0",
+      "refusal": null,
+      "reproduced": true,
+      "sequence_number": 19,
+      "stored_digest": "0bc9b896ddb516eafce5a1759c8115af09ed6913d0156e2ab25f189fae361a00"
+    }
+  ],
+  "version_summary": {
+    "v8.5-digest-v2": {
+      "all_entries_reproduce_stored_digest": true,
+      "canon_fields": [
+        9
+      ],
+      "max_sequence": 11,
+      "min_sequence": 0,
+      "provenance": "proven on seq 0-11 of artifacts/benchmarks/benchmark_ledger.jsonl (12/12 entries reproduce their stored digest with a 9-field canon)",
+      "sequences": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "v8.5-digest-v3": {
+      "all_entries_reproduce_stored_digest": true,
+      "canon_fields": [
+        11
+      ],
+      "max_sequence": 12,
+      "min_sequence": 12,
+      "provenance": "proven on seq 12 (11-field canon: economic pair present, input_binding not yet in the digest)",
+      "sequences": [
+        12
+      ]
+    },
+    "v8.5-digest-v4": {
+      "all_entries_reproduce_stored_digest": true,
+      "canon_fields": [
+        12
+      ],
+      "max_sequence": 19,
+      "min_sequence": 13,
+      "provenance": "proven on seq 13-19 (12-field canon; input_binding joined the digest and is emitted even when empty)",
+      "sequences": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    }
+  }
+}

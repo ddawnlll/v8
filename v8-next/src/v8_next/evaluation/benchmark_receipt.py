@@ -13,13 +13,80 @@ import json
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
-from typing import Sequence
+from typing import Any, Literal, Sequence
 
 from pydantic import BaseModel, ConfigDict
 
 from v8_next.evaluation.parity import ArtifactBinding
 
-RECEIPT_DIGEST_VERSION = "v8.5-digest-v4"
+#: NX04 (#425). The canonical payload shape is *versioned and proven*, never
+#: rediscovered at verification time. Each entry below was reproduced from the
+#: original ledger bytes (artifacts/benchmarks/benchmark_ledger.jsonl) without
+#: rewriting a single byte of it; the provenance column names the measured range.
+RECEIPT_DIGEST_VERSION = "v8.5-digest-v5"
+
+
+@dataclass(frozen=True)
+class ReceiptCanon:
+    """Canonical field layout of one receipt-digest version.
+
+    ``economic_pair`` / ``input_binding`` describe what the producing era emitted:
+
+    * ``absent``          — the field must be empty for this version;
+    * ``present``         — the field must be non-empty for this version;
+    * ``always_present``  — emitted whether or not it is empty.
+
+    A receipt whose data contradicts its version's proven shape is refused with
+    an explicit reason (``CANON_SHAPE_UNPROVEN``): guessing a layout from the
+    data would be exactly the "try field subsets until the hash matches" fallback
+    NX04.R2 forbids.
+    """
+
+    version: str
+    economic_pair: Literal["absent", "present", "always_present"]
+    input_binding: Literal["absent", "always_present"]
+    provenance: str
+
+
+RECEIPT_CANON_TABLE: dict[str, ReceiptCanon] = {
+    "v8.5-digest-v2": ReceiptCanon(
+        version="v8.5-digest-v2",
+        economic_pair="absent",
+        input_binding="absent",
+        provenance=(
+            "proven on seq 0-11 of artifacts/benchmarks/benchmark_ledger.jsonl "
+            "(12/12 entries reproduce their stored digest with a 9-field canon)"
+        ),
+    ),
+    "v8.5-digest-v3": ReceiptCanon(
+        version="v8.5-digest-v3",
+        economic_pair="present",
+        input_binding="absent",
+        provenance=(
+            "proven on seq 12 (11-field canon: economic pair present, "
+            "input_binding not yet in the digest)"
+        ),
+    ),
+    "v8.5-digest-v4": ReceiptCanon(
+        version="v8.5-digest-v4",
+        economic_pair="always_present",
+        input_binding="always_present",
+        provenance=(
+            "proven on seq 13-19 (12-field canon; input_binding joined the digest "
+            "and is emitted even when empty)"
+        ),
+    ),
+    "v8.5-digest-v5": ReceiptCanon(
+        version="v8.5-digest-v5",
+        economic_pair="always_present",
+        input_binding="always_present",
+        provenance=(
+            "new writes from NX04 onward. Field layout is identical to v4; the version "
+            "marker is itself inside the canon, so a new receipt gets a new digest while "
+            "every stored record keeps its original bytes, digest and parent hash"
+        ),
+    ),
+}
 
 class GateState(StrEnum):
     PASS = "PASS"
@@ -222,6 +289,65 @@ class GateVector(BaseModel):
         )
 
 
+def build_canon_payload(
+    *,
+    digest_version: str,
+    case_id: str,
+    policy_id: str,
+    capability_score: float,
+    coverage_factor: float,
+    gates: GateVector,
+    artifact_bindings: Sequence[ArtifactBinding],
+    computed_at_timestamp_ns: int,
+    economic_evidence_digest: str,
+    economic_receipt_path: str,
+    input_binding: str,
+) -> tuple[list[Any] | None, str | None]:
+    """Canonical payload for a version's PROVEN layout: ``(canon, refusal_reason)``.
+
+    One source of truth for both creation and verification, so a receipt can
+    never be written under one layout and read back under another. Refusal
+    reasons are explicit; a receipt is never hashed under a guessed layout.
+    """
+    canon = RECEIPT_CANON_TABLE.get(digest_version)
+    if canon is None:
+        return None, f"UNSUPPORTED_DIGEST_VERSION: {digest_version}"
+    sorted_bindings = sorted(artifact_bindings, key=lambda b: (b.role, b.path))
+    payload: list[Any] = [
+        "BenchmarkReceipt",
+        digest_version,
+        case_id,
+        policy_id,
+        round(capability_score, 8),
+        round(coverage_factor, 4),
+        [getattr(gates, f).value for f in sorted(gates.__class__.model_fields)],
+        [[b.role, b.sha256_hex, b.bytes] for b in sorted_bindings],
+        computed_at_timestamp_ns,
+    ]
+    pair = [economic_evidence_digest, economic_receipt_path]
+    if canon.economic_pair == "always_present":
+        payload.extend(pair)
+    elif canon.economic_pair == "present":
+        if not any(pair):
+            return None, (
+                f"CANON_SHAPE_UNPROVEN: {digest_version} was never observed with an "
+                "empty economic pair"
+            )
+        payload.extend(pair)
+    elif any(pair):
+        return None, (
+            f"CANON_SHAPE_UNPROVEN: {digest_version} was never observed with a "
+            "populated economic pair"
+        )
+    if canon.input_binding == "always_present":
+        payload.append(input_binding)
+    elif input_binding:
+        return None, (
+            f"CANON_SHAPE_UNPROVEN: {digest_version} was never observed with an input_binding"
+        )
+    return payload, None
+
+
 class BenchmarkReceipt(BaseModel):
     """Self-verifying cryptographic benchmark receipt."""
 
@@ -258,23 +384,21 @@ class BenchmarkReceipt(BaseModel):
         input_binding: str = "",
     ) -> BenchmarkReceipt:
         sorted_bindings = sorted(artifact_bindings, key=lambda b: (b.role, b.path))
-        bindings_canon = [
-            [b.role, b.sha256_hex, b.bytes] for b in sorted_bindings
-        ]
-        canon = [
-            "BenchmarkReceipt",
-            RECEIPT_DIGEST_VERSION,
-            case_id,
-            policy_id,
-            round(capability_score, 8),
-            round(coverage_factor, 4),
-            [getattr(gates, f).value for f in sorted(gates.__class__.model_fields)],
-            bindings_canon,
-            computed_at_timestamp_ns,
-            economic_evidence_digest,
-            economic_receipt_path,
-            input_binding,
-        ]
+        canon, refusal = build_canon_payload(
+            digest_version=RECEIPT_DIGEST_VERSION,
+            case_id=case_id,
+            policy_id=policy_id,
+            capability_score=capability_score,
+            coverage_factor=coverage_factor,
+            gates=gates,
+            artifact_bindings=artifact_bindings,
+            computed_at_timestamp_ns=computed_at_timestamp_ns,
+            economic_evidence_digest=economic_evidence_digest,
+            economic_receipt_path=economic_receipt_path,
+            input_binding=input_binding,
+        )
+        if canon is None:
+            raise ValueError(f"cannot create receipt: {refusal}")
         digest = hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
 
         return cls(
@@ -294,28 +418,24 @@ class BenchmarkReceipt(BaseModel):
 
     def verify(self) -> tuple[bool, str]:
         """Recompute cryptographic digest and verify against attached artifacts."""
-        # 1. Recompute digest
-        sorted_bindings = sorted(self.artifact_bindings, key=lambda b: (b.role, b.path))
-        bindings_canon = [
-            [b.role, b.sha256_hex, b.bytes] for b in sorted_bindings
-        ]
-        canon = [
-            "BenchmarkReceipt",
-            self.digest_version,
-            self.case_id,
-            self.policy_id,
-            round(self.capability_score, 8),
-            round(self.coverage_factor, 4),
-            [getattr(self.gates, f).value for f in sorted(self.gates.__class__.model_fields)],
-            bindings_canon,
-            self.computed_at_timestamp_ns,
-            self.economic_evidence_digest,
-            self.economic_receipt_path,
-        ]
-        # input_binding joined the digest at v4; older receipts verify under
-        # their own version's canon so historical ledgers keep verifying.
-        if self.digest_version != "v8.5-digest-v3":
-            canon.append(self.input_binding)
+        # 1. Recompute the digest under the version's PROVEN canon. Historical
+        # versions are not silently reinterpreted: an unproven shape is refused
+        # by name instead of being hashed under a guessed layout.
+        canon, refusal = build_canon_payload(
+            digest_version=self.digest_version,
+            case_id=self.case_id,
+            policy_id=self.policy_id,
+            capability_score=self.capability_score,
+            coverage_factor=self.coverage_factor,
+            gates=self.gates,
+            artifact_bindings=self.artifact_bindings,
+            computed_at_timestamp_ns=self.computed_at_timestamp_ns,
+            economic_evidence_digest=self.economic_evidence_digest,
+            economic_receipt_path=self.economic_receipt_path,
+            input_binding=self.input_binding,
+        )
+        if canon is None:
+            return False, str(refusal)
         expected_digest = hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
         if expected_digest != self.receipt_digest:
             return False, f"DIGEST_TAMPERED: expected {expected_digest}, stored {self.receipt_digest}"
@@ -326,6 +446,28 @@ class BenchmarkReceipt(BaseModel):
             if not ok:
                 return False, f"ARTIFACT_TAMPERED: [{b.role}] {err}"
 
+        return True, "OK"
+
+    def verify_digest(self) -> tuple[bool, str]:
+        """Digest-only verdict (no artifact I/O); used by the ledger report."""
+        canon, refusal = build_canon_payload(
+            digest_version=self.digest_version,
+            case_id=self.case_id,
+            policy_id=self.policy_id,
+            capability_score=self.capability_score,
+            coverage_factor=self.coverage_factor,
+            gates=self.gates,
+            artifact_bindings=self.artifact_bindings,
+            computed_at_timestamp_ns=self.computed_at_timestamp_ns,
+            economic_evidence_digest=self.economic_evidence_digest,
+            economic_receipt_path=self.economic_receipt_path,
+            input_binding=self.input_binding,
+        )
+        if canon is None:
+            return False, str(refusal)
+        expected = hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
+        if expected != self.receipt_digest:
+            return False, f"DIGEST_TAMPERED: expected {expected}, stored {self.receipt_digest}"
         return True, "OK"
 
 
@@ -358,6 +500,77 @@ class LedgerEntry(BaseModel):
         )
 
 
+@dataclass(frozen=True)
+class EntryVerification:
+    """Per-entry verdict with the three questions kept apart (NX04.R4).
+
+    A valid hash chain and intact artifacts are different claims: an entry whose
+    chain link is sound but whose bound artifact is missing is NOT reported as a
+    success, and neither failure is allowed to mask the other.
+    """
+
+    sequence_number: int
+    digest_version: str
+    digest: str  # OK | DIGEST_TAMPERED | CANON_SHAPE_UNPROVEN | UNSUPPORTED_DIGEST_VERSION
+    digest_detail: str
+    chain: str  # OK | SEQUENCE_GAP | PARENT_HASH_MISMATCH | ENTRY_HASH_TAMPERED
+    artifacts: str  # OK | NO_BINDINGS | MISSING | TAMPERED
+    artifact_detail: str = ""
+
+    @property
+    def fully_valid(self) -> bool:
+        return (
+            self.digest == "OK"
+            and self.chain == "OK"
+            and self.artifacts in ("OK", "NO_BINDINGS")
+        )
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "sequence_number": self.sequence_number,
+            "digest_version": self.digest_version,
+            "digest": self.digest,
+            "digest_detail": self.digest_detail,
+            "chain": self.chain,
+            "artifacts": self.artifacts,
+            "artifact_detail": self.artifact_detail,
+            "fully_valid": self.fully_valid,
+        }
+
+
+@dataclass(frozen=True)
+class LedgerVerificationReport:
+    """Whole-ledger verdict: chain, digests and artifacts reported separately."""
+
+    entries: tuple[EntryVerification, ...]
+    overall: str  # OK | CHAIN_INVALID | DIGEST_TAMPERED | DIGEST_CANON_UNPROVEN | ARTIFACTS_INCOMPLETE
+
+    @property
+    def ok(self) -> bool:
+        return self.overall == "OK"
+
+    @property
+    def chain_valid(self) -> bool:
+        return all(e.chain == "OK" for e in self.entries)
+
+    @property
+    def digests_valid(self) -> bool:
+        return all(e.digest == "OK" for e in self.entries)
+
+    @property
+    def artifacts_intact(self) -> bool:
+        return all(e.artifacts in ("OK", "NO_BINDINGS") for e in self.entries)
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "overall": self.overall,
+            "chain_valid": self.chain_valid,
+            "digests_valid": self.digests_valid,
+            "artifacts_intact": self.artifacts_intact,
+            "entries": [e.as_dict() for e in self.entries],
+        }
+
+
 class BenchmarkLedger:
     """Append-only cryptographically chained benchmark ledger."""
 
@@ -381,29 +594,104 @@ class BenchmarkLedger:
         self._entries.append(entry)
         return entry
 
-    def verify_chain(self) -> tuple[bool, str]:
-        """Verify append-only chain integrity."""
+    def verify_report(self) -> LedgerVerificationReport:
+        """Verify the ledger in full, with the three claims kept apart (NX04.R4).
+
+        The digest is recomputed under the entry's version-resolved canon, the
+        chain link is recomputed from the entry's own fields, and every bound
+        artifact is re-hashed on disk. A missing artifact and a broken chain are
+        reported as distinct verdicts -- neither is collapsed into the other.
+        """
         expected_parent = self.GENESIS_HASH
+        entries: list[EntryVerification] = []
         for i, entry in enumerate(self._entries):
+            receipt = entry.receipt
+            digest_ok, digest_detail = receipt.verify_digest()
+            digest = "OK" if digest_ok else self._digest_failure_class(digest_detail)
+
             if entry.sequence_number != i:
-                return False, f"SEQUENCE_GAP: entry {i} has seq {entry.sequence_number}"
-            if entry.parent_entry_hash != expected_parent:
-                return False, f"BROKEN_CHAIN: entry {i} parent_hash mismatch"
+                chain = "SEQUENCE_GAP"
+            elif entry.parent_entry_hash != expected_parent:
+                chain = "PARENT_HASH_MISMATCH"
+            else:
+                canon = [
+                    entry.sequence_number,
+                    entry.parent_entry_hash,
+                    receipt.receipt_digest,
+                ]
+                recomputed = hashlib.sha256(
+                    json.dumps(canon, separators=(",", ":")).encode()
+                ).hexdigest()
+                chain = "OK" if recomputed == entry.entry_hash else "ENTRY_HASH_TAMPERED"
 
-            # Check receipt self-verification
-            ok, err = entry.receipt.verify()
-            if not ok:
-                return False, f"ENTRY_RECEIPT_INVALID at {i}: {err}"
-
-            # Check entry hash
-            canon = [entry.sequence_number, entry.parent_entry_hash, entry.receipt.receipt_digest]
-            recomputed = hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
-            if recomputed != entry.entry_hash:
-                return False, f"ENTRY_HASH_TAMPERED at {i}"
-
+            artifacts, artifact_detail = self._artifact_verdict(receipt)
+            entries.append(
+                EntryVerification(
+                    sequence_number=entry.sequence_number,
+                    digest_version=receipt.digest_version,
+                    digest=digest,
+                    digest_detail=digest_detail,
+                    chain=chain,
+                    artifacts=artifacts,
+                    artifact_detail=artifact_detail,
+                )
+            )
             expected_parent = entry.entry_hash
 
-        return True, "OK"
+        overall = "OK"
+        if any(e.chain != "OK" for e in entries):
+            overall = "CHAIN_INVALID"
+        elif any(e.digest == "DIGEST_TAMPERED" for e in entries):
+            overall = "DIGEST_TAMPERED"
+        elif any(e.digest != "OK" for e in entries):
+            overall = "DIGEST_CANON_UNPROVEN"
+        elif any(e.artifacts not in ("OK", "NO_BINDINGS") for e in entries):
+            overall = "ARTIFACTS_INCOMPLETE"
+        return LedgerVerificationReport(entries=tuple(entries), overall=overall)
+
+    @staticmethod
+    def _digest_failure_class(detail: str) -> str:
+        if detail.startswith("UNSUPPORTED_DIGEST_VERSION"):
+            return "UNSUPPORTED_DIGEST_VERSION"
+        if detail.startswith("CANON_SHAPE_UNPROVEN"):
+            return "CANON_SHAPE_UNPROVEN"
+        return "DIGEST_TAMPERED"
+
+    @staticmethod
+    def _artifact_verdict(receipt: BenchmarkReceipt) -> tuple[str, str]:
+        if not receipt.artifact_bindings:
+            return "NO_BINDINGS", ""
+        details: list[str] = []
+        verdict = "OK"
+        for binding in receipt.artifact_bindings:
+            ok, err = binding.verify()
+            if ok:
+                continue
+            details.append(f"[{binding.role}] {err}")
+            verdict = "MISSING" if err.startswith("FILE_MISSING") else "TAMPERED"
+        return verdict, "; ".join(details)
+
+    def verify_chain(self) -> tuple[bool, str]:
+        """Legacy single-verdict view of :meth:`verify_report` (chain + digest +
+        artifacts). Kept for existing callers; the structured report is the
+        interface that distinguishes the three claims.
+        """
+        report = self.verify_report()
+        if report.ok:
+            return True, "OK"
+        for entry in report.entries:
+            i = entry.sequence_number
+            if entry.chain == "SEQUENCE_GAP":
+                return False, f"SEQUENCE_GAP: entry {i} has seq {entry.sequence_number}"
+            if entry.chain == "PARENT_HASH_MISMATCH":
+                return False, f"BROKEN_CHAIN: entry {i} parent_hash mismatch"
+            if entry.chain == "ENTRY_HASH_TAMPERED":
+                return False, f"ENTRY_HASH_TAMPERED at {i}"
+            if entry.digest != "OK":
+                return False, f"ENTRY_RECEIPT_INVALID at {i}: {entry.digest_detail}"
+            if entry.artifacts not in ("OK", "NO_BINDINGS"):
+                return False, f"ENTRY_RECEIPT_INVALID at {i}: ARTIFACT_TAMPERED: {entry.artifact_detail}"
+        return False, f"LEDGER_INVALID: {report.overall}"
 
     def save_jsonl(self, path: Path | str) -> None:
         p = Path(path)
