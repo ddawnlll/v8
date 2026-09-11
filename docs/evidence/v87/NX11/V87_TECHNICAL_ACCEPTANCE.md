@@ -5,7 +5,7 @@ physical artifacts. It does **not** certify an economic edge, prospective maturi
 capital readiness or any live authority. Every verdict remains `NO_ECONOMIC_CLAIM`.
 
 Acceptance matrix (machine-built, artifacts hashed by read-back):
-`docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `7c7b94eec0dea44a7ea90a6bf27937f784ad0c6d4cb11da4ac37b102167c4dfd`.
+`docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `b386daf608217b1121e1bc0f74a43928af95b22e3454861d444b6cb23a37ac77`.
 
 **Correction (2026-09-11):** this file and the matrix originally cited the NX09
 commit as `42136221`; the real commit is `42136231` (two digits transposed). The
@@ -44,7 +44,7 @@ reported separately rather than fixed silently.
 | Legacy ledger | 20/20 entries verify under the version-resolved canon; file bytes unchanged (`657b2183…`) |
 | Swing family (2025-01) | `causal_trend` net **+0.018861**, `plain_swing` net **−0.031357** (30 STOP / 31 campaigns) |
 | Real fold family statistics | DSR confidence **0.11834**, Bonferroni p **1.0**, sufficiency SUFFICIENT (6 independent blocks), PBO UNDERPOWERED (named) |
-| Registered four folds | swing family negative vs baseline in **7 of 8** fold-symbol cells; ablations did not improve |
+| Registered four folds | swing family **loses money (net < 0) in 7 of 8** fold-symbol cells; **against the trend baseline it is worse in 4 of 8 and better in the other 4**; ablations did not improve |
 | Bounded public capture | 1009 trades accepted, 1000 duplicate identities dropped, restart chain verified, G7 UNKNOWN |
 
 ## 3. Baseline failures — reported, not hidden
@@ -93,7 +93,7 @@ test + fiziksel artefakt hash'i ile matrise bağlandı (`acceptance_matrix.json`
 **978 passed**; mypy'de **5 önceden var olan** hata ayrı raporlandı.
 
 Ölçülen sonuçlar olumsuz/kararsız ve olduğu gibi yazıldı: swing ailesi kayıtlı dört foldda
-8 hücrenin 7'sinde baseline'a göre negatif; aile istatistiği DSR 0.11834 / Bonferroni p = 1.0
+8 hücrenin 7'sinde zarar (net < 0), trend baseline'a göre 4'ünde kötü / 4'ünde iyi; aile istatistiği DSR 0.11834 / Bonferroni p = 1.0
 (authority eşiği geçilmedi). Protected final **yok** (`TAIL_BURNED`), bu yüzden final
 açılmadı ve `NO_PROTECTED_FINAL` metadata olarak yazıldı.
 

@@ -34,7 +34,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "...........                                                              [100%] | 11 passed in 7.76s"
+        "summary": "...........                                                              [100%] | 11 passed in 8.32s"
       },
       "name": "epic",
       "targets": [
@@ -48,7 +48,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "......................................                                   [100%] | 38 passed in 2.24s"
+        "summary": "......................................                                   [100%] | 38 passed in 2.60s"
       },
       "name": "nx07-nx08",
       "targets": [
@@ -66,7 +66,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": ".........................................                                [100%] | 41 passed in 2.38s"
+        "summary": ".........................................                                [100%] | 41 passed in 2.45s"
       },
       "name": "nx08",
       "targets": [
@@ -81,9 +81,9 @@
       "artifact_count": 3,
       "artifacts": [
         {
-          "bytes": 6538,
+          "bytes": 6596,
           "path": "docs/evidence/v87/NX00/NX00_FINAL_ACCEPTANCE.md",
-          "sha256": "86fd0a98d644feada8fc1ecee33972bce7ca73e9d14f8767143ab737bffc811d"
+          "sha256": "1a2fb15162accf32962e4fe9e22e8d12f413da850f5fc423ec126e28bdb00bba"
         },
         {
           "bytes": 6224,
@@ -141,7 +141,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "................                                                         [100%] | 16 passed in 5.60s"
+        "summary": "................                                                         [100%] | 16 passed in 5.76s"
       },
       "commit": "7a3d2859",
       "evidence_dir": "docs/evidence/v87/NX01",
@@ -169,7 +169,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "..........                                                               [100%] | 10 passed in 0.72s"
+        "summary": "..........                                                               [100%] | 10 passed in 0.73s"
       },
       "commit": "94e75c2c",
       "evidence_dir": "docs/evidence/v87/NX02",
@@ -228,7 +228,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": ".............                                                            [100%] | 13 passed in 2.30s"
+        "summary": ".............                                                            [100%] | 13 passed in 2.42s"
       },
       "commit": "5deb4282",
       "evidence_dir": "docs/evidence/v87/NX03",
@@ -261,7 +261,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "..............                                                           [100%] | 14 passed in 0.19s"
+        "summary": "..............                                                           [100%] | 14 passed in 0.21s"
       },
       "commit": "453df499",
       "evidence_dir": "docs/evidence/v87/NX04",
@@ -294,7 +294,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": ".........                                                                [100%] | 9 passed in 2.06s"
+        "summary": ".........                                                                [100%] | 9 passed in 2.35s"
       },
       "commit": "311df69d",
       "evidence_dir": "docs/evidence/v87/NX05",
@@ -327,7 +327,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "..............                                                           [100%] | 14 passed in 0.83s"
+        "summary": "..............                                                           [100%] | 14 passed in 1.01s"
       },
       "commit": "c7bb4c69",
       "evidence_dir": "docs/evidence/v87/NX06",
@@ -365,7 +365,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "...........                                                              [100%] | 11 passed in 2.21s"
+        "summary": "...........                                                              [100%] | 11 passed in 2.56s"
       },
       "commit": "fc054071",
       "evidence_dir": "docs/evidence/v87/NX07",
@@ -388,9 +388,9 @@
           "sha256": "07af779906cdbd6baf56727f774fe306ea0ef15d3aa3eb40ed77ad11e372b923"
         },
         {
-          "bytes": 8754,
+          "bytes": 9208,
           "path": "docs/evidence/v87/NX08/scoring_manifest.json",
-          "sha256": "4ef6a85a3d207cc08cd1ed4ae485466e8f62c1e7a3225dffc87dacb8c3818bee"
+          "sha256": "9a9941e71800980e52372d6d64bf7f9f13fcab13f0f0c5c187bb92fc3c949568"
         }
       ],
       "check": {
@@ -398,7 +398,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "...........                                                              [100%] | 11 passed in 0.45s"
+        "summary": "...........                                                              [100%] | 11 passed in 0.47s"
       },
       "commit": "74cb0f3d",
       "evidence_dir": "docs/evidence/v87/NX08",
@@ -411,9 +411,9 @@
       "artifact_count": 4,
       "artifacts": [
         {
-          "bytes": 4704,
+          "bytes": 4947,
           "path": "docs/evidence/v87/NX09/NX09_REPORT.md",
-          "sha256": "31195f5889c26dae080a653ccbac63fe7c01a35370e846fb0c1146dab7fae783"
+          "sha256": "960dcfef3012175a649c3d20d6ef6c5b66ffbbbe4f759abcd7ea647d754267ba"
         },
         {
           "bytes": 4407,
@@ -504,7 +504,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": ".........                                                                [100%] | 9 passed in 0.22s"
+        "summary": ".........                                                                [100%] | 9 passed in 0.23s"
       },
       "commit": "a69d6772",
       "evidence_dir": "docs/evidence/v87/NX10",

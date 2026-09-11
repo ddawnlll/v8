@@ -39,7 +39,7 @@ Fold bazında `net_return` (birim-sermaye üzerinden; portföy getirisi değil):
 | FOLD_4 | BTCUSDT | 0.0 | −0.000705 | **+0.000589** | −0.000972 | −0.000718 |
 | FOLD_4 | ETHUSDT | 0.0 | +0.000623 | −0.003646 | −0.002300 | −0.002582 |
 
-Okuma (tahmin değil, ölçüm): swing ailesi 8 fold-sembol hücresinin 7'sinde baseline
+Okuma (tahmin değil, ölçüm): swing ailesi 8 fold-sembol hücresinin 7'sinde ZARAR ediyor (net < 0); trend baseline'a göre ise 4'ünde kötü, 4'ünde iyi — bu iki bulgu farklıdır ve böyle raporlanır. İki cümle birbirine karıştırılmamalı. (Sonraki satırlar: swing ailesi 8 fold-sembol hücresinin 7'sinde baseline
 `causal_trend`'e göre negatif; tek pozitif hücre (FOLD_4 BTCUSDT +0.000589) tek başına bir
 bulgu değildir. Hiçbir hücrede kazanç ilan edilmedi, hiçbir policy sonuçtan seçilmedi ve
 ablasyonlar (m1/m2) baseline korumaya göre iyileşme göstermedi. Bu **olumsuz sonuç olduğu

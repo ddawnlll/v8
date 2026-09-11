@@ -79,20 +79,37 @@ def main(argv: list[str] | None = None) -> int:
     gate_path = out_dir / "gate_manifest.json"
     gate_path.write_text(json.dumps(gate_manifest, indent=2, sort_keys=True) + "\n")
 
+    # STRUCTURE DEMO ONLY. Everything in the receipt below is hand-given so that the
+    # certificate derivation and the dual scoring record have something to run on. These
+    # are not measurements and must never be quoted as a capability result: real capability
+    # comes from the measured receipts (NX06/NX07) and tools/nx_readiness_audit.py.
+    SYNTHETIC_INPUT_CLASS = "SYNTHETIC_STRUCTURE_ONLY_NOT_A_MEASUREMENT"
+    SYNTHETIC_SERIES = [0.01, -0.02, 0.03, 0.005] * 10
     receipt = BenchmarkReceipt.create(
-        case_id="NX08-MANIFEST",
+        case_id="NX08-MANIFEST-STRUCTURE-DEMO",
         policy_id="pol_28_expert_ensemble",
         capability_score=42.0,
         coverage_factor=0.5,
         gates=GateVector(),
         computed_at_timestamp_ns=1_000,
-        scoring_versions=dual_scoring([0.01, -0.02, 0.03, 0.005] * 10, 60, 6, 0.2),
+        scoring_versions=dual_scoring(SYNTHETIC_SERIES, 60, 6, 0.2),
     )
     certificate = PolicyCertificate.generate(receipt)
     scoring_manifest = {
         "legacy_fixed_coverage_factor": LEGACY_FIXED_COVERAGE_FACTOR,
         "coverage_cases": measured_coverage_example(),
         "dual_scoring_record": receipt.scoring_versions,
+        "structural_demo_inputs": {
+            "input_class": SYNTHETIC_INPUT_CLASS,
+            "case_id": "NX08-MANIFEST-STRUCTURE-DEMO",
+            "capability_score": 42.0,
+            "coverage_factor": 0.5,
+            "series": "hand-given 40-element illustration; not a measured campaign series",
+            "warning": (
+                "these inputs only exercise the certificate derivation and the dual scoring "
+                "record; they are NOT a capability result and must not be reported as one"
+            ),
+        },
         "certificate": {
             "research_capability_score": certificate.research_capability_score,
             "evidence_multiplier": certificate.evidence_multiplier,
