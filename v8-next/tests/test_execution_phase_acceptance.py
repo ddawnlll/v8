@@ -161,3 +161,46 @@ def test_f5_risk_fraction_sizing_changes_the_order_size() -> None:
         f"\n[F5] flat qty={[p['quantity'] for p in flat_positions]} "
         f"sized qty={[p['quantity'] for p in sized_positions]}"
     )
+
+
+def test_f3_stop_market_entry_and_emulation_are_explicit() -> None:
+    """STOP_MARKET entry: needs an explicit offset, and emulation is opt-in."""
+    # Without an offset the order must be rejected by name, not downgraded.
+    missing = _run(entry_order_type="STOP_MARKET")
+    actions = [d["action"] for d in missing["decisions"]]
+    assert any(a == "REJECTED_STOP_MARKET_WITHOUT_OFFSET" for a in actions)
+    assert missing["opened_positions"] == []
+
+    # With an offset the bracket carries a stop entry at the configured distance.
+    stop = _run(entry_order_type="STOP_MARKET", entry_stop_offset_pct=Decimal("0.005"))
+    stop_actions = [d["action"] for d in stop["decisions"]]
+    submitted = [a for a in stop_actions if a.startswith("SUBMITTED_STOP_MARKET_UNBRACKETED")]
+    assert submitted, stop_actions[:3]
+    assert any(a.endswith("NO_EMULATION") for a in submitted)
+
+    # Emulation is opt-in and shows up in the decision ledger.
+    emulated = _run(
+        entry_order_type="STOP_MARKET",
+        entry_stop_offset_pct=Decimal("0.005"),
+        entry_emulation_trigger="DEFAULT",
+    )
+    emulated_actions = [d["action"] for d in emulated["decisions"]]
+    assert any(a.endswith("EMULATED_DEFAULT") for a in emulated_actions), emulated_actions[:3]
+
+    # An unknown trigger name fails closed rather than running unemulated.
+    bad = _run(
+        entry_order_type="STOP_MARKET",
+        entry_stop_offset_pct=Decimal("0.005"),
+        entry_emulation_trigger="NOPE",
+    )
+    assert any(
+        a == "REJECTED_UNKNOWN_EMULATION_TRIGGER_NOPE"
+        for a in (d["action"] for d in bad["decisions"])
+    )
+    assert bad["opened_positions"] == []
+    print(
+        f"\n[F3] stop_market: missing_offset_rejected="
+        f"{sum(1 for a in actions if a == 'REJECTED_STOP_MARKET_WITHOUT_OFFSET')} "
+        f"submitted={submitted[:1]} emulated={[a for a in emulated_actions if 'EMULATED' in a][:1]} "
+        f"opened_stop_market={len(stop['opened_positions'])}"
+    )

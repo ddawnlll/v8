@@ -30,6 +30,7 @@ from nautilus_trader.model import (
     Price,
     Quantity,
     Symbol,
+    TriggerType,
     Venue,
 )
 from nautilus_trader.trading import Strategy
@@ -112,6 +113,15 @@ class ExpertStrategyConfig:
     #: Fraction of account equity risked per trade (FixedRiskSizer). When set,
     #: quantity comes from entry/stop distance instead of target_notional.
     #: None keeps the previous sizing path byte-identical.
+    #: Entry order type: MARKET | LIMIT | STOP_MARKET. A stop entry needs an
+    #: explicit offset (``entry_stop_offset_pct``); without one the order is
+    #: rejected by name rather than being silently turned into a market order.
+    entry_stop_offset_pct: Decimal | None = None
+    #: Optional order-emulation trigger (NautilusTrader TriggerType name, e.g.
+    #: ``DEFAULT``). Set means the order is held by the OrderEmulator until its
+    #: trigger condition is observable, which is how a passive/stop path is
+    #: exercised without a live venue.
+    entry_emulation_trigger: str | None = None
     risk_fraction: Decimal | None = None
     #: Hard per-order notional cap (RiskEngineConfig.max_notional_per_order
     #: equivalent). Orders above it are denied pre-submit and counted. None
@@ -488,18 +498,70 @@ class ExpertEnsembleStrategy(Strategy):
                         tp_price = Price(float(target_px), instrument.price_precision)
 
                         entry_type = self.ensemble_config.entry_order_type
+                        entry_trigger_price = None
                         if entry_type == "MARKET":
                             entry_order_type = OrderType.MARKET
                             entry_limit_price = None
                         elif entry_type == "LIMIT":
                             entry_order_type = OrderType.LIMIT
                             entry_limit_price = Price(float(entry_px), instrument.price_precision)
+                        elif entry_type == "STOP_MARKET":
+                            offset = self.ensemble_config.entry_stop_offset_pct
+                            if offset is None or offset <= 0:
+                                action = "REJECTED_STOP_MARKET_WITHOUT_OFFSET"
+                                entry_order_type = None
+                                entry_limit_price = None
+                            else:
+                                entry_order_type = OrderType.STOP_MARKET
+                                entry_limit_price = None
+                                trigger = (
+                                    entry_px + entry_px * offset
+                                    if side == OrderSide.BUY
+                                    else entry_px - entry_px * offset
+                                )
+                                entry_trigger_price = Price(
+                                    float(trigger), instrument.price_precision
+                                )
                         else:
                             action = f"REJECTED_UNKNOWN_ENTRY_TYPE_{entry_type}"
                             entry_order_type = None
                             entry_limit_price = None
+                        emulation_trigger = None
+                        emulation_label = "NO_EMULATION"
+                        configured_trigger = self.ensemble_config.entry_emulation_trigger
+                        if entry_order_type is not None and configured_trigger is not None:
+                            try:
+                                emulation_trigger = TriggerType.from_str(configured_trigger)
+                            except ValueError:
+                                action = f"REJECTED_UNKNOWN_EMULATION_TRIGGER_{configured_trigger}"
+                                entry_order_type = None
+                            else:
+                                emulation_label = f"EMULATED_{configured_trigger}"
                         if entry_order_type is None:
                             quantity = None
+                        elif entry_order_type == OrderType.STOP_MARKET:
+                            # NautilusTrader's bracket builder accepts only MARKET
+                            # and LIMIT entries (it raises on STOP_MARKET), so a
+                            # stop entry is submitted on its own and the ledger
+                            # says UNBRACKETED rather than dropping the protection
+                            # orders silently.
+                            self.submit_order(
+                                self.order_factory.stop_market(
+                                    instrument_id=self.instrument_id,
+                                    order_side=side,
+                                    quantity=quantity,
+                                    trigger_price=entry_trigger_price,
+                                    emulation_trigger=emulation_trigger,
+                                )
+                            )
+                            if record is not None:
+                                self.opportunity_book.update_status(
+                                    record.opportunity_id, OpportunityStatus.ADMITTED
+                                )
+                            action = (
+                                f"SUBMITTED_STOP_MARKET_UNBRACKETED_{side.name}_"
+                                f"{qty_str}_{emulation_label}"
+                            )
                         else:
                             submit_qty = quantity
                             twap_tag = ""
@@ -524,6 +586,8 @@ class ExpertEnsembleStrategy(Strategy):
                                                 "bracket": True,
                                                 "entry_order_type": entry_order_type,
                                                 "entry_price": entry_limit_price,
+                                                "entry_trigger_price": entry_trigger_price,
+                                                "emulation_trigger": emulation_trigger,
                                                 "sl_price": sl_price,
                                                 "tp_price": tp_price,
                                                 "done": idx,
@@ -537,6 +601,8 @@ class ExpertEnsembleStrategy(Strategy):
                                 quantity=submit_qty,
                                 entry_order_type=entry_order_type,
                                 entry_price=entry_limit_price,
+                                entry_trigger_price=entry_trigger_price,
+                                emulation_trigger=emulation_trigger,
                                 sl_trigger_price=sl_price,
                                 tp_price=tp_price,
                             )
@@ -546,7 +612,8 @@ class ExpertEnsembleStrategy(Strategy):
                                     record.opportunity_id, OpportunityStatus.ADMITTED
                                 )
                             action = (
-                                f"{twap_tag}SUBMITTED_BRACKET_{entry_type}_{side.name}_{qty_str}"
+                                f"{twap_tag}SUBMITTED_BRACKET_{entry_type}_{side.name}_"
+                                f"{qty_str}_{emulation_label}"
                             )
                     else:
                         entry_type = self.ensemble_config.entry_order_type
@@ -565,6 +632,12 @@ class ExpertEnsembleStrategy(Strategy):
                                 order_side=side,
                                 quantity=quantity,
                             )
+                        elif entry_type == "STOP_MARKET":
+                            # A stop entry without bracket configuration has no
+                            # target/stop pair to attach to; fail closed by name
+                            # instead of submitting a market order in disguise.
+                            order = None
+                            action = "REJECTED_STOP_MARKET_REQUIRES_BRACKET_CONFIG"
                         else:
                             order = None
                             action = f"REJECTED_UNKNOWN_ENTRY_TYPE_{entry_type}"
