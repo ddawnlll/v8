@@ -196,6 +196,194 @@ def capture_agg_trades(
 
 ARCHIVE_BASE = "https://data.binance.vision/data/futures/um/daily/aggTrades"
 
+#: Level counts Binance's public depth endpoint accepts for USD-M futures. The
+#: venue rejects anything else, so the capture refuses a limit outside this set
+#: instead of silently receiving a different book depth than the manifest says.
+DEPTH_LIMITS = frozenset({5, 10, 20, 50, 100, 500, 1000})
+
+
+def depth_snapshot_stats(payload: Any) -> dict[str, Any]:
+    """Summarise one raw depth snapshot without inventing a field.
+
+    Only counts and the two touch prices are reported, and only when the venue
+    actually sent them. ``event_time_ms``/``transaction_time_ms`` come from the
+    venue's own ``E``/``T`` fields; a snapshot that omits them reports ``None``
+    rather than a local clock substituted for venue time.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("depth payload is not an object")
+    bids = payload.get("bids")
+    asks = payload.get("asks")
+    if not isinstance(bids, list) or not isinstance(asks, list):
+        raise ValueError("depth payload lacks bid/ask arrays")
+    if not bids or not asks:
+        raise ValueError("depth payload has an empty side")
+    best_bid = bids[0][0] if isinstance(bids[0], list) and bids[0] else None
+    best_ask = asks[0][0] if isinstance(asks[0], list) and asks[0] else None
+    return {
+        "last_update_id": payload.get("lastUpdateId"),
+        "event_time_ms": payload.get("E"),
+        "transaction_time_ms": payload.get("T"),
+        "bid_levels": len(bids),
+        "ask_levels": len(asks),
+        "best_bid": best_bid,
+        "best_ask": best_ask,
+    }
+
+
+def capture_depth(
+    destination: Path,
+    symbol: str = "BTCUSDT",
+    *,
+    seconds: float = 900.0,
+    interval_s: float = 3.0,
+    limit: int = 20,
+    max_snapshots: int = 2000,
+) -> Path:
+    """Poll public order-book depth for a bounded duration into raw snapshots.
+
+    Same honesty contract as :func:`capture`: raw venue bytes, request/receive
+    clocks, no authentication, no backfilled availability claims. The REST depth
+    endpoint returns *displayed* aggregated levels at the instant of the poll, so
+    what is stored is a sequence of point-in-time L2 (market-by-price) snapshots,
+    not a continuous change stream and not L3 order-level data. Every snapshot is
+    written verbatim so a later reader can re-hash it.
+
+    The capture is bounded twice over: by ``seconds`` of wall clock and by
+    ``max_snapshots``. It stops at whichever bound is reached first and records
+    both the requested and the achieved span, so a truncated capture cannot be
+    mistaken for a complete one.
+    """
+    if not symbol.isascii() or not symbol.isalnum():
+        raise ValueError("symbol must be an ASCII alphanumeric venue symbol")
+    if type(limit) is not int or limit not in DEPTH_LIMITS:
+        raise ValueError(f"depth limit must be one of {sorted(DEPTH_LIMITS)}")
+    if not seconds > 0:
+        raise ValueError("capture duration must be positive")
+    if not interval_s >= 0.5:
+        raise ValueError("poll interval below the venue's public rate limit")
+    if type(max_snapshots) is not int or max_snapshots < 1:
+        raise ValueError("max_snapshots must be >= 1")
+    destination.mkdir(parents=True, exist_ok=False)
+    artifacts: list[dict[str, Any]] = []
+    started_ns = time.time_ns()
+    deadline = time.monotonic() + float(seconds)
+    index = 0
+    while index < max_snapshots and time.monotonic() < deadline:
+        url = BASE + "/fapi/v1/depth?" + urlencode({"symbol": symbol, "limit": limit})
+        requested_ns = time.time_ns()
+        try:
+            with urlopen(url, timeout=30) as response:
+                raw = response.read()
+        except Exception as exc:
+            # The venue answers 429/418 with a back-off body; retry the same
+            # poll instead of aborting a bounded capture halfway through.
+            code = getattr(exc, "code", None)
+            if code in (429, 418):
+                time.sleep(max(interval_s, 5.0))
+                continue
+            raise
+        received_ns = time.time_ns()
+        payload = json.loads(raw)
+        if isinstance(payload, dict) and "code" in payload:
+            raise ValueError(f"venue rejected depth: {payload['code']}")
+        stats = depth_snapshot_stats(payload)
+        path = destination / f"depth-{index:04d}.json"
+        path.write_bytes(raw)
+        artifacts.append(
+            {
+                "path": path.name,
+                "sha256": hashlib.sha256(raw).hexdigest(),
+                "source_url": url,
+                "request_time_ns": requested_ns,
+                "received_time_ns": received_ns,
+                "historical_available_time_ns": None,
+                "historical_pit_status": "UNKNOWN",
+                **stats,
+            }
+        )
+        index += 1
+        remaining = deadline - time.monotonic()
+        if remaining > 0:
+            time.sleep(min(interval_s, remaining))
+    if not artifacts:
+        raise ValueError("depth capture produced no snapshots")
+    finished_ns = time.time_ns()
+    manifest = {
+        "schema_version": 1,
+        "symbol": symbol,
+        "source": "BINANCE_USDM_PUBLIC_REST_DEPTH",
+        "claim_status": "NO_ECONOMIC_CLAIM",
+        "purpose": "raw_depth_snapshots_not_certified_historical_PIT",
+        "book_granularity": "L2_MBP_DISPLAYED_AGGREGATED_LEVELS",
+        "depth_limit": limit,
+        "poll_interval_s": float(interval_s),
+        "requested_seconds": float(seconds),
+        "snapshots": len(artifacts),
+        "capture_start_ns": started_ns,
+        "capture_end_ns": finished_ns,
+        "achieved_seconds": round((finished_ns - started_ns) / 1e9, 3),
+        "truncated_by_snapshot_bound": index >= max_snapshots,
+        "artifacts": artifacts,
+    }
+    result = destination / "manifest.json"
+    result.write_text(json.dumps(manifest, indent=2) + "\n")
+    return result
+
+
+def validate_depth_capture(manifest_path: Path) -> None:
+    """Validate a depth capture: integrity, provenance, and honesty of the claim.
+
+    Fails closed on anything that would let a snapshot be presented as more than
+    it is: a rewritten payload, a foreign host, a symbol mismatch, non-monotonic
+    clocks, a claimed historical point-in-time, or a snapshot outside the
+    declared capture span.
+    """
+    manifest = json.loads(manifest_path.read_text())
+    if manifest.get("schema_version") != 1 or manifest.get("claim_status") != "NO_ECONOMIC_CLAIM":
+        raise ValueError("unsupported depth capture schema or claim")
+    symbol = manifest.get("symbol")
+    if not isinstance(symbol, str) or not symbol.isascii() or not symbol.isalnum():
+        raise ValueError("invalid capture symbol")
+    if manifest.get("depth_limit") not in DEPTH_LIMITS:
+        raise ValueError("capture declares an unsupported depth limit")
+    root = manifest_path.parent.resolve()
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, list) or not artifacts:
+        raise ValueError("empty depth capture")
+    if manifest.get("snapshots") != len(artifacts):
+        raise ValueError("manifest snapshot count does not match its artifacts")
+    previous_received = 0
+    for i, artifact in enumerate(artifacts):
+        if artifact["path"] != f"depth-{i:04d}.json":
+            raise ValueError("invalid depth snapshot sequence")
+        path = (root / artifact["path"]).resolve()
+        if path.parent != root:
+            raise ValueError("artifact escapes capture directory")
+        if hashlib.sha256(path.read_bytes()).hexdigest() != artifact["sha256"]:
+            raise ValueError(f"artifact hash mismatch: {path.name}")
+        url = urlsplit(artifact["source_url"])
+        if url.scheme != "https" or url.netloc != "fapi.binance.com" or url.path != "/fapi/v1/depth":
+            raise ValueError("unexpected depth capture source")
+        query = parse_qs(url.query)
+        if query.get("symbol") != [symbol] or query.get("limit") != [str(manifest["depth_limit"])]:
+            raise ValueError("depth capture source mismatch")
+        requested, received = artifact["request_time_ns"], artifact["received_time_ns"]
+        if type(requested) is not int or type(received) is not int or not 0 < requested <= received:
+            raise ValueError("invalid depth capture clocks")
+        if received < previous_received:
+            raise ValueError("depth capture clocks are not monotonic")
+        previous_received = received
+        if (
+            artifact.get("historical_pit_status") != "UNKNOWN"
+            or artifact.get("historical_available_time_ns") is not None
+        ):
+            raise ValueError("depth capture cannot certify historical availability")
+        for field in ("bid_levels", "ask_levels"):
+            if not isinstance(artifact.get(field), int) or artifact[field] < 1:
+                raise ValueError("depth snapshot reports an empty side")
+
+
 
 def agg_trades_dump_stats(payload: bytes) -> dict[str, Any]:
     """Row count, time span and aggressor-flag coverage of one archive payload.
@@ -432,7 +620,38 @@ def main() -> None:
         help="Download one verified daily aggTrades archive (YYYY-MM-DD); repeatable. "
         "Switches the capture to archive mode, which carries historical aggressor evidence.",
     )
+    parser.add_argument(
+        "--depth-seconds",
+        type=float,
+        default=None,
+        help="Poll public order-book depth for this many seconds into raw L2 snapshots. "
+        "Switches the capture to depth mode (no authentication).",
+    )
+    parser.add_argument(
+        "--depth-interval-s",
+        type=float,
+        default=3.0,
+        help="Seconds between depth polls (>= 0.5; the venue's public rate limit).",
+    )
+    parser.add_argument(
+        "--depth-limit",
+        type=int,
+        default=20,
+        choices=sorted(DEPTH_LIMITS),
+        help="Levels per side requested from the venue depth endpoint.",
+    )
     args = parser.parse_args()
+    if args.depth_seconds is not None:
+        depth_manifest = capture_depth(
+            args.destination,
+            args.symbol,
+            seconds=args.depth_seconds,
+            interval_s=args.depth_interval_s,
+            limit=args.depth_limit,
+        )
+        validate_depth_capture(depth_manifest)
+        print(depth_manifest)
+        return
     if args.agg_trades_dump_day:
         dump_manifest = capture_agg_trades_dump(
             args.destination, args.symbol, days=tuple(args.agg_trades_dump_day)

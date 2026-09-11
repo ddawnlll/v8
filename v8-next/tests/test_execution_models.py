@@ -42,6 +42,7 @@ def test_every_declared_profile_builds_a_full_venue_kwarg_set() -> None:
             "fill_model",
             "fee_model",
             "latency_model",
+            "margin_model",
             "bar_execution",
             "bar_adaptive_high_low_ordering",
             "trade_execution",

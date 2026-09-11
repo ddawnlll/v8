@@ -93,6 +93,14 @@ class ExpertStrategyConfig:
     max_contradiction_tolerance: int = 0
     order_quantity: Decimal = Decimal("0.01")
     target_notional: Decimal | None = None
+    #: Fraction of account equity risked per trade (FixedRiskSizer). When set,
+    #: quantity comes from entry/stop distance instead of target_notional.
+    #: None keeps the previous sizing path byte-identical.
+    risk_fraction: Decimal | None = None
+    #: Hard per-order notional cap (RiskEngineConfig.max_notional_per_order
+    #: equivalent). Orders above it are denied pre-submit and counted. None
+    #: means no guard configured.
+    max_notional_per_order: Decimal | None = None
     bracket_stop_pct: Decimal | None = None
     bracket_target_pct: Decimal | None = None
     max_concurrent_positions: int = 1
@@ -144,6 +152,28 @@ class ExpertEnsembleStrategy(Strategy):
     def on_start(self) -> None:
         """Subscribe to configured bar type on strategy start."""
         self.subscribe_bars(self.bar_type)
+
+    def _account_equity(self, instrument: Any) -> Any | None:
+        """Quote-currency account equity, or None when it cannot be read.
+
+        Never guesses: a missing portfolio/account/balance keeps the caller
+        failing closed instead of sizing against an assumed balance.
+        """
+        try:
+            portfolio = self.portfolio
+            account = portfolio.account() if portfolio is not None else None
+            if account is None:
+                return None
+            quote = getattr(instrument, "quote_currency", None)
+            balance = account.balance(quote) if quote is not None else None
+            if balance is None:
+                balances = account.balances()
+                balance = next(iter(balances.values()), None) if balances else None
+            if balance is None:
+                return None
+            return balance.total
+        except Exception:
+            return None
 
     def on_bar(self, bar: Bar) -> None:
         """Process incoming native Bar tick through the 28-expert ensemble."""
@@ -254,6 +284,7 @@ class ExpertEnsembleStrategy(Strategy):
 
         # 6. Execute Native Orders via NautilusTrader OrderFactory
         action = "NO_ACTION"
+        sizing_mode = "FLAT"
         if is_supported and opportunity is not None:
             open_positions = [
                 p
@@ -277,6 +308,48 @@ class ExpertEnsembleStrategy(Strategy):
                         if px > 0 and step > 0:
                             steps = (self.ensemble_config.target_notional / px) // step
                             base_qty = steps * step
+                    sizing_mode = "FLAT"
+                    if self.ensemble_config.risk_fraction is not None:
+                        # Risk-fraction sizing (FixedRiskSizer): quantity from
+                        # entry/stop distance and account equity. Fail closed
+                        # when the stop distance or the equity is unavailable.
+                        from v8_next.adapters.risk_sizing import risk_sized_quantity
+
+                        sizing_mode = "RISK_FRACTION"
+                        stop_pct = self.ensemble_config.bracket_stop_pct
+                        entry_px = bar.close.as_decimal()
+                        equity = self._account_equity(instrument)
+                        if stop_pct is None or entry_px <= 0 or equity is None:
+                            action = "RISK_SIZING_NO_STOP_OR_EQUITY"
+                            base_qty = Decimal(0)
+                        else:
+                            stop_dist = entry_px * stop_pct
+                            stop_px = (
+                                entry_px - stop_dist
+                                if opportunity.direction == "LONG"
+                                else entry_px + stop_dist
+                            )
+                            base_qty = risk_sized_quantity(
+                                instrument,
+                                Price(float(entry_px), instrument.price_precision),
+                                Price(float(stop_px), instrument.price_precision),
+                                equity,
+                                self.ensemble_config.risk_fraction,
+                            ).as_decimal()
+                    if (
+                        base_qty > 0
+                        and self.ensemble_config.max_notional_per_order is not None
+                    ):
+                        from v8_next.adapters.risk_sizing import check_max_notional
+
+                        allowed, _notional = check_max_notional(
+                            base_qty,
+                            bar.close,
+                            self.ensemble_config.max_notional_per_order,
+                        )
+                        if not allowed:
+                            action = "DENIED_MAX_NOTIONAL"
+                            base_qty = Decimal(0)
                     qty_str = format(base_qty, f".{instrument.size_precision}f")
                     quantity: Quantity | None = None
                     if Decimal(qty_str) < instrument.min_quantity.as_decimal():
@@ -344,6 +417,7 @@ class ExpertEnsembleStrategy(Strategy):
                 "abstain_count": len(abstains),
                 "consensus_supported": is_supported,
                 "action": action,
+                "sizing_mode": sizing_mode,
                 "stances": [asdict(s) for s in stances],
             }
         )

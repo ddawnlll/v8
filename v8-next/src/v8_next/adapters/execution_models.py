@@ -50,6 +50,7 @@ from nautilus_trader.execution import (
     TwoTierFillModel,
     VolumeSensitiveFillModel,
 )
+from nautilus_trader.model import LeveragedMarginModel, StandardMarginModel
 
 # Fill models available in the installed NautilusTrader (2.0.0rc4). All share
 # the constructor (prob_fill_on_limit, prob_slippage, random_seed).
@@ -96,6 +97,10 @@ class ExecutionProfile:
     update_latency_nanos: int = 0
     cancel_latency_nanos: int = 0
     fee_model: str = "maker_taker"
+    #: Margin model for the simulated venue account. "none" keeps the engine
+    #: default (no explicit margin model); "standard"/"leveraged" pass the NT
+    #: model so margin accounting is venue-rule based instead of implicit.
+    margin_model: str = "none"
     bar_execution: bool = True
     bar_adaptive_high_low_ordering: bool = False
     trade_execution: bool = True
@@ -121,6 +126,11 @@ class ExecutionProfile:
             raise ValueError("prob_slippage must be in [0, 1]")
         if self.random_seed < 0:
             raise ValueError("random_seed must be >= 0 (determinism contract)")
+        if self.margin_model not in ("none", "standard", "leveraged"):
+            raise ValueError(
+                f"unknown margin_model {self.margin_model!r}; "
+                "known: none, standard, leveraged"
+            )
         for field in (
             "base_latency_nanos",
             "insert_latency_nanos",
@@ -213,6 +223,17 @@ def build_fee_model(profile: ExecutionProfile) -> Any:
     raise ValueError(f"unknown fee_model {profile.fee_model!r}")
 
 
+def build_margin_model(profile: ExecutionProfile) -> Any | None:
+    """Margin model for ``add_venue``, or None to keep the engine default."""
+    if profile.margin_model == "none":
+        return None
+    if profile.margin_model == "standard":
+        return StandardMarginModel()
+    if profile.margin_model == "leveraged":
+        return LeveragedMarginModel()
+    raise ValueError(f"unknown margin_model {profile.margin_model!r}")
+
+
 def venue_kwargs(profile: str | ExecutionProfile) -> dict[str, Any]:
     """Keyword arguments for ``BacktestEngine.add_venue``.
 
@@ -225,6 +246,7 @@ def venue_kwargs(profile: str | ExecutionProfile) -> dict[str, Any]:
         "fill_model": build_fill_model(p),
         "fee_model": build_fee_model(p),
         "latency_model": build_latency_model(p),
+        "margin_model": build_margin_model(p),
         "bar_execution": p.bar_execution,
         "bar_adaptive_high_low_ordering": p.bar_adaptive_high_low_ordering,
         "trade_execution": p.trade_execution,
@@ -261,6 +283,7 @@ def profile_summary(profile: str | ExecutionProfile) -> dict[str, Any]:
             "cancel": p.cancel_latency_nanos,
         },
         "fee_model": p.fee_model,
+        "margin_model": p.margin_model,
         "bar_execution": p.bar_execution,
         "bar_adaptive_high_low_ordering": p.bar_adaptive_high_low_ordering,
         "trade_execution": p.trade_execution,
