@@ -6,11 +6,11 @@
       "command": "/Users/hootie/src/v8/v8-next/.venv/bin/python3 tools/audit_doc_path_refs.py",
       "counts": {
         "markdown_files_scanned": 247,
-        "path_citations_audited": 1616,
+        "path_citations_audited": 1617,
         "resolved": 1321,
         "retired": 103,
-        "unaccounted": 57,
-        "unaccounted_distinct": 30
+        "unaccounted": 58,
+        "unaccounted_distinct": 31
       },
       "exit_code": 1,
       "passed": false,
@@ -34,7 +34,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "...........                                                              [100%] | 11 passed in 8.45s"
+        "summary": "...........                                                              [100%] | 11 passed in 7.99s"
       },
       "name": "epic",
       "targets": [
@@ -48,7 +48,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "......................................                                   [100%] | 38 passed in 2.55s"
+        "summary": "......................................                                   [100%] | 38 passed in 2.20s"
       },
       "name": "nx07-nx08",
       "targets": [
@@ -66,7 +66,7 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": ".........................................                                [100%] | 41 passed in 2.59s"
+        "summary": ".........................................                                [100%] | 41 passed in 2.42s"
       },
       "name": "nx08",
       "targets": [
@@ -81,9 +81,9 @@
       "artifact_count": 3,
       "artifacts": [
         {
-          "bytes": 6212,
+          "bytes": 6538,
           "path": "docs/evidence/v87/NX00/NX00_FINAL_ACCEPTANCE.md",
-          "sha256": "c51420d9980456646ff313899922f70146ed0d57e8b44802ec1e2c070f940467"
+          "sha256": "cc50a8d189b99ad07762bc7a60723ea5366b3e288ddca3c5324f303008dcbf47"
         },
         {
           "bytes": 6224,
@@ -102,6 +102,8 @@
       },
       "commit": "epic",
       "evidence_dir": "docs/evidence/v87/NX00",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX00",
       "test_target": "09906159/NX00"
     },
@@ -139,21 +141,18 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "................                                                         [100%] | 16 passed in 5.95s"
+        "summary": "................                                                         [100%] | 16 passed in 5.71s"
       },
       "commit": "7a3d2859",
       "evidence_dir": "docs/evidence/v87/NX01",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX01",
       "test_target": "v8-next/tests/test_tape_identity_nx01.py"
     },
     {
-      "artifact_count": 6,
+      "artifact_count": 4,
       "artifacts": [
-        {
-          "bytes": 10112,
-          "path": "docs/evidence/v87/NX02/LOOP_RECONCILIATION_436.md",
-          "sha256": "c12ec8e46c5acda176753474e4d85c7aa51ea60c0673a0a0fa6e40eed12f662a"
-        },
         {
           "bytes": 5280,
           "path": "docs/evidence/v87/NX02/NX02_REPORT.md",
@@ -170,11 +169,6 @@
           "sha256": "a489c278b50c9a0afa06b8c4e77c29338d3f80ce03d024a0a82add0aeba0ec95"
         },
         {
-          "bytes": 11141,
-          "path": "docs/evidence/v87/NX02/loop_reconciliation_436.json",
-          "sha256": "54abd31c9d75ae32586fba8c8672cc4641a2bfd2b70f03d2b5f94a6559056b77"
-        },
-        {
           "bytes": 2622,
           "path": "docs/evidence/v87/NX02/reconcile_table.json",
           "sha256": "39d610243ad32baa13d30fa96b4bbdfdf7f9353afe0e2a0194b722dfd97b1845"
@@ -185,10 +179,23 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "..........                                                               [100%] | 10 passed in 0.85s"
+        "summary": "..........                                                               [100%] | 10 passed in 0.75s"
       },
       "commit": "94e75c2c",
       "evidence_dir": "docs/evidence/v87/NX02",
+      "foreign_artifacts": [
+        {
+          "bytes": 10112,
+          "path": "docs/evidence/v87/NX02/LOOP_RECONCILIATION_436.md",
+          "sha256": "c12ec8e46c5acda176753474e4d85c7aa51ea60c0673a0a0fa6e40eed12f662a"
+        },
+        {
+          "bytes": 11141,
+          "path": "docs/evidence/v87/NX02/loop_reconciliation_436.json",
+          "sha256": "54abd31c9d75ae32586fba8c8672cc4641a2bfd2b70f03d2b5f94a6559056b77"
+        }
+      ],
+      "foreign_note": "produced by another workstream (issue number in the filename); carries no acceptance weight for this issue",
       "issue": "NX02",
       "test_target": "v8-next/tests/test_runner_accounting_nx02.py"
     },
@@ -221,10 +228,12 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": ".............                                                            [100%] | 13 passed in 2.39s"
+        "summary": ".............                                                            [100%] | 13 passed in 2.24s"
       },
       "commit": "5deb4282",
       "evidence_dir": "docs/evidence/v87/NX03",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX03",
       "test_target": "v8-next/tests/test_historical_plan_nx03.py"
     },
@@ -252,10 +261,12 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "..............                                                           [100%] | 14 passed in 0.20s"
+        "summary": "..............                                                           [100%] | 14 passed in 0.24s"
       },
       "commit": "453df499",
       "evidence_dir": "docs/evidence/v87/NX04",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX04",
       "test_target": "v8-next/tests/test_ledger_canon_nx04.py"
     },
@@ -283,10 +294,12 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": ".........                                                                [100%] | 9 passed in 2.23s"
+        "summary": ".........                                                                [100%] | 9 passed in 2.07s"
       },
       "commit": "311df69d",
       "evidence_dir": "docs/evidence/v87/NX05",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX05",
       "test_target": "v8-next/tests/test_run_window_nx05.py"
     },
@@ -314,10 +327,12 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "..............                                                           [100%] | 14 passed in 0.97s"
+        "summary": "..............                                                           [100%] | 14 passed in 0.86s"
       },
       "commit": "c7bb4c69",
       "evidence_dir": "docs/evidence/v87/NX06",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX06",
       "test_target": "v8-next/tests/test_swing_baseline_nx06.py"
     },
@@ -350,10 +365,12 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "...........                                                              [100%] | 11 passed in 2.51s"
+        "summary": "...........                                                              [100%] | 11 passed in 2.27s"
       },
       "commit": "fc054071",
       "evidence_dir": "docs/evidence/v87/NX07",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX07",
       "test_target": "v8-next/tests/test_statistics_plan_nx07.py"
     },
@@ -381,10 +398,12 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "...........                                                              [100%] | 11 passed in 0.48s"
+        "summary": "...........                                                              [100%] | 11 passed in 0.43s"
       },
       "commit": "74cb0f3d",
       "evidence_dir": "docs/evidence/v87/NX08",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX08",
       "test_target": "v8-next/tests/test_nx08_gates_scoring.py"
     },
@@ -417,10 +436,12 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": "........                                                                 [100%] | 8 passed in 0.29s"
+        "summary": "........                                                                 [100%] | 8 passed in 0.27s"
       },
       "commit": "42136231",
       "evidence_dir": "docs/evidence/v87/NX09",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX09",
       "test_target": "v8-next/tests/test_fold_research_nx09.py"
     },
@@ -483,10 +504,12 @@
         "counts": {},
         "exit_code": 0,
         "passed": true,
-        "summary": ".........                                                                [100%] | 9 passed in 0.23s"
+        "summary": ".........                                                                [100%] | 9 passed in 0.22s"
       },
       "commit": "a69d6772",
       "evidence_dir": "docs/evidence/v87/NX10",
+      "foreign_artifacts": [],
+      "foreign_note": null,
       "issue": "NX10",
       "test_target": "v8-next/tests/test_public_shadow_nx10.py"
     }
@@ -528,11 +551,11 @@
     "audit_doc_path_refs": {
       "counts": {
         "markdown_files_scanned": 247,
-        "path_citations_audited": 1616,
+        "path_citations_audited": 1617,
         "resolved": 1321,
         "retired": 103,
-        "unaccounted": 57,
-        "unaccounted_distinct": 30
+        "unaccounted": 58,
+        "unaccounted_distinct": 31
       },
       "exit_code": 1,
       "scope": "legacy/Rust-era documents; the D-162 quarantine moved v8-core/",

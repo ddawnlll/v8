@@ -5,7 +5,7 @@ physical artifacts. It does **not** certify an economic edge, prospective maturi
 capital readiness or any live authority. Every verdict remains `NO_ECONOMIC_CLAIM`.
 
 Acceptance matrix (machine-built, artifacts hashed by read-back):
-`docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `927e8726ed01a978169f3d9c1ed515d94a6b1ffcb1944c831c70e82bf96cf872`.
+`docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `09ee76dec251c586d6dfb81b2ceee11538e0f1fe3e18bc922738da15e661fed9`.
 
 **Correction (2026-09-11):** this file and the matrix originally cited the NX09
 commit as `42136221`; the real commit is `42136231` (two digits transposed). The
@@ -54,6 +54,15 @@ reported separately rather than fixed silently.
 | `tools/audit_doc_path_refs.py` | exit 1, **56 unaccounted citations** (30 distinct) | pre-existing, all in legacy/Rust-era documents whose `v8-core/…` paths the D-162 quarantine moved to `legacy/v8-core/`. Every citation in `docs/evidence/v87/**` and `docs/migration/V87_*` now resolves; the residual set is the owner's documentation sweep, and the guard was not weakened. |
 | `tools/build_monograph.py` (EN and TR) | exit 1, **unreachable input** | `research/manifest/research_papers_manifest.json` is absent from this checkout (historical artifact, commit `9365fe87`). Recorded as pending evidence; the EN/TR site is a publish step and publishing stays with the owner (D-163). |
 | `mypy v8-next/src` | 5 errors | pre-existing, enumerated above. |
+
+
+### Provenance note (2026-09-11)
+
+The `docs/evidence/v87/NX02/` directory also contains artifacts written by a different
+workstream (issue #436: `LOOP_RECONCILIATION_436.md`, `loop_reconciliation_436.json`,
+`bound_receipt_before/after.json`, `regenerate_loop_reconciliation_receipt.py`). They are
+listed by the matrix under `foreign_artifacts` with their hashes but carry **no acceptance
+weight** for NX02 or this acceptance; nothing of theirs was modified or claimed here.
 
 ## 4. Pending evidence backlog (open, by contract)
 

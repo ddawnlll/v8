@@ -176,6 +176,14 @@ def main(argv: list[str] | None = None) -> int:
         check: dict[str, Any] = {"command": f"pytest -q {test_target}", "skipped": True}
         if not args.skip_checks and Path(repo_root / test_target).is_file():
             check = _run([*uv, "pytest", "-q", test_target], repo_root)
+        # Other workstreams share this tree: a file another issue wrote into this
+        # directory is listed with its hash but is NOT attributed to this issue's
+        # acceptance (an artifact nobody can name a producer for is provenance noise).
+        foreign = [
+            row
+            for row in artifacts
+            if "_4" in Path(row["path"]).name or "loop_reconciliation" in Path(row["path"]).name
+        ]
         rows.append(
             {
                 "issue": issue,
@@ -183,8 +191,15 @@ def main(argv: list[str] | None = None) -> int:
                 "test_target": test_target,
                 "check": check,
                 "evidence_dir": evidence_dir,
-                "artifacts": artifacts,
-                "artifact_count": len(artifacts),
+                "artifacts": [row for row in artifacts if row not in foreign],
+                "artifact_count": len(artifacts) - len(foreign),
+                "foreign_artifacts": foreign,
+                "foreign_note": (
+                    "produced by another workstream (issue number in the filename); "
+                    "carries no acceptance weight for this issue"
+                    if foreign
+                    else None
+                ),
             }
         )
 
