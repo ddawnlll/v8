@@ -338,6 +338,8 @@ class SwingEngineStrategy(Strategy):
             "stop_price": str(decision.stop_price),
             "target_price": str(decision.target_price),
         }
+        # the live record, not a snapshot: the bracket leg ids are stamped on it after the
+        # entry fills, and an auditor must be able to see which leg protected the campaign
         self.events.decisions.append(dict(self.plan))
         self.submit_order(entry)
 
@@ -361,6 +363,7 @@ class SwingEngineStrategy(Strategy):
         )
         plan["stop_client_order_id"] = str(stop.client_order_id)
         plan["target_client_order_id"] = str(target.client_order_id)
+        self.events.decisions.append({"bracket_submitted": dict(plan)})
         # both legs rest together; the first to fill closes the position and the sibling is
         # cancelled from on_order_filled, which is the OCO behaviour the replay assumes
         self.submit_order(stop)
@@ -391,6 +394,7 @@ class SwingEngineStrategy(Strategy):
         )
         plan["status"] = f"CLOSING_{reason}"
         plan["close_client_order_id"] = str(order.client_order_id)
+        self.events.decisions.append(dict(plan))
         self.submit_order(order)
 
     # --- engine callbacks ----------------------------------------------------------
@@ -423,6 +427,7 @@ class SwingEngineStrategy(Strategy):
             plan["status"] = "POSITION_OPEN"
             plan["entry_fill_ns"] = getattr(event, "ts_event", 0)
             plan["entry_fill_px"] = str(getattr(event, "last_px", ""))
+            self.events.decisions.append(dict(plan))
             if plan["has_bracket"]:
                 self._submit_bracket()
             return
