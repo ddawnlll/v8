@@ -17,7 +17,7 @@ Durum: **R1–R6 teknik kabul.** Skor hedefi yok, PASS zorlanmadı; ölçülemey
    economic `None`. Herhangi bir faktör eksikse **readiness `None`** (MISSING) ve
    `missing_measurements` adı geçer; tam olduğunda formül aynen çalışır ve
    `readiness_upper_bound` aynı formülden türetilir.
-3. **Tek kanonik gate haritası.** `evaluation/gate_registry.py` G0–G9 için
+3. **Tek kanonik gate haritası.** `v8-next/src/v8_next/evaluation/gate_registry.py` G0–G9 için
    label/field/resolver/readiness rolünü tek kaynaktan üretir ve canlı nesnelere karşı
    doğrular (`validate_registry() == []`): 10 gate, `GateVector` alan sırası birebir,
    resolver sembolleri `gate_resolution` içinde gerçekten var.

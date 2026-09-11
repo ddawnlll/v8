@@ -1,0 +1,529 @@
+{
+  "acceptance_scope": "TECHNICAL acceptance only: contracts, tests, artifacts and their hashes. No economic edge, no prospective maturity and no live authority is claimed.",
+  "closed_issue_is_not_evidence": true,
+  "doc_checks": [
+    {
+      "command": "/Users/hootie/src/v8/v8-next/.venv/bin/python3 tools/audit_doc_path_refs.py",
+      "counts": {
+        "markdown_files_scanned": 245,
+        "path_citations_audited": 1610,
+        "resolved": 1317,
+        "retired": 103,
+        "unaccounted": 56,
+        "unaccounted_distinct": 30
+      },
+      "exit_code": 1,
+      "passed": false,
+      "summary": "registered as a deliberate negative/design citation is a fabricated provenance | claim (AGENTS.md anti-synthetic directive \u00a75; D-159 R2.4.2). Correct the citation, | produce the artifact, or mark the line with its reason. Do not weaken this guard.",
+      "tool": "tools/audit_doc_path_refs.py"
+    },
+    {
+      "command": "/Users/hootie/src/v8/v8-next/.venv/bin/python3 tools/build_monograph.py --check",
+      "counts": {},
+      "exit_code": 1,
+      "passed": false,
+      "summary": "  File \"/Users/hootie/src/v8/tools/build_monograph.py\", line 21, in <module> |     import markdown | ModuleNotFoundError: No module named 'markdown'",
+      "tool": "tools/build_monograph.py"
+    }
+  ],
+  "economic_claim": "NONE",
+  "gate_checks": [
+    {
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_d153_runner_report.py v8-next/tests/test_portfolio_benchmark.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": "...........                                                              [100%] | 11 passed in 9.31s"
+      },
+      "name": "epic",
+      "targets": [
+        "v8-next/tests/test_d153_runner_report.py",
+        "v8-next/tests/test_portfolio_benchmark.py"
+      ]
+    },
+    {
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_loss_alignment.py v8-next/tests/test_family.py v8-next/tests/test_deflated_sharpe.py v8-next/tests/test_reality_check.py v8-next/tests/test_overfitting.py v8-next/tests/test_gate_resolution.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": "...................................                                      [100%] | 35 passed in 2.65s"
+      },
+      "name": "nx07-nx08",
+      "targets": [
+        "v8-next/tests/test_loss_alignment.py",
+        "v8-next/tests/test_family.py",
+        "v8-next/tests/test_deflated_sharpe.py",
+        "v8-next/tests/test_reality_check.py",
+        "v8-next/tests/test_overfitting.py",
+        "v8-next/tests/test_gate_resolution.py"
+      ]
+    },
+    {
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_execution_scoring_link.py v8-next/tests/test_gate_resolution.py v8-next/tests/test_d153_runner_report.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": ".........................                                                [100%] | 25 passed in 2.14s"
+      },
+      "name": "nx08",
+      "targets": [
+        "v8-next/tests/test_execution_scoring_link.py",
+        "v8-next/tests/test_gate_resolution.py",
+        "v8-next/tests/test_d153_runner_report.py"
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "artifact_count": 2,
+      "artifacts": [
+        {
+          "bytes": 6224,
+          "path": "docs/evidence/v87/NX00/NX00_REPORT.md",
+          "sha256": "7895efaeafb4336648d7980c79e240d119d66a5631efcd8ba9d88b5473ca0f9c"
+        },
+        {
+          "bytes": 3297,
+          "path": "docs/evidence/v87/NX00/baseline_identity.json",
+          "sha256": "ded4940d928d86f9a19602087c1e395b1007608f5fc98872e1d1bdd41ebb8cfd"
+        }
+      ],
+      "check": {
+        "command": "pytest -q 09906159/NX00",
+        "skipped": true
+      },
+      "commit": "epic",
+      "evidence_dir": "docs/evidence/v87/NX00",
+      "issue": "NX00",
+      "test_target": "09906159/NX00"
+    },
+    {
+      "artifact_count": 5,
+      "artifacts": [
+        {
+          "bytes": 9361,
+          "path": "docs/evidence/v87/NX01/NX01_REPORT.md",
+          "sha256": "3aaa24363cc45bfa1d3bf6e7eceb8075b4e70d4adca3c2950acc9c1f5c8ac073"
+        },
+        {
+          "bytes": 12536,
+          "path": "docs/evidence/v87/NX01/burn_map.json",
+          "sha256": "24f089b1e8a2537bf2e9310d612c67056c244129cb424056214a3b6948c63ab3"
+        },
+        {
+          "bytes": 5791,
+          "path": "docs/evidence/v87/NX01/calendar.json",
+          "sha256": "3a2517df576eba7daa1e8c012b4b88bf3bad9decfb3f8ef4176a1d81c0fe2755"
+        },
+        {
+          "bytes": 1420,
+          "path": "docs/evidence/v87/NX01/manifest.json",
+          "sha256": "7e7ced3341ac41697975d121abf33d4061fbf2cb5b01b0208c29c38f6005ae90"
+        },
+        {
+          "bytes": 6858,
+          "path": "docs/evidence/v87/NX01/tape_inventory.json",
+          "sha256": "480ac1dcc84ca16cfecb480c27071923d29d55bde21571255e7ceb8eb181ea1b"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_tape_identity_nx01.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": "................                                                         [100%] | 16 passed in 6.08s"
+      },
+      "commit": "7a3d2859",
+      "evidence_dir": "docs/evidence/v87/NX01",
+      "issue": "NX01",
+      "test_target": "v8-next/tests/test_tape_identity_nx01.py"
+    },
+    {
+      "artifact_count": 2,
+      "artifacts": [
+        {
+          "bytes": 5280,
+          "path": "docs/evidence/v87/NX02/NX02_REPORT.md",
+          "sha256": "1765c2177451c43fe0a38790fa058dbd416969f03bed01af4bba8e0a5cf5c448"
+        },
+        {
+          "bytes": 2622,
+          "path": "docs/evidence/v87/NX02/reconcile_table.json",
+          "sha256": "39d610243ad32baa13d30fa96b4bbdfdf7f9353afe0e2a0194b722dfd97b1845"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_runner_accounting_nx02.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": "..........                                                               [100%] | 10 passed in 0.79s"
+      },
+      "commit": "94e75c2c",
+      "evidence_dir": "docs/evidence/v87/NX02",
+      "issue": "NX02",
+      "test_target": "v8-next/tests/test_runner_accounting_nx02.py"
+    },
+    {
+      "artifact_count": 4,
+      "artifacts": [
+        {
+          "bytes": 4862,
+          "path": "docs/evidence/v87/NX03/NX03_REPORT.md",
+          "sha256": "20249e28da67fef958ecd642b28b5d1418f9e11bf77d0d148fb35c229c5400b9"
+        },
+        {
+          "bytes": 4239,
+          "path": "docs/evidence/v87/NX03/historical_plan.json",
+          "sha256": "994f4950bb6db74beb2e692424257d73288fb8cb31165a73f1410978316c8372"
+        },
+        {
+          "bytes": 1278,
+          "path": "docs/evidence/v87/NX03/plan_readback.json",
+          "sha256": "0b74e12e9604d5a355691706b6aa5791d539610ec9d85021235b41e1ced363a3"
+        },
+        {
+          "bytes": 131072,
+          "path": "docs/evidence/v87/NX03/plan_store.sqlite",
+          "sha256": "8a6bda837ca556a20e64a455ab3a0fcaa07f7e99f6cb2144c8aa0288cd65bc8b"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_historical_plan_nx03.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": ".............                                                            [100%] | 13 passed in 2.30s"
+      },
+      "commit": "5deb4282",
+      "evidence_dir": "docs/evidence/v87/NX03",
+      "issue": "NX03",
+      "test_target": "v8-next/tests/test_historical_plan_nx03.py"
+    },
+    {
+      "artifact_count": 3,
+      "artifacts": [
+        {
+          "bytes": 4673,
+          "path": "docs/evidence/v87/NX04/NX04_REPORT.md",
+          "sha256": "10ac82c49cd063c571ad675548ac58b2b05b1a1b4154ee33c4419285e26f4155"
+        },
+        {
+          "bytes": 10230,
+          "path": "docs/evidence/v87/NX04/ledger_canon_probe.json",
+          "sha256": "60ad862c4bc209ce69dca2e17050baa7bcca5a7fb5ed171688f1b6033c3176f6"
+        },
+        {
+          "bytes": 4194,
+          "path": "docs/evidence/v87/NX04/verifier_report.json",
+          "sha256": "1c18b919c02e27fa3fb820f10599380c85d0a062fc82b7e4c4a45a2874fe95a6"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_ledger_canon_nx04.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": "..............                                                           [100%] | 14 passed in 0.20s"
+      },
+      "commit": "453df499",
+      "evidence_dir": "docs/evidence/v87/NX04",
+      "issue": "NX04",
+      "test_target": "v8-next/tests/test_ledger_canon_nx04.py"
+    },
+    {
+      "artifact_count": 3,
+      "artifacts": [
+        {
+          "bytes": 4789,
+          "path": "docs/evidence/v87/NX05/NX05_REPORT.md",
+          "sha256": "79137367167354ce063c4b6bd2fdfb4cf41a10f7a1802a06cea3447f69361b7f"
+        },
+        {
+          "bytes": 11491,
+          "path": "docs/evidence/v87/NX05/profiles.json",
+          "sha256": "63a5e036eab9b7be2bd7b2e2de4888f23305b57a2f1ac3e145261df9f4a6c45d"
+        },
+        {
+          "bytes": 1798,
+          "path": "docs/evidence/v87/NX05/reconcile_table.json",
+          "sha256": "a6587de0c31007b6c9e556ee8e2041357ab784903924c229e5d3a82d7129421f"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_run_window_nx05.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": ".........                                                                [100%] | 9 passed in 2.49s"
+      },
+      "commit": "311df69d",
+      "evidence_dir": "docs/evidence/v87/NX05",
+      "issue": "NX05",
+      "test_target": "v8-next/tests/test_run_window_nx05.py"
+    },
+    {
+      "artifact_count": 3,
+      "artifacts": [
+        {
+          "bytes": 5830,
+          "path": "docs/evidence/v87/NX06/NX06_REPORT.md",
+          "sha256": "60ea62bd09f3e2e21da2bc00bf2ba17a1513b2b51d09374eee01135c16e4ce6c"
+        },
+        {
+          "bytes": 3290,
+          "path": "docs/evidence/v87/NX06/comparative_receipt.json",
+          "sha256": "b51e4e53eaed8c0a7c8f4b3df74c7667a4b0932c69f08f3f6963401280192a0f"
+        },
+        {
+          "bytes": 1912,
+          "path": "docs/evidence/v87/NX06/family_registry.json",
+          "sha256": "d8aaf1e8210b2e6441d0d06a52590e69a51f046a1d795ab55eef5301041bef95"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_swing_baseline_nx06.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": "..............                                                           [100%] | 14 passed in 0.92s"
+      },
+      "commit": "c7bb4c69",
+      "evidence_dir": "docs/evidence/v87/NX06",
+      "issue": "NX06",
+      "test_target": "v8-next/tests/test_swing_baseline_nx06.py"
+    },
+    {
+      "artifact_count": 4,
+      "artifacts": [
+        {
+          "bytes": 5450,
+          "path": "docs/evidence/v87/NX07/NX07_REPORT.md",
+          "sha256": "6d3bea2f13697c445a7476bd77c6c410a5b08da01a5607ec2183c5db924c8d31"
+        },
+        {
+          "bytes": 1948,
+          "path": "docs/evidence/v87/NX07/family_manifest.json",
+          "sha256": "0bc42e51b141a0f56f94d2a8df4a76c669730bc5c776de3bb4a63b5bd6757a06"
+        },
+        {
+          "bytes": 860,
+          "path": "docs/evidence/v87/NX07/statistics_plan.json",
+          "sha256": "bf0941c75f16b8c3b6f7b02c569540b745ac18d5331047ca10a6698db55476e3"
+        },
+        {
+          "bytes": 15769,
+          "path": "docs/evidence/v87/NX07/statistics_receipt.json",
+          "sha256": "79acbaa9ede0a5971260322674d4846ecc4aace66327835a90c798dfc2f16e4b"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_statistics_plan_nx07.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": "...........                                                              [100%] | 11 passed in 2.41s"
+      },
+      "commit": "fc054071",
+      "evidence_dir": "docs/evidence/v87/NX07",
+      "issue": "NX07",
+      "test_target": "v8-next/tests/test_statistics_plan_nx07.py"
+    },
+    {
+      "artifact_count": 3,
+      "artifacts": [
+        {
+          "bytes": 6436,
+          "path": "docs/evidence/v87/NX08/NX08_REPORT.md",
+          "sha256": "d85d27381272a78f275585c7edff9edf2cf9a79ae4c4f8327b5e5bbe194e6637"
+        },
+        {
+          "bytes": 4252,
+          "path": "docs/evidence/v87/NX08/gate_manifest.json",
+          "sha256": "07af779906cdbd6baf56727f774fe306ea0ef15d3aa3eb40ed77ad11e372b923"
+        },
+        {
+          "bytes": 8754,
+          "path": "docs/evidence/v87/NX08/scoring_manifest.json",
+          "sha256": "4ef6a85a3d207cc08cd1ed4ae485466e8f62c1e7a3225dffc87dacb8c3818bee"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_nx08_gates_scoring.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": "...........                                                              [100%] | 11 passed in 0.45s"
+      },
+      "commit": "74cb0f3d",
+      "evidence_dir": "docs/evidence/v87/NX08",
+      "issue": "NX08",
+      "test_target": "v8-next/tests/test_nx08_gates_scoring.py"
+    },
+    {
+      "artifact_count": 4,
+      "artifacts": [
+        {
+          "bytes": 4704,
+          "path": "docs/evidence/v87/NX09/NX09_REPORT.md",
+          "sha256": "31195f5889c26dae080a653ccbac63fe7c01a35370e846fb0c1146dab7fae783"
+        },
+        {
+          "bytes": 4407,
+          "path": "docs/evidence/v87/NX09/fold_freeze.json",
+          "sha256": "e2a311538f861e9b4063bb9e40e553380c1c742c2d2c42120c06919381b1ab41"
+        },
+        {
+          "bytes": 184733,
+          "path": "docs/evidence/v87/NX09/fold_results.json",
+          "sha256": "e8cb82e9e31f788815a73c9657e0c39bb01d1f78760a8a6835e4f098a30aa5be"
+        },
+        {
+          "bytes": 147456,
+          "path": "docs/evidence/v87/NX09/research.sqlite",
+          "sha256": "e6adea5c5ebe1e7ff301a1cec46023e7ca0bfbbad179e3e7011dffe7e7549cbc"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_fold_research_nx09.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": "........                                                                 [100%] | 8 passed in 0.28s"
+      },
+      "commit": "42136221",
+      "evidence_dir": "docs/evidence/v87/NX09",
+      "issue": "NX09",
+      "test_target": "v8-next/tests/test_fold_research_nx09.py"
+    },
+    {
+      "artifact_count": 10,
+      "artifacts": [
+        {
+          "bytes": 4944,
+          "path": "docs/evidence/v87/NX10/NX10_REPORT.md",
+          "sha256": "f8296b136dd4667130e2bc8f907a96bd48a9984bb28f6b71dd8b2aa818bcb7ca"
+        },
+        {
+          "bytes": 252001,
+          "path": "docs/evidence/v87/NX10/capture/batch_0001.jsonl",
+          "sha256": "3e65379a81a4993b3a2a3d9b224ab100a44bcbe2eb6ffb9eb825c5cb9e99176b"
+        },
+        {
+          "bytes": 326597,
+          "path": "docs/evidence/v87/NX10/capture/batch_0001.report.json",
+          "sha256": "523c9a05135bec286a078f2020206b0ccc6ba2a7619902756788417f3942d963"
+        },
+        {
+          "bytes": 2268,
+          "path": "docs/evidence/v87/NX10/capture/batch_0002.jsonl",
+          "sha256": "8aa0e955ff78b952bc164f9c6d895201adec8951c6c2d1707058cd921c8e0a4f"
+        },
+        {
+          "bytes": 3583,
+          "path": "docs/evidence/v87/NX10/capture/batch_0002.report.json",
+          "sha256": "f8370e93c5eb92019565af6e489ae61ae282319f156e1ed642d3357e96ebb2e4"
+        },
+        {
+          "bytes": 1425,
+          "path": "docs/evidence/v87/NX10/capture/manifest.json",
+          "sha256": "ea0fd71b38e86ce944fb582f19220ca1bfee0c1ad95fd44da16ee562e3e67a51"
+        },
+        {
+          "bytes": 370771,
+          "path": "docs/evidence/v87/NX10/capture/polls.json",
+          "sha256": "d6f5c90015970119ab183f51f724eb5a4f40f4937fd21157deb99493af64305e"
+        },
+        {
+          "bytes": 829,
+          "path": "docs/evidence/v87/NX10/forward_plan.json",
+          "sha256": "5eecccad3d34d0c4bf7ff67b62ae35141fc86cdcfe9d837fd8e39535abef60be"
+        },
+        {
+          "bytes": 2242,
+          "path": "docs/evidence/v87/NX10/maturity.json",
+          "sha256": "dcb3d93a7384f01459e9f61c4a8cd2c9ff26d45dad12f51849651fcec31e5777"
+        },
+        {
+          "bytes": 147456,
+          "path": "docs/evidence/v87/NX10/research.sqlite",
+          "sha256": "2f1d3ad75a94cecaa70536f348b9c2e2abe435bddf3319deea38f675948ba28a"
+        }
+      ],
+      "check": {
+        "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests/test_public_shadow_nx10.py",
+        "counts": {},
+        "exit_code": 0,
+        "passed": true,
+        "summary": ".........                                                                [100%] | 9 passed in 0.23s"
+      },
+      "commit": "a69d6772",
+      "evidence_dir": "docs/evidence/v87/NX10",
+      "issue": "NX10",
+      "test_target": "v8-next/tests/test_public_shadow_nx10.py"
+    }
+  ],
+  "missing_evidence_dirs": [],
+  "pending_backlog": [
+    {
+      "evidence": "docs/evidence/v87/NX01/burn_map.json",
+      "item": "protected final window",
+      "reason": "the last 12 months are TAIL_BURNED (measured); no protected final exists",
+      "status": "NOT_AVAILABLE"
+    },
+    {
+      "evidence": "docs/evidence/v87/NX01/tape_inventory.json",
+      "item": "funding / markout in the replay paths",
+      "reason": "no mark price in the four-year archive; funding is reported MISSING, never zero",
+      "status": "MISSING_NOT_ZERO"
+    },
+    {
+      "evidence": "docs/evidence/v87/NX10/maturity.json",
+      "item": "prospective maturity",
+      "reason": "the frozen 24h window has not been observed; holding/markout unmeasured",
+      "status": "PENDING"
+    },
+    {
+      "evidence": "docs/evidence/v87/NX06/NX06_REPORT.md",
+      "item": "engine fill parity for the swing family",
+      "reason": "the family's outcomes are decision-plane replay, not engine fills",
+      "status": "PENDING"
+    },
+    {
+      "evidence": "docs/evidence/v87/NX07/statistics_receipt.json",
+      "item": "economic edge / live authority",
+      "reason": "measured DSR confidence 0.1183 and Bonferroni p = 1.0; nothing is certified",
+      "status": "NO_ECONOMIC_CLAIM"
+    }
+  ],
+  "pre_existing_baseline_failures": {
+    "audit_doc_path_refs": {
+      "counts": {
+        "markdown_files_scanned": 245,
+        "path_citations_audited": 1610,
+        "resolved": 1317,
+        "retired": 103,
+        "unaccounted": 56,
+        "unaccounted_distinct": 30
+      },
+      "exit_code": 1,
+      "scope": "legacy/Rust-era documents; the D-162 quarantine moved v8-core/",
+      "status": "PRE_EXISTING_BASELINE_NOT_FIXED_BY_NX11",
+      "summary": "registered as a deliberate negative/design citation is a fabricated provenance | claim (AGENTS.md anti-synthetic directive \u00a75; D-159 R2.4.2). Correct the citation, | produce the artifact, or mark the line with its reason. Do not weaken this guard."
+    },
+    "failing_doc_checks": [
+      "tools/audit_doc_path_refs.py",
+      "tools/build_monograph.py"
+    ],
+    "monograph_builder": {
+      "exit_code": 1,
+      "pending_evidence": true,
+      "reason": "research/manifest/research_papers_manifest.json is absent from this checkout",
+      "status": "UNREACHABLE_INPUT"
+    }
+  },
+  "release": "V8.7 technical acceptance (v8-next)"
+}

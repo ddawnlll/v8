@@ -40,7 +40,7 @@ protection modülleri bu sabitleri dışa verecek şekilde minimal refaktör edi
 
 | R | Değişiklik | Exact check | Ölçülen sonuç |
 |---|---|---|---|
-| R1 | `evaluation/historical_plan.py`: NX01 takviminden 24/12/12 plan; tarih/rol NX01 kanıtına bağlı (`dataset_id`, `calendar_digest`, `tape_role`) | `pytest -q v8-next/tests/test_historical_plan_nx03.py` | 13 passed — fold pencereleri 2024-07-01…2025-06-30, final kapalı |
+| R1 | `v8-next/src/v8_next/evaluation/historical_plan.py`: NX01 takviminden 24/12/12 plan; tarih/rol NX01 kanıtına bağlı (`dataset_id`, `calendar_digest`, `tape_role`) | `pytest -q v8-next/tests/test_historical_plan_nx03.py` | 13 passed — fold pencereleri 2024-07-01…2025-06-30, final kapalı |
 | R2 | Ayrı tipli tarihsel plan + dokümante şema; `historical_plans` tablosu; ForwardPlan kontrolleri korunur | aynı pytest (`test_historical_path_never_touches_the_forward_tables`, `test_freezing_is_immutable_and_readback_rederives_the_digest`) | PASS — forward tablolar boş; ikinci farklı kayıt reddedilir |
 | R3 | `train_end < scored_start`; warmup penceresi geçmişte ve scored dışında; explicit UTC sınırlar; minimum history gerçek grammar/protection ihtiyacından | aynı pytest (`test_every_fold_separates_training_warmup_and_scoring`) | PASS — nanosecond sınırlar; purge boşluğu tam `purge_bars × bar_ns` |
 | R4 | Purge/embargo gerçek outcome horizon + protection TTL'den pinlendi (336 bar); eğitim etiketi scored pencereye sızamaz | `test_verify_rejects_a_train_window_reaching_into_scoring`, `test_history_requirements_come_from_the_real_contracts` | PASS — sızan pencere `TRAIN_OVERLAPS_SCORED` ile reddedilir |

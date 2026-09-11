@@ -1,5 +1,15 @@
 # V8.7 → v8-next uygulama planı
 
+> **2026-09-11: Tarihsel inceleme / SUPERSEDED plan.** Kullanıcı v8-next kapsamını
+> açıkça onayladı ve eski Rust issue’larının kapatılıp yeniden açılmasını istedi.
+> Aşağıdaki eski prerequisite/D-kaydı izin adımları, SB numaraları ve önerilen
+> yeni modüller artık yürütme talimatı değildir. Kaynak inceleme bulguları
+> provenance olarak korunur; mevcut `pair_positions`, `ResearchStore`,
+> `ForwardPlan` ve `CampaignProtection` yeniden kullanılır. Aktif tam kapsam:
+> [NX şartnamesi](../contracts/V87_SWING_BENCHMARK_SPEC.md),
+> [uygulama planı](V87_SWING_BENCHMARK_IMPLEMENTATION_PLAN.md),
+> [issue index](V87_ISSUE_INDEX.md). Yeniden reactivation izni gerekmez.
+
 Durum: TASLAK / PLAN. Bu belge uygulama değildir; hiçbir v8-next kod yolu
 değiştirilmemiştir. Doğrulama durumu her bulguda ayrı işaretlidir:
 `[DOĞRULANDI]` = bu planı yazan tarafından kaynak okunarak birinci elden
@@ -102,7 +112,9 @@ cebirsel sonucudur. Yani mevcut skor sistemi **yapısal olarak** 15'in üstüne
 Sıra korunur: SB01 → (SB02 ∥ SB03) → SB04 → SB05 → SB06 → SB07 → SB08 → SB09 → SB10.
 
 ### SB02 — muhasebe (en kritik; her şeyin önünde)
-- **Yüzey:** yeni `v8_next/accounting/lifecycle.py`; düzeltme `evaluation/runner.py:225-247`.
+- **Yüzey (NX02 sonrası gerçek durum):** yeni dosya açılmadı — tek yaşam döngüsü/muhasebe
+  sözleşmesi `v8-next/src/v8_next/evaluation/economic_benchmark.py` içinde yaşar; onu
+  `v8-next/src/v8_next/evaluation/runner.py` ile `v8-next/src/v8_next/app/portfolio.py` tüketir.
 - Yapılacak: açılış→kısmi kapanış→kapanış→reversal için **round-trip kimliği**
   (venue `position_id` kimlik *değildir*); gerçekleşen/MTM ayrı; tek para birimi;
   fee+funding bir kez; parse hatası hata (asla 0.0); `total_trades` tamamlanmış
@@ -112,7 +124,7 @@ Sıra korunur: SB01 → (SB02 ∥ SB03) → SB04 → SB05 → SB06 → SB07 → 
 - Kural: mevcut doğru mekanizmayı yeniden yazma; `pnl_series` tek birim olur.
 
 ### SB03 — zaman bölme
-- **Yüzey:** `evaluation/alignment.py`, `forward_plan.py`, `outcomes.py`.
+- **Yüzey:** `v8-next/src/v8_next/evaluation/alignment.py`, `forward_plan.py`, `outcomes.py`.
 - 24/12/12 gerçek tarihlere bağlanır (SB01): geliştirme 2022-07..2024-06;
   kronolojik doğrulama 2024-07..2025-06; **final 2025-07..2026-06 INELIGIBLE**.
 - Warmup puanlanmaz; label maturity; purge/embargo sonuç ufku ve funding
@@ -120,8 +132,8 @@ Sıra korunur: SB01 → (SB02 ∥ SB03) → SB04 → SB05 → SB06 → SB07 → 
   veri sonunda açık işlem censored (0/zarar/başarıya zorlanmaz).
 
 ### SB04 — runner, manifest, ledger, resume
-- **Yüzey:** `evaluation/runner.py` (manifest), `benchmark_receipt.py`, `store.py`,
-  ledger doğrulayıcı; `app/benchmark.py` profil bayrakları (SMOKE/RESEARCH/
+- **Yüzey:** `v8-next/src/v8_next/evaluation/runner.py` (manifest), `benchmark_receipt.py`, `store.py`,
+  ledger doğrulayıcı; `v8-next/src/v8_next/app/benchmark.py` profil bayrakları (SMOKE/RESEARCH/
   VALIDATION), varsayılan 500-bar'ın gizli varsayılan olmaktan çıkarılması.
 - Run identity: protocol/policy, **code + dirty diff hash**, config, veri/rol/fold
   kimliği, estimator/scorer/gate sürümleri, seed, execution varsayımları.
@@ -139,7 +151,7 @@ Sıra korunur: SB01 → (SB02 ∥ SB03) → SB04 → SB05 → SB06 → SB07 → 
   intrabar stop/target belirsizliği raporlanır.
 
 ### SB06 — trial ailesi ve istatistik
-- **Yüzey:** `evaluation/family.py`, `multitest.py`, `multitape.py`,
+- **Yüzey:** `v8-next/src/v8_next/evaluation/family.py`, `multitest.py`, `multitape.py`,
   `deflated_sharpe.py`, `reality_check.py`, `overfitting.py`, `selection_estimates.py`.
 - Gerçek denenmiş/terk edilmiş denemeler kaydedilir; **kaydırılmış champion
   varyantları trial sayılmaz**; ortak zaman ekseni; USDT/yüzde karışmaz; hangi
@@ -147,7 +159,7 @@ Sıra korunur: SB01 → (SB02 ∥ SB03) → SB04 → SB05 → SB06 → SB07 → 
   UNRUN; sample adequacy ve efektif n; **başka tape'e fallback yok** (D10).
 
 ### SB07 — scorer ve gate
-- **Yüzey:** `evaluation/scoring.py` (yeniden yazım), `certificate.py`,
+- **Yüzey:** `v8-next/src/v8_next/evaluation/scoring.py` (yeniden yazım), `certificate.py`,
   `gate_resolution.py`, `claims.py`.
 - Ölçülmeyen alan **puan almaz** ve eksik alan diğer ağırlıkları yeniden
   ölçekleyerek gizlenmez; aggregate UNAVAILABLE olabilir. **Eksik robustness/

@@ -1,5 +1,16 @@
 # V8 Implementation Layout — file family v0.1
 
+## Active product boundary (D-162, 2026-09-11 — reconciles issue #409)
+
+`v8-next/` (Python) is the authoritative codebase for runtime, experts,
+evaluation, evidence, reports and the strategy/benchmark fabric. The Rust tree
+has been quarantined to `legacy/v8-core/` as a frozen non-canonical reference
+(read-only labeled parity oracle at most); its file family entries below are
+retained as historical layout record only, and no module there may be added,
+renamed or extended. `src/v8/` and `tests/` remain the frozen hash-locked Python
+oracle. Any layout change to the authoritative tree is still a registry decision
+with a CHANGELOG entry (D-032).
+
 ## V8.5 M0 ratification candidate (non-binding)
 
 `docs/V85_RATIFICATION_CANDIDATE.md` and `docs/issues/ISSUE_V85_RATIFICATION_CANDIDATE.md` are governance-only source artifacts for the V8.5 candidate. They do not authorize runtime changes. Any future Rust implementation must reuse `crate::authority::Authority`, `ClaimRegistry`, D-136 `EvidenceGraph`, D-141 receipts, `shadow.rs`, `judiciary/` and `kaizen/`; a second authority root, claim registry or verdict engine is forbidden. M0 synthetic Foundry/SPG output is test-only. The Turkish mirror is `docs/tr/V85_RATIFICATION_CANDIDATE.md`.
@@ -450,3 +461,22 @@ historical design record and this table is the correction layer.
 4. A D-026 key-stability test (one unchanged setup on two consecutive
    decision clocks yields the same `episode_key`) is part of the suite
    (`tests/test_vertical_slice.py`, build Step 1).
+
+## 12. V8.7 additions in `v8-next/` (D-164)
+
+The V8.7 package adds these modules to the authoritative Python tree; every one of them is
+covered by a test file in `v8-next/tests/` and by an evidence directory under
+`docs/evidence/v87/`:
+
+| Module | Purpose |
+|---|---|
+| `v8-next/src/v8_next/evaluation/tape_identity.py` | tape identity, burn map, swing calendar |
+| `v8-next/src/v8_next/evaluation/historical_plan.py` | 24/12/12 walk-forward plan, separate from the forward freeze |
+| `v8-next/src/v8_next/evaluation/run_window.py` | window/profile/run-key/resume contract for both benchmark paths |
+| `v8-next/src/v8_next/economics/swing_baseline.py` | pre-registered swing family over the existing grammar and protection |
+| `v8-next/src/v8_next/evaluation/statistics_plan.py` | immutable pre-registered statistics plan and adequacy |
+| `v8-next/src/v8_next/evaluation/gate_registry.py` | single canonical G0–G9 label/field/resolver/readiness map |
+| `v8-next/src/v8_next/evaluation/prospective_capture.py` | bounded public capture with exactly-once restart semantics |
+
+Tools: `v8-next/tools/{tape_inventory,nx02_reconcile,nx03_plan,nx04_verifier_report,nx05_profiles,nx06_swing_baseline,nx07_family_statistics,nx08_gate_manifest,nx09_fold_research,nx10_public_shadow,nx11_acceptance_matrix}.py`.
+No economic authority is created by any of them.
