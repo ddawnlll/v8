@@ -210,6 +210,7 @@ def _mechanics_receipt(metrics: dict[str, eb.MetricSet]) -> eb.EconomicReceipt:
             git_dirty="no",
             config_sha256="0" * 64,
             estimator_versions={},
+            source_sha256="0" * 64,
         ),
         seed=0,
         primary_benchmark="cash",
