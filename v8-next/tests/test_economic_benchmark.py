@@ -316,6 +316,68 @@ def test_mechanics_report_publishes_aligned_sharpe_ci() -> None:
     assert "CI [" not in absent_oos and "n/a" not in absent_oos
 
 
+def _mechanics_excess_metric(*, lo: float | None, hi: float | None) -> eb.MetricSet:
+    """Render-path fixture: a row with an explicit excess-return interval.
+
+    MECHANICS ONLY. No evaluative weight: these are not measured returns.
+    """
+    return _mechanics_oos_metric(degenerate=False, sharpe_annualized=1.443).model_copy(
+        update={"excess_ci_low": lo, "excess_ci_high": hi}
+    )
+
+
+def _excess_cell(report: str, curve: str) -> str:
+    """The `excess vs primary [CI]` cell of one metrics-table row."""
+    table = _render_section(
+        report, "## Metrics (cost-adjusted, shared basis)", "## Chronological OOS"
+    )
+    row = next(ln for ln in table.splitlines() if ln.startswith(f"| {curve} |"))
+    return row.strip().strip("|").split("|")[3].strip()
+
+
+def test_mechanics_report_publishes_excess_interval() -> None:
+    """The #396 excess interval must be readable in the artifact that carries it.
+
+    Every `MetricSet` in the receipt carries `excess_ci_low/high` on the scale of
+    `excess_vs_primary`, but `render_report` printed only the point estimate, so
+    two receipts whose windows differ materially in the interval rendered the
+    same report. MECHANICS ONLY: synthetic arithmetic, no evaluative weight.
+    """
+    m = _mechanics_excess_metric(lo=-0.6326, hi=0.0236)
+    assert m.excess_ci_low is not None and m.excess_ci_high is not None
+    assert m.excess_vs_primary is not None
+    assert m.excess_ci_low <= m.excess_vs_primary <= m.excess_ci_high
+    cell = eb.excess_ci_cell(m)
+    assert cell == f"[{m.excess_ci_low:.4f},{m.excess_ci_high:.4f}]"
+
+    report = eb.render_report(_mechanics_receipt({"incumbent": m}))
+    table = _render_section(
+        report, "## Metrics (cost-adjusted, shared basis)", "## Chronological OOS"
+    )
+    assert "excess vs primary [CI]" in table  # the column names its own scale
+    assert "never a Sharpe ratio" in table  # read off the page, not inferred
+    # Point estimate and interval in one row, on the one scale.
+    assert _excess_cell(report, "incumbent") == f"{m.excess_vs_primary:.4f} {cell}"
+
+    # Discriminator: the interval is the ONLY difference between the two
+    # receipts, and at HEAD the two rendered reports were byte-identical.
+    other = _mechanics_excess_metric(lo=-0.1111, hi=0.2222)
+    other_report = eb.render_report(_mechanics_receipt({"incumbent": other}))
+    assert eb.excess_ci_cell(other) in other_report
+    assert other_report != report
+    assert eb.excess_ci_cell(other) not in report
+
+    # An interval that could not be computed publishes no bracket: absence stays
+    # absent, exactly as the Sharpe CI path does.
+    absent = _mechanics_excess_metric(lo=None, hi=None)
+    assert eb.excess_ci_cell(absent) == ""
+    absent_cell = _excess_cell(
+        eb.render_report(_mechanics_receipt({"challenger": absent})), "challenger"
+    )
+    assert absent_cell == f"{absent.excess_vs_primary:.4f}"
+    assert "[" not in absent_cell
+
+
 def test_mechanics_allocator_mix_shape() -> None:
     import numpy as np
 
