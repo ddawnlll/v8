@@ -223,14 +223,28 @@ def test_no_oos_flow_field_mirrors_the_window_unless_the_flow_is_in_the_slice(
     pre_fam = eb.compute_multileg_family(
         {inst: series[:split] for inst, series in closes.items()}, CAPITAL, TAKER_FEE
     )
+    # D-165: the two basket rows are curves of their own, so the same subtraction
+    # is asserted on them, through the builder that produced them.
+    views = {sym: eb.bars_from_candles(series) for sym, series in multi.candles.items()}
+    full_basket = eb.family_basket_mirror_curves(views, capital=CAPITAL, taker_fee=TAKER_FEE)
+    pre_basket = eb.family_basket_mirror_curves(
+        {sym: bars[:split] for sym, bars in views.items()},
+        capital=CAPITAL,
+        taker_fee=TAKER_FEE,
+    )
     full = quad_receipt["metrics"]
     oos = quad_receipt["oos_metrics"]
     analytic = [n for n in full_fam if n in full and n in oos]
     assert len(analytic) >= 6, analytic
-    for name in analytic:
+    # The added rows are enumerated here too: `full - pre` is a claim about every
+    # published OOS row, not only the ones the family builder emits.
+    basket_rows = [n for n in full_basket if n in full and n in oos]
+    assert basket_rows == ["equal_weight_quad", "vol_target_quad"], basket_rows
+    for name in analytic + basket_rows:
+        pre = pre_fam[name] if name in pre_fam else pre_basket[name]
         for field in FLOW_FIELDS:
             full_value = full[name][field]
-            pre_value = pre_fam[name][FAMILY_FLOW_KEYS[field]]
+            pre_value = pre[FAMILY_FLOW_KEYS[field]]
             assert oos[name][field] == pytest.approx(full_value - pre_value, abs=1e-9), (
                 f"{name}.{field}: OOS row is not the window minus its pre-slice part"
             )
@@ -241,9 +255,9 @@ def test_no_oos_flow_field_mirrors_the_window_unless_the_flow_is_in_the_slice(
     # The slice must actually contain flow on at least one curve, else (b) is
     # vacuous: the check above is only discriminating where flow exists in-slice.
     in_slice = [
-        name for name in analytic
+        name for name in analytic + basket_rows
         if full[name]["turnover_notional_over_capital"]
-        != pre_fam[name]["turnover"]
+        != (pre_fam if name in pre_fam else pre_basket)[name]["turnover"]
     ]
     assert in_slice, "no curve has flow inside the slice; (b) proved nothing"
 

@@ -141,7 +141,10 @@ def test_portfolio_benchmark_legs_publish_a_measured_funding_feed(tmp_path: Path
     The residual this pins: the canonical portfolio path built its family
     analytically and printed "no funding feed reached this curve" on every
     benchmark leg -- even the ones the engine executes -- while the tape carried
-    real funding rows. Real quad tape; skips when absent.
+    real funding rows. D-165 then moved the number onto the curve it was measured
+    for: the two quad legs are measured on a basket that sizes its legs under a
+    different convention, so that basket's own curve is published beside the index
+    and the index row names it. Real quad tape; skips when absent.
     """
     from v8_next.app import portfolio as port_mod
 
@@ -160,13 +163,20 @@ def test_portfolio_benchmark_legs_publish_a_measured_funding_feed(tmp_path: Path
     feed = receipt["controls"]["benchmark_funding_feed"]
     assert feed["method"] == "ENGINE_DUAL_RUN_BALANCE_DIFFERENCE"
     assert feed["tape_funding_rows"] > 0
+    # D-165: every published curve's record is keyed by the curve it publishes,
+    # and it is the same measurement the family feed took.
+    curves = feed["published_curves"]
+    assert set(curves) == set(receipt["metrics"]) == set(receipt["oos_metrics"])
+
+    # Legs whose measuring basket executes the leg's own convention keep their
+    # number on their own row.
     measured_legs = {
         "bh_AVAXUSDT-PERP": "AVAXUSDT_buy_hold",
         "bh_BTCUSDT-PERP": "BTCUSDT_buy_hold",
         "bh_ETHUSDT-PERP": "ETHUSDT_buy_hold",
         "bh_SOLUSDT-PERP": "SOLUSDT_buy_hold",
-        "equal_weight": "equal_weight_quad",
-        "vol_target": "vol_target_quad",
+        "equal_weight_quad": "equal_weight_quad",
+        "vol_target_quad": "vol_target_quad",
     }
     for leg, basket_id in measured_legs.items():
         m = receipt["metrics"][leg]
@@ -175,24 +185,115 @@ def test_portfolio_benchmark_legs_publish_a_measured_funding_feed(tmp_path: Path
         # The cell carries the number, never a reason for its absence.
         assert eb.funding_cell(eb.MetricSet(**m)) == f"{m['funding_cost']:.2f}", leg
         # Auditable in the receipt: which basket, and that the engine really fed
-        # funding rows to it.
-        record = feed["legs"][leg]
+        # funding rows to it -- and that the number is on this curve, not another.
+        record = curves[leg]
         assert record["funding_basket"] == basket_id, leg
+        assert record["funding_curve"] == leg, leg
         assert record["funding_engine_basis"] == "ENGINE_SETTLED", leg
         assert record["funding_settlements_fed"] > 0, leg
         assert record["funding_rows_available"] > 0, leg
         assert m["funding_cost"] == pytest.approx(record["funding"]), leg
+
+    # The two legs whose measuring basket sizes its legs differently publish no
+    # number of their own: they name the curve that carries it, and that curve
+    # carries the number the index row used to show.
+    for leg, basket_id in (
+        ("equal_weight", "equal_weight_quad"),
+        ("vol_target", "vol_target_quad"),
+    ):
+        m = receipt["metrics"][leg]
+        assert m["funding_cost"] is None, leg
+        assert m["funding_basis"] == f"{eb.FUNDING_BASKET_CONVENTION_DIFFERS}:{basket_id}"
+        assert eb.funding_cell(eb.MetricSet(**m)) == (
+            f"n/a (BASKET_CONVENTION_DIFFERS, {basket_id})"
+        )
+        record = curves[leg]
+        assert record["funding_curve"] == basket_id, leg
+        assert record["funding_basket"] == basket_id, leg
+        assert record["funding_basket_kind"] in ("equal_weight", "vol_target"), leg
+        assert record["funding_basket_rule"], leg
+        # The measurement is still the engine's for that basket, and the basket's
+        # own row publishes it: one number, one curve.
+        assert record["funding_engine_basis"] == "ENGINE_SETTLED", leg
+        assert record["funding"] == pytest.approx(
+            receipt["metrics"][basket_id]["funding_cost"]
+        ), leg
+        assert curves[basket_id]["funding_curve"] == basket_id, leg
+        assert curves[basket_id]["engine_vs_rule_terminal_delta_usdt"] is not None, leg
 
     # The two legs with no engine basket state their own case: a measured zero
     # and a named rule gap, never "no funding feed reached this curve".
     cash = receipt["metrics"]["cash"]
     assert cash["funding_cost"] is None
     assert eb.funding_cell(eb.MetricSet(**cash)) == "0.00 (NO_EXPOSURE)"
+    assert curves["cash"]["funding_curve"] is None
     trend = receipt["metrics"]["simple_trend"]
     assert trend["funding_cost"] is None
     assert trend["funding_basis"] == eb.FUNDING_NO_ENGINE_RULE
     assert eb.funding_cell(eb.MetricSet(**trend)) == "n/a (NO_ENGINE_RULE)"
+    assert curves["simple_trend"]["funding_curve"] is None
     assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
+
+
+def test_basket_curves_are_curves_and_their_slice_is_the_slices_flow(tmp_path: Path) -> None:
+    """The added rows are real curves, and their OOS row is `full - pre` (#443).
+
+    D-165 acceptance (b): the two basket rows publish a curve, turnover,
+    commission, n_trades and exposure from the declared basket spec, and their
+    frozen OOS row carries the slice's own flow -- not the full window's. Real
+    quad tape; skips when absent.
+    """
+    from v8_next.app import portfolio as port_mod
+    from v8_next.domain.basket import resolve_basket
+
+    tape = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+    if not (tape / "tape.jsonl").exists():
+        pytest.skip("quad tape absent")
+    out_dir = tmp_path / "port"
+    rc = port_mod.main([
+        "--tape-path", str(tape), "--bars", "385",
+        "--output-dir", str(out_dir), "--primary", "equal_weight",
+    ])
+    assert rc == 0
+    receipt = json.loads(
+        sorted(out_dir.glob("economic_receipt_*.json"))[0].read_text(encoding="utf-8")
+    )
+    full = receipt["metrics"]
+    oos = receipt["oos_metrics"]
+    index_of = {"equal_weight_quad": "equal_weight", "vol_target_quad": "vol_target"}
+    for basket_id, index_id in index_of.items():
+        spec = resolve_basket(basket_id)
+        assert spec.kind in ("equal_weight", "vol_target"), basket_id
+        assert spec.instruments == ("BTCUSDT", "ETHUSDT", "SOLUSDT", "AVAXUSDT"), basket_id
+        row = full[basket_id]
+        assert row["n_bars"] == 385, basket_id
+        # A real curve, not a stub: it trades the spec's rule and holds exposure.
+        assert row["turnover_notional_over_capital"] > 0.0, basket_id
+        assert row["commission_cost"] > 0.0, basket_id
+        assert row["n_trades"] > 0, basket_id
+        assert row["avg_exposure"] > 0.0, basket_id
+        assert row["cost_basis"] == "ANALYTIC_MODEL", basket_id
+        # Its commission is the declared fee on its own traded notional, the one
+        # convention this builder prices in.
+        assert row["commission_cost"] == pytest.approx(
+            row["turnover_notional_over_capital"] * 10000.0 * 0.0005, rel=1e-9
+        ), basket_id
+        # The basket holds a fixed notional it rebalances, so its own flow is not
+        # the index's beside it -- that difference is why it needed a row.
+        assert row["turnover_notional_over_capital"] != pytest.approx(
+            full[index_id]["turnover_notional_over_capital"]
+        ), basket_id
+        # #443: the slice row is the slice's own flow, never the window's.
+        slice_row = oos[basket_id]
+        assert slice_row["cost_basis"] == "ANALYTIC_MODEL+OOS_SLICE", basket_id
+        assert slice_row["n_bars"] == 48, basket_id
+        assert slice_row["turnover_notional_over_capital"] < row[
+            "turnover_notional_over_capital"
+        ], basket_id
+        assert slice_row["n_trades"] < row["n_trades"], basket_id
+        # The rebalance schedule puts flow inside the slice, so the row is not a
+        # zero dressed up as a slice either.
+        assert slice_row["turnover_notional_over_capital"] > 0.0, basket_id
 
 
 def test_portfolio_quad_end_to_end(tmp_path: Path) -> None:
