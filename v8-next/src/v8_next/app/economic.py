@@ -114,6 +114,70 @@ def run_engine(
     )
 
 
+#: #443: where a curve's full-window commission is measured, so the OOS slice
+#: row can price its own share in the same convention. The engine path publishes
+#: `taker_fee` applied to the FILL SET -- and a fill carries no bar index -- so a
+#: slice of it is priced on the slice's own traded notional. The analytic path
+#: accumulates its cost bar by bar, so its slice share is a measured difference.
+FLOW_SOURCE_ENGINE_FILLS = "ENGINE_FILLS"
+FLOW_SOURCE_ANALYTIC_PER_BAR = "ANALYTIC_PER_BAR"
+
+#: Absolute residue below which a measured slice delta is the float dust of two
+#: accumulations rather than a negative flow.
+_SLICE_FLOW_DUST = 1e-9
+
+
+def _slice_delta(full: float, prefix: float, label: str) -> float:
+    """`full` minus the same measurement restricted to the pre-slice bars."""
+    delta = float(full) - float(prefix)
+    if delta >= 0.0:
+        return delta
+    if delta < -_SLICE_FLOW_DUST:
+        # Operator-visible: the premise (the pre-slice measurement is a subset of
+        # the window's) did not hold, so the slice share is not attributable by
+        # difference. Publishing a negative flow would be worse than publishing
+        # the zero the difference cannot support.
+        print(
+            f"[!] OOS slice flow: {label} measured negative ({delta!r}); the "
+            "pre-slice measurement is not a subset of the full window's",
+            file=sys.stderr,
+        )
+    return 0.0
+
+
+def oos_slice_flow(
+    *,
+    full_turnover: float,
+    full_commission: float,
+    full_n_trades: int,
+    prefix_turnover: float,
+    prefix_commission: float,
+    prefix_n_trades: int,
+    capital: float,
+    taker_fee: float,
+    source: str,
+) -> tuple[float, float, int]:
+    """Cost/flow fields of the frozen OOS slice, measured ON the slice (#443).
+
+    The frozen series/family builders are causal, so running the same builder on
+    the first `OOS_FIT_BARS` bars reproduces exactly the part of the window's flow
+    that happened BEFORE the slice, in the one convention the full-window row
+    publishes. The slice's own flow is the difference of the two measurements --
+    never the window's total handed to a slice-scoped `MetricSet`, which charged
+    the slice for fills that happened before it existed.
+    """
+    turnover = _slice_delta(full_turnover, prefix_turnover, "turnover_notional_over_capital")
+    n_trades = max(0, int(full_n_trades) - int(prefix_n_trades))
+    if source == FLOW_SOURCE_ENGINE_FILLS:
+        # `est_comm_total` is `taker_fee` on the traded notional, and the traded
+        # notional is what turnover is built from (#397), so the slice's share is
+        # the same fee on the slice's own traded notional.
+        commission = turnover * float(capital) * float(taker_fee)
+    else:
+        commission = _slice_delta(full_commission, prefix_commission, "commission_cost")
+    return turnover, commission, n_trades
+
+
 def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[str, Any]]:
     tape_path = Path(args.tape_path)
     if not tape_path.exists():
@@ -242,6 +306,30 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
     oos_n = len(bars) - eb.OOS_FIT_BARS
     oos_metrics: dict[str, eb.MetricSet] = {}
     if oos_n >= 48:
+        # #443: the slice row's cost/flow fields are measured on the slice. The
+        # pre-slice measurement is the SAME builder run on the bars this row
+        # excludes, so the two measurements differ by exactly the flow that
+        # happened inside the slice. `pre == 0` means the slice is the whole
+        # window: there is no pre-slice flow to subtract.
+        pre = eb.OOS_FIT_BARS
+        prefix_flow: dict[str, tuple[float, float, int]] = {}
+        if pre >= 1:
+            for leg_name, leg_res in (("incumbent", inc_res), ("challenger", ch_res)):
+                leg_ser = eb.strategy_series_from_engine(
+                    leg_res, bars[:pre], args.capital, args.taker_fee
+                )
+                prefix_flow[leg_name] = (
+                    float(leg_ser["turnover"]),
+                    float(leg_ser["commission"]),
+                    int(leg_ser["n_trades"]),
+                )
+            pre_fams = eb.compute_benchmark_family(bars[:pre], args.capital, args.taker_fee)
+            for bench_id, fam in pre_fams.items():
+                prefix_flow[bench_id] = (
+                    float(fam["turnover"]),
+                    float(fam["commission"]),
+                    int(fam["n_trades"]),
+                )
         for name, c in curves.items():
             eq = list(c["equity"])[eb.OOS_FIT_BARS :]
             ex = list(c["exposure"])[eb.OOS_FIT_BARS :]
@@ -252,9 +340,25 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
             pbase = pe[0] if pe[0] > 0 else args.capital
             pe_n = [v / pbase * args.capital for v in pe]
             raw_steps = [abs(b - a) for a, b in zip(raw, raw[1:], strict=False)]
+            p_turn, p_comm, p_trades = prefix_flow.get(name, (0.0, 0.0, 0))
+            s_turn, s_comm, s_trades = oos_slice_flow(
+                full_turnover=float(c["turnover"]),
+                full_commission=float(c["commission"]),
+                full_n_trades=int(c["n_trades"]),
+                prefix_turnover=p_turn,
+                prefix_commission=p_comm,
+                prefix_n_trades=p_trades,
+                capital=args.capital,
+                taker_fee=args.taker_fee,
+                source=(
+                    FLOW_SOURCE_ENGINE_FILLS
+                    if name in ("incumbent", "challenger")
+                    else FLOW_SOURCE_ANALYTIC_PER_BAR
+                ),
+            )
             oos_metrics[name] = eb.metrics_for_curve(
-                eq_n, ex, float(c["turnover"]), float(c["commission"]), None,
-                str(c["cost_basis"]) + "+OOS_SLICE", pe_n, int(c["n_trades"]),
+                eq_n, ex, s_turn, s_comm, None,
+                str(c["cost_basis"]) + "+OOS_SLICE", pe_n, s_trades,
                 sum(1 for s in raw_steps if s > 1e-9) if raw_steps else None,
             )
 
