@@ -151,6 +151,28 @@ def test_instrument_isolation_under_a_shared_id() -> None:
     assert sorted(row["pnl"] for row in rows) == [5.0, 7.0]
 
 
+def test_unclosed_campaign_does_not_shift_later_rows() -> None:
+    """MECHANICS ONLY (#407 acceptance i): the replication mechanism.
+
+    Completed campaigns and opened positions are two different lists: with one
+    campaign still open, an index-aligned assignment hands every later row its
+    predecessor's PnL and leaves the wrong row empty.
+    """
+    opened = [_open("A", 1_000), _open("B", 3_000), _open("C", 5_000)]
+    closed = [_close("B", 4_000, "5"), _close("C", 6_000, "-3")]
+
+    rows = attribute_campaign_pnl(opened, closed, pnl_unit="USDT")
+    by_id = {row["trade_id"]: row for row in rows}
+
+    assert by_id["A"]["pnl"] is None
+    assert by_id["A"]["pnl_unmeasured_reason"] == PNL_UNMEASURED_OPEN
+    assert by_id["B"]["pnl"] == 5.0
+    assert by_id["C"]["pnl"] == -3.0
+    # the pre-#407 index zip (realized_pnl_usdt[idx]) would have produced
+    # A=5.0, B=-3.0, C=None: two rows carrying a foreign campaign's PnL.
+    assert [row["pnl"] for row in rows] != [5.0, -3.0, None]
+
+
 def test_unrealized_and_unparsable_rows_are_absent_not_zero() -> None:
     """MECHANICS ONLY: absence is published as null + a named reason."""
     opened = [_open("OPEN", 1_000), _open("BAD", 1_000), _open("OK", 1_000)]
