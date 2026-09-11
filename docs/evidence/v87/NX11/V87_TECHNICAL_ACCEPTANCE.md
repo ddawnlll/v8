@@ -5,7 +5,7 @@ physical artifacts. It does **not** certify an economic edge, prospective maturi
 capital readiness or any live authority. Every verdict remains `NO_ECONOMIC_CLAIM`.
 
 Acceptance matrix (machine-built, artifacts hashed by read-back):
-`docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `09ee76dec251c586d6dfb81b2ceee11538e0f1fe3e18bc922738da15e661fed9`.
+`docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `7c7b94eec0dea44a7ea90a6bf27937f784ad0c6d4cb11da4ac37b102167c4dfd`.
 
 **Correction (2026-09-11):** this file and the matrix originally cited the NX09
 commit as `42136221`; the real commit is `42136231` (two digits transposed). The
@@ -59,8 +59,10 @@ reported separately rather than fixed silently.
 ### Provenance note (2026-09-11)
 
 The `docs/evidence/v87/NX02/` directory also contains artifacts written by a different
-workstream (issue #436: `LOOP_RECONCILIATION_436.md`, `loop_reconciliation_436.json`,
-`bound_receipt_before/after.json`, `regenerate_loop_reconciliation_receipt.py`). They are
+workstream (issue #436). They are detected by a declared filename rule — an issue-number
+token such as `_436`, or `loop_reconciliation` / `bound_receipt` in the name — so
+`LOOP_RECONCILIATION_436.md`, `loop_reconciliation_436.json` and
+`bound_receipt_before/after.json` are separated out. They are
 listed by the matrix under `foreign_artifacts` with their hashes but carry **no acceptance
 weight** for NX02 or this acceptance; nothing of theirs was modified or claimed here.
 

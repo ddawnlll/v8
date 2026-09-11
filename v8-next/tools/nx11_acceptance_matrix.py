@@ -32,6 +32,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
+#: Filename markers of artifacts produced by OTHER workstreams that share this tree
+#: (an issue number such as ``_436``, or a loop-reconciliation/bound-receipt file).
+#: Matching artifacts are listed with their hashes but attributed to their producer
+#: workstream, never counted inside this issue's acceptance row. The rule is explicit
+#: because a partial detector that silently mis-attributes is worse than a named rule.
+FOREIGN_ARTIFACT_MARKERS: tuple[str, ...] = ("_4", "loop_reconciliation", "bound_receipt")
+
 #: issue -> (commit, test target, evidence directory)
 ISSUES: tuple[tuple[str, str, str, str], ...] = (
     ("NX00", "epic", "09906159/NX00", "docs/evidence/v87/NX00"),
@@ -182,7 +189,7 @@ def main(argv: list[str] | None = None) -> int:
         foreign = [
             row
             for row in artifacts
-            if "_4" in Path(row["path"]).name or "loop_reconciliation" in Path(row["path"]).name
+            if any(marker in Path(row["path"]).name for marker in FOREIGN_ARTIFACT_MARKERS)
         ]
         rows.append(
             {

@@ -70,7 +70,7 @@ böyle teslim edilir, "gelecek vaat eden" diye sunulmaz.
 
 Bu kabul: release/tag/push-main/merge/live aktivasyon yetkisi **değildir** (D-163: merge
 yetkisi yayın yetkisi değildir). EN/TR site yayını ve tag işlemleri sahipte kalır. Karar
-kaydı: **D-164** (EN/TR register). Kabul matrisi: `docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `09ee76dec251c586d6dfb81b2ceee11538e0f1fe3e18bc922738da15e661fed9`.
+kaydı: **D-164** (EN/TR register). Kabul matrisi: `docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `7c7b94eec0dea44a7ea90a6bf27937f784ad0c6d4cb11da4ac37b102167c4dfd`.
 
 **Düzeltme (2026-09-11):** NX09 commit kimliği bu raporda ve matriste `42136221`
 olarak geçiyordu; gerçek commit `42136231`. Matris düzeltmeden sonra yeniden
