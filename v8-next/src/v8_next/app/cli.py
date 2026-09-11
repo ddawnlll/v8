@@ -113,6 +113,59 @@ def cmd_status(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_readiness(args: argparse.Namespace) -> int:
+    """Locked-benchmark readiness: four factors printed together, never one number alone."""
+    import json
+
+    from v8_next.app.readiness import RED_APPLE_MONTHLY_RETURN, audit
+
+    out_dir = Path(args.output_dir)
+    package_root = Path(__file__).resolve().parents[3]
+    repo_root = package_root.parent if (package_root.parent / "docs").is_dir() else package_root
+    ledger_path = out_dir / "benchmark_ledger.jsonl"
+    receipt = None
+    if ledger_path.is_file():
+        ledger = BenchmarkLedger.load_jsonl(ledger_path)
+        if ledger.entries:
+            receipt = ledger.entries[-1].receipt
+
+    report = audit(repo_root, ledger_path, receipt)
+    factors = report["factors"]
+    gates = factors["gate_factor"]
+    pillars = factors["pillar_factor"]
+    risk = factors["risk_factor"]
+    target = factors["target_factor"]
+
+    print("=" * 70)
+    print("V8 READINESS — locked benchmark (V87_READINESS_BENCHMARK_SPEC)")
+    print("=" * 70)
+    print(f"READINESS: {report['readiness']} / 100      claim: {report['claim_status']}")
+    print(f"formula:   {report['formula']}")
+    print("-" * 70)
+    print(f"gate_factor   : {gates['factor']:.4f}  ({gates['passed']}/{gates['required']} PASS, {gates['status']})")
+    for name, state in gates["states"].items():
+        mark = "PASS" if state == "PASS" else state
+        print(f"    {name:34} {mark}")
+    print(f"pillar_factor : {pillars['factor']:.4f}  ({pillars['measured']}/{pillars['required']} pillars measured)")
+    for name, info in pillars["pillars"].items():
+        print(f"    {name:22} {info['status']}")
+        for rel in info.get("missing", []):
+            print(f"        missing: {rel}")
+    print(f"risk_factor   : {risk['factor']:.4f}  ({risk['status']})")
+    for breach in risk.get("breaches", []):
+        print(f"    breach: {breach}")
+    print(f"target_factor : {target['factor']:.4f}  ({target['status']})")
+    print(f"    monthly return (measured): {target.get('monthly_return')} vs red apple "
+          f"{RED_APPLE_MONTHLY_RETURN}")
+    print("-" * 70)
+    print(f"NEXT REQUIRED MEASUREMENT: {report['next_required_measurement']}")
+    print(report["non_authority"])
+    if args.json_out:
+        Path(args.json_out).write_text(json.dumps(report, indent=2, sort_keys=True, default=str) + "\n")
+        print(f"wrote {args.json_out}")
+    return 0
+
+
 def cmd_books(args: argparse.Namespace) -> int:
     from v8_next.books.registry import MAPPINGS, build_case, coverage, get_mapping
 
@@ -165,6 +218,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_status.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
     p_status.set_defaults(func=cmd_status)
 
+    p_ready = sub.add_parser(
+        "readiness",
+        help="Production-readiness score: four factors, gate vector, red-apple gap.",
+    )
+    p_ready.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
+    p_ready.add_argument("--json-out", default=None)
+    p_ready.set_defaults(func=cmd_readiness)
+
     p_bench = sub.add_parser("benchmark", help="Run the D-153 benchmark battery.")
     p_bench.add_argument("--case-id", default="BC-D153-CANONICAL-01")
     p_bench.add_argument("--policy-id", default="pol_28_expert_ensemble")
@@ -215,6 +276,10 @@ def main(argv: list[str] | None = None) -> int:
         if rest:
             parser.error(f"unexpected args for status: {' '.join(rest)}")
         return args.func(args)
+    if args.command == "readiness":
+        if rest:
+            parser.error(f"unexpected args for readiness: {' '.join(rest)}")
+        return cmd_readiness(args)
     if args.command == "books":
         if rest:
             parser.error(f"unexpected args for books: {' '.join(rest)}")
