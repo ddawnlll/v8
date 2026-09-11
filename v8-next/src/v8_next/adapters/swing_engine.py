@@ -379,6 +379,10 @@ class SwingEngineStrategy(Strategy):
         plan = self.plan or {}
         if plan.get("status") != "POSITION_OPEN":
             return
+        # retire the resting bracket first: an orphaned stop or target left on the book
+        # would fill later and open a position this adapter is no longer tracking
+        for order in list(self.cache.orders_open(instrument_id=self.instrument_id)):
+            self.cancel_order(order)
         exit_side = OrderSide.SELL if plan["direction"] == "LONG" else OrderSide.BUY
         order = self.order_factory.market(
             instrument_id=self.instrument_id,
@@ -566,4 +570,10 @@ def run_swing_engine(
             "positions_closed": strategy.events.positions_closed,
         },
         "open_position_at_end": None if strategy.plan is None else strategy.plan.get("status"),
+        # an order left resting on the book after the run would fill later and open a position
+        # the adapter is no longer tracking, so it is published rather than assumed absent
+        "orders_open_at_end": [
+            str(order.client_order_id)
+            for order in strategy.cache.orders_open(instrument_id=strategy.instrument_id)
+        ],
     }
