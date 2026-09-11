@@ -1,8 +1,8 @@
 {
   "schema_version": "v87-sb01-tape-inventory-v1",
   "issue": "#410 (SB01)",
-  "generated_at_unix_s": 1789092256,
-  "manifest_identity": "sha256:46c56c97d59441ac93d9494617de6a425557ecd4e6cc71ef0ac439c584dc1652",
+  "generated_at_unix_s": 1789092443,
+  "manifest_identity": "sha256:7f65494c4563b20207422456e4f6a6453b65f5294ede55f898470a1cfd9589d5",
   "tape_dir": "research/tape/multi-1h-4y",
   "tape": {
     "path": "research/tape/multi-1h-4y/tape.jsonl",
@@ -1172,11 +1172,94 @@
     }
   ],
   "role_binding": {
-    "status": "PENDING_R2_BURN_MAP",
-    "roles_path": null,
-    "roles_sha256": null,
-    "assignment_count": 0,
-    "assignments": [],
+    "status": "BOUND",
+    "roles_path": "docs/migration/v87-sb01/role_plan.json",
+    "roles_sha256": "sha256:45dfed5cbaaadfe75c5f93d4db0614d914f67c16ed0e7bd6a2e79529d931b857",
+    "assignment_count": 4,
+    "assignments": [
+      {
+        "evidence": [
+          "tests/parity/test_parity_s0.py:139 load_real_tape('multi-1h-4y', limit=25_000)",
+          "tests/parity/test_parity_s1.py:198 load_real_tape('multi-1h-4y', limit=20_000)",
+          "tests/parity/test_parity_s4_realtape.py:61 _TAPE_LIMIT = 2000 ; :144 load_real_tape('multi-1h-4y', limit=_TAPE_LIMIT)"
+        ],
+        "from": "2022-07-01T00:00:00.000Z",
+        "instruments": [
+          "ADAUSDT",
+          "AVAXUSDT",
+          "BNBUSDT",
+          "BTCUSDT",
+          "DOGEUSDT",
+          "ETHUSDT",
+          "LINKUSDT",
+          "LTCUSDT",
+          "SOLUSDT",
+          "XRPUSDT"
+        ],
+        "measured_boundary": "deepest recorded row-index access = first 25,000 tape rows (2,500 rows per instrument, both channels), spanning 2022-07-01T00:00Z .. 2022-10-01T13:59Z",
+        "promotion": "NONE",
+        "role": "BURNED_DIAGNOSTIC",
+        "segment_id": "PARITY_SLICE_BURNED",
+        "to": "2022-10-01T13:59:00.000Z"
+      },
+      {
+        "evidence": [
+          "no access record for this interval found in v8-core/src, tests/, docs/, artifacts/, or .audit/ (grep for the tape name outside build artifacts)",
+          "the interval is the residue of Ay 1-36 after the burned parity slice"
+        ],
+        "from": "2022-10-01T14:00:00.000Z",
+        "instruments": [
+          "ADAUSDT",
+          "AVAXUSDT",
+          "BNBUSDT",
+          "BTCUSDT",
+          "DOGEUSDT",
+          "ETHUSDT",
+          "LINKUSDT",
+          "LTCUSDT",
+          "SOLUSDT",
+          "XRPUSDT"
+        ],
+        "note": "USAGE_UNKNOWN, not PROTECTED_OOS. It can host the walk-forward folds only as an explicitly-unseen-but-unverified period, never as a preserved final test.",
+        "role": "USAGE_UNKNOWN",
+        "segment_id": "DEVELOPMENT_RESIDUE_UNSEEN",
+        "to": "2025-06-30T23:59:59.999Z"
+      },
+      {
+        "consequence": "Ay 37-48 (the spec's protected final) is ineligible as an independent historical test. No independent historical test exists anywhere in the four-year window.",
+        "evidence": [
+          "research/tape/quad-1h-12m/tape.jsonl window 2025-07-01..2026-06-30 (AVAXUSDT, BTCUSDT, ETHUSDT, SOLUSDT) — consumed by the active Rust path: v8-core/src/benchmark/bench_runner.rs:66 and v8-core/src/main.rs:1710",
+          "research/tape/sol-dev-solusdt-2025-07-2026-07/tape.jsonl window 2025-07-01..2026-06-30",
+          "research/tape/btcusdt-1h-12m/tape.jsonl window 2025-07-01..2026-07-31, default tape of v8-core/src/main.rs:116,1653,1687,1827 and v8-core/src/exit_ablation.rs:58",
+          "docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md:21 — burned quad => role BURNED_DIAGNOSTIC, promotion NONE"
+        ],
+        "from": "2025-07-01T00:00:00.000Z",
+        "instruments": [
+          "AVAXUSDT",
+          "BTCUSDT",
+          "ETHUSDT",
+          "SOLUSDT"
+        ],
+        "promotion": "NONE",
+        "role": "BURNED_DIAGNOSTIC",
+        "segment_id": "FINAL_12M_BURNED",
+        "to": "2026-06-30T23:59:59.999Z"
+      },
+      {
+        "evidence": [
+          "research/tape/btcusdt-1h-12m extends to 2026-07-31, beyond the four-year window",
+          "the four-year tape itself ends 2026-06-30T23:59:59.999Z"
+        ],
+        "from": "2026-07-01T00:00:00.000Z",
+        "instruments": [
+          "BTCUSDT"
+        ],
+        "note": "Candidate only. Becomes prospective evidence only under the SB09 freeze with real receive/available/decision times; historical close-time is never a measured availability.",
+        "role": "PROSPECTIVE_SHADOW_CANDIDATE",
+        "segment_id": "PROSPECTIVE_CANDIDATE",
+        "to": null
+      }
+    ],
     "default_role": "USAGE_UNKNOWN"
   },
   "evidence_bindings": [

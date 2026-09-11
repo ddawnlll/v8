@@ -1,0 +1,151 @@
+{
+  "schema_version": "v87-sb01-role-plan-v1",
+  "issue": "#410 (SB01)",
+  "authored": "2026-09-11",
+  "data_id": "sha256:b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0",
+  "tape_path": "research/tape/multi-1h-4y/tape.jsonl",
+  "default_role": "USAGE_UNKNOWN",
+  "role_policy": "Spec §3: a period becomes BURNED_DIAGNOSTIC only from recorded access, and no period is ever auto-promoted to PROTECTED_OOS. USAGE_UNKNOWN is not preserved OOS and may not be presented as one.",
+  "assignments": [
+    {
+      "segment_id": "PARITY_SLICE_BURNED",
+      "from": "2022-07-01T00:00:00.000Z",
+      "to": "2022-10-01T13:59:00.000Z",
+      "instruments": [
+        "ADAUSDT", "AVAXUSDT", "BNBUSDT", "BTCUSDT", "DOGEUSDT",
+        "ETHUSDT", "LINKUSDT", "LTCUSDT", "SOLUSDT", "XRPUSDT"
+      ],
+      "role": "BURNED_DIAGNOSTIC",
+      "measured_boundary": "deepest recorded row-index access = first 25,000 tape rows (2,500 rows per instrument, both channels), spanning 2022-07-01T00:00Z .. 2022-10-01T13:59Z",
+      "evidence": [
+        "tests/parity/test_parity_s0.py:139 load_real_tape('multi-1h-4y', limit=25_000)",
+        "tests/parity/test_parity_s1.py:198 load_real_tape('multi-1h-4y', limit=20_000)",
+        "tests/parity/test_parity_s4_realtape.py:61 _TAPE_LIMIT = 2000 ; :144 load_real_tape('multi-1h-4y', limit=_TAPE_LIMIT)"
+      ],
+      "promotion": "NONE"
+    },
+    {
+      "segment_id": "DEVELOPMENT_RESIDUE_UNSEEN",
+      "from": "2022-10-01T14:00:00.000Z",
+      "to": "2025-06-30T23:59:59.999Z",
+      "instruments": [
+        "ADAUSDT", "AVAXUSDT", "BNBUSDT", "BTCUSDT", "DOGEUSDT",
+        "ETHUSDT", "LINKUSDT", "LTCUSDT", "SOLUSDT", "XRPUSDT"
+      ],
+      "role": "USAGE_UNKNOWN",
+      "evidence": [
+        "no access record for this interval found in v8-core/src, tests/, docs/, artifacts/, or .audit/ (grep for the tape name outside build artifacts)",
+        "the interval is the residue of Ay 1-36 after the burned parity slice"
+      ],
+      "note": "USAGE_UNKNOWN, not PROTECTED_OOS. It can host the walk-forward folds only as an explicitly-unseen-but-unverified period, never as a preserved final test."
+    },
+    {
+      "segment_id": "FINAL_12M_BURNED",
+      "from": "2025-07-01T00:00:00.000Z",
+      "to": "2026-06-30T23:59:59.999Z",
+      "instruments": ["AVAXUSDT", "BTCUSDT", "ETHUSDT", "SOLUSDT"],
+      "role": "BURNED_DIAGNOSTIC",
+      "evidence": [
+        "research/tape/quad-1h-12m/tape.jsonl window 2025-07-01..2026-06-30 (AVAXUSDT, BTCUSDT, ETHUSDT, SOLUSDT) — consumed by the active Rust path: v8-core/src/benchmark/bench_runner.rs:66 and v8-core/src/main.rs:1710",
+        "research/tape/sol-dev-solusdt-2025-07-2026-07/tape.jsonl window 2025-07-01..2026-06-30",
+        "research/tape/btcusdt-1h-12m/tape.jsonl window 2025-07-01..2026-07-31, default tape of v8-core/src/main.rs:116,1653,1687,1827 and v8-core/src/exit_ablation.rs:58",
+        "docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md:21 — burned quad => role BURNED_DIAGNOSTIC, promotion NONE"
+      ],
+      "consequence": "Ay 37-48 (the spec's protected final) is ineligible as an independent historical test. No independent historical test exists anywhere in the four-year window.",
+      "promotion": "NONE"
+    },
+    {
+      "segment_id": "PROSPECTIVE_CANDIDATE",
+      "from": "2026-07-01T00:00:00.000Z",
+      "to": null,
+      "instruments": ["BTCUSDT"],
+      "role": "PROSPECTIVE_SHADOW_CANDIDATE",
+      "evidence": [
+        "research/tape/btcusdt-1h-12m extends to 2026-07-31, beyond the four-year window",
+        "the four-year tape itself ends 2026-06-30T23:59:59.999Z"
+      ],
+      "note": "Candidate only. Becomes prospective evidence only under the SB09 freeze with real receive/available/decision times; historical close-time is never a measured availability."
+    }
+  ],
+  "calendar_binding": {
+    "plan": "24/12/12 over a 48-month window",
+    "window_from": "2022-07-01T00:00:00.000Z",
+    "window_to": "2026-06-30T23:59:59.999Z",
+    "periods": [
+      {
+        "id": "P1_AY_01_24",
+        "months": "Ay 1-24",
+        "from": "2022-07-01T00:00:00.000Z",
+        "to": "2024-06-30T23:59:59.999Z",
+        "planned_role": "DEVELOPMENT",
+        "effective_role": "DEVELOPMENT (first ~3 months additionally BURNED_DIAGNOSTIC via PARITY_SLICE_BURNED)"
+      },
+      {
+        "id": "P2_AY_25_36",
+        "months": "Ay 25-36",
+        "from": "2024-07-01T00:00:00.000Z",
+        "to": "2025-06-30T23:59:59.999Z",
+        "planned_role": "WALK_FORWARD_VALIDATION",
+        "effective_role": "WALK_FORWARD_VALIDATION over USAGE_UNKNOWN data",
+        "folds": [
+          {"fold": "WF1", "train": "2022-07-01..2024-06-30", "test": "2024-07-01..2024-09-30"},
+          {"fold": "WF2", "train": "2022-07-01..2024-09-30", "test": "2024-10-01..2024-12-31"},
+          {"fold": "WF3", "train": "2022-07-01..2024-12-31", "test": "2025-01-01..2025-03-31"},
+          {"fold": "WF4", "train": "2022-07-01..2025-03-31", "test": "2025-04-01..2025-06-30"}
+        ]
+      },
+      {
+        "id": "P3_AY_37_48",
+        "months": "Ay 37-48",
+        "from": "2025-07-01T00:00:00.000Z",
+        "to": "2026-06-30T23:59:59.999Z",
+        "planned_role": "PROTECTED_OOS",
+        "effective_role": "INELIGIBLE_EVIDENCE",
+        "reason": "BURNED_DIAGNOSTIC through the quad-1h-12m / sol-dev / btcusdt-1h-12m lineages; the final must not be opened (SB08 R5)."
+      }
+    ],
+    "conclusion": "No independent historical test exists in the four-year window. The only remaining independent evidence axis is prospective (SB09) after a policy/protocol freeze."
+  },
+  "explicit_absences": [
+    {
+      "field": "mark_price",
+      "status": "ABSENT",
+      "evidence": "every archive is either <SYMBOL>-1h-<MONTH>.zip or <SYMBOL>-fundingRate-<MONTH>.zip; no markPriceKlines channel exists in the tape, source.json, or the ingested rows",
+      "consequence": "liquidation/mark-based cost results stay incomplete; funding is measured, mark price is not available at any cost"
+    },
+    {
+      "field": "kline_open_interest",
+      "status": "ABSENT",
+      "evidence": "no open-interest channel in the archive set or the ingested tape"
+    },
+    {
+      "field": "orderbook_depth",
+      "status": "PRESENT_ELSEWHERE_NOT_IN_THIS_TAPE",
+      "evidence": "research/tape/btcusdt-l2-* and sandbox-replay-* directories hold microstructure captures, but they are not part of multi-1h-4y",
+      "consequence": "no microstructure observation inside the four-year window; bar-only simulation is not a microstructure measurement"
+    },
+    {
+      "field": "funding_grid_regularity",
+      "status": "HETEROGENEOUS",
+      "evidence": "SOLUSDT funding intervals measured as {8h: 4357, 4h: 2, 2h: 99}; all other instruments are pure 8h",
+      "consequence": "a funding cost model assuming a uniform 8h grid is wrong for SOLUSDT; event-time funding must use the per-row interval"
+    }
+  ],
+  "downstream_inputs": {
+    "SB02": {
+      "needs": "a permitted real record with orders/fills/positions and account snapshots",
+      "available_in_this_tape": false,
+      "note": "multi-1h-4y carries market data only; no execution/fill/account record exists here. SB02 must use a real permitted fill/account record or stay PENDING."
+    },
+    "SB03": {
+      "needs": "dated partitions, fold calendar, warmup/maturity/purge/embargo rules",
+      "available_in_this_tape": true,
+      "inputs": [
+        "partition manifest = PARITY_SLICE_BURNED / DEVELOPMENT_RESIDUE_UNSEEN / FINAL_12M_BURNED",
+        "fold calendar = calendar_binding.periods[P2].folds",
+        "1h kline grid verified exact (0 gaps, 0 duplicates) => deterministic decision clocks",
+        "funding grid heterogeneous for SOLUSDT => embargo must not assume a uniform 8h funding cadence"
+      ]
+    }
+  }
+}
