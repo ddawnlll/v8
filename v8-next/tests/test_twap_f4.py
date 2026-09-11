@@ -46,7 +46,6 @@ def _run(algo: str, slices: int = 4):
 
 
 def test_twap_parent_splits_and_children_sum_to_parent() -> None:
-    from decimal import Decimal as D
 
     result = _run("TWAP", slices=4)
     actions = [d["action"] for d in result["decisions"]]
