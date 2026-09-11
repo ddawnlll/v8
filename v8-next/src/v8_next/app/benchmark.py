@@ -18,6 +18,7 @@ from typing import Any
 
 from v8_next.adapters.expert_strategy import ExpertStrategyConfig
 from v8_next.evaluation import economic_benchmark as eb
+from v8_next.evaluation.benchmark_receipt import WindowEvidence
 from v8_next.evaluation.gate_resolution import WindowBinding, load_tape_candles
 from v8_next.evaluation.report import generate_forensic_html_report, render_identity
 from v8_next.evaluation.run_window import (
@@ -216,6 +217,15 @@ def main(argv: list[str] | None = None) -> int:
             "[!] SMOKE RUN: bar-count window. This is liveness/mechanics evidence only; "
             "it is NOT a release benchmark and NOT economic sufficiency evidence."
         )
+    # #444 sibling (D153 path): the class the window is allowed to prove is read off
+    # the same WindowSpec built above (one source of truth) and travels into the
+    # receipt, so a capability score can never be published apart from it.
+    window_evidence = WindowEvidence.from_window(window)
+    print(
+        f"[+] Window evidence class: {window_evidence.evidence_class} "
+        f"(profile={window_evidence.profile}, smoke={window_evidence.is_smoke}, "
+        f"economic_evidence={window_evidence.economic_evidence})"
+    )
 
     print(f"[+] Loading verified real Binance market tape from {tape_file}...")
     candles = load_tape_candles(
@@ -304,6 +314,7 @@ def main(argv: list[str] | None = None) -> int:
         measure_determinism=args.determinism_rerun,
         run_identity=run_key.components,
         scored_window=loaded_window,
+        window_evidence=window_evidence,
     )
     execution = result.gate_metrics.get("execution") if result.gate_metrics else None
     if execution:
@@ -319,6 +330,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"[+] G2 determinism: {g2.get('status')} ({g2.get('reason')})")
     print(f"[+] Nautilus Backtest Completed: {result.total_bars} bars, {result.total_trades} trades")
     print(f"[+] Capability Score: {_render_score(result.capability_score)} / 100")
+    print(
+        f"[+]   score evidence class: {window_evidence.evidence_class} "
+        f"(economic_evidence={window_evidence.economic_evidence})"
+    )
     if result.domain_scores:
         print("[+] Per-domain breakdown (loop engineering: lowest first):")
         for name, d in sorted(result.domain_scores.items(), key=lambda kv: kv[1]["score"]):
@@ -328,7 +343,13 @@ def main(argv: list[str] | None = None) -> int:
                 f"w={d['weight']:.2f}  n={d['sample_size']}"
             )
     else:
-        print("[+] Per-domain breakdown: absent (no trades — nothing to decompose)")
+        if window_evidence.admits_capability_score():
+            print("[+] Per-domain breakdown: absent (no trades — nothing to decompose)")
+        else:
+            print(
+                "[+] Per-domain breakdown: absent (no capability score minted — a "
+                f"{window_evidence.evidence_class} window proves no economic evidence)"
+            )
     if result.gate_metrics:
         print("[+] Gate metric deltas:")
         for gname in sorted(result.gate_metrics):
