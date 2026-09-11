@@ -728,3 +728,128 @@ def test_economic_incumbent_turnover_and_capacity_breakeven(tmp_path: Path) -> N
     )
     assert receipt["capacity_scenarios"][0]["assumed_fee_bp"] == pytest.approx(fee * 1e4)
     assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
+
+
+# ---------------------------------------------------------------------------
+# #396 — `excess_ci_low/high` is the interval of the EXCESS RETURN it is
+# attached to. A per-bar Sharpe ratio is a different estimand and must never be
+# published as a return interval (it does not even contain its own point).
+# ---------------------------------------------------------------------------
+
+CANONICAL_RECEIPT_588D668B_REL = "artifacts/benchmarks/economic_receipt_588d668b.json"
+
+
+def _canonical_receipt_path() -> Path | None:
+    """Frozen #396 evidence receipt: this checkout, else the shared main checkout.
+
+    Evidence artifacts live outside git (worktrees do not carry them), so the
+    worktree falls back to the parent checkout. Absence skips: never synthesize.
+    """
+    root = Path(__file__).resolve().parents[2]
+    for candidate in (root / CANONICAL_RECEIPT_588D668B_REL,
+                      root.parent.parent / CANONICAL_RECEIPT_588D668B_REL):
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def _mechanics_excess_paths(
+    n: int = 300, gap: float = -0.002, seed: int = 21
+) -> tuple[list[float], list[float]]:
+    """MECHANICS ONLY: a strategy path and a primary path with a known window gap.
+
+    Zero evaluative weight: seeded arithmetic, no market data, no claim. The
+    strategy loses `gap` per bar to the primary on average, so the window excess
+    is large enough to be excluded by a per-bar Sharpe interval.
+    """
+    import numpy as np
+
+    rng = np.random.default_rng(seed)
+    primary = [float(v) for v in 0.0005 + 0.01 * rng.standard_normal(n)]
+    strat = [p + gap + float(v) for p, v in zip(primary, 0.002 * rng.standard_normal(n), strict=True)]
+    return strat, primary
+
+
+def test_mechanics_excess_ci_is_return_interval_not_sharpe() -> None:
+    """#396 (G1): the stored `excess_ci_*` is the CI of the excess RETURN.
+
+    Pre-fix the interval was the block-bootstrap Sharpe of the per-bar return
+    difference, so it was on a ratio scale, equal to that Sharpe interval by
+    construction, and could exclude the `excess_vs_primary` it was published
+    beside. The module's `EXCESS_CI_RULE` text must name the statistic the code
+    actually applies.
+    """
+    strat, primary = _mechanics_excess_paths()
+    eq = _mechanics_equity(strat)
+    p_eq = _mechanics_equity(primary)
+    m = eb.metrics_for_curve(eq, [1.0] * len(eq), 1.0, 5.0, None, "ANALYTIC_MODEL", p_eq, 1)
+
+    assert m.excess_vs_primary is not None
+    assert m.excess_ci_low is not None and m.excess_ci_high is not None
+    # (1) the interval contains the point estimate it belongs to.
+    assert m.excess_ci_low <= m.excess_vs_primary <= m.excess_ci_high
+
+    # (2) it is NOT the diff series' bootstrap Sharpe statistic (the pre-fix value).
+    sharpe_lo, sharpe_hi = eb.block_bootstrap_ci(
+        [a - b for a, b in zip(eb.per_bar_returns(eq), eb.per_bar_returns(p_eq), strict=False)]
+    )
+    assert sharpe_lo is not None and sharpe_hi is not None
+    assert (m.excess_ci_low, m.excess_ci_high) != (sharpe_lo, sharpe_hi)
+    # Discriminator: the Sharpe interval cannot hold a window-scale return.
+    assert not (sharpe_lo <= m.excess_vs_primary <= sharpe_hi)
+
+    # (3) the applied estimator is the return-scale one, and the rule names it.
+    assert (m.excess_ci_low, m.excess_ci_high) == pytest.approx(
+        eb.period_excess_ci(eq, p_eq), rel=0, abs=0
+    )
+    rule = eb.EXCESS_CI_RULE
+    assert "EXCESS RETURN" in rule
+    assert "RETURN scale" in rule
+    assert "per-bar excess" not in rule.lower()
+    import inspect
+
+    assert "period_excess_ci" in inspect.getsource(eb.metrics_for_curve)
+    # The pre-fix Sharpe primitive must not be reachable from the excess block.
+    assert "excess_ci = block_bootstrap_ci(diff)" not in inspect.getsource(eb.metrics_for_curve)
+
+
+def test_mechanics_excess_rule_sign_test_survives_on_return_interval() -> None:
+    """#396 (G3): verdict semantics are unchanged — the rule stays a sign test.
+
+    `EXCESS_CI_RULE` still fires SUPPORTS_UNDERPERFORMANCE iff the published
+    interval is entirely below zero, on the return scale, for the canonical
+    point estimate recorded in the bound receipt; the fix mints no claim.
+    """
+    receipt_path = _canonical_receipt_path()
+    if receipt_path is None:
+        pytest.skip("canonical #396 receipt not present in this checkout")
+    assert receipt_path is not None  # narrowed for the type checker
+    recorded = json.loads(receipt_path.read_text(encoding="utf-8"))
+    inc = recorded["metrics"]["portfolio_P"]
+    point = inc["excess_vs_primary"]
+    # The recorded (pre-fix) interval published a Sharpe statistic and excludes
+    # its own point estimate: exactly the defect this card closes.
+    assert not (inc["excess_ci_low"] <= point <= inc["excess_ci_high"])
+
+    computed_stats = {
+        "dsr": {"verdict": "COMPUTED", "dsr_confidence": 0.5,
+                "selected_sharpe_nonannualized": -0.1, "selected_variant": "portfolio_P"},
+        "pbo": {"verdict": "COMPUTED"},
+        "spa": {"verdict": "COMPUTED", "pvalues": {"consistent": 0.4}},
+        "variant_excess_vs_baseline": -0.01,
+    }
+    base = {
+        "chrono_ok": True, "chrono_note": "OK; leak_probe=OK", "excess": point,
+        "mix": {"incremental_net": -0.0038}, "cost_basis_ok": True,
+        "funding_missing": False, "live_fills_present": False, "parity_ok": True,
+    }
+    # Return-scale interval around the same point: below zero => same verdict.
+    v = eb.build_verdicts(
+        **base, excess_ci=(point - 0.15, point + 0.15), stats=dict(computed_stats)
+    )
+    assert v.statistical == "SUPPORTS_UNDERPERFORMANCE"
+    assert "EXCESS_CI_RULE" in v.statistical_note
+    assert eb.EconomicReceipt.__pydantic_fields__["claim_status"].default == "NO_ECONOMIC_CLAIM"
+    assert recorded["claim_status"] == "NO_ECONOMIC_CLAIM"
+    assert recorded["verdicts"]["statistical"] == "SUPPORTS_UNDERPERFORMANCE"
+    assert "EXCESS_CI_RULE" in recorded["verdicts"]["statistical_note"]

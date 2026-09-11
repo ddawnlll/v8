@@ -78,11 +78,23 @@ VerdictState = Literal[
 #   excess vs baseline is positive  => SUPPORTS_EDGE (family-vs-baseline).
 # - DSR_EDGE_RULE: DSR confidence >= level AND selected Sharpe > 0
 #   => SUPPORTS_EDGE (selected-variant).
-# - EXCESS_CI_RULE: 95% block-bootstrap CI of per-bar excess entirely below
-#   zero => SUPPORTS_UNDERPERFORMANCE (strategy-vs-primary). Entirely above
-#   zero does NOT mint edge (direction must survive the SPA/DSR family rules).
+# - EXCESS_CI_RULE (#396): 95% block-bootstrap CI of the WINDOW EXCESS RETURN
+#   (strategy net return minus primary net return, both compounded over the same
+#   paired bars) entirely below zero => SUPPORTS_UNDERPERFORMANCE
+#   (strategy-vs-primary). The interval shares the estimand and the scale of the
+#   point estimate `excess_vs_primary`; a per-bar Sharpe is a different quantity
+#   and may never be published as a return interval. Entirely above zero does
+#   NOT mint edge (direction must survive the SPA/DSR family rules).
 SPA_EDGE_ALPHA = 0.05
 DSR_EDGE_CONFIDENCE = 0.95
+# Single source of truth for the rule text the code applies; kept in the module
+# so the estimator and its preregistered text cannot drift apart (#396).
+EXCESS_CI_RULE = (
+    "95% block-bootstrap CI of the window EXCESS RETURN (strategy net return "
+    "minus primary net return, compounded over the same paired bars) entirely "
+    "below zero => SUPPORTS_UNDERPERFORMANCE (strategy-vs-primary); the "
+    "interval is on the RETURN scale of excess_vs_primary, never a Sharpe ratio"
+)
 
 BENCHMARK_IDS = (
     "cash",
@@ -139,6 +151,10 @@ class MetricSet(BaseModel):
 
     net_return: float
     excess_vs_primary: float | None
+    # #396: the interval of the quantity above — the WINDOW excess return, on the
+    # same scale as `excess_vs_primary` (fraction of capital over the window).
+    # A per-bar Sharpe ratio is a different estimand and must never be stored or
+    # published here.
     excess_ci_low: float | None = None
     excess_ci_high: float | None = None
     sharpe_per_bar: float
@@ -302,10 +318,11 @@ def block_bootstrap_ci(
     """Circular block bootstrap CI for the PER-BAR Sharpe; preserves dependence.
 
     Deliberately left on the per-bar scale: it is the primitive used for
-    scale-free sign tests (positive control) and for the pre-registered excess
-    differential rule. Anything PUBLISHED as a Sharpe confidence interval must
-    go through `sharpe_ci_annualized` so it shares the scale of
-    `sharpe_annualized` (#388).
+    scale-free sign tests (positive control). Anything PUBLISHED as a Sharpe
+    confidence interval must go through `sharpe_ci_annualized` so it shares the
+    scale of `sharpe_annualized` (#388). It is NOT the excess-return interval:
+    a Sharpe ratio is not a return, so `excess_ci_*` is produced by
+    `period_excess_ci` (#396).
     """
     arr = np.asarray(list(returns), dtype=np.float64)
     n = arr.size
@@ -343,6 +360,48 @@ def sharpe_ci_annualized(
     if lo is None or hi is None:
         return None, None
     return lo * SHARPE_ANNUALIZATION, hi * SHARPE_ANNUALIZATION
+
+
+def period_excess_ci(
+    equity: Sequence[float],
+    primary_equity: Sequence[float],
+    block: int = BOOTSTRAP_BLOCK,
+    reps: int = BOOTSTRAP_REPS,
+    seed: int = BOOTSTRAP_SEED,
+) -> tuple[float | None, float | None]:
+    """Block-bootstrap CI for the WINDOW EXCESS RETURN the point estimate uses (#396).
+
+    The estimand is exactly `excess_vs_primary`: the strategy's net return over
+    the window minus the primary benchmark's net return over the same window,
+    each compounded from the same bar sequence. Every replicate draws ONE set of
+    circular block indices and applies it to both curves, so the paired bars stay
+    paired; it then compounds both legs over the resampled sequence and records
+    their difference. The observed window is itself one such replicate (identity
+    ordering), so the percentiles are on the return scale and bracket their own
+    point estimate, which is what makes
+    `excess_ci_low <= excess_vs_primary <= excess_ci_high` readable.
+
+    A per-bar Sharpe ratio is NOT a return, so `block_bootstrap_ci` (which
+    bootstraps `mean/sd`) can never supply this interval.
+    """
+    strat = np.asarray(list(equity), dtype=np.float64)
+    prim = np.asarray(list(primary_equity), dtype=np.float64)
+    if strat.size != prim.size or strat.size < 2 * block + 1:
+        return None, None
+    s_rets = strat[1:] / strat[:-1] - 1.0
+    p_rets = prim[1:] / prim[:-1] - 1.0
+    n = s_rets.size
+    if not (np.isfinite(s_rets).all() and np.isfinite(p_rets).all()):
+        return None, None
+    rng = np.random.default_rng(seed)
+    stats: list[float] = []
+    for _ in range(reps):
+        idx = (rng.integers(0, n, size=(n // block + 1))[:, None] + np.arange(block)).ravel()[:n] % n
+        stats.append(float(np.prod(1.0 + s_rets[idx]) - np.prod(1.0 + p_rets[idx])))
+    if len(stats) < 10 or not all(math.isfinite(v) for v in stats):
+        return None, None
+    lo, hi = np.percentile(np.asarray(stats), [2.5, 97.5])
+    return float(lo), float(hi)
 
 
 def max_drawdown(equity: Sequence[float]) -> float:
@@ -1452,13 +1511,12 @@ def metrics_for_curve(
     if primary_equity is not None and len(primary_equity) == len(equity):
         p_net = (primary_equity[-1] / primary_equity[0] - 1.0) if primary_equity[0] > 0 else 0.0
         excess = net - p_net
-        e_rets = per_bar_returns(list(primary_equity))
-        if len(e_rets) == len(rets):
-            diff = [a - b for a, b in zip(rets, e_rets, strict=False)]
-            # Per-bar deliberately: this is the input to the pre-registered
-            # EXCESS_CI_RULE sign test, not a published Sharpe interval (#388
-            # rescales only the sharpe_ci_* pair, so the gate vector is stable).
-            excess_ci = block_bootstrap_ci(diff)
+        # #396: `excess` is a window-scale return, so its interval must be the
+        # block-bootstrap CI of that same compounded excess on that same scale.
+        # The pre-fix interval was the per-bar Sharpe of the return difference
+        # (a dimensionless ratio), which is a different estimand and does not
+        # even contain the point estimate it is published beside.
+        excess_ci = period_excess_ci(list(equity), list(primary_equity))
     tail = float(np.mean(np.sort(np.asarray(rets))[: max(1, int(0.05 * len(rets)))])) if rets else 0.0
     return MetricSet(
         net_return=net,
