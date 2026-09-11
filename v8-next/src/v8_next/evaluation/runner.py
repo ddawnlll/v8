@@ -45,6 +45,8 @@ from v8_next.evaluation.economic_benchmark import (
     reconcile_native_account,
 )
 from v8_next.evaluation.gate_resolution import (
+    MEASURED,
+    WindowBinding,
     classify_market_regimes,
     evaluate_g3_scenario_robustness,
     evaluate_g4_synthetic_falsification,
@@ -53,6 +55,7 @@ from v8_next.evaluation.gate_resolution import (
     evaluate_g7_prospective_shadow,
     evaluate_g8_live_realization,
     evaluate_g9_certificate_authority,
+    window_identity,
 )
 from v8_next.evaluation.parity import ArtifactBinding
 from v8_next.evaluation.scoring import (
@@ -366,6 +369,7 @@ class BenchmarkRunner:
         execution_profile: str | ExecutionProfile | None = None,
         measure_determinism: bool = False,
         run_identity: Mapping[str, str] | None = None,
+        scored_window: WindowBinding | None = None,
     ) -> BenchmarkRunResult:
         """Execute the complete benchmark run.
 
@@ -377,6 +381,10 @@ class BenchmarkRunner:
         fee model, latency model, liquidity/queue knobs). None keeps the engine
         defaults, and the receipt then reports that no execution semantics were
         declared rather than implying a model that was never chosen.
+
+        scored_window: the window the caller declares it handed in (#406/#421). It is
+        recorded, and it is the boundary a gate may compare a protected or prospective
+        window against; no gate may re-label this same window as out-of-sample.
         """
         # 0. Capital policy validation (Task 4): safe unauthorized default, no live orders.
         if isinstance(capital_policy, CapitalPolicy):
@@ -587,11 +595,15 @@ class BenchmarkRunner:
             )
             gate_metrics["g5"] = g5_m
 
-            # 4. G6: Frozen OOS Replication
+            # 4. G6: Frozen OOS Replication. #406/#421: this path registers no
+            # protected window, so the gate must not publish a retention verdict
+            # over the run's own scored window -- it fails closed by name.
             g6_state, g6_m = evaluate_g6_frozen_oos(candles, case.strategy_config)
             gate_metrics["g6"] = g6_m
 
-            # 5. G7: Prospective Shadow
+            # 5. G7: Prospective Shadow. #406/#421: this path has no declared
+            # forward window either, so no prospective state is minted from the
+            # run's own bars.
             g7_state, g7_m = evaluate_g7_prospective_shadow(candles, case.strategy_config, output_dir=self.output_dir)
             gate_metrics["g7"] = g7_m
 
@@ -599,11 +611,35 @@ class BenchmarkRunner:
             g8_state, g8_m = evaluate_g8_live_realization(live_fills_path=live_fills_path)
             gate_metrics["g8"] = g8_m
 
-            # Check if all prerequisite gates G0-G7 passed
+            # #406/#421: the window contract travels with the run, so a verdict can
+            # be read together with the windows it was (not) measured over.
+            gate_metrics["window_binding"] = {
+                "scored_window": window_identity(tuple(candles)),
+                "declared_window": dict(
+                    sorted(
+                        (k, v)
+                        for k, v in (run_identity or {}).items()
+                        if str(k).startswith("window_") or k == "profile"
+                    )
+                ),
+                "declared_scored_window": (
+                    scored_window.as_dict() if scored_window is not None else None
+                ),
+                "protected_window": None,
+                "prospective_window": None,
+                "note": (
+                    "no protected (G6) or prospective (G7) window is registered for this "
+                    "run; both gates therefore publish no PASS over the scored window"
+                ),
+            }
+
+            # Check if all prerequisite gates G0-G7 passed. A gate that could only
+            # judge an unbound window is not an established member of the vector,
+            # so pre_pass also requires that G6 and G7 were actually measured.
             pre_pass = all(
                 st == GateState.PASS
                 for st in (g3_state, g4_state, g5_state, g6_state, g7_state)
-            )
+            ) and g6_m.get("measurement") == MEASURED and g7_m.get("measurement") == MEASURED
             g9_pre_state = GateState.MISSING
 
             gates = evaluate_gate_vector(
