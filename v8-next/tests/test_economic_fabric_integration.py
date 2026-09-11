@@ -106,6 +106,75 @@ def test_funding_cell_distinguishes_measured_zero_and_absent() -> None:
         assert eb.funding_cell(row) != "MISSING"
 
 
+def test_funding_cell_names_the_reason_a_reached_feed_has_no_number() -> None:
+    """A leg the engine has no rule for, and one it withheld, say so by name.
+
+    Both states describe a run that DID reach the leg. Rendering either as "no
+    funding feed reached this curve" would report the wiring instead of what the
+    engine did, which is the conflation this column exists to prevent.
+    """
+    no_rule = _metric(
+        funding_cost=None, avg_exposure=0.4, funding_basis=eb.FUNDING_NO_ENGINE_RULE
+    )
+    assert eb.funding_state(no_rule) == eb.FUNDING_NO_ENGINE_RULE
+    assert eb.funding_cell(no_rule) == "n/a (NO_ENGINE_RULE)"
+
+    withheld = _metric(
+        funding_cost=None, avg_exposure=0.4, funding_basis=eb.FUNDING_TRADES_DIVERGED
+    )
+    assert eb.funding_state(withheld) == eb.FUNDING_TRADES_DIVERGED
+    assert eb.funding_cell(withheld) == "n/a (TRADES_DIVERGED)"
+
+    # Zero exposure is read first: a curve that never invested is a measured zero
+    # and never borrows a rule-based reason it does not have.
+    never_invested = _metric(
+        funding_cost=None, avg_exposure=0.0, funding_basis=eb.FUNDING_NO_ENGINE_RULE
+    )
+    assert eb.funding_state(never_invested) == eb.FUNDING_ZERO_NO_EXPOSURE
+    assert eb.funding_cell(never_invested) == "0.00 (NO_EXPOSURE)"
+
+
+def test_family_funding_basket_covers_only_rules_the_engine_executes() -> None:
+    """The family leg -> engine basket map is by rule, and it fails closed.
+
+    A leg the engine cannot execute must resolve to no basket, so the caller
+    publishes the reason instead of borrowing another basket's number.
+    """
+    btc = eb.family_funding_basket("bh_BTCUSDT-PERP")
+    assert btc is not None
+    assert btc.basket_id == "BTCUSDT_buy_hold"
+    assert btc.instruments == ("BTCUSDT",)
+    avax = eb.family_funding_basket("bh_AVAXUSDT-PERP")
+    assert avax is not None and avax.instruments == ("AVAXUSDT",)
+    # The canonical quad baskets are the ones the engine family publishes under
+    # these two ids, not a second equal-weight rule defined here.
+    eq = eb.family_funding_basket("equal_weight")
+    vt = eb.family_funding_basket("vol_target")
+    assert eq is not None and eq.basket_id == "equal_weight_quad"
+    assert vt is not None and vt.basket_id == "vol_target_quad"
+    # No engine basket executes a Donchian long/flat rule, and an unknown leg
+    # borrows nothing either.
+    assert eb.family_funding_basket("simple_trend") is None
+    assert eb.family_funding_basket("not_a_leg") is None
+
+
+def test_family_funding_feed_skips_the_never_invested_reference() -> None:
+    """The feed names a state for every leg it can and omits the cash reference.
+
+    Mechanics only: a rule-less leg is resolved without running any engine, so
+    this holds with no tape present.
+    """
+    out = eb.measure_benchmark_family_funding(
+        {"BTCUSDT": ()}, (), ("cash", "simple_trend")
+    )
+    # Cash is not a strategy: zero exposure is its own measurement, published by
+    # the row's exposure, so the feed asserts no rule-based reason for it.
+    assert "cash" not in out
+    assert out["simple_trend"]["funding"] is None
+    assert out["simple_trend"]["funding_basis"] == eb.FUNDING_NO_ENGINE_RULE
+    assert out["simple_trend"]["funding_basket"] is None
+
+
 def _render_receipt(metrics: dict[str, eb.MetricSet]) -> str:
     run = eb.RunIdentity(
         dataset=eb.DatasetIdentity(
@@ -408,3 +477,46 @@ def test_basket_spec_is_frozen_membership() -> None:
     )
     assert spec.rebalance_bars == 24
     assert spec.venue_instrument_ids() == ("AAAUSDT-PERP.BINANCE", "BBBUSDT-PERP.BINANCE")
+
+
+@pytest.mark.skipif(_quad_tape_dir() is None, reason="real quad tape absent")
+def test_single_leg_funding_matches_an_independent_settlement_sum() -> None:
+    """The bh_ measurement is that leg's own settlement, in the published sign.
+
+    Cross-check only (the published number is the engine's dual-run balance
+    difference): an independently summed settlement over the same real rows must
+    land on the same value and sign, so a sign or scale mistake in the wiring
+    cannot pass unnoticed.
+    """
+    from v8_next.adapters.basket_backtest import run_basket_funding_measurement
+    from v8_next.domain.basket import quad_tape_legs, single_leg_buy_hold
+
+    tape_path = str(_quad_tape_dir())
+    limit = 120
+    loaded = quad_tape_legs(tape_path, limit=limit)
+    legs = {sym: loaded.candles[sym] for sym in QUAD_INSTRUMENTS}
+    measured = run_basket_funding_measurement(
+        legs,
+        single_leg_buy_hold("BTCUSDT"),
+        loaded.funding,
+        capital=Decimal("10000"),
+        taker_fee=Decimal("0.0005"),
+    )
+    assert measured["funding_basis"] == "ENGINE_SETTLED"
+    assert measured["funding_settlements_fed"] > 0
+
+    closes = [float(c.close) for c in legs["BTCUSDT"]]
+    end_ns = [c.end_ns for c in legs["BTCUSDT"]]
+    qty = 10000.0 / closes[0]
+    expected = 0.0
+    for row in loaded.funding:
+        if row.instrument != "BTCUSDT":
+            continue
+        boundary = row.funding_time_ms * 1_000_000
+        if not (end_ns[0] <= boundary <= end_ns[-1]):
+            continue
+        mark = next((closes[i] for i in range(len(closes)) if end_ns[i] >= boundary), None)
+        if mark is None:
+            continue
+        expected += -qty * mark * float(row.funding_rate)
+    assert measured["funding_cost"] == pytest.approx(expected, rel=0.01)

@@ -135,6 +135,66 @@ def test_mechanics_capacity_bounds_from_participation() -> None:
     assert capacity_from_participation([], 10000.0)[0]["max_capital_linear"] is None
 
 
+def test_portfolio_benchmark_legs_publish_a_measured_funding_feed(tmp_path: Path) -> None:
+    """Every benchmark leg with an engine rule carries an engine-measured number.
+
+    The residual this pins: the canonical portfolio path built its family
+    analytically and printed "no funding feed reached this curve" on every
+    benchmark leg -- even the ones the engine executes -- while the tape carried
+    real funding rows. Real quad tape; skips when absent.
+    """
+    from v8_next.app import portfolio as port_mod
+
+    tape = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+    if not (tape / "tape.jsonl").exists():
+        pytest.skip("quad tape absent")
+    out_dir = tmp_path / "port"
+    rc = port_mod.main([
+        "--tape-path", str(tape), "--bars", "385",
+        "--output-dir", str(out_dir), "--primary", "equal_weight",
+    ])
+    assert rc == 0
+    receipt = json.loads(
+        sorted(out_dir.glob("economic_receipt_*.json"))[0].read_text(encoding="utf-8")
+    )
+    feed = receipt["controls"]["benchmark_funding_feed"]
+    assert feed["method"] == "ENGINE_DUAL_RUN_BALANCE_DIFFERENCE"
+    assert feed["tape_funding_rows"] > 0
+    measured_legs = {
+        "bh_AVAXUSDT-PERP": "AVAXUSDT_buy_hold",
+        "bh_BTCUSDT-PERP": "BTCUSDT_buy_hold",
+        "bh_ETHUSDT-PERP": "ETHUSDT_buy_hold",
+        "bh_SOLUSDT-PERP": "SOLUSDT_buy_hold",
+        "equal_weight": "equal_weight_quad",
+        "vol_target": "vol_target_quad",
+    }
+    for leg, basket_id in measured_legs.items():
+        m = receipt["metrics"][leg]
+        assert m["funding_cost"] is not None, leg
+        assert m["funding_basis"] == eb.FUNDING_MEASURED, leg
+        # The cell carries the number, never a reason for its absence.
+        assert eb.funding_cell(eb.MetricSet(**m)) == f"{m['funding_cost']:.2f}", leg
+        # Auditable in the receipt: which basket, and that the engine really fed
+        # funding rows to it.
+        record = feed["legs"][leg]
+        assert record["funding_basket"] == basket_id, leg
+        assert record["funding_engine_basis"] == "ENGINE_SETTLED", leg
+        assert record["funding_settlements_fed"] > 0, leg
+        assert record["funding_rows_available"] > 0, leg
+        assert m["funding_cost"] == pytest.approx(record["funding"]), leg
+
+    # The two legs with no engine basket state their own case: a measured zero
+    # and a named rule gap, never "no funding feed reached this curve".
+    cash = receipt["metrics"]["cash"]
+    assert cash["funding_cost"] is None
+    assert eb.funding_cell(eb.MetricSet(**cash)) == "0.00 (NO_EXPOSURE)"
+    trend = receipt["metrics"]["simple_trend"]
+    assert trend["funding_cost"] is None
+    assert trend["funding_basis"] == eb.FUNDING_NO_ENGINE_RULE
+    assert eb.funding_cell(eb.MetricSet(**trend)) == "n/a (NO_ENGINE_RULE)"
+    assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
+
+
 def test_portfolio_quad_end_to_end(tmp_path: Path) -> None:
     from v8_next.app import portfolio as port_mod
 

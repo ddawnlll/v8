@@ -58,15 +58,31 @@ class BasketSpec:
         return len(self.instruments) > 1
 
 
+def single_leg_buy_hold(symbol: str, *, description: str | None = None) -> BasketSpec:
+    """The one-instrument buy-and-hold basket for *symbol*.
+
+    Membership is the named instrument and the rule is the one ``btc_buy_hold``
+    declares: one order at the first aligned bar, held to the end. Built from the
+    name so a per-leg benchmark curve is measured against a basket that executes
+    that leg's own rule, instead of being priced by an index of the whole quad.
+    """
+    return BasketSpec(
+        basket_id=f"{symbol}_buy_hold",
+        kind="buy_hold",
+        instruments=(symbol,),
+        description=(
+            description
+            or f"Single-asset {symbol} buy-and-hold (reference, 1 instrument)"
+        ),
+        rebalance_bars=None,
+    )
+
+
 #: Canonical baskets. Every one of these is executable in the native engine; the
 #: membership is a declared instrument list, never a universe inferred at runtime.
 BASKETS: dict[str, BasketSpec] = {
-    "btc_buy_hold": BasketSpec(
-        basket_id="btc_buy_hold",
-        kind="buy_hold",
-        instruments=("BTCUSDT",),
-        description="Single-asset BTC buy-and-hold (reference, 1 instrument)",
-        rebalance_bars=None,
+    "btc_buy_hold": single_leg_buy_hold(
+        "BTCUSDT", description="Single-asset BTC buy-and-hold (reference, 1 instrument)"
     ),
     "equal_weight_quad": BasketSpec(
         basket_id="equal_weight_quad",
