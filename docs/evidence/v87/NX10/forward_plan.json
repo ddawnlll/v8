@@ -1,0 +1,24 @@
+{
+  "baseline": "causal_trend",
+  "code_and_lock_hash": "f230c2bddabb4d0f8c8dc7f11e51a2f81a1945b01b36b98bfe3c5ac61c3b7a2c",
+  "end_ns": 1789189200000000000,
+  "end_utc": "2026-09-12T05:00:00Z",
+  "freeze_clock_ns": 1789099251317367000,
+  "historical_replay_labelled_prospective": false,
+  "note": "the window opens after the freeze clock; nothing in this file was measured on a historical replay",
+  "plan_digest": "eb99fa1d5438c4991a2c425516a1b61e76b113ae6bef317e2d5de89a03c8666f",
+  "plan_id": "NX10-PUBLIC-SHADOW-01",
+  "policies": [
+    "causal_trend",
+    "squeeze_swing"
+  ],
+  "prospective_label": "PROSPECTIVE_WINDOW_NOT_YET_OBSERVED",
+  "resampling": {
+    "block_size": 5,
+    "reps": 999,
+    "seed": 7
+  },
+  "start_ns": 1789102800000000000,
+  "start_utc": "2026-09-11T05:00:00Z",
+  "window_is_in_the_future": true
+}

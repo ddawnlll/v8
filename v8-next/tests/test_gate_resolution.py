@@ -205,15 +205,35 @@ def test_g8_live_realization_modes(tmp_path: Path):
     assert state == GateState.NOT_APPLICABLE
     assert metrics["mode"] == "DIAGNOSTIC_FOLD"
 
-    # 2. Live venue settled fills
+    # 2. A well-formed file is public paper (NX10.R4): technical evidence, not a
+    # settlement. It must NOT reach PASS however valid its columns look.
     fills_file = tmp_path / "fills.jsonl"
     fills_file.write_text(
         json.dumps({"fill_id": "F-001", "instrument": "BTCUSDT", "price": 105000, "qty": 0.01}) + "\n"
     )
-    state_live, metrics_live = evaluate_g8_live_realization(live_fills_path=fills_file)
+    state_paper, metrics_paper = evaluate_g8_live_realization(live_fills_path=fills_file)
+    assert state_paper == GateState.NOT_APPLICABLE
+    assert metrics_paper["mode"] == "PUBLIC_PAPER_NOT_SETTLED"
+    assert metrics_paper["authority"] == "NONE"
+    assert metrics_paper["fills_count"] == 1
+    assert "PUBLIC_PAPER_TECHNICAL_EVIDENCE_ONLY" in metrics_paper["reason"]
+
+    # 2b. Only an authenticated venue statement with an account identity is
+    # allowed to read as settled.
+    with pytest.raises(ValueError, match="account identity"):
+        evaluate_g8_live_realization(
+            live_fills_path=fills_file,
+            provenance="authenticated_venue_statement",
+        )
+    state_live, metrics_live = evaluate_g8_live_realization(
+        live_fills_path=fills_file,
+        provenance="authenticated_venue_statement",
+        account_id="acct-unit-test",
+    )
     assert state_live == GateState.PASS
     assert metrics_live["mode"] == "LIVE_VENUE_SETTLED"
     assert metrics_live["fills_count"] == 1
+    assert metrics_live["authority"] == "VENUE_STATEMENT"
     # No account supplied: PASS must be explicitly labeled unreconciled,
     # never mistaken for a matched realization.
     assert metrics_live["account_reconciled"] is False

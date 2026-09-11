@@ -1,0 +1,110 @@
+{
+  "accepted": 9,
+  "accepted_events": [
+    {
+      "arrival_ns": 1789099254938020000,
+      "event_ns": 1789099251971000000,
+      "idempotency_key": "BINANCE_FAPI_AGGTRADES_PUBLIC:BTCUSDT:3446183521",
+      "price": "76855.90",
+      "qty": "0.013",
+      "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+      "symbol": "BTCUSDT",
+      "trade_id": "3446183521"
+    },
+    {
+      "arrival_ns": 1789099254938020000,
+      "event_ns": 1789099252602000000,
+      "idempotency_key": "BINANCE_FAPI_AGGTRADES_PUBLIC:BTCUSDT:3446183522",
+      "price": "76855.90",
+      "qty": "0.136",
+      "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+      "symbol": "BTCUSDT",
+      "trade_id": "3446183522"
+    },
+    {
+      "arrival_ns": 1789099254938020000,
+      "event_ns": 1789099253236000000,
+      "idempotency_key": "BINANCE_FAPI_AGGTRADES_PUBLIC:BTCUSDT:3446183523",
+      "price": "76856.00",
+      "qty": "0.012",
+      "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+      "symbol": "BTCUSDT",
+      "trade_id": "3446183523"
+    },
+    {
+      "arrival_ns": 1789099254938020000,
+      "event_ns": 1789099253470000000,
+      "idempotency_key": "BINANCE_FAPI_AGGTRADES_PUBLIC:BTCUSDT:3446183524",
+      "price": "76855.90",
+      "qty": "0.012",
+      "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+      "symbol": "BTCUSDT",
+      "trade_id": "3446183524"
+    },
+    {
+      "arrival_ns": 1789099254938020000,
+      "event_ns": 1789099253605000000,
+      "idempotency_key": "BINANCE_FAPI_AGGTRADES_PUBLIC:BTCUSDT:3446183525",
+      "price": "76855.90",
+      "qty": "0.004",
+      "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+      "symbol": "BTCUSDT",
+      "trade_id": "3446183525"
+    },
+    {
+      "arrival_ns": 1789099254938020000,
+      "event_ns": 1789099253758000000,
+      "idempotency_key": "BINANCE_FAPI_AGGTRADES_PUBLIC:BTCUSDT:3446183526",
+      "price": "76855.90",
+      "qty": "0.025",
+      "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+      "symbol": "BTCUSDT",
+      "trade_id": "3446183526"
+    },
+    {
+      "arrival_ns": 1789099254938020000,
+      "event_ns": 1789099254239000000,
+      "idempotency_key": "BINANCE_FAPI_AGGTRADES_PUBLIC:BTCUSDT:3446183527",
+      "price": "76855.90",
+      "qty": "0.005",
+      "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+      "symbol": "BTCUSDT",
+      "trade_id": "3446183527"
+    },
+    {
+      "arrival_ns": 1789099254938020000,
+      "event_ns": 1789099254565000000,
+      "idempotency_key": "BINANCE_FAPI_AGGTRADES_PUBLIC:BTCUSDT:3446183528",
+      "price": "76855.90",
+      "qty": "0.024",
+      "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+      "symbol": "BTCUSDT",
+      "trade_id": "3446183528"
+    },
+    {
+      "arrival_ns": 1789099254938020000,
+      "event_ns": 1789099254787000000,
+      "idempotency_key": "BINANCE_FAPI_AGGTRADES_PUBLIC:BTCUSDT:3446183529",
+      "price": "76855.90",
+      "qty": "0.599",
+      "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+      "symbol": "BTCUSDT",
+      "trade_id": "3446183529"
+    }
+  ],
+  "batch_identity": {
+    "chain_hash": "f212109f27a4bec207bb995a1fa98c7cde294be994e8490b1ad394fa0056cede",
+    "events": 9,
+    "first_arrival_ns": 1789099254938020000,
+    "first_event_ns": 1789099251971000000,
+    "last_arrival_ns": 1789099254938020000,
+    "last_event_ns": 1789099254787000000,
+    "payload_sha256": "58eb1a6a29c6d32471614472e6c20b07fd51d1f32bf79a654701e61d5f7dc29f",
+    "prev_hash": "1be3b34520cb1e7aa71690c24147cb073630f7f6d30f8002b8cea657575d88a9"
+  },
+  "duplicates_dropped": 991,
+  "gap": null,
+  "out_of_order_rejected": 0,
+  "received": 1000,
+  "recovery_required": false
+}

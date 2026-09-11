@@ -1,0 +1,56 @@
+{
+  "arrival_and_event_clocks_recorded": true,
+  "authority": "NONE",
+  "batches": 2,
+  "bounded_capture": true,
+  "capture_manifest_sha256": "ea0fd71b38e86ce944fb582f19220ca1bfee0c1ad95fd44da16ee562e3e67a51",
+  "capture_seconds": 12,
+  "capture_version": "v87-public-capture-v1",
+  "chain_hash": "f212109f27a4bec207bb995a1fa98c7cde294be994e8490b1ad394fa0056cede",
+  "economic_claim": "NONE",
+  "exactly_once": {
+    "accepted": 1009,
+    "duplicates_dropped": 1000,
+    "gaps": 0,
+    "out_of_order_rejected": 0
+  },
+  "g7_note": "G7 cannot pass on this evidence: no declared prospective stream and no maturity (NX10.R5)",
+  "g7_reason": "PSEUDO_PROSPECTIVE_HISTORICAL_WINDOW_NOT_ACCEPTED",
+  "g7_state": "UNKNOWN",
+  "identity_binding": {
+    "code_and_lock_hash": "f230c2bddabb4d0f8c8dc7f11e51a2f81a1945b01b36b98bfe3c5ac61c3b7a2c",
+    "per_batch_chain": true,
+    "plan_digest": "eb99fa1d5438c4991a2c425516a1b61e76b113ae6bef317e2d5de89a03c8666f"
+  },
+  "label": "PUBLIC_PAPER_CAPTURE: public venue data through an unauthenticated endpoint; technical evidence only, NOT a live settlement and NOT an account statement",
+  "polls": 2,
+  "prospective_maturity": "PENDING",
+  "prospective_maturity_reason": "the frozen window has not been observed; one bounded capture is pipeline evidence, not maturity, and holding/markout conditions are unmeasured",
+  "restart": {
+    "after_restart_merge": {
+      "accepted": 0,
+      "accepted_events": [],
+      "duplicates_dropped": 1000,
+      "gap": null,
+      "out_of_order_rejected": 0,
+      "received": 1000,
+      "recovery_required": false
+    },
+    "resume": {
+      "batches_replayed": 2,
+      "chain_verified": true,
+      "events_replayed": 1009,
+      "last_event_ns": 1789099254787000000,
+      "mode": "RESUMED",
+      "note": "state rebuilt from disk; the resumed run re-checks its own artifact chain",
+      "problems": [],
+      "resume_ns": 1789099255326663000
+    }
+  },
+  "settlement": {
+    "authority": "NONE",
+    "mode": "PUBLIC_PAPER_NOT_SETTLED",
+    "reason": "an unauthenticated public capture is technical evidence; it is not a venue settlement and never becomes one by having the right columns"
+  },
+  "technical_acceptance": "BOUNDED_CAPTURE_AND_RESTART_EVIDENCE"
+}

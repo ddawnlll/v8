@@ -993,6 +993,8 @@ def evaluate_g8_live_realization(
     *,
     source: str = "live",
     account: dict[str, Any] | None = None,
+    provenance: str = "public_paper",
+    account_id: str = "",
 ) -> tuple[GateState, dict[str, Any]]:
     """G8: Live Realization (g8_prospective_shadow).
 
@@ -1000,6 +1002,11 @@ def evaluate_g8_live_realization(
     Fixture files are NEVER counted as live (FIXTURE_NOT_LIVE).
     Absent venue/account => UNRUN_NO_VENUE_ACCOUNT (NOT_APPLICABLE diagnostic fold).
     Documented format/source/command in every branch per SHADOW_LIVE_DATA_SPEC.md.
+
+    NX10.R4: a well-formed file is public paper until an authenticated venue
+    statement says otherwise, and public paper is technical evidence -- it is
+    NOT_APPLICABLE for live realization, never PASS. Only an authenticated
+    provenance with an account identity can reach PASS.
     """
     from v8_next.adapters.shadow_ingest import (
         is_fixture_path,
@@ -1028,10 +1035,29 @@ def evaluate_g8_live_realization(
         }
 
     if live_fills_path is not None:
-        fills, meta = load_shadow_fills(live_fills_path, source=source)
+        fills, meta = load_shadow_fills(
+            live_fills_path, source=source, provenance=provenance, account_id=account_id
+        )
         mode = meta.get("mode")
         if mode == "FIXTURE_NOT_LIVE":
             return GateState.BLOCKED, {**base_doc, **meta}
+        if mode == "PUBLIC_PAPER_NOT_SETTLED":
+            return GateState.NOT_APPLICABLE, {
+                **base_doc,
+                **meta,
+                "mode": "PUBLIC_PAPER_NOT_SETTLED",
+                "reason": (
+                    "PUBLIC_PAPER_TECHNICAL_EVIDENCE_ONLY: a capture through an "
+                    "unauthenticated endpoint is not a venue settlement, so live "
+                    "realization is NOT_APPLICABLE rather than PASS (NX10.R4)"
+                ),
+                "authority": "NONE",
+                "next_step": (
+                    "an authenticated venue statement (provenance="
+                    "authenticated_venue_statement) with an account identity is required "
+                    "for live realization; this branch never mints one from a file"
+                ),
+            }
         if mode == "LIVE_VENUE_SETTLED":
             # Reconciliation against AccountState is what turns fills into a
             # verified realization. Without an account there is no

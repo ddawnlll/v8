@@ -24,16 +24,41 @@ def is_fixture_path(p: Path | str) -> bool:
     return any(m.lower() in s for m in FIXTURE_MARKERS)
 
 
+#: Provenance the caller must claim, and what it is allowed to mean. Only an
+#: authenticated venue statement may read as settled; public paper is technical
+#: evidence and can never become LIVE_VENUE_SETTLED (NX10.R4).
+PROVENANCE_PUBLIC_PAPER = "public_paper"
+PROVENANCE_AUTHENTICATED = "authenticated_venue_statement"
+
+MODE_PUBLIC_PAPER = "PUBLIC_PAPER_NOT_SETTLED"
+MODE_SETTLED = "LIVE_VENUE_SETTLED"
+
+
 def load_shadow_fills(
     path: Path | str,
     *,
     source: str = "live",
+    provenance: str = PROVENANCE_PUBLIC_PAPER,
+    account_id: str = "",
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Load and validate shadow fills file.
 
     Returns (records, meta). Meta contains mode, reason, sha256, validation details.
     Fixture source is never LIVE_VENUE_SETTLED.
+
+    NX10.R4: a well-formed file is not a settlement. Mode depends on the claimed
+    provenance: public paper (the default, and all this machine has) reads
+    ``PUBLIC_PAPER_NOT_SETTLED`` with ``authority: NONE``; only an explicitly
+    authenticated venue statement -- with an account identity -- may read
+    ``LIVE_VENUE_SETTLED``. Column presence is never treated as proof.
     """
+    if provenance not in (PROVENANCE_PUBLIC_PAPER, PROVENANCE_AUTHENTICATED):
+        raise ValueError(f"unknown provenance {provenance!r}")
+    if provenance == PROVENANCE_AUTHENTICATED and not account_id.strip():
+        raise ValueError(
+            "an authenticated venue statement requires an account identity; "
+            "a file path alone is not provenance"
+        )
     p = Path(path)
     if source == "fixture" or is_fixture_path(p):
         return [], {
@@ -92,13 +117,40 @@ def load_shadow_fills(
     valid = [r for r in records if all(k in r for k in ("fill_id", "instrument", "price", "qty"))]
     if not valid:
         return [], {"mode": "UNRUN_NO_VENUE_ACCOUNT", "reason": "no valid fill records", "path": str(p), "sha256": sha, "errors": errors}
-    return valid, {"mode": "LIVE_VENUE_SETTLED", "fills_count": len(valid), "path": str(p), "sha256": sha, "errors": errors[:5]}
+    if provenance == PROVENANCE_AUTHENTICATED:
+        mode = MODE_SETTLED
+        authority = "VENUE_STATEMENT"
+    else:
+        mode = MODE_PUBLIC_PAPER
+        authority = "NONE"
+    return valid, {
+        "mode": mode,
+        "status": mode,
+        "fills_count": len(valid),
+        "path": str(p),
+        "sha256": sha,
+        "errors": errors[:5],
+        "provenance": provenance,
+        "account_id": account_id or None,
+        "authority": authority,
+        "label": (
+            "PUBLIC_PAPER: technical evidence of a capture pipeline, not a settlement"
+            if provenance == PROVENANCE_PUBLIC_PAPER
+            else "AUTHENTICATED_VENUE_STATEMENT"
+        ),
+        "note": (
+            "a valid file shows the pipeline ran; it does not show that a venue "
+            "settled anything (NX10.R4)"
+        ),
+    }
 
 
 def ingest_status(
     path: Path | str | None = None,
     *,
     source: str = "live",
+    provenance: str = PROVENANCE_PUBLIC_PAPER,
+    account_id: str = "",
 ) -> dict[str, Any]:
     """Return ingest status dict without raising. Used by G8 and CLI."""
     p = Path(path) if path is not None else DEFAULT_SHADOW_FILLS
@@ -124,8 +176,14 @@ def ingest_status(
             "command": "uv run --project v8-next python -m v8_next.adapters.shadow_ingest fetch --symbol BTCUSDT --out artifacts/shadow_fills.jsonl",
             "funding_note": "public funding is in research/tape/quad-1h-12m/tape.jsonl (channel=funding); see funding_history.quad_funding_summary",
         }
-    _, meta = load_shadow_fills(p, source=source)
+    _, meta = load_shadow_fills(
+        p, source=source, provenance=provenance, account_id=account_id
+    )
     return {**meta, "status": meta.get("mode"), "format": "jsonl per docs/contracts/SHADOW_LIVE_DATA_SPEC.md",
+            "authority_note": (
+                "public paper is technical evidence; source=live or column presence is "
+                "not an authority receipt (NX10.R4)"
+            ),
             "source": "venue private REST GET /fapi/v1/userTrades", "command": "uv run --project v8-next python -m v8_next.adapters.shadow_ingest verify --fills artifacts/shadow_fills.jsonl"}
 
 
@@ -150,10 +208,15 @@ def reconcile_shadow_account(
     shadow_count = len(fills)
     engine_count = len(engine_fills)
     # Hash-bound comparison: report divergence without claiming PnL
+    # NX10.R4: exactly-once means the counts must agree. "There is at least one fill"
+    # is not a reconciliation, so a count mismatch is reported, not waved through.
+    matches = shadow_count == engine_count
     return {
-        "reconciled": shadow_count == engine_count or shadow_count > 0,
+        "reconciled": matches,
+        "mode": "COUNT_MATCH" if matches else "COUNT_MISMATCH",
         "shadow_fills": shadow_count,
         "engine_filled_orders": engine_count,
+        "delta": shadow_count - engine_count,
         "account_currency": account.get("currency"),
         "note": "shadow vs simulated; venue settlement finality not certified here",
     }
