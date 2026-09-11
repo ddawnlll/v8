@@ -22,12 +22,16 @@ from v8_next.evaluation import gate_resolution
 from v8_next.evaluation.benchmark_receipt import GATE_DESCRIPTORS, GateVector
 
 #: Which resolver function owns each canonical gate id, as it exists today in
-#: ``evaluation.gate_resolution``. A gate that is resolved structurally (by the
-#: receipt/vector itself) says so explicitly instead of being left blank.
+#: ``evaluation.gate_resolution``. Every value is a real symbol in that module: #447
+#: removed the ``resolver:receipt_structural`` declaration, which named no resolver at
+#: all and was skipped by ``validate_registry`` -- a published state was fed by a map
+#: entry nobody could check. The structural trio G0/G1/G2 is resolved by one measured
+#: step, ``resolve_structural_gates``, which produces all three cells from the
+#: measured lineage, the unmeasured PIT input and the verified ledger.
 GATE_RESOLVERS: dict[str, str] = {
-    "G0ConstitutionalIntegrity": "resolver:receipt_structural",
-    "G1MeasurementIdentity": "resolver:receipt_structural",
-    "G2HistoricalDiagnostic": "resolver:receipt_structural",
+    "G0ConstitutionalIntegrity": "resolve_structural_gates",
+    "G1MeasurementIdentity": "resolve_structural_gates",
+    "G2HistoricalDiagnostic": "resolve_structural_gates",
     "G3ScenarioRobustness": "evaluate_g3_scenario_robustness",
     "G4SyntheticFalsification": "evaluate_g4_synthetic_falsification",
     "G5SelectionControl": "evaluate_g5_selection_control",
@@ -103,7 +107,13 @@ def registry_by_id() -> dict[str, GateRegistryEntry]:
 
 
 def validate_registry() -> list[str]:
-    """Return every inconsistency; an empty list means the map matches reality."""
+    """Return every inconsistency; an empty list means the map matches reality.
+
+    #447: every declared resolver is resolved against ``gate_resolution``. A
+    ``resolver:`` prefix used to be skipped as a self-declaring structural marker,
+    which let the map point at a symbol that does not exist and still validate --
+    the check the registry exists for was the one place it could be bypassed.
+    """
     problems: list[str] = []
     registry = gate_registry()
     fields = tuple(GateVector.model_fields)
@@ -122,11 +132,12 @@ def validate_registry() -> list[str]:
             problems.append(f"{entry.canonical_id}: unknown readiness role {entry.readiness_role!r}")
         if not entry.source_clause.strip():
             problems.append(f"{entry.canonical_id}: empty source clause")
-        resolver = entry.resolver
-        if resolver.startswith("resolver:"):
-            continue
-        if not hasattr(gate_resolution, resolver):
-            problems.append(f"{entry.canonical_id}: resolver {resolver!r} is not in gate_resolution")
+        resolver = getattr(gate_resolution, entry.resolver, None)
+        if not callable(resolver):
+            problems.append(
+                f"{entry.canonical_id}: resolver {entry.resolver!r} is not a callable "
+                "in gate_resolution"
+            )
     for canonical_id in GATE_RESOLVERS:
         if canonical_id not in {entry.canonical_id for entry in registry}:
             problems.append(f"{canonical_id}: resolver declared for an unknown gate")

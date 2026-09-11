@@ -15,7 +15,7 @@ from __future__ import annotations
 import json
 import math
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
 from typing import Any, Sequence
@@ -42,6 +42,7 @@ from v8_next.evaluation.economic_benchmark import (
     campaign_accounting,
 )
 from v8_next.evaluation.reality_check import reality_check_diagnostic
+from v8_next.evaluation.scoring import evaluate_gate_vector
 from v8_next.evaluation.statistics_plan import (
     CANONICAL_G5_BLOCK_SIZE,
     StatisticsPlan,
@@ -1382,6 +1383,175 @@ def evaluate_g9_certificate_authority(
     return GateState.BLOCKED, {"error": msg}, None
 
 
+# --------------------------------------------------------------------------- #
+# #447 — the structural trio G0/G1/G2 is resolved from measurement, never declared
+# --------------------------------------------------------------------------- #
+
+#: Named reason this path publishes when the ledger it was handed carries no entry
+#: to verify. An empty ledger is not a verified ledger: absent evidence is named,
+#: never read as a PASS.
+LEDGER_EMPTY_NO_ENTRIES = "LEDGER_EMPTY_NO_ENTRIES_TO_VERIFY"
+#: Named reason prefix for a ledger whose own verification did not hold.
+LEDGER_VERIFICATION_FAILED = "LEDGER_VERIFICATION_FAILED"
+#: Named reason G2 carries when the ledger verified but no engine rerun was compared:
+#: ledger conservation and engine determinism are two different measurements.
+DETERMINISM_RERUN_NOT_PERFORMED = "DETERMINISM_RERUN_NOT_PERFORMED"
+#: Named reason G1 carries on this path: no per-bar decision-vs-availability audit
+#: is performed here, so the causal-PIT input is unmeasured by construction.
+CAUSAL_PIT_NOT_MEASURED = "CAUSAL_PIT_NOT_MEASURED_ON_THIS_PATH"
+
+
+@dataclass(frozen=True)
+class StructuralGateInputs:
+    """The measured inputs the canonical scoring rule turns into G0/G1/G2 (#447)."""
+
+    has_continuous_lineage: bool | None
+    is_causal_pit: bool | None
+    g2_state: GateState
+
+
+@dataclass(frozen=True)
+class StructuralGateResolution:
+    """G0/G1/G2 as measured, with the named reason each state carries (#447).
+
+    ``gates`` is the canonical scoring rule's own output on ``inputs``; this battery
+    hands the same ``inputs`` to the rule for every vector it publishes, so the
+    structural cells of those vectors are this derivation by construction.
+    """
+
+    inputs: StructuralGateInputs
+    gates: GateVector
+    metrics: dict[str, dict[str, Any]]
+
+    def state(self, vector_field: str) -> GateState:
+        """The resolved state of one of the three structural cells."""
+        if vector_field not in ("g0_identity", "g1_causal_pit", "g2_determinism_ledger"):
+            raise ValueError(f"{vector_field!r} is not a structural gate cell")
+        return getattr(self.gates, vector_field)
+
+
+def measure_ledger_parity(ledger: BenchmarkLedger) -> tuple[GateState, dict[str, Any]]:
+    """G2's measured input on this path: the ledger this battery was handed, verified.
+
+    #447: the G2 cell of the readiness vector was a literal ``PASS``; here it is a
+    state derived from a measurement that can actually be taken on the bars and the
+    ledger this battery receives:
+
+    * **no entries** -> ``UNKNOWN`` with ``LEDGER_EMPTY_NO_ENTRIES_TO_VERIFY``. An
+      empty ledger verifies vacuously, and a vacuous verification is not evidence.
+    * **verification fails** (chain / digest / bound artifacts / score binding) ->
+      ``BLOCKED`` with ``LEDGER_VERIFICATION_FAILED:<overall>``. This is a measured
+      failure, not an absence of measurement.
+    * **verifies cleanly** -> ``UNKNOWN`` with ``DETERMINISM_RERUN_NOT_PERFORMED``.
+      A verified ledger proves the ledger half of ``g2_determinism_ledger``; engine
+      rerun parity is a different measurement (the runner's ``measure_determinism``)
+      which this path does not perform, so a clean ledger is not read as a PASS.
+    """
+    entries = ledger.entries
+    if not entries:
+        return GateState.UNKNOWN, {
+            "status": "UNRUN",
+            "reason": LEDGER_EMPTY_NO_ENTRIES,
+            "entries": 0,
+            "note": "an empty ledger evidences no ledger parity; UNKNOWN, never PASS",
+        }
+    report = ledger.verify_report()
+    summary = {
+        "entries": len(entries),
+        "ledger_overall": report.overall,
+        "chain_valid": report.chain_valid,
+        "digests_valid": report.digests_valid,
+        "artifacts_intact": report.artifacts_intact,
+        "score_bindings_valid": report.score_bindings_valid,
+        "score_binding": report.score_binding,
+    }
+    clean = (
+        report.overall == "OK"
+        and report.chain_valid
+        and report.digests_valid
+        and report.artifacts_intact
+        and report.score_bindings_valid
+    )
+    if not clean:
+        return GateState.BLOCKED, {
+            "status": "FAIL",
+            "reason": f"{LEDGER_VERIFICATION_FAILED}:{report.overall}",
+            **summary,
+        }
+    return GateState.UNKNOWN, {
+        "status": "UNRUN",
+        "reason": DETERMINISM_RERUN_NOT_PERFORMED,
+        **summary,
+        "note": (
+            "the ledger verified; no engine rerun was compared, so the determinism "
+            "half of this gate stays unmeasured; UNKNOWN, never PASS"
+        ),
+    }
+
+
+def resolve_structural_gates(
+    candles: Sequence[Candle], ledger: BenchmarkLedger
+) -> StructuralGateResolution:
+    """Resolve G0/G1/G2 from what was measured, through the canonical scoring rule.
+
+    #447: the battery used to publish these three cells as literals, so a published
+    state stood without a measurement behind it and the registry entry feeding that
+    number named no resolver in the tree. Every state here is a measurement or a
+    named absence:
+
+    * **G0** — the runner's own candle-lineage measurement
+      (:func:`v8_next.evaluation.runner.measure_candle_lineage`), reused rather than
+      re-implemented. No candles -> ``None`` -> ``UNKNOWN``, never PASS.
+    * **G1** — no per-bar decision-vs-availability audit exists on this path, so the
+      input is an explicit ``None``; the rule resolves it to ``UNKNOWN`` with
+      ``CAUSAL_PIT_NOT_MEASURED_ON_THIS_PATH``, never PASS.
+    * **G2** — :func:`measure_ledger_parity`.
+
+    The states themselves are produced by :func:`scoring.evaluate_gate_vector` on
+    exactly these inputs: no second ontology, and the probe vector's other cells are
+    never read.
+    """
+    # Deferred import: ``evaluation.runner`` imports this module at import time, so
+    # the lineage measurement is taken from its owning module here, inside the call.
+    from v8_next.evaluation.runner import measure_candle_lineage
+
+    lineage_ok, lineage_info = measure_candle_lineage(tuple(candles))
+    g2_state, g2_metrics = measure_ledger_parity(ledger)
+    inputs = StructuralGateInputs(
+        has_continuous_lineage=lineage_ok,
+        is_causal_pit=None,
+        g2_state=g2_state,
+    )
+    probe = evaluate_gate_vector(
+        total_bars=len(candles),
+        total_trades=0,
+        pnl_series=[],
+        mismatches=None,
+        has_continuous_lineage=inputs.has_continuous_lineage,
+        is_causal_pit=inputs.is_causal_pit,
+        g2_state=inputs.g2_state,
+    )
+    metrics: dict[str, dict[str, Any]] = {
+        "g0": {
+            **lineage_info,
+            "input": "has_continuous_lineage",
+            "measured": lineage_ok,
+        },
+        "g1": {
+            "status": "UNRUN",
+            "reason": CAUSAL_PIT_NOT_MEASURED,
+            "input": "is_causal_pit",
+            "measured": None,
+            "note": (
+                "no per-bar decision-vs-availability audit is performed on this path; "
+                "UNKNOWN, never PASS"
+            ),
+        },
+        "g2": g2_metrics,
+    }
+    return StructuralGateResolution(inputs=inputs, gates=probe, metrics=metrics)
+
+
 @dataclass(frozen=True)
 class GateResolutionReport:
     """Full execution report of the G0-G9 gate resolution battery."""
@@ -1395,6 +1565,12 @@ class GateResolutionReport:
     g8_metrics: dict[str, Any]
     g9_metrics: dict[str, Any]
     claim_record: StatutoryClaimRecord | None
+    #: #447. What the structural trio was measured from, and the named reason each of
+    #: its cells carries. The published state is only as good as the measurement
+    #: behind it, so the measurement travels with the vector.
+    g0_metrics: dict[str, Any] = field(default_factory=dict)
+    g1_metrics: dict[str, Any] = field(default_factory=dict)
+    g2_metrics: dict[str, Any] = field(default_factory=dict)
 
 
 def resolve_all_gates(
@@ -1463,18 +1639,28 @@ def resolve_all_gates(
     # 6. G8 Live Realization
     g8_state, g8_metrics = evaluate_g8_live_realization(live_fills_path=live_fills_path)
 
-    # Partial GateVector before G9 issuance
-    partial_gates = GateVector(
-        g0_identity=GateState.PASS,
-        g1_causal_pit=GateState.PASS,
-        g2_determinism_ledger=GateState.PASS,
-        g3_benchmark_coverage=g3_state,
-        g4_structural_robustness=g4_state,
-        g5_statistical_credibility=g5_state,
-        g6_protected_oos=g6_state,
-        g7_generalization=g7_state,
-        g8_prospective_shadow=g8_state,
-        g9_live_realization=GateState.MISSING,
+    # 6b. #447: G0/G1/G2 are measured here, never declared. The same measured inputs
+    # feed every vector this battery publishes -- the partial vector G9 is issued
+    # against and the final one -- so all three cells below come from
+    # `scoring.evaluate_gate_vector`, the canonical rule, and not from a literal.
+    structural = resolve_structural_gates(candles, ledger)
+
+    # Partial GateVector before G9 issuance (the pass-through args carry the run's
+    # own campaign series; the cells they could decide are given explicitly).
+    partial_gates = evaluate_gate_vector(
+        total_bars=len(candles),
+        total_trades=len(campaign_return_series),
+        pnl_series=list(campaign_return_series),
+        mismatches=None,
+        has_continuous_lineage=structural.inputs.has_continuous_lineage,
+        is_causal_pit=structural.inputs.is_causal_pit,
+        g2_state=structural.inputs.g2_state,
+        g3_state=g3_state,
+        g4_state=g4_state,
+        g5_state=g5_state,
+        g6_state=g6_state,
+        g7_state=g7_state,
+        g8_state=g8_state,
     )
 
     # 7. G9 Certificate Authority (ClaimRegistry)
@@ -1488,17 +1674,21 @@ def resolve_all_gates(
         live_realization_verified=live_verified,
     )
 
-    final_gates = GateVector(
-        g0_identity=GateState.PASS,
-        g1_causal_pit=GateState.PASS,
-        g2_determinism_ledger=GateState.PASS,
-        g3_benchmark_coverage=g3_state,
-        g4_structural_robustness=g4_state,
-        g5_statistical_credibility=g5_state,
-        g6_protected_oos=g6_state,
-        g7_generalization=g7_state,
-        g8_prospective_shadow=g8_state,
-        g9_live_realization=g9_state,
+    final_gates = evaluate_gate_vector(
+        total_bars=len(candles),
+        total_trades=len(campaign_return_series),
+        pnl_series=list(campaign_return_series),
+        mismatches=None,
+        has_continuous_lineage=structural.inputs.has_continuous_lineage,
+        is_causal_pit=structural.inputs.is_causal_pit,
+        g2_state=structural.inputs.g2_state,
+        g3_state=g3_state,
+        g4_state=g4_state,
+        g5_state=g5_state,
+        g6_state=g6_state,
+        g7_state=g7_state,
+        g8_state=g8_state,
+        g9_state=g9_state,
     )
 
     return GateResolutionReport(
@@ -1511,4 +1701,7 @@ def resolve_all_gates(
         g8_metrics=g8_metrics,
         g9_metrics=g9_metrics,
         claim_record=claim_record,
+        g0_metrics=structural.metrics["g0"],
+        g1_metrics=structural.metrics["g1"],
+        g2_metrics=structural.metrics["g2"],
     )
