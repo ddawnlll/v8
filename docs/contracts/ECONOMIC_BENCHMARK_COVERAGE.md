@@ -6,8 +6,10 @@ and the canonical flow. Status is DONE, OPEN (software work remaining), or
 BLOCKED_EXTERNAL (needs venue records, credentials, or a human capital decision).
 No synthetic fallback is accepted anywhere below.
 
-Canonical reproduction:
-`uv run --project v8-next python -m v8_next.app.cli benchmark-portfolio
+Canonical reproduction (`--extra research` is required: `scipy`/`arch` are
+optional dependencies, and without them every estimator fails closed and
+`statistical` degrades to `UNSUPPORTED` on a fresh sync):
+`uv run --project v8-next --extra research python -m v8_next.app.cli benchmark-portfolio
 --tape-path research/tape/quad-1h-12m --bars 385 --output-dir artifacts/portfolio-benchmark
 --primary equal_weight`
 

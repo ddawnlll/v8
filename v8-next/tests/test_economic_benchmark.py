@@ -9,6 +9,10 @@ the tape is absent. Synthetic candles are banned there.
 
 import json
 import math
+import os
+import re
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -443,6 +447,91 @@ def test_mechanics_failed_estimators_stay_unsuccessful() -> None:
     assert "NO_ECONOMIC_CLAIM" == eb.EconomicReceipt.__pydantic_fields__["claim_status"].default
 
 
+def _starved_stats() -> dict[str, Any]:
+    """The exact reasons `run_statistics` records when the extras are absent."""
+    return {
+        "dsr": {"verdict": "UNDERPOWERED", "reason": "ModuleNotFoundError: No module named 'scipy'"},
+        "pbo": {"verdict": "UNDERPOWERED", "reason": "ModuleNotFoundError: No module named 'scipy'"},
+        "spa": {"verdict": "UNSUPPORTED", "reason": "ModuleNotFoundError: No module named 'arch'"},
+    }
+
+
+def test_mechanics_unprovisioned_estimators_are_named_not_implied() -> None:
+    """A missing optional `research` dependency must not read as "ran, found nothing".
+
+    `scipy` and `arch` are declared only in `[project.optional-dependencies].research`.
+    When they are absent, all three estimators fail closed and `build_verdicts`
+    short-circuits to one verdict string, so two distinct epistemic states —
+    "the estimator was never provisioned" and "the estimator ran and produced no
+    supporting output" — collapse into the same operator surface. That collapse
+    is what made a missing extra read as a statistical regression.
+    """
+    assert eb.unprovisioned_estimators(_starved_stats()) == ("arch", "scipy")
+    v = eb.build_verdicts(
+        chrono_ok=True,
+        chrono_note="OK",
+        excess=-0.02,
+        excess_ci=(-0.63, -0.02),
+        stats=_starved_stats(),
+        mix={"incremental_net": 0.0},
+        cost_basis_ok=True,
+        funding_missing=False,
+        live_fills_present=False,
+        parity_ok=True,
+    )
+    # Fail closed: naming the missing dependency may never upgrade the verdict.
+    assert v.statistical == "UNSUPPORTED"
+    assert v.capital == "NOT_AUTHORIZED"
+    assert "no estimator output" in v.statistical_note
+    assert "scipy" in v.statistical_note and "arch" in v.statistical_note
+    assert "extra research" in v.statistical_note
+    # An estimator that ran and was merely underpowered is NOT a provisioning failure.
+    unpowered = {
+        "dsr": {"verdict": "UNDERPOWERED", "reason": "interval count 20 is too few"},
+        "pbo": {"verdict": "UNDERPOWERED", "reason": "interval count 20 is too few"},
+        "spa": {"verdict": "UNSUPPORTED", "reason": "no variant produced a p-value"},
+    }
+    assert eb.unprovisioned_estimators(unpowered) == ()
+    v2 = eb.build_verdicts(
+        chrono_ok=True,
+        chrono_note="OK",
+        excess=-0.02,
+        excess_ci=(-0.63, -0.02),
+        stats=unpowered,
+        mix={"incremental_net": 0.0},
+        cost_basis_ok=True,
+        funding_missing=False,
+        live_fills_present=False,
+        parity_ok=True,
+    )
+    assert v2.statistical == "UNSUPPORTED"
+    assert v2.statistical_note == (
+        "no estimator output: DSR=UNDERPOWERED PBO=UNDERPOWERED SPA=UNSUPPORTED"
+    )
+
+
+def test_canonical_reproduction_commands_provision_the_research_extra() -> None:
+    """The documented canonical command must carry the extra its statistics need.
+
+    `scipy`/`arch` are optional, so a documented `uv run --project v8-next python
+    -m ...` without `--extra research` silently degrades `statistical` on a fresh
+    sync. The documented canonical commands are the reproduction contract; they
+    must not be under-provisioned.
+    """
+    project = Path(eb.project_root())
+    bare = re.compile(r"uv run --project v8-next python -m v8_next\.app\.(cli|economic)\b")
+    for path in (
+        project / "src/v8_next/app/portfolio.py",
+        project / "src/v8_next/app/economic.py",
+        project.parent / "docs/contracts/ECONOMIC_BENCHMARK_COVERAGE.md",
+    ):
+        text = " ".join(path.read_text(encoding="utf-8").split())
+        assert not bare.search(text), (
+            f"{path}: documented canonical command omits `--extra research`, so a "
+            "fresh sync degrades `statistical` to a fail-closed UNSUPPORTED"
+        )
+
+
 def test_mechanics_rules_fire_only_on_registrations() -> None:
     base = {
         "chrono_ok": True, "chrono_note": "OK", "excess": -0.02,
@@ -521,6 +610,88 @@ def test_economic_benchmark_real_tape_end_to_end(tmp_path: Path) -> None:
     # Missing-data honesty: funding stays missing, live stays unrun.
     assert receipt["metrics"]["incumbent"]["funding_cost"] is None
     assert receipt["shadow_live"]["model_vs_real_fills"] == "UNRUN"
+
+
+#: PYTHONPATH `sitecustomize` that makes the optional `research` extras
+#: unimportable, so the "fresh sync without the extra" state can be reproduced
+#: deterministically without touching any environment.
+_STARVED_EXTRA_BLOCKER = '''"""Make the optional `research` extras (`scipy`, `arch`) unimportable."""
+import importlib.abc
+import sys
+
+_BLOCKED = {"scipy", "arch"}
+
+
+class _Blocker(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        root = fullname.split(".")[0]
+        if root in _BLOCKED:
+            raise ModuleNotFoundError(f"No module named '{root}'", name=root)
+        return None
+
+
+sys.meta_path.insert(0, _Blocker())
+'''
+
+
+def test_economic_portfolio_starved_estimators_name_the_missing_dependency(
+    tmp_path: Path,
+) -> None:
+    """Discriminating test: the same canonical command, one variable changed.
+
+    The canonical portfolio command with the optional `research` extras made
+    unimportable must (a) stay fail-closed — `statistical` may never read as
+    computation having happened, `claim_status` stays `NO_ECONOMIC_CLAIM` — and
+    (b) name the missing dependency on the operator surface instead of
+    presenting an ordinary "no estimator output".
+    """
+    project = Path(eb.project_root())
+    tape = project.parent / "research/tape/quad-1h-12m"
+    if not tape.is_dir():
+        pytest.skip(f"Real tape not found at {tape}")
+    blocker = tmp_path / "blocker"
+    blocker.mkdir()
+    (blocker / "sitecustomize.py").write_text(_STARVED_EXTRA_BLOCKER, encoding="utf-8")
+    out_dir = tmp_path / "starved"
+    env = dict(os.environ)
+    env["PYTHONPATH"] = os.pathsep.join((str(blocker), str(project / "src")))
+    proc = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "v8_next.app.cli",
+            "benchmark-portfolio",
+            "--tape-path",
+            str(tape),
+            "--bars",
+            "500",
+            "--output-dir",
+            str(out_dir),
+        ],
+        capture_output=True,
+        text=True,
+        env=env,
+        cwd=str(project.parent),
+        timeout=900,
+        check=False,
+    )
+    assert proc.returncode == 0, proc.stderr[-2000:]
+    receipts = sorted(out_dir.glob("economic_receipt_*.json"))
+    reports = sorted(out_dir.glob("economic_report_*.md"))
+    assert receipts and reports, "starved run produced no receipt/report"
+    receipt = json.loads(receipts[0].read_text(encoding="utf-8"))
+    # Fail closed: a missing dependency is not a computed statistical result.
+    assert receipt["verdicts"]["statistical"] == "UNSUPPORTED"
+    assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
+    assert receipt["verdicts"]["capital"] == "NOT_AUTHORIZED"
+    note = receipt["verdicts"]["statistical_note"]
+    assert "no estimator output" in note
+    assert "scipy" in note and "arch" in note
+    assert "extra research" in note
+    # The operator surface must carry the same fact, and the report the note.
+    assert "[!] statistical=UNSUPPORTED" in proc.stdout
+    assert "scipy" in proc.stdout
+    assert f"| statistical | UNSUPPORTED | {note} |" in reports[0].read_text(encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------

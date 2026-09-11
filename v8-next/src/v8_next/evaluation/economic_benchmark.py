@@ -23,6 +23,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 import subprocess
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
@@ -1946,6 +1947,56 @@ def positive_control_known_effect(
     }
 
 
+#: An estimator whose recorded reason is a failed import was never *provisioned*:
+#: that is an environment state, not a statistical result, and it must not be
+#: presented as "the estimator ran and produced nothing". `scipy`/`arch` are
+#: declared only in `[project.optional-dependencies].research`, so a fresh sync
+#: without the extra lands exactly here.
+_UNPROVISIONED_IMPORT_RE = re.compile(
+    r"^(?:ModuleNotFoundError|ImportError): No module named '([^']+)'"
+)
+
+#: How to fix the state the note above names. Kept in one place so the receipt
+#: note and the stdout line cannot drift apart.
+UNPROVISIONED_REMEDY = (
+    "provision the optional `research` extra "
+    "(`uv run --project v8-next --extra research ...`)"
+)
+
+
+def unprovisioned_estimators(stats: dict[str, Any]) -> tuple[str, ...]:
+    """Estimator modules this interpreter could not import, sorted and deduped.
+
+    Reads the fail-closed `reason` that `run_statistics` records for DSR/PBO/SPA.
+    An empty tuple means every estimator that failed, failed for a reason of its
+    own and the verdict string must not claim a provisioning problem.
+    """
+    missing: set[str] = set()
+    for key in ("dsr", "pbo", "spa"):
+        entry = stats.get(key)
+        reason = str(entry.get("reason", "")) if isinstance(entry, dict) else ""
+        match = _UNPROVISIONED_IMPORT_RE.match(reason.strip())
+        if match:
+            missing.add(match.group(1))
+    return tuple(sorted(missing))
+
+
+def unprovisioned_estimator_hint(stats: dict[str, Any]) -> str | None:
+    """Name the missing estimator dependencies, or None when there are none.
+
+    The returned sentence is the operator-visible difference between "the
+    estimators could not be provisioned" and "the estimators ran and produced no
+    supporting output" — two states that otherwise share one verdict string.
+    """
+    missing = unprovisioned_estimators(stats)
+    if not missing:
+        return None
+    return (
+        f"estimator dependencies not provisioned: {', '.join(missing)} "
+        f"({UNPROVISIONED_REMEDY})"
+    )
+
+
 def build_verdicts(
     *,
     chrono_ok: bool,
@@ -1989,6 +2040,12 @@ def build_verdicts(
             else "UNDERPOWERED"
         )
         stat_note = f"no estimator output: {computed}"
+        hint = unprovisioned_estimator_hint(stats)
+        if hint:
+            # Fail-closed state, named: a missing optional dependency is not a
+            # statistical result and must not read as one. The verdict word and
+            # the claim boundary do not move.
+            stat_note = f"{stat_note}; {hint}"
     else:
         # Preregistered rules, applied mechanically. Computation alone mints nothing.
         spa_p = None
