@@ -204,3 +204,42 @@ def test_f3_stop_market_entry_and_emulation_are_explicit() -> None:
         f"submitted={submitted[:1]} emulated={[a for a in emulated_actions if 'EMULATED' in a][:1]} "
         f"opened_stop_market={len(stop['opened_positions'])}"
     )
+
+
+def _entry_shortfall(result: dict) -> dict:
+    """Implementation shortfall of the ENTRY fills against the authorising decision.
+
+    ``execution_telemetry`` samples one fill per *position*, so it cannot see a
+    slice: this measures the entry fills themselves (sum qty, VWAP) against the
+    decision close that authorised them, which is the quantity a slicing decision
+    is actually about.
+    """
+    entries = [r for r in result["fill_records"] if str(r.get("side")).upper() == "BUY"]
+    ref = Decimal(str(next(d["close"] for d in result["decisions"] if "SUBMITTED" in d["action"])))
+    qty = sum(Decimal(str(r["filled_qty"])) for r in entries)
+    notional = sum(Decimal(str(r["filled_qty"])) * Decimal(str(r["avg_px"])) for r in entries)
+    vwap = notional / qty
+    return {
+        "entries": len(entries),
+        "qty": qty,
+        "vwap": vwap.quantize(Decimal("0.01")),
+        "reference": ref,
+        "shortfall_bps": ((vwap - ref) / ref * Decimal(10000)).quantize(Decimal("0.0001")),
+    }
+
+
+def test_f4_child_order_implementation_shortfall_is_measured() -> None:
+    single = _entry_shortfall(_run(execution_algo="NONE"))
+    sliced = _entry_shortfall(_run(execution_algo="TWAP", twap_slices=4))
+    assert single["entries"] == 1
+    assert sliced["entries"] == 4
+    assert single["qty"] == sliced["qty"], "the two runs must trade the same size"
+    assert single["reference"] == sliced["reference"], "same decision bar"
+    delta_bps = sliced["shortfall_bps"] - single["shortfall_bps"]
+    delta_usd = (sliced["vwap"] - single["vwap"]) * single["qty"]
+    print(
+        f"\n[F4] single(1 print) vwap={single['vwap']} shortfall_bps={single['shortfall_bps']} | "
+        f"sliced(4 children) vwap={sliced['vwap']} shortfall_bps={sliced['shortfall_bps']} | "
+        f"delta={delta_bps} bps / {delta_usd} USDT on {single['qty']} BTC"
+    )
+    assert delta_bps != 0, "slicing produced no measurable shortfall difference"
