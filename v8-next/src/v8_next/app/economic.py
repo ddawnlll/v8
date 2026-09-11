@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from decimal import Decimal
 from pathlib import Path
@@ -178,12 +179,62 @@ def oos_slice_flow(
     return turnover, commission, n_trades
 
 
+#: The instrument field of a tape record. Used only to classify a tape's kline
+#: universe; no payload is parsed.
+_INSTRUMENT_FIELD = re.compile(r'"instrument"\s*:\s*"([^"]+)"')
+
+
+def is_quad_tape(tape_path: Path, *, max_lines: int = 50_000) -> bool:
+    """True when the tape's kline universe is exactly the quad universe.
+
+    Detection is on the KLINE legs, never on the funding channel: the
+    single-asset BTC tape carries real funding rows too, so "has funding" would
+    route it to the quad path and silently swap a one-asset benchmark family for
+    a four-asset one. A tape is quad when every quad instrument has a kline leg
+    here and no other instrument does -- the four-year ten-instrument tape is
+    *not* quad, and keeps the family it was always scored against.
+
+    The scan is bounded and conservative: a tape too large to classify within the
+    bound falls back to the analytic family rather than guessing.
+    """
+    from v8_next.domain.basket import QUAD_INSTRUMENTS
+
+    p = tape_path / "tape.jsonl" if tape_path.is_dir() else tape_path
+    if not p.is_file():
+        return False
+    quad = set(QUAD_INSTRUMENTS)
+    seen: set[str] = set()
+    try:
+        with open(p, encoding="utf-8") as fh:
+            for i, line in enumerate(fh):
+                if i >= max_lines:
+                    # Unclassifiable within the bound: refuse the quad route.
+                    return False
+                if '"kline"' not in line:
+                    continue
+                match = _INSTRUMENT_FIELD.search(line)
+                if match is None:
+                    continue
+                seen.add(match.group(1))
+                if not seen <= quad:
+                    return False
+    except OSError:
+        return False
+    return seen == quad
+
+
 def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[str, Any]]:
     tape_path = Path(args.tape_path)
     if not tape_path.exists():
         print(f"error: real tape not found at {tape_path}; synthetic fallback banned.", file=sys.stderr)
         raise SystemExit(2)
-    candles = load_tape_candles(tape_path, limit=args.bars)
+    # Single truth: a quad multi-asset tape scores the BTC strategy against the
+    # engine-executed basket family (shared account, real funding settled); a
+    # single-asset tape keeps the analytic family it was always scored against.
+    # Resolved before the candles are read because a multi-instrument tape must
+    # be filtered to one leg: interleaved symbols are not a chronological series.
+    quad_mode = is_quad_tape(tape_path)
+    candles = load_tape_candles(tape_path, limit=args.bars, instrument="BTCUSDT" if quad_mode else None)
     bars = eb.bars_from_candles(candles)
     chrono_ok, chrono_note = eb.validate_chronology(bars)
     leak_ok, leak_note = eb.detect_future_leak(bars)
@@ -263,7 +314,19 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
 
     inc_ser = eb.strategy_series_from_engine(inc_res, bars, args.capital, args.taker_fee)
     ch_ser = eb.strategy_series_from_engine(ch_res, bars, args.capital, args.taker_fee)
-    fams = eb.compute_benchmark_family(bars, args.capital, args.taker_fee)
+    # Single truth: a quad multi-asset tape gets the engine-executed basket
+    # family (shared account, real funding settled), a single-asset tape keeps
+    # the analytic family it was always scored against.
+    if quad_mode:
+        print("[+] quad tape detected: engine-executed basket family ...", flush=True)
+        fams = eb.compute_benchmark_family_engine(
+            tape_path=str(tape_path),
+            limit=args.bars,
+            capital=args.capital,
+            taker_fee=args.taker_fee,
+        )
+    else:
+        fams = eb.compute_benchmark_family(bars, args.capital, args.taker_fee)
 
     curves: dict[str, dict[str, Any]] = {
         "incumbent": inc_ser,
@@ -275,8 +338,8 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
             "exposure": fam["exposure"],
             "turnover": float(fam["turnover"]),
             "commission": float(fam["commission"]),
-            "funding": None,
-            "cost_basis": "ANALYTIC_MODEL",
+            "funding": fam.get("funding"),
+            "cost_basis": str(fam.get("cost_basis", "ANALYTIC_MODEL")),
             "n_trades": int(fam["n_trades"]),
         }
     primary_eq: list[float] = list(curves[args.primary]["equity"])
@@ -294,7 +357,7 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
             list(c["exposure"]),
             float(c["turnover"]),
             float(c["commission"]),
-            None,
+            c["funding"],
             str(c["cost_basis"]),
             primary_eq,
             int(c["n_trades"]),
@@ -323,7 +386,17 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
                     float(leg_ser["commission"]),
                     int(leg_ser["n_trades"]),
                 )
-            pre_fams = eb.compute_benchmark_family(bars[:pre], args.capital, args.taker_fee)
+            pre_fams = (
+                eb.compute_benchmark_family_engine(
+                    tape_path=str(tape_path),
+                    limit=pre,
+                    capital=args.capital,
+                    taker_fee=args.taker_fee,
+                    verify_engine=False,
+                )
+                if quad_mode
+                else eb.compute_benchmark_family(bars[:pre], args.capital, args.taker_fee)
+            )
             for bench_id, fam in pre_fams.items():
                 prefix_flow[bench_id] = (
                     float(fam["turnover"]),
@@ -444,8 +517,23 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
     strat_net = metrics["incumbent"].net_return * args.capital
     limitations = [
         eb.SOURCE_IDENTITY_NOTE,
-        "Single 500-bar BTCUSDT window; no cross-asset generalization claimed.",
-        "Funding settlement not fed to engine; funding cost MISSING on all legs.",
+        (
+            "Quad 500-bar BTC/ETH/SOL/AVAX engine-executed baskets in one shared "
+            "MARGIN/NETTING account; no out-of-window generalization claimed."
+            if quad_mode
+            else "Single 500-bar BTCUSDT window; no cross-asset generalization claimed."
+        ),
+        (
+            "Funding is measured per curve and never implied: the quad baskets "
+            "settle the tape's real funding rows in the engine and publish the "
+            "balance difference against the identical unfunded run; the "
+            "incumbent/challenger ensemble legs are not fed funding events in "
+            "this scope and publish NOT_MEASURED. Cash is zero by construction."
+            if quad_mode
+            else "Funding settlement not fed to engine on this path: the strategy "
+            "and analytic legs publish NOT_MEASURED, which is a named absence, "
+            "never a zero and never a bare blank."
+        ),
         "OPEX shown separately: business net = %.2f - %.2f (opex) on incumbent leg." % (strat_net, opex_total),
         "P+E is allocator-level sleeve rerun, not joint engine execution.",
         "Data resolution (1h OHLCV bars: open/high/low/close/volume; no L2/tick/spread/depth) "
@@ -456,8 +544,18 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
         "Claim that CANNOT be validated from 1h bars: 'capacity at N*capital (10x/100x) with preserved edge net of impact/participation' — "
         "requires L2 depth + ADV/participation + tick spread data not present; linear 10x/100x rows are accounting extrapolations, not validations. "
         "Even at 1x, impact/participation remain UNVALIDATED.",
-        "Vol-target/simple-trend are analytic models with assumed taker fee, not engine fills.",
-        "Benchmarks exclude funding on the same basis as the strategy (comparable).",
+        (
+            "Vol-target is engine-executed as a quad basket; simple_trend stays an "
+            "analytic single-asset model with an assumed taker fee, not engine fills."
+            if quad_mode
+            else "Vol-target/simple-trend are analytic models with assumed taker fee, not engine fills."
+        ),
+        (
+            "Baskets settle funding while the strategy legs do not, so the two are "
+            "not funding-comparable on this run; each row publishes its own basis."
+            if quad_mode
+            else "Benchmarks exclude funding on the same basis as the strategy (comparable)."
+        ),
         "MINERVA-style statistical confidence (if any) carries zero economic/capital authority.",
     ]
     _capital_fields = _capital_policy.to_receipt_fields()

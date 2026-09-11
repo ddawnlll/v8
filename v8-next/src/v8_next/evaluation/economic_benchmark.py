@@ -1011,6 +1011,260 @@ def compute_benchmark_family(
     return fams
 
 
+# --------------------------------------------------------------------------- #
+# Quad multi-asset baskets (real quad tape, executed in the native engine)
+# --------------------------------------------------------------------------- #
+
+#: Published `funding $` states. Every row is exactly one of them, so a reader
+#: never has to guess whether a blank-looking cell means "zero", "not
+#: applicable" or "nobody measured it" -- the three states that a single
+#: `MISSING` cell conflated.
+FUNDING_MEASURED = "MEASURED"  # a real USDT cost
+FUNDING_ZERO_NO_EXPOSURE = "ZERO_NO_EXPOSURE"  # a measured zero: never invested
+FUNDING_NOT_MEASURED = "NOT_MEASURED"  # no funding feed reached this curve
+
+
+def funding_state(m: MetricSet) -> str:
+    """Which of the three funding states this published row is in."""
+    if m.funding_cost is not None:
+        return FUNDING_MEASURED
+    if m.avg_exposure == 0.0:
+        # Zero exposure at every settlement is a measurement, not an absence: a
+        # curve that never holds a position cannot have paid funding.
+        return FUNDING_ZERO_NO_EXPOSURE
+    return FUNDING_NOT_MEASURED
+
+
+def funding_cell(m: MetricSet) -> str:
+    """The `funding $` cell: a measured cost, or the reason there is not one."""
+    state = funding_state(m)
+    if state == FUNDING_MEASURED and m.funding_cost is not None:
+        return f"{m.funding_cost:.2f}"
+    if state == FUNDING_ZERO_NO_EXPOSURE:
+        return "0.00 (NO_EXPOSURE)"
+    return "n/a (NOT_MEASURED)"
+
+
+def quad_family_legs(
+    tape_path: str = "research/tape/quad-1h-12m",
+    limit: int | None = 500,
+) -> tuple[dict[str, tuple[Any, ...]], dict[str, list[BarView]], tuple[Any, ...]]:
+    """Load the quad tape once: (candles per leg, BarViews per leg, funding rows).
+
+    One read feeds both the rule arithmetic and the engine execution, so the two
+    cannot describe different windows.
+    """
+    from v8_next.domain.basket import QUAD_INSTRUMENTS, quad_tape_legs
+
+    tape = quad_tape_legs(tape_path, limit=limit)
+    legs = {sym: tape.candles[sym] for sym in QUAD_INSTRUMENTS}
+    views = {sym: bars_from_candles(legs[sym]) for sym in QUAD_INSTRUMENTS}
+    return legs, views, tuple(tape.funding)
+
+
+def load_quad_bars(
+    limit: int | None = 500,
+    tape_path: str = "research/tape/quad-1h-12m",
+) -> dict[str, list[BarView]]:
+    """Quad tape as per-instrument BarViews (real venue klines)."""
+    _, views, _ = quad_family_legs(tape_path, limit)
+    return views
+
+
+def compute_basket_equity_real(
+    quad_bars: dict[str, list[BarView]],
+    kind: str,
+    capital: float = CAPITAL_DEFAULT,
+    taker_fee: float = TAKER_FEE_DEFAULT,
+    *,
+    rebalance_bars: int | None = INTERVAL_BARS,
+    vol_lookback: int = VOL_LOOKBACK,
+    vol_target_annual: float = VOL_TARGET_ANNUAL,
+    max_leverage: float = MAX_LEVERAGE,
+) -> dict[str, Any]:
+    """Per-bar equity of one basket **rule** on real closes.
+
+    The rule mirrors :class:`v8_next.adapters.basket_backtest.BasketStrategy` in
+    schedule and sizing -- same rebalance bars, same trailing volatility window,
+    same per-leg notional cap -- so both describe one strategy. Engine execution
+    adds what only the venue has: lot rounding to ``size_increment``, a minimum
+    order notional, and the configured fill model. Those differ from pure rule
+    arithmetic, so the engine's realized terminal balance is published beside this
+    curve as ``engine_vs_rule_terminal_delta_usdt``; a divergence is disclosed,
+    never assumed away. The curve itself is labeled ``ANALYTIC_MODEL`` wherever it
+    is published.
+    """
+    names = tuple(sorted(quad_bars))
+    if not names:
+        raise ValueError("no instruments in quad bars")
+    n = len(quad_bars[names[0]])
+    misaligned = [sym for sym in names if len(quad_bars[sym]) != n]
+    if misaligned:
+        raise ValueError(f"quad bars misaligned: {', '.join(misaligned)}")
+    if n < 2:
+        raise ValueError("quad basket needs at least two bars")
+    closes = {sym: [b.close for b in quad_bars[sym]] for sym in names}
+    k = len(names)
+    if kind not in ("buy_hold", "equal_weight", "vol_target"):
+        raise ValueError(f"unknown basket kind {kind!r}")
+    if kind == "buy_hold" and k != 1:
+        raise ValueError("buy_hold is a single-instrument rule")
+
+    quantities = dict.fromkeys(names, 0.0)
+    cash = capital
+    equity: list[float] = []
+    exposure: list[float] = []
+    turnover = 0.0
+    commission = 0.0
+    n_trades = 0
+
+    for i in range(n):
+        bar = i + 1  # 1-based, matching the strategy's aligned-bar counter
+        targets: dict[str, float] | None = None
+        if kind == "buy_hold":
+            targets = {names[0]: capital} if bar == 1 else None
+        elif kind == "equal_weight":
+            if bar == 1 or (rebalance_bars and bar % rebalance_bars == 0):
+                targets = {sym: capital / k for sym in names}
+        else:  # vol_target
+            if bar >= vol_lookback + 1:
+                inv_vol: dict[str, float] = {}
+                for sym in names:
+                    rets = [
+                        closes[sym][j] / closes[sym][j - 1] - 1.0
+                        for j in range(i + 1 - vol_lookback, i + 1)
+                    ]
+                    sd = float(np.std(np.asarray(rets), ddof=1)) if len(rets) >= 2 else 0.0
+                    inv_vol[sym] = (1.0 / sd) if sd > 1e-12 else 0.0
+                total = sum(inv_vol.values())
+                if total > 1e-12:
+                    cap_per_leg = capital * max_leverage / k
+                    targets = {
+                        sym: min(capital * weight / total, cap_per_leg)
+                        for sym, weight in inv_vol.items()
+                    }
+        if targets is not None:
+            for sym, notional in targets.items():
+                px = closes[sym][i]
+                if px <= 0:
+                    continue
+                delta_qty = notional / px - quantities[sym]
+                # The engine skips a delta below half a size increment; the rule
+                # must skip the same trades or the two curves are different rules.
+                if abs(delta_qty) < 0.0005:
+                    continue
+                traded = abs(delta_qty) * px
+                cost = traded * taker_fee
+                cash -= delta_qty * px + cost
+                commission += cost
+                turnover += traded / capital
+                n_trades += 1
+                quantities[sym] = notional / px
+        invested = sum(quantities[sym] * closes[sym][i] for sym in names)
+        level = cash + invested
+        equity.append(level)
+        exposure.append(invested / level if level > 0 else 0.0)
+
+    return {
+        "equity": equity,
+        "exposure": exposure,
+        "turnover": turnover,
+        "commission": commission,
+        "n_trades": n_trades,
+        "rule_terminal_equity_usdt": equity[-1],
+    }
+
+
+#: basket id in the published family -> (basket spec id, rule kind)
+QUAD_FAMILY_BASKETS: tuple[tuple[str, str, str], ...] = (
+    ("btc_buy_hold", "btc_buy_hold", "buy_hold"),
+    ("equal_weight", "equal_weight_quad", "equal_weight"),
+    ("vol_target", "vol_target_quad", "vol_target"),
+)
+
+
+def compute_benchmark_family_engine(
+    *,
+    tape_path: str = "research/tape/quad-1h-12m",
+    limit: int | None = 500,
+    capital: float = CAPITAL_DEFAULT,
+    taker_fee: float = TAKER_FEE_DEFAULT,
+    verify_engine: bool = True,
+) -> dict[str, dict[str, Any]]:
+    """Benchmark family on the real quad universe, engine-executed and funded.
+
+    Single truth: the baskets are the same four real instruments the strategy is
+    scored against, executed in one shared MARGIN/NETTING account, with funding
+    settled from the tape's real funding rows. Each basket therefore publishes a
+    **measured** funding cost -- the engine's own balance difference between the
+    funded and unfunded run of the identical basket -- instead of a blank cell.
+    ``simple_trend`` stays an analytic single-asset reference and says so.
+    """
+    from v8_next.adapters.basket_backtest import run_basket_funding_measurement
+    from v8_next.domain.basket import resolve_basket
+
+    legs, views, funding_rows = quad_family_legs(tape_path, limit)
+    n = len(views[sorted(views)[0]])
+    fams: dict[str, dict[str, Any]] = {
+        "cash": {
+            "equity": [capital] * n,
+            "exposure": [0.0] * n,
+            "turnover": 0.0,
+            "commission": 0.0,
+            "n_trades": 0,
+            "funding": None,
+            "cost_basis": "NOT_APPLICABLE",
+        }
+    }
+    for family_id, spec_id, kind in QUAD_FAMILY_BASKETS:
+        spec = resolve_basket(spec_id)
+        # The rule parameters come from the basket spec, so the published curve
+        # and the executed basket cannot be two different rules.
+        base = compute_basket_equity_real(
+            {sym: views[sym] for sym in spec.instruments},
+            kind,
+            capital,
+            taker_fee,
+            rebalance_bars=spec.rebalance_bars,
+            vol_lookback=spec.vol_lookback,
+            vol_target_annual=spec.vol_target_annual,
+            max_leverage=spec.max_leverage,
+        )
+        base["cost_basis"] = "ANALYTIC_MODEL"
+        base["funding"] = None
+        base["funding_basis"] = FUNDING_NOT_MEASURED
+        if verify_engine:
+            measurement = run_basket_funding_measurement(
+                {sym: legs[sym] for sym in legs},
+                spec_id,
+                funding_rows,
+                capital=Decimal(str(capital)),
+                taker_fee=Decimal(str(taker_fee)),
+            )
+            base["funding"] = measurement["funding_cost"]
+            base["funding_basis"] = measurement["funding_basis"]
+            base["engine_terminal_balance_usdt"] = measurement["funded_balance_usdt"]
+            base["engine_unfunded_balance_usdt"] = measurement["unfunded_balance_usdt"]
+            base["funding_settlements_fed"] = measurement["funding_settlements_fed"]
+            base["funding_rows_available"] = measurement["funding_rows_available"]
+            base["funding_out_of_window"] = measurement["funding_out_of_window"]
+            base["engine_vs_rule_terminal_delta_usdt"] = (
+                measurement["funded_balance_usdt"] - base["rule_terminal_equity_usdt"]
+            )
+        fams[family_id] = base
+        if family_id == "equal_weight":
+            fams["equal_weight_quad"] = dict(base)
+        if family_id == "vol_target":
+            fams["vol_target_quad"] = dict(base)
+
+    btc_view = views["BTCUSDT"]
+    analytic_single = compute_benchmark_family(btc_view, capital, taker_fee)
+    fams["simple_trend"] = dict(analytic_single["simple_trend"])
+    fams["simple_trend"]["cost_basis"] = "ANALYTIC_MODEL"
+    fams["simple_trend"]["funding"] = None
+    return fams
+
+
 def pair_positions(
     opened: list[Any], closed: list[Any]
 ) -> list[tuple[dict[str, Any], dict[str, Any] | None]]:
@@ -2845,13 +3099,22 @@ def render_report(receipt: EconomicReceipt) -> str:
         ex_ci = excess_ci_cell(m)
         if ex_ci:
             ex = f"{ex} {ex_ci}"
-        fd = f"{m.funding_cost:.2f}" if m.funding_cost is not None else "MISSING"
+        fd = funding_cell(m)
         pnl = m.net_return * r.run.capital
         lines.append(
             f"| {name} | {m.net_return:.4f} | {pnl:.2f} | {ex} | {m.sharpe_annualized:.3f} {ci} "
             f"| {m.max_drawdown:.4f} | {m.turnover_notional_over_capital:.3f} "
             f"| {m.commission_cost:.2f} | {fd} |"
         )
+    lines += [
+        "",
+        "`funding $` is the funding's measured effect on that curve's equity "
+        "(negative when funding was paid, positive when received) or it says why "
+        "there is no number: `0.00 (NO_EXPOSURE)` means the curve held no "
+        "position at any settlement, so its funding is zero by construction; "
+        "`n/a (NOT_MEASURED)` means no funding feed reached that curve on this "
+        "run. Never a bare blank, and never a zero standing in for an absence.",
+    ]
     mix = r.portfolio_mix
     if isinstance(mix, dict) and mix.get("scope") == "ENGINE_LEVEL_SAME_BUDGET":
         lines += [
