@@ -197,8 +197,12 @@ def _mechanics_oos_metric(*, degenerate: bool, sharpe_annualized: float) -> eb.M
     )
 
 
-def _mechanics_receipt(metrics: dict[str, eb.MetricSet]) -> eb.EconomicReceipt:
+def _mechanics_receipt(
+    metrics: dict[str, eb.MetricSet],
+    oos_metrics: dict[str, eb.MetricSet] | None = None,
+) -> eb.EconomicReceipt:
     """Minimal render-only receipt (MECHANICS ONLY: no tape, no evaluative claim)."""
+    osm = metrics if oos_metrics is None else oos_metrics
     run = eb.RunIdentity(
         dataset=eb.DatasetIdentity(
             tape_path="MECHANICS_ONLY",
@@ -242,7 +246,7 @@ def _mechanics_receipt(metrics: dict[str, eb.MetricSet]) -> eb.EconomicReceipt:
         receipt_id="mechanics-only",
         run=run,
         metrics=metrics,
-        oos_metrics=metrics,
+        oos_metrics=osm,
         verdicts=verdicts,
         statistics={},
         controls={},
@@ -380,6 +384,238 @@ def test_mechanics_report_publishes_excess_interval() -> None:
     )
     assert absent_cell == f"{absent.excess_vs_primary:.4f}"
     assert "[" not in absent_cell
+
+
+# ---------------------------------------------------------------------------
+# #438 — the degeneracy marker is derived from the condition the report
+# declares, so it cannot miss an explosive Sharpe CI and cannot depend on the
+# window length the block happened to have.
+# ---------------------------------------------------------------------------
+
+#: The published Sharpe cells of the challenger's IN-SAMPLE row in the frozen
+#: #388 evidence receipt (artifacts/econ-388-fixed/main-postmerge/
+#: economic_receipt_cdec1dfe.json). `sharpe_degenerate` is stored false there
+#: while the interval's own magnitude runs to 1.0e4x the point estimate: the
+#: observed instance of the defect.
+_OBSERVED_CHALLENGER_IS = (-2.299585492181923, -21.24267809093839, 23403.497444363755)
+#: The same curve's 150-bar OOS block from the same receipt, which is marked.
+_OBSERVED_CHALLENGER_OOS = (68940.77561873154, 54769.290143657956, 132330.4941927873)
+
+
+def _mechanics_sharpe_row(
+    *, sharpe_annualized: float, ci_low: float | None, ci_high: float | None,
+    degenerate: bool = False,
+) -> eb.MetricSet:
+    """Render-path fixture: one row with explicit published Sharpe cells.
+
+    MECHANICS ONLY. No evaluative weight: the cells are arithmetic, not measured
+    performance.
+    """
+    return _mechanics_oos_metric(
+        degenerate=degenerate, sharpe_annualized=sharpe_annualized
+    ).model_copy(update={"sharpe_ci_low": ci_low, "sharpe_ci_high": ci_high})
+
+
+def _is_row(report: str, curve: str) -> str:
+    """The in-sample metrics-table row of one curve."""
+    table = _render_section(
+        report, "## Metrics (cost-adjusted, shared basis)", "## Chronological OOS"
+    )
+    return next(ln for ln in table.splitlines() if ln.startswith(f"| {curve} |"))
+
+
+def _sharpe_column(row: str) -> str:
+    """The `Sharpe_ann [CI]` cell of a metrics-table row."""
+    return row.strip().strip("|").split("|")[4].strip()
+
+
+def test_mechanics_oversized_sharpe_ci_cannot_publish_unmarked() -> None:
+    """#438 (3): a row past the declared CI/point ratio never prints unmarked.
+
+    The challenger's frozen in-sample row publishes `-2.300 [-21.243,23403.497]`:
+    the interval's own magnitude is 1.0e4x the point estimate, so its
+    percentiles are bootstrap artefacts rather than a range the estimate lives
+    in. The report must mark that row and publish no interval for it, while a
+    row just inside the declared threshold keeps publishing its interval.
+    MECHANICS ONLY: rendering policy over published cells, zero evaluative
+    weight.
+    """
+    ann, lo, hi = _OBSERVED_CHALLENGER_IS
+    assert max(abs(lo), abs(hi)) / abs(ann) > eb.DEGENERATE_CI_RATIO  # declared
+    assert eb.unreproducible_variance(ann, lo, hi) is True
+
+    row = _mechanics_sharpe_row(sharpe_annualized=ann, ci_low=lo, ci_high=hi)
+    assert row.sharpe_degenerate is False  # the stored flag the defect ships with
+    cell = _sharpe_column(_is_row(eb.render_report(_mechanics_receipt({"challenger": row})), "challenger"))
+    assert eb.DEGENERATE_VARIANCE_MARKER in cell
+    assert "n/a" in cell
+    # The explosive percentiles are not published as a range at all.
+    assert f"{lo:.3f}" not in cell and f"{hi:.3f}" not in cell
+
+    # The declared threshold is the boundary, and it is the one on the page.
+    assert eb.DEGENERATE_CI_RATIO == pytest.approx(1000.0)
+    under = _mechanics_sharpe_row(sharpe_annualized=1.0, ci_low=-1000.0, ci_high=5.0)
+    over = _mechanics_sharpe_row(sharpe_annualized=1.0, ci_low=-1001.0, ci_high=5.0)
+    assert eb.unreproducible_variance(1.0, -1000.0, 5.0) is False
+    assert eb.unreproducible_variance(1.0, -1001.0, 5.0) is True
+    under_cell = _sharpe_column(
+        _is_row(eb.render_report(_mechanics_receipt({"incumbent": under})), "incumbent")
+    )
+    over_cell = _sharpe_column(
+        _is_row(eb.render_report(_mechanics_receipt({"incumbent": over})), "incumbent")
+    )
+    assert under_cell == "1.000 [-1000.000,5.000]"
+    assert eb.DEGENERATE_VARIANCE_MARKER not in under_cell
+    assert over_cell == f"1.000 n/a {eb.DEGENERATE_VARIANCE_MARKER}"
+
+
+def test_mechanics_degeneracy_verdict_is_window_length_independent() -> None:
+    """#438 (4): one curve, two window lengths, one verdict.
+
+    A curve whose variance rests on a single bar is uninterpretable at 500 bars
+    and at 150 bars. The criterion reads the published cells, never the window
+    length, so the same curve cannot be marked in one block and trusted in the
+    other. MECHANICS ONLY: seeded arithmetic, zero evaluative weight.
+    """
+    for n in (500, 150):
+        eq = [10000.0] * n
+        eq[n // 3] += 1.0  # one informative bar, the other n-1 are flat
+        m = eb.metrics_for_curve(eq, [0.0] * n, 0.0, 0.0, None, "ANALYTIC_MODEL", eq, 0, None)
+        assert m.sharpe_degenerate is True
+        assert m.sharpe_ci_low is not None and m.sharpe_ci_high is not None
+        # The arm that reads only the published cells -- no bar count, no window
+        # length -- reaches the same verdict at both lengths.
+        assert eb.unreproducible_variance(m.sharpe_annualized, m.sharpe_ci_low, m.sharpe_ci_high) is True
+        assert max(abs(m.sharpe_ci_low), abs(m.sharpe_ci_high)) / abs(m.sharpe_annualized) > (
+            eb.DEGENERATE_CI_RATIO
+        )
+        cell = _sharpe_column(
+            _is_row(eb.render_report(_mechanics_receipt({"x": m})), "x")
+        )
+        assert eb.DEGENERATE_VARIANCE_MARKER in cell and "n/a" in cell
+
+    # The same curve in both frozen blocks of the #388 receipt: marked (IS, 500
+    # bars) and marked (OOS, 150 bars) by one criterion.
+    for ann, lo_, hi_ in (_OBSERVED_CHALLENGER_IS, _OBSERVED_CHALLENGER_OOS):
+        assert eb.unreproducible_variance(ann, lo_, hi_) is True
+
+
+FROZEN_ECON_388_RECEIPT_REL = (
+    "artifacts/econ-388-fixed/main-postmerge/economic_receipt_cdec1dfe.json"
+)
+FROZEN_ECON_388_REPORT_REL = (
+    "artifacts/econ-388-fixed/main-postmerge/economic_report_cdec1dfe.md"
+)
+#: Rows acceptance pins a marker vector for: before and after, unmarked.
+PINNED_UNMARKED = ("incumbent", "btc_buy_hold", "vol_target", "equal_weight")
+
+
+def _frozen_evidence_path(rel: str) -> Path | None:
+    """Frozen #388 evidence: this checkout, else the shared main checkout.
+
+    Evidence artifacts live outside git (worktrees do not carry them), so a
+    worktree falls back to the parent checkout. Absence skips: never synthesize.
+    """
+    root = Path(__file__).resolve().parents[2]
+    for candidate in (root / rel, root.parent.parent / rel):
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def _frozen_metric_rows(path: Path, block: str) -> dict[str, eb.MetricSet]:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {name: eb.MetricSet.model_validate(row) for name, row in data[block].items()}
+
+
+def test_economic_degeneracy_marker_recomputed_from_frozen_receipt() -> None:
+    """#438 (1)+(2): the cdec1dfe receipt renders with its challenger row marked.
+
+    The frozen receipt stores `sharpe_degenerate: false` for a challenger row
+    whose published interval runs to 1.0e4x its point estimate. Regenerating the
+    report from that receipt's own rows must mark the row and publish `n/a`
+    instead of the interval, while every other row renders byte-for-byte as the
+    frozen report has it -- the before/after marker vector is pinned, so the fix
+    cannot be read as a marker that moves when the renderer changes. Real
+    evidence, read-only: skips when the artifacts are absent.
+    """
+    receipt_path = _frozen_evidence_path(FROZEN_ECON_388_RECEIPT_REL)
+    report_path = _frozen_evidence_path(FROZEN_ECON_388_REPORT_REL)
+    if receipt_path is None or report_path is None:
+        pytest.skip("frozen #388 economic evidence absent")
+    assert receipt_path is not None and report_path is not None  # narrowed for the type checker
+
+    metrics = _frozen_metric_rows(receipt_path, "metrics")
+    oos = _frozen_metric_rows(receipt_path, "oos_metrics")
+    frozen = report_path.read_text(encoding="utf-8")
+    frozen_is = {
+        ln.split(" |", 1)[0][2:]: ln
+        for ln in _render_section(
+            frozen, "## Metrics (cost-adjusted, shared basis)", "## Chronological OOS"
+        ).splitlines()
+        if ln.startswith("| ")
+    }
+    frozen_oos = {
+        ln.split(":", 1)[0][2:]: ln
+        for ln in _render_section(frozen, "## Chronological OOS", "## Statistics").splitlines()
+        if ln.startswith("- ")
+    }
+
+    # (1) the shipped defect: an explosive in-sample interval, unmarked.
+    assert metrics["challenger"].sharpe_degenerate is False
+    assert eb.DEGENERATE_VARIANCE_MARKER not in frozen_is["challenger"]
+
+    regenerated = eb.render_report(_mechanics_receipt(metrics, oos))
+    is_rows = {
+        ln.split(" |", 1)[0][2:]: ln
+        for ln in _render_section(
+            regenerated, "## Metrics (cost-adjusted, shared basis)", "## Chronological OOS"
+        ).splitlines()
+        if ln.startswith("| ")
+    }
+    oos_rows = {
+        ln.split(":", 1)[0][2:]: ln
+        for ln in _render_section(regenerated, "## Chronological OOS", "## Statistics").splitlines()
+        if ln.startswith("- ")
+    }
+    challenger_cell = _sharpe_column(is_rows["challenger"])
+    assert eb.DEGENERATE_VARIANCE_MARKER in challenger_cell
+    assert "n/a" in challenger_cell
+    assert "23403.497" not in challenger_cell  # the interval is not published
+
+    # (2) the pin: every other row keeps the frozen report's marker vector and
+    # its Sharpe cells. The IS table is compared cell-by-cell rather than line
+    # by line: the excess-return interval column was added to the table by a
+    # later render fix (#396/t_fcd334d4), so the frozen file predates it while
+    # every Sharpe cell in it must survive untouched.
+    for name in PINNED_UNMARKED:
+        assert _sharpe_column(is_rows[name]) == _sharpe_column(frozen_is[name])
+        assert oos_rows[name] == frozen_oos[name]
+        assert eb.DEGENERATE_VARIANCE_MARKER not in is_rows[name]
+        assert eb.DEGENERATE_VARIANCE_MARKER not in oos_rows[name]
+    # cash and simple_trend come out of the fix exactly as the frozen report has
+    # them: cash marked in both blocks (its variance is absent, not explosive),
+    # simple_trend unmarked in the 500-bar table (36 informative bars) and
+    # marked in the 150-bar OOS slice (5). The criterion is the same in both; the
+    # blocks' variance support is not. A marked OOS row now publishes no
+    # interval, where the frozen report printed one beside the marker.
+    assert _sharpe_column(is_rows["cash"]) == _sharpe_column(frozen_is["cash"])
+    assert oos_rows["cash"] == frozen_oos["cash"]
+    assert _sharpe_column(is_rows["simple_trend"]) == _sharpe_column(frozen_is["simple_trend"])
+    assert eb.DEGENERATE_VARIANCE_MARKER in frozen_oos["simple_trend"]
+    assert oos_rows["simple_trend"] == (
+        frozen_oos["simple_trend"].replace(" CI [-15.463,-4.699]", "")
+    )
+
+    # (4) the same curve, both frozen blocks: one verdict from one criterion.
+    assert metrics["challenger"].sharpe_degenerate is False  # IS was trusted
+    assert oos["challenger"].sharpe_degenerate is True  # OOS was not
+    assert eb.degenerate_row(metrics["challenger"]) is True
+    assert eb.degenerate_row(oos["challenger"]) is True
+    # The OOS line for the same curve suppresses its interval the same way.
+    assert eb.DEGENERATE_VARIANCE_MARKER in oos_rows["challenger"]
+    assert "CI [" not in oos_rows["challenger"]
+    assert regenerated.rstrip().endswith("claim_status: NO_ECONOMIC_CLAIM")
 
 
 def test_mechanics_allocator_mix_shape() -> None:
