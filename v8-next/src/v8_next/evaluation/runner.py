@@ -14,6 +14,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import asdict
+from decimal import Decimal
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -34,6 +35,11 @@ from v8_next.evaluation.benchmark_receipt import (
 )
 from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.claims import StatutoryClaimRecord
+from v8_next.evaluation.economic_benchmark import (
+    bars_from_candles,
+    campaign_accounting,
+    reconcile_native_account,
+)
 from v8_next.evaluation.gate_resolution import (
     classify_market_regimes,
     evaluate_g3_scenario_robustness,
@@ -50,6 +56,11 @@ from v8_next.evaluation.scoring import (
     compute_capability_score,
     evaluate_gate_vector,
 )
+
+#: Initial engine balance in USDT for this runner path. Pinned explicitly so the
+#: accounting reconciliation replays the same number instead of inheriting an
+#: adapter default that could drift (NX02.R4).
+ENGINE_INITIAL_BALANCE = Decimal("10000")
 
 
 class BenchmarkCase(BaseModel):
@@ -82,6 +93,8 @@ class BenchmarkRunResult(BaseModel):
     claim_record: StatutoryClaimRecord | None = None
     gate_metrics: dict[str, Any] | None = None
     domain_scores: dict[str, Any] | None = None
+    accounting: dict[str, Any] | None = None
+    reconciliation: dict[str, Any] | None = None
 
 
 def measure_candle_lineage(candles: Sequence[Candle]) -> tuple[bool | None, dict[str, Any]]:
@@ -213,6 +226,7 @@ class BenchmarkRunner:
         backtest_result = run_expert_strategy_backtest(
             tuple(candles),
             case.strategy_config,
+            initial_balance=ENGINE_INITIAL_BALANCE,
             execution_profile=execution_profile,
         )
 
@@ -220,27 +234,28 @@ class BenchmarkRunner:
         closed_positions = backtest_result.get("closed_positions", [])
         decisions = backtest_result["decisions"]
         total_bars = len(candles)
-        total_trades = len(opened_positions)
 
-        # 2. Extract realized / mark-to-market PnL
-        pnl_series: list[float] = []
-        last_close = float(candles[-1].close) if candles else 100.0
-
-        for pos in opened_positions:
-            # Find if position was closed
-            closed = next((c for c in closed_positions if c["position_id"] == pos["position_id"]), None)
-            if closed and "realized_pnl" in closed and closed["realized_pnl"]:
-                val_str = str(closed["realized_pnl"]).split()[0]
-                try:
-                    pnl_series.append(float(val_str))
-                except (ValueError, TypeError):
-                    pnl_series.append(0.0)
-            else:
-                # Mark-to-market relative excursion
-                entry_px = float(pos["avg_px_open"])
-                direction = 1.0 if pos["side"].upper() in ("BUY", "LONG") else -1.0
-                mtm_pnl = ((last_close - entry_px) / entry_px) * direction
-                pnl_series.append(round(mtm_pnl, 6))
+        # 2. Accounting (NX02): both reporting paths share this one lifecycle and
+        # accounting contract. Absolute PnL is USDT; per-campaign returns are
+        # dimensionless and are never mixed into the same series. Open campaigns
+        # are marked at the cutoff bar end (no artificial close, no future price).
+        bars_view = bars_from_candles(tuple(candles))
+        accounting = campaign_accounting(
+            opened_positions,
+            closed_positions,
+            bars=bars_view,
+            cutoff_ns=candles[-1].end_ns if candles else 0,
+            capital=float(ENGINE_INITIAL_BALANCE),
+        )
+        pnl_series: list[float] = list(accounting.realized_pnl_usdt)
+        # trade_count is the number of COMPLETED campaigns; open risk is reported
+        # separately in `accounting` and never counted as a trade.
+        total_trades = accounting.trade_count
+        reconciliation = reconcile_native_account(
+            backtest_result.get("account") or {},
+            accounting=accounting,
+            initial_balance=float(ENGINE_INITIAL_BALANCE),
+        )
 
         abstain_count = sum(d["abstain_count"] for d in decisions)
         total_expert_votes = max(1, len(decisions) * 28)
@@ -265,6 +280,7 @@ class BenchmarkRunner:
             rerun = run_expert_strategy_backtest(
                 tuple(candles),
                 case.strategy_config,
+                initial_balance=ENGINE_INITIAL_BALANCE,
                 execution_profile=execution_profile,
             )
             first_exec = backtest_result.get("execution") or {}
@@ -338,6 +354,8 @@ class BenchmarkRunner:
             "note": "per-bar decision-vs-availability audit not performed; UNKNOWN, never PASS",
         }
         gate_metrics["g2"] = dict(g2_metric)
+        gate_metrics["accounting"] = accounting.as_dict()
+        gate_metrics["reconciliation"] = dict(reconciliation)
 
         if resolve_gates:
             # 1. G3: Scenario Robustness across 4 market regimes
@@ -405,14 +423,20 @@ class BenchmarkRunner:
         ledger_file = self.output_dir / f"{case.case_id}{suffix}_trades.jsonl"
         trade_rows = []
         for idx, pos in enumerate(opened_positions):
-            pnl_val = pnl_series[idx] if idx < len(pnl_series) else 0.0
+            # Unmeasured campaigns are absent from pnl_series; the row then
+            # carries None (never a fabricated zero) plus the declared unit.
+            pnl_val = pnl_series[idx] if idx < len(pnl_series) else None
             trade_rows.append(
                 {
                     "trade_id": pos["position_id"],
+                    "instrument_id": pos.get("instrument_id", case.instrument_id),
                     "pnl": pnl_val,
+                    "pnl_unit": accounting.units["pnl"],
+                    "return_unit": accounting.units["return"],
                     "fill_time_ns": pos["event_ns"],
                     "side": pos["side"],
                     "quantity": pos["quantity"],
+                    "campaign_completed": pnl_val is not None,
                 }
             )
 
@@ -520,4 +544,6 @@ class BenchmarkRunner:
             claim_record=claim_record,
             gate_metrics=gate_metrics,
             domain_scores=breakdown["domains"] or None,
+            accounting=accounting.as_dict(),
+            reconciliation=dict(reconciliation),
         )

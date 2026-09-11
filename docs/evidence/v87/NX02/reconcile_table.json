@@ -1,0 +1,96 @@
+{
+  "cross_checks": {
+    "economic_closed_loop_error": 7.056577544517495e-13,
+    "runner_status": "MATCHED",
+    "runner_vs_economic_trade_count": {
+      "economic_n_completed_campaigns": 0,
+      "economic_n_open_positions": 1,
+      "economic_n_trades_legacy": 1,
+      "runner_completed_campaigns": 0
+    },
+    "same_engine_run": true
+  },
+  "economic_path": {
+    "cost_reconciliation": {
+      "balance_delta": -0.5494734999992943,
+      "balance_total": 9999.4505265,
+      "closed_loop_error": 7.056577544517495e-13,
+      "closed_loop_residual_explained_by_open_positions": -0.5494735,
+      "estimated_commission_total": 0.5494735,
+      "implied_drag": 0.5494734999992943,
+      "open_position_realized_pnl": -0.5494735,
+      "relative_error": 0.0,
+      "reported_commission_partial": 0.5494735,
+      "sum_realized_pnl": 0.0
+    },
+    "funding": null,
+    "n_trades": 1
+  },
+  "native": {
+    "balance_total": "9999.45052650 USDT",
+    "positions": 1
+  },
+  "runner_path": {
+    "accounting": {
+      "campaign_returns": [],
+      "closed_campaigns": 0,
+      "cutoff_ns": 1753128000000000000,
+      "open_campaigns": 1,
+      "open_risk_returns": [
+        0.062150403977625855
+      ],
+      "open_risk_usdt": 68.3,
+      "orphan_closes": [],
+      "realized_pnl_usdt": [],
+      "trade_count": 0,
+      "units": {
+        "pnl": "USDT",
+        "price": "USDT",
+        "quantity": "base_units",
+        "return": "dimensionless"
+      },
+      "unparsable": [],
+      "unsupported": []
+    },
+    "reconciliation": {
+      "atol_usdt": "1E-8",
+      "balance_delta_usdt": "0E-8",
+      "components": {
+        "initial_balance_usdt": "10000.0",
+        "native_positions": 1,
+        "sum_funding_adjustments_usdt": "0",
+        "sum_realized_pnl_usdt": "-0.54947350"
+      },
+      "native_balance_usdt": "9999.45052650",
+      "reasons": [],
+      "replay_balance_usdt": "9999.45052650",
+      "report_path": {
+        "closed_campaigns": 0,
+        "delta_usdt": "0",
+        "report_pnl_usdt": "0"
+      },
+      "status": "MATCHED",
+      "units": {
+        "pnl": "USDT",
+        "price": "USDT",
+        "quantity": "base_units",
+        "return": "dimensionless"
+      }
+    }
+  },
+  "units": {
+    "pnl": "USDT",
+    "price": "USDT",
+    "quantity": "base_units",
+    "return": "dimensionless"
+  },
+  "window": {
+    "bars": 500,
+    "contradiction_tolerance": 28,
+    "first_bar_end_ns": 1751331600000000000,
+    "initial_balance_usdt": "10000.0",
+    "last_bar_end_ns": 1753128000000000000,
+    "quorum": 1,
+    "tape": "/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl"
+  }
+}

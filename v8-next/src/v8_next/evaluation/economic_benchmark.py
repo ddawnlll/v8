@@ -25,7 +25,7 @@ import json
 import math
 import subprocess
 from dataclasses import dataclass
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from typing import Any, Literal, Sequence
 
 import numpy as np
@@ -560,6 +560,333 @@ def pair_positions(
     return pairs
 
 
+# --------------------------------------------------------------------------- #
+# NX02 — one lifecycle/accounting contract shared by both reporting paths
+# --------------------------------------------------------------------------- #
+#: Units contract (NX02.R3). Absolute PnL is USDT; returns are dimensionless.
+#: The two series are never mixed into one list.
+ACCOUNTING_UNITS: dict[str, str] = {
+    "pnl": "USDT",
+    "return": "dimensionless",
+    "price": "USDT",
+    "quantity": "base_units",
+}
+
+#: Measured on the real engine (`balance_total == initial + sum(realized_pnl) +
+#: sum(funding adjustments)`, exactly, with commissions already inside
+#: realized_pnl). Pinned as an absolute tolerance in USDT; the replay is
+#: Decimal, so the comparison is exact to this bound.
+NATIVE_BALANCE_ATOL = Decimal("0.00000001")
+
+
+def parse_money(value: Any) -> Decimal | None:
+    """Parse an engine money/quantity rendering; ``None`` on anything unparsable.
+
+    A malformed, missing or non-finite value is *never* converted to zero
+    (NX02.R3): absence stays absent and the caller reports it.
+    """
+    if value is None:
+        return None
+    if isinstance(value, Decimal):
+        return value if value.is_finite() else None
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        parsed = Decimal(str(value))
+        return parsed if parsed.is_finite() else None
+    text = str(value).strip().split()
+    if not text:
+        return None
+    try:
+        parsed = Decimal(text[0])
+    except (InvalidOperation, ValueError):
+        return None
+    return parsed if parsed.is_finite() else None
+
+
+@dataclass(frozen=True)
+class CampaignAccounting:
+    """One accounting view for a run: absolute USDT and dimensionless returns.
+
+    ``realized_pnl_usdt`` holds completed campaigns only; open campaigns are
+    carried at the cutoff bar-end mark and reported separately as
+    ``open_risk_usdt`` (NX02.R3/R5). Anything the current engine semantics do not
+    support is named in ``unsupported`` instead of being quietly folded into the
+    totals (NX02.R2).
+    """
+
+    cutoff_ns: int
+    closed_campaigns: int
+    open_campaigns: int
+    realized_pnl_usdt: tuple[float, ...]
+    campaign_returns: tuple[float, ...]
+    open_risk_usdt: float | None
+    open_risk_returns: tuple[float, ...]
+    orphan_closes: tuple[str, ...]
+    unparsable: tuple[str, ...]
+    unsupported: tuple[str, ...]
+    units: dict[str, str]
+
+    @property
+    def trade_count(self) -> int:
+        """Completed campaigns. Open risk is reported, never counted as a trade."""
+        return self.closed_campaigns
+
+    @property
+    def supported(self) -> bool:
+        return not self.unsupported
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "cutoff_ns": self.cutoff_ns,
+            "closed_campaigns": self.closed_campaigns,
+            "open_campaigns": self.open_campaigns,
+            "trade_count": self.trade_count,
+            "realized_pnl_usdt": list(self.realized_pnl_usdt),
+            "campaign_returns": list(self.campaign_returns),
+            "open_risk_usdt": self.open_risk_usdt,
+            "open_risk_returns": list(self.open_risk_returns),
+            "orphan_closes": list(self.orphan_closes),
+            "unparsable": list(self.unparsable),
+            "unsupported": list(self.unsupported),
+            "units": dict(self.units),
+        }
+
+
+def _pair_key(o: Any) -> tuple[str, str]:
+    return (str(o.get("instrument_id", "")), str(o.get("position_id", "")))
+
+
+def campaign_lifecycle_checks(
+    opened: list[dict[str, Any]],
+    closed: list[dict[str, Any]],
+    pairs: list[tuple[dict[str, Any], dict[str, Any] | None]],
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    """Derive partial/scale-in/reversal/orphan handling from engine semantics.
+
+    Returns ``(unsupported, orphan_closes)``. Every case the current engine
+    semantics cannot express is *named* rather than silently mis-accounted:
+
+    * ``ORPHAN_CLOSE`` — a close record that no open could consume;
+    * ``DUPLICATE_CLOSE_REUSE`` — one close would close more than one campaign;
+    * ``SCALE_IN_OR_PARTIAL_REDUCTION`` — several opens on one slot before the
+      close (netting reuses the slot, so per-campaign attribution is unsupported);
+    * ``CLOSE_WITHOUT_OPEN_IN_WINDOW`` — the close precedes every open on its slot.
+    """
+    unsupported: list[str] = []
+    consumed: dict[int, int] = {}
+    for _open_rec, close_rec in pairs:
+        if close_rec is None:
+            continue
+        marker = id(close_rec)
+        consumed[marker] = consumed.get(marker, 0) + 1
+    orphans: list[str] = []
+    for close_rec in closed:
+        if id(close_rec) not in consumed:
+            orphans.append(str(close_rec.get("position_id", "")))
+    for times in consumed.values():
+        if times > 1:
+            unsupported.append(
+                f"DUPLICATE_CLOSE_REUSE: one close consumed by {times} campaigns"
+            )
+            break
+
+    opens_per_slot: dict[tuple[str, str], int] = {}
+    for open_rec in opened:
+        key = _pair_key(open_rec)
+        opens_per_slot[key] = opens_per_slot.get(key, 0) + 1
+    for key, count in sorted(opens_per_slot.items()):
+        if count > 1:
+            closes_in_slot = [c for c in closed if _pair_key(c) == key]
+            unsupported.append(
+                f"SCALE_IN_OR_PARTIAL_REDUCTION: {key[1]} reused by {count} opens "
+                f"with {len(closes_in_slot)} close(s)"
+            )
+    return tuple(sorted(unsupported)), tuple(sorted(orphans))
+
+
+def campaign_accounting(
+    opened: Sequence[Any],
+    closed: Sequence[Any],
+    *,
+    bars: Sequence[BarView],
+    cutoff_ns: int,
+    capital: float = CAPITAL_DEFAULT,
+) -> CampaignAccounting:
+    """Consolidated lifecycle/accounting view over opens and closes.
+
+    Uses the existing chronological :func:`pair_positions` contract (instrument +
+    position slot + event order), so a reused ``position_id`` under NETTING can
+    never mis-attribute a close. Realized PnL is absolute USDT; returns are
+    per-campaign and dimensionless. Open positions are marked at the last bar end
+    at or before ``cutoff_ns`` — no artificial close and no future price.
+    """
+    open_dicts = [o for o in opened if isinstance(o, dict)]
+    close_dicts = [c for c in closed if isinstance(c, dict)]
+    pairs = pair_positions(list(open_dicts), list(close_dicts))
+    unsupported, orphans = campaign_lifecycle_checks(open_dicts, close_dicts, pairs)
+
+    cutoff_bars = [b for b in bars if b.end_ns <= cutoff_ns]
+    mark_price = cutoff_bars[-1].close if cutoff_bars else None
+    if mark_price is None and any(close is None for _, close in pairs):
+        unsupported = tuple(
+            sorted({*unsupported, "NO_BAR_AT_OR_BEFORE_CUTOFF_FOR_OPEN_MTM"})
+        )
+
+    realized: list[float] = []
+    returns: list[float] = []
+    open_risk_usdt = 0.0
+    open_returns: list[float] = []
+    unparsable: list[str] = []
+    open_campaigns = 0
+
+    for open_rec, close_rec in pairs:
+        entry_px = parse_money(open_rec.get("avg_px_open"))
+        qty = parse_money(open_rec.get("quantity"))
+        if close_rec is None:
+            open_campaigns += 1
+            if mark_price is None or entry_px is None or qty is None:
+                unparsable.append(f"OPEN_MTM_UNMEASURED:{open_rec.get('position_id', '')}")
+                continue
+            direction = 1.0 if str(open_rec.get("side", "")).upper() in ("BUY", "LONG") else -1.0
+            pnl = (float(mark_price) - float(entry_px)) * float(qty) * direction
+            open_risk_usdt += pnl
+            notional = abs(float(qty)) * float(entry_px)
+            if notional > 0.0:
+                open_returns.append(pnl / notional)
+            continue
+
+        pnl_value = parse_money(close_rec.get("realized_pnl"))
+        if pnl_value is None:
+            # A parse failure is absence, not a zero return.
+            unparsable.append(f"CLOSE_PNL_UNPARSABLE:{close_rec.get('position_id', '')}")
+            continue
+        realized.append(float(pnl_value))
+        if entry_px is None or qty is None:
+            unparsable.append(f"ENTRY_UNPARSABLE:{open_rec.get('position_id', '')}")
+            continue
+        notional = abs(float(qty)) * float(entry_px)
+        if notional <= 0.0:
+            unparsable.append(f"ENTRY_NOTIONAL_ZERO:{open_rec.get('position_id', '')}")
+            continue
+        returns.append(float(pnl_value) / notional)
+
+    return CampaignAccounting(
+        cutoff_ns=cutoff_ns,
+        closed_campaigns=len(realized),
+        open_campaigns=open_campaigns,
+        realized_pnl_usdt=tuple(realized),
+        campaign_returns=tuple(returns),
+        open_risk_usdt=(open_risk_usdt if mark_price is not None else None),
+        open_risk_returns=tuple(open_returns),
+        orphan_closes=orphans,
+        unparsable=tuple(sorted(unparsable)),
+        unsupported=tuple(unsupported),
+        units=dict(ACCOUNTING_UNITS),
+    )
+
+
+def reconcile_native_account(
+    account: dict[str, Any],
+    *,
+    accounting: CampaignAccounting,
+    initial_balance: float = CAPITAL_DEFAULT,
+    atol: Decimal = NATIVE_BALANCE_ATOL,
+) -> dict[str, Any]:
+    """Reconcile native equity against an independent replay of its own parts.
+
+    Two independent comparisons, each reported separately:
+
+    * ``balance`` — native ``balance_total`` versus
+      ``initial + sum(realized_pnl) + sum(funding adjustments)`` over every
+      native position (the measured engine identity);
+    * ``report_path`` — the reporting path's completed-campaign PnL versus the
+      native realized PnL of the closed native positions, pair-wise.
+
+    ``status`` is ``DIVERGED`` when either comparison fails, and every failing
+    component is named. Nothing is coerced to MATCHED.
+    """
+    native_balance = parse_money(account.get("balance_total"))
+    positions = account.get("positions") or []
+    total_realized = Decimal(0)
+    total_adjustments = Decimal(0)
+    components_unparsable: list[str] = []
+    closed_native: list[Decimal] = []
+    for index, position in enumerate(positions):
+        realized = parse_money(position.get("realized_pnl"))
+        if realized is None:
+            components_unparsable.append(f"position[{index}].realized_pnl")
+        else:
+            total_realized += realized
+        for adj_index, adjustment in enumerate(position.get("adjustments") or []):
+            raw = adjustment.get("value", adjustment.get("amount")) if isinstance(
+                adjustment, dict
+            ) else adjustment
+            parsed = parse_money(raw)
+            if parsed is None:
+                components_unparsable.append(f"position[{index}].adjustments[{adj_index}]")
+            else:
+                total_adjustments += parsed
+        if position.get("is_closed"):
+            if realized is None:
+                closed_native.append(Decimal("NaN"))
+            else:
+                closed_native.append(realized)
+
+    reasons: list[str] = []
+    replay_balance: Decimal | None = None
+    balance_delta: Decimal | None = None
+    if native_balance is None:
+        reasons.append("NATIVE_BALANCE_UNPARSABLE")
+    elif components_unparsable:
+        reasons.append("COMPONENT_UNPARSABLE:" + ",".join(sorted(components_unparsable)))
+    else:
+        replay_balance = Decimal(str(initial_balance)) + total_realized + total_adjustments
+        balance_delta = native_balance - replay_balance
+        if abs(balance_delta) > atol:
+            reasons.append(
+                f"BALANCE_REPLAY_MISMATCH: native {native_balance} vs replay {replay_balance}"
+            )
+
+    report_pnl = sum(Decimal(str(v)) for v in accounting.realized_pnl_usdt)
+    report_delta: Decimal | None = None
+    if any(v.is_nan() for v in closed_native):
+        reasons.append("CLOSED_POSITION_PNL_UNPARSABLE")
+    elif len(closed_native) != accounting.closed_campaigns:
+        reasons.append(
+            "CLOSED_CAMPAIGN_COUNT_MISMATCH: "
+            f"native {len(closed_native)} vs report {accounting.closed_campaigns}"
+        )
+    else:
+        native_closed_total = sum(closed_native, Decimal(0))
+        report_delta = report_pnl - native_closed_total
+        if abs(report_delta) > atol:
+            reasons.append(
+                f"REPORT_PATH_MISMATCH: report {report_pnl} vs native closed {native_closed_total}"
+            )
+
+    return {
+        "status": "MATCHED" if not reasons else "DIVERGED",
+        "reasons": sorted(reasons),
+        "native_balance_usdt": None if native_balance is None else str(native_balance),
+        "replay_balance_usdt": None if replay_balance is None else str(replay_balance),
+        "balance_delta_usdt": None if balance_delta is None else str(balance_delta),
+        "atol_usdt": str(atol),
+        "components": {
+            "initial_balance_usdt": str(initial_balance),
+            "sum_realized_pnl_usdt": str(total_realized),
+            "sum_funding_adjustments_usdt": str(total_adjustments),
+            "native_positions": len(positions),
+        },
+        "report_path": {
+            "closed_campaigns": accounting.closed_campaigns,
+            "report_pnl_usdt": str(report_pnl),
+            "delta_usdt": None if report_delta is None else str(report_delta),
+        },
+        "units": dict(ACCOUNTING_UNITS),
+    }
+
+
 def strategy_series_from_engine(
     engine_result: dict[str, Any],
     bars: Sequence[BarView],
@@ -583,6 +910,11 @@ def strategy_series_from_engine(
         [p for p in opened if isinstance(p, dict)],
         [c for c in closed if isinstance(c, dict)],
     )
+    # NX02.R3: a completed campaign and an open position are different things.
+    # `n_trades` historically counted every open event; the split is now explicit
+    # so a reader cannot mistake open risk for a completed trade.
+    n_completed_campaigns = sum(1 for _, c in pairs if c is not None)
+    n_open_positions = sum(1 for _, c in pairs if c is None)
 
     reported_comm_total = 0.0
     for pos in engine_result.get("account", {}).get("positions", []):
@@ -612,11 +944,21 @@ def strategy_series_from_engine(
                 sum_realized += float(str(c["realized_pnl"]).split()[0])
             except (ValueError, TypeError):
                 pass
+    # The account reports realized_pnl for OPEN positions as well (the commission
+    # paid so far). Leaving it out made the closed-loop error look like an
+    # unexplained residual on a real run; it is attributed here instead.
+    open_realized = 0.0
+    for pos in engine_result.get("account", {}).get("positions", []):
+        if pos.get("is_closed"):
+            continue
+        parsed = parse_money(pos.get("realized_pnl"))
+        if parsed is not None:
+            open_realized += float(parsed)
     try:
         balance_total = float(str(engine_result["account"]["balance_total"]).split()[0])
     except (KeyError, ValueError, TypeError, AttributeError):
         balance_total = capital
-    loop_err = abs((balance_total - capital) - sum_realized)
+    loop_err = abs((balance_total - capital) - sum_realized - open_realized)
     if loop_err <= 0.01 and est_comm_total > 0:
         cost_basis = "VERIFIED_ENGINE"
         rel_err = abs(est_comm_total - reported_comm_total) / est_comm_total if est_comm_total else math.inf
@@ -712,6 +1054,8 @@ def strategy_series_from_engine(
             "reported_commission_partial": reported_comm_total,
             "estimated_commission_total": est_comm_total,
             "sum_realized_pnl": sum_realized,
+            "open_position_realized_pnl": open_realized,
+            "closed_loop_residual_explained_by_open_positions": open_realized,
             "balance_delta": balance_total - capital,
             "closed_loop_error": loop_err,
             "relative_error": rel_err if math.isfinite(rel_err) else None,
@@ -719,6 +1063,9 @@ def strategy_series_from_engine(
             "balance_total": balance_total,
         },
         "n_trades": n_trades,
+        "n_trades_definition": "campaign open events (legacy field)",
+        "n_completed_campaigns": n_completed_campaigns,
+        "n_open_positions": n_open_positions,
     }
 
 
