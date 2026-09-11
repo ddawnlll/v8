@@ -258,7 +258,7 @@ def deltas_from_depth(
         "deltas": 0,
     }
     last_ts: int | None = None
-    for artifact, payload in depth_snapshots(d):
+    for _artifact, payload in depth_snapshots(d):
         stats["snapshots"] += 1
         ts_ns = _venue_time_ns(payload)
         if ts_ns is None:
