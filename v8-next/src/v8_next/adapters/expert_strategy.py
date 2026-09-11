@@ -93,6 +93,11 @@ class ExpertStrategyConfig:
     max_contradiction_tolerance: int = 0
     order_quantity: Decimal = Decimal("0.01")
     target_notional: Decimal | None = None
+    #: Entry order type for new positions: MARKET or LIMIT (at the decision
+    #: close). LIMIT rests in the book and fills only when touched, so it is
+    #: the passive path; MARKET crosses immediately. Anything else fails closed
+    #: at config validation instead of silently becoming a market order.
+    entry_order_type: str = "MARKET"
     #: Fraction of account equity risked per trade (FixedRiskSizer). When set,
     #: quantity comes from entry/stop distance instead of target_notional.
     #: None keeps the previous sizing path byte-identical.
@@ -377,28 +382,58 @@ class ExpertEnsembleStrategy(Strategy):
                         sl_price = Price(float(stop_px), instrument.price_precision)
                         tp_price = Price(float(target_px), instrument.price_precision)
 
-                        order_list = self.order_factory.bracket(
-                            instrument_id=self.instrument_id,
-                            order_side=side,
-                            quantity=quantity,
-                            entry_order_type=OrderType.MARKET,
-                            sl_trigger_price=sl_price,
-                            tp_price=tp_price,
-                        )
-                        self.submit_order_list(order_list)
-                        if record is not None:
-                            self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
-                        action = f"SUBMITTED_BRACKET_{side.name}_{qty_str}"
+                        entry_type = self.ensemble_config.entry_order_type
+                        if entry_type == "MARKET":
+                            entry_order_type = OrderType.MARKET
+                            entry_limit_price = None
+                        elif entry_type == "LIMIT":
+                            entry_order_type = OrderType.LIMIT
+                            entry_limit_price = Price(
+                                float(entry_px), instrument.price_precision
+                            )
+                        else:
+                            action = f"REJECTED_UNKNOWN_ENTRY_TYPE_{entry_type}"
+                            entry_order_type = None
+                            entry_limit_price = None
+                        if entry_order_type is None:
+                            quantity = None
+                        else:
+                            order_list = self.order_factory.bracket(
+                                instrument_id=self.instrument_id,
+                                order_side=side,
+                                quantity=quantity,
+                                entry_order_type=entry_order_type,
+                                entry_price=entry_limit_price,
+                                sl_trigger_price=sl_price,
+                                tp_price=tp_price,
+                            )
+                            self.submit_order_list(order_list)
+                            if record is not None:
+                                self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
+                            action = f"SUBMITTED_BRACKET_{entry_type}_{side.name}_{qty_str}"
                     else:
-                        order = self.order_factory.market(
-                            instrument_id=self.instrument_id,
-                            order_side=side,
-                            quantity=quantity,
-                        )
-                        self.submit_order(order)
-                        if record is not None:
-                            self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
-                        action = f"SUBMITTED_MARKET_{side.name}_{qty_str}"
+                        entry_type = self.ensemble_config.entry_order_type
+                        if entry_type == "LIMIT":
+                            order = self.order_factory.limit(
+                                instrument_id=self.instrument_id,
+                                order_side=side,
+                                quantity=quantity,
+                                price=Price(float(bar.close.as_decimal()), instrument.price_precision),
+                            )
+                        elif entry_type == "MARKET":
+                            order = self.order_factory.market(
+                                instrument_id=self.instrument_id,
+                                order_side=side,
+                                quantity=quantity,
+                            )
+                        else:
+                            order = None
+                            action = f"REJECTED_UNKNOWN_ENTRY_TYPE_{entry_type}"
+                        if order is not None:
+                            self.submit_order(order)
+                            if record is not None:
+                                self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
+                            action = f"SUBMITTED_{entry_type}_{side.name}_{qty_str}"
             else:
                 action = "POSITION_OCCUPIED"
 
