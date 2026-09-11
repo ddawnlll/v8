@@ -264,7 +264,7 @@ def cmd_run(args: argparse.Namespace) -> int:
         argv = ["--repo-root", str(repo_root)]
         if args.out:
             argv += ["--out", args.out]
-        code = module.main(argv)
+        code: int = int(module.main(argv))
         if code != 0 or args.pillar == "paper-4y":
             return code
     if args.pillar in ("folds", "all"):
@@ -451,6 +451,7 @@ _SYSV_APP_MODULES: dict[str, str] = {
     "plan": "v8_next.app.plan",
     "compare": "v8_next.app.compare",
     "capture": "v8_next.adapters.binance_capture",
+    "instruments": "v8_next.adapters.binance_instruments",
     "native-tape": "v8_next.adapters.native_tape",
     "calibration": "v8_next.evaluation.calibration",
 }
@@ -588,7 +589,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "status":
         if rest:
             parser.error(f"unexpected args for status: {' '.join(rest)}")
-        return args.func(args)
+        status_code: int = int(args.func(args))
+        return status_code
     if args.command == "regression":
         if rest:
             parser.error(f"unexpected args for regression: {' '.join(rest)}")

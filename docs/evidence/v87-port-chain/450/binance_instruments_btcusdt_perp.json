@@ -1,0 +1,48 @@
+{
+  "adapter": "nautilus-binance 2.0.0rc4",
+  "claim_status": "NO_ECONOMIC_CLAIM",
+  "credentials": "none",
+  "instruments": [
+    {
+      "body": {
+        "base_currency": "BTC",
+        "id": "BTCUSDT-PERP.BINANCE",
+        "info": {},
+        "is_inverse": false,
+        "lot_size": "0.001",
+        "maker_fee": "0.0002",
+        "margin_init": "0.1",
+        "margin_maint": "0.1",
+        "max_notional": null,
+        "max_price": "4529764",
+        "max_quantity": "1000",
+        "min_notional": "50.00000000 USDT",
+        "min_price": "556.80",
+        "min_quantity": "0.001",
+        "multiplier": "1",
+        "price_increment": "0.10",
+        "price_precision": 2,
+        "quote_currency": "USDT",
+        "raw_symbol": "BTCUSDT",
+        "settlement_currency": "USDT",
+        "size_increment": "0.001",
+        "size_precision": 3,
+        "taker_fee": "0.0005",
+        "tick_scheme": null,
+        "ts_event": 0,
+        "ts_init": 0,
+        "type": "CryptoPerpetual"
+      },
+      "id": "BTCUSDT-PERP.BINANCE",
+      "sha256": "b85f22bc0c311032459d10b365d87937edcdef01650c596f47adcce513c516b2"
+    }
+  ],
+  "manifest_sha256": "ff68cc3db263b84e624a59a74de39df30586df22cd0e09fccd6d170c8b9d4184",
+  "orders_submitted": 0,
+  "purpose": "public_instrument_definitions_not_historical_specification",
+  "received_time_ns": 1789169725531112000,
+  "request_time_ns": 1789169724771310000,
+  "schema_version": 1,
+  "source_url": "https://fapi.binance.com",
+  "venue": "BINANCE"
+}

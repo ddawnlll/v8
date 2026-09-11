@@ -73,9 +73,10 @@ identity, the exit rule that fired, and the attribution record of §6.
 v8-core already reports failure the right way, and this contract copies it:
 
 * **Disjoint failure domains with a conservation invariant**
-  (`v8-core/src/system_proving/attribution.rs`): every losing trade is charged to exactly one
-  domain — `ENTRY_TIMING`, `EXIT_RULE`, `COST_DRAG`, `SIZING`, `REGIME`,
-  `DATA_QUALITY`, `EXECUTION_MODEL` — and `verify_conservation()` requires the domain counts
+  (`v8-core/src/system_proving/attribution.rs:10-18` — the canonical vocabulary):
+  every losing trade is charged to exactly one
+  domain — `DETECTION`, `REPRESENTATION`, `RECONCILIATION`, `SELECTION`,
+  `ALLOCATION`, `EXECUTION`, `EXIT` — and `verify_conservation()` requires the domain counts
   to sum to the total failure count. A loss may not be double-counted or left unattributed.
 * **Counterfactual oracle outcome** (`v8-core/src/oracle/authority.rs`): for each trade the
   report states whether the counterfactual was `identified`, `partially_identified`,

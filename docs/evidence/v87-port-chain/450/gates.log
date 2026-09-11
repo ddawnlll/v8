@@ -1,0 +1,21 @@
+# 450 gate log — 2026-09-11T23:37:52Z
+## revision
+9c26b154b180061feb9e71bbda6722e8b7adfe89
+
+## ruff check v8-next/src v8-next/tests
+All checks passed!
+
+## mypy v8-next/src/v8_next/app/cli.py
+Success: no issues found in 1 source file
+
+## pytest test_cli_central + test_instruments
+.......                                                                  [100%]
+7 passed in 0.67s
+
+## instruments --help
+usage: v8_next.adapters.binance_instruments [-h] [--venue {BINANCE}]
+                                            [--instrument-id INSTRUMENT_ID]
+                                            [--out OUT]
+
+## stale-domain grep over docs/ (expect no output)
+CLEAN: no stale failure-domain name in docs/
