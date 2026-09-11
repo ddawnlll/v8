@@ -12,9 +12,15 @@ from decimal import Decimal
 from pathlib import Path
 
 from v8_next.adapters.expert_strategy import ExpertStrategyConfig
-from v8_next.evaluation.gate_resolution import DEFAULT_TAPE_PATH, load_tape_candles
+from v8_next.evaluation.gate_resolution import load_tape_candles
 from v8_next.evaluation.report import generate_forensic_html_report
 from v8_next.evaluation.runner import BenchmarkCase, BenchmarkRunner
+
+# Canonical population tape: 4-year multi-symbol 1h venue capture.
+# Single-symbol BTC-only tape is kept only as a fallback for environments
+# where the multi tape was not downloaded.
+DEFAULT_BENCHMARK_TAPE = Path("research/tape/multi-1h-4y/tape.jsonl")
+FALLBACK_BENCHMARK_TAPE = Path("research/tape/btcusdt-1h-12m/tape.jsonl")
 
 
 def main() -> int:
@@ -37,8 +43,22 @@ def main() -> int:
     )
     parser.add_argument(
         "--tape-path",
-        default=str(DEFAULT_TAPE_PATH),
-        help="Path to real market tape (default: research/tape/btcusdt-1h-12m/tape.jsonl)",
+        default=None,
+        help="Path to real market tape (default: research/tape/multi-1h-4y/tape.jsonl, "
+        "fallback: research/tape/btcusdt-1h-12m/tape.jsonl)",
+    )
+    parser.add_argument(
+        "--instrument",
+        default="BTCUSDT",
+        help="Instrument symbol to extract from the tape (multi-symbol tapes are "
+        "filtered before the bar limit applies; single-symbol tapes ignore this)",
+    )
+    parser.add_argument(
+        "--bars",
+        type=int,
+        default=5000,
+        help="Number of real hourly bars to load after instrument filtering "
+        "(default: 5000; tiny slices leave G3-G7 with no measurable sample)",
     )
     parser.add_argument(
         "--live-fills",
@@ -69,7 +89,7 @@ def main() -> int:
     case = BenchmarkCase(
         case_id=args.case_id,
         policy_id=args.policy_id,
-        dataset_name="BTCUSDT-1H-PERP",
+        dataset_name=f"{args.instrument}-1H-PERP",
         strategy_config=ExpertStrategyConfig(
             min_support_quorum=1,
             max_contradiction_tolerance=28,
@@ -80,7 +100,12 @@ def main() -> int:
 
     runner = BenchmarkRunner(output_dir=args.output_dir)
 
-    tape_file = Path(args.tape_path)
+    if args.tape_path:
+        tape_file = Path(args.tape_path)
+    elif DEFAULT_BENCHMARK_TAPE.exists():
+        tape_file = DEFAULT_BENCHMARK_TAPE
+    else:
+        tape_file = FALLBACK_BENCHMARK_TAPE
     if not tape_file.exists():
         print(
             f"error: real tape not found at {tape_file}; synthetic fallback is "
@@ -89,8 +114,8 @@ def main() -> int:
         )
         return 2
     print(f"[+] Loading verified real Binance market tape from {tape_file}...")
-    candles = load_tape_candles(tape_file, limit=500)
-    print(f"[+] Loaded {len(candles)} real hourly bars.")
+    candles = load_tape_candles(tape_file, limit=args.bars, instrument=args.instrument)
+    print(f"[+] Loaded {len(candles)} real hourly {args.instrument} bars.")
 
     result = runner.run(
         case,
