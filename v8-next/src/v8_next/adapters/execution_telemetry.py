@@ -170,6 +170,22 @@ def fill_signature(records: list[dict[str, Any]]) -> str:
 MAX_REFERENCE_RATIO = 1.5
 
 
+def configuration_cannot_slip(block: dict[str, Any]) -> bool:
+    """Declared semantics that make a fill deviation impossible by construction.
+
+    ``prob_slippage`` of zero with a fill model that never slips places every fill
+    at the price the decision asked for, so the magnitudes such a run produces are
+    a property of the configuration instead of a measurement of the venue. The
+    consumer reads this signal (see
+    ``scoring.EXECUTION_FIDELITY_CANNOT_SLIP_SIGNAL``) so a degenerate statistic
+    is named where it is consumed rather than re-derived from the profile.
+    """
+    prob_slippage = block.get("prob_slippage")
+    if isinstance(prob_slippage, bool) or not isinstance(prob_slippage, (int, float)):
+        return False
+    return float(prob_slippage) <= 0.0 and not block.get("fill_model_slipped")
+
+
 def persist_execution_telemetry(path: Any, block: dict[str, Any]) -> Any:
     """Write an execution-telemetry artifact that carries its own digest.
 
@@ -362,6 +378,21 @@ def execution_telemetry(
             ),
             "slippage_bps_max": round(max(slippage_bps), 6) if slippage_bps else None,
             "slippage_bps_min": round(min(slippage_bps), 6) if slippage_bps else None,
+            #: Degeneracy signals for the magnitude statistic above (#439). A zero
+            #: magnitude is either every sample being identical or a declared
+            #: configuration that cannot slip, and neither discriminates execution
+            #: quality. Published here so a consumer abstains on evidence the
+            #: producer named, instead of scoring the top of its range on a
+            #: statistic that cannot vary.
+            "slippage_bps_abs_max": (
+                round(max(slippage_magnitudes), 6) if slippage_magnitudes else None
+            ),
+            "slippage_magnitudes_all_zero": (
+                all(magnitude == 0.0 for magnitude in slippage_magnitudes)
+                if slippage_magnitudes
+                else None
+            ),
+            "slippage_configuration_cannot_slip": configuration_cannot_slip(block),
             "decision_to_position_event_ns_mean": (
                 int(sum(latencies) / len(latencies)) if latencies else None
             ),

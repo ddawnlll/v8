@@ -127,6 +127,10 @@ class DomainMeasurementStatus:
     status: str
     sample_size: int
     kind: str
+    #: Why the domain holds a non-measured status, when that status was resolved
+    #: from evidence rather than from the input kind alone (e.g. a degenerate
+    #: statistic). ``None`` for the statuses the input kind fully explains.
+    reason: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -134,6 +138,7 @@ class DomainMeasurementStatus:
             "status": self.status,
             "sample_size": self.sample_size,
             "kind": self.kind,
+            "reason": self.reason,
         }
 
 
@@ -214,11 +219,131 @@ EXECUTION_FIDELITY_REFERENCE_BPS = 10.0
 #: window whose fills all deviated can still average to ~0 bps.
 EXECUTION_FIDELITY_SHORTFALL_FIELD = "slippage_bps_abs_mean"
 
+#: Named reasons a *present* shortfall statistic cannot be published as a
+#: measurement (#439). Magnitudes are non-negative, so an exactly-zero value is
+#: either every sample being identical or the declared configuration being unable
+#: to produce a deviation at all. In both cases 0.0 bps describes the setup
+#: instead of execution quality, and scoring it would put the top of the domain's
+#: declared range on a number that cannot discriminate -- so the domain resolves
+#: to a non-measured status, named. Each constant says which condition was
+#: observed: "not measured" is only honest when it names what was missing.
+EXECUTION_FIDELITY_DEGENERATE_INERT_CONFIGURATION = "DEGENERATE_INERT_EXECUTION_CONFIGURATION"
+EXECUTION_FIDELITY_DEGENERATE_ZERO_VARIATION = "DEGENERATE_ZERO_SHORTFALL_ACROSS_SAMPLES"
+EXECUTION_FIDELITY_DEGENERATE_ZERO_SIGNED_MEAN = "DEGENERATE_ZERO_SIGNED_MEAN_WITHOUT_MAGNITUDE"
+
+EXECUTION_FIDELITY_DEGENERATE_REASONS = (
+    EXECUTION_FIDELITY_DEGENERATE_INERT_CONFIGURATION,
+    EXECUTION_FIDELITY_DEGENERATE_ZERO_VARIATION,
+    EXECUTION_FIDELITY_DEGENERATE_ZERO_SIGNED_MEAN,
+)
+
+#: The ``DOMAIN_STATUSES`` member a degenerate statistic resolves to: the domain
+#: was eligible and had samples, but produced nothing publishable, so it abstains
+#: instead of carrying a score. (``MISSING`` stays reserved for "nothing to
+#: measure at all", which is why a config-degenerate block is not one.)
+EXECUTION_FIDELITY_DEGENERATE_DOMAIN_STATUS = "ABSTAINED"
+
+#: Producer-side signal published by ``adapters.execution_telemetry``: the
+#: declared semantics cannot place a fill away from its decision price. Read here
+#: so a block that carries the signal is judged without re-deriving the profile,
+#: while blocks persisted before the signal existed fall back to the raw knobs.
+EXECUTION_FIDELITY_CANNOT_SLIP_SIGNAL = "slippage_configuration_cannot_slip"
+
+
+def _measured_shortfall_statistic(
+    execution: Mapping[str, Any],
+) -> tuple[float, bool] | None:
+    """The magnitude statistic a block carries, or ``None`` when it carries none.
+
+    Returns ``(measured_magnitude, uses_declared_magnitude_field)``. A block
+    persisted before the magnitude statistic existed still carries measured
+    evidence, so |signed mean| is accepted -- flagged as the fallback, because a
+    zero there is also what two opposite-signed fills produce and therefore
+    cannot prove a zero deviation.
+    """
+    if (execution.get("slippage_samples") or 0) <= 0:
+        return None
+    declared = execution.get(EXECUTION_FIDELITY_SHORTFALL_FIELD)
+    if isinstance(declared, (int, float)) and not isinstance(declared, bool):
+        return abs(float(declared)), True
+    signed = execution.get("slippage_bps_mean")
+    if isinstance(signed, (int, float)) and not isinstance(signed, bool):
+        return abs(float(signed)), False
+    return None
+
+
+def _declares_configuration_that_cannot_slip(execution: Mapping[str, Any]) -> bool:
+    """Whether the block's own declared semantics forbid a shortfall altogether."""
+    if execution.get(EXECUTION_FIDELITY_CANNOT_SLIP_SIGNAL) is True:
+        return True
+    prob_slippage = execution.get("prob_slippage")
+    if isinstance(prob_slippage, bool) or not isinstance(prob_slippage, (int, float)):
+        return False
+    return float(prob_slippage) <= 0.0 and not execution.get("fill_model_slipped")
+
+
+def execution_fidelity_degeneracy(
+    execution: Mapping[str, Any] | None,
+) -> tuple[str | None, int]:
+    """``(named reason, samples)`` when a present shortfall statistic is degenerate.
+
+    ``(None, samples)`` when the statistic can discriminate, or when no usable
+    measurement exists at all, so a caller abstains only on a named degeneracy.
+    """
+    if not execution:
+        return None, 0
+    samples = int(execution.get("slippage_samples") or 0)
+    read = _measured_shortfall_statistic(execution)
+    if read is None:
+        return None, samples
+    measured, uses_declared_field = read
+    if measured != 0.0:
+        return None, samples
+    if _declares_configuration_that_cannot_slip(execution):
+        return EXECUTION_FIDELITY_DEGENERATE_INERT_CONFIGURATION, samples
+    if uses_declared_field:
+        return EXECUTION_FIDELITY_DEGENERATE_ZERO_VARIATION, samples
+    return EXECUTION_FIDELITY_DEGENERATE_ZERO_SIGNED_MEAN, samples
+
+
+def _with_execution_fidelity_status(
+    statuses: tuple[DomainMeasurementStatus, ...],
+    *,
+    status: str,
+    sample_size: int,
+    reason: str,
+) -> tuple[DomainMeasurementStatus, ...]:
+    """Re-resolve ExecutionFidelity's status on the existing status structure.
+
+    The reason rides in the existing :class:`DomainMeasurementStatus` record so
+    it is serialized with the breakdown; no parallel status vocabulary is
+    invented for it.
+    """
+    if status not in DOMAIN_STATUSES or reason not in EXECUTION_FIDELITY_DEGENERATE_REASONS:
+        raise ValueError(
+            f"degenerate ExecutionFidelity status must be a declared DOMAIN_STATUSES "
+            f"member ({DOMAIN_STATUSES}) with a named reason "
+            f"({EXECUTION_FIDELITY_DEGENERATE_REASONS}); got status={status!r} "
+            f"reason={reason!r}"
+        )
+    return tuple(
+        DomainMeasurementStatus(
+            domain=item.domain,
+            status=status,
+            sample_size=sample_size,
+            kind=item.kind,
+            reason=reason,
+        )
+        if item.domain == CapabilityDomain.ExecutionFidelity.value
+        else item
+        for item in statuses
+    )
+
 
 def _execution_fidelity(
     sharpe_proxy: float,
     execution: Mapping[str, Any] | None,
-) -> tuple[float, str, float | None]:
+) -> tuple[float | None, str, float | None]:
     """ExecutionFidelity from measured shortfall when it exists, else the proxy.
 
     The previous value was a rescaled PnL Sharpe that contained no execution
@@ -230,20 +355,22 @@ def _execution_fidelity(
     clipped to the domain's declared [0.0, 1.0] range. The measured branch is
     therefore neither floored at nor capped by the proxy's undeclared
     [0.05, 0.50] band, which is what made every run publish a constant 0.50:
-    0 bps must publish 1.0, and the 10 bps reference must publish 0.0. The third
-    element is the shortfall value the score was computed from (None when the
-    proxy was used), so the mapping stays auditable in the published breakdown.
+    10 bps is what the declared reference scores as zero.
+
+    A statistic that is present but degenerate scores nothing (``None``) and the
+    source names the degeneracy: 0.0 bps of measured magnitude is either every
+    sample being identical or a configuration that cannot slip, so the top of the
+    declared range would be published on a number that cannot vary (#439). The
+    third element is the shortfall value that was read (``None`` when the proxy
+    was used), so the abstention stays auditable in the published breakdown.
     """
     if execution:
-        samples = execution.get("slippage_samples") or 0
-        shortfall_bps = execution.get(EXECUTION_FIDELITY_SHORTFALL_FIELD)
-        if not isinstance(shortfall_bps, (int, float)):
-            # A block persisted before the magnitude statistic existed still
-            # carries measured evidence; |signed mean| is the same quantity minus
-            # the cancellation between favourable and adverse fills.
-            shortfall_bps = execution.get("slippage_bps_mean")
-        if samples > 0 and isinstance(shortfall_bps, (int, float)):
-            measured = abs(float(shortfall_bps))
+        read = _measured_shortfall_statistic(execution)
+        if read is not None:
+            measured, _ = read
+            reason, _ = execution_fidelity_degeneracy(execution)
+            if reason is not None:
+                return None, reason, measured
             fidelity = 1.0 - measured / EXECUTION_FIDELITY_REFERENCE_BPS
             return (
                 float(np.clip(fidelity, 0.0, 1.0)),
@@ -282,6 +409,18 @@ def compute_capability_breakdown(
     statuses = domain_measurement_statuses(
         total_bars=total_bars, total_trades=total_trades, abstain_rate=abstain_rate
     )
+    # A degenerate ExecutionFidelity statistic abstains by name before coverage is
+    # derived (#439), so an eligible-but-unmeasurable domain is counted as exactly
+    # that. With no trades the domain already abstains for NO_TRADES, which is the
+    # reason that path publishes, so the override is skipped there.
+    degenerate_reason, degenerate_samples = execution_fidelity_degeneracy(execution)
+    if degenerate_reason is not None and total_trades > 0:
+        statuses = _with_execution_fidelity_status(
+            statuses,
+            status=EXECUTION_FIDELITY_DEGENERATE_DOMAIN_STATUS,
+            sample_size=degenerate_samples,
+            reason=degenerate_reason,
+        )
     coverage = derive_coverage(statuses)
     if coverage_factor is None:
         coverage_factor = coverage["coverage_factor"]
@@ -296,6 +435,7 @@ def compute_capability_breakdown(
             "coverage_factor": coverage_factor,
             "coverage_source": coverage_source,
             "coverage": coverage,
+            "domain_measurement_statuses": [item.as_dict() for item in statuses],
             "execution_fidelity_source": "NO_TRADES",
             "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
             "execution_fidelity_shortfall_bps": None,
@@ -308,6 +448,7 @@ def compute_capability_breakdown(
             "coverage_factor": None,
             "coverage_source": coverage["coverage_source"],
             "coverage": coverage,
+            "domain_measurement_statuses": [item.as_dict() for item in statuses],
             "execution_fidelity_source": "NO_ELIGIBLE_DOMAIN",
             "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
         }
@@ -322,12 +463,15 @@ def compute_capability_breakdown(
     def_val = 0.15 if total_trades >= 1 else 0.01
     micro_val = float(np.clip(0.10 + (total_bars / 500.0) * 0.10, 0.05, 0.30))
 
-    raw = {
-        CapabilityDomain.ExecutionFidelity: (exec_val, 0.8, 1.2, total_trades),
-        CapabilityDomain.OperationalSimplicity: (op_val, 0.8, 1.2, total_bars),
-        CapabilityDomain.DefeaterResistance: (def_val, 0.7, 1.3, total_trades),
-        CapabilityDomain.MicrostructureInvariance: (micro_val, 0.75, 1.25, total_bars),
-    }
+    # A domain whose only statistic was degenerate publishes no score at all
+    # (#439): it stays out of the aggregate instead of being scored on a number
+    # that cannot discriminate, exactly like the other non-measured domains.
+    raw: dict[CapabilityDomain, tuple[float, float, float, int]] = {}
+    if exec_val is not None:
+        raw[CapabilityDomain.ExecutionFidelity] = (exec_val, 0.8, 1.2, total_trades)
+    raw[CapabilityDomain.OperationalSimplicity] = (op_val, 0.8, 1.2, total_bars)
+    raw[CapabilityDomain.DefeaterResistance] = (def_val, 0.7, 1.3, total_trades)
+    raw[CapabilityDomain.MicrostructureInvariance] = (micro_val, 0.75, 1.25, total_bars)
     domain_scores = {
         domain: BoundedScore(
             value=v,
@@ -360,11 +504,16 @@ def compute_capability_breakdown(
         "coverage_source": coverage_source,
         "coverage": coverage,
         "domain_statuses": {item.domain: item.status for item in statuses},
+        #: The full measurement record of every domain, including the named reason
+        #: a domain resolved to a non-measured status (e.g. a degenerate
+        #: ExecutionFidelity statistic): the status vocabulary stays the existing
+        #: one, and the reason is serialized next to it rather than inferred.
+        "domain_measurement_statuses": [item.as_dict() for item in statuses],
         "execution_fidelity_source": exec_source,
         "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
-        # The measured input the ExecutionFidelity score was computed from, so a
-        # reader can check the published score against the declared mapping
-        # instead of trusting that the domain was bound to execution evidence.
+        # The shortfall value that was read, so a reader can check a published
+        # score against the declared mapping -- and, when the value was degenerate,
+        # see the input the domain abstained on instead of a score.
         "execution_fidelity_shortfall_bps": (
             round(exec_shortfall_bps, 6) if exec_shortfall_bps is not None else None
         ),
