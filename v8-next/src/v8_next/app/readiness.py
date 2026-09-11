@@ -55,8 +55,32 @@ def _load(path: Path) -> dict[str, Any] | None:
         return None
 
 
-def gate_factor(receipt: Any | None) -> dict[str, Any]:
-    """PASS gates / 10, read from the receipt that is actually on the ledger."""
+#: the readiness audit resolves the battery on a real window; when that artifact is present
+#: it is the better source than a ledger entry whose gate vector was never resolved
+GATE_AUDIT_REL = "docs/evidence/v87/READINESS/readiness_audit.json"
+
+
+def gate_factor(receipt: Any | None, repo_root: Path | None = None) -> dict[str, Any]:
+    """PASS gates / 10, from the resolved battery when one exists, else from the receipt."""
+    resolved: dict[str, Any] | None = None
+    if repo_root is not None:
+        audit_artifact = _load(repo_root / GATE_AUDIT_REL)
+        if audit_artifact:
+            coverage = audit_artifact.get("gate_coverage") or {}
+            states = coverage.get("states") or {}
+            if states:
+                resolved = {
+                    "factor": round(float(coverage.get("passed", 0)) / max(1, len(states)), 4),
+                    "passed": int(coverage.get("passed", 0)),
+                    "required": len(states),
+                    "states": states,
+                    "status": "MEASURED",
+                    "source": GATE_AUDIT_REL,
+                    "verdict": coverage.get("readiness_status"),
+                    "window": (audit_artifact.get("window") or {}).get("start_utc"),
+                }
+    if resolved is not None:
+        return resolved
     if receipt is None:
         return {"factor": 0.0, "passed": 0, "required": 10, "states": {}, "status": "MISSING"}
     gates = receipt.gates
@@ -69,6 +93,7 @@ def gate_factor(receipt: Any | None) -> dict[str, Any]:
         "required": len(fields),
         "states": states,
         "status": "MEASURED",
+        "source": "ledger receipt (gate vector as recorded)",
     }
 
 
@@ -276,7 +301,7 @@ def write_scenario_report(repo_root: Path, out_rel: str | None = None) -> Path:
 
 
 def audit(repo_root: Path, ledger_path: Path, latest_receipt: Any | None) -> dict[str, Any]:
-    gates = gate_factor(latest_receipt)
+    gates = gate_factor(latest_receipt, repo_root)
     pillars = pillar_factor(repo_root)
     risk = risk_factor(repo_root, PILLAR_ARTIFACTS["P2_paper_trade_4y"])
     target = target_factor(repo_root)
