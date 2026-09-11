@@ -82,6 +82,9 @@ def load_tape_candles(
     tape_path: Path | str | None = None,
     limit: int | None = None,
     instrument: str | None = None,
+    *,
+    start_ms: int | None = None,
+    end_ms: int | None = None,
 ) -> list[Candle]:
     """Load real 1-hour candles from verified venue capture tape using Polars.
 
@@ -132,14 +135,26 @@ def load_tape_candles(
                                         return candles
             return candles
 
-    df = pl.read_ndjson(p)
-    kline_df = df.filter(pl.col("channel") == "kline")
+    # Lazy scan: filters and the limit are pushed into the reader, so a bounded
+    # UTC window never materialises the whole tape (NX05.R3, 226 MB stays bounded).
+    lf = pl.scan_ndjson(p).filter(pl.col("channel") == "kline")
     if instrument is not None:
-        kline_df = kline_df.filter(pl.col("instrument") == instrument)
+        lf = lf.filter(pl.col("instrument") == instrument)
+    if start_ms is not None:
+        lf = lf.filter(pl.col("payload").struct.field("open_time_ms") >= start_ms)
+    if end_ms is not None:
+        lf = lf.filter(pl.col("payload").struct.field("open_time_ms") < end_ms)
+    lf = lf.sort("event_time")
     if limit is not None:
-        kline_df = kline_df.head(limit)
+        lf = lf.head(limit)
+    kline_df = lf.collect()
 
     payloads = kline_df["payload"].to_list()
+    if not payloads:
+        raise FileNotFoundError(
+            f"no kline rows for instrument={instrument!r} in window "
+            f"[{start_ms},{end_ms}) of {p}"
+        )
     symbol = instrument or "BTCUSDT"
     candles = [
         Candle(

@@ -1,0 +1,44 @@
+{
+  "differences_explained": [
+    "the two paths are given the same UTC window on the same tape; their run keys differ because the instruments/case/policy differ, which is the point of binding identity rather than comparing apples to oranges",
+    "the D153 path runs a single instrument; the portfolio path runs the tape's whole universe, so any trade/equity difference is expected and is not evidence of a defect in either path"
+  ],
+  "economic_evidence": "NONE \u2014 smoke/fold probe runs; NO_ECONOMIC_CLAIM",
+  "funding_attribution": "NOT_CLAIMED_SIGNATURES_DIFFER",
+  "identity": {
+    "benchmark_run_key": "sha256:23956d1a0236a8467aea387e7fb77ddb8a67744718d98c6cacea6e9610c66b34",
+    "benchmark_universe": "BTCUSDT",
+    "benchmark_window_tape": "/Users/hootie/src/v8/research/tape/multi-1h-4y",
+    "portfolio_run_key": "sha256:44b8ebf5224c81721807d7d441925a1265befce96471c066175195e1e5f9c93c",
+    "portfolio_universe": "tape universe (all legs)",
+    "portfolio_window_tape": "/Users/hootie/src/v8/research/tape/multi-1h-4y",
+    "same_tape": true
+  },
+  "paths": {
+    "benchmark": {
+      "bars": 744,
+      "economic_evidence": true,
+      "exit_code": 0,
+      "state": "COMPLETED",
+      "walltime_s": 1.399
+    },
+    "portfolio": {
+      "bars": 744,
+      "economic_evidence": null,
+      "exit_code": 0,
+      "ledger_chain": "OK",
+      "receipt_verify": "OK",
+      "state": "COMPLETED",
+      "walltime_s": 20.226
+    }
+  },
+  "signatures_match": false,
+  "trade_signatures": {
+    "benchmark_path_trade_signature": "0dd590098c64a9b62c6a582503f1aa6c381abbb54bbbe88365e0a9bb1b0adee2",
+    "portfolio_path_trade_signature": "c6a22ad945bed26cefa5185e18d79519007f52dae368093ee3248fdaf580e142"
+  },
+  "window": {
+    "end_utc": "2025-02-01",
+    "start_utc": "2025-01-01"
+  }
+}
