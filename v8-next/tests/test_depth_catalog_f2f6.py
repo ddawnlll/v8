@@ -174,7 +174,20 @@ def test_captured_book_feeds_the_engine_deterministically() -> None:
     first, second = run(), run()
     assert first["book_deltas_fed"] == len(deltas) > 0
     assert first["book_type"] is not None
-    active = first["execution"]["depth_dependent_knobs_active"]
-    assert set(active) == {"liquidity_consumption", "queue_position"}
+    # The captured book postdates the bar window, and with an L2 book configured a
+    # MARKET order submitted from a bar callback does not execute at all (measured:
+    # 2 fills without the book, 0 with it on this same single-leg run). Publishing
+    # the knobs as ACTIVE for a run that cannot exercise them would dress an empty
+    # execution record up as depth-conditioned execution, so the wiring now keeps
+    # them inert and names the reason. Overlap is covered by
+    # tests/test_l2_book_f2.py::test_a_book_window_disjoint_from_the_bars_cannot_claim_active_knobs
+    # and the positive case by the profile-summary test in the same file.
+    assert first["book_window_overlap"] is False
+    assert first["book_window_reason"] == "NO_OVERLAP_BETWEEN_CAPTURED_BOOK_AND_BAR_WINDOW"
+    assert first["execution"]["depth_dependent_knobs_active"] == []
+    assert set(first["execution"]["inert_knobs_without_depth_data"]) == {
+        "liquidity_consumption",
+        "queue_position",
+    }
     assert first["fill_signature"] == second["fill_signature"]
     assert first["account"] == second["account"]
