@@ -204,14 +204,21 @@ def audit(repo_root: Path, ledger_path: Path, latest_receipt: Any | None) -> dic
     readiness = round(
         100.0 * gates["factor"] * pillars["factor"] * risk["factor"] * target["factor"], 2
     )
-    next_measurement = next(
-        (
-            (name, info)
-            for name, info in pillars["pillars"].items()
-            if info["status"] != "MEASURED"
-        ),
-        None,
-    )
+    # when every pillar is present the next requirement is no longer a pillar: it is the
+    # unresolved gates, and failing that a protected window for the target factor
+    unresolved_gates = [
+        name for name, state in gates["states"].items() if state != "PASS"
+    ]
+    if any(info["status"] != "MEASURED" for info in pillars["pillars"].values()):
+        next_measurement = next(
+            name for name, info in pillars["pillars"].items() if info["status"] != "MEASURED"
+        )
+    elif unresolved_gates:
+        next_measurement = "gate_battery: " + ", ".join(unresolved_gates)
+    elif target["status"] != "COUNTED":
+        next_measurement = "protected_final_window (the target factor cannot be counted without one)"
+    else:
+        next_measurement = None
     return {
         "readiness": readiness,
         "factors": {
@@ -221,7 +228,7 @@ def audit(repo_root: Path, ledger_path: Path, latest_receipt: Any | None) -> dic
             "target_factor": target,
         },
         "formula": "100 * gate_factor * pillar_factor * risk_factor * target_factor",
-        "next_required_measurement": None if next_measurement is None else next_measurement[0],
+        "next_required_measurement": next_measurement,
         "claim_status": "NO_ECONOMIC_CLAIM",
         "ledger": str(ledger_path),
         "non_authority": (
