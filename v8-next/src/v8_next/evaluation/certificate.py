@@ -7,6 +7,12 @@ Enforces:
 - Binary Robustness Seal & Hard Gate Vector verification.
 - Multi-population evidence topology (12-month quad tape as single diagnostic cell).
 - Terminal ASCII and HTML certificate rendering.
+
+#441: an absent factor is published with a named source, never as a bare hole. The
+economic factor has one producer (the optional ``projection`` argument); when no
+producer exists the derivation says so with a stable token
+(``ECONOMIC_FACTOR_UNPRODUCED``), so a reader can tell an unimplemented source from
+a measurement that has not arrived. No token ever carries a number.
 """
 
 from __future__ import annotations
@@ -25,6 +31,23 @@ from v8_next.evaluation.benchmark_receipt import (
 def _render(value: float | None, digits: int = 1) -> str:
     """A missing measurement renders as MISSING, never as a zero."""
     return "MISSING" if value is None else f"{value:.{digits}f}"
+
+
+#: #441. The readiness product's economic factor has exactly one producer in this
+#: tree: the optional ``projection`` argument of :meth:`PolicyCertificate.generate`.
+#: A receipt may bind a measured economic receipt (``economic_evidence_digest`` /
+#: ``economic_receipt_path``) and still carry no 0-100 economic factor, because no
+#: code path maps that bound evidence onto the factor. The derivation therefore
+#: publishes *why* the factor is absent, with a stable token, so a reader can tell
+#: "no producer exists" from "a producer ran and measured nothing" without parsing
+#: free text. The token never carries a number: an absent factor stays absent and
+#: the readiness index stays missing.
+ECONOMIC_FACTOR_PRODUCER = "projection.economic_score"
+#: No producer was supplied at all: this tree cannot derive the factor from any
+#: receipt field, so the absence is a source gap, not a pending measurement.
+ECONOMIC_FACTOR_UNPRODUCED = "ECONOMIC_FACTOR_UNPRODUCED"
+#: A producer was supplied, but it carried no measurement.
+ECONOMIC_FACTOR_UNMEASURED = "ECONOMIC_FACTOR_UNMEASURED"
 
 
 class PolicyCertificate(BaseModel):
@@ -86,6 +109,16 @@ class PolicyCertificate(BaseModel):
         economic_score: float | None = None
         if projection is not None:
             economic_score = getattr(projection, "economic_score", None)
+        # #441: the derivation names the source, not merely the hole. A number names
+        # the producer it came from; an absence names *which kind* of absence it is,
+        # so "no producer exists" is never published as bare ``None`` that reads like
+        # an ordinary pending measurement.
+        if economic_score is not None:
+            economic_factor_source = ECONOMIC_FACTOR_PRODUCER
+        elif projection is None:
+            economic_factor_source = ECONOMIC_FACTOR_UNPRODUCED
+        else:
+            economic_factor_source = ECONOMIC_FACTOR_UNMEASURED
 
         # Multiplicative Readiness Index, evaluated only over factors that exist.
         factors: dict[str, float | None] = {
@@ -141,6 +174,12 @@ class PolicyCertificate(BaseModel):
                 },
             },
             "missing_measurements": list(missing),
+            #: #441: whose absence the economic factor is. ``ECONOMIC_FACTOR_UNPRODUCED``
+            #: means no code path in this tree can produce the factor from the receipt
+            #: (including a receipt that binds measured economic evidence);
+            #: ``ECONOMIC_FACTOR_UNMEASURED`` means a producer was supplied and
+            #: measured nothing. A measured factor names its producer instead.
+            "economic_factor_source": economic_factor_source,
         }
 
         verdict = receipt.gates.readiness()
@@ -235,6 +274,7 @@ class PolicyCertificate(BaseModel):
                     eco=_render(self.economic_score),
                 ),
                 f"Missing measurements: {', '.join(self.missing_measurements) if self.missing_measurements else 'none'}",
+                f"Economic factor source: {(self.derivation or {}).get('economic_factor_source', 'UNSPECIFIED')}",
                 "======================================================================",
                 "",
             ]
