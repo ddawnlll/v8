@@ -18,7 +18,14 @@ from nautilus_trader.adapters.binance import (
 )
 from nautilus_trader.common import DataActor, Environment
 from nautilus_trader.live import LiveNode
-from nautilus_trader.model import Bar, BarType, InstrumentId, QuoteTick, TraderId
+from nautilus_trader.model import (
+    Bar,
+    BarType,
+    InstrumentId,
+    QuoteTick,
+    TraderId,
+    TradeTick,
+)
 
 from v8_next.adapters.binance_capture import capture
 from v8_next.app.observe import source_hash
@@ -42,6 +49,8 @@ class QuoteRecorder(DataActor):
         self.count = 0
         self.bar_count = 0
         self.positioning_count = 0
+        self.trade_count = 0
+        self.trade_output: TextIO | None = None
         self.positioning_output: TextIO | None = None
         self.bar_output: TextIO | None = None
         self.observations: StreamObservations | None = None
@@ -80,6 +89,7 @@ class QuoteRecorder(DataActor):
     def on_start(self) -> None:
         for name in INSTRUMENTS:
             self.subscribe_quotes(InstrumentId.from_str(name))
+            self.subscribe_trades(InstrumentId.from_str(name))
             if self.observations is not None:
                 self.subscribe_bars(BarType.from_str(f"{name}-1-HOUR-LAST-EXTERNAL"))
         if self.max_quote_silence_ns is not None:
@@ -216,6 +226,57 @@ class QuoteRecorder(DataActor):
                     )
                     self.observation_output.write(canonical(observation) + "\n")
                     self.observation_output.flush()
+        except Exception as error:
+            self.failure = f"{type(error).__name__}: {error}"
+            if self.stop_node is not None:
+                self.stop_node()
+            raise
+
+    def on_trade(self, trade: TradeTick) -> None:
+        """Record venue trades verbatim: aggressor evidence, never inferred.
+
+        The aggressor side is the venue's own flag mapped by the capture reader;
+        a trade whose side cannot be read is rejected here rather than recorded
+        with a guessed direction.
+        """
+        if self.failure is not None:
+            return
+        try:
+            observed = time.time_ns()
+            if (
+                str(trade.instrument_id) not in INSTRUMENTS
+                or not 0 < trade.ts_event <= trade.ts_init <= observed
+            ):
+                raise ValueError("unqualified trade identity or clocks")
+            if trade.price.as_decimal() <= 0 or trade.size.as_decimal() <= 0:
+                raise ValueError("invalid trade price or size")
+            if str(trade.aggressor_side) not in ("BUY", "SELL"):
+                raise ValueError("trade carries no aggressor side")
+            if self.trade_output is None:
+                raise ValueError("trade recorder not configured")
+            self.trade_output.write(
+                canonical(
+                    dict(
+                        # Trade rows carry their own arrival counter: the quote
+                        # sequence is defined over quote/bar/positioning events and
+                        # reusing it would make two different feeds collide.
+                        sequence=self.trade_count,
+                        instrument_id=str(trade.instrument_id),
+                        event_ns=trade.ts_event,
+                        received_ns=trade.ts_init,
+                        recorded_ns=observed,
+                        price=str(trade.price),
+                        size=str(trade.size),
+                        aggressor_side=str(trade.aggressor_side),
+                        trade_id=str(trade.trade_id),
+                        source="NAUTILUS_BINANCE_TRADE_TICK_V2_0_0RC4",
+                        claim_status="NO_ECONOMIC_CLAIM",
+                    )
+                )
+                + "\n"
+            )
+            self.trade_output.flush()
+            self.trade_count += 1
         except Exception as error:
             self.failure = f"{type(error).__name__}: {error}"
             if self.stop_node is not None:
@@ -409,6 +470,7 @@ async def capture_stream(
         (destination / "observations.jsonl").open("x") as observation_output,
         (destination / "bars.jsonl").open("x") as bar_output,
         (destination / "positioning.jsonl").open("x") as positioning_output,
+        (destination / "trades.jsonl").open("x") as trade_output,
     ):
         actor = QuoteRecorder(output)
         actor.stop_node = node.handle().stop
@@ -417,6 +479,7 @@ async def capture_stream(
         actor.observation_output = observation_output
         actor.bar_output = bar_output
         actor.positioning_output = positioning_output
+        actor.trade_output = trade_output
         node.add_actor(actor)
 
         refresh_stopped = asyncio.Event()
@@ -446,6 +509,8 @@ async def capture_stream(
                 raise ValueError(actor.failure)
             positioning_output.flush()
             os.fsync(positioning_output.fileno())
+            trade_output.flush()
+            os.fsync(trade_output.fileno())
             bar_output.flush()
             os.fsync(bar_output.fileno())
             output.flush()
@@ -468,11 +533,16 @@ async def capture_stream(
                 session_sha256=hashlib.sha256(
                     (destination / "session.json").read_bytes()
                 ).hexdigest(),
+                trades_sha256=hashlib.sha256(
+                    (destination / "trades.jsonl").read_bytes()
+                ).hexdigest(),
+                trade_count=actor.trade_count,
                 quote_count=actor.count,
                 ended_ns=time.time_ns(),
                 status="HALTED_QUOTE_SILENCE"
                 if actor.health_halt
                 else ("OBSERVED" if actor.count else "NO_QUOTES_OBSERVED"),
+                trade_capture_scope="PUBLIC_VENUE_TRADES_WITH_AGGRESSOR_SIDE",
                 health_halt=actor.health_halt,
                 claim_status="NO_ECONOMIC_CLAIM",
             )

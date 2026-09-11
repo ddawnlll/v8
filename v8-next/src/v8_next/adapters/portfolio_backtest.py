@@ -199,6 +199,7 @@ def run_portfolio_backtest(
     readings: tuple[PositioningReading, ...] = (),
     funding_dropped: int = 0,
     execution_profile: str | ExecutionProfile = DEFAULT_PROFILE,
+    trades: tuple[Any, ...] = (),
 ) -> dict[str, Any]:
     """Execute the portfolio through one shared Nautilus account.
 
@@ -264,6 +265,14 @@ def run_portfolio_backtest(
                 strategies.append(strat)
                 engine.add_strategy(strat)
 
+        # Trade ticks drive trade-based matching (aggressor evidence) alongside
+        # bars. Empty by default; sorted by the loader for determinism.
+        trades_fed = 0
+        if trades:
+            ordered = sorted(trades, key=lambda t: (t.ts_event, str(t.trade_id)))
+            engine.add_data(ordered)
+            trades_fed = len(ordered)
+
         settlements = 0
         out_of_window = 0
         unknown_leg = 0
@@ -318,8 +327,9 @@ def run_portfolio_backtest(
             "closed_positions": closed,
             "account": account,
             "execution": execution,
-            "fill_signature": _fill_signature(fill_records),
+            "fill_signature": execution.get("fill_signature"),
             "fill_records": fill_records,
+            "trades_fed": trades_fed,
             "funding_settlements_fed": settlements,
             "funding_rows_available": len(funding),
             # Coverage accounting: a zero-funding P&L must be distinguishable
