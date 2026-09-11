@@ -14,7 +14,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Sequence
 
 import pytest
 
@@ -684,7 +684,12 @@ def test_mechanics_failed_estimators_stay_unsuccessful() -> None:
 
 
 def _starved_stats() -> dict[str, Any]:
-    """The exact reasons `run_statistics` records when the extras are absent."""
+    """Legacy-shaped reasons `run_statistics` used to record without the extra.
+
+    Kept as written (no `unavailable` list) on purpose: a receipt written before
+    #440 records the missing dependency only in the fail-closed reason, and that
+    reading must keep working.
+    """
     return {
         "dsr": {"verdict": "UNDERPOWERED", "reason": "ModuleNotFoundError: No module named 'scipy'"},
         "pbo": {"verdict": "UNDERPOWERED", "reason": "ModuleNotFoundError: No module named 'scipy'"},
@@ -695,14 +700,13 @@ def _starved_stats() -> dict[str, Any]:
 def test_mechanics_unprovisioned_estimators_are_named_not_implied() -> None:
     """A missing optional `research` dependency must not read as "ran, found nothing".
 
-    `scipy` and `arch` are declared only in `[project.optional-dependencies].research`.
-    When they are absent, all three estimators fail closed and `build_verdicts`
-    short-circuits to one verdict string, so two distinct epistemic states —
-    "the estimator was never provisioned" and "the estimator ran and produced no
-    supporting output" — collapse into the same operator surface. That collapse
-    is what made a missing extra read as a statistical regression.
+    `scipy` and `arch` are declared only in `[project.optional-dependencies].research`,
+    so a fresh sync without the extra lands in a state whose published verdict
+    used to be `UNDERPOWERED`/`UNSUPPORTED` — power vocabulary that reads as a
+    *measured* statistical outcome. #440 splits that state out and names it.
     """
-    assert eb.unprovisioned_estimators(_starved_stats()) == ("arch", "scipy")
+    # Dependency order, not alphabetical: the estimators import them in this order.
+    assert eb.unprovisioned_estimators(_starved_stats()) == ("scipy", "arch")
     v = eb.build_verdicts(
         chrono_ok=True,
         chrono_note="OK",
@@ -715,12 +719,18 @@ def test_mechanics_unprovisioned_estimators_are_named_not_implied() -> None:
         live_fills_present=False,
         parity_ok=True,
     )
-    # Fail closed: naming the missing dependency may never upgrade the verdict.
-    assert v.statistical == "UNSUPPORTED"
+    # Fail closed, and named: the verdict says what was never measured and is
+    # never the power word that would read as a measurement.
+    assert v.statistical == "ESTIMATOR_UNAVAILABLE: scipy,arch"
+    assert v.statistical != "UNDERPOWERED" and v.statistical != "UNSUPPORTED"
+    assert eb.statistical_verdict_state(v.statistical) == "ESTIMATOR_UNAVAILABLE"
+    assert "scipy" in v.statistical and "arch" in v.statistical
     assert v.capital == "NOT_AUTHORIZED"
     assert "no estimator output" in v.statistical_note
     assert "scipy" in v.statistical_note and "arch" in v.statistical_note
     assert "extra research" in v.statistical_note
+    assert "UNDERPOWERED" not in v.statistical_note
+    assert "UNSUPPORTED" not in v.statistical_note
     # An estimator that ran and was merely underpowered is NOT a provisioning failure.
     unpowered = {
         "dsr": {"verdict": "UNDERPOWERED", "reason": "interval count 20 is too few"},
@@ -744,6 +754,137 @@ def test_mechanics_unprovisioned_estimators_are_named_not_implied() -> None:
     assert v2.statistical_note == (
         "no estimator output: DSR=UNDERPOWERED PBO=UNDERPOWERED SPA=UNSUPPORTED"
     )
+
+
+def _mechanics_family(n: int = 500) -> tuple[dict[str, Sequence[float]], list[int]]:
+    """MECHANICS ONLY equity family: real *shape*, zero evaluative weight.
+
+    Three positive curves on one chronology, long enough to tile 20 intervals
+    (INTERVAL_BARS x 20) so the CSCV partition count is admissible. No market
+    data, no performance claim: this fixture exists to exercise which state the
+    statistics block publishes, not to measure anything.
+    """
+    import numpy as np
+
+    rng = np.random.default_rng(440)
+    curves: dict[str, Sequence[float]] = {"cash": [1.0] * n}
+    for name, vol, drift in (("incumbent", 0.004, 0.0002), ("challenger", 0.006, 0.0003)):
+        steps = drift + vol * rng.standard_normal(n)
+        curves[name] = [float(v) for v in np.cumprod(1.0 + steps)]
+    end_ns = [(i + 1) * 3_600_000_000_000 for i in range(n)]
+    return curves, end_ns
+
+
+def _mechanics_family_verdicts(stats: dict[str, Any]) -> eb.EvidenceVerdicts:
+    """The verdicts one deterministic input set produces for a given statistics block."""
+    return eb.build_verdicts(
+        chrono_ok=True,
+        chrono_note="MECHANICS_ONLY",
+        excess=-0.02,
+        excess_ci=(-0.63, -0.02),
+        stats=stats,
+        mix={"incremental_net": 0.0},
+        cost_basis_ok=True,
+        funding_missing=False,
+        live_fills_present=False,
+        parity_ok=True,
+    )
+
+
+def test_mechanics_estimator_unavailable_is_not_a_power_verdict(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """#440 G-A/G-B: the same inputs, one variable changed — availability.
+
+    Blocking `scipy`/`arch` (the `research` extras) must leave every field of the
+    receipt *outside* the statistics block and the statistical verdict it
+    determines untouched, must publish `ESTIMATOR_UNAVAILABLE` for every
+    estimator that never ran, must not publish the power vocabulary for them, and
+    must name the unimportable dependencies in the published verdict string
+    itself — not only in the note.
+    """
+    from v8_next.evaluation.statistics_plan import g5_plan
+
+    curves, end_ns = _mechanics_family()
+    plan = g5_plan(family="mechanics-440", pinned_ns=1, block_size=5, reps=200, seed=7)
+
+    monkeypatch.setattr(eb, "module_available", lambda name: True)
+    available = eb.run_statistics(curves, end_ns, "cash", plan=plan)
+    receipt_ok = _mechanics_receipt({}).model_copy(
+        update={"statistics": available, "verdicts": _mechanics_family_verdicts(available)}
+    )
+
+    monkeypatch.setattr(eb, "module_available", lambda name: name not in ("scipy", "arch"))
+    blocked = eb.run_statistics(curves, end_ns, "cash", plan=plan)
+    receipt_blocked = _mechanics_receipt({}).model_copy(
+        update={"statistics": blocked, "verdicts": _mechanics_family_verdicts(blocked)}
+    )
+
+    # (1) every statistic carries a state from the declared set
+    for stats in (available, blocked):
+        for key in ("dsr", "pbo", "spa"):
+            assert stats[key]["verdict"] in eb.STATISTIC_STATES, (key, stats[key])
+
+    # (2) blocked: the state says "never ran", and the power vocabulary is absent
+    for key in ("dsr", "pbo", "spa"):
+        assert blocked[key]["verdict"] == "ESTIMATOR_UNAVAILABLE", blocked[key]
+        assert blocked[key]["verdict"] not in ("UNDERPOWERED", "UNSUPPORTED")
+        assert blocked[key]["reason"]
+    assert sorted(blocked["dsr"]["unavailable"]) == ["scipy"]
+    assert sorted(blocked["pbo"]["unavailable"]) == ["scipy"]
+    assert sorted(blocked["spa"]["unavailable"]) == ["arch", "scipy"]
+    assert not any(
+        blocked[key]["verdict"] in ("UNDERPOWERED", "UNSUPPORTED") for key in ("dsr", "pbo", "spa")
+    )
+
+    # (3) the same inputs measured: none of them reads as unmeasured
+    for key in ("dsr", "pbo", "spa"):
+        assert available[key]["verdict"] != "ESTIMATOR_UNAVAILABLE", available[key]
+
+    # (4) G-A: identical in every field outside the statistics block, the
+    # statistical verdict the block determines, and the availability record that
+    # states the one changed variable.
+    shared_ok = {k: v for k, v in available.items() if k not in ("dsr", "pbo", "spa")}
+    shared_blocked = {k: v for k, v in blocked.items() if k not in ("dsr", "pbo", "spa")}
+    assert shared_ok == shared_blocked
+    dumped_ok, dumped_blocked = receipt_ok.model_dump(), receipt_blocked.model_dump()
+    assert {k for k in dumped_ok if dumped_ok[k] != dumped_blocked[k]} == {
+        "statistics",
+        "verdicts",
+        "estimator_availability",
+    }
+    assert {
+        k for k in dumped_ok["verdicts"] if dumped_ok["verdicts"][k] != dumped_blocked["verdicts"][k]
+    } == {"statistical", "statistical_note"}
+    for domain in ("research_validity", "economic", "portfolio", "execution", "capital"):
+        assert dumped_ok["verdicts"][domain] == dumped_blocked["verdicts"][domain]
+    assert dumped_blocked["claim_status"] == "NO_ECONOMIC_CLAIM"
+
+    # (5) G-B: the published verdict string itself names what is not importable
+    verdict = receipt_blocked.verdicts.statistical
+    assert verdict == "ESTIMATOR_UNAVAILABLE: scipy,arch"
+    assert verdict not in ("UNDERPOWERED", "UNSUPPORTED")
+    assert "scipy" in verdict and "arch" in verdict
+    assert eb.statistical_verdict_state(verdict) in eb.VERDICT_STATES
+    assert "UNDERPOWERED" not in receipt_blocked.verdicts.statistical_note
+    assert "UNSUPPORTED" not in receipt_blocked.verdicts.statistical_note
+
+    # (6) R3: the receipt separates "not measured" from "measured" without parsing
+    # prose — the availability record and the closed state token both say it.
+    assert receipt_blocked.estimator_availability.unavailable == ("arch", "scipy")
+    assert receipt_blocked.estimator_availability.checked["polars"] is True
+    assert receipt_blocked.estimator_availability.probe == eb.AVAILABILITY_PROBE
+    assert receipt_ok.estimator_availability.unavailable == ()
+    assert receipt_ok.estimator_availability.checked == {
+        "arch": True,
+        "polars": True,
+        "scipy": True,
+    }
+    report = eb.render_report(receipt_blocked)
+    assert "| statistical | ESTIMATOR_UNAVAILABLE: scipy,arch |" in report
+    assert "not importable by this interpreter: arch, scipy" in report
+    # A fully provisioned receipt renders exactly as it did before #440.
+    assert "Estimator availability" not in eb.render_report(receipt_ok)
 
 
 def test_canonical_reproduction_commands_provision_the_research_extra() -> None:
@@ -828,7 +969,14 @@ def test_economic_benchmark_real_tape_end_to_end(tmp_path: Path) -> None:
     receipt = json.loads(receipts[0].read_text())
     assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
     assert receipt["verdicts"]["capital"] == "NOT_AUTHORIZED"
-    assert receipt["verdicts"]["statistical"] in ("SUPPORTS_EDGE", "SUPPORTS_UNDERPERFORMANCE", "INCONCLUSIVE", "UNDERPOWERED", "UNSUPPORTED")
+    assert eb.statistical_verdict_state(receipt["verdicts"]["statistical"]) in (
+        "SUPPORTS_EDGE",
+        "SUPPORTS_UNDERPERFORMANCE",
+        "INCONCLUSIVE",
+        "UNDERPOWERED",
+        "UNSUPPORTED",
+        "ESTIMATOR_UNAVAILABLE",
+    )
     # No invented universal PASS: statistical support never flips economic/capital.
     assert set(receipt["metrics"]) >= {"incumbent", "challenger", "btc_buy_hold", "cash"}
     assert list((tmp_path / "econ").glob("economic_report_*.md")), "tagged economic report missing"
@@ -873,18 +1021,23 @@ sys.meta_path.insert(0, _Blocker())
 def test_economic_portfolio_starved_estimators_name_the_missing_dependency(
     tmp_path: Path,
 ) -> None:
-    """Discriminating test: the same canonical command, one variable changed.
+    """G-C (#440): the canonical window, one variable changed — availability.
 
     The canonical portfolio command with the optional `research` extras made
     unimportable must (a) stay fail-closed — `statistical` may never read as
     computation having happened, `claim_status` stays `NO_ECONOMIC_CLAIM` — and
-    (b) name the missing dependency on the operator surface instead of
-    presenting an ordinary "no estimator output".
+    (b) publish the unmeasured state and name the dependencies on the operator
+    surface, instead of either an ordinary "no estimator output" or the power
+    vocabulary that reads as a measurement.
     """
     project = Path(eb.project_root())
-    tape = project.parent / "research/tape/quad-1h-12m"
-    if not tape.is_dir():
-        pytest.skip(f"Real tape not found at {tape}")
+    # A worktree checkout (`<repo>/.worktrees/<task>/v8-next`) does not carry the
+    # untracked tape; an ancestor checkout does, so the gate runs instead of
+    # skipping when this test is invoked from a worktree.
+    candidates = [parent / "research/tape/quad-1h-12m" for parent in (project.parent, *project.parents)]
+    tape = next((p for p in candidates if p.is_dir()), None)
+    if tape is None:
+        pytest.skip(f"Real tape not found at {candidates[0]}")
     blocker = tmp_path / "blocker"
     blocker.mkdir()
     (blocker / "sitecustomize.py").write_text(_STARVED_EXTRA_BLOCKER, encoding="utf-8")
@@ -916,18 +1069,35 @@ def test_economic_portfolio_starved_estimators_name_the_missing_dependency(
     reports = sorted(out_dir.glob("economic_report_*.md"))
     assert receipts and reports, "starved run produced no receipt/report"
     receipt = json.loads(receipts[0].read_text(encoding="utf-8"))
-    # Fail closed: a missing dependency is not a computed statistical result.
-    assert receipt["verdicts"]["statistical"] == "UNSUPPORTED"
+    # Fail closed, and named: a missing dependency is not a computed statistical
+    # result, and it is not a weak one either.
+    verdict = receipt["verdicts"]["statistical"]
+    assert verdict == "ESTIMATOR_UNAVAILABLE: scipy,arch"
+    assert verdict not in ("UNDERPOWERED", "UNSUPPORTED")
     assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
     assert receipt["verdicts"]["capital"] == "NOT_AUTHORIZED"
+    for key in ("dsr", "pbo", "spa"):
+        assert receipt["statistics"][key]["verdict"] == "ESTIMATOR_UNAVAILABLE"
+        assert receipt["statistics"][key]["verdict"] not in ("UNDERPOWERED", "UNSUPPORTED")
+        assert receipt["statistics"][key]["reason"]
+    # R3: machine-readable, beside the versions record that says what is installed.
+    # The two records disagree here on purpose -- `importlib.metadata` still knows
+    # the wheel is installed while this interpreter cannot import it -- which is
+    # exactly why the receipt carries both.
+    assert receipt["estimator_availability"]["unavailable"] == ["arch", "scipy"]
+    assert receipt["estimator_availability"]["probe"] == eb.AVAILABILITY_PROBE
+    assert "scipy" in receipt["run"]["code"]["estimator_versions"]
     note = receipt["verdicts"]["statistical_note"]
     assert "no estimator output" in note
     assert "scipy" in note and "arch" in note
     assert "extra research" in note
+    assert "UNDERPOWERED" not in note and "UNSUPPORTED" not in note
     # The operator surface must carry the same fact, and the report the note.
-    assert "[!] statistical=UNSUPPORTED" in proc.stdout
+    assert f"[!] statistical={verdict}" in proc.stdout
     assert "scipy" in proc.stdout
-    assert f"| statistical | UNSUPPORTED | {note} |" in reports[0].read_text(encoding="utf-8")
+    report_text = reports[0].read_text(encoding="utf-8")
+    assert f"| statistical | {verdict} | {note} |" in report_text
+    assert "not importable by this interpreter: arch, scipy" in report_text
 
 
 # ---------------------------------------------------------------------------
