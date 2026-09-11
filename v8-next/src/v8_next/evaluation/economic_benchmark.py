@@ -26,6 +26,7 @@ import math
 import subprocess
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
+from pathlib import Path
 from typing import Any, Literal, Sequence
 
 import numpy as np
@@ -118,12 +119,21 @@ class DatasetIdentity(BaseModel):
 
 
 class CodeIdentity(BaseModel):
+    """Which code produced the numbers, bound by content and not just by revision.
+
+    `git_dirty` is a single bit, so it cannot separate two materially different
+    uncommitted trees at the same HEAD; `source_sha256` is what does (see
+    :func:`source_sha256`). It is required: a receipt that does not say which
+    source content ran is the defect this field exists to close.
+    """
+
     model_config = ConfigDict(frozen=True)
 
     git_rev: str
     git_dirty: str
     config_sha256: str
     estimator_versions: dict[str, str]
+    source_sha256: str
 
 
 class RunIdentity(BaseModel):
@@ -246,6 +256,89 @@ def estimator_versions() -> dict[str, str]:
         except Exception:
             versions[name] = "absent"
     return versions
+
+
+#: Project members outside `src/` that decide what the code can do. Recorded by
+#: name so a missing member changes the digest instead of disappearing from it.
+SOURCE_MEMBERS = ("pyproject.toml", "uv.lock")
+
+#: Build residue, not code: it must never enter the source digest.
+SOURCE_SKIP_DIRS = frozenset({"__pycache__", ".venv"})
+
+#: What `CodeIdentity.source_sha256` covers, in the receipt's own words: a
+#: receipt must say which source content it binds, not only which revision was
+#: declared (a one-bit `git_dirty` flag cannot name two dirty trees apart).
+SOURCE_IDENTITY_NOTE = (
+    "Code identity: run.code.source_sha256 is sha256 over sorted "
+    "(relative path, file sha256) for v8-next/src/**, v8-next/pyproject.toml and "
+    "v8-next/uv.lock; run.code.git_dirty is one bit and cannot separate two dirty "
+    "trees at the same revision, so the source hash is what identifies the code."
+)
+
+
+def project_root() -> Path:
+    """The v8-next project directory this module runs from (`.../v8-next`)."""
+    return Path(__file__).resolve().parents[3]
+
+
+def _source_rows(base: Path) -> list[tuple[str, str]]:
+    """Sorted `(relative posix path, file sha256)` for every file that can run."""
+    rows: list[tuple[str, str]] = []
+    src = base / "src"
+    if src.is_dir():
+        for path in src.rglob("*"):
+            if not path.is_file() or path.suffix == ".pyc":
+                continue
+            rel = path.relative_to(base)
+            if SOURCE_SKIP_DIRS.intersection(rel.parts):
+                continue
+            rows.append(
+                (rel.as_posix(), hashlib.sha256(path.read_bytes()).hexdigest())
+            )
+    else:
+        rows.append(("src", "ABSENT"))
+    for name in SOURCE_MEMBERS:
+        member = base / name
+        rows.append(
+            (
+                name,
+                hashlib.sha256(member.read_bytes()).hexdigest()
+                if member.is_file()
+                else "ABSENT",
+            )
+        )
+    return sorted(rows)
+
+
+def source_sha256(root: Path | str | None = None) -> str:
+    """Content digest of the code that can actually run under `root`.
+
+    Covers `src/**`, `pyproject.toml` and `uv.lock` as sorted
+    `(relative path, per-file sha256)` pairs, so a materially changed tree is a
+    different identity even at the same `git_rev` with the same one-bit
+    `git_dirty`. Deterministic: no wall clock, no absolute path, no directory
+    listing order — only file bytes and their project-relative names.
+    """
+    base = Path(root) if root is not None else project_root()
+    digest = hashlib.sha256()
+    for relpath, file_sha256 in _source_rows(base):
+        digest.update(relpath.encode())
+        digest.update(b"\0")
+        digest.update(file_sha256.encode())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def code_and_lock_hash(root: Path | str | None = None) -> str:
+    """`rev:dirty:source_sha256` — the code-change component of a run key.
+
+    The one-bit `git_dirty` value alone cannot tell two dirty trees apart, so a
+    changed tree must be distinguished by its content digest; otherwise a re-run
+    of changed code in the same output directory is mistaken for a completed
+    window. Lock/config bytes are covered by :func:`source_sha256`.
+    """
+    info = git_info()
+    return f"{info['rev']}:{info['dirty']}:{source_sha256(root)}"
 
 
 @dataclass(frozen=True)

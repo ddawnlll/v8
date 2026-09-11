@@ -154,6 +154,7 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
             git_dirty=gi["dirty"],
             config_sha256=hashlib.sha256(json.dumps(cfg_obj, sort_keys=True).encode()).hexdigest(),
             estimator_versions=eb.estimator_versions(),
+            source_sha256=eb.source_sha256(),
         ),
         seed=args.seed,
         primary_benchmark=args.primary,
@@ -333,6 +334,7 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
     opex_total = args.opex_monthly * months
     strat_net = metrics["incumbent"].net_return * args.capital
     limitations = [
+        eb.SOURCE_IDENTITY_NOTE,
         "Single 500-bar BTCUSDT window; no cross-asset generalization claimed.",
         "Funding settlement not fed to engine; funding cost MISSING on all legs.",
         "OPEX shown separately: business net = %.2f - %.2f (opex) on incumbent leg." % (strat_net, opex_total),

@@ -53,16 +53,6 @@ def parse_utc_ms(value: str) -> int:
     return int(parsed.timestamp() * 1000)
 
 
-def lock_identity(repo_root: Path) -> str:
-    """sha256 of the lock files that pin the runtime (part of the run key)."""
-    digest = hashlib.sha256()
-    for name in ("uv.lock", "v8-next/uv.lock", "v8-next/pyproject.toml"):
-        path = repo_root / name
-        digest.update(name.encode())
-        digest.update(path.read_bytes() if path.is_file() else b"ABSENT")
-    return digest.hexdigest()
-
-
 def window_artifacts(result: Any, html_out: Path, ledger_dir: Path) -> list[dict[str, Any]]:
     """Artifacts this run bound, with physical hashes (read-back evidence)."""
     rows: list[dict[str, Any]] = []
@@ -237,11 +227,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(f"[+] Loaded {len(candles)} real hourly {args.instrument} bars.")
 
-    repo_root = Path(__file__).resolve().parents[3]
+    project_root = Path(__file__).resolve().parents[3]
     tape_bytes_path = tape_file / "tape.jsonl" if tape_file.is_dir() else tape_file
     dataset_sha = hashlib.sha256(tape_bytes_path.read_bytes()).hexdigest()
-    git = eb.git_info()
-    lock_hash = lock_identity(repo_root)
     run_key = RunKey.build(
         window=window,
         case_id=case.case_id,
@@ -257,7 +245,7 @@ def main(argv: list[str] | None = None) -> int:
         execution_profile_digest=hashlib.sha256(
             str(args.execution_profile or "UNSPECIFIED").encode()
         ).hexdigest(),
-        code_and_lock_hash=f"{git['rev']}:{git['dirty']}:{lock_hash}",
+        code_and_lock_hash=eb.code_and_lock_hash(project_root),
     )
     manifest_path = Path(args.output_dir) / "runs" / f"{run_key.digest.split(':')[1][:16]}.json"
     existing = load_window_manifest(manifest_path)

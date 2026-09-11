@@ -274,10 +274,7 @@ def main(argv: list[str] | None = None) -> int:
         execution_profile_digest=hashlib.sha256(
             str(args.execution_profile or "UNSPECIFIED").encode()
         ).hexdigest(),
-        code_and_lock_hash=(
-            f"{eb.git_info()['rev']}:{eb.git_info()['dirty']}:"
-            f"{hashlib.sha256((Path(__file__).resolve().parents[3] / 'uv.lock').read_bytes()).hexdigest()}"
-        ),
+        code_and_lock_hash=eb.code_and_lock_hash(),
     )
     manifest_path = out_dir / "runs" / f"{run_key.digest.split(':')[1][:16]}.json"
     existing = load_window_manifest(manifest_path)
@@ -532,6 +529,7 @@ def main(argv: list[str] | None = None) -> int:
                  "capital_policy": args.capital_policy},
                 sort_keys=True).encode()).hexdigest(),
             estimator_versions=eb.estimator_versions(),
+            source_sha256=eb.source_sha256(),
         ),
         seed=args.seed, primary_benchmark=args.primary,
         diagnostic_benchmarks=tuple(b for b in fams if b != args.primary),
@@ -559,6 +557,7 @@ def main(argv: list[str] | None = None) -> int:
         shadow_live=shadow,
         execution=execution_evidence,
         limitations=[
+            eb.SOURCE_IDENTITY_NOTE,
             "Mark proxy: funding settlement marks use leg closes at the boundary.",
             "P+E is engine-level shared-account execution, not post-hoc summation.",
             "Capacity beyond participation is UNVERIFIED (no impact model).",
