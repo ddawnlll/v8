@@ -178,6 +178,85 @@ def target_factor(repo_root: Path) -> dict[str, Any]:
     }
 
 
+#: declared tolerances for the regression comparison. A metric may not drop beyond its
+#: tolerance; the readiness score may not drop at all.
+REGRESSION_TOLERANCES = {
+    "readiness": 0.0,
+    "gate_passes": 0,
+    "pillars_measured": 0,
+    "net_measured_sum": 0.0005,
+    "win_rate_pct": 0.5,
+}
+
+BASELINE_REL = "docs/evidence/v87-r3/BASELINE/readiness_baseline.json"
+
+
+def snapshot(repo_root: Path, ledger_path: Path, latest_receipt: Any | None) -> dict[str, Any]:
+    """The comparable state of a run: score, factors and the paper-trade metrics."""
+    report = audit(repo_root, ledger_path, latest_receipt)
+    paper = _load(repo_root / PILLAR_ARTIFACTS["P2_paper_trade_4y"][2]) or {}
+    per_policy = {
+        name: {
+            "net_measured_sum": entry.get("net_measured_sum"),
+            "win_rate_pct": entry.get("win_rate_pct"),
+            "campaigns": entry.get("campaigns"),
+            "conservation_verified": entry.get("conservation_verified"),
+        }
+        for name, entry in (paper.get("families") or {}).items()
+    }
+    return {
+        "readiness": report["readiness"],
+        "gate_passes": report["factors"]["gate_factor"]["passed"],
+        "pillars_measured": report["factors"]["pillar_factor"]["measured"],
+        "risk_factor": report["factors"]["risk_factor"]["factor"],
+        "target_factor": report["factors"]["target_factor"]["factor"],
+        "per_policy": per_policy,
+        "claim_status": report["claim_status"],
+    }
+
+
+def regression_against(baseline: dict[str, Any], current: dict[str, Any]) -> dict[str, Any]:
+    """Per-metric deltas and a REGRESSION verdict; nothing is re-baselined here."""
+    findings: list[dict[str, Any]] = []
+    regressions: list[str] = []
+    for metric in ("readiness", "gate_passes", "pillars_measured"):
+        before, after = baseline.get(metric), current.get(metric)
+        if before is None or after is None:
+            continue
+        delta = round(float(after) - float(before), 6)
+        dropped = delta < -abs(REGRESSION_TOLERANCES[metric])
+        findings.append({"metric": metric, "baseline": before, "current": after, "delta": delta,
+                         "tolerance": REGRESSION_TOLERANCES[metric], "regressed": dropped})
+        if dropped:
+            regressions.append(f"{metric} {before} -> {after}")
+    for policy, before_row in (baseline.get("per_policy") or {}).items():
+        after_row = (current.get("per_policy") or {}).get(policy)
+        if not after_row:
+            regressions.append(f"{policy}: missing from the current run")
+            continue
+        for metric in ("net_measured_sum", "win_rate_pct"):
+            before, after = before_row.get(metric), after_row.get(metric)
+            if before is None or after is None:
+                continue
+            delta = round(float(after) - float(before), 8)
+            dropped = delta < -abs(REGRESSION_TOLERANCES[metric])
+            findings.append({"metric": f"{policy}.{metric}", "baseline": before, "current": after,
+                             "delta": delta, "tolerance": REGRESSION_TOLERANCES[metric],
+                             "regressed": dropped})
+            if dropped:
+                regressions.append(f"{policy}.{metric} {before} -> {after}")
+    return {
+        "verdict": "REGRESSION" if regressions else "OK",
+        "regressions": regressions,
+        "findings": findings,
+        "tolerances": REGRESSION_TOLERANCES,
+        "note": (
+            "a regression is reported, never repaired by moving the baseline: re-pinning "
+            "requires an entry in the decision register"
+        ),
+    }
+
+
 def write_scenario_report(repo_root: Path, out_rel: str | None = None) -> Path:
     """Produce the P3 artifact: model candles + SNU ledger + the overfitting hypothesis test."""
     import hashlib

@@ -113,6 +113,52 @@ def cmd_status(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_regression(args: argparse.Namespace) -> int:
+    """Regression against the pinned baseline. Re-pinning is explicit and never automatic."""
+    import json
+
+    from v8_next.app.readiness import (
+        BASELINE_REL,
+        regression_against,
+        snapshot,
+    )
+
+    out_dir = Path(args.output_dir)
+    package_root = Path(__file__).resolve().parents[3]
+    repo_root = package_root.parent if (package_root.parent / "docs").is_dir() else package_root
+    ledger_path = out_dir / "benchmark_ledger.jsonl"
+    receipt = None
+    if ledger_path.is_file():
+        ledger = BenchmarkLedger.load_jsonl(ledger_path)
+        if ledger.entries:
+            receipt = ledger.entries[-1].receipt
+
+    current = snapshot(repo_root, ledger_path, receipt)
+    baseline_path = repo_root / BASELINE_REL
+    if args.pin:
+        baseline_path.parent.mkdir(parents=True, exist_ok=True)
+        baseline_path.write_text(json.dumps(current, indent=2, sort_keys=True, default=str) + "\n")
+        print(f"[regression] baseline pinned at {baseline_path}")
+        print(f"             readiness={current['readiness']} gates={current['gate_passes']} "
+              f"pillars={current['pillars_measured']}")
+        print("[regression] re-pinning requires a decision-register entry when it follows a REGRESSION")
+        return 0
+    if not baseline_path.is_file():
+        print(f"[regression] no baseline at {baseline_path}; run `v8-next regression --pin` first")
+        return 2
+    baseline = json.loads(baseline_path.read_text())
+    result = regression_against(baseline, current)
+    print(f"[regression] VERDICT: {result['verdict']}")
+    for finding in result["findings"]:
+        mark = "REGRESSED" if finding["regressed"] else "ok"
+        print(f"    {mark:9} {finding['metric']:28} {finding['baseline']} -> {finding['current']} "
+              f"(delta {finding['delta']}, tol {finding['tolerance']})")
+    for line in result["regressions"]:
+        print(f"    REGRESSION: {line}")
+    print(f"[regression] {result['note']}")
+    return 1 if result["verdict"] == "REGRESSION" else 0
+
+
 def cmd_explain(args: argparse.Namespace) -> int:
     """One trade, one domain, one typed counterfactual: no prose, no invented number."""
     import json
@@ -175,14 +221,39 @@ def cmd_run(args: argparse.Namespace) -> int:
         print(f"[run] artifact: {path}")
         if args.pillar == "scenarios":
             return 0
-    if args.pillar in ("paper-4y", "folds", "all"):
-        print(
-            f"[run] pillar {args.pillar!r} is not implemented yet: the four-year paper-trade "
-            "pillar needs the engine-lane close fix first, and the folds pillar runs through "
-            "tools/nx09_fold_research.py. Refusing rather than reporting an unbacked success."
+    if args.pillar in ("paper-4y", "all"):
+        import importlib.util
+
+        tool = repo_root / "v8-next" / "tools" / "nx14_paper_trade_4y.py"
+        if not tool.is_file():
+            print(f"[run] FAIL: implementation missing at {tool}")
+            return 2
+        spec = importlib.util.spec_from_file_location("nx14_paper_trade_4y", tool)
+        assert spec and spec.loader
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        argv = ["--repo-root", str(repo_root)]
+        if args.out:
+            argv += ["--out", args.out]
+        code = module.main(argv)
+        if code != 0 or args.pillar == "paper-4y":
+            return code
+    if args.pillar in ("folds", "all"):
+        import subprocess
+
+        tool = repo_root / "v8-next" / "tools" / "nx09_fold_research.py"
+        print(f"[run] folds: executing {tool.relative_to(repo_root)} with the declared warmup")
+        result = subprocess.run(
+            [sys.executable, str(tool), "--out", "docs/evidence/v87-r3/FOLDS"],
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
         )
-        return 2
-    return 2
+        print(result.stdout[-1500:] or result.stderr[-500:])
+        if result.returncode != 0:
+            print(f"[run] folds FAILED with exit {result.returncode}")
+            return result.returncode
+    return 0
 
 
 def cmd_readiness(args: argparse.Namespace) -> int:
@@ -303,6 +374,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_run.add_argument("--out", default=None)
     p_run.set_defaults(func=cmd_run)
 
+    p_reg = sub.add_parser(
+        "regression",
+        help="Compare this run against the pinned baseline; --pin writes a new baseline.",
+    )
+    p_reg.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
+    p_reg.add_argument("--pin", action="store_true", help="write the current state as the baseline")
+    p_reg.set_defaults(func=cmd_regression)
+
     p_explain = sub.add_parser(
         "explain",
         help="Explain one trade: failure domain + typed counterfactual (oracle vocabulary).",
@@ -370,6 +449,10 @@ def main(argv: list[str] | None = None) -> int:
         if rest:
             parser.error(f"unexpected args for status: {' '.join(rest)}")
         return args.func(args)
+    if args.command == "regression":
+        if rest:
+            parser.error(f"unexpected args for regression: {' '.join(rest)}")
+        return cmd_regression(args)
     if args.command == "explain":
         if rest:
             parser.error(f"unexpected args for explain: {' '.join(rest)}")

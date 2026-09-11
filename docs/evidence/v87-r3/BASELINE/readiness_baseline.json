@@ -1,0 +1,22 @@
+{
+  "claim_status": "NO_ECONOMIC_CLAIM",
+  "gate_passes": 3,
+  "per_policy": {
+    "causal_trend": {
+      "campaigns": 1306,
+      "conservation_verified": true,
+      "net_measured_sum": -0.66653487,
+      "win_rate_pct": 43.26
+    },
+    "plain_swing": {
+      "campaigns": 1112,
+      "conservation_verified": true,
+      "net_measured_sum": -0.95695518,
+      "win_rate_pct": 6.56
+    }
+  },
+  "pillars_measured": 3,
+  "readiness": 0.0,
+  "risk_factor": 1.0,
+  "target_factor": 0.0
+}
