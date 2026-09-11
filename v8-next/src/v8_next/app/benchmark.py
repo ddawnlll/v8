@@ -19,7 +19,7 @@ from typing import Any
 from v8_next.adapters.expert_strategy import ExpertStrategyConfig
 from v8_next.evaluation import economic_benchmark as eb
 from v8_next.evaluation.gate_resolution import load_tape_candles
-from v8_next.evaluation.report import generate_forensic_html_report
+from v8_next.evaluation.report import generate_forensic_html_report, render_identity
 from v8_next.evaluation.run_window import (
     RunKey,
     WindowAlreadyCompleted,
@@ -331,10 +331,18 @@ def main(argv: list[str] | None = None) -> int:
     print()
     print(result.certificate.render_ascii())
 
-    # Generate forensic HTML report
+    # Generate forensic HTML report. The publish path declares the render identity
+    # beside the digest: the same receipt renders differently under a different
+    # contract, so the identity is what says whether the artifact is current (#442).
     report_path = Path(args.html_out)
     is_valid = generate_forensic_html_report(result.receipt, report_path)
+    identity = render_identity(result.receipt, result.certificate)
     print(f"[+] Forensic HTML Report Generated: {report_path} (Valid: {is_valid})")
+    print(
+        f"[+]   render_contract={identity['render_contract']} "
+        f"render_identity={identity['render_identity_digest'][:16]}… "
+        f"receipt_digest={identity['receipt_digest'][:16]}…"
+    )
 
     # Verify ledger chain
     chain_valid, chain_msg = runner.ledger.verify_chain()
@@ -358,6 +366,8 @@ def main(argv: list[str] | None = None) -> int:
                 ),
                 "input_binding": result.receipt.input_binding,
                 "receipt_digest": result.receipt.receipt_digest,
+                "render_contract": identity["render_contract"],
+                "render_identity": identity["render_identity_digest"],
                 "economic_evidence": window.proves_economic_evidence,
             },
         ),
