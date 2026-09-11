@@ -62,7 +62,7 @@ PROTECTED yapılmadı.**
 |---|---|---|---|
 | PARITY_SLICE_BURNED | 2022-07-01 .. 2022-10-01 13:59 | `BURNED_DIAGNOSTIC` | `test_parity_s0.py:139` limit=25.000, `s1.py:198` limit=20.000, `s4_realtape.py:61` `_TAPE_LIMIT=2000`. En derin satır-indeksli erişim = ilk 25.000 satır (sembol başına 2.500) |
 | DEVELOPMENT_RESIDUE_UNSEEN | 2022-10-01 14:00 .. 2025-06-30 | `USAGE_UNKNOWN` | Bu aralık için hiçbir erişim kaydı bulunamadı. Korunmuş OOS **değildir** |
-| FINAL_12M_BURNED | 2025-07-01 .. 2026-06-30 | `BURNED_DIAGNOSTIC` | `quad-1h-12m` (AVAX/BTC/ETH/SOL, 2025-07..2026-06) aktif Rust yolunda: `bench_runner.rs:66`, `main.rs:1710`; `sol-dev-*` aynı pencere; `btcusdt-1h-12m` 2025-07..2026-07 varsayılan tape (`main.rs:116,1653,1687,1827`); D152:21 burned quad → `BURNED_DIAGNOSTIC`, promotion `NONE` |
+| FINAL_12M_BURNED | 2025-07-01 .. 2026-06-30 | `BURNED_DIAGNOSTIC` | `quad-1h-12m` (AVAX/BTC/ETH/SOL, 2025-07..2026-06) aktif Rust yolunda: `bench_runner.rs:66`, `main.rs:1710`; `sol-dev-*` aynı pencere; `btcusdt-1h-12m` 2025-07..2026-07 varsayılan tape (`main.rs:116,1653,1687,1827`); D152:21 burned quad → `BURNED_DIAGNOSTIC`, promotion `NONE`. **Bağımsız doğrulama:** `.audit/portfolio_receipt.json` kendi içinde `evidence_role = BURNED_DIAGNOSTIC`, `promotion_authority = NONE` taşıyor; trade dosyaları 2025-07-03..2025-12-29 |
 | PROSPECTIVE_CANDIDATE | 2026-07-01 .. | `PROSPECTIVE_SHADOW_CANDIDATE` | `btcusdt-1h-12m` 2026-07-31'e kadar uzanıyor. **Aday**; SB09 freeze + gerçek alınma zamanı olmadan prospektif kanıt değil |
 
 ## 3. 24/12/12 takvim bağlaması (R3) — kritik sonuç
@@ -138,9 +138,15 @@ taşınırsa eksik kaynak açık kalır (`archives.sidecar_only` / `missing_sour
 
 ## 6. Downstream girdiler (R6)
 
-* **SB02** → bu tape'te execution/fill/account kaydı **yok**; tape yalnızca piyasa
-  verisi taşıyor. SB02 gerçek izinli fill/account kaydı olmadan PENDING kalır.
-  Girdi olarak: `funding_grid_regularity = HETEROGENEOUS`, `mark_price = ABSENT`.
+* **SB02** → multi-1h-4y'nin kendisinde execution/fill/account kaydı **yok** (tape
+  yalnızca piyasa verisi). Ancak depoda izinli **simülasyon** kayıtları var ve SB02
+  bloke değil: `.audit/portfolio_receipt.json` (1000 USDT başlangıç, terminal equity,
+  fee drag 92.51, funding 0.37, 106 kabul edilen trade, `cashflow_ledger_path`) ve
+  `artifacts/portfolio-*/portfolio_P_trades_*.jsonl` (164/166 satır; `fill_time_ns`,
+  `instrument_id`, `quantity`, `side`, `trade_id`). **Uyarı:** bunlar USDM paper
+  simülasyon kayıtlarıdır — maliyet/latency `assumed`, `measured` değil; yaşam
+  döngüsü ve muhasebe doğruluğu için kullanılabilir, ölçülmüş execution kanıtı
+  olarak kullanılamaz. Ayrıca tape'te `mark_price = ABSENT`.
 * **SB03** → hazır: partition manifesti (3 segment), dört fold takvimi, doğrulanmış
   kesintisiz 1h karar saati grid'i (0 boşluk/0 duplicate), ve SOLUSDT nedeniyle
   embargo'nun tek tip 8h funding varsayamayacağı uyarısı.

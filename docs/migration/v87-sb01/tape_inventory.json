@@ -1,8 +1,8 @@
 {
   "schema_version": "v87-sb01-tape-inventory-v1",
   "issue": "#410 (SB01)",
-  "generated_at_unix_s": 1789092443,
-  "manifest_identity": "sha256:7f65494c4563b20207422456e4f6a6453b65f5294ede55f898470a1cfd9589d5",
+  "generated_at_unix_s": 1789092598,
+  "manifest_identity": "sha256:9d84c01b79ec34ccd6b2d8f4bdb3047eec4d1a674adb1fb947fcf5e4cc460d7b",
   "tape_dir": "research/tape/multi-1h-4y",
   "tape": {
     "path": "research/tape/multi-1h-4y/tape.jsonl",
@@ -1174,7 +1174,7 @@
   "role_binding": {
     "status": "BOUND",
     "roles_path": "docs/migration/v87-sb01/role_plan.json",
-    "roles_sha256": "sha256:45dfed5cbaaadfe75c5f93d4db0614d914f67c16ed0e7bd6a2e79529d931b857",
+    "roles_sha256": "sha256:8135419c29b7e280de747e647ded2e1bd5c6ab562f1ea2ae47ec5e038d4fba1e",
     "assignment_count": 4,
     "assignments": [
       {
@@ -1227,6 +1227,10 @@
       },
       {
         "consequence": "Ay 37-48 (the spec's protected final) is ineligible as an independent historical test. No independent historical test exists anywhere in the four-year window.",
+        "corroboration": [
+          "an independent artifact asserts the same role for this lineage: .audit/portfolio_receipt.json carries evidence_role = BURNED_DIAGNOSTIC and promotion_authority = NONE",
+          "its trade files (artifacts/portfolio-full/portfolio_P_trades_*.jsonl) span 2025-07-03 .. 2025-12-29 with BTCUSDT/ETHUSDT-PERP.BINANCE, i.e. inside this burned segment"
+        ],
         "evidence": [
           "research/tape/quad-1h-12m/tape.jsonl window 2025-07-01..2026-06-30 (AVAXUSDT, BTCUSDT, ETHUSDT, SOLUSDT) — consumed by the active Rust path: v8-core/src/benchmark/bench_runner.rs:66 and v8-core/src/main.rs:1710",
           "research/tape/sol-dev-solusdt-2025-07-2026-07/tape.jsonl window 2025-07-01..2026-06-30",

@@ -52,6 +52,10 @@
         "docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md:21 — burned quad => role BURNED_DIAGNOSTIC, promotion NONE"
       ],
       "consequence": "Ay 37-48 (the spec's protected final) is ineligible as an independent historical test. No independent historical test exists anywhere in the four-year window.",
+      "corroboration": [
+        "an independent artifact asserts the same role for this lineage: .audit/portfolio_receipt.json carries evidence_role = BURNED_DIAGNOSTIC and promotion_authority = NONE",
+        "its trade files (artifacts/portfolio-full/portfolio_P_trades_*.jsonl) span 2025-07-03 .. 2025-12-29 with BTCUSDT/ETHUSDT-PERP.BINANCE, i.e. inside this burned segment"
+      ],
       "promotion": "NONE"
     },
     {
@@ -133,9 +137,16 @@
   ],
   "downstream_inputs": {
     "SB02": {
-      "needs": "a permitted real record with orders/fills/positions and account snapshots",
+      "needs": "a permitted fill/position/account record with account-level equity to reconcile",
       "available_in_this_tape": false,
-      "note": "multi-1h-4y carries market data only; no execution/fill/account record exists here. SB02 must use a real permitted fill/account record or stay PENDING."
+      "available_elsewhere": true,
+      "inputs_found": [
+        ".audit/portfolio_receipt.json (receipt-usdm-*, 1000 USDT initial, terminal equity, fee drag 92.51, funding 0.37, 106 admitted trades, cashflow_ledger_path=economic-cashflow.jsonl) — carries its own evidence_role=BURNED_DIAGNOSTIC and promotion_authority=NONE",
+        "artifacts/portfolio-full/portfolio_P_trades_{02b90888,44396f80}.jsonl (164/166 rows, fill_time_ns + instrument_id + quantity + side + trade_id, BTCUSDT/ETHUSDT-PERP.BINANCE)",
+        "artifacts/portfolio-benchmark/portfolio_P_trades_3058083e.jsonl, artifacts/benchmarks/portfolio_P_trades_588d668b.jsonl, artifacts/economic-benchmark/{incumbent,challenger}_trades.jsonl"
+      ],
+      "caveat": "these are simulated (USDM paper) records, not venue fills: cost/latency are ASSUMED, not measured. SB02 may use them for lifecycle/accounting correctness, never as measured execution evidence.",
+      "note": "multi-1h-4y itself carries market data only; no fill/account record exists inside it."
     },
     "SB03": {
       "needs": "dated partitions, fold calendar, warmup/maturity/purge/embargo rules",
