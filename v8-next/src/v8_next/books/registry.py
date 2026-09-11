@@ -62,6 +62,15 @@ MAPPINGS: tuple[BookMapping, ...] = (
         notes="Turtle channel-breakout system → Donchian breakout expert.",
     ),
     BookMapping(
+        mapping_id="volume-price-analysis",
+        filename="A Complete Guide To Volume Price Analysis 2013.pdf",
+        experts=("volume_confirmed_breakout", "volume_climax_reversal", "obv_adl_regime"),
+        grammar_policy="compression-expansion-v2",
+        regime_family="volume_confirmation",
+        case_id="BC-BOOKS-VPA-01",
+        notes="Effort-vs-result / volume-confirmed breakout rationale → volume expert family + compression-expansion grammar.",
+    ),
+    BookMapping(
         mapping_id="evidence-based-selection",
         filename="Evidence-Based Technical Analysis - Applying the Scientific Method and Statistical Inference to Trading Signals 2007.pdf",
         experts=(),
