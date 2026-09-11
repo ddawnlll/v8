@@ -5,11 +5,23 @@ Honesty contract (issue #395): NO published metric may be a silent rescale of
 another. Capacity and gates come from the benchmark ledger. Readiness is ONLY
 published when the real policy certificate artifact provides it; otherwise the
 field is absent (never recomputed from cap).
+
+Evidence class (#448): capacity/gates are published ONLY from a ledger entry whose
+receipt declares an evidential window class (``window_evidence.economic_evidence``).
+The class and the refusal are read through the canonical v8-next reader
+(``BenchmarkLedger.publication``); this script never re-implements the rule. When no
+entry declares the class, ``ledger.cap`` is ``null`` and ``publication_refusal`` names
+the entry that was refused -- the recorded number stays in the ledger, it is not
+published as capacity. Run it with the v8-next environment
+(``uv run --project v8-next python tools/generate_status.py``) so that reader is
+importable; without it the script fails closed with a named reason instead of
+publishing a number.
 """
 
 import json
 import re
 import sqlite3
+import sys
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -20,6 +32,9 @@ BULLETIN = ROOT / "artifacts" / "bulletin.md"
 LEDGER = ROOT / "artifacts" / "benchmarks" / "benchmark_ledger.jsonl"
 CERT_REPORT = ROOT / "artifacts" / "benchmarks" / "forensic_report.html"
 KANBAN_DB = Path.home() / ".hermes" / "kanban" / "boards" / "v8" / "kanban.db"
+#: the canonical class-aware ledger reader lives here (#448)
+V8_NEXT_SRC = ROOT / "v8-next" / "src"
+LEDGER_READER_UNAVAILABLE = "EVIDENCE_CLASS_READER_UNAVAILABLE"
 
 
 def _iso(ts):
@@ -36,39 +51,83 @@ def read_bulletin():
     return {"raw": txt[:6000], "last_update": _iso(BULLETIN.stat().st_mtime)}
 
 
+def _ledger_reader():
+    """The canonical class-aware ledger reader (#448), imported, never re-implemented.
+
+    One source of truth for "which entry may publish a capability score": the rule lives
+    in ``v8_next.evaluation.benchmark_receipt`` (``BenchmarkReceipt.
+    declares_evidential_window`` / ``BenchmarkLedger.publication``) and the CLI reads the
+    ledger through exactly this reader. A second copy of the rule here is what #448 was
+    filed against, so there is none.
+    """
+    if str(V8_NEXT_SRC) not in sys.path:
+        sys.path.insert(0, str(V8_NEXT_SRC))
+    from v8_next.evaluation.benchmark_receipt import BenchmarkLedger
+
+    return BenchmarkLedger
+
+
+def _gate_states(receipt):
+    return {field: getattr(receipt.gates, field).value for field in receipt.gates.__class__.model_fields}
+
+
 def read_ledger():
-    """Capacity + gate vector from the append-only benchmark ledger (real, persisted)."""
-    out = {"cap": None, "gates": {}, "history": [], "count": 0, "last_entry": ""}
+    """Capacity + gate vector from the append-only benchmark ledger (real, persisted).
+
+    #448: the published capacity and gate vector come from the most recent entry that
+    declares an evidential window class. With no such entry the fields stay absent and
+    ``publication_refusal`` names the entry and class that were refused.
+    """
+    out = {
+        "cap": None,
+        "gates": {},
+        "history": [],
+        "count": 0,
+        "last_entry": "",
+        "evidence_class": "",
+        "publication_refusal": "",
+    }
     if not LEDGER.exists():
         return out
     try:
         lines = [ln for ln in LEDGER.read_text(encoding="utf-8").splitlines() if ln.strip()]
-        history = []
-        for line in lines:
-            try:
-                j = json.loads(line)
-                r = j.get("receipt", j)
-                cap = r.get("capability_score")
-                gates = r.get("gates", {}) or {}
-                ts = r.get("computed_at_timestamp_ns") or 0
-                history.append({
-                    "cap": cap,
-                    "gates": gates,
-                    "ts": _iso(ts / 1e9) if ts > 1e12 else "",
-                    "entry_hash": str(j.get("entry_hash", ""))[:8],
-                })
-            except Exception:
-                continue
-        last = history[-1] if history else {}
-        out.update({
-            "cap": last.get("cap"),
-            "gates": last.get("gates", {}),
-            "history": history,
-            "count": len(lines),
-            "last_entry": last.get("entry_hash", ""),
+        out["count"] = len(lines)
+        reader = _ledger_reader()
+        ledger = reader.load_jsonl(LEDGER)
+    except (ImportError, OSError, ValueError) as e:
+        # fail closed: without the canonical classifier nothing may be published as
+        # capacity, and the reason is named rather than silently re-derived here
+        out["error"] = f"{LEDGER_READER_UNAVAILABLE}: {e}"
+        out["publication_refusal"] = out["error"]
+        return out
+    publication = ledger.publication()
+    history = []
+    for entry in ledger.entries:
+        receipt = entry.receipt
+        evidential = receipt.declares_evidential_window()
+        ts = receipt.computed_at_timestamp_ns or 0
+        history.append({
+            # ``cap`` is the *published* field: null for an entry that may not publish a
+            # number. ``cap_recorded`` is what the entry stored, and is never read as cap.
+            "cap": receipt.capability_score if evidential else None,
+            "cap_recorded": receipt.capability_score,
+            "evidence_class": receipt.evidence_class(),
+            "gates": _gate_states(receipt) if evidential else {},
+            "ts": _iso(ts / 1e9) if ts > 1e12 else "",
+            "entry_hash": entry.entry_hash[:8],
         })
-    except Exception as e:
-        out["error"] = str(e)
+    newest = ledger.entries[-1] if ledger.entries else None
+    published = publication.entry.receipt if publication.entry is not None else None
+    out.update({
+        "cap": publication.capability_score,
+        "gates": _gate_states(published) if published is not None else {},
+        "history": history,
+        "count": len(lines),
+        "last_entry": "" if newest is None else newest.entry_hash[:8],
+        "evidence_class": publication.evidence_class,
+        "publication_refusal": publication.refusal_reason,
+        "publication": publication.as_dict(),
+    })
     return out
 
 
@@ -153,9 +212,12 @@ def main():
     src = readiness["source"] or "absent (not published)"
     print(
         f"Wrote status.json | cap={ledger.get('cap')} "
+        f"class={ledger.get('evidence_class')} "
         f"readiness={readiness['readiness']} (source: {src}) "
         f"history={len(ledger.get('history', []))} pts"
     )
+    if ledger.get("publication_refusal"):
+        print(f"[!] capacity withheld: {ledger['publication_refusal']}")
 
 
 if __name__ == "__main__":

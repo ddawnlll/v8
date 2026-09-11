@@ -113,10 +113,22 @@ def cmd_status(args: argparse.Namespace) -> int:
     print(f"ledger: {len(ledger)} entries  chain: {'VERIFIED' if chain_ok else 'BROKEN'} ({chain_msg})")
     if not ledger.entries:
         return 0
-    last = ledger.entries[-1].receipt
-    print(f"latest: case={last.case_id} policy={last.policy_id} capability={_score(last.capability_score)}")
+    # #448: the latest benchmark is the most recent entry that declares an evidential
+    # window class -- never simply the last line of the ledger. With no such entry the
+    # reader refuses by name instead of publishing the newest entry's number.
+    publication = ledger.publication()
+    read = publication.entry if publication.entry is not None else publication.latest_entry
+    assert read is not None
+    last = read.receipt
+    if publication.publishes_capability_score:
+        print(f"latest: case={last.case_id} policy={last.policy_id} capability={_score(last.capability_score)}")
+    else:
+        print(f"latest: case={last.case_id} policy={last.policy_id} capability=REFUSED")
+    print(publication.describe())
+    if publication.refusal_reason:
+        print(f"refusal: {publication.refusal_reason}")
     print()
-    print(PolicyCertificate.generate(last).render_ascii())
+    print(PolicyCertificate.generate(last, publication=publication).render_ascii())
     return 0
 
 
@@ -135,12 +147,22 @@ def cmd_regression(args: argparse.Namespace) -> int:
     repo_root = package_root.parent if (package_root.parent / "docs").is_dir() else package_root
     ledger_path = out_dir / "benchmark_ledger.jsonl"
     receipt = None
+    publication = None
     if ledger_path.is_file():
         ledger = BenchmarkLedger.load_jsonl(ledger_path)
         if ledger.entries:
-            receipt = ledger.entries[-1].receipt
+            # #448: the baseline comparison reads the same way as `status` and
+            # `readiness` -- the most recent entry that declares an evidential window
+            # class, named and refused when there is none.
+            publication = ledger.publication()
+            read = (
+                publication.entry
+                if publication.entry is not None
+                else publication.latest_entry
+            )
+            receipt = read.receipt if read is not None else None
 
-    current = snapshot(repo_root, ledger_path, receipt)
+    current = snapshot(repo_root, ledger_path, receipt, publication=publication)
     baseline_path = repo_root / BASELINE_REL
     if args.pin:
         baseline_path.parent.mkdir(parents=True, exist_ok=True)
@@ -274,12 +296,22 @@ def cmd_readiness(args: argparse.Namespace) -> int:
     repo_root = package_root.parent if (package_root.parent / "docs").is_dir() else package_root
     ledger_path = out_dir / "benchmark_ledger.jsonl"
     receipt = None
+    publication = None
     if ledger_path.is_file():
         ledger = BenchmarkLedger.load_jsonl(ledger_path)
         if ledger.entries:
-            receipt = ledger.entries[-1].receipt
+            # #448: the audit reads the most recent entry that declares an evidential
+            # window class; a non-evidential or class-undeclared entry is named and its
+            # gate vector is refused rather than counted.
+            publication = ledger.publication()
+            read = (
+                publication.entry
+                if publication.entry is not None
+                else publication.latest_entry
+            )
+            receipt = read.receipt if read is not None else None
 
-    report = audit(repo_root, ledger_path, receipt)
+    report = audit(repo_root, ledger_path, receipt, publication=publication)
     factors = report["factors"]
     gates = factors["gate_factor"]
     pillars = factors["pillar_factor"]
@@ -293,6 +325,9 @@ def cmd_readiness(args: argparse.Namespace) -> int:
     print(f"formula:   {report['formula']}")
     print("-" * 70)
     print(f"gate_factor   : {gates['factor']:.4f}  ({gates['passed']}/{gates['required']} PASS, {gates['status']})")
+    print(f"    ledger read: {gates.get('ledger_read', '')}")
+    if gates.get("refusal"):
+        print(f"    refusal: {gates['refusal']}")
     for name, state in gates["states"].items():
         mark = "PASS" if state == "PASS" else state
         print(f"    {name:34} {mark}")
