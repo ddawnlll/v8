@@ -37,6 +37,11 @@ from v8_next.evaluation.statistics_plan import (
 )
 
 HOURS_PER_YEAR = 365.0 * 24.0
+#: Per-bar -> annualized Sharpe scale. Every *published* Sharpe number (the
+#: point estimate and its bootstrap CI alike) lives on this one scale (#388):
+#: a CI stored per-bar next to an annualized point cannot contain its own
+#: estimate, and the report then contradicts itself.
+SHARPE_ANNUALIZATION = math.sqrt(HOURS_PER_YEAR)
 TAKER_FEE_DEFAULT = 0.0005
 CAPITAL_DEFAULT = 10000.0
 VOL_LOOKBACK = 48
@@ -285,7 +290,7 @@ def sharpe_stats(returns: Sequence[float]) -> tuple[float, float]:
     if sd <= 1e-12:
         return 0.0, 0.0
     s = float(arr.mean() / sd)
-    return s, s * math.sqrt(HOURS_PER_YEAR)
+    return s, s * SHARPE_ANNUALIZATION
 
 
 def block_bootstrap_ci(
@@ -294,7 +299,14 @@ def block_bootstrap_ci(
     reps: int = BOOTSTRAP_REPS,
     seed: int = BOOTSTRAP_SEED,
 ) -> tuple[float | None, float | None]:
-    """Circular block bootstrap CI for per-bar Sharpe; preserves dependence."""
+    """Circular block bootstrap CI for the PER-BAR Sharpe; preserves dependence.
+
+    Deliberately left on the per-bar scale: it is the primitive used for
+    scale-free sign tests (positive control) and for the pre-registered excess
+    differential rule. Anything PUBLISHED as a Sharpe confidence interval must
+    go through `sharpe_ci_annualized` so it shares the scale of
+    `sharpe_annualized` (#388).
+    """
     arr = np.asarray(list(returns), dtype=np.float64)
     n = arr.size
     if n < 2 * block or not np.isfinite(arr).all():
@@ -312,6 +324,25 @@ def block_bootstrap_ci(
         return None, None
     lo, hi = np.percentile(np.asarray(stats), [2.5, 97.5])
     return float(lo), float(hi)
+
+
+def sharpe_ci_annualized(
+    returns: Sequence[float],
+    block: int = BOOTSTRAP_BLOCK,
+    reps: int = BOOTSTRAP_REPS,
+    seed: int = BOOTSTRAP_SEED,
+) -> tuple[float | None, float | None]:
+    """Block-bootstrap Sharpe CI on the scale of `sharpe_annualized` (#388).
+
+    The bootstrap distribution is resampled on per-bar returns, so its
+    percentiles are per-bar Sharpe values; they are multiplied by the same
+    sqrt(HOURS_PER_YEAR) factor the point estimate uses. Publishing both on one
+    scale is what lets a reader check `ci_low <= sharpe_annualized <= ci_high`.
+    """
+    lo, hi = block_bootstrap_ci(returns, block=block, reps=reps, seed=seed)
+    if lo is None or hi is None:
+        return None, None
+    return lo * SHARPE_ANNUALIZATION, hi * SHARPE_ANNUALIZATION
 
 
 def max_drawdown(equity: Sequence[float]) -> float:
@@ -1305,7 +1336,9 @@ def metrics_for_curve(
 ) -> MetricSet:
     rets = per_bar_returns(list(equity))
     s_pb, s_ann = sharpe_stats(rets)
-    ci_lo, ci_hi = block_bootstrap_ci(rets)
+    # #388: the stored/published Sharpe CI shares the annualized scale of
+    # sharpe_annualized, so the interval contains its own point estimate.
+    ci_lo, ci_hi = sharpe_ci_annualized(rets)
     # Degenerate variance guard: a leg with information in only a handful of
     # bars (e.g. one trade in the window) yields explosive Sharpe arithmetic.
     # Counted on raw pre-reconciliation steps, never on drift-smeared levels.
@@ -1321,6 +1354,9 @@ def metrics_for_curve(
         e_rets = per_bar_returns(list(primary_equity))
         if len(e_rets) == len(rets):
             diff = [a - b for a, b in zip(rets, e_rets, strict=False)]
+            # Per-bar deliberately: this is the input to the pre-registered
+            # EXCESS_CI_RULE sign test, not a published Sharpe interval (#388
+            # rescales only the sharpe_ci_* pair, so the gate vector is stable).
             excess_ci = block_bootstrap_ci(diff)
     tail = float(np.mean(np.sort(np.asarray(rets))[: max(1, int(0.05 * len(rets)))])) if rets else 0.0
     return MetricSet(
@@ -1796,6 +1832,17 @@ def degeneracy_marker(m: MetricSet) -> str:
     return f" {DEGENERATE_VARIANCE_MARKER}" if m.sharpe_degenerate else ""
 
 
+def sharpe_ci_cell(m: MetricSet) -> str:
+    """Render the ANNUALIZED Sharpe CI as `[lo,hi]`; empty when not computed.
+
+    Shared by the in-sample table and the OOS block so both publish the interval
+    on the same scale as the `sharpe_annualized` cell beside it (#388).
+    """
+    if m.sharpe_ci_low is None or m.sharpe_ci_high is None:
+        return ""
+    return f"[{m.sharpe_ci_low:.3f},{m.sharpe_ci_high:.3f}]"
+
+
 def render_report(receipt: EconomicReceipt) -> str:
     r = receipt
     lines = [
@@ -1826,15 +1873,16 @@ def render_report(receipt: EconomicReceipt) -> str:
         "All money columns in USDT on the run capital "
         f"({r.run.capital:.2f} USDT); returns are fractions of that capital.",
         "",
+        "Sharpe_ann and its [CI] are both annualized (per-bar Sharpe x "
+        f"{SHARPE_ANNUALIZATION:.2f} = sqrt({HOURS_PER_YEAR:.0f})); the CI is a "
+        "circular block-bootstrap percentile interval on that same scale, so it "
+        "contains its own point estimate unless the row is marked degenerate.",
+        "",
         "| curve | net | $P&L | excess vs primary | Sharpe_ann [CI] | maxDD | turn | commission $ | funding $ |",
         "|---|---|---|---|---|---|---|---|---|",
     ]
     for name, m in r.metrics.items():
-        ci = (
-            f"[{m.sharpe_ci_low:.3f},{m.sharpe_ci_high:.3f}]"
-            if m.sharpe_ci_low is not None and m.sharpe_ci_high is not None
-            else "n/a"
-        )
+        ci = sharpe_ci_cell(m) or "n/a"
         if m.sharpe_degenerate:
             ci += degeneracy_marker(m)
         ex = f"{m.excess_vs_primary:.4f}" if m.excess_vs_primary is not None else "—"
@@ -1863,13 +1911,17 @@ def render_report(receipt: EconomicReceipt) -> str:
         "",
         f"`{DEGENERATE_VARIANCE_MARKER}` marks a row whose Sharpe_ann is "
         "arithmetic on a variance estimated from too few informative bars; the "
-        "value is not interpretable and is never evidence of performance.",
+        "value is not interpretable and is never evidence of performance. CI is "
+        "the annualized block-bootstrap interval, on the same scale as "
+        "Sharpe_ann, and is omitted when it could not be computed.",
         "",
     ]
     for name, m in r.oos_metrics.items():
+        ci = sharpe_ci_cell(m)
         lines.append(
             f"- {name}: net {m.net_return:.4f} Sharpe_ann "
-            f"{m.sharpe_annualized:.3f}{degeneracy_marker(m)}"
+            f"{m.sharpe_annualized:.3f}"
+            f"{f' CI {ci}' if ci else ''}{degeneracy_marker(m)}"
         )
     lines += [
         "",
