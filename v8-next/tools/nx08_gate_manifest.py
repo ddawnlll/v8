@@ -25,11 +25,13 @@ from v8_next.evaluation.benchmark_receipt import (
     GATE_DESCRIPTORS,
     BenchmarkReceipt,
     GateVector,
+    ScoreEvidence,
 )
 from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.gate_registry import gate_registry, validate_registry
 from v8_next.evaluation.scoring import (
     LEGACY_FIXED_COVERAGE_FACTOR,
+    compute_capability_breakdown,
     derive_coverage,
     domain_measurement_statuses,
     dual_scoring,
@@ -85,14 +87,29 @@ def main(argv: list[str] | None = None) -> int:
     # comes from the measured receipts (NX06/NX07) and tools/nx_readiness_audit.py.
     SYNTHETIC_INPUT_CLASS = "SYNTHETIC_STRUCTURE_ONLY_NOT_A_MEASUREMENT"
     SYNTHETIC_SERIES = [0.01, -0.02, 0.03, 0.005] * 10
+    DECLARED_BARS = 60
+    DECLARED_TRADES = 6
+    DECLARED_ABSTAIN_RATE = 0.2
+    # #408: the demo's number is not hand-given either. It is the canonical breakdown's
+    # aggregate over the same declared determinants the receipt publishes, and the receipt
+    # binds that breakdown as the evidence its number came from, so the demo exercises the
+    # certificate derivation on a number the receipt itself can reproduce. The input class
+    # above is unchanged: a number derived from declared synthetic determinants is still
+    # not a measurement and is never quoted as a capability result.
+    demo_breakdown = compute_capability_breakdown(
+        SYNTHETIC_SERIES, DECLARED_BARS, DECLARED_TRADES, DECLARED_ABSTAIN_RATE
+    )
     receipt = BenchmarkReceipt.create(
         case_id="NX08-MANIFEST-STRUCTURE-DEMO",
         policy_id="pol_28_expert_ensemble",
-        capability_score=42.0,
-        coverage_factor=0.5,
+        capability_score=demo_breakdown["aggregate"],
+        coverage_factor=demo_breakdown["coverage_factor"],
+        score_evidence=ScoreEvidence.from_breakdown(demo_breakdown),
         gates=GateVector(),
         computed_at_timestamp_ns=1_000,
-        scoring_versions=dual_scoring(SYNTHETIC_SERIES, 60, 6, 0.2),
+        scoring_versions=dual_scoring(
+            SYNTHETIC_SERIES, DECLARED_BARS, DECLARED_TRADES, DECLARED_ABSTAIN_RATE
+        ),
     )
     certificate = PolicyCertificate.generate(receipt)
     scoring_manifest = {
@@ -102,9 +119,21 @@ def main(argv: list[str] | None = None) -> int:
         "structural_demo_inputs": {
             "input_class": SYNTHETIC_INPUT_CLASS,
             "case_id": "NX08-MANIFEST-STRUCTURE-DEMO",
-            "capability_score": 42.0,
-            "coverage_factor": 0.5,
-            "series": "hand-given 40-element illustration; not a measured campaign series",
+            "capability_score": demo_breakdown["aggregate"],
+            "score_source": (
+                "#408: the number above is the canonical breakdown's aggregate over the "
+                "declared determinants below, and it is bound to that evidence "
+                "(ScoreEvidence.from_breakdown); it is never hand-given"
+            ),
+            "coverage_factor": demo_breakdown["coverage_factor"],
+            "coverage_source": demo_breakdown["coverage_source"],
+            "aggregate_status": demo_breakdown["aggregate_status"],
+            "declared_determinants": {
+                "total_bars": DECLARED_BARS,
+                "total_trades": DECLARED_TRADES,
+                "abstain_rate": DECLARED_ABSTAIN_RATE,
+                "series": "hand-given 40-element illustration; not a measured campaign series",
+            },
             "warning": (
                 "these inputs only exercise the certificate derivation and the dual scoring "
                 "record; they are NOT a capability result and must not be reported as one"
@@ -139,6 +168,12 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"[NX08] gates={len(registry)} problems={validate_registry()}")
     print(f"[NX08] readiness_index={certificate.readiness_index} missing={list(certificate.missing_measurements)}")
+    print(
+        f"[NX08] structure demo: class={SYNTHETIC_INPUT_CLASS} "
+        f"score={receipt.capability_score} "
+        f"score_binding={receipt.capability_score_refusal_reason() or 'OK'} "
+        "(bound to its own ScoreEvidence; never a capability result)"
+    )
     print(f"[NX08] gate_manifest    sha256:{_sha256(gate_path)}")
     print(f"[NX08] scoring_manifest sha256:{_sha256(scoring_path)}")
     return 0
