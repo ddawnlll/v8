@@ -179,14 +179,29 @@ class ExpertEnsembleStrategy(Strategy):
         """
         try:
             portfolio = self.portfolio
-            account = portfolio.account() if portfolio is not None else None
+            if portfolio is None:
+                return None
+            # ``portfolio.account()`` needs a venue (or an account id) to resolve
+            # the account: calling it bare returned None in-engine, which made
+            # every risk-fraction decision fail closed as
+            # RISK_SIZING_NO_STOP_OR_EQUITY and left the sizer inert in real runs.
+            # The venue lives on the instrument id (``CryptoPerpetual`` exposes no
+            # ``venue`` attribute in this build), so read it from there.
+            instrument_id = getattr(instrument, "id", None)
+            venue = getattr(instrument_id, "venue", None)
+            if venue is None:
+                return None
+            account = portfolio.account(venue)
             if account is None:
                 return None
             quote = getattr(instrument, "quote_currency", None)
             balance = account.balance(quote) if quote is not None else None
             if balance is None:
                 balances = account.balances()
-                balance = next(iter(balances.values()), None) if balances else None
+                if quote is not None and quote in balances:
+                    balance = balances[quote]
+                else:
+                    balance = next(iter(balances.values()), None) if balances else None
             if balance is None:
                 return None
             return balance.total
@@ -442,7 +457,13 @@ class ExpertEnsembleStrategy(Strategy):
                     qty_str = format(base_qty, f".{instrument.size_precision}f")
                     quantity: Quantity | None = None
                     if Decimal(qty_str) < instrument.min_quantity.as_decimal():
-                        action = "BELOW_MIN_QUANTITY"
+                        # Only a genuinely unsized order is BELOW_MIN_QUANTITY. A
+                        # risk decision that zeroed the size must keep its own
+                        # name: overwriting DENIED_MAX_NOTIONAL (or a missing
+                        # stop/equity) with a size symptom makes the brake
+                        # unauditable from the decision ledger.
+                        if action == "NO_ACTION":
+                            action = "BELOW_MIN_QUANTITY"
                     else:
                         quantity = Quantity.from_str(qty_str)
 
@@ -815,6 +836,12 @@ def run_expert_strategy_backtest(
             "closed_positions": strategy.closed_positions,
             "account": account_state,
             "execution": execution_block,
+            # The raw fill rows carry the maker/taker split (liquidity_side) and
+            # the commission per fill, which an order-type claim has to be able to
+            # cite. Reporting only a count and a signature made the F3 acceptance
+            # (maker fill ratio + rebate effect) unmeasurable from this path.
+            "fill_records": fill_records,
+            "fill_report_type": fill_report_type,
             "opportunity_book": strategy.opportunity_book,
         }
     finally:
