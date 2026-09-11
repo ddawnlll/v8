@@ -18,7 +18,7 @@ from typing import Any
 
 from v8_next.adapters.expert_strategy import ExpertStrategyConfig
 from v8_next.evaluation import economic_benchmark as eb
-from v8_next.evaluation.gate_resolution import load_tape_candles
+from v8_next.evaluation.gate_resolution import WindowBinding, load_tape_candles
 from v8_next.evaluation.report import generate_forensic_html_report, render_identity
 from v8_next.evaluation.run_window import (
     RunKey,
@@ -227,6 +227,24 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(f"[+] Loaded {len(candles)} real hourly {args.instrument} bars.")
 
+    # #406/#421: the window this run declares and the window it loaded are bound
+    # together before any gate runs. `load_tape_candles` picks the slice by file
+    # order (`head(limit)`), so a declared bar count that does not describe the bars
+    # actually loaded is named here instead of being inherited silently, and the
+    # loaded window travels into the gates as the scored window they may not
+    # re-label as out-of-sample.
+    loaded_window = (
+        WindowBinding.from_candles(candles, origin=window.label(), declared_by="benchmark_cli")
+        if candles
+        else None
+    )
+    if window.bars is not None and len(candles) != int(window.bars):
+        print(
+            f"[!] WINDOW_DECLARATION_MISMATCH: {window.bars} bars declared, "
+            f"{len(candles)} loaded from {tape_file}",
+            file=sys.stderr,
+        )
+
     project_root = Path(__file__).resolve().parents[3]
     tape_bytes_path = tape_file / "tape.jsonl" if tape_file.is_dir() else tape_file
     dataset_sha = hashlib.sha256(tape_bytes_path.read_bytes()).hexdigest()
@@ -285,6 +303,7 @@ def main(argv: list[str] | None = None) -> int:
         execution_profile=args.execution_profile,
         measure_determinism=args.determinism_rerun,
         run_identity=run_key.components,
+        scored_window=loaded_window,
     )
     execution = result.gate_metrics.get("execution") if result.gate_metrics else None
     if execution:

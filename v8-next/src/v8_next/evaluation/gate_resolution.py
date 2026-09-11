@@ -49,6 +49,90 @@ from v8_next.evaluation.statistics_plan import (
     sample_sufficiency,
 )
 
+#: What a gate measured, or why it could not. A gate that cannot bind its verdict
+#: to a declared window publishes ``UNMEASURED``: absence of evidence is published
+#: as absence, never as a PASS over whatever the caller happened to load.
+MEASURED = "measured"
+UNMEASURED = "unmeasured"
+
+#: Named reason tokens for the window-binding refusals of G6 and G7 (#406, #421).
+#: A caller-loaded slice is not a window declaration, and a gate may only publish a
+#: verdict over a window it can name and check against the bars it was handed.
+PROTECTED_WINDOW_ABSENT = "PROTECTED_WINDOW_ABSENT"
+PROTECTED_WINDOW_MISMATCH = "PROTECTED_WINDOW_MISMATCH"
+PROSPECTIVE_WINDOW_ABSENT = "PROSPECTIVE_WINDOW_ABSENT"
+PROSPECTIVE_WINDOW_MISMATCH = "PROSPECTIVE_WINDOW_MISMATCH"
+PROSPECTIVE_WINDOW_NOT_FORWARD = "PROSPECTIVE_WINDOW_NOT_FORWARD_OF_SCORED_WINDOW"
+
+
+def window_identity(candles: Sequence[Candle]) -> dict[str, Any] | None:
+    """Span + bar count of a bar sequence, or ``None`` when it holds no bars."""
+    bars = tuple(candles)
+    if not bars:
+        return None
+    return {
+        "start_ns": int(min(c.start_ns for c in bars)),
+        "end_ns": int(max(c.end_ns for c in bars)),
+        "n_bars": len(bars),
+    }
+
+
+@dataclass(frozen=True)
+class WindowBinding:
+    """A window a caller declares in explicit units, before any verdict exists.
+
+    ``start_ns``/``end_ns``/``n_bars`` are the whole declaration: a gate compares
+    them against the bars it was handed, so its verdict can name the window it was
+    measured over instead of inheriting whatever slice the caller loaded (#406 G7's
+    ``candles[-100:]``; #421 G6's file-order ``head(limit)`` window). ``origin``
+    names where the declaration came from (a run key, a fold id, a test fixture).
+    """
+
+    start_ns: int
+    end_ns: int
+    n_bars: int
+    origin: str = ""
+    declared_by: str = "caller"
+
+    @classmethod
+    def from_candles(
+        cls,
+        candles: Sequence[Candle],
+        *,
+        origin: str = "",
+        declared_by: str = "caller",
+    ) -> WindowBinding:
+        identity = window_identity(candles)
+        if identity is None:
+            raise ValueError("a window binding needs at least one bar")
+        return cls(
+            start_ns=int(identity["start_ns"]),
+            end_ns=int(identity["end_ns"]),
+            n_bars=int(identity["n_bars"]),
+            origin=origin,
+            declared_by=declared_by,
+        )
+
+    def mismatch(self, candles: Sequence[Candle]) -> str | None:
+        """``None`` when this declaration describes exactly these bars."""
+        identity = window_identity(candles)
+        if identity is None:
+            return "the evaluated window holds no bars"
+        declared = (int(self.start_ns), int(self.end_ns), int(self.n_bars))
+        evaluated = (int(identity["start_ns"]), int(identity["end_ns"]), int(identity["n_bars"]))
+        if declared == evaluated:
+            return None
+        return f"declared (start_ns, end_ns, n_bars)={declared} != evaluated {evaluated}"
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "start_ns": int(self.start_ns),
+            "end_ns": int(self.end_ns),
+            "n_bars": int(self.n_bars),
+            "origin": self.origin,
+            "declared_by": self.declared_by,
+        }
+
 
 def _default_tape_path() -> Path:
     """Repo-root-anchored default tape, so the path cannot depend on the cwd.
@@ -754,6 +838,8 @@ def evaluate_g6_frozen_oos(
     candles: Sequence[Candle],
     strategy_config: ExpertStrategyConfig | None = None,
     min_retention_ratio: float = 0.60,
+    *,
+    protected_window: WindowBinding | None = None,
 ) -> tuple[GateState, dict[str, Any]]:
     """G6: Frozen Out-of-Sample (OOS) Replication (g6_protected_oos).
 
@@ -763,6 +849,14 @@ def evaluate_g6_frozen_oos(
     cannot be replicated (BLOCKED: no edge to retain); an unprofitable OOS retains
     nothing (BLOCKED: negative retention). The blow-up guard (OOS balance >= 8000)
     stays as a separate survival floor.
+
+    #406/#421: the verdict must name the window it was measured over, so the caller
+    declares that window explicitly (``protected_window``) and the gate checks the
+    declaration against the bars it was handed. With no declaration -- or with one
+    that describes other bars -- the gate fails closed with a named reason and
+    publishes the retention as ``unmeasured``, so the window a run happened to load
+    (``load_tape_candles`` -> ``head(limit)``, i.e. file order) can never be
+    published as a protected out-of-sample replicate.
     """
     cfg = strategy_config or ExpertStrategyConfig(
         min_support_quorum=1,
@@ -770,23 +864,66 @@ def evaluate_g6_frozen_oos(
         bracket_stop_pct=Decimal("0.02"),
         bracket_target_pct=Decimal("0.04"),
     )
-    n = len(candles)
+    bars = tuple(candles)
+    n = len(bars)
     split_idx = int(n * (2.0 / 3.0))
 
     # NX08.R4: an in-sample window twice the length of the out-of-sample window is
     # not a replication comparison. Both sides are truncated to the same number of
     # bars (the IS tail adjacent to the OOS head, no overlap) and the equality is
     # reported, so a retention ratio can never come from unequal exposure.
-    is_all = tuple(candles[:split_idx])
-    oos_all = tuple(candles[split_idx:])
+    is_all = bars[:split_idx]
+    oos_all = bars[split_idx:]
     if not is_all or not oos_all:
         return GateState.BLOCKED, {
             "is_bars": len(is_all),
             "oos_bars": len(oos_all),
             "reason": "INSUFFICIENT_PARTITION: one side of the frozen split is empty",
+            "measurement": UNMEASURED,
+            "protected_window": protected_window.as_dict() if protected_window else None,
+            "retention_ratio": None,
             "passed": False,
         }
     window_bars = min(len(is_all), len(oos_all))
+
+    # The partition geometry is a fact about the bars handed in, so it is reported
+    # in every response; the retention numbers are not (#406/#421).
+    partition: dict[str, Any] = {
+        "is_bars": window_bars,
+        "oos_bars": window_bars,
+        "window_equality": "EQUAL_BARS",
+        "comparison_window_bars": window_bars,
+        "is_bars_total": len(is_all),
+        "oos_bars_total": len(oos_all),
+        "is_profit": None,
+        "oos_profit": None,
+        "retention_ratio": None,
+    }
+    evaluated_window = window_identity(bars)
+    if protected_window is None:
+        return GateState.BLOCKED, {
+            **partition,
+            "reason": (
+                f"{PROTECTED_WINDOW_ABSENT}: no protected window was declared for the "
+                f"{len(bars)} evaluated bars, so this gate has no declared "
+                "out-of-sample window to publish a retention verdict over"
+            ),
+            "measurement": UNMEASURED,
+            "protected_window": None,
+            "evaluated_window": evaluated_window,
+            "passed": False,
+        }
+    window_mismatch = protected_window.mismatch(bars)
+    if window_mismatch is not None:
+        return GateState.BLOCKED, {
+            **partition,
+            "reason": f"{PROTECTED_WINDOW_MISMATCH}: {window_mismatch}",
+            "measurement": UNMEASURED,
+            "protected_window": protected_window.as_dict(),
+            "evaluated_window": evaluated_window,
+            "passed": False,
+        }
+
     is_candles = is_all[-window_bars:]
     oos_candles = oos_all[:window_bars]
 
@@ -827,6 +964,9 @@ def evaluate_g6_frozen_oos(
             "is_bars_total": len(is_all),
             "oos_bars_total": len(oos_all),
             "retention_ratio": None,
+            "measurement": MEASURED,
+            "protected_window": protected_window.as_dict(),
+            "evaluated_window": evaluated_window,
             "reason": f"NO_IS_EDGE_TO_RETAIN: is_profit={is_profit:.2f} <= 0",
             "passed": False,
         }
@@ -850,6 +990,9 @@ def evaluate_g6_frozen_oos(
         "comparison_window_bars": window_bars,
         "is_bars_total": len(is_all),
         "oos_bars_total": len(oos_all),
+        "measurement": MEASURED,
+        "protected_window": protected_window.as_dict(),
+        "evaluated_window": evaluated_window,
         "reason": None
         if passed
         else (
@@ -869,6 +1012,7 @@ def evaluate_g7_prospective_shadow(
     *,
     shadow_stream: Sequence[Candle] | None = None,
     shadow_origin: str = "",
+    shadow_window: WindowBinding | None = None,
 ) -> tuple[GateState, dict[str, Any]]:
     """G7: Prospective Shadow Succession (g7_generalization).
 
@@ -882,10 +1026,27 @@ def evaluate_g7_prospective_shadow(
     never PASS -- because "the last 100 bars of the same run" is not prospective
     evidence. A declared stream shorter than 100 bars still fails closed with
     INSUFFICIENT_SHADOW_WINDOW.
+
+    #406/#421: a declared stream must also carry a declared *window*
+    (``shadow_window``) that is forward of the scored window, and the verdict is a
+    function of that window and of the candidate only:
+
+    * the e-process is updated with the candidate's own admitted direction per bar
+      (its measured forward behaviour), never with the price path alone, so two
+      candidates with different behaviour cannot share one metric;
+    * the drift is the window's maximum cumulative excursion from its opening
+      close, not the last bar's |return|;
+    * the stream is put in canonical (start_ns, end_ns, hash) order first, so the
+      verdict is a function of the bar set and not of the caller's ordering.
+
+    An in-sample slice ``candles[-100:]`` therefore cannot be published as
+    prospective generalization: it overlaps the scored window and fails closed with
+    a named reason.
     """
     out_dir = output_dir or Path("artifacts/benchmarks")
     out_dir.mkdir(parents=True, exist_ok=True)
     shadow_log = out_dir / "g7_prospective_shadow.jsonl"
+    scored_window = window_identity(candles)
 
     if shadow_stream is None:
         return GateState.UNKNOWN, {
@@ -897,6 +1058,9 @@ def evaluate_g7_prospective_shadow(
             "historical_bars_available": len(candles),
             "shadow_origin": shadow_origin or None,
             "provenance_status": "NO_DECLARED_STREAM",
+            "shadow_window": None,
+            "scored_window": scored_window,
+            "measurement": UNMEASURED,
             "passed": False,
         }
     if not shadow_origin.strip():
@@ -909,9 +1073,67 @@ def evaluate_g7_prospective_shadow(
             "reason": f"INSUFFICIENT_SHADOW_WINDOW: {len(shadow_stream)} < 100",
             "shadow_origin": shadow_origin,
             "provenance_status": "CALLER_DECLARED_NOT_VERIFIED_BY_GATE",
+            "shadow_window": shadow_window.as_dict() if shadow_window else None,
+            "scored_window": scored_window,
+            "measurement": UNMEASURED,
             "passed": False,
         }
-    stream_candles = tuple(shadow_stream)
+
+    if shadow_window is None:
+        return GateState.BLOCKED, {
+            "window_bars": len(shadow_stream),
+            "reason": (
+                f"{PROSPECTIVE_WINDOW_ABSENT}: the declared shadow stream carries "
+                f"{len(shadow_stream)} bars but no declared window, so this gate cannot "
+                "name the window it would publish a generalization verdict over"
+            ),
+            "shadow_origin": shadow_origin,
+            "provenance_status": "NO_DECLARED_WINDOW",
+            "shadow_window": None,
+            "scored_window": scored_window,
+            "measurement": UNMEASURED,
+            "passed": False,
+        }
+
+    stream_window_mismatch = shadow_window.mismatch(shadow_stream)
+    if stream_window_mismatch is not None:
+        return GateState.BLOCKED, {
+            "window_bars": len(shadow_stream),
+            "reason": f"{PROSPECTIVE_WINDOW_MISMATCH}: {stream_window_mismatch}",
+            "shadow_origin": shadow_origin,
+            "provenance_status": "CALLER_DECLARED_NOT_VERIFIED_BY_GATE",
+            "shadow_window": shadow_window.as_dict(),
+            "scored_window": scored_window,
+            "measurement": UNMEASURED,
+            "passed": False,
+        }
+
+    scored_end_ns = scored_window["end_ns"] if scored_window is not None else None
+    if scored_end_ns is not None and int(shadow_window.start_ns) < int(scored_end_ns):
+        return GateState.BLOCKED, {
+            "window_bars": len(shadow_stream),
+            "reason": (
+                f"{PROSPECTIVE_WINDOW_NOT_FORWARD}: the declared shadow window starts "
+                f"at {int(shadow_window.start_ns)} but the scored window ends at "
+                f"{int(scored_end_ns)}; bars the candidate was evaluated on are not "
+                "prospective evidence"
+            ),
+            "shadow_origin": shadow_origin,
+            "provenance_status": "CALLER_DECLARED_NOT_VERIFIED_BY_GATE",
+            "shadow_window": shadow_window.as_dict(),
+            "scored_window": scored_window,
+            "measurement": UNMEASURED,
+            "passed": False,
+        }
+
+    # Canonical order: the verdict is a function of the bar set, not of the order
+    # the caller happened to hand it in.
+    stream_candles = tuple(
+        sorted(
+            tuple(shadow_stream),
+            key=lambda c: (int(c.start_ns), int(c.end_ns), c.instrument_id, c.source_hash),
+        )
+    )
     cfg = strategy_config or ExpertStrategyConfig(
         min_support_quorum=1,
         max_contradiction_tolerance=28,
@@ -930,34 +1152,50 @@ def evaluate_g7_prospective_shadow(
     # inside the clip range is a tautology (clip [0.01, 19.0] vs pass
     # [0.01, 20.0) can never fail). The gate must see the real process.
     e_process_raw = 1.0
+    # The drift judged by the gate is a property of the whole window: the largest
+    # cumulative excursion from the window's opening close. The last bar's
+    # |return| is a one-bar fact and cannot describe a drift over 100 bars.
     drift_val = 0.0
-    ref_mean = float(stream_candles[0].close) if stream_candles else 100.0
+    anchor = float(stream_candles[0].close) if stream_candles else 100.0
+    candidate_exposure_bars = 0
 
     trajectory: list[dict[str, Any]] = []
 
     for i, c in enumerate(stream_candles):
         px = float(c.close)
-        ret = (px - ref_mean) / ref_mean if ref_mean > 0 else 0.0
-        ref_mean = 0.95 * ref_mean + 0.05 * px
-
-        betting_lambda = 0.1
-        update = 1.0 + betting_lambda * np.tanh(ret * 10.0)
-        e_process_raw = e_process_raw * update
-        if not math.isfinite(e_process_raw):
-            # Exploded/vanished wealth is a verdict, not a crash: pin it and
-            # keep the window (drift still judged on the last bar).
-            e_process_raw = float("inf") if e_process_raw > 0 else 0.0
-        e_process_val = float(np.clip(e_process_val * update, 0.01, 19.0))
-        drift_val = float(abs(ret))
+        previous = float(stream_candles[i - 1].close) if i else anchor
+        step_return = (px - previous) / previous if previous > 0 else 0.0
+        if anchor > 0:
+            drift_val = max(drift_val, abs((px - anchor) / anchor))
 
         dec_info = decisions[i] if i < len(decisions) else {}
         action = dec_info.get("action", "NO_ACTION")
+        # The candidate's own measured forward behaviour on this bar: the direction
+        # of the opportunity its consensus actually admitted. A candidate that
+        # admits nothing carries zero exposure and cannot move the e-process.
+        opportunity = dec_info.get("opportunity") or {}
+        direction = str(opportunity.get("direction") or "").upper()
+        exposure = 0
+        if dec_info.get("consensus_supported") and direction in ("LONG", "SHORT"):
+            exposure = 1 if direction == "LONG" else -1
+        if exposure != 0:
+            candidate_exposure_bars += 1
+
+        betting_lambda = 0.1
+        update = 1.0 + betting_lambda * np.tanh(exposure * step_return * 10.0)
+        e_process_raw = e_process_raw * update
+        if not math.isfinite(e_process_raw):
+            # Exploded/vanished wealth is a verdict, not a crash: pin it and
+            # keep the window (drift is still the window's cumulative excursion).
+            e_process_raw = float("inf") if e_process_raw > 0 else 0.0
+        e_process_val = float(np.clip(e_process_val * update, 0.01, 19.0))
 
         step_record = {
             "step": i,
             "timestamp_ns": c.end_ns,
             "e_process": round(e_process_val, 6),
             "drift": round(drift_val, 6),
+            "exposure": exposure,
             "action": action,
             "close": px,
         }
@@ -975,10 +1213,16 @@ def evaluate_g7_prospective_shadow(
             round(e_process_raw, 4) if math.isfinite(e_process_raw) else str(e_process_raw)
         ),
         "final_drift": round(drift_val, 6),
+        "drift_basis": "max_absolute_cumulative_deviation_from_window_open",
+        "exposure_basis": "candidate_admitted_opportunity_direction_per_bar",
+        "candidate_exposure_bars": candidate_exposure_bars,
         "shadow_steps": len(trajectory),
         "log_path": str(shadow_log),
         "shadow_origin": shadow_origin,
+        "shadow_window": shadow_window.as_dict(),
+        "scored_window": scored_window,
         "provenance_status": "CALLER_DECLARED_NOT_VERIFIED_BY_GATE",
+        "measurement": MEASURED,
         "passed": passed,
     }
     if not passed:
@@ -1207,10 +1451,13 @@ def resolve_all_gates(
         fallback_tape=tape_path,
     )
 
-    # 4. G6 Frozen OOS Replication
+    # 4. G6 Frozen OOS Replication. #406/#421: without a caller-declared protected
+    # window this fails closed by name (PROTECTED_WINDOW_ABSENT); the resolver does
+    # not invent one from the bars it was handed.
     g6_state, g6_metrics = evaluate_g6_frozen_oos(candles, cfg)
 
-    # 5. G7 Prospective Shadow
+    # 5. G7 Prospective Shadow. #406/#421: a declared forward window is required for
+    # a verdict here as well; the historical tail is not prospective evidence.
     g7_state, g7_metrics = evaluate_g7_prospective_shadow(candles, cfg, output_dir=out_dir)
 
     # 6. G8 Live Realization

@@ -29,6 +29,7 @@ from v8_next.evaluation.benchmark_receipt import (
 from v8_next.evaluation.claims import ClaimRegistry, StatutoryClaimClass
 from v8_next.evaluation.gate_resolution import (
     DEFAULT_TAPE_PATH,
+    WindowBinding,
     classify_market_regimes,
     evaluate_g3_scenario_robustness,
     evaluate_g4_synthetic_falsification,
@@ -139,9 +140,30 @@ def test_g5_selection_control_dsr_and_wrc():
 
 
 def test_g6_frozen_oos_replication(real_candles: list[Candle]):
-    """G6: profit retention, not balance ratio — unprofitable legs fail closed."""
+    """G6: the verdict names the window it was measured over (#406/#421).
+
+    Without a declared protected window the gate publishes no retention verdict at
+    all — the slice a run happened to load (``head(limit)`` file order) is not a
+    declaration. With the evaluated window declared, the criterion decides.
+    """
     cfg = ExpertStrategyConfig(min_support_quorum=1, max_contradiction_tolerance=28)
-    state, metrics = evaluate_g6_frozen_oos(real_candles, cfg, min_retention_ratio=0.60)
+
+    unbound_state, unbound = evaluate_g6_frozen_oos(real_candles, cfg, min_retention_ratio=0.60)
+    assert unbound_state == GateState.BLOCKED
+    assert "PROTECTED_WINDOW_ABSENT" in unbound["reason"]
+    assert unbound["measurement"] == "unmeasured"
+    assert unbound["retention_ratio"] is None
+    assert unbound["passed"] is False
+
+    declared = WindowBinding.from_candles(
+        real_candles, origin="test_g6_frozen_oos_replication", declared_by="test"
+    )
+    state, metrics = evaluate_g6_frozen_oos(
+        real_candles, cfg, min_retention_ratio=0.60, protected_window=declared
+    )
+    assert metrics["measurement"] == "measured"
+    assert metrics["protected_window"]["n_bars"] == len(real_candles)
+    assert metrics["passed"] == (state == GateState.PASS)
     assert "is_profit" in metrics and "oos_profit" in metrics
     if state == GateState.BLOCKED:
         assert metrics["reason"] is not None
@@ -157,30 +179,35 @@ def test_g6_frozen_oos_replication(real_candles: list[Candle]):
 
 
 def test_g7_prospective_shadow_streaming(tmp_path: Path, real_candles: list[Candle]):
-    """G7: Verify causal e-process martingale and drift logging to disk.
+    """G7: the prospective verdict needs a declared forward window (#406/#421).
 
-    NX08.R4: the gate only evaluates an explicitly declared shadow stream. The
-    same candles passed as the stream exercise the mechanics; the removed
-    behaviour (minting PASS from the run's own historical tail) is asserted to be
-    gone in the test below.
+    NX08.R4 keeps the declared-stream requirement (asserted in the test below);
+    #406/#421 adds the binding: the run's own tail (``candles[-100:]``) overlaps the
+    scored window, so it is refused by name instead of being graded as if it were
+    prospective, and a stream without a declared window publishes no verdict either.
     """
     out_dir = tmp_path / "shadow"
+    in_sample_state, in_sample = evaluate_g7_prospective_shadow(
+        real_candles,
+        output_dir=out_dir,
+        shadow_stream=real_candles[-100:],
+        shadow_origin="TEST_FIXTURE_SAME_RUN_TAIL",
+        shadow_window=WindowBinding.from_candles(real_candles[-100:], origin="same_run_tail"),
+    )
+    assert in_sample_state != GateState.PASS
+    assert in_sample["measurement"] == "unmeasured"
+    assert "PROSPECTIVE_WINDOW_NOT_FORWARD_OF_SCORED_WINDOW" in in_sample["reason"]
+
     state, metrics = evaluate_g7_prospective_shadow(
         real_candles,
         output_dir=out_dir,
         shadow_stream=real_candles[-100:],
         shadow_origin="TEST_FIXTURE_DECLARED_STREAM",
     )
-    assert metrics["provenance_status"] == "CALLER_DECLARED_NOT_VERIFIED_BY_GATE"
-    assert metrics["shadow_origin"] == "TEST_FIXTURE_DECLARED_STREAM"
-    assert state == GateState.PASS
-    assert metrics["passed"] is True
-    assert 0.01 <= metrics["final_e_process"] < 20.0
-    assert metrics["final_drift"] < 0.15
-    log_file = Path(metrics["log_path"])
-    assert log_file.is_file()
-    lines = log_file.read_text(encoding="utf-8").strip().splitlines()
-    assert len(lines) > 0
+    assert state != GateState.PASS
+    assert metrics["measurement"] == "unmeasured"
+    assert "PROSPECTIVE_WINDOW_ABSENT" in metrics["reason"]
+    assert metrics["provenance_status"] == "NO_DECLARED_WINDOW"
 
 
 def test_g7_refuses_the_runs_own_historical_tail(real_candles: list[Candle], tmp_path: Path):
