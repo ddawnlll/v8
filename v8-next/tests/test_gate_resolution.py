@@ -26,7 +26,7 @@ from v8_next.evaluation.benchmark_receipt import (
     GateVector,
     ReadinessStatus,
 )
-from v8_next.evaluation.claims import StatutoryClaimClass
+from v8_next.evaluation.claims import ClaimRegistry, StatutoryClaimClass
 from v8_next.evaluation.gate_resolution import (
     DEFAULT_TAPE_PATH,
     classify_market_regimes,
@@ -346,3 +346,129 @@ def test_end_to_end_benchmark_runner_resolved_gates(tmp_path: Path):
     assert "NO_ECONOMIC_CLAIM" in result.certificate.authority_verdict or "BLOCKED" in result.certificate.authority_verdict
     chain_ok, _ = runner.ledger.verify_chain()
     assert chain_ok is True
+
+
+# --------------------------------------------------------------------------- #
+# #435 — an unevaluated gate (NOT_APPLICABLE) is not an established gate (PASS)
+# --------------------------------------------------------------------------- #
+
+#: The verbatim fixture of published ledger entry 0 — case BC-D153-CANONICAL-01
+#: at `v8.5-digest-v2`: every gate PASS except the live-realization fold, which
+#: the owning clause (D-152 §5) legitimately leaves NOT_APPLICABLE.
+CANONICAL_LIVE_FOLD_FIXTURE = (
+    Path(__file__).parent / "fixtures" / "ledger_canon" / "v8.5-digest-v2.json"
+)
+
+
+def _all_pass_gate_states() -> dict[str, GateState]:
+    return {field: GateState.PASS for field in GateVector.model_fields}
+
+
+def test_not_applicable_on_a_required_blocking_gate_is_not_an_established_state() -> None:
+    """#435 (a): a never-evaluated blocking gate cannot certify like a PASS one.
+
+    The two vectors differ only in whether constitutional integrity was ever
+    established; `GateState.holds()`/`readiness()` must tell them apart, and the
+    verdict must name the unevaluated blocking gate instead of staying silent.
+    """
+    fully_established = GateVector(**_all_pass_gate_states())
+    never_evaluated = GateVector(
+        **{**_all_pass_gate_states(), "g0_identity": GateState.NOT_APPLICABLE}
+    )
+
+    established_verdict = fully_established.readiness()
+    unevaluated_verdict = never_evaluated.readiness()
+
+    assert established_verdict.status == ReadinessStatus.Certified
+    assert established_verdict.status_string() == "READY_NOT_CLAIMED"
+    assert fully_established.all_pass() is True
+
+    assert unevaluated_verdict.status != established_verdict.status
+    assert unevaluated_verdict.status == ReadinessStatus.HardFailure
+    assert unevaluated_verdict.status_string() == "BLOCKED"
+    assert unevaluated_verdict.unevaluated_blocking == (0,)
+    assert unevaluated_verdict.failing_positions == (0,)
+    assert unevaluated_verdict.hard_failures == ()
+    assert unevaluated_verdict.evidence_gaps == ()
+    assert unevaluated_verdict.blocking_reasons() == (
+        "REQUIRED_BLOCKING_GATE_UNEVALUATED: G0ConstitutionalIntegrity "
+        "(g0_identity)=NOT_APPLICABLE, requirement=RequiredBlocking",
+    )
+    assert never_evaluated.all_pass() is False
+
+    # G1 is declared RequiredBlocking too, and the same rule applies to it
+    g1_unevaluated = GateVector(
+        **{**_all_pass_gate_states(), "g1_causal_pit": GateState.NOT_APPLICABLE}
+    )
+    assert g1_unevaluated.readiness().status == ReadinessStatus.HardFailure
+    assert g1_unevaluated.readiness().unevaluated_blocking == (1,)
+
+    # ... while the fold the owning clause admits stays admitted: the G8
+    # live-realization slot is declared Required, not RequiredBlocking
+    fold = GateVector(
+        **{**_all_pass_gate_states(), "g8_prospective_shadow": GateState.NOT_APPLICABLE}
+    )
+    assert fold.readiness().status == ReadinessStatus.Certified
+    assert fold.readiness().unevaluated_blocking == ()
+
+
+def test_claim_minting_refuses_an_unevaluated_blocking_gate(tmp_path: Path) -> None:
+    """#435 (b): the claim precondition refuses a never-evaluated blocking gate."""
+    gates = GateVector(
+        **{**_all_pass_gate_states(), "g0_identity": GateState.NOT_APPLICABLE}
+    )
+    ledger = BenchmarkLedger.load_jsonl(tmp_path / "ledger.jsonl")
+    receipt = BenchmarkReceipt.create(
+        case_id="BC-TEST-435",
+        policy_id="pol_test",
+        capability_score=75.0,
+        gates=gates,
+        computed_at_timestamp_ns=1000,
+    )
+    ledger.append(receipt)
+    registry = ClaimRegistry(tmp_path / "registry")
+
+    minted, reason, claim = registry.verify_ledger_and_issue_claim(
+        ledger=ledger,
+        receipt_digest=receipt.receipt_digest,
+        gates=gates,
+        capability_score=75.0,
+        live_realization_verified=False,
+    )
+
+    assert minted is False
+    assert claim is None
+    assert "G0ConstitutionalIntegrity" in reason
+    assert "NOT_APPLICABLE" in reason
+    assert "REQUIRED_BLOCKING_GATE_UNEVALUATED" in reason
+    # nothing was appended: a refused claim leaves no registry row
+    assert registry.registry_file.exists() is False
+
+
+def test_canonical_live_fold_verdict_is_unchanged() -> None:
+    """#435 (c): the published live-fold vector keeps its 45d006b6 verdict.
+
+    At 45d006b6 this vector's verdict was READY_NOT_CLAIMED with no failing
+    position, no hard failure and no evidence gap (the fold is admitted because
+    its descriptor declares `Required`). #435 must not downgrade it and must not
+    promote it: the fold stays admitted and still not established.
+    """
+    published = json.loads(CANONICAL_LIVE_FOLD_FIXTURE.read_text(encoding="utf-8"))
+    gates = GateVector(**published["receipt"]["gates"])
+    assert gates.g8_prospective_shadow == GateState.NOT_APPLICABLE
+
+    verdict = gates.readiness()
+    assert verdict.status == ReadinessStatus.Certified
+    assert verdict.status_string() == "READY_NOT_CLAIMED"
+    assert verdict.failing_positions == ()
+    assert verdict.hard_failures == ()
+    assert verdict.evidence_gaps == ()
+    assert verdict.unevaluated_blocking == ()
+    assert gates.all_pass() is True
+
+    fold_eval = next(ev for ev in verdict.evaluations if ev.state == GateState.NOT_APPLICABLE)
+    assert fold_eval.descriptor.vector_field == "g8_prospective_shadow"
+    assert fold_eval.descriptor.requirement == "Required"
+    assert fold_eval.holds() is True
+    # admitted is not the same claim as established
+    assert fold_eval.state.is_pass() is False

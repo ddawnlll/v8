@@ -128,7 +128,11 @@ class ClaimRegistry:
 
         Non-Scalar Collapse Invariant:
         A claim cannot be issued solely on a scalar score; all required gates G0-G7
-        must hold, and ledger chain must be cryptographically intact.
+        must be *established* (see ``GateEvaluation.holds``), and ledger chain must be
+        cryptographically intact. An unevaluated gate (``NOT_APPLICABLE``) satisfies
+        the precondition only where its own descriptor admits that state — never on a
+        ``RequiredBlocking`` gate, which must be established before anything is minted
+        (#435).
         """
         # 1. Verify ledger hash chain
         chain_valid, chain_msg = ledger.verify_chain()
@@ -140,17 +144,20 @@ class ClaimRegistry:
         if receipt_entry is None:
             return False, f"Receipt digest {receipt_digest} not found in ledger", None
 
-        # 3. Verify gate conditions: G0-G7 must hold
+        # 3. Verify gate conditions: G0-G7 must be established. A gate that was
+        #    never evaluated (NOT_APPLICABLE) is refused here with a named reason
+        #    naming the gate and its state unless its own descriptor admits that
+        #    state (#435).
         evals = gates.evaluated_gates()
         for idx in range(8):  # G0 through G7
             ev = evals[idx]
             if not ev.holds():
-                return False, f"Gate G{idx} ({ev.descriptor.canonical_id}) failed: {ev.state.value}", None
+                return False, f"Gate G{idx} not established: {ev.refusal_reason()}", None
 
-        # 4. G8 check
+        # 4. G8 check — same rule, decided by the descriptor's requirement
         g8_ev = evals[8]
-        if g8_ev.state not in (GateState.PASS, GateState.NOT_APPLICABLE):
-            return False, f"Gate G8 failed or unhandled: {g8_ev.state.value}", None
+        if not g8_ev.holds():
+            return False, f"Gate G8 not established: {g8_ev.refusal_reason()}", None
 
         # 5. Determine claim class
         if live_realization_verified and g8_ev.state == GateState.PASS:
