@@ -38,6 +38,7 @@ PILLAR_ARTIFACTS = {
     "P2_paper_trade_4y": (
         "docs/evidence/v87-r3/RECONCILE/engine_replay_reconciliation.json",
         "docs/evidence/v87-r3/COST/cost_lane.json",
+        "docs/evidence/v87-r3/PAPER_4Y/paper_trade_4y.json",
     ),
     "P3_synthetic_scenarios": (
         "docs/evidence/v87-r3/SCENARIOS/scenario_results.json",
@@ -79,6 +80,18 @@ def pillar_factor(repo_root: Path) -> dict[str, Any]:
         present = [rel for rel in artifacts if (repo_root / rel).is_file()]
         missing = [rel for rel in artifacts if rel not in present]
         if present and not missing:
+            declared_pass = True
+            for rel in present:
+                data = _load(repo_root / rel) or {}
+                if "passed" in data and not data["passed"]:
+                    declared_pass = False
+            if not declared_pass:
+                pillars[name] = {
+                    "status": "PRESENT_BUT_NOT_PASSING",
+                    "artifacts": present,
+                    "note": "the artifact exists but declares passed=false; it is not counted",
+                }
+                continue
             measured += 1
             pillars[name] = {"status": "MEASURED", "artifacts": present}
         elif present:
@@ -163,6 +176,24 @@ def target_factor(repo_root: Path) -> dict[str, Any]:
         "target_monthly_return": RED_APPLE_MONTHLY_RETURN,
         "note": "a target measured on an unprotected window is reported, never counted",
     }
+
+
+def write_scenario_report(repo_root: Path, out_rel: str | None = None) -> Path:
+    """Produce the P3 artifact: model candles + SNU ledger + the overfitting hypothesis test."""
+    import hashlib
+
+    from v8_next.evaluation.scenarios import scenario_results
+
+    target = repo_root / (out_rel or PILLAR_ARTIFACTS["P3_synthetic_scenarios"][0])
+    target.parent.mkdir(parents=True, exist_ok=True)
+    results = scenario_results()
+    results["artifact_sha256_self"] = "computed_after_write"
+    payload = json.dumps(results, indent=2, sort_keys=True, default=str) + "\n"
+    target.write_text(payload)
+    digest = hashlib.sha256(payload.replace("computed_after_write", "").encode()).hexdigest()
+    results["artifact_sha256_self"] = digest
+    target.write_text(json.dumps(results, indent=2, sort_keys=True, default=str) + "\n")
+    return target
 
 
 def audit(repo_root: Path, ledger_path: Path, latest_receipt: Any | None) -> dict[str, Any]:

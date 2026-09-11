@@ -113,6 +113,40 @@ def cmd_status(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_run(args: argparse.Namespace) -> int:
+    """Produce one pillar of the locked benchmark. A pillar that is not implemented yet
+    refuses loudly instead of printing a success it cannot back."""
+    from v8_next.app.readiness import write_scenario_report
+
+    package_root = Path(__file__).resolve().parents[3]
+    repo_root = package_root.parent if (package_root.parent / "docs").is_dir() else package_root
+
+    if args.pillar in ("scenarios", "all"):
+        path = write_scenario_report(repo_root, args.out)
+        import json
+
+        data = json.loads(path.read_text())
+        print(f"[run] P3 scenarios: {data['model_candles_passed']}/{data['model_candles_total']} model candles PASS")
+        for row in data["model_candles"]:
+            mark = "PASS" if row["passed"] else "FAIL"
+            print(f"    {mark}  {row['name']}")
+        overfit = data["overfitting_hypothesis_test"]
+        print(f"[run] overfitting test: {'PASS' if overfit['passed'] else 'FAIL'} "
+              f"(noise rejected {overfit['noise_family_rejected_rate']}, edge rejected {overfit['edge_family_rejected_rate']})")
+        print(f"[run] SNU ledger: {data['snu']['counted_in_this_suite']} case(s), rule declared")
+        print(f"[run] artifact: {path}")
+        if args.pillar == "scenarios":
+            return 0
+    if args.pillar in ("paper-4y", "folds", "all"):
+        print(
+            f"[run] pillar {args.pillar!r} is not implemented yet: the four-year paper-trade "
+            "pillar needs the engine-lane close fix first, and the folds pillar runs through "
+            "tools/nx09_fold_research.py. Refusing rather than reporting an unbacked success."
+        )
+        return 2
+    return 2
+
+
 def cmd_readiness(args: argparse.Namespace) -> int:
     """Locked-benchmark readiness: four factors printed together, never one number alone."""
     import json
@@ -218,6 +252,19 @@ def build_parser() -> argparse.ArgumentParser:
     p_status.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
     p_status.set_defaults(func=cmd_status)
 
+    p_run = sub.add_parser(
+        "run",
+        help="Produce a benchmark pillar and write its artifact (locked benchmark spec).",
+    )
+    p_run.add_argument(
+        "--pillar",
+        required=True,
+        choices=["scenarios", "paper-4y", "folds", "all"],
+        help="scenarios = P3 synthetic hypothesis scenarios (implemented); others next.",
+    )
+    p_run.add_argument("--out", default=None)
+    p_run.set_defaults(func=cmd_run)
+
     p_ready = sub.add_parser(
         "readiness",
         help="Production-readiness score: four factors, gate vector, red-apple gap.",
@@ -276,6 +323,10 @@ def main(argv: list[str] | None = None) -> int:
         if rest:
             parser.error(f"unexpected args for status: {' '.join(rest)}")
         return args.func(args)
+    if args.command == "run":
+        if rest:
+            parser.error(f"unexpected args for run: {' '.join(rest)}")
+        return cmd_run(args)
     if args.command == "readiness":
         if rest:
             parser.error(f"unexpected args for readiness: {' '.join(rest)}")

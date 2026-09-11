@@ -1,0 +1,116 @@
+{
+  "artifact_sha256_self": "a39ccedfcf7ffdf091723f431d085ea281d06cacc5c075d93ff2ce5d2f866498",
+  "claim_status": "NO_ECONOMIC_CLAIM",
+  "evidence_class": "SCENARIO ONLY: engine-correctness and test-behaviour evidence, never a performance result",
+  "model_candles": [
+    {
+      "about": "a gap is not filled at the stop price",
+      "actual_exit_kind": "STOP",
+      "bars_held": 1,
+      "exit_price": "97",
+      "expected_exit_kind": "STOP",
+      "gap_through_stop": true,
+      "name": "GAP_THROUGH_STOP",
+      "passed": true
+    },
+    {
+      "about": "a touch fills at the stop",
+      "actual_exit_kind": "STOP",
+      "bars_held": 1,
+      "exit_price": "99",
+      "expected_exit_kind": "STOP",
+      "gap_through_stop": false,
+      "name": "EXACT_TOUCH_STOP",
+      "passed": true
+    },
+    {
+      "about": "a touch fills at the target",
+      "actual_exit_kind": "TARGET",
+      "bars_held": 1,
+      "exit_price": "102",
+      "expected_exit_kind": "TARGET",
+      "gap_through_stop": false,
+      "name": "EXACT_TOUCH_TARGET",
+      "passed": true
+    },
+    {
+      "about": "opened above then traded through the stop",
+      "actual_exit_kind": "STOP",
+      "bars_held": 1,
+      "exit_price": "99",
+      "expected_exit_kind": "STOP",
+      "gap_through_stop": false,
+      "name": "OPEN_BEYOND_STOP",
+      "passed": true
+    },
+    {
+      "about": "expiry closes at the bar's own close",
+      "actual_exit_kind": "EXPIRY",
+      "bars_held": 1,
+      "exit_price": "100.8",
+      "expected_exit_kind": "EXPIRY",
+      "gap_through_stop": false,
+      "name": "EXPIRY_AT_CLOSE",
+      "passed": true
+    },
+    {
+      "about": "the short side mirrors the rules",
+      "actual_exit_kind": "STOP",
+      "bars_held": 1,
+      "exit_price": "100",
+      "expected_exit_kind": "STOP",
+      "gap_through_stop": false,
+      "name": "SHORT_SIDE_MIRROR",
+      "passed": true
+    },
+    {
+      "about": "a bar that touches both legs is not decidable from candle data",
+      "actual_exit_kind": "STOP",
+      "bars_held": 1,
+      "declared_rule": "when a single bar touches both the stop and the target, the STOP is taken first: the conservative, deterministic reading of an unknowable intrabar order",
+      "exit_price": "99",
+      "expected_exit_kind": "STOP",
+      "gap_through_stop": false,
+      "name": "SNU_BOTH_TOUCHED",
+      "passed": true,
+      "snu": true
+    },
+    {
+      "about": "the same bars exit by expiry when the decision is unprotected and stop out at the entry reference when the policy name declares a bracket - the divergence the reconciliation reports as BRACKET_CONTRACT_DIVERGENCE",
+      "bracketed_exit_kind": "STOP",
+      "bracketless_exit_kind": "EXPIRY",
+      "name": "BRACKETLESS_NO_STOP_OUT",
+      "passed": true
+    }
+  ],
+  "model_candles_passed": 8,
+  "model_candles_total": 8,
+  "overfitting_hypothesis_test": {
+    "about": "the test must reject a family selected on noise (>= 0.5) and must not reject a genuine drift edge (<= 0.25); a test that rejects nothing proves nothing",
+    "calibration": {
+      "edge_mu": 0.002,
+      "edge_per_bar_sharpe": 0.2,
+      "edge_sigma": 0.01,
+      "noise_sigma": 0.01,
+      "series_bars": 800
+    },
+    "edge_family_rejected_rate": 0.017,
+    "noise_family_rejected_rate": 0.517,
+    "passed": true,
+    "seed": 7,
+    "thresholds": {
+      "max_rejection_rate_on_edge": 0.25,
+      "min_rejection_rate_on_noise": 0.5
+    },
+    "trials": 60
+  },
+  "passed": true,
+  "pillar": "P3_synthetic_scenarios",
+  "snu": {
+    "cases": [
+      "SNU_BOTH_TOUCHED"
+    ],
+    "counted_in_this_suite": 1,
+    "declared_rule": "when a single bar touches both the stop and the target, the STOP is taken first: the conservative, deterministic reading of an unknowable intrabar order"
+  }
+}
