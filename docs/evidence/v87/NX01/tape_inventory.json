@@ -1,0 +1,237 @@
+{
+  "absence_notes": [
+    "MARK_PRICE_ABSENT: no mark-price channel in the tape; funding mark is unknown, not zero"
+  ],
+  "archive_set_digest": "fe9c855081a7df4ec70fe4f0a1eb72c38973bd17105c03d73ee35b128ca34dc4",
+  "archives_three_way_ok": 960,
+  "archives_total": 960,
+  "bars": 350640,
+  "channel_counts": {
+    "funding": 43905,
+    "kline": 350640
+  },
+  "checkout": {
+    "checkout_sha": "45d006b636536f4489e95593ffba6a918032eab5",
+    "config_identity": "1490c9e51b587e1b600d8fd0b9a86a611ec5b58a30a70cdde50014164f970139",
+    "runtime": {
+      "nautilus_trader": "2.0.0rc4",
+      "numpy": "2.5.3",
+      "polars": "1.44.1",
+      "pydantic": "2.13.5",
+      "python": "3.12.12"
+    },
+    "uv_lock_sha256": "316bd8444beff3dcbcd8761f29152a7a3fdaeaba313453fb7a87c2c766603778",
+    "v8_next_uv_lock_sha256": "f230c2bddabb4d0f8c8dc7f11e51a2f81a1945b01b36b98bfe3c5ac61c3b7a2c",
+    "working_tree_dirty": true
+  },
+  "duplicated_slots": 0,
+  "funding_interval_counts": {
+    "2h": 99,
+    "4h": 2,
+    "8h": 43804
+  },
+  "internal_gap_slots": 0,
+  "interval": "1h",
+  "legs": [
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "8h": 4383
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4383,
+      "instrument": "ADAUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    },
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "8h": 4383
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4383,
+      "instrument": "AVAXUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    },
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "8h": 4383
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4383,
+      "instrument": "BNBUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    },
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "8h": 4383
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4383,
+      "instrument": "BTCUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    },
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "8h": 4383
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4383,
+      "instrument": "DOGEUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    },
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "8h": 4383
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4383,
+      "instrument": "ETHUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    },
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "8h": 4383
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4383,
+      "instrument": "LINKUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    },
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "8h": 4383
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4383,
+      "instrument": "LTCUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    },
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "2h": 99,
+        "4h": 2,
+        "8h": 4357
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4458,
+      "instrument": "SOLUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    },
+    {
+      "coverage_vs_own_grid": 1.0,
+      "duplicate_slots": 0,
+      "first_open_ms": 1656633600000,
+      "first_open_utc": "2022-07-01T00:00:00Z",
+      "funding_interval_counts": {
+        "8h": 4383
+      },
+      "funding_interval_defaulted": 0,
+      "funding_rows": 4383,
+      "instrument": "XRPUSDT",
+      "internal_gap_slots": 0,
+      "kline_rows": 35064,
+      "last_open_ms": 1782860400000,
+      "last_open_utc": "2026-06-30T23:00:00Z",
+      "unique_slots": 35064
+    }
+  ],
+  "mark_price_channels": [],
+  "registry_sha256": "32efa35ee739890189a49ea969d8a5f512869e9bb78178a5ff03bce5b090ace4",
+  "schema_versions": [
+    "binance-um-funding-v1-ms",
+    "binance-um-v1-ms"
+  ],
+  "symbols": [
+    "ADAUSDT",
+    "AVAXUSDT",
+    "BNBUSDT",
+    "BTCUSDT",
+    "DOGEUSDT",
+    "ETHUSDT",
+    "LINKUSDT",
+    "LTCUSDT",
+    "SOLUSDT",
+    "XRPUSDT"
+  ],
+  "tape_bytes": 226706603,
+  "tape_path": "/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl",
+  "tape_sha256": "b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0",
+  "total_rows": 394545,
+  "unclosed_kline_rows": 0,
+  "unparsable_rows": 0,
+  "window_end_ms": 1782863999999,
+  "window_end_utc": "2026-06-30T23:59:59.999000Z",
+  "window_start_ms": 1656633600000,
+  "window_start_utc": "2022-07-01T00:00:00Z"
+}

@@ -1,0 +1,44 @@
+{
+  "archive_set_digest": "fe9c855081a7df4ec70fe4f0a1eb72c38973bd17105c03d73ee35b128ca34dc4",
+  "config_identity": "1490c9e51b587e1b600d8fd0b9a86a611ec5b58a30a70cdde50014164f970139",
+  "data_id": "sha256:a20414c6a1366fbca763d8835a04f368676816d511238cc7ed86647df77c5b86",
+  "final_eligible": false,
+  "identity_digest": "sha256:9b35e3ac41c5d1cce64fbcaf2ef0c93352acfbea9833aa5e69869dd5ebde10f1",
+  "interval": "1h",
+  "manifest_version": "v87-nx01-manifest-v1",
+  "role_map": {
+    "ACCESS_PARITY_S0_SLICE": "BURNED_DIAGNOSTIC",
+    "ACCESS_PARITY_S1_SLICE": "BURNED_DIAGNOSTIC",
+    "ACCESS_PARITY_S4_REAL-TAPE_SLICE": "BURNED_DIAGNOSTIC",
+    "DEVELOPMENT_RESIDUE_UNKNOWN": "USAGE_UNKNOWN",
+    "TAIL_BURNED": "BURNED_DIAGNOSTIC"
+  },
+  "runtime": {
+    "nautilus_trader": "2.0.0rc4",
+    "numpy": "2.5.3",
+    "polars": "1.44.1",
+    "pydantic": "2.13.5",
+    "python": "3.12.12"
+  },
+  "schema_versions": [
+    "binance-um-funding-v1-ms",
+    "binance-um-v1-ms"
+  ],
+  "source_registry_sha256": "32efa35ee739890189a49ea969d8a5f512869e9bb78178a5ff03bce5b090ace4",
+  "symbols": [
+    "ADAUSDT",
+    "AVAXUSDT",
+    "BNBUSDT",
+    "BTCUSDT",
+    "DOGEUSDT",
+    "ETHUSDT",
+    "LINKUSDT",
+    "LTCUSDT",
+    "SOLUSDT",
+    "XRPUSDT"
+  ],
+  "tape_bytes": 226706603,
+  "tape_sha256": "b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0",
+  "window_end_ms": 1782863999999,
+  "window_start_ms": 1656633600000
+}

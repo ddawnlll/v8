@@ -38,7 +38,7 @@ from nautilus_trader.persistence import ParquetDataCatalog
 
 # Reused on purpose (see module docstring): the node path must feed byte-for-byte
 # the same instruments and bars as the direct-engine path.
-from v8_next.adapters.portfolio_backtest import BASE_CURRENCIES, _bars, _instrument
+from v8_next.adapters.portfolio_backtest import _bars, _instrument, base_currency
 from v8_next.adapters.trade_tape import trades_digest, trades_from_dump
 from v8_next.evaluation.multitape import MultiTape, load_multitape
 
@@ -216,7 +216,7 @@ def write_bars_from_tape(
         if not candles:
             raise ValueError(f"leg {raw!r} absent from tape")
         instrument_id = f"{raw}-PERP.BINANCE"
-        base = BASE_CURRENCIES.get(raw, "BTC")
+        base = base_currency(raw)
         instruments.append(_instrument(instrument_id, raw, base, curr, maker_fee, taker_fee))
         bar_type = BarType.from_str(bar_type_str(instrument_id))
         bars = _bars(candles, bar_type)

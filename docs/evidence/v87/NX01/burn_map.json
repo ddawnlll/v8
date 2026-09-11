@@ -1,0 +1,391 @@
+{
+  "calendar": {
+    "burn_segments": [
+      {
+        "data_role": "DEVELOPMENT",
+        "evidence": [
+          "tests/parity/test_parity_s0.py:139 \u2014 load_real_tape(\"multi-1h-4y\", limit=25_000)",
+          "measured: first 25000 tape lines span 2022-07-01T00:00:00Z .. 2022-10-01T13:59:59.999000Z"
+        ],
+        "from": "2022-07-01T00:00:00Z",
+        "from_ms": 1656633600000,
+        "instruments": [
+          "ADAUSDT",
+          "AVAXUSDT",
+          "BNBUSDT",
+          "BTCUSDT",
+          "DOGEUSDT",
+          "ETHUSDT",
+          "LINKUSDT",
+          "LTCUSDT",
+          "SOLUSDT",
+          "XRPUSDT"
+        ],
+        "note": "read by a recorded parity run; diagnostic only, never a final test",
+        "protected_final": false,
+        "role": "BURNED_DIAGNOSTIC",
+        "segment_id": "ACCESS_PARITY_S0_SLICE",
+        "to": "2022-10-01T13:59:59.999000Z",
+        "to_ms": 1664632799999
+      },
+      {
+        "data_role": "DEVELOPMENT",
+        "evidence": [
+          "tests/parity/test_parity_s1.py:198 \u2014 load_real_tape(\"multi-1h-4y\", limit=20_000)",
+          "measured: first 20000 tape lines span 2022-07-01T00:00:00Z .. 2022-09-13T00:59:59.999000Z"
+        ],
+        "from": "2022-07-01T00:00:00Z",
+        "from_ms": 1656633600000,
+        "instruments": [
+          "ADAUSDT",
+          "AVAXUSDT",
+          "BNBUSDT",
+          "BTCUSDT",
+          "DOGEUSDT",
+          "ETHUSDT",
+          "LINKUSDT",
+          "LTCUSDT",
+          "SOLUSDT",
+          "XRPUSDT"
+        ],
+        "note": "read by a recorded parity run; diagnostic only, never a final test",
+        "protected_final": false,
+        "role": "BURNED_DIAGNOSTIC",
+        "segment_id": "ACCESS_PARITY_S1_SLICE",
+        "to": "2022-09-13T00:59:59.999000Z",
+        "to_ms": 1663030799999
+      },
+      {
+        "data_role": "DEVELOPMENT",
+        "evidence": [
+          "tests/parity/test_parity_s4_realtape.py:144 \u2014 load_real_tape(\"multi-1h-4y\", limit=_TAPE_LIMIT)",
+          "measured: first 2000 tape lines span 2022-07-01T00:00:00Z .. 2022-07-08T08:59:59.999000Z"
+        ],
+        "from": "2022-07-01T00:00:00Z",
+        "from_ms": 1656633600000,
+        "instruments": [
+          "ADAUSDT",
+          "AVAXUSDT",
+          "BNBUSDT",
+          "BTCUSDT",
+          "DOGEUSDT",
+          "ETHUSDT",
+          "LINKUSDT",
+          "LTCUSDT",
+          "SOLUSDT",
+          "XRPUSDT"
+        ],
+        "note": "read by a recorded parity run; diagnostic only, never a final test",
+        "protected_final": false,
+        "role": "BURNED_DIAGNOSTIC",
+        "segment_id": "ACCESS_PARITY_S4_REAL-TAPE_SLICE",
+        "to": "2022-07-08T08:59:59.999000Z",
+        "to_ms": 1657270799999
+      },
+      {
+        "data_role": "DEVELOPMENT",
+        "evidence": [
+          "no recorded access found for this interval"
+        ],
+        "from": "2022-10-01T14:00:00Z",
+        "from_ms": 1664632800000,
+        "instruments": [
+          "ADAUSDT",
+          "AVAXUSDT",
+          "BNBUSDT",
+          "BTCUSDT",
+          "DOGEUSDT",
+          "ETHUSDT",
+          "LINKUSDT",
+          "LTCUSDT",
+          "SOLUSDT",
+          "XRPUSDT"
+        ],
+        "note": "residue after the burned head slice",
+        "protected_final": false,
+        "role": "USAGE_UNKNOWN",
+        "segment_id": "DEVELOPMENT_RESIDUE_UNKNOWN",
+        "to": "2025-06-30T23:59:59.999000Z",
+        "to_ms": 1751327999999
+      },
+      {
+        "data_role": "DEVELOPMENT",
+        "evidence": [
+          "/Users/hootie/src/v8/research/tape/quad-1h-12m/tape.jsonl sha256:695eaec7d726b20c70e3a4d836e69206015d522753381e92f2fb2406414220e1",
+          "/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl sha256:4812c6dc9e8b206246ca088eed2fe5460495c65314dcbbafa09cc1ba0d0a0f3f",
+          "/Users/hootie/src/v8/research/tape/sol-dev-solusdt-2025-07-2026-07/tape.jsonl sha256:c040f158f7041077d78e5208d93c7a32fb8db36eef85c7c7003ae4e5ab1b76ac"
+        ],
+        "from": "2025-07-01T00:00:00Z",
+        "from_ms": 1751328000000,
+        "instruments": [
+          "ADAUSDT",
+          "AVAXUSDT",
+          "BNBUSDT",
+          "BTCUSDT",
+          "DOGEUSDT",
+          "ETHUSDT",
+          "LINKUSDT",
+          "LTCUSDT",
+          "SOLUSDT",
+          "XRPUSDT"
+        ],
+        "note": "consumed before this work; may host diagnostics, never a final test",
+        "protected_final": false,
+        "role": "BURNED_DIAGNOSTIC",
+        "segment_id": "TAIL_BURNED",
+        "to": "2026-06-30T23:59:59.999000Z",
+        "to_ms": 1782863999999
+      }
+    ],
+    "development": {
+      "fold_id": "DEVELOPMENT",
+      "from": "2022-07-01T00:00:00Z",
+      "from_ms": 1656633600000,
+      "role": "DEVELOPMENT",
+      "to": "2024-06-30T23:59:59.999000Z",
+      "to_ms": 1719791999999
+    },
+    "final": {
+      "fold_id": "FINAL",
+      "from": "2025-07-01T00:00:00Z",
+      "from_ms": 1751328000000,
+      "role": "FINAL",
+      "to": "2026-06-30T23:59:59.999000Z",
+      "to_ms": 1782863999999
+    },
+    "final_eligible": false,
+    "final_ineligibility_reason": "NO_PROTECTED_FINAL: the final window overlaps TAIL_BURNED (burned or usage-unknown); the final is not opened",
+    "folds": [
+      {
+        "fold_id": "FOLD_1",
+        "from": "2024-07-01T00:00:00Z",
+        "from_ms": 1719792000000,
+        "role": "DIAGNOSTIC_FOLD",
+        "to": "2024-09-30T23:59:59.999000Z",
+        "to_ms": 1727740799999
+      },
+      {
+        "fold_id": "FOLD_2",
+        "from": "2024-10-01T00:00:00Z",
+        "from_ms": 1727740800000,
+        "role": "DIAGNOSTIC_FOLD",
+        "to": "2024-12-31T23:59:59.999000Z",
+        "to_ms": 1735689599999
+      },
+      {
+        "fold_id": "FOLD_3",
+        "from": "2025-01-01T00:00:00Z",
+        "from_ms": 1735689600000,
+        "role": "DIAGNOSTIC_FOLD",
+        "to": "2025-03-31T23:59:59.999000Z",
+        "to_ms": 1743465599999
+      },
+      {
+        "fold_id": "FOLD_4",
+        "from": "2025-04-01T00:00:00Z",
+        "from_ms": 1743465600000,
+        "role": "DIAGNOSTIC_FOLD",
+        "to": "2025-06-30T23:59:59.999000Z",
+        "to_ms": 1751327999999
+      }
+    ],
+    "no_protected_final": true
+  },
+  "final_eligibility_reason": "NO_PROTECTED_FINAL: the final window overlaps TAIL_BURNED (burned or usage-unknown); the final is not opened",
+  "no_protected_final": true,
+  "segments": [
+    {
+      "data_role": "DEVELOPMENT",
+      "evidence": [
+        "tests/parity/test_parity_s0.py:139 \u2014 load_real_tape(\"multi-1h-4y\", limit=25_000)",
+        "measured: first 25000 tape lines span 2022-07-01T00:00:00Z .. 2022-10-01T13:59:59.999000Z"
+      ],
+      "from": "2022-07-01T00:00:00Z",
+      "from_ms": 1656633600000,
+      "instruments": [
+        "ADAUSDT",
+        "AVAXUSDT",
+        "BNBUSDT",
+        "BTCUSDT",
+        "DOGEUSDT",
+        "ETHUSDT",
+        "LINKUSDT",
+        "LTCUSDT",
+        "SOLUSDT",
+        "XRPUSDT"
+      ],
+      "note": "read by a recorded parity run; diagnostic only, never a final test",
+      "protected_final": false,
+      "role": "BURNED_DIAGNOSTIC",
+      "segment_id": "ACCESS_PARITY_S0_SLICE",
+      "to": "2022-10-01T13:59:59.999000Z",
+      "to_ms": 1664632799999
+    },
+    {
+      "data_role": "DEVELOPMENT",
+      "evidence": [
+        "tests/parity/test_parity_s1.py:198 \u2014 load_real_tape(\"multi-1h-4y\", limit=20_000)",
+        "measured: first 20000 tape lines span 2022-07-01T00:00:00Z .. 2022-09-13T00:59:59.999000Z"
+      ],
+      "from": "2022-07-01T00:00:00Z",
+      "from_ms": 1656633600000,
+      "instruments": [
+        "ADAUSDT",
+        "AVAXUSDT",
+        "BNBUSDT",
+        "BTCUSDT",
+        "DOGEUSDT",
+        "ETHUSDT",
+        "LINKUSDT",
+        "LTCUSDT",
+        "SOLUSDT",
+        "XRPUSDT"
+      ],
+      "note": "read by a recorded parity run; diagnostic only, never a final test",
+      "protected_final": false,
+      "role": "BURNED_DIAGNOSTIC",
+      "segment_id": "ACCESS_PARITY_S1_SLICE",
+      "to": "2022-09-13T00:59:59.999000Z",
+      "to_ms": 1663030799999
+    },
+    {
+      "data_role": "DEVELOPMENT",
+      "evidence": [
+        "tests/parity/test_parity_s4_realtape.py:144 \u2014 load_real_tape(\"multi-1h-4y\", limit=_TAPE_LIMIT)",
+        "measured: first 2000 tape lines span 2022-07-01T00:00:00Z .. 2022-07-08T08:59:59.999000Z"
+      ],
+      "from": "2022-07-01T00:00:00Z",
+      "from_ms": 1656633600000,
+      "instruments": [
+        "ADAUSDT",
+        "AVAXUSDT",
+        "BNBUSDT",
+        "BTCUSDT",
+        "DOGEUSDT",
+        "ETHUSDT",
+        "LINKUSDT",
+        "LTCUSDT",
+        "SOLUSDT",
+        "XRPUSDT"
+      ],
+      "note": "read by a recorded parity run; diagnostic only, never a final test",
+      "protected_final": false,
+      "role": "BURNED_DIAGNOSTIC",
+      "segment_id": "ACCESS_PARITY_S4_REAL-TAPE_SLICE",
+      "to": "2022-07-08T08:59:59.999000Z",
+      "to_ms": 1657270799999
+    },
+    {
+      "data_role": "DEVELOPMENT",
+      "evidence": [
+        "no recorded access found for this interval"
+      ],
+      "from": "2022-10-01T14:00:00Z",
+      "from_ms": 1664632800000,
+      "instruments": [
+        "ADAUSDT",
+        "AVAXUSDT",
+        "BNBUSDT",
+        "BTCUSDT",
+        "DOGEUSDT",
+        "ETHUSDT",
+        "LINKUSDT",
+        "LTCUSDT",
+        "SOLUSDT",
+        "XRPUSDT"
+      ],
+      "note": "residue after the burned head slice",
+      "protected_final": false,
+      "role": "USAGE_UNKNOWN",
+      "segment_id": "DEVELOPMENT_RESIDUE_UNKNOWN",
+      "to": "2025-06-30T23:59:59.999000Z",
+      "to_ms": 1751327999999
+    },
+    {
+      "data_role": "DEVELOPMENT",
+      "evidence": [
+        "/Users/hootie/src/v8/research/tape/quad-1h-12m/tape.jsonl sha256:695eaec7d726b20c70e3a4d836e69206015d522753381e92f2fb2406414220e1",
+        "/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl sha256:4812c6dc9e8b206246ca088eed2fe5460495c65314dcbbafa09cc1ba0d0a0f3f",
+        "/Users/hootie/src/v8/research/tape/sol-dev-solusdt-2025-07-2026-07/tape.jsonl sha256:c040f158f7041077d78e5208d93c7a32fb8db36eef85c7c7003ae4e5ab1b76ac"
+      ],
+      "from": "2025-07-01T00:00:00Z",
+      "from_ms": 1751328000000,
+      "instruments": [
+        "ADAUSDT",
+        "AVAXUSDT",
+        "BNBUSDT",
+        "BTCUSDT",
+        "DOGEUSDT",
+        "ETHUSDT",
+        "LINKUSDT",
+        "LTCUSDT",
+        "SOLUSDT",
+        "XRPUSDT"
+      ],
+      "note": "consumed before this work; may host diagnostics, never a final test",
+      "protected_final": false,
+      "role": "BURNED_DIAGNOSTIC",
+      "segment_id": "TAIL_BURNED",
+      "to": "2026-06-30T23:59:59.999000Z",
+      "to_ms": 1782863999999
+    }
+  ],
+  "tail_tapes": [
+    {
+      "instruments": [
+        "AVAXUSDT",
+        "BTCUSDT",
+        "ETHUSDT",
+        "SOLUSDT"
+      ],
+      "path": "/Users/hootie/src/v8/research/tape/quad-1h-12m/tape.jsonl",
+      "sha256": "695eaec7d726b20c70e3a4d836e69206015d522753381e92f2fb2406414220e1",
+      "window_end_ms": 1782863999999,
+      "window_start_ms": 1751328000000
+    },
+    {
+      "instruments": [
+        "BTCUSDT"
+      ],
+      "path": "/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl",
+      "sha256": "4812c6dc9e8b206246ca088eed2fe5460495c65314dcbbafa09cc1ba0d0a0f3f",
+      "window_end_ms": 1782863999999,
+      "window_start_ms": 1751328000000
+    },
+    {
+      "instruments": [
+        "SOLUSDT"
+      ],
+      "path": "/Users/hootie/src/v8/research/tape/sol-dev-solusdt-2025-07-2026-07/tape.jsonl",
+      "sha256": "c040f158f7041077d78e5208d93c7a32fb8db36eef85c7c7003ae4e5ab1b76ac",
+      "window_end_ms": 1782863999999,
+      "window_start_ms": 1751328000000
+    }
+  ],
+  "verified_accesses": [
+    {
+      "evidence": "tests/parity/test_parity_s0.py:139",
+      "label": "parity S0 slice",
+      "measured_from_ms": 1656633600000,
+      "measured_to_ms": 1664632799999,
+      "requires": "load_real_tape(\"multi-1h-4y\", limit=25_000)",
+      "slice_rows": 25000
+    },
+    {
+      "evidence": "tests/parity/test_parity_s1.py:198",
+      "label": "parity S1 slice",
+      "measured_from_ms": 1656633600000,
+      "measured_to_ms": 1663030799999,
+      "requires": "load_real_tape(\"multi-1h-4y\", limit=20_000)",
+      "slice_rows": 20000
+    },
+    {
+      "evidence": "tests/parity/test_parity_s4_realtape.py:144",
+      "label": "parity S4 real-tape slice",
+      "measured_from_ms": 1656633600000,
+      "measured_to_ms": 1657270799999,
+      "requires": "load_real_tape(\"multi-1h-4y\", limit=_TAPE_LIMIT)",
+      "slice_rows": 2000
+    }
+  ]
+}

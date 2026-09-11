@@ -59,7 +59,35 @@ from v8_next.domain.market import Candle
 from v8_next.domain.positioning import PositioningReading
 from v8_next.evaluation.multitape import FundingRow
 
-BASE_CURRENCIES = {"BTCUSDT": "BTC", "ETHUSDT": "ETH", "SOLUSDT": "SOL", "AVAXUSDT": "AVAX"}
+#: Base currency per raw symbol, from the venue's instrument metadata for the
+#: four-year universe. A symbol missing here is REJECTED (see ``base_currency``):
+#: defaulting an unknown symbol to BTC would fabricate instrument metadata.
+BASE_CURRENCIES = {
+    "ADAUSDT": "ADA",
+    "AVAXUSDT": "AVAX",
+    "BNBUSDT": "BNB",
+    "BTCUSDT": "BTC",
+    "DOGEUSDT": "DOGE",
+    "ETHUSDT": "ETH",
+    "LINKUSDT": "LINK",
+    "LTCUSDT": "LTC",
+    "SOLUSDT": "SOL",
+    "XRPUSDT": "XRP",
+}
+
+
+def base_currency(raw_symbol: str) -> str:
+    """Base currency of a raw symbol, or an explicit refusal.
+
+    Never guesses: an unmapped instrument is unsupported, not a BTC perpetual.
+    """
+    try:
+        return BASE_CURRENCIES[raw_symbol]
+    except KeyError:
+        raise ValueError(
+            f"no instrument metadata for raw symbol {raw_symbol!r}; refusing to "
+            "fabricate a base currency"
+        ) from None
 
 
 @dataclass(frozen=True)
@@ -307,7 +335,7 @@ def run_portfolio_backtest(
         strategies: list[ExpertEnsembleStrategy] = []
         for raw, candles in legs.items():
             instrument_id = f"{raw}-PERP.BINANCE"
-            base = BASE_CURRENCIES.get(raw, "BTC")
+            base = base_currency(raw)
             engine.add_instrument(_instrument(instrument_id, raw, base, curr, maker_fee, taker_fee))
             if not candles:
                 # A leg carried only for its instrument (e.g. a book-only probe

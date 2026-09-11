@@ -1,15 +1,21 @@
 """Multi-asset tape loading: real venue klines, funding rows, quote volumes.
 
-Reads the quad tape.jsonl directly (channel/instrument/payload records with
-per-record hashes). Nothing is synthesized: instruments, spans and funding
+Reads the multi-asset tape.jsonl directly (channel/instrument/payload records
+with per-record hashes). Nothing is synthesized: instruments, spans and funding
 rows are whatever the file contains. Single-asset BTC loading stays in
 gate_resolution.load_tape_candles; this module owns the multi-asset path.
+
+Data integrity is checked *before* the chronological intersection (NX01.R3):
+duplicate slots in a leg are a hard error, and a leg that would lose bars to the
+intersection is reported per instrument instead of being trimmed silently. A
+missing mark price or funding interval is recorded as an absence (NX01.R4), never
+imputed as zero or as the 8h venue convention.
 """
 
 from __future__ import annotations
 
 import hashlib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -20,6 +26,9 @@ from v8_next.domain.market import Candle
 
 INSTRUMENT_SUFFIX = "-PERP.BINANCE"
 
+#: Venue convention. Only ever a *reported* default, never a measurement.
+DEFAULT_FUNDING_INTERVAL_HOURS = 8.0
+
 
 @dataclass(frozen=True)
 class FundingRow:
@@ -27,6 +36,27 @@ class FundingRow:
     funding_time_ms: int
     funding_rate: Decimal
     interval_hours: float
+    #: True when the record carried no interval key and the venue convention
+    #: was applied to the engine feed. The assumption is reported, not hidden.
+    interval_defaulted: bool = False
+
+
+@dataclass(frozen=True)
+class LegCoverage:
+    """Per-instrument coverage measured before the intersection."""
+
+    instrument: str
+    bars: int
+    duplicate_slots: int
+    missing_vs_union: int
+
+    def as_dict(self) -> dict[str, int | str]:
+        return {
+            "instrument": self.instrument,
+            "bars": self.bars,
+            "duplicate_slots": self.duplicate_slots,
+            "missing_vs_union": self.missing_vs_union,
+        }
 
 
 @dataclass(frozen=True)
@@ -41,23 +71,37 @@ class MultiTape:
     # Consumers must surface this alongside funding cost, not ignore it.
     funding_dropped: int = 0
     funding_raw_count: int = 0
+    coverage: dict[str, LegCoverage] = field(default_factory=dict)
+    #: Bars the chronological intersection removed from a leg, per instrument.
+    #: Empty when every leg shares one grid (the normal case).
+    intersection_dropped: dict[str, int] = field(default_factory=dict)
+    funding_interval_counts: dict[str, int] = field(default_factory=dict)
+    funding_interval_defaulted: int = 0
+    mark_price_absent: bool = True
+    absence_notes: tuple[str, ...] = ()
 
     @property
     def n_bars(self) -> int:
         return min(len(v) for v in self.candles.values()) if self.candles else 0
 
+    @property
+    def funding_interval_hours_present(self) -> bool:
+        """True only when every funding row carried a measured interval."""
+        return not self.funding_interval_defaulted
 
-def funding_interval_hours(payload: dict[str, Any]) -> float:
+
+def funding_interval_hours(payload: dict[str, Any]) -> float | None:
     """Extract the funding interval, accepting known key variants.
 
-    Falls back to the 8h venue convention only when the record carries no
-    interval key at all; callers still report that the default applied.
+    Returns ``None`` when the record carries no interval key at all. The caller
+    decides what the engine convention is and must report that it applied — a
+    fixed 8h assumption is never returned as if it were a measurement.
     """
     for key in ("funding_interval_hours", "fundingIntervalHours", "interval_hours"):
         value = payload.get(key)
         if value is not None:
             return float(value)
-    return 8.0
+    return None
 
 
 def _file_sha(p: Path) -> str:
@@ -68,13 +112,27 @@ def _file_sha(p: Path) -> str:
     return h.hexdigest()
 
 
+def _interval_key(value: float) -> str:
+    return f"{value:g}h"
+
+
 def load_multitape(
-    tape_path: Path | str, limit: int | None = None, offset: int = 0
+    tape_path: Path | str,
+    limit: int | None = None,
+    offset: int = 0,
+    *,
+    strict_intersection: bool = True,
 ) -> MultiTape:
-    """Load every instrument in the quad tape with aligned chronological bars.
+    """Load every instrument in the tape with aligned chronological bars.
 
     offset skips that many leading bars per leg (frozen-OOS windowing); limit
     caps the leg length after the offset.
+
+    Raises ``ValueError`` when a leg carries duplicated bar slots, or (with
+    ``strict_intersection``, the default) when the chronological intersection
+    would drop bars from any leg. Set ``strict_intersection=False`` only to
+    inspect a heterogeneous tape; the dropped counts are then reported on the
+    returned ``MultiTape.intersection_dropped``.
     """
     p = Path(tape_path)
     if p.is_dir():
@@ -90,6 +148,7 @@ def load_multitape(
         raise ValueError("no kline instruments in tape")
     # Per-leg end_ns -> (candle, quote_volume), then intersect on chronology.
     leg_maps: dict[str, dict[int, tuple[Candle, float]]] = {}
+    duplicates: dict[str, int] = {}
     for inst in instruments:
         sub = kline.filter(pl.col("instrument") == inst)
         if offset:
@@ -97,6 +156,7 @@ def load_multitape(
         if limit is not None:
             sub = sub.head(limit)
         m: dict[int, tuple[Candle, float]] = {}
+        dup = 0
         for row in sub["payload"].to_list():
             if not row.get("closed", True):
                 continue
@@ -113,11 +173,40 @@ def load_multitape(
                 available_ns=(int(row["close_time_ms"]) + 1) * 1_000_000,
                 source_hash=str(row["payload_hash"]),
             )
+            if c.end_ns in m:
+                # Integrity failure, not a silent overwrite: the later record
+                # would otherwise win with no trace left behind.
+                dup += 1
+                continue
             m[c.end_ns] = (c, float(row.get("quote_asset_volume") or 0.0))
         if not m:
             raise ValueError(f"no closed bars for {inst}")
+        if dup:
+            raise ValueError(
+                f"{inst}: {dup} duplicated bar slot(s) in the tape; refusing to "
+                "drop rows silently"
+            )
+        duplicates[inst] = dup
         leg_maps[inst] = m
 
+    grid_union = sorted(set().union(*[set(m) for m in leg_maps.values()]))
+    coverage: dict[str, LegCoverage] = {}
+    dropped: dict[str, int] = {}
+    for inst, m in leg_maps.items():
+        missing = len(grid_union) - len(m)
+        dropped[inst] = missing
+        coverage[inst] = LegCoverage(
+            instrument=inst,
+            bars=len(m),
+            duplicate_slots=duplicates.get(inst, 0),
+            missing_vs_union=missing,
+        )
+    if strict_intersection and any(v for v in dropped.values()):
+        details = ", ".join(f"{k}={v}" for k, v in sorted(dropped.items()) if v)
+        raise ValueError(
+            "legs do not share one chronological grid; the intersection would drop "
+            f"bars ({details})"
+        )
     common_sorted = sorted(set.intersection(*[set(m) for m in leg_maps.values()]))
     if len(common_sorted) < 2:
         raise ValueError("no common chronological window across legs")
@@ -125,46 +214,61 @@ def load_multitape(
     volumes = {inst: tuple(leg_maps[inst][ns][1] for ns in common_sorted) for inst in instruments}
 
     funding: list[FundingRow] = []
-    funding_raw = (
-        df.filter(pl.col("channel") == "funding")["payload"].to_list()
-        if "funding" in df["channel"].unique().to_list()
-        else []
-    )
     funding_dropped = 0
-    for row in funding_raw:
+    interval_counts: dict[str, int] = {}
+    interval_defaulted = 0
+    if "funding" in df["channel"].unique().to_list():
+        names = df.filter(pl.col("channel") == "funding")["instrument"].to_list()
+        payloads = df.filter(pl.col("channel") == "funding")["payload"].to_list()
+    else:
+        names, payloads = [], []
+    for nm, pay in zip(names, payloads, strict=False):
+        if "funding_time_ms" not in pay or "funding_rate" not in pay:
+            funding_dropped += 1
+            continue
+        hours = funding_interval_hours(pay)
+        if hours is None:
+            interval_defaulted += 1
+        else:
+            key = _interval_key(hours)
+            interval_counts[key] = interval_counts.get(key, 0) + 1
         try:
             funding.append(
                 FundingRow(
-                    instrument=str(row.get("instrument") or ""),
-                    funding_time_ms=int(row["funding_time_ms"]),
-                    funding_rate=Decimal(str(row["funding_rate"])),
-                    interval_hours=funding_interval_hours(row),
+                    instrument=str(nm),
+                    funding_time_ms=int(pay["funding_time_ms"]),
+                    funding_rate=Decimal(str(pay["funding_rate"])),
+                    interval_hours=(
+                        DEFAULT_FUNDING_INTERVAL_HOURS if hours is None else float(hours)
+                    ),
+                    interval_defaulted=hours is None,
                 )
             )
         except (KeyError, ValueError, TypeError):
             # Never silently free: dropped records are counted on the tape.
             funding_dropped += 1
-    # Attribute instrument names from the sibling column when payload lacks them.
-    if funding and not funding[0].instrument:
-        names = df.filter(pl.col("channel") == "funding")["instrument"].to_list()
-        payloads = df.filter(pl.col("channel") == "funding")["payload"].to_list()
-        rebuilt: list[FundingRow] = []
-        for nm, pay in zip(names, payloads, strict=False):
-            if "funding_time_ms" not in pay or "funding_rate" not in pay:
-                funding_dropped += 1
-                continue
-            try:
-                rebuilt.append(
-                    FundingRow(
-                        instrument=str(nm),
-                        funding_time_ms=int(pay["funding_time_ms"]),
-                        funding_rate=Decimal(str(pay["funding_rate"])),
-                        interval_hours=funding_interval_hours(pay),
-                    )
-                )
-            except (KeyError, ValueError, TypeError):
-                funding_dropped += 1
-        funding = rebuilt
+
+    # Exact, cheap measurement: the payload column is a Struct whose fields are
+    # the union of every payload key the file actually carries.
+    payload_dtype = kline.schema["payload"]
+    payload_fields = (
+        [f.name for f in payload_dtype.fields] if isinstance(payload_dtype, pl.Struct) else []
+    )
+    mark_keys = {name for name in payload_fields if "mark" in name.lower()}
+    absences: list[str] = []
+    if not mark_keys:
+        absences.append(
+            "MARK_PRICE_ABSENT: the tape carries no mark-price field; funding mark is "
+            "unknown, not zero"
+        )
+    if interval_defaulted:
+        absences.append(
+            f"FUNDING_INTERVAL_DEFAULTED: {interval_defaulted} funding record(s) carried no "
+            f"interval key and used the {DEFAULT_FUNDING_INTERVAL_HOURS:g}h convention"
+        )
+    if funding_dropped:
+        absences.append(f"FUNDING_RECORDS_DROPPED: {funding_dropped} malformed funding record(s)")
+
     return MultiTape(
         instruments=tuple(instruments),
         candles=candles,
@@ -173,6 +277,11 @@ def load_multitape(
         tape_path=str(p),
         tape_sha256=sha,
         funding_dropped=funding_dropped,
-        funding_raw_count=len(funding_raw),
+        funding_raw_count=len(names),
+        coverage=coverage,
+        intersection_dropped=dropped,
+        funding_interval_counts=dict(sorted(interval_counts.items())),
+        funding_interval_defaulted=interval_defaulted,
+        mark_price_absent=not mark_keys,
+        absence_notes=tuple(absences),
     )
-
