@@ -1,0 +1,459 @@
+{
+  "authority_conditions": [
+    "deflated_sharpe_confidence>=0.95",
+    "bonferroni_adjusted_p<=0.05"
+  ],
+  "baseline_excess_return": {
+    "causal_trend": 0.00017712,
+    "swing_squeeze_baseline": -0.00030357,
+    "swing_squeeze_m1": -0.0006325,
+    "swing_squeeze_m2": -0.0001698
+  },
+  "confidence_interval": {
+    "block_size": 5,
+    "method": "block_bootstrap_ci_on_paired_differentials",
+    "reps": 999,
+    "seed": 7,
+    "status": "COMPUTED"
+  },
+  "diagnostics": [
+    "white_reality_check_p_value",
+    "probability_of_backtest_overfitting",
+    "sample_sufficiency",
+    "regime_attribution"
+  ],
+  "economic_claim": "NONE",
+  "evidence_class": "DECISION_PLANE_DIAGNOSTIC on real bars and real taker fees; not engine fills, not a venue settlement, funding MISSING (not zero)",
+  "family": "v87-nx07-swing",
+  "family_manifest_sha256": "0bc42e51b141a0f56f94d2a8df4a76c669730bc5c776de3bb4a63b5bd6757a06",
+  "history_completeness": "UNKNOWN_UNDISCLOSED_TRIALS_POSSIBLE",
+  "interval_bars": 24,
+  "intervals": 31,
+  "methods": [
+    {
+      "adequacy": {
+        "basis": "non-overlapping blocks of the pinned block length, not raw row count",
+        "block_size": 5,
+        "independent_samples": 6,
+        "min_independent_samples": 2,
+        "observations": 31,
+        "verdict": "SUFFICIENT"
+      },
+      "class": "AUTHORITY_CONDITION",
+      "inputs": {
+        "effective_independent_trials": 4.0,
+        "independence_basis": "four preregistered execution variants (champion, fee-stressed, conservative, slippage-stressed) on one shared tape; not proven independent",
+        "multiplicity_trials": 4
+      },
+      "method": "deflated_sharpe_ratio",
+      "provenance": "real family curves on the shared tape, same evaluation chronology",
+      "receipt_key": "dsr",
+      "verdict": "COMPUTED"
+    },
+    {
+      "adequacy": {
+        "basis": "non-overlapping blocks of the pinned block length, not raw row count",
+        "block_size": 5,
+        "independent_samples": 6,
+        "min_independent_samples": 2,
+        "observations": 31,
+        "verdict": "SUFFICIENT"
+      },
+      "class": "DIAGNOSTIC",
+      "inputs": {
+        "block_size": 5,
+        "reps": 999,
+        "seed": 7
+      },
+      "method": "white_reality_check",
+      "provenance": "stationary bootstrap on paired differentials, shared frozen/eval chronology",
+      "receipt_key": "spa",
+      "verdict": "COMPUTED"
+    },
+    {
+      "adequacy": {
+        "basis": "non-overlapping blocks of the pinned block length, not raw row count",
+        "block_size": 5,
+        "independent_samples": 6,
+        "min_independent_samples": 2,
+        "observations": 31,
+        "verdict": "SUFFICIENT"
+      },
+      "class": "DIAGNOSTIC",
+      "inputs": {
+        "max_splits": 64,
+        "metric": "mean_return",
+        "partitions": 4
+      },
+      "method": "probability_of_backtest_overfitting",
+      "provenance": "CSCV over the registered variants only",
+      "receipt_key": "pbo",
+      "verdict": "UNDERPOWERED"
+    }
+  ],
+  "plan_file_sha256": "bf0941c75f16b8c3b6f7b02c569540b745ac18d5331047ca10a6698db55476e3",
+  "plan_id": "sha256:a6ffda98c9227e8c6e6d386184c60ad80528978e93007bd578b4fee3bd77cab6",
+  "sample_sufficiency": {
+    "basis": "non-overlapping blocks of the pinned block length, not raw row count",
+    "block_size": 5,
+    "independent_samples": 6,
+    "min_independent_samples": 2,
+    "observations": 31,
+    "verdict": "SUFFICIENT"
+  },
+  "statistics": {
+    "dsr": {
+      "claim_status": "NO_ECONOMIC_CLAIM",
+      "cross_trial_sharpe_variance_ddof1": 0.05315935818645264,
+      "dependency_versions": {
+        "numpy": "2.5.3",
+        "scipy": "1.18.1",
+        "statsmodels": "0.15.0"
+      },
+      "dsr_confidence": 0.11834924076005643,
+      "effective_independent_trials": 4.0,
+      "expected_max_null_sharpe": 0.24258073438961283,
+      "independence_basis": "four preregistered execution variants (champion, fee-stressed, conservative, slippage-stressed) on one shared tape; not proven independent",
+      "input_measure": "negative_net_excess_period_return",
+      "limitations": [
+        "independence_basis_declared_not_verified",
+        "no_serial_dependence_correction",
+        "expected_maximum_is_an_approximation",
+        "small_samples_may_be_underpowered",
+        "source_and_search_lineage_not_certified"
+      ],
+      "method": "BAILEY_LOPEZ_DE_PRADO_DSR_V1",
+      "moment_bias_correction": false,
+      "multiple_testing": {
+        "adjustments": {
+          "bonferroni": {
+            "adjusted_pvalues": {
+              "causal_trend": 1.0,
+              "swing_squeeze_baseline": 1.0,
+              "swing_squeeze_m1": 1.0,
+              "swing_squeeze_m2": 1.0
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168,
+            "rejected": {
+              "causal_trend": false,
+              "swing_squeeze_baseline": false,
+              "swing_squeeze_m1": false,
+              "swing_squeeze_m2": false
+            }
+          },
+          "fdr_bh": {
+            "adjusted_pvalues": {
+              "causal_trend": 0.995917350305316,
+              "swing_squeeze_baseline": 0.995917350305316,
+              "swing_squeeze_m1": 0.995917350305316,
+              "swing_squeeze_m2": 0.995917350305316
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168,
+            "rejected": {
+              "causal_trend": false,
+              "swing_squeeze_baseline": false,
+              "swing_squeeze_m1": false,
+              "swing_squeeze_m2": false
+            }
+          },
+          "fdr_by": {
+            "adjusted_pvalues": {
+              "causal_trend": 1.0,
+              "swing_squeeze_baseline": 1.0,
+              "swing_squeeze_m1": 1.0,
+              "swing_squeeze_m2": 1.0
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168,
+            "rejected": {
+              "causal_trend": false,
+              "swing_squeeze_baseline": false,
+              "swing_squeeze_m1": false,
+              "swing_squeeze_m2": false
+            }
+          },
+          "holm": {
+            "adjusted_pvalues": {
+              "causal_trend": 1.0,
+              "swing_squeeze_baseline": 1.0,
+              "swing_squeeze_m1": 1.0,
+              "swing_squeeze_m2": 1.0
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168,
+            "rejected": {
+              "causal_trend": false,
+              "swing_squeeze_baseline": false,
+              "swing_squeeze_m1": false,
+              "swing_squeeze_m2": false
+            }
+          }
+        },
+        "alpha": 0.05,
+        "claim_status": "NO_ECONOMIC_CLAIM",
+        "dependency_versions": {
+          "numpy": "2.5.3",
+          "scipy": "1.18.1",
+          "statsmodels": "0.15.0"
+        },
+        "family_size": 4,
+        "method": "STATSMODELS_MULTIPLETESTS_AND_SCIPY_FDR",
+        "promotion_eligible": false,
+        "raw_pvalues": {
+          "causal_trend": 0.443387409770606,
+          "swing_squeeze_baseline": 0.7887136998851558,
+          "swing_squeeze_m1": 0.995917350305316,
+          "swing_squeeze_m2": 0.6927059396267319
+        },
+        "scipy_cross_check": {
+          "bh": {
+            "causal_trend": 0.995917350305316,
+            "swing_squeeze_baseline": 0.995917350305316,
+            "swing_squeeze_m1": 0.995917350305316,
+            "swing_squeeze_m2": 0.995917350305316
+          },
+          "by": {
+            "causal_trend": 1.0,
+            "swing_squeeze_baseline": 1.0,
+            "swing_squeeze_m1": 1.0,
+            "swing_squeeze_m2": 1.0
+          }
+        },
+        "variants": [
+          "causal_trend",
+          "swing_squeeze_baseline",
+          "swing_squeeze_m1",
+          "swing_squeeze_m2"
+        ]
+      },
+      "pearson_kurtosis": 2.540328830512694,
+      "promotion_eligible": false,
+      "quantity_type": "CONFIDENCE_NOT_P_VALUE",
+      "registered_variants": [
+        "causal_trend",
+        "swing_squeeze_baseline",
+        "swing_squeeze_m1",
+        "swing_squeeze_m2"
+      ],
+      "sample_intervals": 31,
+      "selected_sharpe_nonannualized": 0.025791728882860066,
+      "selected_variant": "causal_trend",
+      "skewness": -0.26073305785771533,
+      "verdict": "COMPUTED"
+    },
+    "pbo": {
+      "reason": "interval count 31 does not admit even CSCV partitions>=8",
+      "verdict": "UNDERPOWERED"
+    },
+    "spa": {
+      "block_size": 5,
+      "bootstrap": "stationary",
+      "claim_status": "NO_ECONOMIC_CLAIM",
+      "dependency_versions": {
+        "arch": "8.0.0",
+        "numpy": "2.5.3",
+        "pandas": "3.0.5",
+        "scipy": "1.18.1",
+        "statsmodels": "0.15.0"
+      },
+      "dsr": null,
+      "evidence_scope": "NUMERICAL_DIAGNOSTIC_WITHOUT_SOURCE_OR_HOLDOUT_CERTIFICATION",
+      "library_version": "8.0.0",
+      "method": "arch.SPA",
+      "multiple_testing": {
+        "adjustments": {
+          "bonferroni": {
+            "adjusted_pvalues": {
+              "causal_trend": 1.0,
+              "swing_squeeze_baseline": 1.0,
+              "swing_squeeze_m1": 1.0,
+              "swing_squeeze_m2": 1.0
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168,
+            "rejected": {
+              "causal_trend": false,
+              "swing_squeeze_baseline": false,
+              "swing_squeeze_m1": false,
+              "swing_squeeze_m2": false
+            }
+          },
+          "fdr_bh": {
+            "adjusted_pvalues": {
+              "causal_trend": 0.995917350305316,
+              "swing_squeeze_baseline": 0.995917350305316,
+              "swing_squeeze_m1": 0.995917350305316,
+              "swing_squeeze_m2": 0.995917350305316
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168,
+            "rejected": {
+              "causal_trend": false,
+              "swing_squeeze_baseline": false,
+              "swing_squeeze_m1": false,
+              "swing_squeeze_m2": false
+            }
+          },
+          "fdr_by": {
+            "adjusted_pvalues": {
+              "causal_trend": 1.0,
+              "swing_squeeze_baseline": 1.0,
+              "swing_squeeze_m1": 1.0,
+              "swing_squeeze_m2": 1.0
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168,
+            "rejected": {
+              "causal_trend": false,
+              "swing_squeeze_baseline": false,
+              "swing_squeeze_m1": false,
+              "swing_squeeze_m2": false
+            }
+          },
+          "holm": {
+            "adjusted_pvalues": {
+              "causal_trend": 1.0,
+              "swing_squeeze_baseline": 1.0,
+              "swing_squeeze_m1": 1.0,
+              "swing_squeeze_m2": 1.0
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168,
+            "rejected": {
+              "causal_trend": false,
+              "swing_squeeze_baseline": false,
+              "swing_squeeze_m1": false,
+              "swing_squeeze_m2": false
+            }
+          }
+        },
+        "alpha": 0.05,
+        "claim_status": "NO_ECONOMIC_CLAIM",
+        "dependency_versions": {
+          "numpy": "2.5.3",
+          "scipy": "1.18.1",
+          "statsmodels": "0.15.0"
+        },
+        "family_size": 4,
+        "method": "STATSMODELS_MULTIPLETESTS_AND_SCIPY_FDR",
+        "promotion_eligible": false,
+        "raw_pvalues": {
+          "causal_trend": 0.443387409770606,
+          "swing_squeeze_baseline": 0.7887136998851558,
+          "swing_squeeze_m1": 0.995917350305316,
+          "swing_squeeze_m2": 0.6927059396267319
+        },
+        "scipy_cross_check": {
+          "bh": {
+            "causal_trend": 0.995917350305316,
+            "swing_squeeze_baseline": 0.995917350305316,
+            "swing_squeeze_m1": 0.995917350305316,
+            "swing_squeeze_m2": 0.995917350305316
+          },
+          "by": {
+            "causal_trend": 1.0,
+            "swing_squeeze_baseline": 1.0,
+            "swing_squeeze_m1": 1.0,
+            "swing_squeeze_m2": 1.0
+          }
+        },
+        "variants": [
+          "causal_trend",
+          "swing_squeeze_baseline",
+          "swing_squeeze_m1",
+          "swing_squeeze_m2"
+        ]
+      },
+      "nested": false,
+      "null": "no_variant_has_positive_expected_baseline_minus_variant_loss",
+      "pbo": null,
+      "promotion_eligible": false,
+      "pvalues": {
+        "consistent": 0.5835835835835835,
+        "lower": 0.4844844844844845,
+        "upper": 0.6346346346346347
+      },
+      "reps": 999,
+      "sample_intervals": 31,
+      "seed": 7,
+      "studentize": true,
+      "variants": [
+        "causal_trend",
+        "swing_squeeze_baseline",
+        "swing_squeeze_m1",
+        "swing_squeeze_m2"
+      ],
+      "verdict": "COMPUTED",
+      "wrc": {
+        "arch_reality_check": {
+          "consistent_pvalue": 0.6726726726726727,
+          "lower_pvalue": 0.5545545545545546,
+          "method": "arch.bootstrap.RealityCheck",
+          "pvalues": {
+            "consistent": 0.6726726726726727,
+            "lower": 0.5545545545545546,
+            "upper": 0.7177177177177178
+          },
+          "upper_wrc_pvalue": 0.7177177177177178
+        },
+        "argmax_variant": "causal_trend",
+        "block_size": 5,
+        "bootstrap": "circular_fixed_block_joint_columns",
+        "centering": "each_variant_own_observed_mean",
+        "claim_status": "NO_ECONOMIC_CLAIM",
+        "effect_estimates": {
+          "causal_trend": {
+            "bootstrap_mean_standard_error": 2.7465539995237756e-05,
+            "mean_baseline_minus_variant_loss": 5.737144913443535e-06
+          },
+          "swing_squeeze_baseline": {
+            "bootstrap_mean_standard_error": 1.21267075538453e-05,
+            "mean_baseline_minus_variant_loss": -9.791966149184883e-06
+          },
+          "swing_squeeze_m1": {
+            "bootstrap_mean_standard_error": 6.614549935409848e-06,
+            "mean_baseline_minus_variant_loss": -2.0408741875656324e-05
+          },
+          "swing_squeeze_m2": {
+            "bootstrap_mean_standard_error": 1.0961560545051869e-05,
+            "mean_baseline_minus_variant_loss": -5.476049007766262e-06
+          }
+        },
+        "effect_scope": "IN_SAMPLE_BASELINE_RELATIVE_NOT_GROSS_EDGE_OR_UTILITY",
+        "effect_units": "same_as_input_interval_loss",
+        "evidence_scope": "NUMERICAL_DIAGNOSTIC_WITHOUT_SOURCE_OR_HOLDOUT_CERTIFICATION",
+        "exceedances": 717,
+        "library": "arch.bootstrap.CircularBlockBootstrap",
+        "library_version": "8.0.0",
+        "method": "WHITE_MAX_MEAN_CIRCULAR_BLOCK_V2",
+        "null": "no_variant_has_positive_expected_baseline_minus_variant_loss",
+        "numpy_version": "2.5.3",
+        "observed_max": 5.737144913443535e-06,
+        "p_value": 0.7177177177177178,
+        "promotion_eligible": false,
+        "reps": 999,
+        "sample_intervals": 31,
+        "seed": 7,
+        "studentize": false,
+        "tail": "greater_or_equal",
+        "tie_policy": "lexicographic_variant_id",
+        "uncertainty_method": "sample_sd_of_joint_circular_block_means_ddof_1",
+        "variants": [
+          "causal_trend",
+          "swing_squeeze_baseline",
+          "swing_squeeze_m1",
+          "swing_squeeze_m2"
+        ]
+      }
+    }
+  },
+  "success_condition": "a negative or underpowered finding is a complete technical delivery; no estimator was chosen so that a p-value passes",
+  "window": {
+    "bars": 744,
+    "end_utc": "2025-02-01",
+    "start_utc": "2025-01-01",
+    "tape": "/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl"
+  }
+}

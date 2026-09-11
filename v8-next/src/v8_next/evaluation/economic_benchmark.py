@@ -31,6 +31,11 @@ from typing import Any, Literal, Sequence
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field
 
+from v8_next.evaluation.statistics_plan import (
+    StatisticsPlan,
+    sample_sufficiency,
+)
+
 HOURS_PER_YEAR = 365.0 * 24.0
 TAKER_FEE_DEFAULT = 0.0005
 CAPITAL_DEFAULT = 10000.0
@@ -81,8 +86,6 @@ BENCHMARK_IDS = (
     "vol_target",
     "simple_trend",
 )
-
-
 class DatasetIdentity(BaseModel):
     """What real data entered the run. Hash-bound, no substitution allowed."""
 
@@ -1383,20 +1386,30 @@ def run_statistics(
     family_equity: dict[str, Sequence[float]],
     end_ns: Sequence[int],
     baseline_id: str,
-    block_size: int = 5,
-    reps: int = BOOTSTRAP_REPS,
-    seed: int = BOOTSTRAP_SEED,
+    *,
+    plan: StatisticsPlan,
 ) -> dict[str, Any]:
     """DSR + PBO + SPA on real family curves. Fail closed; never proxy.
 
-    DSR family: the real engine/analytic strategy variants. Trials are set to
-    2 with an explicit shared-tape dependence basis (conservative claim about
-    independence, not an independence proof).
+    NX07.R3/R4: every resampling parameter (block length, reps, seed), the trial
+    multiplicity, the effective-independent-trials declaration and the CSCV
+    partition count come from an immutable pre-registered ``plan``. This function
+    has no statistical defaults left for a caller to tune after seeing a result,
+    and it reports which statistics are authority conditions and which are
+    diagnostics instead of leaving that to the reader.
     """
     from v8_next.evaluation.deflated_sharpe import DSRPlan, deflated_sharpe_diagnostic
     from v8_next.evaluation.overfitting import pbo_diagnostic
 
-    stats: dict[str, Any] = {"baseline": baseline_id}
+    if not isinstance(plan, StatisticsPlan):
+        raise TypeError("run_statistics requires a pinned StatisticsPlan")
+    stats: dict[str, Any] = {
+        "baseline": baseline_id,
+        "plan_id": plan.identity(),
+        "plan": plan.as_dict(),
+        "authority_conditions": list(plan.authority_conditions),
+        "diagnostics": list(plan.diagnostics),
+    }
     losses: dict[str, tuple[Any, ...]] = {}
     bounds: dict[str, tuple[int, int, int]] = {}
     for name, eq in family_equity.items():
@@ -1420,21 +1433,19 @@ def run_statistics(
     stats["variant_excess_vs_baseline"] = best if best > float("-inf") else None
 
     dsr_names = sorted(n for n in losses if n != baseline_id)
+    sufficiency = sample_sufficiency(int(stats["intervals_per_variant"]), plan.block_size)
+    stats["sample_sufficiency"] = sufficiency
     try:
-        plan = DSRPlan(
+        dsr_plan = DSRPlan(
             selected_variant=dsr_names[0],
             registered_variants=tuple(dsr_names),
-            effective_independent_trials=2.0,
-            independence_basis=(
-                "shared real tape and shared engine; variants are re-runs of one "
-                "search family, so effective independent trials are declared as 2 "
-                "(incumbent-class vs alternative-class), not proven independent"
-            ),
+            effective_independent_trials=plan.effective_independent_trials,
+            independence_basis=plan.independence_basis,
         )
         dsr_losses = {n: losses[n] for n in dsr_names}
         stats["dsr"] = deflated_sharpe_diagnostic(
             dsr_losses,
-            plan=plan,
+            plan=dsr_plan,
             frozen_ns=frozen,
             evaluation_end_ns=eval_end,
             decision_ns=decision,
@@ -1444,7 +1455,11 @@ def run_statistics(
         stats["dsr"] = {"verdict": "UNDERPOWERED", "reason": f"{type(e).__name__}: {e}"}
 
     n_intervals = stats["intervals_per_variant"]
-    partitions = 4 if n_intervals % 4 == 0 and n_intervals >= 8 else 0
+    partitions = (
+        plan.pbo_partitions
+        if n_intervals % plan.pbo_partitions == 0 and n_intervals >= 2 * plan.pbo_partitions
+        else 0
+    )
     if partitions and len(dsr_names) >= 2:
         try:
             stats["pbo"] = pbo_diagnostic(
@@ -1454,8 +1469,8 @@ def run_statistics(
                 evaluation_end_ns=eval_end,
                 decision_ns=decision,
                 partitions=partitions,
-                metric="mean_return",
-                max_splits=64,
+                metric=plan.pbo_metric,
+                max_splits=plan.pbo_max_splits,
             )
             stats["pbo"]["verdict"] = "COMPUTED"
         except Exception as e:
@@ -1476,9 +1491,9 @@ def run_statistics(
             frozen_ns=frozen,
             evaluation_end_ns=eval_end,
             decision_ns=decision,
-            block_size=block_size,
-            reps=reps,
-            seed=seed,
+            block_size=plan.block_size,
+            reps=plan.reps,
+            seed=plan.seed,
         )
         stats["spa"]["verdict"] = "COMPUTED"
     except Exception as e:

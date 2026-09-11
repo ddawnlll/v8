@@ -42,6 +42,12 @@ from v8_next.evaluation.economic_benchmark import (
     campaign_accounting,
 )
 from v8_next.evaluation.reality_check import reality_check_diagnostic
+from v8_next.evaluation.statistics_plan import (
+    CANONICAL_G5_BLOCK_SIZE,
+    StatisticsPlan,
+    g5_plan,
+    sample_sufficiency,
+)
 
 
 def _default_tape_path() -> Path:
@@ -495,7 +501,10 @@ def _campaign_returns_from_run(
 def evaluate_g5_selection_control(
     campaign_return_series: Sequence[float],
     candles: Sequence[Candle] | None = None,
-    num_trials: int = 4,
+    *,
+    plan: StatisticsPlan,
+    allow_regime_fallback: bool = False,
+    fallback_basis: str = "",
 ) -> tuple[GateState, dict[str, Any]]:
     """G5: Selection Control (g5_statistical_credibility).
 
@@ -508,15 +517,63 @@ def evaluate_g5_selection_control(
     own-track input and the regime fallback are produced in that one unit --
     absolute USDT PnL belongs to the scoring path and is never mixed in here
     (#407).
+
+    NX07.R3/R4: block length, resampling count, seed and trial multiplicity come
+    from an immutable pre-registered ``plan`` -- this function has no statistical
+    constants of its own left to tune. The regime fallback is never silent: it
+    runs only when the caller authorizes it *and* states a basis, and an
+    underpowered own track that is not authorized returns ``UNKNOWN`` rather than
+    a substituted series. The plan also declares, as data, which statistics are
+    authority conditions and which are diagnostics; both are reported.
     """
+    if not isinstance(plan, StatisticsPlan):
+        raise TypeError("G5 requires a pinned StatisticsPlan, not loose parameters")
+    if allow_regime_fallback and not fallback_basis.strip():
+        raise ValueError("an authorized regime fallback requires a stated basis")
     raw_series = [float(value) for value in campaign_return_series]
     own_sample_count = len(raw_series)
-    sample_source = "own_track" if own_sample_count >= 20 else "regime_fallback"
+    G5_MIN_OWN_INTERVALS = 20
+    sample_source = "own_track"
 
-    # If the own track is too short (< 20 intervals for multi-testing power),
-    # extract empirical campaign returns from the market regimes (or the tape
-    # slice) in the SAME declared unit.
-    if len(raw_series) < 20:
+    # NX07.R3: no silent substitution. A short own track is either explicitly
+    # authorized to use the regime series, or it is UNKNOWN -- never reported as
+    # a measurement it is not. (4 is the DSR moment floor: below that the gate
+    # reports BLOCKED further down, so this branch covers 4 <= n < 20.)
+    G5_MOMENT_FLOOR_INTERVALS = 4
+    if own_sample_count < G5_MIN_OWN_INTERVALS and not allow_regime_fallback:
+        if own_sample_count < G5_MOMENT_FLOOR_INTERVALS:
+            # fewer intervals than the DSR moments need: blocked, not scored
+            return GateState.BLOCKED, {
+                "error": (
+                    "INSUFFICIENT_TRADE_INTERVALS: At least 4 return intervals "
+                    "required for DSR moments"
+                ),
+                "samples": own_sample_count,
+                "own_sample_count": own_sample_count,
+                "sample_source": "own_track",
+                "passed": False,
+                "plan_id": plan.identity(),
+                "series_unit": G5_SERIES_UNIT,
+                "series_basis": G5_SERIES_BASIS,
+            }
+        return GateState.UNKNOWN, {
+            "error": (
+                f"OWN_TRACK_UNDERPOWERED: {own_sample_count} intervals < "
+                f"{G5_MIN_OWN_INTERVALS} and the regime fallback was not authorized"
+            ),
+            "samples": own_sample_count,
+            "own_sample_count": own_sample_count,
+            "sample_source": "own_track",
+            "passed": False,
+            "series_unit": G5_SERIES_UNIT,
+            "series_basis": G5_SERIES_BASIS,
+            "plan_id": plan.identity(),
+            "authority_conditions": list(plan.authority_conditions),
+            "diagnostics": list(plan.diagnostics),
+        }
+
+    if own_sample_count < G5_MIN_OWN_INTERVALS:
+        sample_source = "regime_fallback"
         cfg = ExpertStrategyConfig(
             min_support_quorum=1,
             max_contradiction_tolerance=28,
@@ -575,17 +632,40 @@ def evaluate_g5_selection_control(
     }
 
     variants = tuple(losses.keys())
-    plan = DSRPlan(
+    num_trials = plan.multiplicity_trials
+    # NX07.R2: adequacy counts non-overlapping blocks of the pinned length, never
+    # the raw row count, and a series that cannot hold two independent blocks is
+    # reported as underdetermined instead of being scored.
+    sufficiency = sample_sufficiency(len(raw_series), plan.block_size)
+    if sufficiency["independent_samples"] < sufficiency["min_independent_samples"]:
+        return GateState.BLOCKED, {
+            "error": (
+                "UNDERDETERMINED_SAMPLING: "
+                f"{sufficiency['independent_samples']} independent blocks of "
+                f"{sufficiency['block_size']} intervals"
+            ),
+            "samples": len(raw_series),
+            "own_sample_count": own_sample_count,
+            "sample_source": sample_source,
+            "sample_sufficiency": sufficiency,
+            "passed": False,
+            "plan_id": plan.identity(),
+            "series_unit": G5_SERIES_UNIT,
+            "series_basis": G5_SERIES_BASIS,
+            "authority_conditions": list(plan.authority_conditions),
+            "diagnostics": list(plan.diagnostics),
+        }
+    dsr_plan = DSRPlan(
         selected_variant="champion",
         registered_variants=variants,
-        effective_independent_trials=float(num_trials),
-        independence_basis="preregistered economic policy and friction variants",
+        effective_independent_trials=plan.effective_independent_trials,
+        independence_basis=plan.independence_basis,
     )
 
     try:
         dsr_result = deflated_sharpe_diagnostic(
             losses,
-            plan=plan,
+            plan=dsr_plan,
             frozen_ns=0,
             evaluation_end_ns=t_steps,
             decision_ns=t_steps + 1,
@@ -598,9 +678,9 @@ def evaluate_g5_selection_control(
             frozen_ns=0,
             evaluation_end_ns=t_steps,
             decision_ns=t_steps + 1,
-            block_size=max(1, t_steps // 5),
-            reps=200,
-            seed=42,
+            block_size=max(1, t_steps // plan.wrc_block_divisor),
+            reps=plan.wrc_reps,
+            seed=plan.wrc_seed,
         )
 
         dsr_conf = float(dsr_result["dsr_confidence"])
@@ -631,9 +711,15 @@ def evaluate_g5_selection_control(
             "adjusted_bonferroni_pvalue": round(bonf_p, 6),
             "wrc_pvalue": round(wrc_p, 6),
             "trials": num_trials,
+            "plan_id": plan.identity(),
+            "plan": plan.as_dict(),
+            "authority_conditions": list(plan.authority_conditions),
+            "diagnostics": list(plan.diagnostics),
             "sample_intervals": t_steps,
+            "sample_sufficiency": sufficiency,
             "own_sample_count": own_sample_count,
             "sample_source": sample_source,
+            "fallback_basis": fallback_basis if sample_source == "regime_fallback" else None,
             "series_unit": G5_SERIES_UNIT,
             "series_basis": G5_SERIES_BASIS,
             "fee_stress_return": G5_FEE_STRESS_RETURN,
@@ -1010,8 +1096,26 @@ def resolve_all_gates(
     # 2. G4 Synthetic / Adversarial Falsification
     g4_state, g4_metrics = evaluate_g4_synthetic_falsification(candles, cfg)
 
-    # 3. G5 Selection Control (DSR & WRC)
-    g5_state, g5_metrics = evaluate_g5_selection_control(campaign_return_series, candles)
+    # 3. G5 Selection Control (DSR & WRC). NX07.R3/R4: the plan is built here --
+    # before any gate result exists -- and its statistical content is canonical.
+    g5_plan_ = g5_plan(
+        family=f"G5:{candles[0].start_ns}",
+        pinned_ns=int(candles[0].start_ns),
+        block_size=CANONICAL_G5_BLOCK_SIZE,
+        reps=200,
+        seed=42,
+    )
+    g5_state, g5_metrics = evaluate_g5_selection_control(
+        campaign_return_series,
+        candles,
+        plan=g5_plan_,
+        allow_regime_fallback=True,
+        fallback_basis=(
+            "declared regime fallback: a short own track (<20 campaigns) uses the "
+            "regime series in the same declared unit (NX02.R3); sample_source is "
+            "reported in the gate metrics"
+        ),
+    )
 
     # 4. G6 Frozen OOS Replication
     g6_state, g6_metrics = evaluate_g6_frozen_oos(candles, cfg)

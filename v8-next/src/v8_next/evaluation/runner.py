@@ -36,6 +36,8 @@ from v8_next.evaluation.benchmark_receipt import (
 from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.claims import StatutoryClaimRecord
 from v8_next.evaluation.economic_benchmark import (
+    BOOTSTRAP_REPS,
+    BOOTSTRAP_SEED,
     bars_from_candles,
     campaign_accounting,
     pair_positions,
@@ -58,6 +60,7 @@ from v8_next.evaluation.scoring import (
     compute_capability_score,
     evaluate_gate_vector,
 )
+from v8_next.evaluation.statistics_plan import CANONICAL_G5_BLOCK_SIZE, g5_plan
 
 #: Initial engine balance in USDT for this runner path. Pinned explicitly so the
 #: accounting reconciliation replays the same number instead of inheriting an
@@ -544,8 +547,25 @@ class BenchmarkRunner:
             # dimensionless per-campaign return from the same accounting
             # contract that produced the ledger rows (#407); the absolute USDT
             # PnL series above stays with the scoring path, never mixed in here.
+            g5_plan_ = g5_plan(
+                family=f"D153-G5:{case.case_id}",
+                pinned_ns=int(candles[0].start_ns),
+                block_size=CANONICAL_G5_BLOCK_SIZE,
+                reps=BOOTSTRAP_REPS,
+                seed=BOOTSTRAP_SEED,
+            )
             g5_state, g5_m = evaluate_g5_selection_control(
-                list(accounting.campaign_returns), candles
+                list(accounting.campaign_returns),
+                candles,
+                plan=g5_plan_,
+                # NX07.R3: the regime fallback is authorized here explicitly and
+                # with a stated basis; it is no longer a silent substitution.
+                allow_regime_fallback=True,
+                fallback_basis=(
+                    "windowed run: the own track holds fewer than 20 campaigns by "
+                    "construction, so the regime series is used in the same declared "
+                    "unit (NX02.R3) and reported as sample_source=regime_fallback"
+                ),
             )
             gate_metrics["g5"] = g5_m
 

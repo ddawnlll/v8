@@ -1,0 +1,28 @@
+{
+  "authority_conditions": [
+    "deflated_sharpe_confidence>=0.95",
+    "bonferroni_adjusted_p<=0.05"
+  ],
+  "block_size": 5,
+  "diagnostics": [
+    "white_reality_check_p_value",
+    "probability_of_backtest_overfitting",
+    "sample_sufficiency",
+    "regime_attribution"
+  ],
+  "effective_independent_trials": 4.0,
+  "family": "v87-nx07-swing",
+  "identity": "sha256:a6ffda98c9227e8c6e6d386184c60ad80528978e93007bd578b4fee3bd77cab6",
+  "independence_basis": "four preregistered execution variants (champion, fee-stressed, conservative, slippage-stressed) on one shared tape; not proven independent",
+  "interval_bars": 0,
+  "multiplicity_trials": 4,
+  "pbo_max_splits": 64,
+  "pbo_metric": "mean_return",
+  "pbo_partitions": 4,
+  "pinned_ns": 1735689600000000000,
+  "reps": 999,
+  "seed": 7,
+  "wrc_block_divisor": 5,
+  "wrc_reps": 999,
+  "wrc_seed": 7
+}

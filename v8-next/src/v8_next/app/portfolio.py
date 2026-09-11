@@ -55,6 +55,10 @@ from v8_next.evaluation.scoring import (
     compute_capability_score,
     evaluate_gate_vector,
 )
+from v8_next.evaluation.statistics_plan import (
+    CANONICAL_G5_BLOCK_SIZE,
+    g5_plan,
+)
 from v8_next.evaluation.store import ResearchStore, canonical
 
 CASE_ID = "BC-QUAD-PORTFOLIO-01"
@@ -420,7 +424,18 @@ def main(argv: list[str] | None = None) -> int:
         "vol_target": [float(v) for v in fams["vol_target"]["equity"]],
         args.primary: [float(v) for v in primary_eq],
     }
-    stats = eb.run_statistics(fam_eq, end_ns, args.primary, seed=args.seed)
+    # NX07.R4: the statistical plan is pinned and written before it is used.
+    stats_plan = g5_plan(
+        family="portfolio-family",
+        pinned_ns=min(int(ns) for ns in end_ns),
+        block_size=CANONICAL_G5_BLOCK_SIZE,
+        reps=eb.BOOTSTRAP_REPS,
+        seed=args.seed,
+    )
+    (out_dir / "statistics_plan.json").write_text(
+        json.dumps(stats_plan.as_dict(), indent=2, sort_keys=True) + "\n"
+    )
+    stats = eb.run_statistics(fam_eq, end_ns, args.primary, plan=stats_plan)
 
     # Engine-level P+E contribution: incremental net of the two shared-account runs.
     mix = {

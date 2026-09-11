@@ -262,6 +262,12 @@ class ResearchStore:
                 digest TEXT NOT NULL, registered_ns INTEGER NOT NULL);
             -- NX05: one row per bound run identity (window/profile/code/config).
             -- A consumer looks a run key up here instead of trusting a directory.
+            CREATE TABLE IF NOT EXISTS statistics_plans (
+                family TEXT PRIMARY KEY,
+                plan_id TEXT NOT NULL,
+                payload TEXT NOT NULL,
+                pinned_ns INTEGER NOT NULL
+            );
             CREATE TABLE IF NOT EXISTS runs (
                 run_key TEXT PRIMARY KEY, payload TEXT NOT NULL,
                 digest TEXT NOT NULL, registered_ns INTEGER NOT NULL);
