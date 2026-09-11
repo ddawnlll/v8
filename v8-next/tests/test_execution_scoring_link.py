@@ -1,17 +1,24 @@
-"""MECHANICS ONLY — ExecutionFidelity's link to measured execution.
+"""MECHANICS ONLY (no tape) + one real-tape discrimination test.
 
-No tape, no economic claim: these tests pin how the domain decides between
-*measured* execution evidence and the legacy PnL-Sharpe proxy, and what it
-publishes about that choice. Evaluative behaviour on the real tape lives in
-``test_execution_integration.py``.
+No economic claim is made anywhere in this file. The mechanics section pins how
+the ExecutionFidelity domain decides between *measured* execution evidence and
+the legacy PnL-Sharpe proxy, which measured statistic it reads, and what it
+publishes about that choice. The last section runs the shared portfolio engine
+over the real quad tape — it is evaluative, skips when the tape is absent, and
+asserts only that the published dimension follows the measured shortfall instead
+of reporting a constant.
 """
 
 from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
 
 import pytest
 
 from v8_next.evaluation.scoring import (
     EXECUTION_FIDELITY_REFERENCE_BPS,
+    EXECUTION_FIDELITY_SHORTFALL_FIELD,
     compute_capability_breakdown,
 )
 
@@ -44,49 +51,144 @@ def test_measured_shortfall_is_used_when_samples_exist() -> None:
     assert out["execution_fidelity_source"] == "MEASURED_IMPLEMENTATION_SHORTFALL"
     # 1 - 6/10 = 0.40
     assert out["domains"]["ExecutionFidelity"]["score"] == pytest.approx(40.0)
+    # the measured input the score came from is published, not just the score
+    assert out["execution_fidelity_shortfall_bps"] == pytest.approx(6.0)
 
 
-def test_larger_shortfall_lowers_fidelity_monotonically() -> None:
-    low = _breakdown({"slippage_samples": 3, "slippage_bps_mean": 2.0})
-    mid = _breakdown({"slippage_samples": 3, "slippage_bps_mean": 6.0})
-    high = _breakdown({"slippage_samples": 3, "slippage_bps_mean": 9.5})
-    scores = [
-        b["domains"]["ExecutionFidelity"]["score"] for b in (low, mid, high)
-    ]
-    assert scores == sorted(scores, reverse=True)
-    assert scores[0] > scores[1] > scores[2]
+def _declared_score(shortfall_bps: float) -> float:
+    """Published ExecutionFidelity for a measured shortfall of that magnitude."""
+    out = _breakdown(
+        {
+            "slippage_samples": 3,
+            "slippage_bps_mean": shortfall_bps,
+            EXECUTION_FIDELITY_SHORTFALL_FIELD: shortfall_bps,
+        }
+    )
+    assert out["execution_fidelity_source"] == "MEASURED_IMPLEMENTATION_SHORTFALL"
+    assert out["execution_fidelity_shortfall_bps"] == pytest.approx(shortfall_bps)
+    return out["domains"]["ExecutionFidelity"]["score"]
+
+
+def test_declared_range_is_monotone_to_the_top_at_zero_and_zero_at_the_reference() -> None:
+    """The declared mapping is 1 - bps/10 over [0, 1]: monotone, no hidden ceiling.
+
+    0 bps is the upper bound of the declared range and the 10 bps reference is
+    zero — the convention the same module states one line above the mapping.
+    """
+    magnitudes = [0.0, 0.25, 1.0, 2.5, 5.0, 7.5, 9.9, 10.0]
+    scores = [_declared_score(m) for m in magnitudes]
+
+    assert all(
+        lower > higher for lower, higher in zip(scores, scores[1:], strict=False)
+    )
+    assert scores[0] == pytest.approx(100.0)
+    assert scores[-1] == pytest.approx(0.0)
+    for magnitude, score in zip(magnitudes, scores, strict=True):
+        expected = max(0.0, 1.0 - magnitude / EXECUTION_FIDELITY_REFERENCE_BPS) * 100.0
+        assert score == pytest.approx(round(expected, 1))
+    # past the reference the domain sits on its declared floor, never below it
+    assert _declared_score(1e6) == pytest.approx(0.0)
+
+
+def test_opposite_signed_fills_do_not_cancel_away_the_measured_deviation() -> None:
+    """The mechanism behind the reported "baseline 0.0 vs realistic 0.0004 bps".
+
+    Two fills that both landed 0.05 bps away from their decision price, on
+    opposite sides, average to 0.0 bps in the signed mean — the statistic that
+    made every published fidelity a constant. The magnitude statistic the
+    convention names must not cancel them, and the published score must not read
+    as untouched execution.
+    """
+    out = _breakdown(
+        {"slippage_samples": 2, "slippage_bps_mean": 0.0,
+         EXECUTION_FIDELITY_SHORTFALL_FIELD: 0.05}
+    )
+    assert out["execution_fidelity_source"] == "MEASURED_IMPLEMENTATION_SHORTFALL"
+    assert out["execution_fidelity_shortfall_bps"] == pytest.approx(0.05)
+    assert out["domains"]["ExecutionFidelity"]["score"] == pytest.approx(99.5)
 
 
 def test_shortfall_sign_does_not_matter_only_magnitude() -> None:
-    adverse = _breakdown({"slippage_samples": 3, "slippage_bps_mean": 6.0})
-    favourable = _breakdown({"slippage_samples": 3, "slippage_bps_mean": -6.0})
+    adverse = _breakdown(
+        {"slippage_samples": 3, EXECUTION_FIDELITY_SHORTFALL_FIELD: 6.0}
+    )
+    favourable = _breakdown(
+        {"slippage_samples": 3, EXECUTION_FIDELITY_SHORTFALL_FIELD: -6.0}
+    )
     assert (
         adverse["domains"]["ExecutionFidelity"]["score"]
         == favourable["domains"]["ExecutionFidelity"]["score"]
+        == pytest.approx(40.0)
     )
 
 
-def test_fidelity_is_clamped_inside_the_domain_band() -> None:
-    # absurd friction must not push the domain below its declared floor
-    worst = _breakdown({"slippage_samples": 1, "slippage_bps_mean": 1e6})
-    assert worst["domains"]["ExecutionFidelity"]["score"] == pytest.approx(5.0)
+def test_a_block_predating_the_magnitude_field_keeps_its_measurement() -> None:
+    """A persisted block from before the magnitude field keeps its measured link.
 
-
-def test_documented_saturation_when_the_model_is_negligible() -> None:
-    """Both a zero-friction and a near-zero-friction model saturate at the ceiling.
-
-    The observed consequence on the real tape: ``baseline`` (0.0 bps) and
-    ``realistic`` (0.0004 bps) both score the 0.50 ceiling, so ExecutionFidelity
-    cannot separate them until the 10 bps reference is calibrated to the
-    friction scale actually being modelled. Pinned here so the saturation is a
-    known, tested property rather than a silent surprise.
+    |signed mean| is the same quantity minus the cancellation, so such a block
+    stays bound to the evidence it has instead of silently downgrading to the
+    PnL proxy.
     """
-    zero = _breakdown({"slippage_samples": 3, "slippage_bps_mean": 0.0})
-    tiny = _breakdown({"slippage_samples": 3, "slippage_bps_mean": 0.000404})
-    assert zero["domains"]["ExecutionFidelity"]["score"] == pytest.approx(50.0)
-    assert tiny["domains"]["ExecutionFidelity"]["score"] == pytest.approx(50.0)
-    # the evidence that explains the saturation is still published
+    legacy = _breakdown({"slippage_samples": 3, "slippage_bps_mean": -2.0})
+    assert legacy["execution_fidelity_source"] == "MEASURED_IMPLEMENTATION_SHORTFALL"
+    assert legacy["execution_fidelity_shortfall_bps"] == pytest.approx(2.0)
+    assert legacy["domains"]["ExecutionFidelity"]["score"] == pytest.approx(80.0)
+
+
+def test_negligible_deviation_is_the_top_of_the_range_not_the_old_ceiling() -> None:
+    """Rescoped from the removed ``_documented_saturation_when_the_model_is_negligible``.
+
+    That test pinned a zero-friction and a near-zero-friction model at a 0.50
+    ceiling which contradicted the declared convention in the same file. Under
+    the declared mapping both sit at the top of the range: a deviation that real
+    but five orders of magnitude below the 10 bps reference is indistinguishable
+    at the published resolution *by that scale's design*, and the reference that
+    sets the scale is published next to every score.
+    """
+    zero = _breakdown(
+        {"slippage_samples": 3, "slippage_bps_mean": 0.0,
+         EXECUTION_FIDELITY_SHORTFALL_FIELD: 0.0}
+    )
+    tiny = _breakdown(
+        {"slippage_samples": 3, "slippage_bps_mean": 0.000404,
+         EXECUTION_FIDELITY_SHORTFALL_FIELD: 0.000404}
+    )
+    assert zero["domains"]["ExecutionFidelity"]["score"] == pytest.approx(100.0)
+    assert tiny["domains"]["ExecutionFidelity"]["score"] == pytest.approx(100.0)
+    assert zero["domains"]["ExecutionFidelity"]["score"] != pytest.approx(50.0)
     assert tiny["execution_fidelity_reference_bps"] == EXECUTION_FIDELITY_REFERENCE_BPS
+
+
+def test_telemetry_publishes_the_statistic_the_declared_convention_reads() -> None:
+    """MECHANICS ONLY: producer/consumer agreement on the declared statistic.
+
+    Synthetic fills with zero evaluative weight, crafted so the two statistics
+    disagree: a buy and a sell both landing 100.01 against a 100.00 decision
+    price deviate ~1 bps each, and cancel in the signed mean.
+    """
+    from v8_next.adapters.execution_models import PROFILES
+    from v8_next.adapters.execution_telemetry import execution_telemetry
+
+    block = execution_telemetry(
+        PROFILES["baseline"],
+        [],
+        "TEST",
+        [
+            {"instrument_id": "X", "side": "BUY", "avg_px_open": 100.01, "event_ns": 10},
+            {"instrument_id": "X", "side": "SELL", "avg_px_open": 100.01, "event_ns": 20},
+        ],
+        [
+            {"instrument_id": "X", "decision_ns": 1, "close": 100.0},
+            {"instrument_id": "X", "decision_ns": 11, "close": 100.0},
+        ],
+    )
+    assert block["slippage_samples"] == 2
+    assert block["slippage_bps_mean"] == pytest.approx(0.0)
+    assert block[EXECUTION_FIDELITY_SHORTFALL_FIELD] == pytest.approx(1.0)
+
+    out = _breakdown(block)
+    assert out["execution_fidelity_source"] == "MEASURED_IMPLEMENTATION_SHORTFALL"
+    assert out["domains"]["ExecutionFidelity"]["score"] == pytest.approx(90.0)
 
 
 def test_no_trades_keeps_an_empty_domain_set_and_names_the_reason() -> None:
@@ -103,6 +205,8 @@ def test_no_trades_keeps_an_empty_domain_set_and_names_the_reason() -> None:
     assert out["coverage"]["statuses"]["ExecutionFidelity"] == "ABSTAINED"
     assert out["coverage"]["numerator"] < out["coverage"]["denominator"]
     assert out["execution_fidelity_source"] == "NO_TRADES"
+    # no domain was scored, so no measured input may be published as if one was
+    assert out["execution_fidelity_shortfall_bps"] is None
 
 
 # ------------------------------------------------- telemetry -> utility inputs
@@ -213,3 +317,100 @@ def test_fully_measured_friction_lets_the_admission_evaluate() -> None:
 
     assert utility_admission(inputs("10")) == "UTILITY_ELIGIBLE"
     assert utility_admission(inputs("2")) == "REJECTED_SUB_FRICTION"
+
+
+# --------------------------------------------- real tape: does it discriminate
+#
+# Everything below runs the shared portfolio engine over the real quad tape.
+# It is evaluative (it asserts a property of a published dimension), it never
+# uses synthetic candles, and it skips when the tape is absent. 120 bars is the
+# window the defect report itself used — no full scan is needed to see whether
+# the dimension responds to measured execution.
+
+QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+QUAD_BARS = 120
+
+
+def _quad_run(profile: str) -> dict[str, Any]:
+    from decimal import Decimal
+
+    from v8_next.adapters.portfolio_backtest import (
+        SleeveSpec,
+        run_portfolio_backtest,
+    )
+    from v8_next.evaluation.multitape import load_multitape
+
+    if not (QUAD_TAPE / "tape.jsonl").exists():
+        pytest.skip(f"quad tape absent at {QUAD_TAPE}")
+    tape = load_multitape(QUAD_TAPE, limit=QUAD_BARS)
+    return run_portfolio_backtest(
+        tape.candles,
+        (SleeveSpec("incumbent", 1, 28, 1.0),),
+        tape.funding,
+        per_leg_notional=Decimal("1000"),
+        taker_fee=Decimal("0.0005"),
+        initial_balance=Decimal("10000"),
+        funding_dropped=tape.funding_dropped,
+        execution_profile=profile,
+    )
+
+
+def _realized_pnl(run: dict[str, Any]) -> list[float]:
+    return [
+        float(str(c.get("realized_pnl", "0").split()[0]))
+        for c in run.get("closed_positions", [])
+        if isinstance(c, dict) and c.get("realized_pnl")
+    ]
+
+
+def _published_fidelity(profile: str) -> float:
+    """Run one profile over the real tape and publish its ExecutionFidelity."""
+    run = _quad_run(profile)
+    block = run["execution"]
+    if block["slippage_samples"] == 0:
+        pytest.skip(f"{profile}: this window measured no fill shortfall")
+    assert EXECUTION_FIDELITY_SHORTFALL_FIELD in block, (
+        f"{profile}: the telemetry no longer publishes "
+        f"{EXECUTION_FIDELITY_SHORTFALL_FIELD}, the statistic the declared "
+        "convention reads; the domain would silently fall back to the signed "
+        "mean that cancels between adverse and favourable fills"
+    )
+    pnl = _realized_pnl(run)
+    if not pnl:
+        pytest.skip(f"{profile}: this window closed no positions to score against")
+
+    out = compute_capability_breakdown(
+        pnl_series=pnl,
+        total_bars=QUAD_BARS,
+        total_trades=len(run["opened_positions"]),
+        abstain_rate=0.0,
+        execution=block,
+    )
+    assert out["execution_fidelity_source"] == "MEASURED_IMPLEMENTATION_SHORTFALL"
+    measured = block[EXECUTION_FIDELITY_SHORTFALL_FIELD]
+    # the published score must be the declared mapping of THIS block's measured
+    # shortfall, not a fixed value that happens to be non-zero
+    assert out["execution_fidelity_shortfall_bps"] == pytest.approx(measured)
+    expected = max(0.0, 1.0 - measured / EXECUTION_FIDELITY_REFERENCE_BPS) * 100.0
+    assert out["domains"]["ExecutionFidelity"]["score"] == pytest.approx(
+        round(expected, 1)
+    )
+    return float(out["domains"]["ExecutionFidelity"]["score"])
+
+
+def test_real_tape_published_fidelity_follows_measured_execution_evidence() -> None:
+    """The dimension responds to measured execution instead of publishing a constant.
+
+    Three execution profiles that model different frictions are run over the same
+    120-bar quad window: their published ExecutionFidelity values are their own
+    measured shortfalls under the declared mapping, the profile that models no
+    slippage cannot score below the ones that do, and the value is no longer the
+    constant 0.50 every run used to publish.
+    """
+    scores = {
+        profile: _published_fidelity(profile)
+        for profile in ("baseline", "realistic", "volume_aware")
+    }
+    assert len(set(scores.values())) > 1, f"still a constant: {scores}"
+    assert scores["baseline"] == max(scores.values()), scores
+    assert 50.0 not in scores.values(), scores

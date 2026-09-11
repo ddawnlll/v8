@@ -10,7 +10,10 @@ Honesty rules encoded here:
     ``None`` so a receipt stays strictly JSON-serialisable;
   * amounts in different currencies are never summed together;
   * shortfall compares a fill only against the decision of the SAME instrument,
-    because comparing legs compares different price scales.
+    because comparing legs compares different price scales;
+  * the signed mean shortfall (net cost) and the mean magnitude of shortfall
+    (deviation from the decision price) are both published, because averaging a
+    signed quantity into a fidelity score lets opposite-signed fills cancel.
 """
 
 from __future__ import annotations
@@ -254,6 +257,13 @@ def execution_telemetry(
     (paid above for a buy, sold below for a sell). Order lifetime comes from the
     engine's own fill rows, because bar execution stamps fills at the bar
     boundary and therefore cannot show modelled order latency.
+
+    Two shortfall statistics are published: the signed mean (``slippage_bps_mean``,
+    the net cost of trading) and the mean magnitude (``slippage_bps_abs_mean``,
+    how far fills landed from the price the decision asked for). The magnitude is
+    the one the ExecutionFidelity convention is declared over -- averaging signed
+    deviations lets adverse and favourable fills cancel, which is a fidelity
+    measurement reporting "no deviation" for two fills that both deviated.
     """
     # Decisions are matched per instrument: comparing a fill against the last
     # decision of a *different* leg compares BTC against AVAX and yields a
@@ -268,6 +278,7 @@ def execution_telemetry(
         rows.sort(key=lambda r: r[0])
 
     slippage_bps: list[float] = []
+    slippage_magnitudes: list[float] = []
     latencies: list[int] = []
     unmatched = 0
     cross_series = 0
@@ -297,7 +308,9 @@ def execution_telemetry(
             cross_series += 1
             continue
         sign = 1.0 if side.startswith("B") else -1.0
-        slippage_bps.append(sign * (fill_px - ref_px) / ref_px * 1e4)
+        signed_bps = sign * (fill_px - ref_px) / ref_px * 1e4
+        slippage_bps.append(signed_bps)
+        slippage_magnitudes.append(abs(signed_bps))
         latencies.append(event_ns - ref_ns)
 
     commission_totals: dict[str, float] = {}
@@ -332,6 +345,20 @@ def execution_telemetry(
             "slippage_rejected_cross_series": cross_series,
             "slippage_bps_mean": (
                 round(sum(slippage_bps) / len(slippage_bps), 6) if slippage_bps else None
+            ),
+            #: The statistic the ExecutionFidelity convention is declared over: the
+            #: mean *magnitude* of the per-fill shortfall. Published next to the
+            #: signed mean on purpose, because they answer different questions: the
+            #: signed mean is the net cost of trading (friction), while the mean
+            #: magnitude is how far fills landed from the price the decision asked
+            #: for (fidelity). Opposite-signed fills cancel in the signed mean --
+            #: measured on the 120-bar quad window, per-fill deviations of ~0.05 bps
+            #: in both directions collapsed to a signed mean of 0.0004 bps, which is
+            #: why the published fidelity was a constant before this field existed.
+            "slippage_bps_abs_mean": (
+                round(sum(slippage_magnitudes) / len(slippage_magnitudes), 6)
+                if slippage_magnitudes
+                else None
             ),
             "slippage_bps_max": round(max(slippage_bps), 6) if slippage_bps else None,
             "slippage_bps_min": round(min(slippage_bps), 6) if slippage_bps else None,
