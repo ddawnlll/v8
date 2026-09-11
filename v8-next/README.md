@@ -1,7 +1,13 @@
-# V8-next (development, NO_ECONOMIC_CLAIM)
+# V8-next (FROZEN EXPERIMENTAL PROTOTYPE, NO_ECONOMIC_CLAIM)
+
+> **Active project boundary (2026-09-10):** Active development has returned to
+> the Rust implementation in [`../v8-core/`](../v8-core/). This Python tree is
+> retained for reference and read-only diagnostics; do not add new product
+> implementation here without an explicit owner reset.
 
 Python economic control plane over NautilusTrader. Legacy Rust and Python are
-not imported, compiled or modified by these commands.
+not imported, compiled or modified by these commands. The commands below are
+historical/prototype diagnostics and are not the active project workflow.
 
 From the repository root:
 

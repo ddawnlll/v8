@@ -1,20 +1,23 @@
-# v8-next development boundary
+# v8-next frozen experimental boundary
 
-The owner's explicit Python/library-first objective authorizes this directory
-as the new product implementation. Root Rust-only instructions remain historical
-for this scope; `src/v8/`, root `tests/`, and `v8-core/` remain frozen references
-for this task. Do not import their runtime or compile legacy Rust for new-product
-checks. Preserve unrelated user changes.
+As of 2026-09-10, the active project implementation has returned to the Rust
+codebase in `../v8-core/`. The root Rust-only instructions are authoritative.
+This directory is a frozen experimental Python prototype/reference, not the
+active product path. Do not add, edit, refactor, or extend its implementation or
+tests unless the owner explicitly reactivates `v8-next/` in a later instruction.
+Preserve unrelated user changes.
+
+Commands in this directory may be run read-only for comparison, forensic
+inspection, or reproducibility checks. They do not authorize new features,
+economic claims, paper/live activation, or changes to the active architecture.
 
 Read `../docs/contracts/V8_NEXT_IMPLEMENTATION_SCOPE.md` and the economic source
 contracts relevant to the change. `../site/index.html` remains the constitutional
 entry point; distinguish enacted requirements from historical decisions/drafts.
 This file does not grant economic-claim or real-money authority.
 
-Search `src/v8_next/` and `tests/` first (paths relative to this directory).
-Nautilus owns native engine/orders/fills/accounts; Python owns economic meaning.
-Do not recreate an OMS, simulator or scheduler, fork the engine, or migrate old
-features for parity. Keep observer stances separate from capital authorization.
+Do not treat `v8-next/` as the source of truth for runtime, experts, execution,
+evaluation, or reports. The active Rust source of truth is `../v8-core/`.
 
 Use Python 3.12 and `uv.lock`. From the repository root:
 

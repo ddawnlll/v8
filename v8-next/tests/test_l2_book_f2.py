@@ -55,6 +55,7 @@ from v8_next.adapters.execution_models import PROFILES, profile_summary
 from v8_next.adapters.portfolio_backtest import _instrument
 from v8_next.adapters.trade_tape import trades_from_pages
 
+QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
 L2_CAPTURE = Path("/Users/hootie/src/v8/research/tape/btcusdt-l2-20260911T0320Z")
 TRADE_CAPTURE = Path("/Users/hootie/src/v8/research/tape/btcusdt-trades-20260911T0320Z")
 INSTRUMENT = "BTCUSDT-PERP.BINANCE"
@@ -379,3 +380,49 @@ def test_repeat_run_is_bit_identical() -> None:
         deltas, trades, price=bid, qty=0.05, queue_position=True, liquidity_consumption=False
     )
     assert first["fills"] == second["fills"]
+
+
+def test_a_book_window_disjoint_from_the_bars_cannot_claim_active_knobs() -> None:
+    """Disjoint book/bar windows must not be published as depth-exercised execution.
+
+    Measured engine behaviour with an L2 book configured: MARKET orders submitted
+    from a bar callback do not execute at all, so a run whose captured book does
+    not overlap its bar window silently produces zero fills. The wiring therefore
+    reports the knobs as inert with a named reason instead of active.
+    """
+    if not (QUAD_TAPE / "tape.jsonl").exists():
+        pytest.skip(f"real quad tape absent at {QUAD_TAPE}")
+    if not (L2_CAPTURE / "manifest.json").exists():
+        pytest.skip(f"L2 capture absent at {L2_CAPTURE}")
+    from decimal import Decimal as D
+
+    from v8_next.adapters.portfolio_backtest import SleeveSpec, run_portfolio_backtest
+    from v8_next.evaluation.multitape import load_multitape
+
+    tape = load_multitape(QUAD_TAPE, limit=120)
+    deltas, _ = deltas_from_depth(L2_CAPTURE, INSTRUMENT)
+    result = run_portfolio_backtest(
+        {"BTCUSDT": tape.candles["BTCUSDT"]},
+        (SleeveSpec("incumbent", 1, 28, 1.0),),
+        (),
+        per_leg_notional=D("1000"),
+        taker_fee=D("0.0005"),
+        initial_balance=D("10000"),
+        execution_profile="realistic",
+        book_deltas=deltas,
+    )
+    assert result["book_deltas_fed"] == len(deltas)
+    assert result["book_window_overlap"] is False
+    assert result["book_window_reason"] == "NO_OVERLAP_BETWEEN_CAPTURED_BOOK_AND_BAR_WINDOW"
+    execution = result["execution"]
+    assert execution["depth_data_available"] is False
+    assert execution["depth_dependent_knobs_active"] == []
+    assert set(execution["inert_knobs_without_depth_data"]) == {
+        "liquidity_consumption",
+        "queue_position",
+    }
+    print(
+        f"\n[F2] disjoint windows: bar_window={result['bar_window_ns']} "
+        f"book_window={result['book_window_ns']} fills={execution['fills_count']} "
+        f"reason={result['book_window_reason']}"
+    )

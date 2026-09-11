@@ -8,9 +8,9 @@ mode (default path unchanged).
 from __future__ import annotations
 
 from decimal import Decimal
+from pathlib import Path
 
 import pytest
-from pathlib import Path
 from nautilus_trader.model import Currency, Money, Price
 
 from v8_next.adapters.execution_models import (

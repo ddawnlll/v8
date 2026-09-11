@@ -70,8 +70,14 @@ class SleeveSpec:
     notional_fraction: float  # share of the per-leg notional budget
 
 
-def _instrument(instrument_id: str, raw_symbol: str, base: str, currency: Currency,
-                maker_fee: Decimal, taker_fee: Decimal) -> CryptoPerpetual:
+def _instrument(
+    instrument_id: str,
+    raw_symbol: str,
+    base: str,
+    currency: Currency,
+    maker_fee: Decimal,
+    taker_fee: Decimal,
+) -> CryptoPerpetual:
     return CryptoPerpetual(
         instrument_id=InstrumentId.from_str(instrument_id),
         raw_symbol=Symbol(raw_symbol),
@@ -252,11 +258,29 @@ def run_portfolio_backtest(
     profile = resolve_profile(execution_profile)
     ordered_deltas, stray_instruments = _ordered_book_deltas(book_deltas, legs)
     if stray_instruments:
-        raise ValueError(
-            f"book deltas reference instruments outside the run: {stray_instruments}"
-        )
+        raise ValueError(f"book deltas reference instruments outside the run: {stray_instruments}")
     book_deltas_fed = len(ordered_deltas)
+    window_start = min((c[0].end_ns for c in legs.values() if c), default=None)
+    window_end = max((c[-1].end_ns for c in legs.values() if c), default=None)
+    # Depth-conditioned execution only exists where the captured book and the bar
+    # window describe the same period. With disjoint windows the engine still runs
+    # (and can even fill resting limits) but MARKET orders submitted from a bar
+    # callback do not execute while an L2 book is configured -- measured on the
+    # real capture: the same single-leg run produces 2 fills without the book and
+    # 0 fills with it. Publishing `depth_data_available=True` there would dress an
+    # empty run up as depth-exercised execution, so the flag follows the overlap.
+    book_window_ns: tuple[int, int] | None = None
     if ordered_deltas:
+        book_window_ns = (
+            int(ordered_deltas[0].ts_event),
+            int(ordered_deltas[-1].ts_event),
+        )
+    book_window_overlap: bool | None = None
+    if book_window_ns is not None and window_start is not None and window_end is not None:
+        book_window_overlap = not (
+            book_window_ns[1] < window_start or book_window_ns[0] > window_end
+        )
+    if book_window_overlap:
         profile = replace(profile, depth_data_available=True)
     venue_exec = dict(venue_kwargs(profile))
     if ordered_deltas:
@@ -281,14 +305,10 @@ def run_portfolio_backtest(
             **venue_exec,
         )
         strategies: list[ExpertEnsembleStrategy] = []
-        window_start = min((c[0].end_ns for c in legs.values() if c), default=None)
-        window_end = max((c[-1].end_ns for c in legs.values() if c), default=None)
         for raw, candles in legs.items():
             instrument_id = f"{raw}-PERP.BINANCE"
             base = BASE_CURRENCIES.get(raw, "BTC")
-            engine.add_instrument(
-                _instrument(instrument_id, raw, base, curr, maker_fee, taker_fee)
-            )
+            engine.add_instrument(_instrument(instrument_id, raw, base, curr, maker_fee, taker_fee))
             if not candles:
                 # A leg carried only for its instrument (e.g. a book-only probe
                 # run) contributes no bars; adding an empty Bar list is skipped.
@@ -349,12 +369,17 @@ def run_portfolio_backtest(
                 unknown_leg += 1
                 continue
             engine.add_data([MarkPriceUpdate(fund_iid, Price(mark, 2), boundary, boundary)])
-            engine.add_data([
-                FundingRateUpdate(
-                    fund_iid, row.funding_rate, boundary, boundary,
-                    next_funding_ns=boundary,
-                )
-            ])
+            engine.add_data(
+                [
+                    FundingRateUpdate(
+                        fund_iid,
+                        row.funding_rate,
+                        boundary,
+                        boundary,
+                        next_funding_ns=boundary,
+                    )
+                ]
+            )
             settlements += 1
 
         engine.run()
@@ -390,6 +415,22 @@ def run_portfolio_backtest(
             "trades_fed": trades_fed,
             "book_deltas_fed": book_deltas_fed,
             "book_type": str(book_type) if ordered_deltas else None,
+            # Whether the captured book and the bar window describe the same
+            # period. False means the run cannot exercise depth-conditioned
+            # execution: the execution block then keeps reporting the knobs as
+            # INERT (with the named reason below) instead of active.
+            "bar_window_ns": [window_start, window_end]
+            if window_start is not None and window_end is not None
+            else None,
+            "book_window_ns": list(book_window_ns) if book_window_ns else None,
+            "book_window_overlap": book_window_overlap,
+            "book_window_reason": (
+                None
+                if book_window_overlap
+                else "NO_OVERLAP_BETWEEN_CAPTURED_BOOK_AND_BAR_WINDOW"
+                if book_window_ns is not None
+                else "NO_BOOK_DELTAS_FED"
+            ),
             "funding_settlements_fed": settlements,
             "funding_rows_available": len(funding),
             # Coverage accounting: a zero-funding P&L must be distinguishable
@@ -402,11 +443,7 @@ def run_portfolio_backtest(
             "funding_coverage": (
                 "NO_FUNDING_ROWS"
                 if not funding
-                else (
-                    "DROPPED_RECORDS"
-                    if (funding_dropped or unknown_leg)
-                    else "FULL"
-                )
+                else ("DROPPED_RECORDS" if (funding_dropped or unknown_leg) else "FULL")
             ),
         }
     finally:
