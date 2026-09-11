@@ -113,6 +113,44 @@ def cmd_status(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_explain(args: argparse.Namespace) -> int:
+    """One trade, one domain, one typed counterfactual: no prose, no invented number."""
+    import json
+
+    from v8_next.app.explain import explain_trade
+
+    package_root = Path(__file__).resolve().parents[3]
+    repo_root = package_root.parent if (package_root.parent / "docs").is_dir() else package_root
+    try:
+        record = explain_trade(
+            repo_root=repo_root, policy_id=args.policy, index=args.trade, tape_rel=args.tape
+        )
+    except IndexError as exc:
+        print(f"[explain] FAIL: {exc}")
+        return 2
+    actual = record["actual"]
+    print("=" * 70)
+    print(f"TRADE #{record['index']}  policy={record['policy_id']}  direction={record['direction']}")
+    print(f"decision_ns={record['decision_ns']}  bracketless={record['bracketless_decision']}")
+    print("-" * 70)
+    print(f"exit={actual['exit_kind']}  bars_held={actual['bars_held']}  "
+          f"net={actual['net_return']:+.8f}  gross={actual['gross_return']:+.8f}  "
+          f"fee={actual['fee_cost_return']:+.8f}  gap={actual['gap_through_stop']}")
+    print(f"failure domain: {record['failure_domain']}")
+    print(f"  rule: {record['domain_rule']}")
+    print("-" * 70)
+    cf = record["counterfactual_other_bracket_contract"]
+    print(f"counterfactual (other bracket contract): {cf['kind']}  "
+          f"bounds={cf['bounds']}  point={cf['point_estimate']}")
+    print(f"  assumptions: {cf['authority']['assumptions']}")
+    fill = record["counterfactual_fill_price"]
+    print(f"counterfactual (fill price): {fill['kind']}  refusal={fill['refusal']}")
+    print(f"  why: {fill['authority']['assumptions']}")
+    print(json.dumps({"trade": record["index"], "domain": record["failure_domain"],
+                      "counterfactual_kind": cf["kind"], "fill_refusal": fill["refusal"]}))
+    return 0
+
+
 def cmd_run(args: argparse.Namespace) -> int:
     """Produce one pillar of the locked benchmark. A pillar that is not implemented yet
     refuses loudly instead of printing a success it cannot back."""
@@ -265,6 +303,15 @@ def build_parser() -> argparse.ArgumentParser:
     p_run.add_argument("--out", default=None)
     p_run.set_defaults(func=cmd_run)
 
+    p_explain = sub.add_parser(
+        "explain",
+        help="Explain one trade: failure domain + typed counterfactual (oracle vocabulary).",
+    )
+    p_explain.add_argument("--trade", type=int, required=True, help="campaign index in the four-year report")
+    p_explain.add_argument("--policy", default="plain_swing")
+    p_explain.add_argument("--tape", default="research/tape/multi-1h-4y/tape.jsonl")
+    p_explain.set_defaults(func=cmd_explain)
+
     p_ready = sub.add_parser(
         "readiness",
         help="Production-readiness score: four factors, gate vector, red-apple gap.",
@@ -323,6 +370,10 @@ def main(argv: list[str] | None = None) -> int:
         if rest:
             parser.error(f"unexpected args for status: {' '.join(rest)}")
         return args.func(args)
+    if args.command == "explain":
+        if rest:
+            parser.error(f"unexpected args for explain: {' '.join(rest)}")
+        return cmd_explain(args)
     if args.command == "run":
         if rest:
             parser.error(f"unexpected args for run: {' '.join(rest)}")
