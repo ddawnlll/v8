@@ -43,6 +43,7 @@ from v8_next.evaluation.benchmark_receipt import (
     ScoreEvidence,
     WindowEvidence,
 )
+from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.parity import ArtifactBinding
 from v8_next.evaluation.run_window import WindowSpec
 from v8_next.evaluation.scoring import (
@@ -169,10 +170,11 @@ def test_canonical_ledger_returns_no_entry_as_evidential_and_refuses_by_name() -
         assert publication.evidence_class == newest.receipt.evidence_class()
         assert publication.entry_hash == ""
         assert publication.as_dict()["latest_entry_hash"] == newest.entry_hash
-        assert (
-            publication.as_dict()["latest_recorded_capability_score"]
-            == newest.receipt.capability_score
+        assert publication.as_dict()["latest_records_capability_score"] is (
+            newest.receipt.capability_score is not None
         )
+        # A1/A4: the refused number is not written anywhere in the read either
+        assert str(newest.receipt.capability_score) not in repr(publication.as_dict())
     else:
         assert publication.entry is not None
         assert publication.publishes_capability_score is True
@@ -355,3 +357,46 @@ def test_readiness_refuses_a_class_undeclared_receipt_without_a_ledger_read(
     assert factors["factor"] == 0.0
     assert factors["refusal"].startswith(NO_EVIDENTIAL_LEDGER_ENTRY)
     assert EVIDENCE_CLASS_UNDECLARED in factors["refusal"]
+
+
+# --------------------------------------------------------------------------- #
+# 4 — the certificate carries the class and writes no refused number
+# --------------------------------------------------------------------------- #
+def test_certificate_withholds_the_refused_number_and_names_the_class(tmp_path: Path) -> None:
+    """#448: the dashboard renders, the number does not travel -- in any field."""
+    receipt = _undeclared_score(tmp_path)
+    ledger = BenchmarkLedger()
+    ledger.append(receipt)
+    certificate = PolicyCertificate.generate(receipt, publication=ledger.publication())
+
+    assert certificate.research_capability_score is None
+    assert certificate.evidence_class == EVIDENCE_CLASS_UNDECLARED
+    assert certificate.score_publication.startswith(NO_EVIDENTIAL_LEDGER_ENTRY)
+    assert certificate.publication_token == NO_EVIDENTIAL_LEDGER_ENTRY
+    derivation = certificate.derivation
+    assert derivation is not None
+    assert derivation["evidence_class"] == EVIDENCE_CLASS_UNDECLARED
+    assert derivation["raw_measurements"]["capability_score"] is None
+    assert derivation["raw_measurements"]["records_capability_score"] is True
+
+    rendered = certificate.render_ascii()
+    assert "Score: MISSING / 100" in rendered
+    assert NO_EVIDENTIAL_LEDGER_ENTRY in rendered
+    assert EVIDENCE_CLASS_UNDECLARED in rendered
+    assert str(receipt.capability_score) not in rendered
+
+
+def test_certificate_still_publishes_an_evidential_entry(tmp_path: Path) -> None:
+    """The declared path is unchanged: the class travels and the number is published."""
+    receipt = _receipt(
+        tmp_path, window_evidence=_benchmark_evidence(), capability_score=14.0, name="bench2.jsonl"
+    )
+    ledger = BenchmarkLedger()
+    ledger.append(receipt)
+    certificate = PolicyCertificate.generate(receipt, publication=ledger.publication())
+
+    assert certificate.research_capability_score is not None
+    assert certificate.evidence_class == "benchmark"
+    derivation = certificate.derivation
+    assert derivation is not None
+    assert derivation["raw_measurements"]["capability_score"] == receipt.capability_score

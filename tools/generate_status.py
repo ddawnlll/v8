@@ -108,9 +108,10 @@ def read_ledger():
         ts = receipt.computed_at_timestamp_ns or 0
         history.append({
             # ``cap`` is the *published* field: null for an entry that may not publish a
-            # number. ``cap_recorded`` is what the entry stored, and is never read as cap.
+            # number. Whether the entry recorded one is named by a flag, never by the
+            # number itself (#448: a recorded value is not a published measurement).
             "cap": receipt.capability_score if evidential else None,
-            "cap_recorded": receipt.capability_score,
+            "records_capability_score": receipt.capability_score is not None,
             "evidence_class": receipt.evidence_class(),
             "gates": _gate_states(receipt) if evidential else {},
             "ts": _iso(ts / 1e9) if ts > 1e12 else "",

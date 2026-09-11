@@ -215,7 +215,11 @@ class PolicyCertificate(BaseModel):
             "formula": "capability * evidence_multiplier * robustness * economic / 100**2",
             "transform_version": "readiness-v2-missing-aware",
             "raw_measurements": {
-                "capability_score": receipt.capability_score,
+                #: #448: the number is not written when the reader refused the entry it
+                #: read -- a recorded value is not a published measurement, and the
+                #: ledger itself keeps the record.
+                "capability_score": None if publication_refusal else receipt.capability_score,
+                "records_capability_score": receipt.capability_score is not None,
                 "coverage_factor": receipt.coverage_factor,
                 "minerva_effective_score": rob_score,
                 "projection_economic_score": economic_score,
