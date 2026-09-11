@@ -185,6 +185,19 @@ def _window_bounds_ms() -> tuple[int, int]:
     return bars[0].start_ns // 1_000_000, bars[WINDOW_BARS].start_ns // 1_000_000
 
 
+def _d153_window_bounds_ms() -> tuple[int, int]:
+    """The window the D153 CLI loads: read with the loader the CLI itself uses.
+
+    ``load_tape_candles`` applies the instrument filter before the bar limit, so
+    the declared UTC window describes exactly the bars this path consumes.
+    """
+    from v8_next.evaluation.gate_resolution import load_tape_candles
+
+    candles = load_tape_candles(TAPE_DIR, limit=WINDOW_BARS + 1, instrument="BTCUSDT")
+    assert len(candles) == WINDOW_BARS + 1
+    return candles[0].start_ns // 1_000_000, candles[WINDOW_BARS].start_ns // 1_000_000
+
+
 def _only_ledger_entry(out_dir: Path):
     ledger = BenchmarkLedger.load_jsonl(out_dir / "benchmark_ledger.jsonl")
     assert len(ledger.entries) == 1, "one run must append exactly one ledger entry"
@@ -275,3 +288,93 @@ def test_smoke_and_utc_bounded_runs_differ_in_evidence_class(tmp_path: Path) -> 
     telemetry = sorted((smoke_dir / "runs").glob("*.telemetry.json"))
     assert len(telemetry) == 1
     assert json.loads(telemetry[0].read_text())["evidence_class"] == "smoke"
+
+
+def test_d153_cli_binds_its_window_class_to_the_entry_it_appends(tmp_path: Path) -> None:
+    """The D153 CLI path declares the window class instead of omitting it (#444 sibling).
+
+    Same discrimination as the portfolio path above, on the path that was still
+    fail-open by omission: a bar-count ``smoke`` run and a UTC-bounded run over the
+    same bars must differ in evidence class (smoke / no score vs benchmark / scored),
+    and the class the run declared must reach the ledger entry it bound.
+    """
+    from v8_next.app import benchmark as bench_mod
+
+    if not TAPE_FILE.is_file():
+        pytest.skip(f"quad tape absent at {TAPE_FILE}")
+
+    smoke_dir = tmp_path / "d153_smoke"
+    bounded_dir = tmp_path / "d153_bounded"
+    start_ms, end_ms = _d153_window_bounds_ms()
+
+    # (i) the bar-count variant: a smoke window, never a release benchmark
+    assert (
+        bench_mod.main(
+            [
+                "--tape-path", str(TAPE_DIR),
+                "--bars", str(WINDOW_BARS),
+                "--diagnostic-only",
+                "--output-dir", str(smoke_dir),
+                "--html-out", str(smoke_dir / "report.html"),
+            ]
+        )
+        == 0
+    )
+    # (ii) the UTC-bounded variant of the same command over the same bars
+    assert (
+        bench_mod.main(
+            [
+                "--tape-path", str(TAPE_DIR),
+                "--start-utc", _iso(start_ms),
+                "--end-utc", _iso(end_ms),
+                "--diagnostic-only",
+                "--output-dir", str(bounded_dir),
+                "--html-out", str(bounded_dir / "report.html"),
+            ]
+        )
+        == 0
+    )
+
+    smoke = _only_ledger_entry(smoke_dir).receipt
+    bounded = _only_ledger_entry(bounded_dir).receipt
+    smoke_evidence = smoke.window_evidence
+    bounded_evidence = bounded.window_evidence
+    assert smoke_evidence is not None and bounded_evidence is not None
+
+    # both runs consumed the same number of bars from the same tape
+    assert _only_manifest(smoke_dir)["detail"]["bars"] == WINDOW_BARS
+    assert _only_manifest(bounded_dir)["detail"]["bars"] == WINDOW_BARS
+    assert _only_manifest(smoke_dir)["window"]["bars"] == WINDOW_BARS
+    assert _only_manifest(bounded_dir)["window"]["start_ms"] == start_ms
+
+    # the non-evidential D153 run names its class and mints no capability score
+    assert smoke_evidence.profile == "smoke"
+    assert smoke_evidence.evidence_class == "smoke"
+    assert smoke_evidence.is_smoke is True
+    assert smoke_evidence.economic_evidence is False
+    assert smoke_evidence.bars == WINDOW_BARS
+    assert smoke.capability_score is None, "a smoke window must mint no capability score"
+    assert smoke.verify()[0] is True
+
+    # the evidential one keeps its score, carrying its own class
+    assert bounded_evidence.profile == "benchmark"
+    assert bounded_evidence.evidence_class == "benchmark"
+    assert bounded_evidence.is_smoke is False
+    assert bounded_evidence.economic_evidence is True
+    assert bounded.capability_score is not None, "an evidential window must keep its score"
+    ok, reason = bounded.verify()
+    assert ok, reason
+
+    assert smoke_evidence.evidence_class != bounded_evidence.evidence_class
+    assert smoke.digest_version == bounded.digest_version == RECEIPT_DIGEST_VERSION
+    assert smoke.receipt_digest != bounded.receipt_digest
+
+    # the class reaches the artifact the run bound, where a consumer can read it
+    assert (smoke_dir / "benchmark_ledger.jsonl").read_text(encoding="utf-8").lower().count(
+        "smoke"
+    ) >= 1
+    assert _only_manifest(smoke_dir)["window"]["evidence_class"] == "smoke"
+    assert _only_manifest(bounded_dir)["window"]["evidence_class"] == "benchmark"
+    telemetry = sorted((smoke_dir / "runs").glob("*.telemetry.json"))
+    assert len(telemetry) == 1
+    assert json.loads(telemetry[0].read_text())["window"]["evidence_class"] == "smoke"
