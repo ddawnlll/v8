@@ -1,0 +1,112 @@
+{
+  "bars": 744,
+  "contract": {
+    "funding": "MISSING_NOT_FED_TO_THIS_PATH",
+    "initial_balance_usdt": "10000",
+    "maker_fee": "0.0002",
+    "risk_per_trade_fraction": "0.01",
+    "slippage": "NOT_MODELLED_IN_REPLAY",
+    "taker_fee": "0.0005"
+  },
+  "economic_claim": "NONE",
+  "evidence_class": "DECISION_PLANE_DIAGNOSTIC: real bars and real taker fees, but not engine fills and not a venue settlement; funding/slippage MISSING, not zero",
+  "family_registry_sha256": "d8aaf1e8210b2e6441d0d06a52590e69a51f046a1d795ab55eef5301041bef95",
+  "measurements": [
+    {
+      "campaigns": 0,
+      "decisions": 0,
+      "exit_kinds": {},
+      "exposure_bars": 0,
+      "exposure_fraction": 0.0,
+      "fee_cost_sum": 0.0,
+      "first_decision_identity": null,
+      "gross_return_sum": 0.0,
+      "holding_bars": {
+        "histogram": {},
+        "max": null,
+        "median": null,
+        "min": null
+      },
+      "net_return_sum": 0.0,
+      "note": "no exposure by construction; the comparison floor, not a measurement",
+      "open_risk_return": 0.0,
+      "open_trade_expiry_bars": null,
+      "open_trade_expiry_days": null,
+      "open_trade_expiry_hours": null,
+      "opportunity_ttl_bars": [],
+      "policy_id": "cash",
+      "turnover": 0.0
+    },
+    {
+      "campaigns": 29,
+      "decisions": 29,
+      "exit_kinds": {
+        "EXPIRY": 28,
+        "OPEN_AT_CUTOFF": 1
+      },
+      "exposure_bars": 677,
+      "exposure_fraction": 0.805952380952381,
+      "fee_cost_sum": 0.029,
+      "first_decision_identity": "sha256:46d12ae8f4744e8760858d13511a0131e28e4cf68ec2fd67a3bb739de2ebc9a4",
+      "gross_return_sum": 0.04786059,
+      "holding_bars": {
+        "histogram": {
+          "0-49": 29
+        },
+        "max": 24,
+        "median": 24,
+        "min": 5
+      },
+      "net_return_sum": 0.01886059,
+      "open_risk_return": 0.00114815,
+      "open_trade_expiry_bars": null,
+      "open_trade_expiry_days": null,
+      "open_trade_expiry_hours": null,
+      "opportunity_ttl_bars": [
+        24.0
+      ],
+      "policy_id": "causal_trend",
+      "turnover": 0.58
+    },
+    {
+      "campaigns": 31,
+      "decisions": 31,
+      "exit_kinds": {
+        "STOP": 30,
+        "TARGET": 1
+      },
+      "exposure_bars": 126,
+      "exposure_fraction": 0.15,
+      "fee_cost_sum": 0.031,
+      "first_decision_identity": "sha256:0409469d3d9c5730408d46b0577fbad5b834c72a63c33b4ff7359cc23aaa5129",
+      "gross_return_sum": -0.00035738,
+      "holding_bars": {
+        "histogram": {
+          "0-49": 31
+        },
+        "max": 47,
+        "median": 1,
+        "min": 1
+      },
+      "net_return_sum": -0.03135738,
+      "open_risk_return": 0.0,
+      "open_trade_expiry_bars": 336,
+      "open_trade_expiry_days": 14.0,
+      "open_trade_expiry_hours": 336.0,
+      "opportunity_ttl_bars": [
+        336.0
+      ],
+      "policy_id": "plain_swing",
+      "turnover": 0.62
+    }
+  ],
+  "success_condition": "a higher return is NOT the acceptance criterion; a null or negative result is a complete technical delivery",
+  "window": {
+    "end_ms": 1738368000000,
+    "end_utc": "2025-02-01",
+    "instrument": "BTCUSDT",
+    "start_ms": 1735689600000,
+    "start_utc": "2025-01-01",
+    "tape": "/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl"
+  }
+}
