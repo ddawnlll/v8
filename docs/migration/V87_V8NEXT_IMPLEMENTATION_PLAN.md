@@ -86,7 +86,7 @@ Hepsi bu planın yazarı tarafından kaynak okunarak doğrulandı.
 | D10c | `gate_resolution.py:546-575` | `passed = dsr_conf >= 0.95 and bonf_p <= 0.05`; **WRC hesaplanıp metriklere yazılıyor ama karara girmiyor**; üstelik WRC baseline'ı sıfır-kayıplı seri | `[DOĞRULANDI]` |
 | D10d | `gate_resolution.py:609-664` | G6: IS ilk 2/3, OOS son 1/3, `retention = oos_profit / is_profit >= 0.60`. Eşit günlük kâr hızında OOS kârı IS'in ~yarısı olur → tutarlı bir strateji bu eşiği **yapısal olarak** geçemez | `[DOĞRULANDI]` |
 | D10e | `gate_resolution.py:689-784` | G7 "prospective shadow": girdi `candles[-100:]` (tarihsel); e-process ve drift **yalnızca fiyattan** türetiliyor (`ret=(px-ref_mean)/ref_mean`, `update=1+0.1*tanh(ret*10)`); `decisions` sadece log'a yazılıyor, verdict'e girmiyor; `passed = 0.01 <= e_raw < 20.0 and drift < 0.15`. Yani prospektiflik kararı **fiyat dalgalanmasıyla** veriliyor, strateji davranışıyla değil | `[DOĞRULANDI]` |
-| D11 | ledger hash zinciri (entry 0) | Repo'nun kendi kanban kaydı `t_e46f7b28` ("Investigating BROKEN evidence ledger (entry 0 DIGEST_TAMPERED)") işi **done** işaretlemiş; worker beklenen `b5683f…` ile saklanan `5e1258…` farkını ölçmüş. Analizin "digest-v2/v3 kanon" hipotezini **ben yeniden üretmedim** | `[KISMİ — repo kaydı]` |
+| D11 | `benchmark_receipt.py:295-321` + ledger kayıtları | **Yayımlanmış ledger sağlam; "BROKEN / DIGEST_TAMPERED" bir doğrulayıcı hatasıdır.** Kanon 10→12→13 alana büyüdü ama **10→12 geçişinde sürüm damgası artırılmadı** (0–11 `v2` etiketli ama 10-alan kanonuyla yazılmış); `verify()` bugünkü 13-alan kanonunu uyguluyor ve `!= "v8.5-digest-v3"` koşulu yüzünden **v2'ye `input_binding`'i de ekliyor**. Ölçüm: seq 0–11 → 10-alan kanonu (`1c75c1a1`) ile **birebir**; seq 12 → 12-alan (`9bf0b1aa`) ile **birebir**; seq 13–18 → 13-alan (güncel) ile **birebir**. Zincir bağlantıları da sağlam (her `parent_entry_hash` = önceki `entry_hash`) | `[DOĞRULANDI]` |
 
 **Cebirsel tavan (benim hesabım, doğrulandı):** kullanılan ağırlıklar
 0.12+0.15+0.10+0.08 = 0.45; en iyi alt bantlar Exec 0.40, Ops 0.48, Def 0.105,
@@ -205,9 +205,10 @@ discriminating check, sonra milestone koşusu.
 
 ## 6. Açık uçlar
 
-- D11 (ledger zinciri) birinci elden yeniden üretilmedi; yalnızca repo'nun kendi
-  kanban kaydı ve ölçümü var. SB04'te `verify_chain` sürüm kanonuyla yeniden
-  ölçülecek.
+- D11 çözüldü: düzeltme **doğrulayıcıda** yapılır, kayıtlarda değil. Eski satırlar
+  yeniden hash'lenmeyecek, "yeniden mühürlenmeyecek" ve tamper diye
+  etiketlenmeyecek; `verify()` gerçek kanon kümesine göre sürüm-farkında olacak ve
+  bundan sonraki kanon değişimleri **yeni sürüm damgası** alacak. Bu SB04'ün işi.
 - Entry 19'un tam giriş manifesti ve eski readiness certificate'ı bulunamadı;
   "1.7 → 2.0 artışı" nedeni bu iki artifact olmadan **kesinleştirilemez**
   (analiz §1). Uydurulmayacak.
