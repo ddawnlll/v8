@@ -2095,6 +2095,21 @@ def sharpe_ci_cell(m: MetricSet) -> str:
     return f"[{m.sharpe_ci_low:.3f},{m.sharpe_ci_high:.3f}]"
 
 
+def excess_ci_cell(m: MetricSet) -> str:
+    """Render the WINDOW EXCESS RETURN CI as `[lo,hi]`; empty when not computed.
+
+    The interval is the block-bootstrap interval of `excess_vs_primary` (#396),
+    so it is a return-scale interval (fraction of capital over the window) and
+    never a Sharpe ratio. It is printed beside its own point estimate at that
+    estimate's precision, which keeps `excess_ci_low <= excess_vs_primary <=
+    excess_ci_high` readable off the page. Honest absence mirrors the Sharpe
+    path: no interval computed, no bracket printed.
+    """
+    if m.excess_ci_low is None or m.excess_ci_high is None:
+        return ""
+    return f"[{m.excess_ci_low:.4f},{m.excess_ci_high:.4f}]"
+
+
 def render_report(receipt: EconomicReceipt) -> str:
     r = receipt
     lines = [
@@ -2128,9 +2143,13 @@ def render_report(receipt: EconomicReceipt) -> str:
         "Sharpe_ann and its [CI] are both annualized (per-bar Sharpe x "
         f"{SHARPE_ANNUALIZATION:.2f} = sqrt({HOURS_PER_YEAR:.0f})); the CI is a "
         "circular block-bootstrap percentile interval on that same scale, so it "
-        "contains its own point estimate unless the row is marked degenerate.",
+        "contains its own point estimate unless the row is marked degenerate. "
+        "`excess vs primary [CI]` is the block-bootstrap interval of the window "
+        "excess return beside it — a return-scale interval (fraction of capital "
+        "over the window), never a Sharpe ratio — and is omitted when it could "
+        "not be computed.",
         "",
-        "| curve | net | $P&L | excess vs primary | Sharpe_ann [CI] | maxDD | turn | commission $ | funding $ |",
+        "| curve | net | $P&L | excess vs primary [CI] | Sharpe_ann [CI] | maxDD | turn | commission $ | funding $ |",
         "|---|---|---|---|---|---|---|---|---|",
     ]
     for name, m in r.metrics.items():
@@ -2138,6 +2157,9 @@ def render_report(receipt: EconomicReceipt) -> str:
         if m.sharpe_degenerate:
             ci += degeneracy_marker(m)
         ex = f"{m.excess_vs_primary:.4f}" if m.excess_vs_primary is not None else "—"
+        ex_ci = excess_ci_cell(m)
+        if ex_ci:
+            ex = f"{ex} {ex_ci}"
         fd = f"{m.funding_cost:.2f}" if m.funding_cost is not None else "MISSING"
         pnl = m.net_return * r.run.capital
         lines.append(
