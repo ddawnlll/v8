@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from decimal import Decimal
 from enum import StrEnum
 from typing import Any
@@ -51,6 +51,33 @@ class Stance:
     mechanism_family: str = "volatility-expansion-hypothesis"
     version: str = "squeeze-observer-v1"
     variant_id: str = "baseline"
+
+
+#: Field names of the two hot per-bar records. Resolved once at import instead of
+#: per conversion: ``dataclasses.fields()`` was measured as a top-five cost in a
+#: portfolio run (302k calls) purely from re-deriving them inside the loop.
+STANCE_FIELDS: tuple[str, ...] = tuple(f.name for f in fields(Stance))
+OPPORTUNITY_FIELDS: tuple[str, ...] = tuple(f.name for f in fields(Opportunity))
+
+
+def stance_record(stance: Stance) -> dict[str, Any]:
+    """Flat stance record, identical to ``dataclasses.asdict`` for this type.
+
+    Measured on the real quad tape (385 bars x 2 curves x 4 legs x 28 experts):
+    ``asdict`` was the single largest cost of the run -- 3.3M recursive
+    ``_asdict_inner`` calls, 302k ``fields()`` lookups and 325k ``deepcopy``
+    calls -- because it recurses and deep-copies every field, including the
+    enum-valued ones. Every ``Stance`` field is a scalar (str/int/enum/None), so
+    a direct attribute copy produces a mapping that compares equal field by
+    field, with no recursion and no copy. ``test_perf_hot_paths`` pins that
+    equality for all 28 canonical experts.
+    """
+    return {name: getattr(stance, name) for name in STANCE_FIELDS}
+
+
+def opportunity_record(opportunity: Opportunity) -> dict[str, Any]:
+    """Flat opportunity record, identical to ``dataclasses.asdict`` for this type."""
+    return {name: getattr(opportunity, name) for name in OPPORTUNITY_FIELDS}
 
 
 def linear_exposure_id(instrument_id: str) -> str | None:
@@ -253,7 +280,6 @@ def build_reconciliation_receipt(
         dependency_group_proofs=tuple(proofs),
         aggregate_stance=agg,
     )
-
 
 
 @dataclass(frozen=True)

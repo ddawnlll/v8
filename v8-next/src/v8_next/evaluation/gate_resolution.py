@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
@@ -38,7 +39,27 @@ from v8_next.evaluation.claims import ClaimRegistry, StatutoryClaimRecord
 from v8_next.evaluation.deflated_sharpe import DSRPlan, deflated_sharpe_diagnostic
 from v8_next.evaluation.reality_check import reality_check_diagnostic
 
-DEFAULT_TAPE_PATH = Path("research/tape/btcusdt-1h-12m/tape.jsonl")
+
+def _default_tape_path() -> Path:
+    """Repo-root-anchored default tape, so the path cannot depend on the cwd.
+
+    The default used to be the bare relative path ``research/tape/...``, which
+    resolves to nothing whenever a run starts from ``v8-next/`` (the pytest
+    rootdir) or from any other directory. Consequences measured on this tree:
+    the G5 regime fallback below skips itself with ``if DEFAULT_TAPE_PATH.exists()``
+    -- the same nominal run grades a gate differently depending on where it was
+    launched -- and the real-tape tests that guard on the same constant skip
+    silently instead of running. Both are correctness defects that look like
+    speed. ``V8_TAPE_PATH`` overrides it for relocated tapes.
+    """
+    override = os.environ.get("V8_TAPE_PATH")
+    if override:
+        return Path(override)
+    root = Path(__file__).resolve().parents[4]
+    return root / "research" / "tape" / "btcusdt-1h-12m" / "tape.jsonl"
+
+
+DEFAULT_TAPE_PATH = _default_tape_path()
 
 
 def extract_account_balance(account: dict[str, Any], default: float = 10000.0) -> float:
@@ -169,14 +190,20 @@ def classify_market_regimes(
         for i, c in enumerate(all_candles)
     ]
 
-    df = pl.DataFrame(records).with_columns(
-        (pl.col("close").log() - pl.col("close").shift(1).log()).alias("log_ret"),
-        (pl.col("close") / pl.col("close").shift(eff_len) - 1.0).alias("ret_w"),
-    ).with_columns(
-        pl.col("log_ret").rolling_std(window_size=eff_len).alias("vol_w"),
+    df = (
+        pl.DataFrame(records)
+        .with_columns(
+            (pl.col("close").log() - pl.col("close").shift(1).log()).alias("log_ret"),
+            (pl.col("close") / pl.col("close").shift(eff_len) - 1.0).alias("ret_w"),
+        )
+        .with_columns(
+            pl.col("log_ret").rolling_std(window_size=eff_len).alias("vol_w"),
+        )
     )
 
-    valid_df = df.with_row_index().filter(pl.col("ret_w").is_not_null() & pl.col("vol_w").is_not_null())
+    valid_df = df.with_row_index().filter(
+        pl.col("ret_w").is_not_null() & pl.col("vol_w").is_not_null()
+    )
     if len(valid_df) == 0:
         quarter = max(1, n // 4)
         return {
@@ -291,7 +318,9 @@ def evaluate_g3_scenario_robustness(
     max_observed_dd = max(drawdowns) if drawdowns else 0.0
     max_observed_var = max(return_variances) if return_variances else 0.0
 
-    empty_regimes = sorted(n for n, r in regime_results.items() if r["trades"] < min_trades_per_regime)
+    empty_regimes = sorted(
+        n for n, r in regime_results.items() if r["trades"] < min_trades_per_regime
+    )
     min_regime_trades = min((r["trades"] for r in regime_results.values()), default=0)
 
     passed = (
@@ -347,7 +376,9 @@ def evaluate_g4_synthetic_falsification(
     )
 
     fill_model = ProbabilisticFillModel(prob_fill_on_limit=0.95, prob_slippage=1.0)
-    latency_model = StaticLatencyModel(base_latency_nanos=500_000_000, insert_latency_nanos=200_000_000)
+    latency_model = StaticLatencyModel(
+        base_latency_nanos=500_000_000, insert_latency_nanos=200_000_000
+    )
     shock_taker_fee = Decimal("0.0015")  # 3x standard fee
 
     eval_candles = tuple(candles[:200]) if len(candles) >= 200 else tuple(candles)
@@ -387,7 +418,10 @@ def evaluate_g4_synthetic_falsification(
             else f"SHOCK_BUST_OR_NONFINITE: equity={final_equity:.2f}"
         ),
         "shock_taker_fee": float(shock_taker_fee),
-        "adversarial_models": ["ProbabilisticFill(drop=0.05, slip=1.0)", "StaticLatency(500ms+200ms)"],
+        "adversarial_models": [
+            "ProbabilisticFill(drop=0.05, slip=1.0)",
+            "StaticLatency(500ms+200ms)",
+        ],
         "bracket_stop_loss_pct": float(bracket_cfg.bracket_stop_pct or Decimal("0.02")),
         "account_survived": no_bust,
     }
@@ -473,10 +507,22 @@ def evaluate_g5_selection_control(
     r_slip = r_champ - 0.0002
 
     losses = {
-        "champion": tuple(IntervalLoss(i, i + 1, i + 1, -Decimal(str(round(float(r), 8)))) for i, r in enumerate(r_champ)),
-        "fee_stressed": tuple(IntervalLoss(i, i + 1, i + 1, -Decimal(str(round(float(r), 8)))) for i, r in enumerate(r_fee)),
-        "conservative": tuple(IntervalLoss(i, i + 1, i + 1, -Decimal(str(round(float(r), 8)))) for i, r in enumerate(r_cons)),
-        "slippage_stressed": tuple(IntervalLoss(i, i + 1, i + 1, -Decimal(str(round(float(r), 8)))) for i, r in enumerate(r_slip)),
+        "champion": tuple(
+            IntervalLoss(i, i + 1, i + 1, -Decimal(str(round(float(r), 8))))
+            for i, r in enumerate(r_champ)
+        ),
+        "fee_stressed": tuple(
+            IntervalLoss(i, i + 1, i + 1, -Decimal(str(round(float(r), 8))))
+            for i, r in enumerate(r_fee)
+        ),
+        "conservative": tuple(
+            IntervalLoss(i, i + 1, i + 1, -Decimal(str(round(float(r), 8))))
+            for i, r in enumerate(r_cons)
+        ),
+        "slippage_stressed": tuple(
+            IntervalLoss(i, i + 1, i + 1, -Decimal(str(round(float(r), 8))))
+            for i, r in enumerate(r_slip)
+        ),
     }
 
     variants = tuple(losses.keys())
@@ -513,7 +559,11 @@ def evaluate_g5_selection_control(
         # hardcoded p-value (anti-fabrication: no synthetic statistical outputs).
         try:
             raw_p = float(dsr_result["multiple_testing"]["raw_pvalues"]["champion"])
-            bonf_p = float(dsr_result["multiple_testing"]["adjustments"]["bonferroni"]["adjusted_pvalues"]["champion"])
+            bonf_p = float(
+                dsr_result["multiple_testing"]["adjustments"]["bonferroni"]["adjusted_pvalues"][
+                    "champion"
+                ]
+            )
         except (KeyError, TypeError, ValueError) as e:
             return GateState.BLOCKED, {
                 "error": f"MISSING_CHAMPION_PVALUE: DSR output lacks champion entry: {e}",
@@ -729,9 +779,7 @@ def evaluate_g7_prospective_shadow(
     }
     if not passed:
         metrics["reason"] = (
-            "E_PROCESS_OUT_OF_BAND"
-            if not (0.01 <= e_process_raw < 20.0)
-            else "DRIFT_EXCEEDED"
+            "E_PROCESS_OUT_OF_BAND" if not (0.01 <= e_process_raw < 20.0) else "DRIFT_EXCEEDED"
         )
     return state, metrics
 
@@ -764,7 +812,9 @@ def evaluate_g8_live_realization(
     }
 
     # Fixture guard: never count fixture as live, even if well-formed
-    if live_fills_path is not None and (source == "fixture" or is_fixture_path(Path(live_fills_path))):
+    if live_fills_path is not None and (
+        source == "fixture" or is_fixture_path(Path(live_fills_path))
+    ):
         return GateState.BLOCKED, {
             **base_doc,
             "mode": "FIXTURE_NOT_LIVE",
@@ -795,7 +845,9 @@ def evaluate_g8_live_realization(
             return GateState.PASS, out
         if mode in ("UNRUN_NO_VENUE_ACCOUNT", "MALFORMED_SHADOW_FILE"):
             # Malformed or absent but path was given => BLOCKED (explicit claim attempted)
-            state = GateState.BLOCKED if mode == "MALFORMED_SHADOW_FILE" else GateState.NOT_APPLICABLE
+            state = (
+                GateState.BLOCKED if mode == "MALFORMED_SHADOW_FILE" else GateState.NOT_APPLICABLE
+            )
             return state, {**base_doc, **meta}
 
     # No path supplied: research / candidate phase => diagnostic fold.
@@ -841,13 +893,17 @@ def evaluate_g9_certificate_authority(
     )
 
     if success and claim_record is not None:
-        return GateState.PASS, {
-            "claim_id": claim_record.claim_id,
-            "claim_class": claim_record.claim_class.value,
-            "allowed_header": claim_record.allowed_rendering_header,
-            "signature_verified": claim_record.verify_signature(),
-            "message": msg,
-        }, claim_record
+        return (
+            GateState.PASS,
+            {
+                "claim_id": claim_record.claim_id,
+                "claim_class": claim_record.claim_class.value,
+                "allowed_header": claim_record.allowed_rendering_header,
+                "signature_verified": claim_record.verify_signature(),
+                "message": msg,
+            },
+            claim_record,
+        )
 
     return GateState.BLOCKED, {"error": msg}, None
 

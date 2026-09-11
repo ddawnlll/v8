@@ -9,7 +9,7 @@ Epistemic & Execution Demarcation (matching V8_NEXT_IMPLEMENTATION_SCOPE.md):
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
 
@@ -47,7 +47,13 @@ from v8_next.adapters.execution_telemetry import (
 )
 from v8_next.domain.market import Candle, CausalFrame, build_candle_dataframe, frame_at
 from v8_next.domain.positioning import PositioningReading
-from v8_next.economics.decisions import Opportunity, StanceKind, opportunity_at
+from v8_next.economics.decisions import (
+    Opportunity,
+    StanceKind,
+    opportunity_at,
+    opportunity_record,
+    stance_record,
+)
 from v8_next.economics.grammar import grammar_opportunity
 from v8_next.experts.registry import observe_all_28
 from v8_next.opportunities.book import OpportunityBook
@@ -235,9 +241,7 @@ class ExpertEnsembleStrategy(Strategy):
                 )
             )
         if record is not None:
-            self.opportunity_book.update_status(
-                record.opportunity_id, OpportunityStatus.ADMITTED
-            )
+            self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
         return f"TWAP_CHILD_{sl['done']}/{sl['total']}"
 
     def on_bar(self, bar: Bar) -> None:
@@ -305,6 +309,7 @@ class ExpertEnsembleStrategy(Strategy):
                 exposure = self.exposure_resolver.resolve_ticker(raw_sym, venue_str, dir_enum)
             except Exception:
                 from v8_next.opportunities.models import EconomicExposureStructure
+
                 exposure = EconomicExposureStructure.single_perp(
                     raw_sym, raw_sym.replace("USDT", ""), venue_str, "USDT", dir_enum
                 )
@@ -314,10 +319,18 @@ class ExpertEnsembleStrategy(Strategy):
             target_px: Decimal | None = None
             if self.ensemble_config.bracket_stop_pct is not None:
                 stop_dist = entry_px * self.ensemble_config.bracket_stop_pct
-                stop_px = entry_px - stop_dist if dir_enum == ExposureDirection.LONG else entry_px + stop_dist
+                stop_px = (
+                    entry_px - stop_dist
+                    if dir_enum == ExposureDirection.LONG
+                    else entry_px + stop_dist
+                )
             if self.ensemble_config.bracket_target_pct is not None:
                 target_dist = entry_px * self.ensemble_config.bracket_target_pct
-                target_px = entry_px + target_dist if dir_enum == ExposureDirection.LONG else entry_px - target_dist
+                target_px = (
+                    entry_px + target_dist
+                    if dir_enum == ExposureDirection.LONG
+                    else entry_px - target_dist
+                )
 
             record = OpportunityRecord.create(
                 exposure=exposure,
@@ -373,7 +386,10 @@ class ExpertEnsembleStrategy(Strategy):
                 if o.instrument_id == self.instrument_id and not o.is_closed
             ]
 
-            if len(open_positions) < self.ensemble_config.max_concurrent_positions and not open_orders:
+            if (
+                len(open_positions) < self.ensemble_config.max_concurrent_positions
+                and not open_orders
+            ):
                 instrument = self.cache.instrument(self.instrument_id)
                 if instrument is not None:
                     side = OrderSide.BUY if opportunity.direction == "LONG" else OrderSide.SELL
@@ -412,10 +428,7 @@ class ExpertEnsembleStrategy(Strategy):
                                 equity,
                                 self.ensemble_config.risk_fraction,
                             ).as_decimal()
-                    if (
-                        base_qty > 0
-                        and self.ensemble_config.max_notional_per_order is not None
-                    ):
+                    if base_qty > 0 and self.ensemble_config.max_notional_per_order is not None:
                         from v8_next.adapters.risk_sizing import check_max_notional
 
                         allowed, _notional = check_max_notional(
@@ -459,9 +472,7 @@ class ExpertEnsembleStrategy(Strategy):
                             entry_limit_price = None
                         elif entry_type == "LIMIT":
                             entry_order_type = OrderType.LIMIT
-                            entry_limit_price = Price(
-                                float(entry_px), instrument.price_precision
-                            )
+                            entry_limit_price = Price(float(entry_px), instrument.price_precision)
                         else:
                             action = f"REJECTED_UNKNOWN_ENTRY_TYPE_{entry_type}"
                             entry_order_type = None
@@ -510,8 +521,12 @@ class ExpertEnsembleStrategy(Strategy):
                             )
                             self.submit_order_list(order_list)
                             if record is not None:
-                                self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
-                            action = f"{twap_tag}SUBMITTED_BRACKET_{entry_type}_{side.name}_{qty_str}"
+                                self.opportunity_book.update_status(
+                                    record.opportunity_id, OpportunityStatus.ADMITTED
+                                )
+                            action = (
+                                f"{twap_tag}SUBMITTED_BRACKET_{entry_type}_{side.name}_{qty_str}"
+                            )
                     else:
                         entry_type = self.ensemble_config.entry_order_type
                         if entry_type == "LIMIT":
@@ -519,7 +534,9 @@ class ExpertEnsembleStrategy(Strategy):
                                 instrument_id=self.instrument_id,
                                 order_side=side,
                                 quantity=quantity,
-                                price=Price(float(bar.close.as_decimal()), instrument.price_precision),
+                                price=Price(
+                                    float(bar.close.as_decimal()), instrument.price_precision
+                                ),
                             )
                         elif entry_type == "MARKET":
                             order = self.order_factory.market(
@@ -547,7 +564,10 @@ class ExpertEnsembleStrategy(Strategy):
                                             quantity=Quantity.from_str(
                                                 format(slices[0], f".{instrument.size_precision}f")
                                             ),
-                                            price=Price(float(bar.close.as_decimal()), instrument.price_precision),
+                                            price=Price(
+                                                float(bar.close.as_decimal()),
+                                                instrument.price_precision,
+                                            ),
                                         )
                                     else:
                                         submit_order = self.order_factory.market(
@@ -564,10 +584,15 @@ class ExpertEnsembleStrategy(Strategy):
                                                 "quantity": s,
                                                 "bracket": False,
                                                 "entry_order_type": (
-                                                    OrderType.LIMIT if entry_type == "LIMIT" else OrderType.MARKET
+                                                    OrderType.LIMIT
+                                                    if entry_type == "LIMIT"
+                                                    else OrderType.MARKET
                                                 ),
                                                 "entry_price": (
-                                                    Price(float(bar.close.as_decimal()), instrument.price_precision)
+                                                    Price(
+                                                        float(bar.close.as_decimal()),
+                                                        instrument.price_precision,
+                                                    )
                                                     if entry_type == "LIMIT"
                                                     else None
                                                 ),
@@ -580,7 +605,9 @@ class ExpertEnsembleStrategy(Strategy):
                                     twap_tag = f"TWAP_PARENT_1/{len(slices)}_"
                             self.submit_order(submit_order)
                             if record is not None:
-                                self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
+                                self.opportunity_book.update_status(
+                                    record.opportunity_id, OpportunityStatus.ADMITTED
+                                )
                             action = f"{twap_tag}SUBMITTED_{entry_type}_{side.name}_{qty_str}"
             else:
                 action = "POSITION_OCCUPIED"
@@ -594,14 +621,14 @@ class ExpertEnsembleStrategy(Strategy):
                 "high": str(bar.high),
                 "low": str(bar.low),
                 "close": str(bar.close),
-                "opportunity": asdict(opportunity) if opportunity else None,
+                "opportunity": opportunity_record(opportunity) if opportunity else None,
                 "support_count": len(supports),
                 "contradict_count": len(contradicts),
                 "abstain_count": len(abstains),
                 "consensus_supported": is_supported,
                 "action": action,
                 "sizing_mode": sizing_mode,
-                "stances": [asdict(s) for s in stances],
+                "stances": [stance_record(s) for s in stances],
             }
         )
 

@@ -16,7 +16,7 @@ Architectural Scope Note on squeeze_swing and divergence_12_setups:
 """
 
 from collections.abc import Callable, Mapping
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from typing import Any
 
 from v8_next.domain.market import CausalFrame
@@ -567,7 +567,7 @@ def validate_variant_overrides(overrides: Mapping[str, str]) -> None:
         allowed = VARIANT_TABLE[canonical]
         if variant not in allowed:
             raise ValueError(
-                f"unsupported variant {variant!r} for {expert_id!r}; " f"expected one of {allowed!r}"
+                f"unsupported variant {variant!r} for {expert_id!r}; expected one of {allowed!r}"
             )
 
 
@@ -644,17 +644,25 @@ def observe_expert(
 
     raw_stance = spec.observer_fn(frame, opportunity, **kwargs)
 
-    # Authoritatively wrap and apply the canonical witness metadata,
-    # mirroring Rust's LegacyExpertWitnessAdapter.observe():
-    return replace(
-        raw_stance,
-        observer_id=spec.expert_id,
-        behavior_family=spec.behavior_family,
-        mechanism_family=spec.mechanism_family,
-        dependency_group=spec.dependency_group,
-        version=f"{spec.expert_id}-witness-{spec.version}",
-        variant_id=chosen_variant or raw_stance.variant_id or "UNRESOLVED",
-    )
+    # Authoritatively wrap and apply the canonical witness metadata, mirroring
+    # Rust's LegacyExpertWitnessAdapter.observe().
+    #
+    # Built from the raw stance's own instance dict rather than
+    # ``dataclasses.replace``: replace re-derives the field list and deep-copies
+    # every unhashable/unknown value on each of the 28 x bars calls per bar
+    # (measured: 499k replace calls, 1.88s cumulative over one portfolio run),
+    # while the dict merge keeps every field -- including any field added later --
+    # without either cost. Equivalence to the replace path is pinned by
+    # ``test_perf_hot_paths``.
+    metadata = {
+        "observer_id": spec.expert_id,
+        "behavior_family": spec.behavior_family,
+        "mechanism_family": spec.mechanism_family,
+        "dependency_group": spec.dependency_group,
+        "version": f"{spec.expert_id}-witness-{spec.version}",
+        "variant_id": chosen_variant or raw_stance.variant_id or "UNRESOLVED",
+    }
+    return type(raw_stance)(**{**raw_stance.__dict__, **metadata})
 
 
 def observe_all_28(
