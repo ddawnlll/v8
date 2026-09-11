@@ -42,7 +42,7 @@ from nautilus_trader.model import (
 from nautilus_trader.trading import Strategy
 
 from v8_next.adapters.execution_models import ExecutionProfile, resolve_profile, venue_kwargs
-from v8_next.domain.market import Candle, frame_at
+from v8_next.domain.market import Candle, CausalFrame, frame_at
 from v8_next.economics.swing_baseline import (
     SHARED_CONTRACT,
     SwingPolicySpec,
@@ -51,6 +51,29 @@ from v8_next.economics.swing_baseline import (
 )
 
 HOUR_NS = 3_600 * 10**9
+
+#: Bounded decision window for the per-bar fast path (see SwingEngineStrategy).
+#:
+#: Conservative documented bound, not an empirically universal guarantee: it is
+#: proven only for the exact ``plain_swing`` combination
+#: (``range-breakout-48-v1`` + ``squeeze:baseline:v2``), which needs 49 bars
+#: (grammar) and 69 bars (squeeze baseline warmup; 73 for m2/m3 worst case)
+#: plus a 14-bar span. Every indicator read for THIS combination is confined
+#: to the last 73 bars; 128 is the next power of two above that, leaving margin
+#: for rolling-window edge effects. Any other grammar/protection combination
+#: (e.g. ``causal_trend``) must use the exact ``frame_at`` path, because its
+#: dependencies were not proven bounded here. If policy dependencies change,
+#: the bound, the policy guard below and the parity tests must be revisited
+#: together. Parity for the proven combination is pinned by regression tests on
+#: real tape; any deviation (gap, irregular duration, cross-instrument,
+#: unavailable/late, duplicate/overlap) falls back to exact ``frame_at``.
+SWING_FRAME_WINDOW_BARS = 128
+
+#: Exact grammar+protection combination proven bounded for the fast path.
+#: Anything else uses the unchanged exact path.
+_FAST_PATH_POLICY_ID = "plain_swing"
+_FAST_PATH_GRAMMAR = "range-breakout-48-v1"
+_FAST_PATH_PROTECTION = "squeeze:baseline:v2"
 
 #: Declared execution semantics of the engine lane, published with every result.
 ENGINE_LANE_SEMANTICS = {
@@ -129,6 +152,21 @@ class SwingEngineStrategy(Strategy):
         self.seen: list[Candle] = []
         self.plan: dict[str, Any] | None = None  # the live campaign
         self.bars_seen = 0
+        # Conservative positional guards for the bounded fast path. Once any of
+        # these latches, the full history is known irregular, so later bounded
+        # tails must not silently become regular again. In particular the
+        # single-instrument/availability checks must be global, not tail-only:
+        # a foreign, unavailable or late-arriving candle older than the window
+        # is filtered by full ``frame_at`` (creating a gap or a different
+        # admissible set) while a naive tail would hide it.
+        self._history_continuous = True
+        self._prev_end_ns: int | None = None
+        self._duration_ns: int | None = None
+        self._duration_regular = True
+        self._history_has_foreign = False
+        self._history_has_late_or_missing = False
+        self._history_has_duplicate = False
+        self._seen_starts: set[int] = set()
 
     # --- lifecycle -----------------------------------------------------------------
 
@@ -142,6 +180,29 @@ class SwingEngineStrategy(Strategy):
         candle = self.source_candles.get(bar.ts_event)
         if candle is None:
             return
+        # Maintain O(1) conservative guards before any decision work. All latch
+        # permanently: a single irregular candle anywhere in history forces
+        # exact fallback for this and every later decision.
+        cfg_instrument = str(self.swing_config.instrument_id)
+        if candle.instrument_id != cfg_instrument:
+            self._history_has_foreign = True
+        if candle.available_ns is None or candle.available_ns > candle.end_ns:
+            # Missing or late-arriving (not immediately admissible at its own
+            # close). Full frame_at filters such bars per decision_ns, which can
+            # create gaps the tail would hide; fall back exactly henceforth.
+            self._history_has_late_or_missing = True
+        if candle.start_ns in self._seen_starts:
+            self._history_has_duplicate = True
+        else:
+            self._seen_starts.add(candle.start_ns)
+        if self._prev_end_ns is not None and candle.start_ns != self._prev_end_ns:
+            self._history_continuous = False
+        self._prev_end_ns = candle.end_ns
+        duration = candle.end_ns - candle.start_ns
+        if self._duration_ns is None:
+            self._duration_ns = duration
+        elif duration != self._duration_ns:
+            self._duration_regular = False
         self.seen.append(candle)
         self.bars_seen += 1
         if self.bars_seen <= self.warmup_bars:
@@ -151,11 +212,59 @@ class SwingEngineStrategy(Strategy):
         else:
             self._maybe_timeout(candle)
 
+    def _fast_path_eligible(self) -> bool:
+        """Exact proven combination only; all others use unchanged exact path."""
+        spec = self.swing_config.spec
+        return (
+            spec.policy_id == _FAST_PATH_POLICY_ID
+            and spec.grammar_policy == _FAST_PATH_GRAMMAR
+            and spec.protection_policy == _FAST_PATH_PROTECTION
+        )
+
+    def _decision_frame(self, candle: Candle) -> CausalFrame:
+        """Bounded causal frame with exact fallback (see module constant).
+
+        The fast path is restricted to the exact proven grammar+protection
+        combination and to histories that are globally clean (continuous,
+        regular duration, single instrument, immediately available, no
+        duplicate starts). Anything else — other policies, gaps, irregular
+        durations, foreign/late/duplicate history, short histories, or a
+        currently inadmissible candle — uses the unchanged exact ``frame_at``
+        path, preserving errors and admissible-frame behavior. In particular a
+        bad old candle outside the tail still forces fallback via the latched
+        global flags, so filtering-induced gaps can never be hidden.
+        """
+        instrument = str(self.swing_config.instrument_id)
+        if not self._fast_path_eligible():
+            return frame_at(instrument, candle.end_ns, tuple(self.seen))
+        if not self._history_continuous:
+            return frame_at(instrument, candle.end_ns, tuple(self.seen))
+        if not self._duration_regular:
+            return frame_at(instrument, candle.end_ns, tuple(self.seen))
+        if self._history_has_foreign:
+            return frame_at(instrument, candle.end_ns, tuple(self.seen))
+        if self._history_has_late_or_missing:
+            return frame_at(instrument, candle.end_ns, tuple(self.seen))
+        if self._history_has_duplicate:
+            return frame_at(instrument, candle.end_ns, tuple(self.seen))
+        if len(self.seen) <= SWING_FRAME_WINDOW_BARS:
+            return frame_at(instrument, candle.end_ns, tuple(self.seen))
+        if (
+            candle.instrument_id != instrument
+            or candle.available_ns is None
+            or candle.available_ns > candle.end_ns
+        ):
+            return frame_at(instrument, candle.end_ns, tuple(self.seen))
+        window = self.seen[-SWING_FRAME_WINDOW_BARS:]
+        return CausalFrame(
+            instrument, candle.end_ns, tuple(window), _trusted_order=True
+        )
+
     # --- decision → order ----------------------------------------------------------
 
     def _try_open(self, candle: Candle) -> None:
         spec = self.swing_config.spec
-        frame = frame_at(str(self.swing_config.instrument_id), candle.end_ns, tuple(self.seen))
+        frame = self._decision_frame(candle)
         decision = swing_signal(frame, spec, bar_ns=HOUR_NS)
         if decision is None:
             return
@@ -229,6 +338,8 @@ class SwingEngineStrategy(Strategy):
             "stop_price": str(decision.stop_price),
             "target_price": str(decision.target_price),
         }
+        # the live record, not a snapshot: the bracket leg ids are stamped on it after the
+        # entry fills, and an auditor must be able to see which leg protected the campaign
         self.events.decisions.append(dict(self.plan))
         self.submit_order(entry)
 
@@ -252,6 +363,7 @@ class SwingEngineStrategy(Strategy):
         )
         plan["stop_client_order_id"] = str(stop.client_order_id)
         plan["target_client_order_id"] = str(target.client_order_id)
+        self.events.decisions.append({"bracket_submitted": dict(plan)})
         # both legs rest together; the first to fill closes the position and the sibling is
         # cancelled from on_order_filled, which is the OCO behaviour the replay assumes
         self.submit_order(stop)
@@ -270,6 +382,10 @@ class SwingEngineStrategy(Strategy):
         plan = self.plan or {}
         if plan.get("status") != "POSITION_OPEN":
             return
+        # retire the resting bracket first: an orphaned stop or target left on the book
+        # would fill later and open a position this adapter is no longer tracking
+        for order in list(self.cache.orders_open(instrument_id=self.instrument_id)):
+            self.cancel_order(order)
         exit_side = OrderSide.SELL if plan["direction"] == "LONG" else OrderSide.BUY
         order = self.order_factory.market(
             instrument_id=self.instrument_id,
@@ -278,6 +394,7 @@ class SwingEngineStrategy(Strategy):
         )
         plan["status"] = f"CLOSING_{reason}"
         plan["close_client_order_id"] = str(order.client_order_id)
+        self.events.decisions.append(dict(plan))
         self.submit_order(order)
 
     # --- engine callbacks ----------------------------------------------------------
@@ -310,6 +427,7 @@ class SwingEngineStrategy(Strategy):
             plan["status"] = "POSITION_OPEN"
             plan["entry_fill_ns"] = getattr(event, "ts_event", 0)
             plan["entry_fill_px"] = str(getattr(event, "last_px", ""))
+            self.events.decisions.append(dict(plan))
             if plan["has_bracket"]:
                 self._submit_bracket()
             return
@@ -457,4 +575,10 @@ def run_swing_engine(
             "positions_closed": strategy.events.positions_closed,
         },
         "open_position_at_end": None if strategy.plan is None else strategy.plan.get("status"),
+        # an order left resting on the book after the run would fill later and open a position
+        # the adapter is no longer tracking, so it is published rather than assumed absent
+        "orders_open_at_end": [
+            str(order.client_order_id)
+            for order in strategy.cache.orders_open(instrument_id=strategy.instrument_id)
+        ],
     }

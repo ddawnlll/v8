@@ -1,0 +1,756 @@
+{
+  "campaigns": [
+    {
+      "replay": {
+        "decision_identity": "sha256:6c7ee7e5edc2901039acaedb5bb472120b5905b0fadc50fda7bfd0467a225105",
+        "decision_ns": 1735812000000000000,
+        "direction": "LONG",
+        "entry_reference": "96722.0",
+        "exit_kind": "STOP",
+        "exit_ns": 1735815600000000000,
+        "exit_price": "96721.9",
+        "expires_ns": 1737021600000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -1.0338909452432825e-06,
+        "has_bracket": false,
+        "net_return": -0.0010010338909452433,
+        "policy_id": "plain_swing",
+        "stop_price": "96722.0",
+        "target_price": "96722.0"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:319e8626c6514eab9335e4c2f15d1cddc602161a0ae61c7078e08fa959121bf8",
+        "decision_ns": 1735830000000000000,
+        "direction": "LONG",
+        "entry_reference": "97216.3",
+        "exit_kind": "STOP",
+        "exit_ns": 1735833600000000000,
+        "exit_price": "97216.3",
+        "expires_ns": 1737039600000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "97216.3",
+        "target_price": "97216.3"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:1d53614dcb2ea693d4b5135f1c461dfae36487ba24faaa9fc3e9b4f310c0fba2",
+        "decision_ns": 1735930800000000000,
+        "direction": "LONG",
+        "entry_reference": "98483.7",
+        "exit_kind": "STOP",
+        "exit_ns": 1735934400000000000,
+        "exit_price": "98483.7",
+        "expires_ns": 1737140400000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "98483.7",
+        "target_price": "98483.7"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:491cdbf89d7bdfdf0eaa64d70c96a77c241b94b5d0b92e1f1b677906197d7c1f",
+        "decision_ns": 1736139600000000000,
+        "direction": "LONG",
+        "entry_reference": "99423.0",
+        "exit_kind": "STOP",
+        "exit_ns": 1736143200000000000,
+        "exit_price": "99423.0",
+        "expires_ns": 1737349200000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "99423.0",
+        "target_price": "99423.0"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:9ce2443b0ecf968a619a0c642a9d525cd5add535fd65d6b1e6b95de8461671a6",
+        "decision_ns": 1736175600000000000,
+        "direction": "LONG",
+        "entry_reference": "100702.1",
+        "exit_kind": "STOP",
+        "exit_ns": 1736179200000000000,
+        "exit_price": "100702.0",
+        "expires_ns": 1737385200000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -9.930279508155318e-07,
+        "has_bracket": false,
+        "net_return": -0.0010009930279508156,
+        "policy_id": "plain_swing",
+        "stop_price": "100702.1",
+        "target_price": "100702.1"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:ec7c45b3fe5b5916fb0a735536e19c911d977b46d52c4ac9afcefcac659ab4b0",
+        "decision_ns": 1736280000000000000,
+        "direction": "SHORT",
+        "entry_reference": "96433.3",
+        "exit_kind": "STOP",
+        "exit_ns": 1736283600000000000,
+        "exit_price": "96433.3",
+        "expires_ns": 1737489600000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "96433.3",
+        "target_price": "96433.3"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:7140eb79d1f1ed3f86118e684b16736543b7534707450ea20acf74372c244f5e",
+        "decision_ns": 1736319600000000000,
+        "direction": "SHORT",
+        "entry_reference": "95267.9",
+        "exit_kind": "STOP",
+        "exit_ns": 1736323200000000000,
+        "exit_price": "95267.9",
+        "expires_ns": 1737529200000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "95267.9",
+        "target_price": "95267.9"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:c330526383e7c1d68c0402dd3919388fa3b187d5d0142d6a4a7a22d73c466474",
+        "decision_ns": 1736337600000000000,
+        "direction": "SHORT",
+        "entry_reference": "95093.9",
+        "exit_kind": "TARGET",
+        "exit_ns": 1736431200000000000,
+        "exit_price": "92251.28",
+        "expires_ns": 1737547200000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.02989276914712716,
+        "has_bracket": true,
+        "net_return": 0.02889276914712716,
+        "policy_id": "plain_swing",
+        "stop_price": "96515.21",
+        "target_price": "92251.28"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:eb83bf427852b28453c2162f6c2e52adbaee44bf7a078af8219e0399c21a204e",
+        "decision_ns": 1736532000000000000,
+        "direction": "LONG",
+        "entry_reference": "95759.2",
+        "exit_kind": "STOP",
+        "exit_ns": 1736535600000000000,
+        "exit_price": "95759.2",
+        "expires_ns": 1737741600000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "95759.2",
+        "target_price": "95759.2"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:a98cf601219149465294b5f80c1f522fc30d598bab261c96bd50f0f1123efb65",
+        "decision_ns": 1736751600000000000,
+        "direction": "SHORT",
+        "entry_reference": "93604.0",
+        "exit_kind": "STOP",
+        "exit_ns": 1736755200000000000,
+        "exit_price": "93604.0",
+        "expires_ns": 1737961200000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "93604.0",
+        "target_price": "93604.0"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:70703d359a493827356fc956f2ffda598df182682a408c5726cc7f74ba30414c",
+        "decision_ns": 1736758800000000000,
+        "direction": "SHORT",
+        "entry_reference": "93010.0",
+        "exit_kind": "STOP",
+        "exit_ns": 1736762400000000000,
+        "exit_price": "93010.0",
+        "expires_ns": 1737968400000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "93010.0",
+        "target_price": "93010.0"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:2e01cc20f56556bdd622664cc0d58366c61a0652f59c3a3b42efcb41b00109f9",
+        "decision_ns": 1736766000000000000,
+        "direction": "SHORT",
+        "entry_reference": "91607.3",
+        "exit_kind": "STOP",
+        "exit_ns": 1736769600000000000,
+        "exit_price": "91607.3",
+        "expires_ns": 1737975600000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "91607.3",
+        "target_price": "91607.3"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:22f1c0e1cdc3cb253ba9d86ceea1ce70e86a68f8f8c92c56eeb06d6817b6374d",
+        "decision_ns": 1736773200000000000,
+        "direction": "SHORT",
+        "entry_reference": "90713.9",
+        "exit_kind": "STOP",
+        "exit_ns": 1736776800000000000,
+        "exit_price": "90713.9",
+        "expires_ns": 1737982800000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "90713.9",
+        "target_price": "90713.9"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "divergence_classes": [
+        "EXIT_TIME_DIVERGENCE",
+        "EXIT_PRICE_BEYOND_ONE_TICK",
+        "EXIT_KIND_DIVERGENCE_BRACKETLESS_ENGINE"
+      ],
+      "engine": {
+        "close_client_order_id": "O-20250128-100000-001-000-4",
+        "decision": {
+          "decision_identity": "sha256:ced7bfe99b0cbdd8c351b947f7e5b0d637c1777c53dd03cec0d950d04e5e24b8",
+          "decision_ns": 1736848800000000000,
+          "direction": "LONG",
+          "entry_reference": "97130.0",
+          "expires_ns": 1738058400000000000,
+          "instrument_id": "BTCUSDT-PERP.BINANCE",
+          "open_trade_expiry_bars": 336,
+          "opportunity_id": "a3644705521625c9e9a480fb071f2ebb90187f05a31202a8a8456387bd3d7e0b",
+          "opportunity_ttl_bars": 336.0,
+          "policy_id": "plain_swing",
+          "protection_policy": "squeeze:baseline:v2",
+          "stop_price": "97130.0",
+          "target_price": "97130.0"
+        },
+        "direction": "LONG",
+        "entry_bar_ns": 1736848800000000000,
+        "entry_client_order_id": "O-20250114-100000-001-000-3",
+        "entry_fill_ns": 1736848800000000000,
+        "entry_fill_px": "97130.00",
+        "exit_fill_ns": 1738058400000000000,
+        "exit_fill_px": "102925.2",
+        "expires_ns": 1738058400000000000,
+        "has_bracket": false,
+        "quantity": 0.001,
+        "realized_pnl": "5.69517240 USDT",
+        "sizing_basis": "DECLARED_NOTIONAL_AT_ENTRY_REFERENCE",
+        "status": "CLOSED",
+        "stop_price": "97130.0",
+        "target_price": "97130.0",
+        "timeout_ns": 1738058400000000000,
+        "timeout_rule": "PROTECTION_OPEN_TRADE_EXPIRY_BARS"
+      },
+      "replay": {
+        "decision_identity": "sha256:ced7bfe99b0cbdd8c351b947f7e5b0d637c1777c53dd03cec0d950d04e5e24b8",
+        "decision_ns": 1736848800000000000,
+        "direction": "LONG",
+        "entry_reference": "97130.0",
+        "exit_kind": "STOP",
+        "exit_ns": 1736852400000000000,
+        "exit_price": "97129.9",
+        "expires_ns": 1738058400000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -1.0295480284754531e-06,
+        "has_bracket": false,
+        "net_return": -0.0010010295480284755,
+        "policy_id": "plain_swing",
+        "stop_price": "97130.0",
+        "target_price": "97130.0"
+      },
+      "status": "DIVERGENT"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:94334320e9b0b9487b8633e66da91b70b37e219ef3f98db5da9ea68616861184",
+        "decision_ns": 1736949600000000000,
+        "direction": "LONG",
+        "entry_reference": "98916.1",
+        "exit_kind": "STOP",
+        "exit_ns": 1737039600000000000,
+        "exit_price": "97547.26",
+        "expires_ns": 1738159200000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.013838394356429449,
+        "has_bracket": true,
+        "net_return": -0.01483839435642945,
+        "policy_id": "plain_swing",
+        "stop_price": "97547.26",
+        "target_price": "101653.78"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:668d2bb733c5c6dd301d0ca0b1fbbdcb795b3c1085c9068fe351bfbeaf56fb2c",
+        "decision_ns": 1737079200000000000,
+        "direction": "LONG",
+        "entry_reference": "101636.2",
+        "exit_kind": "STOP",
+        "exit_ns": 1737082800000000000,
+        "exit_price": "101636.2",
+        "expires_ns": 1738288800000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "101636.2",
+        "target_price": "101636.2"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:d722c7c3d5fad80089c27b1b6872c74c65b9e55abd476cfd4c13c9ce20d7d275",
+        "decision_ns": 1737111600000000000,
+        "direction": "LONG",
+        "entry_reference": "102289.0",
+        "exit_kind": "STOP",
+        "exit_ns": 1737115200000000000,
+        "exit_price": "102288.9",
+        "expires_ns": 1738321200000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -9.776222272758632e-07,
+        "has_bracket": false,
+        "net_return": -0.001000977622227276,
+        "policy_id": "plain_swing",
+        "stop_price": "102289.0",
+        "target_price": "102289.0"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:c758696546d02252eba3a96d828b8f83b71a19c09ade9ff84c95d2857d7b77e6",
+        "decision_ns": 1737118800000000000,
+        "direction": "LONG",
+        "entry_reference": "102701.9",
+        "exit_kind": "STOP",
+        "exit_ns": 1737122400000000000,
+        "exit_price": "102701.9",
+        "expires_ns": 1738328400000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "102701.9",
+        "target_price": "102701.9"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:039c86ed8a3dbac0102a39012edad2809443f7835a5fee858032dfd89f0d4d2d",
+        "decision_ns": 1737126000000000000,
+        "direction": "LONG",
+        "entry_reference": "103322.0",
+        "exit_kind": "STOP",
+        "exit_ns": 1737129600000000000,
+        "exit_price": "103321.9",
+        "expires_ns": 1738335600000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -9.678480866206691e-07,
+        "has_bracket": false,
+        "net_return": -0.0010009678480866206,
+        "policy_id": "plain_swing",
+        "stop_price": "103322.0",
+        "target_price": "103322.0"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:0f8130ae658d5d55c05d7ebb91aba3ec871975181a5b81bd5ee0621ad5e5f231",
+        "decision_ns": 1737133200000000000,
+        "direction": "LONG",
+        "entry_reference": "104923.9",
+        "exit_kind": "STOP",
+        "exit_ns": 1737136800000000000,
+        "exit_price": "104923.9",
+        "expires_ns": 1738342800000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "104923.9",
+        "target_price": "104923.9"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:7f3976e1d48a347958498df3028656a70e3139e9946925dbd3be3481c6013e06",
+        "decision_ns": 1737144000000000000,
+        "direction": "LONG",
+        "entry_reference": "105770.9",
+        "exit_kind": "STOP",
+        "exit_ns": 1737147600000000000,
+        "exit_price": "105770.9",
+        "expires_ns": 1738353600000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "105770.9",
+        "target_price": "105770.9"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:2d24347b88d1f23e9108484fcb348ce3eeffc8be23a0ec20f2cadec5bf729fa8",
+        "decision_ns": 1737316800000000000,
+        "direction": "LONG",
+        "entry_reference": "106247.9",
+        "exit_kind": "STOP",
+        "exit_ns": 1737320400000000000,
+        "exit_price": "106247.9",
+        "expires_ns": 1738526400000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": 0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "106247.9",
+        "target_price": "106247.9"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:3d8e5a8da53e2344d631ae7812e7200f71892a1bfe36f50914c53289c342902f",
+        "decision_ns": 1737356400000000000,
+        "direction": "LONG",
+        "entry_reference": "107554.0",
+        "exit_kind": "STOP",
+        "exit_ns": 1737360000000000000,
+        "exit_price": "107551.3",
+        "expires_ns": 1738566000000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -2.510366885468778e-05,
+        "has_bracket": false,
+        "net_return": -0.0010251036688546879,
+        "policy_id": "plain_swing",
+        "stop_price": "107554.0",
+        "target_price": "107554.0"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:3c4fdd23f8a60627b6d07a482d51db0e39d2fd3dd951f5c6337325f85a77f38f",
+        "decision_ns": 1737936000000000000,
+        "direction": "SHORT",
+        "entry_reference": "102560.1",
+        "exit_kind": "STOP",
+        "exit_ns": 1737939600000000000,
+        "exit_price": "102560.1",
+        "expires_ns": 1739145600000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "102560.1",
+        "target_price": "102560.1"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:e83ad137b575d551a7a4102e1a923d299f0f0725f2dc866c023d63b664367e67",
+        "decision_ns": 1737943200000000000,
+        "direction": "SHORT",
+        "entry_reference": "101244.1",
+        "exit_kind": "STOP",
+        "exit_ns": 1737946800000000000,
+        "exit_price": "101244.1",
+        "expires_ns": 1739152800000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "101244.1",
+        "target_price": "101244.1"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:36811df80aba719127175d194c1237f7de38e41c1bbd78fa8d008dd3aa2ba8b1",
+        "decision_ns": 1737954000000000000,
+        "direction": "SHORT",
+        "entry_reference": "100363.5",
+        "exit_kind": "STOP",
+        "exit_ns": 1737957600000000000,
+        "exit_price": "100363.5",
+        "expires_ns": 1739163600000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "100363.5",
+        "target_price": "100363.5"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:d6c0c834ca86b489082770d125e18bb624a4cf259e370b219460caa587876561",
+        "decision_ns": 1737961200000000000,
+        "direction": "SHORT",
+        "entry_reference": "98917.9",
+        "exit_kind": "STOP",
+        "exit_ns": 1737964800000000000,
+        "exit_price": "98918.0",
+        "expires_ns": 1739170800000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -1.0109393750354665e-06,
+        "has_bracket": false,
+        "net_return": -0.0010010109393750355,
+        "policy_id": "plain_swing",
+        "stop_price": "98917.9",
+        "target_price": "98917.9"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "divergence_classes": [],
+      "engine": {
+        "bracket_leg_filled": "O-20250129-210000-001-000-6",
+        "decision": {
+          "decision_identity": "sha256:fa36bae98d8d53b74b2a795a92c2c183fb92127250c8cc7af1df972b25284e52",
+          "decision_ns": 1738184400000000000,
+          "direction": "LONG",
+          "entry_reference": "104155.5",
+          "expires_ns": 1739394000000000000,
+          "instrument_id": "BTCUSDT-PERP.BINANCE",
+          "open_trade_expiry_bars": 336,
+          "opportunity_id": "8eaaddc12228bdeeba1cb846047da2b16fb2c112eb790cfaccfecc173e9d3b87",
+          "opportunity_ttl_bars": 336.0,
+          "policy_id": "plain_swing",
+          "protection_policy": "squeeze:baseline:v2",
+          "stop_price": "102449.48",
+          "target_price": "107567.55"
+        },
+        "direction": "LONG",
+        "entry_bar_ns": 1738184400000000000,
+        "entry_client_order_id": "O-20250129-210000-001-000-5",
+        "entry_fill_ns": 1738184400000000000,
+        "entry_fill_px": "104155.50",
+        "exit_fill_ns": 1738353600000000000,
+        "exit_fill_px": "102449.48",
+        "expires_ns": 1739394000000000000,
+        "has_bracket": true,
+        "quantity": 0.058,
+        "realized_pnl": "-104.94070442 USDT",
+        "sizing_basis": "STOP_DISTANCE",
+        "status": "CLOSED",
+        "stop_client_order_id": "O-20250129-210000-001-000-6",
+        "stop_price": "102449.48",
+        "target_client_order_id": "O-20250129-210000-001-000-7",
+        "target_price": "107567.55",
+        "timeout_ns": 1739394000000000000,
+        "timeout_rule": "PROTECTION_OPEN_TRADE_EXPIRY_BARS"
+      },
+      "replay": {
+        "decision_identity": "sha256:fa36bae98d8d53b74b2a795a92c2c183fb92127250c8cc7af1df972b25284e52",
+        "decision_ns": 1738184400000000000,
+        "direction": "LONG",
+        "entry_reference": "104155.5",
+        "exit_kind": "STOP",
+        "exit_ns": 1738353600000000000,
+        "exit_price": "102449.48",
+        "expires_ns": 1739394000000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.016379547887533583,
+        "has_bracket": true,
+        "net_return": -0.017379547887533583,
+        "policy_id": "plain_swing",
+        "stop_price": "102449.48",
+        "target_price": "107567.55"
+      },
+      "status": "RECONCILED"
+    },
+    {
+      "replay": {
+        "decision_identity": "sha256:732a73d0d6e8193eb3c829f26fbb29b05ded2736f5b300562c2530a08307e3ef",
+        "decision_ns": 1738357200000000000,
+        "direction": "SHORT",
+        "entry_reference": "101647.5",
+        "exit_kind": "STOP",
+        "exit_ns": 1738360800000000000,
+        "exit_price": "101647.5",
+        "expires_ns": 1739566800000000000,
+        "fee_cost_return": 0.001,
+        "gross_return": -0.0,
+        "has_bracket": false,
+        "net_return": -0.001,
+        "policy_id": "plain_swing",
+        "stop_price": "101647.5",
+        "target_price": "101647.5"
+      },
+      "status": "REPLAY_ONLY_CAMPAIGN"
+    },
+    {
+      "engine": {
+        "close_client_order_id": "O-20250113-140000-001-000-2",
+        "decision": {
+          "decision_identity": "sha256:f431fcbb02e113074e995d0c90b32ac337d97ea6140fcb4430d3cc112bf3996e",
+          "decision_ns": 1735567200000000000,
+          "direction": "SHORT",
+          "entry_reference": "92658.8",
+          "expires_ns": 1736776800000000000,
+          "instrument_id": "BTCUSDT-PERP.BINANCE",
+          "open_trade_expiry_bars": 336,
+          "opportunity_id": "134177006461ce4f76cbc676738484d3e747613e9402abb1307caec516575b61",
+          "opportunity_ttl_bars": 336.0,
+          "policy_id": "plain_swing",
+          "protection_policy": "squeeze:baseline:v2",
+          "stop_price": "92658.8",
+          "target_price": "92658.8"
+        },
+        "direction": "SHORT",
+        "entry_bar_ns": 1735567200000000000,
+        "entry_client_order_id": "O-20241230-140000-001-000-1",
+        "entry_fill_ns": 1735567200000000000,
+        "entry_fill_px": "92658.80",
+        "exit_fill_ns": 1736776800000000000,
+        "exit_fill_px": "91090.09999999999",
+        "expires_ns": 1736776800000000000,
+        "has_bracket": false,
+        "quantity": 0.001,
+        "realized_pnl": "1.47682555 USDT",
+        "sizing_basis": "DECLARED_NOTIONAL_AT_ENTRY_REFERENCE",
+        "status": "CLOSED",
+        "stop_price": "92658.8",
+        "target_price": "92658.8",
+        "timeout_ns": 1736776800000000000,
+        "timeout_rule": "PROTECTION_OPEN_TRADE_EXPIRY_BARS"
+      },
+      "status": "ENGINE_ONLY_CAMPAIGN"
+    }
+  ],
+  "claim_status": "NO_ECONOMIC_CLAIM",
+  "divergence_class_counts": {
+    "EXIT_KIND_DIVERGENCE_BRACKETLESS_ENGINE": 1,
+    "EXIT_PRICE_BEYOND_ONE_TICK": 1,
+    "EXIT_TIME_DIVERGENCE": 1
+  },
+  "engine_lane": {
+    "campaigns": 3,
+    "execution_profile": null,
+    "fills": 6,
+    "open_position_at_end": null,
+    "orders_open_at_end": [
+      "O-20250129-210000-001-000-7"
+    ],
+    "positions_closed": 3,
+    "positions_opened": 3,
+    "semantics": {
+      "bracket": "STOP_MARKET at the decision's stop plus LIMIT at its target; the sibling is cancelled on fill",
+      "bracketless_decision": "the engine decides bracketing per decision: stop_price equal to entry_reference means no protection formed, so the position is held unprotected to its declared expiry",
+      "class": "ENGINE_SIMULATION_NOT_A_VENUE_SETTLEMENT",
+      "entry": "MARKET on the bar following the decision (engine fill model)",
+      "sizing": "risk_notional / |entry_reference - stop_price|, floored to the instrument's size increment; a decision without a live protection has no risk distance, so the declared notional is divided by the entry reference instead and the basis is recorded per campaign",
+      "timeout_only": "no bracket; the position is closed at market when the decision's expiry passes"
+    }
+  },
+  "identity": {
+    "bars": 840,
+    "initial_balance_usdt": "10000",
+    "instrument_id": "BTCUSDT-PERP.BINANCE",
+    "policy_id": "plain_swing",
+    "policy_identity": "sha256:1b33f661dbdb50a5c3dc0c220875f9c186cc3a8e31e460380415bcb9f9b9f0d5",
+    "risk_per_trade_fraction": "0.01",
+    "tape": "research/tape/multi-1h-4y/tape.jsonl",
+    "tape_sha256": "b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0",
+    "warmup_bars": 49,
+    "window": {
+      "end_utc": "2025-02-01",
+      "start_utc": "2025-01-01"
+    }
+  },
+  "lane": "engine_replay_reconciliation",
+  "notes": [
+    "the two lanes are different execution models by construction; a divergence is a finding, not a failure",
+    "the replay is return-based (unit notional), so quantities are not comparable line-by-line; cash flow is published per lane instead",
+    "a resting order at the end of the data is published, not assumed away: the engine has no further event to process its cancellation"
+  ],
+  "replay_lane": {
+    "campaigns": 29,
+    "has_bracket_policy": true
+  },
+  "tolerances": {
+    "price_tick": "0.01",
+    "size_lot": "0.001",
+    "statement": "tolerances are the instrument contract's tick and lot plus one bar",
+    "time_bar_ns": 3600000000000
+  }
+}
