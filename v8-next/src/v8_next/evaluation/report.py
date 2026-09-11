@@ -5,14 +5,95 @@ Constitutional Invariant:
     Accepts ONLY verified receipts. If receipt digest does not match its contents,
     or if bound physical artifacts on disk are missing/tampered, rendering fails closed
     or marks the status as BLOCKED / UNVERIFIED.
+
+Render identity (#442): ``receipt_digest`` alone does NOT identify a render, because
+the same receipt renders differently under different contracts. Every artifact this
+module writes therefore advertises the render contract revision it was produced
+under, next to the digest, so a consumer can recompute the identity at HEAD and
+reject a superseded render instead of republishing its numbers.
 """
 
 from __future__ import annotations
 
+import hashlib
+import json
 from pathlib import Path
+from typing import Any
 
 from v8_next.evaluation.benchmark_receipt import BenchmarkReceipt, GateEvaluation, GateState
 from v8_next.evaluation.certificate import PolicyCertificate
+
+#: The render contract this module implements. Bump the revision whenever the
+#: rendered semantics change, so renders of the same receipt are distinguishable.
+#:   v1 — pre-NX08.R2: a missing robustness/economic factor rendered as the
+#:        fabricated defaults (robustness 50.0, economic 60.0).
+#:   v2 — missing-aware: an absent factor renders MISSING and the readiness index
+#:        is MISSING rather than a number built on retired defaults (#429, #442).
+RENDER_CONTRACT_ID = "d153-forensic-html"
+RENDER_CONTRACT_REVISION = 2
+
+#: Stands in when the certificate reports no contract of its own. Never a guess at
+#: a version: an unknown contract identity must not look like a known one.
+CERTIFICATE_CONTRACT_UNSPECIFIED = "UNSPECIFIED"
+
+
+def render_identity(
+    receipt: BenchmarkReceipt,
+    certificate: PolicyCertificate | None = None,
+) -> dict[str, Any]:
+    """Render contract/revision identity for ``receipt``, beside its digest (#442).
+
+    ``render_identity_digest`` is recomputable: it hashes the render contract
+    revision, the certificate contract the readiness was derived under, and the
+    measurements this contract renders. Two renders of the same ``receipt_digest``
+    under different contracts therefore carry different identities, and the
+    superseded one is rejectable by name.
+    """
+    cert = certificate if certificate is not None else PolicyCertificate.generate(receipt)
+    derivation = cert.derivation or {}
+    certificate_contract = str(
+        derivation.get("transform_version", CERTIFICATE_CONTRACT_UNSPECIFIED)
+    )
+    payload = {
+        "render_contract": RENDER_CONTRACT_ID,
+        "render_revision": RENDER_CONTRACT_REVISION,
+        "certificate_contract": certificate_contract,
+        "receipt_digest": receipt.receipt_digest,
+        "receipt_digest_version": receipt.digest_version,
+        "readiness_index": cert.readiness_index,
+        "research_capability_score": cert.research_capability_score,
+        "evidence_multiplier": cert.evidence_multiplier,
+        "minerva_robustness_score": cert.minerva_robustness_score,
+        "economic_score": cert.economic_score,
+        "robustness_seal_status": cert.robustness_seal_status,
+        "missing_measurements": sorted(cert.missing_measurements),
+    }
+    identity_digest = hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    return {
+        "render_contract": f"{RENDER_CONTRACT_ID}/v{RENDER_CONTRACT_REVISION}",
+        "render_revision": RENDER_CONTRACT_REVISION,
+        "certificate_contract": certificate_contract,
+        "receipt_digest": receipt.receipt_digest,
+        "receipt_digest_version": receipt.digest_version,
+        "render_identity_digest": identity_digest,
+    }
+
+
+def render_identity_is_current(
+    declared: dict[str, Any],
+    receipt: BenchmarkReceipt,
+    certificate: PolicyCertificate | None = None,
+) -> bool:
+    """True when ``declared`` is the identity of the current render of ``receipt``.
+
+    A consumer holding a published artifact compares the identity that artifact
+    advertises against this predicate; ``False`` means the artifact is a
+    superseded render whose readiness must not be republished.
+    """
+    current = render_identity(receipt, certificate)
+    return declared.get("render_identity_digest") == current["render_identity_digest"]
 
 
 def _v(value: float | None, digits: int = 1) -> str:
@@ -20,6 +101,17 @@ def _v(value: float | None, digits: int = 1) -> str:
     if value is None:
         return "MISSING"
     return f"{value:.{digits}f}"
+
+
+def _component_badge(value: float | None, measured: str, absent: str = "NOT_MEASURED") -> str:
+    """Status badge for one readiness component row.
+
+    An absent component declares the absence; it never reads as an evaluated value
+    or as a default that was applied in place of one (#442).
+    """
+    if value is None:
+        return f'<span class="badge badge-miss">{absent}</span>'
+    return f'<span class="badge badge-pass">{measured}</span>'
 
 
 def _gate_decision(ev: GateEvaluation) -> str:
@@ -45,10 +137,19 @@ def generate_forensic_html_report(
     # 1. Self-verification check (Renderer Firewall)
     is_valid, verify_msg = receipt.verify()
     cert = PolicyCertificate.generate(receipt)
+    # The identity this render advertises, recomputable at HEAD from the receipt
+    # and the certificate contract (#442).
+    identity = render_identity(receipt, cert)
 
     is_approved = "Ready For Review" in cert.status
     verdict_badge = "badge-pass" if is_approved else "badge-fail"
     verdict_text = cert.status if is_valid else f"BLOCKED ({verify_msg})"
+    economic_note = (
+        "No economic projection in this diagnostic cell: absent under the current "
+        "certificate contract (never a diagnostic default)"
+        if cert.economic_score is None
+        else "Diagnostic cell projection (no forward claims)"
+    )
 
     # 2. HTML template (matching D-153 Forensic standard)
     html_content = f"""<!DOCTYPE html>
@@ -87,7 +188,15 @@ code {{ font-family: ui-monospace, monospace; background: #0f172a; padding: 2px 
 <div class="callout">
 <strong>SELF-VERIFICATION (#328):</strong> Rendered from a receipt whose digest was <em>recomputed from its own contents</em> at render time.<br>
 <code>verified_digest = {receipt.receipt_digest}</code><br>
+<code>render_contract = {identity["render_contract"]}</code><br>
+<code>render_identity = {identity["render_identity_digest"]}</code><br>
+<code>certificate_contract = {identity["certificate_contract"]}</code><br>
 <code>integrity_status = {verify_msg}</code> | <code>digest_version = {receipt.digest_version}</code> | <code>artifact_bindings = {len(receipt.artifact_bindings)}</code>
+</div>
+
+<div class="callout callout-warn">
+<strong>RENDER IDENTITY (#442):</strong> A render is bound to the contract revision that produced it; <code>verified_digest</code> alone does not identify a render.<br>
+Recompute <code>render_identity(receipt)</code> at HEAD for this <code>verified_digest</code>: if its <code>render_identity</code> differs from the value above, this artifact is a <em>superseded render</em> and the readiness it shows must not be republished.
 </div>
 
 <div class="hero">
@@ -136,26 +245,26 @@ code {{ font-family: ui-monospace, monospace; background: #0f172a; padding: 2px 
   <tr>
     <td>Research Capability Score</td>
     <td><strong>{_v(cert.research_capability_score)} / 100</strong></td>
-    <td><span class="badge badge-pass">EVALUATED</span></td>
+    <td>{_component_badge(cert.research_capability_score, "EVALUATED")}</td>
     <td>Harmonic mean with uncertainty penalty (D-153 §76)</td>
   </tr>
   <tr>
     <td>Evidence Multiplier</td>
     <td><strong>{_v(cert.evidence_multiplier, 2)}</strong></td>
-    <td><span class="badge badge-warn">PENALIZED</span></td>
+    <td>{_component_badge(cert.evidence_multiplier, "PENALIZED")}</td>
     <td>Single diagnostic cell coverage penalty</td>
   </tr>
   <tr>
     <td>Minerva Robustness Score</td>
     <td><strong>{_v(cert.minerva_robustness_score)} / 100</strong></td>
-    <td><span class="badge badge-fail">{cert.robustness_seal_status}</span></td>
+    <td>{_component_badge(cert.minerva_robustness_score, cert.robustness_seal_status, cert.robustness_seal_status)}</td>
     <td>arXiv:2608.23808 prudex evaluation</td>
   </tr>
   <tr>
     <td>Economic Projection Score</td>
     <td><strong>{_v(cert.economic_score)} / 100</strong></td>
-    <td><span class="badge badge-warn">DIAGNOSTIC_DEFAULT</span></td>
-    <td>Diagnostic cell default (no forward claims)</td>
+    <td>{_component_badge(cert.economic_score, "DIAGNOSTIC_CELL")}</td>
+    <td>{economic_note}</td>
   </tr>
 </tbody>
 </table>

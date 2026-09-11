@@ -42,7 +42,7 @@ from v8_next.evaluation.benchmark_receipt import BenchmarkLedger, BenchmarkRecei
 from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.multitape import MultiTape, load_multitape
 from v8_next.evaluation.parity import ArtifactBinding
-from v8_next.evaluation.report import generate_forensic_html_report
+from v8_next.evaluation.report import generate_forensic_html_report, render_identity
 from v8_next.evaluation.run_window import (
     RunKey,
     WindowAlreadyCompleted,
@@ -691,9 +691,19 @@ def main(argv: list[str] | None = None) -> int:
     ledger.save_jsonl(out_dir / "benchmark_ledger.jsonl")
     ok, msg = bench_receipt.verify()
     cok, cmsg = ledger.verify_chain()
-    print(PolicyCertificate.generate(bench_receipt).render_ascii())
+    certificate = PolicyCertificate.generate(bench_receipt)
+    print(certificate.render_ascii())
     html_path = Path(args.html_out) if args.html_out else out_dir / f"forensic_report_{tag}.html"
     generate_forensic_html_report(bench_receipt, html_path)
+    # The canonical publish path names what it published: the artifact's render
+    # contract + identity, beside the receipt digest it renders (#442).
+    identity = render_identity(bench_receipt, certificate)
+    print(
+        f"[+] Forensic HTML Report Generated: {html_path} "
+        f"render_contract={identity['render_contract']} "
+        f"render_identity={identity['render_identity_digest'][:16]}… "
+        f"receipt_digest={identity['receipt_digest'][:16]}…"
+    )
 
     print(f"[+] P net {metrics['portfolio_P'].net_return:+.4f} "
           f"P+E net {metrics['portfolio_PE'].net_return:+.4f} "
@@ -755,6 +765,8 @@ def main(argv: list[str] | None = None) -> int:
                 "ledger_chain": cmsg,
                 "trade_signature": trade_signature(p_fund),
                 "receipt_verify": msg,
+                "render_contract": identity["render_contract"],
+                "render_identity": identity["render_identity_digest"],
                 "economic_evidence": window.proves_economic_evidence,
             },
         ),
