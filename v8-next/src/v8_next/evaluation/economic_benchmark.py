@@ -29,7 +29,7 @@ import subprocess
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal, Sequence, get_args
+from typing import TYPE_CHECKING, Any, Literal, Mapping, Sequence, get_args
 
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -316,7 +316,9 @@ class MetricSet(BaseModel):
     funding_cost: float | None  # None == MISSING, never zero-filled
     #: Why the cell above reads what it reads. Set when the leg was measured (or
     #: could not be) so a reader never has to infer a named reason from an
-    #: absence: `MEASURED`, `NO_ENGINE_RULE`, `TRADES_DIVERGED`, or None where the
+    #: absence: `MEASURED`, `NO_ENGINE_RULE`, `TRADES_DIVERGED`,
+    #: `BASKET_CONVENTION_DIFFERS[:<basket_id>]` -- the one state whose payload
+    #: names the published curve that carries the number -- or None where the
     #: zero-exposure rule already speaks for the curve.
     funding_basis: str | None = None
     cost_basis: str  # VERIFIED_ENGINE | ANALYTIC_MODEL | MISSING
@@ -1039,6 +1041,49 @@ FUNDING_NOT_MEASURED = "NOT_MEASURED"  # no funding feed reached this curve
 #: is not attributable to funding.
 FUNDING_NO_ENGINE_RULE = "NO_ENGINE_RULE"
 FUNDING_TRADES_DIVERGED = "TRADES_DIVERGED"
+#: D-165: the leg's measuring basket executes a different sizing convention from
+#: the analytic curve published beside it, so the measured number is published on
+#: that basket's own curve in the same table and this row names where it went.
+#: The one state that carries a payload -- its cell names the basket, the way the
+#: published statistical verdict names the estimators it could not run.
+FUNDING_BASKET_CONVENTION_DIFFERS = "BASKET_CONVENTION_DIFFERS"
+
+#: The states that withhold the number from the row that names them. Every other
+#: row publishes either a measured cost or the measured zero of no exposure.
+FUNDING_WITHHELD_STATES: tuple[str, ...] = (
+    FUNDING_NO_ENGINE_RULE,
+    FUNDING_TRADES_DIVERGED,
+    FUNDING_BASKET_CONVENTION_DIFFERS,
+)
+
+#: Separator between a `funding_basis` state and its payload (`STATE:detail`).
+FUNDING_BASIS_DETAIL_SEPARATOR = ":"
+
+
+def funding_basis_state(basis: str | None) -> str | None:
+    """The declared state token of a `funding_basis` value (`STATE[:detail]`).
+
+    The token before the separator is what a consumer switches on; the detail
+    after it is the named reason's own subject (which basket carries the number).
+    """
+    if basis is None:
+        return None
+    token = basis.split(FUNDING_BASIS_DETAIL_SEPARATOR, 1)[0].strip()
+    return token or None
+
+
+def funding_basis_detail(basis: str | None) -> str | None:
+    """The payload of a `funding_basis` value, or ``None`` when it has none."""
+    if basis is None:
+        return None
+    _, separator, detail = basis.partition(FUNDING_BASIS_DETAIL_SEPARATOR)
+    detail = detail.strip()
+    return detail if separator and detail else None
+
+
+def funding_basis_for_convention_differs(basket_id: str) -> str:
+    """The `funding_basis` of an index row whose number moved to *basket_id*."""
+    return f"{FUNDING_BASKET_CONVENTION_DIFFERS}{FUNDING_BASIS_DETAIL_SEPARATOR}{basket_id}"
 
 
 def funding_state(m: MetricSet) -> str:
@@ -1051,8 +1096,9 @@ def funding_state(m: MetricSet) -> str:
         # before the measured-but-withheld bases, so a never-invested curve never
         # reports someone else's reason.
         return FUNDING_ZERO_NO_EXPOSURE
-    if m.funding_basis in (FUNDING_NO_ENGINE_RULE, FUNDING_TRADES_DIVERGED):
-        return str(m.funding_basis)
+    state = funding_basis_state(m.funding_basis)
+    if state in FUNDING_WITHHELD_STATES:
+        return state
     return FUNDING_NOT_MEASURED
 
 
@@ -1063,8 +1109,12 @@ def funding_cell(m: MetricSet) -> str:
         return f"{m.funding_cost:.2f}"
     if state == FUNDING_ZERO_NO_EXPOSURE:
         return "0.00 (NO_EXPOSURE)"
-    if state in (FUNDING_NO_ENGINE_RULE, FUNDING_TRADES_DIVERGED):
-        return f"n/a ({state})"
+    if state in FUNDING_WITHHELD_STATES:
+        # A withheld state never publishes the token alone where the state's own
+        # subject can be named with it: the reader is told which curve carries
+        # the number, not left to search the receipt for it.
+        detail = funding_basis_detail(m.funding_basis)
+        return f"n/a ({state}, {detail})" if detail else f"n/a ({state})"
     return "n/a (NOT_MEASURED)"
 
 
@@ -1331,6 +1381,50 @@ def family_funding_basket(family_id: str) -> BasketSpec | None:
     return resolve_basket(basket_id)
 
 
+def basket_sizing_differs_from_the_analytic_family(spec: BasketSpec) -> bool:
+    """Whether *spec* sizes its legs under a different convention than the curve.
+
+    The analytic family mirrors a compounding rule arithmetic
+    (:func:`compute_multileg_family`): its `equal_weight` buys 1/N once and holds
+    it, and its `vol_target` scales a compounding curve by trailing portfolio
+    volatility. The engine baskets that carry those same rules hold a **fixed
+    notional** per leg instead -- `capital/k` rebalanced every `rebalance_bars`,
+    or inverse-vol at full capital with a per-leg cap. A basket that rebalances a
+    fixed notional is therefore not the curve published beside it, while a
+    single-instrument buy-and-hold basket is (both buy once and hold), so the two
+    cases must not be conflated.
+    """
+    if spec.kind == "equal_weight":
+        return spec.rebalance_bars is not None
+    return spec.kind == "vol_target"
+
+
+def funding_basket_convention_differs(family_id: str) -> str | None:
+    """The engine basket whose own curve carries *family_id*'s measured number.
+
+    ``None`` means the measuring basket executes the curve's own sizing
+    convention, so the number stays on the family leg's own row. Membership is
+    read off the basket the leg's rule resolves to (its kind and its
+    ``rebalance_bars``), never inferred from the leg's name.
+    """
+    basket_id = FAMILY_ENGINE_BASKETS.get(family_id)
+    if basket_id is None:
+        return None
+    from v8_next.domain.basket import resolve_basket
+
+    spec = resolve_basket(basket_id)
+    return basket_id if basket_sizing_differs_from_the_analytic_family(spec) else None
+
+
+def funding_curve_for_family(family_id: str) -> str:
+    """The published curve id that carries *family_id*'s measured funding number.
+
+    The leg's own row, unless its measuring basket executes a different sizing
+    convention -- then the number is published on that basket's curve beside it.
+    """
+    return funding_basket_convention_differs(family_id) or family_id
+
+
 def measure_benchmark_family_funding(
     legs: dict[str, tuple[Candle, ...]],
     funding: tuple[FundingRow, ...],
@@ -1410,6 +1504,197 @@ def measure_benchmark_family_funding(
             "engine_terminal_balance_usdt": measurement["funded_balance_usdt"],
             "engine_unfunded_balance_usdt": measurement["unfunded_balance_usdt"],
         }
+    return out
+
+
+def family_basket_mirror_curves(
+    views: dict[str, list[BarView]],
+    family_funding: Mapping[str, Mapping[str, Any]] | None = None,
+    *,
+    capital: float = CAPITAL_DEFAULT,
+    taker_fee: float = TAKER_FEE_DEFAULT,
+) -> dict[str, dict[str, Any]]:
+    """The measuring basket's own analytic curve, per convention-differing leg.
+
+    D-165: where a published family leg's funding is measured on an engine basket
+    that sizes its legs under a different convention from the curve published
+    beside it, that basket's own curve is published in the same table under its
+    basket id, so the `funding $` cell and the curve it is read beside describe
+    one strategy:
+
+    * the curve is the analytic **mirror of the engine basket** -- the identical
+      call shape :func:`compute_benchmark_family_engine` uses, at the spec's
+      declared parameters over this run's own legs, labeled ``ANALYTIC_MODEL``;
+    * when *family_funding* (this run's measured feed) is passed, the curve
+      carries the engine's measured number for that basket, both run balances and
+      ``engine_vs_rule_terminal_delta_usdt`` (the funded balance minus this
+      curve's own terminal equity), so the engine/rule gap is disclosed rather
+      than assumed away.
+
+    Returns ``{basket_id: curve}``. The same builder called on the pre-slice bars
+    returns the flow the frozen OOS row must subtract (see ``#443``).
+    """
+    from v8_next.domain.basket import resolve_basket
+
+    feed = family_funding or {}
+    out: dict[str, dict[str, Any]] = {}
+    for family_id, basket_id in FAMILY_ENGINE_BASKETS.items():
+        spec = resolve_basket(basket_id)
+        if not basket_sizing_differs_from_the_analytic_family(spec):
+            continue
+        missing = [sym for sym in spec.instruments if sym not in views]
+        if missing:
+            raise ValueError(
+                f"quad basket {basket_id} needs leg(s) this run does not carry: "
+                f"{', '.join(missing)}"
+            )
+        curve: dict[str, Any] = compute_basket_equity_real(
+            {sym: views[sym] for sym in spec.instruments},
+            spec.kind,
+            capital,
+            taker_fee,
+            rebalance_bars=spec.rebalance_bars,
+            vol_lookback=spec.vol_lookback,
+            vol_target_annual=spec.vol_target_annual,
+            max_leverage=spec.max_leverage,
+        )
+        curve["cost_basis"] = "ANALYTIC_MODEL"
+        curve["family_id"] = family_id
+        curve["basket_id"] = basket_id
+        curve["basket_kind"] = spec.kind
+        curve["basket_rule"] = spec.description
+        curve["funding"] = None
+        curve["funding_basis"] = FUNDING_NOT_MEASURED
+        measured = feed.get(family_id)
+        if measured:
+            basis = measured.get("funding_basis")
+            curve["funding"] = measured.get("funding")
+            curve["funding_basis"] = str(basis) if basis else FUNDING_NOT_MEASURED
+            for key in (
+                "funding_settlements_fed",
+                "funding_rows_available",
+                "funding_out_of_window",
+                "funding_unknown_leg",
+                "engine_terminal_balance_usdt",
+                "engine_unfunded_balance_usdt",
+            ):
+                if measured.get(key) is not None:
+                    curve[key] = measured[key]
+            funded_balance = measured.get("engine_terminal_balance_usdt")
+            if funded_balance is not None:
+                curve["engine_vs_rule_terminal_delta_usdt"] = (
+                    float(funded_balance) - float(curve["rule_terminal_equity_usdt"])
+                )
+        out[basket_id] = curve
+    return out
+
+
+def published_funding_records(
+    metrics: Mapping[str, MetricSet],
+    family_funding: Mapping[str, Mapping[str, Any]] | None = None,
+    *,
+    basket_curves: Mapping[str, Mapping[str, Any]] | None = None,
+    engine_measurements: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Per **published curve**, the record its `funding $` cell is read from.
+
+    D-165: the audit set is keyed by the published curve id, so a reader can look
+    up the row in front of them instead of guessing which family leg it belongs
+    to. Each record names the measurement behind that curve's cell -- the
+    measuring basket with its kind and rule, the engine's own row counters and
+    both run balances -- plus three fields that say where the number went:
+
+    * ``funding_cell`` is exactly what this row prints (a cost, a measured zero,
+      or the named state, never another curve's number);
+    * ``funding`` is the measurement's number, ``None`` where none was produced;
+    * ``funding_curve`` is the published curve id that carries that number --
+      this curve itself, or the measuring basket's own curve where the two
+      conventions differ, or ``None`` when no published curve has one.
+
+    ``engine_measurements`` carries the fields of a curve the engine measured on
+    its own portfolio run rather than on a benchmark basket (``portfolio_P`` /
+    ``portfolio_PE``); a field is ``None`` where the measurement has no such
+    quantity, never a zero standing in for an absence.
+    """
+    feed = family_funding or {}
+    baskets = basket_curves or {}
+    engine = engine_measurements or {}
+    # The family leg each published basket curve belongs to, declared by the same
+    # map that decides whose number moved, never inferred from a curve's name.
+    family_of_basket = {
+        basket_id: family_id for family_id, basket_id in FAMILY_ENGINE_BASKETS.items()
+    }
+    out: dict[str, dict[str, Any]] = {}
+    for name, m in metrics.items():
+        state = funding_state(m)
+        family_id = name if name in feed else family_of_basket.get(name)
+        record: dict[str, Any] = {
+            "funding_curve": None,
+            "funding_cell": funding_cell(m),
+            "funding": None,
+            "funding_basis": state,
+            "funding_basket": None,
+            "funding_basket_kind": None,
+            "funding_basket_rule": None,
+            "funding_engine_basis": None,
+            "funding_settlements_fed": None,
+            "funding_rows_available": None,
+            "funding_out_of_window": None,
+            "funding_unknown_leg": None,
+            "engine_terminal_balance_usdt": None,
+            "engine_unfunded_balance_usdt": None,
+            "engine_vs_rule_terminal_delta_usdt": None,
+        }
+        if family_id is not None:
+            measured = feed.get(family_id, {})
+            number = measured.get("funding")
+            record.update(
+                {
+                    # The carrier exists only when the measurement produced a
+                    # number: a withheld state points nowhere, exactly like the
+                    # cell that publishes it.
+                    "funding_curve": (
+                        funding_curve_for_family(family_id) if number is not None else None
+                    ),
+                    "funding": number,
+                    "funding_basket": measured.get("funding_basket"),
+                    "funding_basket_kind": measured.get("funding_basket_kind"),
+                    "funding_basket_rule": measured.get("funding_basket_rule"),
+                    "funding_engine_basis": measured.get("funding_engine_basis"),
+                    "funding_settlements_fed": measured.get("funding_settlements_fed"),
+                    "funding_rows_available": measured.get("funding_rows_available"),
+                    "funding_out_of_window": measured.get("funding_out_of_window"),
+                    "funding_unknown_leg": measured.get("funding_unknown_leg"),
+                    "engine_terminal_balance_usdt": measured.get(
+                        "engine_terminal_balance_usdt"
+                    ),
+                    "engine_unfunded_balance_usdt": measured.get(
+                        "engine_unfunded_balance_usdt"
+                    ),
+                }
+            )
+        else:
+            measured_engine = engine.get(name, {})
+            # A curve the engine measured on its own portfolio run carries its
+            # number on its own row: there is no other published curve holding it.
+            if m.funding_cost is not None:
+                record["funding_curve"] = name
+                record["funding"] = m.funding_cost
+            record.update(
+                {
+                    key: value
+                    for key, value in measured_engine.items()
+                    if key in record and value is not None
+                }
+            )
+        # The engine/rule gap is published on the basket's own row, the curve the
+        # funded balance is compared against.
+        mirror = baskets.get(name)
+        if mirror is not None:
+            record["engine_vs_rule_terminal_delta_usdt"] = mirror.get(
+                "engine_vs_rule_terminal_delta_usdt"
+            )
+        out[name] = record
     return out
 
 
@@ -3259,15 +3544,23 @@ def render_report(receipt: EconomicReceipt) -> str:
         "`funding $` is the funding measured for that curve -- the basket that "
         "carries its rule, run twice by the engine with the tape's real funding "
         "rows and with none, publishing its own balance difference (negative when "
-        "funding was paid, positive when received) -- or it says why there is no "
-        "number: `0.00 (NO_EXPOSURE)` means the curve held no position at any "
-        "settlement, so its funding is zero by construction; `n/a (NO_ENGINE_RULE)` "
-        "means the leg names a rule no engine basket executes, so no basket could "
-        "settle it; `n/a (TRADES_DIVERGED)` means the funded and unfunded runs of "
-        "that basket traded differently, so the difference is not attributable to "
-        "funding; `n/a (NOT_MEASURED)` means no funding feed reached that curve on "
-        "this run. Every row names its state: never a bare blank, and never a zero "
-        "standing in for an absence.",
+        "funding was paid, positive when received). A number is published only on "
+        "the curve the engine measured it for: where the rule's measuring basket "
+        "sizes its legs under a different convention from the curve here (the "
+        "fixed-notional rebalancing quad baskets against the compounding analytic "
+        "index they are paired with), the number is published on that basket's own "
+        "row in this same table and this row reads "
+        "`n/a (BASKET_CONVENTION_DIFFERS, <basket_id>)`, naming it. The column "
+        "otherwise says why there is no number: `0.00 (NO_EXPOSURE)` means the "
+        "curve held no position at any settlement, so its funding is zero by "
+        "construction; `n/a (NO_ENGINE_RULE)` means the leg names a rule no engine "
+        "basket executes, so no basket could settle it; `n/a (TRADES_DIVERGED)` "
+        "means the funded and unfunded runs of that basket traded differently, so "
+        "the difference is not attributable to funding; `n/a (NOT_MEASURED)` means "
+        "no funding feed reached that curve on this run. Every row names its state "
+        "and, when the number lives elsewhere, the curve that carries it: never a "
+        "bare blank, never another curve's number, and never a zero standing in "
+        "for an absence.",
     ]
     mix = r.portfolio_mix
     if isinstance(mix, dict) and mix.get("scope") == "ENGINE_LEVEL_SAME_BUDGET":

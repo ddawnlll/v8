@@ -134,6 +134,153 @@ def test_funding_cell_names_the_reason_a_reached_feed_has_no_number() -> None:
     assert eb.funding_cell(never_invested) == "0.00 (NO_EXPOSURE)"
 
 
+def test_funding_cell_names_the_curve_that_carries_a_moved_number() -> None:
+    """D-165: a row whose number lives on another curve says which curve.
+
+    Where the measuring basket executes a different sizing convention from the
+    curve published beside it, the cell may not quote another curve's number and
+    a bare state token would leave the reader searching the table for it: the
+    declared state carries the published curve id as its payload.
+    """
+    moved = _metric(
+        funding_cost=None,
+        avg_exposure=1.0,
+        funding_basis=eb.funding_basis_for_convention_differs("equal_weight_quad"),
+    )
+    assert eb.funding_state(moved) == eb.FUNDING_BASKET_CONVENTION_DIFFERS
+    assert eb.funding_cell(moved) == "n/a (BASKET_CONVENTION_DIFFERS, equal_weight_quad)"
+    assert eb.FUNDING_BASKET_CONVENTION_DIFFERS in eb.FUNDING_WITHHELD_STATES
+
+    # A token the vocabulary does not declare is not a declared state: it reads
+    # as the unnamed absence it is, never as a reason this module never published.
+    undeclared = _metric(funding_cost=None, avg_exposure=1.0, funding_basis="SOMETHING_ELSE")
+    assert eb.funding_state(undeclared) == eb.FUNDING_NOT_MEASURED
+    assert eb.funding_cell(undeclared) == "n/a (NOT_MEASURED)"
+
+    # The payload helpers are the one place the `STATE:detail` split is defined.
+    assert eb.funding_basis_state("NO_ENGINE_RULE") == "NO_ENGINE_RULE"
+    assert eb.funding_basis_detail("NO_ENGINE_RULE") is None
+    assert eb.funding_basis_state(None) is None
+    assert eb.funding_basis_detail("BASKET_CONVENTION_DIFFERS:vol_target_quad") == (
+        "vol_target_quad"
+    )
+
+
+def test_only_a_basket_that_resizes_its_legs_moves_the_number() -> None:
+    """Which legs publish their number elsewhere is a rule, not a name.
+
+    The analytic family mirrors a compounding rule arithmetic; the engine baskets
+    that carry those rules hold a fixed notional per leg. A single-instrument
+    buy-and-hold basket buys once and holds like the curve beside it, so its
+    number stays on the leg's own row.
+    """
+    assert eb.basket_sizing_differs_from_the_analytic_family(resolve_basket("equal_weight_quad"))
+    assert eb.basket_sizing_differs_from_the_analytic_family(resolve_basket("vol_target_quad"))
+    assert not eb.basket_sizing_differs_from_the_analytic_family(
+        resolve_basket("btc_buy_hold")
+    )
+    # A single-leg bought once and held is the leg's own convention, so the leg
+    # keeps its number; the multi-leg baskets hand theirs to their own curve.
+    assert eb.funding_basket_convention_differs("bh_BTCUSDT-PERP") is None
+    assert eb.funding_basket_convention_differs("simple_trend") is None
+    assert eb.funding_basket_convention_differs("cash") is None
+    assert eb.funding_basket_convention_differs("equal_weight") == "equal_weight_quad"
+    assert eb.funding_basket_convention_differs("vol_target") == "vol_target_quad"
+    # ... and the published curve that carries the number follows from that.
+    assert eb.funding_curve_for_family("bh_BTCUSDT-PERP") == "bh_BTCUSDT-PERP"
+    assert eb.funding_curve_for_family("equal_weight") == "equal_weight_quad"
+
+
+def test_published_funding_records_are_keyed_by_the_published_curve() -> None:
+    """D-165: every published curve has its own record, naming the measurement.
+
+    Mechanics only: the records are built from the published metrics and the
+    feed's own measurement, with no engine run and no tape.
+    """
+    feed = {
+        "equal_weight": {
+            "funding": -25.27212,
+            "funding_basis": eb.FUNDING_MEASURED,
+            "funding_basket": "equal_weight_quad",
+            "funding_basket_kind": "equal_weight",
+            "funding_basket_rule": "Equal-weight 25/25/25/25, buy-and-hold with rebalance",
+            "funding_engine_basis": "ENGINE_SETTLED",
+            "funding_settlements_fed": 192,
+            "funding_rows_available": 4380,
+            "funding_out_of_window": 4188,
+            "funding_unknown_leg": 144,
+            "engine_terminal_balance_usdt": 10229.2,
+            "engine_unfunded_balance_usdt": 10254.47,
+        }
+    }
+    metrics = {
+        "equal_weight": _metric(
+            funding_cost=None,
+            avg_exposure=1.0,
+            funding_basis=eb.funding_basis_for_convention_differs("equal_weight_quad"),
+        ),
+        "equal_weight_quad": _metric(
+            funding_cost=-25.27212, avg_exposure=1.0, funding_basis=eb.FUNDING_MEASURED
+        ),
+        "cash": _metric(funding_cost=None, avg_exposure=0.0),
+        "simple_trend": _metric(
+            funding_cost=None,
+            avg_exposure=0.4,
+            funding_basis=eb.FUNDING_NO_ENGINE_RULE,
+        ),
+    }
+    feed["simple_trend"] = {
+        "funding": None,
+        "funding_basis": eb.FUNDING_NO_ENGINE_RULE,
+        "funding_basket": None,
+        "funding_basket_kind": None,
+        "funding_basket_rule": None,
+        "funding_engine_basis": None,
+        "funding_settlements_fed": 0,
+        "funding_rows_available": 4380,
+        "funding_out_of_window": 0,
+        "funding_unknown_leg": 0,
+        "engine_terminal_balance_usdt": None,
+        "engine_unfunded_balance_usdt": None,
+    }
+    records = eb.published_funding_records(
+        metrics,
+        feed,
+        basket_curves={"equal_weight_quad": {"engine_vs_rule_terminal_delta_usdt": -1720.56}},
+    )
+    assert set(records) == set(metrics)
+    for name, record in records.items():
+        assert record["funding_cell"] == eb.funding_cell(metrics[name]), name
+
+    # The index row publishes no number and points at the curve that has it.
+    index = records["equal_weight"]
+    assert index["funding_curve"] == "equal_weight_quad"
+    assert index["funding"] == pytest.approx(-25.27212)
+    assert index["funding_basket"] == "equal_weight_quad"
+    assert index["funding_basket_kind"] == "equal_weight"
+    assert index["funding_engine_basis"] == "ENGINE_SETTLED"
+    assert index["funding_settlements_fed"] == 192
+    assert index["engine_terminal_balance_usdt"] == pytest.approx(10229.2)
+
+    # The basket's own row carries that number and the engine/rule gap.
+    basket = records["equal_weight_quad"]
+    assert basket["funding_curve"] == "equal_weight_quad"
+    assert basket["funding_cell"] == "-25.27"
+    assert basket["funding_basis"] == eb.FUNDING_MEASURED
+    assert basket["engine_vs_rule_terminal_delta_usdt"] == pytest.approx(-1720.56)
+
+    # A curve with no number anywhere is a record too, not a missing key: the
+    # reference that never invested has no curve to point at, and neither has the
+    # leg no engine basket can settle.
+    assert records["cash"]["funding_curve"] is None
+    assert records["cash"]["funding"] is None
+    assert records["cash"]["funding_basis"] == eb.FUNDING_ZERO_NO_EXPOSURE
+    assert records["cash"]["funding_basket"] is None
+    assert records["simple_trend"]["funding_curve"] is None
+    assert records["simple_trend"]["funding_basis"] == eb.FUNDING_NO_ENGINE_RULE
+    assert records["simple_trend"]["funding_rows_available"] == 4380
+
+
 def test_family_funding_basket_covers_only_rules_the_engine_executes() -> None:
     """The family leg -> engine basket map is by rule, and it fails closed.
 
@@ -238,6 +385,14 @@ def test_rendered_report_has_no_bare_missing_funding_cell() -> None:
             "engine_leg": _metric(funding_cost=-2.79, avg_exposure=0.9),
             "cash": _metric(funding_cost=None, avg_exposure=0.0),
             "analytic_leg": _metric(funding_cost=None, avg_exposure=0.4),
+            # D-165: the number is published on the basket's own row, so this row
+            # names that row instead of quoting a number it did not measure.
+            "moved_leg": _metric(
+                funding_cost=None,
+                avg_exposure=0.8,
+                funding_basis=eb.funding_basis_for_convention_differs("equal_weight_quad"),
+            ),
+            "equal_weight_quad": _metric(funding_cost=-25.27, avg_exposure=0.8),
         }
     )
     table = report.split("## Metrics (cost-adjusted, shared basis)", 1)[1]
@@ -250,9 +405,14 @@ def test_rendered_report_has_no_bare_missing_funding_cell() -> None:
     assert "-2.79" in rows["engine_leg"]
     assert "0.00 (NO_EXPOSURE)" in rows["cash"]
     assert "n/a (NOT_MEASURED)" in rows["analytic_leg"]
+    assert "n/a (BASKET_CONVENTION_DIFFERS, equal_weight_quad)" in rows["moved_leg"]
+    assert "-25.27" in rows["equal_weight_quad"]
     assert "MISSING" not in table
     # The three states are documented on the operator surface, beside the table.
     assert "negative when funding was paid" in report
+    # ... and so is the one that names the curve carrying the number (D-165).
+    assert "A number is published only on the curve the engine measured it for" in report
+    assert "n/a (BASKET_CONVENTION_DIFFERS, <basket_id>)" in report
 
 
 # --------------------------------------------------------------------------- #
@@ -420,6 +580,62 @@ def test_quad_baskets_settle_funding_from_the_real_tape() -> None:
     assert fams["vol_target_quad"] == fams["vol_target"]
     # The engine and the rule both publish a terminal number for comparison.
     assert isinstance(fams["equal_weight"]["engine_vs_rule_terminal_delta_usdt"], float)
+
+
+@pytest.mark.skipif(_quad_tape_dir() is None, reason="real quad tape absent")
+def test_measuring_basket_curves_carry_the_number_they_were_measured_for() -> None:
+    """D-165 on real data: the mirror curve and the engine's number travel together.
+
+    The measuring basket sizes its legs under a different convention from the
+    analytic index published beside it, so the number is published on the
+    basket's own analytic mirror -- the identical call shape the engine family
+    uses -- with the engine/rule terminal gap disclosed. Structural assertions
+    only: identity of the number, real curve fields, no performance claim.
+    """
+    from v8_next.domain.basket import quad_tape_legs
+
+    tape = _quad_tape_dir()
+    assert tape is not None
+    limit = 120
+    loaded = quad_tape_legs(str(tape), limit=limit)
+    legs = {sym: loaded.candles[sym] for sym in QUAD_INSTRUMENTS}
+    views = {sym: eb.bars_from_candles(loaded.candles[sym]) for sym in QUAD_INSTRUMENTS}
+    feed = eb.measure_benchmark_family_funding(
+        legs, loaded.funding, ("equal_weight", "vol_target"),
+        capital=10_000.0, taker_fee=0.0005,
+    )
+    mirrors = eb.family_basket_mirror_curves(
+        views, feed, capital=10_000.0, taker_fee=0.0005
+    )
+    assert set(mirrors) == {"equal_weight_quad", "vol_target_quad"}
+    closes = {
+        f"{sym}-PERP.BINANCE": [float(c.close) for c in loaded.candles[sym]]
+        for sym in QUAD_INSTRUMENTS
+    }
+    index_curves = eb.compute_multileg_family(closes, 10_000.0, 0.0005)
+    for family_id, basket_id in (
+        ("equal_weight", "equal_weight_quad"),
+        ("vol_target", "vol_target_quad"),
+    ):
+        curve = mirrors[basket_id]
+        assert curve["family_id"] == family_id
+        assert curve["basket_id"] == basket_id
+        assert curve["cost_basis"] == "ANALYTIC_MODEL"
+        assert len(curve["equity"]) == limit
+        assert curve["turnover"] > 0.0
+        assert curve["n_trades"] > 0
+        # The number is the engine's for this basket, not re-derived here.
+        assert curve["funding"] == pytest.approx(feed[family_id]["funding"])
+        assert curve["funding_basis"] == eb.FUNDING_MEASURED
+        assert curve["engine_terminal_balance_usdt"] == pytest.approx(
+            feed[family_id]["engine_terminal_balance_usdt"]
+        )
+        assert curve["engine_vs_rule_terminal_delta_usdt"] == pytest.approx(
+            curve["engine_terminal_balance_usdt"] - curve["rule_terminal_equity_usdt"]
+        )
+        # Two conventions, two curves: the basket's own curve is not the index it
+        # is published beside, which is why the number needed a row of its own.
+        assert list(curve["equity"]) != list(index_curves[family_id]["equity"])
 
 
 def test_quad_tape_is_routed_to_the_basket_family() -> None:

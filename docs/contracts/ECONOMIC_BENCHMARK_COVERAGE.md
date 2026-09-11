@@ -46,11 +46,18 @@ optional dependencies, and without them every estimator fails closed and
 |---|---|---|
 | cash | `compute_multileg_family["cash"]` | DONE |
 | buy-and-hold per leg | `bh_<RAW>` (costed entry) | DONE |
-| equal-weight basket (primary default) | `equal_weight`, 1/N bought once, no rebalance fiction | DONE |
-| trailing-only vol-targeted basket | `vol_target`, 48-bar trailing vol, capped leverage, turnover paid | DONE |
+| equal-weight basket (primary default) | `equal_weight`, 1/N bought once, no rebalance fiction; its funding is measured on the engine basket `equal_weight_quad`, whose own curve is published beside it (D-165) | DONE |
+| trailing-only vol-targeted basket | `vol_target`, 48-bar trailing vol, capped leverage, turnover paid; its funding is measured on `vol_target_quad`, whose own curve is published beside it (D-165) | DONE |
 | simple fixed trend rule | `simple_trend`, 48-bar Donchian long/flat per leg | DONE |
 | incumbent V8 | `portfolio_P` engine run | DONE |
 | No future-vol scaling, no post-hoc benchmark choice | All benchmarks use causal inputs only; primary fixed before compute | DONE |
+
+Funding attribution (D-165): a `funding $` cell carries a number only on the curve the engine measured
+it for. Where the measuring basket executes a different sizing convention from the curve published beside
+it -- the two quad legs above -- the basket's own curve is published under its basket id
+(`equal_weight_quad`, `vol_target_quad`) and the analytic index row names it
+(`n/a (BASKET_CONVENTION_DIFFERS, <basket_id>)`). Which convention the pre-declared primary itself is
+computed under stays open as O-034; no published statistic moves in D-165.
 
 ## 5. Portfolio accounting and cost
 
