@@ -43,7 +43,11 @@ from v8_next.app.economic import (
 )
 from v8_next.domain.capital_policy import CapitalPolicy
 from v8_next.evaluation import economic_benchmark as eb
-from v8_next.evaluation.benchmark_receipt import BenchmarkLedger, BenchmarkReceipt
+from v8_next.evaluation.benchmark_receipt import (
+    BenchmarkLedger,
+    BenchmarkReceipt,
+    WindowEvidence,
+)
 from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.multitape import MultiTape, load_multitape
 from v8_next.evaluation.parity import ArtifactBinding
@@ -696,19 +700,36 @@ def main(argv: list[str] | None = None) -> int:
     # place of the PnL Sharpe proxy.
     gates = evaluate_gate_vector(total_bars=n, total_trades=len(p_fund["opened_positions"]),
                                  pnl_series=pnl_series or [0.0])
-    capability = compute_capability_score(
-        pnl_series=pnl_series or [0.0], total_bars=n,
-        total_trades=len(p_fund["opened_positions"]), abstain_rate=0.0,
-        execution=execution_evidence)
-    _breakdown = compute_capability_breakdown(
-        pnl_series=pnl_series or [0.0], total_bars=n,
-        total_trades=len(p_fund["opened_positions"]), abstain_rate=0.0,
-        execution=execution_evidence)
+    # #444: the window's evidence class is read off the window spec and travels
+    # into the receipt. A bar-count smoke window is liveness/mechanics evidence,
+    # so it mints no capability score at all: the run still lands in the ledger
+    # (it is traceable), but a score from a window that proves no economic
+    # evidence is not a weaker benchmark result — it is not a result.
+    window_evidence = WindowEvidence.from_window(window)
+    capability: float | None
+    _breakdown: dict[str, Any] | None
+    if window_evidence.admits_capability_score():
+        capability = compute_capability_score(
+            pnl_series=pnl_series or [0.0], total_bars=n,
+            total_trades=len(p_fund["opened_positions"]), abstain_rate=0.0,
+            execution=execution_evidence)
+        _breakdown = compute_capability_breakdown(
+            pnl_series=pnl_series or [0.0], total_bars=n,
+            total_trades=len(p_fund["opened_positions"]), abstain_rate=0.0,
+            execution=execution_evidence)
+    else:
+        capability = None
+        _breakdown = None
+        print(
+            "[!] smoke window: no capability score minted — a smoke window proves no "
+            "economic evidence (liveness/mechanics only, NO_ECONOMIC_CLAIM)."
+        )
     bench_receipt = BenchmarkReceipt.create(
         case_id=args.case_id, policy_id=args.policy_id, capability_score=capability,
         gates=gates, computed_at_timestamp_ns=end_ns[-1],
         artifact_bindings=bindings,
         economic_evidence_digest=receipt.digest(), economic_receipt_path=str(receipt_path.resolve()),
+        window_evidence=window_evidence,
         input_binding=hashlib.sha256(
             json.dumps(
                 {
@@ -816,6 +837,7 @@ def main(argv: list[str] | None = None) -> int:
                 "render_contract": identity["render_contract"],
                 "render_identity": identity["render_identity_digest"],
                 "economic_evidence": window.proves_economic_evidence,
+                "evidence_class": window.evidence_class,
             },
         ),
     )
@@ -846,6 +868,7 @@ def main(argv: list[str] | None = None) -> int:
                 "window": window.as_dict(),
                 "execution": execution_evidence,
                 "economic_evidence": window.proves_economic_evidence,
+                "evidence_class": window.evidence_class,
             },
             indent=2,
             sort_keys=True,
@@ -860,6 +883,7 @@ def main(argv: list[str] | None = None) -> int:
             f"[+]   artifact {artifact['role']}: {Path(str(artifact['path'])).name} "
             f"sha256:{(artifact['sha256'] or '')[:16]}…"
         )
+    print(f"[+] Evidence class: {window.evidence_class} (economic_evidence={window.proves_economic_evidence})")
     if not window.proves_economic_evidence:
         print("[!] Profile smoke: this run is NOT economic evidence (NO_ECONOMIC_CLAIM).")
     return 0 if (ok and cok) else 1

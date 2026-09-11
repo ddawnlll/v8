@@ -13,17 +13,26 @@ import json
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
-from typing import Any, Literal, Sequence
+from typing import TYPE_CHECKING, Any, Literal, Sequence
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from v8_next.evaluation.parity import ArtifactBinding
 
+if TYPE_CHECKING:  # the window spec is a type-only dependency here (no import cycle)
+    from v8_next.evaluation.run_window import WindowSpec
+
 #: NX04 (#425). The canonical payload shape is *versioned and proven*, never
 #: rediscovered at verification time. Each entry below was reproduced from the
 #: original ledger bytes (artifacts/benchmarks/benchmark_ledger.jsonl) without
 #: rewriting a single byte of it; the provenance column names the measured range.
-RECEIPT_DIGEST_VERSION = "v8.5-digest-v5"
+RECEIPT_DIGEST_VERSION = "v8.5-digest-v6"
+
+#: #444. Named refusal for the one combination that must never verify: a receipt
+#: whose declared window proves no economic evidence (``profile=smoke``) while
+#: carrying a numeric capability score. The score is the minted claim; the window
+#: class is what says whether the run was allowed to mint it.
+NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE = "NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE"
 
 
 @dataclass(frozen=True)
@@ -40,12 +49,22 @@ class ReceiptCanon:
     an explicit reason (``CANON_SHAPE_UNPROVEN``): guessing a layout from the
     data would be exactly the "try field subsets until the hash matches" fallback
     NX04.R2 forbids.
+
+    ``window_evidence`` (added with ``v8.5-digest-v6``, #444) declares whether the
+    canonical payload carries the evidence class of the window that produced the
+    receipt:
+
+    * ``absent``          — the version has no such field (``v2``-``v5`` entries
+      keep verifying under exactly the bytes they were written with);
+    * ``always_present``  — the field is emitted whether or not it is populated,
+      so a score can never be read apart from the class that minted it.
     """
 
     version: str
     economic_pair: Literal["absent", "present", "always_present"]
     input_binding: Literal["absent", "always_present"]
     provenance: str
+    window_evidence: Literal["absent", "always_present"] = "absent"
 
 
 RECEIPT_CANON_TABLE: dict[str, ReceiptCanon] = {
@@ -86,7 +105,64 @@ RECEIPT_CANON_TABLE: dict[str, ReceiptCanon] = {
             "every stored record keeps its original bytes, digest and parent hash"
         ),
     ),
+    "v8.5-digest-v6": ReceiptCanon(
+        version="v8.5-digest-v6",
+        economic_pair="always_present",
+        input_binding="always_present",
+        window_evidence="always_present",
+        provenance=(
+            "new writes from #444 onward. Layout is v5's plus a trailing window-evidence "
+            "record (profile, evidence class, smoke flag, economic-evidence flag, bar "
+            "count): a capability score is never stored apart from the evidence class of "
+            "the window that minted it. v2-v5 keep their own bytes, digest and parent hash"
+        ),
+    ),
 }
+
+
+class WindowEvidence(BaseModel):
+    """The evidence class of the window a receipt's numbers came from (#444).
+
+    A window that proves no economic evidence (a bar-count ``smoke`` run) is
+    liveness/mechanics evidence. Carrying its class inside the digest means the
+    class cannot be edited after the numbers were minted, and
+    :meth:`BenchmarkReceipt.verify` can refuse a capability score that the window
+    was never allowed to produce.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    profile: str
+    evidence_class: str
+    is_smoke: bool
+    economic_evidence: bool
+    bars: int | None = None
+
+    @classmethod
+    def from_window(cls, window: WindowSpec) -> WindowEvidence:
+        """Read the class straight off the window spec (one source of truth)."""
+        return cls(
+            profile=window.profile,
+            evidence_class=window.evidence_class,
+            is_smoke=window.is_smoke,
+            economic_evidence=window.proves_economic_evidence,
+            bars=window.bars,
+        )
+
+    def canon_fields(self) -> list[Any]:
+        """Fixed-order fields for the digest payload (never a dict's key order)."""
+        return [
+            self.profile,
+            self.evidence_class,
+            self.is_smoke,
+            self.economic_evidence,
+            self.bars,
+        ]
+
+    def admits_capability_score(self) -> bool:
+        """Whether this window class may mint a capability score at all."""
+        return self.economic_evidence
+
 
 class GateState(StrEnum):
     PASS = "PASS"
@@ -362,6 +438,7 @@ def build_canon_payload(
     economic_evidence_digest: str,
     economic_receipt_path: str,
     input_binding: str,
+    window_evidence: WindowEvidence | None = None,
 ) -> tuple[list[Any] | None, str | None]:
     """Canonical payload for a version's PROVEN layout: ``(canon, refusal_reason)``.
 
@@ -405,6 +482,15 @@ def build_canon_payload(
         return None, (
             f"CANON_SHAPE_UNPROVEN: {digest_version} was never observed with an input_binding"
         )
+    #: #444. The evidence class of the producing window is part of the digest from
+    #: v6 on: a capability score can be checked against the class that minted it.
+    if canon.window_evidence == "always_present":
+        payload.append(None if window_evidence is None else window_evidence.canon_fields())
+    elif window_evidence is not None:
+        return None, (
+            f"CANON_SHAPE_UNPROVEN: {digest_version} was never observed with a "
+            "window evidence record"
+        )
     return payload, None
 
 
@@ -436,6 +522,12 @@ class BenchmarkReceipt(BaseModel):
     # strategy config, bar count/span, capital assumptions. Any input
     # substitution changes this binding and fails verification.
     input_binding: str = ""
+    #: The evidence class of the window that produced these numbers (#444), bound
+    #: into the digest from ``v8.5-digest-v6`` on. ``None`` means the receipt
+    #: carries no window class at all: true for records written before v6 (which
+    #: had no such field) and for callers that do not declare a window. A declared
+    #: non-evidential class cannot carry a capability score (see :meth:`verify`).
+    window_evidence: WindowEvidence | None = None
 
     @classmethod
     def create(
@@ -450,6 +542,7 @@ class BenchmarkReceipt(BaseModel):
         economic_evidence_digest: str = "",
         economic_receipt_path: str = "",
         input_binding: str = "",
+        window_evidence: WindowEvidence | None = None,
         scoring_versions: dict[str, Any] | None = None,
     ) -> BenchmarkReceipt:
         sorted_bindings = sorted(artifact_bindings, key=lambda b: (b.role, b.path))
@@ -465,6 +558,7 @@ class BenchmarkReceipt(BaseModel):
             economic_evidence_digest=economic_evidence_digest,
             economic_receipt_path=economic_receipt_path,
             input_binding=input_binding,
+            window_evidence=window_evidence,
         )
         if canon is None:
             raise ValueError(f"cannot create receipt: {refusal}")
@@ -483,11 +577,37 @@ class BenchmarkReceipt(BaseModel):
             economic_evidence_digest=economic_evidence_digest,
             economic_receipt_path=economic_receipt_path,
             input_binding=input_binding,
+            window_evidence=window_evidence,
             scoring_versions=dict(scoring_versions or {}),
+        )
+
+    def window_refusal_reason(self) -> str | None:
+        """Named refusal when the declared window class cannot support the claims.
+
+        #444: a window that proves no economic evidence (``profile=smoke``) is
+        liveness/mechanics evidence, so a numeric capability score on such a
+        receipt is a minted claim the window never supported. The class is carried
+        *inside* the digest, so it cannot be dropped after the number was minted.
+        """
+        evidence = self.window_evidence
+        if evidence is None or evidence.admits_capability_score():
+            return None
+        if self.capability_score is None:
+            return None
+        return (
+            f"{NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE}: window profile="
+            f"{evidence.profile!r} evidence_class={evidence.evidence_class!r} proves no "
+            f"economic evidence, so it may not mint capability_score={self.capability_score}"
         )
 
     def verify(self) -> tuple[bool, str]:
         """Recompute cryptographic digest and verify against attached artifacts."""
+        # 0. A claim the window class cannot support is refused by name before any
+        #    hash is recomputed: a receipt that agrees with itself is still not
+        #    evidence that a smoke window minted a capability score (#444).
+        claim_refusal = self.window_refusal_reason()
+        if claim_refusal is not None:
+            return False, claim_refusal
         # 1. Recompute the digest under the version's PROVEN canon. Historical
         # versions are not silently reinterpreted: an unproven shape is refused
         # by name instead of being hashed under a guessed layout.
@@ -503,6 +623,7 @@ class BenchmarkReceipt(BaseModel):
             economic_evidence_digest=self.economic_evidence_digest,
             economic_receipt_path=self.economic_receipt_path,
             input_binding=self.input_binding,
+            window_evidence=self.window_evidence,
         )
         if canon is None:
             return False, str(refusal)
@@ -519,7 +640,13 @@ class BenchmarkReceipt(BaseModel):
         return True, "OK"
 
     def verify_digest(self) -> tuple[bool, str]:
-        """Digest-only verdict (no artifact I/O); used by the ledger report."""
+        """Digest-only verdict (no artifact I/O); used by the ledger report.
+
+        Only the digest is adjudicated here. The window-class claim check lives in
+        :meth:`verify` (and on the append path through it), so a report can still
+        say "the bytes are the bytes" without conflating that with "the claims
+        hold".
+        """
         canon, refusal = build_canon_payload(
             digest_version=self.digest_version,
             case_id=self.case_id,
@@ -532,6 +659,7 @@ class BenchmarkReceipt(BaseModel):
             economic_evidence_digest=self.economic_evidence_digest,
             economic_receipt_path=self.economic_receipt_path,
             input_binding=self.input_binding,
+            window_evidence=self.window_evidence,
         )
         if canon is None:
             return False, str(refusal)
