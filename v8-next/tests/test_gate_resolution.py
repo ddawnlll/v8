@@ -112,14 +112,30 @@ def test_g4_synthetic_falsification_adversarial_shock(real_candles: list[Candle]
 
 def test_g5_selection_control_dsr_and_wrc():
     """G5: Verify DSR >= 0.95 and p <= 0.05 under Rule 12 multiple testing."""
+    from v8_next.evaluation.statistics_plan import CANONICAL_G5_BLOCK_SIZE, g5_plan
+
     pnls = [0.03, 0.025, 0.04, 0.01, 0.035, 0.02, 0.05, 0.015, 0.03, 0.045] * 3
-    state, metrics = evaluate_g5_selection_control(pnls, num_trials=4)
+    plan = g5_plan(
+        family="test-g5",
+        pinned_ns=1,
+        block_size=CANONICAL_G5_BLOCK_SIZE,
+        reps=200,
+        seed=42,
+    )
+    state, metrics = evaluate_g5_selection_control(pnls, plan=plan)
     assert state == GateState.PASS
     assert metrics["passed"] is True
     assert metrics["dsr_confidence"] >= 0.95
     assert metrics["adjusted_bonferroni_pvalue"] <= 0.05
     assert metrics["own_sample_count"] == 30
     assert metrics["sample_source"] == "own_track"
+    # NX07.R3/R4: the plan is identified in the metrics and it declares, as data,
+    # which statistics the gate turns on and which it only reports.
+    assert metrics["plan_id"] == plan.identity()
+    assert metrics["trials"] == plan.multiplicity_trials
+    assert "deflated_sharpe_confidence>=0.95" in metrics["authority_conditions"]
+    assert "white_reality_check_p_value" in metrics["diagnostics"]
+    assert not set(metrics["authority_conditions"]) & set(metrics["diagnostics"])
 
 
 def test_g6_frozen_oos_replication(real_candles: list[Candle]):

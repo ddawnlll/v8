@@ -154,6 +154,14 @@ def compare_family(
         },
         "registered_trial_ids": sorted([baseline_trial_id, *losses]),
         "scope": "DEVELOPMENT_EXPLORATION_NOT_OOS",
+        # NX07.R1: the family is complete with respect to the *local* registry and
+        # nothing more. Undisclosed earlier trials cannot be proven absent, so the
+        # receipt says so instead of implying the registered set is the whole search.
+        "history_completeness": "UNKNOWN_UNDISCLOSED_TRIALS_POSSIBLE",
+        "history_completeness_basis": (
+            "the trials registry can prove which trials were recorded locally; it "
+            "cannot prove that no earlier trial was run outside it"
+        ),
         "promotion_eligible": False,
         "calibration_eligible": False,
         "claim_status": "NO_ECONOMIC_CLAIM",

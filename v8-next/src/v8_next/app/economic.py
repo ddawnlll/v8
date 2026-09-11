@@ -23,6 +23,10 @@ from v8_next.adapters.expert_strategy import ExpertStrategyConfig, run_expert_st
 from v8_next.evaluation import economic_benchmark as eb
 from v8_next.evaluation.gate_resolution import load_tape_candles
 from v8_next.evaluation.parity import ArtifactBinding
+from v8_next.evaluation.statistics_plan import (
+    CANONICAL_G5_BLOCK_SIZE,
+    g5_plan,
+)
 
 
 def tape_fingerprint(tape_path: Path) -> str:
@@ -258,7 +262,21 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
         "vol_target": [float(v) for v in fams["vol_target"]["equity"]],
         args.primary: [float(v) for v in primary_eq],
     }
-    stats = eb.run_statistics(fam_eq, [b.end_ns for b in bars], args.primary, seed=args.seed)
+    # NX07.R4: the statistical plan is pinned and written before it is used.
+    stats_plan = g5_plan(
+        family="economic-family",
+        pinned_ns=min(int(b.end_ns) for b in bars),
+        block_size=CANONICAL_G5_BLOCK_SIZE,
+        reps=eb.BOOTSTRAP_REPS,
+        seed=args.seed,
+    )
+    # The plan is written beside the receipt this run will produce; the receipt
+    # path itself is resolved later in build_receipt, so the plan travels with the
+    # run's identity instead of an assumed directory.
+    plan_path = Path(args.output_dir) / "statistics_plan.json"
+    plan_path.parent.mkdir(parents=True, exist_ok=True)
+    plan_path.write_text(json.dumps(stats_plan.as_dict(), indent=2, sort_keys=True) + "\n")
+    stats = eb.run_statistics(fam_eq, [b.end_ns for b in bars], args.primary, plan=stats_plan)
 
     inc_rets = eb.per_bar_returns(list(inc_ser["equity"]))
     ch_rets = eb.per_bar_returns(list(ch_ser["equity"]))
