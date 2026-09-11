@@ -304,9 +304,28 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(f"[+] Run key: {run_key.digest}")
 
-    ok, note = eb.validate_chronology(eb.bars_from_candles(tape.candles[tape.instruments[0]]))
-    if not ok:
-        print(f"INVALID input data: {note}", file=sys.stderr)
+    # Point-in-time validity of the series this run's numbers come from: every
+    # instrument is measured, not asserted. Publishing `chrono_ok=True` and
+    # `leak_probe=OK` as literals is what let a receipt claim a validity nobody
+    # inspected (#437), so the probes run here and their measured results travel
+    # into the verdicts and the controls below.
+    series_validity: dict[str, dict[str, Any]] = {}
+    for instrument in tape.instruments:
+        instrument_bars = eb.bars_from_candles(tape.candles[instrument])
+        chrono_result = eb.validate_chronology(instrument_bars)
+        leak_result = eb.detect_future_leak(instrument_bars)
+        series_validity[instrument] = {
+            "bars": len(instrument_bars),
+            "chronology": {"ok": chrono_result[0], "note": chrono_result[1]},
+            "leak_probe": {"ok": leak_result[0], "note": leak_result[1]},
+            "known_defect_future_leak": eb.future_leak_positive_control(instrument_bars),
+        }
+    chrono_ok = all(v["chronology"]["ok"] for v in series_validity.values())
+    leak_ok = all(v["leak_probe"]["ok"] for v in series_validity.values())
+    chrono_note = "; ".join(f"{i}: {v['chronology']['note']}" for i, v in series_validity.items())
+    leak_note = "; ".join(f"{i}: {v['leak_probe']['note']}" for i, v in series_validity.items())
+    if not chrono_ok or not leak_ok:
+        print(f"INVALID input data: {chrono_note} / {leak_note}", file=sys.stderr)
         return 2
 
     sleeves_p = (SleeveSpec("incumbent", 1, 28, 1.0),)
@@ -458,7 +477,20 @@ def main(argv: list[str] | None = None) -> int:
             "status": "UNRUN_SYNTHETIC_CONTROL_TEST_ONLY",
             "reason": "shuffled inputs are restricted to test harnesses",
         },
-        "known_defect_future_leak_caught": None,
+        "known_defect_future_leak_caught": {
+            "status": (
+                "CAUGHT"
+                if all(
+                    v["known_defect_future_leak"]["status"] == "CAUGHT"
+                    for v in series_validity.values()
+                )
+                else "MISSED"
+            ),
+            "probe": eb.FUTURE_LEAK_PROBE,
+            "instruments": {
+                i: v["known_defect_future_leak"] for i, v in series_validity.items()
+            },
+        },
         "ablation": {
             "P": "incumbent quorum=1,tolerance=28 x4 legs",
             "P+E": "incumbent 0.5 + challenger(tol=0) 0.5 x4 legs, same per-leg budget",
@@ -540,7 +572,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     excess = metrics["portfolio_P"].excess_vs_primary
     verdicts = eb.build_verdicts(
-        chrono_ok=True, chrono_note="OK; leak_probe=OK", excess=excess, stats=stats,
+        chrono_ok=chrono_ok, chrono_note=chrono_note,
+        leak_probe=(leak_ok, leak_note), excess=excess, stats=stats,
         excess_ci=(metrics["portfolio_P"].excess_ci_low, metrics["portfolio_P"].excess_ci_high),
         mix={"incremental_net": mix["incremental_net"]},
         cost_basis_ok=p_ser["cost_basis"] == "VERIFIED_ENGINE_FUNDING",

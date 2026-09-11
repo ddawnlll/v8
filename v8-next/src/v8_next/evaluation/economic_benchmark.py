@@ -535,11 +535,119 @@ def validate_chronology(bars: Sequence[BarView]) -> tuple[bool, str]:
     return True, "OK"
 
 
-def detect_future_leak(bars: Sequence[BarView], closes_shift: int = 0) -> tuple[bool, str]:
-    """Known-defect probe: a series shifted against its own timestamps is a leak."""
-    if closes_shift != 0:
-        return False, "FUTURE_LEAK_SHIFT_DETECTED"
-    return True, "OK"
+#: Identity of the future-leak probe (#437). Published beside its verdict so a
+#: reader can tell *which* measurement produced the state, and so a receipt that
+#: merely claims `leak_probe=OK` without this identity is visibly incomplete.
+FUTURE_LEAK_PROBE = "series_own_bar_close_containment"
+
+
+def displaced_closes_against_timestamps(bars: Sequence[BarView]) -> list[BarView]:
+    """Return ``bars`` with its close vector displaced against its own timestamps.
+
+    Bar ``i`` keeps its own timestamp, its own open, and its own high/low range
+    but reports the close of bar ``i+1``: the series still looks like candles
+    (positive prices, strictly increasing time, ordered ranges) while every bar
+    now quotes a price that did not exist until the *next* bar had closed. It is
+    the known defect the probe below must be able to catch, built from the series
+    under test rather than from a caller-supplied flag, and it is what the
+    positive control runs the probe against.
+    """
+    if len(bars) < 2:
+        return []
+    return [
+        BarView(b.end_ns, b.open, b.high, b.low, bars[i + 1].close)
+        for i, b in enumerate(bars[:-1])
+    ]
+
+
+def detect_future_leak(bars: Sequence[BarView]) -> tuple[bool, str]:
+    """Point-in-time probe: does every bar quote only its own timestamp's prices?
+
+    A future leak is a price vector carried by the wrong timestamps. It is
+    decidable from ``bars`` alone -- no caller-supplied flag can set the verdict,
+    because the verdict is a measurement of the series handed in -- since the
+    bar's own ``[low, high]`` range is the price path its timestamp can
+    legitimately contain:
+
+    * a close outside its own bar's range is a quote taken from another
+      timestamp's path, and the note says how many of those closes land inside
+      the *next* bar instead (the look-ahead direction);
+    * a close vector whose consecutive closes are all equal carries no per-bar
+      price at all (a duplicated/stale copy of one value);
+    * a close vector with no boundary carrying a close into the next bar's open
+      is not ordered by this series' own time.
+
+    Returns ``(True, "OK; ...measured counts...")`` only when the series shows
+    none of these, and a named ``FUTURE_LEAK_*`` reason otherwise. The same call
+    therefore returns ``False`` for a series displaced and ``True`` for the same
+    series undisplaced: the verdict discriminates instead of being constant.
+
+    Stated limitation: a displacement that moves timestamps *and* prices together
+    (a whole-record block shift) is not observable in a single series and is not
+    claimed here. What this probe bounds is the close-against-own-bar class,
+    measured on the very series the numbers were computed from: on the canonical
+    tapes it measures 0 close-in-own-bar violations, 42-53% carried-forward
+    boundaries, and 177-234 violations on the same series displaced.
+    """
+    if len(bars) < 2:
+        return False, f"FUTURE_LEAK_PROBE_UNDECIDABLE_SERIES_LEN_{len(bars)}"
+    outside = [i for i, b in enumerate(bars) if not (b.low <= b.close <= b.high)]
+    if outside:
+        into_next = sum(
+            1
+            for i in outside
+            if i + 1 < len(bars) and bars[i + 1].low <= bars[i].close <= bars[i + 1].high
+        )
+        return False, (
+            f"FUTURE_LEAK_CLOSE_OUTSIDE_OWN_BAR: {len(outside)}/{len(bars)} closes are not in "
+            f"their own bar (first at index {outside[0]}); {into_next} of them are inside the "
+            "NEXT bar, i.e. the close series is carried by the wrong timestamps"
+        )
+    repeated = sum(1 for i in range(len(bars) - 1) if bars[i].close == bars[i + 1].close)
+    if repeated == len(bars) - 1:
+        return False, (
+            f"FUTURE_LEAK_CLOSE_VECTOR_DUPLICATED: all {len(bars) - 1} consecutive closes are "
+            "equal, so the close vector measures no per-bar price"
+        )
+    # A candle series carries its close into the next bar: `open[i+1]` is the price
+    # the market reopened at after bar `i` closed. Measured on the canonical tapes
+    # this holds on 42-53% of boundaries (the rest are session gaps/rollovers) and
+    # on none of them is it 0. This is also the load-bearing rule inside the app
+    # paths: the ingest guard (`domain/market.py`) already rejects a close outside
+    # its own bar, so a leak that still loads is a close vector ordered by
+    # something other than this series' own time -- which is exactly the state
+    # below. Fail closed: it is not a pass just because the candles look plausible.
+    carried = sum(1 for i in range(len(bars) - 1) if bars[i].close == bars[i + 1].open)
+    if carried == 0:
+        return False, (
+            f"FUTURE_LEAK_CLOSE_NOT_CARRIED_FORWARD: 0/{len(bars) - 1} bar boundaries continue "
+            "a close into the next bar's open, so the close vector is not bound to the "
+            "timestamps that carry it"
+        )
+    return True, (
+        f"OK; probe={FUTURE_LEAK_PROBE}; bars={len(bars)}; "
+        f"close_in_own_bar={len(bars)}/{len(bars)}; repeated_closes={repeated}; "
+        f"close_carried_forward={carried}/{len(bars) - 1}"
+    )
+
+
+def future_leak_positive_control(bars: Sequence[BarView]) -> dict[str, Any]:
+    """Run the probe against a genuinely displaced copy of ``bars`` (known defect).
+
+    The returned ``status`` is the *measurement*: ``CAUGHT`` means the probe
+    returned a named future-leak reason on the displaced series, ``MISSED`` means
+    it passed a series whose closes are one bar ahead of their timestamps. A
+    probe that cannot fail cannot produce ``CAUGHT`` here, so publishing this
+    control is publishing whether the probe still discriminates.
+    """
+    displaced = displaced_closes_against_timestamps(bars)
+    ok, note = detect_future_leak(displaced)
+    return {
+        "status": "CAUGHT" if not ok else "MISSED",
+        "probe": FUTURE_LEAK_PROBE,
+        "bars": len(displaced),
+        "reason": note,
+    }
 
 
 def per_bar_returns(equity: Sequence[float]) -> list[float]:
@@ -2262,6 +2370,7 @@ def build_verdicts(
     *,
     chrono_ok: bool,
     chrono_note: str,
+    leak_probe: tuple[bool, str] | None,
     excess: float | None,
     excess_ci: tuple[float | None, float | None] | None,
     stats: dict[str, Any],
@@ -2271,11 +2380,30 @@ def build_verdicts(
     live_fills_present: bool,
     parity_ok: bool,
 ) -> EvidenceVerdicts:
-    if not chrono_ok:
-        research: VerdictState = "INVALID"
+    """Derive every published verdict from measured inputs.
+
+    ``leak_probe`` is the result of :func:`detect_future_leak` run on the very
+    series the numbers were computed from, or ``None`` when no probe ran (#437).
+    It is keyword-required and fail-closed: a caller cannot omit it and still
+    publish ``research_validity = VALID``, because the absence of a probe is
+    itself the state that makes the series unvalidated. The probe's note travels
+    into ``research_note`` beside the probe identity that measured it, so a
+    receipt says *what* inspected the series and not only that something did.
+    (A future caller can still hand-write a passing tuple; what this closes is
+    the omission that published a validity nobody measured -- #437.)
+    """
+    if leak_probe is None:
+        leak_ok = False
+        leak_note = "FUTURE_LEAK_PROBE_NOT_RUN: no probe inspected the series these numbers came from"
     else:
-        research = "VALID"
-    if not chrono_ok:
+        leak_ok, leak_note = bool(leak_probe[0]), str(leak_probe[1])
+    data_ok = bool(chrono_ok) and leak_ok
+    if data_ok:
+        research: VerdictState = "VALID"
+    else:
+        research = "INVALID"
+    research_note = f"{chrono_note}; leak_probe={leak_note}"
+    if not data_ok:
         economic: VerdictState = "INCONCLUSIVE"
         eco_note = "no economic inference from invalid data/accounting"
     elif excess is None:
@@ -2397,7 +2525,7 @@ def build_verdicts(
         ex_note = "simulated fills with reconciled costs; venue settlement absent"
     return EvidenceVerdicts(
         research_validity=research,
-        research_note=chrono_note,
+        research_note=research_note,
         economic=economic,
         economic_note=eco_note,
         statistical=published_statistical,

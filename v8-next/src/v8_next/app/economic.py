@@ -286,14 +286,16 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
     mix = eb.allocator_mix(inc_rets, ch_rets)
     neg = eb.negative_control_shuffled(inc_rets, seed=args.seed + 100)
     pos = eb.positive_control_known_effect()
-    shifted = [eb.BarView(b.end_ns, b.open, b.high, b.low, b.close) for b in bars]
-    leak_caught = not eb.detect_future_leak(shifted, closes_shift=1)[0]
+    # Known-defect control: the probe is run against a genuinely displaced copy of
+    # the *same* series the numbers came from, so this is a measurement that can
+    # come out MISSED -- not a constant the caller sets (#437).
+    leak_control = eb.future_leak_positive_control(bars)
     controls = {
         "positive_control": pos,
         "positive_caught": bool(pos["detected"]) == bool(pos["expected"]),
         "negative_control": neg,
         "negative_caught": bool(neg["declares_winner"]) == bool(neg["expected"]),
-        "known_defect_future_leak_caught": leak_caught,
+        "known_defect_future_leak_caught": leak_control,
         "known_defect_zero_latency": {
             "status": "CAUGHT_BY_DESIGN",
             "reason": "no latency model attached; execution stays SIM_ONLY",
@@ -321,8 +323,9 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
     }
     cost_ok = inc_ser["cost_basis"] == "VERIFIED_ENGINE"
     verdicts = eb.build_verdicts(
-        chrono_ok=chrono_ok and leak_ok,
-        chrono_note=f"{chrono_note}; leak_probe={leak_note}",
+        chrono_ok=chrono_ok,
+        chrono_note=chrono_note,
+        leak_probe=(leak_ok, leak_note),
         excess=excess,
         excess_ci=(metrics["incumbent"].excess_ci_low, metrics["incumbent"].excess_ci_high),
         stats=stats,
