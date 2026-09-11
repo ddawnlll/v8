@@ -14,7 +14,7 @@ reported; rows outside the window are excluded, never extrapolated.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from decimal import Decimal
 from typing import Any
 
@@ -25,6 +25,7 @@ from nautilus_trader.model import (
     AccountType,
     Bar,
     BarType,
+    BookType,
     CryptoPerpetual,
     Currency,
     FundingRateUpdate,
@@ -183,6 +184,25 @@ _json_safe = json_safe
 _money_amounts = money_amounts
 
 
+def _ordered_book_deltas(
+    book_deltas: tuple[Any, ...], legs: dict[str, tuple[Candle, ...]]
+) -> tuple[tuple[Any, ...], list[str]]:
+    """Sort captured book deltas deterministically and reject foreign instruments.
+
+    Book data for an instrument that is not part of this run would open an L2
+    book the engine never matches against (or, worse, silently disappear), so it
+    is rejected rather than dropped. Within the run the deltas are sorted by
+    ``(ts_event, sequence)`` so two runs of the same capture feed the engine the
+    same bytes in the same order.
+    """
+    if not book_deltas:
+        return (), []
+    run_ids = {f"{raw}-PERP.BINANCE" for raw in legs}
+    stray = sorted({str(d.instrument_id) for d in book_deltas} - run_ids)
+    ordered = tuple(sorted(book_deltas, key=lambda d: (int(d.ts_event), int(d.sequence))))
+    return ordered, stray
+
+
 def run_portfolio_backtest(
     legs: dict[str, tuple[Candle, ...]],
     sleeves: tuple[SleeveSpec, ...],
@@ -200,6 +220,9 @@ def run_portfolio_backtest(
     funding_dropped: int = 0,
     execution_profile: str | ExecutionProfile = DEFAULT_PROFILE,
     trades: tuple[Any, ...] = (),
+    book_deltas: tuple[Any, ...] = (),
+    book_type: Any = BookType.L2_MBP,
+    extra_strategies: tuple[Any, ...] = (),
 ) -> dict[str, Any]:
     """Execute the portfolio through one shared Nautilus account.
 
@@ -210,6 +233,14 @@ def run_portfolio_backtest(
     (MultiTape.funding_dropped). It is reported in the result, never ignored:
     a zero-funding P&L with dropped records is flagged, not presented as
     fully-covered.
+
+    ``book_deltas`` is an optional captured L2/L3 ``OrderBookDelta`` sequence
+    (see ``book_tape``). When it is present the venue is opened with ``book_type``
+    and the profile is upgraded to ``depth_data_available=True`` -- the
+    depth-dependent knobs only stop being inert when the engine really has a book
+    to consume from, so the flag follows the data rather than the caller's
+    intention. When it is absent nothing changes and the bar-only inert report
+    stays true.
     """
     if not legs:
         raise ValueError("at least one instrument leg required")
@@ -219,6 +250,17 @@ def run_portfolio_backtest(
     curr = Currency.from_str(currency)
     ven = Venue(venue)
     profile = resolve_profile(execution_profile)
+    ordered_deltas, stray_instruments = _ordered_book_deltas(book_deltas, legs)
+    if stray_instruments:
+        raise ValueError(
+            f"book deltas reference instruments outside the run: {stray_instruments}"
+        )
+    book_deltas_fed = len(ordered_deltas)
+    if ordered_deltas:
+        profile = replace(profile, depth_data_available=True)
+    venue_exec = dict(venue_kwargs(profile))
+    if ordered_deltas:
+        venue_exec["book_type"] = book_type
     engine = BacktestEngine(
         BacktestEngineConfig(
             bypass_logging=True,
@@ -236,17 +278,21 @@ def run_portfolio_backtest(
             [Money(float(initial_balance), curr)],
             default_leverage=Decimal(1),
             liquidation_enabled=False,
-            **venue_kwargs(profile),
+            **venue_exec,
         )
         strategies: list[ExpertEnsembleStrategy] = []
-        window_start = min(c[0].end_ns for c in legs.values())
-        window_end = max(c[-1].end_ns for c in legs.values())
+        window_start = min((c[0].end_ns for c in legs.values() if c), default=None)
+        window_end = max((c[-1].end_ns for c in legs.values() if c), default=None)
         for raw, candles in legs.items():
             instrument_id = f"{raw}-PERP.BINANCE"
             base = BASE_CURRENCIES.get(raw, "BTC")
             engine.add_instrument(
                 _instrument(instrument_id, raw, base, curr, maker_fee, taker_fee)
             )
+            if not candles:
+                # A leg carried only for its instrument (e.g. a book-only probe
+                # run) contributes no bars; adding an empty Bar list is skipped.
+                continue
             bar_type = BarType.from_str(f"{instrument_id}-1-HOUR-LAST-EXTERNAL")
             engine.add_data(_bars(candles, bar_type))
             source_map = {c.end_ns: c for c in candles}
@@ -264,6 +310,18 @@ def run_portfolio_backtest(
                 strat = ExpertEnsembleStrategy(cfg, source_candles=source_map, readings=readings)
                 strategies.append(strat)
                 engine.add_strategy(strat)
+
+        # Probe runs may supply their own strategy list instead of the incumbent
+        # ensembles (the incumbent order logic itself is untouched). Those
+        # strategies are added here, after every instrument exists.
+        for probe in extra_strategies:
+            engine.add_strategy(probe)
+
+        # Captured order-book depth (L2/L3) drives the depth-dependent knobs.
+        # Without it the venue is left at its default L1 book and the profile
+        # reports those knobs as inert.
+        if ordered_deltas:
+            engine.add_data(list(ordered_deltas))
 
         # Trade ticks drive trade-based matching (aggressor evidence) alongside
         # bars. Empty by default; sorted by the loader for determinism.
@@ -330,6 +388,8 @@ def run_portfolio_backtest(
             "fill_signature": execution.get("fill_signature"),
             "fill_records": fill_records,
             "trades_fed": trades_fed,
+            "book_deltas_fed": book_deltas_fed,
+            "book_type": str(book_type) if ordered_deltas else None,
             "funding_settlements_fed": settlements,
             "funding_rows_available": len(funding),
             # Coverage accounting: a zero-funding P&L must be distinguishable

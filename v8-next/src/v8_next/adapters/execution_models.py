@@ -31,6 +31,17 @@ Measured limits of the available knobs (real tape, bar data, default L1 book):
   depth. They are still accepted and forwarded, and the summary reports them as
   ``inert_knobs_without_depth_data`` so a profile cannot imply realism it is not
   delivering.
+
+Measured again with a real captured L2 book (F2, issue #401): once a run really
+receives order-book depth **and** the order flow can consume it, the two
+depth-dependent knobs stop being inert -- ``liquidity_consumption`` bounds a
+marketable limit's fill to the displayed size at the touch, and
+``queue_position`` caps a resting limit's fill to the volume that traded after
+the queue ahead of it was consumed. ``profile_summary`` therefore reports them as
+``depth_dependent_knobs_active`` (with the measured evidence token) *only* when
+``depth_data_available`` is set, which the portfolio backtest sets only when it
+actually fed captured book deltas to that engine. The bar-only inert claim is
+unchanged: on bar data the knobs are still inert.
 """
 
 from __future__ import annotations
@@ -75,7 +86,9 @@ FILL_MODEL_IS_SLIPPED: dict[str, bool] = {
 #: Knobs the engine accepts but that need an order book with displayed depth to
 #: do anything. Measured on the real tape: with bar data and the default L1 book
 #: both are inert, so a profile that enables them without depth data publishes
-#: them as inert instead of claiming realism it cannot deliver.
+#: them as inert instead of claiming realism it cannot deliver. Measured with a
+#: real captured L2 book (F2): both change the fill once depth is present, so the
+#: summary promotes them to active only when ``depth_data_available`` is set.
 DEPTH_DEPENDENT_KNOBS: tuple[str, ...] = ("liquidity_consumption", "queue_position")
 
 
@@ -292,13 +305,25 @@ def profile_summary(profile: str | ExecutionProfile) -> dict[str, Any]:
         "use_market_order_acks": p.use_market_order_acks,
         "price_protection_points": p.price_protection_points,
         "depth_data_available": p.depth_data_available,
-        # Measured on the real tape with bar data and the default L1 book:
-        # bar_execution changes fills; these knobs are accepted by the engine but
-        # produce no observable difference without L2/L3 depth. Publishing them
-        # as inert keeps a profile from implying realism it cannot deliver.
+        # Depth-dependent knobs are accepted by the engine either way; whether
+        # they *do* anything depends on whether this run received book depth.
+        # Measured on the real quad tape with bar data and the default L1 book:
+        # bar_execution changes fills, but these knobs produce no observable
+        # difference. Measured with a real captured L2 book (F2): both change the
+        # fill. So they are published as active only when depth data is present,
+        # and as inert otherwise -- a profile cannot imply realism it is not
+        # delivering.
         "depth_dependent_knobs_enabled": enabled_depth_knobs,
+        "depth_dependent_knobs_active": (
+            enabled_depth_knobs if p.depth_data_available else []
+        ),
         "inert_knobs_without_depth_data": (
             [] if p.depth_data_available else enabled_depth_knobs
+        ),
+        "depth_dependent_knobs_evidence": (
+            "MEASURED_FILL_CHANGES_WITH_CAPTURED_L2_BOOK"
+            if p.depth_data_available
+            else "NOT_APPLICABLE_NO_DEPTH_DATA"
         ),
         # These are modelled assumptions, never venue-observed execution.
         "evidence_class": "MODELLED_EXECUTION_ASSUMPTION_NOT_VENUE_TRUTH",
