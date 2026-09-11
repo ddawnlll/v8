@@ -124,9 +124,9 @@ def test_the_final_window_was_never_opened() -> None:
 def test_every_fold_reports_a_breakdown_not_one_pooled_number() -> None:
     results = _load("fold_results.json")
     measured = 0
-    for fold_id, entry in results["folds"].items():
+    for _fold_id, entry in results["folds"].items():
         assert entry["fold"]["scored_start_ns"] < entry["fold"]["scored_end_ns"]
-        for symbol, row in entry["symbols"].items():
+        for _symbol, row in entry["symbols"].items():
             if row.get("status") != "MEASURED":
                 continue
             measured += 1
