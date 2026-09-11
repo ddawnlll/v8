@@ -7,6 +7,7 @@ Evaluative section: real-tape BenchmarkCase via the economic fabric; skips when
 the tape is absent. Synthetic candles are banned there.
 """
 
+import math
 from pathlib import Path
 
 import pytest
@@ -105,6 +106,63 @@ def test_mechanics_degenerate_sharpe_flagged() -> None:
     noisy = list(10000.0 + float(i) % 7 - 3.0 for i in range(100))
     m2 = eb.metrics_for_curve(noisy, [1.0] * 100, 1.0, 5.0, None, "ANALYTIC_MODEL", noisy, 1)
     assert m2.sharpe_degenerate is False
+
+
+def _mechanics_return_path(
+    n: int = 500, drift: float = 0.0004, vol: float = 0.01, seed: int = 13
+) -> list[float]:
+    """MECHANICS ONLY: seeded per-bar returns with zero evaluative weight."""
+    import numpy as np
+
+    rng = np.random.default_rng(seed)
+    return [float(v) for v in drift + vol * rng.standard_normal(n)]
+
+
+def _mechanics_equity(rets: list[float], start: float = 10000.0) -> list[float]:
+    """MECHANICS ONLY: compound a synthetic return path into an equity curve."""
+    eq = [start]
+    for r in rets:
+        eq.append(eq[-1] * (1.0 + r))
+    return eq
+
+
+def test_mechanics_sharpe_ci_stored_annualized() -> None:
+    """#388 acceptance (1): the STORED sharpe_ci_* are annualized.
+
+    The block bootstrap resamples per-bar returns, so its percentiles are
+    per-bar Sharpe values. Stored beside the annualized point estimate they must
+    first be scaled by sqrt(HOURS_PER_YEAR); this ratio is 1.0 pre-fix.
+    """
+    eq = _mechanics_equity(_mechanics_return_path())
+    m = eb.metrics_for_curve(eq, [1.0] * len(eq), 1.0, 5.0, None, "ANALYTIC_MODEL", eq, 1)
+    # Exactly the array metrics_for_curve derived from `eq`: same bootstrap input.
+    per_bar_lo, per_bar_hi = eb.block_bootstrap_ci(eb.per_bar_returns(eq))
+    assert per_bar_lo is not None and per_bar_hi is not None
+    root = math.sqrt(eb.HOURS_PER_YEAR)
+    assert eb.SHARPE_ANNUALIZATION == pytest.approx(root, rel=1e-15)
+    assert m.sharpe_ci_low is not None and m.sharpe_ci_high is not None
+    assert m.sharpe_ci_low == pytest.approx(per_bar_lo * root, rel=1e-12)
+    assert m.sharpe_ci_high == pytest.approx(per_bar_hi * root, rel=1e-12)
+    assert m.sharpe_ci_low / per_bar_lo == pytest.approx(root, rel=1e-9)
+    assert m.sharpe_ci_high / per_bar_hi == pytest.approx(root, rel=1e-9)
+    assert m.sharpe_ci_low == pytest.approx(
+        eb.sharpe_ci_annualized(eb.per_bar_returns(eq))[0], rel=1e-12
+    )
+
+
+def test_mechanics_sharpe_ci_brackets_its_own_point() -> None:
+    """#388 acceptance (2): ci_low <= sharpe_annualized <= ci_high on sound rows."""
+    eq = _mechanics_equity(_mechanics_return_path())
+    m = eb.metrics_for_curve(eq, [1.0] * len(eq), 1.0, 5.0, None, "ANALYTIC_MODEL", eq, 1)
+    assert m.sharpe_degenerate is False
+    assert m.sharpe_ci_low is not None and m.sharpe_ci_high is not None
+    assert m.sharpe_ci_low <= m.sharpe_annualized <= m.sharpe_ci_high
+    # Discriminator: the per-bar interval (the pre-fix publication) cannot
+    # contain an annualized point of this magnitude, so this pins the fix.
+    per_bar_lo, per_bar_hi = eb.block_bootstrap_ci(eb.per_bar_returns(eq))
+    assert per_bar_lo is not None and per_bar_hi is not None
+    assert per_bar_hi < m.sharpe_annualized
+    assert not (per_bar_lo <= m.sharpe_annualized <= per_bar_hi)
 
 
 def _mechanics_oos_metric(*, degenerate: bool, sharpe_annualized: float) -> eb.MetricSet:
@@ -217,6 +275,42 @@ def test_mechanics_oos_section_flags_degenerate_variance() -> None:
     assert token in oos_rows["challenger"]
     assert token not in oos_rows["incumbent"]
     assert eb.DEGENERATE_VARIANCE_MARKER == token  # one render token, both sections
+
+
+def test_mechanics_report_publishes_aligned_sharpe_ci() -> None:
+    """#388 acceptance (3): both Sharpe cells publish the CI on the point scale.
+
+    In-sample table and chronological OOS block must carry the same annualized
+    interval, disclose the scale, and keep honest absence where no interval was
+    computed. MECHANICS ONLY: the row is synthetic arithmetic, not performance.
+    """
+    eq = _mechanics_equity(_mechanics_return_path())
+    m = eb.metrics_for_curve(eq, [1.0] * len(eq), 1.0, 5.0, None, "ANALYTIC_MODEL", eq, 1)
+    assert m.sharpe_ci_low is not None and m.sharpe_ci_high is not None
+    assert m.sharpe_ci_low <= m.sharpe_annualized <= m.sharpe_ci_high
+    cell = eb.sharpe_ci_cell(m)
+    assert cell == f"[{m.sharpe_ci_low:.3f},{m.sharpe_ci_high:.3f}]"
+    report = eb.render_report(_mechanics_receipt({"incumbent": m}))
+
+    table = _render_section(
+        report, "## Metrics (cost-adjusted, shared basis)", "## Chronological OOS"
+    )
+    assert "annualized" in table  # the scale claim is on the page, not implied
+    row = next(ln for ln in table.splitlines() if ln.startswith("| incumbent |"))
+    assert f"{m.sharpe_annualized:.3f} {cell}" in row  # point and CI, one scale
+
+    oos = _render_section(report, "## Chronological OOS", "## Statistics")
+    oos_row = next(ln for ln in oos.splitlines() if ln.startswith("- incumbent:"))
+    assert f"Sharpe_ann {m.sharpe_annualized:.3f} CI {cell}" in oos_row
+
+    # A row whose CI was not computed publishes no interval: absence stays absent.
+    absent = eb.render_report(
+        _mechanics_receipt(
+            {"challenger": _mechanics_oos_metric(degenerate=True, sharpe_annualized=1.443)}
+        )
+    )
+    absent_oos = _render_section(absent, "## Chronological OOS", "## Statistics")
+    assert "CI [" not in absent_oos and "n/a" not in absent_oos
 
 
 def test_mechanics_allocator_mix_shape() -> None:
