@@ -112,6 +112,13 @@ class GateState(StrEnum):
         return "MissingEvidence"
 
 
+#: #435. Named reason code for a ``RequiredBlocking`` gate whose state was never
+#: established (``NOT_APPLICABLE``). It is not a measured failure, so it is named
+#: apart from ``HardFailure``; it is a blocking precondition that was never met,
+#: so it cannot certify or mint either.
+REQUIRED_BLOCKING_GATE_UNEVALUATED = "REQUIRED_BLOCKING_GATE_UNEVALUATED"
+
+
 @dataclass(frozen=True)
 class GateDescriptor:
     index: int
@@ -206,8 +213,38 @@ class GateEvaluation:
     descriptor: GateDescriptor
     state: GateState
 
+    def admits_not_applicable(self) -> bool:
+        """Whether this gate's own declared requirement admits NOT_APPLICABLE.
+
+        One source of truth: the descriptor's ``requirement``. A gate declared
+        ``RequiredBlocking`` must be *established* (PASS) to hold; the fold clauses
+        that legitimately resolve to NOT_APPLICABLE (live realization / prospective
+        shadow, D-152 §5) declare ``Required``. Deciding this from the descriptor is
+        what keeps "never evaluated" and "verified" distinguishable, instead of a
+        global PASS-or-NOT_APPLICABLE OR that certifies an unevaluated blocking
+        gate exactly like a fully-PASS vector (#435).
+        """
+        return self.descriptor.requirement != "RequiredBlocking"
+
     def holds(self) -> bool:
-        return self.state in (GateState.PASS, GateState.NOT_APPLICABLE)
+        if self.state == GateState.PASS:
+            return True
+        return self.state == GateState.NOT_APPLICABLE and self.admits_not_applicable()
+
+    def refusal_reason(self) -> str | None:
+        """Named reason this gate is not established; ``None`` when it holds."""
+        if self.holds():
+            return None
+        if self.state == GateState.NOT_APPLICABLE:
+            return (
+                f"{REQUIRED_BLOCKING_GATE_UNEVALUATED}: {self.descriptor.canonical_id} "
+                f"({self.descriptor.vector_field})=NOT_APPLICABLE, "
+                f"requirement={self.descriptor.requirement}"
+            )
+        return (
+            f"{self.descriptor.canonical_id} ({self.descriptor.vector_field})="
+            f"{self.state.value}, requirement={self.descriptor.requirement}"
+        )
 
 
 @dataclass(frozen=True)
@@ -217,9 +254,19 @@ class ReadinessVerdict:
     failing_positions: tuple[int, ...]
     hard_failures: tuple[int, ...]
     evidence_gaps: tuple[int, ...]
+    #: #435. Positions whose requirement is ``RequiredBlocking`` and whose state was
+    #: never established (NOT_APPLICABLE). They block readiness without being
+    #: measured failures, so they are named apart from ``hard_failures`` rather than
+    #: collapsed into it.
+    unevaluated_blocking: tuple[int, ...] = ()
 
     def status_string(self) -> str:
         return self.status.value
+
+    def blocking_reasons(self) -> tuple[str, ...]:
+        """Named reasons this vector cannot certify; empty when it can."""
+        reasons = [ev.refusal_reason() for ev in self.evaluations if not ev.holds()]
+        return tuple(reason for reason in reasons if reason is not None)
 
 
 class GateVector(BaseModel):
@@ -258,22 +305,34 @@ class GateVector(BaseModel):
         return all(g.holds() for g in self.evaluated_gates())
 
     def readiness(self) -> ReadinessVerdict:
+        """Adjudicate the vector: a gate holds only if its own requirement is met.
+
+        An unevaluated blocking gate (NOT_APPLICABLE on a ``RequiredBlocking``
+        descriptor) is a blocking precondition that was never established. It is
+        reported in ``unevaluated_blocking`` — distinct from a measured
+        ``HardFailure`` and from an ordinary ``evidence_gap`` — and it blocks
+        readiness rather than leaving the vector certifiable (#435).
+        """
         evals = self.evaluated_gates()
         failing: list[int] = []
         hard: list[int] = []
         gaps: list[int] = []
+        unevaluated_blocking: list[int] = []
 
         for ev in evals:
             if ev.holds():
                 continue
             failing.append(ev.descriptor.index)
-            f_class = ev.state.failure_class()
-            if f_class == "HardFailure":
+            if ev.state == GateState.NOT_APPLICABLE:
+                # reachable only for a RequiredBlocking descriptor: for every
+                # other requirement this state holds, so it never reaches here
+                unevaluated_blocking.append(ev.descriptor.index)
+            elif ev.state.failure_class() == "HardFailure":
                 hard.append(ev.descriptor.index)
             else:
                 gaps.append(ev.descriptor.index)
 
-        if hard:
+        if hard or unevaluated_blocking:
             status = ReadinessStatus.HardFailure
         elif not failing:
             status = ReadinessStatus.Certified
@@ -286,6 +345,7 @@ class GateVector(BaseModel):
             failing_positions=tuple(failing),
             hard_failures=tuple(hard),
             evidence_gaps=tuple(gaps),
+            unevaluated_blocking=tuple(unevaluated_blocking),
         )
 
 

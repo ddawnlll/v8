@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from v8_next.evaluation.benchmark_receipt import BenchmarkReceipt
+from v8_next.evaluation.benchmark_receipt import BenchmarkReceipt, GateEvaluation, GateState
 from v8_next.evaluation.certificate import PolicyCertificate
 
 
@@ -20,6 +20,21 @@ def _v(value: float | None, digits: int = 1) -> str:
     if value is None:
         return "MISSING"
     return f"{value:.{digits}f}"
+
+
+def _gate_decision(ev: GateEvaluation) -> str:
+    """Rendered decision for one gate row (#435).
+
+    The descriptor's ``requirement`` is what decides whether a state is admitted,
+    so the report shows the decision explicitly: an established PASS, a
+    NOT_APPLICABLE that the gate's own clause admits, or the named reason the gate
+    is not established (e.g. ``REQUIRED_BLOCKING_GATE_UNEVALUATED``).
+    """
+    if ev.holds():
+        if ev.state == GateState.PASS:
+            return "ESTABLISHED"
+        return "ADMITTED_NOT_APPLICABLE"
+    return ev.refusal_reason() or ""
 
 
 def generate_forensic_html_report(
@@ -91,7 +106,7 @@ code {{ font-family: ui-monospace, monospace; background: #0f172a; padding: 2px 
 
 <h2>Hard-Gate Verification Matrix (G0-G9 Non-Compensable)</h2>
 <table>
-<thead><tr><th>Gate ID</th><th>Canonical Gate Descriptor</th><th>Requirement</th><th>State</th></tr></thead>
+<thead><tr><th>Gate ID</th><th>Canonical Gate Descriptor</th><th>Requirement</th><th>State</th><th>Decision</th></tr></thead>
 <tbody>
 """
     for ev in receipt.gates.evaluated_gates():
@@ -107,6 +122,7 @@ code {{ font-family: ui-monospace, monospace; background: #0f172a; padding: 2px 
     <td><strong>{gate_name}</strong><br><small style="color: #94a3b8;">{ev.descriptor.source_clause}</small></td>
     <td><code>{ev.descriptor.requirement}</code></td>
     <td><span class="badge {badge_cls}">{st}</span></td>
+    <td><code>{_gate_decision(ev)}</code></td>
   </tr>
 """
 
