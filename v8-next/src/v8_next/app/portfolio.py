@@ -36,6 +36,11 @@ from v8_next.adapters.shadow_ingest import (
     ingest_status,
     reconcile_shadow_account,
 )
+from v8_next.app.economic import (
+    FLOW_SOURCE_ANALYTIC_PER_BAR,
+    FLOW_SOURCE_ENGINE_FILLS,
+    oos_slice_flow,
+)
 from v8_next.domain.capital_policy import CapitalPolicy
 from v8_next.evaluation import economic_benchmark as eb
 from v8_next.evaluation.benchmark_receipt import BenchmarkLedger, BenchmarkReceipt
@@ -422,6 +427,33 @@ def main(argv: list[str] | None = None) -> int:
     fit = min(eb.OOS_FIT_BARS, n - 48)
     oos_metrics: dict[str, eb.MetricSet] = {}
     if n - fit >= 48:
+        # #443: the slice row's cost/flow fields are measured on the slice (see
+        # `oos_slice_flow`). The pre-slice measurement re-runs the same builders
+        # on the bars this row excludes; only their FLOW fields are read, so the
+        # throwaway call is given the flow-identical inputs those fields are
+        # built from (positions, closes, timeline) and nothing else. `pre == 0`
+        # means the slice is the whole window: no pre-slice flow to subtract.
+        pre = max(0, fit)
+        prefix_flow: dict[str, tuple[float, float, int]] = {}
+        if pre >= 1:
+            legs_pre = {inst: series[:pre] for inst, series in closes.items()}
+            for leg_name, leg_res in (("portfolio_P", p_fund), ("portfolio_PE", pe_fund)):
+                leg_ser = eb.portfolio_series_from_engine(
+                    leg_res, legs_pre, end_ns[:pre], args.capital, args.taker_fee,
+                    None, (), None, True,
+                )
+                prefix_flow[leg_name] = (
+                    float(leg_ser["turnover"]),
+                    float(leg_ser["commission"]),
+                    int(leg_ser["n_trades"]),
+                )
+            pre_fams = eb.compute_multileg_family(legs_pre, args.capital, args.taker_fee)
+            for bench_id, fam in pre_fams.items():
+                prefix_flow[bench_id] = (
+                    float(fam["turnover"]),
+                    float(fam["commission"]),
+                    int(fam["n_trades"]),
+                )
         for name, c in curves.items():
             eq = list(c["equity"])[fit:]
             ex = list(c["exposure"])[fit:]
@@ -430,9 +462,25 @@ def main(argv: list[str] | None = None) -> int:
             pe = primary_eq[fit:]
             pb = pe[0] if pe[0] > 0 else args.capital
             pe_n = [v / pb * args.capital for v in pe]
+            p_turn, p_comm, p_trades = prefix_flow.get(name, (0.0, 0.0, 0))
+            s_turn, s_comm, s_trades = oos_slice_flow(
+                full_turnover=float(c["turnover"]),
+                full_commission=float(c["commission"]),
+                full_n_trades=int(c["n_trades"]),
+                prefix_turnover=p_turn,
+                prefix_commission=p_comm,
+                prefix_n_trades=p_trades,
+                capital=args.capital,
+                taker_fee=args.taker_fee,
+                source=(
+                    FLOW_SOURCE_ENGINE_FILLS
+                    if name in ("portfolio_P", "portfolio_PE")
+                    else FLOW_SOURCE_ANALYTIC_PER_BAR
+                ),
+            )
             oos_metrics[name] = eb.metrics_for_curve(
-                eq_n, ex, float(c["turnover"]), float(c["commission"]), None,
-                str(c["cost_basis"]) + "+OOS_SLICE", pe_n, int(c["n_trades"]),
+                eq_n, ex, s_turn, s_comm, None,
+                str(c["cost_basis"]) + "+OOS_SLICE", pe_n, s_trades,
             )
 
     fam_eq: dict[str, Sequence[float]] = {
