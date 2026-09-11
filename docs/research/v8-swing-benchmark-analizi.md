@@ -1,3 +1,13 @@
+# 2026-09-11 kapsam düzeltmesi
+Bu analizdeki eski Rust uygulama yönlendirmeleri ve SB issue referansları
+geri çekilmiştir. Asıl uygulama v8-next Python/Nautilus’tur. Aktif normatif
+kapsam [NX şartnamesi](../contracts/V87_SWING_BENCHMARK_SPEC.md) ve
+[uygulama planıdır](../migration/V87_SWING_BENCHMARK_IMPLEMENTATION_PLAN.md).
+Buradaki tahmini skorlar ölçülmüş sonuç veya acceptance eşiği değildir.
+Son 12 ayın korunmuş olduğu varsayılmaz; burn kanıtı final uygunluğunu belirler.
+
+---
+
 # V8 swing benchmark analizi ve kurtarma planı
 
 Arşiv notu (2026-09-11): Bu metin önceki salt okunur incelemenin tam içeriğidir;
