@@ -107,6 +107,118 @@ def test_mechanics_degenerate_sharpe_flagged() -> None:
     assert m2.sharpe_degenerate is False
 
 
+def _mechanics_oos_metric(*, degenerate: bool, sharpe_annualized: float) -> eb.MetricSet:
+    """Render-path fixture: a metric row with an explicit degeneracy flag.
+
+    MECHANICS ONLY. No evaluative weight: these are not measured returns.
+    """
+    return eb.MetricSet(
+        net_return=0.0047,
+        excess_vs_primary=-0.001,
+        sharpe_per_bar=sharpe_annualized / (365.0 * 24.0) ** 0.5,
+        sharpe_annualized=sharpe_annualized,
+        sharpe_ci_low=None,
+        sharpe_ci_high=None,
+        sharpe_degenerate=degenerate,
+        max_drawdown=-0.01,
+        tail_mean_5pct=-0.001,
+        avg_exposure=1.0,
+        concentration=1.0,
+        turnover_notional_over_capital=0.5,
+        commission_cost=1.0,
+        funding_cost=None,
+        cost_basis="ANALYTIC_MODEL+OOS_SLICE",
+        n_bars=150,
+        n_trades=1,
+    )
+
+
+def _mechanics_receipt(metrics: dict[str, eb.MetricSet]) -> eb.EconomicReceipt:
+    """Minimal render-only receipt (MECHANICS ONLY: no tape, no evaluative claim)."""
+    run = eb.RunIdentity(
+        dataset=eb.DatasetIdentity(
+            tape_path="MECHANICS_ONLY",
+            tape_sha256="0" * 64,
+            universe=("MECHANICS_ONLY",),
+            period_start_ns=0,
+            period_end_ns=3_600_000_000_000,
+            n_bars=500,
+            source_hashes=(),
+        ),
+        code=eb.CodeIdentity(
+            git_rev="0" * 40,
+            git_dirty="no",
+            config_sha256="0" * 64,
+            estimator_versions={},
+        ),
+        seed=0,
+        primary_benchmark="cash",
+        diagnostic_benchmarks=(),
+        strategy_family=("MECHANICS_ONLY",),
+        capital=10000.0,
+        taker_fee=0.0005,
+        opex_monthly_usd=0.0,
+    )
+    verdicts = eb.EvidenceVerdicts(
+        research_validity="INVALID",
+        research_note="MECHANICS_ONLY",
+        economic="NEGATIVE",
+        economic_note="MECHANICS_ONLY",
+        statistical="UNSUPPORTED",
+        statistical_note="MECHANICS_ONLY",
+        portfolio="NOT_HELPFUL",
+        portfolio_note="MECHANICS_ONLY",
+        execution="EXECUTION_UNPROVEN",
+        execution_note="MECHANICS_ONLY",
+        capital="NOT_AUTHORIZED",
+        capital_note="MECHANICS_ONLY",
+    )
+    return eb.EconomicReceipt(
+        receipt_id="mechanics-only",
+        run=run,
+        metrics=metrics,
+        oos_metrics=metrics,
+        verdicts=verdicts,
+        statistics={},
+        controls={},
+        portfolio_mix={},
+        capacity_scenarios=[],
+        parity={},
+        shadow_live={},
+        limitations=[],
+    )
+
+
+def _render_section(report: str, heading: str, next_heading: str) -> str:
+    return report.split(heading, 1)[1].split(next_heading, 1)[0]
+
+
+def test_mechanics_oos_section_flags_degenerate_variance() -> None:
+    """#387: an explosive OOS Sharpe must never print unflagged.
+
+    The chronological OOS block must carry the same DEGENERATE-VARIANCE marker
+    the in-sample table already emits for the same `sharpe_degenerate` flag.
+    """
+    token = "DEGENERATE-VARIANCE"
+    degenerate = _mechanics_oos_metric(
+        degenerate=True, sharpe_annualized=68940.776  # observed in the #387 receipt
+    )
+    sound = _mechanics_oos_metric(degenerate=False, sharpe_annualized=1.443)
+    report = eb.render_report(_mechanics_receipt({"challenger": degenerate, "incumbent": sound}))
+
+    table = _render_section(report, "## Metrics (cost-adjusted, shared basis)", "## Chronological OOS")
+    table_rows = {ln.split(" |", 1)[0][2:]: ln for ln in table.splitlines() if ln.startswith("| ")}
+    assert token in table_rows["challenger"]  # established in-sample behaviour
+    assert token not in table_rows["incumbent"]
+
+    oos = _render_section(report, "## Chronological OOS", "## Statistics")
+    oos_rows = {ln.split(":", 1)[0][2:]: ln for ln in oos.splitlines() if ln.startswith("- ")}
+    assert "68940.776" in oos_rows["challenger"]
+    assert token in oos_rows["challenger"]
+    assert token not in oos_rows["incumbent"]
+    assert eb.DEGENERATE_VARIANCE_MARKER == token  # one render token, both sections
+
+
 def test_mechanics_allocator_mix_shape() -> None:
     import numpy as np
 
@@ -217,7 +329,7 @@ def test_economic_benchmark_real_tape_end_to_end(tmp_path: Path) -> None:
             "--tape-path",
             str(DEFAULT_TAPE_PATH),
             "--bars",
-            "200",
+            "500",
             "--output-dir",
             str(tmp_path / "econ"),
             "--primary",
@@ -236,6 +348,16 @@ def test_economic_benchmark_real_tape_end_to_end(tmp_path: Path) -> None:
     # No invented universal PASS: statistical support never flips economic/capital.
     assert set(receipt["metrics"]) >= {"incumbent", "challenger", "btc_buy_hold", "cash"}
     assert list((tmp_path / "econ").glob("economic_report_*.md")), "tagged economic report missing"
+    report = next(iter((tmp_path / "econ").glob("economic_report_*.md"))).read_text(encoding="utf-8")
+    # #387: a frozen split that actually produced an OOS slice must be covered.
+    if receipt["run"]["dataset"]["n_bars"] >= eb.OOS_FIT_BARS + 48:
+        assert receipt["oos_metrics"], "OOS slice missing: flagged render path untested"
+    # #387: every OOS row must carry the marker iff its MetricSet is flagged.
+    for name, m in receipt["oos_metrics"].items():
+        row = f"- {name}: "
+        line = next((ln for ln in report.splitlines() if ln.startswith(row)), None)
+        assert line is not None, f"OOS row missing for {name}"
+        assert (eb.DEGENERATE_VARIANCE_MARKER in line) == bool(m["sharpe_degenerate"]), line
     assert list((tmp_path / "econ").glob("incumbent_trades_*.jsonl"))
     # Missing-data honesty: funding stays missing, live stays unrun.
     assert receipt["metrics"]["incumbent"]["funding_cost"] is None

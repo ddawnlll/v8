@@ -1422,6 +1422,18 @@ def build_verdicts(
     )
 
 
+#: Render vocabulary for a curve whose variance is estimated from too few
+#: informative bars for `sharpe_annualized` to mean anything. Shared by the
+#: in-sample table and the chronological OOS block so the two cannot drift:
+#: an explosive Sharpe printed without this marker is a reporting defect.
+DEGENERATE_VARIANCE_MARKER = "DEGENERATE-VARIANCE"
+
+
+def degeneracy_marker(m: MetricSet) -> str:
+    """Return the degeneracy marker for a metric row (empty when sound)."""
+    return f" {DEGENERATE_VARIANCE_MARKER}" if m.sharpe_degenerate else ""
+
+
 def render_report(receipt: EconomicReceipt) -> str:
     r = receipt
     lines = [
@@ -1462,7 +1474,7 @@ def render_report(receipt: EconomicReceipt) -> str:
             else "n/a"
         )
         if m.sharpe_degenerate:
-            ci += " DEGENERATE-VARIANCE"
+            ci += degeneracy_marker(m)
         ex = f"{m.excess_vs_primary:.4f}" if m.excess_vs_primary is not None else "—"
         fd = f"{m.funding_cost:.2f}" if m.funding_cost is not None else "MISSING"
         pnl = m.net_return * r.run.capital
@@ -1487,9 +1499,16 @@ def render_report(receipt: EconomicReceipt) -> str:
         "",
         "## Chronological OOS (frozen split; never relabeled)",
         "",
+        f"`{DEGENERATE_VARIANCE_MARKER}` marks a row whose Sharpe_ann is "
+        "arithmetic on a variance estimated from too few informative bars; the "
+        "value is not interpretable and is never evidence of performance.",
+        "",
     ]
     for name, m in r.oos_metrics.items():
-        lines.append(f"- {name}: net {m.net_return:.4f} Sharpe_ann {m.sharpe_annualized:.3f}")
+        lines.append(
+            f"- {name}: net {m.net_return:.4f} Sharpe_ann "
+            f"{m.sharpe_annualized:.3f}{degeneracy_marker(m)}"
+        )
     lines += [
         "",
         "## Statistics (family-scoped, descriptive)",
