@@ -168,6 +168,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_bench.add_argument("--resolve-gates", action="store_true", default=True)
     p_bench.add_argument("--diagnostic-only", dest="resolve_gates", action="store_false")
     p_bench.add_argument("--tape-path", default=None)
+    p_bench.add_argument("--instrument", default="BTCUSDT")
+    p_bench.add_argument("--bars", type=int, default=5000)
     p_bench.add_argument("--live-fills", default=None)
 
     p_books = sub.add_parser("books", help="Literature → BenchmarkCase registry.")
@@ -266,6 +268,10 @@ def main(argv: list[str] | None = None) -> int:
         passthrough.append("--resolve-gates" if args.resolve_gates else "--diagnostic-only")
         if args.tape_path:
             passthrough += ["--tape-path", args.tape_path]
+        if args.instrument != "BTCUSDT":
+            passthrough += ["--instrument", args.instrument]
+        if args.bars != 5000:
+            passthrough += ["--bars", str(args.bars)]
         if args.live_fills:
             passthrough += ["--live-fills", args.live_fills]
         passthrough += rest
