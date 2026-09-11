@@ -1,0 +1,50 @@
+{
+  "about_to_be_measured_on": {
+    "bars": 744,
+    "end_utc": "2025-02-01",
+    "start_utc": "2025-01-01",
+    "tape": "/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl"
+  },
+  "baseline_id": "cash",
+  "family": "v87-nx07-swing",
+  "history_completeness": "UNKNOWN_UNDISCLOSED_TRIALS_POSSIBLE",
+  "note": "no result is in this file; the measurement is written separately",
+  "registered_before_measurement": true,
+  "variants": [
+    {
+      "description": "no exposure; the baseline of the family",
+      "grammar_policy": null,
+      "identity": "sha256:361cdf099e28b17415f545aaca2e26733d31ebe4c747d61dce5dd111c2cefae5",
+      "policy_id": "cash",
+      "protection_policy": null
+    },
+    {
+      "description": "causal trend grammar with timeout-only protection",
+      "grammar_policy": "trend-continuation-v2",
+      "identity": "sha256:5d80fed4b9e5b2ebc1a37155481e0b7f78f28d3ffebbf314753619807e3df8fd",
+      "policy_id": "causal_trend",
+      "protection_policy": "timeout-only-v1"
+    },
+    {
+      "description": "48-bar range breakout, squeeze baseline protection",
+      "grammar_policy": "range-breakout-48-v1",
+      "identity": "sha256:16e5142d83fa121f197bd18c432d2907b283b3bcc4a17e5f355cc2655aaf896a",
+      "policy_id": "swing_squeeze_baseline",
+      "protection_policy": "squeeze:baseline:v2"
+    },
+    {
+      "description": "48-bar range breakout, squeeze m1 protection",
+      "grammar_policy": "range-breakout-48-v1",
+      "identity": "sha256:13837f1c7a413d8fb5c82dcc2468ca16b2fce2595edae71a536a6e2f1c9a72c2",
+      "policy_id": "swing_squeeze_m1",
+      "protection_policy": "squeeze:m1:v2"
+    },
+    {
+      "description": "48-bar range breakout, squeeze m2 protection",
+      "grammar_policy": "range-breakout-48-v1",
+      "identity": "sha256:ad1e19c081cbeede143c37e1014b2ee6d720d2175d64bb85c963e67a8da10867",
+      "policy_id": "swing_squeeze_m2",
+      "protection_policy": "squeeze:m2:v2"
+    }
+  ]
+}

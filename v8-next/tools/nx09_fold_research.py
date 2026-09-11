@@ -39,6 +39,7 @@ from typing import Any
 import numpy as np
 
 from v8_next.domain.market import Candle, frame_at
+from v8_next.economics.grammar import POLICY_REQUIRED_BARS
 from v8_next.economics.swing_baseline import (
     SHARED_CONTRACT,
     SwingPolicySpec,
@@ -134,6 +135,8 @@ def replay_policy(
             "net_return": 0.0,
             "max_drawdown": 0.0,
             "holding_median_bars": None,
+            "warmup_bars": 0,
+            "warmup_source": "no grammar; nothing to warm up",
             "note": "no exposure by construction; not a measurement",
         }
     equity = initial_capital
@@ -143,7 +146,8 @@ def replay_policy(
     exposure = 0
     fees = 0.0
     risk_notional = initial_capital * risk_fraction
-    index = 62
+    # declared requirement, not a local constant (see the NX06 fix and the revision note)
+    index = int(POLICY_REQUIRED_BARS[spec.grammar_policy])
     while index < len(series) - 1:
         candle = series[index]
         if candle.end_ns >= scored_end_ns:

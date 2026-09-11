@@ -1,0 +1,50 @@
+{
+  "about_to_be_measured_on": {
+    "end_ms": 1738368000000,
+    "end_utc": "2025-02-01",
+    "instrument": "BTCUSDT",
+    "start_ms": 1735689600000,
+    "start_utc": "2025-01-01",
+    "tape": "/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl"
+  },
+  "engine_tick": "0.01",
+  "family_registry": {
+    "cash": "sha256:361cdf099e28b17415f545aaca2e26733d31ebe4c747d61dce5dd111c2cefae5",
+    "causal_trend": "sha256:5d80fed4b9e5b2ebc1a37155481e0b7f78f28d3ffebbf314753619807e3df8fd",
+    "plain_swing": "sha256:1b33f661dbdb50a5c3dc0c220875f9c186cc3a8e31e460380415bcb9f9b9f0d5"
+  },
+  "family_version": "v87-swing-family-v1",
+  "note": "no result is in this file; the measurement is written separately",
+  "policies": [
+    {
+      "description": "no exposure; the comparison floor",
+      "grammar_policy": null,
+      "identity": "sha256:361cdf099e28b17415f545aaca2e26733d31ebe4c747d61dce5dd111c2cefae5",
+      "policy_id": "cash",
+      "protection_policy": null
+    },
+    {
+      "description": "existing causal trend grammar, timeout-only protection",
+      "grammar_policy": "trend-continuation-v2",
+      "identity": "sha256:5d80fed4b9e5b2ebc1a37155481e0b7f78f28d3ffebbf314753619807e3df8fd",
+      "policy_id": "causal_trend",
+      "protection_policy": "timeout-only-v1"
+    },
+    {
+      "description": "existing 48-bar range breakout with the existing squeeze protection",
+      "grammar_policy": "range-breakout-48-v1",
+      "identity": "sha256:1b33f661dbdb50a5c3dc0c220875f9c186cc3a8e31e460380415bcb9f9b9f0d5",
+      "policy_id": "plain_swing",
+      "protection_policy": "squeeze:baseline:v2"
+    }
+  ],
+  "registered_before_measurement": true,
+  "shared_contract": {
+    "funding": "MISSING_NOT_FED_TO_THIS_PATH",
+    "initial_balance_usdt": "10000",
+    "maker_fee": "0.0002",
+    "risk_per_trade_fraction": "0.01",
+    "slippage": "NOT_MODELLED_IN_REPLAY",
+    "taker_fee": "0.0005"
+  }
+}
