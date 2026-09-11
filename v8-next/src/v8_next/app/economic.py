@@ -362,6 +362,12 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
             primary_eq,
             int(c["n_trades"]),
             raw_count(name),
+            # #445: the measured closed-loop residual, its terms and its
+            # tolerance travel INTO the receipt (the engine legs carry one; the
+            # analytic legs reconciled nothing of their own and publish none).
+            cost_reconciliation=eb.published_cost_reconciliation(
+                c.get("cost_reconciliation"), cost_basis=str(c["cost_basis"])
+            ),
         )
         for name, c in curves.items()
     }

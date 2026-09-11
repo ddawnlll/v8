@@ -324,6 +324,14 @@ class MetricSet(BaseModel):
     cost_basis: str  # VERIFIED_ENGINE | ANALYTIC_MODEL | MISSING
     n_bars: int
     n_trades: int
+    #: #445: this curve's measured engine<->series closed-loop reconciliation --
+    #: the signed residual, the `closed_loop_terms` it is a function of, the
+    #: tolerance it was compared against, the closed-loop identity it was
+    #: computed under and the named reason it carries. `None` when the curve
+    #: measured no reconciliation of its own (the analytic legs), and a curve
+    #: whose balance could not be read publishes `state=NOT_MEASURED` with a null
+    #: residual rather than a number nobody measured (#445).
+    cost_reconciliation: dict[str, Any] | None = None
 
 
 class EvidenceVerdicts(BaseModel):
@@ -1800,6 +1808,59 @@ EQUITY_CONSTRUCTION = (
     "never silent."
 )
 
+# --------------------------------------------------------------------------- #
+# #445 — the measured closed-loop residual, its terms and its tolerance travel
+# into the published receipt
+# --------------------------------------------------------------------------- #
+#: Published states of one curve's closed-loop reconciliation. `MEASURED` means
+#: the engine balance was read and the residual is that measurement; the receipt
+#: then carries the number, the terms it came from and the bound it was compared
+#: against. `NOT_MEASURED` means the balance could not be read at all, so the
+#: receipt carries NO residual (null) and names why: a number under
+#: `NOT_MEASURED` would be a fabricated measurement, not an absent one.
+RECONCILIATION_STATES = frozenset({"MEASURED", "NOT_MEASURED"})
+
+#: The two closed-loop identities in this module, as published tokens. They
+#: differ only in the term attributed to still-open positions: the strategy path
+#: subtracts the account's own `realized_pnl` for open positions, the portfolio
+#: path adds its taker-fee estimate of their entry commissions. A published
+#: residual names the identity it was computed under, so a consumer recomputes
+#: it under the same one instead of guessing (#445). Which identity is the right
+#: one for a given engine state is NOT decided here -- both are measured.
+IDENTITY_STRATEGY_OPEN_REALIZED = "STRATEGY_OPEN_REALIZED_PNL"
+IDENTITY_PORTFOLIO_OPEN_ENTRY_COMMISSIONS = "PORTFOLIO_OPEN_ENTRY_COMMISSIONS"
+
+#: The `closed_loop_terms` key that names each identity above.
+IDENTITY_OPEN_TERM_KEYS = {
+    IDENTITY_STRATEGY_OPEN_REALIZED: "open_position_realized_pnl",
+    IDENTITY_PORTFOLIO_OPEN_ENTRY_COMMISSIONS: "open_entry_commissions_of_open_positions",
+}
+
+#: Named reasons a published reconciliation carries (#445). A consumer switches
+#: on the token; a reason is never inferred from an absence.
+REASON_RESIDUAL_WITHIN_TOLERANCE = "ENGINE_SERIES_RESIDUAL_WITHIN_TOLERANCE"
+REASON_RESIDUAL_OUTSIDE_TOLERANCE = "ENGINE_SERIES_RESIDUAL_OUTSIDE_TOLERANCE"
+REASON_RESIDUAL_NOT_FINITE = "RECONCILIATION_RESIDUAL_NOT_FINITE"
+REASON_BALANCE_UNMEASURABLE = "ENGINE_BALANCE_UNMEASURABLE"
+REASON_OPEN_TERMS_UNMEASURABLE = "OPEN_POSITION_TERMS_UNMEASURABLE"
+REASON_TERMS_NOT_PUBLISHED = "RECONCILIATION_TERMS_NOT_PUBLISHED"
+REASON_IDENTITIES_DIVERGED = "RECONCILIATION_IDENTITIES_DIVERGED"
+
+RECONCILIATION_REASONS = frozenset(
+    {
+        REASON_RESIDUAL_WITHIN_TOLERANCE,
+        REASON_RESIDUAL_OUTSIDE_TOLERANCE,
+        REASON_RESIDUAL_NOT_FINITE,
+        REASON_BALANCE_UNMEASURABLE,
+        REASON_OPEN_TERMS_UNMEASURABLE,
+        REASON_TERMS_NOT_PUBLISHED,
+        REASON_IDENTITIES_DIVERGED,
+    }
+)
+
+#: Where the open-position terms of the second identity are read from.
+OPEN_TERMS_SOURCE = "ENGINE_ACCOUNT_OPEN_POSITIONS"
+
 
 def parse_money(value: Any) -> Decimal | None:
     """Parse an engine money/quantity rendering; ``None`` on anything unparsable.
@@ -1824,6 +1885,295 @@ def parse_money(value: Any) -> Decimal | None:
     except (InvalidOperation, ValueError):
         return None
     return parsed if parsed.is_finite() else None
+
+
+def _magnitude(value: Any) -> float | None:
+    """A published magnitude, or None. A non-finite one stays ABSENT (#445).
+
+    `None` in, `None` out; `inf`/`nan` are not measurements of anything and may
+    not be published as one.
+    """
+    if isinstance(value, bool) or value is None:
+        return None
+    if isinstance(value, (int, float)):
+        as_float = float(value)
+        return as_float if math.isfinite(as_float) else None
+    return None
+
+
+def closed_loop_identity(terms: Mapping[str, Any]) -> str | None:
+    """Which closed-loop identity a `closed_loop_terms` block was written under.
+
+    Read off the block's own attributed term, never supplied by a caller: the
+    residual can then only be recomputed under the identity that produced it
+    (#445). `None` when the block attributes no open-position term at all.
+    """
+    present = [ident for ident, key in IDENTITY_OPEN_TERM_KEYS.items() if key in terms]
+    if len(present) > 1:
+        raise ValueError(
+            f"ambiguous closed-loop terms: {sorted(present)} both attribute an "
+            "open-position term; one block names one identity"
+        )
+    return present[0] if present else None
+
+
+def recompute_closed_loop_residual(terms: Mapping[str, Any]) -> float | None:
+    """Rebuild a published residual from the receipt's own `closed_loop_terms`.
+
+    The residual is a function of the magnitudes bound beside it
+    (`balance_delta - sum_realized +/- the identity's open-position term`), so a
+    reader recomputes it instead of taking it on trust (#445). `None` when the
+    block does not carry what its identity needs.
+    """
+    identity = closed_loop_identity(terms)
+    if identity is None:
+        return None
+    balance_delta = _magnitude(terms.get("balance_delta"))
+    sum_realized = _magnitude(terms.get("sum_realized_pnl"))
+    open_term = _magnitude(terms.get(IDENTITY_OPEN_TERM_KEYS[identity]))
+    if balance_delta is None or sum_realized is None or open_term is None:
+        return None
+    if identity == IDENTITY_PORTFOLIO_OPEN_ENTRY_COMMISSIONS:
+        return balance_delta - sum_realized + open_term
+    return balance_delta - sum_realized - open_term
+
+
+def open_position_identity_terms(engine_result: dict[str, Any], *, taker_fee: float) -> dict[str, Any]:
+    """The two terms the closed-loop identities attribute to open positions (#445).
+
+    Measured off the engine account's own open positions: the `realized_pnl` the
+    account reports for them (what it has booked so far) and the taker-fee
+    estimate of their entry commissions. Both are published so either identity
+    can be evaluated on one engine balance. An account that does not expose its
+    positions, or one open position whose quantity/price is unparsable, leaves
+    the pair ABSENT (`measurable=False`): never zero-filled.
+    """
+    account = engine_result.get("account", {}) if isinstance(engine_result, dict) else {}
+    if not isinstance(account, dict) or "positions" not in account:
+        return {"measurable": False, "named_reason": REASON_OPEN_TERMS_UNMEASURABLE}
+    open_realized = 0.0
+    entry_comm = 0.0
+    for pos in account.get("positions", []):
+        if not isinstance(pos, dict) or pos.get("is_closed"):
+            continue
+        realized = parse_money(pos.get("realized_pnl"))
+        qty = parse_money(pos.get("quantity"))
+        px = parse_money(pos.get("average_open_price"))
+        if realized is None or qty is None or px is None:
+            return {"measurable": False, "named_reason": REASON_OPEN_TERMS_UNMEASURABLE}
+        open_realized += float(realized)
+        entry_comm += abs(float(qty)) * float(px) * float(taker_fee)
+    return {
+        "measurable": True,
+        "named_reason": None,
+        "open_position_realized_pnl": open_realized,
+        "open_entry_commissions_of_open_positions": entry_comm,
+    }
+
+
+def cross_identity_reconciliation(
+    engine_result: dict[str, Any],
+    *,
+    taker_fee: float,
+    capital: float,
+    balance_total: float,
+    balance_measured: bool,
+    sum_realized: float,
+    governing_identity: str,
+) -> dict[str, Any]:
+    """The OTHER closed-loop identity, measured on this same engine balance (#445).
+
+    The two identities differ only in the open-position term, so on one engine
+    balance their residuals differ by exactly those two terms. Measuring both
+    publishes which one the fail-closed state rests on and how far the other is
+    from it -- the measurement a reader needs to see whether a `MISMATCH` is
+    engine-side or identity-side. It is a published cross-check only:
+    `cost_basis`, `loop_err` and every gate still derive from the governing
+    identity, and this block is never an input to them.
+    """
+    identity = (
+        IDENTITY_STRATEGY_OPEN_REALIZED
+        if governing_identity == IDENTITY_PORTFOLIO_OPEN_ENTRY_COMMISSIONS
+        else IDENTITY_PORTFOLIO_OPEN_ENTRY_COMMISSIONS
+    )
+    out: dict[str, Any] = {
+        "identity": identity,
+        "governing": False,
+        "terms_source": OPEN_TERMS_SOURCE,
+        "balance_delta": (balance_total - capital) if balance_measured else None,
+        "sum_realized_pnl": sum_realized if balance_measured else None,
+        "residual_usdt": None,
+    }
+    terms = open_position_identity_terms(engine_result, taker_fee=taker_fee)
+    out.update(terms)
+    if not terms["measurable"]:
+        # The other identity's own term is absent: nothing is computed for it.
+        out["named_reason"] = REASON_OPEN_TERMS_UNMEASURABLE
+        return out
+    if not balance_measured:
+        out["named_reason"] = REASON_BALANCE_UNMEASURABLE
+        return out
+    out["named_reason"] = None
+    if identity == IDENTITY_STRATEGY_OPEN_REALIZED:
+        residual = (balance_total - capital) - sum_realized - terms["open_position_realized_pnl"]
+    else:
+        residual = (balance_total - capital) - sum_realized + terms[
+            "open_entry_commissions_of_open_positions"
+        ]
+    out["residual_usdt"] = residual
+    return out
+
+
+def reconcile_closed_loop_identities(
+    reconciliation: Mapping[str, Any] | None,
+) -> dict[str, Any]:
+    """Both closed-loop identities on ONE engine balance, from a published receipt.
+
+    This is a measurement that can come out either way, never a constant: `PASS`
+    when both identities are evaluable from what the receipt publishes on one
+    balance and their residuals agree within the bound that curve declares,
+    otherwise `FAIL` with a named reason -- terms the receipt does not carry, a
+    non-finite measurement, or a real divergence, which is reported with the
+    measured difference rather than absorbed. Callers must not read `FAIL` as
+    "the residual is wrong": it says the two identity conventions do not agree on
+    this balance, which is exactly the open question #445 publishes and does not
+    decide.
+    """
+    report: dict[str, Any] = {
+        "identities": {},
+        "difference_usdt": None,
+        "comparison_tolerance_usdt": None,
+        "comparison_bound_source": "the curve's declared engine_series_tolerance_usdt",
+        "reason": None,
+    }
+    recon = reconciliation or {}
+    terms = recon.get("closed_loop_terms") or {}
+    cross = recon.get("cross_identity") or {}
+    governing_identity = closed_loop_identity(terms) if isinstance(terms, Mapping) else None
+    tolerance = _magnitude(recon.get("engine_series_tolerance_usdt"))
+    report["comparison_tolerance_usdt"] = tolerance
+    stored = _magnitude(recon.get("engine_series_residual_usdt"))
+    recomputed = recompute_closed_loop_residual(terms) if isinstance(terms, Mapping) else None
+    report["identities"][governing_identity or "UNNAMED_IDENTITY"] = {
+        "residual_usdt": stored,
+        "recomputed_from_terms_usdt": recomputed,
+        "governing": True,
+    }
+    cross_residual = _magnitude(cross.get("residual_usdt")) if isinstance(cross, Mapping) else None
+    # The other identity's own terms, rebuilt under ITS identity so its residual
+    # is recomputed the same way the governing one is.
+    cross_identity = str(cross.get("identity") or "")
+    cross_terms: dict[str, Any] = {
+        "balance_delta": cross.get("balance_delta"),
+        "sum_realized_pnl": cross.get("sum_realized_pnl"),
+    }
+    cross_term_key = IDENTITY_OPEN_TERM_KEYS.get(cross_identity)
+    if cross_term_key:
+        cross_terms[cross_term_key] = cross.get(cross_term_key)
+    report["identities"][cross_identity or "UNNAMED_IDENTITY"] = {
+        "residual_usdt": cross_residual,
+        "recomputed_from_terms_usdt": recompute_closed_loop_residual(cross_terms)
+        if isinstance(cross, Mapping) and cross.get("measurable")
+        else None,
+        "governing": False,
+    }
+    first = recomputed if recomputed is not None else stored
+    if first is None or cross_residual is None:
+        # Not evaluable: the receipt does not carry both identities' terms on
+        # this balance. Named, never reported as agreement.
+        report["status"] = "FAIL"
+        report["reason"] = REASON_TERMS_NOT_PUBLISHED
+        return report
+    difference = first - cross_residual
+    report["difference_usdt"] = difference
+    agrees = tolerance is not None and abs(difference) <= tolerance
+    report["status"] = "PASS" if agrees else "FAIL"
+    report["reason"] = None if agrees else REASON_IDENTITIES_DIVERGED
+    return report
+
+
+def published_cost_reconciliation(
+    reconciliation: Mapping[str, Any] | None,
+    *,
+    cost_basis: str,
+) -> dict[str, Any] | None:
+    """The receipt-side view of one curve's closed-loop reconciliation (#445).
+
+    `None` in, `None` out: a curve that measured no reconciliation (the analytic
+    legs) publishes none at all, never an empty block that reads as a zero. A
+    measured reconciliation publishes the signed residual, the terms it was
+    computed from, the tolerance it was compared against, the identity it was
+    computed under and the check of the other identity on the same balance. A
+    curve whose engine balance could not be read publishes NO residual (null)
+    and names why -- the `MISMATCH`/`UNKNOWN` decision alone never claimed a
+    number it did not measure.
+    """
+    if reconciliation is None:
+        return None
+    recon = reconciliation
+    measured = bool(recon.get("engine_series_residual_measured"))
+    terms = recon.get("closed_loop_terms") or {}
+    identity = closed_loop_identity(terms) if isinstance(terms, Mapping) else None
+    if identity is None:
+        identity = recon.get("identity")
+    tolerance = _magnitude(recon.get("engine_series_tolerance_usdt"))
+    residual = _magnitude(recon.get("engine_series_residual_usdt")) if measured else None
+    # An unmeasured balance publishes neither the residual NOR its magnitude: the
+    # series computes both against the substituted capital, and those numbers are
+    # arithmetic on a quantity that was never read (#445).
+    abs_residual = _magnitude(recon.get("engine_series_residual_abs_usdt")) if measured else None
+    if residual is not None and (abs_residual is None or abs_residual != abs(residual)):
+        abs_residual = abs(residual)
+    ok = recon.get("engine_series_ok", recon.get("closed_loop_ok"))
+    if measured and residual is not None and ok is None and tolerance is not None:
+        # The state is derivable from the two magnitudes the receipt publishes
+        # beside it; deriving it here keeps the field present on every path.
+        ok = abs(residual) <= tolerance
+    ok = bool(ok) if measured and residual is not None and ok is not None else None
+    # Only a measured reconciliation is recomputable: an unmeasured one carries
+    # no terms, and its arithmetic ran on a balance that was never read.
+    recomputed = (
+        recompute_closed_loop_residual(terms)
+        if measured and isinstance(terms, Mapping)
+        else None
+    )
+    if not measured:
+        named_reason = REASON_BALANCE_UNMEASURABLE
+    elif residual is None:
+        named_reason = REASON_RESIDUAL_NOT_FINITE
+    elif ok is None:
+        named_reason = REASON_TERMS_NOT_PUBLISHED
+    elif ok:
+        named_reason = REASON_RESIDUAL_WITHIN_TOLERANCE
+    else:
+        named_reason = REASON_RESIDUAL_OUTSIDE_TOLERANCE
+    published: dict[str, Any] = {
+        "cost_basis": cost_basis,
+        "state": "MEASURED" if measured else "NOT_MEASURED",
+        # Which identity the residual above was computed under.
+        "identity": identity,
+        "engine_series_residual_usdt": residual,
+        "engine_series_residual_abs_usdt": abs_residual,
+        "engine_series_residual_measured": measured,
+        "engine_series_ok": ok,
+        "engine_series_tolerance_usdt": tolerance,
+        # The magnitudes the residual is a function of, or None where they were
+        # not measured -- never a zero standing in for one.
+        "closed_loop_terms": dict(terms) if measured and isinstance(terms, Mapping) and terms else None,
+        # Recomputable from the terms above: published so a reader can check it.
+        "recomputed_residual_usdt": recomputed,
+        "recompute_matches_stored": bool(
+            recomputed is not None and residual is not None and recomputed == residual
+        )
+        if measured
+        else None,
+        "named_reason": named_reason,
+        # The other identity on the same engine balance (see
+        # `cross_identity_reconciliation`); non-governing.
+        "cross_identity": recon.get("cross_identity"),
+    }
+    published["identities_check"] = reconcile_closed_loop_identities(published)
+    return published
 
 
 @dataclass(frozen=True)
@@ -2201,6 +2551,20 @@ def strategy_series_from_engine(
     engine_series_residual = (balance_total - capital) - sum_realized - open_realized
     loop_err = abs(engine_series_residual)
     loop_ok = balance_measured and loop_err <= STRATEGY_LOOP_ATOL
+    # #445: the OTHER closed-loop identity, measured on this same engine balance,
+    # so a reader sees both conventions side by side instead of only the one the
+    # fail-closed state rests on. Non-governing: `cost_basis` above and every
+    # gate derive from `engine_series_residual` only.
+    cross_identity = cross_identity_reconciliation(
+        engine_result,
+        taker_fee=taker_fee,
+        capital=capital,
+        balance_total=balance_total,
+        balance_measured=balance_measured,
+        sum_realized=sum_realized,
+        governing_identity=IDENTITY_STRATEGY_OPEN_REALIZED,
+    )
+
     if not balance_measured:
         # Unmeasurable is not verified: fail closed instead of guessing.
         cost_basis = "UNKNOWN"
@@ -2350,6 +2714,13 @@ def strategy_series_from_engine(
             "engine_series_residual_abs_usdt": loop_err,
             "engine_series_residual_measured": balance_measured,
             "engine_series_tolerance_usdt": STRATEGY_LOOP_ATOL,
+            # #445: the identity this residual was computed under (the terms
+            # below attribute the open-position term the same way), the state
+            # under the same name the portfolio path publishes, and the OTHER
+            # identity measured on this same engine balance. Non-governing.
+            "identity": IDENTITY_STRATEGY_OPEN_REALIZED,
+            "engine_series_ok": loop_ok,
+            "cross_identity": cross_identity,
             "closed_loop_terms": {
                 "balance_delta": balance_total - capital,
                 "sum_realized_pnl": sum_realized,
@@ -2609,6 +2980,20 @@ def portfolio_series_from_engine(
     engine_series_residual = (balance_total - capital) - sum_realized + open_entry_comm
     engine_series_residual_abs = abs(engine_series_residual)
     engine_series_ok = balance_measured and engine_series_residual_abs <= PORTFOLIO_LOOP_ATOL
+    # #445: the OTHER closed-loop identity (the strategy path's), measured on this
+    # same engine balance. Published so the reader can see whether a `MISMATCH` is
+    # engine-side or identity-side. Non-governing: `cost_basis` and every gate
+    # below derive from this path's own identity only.
+    cross_identity = cross_identity_reconciliation(
+        engine_result,
+        taker_fee=taker_fee,
+        capital=capital,
+        balance_total=balance_total,
+        balance_measured=balance_measured,
+        sum_realized=sum_realized,
+        governing_identity=IDENTITY_PORTFOLIO_OPEN_ENTRY_COMMISSIONS,
+    )
+
     funding_residual = (
         funding_measured_drag - (-funding_expected)
         if (fed and funding_measured_drag is not None)
@@ -2694,6 +3079,10 @@ def portfolio_series_from_engine(
             "engine_series_residual_measured": balance_measured,
             "engine_series_tolerance_usdt": PORTFOLIO_LOOP_ATOL,
             "engine_series_ok": engine_series_ok,
+            # #445: the identity this residual was computed under, and the OTHER
+            # identity measured on this same engine balance. Non-governing.
+            "identity": IDENTITY_PORTFOLIO_OPEN_ENTRY_COMMISSIONS,
+            "cross_identity": cross_identity,
             "closed_loop_terms": {
                 "balance_delta": balance_total - capital,
                 "sum_realized_pnl": sum_realized,
@@ -2758,6 +3147,8 @@ def metrics_for_curve(
     primary_equity: Sequence[float] | None,
     n_trades: int,
     raw_nonzero_bars: int | None = None,
+    *,
+    cost_reconciliation: Mapping[str, Any] | None = None,
 ) -> MetricSet:
     rets = per_bar_returns(list(equity))
     s_pb, s_ann = sharpe_stats(rets)
@@ -2807,6 +3198,7 @@ def metrics_for_curve(
         cost_basis=cost_basis,
         n_bars=len(equity),
         n_trades=n_trades,
+        cost_reconciliation=dict(cost_reconciliation) if cost_reconciliation is not None else None,
     )
 
 
@@ -3562,6 +3954,91 @@ def render_report(receipt: EconomicReceipt) -> str:
         "bare blank, never another curve's number, and never a zero standing in "
         "for an absence.",
     ]
+    # #445: the fail-closed cost state is published beside the measurement it
+    # rests on. Only curves that measured a reconciliation of their own appear.
+    recon_rows = [
+        (name, m.cost_reconciliation)
+        for name, m in r.metrics.items()
+        if m.cost_reconciliation
+    ]
+    if recon_rows:
+        def cell(value: Any, spec: str = ".10g") -> str:
+            return "—" if value is None else format(float(value), spec)
+
+        lines += [
+            "",
+            "## Cost reconciliation (the measured engine↔series closed-loop residual)",
+            "",
+            "`cost_basis` is a decision; the number it rests on is here. "
+            "`residual` is the signed engine↔series closed-loop residual (USDT), "
+            "measured on the engine balance and compared against the curve's "
+            "declared `tolerance`. `terms` are the magnitudes that residual is a "
+            "function of — `balance_delta - sum_realized_pnl +/- the "
+            "open-position term` — published so it can be RECOMPUTED from this "
+            "report instead of taken on trust; `identity` names which closed-loop "
+            "identity it was computed under. A curve whose engine balance could "
+            "not be read publishes `NOT_MEASURED`, a null residual and the named "
+            "reason: never a number nobody measured, and never a zero standing in "
+            "for one. A curve that reconciled nothing of its own (the analytic "
+            "legs) publishes no block at all rather than an empty one. These rows "
+            "are the window's; the chronological-OOS rows below carry the window's "
+            "cost-basis label and no separate reconciliation of their own.",
+            "",
+            "| curve | cost basis | state | identity | residual USDT | abs USDT | tolerance | ok | reason |",
+            "|---|---|---|---|---|---|---|---|---|",
+        ]
+        for name, recon in recon_rows:
+            lines.append(
+                f"| {name} | {recon['cost_basis']} | {recon['state']} "
+                f"| {recon['identity'] or '—'} "
+                f"| {cell(recon['engine_series_residual_usdt'])} "
+                f"| {cell(recon['engine_series_residual_abs_usdt'])} "
+                f"| {cell(recon['engine_series_tolerance_usdt'])} "
+                f"| {recon['engine_series_ok'] if recon['engine_series_ok'] is not None else '—'} "
+                f"| {recon['named_reason']} |"
+            )
+        lines += [
+            "",
+            "| curve | balance_delta | sum_realized_pnl | open-position term | recomputed residual | recompute == stored |",
+            "|---|---|---|---|---|---|",
+        ]
+        for name, recon in recon_rows:
+            terms = recon["closed_loop_terms"] or {}
+            open_key = None
+            for candidate in IDENTITY_OPEN_TERM_KEYS.values():
+                if candidate in terms:
+                    open_key = candidate
+            lines.append(
+                f"| {name} | {cell(terms.get('balance_delta'))} "
+                f"| {cell(terms.get('sum_realized_pnl'))} "
+                f"| {open_key or '—'}: {cell(terms.get(open_key) if open_key else None)} "
+                f"| {cell(recon['recomputed_residual_usdt'])} "
+                f"| {recon['recompute_matches_stored'] if recon['recompute_matches_stored'] is not None else '—'} |"
+            )
+        lines += [
+            "",
+            "The other closed-loop identity this code has — the two differ only in "
+            "the term they attribute to still-open positions — is measured on the "
+            "same engine balance, so a `MISMATCH` can be read as engine-side or "
+            "identity-side instead of assumed. That check is a measurement and can "
+            "come out either way: `FAIL` with reason "
+            f"`{REASON_IDENTITIES_DIVERGED}` means the two conventions do not agree "
+            "within the bound the curve declares, and it carries the difference it "
+            "measured; `FAIL` with reason "
+            f"`{REASON_TERMS_NOT_PUBLISHED}` means the receipt does not carry both "
+            "identities' terms on one balance, so no agreement is claimed. Neither "
+            "is an input to `cost_basis`, to the gates or to any verdict.",
+            "",
+            "| curve | identity check | difference USDT | comparison bound | reason |",
+            "|---|---|---|---|---|",
+        ]
+        for name, recon in recon_rows:
+            check = recon["identities_check"]
+            lines.append(
+                f"| {name} | {check['status']} | {cell(check['difference_usdt'])} "
+                f"| {cell(check['comparison_tolerance_usdt'])} "
+                f"| {check['reason'] or '—'} |"
+            )
     mix = r.portfolio_mix
     if isinstance(mix, dict) and mix.get("scope") == "ENGINE_LEVEL_SAME_BUDGET":
         lines += [
