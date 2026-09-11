@@ -1,11 +1,9 @@
 """Active MACD/stochastic and CMF/close-count regime observations."""
 
-from dataclasses import replace
-
 import polars as pl
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 from v8_next.experts.features import close_series, macd_line, trend_emas
 
@@ -66,7 +64,7 @@ def observe_obv_adl(frame: CausalFrame, opportunity: Opportunity | None) -> Stan
         direction=hit[1] if hit else None,
         reason=reason,
     )
-    return replace(stance, variant_id=hit[0] if hit else "UNRESOLVED")
+    return stance_with(stance, variant_id=hit[0] if hit else "UNRESOLVED")
 
 
 def observe_macd_stoch(frame: CausalFrame, opportunity: Opportunity | None) -> Stance:

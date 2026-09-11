@@ -1,10 +1,10 @@
 """Session pivot reaction and volume-qualified narrow-range breakout."""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from decimal import Decimal
 
 from v8_next.domain.market import Candle, CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 
 HOUR_NS = 3600 * 10**9
@@ -87,7 +87,7 @@ def observe_floor_pivot(frame: CausalFrame, opportunity: Opportunity | None) -> 
         direction=direction,
         reason=reason,
     )
-    return replace(stance, version="floor-trader-pivot-utc-session-v2")
+    return stance_with(stance, version="floor-trader-pivot-utc-session-v2")
 
 
 def observe_range_breakout(frame: CausalFrame, opportunity: Opportunity | None) -> Stance:
@@ -113,9 +113,7 @@ def observe_range_breakout(frame: CausalFrame, opportunity: Opportunity | None) 
                 prec_high = Decimal(str(numeric(frame.df["high"].slice(-22, 20).max())))
                 prec_low = Decimal(str(numeric(frame.df["low"].slice(-22, 20).min())))
                 prior_broke = (
-                    previous.close > prec_high
-                    if side == "LONG"
-                    else previous.close < prec_low
+                    previous.close > prec_high if side == "LONG" else previous.close < prec_low
                 )
                 if side and not prior_broke:
                     direction, reason = side, "FRESH_NARROW_RANGE_BREAKOUT"

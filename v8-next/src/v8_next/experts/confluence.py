@@ -1,12 +1,11 @@
 """Three-leg hypothesis; agreement is not independent statistical evidence."""
 
-from dataclasses import replace
 from decimal import Decimal
 
 import polars as pl
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 from v8_next.experts.features import close_series, wilder_rsi
 from v8_next.experts.fibonacci import fib_impulse
@@ -83,4 +82,4 @@ def observe_confluence(
         direction=direction,
         reason=reason,
     )
-    return replace(stance, variant_id=variant)
+    return stance_with(stance, variant_id=variant)

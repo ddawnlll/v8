@@ -1,10 +1,10 @@
 """Gap-sequence observations over continuous bars; price gaps aren't data gaps."""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from decimal import Decimal
 
 from v8_next.domain.market import Candle, CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 
 
@@ -79,4 +79,4 @@ def observe_gap(
         direction=setup.direction if setup else None,
         reason=reason,
     )
-    return replace(stance, variant_id=variant)
+    return stance_with(stance, variant_id=variant)

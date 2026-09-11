@@ -1,10 +1,10 @@
 """Eight declared candle observations and source-defined structural references."""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from decimal import Decimal
 
 from v8_next.domain.market import Candle, CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance
+from v8_next.economics.decisions import Opportunity, Stance, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 
 VARIANTS = (
@@ -137,4 +137,4 @@ def observe_candlestick(
         direction=pattern.direction if pattern else None,
         reason=reason,
     )
-    return replace(stance, variant_id=pattern.variant if pattern else variant or "UNRESOLVED")
+    return stance_with(stance, variant_id=pattern.variant if pattern else variant or "UNRESOLVED")

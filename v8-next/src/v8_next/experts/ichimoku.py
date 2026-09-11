@@ -1,9 +1,7 @@
 """Active Tenkan/Kijun crossover hypothesis (not a displaced-cloud model)."""
 
-from dataclasses import replace
-
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 
 
@@ -34,4 +32,4 @@ def observe_ichimoku(frame: CausalFrame, opportunity: Opportunity | None) -> Sta
         direction=direction,
         reason=reason,
     )
-    return replace(stance, variant_id="v2")
+    return stance_with(stance, variant_id="v2")

@@ -1,10 +1,9 @@
 """Failed and volume-confirmed breakout observations from active Rust v1."""
 
-from dataclasses import replace
 from decimal import Decimal
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 
 
@@ -71,9 +70,7 @@ def observe_volume_breakout(frame: CausalFrame, opportunity: Opportunity | None)
         chan_high = Decimal(str(numeric(frame.df["high"].slice(-21, 20).max())))
         chan_low = Decimal(str(numeric(frame.df["low"].slice(-21, 20).min())))
         side = (
-            "LONG"
-            if current.close > chan_high
-            else ("SHORT" if current.close < chan_low else None)
+            "LONG" if current.close > chan_high else ("SHORT" if current.close < chan_low else None)
         )
         reason = "NO_CHANNEL_BREAKOUT"
         if side is not None:
@@ -104,4 +101,4 @@ def observe_volume_breakout(frame: CausalFrame, opportunity: Opportunity | None)
         direction=direction,
         reason=reason,
     )
-    return replace(stance, variant_id=variant or "UNRESOLVED")
+    return stance_with(stance, variant_id=variant or "UNRESOLVED")

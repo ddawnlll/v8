@@ -1,9 +1,9 @@
 """Bollinger breakout a/b/c with band references frozen at setup-run start."""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 from v8_next.experts.features import close_series
 
@@ -84,4 +84,4 @@ def observe_bollinger_breakout(
         direction=setup.direction if setup else None,
         reason=reason,
     )
-    return replace(stance, variant_id=variant)
+    return stance_with(stance, variant_id=variant)

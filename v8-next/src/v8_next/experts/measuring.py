@@ -1,10 +1,10 @@
 """Pattern breakout objectives, distinct from retest admission."""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from decimal import Decimal
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 from v8_next.experts.patterns import pattern_pivots, pattern_structures
 
@@ -81,4 +81,4 @@ def observe_measuring(
         direction=setup.direction if setup else None,
         reason=reason,
     )
-    return replace(stance, variant_id=variant)
+    return stance_with(stance, variant_id=variant)

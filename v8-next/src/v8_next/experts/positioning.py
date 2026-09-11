@@ -1,13 +1,12 @@
 """Funding/positioning hypotheses; absent auxiliary data never becomes a signal."""
 
-from dataclasses import replace
 from decimal import Decimal
 
 import polars as pl
 
 from v8_next.domain.market import CausalFrame
 from v8_next.domain.positioning import PositioningReading, positioning_at
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 
 
@@ -56,7 +55,7 @@ def observe_funding(
         direction=direction,
         reason=reason,
     )
-    return replace(stance, variant_id=variant, version="funding-settled-causal-v2")
+    return stance_with(stance, variant_id=variant, version="funding-settled-causal-v2")
 
 
 def observe_open_interest(
@@ -101,4 +100,4 @@ def observe_open_interest(
         direction=direction,
         reason=reason,
     )
-    return replace(stance, variant_id=variant)
+    return stance_with(stance, variant_id=variant)

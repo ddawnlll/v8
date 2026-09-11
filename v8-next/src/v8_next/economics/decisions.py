@@ -316,3 +316,23 @@ def utility_admission(inputs: UtilityInputs) -> str:
     if value is None:
         return "REJECTED_MISSING_CALIBRATION"
     return "UTILITY_ELIGIBLE" if value > 0 else "REJECTED_SUB_FRICTION"
+
+
+def stance_with(
+    stance: Stance, *, variant_id: str | None = None, version: str | None = None
+) -> Stance:
+    """Return ``stance`` with the given metadata replaced, without ``dataclasses.replace``.
+
+    The expert observers stamp their own variant/version once per observation;
+    ``replace`` re-derives the field list and deep-copies unknown values on each of
+    those calls (measured: 197k calls / 0.80s cumulative per portfolio run, the
+    largest remaining Python-level cost after the polars collect). A ``Stance`` is a
+    flat frozen record, so rebuilding it from its own instance dict is equivalent --
+    pinned field-by-field against ``replace`` by ``test_perf_hot_paths``.
+    """
+    metadata: dict[str, Any] = {}
+    if variant_id is not None:
+        metadata["variant_id"] = variant_id
+    if version is not None:
+        metadata["version"] = version
+    return type(stance)(**{**stance.__dict__, **metadata})

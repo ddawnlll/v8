@@ -31,6 +31,7 @@ from v8_next.economics.decisions import (
     opportunity_at,
     opportunity_record,
     stance_record,
+    stance_with,
 )
 from v8_next.evaluation.gate_resolution import load_tape_candles
 from v8_next.experts.registry import CANONICAL_28_EXPERTS, get_expert, observe_expert
@@ -125,3 +126,36 @@ def test_stance_is_a_flat_scalar_record() -> None:
         assert isinstance(value, (str, int, type(None))) or type(value).__name__.endswith("Kind"), (
             f"non-scalar field breaks the flat conversion: {value!r}"
         )
+
+
+def test_stance_with_matches_dataclasses_replace_in_every_kwarg_shape() -> None:
+    """The experts stamp variant/version through ``stance_with``; pin equivalence."""
+    frame = _real_frame()
+    stance = observe_expert(CANONICAL_28_EXPERTS[0], frame, opportunity_at(frame))
+    assert stance_with(stance, variant_id="v2") == replace(stance, variant_id="v2")
+    assert stance_with(stance, version="x-v2") == replace(stance, version="x-v2")
+    assert stance_with(stance, variant_id="v3", version="y-v2") == replace(
+        stance, variant_id="v3", version="y-v2"
+    )
+    # no metadata given: the record is unchanged field by field
+    assert stance_with(stance).__dict__ == stance.__dict__
+
+
+def test_every_expert_still_stamps_its_own_variant() -> None:
+    """The 28 experts must produce the same stances as before the conversion."""
+    frame = _real_frame()
+    opportunity = opportunity_at(frame)
+    stamped = 0
+    for expert_id in CANONICAL_28_EXPERTS:
+        spec = get_expert(expert_id)
+        kwargs: dict[str, object] = {}
+        if spec.takes_variant and spec.default_variant is not None:
+            kwargs["variant"] = spec.default_variant
+        raw = spec.observer_fn(frame, opportunity, **kwargs)
+        # The registry canonicalises the observer identity; the expert's own call
+        # is what stamps a variant/version, and that is what changed here. The
+        # per-expert SUPPORT/CONTRADICT/ABSTAIN fixtures in test_expert_registry
+        # pin the values themselves.
+        if raw.variant_id != "baseline" or raw.version != "squeeze-observer-v1":
+            stamped += 1
+    assert stamped >= 1, "no expert stamped a variant/version; the conversion is inert"

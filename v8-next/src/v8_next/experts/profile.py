@@ -1,12 +1,12 @@
 """Prior-session TPO profile methodology over NumPy histogram arithmetic."""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from decimal import ROUND_CEILING, Decimal
 
 import numpy as np
 
 from v8_next.domain.market import Candle, CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance
+from v8_next.economics.decisions import Opportunity, Stance, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 from v8_next.experts.levels import previous_session_bars
 
@@ -138,4 +138,4 @@ def observe_profile(
         direction=direction,
         reason=reason,
     )
-    return replace(stance, variant_id=variant, version="market-profile-complete-session-v2")
+    return stance_with(stance, variant_id=variant, version="market-profile-complete-session-v2")

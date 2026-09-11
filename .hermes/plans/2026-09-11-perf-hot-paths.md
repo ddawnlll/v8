@@ -50,25 +50,49 @@ compares the new records to `asdict` field-by-field for all 28 canonical experts
 the real BTC tape, and compares the registry's witness-stamped stance to the old
 `dataclasses.replace` path for all 28.
 
-## Measured after
+## Measured after — corrected, with the counting method stated
 
-Same commands, same machine, alternating runs (2 each):
+Two rounds of the same fix (cProfile over `python -m v8_next.app.portfolio`, same
+command, same machine). Call counts come from the profiler's own statistics, so
+they do not depend on system load:
 
-| run | before | after | change |
+| profile | profiled CPU total | `_asdict_inner` calls | `deepcopy` calls |
 |---|---|---|---|
-| `python -m v8_next.app.benchmark` (D-153, full gate battery) | 3.30s / 3.14s | **2.87s / 2.88s** | -12% / -8% |
-| `python -m v8_next.app.portfolio` (P vs P+E, 385 bars) | 6.10s / 6.01s | **4.81s / 4.91s** | -21% / -18% |
-| `stance` conversion micro-loop (20,000 conversions) | 41.6ms | **8.0ms** | **5.18x** |
+| BEFORE | **10.79 s** | 302,090 top-level (3.32 M recursive) | 627,147 |
+| AFTER-1 (flat records replacing `asdict`) | **8.33 s** | **5** | 23,467 |
+| AFTER-2 (experts stamp variant/version without `replace`) | **7.07 s** | 5 | 23,467 |
 
-Verification: `tests/test_perf_hot_paths.py` (equivalence + speed guard) and the
-full suite, both run from `v8-next/`.
+Net on the profiled CPU work: **10.79 s → 7.07 s (-34.5%)**, with the recursive
+`asdict` plumbing effectively eliminated (302,090 → 5).
+
+Wall clock is **load-sensitive on this machine** and must be quoted with its load
+average, which is why an earlier interim number was wrong:
+
+| when | load avg | wall clock |
+|---|---|---|
+| baseline, start of the pass | ~4 | 6.10 s / 6.01 s |
+| interim re-check (before the expert-side fix) | 5.87 | 6.17 / 5.97 / 6.14 s |
+| after the expert-side fix | 3.44 | **4.92 / 4.61 / 4.65 s** |
+
+The interim re-check is why this section was rewritten: the earlier "6.10 → 4.81"
+claim could not be reproduced under load 5.87, and a wall-clock figure that only
+holds when the machine is idle is not a measurement worth publishing. The
+load-independent numbers above are the ones to trust; the wall clock is reported
+with the condition it was taken under.
+
+Verification: `tests/test_perf_hot_paths.py` (7 tests: record equality against
+`asdict` for all 28 experts, `stance_with` equality against `replace` in every
+kwarg shape, the registry witness-stamping equivalence, a speed guard, and a guard
+that the experts still stamp their variants) plus the full suite: **849 passed**.
 
 ## Remaining measured cost (next targets, in profile order)
 
 * `PyLazyFrame.collect` — 43,679 polars collects over a run; the per-bar frame
   build collects a lazy frame instead of materialising once.
-* `observe_expert` cumtime 5.68s over 302k calls — after this pass the remaining
-  cost is the observers' own computation, not dataclass plumbing.
+* `observe_expert` — after this pass the remaining cost is the observers' own
+  computation, not dataclass plumbing (`replace` is now confined to the 10,780
+  per-bar `Candle` copies in `domain/market.py:from_ordered_prefix`).
+* Import time (`_imp.create_dynamic` 0.40 s) — module-level imports, not a hot path.
 * `block_bootstrap_ci` (0.36s / 40 calls) — statistical battery, kept as is:
   it is the evidence, not overhead.
 

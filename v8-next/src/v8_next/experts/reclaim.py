@@ -1,10 +1,9 @@
 """Sweep/reclaim and role-reversal observations; no execution authority."""
 
-from dataclasses import replace
 from decimal import Decimal
 
 from v8_next.domain.market import CausalFrame
-from v8_next.economics.decisions import Opportunity, Stance, numeric
+from v8_next.economics.decisions import Opportunity, Stance, numeric, stance_with
 from v8_next.experts.common import context_reason, directional_stance
 from v8_next.experts.features import significant_swings
 from v8_next.experts.patterns import pattern_retest_direction
@@ -70,4 +69,4 @@ def observe_breakout_retest(
         reason=reason,
     )
 
-    return replace(stance, variant_id=variant)
+    return stance_with(stance, variant_id=variant)

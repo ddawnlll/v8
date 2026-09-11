@@ -50,9 +50,9 @@ def observe_rsi_reversion(frame: CausalFrame, opportunity: Opportunity | None) -
         # LONG takes precedence as in the active Rust v1/a hypothesis.
         rsi_s = pl.Series("rsi", [v for v in rsi], dtype=pl.Float64)
         for side, threshold in (("LONG", 30), ("SHORT", 70)):
-            rec_mask = (
-                (rsi_s > threshold) if side == "LONG" else (rsi_s < threshold)
-            ).fill_null(False)
+            rec_mask = ((rsi_s > threshold) if side == "LONG" else (rsi_s < threshold)).fill_null(
+                False
+            )
             if not rec_mask[-1]:
                 continue
             false_indices = (~rec_mask).arg_true()
