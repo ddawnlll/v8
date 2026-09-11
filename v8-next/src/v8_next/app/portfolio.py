@@ -1,7 +1,9 @@
 """Canonical portfolio benchmark: quad tape -> engine P/P+E -> receipt chain.
 
-Single-command reproduction:
-    uv run --project v8-next python -m v8_next.app.cli benchmark-portfolio \
+Single-command reproduction (`--extra research` is required: `scipy`/`arch` are
+optional dependencies and the statistical verdict cannot be computed without
+them):
+    uv run --project v8-next --extra research python -m v8_next.app.cli benchmark-portfolio \
         --tape-path research/tape/quad-1h-12m --bars 336 \
         --output-dir artifacts/portfolio-benchmark --primary equal_weight
 
@@ -673,6 +675,14 @@ def main(argv: list[str] | None = None) -> int:
     )
     v = verdicts
     print(f"[+] validity={v.research_validity} economic={v.economic} statistical={v.statistical}")
+    unprovisioned = eb.unprovisioned_estimator_hint(stats)
+    if unprovisioned:
+        # Operator-visible: a fail-closed UNSUPPORTED caused by an unimportable
+        # optional dependency must not read as an estimator result.
+        print(
+            f"[!] statistical={v.statistical}: {unprovisioned} — this is a missing "
+            f"dependency, not a computed statistical result"
+        )
     print(f"[+] portfolio={v.portfolio} execution={v.execution} capital={v.capital}")
     print(f"[+] capital_path test={cap_decision['decision']} missing={cap_missing['decision']}")
     print(f"[+] receipt chain: {ok} ({msg}) ledger: {cok} ({cmsg}) entry={entry.entry_hash[:16]}...")

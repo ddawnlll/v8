@@ -1,7 +1,9 @@
 """Economic benchmark command: real data -> ledger -> benchmark -> stats -> report.
 
-Single-command reproduction:
-    uv run --project v8-next python -m v8_next.app.economic \
+Single-command reproduction (`--extra research` is required: `scipy`/`arch` are
+optional dependencies and the statistical verdict cannot be computed without
+them):
+    uv run --project v8-next --extra research python -m v8_next.app.economic \
         --tape-path research/tape/btcusdt-1h-12m --bars 500 \
         --output-dir artifacts/economic-benchmark --primary btc_buy_hold
 
@@ -442,6 +444,14 @@ def main(argv: list[str] | None = None) -> int:
         print(f"    {name:<12} net {m.net_return:+.4f} excess {ex} Sharpe_ann {m.sharpe_annualized:+.3f}")
     v = receipt.verdicts
     print(f"[+] validity={v.research_validity} economic={v.economic} statistical={v.statistical}")
+    unprovisioned = eb.unprovisioned_estimator_hint(receipt.statistics)
+    if unprovisioned:
+        # Operator-visible: a fail-closed UNSUPPORTED caused by an unimportable
+        # optional dependency must not read as an estimator result.
+        print(
+            f"[!] statistical={v.statistical}: {unprovisioned} — this is a missing "
+            f"dependency, not a computed statistical result"
+        )
     print(f"[+] portfolio={v.portfolio} execution={v.execution} capital={v.capital}")
     print(f"[+] parity(engine rerun)={parity['engine_rerun_parity']} bindings={parity['bindings_verified']}")
     print(f"[+] wrote {receipt_path} + {report_path}")
