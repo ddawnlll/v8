@@ -15,7 +15,7 @@ from enum import StrEnum
 from pathlib import Path
 from typing import Any, Literal, Sequence
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from v8_next.evaluation.parity import ArtifactBinding
 
@@ -294,8 +294,8 @@ def build_canon_payload(
     digest_version: str,
     case_id: str,
     policy_id: str,
-    capability_score: float,
-    coverage_factor: float,
+    capability_score: float | None,
+    coverage_factor: float | None,
     gates: GateVector,
     artifact_bindings: Sequence[ArtifactBinding],
     computed_at_timestamp_ns: int,
@@ -318,8 +318,8 @@ def build_canon_payload(
         digest_version,
         case_id,
         policy_id,
-        round(capability_score, 8),
-        round(coverage_factor, 4),
+        None if capability_score is None else round(capability_score, 8),
+        None if coverage_factor is None else round(coverage_factor, 4),
         [getattr(gates, f).value for f in sorted(gates.__class__.model_fields)],
         [[b.role, b.sha256_hex, b.bytes] for b in sorted_bindings],
         computed_at_timestamp_ns,
@@ -356,8 +356,16 @@ class BenchmarkReceipt(BaseModel):
     case_id: str
     policy_id: str
     digest_version: str = RECEIPT_DIGEST_VERSION
-    capability_score: float
-    coverage_factor: float = 0.60
+    #: ``None`` means the run had no eligible measurement; a missing score is
+    #: reported as missing rather than as a zero (NX08.R1/R2).
+    capability_score: float | None = None
+    #: ``None`` means the run had no eligible measurement; it is not zero coverage
+    #: and it is not a fabricated 0.60 (NX08.R1).
+    coverage_factor: float | None = None
+    #: Side-by-side scorer versions (NX08.R5). Informational: deliberately NOT part
+    #: of the digest payload, so existing receipts keep verifying under their own
+    #: version instead of being re-hashed.
+    scoring_versions: dict[str, Any] = Field(default_factory=dict)
     gates: GateVector
     artifact_bindings: tuple[ArtifactBinding, ...] = ()
     computed_at_timestamp_ns: int
@@ -374,14 +382,15 @@ class BenchmarkReceipt(BaseModel):
         cls,
         case_id: str,
         policy_id: str,
-        capability_score: float,
+        capability_score: float | None,
         gates: GateVector,
         computed_at_timestamp_ns: int,
-        coverage_factor: float = 0.60,
+        coverage_factor: float | None = None,
         artifact_bindings: Sequence[ArtifactBinding] = (),
         economic_evidence_digest: str = "",
         economic_receipt_path: str = "",
         input_binding: str = "",
+        scoring_versions: dict[str, Any] | None = None,
     ) -> BenchmarkReceipt:
         sorted_bindings = sorted(artifact_bindings, key=lambda b: (b.role, b.path))
         canon, refusal = build_canon_payload(
@@ -414,6 +423,7 @@ class BenchmarkReceipt(BaseModel):
             economic_evidence_digest=economic_evidence_digest,
             economic_receipt_path=economic_receipt_path,
             input_binding=input_binding,
+            scoring_versions=dict(scoring_versions or {}),
         )
 
     def verify(self) -> tuple[bool, str]:

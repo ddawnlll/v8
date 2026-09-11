@@ -121,7 +121,7 @@ class ClaimRegistry:
         ledger: BenchmarkLedger,
         receipt_digest: str,
         gates: GateVector,
-        capability_score: float,
+        capability_score: float | None,
         live_realization_verified: bool = False,
     ) -> tuple[bool, str, StatutoryClaimRecord | None]:
         """Verify benchmark ledger chain, gate conditions, and issue statutory claim record.
@@ -158,7 +158,11 @@ class ClaimRegistry:
         else:
             claim_class = StatutoryClaimClass.ReadyNotClaimed
 
-        # 6. Mint StatutoryClaimRecord
+        # 6. Mint StatutoryClaimRecord. A claim is a measured statement: without a
+        # measured capability score there is nothing to mint (NX08.R6 keeps the
+        # runtime economic-claim authority check intact).
+        if capability_score is None:
+            return False, "NO_MEASURED_CAPABILITY_SCORE", None
         parent_hashes = [receipt_digest, receipt_entry.entry_hash]
         claim_record = StatutoryClaimRecord.create(
             claim_class=claim_class,

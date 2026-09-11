@@ -58,6 +58,7 @@ from v8_next.evaluation.parity import ArtifactBinding
 from v8_next.evaluation.scoring import (
     compute_capability_breakdown,
     compute_capability_score,
+    dual_scoring,
     evaluate_gate_vector,
 )
 from v8_next.evaluation.statistics_plan import CANONICAL_G5_BLOCK_SIZE, g5_plan
@@ -106,7 +107,9 @@ class BenchmarkRunResult(BaseModel):
     certificate: PolicyCertificate
     total_bars: int
     total_trades: int
-    capability_score: float
+    #: ``None`` when the run had no eligible measurement (NX08.R1): a missing
+    #: score stays missing instead of being reported as zero.
+    capability_score: float | None = None
     gates: GateVector
     ledger_entry_hash: str
     native_ledger_binding: ArtifactBinding
@@ -437,7 +440,10 @@ class BenchmarkRunner:
         total_expert_votes = max(1, len(decisions) * 28)
         abstain_rate = abstain_count / total_expert_votes
 
-        coverage_factor = 0.60
+        # NX08.R1: no fixed coverage constant. The breakdown derives coverage from
+        # the domains this run actually measured and names the ones it did not;
+        # the receipt carries the derived factor (or None when nothing is eligible).
+        coverage_factor = None
         # Measured execution evidence from the engine run feeds ExecutionFidelity
         # in place of the PnL-Sharpe proxy whenever real fills were measured.
         execution_evidence = backtest_result.get("execution") or {}
@@ -517,6 +523,17 @@ class BenchmarkRunner:
             coverage_factor=coverage_factor,
             execution=execution_evidence,
         )
+        coverage_factor = breakdown["coverage_factor"]
+        # NX08.R5: both scorer versions are computed on this run's fixed inputs and
+        # travel in the receipt side by side; the delta is transform-only by
+        # construction because the measurements are the same object.
+        scoring_versions = dual_scoring(
+            pnl_series=pnl_series,
+            total_bars=total_bars,
+            total_trades=total_trades,
+            abstain_rate=abstain_rate,
+            execution=execution_evidence,
+        )
 
         gate_metrics: dict[str, Any] = {}
         claim_record: StatutoryClaimRecord | None = None
@@ -561,6 +578,7 @@ class BenchmarkRunner:
                 # NX07.R3: the regime fallback is authorized here explicitly and
                 # with a stated basis; it is no longer a silent substitution.
                 allow_regime_fallback=True,
+                fallback_tape=tape_path,
                 fallback_basis=(
                     "windowed run: the own track holds fewer than 20 campaigns by "
                     "construction, so the regime series is used in the same declared "
@@ -653,6 +671,7 @@ class BenchmarkRunner:
             policy_id=case.policy_id,
             capability_score=capability_score,
             coverage_factor=coverage_factor,
+            scoring_versions=scoring_versions,
             gates=gates,
             computed_at_timestamp_ns=computed_at_ns,
             artifact_bindings=bindings,

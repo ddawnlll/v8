@@ -505,6 +505,7 @@ def evaluate_g5_selection_control(
     plan: StatisticsPlan,
     allow_regime_fallback: bool = False,
     fallback_basis: str = "",
+    fallback_tape: Path | str | None = None,
 ) -> tuple[GateState, dict[str, Any]]:
     """G5: Selection Control (g5_statistical_credibility).
 
@@ -530,6 +531,11 @@ def evaluate_g5_selection_control(
         raise TypeError("G5 requires a pinned StatisticsPlan, not loose parameters")
     if allow_regime_fallback and not fallback_basis.strip():
         raise ValueError("an authorized regime fallback requires a stated basis")
+    if allow_regime_fallback and fallback_tape is None and candles is None:
+        raise ValueError(
+            "an authorized regime fallback requires an explicit same-run source "
+            "(fallback_tape or candles); there is no default tape"
+        )
     raw_series = [float(value) for value in campaign_return_series]
     own_sample_count = len(raw_series)
     G5_MIN_OWN_INTERVALS = 20
@@ -581,12 +587,18 @@ def evaluate_g5_selection_control(
             bracket_target_pct=Decimal("0.04"),
         )
         extracted: list[float] = []
-        if DEFAULT_TAPE_PATH.exists():
-            regimes = classify_market_regimes(tape_path=DEFAULT_TAPE_PATH, slice_length=500)
+        # NX08.R4: the fallback reads the *run's own* declared tape (or its own
+        # candles) -- never a default path that has nothing to do with this run.
+        if fallback_tape is not None:
+            regimes = classify_market_regimes(tape_path=fallback_tape, slice_length=500)
             for _name, c_list in regimes.items():
                 extracted.extend(_campaign_returns_from_run(tuple(c_list), cfg))
+            fallback_source = f"regime_regimes_of:{fallback_tape}"
         elif candles is not None and len(candles) >= 12:
             extracted.extend(_campaign_returns_from_run(tuple(candles), cfg))
+            fallback_source = "own_run_candles"
+        else:
+            fallback_source = "NO_SOURCE"
         if len(extracted) >= 4:
             raw_series = extracted
 
@@ -720,6 +732,7 @@ def evaluate_g5_selection_control(
             "own_sample_count": own_sample_count,
             "sample_source": sample_source,
             "fallback_basis": fallback_basis if sample_source == "regime_fallback" else None,
+            "fallback_source": fallback_source if sample_source == "regime_fallback" else None,
             "series_unit": G5_SERIES_UNIT,
             "series_basis": G5_SERIES_BASIS,
             "fee_stress_return": G5_FEE_STRESS_RETURN,
@@ -760,8 +773,22 @@ def evaluate_g6_frozen_oos(
     n = len(candles)
     split_idx = int(n * (2.0 / 3.0))
 
-    is_candles = tuple(candles[:split_idx])
-    oos_candles = tuple(candles[split_idx:])
+    # NX08.R4: an in-sample window twice the length of the out-of-sample window is
+    # not a replication comparison. Both sides are truncated to the same number of
+    # bars (the IS tail adjacent to the OOS head, no overlap) and the equality is
+    # reported, so a retention ratio can never come from unequal exposure.
+    is_all = tuple(candles[:split_idx])
+    oos_all = tuple(candles[split_idx:])
+    if not is_all or not oos_all:
+        return GateState.BLOCKED, {
+            "is_bars": len(is_all),
+            "oos_bars": len(oos_all),
+            "reason": "INSUFFICIENT_PARTITION: one side of the frozen split is empty",
+            "passed": False,
+        }
+    window_bars = min(len(is_all), len(oos_all))
+    is_candles = is_all[-window_bars:]
+    oos_candles = oos_all[:window_bars]
 
     is_res = run_expert_strategy_backtest(is_candles, cfg)
     oos_res = run_expert_strategy_backtest(oos_candles, cfg)
@@ -795,6 +822,10 @@ def evaluate_g6_frozen_oos(
             "oos_final_balance": round(oos_balance, 2),
             "is_profit": round(is_profit, 2),
             "oos_profit": round(oos_profit, 2),
+            "window_equality": "EQUAL_BARS",
+            "comparison_window_bars": window_bars,
+            "is_bars_total": len(is_all),
+            "oos_bars_total": len(oos_all),
             "retention_ratio": None,
             "reason": f"NO_IS_EDGE_TO_RETAIN: is_profit={is_profit:.2f} <= 0",
             "passed": False,
@@ -815,6 +846,10 @@ def evaluate_g6_frozen_oos(
         "oos_profit": round(oos_profit, 2),
         "retention_ratio": round(retention_ratio, 4),
         "trade_freq_retention": round(freq_retention, 4),
+        "window_equality": "EQUAL_BARS",
+        "comparison_window_bars": window_bars,
+        "is_bars_total": len(is_all),
+        "oos_bars_total": len(oos_all),
         "reason": None
         if passed
         else (
@@ -831,26 +866,52 @@ def evaluate_g7_prospective_shadow(
     candles: Sequence[Candle],
     strategy_config: ExpertStrategyConfig | None = None,
     output_dir: Path | None = None,
+    *,
+    shadow_stream: Sequence[Candle] | None = None,
+    shadow_origin: str = "",
 ) -> tuple[GateState, dict[str, Any]]:
     """G7: Prospective Shadow Succession (g7_generalization).
 
-    Evaluates sequential prospective streaming observations using an e-process martingale
-    and drift monitoring. Saves trajectory to disk. Requires a full 100-bar shadow
-    window: a shorter stream cannot establish drift stability and fails closed with
+    Evaluates sequential prospective streaming observations using an e-process
+    martingale and drift monitoring, and saves the trajectory to disk.
+
+    NX08.R4: the gate no longer mints a prospective state from the run's own
+    historical tail. A ``shadow_stream`` must be declared explicitly and its origin
+    named; the gate records that the stream is caller-declared and not independently
+    verified. Without a declared stream the state is UNKNOWN with a named reason --
+    never PASS -- because "the last 100 bars of the same run" is not prospective
+    evidence. A declared stream shorter than 100 bars still fails closed with
     INSUFFICIENT_SHADOW_WINDOW.
     """
     out_dir = output_dir or Path("artifacts/benchmarks")
     out_dir.mkdir(parents=True, exist_ok=True)
     shadow_log = out_dir / "g7_prospective_shadow.jsonl"
 
-    if len(candles) < 100:
-        return GateState.BLOCKED, {
-            "window_bars": len(candles),
-            "required_window_bars": 100,
-            "reason": f"INSUFFICIENT_SHADOW_WINDOW: {len(candles)} < 100",
+    if shadow_stream is None:
+        return GateState.UNKNOWN, {
+            "reason": "PSEUDO_PROSPECTIVE_HISTORICAL_WINDOW_NOT_ACCEPTED",
+            "detail": (
+                "no shadow_stream was declared: the run's own historical tail is not "
+                "prospective evidence, so G7 stays UNKNOWN instead of passing"
+            ),
+            "historical_bars_available": len(candles),
+            "shadow_origin": shadow_origin or None,
+            "provenance_status": "NO_DECLARED_STREAM",
             "passed": False,
         }
-    stream_candles = tuple(candles[-100:])
+    if not shadow_origin.strip():
+        raise ValueError("a declared shadow stream requires a named origin")
+
+    if len(shadow_stream) < 100:
+        return GateState.BLOCKED, {
+            "window_bars": len(shadow_stream),
+            "required_window_bars": 100,
+            "reason": f"INSUFFICIENT_SHADOW_WINDOW: {len(shadow_stream)} < 100",
+            "shadow_origin": shadow_origin,
+            "provenance_status": "CALLER_DECLARED_NOT_VERIFIED_BY_GATE",
+            "passed": False,
+        }
+    stream_candles = tuple(shadow_stream)
     cfg = strategy_config or ExpertStrategyConfig(
         min_support_quorum=1,
         max_contradiction_tolerance=28,
@@ -916,6 +977,8 @@ def evaluate_g7_prospective_shadow(
         "final_drift": round(drift_val, 6),
         "shadow_steps": len(trajectory),
         "log_path": str(shadow_log),
+        "shadow_origin": shadow_origin,
+        "provenance_status": "CALLER_DECLARED_NOT_VERIFIED_BY_GATE",
         "passed": passed,
     }
     if not passed:
@@ -1010,7 +1073,7 @@ def evaluate_g9_certificate_authority(
     ledger: BenchmarkLedger,
     receipt_digest: str,
     gates: GateVector,
-    capability_score: float,
+    capability_score: float | None,
     output_dir: Path | None = None,
     live_realization_verified: bool = False,
 ) -> tuple[GateState, dict[str, Any], StatutoryClaimRecord | None]:
@@ -1115,6 +1178,7 @@ def resolve_all_gates(
             "regime series in the same declared unit (NX02.R3); sample_source is "
             "reported in the gate metrics"
         ),
+        fallback_tape=tape_path,
     )
 
     # 4. G6 Frozen OOS Replication

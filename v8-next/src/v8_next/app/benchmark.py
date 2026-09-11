@@ -83,6 +83,11 @@ def window_artifacts(result: Any, html_out: Path, ledger_dir: Path) -> list[dict
     return rows
 
 
+def _render_score(value: float | None) -> str:
+    """A missing capability score prints as MISSING, never as 0.0 (NX08.R1)."""
+    return "MISSING" if value is None else f"{value:.1f}"
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="V8.5 Benchmark Fabric Runner")
     parser.add_argument("--case-id", default="BC-D153-CANONICAL-01", help="Benchmark Case ID")
@@ -306,7 +311,7 @@ def main(argv: list[str] | None = None) -> int:
     g2 = (result.gate_metrics or {}).get("g2", {})
     print(f"[+] G2 determinism: {g2.get('status')} ({g2.get('reason')})")
     print(f"[+] Nautilus Backtest Completed: {result.total_bars} bars, {result.total_trades} trades")
-    print(f"[+] Capability Score: {result.capability_score:.1f} / 100")
+    print(f"[+] Capability Score: {_render_score(result.capability_score)} / 100")
     if result.domain_scores:
         print("[+] Per-domain breakdown (loop engineering: lowest first):")
         for name, d in sorted(result.domain_scores.items(), key=lambda kv: kv[1]["score"]):

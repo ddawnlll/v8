@@ -15,6 +15,13 @@ from v8_next.evaluation.benchmark_receipt import BenchmarkReceipt
 from v8_next.evaluation.certificate import PolicyCertificate
 
 
+def _v(value: float | None, digits: int = 1) -> str:
+    """Render a certificate measurement; a missing one says MISSING, not 0."""
+    if value is None:
+        return "MISSING"
+    return f"{value:.{digits}f}"
+
+
 def generate_forensic_html_report(
     receipt: BenchmarkReceipt,
     output_path: Path | str,
@@ -77,8 +84,8 @@ code {{ font-family: ui-monospace, monospace; background: #0f172a; padding: 2px 
   </div>
   <div style="text-align: right;">
     <div style="color: #94a3b8; font-size: 13px; text-transform: uppercase;">Readiness Index</div>
-    <div class="hero-score">{cert.readiness_index:.1f} <span style="font-size: 16px; color: #94a3b8;">/ 100</span></div>
-    <div style="font-size: 12px; color: #94a3b8;">Capability: {cert.research_capability_score:.1f} | Robustness: {cert.minerva_robustness_score:.1f}</div>
+    <div class="hero-score">{_v(cert.readiness_index)} <span style="font-size: 16px; color: #94a3b8;">/ 100</span></div>
+    <div style="font-size: 12px; color: #94a3b8;">Capability: {_v(cert.research_capability_score)} | Robustness: {_v(cert.minerva_robustness_score)}</div>
   </div>
 </div>
 
@@ -112,25 +119,25 @@ code {{ font-family: ui-monospace, monospace; background: #0f172a; padding: 2px 
 <tbody>
   <tr>
     <td>Research Capability Score</td>
-    <td><strong>{cert.research_capability_score:.1f} / 100</strong></td>
+    <td><strong>{_v(cert.research_capability_score)} / 100</strong></td>
     <td><span class="badge badge-pass">EVALUATED</span></td>
     <td>Harmonic mean with uncertainty penalty (D-153 §76)</td>
   </tr>
   <tr>
     <td>Evidence Multiplier</td>
-    <td><strong>{cert.evidence_multiplier:.2f}</strong></td>
+    <td><strong>{_v(cert.evidence_multiplier, 2)}</strong></td>
     <td><span class="badge badge-warn">PENALIZED</span></td>
     <td>Single diagnostic cell coverage penalty</td>
   </tr>
   <tr>
     <td>Minerva Robustness Score</td>
-    <td><strong>{cert.minerva_robustness_score:.1f} / 100</strong></td>
+    <td><strong>{_v(cert.minerva_robustness_score)} / 100</strong></td>
     <td><span class="badge badge-fail">{cert.robustness_seal_status}</span></td>
     <td>arXiv:2608.23808 prudex evaluation</td>
   </tr>
   <tr>
     <td>Economic Projection Score</td>
-    <td><strong>{cert.economic_score:.1f} / 100</strong></td>
+    <td><strong>{_v(cert.economic_score)} / 100</strong></td>
     <td><span class="badge badge-warn">DIAGNOSTIC_DEFAULT</span></td>
     <td>Diagnostic cell default (no forward claims)</td>
   </tr>

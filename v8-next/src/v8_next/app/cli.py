@@ -25,6 +25,12 @@ from typing import Any
 from v8_next.evaluation.benchmark_receipt import BenchmarkLedger
 from v8_next.evaluation.certificate import PolicyCertificate
 
+
+def _score(value: float | None) -> str:
+    """A missing capability score prints as MISSING, never as 0.0 (NX08.R1)."""
+    return "MISSING" if value is None else f"{value:.1f}"
+
+
 DEFAULT_OUTPUT_DIR = "artifacts/benchmarks"
 DEFAULT_TAPE_ROOT = "research/tape"
 
@@ -101,7 +107,7 @@ def cmd_status(args: argparse.Namespace) -> int:
     if not ledger.entries:
         return 0
     last = ledger.entries[-1].receipt
-    print(f"latest: case={last.case_id} policy={last.policy_id} capability={last.capability_score:.1f}")
+    print(f"latest: case={last.case_id} policy={last.policy_id} capability={_score(last.capability_score)}")
     print()
     print(PolicyCertificate.generate(last).render_ascii())
     return 0

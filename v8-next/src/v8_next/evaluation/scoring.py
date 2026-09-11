@@ -6,6 +6,8 @@ and evaluates G0-G9 hard-gates directly per D-152 §5 and D-153 §74-80.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 from dataclasses import dataclass
 from enum import StrEnum
@@ -14,6 +16,11 @@ from typing import Any, Mapping
 import numpy as np
 
 from v8_next.evaluation.benchmark_receipt import GateState, GateVector
+
+
+def canonical_json(payload: Any) -> str:
+    """Stable JSON for hashing measurement identities."""
+    return json.dumps(payload, sort_keys=True, separators=(",", ":"))
 
 
 class CapabilityDomain(StrEnum):
@@ -93,6 +100,106 @@ class CapabilityScoreCalculator:
         return raw * 100.0
 
 
+#: Measurement status of a capability domain in one run (NX08.R1). "Missing" is
+#: its own status: an unmeasured domain is never scored as zero, never counted as
+#: evidence of absence, and never silently folded into a fixed denominator.
+DOMAIN_STATUSES = ("MEASURED", "ABSTAINED", "INACTIVE", "MISSING")
+
+#: What each measurable domain needs; anything outside this map is INACTIVE here.
+DOMAIN_INPUT_KIND: dict[CapabilityDomain, str] = {
+    CapabilityDomain.ExecutionFidelity: "trades",
+    CapabilityDomain.DefeaterResistance: "trades",
+    CapabilityDomain.OperationalSimplicity: "bars",
+    CapabilityDomain.MicrostructureInvariance: "bars",
+}
+
+#: The retired fixed coverage constant (NX08.R1). Kept under a name that says what
+#: it is so the legacy side of a dual scoring can name its own assumption instead
+#: of passing an anonymous 0.60.
+LEGACY_FIXED_COVERAGE_FACTOR = 0.60
+
+
+@dataclass(frozen=True)
+class DomainMeasurementStatus:
+    """One domain's measurement status, with the reason it holds that status."""
+
+    domain: str
+    status: str
+    sample_size: int
+    kind: str
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "domain": self.domain,
+            "status": self.status,
+            "sample_size": self.sample_size,
+            "kind": self.kind,
+        }
+
+
+def domain_measurement_statuses(
+    *, total_bars: int, total_trades: int, abstain_rate: float
+) -> tuple[DomainMeasurementStatus, ...]:
+    """Status per measurable domain: measured, abstained, inactive or missing."""
+    if total_bars < 0 or total_trades < 0:
+        raise ValueError("bar and trade counts cannot be negative")
+    statuses: list[DomainMeasurementStatus] = []
+    for domain in CapabilityDomain:
+        kind = DOMAIN_INPUT_KIND.get(domain)
+        if kind is None:
+            statuses.append(DomainMeasurementStatus(domain.value, "INACTIVE", 0, "unmeasured_domain"))
+            continue
+        if kind == "trades":
+            if total_bars == 0:
+                status, size = "MISSING", 0
+            elif total_trades > 0:
+                status, size = "MEASURED", total_trades
+            else:
+                status, size = "ABSTAINED", 0
+        else:
+            status, size = ("MEASURED", total_bars) if total_bars > 0 else ("MISSING", 0)
+        statuses.append(DomainMeasurementStatus(domain.value, status, size, kind))
+    return tuple(statuses)
+
+
+def derive_coverage(
+    statuses: tuple[DomainMeasurementStatus, ...],
+) -> dict[str, Any]:
+    """Coverage from real eligible measurements, not from a fixed constant.
+
+    ``eligible`` are the domains this run could have measured; ``MEASURED`` are the
+    ones it actually did. A run with no eligible domain has no coverage factor at
+    all -- ``None``, not 0.60 and not 0.0.
+    """
+    measurable = [
+        item for item in statuses if item.status in ("MEASURED", "ABSTAINED")
+    ]
+    measured = [item for item in measurable if item.status == "MEASURED"]
+    factor = (len(measured) / len(measurable)) if measurable else None
+    inactive = [item for item in statuses if item.status == "INACTIVE"]
+    all_domains = len(statuses)
+    return {
+        "coverage_factor": factor,
+        "coverage_source": "DERIVED_FROM_MEASURED_DOMAINS",
+        "numerator": len(measured),
+        "denominator": len(measurable),
+        # a second, deliberately unflattering view: what share of ALL declared
+        # domains this run measured. Both are reported so the coverage term can
+        # never be read as if the untouched domains had been evaluated.
+        "all_domain_coverage_factor": (len(measured) / all_domains) if all_domains else None,
+        "inactive_domains": [item.domain for item in inactive],
+        "inactive_fraction": (len(inactive) / all_domains) if all_domains else None,
+        "measured_domains": [item.domain for item in measured],
+        "unmeasured_domains": [item.domain for item in measurable if item.status != "MEASURED"],
+        "missing_domains": [item.domain for item in statuses if item.status == "MISSING"],
+        "statuses": {item.domain: item.status for item in statuses},
+        "basis": (
+            "coverage = measured eligible domains / eligible domains; an unmeasured "
+            "domain is neither a success nor an economic zero"
+        ),
+    }
+
+
 #: Declared diagnostic convention (NOT a calibration): a mean absolute
 #: implementation shortfall of this many basis points scores zero execution
 #: fidelity. Published with every score so the convention is auditable and can
@@ -125,7 +232,7 @@ def compute_capability_breakdown(
     total_bars: int,
     total_trades: int,
     abstain_rate: float,
-    coverage_factor: float = 0.60,
+    coverage_factor: float | None = None,
     execution: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Per-domain capability breakdown for loop engineering.
@@ -134,14 +241,43 @@ def compute_capability_breakdown(
     the aggregate. An agent asking 'why did I stall at 8.8' reads this, not
     the scalar. Empty/underpowered input yields empty domains (never zeros
     disguised as measurements).
+
+    NX08.R1: coverage is **derived** from the domains this run really measured.
+    There is no fixed denominator: a run whose trade domains abstained reports a
+    lower coverage with the abstained domains named, and a run with nothing
+    eligible reports no coverage factor at all (``None``) and an aggregate of
+    ``None`` -- never a fabricated score built on an assumed 0.60.
     """
     calc = CapabilityScoreCalculator.monograph_v1()
+    statuses = domain_measurement_statuses(
+        total_bars=total_bars, total_trades=total_trades, abstain_rate=abstain_rate
+    )
+    coverage = derive_coverage(statuses)
+    if coverage_factor is None:
+        coverage_factor = coverage["coverage_factor"]
+        coverage_source = coverage["coverage_source"]
+    else:
+        coverage_source = "CALLER_SUPPLIED"
     if not pnl_series or total_trades == 0:
         return {
             "domains": {},
-            "aggregate": 0.0,
+            "aggregate": None,
+            "aggregate_status": "MISSING_NO_TRADES",
             "coverage_factor": coverage_factor,
+            "coverage_source": coverage_source,
+            "coverage": coverage,
             "execution_fidelity_source": "NO_TRADES",
+            "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
+        }
+    if coverage_factor is None:
+        return {
+            "domains": {},
+            "aggregate": None,
+            "aggregate_status": "MISSING_NO_ELIGIBLE_MEASUREMENT",
+            "coverage_factor": None,
+            "coverage_source": coverage["coverage_source"],
+            "coverage": coverage,
+            "execution_fidelity_source": "NO_ELIGIBLE_DOMAIN",
             "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
         }
 
@@ -188,7 +324,11 @@ def compute_capability_breakdown(
     return {
         "domains": domains,
         "aggregate": round(score, 1),
+        "aggregate_status": "MEASURED",
         "coverage_factor": coverage_factor,
+        "coverage_source": coverage_source,
+        "coverage": coverage,
+        "domain_statuses": {item.domain: item.status for item in statuses},
         "execution_fidelity_source": exec_source,
         "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
     }
@@ -199,10 +339,14 @@ def compute_capability_score(
     total_bars: int,
     total_trades: int,
     abstain_rate: float,
-    coverage_factor: float = 0.60,
+    coverage_factor: float | None = None,
     execution: Mapping[str, Any] | None = None,
-) -> float:
-    """Compute multidimensional CapabilityScore in [0.0, 100.0] per D-153 §76."""
+) -> float | None:
+    """Compute multidimensional CapabilityScore in [0.0, 100.0] per D-153 §76.
+
+    ``None`` when the run has no measurable basis (NX08.R1/R2): a missing
+    measurement stays missing instead of being reported as a zero score.
+    """
     breakdown = compute_capability_breakdown(
         pnl_series=pnl_series,
         total_bars=total_bars,
@@ -211,7 +355,89 @@ def compute_capability_score(
         coverage_factor=coverage_factor,
         execution=execution,
     )
-    return float(breakdown["aggregate"])
+    aggregate = breakdown["aggregate"]
+    return None if aggregate is None else float(aggregate)
+
+
+#: Version tags for the two scorers kept side by side in one receipt (NX08.R5).
+SCORING_VERSION_LEGACY = "legacy_fixed_coverage_v1"
+SCORING_VERSION_CURRENT = "derived_coverage_v1"
+
+
+def dual_scoring(
+    pnl_series: list[float],
+    total_bars: int,
+    total_trades: int,
+    abstain_rate: float,
+    execution: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Both scorers on the same fixed inputs, in one record (NX08.R5).
+
+    The two versions differ only in how coverage enters the aggregate, so the
+    comparison separates a **transform-only** change (same measurements, different
+    coverage/denominator convention) from a **measurement change** (different raw
+    inputs). Neither a target score nor a PASS is implied: the record reports the
+    delta and its kind, and the caller still owns any conclusion.
+    """
+    legacy = compute_capability_breakdown(
+        pnl_series=pnl_series,
+        total_bars=total_bars,
+        total_trades=total_trades,
+        abstain_rate=abstain_rate,
+        coverage_factor=LEGACY_FIXED_COVERAGE_FACTOR,
+        execution=execution,
+    )
+    current = compute_capability_breakdown(
+        pnl_series=pnl_series,
+        total_bars=total_bars,
+        total_trades=total_trades,
+        abstain_rate=abstain_rate,
+        coverage_factor=None,
+        execution=execution,
+    )
+    measurement_identity = hashlib.sha256(
+        canonical_json(
+            {
+                "bars": total_bars,
+                "trades": total_trades,
+                "abstain_rate": round(float(abstain_rate), 12),
+                "pnl": [round(float(value), 12) for value in pnl_series],
+            }
+        ).encode()
+    ).hexdigest()
+    legacy_aggregate = legacy["aggregate"]
+    current_aggregate = current["aggregate"]
+    delta = (
+        round(float(current_aggregate) - float(legacy_aggregate), 4)
+        if legacy_aggregate is not None and current_aggregate is not None
+        else None
+    )
+    return {
+        "scoring_versions": {
+            SCORING_VERSION_LEGACY: {
+                "aggregate": legacy_aggregate,
+                "coverage_factor": legacy["coverage_factor"],
+                "coverage_source": legacy["coverage_source"],
+                "convention": "retired fixed coverage constant; kept only as the comparison side",
+            },
+            SCORING_VERSION_CURRENT: {
+                "aggregate": current_aggregate,
+                "coverage_factor": current["coverage_factor"],
+                "coverage_source": current["coverage_source"],
+                "coverage": current["coverage"],
+                "convention": "coverage derived from measured eligible domains",
+            },
+        },
+        "delta": delta,
+        "delta_kind": "TRANSFORM_ONLY" if delta is not None else "NOT_COMPARABLE_MISSING_MEASUREMENT",
+        "measurement_identity": measurement_identity,
+        "measurement_changed": False,
+        "note": (
+            "both sides read the same raw measurements; only the coverage "
+            "transform differs, so any delta here is transform-only by construction"
+        ),
+        "claim_status": "NO_ECONOMIC_CLAIM",
+    }
 
 
 def evaluate_gate_vector(

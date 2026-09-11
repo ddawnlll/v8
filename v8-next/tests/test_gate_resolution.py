@@ -157,9 +157,22 @@ def test_g6_frozen_oos_replication(real_candles: list[Candle]):
 
 
 def test_g7_prospective_shadow_streaming(tmp_path: Path, real_candles: list[Candle]):
-    """G7: Verify causal e-process martingale and drift logging to disk."""
+    """G7: Verify causal e-process martingale and drift logging to disk.
+
+    NX08.R4: the gate only evaluates an explicitly declared shadow stream. The
+    same candles passed as the stream exercise the mechanics; the removed
+    behaviour (minting PASS from the run's own historical tail) is asserted to be
+    gone in the test below.
+    """
     out_dir = tmp_path / "shadow"
-    state, metrics = evaluate_g7_prospective_shadow(real_candles, output_dir=out_dir)
+    state, metrics = evaluate_g7_prospective_shadow(
+        real_candles,
+        output_dir=out_dir,
+        shadow_stream=real_candles[-100:],
+        shadow_origin="TEST_FIXTURE_DECLARED_STREAM",
+    )
+    assert metrics["provenance_status"] == "CALLER_DECLARED_NOT_VERIFIED_BY_GATE"
+    assert metrics["shadow_origin"] == "TEST_FIXTURE_DECLARED_STREAM"
     assert state == GateState.PASS
     assert metrics["passed"] is True
     assert 0.01 <= metrics["final_e_process"] < 20.0
@@ -168,6 +181,21 @@ def test_g7_prospective_shadow_streaming(tmp_path: Path, real_candles: list[Cand
     assert log_file.is_file()
     lines = log_file.read_text(encoding="utf-8").strip().splitlines()
     assert len(lines) > 0
+
+
+def test_g7_refuses_the_runs_own_historical_tail(real_candles: list[Candle], tmp_path: Path):
+    """NX08.R4: no prospective state can be minted from the run's own tail."""
+    state, metrics = evaluate_g7_prospective_shadow(
+        real_candles, output_dir=tmp_path / "shadow-removed"
+    )
+    assert state == GateState.UNKNOWN
+    assert metrics["reason"] == "PSEUDO_PROSPECTIVE_HISTORICAL_WINDOW_NOT_ACCEPTED"
+    assert metrics["passed"] is False
+    # and a declared stream without a named origin is refused outright
+    with pytest.raises(ValueError, match="named origin"):
+        evaluate_g7_prospective_shadow(
+            real_candles, tmp_path / "shadow-unnamed", shadow_stream=real_candles[-100:]
+        )
 
 
 def test_g8_live_realization_modes(tmp_path: Path):
@@ -282,7 +310,12 @@ def test_end_to_end_benchmark_runner_resolved_gates(tmp_path: Path):
     # G5 discloses its sample source; G7 holds its window; G8 stays out of scope
     assert gm["g5"]["sample_source"] in ("own_track", "regime_fallback")
     assert gm["g5"]["own_sample_count"] <= result.total_trades + len(candles)
-    assert result.gates.g7_generalization == GateState.PASS
+    # NX08.R4: a historical run has no declared prospective stream, so G7 cannot
+    # pass on the last 100 bars of its own candles.
+    assert result.gates.g7_generalization == GateState.UNKNOWN
+    assert (
+        gm["g7"]["reason"] == "PSEUDO_PROSPECTIVE_HISTORICAL_WINDOW_NOT_ACCEPTED"
+    )
     assert result.gates.g8_prospective_shadow == GateState.NOT_APPLICABLE
 
     # No claim minted; certificate fails closed; ledger verifies
