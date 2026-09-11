@@ -159,6 +159,37 @@ def _mechanics_validity_verdicts(**overrides: Any) -> eb.EvidenceVerdicts:
     return eb.build_verdicts(**kwargs)
 
 
+def _paired_duplicate_closes(n: int = 40) -> list[eb.BarView]:
+    """MECHANICS ONLY: closes repeat in pairs, with ranges wide enough to contain
+    either of two neighbouring closes. Shape only: zero evaluative weight."""
+    closes = [100.0 + (i // 2) for i in range(n)]  # 100,100,101,101,102,102,...
+    bars: list[eb.BarView] = []
+    for i, c in enumerate(closes):
+        o = closes[i - 1] if i else c
+        bars.append(
+            eb.BarView((i + 1) * 3_600_000_000_000, o, max(o, c) * 1.5, min(o, c) * 0.5, c)
+        )
+    return bars
+
+
+def test_mechanics_future_leak_control_can_report_missed() -> None:
+    """#437 R2: `known_defect_future_leak_caught` is a measurement in both directions.
+
+    A control that can only ever answer CAUGHT is the tautology this card exists to
+    remove. The series below is displaced invisibly: the neighbouring close stays
+    inside every bar's own range and at least one boundary still carries a close
+    into the next bar's open, so this probe does *not* catch that displacement and
+    says so -- `MISSED`, named, rather than a pass dressed as a catch. The measured
+    boundary of the probe is published instead of assumed away.
+    """
+    bars = _paired_duplicate_closes()
+    assert eb.detect_future_leak(bars)[0] is True
+    control = eb.future_leak_positive_control(bars)
+    assert control["status"] == "MISSED"
+    assert control["probe"] == eb.FUTURE_LEAK_PROBE
+    assert control["bars"] == len(bars) - 1
+
+
 def test_mechanics_research_validity_requires_a_probe_that_ran() -> None:
     """#437 R3: `VALID` is a probe result, and an absent probe is not a pass.
 
