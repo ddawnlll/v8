@@ -98,6 +98,11 @@ class ExpertStrategyConfig:
     #: the passive path; MARKET crosses immediately. Anything else fails closed
     #: at config validation instead of silently becoming a market order.
     entry_order_type: str = "MARKET"
+    #: Child-order execution algorithm for entries: NONE sends the full size at
+    #: once; TWAP splits the parent quantity into twap_slices equal children
+    #: submitted on consecutive bars. NONE keeps the previous path byte-identical.
+    execution_algo: str = "NONE"
+    twap_slices: int = 4
     #: Fraction of account equity risked per trade (FixedRiskSizer). When set,
     #: quantity comes from entry/stop distance instead of target_notional.
     #: None keeps the previous sizing path byte-identical.
@@ -153,6 +158,8 @@ class ExpertEnsembleStrategy(Strategy):
         self.order_events: list[dict[str, Any]] = []
         self.opened_positions: list[dict[str, Any]] = []
         self.closed_positions: list[dict[str, Any]] = []
+        # Pending TWAP child slices: dicts with side/quantity/bracket/prices.
+        self.pending_twap: list[dict[str, Any]] = []
 
     def on_start(self) -> None:
         """Subscribe to configured bar type on strategy start."""
@@ -179,6 +186,59 @@ class ExpertEnsembleStrategy(Strategy):
             return balance.total
         except Exception:
             return None
+
+    def _twap_slices(self, quantity: Decimal, step: Decimal, n: int) -> list[Decimal]:
+        """Split a parent quantity into n step-aligned child slices.
+
+        First n-1 slices are floored to the step; the last takes the remainder
+        so the children always sum back to the parent.
+        """
+        if n <= 1 or step <= 0 or quantity <= 0:
+            return [quantity]
+        child = (quantity / n // step) * step
+        slices = [child] * (n - 1)
+        slices.append(quantity - sum(slices))
+        return [s for s in slices if s > 0]
+
+    def _drain_twap_slice(self, instrument: Any, record: Any) -> str | None:
+        """Submit one pending TWAP child; return its action or None."""
+        if not self.pending_twap or self.ensemble_config.execution_algo != "TWAP":
+            return None
+        sl = self.pending_twap.pop(0)
+        qty = Quantity.from_str(format(sl["quantity"], f".{instrument.size_precision}f"))
+        if sl["bracket"]:
+            order_list = self.order_factory.bracket(
+                instrument_id=self.instrument_id,
+                order_side=sl["side"],
+                quantity=qty,
+                entry_order_type=sl["entry_order_type"],
+                entry_price=sl.get("entry_price"),
+                sl_trigger_price=sl["sl_price"],
+                tp_price=sl["tp_price"],
+            )
+            self.submit_order_list(order_list)
+        elif sl["entry_order_type"] == OrderType.LIMIT:
+            self.submit_order(
+                self.order_factory.limit(
+                    instrument_id=self.instrument_id,
+                    order_side=sl["side"],
+                    quantity=qty,
+                    price=sl["entry_price"],
+                )
+            )
+        else:
+            self.submit_order(
+                self.order_factory.market(
+                    instrument_id=self.instrument_id,
+                    order_side=sl["side"],
+                    quantity=qty,
+                )
+            )
+        if record is not None:
+            self.opportunity_book.update_status(
+                record.opportunity_id, OpportunityStatus.ADMITTED
+            )
+        return f"TWAP_CHILD_{sl['done']}/{sl['total']}"
 
     def on_bar(self, bar: Bar) -> None:
         """Process incoming native Bar tick through the 28-expert ensemble."""
@@ -290,7 +350,18 @@ class ExpertEnsembleStrategy(Strategy):
         # 6. Execute Native Orders via NautilusTrader OrderFactory
         action = "NO_ACTION"
         sizing_mode = "FLAT"
-        if is_supported and opportunity is not None:
+        # Drain one pending TWAP child even when this bar carries no supported
+        # opportunity: children continue a scheduled parent. A drained bar emits
+        # only the child (parent gate below is skipped for it).
+        twap_action = None
+        if self.ensemble_config.execution_algo == "TWAP" and self.pending_twap:
+            drain_instrument = self.cache.instrument(self.instrument_id)
+            if drain_instrument is not None:
+                twap_action = self._drain_twap_slice(drain_instrument, record)
+        if twap_action is not None:
+            action = twap_action
+            sizing_mode = "TWAP"
+        if is_supported and opportunity is not None and twap_action is None:
             open_positions = [
                 p
                 for p in self.cache.positions_open()
@@ -398,10 +469,40 @@ class ExpertEnsembleStrategy(Strategy):
                         if entry_order_type is None:
                             quantity = None
                         else:
+                            submit_qty = quantity
+                            twap_tag = ""
+                            if (
+                                self.ensemble_config.execution_algo == "TWAP"
+                                and quantity is not None
+                            ):
+                                slices = self._twap_slices(
+                                    quantity.as_decimal(),
+                                    instrument.size_increment.as_decimal(),
+                                    self.ensemble_config.twap_slices,
+                                )
+                                if len(slices) > 1:
+                                    submit_qty = Quantity.from_str(
+                                        format(slices[0], f".{instrument.size_precision}f")
+                                    )
+                                    for idx, s in enumerate(slices[1:], start=2):
+                                        self.pending_twap.append(
+                                            {
+                                                "side": side,
+                                                "quantity": s,
+                                                "bracket": True,
+                                                "entry_order_type": entry_order_type,
+                                                "entry_price": entry_limit_price,
+                                                "sl_price": sl_price,
+                                                "tp_price": tp_price,
+                                                "done": idx,
+                                                "total": len(slices),
+                                            }
+                                        )
+                                    twap_tag = f"TWAP_PARENT_1/{len(slices)}_"
                             order_list = self.order_factory.bracket(
                                 instrument_id=self.instrument_id,
                                 order_side=side,
-                                quantity=quantity,
+                                quantity=submit_qty,
                                 entry_order_type=entry_order_type,
                                 entry_price=entry_limit_price,
                                 sl_trigger_price=sl_price,
@@ -410,7 +511,7 @@ class ExpertEnsembleStrategy(Strategy):
                             self.submit_order_list(order_list)
                             if record is not None:
                                 self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
-                            action = f"SUBMITTED_BRACKET_{entry_type}_{side.name}_{qty_str}"
+                            action = f"{twap_tag}SUBMITTED_BRACKET_{entry_type}_{side.name}_{qty_str}"
                     else:
                         entry_type = self.ensemble_config.entry_order_type
                         if entry_type == "LIMIT":
@@ -430,10 +531,57 @@ class ExpertEnsembleStrategy(Strategy):
                             order = None
                             action = f"REJECTED_UNKNOWN_ENTRY_TYPE_{entry_type}"
                         if order is not None:
-                            self.submit_order(order)
+                            submit_order = order
+                            twap_tag = ""
+                            if self.ensemble_config.execution_algo == "TWAP":
+                                slices = self._twap_slices(
+                                    quantity.as_decimal(),
+                                    instrument.size_increment.as_decimal(),
+                                    self.ensemble_config.twap_slices,
+                                )
+                                if len(slices) > 1:
+                                    if entry_type == "LIMIT":
+                                        submit_order = self.order_factory.limit(
+                                            instrument_id=self.instrument_id,
+                                            order_side=side,
+                                            quantity=Quantity.from_str(
+                                                format(slices[0], f".{instrument.size_precision}f")
+                                            ),
+                                            price=Price(float(bar.close.as_decimal()), instrument.price_precision),
+                                        )
+                                    else:
+                                        submit_order = self.order_factory.market(
+                                            instrument_id=self.instrument_id,
+                                            order_side=side,
+                                            quantity=Quantity.from_str(
+                                                format(slices[0], f".{instrument.size_precision}f")
+                                            ),
+                                        )
+                                    for idx, s in enumerate(slices[1:], start=2):
+                                        self.pending_twap.append(
+                                            {
+                                                "side": side,
+                                                "quantity": s,
+                                                "bracket": False,
+                                                "entry_order_type": (
+                                                    OrderType.LIMIT if entry_type == "LIMIT" else OrderType.MARKET
+                                                ),
+                                                "entry_price": (
+                                                    Price(float(bar.close.as_decimal()), instrument.price_precision)
+                                                    if entry_type == "LIMIT"
+                                                    else None
+                                                ),
+                                                "sl_price": None,
+                                                "tp_price": None,
+                                                "done": idx,
+                                                "total": len(slices),
+                                            }
+                                        )
+                                    twap_tag = f"TWAP_PARENT_1/{len(slices)}_"
+                            self.submit_order(submit_order)
                             if record is not None:
                                 self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.ADMITTED)
-                            action = f"SUBMITTED_{entry_type}_{side.name}_{qty_str}"
+                            action = f"{twap_tag}SUBMITTED_{entry_type}_{side.name}_{qty_str}"
             else:
                 action = "POSITION_OCCUPIED"
 

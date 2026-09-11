@@ -127,7 +127,7 @@ def test_bracket_orders_submitted_when_protection_configured():
 
     result = run_expert_strategy_backtest(candles, config)
     breakout_decision = result["decisions"][48]
-    assert "SUBMITTED_BRACKET_BUY" in breakout_decision["action"]
+    assert "SUBMITTED_BRACKET_MARKET_BUY" in breakout_decision["action"]
 
 
 def test_fail_closed_on_insufficient_quorum_submits_zero_orders():
