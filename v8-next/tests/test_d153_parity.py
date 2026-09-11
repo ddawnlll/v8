@@ -19,6 +19,7 @@ from v8_next.evaluation.benchmark_receipt import (
     BenchmarkReceipt,
     GateState,
     GateVector,
+    ScoreEvidence,
 )
 from v8_next.evaluation.parity import (
     ArtifactBinding,
@@ -29,6 +30,21 @@ from v8_next.evaluation.parity import (
     SemanticMapping,
     evaluate_parity,
 )
+from v8_next.evaluation.scoring import (
+    compute_capability_breakdown,
+    compute_capability_score,
+)
+
+#: MECHANICS ONLY: fixed determinants for the receipts in this file. The number the
+#: receipts publish is *derived* from them (#408): a hand-set score its own evidence
+#: cannot produce is no longer constructible, so a fixture that declares a number
+#: binds the evidence the number comes from.
+_MEASUREMENT: dict = dict(
+    pnl_series=[0.01, -0.02, 0.03, 0.005] * 3, total_bars=60, total_trades=6, abstain_rate=0.2
+)
+_MEASURED_EVIDENCE = ScoreEvidence.from_breakdown(compute_capability_breakdown(**_MEASUREMENT))
+_MEASURED_SCORE = compute_capability_score(**_MEASUREMENT)
+assert _MEASURED_SCORE is not None, "the mechanics fixture must measure a number"
 
 
 @pytest.fixture
@@ -237,10 +253,11 @@ def test_benchmark_receipt_and_ledger_cryptographic_chain(temp_ledger_dir: Path)
     r1 = BenchmarkReceipt.create(
         case_id="case_1",
         policy_id="pol_1",
-        capability_score=85.5,
+        capability_score=_MEASURED_SCORE,
         gates=gates,
         computed_at_timestamp_ns=1000,
         artifact_bindings=[b1],
+        score_evidence=_MEASURED_EVIDENCE,
     )
     ok, msg = r1.verify()
     assert ok is True
@@ -251,10 +268,11 @@ def test_benchmark_receipt_and_ledger_cryptographic_chain(temp_ledger_dir: Path)
     r2 = BenchmarkReceipt.create(
         case_id="case_2",
         policy_id="pol_1",
-        capability_score=90.0,
+        capability_score=_MEASURED_SCORE,
         gates=gates,
         computed_at_timestamp_ns=2000,
         artifact_bindings=[b1],
+        score_evidence=_MEASURED_EVIDENCE,
     )
     ledger.append(r2)
 

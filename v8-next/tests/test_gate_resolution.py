@@ -25,6 +25,7 @@ from v8_next.evaluation.benchmark_receipt import (
     GateState,
     GateVector,
     ReadinessStatus,
+    ScoreEvidence,
 )
 from v8_next.evaluation.claims import ClaimRegistry, StatutoryClaimClass
 from v8_next.evaluation.gate_resolution import (
@@ -41,6 +42,21 @@ from v8_next.evaluation.gate_resolution import (
     load_tape_candles,
 )
 from v8_next.evaluation.runner import BenchmarkCase, BenchmarkRunner
+from v8_next.evaluation.scoring import (
+    compute_capability_breakdown,
+    compute_capability_score,
+)
+
+#: MECHANICS ONLY: fixed determinants for the receipts in this file, so the number
+#: they publish is *derived* from the evidence they bind (#408). A hand-set score
+#: its own evidence cannot produce is no longer constructible -- these receipts exist
+#: to exercise the G9 claim authority, not to declare a capability of their own.
+_MEASUREMENT: dict = dict(
+    pnl_series=[0.01, -0.02, 0.03, 0.005] * 3, total_bars=60, total_trades=6, abstain_rate=0.2
+)
+_MEASURED_EVIDENCE = ScoreEvidence.from_breakdown(compute_capability_breakdown(**_MEASUREMENT))
+_MEASURED_SCORE = compute_capability_score(**_MEASUREMENT)
+assert _MEASURED_SCORE is not None, "the mechanics fixture must measure a number"
 
 
 @pytest.fixture
@@ -288,7 +304,9 @@ def test_g9_claim_registry_and_certificate_authority(tmp_path: Path):
     receipt = BenchmarkReceipt.create(
         case_id="BC-TEST-G9",
         policy_id="pol_test",
-        capability_score=75.0,
+        capability_score=_MEASURED_SCORE,
+        coverage_factor=_MEASURED_EVIDENCE.coverage_factor,
+        score_evidence=_MEASURED_EVIDENCE,
         gates=gates_ready,
         computed_at_timestamp_ns=1000,
     )
@@ -298,7 +316,7 @@ def test_g9_claim_registry_and_certificate_authority(tmp_path: Path):
         ledger=ledger,
         receipt_digest=receipt.receipt_digest,
         gates=gates_ready,
-        capability_score=75.0,
+        capability_score=_MEASURED_SCORE,
         output_dir=tmp_path,
         live_realization_verified=False,
     )
@@ -448,7 +466,9 @@ def test_claim_minting_refuses_an_unevaluated_blocking_gate(tmp_path: Path) -> N
     receipt = BenchmarkReceipt.create(
         case_id="BC-TEST-435",
         policy_id="pol_test",
-        capability_score=75.0,
+        capability_score=_MEASURED_SCORE,
+        coverage_factor=_MEASURED_EVIDENCE.coverage_factor,
+        score_evidence=_MEASURED_EVIDENCE,
         gates=gates,
         computed_at_timestamp_ns=1000,
     )
@@ -459,7 +479,7 @@ def test_claim_minting_refuses_an_unevaluated_blocking_gate(tmp_path: Path) -> N
         ledger=ledger,
         receipt_digest=receipt.receipt_digest,
         gates=gates,
-        capability_score=75.0,
+        capability_score=_MEASURED_SCORE,
         live_realization_verified=False,
     )
 

@@ -22,6 +22,7 @@ from v8_next.evaluation.benchmark_receipt import (
     BenchmarkReceipt,
     GateState,
     GateVector,
+    ScoreEvidence,
 )
 from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.gate_registry import (
@@ -44,6 +45,17 @@ from v8_next.evaluation.scoring import (
     dual_scoring,
 )
 from v8_next.evaluation.statistics_plan import CANONICAL_G5_BLOCK_SIZE, g5_plan
+
+#: MECHANICS ONLY: fixed determinants for the receipts in this file. The published
+#: number is *derived* from them (#408): a hand-set score its own evidence cannot
+#: produce is no longer constructible, so a fixture that declares a number binds the
+#: evidence the number comes from. No economic weight is claimed for these numbers.
+_MEASUREMENT: dict = dict(
+    pnl_series=[0.01, -0.02, 0.03, 0.005] * 3, total_bars=60, total_trades=6, abstain_rate=0.2
+)
+_MEASURED_EVIDENCE = ScoreEvidence.from_breakdown(compute_capability_breakdown(**_MEASUREMENT))
+_MEASURED_SCORE = compute_capability_score(**_MEASUREMENT)
+assert _MEASURED_SCORE is not None, "the mechanics fixture must measure a number"
 
 
 def _plan():
@@ -187,10 +199,11 @@ def _receipt(**overrides: object) -> BenchmarkReceipt:
     base = dict(
         case_id="NX08-CASE",
         policy_id="pol",
-        capability_score=42.0,
-        coverage_factor=0.5,
+        capability_score=_MEASURED_SCORE,
+        coverage_factor=_MEASURED_EVIDENCE.coverage_factor,
         gates=GateVector(),
         computed_at_timestamp_ns=1_000,
+        score_evidence=_MEASURED_EVIDENCE,
     )
     base.update(overrides)
     return BenchmarkReceipt.create(**base)  # type: ignore[arg-type]
@@ -228,7 +241,15 @@ def test_certificate_readiness_is_derived_from_the_formula_when_measured() -> No
         _receipt(), projection=_Projection(), minerva=_Minerva()
     )
     assert certificate.readiness_index is not None
-    expected = (42.0 / 100.0) * 0.5 * (80.0 / 100.0) * (50.0 / 100.0) * 100.0
+    # the same formula, on the coverage the receipt really measured and on the
+    # capability number its own bound evidence produced (#408)
+    expected = (
+        (_MEASURED_SCORE / 100.0)
+        * float(_MEASURED_EVIDENCE.coverage_factor)
+        * (80.0 / 100.0)
+        * (50.0 / 100.0)
+        * 100.0
+    )
     assert certificate.readiness_index == pytest.approx(round(expected, 1))
     assert certificate.missing_measurements == ()
     # upper bound comes from the same formula with capability at its ceiling

@@ -15,7 +15,7 @@ from typing import Any, Mapping
 
 import numpy as np
 
-from v8_next.evaluation.benchmark_receipt import GateState, GateVector
+from v8_next.evaluation.benchmark_receipt import GateState, GateVector, ScoreEvidence
 
 
 def canonical_json(payload: Any) -> str:
@@ -384,6 +384,74 @@ def _execution_fidelity(
     )
 
 
+#: Diagnostic bands per measurable domain (#408). One source of truth: the
+#: producer's own ``value * lo`` / ``value * hi`` and the recomputation of a
+#: published aggregate from a receipt's bound evidence must be the same floating
+#: point arithmetic in the same order, or a recomputed number would differ in its
+#: last bits from the published one -- and then "recomputable" would stop meaning
+#: "reproducible".
+DOMAIN_DIAGNOSTIC_BANDS: dict[CapabilityDomain, tuple[float, float]] = {
+    CapabilityDomain.ExecutionFidelity: (0.8, 1.2),
+    CapabilityDomain.OperationalSimplicity: (0.8, 1.2),
+    CapabilityDomain.DefeaterResistance: (0.7, 1.3),
+    CapabilityDomain.MicrostructureInvariance: (0.75, 1.25),
+}
+
+
+def bounded_domain_scores(
+    raw: Mapping[CapabilityDomain, tuple[float, int]],
+) -> dict[CapabilityDomain, BoundedScore]:
+    """``BoundedScore`` per measured domain: ``(value, sample_size)`` in, bands added.
+
+    Insertion order is the aggregate's own summation order (float addition is not
+    associative), so callers hand the domains over in the order the measurement
+    published them, exactly as the producer and the recomputation both do (#408).
+    """
+    return {
+        domain: BoundedScore(
+            value=value,
+            lower_diagnostic_band=value * DOMAIN_DIAGNOSTIC_BANDS[domain][0],
+            upper_diagnostic_band=value * DOMAIN_DIAGNOSTIC_BANDS[domain][1],
+            sample_size=samples,
+            effective_sample_size=float(samples),
+        )
+        for domain, (value, samples) in raw.items()
+    }
+
+
+def _score_evidence_document(
+    *,
+    total_bars: int,
+    total_trades: int,
+    abstain_rate: float,
+    coverage_factor: float | None,
+    aggregate_status: str,
+    domain_scores: Mapping[CapabilityDomain, BoundedScore] | None = None,
+) -> dict[str, Any]:
+    """The determinant record a receipt binds so its number can be recomputed (#408).
+
+    ``domain_values`` carries the *unrounded* per-domain values in the aggregate's
+    own summation order: the ``domains`` view beside it rounds them for reading, and
+    a rounded number cannot be the basis of a recomputation.
+    """
+    return {
+        "total_bars": total_bars,
+        "total_trades": total_trades,
+        "abstain_rate": abstain_rate,
+        "coverage_factor": coverage_factor,
+        "hard_invariants_passed": True,
+        "aggregate_status": aggregate_status,
+        "domain_values": (
+            []
+            if domain_scores is None
+            else [
+                [domain.value, bounded.value, bounded.sample_size]
+                for domain, bounded in domain_scores.items()
+            ]
+        ),
+    }
+
+
 def compute_capability_breakdown(
     pnl_series: list[float],
     total_bars: int,
@@ -439,6 +507,13 @@ def compute_capability_breakdown(
             "execution_fidelity_source": "NO_TRADES",
             "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
             "execution_fidelity_shortfall_bps": None,
+            "score_evidence": _score_evidence_document(
+                total_bars=total_bars,
+                total_trades=total_trades,
+                abstain_rate=abstain_rate,
+                coverage_factor=coverage_factor,
+                aggregate_status="MISSING_NO_TRADES",
+            ),
         }
     if coverage_factor is None:
         return {
@@ -451,6 +526,13 @@ def compute_capability_breakdown(
             "domain_measurement_statuses": [item.as_dict() for item in statuses],
             "execution_fidelity_source": "NO_ELIGIBLE_DOMAIN",
             "execution_fidelity_reference_bps": EXECUTION_FIDELITY_REFERENCE_BPS,
+            "score_evidence": _score_evidence_document(
+                total_bars=total_bars,
+                total_trades=total_trades,
+                abstain_rate=abstain_rate,
+                coverage_factor=None,
+                aggregate_status="MISSING_NO_ELIGIBLE_MEASUREMENT",
+            ),
         }
 
     arr = np.array(pnl_series, dtype=np.float64)
@@ -466,22 +548,13 @@ def compute_capability_breakdown(
     # A domain whose only statistic was degenerate publishes no score at all
     # (#439): it stays out of the aggregate instead of being scored on a number
     # that cannot discriminate, exactly like the other non-measured domains.
-    raw: dict[CapabilityDomain, tuple[float, float, float, int]] = {}
+    raw: dict[CapabilityDomain, tuple[float, int]] = {}
     if exec_val is not None:
-        raw[CapabilityDomain.ExecutionFidelity] = (exec_val, 0.8, 1.2, total_trades)
-    raw[CapabilityDomain.OperationalSimplicity] = (op_val, 0.8, 1.2, total_bars)
-    raw[CapabilityDomain.DefeaterResistance] = (def_val, 0.7, 1.3, total_trades)
-    raw[CapabilityDomain.MicrostructureInvariance] = (micro_val, 0.75, 1.25, total_bars)
-    domain_scores = {
-        domain: BoundedScore(
-            value=v,
-            lower_diagnostic_band=v * lo,
-            upper_diagnostic_band=v * hi,
-            sample_size=n,
-            effective_sample_size=float(n),
-        )
-        for domain, (v, lo, hi, n) in raw.items()
-    }
+        raw[CapabilityDomain.ExecutionFidelity] = (exec_val, total_trades)
+    raw[CapabilityDomain.OperationalSimplicity] = (op_val, total_bars)
+    raw[CapabilityDomain.DefeaterResistance] = (def_val, total_trades)
+    raw[CapabilityDomain.MicrostructureInvariance] = (micro_val, total_bars)
+    domain_scores = bounded_domain_scores(raw)
     score = calc.calculate_aggregate_with_coverage(
         domain_scores=domain_scores,
         coverage_factor=coverage_factor,
@@ -517,6 +590,17 @@ def compute_capability_breakdown(
         "execution_fidelity_shortfall_bps": (
             round(exec_shortfall_bps, 6) if exec_shortfall_bps is not None else None
         ),
+        #: #408. The determinants of the aggregate above, unrounded and in the order
+        #: the aggregate summed them: the record a receipt binds so that the number
+        #: it publishes is recomputable from the receipt alone.
+        "score_evidence": _score_evidence_document(
+            total_bars=total_bars,
+            total_trades=total_trades,
+            abstain_rate=abstain_rate,
+            coverage_factor=coverage_factor,
+            aggregate_status="MEASURED",
+            domain_scores=domain_scores,
+        ),
     }
 
 
@@ -543,6 +627,34 @@ def compute_capability_score(
     )
     aggregate = breakdown["aggregate"]
     return None if aggregate is None else float(aggregate)
+
+
+def recompute_capability_score(evidence: ScoreEvidence) -> float | None:
+    """The published number, recomputed from the evidence a receipt bound (#408).
+
+    ``None`` when the bound evidence declares no measured basis at all (a missing
+    measurement stays missing -- never a zero). Otherwise this is the producer's own
+    arithmetic, on the producer's own inputs, in the producer's own order, so a
+    number that follows from its evidence comes back bit-equal.
+    """
+    if evidence.aggregate_status != "MEASURED" or evidence.coverage_factor is None:
+        return None
+    raw: dict[CapabilityDomain, tuple[float, int]] = {}
+    for name, value, samples in evidence.domain_values:
+        try:
+            domain = CapabilityDomain(name)
+        except ValueError:
+            # an undeclared domain cannot contribute to the declared aggregate
+            return None
+        raw[domain] = (value, samples)
+    if not raw:
+        return None
+    score = CapabilityScoreCalculator.monograph_v1().calculate_aggregate_with_coverage(
+        domain_scores=bounded_domain_scores(raw),
+        coverage_factor=evidence.coverage_factor,
+        hard_invariants_passed=evidence.hard_invariants_passed,
+    )
+    return float(round(score, 1))
 
 
 #: Version tags for the two scorers kept side by side in one receipt (NX08.R5).

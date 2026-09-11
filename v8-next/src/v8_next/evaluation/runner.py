@@ -32,6 +32,7 @@ from v8_next.evaluation.benchmark_receipt import (
     BenchmarkReceipt,
     GateState,
     GateVector,
+    ScoreEvidence,
 )
 from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.claims import StatutoryClaimRecord
@@ -702,6 +703,10 @@ class BenchmarkRunner:
 
         # 4. Generate self-verifying BenchmarkReceipt
         computed_at_ns = candles[-1].end_ns if candles else 0
+        # #408: the determinants of the number above travel with it, so the
+        # published score is a function of the evidence the receipt binds and any
+        # consumer can recompute it from the receipt alone.
+        score_evidence = ScoreEvidence.from_breakdown(breakdown)
         receipt = BenchmarkReceipt.create(
             case_id=case.case_id,
             policy_id=case.policy_id,
@@ -712,6 +717,7 @@ class BenchmarkRunner:
             computed_at_timestamp_ns=computed_at_ns,
             artifact_bindings=bindings,
             input_binding=_input_binding,
+            score_evidence=score_evidence,
         )
 
         # 5. Append to append-only BenchmarkLedger
@@ -755,6 +761,7 @@ class BenchmarkRunner:
                         computed_at_timestamp_ns=computed_at_ns,
                         artifact_bindings=bindings,
                         input_binding=_input_binding,
+                        score_evidence=score_evidence,
                     )
                     # The post-G9 receipt is a NEW record: append it so the
                     # returned receipt is bound in the ledger (never orphaned).
