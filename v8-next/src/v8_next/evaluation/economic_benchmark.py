@@ -21,6 +21,7 @@ Conventions:
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import math
 import re
@@ -28,10 +29,10 @@ import subprocess
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-from typing import Any, Literal, Sequence
+from typing import Any, Literal, Sequence, get_args
 
 import numpy as np
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from v8_next.evaluation.statistics_plan import (
     StatisticsPlan,
@@ -86,6 +87,7 @@ VerdictState = Literal[
     "SUPPORTS_UNDERPERFORMANCE",
     "UNDERPOWERED",
     "UNSUPPORTED",
+    "ESTIMATOR_UNAVAILABLE",
     "HELPFUL_DESCRIPTIVE",
     "NOT_HELPFUL",
     "SIM_ONLY",
@@ -93,6 +95,113 @@ VerdictState = Literal[
     "UNRUN",
     "NOT_AUTHORIZED",
 ]
+
+#: The same vocabulary as a runtime set, so a published verdict string can be
+#: checked against the declared states instead of being trusted.
+VERDICT_STATES: frozenset[str] = frozenset(get_args(VerdictState))
+
+#: The one statistic state that means "the estimator never ran": a declared
+#: dependency is not importable by this interpreter (#440).
+ESTIMATOR_UNAVAILABLE: VerdictState = "ESTIMATOR_UNAVAILABLE"
+
+#: What one entry of the `statistics` block may say (#440). A closed set, and
+#: `ESTIMATOR_UNAVAILABLE` is deliberately not `UNDERPOWERED`/`UNSUPPORTED`:
+#: those two mean the estimator ran and its sample could not support an estimate,
+#: while `ESTIMATOR_UNAVAILABLE` means it never ran because a declared
+#: dependency is not importable by this interpreter. Collapsing the second into
+#: the first publishes an environment state as a measured statistical outcome.
+STATISTIC_STATES: frozenset[str] = frozenset(
+    {"COMPUTED", "UNDERPOWERED", "UNSUPPORTED", ESTIMATOR_UNAVAILABLE}
+)
+
+#: Optional statistics dependencies each estimator imports at call time (#440),
+#: in the order the estimator imports them. `scipy`/`arch` are declared only in
+#: `[project.optional-dependencies].research`, so a sync without that extra lands
+#: exactly here; `polars` is a core dependency and is probed with the same
+#: instrument so every estimator records its dependencies in one shape.
+ESTIMATOR_MODULES: dict[str, tuple[str, ...]] = {
+    "dsr": ("scipy",),
+    "pbo": ("scipy", "polars"),
+    "spa": ("scipy", "arch"),
+}
+
+#: How availability was measured, recorded in the receipt so the claim
+#: "this interpreter could import it" is attributable to one instrument.
+AVAILABILITY_PROBE = "importlib.util.find_spec"
+
+
+def module_available(name: str) -> bool:
+    """Can this interpreter import `name` at all? (#440)
+
+    Asked with `importlib.util.find_spec` BEFORE an estimator is called, so the
+    never-ran state is a measured environment fact. It is not inferred from a
+    caught `ImportError`: a missing module never has to be *called* to be known
+    missing, and an estimator that fails for its own reasons must not be
+    mistaken for one that was never provisioned. A blocked import finder raises
+    here, which is the same answer.
+    """
+    try:
+        return importlib.util.find_spec(name) is not None
+    except (ImportError, ValueError):
+        return False
+
+
+class EstimatorAvailability(BaseModel):
+    """Which statistics dependencies this interpreter can import (#440).
+
+    Published on the receipt beside `run.code.estimator_versions` (which names
+    what *is* installed) so a consumer can separate "not measured" from
+    "measured, underpowered" from machine-readable fields rather than from a
+    reason string.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    probe: str
+    checked: dict[str, bool]
+    unavailable: tuple[str, ...]
+    required_by: dict[str, tuple[str, ...]]
+
+    def for_estimator(self, estimator: str) -> tuple[str, ...]:
+        """The modules `estimator` needs that this interpreter cannot import."""
+        return tuple(
+            name
+            for name in self.required_by.get(estimator, ())
+            if not self.checked.get(name, False)
+        )
+
+
+def estimator_availability() -> EstimatorAvailability:
+    """Probe every statistics dependency the estimators import (#440).
+
+    Deterministic in a given interpreter: no wall clock, no ordering beyond the
+    declared `ESTIMATOR_MODULES`, nothing observed about a run's numbers.
+    """
+    required = sorted({name for names in ESTIMATOR_MODULES.values() for name in names})
+    checked = {name: module_available(name) for name in required}
+    return EstimatorAvailability(
+        probe=AVAILABILITY_PROBE,
+        checked=checked,
+        unavailable=tuple(name for name in required if not checked[name]),
+        required_by={key: tuple(names) for key, names in ESTIMATOR_MODULES.items()},
+    )
+
+
+def statistical_verdict_state(published: str) -> str:
+    """Closed-vocabulary state token of a published statistical verdict (#440).
+
+    The statistical verdict is the one published cell that may carry a payload
+    (`ESTIMATOR_UNAVAILABLE: scipy,arch`), because the state alone cannot say
+    *which* estimator was not measured. The token before the colon is always a
+    declared :data:`VerdictState`, so a consumer switches on it without parsing
+    prose.
+    """
+    return published.split(":", 1)[0].strip()
+
+
+def estimator_unavailable_verdict(names: Sequence[str]) -> str:
+    """`ESTIMATOR_UNAVAILABLE: scipy,arch` — the state, then what was missing."""
+    return f"{ESTIMATOR_UNAVAILABLE}: {','.join(names)}"
 
 # Preregistered inferential rules. Declared before any run and applied
 # mechanically: computation success alone never mints inferential support.
@@ -212,7 +321,11 @@ class EvidenceVerdicts(BaseModel):
     research_note: str
     economic: VerdictState
     economic_note: str
-    statistical: VerdictState
+    #: A declared `VerdictState`, plus the dependencies it could not measure when
+    #: the state is `ESTIMATOR_UNAVAILABLE` (`ESTIMATOR_UNAVAILABLE: scipy,arch`);
+    #: see :func:`statistical_verdict_state` (#440). The state alone cannot say
+    #: *which* estimator never ran, and a consumer must not have to read the note.
+    statistical: str
     statistical_note: str
     portfolio: VerdictState
     portfolio_note: str
@@ -220,6 +333,23 @@ class EvidenceVerdicts(BaseModel):
     execution_note: str
     capital: VerdictState
     capital_note: str
+
+    @field_validator("statistical")
+    @classmethod
+    def _statistical_state_is_declared(cls, value: str) -> str:
+        """The published statistical verdict leads with a declared state (#440).
+
+        The one cell that may carry a payload keeps its vocabulary closed: the
+        token before the colon is checked against `VERDICT_STATES`, so a
+        consumer can switch on it without parsing free text.
+        """
+        token = statistical_verdict_state(value)
+        if token not in VERDICT_STATES:
+            raise ValueError(
+                f"undeclared statistical verdict state {token!r}; "
+                f"declared: {sorted(VERDICT_STATES)}"
+            )
+        return value
 
 
 class EconomicReceipt(BaseModel):
@@ -242,6 +372,13 @@ class EconomicReceipt(BaseModel):
     #: commissions, fill signature). Empty when no execution telemetry was
     #: produced -- never populated with placeholder or assumed values.
     execution: dict[str, Any] = Field(default_factory=dict)
+    #: Which statistics dependencies this interpreter could import, probed before
+    #: any estimator was called (#440). Default is the probe itself, so every
+    #: receipt carries it beside `run.code.estimator_versions` -- the field that
+    #: names what is installed -- without a builder having to remember it.
+    estimator_availability: EstimatorAvailability = Field(
+        default_factory=estimator_availability
+    )
     claim_status: Literal["NO_ECONOMIC_CLAIM"] = "NO_ECONOMIC_CLAIM"
 
     def digest(self) -> str:
@@ -1788,24 +1925,36 @@ def run_statistics(
     dsr_names = sorted(n for n in losses if n != baseline_id)
     sufficiency = sample_sufficiency(int(stats["intervals_per_variant"]), plan.block_size)
     stats["sample_sufficiency"] = sufficiency
-    try:
-        dsr_plan = DSRPlan(
-            selected_variant=dsr_names[0],
-            registered_variants=tuple(dsr_names),
-            effective_independent_trials=plan.effective_independent_trials,
-            independence_basis=plan.independence_basis,
-        )
-        dsr_losses = {n: losses[n] for n in dsr_names}
-        stats["dsr"] = deflated_sharpe_diagnostic(
-            dsr_losses,
-            plan=dsr_plan,
-            frozen_ns=frozen,
-            evaluation_end_ns=eval_end,
-            decision_ns=decision,
-        )
-        stats["dsr"]["verdict"] = "COMPUTED"
-    except Exception as e:  # fail closed, keep reason
-        stats["dsr"] = {"verdict": "UNDERPOWERED", "reason": f"{type(e).__name__}: {e}"}
+    # #440: availability is probed BEFORE any estimator is called -- once, with
+    # the same instrument the receipt records in `estimator_availability`. An
+    # estimator whose dependency this interpreter cannot import is recorded as
+    # never run: it is not called, and its state is not inferred from a caught
+    # ImportError (which would conflate "could not be provisioned" with "ran and
+    # failed on its own inputs").
+    availability = estimator_availability()
+    unmeasured = {name: availability.for_estimator(name) for name in ESTIMATOR_MODULES}
+
+    if unmeasured["dsr"]:
+        stats["dsr"] = unmeasured_statistic("dsr", unmeasured["dsr"])
+    else:
+        try:
+            dsr_plan = DSRPlan(
+                selected_variant=dsr_names[0],
+                registered_variants=tuple(dsr_names),
+                effective_independent_trials=plan.effective_independent_trials,
+                independence_basis=plan.independence_basis,
+            )
+            dsr_losses = {n: losses[n] for n in dsr_names}
+            stats["dsr"] = deflated_sharpe_diagnostic(
+                dsr_losses,
+                plan=dsr_plan,
+                frozen_ns=frozen,
+                evaluation_end_ns=eval_end,
+                decision_ns=decision,
+            )
+            stats["dsr"]["verdict"] = "COMPUTED"
+        except Exception as e:  # fail closed, keep reason
+            stats["dsr"] = {"verdict": "UNDERPOWERED", "reason": f"{type(e).__name__}: {e}"}
 
     n_intervals = stats["intervals_per_variant"]
     partitions = (
@@ -1813,7 +1962,11 @@ def run_statistics(
         if n_intervals % plan.pbo_partitions == 0 and n_intervals >= 2 * plan.pbo_partitions
         else 0
     )
-    if partitions and len(dsr_names) >= 2:
+    if unmeasured["pbo"]:
+        # Availability first: an estimator that cannot run at all is not "too few
+        # intervals", and the interval count must not be published as its reason.
+        stats["pbo"] = unmeasured_statistic("pbo", unmeasured["pbo"])
+    elif partitions and len(dsr_names) >= 2:
         try:
             stats["pbo"] = pbo_diagnostic(
                 {n: losses[n] for n in dsr_names},
@@ -1834,26 +1987,39 @@ def run_statistics(
             "reason": f"interval count {n_intervals} does not admit even CSCV partitions>=8",
         }
 
-    try:
-        from v8_next.evaluation.inference import spa_diagnostic
+    if unmeasured["spa"]:
+        stats["spa"] = unmeasured_statistic("spa", unmeasured["spa"])
+    else:
+        try:
+            from v8_next.evaluation.inference import spa_diagnostic
 
-        variants = {n: losses[n] for n in dsr_names}
-        stats["spa"] = spa_diagnostic(
-            losses[baseline_id],
-            variants,
-            frozen_ns=frozen,
-            evaluation_end_ns=eval_end,
-            decision_ns=decision,
-            block_size=plan.block_size,
-            reps=plan.reps,
-            seed=plan.seed,
-        )
-        stats["spa"]["verdict"] = "COMPUTED"
-    except Exception as e:
-        stats["spa"] = {
-            "verdict": "UNSUPPORTED",
-            "reason": f"{type(e).__name__}: {e}",
-        }
+            variants = {n: losses[n] for n in dsr_names}
+            stats["spa"] = spa_diagnostic(
+                losses[baseline_id],
+                variants,
+                frozen_ns=frozen,
+                evaluation_end_ns=eval_end,
+                decision_ns=decision,
+                block_size=plan.block_size,
+                reps=plan.reps,
+                seed=plan.seed,
+            )
+            stats["spa"]["verdict"] = "COMPUTED"
+        except Exception as e:
+            stats["spa"] = {
+                "verdict": "UNSUPPORTED",
+                "reason": f"{type(e).__name__}: {e}",
+            }
+
+    # R1 (#440): every estimator entry carries a state from the declared set. The
+    # check is here so an unregistered state cannot reach a receipt by accident.
+    for key in ESTIMATOR_MODULES:
+        state = str((stats.get(key) or {}).get("verdict"))
+        if state not in STATISTIC_STATES:
+            raise ValueError(
+                f"statistics entry {key!r} published undeclared state {state!r}; "
+                f"declared: {sorted(STATISTIC_STATES)}"
+            )
     return stats
 
 
@@ -2015,7 +2181,9 @@ def positive_control_known_effect(
 #: that is an environment state, not a statistical result, and it must not be
 #: presented as "the estimator ran and produced nothing". `scipy`/`arch` are
 #: declared only in `[project.optional-dependencies].research`, so a fresh sync
-#: without the extra lands exactly here.
+#: without the extra lands exactly here. Since #440 this regex is only the
+#: *legacy* reading of that state, for receipts written before
+#: `ESTIMATOR_UNAVAILABLE` and its explicit `unavailable` list existed.
 _UNPROVISIONED_IMPORT_RE = re.compile(
     r"^(?:ModuleNotFoundError|ImportError): No module named '([^']+)'"
 )
@@ -2028,21 +2196,50 @@ UNPROVISIONED_REMEDY = (
 )
 
 
-def unprovisioned_estimators(stats: dict[str, Any]) -> tuple[str, ...]:
-    """Estimator modules this interpreter could not import, sorted and deduped.
+def unmeasured_statistic(estimator: str, missing: Sequence[str]) -> dict[str, Any]:
+    """The record for an estimator that was never called (#440).
 
-    Reads the fail-closed `reason` that `run_statistics` records for DSR/PBO/SPA.
-    An empty tuple means every estimator that failed, failed for a reason of its
-    own and the verdict string must not claim a provisioning problem.
+    Named by the state token and by the dependencies that are missing, in
+    machine-readable fields, so nothing about it reads as a measured statistical
+    outcome: `ESTIMATOR_UNAVAILABLE` is an environment fact about this
+    interpreter, and the entry carries no p-value, confidence or score that a
+    consumer could mistake for one.
     """
-    missing: set[str] = set()
-    for key in ("dsr", "pbo", "spa"):
+    return {
+        "verdict": ESTIMATOR_UNAVAILABLE,
+        "estimator": estimator,
+        "unavailable": list(missing),
+        "reason": (
+            f"estimator not provisioned: {', '.join(missing)} not importable by "
+            f"this interpreter ({UNPROVISIONED_REMEDY})"
+        ),
+    }
+
+
+def unprovisioned_estimators(stats: dict[str, Any]) -> tuple[str, ...]:
+    """Dependencies this interpreter could not import, in estimator order.
+
+    Reads the explicit `unavailable` list `run_statistics` records for an
+    unmeasured estimator (#440), falling back to the fail-closed import `reason`
+    for receipts written before that field existed. An empty tuple means every
+    estimator that failed, failed for a reason of its own and the verdict string
+    must not claim a provisioning problem.
+    """
+    missing: list[str] = []
+    for key in ESTIMATOR_MODULES:
         entry = stats.get(key)
-        reason = str(entry.get("reason", "")) if isinstance(entry, dict) else ""
-        match = _UNPROVISIONED_IMPORT_RE.match(reason.strip())
-        if match:
-            missing.add(match.group(1))
-    return tuple(sorted(missing))
+        if not isinstance(entry, dict):
+            continue
+        declared = entry.get("unavailable")
+        if isinstance(declared, (list, tuple)) and declared:
+            for name in declared:
+                if str(name) not in missing:
+                    missing.append(str(name))
+            continue
+        match = _UNPROVISIONED_IMPORT_RE.match(str(entry.get("reason", "")).strip())
+        if match and match.group(1) not in missing:
+            missing.append(match.group(1))
+    return tuple(missing)
 
 
 def unprovisioned_estimator_hint(stats: dict[str, Any]) -> str | None:
@@ -2097,19 +2294,39 @@ def build_verdicts(
     spa_v = str(spa.get("verdict", "UNSUPPORTED"))
     pbo_v = str(pbo.get("verdict", "UNDERPOWERED"))
     computed = f"DSR={dsr_v} PBO={pbo_v} SPA={spa_v}"
-    if dsr_v != "COMPUTED" and pbo_v != "COMPUTED" and spa_v != "COMPUTED":
-        statistical: VerdictState = (
+    unmeasured = unprovisioned_estimators(stats)
+    if unmeasured:
+        # #440: a dependency this interpreter cannot import is not a statistical
+        # result, and it is not a weak one either. The published verdict is the
+        # state that says so and names the dependencies; `UNDERPOWERED` and
+        # `UNSUPPORTED` stay reserved for estimators that actually ran, so the
+        # power vocabulary never reads as a measurement that did not happen.
+        statistical_state: VerdictState = ESTIMATOR_UNAVAILABLE
+        published_statistical = estimator_unavailable_verdict(unmeasured)
+        coverage = (
+            "no estimator output"
+            if dsr_v != "COMPUTED" and pbo_v != "COMPUTED" and spa_v != "COMPUTED"
+            else "partial estimator coverage"
+        )
+        # The per-estimator states are not echoed here: for a receipt written
+        # before #440 they still carry the power vocabulary, and the note must
+        # never publish a measurement word for an estimator that never ran. The
+        # states themselves stay in the statistics block, where they are fields.
+        stat_note = (
+            f"{coverage}: estimator dependencies not provisioned: "
+            f"{', '.join(unmeasured)} ({UNPROVISIONED_REMEDY}) — never measured, "
+            "so no statistical outcome is published"
+        )
+    elif dsr_v != "COMPUTED" and pbo_v != "COMPUTED" and spa_v != "COMPUTED":
+        # Every estimator ran and failed on its own inputs: this is the path
+        # that already published a power verdict, and it keeps doing so.
+        statistical_state = (
             "UNSUPPORTED"
             if spa_v == "UNSUPPORTED" or dsr_v == "UNSUPPORTED"
             else "UNDERPOWERED"
         )
+        published_statistical = statistical_state
         stat_note = f"no estimator output: {computed}"
-        hint = unprovisioned_estimator_hint(stats)
-        if hint:
-            # Fail-closed state, named: a missing optional dependency is not a
-            # statistical result and must not read as one. The verdict word and
-            # the claim boundary do not move.
-            stat_note = f"{stat_note}; {hint}"
     else:
         # Preregistered rules, applied mechanically. Computation alone mints nothing.
         spa_p = None
@@ -2141,17 +2358,18 @@ def build_verdicts(
             ci_lo is not None and ci_hi is not None and ci_hi < 0
         )
         if edge_hits:
-            statistical = "SUPPORTS_EDGE"
+            statistical_state = "SUPPORTS_EDGE"
             stat_note = "fired: " + "; ".join(edge_hits)
         elif under_hit:
-            statistical = "SUPPORTS_UNDERPERFORMANCE"
+            statistical_state = "SUPPORTS_UNDERPERFORMANCE"
             assert ci_lo is not None and ci_hi is not None
             stat_note = (
                 f"fired: EXCESS_CI_RULE(excess 95% CI [{ci_lo:.5f},{ci_hi:.5f}]<0)"
             )
         else:
-            statistical = "INCONCLUSIVE"
+            statistical_state = "INCONCLUSIVE"
             stat_note = f"computed but no preregistered rule fired: {computed}"
+        published_statistical = statistical_state
     inc = mix.get("incremental_net")
     if inc is None:
         portfolio: VerdictState = "INCONCLUSIVE"
@@ -2182,7 +2400,7 @@ def build_verdicts(
         research_note=chrono_note,
         economic=economic,
         economic_note=eco_note,
-        statistical=statistical,
+        statistical=published_statistical,
         statistical_note=stat_note,
         portfolio=portfolio,
         portfolio_note=pf_note,
@@ -2249,6 +2467,20 @@ def excess_ci_cell(m: MetricSet) -> str:
 
 def render_report(receipt: EconomicReceipt) -> str:
     r = receipt
+    # #440: only when something is actually missing, so a fully provisioned run's
+    # report is unchanged. When it is, the report says what the `statistical`
+    # verdict above is resting on instead of leaving the reader to infer it.
+    availability_lines: list[str] = []
+    if r.estimator_availability.unavailable:
+        availability_lines = [
+            "",
+            "Estimator availability (probed with "
+            f"`{r.estimator_availability.probe}` before any estimator was "
+            "called): not importable by this interpreter: "
+            f"{', '.join(r.estimator_availability.unavailable)}. The `statistical` "
+            "verdict above names those dependencies and is a fail-closed "
+            "environment state, not a measured statistical outcome.",
+        ]
     lines = [
         "# Economic Benchmark Report (NO_ECONOMIC_CLAIM)",
         "",
@@ -2271,6 +2503,7 @@ def render_report(receipt: EconomicReceipt) -> str:
         f"| portfolio | {r.verdicts.portfolio} | {r.verdicts.portfolio_note} |",
         f"| execution | {r.verdicts.execution} | {r.verdicts.execution_note} |",
         f"| capital | {r.verdicts.capital} | {r.verdicts.capital_note} |",
+        *availability_lines,
         "",
         "## Metrics (cost-adjusted, shared basis)",
         "",
