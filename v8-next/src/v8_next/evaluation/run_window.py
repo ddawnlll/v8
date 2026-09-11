@@ -11,7 +11,11 @@ discipline:
 
 * **A bar-count shortcut is a smoke run.** ``--bars`` may only describe a
   ``smoke`` window; ``fold``/``benchmark`` profiles must be bounded by explicit
-  UTC instants. A smoke run is liveness evidence and is never economic evidence.
+  UTC instants. A smoke run is liveness evidence and is never economic evidence,
+  so it mints no capability score: the window's evidence class
+  (:attr:`WindowSpec.evidence_class`) travels with the run and into the receipt,
+  so a ledger number can never be read apart from the class that produced it
+  (#444).
 * **A completed window is not re-executed.** The window manifest is written
   atomically and a ``COMPLETED`` key refuses re-execution, so a resume can never
   append a second ledger entry or a second cash flow. A ``RUNNING`` manifest is
@@ -133,6 +137,17 @@ class WindowSpec:
     def proves_economic_evidence(self) -> bool:
         return execution_profile(self.profile).economic_evidence
 
+    @property
+    def evidence_class(self) -> str:
+        """What this window is allowed to prove, named once and carried everywhere.
+
+        A profile that carries economic evidence is named after itself; a profile
+        that does not (:data:`EXECUTION_PROFILES` ``smoke``) is named ``smoke``.
+        The class is derived from the profile spec, never from a caller flag, so a
+        bar-count window cannot describe itself as a benchmark (#444).
+        """
+        return self.profile if self.proves_economic_evidence else "smoke"
+
     def as_dict(self) -> dict[str, Any]:
         return {
             "tape_path": self.tape_path,
@@ -145,6 +160,7 @@ class WindowSpec:
             "profile_spec": execution_profile(self.profile).as_dict(),
             "is_smoke": self.is_smoke,
             "economic_evidence": self.proves_economic_evidence,
+            "evidence_class": self.evidence_class,
         }
 
     def label(self) -> str:

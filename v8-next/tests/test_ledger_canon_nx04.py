@@ -7,8 +7,8 @@ Evidence classes:
   computed by the historical producer revisions of that era, so they are
   independent of this tree's canon table. The fixture files are read-only inputs.
 * **mechanics** — single-field tamper, unknown version, unproven canon shape,
-  chain-vs-artifact separation, predecessor tamper, and the v4 -> v5 continuity
-  of newly written receipts.
+  chain-vs-artifact separation, predecessor tamper, and the v5 -> v6 continuity
+  of newly written receipts (the window-evidence field, #444).
 * **evaluative** — the whole real ledger verifies and its bytes are unchanged by
   verification (read-only proof). Skips when the ledger is absent.
 """
@@ -164,16 +164,30 @@ def test_sequence_gap_is_reported(tmp_path: Path) -> None:
 
 
 def test_new_writes_register_a_version_without_moving_old_digests(tmp_path: Path) -> None:
-    """v5 is the registered write version; its layout is v4's, and history stays put."""
+    """v6 is the registered write version; history stays put.
+
+    v6 is v5's layout plus exactly one trailing field (the evidence class of the
+    window that produced the receipt, #444), so every stored v2-v5 record keeps
+    its original bytes, digest and parent hash.
+    """
     receipt = _receipt(tmp_path)
     assert receipt.digest_version == RECEIPT_DIGEST_VERSION
-    assert RECEIPT_DIGEST_VERSION == "v8.5-digest-v5"
-    assert RECEIPT_CANON_TABLE["v8.5-digest-v5"].economic_pair == (
-        RECEIPT_CANON_TABLE["v8.5-digest-v4"].economic_pair
+    assert RECEIPT_DIGEST_VERSION == "v8.5-digest-v6"
+    assert RECEIPT_CANON_TABLE["v8.5-digest-v6"].economic_pair == (
+        RECEIPT_CANON_TABLE["v8.5-digest-v5"].economic_pair
     )
-    assert RECEIPT_CANON_TABLE["v8.5-digest-v5"].input_binding == (
-        RECEIPT_CANON_TABLE["v8.5-digest-v4"].input_binding
+    assert RECEIPT_CANON_TABLE["v8.5-digest-v6"].input_binding == (
+        RECEIPT_CANON_TABLE["v8.5-digest-v5"].input_binding
     )
+    # the field exists only from v6 on: no historical version grew one
+    for version in (
+        "v8.5-digest-v2",
+        "v8.5-digest-v3",
+        "v8.5-digest-v4",
+        "v8.5-digest-v5",
+    ):
+        assert RECEIPT_CANON_TABLE[version].window_evidence == "absent"
+    assert RECEIPT_CANON_TABLE["v8.5-digest-v6"].window_evidence == "always_present"
 
     def canon_for(version: str) -> list:
         canon, refusal = build_canon_payload(
@@ -188,17 +202,18 @@ def test_new_writes_register_a_version_without_moving_old_digests(tmp_path: Path
             economic_evidence_digest=receipt.economic_evidence_digest,
             economic_receipt_path=receipt.economic_receipt_path,
             input_binding=receipt.input_binding,
+            window_evidence=receipt.window_evidence,
         )
         assert refusal is None
         assert canon is not None
         return canon
 
-    legacy = canon_for("v8.5-digest-v4")
+    legacy = canon_for("v8.5-digest-v5")
     current = canon_for(RECEIPT_DIGEST_VERSION)
-    # same layout: the only difference is the version marker itself
-    assert len(legacy) == len(current)
-    assert legacy[1] == "v8.5-digest-v4" and current[1] == "v8.5-digest-v5"
-    assert legacy[:1] == current[:1] and legacy[2:] == current[2:]
+    # one field more than v5, and nothing else moved
+    assert len(current) == len(legacy) + 1
+    assert legacy[1] == "v8.5-digest-v5" and current[1] == "v8.5-digest-v6"
+    assert legacy[:1] == current[:1] and legacy[2:] == current[2 : len(legacy)]
 
     # history is never rewritten: every stored record keeps its own digest
     for version in GOLDEN_VERSIONS:
