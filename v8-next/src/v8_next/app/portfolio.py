@@ -476,6 +476,13 @@ def main(argv: list[str] | None = None) -> int:
             list(c["equity"]), list(c["exposure"]), float(c["turnover"]),
             float(c["commission"]), c["funding"], str(c["cost_basis"]), primary_eq,
             int(c["n_trades"]), raw_count(name),
+            # #445: the measured closed-loop residual, its terms and its
+            # tolerance travel INTO the receipt. A curve that reconciled nothing
+            # of its own (the analytic legs) carries none and publishes none:
+            # `None` in, `None` out, never an empty block reading as a zero.
+            cost_reconciliation=eb.published_cost_reconciliation(
+                c.get("cost_reconciliation"), cost_basis=str(c["cost_basis"])
+            ),
         )
         for name, c in curves.items()
     }
