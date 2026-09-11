@@ -12,13 +12,13 @@ which plays the role of v8-core's ``authority::Authority`` triple.
 """
 
 from v8_next.audit.authority import (
-    AuthorityAuditReport,
     AuthorityAuditor,
+    AuthorityAuditReport,
     ConstitutionalViolation,
 )
 from v8_next.audit.cashflow import CashflowAuditor, CashflowConservationReport
 from v8_next.audit.independence import DualKeyVerificationResult, IndependenceAuditor
-from v8_next.audit.lineage import LineageAuditReport, LineageAuditor
+from v8_next.audit.lineage import LineageAuditor, LineageAuditReport
 from v8_next.audit.reconciliation import ReconciliationAuditor
 
 __all__ = [
