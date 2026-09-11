@@ -34,6 +34,19 @@ RECEIPT_DIGEST_VERSION = "v8.5-digest-v7"
 #: class is what says whether the run was allowed to mint it.
 NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE = "NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE"
 
+#: #448. The class a receipt carries when it declares no window evidence record at
+#: all. Records written before the field existed (``v2``-``v5``), and receipts whose
+#: caller declared no window, cannot be shown to be evidential: the class is named as
+#: *undeclared* rather than silently assumed to be evidential. A number read off such
+#: an entry is refused by this name, not published.
+EVIDENCE_CLASS_UNDECLARED = "EVIDENCE_CLASS_UNDECLARED"
+
+#: #448. Named refusal for a ledger read that has no evidential entry to publish from:
+#: nothing in the ledger declares the class a capability score must have been minted
+#: under, so the reader refuses by name instead of publishing the newest entry's
+#: number. The refusal quotes the entry and the class it would otherwise have taken.
+NO_EVIDENTIAL_LEDGER_ENTRY = "NO_EVIDENTIAL_LEDGER_ENTRY"
+
 #: #408. Named refusals for a published capability score that is not a function of
 #: the evidence its own receipt binds. The number is the claim; the bound evidence
 #: is what has to carry it, so a number nobody can recompute is not a measurement
@@ -797,6 +810,60 @@ class BenchmarkReceipt(BaseModel):
             f"economic evidence, so it may not mint capability_score={self.capability_score}"
         )
 
+    def evidence_class(self) -> str:
+        """The evidence class this receipt declares, named (#448).
+
+        ``EVIDENCE_CLASS_UNDECLARED`` for a receipt that carries no window evidence
+        record: an entry written before the class existed cannot be shown to be
+        evidential, so it is named as undeclared instead of being assumed to be one.
+        """
+        evidence = self.window_evidence
+        return EVIDENCE_CLASS_UNDECLARED if evidence is None else evidence.evidence_class
+
+    def declares_evidential_window(self) -> bool:
+        """Whether this receipt's *own* declaration admits a published capability score.
+
+        One source of truth for the reader rule (#448): the class a score must have been
+        minted under is the one the receipt itself carries, never a caller's flag and
+        never a default.
+        """
+        evidence = self.window_evidence
+        return evidence is not None and evidence.economic_evidence
+
+    def score_publication_refusal_reason(self) -> str | None:
+        """Named reason this receipt's number may not be *published*; ``None`` when it may.
+
+        Distinct from :meth:`window_refusal_reason` (#444), which adjudicates whether the
+        receipt *verifies*: a pre-v6 record is not a tamper, it simply never declared a
+        class, and its digest still certifies under its own version. What it cannot do is
+        have its number read as a capability score, because nothing in the record says the
+        window that produced it was allowed to mint one. Three named shapes:
+
+        * the receipt declares no window class at all (``EVIDENCE_CLASS_UNDECLARED``);
+        * the declared class proves no economic evidence
+          (``NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE``, the same name #444 refuses with);
+        * the receipt publishes no number -- there is nothing to withhold, so no refusal.
+        """
+        if self.capability_score is None:
+            return None
+        evidence = self.window_evidence
+        if evidence is None:
+            return (
+                f"{EVIDENCE_CLASS_UNDECLARED}: receipt {self.receipt_digest} "
+                f"(digest_version={self.digest_version}) publishes a capability score and "
+                "declares no window evidence class; a capability score is published only from "
+                "an entry that declares window_evidence.economic_evidence=true, so the stored "
+                "number is refused and is not repeated here"
+            )
+        if not evidence.economic_evidence:
+            return (
+                f"{NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE}: receipt {self.receipt_digest} was "
+                f"minted by a {evidence.evidence_class!r} window "
+                f"(profile={evidence.profile!r}) that proves no economic evidence; its recorded "
+                "capability score is refused and is not published"
+            )
+        return None
+
     def capability_score_refusal_reason(self) -> str | None:
         """Named refusal when the number does not follow from the bound evidence (#408).
 
@@ -940,6 +1007,98 @@ class LedgerEntry(BaseModel):
 
 
 @dataclass(frozen=True)
+class Publication:
+    """What a latest-benchmark reader may publish, and the class it read (#448).
+
+    ``entry`` is the most recently appended entry whose receipt declares an evidential
+    window class; ``None`` when the ledger holds no such entry. ``latest_entry`` is
+    exactly what the previous rule took (the newest appended entry) and is kept only so
+    the refusal can name what it refused: its sequence, its ``entry_hash`` and its
+    class. Order plays no part beyond "most recent evidential": an evidential entry
+    appended before a non-evidential one is still the one selected, so a later smoke
+    run can never displace the measurement it followed.
+
+    ``refusal_reason`` is empty when a score may be published, and otherwise starts
+    with :data:`NO_EVIDENTIAL_LEDGER_ENTRY`.
+    """
+
+    entry: LedgerEntry | None
+    latest_entry: LedgerEntry | None
+    refusal_reason: str = ""
+
+    @property
+    def publishes_capability_score(self) -> bool:
+        """Whether this read has an evidential entry to publish a number from."""
+        return self.entry is not None and not self.refusal_reason
+
+    @property
+    def entry_hash(self) -> str:
+        """Identity of the entry this read selected (``""`` when it selected none)."""
+        return self.entry.entry_hash if self.entry is not None else ""
+
+    @property
+    def sequence_number(self) -> int | None:
+        return self.entry.sequence_number if self.entry is not None else None
+
+    @property
+    def evidence_class(self) -> str:
+        """The class of the entry in hand -- the selected one, else the refused newest."""
+        read = self.entry if self.entry is not None else self.latest_entry
+        return EVIDENCE_CLASS_UNDECLARED if read is None else read.receipt.evidence_class()
+
+    @property
+    def capability_score(self) -> float | None:
+        """The number this read publishes; ``None`` when it refuses or holds no number."""
+        if not self.publishes_capability_score:
+            return None
+        assert self.entry is not None
+        return self.entry.receipt.capability_score
+
+    def as_dict(self) -> dict[str, Any]:
+        """The read as data, for a report that has to name what it used."""
+        newest = self.latest_entry
+        return {
+            "publishes_capability_score": self.publishes_capability_score,
+            "evidence_class": self.evidence_class,
+            "capability_score": self.capability_score,
+            "entry_hash": self.entry_hash,
+            "sequence_number": self.sequence_number,
+            #: what the newest appended entry is, whether or not it was selected
+            "latest_entry_hash": "" if newest is None else newest.entry_hash,
+            "latest_sequence_number": None if newest is None else newest.sequence_number,
+            "latest_evidence_class": (
+                EVIDENCE_CLASS_UNDECLARED if newest is None else newest.receipt.evidence_class()
+            ),
+            "latest_case_id": None if newest is None else newest.receipt.case_id,
+            "latest_policy_id": None if newest is None else newest.receipt.policy_id,
+            "latest_recorded_capability_score": (
+                None if newest is None else newest.receipt.capability_score
+            ),
+            "refusal_reason": self.refusal_reason,
+        }
+
+    def describe(self) -> str:
+        """One line naming the entry this read used and the class of the one it read."""
+        if self.entry is not None:
+            receipt = self.entry.receipt
+            return (
+                f"evidence class: {self.evidence_class}  entry: seq "
+                f"{self.entry.sequence_number} {self.entry.entry_hash} "
+                f"(case={receipt.case_id} policy={receipt.policy_id} "
+                f"digest_version={receipt.digest_version})"
+            )
+        newest = self.latest_entry
+        if newest is None:
+            return f"evidence class: {self.evidence_class}  entry: none (ledger empty)"
+        receipt = newest.receipt
+        return (
+            f"evidence class: {self.evidence_class} (newest entry, refused)  entry: seq "
+            f"{newest.sequence_number} {newest.entry_hash} (case={receipt.case_id} "
+            f"policy={receipt.policy_id} digest_version={receipt.digest_version})"
+        )
+
+
+@dataclass(frozen=True)
 class EntryVerification:
     """Per-entry verdict with the three questions kept apart (NX04.R4).
 
@@ -1060,6 +1219,55 @@ class BenchmarkLedger:
         entry = LedgerEntry.create(seq, parent_hash, receipt)
         self._entries.append(entry)
         return entry
+
+    def latest_evidential_entry(self) -> LedgerEntry | None:
+        """The most recently appended entry whose receipt declares an evidential window.
+
+        #448: the rule is the receipt's own declaration, never append order. Entries
+        that declare no class (pre-``v6`` records, or receipts with no window) and
+        entries whose class proves no economic evidence are skipped over; the first
+        evidential one found from the end is the entry a reader may publish from.
+        """
+        for entry in reversed(self._entries):
+            if entry.receipt.declares_evidential_window():
+                return entry
+        return None
+
+    def publication(self) -> Publication:
+        """The entry a latest-benchmark reader may publish from, or the named refusal.
+
+        #448: the ledger's *newest* entry is not the publication. A capability score and
+        a gate vector are published only from an entry whose receipt declares an
+        evidential window class; with no such entry the reader refuses by name -- quoting
+        the entry it refused and the class that entry carries -- instead of publishing a
+        number nothing stands behind. There is no fallback and no default class.
+        """
+        newest = self._entries[-1] if self._entries else None
+        selected = self.latest_evidential_entry()
+        if selected is not None:
+            return Publication(entry=selected, latest_entry=newest)
+        if newest is None:
+            return Publication(
+                entry=None,
+                latest_entry=None,
+                refusal_reason=(
+                    f"{NO_EVIDENTIAL_LEDGER_ENTRY}: the ledger holds no entries, so no "
+                    "entry declares a window evidence class"
+                ),
+            )
+        receipt = newest.receipt
+        return Publication(
+            entry=None,
+            latest_entry=newest,
+            refusal_reason=(
+                f"{NO_EVIDENTIAL_LEDGER_ENTRY}: no ledger entry declares an evidential "
+                f"window class (window_evidence.economic_evidence=true); the newest entry "
+                f"seq {newest.sequence_number} entry_hash={newest.entry_hash} carries class "
+                f"{receipt.evidence_class()} (case={receipt.case_id} "
+                f"policy={receipt.policy_id} digest_version={receipt.digest_version}) and its "
+                "recorded capability score is refused, not published"
+            ),
+        )
 
     def verify_report(self) -> LedgerVerificationReport:
         """Verify the ledger in full, with the three claims kept apart (NX04.R4).

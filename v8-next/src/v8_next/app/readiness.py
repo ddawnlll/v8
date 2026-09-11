@@ -22,6 +22,11 @@ import json
 from pathlib import Path
 from typing import Any
 
+from v8_next.evaluation.benchmark_receipt import (
+    EVIDENCE_CLASS_UNDECLARED,
+    NO_EVIDENTIAL_LEDGER_ENTRY,
+)
+
 #: declared risk limits for the paper-trade pillar (breach => risk factor 0)
 RISK_LIMITS = {
     "max_drawdown": -0.25,
@@ -55,13 +60,77 @@ def _load(path: Path) -> dict[str, Any] | None:
         return None
 
 
+def _ledger_read_line(publication: Any | None, receipt: Any | None) -> str:
+    """One line naming the entry the audit read and the class it carries (#448)."""
+    if publication is not None:
+        return str(publication.describe())
+    if receipt is None:
+        return "no ledger receipt read"
+    evidence_class = (
+        receipt.evidence_class()
+        if hasattr(receipt, "evidence_class")
+        else EVIDENCE_CLASS_UNDECLARED
+    )
+    digest = getattr(receipt, "receipt_digest", "")
+    version = getattr(receipt, "digest_version", "")
+    return (
+        f"evidence class: {evidence_class}  receipt: {digest} (digest_version={version}) "
+        "[no ledger read behind this call]"
+    )
+
+
+def _vector_publication_refusal(publication: Any | None, receipt: Any | None) -> str:
+    """Named reason the read entry's gate vector may not be published (#448).
+
+    Empty when the entry declares an evidential window class. A receipt that declares no
+    class, or one that proves no economic evidence, contributes a named MISSING factor
+    instead of a PASS-shaped vector: a smoke/liveness vector is not a measurement of the
+    gates, and #444's rule for the number applies to the vector that travels with it.
+    """
+    if publication is not None:
+        return str(getattr(publication, "refusal_reason", "") or "")
+    if receipt is None:
+        return ""
+    declares = getattr(receipt, "declares_evidential_window", None)
+    if declares is None or declares():
+        return ""
+    evidence_class = (
+        receipt.evidence_class()
+        if hasattr(receipt, "evidence_class")
+        else EVIDENCE_CLASS_UNDECLARED
+    )
+    return (
+        f"{NO_EVIDENTIAL_LEDGER_ENTRY}: the gate vector is published only from an entry that "
+        f"declares an evidential window class (window_evidence.economic_evidence=true); the "
+        f"entry read carries class {evidence_class} "
+        f"(digest_version={getattr(receipt, 'digest_version', '')}), so its vector is not "
+        "published"
+    )
+
+
 #: the readiness audit resolves the battery on a real window; when that artifact is present
 #: it is the better source than a ledger entry whose gate vector was never resolved
 GATE_AUDIT_REL = "docs/evidence/v87/READINESS/readiness_audit.json"
 
 
-def gate_factor(receipt: Any | None, repo_root: Path | None = None) -> dict[str, Any]:
-    """PASS gates / 10, from the resolved battery when one exists, else from the receipt."""
+def gate_factor(
+    receipt: Any | None,
+    repo_root: Path | None = None,
+    *,
+    publication: Any | None = None,
+) -> dict[str, Any]:
+    """PASS gates / 10, from the resolved battery when one exists, else from the receipt.
+
+    #448: the receipt leg publishes a factor only from an entry that declares an
+    evidential window class. A receipt that declares no class -- or one whose class proves
+    no economic evidence -- is named, and its vector contributes a MISSING/0.0 factor
+    rather than a PASS-shaped one. The resolved-battery leg is untouched: it is its own
+    measurement, taken on its own window by its own producer, and it names that source.
+    Either way the audit reports which ledger entry it read and the class that entry
+    carries, so the factor is never read apart from the class it came from.
+    """
+    refusal = _vector_publication_refusal(publication, receipt)
+    ledger_read = _ledger_read_line(publication, receipt)
     resolved: dict[str, Any] | None = None
     if repo_root is not None:
         audit_artifact = _load(repo_root / GATE_AUDIT_REL)
@@ -78,11 +147,35 @@ def gate_factor(receipt: Any | None, repo_root: Path | None = None) -> dict[str,
                     "source": GATE_AUDIT_REL,
                     "verdict": coverage.get("readiness_status"),
                     "window": (audit_artifact.get("window") or {}).get("start_utc"),
+                    "ledger_read": ledger_read,
+                    "ledger_publication": _publication_dict(publication),
                 }
     if resolved is not None:
         return resolved
     if receipt is None:
-        return {"factor": 0.0, "passed": 0, "required": 10, "states": {}, "status": "MISSING"}
+        return {
+            "factor": 0.0,
+            "passed": 0,
+            "required": 10,
+            "states": {},
+            "status": "MISSING",
+            "ledger_read": ledger_read,
+            "ledger_publication": _publication_dict(publication),
+        }
+    if refusal:
+        # the vector is not published: a non-evidential (or class-undeclared) receipt
+        # carries no measurement of the gates, so nothing is counted from it
+        return {
+            "factor": 0.0,
+            "passed": 0,
+            "required": 10,
+            "states": {},
+            "status": "MISSING",
+            "source": "ledger receipt (refused: no evidential window class)",
+            "refusal": refusal,
+            "ledger_read": ledger_read,
+            "ledger_publication": _publication_dict(publication),
+        }
     gates = receipt.gates
     fields = list(gates.__class__.model_fields)
     states = {name: getattr(gates, name).name for name in fields}
@@ -94,7 +187,18 @@ def gate_factor(receipt: Any | None, repo_root: Path | None = None) -> dict[str,
         "states": states,
         "status": "MEASURED",
         "source": "ledger receipt (gate vector as recorded)",
+        "refusal": "",
+        "ledger_read": ledger_read,
+        "ledger_publication": _publication_dict(publication),
     }
+
+
+def _publication_dict(publication: Any | None) -> dict[str, Any] | None:
+    """The ledger read as data, when the caller supplied one (#448)."""
+    if publication is None or not hasattr(publication, "as_dict"):
+        return None
+    data = publication.as_dict()
+    return dict(data) if isinstance(data, dict) else None
 
 
 def pillar_factor(repo_root: Path) -> dict[str, Any]:
@@ -216,9 +320,15 @@ REGRESSION_TOLERANCES = {
 BASELINE_REL = "docs/evidence/v87-r3/BASELINE/readiness_baseline.json"
 
 
-def snapshot(repo_root: Path, ledger_path: Path, latest_receipt: Any | None) -> dict[str, Any]:
+def snapshot(
+    repo_root: Path,
+    ledger_path: Path,
+    latest_receipt: Any | None,
+    *,
+    publication: Any | None = None,
+) -> dict[str, Any]:
     """The comparable state of a run: score, factors and the paper-trade metrics."""
-    report = audit(repo_root, ledger_path, latest_receipt)
+    report = audit(repo_root, ledger_path, latest_receipt, publication=publication)
     paper = _load(repo_root / PILLAR_ARTIFACTS["P2_paper_trade_4y"][2]) or {}
     per_policy = {
         name: {
@@ -300,8 +410,14 @@ def write_scenario_report(repo_root: Path, out_rel: str | None = None) -> Path:
     return target
 
 
-def audit(repo_root: Path, ledger_path: Path, latest_receipt: Any | None) -> dict[str, Any]:
-    gates = gate_factor(latest_receipt, repo_root)
+def audit(
+    repo_root: Path,
+    ledger_path: Path,
+    latest_receipt: Any | None,
+    *,
+    publication: Any | None = None,
+) -> dict[str, Any]:
+    gates = gate_factor(latest_receipt, repo_root, publication=publication)
     pillars = pillar_factor(repo_root)
     risk = risk_factor(repo_root, PILLAR_ARTIFACTS["P2_paper_trade_4y"])
     target = target_factor(repo_root)
@@ -335,6 +451,10 @@ def audit(repo_root: Path, ledger_path: Path, latest_receipt: Any | None) -> dic
         "next_required_measurement": next_measurement,
         "claim_status": "NO_ECONOMIC_CLAIM",
         "ledger": str(ledger_path),
+        #: #448: which entry was read and the class it carries, so the gate factor is
+        #: never read apart from the class of the entry that produced it.
+        "ledger_read": gates.get("ledger_read", ""),
+        "ledger_publication": gates.get("ledger_publication"),
         "non_authority": (
             "the four factors are printed together on purpose: the composite is an audit of "
             "measured state and grants no capital or publication authority"

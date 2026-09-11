@@ -22,6 +22,7 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict
 
 from v8_next.evaluation.benchmark_receipt import (
+    EVIDENCE_CLASS_UNDECLARED,
     BenchmarkReceipt,
     GateState,
     ReadinessStatus,
@@ -48,6 +49,28 @@ ECONOMIC_FACTOR_PRODUCER = "projection.economic_score"
 ECONOMIC_FACTOR_UNPRODUCED = "ECONOMIC_FACTOR_UNPRODUCED"
 #: A producer was supplied, but it carried no measurement.
 ECONOMIC_FACTOR_UNMEASURED = "ECONOMIC_FACTOR_UNMEASURED"
+
+#: #448. What the certificate may say about the capability score of the entry it was
+#: generated from. ``PUBLISHED`` means the number travelled from a receipt that declared
+#: an evidential window; ``NO_CAPABILITY_SCORE`` means the receipt carries no number at
+#: all; any other value is the named refusal of a reader that was handed a
+#: non-evidential (or class-undeclared) entry, and the number is withheld.
+SCORE_PUBLISHED = "PUBLISHED"
+NO_CAPABILITY_SCORE_PUBLISHED = "NO_CAPABILITY_SCORE"
+
+
+def _publication_refusal(publication: Any | None) -> str:
+    """The reader's named refusal, when it read an entry that may not publish a score.
+
+    #448: ``publication`` is the ledger read the caller selected (a
+    :class:`~v8_next.evaluation.benchmark_receipt.Publication`). The certificate does not
+    re-derive it: the reader that chose the entry owns the rule, and this only renders
+    its verdict. ``None`` keeps the historical behaviour for callers that hand a receipt
+    straight in (no ledger read behind it).
+    """
+    if publication is None:
+        return ""
+    return str(getattr(publication, "refusal_reason", "") or "")
 
 
 class PolicyCertificate(BaseModel):
@@ -76,6 +99,17 @@ class PolicyCertificate(BaseModel):
     readiness_upper_bound: float | None = None
     minerva: Any | None = None
     monte_carlo: Any | None = None
+    #: #448. The evidence class of the entry this certificate was generated from --
+    #: ``EVIDENCE_CLASS_UNDECLARED`` when that entry declares no window class -- and what
+    #: happened to its capability score (``PUBLISHED`` / ``NO_CAPABILITY_SCORE`` / the
+    #: reader's named refusal).
+    evidence_class: str = EVIDENCE_CLASS_UNDECLARED
+    score_publication: str = NO_CAPABILITY_SCORE_PUBLISHED
+
+    @property
+    def publication_token(self) -> str:
+        """The stable token of ``score_publication`` (the refusal's name, not its prose)."""
+        return self.score_publication.split(":", 1)[0].strip()
 
     @classmethod
     def generate(
@@ -83,11 +117,27 @@ class PolicyCertificate(BaseModel):
         receipt: BenchmarkReceipt,
         projection: Any | None = None,
         minerva: Any | None = None,
+        publication: Any | None = None,
     ) -> PolicyCertificate:
-        """Generates a PolicyCertificate from evaluated benchmark artifacts."""
+        """Generates a PolicyCertificate from evaluated benchmark artifacts.
+
+        ``publication`` is the ledger read the caller selected (#448). When that read
+        refused (no entry declares an evidential window class, or the entry it read is
+        non-evidential), the capability score is withheld: the number is named as
+        refused rather than rendered as a measurement. Callers that hand a receipt in
+        directly pass nothing, and the certificate behaves exactly as before.
+        """
+        publication_refusal = _publication_refusal(publication)
+        evidence_class = (
+            EVIDENCE_CLASS_UNDECLARED
+            if publication is None
+            else str(getattr(publication, "evidence_class", EVIDENCE_CLASS_UNDECLARED))
+        )
         raw_cap = receipt.capability_score
         cap_score = (
-            None if raw_cap is None else round(min(100.0, max(0.0, raw_cap)), 1)
+            None
+            if raw_cap is None or publication_refusal
+            else round(min(100.0, max(0.0, raw_cap)), 1)
         )
         raw_coverage = receipt.coverage_factor
         evidence_multiplier = (
@@ -154,6 +204,13 @@ class PolicyCertificate(BaseModel):
                 * 100.0,
                 1,
             )
+        if publication_refusal:
+            score_publication = publication_refusal
+        elif raw_cap is None:
+            score_publication = NO_CAPABILITY_SCORE_PUBLISHED
+        else:
+            score_publication = SCORE_PUBLISHED
+
         derivation = {
             "formula": "capability * evidence_multiplier * robustness * economic / 100**2",
             "transform_version": "readiness-v2-missing-aware",
@@ -180,6 +237,11 @@ class PolicyCertificate(BaseModel):
             #: ``ECONOMIC_FACTOR_UNMEASURED`` means a producer was supplied and
             #: measured nothing. A measured factor names its producer instead.
             "economic_factor_source": economic_factor_source,
+            #: #448: the class of the entry this certificate was read from, and what
+            #: happened to its number. A refusal here means the published capability is
+            #: absent by rule, not unmeasured.
+            "evidence_class": evidence_class,
+            "score_publication": score_publication,
         }
 
         verdict = receipt.gates.readiness()
@@ -227,6 +289,8 @@ class PolicyCertificate(BaseModel):
             readiness_upper_bound=readiness_upper_bound,
             minerva=minerva,
             monte_carlo=None,
+            evidence_class=evidence_class,
+            score_publication=score_publication,
         )
 
     def render_ascii(self) -> str:
@@ -244,6 +308,8 @@ class PolicyCertificate(BaseModel):
             "======================================================================",
             f"Policy Target:  {self.policy_id}",
             f"Receipt Digest: {self.receipt_id}",
+            f"Evidence Class: {self.evidence_class}",
+            f"Score Publication: {self.publication_token}",
             f"Final Verdict:  {self.status}",
             f"Authority:      {self.authority_verdict}",
             "----------------------------------------------------------------------",
@@ -279,4 +345,8 @@ class PolicyCertificate(BaseModel):
                 "",
             ]
         )
+        if self.publication_token not in (SCORE_PUBLISHED, NO_CAPABILITY_SCORE_PUBLISHED):
+            # the refusal travels in full, above the closing rule: a reader must be able to
+            # see *why* the number is absent without parsing the reader's prose
+            lines.insert(-2, f"Score publication refusal: {self.score_publication}")
         return "\n".join(lines)
