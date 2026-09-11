@@ -4,6 +4,9 @@ Durum: DRAFT / NOT STARTED. Tarih: 2026-09-11.
 Tam kapsam: [V8.7 tam metin önerisi](../contracts/V87_SWING_BENCHMARK_SPEC.md).
 Bu plan yalnızca dokümantasyon teslimatıdır; uygulama kodu ve koşu sonucu yoktur.
 
+Kaynak analiz: [Swing benchmark analizi](../research/v8-swing-benchmark-analizi.md).
+Takip: [V8.7 GitHub issue dizini](V87_ISSUE_INDEX.md).
+
 ## 1. Çalışma kuralları
 
 - Tüm yeni uygulama ve testler Rust içinde `v8-core/` altında yapılır.

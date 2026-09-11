@@ -8,6 +8,10 @@ Uygulama sırası ve kabul matrisi:
 [V8.7 uygulama planı](../migration/V87_SWING_BENCHMARK_IMPLEMENTATION_PLAN.md).
 Yönetişim: [2026-09-07 reset](../GOVERNANCE_RESET_V86_2026-09-07.md).
 
+Gerekçe ve kaynak incelemesi:
+[Swing benchmark analizi](../research/v8-swing-benchmark-analizi.md).
+GitHub iş paketleri: [V8.7 issue dizini](../migration/V87_ISSUE_INDEX.md).
+
 ## 1. Amaç ve sürüm sınırı
 
 V8.7, kısa diagnostic koşudan swing hedefiyle uyumlu, veri rolü açık,
