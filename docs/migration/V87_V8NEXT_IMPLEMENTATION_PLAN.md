@@ -80,9 +80,13 @@ Hepsi bu planın yazarı tarafından kaynak okunarak doğrulandı.
 | D6 | `runner.py:249` + `scoring.py:91-92` + `certificate.py:70` | `coverage_factor = 0.60` sabit ve **hem cap hem readiness içinde** uygulanıyor | `[DOĞRULANDI]` |
 | D7 | `evaluation/scoring.py:158-163` | 10 alan bildirilir, **4'ü** hesaplanır; `op_val = clip(1-0.3a, .10, .60)` her zaman **0.60**; `def_val` sabit 0.15; `micro_val` bar sayısıyla artar; bantlar sabit çarpan; `effective_sample_size = ham n` | `[DOĞRULANDI]` |
 | D8 | `evaluation/certificate.py:56-65` + `runner.py:499` | Eksik Minerva→**50**, eksik projection→**60** readiness çarpımına *sayı* olarak giriyor; runner certificate'ı ikisi de yokken üretiyor | `[DOĞRULANDI]` |
-| D9 | `app/benchmark.py` (varsayılan `limit=500`) + `economic_benchmark.py` (`OOS_FIT_BARS=350`) | 150 saat ≈ **6,25 gün** OOS; 14 güne kadar sürebilen swing işlemi bu pencerede kapanamaz | `[İDDİA — SB04'te ölçülecek]` |
-| D10 | `evaluation/gate_resolution.py` | G5 başka tape'e fallback, aritmetik champion varyantları, WRC hesaplanıp `passed`'ın DSR+Bonferroni kullanması; G6 2/3-vs-1/3 kâr eşiği; G7 son-100-bar replay | `[İDDİA — SB06/SB07/SB09'da ölçülecek]` |
-| D11 | ledger doğrulayıcı | digest-v2 ilk kayıt `BROKEN @0`; verifier yalnızca v3'ü özel ele alıyor | `[İDDİA — SB04'te ölçülecek]` |
+| D9 | `app/benchmark.py:92` + `economic_benchmark.py:44` | `load_tape_candles(tape_file, limit=500)`; `OOS_FIT_BARS = 350  # chronological split of the 500-bar window; fixed, never relabeled` → 150 saat ≈ **6,25 gün** OOS; 14 güne kadar sürebilen swing işlemi bu pencerede kapanamaz | `[DOĞRULANDI]` |
+| D10a | `gate_resolution.py:444-468` | G5 kendi serisi < 20 ise **başka tape'in** (`btcusdt-1h-12m`, `DEFAULT_TAPE_PATH`) rejimlerini koşup realized PnL'leri örnek olarak alıyor ve `/10000.0` ile ölçekliyor; `sample_source = "regime_fallback"` olarak işaretleniyor | `[DOĞRULANDI]` |
+| D10b | `gate_resolution.py:500-534` | "Varyantlar" tek seriden aritmetik: `r-0.0001`, `0.95r`, `r-0.0002`; `effective_independent_trials = num_trials` (varsayılan **4**); `independence_basis` metni "preregistered" diyor ama kayıtlı gerçek deneme yok | `[DOĞRULANDI]` |
+| D10c | `gate_resolution.py:546-575` | `passed = dsr_conf >= 0.95 and bonf_p <= 0.05`; **WRC hesaplanıp metriklere yazılıyor ama karara girmiyor**; üstelik WRC baseline'ı sıfır-kayıplı seri | `[DOĞRULANDI]` |
+| D10d | `gate_resolution.py:609-664` | G6: IS ilk 2/3, OOS son 1/3, `retention = oos_profit / is_profit >= 0.60`. Eşit günlük kâr hızında OOS kârı IS'in ~yarısı olur → tutarlı bir strateji bu eşiği **yapısal olarak** geçemez | `[DOĞRULANDI]` |
+| D10e | `gate_resolution.py:689-784` | G7 "prospective shadow": girdi `candles[-100:]` (tarihsel); e-process ve drift **yalnızca fiyattan** türetiliyor (`ret=(px-ref_mean)/ref_mean`, `update=1+0.1*tanh(ret*10)`); `decisions` sadece log'a yazılıyor, verdict'e girmiyor; `passed = 0.01 <= e_raw < 20.0 and drift < 0.15`. Yani prospektiflik kararı **fiyat dalgalanmasıyla** veriliyor, strateji davranışıyla değil | `[DOĞRULANDI]` |
+| D11 | ledger hash zinciri (entry 0) | Repo'nun kendi kanban kaydı `t_e46f7b28` ("Investigating BROKEN evidence ledger (entry 0 DIGEST_TAMPERED)") işi **done** işaretlemiş; worker beklenen `b5683f…` ile saklanan `5e1258…` farkını ölçmüş. Analizin "digest-v2/v3 kanon" hipotezini **ben yeniden üretmedim** | `[KISMİ — repo kaydı]` |
 
 **Cebirsel tavan (benim hesabım, doğrulandı):** kullanılan ağırlıklar
 0.12+0.15+0.10+0.08 = 0.45; en iyi alt bantlar Exec 0.40, Ops 0.48, Def 0.105,
@@ -201,7 +205,9 @@ discriminating check, sonra milestone koşusu.
 
 ## 6. Açık uçlar
 
-- D9–D11 ölçülmedi; SB04/SB06/SB07/SB09'da birinci elden ölçülecek.
+- D11 (ledger zinciri) birinci elden yeniden üretilmedi; yalnızca repo'nun kendi
+  kanban kaydı ve ölçümü var. SB04'te `verify_chain` sürüm kanonuyla yeniden
+  ölçülecek.
 - Entry 19'un tam giriş manifesti ve eski readiness certificate'ı bulunamadı;
   "1.7 → 2.0 artışı" nedeni bu iki artifact olmadan **kesinleştirilemez**
   (analiz §1). Uydurulmayacak.
