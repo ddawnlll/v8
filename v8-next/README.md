@@ -25,8 +25,8 @@ when the real tape is absent. The per-module commands below remain for
 narrow manual steps; new evaluative workflows go through the CLI.
 
 ```sh
-uv run --project v8-next python -m v8_next.adapters.binance_capture /tmp/v8-capture-new
-uv run --project v8-next python -m v8_next.adapters.native_tape /tmp/v8-capture-new/manifest.json --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000
+uv run --project v8-next python -m v8_next.app.cli capture /tmp/v8-capture-new
+uv run --project v8-next python -m v8_next.app.cli native-tape /tmp/v8-capture-new/manifest.json --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000
 uv run --project v8-next --extra dev pytest -q v8-next/tests
 uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests
 uv run --project v8-next --extra dev mypy v8-next/src
@@ -50,8 +50,8 @@ constitutional mapping, remaining work and source/version rationale.
 Prospective decision observation (execution is not attached yet):
 
 ```sh
-uv run --project v8-next python -m v8_next.app.observe /tmp/v8-observation-new
-uv run --project v8-next python -m v8_next.app.observe /tmp/v8-observation-new --replay-capture /tmp/v8-observation-new/capture-REPLACE_WITH_ACTUAL_ID/manifest.json
+uv run --project v8-next python -m v8_next.app.cli observe /tmp/v8-observation-new
+uv run --project v8-next python -m v8_next.app.cli observe /tmp/v8-observation-new --replay-capture /tmp/v8-observation-new/capture-REPLACE_WITH_ACTUAL_ID/manifest.json
 ```
 
 The first command freezes source/config/lock identity before requesting new data.
@@ -64,7 +64,7 @@ is a prospective observation precursor, not the completed funded paper service.
 Read-only diagnostic evaluation of a recorded run:
 
 ```sh
-uv run --project v8-next python -m v8_next.app.evaluate /tmp/v8-observation-new
+uv run --project v8-next python -m v8_next.app.cli evaluate /tmp/v8-observation-new
 ```
 
 This verifies policy, decision and source hashes, counts recorded observations,
@@ -74,8 +74,8 @@ counts are not independent samples. It cannot authorize economic promotion.
 Bounded native paper account (currently no verified calibration, so no campaigns):
 
 ```sh
-uv run --project v8-next python -m v8_next.app.paper /tmp/v8-paper-new --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000 --max-notional 100 --max-exposure-fraction 0.1
-uv run --project v8-next python -m v8_next.app.paper /tmp/v8-paper-new --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000 --max-notional 100 --max-exposure-fraction 0.1 --replay-only
+uv run --project v8-next python -m v8_next.app.cli paper /tmp/v8-paper-new --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000 --max-notional 100 --max-exposure-fraction 0.1
+uv run --project v8-next python -m v8_next.app.cli paper /tmp/v8-paper-new --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000 --max-notional 100 --max-exposure-fraction 0.1 --replay-only
 ```
 
 Each non-replay invocation captures another real snapshot. Before extending a
@@ -89,7 +89,7 @@ Historical observer diagnostic (real captured bars, explicitly modeled close-tim
 availability; not a qualified PIT/economic backtest):
 
 ```sh
-uv run --project v8-next python -m v8_next.app.backtest \
+uv run --project v8-next python -m v8_next.app.cli backtest \
   /path/to/capture/manifest.json /path/to/new-result.json \
   --maker-fee 0.0002 --taker-fee 0.0005 --initial-balance 10000
 ```
@@ -103,7 +103,7 @@ in the output; modeled frames cannot support prospective or profitability claims
 Inspect prospective outcome sources before a proposed decision timestamp:
 
 ```sh
-uv run --project v8-next python -m v8_next.evaluation.calibration \
+uv run --project v8-next python -m v8_next.app.cli calibration \
   /path/to/paper-run /path/to/new-inspection.json --decision-ns DECISION_UNIX_NS
 ```
 
@@ -151,7 +151,7 @@ statsmodels through arch; normal paper commands do not require the research extr
 Combined paper report, including recomputed outcome provenance:
 
 ```sh
-uv run --project v8-next python -m v8_next.app.report \
+uv run --project v8-next python -m v8_next.app.cli report \
   /path/to/paper-run /path/to/new-report.json --decision-ns DECISION_UNIX_NS
 ```
 
@@ -217,7 +217,7 @@ PaperConfig with explicit fees, balance, notional/exposure caps and selected
 observer_policy, grammar_policy and campaign_policy:
 
 ```sh
-uv run --project v8-next --extra dev --extra research python -m v8_next.app.trial \
+uv run --project v8-next --extra dev --extra research python -m v8_next.app.cli trial \
   /absolute/path/capture/manifest.json /absolute/path/policy.json \
   /absolute/path/trial-result.json \
   --store /absolute/path/research.sqlite --family declared-development-family
@@ -237,7 +237,7 @@ The production paper controller still requires separately verified calibration.
 Compare all recorded members of one development family with an explicit baseline:
 
 ```sh
-uv run --project v8-next --extra dev --extra research python -m v8_next.app.compare \
+uv run --project v8-next --extra dev --extra research python -m v8_next.app.cli compare \
   /absolute/path/baseline.json /absolute/path/variant.json \
   --store /absolute/path/research.sqlite --family declared-development-family \
   --baseline BASELINE_TRIAL_ID --block-size 12 --reps 999 --seed 42 \
@@ -272,7 +272,7 @@ hash, metadata and reference values are retained. Schema validation does not
 certify the reference source or independent-trial assumption. DSR is confidence,
 not a p-value, and does not promote these development observations.
 
-Freeze a future hourly experiment with `python -m v8_next.app.plan plan.json
+Freeze a future hourly experiment with `python -m v8_next.app.cli plan plan.json
 --id NAME --store research.sqlite` (using the same uv environment). The JSON
 requires `instrument_id`, future UTC-hour-aligned `start_ns`/`end_ns`, `policies`
 (a name-to-PaperConfig mapping), member `baseline`, `block_size`, `reps`, `seed`.
@@ -283,7 +283,7 @@ Recording a plan does not run the experiment or establish protected OOS evidence
 After that future source window completes, execute the frozen family:
 
 ```sh
-uv run --project v8-next --extra dev --extra research python -m v8_next.app.forward \
+uv run --project v8-next --extra dev --extra research python -m v8_next.app.cli forward \
   /absolute/path/capture/manifest.json --plan-id NAME \
   --store /absolute/path/research.sqlite --output /absolute/path/forward.json
 ```

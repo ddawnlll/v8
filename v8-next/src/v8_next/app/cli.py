@@ -1,17 +1,24 @@
-"""Central v8-next command entry point (single binding for all app commands).
+"""Central v8-next command entry point — the single front door for all commands.
 
 Usage:
     python -m v8_next.app.cli status [--output-dir DIR]
-    python -m v8_next.app.benchmark ...        # full benchmark battery
     python -m v8_next.app.cli benchmark [--case-id ID] [--output-dir DIR]
         [--html-out PATH] [--all-pass] [--diagnostic-only]
         [--tape-path PATH] [--live-fills PATH]
     python -m v8_next.app.cli books [--mapping-id ID]
+    python -m v8_next.app.cli paper|observe|backtest|evaluate|... -- <passthrough>
+    python -m v8_next.app.cli nx06-swing-baseline -- <passthrough>
 
 `status` is the project dashboard: git revision, tape inventory, code/test
 footprint, and the latest benchmark receipt rendered as the canonical
 readiness table. It runs no engine and never mints claims.
 `benchmark` delegates to the D-153 end-to-end runner (v8_next.app.benchmark).
+Every other `app.*` module, the two capture adapters, the calibration
+inspector, and every `v8-next/tools/nx*.py` script are bound below as
+passthrough subcommands: the CLI forwards unknown args verbatim to the owning
+module's `main`, so `cli paper --help` prints the module's own help.
+Direct `python -m v8_next.app.<module>` invocations keep working as legacy
+aliases; the README advertises only this CLI.
 """
 
 from __future__ import annotations
@@ -350,6 +357,97 @@ def cmd_benchmark(argv: list[str]) -> int:
         sys.argv = old_argv
 
 
+def _delegate_sysv_module(module_name: str, rest: list[str]) -> int:
+    """Forward to a module whose main() takes no argv and parses sys.argv."""
+    import importlib
+
+    mod = importlib.import_module(module_name)
+    old_argv = sys.argv
+    sys.argv = [module_name, *rest]
+    try:
+        result = mod.main()
+        return int(result) if isinstance(result, int) else 0
+    finally:
+        sys.argv = old_argv
+
+
+def _delegate_argv_module(module_name: str, rest: list[str]) -> int:
+    """Forward to a module whose main(argv) takes an explicit argv list."""
+    import importlib
+
+    mod = importlib.import_module(module_name)
+    return int(mod.main(rest))
+
+
+def _delegate_tool(filename: str, rest: list[str]) -> int:
+    """Forward to a v8-next/tools script (each exposes main(argv)).
+
+    Tool files stay where they are — other workstreams' evidence points at
+    them — the CLI is the front door, not a second copy of the logic.
+    """
+    import importlib.util
+
+    package_root = Path(__file__).resolve().parents[3]
+    repo_root = package_root.parent if (package_root.parent / "docs").is_dir() else package_root
+    tool = repo_root / "v8-next" / "tools" / filename
+    if not tool.is_file():
+        print(f"error: tool missing at {tool}", file=sys.stderr)
+        return 2
+    spec = importlib.util.spec_from_file_location(tool.stem, tool)
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return int(module.main(rest))
+
+
+# App modules whose main() takes no argv and parses sys.argv itself.
+_SYSV_APP_MODULES: dict[str, str] = {
+    "paper": "v8_next.app.paper",
+    "sandbox": "v8_next.app.sandbox",
+    "sandbox-replay": "v8_next.app.sandbox_replay",
+    "trial": "v8_next.app.trial",
+    "observe": "v8_next.app.observe",
+    "backtest": "v8_next.app.backtest",
+    "evaluate": "v8_next.app.evaluate",
+    "report": "v8_next.app.report",
+    "stream": "v8_next.app.stream",
+    "stream-run": "v8_next.app.stream_run",
+    "forward": "v8_next.app.forward",
+    "plan": "v8_next.app.plan",
+    "compare": "v8_next.app.compare",
+    "capture": "v8_next.adapters.binance_capture",
+    "native-tape": "v8_next.adapters.native_tape",
+    "calibration": "v8_next.evaluation.calibration",
+}
+
+# App modules whose main(argv) takes an explicit argv list.
+_ARGV_APP_MODULES: dict[str, str] = {
+    "economic": "v8_next.app.economic",
+    "portfolio": "v8_next.app.portfolio",
+}
+
+# One-shot v8-next/tools scripts, each with main(argv).
+TOOL_FILES: dict[str, str] = {
+    "nx02-reconcile": "nx02_reconcile.py",
+    "nx03-plan": "nx03_plan.py",
+    "nx04-ledger-fixtures": "nx04_ledger_fixtures.py",
+    "nx04-verifier-report": "nx04_verifier_report.py",
+    "nx05-profiles": "nx05_profiles.py",
+    "nx06-swing-baseline": "nx06_swing_baseline.py",
+    "nx07-family-statistics": "nx07_family_statistics.py",
+    "nx08-gate-manifest": "nx08_gate_manifest.py",
+    "nx09-fold-research": "nx09_fold_research.py",
+    "nx10-public-shadow": "nx10_public_shadow.py",
+    "nx11-acceptance-matrix": "nx11_acceptance_matrix.py",
+    "nx13-engine-replay-reconcile": "nx13_engine_replay_reconcile.py",
+    "nx14-paper-trade-4y": "nx14_paper_trade_4y.py",
+    "nx-cost-lane": "nx_cost_lane.py",
+    "nx-readiness-audit": "nx_readiness_audit.py",
+    "tape-inventory": "tape_inventory.py",
+    "swing-perf-review": "swing_perf_review.py",
+}
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="v8-next",
@@ -439,6 +537,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_port.add_argument("--taker-fee", type=float, default=0.0005)
     p_port.add_argument("--per-leg-notional", type=float, default=1000.0)
     p_port.add_argument("--live-fills", default=None)
+
+    for name, module in _SYSV_APP_MODULES.items():
+        sub.add_parser(name, help=f"Passthrough to {module} (own --help applies).", add_help=False)
+    for name, module in _ARGV_APP_MODULES.items():
+        sub.add_parser(name, help=f"Passthrough to {module} (own --help applies).", add_help=False)
+    for name, filename in TOOL_FILES.items():
+        sub.add_parser(name, help=f"Passthrough to v8-next/tools/{filename}.", add_help=False)
     return parser
 
 
@@ -532,6 +637,12 @@ def main(argv: list[str] | None = None) -> int:
             passthrough += ["--live-fills", args.live_fills]
         passthrough += rest
         return cmd_benchmark(passthrough)
+    if args.command in _SYSV_APP_MODULES:
+        return _delegate_sysv_module(_SYSV_APP_MODULES[args.command], rest)
+    if args.command in _ARGV_APP_MODULES:
+        return _delegate_argv_module(_ARGV_APP_MODULES[args.command], rest)
+    if args.command in TOOL_FILES:
+        return _delegate_tool(TOOL_FILES[args.command], rest)
     parser.error(f"unknown command {args.command}")
     return 2
 
