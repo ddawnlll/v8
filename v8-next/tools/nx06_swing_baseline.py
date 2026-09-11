@@ -34,6 +34,7 @@ from pathlib import Path
 from typing import Any
 
 from v8_next.domain.market import Candle, frame_at
+from v8_next.economics.grammar import POLICY_REQUIRED_BARS
 from v8_next.economics.swing_baseline import (
     ENGINE_TICK,
     SHARED_CONTRACT,
@@ -80,7 +81,10 @@ def measure_policy(
     taker_fee: Decimal,
 ) -> dict[str, Any]:
     spec = policy_spec(policy_id)
-    required = 0 if spec.grammar_policy is None else 62
+    # the warmup is the policy's declared pre-registration requirement, never a local
+    # constant: a harness replaying a different warmup than the family declares is
+    # measuring a different policy (the drift was -1.07e-06 on the net sum until this fix).
+    required = 0 if spec.grammar_policy is None else int(POLICY_REQUIRED_BARS[spec.grammar_policy])
     expiry = open_trade_expiry(spec, HOUR_NS)
 
     if spec.grammar_policy is None:
@@ -102,6 +106,8 @@ def measure_policy(
             "open_trade_expiry_days": None,
             "first_decision_identity": None,
             "decisions": 0,
+            "warmup_bars": 0,
+            "warmup_source": "no grammar; nothing to warm up",
             "note": "no exposure by construction; the comparison floor, not a measurement",
         }
 
@@ -161,6 +167,8 @@ def measure_policy(
         "open_trade_expiry_days": None if expiry is None else expiry.days,
         "first_decision_identity": decisions[0]["decision_identity"] if decisions else None,
         "decisions": len(decisions),
+        "warmup_bars": required,
+        "warmup_source": "POLICY_REQUIRED_BARS[grammar_policy] from economics/grammar.py",
     }
 
 

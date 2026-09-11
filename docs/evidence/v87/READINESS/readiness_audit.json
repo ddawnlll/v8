@@ -1,20 +1,42 @@
 {
   "audit": "V8.7 readiness audit",
-  "audit_sha256_inputs": {
-    "instrument": "BTCUSDT",
-    "tape_sha256": "b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0",
-    "window": {
-      "bars": 744,
-      "end_utc": "2025-02-01",
-      "start_utc": "2025-01-01"
+  "capability": {
+    "campaigns": 31,
+    "cross_check_with_frozen_nx06": {
+      "frozen_net_return_sum": -0.03135738,
+      "frozen_receipt": "docs/evidence/v87/NX06/comparative_receipt.json",
+      "frozen_sha256": "b51e4e53eaed8c0a7c8f4b3df74c7667a4b0932c69f08f3f6963401280192a0f",
+      "recomputed_net_return_sum": -0.03135738,
+      "status": "AGREES"
+    },
+    "evidence_class": "DECISION_PLANE_DIAGNOSTIC (real bars, real taker fee; not engine fills, not a venue settlement)",
+    "policy_id": "plain_swing",
+    "provenance": "replayed from the real tape with the swing family primitives; series cross-checked against the frozen NX06 receipt",
+    "score": 12.0,
+    "score_is_null_because": null,
+    "series_sum": -0.03135738,
+    "warmup_bars": 62,
+    "warmup_declared_vs_replayed": {
+      "declared_POLICY_REQUIRED_BARS": 49,
+      "finding": "the NX06 harness replays with a hardcoded warmup; the declared table in economics/grammar.py is the pre-registered value. Replaying the declared value does not change the campaign count but moves the net sum by ~1e-6, so the two must be aligned before the next freeze.",
+      "measurement": {
+        "declared_campaigns": 31,
+        "declared_series_sum": -0.03135845,
+        "declared_warmup": 49,
+        "delta_series_sum": -1.07e-06,
+        "replayed_campaigns": 31,
+        "replayed_series_sum": -0.03135738,
+        "replayed_warmup": 62
+      },
+      "replayed": 62
     }
   },
   "claim_status": "NO_ECONOMIC_CLAIM",
-  "economic_readiness_pct": {
+  "economic_readiness": {
     "conditions": {
       "prospective_maturity": {
         "met": false,
-        "note": "frozen window not yet observed"
+        "note": "no cadence has elapsed; the frozen window has not been observed yet"
       },
       "protected_final_window": {
         "met": false,
@@ -30,19 +52,20 @@
     "formula": "authority preconditions met / authority preconditions required",
     "met": 0,
     "pct": 0.0,
+    "provenance": "each condition read from its own evidence artifact; unmet stays unmet",
     "required": 3
   },
-  "gate_coverage_pct": {
-    "formula": "gates PASS / ten hard gates, from the battery on this real window",
-    "passed": 3,
-    "pct": 30.0,
+  "gate_coverage": {
+    "formula": "gates PASS / ten hard gates, resolved on the same series as capability",
+    "passed": 4,
+    "pct": 40.0,
     "readiness_status": "HardFailure",
     "states": {
       "g0_identity": "PASS",
       "g1_causal_pit": "PASS",
       "g2_determinism_ledger": "PASS",
       "g3_benchmark_coverage": "BLOCKED",
-      "g4_structural_robustness": "BLOCKED",
+      "g4_structural_robustness": "PASS",
       "g5_statistical_credibility": "BLOCKED",
       "g6_protected_oos": "BLOCKED",
       "g7_generalization": "UNKNOWN",
@@ -51,19 +74,38 @@
     },
     "total": 10
   },
-  "measured_on": {
-    "campaigns": 0,
-    "capability_score": null,
-    "note": "coverage derived; a missing factor stays missing"
-  },
-  "non_authority": "these percentages are an audit of measured state; none of them grants readiness, a claim, or capital authority",
-  "technical_delivery_pct": {
-    "formula": "closed issues with a passing re-run / registered issues",
+  "non_authority": "these percentages audit measured state; none of them grants readiness, a claim, or capital authority, and none of them is a forecast",
+  "technical_delivery": {
+    "formula": "issues with a passing re-run in the matrix / issues registered in the matrix",
+    "issues_failing": [],
     "issues_registered": 11,
     "issues_reverified_passing": 10,
-    "matrix_sha256": "7c7b94eec0dea44a7ea90a6bf27937f784ad0c6d4cb11da4ac37b102167c4dfd",
-    "pct": 100.0,
-    "r_criteria_delivered": 66,
-    "r_criteria_registered": 66
+    "issues_without_own_target": [
+      "NX00"
+    ],
+    "matrix_sha256": "b386daf608217b1121e1bc0f74a43928af95b22e3454861d444b6cb23a37ac77",
+    "pct": 90.9,
+    "provenance": "counted from the acceptance matrix and the issue reports on disk; no total is hardcoded",
+    "r_criteria_documented_in_reports": {
+      "NX01": 6,
+      "NX02": 6,
+      "NX03": 6,
+      "NX04": 6,
+      "NX05": 6,
+      "NX06": 6,
+      "NX07": 6,
+      "NX08": 6,
+      "NX09": 6,
+      "NX10": 6
+    },
+    "r_criteria_documented_total": 60
+  },
+  "window": {
+    "bars": 744,
+    "end_utc": "2025-02-01",
+    "instrument": "BTCUSDT",
+    "start_utc": "2025-01-01",
+    "tape": "research/tape/multi-1h-4y/tape.jsonl",
+    "tape_sha256": "b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0"
   }
 }

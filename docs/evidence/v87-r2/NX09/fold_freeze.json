@@ -1,0 +1,110 @@
+{
+  "NO_PROTECTED_FINAL": true,
+  "ablations": [
+    "swing_squeeze_m1",
+    "swing_squeeze_m2"
+  ],
+  "baseline_policy": "causal_trend",
+  "dataset_id": "sha256:a20414c6a1366fbca763d8835a04f368676816d511238cc7ed86647df77c5b86",
+  "family_contract": {
+    "funding": "MISSING_NOT_FED_TO_THIS_PATH",
+    "initial_balance_usdt": "10000",
+    "maker_fee": "0.0002",
+    "risk_per_trade_fraction": "0.01",
+    "slippage": "NOT_MODELLED_IN_REPLAY",
+    "taker_fee": "0.0005"
+  },
+  "family_registry": {
+    "cash": "sha256:361cdf099e28b17415f545aaca2e26733d31ebe4c747d61dce5dd111c2cefae5",
+    "causal_trend": "sha256:5d80fed4b9e5b2ebc1a37155481e0b7f78f28d3ffebbf314753619807e3df8fd",
+    "plain_swing": "sha256:1b33f661dbdb50a5c3dc0c220875f9c186cc3a8e31e460380415bcb9f9b9f0d5"
+  },
+  "final_eligibility_reason": "NO_PROTECTED_FINAL: the final window overlaps TAIL_BURNED (burned or usage-unknown); the final is not opened; measured tail tape_role=BURNED_DIAGNOSTIC",
+  "final_eligible": false,
+  "folds": [
+    {
+      "fold_id": "FOLD_1",
+      "purge_bars": 336,
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_ns": 1727740799999999999,
+      "scored_end_utc": "2024-09-30T23:59:59.999000Z",
+      "scored_start_ns": 1719792000000000000,
+      "scored_start_utc": "2024-07-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN",
+      "train_end_ns": 1718582400000000000,
+      "train_end_utc": "2024-06-17T00:00:00Z",
+      "train_start_ns": 1656633600000000000,
+      "train_start_utc": "2022-07-01T00:00:00Z",
+      "warmup_end_ns": 1719791999999999999,
+      "warmup_start_ns": 1719615600000000000,
+      "warmup_start_utc": "2024-06-28T23:00:00Z"
+    },
+    {
+      "fold_id": "FOLD_2",
+      "purge_bars": 336,
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_ns": 1735689599999999999,
+      "scored_end_utc": "2024-12-31T23:59:59.999000Z",
+      "scored_start_ns": 1727740800000000000,
+      "scored_start_utc": "2024-10-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN",
+      "train_end_ns": 1726531200000000000,
+      "train_end_utc": "2024-09-17T00:00:00Z",
+      "train_start_ns": 1656633600000000000,
+      "train_start_utc": "2022-07-01T00:00:00Z",
+      "warmup_end_ns": 1727740799999999999,
+      "warmup_start_ns": 1727564400000000000,
+      "warmup_start_utc": "2024-09-28T23:00:00Z"
+    },
+    {
+      "fold_id": "FOLD_3",
+      "purge_bars": 336,
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_ns": 1743465599999999999,
+      "scored_end_utc": "2025-03-31T23:59:59.999000Z",
+      "scored_start_ns": 1735689600000000000,
+      "scored_start_utc": "2025-01-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN",
+      "train_end_ns": 1734480000000000000,
+      "train_end_utc": "2024-12-18T00:00:00Z",
+      "train_start_ns": 1656633600000000000,
+      "train_start_utc": "2022-07-01T00:00:00Z",
+      "warmup_end_ns": 1735689599999999999,
+      "warmup_start_ns": 1735513200000000000,
+      "warmup_start_utc": "2024-12-29T23:00:00Z"
+    },
+    {
+      "fold_id": "FOLD_4",
+      "purge_bars": 336,
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_ns": 1751327999999999999,
+      "scored_end_utc": "2025-06-30T23:59:59.999000Z",
+      "scored_start_ns": 1743465600000000000,
+      "scored_start_utc": "2025-04-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN",
+      "train_end_ns": 1742256000000000000,
+      "train_end_utc": "2025-03-18T00:00:00Z",
+      "train_start_ns": 1656633600000000000,
+      "train_start_utc": "2022-07-01T00:00:00Z",
+      "warmup_end_ns": 1743465599999999999,
+      "warmup_start_ns": 1743289200000000000,
+      "warmup_start_utc": "2025-03-29T23:00:00Z"
+    }
+  ],
+  "frozen_before_any_fold_result": true,
+  "instrument": "BTCUSDT",
+  "note": "no fold result is in this file; the measurement is written separately. NO_PROTECTED_FINAL is metadata, not a GateState value",
+  "plan_digest": "sha256:f8a361ceff4df75ed628270ba5ad9a8a938ce89b16591d6d07767810e593d62d",
+  "plan_id": "NX09-REGISTERED-01",
+  "resampling_plan": {
+    "block_size": 24,
+    "reps": 999,
+    "seed": 7
+  },
+  "source_hashes": {
+    "calendar_digest": "sha256:0ecf3d035107cf985f7e58df5d8e9678133928bba718c33f6f7fc05464062138",
+    "code_and_lock_hash": "f230c2bddabb4d0f8c8dc7f11e51a2f81a1945b01b36b98bfe3c5ac61c3b7a2c",
+    "tape": "/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl",
+    "tape_sha256": "b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0"
+  }
+}

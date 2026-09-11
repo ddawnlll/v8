@@ -15,7 +15,7 @@
           "g8_prospective_shadow": "MISSING",
           "g9_live_realization": "MISSING"
         },
-        "receipt_digest": "69faa715513e815d592efcbefef98058a5c97766d39a96714a926df7f8a39629"
+        "receipt_digest": "a378c8ec6d5c2ce872b99e182dccd3005b187459c232a53af6e503c4e112d4de"
       },
       "denominator": 10000.0,
       "formula": "capability * evidence_multiplier * robustness * economic / 100**2",
@@ -243,7 +243,15 @@
     "reason": "PSEUDO_PROSPECTIVE_HISTORICAL_WINDOW_NOT_ACCEPTED is returned when no shadow_stream is declared (NX08.R4)"
   },
   "legacy_fixed_coverage_factor": 0.6,
-  "receipt_digest": "69faa715513e815d592efcbefef98058a5c97766d39a96714a926df7f8a39629",
+  "receipt_digest": "a378c8ec6d5c2ce872b99e182dccd3005b187459c232a53af6e503c4e112d4de",
   "receipt_verifies": true,
-  "scoring_versions_not_in_digest": true
+  "scoring_versions_not_in_digest": true,
+  "structural_demo_inputs": {
+    "capability_score": 42.0,
+    "case_id": "NX08-MANIFEST-STRUCTURE-DEMO",
+    "coverage_factor": 0.5,
+    "input_class": "SYNTHETIC_STRUCTURE_ONLY_NOT_A_MEASUREMENT",
+    "series": "hand-given 40-element illustration; not a measured campaign series",
+    "warning": "these inputs only exercise the certificate derivation and the dual scoring record; they are NOT a capability result and must not be reported as one"
+  }
 }

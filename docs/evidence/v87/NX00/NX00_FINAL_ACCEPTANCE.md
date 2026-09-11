@@ -26,7 +26,7 @@ hesap değişikliği yapılmadı, hiçbir credential kullanılmadı.
 | Legacy ledger | sürüm-çözümlü kanon ile **20/20 OK**; dosya baytları değişmedi (`657b2183…`) | NX04 |
 | Swing ailesi (2025-01) | `causal_trend` net **+0.018861**; `plain_swing` net **−0.031357** (30 STOP / 1 TARGET / 31 kampanya) | NX06 |
 | Aile istatistiği | DSR güveni **0.11834**; Bonferroni düzeltilmiş p **1.0**; sufficiency SUFFICIENT (6 bağımsız blok); PBO UNDERPOWERED (gerekçeli) | NX07 |
-| Kayıtlı dört fold | swing ailesi 8 fold-sembol hücresinin **7'sinde** baseline'a göre negatif; ablasyonlar (m1/m2) iyileştirmedi; final açılmadı (`NO_PROTECTED_FINAL`) | NX09 |
+| Kayıtlı dört fold | swing ailesi 8 fold-sembol hücresinin **7'sinde zarar ediyor** (net < 0); trend baseline'a göre ise **4'ünde kötü, 4'ünde iyi**; ablasyonlar (m1/m2) iyileştirmedi; final açılmadı (`NO_PROTECTED_FINAL`) | NX09 |
 | Bounded public capture | 1009 trade kabul, **1000 duplicate** düşürüldü, restart `chain_verified=true`, G7 `UNKNOWN` | NX10 |
 | Test durumu | tam v8-next suite **978 passed**; ruff temiz; mypy **5 önceden var olan** hata | NX11 |
 
@@ -70,7 +70,7 @@ böyle teslim edilir, "gelecek vaat eden" diye sunulmaz.
 
 Bu kabul: release/tag/push-main/merge/live aktivasyon yetkisi **değildir** (D-163: merge
 yetkisi yayın yetkisi değildir). EN/TR site yayını ve tag işlemleri sahipte kalır. Karar
-kaydı: **D-164** (EN/TR register). Kabul matrisi: `docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `7c7b94eec0dea44a7ea90a6bf27937f784ad0c6d4cb11da4ac37b102167c4dfd`.
+kaydı: **D-164** (EN/TR register). Kabul matrisi: `docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `b386daf608217b1121e1bc0f74a43928af95b22e3454861d444b6cb23a37ac77`.
 
 **Düzeltme (2026-09-11):** NX09 commit kimliği bu raporda ve matriste `42136221`
 olarak geçiyordu; gerçek commit `42136231`. Matris düzeltmeden sonra yeniden
