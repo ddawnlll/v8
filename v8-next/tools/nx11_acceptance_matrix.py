@@ -43,7 +43,7 @@ ISSUES: tuple[tuple[str, str, str, str], ...] = (
     ("NX06", "c7bb4c69", "v8-next/tests/test_swing_baseline_nx06.py", "docs/evidence/v87/NX06"),
     ("NX07", "fc054071", "v8-next/tests/test_statistics_plan_nx07.py", "docs/evidence/v87/NX07"),
     ("NX08", "74cb0f3d", "v8-next/tests/test_nx08_gates_scoring.py", "docs/evidence/v87/NX08"),
-    ("NX09", "42136221", "v8-next/tests/test_fold_research_nx09.py", "docs/evidence/v87/NX09"),
+    ("NX09", "42136231", "v8-next/tests/test_fold_research_nx09.py", "docs/evidence/v87/NX09"),
     ("NX10", "a69d6772", "v8-next/tests/test_public_shadow_nx10.py", "docs/evidence/v87/NX10"),
 )
 

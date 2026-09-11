@@ -14,7 +14,7 @@
 | NX06 | Kapandı (R1–R6) | `c7bb4c69` |
 | NX07 | Kapandı (R1–R6) | `fc054071` |
 | NX08 | Kapandı (R1–R6) | `74cb0f3d` |
-| NX09 | Kapandı (R1–R6, diagnostic; final açılmadı) | `42136221` |
+| NX09 | Kapandı (R1–R6, diagnostic; final açılmadı) | `42136231` |
 | NX10 | Kapandı (R1–R6, teknik; olgunluk pending) | `a69d6772` |
 | NX11 | Teknik kabul dosyası | bu teslim |
 

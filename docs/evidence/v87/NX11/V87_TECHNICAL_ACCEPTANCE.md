@@ -5,7 +5,12 @@ physical artifacts. It does **not** certify an economic edge, prospective maturi
 capital readiness or any live authority. Every verdict remains `NO_ECONOMIC_CLAIM`.
 
 Acceptance matrix (machine-built, artifacts hashed by read-back):
-`docs/evidence/v87/NX11/acceptance_matrix.json`.
+`docs/evidence/v87/NX11/acceptance_matrix.json` sha256 `927e8726ed01a978169f3d9c1ed515d94a6b1ffcb1944c831c70e82bf96cf872`.
+
+**Correction (2026-09-11):** this file and the matrix originally cited the NX09
+commit as `42136221`; the real commit is `42136231` (two digits transposed). The
+matrix was rebuilt after the fix, so the hash above supersedes the earlier
+`a3c04935…` published in the issue comments. No artifact content changed.
 
 ## 1. What was delivered
 
@@ -20,7 +25,7 @@ Acceptance matrix (machine-built, artifacts hashed by read-back):
 | NX06 (#427) | pre-registered swing baseline family over the existing grammar | `c7bb4c69` | PASS |
 | NX07 (#428) | pinned statistics plan, dependency-aware adequacy | `fc054071` | PASS |
 | NX08 (#429) | derived coverage, default-free certificate, canonical gate map | `74cb0f3d` | PASS |
-| NX09 (#430) | registered four-fold swing research, conditional final | `42136221` | PASS |
+| NX09 (#430) | registered four-fold swing research, conditional final | `42136231` | PASS |
 | NX10 (#431) | bounded public capture, exactly-once restart, honest provenance | `a69d6772` | PASS |
 
 Gate checks re-run at this boundary: `test_d153_runner_report.py` +
