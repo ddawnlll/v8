@@ -5,7 +5,7 @@ Sonuç **olumsuz**: DSR güveni 0.1183 (authority eşiği 0.95), Bonferroni düz
 Bu bir başarısızlık değil, bu işin geçerli teslimidir — **hiçbir estimator p geçsin diye
 seçilmedi**. `NO_ECONOMIC_CLAIM`.
 
-## 0. Sözleşme (yeni: `evaluation/statistics_plan.py`)
+## 0. Sözleşme (yeni: `v8-next/src/v8_next/evaluation/statistics_plan.py`)
 
 `StatisticsPlan` = family + block_size + reps + seed + multiplicity_trials +
 effective_independent_trials + independence_basis + CSCV partitions/metric/max_splits +

@@ -1,0 +1,249 @@
+{
+  "certificate": {
+    "derivation": {
+      "binding": {
+        "digest_version": "v8.5-digest-v5",
+        "gate_vector": {
+          "g0_identity": "MISSING",
+          "g1_causal_pit": "MISSING",
+          "g2_determinism_ledger": "MISSING",
+          "g3_benchmark_coverage": "MISSING",
+          "g4_structural_robustness": "MISSING",
+          "g5_statistical_credibility": "MISSING",
+          "g6_protected_oos": "MISSING",
+          "g7_generalization": "MISSING",
+          "g8_prospective_shadow": "MISSING",
+          "g9_live_realization": "MISSING"
+        },
+        "receipt_digest": "69faa715513e815d592efcbefef98058a5c97766d39a96714a926df7f8a39629"
+      },
+      "denominator": 10000.0,
+      "formula": "capability * evidence_multiplier * robustness * economic / 100**2",
+      "missing_measurements": [
+        "minerva_robustness_score",
+        "economic_score"
+      ],
+      "raw_measurements": {
+        "capability_score": 42.0,
+        "coverage_factor": 0.5,
+        "minerva_effective_score": null,
+        "projection_economic_score": null
+      },
+      "transform_version": "readiness-v2-missing-aware",
+      "weights": {
+        "economic_score": 1.0,
+        "evidence_multiplier": 1.0,
+        "minerva_robustness_score": 1.0,
+        "research_capability_score": 1.0
+      }
+    },
+    "economic_score": null,
+    "evidence_multiplier": 0.5,
+    "minerva_robustness_score": null,
+    "missing_measurements": [
+      "minerva_robustness_score",
+      "economic_score"
+    ],
+    "readiness_index": null,
+    "readiness_upper_bound": null,
+    "research_capability_score": 42.0,
+    "robustness_seal_status": "SEAL_DENIED_NO_MINERVA_RUN"
+  },
+  "coverage_cases": {
+    "abstained_run": {
+      "all_domain_coverage_factor": 0.2,
+      "basis": "coverage = measured eligible domains / eligible domains; an unmeasured domain is neither a success nor an economic zero",
+      "coverage_factor": 0.5,
+      "coverage_source": "DERIVED_FROM_MEASURED_DOMAINS",
+      "denominator": 4,
+      "inactive_domains": [
+        "RegimeRobustness",
+        "CrossAssetGeneralization",
+        "StatisticalCredibility",
+        "EvaluationSafety",
+        "CapacityScalability",
+        "RepresentationStability"
+      ],
+      "inactive_fraction": 0.6,
+      "inputs": {
+        "abstain_rate": 1.0,
+        "bars": 744,
+        "trades": 0
+      },
+      "measured_domains": [
+        "MicrostructureInvariance",
+        "OperationalSimplicity"
+      ],
+      "missing_domains": [],
+      "numerator": 2,
+      "statuses": {
+        "CapacityScalability": "INACTIVE",
+        "CrossAssetGeneralization": "INACTIVE",
+        "DefeaterResistance": "ABSTAINED",
+        "EvaluationSafety": "INACTIVE",
+        "ExecutionFidelity": "ABSTAINED",
+        "MicrostructureInvariance": "MEASURED",
+        "OperationalSimplicity": "MEASURED",
+        "RegimeRobustness": "INACTIVE",
+        "RepresentationStability": "INACTIVE",
+        "StatisticalCredibility": "INACTIVE"
+      },
+      "unmeasured_domains": [
+        "ExecutionFidelity",
+        "DefeaterResistance"
+      ]
+    },
+    "no_data_run": {
+      "all_domain_coverage_factor": 0.0,
+      "basis": "coverage = measured eligible domains / eligible domains; an unmeasured domain is neither a success nor an economic zero",
+      "coverage_factor": null,
+      "coverage_source": "DERIVED_FROM_MEASURED_DOMAINS",
+      "denominator": 0,
+      "inactive_domains": [
+        "RegimeRobustness",
+        "CrossAssetGeneralization",
+        "StatisticalCredibility",
+        "EvaluationSafety",
+        "CapacityScalability",
+        "RepresentationStability"
+      ],
+      "inactive_fraction": 0.6,
+      "inputs": {
+        "abstain_rate": 0.0,
+        "bars": 0,
+        "trades": 0
+      },
+      "measured_domains": [],
+      "missing_domains": [
+        "ExecutionFidelity",
+        "MicrostructureInvariance",
+        "DefeaterResistance",
+        "OperationalSimplicity"
+      ],
+      "numerator": 0,
+      "statuses": {
+        "CapacityScalability": "INACTIVE",
+        "CrossAssetGeneralization": "INACTIVE",
+        "DefeaterResistance": "MISSING",
+        "EvaluationSafety": "INACTIVE",
+        "ExecutionFidelity": "MISSING",
+        "MicrostructureInvariance": "MISSING",
+        "OperationalSimplicity": "MISSING",
+        "RegimeRobustness": "INACTIVE",
+        "RepresentationStability": "INACTIVE",
+        "StatisticalCredibility": "INACTIVE"
+      },
+      "unmeasured_domains": []
+    },
+    "traded_run": {
+      "all_domain_coverage_factor": 0.4,
+      "basis": "coverage = measured eligible domains / eligible domains; an unmeasured domain is neither a success nor an economic zero",
+      "coverage_factor": 1.0,
+      "coverage_source": "DERIVED_FROM_MEASURED_DOMAINS",
+      "denominator": 4,
+      "inactive_domains": [
+        "RegimeRobustness",
+        "CrossAssetGeneralization",
+        "StatisticalCredibility",
+        "EvaluationSafety",
+        "CapacityScalability",
+        "RepresentationStability"
+      ],
+      "inactive_fraction": 0.6,
+      "inputs": {
+        "abstain_rate": 0.05,
+        "bars": 744,
+        "trades": 31
+      },
+      "measured_domains": [
+        "ExecutionFidelity",
+        "MicrostructureInvariance",
+        "DefeaterResistance",
+        "OperationalSimplicity"
+      ],
+      "missing_domains": [],
+      "numerator": 4,
+      "statuses": {
+        "CapacityScalability": "INACTIVE",
+        "CrossAssetGeneralization": "INACTIVE",
+        "DefeaterResistance": "MEASURED",
+        "EvaluationSafety": "INACTIVE",
+        "ExecutionFidelity": "MEASURED",
+        "MicrostructureInvariance": "MEASURED",
+        "OperationalSimplicity": "MEASURED",
+        "RegimeRobustness": "INACTIVE",
+        "RepresentationStability": "INACTIVE",
+        "StatisticalCredibility": "INACTIVE"
+      },
+      "unmeasured_domains": []
+    }
+  },
+  "dual_scoring_record": {
+    "claim_status": "NO_ECONOMIC_CLAIM",
+    "delta": 5.7,
+    "delta_kind": "TRANSFORM_ONLY",
+    "measurement_changed": false,
+    "measurement_identity": "1295fdd1e39eb45150493d30adc3508c9565eac3cc65e778f011bfce468b575b",
+    "note": "both sides read the same raw measurements; only the coverage transform differs, so any delta here is transform-only by construction",
+    "scoring_versions": {
+      "derived_coverage_v1": {
+        "aggregate": 14.2,
+        "convention": "coverage derived from measured eligible domains",
+        "coverage": {
+          "all_domain_coverage_factor": 0.4,
+          "basis": "coverage = measured eligible domains / eligible domains; an unmeasured domain is neither a success nor an economic zero",
+          "coverage_factor": 1.0,
+          "coverage_source": "DERIVED_FROM_MEASURED_DOMAINS",
+          "denominator": 4,
+          "inactive_domains": [
+            "RegimeRobustness",
+            "CrossAssetGeneralization",
+            "StatisticalCredibility",
+            "EvaluationSafety",
+            "CapacityScalability",
+            "RepresentationStability"
+          ],
+          "inactive_fraction": 0.6,
+          "measured_domains": [
+            "ExecutionFidelity",
+            "MicrostructureInvariance",
+            "DefeaterResistance",
+            "OperationalSimplicity"
+          ],
+          "missing_domains": [],
+          "numerator": 4,
+          "statuses": {
+            "CapacityScalability": "INACTIVE",
+            "CrossAssetGeneralization": "INACTIVE",
+            "DefeaterResistance": "MEASURED",
+            "EvaluationSafety": "INACTIVE",
+            "ExecutionFidelity": "MEASURED",
+            "MicrostructureInvariance": "MEASURED",
+            "OperationalSimplicity": "MEASURED",
+            "RegimeRobustness": "INACTIVE",
+            "RepresentationStability": "INACTIVE",
+            "StatisticalCredibility": "INACTIVE"
+          },
+          "unmeasured_domains": []
+        },
+        "coverage_factor": 1.0,
+        "coverage_source": "DERIVED_FROM_MEASURED_DOMAINS"
+      },
+      "legacy_fixed_coverage_v1": {
+        "aggregate": 8.5,
+        "convention": "retired fixed coverage constant; kept only as the comparison side",
+        "coverage_factor": 0.6,
+        "coverage_source": "CALLER_SUPPLIED"
+      }
+    }
+  },
+  "economic_claim": "NONE",
+  "evidence_class": "MANIFEST OF MEASURED CODE: derived from the live registry, scoring module and certificate generator; no score target, no PASS",
+  "g7_default_state": {
+    "reason": "PSEUDO_PROSPECTIVE_HISTORICAL_WINDOW_NOT_ACCEPTED is returned when no shadow_stream is declared (NX08.R4)"
+  },
+  "legacy_fixed_coverage_factor": 0.6,
+  "receipt_digest": "69faa715513e815d592efcbefef98058a5c97766d39a96714a926df7f8a39629",
+  "receipt_verifies": true,
+  "scoring_versions_not_in_digest": true
+}

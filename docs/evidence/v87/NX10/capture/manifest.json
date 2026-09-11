@@ -1,0 +1,33 @@
+{
+  "authority": "NONE",
+  "batches": {
+    "batch_0001": {
+      "chain_hash": "1be3b34520cb1e7aa71690c24147cb073630f7f6d30f8002b8cea657575d88a9",
+      "events": 1000,
+      "first_arrival_ns": 1789099251317919000,
+      "first_event_ns": 1789099097369000000,
+      "last_arrival_ns": 1789099251317919000,
+      "last_event_ns": 1789099251332000000,
+      "payload_sha256": "edafc4d1098eabfbb6931759e525028cc5739f3cc6308d9e1a2530dab5c9f68c",
+      "prev_hash": "GENESIS"
+    },
+    "batch_0002": {
+      "chain_hash": "f212109f27a4bec207bb995a1fa98c7cde294be994e8490b1ad394fa0056cede",
+      "events": 9,
+      "first_arrival_ns": 1789099254938020000,
+      "first_event_ns": 1789099251971000000,
+      "last_arrival_ns": 1789099254938020000,
+      "last_event_ns": 1789099254787000000,
+      "payload_sha256": "58eb1a6a29c6d32471614472e6c20b07fd51d1f32bf79a654701e61d5f7dc29f",
+      "prev_hash": "1be3b34520cb1e7aa71690c24147cb073630f7f6d30f8002b8cea657575d88a9"
+    }
+  },
+  "capture_version": "v87-public-capture-v1",
+  "chain_hash": "f212109f27a4bec207bb995a1fa98c7cde294be994e8490b1ad394fa0056cede",
+  "label": "PUBLIC_PAPER_CAPTURE: public venue data through an unauthenticated endpoint; technical evidence only, NOT a live settlement and NOT an account statement",
+  "max_gap_ns": 300000000000,
+  "polls": 2,
+  "source": "BINANCE_FAPI_AGGTRADES_PUBLIC",
+  "started_ns": 1789099251317681000,
+  "symbol": "BTCUSDT"
+}

@@ -33,16 +33,16 @@ SHA'sını taşır.
 
 | Katman | Gerçek dosyalar | Testler |
 |---|---|---|
-| Veri/girdi | `evaluation/multitape.py`, `evaluation/tape_identity.py` (yeni), `adapters/catalog_tape.py`, `adapters/funding_history.py` | `test_tape_identity_nx01.py`, `test_catalog_f6.py` |
-| Muhasebe | `evaluation/runner.py`, `evaluation/economic_benchmark.py`, `adapters/portfolio_equity.py`, `adapters/accounting_replay.py` | `test_d153_runner_report.py`, `test_portfolio_benchmark.py`, `test_report_accounting.py` |
-| Ledger/receipt | `evaluation/benchmark_receipt.py`, `evaluation/parity.py` | `test_execution_scoring_link.py` |
-| Forward/prospective | `evaluation/forward_plan.py`, `evaluation/stream_replay.py`, `adapters/economic_paper.py`, `adapters/shadow_ingest.py` | `test_forward_plan.py`, `test_stream_replay.py`, `test_paper_recovery.py` |
-| İstatistik | `evaluation/{alignment,family,reality_check,deflated_sharpe,overfitting}.py` | `test_loss_alignment.py`, `test_family.py`, `test_reality_check.py`, `test_deflated_sharpe.py`, `test_overfitting.py` |
-| Skor/gate | `evaluation/{scoring,certificate,gate_resolution}.py` | `test_execution_scoring_link.py`, `test_gate_resolution.py` |
-| Politika | `economics/{grammar,protection}.py`, `adapters/expert_strategy.py` | `test_grammar.py`, `test_squeeze_protection.py`, `test_campaign_protection.py` |
+| Veri/girdi | `v8-next/src/v8_next/evaluation/multitape.py`, `v8-next/src/v8_next/evaluation/tape_identity.py` (yeni), `v8-next/src/v8_next/adapters/catalog_tape.py`, `v8-next/src/v8_next/adapters/funding_history.py` | `test_tape_identity_nx01.py`, `test_catalog_f6.py` |
+| Muhasebe | `v8-next/src/v8_next/evaluation/runner.py`, `v8-next/src/v8_next/evaluation/economic_benchmark.py`, `v8-next/src/v8_next/adapters/portfolio_equity.py`, `v8-next/src/v8_next/adapters/accounting_replay.py` | `test_d153_runner_report.py`, `test_portfolio_benchmark.py`, `test_report_accounting.py` |
+| Ledger/receipt | `v8-next/src/v8_next/evaluation/benchmark_receipt.py`, `v8-next/src/v8_next/evaluation/parity.py` | `test_execution_scoring_link.py` |
+| Forward/prospective | `v8-next/src/v8_next/evaluation/forward_plan.py`, `v8-next/src/v8_next/evaluation/stream_replay.py`, `v8-next/src/v8_next/adapters/economic_paper.py`, `v8-next/src/v8_next/adapters/shadow_ingest.py` | `test_forward_plan.py`, `test_stream_replay.py`, `test_paper_recovery.py` |
+| İstatistik | `v8-next/src/v8_next/evaluation/alignment.py`, `v8-next/src/v8_next/evaluation/family.py`, `v8-next/src/v8_next/evaluation/reality_check.py`, `v8-next/src/v8_next/evaluation/deflated_sharpe.py`, `v8-next/src/v8_next/evaluation/overfitting.py` | `test_loss_alignment.py`, `test_family.py`, `test_reality_check.py`, `test_deflated_sharpe.py`, `test_overfitting.py` |
+| Skor/gate | `v8-next/src/v8_next/evaluation/scoring.py`, `v8-next/src/v8_next/evaluation/certificate.py`, `v8-next/src/v8_next/evaluation/gate_resolution.py` | `test_execution_scoring_link.py`, `test_gate_resolution.py` |
+| Politika | `v8-next/src/v8_next/economics/grammar.py`, `v8-next/src/v8_next/economics/protection.py`, `v8-next/src/v8_next/adapters/expert_strategy.py` | `test_grammar.py`, `test_squeeze_protection.py`, `test_campaign_protection.py` |
 
 Python/Nautilus icra düzlemi mevcuttur (`nautilus-trader==2.0.0rc4`,
-`adapters/execution_models.py`, `app/{paper,sandbox,trial}.py`); bu iş onu yeniden
+`v8-next/src/v8_next/adapters/execution_models.py`, `v8-next/src/v8_next/app/paper.py`, `v8-next/src/v8_next/app/sandbox.py`, `v8-next/src/v8_next/app/trial.py`); bu iş onu yeniden
 kurmaz, mevcut arayüzleri yeniden kullanır.
 
 ## R2 — Bağımlılık sırası ve artefakt doğrulaması (sürüyor)

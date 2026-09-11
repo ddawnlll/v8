@@ -36,7 +36,13 @@ def test_d153_runner_end_to_end_and_html_generation(tmp_path: Path):
 
     assert result.total_bars == REAL_BARS
     assert result.total_trades >= 0
-    assert 0.0 <= result.capability_score <= 100.0
+    # NX08.R1: this cell takes no trades, so there is no measured capability:
+    # the score is MISSING (None) instead of a fabricated 0.0.
+    if result.total_trades == 0:
+        assert result.capability_score is None
+    else:
+        assert result.capability_score is not None
+        assert 0.0 <= result.capability_score <= 100.0
 
     # Diagnostic gate vector (no gate resolution battery in this cell).
     # G0 is genuinely measured from candle lineage; G1/G2 have no measurement
@@ -52,7 +58,36 @@ def test_d153_runner_end_to_end_and_html_generation(tmp_path: Path):
     verdict = result.gates.readiness()
     assert verdict.status == ReadinessStatus.InsufficientEvidence
     assert "NO_ECONOMIC_CLAIM" in result.certificate.status
-    assert 0.0 <= result.certificate.readiness_index <= 100.0
+    # NX08.R2: no Minerva run and no projection in this cell, so there is no
+    # robustness and no economic measurement. The readiness index is MISSING
+    # rather than a number built on the retired 50.0/60.0 defaults.
+    assert result.certificate.readiness_index is None
+    assert result.certificate.minerva_robustness_score is None
+    assert result.certificate.economic_score is None
+    assert set(result.certificate.missing_measurements) >= {
+        "minerva_robustness_score",
+        "economic_score",
+    }
+    derivation = result.certificate.derivation
+    assert derivation is not None
+    assert derivation["binding"]["receipt_digest"] == result.receipt.receipt_digest
+    assert derivation["raw_measurements"]["minerva_effective_score"] is None
+    assert result.certificate.readiness_upper_bound is None or (
+        result.certificate.readiness_index is not None
+    )
+    # NX08.R5: both scorer versions travel in the same receipt, side by side
+    versions = result.receipt.scoring_versions
+    assert "legacy_fixed_coverage_v1" in versions["scoring_versions"]
+    assert "derived_coverage_v1" in versions["scoring_versions"]
+    assert versions["delta_kind"] in ("TRANSFORM_ONLY", "NOT_COMPARABLE_MISSING_MEASUREMENT")
+    if versions["delta_kind"] == "TRANSFORM_ONLY":
+        assert versions["delta"] is not None
+    else:
+        # no measured aggregate on this cell: the comparison is not reported as a
+        # delta at all, rather than as 0.0
+        assert versions["delta"] is None
+        assert versions["scoring_versions"]["derived_coverage_v1"]["aggregate"] is None
+    assert versions["claim_status"] == "NO_ECONOMIC_CLAIM"
 
     # Terminal ASCII rendering check
     ascii_out = result.certificate.render_ascii()

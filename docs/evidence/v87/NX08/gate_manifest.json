@@ -1,0 +1,110 @@
+{
+  "consistency_problems": [],
+  "descriptor_count": 10,
+  "gate_count": 10,
+  "gate_vector_fields": [
+    "g0_identity",
+    "g1_causal_pit",
+    "g2_determinism_ledger",
+    "g3_benchmark_coverage",
+    "g4_structural_robustness",
+    "g5_statistical_credibility",
+    "g6_protected_oos",
+    "g7_generalization",
+    "g8_prospective_shadow",
+    "g9_live_realization"
+  ],
+  "gates": [
+    {
+      "canonical_id": "G0ConstitutionalIntegrity",
+      "index": 0,
+      "readiness_role": "BLOCKING",
+      "requirement": "RequiredBlocking",
+      "resolver": "resolver:receipt_structural",
+      "source_clause": "G0 constitutional/causal integrity (PIT, ChronosGate, determinism, ledger conservation, receipt integrity, non-escalation, synthetic isolation, claim typing): hard fail blocks all.",
+      "vector_field": "g0_identity"
+    },
+    {
+      "canonical_id": "G1MeasurementIdentity",
+      "index": 1,
+      "readiness_role": "BLOCKING",
+      "requirement": "RequiredBlocking",
+      "resolver": "resolver:receipt_structural",
+      "source_clause": "G1 measurement identity (estimand, data role, lineage, search lineage, cost/execution/world versions, burn marking): hard fail blocks inference.",
+      "vector_field": "g1_causal_pit"
+    },
+    {
+      "canonical_id": "G2HistoricalDiagnostic",
+      "index": 2,
+      "readiness_role": "DIAGNOSTIC",
+      "requirement": "Required",
+      "resolver": "resolver:receipt_structural",
+      "source_clause": "G2 historical diagnostic court: outcome is diagnostic state, promotion NONE.",
+      "vector_field": "g2_determinism_ledger"
+    },
+    {
+      "canonical_id": "G3ScenarioRobustness",
+      "index": 3,
+      "readiness_role": "DIAGNOSTIC",
+      "requirement": "Required",
+      "resolver": "evaluate_g3_scenario_robustness",
+      "source_clause": "G3 scenario coverage & behavioral robustness: unknown stays unknown.",
+      "vector_field": "g3_benchmark_coverage"
+    },
+    {
+      "canonical_id": "G4SyntheticFalsification",
+      "index": 4,
+      "readiness_role": "DIAGNOSTIC",
+      "requirement": "Required",
+      "resolver": "evaluate_g4_synthetic_falsification",
+      "source_clause": "G4 adversarial/synthetic falsification: PASS mints nothing; FAIL is passport-scoped.",
+      "vector_field": "g4_structural_robustness"
+    },
+    {
+      "canonical_id": "G5SelectionControl",
+      "index": 5,
+      "readiness_role": "DIAGNOSTIC",
+      "requirement": "Required",
+      "resolver": "evaluate_g5_selection_control",
+      "source_clause": "G5 selection control: WRC + genuine DSR + SPA remain the active burden ... keeps G5 at NO_ECONOMIC_CLAIM.",
+      "vector_field": "g5_statistical_credibility"
+    },
+    {
+      "canonical_id": "G6FrozenOOSReplication",
+      "index": 6,
+      "readiness_role": "DIAGNOSTIC",
+      "requirement": "Required",
+      "resolver": "evaluate_g6_frozen_oos",
+      "source_clause": "G6 frozen-OOS replication: PASS = bounded replication only.",
+      "vector_field": "g6_protected_oos"
+    },
+    {
+      "canonical_id": "G7ProspectiveShadow",
+      "index": 7,
+      "readiness_role": "DIAGNOSTIC",
+      "requirement": "Required",
+      "resolver": "evaluate_g7_prospective_shadow",
+      "source_clause": "G7 prospective shadow succession: `EvaluationEpoch` forward evidence, survival/drift/drawdown, e-process state.",
+      "vector_field": "g7_generalization"
+    },
+    {
+      "canonical_id": "G8LiveRealization",
+      "index": 8,
+      "readiness_role": "CAPITAL",
+      "requirement": "Required",
+      "resolver": "evaluate_g8_live_realization",
+      "source_clause": "G8 live realization: venue-settled fills/costs/settlement/deviation/capacity/incidents. Historical/synthetic never substitutes.",
+      "vector_field": "g8_prospective_shadow"
+    },
+    {
+      "canonical_id": "G9Certificate",
+      "index": 9,
+      "readiness_role": "CAPITAL",
+      "requirement": "Required",
+      "resolver": "evaluate_g9_certificate_authority",
+      "source_clause": "G9 certificate: non-scalar `ProductionEvidenceCertificate` + profile conclusion; scalar collapse forbidden.",
+      "vector_field": "g9_live_realization"
+    }
+  ],
+  "source": "evaluation/gate_registry.py derived from benchmark_receipt.GATE_DESCRIPTORS"
+}

@@ -37,6 +37,11 @@ from v8_next.evaluation.statistics_plan import (
 )
 
 HOURS_PER_YEAR = 365.0 * 24.0
+#: Per-bar -> annualized Sharpe scale. Every *published* Sharpe number (the
+#: point estimate and its bootstrap CI alike) lives on this one scale (#388):
+#: a CI stored per-bar next to an annualized point cannot contain its own
+#: estimate, and the report then contradicts itself.
+SHARPE_ANNUALIZATION = math.sqrt(HOURS_PER_YEAR)
 TAKER_FEE_DEFAULT = 0.0005
 CAPITAL_DEFAULT = 10000.0
 VOL_LOOKBACK = 48
@@ -285,7 +290,7 @@ def sharpe_stats(returns: Sequence[float]) -> tuple[float, float]:
     if sd <= 1e-12:
         return 0.0, 0.0
     s = float(arr.mean() / sd)
-    return s, s * math.sqrt(HOURS_PER_YEAR)
+    return s, s * SHARPE_ANNUALIZATION
 
 
 def block_bootstrap_ci(
@@ -294,7 +299,14 @@ def block_bootstrap_ci(
     reps: int = BOOTSTRAP_REPS,
     seed: int = BOOTSTRAP_SEED,
 ) -> tuple[float | None, float | None]:
-    """Circular block bootstrap CI for per-bar Sharpe; preserves dependence."""
+    """Circular block bootstrap CI for the PER-BAR Sharpe; preserves dependence.
+
+    Deliberately left on the per-bar scale: it is the primitive used for
+    scale-free sign tests (positive control) and for the pre-registered excess
+    differential rule. Anything PUBLISHED as a Sharpe confidence interval must
+    go through `sharpe_ci_annualized` so it shares the scale of
+    `sharpe_annualized` (#388).
+    """
     arr = np.asarray(list(returns), dtype=np.float64)
     n = arr.size
     if n < 2 * block or not np.isfinite(arr).all():
@@ -312,6 +324,25 @@ def block_bootstrap_ci(
         return None, None
     lo, hi = np.percentile(np.asarray(stats), [2.5, 97.5])
     return float(lo), float(hi)
+
+
+def sharpe_ci_annualized(
+    returns: Sequence[float],
+    block: int = BOOTSTRAP_BLOCK,
+    reps: int = BOOTSTRAP_REPS,
+    seed: int = BOOTSTRAP_SEED,
+) -> tuple[float | None, float | None]:
+    """Block-bootstrap Sharpe CI on the scale of `sharpe_annualized` (#388).
+
+    The bootstrap distribution is resampled on per-bar returns, so its
+    percentiles are per-bar Sharpe values; they are multiplied by the same
+    sqrt(HOURS_PER_YEAR) factor the point estimate uses. Publishing both on one
+    scale is what lets a reader check `ci_low <= sharpe_annualized <= ci_high`.
+    """
+    lo, hi = block_bootstrap_ci(returns, block=block, reps=reps, seed=seed)
+    if lo is None or hi is None:
+        return None, None
+    return lo * SHARPE_ANNUALIZATION, hi * SHARPE_ANNUALIZATION
 
 
 def max_drawdown(equity: Sequence[float]) -> float:
@@ -899,8 +930,11 @@ def strategy_series_from_engine(
     """Per-bar strategy equity from engine fills + closes. No double-counted costs.
 
     Commission per fill is estimated as notional * taker_fee and reconciled
-    against the engine-reported commission total. Funding is MISSING (engine
-    is not fed funding events in this scope).
+    against the engine-reported commission total. Turnover counts the entry AND
+    the exit leg (#397), so the published turnover, the commission estimate and
+    the capacity breakeven derived from them all read in the one declared fee
+    convention. Funding is MISSING (engine is not fed funding events in this
+    scope).
     """
     closes = [b.close for b in bars]
     n = len(closes)
@@ -934,6 +968,12 @@ def strategy_series_from_engine(
     ]
     est_comm_total = sum(
         float(o.get("filled_qty") or 0) * float(o.get("average_price") or 0) * taker_fee
+        for o in fills
+    )
+    # #397: same fill set as the commission estimate, so turnover and commission
+    # cannot drift into two different fee conventions.
+    fill_notional_total = sum(
+        abs(float(o.get("filled_qty") or 0)) * float(o.get("average_price") or 0)
         for o in fills
     )
     # Closed-loop verification: engine realized_pnl sums exactly to the balance
@@ -974,6 +1014,8 @@ def strategy_series_from_engine(
 
     # Position intervals: open bar -> close bar with signed exposure.
     events: dict[int, list[tuple[str, float, float]]] = {}
+    engine_priced_exits = 0
+    bar_close_proxy_exits = 0
     for pos, clo in pairs:
         try:
             o_idx = idx_of.get(int(pos.get("event_ns", -1)), None)
@@ -995,7 +1037,18 @@ def strategy_series_from_engine(
             except (ValueError, TypeError):
                 c_idx = None
             if c_idx is not None and c_idx > o_idx:
-                events.setdefault(c_idx, []).append(("close", 0.0, 0.0))
+                # #397: the exit leg carries turnover on its own notional. The
+                # engine's recorded close price is used when present; a missing
+                # close price falls back to the bar-close fill proxy and is
+                # counted in the reconciliation (never a free exit).
+                exit_px = parse_money(clo.get("avg_px_close"))
+                if exit_px is None:
+                    exit_price = float(closes[c_idx])
+                    bar_close_proxy_exits += 1
+                else:
+                    exit_price = float(exit_px)
+                    engine_priced_exits += 1
+                events.setdefault(c_idx, []).append(("close", d * q, exit_price))
     # Authoritative realized PnL per close bar (engine net of its own fees).
     realized_by_bar: dict[int, float] = {}
     for _pos, clo in pairs:
@@ -1013,6 +1066,9 @@ def strategy_series_from_engine(
     qty = 0.0
     avg = 0.0
     turnover = 0.0
+    entry_turnover = 0.0
+    exit_turnover = 0.0
+    exit_fills = 0
     n_trades = 0
     for i in range(1, n):
         for kind, qd, px in events.get(i, []):
@@ -1020,9 +1076,15 @@ def strategy_series_from_engine(
                 qty = qd
                 avg = px
                 turnover += abs(qd) * px / capital
+                entry_turnover += abs(qd) * px / capital
                 n_trades += 1
             else:
                 qty = 0.0
+                # #397: the exit leg pays the same fee on its own notional and
+                # is therefore turnover, not a free close.
+                turnover += abs(qd) * px / capital
+                exit_turnover += abs(qd) * px / capital
+                exit_fills += 1
         mtm = qty * (closes[i] - avg) if qty != 0.0 else 0.0
         equity.append(equity[-1] + mtm)
         exposure.append(abs(qty * closes[i]) / equity[-2] if equity[-2] > 0 else 0.0)
@@ -1064,6 +1126,22 @@ def strategy_series_from_engine(
             "relative_error": rel_err if math.isfinite(rel_err) else None,
             "implied_drag": commission,
             "balance_total": balance_total,
+            # #397: turnover notional, entry/exit separated, against the fill
+            # notional the commission estimate charges (one fee convention).
+            "turnover_notional": {
+                "entry_notional_usdt": entry_turnover * capital,
+                "exit_notional_usdt": exit_turnover * capital,
+                "total_notional_usdt": turnover * capital,
+                "entry_fills": n_trades,
+                "exit_fills": exit_fills,
+                "exit_price_source": {
+                    "engine_avg_px_close": engine_priced_exits,
+                    "bar_close_proxy": bar_close_proxy_exits,
+                },
+                "fills_notional_usdt": fill_notional_total,
+                "fills_notional_unattributed_usdt": fill_notional_total
+                - turnover * capital,
+            },
         },
         "n_trades": n_trades,
         "n_trades_definition": "campaign open events (legacy field)",
@@ -1092,6 +1170,11 @@ def portfolio_series_from_engine(
     analytic row x open-position expectation is retained only as a
     cross-check. Unreconciled funding stays UNVERIFIED, never zero-filled.
     Participation per position leg is fill notional over real quote volume.
+
+    Turnover counts the entry AND the exit leg of every campaign (#397): the
+    published ``turnover_notional_over_capital`` and ``commission_cost`` are
+    built from the same fills, so both read in the one fee convention the
+    receipt declares (``taker_fee`` on traded notional).
     """
     n = len(end_ns)
     idx_of = {ns: i for i, ns in enumerate(end_ns)}
@@ -1111,11 +1194,20 @@ def portfolio_series_from_engine(
         float(o.get("filled_qty") or 0) * float(o.get("average_price") or 0) * taker_fee
         for o in fills
     )
+    # #397: the fee base the commission estimate charges is the same fill set the
+    # turnover is built from, so the two published columns stay readable in the
+    # one fee convention the receipt declares.
+    fill_notional_total = sum(
+        abs(float(o.get("filled_qty") or 0)) * float(o.get("average_price") or 0)
+        for o in fills
+    )
 
     # Per-position intervals on their own leg (pair-indexed: NETTING slots
     # reuse position ids, so id-keyed matching would collide).
     events: dict[int, list[tuple[str, str, float, float]]] = {}
     infos: dict[int, dict[str, Any]] = {}
+    engine_priced_exits = 0
+    bar_close_proxy_exits = 0
     for pi, (pos, clo) in enumerate(pairs):
         inst = str(pos.get("instrument_id", ""))
         closes = legs_closes.get(inst)
@@ -1140,7 +1232,19 @@ def portfolio_series_from_engine(
             except (ValueError, TypeError):
                 c_idx = None
             if c_idx is not None and c_idx > o_idx:
-                events.setdefault(c_idx, []).append(("close", inst, 0.0, 0.0))
+                # #397: the exit leg of a campaign carries turnover on its own
+                # notional, exactly like the entry leg. The engine's recorded
+                # close price is used when present; a missing close price falls
+                # back to the bar-close fill proxy AND is counted in
+                # cost_reconciliation, never silently treated as a free exit.
+                exit_px = parse_money(clo.get("avg_px_close"))
+                if exit_px is None:
+                    exit_price = float(closes[c_idx])
+                    bar_close_proxy_exits += 1
+                else:
+                    exit_price = float(exit_px)
+                    engine_priced_exits += 1
+                events.setdefault(c_idx, []).append(("close", inst, d * q, exit_price))
                 infos[pi]["close_idx"] = c_idx
 
     sum_realized = 0.0
@@ -1159,17 +1263,28 @@ def portfolio_series_from_engine(
     exposure = [0.0]
     live: dict[str, list[float]] = {}  # inst -> [qty, avg]
     turnover = 0.0
+    entry_turnover = 0.0
+    exit_turnover = 0.0
     n_trades = 0
+    exit_fills = 0
     prev_mtm: dict[str, float] = {}
     for i in range(1, n):
         for kind, inst, qd, px in events.get(i, []):
             if kind == "open":
                 live[inst] = [qd, px]
                 turnover += abs(qd) * px / capital
+                entry_turnover += abs(qd) * px / capital
                 n_trades += 1
             else:
                 live.pop(inst, None)
                 prev_mtm.pop(inst, None)
+                # #397: an exit pays the same linear fee on its own notional, so
+                # it is turnover too. Before this the published turnover was
+                # entry-only while the commission estimate covered both legs
+                # (implied fee ~2x the declared taker fee).
+                turnover += abs(qd) * px / capital
+                exit_turnover += abs(qd) * px / capital
+                exit_fills += 1
         step_pnl = 0.0
         gross = 0.0
         for inst, (qd, avg) in live.items():
@@ -1286,6 +1401,23 @@ def portfolio_series_from_engine(
             "funding_expected": funding_expected,
             "closed_loop_error": loop_err,
             "balance_total": balance_total,
+            # #397: the notional the published turnover is built from, entry and
+            # exit separated, beside the fill notional the commission estimate
+            # charges. One fee convention: the two must agree.
+            "turnover_notional": {
+                "entry_notional_usdt": entry_turnover * capital,
+                "exit_notional_usdt": exit_turnover * capital,
+                "total_notional_usdt": turnover * capital,
+                "entry_fills": n_trades,
+                "exit_fills": exit_fills,
+                "exit_price_source": {
+                    "engine_avg_px_close": engine_priced_exits,
+                    "bar_close_proxy": bar_close_proxy_exits,
+                },
+                "fills_notional_usdt": fill_notional_total,
+                "fills_notional_unattributed_usdt": fill_notional_total
+                - turnover * capital,
+            },
         },
         "participation": participations,
         "n_trades": n_trades,
@@ -1305,7 +1437,9 @@ def metrics_for_curve(
 ) -> MetricSet:
     rets = per_bar_returns(list(equity))
     s_pb, s_ann = sharpe_stats(rets)
-    ci_lo, ci_hi = block_bootstrap_ci(rets)
+    # #388: the stored/published Sharpe CI shares the annualized scale of
+    # sharpe_annualized, so the interval contains its own point estimate.
+    ci_lo, ci_hi = sharpe_ci_annualized(rets)
     # Degenerate variance guard: a leg with information in only a handful of
     # bars (e.g. one trade in the window) yields explosive Sharpe arithmetic.
     # Counted on raw pre-reconciliation steps, never on drift-smeared levels.
@@ -1321,6 +1455,9 @@ def metrics_for_curve(
         e_rets = per_bar_returns(list(primary_equity))
         if len(e_rets) == len(rets):
             diff = [a - b for a, b in zip(rets, e_rets, strict=False)]
+            # Per-bar deliberately: this is the input to the pre-registered
+            # EXCESS_CI_RULE sign test, not a published Sharpe interval (#388
+            # rescales only the sharpe_ci_* pair, so the gate vector is stable).
             excess_ci = block_bootstrap_ci(diff)
     tail = float(np.mean(np.sort(np.asarray(rets))[: max(1, int(0.05 * len(rets)))])) if rets else 0.0
     return MetricSet(
@@ -1796,6 +1933,17 @@ def degeneracy_marker(m: MetricSet) -> str:
     return f" {DEGENERATE_VARIANCE_MARKER}" if m.sharpe_degenerate else ""
 
 
+def sharpe_ci_cell(m: MetricSet) -> str:
+    """Render the ANNUALIZED Sharpe CI as `[lo,hi]`; empty when not computed.
+
+    Shared by the in-sample table and the OOS block so both publish the interval
+    on the same scale as the `sharpe_annualized` cell beside it (#388).
+    """
+    if m.sharpe_ci_low is None or m.sharpe_ci_high is None:
+        return ""
+    return f"[{m.sharpe_ci_low:.3f},{m.sharpe_ci_high:.3f}]"
+
+
 def render_report(receipt: EconomicReceipt) -> str:
     r = receipt
     lines = [
@@ -1826,15 +1974,16 @@ def render_report(receipt: EconomicReceipt) -> str:
         "All money columns in USDT on the run capital "
         f"({r.run.capital:.2f} USDT); returns are fractions of that capital.",
         "",
+        "Sharpe_ann and its [CI] are both annualized (per-bar Sharpe x "
+        f"{SHARPE_ANNUALIZATION:.2f} = sqrt({HOURS_PER_YEAR:.0f})); the CI is a "
+        "circular block-bootstrap percentile interval on that same scale, so it "
+        "contains its own point estimate unless the row is marked degenerate.",
+        "",
         "| curve | net | $P&L | excess vs primary | Sharpe_ann [CI] | maxDD | turn | commission $ | funding $ |",
         "|---|---|---|---|---|---|---|---|---|",
     ]
     for name, m in r.metrics.items():
-        ci = (
-            f"[{m.sharpe_ci_low:.3f},{m.sharpe_ci_high:.3f}]"
-            if m.sharpe_ci_low is not None and m.sharpe_ci_high is not None
-            else "n/a"
-        )
+        ci = sharpe_ci_cell(m) or "n/a"
         if m.sharpe_degenerate:
             ci += degeneracy_marker(m)
         ex = f"{m.excess_vs_primary:.4f}" if m.excess_vs_primary is not None else "—"
@@ -1863,13 +2012,17 @@ def render_report(receipt: EconomicReceipt) -> str:
         "",
         f"`{DEGENERATE_VARIANCE_MARKER}` marks a row whose Sharpe_ann is "
         "arithmetic on a variance estimated from too few informative bars; the "
-        "value is not interpretable and is never evidence of performance.",
+        "value is not interpretable and is never evidence of performance. CI is "
+        "the annualized block-bootstrap interval, on the same scale as "
+        "Sharpe_ann, and is omitted when it could not be computed.",
         "",
     ]
     for name, m in r.oos_metrics.items():
+        ci = sharpe_ci_cell(m)
         lines.append(
             f"- {name}: net {m.net_return:.4f} Sharpe_ann "
-            f"{m.sharpe_annualized:.3f}{degeneracy_marker(m)}"
+            f"{m.sharpe_annualized:.3f}"
+            f"{f' CI {ci}' if ci else ''}{degeneracy_marker(m)}"
         )
     lines += [
         "",

@@ -157,9 +157,22 @@ def test_g6_frozen_oos_replication(real_candles: list[Candle]):
 
 
 def test_g7_prospective_shadow_streaming(tmp_path: Path, real_candles: list[Candle]):
-    """G7: Verify causal e-process martingale and drift logging to disk."""
+    """G7: Verify causal e-process martingale and drift logging to disk.
+
+    NX08.R4: the gate only evaluates an explicitly declared shadow stream. The
+    same candles passed as the stream exercise the mechanics; the removed
+    behaviour (minting PASS from the run's own historical tail) is asserted to be
+    gone in the test below.
+    """
     out_dir = tmp_path / "shadow"
-    state, metrics = evaluate_g7_prospective_shadow(real_candles, output_dir=out_dir)
+    state, metrics = evaluate_g7_prospective_shadow(
+        real_candles,
+        output_dir=out_dir,
+        shadow_stream=real_candles[-100:],
+        shadow_origin="TEST_FIXTURE_DECLARED_STREAM",
+    )
+    assert metrics["provenance_status"] == "CALLER_DECLARED_NOT_VERIFIED_BY_GATE"
+    assert metrics["shadow_origin"] == "TEST_FIXTURE_DECLARED_STREAM"
     assert state == GateState.PASS
     assert metrics["passed"] is True
     assert 0.01 <= metrics["final_e_process"] < 20.0
@@ -170,6 +183,21 @@ def test_g7_prospective_shadow_streaming(tmp_path: Path, real_candles: list[Cand
     assert len(lines) > 0
 
 
+def test_g7_refuses_the_runs_own_historical_tail(real_candles: list[Candle], tmp_path: Path):
+    """NX08.R4: no prospective state can be minted from the run's own tail."""
+    state, metrics = evaluate_g7_prospective_shadow(
+        real_candles, output_dir=tmp_path / "shadow-removed"
+    )
+    assert state == GateState.UNKNOWN
+    assert metrics["reason"] == "PSEUDO_PROSPECTIVE_HISTORICAL_WINDOW_NOT_ACCEPTED"
+    assert metrics["passed"] is False
+    # and a declared stream without a named origin is refused outright
+    with pytest.raises(ValueError, match="named origin"):
+        evaluate_g7_prospective_shadow(
+            real_candles, tmp_path / "shadow-unnamed", shadow_stream=real_candles[-100:]
+        )
+
+
 def test_g8_live_realization_modes(tmp_path: Path):
     """G8: Verify D-152 §5 Diagnostic Fold (NOT_APPLICABLE) and live fills (PASS)."""
     # 1. Candidate / Research phase without live venue
@@ -177,15 +205,35 @@ def test_g8_live_realization_modes(tmp_path: Path):
     assert state == GateState.NOT_APPLICABLE
     assert metrics["mode"] == "DIAGNOSTIC_FOLD"
 
-    # 2. Live venue settled fills
+    # 2. A well-formed file is public paper (NX10.R4): technical evidence, not a
+    # settlement. It must NOT reach PASS however valid its columns look.
     fills_file = tmp_path / "fills.jsonl"
     fills_file.write_text(
         json.dumps({"fill_id": "F-001", "instrument": "BTCUSDT", "price": 105000, "qty": 0.01}) + "\n"
     )
-    state_live, metrics_live = evaluate_g8_live_realization(live_fills_path=fills_file)
+    state_paper, metrics_paper = evaluate_g8_live_realization(live_fills_path=fills_file)
+    assert state_paper == GateState.NOT_APPLICABLE
+    assert metrics_paper["mode"] == "PUBLIC_PAPER_NOT_SETTLED"
+    assert metrics_paper["authority"] == "NONE"
+    assert metrics_paper["fills_count"] == 1
+    assert "PUBLIC_PAPER_TECHNICAL_EVIDENCE_ONLY" in metrics_paper["reason"]
+
+    # 2b. Only an authenticated venue statement with an account identity is
+    # allowed to read as settled.
+    with pytest.raises(ValueError, match="account identity"):
+        evaluate_g8_live_realization(
+            live_fills_path=fills_file,
+            provenance="authenticated_venue_statement",
+        )
+    state_live, metrics_live = evaluate_g8_live_realization(
+        live_fills_path=fills_file,
+        provenance="authenticated_venue_statement",
+        account_id="acct-unit-test",
+    )
     assert state_live == GateState.PASS
     assert metrics_live["mode"] == "LIVE_VENUE_SETTLED"
     assert metrics_live["fills_count"] == 1
+    assert metrics_live["authority"] == "VENUE_STATEMENT"
     # No account supplied: PASS must be explicitly labeled unreconciled,
     # never mistaken for a matched realization.
     assert metrics_live["account_reconciled"] is False
@@ -282,7 +330,12 @@ def test_end_to_end_benchmark_runner_resolved_gates(tmp_path: Path):
     # G5 discloses its sample source; G7 holds its window; G8 stays out of scope
     assert gm["g5"]["sample_source"] in ("own_track", "regime_fallback")
     assert gm["g5"]["own_sample_count"] <= result.total_trades + len(candles)
-    assert result.gates.g7_generalization == GateState.PASS
+    # NX08.R4: a historical run has no declared prospective stream, so G7 cannot
+    # pass on the last 100 bars of its own candles.
+    assert result.gates.g7_generalization == GateState.UNKNOWN
+    assert (
+        gm["g7"]["reason"] == "PSEUDO_PROSPECTIVE_HISTORICAL_WINDOW_NOT_ACCEPTED"
+    )
     assert result.gates.g8_prospective_shadow == GateState.NOT_APPLICABLE
 
     # No claim minted; certificate fails closed; ledger verifies

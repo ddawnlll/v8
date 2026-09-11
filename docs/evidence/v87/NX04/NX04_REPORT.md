@@ -36,7 +36,7 @@ hangi ölçüme dayandığını yazar.
 
 | R | Değişiklik | Exact check | Ölçülen sonuç |
 |---|---|---|---|
-| R1 | `tools/nx04_verifier_report.py` özgün ledgerı salt-okunur tarar; sürüm/digest/producer eşlemesini ölçer | `uv run --project v8-next --extra dev --extra research python v8-next/tools/nx04_verifier_report.py --legacy-rev HEAD` | seq 0–11/12/13–19 eşlemesi; tüm girişler kendi kanonuyla yeniden üretildi |
+| R1 | `v8-next/tools/nx04_verifier_report.py` özgün ledgerı salt-okunur tarar; sürüm/digest/producer eşlemesini ölçer | `uv run --project v8-next --extra dev --extra research python v8-next/tools/nx04_verifier_report.py --legacy-rev HEAD` | seq 0–11/12/13–19 eşlemesi; tüm girişler kendi kanonuyla yeniden üretildi |
 | R2 | `ReceiptCanon` + `RECEIPT_CANON_TABLE` + `build_canon_payload`: kanon yalnızca **kanıtlanmış** şablondan çözülür; rastgele alan altkümesi denemesi yok; kanıtlanmamış şekil `CANON_SHAPE_UNPROVEN` ile açık hata | `pytest -q v8-next/tests/test_ledger_canon_nx04.py` | PASS — 14 test; v2 + dolu ekonomik alan → açık red |
 | R3 | Yeni yazımlar `v8.5-digest-v5` (kayıtlı); eski bytes/digest/parent hash korunur; eski kayıt yeniden hashlenmez | aynı pytest (`test_new_writes_register_a_version_without_moving_old_digests`, `test_real_ledger_verifies_and_is_never_rewritten`) | PASS — düzen aynı, sürüm işareti kanon içinde olduğu için yeni yazım yeni digest alır; ledger sha256 değişmedi |
 | R4 | `EntryVerification` / `LedgerVerificationReport`: zincir, digest ve artifact **ayrı** verdict; "zincir geçerli ama artifact yok" aynı başarıya indirgenmez | `test_chain_validity_is_reported_separately_from_artifact_availability` | PASS — `overall=ARTIFACTS_INCOMPLETE`, `chain_valid=True`, `artifacts_intact=False` |

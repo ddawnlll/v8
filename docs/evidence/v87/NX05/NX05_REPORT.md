@@ -3,7 +3,7 @@
 Durum: **R1–R6 teknik olarak teslim edildi.** `NO_ECONOMIC_CLAIM`. Hiçbir koşu ekonomik
 yeterlilik kanıtı sayılmadı; smoke koşular açıkça smoke etiketlidir.
 
-## 0. Ortak sözleşme (yeni: `evaluation/run_window.py`)
+## 0. Ortak sözleşme (yeni: `v8-next/src/v8_next/evaluation/run_window.py`)
 
 Üç kural kod olarak uygulanır, çağıranın disiplinine bırakılmaz:
 
@@ -26,7 +26,7 @@ yeterlilik kanıtı sayılmadı; smoke koşular açıkça smoke etiketlidir.
 | R2 | Run key dört sink'e bağlandı: rapor/window manifesti, execution telemetry, ledger (receipt `input_binding`), ResearchStore (`runs` tablosu) | `test_cli_binds_one_run_key_to_report_telemetry_ledger_and_store` | PASS — tek smoke koşusunda dört sink aynı anahtarı taşır |
 | R3 | `load_tape_candles` ve `load_multitape` lazy `scan_ndjson` + UTC pencere; boş pencere fail-closed; funding writer yokluğu zaten `FUNDING_CATALOG_SUPPORT` ile bildiriliyor | `test_real_utc_window_is_exact_bounded_and_deterministic` | 744 bar penceresi 0.49 s'de; pencere sınırsız serinin birebir dilimi; boş pencere `FileNotFoundError` |
 | R4 | Atomik pencere manifesti + `RunKey` + tamamlanmış koşu reddi | `test_completed_window_refuses_reexecution` + gerçek CLI koşusu | İkinci koşu **exit 3**, ledger sha256 ve giriş sayısı **değişmedi** (1 → 1) |
-| R5 | `tools/nx05_profiles.py`: aynı gerçek pencere + aynı tape iki yoldan; signature/equity/maliyet tablosu | `python v8-next/tools/nx05_profiles.py` | İki yol 744 bar; signature farklı → `funding_attribution=NOT_CLAIMED_SIGNATURES_DIFFER` |
+| R5 | `v8-next/tools/nx05_profiles.py`: aynı gerçek pencere + aynı tape iki yoldan; signature/equity/maliyet tablosu | `python v8-next/tools/nx05_profiles.py` | İki yol 744 bar; signature farklı → `funding_attribution=NOT_CLAIMED_SIGNATURES_DIFFER` |
 | R6 | Smoke / fold / benchmark profilleri ayrı süreçlerde; exact komut, walltime, peak RSS, artifact read-back | aynı tool | smoke 1.371 s / 582 MB, fold(D153) 1.399 s / 584 MB, fold(portfolio) 20.226 s / 607 MB |
 
 Artefaktlar (`docs/evidence/v87/NX05/`):

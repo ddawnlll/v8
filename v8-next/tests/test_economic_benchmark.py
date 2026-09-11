@@ -7,7 +7,10 @@ Evaluative section: real-tape BenchmarkCase via the economic fabric; skips when
 the tape is absent. Synthetic candles are banned there.
 """
 
+import json
+import math
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -105,6 +108,63 @@ def test_mechanics_degenerate_sharpe_flagged() -> None:
     noisy = list(10000.0 + float(i) % 7 - 3.0 for i in range(100))
     m2 = eb.metrics_for_curve(noisy, [1.0] * 100, 1.0, 5.0, None, "ANALYTIC_MODEL", noisy, 1)
     assert m2.sharpe_degenerate is False
+
+
+def _mechanics_return_path(
+    n: int = 500, drift: float = 0.0004, vol: float = 0.01, seed: int = 13
+) -> list[float]:
+    """MECHANICS ONLY: seeded per-bar returns with zero evaluative weight."""
+    import numpy as np
+
+    rng = np.random.default_rng(seed)
+    return [float(v) for v in drift + vol * rng.standard_normal(n)]
+
+
+def _mechanics_equity(rets: list[float], start: float = 10000.0) -> list[float]:
+    """MECHANICS ONLY: compound a synthetic return path into an equity curve."""
+    eq = [start]
+    for r in rets:
+        eq.append(eq[-1] * (1.0 + r))
+    return eq
+
+
+def test_mechanics_sharpe_ci_stored_annualized() -> None:
+    """#388 acceptance (1): the STORED sharpe_ci_* are annualized.
+
+    The block bootstrap resamples per-bar returns, so its percentiles are
+    per-bar Sharpe values. Stored beside the annualized point estimate they must
+    first be scaled by sqrt(HOURS_PER_YEAR); this ratio is 1.0 pre-fix.
+    """
+    eq = _mechanics_equity(_mechanics_return_path())
+    m = eb.metrics_for_curve(eq, [1.0] * len(eq), 1.0, 5.0, None, "ANALYTIC_MODEL", eq, 1)
+    # Exactly the array metrics_for_curve derived from `eq`: same bootstrap input.
+    per_bar_lo, per_bar_hi = eb.block_bootstrap_ci(eb.per_bar_returns(eq))
+    assert per_bar_lo is not None and per_bar_hi is not None
+    root = math.sqrt(eb.HOURS_PER_YEAR)
+    assert eb.SHARPE_ANNUALIZATION == pytest.approx(root, rel=1e-15)
+    assert m.sharpe_ci_low is not None and m.sharpe_ci_high is not None
+    assert m.sharpe_ci_low == pytest.approx(per_bar_lo * root, rel=1e-12)
+    assert m.sharpe_ci_high == pytest.approx(per_bar_hi * root, rel=1e-12)
+    assert m.sharpe_ci_low / per_bar_lo == pytest.approx(root, rel=1e-9)
+    assert m.sharpe_ci_high / per_bar_hi == pytest.approx(root, rel=1e-9)
+    assert m.sharpe_ci_low == pytest.approx(
+        eb.sharpe_ci_annualized(eb.per_bar_returns(eq))[0], rel=1e-12
+    )
+
+
+def test_mechanics_sharpe_ci_brackets_its_own_point() -> None:
+    """#388 acceptance (2): ci_low <= sharpe_annualized <= ci_high on sound rows."""
+    eq = _mechanics_equity(_mechanics_return_path())
+    m = eb.metrics_for_curve(eq, [1.0] * len(eq), 1.0, 5.0, None, "ANALYTIC_MODEL", eq, 1)
+    assert m.sharpe_degenerate is False
+    assert m.sharpe_ci_low is not None and m.sharpe_ci_high is not None
+    assert m.sharpe_ci_low <= m.sharpe_annualized <= m.sharpe_ci_high
+    # Discriminator: the per-bar interval (the pre-fix publication) cannot
+    # contain an annualized point of this magnitude, so this pins the fix.
+    per_bar_lo, per_bar_hi = eb.block_bootstrap_ci(eb.per_bar_returns(eq))
+    assert per_bar_lo is not None and per_bar_hi is not None
+    assert per_bar_hi < m.sharpe_annualized
+    assert not (per_bar_lo <= m.sharpe_annualized <= per_bar_hi)
 
 
 def _mechanics_oos_metric(*, degenerate: bool, sharpe_annualized: float) -> eb.MetricSet:
@@ -217,6 +277,42 @@ def test_mechanics_oos_section_flags_degenerate_variance() -> None:
     assert token in oos_rows["challenger"]
     assert token not in oos_rows["incumbent"]
     assert eb.DEGENERATE_VARIANCE_MARKER == token  # one render token, both sections
+
+
+def test_mechanics_report_publishes_aligned_sharpe_ci() -> None:
+    """#388 acceptance (3): both Sharpe cells publish the CI on the point scale.
+
+    In-sample table and chronological OOS block must carry the same annualized
+    interval, disclose the scale, and keep honest absence where no interval was
+    computed. MECHANICS ONLY: the row is synthetic arithmetic, not performance.
+    """
+    eq = _mechanics_equity(_mechanics_return_path())
+    m = eb.metrics_for_curve(eq, [1.0] * len(eq), 1.0, 5.0, None, "ANALYTIC_MODEL", eq, 1)
+    assert m.sharpe_ci_low is not None and m.sharpe_ci_high is not None
+    assert m.sharpe_ci_low <= m.sharpe_annualized <= m.sharpe_ci_high
+    cell = eb.sharpe_ci_cell(m)
+    assert cell == f"[{m.sharpe_ci_low:.3f},{m.sharpe_ci_high:.3f}]"
+    report = eb.render_report(_mechanics_receipt({"incumbent": m}))
+
+    table = _render_section(
+        report, "## Metrics (cost-adjusted, shared basis)", "## Chronological OOS"
+    )
+    assert "annualized" in table  # the scale claim is on the page, not implied
+    row = next(ln for ln in table.splitlines() if ln.startswith("| incumbent |"))
+    assert f"{m.sharpe_annualized:.3f} {cell}" in row  # point and CI, one scale
+
+    oos = _render_section(report, "## Chronological OOS", "## Statistics")
+    oos_row = next(ln for ln in oos.splitlines() if ln.startswith("- incumbent:"))
+    assert f"Sharpe_ann {m.sharpe_annualized:.3f} CI {cell}" in oos_row
+
+    # A row whose CI was not computed publishes no interval: absence stays absent.
+    absent = eb.render_report(
+        _mechanics_receipt(
+            {"challenger": _mechanics_oos_metric(degenerate=True, sharpe_annualized=1.443)}
+        )
+    )
+    absent_oos = _render_section(absent, "## Chronological OOS", "## Statistics")
+    assert "CI [" not in absent_oos and "n/a" not in absent_oos
 
 
 def test_mechanics_allocator_mix_shape() -> None:
@@ -362,3 +458,273 @@ def test_economic_benchmark_real_tape_end_to_end(tmp_path: Path) -> None:
     # Missing-data honesty: funding stays missing, live stays unrun.
     assert receipt["metrics"]["incumbent"]["funding_cost"] is None
     assert receipt["shadow_live"]["model_vs_real_fills"] == "UNRUN"
+
+
+# ---------------------------------------------------------------------------
+# #397 — turnover and commission must be one fill set, in the declared fee
+# convention (`taker_fee` on traded notional). Entry AND exit legs.
+# ---------------------------------------------------------------------------
+
+
+def _mechanics_engine_result() -> dict[str, Any]:
+    """MECHANICS ONLY synthetic engine result: one campaign, entry + exit.
+
+    Ledger arithmetic with zero evaluative weight: two fills at known prices and
+    the two position records the engine emits for them. No market data, no
+    performance claim.
+    """
+    end_ns = [(i + 1) * 3_600_000_000_000 for i in range(6)]
+    return {
+        "opened_positions": [
+            {
+                "position_id": "MECH-1",
+                "instrument_id": "MECH-PERP.BINANCE",
+                "side": "LONG",
+                "quantity": "2",
+                "avg_px_open": "100",
+                "event_ns": end_ns[1],
+            }
+        ],
+        "closed_positions": [
+            {
+                "position_id": "MECH-1",
+                "instrument_id": "MECH-PERP.BINANCE",
+                "realized_pnl": "4 USDT",
+                "avg_px_close": "102",
+                "event_ns": end_ns[3],
+            }
+        ],
+        "account": {
+            "balance_total": "10004 USDT",
+            "orders": [
+                {"status": "FILLED", "filled_qty": "2", "average_price": "100"},
+                {"status": "FILLED", "filled_qty": "2", "average_price": "102"},
+            ],
+            "positions": [],
+        },
+        "_end_ns": end_ns,
+    }
+
+
+def test_mechanics_engine_turnover_counts_entry_and_exit_fills() -> None:
+    """#397 (G1, mechanics): one campaign, both legs, one fee convention.
+
+    A campaign that opens 2 @ 100 and closes 2 @ 102 trades 404 USDT of
+    notional, so turnover must be 404/capital and the commission estimate
+    404 * taker_fee. Pre-fix the close was carried as a zero-notional event:
+    turnover stopped at 200/capital while the commission still charged both
+    fills, publishing an implied fee ~2x the declared taker fee.
+    """
+    engine_result = _mechanics_engine_result()
+    end_ns = engine_result.pop("_end_ns")
+    capital, fee = 10000.0, 0.0005
+    closes = [100.0, 101.0, 102.0, 103.0, 104.0, 105.0]
+
+    ser = eb.portfolio_series_from_engine(
+        engine_result, {"MECH-PERP.BINANCE": closes}, end_ns, capital, fee
+    )
+
+    assert ser["commission"] == pytest.approx(404.0 * fee, rel=1e-12)
+    assert ser["turnover"] == pytest.approx(404.0 / capital, rel=1e-12)
+    # The published pair prices at exactly the declared fee.
+    assert ser["commission"] == pytest.approx(ser["turnover"] * capital * fee, rel=1e-12)
+
+    notional = ser["cost_reconciliation"]["turnover_notional"]
+    assert notional["entry_notional_usdt"] == pytest.approx(200.0, rel=1e-12)
+    assert notional["exit_notional_usdt"] == pytest.approx(204.0, rel=1e-12)
+    assert notional["total_notional_usdt"] == pytest.approx(404.0, rel=1e-12)
+    assert notional["entry_fills"] == 1 and notional["exit_fills"] == 1
+    assert notional["exit_price_source"] == {"engine_avg_px_close": 1, "bar_close_proxy": 0}
+    assert notional["fills_notional_usdt"] == pytest.approx(404.0, rel=1e-12)
+    assert notional["fills_notional_unattributed_usdt"] == pytest.approx(0.0, abs=1e-9)
+
+
+def test_mechanics_engine_turnover_falls_back_to_bar_close_when_unpriced() -> None:
+    """#397 (G1, mechanics): a missing engine close price is NOT a free exit.
+
+    The bar-close fill proxy is used and disclosed, so the exit still carries
+    turnover instead of silently dropping out of the denominator.
+    """
+    engine_result = _mechanics_engine_result()
+    end_ns = engine_result.pop("_end_ns")
+    engine_result["closed_positions"][0]["avg_px_close"] = ""
+    capital, fee = 10000.0, 0.0005
+    closes = [100.0, 101.0, 102.0, 103.0, 104.0, 105.0]
+
+    ser = eb.portfolio_series_from_engine(
+        engine_result, {"MECH-PERP.BINANCE": closes}, end_ns, capital, fee
+    )
+
+    # Exit at the bar-3 close (103), not at zero notional.
+    assert ser["turnover"] == pytest.approx((2 * 100 + 2 * 103) / capital, rel=1e-12)
+    notional = ser["cost_reconciliation"]["turnover_notional"]
+    assert notional["exit_notional_usdt"] == pytest.approx(206.0, rel=1e-12)
+    assert notional["exit_price_source"] == {"engine_avg_px_close": 0, "bar_close_proxy": 1}
+
+
+def _quad_tape_dir() -> Path | None:
+    """The quad tape from the repo root, else the canonical checkout, else None."""
+    for candidate in (
+        Path(__file__).resolve().parents[2] / "research" / "tape" / "quad-1h-12m",
+        Path("/Users/hootie/src/v8/research/tape/quad-1h-12m"),
+    ):
+        if (candidate / "tape.jsonl").exists():
+            return candidate
+    return None
+
+
+def _btc_tape_file() -> Path | None:
+    """The single-instrument tape: env/honoured default, then the repo root."""
+    from v8_next.evaluation.gate_resolution import DEFAULT_TAPE_PATH
+
+    for candidate in (
+        DEFAULT_TAPE_PATH,
+        Path(__file__).resolve().parents[2] / "research" / "tape" / "btcusdt-1h-12m" / "tape.jsonl",
+        Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl"),
+    ):
+        if candidate.exists():
+            return candidate
+    return None
+
+
+def _persisted_fill_pairs(out_dir: Path) -> tuple[float, float, int]:
+    """Re-derive entry/exit notional from the run's persisted fill records.
+
+    Uses the same chronological per-slot pairing contract the series uses, so
+    the aggregate is an independent recomputation, not a restatement.
+    """
+    opens_raw = [
+        json.loads(line)
+        for line in sorted(out_dir.glob("portfolio_P_trades_*.jsonl"))[0].read_text().splitlines()
+        if line.strip()
+    ]
+    closed_raw = [
+        json.loads(line)
+        for line in sorted(out_dir.glob("portfolio_closed_*.jsonl"))[0].read_text().splitlines()
+        if line.strip()
+    ]
+    opens = [
+        {
+            "position_id": o["trade_id"],
+            "instrument_id": o["instrument_id"],
+            "side": o["side"],
+            "quantity": o["quantity"],
+            "avg_px_open": o["avg_px_open"],
+            "event_ns": o["fill_time_ns"],
+        }
+        for o in opens_raw
+    ]
+    closes = [
+        {
+            "position_id": c["position_id"],
+            "instrument_id": c["instrument_id"],
+            "avg_px_close": c["avg_px_close"],
+            "event_ns": c["fill_time_ns"],
+        }
+        for c in closed_raw
+    ]
+    pairs = eb.pair_positions(opens, closes)
+    entry = sum(abs(float(o["quantity"])) * float(o["avg_px_open"]) for o, _ in pairs)
+    exit_ = sum(
+        abs(float(o["quantity"])) * float(str(c["avg_px_close"]))
+        for o, c in pairs
+        if c is not None and c.get("avg_px_close")
+    )
+    return entry, exit_, len(closes)
+
+
+def test_economic_portfolio_turnover_matches_commission_fill_set(tmp_path: Path) -> None:
+    """#397 (G1/G2) on the canonical quad engine path. Real tape; skips if absent.
+
+    Reproduces the canonical 385-bar quad window and checks the published pair:
+    ``commission_cost == turnover_notional_over_capital * capital * taker_fee``
+    within the 1% fill-price tolerance, turnover re-derived independently from
+    the persisted entry/exit fills, and implied fee 5.0 bps for P and P+E.
+    """
+    tape = _quad_tape_dir()
+    if tape is None:
+        pytest.skip("quad tape absent")
+    from v8_next.app import portfolio as port_mod
+
+    out_dir = tmp_path / "port"
+    rc = port_mod.main(
+        [
+            "--tape-path",
+            str(tape),
+            "--bars",
+            "385",
+            "--output-dir",
+            str(out_dir),
+            "--primary",
+            "equal_weight",
+        ]
+    )
+    assert rc == 0
+    receipt = json.loads(
+        sorted(out_dir.glob("economic_receipt_*.json"))[0].read_text(encoding="utf-8")
+    )
+    capital = receipt["run"]["capital"]
+    fee = receipt["run"]["taker_fee"]
+
+    for name in ("portfolio_P", "portfolio_PE"):
+        m = receipt["metrics"][name]
+        traded = m["turnover_notional_over_capital"] * capital
+        assert traded > 0.0
+        assert m["commission_cost"] == pytest.approx(traded * fee, rel=0.01)
+        assert m["commission_cost"] / traded * 1e4 == pytest.approx(fee * 1e4, abs=0.1)
+
+    entry, exit_, n_closes = _persisted_fill_pairs(out_dir)
+    assert n_closes > 0, "window produced no exits: the check would be vacuous"
+    p_traded = receipt["metrics"]["portfolio_P"]["turnover_notional_over_capital"] * capital
+    assert p_traded == pytest.approx(entry + exit_, rel=0.01)
+    # The defect this pins: entry-only notional priced the same commission at 2x.
+    assert p_traded > entry
+    assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
+
+
+def test_economic_incumbent_turnover_and_capacity_breakeven(tmp_path: Path) -> None:
+    """#397 (G1/G3) on the engine-backed single-instrument path. Skips without tape.
+
+    The incumbent/challenger rows are engine-backed: their published turnover
+    must price at the declared fee, the capacity breakeven must be derived from
+    that corrected notional, and no claim may be minted by the fix.
+    """
+    tape = _btc_tape_file()
+    if tape is None:
+        pytest.skip("Real tape not found")
+    from v8_next.app import economic as econ_mod
+
+    rc = econ_mod.main(
+        [
+            "--tape-path",
+            str(tape),
+            "--bars",
+            "500",
+            "--output-dir",
+            str(tmp_path / "econ"),
+            "--primary",
+            "btc_buy_hold",
+        ]
+    )
+    assert rc == 0
+    receipt = json.loads(
+        sorted((tmp_path / "econ").glob("economic_receipt_*.json"))[0].read_text(encoding="utf-8")
+    )
+    capital = receipt["run"]["capital"]
+    fee = receipt["run"]["taker_fee"]
+
+    for name in ("incumbent", "challenger"):
+        m = receipt["metrics"][name]
+        traded = m["turnover_notional_over_capital"] * capital
+        assert traded > 0.0
+        assert m["commission_cost"] == pytest.approx(traded * fee, rel=0.01)
+        assert m["commission_cost"] / traded * 1e4 == pytest.approx(fee * 1e4, abs=0.1)
+
+    inc = receipt["metrics"]["incumbent"]
+    breakeven = receipt["capacity_scenarios"][0]["breakeven_extra_cost_bp"]
+    # G3: breakeven is the excess over the notional the receipt publishes.
+    assert breakeven == pytest.approx(
+        inc["excess_vs_primary"] / inc["turnover_notional_over_capital"] * 1e4, abs=1e-6
+    )
+    assert receipt["capacity_scenarios"][0]["assumed_fee_bp"] == pytest.approx(fee * 1e4)
+    assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"

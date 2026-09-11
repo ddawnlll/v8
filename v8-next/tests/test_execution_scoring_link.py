@@ -197,7 +197,13 @@ def test_no_trades_keeps_an_empty_domain_set_and_names_the_reason() -> None:
         execution={"slippage_samples": 3, "slippage_bps_mean": 1.0},
     )
     assert out["domains"] == {}
-    assert out["aggregate"] == 0.0
+    # NX08.R1: with no trades the aggregate is missing, not zero, and the reason
+    # is named; the coverage factor is derived (trade domains abstained).
+    assert out["aggregate"] is None
+    assert out["aggregate_status"] == "MISSING_NO_TRADES"
+    assert out["coverage_source"] == "DERIVED_FROM_MEASURED_DOMAINS"
+    assert out["coverage"]["statuses"]["ExecutionFidelity"] == "ABSTAINED"
+    assert out["coverage"]["numerator"] < out["coverage"]["denominator"]
     assert out["execution_fidelity_source"] == "NO_TRADES"
     # no domain was scored, so no measured input may be published as if one was
     assert out["execution_fidelity_shortfall_bps"] is None

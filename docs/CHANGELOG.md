@@ -2,6 +2,74 @@
 
 Format: dated, brief, reversible. This log records document and architecture decisions — never economics. Each entry names the artifacts it changed.
 
+## 2026-09-11 — V8.7 technical acceptance for the Python product (NX01–NX10, D-164)
+
+Technical acceptance of the V8.7 swing-benchmark package inside `v8-next/`, delivered as
+D-164 and measured rather than asserted: one lifecycle/accounting contract shared by both
+report paths (native `balance_total` equals the independent replay to `0.00000000`), a
+version-resolved ledger canon under which the 20 existing entries verify 20/20 without
+re-hashing their bytes, one window/profile/run-key/resume contract (a bar-count window is a
+smoke run; a completed window refuses re-execution), a pre-registered swing family over the
+existing grammar, a statistics plan that cannot be re-pinned after a result is seen, derived
+capability coverage with a default-free certificate, a single canonical G0–G9 map pinned by
+test, a registered four-fold research delivery whose measured result is negative in 7 of 8
+fold-symbol cells and is delivered as-is, and a bounded public capture with exactly-once
+restart semantics. Pending evidence is recorded instead of zeroed: no protected final
+(`TAIL_BURNED`; `NO_PROTECTED_FINAL` is metadata, not a gate state), prospective maturity
+unobserved, engine fill parity and funding/markout outstanding. Public paper no longer reads
+as a settlement and G8 is `NOT_APPLICABLE` for it. Baseline failures are reported, not
+hidden: 56 unaccounted documentation citations in legacy/Rust-era documents (all moved by
+the D-162 quarantine; zero remain in the V8.7 documents), the monograph builder's
+unreachable research-papers manifest, and 5 pre-existing `mypy` errors. This is **not** an
+economic certificate, a release, a tag or a live-activation authority: every verdict stays
+`NO_ECONOMIC_CLAIM`, and publishing the EN/TR site stays with the owner (D-163).
+
+Modified artifacts: `docs/evidence/v87/NX11/acceptance_matrix.json`,
+`docs/evidence/v87/NX11/V87_TECHNICAL_ACCEPTANCE.md`, `docs/evidence/v87/NX{00..10}/*`,
+`v8-next/tools/nx11_acceptance_matrix.py`, `docs/decisions/DECISION_REGISTER.md`,
+`docs/tr/DECISION_REGISTER.md`, `docs/migration/V87_ISSUE_INDEX.md`,
+`docs/migration/V87_V8NEXT_IMPLEMENTATION_PLAN.md`, `docs/contracts/IMPLEMENTATION_LAYOUT.md`,
+`v8-next/src/v8_next/evaluation/*`, `v8-next/src/v8_next/app/*`, `v8-next/tests/*`.
+
+## 2026-09-11 — D-162 Active product boundary: Python `v8-next/` authorized, `v8-core/` quarantined (Issue #409)
+
+Owner boundary decision, registered before the change landed (Rule 44): the
+active product authority is `v8-next/`, whose name is retained purely for path
+stability, and the Rust tree is frozen into `legacy/v8-core/` as a non-canonical
+reference executable read-only only as a labeled parity oracle. This supersedes
+the unregistered 2026-09-10 working-tree "Rust-first reset" that flipped the same
+boundary inside a commit labelled `ruff clean` — the defect issue #409 documents.
+The uncommitted Rust/Nautilus workstream was captured verbatim first
+(`09906159`), so the quarantine destroyed no work; the earlier `cargo`-based
+verification commands in the boundary documents are replaced by the `uv`/`ruff`/
+`mypy`/`pytest` gates of the authoritative tree, and the quarantined oracle keeps
+an explicitly labeled read-only command. No economic authority is created or
+transferred: every verdict remains `NO_ECONOMIC_CLAIM`, and no quarantined Rust
+receipt, baseline or audit number may be cited as current product evidence.
+Execution is **not** an open item: `v8-next/` already carries its own execution
+surface on `nautilus-trader==2.0.0rc4`
+(`v8-next/src/v8_next/adapters/execution_models.py`, `execution_telemetry.py`,
+`app/paper.py`, `app/sandbox.py`, `app/trial.py`, `app/stream.py`), with F1–F6
+landed on 2026-09-10/11: trade-tick capture and aggressor-aware trade-driven
+fills, captured L2 book depth, MARKET/LIMIT/STOP_MARKET order types plus
+emulation, TWAP child orders, NautilusTrader risk primitives, and parquet
+catalog + BacktestNode parity + a second venue + sandbox replay. The quarantined
+Rust execution plane is therefore not load-bearing for execution. An earlier
+draft of this entry asserted the opposite; it is corrected here explicitly
+rather than quietly rewritten.
+Still OPEN: Rule-12 static coverage for the Python tree
+(`tools/audit_synthetic_leakage.py` remains Rust-pattern-only) and the frozen
+historical parity harness (`tests/parity/conftest.py:17`) that still resolves the
+Rust oracle at the pre-move `v8-core/` path — unfreezing `tests/` to repoint it is
+an owner decision, not an agent one.
+
+Modified artifacts: `AGENTS.md`, `README.md`, `v8-next/AGENTS.md`,
+`legacy/v8-core/AGENTS.md`, `docs/contracts/V8_NEXT_IMPLEMENTATION_SCOPE.md`,
+`docs/contracts/IMPLEMENTATION_LAYOUT.md`, `docs/decisions/DECISION_REGISTER.md`,
+`docs/tr/DECISION_REGISTER.md`, `.hermes.md`, `tools/{audit_economic_claim,
+audit_reachability,forbidden_names,benchmark_run,reproduce_rust_audit,
+render_rust_audit_html,audit_doc_path_refs}.py`.
+
 ## 2026-09-07 — D-161 V8.6 Infrastructure Delegation & Execution Boundary Ratification (M04–M12)
 
 Registered D-161 delegating general infrastructure responsibilities to verified mature crates while retaining V8 domain semantics:

@@ -5,7 +5,7 @@ taker ücreti; **engine fill'i değil**, venue settlement değil. `NO_ECONOMIC_C
 Getiri **pozitif çıkmadı** ve bu bir başarısızlık değildir — bu iş için kabul ölçütü
 "family çalışıyor, ayrımı ve sınırları kanıtlı" olmaktır.
 
-## 0. Sözleşme (yeni: `economics/swing_baseline.py`)
+## 0. Sözleşme (yeni: `v8-next/src/v8_next/economics/swing_baseline.py`)
 
 - Aile **ön-kayıtlı**: `SWING_FAMILY_VERSION = v87-swing-family-v1`, üç politika —
   `cash` (maruziyet yok), `causal_trend` (mevcut `trend-continuation-v2` +
