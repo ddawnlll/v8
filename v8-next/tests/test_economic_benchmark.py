@@ -7,6 +7,7 @@ Evaluative section: real-tape BenchmarkCase via the economic fabric; skips when
 the tape is absent. Synthetic candles are banned there.
 """
 
+import inspect
 import json
 import math
 import os
@@ -79,10 +80,125 @@ def test_mechanics_chronology_validator_catches_defects() -> None:
     bad[5] = bars[4]  # duplicate timestamp
     ok2, note = eb.validate_chronology(bad)
     assert ok2 is False and "MONOTONIC" in note
-    leak_ok, _ = eb.detect_future_leak(bars)
-    assert leak_ok is True
-    leak_bad, _ = eb.detect_future_leak(bars, closes_shift=1)
-    assert leak_bad is False
+
+
+def test_mechanics_future_leak_verdict_is_measured_from_the_series() -> None:
+    """#437 R1/R4: the verdict discriminates between two series, not one argument.
+
+    On HEAD this cannot pass: `detect_future_leak` accepted a caller-supplied
+    `closes_shift` int and returned `False` for any nonzero value without reading
+    `bars`, so "displaced series fails / the same series undisplaced passes" had
+    no measurement behind it.
+    """
+    bars = _synth_bars()
+    clean, clean_note = eb.detect_future_leak(bars)
+    assert clean is True, clean_note
+    assert eb.FUTURE_LEAK_PROBE in clean_note
+
+    # The known defect: each bar carries the *next* bar's close, so bar i quotes a
+    # price that did not exist until bar i+1 had closed.
+    displaced = eb.displaced_closes_against_timestamps(bars)
+    assert len(displaced) == len(bars) - 1
+    leak, leak_note = eb.detect_future_leak(displaced)
+    assert leak is False, "a close displaced against its own timestamp is a leak"
+    assert "FUTURE_LEAK" in leak_note  # named reason, not a bare boolean
+
+    # A close vector that repeats one value carries no per-bar price either.
+    c0 = bars[0].close
+    duplicated = [
+        eb.BarView(b.end_ns, b.open, max(b.high, c0), min(b.low, c0), c0) for b in bars
+    ]
+    dup_ok, dup_note = eb.detect_future_leak(duplicated)
+    assert dup_ok is False and "FUTURE_LEAK" in dup_note
+
+    # The verdict is a function of the series alone: no flag is even accepted.
+    assert list(inspect.signature(eb.detect_future_leak).parameters) == ["bars"]
+
+
+def test_mechanics_future_leak_probe_can_fail_and_its_control_measures_it() -> None:
+    """#437 R1/R2: the known-defect control publishes a measurement, not a constant.
+
+    The control runs the probe against a genuinely displaced copy of the *same*
+    series the numbers come from. `CAUGHT` therefore means the probe still
+    discriminates, and the identical call on the undisplaced series is what shows
+    the finding was not foregone.
+    """
+    bars = _synth_bars()
+    control = eb.future_leak_positive_control(bars)
+    assert control["status"] == "CAUGHT"
+    assert control["probe"] == eb.FUTURE_LEAK_PROBE
+    assert control["bars"] == len(bars) - 1
+    assert "FUTURE_LEAK" in control["reason"]
+    # Same series, undisplaced: the probe passes it. Same call, opposite verdict.
+    assert eb.detect_future_leak(bars)[0] is True
+    # A probe that never inspected a series cannot report OK.
+    assert eb.detect_future_leak([bars[0]])[0] is False
+
+
+def _mechanics_validity_verdicts(**overrides: Any) -> eb.EvidenceVerdicts:
+    """Verdicts for a mechanics-only input set, one keyword change at a time."""
+    bars = _synth_bars()
+    kwargs: dict[str, Any] = {
+        "chrono_ok": True,
+        "chrono_note": "OK",
+        "leak_probe": eb.detect_future_leak(bars),
+        "excess": 0.05,
+        "excess_ci": (0.01, 0.09),
+        "stats": {
+            "dsr": {"verdict": "COMPUTED"},
+            "pbo": {"verdict": "COMPUTED"},
+            "spa": {"verdict": "COMPUTED"},
+        },
+        "mix": {"incremental_net": 0.01},
+        "cost_basis_ok": True,
+        "funding_missing": False,
+        "live_fills_present": False,
+        "parity_ok": True,
+    }
+    kwargs.update(overrides)
+    return eb.build_verdicts(**kwargs)
+
+
+def test_mechanics_research_validity_requires_a_probe_that_ran() -> None:
+    """#437 R3: `VALID` is a probe result, and an absent probe is not a pass.
+
+    The canonical portfolio path published `chrono_ok=True,
+    chrono_note="OK; leak_probe=OK"` as literals, so `research_validity` read
+    `VALID` on a series no probe had inspected. Nothing may publish `VALID`
+    without a probe result, and the probe's own identity has to be in the note.
+    """
+    measured = _mechanics_validity_verdicts()
+    assert measured.research_validity == "VALID"
+    assert f"leak_probe=OK; probe={eb.FUTURE_LEAK_PROBE}" in measured.research_note
+
+    # The probe did not run: fail closed, and name the absence in the receipt.
+    unrun = _mechanics_validity_verdicts(leak_probe=None)
+    assert unrun.research_validity == "INVALID"
+    assert "FUTURE_LEAK_PROBE_NOT_RUN" in unrun.research_note
+    assert unrun.economic == "INCONCLUSIVE"
+    assert "no economic inference" in unrun.economic_note
+
+    # The probe ran and failed on the very series: same state, the probe's reason.
+    displaced = eb.displaced_closes_against_timestamps(_synth_bars())
+    failed = _mechanics_validity_verdicts(leak_probe=eb.detect_future_leak(displaced))
+    assert failed.research_validity == "INVALID"
+    assert "FUTURE_LEAK" in failed.research_note
+
+
+def test_canonical_paths_measure_validity_instead_of_hardcoding_it() -> None:
+    """#437 R3: the literal `chrono_ok=True, chrono_note="OK; leak_probe=OK"` is barred.
+
+    Source-level guard: both app paths must hand `build_verdicts` the measured
+    probe result. A literal re-introduction in either path fails here rather than
+    silently publishing a validity nobody inspected.
+    """
+    project = Path(eb.project_root())
+    for name in ("portfolio.py", "economic.py"):
+        text = (project / "src/v8_next/app" / name).read_text(encoding="utf-8")
+        flat = " ".join(text.split())
+        assert 'chrono_note="OK; leak_probe=OK"' not in flat, name
+        assert "leak_probe=(" in flat, f"{name} does not hand a probe result to build_verdicts"
+        assert "detect_future_leak(" in flat, f"{name} does not run the future-leak probe"
 
 
 def test_mechanics_controls_behave() -> None:
@@ -644,6 +760,7 @@ def test_mechanics_invalid_data_yields_no_economic_verdict() -> None:
     v = eb.build_verdicts(
         chrono_ok=False,
         chrono_note="NON_MONOTONIC_TIME_7",
+        leak_probe=None,  # no probe ran; chronology already failed closed
         excess=0.05,  # positive excess must NOT leak through invalid data
         excess_ci=(0.01, 0.09),
         stats=stats,
@@ -667,6 +784,7 @@ def test_mechanics_failed_estimators_stay_unsuccessful() -> None:
     v = eb.build_verdicts(
         chrono_ok=True,
         chrono_note="OK",
+        leak_probe=eb.detect_future_leak(_synth_bars()),
         excess=0.05,
         excess_ci=(0.01, 0.09),
         stats=stats,
@@ -710,6 +828,7 @@ def test_mechanics_unprovisioned_estimators_are_named_not_implied() -> None:
     v = eb.build_verdicts(
         chrono_ok=True,
         chrono_note="OK",
+        leak_probe=eb.detect_future_leak(_synth_bars()),
         excess=-0.02,
         excess_ci=(-0.63, -0.02),
         stats=_starved_stats(),
@@ -741,6 +860,7 @@ def test_mechanics_unprovisioned_estimators_are_named_not_implied() -> None:
     v2 = eb.build_verdicts(
         chrono_ok=True,
         chrono_note="OK",
+        leak_probe=eb.detect_future_leak(_synth_bars()),
         excess=-0.02,
         excess_ci=(-0.63, -0.02),
         stats=unpowered,
@@ -780,6 +900,7 @@ def _mechanics_family_verdicts(stats: dict[str, Any]) -> eb.EvidenceVerdicts:
     return eb.build_verdicts(
         chrono_ok=True,
         chrono_note="MECHANICS_ONLY",
+        leak_probe=eb.detect_future_leak(_synth_bars()),
         excess=-0.02,
         excess_ci=(-0.63, -0.02),
         stats=stats,
@@ -911,7 +1032,8 @@ def test_canonical_reproduction_commands_provision_the_research_extra() -> None:
 
 def test_mechanics_rules_fire_only_on_registrations() -> None:
     base = {
-        "chrono_ok": True, "chrono_note": "OK", "excess": -0.02,
+        "chrono_ok": True, "chrono_note": "OK",
+        "leak_probe": eb.detect_future_leak(_synth_bars()), "excess": -0.02,
         "mix": {"incremental_net": 0.0}, "cost_basis_ok": True,
         "funding_missing": False, "live_fills_present": False, "parity_ok": True,
     }
@@ -1479,7 +1601,8 @@ def test_mechanics_excess_rule_sign_test_survives_on_return_interval() -> None:
         "variant_excess_vs_baseline": -0.01,
     }
     base = {
-        "chrono_ok": True, "chrono_note": "OK; leak_probe=OK", "excess": point,
+        "chrono_ok": True, "chrono_note": "OK",
+        "leak_probe": eb.detect_future_leak(_synth_bars()), "excess": point,
         "mix": {"incremental_net": -0.0038}, "cost_basis_ok": True,
         "funding_missing": False, "live_fills_present": False, "parity_ok": True,
     }
