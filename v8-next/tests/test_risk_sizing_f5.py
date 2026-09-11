@@ -10,6 +10,7 @@ from __future__ import annotations
 from decimal import Decimal
 
 import pytest
+from pathlib import Path
 from nautilus_trader.model import Currency, Money, Price
 
 from v8_next.adapters.execution_models import (
@@ -139,3 +140,37 @@ def test_default_path_records_flat_sizing_mode() -> None:
     result = run_expert_strategy_backtest(candles)
     assert result["decisions"], "expected decisions on 12 real bars"
     assert all(d["sizing_mode"] == "FLAT" for d in result["decisions"])
+
+
+def test_dust_order_floored_to_min_notional_instead_of_denied() -> None:
+    """Min-notional fix: a signal sized below the venue minimum is rounded UP
+    to the minimum (capped by max_notional) with a named action, never sent
+    to the venue to die with NOTIONAL_BELOW_MINIMUM."""
+    from v8_next.adapters.expert_strategy import (
+        ExpertStrategyConfig,
+        run_expert_strategy_backtest,
+    )
+    from v8_next.evaluation.gate_resolution import load_tape_candles
+
+    tape = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+    if not tape.exists():
+        pytest.skip("single-asset real tape absent")
+    candles = tuple(load_tape_candles(tape, limit=120))
+    if not candles:
+        pytest.skip("tape loaded no candles")
+    result = run_expert_strategy_backtest(
+        candles,
+        ExpertStrategyConfig(
+            min_support_quorum=1,
+            max_contradiction_tolerance=28,
+            order_quantity=Decimal("0.0000001"),
+        ),
+    )
+    actions = [d["action"] for d in result["decisions"]]
+    assert any(a.startswith("SIZED_TO_MIN_NOTIONAL") for a in actions), (
+        f"dust signal was not floored: {sorted(set(actions))}"
+    )
+    assert not any("BELOW_MIN" in a or "NOTIONAL_BELOW" in a for a in actions), (
+        "dust reached the venue gate instead of being floored"
+    )
+    print(f"\n[F5] floored={[a for a in actions if a=='SIZED_TO_MIN_NOTIONAL']}")

@@ -10,7 +10,7 @@ Epistemic & Execution Demarcation (matching V8_NEXT_IMPLEMENTATION_SCOPE.md):
 from __future__ import annotations
 
 from dataclasses import dataclass
-from decimal import Decimal
+from decimal import Decimal, ROUND_CEILING
 from typing import Any
 
 from nautilus_trader.backtest import BacktestEngine
@@ -466,6 +466,7 @@ class ExpertEnsembleStrategy(Strategy):
                             base_qty = Decimal(0)
                     qty_str = format(base_qty, f".{instrument.size_precision}f")
                     quantity: Quantity | None = None
+                    floored_to_minimum = False
                     if Decimal(qty_str) < instrument.min_quantity.as_decimal():
                         # Only a genuinely unsized order is BELOW_MIN_QUANTITY. A
                         # risk decision that zeroed the size must keep its own
@@ -476,6 +477,31 @@ class ExpertEnsembleStrategy(Strategy):
                             action = "BELOW_MIN_QUANTITY"
                     else:
                         quantity = Quantity.from_str(qty_str)
+                    if quantity is None and action in ("NO_ACTION", "BELOW_MIN_QUANTITY"):
+                        # Floor UP to the venue minimum instead of dying at the
+                        # venue gate: a real desk rounds a dust order up to the
+                        # minimum or drops the signal with a named reason, it
+                        # does not submit a known-to-deny order. The floor is
+                        # capped by max_notional so the ceiling brake keeps its
+                        # meaning; the risk-fraction overshoot is recorded on
+                        # the decision (action name) instead of hidden.
+                        step = Decimal(10) ** -instrument.size_precision
+                        min_step_qty = instrument.min_quantity.as_decimal()
+                        px = bar.close.as_decimal()
+                        min_notional_qty = (
+                            (instrument.min_notional.as_decimal() / px) / step
+                        ).to_integral_value(rounding=ROUND_CEILING) * step
+                        floored = max(min_step_qty, min_notional_qty)
+                        if (
+                            self.ensemble_config.max_notional_per_order is None
+                            or floored * px <= self.ensemble_config.max_notional_per_order
+                        ):
+                            quantity = Quantity.from_str(
+                                format(floored, f".{instrument.size_precision}f")
+                            )
+                            qty_str = format(floored, f".{instrument.size_precision}f")
+                            action = "SIZED_TO_MIN_NOTIONAL"
+                            floored_to_minimum = True
 
                     # Determine if bracket protection order list is configured
                     if quantity is None:
@@ -562,6 +588,8 @@ class ExpertEnsembleStrategy(Strategy):
                                 f"SUBMITTED_STOP_MARKET_UNBRACKETED_{side.name}_"
                                 f"{qty_str}_{emulation_label}"
                             )
+                            if floored_to_minimum:
+                                action = f"SIZED_TO_MIN_NOTIONAL+{action}"
                         else:
                             submit_qty = quantity
                             twap_tag = ""
@@ -615,6 +643,8 @@ class ExpertEnsembleStrategy(Strategy):
                                 f"{twap_tag}SUBMITTED_BRACKET_{entry_type}_{side.name}_"
                                 f"{qty_str}_{emulation_label}"
                             )
+                            if floored_to_minimum:
+                                action = f"SIZED_TO_MIN_NOTIONAL+{action}"
                     else:
                         entry_type = self.ensemble_config.entry_order_type
                         if entry_type == "LIMIT":
@@ -703,6 +733,8 @@ class ExpertEnsembleStrategy(Strategy):
                                     record.opportunity_id, OpportunityStatus.ADMITTED
                                 )
                             action = f"{twap_tag}SUBMITTED_{entry_type}_{side.name}_{qty_str}"
+                            if floored_to_minimum:
+                                action = f"SIZED_TO_MIN_NOTIONAL+{action}"
             else:
                 action = "POSITION_OCCUPIED"
 
