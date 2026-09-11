@@ -1,0 +1,285 @@
+{
+  "after": {
+    "bound_receipt": {
+      "claim_status": "NO_ECONOMIC_CLAIM",
+      "commission_cost": 7.68331127,
+      "cost_basis": "VERIFIED_ENGINE_FUNDING",
+      "cost_reconciliation_present_in_receipt": false,
+      "funding_cost": -1.674069660000896,
+      "n_bars": 500,
+      "net_return": 0.0008473634400358865,
+      "path": "docs/evidence/v87/NX02/bound_receipt_after.json",
+      "receipt_id": "01e7c4d251183c816dc70658c17f7a07",
+      "sha256": "093040dd397d6d14a8b2f3f0583ff72b4200f8c722558c1c45418436fd28d281",
+      "source_path": "/tmp/v8_after_fold/economic_receipt_01e7c4d2.json",
+      "verdicts": {
+        "economic": "POSITIVE_DESCRIPTIVE",
+        "execution": "SIM_ONLY",
+        "statistical": "ESTIMATOR_UNAVAILABLE: scipy,arch"
+      }
+    },
+    "engine_closed_loop": {
+      "balance_delta": 8.473634399999355,
+      "balance_total": 10008.4736344,
+      "ok": true,
+      "open_entry_commissions_of_open_positions": 0.0,
+      "residual_measured": true,
+      "residual_usdt": -6.536993168992922e-13,
+      "sum_realized_pnl": 8.473634400000009,
+      "tolerance_usdt": 0.02
+    },
+    "funding_reconciliation": {
+      "boundaries_held": 34,
+      "expected_from_real_funding_rows_usdt": -1.674069650454,
+      "measured_dual_run_drag_usdt": 1.674069660000896,
+      "ok": true,
+      "residual_published_usdt": 9.546895940459876e-09,
+      "residual_usdt": 9.546895940459876e-09,
+      "tolerance_usdt": 0.12007991
+    },
+    "generator_recomputed_engine_closed_loop": {
+      "balance_delta": 8.473634399999355,
+      "open_entry_commissions_of_open_positions": 0.0,
+      "residual_usdt": -6.536993168992922e-13,
+      "sum_realized_pnl": 8.473634400000009
+    },
+    "git_rev": "b7804bdc",
+    "graft": {
+      "declared_adjustment_per_bar_usdt": -0.010900331863734743,
+      "declared_adjustment_total_usdt": -5.439265600003637,
+      "equity_construction": "equity = equity_mtm + reconciliation_adjustment_per_bar: the terminal level is forced onto the engine balance_total by a uniform per-bar adjustment. equity_mtm is the un-grafted per-bar mark path; the adjustment is declared, never silent.",
+      "equity_mtm_gap_usdt": 5.439265600003637,
+      "equity_terminal": 10008.47363440036,
+      "measured_graft_total_usdt": -5.439265599643477,
+      "raw_equity_terminal": 10013.912900000003
+    },
+    "loop": {
+      "closed_loop_error": 9.546895940459876e-09,
+      "components_usdt": {
+        "engine_series_residual_abs": 6.536993168992922e-13,
+        "funding_residual_abs": 9.546895940459876e-09
+      },
+      "cost_basis": "VERIFIED_ENGINE_FUNDING",
+      "engine_series_residual_abs_usdt": 6.536993168992922e-13,
+      "funding_residual_abs_usdt": 9.546895940459876e-09,
+      "loop_err_is_conjunction": true,
+      "loop_ok": true
+    },
+    "published": {
+      "cost_basis": "VERIFIED_ENGINE_FUNDING",
+      "cost_reconciliation_fields": [
+        "balance_delta",
+        "balance_total",
+        "closed_loop_error",
+        "closed_loop_terms",
+        "engine_series_ok",
+        "engine_series_residual_abs_usdt",
+        "engine_series_residual_measured",
+        "engine_series_residual_usdt",
+        "engine_series_tolerance_usdt",
+        "equity_construction",
+        "equity_mtm_gap_usdt",
+        "equity_mtm_terminal",
+        "estimated_commission_total",
+        "funding_expected",
+        "funding_ok",
+        "funding_paid_implied",
+        "funding_residual_usdt",
+        "funding_tolerance_usdt",
+        "loop_err_components_usdt",
+        "loop_err_is_conjunction",
+        "loop_ok",
+        "open_entry_commissions_of_open_positions",
+        "open_mtm_last",
+        "reconciliation_adjustment_per_bar_usdt",
+        "reconciliation_adjustment_total_usdt",
+        "sum_realized_pnl",
+        "turnover_notional"
+      ],
+      "fail_closed": false,
+      "series_keys": [
+        "closed_loop_ok",
+        "closed_loop_residual_measured",
+        "closed_loop_residual_usdt",
+        "commission",
+        "cost_basis",
+        "cost_reconciliation",
+        "equity",
+        "equity_construction",
+        "equity_mtm",
+        "exposure",
+        "funding",
+        "funding_boundaries_held",
+        "funding_expected",
+        "funding_reconciled",
+        "n_trades",
+        "participation",
+        "raw_equity",
+        "reconciliation_adjustment_per_bar",
+        "turnover"
+      ]
+    },
+    "source_sha256": "0aa01e990b658bbffacdb85843385e94041171bf050fb3967926e094eb2c2264"
+  },
+  "before": {
+    "bound_receipt": {
+      "claim_status": "NO_ECONOMIC_CLAIM",
+      "commission_cost": 7.68331127,
+      "cost_basis": "VERIFIED_ENGINE_FUNDING",
+      "cost_reconciliation_present_in_receipt": false,
+      "funding_cost": -1.674069660000896,
+      "n_bars": 500,
+      "net_return": 0.0008473634400358865,
+      "path": "docs/evidence/v87/NX02/bound_receipt_before.json",
+      "receipt_id": "a8188784e166c37d03177477841bc35f",
+      "sha256": "a489c278b50c9a0afa06b8c4e77c29338d3f80ce03d024a0a82add0aeba0ec95",
+      "source_path": "/tmp/v8_before_fold/economic_receipt_a8188784.json",
+      "verdicts": {
+        "economic": "POSITIVE_DESCRIPTIVE",
+        "execution": "SIM_ONLY",
+        "statistical": "ESTIMATOR_UNAVAILABLE: scipy,arch"
+      }
+    },
+    "engine_closed_loop": {
+      "balance_delta": 8.473634399999355,
+      "balance_total": 10008.4736344,
+      "ok": null,
+      "open_entry_commissions_of_open_positions": null,
+      "residual_measured": null,
+      "residual_usdt": null,
+      "sum_realized_pnl": 8.473634400000009,
+      "tolerance_usdt": null
+    },
+    "funding_reconciliation": {
+      "boundaries_held": 34,
+      "expected_from_real_funding_rows_usdt": -1.674069650454,
+      "measured_dual_run_drag_usdt": 1.674069660000896,
+      "ok": true,
+      "residual_published_usdt": null,
+      "residual_usdt": 9.546895940459876e-09,
+      "tolerance_usdt": null
+    },
+    "generator_recomputed_engine_closed_loop": {
+      "balance_delta": 8.473634399999355,
+      "open_entry_commissions_of_open_positions": 0.0,
+      "residual_usdt": -6.536993168992922e-13,
+      "sum_realized_pnl": 8.473634400000009
+    },
+    "git_rev": "b7804bdc",
+    "graft": {
+      "declared_adjustment_per_bar_usdt": null,
+      "declared_adjustment_total_usdt": null,
+      "equity_construction": null,
+      "equity_mtm_gap_usdt": null,
+      "equity_terminal": 10008.47363440036,
+      "measured_graft_total_usdt": -5.439265599643477,
+      "raw_equity_terminal": 10013.912900000003
+    },
+    "loop": {
+      "closed_loop_error": 9.546895940459876e-09,
+      "components_usdt": null,
+      "cost_basis": "VERIFIED_ENGINE_FUNDING",
+      "engine_series_residual_abs_usdt": null,
+      "funding_residual_abs_usdt": null,
+      "loop_err_is_conjunction": null,
+      "loop_ok": null
+    },
+    "published": {
+      "cost_basis": "VERIFIED_ENGINE_FUNDING",
+      "cost_reconciliation_fields": [
+        "balance_delta",
+        "balance_total",
+        "closed_loop_error",
+        "estimated_commission_total",
+        "funding_expected",
+        "funding_paid_implied",
+        "open_mtm_last",
+        "sum_realized_pnl",
+        "turnover_notional"
+      ],
+      "fail_closed": false,
+      "series_keys": [
+        "commission",
+        "cost_basis",
+        "cost_reconciliation",
+        "equity",
+        "exposure",
+        "funding",
+        "funding_boundaries_held",
+        "funding_expected",
+        "funding_reconciled",
+        "n_trades",
+        "participation",
+        "raw_equity",
+        "turnover"
+      ]
+    },
+    "source_sha256": "e8d3ca8906f720fbab4af9b6ffe8fb780cab1459d79cdfc5b251e7eed3c96609"
+  },
+  "claim_status": "NO_ECONOMIC_CLAIM",
+  "engine_closed_loop": {
+    "balance_delta": 8.473634399999355,
+    "balance_total": 10008.4736344,
+    "ok": true,
+    "open_entry_commissions_of_open_positions": 0.0,
+    "residual_measured": true,
+    "residual_usdt": -6.536993168992922e-13,
+    "sum_realized_pnl": 8.473634400000009,
+    "tolerance_usdt": 0.02
+  },
+  "funding_reconciliation": {
+    "boundaries_held": 34,
+    "expected_from_real_funding_rows_usdt": -1.674069650454,
+    "measured_dual_run_drag_usdt": 1.674069660000896,
+    "ok": true,
+    "residual_published_usdt": 9.546895940459876e-09,
+    "residual_usdt": 9.546895940459876e-09,
+    "tolerance_usdt": 0.12007991
+  },
+  "generator": {
+    "after_command": "docs/evidence/v87/NX02/regenerate_loop_reconciliation_receipt.py --phase after --tape /Users/hootie/src/v8/research/tape/btcusdt-1h-12m --bars 500 --offset 0 --bound-receipt /tmp/v8_after_fold/economic_receipt_01e7c4d2.json --copy-bound-receipt-to docs/evidence/v87/NX02 --out /tmp/loop_after.json",
+    "before_command": "docs/evidence/v87/NX02/regenerate_loop_reconciliation_receipt.py --phase before --tape /Users/hootie/src/v8/research/tape/btcusdt-1h-12m --bars 500 --offset 0 --bound-receipt /tmp/v8_before_fold/economic_receipt_a8188784.json --copy-bound-receipt-to docs/evidence/v87/NX02 --out /tmp/loop_before.json",
+    "compose_command": "docs/evidence/v87/NX02/regenerate_loop_reconciliation_receipt.py --compose /tmp/loop_before.json /tmp/loop_after.json --out docs/evidence/v87/NX02/loop_reconciliation_436.json",
+    "script": "docs/evidence/v87/NX02/regenerate_loop_reconciliation_receipt.py"
+  },
+  "graft": {
+    "declared_adjustment_per_bar_usdt": -0.010900331863734743,
+    "declared_adjustment_total_usdt": -5.439265600003637,
+    "equity_construction": "equity = equity_mtm + reconciliation_adjustment_per_bar: the terminal level is forced onto the engine balance_total by a uniform per-bar adjustment. equity_mtm is the un-grafted per-bar mark path; the adjustment is declared, never silent.",
+    "equity_mtm_gap_usdt": 5.439265600003637,
+    "equity_terminal": 10008.47363440036,
+    "measured_graft_total_usdt": -5.439265599643477,
+    "raw_equity_terminal": 10013.912900000003
+  },
+  "issue": "#436",
+  "loop": {
+    "closed_loop_error": 9.546895940459876e-09,
+    "components_usdt": {
+      "engine_series_residual_abs": 6.536993168992922e-13,
+      "funding_residual_abs": 9.546895940459876e-09
+    },
+    "cost_basis": "VERIFIED_ENGINE_FUNDING",
+    "engine_series_residual_abs_usdt": 6.536993168992922e-13,
+    "funding_residual_abs_usdt": 9.546895940459876e-09,
+    "loop_err_is_conjunction": true,
+    "loop_ok": true
+  },
+  "note": "Mechanics/accounting reconciliation over a real tape window. The two phases are two runs of the SAME generator command on two code revisions (pre-fix and fixed); both measurements are recorded, not asserted. No economic claim is made or implied.",
+  "title": "Portfolio equity grafts balance, loop residual unreported",
+  "window": {
+    "bars": 500,
+    "capital_usdt": 10000.0,
+    "first_bar_end_ns": 1751331600000000000,
+    "funding_dropped": 0,
+    "funding_rows": 1188,
+    "instruments": [
+      "BTCUSDT"
+    ],
+    "last_bar_end_ns": 1753128000000000000,
+    "offset": 0,
+    "taker_fee": 0.0005,
+    "tape": "/Users/hootie/src/v8/research/tape/btcusdt-1h-12m",
+    "tape_sha256": "4812c6dc9e8b206246ca088eed2fe5460495c65314dcbbafa09cc1ba0d0a0f3f",
+    "trade_signature_identical": true
+  }
+}

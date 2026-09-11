@@ -1070,6 +1070,49 @@ ACCOUNTING_UNITS: dict[str, str] = {
 #: Decimal, so the comparison is exact to this bound.
 NATIVE_BALANCE_ATOL = Decimal("0.00000001")
 
+# --------------------------------------------------------------------------- #
+# #436 — closed-loop residual bounds and the cost-basis vocabulary
+# --------------------------------------------------------------------------- #
+#: Absolute tolerance (USDT) for the strategy path's closed-loop identity
+#: `balance_delta == sum_realized_pnl + open_position_realized_pnl`. Retained
+#: from the NX02 measurement, where the residual on the real window was float
+#: dust (7.06e-13); anything above this bound is a fail-closed state.
+STRATEGY_LOOP_ATOL = 0.01
+
+#: Absolute tolerance (USDT) for the portfolio path's closed-loop identity
+#: `balance_delta == sum_realized_pnl - open_entry_commissions`. Retained from
+#: the NX02 measurement (`|base_loop| <= 0.02`). A residual outside it is
+#: published as `MISMATCH`; it is never absorbed into the equity curve.
+PORTFOLIO_LOOP_ATOL = 0.02
+
+#: Cost-basis vocabulary these two series may publish (#436). `MISMATCH` and
+#: `UNKNOWN` are fail-closed: the engine did not close, or the closed-loop
+#: identity could not be measured at all. `VERIFIED_*` is only ever published
+#: when the residual was measured AND is inside tolerance -- the defect this
+#: vocabulary closes was a `VERIFIED_ENGINE_FUNDING` asserted on a quantity the
+#: artifact never measured.
+COST_BASIS_STATES = frozenset(
+    {
+        "VERIFIED_ENGINE",
+        "VERIFIED_ENGINE_FUNDING",
+        "FUNDING_UNVERIFIED",
+        "ESTIMATED",
+        "MISMATCH",
+        "UNKNOWN",
+    }
+)
+
+#: How a returned `equity` list is built, declared so no consumer reads the
+#: reconciled curve as the strategy's un-grafted mark path (#436). `equity` is
+#: `equity_mtm` plus a uniform per-bar reconciliation adjustment that forces the
+#: terminal level onto the engine's `balance_total`.
+EQUITY_CONSTRUCTION = (
+    "equity = equity_mtm + reconciliation_adjustment_per_bar: the terminal level is "
+    "forced onto the engine balance_total by a uniform per-bar adjustment. "
+    "equity_mtm is the un-grafted per-bar mark path; the adjustment is declared, "
+    "never silent."
+)
+
 
 def parse_money(value: Any) -> Decimal | None:
     """Parse an engine money/quantity rendering; ``None`` on anything unparsable.
@@ -1455,12 +1498,36 @@ def strategy_series_from_engine(
         parsed = parse_money(pos.get("realized_pnl"))
         if parsed is not None:
             open_realized += float(parsed)
+    balance_measured = True
     try:
         balance_total = float(str(engine_result["account"]["balance_total"]).split()[0])
+        balance_measured = math.isfinite(balance_total)
     except (KeyError, ValueError, TypeError, AttributeError):
         balance_total = capital
-    loop_err = abs((balance_total - capital) - sum_realized - open_realized)
-    if loop_err <= 0.01 and est_comm_total > 0:
+        balance_measured = False
+    if not balance_measured:
+        balance_total = capital
+    # #436: the closed-loop residual is MEASURED (signed) and published, never
+    # assumed away. The level is later forced onto `balance_total` by a declared
+    # per-bar adjustment, so without this number the curve can never contradict
+    # the engine's own accounting.
+    engine_series_residual = (balance_total - capital) - sum_realized - open_realized
+    loop_err = abs(engine_series_residual)
+    loop_ok = balance_measured and loop_err <= STRATEGY_LOOP_ATOL
+    if not balance_measured:
+        # Unmeasurable is not verified: fail closed instead of guessing.
+        cost_basis = "UNKNOWN"
+        rel_err = math.inf
+    elif not loop_ok:
+        # The engine did not close. Fail closed on the measured residual; the
+        # commission cross-check may not upgrade this state.
+        cost_basis = "MISMATCH"
+        rel_err = (
+            abs(est_comm_total - reported_comm_total) / est_comm_total
+            if est_comm_total
+            else math.inf
+        )
+    elif est_comm_total > 0:
         cost_basis = "VERIFIED_ENGINE"
         rel_err = abs(est_comm_total - reported_comm_total) / est_comm_total if est_comm_total else math.inf
     elif reported_comm_total > 0:
@@ -1548,11 +1615,14 @@ def strategy_series_from_engine(
         exposure.append(abs(qty * closes[i]) / equity[-2] if equity[-2] > 0 else 0.0)
     # Replace level with authoritative accounting: engine balance delta is the
     # net truth; distribute the residual (commissions + rounding) uniformly so
-    # the terminal equity reconciles exactly and costs are counted once.
-    try:
-        balance_total = float(str(engine_result["account"]["balance_total"]).split()[0])
-    except (KeyError, ValueError, TypeError, AttributeError):
-        balance_total = capital
+    # the terminal equity reconciles exactly and costs are counted once. That
+    # uniform distribution is a GRAFT -- `adj[-1] == balance_total` holds by
+    # construction for any residual -- so it is declared (#436) and the measured
+    # residual it absorbs is published beside it.
+    equity_mtm = list(equity)
+    # `balance_total` / `balance_measured` are the same measured values the
+    # closed-loop block above computed; they are not re-parsed (a second parse
+    # could not disagree, and a differing one would have been a second truth).
     drift = (balance_total - equity[-1]) / max(1, n - 1)
     adj = [equity[0]]
     for i in range(1, n):
@@ -1567,23 +1637,52 @@ def strategy_series_from_engine(
     )
     return {
         "equity": adj,
-        "raw_equity": list(equity),
+        # #436: the un-grafted per-bar mark path, named. `raw_equity` is kept as
+        # the legacy alias of the same list.
+        "equity_mtm": equity_mtm,
+        "raw_equity": list(equity_mtm),
+        "reconciliation_adjustment_per_bar": drift,
+        "equity_construction": EQUITY_CONSTRUCTION,
         "exposure": exposure,
         "turnover": turnover,
         "commission": commission_used,
         "funding": None,
         "cost_basis": cost_basis,
+        "closed_loop_residual_usdt": engine_series_residual,
+        "closed_loop_residual_measured": balance_measured,
+        "closed_loop_ok": loop_ok,
         "cost_reconciliation": {
             "reported_commission_partial": reported_comm_total,
             "estimated_commission_total": est_comm_total,
             "sum_realized_pnl": sum_realized,
+            # The attributed term, measured. It is NOT the residual (#436): the
+            # field that claimed to be "the residual explained by open positions"
+            # was identically equal to this input and could never disagree with it.
             "open_position_realized_pnl": open_realized,
-            "closed_loop_residual_explained_by_open_positions": open_realized,
+            "engine_series_residual_usdt": engine_series_residual,
+            "engine_series_residual_abs_usdt": loop_err,
+            "engine_series_residual_measured": balance_measured,
+            "engine_series_tolerance_usdt": STRATEGY_LOOP_ATOL,
+            "closed_loop_terms": {
+                "balance_delta": balance_total - capital,
+                "sum_realized_pnl": sum_realized,
+                "open_position_realized_pnl": open_realized,
+                "residual_usdt": engine_series_residual,
+            },
             "balance_delta": balance_total - capital,
             "closed_loop_error": loop_err,
+            "closed_loop_ok": loop_ok,
             "relative_error": rel_err if math.isfinite(rel_err) else None,
             "implied_drag": commission,
             "balance_total": balance_total,
+            # The graft, declared: the terminal level of `equity` is the engine
+            # balance and the un-grafted mark path ends `equity_mtm_gap_usdt`
+            # away from it.
+            "equity_construction": EQUITY_CONSTRUCTION,
+            "reconciliation_adjustment_per_bar_usdt": drift,
+            "reconciliation_adjustment_total_usdt": balance_total - equity_mtm[-1],
+            "equity_mtm_terminal": equity_mtm[-1],
+            "equity_mtm_gap_usdt": balance_total - equity_mtm[-1],
             # #397: turnover notional, entry/exit separated, against the fill
             # notional the commission estimate charges (one fee convention).
             "turnover_notional": {
@@ -1712,9 +1811,14 @@ def portfolio_series_from_engine(
                 sum_realized += float(str(c["realized_pnl"]).split()[0])
             except (ValueError, TypeError):
                 pass
+    balance_measured = True
     try:
         balance_total = float(str(engine_result["account"]["balance_total"]).split()[0])
+        balance_measured = math.isfinite(balance_total)
     except (KeyError, ValueError, TypeError, AttributeError):
+        balance_total = capital
+        balance_measured = False
+    if not balance_measured:
         balance_total = capital
 
     equity = [capital]
@@ -1807,18 +1911,47 @@ def portfolio_series_from_engine(
         and abs(funding_measured_drag - (-funding_expected)) <= dust
     )
     fed = bool(funding_rows)
-    base_loop = abs((balance_total - capital) - sum_realized + open_entry_comm)
-    if fed and funding_ok:
+    # #436: the engine↔series closed-loop residual is MEASURED (signed) and
+    # published. `balance_total` carries closed-position realized PnL net of the
+    # entry commissions of still-open positions; it does not carry their
+    # unrealized mark. Before this the only guard the portfolio path published
+    # was replaced by the funding difference whenever funding rows were present
+    # (which they always are on the real tape), so the engine↔series residual
+    # was never surfaced and `VERIFIED_ENGINE_FUNDING` was asserted on a
+    # quantity the receipt did not measure.
+    engine_series_residual = (balance_total - capital) - sum_realized + open_entry_comm
+    engine_series_residual_abs = abs(engine_series_residual)
+    engine_series_ok = balance_measured and engine_series_residual_abs <= PORTFOLIO_LOOP_ATOL
+    funding_residual = (
+        funding_measured_drag - (-funding_expected)
+        if (fed and funding_measured_drag is not None)
+        else None
+    )
+    funding_residual_abs = abs(funding_residual) if funding_residual is not None else None
+    # `loop_err` is the CONJUNCTION of the two independent reconciliations: the
+    # funding settlement difference AND the engine↔series residual. A pass on one
+    # may not stand in for the other, and the components are published beside it.
+    loop_err = max(engine_series_residual_abs, funding_residual_abs or 0.0)
+    loop_ok = engine_series_ok and (funding_ok if fed else True)
+    if not balance_measured:
+        # Unmeasurable is not verified: fail closed instead of guessing.
+        cost_basis = "UNKNOWN"
+    elif not engine_series_ok:
+        # The engine's own ledger did not close. Fail closed; neither funding nor
+        # the commission cross-check may upgrade this state.
+        cost_basis = "MISMATCH"
+    elif fed and funding_ok:
         cost_basis = "VERIFIED_ENGINE_FUNDING"
     elif fed:
         cost_basis = "FUNDING_UNVERIFIED"
-    elif base_loop <= 0.02:
+    else:
         cost_basis = "VERIFIED_ENGINE"
         funding_paid = 0.0
-    else:
-        cost_basis = "ESTIMATED"
-    loop_err = abs(funding_measured_drag - (-funding_expected)) if (fed and funding_measured_drag is not None) else base_loop
 
+    # The graft, declared (#436): `adj[-1] == balance_total` holds by
+    # construction, so the returned object names the un-grafted mark path and the
+    # per-bar adjustment that absorbs the difference.
+    equity_mtm = list(equity)
     drift = (balance_total - equity[-1]) / max(1, n - 1)
     adj = [equity[0]]
     for i in range(1, n):
@@ -1841,7 +1974,12 @@ def portfolio_series_from_engine(
                     participations.append(x_not / qv[info["close_idx"]])
     return {
         "equity": adj,
-        "raw_equity": list(equity),
+        # #436: the un-grafted per-bar mark path, named. `raw_equity` is kept as
+        # the legacy alias of the same list.
+        "equity_mtm": equity_mtm,
+        "raw_equity": list(equity_mtm),
+        "reconciliation_adjustment_per_bar": drift,
+        "equity_construction": EQUITY_CONSTRUCTION,
         "exposure": exposure,
         "turnover": turnover,
         "commission": est_comm_total,
@@ -1850,15 +1988,56 @@ def portfolio_series_from_engine(
         "funding_reconciled": funding_ok if fed else None,
         "funding_boundaries_held": funding_boundaries,
         "cost_basis": cost_basis,
+        "closed_loop_residual_usdt": engine_series_residual,
+        "closed_loop_residual_measured": balance_measured,
+        "closed_loop_ok": loop_ok,
         "cost_reconciliation": {
             "estimated_commission_total": est_comm_total,
             "sum_realized_pnl": sum_realized,
             "open_mtm_last": open_mtm,
+            # The term the closed-loop identity attributes to still-open
+            # positions: their entry commissions, carried by the balance as a
+            # reduction and measured here rather than assumed.
+            "open_entry_commissions_of_open_positions": open_entry_comm,
+            # #436: the engine↔series closed-loop residual, signed and measured.
+            # It was previously computed as `base_loop` and thrown away in favour
+            # of the funding difference.
+            "engine_series_residual_usdt": engine_series_residual,
+            "engine_series_residual_abs_usdt": engine_series_residual_abs,
+            "engine_series_residual_measured": balance_measured,
+            "engine_series_tolerance_usdt": PORTFOLIO_LOOP_ATOL,
+            "engine_series_ok": engine_series_ok,
+            "closed_loop_terms": {
+                "balance_delta": balance_total - capital,
+                "sum_realized_pnl": sum_realized,
+                "open_entry_commissions_of_open_positions": open_entry_comm,
+                "residual_usdt": engine_series_residual,
+            },
             "balance_delta": balance_total - capital,
             "funding_paid_implied": funding_paid,
             "funding_expected": funding_expected,
+            # #436: the funding reconciliation, side by side with the residual
+            # above. `loop_err` is the conjunction of the two, so neither may be
+            # read as the whole verification.
+            "funding_residual_usdt": funding_residual,
+            "funding_tolerance_usdt": dust if fed else None,
+            "funding_ok": funding_ok if fed else None,
+            "loop_err_is_conjunction": True,
+            "loop_err_components_usdt": {
+                "engine_series_residual_abs": engine_series_residual_abs,
+                "funding_residual_abs": funding_residual_abs,
+            },
+            "loop_ok": loop_ok,
             "closed_loop_error": loop_err,
             "balance_total": balance_total,
+            # The graft, declared: the terminal level of `equity` is the engine
+            # balance and the un-grafted mark path ends `equity_mtm_gap_usdt`
+            # away from it.
+            "equity_construction": EQUITY_CONSTRUCTION,
+            "reconciliation_adjustment_per_bar_usdt": drift,
+            "reconciliation_adjustment_total_usdt": balance_total - equity_mtm[-1],
+            "equity_mtm_terminal": equity_mtm[-1],
+            "equity_mtm_gap_usdt": equity_mtm[-1] - balance_total,
             # #397: the notional the published turnover is built from, entry and
             # exit separated, beside the fill notional the commission estimate
             # charges. One fee convention: the two must agree.

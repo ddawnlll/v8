@@ -1,0 +1,632 @@
+{
+  "receipt_id": "a8188784e166c37d03177477841bc35f",
+  "run": {
+    "dataset": {
+      "tape_path": "/Users/hootie/src/v8/research/tape/btcusdt-1h-12m",
+      "tape_sha256": "4812c6dc9e8b206246ca088eed2fe5460495c65314dcbbafa09cc1ba0d0a0f3f",
+      "universe": [
+        "BTCUSDT-PERP.BINANCE"
+      ],
+      "period_start_ns": 1751331600000000000,
+      "period_end_ns": 1753128000000000000,
+      "n_bars": 500,
+      "source_hashes": [
+        "1eb2a3ebf970ed8cfd994fe7012fc8f73e74fe33",
+        "f52cc907b58751be76bd76aca00efc6de841bbfa",
+        "da2be476a6ef7202e8ad45ea4ef3e73228537607",
+        "91e40ad0da83aa8b9063cdc465f836e971d0e24c",
+        "101b4d362018b77193758960e48e9cca8b981d37",
+        "e1f99609cfd8fa88cb2391e2d188062c57121f32"
+      ]
+    },
+    "code": {
+      "git_rev": "b7804bdc",
+      "git_dirty": "yes",
+      "config_sha256": "3c50fd475271bfe27a592959e3090f63be80823d2be72dcb43e9ee3acde98bbd",
+      "estimator_versions": {
+        "numpy": "2.5.3",
+        "scipy": "absent",
+        "arch": "absent",
+        "nautilus_trader": "2.0.0rc4",
+        "polars": "1.44.1"
+      },
+      "source_sha256": "e8d3ca8906f720fbab4af9b6ffe8fb780cab1459d79cdfc5b251e7eed3c96609"
+    },
+    "seed": 7,
+    "primary_benchmark": "cash",
+    "diagnostic_benchmarks": [
+      "bh_BTCUSDT-PERP",
+      "equal_weight",
+      "vol_target",
+      "simple_trend"
+    ],
+    "strategy_family": [
+      "portfolio_P",
+      "portfolio_PE",
+      "simple_trend",
+      "vol_target"
+    ],
+    "capital": 10000.0,
+    "taker_fee": 0.0005,
+    "opex_monthly_usd": 30.0
+  },
+  "metrics": {
+    "portfolio_P": {
+      "net_return": 0.0008473634400358865,
+      "excess_vs_primary": 0.0008473634400358865,
+      "excess_ci_low": -0.009055159319456257,
+      "excess_ci_high": 0.012155285949864073,
+      "sharpe_per_bar": 0.006608953845588489,
+      "sharpe_annualized": 0.6185641869475805,
+      "sharpe_ci_low": -7.732310088388615,
+      "sharpe_ci_high": 7.611297268347663,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.005688336032180506,
+      "tail_mean_5pct": -0.00055688882437303,
+      "avg_exposure": 0.05394823929874938,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 1.5366622540000003,
+      "commission_cost": 7.68331127,
+      "funding_cost": -1.674069660000896,
+      "cost_basis": "VERIFIED_ENGINE_FUNDING",
+      "n_bars": 500,
+      "n_trades": 8
+    },
+    "portfolio_PE": {
+      "net_return": -0.0006011790039601728,
+      "excess_vs_primary": -0.0006011790039601728,
+      "excess_ci_low": -0.005377216874471358,
+      "excess_ci_high": 0.004751542295023035,
+      "sharpe_per_bar": -0.009498847031425029,
+      "sharpe_annualized": -0.8890433687708209,
+      "sharpe_ci_low": -9.535091339408726,
+      "sharpe_ci_high": 6.179153253725882,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.0031979158277103143,
+      "tail_mean_5pct": -0.00027219612198047926,
+      "avg_exposure": 0.0256745245913871,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 0.8333536520000001,
+      "commission_cost": 4.1667682600000004,
+      "funding_cost": -0.8676501999998436,
+      "cost_basis": "VERIFIED_ENGINE_FUNDING",
+      "n_bars": 500,
+      "n_trades": 9
+    },
+    "cash": {
+      "net_return": 0.0,
+      "excess_vs_primary": 0.0,
+      "excess_ci_low": 0.0,
+      "excess_ci_high": 0.0,
+      "sharpe_per_bar": 0.0,
+      "sharpe_annualized": 0.0,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": true,
+      "max_drawdown": 0.0,
+      "tail_mean_5pct": 0.0,
+      "avg_exposure": 0.0,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 0.0,
+      "commission_cost": 0.0,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 500,
+      "n_trades": 0
+    },
+    "bh_BTCUSDT-PERP": {
+      "net_return": 0.08755327137982882,
+      "excess_vs_primary": 0.08755327137982882,
+      "excess_ci_low": -0.07003341346234859,
+      "excess_ci_high": 0.2722062494406672,
+      "sharpe_per_bar": 0.051417390905819045,
+      "sharpe_annualized": 4.8124041026332565,
+      "sharpe_ci_low": -4.375201368572116,
+      "sharpe_ci_high": 12.323384937446546,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.055009736741328634,
+      "tail_mean_5pct": -0.006992022350684984,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 1.0,
+      "commission_cost": 5.0,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 500,
+      "n_trades": 1
+    },
+    "equal_weight": {
+      "net_return": 0.08755327137983415,
+      "excess_vs_primary": 0.08755327137983415,
+      "excess_ci_low": -0.07003341346234448,
+      "excess_ci_high": 0.27220624944067623,
+      "sharpe_per_bar": 0.0514173909058218,
+      "sharpe_annualized": 4.812404102633514,
+      "sharpe_ci_low": -4.375201368571861,
+      "sharpe_ci_high": 12.323384937446857,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.0550097367413283,
+      "tail_mean_5pct": -0.006992022350685016,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 1.0,
+      "commission_cost": 5.0,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 500,
+      "n_trades": 1
+    },
+    "vol_target": {
+      "net_return": 0.055314352832015246,
+      "excess_vs_primary": 0.055314352832015246,
+      "excess_ci_low": -0.047829435809151895,
+      "excess_ci_high": 0.1642794019233566,
+      "sharpe_per_bar": 0.04856532676418057,
+      "sharpe_annualized": 4.5454655253465415,
+      "sharpe_ci_low": -3.9679484999827945,
+      "sharpe_ci_high": 12.456059317857012,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.03387758960593074,
+      "tail_mean_5pct": -0.004919712092565144,
+      "avg_exposure": 0.7811249649382853,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 12.024105901423976,
+      "commission_cost": 61.63844949661436,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 500,
+      "n_trades": 0
+    },
+    "simple_trend": {
+      "net_return": 0.0001560930655337689,
+      "excess_vs_primary": 0.0001560930655337689,
+      "excess_ci_low": -0.04470811559433984,
+      "excess_ci_high": 0.05358229980553352,
+      "sharpe_per_bar": 0.0009853356200249794,
+      "sharpe_annualized": 0.0922223608927276,
+      "sharpe_ci_low": -7.562952834359957,
+      "sharpe_ci_high": 5.331075857598397,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.02554612364713172,
+      "tail_mean_5pct": -0.003321727278438189,
+      "avg_exposure": 0.096,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 54.0,
+      "commission_cost": 270.0,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 500,
+      "n_trades": 0
+    }
+  },
+  "oos_metrics": {
+    "portfolio_P": {
+      "net_return": -0.005385071128453434,
+      "excess_vs_primary": -0.005385071128453434,
+      "excess_ci_low": -0.010677035797386608,
+      "excess_ci_high": -0.0010932939657251626,
+      "sharpe_per_bar": -0.17729407432974417,
+      "sharpe_annualized": -16.59381613197464,
+      "sharpe_ci_low": -26.004168433190024,
+      "sharpe_ci_high": -5.81734901323619,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.005385071128453455,
+      "tail_mean_5pct": -0.0006258294094154518,
+      "avg_exposure": 0.034616001443666666,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 1.5366622540000003,
+      "commission_cost": 7.68331127,
+      "funding_cost": null,
+      "cost_basis": "VERIFIED_ENGINE_FUNDING+OOS_SLICE",
+      "n_bars": 150,
+      "n_trades": 8
+    },
+    "portfolio_PE": {
+      "net_return": -0.0029865076674352453,
+      "excess_vs_primary": -0.0029865076674352453,
+      "excess_ci_low": -0.0056497713914959,
+      "excess_ci_high": -0.0008320081536784711,
+      "sharpe_per_bar": -0.19593380297673332,
+      "sharpe_annualized": -18.338399142362075,
+      "sharpe_ci_low": -27.34265542188173,
+      "sharpe_ci_high": -8.541642403700758,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.0029865076674352167,
+      "tail_mean_5pct": -0.00031570943177897185,
+      "avg_exposure": 0.017345256126296723,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 0.8333536520000001,
+      "commission_cost": 4.1667682600000004,
+      "funding_cost": null,
+      "cost_basis": "VERIFIED_ENGINE_FUNDING+OOS_SLICE",
+      "n_bars": 150,
+      "n_trades": 9
+    },
+    "cash": {
+      "net_return": 0.0,
+      "excess_vs_primary": 0.0,
+      "excess_ci_low": 0.0,
+      "excess_ci_high": 0.0,
+      "sharpe_per_bar": 0.0,
+      "sharpe_annualized": 0.0,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": true,
+      "max_drawdown": 0.0,
+      "tail_mean_5pct": 0.0,
+      "avg_exposure": 0.0,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 0.0,
+      "commission_cost": 0.0,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 150,
+      "n_trades": 0
+    },
+    "bh_BTCUSDT-PERP": {
+      "net_return": 0.006424405671342059,
+      "excess_vs_primary": 0.006424405671342059,
+      "excess_ci_low": -0.03947451657198776,
+      "excess_ci_high": 0.057291473920709046,
+      "sharpe_per_bar": 0.01541466075190314,
+      "sharpe_annualized": 1.4427331946701942,
+      "sharpe_ci_low": -8.32348027898695,
+      "sharpe_ci_high": 10.88799966053441,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.032039592564121165,
+      "tail_mean_5pct": -0.006060381221491934,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 1.0,
+      "commission_cost": 5.0,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 150,
+      "n_trades": 1
+    },
+    "equal_weight": {
+      "net_return": 0.006424405671343392,
+      "excess_vs_primary": 0.006424405671343392,
+      "excess_ci_low": -0.03947451657198673,
+      "excess_ci_high": 0.05729147392070949,
+      "sharpe_per_bar": 0.015414660751906204,
+      "sharpe_annualized": 1.4427331946704811,
+      "sharpe_ci_low": -8.32348027898655,
+      "sharpe_ci_high": 10.887999660534456,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.03203959256412061,
+      "tail_mean_5pct": -0.006060381221491928,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 1.0,
+      "commission_cost": 5.0,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 150,
+      "n_trades": 1
+    },
+    "vol_target": {
+      "net_return": -0.0011940361109170627,
+      "excess_vs_primary": -0.0011940361109170627,
+      "excess_ci_low": -0.030926956731983674,
+      "excess_ci_high": 0.02717134568826793,
+      "sharpe_per_bar": -0.0027204751348933734,
+      "sharpe_annualized": -0.25462252108927935,
+      "sharpe_ci_low": -8.65140426505746,
+      "sharpe_ci_high": 8.716987499331387,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.02157237296896462,
+      "tail_mean_5pct": -0.004630471059664211,
+      "avg_exposure": 0.7042890232927707,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 12.024105901423976,
+      "commission_cost": 61.63844949661436,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 150,
+      "n_trades": 0
+    },
+    "simple_trend": {
+      "net_return": -0.012922584868399256,
+      "excess_vs_primary": -0.012922584868399256,
+      "excess_ci_low": -0.03221337892603715,
+      "excess_ci_high": -0.00006228869446256446,
+      "sharpe_per_bar": -0.13228659892373604,
+      "sharpe_annualized": -12.381347247861614,
+      "sharpe_ci_low": -21.63891791674393,
+      "sharpe_ci_high": -0.24713882392857436,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.01292258486839928,
+      "tail_mean_5pct": -0.002396074993169518,
+      "avg_exposure": 0.05333333333333334,
+      "concentration": 1.0,
+      "turnover_notional_over_capital": 54.0,
+      "commission_cost": 270.0,
+      "funding_cost": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 150,
+      "n_trades": 0
+    }
+  },
+  "verdicts": {
+    "research_validity": "VALID",
+    "research_note": "BTCUSDT: OK; leak_probe=BTCUSDT: OK; probe=series_own_bar_close_containment; bars=500; close_in_own_bar=500/500; repeated_closes=0; close_carried_forward=267/499",
+    "economic": "POSITIVE_DESCRIPTIVE",
+    "economic_note": "net excess vs primary is positive on this window; not an edge claim",
+    "statistical": "ESTIMATOR_UNAVAILABLE: scipy,arch",
+    "statistical_note": "no estimator output: estimator dependencies not provisioned: scipy, arch (provision the optional `research` extra (`uv run --project v8-next --extra research ...`)) — never measured, so no statistical outcome is published",
+    "portfolio": "NOT_HELPFUL",
+    "portfolio_note": "P+E sleeve mix does not improve allocator-level net on this window",
+    "execution": "SIM_ONLY",
+    "execution_note": "simulated fills; public funding measured; no venue-settled fills",
+    "capital": "NOT_AUTHORIZED",
+    "capital_note": "no score mints capital permission; separate risk decision required"
+  },
+  "statistics": {
+    "baseline": "cash",
+    "plan_id": "sha256:aa9aa4ab62e23e26a761d03606ee792ae9867f84cce830491623519a2c1924d9",
+    "plan": {
+      "family": "portfolio-family",
+      "block_size": 5,
+      "reps": 999,
+      "seed": 7,
+      "multiplicity_trials": 4,
+      "effective_independent_trials": 4.0,
+      "independence_basis": "four preregistered execution variants (champion, fee-stressed, conservative, slippage-stressed) on one shared tape; not proven independent",
+      "pbo_partitions": 4,
+      "pbo_metric": "mean_return",
+      "pbo_max_splits": 64,
+      "wrc_block_divisor": 5,
+      "wrc_reps": 999,
+      "wrc_seed": 7,
+      "authority_conditions": [
+        "deflated_sharpe_confidence>=0.95",
+        "bonferroni_adjusted_p<=0.05"
+      ],
+      "diagnostics": [
+        "white_reality_check_p_value",
+        "probability_of_backtest_overfitting",
+        "sample_sufficiency",
+        "regime_attribution"
+      ],
+      "interval_bars": 0,
+      "pinned_ns": 1751331600000000000,
+      "identity": "sha256:aa9aa4ab62e23e26a761d03606ee792ae9867f84cce830491623519a2c1924d9"
+    },
+    "authority_conditions": [
+      "deflated_sharpe_confidence>=0.95",
+      "bonferroni_adjusted_p<=0.05"
+    ],
+    "diagnostics": [
+      "white_reality_check_p_value",
+      "probability_of_backtest_overfitting",
+      "sample_sufficiency",
+      "regime_attribution"
+    ],
+    "intervals_per_variant": 20,
+    "interval_bars": 24,
+    "variant_excess_vs_baseline": 0.055314352832015246,
+    "sample_sufficiency": {
+      "observations": 20,
+      "block_size": 5,
+      "independent_samples": 4,
+      "min_independent_samples": 2,
+      "verdict": "SUFFICIENT",
+      "basis": "non-overlapping blocks of the pinned block length, not raw row count"
+    },
+    "dsr": {
+      "verdict": "ESTIMATOR_UNAVAILABLE",
+      "estimator": "dsr",
+      "unavailable": [
+        "scipy"
+      ],
+      "reason": "estimator not provisioned: scipy not importable by this interpreter (provision the optional `research` extra (`uv run --project v8-next --extra research ...`))"
+    },
+    "pbo": {
+      "verdict": "ESTIMATOR_UNAVAILABLE",
+      "estimator": "pbo",
+      "unavailable": [
+        "scipy"
+      ],
+      "reason": "estimator not provisioned: scipy not importable by this interpreter (provision the optional `research` extra (`uv run --project v8-next --extra research ...`))"
+    },
+    "spa": {
+      "verdict": "ESTIMATOR_UNAVAILABLE",
+      "estimator": "spa",
+      "unavailable": [
+        "scipy",
+        "arch"
+      ],
+      "reason": "estimator not provisioned: scipy, arch not importable by this interpreter (provision the optional `research` extra (`uv run --project v8-next --extra research ...`))"
+    }
+  },
+  "controls": {
+    "positive_control": {
+      "status": "UNRUN_SYNTHETIC_CONTROL_TEST_ONLY",
+      "reason": "synthetic controls are restricted to test harnesses"
+    },
+    "negative_control": {
+      "status": "UNRUN_SYNTHETIC_CONTROL_TEST_ONLY",
+      "reason": "shuffled inputs are restricted to test harnesses"
+    },
+    "known_defect_future_leak_caught": {
+      "status": "CAUGHT",
+      "probe": "series_own_bar_close_containment",
+      "instruments": {
+        "BTCUSDT": {
+          "status": "CAUGHT",
+          "probe": "series_own_bar_close_containment",
+          "bars": 499,
+          "reason": "FUTURE_LEAK_CLOSE_OUTSIDE_OWN_BAR: 234/499 closes are not in their own bar (first at index 1); 233 of them are inside the NEXT bar, i.e. the close series is carried by the wrong timestamps"
+        }
+      }
+    },
+    "ablation": {
+      "P": "incumbent quorum=1,tolerance=28 x4 legs",
+      "P+E": "incumbent 0.5 + challenger(tol=0) 0.5 x4 legs, same per-leg budget",
+      "same_engine_path": true
+    },
+    "positive_caught": null,
+    "negative_caught": null
+  },
+  "portfolio_mix": {
+    "method": "ENGINE_SHARED_ACCOUNT_RERUN",
+    "scope": "ENGINE_LEVEL_SAME_BUDGET",
+    "p_net": 0.0008473634400358865,
+    "pe_net": -0.0006011790039601728,
+    "incremental_net": -0.0014485424439960592,
+    "sleeves": [
+      "incumbent 1.0",
+      "incumbent 0.5 + challenger 0.5"
+    ]
+  },
+  "capacity_scenarios": [
+    {
+      "kind": "MEASURED_LINEAR_BOUND",
+      "participation_threshold": 0.01,
+      "observed_peak_participation": 9.522669632826454e-7,
+      "max_capital_linear": 105012568.80243012,
+      "basis": "LINEAR_EXTRAPOLATION_OF_MEASURED_PARTICIPATION",
+      "impact_beyond": "UNVERIFIED_NO_IMPACT_MODEL"
+    },
+    {
+      "kind": "MEASURED_LINEAR_BOUND",
+      "participation_threshold": 0.05,
+      "observed_peak_participation": 9.522669632826454e-7,
+      "max_capital_linear": 525062844.01215065,
+      "basis": "LINEAR_EXTRAPOLATION_OF_MEASURED_PARTICIPATION",
+      "impact_beyond": "UNVERIFIED_NO_IMPACT_MODEL"
+    },
+    {
+      "kind": "MEASURED_LINEAR_BOUND",
+      "participation_threshold": 0.1,
+      "observed_peak_participation": 9.522669632826454e-7,
+      "max_capital_linear": 1050125688.0243013,
+      "basis": "LINEAR_EXTRAPOLATION_OF_MEASURED_PARTICIPATION",
+      "impact_beyond": "UNVERIFIED_NO_IMPACT_MODEL"
+    },
+    {
+      "kind": "HYPOTHETICAL_SCENARIO",
+      "model": "sqrt_impact_k_sigma_sqrt_p",
+      "k": 0.1,
+      "k_status": "HYPOTHETICAL_UNCALIBRATED",
+      "sigma_per_bar": 0.00026201503488696803,
+      "impact_bps_at_peak": 0.0002556851889909498
+    },
+    {
+      "kind": "HYPOTHETICAL_SCENARIO",
+      "model": "sqrt_impact_k_sigma_sqrt_p",
+      "k": 0.5,
+      "k_status": "HYPOTHETICAL_UNCALIBRATED",
+      "sigma_per_bar": 0.00026201503488696803,
+      "impact_bps_at_peak": 0.001278425944954749
+    },
+    {
+      "kind": "HYPOTHETICAL_SCENARIO",
+      "model": "sqrt_impact_k_sigma_sqrt_p",
+      "k": 1.0,
+      "k_status": "HYPOTHETICAL_UNCALIBRATED",
+      "sigma_per_bar": 0.00026201503488696803,
+      "impact_bps_at_peak": 0.002556851889909498
+    }
+  ],
+  "parity": {
+    "engine_rerun_parity": "EXACT_MATCH"
+  },
+  "shadow_live": {
+    "mode": "UNRUN_NO_VENUE_ACCOUNT",
+    "status": "UNRUN_NO_VENUE_ACCOUNT",
+    "reason": "no venue account / no file",
+    "path": "artifacts/shadow_fills.jsonl",
+    "format": "jsonl per docs/contracts/SHADOW_LIVE_DATA_SPEC.md",
+    "source": "venue private REST GET /fapi/v1/userTrades (requires BINANCE_API_KEY)",
+    "command": "uv run --project v8-next python -m v8_next.adapters.shadow_ingest fetch --symbol BTCUSDT --out artifacts/shadow_fills.jsonl",
+    "funding_note": "public funding is in research/tape/quad-1h-12m/tape.jsonl (channel=funding); see funding_history.quad_funding_summary",
+    "live_fills_present": false,
+    "live_fills_arg": null
+  },
+  "limitations": [
+    "Code identity: run.code.source_sha256 is sha256 over sorted (relative path, file sha256) for v8-next/src/**, v8-next/pyproject.toml and v8-next/uv.lock; run.code.git_dirty is one bit and cannot separate two dirty trees at the same revision, so the source hash is what identifies the code.",
+    "Mark proxy: funding settlement marks use leg closes at the boundary.",
+    "P+E is engine-level shared-account execution, not post-hoc summation.",
+    "Capacity beyond participation is UNVERIFIED (no impact model).",
+    "Production capital stays denied without a human-signed approval artifact."
+  ],
+  "execution": {
+    "profile": "baseline",
+    "digest": "e7e76a80da65251433e15b67519050bee60ec737387a0b85484d79f6d1861760",
+    "fill_model": "default",
+    "fill_model_slipped": false,
+    "prob_fill_on_limit": 1.0,
+    "prob_slippage": 0.0,
+    "random_seed": 0,
+    "latency_nanos": {
+      "base": 0,
+      "insert": 0,
+      "update": 0,
+      "cancel": 0
+    },
+    "fee_model": "maker_taker",
+    "margin_model": "none",
+    "bar_execution": true,
+    "bar_adaptive_high_low_ordering": false,
+    "trade_execution": true,
+    "liquidity_consumption": false,
+    "queue_position": false,
+    "use_market_order_acks": false,
+    "price_protection_points": null,
+    "depth_data_available": false,
+    "depth_dependent_knobs_enabled": [],
+    "depth_dependent_knobs_active": [],
+    "inert_knobs_without_depth_data": [],
+    "depth_dependent_knobs_evidence": "NOT_APPLICABLE_NO_DEPTH_DATA",
+    "evidence_class": "MODELLED_EXECUTION_ASSUMPTION_NOT_VENUE_TRUTH",
+    "fill_signature": "5021a18642f0f17c1bfce9b758550e34b4cc89b286b179e6dd71a5a4d6194c95",
+    "fills_count": 0,
+    "fills_report_type": "UNAVAILABLE:ImportError",
+    "slippage_samples": 8,
+    "slippage_unmatched_positions": 0,
+    "slippage_rejected_cross_series": 0,
+    "slippage_bps_mean": 0.0,
+    "slippage_bps_abs_mean": 0.0,
+    "slippage_bps_max": 0.0,
+    "slippage_bps_min": -0.0,
+    "slippage_bps_abs_max": 0.0,
+    "slippage_magnitudes_all_zero": false,
+    "slippage_configuration_cannot_slip": true,
+    "decision_to_position_event_ns_mean": 0,
+    "decision_to_position_event_ns_max": 0,
+    "order_to_fill_ns_mean": null,
+    "order_to_fill_ns_max": null,
+    "configured_latency_nanos": 0,
+    "latency_observability": "NOT_OBSERVABLE",
+    "commission_totals_by_currency": {},
+    "commission_total": null
+  },
+  "estimator_availability": {
+    "probe": "importlib.util.find_spec",
+    "checked": {
+      "arch": false,
+      "polars": true,
+      "scipy": false
+    },
+    "unavailable": [
+      "arch",
+      "scipy"
+    ],
+    "required_by": {
+      "dsr": [
+        "scipy"
+      ],
+      "pbo": [
+        "scipy",
+        "polars"
+      ],
+      "spa": [
+        "scipy",
+        "arch"
+      ]
+    }
+  },
+  "claim_status": "NO_ECONOMIC_CLAIM"
+}
