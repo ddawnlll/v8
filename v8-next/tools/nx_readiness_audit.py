@@ -51,9 +51,13 @@ from v8_next.evaluation.benchmark_receipt import (
     BenchmarkLedger,
     BenchmarkReceipt,
     GateVector,
+    ScoreEvidence,
 )
 from v8_next.evaluation.gate_resolution import load_tape_candles, resolve_all_gates
-from v8_next.evaluation.scoring import compute_capability_score
+from v8_next.evaluation.scoring import (
+    compute_capability_breakdown,
+    compute_capability_score,
+)
 
 HOUR_NS = 3_600 * 10**9
 R_ROW = re.compile(r"^\|\s*(R\d+)\s*\|", re.MULTILINE)
@@ -278,15 +282,22 @@ def main(argv: list[str] | None = None) -> int:
     }
 
     series = measured["series"]
+    breakdown = compute_capability_breakdown(series, len(candles), measured["campaigns"], 0.0)
     score = compute_capability_score(series, len(candles), measured["campaigns"], 0.0)
 
     run_dir = out_dir / "run"
     run_dir.mkdir(parents=True, exist_ok=True)
     ledger = BenchmarkLedger.load_jsonl(run_dir / "benchmark_ledger.jsonl")
+    # #408: a published capability score must be a function of the evidence its own
+    # receipt carries -- `BenchmarkReceipt.create` refuses a number nothing can
+    # reproduce, and this audit's number is no exception. The evidence is the same
+    # measurement the number above was computed from; it is not re-derived here.
     receipt = BenchmarkReceipt.create(
         case_id="READINESS-AUDIT",
         policy_id=args.policy,
         capability_score=score,
+        coverage_factor=breakdown["coverage_factor"],
+        score_evidence=ScoreEvidence.from_breakdown(breakdown),
         gates=GateVector(),
         computed_at_timestamp_ns=int(candles[-1].end_ns),
     )
@@ -303,6 +314,18 @@ def main(argv: list[str] | None = None) -> int:
     states = {field: getattr(report.gates, field).name for field in report.gates.__class__.model_fields}
     passed = sum(1 for state in states.values() if state == "PASS")
     verdict = report.gates.readiness()
+    # #447: a published gate state must be a measurement. The structural trio is
+    # published together with the input it was derived from -- or the named reason it
+    # could not be measured -- read from the battery's own report, never restated here.
+    structural_gates = {
+        "note": (
+            "#447: g0/g1/g2 are derived by the resolver, not declared; each entry carries "
+            "the measured input and the named reason its state carries"
+        ),
+        "g0_identity": report.g0_metrics,
+        "g1_causal_pit": report.g1_metrics,
+        "g2_determinism_ledger": report.g2_metrics,
+    }
 
     audit = {
         "audit": "V8.7 readiness audit",
@@ -336,6 +359,7 @@ def main(argv: list[str] | None = None) -> int:
             "total": len(states),
             "pct": round(100.0 * passed / len(states), 1),
             "readiness_status": verdict.status.name,
+            "structural_gates": structural_gates,
         },
         "economic_readiness": economic_readiness(repo_root),
         "claim_status": "NO_ECONOMIC_CLAIM",
@@ -355,6 +379,12 @@ def main(argv: list[str] | None = None) -> int:
           f"({audit['economic_readiness']['met']}/{audit['economic_readiness']['required']})")
     print(f"[READINESS] verdict      : {verdict.status.name}")
     print(f"[READINESS] gate states  : {states}")
+    print(
+        "[READINESS] g0/g1/g2     : "
+        f"g0={report.g0_metrics.get('reason')} "
+        f"g1={report.g1_metrics.get('reason')} "
+        f"g2={report.g2_metrics.get('reason')}"
+    )
     print(f"[READINESS] audit sha256 : {_sha256(path)}")
     return 0
 
