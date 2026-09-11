@@ -1071,8 +1071,11 @@ class Publication:
             ),
             "latest_case_id": None if newest is None else newest.receipt.case_id,
             "latest_policy_id": None if newest is None else newest.receipt.policy_id,
-            "latest_recorded_capability_score": (
-                None if newest is None else newest.receipt.capability_score
+            #: #448: whether the refused entry recorded a number at all. The number itself
+            #: is deliberately not written here: a recorded value is not a published
+            #: measurement, and the ledger keeps the record.
+            "latest_records_capability_score": (
+                None if newest is None else newest.receipt.capability_score is not None
             ),
             "refusal_reason": self.refusal_reason,
         }
