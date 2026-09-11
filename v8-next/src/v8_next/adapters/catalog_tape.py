@@ -41,6 +41,7 @@ from nautilus_trader.persistence import ParquetDataCatalog
 from v8_next.adapters.portfolio_backtest import _bars, _instrument, base_currency
 from v8_next.adapters.trade_tape import trades_digest, trades_from_dump
 from v8_next.evaluation.multitape import MultiTape, load_multitape
+from v8_next.evaluation.tape_identity import TapeManifest, verify_manifest_against_file
 
 #: Real venue data (gitignored). Absolute on purpose: a relative default resolves
 #: against whatever cwd the caller runs from and silently finds nothing.
@@ -293,6 +294,7 @@ class CatalogBuild:
     written: dict[str, Any]
     inventory: dict[str, Any]
     wall_time_s: float
+    role_contract: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -302,6 +304,7 @@ class CatalogBuild:
             "written": self.written,
             "inventory": self.inventory,
             "wall_time_s": self.wall_time_s,
+            "role_contract": self.role_contract,
         }
 
 
@@ -320,15 +323,46 @@ def build_catalog(
     max_ticks: int | None = 50_000,
     trade_dirs: dict[str, Path] | None = None,
     run_id: str | None = None,
+    manifest: TapeManifest | None = None,
+    require_protected_final: bool = False,
 ) -> CatalogBuild:
     """Materialise a run-scoped catalog under the gitignored artifacts tree.
 
     Returns a :class:`CatalogBuild` whose ``inventory`` was read back from the
     written catalog (not echoed from the inputs), so a reader can compare it
     against the source tape and prove what the catalog actually holds.
+
+    ``manifest`` (NX01.R5) binds the build to a revision-bound tape identity: the
+    physical tape is re-hashed and any disagreement fails closed. The manifest's
+    role contract is carried on the result, so a catalog consumer cannot present
+    a burned or usage-unknown window as a protected final; with
+    ``require_protected_final`` that claim is refused outright.
     """
     started = time.monotonic()
     tape = load_multitape(tape_path, limit=limit)
+    role_contract: dict[str, Any] | None = None
+    if manifest is not None:
+        ok, reason = verify_manifest_against_file(manifest, tape_path)
+        if not ok:
+            raise ValueError(f"tape manifest does not match the physical tape: {reason}")
+        if manifest.tape_sha256 != tape.tape_sha256:
+            raise ValueError(
+                "manifest/loader tape hash disagreement: "
+                f"{manifest.tape_sha256} != {tape.tape_sha256}"
+            )
+        if require_protected_final and not manifest.final_eligible:
+            raise ValueError(
+                "this build claims a protected final window, but the manifest says "
+                "final_eligible=false; refusing to open it"
+            )
+        role_contract = {
+            "manifest_identity": manifest.identity_digest(),
+            "data_id": manifest.data_id,
+            "final_eligible": manifest.final_eligible,
+            "roles": dict(sorted(manifest.role_map.items())),
+            "protected_final_claim_refused": require_protected_final
+            and not manifest.final_eligible,
+        }
     wanted = tuple(sorted(legs)) if legs is not None else tuple(sorted(tape.candles))
     instrument_ids = {raw: f"{raw}-PERP.BINANCE" for raw in wanted}
 
@@ -375,6 +409,7 @@ def build_catalog(
         written=written,
         inventory=catalog_inventory(catalog, catalog_path=out_dir),
         wall_time_s=round(time.monotonic() - started, 3),
+        role_contract=role_contract,
     )
 
 

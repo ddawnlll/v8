@@ -364,6 +364,45 @@ def test_measured_head_access_and_tail_burn_invalidate_the_final(real_inventory)
     assert head.end_ms == 1_664_632_799_999  # 2022-10-01T13:59:59.999Z
 
 
+def test_catalog_consumer_binds_to_the_manifest_and_fails_closed(
+    real_inventory, tmp_path: Path
+) -> None:
+    """R5: a catalog build re-hashes the tape and cannot claim a protected final."""
+    from dataclasses import replace as dc_replace
+
+    from v8_next.adapters.catalog_tape import build_catalog
+
+    inv = real_inventory
+    tail = [measure_covering_tape(p) for p in TAIL_TAPES if (p / "tape.jsonl").is_file()]
+    verified = policy_lineage_burn_table(repo_root=REPO_ROOT, tape_path=TAPE)
+    segments = burn_segments(
+        inventory=inv,
+        verified_accesses=verified,
+        tail_burned_from_ms=min(t.window_start_ms for t in tail),
+        tail_evidence=tuple(t.path for t in tail),
+    )
+    calendar = swing_calendar(inventory=inv, segments=segments)
+    manifest = build_manifest(inventory=inv, calendar=calendar, config_identity="nx01-catalog")
+
+    tampered = dc_replace(manifest, tape_sha256="0" * 64)
+    with pytest.raises(ValueError, match="does not match the physical tape"):
+        build_catalog(tmp_path, tape_path=TAPE, limit=5, manifest=tampered)
+
+    with pytest.raises(ValueError, match="refusing to open it"):
+        build_catalog(
+            tmp_path, tape_path=TAPE, limit=5, manifest=manifest, require_protected_final=True
+        )
+
+    build = build_catalog(tmp_path, tape_path=TAPE, limit=5, manifest=manifest)
+    contract = build.role_contract
+    assert contract is not None
+    assert contract["manifest_identity"] == manifest.identity_digest()
+    assert contract["final_eligible"] is False
+    assert contract["protected_final_claim_refused"] is False
+    assert set(contract["roles"]) == {s.segment_id for s in calendar.burn_segments}
+    assert "PROTECTED_OOS" not in set(contract["roles"].values())
+
+
 def test_manifest_binds_to_store_and_fails_closed(real_inventory, tmp_path: Path) -> None:
     inv = real_inventory
     tail = [measure_covering_tape(p) for p in TAIL_TAPES if (p / "tape.jsonl").is_file()]
