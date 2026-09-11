@@ -122,11 +122,18 @@ def load_multitape(
     offset: int = 0,
     *,
     strict_intersection: bool = True,
+    start_ms: int | None = None,
+    end_ms: int | None = None,
 ) -> MultiTape:
     """Load every instrument in the tape with aligned chronological bars.
 
     offset skips that many leading bars per leg (frozen-OOS windowing); limit
     caps the leg length after the offset.
+
+    ``start_ms``/``end_ms`` select a half-open UTC window on the bar open time for
+    the kline legs and on the funding time for the funding rows. The read is a lazy
+    scan, so a bounded window over a large tape stays bounded (NX05.R3); it applies
+    before ``offset``/``limit``.
 
     Raises ``ValueError`` when a leg carries duplicated bar slots, or (with
     ``strict_intersection``, the default) when the chronological intersection
@@ -140,7 +147,26 @@ def load_multitape(
     if not p.is_file():
         raise FileNotFoundError(f"Multi tape not found at {p}")
     sha = _file_sha(p)
-    df = pl.read_ndjson(p)
+    scan = pl.scan_ndjson(p)
+    if start_ms is not None:
+        scan = scan.filter(
+            (pl.col("channel") == "kline")
+            & (pl.col("payload").struct.field("open_time_ms") >= start_ms)
+            | (pl.col("channel") == "funding")
+            & (pl.col("payload").struct.field("funding_time_ms") >= start_ms)
+        )
+    if end_ms is not None:
+        scan = scan.filter(
+            (pl.col("channel") == "kline")
+            & (pl.col("payload").struct.field("open_time_ms") < end_ms)
+            | (pl.col("channel") == "funding")
+            & (pl.col("payload").struct.field("funding_time_ms") < end_ms)
+        )
+    df = scan.collect()
+    if df.height == 0:
+        raise ValueError(
+            f"no rows for window [{start_ms},{end_ms}) in {p}"
+        )
 
     kline = df.filter(pl.col("channel") == "kline").sort(["instrument", "event_time"])
     instruments: list[str] = sorted(kline["instrument"].unique().to_list())

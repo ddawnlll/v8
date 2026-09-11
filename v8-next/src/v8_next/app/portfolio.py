@@ -18,6 +18,7 @@ import argparse
 import hashlib
 import json
 import sys
+import time
 from decimal import Decimal
 from pathlib import Path
 from typing import Any, Sequence
@@ -40,15 +41,39 @@ from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.multitape import MultiTape, load_multitape
 from v8_next.evaluation.parity import ArtifactBinding
 from v8_next.evaluation.report import generate_forensic_html_report
+from v8_next.evaluation.run_window import (
+    RunKey,
+    WindowAlreadyCompleted,
+    WindowRunManifest,
+    WindowSpec,
+    assert_window_resumable,
+    load_window_manifest,
+    write_window_manifest,
+)
 from v8_next.evaluation.scoring import (
     compute_capability_breakdown,
     compute_capability_score,
     evaluate_gate_vector,
 )
+from v8_next.evaluation.store import ResearchStore, canonical
 
 CASE_ID = "BC-QUAD-PORTFOLIO-01"
 POLICY_ID = "pol_portfolio_quad"
 PRIMARY_DEFAULT = "equal_weight"
+
+
+def parse_utc_ms(value: str) -> int:
+    """Parse ``YYYY-MM-DD`` or an ISO-8601 instant as a UTC epoch millisecond."""
+    import datetime
+
+    text = value.strip().replace("Z", "+00:00")
+    try:
+        parsed = datetime.datetime.fromisoformat(text)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"not a UTC date or instant: {value!r}") from None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=datetime.timezone.utc)
+    return int(parsed.timestamp() * 1000)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -58,6 +83,33 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--tape-path", default="research/tape/quad-1h-12m")
     p.add_argument("--bars", type=int, default=385)
     p.add_argument("--start-bar", type=int, default=0)
+    p.add_argument(
+        "--start-utc",
+        type=parse_utc_ms,
+        default=None,
+        help="UTC window start (YYYY-MM-DD); replaces the bar-count window.",
+    )
+    p.add_argument(
+        "--end-utc",
+        type=parse_utc_ms,
+        default=None,
+        help="UTC window end, exclusive (YYYY-MM-DD); replaces the bar-count window.",
+    )
+    p.add_argument("--fold-id", default=None, help="Walk-forward fold id this window is")
+    p.add_argument(
+        "--profile",
+        choices=("smoke", "fold", "benchmark"),
+        default=None,
+        help=(
+            "Execution profile. A bar-count window is a SMOKE run (liveness only, never "
+            "economic evidence); fold/benchmark runs must be UTC-bounded."
+        ),
+    )
+    p.add_argument(
+        "--allow-rerun",
+        action="store_true",
+        help="Override the completed-window guard (re-executes a finished run key)",
+    )
     p.add_argument("--output-dir", default="artifacts/portfolio-benchmark")
     p.add_argument("--primary", default=PRIMARY_DEFAULT)
     p.add_argument("--seed", type=int, default=7)
@@ -163,10 +215,91 @@ def main(argv: list[str] | None = None) -> int:
     if not tape_path.exists():
         print(f"error: real tape not found at {tape_path}; synthetic fallback banned.", file=sys.stderr)
         return 2
-    tape: MultiTape = load_multitape(tape_path, limit=args.bars, offset=args.start_bar)
+    if (args.start_utc is None) != (args.end_utc is None):
+        print("error: --start-utc and --end-utc must be given together", file=sys.stderr)
+        return 2
+    profile = args.profile or ("smoke" if args.start_utc is None else "benchmark")
+    if args.start_utc is not None and args.start_bar:
+        print("error: --start-bar is a smoke offset; it cannot be combined with a UTC window", file=sys.stderr)
+        return 2
+    window = WindowSpec(
+        tape_path=str(tape_path),
+        profile=profile,
+        instrument=None,
+        start_ms=args.start_utc,
+        end_ms=args.end_utc,
+        fold_id=args.fold_id,
+        bars=None if args.start_utc is not None else args.bars,
+    )
+    window.validate()
+    print(f"[+] Window: {window.label()}")
+    if window.is_smoke:
+        print(
+            "[!] SMOKE RUN: bar-count window. Liveness/mechanics evidence only; NOT a "
+            "release benchmark and NOT economic sufficiency evidence."
+        )
+    tape: MultiTape = load_multitape(
+        tape_path,
+        limit=window.bars,
+        offset=args.start_bar,
+        start_ms=window.start_ms,
+        end_ms=window.end_ms,
+    )
     n = tape.n_bars
     end_ns = [c.end_ns for c in tape.candles[tape.instruments[0]]]
     print(f"[+] quad tape: {list(tape.instruments)} x {n} bars, {len(tape.funding)} funding rows")
+
+    run_key = RunKey.build(
+        window=window,
+        case_id=args.case_id,
+        policy_id=args.policy_id,
+        dataset_sha256=tape.tape_sha256,
+        strategy_config=json.dumps(
+            {
+                "sleeves": ["P", "P+E"],
+                "per_leg_notional": args.per_leg_notional,
+                "primary": args.primary,
+                "seed": args.seed,
+                "start_bar": args.start_bar,
+            },
+            sort_keys=True,
+        ),
+        capital=str(args.capital),
+        taker_fee=str(args.taker_fee),
+        baseline=args.primary,
+        execution_profile_digest=hashlib.sha256(
+            str(args.execution_profile or "UNSPECIFIED").encode()
+        ).hexdigest(),
+        code_and_lock_hash=(
+            f"{eb.git_info()['rev']}:{eb.git_info()['dirty']}:"
+            f"{hashlib.sha256((Path(__file__).resolve().parents[3] / 'uv.lock').read_bytes()).hexdigest()}"
+        ),
+    )
+    manifest_path = out_dir / "runs" / f"{run_key.digest.split(':')[1][:16]}.json"
+    existing = load_window_manifest(manifest_path)
+    try:
+        assert_window_resumable(existing, run_key.digest)
+    except WindowAlreadyCompleted as exc:
+        print(f"[!] {exc}", file=sys.stderr)
+        if not args.allow_rerun:
+            print(
+                "[!] refusing to re-execute a completed window (no second ledger append, "
+                "no second cash flow). Pass --allow-rerun to override deliberately.",
+                file=sys.stderr,
+            )
+            return 3
+    if existing is not None and not existing.completed:
+        print(f"[!] INCOMPLETE prior run for this key (state={existing.state}); continuing it.")
+    write_window_manifest(
+        manifest_path,
+        WindowRunManifest(
+            run_key=run_key.digest,
+            window=window.as_dict(),
+            state="RUNNING",
+            started_ns=time.time_ns(),
+        ),
+    )
+    print(f"[+] Run key: {run_key.digest}")
 
     ok, note = eb.validate_chronology(eb.bars_from_candles(tape.candles[tape.instruments[0]]))
     if not ok:
@@ -531,6 +664,87 @@ def main(argv: list[str] | None = None) -> int:
     print(f"[+] receipt chain: {ok} ({msg}) ledger: {cok} ({cmsg}) entry={entry.entry_hash[:16]}...")
     # Persist capital + capacity evidence alongside the receipt.
     (out_dir / f"capital_path_{tag}.json").write_text(json.dumps(capital_path, indent=2), encoding="utf-8")
+
+    # NX05.R4: the window manifest is the resume contract. A run that did not
+    # verify stays RUNNING (incomplete evidence), never COMPLETED.
+    artifacts: list[dict[str, Any]] = []
+    for role, path in (
+        ("economic_receipt", receipt_path),
+        ("benchmark_ledger", out_dir / "benchmark_ledger.jsonl"),
+        ("forensic_report", html_path),
+        ("capital_path", out_dir / f"capital_path_{tag}.json"),
+    ):
+        candidate = Path(path)
+        if candidate.is_file():
+            artifacts.append(
+                {
+                    "role": role,
+                    "path": str(candidate),
+                    "sha256": hashlib.sha256(candidate.read_bytes()).hexdigest(),
+                    "bytes": candidate.stat().st_size,
+                }
+            )
+    write_window_manifest(
+        manifest_path,
+        WindowRunManifest(
+            run_key=run_key.digest,
+            window=window.as_dict(),
+            state="COMPLETED" if (ok and cok) else "RUNNING",
+            artifacts=tuple(artifacts),
+            started_ns=existing.started_ns if existing is not None else 0,
+            finished_ns=time.time_ns(),
+            detail={
+                "bars": n,
+                "ledger_chain": cmsg,
+                "trade_signature": trade_signature(p_fund),
+                "receipt_verify": msg,
+                "economic_evidence": window.proves_economic_evidence,
+            },
+        ),
+    )
+    run_store = ResearchStore(out_dir / "runs" / "runs.sqlite")
+    try:
+        run_store.record_run(
+            run_key=run_key.digest,
+            payload=canonical(
+                {
+                    "run_key": run_key.digest,
+                    "window": window.as_dict(),
+                    "artifacts": artifacts,
+                    "receipt_digest": receipt.digest(),
+                }
+            ),
+            digest=run_key.digest,
+            registered_ns=time.time_ns(),
+        )
+        print(f"[+] Run recorded in ResearchStore: {out_dir / 'runs' / 'runs.sqlite'}")
+    finally:
+        run_store.close()
+    telemetry_path = out_dir / "runs" / f"{run_key.digest.split(':')[1][:16]}.telemetry.json"
+    telemetry_path.write_text(
+        json.dumps(
+            {
+                "run_key": run_key.digest,
+                "components": dict(sorted(run_key.components.items())),
+                "window": window.as_dict(),
+                "execution": execution_evidence,
+                "economic_evidence": window.proves_economic_evidence,
+            },
+            indent=2,
+            sort_keys=True,
+            default=str,
+        )
+        + "\n"
+    )
+    print(f"[+] Execution telemetry: {telemetry_path}")
+    print(f"[+] Window manifest: {manifest_path} (state={'COMPLETED' if (ok and cok) else 'RUNNING'})")
+    for artifact in artifacts:
+        print(
+            f"[+]   artifact {artifact['role']}: {Path(str(artifact['path'])).name} "
+            f"sha256:{(artifact['sha256'] or '')[:16]}…"
+        )
+    if not window.proves_economic_evidence:
+        print("[!] Profile smoke: this run is NOT economic evidence (NO_ECONOMIC_CLAIM).")
     return 0 if (ok and cok) else 1
 
 

@@ -159,12 +159,17 @@ def build_input_binding(
     case: BenchmarkCase,
     candles: Sequence[Candle],
     capital_fields: dict[str, Any],
+    extra_identity: Mapping[str, str] | None = None,
 ) -> str:
     """Canonical input identity for the receipt digest (v4).
 
     Binds case/policy identity, strategy config, bar count/span, per-candle
     keys (ns bounds, close, instrument, source hash) and capital assumptions.
     Any tape/config substitution changes this digest and fails verification.
+
+    ``extra_identity`` (NX05.R2) carries the shared run identity — tape sha256,
+    window, execution profile, code/lock hash — so the receipt of one run can
+    never verify as the receipt of another window of the same tape.
     """
     per_candle = [
         [c.start_ns, c.end_ns, str(c.close), c.instrument_id, c.source_hash] for c in candles
@@ -181,6 +186,7 @@ def build_input_binding(
         "span_ns": [candles[0].start_ns, candles[-1].end_ns] if candles else [],
         "candles_digest": candles_digest,
         "capital": capital_fields,
+        "run_identity": dict(sorted((extra_identity or {}).items())),
     }
     return hashlib.sha256(
         json.dumps(payload, sort_keys=True, default=str).encode()
@@ -353,6 +359,7 @@ class BenchmarkRunner:
         capital_policy: CapitalPolicy | str | Path | None = None,
         execution_profile: str | ExecutionProfile | None = None,
         measure_determinism: bool = False,
+        run_identity: Mapping[str, str] | None = None,
     ) -> BenchmarkRunResult:
         """Execute the complete benchmark run.
 
@@ -384,7 +391,9 @@ class BenchmarkRunner:
         # runner, so they resolve to UNKNOWN downstream via None (never PASS).
         _lineage_ok, _lineage_info = measure_candle_lineage(tuple(candles))
         # 0c. Canonical input identity bound into the receipt digest (v4).
-        _input_binding = build_input_binding(case, tuple(candles), _cp.to_receipt_fields())
+        _input_binding = build_input_binding(
+            case, tuple(candles), _cp.to_receipt_fields(), run_identity
+        )
 
         # 1. Run NautilusTrader Backtest
         backtest_result = run_expert_strategy_backtest(

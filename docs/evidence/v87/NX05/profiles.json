@@ -1,0 +1,214 @@
+{
+  "artifact_hashes": {
+    "benchmark_fold_report": "9c866ce25887a45eb1765a4da9854819ec3f1de26f11da70f58be61b7a6ed5ac",
+    "benchmark_smoke_report": "aaea2abe85916d9d4fe6866de59d676df13bdfa29d4f8cdd7fc4cc92ce5b0f25",
+    "portfolio_receipt": "614c5fd658fc867514b76faa79bf478175d9bec53ce7c73d2293462ef868f1da"
+  },
+  "note": "each row is one process: walltime/peak RSS belong to that run alone. A NOT_EXECUTED row keeps its reason instead of disappearing.",
+  "profiles": [
+    {
+      "command": "python -m v8_next.app.benchmark --bars 300 --tape-path /Users/hootie/src/v8/research/tape/multi-1h-4y --diagnostic-only --output-dir /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-smoke --html-out /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-smoke/report.html",
+      "economic_evidence": false,
+      "error": null,
+      "exit_code": 0,
+      "manifest": {
+        "artifacts": [
+          {
+            "bytes": 1671,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-smoke/BC-D153-CANONICAL-01_trades.jsonl",
+            "role": "native_trades",
+            "sha256": "e4ab88d502560d3ad8a52201c70f0fb39c4270f78870b22d27c6a4fe2bce69df"
+          },
+          {
+            "bytes": 1191,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-smoke/benchmark_ledger.jsonl",
+            "role": "benchmark_ledger",
+            "sha256": "9b4284447f8a158c7ca6481e93c02945d83e2cfb3fee3687b23bcf48acc6f868"
+          },
+          {
+            "bytes": 9309,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-smoke/report.html",
+            "role": "forensic_report",
+            "sha256": "aaea2abe85916d9d4fe6866de59d676df13bdfa29d4f8cdd7fc4cc92ce5b0f25"
+          }
+        ],
+        "completed": true,
+        "detail": {
+          "bars": 300,
+          "economic_evidence": false,
+          "input_binding": "74b09edc6fe2486169a47efadce190236e6579e8e0ae291df9ad24369e2ccef1",
+          "ledger_chain": "OK",
+          "receipt_digest": "26ffa06d95c52b85ca7632ca8b0e6531c3076cde6303a8b5d9c3ca7c1315d70f",
+          "trade_signature": "e694cf1a6be1d6ea0866f16d4f9c6d762d6f54b3be70b6d35ef43d15ba8e7051"
+        },
+        "finished_ns": 1789096927119781000,
+        "run_key": "sha256:b6e475b775f960ed9d2483d343b2bce2b9f421706bf57ac7baecfad636b1f9c5",
+        "started_ns": 0,
+        "state": "COMPLETED",
+        "version": "v87-window-manifest-v1",
+        "window": {
+          "bars": 300,
+          "economic_evidence": false,
+          "end_ms": null,
+          "fold_id": null,
+          "instrument": "BTCUSDT",
+          "is_smoke": true,
+          "profile": "smoke",
+          "profile_spec": {
+            "economic_evidence": false,
+            "max_bars": 500,
+            "name": "smoke",
+            "purpose": "liveness and mechanics only; never economic sufficiency evidence"
+          },
+          "start_ms": null,
+          "tape_path": "/Users/hootie/src/v8/research/tape/multi-1h-4y"
+        }
+      },
+      "module": "v8_next.app.benchmark",
+      "peak_rss_bytes": 581730304,
+      "profile": "smoke",
+      "stderr_tail": "",
+      "stdout_tail": "Ledger Cryptographic Chain: VERIFIED (OK)\n[+] Run recorded in ResearchStore: /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-smoke/runs/runs.sqlite\n[+] Execution telemetry: /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-smoke/runs/b6e475b775f960ed.telemetry.json\n[+] Window manifest: /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-smoke/runs/b6e475b775f960ed.json (state=COMPLETED)\n[+]   artifact native_trades: BC-D153-CANONICAL-01_trades.jsonl sha256:e4ab88d502560d3a\u2026\n[+]   artifact benchmark_ledger: benchmark_ledger.jsonl sha256:9b4284447f8a158c\u2026\n[+]   artifact forensic_report: report.html sha256:aaea2abe85916d9d\u2026\n[!] Profile smoke: this run is NOT economic evidence (NO_ECONOMIC_CLAIM).\n{\"exit_code\": 0, \"walltime_s\": 1.371, \"peak_rss_bytes\": 581730304, \"error\": null}\n",
+      "walltime_s": 1.371
+    },
+    {
+      "command": "python -m v8_next.app.benchmark --profile fold --start-utc 2025-01-01 --end-utc 2025-02-01 --fold-id FOLD_PROBE --instrument BTCUSDT --tape-path /Users/hootie/src/v8/research/tape/multi-1h-4y --diagnostic-only --output-dir /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-fold --html-out /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-fold/report.html",
+      "economic_evidence": true,
+      "error": null,
+      "exit_code": 0,
+      "manifest": {
+        "artifacts": [
+          {
+            "bytes": 3903,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-fold/BC-D153-CANONICAL-01_trades.jsonl",
+            "role": "native_trades",
+            "sha256": "334b98cb45d99c9a7e44cb0fbf10027f62ddd3aa030e024e03a19f67ba82f453"
+          },
+          {
+            "bytes": 1191,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-fold/benchmark_ledger.jsonl",
+            "role": "benchmark_ledger",
+            "sha256": "635d704eb5663e61fb97b44e85cb7ceac8528408b940ab0d76c14d157ee0b735"
+          },
+          {
+            "bytes": 9310,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-fold/report.html",
+            "role": "forensic_report",
+            "sha256": "9c866ce25887a45eb1765a4da9854819ec3f1de26f11da70f58be61b7a6ed5ac"
+          }
+        ],
+        "completed": true,
+        "detail": {
+          "bars": 744,
+          "economic_evidence": true,
+          "input_binding": "32592481e983dd1dea28d9de98ff7a3bbfcdb5c72bb2dd055c1c2bce4a6e1028",
+          "ledger_chain": "OK",
+          "receipt_digest": "4e028adac45e22697cc53045163cf393240415e3eddd83b16137e916c5e9e5c9",
+          "trade_signature": "0dd590098c64a9b62c6a582503f1aa6c381abbb54bbbe88365e0a9bb1b0adee2"
+        },
+        "finished_ns": 1789096928625054000,
+        "run_key": "sha256:23956d1a0236a8467aea387e7fb77ddb8a67744718d98c6cacea6e9610c66b34",
+        "started_ns": 0,
+        "state": "COMPLETED",
+        "version": "v87-window-manifest-v1",
+        "window": {
+          "bars": null,
+          "economic_evidence": true,
+          "end_ms": 1738368000000,
+          "fold_id": "FOLD_PROBE",
+          "instrument": "BTCUSDT",
+          "is_smoke": false,
+          "profile": "fold",
+          "profile_spec": {
+            "economic_evidence": true,
+            "max_bars": null,
+            "name": "fold",
+            "purpose": "one chronological diagnostic fold (3 calendar months), UTC-bounded"
+          },
+          "start_ms": 1735689600000,
+          "tape_path": "/Users/hootie/src/v8/research/tape/multi-1h-4y"
+        }
+      },
+      "module": "v8_next.app.benchmark",
+      "peak_rss_bytes": 584499200,
+      "profile": "fold",
+      "stderr_tail": "",
+      "stdout_tail": "tifacts/nx05-profiles/benchmark-fold/report.html (Valid: True)\n[+] Benchmark Ledger Cryptographic Chain: VERIFIED (OK)\n[+] Run recorded in ResearchStore: /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-fold/runs/runs.sqlite\n[+] Execution telemetry: /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-fold/runs/23956d1a0236a846.telemetry.json\n[+] Window manifest: /Users/hootie/src/v8/artifacts/nx05-profiles/benchmark-fold/runs/23956d1a0236a846.json (state=COMPLETED)\n[+]   artifact native_trades: BC-D153-CANONICAL-01_trades.jsonl sha256:334b98cb45d99c9a\u2026\n[+]   artifact benchmark_ledger: benchmark_ledger.jsonl sha256:635d704eb5663e61\u2026\n[+]   artifact forensic_report: report.html sha256:9c866ce25887a45e\u2026\n{\"exit_code\": 0, \"walltime_s\": 1.399, \"peak_rss_bytes\": 584499200, \"error\": null}\n",
+      "walltime_s": 1.399
+    },
+    {
+      "command": "python -m v8_next.app.portfolio --profile fold --start-utc 2025-01-01 --end-utc 2025-02-01 --fold-id FOLD_PROBE --tape-path /Users/hootie/src/v8/research/tape/multi-1h-4y --output-dir /Users/hootie/src/v8/artifacts/nx05-profiles/portfolio-fold",
+      "economic_evidence": null,
+      "error": null,
+      "exit_code": 0,
+      "manifest": {
+        "artifacts": [
+          {
+            "bytes": 44393,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/portfolio-fold/economic_receipt_da748498.json",
+            "role": "economic_receipt",
+            "sha256": "614c5fd658fc867514b76faa79bf478175d9bec53ce7c73d2293462ef868f1da"
+          },
+          {
+            "bytes": 2193,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/portfolio-fold/benchmark_ledger.jsonl",
+            "role": "benchmark_ledger",
+            "sha256": "17167628a70575a6f014e621f6775e9f5d33cec7002669563bd3c2922c541dbb"
+          },
+          {
+            "bytes": 10363,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/portfolio-fold/forensic_report_da748498.html",
+            "role": "forensic_report",
+            "sha256": "dcba4117334503bbd9bbfb4e9336cdb50dd077a8f0b0bb4facbbe91db4b45f4e"
+          },
+          {
+            "bytes": 719,
+            "path": "/Users/hootie/src/v8/artifacts/nx05-profiles/portfolio-fold/capital_path_da748498.json",
+            "role": "capital_path",
+            "sha256": "bd72ee950d6d8e404220ef93f60d4d3d78c909698c973b766c4c386bdff25d45"
+          }
+        ],
+        "completed": true,
+        "detail": {
+          "bars": 744,
+          "economic_evidence": true,
+          "ledger_chain": "OK",
+          "receipt_verify": "OK",
+          "trade_signature": "c6a22ad945bed26cefa5185e18d79519007f52dae368093ee3248fdaf580e142"
+        },
+        "finished_ns": 1789096948943959000,
+        "run_key": "sha256:44b8ebf5224c81721807d7d441925a1265befce96471c066175195e1e5f9c93c",
+        "started_ns": 0,
+        "state": "COMPLETED",
+        "version": "v87-window-manifest-v1",
+        "window": {
+          "bars": null,
+          "economic_evidence": true,
+          "end_ms": 1738368000000,
+          "fold_id": "FOLD_PROBE",
+          "instrument": null,
+          "is_smoke": false,
+          "profile": "fold",
+          "profile_spec": {
+            "economic_evidence": true,
+            "max_bars": null,
+            "name": "fold",
+            "purpose": "one chronological diagnostic fold (3 calendar months), UTC-bounded"
+          },
+          "start_ms": 1735689600000,
+          "tape_path": "/Users/hootie/src/v8/research/tape/multi-1h-4y"
+        }
+      },
+      "module": "v8_next.app.portfolio",
+      "peak_rss_bytes": 607404032,
+      "profile": "fold",
+      "stderr_tail": "",
+      "stdout_tail": "c7496103d350a67...\n[+] Run recorded in ResearchStore: /Users/hootie/src/v8/artifacts/nx05-profiles/portfolio-fold/runs/runs.sqlite\n[+] Execution telemetry: /Users/hootie/src/v8/artifacts/nx05-profiles/portfolio-fold/runs/44b8ebf5224c8172.telemetry.json\n[+] Window manifest: /Users/hootie/src/v8/artifacts/nx05-profiles/portfolio-fold/runs/44b8ebf5224c8172.json (state=COMPLETED)\n[+]   artifact economic_receipt: economic_receipt_da748498.json sha256:614c5fd658fc8675\u2026\n[+]   artifact benchmark_ledger: benchmark_ledger.jsonl sha256:17167628a70575a6\u2026\n[+]   artifact forensic_report: forensic_report_da748498.html sha256:dcba4117334503bb\u2026\n[+]   artifact capital_path: capital_path_da748498.json sha256:bd72ee950d6d8e40\u2026\n{\"exit_code\": 0, \"walltime_s\": 20.226, \"peak_rss_bytes\": 607404032, \"error\": null}\n",
+      "walltime_s": 20.226
+    }
+  ],
+  "window": {
+    "end_utc": "2025-02-01",
+    "start_utc": "2025-01-01"
+  }
+}

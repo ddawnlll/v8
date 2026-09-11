@@ -260,6 +260,11 @@ class ResearchStore:
             CREATE TABLE IF NOT EXISTS historical_plans (
                 plan_id TEXT PRIMARY KEY, payload TEXT NOT NULL,
                 digest TEXT NOT NULL, registered_ns INTEGER NOT NULL);
+            -- NX05: one row per bound run identity (window/profile/code/config).
+            -- A consumer looks a run key up here instead of trusting a directory.
+            CREATE TABLE IF NOT EXISTS runs (
+                run_key TEXT PRIMARY KEY, payload TEXT NOT NULL,
+                digest TEXT NOT NULL, registered_ns INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS dataset_windows (
                 dataset_hash TEXT NOT NULL, instrument_id TEXT NOT NULL,
                 start_ns INTEGER NOT NULL, end_ns INTEGER NOT NULL,
@@ -333,6 +338,45 @@ class ResearchStore:
             self.db.execute("ROLLBACK")
             raise
         return plan_id, digest
+
+    def record_run(
+        self,
+        *,
+        run_key: str,
+        payload: str,
+        digest: str,
+        registered_ns: int,
+    ) -> tuple[str, str]:
+        """Register one run identity once; identical retries are idempotent.
+
+        A different payload for an existing ``run_key`` is refused: the run key is
+        content-addressed, so a mismatch means a caller is trying to bind different
+        inputs to an identity that already means something else.
+        """
+        if not run_key.strip() or not payload.strip() or not digest.strip():
+            raise ValueError("a run record requires run_key, payload and digest")
+        self.db.execute("BEGIN IMMEDIATE")
+        try:
+            existing = self.db.execute(
+                "SELECT payload,digest FROM runs WHERE run_key=?", (run_key,)
+            ).fetchone()
+            if existing is not None and existing != (payload, digest):
+                raise ValueError("registered run identity cannot be rewritten")
+            if existing is None:
+                self.db.execute(
+                    "INSERT INTO runs VALUES (?,?,?,?)", (run_key, payload, digest, registered_ns)
+                )
+            self.db.execute("COMMIT")
+        except BaseException:
+            self.db.execute("ROLLBACK")
+            raise
+        return run_key, digest
+
+    def get_run(self, run_key: str) -> tuple[str, str] | None:
+        row = self.db.execute(
+            "SELECT payload,digest FROM runs WHERE run_key=?", (run_key,)
+        ).fetchone()
+        return None if row is None else (str(row[0]), str(row[1]))
 
     def get_historical_plan(self, plan_id: str) -> tuple[str, str] | None:
         row = self.db.execute(
