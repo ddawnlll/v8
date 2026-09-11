@@ -29,7 +29,7 @@ import subprocess
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-from typing import Any, Literal, Sequence, get_args
+from typing import TYPE_CHECKING, Any, Literal, Sequence, get_args
 
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -38,6 +38,11 @@ from v8_next.evaluation.statistics_plan import (
     StatisticsPlan,
     sample_sufficiency,
 )
+
+if TYPE_CHECKING:  # pragma: no cover - annotation-only, keeps the import graph acyclic
+    from v8_next.domain.basket import BasketSpec
+    from v8_next.domain.market import Candle
+    from v8_next.evaluation.multitape import FundingRow
 
 HOURS_PER_YEAR = 365.0 * 24.0
 #: Per-bar -> annualized Sharpe scale. Every *published* Sharpe number (the
@@ -309,6 +314,11 @@ class MetricSet(BaseModel):
     turnover_notional_over_capital: float
     commission_cost: float
     funding_cost: float | None  # None == MISSING, never zero-filled
+    #: Why the cell above reads what it reads. Set when the leg was measured (or
+    #: could not be) so a reader never has to infer a named reason from an
+    #: absence: `MEASURED`, `NO_ENGINE_RULE`, `TRADES_DIVERGED`, or None where the
+    #: zero-exposure rule already speaks for the curve.
+    funding_basis: str | None = None
     cost_basis: str  # VERIFIED_ENGINE | ANALYTIC_MODEL | MISSING
     n_bars: int
     n_trades: int
@@ -1022,16 +1032,27 @@ def compute_benchmark_family(
 FUNDING_MEASURED = "MEASURED"  # a real USDT cost
 FUNDING_ZERO_NO_EXPOSURE = "ZERO_NO_EXPOSURE"  # a measured zero: never invested
 FUNDING_NOT_MEASURED = "NOT_MEASURED"  # no funding feed reached this curve
+#: Two named reasons a leg has no number even though the run *did* reach it. Both
+#: are states of the measurement, never a restatement of NOT_MEASURED: the first
+#: says the engine executes no basket for this leg's rule, the second says the
+#: engine's funded and unfunded runs traded differently so the balance difference
+#: is not attributable to funding.
+FUNDING_NO_ENGINE_RULE = "NO_ENGINE_RULE"
+FUNDING_TRADES_DIVERGED = "TRADES_DIVERGED"
 
 
 def funding_state(m: MetricSet) -> str:
-    """Which of the three funding states this published row is in."""
+    """Which of the declared funding states this published row is in."""
     if m.funding_cost is not None:
         return FUNDING_MEASURED
     if m.avg_exposure == 0.0:
         # Zero exposure at every settlement is a measurement, not an absence: a
-        # curve that never holds a position cannot have paid funding.
+        # curve that never holds a position cannot have paid funding. It is read
+        # before the measured-but-withheld bases, so a never-invested curve never
+        # reports someone else's reason.
         return FUNDING_ZERO_NO_EXPOSURE
+    if m.funding_basis in (FUNDING_NO_ENGINE_RULE, FUNDING_TRADES_DIVERGED):
+        return str(m.funding_basis)
     return FUNDING_NOT_MEASURED
 
 
@@ -1042,6 +1063,8 @@ def funding_cell(m: MetricSet) -> str:
         return f"{m.funding_cost:.2f}"
     if state == FUNDING_ZERO_NO_EXPOSURE:
         return "0.00 (NO_EXPOSURE)"
+    if state in (FUNDING_NO_ENGINE_RULE, FUNDING_TRADES_DIVERGED):
+        return f"n/a ({state})"
     return "n/a (NOT_MEASURED)"
 
 
@@ -1263,6 +1286,131 @@ def compute_benchmark_family_engine(
     fams["simple_trend"]["cost_basis"] = "ANALYTIC_MODEL"
     fams["simple_trend"]["funding"] = None
     return fams
+
+
+# --------------------------------------------------------------------------- #
+# Funding feed for the analytic multi-leg family: measured per leg, engine-side
+# --------------------------------------------------------------------------- #
+
+#: The engine basket that executes each published multi-leg family leg whose rule
+#: the engine implements, keyed by the family id the reports publish. These are
+#: the canonical basket ids `compute_benchmark_family_engine` puts behind
+#: `equal_weight` / `vol_target`, so both reports measure one basket under one
+#: name instead of this module defining a second equal-weight rule.
+FAMILY_ENGINE_BASKETS: dict[str, str] = {
+    "equal_weight": "equal_weight_quad",
+    "vol_target": "vol_target_quad",
+}
+
+#: Prefix of a single-instrument buy-and-hold leg (`bh_BTCUSDT-PERP`).
+FAMILY_BUY_HOLD_PREFIX = "bh_"
+
+#: The family leg that is not a strategy at all: capital held, never invested. Its
+#: funding is zero by construction at every settlement (the published
+#: ZERO_NO_EXPOSURE state), so it is never handed a rule-based reason it has not.
+FAMILY_NEVER_INVESTED = "cash"
+
+
+def family_funding_basket(family_id: str) -> BasketSpec | None:
+    """The engine basket whose rule the *family_id* curve models, or ``None``.
+
+    Membership is read off the leg's own declared name, never inferred from what
+    the tape happens to hold: a single-instrument leg is measured with a
+    single-instrument basket. ``None`` means the engine implements no basket for
+    that rule; the caller then publishes that name instead of another basket's
+    number.
+    """
+    from v8_next.domain.basket import resolve_basket, single_leg_buy_hold
+
+    if family_id.startswith(FAMILY_BUY_HOLD_PREFIX):
+        symbol = family_id[len(FAMILY_BUY_HOLD_PREFIX):].split("-PERP")[0]
+        return single_leg_buy_hold(symbol)
+    basket_id = FAMILY_ENGINE_BASKETS.get(family_id)
+    if basket_id is None:
+        return None
+    return resolve_basket(basket_id)
+
+
+def measure_benchmark_family_funding(
+    legs: dict[str, tuple[Candle, ...]],
+    funding: tuple[FundingRow, ...],
+    family_ids: Sequence[str],
+    *,
+    capital: float = CAPITAL_DEFAULT,
+    taker_fee: float = TAKER_FEE_DEFAULT,
+) -> dict[str, dict[str, Any]]:
+    """Engine-measured funding for each published benchmark family leg.
+
+    An analytic family curve that no funding feed ever reached can only print "no
+    feed reached this curve" -- a statement about the wiring, not about the
+    strategy. This measures every leg whose rule the engine executes on the tape
+    the run actually loaded: the engine runs the basket that carries that leg's
+    rule over the same legs and funding rows, twice, and the published number is
+    its own balance difference in the published sign (negative when paid). No
+    settlement model is re-derived here; the engine owns it.
+
+    Per leg the result carries the number (``funding``), the published state
+    (``funding_basis``: ``MEASURED``, or the name of the reason it was withheld),
+    the basket the number belongs to, the engine's row counters and both run
+    balances, so the cell is auditable rather than asserted. A leg whose rule the
+    engine does not execute at all is returned with ``NO_ENGINE_RULE``, and the
+    never-invested reference is omitted entirely (zero exposure is its own
+    measurement).
+    """
+    from v8_next.adapters.basket_backtest import (
+        BASIS_TRADES_DIVERGED,
+        run_basket_funding_measurement,
+    )
+
+    out: dict[str, dict[str, Any]] = {}
+    for family_id in family_ids:
+        if family_id == FAMILY_NEVER_INVESTED:
+            continue
+        spec = family_funding_basket(family_id)
+        if spec is None:
+            out[family_id] = {
+                "funding": None,
+                "funding_basis": FUNDING_NO_ENGINE_RULE,
+                "funding_basket": None,
+                "funding_engine_basis": None,
+                "funding_settlements_fed": 0,
+                "funding_rows_available": len(funding),
+                "funding_out_of_window": 0,
+                "funding_unknown_leg": 0,
+                "engine_terminal_balance_usdt": None,
+                "engine_unfunded_balance_usdt": None,
+            }
+            continue
+        measurement = run_basket_funding_measurement(
+            legs,
+            spec,
+            funding,
+            capital=Decimal(str(capital)),
+            taker_fee=Decimal(str(taker_fee)),
+        )
+        if measurement["funding_cost"] is not None:
+            state = FUNDING_MEASURED
+        elif measurement["funding_basis"] == BASIS_TRADES_DIVERGED:
+            # The feed did reach this leg and the engine withheld the number by
+            # name; that reason is published, not flattened into NOT_MEASURED.
+            state = FUNDING_TRADES_DIVERGED
+        else:
+            state = FUNDING_NOT_MEASURED
+        out[family_id] = {
+            "funding": measurement["funding_cost"],
+            "funding_basis": state,
+            "funding_basket": spec.basket_id,
+            "funding_basket_kind": spec.kind,
+            "funding_basket_rule": spec.description,
+            "funding_engine_basis": measurement["funding_basis"],
+            "funding_settlements_fed": measurement["funding_settlements_fed"],
+            "funding_rows_available": measurement["funding_rows_available"],
+            "funding_out_of_window": measurement["funding_out_of_window"],
+            "funding_unknown_leg": measurement["funding_unknown_leg"],
+            "engine_terminal_balance_usdt": measurement["funded_balance_usdt"],
+            "engine_unfunded_balance_usdt": measurement["unfunded_balance_usdt"],
+        }
+    return out
 
 
 def pair_positions(
@@ -3108,12 +3256,18 @@ def render_report(receipt: EconomicReceipt) -> str:
         )
     lines += [
         "",
-        "`funding $` is the funding's measured effect on that curve's equity "
-        "(negative when funding was paid, positive when received) or it says why "
-        "there is no number: `0.00 (NO_EXPOSURE)` means the curve held no "
-        "position at any settlement, so its funding is zero by construction; "
-        "`n/a (NOT_MEASURED)` means no funding feed reached that curve on this "
-        "run. Never a bare blank, and never a zero standing in for an absence.",
+        "`funding $` is the funding measured for that curve -- the basket that "
+        "carries its rule, run twice by the engine with the tape's real funding "
+        "rows and with none, publishing its own balance difference (negative when "
+        "funding was paid, positive when received) -- or it says why there is no "
+        "number: `0.00 (NO_EXPOSURE)` means the curve held no position at any "
+        "settlement, so its funding is zero by construction; `n/a (NO_ENGINE_RULE)` "
+        "means the leg names a rule no engine basket executes, so no basket could "
+        "settle it; `n/a (TRADES_DIVERGED)` means the funded and unfunded runs of "
+        "that basket traded differently, so the difference is not attributable to "
+        "funding; `n/a (NOT_MEASURED)` means no funding feed reached that curve on "
+        "this run. Every row names its state: never a bare blank, and never a zero "
+        "standing in for an absence.",
     ]
     mix = r.portfolio_mix
     if isinstance(mix, dict) and mix.get("scope") == "ENGINE_LEVEL_SAME_BUDGET":

@@ -57,6 +57,12 @@ from v8_next.evaluation.multitape import FundingRow
 #: per instrument and the basket only acts on aligned prints.
 BAR_AGGREGATION = "1-HOUR-LAST-EXTERNAL"
 
+#: Basis tokens a funding measurement publishes. A number exists only under the
+#: first two; the third names why the number was withheld instead.
+BASIS_ENGINE_SETTLED = "ENGINE_SETTLED"  # the engine settled the tape's funding rows
+BASIS_NO_FUNDING_ROWS = "NO_FUNDING_ROWS"  # measured zero: no row reached the window
+BASIS_TRADES_DIVERGED = "TRADES_DIVERGED"  # funded/unfunded runs traded differently
+
 
 def basket_bar_type(instrument_id: str) -> BarType:
     return BarType.from_str(f"{instrument_id}-{BAR_AGGREGATION}")
@@ -335,7 +341,7 @@ def run_basket_funding_measurement(
             "basket_id": funded["basket_id"],
             "kind": funded["kind"],
             "funding_cost": None,
-            "funding_basis": "TRADES_DIVERGED",
+            "funding_basis": BASIS_TRADES_DIVERGED,
             "funding_settlements_fed": funded["funding_settlements_fed"],
             "funding_rows_available": funded["funding_rows_available"],
             "funding_out_of_window": funded["funding_out_of_window"],
@@ -346,7 +352,7 @@ def run_basket_funding_measurement(
             "engine_iterations": funded["engine_iterations"],
         }
     effect = _balance(funded) - _balance(unfunded)
-    basis = "NO_FUNDING_ROWS" if not funding else "ENGINE_SETTLED"
+    basis = BASIS_NO_FUNDING_ROWS if not funding else BASIS_ENGINE_SETTLED
     return {
         "basket_id": funded["basket_id"],
         "kind": funded["kind"],

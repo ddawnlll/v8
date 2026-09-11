@@ -397,6 +397,25 @@ def main(argv: list[str] | None = None) -> int:
     if args.primary not in fams:
         print(f"error: unknown primary {args.primary}", file=sys.stderr)
         return 2
+    # The analytic family carries no funding rows of its own, so this path used to
+    # publish "no feed reached this curve" on every benchmark leg -- a statement
+    # about the wiring, not about the strategy. The feed is now measured per leg
+    # by the engine on the tape this run actually loaded: the basket that carries
+    # the leg's rule, run twice (real funding rows / none) over the same legs and
+    # funding rows. A leg the engine has no basket for says so by name.
+    family_funding = eb.measure_benchmark_family_funding(
+        {sym: tape.candles[sym] for sym in tape.instruments},
+        tape.funding,
+        tuple(fams),
+        capital=args.capital,
+        taker_fee=args.taker_fee,
+    )
+    feed_summary = ", ".join(
+        f"{leg}={spec['funding']:.2f}" if spec.get("funding") is not None
+        else f"{leg}={spec.get('funding_basis')}"
+        for leg, spec in sorted(family_funding.items())
+    )
+    print(f"[+] benchmark funding feed: {feed_summary}", flush=True)
     primary_eq: list[float] = list(fams[args.primary]["equity"])
     curves: dict[str, dict[str, Any]] = {
         "portfolio_P": {**p_ser, "n_trades": p_ser["n_trades"]},
@@ -406,7 +425,8 @@ def main(argv: list[str] | None = None) -> int:
         curves[bid] = {
             "equity": fam["equity"], "exposure": fam["exposure"],
             "turnover": float(fam["turnover"]), "commission": float(fam["commission"]),
-            "funding": None, "cost_basis": "ANALYTIC_MODEL", "n_trades": int(fam["n_trades"]),
+            "funding": family_funding.get(bid, {}).get("funding"),
+            "cost_basis": "ANALYTIC_MODEL", "n_trades": int(fam["n_trades"]),
         }
 
     def raw_count(key: str) -> int | None:
@@ -418,7 +438,7 @@ def main(argv: list[str] | None = None) -> int:
     metrics = {
         name: eb.metrics_for_curve(
             list(c["equity"]), list(c["exposure"]), float(c["turnover"]),
-            float(c["commission"]), None, str(c["cost_basis"]), primary_eq,
+            float(c["commission"]), c["funding"], str(c["cost_basis"]), primary_eq,
             int(c["n_trades"]), raw_count(name),
         )
         for name, c in curves.items()
@@ -427,6 +447,14 @@ def main(argv: list[str] | None = None) -> int:
     for name, ser in (("portfolio_P", p_ser), ("portfolio_PE", pe_ser)):
         m = metrics[name]
         metrics[name] = m.model_copy(update={"funding_cost": float(ser["funding"] or 0.0)})
+    # Every benchmark leg names its funding state, so a row without a number says
+    # which of the declared reasons applies instead of leaving the reader to
+    # assume "nobody measured it".
+    for name, spec in family_funding.items():
+        metric = metrics.get(name)
+        if metric is None or spec.get("funding_basis") is None:
+            continue
+        metrics[name] = metric.model_copy(update={"funding_basis": spec["funding_basis"]})
 
     fit = min(eb.OOS_FIT_BARS, n - 48)
     oos_metrics: dict[str, eb.MetricSet] = {}
@@ -551,6 +579,19 @@ def main(argv: list[str] | None = None) -> int:
     }
     controls["positive_caught"] = None
     controls["negative_caught"] = None
+    # Funding-feed audit: which engine basket each benchmark leg's number was
+    # measured on, the engine's own row counters and both run balances. The cell
+    # in the `funding $` column is this record, not an assertion.
+    controls["benchmark_funding_feed"] = {
+        "method": "ENGINE_DUAL_RUN_BALANCE_DIFFERENCE",
+        "tape_funding_rows": len(tape.funding),
+        # The engine's account balances carry realized PnL only: the unrealized
+        # mark of a still-open position is not in them. They are published so the
+        # reader can recompute `funded - unfunded` (the funding the engine
+        # settled), never as the curve's terminal equity.
+        "balance_basis": "REALIZED_ACCOUNT_BALANCE_EXCLUDES_OPEN_UNREALIZED_MARK",
+        "legs": family_funding,
+    }
 
     # Capital eligibility is a verifiable input, never inferred from benchmark
     # results.  Without an explicit policy artifact the decision is denied.
@@ -649,6 +690,22 @@ def main(argv: list[str] | None = None) -> int:
             "P+E is engine-level shared-account execution, not post-hoc summation.",
             "Capacity beyond participation is UNVERIFIED (no impact model).",
             "Production capital stays denied without a human-signed approval artifact.",
+            "Benchmark-leg funding is measured by the engine, not modelled: each leg "
+            "the engine executes is run twice (the tape's real funding rows / none) "
+            "over this run's legs, and the published cell is the balance difference "
+            "between the two. The measuring basket is the engine basket that carries "
+            "the leg's rule -- a single-instrument buy-and-hold per bh_ leg, "
+            "`equal_weight_quad` and `vol_target_quad` for those two legs (the same "
+            "baskets the engine-executed family publishes under those ids) -- and it "
+            "is recorded per leg, with its kind, its rule and the engine's row "
+            "counters and run balances, in `controls.benchmark_funding_feed`. Where "
+            "the executed basket's sizing convention differs from the analytic "
+            "curve's (fixed-notional rebalancing against a compounding index), the "
+            "number is the engine's for that basket and the curve keeps its own "
+            "ANALYTIC_MODEL cost basis; the cell is read beside the curve, never "
+            "summed into it. Legs the engine has no basket for publish "
+            "NO_ENGINE_RULE (simple_trend) and the never-invested reference "
+            "publishes zero by construction (cash).",
         ],
     )
     # Version bound artifacts per run config: reruns with different inputs must
