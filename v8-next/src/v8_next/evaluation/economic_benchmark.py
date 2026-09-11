@@ -54,6 +54,26 @@ BOOTSTRAP_BLOCK = 24
 BOOTSTRAP_REPS = 999
 BOOTSTRAP_SEED = 7
 OOS_FIT_BARS = 350  # chronological split of the 500-bar window; fixed, never relabeled
+#: #438 declared degeneracy condition, arm 1: the minimum number of INFORMATIVE
+#: (moving) bars a per-bar variance estimate may rest on. Below it there is no
+#: denominator worth publishing, however long the window is.
+MIN_INFORMATIVE_BARS = 10
+#: #438 declared degeneracy condition, arm 2: the ceiling on |CI| / |point
+#: estimate| for a published Sharpe interval. Above it the percentiles are not
+#: a range the point estimate lives in -- they are the surviving replicates of a
+#: bootstrap whose variance estimate is dominated by near-zero-variance draws.
+#: The threshold is bracketed by the frozen #388 receipt: the widest ratio a
+#: supported variance produced there is 131x (incumbent, in-sample; every other
+#: unmarked row with an interval is <= 33x), while the observed defect is 1.02e4x
+#: (challenger, in-sample). 1000x separates the two with ~7x of slack on each
+#: side and does not move any stored marker (see the pinned rows in
+#: `tests/test_economic_benchmark.py`).
+DEGENERATE_CI_RATIO = 1000.0
+#: #438 declared degeneracy condition, arm 3: the ceiling on the interpretable
+#: point estimate, in per-bar Sharpe. A per-bar Sharpe past 1.0 (annualized past
+#: `SHARPE_ANNUALIZATION`) cannot be arithmetic on an estimated variance that is
+#: really there.
+DEGENERATE_PER_BAR_SHARPE = 1.0
 
 VerdictState = Literal[
     "VALID",
@@ -454,6 +474,46 @@ def sharpe_ci_annualized(
     if lo is None or hi is None:
         return None, None
     return lo * SHARPE_ANNUALIZATION, hi * SHARPE_ANNUALIZATION
+
+
+def unreproducible_variance(
+    sharpe_annualized: float,
+    ci_low: float | None,
+    ci_high: float | None,
+    informative_bars: int | None = None,
+) -> bool:
+    """Is this Sharpe arithmetic unsupported by the variance behind it? (#438)
+
+    The single criterion behind `DEGENERATE_VARIANCE_MARKER`, derived from what
+    the row PUBLISHES rather than from the length of the window it was measured
+    in. A row cannot be interpreted when, on the published annualized scale:
+
+    - `informative_bars` is known and below `MIN_INFORMATIVE_BARS`: the variance
+      the Sharpe divides by rests on too few bars to be an estimate at all;
+    - the point estimate is past `DEGENERATE_PER_BAR_SHARPE`: a per-bar Sharpe of
+      1.0 only arises when that variance is ~0;
+    - the interval is past `DEGENERATE_CI_RATIO` times its own point estimate:
+      the bootstrap's surviving replicates split into near-zero-variance draws,
+      so its percentiles stop being a range the estimate lives in.
+
+    Passing `informative_bars=None` means "not known at this call site" (a stored
+    receipt carries no bar count when the marker is re-derived at render time)
+    and drops only the first test; the two tests that read published cells stay
+    identical, which is what keeps a stored flag and a re-derived one in
+    agreement instead of drifting apart.
+
+    Absence of an interval is NOT degeneracy on its own: a row whose CI could not
+    be computed publishes no interval and is judged on the other two tests.
+    """
+    if informative_bars is not None and informative_bars < MIN_INFORMATIVE_BARS:
+        return True
+    if not math.isfinite(sharpe_annualized):
+        return True
+    if abs(sharpe_annualized) / SHARPE_ANNUALIZATION > DEGENERATE_PER_BAR_SHARPE:
+        return True
+    if ci_low is None or ci_high is None or sharpe_annualized == 0.0:
+        return False
+    return max(abs(ci_low), abs(ci_high)) / abs(sharpe_annualized) > DEGENERATE_CI_RATIO
 
 
 def period_excess_ci(
@@ -1593,12 +1653,16 @@ def metrics_for_curve(
     # #388: the stored/published Sharpe CI shares the annualized scale of
     # sharpe_annualized, so the interval contains its own point estimate.
     ci_lo, ci_hi = sharpe_ci_annualized(rets)
-    # Degenerate variance guard: a leg with information in only a handful of
-    # bars (e.g. one trade in the window) yields explosive Sharpe arithmetic.
-    # Counted on raw pre-reconciliation steps, never on drift-smeared levels.
+    # #438 degeneracy: a leg whose variance estimate is not really there (one
+    # trade in the window, or a bootstrap whose surviving replicates explode)
+    # yields explosive Sharpe arithmetic. The flag is derived from the DECLARED
+    # condition on the published cells (see `unreproducible_variance`), not from
+    # a bar count alone: the count arm is sufficient, never necessary, so a
+    # 500-bar window and a 150-bar window of the same curve agree. The count is
+    # read on raw pre-reconciliation steps, never on drift-smeared levels.
     if raw_nonzero_bars is None:
         raw_nonzero_bars = sum(1 for v in rets if abs(v) > 1e-12)
-    degenerate = raw_nonzero_bars < 10
+    degenerate = unreproducible_variance(s_ann, ci_lo, ci_hi, raw_nonzero_bars)
     net = (equity[-1] / equity[0] - 1.0) if equity[0] > 0 else 0.0
     excess = None
     excess_ci: tuple[float | None, float | None] = (None, None)
@@ -2129,16 +2193,32 @@ def build_verdicts(
     )
 
 
-#: Render vocabulary for a curve whose variance is estimated from too few
-#: informative bars for `sharpe_annualized` to mean anything. Shared by the
-#: in-sample table and the chronological OOS block so the two cannot drift:
-#: an explosive Sharpe printed without this marker is a reporting defect.
+#: Render vocabulary for a curve whose published Sharpe arithmetic is not
+#: supported by the variance behind it (too few informative bars, or a bootstrap
+#: whose surviving replicates explode). Shared by the in-sample table and the
+#: chronological OOS block so the two cannot drift: an explosive Sharpe printed
+#: without this marker is a reporting defect.
 DEGENERATE_VARIANCE_MARKER = "DEGENERATE-VARIANCE"
+
+
+def degenerate_row(m: MetricSet) -> bool:
+    """Does this published row carry the marker? (#438)
+
+    Re-derived from the row's own published cells with the same criterion the
+    metric was built with, in addition to its stored flag. A receipt whose flag
+    predates the criterion -- or whose bootstrap interval blows up while the
+    flag stays false -- cannot then be rendered unmarked, and the renderer's
+    verdict for a curve in the in-sample table and in the OOS block comes from
+    one criterion instead of from two window lengths.
+    """
+    return bool(m.sharpe_degenerate) or unreproducible_variance(
+        m.sharpe_annualized, m.sharpe_ci_low, m.sharpe_ci_high
+    )
 
 
 def degeneracy_marker(m: MetricSet) -> str:
     """Return the degeneracy marker for a metric row (empty when sound)."""
-    return f" {DEGENERATE_VARIANCE_MARKER}" if m.sharpe_degenerate else ""
+    return f" {DEGENERATE_VARIANCE_MARKER}" if degenerate_row(m) else ""
 
 
 def sharpe_ci_cell(m: MetricSet) -> str:
@@ -2201,6 +2281,14 @@ def render_report(receipt: EconomicReceipt) -> str:
         f"{SHARPE_ANNUALIZATION:.2f} = sqrt({HOURS_PER_YEAR:.0f})); the CI is a "
         "circular block-bootstrap percentile interval on that same scale, so it "
         "contains its own point estimate unless the row is marked degenerate. "
+        f"A row is marked `{DEGENERATE_VARIANCE_MARKER}` when the variance "
+        "behind its Sharpe is not there to be estimated: fewer than "
+        f"{MIN_INFORMATIVE_BARS} informative bars, a point estimate past "
+        f"{DEGENERATE_PER_BAR_SHARPE:.1f} per bar (Sharpe_ann past "
+        f"{SHARPE_ANNUALIZATION * DEGENERATE_PER_BAR_SHARPE:.1f}), or a CI past "
+        f"{DEGENERATE_CI_RATIO:.0f}x its own point estimate. Such a row "
+        "publishes no interval (`n/a`): those percentiles are bootstrap "
+        "artefacts, not a range its estimate lives in. "
         "`excess vs primary [CI]` is the block-bootstrap interval of the window "
         "excess return beside it — a return-scale interval (fraction of capital "
         "over the window), never a Sharpe ratio — and is omitted when it could "
@@ -2210,9 +2298,9 @@ def render_report(receipt: EconomicReceipt) -> str:
         "|---|---|---|---|---|---|---|---|---|",
     ]
     for name, m in r.metrics.items():
-        ci = sharpe_ci_cell(m) or "n/a"
-        if m.sharpe_degenerate:
-            ci += degeneracy_marker(m)
+        # #438: when the criterion holds the interval is not published at all.
+        ci = ("" if degenerate_row(m) else sharpe_ci_cell(m)) or "n/a"
+        ci += degeneracy_marker(m)
         ex = f"{m.excess_vs_primary:.4f}" if m.excess_vs_primary is not None else "—"
         ex_ci = excess_ci_cell(m)
         if ex_ci:
@@ -2241,14 +2329,20 @@ def render_report(receipt: EconomicReceipt) -> str:
         "## Chronological OOS (frozen split; never relabeled)",
         "",
         f"`{DEGENERATE_VARIANCE_MARKER}` marks a row whose Sharpe_ann is "
-        "arithmetic on a variance estimated from too few informative bars; the "
+        "arithmetic on a variance the block cannot support -- fewer than "
+        f"{MIN_INFORMATIVE_BARS} informative bars, a point estimate past "
+        f"{DEGENERATE_PER_BAR_SHARPE:.1f} per bar, or a CI past "
+        f"{DEGENERATE_CI_RATIO:.0f}x its own point estimate; the same criterion, "
+        "applied to the same published cells, decides the in-sample table. The "
         "value is not interpretable and is never evidence of performance. CI is "
         "the annualized block-bootstrap interval, on the same scale as "
-        "Sharpe_ann, and is omitted when it could not be computed.",
+        "Sharpe_ann, and is omitted when it could not be computed or when the "
+        "row is marked.",
         "",
     ]
     for name, m in r.oos_metrics.items():
-        ci = sharpe_ci_cell(m)
+        # #438: the same criterion suppresses the interval here as in the table.
+        ci = "" if degenerate_row(m) else sharpe_ci_cell(m)
         lines.append(
             f"- {name}: net {m.net_return:.4f} Sharpe_ann "
             f"{m.sharpe_annualized:.3f}"
