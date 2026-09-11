@@ -29,9 +29,14 @@ from v8_next.evaluation.benchmark_receipt import (
     BenchmarkReceipt,
     GateState,
     GateVector,
+    ScoreEvidence,
     WindowEvidence,
 )
 from v8_next.evaluation.run_window import WindowSpec
+from v8_next.evaluation.scoring import (
+    compute_capability_breakdown,
+    compute_capability_score,
+)
 
 TAPE_DIR = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
 TAPE_FILE = TAPE_DIR / "tape.jsonl"
@@ -39,6 +44,17 @@ HOUR_MS = 3_600_000
 #: Both variants consume this many bars: the discriminating variable is the
 #: evidence class, not the length of the window (#444.R3).
 WINDOW_BARS = 500
+
+#: MECHANICS ONLY: fixed determinants for the receipts in this file, so the number
+#: they publish is *derived* from the evidence they bind (#408). A hand-set score
+#: its own evidence cannot produce is no longer constructible, which is exactly what
+#: makes these cases about the window class instead of about the number.
+_MEASUREMENT: dict = dict(
+    pnl_series=[0.01, -0.02, 0.03, 0.005] * 3, total_bars=60, total_trades=6, abstain_rate=0.2
+)
+_SCORE_EVIDENCE = ScoreEvidence.from_breakdown(compute_capability_breakdown(**_MEASUREMENT))
+MEASURED_SCORE = compute_capability_score(**_MEASUREMENT)
+assert MEASURED_SCORE is not None, "the mechanics fixture must measure a number"
 
 
 def _iso(ms: int) -> str:
@@ -73,10 +89,15 @@ def _receipt(
 
     artifact = tmp_path / name
     artifact.write_text('{"trade_id":"t","pnl":1.0}\n')
+    evidence = _SCORE_EVIDENCE
     return BenchmarkReceipt.create(
         case_id="BC-444-SMOKE",
         policy_id="pol_444",
-        capability_score=capability_score,
+        # a receipt carries the measured number or none at all: the number is a
+        # function of the evidence bound below (#408), never of the caller's wish
+        capability_score=MEASURED_SCORE if capability_score is not None else None,
+        score_evidence=evidence if capability_score is not None else None,
+        coverage_factor=evidence.coverage_factor if capability_score is not None else None,
         gates=GateVector(g0_identity=GateState.PASS, g1_causal_pit=GateState.UNKNOWN),
         computed_at_timestamp_ns=1_700_000_000_000_000_000,
         artifact_bindings=(ArtifactBinding.from_file("native_trades", artifact),),
@@ -102,7 +123,7 @@ def test_verify_refuses_capability_score_minted_by_a_non_evidential_window(
     ok, reason = smoked.verify()
     assert ok is False
     assert reason.startswith(NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE)
-    assert "smoke" in reason and "14.0" in reason
+    assert "smoke" in reason and str(MEASURED_SCORE) in reason
 
     # the ledger refuses the same receipt: it cannot be appended at all
     with pytest.raises(ValueError, match=NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE):
@@ -131,7 +152,7 @@ def test_evidential_window_still_mints_and_verifies(tmp_path: Path) -> None:
     assert evidence.is_smoke is False
     ok, reason = scored.verify()
     assert ok, reason
-    assert BenchmarkLedger().append(scored).receipt.capability_score == 14.0
+    assert BenchmarkLedger().append(scored).receipt.capability_score == MEASURED_SCORE
 
 
 def test_window_class_is_bound_into_the_digest_and_cannot_be_edited_away(
@@ -157,12 +178,15 @@ def test_window_class_is_bound_into_the_digest_and_cannot_be_edited_away(
     assert reason.startswith("DIGEST_TAMPERED")
 
     # and a forged class with a score is refused by name, not merely by hash
+    forged_source = _receipt(
+        tmp_path, window=_smoke_window(), capability_score=MEASURED_SCORE, name="forged.jsonl"
+    )
     forged = relabelled.model_copy(
         update={
-            "capability_score": 14.0,
-            "receipt_digest": _receipt(
-                tmp_path, window=_smoke_window(), capability_score=14.0, name="forged.jsonl"
-            ).receipt_digest,
+            "capability_score": MEASURED_SCORE,
+            "score_evidence": forged_source.score_evidence,
+            "coverage_factor": forged_source.coverage_factor,
+            "receipt_digest": forged_source.receipt_digest,
         }
     )
     ok, reason = forged.verify()

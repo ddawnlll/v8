@@ -47,6 +47,7 @@ from v8_next.evaluation import economic_benchmark as eb
 from v8_next.evaluation.benchmark_receipt import (
     BenchmarkLedger,
     BenchmarkReceipt,
+    ScoreEvidence,
     WindowEvidence,
 )
 from v8_next.evaluation.certificate import PolicyCertificate
@@ -894,6 +895,10 @@ def main(argv: list[str] | None = None) -> int:
         artifact_bindings=bindings,
         economic_evidence_digest=receipt.digest(), economic_receipt_path=str(receipt_path.resolve()),
         window_evidence=window_evidence,
+        # #408: the determinants behind the published number travel with it, so a
+        # consumer can recompute the score from the receipt alone instead of taking
+        # the headline on trust.
+        score_evidence=None if _breakdown is None else ScoreEvidence.from_breakdown(_breakdown),
         input_binding=hashlib.sha256(
             json.dumps(
                 {

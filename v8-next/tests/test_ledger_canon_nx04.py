@@ -29,6 +29,7 @@ from v8_next.evaluation.benchmark_receipt import (
     GateState,
     GateVector,
     LedgerEntry,
+    ScoreEvidence,
     build_canon_payload,
 )
 
@@ -110,15 +111,31 @@ def _receipt(tmp_path: Path, *, name: str = "trades.jsonl") -> BenchmarkReceipt:
     artifact = tmp_path / name
     artifact.write_text('{"trade_id":"t","pnl":1.0}\n')
     from v8_next.evaluation.parity import ArtifactBinding
+    from v8_next.evaluation.scoring import (
+        compute_capability_breakdown,
+        compute_capability_score,
+    )
 
+    # MECHANICS ONLY: fixed determinants, so the receipt's published number is
+    # *derived* from the evidence it binds (#408). A hand-set score its own evidence
+    # cannot produce is no longer constructible, so this fixture measures one.
+    measurement: dict = dict(
+        pnl_series=[0.01, -0.02, 0.03, 0.005] * 3,
+        total_bars=60,
+        total_trades=6,
+        abstain_rate=0.2,
+    )
+    evidence = ScoreEvidence.from_breakdown(compute_capability_breakdown(**measurement))
     return BenchmarkReceipt.create(
         case_id="BC-NX04-MECH-01",
         policy_id="pol_nx04",
-        capability_score=42.0,
+        capability_score=compute_capability_score(**measurement),
+        coverage_factor=evidence.coverage_factor,
         gates=GateVector(g0_identity=GateState.PASS, g1_causal_pit=GateState.UNKNOWN),
         computed_at_timestamp_ns=1_700_000_000_000_000_000,
         artifact_bindings=(ArtifactBinding.from_file("native_trades", artifact),),
         input_binding="input-binding-nx04",
+        score_evidence=evidence,
     )
 
 
@@ -164,32 +181,36 @@ def test_sequence_gap_is_reported(tmp_path: Path) -> None:
 
 
 def test_new_writes_register_a_version_without_moving_old_digests(tmp_path: Path) -> None:
-    """v6 is the registered write version; history stays put.
+    """v7 is the registered write version; history stays put.
 
-    v6 is v5's layout plus exactly one trailing field (the evidence class of the
-    window that produced the receipt, #444), so every stored v2-v5 record keeps
-    its original bytes, digest and parent hash.
+    v7 is v6's layout plus exactly one trailing field (the determinants of the
+    published capability score, #408), so every stored v2-v6 record keeps its
+    original bytes, digest and parent hash.
     """
     receipt = _receipt(tmp_path)
     assert receipt.digest_version == RECEIPT_DIGEST_VERSION
-    assert RECEIPT_DIGEST_VERSION == "v8.5-digest-v6"
-    assert RECEIPT_CANON_TABLE["v8.5-digest-v6"].economic_pair == (
-        RECEIPT_CANON_TABLE["v8.5-digest-v5"].economic_pair
+    assert RECEIPT_DIGEST_VERSION == "v8.5-digest-v7"
+    assert RECEIPT_CANON_TABLE["v8.5-digest-v7"].economic_pair == (
+        RECEIPT_CANON_TABLE["v8.5-digest-v6"].economic_pair
     )
-    assert RECEIPT_CANON_TABLE["v8.5-digest-v6"].input_binding == (
-        RECEIPT_CANON_TABLE["v8.5-digest-v5"].input_binding
+    assert RECEIPT_CANON_TABLE["v8.5-digest-v7"].input_binding == (
+        RECEIPT_CANON_TABLE["v8.5-digest-v6"].input_binding
     )
-    # the field exists only from v6 on: no historical version grew one
+    assert RECEIPT_CANON_TABLE["v8.5-digest-v7"].window_evidence == (
+        RECEIPT_CANON_TABLE["v8.5-digest-v6"].window_evidence
+    )
+    # the score-evidence field exists only from v7 on: no historical version grew one
     for version in (
         "v8.5-digest-v2",
         "v8.5-digest-v3",
         "v8.5-digest-v4",
         "v8.5-digest-v5",
+        "v8.5-digest-v6",
     ):
-        assert RECEIPT_CANON_TABLE[version].window_evidence == "absent"
-    assert RECEIPT_CANON_TABLE["v8.5-digest-v6"].window_evidence == "always_present"
+        assert RECEIPT_CANON_TABLE[version].score_evidence == "absent"
+    assert RECEIPT_CANON_TABLE["v8.5-digest-v7"].score_evidence == "always_present"
 
-    def canon_for(version: str) -> list:
+    def canon_for(version: str, *, score_evidence: ScoreEvidence | None = None) -> list:
         canon, refusal = build_canon_payload(
             digest_version=version,
             case_id=receipt.case_id,
@@ -203,16 +224,36 @@ def test_new_writes_register_a_version_without_moving_old_digests(tmp_path: Path
             economic_receipt_path=receipt.economic_receipt_path,
             input_binding=receipt.input_binding,
             window_evidence=receipt.window_evidence,
+            score_evidence=score_evidence,
         )
         assert refusal is None
         assert canon is not None
         return canon
 
-    legacy = canon_for("v8.5-digest-v5")
-    current = canon_for(RECEIPT_DIGEST_VERSION)
-    # one field more than v5, and nothing else moved
+    # a version that never carried the field is refused rather than quietly
+    # re-interpreted with one (no layout is guessed at verification time)
+    _, refusal = build_canon_payload(
+        digest_version="v8.5-digest-v6",
+        case_id=receipt.case_id,
+        policy_id=receipt.policy_id,
+        capability_score=receipt.capability_score,
+        coverage_factor=receipt.coverage_factor,
+        gates=receipt.gates,
+        artifact_bindings=receipt.artifact_bindings,
+        computed_at_timestamp_ns=receipt.computed_at_timestamp_ns,
+        economic_evidence_digest=receipt.economic_evidence_digest,
+        economic_receipt_path=receipt.economic_receipt_path,
+        input_binding=receipt.input_binding,
+        window_evidence=receipt.window_evidence,
+        score_evidence=receipt.score_evidence,
+    )
+    assert refusal is not None and refusal.startswith("CANON_SHAPE_UNPROVEN")
+
+    legacy = canon_for("v8.5-digest-v6")
+    current = canon_for(RECEIPT_DIGEST_VERSION, score_evidence=receipt.score_evidence)
+    # one field more than v6, and nothing else moved
     assert len(current) == len(legacy) + 1
-    assert legacy[1] == "v8.5-digest-v5" and current[1] == "v8.5-digest-v6"
+    assert legacy[1] == "v8.5-digest-v6" and current[1] == "v8.5-digest-v7"
     assert legacy[:1] == current[:1] and legacy[2:] == current[2 : len(legacy)]
 
     # history is never rewritten: every stored record keeps its own digest

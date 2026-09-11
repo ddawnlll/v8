@@ -13,7 +13,7 @@ import json
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal, Sequence
+from typing import TYPE_CHECKING, Any, Literal, Mapping, Sequence
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -26,13 +26,32 @@ if TYPE_CHECKING:  # the window spec is a type-only dependency here (no import c
 #: rediscovered at verification time. Each entry below was reproduced from the
 #: original ledger bytes (artifacts/benchmarks/benchmark_ledger.jsonl) without
 #: rewriting a single byte of it; the provenance column names the measured range.
-RECEIPT_DIGEST_VERSION = "v8.5-digest-v6"
+RECEIPT_DIGEST_VERSION = "v8.5-digest-v7"
 
 #: #444. Named refusal for the one combination that must never verify: a receipt
 #: whose declared window proves no economic evidence (``profile=smoke``) while
 #: carrying a numeric capability score. The score is the minted claim; the window
 #: class is what says whether the run was allowed to mint it.
 NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE = "NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE"
+
+#: #408. Named refusals for a published capability score that is not a function of
+#: the evidence its own receipt binds. The number is the claim; the bound evidence
+#: is what has to carry it, so a number nobody can recompute is not a measurement
+#: -- it is an assertion. Three distinct shapes, named apart:
+#:
+#: * ``UNBOUND``          -- a number with no evidence record bound at all;
+#: * ``NOT_RECOMPUTABLE`` -- evidence is bound, but the number does not follow from it;
+#: * ``CONTRADICTS``      -- two receipts bound to the same evidence publish
+#:   different numbers (a ledger-level contradiction: one receipt cannot see its
+#:   twin, so this is adjudicated where both are visible).
+CAPABILITY_SCORE_UNBOUND_TO_EVIDENCE = "CAPABILITY_SCORE_UNBOUND_TO_EVIDENCE"
+CAPABILITY_SCORE_NOT_RECOMPUTABLE = "CAPABILITY_SCORE_NOT_RECOMPUTABLE"
+CAPABILITY_SCORE_CONTRADICTS_BOUND_EVIDENCE = "CAPABILITY_SCORE_CONTRADICTS_BOUND_EVIDENCE"
+
+#: #408. Named refusal for a receipt whose own bound carriers disagree with each
+#: other (the published coverage term and the evidence record's coverage term are
+#: two carriers of one measurement).
+CAPABILITY_SCORE_EVIDENCE_INCONSISTENT = "CAPABILITY_SCORE_EVIDENCE_INCONSISTENT"
 
 
 @dataclass(frozen=True)
@@ -58,6 +77,15 @@ class ReceiptCanon:
       keep verifying under exactly the bytes they were written with);
     * ``always_present``  — the field is emitted whether or not it is populated,
       so a score can never be read apart from the class that minted it.
+
+    ``score_evidence`` (added with ``v8.5-digest-v7``, #408) declares whether the
+    canonical payload carries the determinants of the published capability score:
+
+    * ``absent``          — the version has no such field (``v2``-``v6`` entries
+      keep verifying under exactly the bytes they were written with);
+    * ``always_present``  — the field is emitted whether or not it is populated, so
+      a published number is never stored apart from the evidence that must produce
+      it.
     """
 
     version: str
@@ -65,6 +93,7 @@ class ReceiptCanon:
     input_binding: Literal["absent", "always_present"]
     provenance: str
     window_evidence: Literal["absent", "always_present"] = "absent"
+    score_evidence: Literal["absent", "always_present"] = "absent"
 
 
 RECEIPT_CANON_TABLE: dict[str, ReceiptCanon] = {
@@ -117,6 +146,21 @@ RECEIPT_CANON_TABLE: dict[str, ReceiptCanon] = {
             "the window that minted it. v2-v5 keep their own bytes, digest and parent hash"
         ),
     ),
+    "v8.5-digest-v7": ReceiptCanon(
+        version="v8.5-digest-v7",
+        economic_pair="always_present",
+        input_binding="always_present",
+        window_evidence="always_present",
+        score_evidence="always_present",
+        provenance=(
+            "new writes from #408 onward. Layout is v6's plus a trailing score-evidence "
+            "record (declared counts, coverage used, measured per-domain values in the "
+            "aggregate's summation order): a published capability score is never stored "
+            "apart from the evidence it must be a function of, so any consumer can "
+            "recompute it from the receipt alone. v2-v6 keep their own bytes, digest and "
+            "parent hash"
+        ),
+    ),
 }
 
 
@@ -162,6 +206,68 @@ class WindowEvidence(BaseModel):
     def admits_capability_score(self) -> bool:
         """Whether this window class may mint a capability score at all."""
         return self.economic_evidence
+
+
+class ScoreEvidence(BaseModel):
+    """The determinants of a published capability score (#408).
+
+    A capability score is a *derived* number: it must be a function of evidence the
+    receipt carries and of nothing else. This record is that evidence -- the run's
+    declared counts, the coverage the aggregate used, and the measured per-domain
+    values in the order the aggregate summed them -- so a consumer can recompute the
+    published number from ``receipt + artifact_bindings`` alone, and
+    :meth:`BenchmarkReceipt.verify` can refuse a number its own evidence does not
+    support.
+
+    The producer publishes it through ``scoring.compute_capability_breakdown`` (key
+    ``score_evidence``); :meth:`from_breakdown` is the one way a receipt gets one, so
+    the arithmetic that produced the number and the arithmetic that rechecks it are
+    the same code.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    #: Declared run counts. They do not enter the aggregate directly (the measured
+    #: domain values do), but they are what the measurement was taken over.
+    total_bars: int
+    total_trades: int
+    abstain_rate: float
+    #: The coverage term the aggregate was computed with; ``None`` means the run had
+    #: no eligible measurement (no coverage factor at all, never a fabricated 0.60).
+    coverage_factor: float | None = None
+    hard_invariants_passed: bool = True
+    #: ``MEASURED`` when an aggregate follows from this evidence; otherwise the named
+    #: status the breakdown published (``MISSING_NO_TRADES``,
+    #: ``MISSING_NO_ELIGIBLE_MEASUREMENT``), which declares that no number does.
+    aggregate_status: str = "MEASURED"
+    #: ``(domain, unrounded value, sample size)`` in the aggregate's summation order.
+    domain_values: tuple[tuple[str, float, int], ...] = ()
+
+    @classmethod
+    def from_breakdown(cls, breakdown: Mapping[str, Any]) -> ScoreEvidence:
+        """The evidence record a breakdown published for its own aggregate."""
+        document = breakdown.get("score_evidence")
+        if not isinstance(document, Mapping):
+            raise ValueError("breakdown carries no score_evidence record")
+        return cls.model_validate(document)
+
+    def canon_fields(self) -> list[Any]:
+        """Fixed-order fields for the digest payload (never a dict's key order)."""
+        return [
+            self.total_bars,
+            self.total_trades,
+            self.abstain_rate,
+            self.coverage_factor,
+            [[name, value, samples] for name, value, samples in self.domain_values],
+            self.hard_invariants_passed,
+            self.aggregate_status,
+        ]
+
+    def admits_capability_score(self) -> bool:
+        """Whether a number follows from this evidence at all."""
+        return self.aggregate_status == "MEASURED" and self.coverage_factor is not None and bool(
+            self.domain_values
+        )
 
 
 class GateState(StrEnum):
@@ -439,6 +545,7 @@ def build_canon_payload(
     economic_receipt_path: str,
     input_binding: str,
     window_evidence: WindowEvidence | None = None,
+    score_evidence: ScoreEvidence | None = None,
 ) -> tuple[list[Any] | None, str | None]:
     """Canonical payload for a version's PROVEN layout: ``(canon, refusal_reason)``.
 
@@ -491,7 +598,50 @@ def build_canon_payload(
             f"CANON_SHAPE_UNPROVEN: {digest_version} was never observed with a "
             "window evidence record"
         )
+    #: #408. The determinants of the published capability score are part of the
+    #: digest from v7 on: a number can be rechecked against the evidence that is
+    #: supposed to produce it, instead of being taken on the receipt's word.
+    if canon.score_evidence == "always_present":
+        payload.append(None if score_evidence is None else score_evidence.canon_fields())
+    elif score_evidence is not None:
+        return None, (
+            f"CANON_SHAPE_UNPROVEN: {digest_version} was never observed with a "
+            "score evidence record"
+        )
     return payload, None
+
+
+def bound_evidence_fingerprint(receipt: BenchmarkReceipt) -> str | None:
+    """sha256 of a receipt's canonical payload with the published number nulled (#408).
+
+    Everything else the version binds is kept, so two receipts with the same
+    fingerprint are bound to byte-identical evidence -- the same case, the same
+    policy, the same gate vector, the same artifacts by sha256, the same window
+    class, and (from v7) the same score determinants. Such a pair may not publish
+    different capability scores: the number is a function of the evidence, not an
+    independent field.
+
+    ``None`` when the version's payload cannot be built at all (the entry's own
+    digest verdict names that; this pass adds nothing to it).
+    """
+    canon, _ = build_canon_payload(
+        digest_version=receipt.digest_version,
+        case_id=receipt.case_id,
+        policy_id=receipt.policy_id,
+        capability_score=None,
+        coverage_factor=receipt.coverage_factor,
+        gates=receipt.gates,
+        artifact_bindings=receipt.artifact_bindings,
+        computed_at_timestamp_ns=receipt.computed_at_timestamp_ns,
+        economic_evidence_digest=receipt.economic_evidence_digest,
+        economic_receipt_path=receipt.economic_receipt_path,
+        input_binding=receipt.input_binding,
+        window_evidence=receipt.window_evidence,
+        score_evidence=receipt.score_evidence,
+    )
+    if canon is None:
+        return None
+    return hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
 
 
 class BenchmarkReceipt(BaseModel):
@@ -528,6 +678,12 @@ class BenchmarkReceipt(BaseModel):
     #: had no such field) and for callers that do not declare a window. A declared
     #: non-evidential class cannot carry a capability score (see :meth:`verify`).
     window_evidence: WindowEvidence | None = None
+    #: The determinants of ``capability_score`` (#408), bound into the digest from
+    #: ``v8.5-digest-v7`` on. ``None`` means no evidence record is bound: true for
+    #: records written before v7 (which had no such field) and for receipts that
+    #: publish no number. A numeric score without this record cannot be minted or
+    #: verified (see :meth:`capability_score_refusal_reason`).
+    score_evidence: ScoreEvidence | None = None
 
     @classmethod
     def create(
@@ -544,7 +700,46 @@ class BenchmarkReceipt(BaseModel):
         input_binding: str = "",
         window_evidence: WindowEvidence | None = None,
         scoring_versions: dict[str, Any] | None = None,
+        score_evidence: ScoreEvidence | None = None,
     ) -> BenchmarkReceipt:
+        """Build a receipt whose published number follows from the evidence it binds.
+
+        #408: the score is *derived*, not declared. A caller may declare the measured
+        number (it is then checked against the evidence), or publish no number at all
+        -- ``None`` means "this receipt makes no claim", which is how a window class
+        that may not mint a score is honoured (#444). What a caller may not do is
+        store a number its own evidence does not produce
+        (``CAPABILITY_SCORE_NOT_RECOMPUTABLE``) or a number with no evidence at all
+        (``CAPABILITY_SCORE_UNBOUND_TO_EVIDENCE``). The defect shape -- two receipts
+        bound to identical evidence publishing different numbers -- is therefore not
+        constructible on this path at all.
+        """
+        if score_evidence is None:
+            if capability_score is not None:
+                raise ValueError(
+                    f"cannot create receipt: {CAPABILITY_SCORE_UNBOUND_TO_EVIDENCE}: "
+                    f"capability_score={capability_score} with no score evidence bound; a "
+                    "published number must be a function of the evidence the receipt carries"
+                )
+        else:
+            from v8_next.evaluation.scoring import recompute_capability_score
+
+            if capability_score is not None:
+                recomputed = recompute_capability_score(score_evidence)
+                if recomputed is None or recomputed != capability_score:
+                    raise ValueError(
+                        f"cannot create receipt: {CAPABILITY_SCORE_NOT_RECOMPUTABLE}: declared "
+                        f"capability_score={capability_score}, recomputed from the supplied "
+                        f"evidence={recomputed}"
+                    )
+            if coverage_factor is None:
+                coverage_factor = score_evidence.coverage_factor
+            elif coverage_factor != score_evidence.coverage_factor:
+                raise ValueError(
+                    f"cannot create receipt: {CAPABILITY_SCORE_EVIDENCE_INCONSISTENT}: "
+                    f"coverage_factor={coverage_factor} contradicts the supplied evidence "
+                    f"({score_evidence.coverage_factor})"
+                )
         sorted_bindings = sorted(artifact_bindings, key=lambda b: (b.role, b.path))
         canon, refusal = build_canon_payload(
             digest_version=RECEIPT_DIGEST_VERSION,
@@ -559,6 +754,7 @@ class BenchmarkReceipt(BaseModel):
             economic_receipt_path=economic_receipt_path,
             input_binding=input_binding,
             window_evidence=window_evidence,
+            score_evidence=score_evidence,
         )
         if canon is None:
             raise ValueError(f"cannot create receipt: {refusal}")
@@ -578,6 +774,7 @@ class BenchmarkReceipt(BaseModel):
             economic_receipt_path=economic_receipt_path,
             input_binding=input_binding,
             window_evidence=window_evidence,
+            score_evidence=score_evidence,
             scoring_versions=dict(scoring_versions or {}),
         )
 
@@ -600,6 +797,43 @@ class BenchmarkReceipt(BaseModel):
             f"economic evidence, so it may not mint capability_score={self.capability_score}"
         )
 
+    def capability_score_refusal_reason(self) -> str | None:
+        """Named refusal when the number does not follow from the bound evidence (#408).
+
+        A receipt that agrees with itself -- its digest covers the number it stores
+        -- is still not evidence *for* that number: the number has to be produced by
+        the evidence the receipt binds, and this is where that is rechecked by
+        re-deriving it. Every shape gets its own name, so "does not follow" and
+        "nothing bound to follow" are never the same verdict.
+        """
+        if self.capability_score is None:
+            return None
+        evidence = self.score_evidence
+        if evidence is None:
+            return (
+                f"{CAPABILITY_SCORE_UNBOUND_TO_EVIDENCE}: receipt publishes "
+                f"capability_score={self.capability_score} and binds no score evidence "
+                f"(digest_version={self.digest_version})"
+            )
+        if self.coverage_factor != evidence.coverage_factor:
+            return (
+                f"{CAPABILITY_SCORE_EVIDENCE_INCONSISTENT}: published coverage_factor="
+                f"{self.coverage_factor} contradicts the bound score evidence "
+                f"({evidence.coverage_factor})"
+            )
+        # imported here, not at module scope: the scoring module depends on this one
+        # (its aggregates are the arithmetic this refusal re-derives), so the
+        # dependency is one-way by construction.
+        from v8_next.evaluation.scoring import recompute_capability_score
+
+        recomputed = recompute_capability_score(evidence)
+        if recomputed is None or recomputed != self.capability_score:
+            return (
+                f"{CAPABILITY_SCORE_NOT_RECOMPUTABLE}: stored capability_score="
+                f"{self.capability_score}, recomputed from the bound evidence={recomputed}"
+            )
+        return None
+
     def verify(self) -> tuple[bool, str]:
         """Recompute cryptographic digest and verify against attached artifacts."""
         # 0. A claim the window class cannot support is refused by name before any
@@ -608,6 +842,11 @@ class BenchmarkReceipt(BaseModel):
         claim_refusal = self.window_refusal_reason()
         if claim_refusal is not None:
             return False, claim_refusal
+        # 0b. Same rule for the number's own determinants (#408): the published
+        #     score is re-derived from the evidence bound to this receipt.
+        score_refusal = self.capability_score_refusal_reason()
+        if score_refusal is not None:
+            return False, score_refusal
         # 1. Recompute the digest under the version's PROVEN canon. Historical
         # versions are not silently reinterpreted: an unproven shape is refused
         # by name instead of being hashed under a guessed layout.
@@ -624,6 +863,7 @@ class BenchmarkReceipt(BaseModel):
             economic_receipt_path=self.economic_receipt_path,
             input_binding=self.input_binding,
             window_evidence=self.window_evidence,
+            score_evidence=self.score_evidence,
         )
         if canon is None:
             return False, str(refusal)
@@ -660,6 +900,7 @@ class BenchmarkReceipt(BaseModel):
             economic_receipt_path=self.economic_receipt_path,
             input_binding=self.input_binding,
             window_evidence=self.window_evidence,
+            score_evidence=self.score_evidence,
         )
         if canon is None:
             return False, str(refusal)
@@ -705,6 +946,12 @@ class EntryVerification:
     A valid hash chain and intact artifacts are different claims: an entry whose
     chain link is sound but whose bound artifact is missing is NOT reported as a
     success, and neither failure is allowed to mask the other.
+
+    ``score_binding`` (#408) is the fourth claim, kept apart for the same reason: a
+    published capability score that is not a function of the evidence bound to the
+    entry is a claim that does not hold, and naming it must not masquerade as a
+    broken byte history -- the chain, the digest and the artifacts are adjudicated
+    exactly as before and reported beside it.
     """
 
     sequence_number: int
@@ -714,6 +961,9 @@ class EntryVerification:
     chain: str  # OK | SEQUENCE_GAP | PARENT_HASH_MISMATCH | ENTRY_HASH_TAMPERED
     artifacts: str  # OK | NO_BINDINGS | MISSING | TAMPERED
     artifact_detail: str = ""
+    #: OK | NOT_APPLICABLE (no number published) | a named CAPABILITY_SCORE_* refusal.
+    score_binding: str = "NOT_APPLICABLE"
+    score_binding_detail: str = ""
 
     @property
     def fully_valid(self) -> bool:
@@ -722,6 +972,11 @@ class EntryVerification:
             and self.chain == "OK"
             and self.artifacts in ("OK", "NO_BINDINGS")
         )
+
+    @property
+    def score_binding_valid(self) -> bool:
+        """Whether the published number is carried by the entry's own bound evidence."""
+        return self.score_binding in ("OK", "NOT_APPLICABLE")
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -732,16 +987,24 @@ class EntryVerification:
             "chain": self.chain,
             "artifacts": self.artifacts,
             "artifact_detail": self.artifact_detail,
+            "score_binding": self.score_binding,
+            "score_binding_detail": self.score_binding_detail,
             "fully_valid": self.fully_valid,
         }
 
 
 @dataclass(frozen=True)
 class LedgerVerificationReport:
-    """Whole-ledger verdict: chain, digests and artifacts reported separately."""
+    """Whole-ledger verdict: chain, digests, artifacts and score binding reported separately."""
 
     entries: tuple[EntryVerification, ...]
     overall: str  # OK | CHAIN_INVALID | DIGEST_TAMPERED | DIGEST_CANON_UNPROVEN | ARTIFACTS_INCOMPLETE
+    #: #408. OK | the first named CAPABILITY_SCORE_* refusal found. Deliberately
+    #: NOT folded into ``overall``/``verify_chain()``: a number that does not follow
+    #: from its bound evidence is a claim defect, not a byte-history defect, and
+    #: collapsing the two would both hide the defect behind a chain verdict and
+    #: retroactively invalidate a history whose bytes are intact.
+    score_binding: str = "OK"
 
     @property
     def ok(self) -> bool:
@@ -759,12 +1022,18 @@ class LedgerVerificationReport:
     def artifacts_intact(self) -> bool:
         return all(e.artifacts in ("OK", "NO_BINDINGS") for e in self.entries)
 
+    @property
+    def score_bindings_valid(self) -> bool:
+        return all(e.score_binding_valid for e in self.entries)
+
     def as_dict(self) -> dict[str, Any]:
         return {
             "overall": self.overall,
             "chain_valid": self.chain_valid,
             "digests_valid": self.digests_valid,
             "artifacts_intact": self.artifacts_intact,
+            "score_binding": self.score_binding,
+            "score_bindings_valid": self.score_bindings_valid,
             "entries": [e.as_dict() for e in self.entries],
         }
 
@@ -802,6 +1071,7 @@ class BenchmarkLedger:
         """
         expected_parent = self.GENESIS_HASH
         entries: list[EntryVerification] = []
+        contradicted = self._score_binding_contradictions()
         for i, entry in enumerate(self._entries):
             receipt = entry.receipt
             digest_ok, digest_detail = receipt.verify_digest()
@@ -823,6 +1093,17 @@ class BenchmarkLedger:
                 chain = "OK" if recomputed == entry.entry_hash else "ENTRY_HASH_TAMPERED"
 
             artifacts, artifact_detail = self._artifact_verdict(receipt)
+            if entry.sequence_number in contradicted:
+                score_binding = CAPABILITY_SCORE_CONTRADICTS_BOUND_EVIDENCE
+                score_binding_detail = contradicted[entry.sequence_number]
+            elif receipt.capability_score is None:
+                # nothing published, nothing to carry: not a defect, and not a pass
+                score_binding = "NOT_APPLICABLE"
+                score_binding_detail = ""
+            else:
+                refusal = receipt.capability_score_refusal_reason()
+                score_binding = "OK" if refusal is None else refusal.split(":", 1)[0]
+                score_binding_detail = refusal or ""
             entries.append(
                 EntryVerification(
                     sequence_number=entry.sequence_number,
@@ -832,6 +1113,8 @@ class BenchmarkLedger:
                     chain=chain,
                     artifacts=artifacts,
                     artifact_detail=artifact_detail,
+                    score_binding=score_binding,
+                    score_binding_detail=score_binding_detail,
                 )
             )
             expected_parent = entry.entry_hash
@@ -845,7 +1128,53 @@ class BenchmarkLedger:
             overall = "DIGEST_CANON_UNPROVEN"
         elif any(e.artifacts not in ("OK", "NO_BINDINGS") for e in entries):
             overall = "ARTIFACTS_INCOMPLETE"
-        return LedgerVerificationReport(entries=tuple(entries), overall=overall)
+        score_binding = "OK"
+        for entry in entries:
+            if not entry.score_binding_valid:
+                score_binding = entry.score_binding
+                break
+        return LedgerVerificationReport(entries=tuple(entries), overall=overall, score_binding=score_binding)
+
+    def _score_binding_contradictions(self) -> dict[int, str]:
+        """Entries bound to identical evidence that publish different numbers (#408).
+
+        The per-receipt check re-derives a number from its own evidence; this one
+        adjudicates the shape a single receipt cannot see: two receipts whose bound
+        evidence is byte-identical (fingerprint equal) while their published
+        capability scores differ. The evidence is supposed to *produce* the number,
+        so one of the two is an assertion nothing carries -- and the ledger cannot
+        say which, so it refuses both by name rather than picking a winner.
+
+        Version-agnostic and retro-invalidation-free: entries whose own bytes
+        certify under their own digest version stay certified (``digest``/``chain``
+        verdicts untouched); what does not survive is the *claim*.
+        """
+        grouped: dict[str, list[int]] = {}
+        published: dict[int, float] = {}
+        for entry in self._entries:
+            receipt = entry.receipt
+            if receipt.capability_score is None:
+                continue
+            fingerprint = bound_evidence_fingerprint(receipt)
+            if fingerprint is None:
+                continue
+            grouped.setdefault(fingerprint, []).append(entry.sequence_number)
+            published[entry.sequence_number] = receipt.capability_score
+
+        contradicted: dict[int, str] = {}
+        for sequences in grouped.values():
+            numbers = sorted({published[s] for s in sequences})
+            if len(numbers) < 2:
+                continue
+            for sequence in sequences:
+                others = sorted(s for s in sequences if s != sequence)
+                contradicted[sequence] = (
+                    f"{CAPABILITY_SCORE_CONTRADICTS_BOUND_EVIDENCE}: bound evidence identical "
+                    f"to seq {others}, published capability_scores {numbers} (this receipt "
+                    f"publishes {published[sequence]}); the chain/digest/artifact verdicts of "
+                    f"these entries are adjudicated separately and are unaffected"
+                )
+        return contradicted
 
     @staticmethod
     def _digest_failure_class(detail: str) -> str:
