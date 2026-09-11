@@ -37,6 +37,10 @@ from v8_next.evaluation.benchmark_receipt import (
 )
 from v8_next.evaluation.claims import ClaimRegistry, StatutoryClaimRecord
 from v8_next.evaluation.deflated_sharpe import DSRPlan, deflated_sharpe_diagnostic
+from v8_next.evaluation.economic_benchmark import (
+    bars_from_candles,
+    campaign_accounting,
+)
 from v8_next.evaluation.reality_check import reality_check_diagnostic
 
 
@@ -439,8 +443,42 @@ def evaluate_g4_synthetic_falsification(
     return state, metrics
 
 
+#: Declared unit of the G5 sample series (#407). Both sources -- the caller's own
+#: track and the regime fallback -- are the dimensionless per-campaign return of
+#: the shared accounting contract (NX02.R3). The estimator must never hold an
+#: absolute USDT PnL series (the scoring path's quantity) at the same time.
+G5_SERIES_UNIT = "dimensionless_campaign_return"
+G5_SERIES_BASIS = "per-campaign realized PnL / entry notional (NX02 accounting contract)"
+
+#: Registered proportional execution frictions, expressed in the declared series
+#: unit: 1bp taker fee and 2bp adverse slippage per campaign.
+G5_FEE_STRESS_RETURN = 0.0001
+G5_SLIPPAGE_STRESS_RETURN = 0.0002
+
+
+def _campaign_returns_from_run(
+    candles: Sequence[Candle], cfg: ExpertStrategyConfig
+) -> list[float]:
+    """Per-campaign returns for one engine execution on ``candles`` (NX02.R3).
+
+    Replaces the historical ``realized_pnl / 10000`` extraction, which emitted a
+    capital fraction into a series that an absolute USDT PnL series could also
+    occupy -- one estimator, two units (#407).
+    """
+    if not candles:
+        return []
+    result = run_expert_strategy_backtest(tuple(candles), cfg)
+    accounting = campaign_accounting(
+        result.get("opened_positions") or [],
+        result.get("closed_positions") or [],
+        bars=bars_from_candles(tuple(candles)),
+        cutoff_ns=candles[-1].end_ns,
+    )
+    return list(accounting.campaign_returns)
+
+
 def evaluate_g5_selection_control(
-    pnl_series: Sequence[float],
+    campaign_return_series: Sequence[float],
     candles: Sequence[Candle] | None = None,
     num_trials: int = 4,
 ) -> tuple[GateState, dict[str, Any]]:
@@ -449,53 +487,36 @@ def evaluate_g5_selection_control(
     Enforces Constitution Rule 12: Deflated Sharpe Ratio (DSR) and White's Reality Check (WRC).
     Zero synthetic formulas (no sine/cosine oscillators). Uses genuine empirical returns across
     registered parameter/execution variants.
+
+    The supplied series must be the ``G5_SERIES_UNIT`` quantity: dimensionless
+    per-campaign returns from the shared accounting contract (NX02.R3). Both the
+    own-track input and the regime fallback are produced in that one unit --
+    absolute USDT PnL belongs to the scoring path and is never mixed in here
+    (#407).
     """
-    raw_series = list(pnl_series)
+    raw_series = [float(value) for value in campaign_return_series]
     own_sample_count = len(raw_series)
     sample_source = "own_track" if own_sample_count >= 20 else "regime_fallback"
 
-    # If trade series is too short (< 20 intervals for multi-testing power), extract empirical trade returns from market regimes or tape
+    # If the own track is too short (< 20 intervals for multi-testing power),
+    # extract empirical campaign returns from the market regimes (or the tape
+    # slice) in the SAME declared unit.
     if len(raw_series) < 20:
+        cfg = ExpertStrategyConfig(
+            min_support_quorum=1,
+            max_contradiction_tolerance=28,
+            bracket_stop_pct=Decimal("0.02"),
+            bracket_target_pct=Decimal("0.04"),
+        )
+        extracted: list[float] = []
         if DEFAULT_TAPE_PATH.exists():
             regimes = classify_market_regimes(tape_path=DEFAULT_TAPE_PATH, slice_length=500)
-            cfg = ExpertStrategyConfig(
-                min_support_quorum=1,
-                max_contradiction_tolerance=28,
-                bracket_stop_pct=Decimal("0.02"),
-                bracket_target_pct=Decimal("0.04"),
-            )
-            extracted_pnls: list[float] = []
             for _name, c_list in regimes.items():
-                res = run_expert_strategy_backtest(tuple(c_list), cfg)
-                closed = res["closed_positions"]
-                for c_pos in closed:
-                    if "realized_pnl" in c_pos and c_pos["realized_pnl"]:
-                        val_str = str(c_pos["realized_pnl"]).split()[0]
-                        try:
-                            extracted_pnls.append(float(val_str) / 10000.0)
-                        except ValueError:
-                            pass
-            if len(extracted_pnls) >= 4:
-                raw_series = extracted_pnls
+                extracted.extend(_campaign_returns_from_run(tuple(c_list), cfg))
         elif candles is not None and len(candles) >= 12:
-            cfg = ExpertStrategyConfig(
-                min_support_quorum=1,
-                max_contradiction_tolerance=28,
-                bracket_stop_pct=Decimal("0.02"),
-                bracket_target_pct=Decimal("0.04"),
-            )
-            res = run_expert_strategy_backtest(tuple(candles), cfg)
-            closed = res["closed_positions"]
-            extracted_pnls = []
-            for c_pos in closed:
-                if "realized_pnl" in c_pos and c_pos["realized_pnl"]:
-                    val_str = str(c_pos["realized_pnl"]).split()[0]
-                    try:
-                        extracted_pnls.append(float(val_str) / 10000.0)
-                    except ValueError:
-                        pass
-            if len(extracted_pnls) >= 4:
-                raw_series = extracted_pnls
+            extracted.extend(_campaign_returns_from_run(tuple(candles), cfg))
+        if len(extracted) >= 4:
+            raw_series = extracted
 
     # Rule 12 fail-closed: if fewer than 4 intervals, DSR moment math is impossible
     if len(raw_series) < 4:
@@ -503,6 +524,8 @@ def evaluate_g5_selection_control(
             "error": "INSUFFICIENT_TRADE_INTERVALS: At least 4 return intervals required for DSR moments",
             "samples": len(raw_series),
             "passed": False,
+            "series_unit": G5_SERIES_UNIT,
+            "series_basis": G5_SERIES_BASIS,
         }
 
     r_champ = np.array(raw_series, dtype=float)
@@ -510,12 +533,12 @@ def evaluate_g5_selection_control(
 
     # Construct genuine economic execution variants:
     # 1. Champion (original strategy net returns)
-    # 2. Fee stressed: additional taker friction (-0.0001)
+    # 2. Fee stressed: additional taker friction
     # 3. Conservative: conservative sizing (0.95x size)
-    # 4. Slippage stressed: adverse execution markout (-0.0002)
-    r_fee = r_champ - 0.0001
+    # 4. Slippage stressed: adverse execution markout
+    r_fee = r_champ - G5_FEE_STRESS_RETURN
     r_cons = 0.95 * r_champ
-    r_slip = r_champ - 0.0002
+    r_slip = r_champ - G5_SLIPPAGE_STRESS_RETURN
 
     losses = {
         "champion": tuple(
@@ -580,6 +603,8 @@ def evaluate_g5_selection_control(
                 "error": f"MISSING_CHAMPION_PVALUE: DSR output lacks champion entry: {e}",
                 "samples": t_steps,
                 "passed": False,
+                "series_unit": G5_SERIES_UNIT,
+                "series_basis": G5_SERIES_BASIS,
             }
         wrc_p = float(wrc_result["p_value"])
 
@@ -594,6 +619,10 @@ def evaluate_g5_selection_control(
             "sample_intervals": t_steps,
             "own_sample_count": own_sample_count,
             "sample_source": sample_source,
+            "series_unit": G5_SERIES_UNIT,
+            "series_basis": G5_SERIES_BASIS,
+            "fee_stress_return": G5_FEE_STRESS_RETURN,
+            "slippage_stress_return": G5_SLIPPAGE_STRESS_RETURN,
             "reason": None
             if passed
             else (
@@ -936,7 +965,7 @@ class GateResolutionReport:
 
 def resolve_all_gates(
     candles: Sequence[Candle],
-    pnl_series: list[float],
+    campaign_return_series: list[float],
     ledger: BenchmarkLedger,
     receipt_digest: str,
     capability_score: float,
@@ -945,7 +974,12 @@ def resolve_all_gates(
     tape_path: Path | str | None = None,
     live_fills_path: Path | str | None = None,
 ) -> GateResolutionReport:
-    """Run comprehensive empirical resolution of all gates G3-G9."""
+    """Run comprehensive empirical resolution of all gates G3-G9.
+
+    ``campaign_return_series`` is the declared ``G5_SERIES_UNIT`` series
+    (dimensionless per-campaign returns, NX02.R3) -- not the absolute USDT PnL
+    series the scoring path consumes (#407).
+    """
     cfg = strategy_config or ExpertStrategyConfig(
         min_support_quorum=1,
         max_contradiction_tolerance=28,
@@ -962,7 +996,7 @@ def resolve_all_gates(
     g4_state, g4_metrics = evaluate_g4_synthetic_falsification(candles, cfg)
 
     # 3. G5 Selection Control (DSR & WRC)
-    g5_state, g5_metrics = evaluate_g5_selection_control(pnl_series, candles)
+    g5_state, g5_metrics = evaluate_g5_selection_control(campaign_return_series, candles)
 
     # 4. G6 Frozen OOS Replication
     g6_state, g6_metrics = evaluate_g6_frozen_oos(candles, cfg)

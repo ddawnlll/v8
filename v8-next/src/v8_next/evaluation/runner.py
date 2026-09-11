@@ -16,7 +16,7 @@ import json
 from dataclasses import asdict
 from decimal import Decimal
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Mapping, Sequence
 
 from pydantic import BaseModel, ConfigDict
 
@@ -38,6 +38,8 @@ from v8_next.evaluation.claims import StatutoryClaimRecord
 from v8_next.evaluation.economic_benchmark import (
     bars_from_candles,
     campaign_accounting,
+    pair_positions,
+    parse_money,
     reconcile_native_account,
 )
 from v8_next.evaluation.gate_resolution import (
@@ -61,6 +63,21 @@ from v8_next.evaluation.scoring import (
 #: accounting reconciliation replays the same number instead of inheriting an
 #: adapter default that could drift (NX02.R4).
 ENGINE_INITIAL_BALANCE = Decimal("10000")
+
+#: Declared unit of the series handed to G5 selection control (#407). G5's
+#: registered execution variants are proportional frictions (1bp taker / 2bp
+#: slippage), so the estimator's input must be the dimensionless per-campaign
+#: return from the shared accounting contract — never the absolute USDT PnL
+#: series that feeds scoring, which would silently mix two units inside one
+#: DSR/WRC estimator (NX02.R3).
+G5_SERIES_UNIT = "dimensionless_campaign_return"
+
+#: Reason tokens for a ledger row whose own realized PnL could not be
+#: produced. Absence is published as absence, never as a foreign value.
+PNL_UNMEASURED_OPEN = "OPEN_CAMPAIGN_UNREALIZED_AT_CUTOFF"
+PNL_UNMEASURED_UNPARSABLE = "CLOSE_PNL_UNPARSABLE"
+PNL_UNMEASURED_UNPAIRED = "NO_LIFECYCLE_PAIR"
+PNL_UNMEASURED_OUT_OF_RANGE = "PNL_EXCEEDS_TAPE_RANGE_BOUND"
 
 
 class BenchmarkCase(BaseModel):
@@ -168,6 +185,153 @@ def build_input_binding(
     return hashlib.sha256(
         json.dumps(payload, sort_keys=True, default=str).encode()
     ).hexdigest()
+
+
+def instrument_price_ranges(candles: Sequence[Candle]) -> dict[str, Decimal]:
+    """Per-instrument ``max(high) - min(low)`` over the run's tape window.
+
+    This is the largest per-unit price excursion the tape can produce, so it
+    bounds what any single position on this window could have realized.
+    """
+    highs: dict[str, Decimal] = {}
+    lows: dict[str, Decimal] = {}
+    for candle in candles:
+        key = candle.instrument_id
+        if key not in highs or candle.high > highs[key]:
+            highs[key] = candle.high
+        if key not in lows or candle.low < lows[key]:
+            lows[key] = candle.low
+    return {key: highs[key] - lows[key] for key in highs}
+
+
+def _tape_range_bound(
+    open_record: Mapping[str, Any], price_ranges: Mapping[str, Decimal] | None
+) -> Decimal | None:
+    """``|quantity| * (max high - min low)`` for the record's instrument."""
+    if not price_ranges:
+        return None
+    price_range = price_ranges.get(str(open_record["instrument_id"]))
+    quantity = parse_money(open_record.get("quantity"))
+    if price_range is None or quantity is None:
+        return None
+    return abs(quantity) * price_range
+
+
+def attribute_campaign_pnl(
+    opened_positions: Sequence[Any],
+    closed_positions: Sequence[Any],
+    *,
+    pnl_unit: str,
+    price_ranges: Mapping[str, Decimal] | None = None,
+) -> list[dict[str, Any]]:
+    """One ledger row per native trade, each carrying *its own* realized PnL (#407).
+
+    Attribution uses the shared :func:`pair_positions` lifecycle contract
+    (instrument + position slot + event order), so under NETTING a reused
+    ``position_id`` can never hand one campaign another campaign's PnL, and the
+    chronological pairing keeps each row bound to the close that consumed it.
+
+    A row whose own realized PnL cannot be produced is published as
+    ``pnl = None`` plus a named reason:
+
+    * ``OPEN_CAMPAIGN_UNREALIZED_AT_CUTOFF`` — the campaign is still open, so it
+      has no realized PnL yet. Its cutoff mark lives in the separately declared
+      ``open_risk_usdt`` of the accounting view; it is not this column's value.
+    * ``CLOSE_PNL_UNPARSABLE`` — the engine close carried no parsable PnL.
+    * ``NO_LIFECYCLE_PAIR`` — no pairing record for this open (absent, not zero).
+    * ``PNL_EXCEEDS_TAPE_RANGE_BOUND`` — the value exceeds
+      ``|quantity| * (max high - min low)`` on this window, which no trade of
+      this size on this tape could have realized.
+
+    In every case the row carries ``pnl_unit`` and the bound that was applied,
+    so a consumer can tell an unmeasured row from a measured one without
+    consulting any other artifact.
+    """
+    open_records = [o for o in opened_positions if isinstance(o, dict)]
+    close_records = [c for c in closed_positions if isinstance(c, dict)]
+
+    attribution: dict[int, tuple[float | None, str | None, int | None]] = {}
+    for open_rec, close_rec in pair_positions(list(open_records), list(close_records)):
+        if close_rec is None:
+            attribution[id(open_rec)] = (None, PNL_UNMEASURED_OPEN, None)
+            continue
+        close_ns = int(close_rec.get("event_ns", 0) or 0)
+        realized = parse_money(close_rec.get("realized_pnl"))
+        if realized is None:
+            attribution[id(open_rec)] = (None, PNL_UNMEASURED_UNPARSABLE, close_ns)
+            continue
+        attribution[id(open_rec)] = (float(realized), None, close_ns)
+
+    rows: list[dict[str, Any]] = []
+    for open_rec in open_records:
+        pnl_val, reason, attributed_close_ns = attribution.get(
+            id(open_rec), (None, PNL_UNMEASURED_UNPAIRED, None)
+        )
+        bound = _tape_range_bound(open_rec, price_ranges)
+        if pnl_val is not None and bound is not None and abs(pnl_val) > float(bound):
+            pnl_val, reason = None, PNL_UNMEASURED_OUT_OF_RANGE
+        rows.append(
+            {
+                "trade_id": open_rec["position_id"],
+                "instrument_id": open_rec["instrument_id"],
+                "side": open_rec["side"],
+                "quantity": open_rec["quantity"],
+                "fill_time_ns": open_rec["event_ns"],
+                "close_time_ns": attributed_close_ns,
+                "pnl": pnl_val,
+                "pnl_unit": pnl_unit,
+                "pnl_tape_range_bound_usdt": None if bound is None else float(bound),
+                "pnl_unmeasured_reason": reason,
+                "campaign_completed": pnl_val is not None,
+            }
+        )
+    return rows
+
+
+def summarize_pnl_attribution(
+    rows: Sequence[Mapping[str, Any]],
+    *,
+    accounting: Any,
+    price_ranges: Mapping[str, Decimal] | None = None,
+) -> dict[str, Any]:
+    """Cross-check the attributed rows against the accounting aggregate (#407).
+
+    The row total and the accounting total are computed independently from the
+    same pairing contract; ``consistent_with_accounting`` is False whenever a
+    row was published as unmeasured for a value the accounting view counted, or
+    the other way round.
+    """
+    measured_total = sum(
+        (Decimal(str(row["pnl"])) for row in rows if row["pnl"] is not None),
+        Decimal(0),
+    )
+    accounting_total = sum(
+        (Decimal(str(value)) for value in accounting.realized_pnl_usdt), Decimal(0)
+    )
+    reasons: dict[str, int] = {}
+    for row in rows:
+        reason = row["pnl_unmeasured_reason"]
+        if reason is not None:
+            reasons[str(reason)] = reasons.get(str(reason), 0) + 1
+    return {
+        "rows": len(rows),
+        "measured_rows": sum(1 for row in rows if row["pnl"] is not None),
+        "unmeasured_reasons": reasons,
+        "measured_total_usdt": str(measured_total),
+        "accounting_total_usdt": str(accounting_total),
+        "consistent_with_accounting": measured_total == accounting_total,
+        "pnl_unit": str(accounting.units["pnl"]),
+        "g5_series_unit": G5_SERIES_UNIT,
+        "g5_series_samples": len(accounting.campaign_returns),
+        "tape_price_ranges_usdt": {
+            key: str(value) for key, value in sorted((price_ranges or {}).items())
+        },
+        "unmeasured_rows_are_null": all(
+            row["pnl"] is None
+            for row in rows
+            if row["pnl_unmeasured_reason"] is not None
+        ),
+    }
 
 
 class BenchmarkRunner:
@@ -367,8 +531,13 @@ class BenchmarkRunner:
             g4_state, g4_m = evaluate_g4_synthetic_falsification(candles, case.strategy_config)
             gate_metrics["g4"] = g4_m
 
-            # 3. G5: Selection Control (DSR & WRC)
-            g5_state, g5_m = evaluate_g5_selection_control(pnl_series, candles)
+            # 3. G5: Selection Control (DSR & WRC). The series is the declared
+            # dimensionless per-campaign return from the same accounting
+            # contract that produced the ledger rows (#407); the absolute USDT
+            # PnL series above stays with the scoring path, never mixed in here.
+            g5_state, g5_m = evaluate_g5_selection_control(
+                list(accounting.campaign_returns), candles
+            )
             gate_metrics["g5"] = g5_m
 
             # 4. G6: Frozen OOS Replication
@@ -417,28 +586,23 @@ class BenchmarkRunner:
                 g2_state=_g2_state,
             )
 
-        # 3. Export physical trade ledger to disk
+        # 3. Export physical trade ledger to disk. Every row carries THAT trade's
+        # own realized PnL in the single declared unit; a value that cannot be
+        # attributed to the row is published as null plus a named reason rather
+        # than another campaign's PnL or a rescaled one (#407).
         entry_idx = len(self.ledger.entries)
         suffix = f"_{entry_idx}" if entry_idx > 0 else ""
         ledger_file = self.output_dir / f"{case.case_id}{suffix}_trades.jsonl"
-        trade_rows = []
-        for idx, pos in enumerate(opened_positions):
-            # Unmeasured campaigns are absent from pnl_series; the row then
-            # carries None (never a fabricated zero) plus the declared unit.
-            pnl_val = pnl_series[idx] if idx < len(pnl_series) else None
-            trade_rows.append(
-                {
-                    "trade_id": pos["position_id"],
-                    "instrument_id": pos.get("instrument_id", case.instrument_id),
-                    "pnl": pnl_val,
-                    "pnl_unit": accounting.units["pnl"],
-                    "return_unit": accounting.units["return"],
-                    "fill_time_ns": pos["event_ns"],
-                    "side": pos["side"],
-                    "quantity": pos["quantity"],
-                    "campaign_completed": pnl_val is not None,
-                }
-            )
+        price_ranges = instrument_price_ranges(tuple(candles))
+        trade_rows = attribute_campaign_pnl(
+            opened_positions,
+            closed_positions,
+            pnl_unit=accounting.units["pnl"],
+            price_ranges=price_ranges,
+        )
+        gate_metrics["pnl_attribution"] = summarize_pnl_attribution(
+            trade_rows, accounting=accounting, price_ranges=price_ranges
+        )
 
         with open(ledger_file, "w", encoding="utf-8") as f:
             for r in trade_rows:
