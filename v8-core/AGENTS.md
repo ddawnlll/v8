@@ -9,3 +9,25 @@ See root `AGENTS.md` for mandatory global invariants:
 - **Constitution Rule 12:** `NO_ECONOMIC_CLAIM` until certified multiple-testing receipts exist.
 - **Zero-Shadow Architecture:** All modules and architectural choices MUST be registered in `DECISION_REGISTER.md` (D-series), `IMPLEMENTATION_LAYOUT.md`, and compiled into monographs.
 
+## CLI Usage
+
+### Single Command: `make`
+
+```bash
+# Default: Run the data-backed performance benchmark
+make
+
+# Other options
+make bench-quick      # One measured ingestion pass
+make bench-full       # Ten measured ingestion passes
+make bench-case CASE=<case.json>  # CLI single case
+make clippy
+make test
+```
+
+**Benchmark output includes:**
+- Physical input path and byte size
+- Parsed row count and data hash
+- Per-iteration elapsed time and throughput
+
+Use `make test` for D-153 correctness and adversarial verification tests.

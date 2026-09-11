@@ -32,6 +32,7 @@ pub struct OpenOrder {
 pub struct OpenPosition {
     pub position_id: String,
     pub candidate_id: String,
+    pub expert_id: String,
     pub symbol: String,
     pub direction: String, // "LONG" or "SHORT"
     pub entry_price: f64,
@@ -44,6 +45,8 @@ pub struct OpenPosition {
     pub take_profit_price: Option<f64>,
     pub liquidation_price: f64,
     pub cum_funding_usdt: f64,
+    pub mfe_r: f64,
+    pub mae_r: f64,
 }
 
 impl OpenPosition {
@@ -135,6 +138,7 @@ mod tests {
         let pos_long = OpenPosition {
             position_id: "pos_1".into(),
             candidate_id: "c_1".into(),
+            expert_id: "expert_001".into(),
             symbol: "BTCUSDT".into(),
             direction: "LONG".into(),
             entry_price: 50_000.0,
@@ -147,6 +151,8 @@ mod tests {
             take_profit_price: Some(52_000.0),
             liquidation_price: 45_000.0,
             cum_funding_usdt: 0.0,
+            mfe_r: 0.0,
+            mae_r: 0.0,
         };
 
         // Long PnL at 51,000 = (51000 - 50000) * 0.1 = +100 USDT

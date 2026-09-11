@@ -60,9 +60,9 @@ incremental = true
 opt-level = 2
 
 [profile.test]
-opt-level = 1
-debug = 1
-incremental = true
+  opt-level = 2
+  debug = 1
+  incremental = true
 
 [profile.test.package."*"]
 opt-level = 2
@@ -127,3 +127,18 @@ cast_precision_loss = "allow"
 cast_sign_loss = "allow"
 
 # The compute plane links no Python runtime (no-callback invariant, D-078).
+
+[[bench]]
+name = "benchmark_runner"
+harness = false
+path = "src/benchmark/bench_runner.rs"
+
+[[bench]]
+name = "benchmark_cases"
+harness = false
+path = "src/benchmark/bench_cases.rs"
+
+[[bench]]
+name = "benchmark_parity"
+harness = false
+path = "src/benchmark/bench_parity.rs"

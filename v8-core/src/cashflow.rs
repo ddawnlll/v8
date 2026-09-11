@@ -13,16 +13,20 @@ use std::path::Path;
 pub struct EconomicCashflow {
     pub event_time: i64,
     pub candidate_id: String,
+    pub expert_id: String,
     pub symbol: String,
     pub direction: String,
     pub quantity: f64,
     pub entry_price: f64,
     pub exit_price: f64,
+    pub exit_reason: String,
     pub gross_market_pnl_usdt: f64,
     pub commission_usdt: f64,
     pub funding_cashflow_usdt: f64,
     pub slippage_usdt: f64,
     pub gap_through_stop_usdt: f64,
+    pub mfe_r: f64,
+    pub mae_r: f64,
     pub net_pnl_usdt: f64,
     pub wallet_balance_before: f64,
     pub wallet_balance_after: f64,
@@ -34,16 +38,20 @@ impl EconomicCashflow {
     pub fn new(
         event_time: i64,
         candidate_id: String,
+        expert_id: String,
         symbol: String,
         direction: String,
         quantity: f64,
         entry_price: f64,
         exit_price: f64,
+        exit_reason: String,
         gross_market_pnl_usdt: f64,
         commission_usdt: f64,
         funding_cashflow_usdt: f64,
         slippage_usdt: f64,
         gap_through_stop_usdt: f64,
+        mfe_r: f64,
+        mae_r: f64,
         wallet_balance_before: f64,
         margin_usage_pct: f64,
     ) -> Result<Self, String> {
@@ -55,16 +63,20 @@ impl EconomicCashflow {
         let flow = Self {
             event_time,
             candidate_id,
+            expert_id,
             symbol,
             direction,
             quantity,
             entry_price,
             exit_price,
+            exit_reason,
             gross_market_pnl_usdt,
             commission_usdt,
             funding_cashflow_usdt,
             slippage_usdt,
             gap_through_stop_usdt,
+            mfe_r,
+            mae_r,
             net_pnl_usdt,
             wallet_balance_before,
             wallet_balance_after,
@@ -192,16 +204,20 @@ mod tests {
         let flow = EconomicCashflow::new(
             1750000000,
             "c_101".into(),
+            "expert_001".into(),
             "BTCUSDT".into(),
             "LONG".into(),
             0.05,
             60_000.0,
             62_000.0,
+            "PROFIT_TAKEN".into(),
             100.0,  // Gross PnL
             3.05,   // Commission
             0.50,   // Funding
             1.00,   // Slippage
             0.0,    // Gap
+            0.0,    // mfe_r
+            0.0,    // mae_r
             1000.0, // Wallet before
             15.0,   // Margin usage %
         )

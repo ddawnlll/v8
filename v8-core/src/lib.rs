@@ -52,6 +52,7 @@ pub mod system_proving;
 pub mod telemetry;
 pub mod temporal;
 pub mod tevv;
+pub mod trade_lifecycle;
 pub mod eeo;
 pub mod execution;
 pub mod usdm_sim;

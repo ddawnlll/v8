@@ -69,7 +69,7 @@ fn main() {
             input_path.to_string_lossy().to_string(),
         ]),
         cli::Commands::Replay(req) => cmd_replay(&[req.request_path.to_string_lossy().to_string()]),
-        cli::Commands::Bench(req) => cmd_bench(&[req.request_path.to_string_lossy().to_string()]),
+        cli::Commands::Bench { quick, case } => cmd_bench_quick(quick, case.as_ref()),
         cli::Commands::GpuProbe => cmd_gpu_probe(&[]),
         cli::Commands::GpuParity => cmd_gpu_parity(&[]),
         cli::Commands::Cube(req) => cmd_cube(&[req.request_path.to_string_lossy().to_string()]),
@@ -2517,6 +2517,79 @@ fn cmd_benchmark(args: &[String]) -> i32 {
         other => {
             eprintln!("unknown benchmark subcommand: {other}\n{usage}");
             2
+        }
+    }
+}
+
+fn cmd_bench_quick(quick: bool, case_path: Option<&PathBuf>) -> i32 {
+    if quick {
+        return run_d153_tests(
+            "d153_benchmark_fabric_sabotage",
+            "quick D-153 adversarial checks",
+        );
+    }
+
+    if let Some(case_path) = case_path {
+        // Full benchmark for specific case
+        let case_text = match std::fs::read_to_string(case_path) {
+            Ok(text) => text,
+            Err(error) => {
+                eprintln!("DATA_BLOCKED_UNREADABLE_BENCHMARK_CASE:{}:{error}", case_path.display());
+                return 1;
+            }
+        };
+        let case: v8_core::benchmark::case::BenchmarkCase =
+            match serde_json::from_str(&case_text) {
+                Ok(case) => case,
+                Err(error) => {
+                    eprintln!("BLOCKED_INVALID_BENCHMARK_CASE:{error}");
+                    return 1;
+                }
+            };
+        match v8_core::benchmark::runner::BenchmarkRunner::default().run_benchmark(&case) {
+            Ok(receipt) => {
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&receipt).unwrap_or_default()
+                );
+                0
+            }
+            Err(error) => {
+                eprintln!("Benchmark evaluation blocked: {error}");
+                1
+            }
+        }
+    } else {
+        run_d153_tests("d153", "D-153 benchmark verification")
+    }
+}
+
+fn run_d153_tests(filter: &str, label: &str) -> i32 {
+    use std::process::Command;
+
+    println!("Running {label} (filter: {filter})...");
+    println!("═══════════════════════════════════════════════════════════════");
+
+    // Run from the Rust package directory, not from the caller's cwd. Inherit
+    // stdio so cargo's progress, test names, and failures remain observable.
+    let status = Command::new("cargo")
+        .args(["test", "--test", "integration_tests", filter, "--", "--nocapture"])
+        .current_dir(env!("CARGO_MANIFEST_DIR"))
+        .status();
+
+    match status {
+        Ok(status) if status.success() => {
+            println!("✓ {label} passed");
+            0
+        }
+        Ok(status) => {
+            let code = status.code().unwrap_or(1);
+            eprintln!("✗ {label} failed (exit code {code})");
+            code
+        }
+        Err(error) => {
+            eprintln!("✗ could not start D-153 tests: {error}");
+            1
         }
     }
 }

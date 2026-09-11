@@ -10,7 +10,7 @@ use std::path::PathBuf;
 #[derive(Parser, Debug)]
 #[command(
     name = "v8-core",
-    about = "V8 compute plane CLI (V8.6 recalibrated)",
+    about = "V8 compute plane CLI - trading intelligence & backtesting engine (V8.6)",
     version = "0.2.0",
     arg_required_else_help = true
 )]
@@ -21,46 +21,60 @@ pub struct Cli {
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
-    /// Generate the historical H4 conflict report from explicit real tape input
+    // ─── Benchmark & Testing ───────────────────────────────────
+    /// Run D-153 benchmark suite (default: full readiness report)
+    #[command(name = "bench")]
+    Bench {
+        /// Quick mode: minimal parity check (skip full benchmark)
+        #[arg(long)]
+        quick: bool,
+        /// Path to benchmark case JSON (run single case)
+        case: Option<PathBuf>,
+    },
+
+    // ─── Compute Pipeline ───────────────────────────────────────
+    /// Generate H4 conflict report from tape (S0)
     H4Decomposition {
         #[arg(long)]
         tape: PathBuf,
         #[arg(long)]
         out: PathBuf,
     },
-    /// Ingest a tape into a Dataset and write the dataset artifact (S0)
+    /// Ingest tape into Dataset (S0)
     Ingest(RequestArg),
-    /// Compute FeatureStore/StateView values (stage S1)
+    /// Compute FeatureStore/StateView values (S1)
     Features(RequestArg),
-    /// Evaluate compiled still_valid IR bytes (stage S2)
+    /// Evaluate compiled still_valid IR bytes (S2)
     #[command(name = "predicate-check")]
     PredicateCheck {
         ir_path: PathBuf,
         input_path: PathBuf,
     },
-    /// Run the ReplayKernel over a candidate batch (stage S2)
+    /// Run ReplayKernel over candidate batch (S2)
     Replay(RequestArg),
-    /// Benchmark CPU/Auto/GPU replay selection on a request
-    Bench(RequestArg),
-    /// Run the optional Vulkan f64 compute probe
+    /// Run Vulkan f64 compute probe
     #[command(name = "gpu-probe")]
     GpuProbe,
-    /// Compare the GPU replay against the scalar CPU golden case
+    /// Compare GPU replay vs scalar CPU golden case
     #[command(name = "gpu-parity")]
     GpuParity,
-    /// Stream the Outcome Cube to reduced tables (stage S3)
+    /// Stream Outcome Cube to reduced tables (S3)
     Cube(RequestArg),
-    /// Batch per-bar ExpertPlane draft check (stage S4)
+
+    // ─── Expert Evaluation ──────────────────────────────────────
+    /// Batch per-bar ExpertPlane draft check (S4)
     #[command(name = "evaluate-check")]
     EvaluateCheck(RequestArg),
-    /// Print the 28-expert dispatch table with ported flags (S4)
+    /// Print 28-expert dispatch table
     Registry,
-    /// Full per-bar ExpertPlane -> candidates -> reduce loop (S4)
+    /// Full ExpertPlane → candidates → reduce loop (S4)
     Evaluate {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
     },
-    /// Run the frozen v8_slice_001 Phase-4 admission/evaluation boundary
+
+    // ─── Experiments & Analysis ─────────────────────────────────
+    /// Run frozen v8_slice_001 Phase-4 admission boundary
     Experiment {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
@@ -70,7 +84,7 @@ pub enum Commands {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
     },
-    /// S6: regret phases 1-3 (opportunity/systematicity/recover)
+    /// S6: regret phases 1-3
     Analysis {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
@@ -81,7 +95,7 @@ pub enum Commands {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
     },
-    /// S5/S7: LEDGER_FORMAT_SPEC §8 cheap tests
+    /// S5/S7: LEDGER_FORMAT_SPEC cheap tests
     #[command(name = "ledger-check")]
     LedgerCheck {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
@@ -97,15 +111,17 @@ pub enum Commands {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
     },
-    /// O3: Opportunity Universe representational coverage receipt
+
+    // ─── Audits & Verification ──────────────────────────────────
+    /// Opportunity Universe coverage receipt
     #[command(name = "oracle-coverage")]
     OracleCoverage {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
     },
-    /// V8.3 prospective shadow provenance and artifact gate
+    /// Shadow provenance and artifact gate
     Shadow(RequestArg),
-    /// Bind a declared diagnostic bundle to one shadow manifest
+    /// Bind diagnostic bundle to shadow manifest
     #[command(name = "artifact-index")]
     ArtifactIndex(RequestArg),
     /// Exit ablation experiment
@@ -114,31 +130,7 @@ pub enum Commands {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
     },
-    /// Finite-capital Binance USD-M portfolio simulator
-    #[command(name = "usdm-sim")]
-    UsdmSim {
-        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
-        args: Vec<String>,
-    },
-    /// Multi-episode historical archetype audit (A01-A12, D-125)
-    #[command(name = "allegory-audit")]
-    AllegoryAudit {
-        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
-        args: Vec<String>,
-    },
-    /// V8.3 Opportunity Capture Funnel empirical audit (Phase II)
-    #[command(name = "funnel-audit")]
-    FunnelAudit {
-        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
-        args: Vec<String>,
-    },
-    /// D-136 Epistemic Economic Observability qualification runner
-    #[command(name = "eeo-qualify")]
-    EeoQualify {
-        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
-        args: Vec<String>,
-    },
-    /// Unified high-throughput in-process audit engine (Issues #306-#309)
+    /// Full high-throughput in-process audit engine
     #[command(name = "full-audit")]
     FullAudit {
         #[arg(long, short = 't')]
@@ -151,12 +143,37 @@ pub enum Commands {
         no_determinism_check: bool,
         #[arg(long)]
         no_html: bool,
-        /// Legacy positional tape/output paths, filling options not supplied by flags.
         #[arg(num_args = 0..=2)]
         paths: Vec<PathBuf>,
     },
-    /// D-153 V8.5 Benchmark Fabric evaluation runner and audit
+    /// Benchmark Fabric evaluation runner
     Benchmark {
+        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+        args: Vec<String>,
+    },
+
+    // ─── Simulations ────────────────────────────────────────────
+    /// Finite-capital Binance USD-M portfolio simulator
+    #[command(name = "usdm-sim")]
+    UsdmSim {
+        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+        args: Vec<String>,
+    },
+    /// Historical archetype audit (A01-A12, D-125)
+    #[command(name = "allegory-audit")]
+    AllegoryAudit {
+        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+        args: Vec<String>,
+    },
+    /// Opportunity Capture Funnel empirical audit
+    #[command(name = "funnel-audit")]
+    FunnelAudit {
+        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+        args: Vec<String>,
+    },
+    /// Epistemic Economic Observability qualification
+    #[command(name = "eeo-qualify")]
+    EeoQualify {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
     },

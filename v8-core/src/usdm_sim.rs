@@ -213,7 +213,15 @@ pub fn run_simulation_with_stores(
 
         // 2. Evaluate active open positions against bar price action (Dynamic Chandelier Trailing)
         let mut surviving_positions = Vec::new();
-        for pos in portfolio.positions.drain(..) {
+        for mut pos in portfolio.positions.drain(..) {
+            // Update MFE/MAE in R units
+            let r_value = pos.nominal_risk_usdt();
+            if r_value > 0.0 {
+                let unrealized_r = pos.unrealized_pnl(current_close) / r_value;
+                pos.mfe_r = pos.mfe_r.max(unrealized_r);
+                pos.mae_r = pos.mae_r.min(unrealized_r);
+            }
+
             let bracket = contract.bracket_for_notional(pos.quantity * pos.entry_price);
             let liq_price = LiquidationModel::calculate_isolated_liquidation_price(
                 &pos.direction,
@@ -248,14 +256,18 @@ pub fn run_simulation_with_stores(
                 let flow = EconomicCashflow::new(
                     as_of,
                     pos.candidate_id.clone(),
+                    pos.expert_id.clone(),
                     pos.symbol.clone(),
                     pos.direction.clone(),
                     pos.quantity,
                     pos.entry_price,
                     exit_price,
+                    "LIQUIDATED".to_string(),
                     gross_pnl,
                     total_fee,
                     pos.cum_funding_usdt,
+                    0.0,
+                    0.0,
                     0.0,
                     0.0,
                     balance_before,
@@ -327,14 +339,18 @@ pub fn run_simulation_with_stores(
                 let flow = EconomicCashflow::new(
                     as_of,
                     pos.candidate_id.clone(),
+                    pos.expert_id.clone(),
                     pos.symbol.clone(),
                     pos.direction.clone(),
                     pos.quantity,
                     pos.entry_price,
                     exit_price,
+                    "TRAILING_STOP".to_string(),
                     gross_pnl,
                     total_fee,
                     pos.cum_funding_usdt,
+                    0.0,
+                    0.0,
                     0.0,
                     0.0,
                     balance_before,
@@ -367,14 +383,18 @@ pub fn run_simulation_with_stores(
                 let flow = EconomicCashflow::new(
                     as_of,
                     pos.candidate_id.clone(),
+                    pos.expert_id.clone(),
                     pos.symbol.clone(),
                     pos.direction.clone(),
                     pos.quantity,
                     pos.entry_price,
                     exit_price,
+                    "MAX_EXPIRY".to_string(),
                     gross_pnl,
                     total_fee,
                     pos.cum_funding_usdt,
+                    0.0,
+                    0.0,
                     0.0,
                     0.0,
                     balance_before,
@@ -476,22 +496,25 @@ pub fn run_simulation_with_stores(
                                     );
                                     trailing_states.insert(pos_id.clone(), tstate);
 
-                                    portfolio.positions.push(OpenPosition {
-                                        position_id: pos_id,
-                                        candidate_id: campaign.opportunity_id.clone(),
-                                        symbol: store.symbol.clone(),
-                                        direction: dir_str.to_string(),
-                                        entry_price,
-                                        quantity: qty,
-                                        initial_margin_usdt: initial_margin,
-                                        isolated_margin_usdt: initial_margin,
-                                        leverage: params.leverage,
-                                        entry_time: i as i64,
-                                        stop_loss_price: stop_price,
-                                        take_profit_price: None,
-                                        liquidation_price: liq,
-                                        cum_funding_usdt: 0.0,
-                                    });
+                                portfolio.positions.push(OpenPosition {
+                                    position_id: pos_id,
+                                    candidate_id: campaign.opportunity_id.clone(),
+                                    expert_id: campaign.exposure.exposure_id.clone(),
+                                    symbol: store.symbol.clone(),
+                                    direction: dir_str.to_string(),
+                                    entry_price,
+                                    quantity: qty,
+                                    initial_margin_usdt: initial_margin,
+                                    isolated_margin_usdt: initial_margin,
+                                    leverage: params.leverage,
+                                    entry_time: i as i64,
+                                    stop_loss_price: stop_price,
+                                    take_profit_price: None,
+                                     liquidation_price: liq,
+                                     cum_funding_usdt: 0.0,
+                                     mfe_r: 0.0,
+                                     mae_r: 0.0,
+                                 });
                                     break;
                                 }
                             } else {
@@ -818,6 +841,7 @@ pub fn run_simulation_with_stores(
                                     portfolio.positions.push(OpenPosition {
                                         position_id: pos_id,
                                         candidate_id: cluster.campaign_id.clone(),
+                                        expert_id: cluster.participating_sensors.first().cloned().unwrap_or_default(),
                                         symbol: store.symbol.clone(),
                                         direction: dir_str.to_string(),
                                         entry_price,
@@ -828,9 +852,11 @@ pub fn run_simulation_with_stores(
                                         entry_time: i as i64,
                                         stop_loss_price: cluster.structural_invalidation_price,
                                         take_profit_price: None, // Chandelier trailing exit
-                                        liquidation_price: liq,
-                                        cum_funding_usdt: 0.0,
-                                    });
+                                         liquidation_price: liq,
+                                         cum_funding_usdt: 0.0,
+                                         mfe_r: 0.0,
+                                         mae_r: 0.0,
+                                     });
                                     break; // Admitted 1 campaign for this bar
                                 }
                             } else {
@@ -860,22 +886,26 @@ pub fn run_simulation_with_stores(
         account.apply_realized_pnl(gross_pnl);
         account.deduct_fee(taker_fee);
 
-        let flow = EconomicCashflow::new(
-            last_as_of,
-            pos.candidate_id,
-            pos.symbol,
-            pos.direction,
-            pos.quantity,
-            pos.entry_price,
-            last_close,
-            gross_pnl,
-            entry_fee + taker_fee,
-            pos.cum_funding_usdt,
-            0.0,
-            0.0,
-            account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee - pos.cum_funding_usdt,
-            account.margin_utilization_pct(),
-        )?;
+                let flow = EconomicCashflow::new(
+                    last_as_of,
+                    pos.candidate_id.clone(),
+                    pos.expert_id.clone(),
+                    pos.symbol.clone(),
+                    pos.direction.clone(),
+                    pos.quantity,
+                    pos.entry_price,
+                    last_close,
+                    "TERMINAL_CLOSE".to_string(),
+                    gross_pnl,
+                    entry_fee + taker_fee,
+                    pos.cum_funding_usdt,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    account.wallet_balance_usdt - (gross_pnl - taker_fee) + entry_fee - pos.cum_funding_usdt,
+                    account.margin_utilization_pct(),
+                )?;
         ledger.record(flow)?;
     }
 
