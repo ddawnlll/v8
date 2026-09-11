@@ -136,6 +136,10 @@ class CampaignProtection:
         if (self.target_price - self.stop_price) * (1 if self.direction == "LONG" else -1) <= 0:
             raise ValueError("inverted protection")
 
+#: Maximum holding horizon a protection may open, in bars, per family. A
+#: walk-forward plan derives its purge/embargo from this instead of a literal.
+PROTECTION_TTL_BARS: dict[str, int] = {"squeeze": 336, "_default": 8}
+
 
 def protection_at(
     frame: CausalFrame,
@@ -434,7 +438,7 @@ def protection_at(
         raise ValueError("protection requires regular bars")
     expires = min(
         opportunity.expires_ns,
-        frame.candles[-1].end_ns + (336 if family == "squeeze" else 8) * duration,
+        frame.candles[-1].end_ns + PROTECTION_TTL_BARS.get(family, PROTECTION_TTL_BARS["_default"]) * duration,
     )
     if expires <= frame.decision_ns:
         return None

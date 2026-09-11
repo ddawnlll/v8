@@ -1,0 +1,115 @@
+{
+  "aggregation": "INDEPENDENT_FOLD_RESET",
+  "bar_ns": 3600000000000,
+  "baseline": "range-breakout-48-v1",
+  "calendar_digest": "sha256:0ecf3d035107cf985f7e58df5d8e9678133928bba718c33f6f7fc05464062138",
+  "code_and_lock_hash": "nx03-plan-tool",
+  "dataset_id": "sha256:a20414c6a1366fbca763d8835a04f368676816d511238cc7ed86647df77c5b86",
+  "final_eligibility_reason": "NO_PROTECTED_FINAL: the final window overlaps TAIL_BURNED (burned or usage-unknown); the final is not opened; measured tail tape_role=BURNED_DIAGNOSTIC",
+  "final_eligible": false,
+  "folds": [
+    {
+      "fold_id": "FOLD_1",
+      "purge_bars": 336,
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_ns": 1727740799999999999,
+      "scored_end_utc": "2024-09-30T23:59:59.999000Z",
+      "scored_start_ns": 1719792000000000000,
+      "scored_start_utc": "2024-07-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN",
+      "train_end_ns": 1718582400000000000,
+      "train_end_utc": "2024-06-17T00:00:00Z",
+      "train_start_ns": 1656633600000000000,
+      "train_start_utc": "2022-07-01T00:00:00Z",
+      "warmup_end_ns": 1719791999999999999,
+      "warmup_start_ns": 1719615600000000000,
+      "warmup_start_utc": "2024-06-28T23:00:00Z"
+    },
+    {
+      "fold_id": "FOLD_2",
+      "purge_bars": 336,
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_ns": 1735689599999999999,
+      "scored_end_utc": "2024-12-31T23:59:59.999000Z",
+      "scored_start_ns": 1727740800000000000,
+      "scored_start_utc": "2024-10-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN",
+      "train_end_ns": 1726531200000000000,
+      "train_end_utc": "2024-09-17T00:00:00Z",
+      "train_start_ns": 1656633600000000000,
+      "train_start_utc": "2022-07-01T00:00:00Z",
+      "warmup_end_ns": 1727740799999999999,
+      "warmup_start_ns": 1727564400000000000,
+      "warmup_start_utc": "2024-09-28T23:00:00Z"
+    },
+    {
+      "fold_id": "FOLD_3",
+      "purge_bars": 336,
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_ns": 1743465599999999999,
+      "scored_end_utc": "2025-03-31T23:59:59.999000Z",
+      "scored_start_ns": 1735689600000000000,
+      "scored_start_utc": "2025-01-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN",
+      "train_end_ns": 1734480000000000000,
+      "train_end_utc": "2024-12-18T00:00:00Z",
+      "train_start_ns": 1656633600000000000,
+      "train_start_utc": "2022-07-01T00:00:00Z",
+      "warmup_end_ns": 1735689599999999999,
+      "warmup_start_ns": 1735513200000000000,
+      "warmup_start_utc": "2024-12-29T23:00:00Z"
+    },
+    {
+      "fold_id": "FOLD_4",
+      "purge_bars": 336,
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_ns": 1751327999999999999,
+      "scored_end_utc": "2025-06-30T23:59:59.999000Z",
+      "scored_start_ns": 1743465600000000000,
+      "scored_start_utc": "2025-04-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN",
+      "train_end_ns": 1742256000000000000,
+      "train_end_utc": "2025-03-18T00:00:00Z",
+      "train_start_ns": 1656633600000000000,
+      "train_start_utc": "2022-07-01T00:00:00Z",
+      "warmup_end_ns": 1743465599999999999,
+      "warmup_start_ns": 1743289200000000000,
+      "warmup_start_utc": "2025-03-29T23:00:00Z"
+    }
+  ],
+  "history": {
+    "horizon_bars": {
+      "mean-reversion-v2": 12,
+      "range-breakout-48-v1": 336,
+      "trend-continuation-v2": 24
+    },
+    "policies": [
+      "range-breakout-48-v1",
+      "trend-continuation-v2",
+      "mean-reversion-v2"
+    ],
+    "protection_ttl_bars": 336,
+    "purge_bars": 336,
+    "rationale": "warmup = max(policy required bars, one previous UTC session); purge = max(policy outcome horizon, protection TTL)",
+    "required_bars": {
+      "mean-reversion-v2": 21,
+      "range-breakout-48-v1": 49,
+      "trend-continuation-v2": 25
+    },
+    "session_bars": 24,
+    "warmup_bars": 49
+  },
+  "initial_balance_usdt": "10000",
+  "instrument": "BTCUSDT-PERP.BINANCE",
+  "maker_fee": "0.0002",
+  "plan_digest": "sha256:9cd69f989a21bb107c8e65e1bcd9f102a54680be817af2c88d3e29eadba60921",
+  "plan_id": "NX03-REAL-01",
+  "policies": [
+    "range-breakout-48-v1",
+    "trend-continuation-v2",
+    "mean-reversion-v2"
+  ],
+  "taker_fee": "0.0005",
+  "train_window": "EXPANDING_FROM_DATASET_START",
+  "version": "v87-historical-plan-v1"
+}

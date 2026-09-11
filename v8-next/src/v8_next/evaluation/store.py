@@ -254,6 +254,12 @@ class ResearchStore:
             CREATE TABLE IF NOT EXISTS forward_bindings (
                 plan_id TEXT PRIMARY KEY REFERENCES forward_plans(plan_id),
                 dataset_hash TEXT NOT NULL, bound_ns INTEGER NOT NULL);
+            -- NX03: historical walk-forward plans are a different instrument from
+            -- the prospective freeze above and get their own table. Nothing here
+            -- can be read or written by the forward path (and vice versa).
+            CREATE TABLE IF NOT EXISTS historical_plans (
+                plan_id TEXT PRIMARY KEY, payload TEXT NOT NULL,
+                digest TEXT NOT NULL, registered_ns INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS dataset_windows (
                 dataset_hash TEXT NOT NULL, instrument_id TEXT NOT NULL,
                 start_ns INTEGER NOT NULL, end_ns INTEGER NOT NULL,
@@ -293,6 +299,46 @@ class ResearchStore:
             CREATE INDEX IF NOT EXISTS idx_reconciliation_receipts_time ON reconciliation_receipts(reconciled_ns);
             CREATE INDEX IF NOT EXISTS idx_replay_reconciliations_run ON replay_reconciliations(run_id);
         """)
+
+    def record_historical_plan(
+        self,
+        *,
+        plan_id: str,
+        payload: str,
+        digest: str,
+        registered_ns: int,
+    ) -> tuple[str, str]:
+        """Insert a historical walk-forward plan once; identical retries are idempotent.
+
+        A different payload for an already-registered ``plan_id`` is refused: a
+        historical plan is immutable evidence of what was planned, not a mutable
+        configuration row.
+        """
+        if not plan_id.strip() or not payload.strip() or not digest.strip():
+            raise ValueError("historical plan requires plan_id, payload and digest")
+        self.db.execute("BEGIN IMMEDIATE")
+        try:
+            existing = self.db.execute(
+                "SELECT payload,digest FROM historical_plans WHERE plan_id=?", (plan_id,)
+            ).fetchone()
+            if existing is not None and existing != (payload, digest):
+                raise ValueError("registered historical plan cannot be rewritten")
+            if existing is None:
+                self.db.execute(
+                    "INSERT INTO historical_plans VALUES (?,?,?,?)",
+                    (plan_id, payload, digest, registered_ns),
+                )
+            self.db.execute("COMMIT")
+        except BaseException:
+            self.db.execute("ROLLBACK")
+            raise
+        return plan_id, digest
+
+    def get_historical_plan(self, plan_id: str) -> tuple[str, str] | None:
+        row = self.db.execute(
+            "SELECT payload,digest FROM historical_plans WHERE plan_id=?", (plan_id,)
+        ).fetchone()
+        return None if row is None else (str(row[0]), str(row[1]))
 
     def close(self) -> None:
         self.db.close()

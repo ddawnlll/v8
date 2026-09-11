@@ -20,6 +20,30 @@ POLICIES = frozenset(
     }
 )
 
+#: Bars of history each policy actually requires on the frame it is handed.
+#: Measured from the code paths below / ``decisions.opportunity_at``; a walk-forward
+#: plan derives its warmup from these instead of from a copied literal (NX03.R3).
+POLICY_REQUIRED_BARS: dict[str, int] = {
+    "range-breakout-48-v1": 49,  # 48-bar range plus the current bar
+    "volatility-extreme-v2": 21,
+    "trend-continuation-v2": 25,
+    "mean-reversion-v2": 21,
+    "compression-expansion-v2": 62,  # rolling-14 over a 49-bar tail
+}
+
+#: Opportunity horizon in bars: how long an episode stays open, i.e. the outcome
+#: interval a walk-forward training window must purge before a scored window.
+POLICY_HORIZON_BARS: dict[str, int] = {
+    "range-breakout-48-v1": 336,
+    "volatility-extreme-v2": 48,
+    "trend-continuation-v2": 24,
+    "mean-reversion-v2": 12,
+    "compression-expansion-v2": 24,
+}
+
+#: Horizon of the explicit neutral observation inside volatility-extreme-v2.
+NEUTRAL_HORIZON_BARS = 4
+
 
 def grammar_opportunity(frame: CausalFrame, policy: str) -> Opportunity | None:
     if policy not in POLICIES:
@@ -30,29 +54,24 @@ def grammar_opportunity(frame: CausalFrame, policy: str) -> Opportunity | None:
     exposure = linear_exposure_id(frame.instrument_id)
     if exposure is None or not frame.continuous:
         return None
-    warmup = (
-        62
-        if policy == "compression-expansion-v2"
-        else (25 if policy == "trend-continuation-v2" else 21)
-    )
+    warmup = POLICY_REQUIRED_BARS[policy]
     if len(bars) < warmup:
         return None
     closes = close_series(frame)
     close, previous = bars[-1].close, bars[-2].close
     direction = None
     status = "CANONICAL"
-    horizon = 24
+    horizon = POLICY_HORIZON_BARS[policy]
     if policy == "volatility-extreme-v2":
         mean, std = numeric(closes.tail(20).mean()), numeric(closes.tail(20).std(ddof=0))
         if std <= 0:
             return None
         z = (float(close) - mean) / std
-        horizon = 48
         if abs(z) >= 1.8:
             direction = "LONG" if z > 0 else "SHORT"
             status = "AMBIGUOUS" if abs(z) - 1.8 < 0.3 else "CANONICAL"
         elif abs(z) < 0.3:
-            direction, status, horizon = "NEUTRAL", "UNKNOWN", 4
+            direction, status, horizon = "NEUTRAL", "UNKNOWN", NEUTRAL_HORIZON_BARS
     elif policy == "trend-continuation-v2":
         fast, slow = numeric(closes.tail(8).mean()), numeric(closes.tail(24).mean())
         if fast > slow and close > previous and float(close) > fast:

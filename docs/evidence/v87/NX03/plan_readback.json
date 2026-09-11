@@ -1,0 +1,43 @@
+{
+  "digests_match": true,
+  "forward_bindings_rows_untouched": 0,
+  "forward_plans_rows_untouched": 0,
+  "plan_id": "NX03-REAL-01",
+  "plan_payload_matches": true,
+  "readback_digest": "sha256:9cd69f989a21bb107c8e65e1bcd9f102a54680be817af2c88d3e29eadba60921",
+  "readback_verify": [
+    true,
+    "OK"
+  ],
+  "registered_digest": "sha256:9cd69f989a21bb107c8e65e1bcd9f102a54680be817af2c88d3e29eadba60921",
+  "windows": [
+    {
+      "fold_id": "FOLD_1",
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_utc": "2024-09-30T23:59:59.999000Z",
+      "scored_start_utc": "2024-07-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN"
+    },
+    {
+      "fold_id": "FOLD_2",
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_utc": "2024-12-31T23:59:59.999000Z",
+      "scored_start_utc": "2024-10-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN"
+    },
+    {
+      "fold_id": "FOLD_3",
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_utc": "2025-03-31T23:59:59.999000Z",
+      "scored_start_utc": "2025-01-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN"
+    },
+    {
+      "fold_id": "FOLD_4",
+      "role": "DIAGNOSTIC_FOLD",
+      "scored_end_utc": "2025-06-30T23:59:59.999000Z",
+      "scored_start_utc": "2025-04-01T00:00:00Z",
+      "tape_role": "USAGE_UNKNOWN"
+    }
+  ]
+}
