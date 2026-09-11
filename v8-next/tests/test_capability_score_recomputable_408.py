@@ -126,31 +126,38 @@ def test_same_bound_evidence_publishes_the_same_number(tmp_path: Path) -> None:
     score, evidence = _measurement()
     assert score is not None
 
-    first = BenchmarkReceipt.create(
-        case_id="BC-408-MECH",
-        policy_id="pol_408",
-        capability_score=score,
-        gates=_gates(),
-        computed_at_timestamp_ns=1_700_000_000_000_000_000,
-        artifact_bindings=(_binding(tmp_path),),
-        input_binding="input-binding-408",
-        score_evidence=evidence,
-    )
-    # a caller that declares no number at all still publishes the measured one
-    second = BenchmarkReceipt.create(
-        case_id="BC-408-MECH",
-        policy_id="pol_408",
-        capability_score=None,
-        gates=_gates(),
-        computed_at_timestamp_ns=1_700_000_000_000_000_000,
-        artifact_bindings=(_binding(tmp_path),),
-        input_binding="input-binding-408",
-        score_evidence=evidence,
-    )
+    def build(capability_score: float | None) -> BenchmarkReceipt:
+        return BenchmarkReceipt.create(
+            case_id="BC-408-MECH",
+            policy_id="pol_408",
+            capability_score=capability_score,
+            gates=_gates(),
+            computed_at_timestamp_ns=1_700_000_000_000_000_000,
+            artifact_bindings=(_binding(tmp_path),),
+            input_binding="input-binding-408",
+            score_evidence=evidence,
+        )
+
+    first = build(score)
+    second = build(score)
 
     assert first.capability_score == second.capability_score == score
     assert first.receipt_digest == second.receipt_digest
     assert first.verify() == (True, "OK")
+
+    # and the number is the one the bound evidence produces, recomputed here from
+    # the receipt's own record rather than read back from the receipt
+    from v8_next.evaluation.scoring import recompute_capability_score
+
+    assert first.score_evidence is not None
+    assert recompute_capability_score(first.score_evidence) == score
+
+    # a receipt may also publish no number at all (the pre-#444-NX08 case of a
+    # missing measurement, and a window class that may not mint a score): evidence
+    # without a claim is not a claim, and it is not silently turned into one
+    unreported = build(None)
+    assert unreported.capability_score is None
+    assert unreported.score_evidence is not None
 
 
 def test_create_refuses_a_number_its_own_evidence_does_not_support(tmp_path: Path) -> None:

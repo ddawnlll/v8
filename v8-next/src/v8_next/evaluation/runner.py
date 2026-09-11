@@ -33,6 +33,7 @@ from v8_next.evaluation.benchmark_receipt import (
     GateState,
     GateVector,
     ScoreEvidence,
+    WindowEvidence,
 )
 from v8_next.evaluation.certificate import PolicyCertificate
 from v8_next.evaluation.claims import StatutoryClaimRecord
@@ -371,6 +372,7 @@ class BenchmarkRunner:
         measure_determinism: bool = False,
         run_identity: Mapping[str, str] | None = None,
         scored_window: WindowBinding | None = None,
+        window_evidence: WindowEvidence | None = None,
     ) -> BenchmarkRunResult:
         """Execute the complete benchmark run.
 
@@ -386,6 +388,13 @@ class BenchmarkRunner:
         scored_window: the window the caller declares it handed in (#406/#421). It is
         recorded, and it is the boundary a gate may compare a protected or prospective
         window against; no gate may re-label this same window as out-of-sample.
+
+        window_evidence: the evidence class of the window that produced this run
+        (#444). The producing path declares it (``WindowEvidence.from_window`` off the
+        same ``WindowSpec`` it built), it is bound into the receipt digest, and a class
+        that proves no economic evidence mints no capability score. ``None`` means the
+        caller declared no window class at all; the receipt then carries none either,
+        instead of the runner guessing one.
         """
         # 0. Capital policy validation (Task 4): safe unauthorized default, no live orders.
         if isinstance(capital_policy, CapitalPolicy):
@@ -543,6 +552,17 @@ class BenchmarkRunner:
             abstain_rate=abstain_rate,
             execution=execution_evidence,
         )
+
+        # #444 sibling (D153 path): the declared window class decides whether this
+        # run may publish a numeric capability score at all. A window that proves no
+        # economic evidence (a bar-count ``smoke`` run) is liveness/mechanics
+        # evidence: the run still lands in the ledger and still names its class, but
+        # it mints no score — and no per-domain decomposition of one, which would be
+        # the same claim in smaller pieces.
+        domain_scores: dict[str, Any] | None = breakdown["domains"] or None
+        if window_evidence is not None and not window_evidence.admits_capability_score():
+            capability_score = None
+            domain_scores = None
 
         gate_metrics: dict[str, Any] = {}
         claim_record: StatutoryClaimRecord | None = None
@@ -718,6 +738,9 @@ class BenchmarkRunner:
             artifact_bindings=bindings,
             input_binding=_input_binding,
             score_evidence=score_evidence,
+            # #444: the declared window class travels with the receipt, so this
+            # score can never be read apart from the window that minted it.
+            window_evidence=window_evidence,
         )
 
         # 5. Append to append-only BenchmarkLedger
@@ -762,6 +785,8 @@ class BenchmarkRunner:
                         artifact_bindings=bindings,
                         input_binding=_input_binding,
                         score_evidence=score_evidence,
+                        # the post-G9 receipt declares the same window class
+                        window_evidence=window_evidence,
                     )
                     # The post-G9 receipt is a NEW record: append it so the
                     # returned receipt is bound in the ledger (never orphaned).
@@ -798,7 +823,7 @@ class BenchmarkRunner:
             native_ledger_binding=artifact_binding,
             claim_record=claim_record,
             gate_metrics=gate_metrics,
-            domain_scores=breakdown["domains"] or None,
+            domain_scores=domain_scores,
             accounting=accounting.as_dict(),
             reconciliation=dict(reconciliation),
         )

@@ -25,6 +25,7 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any, Sequence
 
+from v8_next.adapters.basket_backtest import BASIS_ENGINE_SETTLED
 from v8_next.adapters.execution_models import DEFAULT_PROFILE as DEFAULT_EXECUTION_PROFILE
 from v8_next.adapters.execution_models import PROFILES as EXECUTION_PROFILES
 from v8_next.adapters.portfolio_backtest import (
@@ -417,18 +418,52 @@ def main(argv: list[str] | None = None) -> int:
         for leg, spec in sorted(family_funding.items())
     )
     print(f"[+] benchmark funding feed: {feed_summary}", flush=True)
+    # D-165: the curve the engine measured a leg's funding for is not always the
+    # curve that leg is published as. Where the measuring basket sizes its legs
+    # under a different convention, that basket's own curve is published beside
+    # the analytic index -- the mirror of the engine basket over this run's own
+    # legs -- and the index row names the basket that carries the number instead
+    # of borrowing it. The mirror is the same builder `compute_benchmark_family_engine`
+    # uses, so the two describe one basket, not two rules.
+    instrument_views = {
+        inst: eb.bars_from_candles(tape.candles[inst]) for inst in tape.instruments
+    }
+    basket_curves = eb.family_basket_mirror_curves(
+        instrument_views, family_funding, capital=args.capital, taker_fee=args.taker_fee,
+    )
     primary_eq: list[float] = list(fams[args.primary]["equity"])
     curves: dict[str, dict[str, Any]] = {
         "portfolio_P": {**p_ser, "n_trades": p_ser["n_trades"]},
         "portfolio_PE": {**pe_ser, "n_trades": pe_ser["n_trades"]},
     }
+    #: Published curve id -> the `funding_basis` its cell is read with. A leg whose
+    #: measuring basket executes the curve's own convention keeps the measured
+    #: state; a leg whose basket differs publishes the named state and the basket.
+    funding_basis_by_curve: dict[str, str] = {}
     for bid, fam in fams.items():
+        differs = eb.funding_basket_convention_differs(bid)
         curves[bid] = {
             "equity": fam["equity"], "exposure": fam["exposure"],
             "turnover": float(fam["turnover"]), "commission": float(fam["commission"]),
-            "funding": family_funding.get(bid, {}).get("funding"),
+            "funding": None if differs else family_funding.get(bid, {}).get("funding"),
             "cost_basis": "ANALYTIC_MODEL", "n_trades": int(fam["n_trades"]),
         }
+        if differs is not None:
+            funding_basis_by_curve[bid] = eb.funding_basis_for_convention_differs(differs)
+        else:
+            basis = family_funding.get(bid, {}).get("funding_basis")
+            if basis is not None:
+                funding_basis_by_curve[bid] = str(basis)
+    for basket_id, curve in basket_curves.items():
+        # The measuring basket's own curve: the engine's measured number, on the
+        # curve that number was measured for.
+        curves[basket_id] = {
+            "equity": curve["equity"], "exposure": curve["exposure"],
+            "turnover": float(curve["turnover"]), "commission": float(curve["commission"]),
+            "funding": curve["funding"], "cost_basis": str(curve["cost_basis"]),
+            "n_trades": int(curve["n_trades"]),
+        }
+        funding_basis_by_curve[basket_id] = str(curve["funding_basis"])
 
     def raw_count(key: str) -> int | None:
         raw = curves[key].get("raw_equity")
@@ -448,14 +483,15 @@ def main(argv: list[str] | None = None) -> int:
     for name, ser in (("portfolio_P", p_ser), ("portfolio_PE", pe_ser)):
         m = metrics[name]
         metrics[name] = m.model_copy(update={"funding_cost": float(ser["funding"] or 0.0)})
-    # Every benchmark leg names its funding state, so a row without a number says
-    # which of the declared reasons applies instead of leaving the reader to
-    # assume "nobody measured it".
-    for name, spec in family_funding.items():
+    # Every published curve names its funding state, so a row without a number
+    # says which of the declared reasons applies -- and, where the measuring
+    # basket sizes differently, which curve carries its number -- instead of
+    # leaving the reader to assume "nobody measured it".
+    for name, basis in funding_basis_by_curve.items():
         metric = metrics.get(name)
-        if metric is None or spec.get("funding_basis") is None:
+        if metric is None:
             continue
-        metrics[name] = metric.model_copy(update={"funding_basis": spec["funding_basis"]})
+        metrics[name] = metric.model_copy(update={"funding_basis": basis})
 
     fit = min(eb.OOS_FIT_BARS, n - 48)
     oos_metrics: dict[str, eb.MetricSet] = {}
@@ -487,6 +523,20 @@ def main(argv: list[str] | None = None) -> int:
                     float(fam["commission"]),
                     int(fam["n_trades"]),
                 )
+            if pre >= 2:
+                # D-165: the two basket rows are curves too, so their slice row
+                # must be `full - pre` on the same builder, never `full - 0`.
+                pre_basket_curves = eb.family_basket_mirror_curves(
+                    {sym: bars[:pre] for sym, bars in instrument_views.items()},
+                    capital=args.capital,
+                    taker_fee=args.taker_fee,
+                )
+                for basket_id, curve in pre_basket_curves.items():
+                    prefix_flow[basket_id] = (
+                        float(curve["turnover"]),
+                        float(curve["commission"]),
+                        int(curve["n_trades"]),
+                    )
         for name, c in curves.items():
             eq = list(c["equity"])[fit:]
             ex = list(c["exposure"])[fit:]
@@ -580,9 +630,50 @@ def main(argv: list[str] | None = None) -> int:
     }
     controls["positive_caught"] = None
     controls["negative_caught"] = None
+
+    def account_balance(run: dict[str, Any]) -> float:
+        """The engine account's realized balance, in USDT."""
+        return float(str(run["account"]["balance_total"]).split()[0])
+
+    # The two engine portfolio rows fund themselves on their own shared-account
+    # dual run rather than on a benchmark basket, so their audit record carries
+    # that run's counters and both balances instead of a basket id (D-165). The
+    # measurement basis is the engine's own settled funding only when the dual
+    # runs were reconciled; otherwise the curve's cost basis names what failed.
+    engine_funding_records = {
+        "portfolio_P": {
+            "funding_engine_basis": (
+                BASIS_ENGINE_SETTLED
+                if p_ser.get("funding_reconciled")
+                else str(p_ser["cost_basis"])
+            ),
+            "funding_settlements_fed": int(p_fund.get("funding_settlements_fed") or 0),
+            "funding_rows_available": len(tape.funding),
+            "funding_out_of_window": int(p_fund.get("funding_out_of_window") or 0),
+            "funding_unknown_leg": int(p_fund.get("funding_unknown_leg") or 0),
+            "engine_terminal_balance_usdt": account_balance(p_fund),
+            "engine_unfunded_balance_usdt": account_balance(p_nofund),
+        },
+        "portfolio_PE": {
+            "funding_engine_basis": (
+                BASIS_ENGINE_SETTLED
+                if pe_ser.get("funding_reconciled")
+                else str(pe_ser["cost_basis"])
+            ),
+            "funding_settlements_fed": int(pe_fund.get("funding_settlements_fed") or 0),
+            "funding_rows_available": len(tape.funding),
+            "funding_out_of_window": int(pe_fund.get("funding_out_of_window") or 0),
+            "funding_unknown_leg": int(pe_fund.get("funding_unknown_leg") or 0),
+            "engine_terminal_balance_usdt": account_balance(pe_fund),
+            "engine_unfunded_balance_usdt": account_balance(pe_nf),
+        },
+    }
     # Funding-feed audit: which engine basket each benchmark leg's number was
     # measured on, the engine's own row counters and both run balances. The cell
-    # in the `funding $` column is this record, not an assertion.
+    # in the `funding $` column is this record, not an assertion. `legs` is the
+    # measurement keyed by the family leg the feed ran; `published_curves` is the
+    # same measurement keyed by the curve each row of the table publishes, with
+    # the published curve that carries the number (D-165).
     controls["benchmark_funding_feed"] = {
         "method": "ENGINE_DUAL_RUN_BALANCE_DIFFERENCE",
         "tape_funding_rows": len(tape.funding),
@@ -592,6 +683,12 @@ def main(argv: list[str] | None = None) -> int:
         # settled), never as the curve's terminal equity.
         "balance_basis": "REALIZED_ACCOUNT_BALANCE_EXCLUDES_OPEN_UNREALIZED_MARK",
         "legs": family_funding,
+        "published_curves": eb.published_funding_records(
+            metrics,
+            family_funding,
+            basket_curves=basket_curves,
+            engine_measurements=engine_funding_records,
+        ),
     }
 
     # Capital eligibility is a verifiable input, never inferred from benchmark
@@ -694,19 +791,29 @@ def main(argv: list[str] | None = None) -> int:
             "Benchmark-leg funding is measured by the engine, not modelled: each leg "
             "the engine executes is run twice (the tape's real funding rows / none) "
             "over this run's legs, and the published cell is the balance difference "
-            "between the two. The measuring basket is the engine basket that carries "
-            "the leg's rule -- a single-instrument buy-and-hold per bh_ leg, "
-            "`equal_weight_quad` and `vol_target_quad` for those two legs (the same "
-            "baskets the engine-executed family publishes under those ids) -- and it "
-            "is recorded per leg, with its kind, its rule and the engine's row "
-            "counters and run balances, in `controls.benchmark_funding_feed`. Where "
-            "the executed basket's sizing convention differs from the analytic "
-            "curve's (fixed-notional rebalancing against a compounding index), the "
-            "number is the engine's for that basket and the curve keeps its own "
-            "ANALYTIC_MODEL cost basis; the cell is read beside the curve, never "
-            "summed into it. Legs the engine has no basket for publish "
-            "NO_ENGINE_RULE (simple_trend) and the never-invested reference "
-            "publishes zero by construction (cash).",
+            "between the two. A `funding $` number is published only on the curve "
+            "the engine measured it for. Where the measuring basket sizes its legs "
+            "under a different convention from the analytic curve beside it -- the "
+            "two quad legs: `equal_weight_quad` holds a fixed `capital/k` notional "
+            "rebalanced every 24 bars against the index's compounding per-bar "
+            "equal-value series, and `vol_target_quad` an inverse-vol fixed "
+            "notional at full capital with a per-leg cap against the vol-scaled "
+            "analytic curve -- the basket's own curve is published in the same "
+            "table under its basket id beside the index, carrying the engine's "
+            "measured number and `engine_vs_rule_terminal_delta_usdt` (the engine's "
+            "funded balance minus that curve's own terminal equity), and the index "
+            "row publishes the named state "
+            "`n/a (BASKET_CONVENTION_DIFFERS, <basket_id>)` instead of another "
+            "curve's number. Every published curve's funding is recorded, with its "
+            "measuring basket, that basket's kind and rule, the engine's row "
+            "counters, both run balances and the published curve that carries the "
+            "number, in `controls.benchmark_funding_feed.published_curves`; the "
+            "basket rows are additional diagnostics of the same window and enter no "
+            "statistics family and no verdict. Legs the engine has no basket for "
+            "publish NO_ENGINE_RULE (simple_trend) and the never-invested reference "
+            "publishes zero by construction (cash). Which convention the "
+            "pre-declared primary benchmark is itself computed under stays open as "
+            "O-034: no published net, excess, statistic or verdict moves here.",
         ],
     )
     # Version bound artifacts per run config: reruns with different inputs must

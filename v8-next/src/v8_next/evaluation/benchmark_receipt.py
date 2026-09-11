@@ -704,13 +704,15 @@ class BenchmarkReceipt(BaseModel):
     ) -> BenchmarkReceipt:
         """Build a receipt whose published number follows from the evidence it binds.
 
-        #408: the score is *derived*, not declared. A caller may hand over the
-        measured number as an assertion to be checked against the evidence, or
-        ``None`` and let the evidence publish it; what it may not do is store a
-        number its own evidence does not produce (``CAPABILITY_SCORE_NOT_RECOMPUTABLE``)
-        or a number with no evidence at all (``CAPABILITY_SCORE_UNBOUND_TO_EVIDENCE``).
-        The defect shape -- two receipts bound to identical evidence publishing
-        different numbers -- is therefore not constructible on this path at all.
+        #408: the score is *derived*, not declared. A caller may declare the measured
+        number (it is then checked against the evidence), or publish no number at all
+        -- ``None`` means "this receipt makes no claim", which is how a window class
+        that may not mint a score is honoured (#444). What a caller may not do is
+        store a number its own evidence does not produce
+        (``CAPABILITY_SCORE_NOT_RECOMPUTABLE``) or a number with no evidence at all
+        (``CAPABILITY_SCORE_UNBOUND_TO_EVIDENCE``). The defect shape -- two receipts
+        bound to identical evidence publishing different numbers -- is therefore not
+        constructible on this path at all.
         """
         if score_evidence is None:
             if capability_score is not None:
@@ -722,15 +724,14 @@ class BenchmarkReceipt(BaseModel):
         else:
             from v8_next.evaluation.scoring import recompute_capability_score
 
-            recomputed = recompute_capability_score(score_evidence)
-            if capability_score is None:
-                capability_score = recomputed
-            elif recomputed is None or recomputed != capability_score:
-                raise ValueError(
-                    f"cannot create receipt: {CAPABILITY_SCORE_NOT_RECOMPUTABLE}: declared "
-                    f"capability_score={capability_score}, recomputed from the supplied "
-                    f"evidence={recomputed}"
-                )
+            if capability_score is not None:
+                recomputed = recompute_capability_score(score_evidence)
+                if recomputed is None or recomputed != capability_score:
+                    raise ValueError(
+                        f"cannot create receipt: {CAPABILITY_SCORE_NOT_RECOMPUTABLE}: declared "
+                        f"capability_score={capability_score}, recomputed from the supplied "
+                        f"evidence={recomputed}"
+                    )
             if coverage_factor is None:
                 coverage_factor = score_evidence.coverage_factor
             elif coverage_factor != score_evidence.coverage_factor:
