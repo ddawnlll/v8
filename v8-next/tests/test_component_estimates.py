@@ -37,6 +37,7 @@ def sample():
 
 
 def test_joint_components_preserve_cost_relation_and_deterministic_uncertainty():
+    pytest.importorskip("arch", reason="arch not installed (research extra)")
     a = estimate_components(sample(), decision_ns=30, block_size=2, reps=99, seed=7)
     assert a == estimate_components(sample(), decision_ns=30, block_size=2, reps=99, seed=7)
     estimates = a["estimates"]
@@ -81,6 +82,7 @@ def test_component_estimates_do_not_pool_unlike_or_unknown_cohorts(change):
 
 
 def test_realized_r_uses_filled_risk_and_keeps_incomplete_cohort_absent():
+    pytest.importorskip("arch", reason="arch not installed (research extra)")
     data = sample()
     for row in data["rows"]:
         row.update(initial_filled_stop_risk="0.5", net_r=str(2 * int(row["native_net_pnl"])))
@@ -113,6 +115,7 @@ def test_different_or_unavailable_economic_policies_are_not_pooled(identity):
 
 
 def test_training_window_rejects_late_labels_and_outside_selections_without_slicing():
+    pytest.importorskip("arch", reason="arch not installed (research extra)")
     data = sample()
     kwargs = dict(decision_ns=30, block_size=2, reps=99, seed=7)
     complete = estimate_components(data, **kwargs, training_window=(1, 21))

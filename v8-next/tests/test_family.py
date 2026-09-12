@@ -89,6 +89,7 @@ def test_incompatible_or_omitted_trials_reject(tmp_path, mutation):
 
 
 def test_family_connects_real_valuation_shape_to_numerical_diagnostics(tmp_path):
+    pytest.importorskip("arch", reason="arch not installed (research extra)")
     from v8_next.evaluation.family import compare_family
 
     store, results = setup_family(tmp_path)
@@ -154,6 +155,7 @@ def test_compare_cli_rejects_missing_family_without_writing_report(tmp_path, mon
 
 
 def test_comparison_pbo_requires_full_candidate_set_not_baseline(tmp_path):
+    pytest.importorskip("arch", reason="arch not installed (research extra)")
     from v8_next.evaluation.family import compare_family
     from v8_next.evaluation.overfitting import CSCVPlan
 

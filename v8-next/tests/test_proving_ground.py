@@ -4,6 +4,12 @@ Worlds are synthetic by design (correctness evidence, AF-T12), so the bars
 below are seed-pinned generator output — no assertion carries economic or
 evaluative weight. All receipts carry NO_ECONOMIC_CLAIM. The real-tape
 battery rule is untouched: nothing here scores edge, gates, or PnL.
+
+Provisioning: the STATIONARY_BOOTSTRAP family resamples through ``arch``, which
+is declared in the ``research`` extra only. Those tests skip explicitly (never
+collapse) in a bare ``--extra dev`` environment so the documented fast loop can
+still collect and run this module; the engine/refusal/digest contracts below
+need no research dependency and always run.
 """
 
 from __future__ import annotations
@@ -25,6 +31,11 @@ from v8_next.world.spec import (
     WorldSpec,
 )
 
+#: `arch` is the research extra's resampler; the STATIONARY_BOOTSTRAP family
+#: cannot be generated without it, so those tests skip by name instead of
+#: collapsing the whole module (and the fast loop's report) into an error.
+_ARCH_REASON = "arch not installed (research extra)"
+
 
 def _spec(**overrides: object) -> WorldSpec:
     base: dict[str, object] = {
@@ -44,6 +55,7 @@ def _spec(**overrides: object) -> WorldSpec:
 
 
 def test_world_is_deterministic_per_seed() -> None:
+    pytest.importorskip("arch", reason=_ARCH_REASON)
     once, twice = build_world(_spec()), build_world(_spec())
     assert once.receipt_digest == twice.receipt_digest
     assert once.world_id == twice.world_id
@@ -52,6 +64,7 @@ def test_world_is_deterministic_per_seed() -> None:
 
 
 def test_world_population_never_mixes_with_research() -> None:
+    pytest.importorskip("arch", reason=_ARCH_REASON)
     world = build_world(_spec())
     assert world.population_tag.startswith(SYNTHETIC_TAG_PREFIX)
     assert world.population_tag not in ("observed-research", "protected-holdout")
@@ -69,6 +82,7 @@ def test_empty_world_is_refused() -> None:
 
 
 def test_full_chain_exercises_af_t12_and_conserves() -> None:
+    pytest.importorskip("arch", reason=_ARCH_REASON)
     world = build_world(_spec(n_bars=120))
     receipt = SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453)
     assert receipt.exercises_full_pipeline is True
@@ -78,6 +92,7 @@ def test_full_chain_exercises_af_t12_and_conserves() -> None:
 
 
 def test_double_run_digest_equal() -> None:
+    pytest.importorskip("arch", reason=_ARCH_REASON)
     world = build_world(_spec(n_bars=120))
     first = SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453)
     second = SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453)
@@ -99,6 +114,7 @@ def test_engine_smoke_runs_synthetic_without_venue_fetch() -> None:
 
 
 def test_battery_report_is_fail_closed_and_named() -> None:
+    pytest.importorskip("arch", reason=_ARCH_REASON)
     report = run_battery(n_bars=60)
     assert report["claim"] == "NO_ECONOMIC_CLAIM"
     assert report["double_run_digest_equal"] is True
