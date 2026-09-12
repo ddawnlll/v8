@@ -1813,3 +1813,5 @@ def test_native_rejected_selection_is_resolved_without_entry_return():
         observed_outcomes(
             [campaign.to_record()], [], state, Decimal(10000), campaign_observations=bad
         )
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

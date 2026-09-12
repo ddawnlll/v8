@@ -181,3 +181,5 @@ def test_receipt_digest_and_double_entry_invariant() -> None:
     assert receipt.as_dict()["metrics"]["scenario_failure_fraction"] == pytest.approx(0.94)
     unreconciled = SystemRobustnessVector(**{**metrics.as_dict(), "cashflow_discrepancy_usdt": 0.5})
     assert unreconciled.is_double_entry_reconciled() is False
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

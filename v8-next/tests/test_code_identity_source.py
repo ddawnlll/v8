@@ -243,3 +243,5 @@ def test_cli_paths_bind_the_source_digest() -> None:
     assert "git_info()['dirty']}:" not in port_source
 
     assert "code_and_lock_hash=eb.code_and_lock_hash(" in inspect.getsource(bench_mod)
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

@@ -311,3 +311,5 @@ def test_d153_runner_without_a_profile_claims_no_execution_semantics(tmp_path) -
     # no profile was declared, so no digest may be claimed for one
     assert "digest" not in execution
     assert execution["fills_count"] >= 0
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

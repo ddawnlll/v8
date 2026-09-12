@@ -361,3 +361,5 @@ def test_fresh_canonical_run_mints_no_g6_g7_pass_and_leaves_the_canon_alone(
     # and the published canon was never rewritten by this run
     if canon_before is not None:
         assert _sha256(canon) == canon_before
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

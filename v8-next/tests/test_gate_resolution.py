@@ -519,3 +519,5 @@ def test_canonical_live_fold_verdict_is_unchanged() -> None:
     assert fold_eval.holds() is True
     # admitted is not the same claim as established
     assert fold_eval.state.is_pass() is False
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

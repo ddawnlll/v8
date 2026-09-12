@@ -11,11 +11,11 @@ Real-window section: identical boundary-index sequences on the real quad tape
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import pytest
 
 from v8_next.evaluation.economic_benchmark import funding_boundary_index
-from v8_next.evaluation.multitape import load_multitape
 
 QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m/tape.jsonl")
 
@@ -52,10 +52,10 @@ def test_mechanics_bisect_unsorted_fails_closed() -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_funding_bisect_parity_on_real_window() -> None:
+def test_funding_bisect_parity_on_real_window(cached_multitape: Any) -> None:
     if not QUAD_TAPE.exists():
         pytest.skip(f"real quad tape absent at {QUAD_TAPE}")
-    tape = load_multitape(QUAD_TAPE, limit=500)
+    tape = cached_multitape(QUAD_TAPE, limit=500)
     if not tape.candles or not tape.funding:
         pytest.skip("quad tape loaded no candles or funding rows")
     first_inst = sorted(tape.candles)[0]
@@ -69,3 +69,5 @@ def test_funding_bisect_parity_on_real_window() -> None:
         if checked >= 200:
             break
     assert checked > 0
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

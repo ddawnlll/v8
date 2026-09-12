@@ -390,3 +390,5 @@ def test_no_exposure_is_not_funding_finality_and_fills_prevent_exemption():
     account["orders"] = [{"filled_qty": "NaN"}]
     with pytest.raises(ValueError, match="filled quantity"):
         funding_coverage_status(account, ())
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

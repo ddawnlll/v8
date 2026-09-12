@@ -11,10 +11,11 @@ No Decimal-type change.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import pytest
 
-from v8_next.evaluation.multitape import PARQUET_TAPE_NAME, load_multitape
+from v8_next.evaluation.multitape import PARQUET_TAPE_NAME
 
 QUAD_DIR = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
 QUAD_JSONL = QUAD_DIR / "tape.jsonl"
@@ -30,20 +31,22 @@ def _stream_hash(tape) -> dict[str, tuple[tuple[int, str, str, str, str], ...]]:
     return out
 
 
-def test_parquet_missing_fails_loudly(tmp_path: Path) -> None:
+def test_parquet_missing_fails_loudly(tmp_path: Path, cached_multitape: Any) -> None:
     with pytest.raises(FileNotFoundError, match="parquet tape not found"):
-        load_multitape(tmp_path, limit=10, tape_format="parquet")
+        cached_multitape(tmp_path, limit=10, tape_format="parquet")
 
 
-def test_parquet_parity_on_real_window() -> None:
+def test_parquet_parity_on_real_window(cached_multitape: Any) -> None:
     if not QUAD_JSONL.exists():
         pytest.skip(f"real quad tape absent at {QUAD_JSONL}")
     parquet = QUAD_DIR / PARQUET_TAPE_NAME
     if not parquet.exists():
         pytest.skip("parquet ceremony not yet executed (Wave 2); JSONL remains oracle")
-    oracle = load_multitape(QUAD_DIR, limit=100, tape_format="jsonl")
-    columnar = load_multitape(QUAD_DIR, limit=100, tape_format="parquet")
+    oracle = cached_multitape(QUAD_DIR, limit=100, tape_format="jsonl")
+    columnar = cached_multitape(QUAD_DIR, limit=100, tape_format="parquet")
     assert _stream_hash(oracle) == _stream_hash(columnar)
     assert [r.funding_time_ms for r in oracle.funding] == [
         r.funding_time_ms for r in columnar.funding
     ]
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

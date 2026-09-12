@@ -243,3 +243,5 @@ def test_f4_child_order_implementation_shortfall_is_measured() -> None:
         f"delta={delta_bps} bps / {delta_usd} USDT on {single['qty']} BTC"
     )
     assert delta_bps != 0, "slicing produced no measurable shortfall difference"
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

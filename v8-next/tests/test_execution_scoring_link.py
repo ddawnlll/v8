@@ -699,3 +699,5 @@ def test_real_tape_published_fidelity_follows_measured_execution_evidence() -> N
     }
     assert len(set(scores.values())) > 1, scores
     assert 50.0 not in scores.values(), scores
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

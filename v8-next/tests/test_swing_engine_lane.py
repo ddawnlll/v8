@@ -128,3 +128,5 @@ def test_resting_orders_at_the_end_are_published_not_hidden(engine_run) -> None:
     assert isinstance(orders, list)
     # they must be identifiable, so a reconciliation can name them instead of assuming zero
     assert all(isinstance(order, str) and order for order in orders)
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

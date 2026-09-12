@@ -648,3 +648,5 @@ def test_real_tape_smoke() -> None:
     if result.mean is not None:
         assert result.ci_lower is not None and result.ci_upper is not None
         assert result.ci_lower < result.ci_upper  # never a zero-width interval
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

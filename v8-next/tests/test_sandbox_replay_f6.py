@@ -139,3 +139,5 @@ def test_probe_order_exercised_the_simulated_execution_path() -> None:
         f"engine_report_rows={result['engine_fill_report_rows']} "
         f"reason={result['engine_fill_report_reason']}"
     )
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

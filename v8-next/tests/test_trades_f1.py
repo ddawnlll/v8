@@ -318,3 +318,5 @@ def test_real_trades_make_the_fill_aggressor_driven_and_deterministic() -> None:
     assert first["execution"]["slippage_samples"] > 0
     assert bar_only["execution"]["slippage_samples"] > 0
     assert first["execution"]["slippage_bps_mean"] != bar_only["execution"]["slippage_bps_mean"]
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

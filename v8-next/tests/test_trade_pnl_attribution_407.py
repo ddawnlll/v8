@@ -305,3 +305,5 @@ def test_real_artifact_rows_carry_their_own_pnl(tmp_path: Path) -> None:
     assert measured == sum(
         Decimal(str(value)) for value in accounting["realized_pnl_usdt"]
     )
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

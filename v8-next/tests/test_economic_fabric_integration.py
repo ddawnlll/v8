@@ -736,3 +736,5 @@ def test_single_leg_funding_matches_an_independent_settlement_sum() -> None:
             continue
         expected += -qty * mark * float(row.funding_rate)
     assert measured["funding_cost"] == pytest.approx(expected, rel=0.01)
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

@@ -116,3 +116,5 @@ def test_d153_runner_end_to_end_and_html_generation(tmp_path: Path):
     # No forced-pass mode exists: gates cannot be certified without evidence.
     # The all_pass backdoor was removed; a bare diagnostic run never holds.
     assert result.gates.all_pass() is False
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

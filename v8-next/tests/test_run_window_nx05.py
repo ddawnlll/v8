@@ -326,3 +326,5 @@ def test_cli_binds_one_run_key_to_report_telemetry_ledger_and_store(
     capsys.readouterr()
     assert rerun == 3
     assert len(BenchmarkLedger.load_jsonl(out_dir / "benchmark_ledger.jsonl").entries) == 1
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

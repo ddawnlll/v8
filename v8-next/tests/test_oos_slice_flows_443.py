@@ -300,3 +300,5 @@ def test_every_oos_row_earns_the_oos_slice_provenance_suffix(
             # there is a claim about a flow the row does not contain.
             for field in FLOW_FIELDS:
                 assert row[field] == 0, f"{name}.{field} carries the window's fill"
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

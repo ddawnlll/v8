@@ -618,3 +618,5 @@ def test_canonical_ledger_chain_stays_verified_and_entries_are_not_rewritten() -
     assert "chain: VERIFIED" in proc.stdout
     assert "BROKEN" not in proc.stdout
     assert ledger_path.read_bytes() == before
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

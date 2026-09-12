@@ -174,3 +174,5 @@ def test_dust_order_floored_to_min_notional_instead_of_denied() -> None:
         "dust reached the venue gate instead of being floored"
     )
     print(f"\n[F5] floored={[a for a in actions if a=='SIZED_TO_MIN_NOTIONAL']}")
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

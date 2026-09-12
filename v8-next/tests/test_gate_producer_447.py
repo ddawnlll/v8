@@ -237,3 +237,5 @@ def test_a_resolver_that_does_not_exist_is_reported(
         gate_registry_module.GATE_RESOLVERS, "G0ConstitutionalIntegrity", "MEASURED"
     )
     assert any("G0ConstitutionalIntegrity" in problem for problem in validate_registry())
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

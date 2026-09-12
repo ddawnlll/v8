@@ -325,3 +325,5 @@ def test_real_tape_funding_is_bound_and_mark_absence_is_declared() -> None:
     assert result.cost_return != 0.0
     # no mark price in this tape: the measured shortfall stays absent
     assert tape.mark_price_absent is True
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

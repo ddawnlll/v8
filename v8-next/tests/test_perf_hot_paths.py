@@ -159,3 +159,5 @@ def test_every_expert_still_stamps_its_own_variant() -> None:
         if raw.variant_id != "baseline" or raw.version != "squeeze-observer-v1":
             stamped += 1
     assert stamped >= 1, "no expert stamped a variant/version; the conversion is inert"
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

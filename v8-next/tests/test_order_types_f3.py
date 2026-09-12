@@ -75,3 +75,5 @@ def test_limit_entry_differs_from_market_and_reports() -> None:
     )
     # LIMIT rests at the decision close: it must never fill MORE than MARKET
     assert len(limit["opened_positions"]) <= len(market["opened_positions"])
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

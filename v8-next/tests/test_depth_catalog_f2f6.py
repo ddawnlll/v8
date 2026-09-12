@@ -191,3 +191,5 @@ def test_captured_book_feeds_the_engine_deterministically() -> None:
     }
     assert first["fill_signature"] == second["fill_signature"]
     assert first["account"] == second["account"]
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

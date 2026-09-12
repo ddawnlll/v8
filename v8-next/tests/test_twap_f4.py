@@ -84,3 +84,5 @@ def test_twap_slices_sum_to_parent_and_respect_step() -> None:
     assert ExpertEnsembleStrategy._twap_slices(strat, Decimal("0.010"), Decimal("0.001"), 1) == [
         Decimal("0.010")
     ]
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

@@ -46,3 +46,5 @@ def test_cli_status_with_ledger(tmp_path: Path, capsys: pytest.CaptureFixture[st
     assert "chain: VERIFIED" in out
     assert "BC-CLI-STATUS-01" in out
     assert "READINESS INDEX:" in out
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

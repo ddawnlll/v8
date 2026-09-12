@@ -402,3 +402,5 @@ def test_d153_cli_binds_its_window_class_to_the_entry_it_appends(tmp_path: Path)
     telemetry = sorted((smoke_dir / "runs").glob("*.telemetry.json"))
     assert len(telemetry) == 1
     assert json.loads(telemetry[0].read_text())["window"]["evidence_class"] == "smoke"
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

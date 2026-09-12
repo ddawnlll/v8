@@ -13,12 +13,12 @@ from __future__ import annotations
 
 from decimal import Decimal
 from pathlib import Path
+from typing import Any
 
 import pytest
 
 from v8_next.domain.market import Candle, frame_at
 from v8_next.economics.decisions import opportunity_at
-from v8_next.evaluation.gate_resolution import load_tape_candles
 from v8_next.experts.features import _ACTIVE_BUNDLE
 from v8_next.experts.registry import CANONICAL_28_EXPERTS, observe_all_28, observe_expert
 
@@ -66,10 +66,10 @@ def test_mechanics_bundle_matches_direct_path() -> None:
     assert _stance_hash(bundled) == _stance_hash(direct)
 
 
-def test_expert_bundle_parity_on_real_window() -> None:
+def test_expert_bundle_parity_on_real_window(cached_tape_candles: Any) -> None:
     if not BTC_TAPE.exists():
         pytest.skip(f"real BTC tape absent at {BTC_TAPE}")
-    candles = tuple(load_tape_candles(BTC_TAPE, limit=120))
+    candles = tuple(cached_tape_candles(BTC_TAPE, limit=120))
     if len(candles) < 60:
         pytest.skip("tape loaded too few candles for an expert parity window")
     frame = frame_at(candles[0].instrument_id, candles[-1].end_ns, candles)
@@ -79,3 +79,5 @@ def test_expert_bundle_parity_on_real_window() -> None:
     direct = tuple(observe_expert(spec_id, frame, opportunity) for spec_id in CANONICAL_28_EXPERTS)
     assert _stance_hash(bundled) == _stance_hash(direct)
     assert _ACTIVE_BUNDLE.get() is None
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

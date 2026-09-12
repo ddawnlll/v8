@@ -224,3 +224,5 @@ def test_real_runner_accounting_reconciles(tmp_path: Path) -> None:
     assert abs(Decimal(reconciliation["balance_delta_usdt"])) <= Decimal(
         reconciliation["atol_usdt"]
     )
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

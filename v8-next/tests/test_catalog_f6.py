@@ -237,3 +237,5 @@ def test_second_venue_capture_is_verifiable() -> None:
         f"candles={summary['candle_rows']} trades={summary['trade_rows']} "
         f"window={summary['candles_first_ts_ms']}..{summary['candles_last_ts_ms']}"
     )
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

@@ -399,3 +399,5 @@ def test_mechanics_funding_measured_not_gapped() -> None:
     assert "funding_measured_drag" in sig.parameters
     assert "funding_trades_identical" in sig.parameters
     assert Decimal("0.01") > Decimal("0")
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

@@ -9,20 +9,20 @@ CLI flags/outputs unchanged. Skips when the tape is absent.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import pytest
 
 from v8_next.app.portfolio import build_shared_inputs
 from v8_next.evaluation import economic_benchmark as eb
-from v8_next.evaluation.multitape import load_multitape
 
 QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m/tape.jsonl")
 
 
-def test_portfolio_shared_build_parity_on_real_window() -> None:
+def test_portfolio_shared_build_parity_on_real_window(cached_multitape: Any) -> None:
     if not QUAD_TAPE.exists():
         pytest.skip(f"real quad tape absent at {QUAD_TAPE}")
-    tape = load_multitape(QUAD_TAPE, limit=100)
+    tape = cached_multitape(QUAD_TAPE, limit=100)
     shared_bars, shared_closes, shared_qvols = build_shared_inputs(tape)
     assert set(shared_bars) == set(tape.instruments)
     for inst in tape.instruments:
@@ -36,3 +36,5 @@ def test_portfolio_shared_build_parity_on_real_window() -> None:
     # Same objects reused downstream (identity, not just equality).
     again_bars, again_closes, again_qvols = build_shared_inputs(tape)
     assert again_closes == shared_closes
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

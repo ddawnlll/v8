@@ -279,3 +279,5 @@ def test_real_family_plan_precedes_and_binds_the_statistics(tmp_path: Path) -> N
     # that it is reported rather than rounded into a pass.
     assert "multiple_testing" in dsr
     assert receipt["baseline_excess_return"]
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

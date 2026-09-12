@@ -426,3 +426,5 @@ def test_a_book_window_disjoint_from_the_bars_cannot_claim_active_knobs() -> Non
         f"book_window={result['book_window_ns']} fills={execution['fills_count']} "
         f"reason={result['book_window_reason']}"
     )
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

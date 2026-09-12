@@ -331,3 +331,5 @@ def test_production_truncation_boundary_on_real_tape() -> None:
             assert full_decision is None and prod_decision is None
         else:
             assert full_decision.as_dict() == prod_decision.as_dict()
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

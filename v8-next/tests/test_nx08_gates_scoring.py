@@ -321,3 +321,5 @@ def test_g7_cannot_mint_a_prospective_state_from_the_historical_tail(
         evaluate_g7_prospective_shadow(
             real_candles, shadow_stream=real_candles[-100:]
         )
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

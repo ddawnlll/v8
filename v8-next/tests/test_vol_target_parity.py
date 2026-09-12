@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import math
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import polars as pl
@@ -20,7 +21,6 @@ import pytest
 
 from v8_next.evaluation.economic_benchmark import VOL_LOOKBACK, compute_benchmark_family
 from v8_next.evaluation.economic_benchmark import bars_from_candles
-from v8_next.evaluation.gate_resolution import load_tape_candles
 
 BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
 
@@ -55,10 +55,10 @@ def test_mechanics_rolling_std_matches_numpy() -> None:
             assert a == pytest.approx(b, rel=1e-12, abs=1e-15)
 
 
-def test_vol_target_rolling_parity_on_real_closes() -> None:
+def test_vol_target_rolling_parity_on_real_closes(cached_tape_candles: Any) -> None:
     if not BTC_TAPE.exists():
         pytest.skip(f"real BTC tape absent at {BTC_TAPE}")
-    candles = tuple(load_tape_candles(BTC_TAPE, limit=120))
+    candles = tuple(cached_tape_candles(BTC_TAPE, limit=120))
     if len(candles) < 60:
         pytest.skip("tape loaded too few candles for a rolling parity window")
     closes = [float(c.close) for c in candles]
@@ -73,3 +73,5 @@ def test_vol_target_rolling_parity_on_real_closes() -> None:
     fams = compute_benchmark_family(bars, 10000.0, 0.0005)
     assert len(fams["vol_target"]["equity"]) == n
     assert all(v >= 0 for v in fams["vol_target"]["exposure"])
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

@@ -318,3 +318,5 @@ def test_real_plan_closes_the_final_and_records_the_measured_tail_role(real_plan
     assert not any(f.fold_id == "FINAL" for f in plan.folds)
     assert plan.history.warmup_bars == 49
     assert plan.history.purge_bars == 336
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

@@ -335,3 +335,5 @@ def test_real_window_registry_precedes_and_binds_the_receipt(tmp_path: Path) -> 
     assert trend["open_trade_expiry_bars"] is None  # timeout-only stamps no expiry
     assert trend["opportunity_ttl_bars"]
     assert cash["opportunity_ttl_bars"] == [] and cash["decisions"] == 0
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

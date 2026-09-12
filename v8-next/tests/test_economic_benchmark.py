@@ -1647,3 +1647,5 @@ def test_mechanics_excess_rule_sign_test_survives_on_return_interval() -> None:
     assert recorded["claim_status"] == "NO_ECONOMIC_CLAIM"
     assert recorded["verdicts"]["statistical"] == "SUPPORTS_UNDERPERFORMANCE"
     assert "EXCESS_CI_RULE" in recorded["verdicts"]["statistical_note"]
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

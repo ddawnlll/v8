@@ -223,3 +223,5 @@ def test_expert_strategy_real_tape_firing_telemetry():
         assert rec.stop_price is not None
         assert rec.target_price is not None
         assert rec.as_of_time_ns <= rec.valid_until_ns
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

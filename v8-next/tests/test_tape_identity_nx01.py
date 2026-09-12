@@ -435,3 +435,5 @@ def test_manifest_binds_to_store_and_fails_closed(real_inventory, tmp_path: Path
         assert not ok and "TAPE_HASH_MISMATCH" in reason
     finally:
         store.close()
+
+pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"
