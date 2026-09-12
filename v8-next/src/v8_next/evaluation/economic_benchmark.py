@@ -33,6 +33,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, Mapping, Sequence, get_args
 
 import numpy as np
+import polars as pl
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from v8_next.evaluation.statistics_plan import (
@@ -971,17 +972,28 @@ def compute_benchmark_family(
 
     logrets = [0.0] + [math.log(closes[i] / closes[i - 1]) for i in range(1, n)]
     target_pb = VOL_TARGET_ANNUAL / math.sqrt(HOURS_PER_YEAR)
+    # M5: rolling stats in one Polars kernel (no per-bar numpy call overhead).
+    # lr[k] == logrets[k+1], so trailing-48 over lr ending at i-1 is exactly
+    # logrets[max(1,i-47):i+1]. min_periods=2 preserves the len<2 -> flat rule
+    # (null maps to scale 0). Stateful carryover below stays an explicit
+    # Python scan in the same order (no numba: not in tree).
+    _lr = logrets[1:]
+    sd_pre: list[float | None] = (
+        pl.Series(_lr).rolling_std(window_size=VOL_LOOKBACK, ddof=1, min_periods=2).to_list()
+        if _lr
+        else []
+    )
     eq_vt = [capital]
     exposure_vt = [0.0]
     turnover_vt = 0.0
     commission_vt = 0.0
     prev_pos = 0.0
     for i in range(1, n):
-        window = logrets[max(1, i - VOL_LOOKBACK + 1) : i + 1]
-        if len(window) < 2:
+        sd_val = sd_pre[i - 1]
+        if sd_val is None:
             scale = 0.0
         else:
-            sd = float(np.std(np.asarray(window), ddof=1))
+            sd = float(sd_val)
             scale = min(target_pb / sd, MAX_LEVERAGE) if sd > 1e-12 else 0.0
         pos = scale * eq_vt[-1]
         d_notional = abs(pos - prev_pos)
