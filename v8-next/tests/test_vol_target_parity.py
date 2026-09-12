@@ -19,8 +19,11 @@ import numpy as np
 import polars as pl
 import pytest
 
-from v8_next.evaluation.economic_benchmark import VOL_LOOKBACK, compute_benchmark_family
-from v8_next.evaluation.economic_benchmark import bars_from_candles
+from v8_next.evaluation.economic_benchmark import (
+    VOL_LOOKBACK,
+    bars_from_candles,
+    compute_benchmark_family,
+)
 
 BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
 
@@ -42,7 +45,7 @@ def _rolling_polars(logrets: list[float]) -> list[float | None]:
     if not lr:
         return []
     return list(
-        pl.Series(lr).rolling_std(window_size=VOL_LOOKBACK, ddof=1, min_periods=2).to_list()
+        pl.Series(lr).rolling_std(window_size=VOL_LOOKBACK, ddof=1, min_samples=2).to_list()
     )
 
 

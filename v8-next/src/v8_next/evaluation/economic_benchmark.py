@@ -974,12 +974,12 @@ def compute_benchmark_family(
     target_pb = VOL_TARGET_ANNUAL / math.sqrt(HOURS_PER_YEAR)
     # M5: rolling stats in one Polars kernel (no per-bar numpy call overhead).
     # lr[k] == logrets[k+1], so trailing-48 over lr ending at i-1 is exactly
-    # logrets[max(1,i-47):i+1]. min_periods=2 preserves the len<2 -> flat rule
+    # logrets[max(1,i-47):i+1]. min_samples=2 preserves the len<2 -> flat rule
     # (null maps to scale 0). Stateful carryover below stays an explicit
     # Python scan in the same order (no numba: not in tree).
     _lr = logrets[1:]
     sd_pre: list[float | None] = (
-        pl.Series(_lr).rolling_std(window_size=VOL_LOOKBACK, ddof=1, min_periods=2).to_list()
+        pl.Series(_lr).rolling_std(window_size=VOL_LOOKBACK, ddof=1, min_samples=2).to_list()
         if _lr
         else []
     )

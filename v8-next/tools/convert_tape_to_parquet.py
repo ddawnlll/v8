@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 
 from v8_next.evaluation.multitape import convert_tape_to_parquet
 

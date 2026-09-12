@@ -22,7 +22,6 @@ from typing import Any
 from v8_next.domain.market import CausalFrame
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.decisions import Opportunity, Stance, StanceKind
-from v8_next.experts.features import _ACTIVE_BUNDLE, build_bar_features
 from v8_next.experts.bollinger import observe_bollinger_breakout
 from v8_next.experts.breakouts import observe_failed_breakout, observe_volume_breakout
 from v8_next.experts.candlestick import (
@@ -41,6 +40,7 @@ from v8_next.experts.failed_moves import (
 from v8_next.experts.failed_moves import (
     observe_failed_move,
 )
+from v8_next.experts.features import _ACTIVE_BUNDLE, build_bar_features
 from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import observe_gap
 from v8_next.experts.ichimoku import observe_ichimoku

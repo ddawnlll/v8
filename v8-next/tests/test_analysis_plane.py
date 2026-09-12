@@ -41,10 +41,13 @@ POLICY = "causal_trend"
 HOUR_NS = 3_600 * 10**9
 
 
-pytestmark = pytest.mark.skipif(
-    not (REPO_ROOT / TAPE_REL).is_file(),
-    reason=f"real tape {TAPE_REL} is absent; the analysis plane is not evaluated on synthetic bars",
-)
+pytestmark = [
+    pytest.mark.skipif(
+        not (REPO_ROOT / TAPE_REL).is_file(),
+        reason=f"real tape {TAPE_REL} is absent; the analysis plane is not evaluated on synthetic bars",
+    ),
+    pytest.mark.slow,  # #469: real-tape file (multi-1h-4y loads take minutes)
+]
 
 
 def _skip_ahead_admitted(repo_root: Path, policy_id: str, instrument: str, bars: int) -> list[str]:

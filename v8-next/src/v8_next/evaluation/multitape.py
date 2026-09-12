@@ -127,8 +127,8 @@ def _file_sha(p: Path) -> str:
         key = (resolved, st.st_size, st.st_mtime_ns, st.st_ino)
     except OSError:
         raise
-    except AttributeError:
-        raise ValueError("sha cache requires stable st_ino; refusing to guess")
+    except AttributeError as err:
+        raise ValueError("sha cache requires stable st_ino; refusing to guess") from err
     cached = _SHA_CACHE.get(key)
     if cached is not None:
         return cached

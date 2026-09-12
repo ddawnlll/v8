@@ -17,7 +17,7 @@ from typing import Any
 
 import pytest
 
-from v8_next.domain.market import Candle, frame_at, frame_at_incremental
+from v8_next.domain.market import Candle, CausalFrame, frame_at, frame_at_incremental
 
 BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
 INSTRUMENT = "BTCUSDT-PERP.BINANCE"
@@ -50,11 +50,11 @@ def _synth_candles(n: int = 12) -> tuple[Candle, ...]:
     return tuple(out)
 
 
-def _hash(frame: object) -> tuple[object, ...]:
-    f: object = frame
-    candles = getattr(f, "candles")
-    decision_ns = getattr(f, "decision_ns")
-    return (decision_ns, tuple((c.start_ns, c.end_ns) for c in candles))
+def _hash(frame: CausalFrame) -> tuple[object, ...]:
+    return (
+        frame.decision_ns,
+        tuple((c.start_ns, c.end_ns) for c in frame.candles),
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -84,7 +84,9 @@ def test_mechanics_incremental_fallback_preserves_verdicts() -> None:
     assert _hash(frame_at_incremental(parent, INSTRUMENT, earlier, prefix)) == _hash(
         frame_at(INSTRUMENT, earlier, prefix)
     )
-    # Foreign instrument tail must delegate, not silently trust.
+    # Foreign instrument tail must delegate, not silently trust. frame_at
+    # filters foreign bars (it does not raise); the incremental path must
+    # return the identical filtered frame.
     foreign = tuple(
         Candle(
             instrument_id="OTHER-PERP.BINANCE",
@@ -102,10 +104,9 @@ def test_mechanics_incremental_fallback_preserves_verdicts() -> None:
         for c in candles[4:5]
     )
     mixed = prefix + foreign
-    with pytest.raises(ValueError):
+    assert _hash(frame_at_incremental(parent, INSTRUMENT, mixed[-1].end_ns, mixed)) == _hash(
         frame_at(INSTRUMENT, mixed[-1].end_ns, mixed)
-    with pytest.raises(ValueError):
-        frame_at_incremental(parent, INSTRUMENT, mixed[-1].end_ns, mixed)
+    )
 
 
 # ---------------------------------------------------------------------------
