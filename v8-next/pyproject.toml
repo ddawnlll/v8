@@ -21,6 +21,7 @@ v8-next = "v8_next.app.cli:main"
 [project.optional-dependencies]
 dev = [
     "pytest>=8.3.0",
+    "pytest-xdist>=3.6.0",
     "hypothesis>=6.120.0",
     "ruff>=0.9.0",
     "mypy>=1.14.0",
@@ -56,3 +57,7 @@ disallow_untyped_defs = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+# Fast loop is the default: bare `pytest` skips `slow` (tape/engine) tests.
+# Full suite is opt-in and dangerous: `pytest -m dangerous-full-loop`
+# (minutes, GBs of RAM; never `-n auto`, at most `-n 2`, prefer serial).
+addopts = ["-m", "not slow"]

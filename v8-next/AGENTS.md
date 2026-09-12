@@ -1,4 +1,14 @@
-# v8-next frozen experimental boundary
+# v8-next — V8.7 owner-authorized scope
+
+On 2026-09-11 the owner explicitly confirmed that v8-next is the intended
+codebase and instructed agents to replace the Rust-scoped V8.7 issues after
+inspecting this implementation. For V8.7 NX00–NX11, implementation and tests
+belong in v8-next (Python/Nautilus). This supersedes the historical freeze and
+Rust-only wording below for this scope; no further reactivation approval is
+required. Follow `../docs/contracts/V87_SWING_BENCHMARK_SPEC.md` and the NX issue
+acceptance criteria. Preserve unrelated changes and all evidence/no-real-money
+constraints. The paragraphs below describe the previous boundary where they
+conflict with this explicit owner correction.
 
 As of 2026-09-10, the active project implementation has returned to the Rust
 codebase in `../v8-core/`. The root Rust-only instructions are authoritative.
@@ -31,6 +41,26 @@ uv run --project v8-next --extra dev pytest -q v8-next/tests/RELEVANT_TEST.py
 Run relevant checks during editing and integration checks at affected boundaries.
 Use the owner-authorized tiered reset in `../docs/GOVERNANCE_RESET_V86_2026-09-07.md`.
 A development commit is not a release receipt or goal-completion claim.
+
+## Test loops: fast by default, full suite is `dangerous-full-loop` (agents read this)
+
+- **Dev loop = fast loop, and it is the DEFAULT.** Bare
+  `uv run --project v8-next --extra dev pytest -q v8-next/tests`
+  skips `slow` (tape/engine) tests via `addopts` — ~26s. Use it after every
+  change. Explicit `-m "not slow"` is accepted but redundant.
+- **New heavy tests MUST be marked `slow`.** Any test touching the real tape,
+  engines, or portfolio paths gets module-level
+  `pytestmark = pytest.mark.slow`, or the fast loop silently becomes slow
+  (observed: one unmarked 5-minute test locked the loop).
+- **Full suite = `dangerous-full-loop`, milestones/releases ONLY — never the
+  dev loop.** Opt in explicitly:
+  `uv run --project v8-next --extra dev pytest -q -m dangerous-full-loop v8-next/tests`
+  (~7 min wall, GBs of RAM). Rules: never `-n auto` (OOM), at most `-n 2`,
+  prefer serial (measured `-n 2` xdist worker death); a changed tape forces
+  the full suite (see `tests/conftest.py` tape-mtime guard).
+- **Touching slow areas?** Run the affected slow tests by path on top of the
+  fast loop (parity/loader/expert/benchmark tests are all `slow` and do NOT
+  run in the default loop).
 
 Synthetic data belongs only in tests, never in capture/evaluation artifacts.
 Evaluation-claim tests (firing counts, scores, gates, PnL, certificates) MUST

@@ -1,17 +1,24 @@
 """Shared pytest boundary for v8-next tests.
 
 - Registers the ``slow`` marker: tests touching the real tape / engines that take
-  seconds (not milliseconds). Default runs stay fast via ``-m "not slow"``; the full
-  suite (including ``slow``) runs at chain milestones.
+  seconds (not milliseconds). The fast loop is the DEFAULT: bare ``pytest`` skips
+  ``slow`` via ``addopts``; explicit ``-m "not slow"`` is accepted but redundant.
+- Registers the ``dangerous-full-loop`` marker: auto-applied to every collected
+  test, so ``pytest -m dangerous-full-loop`` runs the FULL suite (fast + slow).
+  Dangerous: minutes of wall time, GBs of RAM (measured worker death under
+  ``-n 2`` xdist); never ``-n auto``, at most ``-n 2``, prefer serial. Milestones
+  and releases only — never the dev loop.
 - Session-scoped cached tape loaders: repeated ``load_multitape`` /
   ``load_tape_candles`` calls with identical arguments hit an in-worker cache instead
   of re-reading the JSONL tape. (With xdist each worker keeps its own cache.)
 - Worker ceiling (R2): never ``-n auto`` (per-worker caches duplicate memory;
   measured OOM at 10GB). Hard ceiling is ``-n 2``. Fast loop::
 
-      uv run --project v8-next --extra dev pytest -q -m "not slow" v8-next/tests
+      uv run --project v8-next --extra dev pytest -q v8-next/tests
 
-  Full suite at milestones with at most ``-n 2``.
+  Full suite at milestones (dangerous)::
+
+      uv run --project v8-next --extra dev pytest -q -m dangerous-full-loop v8-next/tests
 - Testmon-style selection ONLY with the tape-mtime guard (R3): a tape change
   forces the full suite; frozen-OOS tests are never skipped silently. Take a
   snapshot with :func:`tape_snapshot` before a selective run and call
@@ -71,6 +78,17 @@ def pytest_configure(config: pytest.Config) -> None:
     config.addinivalue_line(
         "markers", "slow: real-tape or engine tests taking seconds (excluded from fast runs)"
     )
+    config.addinivalue_line(
+        "markers",
+        "dangerous-full-loop: full-suite membership (auto-applied to every test; "
+        "select it to run everything: -m dangerous-full-loop)",
+    )
+
+
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    """Auto-apply ``dangerous-full-loop`` so the full suite has one opt-in name."""
+    for item in items:
+        item.add_marker("dangerous-full-loop")
 
 
 @pytest.fixture(scope="session")
