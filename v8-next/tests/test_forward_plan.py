@@ -141,6 +141,7 @@ def test_forward_binding_requires_complete_frozen_window_and_cannot_switch_data(
 
 
 def test_forward_runner_executes_every_frozen_policy_with_holdout_role(tmp_path, monkeypatch):
+    pytest.importorskip("arch", reason="arch not installed (research extra)")
     from decimal import Decimal
 
     from v8_next.app.forward import run_forward

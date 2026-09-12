@@ -12,12 +12,16 @@ randomness source is the spec seed — so synthetic populations cannot leak
 into research/holdout by construction. Families needing models we do not own
 (learned-diffusion, agent-market) are refused with a named reason, never
 silently substituted.
+
+Provisioning: ``arch``/``scipy`` belong to the ``research`` extra, so both are
+imported inside the one path that needs them. A module-scope import here made
+every importer of ``v8_next.world`` uncollectable in a bare ``--extra dev``
+environment (t_9715e0f2).
 """
 
 from __future__ import annotations
 
 import numpy as np
-from arch.bootstrap import StationaryBootstrap
 
 from v8_next.world.spec import WorldBar, WorldFamily, WorldReceipt, WorldSpec
 
@@ -93,6 +97,18 @@ def _base_scale(spec: WorldSpec) -> float:
 
 def _stationary_bootstrap_returns(spec: WorldSpec, rng: np.random.Generator) -> np.ndarray:
     # arch owns the resampling; numpy owns only the seed-pinned base.
+    # Lazily imported: `arch` is declared in the `research` extra only, and this
+    # family is the one path that needs it (a module-scope import made every
+    # importer of `v8_next.world` uncollectable without the extra).
+    try:
+        from arch.bootstrap import StationaryBootstrap
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError(
+            "ARCH_NOT_PROVISIONED: the STATIONARY_BOOTSTRAP family needs the `arch` "
+            "package from the `research` extra "
+            "(uv sync --project v8-next --locked --extra research); "
+            "no substitute generator is used"
+        ) from exc
     base = rng.normal(0.0, _base_scale(spec), size=max(spec.n_bars * 2, 64))
     block = max(2, min(24, spec.n_bars // 4))
     seed = int(rng.integers(0, 2**31 - 1))

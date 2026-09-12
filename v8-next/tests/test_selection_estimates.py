@@ -6,6 +6,7 @@ from v8_next.evaluation.selection_estimates import estimate_selection_cash
 
 
 def test_selection_estimate_keeps_nonentries_in_denominator_and_rejects_missing_cash():
+    pytest.importorskip("arch", reason="arch not installed (research extra)")
     source = dict(
         reconciliation="CLOSED_CASH_RECONCILED",
         native_cash_change="6",
@@ -73,6 +74,7 @@ def test_single_completed_selection_preserves_report_without_bootstrap():
 
 
 def test_training_selection_requires_accounting_known_before_end():
+    pytest.importorskip("arch", reason="arch not installed (research extra)")
     source = dict(
         reconciliation="CLOSED_CASH_RECONCILED",
         native_cash_change="2",
