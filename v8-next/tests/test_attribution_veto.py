@@ -48,6 +48,7 @@ def _row(
     *,
     avoided: float | None,
     missed: float | None,
+    replayed: float | None = None,
 ) -> RefusedDecision:
     return RefusedDecision(
         candidate_id=candidate_id,
@@ -57,6 +58,7 @@ def _row(
         authority_status=authority,
         avoided_loss_usdt=avoided,
         missed_profit_usdt=missed,
+        hypothetical_net_return=replayed,
     )
 
 
@@ -112,14 +114,17 @@ def test_an_unlisted_reason_is_recorded_but_named_as_uncanonical() -> None:
 
 def test_gate_value_algebra_matches_the_rust_formula() -> None:
     rows = [
-        _row("c0", "PORTFOLIO_HEAT_EXCEEDED", Identifiability.IDENTIFIED, avoided=120.0, missed=45.0),
-        _row("c1", "EXISTING_EXPOSURE_CONFLICT", Identifiability.PARTIALLY_IDENTIFIED, avoided=80.0, missed=20.0),
+        _row("c0", "PORTFOLIO_HEAT_EXCEEDED", Identifiability.IDENTIFIED, avoided=120.0, missed=45.0, replayed=-1.5),
+        _row("c1", "EXISTING_EXPOSURE_CONFLICT", Identifiability.PARTIALLY_IDENTIFIED, avoided=80.0, missed=20.0, replayed=0.5),
     ]
     summary, _ = compute_veto_attribution(rows, total_suppressed=0, admitted_parents=0)
     assert summary.total_avoided_loss_usdt == pytest.approx(200.0)
     assert summary.total_missed_profit_usdt == pytest.approx(65.0)
     assert summary.net_gate_defensive_value_usdt == pytest.approx(135.0)
     assert summary.gate_defensive_efficiency_ratio == pytest.approx(200.0 / 265.0)
+    assert summary.avoided_loss_return_units == pytest.approx(1.5)
+    assert summary.missed_profit_return_units == pytest.approx(0.5)
+    assert summary.counterfactual_rows == 2
     assert summary.status == "VETO_ATTRIBUTION_MEASURED"
     assert summary.claim == "NO_ECONOMIC_CLAIM"
     assert summary.authority_distribution == {"IDENTIFIED": 1, "PARTIALLY_IDENTIFIED": 1}

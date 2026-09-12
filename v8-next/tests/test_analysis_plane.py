@@ -168,3 +168,35 @@ def test_the_three_domain_classifier_still_separates_exit_selection_and_executio
         classify_exit_failure(exit_kind="STOP", net_return=-0.01, has_bracket=True)
         is FailureDomain.EXECUTION
     )
+
+
+def test_explain_attaches_a_verifiable_decision_trail_and_names_the_unobserved_stages() -> None:
+    """R3: the trail is structured, hash-bound, and readable off the explanation itself."""
+    from v8_next.adapters.execution_telemetry import verify_decision_trail
+    from v8_next.app.explain import explain_trade
+
+    record = explain_trade(
+        repo_root=REPO_ROOT, policy_id=POLICY, index=0, tape_rel=TAPE_REL
+    )
+    trail = record["decision_trail"]["decision_trail"]
+    assert verify_decision_trail(trail) == trail["trail_digest"]
+    assert [span["stage"] for span in trail["spans"]] == [
+        "MarketState",
+        "OpportunityDetection",
+        "CampaignAdmission",
+    ]
+    assert len(trail["counterfactual_branches"]) == 1
+    # The engine-plane stages were never observed here and say so.
+    assert record["decision_trail"]["stages_not_observed"] == [
+        "OrderDispatch",
+        "ExecutionFill",
+        "PositionManagement",
+        "CashflowSettlement",
+    ]
+    assert record["decision_trail_digest"] == trail["trail_digest"]
+
+    # Same decision, same content, same identity: no wall clock enters the digest.
+    repeat = explain_trade(
+        repo_root=REPO_ROOT, policy_id=POLICY, index=0, tape_rel=TAPE_REL
+    )
+    assert repeat["decision_trail_digest"] == record["decision_trail_digest"]

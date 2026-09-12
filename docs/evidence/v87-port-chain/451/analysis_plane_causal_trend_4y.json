@@ -23,6 +23,26 @@
     "slippage_modelled_return": "NOT_RUN_IN_THIS_SURFACE"
   },
   "evidence_class": "DIAGNOSTIC over real bars and real funding settlement rows; decision plane, not engine fills; the measured execution shortfall stays absent",
+  "phase_plane": {
+    "claim": "NO_ECONOMIC_CLAIM",
+    "declared_policies": [
+      "ALWAYS_TRADE"
+    ],
+    "declared_policy_count": 1,
+    "declared_slices": 72,
+    "estimand_rows": null,
+    "estimands_required": [
+      "mean_legal_hindsight_gap",
+      "mean_actual_vs_no_trade"
+    ],
+    "evaluated_slices": 72,
+    "label": "MODEL_DERIVED_DESCRIPTIVE_NOT_YET_GATED",
+    "missing_input": "MISSING_LEGAL_ACTION_MANIFEST",
+    "missing_input_owner": "chain issue #452 (oracle substrate: opportunity universe)",
+    "verdict_histogram": {
+      "EXCLUDED_EMPTY": 72
+    }
+  },
   "pillar": "analysis_plane",
   "policy": {
     "grammar_policy": "trend-continuation-v2",
@@ -65,6 +85,32 @@
       "market_move_r"
     ],
     "unbound_reason": "MISSING_FIELD_IN_DECISION_PLANE_ARTIFACT"
+  },
+  "reconciliation_vs_frozen": {
+    "absent_from_frozen_report": 0,
+    "compared": 1305,
+    "excluded_open_at_cutoff": 1,
+    "excluded_reason": "TRUNCATED_WINDOW_TAIL_CANNOT_RESOLVE",
+    "fields_compared": [
+      "endpoint",
+      "horizon_bars",
+      "net_r"
+    ],
+    "fields_unbound": [
+      "entry_price",
+      "risk_unit_price",
+      "label_status",
+      "ambiguous_bars",
+      "mae_r",
+      "mfe_r",
+      "market_move_r"
+    ],
+    "frozen_artifact_family": "causal_trend",
+    "mismatch_reason": null,
+    "mismatch_sample": [],
+    "mismatched": 0,
+    "reconciled": 1305,
+    "status": "RECONCILED"
   },
   "refusals": {
     "by_reason": {
@@ -197,7 +243,7 @@
     },
     "refused_total": 12011
   },
-  "report_sha256": "038aace9cc93286d14d425f86c2cf5e71f4ea5c932dbd819f7991123ccf585a8",
+  "report_sha256": "95cfddd4c632413282473a81305e6b2422a1257f77387c06c3c47a280ee0e6dc",
   "tape": {
     "bars": 35064,
     "first_bar_ns": 1656637200000000000,

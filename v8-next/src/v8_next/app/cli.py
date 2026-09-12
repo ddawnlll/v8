@@ -221,8 +221,15 @@ def cmd_explain(args: argparse.Namespace) -> int:
     fill = record["counterfactual_fill_price"]
     print(f"counterfactual (fill price): {fill['kind']}  refusal={fill['refusal']}")
     print(f"  why: {fill['authority']['assumptions']}")
+    trail = record["decision_trail"]["decision_trail"]
+    print("-" * 70)
+    print(f"decision trail: {record['decision_trail_digest']}")
+    print(f"  spans: {[span['stage'] for span in trail['spans']]}")
+    print(f"  counterfactual branches: {len(trail['counterfactual_branches'])}")
+    print(f"  stages not observed: {record['decision_trail']['stages_not_observed']}")
     print(json.dumps({"trade": record["index"], "domain": record["failure_domain"],
-                      "counterfactual_kind": cf["kind"], "fill_refusal": fill["refusal"]}))
+                      "counterfactual_kind": cf["kind"], "fill_refusal": fill["refusal"],
+                      "decision_trail_digest": record["decision_trail_digest"]}))
     return 0
 
 

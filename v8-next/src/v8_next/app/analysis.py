@@ -50,6 +50,7 @@ from v8_next.analysis.outcome import (
     RECONCILE_EXCLUDED_FIELDS,
     RECONCILE_FIELD_COUNT,
     RECONCILE_FLOAT_FIELDS,
+    RECONCILE_TOLERANCE,
 )
 from v8_next.economics.grammar import POLICY_REQUIRED_BARS
 from v8_next.economics.swing_baseline import (
@@ -138,6 +139,7 @@ def analyse_window(
     offset_bars: int = 0,
     limit_bars: int | None = None,
     window_label: str | None = None,
+    frozen_report: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Run the analysis plane over a bounded window of the real tape."""
     tape_path = (repo_root / tape_rel).resolve()
@@ -315,6 +317,12 @@ def analyse_window(
         },
         "refused_beside_lost": refused_beside_lost(refused_by_reason, lost_by_domain),
         "reconciliation": reconcile_coverage(),
+        "phase_plane": phase_plane(),
+        "reconciliation_vs_frozen": (
+            None
+            if frozen_report is None
+            else reconcile_against_frozen(admitted, frozen_report, policy_id=policy_id)
+        ),
         "windows": {
             "net_measured_sum": round(sum(nets), 8),
             "gross_return_sum": round(sum(row["gross_return"] for row in admitted), 8),
@@ -338,6 +346,128 @@ def analyse_window(
     return report
 
 
+def phase_plane() -> dict[str, Any]:
+    """Run the ported regret phase plane over the declared FT universe, failing closed.
+
+    The phase plane measures two frozen estimands (FT001) — the *legal hindsight gap* and the
+    *actual-vs-no-trade* gap. Both are functions of a legal-action manifest that this checkout
+    does not produce: the decision plane replays the campaign it took, not the set of actions it
+    could legally have taken instead. So the plane is executed over the declared universe and
+    every slice reports its named refusal rather than a number invented from the wrong estimand.
+
+    What is measured here is therefore the *declaration* (72 slices, the policy set) and the
+    refusal counts; the estimand rows are named as the missing input, with the chain issue that
+    owns the opportunity universe as their producer.
+    """
+    from v8_next.analysis.phases import (
+        LABEL,
+        declare_policies,
+        declare_slices,
+        score_slice,
+    )
+
+    verdicts: dict[str, int] = {}
+    for key, expert_id, symbol, direction, estimand in declare_slices():
+        result = score_slice(key, expert_id, symbol, direction, estimand, [])
+        verdicts[result.discovery_verdict] = verdicts.get(result.discovery_verdict, 0) + 1
+    policies = declare_policies({})
+    return {
+        "label": LABEL,
+        "declared_slices": len(declare_slices()),
+        "evaluated_slices": sum(verdicts.values()),
+        "verdict_histogram": dict(sorted(verdicts.items())),
+        "declared_policies": [policy.policy_id for policy in policies],
+        "declared_policy_count": len(policies),
+        "estimands_required": ["mean_legal_hindsight_gap", "mean_actual_vs_no_trade"],
+        "estimand_rows": None,
+        "missing_input": "MISSING_LEGAL_ACTION_MANIFEST",
+        "missing_input_owner": "chain issue #452 (oracle substrate: opportunity universe)",
+        "claim": CLAIM,
+    }
+
+
+def reconcile_against_frozen(
+    admitted: list[dict[str, Any]],
+    frozen_report: dict[str, Any],
+    *,
+    policy_id: str,
+) -> dict[str, Any]:
+    """Reconcile this plane's replayed campaigns against a frozen report's own rows.
+
+    The two are independent implementations of the same contract, and they share exactly
+    three of the ten reconciliation fields — the exit endpoint, the holding horizon and the
+    net return — so the comparison is restricted to those and the other seven stay declared
+    unbound (``reconcile_coverage``). Matching is by decision identity, not by row order: a
+    count that agreed while the rows were shuffled would not be a reconciliation.
+
+    A reconciliation over zero compared candidates is ``RECONCILIATION_NOT_MEASURED``, never a
+    vacuous ``RECONCILED``.
+    """
+    family = frozen_report.get("families", {}).get(policy_id)
+    if family is None:
+        return {
+            "status": "RECONCILIATION_NOT_MEASURED",
+            "reason": f"frozen report carries no family {policy_id!r}",
+            "compared": 0,
+            "reconciled": 0,
+            "mismatched": 0,
+        }
+    observed = {row["decision_identity"]: row for row in family.get("trades", [])}
+    field_map = {"endpoint": "exit_kind", "horizon_bars": "bars_held", "net_r": "net_measured"}
+
+    compared = 0
+    reconciled = 0
+    mismatches: list[dict[str, Any]] = []
+    absent: list[str] = []
+    open_at_cutoff: list[str] = []
+    for row in admitted:
+        identity = row["decision_identity"]
+        if row["exit_kind"] == "OPEN_AT_CUTOFF":
+            # A bounded window cannot know how a still-open campaign resolves, so comparing
+            # its mark-to-market against a full-run exit would compare a truncation against an
+            # outcome. It is excluded and named, never counted as agreement.
+            open_at_cutoff.append(identity)
+            continue
+        frozen = observed.get(identity)
+        if frozen is None:
+            absent.append(identity)
+            continue
+        compared += 1
+        differences: dict[str, dict[str, Any]] = {}
+        for left, right in field_map.items():
+            mine, theirs = row[right], frozen[right]
+            if left == "net_r":
+                if abs(float(mine) - float(theirs)) > RECONCILE_TOLERANCE:
+                    differences[left] = {"this_plane": mine, "frozen": theirs}
+            elif mine != theirs:
+                differences[left] = {"this_plane": mine, "frozen": theirs}
+        if differences:
+            mismatches.append({"decision_identity": identity, "fields": differences})
+        else:
+            reconciled += 1
+
+    if compared == 0:
+        status = "RECONCILIATION_NOT_MEASURED"
+    elif mismatches:
+        status = "RECONCILIATION_FAILED"
+    else:
+        status = "RECONCILED"
+    return {
+        "status": status,
+        "fields_compared": sorted(field_map),
+        "fields_unbound": reconcile_coverage()["unbound"],
+        "compared": compared,
+        "reconciled": reconciled,
+        "mismatched": len(mismatches),
+        "absent_from_frozen_report": len(absent),
+        "excluded_open_at_cutoff": len(open_at_cutoff),
+        "excluded_reason": "TRUNCATED_WINDOW_TAIL_CANNOT_RESOLVE" if open_at_cutoff else None,
+        "mismatch_sample": mismatches[:5],
+        "mismatch_reason": "field_mismatch" if mismatches else None,
+        "frozen_artifact_family": policy_id,
+    }
+
+
 def _digest(report: dict[str, Any]) -> str:
     payload = json.dumps(report, sort_keys=True, separators=(",", ":"), default=str)
     return hashlib.sha256(payload.encode()).hexdigest()
@@ -356,6 +486,12 @@ def main(argv: list[str] | None = None) -> int:
         "--limit-bars", type=int, default=None, help="Cap the window to this many bars."
     )
     parser.add_argument("--window-label", default=None)
+    parser.add_argument(
+        "--reconcile-against",
+        type=Path,
+        default=None,
+        help="Frozen report artifact whose per-campaign rows are reconciled against this run.",
+    )
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args(argv)
 
@@ -366,6 +502,15 @@ def main(argv: list[str] | None = None) -> int:
         else (package_root.parent if (package_root.parent / "docs").is_dir() else package_root)
     )
     try:
+        frozen_report = (
+            json.loads(args.reconcile_against.read_text())
+            if args.reconcile_against is not None
+            else None
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"error: cannot read --reconcile-against: {exc}", file=sys.stderr)
+        return 2
+    try:
         report = analyse_window(
             repo_root=repo_root,
             tape_rel=args.tape,
@@ -374,6 +519,7 @@ def main(argv: list[str] | None = None) -> int:
             offset_bars=args.offset_bars,
             limit_bars=args.limit_bars,
             window_label=args.window_label,
+            frozen_report=frozen_report,
         )
     except (ValueError, FileNotFoundError) as exc:
         print(f"error: {exc}", file=sys.stderr)
@@ -389,6 +535,13 @@ def main(argv: list[str] | None = None) -> int:
         print(f"    refused {count:6d} x {reason}")
     for domain, count in report["attribution"]["counts_by_domain"].items():
         print(f"    lost    {count:6d} x {domain}")
+    frozen_check = report.get("reconciliation_vs_frozen")
+    if frozen_check is not None:
+        print(
+            f"[analysis] reconcile vs frozen: {frozen_check['status']} "
+            f"({frozen_check['reconciled']}/{frozen_check['compared']} equal, "
+            f"{frozen_check['mismatched']} mismatched)"
+        )
     if args.out:
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(json.dumps(report, indent=2, sort_keys=True, default=str) + "\n")

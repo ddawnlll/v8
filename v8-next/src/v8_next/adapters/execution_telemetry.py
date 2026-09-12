@@ -14,14 +14,32 @@ Honesty rules encoded here:
   * the signed mean shortfall (net cost) and the mean magnitude of shortfall
     (deviation from the decision price) are both published, because averaging a
     signed quantity into a fidelity score lets opposite-signed fills cancel.
+
+Decision-trail binding (additive surface, EEO-001H / EEO-002 / D-136):
+
+  * :func:`attach_decision_trail` attaches a structured, hash-bound decision trail to a decision
+    record, so ``v8_next.app.explain`` can answer a single-trade counterfactual with the PIT
+    decision lineage beside it instead of prose. Spans must be PIT ``DecisionSpan``s on the
+    context's own trace; an evidence-plane or foreign-trace span is refused by name;
+  * :func:`decision_trail_digest` / :func:`verify_decision_trail` are the fail-closed read side:
+    a trail whose digest does not re-derive from its content is not a trail;
+  * nothing above changes the behaviour of the measurement functions in this module, and the
+    input record is never mutated: the trail is returned in a copy.
 """
 
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping, Sequence
 from typing import Any
 
 from v8_next.adapters.execution_models import ExecutionProfile, profile_summary
+from v8_next.telemetry import (
+    DecisionSpan,
+    EconomicTraceContext,
+    TraceLineageError,
+    canonical_digest,
+)
 
 #: Fill-report columns that carry execution semantics. The set is intersected
 #: with the columns the engine actually emitted, so a Nautilus version that
@@ -420,3 +438,107 @@ def execution_telemetry(
         }
     )
     return block
+
+
+#: Field the decision-trail digest is carried in. Excluded from its own preimage, so a reader can
+#: recompute what a recorded trail claims without stripping anything by hand.
+TRAIL_DIGEST_FIELD = "trail_digest"
+
+#: Refusal codes for the trail binding, so a consumer branches on the code and never on prose.
+TRAIL_SPAN_NOT_PIT_DECISION = "TRAIL_SPAN_NOT_PIT_DECISION"
+TRAIL_TRACE_LINEAGE_MISMATCH = "TRAIL_TRACE_LINEAGE_MISMATCH"
+TRAIL_DIGEST_MISSING = "TRAIL_DIGEST_MISSING"
+TRAIL_DIGEST_MISMATCH = "TRAIL_DIGEST_MISMATCH"
+
+
+def decision_trail_digest(trail: Mapping[str, Any]) -> str:
+    """Content digest of a decision trail, excluding the digest field itself.
+
+    Domain-separated as ``DecisionTrail`` and computed over the repository's canonical JSON, so
+    the same trail content yields the same digest and no wall clock is involved.
+    """
+    body = {key: value for key, value in trail.items() if key != TRAIL_DIGEST_FIELD}
+    return canonical_digest("DecisionTrail", body)
+
+
+def verify_decision_trail(trail: Mapping[str, Any]) -> str:
+    """Re-derive a trail digest from its content and fail closed on mismatch.
+
+    Returns the digest when the trail is intact; raises :class:`TraceLineageError` when the digest
+    is missing or does not re-derive, so a trail that was edited after recording is refused rather
+    than read.
+    """
+    recorded = trail.get(TRAIL_DIGEST_FIELD)
+    if not isinstance(recorded, str) or not recorded:
+        raise TraceLineageError(
+            "decision trail carries no digest", code=TRAIL_DIGEST_MISSING
+        )
+    expected = decision_trail_digest(trail)
+    if recorded != expected:
+        raise TraceLineageError(
+            f"decision trail digest mismatch (recorded {recorded}, content yields {expected})",
+            code=TRAIL_DIGEST_MISMATCH,
+        )
+    return expected
+
+
+def _pit_decision_spans(
+    trace_context: EconomicTraceContext, spans: Sequence[DecisionSpan]
+) -> list[DecisionSpan]:
+    """Validate the spans a trail may carry: PIT decision spans on this context's own trace."""
+    ordered = list(spans)
+    for span in ordered:
+        if not isinstance(span, DecisionSpan):
+            raise TraceLineageError(
+                f"decision trail accepts PIT DecisionSpan only, got {type(span).__name__}",
+                code=TRAIL_SPAN_NOT_PIT_DECISION,
+            )
+        if span.trace_id != trace_context.trace_id:
+            raise TraceLineageError(
+                f"span {span.span_id} belongs to trace {span.trace_id}, not to trace "
+                f"{trace_context.trace_id}",
+                code=TRAIL_TRACE_LINEAGE_MISMATCH,
+            )
+    return ordered
+
+
+def attach_decision_trail(
+    payload: dict[str, Any],
+    *,
+    trace_context: EconomicTraceContext,
+    spans: Sequence[DecisionSpan],
+) -> dict[str, Any]:
+    """Attach a structured, hash-bound decision trail to a decision record.
+
+    Returns a **new** mapping -- ``{**payload, "decision_trail": trail}`` -- so a sibling reader of
+    the input record is unaffected. The trail is JSON-serialisable and carries:
+
+    * ``trace_context``: opportunity id, trajectory modality/tag, PIT timestamp and provenance;
+    * ``spans``: the ordered PIT decision spans, with their stages, links and receipt ids;
+    * ``counterfactual_branches``: every ``SpanLinkType.CounterfactualBranch`` link, so
+      ``v8_next.app.explain`` reads the counterfactual lineage off the trail rather than inferring
+      it from the outcome;
+    * ``trail_digest``: :func:`decision_trail_digest` over everything above.
+
+    Raises :class:`TraceLineageError` when a span is not a PIT decision span or belongs to another
+    trace: a trail is evidence of a decision path, so a span that was not on that path cannot be
+    packaged into one.
+    """
+    if not isinstance(payload, dict):
+        raise TypeError(f"decision record payload must be a dict, got {type(payload).__name__}")
+    ordered = _pit_decision_spans(trace_context, spans)
+    trail: dict[str, Any] = {
+        "trajectory": trace_context.trajectory_type.as_str(),
+        "is_observed": trace_context.trajectory_type.is_observed(),
+        "is_counterfactual": trace_context.trajectory_type.is_counterfactual(),
+        "trace_context": trace_context.as_dict(),
+        "spans": [span.as_dict() for span in ordered],
+        "stages": [span.stage.as_str() for span in ordered],
+        "open_spans": sum(1 for span in ordered if not span.is_closed),
+        "receipt_ids": [span.receipt_id for span in ordered if span.receipt_id],
+        "counterfactual_branches": [
+            link.as_dict() for span in ordered for link in span.counterfactual_branches
+        ],
+    }
+    trail[TRAIL_DIGEST_FIELD] = decision_trail_digest(trail)
+    return {**payload, "decision_trail": trail}

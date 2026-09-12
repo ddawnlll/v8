@@ -1,0 +1,9 @@
+$ uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests
+All checks passed!
+
+$ uv run --project v8-next --extra dev mypy v8-next/src/v8_next/analysis
+Success: no issues found in 5 source files
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests/test_attribution_veto.py v8-next/tests/test_audit_kernel.py
+..................................                                       [100%]
+34 passed in 0.27s

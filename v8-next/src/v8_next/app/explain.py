@@ -11,11 +11,13 @@ Uses the ported oracle vocabulary, so the answer is a typed outcome rather than 
 
 from __future__ import annotations
 
+from dataclasses import replace
 from decimal import Decimal
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
 
+from v8_next.adapters.execution_telemetry import attach_decision_trail
 from v8_next.adapters.swing_engine import SwingEngineConfig, SwingEngineStrategy
 from v8_next.economics.grammar import POLICY_REQUIRED_BARS
 from v8_next.economics.swing_baseline import (
@@ -34,6 +36,16 @@ from v8_next.oracle import (
 )
 from v8_next.system_proving import FailureDomain
 from v8_next.system_proving.attribution import classify_exit_failure
+from v8_next.telemetry import (
+    DecisionSpan,
+    DecisionStage,
+    EconomicTraceContext,
+    SpanId,
+    SpanLink,
+    SpanLinkType,
+    TraceProvenance,
+    TrajectoryType,
+)
 
 HOUR_NS = 3_600 * 10**9
 
@@ -48,13 +60,105 @@ def _authority(level: Identifiability, *, support_rule: str, assumptions: tuple[
     )
 
 
+def _file_sha256(path: Path) -> str:
+    import hashlib
+
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def decision_trail(
+    *,
+    repo_root: Path,
+    tape: Any,
+    spec: Any,
+    decision: Any,
+    decision_bar: Any,
+    outcome: Any,
+) -> dict[str, Any]:
+    """The structured, hash-bound trail of one decision.
+
+    Only the stages the decision plane genuinely holds are recorded: the PIT market state that
+    produced the frame, the opportunity the grammar detected, and the admission of the campaign.
+    The engine-plane stages (order dispatch, fill, position management, settlement) are *not*
+    observed here — the decision plane replays a bracket, it does not run an engine — so the
+    trail declares them absent instead of minting a span for work that never happened.
+    """
+    provenance = TraceProvenance.new(
+        tape_hash=tape.tape_sha256,
+        policy_hash=spec.identity(),
+        constitution_hash=_file_sha256(repo_root / "docs" / "charter" / "V8_CONSTITUTION.md"),
+        code_hash=_file_sha256(Path(__file__).resolve().parents[1] / "economics" / "swing_baseline.py"),
+    )
+    opportunity_id = f"{spec.policy_id}:{decision.identity()}"
+    pit_ns = int(decision.decision_ns)
+    context = EconomicTraceContext.new(
+        opportunity_id=opportunity_id,
+        trajectory_type=TrajectoryType.Observed,
+        trajectory_tag="decision-plane-replay",
+        pit_timestamp=pit_ns,
+        provenance=provenance,
+    )
+    counterfactual = EconomicTraceContext.new(
+        opportunity_id=opportunity_id,
+        trajectory_type=TrajectoryType.Counterfactual,
+        trajectory_tag="other-bracket-contract",
+        pit_timestamp=pit_ns,
+        provenance=provenance,
+    )
+
+    link = SpanLink.new(
+        target_trace_id=counterfactual.trace_id,
+        target_span_id=SpanId.new(counterfactual.trace_id.value + ":market-state"),
+        opportunity_id=opportunity_id,
+        link_type=SpanLinkType.CounterfactualBranch,
+    ).with_attribute("contract", "bracket-contract-toggled")
+    spans: list[DecisionSpan] = []
+    parent: SpanId | None = None
+    for stage, start in (
+        (DecisionStage.MarketState, int(decision_bar.start_ns)),
+        (DecisionStage.OpportunityDetection, pit_ns),
+        (DecisionStage.CampaignAdmission, int(outcome.exit_ns)),
+    ):
+        span = DecisionSpan.new(
+            trace_id=context.trace_id,
+            parent_span_id=parent,
+            stage=stage,
+            start_time=start,
+            disambiguator=decision.identity(),
+        )
+        if stage is DecisionStage.CampaignAdmission:
+            span = replace(span, links=(link,))
+        spans.append(span)
+        parent = span.span_id
+
+    return attach_decision_trail(
+        {
+            "opportunity_id": opportunity_id,
+            "stages_not_observed": [
+                DecisionStage.OrderDispatch.value,
+                DecisionStage.ExecutionFill.value,
+                DecisionStage.PositionManagement.value,
+                DecisionStage.CashflowSettlement.value,
+            ],
+            "stages_not_observed_reason": (
+                "DECISION_PLANE_REPLAYS_A_BRACKET_IT_DOES_NOT_RUN_AN_ENGINE"
+            ),
+        },
+        trace_context=context,
+        spans=spans,
+    )
+
+
 def explain_trade(*, repo_root: Path, policy_id: str, index: int, tape_rel: str) -> dict[str, Any]:
     tape_path = repo_root / tape_rel
     tape = load_multitape(tape_path)
     series = list(tape.candles["BTCUSDT"])
     instrument_id = series[0].instrument_id
     spec = policy_spec(policy_id)
-    warmup = int(POLICY_REQUIRED_BARS[spec.grammar_policy])
+    grammar_policy = spec.grammar_policy
+    if grammar_policy is None:
+        raise ValueError(f"policy {policy_id!r} declares no grammar policy to warm up")
+    warmup = int(POLICY_REQUIRED_BARS[grammar_policy])
     has_bracket_policy = spec.protection_policy not in (None, "timeout-only-v1")
 
     cfg = SwingEngineConfig(policy_id=policy_id, instrument_id=instrument_id,
@@ -113,12 +217,22 @@ def explain_trade(*, repo_root: Path, policy_id: str, index: int, tape_rel: str)
         fill_counterfactual = OracleOutcome.unknown(
             OracleRefusal.NON_IDENTIFIABLE_FILL, fill_authority
         )
+        trail_record = decision_trail(
+            repo_root=repo_root,
+            tape=tape,
+            spec=spec,
+            decision=decision,
+            decision_bar=series[cursor],
+            outcome=actual,
+        )
         return {
             "policy_id": policy_id,
             "index": index,
             "decision_ns": int(decision.decision_ns),
             "direction": decision.direction,
             "bracketless_decision": bracketless,
+            "decision_trail": trail_record,
+            "decision_trail_digest": trail_record["decision_trail"]["trail_digest"],
             "actual": {
                 "exit_kind": actual.exit_kind,
                 "bars_held": actual.bars_held,
