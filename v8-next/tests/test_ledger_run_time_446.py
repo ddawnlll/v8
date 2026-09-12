@@ -33,8 +33,12 @@ Evidence classes:
   (``artifacts/benchmarks/benchmark_ledger.jsonl``): it still verifies under its own stored
   versions and its bytes are unchanged. Skips when the ledger is absent.
 
-No stored ledger entry, digest or fixture is written by this file: the canonical ledger is
-read-only evidence here.
+The canonical ledger is append-only and it *grows*: a producer run adds the next entry, and
+that entry measures a real run time. So this file states the invariant that outlives every
+entry -- a run time is published only when it was measured, never as the window end it
+measured -- and it proves the append leaves the stored lines byte-identical. No stored
+ledger entry, digest or fixture is written by this file: the canonical ledger is read-only
+evidence here.
 """
 
 from __future__ import annotations
@@ -529,20 +533,34 @@ def test_the_stored_ledger_still_verifies_under_its_own_versions_and_is_not_rewr
 
 
 def test_no_stored_entry_publishes_its_window_end_as_a_run_time() -> None:
-    """A3 / F4: the chronology the ledger can still not state is named, not filled in."""
+    """A3 / F4: a run time is published only when it was measured, never as a window end.
+
+    #446's defect was one reading published under two names: the window end the run
+    measured, republished as the run's own clock. That -- not "no entry may ever measure a
+    run time" -- is what every stored entry must respect, whatever era wrote it. An entry
+    that measured no run time says so by name; an entry that did measure one carries that
+    clock, and it cannot be the window end it measured.
+    """
     ledger_path = _canonical_ledger()
     if not ledger_path.is_file():
         pytest.skip(f"canonical ledger absent at {ledger_path}")
 
     ledger = BenchmarkLedger.load_jsonl(ledger_path)
+    assert ledger.entries, "the canonical ledger must carry entries"
     for entry in ledger.entries:
         receipt = entry.receipt
         times = receipt.time_publication()
-        # no stored record measured a run time: each is named unmeasured, and the window
-        # end it stores is not republished under the run-time name
-        assert times.publishes_run_time is False
-        assert times.run_time_ns is None
-        assert times.run_time_refusal.startswith(RUN_TIME_UNMEASURED)
+        if times.publishes_run_time:
+            # measured: the run's own clock, and provably not the window end wearing the
+            # run-time name (#446). The value is checked, not the absence of the field.
+            assert times.run_time_ns is not None
+            assert times.run_time_refusal == ""
+            assert times.run_time_ns != receipt.computed_at_timestamp_ns
+            assert times.run_time_ns != times.window_end_ns
+        else:
+            # not measured: named unmeasured, never filled in from the other quantity
+            assert times.run_time_ns is None
+            assert times.run_time_refusal.startswith(RUN_TIME_UNMEASURED)
         if times.publishes_window_end:
             assert times.window_end_ns == receipt.computed_at_timestamp_ns
         else:
@@ -550,3 +568,67 @@ def test_no_stored_entry_publishes_its_window_end_as_a_run_time() -> None:
                 WINDOW_END_UNDECLARED,
                 WINDOW_END_MISSCALED,
             )
+
+
+def test_appending_a_run_grows_the_ledger_and_rewrites_no_stored_line(
+    tmp_path: Path,
+) -> None:
+    """(3c): the producer may append to the canonical ledger, and history keeps its bytes.
+
+    The ledger is the system's chronology authority and it is append-only as *bytes*: a run
+    that adds one entry leaves every stored line byte-identical (no key set is re-rendered
+    through the current model), no stored identity moves, and the grown ledger still
+    verifies under its own versions. The canonical file is read here, never written -- the
+    append happens on a copy of those exact bytes.
+    """
+    ledger_path = _canonical_ledger()
+    if not ledger_path.is_file():
+        pytest.skip(f"canonical ledger absent at {ledger_path}")
+
+    canonical_bytes = ledger_path.read_bytes()
+    stored = BenchmarkLedger.load_jsonl(ledger_path)
+    assert len(stored.entries) == len(canonical_bytes.splitlines())
+    identities_before = [
+        (e.sequence_number, e.entry_hash, e.parent_entry_hash, e.receipt.receipt_digest)
+        for e in stored.entries
+    ]
+
+    grown_path = tmp_path / "benchmark_ledger.jsonl"
+    grown_path.write_bytes(canonical_bytes)
+    grown = BenchmarkLedger.load_jsonl(grown_path)
+    run_time = time.time_ns()
+    receipt = _receipt(
+        tmp_path,
+        name="append_trades.jsonl",
+        computed_at_ns=WINDOW_END_NS,
+        window_end_ns=WINDOW_END_NS,
+        run_time_ns=run_time,
+        case_id="BC-446-APPEND",
+    )
+    entry = grown.append(receipt)
+    grown.save_jsonl(grown_path)
+
+    # (i) the stored history is byte-identical: the appended line is the only difference
+    after = grown_path.read_bytes()
+    assert after[: len(canonical_bytes)] == canonical_bytes
+    assert after[len(canonical_bytes) :] == entry.model_dump_json().encode() + b"\n"
+    # (ii) the appended entry is the next link in the chain and it measured its run time
+    assert entry.sequence_number == len(stored.entries)
+    assert entry.parent_entry_hash == identities_before[-1][1]
+    appended_times = entry.receipt.time_publication()
+    assert appended_times.publishes_run_time is True
+    assert appended_times.run_time_ns == run_time
+    # (iii) no stored entry changed its identity
+    reloaded = BenchmarkLedger.load_jsonl(grown_path)
+    assert [
+        (e.sequence_number, e.entry_hash, e.parent_entry_hash, e.receipt.receipt_digest)
+        for e in reloaded.entries[: len(identities_before)]
+    ] == identities_before
+    # (iv) and the grown ledger still verifies in full -- chain, digests and artifacts
+    report = reloaded.verify_report()
+    assert report.overall == "OK", [e.as_dict() for e in report.entries if not e.fully_valid]
+    assert report.chain_valid and report.digests_valid and report.artifacts_intact
+
+    # the canonical file was read, not written: it is not this file's evidence to change
+    assert ledger_path.read_bytes() == canonical_bytes
+
