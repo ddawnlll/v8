@@ -222,17 +222,18 @@ def frame_at_incremental(
         # any surprise so the verdict stays identical.
         return frame_at(instrument_id, decision_ns, prefix)
     previous_end = parent.candles[-1].end_ns if parent.candles else -1
-    seen_starts = {c.start_ns for c in parent.candles}
+    # No set of parent starts is built: the parent prefix was already validated
+    # in order, and the tail chains off the parent's last end_ns, so any
+    # duplicate or overlapping start trips the ordering check below (bar
+    # durations are positive, hence a repeated start is always < previous_end).
+    # Anything the chained check cannot decide falls back to frame_at.
     for candle in tail:
         # frame_at would filter these out; including them would diverge.
         if candle.instrument_id != instrument_id:
             return frame_at(instrument_id, decision_ns, prefix)
         if candle.available_ns is None or candle.available_ns > decision_ns:
             return frame_at(instrument_id, decision_ns, prefix)
-        if candle.start_ns in seen_starts:
-            return frame_at(instrument_id, decision_ns, prefix)
         if candle.start_ns < previous_end:
             return frame_at(instrument_id, decision_ns, prefix)
-        seen_starts.add(candle.start_ns)
         previous_end = candle.end_ns
     return CausalFrame(instrument_id, decision_ns, prefix, _trusted_order=True)

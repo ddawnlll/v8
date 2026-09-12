@@ -31,9 +31,29 @@ class BarFeatureBundle:
     volumes_finite: bool
 
 
-_ACTIVE_BUNDLE: ContextVar[BarFeatureBundle | None] = ContextVar(
-    "v8_bar_features", default=None
-)
+class _LazyBundle:
+    """Defers the one shared build until the first series reader (#464).
+
+    Quiet bars (warmup / early-return experts that never touch a series) pay
+    only the ContextVar set/reset — no DataFrame is built for them. The first
+    close/high/low/volume access builds once; the other 27 readers reuse.
+    """
+
+    __slots__ = ("frame", "built")
+
+    def __init__(self, frame: CausalFrame) -> None:
+        self.frame = frame
+        self.built: BarFeatureBundle | None = None
+
+    def get(self) -> BarFeatureBundle:
+        built = self.built
+        if built is None:
+            built = build_bar_features(self.frame)
+            self.built = built
+        return built
+
+
+_ACTIVE_LAZY: ContextVar[_LazyBundle | None] = ContextVar("v8_bar_features_lazy", default=None)
 
 
 def build_bar_features(frame: CausalFrame) -> BarFeatureBundle:
@@ -59,9 +79,9 @@ def build_bar_features(frame: CausalFrame) -> BarFeatureBundle:
 
 
 def _bundled(frame: CausalFrame) -> BarFeatureBundle | None:
-    bundle = _ACTIVE_BUNDLE.get()
-    if bundle is not None and bundle.frame_id == id(frame):
-        return bundle
+    lazy = _ACTIVE_LAZY.get()
+    if lazy is not None and lazy.frame is frame:
+        return lazy.get()
     return None
 
 

@@ -40,7 +40,7 @@ from v8_next.experts.failed_moves import (
 from v8_next.experts.failed_moves import (
     observe_failed_move,
 )
-from v8_next.experts.features import _ACTIVE_BUNDLE, build_bar_features
+from v8_next.experts.features import _ACTIVE_LAZY, _LazyBundle
 from v8_next.experts.fibonacci import observe_fib_projection, observe_fib_retracement
 from v8_next.experts.gaps import observe_gap
 from v8_next.experts.ichimoku import observe_ichimoku
@@ -675,16 +675,16 @@ def observe_all_28(
     """Observe an opportunity across all 28 canonical active experts with authoritative metadata.
 
     Per-bar shared feature bundle: one computation, 28 readers. The bundle is
-    a pure function of this bar's frame, set for this call only and cleared
-    afterwards (per-bar invalidation, no cross-bar leakage). Misses fail
-    closed to the unbundled path, so stances stay identical.
+    a pure function of this bar's frame, built lazily on first series access
+    and cleared afterwards (per-bar invalidation, no cross-bar leakage).
+    Quiet bars that never touch a series pay only the ContextVar set/reset.
+    Misses fail closed to the unbundled path, so stances stay identical.
     """
-    bundle = build_bar_features(frame)
-    token = _ACTIVE_BUNDLE.set(bundle)
+    token = _ACTIVE_LAZY.set(_LazyBundle(frame))
     try:
         return tuple(
             observe_expert(spec_id, frame, opportunity, readings=readings)
             for spec_id in CANONICAL_28_EXPERTS
         )
     finally:
-        _ACTIVE_BUNDLE.reset(token)
+        _ACTIVE_LAZY.reset(token)
