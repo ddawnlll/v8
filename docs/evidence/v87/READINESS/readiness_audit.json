@@ -57,13 +57,13 @@
   },
   "gate_coverage": {
     "formula": "gates PASS / ten hard gates, resolved on the same series as capability",
-    "passed": 4,
-    "pct": 40.0,
+    "passed": 2,
+    "pct": 20.0,
     "readiness_status": "HardFailure",
     "states": {
       "g0_identity": "PASS",
-      "g1_causal_pit": "PASS",
-      "g2_determinism_ledger": "PASS",
+      "g1_causal_pit": "UNKNOWN",
+      "g2_determinism_ledger": "UNKNOWN",
       "g3_benchmark_coverage": "BLOCKED",
       "g4_structural_robustness": "PASS",
       "g5_statistical_credibility": "BLOCKED",
@@ -71,6 +71,34 @@
       "g7_generalization": "UNKNOWN",
       "g8_prospective_shadow": "NOT_APPLICABLE",
       "g9_live_realization": "BLOCKED"
+    },
+    "structural_gates": {
+      "g0_identity": {
+        "input": "has_continuous_lineage",
+        "instrument": "BTCUSDT-PERP.BINANCE",
+        "measured": true,
+        "n_bars": 744,
+        "reason": "SINGLE_INSTRUMENT_GAP_FREE",
+        "span_ns": [
+          1735689600000000000,
+          1738368000000000000
+        ],
+        "status": "MEASURED"
+      },
+      "g1_causal_pit": {
+        "input": "is_causal_pit",
+        "measured": null,
+        "note": "no per-bar decision-vs-availability audit is performed on this path; UNKNOWN, never PASS",
+        "reason": "CAUSAL_PIT_NOT_MEASURED_ON_THIS_PATH",
+        "status": "UNRUN"
+      },
+      "g2_determinism_ledger": {
+        "entries": 0,
+        "note": "an empty ledger evidences no ledger parity; UNKNOWN, never PASS",
+        "reason": "LEDGER_EMPTY_NO_ENTRIES_TO_VERIFY",
+        "status": "UNRUN"
+      },
+      "note": "#447: g0/g1/g2 are derived by the resolver, not declared; each entry carries the measured input and the named reason its state carries"
     },
     "total": 10
   },
