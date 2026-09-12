@@ -9,8 +9,8 @@ number on its own. Every factor is derived from artifacts on disk:
                       are absent is MISSING and contributes 0 - it is never filled in.
 * ``risk_factor``   - 1 only when every declared risk limit is measured against the
                       paper-trade record and respected; 0 on any breach, and 0 on a limit
-                      whose source publishes no number (UNMEASURED, named); MISSING when
-                      there is no record at all
+                      whose source publishes no number, or publishes it on a different
+                      basis (UNMEASURED, named); MISSING when there is no record at all
 * ``target_factor`` - protected monthly return / 10 % (the red apple), capped at 1. It is
                       diagnostic-only (contributes 0) on a window that is not protected.
 
@@ -31,12 +31,38 @@ from v8_next.evaluation.benchmark_receipt import (
 
 #: declared risk limits for the paper-trade pillar (breach => risk factor 0). The limits are
 #: fractions/multiples; a measured excursion published as a percentage is normalised before
-#: the comparison (#449), so a unit mismatch can never produce a vacuous PASS.
+#: the comparison (#449). #470: the limit and the observation must also share a *basis* -- a
+#: capital fraction may not be compared against a return-sum percentage -- so a limit with
+#: no same-basis number is UNMEASURED (named ``RISK_LIMIT_BASIS_MISMATCH``), never a
+#: vacuous BREACH or a vacuous RESPECTED.
 RISK_LIMITS = {
     "max_drawdown": -0.25,
     "max_fee_drag_vs_gross": 2.0,
     "max_exposure": 1.0,
 }
+
+#: the basis each declared limit above is stated in (#470). ``capital_fraction`` is a
+#: fraction of the capital base; ``ratio`` is a multiple of a measured reference quantity
+#: (fee cost against gross return). A number is compared only against the limit declared in
+#: the basis that number is published on.
+LIMIT_BASES: dict[str, str] = {
+    "max_drawdown": "capital_fraction",
+    "max_fee_drag_vs_gross": "ratio",
+    "max_exposure": "capital_fraction",
+}
+
+#: the basis a source declares when it measures an excursion against its own return-sum
+#: path: percent of that path's own running peak, in return-sum units. It is not the capital
+#: fraction the drawdown limit is declared in, so the two numbers are not one quantity.
+RETURN_SUM_BASIS = "return_sum_percent"
+
+#: a published number whose source declares no basis at all (#470): the reader names that
+#: instead of assuming the number is on the limit's basis.
+BASIS_UNKNOWN = "unknown"
+
+#: named reason a declared limit is left UNMEASURED: the numbers read are published on a
+#: basis the limit is not declared in, so no BREACH/RESPECTED cell may be derived (#470).
+RISK_LIMIT_BASIS_MISMATCH = "RISK_LIMIT_BASIS_MISMATCH"
 
 #: the red apple: the far target, never a claim
 RED_APPLE_MONTHLY_RETURN = 0.10
@@ -243,11 +269,13 @@ def pillar_factor(repo_root: Path) -> dict[str, Any]:
 #: The source every declared risk limit is read from, by name (#449). A limit whose source
 #: publishes no number in the P2 artifact set is reported UNMEASURED and contributes 0.0:
 #: an unmeasured quantity is never published as respected. Two of these limits were
-#: consulted by no code at all before #449.
+#: consulted by no code at all before #449. #470: the basis each alternative source
+#: publishes on, so a number on another basis is never read as this limit's measurement.
 LIMIT_SOURCES: dict[str, str] = {
     "max_drawdown": (
-        "families.<policy>.robustness_vector.max_adverse_excursion_pct (percent), or a "
-        "published key containing 'drawdown' (fraction)"
+        "families.<policy>.robustness_vector.max_adverse_excursion_pct (percent of the "
+        "policy's own return-sum path -- not a capital fraction), or a published key "
+        "containing 'drawdown' (fraction of the capital base)"
     ),
     "max_fee_drag_vs_gross": (
         "abs(fee_cost_return_sum) / abs(gross_return_sum) for the same policy"
@@ -283,30 +311,105 @@ def _family_entries(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return entries
 
 
+def _declared_basis(*texts: Any) -> str | None:
+    """The basis a source's own declaration names (#470), or None when it names neither.
+
+    A declaration is the artifact's own unit/basis text, read as published -- never inferred
+    from the field's name. The P2 record declares ``percent of that path's own running peak,
+    in return-sum units (not capital percent)`` for ``max_adverse_excursion_pct``, and that
+    is a different quantity from the capital fraction the limit is stated in.
+    """
+    for text in texts:
+        if not isinstance(text, str) or not text.strip():
+            continue
+        lowered = text.lower()
+        if "return-sum" in lowered or "return sum" in lowered or "not capital" in lowered:
+            return RETURN_SUM_BASIS
+        if "capital" in lowered:
+            return "capital_fraction"
+    return None
+
+
+def _declared_basis_for(entry: dict[str, Any], field: str) -> str | None:
+    """The basis one family entry declares for a published field (#470), or None."""
+    texts: list[Any] = []
+    vector_basis = entry.get("robustness_vector_basis")
+    if isinstance(vector_basis, dict):
+        declared = vector_basis.get(field)
+        if isinstance(declared, dict):
+            texts += [declared.get("unit"), declared.get("basis")]
+    drawdown_basis = entry.get("drawdown_basis")
+    if isinstance(drawdown_basis, dict):
+        fields = drawdown_basis.get("fields")
+        named = fields if isinstance(fields, list) else []
+        if not named or field in named:
+            texts += [drawdown_basis.get("unit"), drawdown_basis.get("basis")]
+    return _declared_basis(*texts)
+
+
+def _fraction_drawdown_basis(data: dict[str, Any], key: str) -> str:
+    """The basis a fraction-unit ``drawdown`` key is published in (#470).
+
+    A ``drawdown`` key published as a fraction is the unit the declared limit is stated in,
+    unless the family that published it declares another basis for the field -- the
+    declaration always wins over the field's name.
+    """
+    entry = _family_entries(data).get(key.split(".", 1)[0])
+    if isinstance(entry, dict):
+        declared = _declared_basis_for(entry, key.rsplit(".", 1)[-1])
+        if declared is not None:
+            return declared
+    return LIMIT_BASES["max_drawdown"]
+
+
 def _observation(
-    artifact: str, source: str, published: Any, unit: str, measured: float
+    artifact: str,
+    source: str,
+    published: Any,
+    unit: str,
+    measured: float,
+    source_basis: str,
+    limit_basis: str,
 ) -> dict[str, Any]:
-    """One published number, named, in the unit the limit is compared in."""
+    """One published number, named, in the unit the limit is compared in and on its basis.
+
+    #470: ``basis`` is what the source publishes the number on and ``limit_basis`` is what
+    the limit is declared in. Both travel with the observation so no reader has to assume
+    the comparison was made between two quantities of the same kind.
+    """
     return {
         "artifact": artifact,
         "source": source,
         "published": published,
         "unit": unit,
         "measured": measured,
+        "basis": source_basis,
+        "limit_basis": limit_basis,
     }
 
 
 def _drawdown_observations(
     rel: str, data: dict[str, Any], metrics: dict[str, Any]
 ) -> list[dict[str, Any]]:
-    """Every drawdown the artifact publishes, as an adverse-excursion magnitude."""
+    """Every drawdown the artifact publishes, each with the basis it publishes it on (#470)."""
+    limit_basis = LIMIT_BASES["max_drawdown"]
     observations: list[dict[str, Any]] = []
     for key, value in metrics.items():
         if "drawdown" not in key:
             continue
         fraction = _as_fraction(value, "fraction")
         if fraction is not None:
-            observations.append(_observation(rel, key, value, "fraction", abs(fraction)))
+            observations.append(
+                _observation(
+                    rel,
+                    key,
+                    value,
+                    "fraction",
+                    abs(fraction),
+                    _fraction_drawdown_basis(data, key),
+                    limit_basis,
+                )
+            )
     for policy, entry in _family_entries(data).items():
         vector = entry.get("robustness_vector")
         if not isinstance(vector, dict):
@@ -316,7 +419,12 @@ def _drawdown_observations(
         if fraction is None:
             continue
         source = f"families.{policy}.robustness_vector.max_adverse_excursion_pct"
-        observations.append(_observation(rel, source, published, "percent", abs(fraction)))
+        # A1: the source's own declared basis, or "unknown" when it declares none -- a
+        # percent excursion is never assumed to be a capital fraction
+        basis = _declared_basis_for(entry, "max_adverse_excursion_pct") or BASIS_UNKNOWN
+        observations.append(
+            _observation(rel, source, published, "percent", abs(fraction), basis, limit_basis)
+        )
     return observations
 
 
@@ -337,13 +445,24 @@ def _fee_drag_observations(rel: str, data: dict[str, Any]) -> list[dict[str, Any
                 continue
             ratio = abs(fee) / abs(gross)
             source = f"families.{policy}{suffix}: abs(fee_cost_return_sum)/abs(gross_return_sum)"
-            observations.append(_observation(rel, source, ratio, "ratio", ratio))
+            observations.append(
+                _observation(
+                    rel,
+                    source,
+                    ratio,
+                    "ratio",
+                    ratio,
+                    LIMIT_BASES["max_fee_drag_vs_gross"],
+                    LIMIT_BASES["max_fee_drag_vs_gross"],
+                )
+            )
     return observations
 
 
 def _exposure_observations(rel: str, data: dict[str, Any]) -> list[dict[str, Any]]:
     """A published exposure fraction, when one exists anywhere in the artifact."""
     observations: list[dict[str, Any]] = []
+    limit_basis = LIMIT_BASES["max_exposure"]
     scopes: list[tuple[str, dict[str, Any]]] = [("", data)]
     for policy, entry in _family_entries(data).items():
         scopes.append((f"families.{policy}.", entry))
@@ -353,19 +472,29 @@ def _exposure_observations(rel: str, data: dict[str, Any]) -> list[dict[str, Any
             fraction = _as_fraction(published, "fraction")
             if fraction is None:
                 continue
-            observations.append(_observation(rel, f"{prefix}{key}", published, "fraction", abs(fraction)))
+            basis = _declared_basis_for(scope, key) or limit_basis
+            observations.append(
+                _observation(
+                    rel, f"{prefix}{key}", published, "fraction", abs(fraction), basis, limit_basis
+                )
+            )
     return observations
 
 
 def risk_factor(repo_root: Path, paper_artifacts: list[str]) -> dict[str, Any]:
-    """Declared risk limits against the measured paper-trade record, fail-closed (#449).
+    """Declared risk limits against the measured paper-trade record, fail-closed (#449/#470).
 
     Every limit in ``RISK_LIMITS`` is measured from the source ``LIMIT_SOURCES`` names it
-    from, in one unit (a percentage excursion is normalised to a fraction). A limit whose
-    source publishes no number is ``UNMEASURED``, named in ``unmeasured``, and contributes
-    factor 0.0 -- a limit no number stands behind is never published as respected. A breach
-    is named with the limit, the normalised value and the source that broke it. The factor
-    is 1.0 only when every declared limit is measured and respected.
+    from, in one unit (a percentage excursion is normalised to a fraction) *and* on one
+    basis: a number is compared only against the limit declared in the basis that number is
+    published on. The P2 record measures its excursion as a percent of its own return-sum
+    path, which is not the capital fraction ``max_drawdown`` is declared in, so the two are
+    not one quantity: that limit is ``UNMEASURED``, named ``RISK_LIMIT_BASIS_MISMATCH``, and
+    contributes 0.0 -- it is never published as a BREACH or a RESPECTED derived from a
+    mismatched pair. A limit whose source publishes no number is likewise ``UNMEASURED``,
+    named in ``unmeasured``. A breach is named with the limit, the normalised value and the
+    source that broke it. The factor is 1.0 only when every declared limit is measured on its
+    own basis and respected.
     """
     metrics: dict[str, Any] = {}
     observations: dict[str, list[dict[str, Any]]] = {name: [] for name in RISK_LIMITS}
@@ -405,10 +534,13 @@ def risk_factor(repo_root: Path, paper_artifacts: list[str]) -> dict[str, Any]:
                 name: {
                     "status": "UNMEASURED",
                     "limit": RISK_LIMITS[name],
+                    "limit_basis": LIMIT_BASES[name],
                     "source": LIMIT_SOURCES[name],
+                    "basis_pairs": [],
                     "observations": [],
                     "breaches": [],
                     "reason": "no paper-trade record was read",
+                    "reason_detail": "",
                 }
                 for name in RISK_LIMITS
             },
@@ -418,29 +550,62 @@ def risk_factor(repo_root: Path, paper_artifacts: list[str]) -> dict[str, Any]:
     unmeasured: list[str] = []
     assessments: dict[str, Any] = {}
     for name, limit in RISK_LIMITS.items():
+        limit_basis = LIMIT_BASES[name]
         measured_rows = observations[name]
+        # #470: only a number published on the limit's own basis may carry a verdict; a
+        # number on another basis is recorded and named, never compared
+        same_basis = [row for row in measured_rows if row["basis"] == limit_basis]
+        other_basis = [row for row in measured_rows if row["basis"] != limit_basis]
         limit_breaches = [
             f"{name} {row['measured']:.8f} beyond {limit} "
-            f"({row['artifact']}: {row['source']}, published {row['published']} as {row['unit']})"
-            for row in measured_rows
+            f"({row['artifact']}: {row['source']}, published {row['published']} as {row['unit']}, "
+            f"basis {row['basis']} = the limit's own basis)"
+            for row in same_basis
             if row["measured"] > abs(limit)
         ]
+        reason = ""
+        reason_detail = ""
         if limit_breaches:
             status = "BREACH"
+            reason_detail = "the number is published on the limit's own basis and exceeds it"
             breaches += limit_breaches
-        elif measured_rows:
+        elif same_basis:
             status = "RESPECTED"
+            reason_detail = "the number is published on the limit's own basis and is within it"
         else:
             status = "UNMEASURED"
-            unmeasured.append(
-                f"{name}: no artifact read publishes {LIMIT_SOURCES[name]}"
-            )
+            if other_basis:
+                published_bases = ", ".join(sorted({row["basis"] for row in other_basis}))
+                reason = RISK_LIMIT_BASIS_MISMATCH
+                reason_detail = (
+                    f"the limit is declared on basis {limit_basis}; every number read is "
+                    f"published on basis {published_bases}, so no pair on one basis exists "
+                    "and the two are not compared"
+                )
+                unmeasured.append(f"{name}: {reason} -- {reason_detail}")
+            else:
+                reason = f"no artifact read publishes {LIMIT_SOURCES[name]}"
+                unmeasured.append(f"{name}: {reason}")
         assessments[name] = {
             "status": status,
             "limit": limit,
+            "limit_basis": limit_basis,
             "source": LIMIT_SOURCES[name],
+            # A1: the (limit basis, source basis) pair every observation was read as
+            "basis_pairs": [
+                {
+                    "limit_basis": limit_basis,
+                    "source_basis": row["basis"],
+                    "artifact": row["artifact"],
+                    "source": row["source"],
+                    "matches": row["basis"] == limit_basis,
+                }
+                for row in measured_rows
+            ],
             "observations": measured_rows,
             "breaches": limit_breaches,
+            "reason": reason,
+            "reason_detail": reason_detail,
         }
     status = "BREACH" if breaches else ("UNMEASURED" if unmeasured else "RESPECTED")
     return {
