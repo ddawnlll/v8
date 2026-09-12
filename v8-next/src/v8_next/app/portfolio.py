@@ -43,14 +43,17 @@ from v8_next.app.economic import (
     oos_slice_flow,
 )
 from v8_next.domain.capital_policy import CapitalPolicy
+from v8_next.domain.market import Candle
 from v8_next.evaluation import economic_benchmark as eb
 from v8_next.evaluation.benchmark_receipt import (
     BenchmarkLedger,
     BenchmarkReceipt,
+    GateVector,
     ScoreEvidence,
     WindowEvidence,
 )
 from v8_next.evaluation.certificate import PolicyCertificate
+from v8_next.evaluation.gate_resolution import resolve_structural_gates
 from v8_next.evaluation.multitape import MultiTape, load_multitape
 from v8_next.evaluation.parity import ArtifactBinding
 from v8_next.evaluation.report import generate_forensic_html_report, render_identity
@@ -243,6 +246,51 @@ def build_shared_inputs(
     }
     shared_qvols = {f"{k}-PERP.BINANCE": list(v) for k, v in tape.quote_volumes.items()}
     return shared_bars, shared_closes, shared_qvols
+
+
+def resolve_portfolio_gates(
+    candles: Sequence[Candle],
+    ledger: BenchmarkLedger,
+    *,
+    total_trades: int,
+    pnl_series: list[float],
+) -> GateVector:
+    """The portfolio run's gate vector: G0/G1/G2 resolved from measurement (#471).
+
+    The canonical portfolio run used to build its vector with only the bar count, the
+    trade count and the PnL series. The three blocking/required cells were therefore
+    decided by the gate rule's keyword defaults (``has_continuous_lineage=True``,
+    ``is_causal_pit=True``, ``mismatches=0``) -- a hard-gate PASS standing behind no
+    measurement -- and that vector is hashed into ``receipt_digest`` and appended to the
+    durable ledger. None of those three quantities exists as a measurement on this path:
+
+    * **G0** is the runner's own candle-lineage measurement, taken on ``candles`` -- the
+      bar series this run's window identity is declared on (the receipt's ``span_ns``
+      and ``source_hashes`` are read from it). A gap or an overlap fails it closed.
+    * **G1** has no per-bar decision-vs-availability audit on this path at all, so the
+      resolver publishes it UNKNOWN with ``CAUSAL_PIT_NOT_MEASURED_ON_THIS_PATH``; the
+      portfolio run performs no PIT audit, so it may not publish a PASS here.
+    * **G2** is measured on ``ledger`` -- the ledger this run appends to. An empty ledger
+      verifies vacuously (UNKNOWN, named), a ledger that does not verify is BLOCKED
+      (named); a clean ledger still leaves the engine-rerun half unmeasured.
+
+    The three cells published here are the ones :func:`resolve_structural_gates`
+    produced for these inputs: the resolver's own measured inputs are handed to the
+    canonical rule rather than a second vector being derived, so the receipt carries the
+    same resolution the resolver publishes.
+    """
+    structural = resolve_structural_gates(tuple(candles), ledger)
+    return evaluate_gate_vector(
+        total_bars=len(candles),
+        total_trades=total_trades,
+        pnl_series=pnl_series,
+        # No mismatch count is measured on this path: G2 is the ledger's own verdict,
+        # and leaving ``mismatches`` at its default would be an unmeasured zero.
+        mismatches=None,
+        has_continuous_lineage=structural.inputs.has_continuous_lineage,
+        is_causal_pit=structural.inputs.is_causal_pit,
+        g2_state=structural.inputs.g2_state,
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -890,15 +938,26 @@ def main(argv: list[str] | None = None) -> int:
         binding_list.append(ArtifactBinding.from_file("capital_policy", args.capital_policy))
     bindings = tuple(binding_list)
 
-    # Bind into the D-153 receipt/ledger/certificate chain (gates untouched).
+    # Bind into the D-153 receipt/ledger/certificate chain.
     pnl_series = [
         float(str(c.get("realized_pnl", "0").split()[0]))
         for c in p_fund["closed_positions"] if isinstance(c, dict) and c.get("realized_pnl")
     ]
     # execution_evidence (bound above) feeds the ExecutionFidelity domain in
     # place of the PnL Sharpe proxy.
-    gates = evaluate_gate_vector(total_bars=n, total_trades=len(p_fund["opened_positions"]),
-                                 pnl_series=pnl_series or [0.0])
+    # #471: the gate vector is built from measurement, not from the rule's defaults.
+    # The ledger is read here -- the receipt does not exist yet, and the ledger this run
+    # appends to (below, once `bench_receipt` is built) is what G2's parity is measured
+    # on -- and the bar series handed over is the one this run's window identity is
+    # declared on. With no per-bar PIT audit on this path, G1 is UNKNOWN by name and G2
+    # is UNKNOWN/BLOCKED, never the PASS the missing arguments used to mint.
+    ledger = BenchmarkLedger.load_jsonl(out_dir / "benchmark_ledger.jsonl")
+    gates = resolve_portfolio_gates(
+        tape.candles[tape.instruments[0]],
+        ledger,
+        total_trades=len(p_fund["opened_positions"]),
+        pnl_series=pnl_series or [0.0],
+    )
     # #444: the window's evidence class is read off the window spec and travels
     # into the receipt. A bar-count smoke window is liveness/mechanics evidence,
     # so it mints no capability score at all: the run still lands in the ledger
@@ -964,7 +1023,9 @@ def main(argv: list[str] | None = None) -> int:
             ).encode()
         ).hexdigest(),
     )
-    ledger = BenchmarkLedger.load_jsonl(out_dir / "benchmark_ledger.jsonl")
+    # #471: the ledger was read above, when G2's parity was measured; this run appends
+    # to that same ledger object, so the receipt's gate vector and the chain it joins
+    # cannot describe two different ledgers.
     entry = ledger.append(bench_receipt)
     ledger.save_jsonl(out_dir / "benchmark_ledger.jsonl")
     ok, msg = bench_receipt.verify()
