@@ -151,6 +151,7 @@ class SwingEngineStrategy(Strategy):
         self.events = SwingEngineEvents()
         self.seen: list[Candle] = []
         self.plan: dict[str, Any] | None = None  # the live campaign
+        self.active_position_id: str | None = None
         self.bars_seen = 0
         # Conservative positional guards for the bounded fast path. Once any of
         # these latches, the full history is known irregular, so later bounded
@@ -175,6 +176,14 @@ class SwingEngineStrategy(Strategy):
 
     def _instrument(self) -> CryptoPerpetual:
         return self.cache.instrument(self.instrument_id)
+
+    def _position_id(self) -> Any | None:
+        """The open position this strategy's exits must reduce, if one is known."""
+        if self.active_position_id is None:
+            return None
+        from nautilus_trader.model import PositionId
+
+        return PositionId.from_str(self.active_position_id)
 
     def on_bar(self, bar: Bar) -> None:
         candle = self.source_candles.get(bar.ts_event)
@@ -366,8 +375,10 @@ class SwingEngineStrategy(Strategy):
         self.events.decisions.append({"bracket_submitted": dict(plan)})
         # both legs rest together; the first to fill closes the position and the sibling is
         # cancelled from on_order_filled, which is the OCO behaviour the replay assumes
-        self.submit_order(stop)
-        self.submit_order(target)
+        # submitted against the open position so the legs can only reduce it: without this a
+        # second leg filling after the first opens an opposite position nobody is tracking
+        self.submit_order(stop, position_id=self._position_id())
+        self.submit_order(target, position_id=self._position_id())
 
     def _maybe_timeout(self, candle: Candle) -> None:
         plan = self.plan or {}
@@ -394,8 +405,9 @@ class SwingEngineStrategy(Strategy):
         )
         plan["status"] = f"CLOSING_{reason}"
         plan["close_client_order_id"] = str(order.client_order_id)
+        plan["close_position_id"] = self.active_position_id
         self.events.decisions.append(dict(plan))
-        self.submit_order(order)
+        self.submit_order(order, position_id=self._position_id())
 
     # --- engine callbacks ----------------------------------------------------------
 
@@ -448,6 +460,7 @@ class SwingEngineStrategy(Strategy):
                     self.cancel_order(order)
 
     def on_position_opened(self, event: Any) -> None:
+        self.active_position_id = str(getattr(event, "position_id", "")) or None
         self.events.positions_opened.append(
             {
                 "position_id": str(getattr(event, "position_id", "")),
@@ -458,7 +471,29 @@ class SwingEngineStrategy(Strategy):
             }
         )
 
+    def on_order_denied(self, event: Any) -> None:
+        """A denied order is a finding: it is recorded and named, never swallowed."""
+        self.events.order_events.append(
+            {
+                "event_type": "OrderDenied",
+                "client_order_id": str(getattr(event, "client_order_id", "")),
+                "reason": str(getattr(event, "reason", "")),
+                "ts_event": getattr(event, "ts_event", 0),
+            }
+        )
+
+    def on_order_rejected(self, event: Any) -> None:
+        self.events.order_events.append(
+            {
+                "event_type": "OrderRejected",
+                "client_order_id": str(getattr(event, "client_order_id", "")),
+                "reason": str(getattr(event, "reason", "")),
+                "ts_event": getattr(event, "ts_event", 0),
+            }
+        )
+
     def on_position_closed(self, event: Any) -> None:
+        self.active_position_id = None
         record = {
             "position_id": str(getattr(event, "position_id", "")),
             "quantity": str(getattr(event, "quantity", "")),
