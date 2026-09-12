@@ -1,10 +1,18 @@
 # V8-next implementation scope
 
-Status: owner-authorized development architecture; not a release or economic
-certification. Started 2026-09-08. This document does not amend economic claim
-requirements in `site/index.html`. The current explicit owner instruction
-supersedes Rust-only development for `v8-next/`; legacy Python and Rust remain
-untouched reference implementations. No legacy runtime imports or compilation.
+Status: **ACTIVE — owner-authorized development architecture (authority record
+D-162, 2026-09-11).** Not a release or economic certification. Started 2026-09-08.
+This document does not amend economic claim requirements in `site/index.html`.
+The current explicit owner instruction places the active product authority in
+`v8-next/` and quarantines the Rust tree to `legacy/v8-core/` as a non-canonical
+read-only parity oracle (reconciling issue #409). `src/v8/` and the historical
+`tests/` harness remain frozen untouched oracles. No legacy runtime imports or
+compilation.
+
+**Supersession history:** a 2026-09-10 working-tree edit declared this scope
+SUSPENDED and returned authority to `v8-core/`. That declaration was never
+registered as a D-series decision, is recorded in #409 as an unanchored boundary
+rewrite, and is superseded by D-162. It is retained here only as history.
 
 ## Boundary
 

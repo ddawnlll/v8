@@ -26,7 +26,7 @@ FORBIDDEN_COUNTERFACTUAL_TERMS = [
 
 def audit_codebase_naming() -> list[str]:
     violations = []
-    scan_dirs = [ROOT / "v8-core" / "src", ROOT / "site"]
+    scan_dirs = [ROOT / "v8-next" / "src", ROOT / "legacy" / "v8-core" / "src", ROOT / "site"]
     
     for sdir in scan_dirs:
         if not sdir.exists():

@@ -1,0 +1,9 @@
+$ uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests
+All checks passed!
+
+$ uv run --project v8-next --extra dev mypy v8-next/src/v8_next/oracle
+Success: no issues found in 12 source files
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests/test_oracle_port.py v8-next/tests/test_oracle_episode.py v8-next/tests/test_oracle_contract.py v8-next/tests/test_oracle_coverage.py v8-next/tests/test_oracle_recoverability.py
+................................                                         [100%]
+32 passed in 0.23s

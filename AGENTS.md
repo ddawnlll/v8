@@ -2,6 +2,11 @@
 
 ## 🚨 STRICT RULE: RUST ONLY — PYTHON CODEBASE IS FROZEN & DEPRECATED
 
+**Active development reset (2026-09-10):** The project has returned to the
+Rust-first plan. `v8-core/` is the only active implementation; `v8-next/` is a
+frozen experimental Python prototype and must not receive new implementation
+work unless the owner explicitly reactivates it in a later instruction.
+
 ### 1. Authoritative Runtime is Rust (`v8-core/`)
 - **`v8-core/` is the ONLY active, authoritative codebase** for the entire project (runtime, compute plane, experts, scheduler, backends, analysis, verdict, evaluation, reports).
 - **All code edits, bug fixes, new features, and tests MUST be written in Rust inside `v8-core/`.**
@@ -19,6 +24,11 @@ Only standalone documentation / tooling scripts in `tools/` may use Python:
 - `tools/audit_synthetic_leakage.py`
 - `tools/audit_economic_claim.py`
 - `tools/forbidden_names.py`
+
+`v8-next/` is retained for historical/prototype reference only. Do not add,
+edit, refactor, or extend its Python implementation or tests during the active
+Rust workstream. Its commands may be run read-only for comparison or forensic
+inspection when explicitly useful.
 
 ### 4. Verification Commands
 - `cargo test --manifest-path v8-core/Cargo.toml`
@@ -116,6 +126,5 @@ boundary) only:
 - **PR Actions Under Human Direction Only:** Agents create and update PRs strictly under human direction / task assignment.
 - **Absolute Ban on Autonomous Merging:** Agents must NEVER merge pull requests (e.g. `gh pr merge`, `git merge`, or squash merge) autonomously. Merging PRs is strictly reserved for human maintainers or requires explicit, standalone human maintainer direction.
 - **No Direct Pushes to Main:** Agents must NEVER push directly to `main`.
-
 
 

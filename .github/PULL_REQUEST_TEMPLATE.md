@@ -27,7 +27,7 @@
 - [ ] **No runtime/economic source touched** (for governance, documentation, or tooling PRs).
 - [ ] **No out-of-scope files modified.** All touched files are directly owned by the requirements below.
 - [ ] **No frozen OOS opened** unless authorized with an explicit receipt.
-- [ ] **Python/Rust ownership boundary intact** (`tools/audit_python_boundary.py`).
+- [ ] **Python/Rust ownership boundary intact** (`tools/audit_python_boundary.py`; `v8-next/` authoritative per D-162).
 
 ---
 
@@ -58,8 +58,9 @@ Exact active CI check identity on GitHub Actions: `check` (workflow: `ci`).
 
 - [ ] `python3 tools/forbidden_names.py` (Gate 3) — **PASS**
 - [ ] `python3 tools/audit_python_boundary.py` — **PASS**
-- [ ] `cargo test --manifest-path v8-core/Cargo.toml` — **PASS** (<!-- test count --> passed)
-- [ ] `cargo clippy --manifest-path v8-core/Cargo.toml --all-targets -- -D warnings` — **PASS**
+- [ ] `uv run --project v8-next --extra dev pytest -q v8-next/tests` — **PASS** (<!-- test count --> passed)
+- [ ] `uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests` + `mypy v8-next/src` — **PASS**
+- [ ] Quarantined Rust oracle, read-only and labeled only: `cargo test --manifest-path legacy/v8-core/Cargo.toml` — **N/A by default**
 - [ ] Monograph byte-identity probe (`tools/build_monograph.py`) — **PASS** / N/A
 
 ### Computation Budget (D-099)

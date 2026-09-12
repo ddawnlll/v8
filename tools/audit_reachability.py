@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-V8_CORE_SRC = ROOT / "v8-core" / "src"
+V8_CORE_SRC = ROOT / "legacy" / "v8-core" / "src"
 
 FORBIDDEN_LEGACY_PATTERNS = [
     r"^\s*use\s+.*pyo3",

@@ -20,7 +20,7 @@ import tokenize
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCAN_DIRS = (ROOT / "v8-core" / "src", ROOT / "src" / "v8")
+SCAN_DIRS = (ROOT / "v8-next" / "src", ROOT / "legacy" / "v8-core" / "src", ROOT / "src" / "v8")
 EXCLUDED_SEGMENTS = ("simtruth", "__pycache__")
 
 _IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")

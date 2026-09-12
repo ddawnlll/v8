@@ -13,6 +13,7 @@ Kanıt kaynakları: `~/.hermes/logs/errors.log`, `~/.hermes/cron/output/*`,
 
 | # | Boşluk | Şiddet | Mevcut durum |
 |---|--------|--------|--------------|
+| A0 | Onay modu geçersiz: loop otonom değil | **Kritik** | `approvals.mode: yolo` ve `cron_mode: yolo` bu build'de geçersiz → kod `manual`/`deny`'ye düşüyor |
 | A1 | Bul→çöz köprüsü yok | **Kritik** | 18 issue üretildi, 0'ı uygulandı |
 | A2 | Üretim/tüketim dengesiz | **Kritik** | 62 açık issue, `max_in_progress=1` |
 | B1 | Provider kesintisine dayanıklılık yok | **Kritik** | 7 saat tam kesinti, 0 alarm |
@@ -29,6 +30,35 @@ Kanıt kaynakları: `~/.hermes/logs/errors.log`, `~/.hermes/cron/output/*`,
 | F1 | "Bitti" tanımı yok | **Kritik** | cap full mu, canlı kâr mı, readiness mi? |
 | F2 | Negatif ekonomik sonucun planı yok | Yüksek | incremental −0.0038 |
 | F3 | Kitaplar bağlanmıyor | Orta | 167 PDF, ~150'si mapped değil |
+
+---
+
+## A0. Onay düzlemi: loop hiç otonom olmadı (Kritik)
+
+**Gözlem:** 7/24 döngü için `approvals.mode: yolo` ve `approvals.cron_mode: yolo`
+ayarlandı, ama bu build `yolo` değerini tanımıyor.
+
+**Kanıt:**
+- `~/.hermes/hermes-agent/tools/approval_context.py:197` → `_VALID_MODES = ("manual", "smart", "off")`;
+  bilinmeyen değer uyarıp **`manual`**'a düşüyor.
+- `approval_context.py:260-272` → `_binary_approval_mode("cron_mode")`: yalnızca
+  `approve|off|allow|yes` onay sayılıyor, **diğer her şey `deny`** — yani `cron_mode: yolo` = deny.
+- `agent.log`: 441 × `Unknown approvals.mode 'yolo' — defaulting to 'manual'` (son: 01:38).
+- Cron worker'ları `status: pending_approval` aldı (terminal tool), `execute_code` ise
+  sert blok: `BLOCKED: execute_code runs arbitrary local Python ... Cron jobs run without
+  a user present to approve it`.
+
+**Eksik:** doğru değer `off`. `hermes config set approvals.mode off` +
+`hermes config set approvals.cron_mode off` + `hermes gateway restart`. Ardından
+`grep -c "Unknown approvals.mode" ~/.hermes/logs/agent.log` sabit kalmalı.
+
+**Neden önemli:** A1/A2'yi açıklayan kök neden bu olabilir — worker'lar serbest
+çalışmadığı için üretim/tüketim dengesi hiç kurulmamış olabilir. Otonomi ölçülmeden
+"7/24 çalışıyor" denemez.
+
+**Not:** Düzeltmeyi uygulayan komut da aynı onay katmanına takıldı
+(`BLOCKED: Command timed out without user response`) — kilit kendi kendini kilitliyor,
+insan eliyle `hermes config set` gerekiyor.
 
 ---
 

@@ -10,8 +10,12 @@
 /docs/decisions/ @ddawnlll
 /docs/registries/ @ddawnlll
 
-# Authoritative Rust compute & runtime engine
+# Authoritative product tree (Python) — D-162
+/v8-next/ @ddawnlll
+
+# Quarantined Rust reference (D-162 / issue #409) — frozen, non-canonical
 /v8-core/ @ddawnlll
+/legacy/ @ddawnlll
 
 # CI workflows, templates and repository governance
 /.github/ @ddawnlll

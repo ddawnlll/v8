@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 """
 Rule 12 Anti-Synthetic & Anti-Hallucination Static Auditor.
-Strictly scans all Rust source files (v8-core/src/) for:
+Scans the quarantined Rust source tree (legacy/v8-core/src/, moved by D-162) for:
 1. Hardcoded statistical / performance metrics (e.g. static capture_pct, fake win_rates, literal p_values).
 2. Linear price / excursion synthesis patterns in production or benchmark paths.
 3. Manual SensorVote / CandidateDraft injection outside certified expert evaluate() paths.
 4. Hardcoded terminal verdict / status tags without dynamic hash receipts.
+
+BOUNDARY NOTE (D-162, 2026-09-11): the authoritative product tree is the Python
+tree `v8-next/src`. The pattern set below is Rust-specific, so a clean run here
+certifies only the quarantined Rust predecessor — it does NOT certify the Python
+product. Equivalent Rule-12 static patterns for `v8-next/src` are an OPEN item
+and must not be assumed to exist.
 """
 
 import os
@@ -68,5 +74,5 @@ def audit_files(root_dir: str) -> int:
         return 1
 
 if __name__ == "__main__":
-    src_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "v8-core", "src")
+    src_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "legacy", "v8-core", "src")
     sys.exit(audit_files(src_dir))

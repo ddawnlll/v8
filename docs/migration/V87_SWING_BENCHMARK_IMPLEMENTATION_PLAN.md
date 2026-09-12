@@ -1,204 +1,143 @@
-# V8.7 Swing Benchmark uygulama planı
+# V8.7 v8-next uygulama planı
 
-Durum: DRAFT / NOT STARTED. Tarih: 2026-09-11.
-Tam kapsam: [V8.7 tam metin önerisi](../contracts/V87_SWING_BENCHMARK_SPEC.md).
-Bu plan yalnızca dokümantasyon teslimatıdır; uygulama kodu ve koşu sonucu yoktur.
+Kullanıcının 2026-09-11 açık talimatı: asıl codebase v8-next; yanlış issue’ları kapat ve v8-next kaynaklarını tarayarak yeniden aç. Bu V8.7 kapsamı için Python/Nautilus uygulama yetkisi geçerlidir; eski Rust-only/frozen ifadeler bu kapsamı veto etmez. v8-core yalnızca referanstır; src/v8 ve kök tests tarihsel oracle olarak korunur. Kapsam için yeniden reactivation izni istenmez.
 
-Kaynak analiz: [Swing benchmark analizi](../research/v8-swing-benchmark-analizi.md).
-Takip: [V8.7 GitHub issue dizini](V87_ISSUE_INDEX.md).
+Normatif kaynak: [docs/contracts/V87_SWING_BENCHMARK_SPEC.md](../contracts/V87_SWING_BENCHMARK_SPEC.md). Tarama SHA `0990615962431ca8434824b3be33ac076a69f3bf`. Python 3.12, mevcut uv.lock ve NautilusTrader 2.0.0rc4 kullanılır.
 
-## 1. Çalışma kuralları
+## Yürütme sırası
+NX01, NX02, NX04 → NX03 → NX05 ve NX06 → NX07 → NX08 → NX09 ve NX10 → NX11. NX00 üst goal takibidir. Bağımsız işler sırayla da ilerleyebilir; alt issue artefact bağımlılıkları esastır.
 
-- Tüm yeni uygulama ve testler Rust içinde `v8-core/` altında yapılır.
-- Önce mevcut gerçek çağrı yolu haritalanır; Python bulgusu Rust hatası diye
-  varsayılmaz. Mevcut kirli çalışma ağacı ve başka işler korunur.
-- Her iş paketi küçük, doğrulanabilir değişikliklere bölünür. Mevcut reset
-  politikasının relevant checks ve tier yaklaşımı uygulanır.
-- Mühendislik kontrolleri için test fixtures yalnızca test harness'inde;
-  ekonomik değerlendirme yalnızca gerçek gözlemlerle. Tape eksikse skip/absence
-  açık raporlanır, skipped ekonomik test başarı kanıtı değildir.
-- Bir skor hedefine ulaşmak hiçbir iş paketinin definition of done'ı değildir.
-- Harici issue/PR, deployment veya canlı işlem bu planla otomatik başlatılmaz.
+## Kaynak taraması ve yeniden kullanım
+Bu paket sadece .rs uzantısını .py ile değiştirme değildir: Python pair_positions, ResearchStore, ForwardPlan, CampaignProtection, CatalogBuild ve istatistik modülleri korunur. Ledger verifier ayrı NX04 kapsamındadır. D153 ve economic portfolio yolları birlikte kapsanır.
 
-## 2. Bağımlılık sırası
+## NX01
+Önceki envanter planı 10 sembol/48 ay, 394545 satır ve 960 arşiv hash doğrulaması bildiriyor; bu görevin başlangıcında fiziksel artifact ve provenance doğrulanacak. multitape.load_multitape zamanların kesişimini alıyor; bu davranış eksik barları saklayabilir. Funding interval varsayımı 8h; portföy enstrüman mapping dört sembolle sınırlı.
 
-`SB01 → SB02/SB03 → SB04 → SB05 → SB06 → SB07 → SB08 → SB09 → SB10`
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/multitape.py`, `v8-next/src/v8_next/evaluation/store.py`, `v8-next/src/v8_next/adapters/catalog_tape.py`, `v8-next/src/v8_next/adapters/funding_history.py`, `v8-next/src/v8_next/adapters/portfolio_backtest.py`
 
-SB02 muhasebe ve SB03 zaman bölme ayrı ele alınabilir, fakat koşu kimliğinde
-birleşmeden ekonomik karşılaştırma yapılmaz. SB09 public shadow kayıt altyapısı
-erken hazırlanabilir; sayılacak policy kanıtı ilgili sürüm dondurulduktan sonra
-başlar. SB10 teknik release ile ekonomik yeterliliği ayrı sonuçlandırır.
+Reuse: MultiTape, load_multitape; ResearchStore, DatasetWindowRecord, BurnRecord, HoldoutRecord; catalog_inventory, build_catalog
 
-## 3. İş paketleri
+Bağımlılıklar: NONE
 
-| ID | İş ve mevcut başlangıç noktası | Bağımlılık | Çıktı / kabul ölçütü |
-|---|---|---|---|
-| SB01 | Dört yıllık veri, burn geçmişi ve Rust çağrı yolu envanteri. `benchmark/case.rs`, `runner.rs`, `population.rs` | Yok | Gerçek tarih/sembol/kapsam/hash tablosu; DEVELOPMENT/BURNED/USAGE_UNKNOWN/PROTECTED rolleri; mevcut CLI→runner→cashflow→report haritası; resmi evaluator açığı görünür |
-| SB02 | Yaşam döngüsü ve para uzlaşması. `cashflow.rs`, `portfolio.rs`, `execution_boundary.rs` | SB01 | Tekil round-trip, fill atfı, kısmi kapanış/reversal/MTM; para ve getiri ayrımı; equity uzlaşması; parse hatası sıfıra dönüşmez |
-| SB03 | 24/12/12 veri planı ve causal fold yürütmesi. `benchmark/population.rs` | SB01 | Gerçek role göre tarihli partition manifesti; warmup, label maturity, purge/embargo, açık pozisyon taşıma, fold return/trade atfı |
-| SB04 | Gerçek veriyle uçtan uca diagnostic runner ve immutable artifact paketleme. `benchmark/runner.rs`, `receipt.rs`, `ledger.rs` | SB02, SB03 | Açık tarih aralığında çalışan Rust yol; tam kimlik; PARTIAL/COMPLETE ayrımı; atomik yayın; sürümlü eski ledger doğrulaması; diagnostic resmi receipt gibi sunulmaz |
-| SB05 | Swing baseline, gerçek maliyet ve risk karşılaştırması. `experts/squeeze_swing.rs`, `portfolio.rs`, `usdm_sim.rs` ve aktif execution yolu | SB04 | Bir sade baseline; önceden ilan edilmiş holding/risk; cash/buy-hold/equal-weight/simple-trend karşılaştırmaları; funding kapsamı, intrabar ambiguity, correlation görünür |
-| SB06 | Trial registry ve istatistik ailesi. `evaluation/`, `statistics/`, `benchmark/observation.rs` | SB05 | Tüm gerçek denemeler; ortak zaman matrisi; bağımlılık duyarlı belirsizlik; uygun DSR/WRC/SPA/PBO hesapları; eksik/power yetersizliği açık; başka tape fallback yok |
-| SB07 | Scorer ve gate sözleşmesi. `benchmark/scoring.rs`, `gate_authority.rs`, `certificate.rs`, `report.rs` | SB06 | Kalibrasyon kaydı; eksik kanıt sabit puan almaz; gate semantic mapping; kriterlerin gerçek evidence bindings'i; eski/yeni ölçek ayrı |
-| SB08 | Dondurulmuş walk-forward, sınırlı ablation ve final değerlendirme | SB07 | Önceden ilan edilmiş dört fold ve family; tüm sonuçlar görünür; final yalnızca role uygunsa açılır; tekrar bakış yeni trial olarak kayıtlı |
-| SB09 | Gerçek prospektif shadow | SB04, sayılacak sonuçlar için policy freeze | Gerçek alınma/karar zamanları; late/missing data; restart/replay/dedup; işlemin sonuç ufku; tarihsel replay ile ayrım; yeterlilik yoksa UNDERPOWERED |
-| SB10 | Teknik sürüm ve bağımsız ekonomik değerlendirme | SB08, SB09 durum raporu | Technical release checklist; unresolved listesi; yeniden üretim; Tier D dokümantasyon/otorite işleri; ekonomik sonuç ayrı, NO_ECONOMIC_CLAIM geçerli |
+Test başlangıç yüzeyi: `v8-next/tests/test_catalog_f6.py`, `v8-next/tests/test_research_store.py`, `v8-next/tests/test_evaluation_lineage.py`
 
-Tablodaki yollar mevcut başlangıç noktalarıdır; yeni dosya yaratma veya bu
-modüllerin bütün fonksiyonlarının yeterli olduğu iddiası değildir. SB01 hedef
-değişiklik yerlerini gerçek call graph üzerinden kesinleştirir.
+## NX02
+evaluation/runner.py ilk position_id eşleşmesini yeniden kullanıyor, parse hatasını sıfıra çevirebiliyor ve açık/kapalı sonuçları farklı birimlerle birleştiriyor. economic_benchmark.pair_positions zaten instrument+position_id ve tüketilen kapanış cursorü kullanıyor; bunu yeniden icat etme.
 
-## 4. Her pakette uygulanacak adımlar
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/runner.py`, `v8-next/src/v8_next/evaluation/economic_benchmark.py`, `v8-next/src/v8_next/adapters/portfolio_equity.py`, `v8-next/src/v8_next/adapters/accounting_replay.py`, `v8-next/src/v8_next/adapters/settlements.py`
 
-### SB01 — veri ve kullanım geçmişi
+Reuse: pair_positions, strategy_series_from_engine, portfolio_series_from_engine; EquityMark, native_equity, aligned_native_equity; replay_frozen_campaigns
 
-1. Sembol/ürün/venue/frekans bazında gerçek dosyaları say; ilk/son zaman,
-   boşluk, tekrar ve funding/mark kapsamını çıkar.
-2. Kaynak hash'lerini manifestle karşılaştır; hash'in kaynağın doğruluğu veya
-   geçmiş kullanılabilirlik zamanı olmadığını ayrı alanlarla koru.
-3. Deney ve burn kayıtlarıyla dönemleri policy lineage bazında etiketle.
-4. 24/12/12 şemasını gerçek takvime çevir. Protected kalmadıysa planı
-   diagnostic + gelecekteki shadow olarak düzenle; veriyi yeniden adlandırma.
-5. Aktif evaluator/CLI boşluklarını ve mevcut Rust doğrulamalarını listele.
+Bağımlılıklar: NONE
 
-Çıkış şartı: dört yıllık kapsama ilişkin doğrulanmış tablo veya açık eksik
-envanter; hiçbir bilinmeyen dönem otomatik protected değil.
+Test başlangıç yüzeyi: `v8-next/tests/test_portfolio_benchmark.py`, `v8-next/tests/test_report_accounting.py`, `v8-next/tests/test_equity.py`, `v8-next/tests/test_settlements.py`, `v8-next/tests/test_d153_runner_report.py`
 
-### SB02 — önce para doğru olsun
+## NX03
+ForwardPlan/freeze_forward_plan/bind_forward_data gerçek saatle prospective ön-kayıt ve tek seferlik veri binding yapıyor, BTC instrument kısıtı var. Bunları geriye dönük koşular için gevşetmek geleceğe sızıntı yaratır.
 
-1. Gerçek kayıtta bir pozisyon kimliğinin birden fazla yaşam döngüsünü seç.
-2. Fill/order/lifecycle bazında kapanışları bağla; tutar ve return türlerini ayır.
-3. Netting reversal, partial exit, açık pozisyon ve funding geçişlerini ele al.
-4. Bağımsız hesap uzlaşması üret; fee/slippage iki kez düşülmesini sınayan test ekle.
-5. Eski sonuçlar yeniden hesaplanacaksa yeni run kimliği kullan; eski dosya korunur.
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/forward_plan.py`, `v8-next/src/v8_next/evaluation/store.py`, `v8-next/src/v8_next/app/observe.py`, `v8-next/src/v8_next/evaluation/multitape.py`
 
-Çıkış şartı: hesap özsermayesi ile olay bazlı defter hassasiyet sözleşmesi
-içinde eşleşir; anomaliler ERROR/UNRESOLVED, sıfır kâr değildir.
+Reuse: ForwardPlan, freeze_forward_plan, bind_forward_data; ResearchStore, TrialRecord, DatasetWindowRecord; PaperConfig
 
-### SB03–SB04 — veri planı gerçek yürütmeye bağlansın
+Bağımlılıklar: NX01
 
-1. Önerilen protokol ve manifest şemasını Rust'ta doğrulanabilir hale getir.
-2. Varsayılan 500-bar mantığını authoritative değerlendirmeden ayır; smoke
-   ayrı profil olsun. Kesin CLI bayrakları SB01'de mevcut parser'a göre belirlenir.
-3. Fold'lara ihtiyaç kadar geçmiş warmup yükle; kararlar sadece olgun bilgi görsün.
-4. Sürekli equity ve giriş-kohortu trade raporunu ayrı üret; sınırda açık
-   işlemlerin devam verisi sonraki eğitime erken sızmasın.
-5. Gerçek küçük veriyle tüm yolu çalıştır; ardından izinli bir yıllık diagnostic.
-6. Kesilmiş iş/restart, cache identity, dosya hash ve eski digest testlerini tamamla.
+Test başlangıç yüzeyi: `v8-next/tests/test_forward_plan.py`, `v8-next/tests/test_policy_identity.py`, `v8-next/tests/test_research_store.py`
 
-Çıkış şartı: aynı veri/kod/config ile tekrar üretilebilir sonuç; dataset/config
-değişince kimlik değişir; tamamlanmamış koşu başarılı gösterilemez.
+## NX04
+Yerel V87_V8NEXT_IMPLEMENTATION_PLAN D11 incelemesi zincirin sağlam, verifierın hatalı olduğunu bildiriyor: v2 etiketli geçmişte 10/12 alan ve sonra 13 alan canon kullanılmış. Bu bulgu özgün ledger bytes ve üretici revisionıyla doğrulanmalı; BROKEN @0 otomatik veri kaybı sayılmamalı.
 
-### SB05–SB07 — ekonomik soru ve ölçüm tanımlansın
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/benchmark_receipt.py`, `v8-next/src/v8_next/evaluation/parity.py`
 
-1. Hedefi mutlak risk kontrollü getiri mi, benchmark excess mi olduğuyla yaz;
-   birincil comparator ve risk bütçesini deneyden önce kaydet.
-2. Tek swing baseline kur; 2–14 gün tutuş hipotezini gerçekleşen dağılımla ölç.
-3. Funding olay çizelgesi, komisyon, fiyat etkisi varsayımları ve intrabar
-   belirsizliği strategy/baseline için aynı rapor temelinde göster.
-4. Az sayıda aday ailesini preregister et; denenmiş/terk edilmiş tüm ayarlar kayıtlı.
-5. Efektif örneklem/CI ve istatistikleri gerçek ortak zaman matrisinden hesapla.
-6. Raw metrics tamamlanınca scorer'ı development verisinde kalibre et. Önceki
-   50/20 hedefini geçmek için ağırlık veya referans değiştirme.
-7. Gate başına gerekli gözlem, predicate ve eksik davranış testleri oluştur;
-   identity/determinism/ledger/causality kontrollerini birbirine karıştırma.
+Reuse: BenchmarkLedger, LedgerEntry, BenchmarkReceipt; ArtifactBinding (evaluation/parity.py), GateState, GateVector
 
-Çıkış şartı: iyi görünen tek metrik başarısız kontrolü telafi etmez; eksik
-alanlar görünür; official evaluator/authority yoksa resmi certificate üretilemez.
+Bağımlılıklar: NONE
 
-### SB08–SB10 — doğrulama ve sürüm kapanışı
+Test başlangıç yüzeyi: `v8-next/tests/test_execution_scoring_link.py`, `v8-next/tests/test_d153_runner_report.py`
 
-1. Aday seçim algoritması ve refit bütçesini dondur; dört fold'u sırayla yürüt.
-2. Sonuçları bütün olarak raporla: net return, excess, drawdown, risk/exposure,
-   turnover, maliyet, hold dağılımı, censored oranı, rejim ve belirsizlik.
-3. Ablation geliştirme/seçim ailesine dahildir. Test sonucuyla yeni ablation
-   tasarlanırsa o test korunmuş rolünü kaybeder.
-4. Final role uygunsa tek frozen policy/protocol üzerinde aç. Başarısız sonuçta
-   parametre değiştirip aynı finali yeniden bağımsız sınav gibi kullanma.
-5. Shadow'u takvim doldu diye başarılı sayma; gerçek sonuç olgunluğu, olay sayısı,
-   rejim ve veri kapsamıyla yeterlilik bildir.
-6. Teknik checklist ve ekonomik sonucu ayrı kapat. Negatif strateji sonucunda
-   testleri gevşetmek yerine adayın reddini/yeniden araştırmayı kaydet.
+## NX05
+app/benchmark.py kısa 500 bar yükleme kullanıyor; app/portfolio.py default 385 bar. D153 BenchmarkRunner ile economic portfolio yolu ayrı. Catalog/BacktestNode, native execution telemetry ve shared-account engine zaten var.
 
-## 5. Kabul test matrisi
+Mevcut yüzey: `v8-next/src/v8_next/app/benchmark.py`, `v8-next/src/v8_next/app/portfolio.py`, `v8-next/src/v8_next/evaluation/runner.py`, `v8-next/src/v8_next/evaluation/economic_benchmark.py`, `v8-next/src/v8_next/adapters/catalog_tape.py`, `v8-next/src/v8_next/adapters/portfolio_backtest.py`, `v8-next/src/v8_next/adapters/execution_telemetry.py`
 
-| Kontrol | Gerekli kanıt | Başarısızlık davranışı |
-|---|---|---|
-| Veri rolü | Bilinen burn period'u final'e sokma denemesi reddedilir | INVALID_ROLE |
-| Nedensellik | Tamamlanmamış üst zaman mumu ve olgunlaşmamış label kullanımı yakalanır | INVALID_CAUSALITY |
-| Muhasebe | Reused position id, partial/reversal ve gerçek kayıt equity uzlaşması | INVALID_ACCOUNTING |
-| Maliyet | Bir kez fee/funding, gömülü slippage'ın tekrar düşülmemesi | INVALID_COST_BASIS veya eksik maliyet |
-| Fold sınırı | Carry pozisyon, warmup ve late outcome doğru atfedilir | INVALID_SPLIT |
-| Tekrar üretim | Aynı kimlikte sonuç eşitliği; ilan edilmiş determinism kapsamı | DETERMINISM_FAILURE |
-| Artifact | Değiştirilmiş/eksik dosya ve partial run reddi | INVALID_ARTIFACT |
-| Geçmiş ledger | Bilinen sürümler kendi kanonunda; bilinmeyen sürüm fail closed | UNSUPPORTED_VERSION/INVALID_LEDGER |
-| İstatistik | Gerçek aile kapsamı, ortak eksen, eksiklik ve yeterlilik | UNDERPOWERED/UNRUN; asla varsayılan PASS |
-| Skor | Eksik kanıt puan kazanmaz; eski ve yeni scorer kimlikleri ayrı | UNAVAILABLE |
-| Shadow | Replay prospektif sayılamaz; freeze öncesi sonuç karışamaz | INELIGIBLE_EVIDENCE |
-| Otorite | Yüksek score veya gate PASS canlı/economic yetki üretemez | NO_ECONOMIC_CLAIM |
+Reuse: BenchmarkCase, BenchmarkRunResult, build_input_binding; RunIdentity, EconomicReceipt; CatalogBuild, run_portfolio_backtest, trade_signature, persist_execution_telemetry
 
-Kontrol adları taslak davranış etiketleridir; yeni Rust error enum'u burada
-uygulanmış sayılmaz. Mevcut taxonomy yeterliyse korunur.
+Bağımlılıklar: NX02, NX03, NX04
 
-## 6. Çalıştırma ve doğrulama bütçesi
+Test başlangıç yüzeyi: `v8-next/tests/test_d153_runner_report.py`, `v8-next/tests/test_portfolio_benchmark.py`, `v8-next/tests/test_catalog_f6.py`, `v8-next/tests/test_execution_integration.py`
 
-Her küçük değişiklik: touched fmt, compile/clippy ve ilgili Rust testleri.
-Gerçek veri kabulü yalnızca değişen davranış için küçük ama sonuç ufku yeterli
-bir diagnostic parçada; final veri rutin test fixture'ı değildir.
+## NX06
+economics/grammar.py beş policy sunuyor; economics/protection.py CampaignProtection/protection_at squeeze için 336 bar expiry içeriyor. adapters/expert_strategy.py ayrı fixed bracket yoluna sahip. experts/squeeze_swing diye mevcut Python modülü yok.
 
-Milestone/release sınırında mevcut proje komutları:
+Mevcut yüzey: `v8-next/src/v8_next/economics/grammar.py`, `v8-next/src/v8_next/economics/protection.py`, `v8-next/src/v8_next/economics/decisions.py`, `v8-next/src/v8_next/adapters/expert_strategy.py`, `v8-next/src/v8_next/adapters/portfolio_backtest.py`, `v8-next/src/v8_next/domain/config.py`
 
-```sh
-cargo check --manifest-path v8-core/Cargo.toml
-cargo clippy --manifest-path v8-core/Cargo.toml
-cargo test --manifest-path v8-core/Cargo.toml
-.venv/bin/python tools/audit_python_boundary.py
-python3 tools/audit_synthetic_leakage.py
-python3 tools/audit_economic_claim.py
-```
+Reuse: CampaignProtection, protection_at, grammar_opportunity; ExpertStrategyConfig, ExpertEnsembleStrategy; SleeveSpec, PaperConfig
 
-Bu komutlar bu dokümantasyon değişikliğinde çalıştırılmış değildir. Yeni
-benchmark CLI örnekleri çalışır komut gibi uydurulmaz; SB04 tamamlandığında
-gerçek help/exit-code doğrulamasıyla runbook'a eklenir.
+Bağımlılıklar: NX02, NX03
 
-Hızlandırma sırası: ölçülmüş süre/bellek profili → decode/feature cache →
-bağımsız koşu paralelliği → resume. Tüm dört yılı her commite koşmak yoktur.
-Cache protected bilgiyi sızdırıyorsa hız optimizasyonu kabul edilmez.
+Test başlangıç yüzeyi: `v8-next/tests/test_squeeze_protection.py`, `v8-next/tests/test_campaign_protection.py`, `v8-next/tests/test_grammar.py`, `v8-next/tests/test_portfolio_benchmark.py`
 
-## 7. Tahmini takvim ve sürüm dilimleri
+## NX07
+alignment/family/reality_check/deflated_sharpe/overfitting modülleri ve ResearchStore zaten var. gate_resolution G5 fallbackları ile economic_benchmark statistics yolunun gerçek trial ailesine bağlanması incelenmeli; sentetik positive/negative control fonksiyonları ekonomik kanıttan ayrılmalı.
 
-| Dilim | Planlama tahmini | İçerik |
-|---|---|---|
-| V8.7-dev.1 | 2–4 iş günü | SB01 ve SB02 başlangıcı: envanter, para doğruluğu |
-| V8.7-dev.2 | Sonraki 4–7 iş günü | SB02–SB04: fold + gerçek diagnostic yol |
-| V8.7-dev.3 | Sonraki 5–10 iş günü | SB05–SB07: baseline, maliyet, statistics/scorer |
-| V8.7-rc | Sonraki 3–5 iş günü | SB08 ve teknik yeniden üretim; kalan açıklar |
-| Prospektif ekonomik değerlendirme | Veri/işlem olgunluğuna bağlı | SB09; bitiş tarihi veya skor sözü yok |
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/alignment.py`, `v8-next/src/v8_next/evaluation/family.py`, `v8-next/src/v8_next/evaluation/reality_check.py`, `v8-next/src/v8_next/evaluation/deflated_sharpe.py`, `v8-next/src/v8_next/evaluation/overfitting.py`, `v8-next/src/v8_next/evaluation/economic_benchmark.py`, `v8-next/src/v8_next/evaluation/store.py`, `v8-next/src/v8_next/evaluation/gate_resolution.py`
 
-Yaklaşık 3–6 haftalık teknik iş hipotezidir; bir mühendis akışı ve mevcut
-altyapının yeniden kullanılabilir olması varsayılır. Dört yıllık veri bozuksa,
-resmi evaluator eksikliği beklenenden büyükse veya funding erişimi yetersizse
-SB01 sonrası yeniden tahmin yapılır. Tag'ler öneridir; bu plan onları yaratmaz.
+Reuse: IntervalLoss, paired_differentials, family_losses, compare_family; DSRPlan, CSCVPlan, TrialRecord, ResearchStore; run_statistics
 
-## 8. Geçiş ve geri dönüş
+Bağımlılıklar: NX03, NX05, NX06
 
-Eski benchmark diagnostic/repro modunda tutulur, yeni protokol ayrı kimlik
-ve çıktı kökü kullanır. Aynı gerçek, korunmamış veri üzerinde eski/yeni fark
-raporu çıkarılır; fark scorer değişimi, muhasebe düzeltmesi, pencere veya
-policy değişimi diye atfedilir. Eski skorun üstüne yeni skor yazılmaz.
+Test başlangıç yüzeyi: `v8-next/tests/test_loss_alignment.py`, `v8-next/tests/test_family.py`, `v8-next/tests/test_deflated_sharpe.py`, `v8-next/tests/test_reality_check.py`, `v8-next/tests/test_overfitting.py`, `v8-next/tests/test_gate_resolution.py`
 
-Yeni yol sorunluysa eski diagnostic yol kullanılabilir, fakat eski yolun
-otoritesi yükseltilmez. Eski ledger ve ham tape üzerinde geri alınamaz
-migrasyon yoktur. Yeni çıktıların kaldırılması geçmiş kanıtı etkilemez.
+## NX08
+runner abstention denominator28 ve coverage0.60; certificate varsayılan robustness50/economic60; scoring dört sabit domain ve proxy tavana sahip. GATE_DESCRIPTORS etiketleri ile operational resolver alanları tutarlı ele alınmalı; sadece skor formülü değiştirmek yeterli değil.
 
-## 9. Açık kararlar ve tamamlanma takibi
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/scoring.py`, `v8-next/src/v8_next/evaluation/certificate.py`, `v8-next/src/v8_next/evaluation/gate_resolution.py`, `v8-next/src/v8_next/evaluation/benchmark_receipt.py`, `v8-next/src/v8_next/evaluation/runner.py`
 
-SB01 ile kesinleşecek: dört yılın tarihleri ve burn haritası, ilk sembol
-evreni, gerçek aktif execution/evaluator yolu, veri kalitesi açıkları.
-SB05 öncesi kesinleşecek: ekonomik mandat, primary baseline, risk bütçesi,
-aday ailesi ve deney bütçesi. SB07 öncesi kesinleşecek: normalizasyon,
-coverage davranışı, gate semantic mapping ve authority gereksinimi.
+Reuse: CapabilityDomain, BoundedScore, CapabilityScoreCalculator; GateState, GateDescriptor, GateVector.readiness, PolicyCertificate.generate; ArtifactBinding
 
-Şu an tamamlanan tek teslimat tam metin öneri ve uygulama planıdır.
-SB01–SB10 NOT STARTED. Skor, getiri, gate geçişi veya dört yıllık test sonucu
-bu dokümantasyon teslimatında üretilmemiştir.
+Bağımlılıklar: NX04, NX05, NX07
+
+Test başlangıç yüzeyi: `v8-next/tests/test_execution_scoring_link.py`, `v8-next/tests/test_gate_resolution.py`, `v8-next/tests/test_d153_runner_report.py`
+
+## NX09
+Önceki burn incelemesi son12ayın zaten kullanıldığını ve protected final kalmadığını bildiriyor. Dört yıllık veri dört yıllık unseen test değildir. Daha geniş pencere daha yüksek skor/getiri garantisi değildir.
+
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/store.py`, `v8-next/src/v8_next/evaluation/forward_plan.py`, `v8-next/src/v8_next/evaluation/economic_benchmark.py`, `v8-next/src/v8_next/app/portfolio.py`
+
+Reuse: ResearchStore, TrialRecord, HoldoutRecord; RunIdentity, EconomicReceipt; frozen plan ve NX07 family manifesti
+
+Bağımlılıklar: NX01, NX03, NX05, NX06, NX07, NX08
+
+Test başlangıç yüzeyi: `v8-next/tests/test_forward_plan.py`, `v8-next/tests/test_portfolio_benchmark.py`, `v8-next/tests/test_research_store.py`
+
+## NX10
+ForwardPlan, public stream replay/recovery ve EconomicPaperAdapter mevcut. shadow_ingest.load_shadow_fills source=live ve birkaç kolon kontrolünden LIVE_VENUE_SETTLED etiketi üretebiliyor; yerel dosyanın bu etiketi gerçek venue settlement kanıtı değildir.
+
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/forward_plan.py`, `v8-next/src/v8_next/evaluation/stream_replay.py`, `v8-next/src/v8_next/economics/stream_observation.py`, `v8-next/src/v8_next/adapters/economic_paper.py`, `v8-next/src/v8_next/adapters/shadow_ingest.py`, `v8-next/src/v8_next/app/forward.py`, `v8-next/src/v8_next/app/stream_run.py`, `v8-next/src/v8_next/evaluation/gate_resolution.py`
+
+Reuse: freeze_forward_plan, bind_forward_data, replay_stream, restore_stream; StreamObservations, EconomicPaperAdapter, load_shadow_fills
+
+Bağımlılıklar: NX03, NX05, NX06, NX08
+
+Test başlangıç yüzeyi: `v8-next/tests/test_forward_plan.py`, `v8-next/tests/test_stream_replay.py`, `v8-next/tests/test_paper_recovery.py`, `v8-next/tests/test_portfolio_benchmark.py`
+
+## NX11
+Eski SB issue paketi yanlış Rust kapsamındaydı. Yeni paket v8-next Python/Nautilus üzerinde teknik doğruluk ve swing benchmark yapıyor; ekonomik sertifika ayrı kanıt koşullarına bağlı.
+
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/benchmark_receipt.py`, `v8-next/src/v8_next/evaluation/certificate.py`
+
+Reuse: BenchmarkReceipt, GateVector, PolicyCertificate; mevcut docs/contracts ve migration kayıtları
+
+Bağımlılıklar: NX01, NX02, NX03, NX04, NX05, NX06, NX07, NX08, NX09, NX10
+
+Test başlangıç yüzeyi: `v8-next/tests/test_d153_runner_report.py`, `v8-next/tests/test_execution_scoring_link.py`
+
+## NX00
+#410–#420 yanlış Rust implementation kapsamı nedeniyle withdrawn ediliyor. NX01–NX11 kaynak taramasına dayanan yerine-geçen pakettir; bu epic tek Hermes goal ile yürütme içindir.
+
+Mevcut yüzey: `v8-next/src/v8_next/evaluation/runner.py`, `v8-next/src/v8_next/evaluation/economic_benchmark.py`, `v8-next/src/v8_next/evaluation/store.py`, `v8-next/src/v8_next/evaluation/benchmark_receipt.py`
+
+Reuse: Alt issue reuse sözleşmeleri; BenchmarkRunner, EconomicReceipt, ResearchStore, BenchmarkLedger
+
+Bağımlılıklar: NX01, NX02, NX03, NX04, NX05, NX06, NX07, NX08, NX09, NX10, NX11
+
+Test başlangıç yüzeyi: `v8-next/tests/test_d153_runner_report.py`, `v8-next/tests/test_portfolio_benchmark.py`

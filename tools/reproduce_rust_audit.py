@@ -368,11 +368,11 @@ def is_binary_stale(binary: Path) -> bool:
     if not binary.exists():
         return True
     binary_mtime = binary.stat().st_mtime
-    src_dir = ROOT / "v8-core" / "src"
+    src_dir = ROOT / "legacy" / "v8-core" / "src"
     for p in src_dir.rglob("*.rs"):
         if p.stat().st_mtime > binary_mtime:
             return True
-    cargo_toml = ROOT / "v8-core" / "Cargo.toml"
+    cargo_toml = ROOT / "legacy" / "v8-core" / "Cargo.toml"
     if cargo_toml.exists() and cargo_toml.stat().st_mtime > binary_mtime:
         return True
     return False
@@ -409,7 +409,7 @@ def main() -> int:
     # 1. Compile Release Binary or Locate
     binary = args.binary
     if not binary:
-        binary = ROOT / "v8-core" / "target" / "release" / "v8-core"
+        binary = ROOT / "legacy" / "v8-core" / "target" / "release" / "v8-core"
         if sys.platform == "win32":
             binary = binary.with_suffix(".exe")
 
@@ -423,7 +423,7 @@ def main() -> int:
                 cargo_bin = str(default_cargo)
         cargo_cmd = [cargo_bin or "cargo", "build", "--release"]
         t_build = time.perf_counter()
-        code, out_cargo, err_cargo = run_command(cargo_cmd, cwd=ROOT / "v8-core")
+        code, out_cargo, err_cargo = run_command(cargo_cmd, cwd=ROOT / "legacy" / "v8-core")
         build_dur = time.perf_counter() - t_build
         if code != 0:
             print(" FAILED")

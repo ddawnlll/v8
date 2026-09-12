@@ -23,7 +23,7 @@ Durum: **R1–R6 teknik kabul** (bounded capture + restart kanıtı). Uzun ekono
 | R3 | Restart/recovery: duplicate/gap/out-of-order + exactly-once; eksik aralıkta fail closed + görünür recovery raporu | `test_duplicate_identities_are_dropped_and_counted`, `test_a_gap_fails_closed_until_it_is_acknowledged`, `test_out_of_order_events_are_rejected_not_reordered`, `test_resume_rebuilds_the_state_from_disk` | Aynı poll tekrarı → `1000` duplicate düşürüldü (çift sayım yok); gap → merge reddedildi (`MISSING_INTERVAL_NOT_BRIDGED`), ack ile tek kez birleşti; bozuk batch zincir kontrolünde yakalandı |
 | R4 | Provenance vs authenticated settlement ayrımı | `test_public_paper_never_reads_as_a_settlement`, `test_reconciliation_is_exactly_once_not_has_any_fills`, `test_gate_resolution.py::test_g8_live_realization_modes` | Public paper → `NOT_APPLICABLE`; PASS yalnız kimlikli authenticated provenance ile |
 | R5 | Olgunluk koşulları dolmadan G7 PASS değil | `maturity.json` | `g7_state=UNKNOWN`, `prospective_maturity=PENDING`; teknik kabul için bounded capture + restart yeterli |
-| R6 | Exact komutlar + gerçek kısa public capture manifesti + maturity raporu | aşağıdaki komut bloğu | `capture/manifest.json` `ea0fd71b…`, `maturity.json` `dcb3d93a…` |
+| R6 | Exact komutlar + gerçek kısa public capture manifesti + maturity raporu | aşağıdaki komut bloğu | `docs/evidence/v87/NX10/capture/manifest.json` `ea0fd71b…`, `maturity.json` `dcb3d93a…` |
 
 ## 2. Exact start / stop / resume komutları (R6)
 

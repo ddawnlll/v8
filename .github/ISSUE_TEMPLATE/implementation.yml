@@ -7,7 +7,7 @@ body:
     id: objective
     attributes:
       label: Objective
-      placeholder: "Implement Capital-Constrained Binance USDⓈ-M Portfolio Simulator in v8-core"
+      placeholder: "Implement Capital-Constrained Binance USDⓈ-M Portfolio Simulator in v8-next"
     validations:
       required: true
   - type: textarea

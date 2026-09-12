@@ -26,7 +26,7 @@ def main() -> int:
 
     args = parser.parse_args()
 
-    cmd = ["cargo", "run", "--manifest-path", "v8-core/Cargo.toml", "--bin", "v8-core", "--", "benchmark"]
+    cmd = ["cargo", "run", "--manifest-path", "legacy/v8-core/Cargo.toml", "--bin", "v8-core", "--", "benchmark"]
     if args.command == "audit":
         cmd.append("audit")
     elif args.command == "eval":

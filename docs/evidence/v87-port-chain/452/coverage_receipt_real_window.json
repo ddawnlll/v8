@@ -1,0 +1,47 @@
+{
+  "claim": "NO_ECONOMIC_CLAIM",
+  "decision_bar": 1000,
+  "decision_close": 23936.4,
+  "eval_records": 1,
+  "expert_proposals": [],
+  "grammar_level": 22000.0,
+  "grammar_level_note": "derived from the real tape (below the decision-bar close); a grammar parameter choice, not a measurement",
+  "note": "no shipped expert proposals are visible at this decision time; the receipt records zero representation rather than a modeled estimate",
+  "receipt": {
+    "claim": "NO_ECONOMIC_CLAIM",
+    "members": [
+      {
+        "authority_level": "L1",
+        "decision_time": 1000,
+        "direction": "LONG",
+        "grammar_candidate_id": "b2ccd80d62845a280ed296af37d8c986b5650a155799cca1f6e059808cf01f73",
+        "identifiability_status": "IDENTIFIED",
+        "instrument": "BTCUSDT",
+        "is_represented": false,
+        "is_supported": true,
+        "point_estimate": 0.0,
+        "refusal_reason": null,
+        "representing_expert_id": null,
+        "template_id": "close-above-level",
+        "timeframe": "1h"
+      }
+    ],
+    "population_hash": "ee6d7c390ea3efefac5fcab7c5d1ea407dc7799b81fcc8624ae6474d35fe266f",
+    "receipt_id": "bd10eaff2a8ef7b3fab91e5ce291a3b1b85bfdbffceb992145c216261ddbd413",
+    "representational_coverage": 0.0,
+    "representational_coverage_gap": 1.0,
+    "represented_supported_count": 0,
+    "supported_opportunity_count": 1,
+    "total_opportunity_count": 1,
+    "universe_id": "846fd353eaa2f38c000bfeeb6cdd0930235547ce663baee6105cc7608d3fc444",
+    "unrepresented_clusters": [
+      {
+        "count": 1,
+        "direction": "LONG",
+        "template_id": "close-above-level"
+      }
+    ],
+    "unrepresented_supported_count": 1,
+    "unsupported_opportunity_count": 0
+  }
+}

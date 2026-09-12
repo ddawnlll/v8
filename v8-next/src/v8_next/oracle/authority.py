@@ -15,10 +15,13 @@ import math
 from dataclasses import dataclass, field
 from enum import StrEnum
 
+from v8_next.oracle.artifacts import OracleEvaluationRecord
 from v8_next.oracle.taxonomy import (
     AuthorityLevel,
     Identifiability,
+    OracleContext,
     OracleRefusal,
+    ValueNotion,
 )
 
 
@@ -148,6 +151,56 @@ class OracleOutcome:
 
     def refusal_reason(self) -> OracleRefusal | None:
         return self.refusal
+
+    def to_evaluation_record(
+        self,
+        context: OracleContext,
+        candidate_population_hash: str,
+        action_manifest_hash: str,
+        simulator_or_receipt_hash: str,
+        code_hash: str,
+        config_hash: str,
+        value_notion: ValueNotion,
+        lineage_id: str,
+    ) -> OracleEvaluationRecord:
+        """Bind this outcome to its authority lineage (port of the Rust method).
+
+        UNKNOWN carries no point estimate and no bounds — the refusal is the record.
+        """
+        if self.kind is OracleOutcomeKind.IDENTIFIED:
+            point, lower, upper = self.point_estimate, None, None
+        elif self.kind is OracleOutcomeKind.PARTIALLY_IDENTIFIED:
+            point, lower, upper = None, self.lower_bound, self.upper_bound
+        elif self.kind is OracleOutcomeKind.MODEL_DERIVED:
+            point, lower, upper = self.point_estimate, self.lower_bound, self.upper_bound
+        else:
+            point, lower, upper = None, None, None
+        record = OracleEvaluationRecord(
+            oracle_role=context.role,
+            authority_level=self.authority.oracle_authority_level,
+            identifiability_status=self.authority.identifiability_status,
+            information_contract_id=context.information_contract_id,
+            opportunity_universe_id=context.opportunity_universe_id,
+            utility_contract_id=context.utility_contract_id,
+            policy_class_id=context.policy_class_id,
+            cost_model_id=context.cost_model_id,
+            capacity_model_id=context.capacity_model_id,
+            environment_target_id=context.environment_target_id,
+            candidate_population_hash=candidate_population_hash,
+            action_manifest_hash=action_manifest_hash,
+            simulator_or_receipt_hash=simulator_or_receipt_hash,
+            code_hash=code_hash,
+            config_hash=config_hash,
+            value_notion=value_notion,
+            point_estimate=point,
+            lower_bound=lower,
+            upper_bound=upper,
+            refusal_reason=None if self.refusal is None else self.refusal.value,
+            assumptions=list(self.authority.assumptions),
+            lineage_id=lineage_id,
+        )
+        record.bind_identity()
+        return record
 
     def as_dict(self) -> dict[str, object]:
         return {

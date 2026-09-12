@@ -85,7 +85,11 @@ HISTORY_FILE_RE = re.compile(r"(^|/)CHANGELOG\.md$")
 DATE_HEADING_RE = re.compile(r"^##\s+(\d{4}-\d{2}-\d{2})")
 
 # Source surfaces that *write* artifacts are how RUNTIME_OUTPUT is proven.
-CODE_GLOBS = (("v8-core", "src", ".rs"), ("tools", None, ".py"))
+# `v8-next/` is the authoritative product tree (D-162); `legacy/v8-core/` is the
+# quarantined Rust predecessor, retained here so historical citations still
+# resolve against its real (moved) location.
+CODE_GLOBS = (("v8-next", "src", ".py"), ("legacy", "v8-core/src", ".rs"),
+              ("tools", None, ".py"))
 
 # Only these extensions are unambiguous enough to call a token a file citation.
 PATH_EXTS = (
@@ -188,7 +192,9 @@ def collect_code_text():
 
 
 SOURCE_EXTS = (".rs", ".py", ".md", ".toml", ".sh")
-SOURCE_PREFIXES = ("v8-core/src/", "src/v8/", "src/", "tools/", "docs/", "v8-core/tests/")
+SOURCE_PREFIXES = ("v8-next/src/", "v8-next/tests/", "legacy/v8-core/src/",
+                   "legacy/v8-core/tests/", "src/v8/", "src/", "tools/", "docs/",
+                   "v8-core/src/", "v8-core/tests/")
 
 
 def is_source_like(core):
