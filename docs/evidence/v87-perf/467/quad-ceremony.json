@@ -1,0 +1,9 @@
+{
+  "decimal_policy": "no type change: values decoded as Decimal(str(...)) on both paths",
+  "dst_path": "research/tape/quad-1h-12m/tape.parquet",
+  "dst_sha256": "50c93b6f0890536cc69c3eae4fc5856034c396429cadebe2881a44ef3967d17c",
+  "layout": "sorted by (instrument, event_time) for symbol/time partition pruning",
+  "rows": 39420,
+  "src_path": "research/tape/quad-1h-12m/tape.jsonl",
+  "src_sha256": "695eaec7d726b20c70e3a4d836e69206015d522753381e92f2fb2406414220e1"
+}
