@@ -506,6 +506,7 @@ _ARGV_APP_MODULES: dict[str, str] = {
     "economic": "v8_next.app.economic",
     "portfolio": "v8_next.app.portfolio",
     "proving": "v8_next.evaluation.proving_battery",
+    "sweep": "v8_next.evaluation.sweep",
 }
 
 # One-shot v8-next/tools scripts, each with main(argv).

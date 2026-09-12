@@ -1,0 +1,68 @@
+{
+  "claim": "NO_ECONOMIC_CLAIM",
+  "created_ns": 1789186363638233000,
+  "ledger": {
+    "chain_message": "OK",
+    "chain_valid": true,
+    "entries": 22,
+    "path": "artifacts/benchmarks/benchmark_ledger.jsonl",
+    "sha256": "ef31fb95ef6334810a58773ccbfc3b2d6eaa95b1520ee7e0a7dfbadc24331426"
+  },
+  "ledger_chain_valid": true,
+  "manifest_digest": "0090c219bb7cf35069aeebe690d49ea1702dd3327f7822cf3d518eb38a1b6f61",
+  "pillars": [
+    {
+      "files": [
+        {
+          "bytes": 186722,
+          "path": "docs/evidence/v87-r2/NX09/fold_results.json",
+          "sha256": "0c1bd7b5ba582d99c1ef22030920d1fa5873ea2bbf9275fc83c9dbb4567485fa",
+          "status": "PRESENT"
+        }
+      ],
+      "pillar": "P1_gate_battery"
+    },
+    {
+      "files": [
+        {
+          "bytes": 27110,
+          "path": "docs/evidence/v87-r3/RECONCILE/engine_replay_reconciliation.json",
+          "sha256": "61a8cce97d0da778a8f3b708bf368636a12c4e0d28b25dfe28f5bd17e328ef1d",
+          "status": "PRESENT"
+        },
+        {
+          "bytes": 55131,
+          "path": "docs/evidence/v87-r3/COST/cost_lane.json",
+          "sha256": "b5c4cc53015ed1e67407dc1ecdb8eabbc66992914fa28973b958c4d0afa26d8a",
+          "status": "PRESENT"
+        },
+        {
+          "bytes": 2647782,
+          "path": "docs/evidence/v87-r3/PAPER_4Y/paper_trade_4y.json",
+          "sha256": "4684885a634d944e41e09a8cca3f3bb019249ffaf402e12451fdb3bb1af99b0a",
+          "status": "PRESENT"
+        }
+      ],
+      "pillar": "P2_paper_trade_4y"
+    },
+    {
+      "files": [
+        {
+          "bytes": 3795,
+          "path": "docs/evidence/v87-r3/SCENARIOS/scenario_results.json",
+          "sha256": "2ce4086623779332b9474e2dfe0516f2eac39a4f822a73be531e034a00382553",
+          "status": "PRESENT"
+        }
+      ],
+      "pillar": "P3_synthetic_scenarios"
+    }
+  ],
+  "regression": {
+    "baseline_present": true
+  },
+  "sweep_version": "sweep-v1",
+  "tearsheet": {
+    "mode": "STATIC_ONLY",
+    "note": "PLOTLY_AVAILABLE is False; no plotly/CDN artifact is embedded \u2014 the static forensic HTML is the visual record (issue #454 \u00a716 pin)."
+  }
+}

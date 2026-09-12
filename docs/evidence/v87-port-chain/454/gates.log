@@ -1,0 +1,41 @@
+$ uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests
+All checks passed!
+
+$ uv run --project v8-next --extra dev mypy v8-next/src/v8_next/app/benchmark.py
+Success: no issues found in 1 source file
+
+$ uv run --project v8-next --extra dev mypy v8-next/src/v8_next/evaluation/observation.py v8-next/src/v8_next/evaluation/synthetic.py v8-next/src/v8_next/evaluation/population.py v8-next/src/v8_next/evaluation/projection.py v8-next/src/v8_next/evaluation/minerva.py v8-next/src/v8_next/evaluation/kaizen_delta.py v8-next/src/v8_next/evaluation/external.py v8-next/src/v8_next/evaluation/sweep.py
+Success: no issues found in 8 source files
+
+$ uv run --project v8-next python -m v8_next.app.cli status
+=== v8-next status === (rev aa76cf1c, 190 source / 153 test files, tapes present, ledger VERIFIED)
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests/test_d153_parity.py v8-next/tests/test_readiness_regression.py
+.......................                                         [100%]
+23 passed in 0.44s
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests/test_benchmark_fabric.py
+..........                                         [100%]
+10 passed in 0.12s
+
+$ uv run --project v8-next python -m v8_next.app.cli sweep --out docs/evidence/v87-port-chain/454/sweep
+[sweep] manifest docs/evidence/v87-port-chain/454/sweep/sweep_manifest.json digest=0090c219bb7cf35069aeebe690d49ea1702dd3327f7822cf3d518eb38a1b6f61
+# file sha256: sweep_manifest.json bba10e5b… / sweep_index.html 1e8a1b73…
+# pillars all PRESENT (P1 fold_results, P2 reconcile+cost+paper_4y, P3 scenarios);
+# ledger artifacts/benchmarks/benchmark_ledger.jsonl 22 entries chain VERIFIED;
+# tearsheet STATIC_ONLY (PLOTLY_AVAILABLE False, no CDN in artifacts)
+
+$ uv run --project v8-next python -m v8_next.app.cli run --pillar scenarios
+[run] P3 scenarios green (overfitting PASS, SNU ledger 1 case, scenario_results.json written)
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests
+930 passed, 510 deselected in 4.97s
+# fast-loop fully green with no parked file (foreign execution-evidence fix confirmed);
+# dangerous-full-loop SKIPPED per owner direction 2026-09-12 (RAM guard, milestone full-suite deferred to release boundary, owner ddawnlll)
+
+$ uv run --project v8-next python -m v8_next.app.cli regression
+[regression] VERDICT: OK (CORRECTION gate_passes 4 -> 2 under D-166 authority; baseline NOT moved)
+
+$ grep -rni "SUPPORTED_EDGE" v8-next/src/v8_next/evaluation/observation.py v8-next/src/v8_next/evaluation/synthetic.py v8-next/src/v8_next/evaluation/population.py v8-next/src/v8_next/evaluation/projection.py v8-next/src/v8_next/evaluation/minerva.py v8-next/src/v8_next/evaluation/kaizen_delta.py v8-next/src/v8_next/evaluation/external.py v8-next/src/v8_next/evaluation/sweep.py; echo "edge-grep-exit:$?"
+edge-grep-exit:1
+# No SUPPORTED_EDGE on the #454 surface (all receipts NO_ECONOMIC_CLAIM).
