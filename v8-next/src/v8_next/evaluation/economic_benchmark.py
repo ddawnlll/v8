@@ -26,6 +26,7 @@ import json
 import math
 import re
 import subprocess
+from bisect import bisect_left
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
@@ -2765,6 +2766,20 @@ def strategy_series_from_engine(
     }
 
 
+def funding_boundary_index(end_ns: list[int], boundary: int) -> int | None:
+    """First index with ``end_ns[i] >= boundary`` via binary search.
+
+    Identical to ``next((i for i, ns in enumerate(end_ns) if ns >= boundary), None)``
+    on a monotonically non-decreasing timeline. Unsorted input fails closed
+    instead of returning a wrong index; past-end maps to ``None``.
+    """
+    for i in range(1, len(end_ns)):
+        if end_ns[i] < end_ns[i - 1]:
+            raise ValueError("funding boundary lookup requires sorted end_ns")
+    j = bisect_left(end_ns, boundary)
+    return j if j < len(end_ns) else None
+
+
 def portfolio_series_from_engine(
     engine_result: dict[str, Any],
     legs_closes: dict[str, list[float]],
@@ -2937,6 +2952,12 @@ def portfolio_series_from_engine(
     funding_expected = 0.0
     funding_boundaries = 0
     per_boundary: list[float] = []
+    # F1: end_ns is monotonically non-decreasing (bars are chronology-validated);
+    # verified once so the per-row binary search stays O(log N). Unsorted fails
+    # closed instead of returning a wrong index.
+    for i in range(1, len(end_ns)):
+        if end_ns[i] < end_ns[i - 1]:
+            raise ValueError("funding boundary lookup requires sorted end_ns")
     for row in funding_rows or []:
         inst_full = f"{getattr(row, 'instrument', '')}-PERP.BINANCE"
         closes = legs_closes.get(inst_full)
@@ -2947,7 +2968,9 @@ def portfolio_series_from_engine(
             rate = float(getattr(row, "funding_rate", 0))
         except (ValueError, TypeError):
             continue
-        b_idx = next((i for i, ns in enumerate(end_ns) if ns >= boundary), None)
+        # Identical to the linear first-ns->=boundary scan; past-end maps to None.
+        _b = bisect_left(end_ns, boundary)
+        b_idx: int | None = _b if _b < len(end_ns) else None
         if b_idx is None:
             continue
         for _pid, info in infos.items():
