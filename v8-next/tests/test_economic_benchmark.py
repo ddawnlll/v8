@@ -334,7 +334,11 @@ def _mechanics_oos_metric(*, degenerate: bool, sharpe_annualized: float) -> eb.M
         max_drawdown=-0.01,
         tail_mean_5pct=-0.001,
         avg_exposure=1.0,
-        concentration=1.0,
+        # #472: a measured four-leg share, not the pre-fix constant `1.0` the
+        # producer published for every curve regardless of its structure.
+        concentration=0.25,
+        concentration_legs={"A": 0.25, "B": 0.25, "C": 0.25, "D": 0.25},
+        concentration_basis=eb.CONCENTRATION_MEASURED,
         turnover_notional_over_capital=0.5,
         commission_cost=1.0,
         funding_cost=None,
@@ -342,6 +346,107 @@ def _mechanics_oos_metric(*, degenerate: bool, sharpe_annualized: float) -> eb.M
         n_bars=150,
         n_trades=1,
     )
+
+
+# --------------------------------------------------------------------------- #
+# #472 — `concentration` is MEASURED from the curve's own leg weights
+# --------------------------------------------------------------------------- #
+
+
+def _mechanics_four_leg_closes(n: int = 120) -> dict[str, list[float]]:
+    """MECHANICS ONLY: four seeded close paths. No market data, no claim.
+
+    Zero evaluative weight: these exist so the producer builds a real four-leg
+    basket whose declared leg weights can be checked against the numbers it
+    publishes beside them.
+    """
+    import numpy as np
+
+    rng = np.random.default_rng(472)
+    out: dict[str, list[float]] = {}
+    for sym in ("LEG1", "LEG2", "LEG3", "LEG4"):
+        level = 100.0
+        path = [level]
+        for r in rng.standard_normal(n - 1):
+            level *= 1.0 + 0.002 * float(r)
+            path.append(level)
+        out[sym] = path
+    return out
+
+
+def _mechanics_curve_metric(curve: dict[str, object]) -> eb.MetricSet:
+    """The published metric of one produced curve, through the real builder."""
+    return eb.metrics_for_curve(
+        [float(v) for v in curve["equity"]],  # type: ignore[union-attr]
+        [float(v) for v in curve["exposure"]],  # type: ignore[union-attr]
+        float(curve["turnover"]),  # type: ignore[arg-type]
+        float(curve["commission"]),  # type: ignore[arg-type]
+        None,
+        "ANALYTIC_MODEL",
+        None,
+        int(curve["n_trades"]),  # type: ignore[arg-type]
+        leg_weights=curve.get("leg_weights"),  # type: ignore[arg-type]
+    )
+
+
+def test_mechanics_concentration_is_measured_not_a_constant() -> None:
+    """#472 (1/2): structurally different curves cannot share a concentration.
+
+    MECHANICS ONLY: seeded closes through the real producer and the real metric
+    builder, no tape, no claim. The pre-fix producer published the literal `1.0`
+    for a zero-exposure `cash` curve and for a four-leg basket alike, so the
+    declared G2 diagnostic carried no measurement at all.
+    """
+    fams = eb.compute_multileg_family(_mechanics_four_leg_closes())
+    cash, equal_weight = fams["cash"], fams["equal_weight"]
+    assert len(equal_weight["leg_weights"]) == 4
+    assert cash["leg_weights"] == {}
+
+    m_cash = _mechanics_curve_metric(cash)
+    m_ew = _mechanics_curve_metric(equal_weight)
+
+    # Nothing was held, so nothing is measured -- named, not zero-filled.
+    assert m_cash.concentration is None
+    assert eb.concentration_basis_state(m_cash.concentration_basis) == (
+        eb.CONCENTRATION_NOT_MEASURED_NO_LEG_WEIGHTS
+    )
+    assert m_cash.concentration_legs == {}
+    # A four-leg equal-weight basket measures its own 1/4, and says how.
+    assert m_ew.concentration == pytest.approx(0.25, rel=0, abs=0)
+    assert m_ew.concentration_basis == eb.CONCENTRATION_MEASURED
+    assert set(m_ew.concentration_legs) == {"LEG1", "LEG2", "LEG3", "LEG4"}
+    assert all(w == pytest.approx(0.25, rel=0, abs=0) for w in m_ew.concentration_legs.values())
+    # The number is a function of the published leg weights, not of a rule.
+    legs = m_ew.concentration_legs
+    assert m_ew.concentration == pytest.approx(
+        max(legs.values()) / sum(legs.values()), rel=0, abs=0
+    )
+    # The discriminator the pre-fix producer could not satisfy.
+    assert m_cash.concentration != m_ew.concentration
+
+    # `1.0` stays reachable, but only by a curve that really holds one leg.
+    m_single = _mechanics_curve_metric(fams["bh_LEG1"])
+    assert m_single.concentration == pytest.approx(1.0, rel=0, abs=0)
+    assert m_single.concentration_basis == eb.CONCENTRATION_MEASURED
+
+
+def test_mechanics_concentration_fails_loud_on_foreign_weights() -> None:
+    """#472: leg weights that do not add up to the exposure are another run's.
+
+    MECHANICS ONLY. A mismatch must raise instead of being silently normalized
+    into this curve's number, which is how a constant could re-enter unnoticed.
+    """
+    eq = _mechanics_equity(_mechanics_return_path())
+    exposure = [1.0] * len(eq)
+    with pytest.raises(ValueError, match=eb.LEG_WEIGHTS_DO_NOT_SUM_TO_EXPOSURE):
+        eb.concentration_from_leg_weights({"A": [0.5] * len(eq)}, exposure)
+    with pytest.raises(ValueError, match=eb.LEG_WEIGHTS_DO_NOT_SUM_TO_EXPOSURE):
+        # Right sum, wrong number of bars: a slice of another window is not this
+        # curve's weights.
+        eb.metrics_for_curve(
+            eq, exposure, 1.0, 5.0, None, "ANALYTIC_MODEL", eq, 1,
+            leg_weights={"A": [1.0] * (len(eq) - 1)},
+        )
 
 
 def _mechanics_receipt(

@@ -341,6 +341,10 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
             "funding": fam.get("funding"),
             "cost_basis": str(fam.get("cost_basis", "ANALYTIC_MODEL")),
             "n_trades": int(fam["n_trades"]),
+            # #472: this curve's own per-leg exposure weights travel with it, so
+            # the published concentration is measured on the run that built the
+            # curve instead of published as a constant.
+            "leg_weights": fam.get("leg_weights"),
         }
     primary_eq: list[float] = list(curves[args.primary]["equity"])
 
@@ -368,6 +372,8 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
             cost_reconciliation=eb.published_cost_reconciliation(
                 c.get("cost_reconciliation"), cost_basis=str(c["cost_basis"])
             ),
+            # #472: measured from this curve's own leg weights, or named absent.
+            leg_weights=c.get("leg_weights"),
         )
         for name, c in curves.items()
     }
@@ -439,6 +445,12 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
                 eq_n, ex, s_turn, s_comm, None,
                 str(c["cost_basis"]) + "+OOS_SLICE", pe_n, s_trades,
                 sum(1 for s in raw_steps if s > 1e-9) if raw_steps else None,
+                # #472: the slice's leg weights are offset exactly like the slice's
+                # exposure, so the slice row measures the sliced run and never a
+                # full-window number.
+                leg_weights=eb.slice_leg_weights(
+                    c.get("leg_weights"), eb.OOS_FIT_BARS
+                ),
             )
 
     fam_eq: dict[str, Sequence[float]] = {
