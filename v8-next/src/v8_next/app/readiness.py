@@ -778,6 +778,43 @@ REGRESSION_TOLERANCES = {
 
 BASELINE_REL = "docs/evidence/v87-r3/BASELINE/readiness_baseline.json"
 
+#: Declared corrections to a pinned baseline metric (#458 Target (3), decision D-166).
+#:
+#: The baseline is a landed artifact that is read, never silently re-pinned: a metric whose
+#: pinned value counted something this path cannot measure is corrected by *declaring* the
+#: ``superseded -> corrected`` pair here, together with the authority that decided it and the
+#: named reason the pinned number was wrong. A declaration is honoured for the exact declared
+#: pair only -- any further drop is still a REGRESSION, and a metric with no declared
+#: correction is compared strictly against the pinned value.
+DECLARED_CORRECTIONS: dict[str, dict[str, Any]] = {
+    "gate_passes": {
+        "superseded": 4,
+        "corrected": 2,
+        "authority": "D-166",
+        "reason": (
+            "the pinned 4 counted two cells as PASS that no measurement carried "
+            "(g1_causal_pit, g2_determinism_ledger); resolve_structural_gates cannot emit "
+            "PASS for them on this path, so the battery's own producer measures 2"
+        ),
+    },
+}
+
+
+def _declared_correction(
+    declared: dict[str, Any] | None, before: Any, after: Any
+) -> dict[str, Any] | None:
+    """The declared correction for a metric, and only when the observed pair is exactly it."""
+    if not declared:
+        return None
+    try:
+        matched = (
+            float(before) == float(declared["superseded"])
+            and float(after) == float(declared["corrected"])
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+    return declared if matched else None
+
 
 def snapshot(
     repo_root: Path,
@@ -825,20 +862,88 @@ def snapshot(
     }
 
 
-def regression_against(baseline: dict[str, Any], current: dict[str, Any]) -> dict[str, Any]:
-    """Per-metric deltas and a REGRESSION verdict; nothing is re-baselined here."""
+#: the metrics the regression comparison reads, by name: a top-level metric or a
+#: ``<policy>.<metric>`` paper-trade cell. A declared correction naming anything else would
+#: never be consulted, and a correction that cannot be read is not a correction, so it is
+#: rejected by name rather than silently ignored.
+COMPARED_METRICS = (
+    "readiness",
+    "gate_passes",
+    "pillars_measured",
+    "net_measured_sum",
+    "win_rate_pct",
+)
+
+
+def _compare_metric(
+    name: str,
+    before: Any,
+    after: Any,
+    declared: dict[str, Any] | None,
+    *,
+    digits: int,
+) -> tuple[dict[str, Any], str | None, dict[str, Any] | None]:
+    """Compare one metric: (finding, regression line or None, honoured correction or None)."""
+    tolerance = REGRESSION_TOLERANCES[name.rpartition(".")[2]]
+    delta = round(float(after) - float(before), digits)
+    correction = _declared_correction(declared, before, after)
+    if correction is not None:
+        # the declared delta, named with its authority: recorded and printed, never absorbed
+        # and never a verdict -- the value it supersedes stays a property of this record
+        record = {
+            "metric": name,
+            "superseded": correction["superseded"],
+            "corrected": correction["corrected"],
+            "authority": correction["authority"],
+            "reason": correction["reason"],
+        }
+        finding = {"metric": name, "baseline": before, "current": after, "delta": delta,
+                   "tolerance": tolerance, "regressed": False, "correction": record}
+        return finding, None, record
+    dropped = delta < -abs(tolerance)
+    finding = {"metric": name, "baseline": before, "current": after, "delta": delta,
+               "tolerance": tolerance, "regressed": dropped}
+    return finding, (f"{name} {before} -> {after}" if dropped else None), None
+
+
+def regression_against(
+    baseline: dict[str, Any],
+    current: dict[str, Any],
+    corrections: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Per-metric deltas and a REGRESSION verdict; nothing is re-baselined here.
+
+    A metric covered by a declared correction (:data:`DECLARED_CORRECTIONS`, or the
+    ``corrections`` argument, which may be passed empty to compare strictly) is compared
+    against its declared pair instead of the superseded value: the declared delta is
+    reported as a CORRECTION with its authority and named reason, it does not set the
+    verdict, and a drop beyond the declared pair is still a REGRESSION. Every other metric
+    is compared strictly, and the baseline is never moved.
+    """
+    declared = DECLARED_CORRECTIONS if corrections is None else corrections
+    for name in declared:
+        cell = name.rpartition(".")[2]
+        if name not in COMPARED_METRICS and cell not in COMPARED_METRICS:
+            raise ValueError(
+                f"declared correction names {name!r}, which this comparison never reads; "
+                f"declarable metrics are {COMPARED_METRICS} (top level) or "
+                "'<policy>.<metric>' paper-trade cells"
+            )
     findings: list[dict[str, Any]] = []
     regressions: list[str] = []
+    honoured: list[dict[str, Any]] = []
     for metric in ("readiness", "gate_passes", "pillars_measured"):
         before, after = baseline.get(metric), current.get(metric)
         if before is None or after is None:
             continue
-        delta = round(float(after) - float(before), 6)
-        dropped = delta < -abs(REGRESSION_TOLERANCES[metric])
-        findings.append({"metric": metric, "baseline": before, "current": after, "delta": delta,
-                         "tolerance": REGRESSION_TOLERANCES[metric], "regressed": dropped})
-        if dropped:
-            regressions.append(f"{metric} {before} -> {after}")
+        finding, regression, record = _compare_metric(
+            metric, before, after, declared.get(metric), digits=6
+        )
+        findings.append(finding)
+        if regression:
+            regressions.append(regression)
+        if record:
+            honoured.append(record)
     for policy, before_row in (baseline.get("per_policy") or {}).items():
         after_row = (current.get("per_policy") or {}).get(policy)
         if not after_row:
@@ -848,21 +953,24 @@ def regression_against(baseline: dict[str, Any], current: dict[str, Any]) -> dic
             before, after = before_row.get(metric), after_row.get(metric)
             if before is None or after is None:
                 continue
-            delta = round(float(after) - float(before), 8)
-            dropped = delta < -abs(REGRESSION_TOLERANCES[metric])
-            findings.append({"metric": f"{policy}.{metric}", "baseline": before, "current": after,
-                             "delta": delta, "tolerance": REGRESSION_TOLERANCES[metric],
-                             "regressed": dropped})
-            if dropped:
-                regressions.append(f"{policy}.{metric} {before} -> {after}")
+            finding, regression, record = _compare_metric(
+                f"{policy}.{metric}", before, after, declared.get(f"{policy}.{metric}"), digits=8
+            )
+            findings.append(finding)
+            if regression:
+                regressions.append(regression)
+            if record:
+                honoured.append(record)
     return {
         "verdict": "REGRESSION" if regressions else "OK",
         "regressions": regressions,
         "findings": findings,
         "tolerances": REGRESSION_TOLERANCES,
+        "corrections": honoured,
         "note": (
             "a regression is reported, never repaired by moving the baseline: re-pinning "
-            "requires an entry in the decision register"
+            "requires an entry in the decision register, and a count this tree cannot "
+            "re-measure is declared as a correction with its authority rather than absorbed"
         ),
     }
 
