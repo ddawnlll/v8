@@ -312,7 +312,23 @@ class MetricSet(BaseModel):
     max_drawdown: float
     tail_mean_5pct: float
     avg_exposure: float
-    concentration: float
+    #: #472: the curve's own leg-exposure concentration, measured as
+    #: ``max_i |w_i| / sum_j |w_j|`` over the per-leg exposure weights the
+    #: producer handed over (`concentration_legs`). `None` means no measurement
+    #: stands behind the cell -- never a constant, and never a zero-filled or
+    #: one-filled placeholder: the pre-fix producer published the literal `1.0`
+    #: for every curve, so a structural claim (cash vs a four-leg basket) was
+    #: published as a shared number nobody measured.
+    concentration: float | None
+    #: The per-leg exposure weights behind the cell above: each leg's
+    #: window-MEAN absolute weight, keyed by leg. Published so the number is
+    #: recomputable from the receipt alone instead of taken on trust; empty when
+    #: no leg weights reached the measurement.
+    concentration_legs: dict[str, float] = Field(default_factory=dict)
+    #: Why the cell reads what it reads (`MEASURED_MAX_LEG_SHARE`, or
+    #: `CONCENTRATION_NOT_MEASURED_NO_LEG_WEIGHTS[:<ground>]`), following the
+    #: `funding_basis` precedent.
+    concentration_basis: str | None = None
     turnover_notional_over_capital: float
     commission_cost: float
     funding_cost: float | None  # None == MISSING, never zero-filled
@@ -853,13 +869,15 @@ def compute_multileg_family(
     n = len(next(iter(legs_closes.values())))
     fams: dict[str, dict[str, Any]] = {}
     fams["cash"] = {"equity": [capital] * n, "turnover": 0.0, "commission": 0.0,
-                    "n_trades": 0, "exposure": [0.0] * n}
+                    "n_trades": 0, "exposure": [0.0] * n, "leg_weights": {}}
     for raw in names:
         closes = legs_closes[raw]
         shares = (capital * (1.0 - taker_fee)) / closes[0]
         fams[f"bh_{raw.split('.')[0]}"] = {
             "equity": [shares * c for c in closes], "turnover": 1.0,
             "commission": capital * taker_fee, "n_trades": 1, "exposure": [1.0] * n,
+            # #472: one leg, measured -- the only way this curve may read 1.0.
+            "leg_weights": {raw: [1.0] * n},
         }
     k = len(names)
     eq_ew = [capital * (1.0 - taker_fee)]
@@ -868,13 +886,18 @@ def compute_multileg_family(
         eq_ew.append(eq_ew[-1] * (1.0 + r))
     fams["equal_weight"] = {"equity": eq_ew, "turnover": 1.0,
                             "commission": capital * taker_fee, "n_trades": k,
-                            "exposure": [1.0] * n}
+                            "exposure": [1.0] * n,
+                            # #472: the basket's own 1/k per leg, measured.
+                            "leg_weights": {w: [1.0 / k] * n for w in names}}
     target_pb = VOL_TARGET_ANNUAL / math.sqrt(HOURS_PER_YEAR)
     eq_vt = [capital]
     exp_vt = [0.0]
     turn_vt = 0.0
     comm_vt = 0.0
     prev_w = [0.0] * k
+    #: #472: the same per-bar leg weights the curve is built from, published with
+    #: it so `concentration` is a function of this curve's own run.
+    wts_vt: dict[str, list[float]] = {leg: [0.0] for leg in names}
     for i in range(1, n):
         inv = []
         for leg in names:
@@ -896,15 +919,18 @@ def compute_multileg_family(
                 for a in range(k))
         eq_vt.append(eq_vt[-1] * (1.0 + r) - cost)
         exp_vt.append(sum(wts))
+        for a, leg in enumerate(names):
+            wts_vt[leg].append(wts[a])
         prev_w = wts
     fams["vol_target"] = {"equity": eq_vt, "turnover": turn_vt, "commission": comm_vt,
-                          "n_trades": 0, "exposure": exp_vt}
+                          "n_trades": 0, "exposure": exp_vt, "leg_weights": wts_vt}
     sleeve = capital / k
     eq_tr = [capital]
     exp_tr = [0.0]
     turn_tr = 0.0
     comm_tr = 0.0
     in_pos = [False] * k
+    wts_tr: dict[str, list[float]] = {leg: [0.0] for leg in names}
     for i in range(1, n):
         day_r = 0.0
         ex = 0.0
@@ -919,13 +945,14 @@ def compute_multileg_family(
                 turn_tr += 1.0 / k
                 eq_tr[-1] -= cost
                 in_pos[a] = signal
+            wts_tr[raw].append(1.0 / k if in_pos[a] else 0.0)
             if in_pos[a]:
                 day_r += (closes[i] / closes[i - 1] - 1.0) / k
                 ex += 1.0 / k
         eq_tr.append(eq_tr[-1] * (1.0 + day_r))
         exp_tr.append(ex)
     fams["simple_trend"] = {"equity": eq_tr, "turnover": turn_tr, "commission": comm_tr,
-                            "n_trades": 0, "exposure": exp_tr}
+                            "n_trades": 0, "exposure": exp_tr, "leg_weights": wts_tr}
     return fams
 
 
@@ -950,6 +977,8 @@ def compute_benchmark_family(
         "commission": 0.0,
         "n_trades": 0,
         "exposure": [0.0] * n,
+        # #472: no leg ever carried exposure, so there is nothing to concentrate.
+        "leg_weights": {},
     }
 
     shares = (capital * (1.0 - taker_fee)) / closes[0]
@@ -960,6 +989,8 @@ def compute_benchmark_family(
         "commission": capital * taker_fee,
         "n_trades": 1,
         "exposure": [1.0] * n,
+        # #472: one leg, measured -- the only way this curve may read 1.0.
+        "leg_weights": {SINGLE_INSTRUMENT_LEG: [1.0] * n},
     }
     fams["equal_weight"] = {
         "equity": list(eq_bh),
@@ -968,6 +999,7 @@ def compute_benchmark_family(
         "n_trades": 1,
         "exposure": [1.0] * n,
         "note": "single-asset universe: identical to btc_buy_hold by construction",
+        "leg_weights": {SINGLE_INSTRUMENT_LEG: [1.0] * n},
     }
 
     logrets = [0.0] + [math.log(closes[i] / closes[i - 1]) for i in range(1, n)]
@@ -1010,6 +1042,9 @@ def compute_benchmark_family(
         "commission": commission_vt,
         "n_trades": sum(1 for i in range(1, n) if exposure_vt[i] > 0 and exposure_vt[i - 1] == 0),
         "exposure": exposure_vt,
+        # #472: a single-instrument curve holds one leg; its own measured exposure
+        # IS that leg's weight, so the published concentration is a measurement.
+        "leg_weights": {SINGLE_INSTRUMENT_LEG: list(exposure_vt)},
     }
 
     eq_tr = [capital]
@@ -1038,6 +1073,8 @@ def compute_benchmark_family(
         "commission": commission_tr,
         "n_trades": 0,
         "exposure": exposure_tr,
+        # #472: one instrument, in or out; the measured exposure is the leg weight.
+        "leg_weights": {SINGLE_INSTRUMENT_LEG: list(exposure_tr)},
     }
     flips = sum(1 for i in range(1, n) if exposure_tr[i] != exposure_tr[i - 1]) // 2
     fams["simple_trend"]["n_trades"] = flips
@@ -1139,6 +1176,126 @@ def funding_cell(m: MetricSet) -> str:
     return "n/a (NOT_MEASURED)"
 
 
+# --------------------------------------------------------------------------- #
+# Published `concentration` states (#472)
+# --------------------------------------------------------------------------- #
+
+#: The measured state: a real `max_i |w_i| / sum_j |w_j|` on this curve's own
+#: per-leg exposure weights. `1.0` is reachable ONLY here, and only by a curve
+#: whose measured weights really are one leg (a single-instrument buy-and-hold);
+#: it is never a rule default.
+CONCENTRATION_MEASURED = "MEASURED_MAX_LEG_SHARE"
+#: The unmeasured state: no number is published, and this names why. The pre-fix
+#: producer published the literal `1.0` for every curve instead, so this state is
+#: what replaces an unmeasured constant.
+CONCENTRATION_NOT_MEASURED_NO_LEG_WEIGHTS = "CONCENTRATION_NOT_MEASURED_NO_LEG_WEIGHTS"
+#: Grounds of the unmeasured state (the payload after the separator, the way
+#: `BASKET_CONVENTION_DIFFERS:<basket_id>` carries its own subject): the producer
+#: handed over no leg weights at all, versus a curve whose legs exist but never
+#: carried exposure (a zero-exposure `cash` curve concentrates nothing).
+CONCENTRATION_NOT_MEASURED_MISSING_LEG_WEIGHTS = (
+    f"{CONCENTRATION_NOT_MEASURED_NO_LEG_WEIGHTS}:NO_LEG_WEIGHT_SERIES_HANDED_OVER"
+)
+CONCENTRATION_NOT_MEASURED_ZERO_LEG_EXPOSURE = (
+    f"{CONCENTRATION_NOT_MEASURED_NO_LEG_WEIGHTS}:ZERO_LEG_EXPOSURE"
+)
+#: Separator between a `concentration_basis` state and its ground.
+CONCENTRATION_BASIS_DETAIL_SEPARATOR = ":"
+
+#: The measurement rule, declared where the number is produced so the rule and
+#: the arithmetic cannot drift apart.
+CONCENTRATION_RULE = (
+    "max_i |w_i| / sum_j |w_j| over the curve's own per-leg exposure weights, "
+    "each leg weight averaged over the window's bars (MEAN_LEG_EXPOSURE_WEIGHT); "
+    "every bar's leg weights must sum to the exposure this same curve publishes "
+    "for that bar"
+)
+
+#: Float-arithmetic tolerance on the leg-weights-vs-exposure identity. It absorbs
+#: summation rounding only: it is never used to rescale a weight series, because a
+#: series that does not add up is a different run's series and must fail loudly
+#: instead of being normalized into this curve's.
+CONCENTRATION_EXPOSURE_TOLERANCE = 1e-9
+
+#: Raised-message token for the fail-loud identity above.
+LEG_WEIGHTS_DO_NOT_SUM_TO_EXPOSURE = "LEG_WEIGHTS_DO_NOT_SUM_TO_EXPOSURE"
+
+#: The leg id a single-instrument analytic curve publishes (#472). The bars a
+#: :func:`compute_benchmark_family` call is given carry no instrument id, so the
+#: leg is named for exactly what that call measured: the one instrument it holds.
+SINGLE_INSTRUMENT_LEG = "single_instrument"
+
+
+def concentration_basis_state(basis: str | None) -> str | None:
+    """The declared state token of a `concentration_basis` (`STATE[:ground]`)."""
+    if basis is None:
+        return None
+    token = basis.split(CONCENTRATION_BASIS_DETAIL_SEPARATOR, 1)[0].strip()
+    return token or None
+
+
+def concentration_from_leg_weights(
+    leg_weights: Mapping[str, Sequence[float]] | None,
+    exposure: Sequence[float],
+) -> tuple[float | None, dict[str, float], str]:
+    """Measure `max_i |w_i| / sum_j |w_j|` from a curve's own leg weights (#472).
+
+    ``leg_weights`` maps each leg to its per-bar exposure weight, aligned to the
+    bars of the *same* curve's ``exposure`` series. Every bar's absolute leg
+    weights must add up to the exposure published for that bar; a series that does
+    not is another run's series and raises (:data:`LEG_WEIGHTS_DO_NOT_SUM_TO_EXPOSURE`)
+    rather than being silently normalized.
+
+    Returns ``(concentration, mean_leg_weights, basis)``. ``None`` with the named
+    unmeasured state when no leg weights were handed over, and when the legs never
+    carried exposure (nothing to concentrate), so no curve can publish a number
+    the producer did not measure.
+    """
+    if leg_weights is None:
+        return None, {}, CONCENTRATION_NOT_MEASURED_MISSING_LEG_WEIGHTS
+    n = len(exposure)
+    if n == 0:
+        return None, {}, CONCENTRATION_NOT_MEASURED_MISSING_LEG_WEIGHTS
+    bar_sum = [0.0] * n
+    mean_abs: dict[str, float] = {}
+    for name, series in leg_weights.items():
+        if len(series) != n:
+            raise ValueError(
+                f"{LEG_WEIGHTS_DO_NOT_SUM_TO_EXPOSURE}: leg {name!r} carries "
+                f"{len(series)} bars, the published exposure carries {n}"
+            )
+        vals = [abs(float(v)) for v in series]
+        for i, v in enumerate(vals):
+            bar_sum[i] += v
+        mean_abs[str(name)] = sum(vals) / n
+    for i in range(n):
+        published = abs(float(exposure[i]))
+        if abs(bar_sum[i] - published) > CONCENTRATION_EXPOSURE_TOLERANCE * max(1.0, published):
+            raise ValueError(
+                f"{LEG_WEIGHTS_DO_NOT_SUM_TO_EXPOSURE}: bar {i} leg weights sum to "
+                f"{bar_sum[i]} but the exposure published for that bar is {published}"
+            )
+    total = sum(mean_abs.values())
+    if total <= 0.0:
+        return None, {}, CONCENTRATION_NOT_MEASURED_ZERO_LEG_EXPOSURE
+    return max(mean_abs.values()) / total, mean_abs, CONCENTRATION_MEASURED
+
+
+def slice_leg_weights(
+    leg_weights: Mapping[str, Sequence[float]] | None,
+    start: int,
+) -> dict[str, list[float]] | None:
+    """The leg weights of a curve's OOS slice, offset exactly like its exposure.
+
+    ``None`` in, ``None`` out: a curve that published no leg weights for its full
+    window publishes none for its slice either, so the slice row can never read a
+    measured state the full-window row did not.
+    """
+    if leg_weights is None:
+        return None
+    return {str(k): [float(v) for v in vals[start:]] for k, vals in leg_weights.items()}
+
+
 def quad_family_legs(
     tape_path: str = "research/tape/quad-1h-12m",
     limit: int | None = 500,
@@ -1208,6 +1365,10 @@ def compute_basket_equity_real(
     cash = capital
     equity: list[float] = []
     exposure: list[float] = []
+    #: #472: the same per-bar per-leg exposure weights `exposure` is the sum of,
+    #: published with the curve so concentration is measured on this run's own
+    #: positions (`leg notional / equity`) instead of assumed.
+    leg_weights: dict[str, list[float]] = {sym: [] for sym in names}
     turnover = 0.0
     commission = 0.0
     n_trades = 0
@@ -1258,10 +1419,18 @@ def compute_basket_equity_real(
         level = cash + invested
         equity.append(level)
         exposure.append(invested / level if level > 0 else 0.0)
+        for sym in names:
+            leg_weights[sym].append(
+                quantities[sym] * closes[sym][i] / level if level > 0 else 0.0
+            )
 
     return {
         "equity": equity,
         "exposure": exposure,
+        # #472: the per-leg weights the exposure above is the sum of. A four-leg
+        # basket therefore measures 1/4, not the constant the pre-fix producer
+        # published for it and for a zero-exposure curve alike.
+        "leg_weights": leg_weights,
         "turnover": turnover,
         "commission": commission,
         "n_trades": n_trades,
@@ -1303,6 +1472,8 @@ def compute_benchmark_family_engine(
         "cash": {
             "equity": [capital] * n,
             "exposure": [0.0] * n,
+            # #472: never invested -- no leg carried exposure to concentrate.
+            "leg_weights": {},
             "turnover": 0.0,
             "commission": 0.0,
             "n_trades": 0,
@@ -2654,6 +2825,18 @@ def strategy_series_from_engine(
     exposure = [0.0]
     qty = 0.0
     avg = 0.0
+    #: #472: this series carries ONE position at a time, so the measured exposure
+    #: is that single leg's weight. The leg is named from the engine's own position
+    #: record: a series that cannot name the leg it held publishes no weights, and
+    #: the metric names the absence instead of inventing a leg label.
+    strategy_leg_id = next(
+        (
+            str(p.get("instrument_id"))
+            for p in opened
+            if isinstance(p, dict) and p.get("instrument_id")
+        ),
+        None,
+    )
     turnover = 0.0
     entry_turnover = 0.0
     exit_turnover = 0.0
@@ -2708,6 +2891,9 @@ def strategy_series_from_engine(
         "reconciliation_adjustment_per_bar": drift,
         "equity_construction": EQUITY_CONSTRUCTION,
         "exposure": exposure,
+        # #472: the single leg's own measured weights (`None` when the engine's
+        # position record does not name the instrument it held).
+        "leg_weights": {strategy_leg_id: list(exposure)} if strategy_leg_id else None,
         "turnover": turnover,
         "commission": commission_used,
         "funding": None,
@@ -2909,6 +3095,11 @@ def portfolio_series_from_engine(
     equity = [capital]
     exposure = [0.0]
     live: dict[str, list[float]] = {}  # inst -> [qty, avg]
+    #: #472: per-bar per-leg gross weight (`|qty * close| / equity`), the sum of
+    #: which IS the `exposure` published for the same bar. Index 0 is the flat
+    #: starting bar, exactly like `exposure[0]`.
+    leg_gross: dict[str, float] = {inst: 0.0 for inst in legs_closes}
+    leg_weights: dict[str, list[float]] = {inst: [0.0] for inst in legs_closes}
     turnover = 0.0
     entry_turnover = 0.0
     exit_turnover = 0.0
@@ -2932,6 +3123,11 @@ def portfolio_series_from_engine(
                 turnover += abs(qd) * px / capital
                 exit_turnover += abs(qd) * px / capital
                 exit_fills += 1
+        for inst in leg_weights:
+            # A leg flat at this bar carries no weight for it: the map is reset
+            # every bar, so a leg that left the book cannot leave its last
+            # weight behind and double count against the published exposure.
+            leg_gross[inst] = 0.0
         step_pnl = 0.0
         gross = 0.0
         for inst, (qd, avg) in live.items():
@@ -2939,9 +3135,14 @@ def portfolio_series_from_engine(
             mtm = qd * (closes[i] - avg)
             step_pnl += mtm - prev_mtm.get(inst, 0.0)
             prev_mtm[inst] = mtm
+            leg_gross[inst] = abs(qd * closes[i])
             gross += abs(qd * closes[i])
         equity.append(equity[-1] + step_pnl)
         exposure.append(gross / equity[-2] if equity[-2] > 0 else 0.0)
+        for inst in leg_weights:
+            leg_weights[inst].append(
+                leg_gross[inst] / equity[-2] if equity[-2] > 0 else 0.0
+            )
 
     # Open-position mtm at the last bar + entry commissions of open positions.
     # balance_total carries realized (net) of closed positions minus entry
@@ -3088,6 +3289,9 @@ def portfolio_series_from_engine(
         "reconciliation_adjustment_per_bar": drift,
         "equity_construction": EQUITY_CONSTRUCTION,
         "exposure": exposure,
+        # #472: the per-leg weights the exposure above is the sum of, keyed by the
+        # instrument each position was held in.
+        "leg_weights": leg_weights,
         "turnover": turnover,
         "commission": est_comm_total,
         "funding": funding_paid if fed else None,
@@ -3184,6 +3388,7 @@ def metrics_for_curve(
     raw_nonzero_bars: int | None = None,
     *,
     cost_reconciliation: Mapping[str, Any] | None = None,
+    leg_weights: Mapping[str, Sequence[float]] | None = None,
 ) -> MetricSet:
     rets = per_bar_returns(list(equity))
     s_pb, s_ann = sharpe_stats(rets)
@@ -3213,6 +3418,13 @@ def metrics_for_curve(
         # even contain the point estimate it is published beside.
         excess_ci = period_excess_ci(list(equity), list(primary_equity))
     tail = float(np.mean(np.sort(np.asarray(rets))[: max(1, int(0.05 * len(rets)))])) if rets else 0.0
+    # #472: the published concentration is MEASURED from this curve's own per-leg
+    # exposure weights, or named as unmeasured. The pre-fix producer published the
+    # literal `1.0` here for every curve, so `cash` and a four-leg basket shared a
+    # number neither of them had: the diagnostic was declared, never taken.
+    concentration, concentration_legs, concentration_basis = concentration_from_leg_weights(
+        leg_weights, list(exposure)
+    )
     return MetricSet(
         net_return=net,
         excess_vs_primary=excess,
@@ -3226,7 +3438,9 @@ def metrics_for_curve(
         max_drawdown=max_drawdown(list(equity)),
         tail_mean_5pct=tail,
         avg_exposure=float(np.mean(np.asarray(list(exposure)))) if exposure else 0.0,
-        concentration=1.0,
+        concentration=concentration,
+        concentration_legs=concentration_legs,
+        concentration_basis=concentration_basis,
         turnover_notional_over_capital=turnover,
         commission_cost=commission,
         funding_cost=funding,

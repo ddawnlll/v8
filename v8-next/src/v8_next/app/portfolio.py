@@ -522,6 +522,9 @@ def main(argv: list[str] | None = None) -> int:
             "turnover": float(fam["turnover"]), "commission": float(fam["commission"]),
             "funding": None if differs else family_funding.get(bid, {}).get("funding"),
             "cost_basis": "ANALYTIC_MODEL", "n_trades": int(fam["n_trades"]),
+            # #472: the curve's own per-leg exposure weights travel with it, so the
+            # published concentration is measured on this run instead of constant.
+            "leg_weights": fam.get("leg_weights"),
         }
         if differs is not None:
             funding_basis_by_curve[bid] = eb.funding_basis_for_convention_differs(differs)
@@ -537,6 +540,8 @@ def main(argv: list[str] | None = None) -> int:
             "turnover": float(curve["turnover"]), "commission": float(curve["commission"]),
             "funding": curve["funding"], "cost_basis": str(curve["cost_basis"]),
             "n_trades": int(curve["n_trades"]),
+            # #472: the basket mirror publishes its own per-leg weights (#472).
+            "leg_weights": curve.get("leg_weights"),
         }
         funding_basis_by_curve[basket_id] = str(curve["funding_basis"])
 
@@ -558,6 +563,8 @@ def main(argv: list[str] | None = None) -> int:
             cost_reconciliation=eb.published_cost_reconciliation(
                 c.get("cost_reconciliation"), cost_basis=str(c["cost_basis"])
             ),
+            # #472: measured from this curve's own leg weights, or named absent.
+            leg_weights=c.get("leg_weights"),
         )
         for name, c in curves.items()
     }
@@ -646,6 +653,9 @@ def main(argv: list[str] | None = None) -> int:
             oos_metrics[name] = eb.metrics_for_curve(
                 eq_n, ex, s_turn, s_comm, None,
                 str(c["cost_basis"]) + "+OOS_SLICE", pe_n, s_trades,
+                # #472: the slice's leg weights are offset exactly like the slice's
+                # exposure (`fit`, the same offset `ex` used above).
+                leg_weights=eb.slice_leg_weights(c.get("leg_weights"), fit),
             )
 
     fam_eq: dict[str, Sequence[float]] = {
