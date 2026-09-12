@@ -224,6 +224,27 @@ def capacity_from_participation(
     return out
 
 
+def build_shared_inputs(
+    tape: MultiTape,
+) -> tuple[dict[str, list[Any]], dict[str, list[float]], dict[str, list[float]]]:
+    """Single frame/feature build reused across the engine passes (#466).
+
+    Pure function of the loaded tape: per-instrument BarViews, per-leg closes
+    on the shared end_ns timeline, and per-leg quote volumes. The 5 engine
+    passes (P fund/nofund, P+E fund/nofund, determinism rerun) observe
+    identical state because they receive the same objects in the same order;
+    CLI flags/outputs unchanged. Build failure fails loudly (no partial reuse).
+    """
+    shared_bars = {inst: eb.bars_from_candles(tape.candles[inst]) for inst in tape.instruments}
+    if not shared_bars:
+        raise ValueError("shared build requires at least one instrument leg")
+    shared_closes = {
+        f"{k}-PERP.BINANCE": [float(c.close) for c in v] for k, v in tape.candles.items()
+    }
+    shared_qvols = {f"{k}-PERP.BINANCE": list(v) for k, v in tape.quote_volumes.items()}
+    return shared_bars, shared_closes, shared_qvols
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     out_dir = Path(args.output_dir)
@@ -315,6 +336,12 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(f"[+] Run key: {run_key.digest}")
 
+    # #466: single shared frame/feature build for the 5 engine passes below.
+    # Pure function of the tape; every pass observes identical state. Any pass
+    # depending on another pass's side effects would STOP here (none: each
+    # run constructs a fresh engine and receives immutable tuples in order).
+    shared_bars, shared_closes, shared_qvols = build_shared_inputs(tape)
+
     # Point-in-time validity of the series this run's numbers come from: every
     # instrument is measured, not asserted. Publishing `chrono_ok=True` and
     # `leak_probe=OK` as literals is what let a receipt claim a validity nobody
@@ -322,7 +349,7 @@ def main(argv: list[str] | None = None) -> int:
     # into the verdicts and the controls below.
     series_validity: dict[str, dict[str, Any]] = {}
     for instrument in tape.instruments:
-        instrument_bars = eb.bars_from_candles(tape.candles[instrument])
+        instrument_bars = shared_bars[instrument]
         chrono_result = eb.validate_chronology(instrument_bars)
         leak_result = eb.detect_future_leak(instrument_bars)
         series_validity[instrument] = {
@@ -384,8 +411,8 @@ def main(argv: list[str] | None = None) -> int:
         str(pe_fund["account"]["balance_total"]).split()[0]
     )
 
-    closes = {f"{k}-PERP.BINANCE": [float(c.close) for c in v] for k, v in tape.candles.items()}
-    qvols = {f"{k}-PERP.BINANCE": list(v) for k, v in tape.quote_volumes.items()}
+    closes = shared_closes
+    qvols = shared_qvols
     p_ser = eb.portfolio_series_from_engine(
         p_fund, closes, end_ns, args.capital, args.taker_fee, qvols, tape.funding, p_drag, True
     )
