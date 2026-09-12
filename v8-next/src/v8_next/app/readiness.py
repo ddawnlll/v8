@@ -7,8 +7,10 @@ number on its own. Every factor is derived from artifacts on disk:
 * ``pillar_factor`` - measured pillars / 3: P1 gate battery, P2 four-year paper-trade
                       report, P3 synthetic hypothesis scenarios. A pillar whose artifacts
                       are absent is MISSING and contributes 0 - it is never filled in.
-* ``risk_factor``   - 1 only when the declared risk limits are respected by the measured
-                      paper-trade record; 0 on any breach; MISSING when there is no record
+* ``risk_factor``   - 1 only when every declared risk limit is measured against the
+                      paper-trade record and respected; 0 on any breach, and 0 on a limit
+                      whose source publishes no number (UNMEASURED, named); MISSING when
+                      there is no record at all
 * ``target_factor`` - protected monthly return / 10 % (the red apple), capped at 1. It is
                       diagnostic-only (contributes 0) on a window that is not protected.
 
@@ -27,7 +29,9 @@ from v8_next.evaluation.benchmark_receipt import (
     NO_EVIDENTIAL_LEDGER_ENTRY,
 )
 
-#: declared risk limits for the paper-trade pillar (breach => risk factor 0)
+#: declared risk limits for the paper-trade pillar (breach => risk factor 0). The limits are
+#: fractions/multiples; a measured excursion published as a percentage is normalised before
+#: the comparison (#449), so a unit mismatch can never produce a vacuous PASS.
 RISK_LIMITS = {
     "max_drawdown": -0.25,
     "max_fee_drag_vs_gross": 2.0,
@@ -236,37 +240,219 @@ def pillar_factor(repo_root: Path) -> dict[str, Any]:
     }
 
 
+#: The source every declared risk limit is read from, by name (#449). A limit whose source
+#: publishes no number in the P2 artifact set is reported UNMEASURED and contributes 0.0:
+#: an unmeasured quantity is never published as respected. Two of these limits were
+#: consulted by no code at all before #449.
+LIMIT_SOURCES: dict[str, str] = {
+    "max_drawdown": (
+        "families.<policy>.robustness_vector.max_adverse_excursion_pct (percent), or a "
+        "published key containing 'drawdown' (fraction)"
+    ),
+    "max_fee_drag_vs_gross": (
+        "abs(fee_cost_return_sum) / abs(gross_return_sum) for the same policy"
+    ),
+    "max_exposure": "exposure or average_exposure (fraction)",
+}
+
+
+def _number(value: Any) -> float | None:
+    """The published number, or None when the slot holds no measurement."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    return float(value)
+
+
+def _as_fraction(value: Any, unit: str) -> float | None:
+    """One comparison unit (#449): a published value expressed as a fraction."""
+    number = _number(value)
+    if number is None:
+        return None
+    return number / 100.0 if unit == "percent" else number
+
+
+def _family_entries(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Both spellings the record uses: ``families`` (4-year report) and ``family`` (cost lane)."""
+    entries: dict[str, dict[str, Any]] = {}
+    for key in ("families", "family"):
+        block = data.get(key)
+        if isinstance(block, dict):
+            for name, entry in block.items():
+                if isinstance(entry, dict):
+                    entries[str(name)] = entry
+    return entries
+
+
+def _observation(
+    artifact: str, source: str, published: Any, unit: str, measured: float
+) -> dict[str, Any]:
+    """One published number, named, in the unit the limit is compared in."""
+    return {
+        "artifact": artifact,
+        "source": source,
+        "published": published,
+        "unit": unit,
+        "measured": measured,
+    }
+
+
+def _drawdown_observations(
+    rel: str, data: dict[str, Any], metrics: dict[str, Any]
+) -> list[dict[str, Any]]:
+    """Every drawdown the artifact publishes, as an adverse-excursion magnitude."""
+    observations: list[dict[str, Any]] = []
+    for key, value in metrics.items():
+        if "drawdown" not in key:
+            continue
+        fraction = _as_fraction(value, "fraction")
+        if fraction is not None:
+            observations.append(_observation(rel, key, value, "fraction", abs(fraction)))
+    for policy, entry in _family_entries(data).items():
+        vector = entry.get("robustness_vector")
+        if not isinstance(vector, dict):
+            continue
+        published = vector.get("max_adverse_excursion_pct")
+        fraction = _as_fraction(published, "percent")
+        if fraction is None:
+            continue
+        source = f"families.{policy}.robustness_vector.max_adverse_excursion_pct"
+        observations.append(_observation(rel, source, published, "percent", abs(fraction)))
+    return observations
+
+
+def _fee_drag_observations(rel: str, data: dict[str, Any]) -> list[dict[str, Any]]:
+    """Published fee cost against published gross return, per policy and slippage basis."""
+    observations: list[dict[str, Any]] = []
+    for policy, entry in _family_entries(data).items():
+        rows: list[tuple[str, dict[str, Any]]] = [("", entry)]
+        totals_by_basis = entry.get("totals_by_slippage_fraction")
+        if isinstance(totals_by_basis, dict):
+            for basis, totals in totals_by_basis.items():
+                if isinstance(totals, dict):
+                    rows.append((f".totals_by_slippage_fraction.{basis}", totals))
+        for suffix, row in rows:
+            fee = _number(row.get("fee_cost_return_sum"))
+            gross = _number(row.get("gross_return_sum"))
+            if fee is None or gross is None or gross == 0.0:
+                continue
+            ratio = abs(fee) / abs(gross)
+            source = f"families.{policy}{suffix}: abs(fee_cost_return_sum)/abs(gross_return_sum)"
+            observations.append(_observation(rel, source, ratio, "ratio", ratio))
+    return observations
+
+
+def _exposure_observations(rel: str, data: dict[str, Any]) -> list[dict[str, Any]]:
+    """A published exposure fraction, when one exists anywhere in the artifact."""
+    observations: list[dict[str, Any]] = []
+    scopes: list[tuple[str, dict[str, Any]]] = [("", data)]
+    for policy, entry in _family_entries(data).items():
+        scopes.append((f"families.{policy}.", entry))
+    for prefix, scope in scopes:
+        for key in ("exposure", "average_exposure"):
+            published = scope.get(key)
+            fraction = _as_fraction(published, "fraction")
+            if fraction is None:
+                continue
+            observations.append(_observation(rel, f"{prefix}{key}", published, "fraction", abs(fraction)))
+    return observations
+
+
 def risk_factor(repo_root: Path, paper_artifacts: list[str]) -> dict[str, Any]:
-    """Declared risk limits against the measured paper-trade record."""
+    """Declared risk limits against the measured paper-trade record, fail-closed (#449).
+
+    Every limit in ``RISK_LIMITS`` is measured from the source ``LIMIT_SOURCES`` names it
+    from, in one unit (a percentage excursion is normalised to a fraction). A limit whose
+    source publishes no number is ``UNMEASURED``, named in ``unmeasured``, and contributes
+    factor 0.0 -- a limit no number stands behind is never published as respected. A breach
+    is named with the limit, the normalised value and the source that broke it. The factor
+    is 1.0 only when every declared limit is measured and respected.
+    """
     metrics: dict[str, Any] = {}
+    observations: dict[str, list[dict[str, Any]]] = {name: [] for name in RISK_LIMITS}
+    read: list[str] = []
     for rel in paper_artifacts:
         data = _load(repo_root / rel)
-        if data is None:
+        if not isinstance(data, dict):
             continue
+        read.append(rel)
+        local: dict[str, Any] = {}
         for key in ("max_drawdown", "fee_cost_return_sum", "net_return_measured_only_sum",
                     "exposure", "average_exposure"):
             if key in data:
-                metrics[key] = data[key]
+                local[key] = data[key]
             if "family" in data:
                 for policy, entry in data["family"].items():
                     for basis, totals in (entry.get("totals_by_slippage_fraction") or {}).items():
-                        metrics[f"{policy}.slippage_{basis}.max_drawdown"] = totals.get("max_drawdown")
-                        metrics[f"{policy}.slippage_{basis}.net_measured"] = totals.get(
+                        local[f"{policy}.slippage_{basis}.max_drawdown"] = totals.get("max_drawdown")
+                        local[f"{policy}.slippage_{basis}.net_measured"] = totals.get(
                             "net_return_measured_only_sum"
                         )
-    if not metrics:
-        return {"factor": 0.0, "status": "MISSING", "metrics": {}, "breaches": []}
+        metrics.update(local)
+        observations["max_drawdown"] += _drawdown_observations(rel, data, local)
+        observations["max_fee_drag_vs_gross"] += _fee_drag_observations(rel, data)
+        observations["max_exposure"] += _exposure_observations(rel, data)
+    if not read:
+        # no record was read at all: the module contract's MISSING, named
+        return {
+            "factor": 0.0,
+            "status": "MISSING",
+            "metrics": {},
+            "breaches": [],
+            "unmeasured": [f"{name}: no paper-trade record read" for name in RISK_LIMITS],
+            "limits": RISK_LIMITS,
+            "limit_sources": LIMIT_SOURCES,
+            "limit_assessments": {
+                name: {
+                    "status": "UNMEASURED",
+                    "limit": RISK_LIMITS[name],
+                    "source": LIMIT_SOURCES[name],
+                    "observations": [],
+                    "breaches": [],
+                    "reason": "no paper-trade record was read",
+                }
+                for name in RISK_LIMITS
+            },
+            "artifacts_read": read,
+        }
     breaches: list[str] = []
-    drawdowns = [v for k, v in metrics.items() if "drawdown" in k and isinstance(v, (int, float))]
-    for value in drawdowns:
-        if value is not None and value < RISK_LIMITS["max_drawdown"]:
-            breaches.append(f"max_drawdown {value} beyond {RISK_LIMITS['max_drawdown']}")
+    unmeasured: list[str] = []
+    assessments: dict[str, Any] = {}
+    for name, limit in RISK_LIMITS.items():
+        measured_rows = observations[name]
+        limit_breaches = [
+            f"{name} {row['measured']:.8f} beyond {limit} "
+            f"({row['artifact']}: {row['source']}, published {row['published']} as {row['unit']})"
+            for row in measured_rows
+            if row["measured"] > abs(limit)
+        ]
+        if limit_breaches:
+            status = "BREACH"
+            breaches += limit_breaches
+        elif measured_rows:
+            status = "RESPECTED"
+        else:
+            status = "UNMEASURED"
+            unmeasured.append(
+                f"{name}: no artifact read publishes {LIMIT_SOURCES[name]}"
+            )
+        assessments[name] = {
+            "status": status,
+            "limit": limit,
+            "source": LIMIT_SOURCES[name],
+            "observations": measured_rows,
+            "breaches": limit_breaches,
+        }
+    status = "BREACH" if breaches else ("UNMEASURED" if unmeasured else "RESPECTED")
     return {
-        "factor": 0.0 if breaches else 1.0,
-        "status": "BREACH" if breaches else "RESPECTED",
+        "factor": 0.0 if status != "RESPECTED" else 1.0,
+        "status": status,
         "metrics": metrics,
         "breaches": breaches,
+        "unmeasured": unmeasured,
         "limits": RISK_LIMITS,
+        "limit_sources": LIMIT_SOURCES,
+        "limit_assessments": assessments,
+        "artifacts_read": read,
     }
 
 
@@ -329,6 +515,7 @@ def snapshot(
 ) -> dict[str, Any]:
     """The comparable state of a run: score, factors and the paper-trade metrics."""
     report = audit(repo_root, ledger_path, latest_receipt, publication=publication)
+    risk = report["factors"]["risk_factor"]
     paper = _load(repo_root / PILLAR_ARTIFACTS["P2_paper_trade_4y"][2]) or {}
     per_policy = {
         name: {
@@ -344,6 +531,21 @@ def snapshot(
         "gate_passes": report["factors"]["gate_factor"]["passed"],
         "pillars_measured": report["factors"]["pillar_factor"]["measured"],
         "risk_factor": report["factors"]["risk_factor"]["factor"],
+        # #449: the baseline carries the per-limit verdict, so a breached or unmeasured
+        # limit travels in the published artifact instead of a bare factor.
+        "risk_limits": {
+            "status": risk["status"],
+            "breaches": risk["breaches"],
+            "unmeasured": risk["unmeasured"],
+            "assessments": {
+                name: {
+                    "status": row["status"],
+                    "limit": row["limit"],
+                    "source": row["source"],
+                }
+                for name, row in risk["limit_assessments"].items()
+            },
+        },
         "target_factor": report["factors"]["target_factor"]["factor"],
         "per_policy": per_policy,
         "claim_status": report["claim_status"],

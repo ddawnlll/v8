@@ -1,6 +1,6 @@
 {
   "claim_status": "NO_ECONOMIC_CLAIM",
-  "gate_passes": 3,
+  "gate_passes": 4,
   "per_policy": {
     "causal_trend": {
       "campaigns": 1306,
@@ -17,6 +17,38 @@
   },
   "pillars_measured": 3,
   "readiness": 0.0,
-  "risk_factor": 1.0,
+  "risk_factor": 0.0,
+  "risk_limits": {
+    "assessments": {
+      "max_drawdown": {
+        "limit": -0.25,
+        "source": "families.<policy>.robustness_vector.max_adverse_excursion_pct (percent), or a published key containing 'drawdown' (fraction)",
+        "status": "BREACH"
+      },
+      "max_exposure": {
+        "limit": 1.0,
+        "source": "exposure or average_exposure (fraction)",
+        "status": "UNMEASURED"
+      },
+      "max_fee_drag_vs_gross": {
+        "limit": 2.0,
+        "source": "abs(fee_cost_return_sum) / abs(gross_return_sum) for the same policy",
+        "status": "BREACH"
+      }
+    },
+    "breaches": [
+      "max_drawdown 0.96320857 beyond -0.25 (docs/evidence/v87-r3/PAPER_4Y/paper_trade_4y.json: families.causal_trend.robustness_vector.max_adverse_excursion_pct, published 96.32085738279993 as percent)",
+      "max_drawdown 1.00826849 beyond -0.25 (docs/evidence/v87-r3/PAPER_4Y/paper_trade_4y.json: families.plain_swing.robustness_vector.max_adverse_excursion_pct, published 100.82684889269997 as percent)",
+      "max_fee_drag_vs_gross 81.39445154 beyond 2.0 (docs/evidence/v87-r3/COST/cost_lane.json: families.plain_swing.totals_by_slippage_fraction.0.0: abs(fee_cost_return_sum)/abs(gross_return_sum), published 81.39445154007592 as ratio)",
+      "max_fee_drag_vs_gross 81.39445154 beyond 2.0 (docs/evidence/v87-r3/COST/cost_lane.json: families.plain_swing.totals_by_slippage_fraction.0.05: abs(fee_cost_return_sum)/abs(gross_return_sum), published 81.39445154007592 as ratio)",
+      "max_fee_drag_vs_gross 81.39445154 beyond 2.0 (docs/evidence/v87-r3/COST/cost_lane.json: families.plain_swing.totals_by_slippage_fraction.0.1: abs(fee_cost_return_sum)/abs(gross_return_sum), published 81.39445154007592 as ratio)",
+      "max_fee_drag_vs_gross 81.39445154 beyond 2.0 (docs/evidence/v87-r3/COST/cost_lane.json: families.plain_swing.totals_by_slippage_fraction.0.25: abs(fee_cost_return_sum)/abs(gross_return_sum), published 81.39445154007592 as ratio)",
+      "max_fee_drag_vs_gross 6.73980977 beyond 2.0 (docs/evidence/v87-r3/PAPER_4Y/paper_trade_4y.json: families.plain_swing: abs(fee_cost_return_sum)/abs(gross_return_sum), published 6.739809765232788 as ratio)"
+    ],
+    "status": "BREACH",
+    "unmeasured": [
+      "max_exposure: no artifact read publishes exposure or average_exposure (fraction)"
+    ]
+  },
   "target_factor": 0.0
 }
