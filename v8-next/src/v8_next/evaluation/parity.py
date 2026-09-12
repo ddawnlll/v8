@@ -381,8 +381,8 @@ def evaluate_parity(
             )
 
     # 6. Check duplicate keys (Ambiguous keys fail-closed)
-    if df_nat[k].n_unique() != df_nat.height:
-        dups = df_nat[k].filter(df_nat[k].is_duplicated()).to_list()
+    if df_nat.get_column(k).n_unique() != df_nat.height:
+        dups = df_nat.get_column(k).filter(df_nat.get_column(k).is_duplicated()).to_list()
         dup_val = dups[0] if dups else "unknown"
         return ParityReceipt.create(
             subject=subject,
@@ -394,8 +394,8 @@ def evaluate_parity(
             detail=f"BLOCKED_PARITY_AMBIGUOUS_KEYS [native]: duplicate pairing key {dup_val}",
             computed_at_timestamp_ns=computed_at_timestamp_ns,
         )
-    if df_ref[k].n_unique() != df_ref.height:
-        dups = df_ref[k].filter(df_ref[k].is_duplicated()).to_list()
+    if df_ref.get_column(k).n_unique() != df_ref.height:
+        dups = df_ref.get_column(k).filter(df_ref.get_column(k).is_duplicated()).to_list()
         dup_val = dups[0] if dups else "unknown"
         return ParityReceipt.create(
             subject=subject,
@@ -409,7 +409,7 @@ def evaluate_parity(
         )
 
     # 7. Check non-finite values in pnl
-    pnl_nat_vals = df_nat[pnl_col].to_list()
+    pnl_nat_vals = df_nat.get_column(pnl_col).to_list()
     if any(not isinstance(v, (int, float)) or not math.isfinite(v) for v in pnl_nat_vals):
         return ParityReceipt.create(
             subject=subject,
@@ -421,7 +421,7 @@ def evaluate_parity(
             detail="DATA_BLOCKED_PARITY_RECORD_INVALID [native]: non-finite pnl",
             computed_at_timestamp_ns=computed_at_timestamp_ns,
         )
-    pnl_ref_vals = df_ref[pnl_col].to_list()
+    pnl_ref_vals = df_ref.get_column(pnl_col).to_list()
     if any(not isinstance(v, (int, float)) or not math.isfinite(v) for v in pnl_ref_vals):
         return ParityReceipt.create(
             subject=subject,
@@ -437,7 +437,7 @@ def evaluate_parity(
     # 8. Check order type semantics support if present
     for _name, df in (("native", df_nat), ("reference", df_ref)):
         if "order_type" in df.columns:
-            order_types = df["order_type"].drop_nulls().unique().to_list()
+            order_types = df.get_column("order_type").drop_nulls().unique().to_list()
             for ot in order_types:
                 if not mapping.supports_order_type(str(ot)):
                     return ParityReceipt.create(
@@ -497,8 +497,8 @@ def evaluate_parity(
 
     # 10. Bit-level IEEE-754 floating point check
     paired = joined.filter(pl.col("_pnl_nat").is_not_null() & pl.col("_pnl_ref").is_not_null())
-    pnl_nat = paired["_pnl_nat"].to_list()
-    pnl_ref = paired["_pnl_ref"].to_list()
+    pnl_nat = paired.get_column("_pnl_nat").to_list()
+    pnl_ref = paired.get_column("_pnl_ref").to_list()
     n_pairs = len(pnl_nat)
 
     def to_bits(val: float) -> int:
@@ -508,8 +508,8 @@ def evaluate_parity(
     exact_match = all(bit_matches)
 
     # Check fill time match if both present
-    time_nat = paired["_time_nat"].to_list()
-    time_ref = paired["_time_ref"].to_list()
+    time_nat = paired.get_column("_time_nat").to_list()
+    time_ref = paired.get_column("_time_ref").to_list()
     has_times = all(t1 is not None and t2 is not None for t1, t2 in zip(time_nat, time_ref, strict=True))
     time_errors_ms = []
     if has_times:

@@ -132,11 +132,11 @@ def _scan_quad_funding(p: Path) -> tuple[list[dict[str, Any]], int, int]:
     from v8_next.evaluation.multitape import funding_interval_hours
 
     df = pl.read_ndjson(p)
-    if "funding" not in df["channel"].unique().to_list():
+    if "funding" not in df.get_column("channel").unique().to_list():
         return [], 0, 0
     sub = df.filter(pl.col("channel") == "funding")
-    instruments = sub["instrument"].to_list()
-    payloads = sub["payload"].to_list()
+    instruments = sub.get_column("instrument").to_list()
+    payloads = sub.get_column("payload").to_list()
     raw_count = len(payloads)
     dropped = 0
     out: list[dict[str, Any]] = []
