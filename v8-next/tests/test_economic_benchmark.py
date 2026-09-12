@@ -249,6 +249,8 @@ def test_mechanics_metrics_and_capacity() -> None:
     assert m.net_return > 0 and m.max_drawdown <= 0.0
     rows = eb.capacity_table(0.05, 2.0, 10000.0, 0.0005)
     assert rows[0]["breakeven_extra_cost_bp"] == pytest.approx(0.05 * 10000.0 / 20000.0 * 1e4)
+    assert "L2" not in " ".join(rows[0]["modeled"])
+    assert "OHLCV-derived ADV" in rows[0]["data_resolution"]
 
 
 def test_mechanics_degenerate_sharpe_flagged() -> None:

@@ -41,10 +41,12 @@ bought with backtest evidence: they need elapsed shadow time and venue settlemen
 ## 4. P2 — the 4-year paper-trade report must carry these columns
 
 Per run: campaigns, per-trade net with **fees, real funding and modelled slippage in
-separate columns** (`execution_shortfall_measured` stays `MISSING` without mark/book data),
-win rate per cost basis, exit-kind histogram, exposure, turnover, max drawdown, and the
-**SNU ledger** (below). Per trade: entry/exit instants and prices, quantity, the decision
-identity, the exit rule that fired, and the attribution record of §6.
+separate columns** (`execution_shortfall_measured` stays `MISSING` without real-fill records),
+win rate per cost basis, exit-kind histogram, exposure, turnover, max drawdown,
+hourly OHLCV-derived ADV/participation when available, and the **SNU ledger** (below).
+Per trade: entry/exit instants and prices, quantity, the decision identity, the exit rule
+that fired, and the attribution record of §6. The primary swing contract does not require
+L2/depth or queue data; those captures are archived non-authoritative evidence.
 
 ## 5. P3 — synthetic scenarios must pass before any return is believed
 
@@ -129,6 +131,7 @@ return without the cost columns, the SNU count and the attribution summary besid
 ## 10. What this lock forbids
 
 * A return quoted without its cost breakdown, SNU count and attribution.
+* L2/depth data as an implicit requirement of the primary hourly swing benchmark.
 * A score minted from anything other than the four factors above.
 * Filling a missing pillar, gate or measurement with zero to make the score move.
 * Re-baselining a regression without a decision-register entry.

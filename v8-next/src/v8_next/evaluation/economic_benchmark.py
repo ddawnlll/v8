@@ -3684,53 +3684,42 @@ def capacity_table(
     capital: float,
     taker_fee: float,
 ) -> list[dict[str, Any]]:
-    """Capacity scenarios bounded to 1h bar data resolution.
+    """Capacity scenarios for the hourly swing contract.
 
-    MODELED (supported by 1h OHLCV bars + explicit config):
-      - taker fee: linear notional * taker_fee (config fee, reconciled vs engine commission estimate)
-      - turnover notional/capital: sum |qty*px|/capital from bar-close fill accounting
-      - slippage proxy: bar close used as fill proxy; no intraday spread/slippage distribution
-
-    UNMODELED (requires data NOT present in 1h bars; no coefficients invented):
-      - market impact / price impact vs order-book depth
-      - participation rate vs ADV / queue position / % volume
-      - intraday slippage distribution / bid-ask spread (requires tick/L2)
-      - nonlinear liquidity / capacity curvature (no depth, no intraday volume distribution)
-
-    If 1h bars are the only market data, the claim 'strategy capacity at N*capital
-    with preserved edge net of impact/participation' CANNOT be validated. Linear
-    rows are accounting extrapolations only, not capacity validations.
+    The benchmark uses OHLCV-derived turnover/ADV and a declared real-fill
+    model. L2, queue position and intraday spread are deliberately outside
+    this contract. Rows remain accounting diagnostics until real fills exist;
+    notional scaling is never promoted to a measured capacity claim.
     """
     notionals = turnover * capital
     breakeven_bp = (net_excess * capital / notionals * 1e4) if notionals > 0 else None
-    data_resolution = "1h OHLCV bars (open/high/low/close/volume; no L2, no tick, no spread, no depth)"
+    data_resolution = "1h OHLCV bars + derived ADV; no L2/tick dependency"
     modeled = [
-        "taker_fee linear (notional * taker_fee from config; bar-close fill proxy)",
-        "turnover notional/capital (bar-close qty*px accounting)",
-        "slippage proxy = bar close only (intraday slippage distribution NOT measured)",
+        "taker_fee from the declared venue schedule",
+        "turnover notional/capital from hourly bar accounting",
+        "participation against OHLCV-derived ADV when real fills are present",
+        "implementation shortfall from the declared real-fill model",
     ]
     unmodeled = [
-        "market impact / price impact vs depth (requires L2/order-book, not in 1h bars)",
-        "participation rate / %ADV / queue position (requires intraday volume/ADV, not in 1h bars)",
-        "intraday slippage distribution / bid-ask spread (requires tick/trade & quote data)",
-        "nonlinear liquidity/capacity curvature (no depth; no impact coefficients invented)",
+        "capacity outside the observed participation range",
+        "fill ratio without real execution records",
+        "intraday queue position and spread microstructure (out of contract)",
     ]
     rows: list[dict[str, Any]] = []
     for mult in (1.0, 10.0, 100.0):
         if mult == 1.0:
             validation_note = (
-                "1x = observed window accounting only; impact/participation still UNMODELED "
-                "even at 1x (no L2/ADV to validate)"
+                "1x = observed hourly accounting only; real-fill validation is required "
+                "before capacity is treated as measured"
             )
-            claim_validated = "NO: impact/participation cannot be validated from 1h bars at any scale"
+            claim_validated = "NO: capacity requires real fills and OHLCV-derived ADV"
         else:
             validation_note = (
-                f"CANNOT BE VALIDATED from 1h bars alone at {mult:.0f}x: requires L2 depth and "
-                "ADV/participation data not present; linear extrapolation shown for accounting only; "
-                "no impact coefficients invented"
+                f"CANNOT BE VALIDATED at {mult:.0f}x from the observed fill range: "
+                "OHLCV/ADV cannot establish counterfactual fills; accounting only"
             )
             claim_validated = (
-                "NO: capacity with preserved edge at scale cannot be validated without tick/L2/ADV"
+                "NO: capacity with preserved edge cannot be validated outside observed fills"
             )
         rows.append(
             {
@@ -3745,9 +3734,9 @@ def capacity_table(
                 "validation_note": validation_note,
                 "claim_validated": claim_validated,
                 # legacy key kept for backward compatibility
-                "note": "MODELED: taker fee (linear) + bar-close turnover/slippage proxy; "
-                "UNMODELED: impact, participation/ADV, intraday slippage/spread, liquidity nonlinearity "
-                "(no L2/tick/ADV in 1h bars; no coefficients invented)",
+                "note": "MODELED: hourly turnover + declared fee schedule + OHLCV/ADV basis; "
+                "UNMODELED: unobserved fill behaviour and capacity outside observed fills "
+                "(no counterfactual fills or coefficients invented)",
             }
         )
     return rows
