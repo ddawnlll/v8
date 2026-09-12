@@ -6,4 +6,31 @@ Success: no issues found in 12 source files
 
 $ uv run --project v8-next --extra dev pytest -q v8-next/tests/test_oracle_port.py v8-next/tests/test_oracle_episode.py v8-next/tests/test_oracle_contract.py v8-next/tests/test_oracle_coverage.py v8-next/tests/test_oracle_recoverability.py
 ................................                                         [100%]
-32 passed in 0.23s
+32 passed in 0.16s
+
+$ uv run --project v8-next python docs/evidence/v87-port-chain/452/make_evidence.py
+[452] episodes=109 candidates=1 coverage=0.0000 supported=1
+# deterministic regen: coverage_receipt + o1_episodes sha unchanged on re-run (real tape research/tape/multi-1h-4y/tape.jsonl, 2000 bars, BTCUSDT, horizon 24)
+
+$ uv run --project v8-next python -m v8_next.app.cli regression
+[regression] VERDICT: OK
+    ok        readiness                    0.0 -> 0.0 (delta 0.0, tol 0.0)
+    ok        gate_passes                  4 -> 4 (delta 0.0, tol 0)
+    ok        pillars_measured             3 -> 3 (delta 0.0, tol 0)
+    ok        causal_trend.net_measured_sum -0.66653487 -> -0.66653487 (delta 0.0, tol 0.0005)
+    ok        causal_trend.win_rate_pct    43.26 -> 43.26 (delta 0.0, tol 0.5)
+    ok        plain_swing.net_measured_sum -0.95695518 -> -0.95695518 (delta 0.0, tol 0.0005)
+    ok        plain_swing.win_rate_pct     6.56 -> 6.56 (delta 0.0, tol 0.5)
+
+$ grep -rn "regret_o4" v8-next/src v8-next/tests; echo "o4-exit:$?"
+o4-exit:1
+# R4: regret_o4 absent by design (no match), O4 stays absent
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests --ignore=v8-next/tests/test_execution_evidence.py
+878 passed, 508 deselected in 4.72s
+# fast-loop green with one parked file (see below); dangerous-full-loop SKIPPED per owner direction 2026-09-12 (RAM guard, no dangerous-full)
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests 2>&1 | tail -n 3
+ERROR v8-next/tests/test_execution_evidence.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+# PARKED (B5, foreign, not edited): test_execution_evidence.py ImportError decompose_fill_shortfall from shadow_ingest; owner commit f41d58c2 (economic evidence surfaces); parked via --ignore, named owner, file untouched
