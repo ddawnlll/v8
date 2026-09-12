@@ -22,6 +22,7 @@ from typing import Any
 from v8_next.domain.market import CausalFrame
 from v8_next.domain.positioning import PositioningReading
 from v8_next.economics.decisions import Opportunity, Stance, StanceKind
+from v8_next.experts.features import _ACTIVE_BUNDLE, build_bar_features
 from v8_next.experts.bollinger import observe_bollinger_breakout
 from v8_next.experts.breakouts import observe_failed_breakout, observe_volume_breakout
 from v8_next.experts.candlestick import (
@@ -671,8 +672,19 @@ def observe_all_28(
     *,
     readings: tuple[PositioningReading, ...] = (),
 ) -> tuple[Stance, ...]:
-    """Observe an opportunity across all 28 canonical active experts with authoritative metadata."""
-    return tuple(
-        observe_expert(spec_id, frame, opportunity, readings=readings)
-        for spec_id in CANONICAL_28_EXPERTS
-    )
+    """Observe an opportunity across all 28 canonical active experts with authoritative metadata.
+
+    Per-bar shared feature bundle: one computation, 28 readers. The bundle is
+    a pure function of this bar's frame, set for this call only and cleared
+    afterwards (per-bar invalidation, no cross-bar leakage). Misses fail
+    closed to the unbundled path, so stances stay identical.
+    """
+    bundle = build_bar_features(frame)
+    token = _ACTIVE_BUNDLE.set(bundle)
+    try:
+        return tuple(
+            observe_expert(spec_id, frame, opportunity, readings=readings)
+            for spec_id in CANONICAL_28_EXPERTS
+        )
+    finally:
+        _ACTIVE_BUNDLE.reset(token)

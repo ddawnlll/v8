@@ -1,6 +1,8 @@
 """Native-backed causal feature calculations, with explicit warmup and seeds."""
 
 import math
+from contextvars import ContextVar
+from dataclasses import dataclass
 
 import polars as pl
 
@@ -8,7 +10,69 @@ from v8_next.domain.market import CausalFrame
 from v8_next.economics.decisions import numeric
 
 
+@dataclass(frozen=True)
+class BarFeatureBundle:
+    """Per-bar shared features: one computation, 28 readers (#464).
+
+    Pure function of one bar's frame; built fresh per ``observe_all_28`` call
+    and never surviving to the next bar (per-bar invalidation). Readers observe
+    identical values to the unbundled path; any miss fails closed to it.
+    """
+
+    frame_id: int
+    closes: pl.Series
+    highs: pl.Series
+    lows: pl.Series
+    volumes: pl.Series
+    continuous: bool
+    closes_finite: bool
+    highs_finite: bool
+    lows_finite: bool
+    volumes_finite: bool
+
+
+_ACTIVE_BUNDLE: ContextVar[BarFeatureBundle | None] = ContextVar(
+    "v8_bar_features", default=None
+)
+
+
+def build_bar_features(frame: CausalFrame) -> BarFeatureBundle:
+    """Compute each bar's features once; never raises (records flags instead)."""
+    continuous = bool(frame.continuous)
+    df = frame.df
+    closes = df.get_column("close")
+    highs = df.get_column("high")
+    lows = df.get_column("low")
+    volumes = df.get_column("volume")
+    return BarFeatureBundle(
+        frame_id=id(frame),
+        closes=closes,
+        highs=highs,
+        lows=lows,
+        volumes=volumes,
+        continuous=continuous,
+        closes_finite=bool(closes.is_finite().all()),
+        highs_finite=bool(highs.is_finite().all()),
+        lows_finite=bool(lows.is_finite().all()),
+        volumes_finite=bool(volumes.is_finite().all()),
+    )
+
+
+def _bundled(frame: CausalFrame) -> BarFeatureBundle | None:
+    bundle = _ACTIVE_BUNDLE.get()
+    if bundle is not None and bundle.frame_id == id(frame):
+        return bundle
+    return None
+
+
 def close_series(frame: CausalFrame) -> pl.Series:
+    bundle = _bundled(frame)
+    if bundle is not None:
+        if not bundle.continuous:
+            raise ValueError("source gap")
+        if not bundle.closes_finite:
+            raise ValueError("price outside finite float domain")
+        return bundle.closes
     if not frame.continuous:
         raise ValueError("source gap")
     s = frame.df["close"]
@@ -18,6 +82,13 @@ def close_series(frame: CausalFrame) -> pl.Series:
 
 
 def high_series(frame: CausalFrame) -> pl.Series:
+    bundle = _bundled(frame)
+    if bundle is not None:
+        if not bundle.continuous:
+            raise ValueError("source gap")
+        if not bundle.highs_finite:
+            raise ValueError("price outside finite float domain")
+        return bundle.highs
     if not frame.continuous:
         raise ValueError("source gap")
     s = frame.df["high"]
@@ -27,6 +98,13 @@ def high_series(frame: CausalFrame) -> pl.Series:
 
 
 def low_series(frame: CausalFrame) -> pl.Series:
+    bundle = _bundled(frame)
+    if bundle is not None:
+        if not bundle.continuous:
+            raise ValueError("source gap")
+        if not bundle.lows_finite:
+            raise ValueError("price outside finite float domain")
+        return bundle.lows
     if not frame.continuous:
         raise ValueError("source gap")
     s = frame.df["low"]
@@ -36,6 +114,13 @@ def low_series(frame: CausalFrame) -> pl.Series:
 
 
 def volume_series(frame: CausalFrame) -> pl.Series:
+    bundle = _bundled(frame)
+    if bundle is not None:
+        if not bundle.continuous:
+            raise ValueError("source gap")
+        if not bundle.volumes_finite:
+            raise ValueError("volume outside finite float domain")
+        return bundle.volumes
     if not frame.continuous:
         raise ValueError("source gap")
     s = frame.df["volume"]
