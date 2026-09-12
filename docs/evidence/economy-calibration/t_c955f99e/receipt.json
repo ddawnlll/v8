@@ -1,0 +1,228 @@
+{
+  "task": "t_c955f99e",
+  "board": "v8",
+  "profile": "v8-engineer",
+  "change_class": "CONTRACT_IMPLEMENTATION",
+  "base_commit": "cb3998b33ff9bcd843fbb52bc11773f09f28e168",
+  "branch": "wt/t_c955f99e",
+  "economic_claim": "NO_ECONOMIC_CLAIM",
+  "authority": {
+    "card": "t_c955f99e",
+    "merge_authority": "docs/GOVERNANCE_MERGE_AUTHORITY_2026-09-11.md (D-163)",
+    "prohibited": [
+      "no economic claim minted; every published status is NO_ECONOMIC_CLAIM / DATA_BLOCKED / UNRESOLVED / UNSUPPORTED",
+      "no hardcoded coefficient, effect size or p-value",
+      "no synthetic input reaches a runtime path"
+    ]
+  },
+  "source_memo": {
+    "path": "docs/research/arXiv-economy-2026-09-12.md",
+    "sha256": "5627edb151caf2b8574719580792bb2dcd2eb219201061379d6076403bd8372a",
+    "bytes": 33459,
+    "role": "navigation only; not completion evidence for any claim inside it"
+  },
+  "changed_files": [
+    {
+      "path": "v8-next/src/v8_next/evaluation/capacity.py",
+      "sha256": "08b4d09602941ebc6bf9a1a49dbeff93ba59f3e29a518ab5467c133a9d637826",
+      "bytes": 5792
+    },
+    {
+      "path": "v8-next/src/v8_next/evaluation/costs.py",
+      "sha256": "f131b2cd393fe1811422b2bf7fcbb8358d9b6dcf6bc0c03cca518554d92cda35",
+      "bytes": 8349
+    },
+    {
+      "path": "v8-next/src/v8_next/evaluation/mintrl.py",
+      "sha256": "a3dd726bc27cbea92e92bccf30c55dd04f83cff28fa5ff672ef44042ab3a5f2f",
+      "bytes": 7573
+    },
+    {
+      "path": "v8-next/tests/test_capacity.py",
+      "sha256": "65145b7dbb1061377c9830f68d00217109ea92936f1420f35b1d9aa9811eef83",
+      "bytes": 2859
+    },
+    {
+      "path": "v8-next/tests/test_operating_net.py",
+      "sha256": "f15a2f79693fea2fe00cf04b4d00d4088591c176271556427f1f0829685653a8",
+      "bytes": 5373
+    },
+    {
+      "path": "v8-next/tests/test_mintrl.py",
+      "sha256": "c9574728ab315e40f6f0e4014776ffc28b3d843cdf33d198b2896465ea15914a",
+      "bytes": 5410
+    }
+  ],
+  "gates": {
+    "ruff": {
+      "command": "uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests",
+      "result": "All checks passed!"
+    },
+    "mypy": {
+      "command": "uv run --project v8-next --extra dev mypy v8-next/src",
+      "result": "12 pre-existing errors, 0 in touched files",
+      "touched_file_errors": [],
+      "baseline": "same command with the three touched src files restored to base_commit produced a byte-identical report (diff empty); the baseline is 12 errors in 7 files."
+    },
+    "targeted_tests": {
+      "command": "uv run --project v8-next --extra dev pytest -q v8-next/tests/test_capacity.py v8-next/tests/test_operating_net.py v8-next/tests/test_mintrl.py",
+      "summary_line": "21 passed in 0.11s",
+      "failed": [],
+      "counts": {
+        "21": "passed"
+      }
+    },
+    "fast_loop": {
+      "command": "uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests",
+      "summary_line": "3 failed, 907 passed, 510 deselected in 4.62s",
+      "failed": [
+        "v8-next/tests/test_books.py::test_coverage_reports_mapped_vs_unmapped",
+        "v8-next/tests/test_books.py::test_mapped_filenames_exist_in_library",
+        "v8-next/tests/test_public_shadow_nx10.py::test_capture_manifest_chain_and_maturity_report"
+      ],
+      "counts": {
+        "3": "failed",
+        "907": "passed",
+        "510": "deselected"
+      },
+      "environmental_failures": [
+        "v8-next/tests/test_books.py::test_coverage_reports_mapped_vs_unmapped",
+        "v8-next/tests/test_books.py::test_mapped_filenames_exist_in_library",
+        "v8-next/tests/test_public_shadow_nx10.py::test_capture_manifest_chain_and_maturity_report"
+      ],
+      "note": "a fresh worktree lacks the gitignored book library and *.jsonl capture batches; the same three tests fail at base_commit."
+    }
+  },
+  "static_evidence": {
+    "dev_loop_collection_break": {
+      "pyproject_extras": [
+        "dev = [",
+        "research = [",
+        "    \"arch>=8.0.0\","
+      ],
+      "foundry_module_scope_import": [
+        "from arch.bootstrap import StationaryBootstrap"
+      ],
+      "proving_test_pytestmark": [],
+      "reading": "arch is declared only in the research extra, imported at module scope by v8_next.world.foundry, and test_proving_ground.py imports foundry at module scope with no slow marker: a fresh '--extra dev' interpreter cannot collect the documented bare fast loop."
+    },
+    "l2_tape_census": {
+      "resolved_root": "/Users/hootie/src/v8/research/tape",
+      "tapes": [
+        {
+          "tape": "btcusdt-l2-20260911T0012Z",
+          "snapshot_files": 52,
+          "span_s": 169.7,
+          "poll_interval_s": 3.33,
+          "bid_levels": 20,
+          "ask_levels": 20
+        },
+        {
+          "tape": "btcusdt-l2-20260911T0320Z",
+          "snapshot_files": 72,
+          "span_s": 239.0,
+          "poll_interval_s": 3.37,
+          "bid_levels": 20,
+          "ask_levels": 20
+        },
+        {
+          "tape": "btcusdt-l2-20260911T0340Z",
+          "snapshot_files": 117,
+          "span_s": 392.5,
+          "poll_interval_s": 3.38,
+          "bid_levels": 20,
+          "ask_levels": 20
+        }
+      ],
+      "tape_files_scanned": 293,
+      "files_skipped_over_4MB": 4,
+      "files_carrying_fill_fields": 0,
+      "reading": "REST snapshots polled at seconds-scale intervals are not event-sequenced top-of-book updates, and no tape file carries observed fills, so no OFI/impact coefficient can be estimated (memo section 2.2 / 2.5, DATA_BLOCKED)."
+    },
+    "mypy_baseline_method": {
+      "steps": [
+        "cp the three touched src files aside",
+        "git checkout -- v8-next/src/v8_next/evaluation/{capacity,costs,mintrl}.py",
+        "uv run --project v8-next --extra dev mypy v8-next/src  -> baseline report",
+        "restore the saved files and verify their sha256 are unchanged",
+        "diff baseline changed -> empty"
+      ],
+      "baseline_report": "12 errors in 7 files (checked 182 source files)",
+      "conclusion": "no mypy error is introduced by this change"
+    }
+  },
+  "guards": {
+    "capacity.py": [
+      "UNSEQUENCED_MICROSTRUCTURE_OBSERVATIONS: observations must be one strictly increasing event sequence",
+      "UNSINGLE_INSTRUMENT_OBSERVATIONS: rows must come from one instrument",
+      "OBSERVED_FILLS_AT_OTHER_SCALE: a counterfactual requested size is reported as a labelled projection with status UNRESOLVED, never as a measured fill/impact",
+      "NO_MICROSTRUCTURE_OBSERVATIONS: DATA_BLOCKED"
+    ],
+    "costs.py": [
+      "venue-cost.v2 receipt carries venue, fee tier and fee effective date, and separates maker from taker quantity-weighted fee rates",
+      "FRICTION_NET_BASIS_NOT_EVIDENCED: price_pnl_already_net_of_friction requires an ArtifactBinding for the net-of-friction basis, else DATA_BLOCKED",
+      "MISSING_FUNDING_FEES_OR_EXPENSES: DATA_BLOCKED",
+      "artifact hash/size verification on the fee schedule, expenses and friction basis"
+    ],
+    "mintrl.py": [
+      "the plan must declare identity POWER_REQUIRED_N or BAILEY_LDP_2012; an undeclared identity does not construct",
+      "inputs the declared identity does not consume are rejected (no silent fallback to the other formula)",
+      "MINTRL_CLOSED_FORM_UNDEFINED: non-positive gap or non-positive variance correction returns UNSUPPORTED with required_intervals=None",
+      "DECLARED_MINTRL_PLAN_REQUIRED: UNSUPPORTED (unchanged)"
+    ]
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "issue": "#378",
+      "finding": "The published Bailey & Lopez de Prado (2012) MinTRL closed form and the previously implemented estimator are different identities; the plan now declares which one it means and the closed form is cross-checked against the published expression, not against a stored constant.",
+      "artifact": "v8-next/src/v8_next/evaluation/mintrl.py",
+      "test": "v8-next/tests/test_mintrl.py::test_mintrl_closed_form_matches_the_published_expression"
+    },
+    {
+      "id": "F2",
+      "issue": "#378",
+      "finding": "The non-normality term is evaluated at the OBSERVED Sharpe and the gap at (observed - benchmark). The memo's section 4.1 renders SR* in both places; the implemented convention is the one carried by the published expression and by independent implementations, and the discrimination is pinned by a test where the two conventions give different integers.",
+      "artifact": "v8-next/tests/test_mintrl.py",
+      "test": "v8-next/tests/test_mintrl.py::test_mintrl_closed_form_uses_the_observed_sharpe_in_the_variance_term"
+    },
+    {
+      "id": "F3",
+      "issue": "#382",
+      "finding": "measure_capacity documented a sequencing/single-instrument contract it never enforced, and published a counterfactual participation beside observed-scale fill/impact (the linear extrapolation the memo lists as REJECTED_OPTION). Both are now guarded.",
+      "artifact": "v8-next/src/v8_next/evaluation/capacity.py",
+      "test": "v8-next/tests/test_capacity.py"
+    },
+    {
+      "id": "F4",
+      "issue": "#382",
+      "finding": "The measured part of #382 stays DATA_BLOCKED on real tape: the captured depth tapes are 20-level REST snapshots polled every ~3.3s (52/72/117 files), not event-sequenced top-of-book updates, and none of the 297 tape files carries fill fields. No impact coefficient is estimated or invented.",
+      "artifact": "docs/evidence/economy-calibration/t_c955f99e/gates.log"
+    },
+    {
+      "id": "F5",
+      "issue": "#385",
+      "finding": "A venue-cost receipt without (venue, tier, effective date) collapses venue heterogeneity; maker and taker fills now calibrate separately.",
+      "artifact": "v8-next/src/v8_next/evaluation/costs.py"
+    },
+    {
+      "id": "F6",
+      "issue": "#385",
+      "finding": "price_pnl_already_net_of_friction was the only guard against a spread double-count and was caller-declared with no evidence; it now requires a verified ArtifactBinding or the ledger fails closed.",
+      "artifact": "v8-next/src/v8_next/evaluation/costs.py"
+    },
+    {
+      "id": "F7",
+      "issue": "#453",
+      "finding": "Pre-existing, not introduced here: the documented bare fast loop ('--extra dev' only) cannot collect a fresh interpreter because v8_next/world/foundry.py imports arch.bootstrap, declared only in the research extra, from a test module with no slow marker. This run needed '--extra research' present in the venv.",
+      "artifact": "docs/evidence/economy-calibration/t_c955f99e/gates.log",
+      "follow_up_card": "created by this worker (see completion metadata)"
+    }
+  ],
+  "remaining_blocked": {
+    "#382_measured_impact": "needs event-sequenced top-of-book quotes plus observed fills; the tape has neither, so no OFI/impact coefficient is published",
+    "#385_funding_attribution": "funding is still an aggregate scalar in compute_operating_net; the memo's settlement-period attribution (funding carry vs margin/liquidation events) needs settlement records that do not exist",
+    "#385_permanent_vs_temporary": "splitting fill-vs-mid friction needs post-fill reference observations (reversion test); absent, so no split is published",
+    "#393_multiplicity": "DSR inputs N and V must come from v8's own multiplicity ledger, not a worker; verdicts stay NO_ECONOMIC_CLAIM"
+  }
+}
