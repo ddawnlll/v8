@@ -25,7 +25,12 @@ import pytest
 from v8_next.adapters.swing_engine import SwingEngineConfig, SwingEngineStrategy
 from v8_next.app.analysis import analyse_window
 from v8_next.economics.grammar import POLICY_REQUIRED_BARS
-from v8_next.economics.swing_baseline import SHARED_CONTRACT, policy_spec, replay_bracket, swing_signal
+from v8_next.economics.swing_baseline import (
+    SHARED_CONTRACT,
+    policy_spec,
+    replay_bracket,
+    swing_signal,
+)
 from v8_next.evaluation.multitape import load_multitape
 from v8_next.system_proving.attribution import classify_exit_failure
 
