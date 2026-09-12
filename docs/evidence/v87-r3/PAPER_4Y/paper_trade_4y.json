@@ -6,6 +6,15 @@
       "campaigns": 1306,
       "conservation_verified": true,
       "double_entry_reconciled": true,
+      "drawdown_basis": {
+        "basis": "uncompounded_sum_of_campaign_returns",
+        "fields": [
+          "max_adverse_excursion_pct",
+          "ruin_margin_pct"
+        ],
+        "ruin_margin_relation": "100 - max_adverse_excursion_pct (DERIVED, declared, unclamped)",
+        "unit": "percent of that path's own running peak, in return-sum units (not capital percent)"
+      },
       "failure_attribution": {
         "conservation_verified": true,
         "counts_by_domain": {
@@ -21,21 +30,185 @@
       "net_with_modelled_slippage_10_sum": -2.62890401,
       "protection_policy": "timeout-only-v1",
       "robustness_vector": {
-        "capital_utilization_pct": 100.0,
+        "capital_utilization_pct": null,
         "cashflow_discrepancy_usdt": 0.0,
-        "expert_displacement_rate": 0.0,
+        "expert_displacement_rate": null,
         "friction_retention_ratio": -1.0116478982117434,
         "funding_drag_ratio": 0.02943779316344092,
         "habitat_selectivity_score": 0.03724617841660963,
         "max_adverse_excursion_pct": 96.32085738279993,
-        "recovery_horizon_bars": 0,
+        "recovery_horizon_bars": null,
         "regime_stability_score": 0.4326186830015314,
         "ruin_margin_pct": 3.679142617200071,
         "scenario_failure_fraction": 0.5673813169984686,
-        "slippage_fragility_score": 0.0,
-        "tail_capture_efficiency": 0.0,
-        "turnover_efficiency": 0.03724617841660963
+        "slippage_fragility_score": 2.9441357477966066,
+        "tail_capture_efficiency": null,
+        "turnover_efficiency": null
       },
+      "robustness_vector_basis": {
+        "capital_utilization_pct": {
+          "basis": "share of a capital base actually deployed as position size",
+          "inputs": [],
+          "reason": "no position sizing / no capital basis in this producer: a utilization share cannot be measured from a fee column",
+          "status": "UNMEASURED",
+          "unit": "percent of a capital base",
+          "value": null
+        },
+        "cashflow_discrepancy_usdt": {
+          "basis": "the double-entry residual the producer reconciles, passed in as an input",
+          "inputs": [
+            "cashflow_discrepancy_usdt"
+          ],
+          "status": "MEASURED",
+          "unit": "USDT",
+          "value": 0.0
+        },
+        "expert_displacement_rate": {
+          "basis": "share of campaigns an expert baseline would have won that the family took",
+          "inputs": [],
+          "reason": "this producer runs no expert baseline and carries no displaced-expert series, so the rate would be a pass-shaped zero",
+          "status": "UNMEASURED",
+          "unit": "fraction of campaigns",
+          "value": null
+        },
+        "friction_retention_ratio": {
+          "basis": "(gross_return_sum - fee_cost_sum - funding_cost_sum) / gross_return_sum",
+          "inputs": [
+            "gross_return_sum",
+            "fee_cost_sum",
+            "funding_cost_sum"
+          ],
+          "status": "MEASURED",
+          "unit": "fraction of gross return retained after measured fees and funding (signed)",
+          "value": -1.0116478982117434
+        },
+        "funding_drag_ratio": {
+          "basis": "abs(funding_cost_sum) / max(abs(gross_return_sum), DOUBLE_ENTRY_EPSILON)",
+          "inputs": [
+            "funding_cost_sum",
+            "gross_return_sum"
+          ],
+          "status": "MEASURED",
+          "unit": "fraction of gross return paid as funding (saturating at 1.0)",
+          "value": 0.02943779316344092
+        },
+        "habitat_selectivity_score": {
+          "basis": "campaigns / bars, where bars is the decision frames the tape offered",
+          "inputs": [
+            "campaigns",
+            "bars"
+          ],
+          "status": "MEASURED",
+          "unit": "entries per decision frame \u2014 how selectively the family fired",
+          "value": 0.03724617841660963
+        },
+        "max_adverse_excursion_pct": {
+          "basis": "100 * max(running peak - cumulative campaign net return) over the uncompounded sum of campaign net returns, or, when no path is supplied, the caller's own max_drawdown_pct measurement",
+          "inputs": [
+            "campaign_net_returns",
+            "max_drawdown_pct"
+          ],
+          "status": "MEASURED",
+          "unit": "percent of the path's own running peak, in return-sum units",
+          "value": 96.32085738279993
+        },
+        "recovery_horizon_bars": {
+          "basis": "tape bars from the trough of the deepest drawdown of the uncompounded campaign-return path to the first point at which that path re-attains the peak it fell from",
+          "inputs": [
+            "campaign_net_returns",
+            "campaign_bars_held"
+          ],
+          "reason": "the uncompounded campaign-return path never re-attains the peak it fell from inside the tape, or no per-campaign path was supplied: there is no recovery to measure",
+          "status": "UNMEASURED",
+          "unit": "tape bars",
+          "value": null
+        },
+        "regime_stability_score": {
+          "basis": "1 - scenario_failure_fraction: the share of campaigns not charged to a failure domain, restated as a stability score; a declared derivation, not an independent measurement of regime segmentation",
+          "derived_from": "scenario_failure_fraction",
+          "inputs": [
+            "scenario_failure_fraction"
+          ],
+          "status": "DERIVED",
+          "unit": "fraction of campaigns",
+          "value": 0.4326186830015314
+        },
+        "ruin_margin_pct": {
+          "basis": "100 - max_adverse_excursion_pct: the same drawdown restated as a margin, in the same return-sum units; not an independent measurement and not clamped",
+          "derived_from": "max_adverse_excursion_pct",
+          "inputs": [
+            "max_adverse_excursion_pct"
+          ],
+          "status": "DERIVED",
+          "unit": "percent of the path's own running peak, in return-sum units",
+          "value": 3.679142617200071
+        },
+        "scenario_failure_fraction": {
+          "basis": "failures / campaigns",
+          "inputs": [
+            "failures",
+            "campaigns"
+          ],
+          "status": "MEASURED",
+          "unit": "fraction of campaigns charged to one of the seven disjoint failure domains",
+          "value": 0.5673813169984686
+        },
+        "slippage_fragility_score": {
+          "basis": "(measured_net - net_with_modelled_slippage_sum) / abs(measured_net), where measured_net = gross_return_sum - fee_cost_sum - funding_cost_sum",
+          "inputs": [
+            "gross_return_sum",
+            "fee_cost_sum",
+            "funding_cost_sum",
+            "net_with_modelled_slippage_sum"
+          ],
+          "status": "MEASURED",
+          "unit": "fraction of the measured net return consumed by the declared slippage model",
+          "value": 2.9441357477966066
+        },
+        "tail_capture_efficiency": {
+          "basis": "share of the campaign return distribution's tail that the family captured",
+          "inputs": [],
+          "reason": "no tail cut is declared over a per-campaign return distribution in this producer, so a tail capture share would be a pass-shaped guess",
+          "status": "UNMEASURED",
+          "unit": "fraction of a declared tail",
+          "value": null
+        },
+        "turnover_efficiency": {
+          "basis": "traded notional over the capital that carried it",
+          "inputs": [],
+          "reason": "this producer holds no traded notional and no capital base (a returns-only decision plane), so turnover would be a pass-shaped guess",
+          "status": "UNMEASURED",
+          "unit": "notional per unit of capital",
+          "value": null
+        }
+      },
+      "robustness_vector_unmeasured": [
+        {
+          "field": "tail_capture_efficiency",
+          "reason": "no tail cut is declared over a per-campaign return distribution in this producer, so a tail capture share would be a pass-shaped guess",
+          "status": "UNMEASURED"
+        },
+        {
+          "field": "recovery_horizon_bars",
+          "reason": "the uncompounded campaign-return path never re-attains the peak it fell from inside the tape, or no per-campaign path was supplied: there is no recovery to measure",
+          "status": "UNMEASURED"
+        },
+        {
+          "field": "turnover_efficiency",
+          "reason": "this producer holds no traded notional and no capital base (a returns-only decision plane), so turnover would be a pass-shaped guess",
+          "status": "UNMEASURED"
+        },
+        {
+          "field": "capital_utilization_pct",
+          "reason": "no position sizing / no capital basis in this producer: a utilization share cannot be measured from a fee column",
+          "status": "UNMEASURED"
+        },
+        {
+          "field": "expert_displacement_rate",
+          "reason": "this producer runs no expert baseline and carries no displaced-expert series, so the rate would be a pass-shaped zero",
+          "status": "UNMEASURED"
+        }
+      ],
       "system_proving_receipt": {
         "attribution": {
           "conservation_verified": true,
@@ -47,20 +220,20 @@
         "evaluated_at_timestamp_ns": 1782864000000000000,
         "exercises_full_pipeline": false,
         "metrics": {
-          "capital_utilization_pct": 100.0,
+          "capital_utilization_pct": null,
           "cashflow_discrepancy_usdt": 0.0,
-          "expert_displacement_rate": 0.0,
+          "expert_displacement_rate": null,
           "friction_retention_ratio": -1.0116478982117434,
           "funding_drag_ratio": 0.02943779316344092,
           "habitat_selectivity_score": 0.03724617841660963,
           "max_adverse_excursion_pct": 96.32085738279993,
-          "recovery_horizon_bars": 0,
+          "recovery_horizon_bars": null,
           "regime_stability_score": 0.4326186830015314,
           "ruin_margin_pct": 3.679142617200071,
           "scenario_failure_fraction": 0.5673813169984686,
-          "slippage_fragility_score": 0.0,
-          "tail_capture_efficiency": 0.0,
-          "turnover_efficiency": 0.03724617841660963
+          "slippage_fragility_score": 2.9441357477966066,
+          "tail_capture_efficiency": null,
+          "turnover_efficiency": null
         },
         "policy_id": "causal_trend",
         "receipt_digest": "e0c16a7bebb13537e4ef6b67b90933e76ea495a91752b9a25707cd5213f551eb",
@@ -20974,6 +21147,15 @@
       "campaigns": 1112,
       "conservation_verified": true,
       "double_entry_reconciled": true,
+      "drawdown_basis": {
+        "basis": "uncompounded_sum_of_campaign_returns",
+        "fields": [
+          "max_adverse_excursion_pct",
+          "ruin_margin_pct"
+        ],
+        "ruin_margin_relation": "100 - max_adverse_excursion_pct (DERIVED, declared, unclamped)",
+        "unit": "percent of that path's own running peak, in return-sum units (not capital percent)"
+      },
       "failure_attribution": {
         "conservation_verified": true,
         "counts_by_domain": {
@@ -20990,21 +21172,185 @@
       "net_with_modelled_slippage_10_sum": -4.66901776,
       "protection_policy": "squeeze:baseline:v2",
       "robustness_vector": {
-        "capital_utilization_pct": 100.0,
+        "capital_utilization_pct": null,
         "cashflow_discrepancy_usdt": 0.0,
-        "expert_displacement_rate": 0.0,
+        "expert_displacement_rate": null,
         "friction_retention_ratio": -5.8000863542751535,
         "funding_drag_ratio": 0.06027644741343506,
         "habitat_selectivity_score": 0.03171343828428017,
         "max_adverse_excursion_pct": 100.82684889269997,
-        "recovery_horizon_bars": 0,
+        "recovery_horizon_bars": null,
         "regime_stability_score": 0.06564748201438853,
-        "ruin_margin_pct": 0.0,
+        "ruin_margin_pct": -0.8268488926999709,
         "scenario_failure_fraction": 0.9343525179856115,
-        "slippage_fragility_score": 0.0,
-        "tail_capture_efficiency": 0.0,
-        "turnover_efficiency": 0.03171343828428017
+        "slippage_fragility_score": 3.8790349221748177,
+        "tail_capture_efficiency": null,
+        "turnover_efficiency": null
       },
+      "robustness_vector_basis": {
+        "capital_utilization_pct": {
+          "basis": "share of a capital base actually deployed as position size",
+          "inputs": [],
+          "reason": "no position sizing / no capital basis in this producer: a utilization share cannot be measured from a fee column",
+          "status": "UNMEASURED",
+          "unit": "percent of a capital base",
+          "value": null
+        },
+        "cashflow_discrepancy_usdt": {
+          "basis": "the double-entry residual the producer reconciles, passed in as an input",
+          "inputs": [
+            "cashflow_discrepancy_usdt"
+          ],
+          "status": "MEASURED",
+          "unit": "USDT",
+          "value": 0.0
+        },
+        "expert_displacement_rate": {
+          "basis": "share of campaigns an expert baseline would have won that the family took",
+          "inputs": [],
+          "reason": "this producer runs no expert baseline and carries no displaced-expert series, so the rate would be a pass-shaped zero",
+          "status": "UNMEASURED",
+          "unit": "fraction of campaigns",
+          "value": null
+        },
+        "friction_retention_ratio": {
+          "basis": "(gross_return_sum - fee_cost_sum - funding_cost_sum) / gross_return_sum",
+          "inputs": [
+            "gross_return_sum",
+            "fee_cost_sum",
+            "funding_cost_sum"
+          ],
+          "status": "MEASURED",
+          "unit": "fraction of gross return retained after measured fees and funding (signed)",
+          "value": -5.8000863542751535
+        },
+        "funding_drag_ratio": {
+          "basis": "abs(funding_cost_sum) / max(abs(gross_return_sum), DOUBLE_ENTRY_EPSILON)",
+          "inputs": [
+            "funding_cost_sum",
+            "gross_return_sum"
+          ],
+          "status": "MEASURED",
+          "unit": "fraction of gross return paid as funding (saturating at 1.0)",
+          "value": 0.06027644741343506
+        },
+        "habitat_selectivity_score": {
+          "basis": "campaigns / bars, where bars is the decision frames the tape offered",
+          "inputs": [
+            "campaigns",
+            "bars"
+          ],
+          "status": "MEASURED",
+          "unit": "entries per decision frame \u2014 how selectively the family fired",
+          "value": 0.03171343828428017
+        },
+        "max_adverse_excursion_pct": {
+          "basis": "100 * max(running peak - cumulative campaign net return) over the uncompounded sum of campaign net returns, or, when no path is supplied, the caller's own max_drawdown_pct measurement",
+          "inputs": [
+            "campaign_net_returns",
+            "max_drawdown_pct"
+          ],
+          "status": "MEASURED",
+          "unit": "percent of the path's own running peak, in return-sum units",
+          "value": 100.82684889269997
+        },
+        "recovery_horizon_bars": {
+          "basis": "tape bars from the trough of the deepest drawdown of the uncompounded campaign-return path to the first point at which that path re-attains the peak it fell from",
+          "inputs": [
+            "campaign_net_returns",
+            "campaign_bars_held"
+          ],
+          "reason": "the uncompounded campaign-return path never re-attains the peak it fell from inside the tape, or no per-campaign path was supplied: there is no recovery to measure",
+          "status": "UNMEASURED",
+          "unit": "tape bars",
+          "value": null
+        },
+        "regime_stability_score": {
+          "basis": "1 - scenario_failure_fraction: the share of campaigns not charged to a failure domain, restated as a stability score; a declared derivation, not an independent measurement of regime segmentation",
+          "derived_from": "scenario_failure_fraction",
+          "inputs": [
+            "scenario_failure_fraction"
+          ],
+          "status": "DERIVED",
+          "unit": "fraction of campaigns",
+          "value": 0.06564748201438853
+        },
+        "ruin_margin_pct": {
+          "basis": "100 - max_adverse_excursion_pct: the same drawdown restated as a margin, in the same return-sum units; not an independent measurement and not clamped",
+          "derived_from": "max_adverse_excursion_pct",
+          "inputs": [
+            "max_adverse_excursion_pct"
+          ],
+          "status": "DERIVED",
+          "unit": "percent of the path's own running peak, in return-sum units",
+          "value": -0.8268488926999709
+        },
+        "scenario_failure_fraction": {
+          "basis": "failures / campaigns",
+          "inputs": [
+            "failures",
+            "campaigns"
+          ],
+          "status": "MEASURED",
+          "unit": "fraction of campaigns charged to one of the seven disjoint failure domains",
+          "value": 0.9343525179856115
+        },
+        "slippage_fragility_score": {
+          "basis": "(measured_net - net_with_modelled_slippage_sum) / abs(measured_net), where measured_net = gross_return_sum - fee_cost_sum - funding_cost_sum",
+          "inputs": [
+            "gross_return_sum",
+            "fee_cost_sum",
+            "funding_cost_sum",
+            "net_with_modelled_slippage_sum"
+          ],
+          "status": "MEASURED",
+          "unit": "fraction of the measured net return consumed by the declared slippage model",
+          "value": 3.8790349221748177
+        },
+        "tail_capture_efficiency": {
+          "basis": "share of the campaign return distribution's tail that the family captured",
+          "inputs": [],
+          "reason": "no tail cut is declared over a per-campaign return distribution in this producer, so a tail capture share would be a pass-shaped guess",
+          "status": "UNMEASURED",
+          "unit": "fraction of a declared tail",
+          "value": null
+        },
+        "turnover_efficiency": {
+          "basis": "traded notional over the capital that carried it",
+          "inputs": [],
+          "reason": "this producer holds no traded notional and no capital base (a returns-only decision plane), so turnover would be a pass-shaped guess",
+          "status": "UNMEASURED",
+          "unit": "notional per unit of capital",
+          "value": null
+        }
+      },
+      "robustness_vector_unmeasured": [
+        {
+          "field": "tail_capture_efficiency",
+          "reason": "no tail cut is declared over a per-campaign return distribution in this producer, so a tail capture share would be a pass-shaped guess",
+          "status": "UNMEASURED"
+        },
+        {
+          "field": "recovery_horizon_bars",
+          "reason": "the uncompounded campaign-return path never re-attains the peak it fell from inside the tape, or no per-campaign path was supplied: there is no recovery to measure",
+          "status": "UNMEASURED"
+        },
+        {
+          "field": "turnover_efficiency",
+          "reason": "this producer holds no traded notional and no capital base (a returns-only decision plane), so turnover would be a pass-shaped guess",
+          "status": "UNMEASURED"
+        },
+        {
+          "field": "capital_utilization_pct",
+          "reason": "no position sizing / no capital basis in this producer: a utilization share cannot be measured from a fee column",
+          "status": "UNMEASURED"
+        },
+        {
+          "field": "expert_displacement_rate",
+          "reason": "this producer runs no expert baseline and carries no displaced-expert series, so the rate would be a pass-shaped zero",
+          "status": "UNMEASURED"
+        }
+      ],
       "system_proving_receipt": {
         "attribution": {
           "conservation_verified": true,
@@ -21017,20 +21363,20 @@
         "evaluated_at_timestamp_ns": 1782864000000000000,
         "exercises_full_pipeline": false,
         "metrics": {
-          "capital_utilization_pct": 100.0,
+          "capital_utilization_pct": null,
           "cashflow_discrepancy_usdt": 0.0,
-          "expert_displacement_rate": 0.0,
+          "expert_displacement_rate": null,
           "friction_retention_ratio": -5.8000863542751535,
           "funding_drag_ratio": 0.06027644741343506,
           "habitat_selectivity_score": 0.03171343828428017,
           "max_adverse_excursion_pct": 100.82684889269997,
-          "recovery_horizon_bars": 0,
+          "recovery_horizon_bars": null,
           "regime_stability_score": 0.06564748201438853,
-          "ruin_margin_pct": 0.0,
+          "ruin_margin_pct": -0.8268488926999709,
           "scenario_failure_fraction": 0.9343525179856115,
-          "slippage_fragility_score": 0.0,
-          "tail_capture_efficiency": 0.0,
-          "turnover_efficiency": 0.03171343828428017
+          "slippage_fragility_score": 3.8790349221748177,
+          "tail_capture_efficiency": null,
+          "turnover_efficiency": null
         },
         "policy_id": "plain_swing",
         "receipt_digest": "978e06fa12fab3356f741ee6aca177bea6a4ee0207db91c621f1e93491b043e0",
