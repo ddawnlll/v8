@@ -80,6 +80,14 @@ from v8_next.evaluation.store import ResearchStore, canonical
 CASE_ID = "BC-QUAD-PORTFOLIO-01"
 POLICY_ID = "pol_portfolio_quad"
 PRIMARY_DEFAULT = "equal_weight"
+# Named refusal for a run whose identity is already registered in this output
+# dir's ResearchStore: the registered payload folds in the sha256 of every
+# artifact, including the benchmark ledger a re-execution appends to, so the
+# second registration can never match and must not be attempted.
+RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY = "RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY"
+# Exit code for a run the CLI refused to start. 0 = ran and verified, 1 = ran and
+# did not verify, 2 = bad input or invalid data, so a refusal needs its own code.
+REFUSED_EXIT_CODE = 3
 
 
 def parse_utc_ms(value: str) -> int:
@@ -128,7 +136,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument(
         "--allow-rerun",
         action="store_true",
-        help="Override the completed-window guard (re-executes a finished run key)",
+        help=(
+            "Override the completed-window guard (re-executes a finished run key). Does "
+            "not override a registered run identity: no run this output dir registered "
+            "can be re-registered under the same run key."
+        ),
     )
     p.add_argument("--output-dir", default="artifacts/portfolio-benchmark")
     p.add_argument("--primary", default=PRIMARY_DEFAULT)
@@ -293,6 +305,26 @@ def resolve_portfolio_gates(
     )
 
 
+def registered_run_payload(out_dir: Path, run_key_digest: str) -> str | None:
+    """The payload this output dir's run store holds for ``run_key_digest``.
+
+    ``None`` when the store registers no such run -- including when the store file
+    does not exist yet, since this check must not create the store (or any other
+    artifact) for a run that has not registered anything. The store's ``runs``
+    table is the authority here: the window manifest alone cannot distinguish a
+    registered run from one whose registration never happened.
+    """
+    store_path = out_dir / "runs" / "runs.sqlite"
+    if not store_path.is_file():
+        return None
+    store = ResearchStore(store_path)
+    try:
+        row = store.get_run(run_key_digest)
+    finally:
+        store.close()
+    return None if row is None else row[0]
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     out_dir = Path(args.output_dir)
@@ -370,7 +402,25 @@ def main(argv: list[str] | None = None) -> int:
                 "no second cash flow). Pass --allow-rerun to override deliberately.",
                 file=sys.stderr,
             )
-            return 3
+            return REFUSED_EXIT_CODE
+    # A re-execution always writes a different payload for the same run key: the
+    # payload folds in the sha256 of every artifact, and this run appends to
+    # ``benchmark_ledger.jsonl``, so the hash can never match the first
+    # registration. ResearchStore.record_run refuses the rewrite -- but only
+    # after the whole run has executed and written its artifacts, which surfaced
+    # as an uncaught ValueError (exit 1) with the run already recorded COMPLETED.
+    # Fail closed here instead: no manifest write, no ledger append, no artifact.
+    if registered_run_payload(out_dir, run_key.digest) is not None:
+        print(
+            f"[!] {RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY}: run identity "
+            f"{run_key.digest} is already registered in {out_dir / 'runs' / 'runs.sqlite'} "
+            "and a re-execution can never be re-registered under it (its payload binds "
+            "the ledger it appends to). Refusing before the window manifest, the ledger "
+            "append or any other artifact is written; a deliberate re-execution needs a "
+            "fresh --output-dir.",
+            file=sys.stderr,
+        )
+        return REFUSED_EXIT_CODE
     if existing is not None and not existing.completed:
         print(f"[!] INCOMPLETE prior run for this key (state={existing.state}); continuing it.")
     write_window_manifest(
