@@ -1,0 +1,218 @@
+{
+  "admission": {
+    "rule": "ONE_OPEN_CAMPAIGN_PER_INSTRUMENT",
+    "secondary_rule": "ONE_OPEN_EXPOSURE_PER_INSTRUMENT_DIRECTION",
+    "secondary_rule_note": "the frozen artifact suppresses every signal while a campaign is open; the Rust loop's rule 16 suppresses only same-direction signals. Both counts are published rather than one being chosen to make the other agree.",
+    "secondary_rule_refusals": 7971
+  },
+  "admitted_campaigns": 1306,
+  "attribution": {
+    "conservation_verified": true,
+    "counts_by_domain": {
+      "EXIT": 741
+    },
+    "total_failures": 741
+  },
+  "claim_status": "NO_ECONOMIC_CLAIM",
+  "conservation_verified": true,
+  "cost_columns": {
+    "execution_shortfall_measured_return": null,
+    "execution_shortfall_status": "MISSING_NO_MARK_OR_BOOK_DATA",
+    "fee_cost_return": "MEASURED_TAKER_FEE",
+    "funding_cost_return": "MEASURED_SETTLEMENT_ROWS",
+    "slippage_modelled_return": "NOT_RUN_IN_THIS_SURFACE"
+  },
+  "evidence_class": "DIAGNOSTIC over real bars and real funding settlement rows; decision plane, not engine fills; the measured execution shortfall stays absent",
+  "pillar": "analysis_plane",
+  "policy": {
+    "grammar_policy": "trend-continuation-v2",
+    "policy_id": "causal_trend",
+    "protection_policy": "timeout-only-v1",
+    "warmup_bars": 25
+  },
+  "reconciliation": {
+    "bound": {
+      "endpoint": "exit_kind",
+      "horizon_bars": "bars_held",
+      "net_r": "net_measured"
+    },
+    "exact_fields": [
+      "endpoint",
+      "label_status",
+      "horizon_bars",
+      "ambiguous_bars"
+    ],
+    "excluded_by_contract": [
+      "label_available_time"
+    ],
+    "fields_compared": 10,
+    "float_fields": [
+      "net_r",
+      "entry_price",
+      "risk_unit_price",
+      "mae_r",
+      "mfe_r",
+      "market_move_r"
+    ],
+    "status": "RECONCILIATION_PARTIAL",
+    "unbound": [
+      "entry_price",
+      "risk_unit_price",
+      "label_status",
+      "ambiguous_bars",
+      "mae_r",
+      "mfe_r",
+      "market_move_r"
+    ],
+    "unbound_reason": "MISSING_FIELD_IN_DECISION_PLANE_ARTIFACT"
+  },
+  "refusals": {
+    "by_reason": {
+      "EXISTING_EXPOSURE_CONFLICT": 12011
+    },
+    "dedup": {
+      "admitted_parent_candidates": 1306,
+      "claim": "NO_ECONOMIC_CLAIM",
+      "epistemic_authority": "NOT_IDENTIFIABLE",
+      "missing_factors": [
+        "parent_win_rate_not_measured",
+        "suppressed_hypothetical_win_rate_not_measured"
+      ],
+      "parent_win_rate": null,
+      "report_id": "dedup-regret-e1d1afec8c27",
+      "signal_redundancy_regret_r": null,
+      "status": "DEDUP_SUPPRESSION_AUDIT_PARTIAL",
+      "suppressed_hypothetical_win_rate": null,
+      "total_suppressed_duplicates": 12011
+    },
+    "rows_sample": [
+      {
+        "authority_status": "IDENTIFIED",
+        "avoided_loss_usdt": null,
+        "candidate_id": "sha256:c14a5cd0f3b68434f00cea832bf1b01661e3e26ffd561ce701710b619d4b7f01",
+        "claim": "NO_ECONOMIC_CLAIM",
+        "expert_id": "causal_trend",
+        "hypothetical_mae_r": null,
+        "hypothetical_mfe_r": null,
+        "hypothetical_net_return": -0.007841138861,
+        "missed_profit_usdt": null,
+        "net_gate_value_usdt": null,
+        "reason_is_canonical": true,
+        "stage": "campaign_admission",
+        "veto_reason": "EXISTING_EXPOSURE_CONFLICT"
+      },
+      {
+        "authority_status": "IDENTIFIED",
+        "avoided_loss_usdt": null,
+        "candidate_id": "sha256:5d3e53f1524b3b8c6f8c73d91e41ad014390d42cfded12b83c19b51dfc582088",
+        "claim": "NO_ECONOMIC_CLAIM",
+        "expert_id": "causal_trend",
+        "hypothetical_mae_r": null,
+        "hypothetical_mfe_r": null,
+        "hypothetical_net_return": -0.001308492077,
+        "missed_profit_usdt": null,
+        "net_gate_value_usdt": null,
+        "reason_is_canonical": true,
+        "stage": "campaign_admission",
+        "veto_reason": "EXISTING_EXPOSURE_CONFLICT"
+      },
+      {
+        "authority_status": "IDENTIFIED",
+        "avoided_loss_usdt": null,
+        "candidate_id": "sha256:b1a04e0bcb8f2c6ac4e2f061c9819574886ccebcd0f0d8b230d904c556c957ef",
+        "claim": "NO_ECONOMIC_CLAIM",
+        "expert_id": "causal_trend",
+        "hypothetical_mae_r": null,
+        "hypothetical_mfe_r": null,
+        "hypothetical_net_return": 0.004155961717,
+        "missed_profit_usdt": null,
+        "net_gate_value_usdt": null,
+        "reason_is_canonical": true,
+        "stage": "campaign_admission",
+        "veto_reason": "EXISTING_EXPOSURE_CONFLICT"
+      },
+      {
+        "authority_status": "IDENTIFIED",
+        "avoided_loss_usdt": null,
+        "candidate_id": "sha256:ebbd5e220321c530ecebe208e91f15a42b58c97b7f6d81da2de44f6acee5eaaa",
+        "claim": "NO_ECONOMIC_CLAIM",
+        "expert_id": "causal_trend",
+        "hypothetical_mae_r": null,
+        "hypothetical_mfe_r": null,
+        "hypothetical_net_return": 0.008760628536,
+        "missed_profit_usdt": null,
+        "net_gate_value_usdt": null,
+        "reason_is_canonical": true,
+        "stage": "campaign_admission",
+        "veto_reason": "EXISTING_EXPOSURE_CONFLICT"
+      },
+      {
+        "authority_status": "IDENTIFIED",
+        "avoided_loss_usdt": null,
+        "candidate_id": "sha256:4f0f97547642ab4db070c2e1ca32f4410596e2c31b3e14360306cc1b5b258d9e",
+        "claim": "NO_ECONOMIC_CLAIM",
+        "expert_id": "causal_trend",
+        "hypothetical_mae_r": null,
+        "hypothetical_mfe_r": null,
+        "hypothetical_net_return": -0.005204582996,
+        "missed_profit_usdt": null,
+        "net_gate_value_usdt": null,
+        "reason_is_canonical": true,
+        "stage": "campaign_admission",
+        "veto_reason": "EXISTING_EXPOSURE_CONFLICT"
+      }
+    ],
+    "summary": {
+      "authority_distribution": {
+        "IDENTIFIED": 12011
+      },
+      "avoided_loss_return_units": 112.763863901474,
+      "claim": "NO_ECONOMIC_CLAIM",
+      "counterfactual_rows": 12011,
+      "gate_defensive_efficiency_ratio": null,
+      "missed_profit_return_units": 105.111025130058,
+      "missing_factors": [
+        "avoided_loss_usdt_unmeasured_rows=12011",
+        "missed_profit_usdt_unmeasured_rows=12011"
+      ],
+      "net_gate_defensive_value_usdt": null,
+      "status": "VETO_ATTRIBUTION_PARTIAL",
+      "summary_id": "veto-summary-3ec2350030da",
+      "total_avoided_loss_usdt": null,
+      "total_candidates_vetoed": 12011,
+      "total_missed_profit_usdt": null,
+      "uncanonical_reasons": [],
+      "unmeasured_rows": 24022
+    },
+    "total": 12011
+  },
+  "refused_beside_lost": {
+    "claim": "NO_ECONOMIC_CLAIM",
+    "lost_by_domain": {
+      "EXIT": 741
+    },
+    "lost_total": 741,
+    "refused_by_reason": {
+      "EXISTING_EXPOSURE_CONFLICT": 12011
+    },
+    "refused_total": 12011
+  },
+  "report_sha256": "038aace9cc93286d14d425f86c2cf5e71f4ea5c932dbd819f7991123ccf585a8",
+  "tape": {
+    "bars": 35064,
+    "first_bar_ns": 1656637200000000000,
+    "instrument_id": "BTCUSDT-PERP.BINANCE",
+    "last_bar_ns": 1782864000000000000,
+    "limit_bars": null,
+    "offset_bars": 0,
+    "path": "research/tape/multi-1h-4y/tape.jsonl",
+    "sha256": "b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0",
+    "window_label": "four_year_full"
+  },
+  "windows": {
+    "fee_cost_return_sum": -1.306,
+    "funding_cost_return_sum": -0.0193954,
+    "gross_return_sum": 0.65886053,
+    "net_measured_sum": -0.66653487
+  }
+}

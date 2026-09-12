@@ -452,6 +452,7 @@ _SYSV_APP_MODULES: dict[str, str] = {
     "compare": "v8_next.app.compare",
     "capture": "v8_next.adapters.binance_capture",
     "instruments": "v8_next.adapters.binance_instruments",
+    "analysis": "v8_next.app.analysis",
     "native-tape": "v8_next.adapters.native_tape",
     "calibration": "v8_next.evaluation.calibration",
 }

@@ -1,0 +1,36 @@
+{
+  "analysis_artifact": "docs/evidence/v87-port-chain/451/analysis_plane_causal_trend_4y.json",
+  "check": "analysis plane admitted stream vs frozen PAPER_4Y artifact (same tape, same policy)",
+  "claim_status": "NO_ECONOMIC_CLAIM",
+  "equal": {
+    "campaigns": true,
+    "counts_by_domain": true,
+    "tape_sha256": true,
+    "total_failures": true
+  },
+  "frozen_artifact": "docs/evidence/v87-r3/PAPER_4Y/paper_trade_4y.json",
+  "refusals_recorded_by_the_analysis_plane": 12011,
+  "refusals_visible_in_the_frozen_artifact": 0,
+  "values": {
+    "campaigns": [
+      1306,
+      1306
+    ],
+    "counts_by_domain": [
+      {
+        "EXIT": 741
+      },
+      {
+        "EXIT": 741
+      }
+    ],
+    "tape_sha256": [
+      "b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0",
+      "b27891e917c38b59aaede1c07fe8316cd0600332389bbefcb667253448a18fa0"
+    ],
+    "total_failures": [
+      741,
+      741
+    ]
+  }
+}
