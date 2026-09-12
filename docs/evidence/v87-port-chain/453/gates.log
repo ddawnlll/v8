@@ -1,0 +1,41 @@
+$ uv run --project v8-next --extra dev ruff check v8-next/src/v8_next/world v8-next/src/v8_next/system_proving/run.py v8-next/src/v8_next/evaluation/proving_battery.py v8-next/tests/test_proving_ground.py v8-next/src/v8_next/app/cli.py
+All checks passed!
+
+$ uv run --project v8-next --extra dev mypy v8-next/src/v8_next/world v8-next/src/v8_next/system_proving v8-next/src/v8_next/evaluation/proving_battery.py
+Success: no issues found in 9 source files
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests/test_proving_ground.py
+.........                                                                [100%]
+9 passed in 0.82s
+
+$ uv run --project v8-next python -m v8_next.app.cli proving --help
+usage: proving_battery [-h] [--family FAMILY] [--n-bars N_BARS] [--seed SEED] ...
+Proving-ground battery: pinned world + full chain + PIT faults. (owning-module help via passthrough)
+
+$ uv run --project v8-next python -m v8_next.app.cli proving --family STATIONARY_BOOTSTRAP --n-bars 120 --seed 453 --policy proving-smoke --out docs/evidence/v87-port-chain/453/battery_report.json
+[battery] report docs/evidence/v87-port-chain/453/battery_report.json digest=50d85d809894dd3757d4057e507650ddc1a8696c68eebc77fe11c019ce80d7a8
+# double-run re-executed to /tmp/battery_rerun.json: same chain digest 83e04e9b... (I1)
+
+$ uv run --project v8-next python -m v8_next.app.cli run --pillar scenarios
+[run] P3 scenarios green (scenario_results.json written; overfitting PASS, SNU ledger 1 case)
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests --ignore=v8-next/tests/test_execution_evidence.py
+891 passed, 510 deselected in 4.89s
+# fast-loop green with one parked foreign file (test_execution_evidence.py ImportError decompose_fill_shortfall, owner f41d58c2; file untouched). dangerous-full-loop SKIPPED per owner direction 2026-09-12 (RAM guard).
+
+$ uv run --project v8-next python -m v8_next.app.cli regression
+    ok        readiness                    0.0 -> 0.0 (delta 0.0, tol 0.0)
+    REGRESSED gate_passes                  4 -> 0 (delta -4.0, tol 0)
+    ok        pillars_measured             3 -> 3 (delta 0.0, tol 0)
+    ok        causal_trend/cplain_swing metrics within tolerance
+    REGRESSION: gate_passes 4 -> 0
+# BLOCKED (B5, foreign, pre-existing at HEAD b0ee7883): gate_factor REFUSES the
+# committed readiness_audit.json by name (GATE_AUDIT_CONTRACT_MISMATCH — artifact
+# predates the #447 producer contract; refusal introduced intentionally by
+# b3f85d9a fix(#458), owner dawn_ll). Artifact left on disk untouched per that
+# commit. Re-pin needs a decision-register entry (forbidden to move baseline).
+# Next required measurement belongs to the #458/battery workstream, outside #453 surface.
+
+$ grep -rn "regret_o4\|SUPPORTED_EDGE" v8-next/src/v8_next/world v8-next/src/v8_next/system_proving/run.py v8-next/src/v8_next/evaluation/proving_battery.py; echo "claim-grep-exit:$?"
+claim-grep-exit:1
+# No O4, no edge claim on the #453 surface (all receipts NO_ECONOMIC_CLAIM).

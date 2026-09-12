@@ -1,0 +1,33 @@
+{
+  "attribution": {
+    "conservation_verified": true,
+    "counts_by_domain": {
+      "EXIT": 3
+    },
+    "total_failures": 3
+  },
+  "evaluated_at_timestamp_ns": 453000000000,
+  "exercises_full_pipeline": true,
+  "metrics": {
+    "capital_utilization_pct": 2.974082910107781,
+    "cashflow_discrepancy_usdt": 0.0,
+    "expert_displacement_rate": 0.0,
+    "friction_retention_ratio": 0.0,
+    "funding_drag_ratio": 1.0,
+    "habitat_selectivity_score": 0.05,
+    "max_adverse_excursion_pct": 2.901414277809763,
+    "recovery_horizon_bars": 0,
+    "regime_stability_score": 0.5,
+    "ruin_margin_pct": 97.09858572219024,
+    "scenario_failure_fraction": 0.5,
+    "slippage_fragility_score": 0.0,
+    "tail_capture_efficiency": 1.0,
+    "turnover_efficiency": 0.05
+  },
+  "policy_id": "proving-smoke",
+  "receipt_digest": "83e04e9bcaec319cb38638eda7b3c8635e1d21abdc09e3aa0b4810ef60ff70b6",
+  "receipt_id": "spg-receipt-83e04e9bcaec319c",
+  "total_campaigns": 6,
+  "total_trades": 6,
+  "world_id": "world-d9d9e694bab9d921"
+}
