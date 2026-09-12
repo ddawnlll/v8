@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -197,12 +198,24 @@ def reconcile_shadow_account(
     a status field. No fixture is ever reconciled as PASS.
     """
     if account is None:
-        return {"reconciled": False, "reason": "NO_ACCOUNT_SNAPSHOT", "mode": "UNRUN_NO_VENUE_ACCOUNT"}
+        return {
+            "reconciled": False,
+            "reason": "NO_ACCOUNT_SNAPSHOT",
+            "mode": "UNRUN_NO_VENUE_ACCOUNT",
+            "status": "UNRUN_NO_VENUE_ACCOUNT",
+            "claim_status": "NO_ECONOMIC_CLAIM",
+        }
     # Basic reconciliation: count and notional sanity vs orders/positions
     # AccountState has keys: balance_total, positions, orders
     required = {"balance_total", "positions", "orders"}
     if not required <= set(account.keys()):
-        return {"reconciled": False, "reason": "ACCOUNT_INPUTS_UNAVAILABLE", "account_keys": sorted(account.keys())}
+        return {
+            "reconciled": False,
+            "reason": "ACCOUNT_INPUTS_UNAVAILABLE",
+            "account_keys": sorted(account.keys()),
+            "status": "ACCOUNT_INPUTS_UNAVAILABLE",
+            "claim_status": "NO_ECONOMIC_CLAIM",
+        }
     # Derive engine fill count: orders with FILLED
     engine_fills = [o for o in account.get("orders", []) if o.get("status") == "FILLED"]
     shadow_count = len(fills)
@@ -214,11 +227,135 @@ def reconcile_shadow_account(
     return {
         "reconciled": matches,
         "mode": "COUNT_MATCH" if matches else "COUNT_MISMATCH",
+        # NX10.R4: a count match is a diagnostic, never a settlement proof, and a
+        # divergence is an explicit refusal -- never a silent P&L claim.
+        "status": "RECONCILED_DIAGNOSTIC" if matches else "EXECUTION_UNPROVEN",
+        "claim_status": "NO_ECONOMIC_CLAIM",
         "shadow_fills": shadow_count,
         "engine_filled_orders": engine_count,
         "delta": shadow_count - engine_count,
         "account_currency": account.get("currency"),
         "note": "shadow vs simulated; venue settlement finality not certified here",
+    }
+
+
+def decompose_fill_shortfall(fills: list[dict[str, Any]]) -> dict[str, Any]:
+    """Decompose only physically supplied fill marks; missing pieces stay absent.
+
+    Records may carry ``model_price``, ``reference_mid``, ``side_sign`` and
+    ``fee``.  The loader intentionally accepts older minimal capture rows for
+    compatibility, but those rows cannot produce a fabricated zero shortfall:
+    a component with no supplied mark on any row is published as ``None``, and
+    the module stays MECHANICS ONLY (no gate, score or P&L takes this value).
+    """
+    if not fills:
+        return {
+            "status": "DATA_BLOCKED",
+            "model_vs_fill": None,
+            "adverse_selection": None,
+            "fees": None,
+            "claim_status": "NO_ECONOMIC_CLAIM",
+        }
+    model_drag = 0.0
+    adverse = 0.0
+    fees = 0.0
+    model_available = True
+    mid_available = True
+    fee_available = True
+    for row in fills:
+        qty = float(row["qty"])
+        price = float(row["price"])
+        side = float(row.get("side_sign", 1.0))
+        if side not in {-1.0, 1.0} or qty <= 0 or not all(
+            math.isfinite(value) for value in (qty, price, side)
+        ):
+            raise ValueError("invalid fill shortfall inputs")
+        if row.get("model_price") is None:
+            model_available = False
+        else:
+            model_drag += (price - float(row["model_price"])) * qty * side
+        if row.get("reference_mid") is None:
+            mid_available = False
+        else:
+            adverse += (price - float(row["reference_mid"])) * qty * side
+        if row.get("fee") is None:
+            fee_available = False
+        else:
+            fees += float(row["fee"])
+    return {
+        "status": "NO_ECONOMIC_CLAIM",
+        "model_vs_fill": model_drag if model_available else None,
+        "adverse_selection": adverse if mid_available else None,
+        "fees": fees if fee_available else None,
+        "claim_status": "NO_ECONOMIC_CLAIM",
+    }
+
+
+def summarize_fill_latency(fills: list[dict[str, Any]]) -> dict[str, Any]:
+    """Summarize latency only when submit and venue timestamps are captured.
+
+    ``venue_time_ns`` is the settlement-side timestamp from the live-fill
+    contract.  A separate ``submit_time_ns`` is required; elapsed wall time
+    cannot be reconstructed from venue fills alone.
+    """
+    latencies_ms: list[float] = []
+    for row in fills:
+        submit_ns = row.get("submit_time_ns")
+        venue_ns = row.get("venue_time_ns")
+        if submit_ns is None or venue_ns is None:
+            return {
+                "status": "DATA_BLOCKED",
+                "samples": len(latencies_ms),
+                "latency_ms": None,
+                "claim_status": "NO_ECONOMIC_CLAIM",
+                "reason": "submit_time_ns and venue_time_ns are required",
+            }
+        try:
+            submit = float(submit_ns)
+            venue = float(venue_ns)
+        except (TypeError, ValueError):
+            return {
+                "status": "MALFORMED_LATENCY_EVIDENCE",
+                "samples": len(latencies_ms),
+                "latency_ms": None,
+                "claim_status": "NO_ECONOMIC_CLAIM",
+                "reason": "latency timestamps must be numeric",
+            }
+        latency_ms = (venue - submit) / 1_000_000.0
+        if not math.isfinite(latency_ms) or latency_ms < 0:
+            return {
+                "status": "MALFORMED_LATENCY_EVIDENCE",
+                "samples": len(latencies_ms),
+                "latency_ms": None,
+                "claim_status": "NO_ECONOMIC_CLAIM",
+                "reason": "venue timestamp precedes submit timestamp",
+            }
+        latencies_ms.append(latency_ms)
+    if not latencies_ms:
+        return {
+            "status": "DATA_BLOCKED",
+            "samples": 0,
+            "latency_ms": None,
+            "claim_status": "NO_ECONOMIC_CLAIM",
+            "reason": "no venue fills",
+        }
+    ordered = sorted(latencies_ms)
+    midpoint = len(ordered) // 2
+    median = (
+        ordered[midpoint]
+        if len(ordered) % 2
+        else (ordered[midpoint - 1] + ordered[midpoint]) / 2
+    )
+    return {
+        "status": "OBSERVED_DIAGNOSTIC",
+        "samples": len(ordered),
+        "latency_ms": {
+            "mean": sum(ordered) / len(ordered),
+            "median": median,
+            "min": ordered[0],
+            "max": ordered[-1],
+        },
+        "claim_status": "NO_ECONOMIC_CLAIM",
     }
 
 
