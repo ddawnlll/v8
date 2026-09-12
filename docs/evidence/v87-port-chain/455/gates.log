@@ -1,0 +1,47 @@
+$ uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests
+All checks passed!
+
+$ uv run --project v8-next --extra dev mypy v8-next/src/v8_next/domain/temporal_ids.py
+Success: no issues found in 1 source file
+# (new-file mypy for the #455 surface; full `mypy evaluation` below under foreign reds)
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests/test_scoring_closure.py v8-next/tests/test_temporal_ids.py
+......                                         [100%]
+6 passed in 0.11s
+
+$ uv run --project v8-next python - <<'PY' (score-recompute demo → docs/evidence/v87-port-chain/455/score_recompute.json)
+digest 708e1dbfa6f2545e29f837242f1d5b1afcf29eda9f1c70a1f402981f5dcc877e scores 66.6 66.6 41.6
+# scores_equal true; tamper_detected true (I1 deterministic binding)
+
+$ python3 tools/audit_synthetic_leakage.py
+[OK] Rule 12 Audit: ZERO synthetic leaks or hardcoded metrics found.
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests/test_d153_parity.py v8-next/tests/test_gate_window_binding_406_421.py
+.........                                         [100%]
+9 passed, 6 deselected in 0.29s
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests
+936 passed, 510 deselected in 4.87s
+# fast-loop fully green, no parked file; dangerous-full-loop SKIPPED per owner direction 2026-09-12
+
+$ uv run --project v8-next python -m v8_next.app.cli regression
+[regression] VERDICT: OK (CORRECTION gate_passes 4 -> 2 under D-166; baseline NOT moved)
+
+$ python3 tools/audit_doc_path_refs.py
+FAIL: a cited repository path is unaccounted for.
+# BLOCKED (B5, foreign, pre-existing): single FAIL is `v8-core/tests/integration/`
+# cited at docs/issues/ISSUE_PERF008_CONSOLIDATED_TEST_HARNESS_AND_LINKER_OPTIMIZATION.md:60
+# (committed 418bff0f perf #333; tree-clean for docs/). No #455 file cites it
+# (grep over the #455 surface: no match). Fix belongs to the owning workstream;
+# this surface must not touch foreign docs (no authority in the issue).
+
+$ uv run --project v8-next --extra dev mypy v8-next/src/v8_next/evaluation
+benchmark_receipt.py:1618/1619/1620, scenarios.py:247/249, trajectory.py:43 — 6 errors in 3 files
+# BLOCKED (B5, foreign, pre-existing): all three files are tracked and unmodified
+# by this issue (git status clean for them); errors reproduce from committed code.
+# The #455 modules themselves (observation/synthetic/population/projection/minerva/
+# kaizen_delta/external/sweep) are mypy-clean file-by-file.
+
+$ grep -rni "SUPPORTED_EDGE" v8-next/src/v8_next/domain/temporal_ids.py v8-next/tests/test_scoring_closure.py v8-next/tests/test_temporal_ids.py; echo "edge-grep-exit:$?"
+edge-grep-exit:1
+# No SUPPORTED_EDGE on the #455 surface (NO_ECONOMIC_CLAIM throughout).

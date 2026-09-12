@@ -1,0 +1,29 @@
+{
+  "claim": "NO_ECONOMIC_CLAIM",
+  "evidence_canon": [
+    120,
+    6,
+    0.0,
+    0.8,
+    [
+      [
+        "MicrostructureInvariance",
+        1.0,
+        6
+      ],
+      [
+        "ExecutionFidelity",
+        1.2,
+        6
+      ]
+    ],
+    true,
+    "MEASURED"
+  ],
+  "evidence_digest": "708e1dbfa6f2545e29f837242f1d5b1afcf29eda9f1c70a1f402981f5dcc877e",
+  "score_first": 66.6,
+  "score_second": 66.6,
+  "scores_equal": true,
+  "tamper_detected": true,
+  "tampered_coverage_score": 41.6
+}
