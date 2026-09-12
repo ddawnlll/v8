@@ -776,6 +776,12 @@ class BenchmarkRunner:
                         mismatches=None,
                         has_continuous_lineage=_lineage_ok,
                         is_causal_pit=None,
+                        # The re-mint re-states this run, so it hands over the same
+                        # structural cells the pre-G9 vector carried -- including the
+                        # G2 state this run measured. Omitting it left the rule to
+                        # resolve its absent argument to UNKNOWN, and the two ledger
+                        # entries for one run disagreed about a hard gate.
+                        g2_state=_g2_state,
                         g3_state=g3_state,
                         g4_state=g4_state,
                         g5_state=g5_state,
