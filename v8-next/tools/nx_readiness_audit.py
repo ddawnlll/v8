@@ -35,6 +35,7 @@ import hashlib
 import json
 import re
 import sys
+import time
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -300,6 +301,10 @@ def main(argv: list[str] | None = None) -> int:
         score_evidence=ScoreEvidence.from_breakdown(breakdown),
         gates=GateVector(),
         computed_at_timestamp_ns=int(candles[-1].end_ns),
+        # #446: the end of the replayed window and the moment this audit ran are two
+        # different quantities; the audit's own clock is published beside the digest.
+        window_end_timestamp_ns=int(candles[-1].end_ns),
+        run_time_timestamp_ns=time.time_ns(),
     )
     report = resolve_all_gates(
         candles=tuple(candles),

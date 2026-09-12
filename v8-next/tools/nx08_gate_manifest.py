@@ -19,6 +19,7 @@ import argparse
 import hashlib
 import json
 import sys
+import time
 from pathlib import Path
 
 from v8_next.evaluation.benchmark_receipt import (
@@ -107,6 +108,11 @@ def main(argv: list[str] | None = None) -> int:
         score_evidence=ScoreEvidence.from_breakdown(demo_breakdown),
         gates=GateVector(),
         computed_at_timestamp_ns=1_000,
+        # #446: this demo measured no window at all, so it declares no window end -- the
+        # reader refuses that quantity by name (WINDOW_END_UNDECLARED) instead of reading
+        # the historical placeholder above as one. What it *does* declare is when it was
+        # generated; a constant in either field is refused by `create` (F5).
+        run_time_timestamp_ns=time.time_ns(),
         scoring_versions=dual_scoring(
             SYNTHETIC_SERIES, DECLARED_BARS, DECLARED_TRADES, DECLARED_ABSTAIN_RATE
         ),
@@ -153,6 +159,10 @@ def main(argv: list[str] | None = None) -> int:
         "receipt_digest": receipt.receipt_digest,
         "receipt_verifies": receipt.verify()[0],
         "scoring_versions_not_in_digest": True,
+        # #446: when this manifest was generated, under its own name, and the window end it
+        # does *not* declare (this demo measured no window). Publishing the vector here keeps
+        # the refusal machine-readable instead of a claim about the code.
+        "time_publication": receipt.time_publication().as_dict(),
         "economic_claim": "NONE",
         "g7_default_state": {
             "reason": "PSEUDO_PROSPECTIVE_HISTORICAL_WINDOW_NOT_ACCEPTED is returned when no "

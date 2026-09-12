@@ -4,12 +4,21 @@ Epistemic Invariant:
     receipt_digest = H(canonical_encode(all_authority_relevant_fields))
     Ledger maintains a cryptographic hash chain: entry_hash = H(parent_hash || receipt_digest).
     Any mutation at rest, sequence gap, or tampering is detected and fails closed.
+
+Chronology (#446): the ledger is the chronology authority, so every entry carries *two*
+named time quantities -- ``window_end_timestamp_ns`` (the end of the data window the run
+measured) and ``run_time_timestamp_ns`` (the run's own wall clock). Neither is in the
+canon: a wall clock inside ``receipt_digest`` would make the same inputs hash differently
+on every run, breaking the determinism the chain proves. They are published beside the
+digest through ``BenchmarkReceipt.time_publication``, which refuses each quantity by name
+when it was not measured instead of substituting the other for it.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
+import time
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
@@ -65,6 +74,76 @@ CAPABILITY_SCORE_CONTRADICTS_BOUND_EVIDENCE = "CAPABILITY_SCORE_CONTRADICTS_BOUN
 #: other (the published coverage term and the evidence record's coverage term are
 #: two carriers of one measurement).
 CAPABILITY_SCORE_EVIDENCE_INCONSISTENT = "CAPABILITY_SCORE_EVIDENCE_INCONSISTENT"
+
+#: #446. Unit and epoch of BOTH time quantities a ledger entry publishes. The field names
+#: carry the unit (``_ns``); this constant is the declaration a reader repeats, so no
+#: consumer has to guess whether a stored integer is seconds, milliseconds or nanoseconds
+#: since the epoch.
+TIME_FIELD_UNIT = "unix_epoch_ns (UTC)"
+
+#: #446. Floor of a plausible reading: 2020-01-01T00:00:00Z in nanoseconds. A value below
+#: it renders as a 1970 date, which is what a mis-scaled reading does
+#: (``180000000000000`` ns = 50 hours = 1970-01-03). It is a scale check on the published
+#: number, never a claim about when a run may happen; it is refused by name and is not
+#: published as a date.
+TIME_EPOCH_FLOOR_NS = 1_577_836_800_000_000_000
+
+#: #446. How far ahead of the reading clock a published run time may sit (one day): a
+#: clock that is off by a little is not refused, one that is off by a lot is.
+MAX_CLOCK_SKEW_NS = 86_400_000_000_000
+
+#: #446. Named refusals for the two time quantities. A published time field carries either
+#: the measured number or the name of the reason it is not published -- never a substitute
+#: for it (the defect was exactly that: the window end republished as the run time).
+RUN_TIME_UNMEASURED = "RUN_TIME_UNMEASURED"
+RUN_TIME_OUT_OF_RANGE = "RUN_TIME_OUT_OF_RANGE"
+RUN_TIME_PRECEDES_WINDOW_END = "RUN_TIME_PRECEDES_WINDOW_END"
+WINDOW_END_UNDECLARED = "WINDOW_END_UNDECLARED"
+WINDOW_END_MISSCALED = "WINDOW_END_MISSCALED"
+WINDOW_END_INCONSISTENT = "WINDOW_END_INCONSISTENT"
+
+#: #446. The names the two quantities are published under, so a reader can say *which*
+#: quantity it is holding instead of calling both of them "the timestamp".
+RUN_TIME_FIELD = "run_time"
+WINDOW_END_FIELD = "window_end"
+
+
+@dataclass(frozen=True)
+class TimePublication:
+    """The two time quantities one entry may publish, each named or refused (#446).
+
+    ``run_time_ns`` is the run's own wall clock; ``window_end_ns`` is the end of the data
+    window that run measured. They are different quantities and are never substituted for
+    one another: an entry that recorded no run time publishes ``None`` for it plus the name
+    of the reason (:data:`RUN_TIME_UNMEASURED`) -- it does not publish its window end under
+    a run-time name, which is what made the ledger unable to say when any run happened.
+    """
+
+    run_time_ns: int | None
+    run_time_refusal: str = ""
+    window_end_ns: int | None = None
+    window_end_refusal: str = ""
+    unit: str = TIME_FIELD_UNIT
+
+    @property
+    def publishes_run_time(self) -> bool:
+        return self.run_time_ns is not None
+
+    @property
+    def publishes_window_end(self) -> bool:
+        return self.window_end_ns is not None
+
+    def as_dict(self) -> dict[str, Any]:
+        """The vector as data, with each quantity's name, unit and refusal."""
+        return {
+            "unit": self.unit,
+            RUN_TIME_FIELD: self.run_time_ns,
+            f"{RUN_TIME_FIELD}_kind": RUN_TIME_FIELD if self.publishes_run_time else "",
+            f"{RUN_TIME_FIELD}_refusal": self.run_time_refusal,
+            WINDOW_END_FIELD: self.window_end_ns,
+            f"{WINDOW_END_FIELD}_kind": WINDOW_END_FIELD if self.publishes_window_end else "",
+            f"{WINDOW_END_FIELD}_refusal": self.window_end_refusal,
+        }
 
 
 @dataclass(frozen=True)
@@ -657,6 +736,80 @@ def bound_evidence_fingerprint(receipt: BenchmarkReceipt) -> str | None:
     return hashlib.sha256(json.dumps(canon, separators=(",", ":")).encode()).hexdigest()
 
 
+def _window_end_refusal(
+    *, declared_ns: int | None, digested_ns: int, identity: str
+) -> str | None:
+    """Named reason a declared window end may not be published; ``None`` when it may (#446).
+
+    One implementation for both the write path (:meth:`BenchmarkReceipt.create`) and the
+    read path (:meth:`BenchmarkReceipt.window_end_refusal_reason`), so a record cannot be
+    written under one rule and published under another.
+    """
+    if declared_ns is None:
+        return (
+            f"{WINDOW_END_UNDECLARED}: {identity} stores "
+            f"computed_at_timestamp_ns={digested_ns} but declares no "
+            "window_end_timestamp_ns, so the record itself does not say which quantity that "
+            "reading is; it is named as undeclared and is not published as a window end"
+        )
+    if declared_ns != digested_ns:
+        return (
+            f"{WINDOW_END_INCONSISTENT}: declared window_end_timestamp_ns={declared_ns} differs "
+            "from the window end carried inside the digest "
+            f"(computed_at_timestamp_ns={digested_ns}); the record states one quantity twice "
+            "with two different values"
+        )
+    if declared_ns < TIME_EPOCH_FLOOR_NS:
+        return (
+            f"{WINDOW_END_MISSCALED}: declared window_end_timestamp_ns={declared_ns} is below "
+            f"the {TIME_FIELD_UNIT} floor {TIME_EPOCH_FLOOR_NS} (2020-01-01T00:00:00Z); a "
+            "reading that renders as a 1970 date is a scale error and is not published"
+        )
+    return None
+
+
+def _run_time_refusal(
+    *,
+    declared_ns: int | None,
+    window_end_ns: int | None,
+    digested_ns: int,
+    identity: str,
+    now_ns: int | None = None,
+) -> str | None:
+    """Named reason a declared run time may not be published; ``None`` when it may (#446).
+
+    Three shapes, named apart: nothing was measured (``RUN_TIME_UNMEASURED``), the reading
+    is not a plausible clock reading (``RUN_TIME_OUT_OF_RANGE``), or it precedes the window
+    it claims to have measured (``RUN_TIME_PRECEDES_WINDOW_END``).
+    """
+    if declared_ns is None:
+        return (
+            f"{RUN_TIME_UNMEASURED}: {identity} carries no run_time_timestamp_ns; the record "
+            "does not say when the run happened, and the window end it stores is a different "
+            "quantity, not a run time"
+        )
+    clock = time.time_ns() if now_ns is None else now_ns
+    ceiling = clock + MAX_CLOCK_SKEW_NS
+    if declared_ns < TIME_EPOCH_FLOOR_NS or declared_ns > ceiling:
+        return (
+            f"{RUN_TIME_OUT_OF_RANGE}: run_time_timestamp_ns={declared_ns} is outside "
+            f"[{TIME_EPOCH_FLOOR_NS}, {ceiling}] in {TIME_FIELD_UNIT}; a reading this far from "
+            "the reading clock is refused instead of being published as a run time"
+        )
+    # Order the run against the window it measured: the declared window end when the record
+    # has one, else the digested reading -- and only when that reading is itself plausible,
+    # otherwise there is no window to order against and nothing is claimed.
+    order_against = window_end_ns
+    if order_against is None or order_against < TIME_EPOCH_FLOOR_NS:
+        order_against = digested_ns if digested_ns >= TIME_EPOCH_FLOOR_NS else None
+    if order_against is not None and declared_ns < order_against:
+        return (
+            f"{RUN_TIME_PRECEDES_WINDOW_END}: run_time_timestamp_ns={declared_ns} is earlier "
+            f"than the window end {order_against} this run measured"
+        )
+    return None
+
+
 class BenchmarkReceipt(BaseModel):
     """Self-verifying cryptographic benchmark receipt."""
 
@@ -697,6 +850,22 @@ class BenchmarkReceipt(BaseModel):
     #: publish no number. A numeric score without this record cannot be minted or
     #: verified (see :meth:`capability_score_refusal_reason`).
     score_evidence: ScoreEvidence | None = None
+    #: #446. The two time quantities one entry carries, named apart -- the end of the data
+    #: window the run measured and the wall clock of the run itself. The ledger used to
+    #: carry only ``computed_at_timestamp_ns``, which every producer filled with the window
+    #: end, so the published ledger could not say when any run happened and the product
+    #: surface republished a 2025 window end as the 2026 run's date. Neither field enters
+    #: any digest canon: a wall clock inside ``receipt_digest`` would make the same inputs
+    #: hash differently on every run, which is the determinism (G2) the receipt chain exists
+    #: to prove. They travel *beside* the digest and are published only through
+    #: :meth:`time_publication`, which refuses each quantity by name rather than substituting
+    #: the other for it.
+    #:
+    #: ``None`` means the record declares no such quantity -- true for every entry written
+    #: before this field existed. Those entries keep their own bytes, digest and parent hash,
+    #: and a reader names their time as unmeasured/undeclared instead of inferring one.
+    window_end_timestamp_ns: int | None = None
+    run_time_timestamp_ns: int | None = None
 
     @classmethod
     def create(
@@ -714,6 +883,8 @@ class BenchmarkReceipt(BaseModel):
         window_evidence: WindowEvidence | None = None,
         scoring_versions: dict[str, Any] | None = None,
         score_evidence: ScoreEvidence | None = None,
+        window_end_timestamp_ns: int | None = None,
+        run_time_timestamp_ns: int | None = None,
     ) -> BenchmarkReceipt:
         """Build a receipt whose published number follows from the evidence it binds.
 
@@ -753,6 +924,39 @@ class BenchmarkReceipt(BaseModel):
                     f"coverage_factor={coverage_factor} contradicts the supplied evidence "
                     f"({score_evidence.coverage_factor})"
                 )
+        # #446. A *declared* time quantity is adjudicated before the receipt is built, so a
+        # producer cannot write a record whose own chronology is self-contradicting, a
+        # constant, or mis-scaled (the three shapes a "time" field degenerates into when
+        # nobody measures it). Undeclared (``None``) stays a legal write: the record then
+        # claims nothing about that quantity, and the reader refuses it by name
+        # (``RUN_TIME_UNMEASURED`` / ``WINDOW_END_UNDECLARED``) instead of publishing a
+        # substitute for it -- which is how the records stored before this field existed
+        # keep their meaning and their bytes.
+        identity = f"receipt for case {case_id!r} (policy {policy_id!r}, {RECEIPT_DIGEST_VERSION})"
+        declared_time_refusals = (
+            []
+            if window_end_timestamp_ns is None
+            else [
+                _window_end_refusal(
+                    declared_ns=window_end_timestamp_ns,
+                    digested_ns=computed_at_timestamp_ns,
+                    identity=identity,
+                )
+            ]
+        )
+        if run_time_timestamp_ns is not None:
+            declared_time_refusals.append(
+                _run_time_refusal(
+                    declared_ns=run_time_timestamp_ns,
+                    window_end_ns=window_end_timestamp_ns,
+                    digested_ns=computed_at_timestamp_ns,
+                    identity=identity,
+                )
+            )
+        for time_refusal in declared_time_refusals:
+            if time_refusal is not None:
+                raise ValueError(f"cannot create receipt: {time_refusal}")
+
         sorted_bindings = sorted(artifact_bindings, key=lambda b: (b.role, b.path))
         canon, refusal = build_canon_payload(
             digest_version=RECEIPT_DIGEST_VERSION,
@@ -789,6 +993,8 @@ class BenchmarkReceipt(BaseModel):
             window_evidence=window_evidence,
             score_evidence=score_evidence,
             scoring_versions=dict(scoring_versions or {}),
+            window_end_timestamp_ns=window_end_timestamp_ns,
+            run_time_timestamp_ns=run_time_timestamp_ns,
         )
 
     def window_refusal_reason(self) -> str | None:
@@ -829,6 +1035,62 @@ class BenchmarkReceipt(BaseModel):
         """
         evidence = self.window_evidence
         return evidence is not None and evidence.economic_evidence
+
+    def window_end_refusal_reason(self) -> str | None:
+        """Named reason this receipt's window end may not be published; ``None`` when it may.
+
+        #446. The end of the measured window is the *only* quantity
+        ``computed_at_timestamp_ns`` ever carried, so what a record written before this field
+        existed lacks is not the reading but the declaration of what the reading is. It is
+        named :data:`WINDOW_END_UNDECLARED` -- never assumed, and above all never published
+        as a run time, which is the defect this refusal closes.
+        """
+        return _window_end_refusal(
+            declared_ns=self.window_end_timestamp_ns,
+            digested_ns=self.computed_at_timestamp_ns,
+            identity=self._time_identity(),
+        )
+
+    def run_time_refusal_reason(self, *, now_ns: int | None = None) -> str | None:
+        """Named reason this receipt's run time may not be published; ``None`` when it may.
+
+        #446. Every record written before the run-time field existed is
+        :data:`RUN_TIME_UNMEASURED`: the run's own clock was never recorded, and the window
+        end the record stores is a different quantity, not a substitute for it.
+        """
+        return _run_time_refusal(
+            declared_ns=self.run_time_timestamp_ns,
+            window_end_ns=self.window_end_timestamp_ns,
+            digested_ns=self.computed_at_timestamp_ns,
+            identity=self._time_identity(),
+            now_ns=now_ns,
+        )
+
+    def time_publication(self, *, now_ns: int | None = None) -> TimePublication:
+        """The entry's two time quantities, each published or refused by name (#446).
+
+        One source of truth for readers (``tools/generate_status.py``): the run's own wall
+        clock, and the end of the window it measured, as two named and separately refused
+        quantities. A consumer that wants "when did this run happen" reads
+        :attr:`TimePublication.run_time_ns` and, when it is ``None``, publishes the refusal
+        name -- it does not fall back to the window end.
+        """
+        run_refusal = self.run_time_refusal_reason(now_ns=now_ns)
+        window_refusal = self.window_end_refusal_reason()
+        return TimePublication(
+            run_time_ns=None if run_refusal else self.run_time_timestamp_ns,
+            run_time_refusal=run_refusal or "",
+            window_end_ns=None if window_refusal else self.window_end_timestamp_ns,
+            window_end_refusal=window_refusal or "",
+        )
+
+    def published_run_time_ns(self, *, now_ns: int | None = None) -> int | None:
+        """The run's own wall clock, or ``None`` when this record does not declare one."""
+        return self.time_publication(now_ns=now_ns).run_time_ns
+
+    def _time_identity(self) -> str:
+        """How a time refusal names the record it refused."""
+        return f"receipt {self.receipt_digest} (digest_version={self.digest_version})"
 
     def score_publication_refusal_reason(self) -> str | None:
         """Named reason this receipt's number may not be *published*; ``None`` when it may.

@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import time
 from dataclasses import asdict
 from decimal import Decimal
 from pathlib import Path
@@ -723,6 +724,12 @@ class BenchmarkRunner:
 
         # 4. Generate self-verifying BenchmarkReceipt
         computed_at_ns = candles[-1].end_ns if candles else 0
+        # #446: the two time quantities are named apart. `computed_at_ns` is the end of the
+        # window this run measured (the canon field keeps that meaning byte-for-byte); the
+        # run's own wall clock is read here and travels beside the digest, outside every
+        # canon, so the same inputs still hash to the same receipt_digest on a rerun.
+        run_time_ns = time.time_ns()
+        window_end_ns: int | None = computed_at_ns if candles else None
         # #408: the determinants of the number above travel with it, so the
         # published score is a function of the evidence the receipt binds and any
         # consumer can recompute it from the receipt alone.
@@ -741,6 +748,8 @@ class BenchmarkRunner:
             # #444: the declared window class travels with the receipt, so this
             # score can never be read apart from the window that minted it.
             window_evidence=window_evidence,
+            window_end_timestamp_ns=window_end_ns,
+            run_time_timestamp_ns=run_time_ns,
         )
 
         # 5. Append to append-only BenchmarkLedger
@@ -787,6 +796,9 @@ class BenchmarkRunner:
                         score_evidence=score_evidence,
                         # the post-G9 receipt declares the same window class
                         window_evidence=window_evidence,
+                        # ...and the same two time quantities as the run it re-states
+                        window_end_timestamp_ns=window_end_ns,
+                        run_time_timestamp_ns=run_time_ns,
                     )
                     # The post-G9 receipt is a NEW record: append it so the
                     # returned receipt is bound in the ledger (never orphaned).
