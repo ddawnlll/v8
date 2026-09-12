@@ -132,6 +132,49 @@ def cmd_status(args: argparse.Namespace) -> int:
     return 0
 
 
+def regression_report_lines(result: dict[str, Any]) -> list[str]:
+    """The regression comparison, printed in full.
+
+    #458 Target (3): a metric covered by a declared correction (``readiness.DECLARED_CORRECTIONS``)
+    is marked ``CORRECTION`` rather than ``REGRESSED``, and prints the authority and the named
+    reason that supersede the pinned value. Nothing is dropped: the corrected count, the
+    declaration that covers it and the fact that the baseline itself is **not** moved all stay
+    visible. The verdict still comes from the comparison alone.
+    """
+    from v8_next.app.readiness import BASELINE_REL
+
+    lines = [f"[regression] VERDICT: {result['verdict']}"]
+    for finding in result["findings"]:
+        correction = finding.get("correction")
+        if correction:
+            mark = "CORRECTION"
+        else:
+            mark = "REGRESSED" if finding["regressed"] else "ok"
+        lines.append(
+            f"    {mark:10} {finding['metric']:28} {finding['baseline']} -> {finding['current']} "
+            f"(delta {finding['delta']}, tol {finding['tolerance']})"
+        )
+        if correction:
+            lines.append(
+                f"               declared correction by {correction['authority']}: "
+                f"{correction['reason']}"
+            )
+    for line in result["regressions"]:
+        lines.append(f"    REGRESSION: {line}")
+    for record in result["corrections"]:
+        lines.append(
+            f"    CORRECTION: {record['metric']} {record['superseded']} -> "
+            f"{record['corrected']} (authority {record['authority']})"
+        )
+    lines.append(f"[regression] {result['note']}")
+    lines.append(
+        f"[regression] the baseline at {BASELINE_REL} is not moved by this comparison: the "
+        "corrected value is declared, never re-pinned (`--pin` is an explicit "
+        "decision-register act)"
+    )
+    return lines
+
+
 def cmd_regression(args: argparse.Namespace) -> int:
     """Regression against the pinned baseline. Re-pinning is explicit and never automatic."""
     import json
@@ -177,14 +220,8 @@ def cmd_regression(args: argparse.Namespace) -> int:
         return 2
     baseline = json.loads(baseline_path.read_text())
     result = regression_against(baseline, current)
-    print(f"[regression] VERDICT: {result['verdict']}")
-    for finding in result["findings"]:
-        mark = "REGRESSED" if finding["regressed"] else "ok"
-        print(f"    {mark:9} {finding['metric']:28} {finding['baseline']} -> {finding['current']} "
-              f"(delta {finding['delta']}, tol {finding['tolerance']})")
-    for line in result["regressions"]:
-        print(f"    REGRESSION: {line}")
-    print(f"[regression] {result['note']}")
+    for line in regression_report_lines(result):
+        print(line)
     return 1 if result["verdict"] == "REGRESSION" else 0
 
 

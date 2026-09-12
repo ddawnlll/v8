@@ -2,7 +2,14 @@
 
 from __future__ import annotations
 
-from v8_next.app.readiness import REGRESSION_TOLERANCES, regression_against
+import pytest
+
+from v8_next.app.cli import regression_report_lines
+from v8_next.app.readiness import (
+    DECLARED_CORRECTIONS,
+    REGRESSION_TOLERANCES,
+    regression_against,
+)
 
 BASE = {
     "readiness": 12.5,
@@ -72,3 +79,73 @@ def test_tolerances_are_declared_not_implicit() -> None:
         "readiness", "gate_passes", "pillars_measured", "net_measured_sum", "win_rate_pct",
     }
     assert REGRESSION_TOLERANCES["readiness"] == 0.0
+
+
+# --- #458 Target (3) / D-166: a declared correction is marked, the baseline is not moved -----
+
+
+def test_a_declared_correction_is_a_correction_and_not_a_regression() -> None:
+    """The pinned 4 -> the producer's measured 2 is the declared correction, not a verdict."""
+    pinned = {**BASE, "gate_passes": 4}
+    result = regression_against(pinned, {**BASE, "gate_passes": 2})
+    assert result["verdict"] == "OK"
+    assert result["regressions"] == []
+    row = next(row for row in result["findings"] if row["metric"] == "gate_passes")
+    assert row["regressed"] is False
+    assert row["baseline"] == 4 and row["current"] == 2
+    assert row["correction"]["superseded"] == 4 and row["correction"]["corrected"] == 2
+    assert row["correction"]["authority"] == "D-166"
+    assert result["corrections"] == [row["correction"]]
+
+
+def test_the_correction_still_prints_the_metric_and_its_authority() -> None:
+    pinned = {**BASE, "gate_passes": 4}
+    lines = regression_report_lines(regression_against(pinned, {**BASE, "gate_passes": 2}))
+    assert lines[0] == "[regression] VERDICT: OK"
+    marked = [line for line in lines if "CORRECTION" in line and "gate_passes" in line]
+    assert marked, lines
+    assert not any("REGRESSED" in line for line in lines)
+    assert any("D-166" in line for line in lines)
+    # honest about the thing that did not happen: the baseline's bytes stay put
+    assert any("is not moved" in line for line in lines)
+
+
+def test_a_correction_covers_exactly_its_declared_pair_and_nothing_beyond_it() -> None:
+    """A further drop is a new regression: one is not a licence to stop reporting the metric."""
+    pinned = {**BASE, "gate_passes": 4}
+    result = regression_against(pinned, {**BASE, "gate_passes": 1})
+    assert result["verdict"] == "REGRESSION"
+    assert result["corrections"] == []
+    assert any("gate_passes 4 -> 1" in line for line in result["regressions"])
+
+
+def test_an_undeclared_delta_still_reports_a_regression() -> None:
+    dropped_score = regression_against(BASE, {**BASE, "readiness": 11.5})
+    assert dropped_score["verdict"] == "REGRESSION"
+    assert dropped_score["corrections"] == []
+    # an undeclared metric keeps the strict comparison even on the corrected value's path
+    pinned = {**BASE, "gate_passes": 5}
+    assert regression_against(pinned, {**BASE, "gate_passes": 4})["verdict"] == "REGRESSION"
+
+
+def test_the_declaration_can_be_withheld_for_a_strict_comparison() -> None:
+    pinned = {**BASE, "gate_passes": 4}
+    result = regression_against(pinned, {**BASE, "gate_passes": 2}, corrections={})
+    assert result["verdict"] == "REGRESSION"
+    assert result["corrections"] == []
+
+
+def test_every_declared_correction_names_its_authority_and_reason() -> None:
+    """A correction is declared with its authority and its reason, never implicit (#458 T3)."""
+    assert set(DECLARED_CORRECTIONS) == {"gate_passes"}
+    row = DECLARED_CORRECTIONS["gate_passes"]
+    assert row["superseded"] == 4 and row["corrected"] == 2
+    assert row["authority"] == "D-166"
+    assert row["reason"].strip()
+    assert "resolve_structural_gates" in row["reason"]
+
+
+def test_a_correction_for_a_metric_the_comparison_never_reads_is_rejected() -> None:
+    """A declaration that could not be consulted is refused by name, not silently ignored."""
+    with pytest.raises(ValueError, match="never reads"):
+        regression_against(BASE, BASE, corrections={"capital_score": {"superseded": 1, "corrected": 0}})
