@@ -3,7 +3,9 @@
 Answers "how production-ready are we" with four separately printed factors, never one
 number on its own. Every factor is derived from artifacts on disk:
 
-* ``gate_factor``   - gates PASS / 10, from the latest ledger receipt's gate vector
+* ``gate_factor``   - gates PASS / 10, from the resolved battery artifact when one is
+                      published under its own producer's contract (#447), else from the
+                      latest ledger receipt's gate vector
 * ``pillar_factor`` - measured pillars / 3: P1 gate battery, P2 four-year paper-trade
                       report, P3 synthetic hypothesis scenarios. A pillar whose artifacts
                       are absent is MISSING and contributes 0 - it is never filled in.
@@ -142,6 +144,85 @@ def _vector_publication_refusal(publication: Any | None, receipt: Any | None) ->
 #: it is the better source than a ledger entry whose gate vector was never resolved
 GATE_AUDIT_REL = "docs/evidence/v87/READINESS/readiness_audit.json"
 
+#: #458. Named reason the resolved battery's vector may not be published: the artifact was
+#: not written by the producer that owns this cell, so no measurement stands behind its
+#: states. It is a refusal, not a deletion -- the artifact stays on disk as read-only
+#: evidence and is named every time the factor is read.
+GATE_AUDIT_CONTRACT_MISMATCH = "GATE_AUDIT_CONTRACT_MISMATCH"
+
+#: the structural cells the current producer publishes beside the input they were derived
+#: from and the named reason their state carries (``tools/nx_readiness_audit.py``, #447).
+GATE_AUDIT_CONTRACT_FIELDS = ("g0_identity", "g1_causal_pit", "g2_determinism_ledger")
+
+#: the producer's own vocabulary for "this input was not measured". An entry that names one
+#: of these is not a measurement, so the same cell may not be published as PASS (#458.d).
+GATE_AUDIT_MEASURED_STATUS = "MEASURED"
+
+
+def _gate_audit_contract_refusal(audit_artifact: dict[str, Any]) -> str:
+    """Named reason the resolved battery's vector may not be published (#458), else ``""``.
+
+    The battery artifact is a measurement this reader may count only when the producer
+    that owns it says what the vector was measured from: ``gate_coverage.structural_gates``
+    carries, for each of the three structural cells, the input and the named reason its
+    state carries (#447). An artifact without that block -- e.g. one written before #447 --
+    publishes ``g1_causal_pit = PASS`` / ``g2_determinism_ledger = PASS`` with no
+    measurement this path can stand behind, so its vector is withheld and the mismatch is
+    named instead of counted.
+
+    The reader does not re-derive the states (no second ontology); it checks the artifact
+    against itself: every structural entry must name a reason and a status, and a cell the
+    entry itself names as not measured may not be published as PASS.
+    """
+    coverage = audit_artifact.get("gate_coverage")
+    if not isinstance(coverage, dict) or not coverage:
+        return (
+            f"{GATE_AUDIT_CONTRACT_MISMATCH}: {GATE_AUDIT_REL} publishes no 'gate_coverage' "
+            "block, so it carries no gate vector to publish"
+        )
+    structural = coverage.get("structural_gates")
+    if not isinstance(structural, dict) or not structural:
+        counted = len(coverage.get("states") or {})
+        return (
+            f"{GATE_AUDIT_CONTRACT_MISMATCH}: {GATE_AUDIT_REL} publishes no "
+            "'gate_coverage.structural_gates' block, so the g0/g1/g2 cells behind its "
+            f"{counted} counted states carry no measured input and no named reason (the "
+            "#447 producer contract); no cell is published from it"
+        )
+    raw_states = coverage.get("states")
+    states: dict[str, Any] = raw_states if isinstance(raw_states, dict) else {}
+    for field in GATE_AUDIT_CONTRACT_FIELDS:
+        entry = structural.get(field)
+        if not isinstance(entry, dict) or not entry:
+            return (
+                f"{GATE_AUDIT_CONTRACT_MISMATCH}: {GATE_AUDIT_REL} publishes a "
+                f"'gate_coverage.structural_gates' block without a '{field}' entry, so that "
+                "cell carries no measured input and no named reason (the #447 producer "
+                "contract); no cell is published from it"
+            )
+        reason = entry.get("reason")
+        status = entry.get("status")
+        if not isinstance(reason, str) or not reason.strip():
+            return (
+                f"{GATE_AUDIT_CONTRACT_MISMATCH}: {GATE_AUDIT_REL} publishes a "
+                f"'gate_coverage.structural_gates.{field}' entry without a named reason, so "
+                "its state stands without a measurement; no cell is published from it"
+            )
+        if not isinstance(status, str) or not status.strip():
+            return (
+                f"{GATE_AUDIT_CONTRACT_MISMATCH}: {GATE_AUDIT_REL} publishes a "
+                f"'gate_coverage.structural_gates.{field}' entry without a status, so its "
+                "state stands without a measurement; no cell is published from it"
+            )
+        if states.get(field) == "PASS" and status != GATE_AUDIT_MEASURED_STATUS:
+            return (
+                f"{GATE_AUDIT_CONTRACT_MISMATCH}: {GATE_AUDIT_REL} publishes "
+                f"{field} = PASS while its own producer entry names status {status!r} "
+                f"({reason}), so the PASS is not carried by a measurement; no cell is "
+                "published from it"
+            )
+    return ""
+
 
 def gate_factor(
     receipt: Any | None,
@@ -154,34 +235,61 @@ def gate_factor(
     #448: the receipt leg publishes a factor only from an entry that declares an
     evidential window class. A receipt that declares no class -- or one whose class proves
     no economic evidence -- is named, and its vector contributes a MISSING/0.0 factor
-    rather than a PASS-shaped one. The resolved-battery leg is untouched: it is its own
-    measurement, taken on its own window by its own producer, and it names that source.
+    rather than a PASS-shaped one.
+
+    #458: the resolved-battery leg is a measurement of *this* reader's producer only when
+    the artifact carries that producer's contract (``gate_coverage.structural_gates``, the
+    g0/g1/g2 input and the named reason behind each state, #447). An artifact that does not
+    -- e.g. the pre-#447 battery, which publishes ``g1_causal_pit = PASS`` and
+    ``g2_determinism_ledger = PASS`` with nothing measured behind them -- is REFUSED by
+    name and contributes no cell; the refusal is never routed around through the ledger
+    receipt leg, which would publish a different measurement as this one.
+
     Either way the audit reports which ledger entry it read and the class that entry
     carries, so the factor is never read apart from the class it came from.
     """
     refusal = _vector_publication_refusal(publication, receipt)
     ledger_read = _ledger_read_line(publication, receipt)
     resolved: dict[str, Any] | None = None
+    artifact_refusal = ""
     if repo_root is not None:
         audit_artifact = _load(repo_root / GATE_AUDIT_REL)
         if audit_artifact:
-            coverage = audit_artifact.get("gate_coverage") or {}
-            states = coverage.get("states") or {}
-            if states:
-                resolved = {
-                    "factor": round(float(coverage.get("passed", 0)) / max(1, len(states)), 4),
-                    "passed": int(coverage.get("passed", 0)),
-                    "required": len(states),
-                    "states": states,
-                    "status": "MEASURED",
-                    "source": GATE_AUDIT_REL,
-                    "verdict": coverage.get("readiness_status"),
-                    "window": (audit_artifact.get("window") or {}).get("start_utc"),
-                    "ledger_read": ledger_read,
-                    "ledger_publication": _publication_dict(publication),
-                }
+            artifact_refusal = _gate_audit_contract_refusal(audit_artifact)
+            if not artifact_refusal:
+                coverage = audit_artifact.get("gate_coverage") or {}
+                states = coverage.get("states") or {}
+                if states:
+                    resolved = {
+                        "factor": round(
+                            float(coverage.get("passed", 0)) / max(1, len(states)), 4
+                        ),
+                        "passed": int(coverage.get("passed", 0)),
+                        "required": len(states),
+                        "states": states,
+                        "status": "MEASURED",
+                        "source": GATE_AUDIT_REL,
+                        "verdict": coverage.get("readiness_status"),
+                        "window": (audit_artifact.get("window") or {}).get("start_utc"),
+                        "ledger_read": ledger_read,
+                        "ledger_publication": _publication_dict(publication),
+                    }
     if resolved is not None:
         return resolved
+    if artifact_refusal:
+        # #458: the preferred source is on disk but stands under no measurement this path
+        # can reproduce, so its vector is withheld by name and no cell is counted from it.
+        return {
+            "factor": 0.0,
+            "passed": 0,
+            "required": 10,
+            "states": {},
+            "status": "REFUSED",
+            "source": f"{GATE_AUDIT_REL} (refused: producer contract mismatch)",
+            "refusal": artifact_refusal,
+            "ledger_read": ledger_read,
+            "ledger_publication": _publication_dict(publication),
+        }
     if receipt is None:
         return {
             "factor": 0.0,
@@ -799,6 +907,14 @@ def audit(
     if any(info["status"] != "MEASURED" for info in pillars["pillars"].values()):
         next_measurement = next(
             name for name, info in pillars["pillars"].items() if info["status"] != "MEASURED"
+        )
+    elif gates["status"] != "MEASURED":
+        # #458: a gate vector that was not published is the next thing to measure. Naming a
+        # later requirement here would read as if the gates had been resolved -- the gate
+        # factor is 0.0 because nothing was published, not because the cells were counted.
+        next_measurement = (
+            f"gate_battery ({gates['status']}): no gate vector was published "
+            "(refusal in factors.gate_factor.refusal)"
         )
     elif unresolved_gates:
         next_measurement = "gate_battery: " + ", ".join(unresolved_gates)

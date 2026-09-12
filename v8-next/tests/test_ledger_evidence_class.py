@@ -26,12 +26,20 @@ Evidence classes:
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
+from typing import Any
 
 import pytest
 
 from v8_next.app.cli import main as cli_main
-from v8_next.app.readiness import GATE_AUDIT_REL, gate_factor
+from v8_next.app.readiness import (
+    GATE_AUDIT_CONTRACT_FIELDS,
+    GATE_AUDIT_CONTRACT_MISMATCH,
+    GATE_AUDIT_REL,
+    audit,
+    gate_factor,
+)
 from v8_next.evaluation.benchmark_receipt import (
     EVIDENCE_CLASS_UNDECLARED,
     NO_EVIDENTIAL_LEDGER_ENTRY,
@@ -44,6 +52,7 @@ from v8_next.evaluation.benchmark_receipt import (
     WindowEvidence,
 )
 from v8_next.evaluation.certificate import PolicyCertificate
+from v8_next.evaluation.gate_resolution import resolve_structural_gates
 from v8_next.evaluation.parity import ArtifactBinding
 from v8_next.evaluation.run_window import WindowSpec
 from v8_next.evaluation.scoring import (
@@ -55,6 +64,10 @@ from v8_next.evaluation.scoring import (
 CANONICAL_LEDGER = (
     Path(__file__).resolve().parents[2] / "artifacts" / "benchmarks" / "benchmark_ledger.jsonl"
 )
+
+#: the repository the readiness reader is pointed at (#458): the committed battery artifact
+#: lives under this root and is read-only here -- nothing in this file writes to it.
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 #: MECHANICS ONLY: fixed determinants, so a fixture number is *derived* from evidence the
 #: receipt binds (#408). No economic weight is claimed for it and no run is executed.
@@ -400,3 +413,213 @@ def test_certificate_still_publishes_an_evidential_entry(tmp_path: Path) -> None
     derivation = certificate.derivation
     assert derivation is not None
     assert derivation["raw_measurements"]["capability_score"] == receipt.capability_score
+
+
+# --------------------------------------------------------------------------- #
+# 5 — the resolved battery is counted only under its own producer contract (#458)
+# --------------------------------------------------------------------------- #
+def _write_battery_artifact(root: Path, coverage: dict[str, Any]) -> None:
+    """MECHANICS ONLY: a battery-shaped artifact at the reader's own path.
+
+    The payload is the artifact's contract, not a measurement: no window is replayed and
+    no gate is resolved by writing it.
+    """
+    path = root / GATE_AUDIT_REL
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {
+                "audit": "V8.7 readiness audit",
+                "gate_coverage": coverage,
+                "window": {"start_utc": "2025-01-01", "end_utc": "2025-02-01"},
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n"
+    )
+
+
+def _superseded_coverage() -> dict[str, Any]:
+    """The shape the committed battery artifact publishes: a vector written before #447.
+
+    ``passed`` counts four cells, two of them (``g1_causal_pit``, ``g2_determinism_ledger``)
+    hard gates -- and there is no ``structural_gates`` block naming what any of the three
+    structural cells was measured from.
+    """
+    return {
+        "formula": "gates PASS / ten hard gates, resolved on the same series as capability",
+        "passed": 4,
+        "pct": 66.7,
+        "readiness_status": "HardFailure",
+        "total": 6,
+        "states": {
+            "g0_identity": "PASS",
+            "g1_causal_pit": "PASS",
+            "g2_determinism_ledger": "PASS",
+            "g3_benchmark_coverage": "BLOCKED",
+            "g4_structural_robustness": "PASS",
+            "g5_statistical_credibility": "BLOCKED",
+        },
+    }
+
+
+def _contract_coverage() -> dict[str, Any]:
+    """The shape ``tools/nx_readiness_audit.py`` writes now: the trio resolved, not declared.
+
+    G0 is measured on the bars and G1/G2 are not measured on this path, so the counted
+    cells are ``g0`` + ``g4`` (2) and no PASS stands on an unmeasured input (#447).
+    """
+    probe = resolve_structural_gates((), BenchmarkLedger()).gates
+    return {
+        "formula": "gates PASS / ten hard gates, resolved on the same series as capability",
+        "passed": 2,
+        "pct": 33.3,
+        "readiness_status": "HardFailure",
+        "total": 6,
+        "states": {
+            "g0_identity": "PASS",
+            "g1_causal_pit": probe.g1_causal_pit.name,
+            "g2_determinism_ledger": probe.g2_determinism_ledger.name,
+            "g3_benchmark_coverage": "BLOCKED",
+            "g4_structural_robustness": "PASS",
+            "g5_statistical_credibility": "BLOCKED",
+        },
+        "structural_gates": {
+            "note": (
+                "#447: g0/g1/g2 are derived by the resolver, not declared; each entry "
+                "carries the measured input and the named reason its state carries"
+            ),
+            "g0_identity": {
+                "status": "MEASURED",
+                "reason": "SINGLE_INSTRUMENT_GAP_FREE",
+                "input": "has_continuous_lineage",
+                "measured": True,
+            },
+            "g1_causal_pit": {
+                "status": "UNRUN",
+                "reason": "CAUSAL_PIT_NOT_MEASURED_ON_THIS_PATH",
+                "input": "is_causal_pit",
+                "measured": None,
+            },
+            "g2_determinism_ledger": {
+                "status": "UNRUN",
+                "reason": "LEDGER_EMPTY_NO_ENTRIES_TO_VERIFY",
+                "entries": 0,
+            },
+        },
+    }
+
+
+def test_readiness_refuses_a_battery_artifact_that_predates_its_producer_contract(
+    tmp_path: Path,
+) -> None:
+    """#458.a: no cell is counted from a vector its own producer cannot reproduce."""
+    _write_battery_artifact(tmp_path, _superseded_coverage())
+
+    factors = gate_factor(None, tmp_path)
+
+    assert factors["status"] == "REFUSED"
+    assert factors["factor"] == 0.0
+    assert factors["passed"] == 0
+    assert factors["states"] == {}, "a vector with no producer contract is not published"
+    assert factors["refusal"].startswith(GATE_AUDIT_CONTRACT_MISMATCH)
+    assert "structural_gates" in factors["refusal"]
+    assert GATE_AUDIT_REL in factors["refusal"]
+    assert factors["source"].startswith(GATE_AUDIT_REL)
+
+    # the refusal is not routed around: an evidential ledger entry in hand does not make
+    # the reader publish a *different* measurement as the resolved battery's vector
+    receipt = _receipt(
+        tmp_path, window_evidence=_benchmark_evidence(), capability_score=14.0, name="evid.jsonl"
+    )
+    ledger = BenchmarkLedger()
+    ledger.append(receipt)
+    with_entry = gate_factor(receipt, tmp_path, publication=ledger.publication())
+    assert with_entry["status"] == "REFUSED"
+    assert with_entry["states"] == {}
+    assert with_entry["passed"] == 0
+
+
+def test_readiness_refuses_a_pass_cell_its_own_structure_names_as_unmeasured(
+    tmp_path: Path,
+) -> None:
+    """#458.d: the vector must agree with the structure it is published beside."""
+    coverage = _contract_coverage()
+    coverage["states"]["g1_causal_pit"] = "PASS"
+    coverage["passed"] = 3
+    _write_battery_artifact(tmp_path, coverage)
+
+    factors = gate_factor(None, tmp_path)
+
+    assert factors["status"] == "REFUSED"
+    assert factors["states"] == {}
+    assert "g1_causal_pit = PASS" in factors["refusal"]
+    assert "UNRUN" in factors["refusal"]
+
+
+def test_readiness_counts_a_battery_artifact_that_carries_the_producer_contract(
+    tmp_path: Path,
+) -> None:
+    """#458.b/c: the same reader accepts the vector the current producer stands behind."""
+    _write_battery_artifact(tmp_path, _contract_coverage())
+
+    factors = gate_factor(None, tmp_path)
+
+    assert factors["status"] == "MEASURED"
+    assert factors["source"] == GATE_AUDIT_REL
+    assert factors["passed"] == 2
+    assert factors["states"]["g0_identity"] == "PASS"
+    assert factors["states"]["g4_structural_robustness"] == "PASS"
+    for field in GATE_AUDIT_CONTRACT_FIELDS:
+        if factors["states"][field] == "PASS":
+            assert (
+                _contract_coverage()["structural_gates"][field]["status"] == "MEASURED"
+            ), f"{field} may be published as PASS only behind a measurement"
+
+    # the cells are the canonical rule's own output for an unmeasured structural path
+    probe = resolve_structural_gates((), BenchmarkLedger()).gates
+    assert factors["states"]["g1_causal_pit"] == probe.g1_causal_pit.name
+    assert factors["states"]["g2_determinism_ledger"] == probe.g2_determinism_ledger.name
+    assert factors["states"]["g1_causal_pit"] != "PASS"
+    assert factors["states"]["g2_determinism_ledger"] != "PASS"
+
+
+def test_the_committed_battery_artifact_is_accounted_for_by_contract() -> None:
+    """#458.b/F3: the artifact actually on disk, read through the real reader.
+
+    Committed revision read here: ``docs/evidence/v87/READINESS/readiness_audit.json``,
+    sha256 498ce4ee0a4597eab34ef5a0fc66fae854f716b1490f426ee1b26a515448febb (pre-#447). It is
+    read-only evidence: this test also documents that the artifact is not written here.
+    Whichever revision is on disk, the reader publishes no cell that revision's own
+    producer entry does not stand behind.
+    """
+    artifact_path = REPO_ROOT / GATE_AUDIT_REL
+    if not artifact_path.is_file():
+        pytest.skip(f"readiness battery artifact absent at {artifact_path}")
+    coverage = json.loads(artifact_path.read_text())["gate_coverage"]
+
+    factors = gate_factor(None, REPO_ROOT)
+
+    if "structural_gates" in coverage:
+        assert factors["status"] == "MEASURED"
+        assert factors["states"] == coverage["states"]
+        for field in GATE_AUDIT_CONTRACT_FIELDS:
+            if factors["states"].get(field) == "PASS":
+                assert coverage["structural_gates"][field]["status"] == "MEASURED"
+    else:
+        # the superseded revision: the two PASS cells nothing measured are named, and not
+        # counted -- its vector is refused by name and no cell travels from it (#458.d)
+        assert coverage["states"]["g1_causal_pit"] == "PASS"
+        assert coverage["states"]["g2_determinism_ledger"] == "PASS"
+        assert factors["status"] == "REFUSED"
+        assert factors["states"] == {}
+        assert factors["passed"] == 0
+        assert factors["source"].startswith(GATE_AUDIT_REL)
+        assert factors["refusal"].startswith(GATE_AUDIT_CONTRACT_MISMATCH)
+
+        # the published report names the unpublished battery as the next measurement, not a
+        # later requirement: the gate factor is 0.0 because nothing was published
+        report = audit(REPO_ROOT, REPO_ROOT / "no-ledger-read.jsonl", None)
+        assert report["factors"]["gate_factor"]["status"] == "REFUSED"
+        assert report["next_required_measurement"].startswith("gate_battery (REFUSED)")
