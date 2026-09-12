@@ -7,7 +7,7 @@ from functools import cached_property
 import polars as pl
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Candle:
     instrument_id: str
     start_ns: int

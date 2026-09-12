@@ -35,7 +35,7 @@ PARQUET_TAPE_NAME = "tape.parquet"
 DEFAULT_FUNDING_INTERVAL_HOURS = 8.0
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class FundingRow:
     instrument: str  # e.g. BTCUSDT
     funding_time_ms: int
@@ -109,16 +109,36 @@ def funding_interval_hours(payload: dict[str, Any]) -> float | None:
     return None
 
 
+def _interval_key(value: float) -> str:
+    return f"{value:g}h"
+
+
+#: M1 sha cache: (resolved path, size, mtime_ns, ino) -> hex digest.
+_SHA_CACHE: dict[tuple[str, int, int, int], str] = {}
+
+
 def _file_sha(p: Path) -> str:
+    # M1: (resolved path, size, mtime_ns, ino) -> sha dict cache. The st_ino
+    # key is mandatory (same-size/same-mtime replacement guard). Identical
+    # digest bits; ~zero cost after the first read of a 227MB tape.
+    resolved = str(p.resolve())
+    try:
+        st = p.stat()
+        key = (resolved, st.st_size, st.st_mtime_ns, st.st_ino)
+    except OSError:
+        raise
+    except AttributeError:
+        raise ValueError("sha cache requires stable st_ino; refusing to guess")
+    cached = _SHA_CACHE.get(key)
+    if cached is not None:
+        return cached
     h = hashlib.sha256()
     with open(p, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
-    return h.hexdigest()
-
-
-def _interval_key(value: float) -> str:
-    return f"{value:g}h"
+    digest = h.hexdigest()
+    _SHA_CACHE[key] = digest
+    return digest
 
 
 def load_multitape(
