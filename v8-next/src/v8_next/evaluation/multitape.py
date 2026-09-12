@@ -26,6 +26,11 @@ from v8_next.domain.market import Candle
 
 INSTRUMENT_SUFFIX = "-PERP.BINANCE"
 
+#: Frozen oracle name (default read path; never silently replaced).
+JSONL_TAPE_NAME = "tape.jsonl"
+#: Columnar runtime path (flag-selected only; cutover gated on green parity).
+PARQUET_TAPE_NAME = "tape.parquet"
+
 #: Venue convention. Only ever a *reported* default, never a measurement.
 DEFAULT_FUNDING_INTERVAL_HOURS = 8.0
 
@@ -124,6 +129,8 @@ def load_multitape(
     strict_intersection: bool = True,
     start_ms: int | None = None,
     end_ms: int | None = None,
+    tape_format: str = "jsonl",
+    parquet_path: Path | str | None = None,
 ) -> MultiTape:
     """Load every instrument in the tape with aligned chronological bars.
 
@@ -135,19 +142,45 @@ def load_multitape(
     scan, so a bounded window over a large tape stays bounded (NX05.R3); it applies
     before ``offset``/``limit``.
 
+    ``tape_format`` selects the runtime read path (``"jsonl"`` default, the frozen
+    parity oracle; ``"parquet"`` flag-selected columnar path). The parquet path
+    never silently substitutes: a missing parquet file or schema mismatch fails
+    loudly, and cutover of the default happens ONLY on green parity (R3). No
+    Decimal-type change is smuggled here: values are decoded exactly as on the
+    JSONL path (``Decimal(str(...))``).
+
     Raises ``ValueError`` when a leg carries duplicated bar slots, or (with
     ``strict_intersection``, the default) when the chronological intersection
     would drop bars from any leg. Set ``strict_intersection=False`` only to
     inspect a heterogeneous tape; the dropped counts are then reported on the
     returned ``MultiTape.intersection_dropped``.
     """
+    if tape_format not in ("jsonl", "parquet"):
+        raise ValueError(f"unknown tape_format {tape_format!r}; expected 'jsonl' or 'parquet'")
     p = Path(tape_path)
-    if p.is_dir():
-        p = p / "tape.jsonl"
-    if not p.is_file():
-        raise FileNotFoundError(f"Multi tape not found at {p}")
-    sha = _file_sha(p)
-    scan = pl.scan_ndjson(p)
+    if tape_format == "parquet":
+        # Flag-selected columnar path: explicit file, never a silent fallback.
+        if parquet_path is not None:
+            pq = Path(parquet_path)
+        elif p.suffix == ".parquet" and p.is_file():
+            pq = p
+        elif p.is_dir() and (p / PARQUET_TAPE_NAME).is_file():
+            pq = p / PARQUET_TAPE_NAME
+        else:
+            raise FileNotFoundError(
+                f"parquet tape not found for {p} (pass parquet_path explicitly); "
+                "JSONL remains the frozen oracle until R3 cutover"
+            )
+        sha = _file_sha(pq)
+        scan = pl.scan_parquet(pq)
+        p = pq
+    else:
+        if p.is_dir():
+            p = p / JSONL_TAPE_NAME
+        if not p.is_file():
+            raise FileNotFoundError(f"Multi tape not found at {p}")
+        sha = _file_sha(p)
+        scan = pl.scan_ndjson(p)
     if start_ms is not None:
         scan = scan.filter(
             (pl.col("channel") == "kline")
@@ -167,6 +200,13 @@ def load_multitape(
         raise ValueError(
             f"no rows for window [{start_ms},{end_ms}) in {p}"
         )
+    # Explicit schema gate (both paths): struct-field doubt fails loudly,
+    # never with defaulted values. Missing columns are a loud failure.
+    for required in ("channel", "instrument", "event_time", "payload"):
+        if required not in df.columns:
+            raise ValueError(f"tape schema mismatch at {p}: missing column {required!r}")
+    if not isinstance(df.schema["payload"], pl.Struct):
+        raise ValueError(f"tape schema mismatch at {p}: 'payload' is not a Struct")
 
     kline = df.filter(pl.col("channel") == "kline").sort(["instrument", "event_time"])
     instruments: list[str] = sorted(kline["instrument"].unique().to_list())
@@ -311,3 +351,54 @@ def load_multitape(
         mark_price_absent=not mark_keys,
         absence_notes=tuple(absences),
     )
+
+
+def convert_tape_to_parquet(
+    jsonl_path: Path | str,
+    parquet_path: Path | str,
+    *,
+    ceremony_path: Path | str | None = None,
+) -> dict[str, Any]:
+    """One-time ``tape.jsonl (sha256) -> tape.parquet (sha256)`` ceremony (R1).
+
+    Reads the frozen JSONL oracle, sorts by ``(instrument, event_time)`` for
+    symbol/time partition pruning, and writes a single parquet file with the
+    identical rows (no value recoding, no Decimal-type change: downstream
+    decodes with the same ``Decimal(str(...))`` as the JSONL path). Returns
+    the ceremony record (both sha256, row counts); when ``ceremony_path`` is
+    given the record is also written as JSON. Executed in Wave 2 only; Wave 1
+    writes the code path without running any conversion.
+    """
+    import json
+
+    src = Path(jsonl_path)
+    if src.is_dir():
+        src = src / JSONL_TAPE_NAME
+    if not src.is_file():
+        raise FileNotFoundError(f"JSONL oracle not found at {src}")
+    dst = Path(parquet_path)
+    if dst.is_dir():
+        dst = dst / PARQUET_TAPE_NAME
+    src_sha = _file_sha(src)
+    df = pl.scan_ndjson(src).collect()
+    for required in ("channel", "instrument", "event_time", "payload"):
+        if required not in df.columns:
+            raise ValueError(f"tape schema mismatch at {src}: missing column {required!r}")
+    df = df.sort(["instrument", "event_time"])
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    df.write_parquet(dst)
+    dst_sha = _file_sha(dst)
+    ceremony: dict[str, Any] = {
+        "src_path": str(src),
+        "src_sha256": src_sha,
+        "dst_path": str(dst),
+        "dst_sha256": dst_sha,
+        "rows": df.height,
+        "layout": "sorted by (instrument, event_time) for symbol/time partition pruning",
+        "decimal_policy": "no type change: values decoded as Decimal(str(...)) on both paths",
+    }
+    if ceremony_path is not None:
+        out = Path(ceremony_path)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(ceremony, indent=2, sort_keys=True))
+    return ceremony
