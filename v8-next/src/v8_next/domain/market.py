@@ -188,3 +188,51 @@ def frame_at(instrument_id: str, decision_ns: int, candles: tuple[Candle, ...]) 
             raise ValueError("conflicting bar versions require explicit revision policy")
         unique[candle.start_ns] = candle
     return CausalFrame(instrument_id, decision_ns, tuple(unique[t] for t in sorted(unique)))
+
+
+def frame_at_incremental(
+    parent: CausalFrame | None,
+    instrument_id: str,
+    decision_ns: int,
+    prefix: tuple[Candle, ...],
+) -> CausalFrame:
+    """Validated-incremental frame: trust the validated parent, verify only the tail.
+
+    Identical accept/reject to :func:`frame_at` on every input. Any doubt
+    (no parent, instrument change, time going backwards, prefix not extending
+    the parent, tail carrying a filtered/duplicate/out-of-order candle)
+    falls back to the full :func:`frame_at` path instead of inventing a
+    verdict. The fast path therefore never changes PIT/causal guarantees:
+    it only skips re-walking a prefix the parent already validated.
+    """
+    if parent is None:
+        return frame_at(instrument_id, decision_ns, prefix)
+    if parent.instrument_id != instrument_id:
+        return frame_at(instrument_id, decision_ns, prefix)
+    if decision_ns < parent.decision_ns:
+        return frame_at(instrument_id, decision_ns, prefix)
+    if len(prefix) < len(parent.candles):
+        return frame_at(instrument_id, decision_ns, prefix)
+    if prefix[: len(parent.candles)] != parent.candles:
+        return frame_at(instrument_id, decision_ns, prefix)
+    tail = prefix[len(parent.candles):]
+    if not tail:
+        # Same candles, newer decision time: parent availability still holds
+        # because decision_ns only moved forward; delegate to full path on
+        # any surprise so the verdict stays identical.
+        return frame_at(instrument_id, decision_ns, prefix)
+    previous_end = parent.candles[-1].end_ns if parent.candles else -1
+    seen_starts = {c.start_ns for c in parent.candles}
+    for candle in tail:
+        # frame_at would filter these out; including them would diverge.
+        if candle.instrument_id != instrument_id:
+            return frame_at(instrument_id, decision_ns, prefix)
+        if candle.available_ns is None or candle.available_ns > decision_ns:
+            return frame_at(instrument_id, decision_ns, prefix)
+        if candle.start_ns in seen_starts:
+            return frame_at(instrument_id, decision_ns, prefix)
+        if candle.start_ns < previous_end:
+            return frame_at(instrument_id, decision_ns, prefix)
+        seen_starts.add(candle.start_ns)
+        previous_end = candle.end_ns
+    return CausalFrame(instrument_id, decision_ns, prefix, _trusted_order=True)

@@ -38,7 +38,7 @@ from typing import Any
 
 import numpy as np
 
-from v8_next.domain.market import Candle, frame_at
+from v8_next.domain.market import Candle, CausalFrame, frame_at_incremental
 from v8_next.economics.grammar import POLICY_REQUIRED_BARS
 from v8_next.economics.swing_baseline import (
     SHARED_CONTRACT,
@@ -148,11 +148,14 @@ def replay_policy(
     risk_notional = initial_capital * risk_fraction
     # declared requirement, not a local constant (see the NX06 fix and the revision note)
     index = int(POLICY_REQUIRED_BARS[spec.grammar_policy])
+    parent_frame: CausalFrame | None = None
     while index < len(series) - 1:
         candle = series[index]
         if candle.end_ns >= scored_end_ns:
             break
-        frame = frame_at(instrument_id, candle.end_ns, tuple(series[: index + 1]))
+        prefix = tuple(series[: index + 1])
+        frame = frame_at_incremental(parent_frame, instrument_id, candle.end_ns, prefix)
+        parent_frame = frame
         decision = swing_signal(frame, spec, bar_ns=HOUR_NS)
         if decision is None or candle.start_ns < scored_start_ns:
             index += 1

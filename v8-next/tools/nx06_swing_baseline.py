@@ -33,7 +33,7 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-from v8_next.domain.market import Candle, frame_at
+from v8_next.domain.market import Candle, CausalFrame, frame_at_incremental
 from v8_next.economics.grammar import POLICY_REQUIRED_BARS
 from v8_next.economics.swing_baseline import (
     ENGINE_TICK,
@@ -116,9 +116,12 @@ def measure_policy(
     index = required
     open_risk = 0.0
     exposure_bars = 0
+    parent_frame: CausalFrame | None = None
     while index < len(candles) - 1:
         decision_ns = candles[index].end_ns
-        frame = frame_at(instrument, decision_ns, tuple(candles[: index + 1]))
+        prefix = tuple(candles[: index + 1])
+        frame = frame_at_incremental(parent_frame, instrument, decision_ns, prefix)
+        parent_frame = frame
         decision = swing_signal(frame, spec, bar_ns=HOUR_NS)
         if decision is None:
             index += 1

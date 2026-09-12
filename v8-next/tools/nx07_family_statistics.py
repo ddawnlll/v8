@@ -27,7 +27,7 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
-from v8_next.domain.market import Candle, frame_at
+from v8_next.domain.market import Candle, CausalFrame, frame_at_incremental
 from v8_next.economics.swing_baseline import (
     SHARED_CONTRACT,
     SwingPolicySpec,
@@ -107,9 +107,12 @@ def equity_curve(
     risk_notional = float(STARTING_CAPITAL * RISK_FRACTION)
     index = 62
     bars = 0
+    parent_frame: CausalFrame | None = None
     while index < len(series) - 1 and bars < window_bars:
         decision_ns = series[index].end_ns
-        frame = frame_at(instrument_id, decision_ns, tuple(series[: index + 1]))
+        prefix = tuple(series[: index + 1])
+        frame = frame_at_incremental(parent_frame, instrument_id, decision_ns, prefix)
+        parent_frame = frame
         decision = swing_signal(frame, spec, bar_ns=HOUR_NS)
         bars += 1
         if decision is None:
