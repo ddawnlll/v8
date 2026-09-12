@@ -899,6 +899,12 @@ def main(argv: list[str] | None = None) -> int:
     bench_receipt = BenchmarkReceipt.create(
         case_id=args.case_id, policy_id=args.policy_id, capability_score=capability,
         gates=gates, computed_at_timestamp_ns=end_ns[-1],
+        # #446: `end_ns[-1]` is the end of the window this run measured; when the run
+        # itself happened is a different quantity, read here and published beside the
+        # digest (outside every canon, so a rerun over the same tape still hashes to the
+        # same receipt_digest).
+        window_end_timestamp_ns=end_ns[-1],
+        run_time_timestamp_ns=time.time_ns(),
         artifact_bindings=bindings,
         economic_evidence_digest=receipt.digest(), economic_receipt_path=str(receipt_path.resolve()),
         window_evidence=window_evidence,

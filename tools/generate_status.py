@@ -6,6 +6,15 @@ another. Capacity and gates come from the benchmark ledger. Readiness is ONLY
 published when the real policy certificate artifact provides it; otherwise the
 field is absent (never recomputed from cap).
 
+Chronology (#446): the ledger's two time quantities are published under their own
+names, and neither is a substitute for the other. ``run_time`` is the run's own wall
+clock; ``window_end`` is the end of the data window it measured. Each is either the
+measured value -- rendered in UTC with its unit declared -- or the named reason it is
+not published (:data:`v8_next.evaluation.benchmark_receipt.RUN_TIME_UNMEASURED`,
+``WINDOW_END_UNDECLARED``, ...). The published date used to be the window end, so a
+2025 window was republished as a 2026 run's date; no field here carries a window end
+under a run-time name.
+
 Evidence class (#448): capacity/gates are published ONLY from a ledger entry whose
 receipt declares an evidential window class (``window_evidence.economic_evidence``).
 The class and the refusal are read through the canonical v8-next reader
@@ -42,6 +51,49 @@ def _iso(ts):
         return datetime.fromtimestamp(ts, tz=timezone.utc).isoformat()
     except Exception:
         return ""
+
+
+def _iso_ns(ns):
+    """A nanosecond epoch reading as UTC ISO-8601; ``""`` when nothing was published.
+
+    #446: only a value the canonical reader *published* reaches here -- a refused quantity
+    is ``None`` and renders as the empty string, never as a date.
+    """
+    if ns is None:
+        return ""
+    return _iso(ns / 1e9)
+
+
+def _time_fields(times):
+    """The published time vector, rendered: names, unit and refusals kept intact (#446).
+
+    ``None`` (no entry to read a time vector from) publishes the absent shape, never a
+    fallback date.
+    """
+    if times is None:
+        return dict(NO_TIME_PUBLICATION)
+    return {
+        "run_time": _iso_ns(times["run_time"]),
+        "run_time_kind": times["run_time_kind"],
+        "run_time_refusal": times["run_time_refusal"],
+        "window_end": _iso_ns(times["window_end"]),
+        "window_end_kind": times["window_end_kind"],
+        "window_end_refusal": times["window_end_refusal"],
+        "time_unit": times["unit"],
+    }
+
+
+#: #446. The shape of the published time vector when there is no entry to read it from.
+#: Absent, never inferred: no key here is a fallback date.
+NO_TIME_PUBLICATION = {
+    "run_time": "",
+    "run_time_kind": "",
+    "run_time_refusal": "",
+    "window_end": "",
+    "window_end_kind": "",
+    "window_end_refusal": "",
+    "time_unit": "",
+}
 
 
 def read_bulletin():
@@ -86,6 +138,7 @@ def read_ledger():
         "last_entry": "",
         "evidence_class": "",
         "publication_refusal": "",
+        **NO_TIME_PUBLICATION,
     }
     if not LEDGER.exists():
         return out
@@ -105,7 +158,6 @@ def read_ledger():
     for entry in ledger.entries:
         receipt = entry.receipt
         evidential = receipt.declares_evidential_window()
-        ts = receipt.computed_at_timestamp_ns or 0
         history.append({
             # ``cap`` is the *published* field: null for an entry that may not publish a
             # number. Whether the entry recorded one is named by a flag, never by the
@@ -114,7 +166,12 @@ def read_ledger():
             "records_capability_score": receipt.capability_score is not None,
             "evidence_class": receipt.evidence_class(),
             "gates": _gate_states(receipt) if evidential else {},
-            "ts": _iso(ts / 1e9) if ts > 1e12 else "",
+            # #446: the date a reader sees is the run's own wall clock, under its own name,
+            # or nothing at all plus the named reason. The window end is *never* rendered as
+            # the run date: it travels in its own field (with its own kind), and an entry
+            # that does not declare it -- every record stored before the field existed -- is
+            # refused by name instead of being rendered as a date.
+            **_time_fields(receipt.time_publication().as_dict()),
             "entry_hash": entry.entry_hash[:8],
         })
     newest = ledger.entries[-1] if ledger.entries else None
@@ -128,6 +185,8 @@ def read_ledger():
         "evidence_class": publication.evidence_class,
         "publication_refusal": publication.refusal_reason,
         "publication": publication.as_dict(),
+        # When the newest run happened, named apart from the window it measured.
+        **_time_fields(newest.receipt.time_publication().as_dict() if newest else None),
     })
     return out
 
