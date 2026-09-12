@@ -24,7 +24,7 @@ from enum import StrEnum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, Mapping, Sequence
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from v8_next.evaluation.parity import ArtifactBinding
 
@@ -1463,12 +1463,25 @@ class LedgerVerificationReport:
 
 
 class BenchmarkLedger:
-    """Append-only cryptographically chained benchmark ledger."""
+    """Append-only cryptographically chained benchmark ledger.
+
+    Append-only is a property of the *bytes*, not only of the receipts: a run that adds
+    one entry leaves the lines already stored byte-identical. An entry read from disk is
+    re-written exactly as it was read (its `entry_hash` is what identifies the line), and
+    only an entry created in this process is rendered through the current model -- so the
+    model gaining a field since those lines were written cannot rewrite them.
+    """
 
     GENESIS_HASH = "0" * 64
 
-    def __init__(self, entries: list[LedgerEntry] | None = None) -> None:
+    def __init__(
+        self,
+        entries: list[LedgerEntry] | None = None,
+        stored_lines: Mapping[str, str] | None = None,
+    ) -> None:
         self._entries: list[LedgerEntry] = list(entries) if entries else []
+        #: entry_hash -> the line that entry was read from on disk, verbatim.
+        self._stored_lines: dict[str, str] = dict(stored_lines) if stored_lines else {}
 
     @property
     def entries(self) -> list[LedgerEntry]:
@@ -1698,19 +1711,42 @@ class BenchmarkLedger:
         p.parent.mkdir(parents=True, exist_ok=True)
         with open(p, "w", encoding="utf-8") as f:
             for entry in self._entries:
-                f.write(entry.model_dump_json() + "\n")
+                f.write(self._line_for(entry) + "\n")
+
+    def _line_for(self, entry: LedgerEntry) -> str:
+        """The bytes to store for ``entry``: the line it already has, else a fresh one.
+
+        A stored line is reused only while it still parses back to exactly the entry it
+        was read for, so a ledger whose entry was rebuilt in memory is re-serialised
+        rather than written back stale.
+        """
+        stored = self._stored_lines.get(entry.entry_hash)
+        if stored is not None and self._stored_line_describes(stored, entry):
+            return stored
+        return entry.model_dump_json()
+
+    @staticmethod
+    def _stored_line_describes(stored_line: str, entry: LedgerEntry) -> bool:
+        """Whether ``stored_line`` still parses back to exactly ``entry``."""
+        try:
+            return LedgerEntry.model_validate_json(stored_line) == entry
+        except ValidationError:
+            return False
 
     @classmethod
     def load_jsonl(cls, path: Path | str) -> BenchmarkLedger:
         p = Path(path)
         if not p.is_file():
             return cls([])
-        entries = []
+        entries: list[LedgerEntry] = []
+        stored_lines: dict[str, str] = {}
         with open(p, "r", encoding="utf-8") as f:
             for line in f:
                 if line.strip():
-                    entries.append(LedgerEntry.model_validate_json(line))
-        return cls(entries)
+                    entry = LedgerEntry.model_validate_json(line)
+                    entries.append(entry)
+                    stored_lines[entry.entry_hash] = line.rstrip("\n")
+        return cls(entries, stored_lines)
 
     def __len__(self) -> int:
         return len(self._entries)

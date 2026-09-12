@@ -22,6 +22,11 @@ Evidence classes:
 * **evaluative** -- the same reader applied to the *real* canonical ledger
   (``artifacts/benchmarks/benchmark_ledger.jsonl``), which is read-only here: nothing in
   this file writes to it, and the test skips when it is absent.
+
+The ledger is append-only and it grows, so the reader is exercised against whatever is
+currently stored -- including a scoreless post-fix entry -- and the refusal is checked
+value-wise: a *number* must not be republished, while an entry that publishes no number at
+all is a legitimate state, not a leak.
 """
 
 from __future__ import annotations
@@ -60,10 +65,26 @@ from v8_next.evaluation.scoring import (
     compute_capability_score,
 )
 
-#: the canonical ledger is read-only evidence for the evaluative test below
-CANONICAL_LEDGER = (
-    Path(__file__).resolve().parents[2] / "artifacts" / "benchmarks" / "benchmark_ledger.jsonl"
-)
+#: the canonical ledger is read-only evidence for the evaluative test below. `artifacts/`
+#: is git-ignored, so a worktree checkout does not carry it: the primary checkout's copy is
+#: the same append-only file, and a worktree reads that one rather than skipping the test.
+PRIMARY_CHECKOUT_LEDGER = Path("/Users/hootie/src/v8/artifacts/benchmarks/benchmark_ledger.jsonl")
+
+
+def _canonical_ledger() -> Path:
+    """The canonical ledger, from wherever this tree can see it (read-only either way)."""
+    candidates = (
+        Path(__file__).resolve().parents[2] / "artifacts" / "benchmarks" / "benchmark_ledger.jsonl",
+        PRIMARY_CHECKOUT_LEDGER,
+    )
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+    return candidates[0]
+
+
+#: the canonical ledger the reader is applied to below
+CANONICAL_LEDGER = _canonical_ledger()
 
 #: the repository the readiness reader is pointed at (#458): the committed battery artifact
 #: lives under this root and is read-only here -- nothing in this file writes to it.
@@ -79,6 +100,26 @@ MEASURED_SCORE = compute_capability_score(**_MEASUREMENT)
 assert MEASURED_SCORE is not None, "the mechanics fixture must measure a number"
 
 HOUR_MS = 3_600_000
+
+
+def _published_floats(document: Any) -> list[float]:
+    """Every float published as a *value* anywhere in a JSON-ish document (keys excluded).
+
+    #448.A1 asks whether a refused number was republished. The question is value-wise, not
+    textual: a scoreless entry (``capability_score is None`` -- the legitimate shape #444 and
+    #448 want) has no number to leak, and ``str(None)`` is not a score. Sequence numbers are
+    ints, so comparing floats cannot confuse a chain position with a measurement.
+    """
+    found: list[float] = []
+    if isinstance(document, dict):
+        for value in document.values():
+            found.extend(_published_floats(value))
+    elif isinstance(document, (list, tuple)):
+        for item in document:
+            found.extend(_published_floats(item))
+    elif isinstance(document, float):
+        found.append(document)
+    return found
 
 
 def _smoke_evidence() -> WindowEvidence:
@@ -186,8 +227,11 @@ def test_canonical_ledger_returns_no_entry_as_evidential_and_refuses_by_name() -
         assert publication.as_dict()["latest_records_capability_score"] is (
             newest.receipt.capability_score is not None
         )
-        # A1/A4: the refused number is not written anywhere in the read either
-        assert str(newest.receipt.capability_score) not in repr(publication.as_dict())
+        # A1/A4: the refused number is not written anywhere in the read either -- checked
+        # value-wise, not by substring. A scoreless entry carries no number at all (the
+        # legitimate state #444/#448 want), so `None` is not a leak; a real number is.
+        refused = newest.receipt.capability_score
+        assert refused is None or refused not in _published_floats(publication.as_dict())
     else:
         assert publication.entry is not None
         assert publication.publishes_capability_score is True
