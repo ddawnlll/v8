@@ -1,0 +1,163 @@
+# Gates — t_c955f99e (economy calibration: operating net, venue costs, guards)
+
+# base_commit cb3998b33ff9bcd843fbb52bc11773f09f28e168
+
+# branch wt/t_c955f99e
+
+$ uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests
+All checks passed!
+
+$ uv run --project v8-next --extra dev mypy v8-next/src
+v8-next/src/v8_next/evaluation/benchmark_receipt.py:1618: error: Incompatible types in assignment (expression has type "EntryVerification", variable has type "LedgerEntry")  [assignment]
+v8-next/src/v8_next/evaluation/benchmark_receipt.py:1619: error: "LedgerEntry" has no attribute "score_binding_valid"  [attr-defined]
+v8-next/src/v8_next/evaluation/benchmark_receipt.py:1620: error: "LedgerEntry" has no attribute "score_binding"  [attr-defined]
+v8-next/src/v8_next/adapters/expert_strategy.py:579: error: Argument "trigger_price" to "stop_market" of "OrderFactory" has incompatible type "Price | None"; expected "Price"  [arg-type]
+v8-next/src/v8_next/adapters/portfolio_backtest.py:200: error: Name "_native_fill_records" already defined on line 167  [no-redef]
+v8-next/src/v8_next/adapters/portfolio_backtest.py:387: error: Unsupported operand types for >= ("int" and "None")  [operator]
+v8-next/src/v8_next/adapters/portfolio_backtest.py:387: note: Left operand is of type "int | None"
+v8-next/src/v8_next/adapters/portfolio_backtest.py:387: error: Unsupported operand types for <= ("int" and "None")  [operator]
+v8-next/src/v8_next/adapters/portfolio_backtest.py:387: note: Right operand is of type "int | None"
+v8-next/src/v8_next/evaluation/scenarios.py:247: error: Incompatible types in assignment (expression has type "float", variable has type "int")  [assignment]
+v8-next/src/v8_next/evaluation/scenarios.py:249: error: Incompatible types in assignment (expression has type "float", variable has type "int")  [assignment]
+v8-next/src/v8_next/adapters/swing_engine.py:178: error: Incompatible return value type (got "Any | None", expected "CryptoPerpetual")  [return-value]
+v8-next/src/v8_next/app/readiness.py:897: error: Argument 2 to "risk_factor" has incompatible type "tuple[str, ...]"; expected "list[str]"  [arg-type]
+v8-next/src/v8_next/evaluation/trajectory.py:43: error: Argument 4 to "replay_account" has incompatible type "**dict[str, int]"; expected "str | None"  [arg-type]
+Found 12 errors in 7 files (checked 182 source files)
+
+$ uv run --project v8-next --extra dev pytest -q v8-next/tests/test_capacity.py v8-next/tests/test_operating_net.py v8-next/tests/test_mintrl.py
+.....................                                                    [100%]
+21 passed in 0.11s
+
+$ uv run --project v8-next --extra dev --extra research pytest -q v8-next/tests   # fast loop
+........................................................................ [  7%]
+....FF.................................................................. [ 15%]
+........................................................................ [ 23%]
+........................................................................ [ 31%]
+........................................................................ [ 39%]
+........................................................................ [ 47%]
+........................................................................ [ 55%]
+........................................................................ [ 63%]
+........................................................................ [ 71%]
+........................................................................ [ 79%]
+.......................................F................................ [ 87%]
+........................................................................ [ 94%]
+..............................................                           [100%]
+=================================== FAILURES ===================================
+____________________ test_mapped_filenames_exist_in_library ____________________
+
+    def test_mapped_filenames_exist_in_library():
+        books_dir = REPO_ROOT / "books"
+        if not books_dir.is_dir():
+            import pytest
+    
+            pytest.skip("books/ library not present")
+        from v8_next.books.registry import MAPPINGS
+    
+        missing = [m.filename for m in MAPPINGS if not (books_dir / m.filename).is_file()]
+>       assert missing == [], f"registry cites absent books: {missing}"
+E       AssertionError: registry cites absent books: ['Algorithmic Trading - Winning Strategies and Their Rationale 2013.pdf', 'Beyond Candlesticks - New Japanese Charting Techniques Revealed 1994.pdf', 'Way of the Turtle - The Secret Methods that Turned Ordinary People into Legendary Traders 2007.pdf', 'A Complete Guide To Volume Price Analysis 2013.pdf', 'Evidence-Based Technical Analysis - Applying the Scientific Method and Statistical Inference to Trading Signals 2007.pdf']
+E       assert ['Algorithmic...als 2007.pdf'] == []
+E         
+E         Left contains 5 more items, first extra item: 'Algorithmic Trading - Winning Strategies and Their Rationale 2013.pdf'
+E         Use -v to get more diff
+
+v8-next/tests/test_books.py:29: AssertionError
+___________________ test_coverage_reports_mapped_vs_unmapped ___________________
+
+    def test_coverage_reports_mapped_vs_unmapped():
+        books_dir = REPO_ROOT / "books"
+        if not books_dir.is_dir():
+            import pytest
+    
+            pytest.skip("books/ library not present")
+        cov = coverage(books_dir)
+>       assert cov["total"] >= 100
+E       assert 0 >= 100
+
+v8-next/tests/test_books.py:39: AssertionError
+_______________ test_capture_manifest_chain_and_maturity_report ________________
+
+    def test_capture_manifest_chain_and_maturity_report() -> None:
+        maturity = _load("maturity.json")
+        capture_dir = NX10_DIR / "capture"
+        manifest = json.loads((capture_dir / "manifest.json").read_text())
+        assert manifest["label"].startswith("PUBLIC_PAPER_CAPTURE")
+        assert manifest["authority"] == "NONE"
+        assert manifest["batches"], "a capture with no batch is not evidence"
+    
+        # every recorded batch is on disk and its payload hash matches the manifest
+        for name, identity in manifest["batches"].items():
+            batch = capture_dir / f"{name}.jsonl"
+>           assert batch.is_file(), name
+E           AssertionError: batch_0001
+E           assert False
+E            +  where False = is_file()
+E            +    where is_file = PosixPath('/Users/hootie/src/v8/.worktrees/t_c955f99e/docs/evidence/v87/NX10/capture/batch_0001.jsonl').is_file
+
+v8-next/tests/test_public_shadow_nx10.py:209: AssertionError
+=========================== short test summary info ============================
+FAILED v8-next/tests/test_books.py::test_mapped_filenames_exist_in_library - ...
+FAILED v8-next/tests/test_books.py::test_coverage_reports_mapped_vs_unmapped
+FAILED v8-next/tests/test_public_shadow_nx10.py::test_capture_manifest_chain_and_maturity_report
+3 failed, 907 passed, 510 deselected in 4.62s
+
+
+# Static evidence (recomputed by make_receipt.py)
+{
+  "dev_loop_collection_break": {
+    "pyproject_extras": [
+      "dev = [",
+      "research = [",
+      "    \"arch>=8.0.0\","
+    ],
+    "foundry_module_scope_import": [
+      "from arch.bootstrap import StationaryBootstrap"
+    ],
+    "proving_test_pytestmark": [],
+    "reading": "arch is declared only in the research extra, imported at module scope by v8_next.world.foundry, and test_proving_ground.py imports foundry at module scope with no slow marker: a fresh '--extra dev' interpreter cannot collect the documented bare fast loop."
+  },
+  "l2_tape_census": {
+    "resolved_root": "/Users/hootie/src/v8/research/tape",
+    "tapes": [
+      {
+        "tape": "btcusdt-l2-20260911T0012Z",
+        "snapshot_files": 52,
+        "span_s": 169.7,
+        "poll_interval_s": 3.33,
+        "bid_levels": 20,
+        "ask_levels": 20
+      },
+      {
+        "tape": "btcusdt-l2-20260911T0320Z",
+        "snapshot_files": 72,
+        "span_s": 239.0,
+        "poll_interval_s": 3.37,
+        "bid_levels": 20,
+        "ask_levels": 20
+      },
+      {
+        "tape": "btcusdt-l2-20260911T0340Z",
+        "snapshot_files": 117,
+        "span_s": 392.5,
+        "poll_interval_s": 3.38,
+        "bid_levels": 20,
+        "ask_levels": 20
+      }
+    ],
+    "tape_files_scanned": 293,
+    "files_skipped_over_4MB": 4,
+    "files_carrying_fill_fields": 0,
+    "reading": "REST snapshots polled at seconds-scale intervals are not event-sequenced top-of-book updates, and no tape file carries observed fills, so no OFI/impact coefficient can be estimated (memo section 2.2 / 2.5, DATA_BLOCKED)."
+  },
+  "mypy_baseline_method": {
+    "steps": [
+      "cp the three touched src files aside",
+      "git checkout -- v8-next/src/v8_next/evaluation/{capacity,costs,mintrl}.py",
+      "uv run --project v8-next --extra dev mypy v8-next/src  -> baseline report",
+      "restore the saved files and verify their sha256 are unchanged",
+      "diff baseline changed -> empty"
+    ],
+    "baseline_report": "12 errors in 7 files (checked 182 source files)",
+    "conclusion": "no mypy error is introduced by this change"
+  }
+}
