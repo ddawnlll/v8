@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A critical research monograph and preregisterable experimental design for forecasting crypto market-regime transitions before onset.">
+<title>Early Market Regime Forecasting — Scientific Research Monograph</title>
+<style>
+@page{size:auto;margin:17mm}
+:root{--ink:#181818;--paper:#fffdf9;--muted:#f0eee8;--line:#aaa;--blue:#154c78;--deep:#18364b;--warn:#7a2a12;--green:#205c35;--gold:#765b16;--softblue:#eef4f8}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{max-width:1120px;margin:0 auto;padding:30px 52px 70px;background:var(--paper);color:var(--ink);font:15px/1.62 Georgia,"Times New Roman",serif}
+h1,h2,h3,h4,th,.kicker,.badge,.tag,.meta,.toc{font-family:Arial,Helvetica,sans-serif}
+h1{font-size:2.05rem;line-height:1.18;margin:1.2rem 0 .65rem}
+h2{font-size:1.42rem;line-height:1.25;margin:2.7rem 0 .7rem;border-bottom:1px solid var(--line);padding-bottom:.35rem}
+h3{font-size:1.08rem;line-height:1.35;margin:1.8rem 0 .45rem}
+h4{font-size:.96rem;margin:1.35rem 0 .35rem}
+p{margin:.65rem 0}
+ul,ol{padding-left:1.45rem}
+li{margin:.28rem 0}
+a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
+a:hover{text-decoration-thickness:2px}
+header{border-top:5px solid var(--deep);padding-top:1.3rem;margin-bottom:1.5rem}
+.kicker{font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#555}
+.subtitle{font-size:1.12rem;max-width:850px;color:#333}
+.meta{font-size:.82rem;color:#555}
+.badge{display:inline-block;border:1px solid #777;border-radius:999px;padding:.18rem .58rem;margin:.12rem .2rem .12rem 0;font-size:.68rem;font-weight:700;letter-spacing:.04em}
+.tag{display:inline-block;font-size:.64rem;font-weight:700;letter-spacing:.045em;padding:.12rem .4rem;border-radius:3px;vertical-align:middle;white-space:nowrap}
+.lit{color:#17436a;background:#e8f0f7}.proj{color:#284c34;background:#eaf2e9}.infer{color:#665015;background:#f5f0dd}.unknown{color:#6b3325;background:#f5e9e3}
+.status,.callout{padding:.85rem 1rem;margin:1rem 0;border-left:4px solid var(--blue);background:var(--softblue)}
+.status{border-color:#555;background:var(--muted)}
+.callout.warn{border-color:var(--warn);background:#fbf2ee}
+.callout.ok{border-color:var(--green);background:#f0f7f2}
+.callout.gold{border-color:var(--gold);background:#faf6e8}
+nav.toc{border:1px solid #bbb;background:#fbfaf6;padding:.8rem 1rem;margin:1.5rem 0 2.2rem;font-size:.9rem}
+.toc strong{display:block;margin-bottom:.35rem}
+.toc ol{columns:2;column-gap:2rem;margin:.35rem 0;padding-left:1.25rem}
+.toc li{break-inside:avoid;margin:.15rem 0}
+table{border-collapse:collapse;width:100%;margin:1rem 0 1.4rem;font:12px/1.42 Arial,Helvetica,sans-serif}
+th,td{border:1px solid #b8b6b0;padding:.48rem .52rem;vertical-align:top}
+th{background:#ece9e1;text-align:left}
+caption{text-align:left;font:italic 12px Georgia,serif;color:#444;margin:.2rem 0 .4rem}
+.small{font-size:.87rem;color:#444}
+.eq{overflow-wrap:anywhere;font:13px/1.58 "SFMono-Regular",Consolas,monospace;background:#f7f5ef;padding:.72rem .86rem;border:1px solid #d9d5cb;margin:.75rem 0}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f1eb;padding:.9rem;border:1px solid #ddd;font:12px/1.5 "SFMono-Regular",Consolas,monospace}
+figure{margin:1.2rem 0;padding:.8rem;border:1px solid #d4d1ca;background:#fff}
+figcaption{font:12px/1.45 Arial,sans-serif;color:#444;margin-top:.55rem}
+svg{width:100%;height:auto}
+.refs{padding-left:1.6rem}
+.refs li{padding-left:.15rem;margin:.58rem 0;font-size:.88rem}
+.refnum{font:700 .77rem Arial,sans-serif;color:#444}
+hr{border:0;border-top:1px solid #bbb;margin:2.5rem 0}
+@media(max-width:760px){body{padding:18px 18px 48px;font-size:15px}h1{font-size:1.65rem}.toc ol{columns:1}table{font-size:11px}td,th{padding:.35rem}}
+@media print{body{max-width:none;padding:0;font-size:10pt;line-height:1.5}nav.toc{break-inside:avoid}.toc a{color:#000;text-decoration:none}a{color:#000;text-decoration:none}h2{break-after:avoid}h3{break-after:avoid}table,figure,pre{break-inside:avoid}.no-print{display:none}header{border-top-width:3px}.refs li{font-size:9pt}}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">V8 Research Series · Quantitative Finance · 14 October 2026</div>
+  <h1>Early Market Regime Forecasting</h1>
+  <p class="subtitle"><strong>Can a market-state transition be forecast before it begins—and can that warning improve a 21-day crypto-perpetual swing process after costs?</strong></p>
+  <p class="meta">Scientific research monograph, evidence review, and preregistrable experiment design. Repository snapshot: <a href="https://github.com/ddawnlll/v8/tree/e971daf8bb60decc5bb408ac48c902ec04ea68d0/site">v8 <code>e971daf</code></a>; <a href="https://github.com/ddawnlll/kepler/tree/fbdc8b3de398a5efc9fa7ba66f4628726ae91936">Kepler <code>fbdc8b3</code></a>. Literature and project sources checked for this review through 14 October 2026.</p>
+  <p><span class="badge">RESEARCH ONLY</span><span class="badge">NO BACKTEST RUN</span><span class="badge">NO ECONOMIC CLAIM</span><span class="badge">G3 REMAINS SEALED</span></p>
+</header>
+
+<div class="status"><strong>Independent judgment.</strong> The question is worth one small, tightly preregistered forecasting experiment. Current evidence does not establish that crypto-perpetual regimes can be forecast before onset, and it does not establish a profitable 1–21 day strategy. The strongest prior explanation for an apparent warning is ordinary momentum or early detection after a move has already started. The first experiment must test transition-onset prediction separately from continuation, volatility forecasting, and trading value.</div>
+
+<nav class="toc">
+<strong>Contents</strong>
+<ol>
+<li><a href="#abstract">Abstract and verdict</a></li>
+<li><a href="#scope">Question, hypotheses, and evidence labels</a></li>
+<li><a href="#project">Kepler and v8 evidence audit</a></li>
+<li><a href="#literature">What the literature does and does not establish</a></li>
+<li><a href="#methods">Method comparison</a></li>
+<li><a href="#target">Operational regime and onset definition</a></li>
+<li><a href="#experiment">Smallest falsifiable experiment</a></li>
+<li><a href="#statistics">Validation, leakage, and stopping rules</a></li>
+<li><a href="#economics">Economic value and execution costs</a></li>
+<li><a href="#compute">Laboratory and compute choice</a></li>
+<li><a href="#alternatives">Alternative designs and trade-offs</a></li>
+<li><a href="#unknowns">Unknowns and decision record</a></li>
+<li><a href="#verdict">Final scientific judgment</a></li>
+<li><a href="#references">References</a></li>
+</ol>
+</nav>
+
+<section id="abstract">
+<h2>1. Abstract and verdict</h2>
+<p>This review asks whether observable price, volatility, volume, and accessible derivatives information can forecast the onset of a new market regime before that regime is visible in a causal state filter. It distinguishes that task from (i) noticing a transition once it has begun or forecasting continuation, and (ii) forecasting future volatility. These are different targets with different labels, baselines, and economic interpretations.</p>
+<p><span class="tag lit">LITERATURE_SUPPORTED</span> Regime-switching models provide probabilistic state inference; change-point algorithms estimate whether a distribution has already changed; time-series momentum has a credible but horizon- and sample-dependent empirical record; and realized-volatility models can forecast risk. None of these results, by itself, demonstrates advance prediction of a new directional regime in crypto perpetuals. The critical-transition literature provides candidate precursors such as rising autocorrelation and variance, but its mechanism requires assumptions that are not generally guaranteed in markets, and realistic false-alarm rates can be severe.</p>
+<p><span class="tag proj">PROJECT_EVIDENCE</span> Kepler has substantial research on momentum, risk, and technical hypotheses, but no direct H1-A transition-onset forecast test was identified in the reviewed reports. Existing results are mixed: some trend/momentum variants are weakly positive, several alternatives are NO_EDGE, a prior ensemble's full-period result weakens in its later segment, and the project itself marks all historical development data as seen. The project’s reported G3 boundary is 1 April 2026; its backtest specification says that period was not downloaded and is reserved for a single user-commanded evaluation.</p>
+<p><span class="tag infer">DESIGN_INFERENCE</span> The smallest useful first test is a low-dimensional, daily, event-hazard forecast of a prespecified persistent-trend onset, evaluated against a strong recent-return baseline in purged rolling-origin tests. It should use 4-hour data only as a later incremental feature block. No GPU, large neural model, or new backtest engine is justified. The historical run is a feasibility study, not independent proof; final confirmation must use a model frozen before any sealed or genuinely prospective observations are inspected.</p>
+<div class="callout warn"><strong>Verdict in one sentence:</strong> H1-A is scientifically interesting and cheap to test, but should be treated as unproven and probably difficult; reject a claim of useful transition forecasting if a frozen model cannot materially improve calibrated event forecasts over momentum before onset, and reject trading utility if that forecast advantage does not survive realistic costs and a risk-matched momentum control.</div>
+</section>
+
+<section id="scope">
+<h2>2. Question, hypotheses, and evidence labels</h2>
+<p>A “regime” is not directly observed. It is a model-dependent summary of a return-generating process. A statistical regime label may be useful for description or risk management without being a forecast target, and a profitable directional rule may work without there being a discrete latent state. The experiment therefore tests one operational event definition, not the metaphysical claim that markets contain a fixed number of natural states.</p>
+<table>
+<caption>Three distinct questions. A result in one row cannot be used as proof of another.</caption>
+<thead><tr><th>Question</th><th>Target</th><th>What would count as evidence?</th><th>What would not count?</th></tr></thead>
+<tbody>
+<tr><td><strong>H1-A: Transition forecasting</strong></td><td>Probability that a prespecified, persistent directional episode begins within the next 1–7 days, before its onset.</td><td>Out-of-sample calibrated forecast improvement over unconditional event frequency and a strong momentum/volatility baseline, with useful lead time and tolerable false alarms.</td><td>Higher return once the episode has begun; a filtered regime probability that rises on the onset day; better volatility forecasting.</td></tr>
+<tr><td><strong>H1-B: Early detection / continuation</strong></td><td>Whether a change already underway is recognized early enough, or whether the current move continues.</td><td>Better detection delay, continuation score, or post-onset trading outcome than a causal detector and momentum baseline.</td><td>It does not establish that the event was forecast before onset.</td></tr>
+<tr><td><strong>H1-C: Volatility forecasting</strong></td><td>Future realized variance or tail risk, irrespective of direction or state transition.</td><td>Out-of-sample volatility loss, calibration, or risk-adjusted utility improvement over a simple HAR/RV or EWMA forecast.</td><td>It does not establish directional transition prediction or return alpha.</td></tr>
+</tbody></table>
+<p>Use the following tags throughout this monograph. The tag reports the status of the claim, not the status of the HTML document.</p>
+<ul>
+<li><span class="tag lit">LITERATURE_SUPPORTED</span> A claim directly supported by cited primary research or official technical documentation.</li>
+<li><span class="tag proj">PROJECT_EVIDENCE</span> A fact or result reported in v8/Kepler artifacts at the cited repository snapshot. It is not automatically independent confirmation.</li>
+<li><span class="tag infer">DESIGN_INFERENCE</span> A proposed operational choice or conclusion drawn from the evidence; it still requires preregistration or empirical validation.</li>
+<li><span class="tag unknown">UNKNOWN</span> A required fact not established by the reviewed sources or project artifacts.</li>
+</ul>
+</section>
+
+<section id="project">
+<h2>3. Kepler and v8 evidence audit</h2>
+<p><span class="tag proj">PROJECT_EVIDENCE</span> The review inspected the v8 site index and two existing research monographs for editorial and typographic conventions, plus Kepler’s current <code>BACKTEST.md</code>, data audit, search, preregistration, signal diagnostics, edge-expert, ensemble, ensemble-decay, and pre-2022 reports. This new monograph is an additional file; it does not modify those works.</p>
+<table>
+<thead><tr><th>Project artifact</th><th>Reported result</th><th>Interpretation for this question</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/search.md">search.md</a></td><td>88 configurations across six families; many were positive in the search window, but no candidate survived the stated validation criteria. Data-selection bias and a long experiment history are explicitly acknowledged.</td><td>Useful warning about choosing from many related signals. These are strategy tests, not direct onset forecasts.</td></tr>
+<tr><td><a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/edge_experts.md">edge_experts.md</a></td><td>None of nine experts was an ADAY candidate; trend, cross-sectional momentum, and near-high were ZAYIF; six others were NO_EDGE. The three weak positives shared a momentum-family / regime-concentration defect. Some proxy tests did not test the full economic mechanism.</td><td>Motivates momentum as the mandatory baseline; it does not falsify a not-yet-tested onset target.</td></tr>
+<tr><td><a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/ensemble.md">ensemble.md</a></td><td>Ensemble v1 reported a full-period Sharpe of 1.45 and passed K1–K8, but failed K9 because gains were concentrated in bull conditions. The 2022–2026 segment had Sharpe 0.81 and alpha t=1.60; the report attributes much of the full-period strength to 2020–2021.</td><td>A detected return pattern can be regime-dependent and decay. Full-sample performance is not an early-warning result.</td></tr>
+<tr><td><a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/ensemble_decay.md">ensemble_decay.md</a></td><td>The preregistered later-window result was KANITSIZ: raw p=0.010 but DSR=0.926, below the stated 0.95 threshold.</td><td>Good illustration of how raw significance and multiplicity-aware evidence can disagree.</td></tr>
+<tr><td><a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/pre2022.md">pre2022.md</a></td><td>A 14-day time-series momentum configuration passed its preregistered gross-null criterion on 2020–2021, but its buy-and-hold alpha t=1.80 did not reach 2; returns were mostly from the bull regime.</td><td>Supports testing momentum directly. The result is about a seen historical interval, not an independent current-perpetual edge.</td></tr>
+<tr><td><a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/signal_diagnostics.md">signal_diagnostics.md</a></td><td>Signal diagnostics are labelled in-sample on 2020–2026 data. Trend and cross-sectional momentum did not pass the report’s Holm-adjusted IC criterion; weak information was concentrated in other, mainly cross-sectional features.</td><td>Signal IC is not transition-hazard skill, and this report should not be relabeled as H1-A.</td></tr>
+</tbody></table>
+
+<h3>What the repository makes admissible</h3>
+<p><span class="tag proj">PROJECT_EVIDENCE</span> Kepler’s current backtest specification describes Binance USDT-M hourly klines, mark-price bars, and funding-rate tapes; an event-driven Numba referee with next-bar execution, fees, slippage, funding, and mark-triggered liquidation; and a fast vectorbt screening path whose scores are explicitly not the final verdict. The same specification records causal checks and a historical development period. The specification also states that the sealed interval begins at 2026-04-01, was not downloaded, and is reserved for a single G3 action. The requested research must preserve that boundary.</p>
+<p><span class="tag proj">PROJECT_EVIDENCE</span> Kepler’s data audit records missing hourly bars, mark/last divergence, funding anomalies whose validity is uncertain, and symbols with long divergence cutoffs. Its reports note that open interest and liquidation-flow history are not present in the archived data. Funding can therefore be tested only as a timestamped, exchange-specific proxy for perp positioning/carry; it cannot stand in for observed leverage or liquidation pressure.</p>
+<p><span class="tag unknown">UNKNOWN</span> Whether any post-2026-04 observations have since been collected, what they contain, and whether their seal status has changed were not established here. This monograph neither reads nor opens the sealed period. Historical data up to 2026-03 has extensive project exposure and cannot be treated as fresh confirmatory evidence just because the target label is new.</p>
+</section>
+
+<section id="literature">
+<h2>4. What the literature does and does not establish</h2>
+
+<h3>4.1 Regime inference is not transition anticipation</h3>
+<p><span class="tag lit">LITERATURE_SUPPORTED</span> Hamilton’s Markov-switching framework allows autoregressive parameters to change when an unobserved discrete state changes; filtered probabilities are based on information available up to time <em>t</em>, while smoothed probabilities condition on the full sample and therefore use future observations. Filardo’s time-varying transition-probability extension makes transition probabilities depend on observed covariates. These are principled ways to estimate a state or conditional state-switching probability, but evidence of state persistence or a well-fitting switching model is not itself evidence of useful pre-onset forecasts.</p>
+<p>A causal HMM can produce <em>P(S<sub>t</sub>=k | F<sub>t</sub>)</em>. To forecast a transition it needs <em>P(S<sub>t+h</sub>≠S<sub>t</sub> | F<sub>t</sub>)</em>, which combines filtered state probabilities, a transition matrix, duration assumptions, and covariates. A visually convincing retrospectively smoothed state chart can be severely misleading if its labels move after future data are added. Any HMM result must report the online filtered distribution, not a smoothed path masquerading as a real-time forecast.</p>
+
+<h3>4.2 Change-point detection mainly answers “has it changed?”</h3>
+<p><span class="tag lit">LITERATURE_SUPPORTED</span> Bayesian online change-point detection (BOCPD) recursively updates a posterior over the run length since the latest change. CUSUM, Page–Hinkley, and related detectors look for evidence that observations have departed from a prior distribution. These methods are useful for H1-B: detecting a shift with a quantifiable delay. When the change time is stochastic and no observable precursor shifts the hazard, a detector cannot reliably warn before the first evidence of change. Calling its posterior “early forecasting” confuses online recognition at or after onset with prediction before onset.</p>
+<p>Standard HMMs also impose geometric state durations because a constant transition probability makes the probability of leaving a state independent of its age. Hidden semi-Markov models and duration-dependent Markov models can relax this assumption. They may improve duration modelling, but a duration model is predictive only if the age dependence is stable and calibrated out of sample; fitting an attractive duration curve after seeing the sample does not prove tradable lead time.</p>
+
+<h3>4.3 Critical-transition warnings are conditional theories, not universal market laws</h3>
+<p><span class="tag lit">LITERATURE_SUPPORTED</span> Early-warning research on slowly driven systems derives possible signs of critical slowing down: slower recovery after perturbations, rising lag-1 autocorrelation, and rising variance as resilience declines near a bifurcation. The theory is useful when a system approaches a known type of critical threshold. But financial returns are heavy-tailed, exposed to jumps and external news, and do not generally evolve as a slowly forced system near a stable equilibrium. A volatility squeeze followed by a jump may be a market pattern, but that observation does not establish the critical-slowing-down mechanism.</p>
+<p>Methods papers explicitly warn that real-time early-warning reliability must be measured with controls and false alarms. Boettiger and Hastings show that common summary indicators can have substantial false-alarm and missed-event rates even in favorable settings; later reviews emphasize that not every regime shift exhibits critical slowing down and that detection is statistically hard in short noisy records. A 2022 crypto preprint clusters four market states from evolving cross-asset correlations over 2017–2022; it is a useful candidate feature study, not proof that warnings preceded an operational onset or generated net returns. A 2025 PLOS One paper proposes a heteroskedastic-network warning method for one S&P 500 series; it is an adjacent risk-warning result, not a multi-asset crypto-perpetual trading validation.</p>
+
+<h3>4.4 Trend and momentum are both the strongest baseline and a confounder</h3>
+<p><span class="tag lit">LITERATURE_SUPPORTED</span> Time-series momentum has been documented across diversified futures markets over monthly horizons; cryptocurrency studies have reported weekly or shorter effects, but the findings depend on sample, universe, weighting, horizon, and transaction feasibility. Liu and Tsyvinski report cryptocurrency-specific return predictability, including time-series momentum on 1–4 week horizons, in their sample. Other cryptocurrency momentum studies report weak or contradictory results. These observations justify a strong momentum comparator; they do not imply that momentum predicts the beginning of a new regime.</p>
+<p><span class="tag lit">LITERATURE_SUPPORTED</span> A 2025 peer-reviewed cryptocurrency momentum study uses weekly winner-minus-loser portfolios across a changing top-30 market-cap universe from 2016–2023. Its central result concerns <em>cross-sectional</em> momentum and a severe portfolio crash from one token; that design is not the same as same-asset time-series momentum, transition forecasting, or perpetual-futures execution. The distinction matters: apparent agreement across “momentum” studies may disappear when target construction is checked.</p>
+<p><span class="tag infer">DESIGN_INFERENCE</span> If an onset label is built from a future 20-day return and path efficiency, lagged return and path efficiency are mechanically close to the label. The comparison must therefore include them in the strongest baseline. A squeeze, funding anomaly, or volume feature only supports H1-A if it predicts later confirmed onset <em>incrementally</em> beyond those lags. Otherwise it is momentum arriving early, not additional transition information.</p>
+
+<h3>4.5 EMA, RSI, breakouts, levels, volume, and funding</h3>
+<p><span class="tag lit">LITERATURE_SUPPORTED</span> Technical-analysis research includes carefully tested patterns and support/resistance rules, and some market-specific studies find conditional price behaviour around published levels. Other reviews warn that data-snooping, changing market structure, and transaction costs make profitability difficult to establish. EMA and RSI are deterministic transforms of lagged prices; a 20/50 EMA cross does not add independent information merely because it has a familiar name. Breakout and support/resistance features can still add value, but only in a nested out-of-sample comparison with their underlying recent returns and range measures.</p>
+<p><span class="tag proj">PROJECT_EVIDENCE</span> Kepler’s prior experiments show why that control matters: trend-family results overlap; some candidate patterns fail net of costs; technical hypotheses with no direct event-onset target do not prove early regime forecasting. Volume from hourly bars is not order-book depth. Funding is a periodic transfer linked to perp/spot basis and positioning pressure; it may forecast returns, volatility, or neither. A one-venue funding series without OI, liquidation prints, or order-book depth cannot identify which mechanism is operating.</p>
+
+<h3>4.6 Volatility forecasts can help risk without forecasting direction</h3>
+<p><span class="tag lit">LITERATURE_SUPPORTED</span> Realized-volatility models such as HAR-RV aggregate daily, weekly, and monthly realized variance to forecast future volatility. GARCH, stochastic-volatility, and range-based methods provide other volatility baselines. This can improve position sizing or reduce tail exposure. Such a result is H1-C unless the same model also demonstrates pre-onset directional-state prediction. Volatility compression is a risk/dispersion statistic, not a directional label.</p>
+
+<h3>4.7 Crypto perpetual results do not transfer automatically</h3>
+<p><span class="tag lit">LITERATURE_SUPPORTED</span> Perpetual futures are anchored to spot/index prices through funding transfers; they do not have a conventional expiry and their basis/funding dynamics vary by venue. A 2023 cryptocurrency-futures paper finds basis has stronger cross-sectional predictive evidence than its momentum proxy, and its return predictability changes with holding horizon. That is a useful warning about contract-specific predictors, but it studies cross-sectional futures returns rather than a 21-day BTCUSDT perpetual transition model. The evidence cannot be imported as a universal perp alpha.</p>
+<p><span class="tag unknown">UNKNOWN</span> No reviewed primary study directly demonstrates that OHLCV + funding reliably anticipates a persistent directional transition 1–7 days before onset in Binance-style crypto perpetuals, then improves a costed long/short swing process held at most 21 days. This is the empirical gap the proposed test addresses.</p>
+</section>
+
+<section id="methods">
+<h2>5. Method comparison</h2>
+<table>
+<caption>Methods are mapped to the question they can answer when implemented causally.</caption>
+<thead><tr><th>Method</th><th>Primary estimand</th><th>Strength</th><th>Failure mode for H1-A</th><th>Place in this project</th></tr></thead>
+<tbody>
+<tr><td>Filtered HMM / Markov switching</td><td>Current latent-state posterior and model-implied transition probability</td><td>Compact probabilistic state model; transparent baseline.</td><td>Smoothed posteriors leak future; state number and emission form are chosen; default duration is geometric; state persistence may look like anticipation.</td><td>Method review; not first model. If later used, report filtered and forecast probabilities only.</td></tr>
+<tr><td>HSMM / duration-dependent Markov model</td><td>State probability conditional on current state age</td><td>Represents non-geometric dwell times.</td><td>State-age effects are unstable when few independent episodes exist; more parameters can fit historical durations.</td><td>Second-stage challenger only if the simple hazard experiment has sufficient event count.</td></tr>
+<tr><td>BOCPD / CUSUM / Page–Hinkley</td><td>Posterior/current evidence of a distribution change</td><td>Streaming, interpretable, low compute; naturally reports delay.</td><td>Usually detects evidence at/after onset; constant hazard says nothing about a leading signal.</td><td>H1-B detector and negative control, never counted as H1-A proof.</td></tr>
+<tr><td>Discrete event hazard / penalized logit</td><td>Probability of a defined onset within the next H days, conditional on observed features</td><td>Directly matches event time, handles competing up/down outcomes, cheap and auditable.</td><td>Labels depend on the operational definition; rare events limit power; calibration can drift.</td><td><strong>First H1-A model.</strong> Keep feature and parameter count small.</td></tr>
+<tr><td>Critical-slowing-down statistics</td><td>Whether autocorrelation, variance, or recovery time is moving toward a theoretical threshold</td><td>Mechanistically motivated in slowly driven systems.</td><td>Financial markets may jump, be externally forced, or lack a slowly changing stable state; high false alarms.</td><td>One preregistered feature block at most; not the default explanation.</td></tr>
+<tr><td>HAR-RV / EWMA / GARCH</td><td>Future conditional variance</td><td>Useful risk baselines with modest compute.</td><td>Direction-free; a volatility win is not transition forecasting.</td><td>Separate H1-C baseline and risk-control benchmark.</td></tr>
+<tr><td>Momentum / breakout</td><td>Conditional return continuation</td><td>Strong, simple prior and essential comparator.</td><td>Can make a detector look like a forecaster if onset is defined from returns; can fail after costs or across regimes.</td><td>Mandatory M1 baseline and economic benchmark.</td></tr>
+<tr><td>Deep sequence models / boosting</td><td>Flexible conditional distribution</td><td>Can model interactions with enough independent events.</td><td>High selection burden, weak interpretability, rare-event overfit, difficult calibration.</td><td>Not justified before simple-model evidence and event-count gate.</td></tr>
+</tbody></table>
+<div class="eq">Filtered state estimate: P(S_t = k | F_t) &nbsp;&ne;&nbsp; onset forecast: P(T_onset &le; t+H, D=d | F_t).<br>Smoothed state estimate: P(S_t = k | F_T), T &gt; t, uses future data and is inadmissible as a real-time alert.</div>
+</section>
+
+<section id="target">
+<h2>6. Operational regime and onset definition</h2>
+<p><span class="tag infer">DESIGN_INFERENCE</span> No short monograph can establish a unique natural taxonomy of market states. The first experiment should use one simple, scale-normalized label and make the label rule immutable before fitting. It tests the narrow claim “a new persistent directional episode is forecast before its first threshold-crossing day.” It does not claim to forecast every bull/bear/range/volatility state.</p>
+<h3>6.1 Daily causal state</h3>
+<p>For instrument <em>i</em> and UTC day <em>t</em>, let <em>r<sub>i,t</sub> = ln(C<sub>i,t</sub>/C<sub>i,t−1</sub>)</em>, computed from completed daily last-trade OHLCV bars. Define a 20-day standardized drift and path efficiency:</p>
+<div class="eq">Z20(i,t) = Σ(j=0…19) r(i,t−j) / √[Σ(j=0…19) r(i,t−j)² + ε]<br>ER20(i,t) = |Σ(j=0…19) r(i,t−j)| / [Σ(j=0…19) |r(i,t−j)| + ε]<br>q(i,t) = +1 if Z20 ≥ 1.25 and ER20 ≥ 0.35; −1 if Z20 ≤ −1.25 and ER20 ≥ 0.35; otherwise 0.</div>
+<p><code>q=+1</code> and <code>q=−1</code> are operational up- and down-trend states; <code>q=0</code> is non-trend/range. Use fixed thresholds; do not optimize them on the evaluation period. The exact thresholds are a design choice, not a literature fact. A small, declared sensitivity check may later vary one threshold at a time, but it cannot replace or redefine the primary label.</p>
+
+<h3>6.2 Candidate onset, confirmation, and forecast target</h3>
+<ul>
+<li>A candidate onset <em>t₀</em> is the first day <code>q</code> changes from 0 to +1 or −1 after at least 10 consecutive <code>q=0</code> days. This re-arm rule prevents one long trend from being counted as many new transitions.</li>
+<li>The candidate is a <strong>confirmed transition</strong> only if the same signed state appears on at least 8 of the next 10 completed daily closes. Confirmation date is <em>c=t₀+10</em>. A failed candidate is not an event; it is recorded as an unconfirmed crossing for false-alarm analysis.</li>
+<li>At forecast origin <em>t</em>, H1-A target is whether a confirmed onset occurs on any day <em>t+1…t+7</em>, with direction up/down. The feature vector may use data available through close <em>t</em> only. Training rows are not admitted until their full target and confirmation window are observable.</li>
+<li>H1-B is measured separately: time from onset <em>t₀</em> to first causal detection. Predictions first raised at or after <em>t₀</em> cannot score as H1-A.</li>
+<li>H1-C uses next-5/next-10-day realized variance as a distinct target and reports volatility loss and risk utility only.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 920 230" role="img" aria-labelledby="timeline-title timeline-desc">
+<title id="timeline-title">Forecast, onset, and confirmation timeline</title>
+<desc id="timeline-desc">A forecast made before a new trend onset is H1-A. Detection on or after onset is H1-B. Confirmation after ten days validates the label but cannot move the information cutoff.</desc>
+<rect x="42" y="45" width="250" height="100" rx="8" fill="#edf4f8" stroke="#154c78" stroke-width="2"/>
+<text x="167" y="74" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#18364b">H1-A forecast window</text>
+<text x="167" y="102" text-anchor="middle" font-family="Arial" font-size="13" fill="#222">Origin t: only F<tspan baseline-shift="sub">t</tspan></text>
+<text x="167" y="124" text-anchor="middle" font-family="Arial" font-size="13" fill="#222">Predict onset in t+1 … t+7</text>
+<line x1="292" y1="96" x2="374" y2="96" stroke="#555" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="390" y1="34" x2="390" y2="162" stroke="#7a2a12" stroke-width="3"/>
+<text x="390" y="24" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#7a2a12">t₀ onset</text>
+<rect x="420" y="45" width="215" height="100" rx="8" fill="#f5f0dd" stroke="#765b16" stroke-width="2"/>
+<text x="527" y="76" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#665015">H1-B detection</text>
+<text x="527" y="103" text-anchor="middle" font-family="Arial" font-size="13" fill="#222">State has started</text>
+<text x="527" y="125" text-anchor="middle" font-family="Arial" font-size="13" fill="#222">Measure detection delay</text>
+<line x1="635" y1="96" x2="711" y2="96" stroke="#555" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="733" y1="34" x2="733" y2="162" stroke="#205c35" stroke-width="3"/>
+<text x="733" y="24" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#205c35">t₀+10 confirmation</text>
+<text x="733" y="187" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">Future confirmation qualifies the historical label;</text>
+<text x="733" y="205" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">it never enters features at forecast origin t.</text>
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#555"/></marker></defs>
+</svg>
+<figcaption><strong>Figure 1.</strong> Onset is back-labelled only after its persistence can be confirmed. The origin feature cutoff remains fixed at <em>t</em>. Forecasts during <em>t₀…c</em> belong to early detection, not advance forecasting.</figcaption>
+</figure>
+
+<p><strong>Illustrative case, not a result.</strong> Suppose a BTC series has <code>q=0</code> through Monday, crosses to <code>q=+1</code> on Tuesday, and satisfies the 8-of-10 persistence rule. A warning raised the previous Friday with elevated forecast probability is a four-day H1-A lead. A warning first raised Wednesday after the onset is an H1-B detection. If the same rule labels Tuesday retrospectively using the next ten closes, no future close may be included in Friday’s inputs.</p>
+</section>
+
+<section id="experiment">
+<h2>7. Smallest falsifiable experiment</h2>
+<h3>7.1 Primary question and estimand</h3>
+<p><span class="tag infer">DESIGN_INFERENCE</span> Estimate whether a small feature block improves the probability forecast of confirmed up/down trend onset within seven days beyond (a) a state-conditioned base rate and (b) lagged momentum, efficiency, and volatility. Only after that forecast gate passes should the project map probabilities into a shadow position rule and test after-cost economics. This staged design keeps the first decision cheap and prevents an attractive P&amp;L from concealing that the model merely reacts after onset.</p>
+<div class="eq">pᵈ(i,t) = P(confirmed onset with direction d ∈ {up, down} in t+1…t+7 | Xᵢ,≤t)<br>Primary increment: out-of-sample forecast skill(M2) − forecast skill(M1)</div>
+
+<h3>7.2 Data and instruments</h3>
+<ul>
+<li><strong>Historical feasibility panel:</strong> Kepler hourly OHLCV, mark, and funding sources, aggregated from completed bars to UTC daily features. Use only dates before 2026-04-01. Prefer an as-of tradable universe and the project’s usable/divergence cutoffs. If only the fixed extended-9 universe can be reconstructed, say explicitly that it is survivor-biased and do not generalize to all crypto.</li>
+<li><strong>Core replication slice:</strong> report BTC and ETH separately even if a broader panel is pooled. Pool asset-level observations only with symbol effects and inference clustered by calendar date; coins share large common shocks, so nine symbols are not nine independent markets.</li>
+<li><strong>Frequency:</strong> daily closes are primary because the target and holding window are daily and effective sample size is event episodes, not bar count. 4H aggregates are a predeclared incremental feature ablation only if the daily model passes its event-count gate. Do not count four 4H bars as four independent daily trials.</li>
+<li><strong>Point-in-time features:</strong> daily volume and funding must be timestamped as known at the forecast origin. No future fill, revised symbol list, or forward-filled stale funding across missing intervals. Report all rejected days, missingness, and symbol-specific coverage.</li>
+</ul>
+
+<h3>7.3 Minimal feature blocks</h3>
+<table>
+<thead><tr><th>Model</th><th>Inputs observable at daily close t</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><strong>M0 — base rate</strong></td><td>Current accepted state, state age, instrument intercept, calendar-time intercept only if fixed in advance.</td><td>Tests whether apparent skill exceeds state duration / event prevalence.</td></tr>
+<tr><td><strong>M1 — momentum baseline</strong></td><td>M0 plus 7-, 21-, and 63-day returns; 20-day <code>Z20</code> and <code>ER20</code>; 5/20-day realized volatility.</td><td>Strong simple control for continuation and target proximity.</td></tr>
+<tr><td><strong>M2 — transition information</strong></td><td>M1 plus exactly four preregistered candidates: 5/20-day volatility-compression ratio; 20-day log-volume surprise; cross-asset breadth/dispersion using only then-active instruments; 90-day standardized funding-rate level/change where timestamp coverage passes QC.</td><td>Tests whether candidate precursors add signal beyond recent returns.</td></tr>
+</tbody></table>
+<p>Use one ridge-regularized multinomial logit or cause-specific penalized logistic model, selected in inner forward folds. Keep probabilities calibrated; avoid class reweighting unless recalibrated on a training-only validation segment. EMA/RSI/breakout/support-resistance are excluded from the first model because they mostly re-express lagged prices. They may enter a later, separately preregistered ablation only if M2 clears the first gate. No open interest, liquidation, order-book, or news feature is available in the reviewed Kepler archive, so none is assumed.</p>
+
+<h3>7.4 Forecast splits and leakage controls</h3>
+<ol>
+<li>Start with at least three calendar years of training, then use contiguous six-month rolling-origin test windows, expanding the training history each time. No random train/test shuffle.</li>
+<li>All transformations, normalizers, feature selection, regularization, probability calibration, and alert threshold selection are fitted within the training fold only.</li>
+<li>Because a label at origin <em>t</em> needs up to seven days to the onset and ten days to confirmation, purge at least 17 days around forecast fold boundaries. For the economic evaluation, purge/embargo 40 days to cover the forecast horizon, confirmation, and maximum 21-day holding overlap.</li>
+<li>Do not allow training observations whose outcome has not fully matured by the training cutoff. Never use a full-sample HMM smoother, centered rolling statistic, later universe membership, or post-event normalization.</li>
+<li>Run future-corruption tests: perturb or replace all data after randomly selected cutoffs; every past feature and prediction must remain byte-identical. Independently shift each feature stream and check timestamp alignment, funding settlement timing, and daily-bar close construction.</li>
+<li>Freeze a protocol hash, data manifest, feature code hash, and model specification before any sealed or prospective evaluation. The current G3 interval remains untouched.</li>
+</ol>
+
+<h3>7.5 Forecast scorecard</h3>
+<table>
+<thead><tr><th>Role</th><th>Measure</th><th>Interpretation</th></tr></thead>
+<tbody>
+<tr><td><strong>Primary</strong></td><td>Seven-day multi-class log loss or Brier score, M2 versus M1, pooled across the outer test folds.</td><td>Proper probability score; rewards calibrated probability improvement, not just rank ordering.</td></tr>
+<tr><td>Co-primary gate</td><td>Relative Brier/log-loss improvement ≥5% over M1, with one-sided 95% date-block-bootstrap interval above zero.</td><td>Practical minimum effect chosen by design, not established by literature; preregister before fitting.</td></tr>
+<tr><td>Alert utility</td><td>Event recall, precision, false confirmed alerts per asset-year, and precision-recall area under curve.</td><td>Rare events make ROC-AUC alone misleading; report prevalence and full precision/recall curve.</td></tr>
+<tr><td>Lead time</td><td>Onset minus first alert in the preceding 1–7 days; report event-level distribution and median.</td><td>Require median lead of at least two full days for the “early” claim; same-day and post-onset alerts are H1-B.</td></tr>
+<tr><td>Calibration</td><td>Reliability plot, calibration intercept/slope, Brier decomposition.</td><td>Probabilities must be usable at a threshold; calibration is refit within each training fold.</td></tr>
+</tbody></table>
+<p>Merge consecutive threshold exceedances into one alert episode, with a seven-day cooldown, so alert persistence does not inflate recall. Set the operating threshold in training data to a fixed ceiling of at most three false alerts per asset-year; report resulting recall and precision. This alarm budget and the two-day median lead are decision tolerances, not universal scientific constants.</p>
+</section>
+
+<section id="statistics">
+<h2>8. Validation, statistical risk, and stopping rules</h2>
+<h3>8.1 Effective sample size and uncertainty</h3>
+<p>Daily rows overlap in their seven-day targets. Assets also move together. Ordinary IID standard errors would overstate precision. The primary uncertainty interval should use a moving-block or stationary bootstrap over contiguous calendar-time blocks (minimum 28 days), resampling all assets together; event-level summaries should additionally cluster events that occur within a shared ±14-day market episode. Report raw counts of confirmed up/down events, unique date clusters, and events per outer fold. Cap the model and search space before looking at validation results.</p>
+<p><span class="tag infer">DESIGN_INFERENCE</span> Require at least 30 confirmed up events and 30 confirmed down events across all outer-test periods, with at least five non-empty test windows. This is a feasibility floor, not a guarantee of power. If it is not met, label the result <strong>INCONCLUSIVE—INSUFFICIENT EVENTS</strong>; do not soften the state threshold, add more assets after seeing performance, or substitute volatility events.</p>
+
+<h3>8.2 Multiplicity and selection</h3>
+<p>Historical Kepler dates have been used in many searches and model decisions. A new label does not reset that exposure. Treat the historical rolling-origin result as a development diagnostic. The H1-A confirmatory claim requires a frozen model on untouched post-boundary or genuinely prospective observations with enough independent event clusters. Record every attempted label, feature, horizon, and model. Use a family-wise correction for the limited prespecified secondary horizons and robustness checks; report a Deflated Sharpe Ratio or PBO only for economic strategy selection, not as a substitute for an untouched test.</p>
+<p>Do not perform a large grid over regime thresholds, smoothing windows, feature sets, or probability cutoffs. If model M2 fails, the correct action is to report failure or an underpowered test, not to search variants until one crosses 0.05. A positive result on one event definition supports only that operational target.</p>
+
+<h3>8.3 Precommitted decision rules</h3>
+<table>
+<thead><tr><th>Observed outcome</th><th>Scientific decision</th></tr></thead>
+<tbody>
+<tr><td>M2 does not improve primary proper score over M1, or the 95% interval includes zero, or improvement is below 5%.</td><td>Reject a practically useful incremental H1-A signal for this feature block/label. Do not claim no possible regime forecast exists.</td></tr>
+<tr><td>Event-count floor is missed or event clusters are too few for stable intervals.</td><td>Inconclusive. Keep the label and model frozen; wait for new observations or improve point-in-time data coverage in a new protocol.</td></tr>
+<tr><td>Forecast skill exists, but alerts are late, exceed the false-alarm budget, or are uncalibrated.</td><td>Do not call it an early warning. It may be H1-B detection or an unusable ranking signal.</td></tr>
+<tr><td>H1-A forecast gate passes, but costed swing returns fail against the risk-matched momentum baseline.</td><td>Accept predictive information only; reject the claim that it adds economic value for the tested swing rule.</td></tr>
+<tr><td>Only post-onset detector or HAR-RV benchmark improves.</td><td>Classify as H1-B or H1-C respectively; H1-A remains unsupported.</td></tr>
+<tr><td>Frozen model fails on sealed/prospective data.</td><td>Reject transportability/current deployment claim even if historical development folds looked good.</td></tr>
+</tbody></table>
+</section>
+
+<section id="economics">
+<h2>9. Economic value and execution costs</h2>
+<p>Forecast accuracy is the first gate; economic value is a separate second gate. If the forecast gate passes, evaluate one frozen, simple shadow mapping only—do not launch a broad strategy search. When the estimated up- or down-transition probability crosses the training-selected alert threshold, enter at the next eligible daily open in the predicted direction, hold at most 21 days, and do not pyramid. Position risk is set using the same lagged volatility target and cap for every comparison. The probability threshold is fixed to the false-alarm budget, not optimized for backtest profit.</p>
+<p>Compare the shadow exposure with: (1) cash/no position; (2) same-asset 21-day simple momentum using the same sizing, entry timing, and exits; (3) a momentum plus volatility-targeting-only control; and (4) a passive market benchmark. The key economic quantity is the net difference from the matched momentum control, not the absolute Sharpe. Report net P&amp;L, Sharpe, drawdown, expected shortfall, turnover, funding paid/received, fee, slippage, exposure, and performance by direction and market episode. Do not call a lower drawdown “alpha” if returns merely fell because exposure fell.</p>
+
+<table>
+<thead><tr><th>Cost element</th><th>Primary treatment</th><th>Stress / limitation</th></tr></thead>
+<tbody>
+<tr><td>Trading fees</td><td>Use the actual target venue’s tier and maker/taker designation, frozen at preregistration.</td><td>Kepler’s current reference default is 10 bps round trip; stress its documented 16 bps setting. These are project assumptions, not a verified account-specific quote.</td></tr>
+<tr><td>Slippage</td><td>Base the primary estimate on observed venue/size data if available; otherwise use Kepler’s conservative 2 bps round-trip test value.</td><td>Stress at 6 bps and one extra bar of delay. Fixed bps do not capture nonlinear market impact.</td></tr>
+<tr><td>Funding</td><td>Apply each historical funding event to the position held immediately before settlement, using timestamped rates and mark price.</td><td>Funding intervals vary by contract; no stale-rate forward fill through gaps. This is venue-specific and may be missing or anomalous.</td></tr>
+<tr><td>Mark and liquidation</td><td>Use mark-price data for funding and liquidation mechanics; last-trade OHLCV for signal and executable entry/exit proxy.</td><td>Report mark/last divergence and missing-bar cutoffs; an OHLCV simulation is not an order-book execution guarantee.</td></tr>
+</tbody></table>
+<p><span class="tag proj">PROJECT_EVIDENCE</span> Kepler’s benchmark engine already models next-bar fills, fee, slippage, funding, and mark-triggered liquidation, and its specification uses the same round-trip cost convention. The final economic test should use the current Kepler referee after its causal and mechanics checks; vectorbt screening output cannot be promoted to the final result. No strategy or backtest was run for this monograph.</p>
+</section>
+
+<section id="compute">
+<h2>10. Laboratory and compute choice</h2>
+<table>
+<thead><tr><th>Laboratory</th><th>Fit for first experiment</th><th>Cost and accuracy implications</th><th>Decision</th></tr></thead>
+<tbody>
+<tr><td>Python (pandas/NumPy + scikit-learn or statsmodels)</td><td>Excellent for daily feature creation, causal labels, regularized hazard/logit fitting, calibration, bootstrap, and report generation.</td><td>Small panel and low-dimensional model are CPU-sized; the hard work is data validation and fold discipline, not FLOPs. Code is easy to audit.</td><td><strong>Use for forecast study.</strong></td></tr>
+<tr><td>vectorbt</td><td>Strong for fast vectorized screening of many signal portfolios and standard fee/slippage simulations.</td><td>Fast where assumptions map to its simulator. Funding settlement, mark-price liquidation, portfolio margin, and gap handling require explicit custom logic; a fast screen is not an independent referee.</td><td>Use only as a secondary screen if needed; Kepler already has this role.</td></tr>
+<tr><td>QuantConnect LEAN</td><td>Full event-driven execution/backtesting framework; official documentation describes custom fill, fee, slippage, margin, and crypto-futures data/funding handling.</td><td>Can be useful for venue/brokerage-specific execution replication, but requires data mapping and fee/fill model validation. Cloud use or purchased data can add cost.</td><td>Do not introduce for a first forecast-only experiment. Consider later only if Kepler cannot represent the target venue.</td></tr>
+<tr><td>Microsoft Qlib</td><td>Useful modular workflow for large equity panels, factor pipelines, model registries, and repeated learning experiments.</td><td>Its standard portfolio examples are equity-oriented; perp funding, mark prices, liquidation, and venue costs require adapter work. Framework overhead is larger than the present model.</td><td>Not justified here. Kepler’s README describes an archived M0 Qlib smoke path; current BACKTEST specification is the authoritative developed pipeline.</td></tr>
+<tr><td>Kepler</td><td>Best available source for its point-in-time Binance tapes, data audit, causal checks, cost conventions, and final event-driven referee.</td><td>Existing reports make historical dates “seen”; the sealed G3 interval must remain untouched. Recent main-branch BACKTEST specification states that the referee is now Numba-based and vectorbt is only a screen.</td><td>Reuse as data/economic referee; add the forecast model as a small research module only after preregistration.</td></tr>
+</tbody></table>
+<div class="callout gold"><strong>Compute estimate, not a benchmark.</strong> A daily panel of nine instruments over roughly six years is only on the order of 20,000 asset-days. Label construction and a few regularized models should take seconds to a few minutes on an ordinary CPU; a 1,000–2,000 draw time-block bootstrap should usually remain in minutes. A later hourly/4H execution replay may take longer, but it is still small by modern compute standards. No GPU, Modal scale-up, deep model, or new framework is called for unless a measured bottleneck appears.</div>
+</section>
+
+<section id="alternatives">
+<h2>11. Alternative designs and why they are not the first test</h2>
+<table>
+<thead><tr><th>Alternative</th><th>Possible value</th><th>Why defer or reject now</th></tr></thead>
+<tbody>
+<tr><td>Define states by an HMM and forecast HMM state transitions</td><td>Can discover distributional states and provide transition matrices.</td><td>Label identity and number of states are unstable; smoothed states leak; first test needs a fixed outcome so forecast and detection are separable.</td></tr>
+<tr><td>Use critical-slowing-down signals (variance/autocorrelation) as primary test</td><td>Tests a theory of declining resilience before a threshold.</td><td>The theory may not describe discontinuous, news-driven crypto moves. Treat as one preregistered feature family, not as assumed market law.</td></tr>
+<tr><td>Start directly with 4H + 1D + funding + 21-day P&amp;L</td><td>Closer to final swing trading and captures more intraday structure.</td><td>It multiplies data alignment and hypothesis choices before event labels are validated; large bar count can disguise a tiny number of independent episodes. Daily first; 4H is an incremental ablation.</td></tr>
+<tr><td>Use a high-volatility onset as the main event</td><td>Risk states may be more measurable and relevant to sizing.</td><td>That is primarily H1-C. It can be a separate study but cannot stand in for a directional H1-A transition.</td></tr>
+<tr><td>Use order-flow, open-interest, and liquidation data</td><td>Could identify leverage build-up or forced-flow risk before a transition.</td><td>Those feeds are absent from the reviewed project archive and are venue-specific. Adding them now raises data costs before OHLCV/funding has shown incremental value.</td></tr>
+<tr><td>Begin with an LSTM/transformer/RL agent</td><td>Could capture nonlinear and sequential interactions.</td><td>Too many degrees of freedom for few independent regime episodes; poor first choice for an interpretable falsification test.</td></tr>
+</tbody></table>
+</section>
+
+<section id="unknowns">
+<h2>12. Unknowns and decision record</h2>
+<table>
+<thead><tr><th>Unknown</th><th>Why it matters</th><th>Resolution before a confirmatory claim</th></tr></thead>
+<tbody>
+<tr><td>Number and dependence of confirmed onset events under the fixed label</td><td>Power and precision depend on independent event clusters, not rows.</td><td>Compute label counts, directions, fold coverage, and date-cluster counts as a read-only feasibility audit before model fitting. Do not adjust labels from results.</td></tr>
+<tr><td>Post-2026-04 data availability / seal status</td><td>Project BACKTEST says the interval is sealed and not downloaded.</td><td>Preserve the seal. Confirm repository state and authorized evaluation pathway before any later use; this research did not do so.</td></tr>
+<tr><td>Venue-specific current fee tier and slippage</td><td>Cost thresholds can change economic conclusions.</td><td>Freeze actual fees and order-size execution assumptions before second-stage P&amp;L testing; retain documented stress cases.</td></tr>
+<tr><td>Funding-feed coverage and quality by symbol</td><td>Funding intervals and timestamps vary, with outliers and missing marks.</td><td>Reconcile timestamps to exchange settlement records; exclude or flag gaps without forward fill.</td></tr>
+<tr><td>Survivorship-free crypto universe</td><td>Top current symbols omit delisted contracts and can bias event frequency and returns.</td><td>Use as-of monthly membership and delisting cutoffs; separately show BTC/ETH and any fixed survivor universe as labeled sensitivity only.</td></tr>
+<tr><td>Transport from one venue / historical regime to the present</td><td>Exchange rules, leverage, funding, fees, and participation change.</td><td>Only a frozen post-boundary/forward shadow test can establish current transportability; historical folds cannot.</td></tr>
+<tr><td>Mechanism behind any predictive feature</td><td>Funding, volume, volatility, and momentum can proxy the same latent flow.</td><td>Use incremental ablations and avoid causal mechanism claims without OI/order-book/liquidation data or a separate design.</td></tr>
+</tbody></table>
+<p><span class="tag infer">DESIGN_INFERENCE</span> Decision record: the proposed thresholds, three-year minimum train, six-month test windows, five-percent skill hurdle, three false alerts per asset-year, two-day median lead, 30 events per direction, and four-feature cap are deliberately fixed defaults for a reviewable first experiment. They are not reported research results. The experiment owner may change them before registration, but any change after outcomes are inspected creates a new hypothesis/test family.</p>
+</section>
+
+<section id="verdict">
+<h2>13. Final scientific judgment</h2>
+<h3>Is H1-A worth researching?</h3>
+<p><strong>Yes, once.</strong> The gap is real: most regime labels and change-point methods answer what state the market is in or whether it has changed; they do not establish that the next state can be forecast ahead of onset. OHLCV and funding are cheap enough to test. But the prior probability of a robust, tradable, incremental warning should be modest. Markets do not have to approach a smooth tipping point, alerts may be late, and any gain can be ordinary momentum or a risk filter.</p>
+<h3>What is the strongest alternative explanation?</h3>
+<p>The most likely false positive is <strong>momentum-conditioned relabeling</strong>: the future “trend regime” is defined by realized return persistence, and predictors near its boundary naturally resemble the same trailing return and efficiency used to define it. A model may appear to forecast a transition when it merely recognizes the early part of a move. The mandatory comparison is therefore M2 against a well-tuned but low-dimensional M1 momentum baseline, with onset and confirmation kept separate. A second alternative is that the model only predicts volatility and reduces exposure; that is useful if true, but it is H1-C, not H1-A.</p>
+<h3>What should the first experiment be?</h3>
+<p>Pre-register the fixed daily state/event definition in §6; perform a read-only event-count and data-quality feasibility audit; then fit only M0, M1, and M2 on historical pre-2026-04 data with expanding walk-forward folds, 17-day forecast purging, and 40-day economic embargo. Do not touch G3. Treat those historical results as development evidence. If and only if forecast skill passes the event-count, calibration, lead-time, and false-alarm gates, freeze the model and plan a separate prospective evaluation. Only after that can a single 21-day capped shadow mapping be compared with risk-matched momentum after costs.</p>
+<h3>How much compute and when should the hypothesis be rejected?</h3>
+<p>The forecast stage is CPU-small: likely seconds to minutes for the fixed feature panel, plus a few minutes for block bootstrap. Most cost is in validating the tape, event boundaries, and executable assumptions. Reject a practically useful signal for this specification if M2 does not achieve at least a five-percent proper-score improvement over M1 with a one-sided 95% block-bootstrap interval above zero, or if the alert budget/lead-time gate fails. If events are too few, report inconclusive rather than “no effect.” If forecast skill passes but net risk-matched 21-day returns do not improve after fees, slippage, and funding, conclude that a forecast may exist but does not add economic value for this swing process.</p>
+<div class="callout ok"><strong>Final answer.</strong> H1-A deserves a small falsification experiment, not a strategy build. The first result to seek is honest predictive information before onset beyond momentum. The first result to distrust is a full-sample Sharpe, a smoothed HMM chart, a volatility win, or an alert that only fires after the transition is already underway.</div>
+</section>
+
+<section id="references">
+<h2>14. References and source map</h2>
+<p class="small">Primary papers are linked to publisher pages, DOI records, or author/arXiv manuscripts. Software links point to official documentation. Repository citations are pinned to the inspected commit snapshots. “Adjacent” means relevant method or market evidence but not direct evidence of H1-A crypto-perpetual profitability.</p>
+<ol class="refs">
+<li id="r1"><span class="refnum">R1.</span> Hamilton, J. D. (1989). “A New Approach to the Economic Analysis of Nonstationary Time Series and the Business Cycle.” <em>Econometrica</em> 57(2), 357–384. <a href="https://doi.org/10.2307/1912559">doi:10.2307/1912559</a>. Markov-switching state inference.</li>
+<li id="r2"><span class="refnum">R2.</span> Filardo, A. J. (1994). “Business-Cycle Phases and Their Transitional Dynamics.” <em>Journal of Business &amp; Economic Statistics</em> 12(3), 299–308. <a href="https://doi.org/10.1080/07350015.1994.10524545">doi:10.1080/07350015.1994.10524545</a>. Time-varying transition probabilities.</li>
+<li id="r3"><span class="refnum">R3.</span> Adams, R. P. &amp; MacKay, D. J. C. (2007). “Bayesian Online Changepoint Detection.” <a href="https://arxiv.org/abs/0710.3742">arXiv:0710.3742</a>. Online run-length inference; detection framework.</li>
+<li id="r4"><span class="refnum">R4.</span> Fearnhead, P. (2006). “Exact and Efficient Bayesian Inference for Multiple Changepoint Problems.” <em>Statistics and Computing</em> 16, 203–213. <a href="https://doi.org/10.1007/s11222-006-8450-8">doi:10.1007/s11222-006-8450-8</a>.</li>
+<li id="r5"><span class="refnum">R5.</span> Dakos, V. et al. (2012). “Methods for Detecting Early Warnings of Critical Transitions in Time Series Illustrated Using Simulated Ecological Data.” <em>PLoS ONE</em> 7(7), e41010. <a href="https://doi.org/10.1371/journal.pone.0041010">doi:10.1371/journal.pone.0041010</a>. Adjacent method comparison.</li>
+<li id="r6"><span class="refnum">R6.</span> Scheffer, M. et al. (2009). “Early-Warning Signals for Critical Transitions.” <em>Nature</em> 461, 53–59. <a href="https://doi.org/10.1038/nature08227">doi:10.1038/nature08227</a>. Review of mechanisms and candidate indicators.</li>
+<li id="r7"><span class="refnum">R7.</span> Boettiger, C. &amp; Hastings, A. (2012). “Quantifying Limits to Detection of Early Warning for Critical Transitions.” <em>Journal of the Royal Society Interface</em> 9(75), 2527–2539. <a href="https://doi.org/10.1098/rsif.2012.0125">doi:10.1098/rsif.2012.0125</a>. Error trade-offs and false alarms.</li>
+<li id="r8"><span class="refnum">R8.</span> Boettiger, C., Ross, N. &amp; Hastings, A. (2013). “Early Warning Signals: The Charted and Uncharted Territories.” <em>Theoretical Ecology</em> 6, 255–264. <a href="https://doi.org/10.1007/s12080-013-0192-6">doi:10.1007/s12080-013-0192-6</a>.</li>
+<li id="r9"><span class="refnum">R9.</span> Lo, A. W., Mamaysky, H. &amp; Wang, J. (2000). “Foundations of Technical Analysis: Computational Algorithms, Statistical Inference, and Empirical Implementation.” <em>Journal of Finance</em> 55(4), 1705–1765. <a href="https://doi.org/10.1111/0022-1082.00265">doi:10.1111/0022-1082.00265</a>.</li>
+<li id="r10"><span class="refnum">R10.</span> Osler, C. L. (2000). “Support for Resistance: Technical Analysis and Intraday Exchange Rates.” <em>Federal Reserve Bank of New York Economic Policy Review</em> 6(2), 53–68. <a href="https://www.newyorkfed.org/research/epr/00v06n2/0007osle.html">Federal Reserve Bank of New York</a>. Adjacent FX market evidence.</li>
+<li id="r11"><span class="refnum">R11.</span> Moskowitz, T. J., Ooi, Y. H. &amp; Pedersen, L. H. (2012). “Time Series Momentum.” <em>Journal of Financial Economics</em> 104(2), 228–250. <a href="https://doi.org/10.1016/j.jfineco.2011.11.003">doi:10.1016/j.jfineco.2011.11.003</a>. Diversified traditional futures; horizon/market differ.</li>
+<li id="r12"><span class="refnum">R12.</span> Liu, Y. &amp; Tsyvinski, A. (2021). “Risks and Returns of Cryptocurrency.” <em>Review of Financial Studies</em> 34(6), 2689–2727. <a href="https://doi.org/10.1093/rfs/hhaa113">doi:10.1093/rfs/hhaa113</a>. Reports crypto-specific factors and 1–4 week time-series momentum.</li>
+<li id="r13"><span class="refnum">R13.</span> Grobys, K., Kolari, J. W., Sandretto, D., Shahzad, S. J. H. &amp; Äijö, J. (2025). “Cryptocurrency Momentum Has (Not) Its Moments.” <em>Financial Markets and Portfolio Management</em> 39, 443–476. <a href="https://doi.org/10.1007/s11408-025-00474-9">doi:10.1007/s11408-025-00474-9</a>. Weekly cross-sectional winner/loser portfolio; not H1-A or same-asset TSMOM.</li>
+<li id="r14"><span class="refnum">R14.</span> Chi, W. (2023). “An Empirical Investigation on Risk Factors in Cryptocurrency Futures.” <em>Journal of Futures Markets</em>. <a href="https://doi.org/10.1002/fut.22425">doi:10.1002/fut.22425</a>. Cross-sectional futures factors; horizon dependence.</li>
+<li id="r15"><span class="refnum">R15.</span> He, Y. et al. (2022). “Fundamentals of Perpetual Futures.” <a href="https://arxiv.org/abs/2212.06888">arXiv:2212.06888</a>. Contract mechanics and basis/funding; theoretical/market-structure context.</li>
+<li id="r16"><span class="refnum">R16.</span> Corsi, F. (2009). “A Simple Approximate Long-Memory Model of Realized Volatility.” <em>Journal of Financial Econometrics</em> 7(2), 174–196. <a href="https://academic.oup.com/jfec/article/7/2/174/856522">Oxford Academic</a>. H1-C baseline, not directional onset evidence.</li>
+<li id="r17"><span class="refnum">R17.</span> Wang, L. et al. (2025). “Early Warning of Regime Switching in a Financial Time Series: A Heteroskedastic Network Model.” <em>PLoS ONE</em> 20(10), e0333734. <a href="https://doi.org/10.1371/journal.pone.0333734">doi:10.1371/journal.pone.0333734</a>. One S&amp;P 500 series; adjacent warning method. Author-affiliation correction published 23 Dec 2025: <a href="https://doi.org/10.1371/journal.pone.0339698">doi:10.1371/journal.pone.0339698</a>.</li>
+<li id="r18"><span class="refnum">R18.</span> Kukreti, V. (2022). “Early Warning Signals for Cryptocurrency Market States.” <a href="https://arxiv.org/abs/2211.12356">arXiv:2211.12356</a>. Cross-correlation clustering; exploratory, not economic validation.</li>
+<li id="r19"><span class="refnum">R19.</span> White, H. (2000). “A Reality Check for Data Snooping.” <em>Econometrica</em> 68(5), 1097–1126. <a href="https://doi.org/10.1111/1468-0262.00152">doi:10.1111/1468-0262.00152</a>.</li>
+<li id="r20"><span class="refnum">R20.</span> Hansen, P. R. (2005). “A Test for Superior Predictive Ability.” <em>Journal of Business &amp; Economic Statistics</em> 23(4), 365–380. <a href="https://doi.org/10.1198/073500105000000063">doi:10.1198/073500105000000063</a>.</li>
+<li id="r21"><span class="refnum">R21.</span> Bailey, D. H. &amp; López de Prado, M. (2014). “The Deflated Sharpe Ratio.” <em>Journal of Portfolio Management</em> 40(5), 94–107. <a href="https://doi.org/10.3905/jpm.2014.40.5.094">doi:10.3905/jpm.2014.40.5.094</a>.</li>
+<li id="r22"><span class="refnum">R22.</span> Bailey, D. H., Borwein, J., López de Prado, M. &amp; Zhu, Q. J. (2017). “The Probability of Backtest Overfitting.” <em>Journal of Computational Finance</em> 20(4). <a href="https://escholarship.org/uc/item/4w1110bb">author-hosted version</a>.</li>
+<li id="r23"><span class="refnum">R23.</span> Tashman, L. J. (2000). “Out-of-Sample Tests of Forecasting Accuracy: An Analysis and Review.” <em>International Journal of Forecasting</em> 16(4), 437–450. <a href="https://doi.org/10.1016/S0169-2070(00)00065-0">doi:10.1016/S0169-2070(00)00065-0</a>.</li>
+<li id="r24"><span class="refnum">R24.</span> Park, C.-H. &amp; Irwin, S. H. (2007). “What Do We Know About the Profitability of Technical Analysis?” <em>Journal of Economic Surveys</em> 21(4), 786–826. <a href="https://doi.org/10.1111/j.1467-6419.2007.00519.x">doi:10.1111/j.1467-6419.2007.00519.x</a>.</li>
+<li id="r25"><span class="refnum">R25.</span> Hansen, P. R. &amp; Lunde, A. (2005). “A Forecast Comparison of Volatility Models: Does Anything Beat a GARCH(1,1)?” <em>Journal of Applied Econometrics</em> 20(7), 873–889. <a href="https://doi.org/10.1002/jae.800">doi:10.1002/jae.800</a>.</li>
+<li id="r26"><span class="refnum">R26.</span> Official <a href="https://vectorbt.dev/api/portfolio/base/">vectorbt Portfolio API</a>; <a href="https://www.quantconnect.com/docs/v2/writing-algorithms/trading-and-orders/key-concepts">QuantConnect LEAN fills/cost models</a> and <a href="https://www.quantconnect.com/docs/v2/writing-algorithms/securities/asset-classes/crypto-futures/handling-data">crypto-futures/funding data</a>; <a href="https://qlib.readthedocs.io/en/stable/component/strategy.html">Qlib Portfolio Strategy docs</a>. Documentation is capability evidence, not benchmark evidence.</li>
+<li id="p1"><span class="refnum">P1.</span> Kepler current backtest/data protocol (reviewed snapshot). <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/BACKTEST.md">BACKTEST.md</a>.</li>
+<li id="p2"><span class="refnum">P2.</span> Kepler data audit. <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/data_audit.md">reports/data_audit.md</a>.</li>
+<li id="p3"><span class="refnum">P3.</span> Kepler strategy search results. <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/search.md">reports/search.md</a>.</li>
+<li id="p4"><span class="refnum">P4.</span> Kepler edge-expert results. <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/edge_experts.md">reports/edge_experts.md</a> and its prior registration <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/edge_experts_protocol.md">protocol</a>.</li>
+<li id="p5"><span class="refnum">P5.</span> Kepler ensemble and decay reports. <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/ensemble.md">ensemble.md</a>; <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/ensemble_decay.md">ensemble_decay.md</a>.</li>
+<li id="p6"><span class="refnum">P6.</span> Kepler pre-2022 replication and registration. <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/pre2022.md">pre2022.md</a>; <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/pre2022_protocol.md">protocol</a>.</li>
+<li id="p7"><span class="refnum">P7.</span> Kepler signal diagnostics. <a href="https://github.com/ddawnlll/kepler/blob/fbdc8b3de398a5efc9fa7ba66f4628726ae91936/reports/signal_diagnostics.md">reports/signal_diagnostics.md</a>.</li>
+<li id="p8"><span class="refnum">P8.</span> v8 editorial references: <a href="https://github.com/ddawnlll/v8/blob/e971daf8bb60decc5bb408ac48c902ec04ea68d0/site/index.html">site/index.html</a> and <a href="https://github.com/ddawnlll/v8/blob/e971daf8bb60decc5bb408ac48c902ec04ea68d0/site/D150_Continuous_Epistemic_Succession_Research_Paper.html">D-150 monograph</a>.</li>
+</ol>
+</section>
+<hr>
+<p class="small"><strong>Scope boundary.</strong> This monograph reviews sources and designs an experiment. It does not execute a backtest, open the sealed G3 interval, tune a trading rule, or authorize live trading. All proposed score thresholds and compute timings are design choices or estimates, not observed outcomes.</p>
+</body>
+</html>
