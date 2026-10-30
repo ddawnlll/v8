@@ -296,7 +296,10 @@ class RunIdentity(BaseModel):
 class MetricSet(BaseModel):
     model_config = ConfigDict(frozen=True)
 
-    net_return: float
+    net_return: float  # trading net; excludes operating expenses
+    opex_usdt: float | None = None
+    opex_basis: str | None = None
+    business_net_return: float | None = None
     excess_vs_primary: float | None
     # #396: the interval of the quantity above — the WINDOW excess return, on the
     # same scale as `excess_vs_primary` (fraction of capital over the window).
@@ -3376,6 +3379,18 @@ def portfolio_series_from_engine(
     }
 
 
+def with_business_net(metric: MetricSet, *, capital: float, opex_monthly_usd: float) -> MetricSet:
+    """Add window operating costs without changing trading or decision metrics."""
+    if capital <= 0:
+        raise ValueError("capital must be positive")
+    opex = opex_monthly_usd * metric.n_bars / 720
+    return metric.model_copy(update={
+        "opex_usdt": opex,
+        "opex_basis": f"{opex_monthly_usd} USDT/month × n_bars/720",
+        "business_net_return": metric.net_return - opex / capital,
+    })
+
+
 def metrics_for_curve(
     equity: Sequence[float],
     exposure: Sequence[float],
@@ -4131,7 +4146,7 @@ def render_report(receipt: EconomicReceipt) -> str:
         "",
         "## Metrics (cost-adjusted, shared basis)",
         "",
-        "All money columns in USDT on the run capital "
+        "Trading net includes fees and funding where measured, and excludes OPEX; business net subtracts OPEX. All money columns in USDT on the run capital "
         f"({r.run.capital:.2f} USDT); returns are fractions of that capital.",
         "",
         "Sharpe_ann and its [CI] are both annualized (per-bar Sharpe x "
@@ -4151,8 +4166,8 @@ def render_report(receipt: EconomicReceipt) -> str:
         "over the window), never a Sharpe ratio — and is omitted when it could "
         "not be computed.",
         "",
-        "| curve | net | $P&L | excess vs primary [CI] | Sharpe_ann [CI] | maxDD | turn | commission $ | funding $ |",
-        "|---|---|---|---|---|---|---|---|---|",
+        "| curve | trading net (fees + funding) | $P&L trading | excess vs primary [CI] | Sharpe_ann [CI] | maxDD | turn | commission $ | funding $ | business net | OPEX $ |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for name, m in r.metrics.items():
         # #438: when the criterion holds the interval is not published at all.
@@ -4164,10 +4179,12 @@ def render_report(receipt: EconomicReceipt) -> str:
             ex = f"{ex} {ex_ci}"
         fd = funding_cell(m)
         pnl = m.net_return * r.run.capital
+        business = f"{m.business_net_return:.4f}" if m.business_net_return is not None else "n/a"
+        opex = f"{m.opex_usdt:.2f}" if m.opex_usdt is not None else "n/a"
         lines.append(
             f"| {name} | {m.net_return:.4f} | {pnl:.2f} | {ex} | {m.sharpe_annualized:.3f} {ci} "
             f"| {m.max_drawdown:.4f} | {m.turnover_notional_over_capital:.3f} "
-            f"| {m.commission_cost:.2f} | {fd} |"
+            f"| {m.commission_cost:.2f} | {fd} | {business} | {opex} |"
         )
     lines += [
         "",

@@ -325,6 +325,16 @@ def registered_run_payload(out_dir: Path, run_key_digest: str) -> str | None:
     return None if row is None else row[0]
 
 
+def opex_limitation(metric: eb.MetricSet, capital: float) -> str:
+    """Describe operating costs separately from the portfolio's trading net."""
+    if metric.opex_usdt is None:
+        raise ValueError("portfolio OPEX must be calculated before publication")
+    return (
+        "OPEX shown separately: business net = %.2f - %.2f (opex) on portfolio_P leg."
+        % (metric.net_return * capital, metric.opex_usdt)
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     out_dir = Path(args.output_dir)
@@ -632,6 +642,12 @@ def main(argv: list[str] | None = None) -> int:
             continue
         metrics[name] = metric.model_copy(update={"funding_basis": basis})
 
+    # OPEX is disclosure only: preserve trading net, statistics and verdict inputs.
+    for name in ("portfolio_P", "portfolio_PE", *basket_curves):
+        metrics[name] = eb.with_business_net(
+            metrics[name], capital=args.capital, opex_monthly_usd=args.opex_monthly
+        )
+
     fit = min(eb.OOS_FIT_BARS, n - 48)
     oos_metrics: dict[str, eb.MetricSet] = {}
     if n - fit >= 48:
@@ -928,6 +944,7 @@ def main(argv: list[str] | None = None) -> int:
             eb.SOURCE_IDENTITY_NOTE,
             "Mark proxy: funding settlement marks use leg closes at the boundary.",
             "P+E is engine-level shared-account execution, not post-hoc summation.",
+            opex_limitation(metrics["portfolio_P"], args.capital),
             "Capacity beyond participation is UNVERIFIED (no impact model).",
             "Production capital stays denied without a human-signed approval artifact.",
             "Benchmark-leg funding is measured by the engine, not modelled: each leg "

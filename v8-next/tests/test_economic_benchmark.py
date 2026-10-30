@@ -1756,3 +1756,37 @@ def test_mechanics_excess_rule_sign_test_survives_on_return_interval() -> None:
     assert "EXCESS_CI_RULE" in recorded["verdicts"]["statistical_note"]
 
 pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"
+
+
+def test_mechanics_opex_receipt_preserves_decision_fields() -> None:
+    """MECHANICS ONLY: accounting disclosure has zero evaluative weight."""
+    equity = [10000.0 + i for i in range(336)]
+    metric = eb.metrics_for_curve(equity, [0.0] * 336, 0, 0, 0, "VERIFIED_ENGINE", None, 0)
+    baseline = _mechanics_receipt({name: metric for name in (
+        "portfolio_P", "portfolio_PE", "equal_weight_quad", "vol_target_quad")})
+    from v8_next.app.portfolio import opex_limitation
+
+    disclosed = baseline.model_copy(update={"metrics": {
+        name: eb.with_business_net(m, capital=10000.0, opex_monthly_usd=30.0)
+        for name, m in baseline.metrics.items()
+    }})
+    disclosed = disclosed.model_copy(update={"limitations": [opex_limitation(
+        disclosed.metrics["portfolio_P"], 10000.0)]})
+    before, after = baseline.model_dump(mode="json"), disclosed.model_dump(mode="json")
+    for name, row in after["metrics"].items():
+        assert row["opex_usdt"] == pytest.approx(14.0)
+        assert row["opex_basis"] == "30.0 USDT/month × n_bars/720"
+        assert row["business_net_return"] == pytest.approx(row["net_return"] - 0.0014)
+        assert {k: v for k, v in row.items() if k not in (
+            "opex_usdt", "opex_basis", "business_net_return")} == {
+                k: v for k, v in before["metrics"][name].items() if k not in (
+                    "opex_usdt", "opex_basis", "business_net_return")}
+    for key in ("verdicts", "statistics", "claim_status", "controls"):
+        assert json.dumps(after[key], sort_keys=True) == json.dumps(before[key], sort_keys=True)
+    report = eb.render_report(disclosed)
+    assert "trading net (fees + funding)" in report
+    assert "business net" in report and "14.00" in report
+    assert "OPEX shown separately: business net" in after["limitations"][0]
+    assert eb.with_business_net(metric, capital=10000, opex_monthly_usd=0).business_net_return == metric.net_return
+    with pytest.raises(ValueError):
+        eb.with_business_net(metric, capital=0, opex_monthly_usd=30)

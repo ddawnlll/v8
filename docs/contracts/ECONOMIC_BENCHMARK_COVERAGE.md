@@ -66,7 +66,7 @@ computed under stays open as O-034; no published statistic moves in D-165.
 | P vs P+E under the same allocator and risk budget | Same per-leg notional, 50/50 sleeves, one account (`portfolio_backtest.py`) | DONE |
 | Funding signs kept; no double-counted costs | Dual-run funding measurement under identical trade signatures; realized embeds funding (isolated finding locked in `test_mechanics_funding_measured_not_gapped`); open-entry commissions corrected | DONE |
 | Engine holding convention pinned | Positions opened at the boundary bar ARE held, closed at the boundary bar are NOT (`open<=`, `close>`); exact 4-decimal match over the OOS window; locked in `test_funding_holding_convention_matches_engine` | DONE |
-| Operating expenses reported separately | `opex_monthly_usd` in identity; business-net note in report limitations | DONE |
+| Operating expenses reported separately | `run.opex_monthly_usd` and `metrics.portfolio_P` / `metrics.portfolio_PE` `opex_usdt`, `opex_basis`, `business_net_return`; report limitations | DONE |
 | Breakeven extra cost (net excess / notional) | Retained in single-leg flow; portfolio flow uses participation bounds instead | DONE |
 
 ## 6. Statistics (DSR/PBO/SPA with real inputs)
