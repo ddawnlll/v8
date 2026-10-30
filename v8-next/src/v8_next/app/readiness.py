@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Sequence
 
 from v8_next.evaluation.benchmark_receipt import (
     EVIDENCE_CLASS_UNDECLARED,
@@ -87,9 +87,10 @@ def _load(path: Path) -> dict[str, Any] | None:
     if not path.is_file():
         return None
     try:
-        return json.loads(path.read_text())
+        value = json.loads(path.read_text())
     except json.JSONDecodeError:
         return None
+    return value if isinstance(value, dict) else None
 
 
 def _ledger_read_line(publication: Any | None, receipt: Any | None) -> str:
@@ -589,7 +590,7 @@ def _exposure_observations(rel: str, data: dict[str, Any]) -> list[dict[str, Any
     return observations
 
 
-def risk_factor(repo_root: Path, paper_artifacts: list[str]) -> dict[str, Any]:
+def risk_factor(repo_root: Path, paper_artifacts: Sequence[str]) -> dict[str, Any]:
     """Declared risk limits against the measured paper-trade record, fail-closed (#449/#470).
 
     Every limit in ``RISK_LIMITS`` is measured from the source ``LIMIT_SOURCES`` names it

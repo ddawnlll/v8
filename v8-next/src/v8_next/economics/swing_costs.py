@@ -52,6 +52,8 @@ EXECUTION_SHORTFALL_MISSING = "MISSING_NO_MARK_OR_BOOK_DATA"
 FUNDING_APPLIED = "APPLIED"
 FUNDING_MISSING_NO_ROWS = "MISSING_NO_FUNDING_ROWS_FOR_SPAN"
 FUNDING_PARTIAL = "MISSING_PARTIAL_FUNDING_COVERAGE"
+FUNDING_CONFLICTING = "INVALID_CONFLICTING_FUNDING_ROWS"
+FUNDING_OFF_GRID = "MISSING_OFF_GRID_FUNDING_SETTLEMENTS"
 
 
 @dataclass(frozen=True)
@@ -154,7 +156,8 @@ def funding_for_position(
     sign = 1.0 if direction == "LONG" else -1.0
     entry_ms = entry_ns // 1_000_000
     exit_ms = exit_ns // 1_000_000
-    charges: list[FundingCharge] = []
+    by_settlement: dict[int, FundingCharge] = {}
+    conflicting = False
     interval_seen: float | None = None
     wanted = base_symbol(instrument)
     for row in funding_rows:
@@ -166,26 +169,49 @@ def funding_for_position(
             continue
         rate = Decimal(str(row.funding_rate))
         interval_seen = float(getattr(row, "interval_hours", interval_hours))
-        charges.append(
-            FundingCharge(
-                settlement_ms=settlement_ms,
-                rate=rate,
-                return_contribution=-sign * float(rate),
-            )
+        charge = FundingCharge(
+            settlement_ms=settlement_ms,
+            rate=rate,
+            return_contribution=-sign * float(rate),
         )
+        existing = by_settlement.get(settlement_ms)
+        if existing is not None:
+            # Overlapping capture pages can repeat a settlement. Charge it once;
+            # a different rate for the same boundary is a data conflict, not a
+            # second charge.
+            conflicting = conflicting or existing.rate != rate
+            continue
+        by_settlement[settlement_ms] = charge
+
+    charges = sorted(by_settlement.values(), key=lambda charge: charge.settlement_ms)
     interval = interval_hours if interval_seen is None else interval_seen
+    step_ns = int(Decimal(str(interval)) * Decimal(3_600_000_000_000))
+    off_grid = bool(
+        step_ns > 0
+        and any((charge.settlement_ms * 1_000_000) % step_ns != 0 for charge in charges)
+    )
     expected = _grid_points(entry_ns, exit_ns, interval)
     applied = len(charges)
-    if expected == 0:
-        status = FUNDING_APPLIED  # nothing to charge: the span holds no settlement
+    if conflicting:
+        status = FUNDING_CONFLICTING
+    elif dropped_rows_in_tape > 0:
+        # A malformed row anywhere in the tape means the span cannot be called
+        # complete even when the count happens to match the grid.
+        status = FUNDING_PARTIAL
+    elif expected == 0:
+        # Nothing on the declared grid, but a settlement row still arrived in the
+        # span: it is off-grid evidence, not a clean zero-charge completion.
+        status = FUNDING_OFF_GRID if off_grid else FUNDING_APPLIED
     elif applied == 0:
         status = FUNDING_MISSING_NO_ROWS
-    elif applied < expected:
-        status = FUNDING_PARTIAL
+    elif applied != expected or off_grid:
+        # Both a missing settlement and an off-grid/extra row invalidate the
+        # count-only proof: applied == expected can still hide one of each.
+        status = FUNDING_PARTIAL if not off_grid else FUNDING_OFF_GRID
     else:
         status = FUNDING_APPLIED
     return FundingResult(
-        charges=tuple(sorted(charges, key=lambda charge: charge.settlement_ms)),
+        charges=tuple(charges),
         applied=applied,
         expected=expected,
         status=status,

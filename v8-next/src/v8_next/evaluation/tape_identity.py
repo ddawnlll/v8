@@ -987,14 +987,18 @@ def bind_manifest_to_store(
             f"refusing to re-register {manifest.data_id}"
         )
 
+    burn_segments = [
+        segment for segment in calendar.burn_segments if segment.role == "BURNED_DIAGNOSTIC"
+    ]
     registered: list[BurnRecord] = []
-    for segment in calendar.burn_segments:
-        if segment.role != "BURNED_DIAGNOSTIC":
-            continue
+    if burn_segments:
+        # A dataset is burned once for the declared lineage. Keeping the
+        # segment id here made the conflict lookup (`list_burns(lineage)`) and
+        # the holdout join (`burns.lineage = trials.family`) miss the record.
         record = BurnRecord(
-            lineage=segment.segment_id,
+            lineage=lineage,
             dataset_hash=manifest.data_id,
-            burned_ns=segment.start_ms * 1_000_000,
+            burned_ns=min(segment.start_ms for segment in burn_segments) * 1_000_000,
         )
         store.burn_holdout(record)
         registered.append(record)
@@ -1002,6 +1006,7 @@ def bind_manifest_to_store(
         "dataset_hash": manifest.data_id,
         "identity_digest": manifest.identity_digest(),
         "burns_registered": [r.lineage for r in registered],
+        "burn_segments": [segment.segment_id for segment in burn_segments],
         "final_eligible": manifest.final_eligible,
     }
 

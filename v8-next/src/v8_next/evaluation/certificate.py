@@ -188,19 +188,19 @@ class PolicyCertificate(BaseModel):
             assert rob_score is not None
             assert economic_score is not None
             readiness_index = round(
-                (cap_score / 100.0)  # type: ignore[operator]
-                * evidence_multiplier  # type: ignore[operator]
-                * (rob_score / 100.0)  # type: ignore[operator]
-                * (economic_score / 100.0)  # type: ignore[operator]
+                (cap_score / 100.0)
+                * evidence_multiplier
+                * (rob_score / 100.0)
+                * (economic_score / 100.0)
                 * 100.0,
                 1,
             )
             # upper bound derived from the same formula: capability at its ceiling
             readiness_upper_bound = round(
                 1.0
-                * evidence_multiplier  # type: ignore[operator]
-                * (rob_score / 100.0)  # type: ignore[operator]
-                * (economic_score / 100.0)  # type: ignore[operator]
+                * evidence_multiplier
+                * (rob_score / 100.0)
+                * (economic_score / 100.0)
                 * 100.0,
                 1,
             )

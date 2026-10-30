@@ -101,7 +101,7 @@ def _stationary_bootstrap_returns(spec: WorldSpec, rng: np.random.Generator) -> 
     # family is the one path that needs it (a module-scope import made every
     # importer of `v8_next.world` uncollectable without the extra).
     try:
-        from arch.bootstrap import StationaryBootstrap
+        from arch.bootstrap import StationaryBootstrap  # type: ignore[import-not-found]
     except ModuleNotFoundError as exc:
         raise ModuleNotFoundError(
             "ARCH_NOT_PROVISIONED: the STATIONARY_BOOTSTRAP family needs the `arch` "

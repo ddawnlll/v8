@@ -9,14 +9,14 @@ import hashlib
 import json
 import sqlite3
 from pathlib import Path
-from typing import Any, Literal, Self
+from typing import Any, Literal, Self, cast
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, model_validator
 
 try:
     import duckdb  # type: ignore[import-not-found]
 except ImportError:  # pragma: no cover
-    duckdb = None  # type: ignore[assignment]
+    duckdb = None
 
 
 def canonical(value: object) -> str:
@@ -1112,7 +1112,7 @@ class ResearchStore:
         """Execute a DuckDB SQL query against the attached store (prefixed with research.<table_name>)."""
         conn = self.duckdb_connection(read_only=read_only)
         try:
-            return conn.execute(query).fetchall()
+            return cast(list[tuple[Any, ...]], conn.execute(query).fetchall())
         finally:
             conn.close()
 

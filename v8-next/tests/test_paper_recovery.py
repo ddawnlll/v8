@@ -56,8 +56,9 @@ def test_active_writer_blocks_second_process_and_exit_releases_lock(tmp_path, mo
         [
             sys.executable,
             "-c",
-            "import fcntl,sys; f=open(sys.argv[1],'a'); "
-            "fcntl.flock(f,fcntl.LOCK_EX); print('locked',flush=True); sys.stdin.read()",
+            "import sys; from v8_next.app.paper import _acquire_writer_lock; "
+            "f=open(sys.argv[1],'a+'); _acquire_writer_lock(f); "
+            "print('locked',flush=True); sys.stdin.read()",
             str(tmp_path / ".paper.lock"),
         ],
         stdin=subprocess.PIPE,

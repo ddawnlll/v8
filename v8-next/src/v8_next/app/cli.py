@@ -531,6 +531,70 @@ TOOL_FILES: dict[str, str] = {
 }
 
 
+def cmd_audit(args: argparse.Namespace) -> int:
+    """One-command native forensic audit (replay) or report-only regeneration."""
+    import json as _json
+    from decimal import Decimal
+
+    from v8_next.audit.pipeline import (
+        refresh_manifest_digests,
+        run_native_audit,
+        validate_audit_dir,
+    )
+    from v8_next.audit.reporting import write_reports
+
+    if args.report_only:
+        run_dir = Path(args.run_dir or args.output_dir)
+        if not (run_dir / "run_manifest.json").is_file():
+            print(f"error: no audit run at {run_dir}", file=sys.stderr)
+            return 2
+        write_reports(run_dir)
+        refresh_manifest_digests(run_dir)
+        validation = validate_audit_dir(run_dir)
+        (run_dir / "validation_results.json").write_text(
+            _json.dumps(validation, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        write_reports(run_dir)
+        refresh_manifest_digests(run_dir)
+        print(
+            f"report-only: {run_dir} validation={validation['status']} "
+            f"violations={len(validation['violations'])}"
+        )
+        return 0 if validation["status"] == "PASS" else 1
+
+    if not Path(args.tape).is_file():
+        print(f"error: tape not found: {args.tape}", file=sys.stderr)
+        return 2
+    result = run_native_audit(
+        tape=Path(args.tape),
+        output_dir=Path(args.output_dir),
+        instrument=args.instrument,
+        expert=args.expert,
+        execution_profile=args.execution_profile,
+        start_ms=args.start_ms,
+        end_ms=args.end_ms,
+        initial_balance=Decimal(str(args.initial_balance)),
+        maker_fee=Decimal(str(args.maker_fee)),
+        taker_fee=Decimal(str(args.taker_fee)),
+        expected_bars=args.expected_bars,
+        skip_equivalence=args.skip_equivalence,
+    )
+    summary = result["summary"]
+    gates = ", ".join(f"{g['gate_id']}={g['status']}" for g in result["gates"])
+    print(f"run: {result['run_dir']}")
+    print(
+        "summary: opportunities={opportunities} entries={entries} closed={closed_trades} "
+        "open_at_cutoff={open_at_cutoff} native_fills={native_fills} net_pnl={net_pnl} "
+        "equity={equity} seconds={audit_seconds}".format(**summary)
+    )
+    print(f"gates: {gates}")
+    print(
+        f"validation: {result['validation']['status']} "
+        f"violations={len(result['validation']['violations'])}"
+    )
+    return 0 if result["validation"]["status"] == "PASS" else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="v8-next",
@@ -596,6 +660,26 @@ def build_parser() -> argparse.ArgumentParser:
     p_books = sub.add_parser("books", help="Literature → BenchmarkCase registry.")
     p_books.add_argument("--mapping-id", default=None)
 
+    p_audit = sub.add_parser(
+        "audit",
+        help="Native forensic audit: one command runs replay + evidence + metrics + gates + reports.",
+    )
+    p_audit.add_argument("--tape", default=None, help="Authorized DEV tape (jsonl multitape).")
+    p_audit.add_argument("--instrument", default="BTCUSDT")
+    p_audit.add_argument("--expert", default=None, help="Filter detailed expert evidence to one expert.")
+    p_audit.add_argument("--execution-profile", default=None, help="baseline|realistic|volume_aware")
+    p_audit.add_argument("--output-dir", default=None, help="Audit run directory.")
+    p_audit.add_argument("--run-dir", default=None, help="Existing run for --report-only.")
+    p_audit.add_argument("--report-only", action="store_true", help="Regenerate reports; do not replay.")
+    p_audit.add_argument("--start-ms", type=int, default=1735689600000)
+    p_audit.add_argument("--end-ms", type=int, default=1743465600000)
+    p_audit.add_argument("--expected-bars", type=int, default=2160)
+    p_audit.add_argument("--initial-balance", default="10000")
+    p_audit.add_argument("--maker-fee", default="0.0002")
+    p_audit.add_argument("--taker-fee", default="0.0005")
+    p_audit.add_argument("--skip-equivalence", action="store_true")
+    p_audit.set_defaults(func=cmd_audit)
+
     p_econ = sub.add_parser("benchmark-economic", help="Real-data economic comparison (NO_ECONOMIC_CLAIM).")
     p_econ.add_argument("--tape-path", default="research/tape/btcusdt-1h-12m")
     p_econ.add_argument("--bars", type=int, default=500)
@@ -658,6 +742,12 @@ def main(argv: list[str] | None = None) -> int:
         if rest:
             parser.error(f"unexpected args for books: {' '.join(rest)}")
         return cmd_books(args)
+    if args.command == "audit":
+        if rest:
+            parser.error(f"unexpected args for audit: {' '.join(rest)}")
+        if not args.report_only and not args.output_dir:
+            parser.error("audit requires --output-dir unless --report-only is used")
+        return cmd_audit(args)
     if args.command == "benchmark-economic":
         from v8_next.app import economic as economic_mod
 

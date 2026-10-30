@@ -8,7 +8,7 @@ import os
 import time
 from collections.abc import Callable
 from pathlib import Path
-from typing import TextIO
+from typing import Any, TextIO
 
 from nautilus_trader.adapters.binance import (
     BinanceDataClientConfig,
@@ -44,7 +44,7 @@ class QuoteRecorder(DataActor):
         self.stop_node: Callable[[], None] | None = None
         self.max_quote_silence_ns: int | None = None
         self.health_started_ns: int | None = None
-        self.health_halt: dict | None = None
+        self.health_halt: dict[str, Any] | None = None
         self.last_quote_ns: dict[str, int] = {}
         self.count = 0
         self.bar_count = 0
@@ -367,7 +367,7 @@ async def capture_stream(
     max_quote_silence_ns: int | None = None,
     positioning_policy: PositioningPolicy | None = None,
     positioning_refresh_seconds: int | None = None,
-) -> dict:
+) -> dict[str, Any]:
     if duration_seconds <= 0:
         raise ValueError("positive observation duration required")
     if max_quote_silence_ns is not None and (

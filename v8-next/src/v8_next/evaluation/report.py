@@ -93,7 +93,7 @@ def render_identity_is_current(
     superseded render whose readiness must not be republished.
     """
     current = render_identity(receipt, certificate)
-    return declared.get("render_identity_digest") == current["render_identity_digest"]
+    return bool(declared.get("render_identity_digest") == current["render_identity_digest"])
 
 
 def _v(value: float | None, digits: int = 1) -> str:

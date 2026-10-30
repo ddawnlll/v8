@@ -10,6 +10,10 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "nautilus-trader==2.0.0rc4",
+    # Required by NautilusTrader's native generate_*_report APIs (they return
+    # pandas DataFrames). Without it the fill report raised ImportError and the
+    # audit silently lost fill-level evidence.
+    "pandas>=2.2",
     "polars>=1.44.0",
     "numpy>=2.0.0",
     "pydantic>=2.10.0",

@@ -1558,30 +1558,32 @@ class BenchmarkLedger:
         expected_parent = self.GENESIS_HASH
         entries: list[EntryVerification] = []
         contradicted = self._score_binding_contradictions()
-        for i, entry in enumerate(self._entries):
-            receipt = entry.receipt
+        for i, ledger_entry in enumerate(self._entries):
+            receipt = ledger_entry.receipt
             digest_ok, digest_detail = receipt.verify_digest()
             digest = "OK" if digest_ok else self._digest_failure_class(digest_detail)
 
-            if entry.sequence_number != i:
+            if ledger_entry.sequence_number != i:
                 chain = "SEQUENCE_GAP"
-            elif entry.parent_entry_hash != expected_parent:
+            elif ledger_entry.parent_entry_hash != expected_parent:
                 chain = "PARENT_HASH_MISMATCH"
             else:
                 canon = [
-                    entry.sequence_number,
-                    entry.parent_entry_hash,
+                    ledger_entry.sequence_number,
+                    ledger_entry.parent_entry_hash,
                     receipt.receipt_digest,
                 ]
                 recomputed = hashlib.sha256(
                     json.dumps(canon, separators=(",", ":")).encode()
                 ).hexdigest()
-                chain = "OK" if recomputed == entry.entry_hash else "ENTRY_HASH_TAMPERED"
+                chain = (
+                    "OK" if recomputed == ledger_entry.entry_hash else "ENTRY_HASH_TAMPERED"
+                )
 
             artifacts, artifact_detail = self._artifact_verdict(receipt)
-            if entry.sequence_number in contradicted:
+            if ledger_entry.sequence_number in contradicted:
                 score_binding = CAPABILITY_SCORE_CONTRADICTS_BOUND_EVIDENCE
-                score_binding_detail = contradicted[entry.sequence_number]
+                score_binding_detail = contradicted[ledger_entry.sequence_number]
             elif receipt.capability_score is None:
                 # nothing published, nothing to carry: not a defect, and not a pass
                 score_binding = "NOT_APPLICABLE"
@@ -1592,7 +1594,7 @@ class BenchmarkLedger:
                 score_binding_detail = refusal or ""
             entries.append(
                 EntryVerification(
-                    sequence_number=entry.sequence_number,
+                    sequence_number=ledger_entry.sequence_number,
                     digest_version=receipt.digest_version,
                     digest=digest,
                     digest_detail=digest_detail,
@@ -1603,7 +1605,7 @@ class BenchmarkLedger:
                     score_binding_detail=score_binding_detail,
                 )
             )
-            expected_parent = entry.entry_hash
+            expected_parent = ledger_entry.entry_hash
 
         overall = "OK"
         if any(e.chain != "OK" for e in entries):
@@ -1615,9 +1617,9 @@ class BenchmarkLedger:
         elif any(e.artifacts not in ("OK", "NO_BINDINGS") for e in entries):
             overall = "ARTIFACTS_INCOMPLETE"
         score_binding = "OK"
-        for entry in entries:
-            if not entry.score_binding_valid:
-                score_binding = entry.score_binding
+        for verification in entries:
+            if not verification.score_binding_valid:
+                score_binding = verification.score_binding
                 break
         return LedgerVerificationReport(entries=tuple(entries), overall=overall, score_binding=score_binding)
 

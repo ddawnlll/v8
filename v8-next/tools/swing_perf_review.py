@@ -25,8 +25,8 @@ from __future__ import annotations
 import argparse
 import datetime
 import json
+import os
 import platform
-import resource
 import sys
 import time
 from pathlib import Path
@@ -48,6 +48,44 @@ def parse_utc_ms(value: str) -> int:
 
 
 def peak_rss() -> tuple[int, str]:
+    """Return (peak RSS, units) using only platform-appropriate APIs."""
+    if os.name == "nt":
+        import ctypes
+        from ctypes import wintypes
+
+        class ProcessMemoryCountersEx(ctypes.Structure):
+            _fields_ = [
+                ("cb", wintypes.DWORD),
+                ("PageFaultCount", wintypes.DWORD),
+                ("PeakWorkingSetSize", ctypes.c_size_t),
+                ("WorkingSetSize", ctypes.c_size_t),
+                ("QuotaPeakPagedPoolUsage", ctypes.c_size_t),
+                ("QuotaPagedPoolUsage", ctypes.c_size_t),
+                ("QuotaPeakNonPagedPoolUsage", ctypes.c_size_t),
+                ("QuotaNonPagedPoolUsage", ctypes.c_size_t),
+                ("PagefileUsage", ctypes.c_size_t),
+                ("PeakPagefileUsage", ctypes.c_size_t),
+                ("PrivateUsage", ctypes.c_size_t),
+            ]
+
+        counters = ProcessMemoryCountersEx()
+        counters.cb = ctypes.sizeof(counters)
+        get_current_process = ctypes.windll.kernel32.GetCurrentProcess
+        get_current_process.restype = wintypes.HANDLE
+        get_process_memory_info = ctypes.windll.psapi.GetProcessMemoryInfo
+        get_process_memory_info.argtypes = [
+            wintypes.HANDLE,
+            ctypes.POINTER(ProcessMemoryCountersEx),
+            wintypes.DWORD,
+        ]
+        get_process_memory_info.restype = wintypes.BOOL
+        process = get_current_process()
+        if not get_process_memory_info(process, ctypes.byref(counters), counters.cb):
+            return 0, "unavailable (Windows GetProcessMemoryInfo failed)"
+        return int(counters.PeakWorkingSetSize), "bytes (Windows PeakWorkingSetSize)"
+
+    import resource
+
     usage = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     if platform.system() == "Darwin":
         return int(usage), "bytes (macOS ru_maxrss)"

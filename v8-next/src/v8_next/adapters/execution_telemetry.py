@@ -341,7 +341,14 @@ def execution_telemetry(
         if max(fill_px, ref_px) / min(fill_px, ref_px) > MAX_REFERENCE_RATIO:
             cross_series += 1
             continue
-        sign = 1.0 if side.startswith("B") else -1.0
+        if side in {"BUY", "LONG"}:
+            sign = 1.0
+        elif side in {"SELL", "SHORT"}:
+            sign = -1.0
+        else:
+            # Unknown side names must not be silently treated as short.
+            unmatched += 1
+            continue
         signed_bps = sign * (fill_px - ref_px) / ref_px * 1e4
         slippage_bps.append(signed_bps)
         slippage_magnitudes.append(abs(signed_bps))

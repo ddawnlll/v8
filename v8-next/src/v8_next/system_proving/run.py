@@ -18,6 +18,7 @@ from __future__ import annotations
 import hashlib
 from dataclasses import dataclass
 from decimal import Decimal
+from typing import Any
 
 __all__ = [
     "EngineBinding",
@@ -141,7 +142,7 @@ class SystemProvingGroundRunner:
     @staticmethod
     def run_full_chain(
         policy_id: str,
-        world,  # WorldReceipt (duck-typed to avoid a hard import cycle)
+        world: Any,  # WorldReceipt (duck-typed to avoid a hard import cycle)
         initial_balance: float,
         timestamp_ns: int,
     ) -> object:

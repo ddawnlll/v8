@@ -17,12 +17,16 @@ def test_exemplar_mapping_resolves_to_executable_case():
     assert case.strategy_config.grammar_policy == "range-breakout-48-v1"
 
 
+def _books_library_present(books_dir: Path) -> bool:
+    return books_dir.is_dir() and any(books_dir.iterdir())
+
+
 def test_mapped_filenames_exist_in_library():
     books_dir = REPO_ROOT / "books"
-    if not books_dir.is_dir():
+    if not _books_library_present(books_dir):
         import pytest
 
-        pytest.skip("books/ library not present")
+        pytest.skip("books/ library not present or not checked out")
     from v8_next.books.registry import MAPPINGS
 
     missing = [m.filename for m in MAPPINGS if not (books_dir / m.filename).is_file()]
@@ -31,10 +35,10 @@ def test_mapped_filenames_exist_in_library():
 
 def test_coverage_reports_mapped_vs_unmapped():
     books_dir = REPO_ROOT / "books"
-    if not books_dir.is_dir():
+    if not _books_library_present(books_dir):
         import pytest
 
-        pytest.skip("books/ library not present")
+        pytest.skip("books/ library not present or not checked out")
     cov = coverage(books_dir)
     assert cov["total"] >= 100
     assert cov["mapped"] >= 4

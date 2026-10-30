@@ -502,7 +502,7 @@ def evaluate_parity(
     n_pairs = len(pnl_nat)
 
     def to_bits(val: float) -> int:
-        return struct.unpack(">Q", struct.pack(">d", float(val)))[0]
+        return int(struct.unpack(">Q", struct.pack(">d", float(val)))[0])
 
     bit_matches = [to_bits(a) == to_bits(b) for a, b in zip(pnl_nat, pnl_ref, strict=True)]
     exact_match = all(bit_matches)

@@ -138,9 +138,9 @@ def _render_index(manifest: dict[str, object]) -> str:
                 f"<td>{esc(entry['status'])}</td>"
                 f"<td>{esc(str(entry.get('sha256', entry.get('reason', ''))))}</td></tr>\n"
             )
-    ledger = manifest["ledger"]  # type: ignore[assignment]
+    ledger = manifest["ledger"]
     assert isinstance(ledger, dict)
-    tearsheet = manifest["tearsheet"]  # type: ignore[assignment]
+    tearsheet = manifest["tearsheet"]
     assert isinstance(tearsheet, dict)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><title>Benchmark sweep</title></head>

@@ -2,6 +2,7 @@
 
 from decimal import Decimal
 
+import pytest
 from nautilus_trader.model import BarType, InstrumentId
 
 from v8_next.adapters.expert_strategy import (
@@ -174,3 +175,10 @@ def test_end_to_end_backtest_with_economic_accounting():
     assert balance_amount < initial_balance
     assert len(account["orders"]) >= 1
     assert len(account["positions"]) >= 1
+
+
+def test_half_configured_bracket_fails_closed() -> None:
+    with pytest.raises(ValueError, match="bracket_stop_pct and bracket_target_pct"):
+        ExpertStrategyConfig(bracket_stop_pct=Decimal("0.02"))
+    with pytest.raises(ValueError, match="bracket_stop_pct and bracket_target_pct"):
+        ExpertStrategyConfig(bracket_target_pct=Decimal("0.04"))

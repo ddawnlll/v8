@@ -410,15 +410,15 @@ def select_block_size(
         return 1
     mean = _fsum(episode_net_r) / n
     c0 = _fsum((x - mean) ** 2 for x in episode_net_r)
-    base = max(1, round(n ** (1.0 / 3.0)))
+    base = max(1, int(round(n ** (1.0 / 3.0))))
     if c0 == 0.0:
-        return max(1, min(base, n // 2))
+        return int(max(1, min(base, n // 2)))
     c1 = _fsum(
         (episode_net_r[i] - mean) * (episode_net_r[i + 1] - mean) for i in range(n - 1)
     )
     lag1 = c1 / c0
     block = 2 * base if abs(lag1) > threshold else base
-    return max(1, min(block, n // 2))
+    return int(max(1, min(block, n // 2)))
 
 
 def _block_bootstrap_indices(n: int, block_size: int, rng: random.Random) -> list[int]:

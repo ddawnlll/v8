@@ -40,7 +40,7 @@ def test_explicit_funding_window_does_not_accept_saturated_response(
         windows = funding_query_windows([manifest], 25_000_000)
         assert len(windows) == 1
         assert windows[0]["start_inclusive_ns"] == 5_000_000
-        assert windows[0]["end_inclusive_ns"] == 20_000_000
+        assert windows[0]["end_inclusive_ns"] == 20_999_999
         assert windows[0]["received_ns"] == 20_000_000
         assert windows[0]["status"] == "BOUNDED_RESPONSE_NOT_FINALITY_CERTIFICATE"
     funding_url = next(url for url in urls if "fundingRate" in url)

@@ -184,9 +184,11 @@ def funding_query_windows(
                 {
                     "instrument_id": f"{metadata['symbol']}-PERP.BINANCE",
                     "start_inclusive_ns": start * 10**6,
-                    "end_inclusive_ns": (end + 1) * 10**6 - 1
-                    if len(rows) == limit
-                    else end * 10**6,
+                    # endTime is inclusive in milliseconds. Cover the whole
+                    # millisecond, otherwise exposure in its last 999,999 ns
+                    # is falsely reported uncovered; adjacent pages then differ
+                    # by 10**6 ns instead of the 1 ns contiguity tolerance.
+                    "end_inclusive_ns": (end + 1) * 10**6 - 1,
                     "received_ns": received,
                     "source_sha256": artifact["sha256"],
                     "status": "BOUNDED_RESPONSE_NOT_FINALITY_CERTIFICATE",

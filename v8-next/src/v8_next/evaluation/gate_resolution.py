@@ -18,7 +18,7 @@ import os
 from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Sequence, cast
 
 import numpy as np
 import polars as pl
@@ -157,17 +157,26 @@ def _default_tape_path() -> Path:
 DEFAULT_TAPE_PATH = _default_tape_path()
 
 
-def extract_account_balance(account: dict[str, Any], default: float = 10000.0) -> float:
-    """Safely extract balance from economic state account dictionary."""
-    if "balance_total" in account and account["balance_total"]:
-        val_str = str(account["balance_total"]).split()[0]
+def extract_account_balance(
+    account: dict[str, Any], default: float | None = None
+) -> float | None:
+    """Extract a measured balance, or ``None`` when the account is unusable.
+
+    A missing or malformed balance must never become a fabricated 10000. A real
+    zero is a measurement and is returned as ``0.0``; only absence/parse failure
+    falls through to ``default``.
+    """
+    value = account.get("balance_total")
+    if value is not None:
+        val_str = str(value).split()[0]
         try:
             return float(val_str)
         except (ValueError, TypeError):
             pass
-    if "balance" in account and account["balance"] is not None:
+    value = account.get("balance")
+    if value is not None:
         try:
-            return float(account["balance"])
+            return float(value)
         except (ValueError, TypeError):
             pass
     return default
@@ -514,9 +523,25 @@ def evaluate_g4_synthetic_falsification(
     )
 
     account = backtest_result["account"]
-    final_equity = extract_account_balance(account, default=10000.0)
     opened = backtest_result["opened_positions"]
     closed = backtest_result["closed_positions"]
+    final_equity = extract_account_balance(account)
+    if final_equity is None:
+        return GateState.BLOCKED, {
+            "final_equity": None,
+            "total_trades": len(opened),
+            "closed_trades": len(closed),
+            "min_closed_trades": min_closed_trades,
+            "reason": "ACCOUNT_BALANCE_UNAVAILABLE: no measured balance in account",
+            "measurement": UNMEASURED,
+            "shock_taker_fee": float(shock_taker_fee),
+            "adversarial_models": [
+                "ProbabilisticFill(drop=0.05, slip=1.0)",
+                "StaticLatency(500ms+200ms)",
+            ],
+            "bracket_stop_loss_pct": float(bracket_cfg.bracket_stop_pct or Decimal("0.02")),
+            "account_survived": False,
+        }
 
     # Invariant: Account did not bust (equity remains > 70% initial), stop-losses functioned,
     # AND the shock battery actually executed (survival with no fills is vacuous).
@@ -945,8 +970,29 @@ def evaluate_g6_frozen_oos(
     account_is = is_res["account"]
     account_oos = oos_res["account"]
 
-    is_balance = extract_account_balance(account_is, default=10000.0)
-    oos_balance = extract_account_balance(account_oos, default=10000.0)
+    is_balance = extract_account_balance(account_is)
+    oos_balance = extract_account_balance(account_oos)
+    if is_balance is None or oos_balance is None:
+        return GateState.BLOCKED, {
+            "is_bars": is_bars,
+            "is_trades": is_trades,
+            "is_final_balance": None,
+            "oos_bars": oos_bars,
+            "oos_trades": oos_trades,
+            "oos_final_balance": None,
+            "is_profit": None,
+            "oos_profit": None,
+            "window_equality": "EQUAL_BARS",
+            "comparison_window_bars": window_bars,
+            "is_bars_total": len(is_all),
+            "oos_bars_total": len(oos_all),
+            "retention_ratio": None,
+            "measurement": UNMEASURED,
+            "protected_window": protected_window.as_dict(),
+            "evaluated_window": evaluated_window,
+            "reason": "ACCOUNT_BALANCE_UNAVAILABLE: no measured balance in IS/OOS account",
+            "passed": False,
+        }
 
     is_profit = is_balance - 10000.0
     oos_profit = oos_balance - 10000.0
@@ -1169,7 +1215,10 @@ def evaluate_g7_prospective_shadow(
         if anchor > 0:
             drift_val = max(drift_val, abs((px - anchor) / anchor))
 
-        dec_info = decisions[i] if i < len(decisions) else {}
+        # Causal alignment: the decision at bar i-1 is the one actionable for
+        # bar i's return. Using decisions[i] would credit the candidate with the
+        # return of the very bar whose close formed its signal (look-ahead).
+        dec_info = decisions[i - 1] if i > 0 and i - 1 < len(decisions) else {}
         action = dec_info.get("action", "NO_ACTION")
         # The candidate's own measured forward behaviour on this bar: the direction
         # of the opportunity its consensus actually admitted. A candidate that
@@ -1427,7 +1476,7 @@ class StructuralGateResolution:
         """The resolved state of one of the three structural cells."""
         if vector_field not in ("g0_identity", "g1_causal_pit", "g2_determinism_ledger"):
             raise ValueError(f"{vector_field!r} is not a structural gate cell")
-        return getattr(self.gates, vector_field)
+        return cast(GateState, getattr(self.gates, vector_field))
 
 
 def measure_ledger_parity(ledger: BenchmarkLedger) -> tuple[GateState, dict[str, Any]]:

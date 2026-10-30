@@ -244,6 +244,30 @@ def test_shortfall_is_negative_when_the_fill_is_favourable() -> None:
     assert block["slippage_bps_mean"] == pytest.approx(-100.0)
 
 
+@pytest.mark.parametrize(
+    ("side", "fill_px", "expected"),
+    [
+        # Nautilus position events report LONG/SHORT, not BUY/SELL.
+        ("LONG", "101.0", 100.0),
+        ("SHORT", "99.0", 100.0),
+        ("LONG", "99.0", -100.0),
+        ("SHORT", "101.0", -100.0),
+    ],
+)
+def test_shortfall_understands_position_side_names(
+    side: str, fill_px: str, expected: float
+) -> None:
+    block = _execution_telemetry(
+        _profile(),
+        [],
+        "list",
+        [{"instrument_id": LEG, "side": side, "avg_px_open": fill_px, "event_ns": 200}],
+        [{"instrument_id": LEG, "decision_ns": 100, "close": "100.0"}],
+    )
+    assert block["slippage_samples"] == 1
+    assert block["slippage_bps_mean"] == pytest.approx(expected)
+
+
 def test_telemetry_stays_none_rather_than_inventing_numbers() -> None:
     block = _execution_telemetry(
         _profile(), [], "NONE",

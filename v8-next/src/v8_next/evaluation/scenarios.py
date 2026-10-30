@@ -237,8 +237,8 @@ def overfitting_hypothesis_test(trials: int = 60, seed: int = 7) -> dict[str, An
     """
     rng = np.random.default_rng(seed)
     grid = [(f, s) for f in (2, 5, 10, 20) for s in (30, 50, 100, 200) if f < s]
-    noise_rejections = 0
-    edge_rejections = 0
+    noise_rejections: float = 0.0
+    edge_rejections: float = 0.0
     for _ in range(trials):
         # the declarations above are per-bar RETURNS; a strategy reads price LEVELS, so the
         # series handed to the grid is the cumulative sum. Passing returns directly made the

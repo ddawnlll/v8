@@ -17,6 +17,9 @@ build/
 *.jsonl
 !research/manifest/*.json
 !docs/governance/*.jsonl
+# Capture payloads referenced by tracked evidence manifests and tests must not
+# disappear behind the global *.jsonl ignore.
+!docs/evidence/**/*.jsonl
 
 # Downloaded tape (derived from public archives, reproducible)
 research/tape/

@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 
-SOURCE = Path("/tmp/v8-next-funding-window-1788872557488881000/capture-1788872557502463000")
+SOURCE = Path(__file__).parent / "fixtures" / "funding_capture"
 
 
 def _write_artifact(directory: Path, name: str, payload: bytes, source_url: str,
@@ -120,8 +120,10 @@ def test_online_paper_applies_receipt_known_funding_without_position(tmp_path):
     assert first_only["online_funding_settlements_applied"] == 0
     assert first_only["funding_status"] == "NO_EXPOSURE_IN_SESSION_NO_FUNDING_LIABILITY"
     both = replay_account([first, second], config)
-    # Only the receipt-known in-window boundary is applied; the pre-window row is not.
-    assert both["online_funding_settlements_applied"] == 1
+    # Only the receipt-known in-window boundary is selected; the pre-window row
+    # is not. With no open position the engine's funding event is a no-op, so
+    # the selected settlement must not be reported as applied.
+    assert both["online_funding_settlements_applied"] == 0
     (applied,) = both["online_funding_settlements"]
     assert applied["boundary_ns"] == (quote_ms + 30_000) * 1_000_000
     assert applied["received_ns"] == first_received + 40_000_000_000

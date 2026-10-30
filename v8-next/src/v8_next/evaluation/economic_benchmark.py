@@ -3528,16 +3528,20 @@ def run_statistics(
     stats["interval_bars"] = INTERVAL_BARS
     base_eq = list(family_equity[baseline_id])
     base_net = base_eq[-1] / base_eq[0] - 1.0 if base_eq[0] > 0 else 0.0
-    best = float("-inf")
-    for name, eq in family_equity.items():
+    excess_by_name: dict[str, float] = {}
+    for name, equity in family_equity.items():
         if name == baseline_id:
             continue
-        eq = list(eq)
-        net = eq[-1] / eq[0] - 1.0 if eq[0] > 0 else 0.0
-        best = max(best, net - base_net)
-    stats["variant_excess_vs_baseline"] = best if best > float("-inf") else None
+        values = list(equity)
+        net = values[-1] / values[0] - 1.0 if values[0] > 0 else 0.0
+        excess_by_name[name] = net - base_net
+    best = max(excess_by_name.values(), default=None)
+    stats["variant_excess_vs_baseline"] = best
 
     dsr_names = sorted(n for n in losses if n != baseline_id)
+    # DSR must describe the selected (best-excess) variant, never whichever name
+    # happens to sort first. Ties keep a deterministic lexicographic choice.
+    selected_variant = max(dsr_names, key=lambda name: excess_by_name[name], default=baseline_id)
     sufficiency = sample_sufficiency(int(stats["intervals_per_variant"]), plan.block_size)
     stats["sample_sufficiency"] = sufficiency
     # #440: availability is probed BEFORE any estimator is called -- once, with
@@ -3554,7 +3558,7 @@ def run_statistics(
     else:
         try:
             dsr_plan = DSRPlan(
-                selected_variant=dsr_names[0],
+                selected_variant=selected_variant,
                 registered_variants=tuple(dsr_names),
                 effective_independent_trials=plan.effective_independent_trials,
                 independence_basis=plan.independence_basis,

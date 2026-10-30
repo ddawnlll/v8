@@ -56,7 +56,7 @@ from v8_next.economics.decisions import (
     stance_record,
 )
 from v8_next.economics.grammar import grammar_opportunity
-from v8_next.experts.registry import observe_all_28
+from v8_next.experts.registry import CANONICAL_28_EXPERTS, observe_all_28
 from v8_next.opportunities.book import OpportunityBook
 from v8_next.opportunities.exposure import ExposureResolver
 from v8_next.opportunities.models import (
@@ -131,6 +131,15 @@ class ExpertStrategyConfig:
     bracket_target_pct: Decimal | None = None
     max_concurrent_positions: int = 1
 
+    def __post_init__(self) -> None:
+        # A stop without a target used to fall through to the non-bracket path
+        # and submit an unprotected position. Fail closed at construction time
+        # instead of silently trading a bracket that was only half configured.
+        if (self.bracket_stop_pct is None) != (self.bracket_target_pct is None):
+            raise ValueError(
+                "bracket_stop_pct and bracket_target_pct must be configured together"
+            )
+
 
 class ExpertEnsembleStrategy(Strategy):
     """NautilusTrader Strategy powered by the canonical 28-expert witness ensemble.
@@ -153,8 +162,13 @@ class ExpertEnsembleStrategy(Strategy):
         *,
         source_candles: dict[int, Candle] | None = None,
         readings: tuple[PositioningReading, ...] = (),
+        audit_recorder: Any | None = None,
     ) -> None:
         super().__init__()
+        # Observe-only forensic recorder. Attaching one cannot change any
+        # decision: every call below is a pure append and is wrapped so a
+        # recorder failure never interrupts the replay.
+        self.audit_recorder = audit_recorder
         self.ensemble_config = config or ExpertStrategyConfig()
         self.instrument_id = InstrumentId.from_str(self.ensemble_config.instrument_id)
         self.bar_type = BarType.from_str(self.ensemble_config.bar_type_str)
@@ -301,9 +315,32 @@ class ExpertEnsembleStrategy(Strategy):
                 source_hash="nautilus-bar-feed",
             )
         self.candles.append(candle)
+        self._audit(
+            "MARKET_OBSERVED",
+            bar.ts_init,
+            evidence="OBSERVED_TAPE",
+            open=str(candle.open),
+            high=str(candle.high),
+            low=str(candle.low),
+            close=str(candle.close),
+            volume=str(candle.volume),
+            bar_start_ns=candle.start_ns,
+            bar_end_ns=candle.end_ns,
+            market_data_available_ns=candle.available_ns,
+            received_ns=candle.received_ns,
+        )
 
         # 2. Advance OpportunityBook with newly closed candle (invalidation & TTL check)
-        self.opportunity_book.on_candle(candle)
+        for transitioned in self.opportunity_book.on_candle(candle):
+            self._audit(
+                "OPPORTUNITY_EXPIRED"
+                if transitioned.status == OpportunityStatus.EXPIRED
+                else "OPPORTUNITY_INVALIDATED",
+                candle.end_ns,
+                evidence="DERIVED",
+                opportunity_id=transitioned.opportunity_id,
+                status=str(transitioned.status),
+            )
 
         # 3. Build CausalFrame
         if use_prefix:
@@ -369,9 +406,37 @@ class ExpertEnsembleStrategy(Strategy):
                 status=OpportunityStatus.CANDIDATE,
             )
             self.opportunity_book.insert(record)
+            self._audit(
+                "OPPORTUNITY_DETECTED",
+                candle.end_ns,
+                evidence="DERIVED",
+                opportunity_id=record.opportunity_id,
+                status=str(record.status),
+                direction=str(record.direction),
+                entry_price=str(record.entry_price),
+                stop_price=str(record.stop_price) if record.stop_price is not None else None,
+                target_price=(
+                    str(record.target_price) if record.target_price is not None else None
+                ),
+                valid_until_ns=record.valid_until_ns,
+                as_of_time_ns=record.as_of_time_ns,
+            )
 
         # 6. Invoke all 28 canonical active witnesses
-        stances = observe_all_28(frame, opportunity, readings=self.readings)
+        try:
+            stances = observe_all_28(frame, opportunity, readings=self.readings)
+        except Exception as exc:  # audit the failure, then preserve fail-closed behaviour
+            self._audit(
+                "EXPERT_EVALUATED",
+                candle.end_ns,
+                evidence="DERIVED",
+                expert_scope="ALL_28",
+                expert_count=len(CANONICAL_28_EXPERTS),
+                stance="EVALUATION_ERROR",
+                error_type=type(exc).__name__,
+                opportunity_id=(record.opportunity_id if record is not None else None),
+            )
+            raise
         supports = [s for s in stances if s.kind == StanceKind.SUPPORT]
         contradicts = [s for s in stances if s.kind == StanceKind.CONTRADICT]
         abstains = [s for s in stances if s.kind == StanceKind.ABSTAIN]
@@ -384,6 +449,76 @@ class ExpertEnsembleStrategy(Strategy):
         )
         if record is not None and is_supported:
             self.opportunity_book.update_status(record.opportunity_id, OpportunityStatus.CONFIRMED)
+            self._audit(
+                "OPPORTUNITY_UPDATED",
+                candle.end_ns,
+                evidence="DERIVED",
+                opportunity_id=record.opportunity_id,
+                status=str(OpportunityStatus.CONFIRMED),
+                from_status=str(OpportunityStatus.CANDIDATE),
+            )
+        if record is None:
+            # No opportunity exists, so the witness panel was not invoked for a
+            # trade. Record the whole panel once, truthfully, as NO_OPPORTUNITY
+            # instead of fabricating 28 per-expert stances.
+            self._audit(
+                "EXPERT_EVALUATED",
+                candle.end_ns,
+                evidence="DERIVED",
+                expert_scope="ALL_28",
+                expert_count=len(CANONICAL_28_EXPERTS),
+                stance="NO_OPPORTUNITY",
+                support_count=len(supports),
+                contradiction_count=len(contradicts),
+                abstain_count=len(abstains),
+                consensus_supported=False,
+            )
+        else:
+            self._audit(
+                "CONSENSUS_EVALUATED",
+                candle.end_ns,
+                evidence="DERIVED",
+                support_count=len(supports),
+                contradiction_count=len(contradicts),
+                abstain_count=len(abstains),
+                consensus_supported=is_supported,
+                opportunity_id=record.opportunity_id,
+            )
+            seen: set[str] = set()
+            for stance in stances:
+                seen.add(stance.observer_id)
+                from v8_next.audit.forensic import evaluation_state
+
+                raw_stance = getattr(stance.kind, "value", stance.kind)
+                state = evaluation_state(raw_stance)
+                raw_label = str(raw_stance)
+                raw_field = {} if raw_label.upper() == state else {"raw_stance": raw_label}
+                self._audit(
+                    "EXPERT_EVALUATED",
+                    candle.end_ns,
+                    evidence="DERIVED",
+                    expert_id=stance.observer_id,
+                    opportunity_id=record.opportunity_id,
+                    decision_id=f"D{candle.end_ns}",
+                    stance=state,
+                    reason_code=stance.reason,
+                    **raw_field,
+                    variant_id=stance.variant_id,
+                    market_data_available_ns=candle.available_ns,
+                )
+            for missing in CANONICAL_28_EXPERTS:
+                if missing in seen:
+                    continue
+                self._audit(
+                    "EXPERT_EVALUATED",
+                    candle.end_ns,
+                    evidence="DERIVED",
+                    expert_id=missing,
+                    opportunity_id=record.opportunity_id,
+                    decision_id=f"D{candle.end_ns}",
+                    stance="NOT_EVALUATED",
+                    reason_code="WITNESS_NOT_INVOKED",
+                )
 
         # 6. Execute Native Orders via NautilusTrader OrderFactory
         action = "NO_ACTION"
@@ -566,6 +701,7 @@ class ExpertEnsembleStrategy(Strategy):
                         if entry_order_type is None:
                             quantity = None
                         elif entry_order_type == OrderType.STOP_MARKET:
+                            assert entry_trigger_price is not None
                             # NautilusTrader's bracket builder accepts only MARKET
                             # and LIMIT entries (it raises on STOP_MARKET), so a
                             # stop entry is submitted on its own and the ledger
@@ -635,6 +771,30 @@ class ExpertEnsembleStrategy(Strategy):
                                 tp_price=tp_price,
                             )
                             self.submit_order_list(order_list)
+                            # Protection lifecycle is recorded at submission: the
+                            # native accept event does not always expose the child
+                            # order type, so inferring protection from fills alone
+                            # would leave G7 unprovable.
+                            self._audit(
+                                "PROTECTIVE_STOP_CREATED",
+                                int(bar.ts_event),
+                                evidence="OBSERVED_SIMULATION",
+                                order_role="STOP_LOSS",
+                                order_type="STOP_MARKET",
+                                trigger_price=str(sl_price),
+                                quantity=str(submit_qty),
+                                child_index=1,
+                            )
+                            self._audit(
+                                "TARGET_CREATED",
+                                int(bar.ts_event),
+                                evidence="OBSERVED_SIMULATION",
+                                order_role="TAKE_PROFIT",
+                                order_type="LIMIT",
+                                price=str(tp_price),
+                                quantity=str(submit_qty),
+                                child_index=2,
+                            )
                             if record is not None:
                                 self.opportunity_book.update_status(
                                     record.opportunity_id, OpportunityStatus.ADMITTED
@@ -738,6 +898,38 @@ class ExpertEnsembleStrategy(Strategy):
             else:
                 action = "POSITION_OCCUPIED"
 
+        if record is not None:
+            if action.startswith(("SUBMITTED", "SIZED_TO_MIN_NOTIONAL+SUBMITTED", "TWAP")):
+                self._audit(
+                    "ADMISSION_ACCEPTED",
+                    candle.end_ns,
+                    evidence="DERIVED",
+                    opportunity_id=record.opportunity_id,
+                    decision_id=f"D{candle.end_ns}",
+                    action=action,
+                    sizing_mode=sizing_mode,
+                )
+                self._audit(
+                    "ORDER_SUBMITTED",
+                    candle.end_ns,
+                    evidence="OBSERVED_SIMULATION",
+                    opportunity_id=record.opportunity_id,
+                    decision_id=f"D{candle.end_ns}",
+                    action=action,
+                    intent_id=f"D{candle.end_ns}",
+                    order_linkage="INTENT_ONLY (submit return value not exposed; native ids follow)",
+                )
+            elif action in {"POSITION_OCCUPIED"}:
+                self._audit(
+                    "ADMISSION_REJECTED",
+                    candle.end_ns,
+                    evidence="DERIVED",
+                    opportunity_id=record.opportunity_id,
+                    decision_id=f"D{candle.end_ns}",
+                    reason_code=action,
+                    action=action,
+                )
+
         # 7. Record Full Diagnostic Trace
         self.decisions.append(
             {
@@ -758,42 +950,159 @@ class ExpertEnsembleStrategy(Strategy):
             }
         )
 
+    def _audit(self, event_type: str, event_time_ns: int, *, evidence: str, **fields: Any) -> None:
+        """Append one forensic event. Never raises into the replay path."""
+        recorder = self.audit_recorder
+        if recorder is None:
+            return
+        from v8_next.audit.forensic import EvidenceClass
+
+        try:
+            recorder.record(
+                event_type,
+                event_time_ns=int(event_time_ns),
+                source_component="ExpertEnsembleStrategy",
+                evidence_class=EvidenceClass(evidence),
+                instrument_id=str(self.instrument_id),
+                **fields,
+            )
+        except Exception:  # pragma: no cover - observation must not break trading
+            return
+
     def on_order_event(self, event: Any) -> None:
         """Track native order state transitions."""
-        self.order_events.append(
-            {
-                "event_type": type(event).__name__,
-                "client_order_id": str(getattr(event, "client_order_id", "")),
-                "instrument_id": str(getattr(event, "instrument_id", "")),
-                "event_ns": getattr(event, "ts_event", 0),
-                "received_ns": getattr(event, "ts_init", 0),
-            }
-        )
+        record: dict[str, Any] = {
+            "event_type": type(event).__name__,
+            "client_order_id": str(getattr(event, "client_order_id", "")),
+            "instrument_id": str(getattr(event, "instrument_id", "")),
+            "event_ns": getattr(event, "ts_event", 0),
+            "received_ns": getattr(event, "ts_init", 0),
+            "order_type": str(getattr(event, "order_type", "")),
+            "venue_order_id": str(getattr(event, "venue_order_id", "")),
+            "position_id": str(getattr(event, "position_id", "")),
+            "side": str(getattr(event, "side", "")),
+            "price": str(getattr(event, "price", "")),
+            "quantity": str(getattr(event, "quantity", "")),
+            "filled_qty": str(getattr(event, "filled_qty", "")),
+            "reason": str(getattr(event, "reason", "")),
+        }
+        # Native OrderSubmitted/OrderAccepted events do not carry the order's
+        # economic attributes. Read them from the cache so the ledger retains
+        # side/type/quantity/price instead of empty strings.
+        order = None
+        try:
+            order = self.cache.order(event.client_order_id)
+        except Exception:
+            order = None
+        if order is not None:
+            venue = getattr(order, "venue_order_id", None)
+            record["order_type"] = record["order_type"] or str(getattr(order, "type", ""))
+            record["venue_order_id"] = record["venue_order_id"] or (
+                str(venue) if venue is not None else ""
+            )
+            record["side"] = record["side"] or str(getattr(order, "side", ""))
+            record["quantity"] = record["quantity"] or str(getattr(order, "quantity", ""))
+            record["filled_qty"] = record["filled_qty"] or str(getattr(order, "filled_qty", ""))
+            order_price = getattr(order, "price", None)
+            trigger_price = getattr(order, "trigger_price", None)
+            if not record["price"]:
+                if order_price is not None:
+                    record["price"] = str(order_price)
+                elif trigger_price is not None:
+                    record["price"] = str(trigger_price)
+        self.order_events.append(record)
+        from v8_next.audit.forensic import ORDER_EVENT_TYPES
+
+        mapped = ORDER_EVENT_TYPES.get(record["event_type"])
+        if mapped is not None:
+            self._audit(
+                mapped,
+                int(record["event_ns"] or 0),
+                evidence="OBSERVED_SIMULATION",
+                client_order_id=record["client_order_id"],
+                venue_order_id=record["venue_order_id"],
+                position_id=record["position_id"] or None,
+                order_type=record["order_type"],
+                side=record["side"],
+                price=record["price"],
+                quantity=record["quantity"],
+                filled_qty=record["filled_qty"],
+                reason=record["reason"],
+                native_event_class=record["event_type"],
+            )
+            # Bracket children are the only orders whose client id ends in -2
+            # (stop) or -3 (target); emit explicit protection lifecycle events so
+            # G7 is proven from the ledger, not inferred from fill tags.
+            client_id = record["client_order_id"]
+            order_type = record["order_type"].upper()
+            reduce_only = bool(getattr(order, "is_reduce_only", False)) if order is not None else False
+            is_stop = "STOP" in order_type
+            is_target = not is_stop and "LIMIT" in order_type and (reduce_only or order is not None)
+            if is_stop or is_target:
+                base = "PROTECTIVE_STOP" if is_stop else "TARGET"
+                if mapped == "ORDER_ACCEPTED":
+                    protection_event = f"{base}_CREATED"
+                elif mapped in {"ORDER_CANCELED", "ORDER_FILLED"}:
+                    protection_event = f"{base}_CANCELED"
+                else:
+                    protection_event = None
+                if protection_event is not None:
+                    self._audit(
+                        protection_event,
+                        int(record["event_ns"] or 0),
+                        evidence="OBSERVED_SIMULATION",
+                        client_order_id=client_id,
+                        venue_order_id=record["venue_order_id"] or None,
+                        order_type=record["order_type"] or None,
+                        side=record["side"] or None,
+                        price=record["price"] or None,
+                        reason=record["reason"] or (
+                            "FILLED" if mapped == "ORDER_FILLED" else None
+                        ),
+                        native_event_class=record["event_type"],
+                    )
 
     def on_position_opened(self, event: Any) -> None:
         """Track newly opened native position."""
-        self.opened_positions.append(
-            {
-                "position_id": str(getattr(event, "position_id", "")),
-                "instrument_id": str(getattr(event, "instrument_id", "")),
-                "side": str(getattr(event, "side", "")),
-                "quantity": str(getattr(event, "quantity", "")),
-                "avg_px_open": str(getattr(event, "avg_px_open", "")),
-                "event_ns": getattr(event, "ts_event", 0),
-            }
+        record = {
+            "position_id": str(getattr(event, "position_id", "")),
+            "instrument_id": str(getattr(event, "instrument_id", "")),
+            "side": str(getattr(event, "side", "")),
+            "quantity": str(getattr(event, "quantity", "")),
+            "avg_px_open": str(getattr(event, "avg_px_open", "")),
+            "event_ns": getattr(event, "ts_event", 0),
+        }
+        self.opened_positions.append(record)
+        self._audit(
+            "POSITION_OPENED",
+            int(record["event_ns"] or 0),
+            evidence="OBSERVED_SIMULATION",
+            position_id=record["position_id"],
+            side=record["side"],
+            quantity=record["quantity"],
+            avg_px_open=record["avg_px_open"],
+            linkage_note="decision_id resolved by audit pipeline from entry fill timestamp",
         )
 
     def on_position_closed(self, event: Any) -> None:
         """Track closed native position and realized PnL."""
-        self.closed_positions.append(
-            {
-                "position_id": str(getattr(event, "position_id", "")),
-                "instrument_id": str(getattr(event, "instrument_id", "")),
-                "realized_pnl": str(getattr(event, "realized_pnl", "")),
-                "realized_return": str(getattr(event, "realized_return", "")),
-                "avg_px_close": str(getattr(event, "avg_px_close", "") or ""),
-                "event_ns": getattr(event, "ts_event", 0),
-            }
+        record = {
+            "position_id": str(getattr(event, "position_id", "")),
+            "instrument_id": str(getattr(event, "instrument_id", "")),
+            "realized_pnl": str(getattr(event, "realized_pnl", "")),
+            "realized_return": str(getattr(event, "realized_return", "")),
+            "avg_px_close": str(getattr(event, "avg_px_close", "") or ""),
+            "event_ns": getattr(event, "ts_event", 0),
+        }
+        self.closed_positions.append(record)
+        self._audit(
+            "POSITION_CLOSED",
+            int(record["event_ns"] or 0),
+            evidence="OBSERVED_SIMULATION",
+            position_id=record["position_id"],
+            realized_pnl=record["realized_pnl"],
+            realized_return=record["realized_return"],
+            avg_px_close=record["avg_px_close"],
         )
 
 
@@ -811,6 +1120,7 @@ def run_expert_strategy_backtest(
     latency_model: Any = None,
     fee_model: Any = None,
     execution_profile: str | ExecutionProfile | None = None,
+    audit_recorder: Any | None = None,
 ) -> dict[str, Any]:
     """Execute the 28-expert ensemble strategy through NautilusTrader's BacktestEngine.
 
@@ -901,7 +1211,12 @@ def run_expert_strategy_backtest(
         engine.add_data(bars)
 
         source_map = {c.end_ns: c for c in candles}
-        strategy = ExpertEnsembleStrategy(cfg, source_candles=source_map, readings=readings)
+        strategy = ExpertEnsembleStrategy(
+            cfg,
+            source_candles=source_map,
+            readings=readings,
+            audit_recorder=audit_recorder,
+        )
         engine.add_strategy(strategy)
 
         # 4. Run Backtest
@@ -909,6 +1224,9 @@ def run_expert_strategy_backtest(
 
         # 5. Extract Economic State & Diagnostics
         account_state = economic_state(engine, ven, curr)
+        from v8_next.audit.native_telemetry import extract_native_reports
+
+        native_reports = extract_native_reports(engine)
 
         # Measured execution evidence. When no profile was declared, no
         # execution semantics are claimed: only the facts that do not depend on
@@ -947,6 +1265,7 @@ def run_expert_strategy_backtest(
             # (maker fill ratio + rebate effect) unmeasurable from this path.
             "fill_records": fill_records,
             "fill_report_type": fill_report_type,
+            "native_reports": native_reports,
             "opportunity_book": strategy.opportunity_book,
         }
     finally:

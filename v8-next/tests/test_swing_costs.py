@@ -15,7 +15,9 @@ import pytest
 from v8_next.economics.swing_costs import (
     EXECUTION_SHORTFALL_MISSING,
     FUNDING_APPLIED,
+    FUNDING_CONFLICTING,
     FUNDING_MISSING_NO_ROWS,
+    FUNDING_OFF_GRID,
     FUNDING_PARTIAL,
     SWING_COST_MODEL_VERSION,
     CampaignCost,
@@ -128,6 +130,75 @@ def test_dropped_tape_rows_are_carried_into_the_result() -> None:
         [], instrument="BTCUSDT", direction="LONG", entry_ns=0, exit_ns=HOUR_NS, dropped_rows_in_tape=7
     )
     assert result.dropped_rows_in_tape == 7
+    assert result.status == FUNDING_PARTIAL
+    assert result.complete is False
+
+
+def test_duplicate_settlements_are_charged_once_and_missing_ones_are_not_hidden() -> None:
+    duplicate_only = funding_for_position(
+        [row("BTCUSDT", 8, "0.001"), row("BTCUSDT", 8, "0.001")],
+        instrument="BTCUSDT",
+        direction="LONG",
+        entry_ns=0,
+        exit_ns=16 * HOUR_NS,
+    )
+    assert duplicate_only.applied == 1
+    assert duplicate_only.expected == 2
+    assert duplicate_only.status == FUNDING_PARTIAL
+    assert duplicate_only.cost_return == pytest.approx(-0.001)
+
+    complete_with_duplicate = funding_for_position(
+        [row("BTCUSDT", 8, "0.001"), row("BTCUSDT", 8, "0.001"), row("BTCUSDT", 16, "0.001")],
+        instrument="BTCUSDT",
+        direction="LONG",
+        entry_ns=0,
+        exit_ns=16 * HOUR_NS,
+    )
+    assert complete_with_duplicate.applied == 2
+    assert complete_with_duplicate.expected == 2
+    assert complete_with_duplicate.status == FUNDING_APPLIED
+    assert complete_with_duplicate.cost_return == pytest.approx(-0.002)
+
+
+def test_conflicting_rates_for_one_settlement_fail_closed() -> None:
+    result = funding_for_position(
+        [row("BTCUSDT", 8, "0.001"), row("BTCUSDT", 8, "0.002")],
+        instrument="BTCUSDT",
+        direction="LONG",
+        entry_ns=0,
+        exit_ns=16 * HOUR_NS,
+    )
+    assert result.status == FUNDING_CONFLICTING
+    assert result.complete is False
+    assert result.applied == 1
+
+
+def test_off_grid_settlement_is_not_reported_complete() -> None:
+    result = funding_for_position(
+        [row("BTCUSDT", 7, "0.001"), row("BTCUSDT", 15, "0.001")],
+        instrument="BTCUSDT",
+        direction="LONG",
+        entry_ns=0,
+        exit_ns=16 * HOUR_NS,
+    )
+    assert result.applied == 2
+    assert result.expected == 2
+    assert result.status == FUNDING_OFF_GRID
+    assert result.complete is False
+
+
+def test_off_grid_settlement_with_no_expected_grid_points_is_not_complete() -> None:
+    result = funding_for_position(
+        [FundingRow("BTCUSDT", HOUR_MS // 2, Decimal("0.001"), 8.0)],
+        instrument="BTCUSDT",
+        direction="LONG",
+        entry_ns=0,
+        exit_ns=HOUR_NS,
+    )
+    assert result.applied == 1
+    assert result.expected == 0
+    assert result.status == FUNDING_OFF_GRID
+    assert result.complete is False
 
 
 # --- slippage is modelled, never measured (MECHANICS ONLY) ----------------------
@@ -304,6 +375,7 @@ def test_replayed_fee_magnitude_is_carried_as_a_signed_cost() -> None:
 # --- real tape measurement (not mechanics) --------------------------------------
 
 
+@pytest.mark.slow
 @pytest.mark.skipif(not MULTI_TAPE.is_file(), reason="four-year multi tape not on this checkout")
 def test_real_tape_funding_is_bound_and_mark_absence_is_declared() -> None:
     tape = load_multitape(MULTI_TAPE)
@@ -325,5 +397,3 @@ def test_real_tape_funding_is_bound_and_mark_absence_is_declared() -> None:
     assert result.cost_return != 0.0
     # no mark price in this tape: the measured shortfall stays absent
     assert tape.mark_price_absent is True
-
-pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

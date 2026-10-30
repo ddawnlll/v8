@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from decimal import Decimal
-from typing import Any
+from typing import Any, cast
 
 from nautilus_trader.backtest import BacktestEngine
 from nautilus_trader.common import LogLevel
@@ -175,7 +175,10 @@ class SwingEngineStrategy(Strategy):
         self.subscribe_bars(self.bar_type)
 
     def _instrument(self) -> CryptoPerpetual:
-        return self.cache.instrument(self.instrument_id)
+        instrument = self.cache.instrument(self.instrument_id)
+        if instrument is None:
+            raise RuntimeError(f"instrument {self.instrument_id} is not loaded")
+        return cast(CryptoPerpetual, instrument)
 
     def _position_id(self) -> Any | None:
         """The open position this strategy's exits must reduce, if one is known."""
@@ -471,26 +474,38 @@ class SwingEngineStrategy(Strategy):
             }
         )
 
+    def _record_order_failure(self, event: Any, event_type: str) -> None:
+        """Record a denied/rejected order and retire a failed entry plan.
+
+        A denied or rejected entry must not leave ``plan`` parked in
+        ``ENTRY_SUBMITTED`` forever: that would make the strategy ignore every
+        later valid signal. Only the entry order is cleared here; a failed
+        protection leg must not silently discard an open position.
+        """
+        record = {
+            "event_type": event_type,
+            "client_order_id": str(getattr(event, "client_order_id", "")),
+            "reason": str(getattr(event, "reason", "")),
+            "ts_event": getattr(event, "ts_event", 0),
+        }
+        self.events.order_events.append(record)
+        plan = self.plan
+        if plan is None or plan.get("status") != "ENTRY_SUBMITTED":
+            return
+        if record["client_order_id"] != plan.get("entry_client_order_id"):
+            return
+        plan["status"] = "ENTRY_DENIED" if event_type == "OrderDenied" else "ENTRY_REJECTED"
+        plan["failure_reason"] = record["reason"]
+        plan["failure_ns"] = record["ts_event"]
+        self.events.decisions.append(dict(plan))
+        self.plan = None
+
     def on_order_denied(self, event: Any) -> None:
         """A denied order is a finding: it is recorded and named, never swallowed."""
-        self.events.order_events.append(
-            {
-                "event_type": "OrderDenied",
-                "client_order_id": str(getattr(event, "client_order_id", "")),
-                "reason": str(getattr(event, "reason", "")),
-                "ts_event": getattr(event, "ts_event", 0),
-            }
-        )
+        self._record_order_failure(event, "OrderDenied")
 
     def on_order_rejected(self, event: Any) -> None:
-        self.events.order_events.append(
-            {
-                "event_type": "OrderRejected",
-                "client_order_id": str(getattr(event, "client_order_id", "")),
-                "reason": str(getattr(event, "reason", "")),
-                "ts_event": getattr(event, "ts_event", 0),
-            }
-        )
+        self._record_order_failure(event, "OrderRejected")
 
     def on_position_closed(self, event: Any) -> None:
         self.active_position_id = None

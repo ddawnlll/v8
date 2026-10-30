@@ -165,49 +165,22 @@ def trade_signature(result: dict[str, Any]) -> str:
 
 
 def _native_fill_records(engine: BacktestEngine) -> tuple[list[dict[str, Any]], str]:
-    """Normalise the engine's order-fills report into JSON-safe records.
-
-    NautilusTrader 2.0.0rc4 returns the report as a table (``to_dicts`` /
-    ``to_dict``) rather than a declared stub type, so the shape is probed at
-    runtime and reported verbatim instead of being assumed.
-    """
-    try:
-        report = engine.generate_order_fills_report()
-    except Exception as exc:  # pragma: no cover - engine-level failure
-        return [], f"UNAVAILABLE:{type(exc).__name__}"
-    if report is None:
-        return [], "NONE"
-    records: list[dict[str, Any]] = []
-    try:
-        if hasattr(report, "to_dicts"):
-            records = [dict(r) for r in report.to_dicts()]
-        elif hasattr(report, "to_dict"):
-            try:
-                raw = report.to_dict("records")
-                records = [dict(r) for r in raw]
-            except TypeError:
-                records = [dict(report.to_dict())]
-        elif isinstance(report, (list, tuple)):
-            records = [dict(r) for r in report if isinstance(r, dict)]
-    except Exception:  # pragma: no cover - defensive
-        return [], f"UNPARSABLE:{type(report).__name__}"
-    safe: list[dict[str, Any]] = []
-    for rec in records:
-        safe.append({str(key): _json_safe(value) for key, value in rec.items()})
-    return safe, type(report).__name__
-
-
-def _native_fill_records(engine):
     """Backwards-compatible alias for the shared telemetry helper."""
     return native_fill_records(engine)
 
 
-def _fill_signature(records):
+def _fill_signature(records: list[dict[str, Any]]) -> str:
     """Backwards-compatible alias for the shared telemetry helper."""
     return fill_signature(records)
 
 
-def _execution_telemetry(profile, fill_records, fill_report_type, opened, decisions):
+def _execution_telemetry(
+    profile: ExecutionProfile,
+    fill_records: list[dict[str, Any]],
+    fill_report_type: str,
+    opened: list[dict[str, Any]],
+    decisions: list[dict[str, Any]],
+) -> dict[str, Any]:
     """Backwards-compatible alias for the shared telemetry helper."""
     return execution_telemetry(profile, fill_records, fill_report_type, opened, decisions)
 
@@ -384,6 +357,9 @@ def run_portfolio_backtest(
         unknown_leg = 0
         for row in funding:
             boundary = row.funding_time_ms * 1_000_000
+            if window_start is None or window_end is None:
+                out_of_window += 1
+                continue
             if not window_start <= boundary <= window_end:
                 out_of_window += 1
                 continue

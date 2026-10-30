@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import fcntl
 import hashlib
 import json
 import logging
@@ -322,7 +321,23 @@ def replay_account(
             if state["positions"]
             else "NO_EXPOSURE_IN_SESSION_NO_FUNDING_LIABILITY"
         )
-        state["online_funding_settlements_applied"] = len(funding_settlements)
+
+        def _open_at(position: dict[str, Any], ns: int) -> bool:
+            closed = int(position.get("closed_ns") or 0)
+            return int(position["opened_ns"]) <= ns and (closed == 0 or ns < closed)
+
+        # A settlement enters the engine as an event; with no position open at
+        # that instant it is a native no-op. Count only the settlements that
+        # actually had exposure, never every record selected by the window.
+        state["online_funding_settlements_applied"] = sum(
+            1
+            for settlement in funding_settlements
+            if any(
+                position["instrument_id"] == settlement.instrument_id
+                and _open_at(position, int(settlement.received_ns))
+                for position in state["positions"]
+            )
+        )
         state["online_funding_settlements"] = [
             {
                 "instrument_id": s.instrument_id,
@@ -367,6 +382,45 @@ def replay_account(
         engine.dispose()
 
 
+def _acquire_writer_lock(lock: Any) -> None:
+    """Acquire an exclusive, non-blocking writer lock on ``lock``.
+
+    ``fcntl`` is Unix-only and ``msvcrt`` is Windows-only, so the platform
+    branch lives here rather than at module import time. The lock file itself
+    is only a marker; the OS releases the lock if the process exits.
+    """
+    try:
+        if os.name == "nt":
+            import msvcrt
+
+            lock.seek(0, os.SEEK_END)
+            if lock.tell() == 0:
+                lock.write("\0")
+                lock.flush()
+            lock.seek(0)
+            msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
+        else:
+            import importlib
+
+            fcntl = importlib.import_module("fcntl")
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError as error:
+        raise RuntimeError("paper session already has an active writer") from error
+
+
+def _release_writer_lock(lock: Any) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        lock.seek(0)
+        msvcrt.locking(lock.fileno(), msvcrt.LK_UNLCK, 1)
+    else:
+        import importlib
+
+        fcntl = importlib.import_module("fcntl")
+        fcntl.flock(lock, fcntl.LOCK_UN)
+
+
 def step(
     run: Path,
     config: dict[str, Any],
@@ -377,17 +431,14 @@ def step(
     """One local writer per session; the OS releases the lock on process exit."""
     PaperConfig.model_validate(config)
     run.mkdir(parents=True, exist_ok=True)
-    with (run / ".paper.lock").open("a") as lock:
-        try:
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError as error:
-            raise RuntimeError("paper session already has an active writer") from error
+    with (run / ".paper.lock").open("a+") as lock:
+        _acquire_writer_lock(lock)
         try:
             return _step_locked(
                 run, config, replay_only=replay_only, execution_profile=execution_profile
             )
         finally:
-            fcntl.flock(lock, fcntl.LOCK_UN)
+            _release_writer_lock(lock)
 
 
 def _step_locked(

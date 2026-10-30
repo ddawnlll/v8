@@ -115,6 +115,7 @@ def test_g4_synthetic_falsification_adversarial_shock(real_candles: list[Candle]
         min_support_quorum=1,
         max_contradiction_tolerance=28,
         bracket_stop_pct=Decimal("0.02"),
+        bracket_target_pct=Decimal("0.04"),
     )
     state, metrics = evaluate_g4_synthetic_falsification(real_candles, cfg)
     assert metrics["min_closed_trades"] == 2

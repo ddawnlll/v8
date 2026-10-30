@@ -67,6 +67,8 @@ def load_depth_manifest(directory: Path | str) -> dict[str, Any]:
     """Load and sanity-check a depth capture manifest."""
     manifest_path = Path(directory) / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict):
+        raise ValueError("depth capture manifest is not an object")
     if manifest.get("claim_status") != "NO_ECONOMIC_CLAIM":
         raise ValueError("depth capture does not carry a NO_ECONOMIC_CLAIM status")
     artifacts = manifest.get("artifacts")
