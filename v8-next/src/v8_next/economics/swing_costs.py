@@ -241,6 +241,9 @@ class CampaignCost:
     slippage_model: str
     net_return_measured_only: float
     net_return_with_modelled_slippage: float
+    exit_kind: str | None = None
+    bars_held: int | None = None
+    bracketless: bool | None = None
     execution_shortfall_measured_return: None = None
     execution_shortfall_status: str = EXECUTION_SHORTFALL_MISSING
     model_version: str = SWING_COST_MODEL_VERSION
@@ -251,6 +254,9 @@ class CampaignCost:
             "direction": self.direction,
             "decision_ns": self.decision_ns,
             "exit_ns": self.exit_ns,
+            "exit_kind": self.exit_kind,
+            "bars_held": self.bars_held,
+            "bracketless": self.bracketless,
             "gross_return": self.gross_return,
             "fee_cost_return": self.fee_cost_return,
             "funding_cost_return": self.funding_cost_return,
@@ -298,6 +304,12 @@ def campaign_cost(
     fee = -abs(float(outcome.fee_cost_return))
     measured_only = round(gross + fee + funding.cost_return, 12)
     return CampaignCost(
+        exit_kind=getattr(outcome, "exit_kind", None),
+        bars_held=getattr(outcome, "bars_held", None),
+        bracketless=(
+            Decimal(str(decision.stop_price)) == Decimal(str(decision.entry_reference))
+            if hasattr(decision, "stop_price") else None
+        ),
         policy_id=decision.policy_id,
         direction=decision.direction,
         decision_ns=int(decision.decision_ns),

@@ -159,6 +159,9 @@ def main(argv: list[str] | None = None) -> int:
         index = warmup
         per_fraction: dict[float, list[Any]] = {fraction: [] for fraction in fractions}
         campaign_rows: list[dict[str, Any]] = []
+        counter_fraction: dict[float, list[Any]] = {fraction: [] for fraction in fractions}
+        divergence_count = 0
+        bracketless_count = 0
         considered = 0
         while index < len(series) - 1:
             bar = series[index]
@@ -167,13 +170,24 @@ def main(argv: list[str] | None = None) -> int:
             if decision is None:
                 index += 1
                 continue
+            bracketless = decision.stop_price == decision.entry_reference
+            decision_has_bracket = has_bracket and not bracketless
+            future_bars = series[index + 1 :]
             outcome = replay_bracket(
-                decision, series[index + 1 :], bar_ns=HOUR_NS, bps_fee=taker_fee, has_bracket=has_bracket
+                decision, future_bars, bar_ns=HOUR_NS, bps_fee=taker_fee, has_bracket=has_bracket
             )
             index += max(1, outcome.bars_held) + 1
             if bar.start_ns < _ms(args.start_utc) * 1_000_000:
                 continue  # only campaigns opened inside the scored window
             considered += 1
+            bracketless_count += int(bracketless)
+            divergence_count += int(has_bracket != decision_has_bracket)
+            counter_outcome = (
+                replay_bracket(
+                    decision, future_bars,
+                    bar_ns=HOUR_NS, bps_fee=taker_fee, has_bracket=decision_has_bracket,
+                ) if has_bracket != decision_has_bracket else outcome
+            )
             for fraction in fractions:
                 cost = campaign_cost(
                     decision=decision,
@@ -185,7 +199,17 @@ def main(argv: list[str] | None = None) -> int:
                     dropped_rows_in_tape=tape.funding_dropped,
                 )
                 per_fraction[fraction].append(cost)
-            campaign_rows.append(per_fraction[fractions[-1]][-1].as_dict())
+                counter_fraction[fraction].append(
+                    campaign_cost(
+                        decision=decision, outcome=counter_outcome, funding_rows=funding_rows,
+                        slippage=SlippageModel(model="entry_bar_range_fraction", range_fraction=fraction),
+                        entry_bar_low=bar.low, entry_bar_high=bar.high,
+                        dropped_rows_in_tape=tape.funding_dropped,
+                    )
+                )
+            row = per_fraction[fractions[-1]][-1].as_dict()
+            row["counter_reading"] = counter_fraction[fractions[-1]][-1].as_dict()
+            campaign_rows.append(row)
 
         entry: dict[str, Any] = {
             "policy_id": policy_id,
@@ -197,6 +221,17 @@ def main(argv: list[str] | None = None) -> int:
                 str(fraction): aggregate(per_fraction[fraction]) for fraction in fractions
             },
             "campaigns": campaign_rows,
+            "bracket_contract": {
+                "published_reading": "READING_A_POLICY_NAME",
+                "bracketless_campaigns": bracketless_count,
+                "divergence_class_counts": ({"BRACKET_CONTRACT_DIVERGENCE": divergence_count}
+                                            if divergence_count else {}),
+                "reading_a": {"basis": "policy name", "totals_by_slippage_fraction": {
+                    str(fraction): aggregate(per_fraction[fraction]) for fraction in fractions}},
+                "reading_b": {"basis": "per-decision protection; same Reading A decisions",
+                              "totals_by_slippage_fraction": {
+                    str(fraction): aggregate(counter_fraction[fraction]) for fraction in fractions}},
+            },
         }
         report["family"][policy_id] = entry
 
