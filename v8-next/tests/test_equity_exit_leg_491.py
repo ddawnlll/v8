@@ -159,7 +159,13 @@ def test_491_graft_residual_is_exactly_the_excluded_costs(name: str) -> None:
     Entry notional 100 + exit notional 110 at ``taker_fee=0.001`` => 0.21 USDT.
     The mark path deliberately excludes commission, so ``equity_mtm`` stays at
     1010 while the engine balance is 1009.79. The graft absorbs exactly -0.21 in
-    total and the receipt publishes that identity as measured and explained.
+    total and the series publishes that identity as measured and explained.
+
+    This is the SYNTHETIC case only: on a real run the identity state is measured and, in
+    this checkout's reference window, still ``UNEXPLAINED_RESIDUAL`` (see
+    ``test_published_cost_reconciliation_carries_the_exit_leg_identity`` and
+    ``audit_out/critical_fixes_20261101/E2E_EVIDENCE.md``). The synthetic equality is not
+    evidence that the real residual is explained.
     """
     builder = BUILDERS[name]
     fee = 0.001
@@ -193,3 +199,34 @@ def test_491_graft_residual_is_exactly_the_excluded_costs(name: str) -> None:
         -(commission) if name == "strategy" else commission, abs=1e-12
     )
     assert identity["state"] == "EXPLAINED_BY_EXCLUDED_COSTS"
+
+
+def test_published_cost_reconciliation_carries_the_exit_leg_identity() -> None:
+    """#491 R2: the identity must reach the receipt, not stop inside the builder.
+
+    The builders computed ``exit_leg_identity`` and the receipt-side projection dropped it,
+    so a reader could never see whether the graft residual was the costs the mark path
+    excludes or an unexplained remainder. §14 of the issue requires a residual that is not
+    explainable by fees + funding to publish a NAMED non-reconciling state; that is only
+    true if the block survives into the published receipt.
+    """
+    from v8_next.evaluation.economic_benchmark import published_cost_reconciliation
+
+    identity = {
+        "state": "UNEXPLAINED_RESIDUAL",
+        "gap_usdt": 12.5,
+        "expected_gap_usdt": 6.7,
+        "unexplained_usdt": 5.8,
+        "tolerance_usdt": 0.05,
+        "terms_usdt": {"commission": 6.7, "funding": None, "open_unrealized": 0.0},
+    }
+    published = published_cost_reconciliation(
+        {"engine_series_residual_measured": True, "exit_leg_identity": identity},
+        cost_basis="VERIFIED_ENGINE",
+    )
+    assert published is not None
+    assert published["exit_leg_identity"] == identity
+    assert published["exit_leg_identity"]["state"] == "UNEXPLAINED_RESIDUAL"
+    assert published["exit_leg_identity"]["unexplained_usdt"] == 5.8
+    # A curve that measured no reconciliation still publishes no block at all.
+    assert published_cost_reconciliation(None, cost_basis="ESTIMATED") is None
