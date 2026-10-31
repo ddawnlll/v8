@@ -1,0 +1,30 @@
+# #476 R4 — an API-created issue cannot bypass the wiring manifest.
+#
+# The backlog this closes: the mandatory `wiring_manifest` field was bypassed on all
+# seven port-chain issues, so requirements were written as module-existence and closed
+# as "completed" while nothing consumed the module. This workflow makes the manifest a
+# property of the issue itself rather than a convention a client may skip.
+#
+# It validates FORM only. Whether a declared consumer edge actually exists is measured
+# by `v8-next/tools/audit_wiring.py`, which runs in `v8-next/tools/preflight.sh`.
+name: issue-wiring-manifest
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Write issue body
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: printf '%s' "$ISSUE_BODY" > "$RUNNER_TEMP/issue-body.md"
+      - name: Check the wiring manifest
+        run: python3 v8-next/tools/check_issue_wiring_manifest.py --body-file "$RUNNER_TEMP/issue-body.md"
