@@ -192,9 +192,20 @@ def _experiment_check(root: Path, experiment: str) -> dict[str, Any]:
         problems.append(f"{len(declared_arms)} arms declared (max 4)")
     if len(native_dirs) > research_contract.MAX_NON_BASELINE_REPLAYS_PER_EXPERIMENT:
         problems.append(f"{len(native_dirs)} native arms executed (max 2)")
+    # Cross-file status consistency: metrics.json, arms.json and hypothesis.json
+    # must agree, otherwise the bundle contradicts itself.
+    statuses = {"metrics": status}
+    for name in ("arms", "hypothesis"):
+        payload, err = _read_json(directory / f"{name}.json")
+        if not err and isinstance(payload, dict):
+            statuses[name] = payload.get("status")
+    if len({v for v in statuses.values() if v}) > 1:
+        problems.append(f"status disagreement across files: {statuses}")
+
     return {
         "ok": not problems,
         "path": str(directory),
+        "statuses": statuses,
         "status": status,
         "native_arms_executed": native_dirs,
         "screen_row_counts": row_counts,
@@ -227,6 +238,18 @@ def _native_arm_reconciliation(root: Path) -> dict[str, Any]:
         cost_column = sum(row.get("fees_usdt") or 0.0 for row in lifecycles)
         basis = {str(row.get("fee_basis")) for row in lifecycles}
         reconstruction, err = _read_json(recon_path)
+        decision_ids = {
+            str(row.get("decision_id")) for row in screen.read_jsonl(run_dir / "expert_decisions.jsonl")
+            if row.get("decision_id")
+        }
+        opportunity_ids = {
+            str(row.get("opportunity_id")) for row in screen.read_jsonl(run_dir / "opportunities.jsonl")
+            if row.get("opportunity_id")
+        }
+        gates = {
+            g["gate_id"]: g["status"]
+            for g in (json.loads((run_dir / "gate_results.json").read_text()).get("gates") or [])
+        } if (run_dir / "gate_results.json").is_file() else {}
         results[arm_json.parent.name] = {
             "run_dir": str(run_dir),
             "campaigns": len(lifecycles),
@@ -241,13 +264,26 @@ def _native_arm_reconciliation(root: Path) -> dict[str, Any]:
             "mixed_cost_basis": len(basis) > 1,
             "decision_ids_linked": sum(1 for row in lifecycles if row.get("decision_id")),
             "opportunity_ids_linked": sum(1 for row in lifecycles if row.get("opportunity_id")),
+            "decision_join_rate": (
+                sum(1 for row in lifecycles if str(row.get("decision_id")) in decision_ids),
+                len(lifecycles),
+            ),
+            "opportunity_join_rate": (
+                sum(1 for row in lifecycles if str(row.get("opportunity_id")) in opportunity_ids),
+                len(lifecycles),
+            ),
+            "audit_gates": gates,
+            "audit_failed": sorted(k for k in ("G8", "G9") if gates.get(k) == "FAIL"),
             "reconciliation_present": reconstruction is not None,
             "net_expectancy_r": research_metrics.mean(
                 row.get("realized_net_r") for row in lifecycles
             ),
         }
+    # An arm the audit itself failed is kept as evidence of the failure, never
+    # counted as validated economics.
     return {"ok": all(v["fees_reconcile"] for v in results.values()) if results else True,
-            "arms": results}
+            "arms": results,
+            "usable": sorted(k for k, v in results.items() if not v["audit_failed"])}
 
 
 def validate_run(root: Path | str) -> dict[str, Any]:
