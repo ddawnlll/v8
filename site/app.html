@@ -60,8 +60,13 @@ async function refresh(){
   }
   document.getElementById('ledgerCount').textContent=j.ledger?.count||0;
   document.getElementById('lastEntry').textContent=j.ledger?.last_entry||'—';
-  const gates=j.ledger?.gates||{}; const order=['g0_identity','g1_causal_pit','g2_determinism_ledger','g3_benchmark_coverage','g4_structural_robustness','g5_statistical_credibility','g6_protected_oos','g7_generalization','g8_prospective_shadow','g9_live_realization'];
-  const gEl=document.getElementById('gates'); gEl.innerHTML=''; order.forEach(k=>{const v=gates[k]||'UNKNOWN'; const d=document.createElement('div'); d.className=gateClass(v); d.textContent=k.split('_')[0].toUpperCase()+': '+v; gEl.appendChild(d);});
+  const gates=j.ledger?.gates||{}; const order=['g0_identity','g1_causal_pit','g2_determinism_ledger','g3_scenario_robustness','g4_structural_robustness','g5_statistical_credibility','g6_protected_oos','g7_generalization','g8_prospective_shadow','g9_live_realization'];
+  // #495: the cell is published as g3_scenario_robustness, the quantity the only G3
+  // resolver measures. Ledger entries written before the rename were digested under
+  // g3_benchmark_coverage (immutable, D-164), so the dashboard still reads that key as
+  // a fallback instead of silently rendering the cell as UNKNOWN.
+  const gateValue=k=>gates[k]??(k==='g3_scenario_robustness'?gates.g3_benchmark_coverage:undefined)??'UNKNOWN';
+  const gEl=document.getElementById('gates'); gEl.innerHTML=''; order.forEach(k=>{const v=gateValue(k); const d=document.createElement('div'); d.className=gateClass(v); d.textContent=k.split('_')[0].toUpperCase()+': '+v; gEl.appendChild(d);});
   document.getElementById('bulletin').textContent=(j.bulletin?.raw||'').slice(0,5000)||'—';
   document.getElementById('economic').textContent='Last cap '+(cap||'—')+' • Ledger '+(j.ledger?.count||0)+' entries';
   const fill=(id,arr)=>{const ul=document.getElementById(id); ul.innerHTML=''; if(!arr||!arr.length){ul.innerHTML='<li><span class="muted">—</span></li>';return;} arr.forEach(x=>{const li=document.createElement('li'); li.innerHTML=`<span><b>${x.id||''}</b> ${x.title||''}</span><small>${x.at||''}</small>`; ul.appendChild(li);});};
