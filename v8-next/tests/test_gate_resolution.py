@@ -11,6 +11,7 @@ Validates:
 8. End-to-end BenchmarkRunner execution with resolve_gates=True.
 """
 
+import inspect
 import json
 from decimal import Decimal
 from pathlib import Path
@@ -107,6 +108,86 @@ def test_g3_scenario_robustness(real_candles: list[Candle]):
         assert metrics["passed"] is True
         assert metrics["max_observed_drawdown"] <= 0.10
         assert metrics["max_observed_variance"] <= 0.20
+
+
+#: #495 — the G3 cell, and the one measurement its name may describe. A published
+#: vector field that names benchmark *coverage* is a different question from the
+#: regime/scenario robustness the resolver actually measures, so the three surfaces
+#: (vector field, registry resolver, published basis) are pinned to one quantity here.
+G3_VECTOR_FIELD = "g3_scenario_robustness"
+G3_RESOLVER = "evaluate_g3_scenario_robustness"
+G3_CANONICAL_ID = "G3ScenarioRobustness"
+
+
+def test_g3_cell_name_resolver_and_published_basis_name_the_same_measurement():
+    """#495: the G3 cell's name, its resolver and its published basis must agree.
+
+    The defect this pins: the cell was published as ``g3_benchmark_coverage`` while
+    the only resolver in the tree measured regime/scenario robustness, so a receipt
+    claimed a benchmark-coverage check that was never taken. The invariant below is
+    mechanical -- the field name, the registry resolver and the metrics/basis the
+    resolver publishes must describe the *same* quantity -- so this class of drift
+    cannot come back under either name.
+    """
+    from v8_next.evaluation import gate_resolution as gate_resolution_module
+    from v8_next.evaluation.benchmark_receipt import GATE_DESCRIPTORS
+    from v8_next.evaluation.gate_registry import registry_by_id
+    from v8_next.evaluation.scoring import evaluate_gate_vector
+
+    entry = registry_by_id()[G3_CANONICAL_ID]
+    descriptor = next(d for d in GATE_DESCRIPTORS if d.canonical_id == G3_CANONICAL_ID)
+
+    # 1. The three surfaces agree on the published cell name.
+    assert entry.vector_field == descriptor.vector_field == G3_VECTOR_FIELD
+    assert G3_VECTOR_FIELD in GateVector.model_fields, "the vector field must exist by that name"
+
+    # 2. The resolver the registry points at is the one that measures this cell.
+    assert entry.resolver == G3_RESOLVER
+    resolver = getattr(gate_resolution_module, entry.resolver, None)
+    assert callable(resolver), f"{entry.resolver!r} is not a callable in gate_resolution"
+
+    # 3. The basis the resolver publishes is the regime partition it measures over --
+    #    not a benchmark curve set, a primary id or a funding basis.
+    resolver_params = list(inspect.signature(resolver).parameters)
+    assert resolver_params[0] == "regimes", (
+        f"{entry.resolver}() must take the regime partition it measures; "
+        f"parameters are {resolver_params}"
+    )
+    _, basis = resolver({})
+    assert "regimes" in basis, f"the published basis must name the regime partition: {basis}"
+    assert "max_observed_drawdown" in basis
+    assert "max_observed_variance" in basis
+    benchmark_vocabulary = ("coverage", "benchmark", "primary_benchmark", "funding_basis")
+    leaked = sorted(
+        key for key in basis if any(word in key.lower() for word in benchmark_vocabulary)
+    )
+    assert leaked == [], f"the G3 basis publishes benchmark vocabulary it never measured: {leaked}"
+
+    # 4. The resolver's own docstring must publish the same cell name.
+    doc = (resolver.__doc__ or "").lower()
+    assert G3_VECTOR_FIELD in doc, (
+        f"{entry.resolver}() docstring must name the cell it publishes ({G3_VECTOR_FIELD})"
+    )
+    assert "coverage" not in doc and "benchmark" not in doc, (
+        "the G3 resolver docstring must not claim a benchmark measurement it does not take"
+    )
+    assert "scenario robustness" in doc and "regime" in doc
+
+    # 5. The descriptor's source clause describes the same quantity.
+    clause = descriptor.source_clause.lower()
+    assert "coverage" not in clause and "benchmark" not in clause
+    assert "scenario" in clause and "robust" in clause
+
+    # 6. No surface of the published vector claims benchmark coverage at all.
+    coverage_fields = [name for name in GateVector.model_fields if "coverage" in name]
+    assert coverage_fields == [], (
+        f"the gate vector still publishes a cell named for coverage: {coverage_fields}"
+    )
+
+    # 7. The canonical scoring rule publishes the renamed cell, and an unspecified
+    #    G3 stays unmeasured (UNKNOWN) rather than being defaulted to a verdict.
+    default_vector = evaluate_gate_vector(total_bars=1, total_trades=0, pnl_series=[])
+    assert getattr(default_vector, G3_VECTOR_FIELD) is GateState.UNKNOWN
 
 
 def test_g4_synthetic_falsification_adversarial_shock(real_candles: list[Candle]):
@@ -293,7 +374,7 @@ def test_g9_claim_registry_and_certificate_authority(tmp_path: Path):
         g0_identity=GateState.PASS,
         g1_causal_pit=GateState.PASS,
         g2_determinism_ledger=GateState.PASS,
-        g3_benchmark_coverage=GateState.PASS,
+        g3_scenario_robustness=GateState.PASS,
         g4_structural_robustness=GateState.PASS,
         g5_statistical_credibility=GateState.PASS,
         g6_protected_oos=GateState.PASS,
@@ -366,7 +447,7 @@ def test_end_to_end_benchmark_runner_resolved_gates(tmp_path: Path):
         ("g4", "INSUFFICIENT_SHOCK_SAMPLE"),
         ("g6", None),
     ):
-        state = getattr(result.gates, {"g3": "g3_benchmark_coverage", "g4": "g4_structural_robustness", "g6": "g6_protected_oos"}[gname])
+        state = getattr(result.gates, {"g3": "g3_scenario_robustness", "g4": "g4_structural_robustness", "g6": "g6_protected_oos"}[gname])
         assert state == GateState.BLOCKED, f"{gname} must fail closed on thin samples"
         assert gm[gname]["reason"] is not None
         if reason_code is not None:

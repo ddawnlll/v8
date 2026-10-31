@@ -783,7 +783,8 @@ def evaluate_gate_vector(
     else:
         g2 = GateState.PASS if mismatches == 0 else GateState.BLOCKED
 
-    # G3 Benchmark Coverage: historical diagnostic cell or verified scenario robustness
+    # G3 Scenario Robustness: the regimes the expert strategy was re-run across are
+    # the only G3 measurement in this tree, so the cell is named for that measurement.
     g3 = g3_state if g3_state is not None else GateState.UNKNOWN
 
     # G4 Synthetic / Structural Robustness: unperturbed diagnostic cell or adversarial falsification
@@ -812,7 +813,7 @@ def evaluate_gate_vector(
         g0_identity=g0,
         g1_causal_pit=g1,
         g2_determinism_ledger=g2,
-        g3_benchmark_coverage=g3,
+        g3_scenario_robustness=g3,
         g4_structural_robustness=g4,
         g5_statistical_credibility=g5,
         g6_protected_oos=g6,

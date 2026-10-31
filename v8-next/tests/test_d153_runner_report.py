@@ -50,7 +50,7 @@ def test_d153_runner_end_to_end_and_html_generation(tmp_path: Path):
     assert result.gates.g0_identity == GateState.PASS
     assert result.gates.g1_causal_pit == GateState.UNKNOWN
     assert result.gates.g2_determinism_ledger == GateState.UNKNOWN
-    assert result.gates.g3_benchmark_coverage == GateState.UNKNOWN
+    assert result.gates.g3_scenario_robustness == GateState.UNKNOWN
     assert result.gates.g8_prospective_shadow == GateState.MISSING
     assert result.gates.g9_live_realization == GateState.MISSING
 

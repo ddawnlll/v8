@@ -91,7 +91,7 @@ def test_gate_registry_pins_the_existing_semantics() -> None:
         (0, "G0ConstitutionalIntegrity", "g0_identity", "BLOCKING"),
         (1, "G1MeasurementIdentity", "g1_causal_pit", "BLOCKING"),
         (2, "G2HistoricalDiagnostic", "g2_determinism_ledger", "DIAGNOSTIC"),
-        (3, "G3ScenarioRobustness", "g3_benchmark_coverage", "DIAGNOSTIC"),
+        (3, "G3ScenarioRobustness", "g3_scenario_robustness", "DIAGNOSTIC"),
         (4, "G4SyntheticFalsification", "g4_structural_robustness", "DIAGNOSTIC"),
         (5, "G5SelectionControl", "g5_statistical_credibility", "DIAGNOSTIC"),
         (6, "G6FrozenOOSReplication", "g6_protected_oos", "DIAGNOSTIC"),
