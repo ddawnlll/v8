@@ -31,6 +31,7 @@ from v8_next.domain.market import Candle
 from v8_next.evaluation.benchmark_receipt import (
     BenchmarkLedger,
     BenchmarkReceipt,
+    G3ScenarioBasis,
     GateState,
     GateVector,
     ScoreEvidence,
@@ -567,6 +568,7 @@ class BenchmarkRunner:
 
         gate_metrics: dict[str, Any] = {}
         claim_record: StatutoryClaimRecord | None = None
+        g3_basis: G3ScenarioBasis | None = None
         pre_pass = False
         # Structural gate inputs: G0 measured above; G1/G2 unmeasured here.
         gate_metrics["g0"] = dict(_lineage_info)
@@ -585,6 +587,8 @@ class BenchmarkRunner:
             regimes = classify_market_regimes(tape_path=tape_path, candles=candles)
             g3_state, g3_m = evaluate_g3_scenario_robustness(regimes, case.strategy_config)
             gate_metrics["g3"] = g3_m
+            # #495 R3: the measured partition travels with the state it decided.
+            g3_basis = G3ScenarioBasis.from_metrics(g3_state, g3_m)
 
             # 2. G4: Synthetic / Adversarial Falsification
             g4_state, g4_m = evaluate_g4_synthetic_falsification(candles, case.strategy_config)
@@ -750,6 +754,7 @@ class BenchmarkRunner:
             window_evidence=window_evidence,
             window_end_timestamp_ns=window_end_ns,
             run_time_timestamp_ns=run_time_ns,
+            g3_scenario_robustness_basis=g3_basis,
         )
 
         # 5. Append to append-only BenchmarkLedger
@@ -805,6 +810,7 @@ class BenchmarkRunner:
                         # ...and the same two time quantities as the run it re-states
                         window_end_timestamp_ns=window_end_ns,
                         run_time_timestamp_ns=run_time_ns,
+                        g3_scenario_robustness_basis=g3_basis,
                     )
                     # The post-G9 receipt is a NEW record: append it so the
                     # returned receipt is bound in the ledger (never orphaned).

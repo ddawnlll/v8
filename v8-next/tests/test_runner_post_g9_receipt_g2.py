@@ -94,7 +94,27 @@ def _passing_battery():
     """A G3-G7 evaluator that declares itself measured and passing."""
 
     def _evaluator(*_args, **_kwargs):
-        return GateState.PASS, {"measurement": MEASURED, "reason": "FORCED_BRANCH_PRECONDITION"}
+        # #495 R3: the runner publishes the G3 basis beside the state, so a forced
+        # PASS declares the regime partition it stands for. The other G4-G7
+        # consumers ignore these keys.
+        return GateState.PASS, {
+            "measurement": MEASURED,
+            "reason": "FORCED_BRANCH_PRECONDITION",
+            "regimes": {
+                "forced": {
+                    "bars": 1,
+                    "trades": 1,
+                    "max_drawdown": 0.0,
+                    "return_variance": 0.0,
+                }
+            },
+            "max_observed_drawdown": 0.0,
+            "max_observed_variance": 0.0,
+            "max_drawdown_limit": 0.10,
+            "min_trades_per_regime": 1,
+            "min_regime_trades": 1,
+            "empty_regimes": [],
+        }
 
     return _evaluator
 
