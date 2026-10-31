@@ -144,9 +144,13 @@ def minerva_for_certificate(
     dsr = _stat(statistics, "dsr", "dsr_confidence")
     pbo = _stat(statistics, "pbo", "pbo")
     spa_p = _stat(statistics, "spa", "pvalues", "consistent")
-    min_trl_days: float | None = None
+    # ``min_trl_days`` is a caller-supplied measurement. It used to be shadowed by a
+    # local of the same name initialised to None, so a measured value handed in was
+    # silently discarded and the certificate refused for a missing input it had been
+    # given. The parameter is now resolved into its own name and never re-initialised.
+    resolved_min_trl_days = min_trl_days
     min_trl_reason: str | None = None
-    if min_trl_days is None and min_trl_plan is not None and observed_intervals is not None:
+    if resolved_min_trl_days is None and min_trl_plan is not None and observed_intervals is not None:
         result = estimate_min_trl(min_trl_plan, observed_intervals)
         min_trl_reason = (
             result.reason
@@ -155,7 +159,7 @@ def minerva_for_certificate(
                 f"{result.required_intervals}"
             )
         )
-    elif min_trl_days is None:
+    elif resolved_min_trl_days is None:
         min_trl_reason = "DECLARED_MINTRL_PLAN_REQUIRED"
 
     measured: dict[str, float | None] = {
@@ -163,7 +167,7 @@ def minerva_for_certificate(
         "pbo": pbo,
         "spa_p_value": spa_p,
         "actual_track_days": actual_track_days,
-        "min_trl_days": min_trl_days,
+        "min_trl_days": resolved_min_trl_days,
         "worst_regime_return_bps": worst_regime_return_bps,
         "regime_floor_bps": regime_floor_bps,
     }
@@ -184,7 +188,7 @@ def minerva_for_certificate(
             pbo=float(pbo),
             spa_p_value=float(spa_p),
             actual_track_days=float(actual_track_days),
-            min_trl_days=float(min_trl_days),
+            min_trl_days=float(resolved_min_trl_days),
             worst_regime_return_bps=float(worst_regime_return_bps),
             regime_floor_bps=float(regime_floor_bps),
             prudex=prudex,
