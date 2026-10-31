@@ -41,6 +41,15 @@ def _score(value: float | None) -> str:
 DEFAULT_OUTPUT_DIR = "artifacts/benchmarks"
 DEFAULT_TAPE_ROOT = "research/tape"
 
+#: #389. A ledger whose chain does not verify is quarantined: the command reports
+#: the invalid evidence chain, publishes no certificate, and exits with this
+#: distinct code. It is never 0 -- a broken chain is not a dashboard success.
+EXIT_LEDGER_QUARANTINED = 3
+
+#: #389. Named result when there is no entry to replay at all. An empty ledger is
+#: not a verified chain: genesis has nothing to verify and no evidence is present.
+EMPTY_LEDGER = "EMPTY_LEDGER: the ledger holds no entries, so no genesis entry can be replayed"
+
 
 def _git_info() -> dict[str, str]:
     def run(*args: str) -> str:
@@ -82,6 +91,39 @@ def _code_footprint(src_root: Path) -> tuple[int, int]:
     return n_src, n_tests
 
 
+def _report_ledger_quarantine(ledger: BenchmarkLedger, chain_msg: str) -> int:
+    """Report an unverified ledger as quarantined; never render a certificate (#389).
+
+    The dashboard keeps two claims apart: the *evidence-chain status* is that the
+    ledger did not verify, while the newest entry's identity is report metadata and
+    explicitly not evidence. Nothing here repairs, rewrites or re-seals an entry --
+    a broken chain stays broken and visible.
+    """
+    print("EVIDENCE CHAIN: QUARANTINED")
+    if ledger.entries:
+        report = ledger.verify_report()
+        first_invalid = next((e for e in report.entries if not e.fully_valid), None)
+        index = "none" if first_invalid is None else str(first_invalid.sequence_number)
+    else:
+        index = "none (ledger empty)"
+    print(f"  first invalid entry: {index}")
+    print(f"  reason: {chain_msg}")
+    print("  the evidence chain is INVALID; no policy certificate is rendered")
+    if ledger.entries:
+        latest = ledger.entries[-1]
+        receipt = latest.receipt
+        print("LATEST REPORT METADATA (NOT EVIDENCE, NOT VERIFIED):")
+        print(f"  entry: seq {latest.sequence_number} {latest.entry_hash}")
+        print(
+            f"  case={receipt.case_id} policy={receipt.policy_id} "
+            f"digest_version={receipt.digest_version}"
+        )
+        print("  this metadata is not evidence and is not summarized as a valid chain")
+    else:
+        print("  no latest report metadata: the ledger holds no entries")
+    return EXIT_LEDGER_QUARANTINED
+
+
 def cmd_status(args: argparse.Namespace) -> int:
     out_dir = Path(args.output_dir)
     print("=== v8-next status ===")
@@ -109,10 +151,13 @@ def cmd_status(args: argparse.Namespace) -> int:
         print(f"benchmark: no ledger at {ledger_path} — run `cli benchmark` first")
         return 0
     ledger = BenchmarkLedger.load_jsonl(ledger_path)
-    chain_ok, chain_msg = ledger.verify_chain()
-    print(f"ledger: {len(ledger)} entries  chain: {'VERIFIED' if chain_ok else 'BROKEN'} ({chain_msg})")
     if not ledger.entries:
-        return 0
+        chain_ok, chain_msg = False, EMPTY_LEDGER
+    else:
+        chain_ok, chain_msg = ledger.verify_chain()
+    print(f"ledger: {len(ledger)} entries  chain: {'VERIFIED' if chain_ok else 'BROKEN'} ({chain_msg})")
+    if not chain_ok:
+        return _report_ledger_quarantine(ledger, chain_msg)
     # #448: the latest benchmark is the most recent entry that declares an evidential
     # window class -- never simply the last line of the ledger. With no such entry the
     # reader refuses by name instead of publishing the newest entry's number.
