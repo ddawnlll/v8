@@ -181,7 +181,13 @@ def _experiment_check(root: Path, experiment: str) -> dict[str, Any]:
     arm_rows = list(directory.rglob("arm_rows.jsonl"))
     row_counts = {path.parent.name: sum(1 for _ in path.open(encoding="utf-8")) for path in arm_rows}
 
-    native_dirs = sorted({p.parent.name for p in directory.rglob("research_arm.json")})
+    native_dirs = sorted(
+        {
+            p.parent.name
+            for p in directory.rglob("research_arm.json")
+            if "superseded" not in p.parts
+        }
+    )
     arm_decl, err = _read_json(directory / "arms.json")
     declared_arms: list[Any] = []
     if isinstance(arm_decl, dict):
