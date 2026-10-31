@@ -159,6 +159,11 @@ class PolicyCertificate(BaseModel):
         economic_score: float | None = None
         if projection is not None:
             economic_score = getattr(projection, "economic_score", None)
+        projection_refusal_reason = (
+            str(getattr(projection, "refusal_reason", "") or "")
+            if projection is not None
+            else ""
+        )
         # #441: the derivation names the source, not merely the hole. A number names
         # the producer it came from; an absence names *which kind* of absence it is,
         # so "no producer exists" is never published as bare ``None`` that reads like
@@ -241,6 +246,16 @@ class PolicyCertificate(BaseModel):
             #: ``ECONOMIC_FACTOR_UNMEASURED`` means a producer was supplied and
             #: measured nothing. A measured factor names its producer instead.
             "economic_factor_source": economic_factor_source,
+            #: #476: when a projection or Minerva producer ran and refused to
+            #: measure, its named reason travels with the certificate. A producer
+            #: that never ran still reads as ``ECONOMIC_FACTOR_UNPRODUCED``; a
+            #: producer that ran carries the reason instead of a bare hole.
+            "projection_refusal_reason": projection_refusal_reason or None,
+            "minerva_refusal_reason": (
+                str(getattr(minerva, "refusal_reason", "") or "")
+                if minerva is not None
+                else None
+            ),
             #: #448: the class of the entry this certificate was read from, and what
             #: happened to its number. A refusal here means the published capability is
             #: absent by rule, not unmeasured.

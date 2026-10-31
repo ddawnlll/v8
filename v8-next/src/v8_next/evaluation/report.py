@@ -132,11 +132,14 @@ def _gate_decision(ev: GateEvaluation) -> str:
 def generate_forensic_html_report(
     receipt: BenchmarkReceipt,
     output_path: Path | str,
+    certificate: PolicyCertificate | None = None,
 ) -> bool:
     """Render self-contained forensic HTML report adhering to Rule 31 Renderer Firewall."""
     # 1. Self-verification check (Renderer Firewall)
     is_valid, verify_msg = receipt.verify()
-    cert = PolicyCertificate.generate(receipt)
+    # #476: a caller holding the run's certificate must hand it in; regenerating
+    # here from the receipt alone would discard the projection/Minerva inputs.
+    cert = certificate if certificate is not None else PolicyCertificate.generate(receipt)
     # The identity this render advertises, recomputable at HEAD from the receipt
     # and the certificate contract (#442).
     identity = render_identity(receipt, cert)
@@ -144,12 +147,20 @@ def generate_forensic_html_report(
     is_approved = "Ready For Review" in cert.status
     verdict_badge = "badge-pass" if is_approved else "badge-fail"
     verdict_text = cert.status if is_valid else f"BLOCKED ({verify_msg})"
+    derivation = cert.derivation or {}
+    projection_refusal = str(derivation.get("projection_refusal_reason") or "")
+    minerva_refusal = str(derivation.get("minerva_refusal_reason") or "")
     economic_note = (
         "No economic projection in this diagnostic cell: absent under the current "
         "certificate contract (never a diagnostic default)"
         if cert.economic_score is None
         else "Diagnostic cell projection (no forward claims)"
     )
+    if projection_refusal:
+        economic_note = f"Named projection refusal: {projection_refusal}"
+    minerva_note = "arXiv:2608.23808 prudex evaluation"
+    if minerva_refusal:
+        minerva_note = f"Named Minerva refusal: {minerva_refusal}"
 
     # 2. HTML template (matching D-153 Forensic standard)
     html_content = f"""<!DOCTYPE html>
@@ -258,12 +269,12 @@ Recompute <code>render_identity(receipt)</code> at HEAD for this <code>verified_
     <td>Minerva Robustness Score</td>
     <td><strong>{_v(cert.minerva_robustness_score)} / 100</strong></td>
     <td>{_component_badge(cert.minerva_robustness_score, cert.robustness_seal_status, cert.robustness_seal_status)}</td>
-    <td>arXiv:2608.23808 prudex evaluation</td>
+    <td>{minerva_note}</td>
   </tr>
   <tr>
     <td>Economic Projection Score</td>
     <td><strong>{_v(cert.economic_score)} / 100</strong></td>
-    <td>{_component_badge(cert.economic_score, "DIAGNOSTIC_CELL")}</td>
+    <td>{_component_badge(cert.economic_score, "DIAGNOSTIC_CELL", "PROJECTION_REFUSED")}</td>
     <td>{economic_note}</td>
   </tr>
 </tbody>

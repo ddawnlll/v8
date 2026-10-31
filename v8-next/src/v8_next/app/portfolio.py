@@ -51,6 +51,10 @@ from v8_next.app.rerun_guard import (
 from v8_next.app.rerun_guard import (
     RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY as RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY,
 )
+from v8_next.certification import (
+    minerva_for_certificate,
+    projection_for_certificate,
+)
 from v8_next.domain.capital_policy import CapitalPolicy
 from v8_next.domain.market import Candle
 from v8_next.evaluation import economic_benchmark as eb
@@ -1122,10 +1126,39 @@ def main(argv: list[str] | None = None) -> int:
     ledger.save_jsonl(out_dir / "benchmark_ledger.jsonl")
     ok, msg = bench_receipt.verify()
     cok, cmsg = ledger.verify_chain()
-    certificate = PolicyCertificate.generate(bench_receipt)
+    # #476: hand the certificate the produced projection and Minerva refusal.
+    # Campaign returns are the same dimensionless unit the accounting contract
+    # publishes; the projection stays diagnostic (NO_ECONOMIC_CLAIM).
+    campaign = eb.campaign_accounting(
+        p_fund["opened_positions"],
+        p_fund["closed_positions"],
+        bars=shared_bars[tape.instruments[0]],
+        cutoff_ns=end_ns[-1],
+        capital=args.capital,
+    )
+    projection = projection_for_certificate(
+        policy_id=bench_receipt.policy_id,
+        benchmark_receipt_id=bench_receipt.receipt_digest,
+        capability_score=capability,
+        campaign_returns=campaign.campaign_returns,
+        initial_capital_usd=float(args.capital),
+        has_synthetic_population_only=False,
+    )
+    minerva = minerva_for_certificate(
+        statistics=stats,
+        actual_track_days=(end_ns[-1] - end_ns[0]) / 86_400_000_000_000.0,
+        min_trl_days=None,
+        min_trl_plan=None,
+        observed_intervals=len(campaign.campaign_returns),
+        worst_regime_return_bps=None,
+        regime_floor_bps=None,
+    )
+    certificate = PolicyCertificate.generate(
+        bench_receipt, projection=projection, minerva=minerva
+    )
     print(certificate.render_ascii())
     html_path = Path(args.html_out) if args.html_out else out_dir / f"forensic_report_{tag}.html"
-    generate_forensic_html_report(bench_receipt, html_path)
+    generate_forensic_html_report(bench_receipt, html_path, certificate=certificate)
     # The canonical publish path names what it published: the artifact's render
     # contract + identity, beside the receipt digest it renders (#442).
     identity = render_identity(bench_receipt, certificate)
