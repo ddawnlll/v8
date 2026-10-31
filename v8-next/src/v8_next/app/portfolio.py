@@ -53,7 +53,11 @@ from v8_next.evaluation.benchmark_receipt import (
     WindowEvidence,
 )
 from v8_next.evaluation.certificate import PolicyCertificate
-from v8_next.evaluation.gate_resolution import resolve_structural_gates
+from v8_next.evaluation.gate_resolution import (
+    classify_market_regimes,
+    evaluate_g3_scenario_robustness,
+    resolve_structural_gates,
+)
 from v8_next.evaluation.multitape import MultiTape, load_multitape
 from v8_next.evaluation.parity import ArtifactBinding
 from v8_next.evaluation.report import generate_forensic_html_report, render_identity
@@ -267,7 +271,7 @@ def resolve_portfolio_gates(
     total_trades: int,
     pnl_series: list[float],
 ) -> GateVector:
-    """The portfolio run's gate vector: G0/G1/G2 resolved from measurement (#471).
+    """The portfolio run's gate vector: G0/G1/G2 resolved from measurement (#471), G3 too (#495).
 
     The canonical portfolio run used to build its vector with only the bar count, the
     trade count and the PnL series. The three blocking/required cells were therefore
@@ -286,12 +290,25 @@ def resolve_portfolio_gates(
       verifies vacuously (UNKNOWN, named), a ledger that does not verify is BLOCKED
       (named); a clean ledger still leaves the engine-rerun half unmeasured.
 
-    The three cells published here are the ones :func:`resolve_structural_gates`
+    #495: **G3** was the one ``Required`` cell this path never supplied, so it fell to the
+    rule's default (UNKNOWN) and the cell read as "unmeasured" next to a name that
+    claimed a benchmark-coverage check nobody performed. The cell is now
+    ``g3_scenario_robustness`` -- the quantity the only G3 resolver measures -- and it is
+    measured here from this run's own bars: the same regime partition the runner and the
+    resolution battery take (:func:`classify_market_regimes`) is re-run through the same
+    resolver (:func:`evaluate_g3_scenario_robustness`). It is a diagnostic cell (registry
+    role ``DIAGNOSTIC``): a PASS mints no authority, and an unmeasurable partition fails
+    closed with its own named reason rather than defaulting.
+
+    The three structural cells published here are the ones :func:`resolve_structural_gates`
     produced for these inputs: the resolver's own measured inputs are handed to the
     canonical rule rather than a second vector being derived, so the receipt carries the
     same resolution the resolver publishes.
     """
     structural = resolve_structural_gates(tuple(candles), ledger)
+    # #495: measured on the bars handed to the producer, by the resolver that owns G3.
+    regimes = classify_market_regimes(candles=tuple(candles))
+    g3_state, _g3_metrics = evaluate_g3_scenario_robustness(regimes)
     return evaluate_gate_vector(
         total_bars=len(candles),
         total_trades=total_trades,
@@ -302,6 +319,7 @@ def resolve_portfolio_gates(
         has_continuous_lineage=structural.inputs.has_continuous_lineage,
         is_causal_pit=structural.inputs.is_causal_pit,
         g2_state=structural.inputs.g2_state,
+        g3_state=g3_state,
     )
 
 

@@ -382,7 +382,7 @@ def evaluate_g3_scenario_robustness(
     max_drawdown_limit: float = 0.10,
     min_trades_per_regime: int = 1,
 ) -> tuple[GateState, dict[str, Any]]:
-    """G3: Scenario Robustness (g3_benchmark_coverage).
+    """G3: Scenario Robustness (g3_scenario_robustness).
 
     Executes backtests across the 4 primary market regimes (Bull Trend, Bear Crash,
     Chop/Range, High-Vol Spill) and verifies that maximum drawdown and return variance

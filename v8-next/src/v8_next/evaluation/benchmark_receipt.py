@@ -24,7 +24,7 @@ from enum import StrEnum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, Mapping, Sequence
 
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ValidationError
 
 from v8_next.evaluation.parity import ArtifactBinding
 
@@ -427,9 +427,9 @@ GATE_DESCRIPTORS: tuple[GateDescriptor, ...] = (
     GateDescriptor(
         index=3,
         canonical_id="G3ScenarioRobustness",
-        vector_field="g3_benchmark_coverage",
+        vector_field="g3_scenario_robustness",
         requirement="Required",
-        source_clause="G3 scenario coverage & behavioral robustness: unknown stays unknown.",
+        source_clause="G3 scenario robustness: behavioral robustness across the 4 declared market regimes. Unknown stays unknown.",
     ),
     GateDescriptor(
         index=4,
@@ -544,12 +544,22 @@ class ReadinessVerdict:
 
 
 class GateVector(BaseModel):
-    model_config = ConfigDict(frozen=True)
+    model_config = ConfigDict(frozen=True, populate_by_name=True)
 
     g0_identity: GateState = GateState.MISSING
     g1_causal_pit: GateState = GateState.MISSING
     g2_determinism_ledger: GateState = GateState.MISSING
-    g3_benchmark_coverage: GateState = GateState.MISSING
+    #: #495. The cell is published as ``g3_scenario_robustness`` because that is the
+    #: quantity the only resolver in the tree measures. It used to be published as
+    #: ``g3_benchmark_coverage``, which claimed a benchmark-coverage check no resolver
+    #: performed. Entries already written to the append-only ledger were digested under
+    #: the old key and are immutable, so the old key is accepted on **read** only: it
+    #: lets a stored receipt reproduce the digest it was written under. Nothing is
+    #: published under it any more.
+    g3_scenario_robustness: GateState = Field(
+        default=GateState.MISSING,
+        validation_alias=AliasChoices("g3_scenario_robustness", "g3_benchmark_coverage"),
+    )
     g4_structural_robustness: GateState = GateState.MISSING
     g5_statistical_credibility: GateState = GateState.MISSING
     g6_protected_oos: GateState = GateState.MISSING
@@ -562,7 +572,7 @@ class GateVector(BaseModel):
             self.g0_identity,
             self.g1_causal_pit,
             self.g2_determinism_ledger,
-            self.g3_benchmark_coverage,
+            self.g3_scenario_robustness,
             self.g4_structural_robustness,
             self.g5_statistical_credibility,
             self.g6_protected_oos,

@@ -42,6 +42,8 @@ from v8_next.evaluation.gate_resolution import (
     CAUSAL_PIT_NOT_MEASURED,
     LEDGER_EMPTY_NO_ENTRIES,
     LEDGER_VERIFICATION_FAILED,
+    classify_market_regimes,
+    evaluate_g3_scenario_robustness,
     resolve_structural_gates,
 )
 from v8_next.evaluation.scoring import evaluate_gate_vector
@@ -54,10 +56,11 @@ PRODUCER_NAME = "resolve_portfolio_gates"
 
 #: Cells the portfolio producer does not measure at all: it runs no gate battery, so
 #: publishing PASS on any of these would be a state no measurement stands behind.
+#: #495: G3 is no longer in this tuple -- ``resolve_portfolio_gates`` now measures the
+#: scenario-robustness cell on the bars it was handed, so it is asserted separately.
 UNMEASURED_ON_THIS_PATH = (
     "g1_causal_pit",
     "g2_determinism_ledger",
-    "g3_benchmark_coverage",
     "g4_structural_robustness",
     "g5_statistical_credibility",
     "g6_protected_oos",
@@ -159,6 +162,15 @@ def test_portfolio_producer_publishes_the_resolved_structural_cells() -> None:
     assert vector.g0_identity in (GateState.PASS, GateState.BLOCKED)
     assert resolution.metrics["g0"]["input"] == "has_continuous_lineage"
 
+    # #495: G3 is measured here too, on the same bars, by the resolver that owns the
+    # cell. The published state is that resolver's own verdict, never the rule default.
+    expected_g3, _g3_basis = evaluate_g3_scenario_robustness(
+        classify_market_regimes(candles=candles)
+    )
+    assert vector.g3_scenario_robustness is expected_g3
+    assert vector.g3_scenario_robustness in (GateState.PASS, GateState.BLOCKED)
+    assert vector.g3_scenario_robustness is not GateState.UNKNOWN
+
 
 def test_portfolio_producer_publishes_no_pass_that_no_measurement_stands_behind() -> None:
     producer = _producer()
@@ -172,6 +184,29 @@ def test_portfolio_producer_publishes_no_pass_that_no_measurement_stands_behind(
     assert unearned == [], (
         f"the portfolio producer published PASS on cells no measurement stands behind: {unearned}"
     )
+
+
+def test_portfolio_producer_never_stores_the_rule_default_in_the_g3_cell() -> None:
+    """#495: the G3 cell is measured on this path, not left at the rule's default.
+
+    The defect: ``resolve_portfolio_gates`` supplied no ``g3_state``, so a ``Required``
+    cell was written to the append-only ledger as the bare default while its name
+    claimed a benchmark-coverage check. The producer now measures the cell by the same
+    resolver that owns it, so its state differs from the defaulted vector.
+    """
+    producer = _producer()
+    candles = _mechanics_candles()
+    vector = producer(candles, BenchmarkLedger(), total_trades=3, pnl_series=[1.0, -1.0])
+
+    defaulted = evaluate_gate_vector(
+        total_bars=len(candles), total_trades=3, pnl_series=[1.0, -1.0]
+    )
+    assert defaulted.g3_scenario_robustness is GateState.UNKNOWN
+    assert vector.g3_scenario_robustness is not defaulted.g3_scenario_robustness, (
+        "the portfolio receipt stored the rule default in the G3 cell: the cell was never "
+        "measured, and a Required cell may not be published as an unmeasured default (#495)"
+    )
+    assert vector.g3_scenario_robustness in (GateState.PASS, GateState.BLOCKED)
 
 
 def test_portfolio_producer_reports_a_ledger_that_does_not_verify_as_blocked() -> None:
