@@ -360,13 +360,20 @@ def validate_run(root: Path | str) -> dict[str, Any]:
     cross_path = root / "CROSS_EXPERIMENT_COMPARISON.json"
     if cross_path.is_file():
         cross = json.loads(cross_path.read_text())
+        arm_status = {
+            arm: info.get("status")
+            for arm, info in ((facts.get("statuses") or {}).get("arms") or {}).items()
+        } if facts_path.is_file() else {}
         for row in cross.get("rows", []):
             exp = row.get("experiment")
-            if exp in experiment_status and row.get("status") not in {
-                experiment_status[exp], "INVALID", "BASELINE", "OBSERVED",
-            }:
+            status = str(row.get("status"))
+            arm_id = str(row.get("row", "")).split("_")[0]
+            allowed = {experiment_status.get(exp), arm_status.get(arm_id),
+                       "INVALID", "BASELINE", "OBSERVED"}
+            if exp in experiment_status and status not in allowed:
                 status_problems.append(
-                    f"CROSS {row.get('row')}: {row.get('status')} != experiment {exp} {experiment_status[exp]}"
+                    f"CROSS {row.get('row')}: {status} is neither the experiment status "
+                    f"{experiment_status.get(exp)} nor the arm status {arm_status.get(arm_id)}"
                 )
     final_path = root / "FINAL_STATUS.json"
     if final_path.is_file():
@@ -376,10 +383,17 @@ def validate_run(root: Path | str) -> dict[str, Any]:
                 status_problems.append(f"FINAL_STATUS {exp}: {value} != metrics {experiment_status[exp]}")
     acceptance_path = root / "MASTER_ACCEPTANCE_GATES.json"
     if acceptance_path.is_file():
-        text = acceptance_path.read_text()
-        for exp, value in ({"D": "REJECTED", "B": "REJECTED"}.items()):
-            if f"status {value}" in text and experiment_status.get(exp) == "INCONCLUSIVE":
-                status_problems.append(f"gate text claims {exp}={value} but metrics say INCONCLUSIVE")
+        acceptance = json.loads(acceptance_path.read_text())
+        gate_for = {"A": "G7", "B": "G8", "C": "G9", "D": "G10"}
+        for gate in acceptance.get("gates", []):
+            gate_id = gate.get("gate_id")
+            exp = next((k for k, v in gate_for.items() if v == gate_id), None)
+            expected = experiment_status.get(exp) if exp else None
+            if expected and expected not in str(gate.get("explanation", "")):
+                status_problems.append(
+                    f"{gate_id} explanation does not state {exp}={expected}: "
+                    f"{str(gate.get('explanation'))[:80]}"
+                )
     report["status_consistency"] = {"ok": not status_problems, "problems": status_problems}
 
     gates = {
