@@ -71,6 +71,26 @@ def run_native_arm(
         skip_equivalence=skip_equivalence,
         config_overrides=arm.config_overrides or None,
     )
+    # Record the intervention and the command that actually reproduces this arm.
+    manifest_path = out / "run_manifest.json"
+    if manifest_path.is_file():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["research_arm"] = {
+            "arm_id": arm.arm_id,
+            "description": arm.description,
+            "config_overrides": {k: str(v) for k, v in arm.config_overrides.items()},
+            "execution_profile": arm.execution_profile,
+            "default_off": True,
+        }
+        manifest.setdefault("reproduction", {})["command"] = (
+            f"v8-next research native-arm --arm {arm.arm_id} --tape {Path(tape)} "
+            f"--output-dir {Path(output_dir)}"
+        )
+        manifest["reproduction"]["note"] = (
+            "Runs the same replay through the research runner so the arm's config "
+            "overrides are applied; the plain `v8-next audit` command is the arm-off baseline."
+        )
+        manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     lifecycles = screen.read_jsonl(out / "trade_lifecycles.jsonl")
     summary = research_metrics.summarize(lifecycles)
     _write_json(out / "research_arm.json", {**arm.to_dict(), "native_summary": result["summary"]})

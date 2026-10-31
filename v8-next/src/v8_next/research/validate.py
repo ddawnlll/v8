@@ -346,11 +346,48 @@ def validate_run(root: Path | str) -> dict[str, Any]:
             "source": "preregistered arm registry",
         }
 
+    # Cross-deliverable status agreement: the reported status in every
+    # machine-readable deliverable must equal the experiment status.
+    status_problems: list[str] = []
+    experiment_status = {exp: check.get("status") for exp, check in report["experiments"].items()}
+    facts_path = root / "FACTS.json"
+    if facts_path.is_file():
+        facts = json.loads(facts_path.read_text())
+        facts_status = (facts.get("statuses") or {}).get("experiments") or {}
+        for exp, value in facts_status.items():
+            if experiment_status.get(exp) and value != experiment_status[exp]:
+                status_problems.append(f"FACTS {exp}: {value} != metrics {experiment_status[exp]}")
+    cross_path = root / "CROSS_EXPERIMENT_COMPARISON.json"
+    if cross_path.is_file():
+        cross = json.loads(cross_path.read_text())
+        for row in cross.get("rows", []):
+            exp = row.get("experiment")
+            if exp in experiment_status and row.get("status") not in {
+                experiment_status[exp], "INVALID", "BASELINE", "OBSERVED",
+            }:
+                status_problems.append(
+                    f"CROSS {row.get('row')}: {row.get('status')} != experiment {exp} {experiment_status[exp]}"
+                )
+    final_path = root / "FINAL_STATUS.json"
+    if final_path.is_file():
+        final = json.loads(final_path.read_text())
+        for exp, value in (final.get("experiments") or {}).items():
+            if experiment_status.get(exp) and value != experiment_status[exp]:
+                status_problems.append(f"FINAL_STATUS {exp}: {value} != metrics {experiment_status[exp]}")
+    acceptance_path = root / "MASTER_ACCEPTANCE_GATES.json"
+    if acceptance_path.is_file():
+        text = acceptance_path.read_text()
+        for exp, value in ({"D": "REJECTED", "B": "REJECTED"}.items()):
+            if f"status {value}" in text and experiment_status.get(exp) == "INCONCLUSIVE":
+                status_problems.append(f"gate text claims {exp}={value} but metrics say INCONCLUSIVE")
+    report["status_consistency"] = {"ok": not status_problems, "problems": status_problems}
+
     gates = {
         "G1_existing_codebase_preserved": report["contract"]["ok"],
         "G4_dataset_integrity": report["dataset"].get("ok", False),
         "G6_common_baseline": report["baseline"].get("ok", False),
         "G13_raw_artifacts": all(v.get("ok") for v in report["experiments"].values()),
+        "status_consistency": report["status_consistency"]["ok"],
         "G11_economic_validity": report["native_arms"].get("ok", False),
         "leakage_gate": report["leakage"]["ok"],
     }
