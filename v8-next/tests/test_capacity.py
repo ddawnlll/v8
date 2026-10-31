@@ -143,3 +143,37 @@ def test_participation_bound_without_observations_is_data_blocked() -> None:
     assert all(row["reason"] == "NO_OBSERVED_PARTICIPATION" for row in rows)
     assert all(row["max_capital_linear"] is None for row in rows)
     assert all(not row["kind"].startswith("MEASURED") for row in rows)
+
+
+def test_every_published_capacity_entry_carries_a_contract_status() -> None:
+    """#477 R1 + gate 2: no `capacity_scenarios[*]` entry may ship without a status.
+
+    The bound entries were fixed first; the three HYPOTHETICAL_SCENARIO entries kept
+    publishing only `k_status`, so 3 of the 6 entries in the canonical receipt's
+    `capacity_scenarios` block failed the issue's own gate 2. An uncalibrated impact
+    model mints no economic claim (NO_ECONOMIC_CLAIM); a scenario whose sigma or peak
+    participation was never measured is DATA_BLOCKED, not an absent key.
+    """
+    from v8_next.app.portfolio import capacity_from_participation
+
+    vocab = {"DATA_BLOCKED", "UNRESOLVED", "NO_ECONOMIC_CLAIM"}
+
+    measured = capacity_from_participation([1e-6, 2e-6], 10000.0, [0.001, -0.002, 0.0015] * 50)
+    assert len(measured) == 6
+    for entry in measured:
+        assert "status" in entry, f"{entry['kind']} publishes no status"
+        assert entry["status"] in vocab
+        assert entry.get("reason"), f"{entry['kind']} publishes a status with no reason"
+    scenarios = [r for r in measured if r["kind"] == "HYPOTHETICAL_SCENARIO"]
+    assert len(scenarios) == 3
+    assert all(r["status"] == "NO_ECONOMIC_CLAIM" for r in scenarios)
+    assert all(r["reason"] == "HYPOTHETICAL_IMPACT_MODEL_UNCALIBRATED" for r in scenarios)
+
+    blocked = capacity_from_participation([], 10000.0)
+    for entry in blocked:
+        assert entry["status"] in vocab
+        assert entry.get("reason")
+    blocked_scenarios = [r for r in blocked if r["kind"] == "HYPOTHETICAL_SCENARIO"]
+    assert len(blocked_scenarios) == 3
+    assert all(r["status"] == "DATA_BLOCKED" for r in blocked_scenarios)
+    assert all(r["impact_bps_at_peak"] is None for r in blocked_scenarios)

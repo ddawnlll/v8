@@ -229,16 +229,27 @@ def capacity_from_participation(
         if arr.size >= 2:
             sigma = float(arr.std(ddof=1))
     for k in k_grid:
+        # #477 R1: EVERY entry this function publishes carries a contract status.
+        # An uncalibrated hypothetical impact model mints no economic claim, and one
+        # whose sigma or peak participation was not measured is DATA_BLOCKED -- never
+        # an absent key, and never a zero dressed up as a measurement.
+        scenario_measured = sigma is not None and peak > 0
         out.append(
             {
                 "kind": "HYPOTHETICAL_SCENARIO",
                 "model": "sqrt_impact_k_sigma_sqrt_p",
                 "k": k,
+                "status": "NO_ECONOMIC_CLAIM" if scenario_measured else "DATA_BLOCKED",
+                "reason": (
+                    "HYPOTHETICAL_IMPACT_MODEL_UNCALIBRATED"
+                    if scenario_measured
+                    else "NO_MEASURED_SIGMA_OR_PEAK_PARTICIPATION"
+                ),
                 "k_status": "HYPOTHETICAL_UNCALIBRATED",
                 "sigma_per_bar": sigma,
                 "impact_bps_at_peak": (
                     k * sigma * _math.sqrt(peak) * 1e4
-                    if sigma is not None and peak > 0
+                    if scenario_measured
                     else None
                 ),
             }
