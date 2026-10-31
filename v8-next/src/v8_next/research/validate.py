@@ -387,14 +387,55 @@ def validate_run(root: Path | str) -> dict[str, Any]:
         gate_for = {"A": "G7", "B": "G8", "C": "G9", "D": "G10"}
         for gate in acceptance.get("gates", []):
             gate_id = gate.get("gate_id")
-            exp = next((k for k, v in gate_for.items() if v == gate_id), None)
-            expected = experiment_status.get(exp) if exp else None
-            if expected and expected not in str(gate.get("explanation", "")):
+            gate_exp = next((k for k, v in gate_for.items() if v == gate_id), None)
+            expected_status = experiment_status.get(gate_exp) if gate_exp else None
+            if expected_status and expected_status not in str(gate.get("explanation", "")):
                 status_problems.append(
-                    f"{gate_id} explanation does not state {exp}={expected}: "
+                    f"{gate_id} explanation does not state {gate_exp}={expected_status}: "
                     f"{str(gate.get('explanation'))[:80]}"
                 )
     report["status_consistency"] = {"ok": not status_problems, "problems": status_problems}
+
+    # Executed arms must be declared in the *contract's* effective registry, not
+    # merely resolvable in code. AM-001 arms carry their amendment id.
+    registry_problems: list[str] = []
+    declared: dict[str, dict[str, object]] = {}
+    contract_file = root / "RESEARCH_CONTRACT.json"
+    if contract_file.is_file():
+        contract = json.loads(contract_file.read_text())
+        for exp, block in (contract.get("experiment_arms") or {}).items():
+            for arm in block.get("arms", []) or []:
+                if isinstance(arm, dict) and arm.get("id"):
+                    declared[str(arm["id"])] = {"experiment": exp, **arm}
+    else:
+        registry_problems.append("RESEARCH_CONTRACT.json missing")
+    executed: dict[str, str] = {}
+    for exp, directory in (
+        ("A", "experiment_A_signal"), ("B", "experiment_B_entry"),
+        ("C", "experiment_C_exit"), ("D", "experiment_D_stateful"),
+    ):
+        for kind in ("native", "screen"):
+            base = root / directory / kind
+            if not base.is_dir():
+                continue
+            for child in base.iterdir():
+                if child.is_dir() and "superseded" not in child.parts:
+                    executed[child.name] = exp
+    amended = sorted(a for a, d in declared.items() if d.get("amendment"))
+    for arm_id, exp in sorted(executed.items()):
+        info = declared.get(arm_id)
+        if info is None:
+            registry_problems.append(f"executed arm {arm_id} is not declared in the contract registry")
+        elif info["experiment"] != exp:
+            registry_problems.append(f"arm {arm_id} declared under {info['experiment']} but executed under {exp}")
+    report["contract_arm_registry"] = {
+        "ok": not registry_problems,
+        "problems": registry_problems,
+        "declared_count": len(declared),
+        "executed_count": len(executed),
+        "amended_arms": amended,
+        "effective_contract_version": (contract.get("effective_contract_version") if contract_file.is_file() else None),
+    }
 
     gates = {
         "G1_existing_codebase_preserved": report["contract"]["ok"],
@@ -402,6 +443,7 @@ def validate_run(root: Path | str) -> dict[str, Any]:
         "G6_common_baseline": report["baseline"].get("ok", False),
         "G13_raw_artifacts": all(v.get("ok") for v in report["experiments"].values()),
         "status_consistency": report["status_consistency"]["ok"],
+        "contract_arm_registry": report["contract_arm_registry"]["ok"],
         "G11_economic_validity": report["native_arms"].get("ok", False),
         "leakage_gate": report["leakage"]["ok"],
     }
