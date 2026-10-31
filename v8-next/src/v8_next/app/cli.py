@@ -602,6 +602,34 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
+    p_research = sub.add_parser(
+        "research",
+        help="Research-only policy comparison over the existing replay harness.",
+    )
+    research_sub = p_research.add_subparsers(dest="research_action", required=True)
+    r_arms = research_sub.add_parser("arms", help="List preregistered research arms.")
+    r_arms.set_defaults(func=cmd_research)
+    r_check = research_sub.add_parser(
+        "contract-check", help="Validate and hash a research contract."
+    )
+    r_check.add_argument("--contract", required=True)
+    r_check.set_defaults(func=cmd_research)
+    r_metrics = research_sub.add_parser("metrics", help="Economic summary of an audit run.")
+    r_metrics.add_argument("--run-dir", required=True)
+    r_metrics.add_argument("--out", default=None)
+    r_metrics.set_defaults(func=cmd_research)
+    r_native = research_sub.add_parser("native-arm", help="Run one native research arm.")
+    r_native.add_argument("--arm", required=True)
+    r_native.add_argument("--tape", required=True)
+    r_native.add_argument("--output-dir", required=True)
+    r_native.set_defaults(func=cmd_research)
+    r_screen = research_sub.add_parser("screen-arm", help="Run one screened research arm.")
+    r_screen.add_argument("--arm", required=True)
+    r_screen.add_argument("--baseline-run", required=True)
+    r_screen.add_argument("--tape", required=True)
+    r_screen.add_argument("--output-dir", required=True)
+    r_screen.set_defaults(func=cmd_research)
+
     p_status = sub.add_parser("status", help="Project dashboard + latest readiness table.")
     p_status.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
     p_status.set_defaults(func=cmd_status)
@@ -714,9 +742,69 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def cmd_research(args: argparse.Namespace) -> int:
+    """Research-only policy comparison. Never changes a production default."""
+    import json
+    from pathlib import Path
+
+    from v8_next.research import arms as research_arms
+    from v8_next.research import contract as research_contract
+    from v8_next.research import metrics as research_metrics
+    from v8_next.research import runner as research_runner
+    from v8_next.research import screen as research_screen
+
+    action = getattr(args, "research_action", None)
+    if action == "arms":
+        for arm in research_arms.ARMS:
+            print(
+                f"{arm.arm_id}  {arm.kind:<6}  exp={arm.experiment_id}  "
+                f"baseline={arm.is_baseline}  {arm.description}"
+            )
+        return 0
+    if action == "contract-check":
+        payload = research_contract.load_contract(args.contract)
+        problems = research_contract.validate_contract(payload)
+        print(f"contract_sha256={research_contract.contract_sha256(payload)}")
+        for problem in problems:
+            print(f"VIOLATION: {problem}")
+        print("status=" + ("INVALID" if problems else "VALID"))
+        return 1 if problems else 0
+    if action == "metrics":
+        rows = research_screen.read_jsonl(Path(args.run_dir) / "trade_lifecycles.jsonl")
+        summary = research_metrics.summarize(rows)
+        rendered = json.dumps(summary, indent=2, sort_keys=True, default=str)
+        print(rendered)
+        if args.out:
+            Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+            Path(args.out).write_text(rendered, encoding="utf-8")
+        return 0
+    if action == "native-arm":
+        result = research_runner.run_native_arm(
+            arm_id=args.arm, tape=args.tape, output_dir=args.output_dir
+        )
+        print(json.dumps(result["metrics"], indent=2, sort_keys=True, default=str))
+        print(f"arm_dir={result['run_dir']} validation={result['validation']}")
+        return 0
+    if action == "screen-arm":
+        result = research_runner.run_screen_arm(
+            arm_id=args.arm,
+            baseline_run=args.baseline_run,
+            tape=args.tape,
+            output_dir=args.output_dir,
+        )
+        print(json.dumps(result.get("metrics"), indent=2, sort_keys=True, default=str))
+        return 0
+    print("error: unknown research action", file=sys.stderr)
+    return 2
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args, rest = parser.parse_known_args(argv)
+    if args.command == "research":
+        if rest:
+            parser.error(f"unexpected args for research: {' '.join(rest)}")
+        return cmd_research(args)
     if args.command == "status":
         if rest:
             parser.error(f"unexpected args for status: {' '.join(rest)}")

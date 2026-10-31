@@ -20,6 +20,7 @@ from nautilus_trader.model import (
     AccountType,
     Bar,
     BarType,
+    ClientOrderId,
     CryptoPerpetual,
     Currency,
     InstrumentId,
@@ -89,6 +90,11 @@ def _bar_duration_ns(bar: Bar) -> int:
     return step * _FIXED_AGGREGATION_NS[name]
 
 
+#: Round-trip cost buffer for the research breakeven stop: one taker fee in and
+#: one out at the default 0.0005 taker rate. Declared, not fitted.
+_BREAKEVEN_COST_BUFFER = Decimal("0.001")
+
+
 @dataclass(frozen=True)
 class ExpertStrategyConfig:
     """Execution parameters and consensus gates for the 28-expert ensemble strategy."""
@@ -130,6 +136,17 @@ class ExpertStrategyConfig:
     bracket_stop_pct: Decimal | None = None
     bracket_target_pct: Decimal | None = None
     max_concurrent_positions: int = 1
+    #: RESEARCH-ONLY exit policy, disabled by default. When None the baseline
+    #: static bracket path is byte-identical. ``BREAKEVEN_1R`` moves the resting
+    #: stop to entry plus a declared round-trip cost buffer after the market has
+    #: causally demonstrated +1R on a CLOSED bar; the modification is submitted
+    #: at that bar's close, so it can only protect subsequent bars.
+    research_exit_policy: str | None = None
+    #: RESEARCH-ONLY admission lifecycle, disabled by default. When True, an
+    #: opportunity detected on bar t-1 must still be confirmed by bar t's close
+    #: (price holding beyond the level that produced it) before admission. This
+    #: is a post-breakout persistence gate, not a breakout predictor.
+    research_require_confirmation: bool = False
 
     def __post_init__(self) -> None:
         # A stop without a target used to fall through to the non-bracket path
@@ -138,6 +155,11 @@ class ExpertStrategyConfig:
         if (self.bracket_stop_pct is None) != (self.bracket_target_pct is None):
             raise ValueError(
                 "bracket_stop_pct and bracket_target_pct must be configured together"
+            )
+        if self.research_exit_policy not in (None, "BREAKEVEN_1R"):
+            raise ValueError(
+                f"unknown research_exit_policy {self.research_exit_policy!r}; "
+                "supported: None, BREAKEVEN_1R"
             )
 
 
@@ -190,6 +212,10 @@ class ExpertEnsembleStrategy(Strategy):
         self.closed_positions: list[dict[str, Any]] = []
         # Pending TWAP child slices: dicts with side/quantity/bracket/prices.
         self.pending_twap: list[dict[str, Any]] = []
+        #: Research-only stop-management state, keyed by native position id.
+        self._research_stop_state: dict[str, dict[str, Any]] = {}
+        #: Prior bar's opportunity, used by the research confirmation gate.
+        self._research_prior_opportunity: dict[str, Any] | None = None
 
     def on_start(self) -> None:
         """Subscribe to configured bar type on strategy start."""
@@ -231,6 +257,133 @@ class ExpertEnsembleStrategy(Strategy):
             return balance.total
         except Exception:
             return None
+
+
+    # ------------------------------------------------------------------ #
+    # research-only exit policy
+    # ------------------------------------------------------------------ #
+    def _research_find_stop(self, position: Any) -> Any | None:
+        """Find the resting protective stop of an open position."""
+        stop: Any | None = None
+        for order in self.cache.orders_open(instrument_id=self.instrument_id):
+            if order.order_type != OrderType.STOP_MARKET:
+                continue
+            if order.is_closed:
+                continue
+            # The bracket's stop is the child on the opposite side of the
+            # position; a same-side stop would be an entry, not protection.
+            position_is_long = "LONG" in str(position.side).upper()
+            if position_is_long and order.side == OrderSide.BUY:
+                continue
+            if not position_is_long and order.side == OrderSide.SELL:
+                continue
+            stop = order
+            break
+        return stop
+
+    def _research_apply_exit_policy(self, bar: Bar) -> None:
+        policy = self.ensemble_config.research_exit_policy
+        if policy is None:
+            return
+        try:
+            instrument = self.cache.instrument(self.instrument_id)
+            if instrument is None:
+                return
+            open_ids = set()
+            for position in self.cache.positions_open(instrument_id=self.instrument_id):
+                pid = str(position.id)
+                open_ids.add(pid)
+                state = self._research_stop_state.get(pid)
+                if state is None:
+                    stop_order = self._research_find_stop(position)
+                    if stop_order is None:
+                        self._audit(
+                            "POSITION_CHANGED",
+                            int(bar.ts_event),
+                            evidence="OBSERVED_SIMULATION",
+                            policy=policy,
+                            research_note="RESEARCH_STOP_NOT_FOUND",
+                            position_id=pid,
+                            open_orders=len(
+                                self.cache.orders_open(instrument_id=self.instrument_id)
+                            ),
+                        )
+                        continue
+                    entry = float(position.avg_px_open)
+                    trigger = stop_order.trigger_price or stop_order.price
+                    stop_px = float(trigger) if trigger is not None else None
+                    if stop_px is None:
+                        continue
+                    risk = abs(entry - stop_px)
+                    if risk <= 0:
+                        continue
+                    state = {
+                        "entry": entry,
+                        "risk": risk,
+                        "is_long": "LONG" in str(position.side).upper(),
+                        "stop_client_id": str(stop_order.client_order_id),
+                        # The bar on which the position first becomes visible:
+                        # its high/low predate the fill, so it cannot trigger.
+                        "seen_bar_end_ns": int(bar.ts_event),
+                        "triggered": False,
+                    }
+                    self._research_stop_state[pid] = state
+                    self._audit(
+                        "POSITION_CHANGED",
+                        int(bar.ts_event),
+                        evidence="OBSERVED_SIMULATION",
+                        policy=policy,
+                        research_note="RESEARCH_STOP_TRACKED",
+                        position_id=pid,
+                        entry=str(entry),
+                        initial_stop=str(stop_px),
+                        risk=str(risk),
+                        is_long=state["is_long"],
+                    )
+                    continue
+                if state["triggered"]:
+                    continue
+                if int(bar.ts_event) <= state["seen_bar_end_ns"]:
+                    continue
+                entry = state["entry"]
+                risk = state["risk"]
+                is_long = state["is_long"]
+                trigger_px = entry + risk if is_long else entry - risk
+                high = bar.high.as_double()
+                low = bar.low.as_double()
+                reached = high >= trigger_px if is_long else low <= trigger_px
+                if not reached:
+                    continue
+                order = self.cache.order(ClientOrderId(state["stop_client_id"]))
+                if order is None or order.is_closed:
+                    state["triggered"] = True
+                    continue
+                buffer = entry * float(_BREAKEVEN_COST_BUFFER)
+                new_stop = entry + buffer if is_long else entry - buffer
+                self.modify_order(
+                    ClientOrderId(state["stop_client_id"]),
+                    trigger_price=Price(new_stop, instrument.price_precision),
+                )
+                state["triggered"] = True
+                self._audit(
+                    "PROTECTIVE_STOP_UPDATED",
+                    int(bar.ts_event),
+                    evidence="OBSERVED_SIMULATION",
+                    policy=policy,
+                    position_id=pid,
+                    from_trigger=str(order.trigger_price),
+                    to_trigger=str(new_stop),
+                    trigger_bar_high=str(bar.high),
+                    trigger_bar_low=str(bar.low),
+                    evidence_class_note="RESEARCH_ONLY_DISABLED_BY_DEFAULT",
+                    research_note="RESEARCH_STOP_MOVED_BREAKEVEN_1R",
+                )
+            for pid in list(self._research_stop_state):
+                if pid not in open_ids:
+                    self._research_stop_state.pop(pid, None)
+        except Exception:
+            # A research hook never interrupts the replay path.
+            return
 
     def _twap_slices(self, quantity: Decimal, step: Decimal, n: int) -> list[Decimal]:
         """Split a parent quantity into n step-aligned child slices.
@@ -329,6 +482,9 @@ class ExpertEnsembleStrategy(Strategy):
             market_data_available_ns=candle.available_ns,
             received_ns=candle.received_ns,
         )
+
+        # 1b. Research-only exit policy (no-op unless explicitly configured).
+        self._research_apply_exit_policy(bar)
 
         # 2. Advance OpportunityBook with newly closed candle (invalidation & TTL check)
         for transitioned in self.opportunity_book.on_candle(candle):
@@ -520,6 +676,31 @@ class ExpertEnsembleStrategy(Strategy):
                     reason_code="WITNESS_NOT_INVOKED",
                 )
 
+        # 5b. Research-only admission lifecycle: the previous bar's opportunity
+        # must still be confirmed by this bar's close. No-op by default.
+        confirmation_ok = True
+        if self.ensemble_config.research_require_confirmation:
+            prior = self._research_prior_opportunity
+            if prior is None or opportunity is None:
+                confirmation_ok = False
+            elif str(prior["direction"]) != str(opportunity.direction):
+                confirmation_ok = False
+            else:
+                level = float(prior["level"])
+                close = bar.close.as_double()
+                confirmation_ok = close >= level if prior["is_long"] else close <= level
+            if is_supported and not confirmation_ok:
+                self._audit(
+                    "ADMISSION_REJECTED",
+                    candle.end_ns,
+                    evidence="DERIVED",
+                    opportunity_id=(record.opportunity_id if record is not None else None),
+                    reason_code="RESEARCH_CONFIRMATION_FAILED",
+                    prior_level=(self._research_prior_opportunity or {}).get("level"),
+                    close=str(bar.close),
+                    evidence_class_note="RESEARCH_ONLY_DISABLED_BY_DEFAULT",
+                )
+
         # 6. Execute Native Orders via NautilusTrader OrderFactory
         action = "NO_ACTION"
         sizing_mode = "FLAT"
@@ -534,7 +715,7 @@ class ExpertEnsembleStrategy(Strategy):
         if twap_action is not None:
             action = twap_action
             sizing_mode = "TWAP"
-        if is_supported and opportunity is not None and twap_action is None:
+        if is_supported and opportunity is not None and confirmation_ok and twap_action is None:
             open_positions = [
                 p
                 for p in self.cache.positions_open()
@@ -935,6 +1116,12 @@ class ExpertEnsembleStrategy(Strategy):
             {
                 "bar_idx": len(self.candles) - 1,
                 "decision_ns": bar.ts_init,
+                # Audit lineage: the decision id used by the event ledger and the
+                # opportunity the decision was made about. Without these two
+                # fields the lifecycle builder cannot join a campaign to its
+                # opportunity/decision and silently writes nulls.
+                "decision_id": f"D{candle.end_ns}",
+                "opportunity_id": (record.opportunity_id if record is not None else None),
                 "open": str(bar.open),
                 "high": str(bar.high),
                 "low": str(bar.low),
@@ -949,6 +1136,19 @@ class ExpertEnsembleStrategy(Strategy):
                 "stances": [stance_record(s) for s in stances],
             }
         )
+
+        # Remember this bar's opportunity for the research confirmation gate.
+        if self.ensemble_config.research_require_confirmation:
+            if opportunity is not None and record is not None:
+                self._research_prior_opportunity = {
+                    "direction": opportunity.direction,
+                    "level": float(record.entry_price),
+                    "is_long": str(opportunity.direction).upper().endswith("LONG"),
+                    "bar_end_ns": int(candle.end_ns),
+                    "opportunity_id": record.opportunity_id,
+                }
+            else:
+                self._research_prior_opportunity = None
 
     def _audit(self, event_type: str, event_time_ns: int, *, evidence: str, **fields: Any) -> None:
         """Append one forensic event. Never raises into the replay path."""

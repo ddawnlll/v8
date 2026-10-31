@@ -519,6 +519,7 @@ def run_native_audit(
     expected_bars: int | None = 2160,
     run_id: str | None = None,
     skip_equivalence: bool = False,
+    config_overrides: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     from v8_next.adapters.expert_strategy import run_expert_strategy_backtest
     from v8_next.evaluation.multitape import load_multitape
@@ -545,7 +546,7 @@ def run_native_audit(
         events_path=run_dir / "events.jsonl",
         instrument_id=INSTRUMENT_STRATEGY_ID,
     )
-    cfg = _config()
+    cfg = _config(**(dict(config_overrides) if config_overrides else {}))
     replay_started = time.perf_counter()
     result = run_expert_strategy_backtest(
         candles,
@@ -1059,8 +1060,22 @@ def run_native_audit(
         ),
         _gate(
             "G9",
-            "PASS" if all(row.get("mfe_r") is not None or row.get("risk_invalid_reason") for row in lifecycles) else "FAIL",
-            f"valid={len(with_r)} invalid={len(invalid_risk)} (invalid R returns null + reason)",
+            # A campaign that both opened and closed inside one bar has no
+            # post-entry bar to measure, so its excursion is genuinely
+            # unmeasurable (not zero, and not a violation). It must be a named
+            # third bucket, otherwise a correct no-look-ahead contract would be
+            # reported as a data-quality failure.
+            "PASS"
+            if all(
+                row.get("mfe_r") is not None
+                or row.get("risk_invalid_reason")
+                or row.get("metric_unavailable_reason")
+                for row in lifecycles
+            )
+            else "FAIL",
+            f"valid={len(with_r)} invalid={len(invalid_risk)} "
+            f"unmeasurable={sum(1 for row in lifecycles if row.get('metric_unavailable_reason'))} "
+            "(null R is always accompanied by a reason)",
             ["mfe_mae_metrics.json", "trade_lifecycles.jsonl"],
             run_ref,
         ),

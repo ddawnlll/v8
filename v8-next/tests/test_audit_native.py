@@ -128,12 +128,37 @@ def test_long_mfe_mae_and_r_are_direction_adjusted() -> None:
         initial_target_price=120.0,
     )
     row = compute_trade_metrics(facts=facts, candles=candles)
+    # The entry bar is the bar whose close the position was opened on, so its
+    # low (95) happened BEFORE the position existed and cannot be post-entry
+    # MAE. Excursions are measured from the next bar only.
     assert row["mfe_price"] == 20.0
-    assert row["mae_price"] == -5.0
+    assert row["mae_price"] == 0.0
     assert row["mfe_r"] == 2.0
     assert row["realized_gross_r"] == 1.5
     assert row["realized_net_r"] == 1.5
     assert row["exit_kind"] == "UNKNOWN"
+
+
+def test_entry_bar_extrema_are_not_post_entry_excursion() -> None:
+    # A LONG opened at the close of a wide bar: the bar's high (150) and low
+    # (40) both precede the entry, so neither may become MFE/MAE.
+    candles = _candles([(100, 150, 40, 100), (100, 104, 96, 102)])
+    facts = TradeFacts(
+        position_id="P1e",
+        instrument_id="X",
+        side="LONG",
+        quantity=1.0,
+        entry_price=100.0,
+        opened_ns=candles[0].end_ns,
+        closed_ns=candles[1].end_ns,
+        exit_price=102.0,
+        initial_stop_price=90.0,
+        initial_target_price=120.0,
+    )
+    row = compute_trade_metrics(facts=facts, candles=candles)
+    assert row["mfe_price"] == 4.0
+    assert row["mae_price"] == -4.0
+    assert row["measured_window_bars"] == 1
 
 
 def test_short_trade_r_uses_same_denominator_sign() -> None:
@@ -150,8 +175,12 @@ def test_short_trade_r_uses_same_denominator_sign() -> None:
         initial_stop_price=110.0,
     )
     row = compute_trade_metrics(facts=facts, candles=candles)
-    assert row["mfe_price"] == 10.0
-    assert row["mae_price"] == -5.0
+    # Opened and closed inside one bar: no post-entry bar exists, so the
+    # excursion is unmeasurable (null + reason), never zero and never a STOP.
+    assert row["mfe_price"] is None
+    assert row["mae_price"] is None
+    assert row["path_model_outcome"] == "ENTRY_BAR_ONLY"
+    assert row["metric_unavailable_reason"] == "NO_POST_ENTRY_BAR"
     assert row["realized_gross_r"] == 0.5
     assert row["gross_pnl_usdt"] == 10.0
 
@@ -468,6 +497,82 @@ def test_exit_kind_is_classified_from_cycle_tags_not_timestamp_window() -> None:
          "type": "LIMIT", "venue_order_id": "V3"},
     ]
     assert classify_exit_kind(1, rows, opened_ns=1_000) == "TARGET_LIMIT"
+
+
+def test_ambiguous_stop_and_target_bar_resolves_stop_first() -> None:
+    # One bar covers both the stop (95) and the target (110) for a LONG.
+    # The declared contract is STOP_FIRST: the stop fills first, MFE is capped
+    # at the target distance and MAE at the stop distance.
+    candles = _candles([(100, 100, 100, 100), (100, 115, 80, 112)])
+    facts = TradeFacts(
+        position_id="Pamb",
+        instrument_id="X",
+        side="LONG",
+        quantity=1.0,
+        entry_price=100.0,
+        opened_ns=candles[0].end_ns,
+        closed_ns=None,
+        exit_price=None,
+        initial_stop_price=95.0,
+        initial_target_price=110.0,
+    )
+    row = compute_trade_metrics(facts=facts, candles=candles)
+    assert row["path_model_outcome"] == "STOP_FIRST"
+    assert row["mae_r"] == -1.0
+    assert row["mfe_r"] == 0.0
+    assert row["mae_capped_by_stop"] is True
+
+
+def test_native_target_exit_is_not_relabelled_as_stop() -> None:
+    # A campaign that exited at the target must keep its native exit kind even
+    # though the audit path model sees a stop-first bar.
+    candles = _candles([(100, 100, 100, 100), (100, 104, 95, 96)])
+    facts = TradeFacts(
+        position_id="Ptgt",
+        instrument_id="X",
+        side="SHORT",
+        quantity=1.0,
+        entry_price=100.0,
+        opened_ns=candles[0].end_ns,
+        closed_ns=candles[1].end_ns,
+        exit_price=96.0,
+        initial_stop_price=105.0,
+        initial_target_price=96.0,
+        exit_kind="TARGET_LIMIT",
+    )
+    row = compute_trade_metrics(facts=facts, candles=candles)
+    assert row["exit_kind"] == "TARGET_LIMIT"
+    assert row["realized_gross_r"] == 0.8
+    assert row["path_model_outcome"] == "TARGET_FIRST"
+
+
+def test_campaign_lineage_carries_decision_and_opportunity_ids() -> None:
+    from v8_next.audit.trade_metrics import trade_facts_from_replay
+
+    result = {
+        "opened_positions": [
+            {"position_id": "P", "instrument_id": "X", "side": "LONG", "quantity": "1",
+             "avg_px_open": "100", "event_ns": 1_000},
+        ],
+        "closed_positions": [
+            {"position_id": "P", "avg_px_close": "105", "realized_pnl": "4 USDT",
+             "event_ns": 9_000},
+        ],
+        "fill_records": [
+            {"position_id": "P", "ts_last": 1_000, "side": "BUY", "tags": ["ENTRY"],
+             "commissions": "0", "venue_order_id": "V1", "status": "FILLED"},
+            {"position_id": "P", "ts_last": 9_000, "side": "SELL", "tags": ["TAKE_PROFIT"],
+             "commissions": "0", "venue_order_id": "V2", "status": "FILLED"},
+        ],
+        "decisions": [
+            {"decision_ns": 1_000, "decision_id": "D1000", "opportunity_id": "OPP1",
+             "opportunity": {"opportunity_id": "OPP1"}},
+        ],
+        "config": {"bracket_stop_pct": "0.02", "bracket_target_pct": "0.04"},
+    }
+    facts = trade_facts_from_replay(result, cutoff_ns=20_000)
+    assert facts[0].decision_id == "D1000"
+    assert facts[0].opportunity_id == "OPP1"
 
 
 def test_stop_first_caps_mae_at_the_stop_distance() -> None:

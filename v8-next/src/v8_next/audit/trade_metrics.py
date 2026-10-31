@@ -169,12 +169,19 @@ def stop_first_path(
     outcome = "OPEN_AT_CUTOFF"
     exit_price = None
     exit_ns_path = None
+    bars_measured = 0
     for candle in candles:
         bar_end = int(candle.end_ns)
-        if bar_end < opened_ns:
+        # The entry bar is excluded: the position opens at (or after) that
+        # bar's close, so its high/low were produced BEFORE the position
+        # existed. Counting them as post-entry excursion is look-ahead and
+        # inflates MFE on every campaign. Intrabar entry timing is not
+        # recoverable from a bar tape, so this is the conservative contract.
+        if bar_end <= opened_ns:
             continue
         if exit_ns is not None and bar_end > exit_ns:
             break
+        bars_measured += 1
         high = float(candle.high)
         low = float(candle.low)
         bar_mfe = high - entry if direction > 0 else entry - low
@@ -199,12 +206,22 @@ def stop_first_path(
             break
         mfe = max(mfe, bar_mfe)
         mae = min(mae, bar_mae)
+    if bars_measured == 0:
+        return {
+            "mfe_price": None,
+            "mae_price": None,
+            "outcome": "ENTRY_BAR_ONLY",
+            "exit_price": None,
+            "exit_ns": None,
+            "bars_measured": 0,
+        }
     return {
         "mfe_price": mfe,
         "mae_price": mae,
         "outcome": outcome,
         "exit_price": exit_price,
         "exit_ns": exit_ns_path,
+        "bars_measured": bars_measured,
     }
 
 
@@ -306,7 +323,14 @@ def compute_trade_metrics(
             opened_ns=facts.opened_ns or 0,
             exit_ns=exit_ns,
         )
-        if contract is not None:
+        if contract is not None and contract["outcome"] == "ENTRY_BAR_ONLY":
+            row["mfe_price"] = row["mae_price"] = None
+            row["mfe_r"] = row["mae_r"] = None
+            row["path_model_applied"] = "STOP_FIRST"
+            row["path_model_outcome"] = "ENTRY_BAR_ONLY"
+            row["metric_unavailable_reason"] = "NO_POST_ENTRY_BAR"
+            row["measured_window_bars"] = 0
+        elif contract is not None:
             mfe_price = contract["mfe_price"]
             mae_price = contract["mae_price"]
             row["path_model_applied"] = "STOP_FIRST"
@@ -324,13 +348,14 @@ def compute_trade_metrics(
                 mfe_price = entry - min(lows)
                 mae_price = entry - max(highs)
             row["path_model_applied"] = "NONE_NO_STOP"
-        row["mfe_price"] = round(mfe_price, 10)
-        row["mae_price"] = round(mae_price, 10)
-        row["mfe_r"] = round(mfe_price / risk_price, 10) if risk_price else None
-        row["mae_r"] = round(mae_price / risk_price, 10) if risk_price else None
-        row["holding_bars"] = len(window)
-        row["holding_duration_ns"] = (exit_ns or window[-1].end_ns) - facts.opened_ns
-        row["measured_window_bars"] = len(window)
+        if contract is None or contract["outcome"] != "ENTRY_BAR_ONLY":
+            row["mfe_price"] = round(mfe_price, 10)
+            row["mae_price"] = round(mae_price, 10)
+            row["mfe_r"] = round(mfe_price / risk_price, 10) if risk_price else None
+            row["mae_r"] = round(mae_price / risk_price, 10) if risk_price else None
+            row["holding_bars"] = len(window)
+            row["holding_duration_ns"] = (exit_ns or window[-1].end_ns) - facts.opened_ns
+            row["measured_window_bars"] = max(0, len(window) - 1)
     else:
         row["mfe_price"] = row["mae_price"] = None
         row["mfe_r"] = row["mae_r"] = None
@@ -522,10 +547,20 @@ def trade_facts_from_replay(
         decision = None
         for row in decisions:
             ts = int(row.get("decision_ns") or 0)
-            if opened_ns is not None and ts <= opened_ns:
-                decision = row
+            if opened_ns is None or ts > opened_ns:
+                continue
+            # Only a decision that actually submitted an order can own this
+            # campaign. Taking the last decision of any kind mis-attributes a
+            # trade whenever the fill is delayed (slipped/latency profiles) and
+            # the following bars carry NO_ACTION decisions.
+            action = str(row.get("action") or "")
+            if "SUBMITTED" not in action and decision is not None:
+                continue
+            decision = row
         decision_opp = (decision or {}).get("opportunity") or {}
-        opp_id = decision_opp.get("opportunity_id")
+        # The decisions ledger carries a flat opportunity_id; the nested
+        # opportunity record is the fallback for older ledgers.
+        opp_id = (decision or {}).get("opportunity_id") or decision_opp.get("opportunity_id")
 
         matched = next(
             (opp for opp in opportunities if opp_id and opp["opportunity_id"] == opp_id), None
