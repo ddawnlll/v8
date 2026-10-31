@@ -76,3 +76,33 @@ def test_runner_hands_certificate_named_projection_and_minerva_inputs(tmp_path: 
     html = html_path.read_text(encoding="utf-8")
     assert "Named projection refusal:" in html
     assert "Named Minerva refusal:" in html
+
+
+def test_caller_supplied_min_trl_days_is_not_discarded() -> None:
+    """#476 R2: a measured ``min_trl_days`` handed to the bridge must survive it.
+
+    ``minerva_for_certificate`` used to re-declare ``min_trl_days: float | None = None``
+    inside its own body, shadowing the parameter, so a caller-supplied measurement was
+    silently replaced by ``None`` and the certificate refused for an unmeasured input it
+    had been given.  Both current call sites pass ``None``, so nothing caught it.
+    """
+    from v8_next.certification import minerva_for_certificate
+
+    result = minerva_for_certificate(
+        statistics={
+            "dsr": {"dsr_confidence": 0.97},
+            "pbo": {"pbo": 0.10},
+            "spa": {"pvalues": {"consistent": 0.01}},
+        },
+        actual_track_days=400.0,
+        min_trl_days=12.5,
+        min_trl_plan=None,
+        observed_intervals=None,
+        worst_regime_return_bps=-50.0,
+        regime_floor_bps=-200.0,
+    )
+
+    assert result.measured_inputs is not None
+    assert result.measured_inputs["min_trl_days"] == 12.5
+    assert "min_trl_days=UNMEASURED" not in (result.refusal_reason or "")
+    assert "DECLARED_MINTRL_PLAN_REQUIRED" not in (result.refusal_reason or "")
