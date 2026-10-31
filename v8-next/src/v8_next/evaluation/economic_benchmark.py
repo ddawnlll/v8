@@ -1992,6 +1992,51 @@ EQUITY_CONSTRUCTION = (
     "never silent."
 )
 
+#: #491 — once the exit leg is marked at the engine's own close price, the graft
+#: residual can only be the costs the mark path deliberately excludes
+#: (commissions, funding) plus the mark of still-open positions that the engine
+#: balance does not carry. The bound is the issue's declared real-tape tolerance:
+#: a residual outside it is a named non-reconciling state, never silently smeared.
+EQUITY_MTM_IDENTITY_ATOL = 0.05
+
+
+def _graft_residual_identity(
+    *,
+    gap: float,
+    expected_gap: float,
+    commission: float | None,
+    funding: float | None,
+    open_unrealized: float,
+    measured: bool,
+) -> dict[str, Any]:
+    """Assert that the declared graft absorbs only the excluded costs (#491).
+
+    ``gap`` is the builder's own published terminal gap (its sign convention is
+    preserved); ``expected_gap`` is the same gap reconstructed from the costs the
+    per-bar mark path omits and the unrealized mark of still-open positions. When
+    those differ by more than the declared bound the state says so instead of
+    presenting an unexplained residual as cost. Absence is never zero-filled.
+    """
+    residual = gap - expected_gap
+    if not measured:
+        state = "NOT_MEASURED"
+    elif abs(residual) <= EQUITY_MTM_IDENTITY_ATOL:
+        state = "EXPLAINED_BY_EXCLUDED_COSTS"
+    else:
+        state = "UNEXPLAINED_RESIDUAL"
+    return {
+        "gap_usdt": gap,
+        "expected_gap_usdt": expected_gap,
+        "unexplained_usdt": residual,
+        "tolerance_usdt": EQUITY_MTM_IDENTITY_ATOL,
+        "state": state,
+        "terms_usdt": {
+            "commission": commission,
+            "funding": funding,
+            "open_unrealized": open_unrealized,
+        },
+    }
+
 # --------------------------------------------------------------------------- #
 # #445 — the measured closed-loop residual, its terms and its tolerance travel
 # into the published receipt
@@ -2843,6 +2888,7 @@ def strategy_series_from_engine(
     exit_fills = 0
     n_trades = 0
     for i in range(1, n):
+        exit_step = 0.0
         for kind, qd, px in events.get(i, []):
             if kind == "open":
                 qty = qd
@@ -2851,6 +2897,13 @@ def strategy_series_from_engine(
                 entry_turnover += abs(qd) * px / capital
                 n_trades += 1
             else:
+                # #491: book the exit segment (last bar close -> measured exit
+                # price) BEFORE the position becomes flat. `px` is the engine's
+                # `avg_px_close`, or the documented bar-close proxy already
+                # counted in `bar_close_proxy_exits`; it is measured, never
+                # imputed. Before this the close set `qty = 0` first and the
+                # whole exit leg was dropped from `equity_mtm`.
+                exit_step += qd * (px - closes[i - 1])
                 qty = 0.0
                 # #397: the exit leg pays the same fee on its own notional and
                 # is therefore turnover, not a free close.
@@ -2858,7 +2911,7 @@ def strategy_series_from_engine(
                 exit_turnover += abs(qd) * px / capital
                 exit_fills += 1
         mtm = qty * (closes[i] - avg) if qty != 0.0 else 0.0
-        equity.append(equity[-1] + mtm)
+        equity.append(equity[-1] + mtm + exit_step)
         exposure.append(abs(qty * closes[i]) / equity[-2] if equity[-2] > 0 else 0.0)
     # Replace level with authoritative accounting: engine balance delta is the
     # net truth; distribute the residual (commissions + rounding) uniformly so
@@ -2881,6 +2934,18 @@ def strategy_series_from_engine(
     # fill-level attribution (reported list is last-position partial).
     commission_used = est_comm_total if cost_basis == "VERIFIED_ENGINE" else (
         reported_comm_total if reported_comm_total > 0 else est_comm_total
+    )
+    # #491: the still-open position's own unrealized mark is carried by
+    # `equity_mtm` but not by the engine balance, so it belongs in the expected
+    # gap. It is measured from the same qty/avg the last bar was marked with.
+    open_unrealized = qty * (closes[-1] - avg) if qty != 0.0 else 0.0
+    exit_leg_identity = _graft_residual_identity(
+        gap=balance_total - equity_mtm[-1],
+        expected_gap=-(commission_used + open_unrealized),
+        commission=commission_used,
+        funding=None,
+        open_unrealized=open_unrealized,
+        measured=balance_measured,
     )
     return {
         "equity": adj,
@@ -2940,6 +3005,10 @@ def strategy_series_from_engine(
             "reconciliation_adjustment_total_usdt": balance_total - equity_mtm[-1],
             "equity_mtm_terminal": equity_mtm[-1],
             "equity_mtm_gap_usdt": balance_total - equity_mtm[-1],
+            # #491: the residual identity, asserted from this path's published
+            # terms. `EXPLAINED_BY_EXCLUDED_COSTS` means the graft absorbs only
+            # the commission this path excludes; anything else is named.
+            "exit_leg_identity": exit_leg_identity,
             # #397: turnover notional, entry/exit separated, against the fill
             # notional the commission estimate charges (one fee convention).
             "turnover_notional": {
@@ -3107,6 +3176,7 @@ def portfolio_series_from_engine(
     exit_fills = 0
     prev_mtm: dict[str, float] = {}
     for i in range(1, n):
+        exit_step = 0.0
         for kind, inst, qd, px in events.get(i, []):
             if kind == "open":
                 live[inst] = [qd, px]
@@ -3114,6 +3184,13 @@ def portfolio_series_from_engine(
                 entry_turnover += abs(qd) * px / capital
                 n_trades += 1
             else:
+                # #491: book the exit segment (last bar close -> measured exit
+                # price) BEFORE the position leaves the mark book. `px` is the
+                # engine's `avg_px_close`, or the documented bar-close proxy
+                # already counted in `bar_close_proxy_exits`; it is measured,
+                # never imputed. Before this the pops below came first and the
+                # per-bar loop could not mark the leg on its exit bar.
+                exit_step += qd * (px - legs_closes[inst][i - 1])
                 live.pop(inst, None)
                 prev_mtm.pop(inst, None)
                 # #397: an exit pays the same linear fee on its own notional, so
@@ -3128,7 +3205,7 @@ def portfolio_series_from_engine(
             # every bar, so a leg that left the book cannot leave its last
             # weight behind and double count against the published exposure.
             leg_gross[inst] = 0.0
-        step_pnl = 0.0
+        step_pnl = exit_step
         gross = 0.0
         for inst, (qd, avg) in live.items():
             closes = legs_closes[inst]
@@ -3264,6 +3341,17 @@ def portfolio_series_from_engine(
     adj = [equity[0]]
     for i in range(1, n):
         adj.append(adj[-1] + (equity[i] - equity[i - 1]) + drift)
+    # #491: assert the graft's declared meaning on this path's own published
+    # terms: the residual it absorbs is the costs the mark path excludes
+    # (commissions + funding) plus the unrealized mark of still-open positions.
+    exit_leg_identity = _graft_residual_identity(
+        gap=equity_mtm[-1] - balance_total,
+        expected_gap=est_comm_total + (funding_paid if fed else 0.0) + open_mtm,
+        commission=est_comm_total,
+        funding=funding_paid if fed else None,
+        open_unrealized=open_mtm,
+        measured=balance_measured,
+    )
 
     # Participation: entry/exit notional over real bar quote volume.
     participations: list[float] = []
@@ -3353,6 +3441,10 @@ def portfolio_series_from_engine(
             "reconciliation_adjustment_total_usdt": balance_total - equity_mtm[-1],
             "equity_mtm_terminal": equity_mtm[-1],
             "equity_mtm_gap_usdt": equity_mtm[-1] - balance_total,
+            # #491: the residual identity, asserted from this path's published
+            # terms. `EXPLAINED_BY_EXCLUDED_COSTS` means the graft absorbs only
+            # commissions + funding + still-open marks; anything else is named.
+            "exit_leg_identity": exit_leg_identity,
             # #397: the notional the published turnover is built from, entry and
             # exit separated, beside the fill notional the commission estimate
             # charges. One fee convention: the two must agree.
