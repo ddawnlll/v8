@@ -125,14 +125,23 @@ def test_mechanics_capacity_bounds_from_participation() -> None:
     from v8_next.app.portfolio import capacity_from_participation
 
     rows = capacity_from_participation([1e-6, 2e-6], 10000.0, [0.001, -0.002, 0.0015] * 50)
-    measured = [r for r in rows if r["kind"] == "MEASURED_LINEAR_BOUND"]
+    bounds = [r for r in rows if "max_capital_linear" in r]
     hyps = [r for r in rows if r["kind"] == "HYPOTHETICAL_SCENARIO"]
-    assert len(measured) == 3 and len(hyps) == 3
-    assert measured[0]["max_capital_linear"] == pytest.approx(10000.0 * 0.01 / 2e-6)
-    assert all(r["impact_beyond"] == "UNVERIFIED_NO_IMPACT_MODEL" for r in measured)
+    assert len(bounds) == 3 and len(hyps) == 3
+    assert bounds[0]["max_capital_linear"] == pytest.approx(10000.0 * 0.01 / 2e-6)
+    # #477: the 1%/5%/10% thresholds are projections beyond the observed 2e-6
+    # participation, so the canonical producer publishes them UNRESOLVED and
+    # never under a MEASURED_* kind. The number is preserved beside the state.
+    assert all(r["status"] == "UNRESOLVED" for r in bounds)
+    assert all(r["reason"] == "OBSERVED_FILLS_AT_OTHER_SCALE" for r in bounds)
+    assert all(not r["kind"].startswith("MEASURED") for r in bounds)
+    assert all(r["impact_beyond"] == "UNVERIFIED_NO_IMPACT_MODEL" for r in bounds)
     assert all(h["k_status"] == "HYPOTHETICAL_UNCALIBRATED" for h in hyps)
     assert all(h["impact_bps_at_peak"] is not None for h in hyps)
-    assert capacity_from_participation([], 10000.0)[0]["max_capital_linear"] is None
+    empty = capacity_from_participation([], 10000.0)[0]
+    assert empty["max_capital_linear"] is None
+    assert empty["status"] == "DATA_BLOCKED"
+    assert empty["reason"] == "NO_OBSERVED_PARTICIPATION"
 
 
 def test_portfolio_benchmark_legs_publish_a_measured_funding_feed(tmp_path: Path) -> None:

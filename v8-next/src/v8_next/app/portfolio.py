@@ -203,11 +203,15 @@ def capacity_from_participation(
     p_bar_returns: Sequence[float] | None = None,
     k_grid: tuple[float, ...] = (0.1, 0.5, 1.0),
 ) -> list[dict[str, Any]]:
-    """Participation-bound capacity from real bar quote volumes.
+    """Participation-bound capacity from real bar quote volumes (#477).
 
-    Measured part: linear extrapolation to 1%/5%/10% peak participation.
-    Scenario part: square-root impact k*sigma*sqrt(p) with HYPOTHETICAL k.
-    sigma is measured (std of portfolio per-bar returns); k is not calibrated
+    The bound entries are produced by the swing-capacity contract in
+    :mod:`v8_next.evaluation.capacity`, not rebuilt here: a threshold outside
+    the participation scale the run actually observed is a labelled projection
+    and publishes ``UNRESOLVED`` with its reason, never a ``MEASURED_*`` kind.
+    The numeric bound and its extrapolation identity are preserved beside that
+    state. Scenario part: square-root impact k*sigma*sqrt(p) with HYPOTHETICAL
+    k. sigma is measured (std of portfolio per-bar returns); k is not calibrated
     to any venue data, so scenarios never read as measured capacity.
     Slippage/impact beyond participation is an UNVERIFIED claim.
     """
@@ -215,20 +219,10 @@ def capacity_from_participation(
 
     import numpy as _np
 
-    out: list[dict[str, Any]] = []
+    from v8_next.evaluation.capacity import measure_capacity_bounds_from_participation
+
+    out = measure_capacity_bounds_from_participation(participations, capital)
     peak = max(participations) if participations else 0.0
-    for threshold in (0.01, 0.05, 0.10):
-        max_cap = capital * threshold / peak if peak > 0 else None
-        out.append(
-            {
-                "kind": "MEASURED_LINEAR_BOUND",
-                "participation_threshold": threshold,
-                "observed_peak_participation": peak,
-                "max_capital_linear": max_cap,
-                "basis": "LINEAR_EXTRAPOLATION_OF_MEASURED_PARTICIPATION",
-                "impact_beyond": "UNVERIFIED_NO_IMPACT_MODEL",
-            }
-        )
     sigma = None
     if p_bar_returns:
         arr = _np.asarray(list(p_bar_returns), dtype=float)

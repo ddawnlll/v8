@@ -3,10 +3,12 @@
 import pytest
 
 from v8_next.evaluation.capacity import (
+    CAPACITY_STATUSES,
     CapacityScenario,
     MicrostructureObservation,
     SwingCapacityObservation,
     measure_capacity,
+    measure_capacity_bounds_from_participation,
     measure_swing_capacity,
 )
 
@@ -102,3 +104,42 @@ def test_capacity_rejects_mixed_instruments() -> None:
     rows = (_row(timestamp_ns=1), _row(timestamp_ns=2, instrument_id="ETHUSDT-PERP.BINANCE"))
     with pytest.raises(ValueError, match="UNSINGLE_INSTRUMENT_OBSERVATIONS"):
         measure_capacity(rows, CapacityScenario(scale=1.0, requested_multiplier=1.0))
+
+
+def test_participation_bound_projection_never_publishes_a_measured_basis() -> None:
+    """#477: a bound beyond the observed participation scale is UNRESOLVED.
+
+    The canonical run observes ~2e-6 peak participation; a 1%/5%/10% threshold
+    is a 10^3-10^5x projection. It may keep its arithmetic number, but it must
+    name the projection and can never be published as MEASURED_*.
+    """
+    rows = measure_capacity_bounds_from_participation([1e-6, 2e-6], 10_000.0)
+    assert len(rows) == 3
+    for row in rows:
+        assert row["status"] in CAPACITY_STATUSES
+        assert row["status"] == "UNRESOLVED"
+        assert row["reason"] == "OBSERVED_FILLS_AT_OTHER_SCALE"
+        assert not row["kind"].startswith("MEASURED")
+        assert row["observed_peak_participation"] == pytest.approx(2e-6)
+        assert row["requested_participation_multiplier"] > 1e3
+        assert row["max_capital_linear"] == pytest.approx(
+            10_000.0 * row["participation_threshold"] / 2e-6
+        )
+
+
+def test_participation_bound_at_the_observed_scale_keeps_no_economic_claim() -> None:
+    rows = measure_capacity_bounds_from_participation(
+        [2e-6], 10_000.0, thresholds=(2e-6,)
+    )
+    assert rows[0]["kind"] == "MEASURED_OBSERVED_PARTICIPATION_BOUND"
+    assert rows[0]["status"] == "NO_ECONOMIC_CLAIM"
+    assert rows[0]["reason"] is None
+    assert rows[0]["max_capital_linear"] == pytest.approx(10_000.0)
+
+
+def test_participation_bound_without_observations_is_data_blocked() -> None:
+    rows = measure_capacity_bounds_from_participation([], 10_000.0)
+    assert all(row["status"] == "DATA_BLOCKED" for row in rows)
+    assert all(row["reason"] == "NO_OBSERVED_PARTICIPATION" for row in rows)
+    assert all(row["max_capital_linear"] is None for row in rows)
+    assert all(not row["kind"].startswith("MEASURED") for row in rows)
