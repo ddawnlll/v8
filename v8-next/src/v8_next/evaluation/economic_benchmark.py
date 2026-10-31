@@ -2531,6 +2531,13 @@ def published_cost_reconciliation(
         if measured
         else None,
         "named_reason": named_reason,
+        # #491: the graft's declared residual identity travels with the curve. Before this
+        # the builder computed it and the receipt silently dropped it, so a reader never saw
+        # whether the residual was the costs the mark path excludes or something else.
+        # §14 of the issue: a residual not explainable by fees + funding publishes a NAMED
+        # non-reconciling state (`UNEXPLAINED_RESIDUAL` + `unexplained_usdt`) instead of a
+        # graft that presents it as cost.
+        "exit_leg_identity": recon.get("exit_leg_identity"),
         # The other identity on the same engine balance (see
         # `cross_identity_reconciliation`); non-governing.
         "cross_identity": recon.get("cross_identity"),
