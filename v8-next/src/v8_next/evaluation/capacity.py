@@ -16,9 +16,11 @@ coefficients, no linear notional extrapolation read as a measurement).
 from __future__ import annotations
 
 import math
-from typing import Literal
+from typing import Any, Literal, Sequence
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+CAPACITY_STATUSES = ("DATA_BLOCKED", "UNRESOLVED", "NO_ECONOMIC_CLAIM")
 
 
 class SwingCapacityObservation(BaseModel):
@@ -146,6 +148,70 @@ def _validate_sequence(observations: tuple[MicrostructureObservation, ...]) -> N
         previous = row.timestamp_ns
 
 
+def _scenario_state(
+    requested_multiplier: float,
+) -> tuple[bool, Literal["UNRESOLVED", "NO_ECONOMIC_CLAIM"], str | None]:
+    """One status ontology for every capacity surface (observed vs projected)."""
+    scaled = requested_multiplier != 1.0
+    return (
+        scaled,
+        "UNRESOLVED" if scaled else "NO_ECONOMIC_CLAIM",
+        "OBSERVED_FILLS_AT_OTHER_SCALE" if scaled else None,
+    )
+
+
+def measure_capacity_bounds_from_participation(
+    participations: Sequence[float],
+    capital: float,
+    thresholds: tuple[float, ...] = (0.01, 0.05, 0.10),
+) -> list[dict[str, Any]]:
+    """Publish capital bounds at a participation threshold under this contract.
+
+    The canonical portfolio run observes fills at its own participation scale.
+    A bound that asks for a *different* participation threshold is a projection
+    of those observations, so it carries ``UNRESOLVED`` (with the projection
+    named) and is never published under a ``MEASURED_*`` kind. Only a threshold
+    the run actually observed keeps a measured kind, and even then the status
+    stays ``NO_ECONOMIC_CLAIM``. Missing participation is ``DATA_BLOCKED`` --
+    never an implied zero or an infinite bound.
+
+    The arithmetic bound and its extrapolation identity are preserved beside
+    the state, so no number is hidden or re-pinned by this routing.
+    """
+    peak = max(participations) if participations else 0.0
+    out: list[dict[str, Any]] = []
+    for threshold in thresholds:
+        multiplier = threshold / peak if peak > 0 else None
+        max_cap = capital * multiplier if multiplier is not None else None
+        status: str
+        reason: str | None
+        if multiplier is None:
+            status = "DATA_BLOCKED"
+            reason = "NO_OBSERVED_PARTICIPATION"
+            kind = "UNRESOLVED_LINEAR_BOUND"
+        else:
+            _scaled, status, reason = _scenario_state(multiplier)
+            kind = (
+                "MEASURED_OBSERVED_PARTICIPATION_BOUND"
+                if status == "NO_ECONOMIC_CLAIM"
+                else "PROJECTED_LINEAR_BOUND"
+            )
+        out.append(
+            {
+                "kind": kind,
+                "status": status,
+                "reason": reason,
+                "participation_threshold": threshold,
+                "observed_peak_participation": peak if peak > 0 else None,
+                "requested_participation_multiplier": multiplier,
+                "max_capital_linear": max_cap,
+                "basis": "LINEAR_EXTRAPOLATION_OF_MEASURED_PARTICIPATION",
+                "impact_beyond": "UNVERIFIED_NO_IMPACT_MODEL",
+            }
+        )
+    return out
+
+
 def measure_swing_capacity(
     observations: tuple[SwingCapacityObservation, ...], scenario: CapacityScenario
 ) -> CapacityMeasurement:
@@ -174,14 +240,14 @@ def measure_swing_capacity(
         if row.filled_notional > 0 else 0.0
         for row in observations
     ) / n
-    scaled = scenario.requested_multiplier != 1.0
+    scaled, status, reason = _scenario_state(scenario.requested_multiplier)
     return CapacityMeasurement(
-        status="UNRESOLVED" if scaled else "NO_ECONOMIC_CLAIM",
+        status=status,
         scale=scenario.scale, participation=participation,
         fill_ratio=fill_ratio, spread_cost_bps=None, impact_bps=None,
         shortfall_bps=shortfall, observation_count=n,
         projected_participation=participation * scenario.requested_multiplier if scaled else None,
-        reason="OBSERVED_FILLS_AT_OTHER_SCALE" if scaled else None,
+        reason=reason,
     )
 
 
@@ -217,10 +283,10 @@ def measure_capacity(
     # another requested size is a counterfactual: its participation is an
     # arithmetic projection of declared inputs, and the fill/impact statistics
     # published here remain measurements of the observed scale only.
-    scaled = scenario.requested_multiplier != 1.0
+    scaled, status, reason = _scenario_state(scenario.requested_multiplier)
     projected = participation * scenario.requested_multiplier if scaled else None
     return CapacityMeasurement(
-        status="UNRESOLVED" if scaled else "NO_ECONOMIC_CLAIM",
+        status=status,
         scale=scenario.scale,
         participation=participation,
         fill_ratio=fill_ratio,
@@ -229,5 +295,5 @@ def measure_capacity(
         shortfall_bps=shortfall,
         observation_count=n,
         projected_participation=projected,
-        reason="OBSERVED_FILLS_AT_OTHER_SCALE" if scaled else None,
+        reason=reason,
     )
