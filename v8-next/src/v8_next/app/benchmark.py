@@ -407,7 +407,9 @@ def main(argv: list[str] | None = None) -> int:
     # beside the digest: the same receipt renders differently under a different
     # contract, so the identity is what says whether the artifact is current (#442).
     report_path = Path(args.html_out)
-    is_valid = generate_forensic_html_report(result.receipt, report_path)
+    is_valid = generate_forensic_html_report(
+        result.receipt, report_path, certificate=result.certificate
+    )
     identity = render_identity(result.receipt, result.certificate)
     print(f"[+] Forensic HTML Report Generated: {report_path} (Valid: {is_valid})")
     print(

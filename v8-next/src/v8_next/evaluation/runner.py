@@ -26,6 +26,10 @@ from v8_next.adapters.expert_strategy import (
     ExpertStrategyConfig,
     run_expert_strategy_backtest,
 )
+from v8_next.certification import (
+    minerva_for_certificate,
+    projection_for_certificate,
+)
 from v8_next.domain.capital_policy import CapitalPolicy
 from v8_next.domain.market import Candle
 from v8_next.evaluation.benchmark_receipt import (
@@ -823,8 +827,44 @@ class BenchmarkRunner:
                     "reason": "Prerequisite gates G0-G7 did not all pass",
                 }
 
-        # 7. Generate PolicyCertificate
-        certificate = PolicyCertificate.generate(receipt)
+        # 7. Generate PolicyCertificate from measured producers. A producer that
+        # cannot measure on this path returns a named refusal; the certificate is
+        # never handed a bare absent argument (#476).
+        projection = projection_for_certificate(
+            policy_id=receipt.policy_id,
+            benchmark_receipt_id=receipt.receipt_digest,
+            capability_score=capability_score,
+            campaign_returns=accounting.campaign_returns,
+            initial_capital_usd=float(ENGINE_INITIAL_BALANCE),
+            has_synthetic_population_only=(
+                bool(case.allowed_populations)
+                and all(
+                    population == "FoundrySyntheticNovelty"
+                    for population in case.allowed_populations
+                )
+            ),
+        )
+        track_days = (
+            (candles[-1].end_ns - candles[0].start_ns) / 86_400_000_000_000.0
+            if len(candles) > 1
+            else None
+        )
+        minerva = minerva_for_certificate(
+            statistics=None,
+            actual_track_days=track_days,
+            min_trl_days=None,
+            min_trl_plan=None,
+            observed_intervals=len(accounting.campaign_returns),
+            worst_regime_return_bps=None,
+            regime_floor_bps=None,
+        )
+        certificate = PolicyCertificate.generate(
+            receipt, projection=projection, minerva=minerva
+        )
+        gate_metrics["certificate_inputs"] = {
+            "projection": projection.as_dict(),
+            "minerva": minerva.as_dict(),
+        }
 
         # Attach capital policy decision to gate_metrics (always, non-blocking).
         # Does not emit live orders, does not block execution, does not prompt.
