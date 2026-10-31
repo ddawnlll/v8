@@ -24,7 +24,14 @@ from enum import StrEnum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, Mapping, Sequence
 
-from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ValidationError
+from pydantic import (
+    AliasChoices,
+    BaseModel,
+    ConfigDict,
+    Field,
+    ValidationError,
+    model_validator,
+)
 
 from v8_next.evaluation.parity import ArtifactBinding
 
@@ -633,6 +640,109 @@ class GateVector(BaseModel):
         )
 
 
+#: #495 R3. Named absence for a G3 cell whose regime partition could not be
+#: measured. It is published instead of an empty mapping, so a reader cannot
+#: mistake "no regimes measured" for "measured no effect".
+G3_SCENARIO_BASIS_ABSENT = "G3_SCENARIO_ROBUSTNESS_PARTITION_NOT_MEASURED"
+
+
+class G3RegimeMeasurement(BaseModel):
+    """What one regime contributed to the G3 measurement (bars, trades, dd, variance)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    bars: int
+    trades: int
+    max_drawdown: float
+    return_variance: float
+
+
+class G3ScenarioBasis(BaseModel):
+    """The measured inputs behind a G3 cell (#495 R3).
+
+    A ``PASS`` in ``gates.g3_scenario_robustness`` is only reproducible from the
+    receipt if the regime partition it was measured over travels with it. This
+    block is that partition: every evaluated regime and its per-regime numbers,
+    plus the named reason for the state. When no partition could be measured the
+    block carries :data:`G3_SCENARIO_BASIS_ABSENT` instead of an empty mapping.
+
+    The block is published beside the digest, not inside any canon: stored
+    ledger receipts keep their bytes and digests (D-164), and a new receipt's
+    basis cannot change the meaning of the state it accompanies. The producer
+    still refuses a non-``PASS`` basis that names no absence and a ``PASS`` basis
+    with no measured regimes.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    state: GateState
+    regimes: dict[str, G3RegimeMeasurement] = Field(default_factory=dict)
+    evaluated_regimes: tuple[str, ...] = ()
+    reason: str | None = None
+    absence: str | None = None
+    max_observed_drawdown: float | None = None
+    max_observed_variance: float | None = None
+    max_drawdown_limit: float | None = None
+    min_trades_per_regime: int | None = None
+    min_regime_trades: int | None = None
+    empty_regimes: tuple[str, ...] = ()
+
+    @model_validator(mode="after")
+    def _state_and_basis_travel_together(self) -> G3ScenarioBasis:
+        if self.state is GateState.PASS and (self.absence is not None or not self.regimes):
+            raise ValueError(
+                "G3 PASS requires a measured regime basis; a PASS with no basis is not "
+                "reproducible from the receipt"
+            )
+        if self.absence is not None and self.regimes:
+            raise ValueError("G3 basis cannot be both absent and measured")
+        if not self.regimes and self.absence is None:
+            raise ValueError(
+                "G3 basis with no measured regimes must name its absence "
+                f"({G3_SCENARIO_BASIS_ABSENT})"
+            )
+        return self
+
+    @classmethod
+    def from_metrics(
+        cls, state: GateState, metrics: Mapping[str, Any]
+    ) -> G3ScenarioBasis:
+        """Build the typed basis from :func:`evaluate_g3_scenario_robustness` output."""
+        raw = metrics.get("regimes") or {}
+        regimes = {
+            str(name): G3RegimeMeasurement(
+                bars=int(row["bars"]),
+                trades=int(row["trades"]),
+                max_drawdown=float(row["max_drawdown"]),
+                return_variance=float(row["return_variance"]),
+            )
+            for name, row in raw.items()
+        }
+        measured = bool(regimes)
+        reason = metrics.get("reason")
+        return cls(
+            state=state,
+            regimes=regimes,
+            evaluated_regimes=tuple(sorted(regimes)),
+            reason=None if reason is None else str(reason),
+            absence=None if measured else G3_SCENARIO_BASIS_ABSENT,
+            max_observed_drawdown=(
+                float(metrics["max_observed_drawdown"]) if measured else None
+            ),
+            max_observed_variance=(
+                float(metrics["max_observed_variance"]) if measured else None
+            ),
+            max_drawdown_limit=(
+                float(metrics["max_drawdown_limit"]) if measured else None
+            ),
+            min_trades_per_regime=(
+                int(metrics["min_trades_per_regime"]) if measured else None
+            ),
+            min_regime_trades=(int(metrics["min_regime_trades"]) if measured else None),
+            empty_regimes=tuple(str(n) for n in metrics.get("empty_regimes") or ()),
+        )
+
+
 def build_canon_payload(
     *,
     digest_version: str,
@@ -839,6 +949,14 @@ class BenchmarkReceipt(BaseModel):
     #: version instead of being re-hashed.
     scoring_versions: dict[str, Any] = Field(default_factory=dict)
     gates: GateVector
+    #: #495 R3. The measured inputs behind a non-default ``gates.g3_scenario_robustness``:
+    #: the regime partition that was evaluated, its per-regime measurements and the named
+    #: reason for the state. It travels *beside* every digest canon, exactly like
+    #: ``scoring_versions`` and the two time fields, so stored ledger receipts keep their
+    #: bytes and digests (D-164) while a new receipt's PASS is reproducible from itself.
+    #: ``None`` means the producer supplied no G3 measurement at all (the rule's bare
+    #: default); it is never an empty block standing for "measured nothing".
+    g3_scenario_robustness_basis: G3ScenarioBasis | None = None
     artifact_bindings: tuple[ArtifactBinding, ...] = ()
     computed_at_timestamp_ns: int
     receipt_digest: str = ""
@@ -895,6 +1013,7 @@ class BenchmarkReceipt(BaseModel):
         score_evidence: ScoreEvidence | None = None,
         window_end_timestamp_ns: int | None = None,
         run_time_timestamp_ns: int | None = None,
+        g3_scenario_robustness_basis: G3ScenarioBasis | None = None,
     ) -> BenchmarkReceipt:
         """Build a receipt whose published number follows from the evidence it binds.
 
@@ -967,6 +1086,15 @@ class BenchmarkReceipt(BaseModel):
             if time_refusal is not None:
                 raise ValueError(f"cannot create receipt: {time_refusal}")
 
+        if g3_scenario_robustness_basis is not None and (
+            g3_scenario_robustness_basis.state is not gates.g3_scenario_robustness
+        ):
+            raise ValueError(
+                "cannot create receipt: G3 basis contradicts the published cell: "
+                f"basis state={g3_scenario_robustness_basis.state.value}, "
+                f"gates.g3_scenario_robustness={gates.g3_scenario_robustness.value}"
+            )
+
         sorted_bindings = sorted(artifact_bindings, key=lambda b: (b.role, b.path))
         canon, refusal = build_canon_payload(
             digest_version=RECEIPT_DIGEST_VERSION,
@@ -1005,6 +1133,7 @@ class BenchmarkReceipt(BaseModel):
             scoring_versions=dict(scoring_versions or {}),
             window_end_timestamp_ns=window_end_timestamp_ns,
             run_time_timestamp_ns=run_time_timestamp_ns,
+            g3_scenario_robustness_basis=g3_scenario_robustness_basis,
         )
 
     def window_refusal_reason(self) -> str | None:

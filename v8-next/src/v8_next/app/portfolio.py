@@ -23,7 +23,7 @@ import sys
 import time
 from decimal import Decimal
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Literal, Sequence, overload
 
 from v8_next.adapters.basket_backtest import BASIS_ENGINE_SETTLED
 from v8_next.adapters.execution_models import DEFAULT_PROFILE as DEFAULT_EXECUTION_PROFILE
@@ -48,6 +48,7 @@ from v8_next.evaluation import economic_benchmark as eb
 from v8_next.evaluation.benchmark_receipt import (
     BenchmarkLedger,
     BenchmarkReceipt,
+    G3ScenarioBasis,
     GateVector,
     ScoreEvidence,
     WindowEvidence,
@@ -264,13 +265,36 @@ def build_shared_inputs(
     return shared_bars, shared_closes, shared_qvols
 
 
+@overload
 def resolve_portfolio_gates(
     candles: Sequence[Candle],
     ledger: BenchmarkLedger,
     *,
     total_trades: int,
     pnl_series: list[float],
-) -> GateVector:
+    include_g3_basis: Literal[False] = False,
+) -> GateVector: ...
+
+
+@overload
+def resolve_portfolio_gates(
+    candles: Sequence[Candle],
+    ledger: BenchmarkLedger,
+    *,
+    total_trades: int,
+    pnl_series: list[float],
+    include_g3_basis: Literal[True],
+) -> tuple[GateVector, G3ScenarioBasis]: ...
+
+
+def resolve_portfolio_gates(
+    candles: Sequence[Candle],
+    ledger: BenchmarkLedger,
+    *,
+    total_trades: int,
+    pnl_series: list[float],
+    include_g3_basis: bool = False,
+) -> GateVector | tuple[GateVector, G3ScenarioBasis]:
     """The portfolio run's gate vector: G0/G1/G2 resolved from measurement (#471), G3 too (#495).
 
     The canonical portfolio run used to build its vector with only the bar count, the
@@ -304,12 +328,18 @@ def resolve_portfolio_gates(
     produced for these inputs: the resolver's own measured inputs are handed to the
     canonical rule rather than a second vector being derived, so the receipt carries the
     same resolution the resolver publishes.
+
+    #495 R3: ``include_g3_basis=True`` returns the resolver's measured regime partition
+    beside the vector, so the receipt can publish the inputs that reproduce the state.
+    The basis is returned only when asked for; the default call still returns the vector
+    alone, which keeps the existing producer contract.
     """
     structural = resolve_structural_gates(tuple(candles), ledger)
     # #495: measured on the bars handed to the producer, by the resolver that owns G3.
     regimes = classify_market_regimes(candles=tuple(candles))
-    g3_state, _g3_metrics = evaluate_g3_scenario_robustness(regimes)
-    return evaluate_gate_vector(
+    g3_state, g3_metrics = evaluate_g3_scenario_robustness(regimes)
+    g3_basis = G3ScenarioBasis.from_metrics(g3_state, g3_metrics)
+    vector = evaluate_gate_vector(
         total_bars=len(candles),
         total_trades=total_trades,
         pnl_series=pnl_series,
@@ -321,6 +351,9 @@ def resolve_portfolio_gates(
         g2_state=structural.inputs.g2_state,
         g3_state=g3_state,
     )
+    if include_g3_basis:
+        return vector, g3_basis
+    return vector
 
 
 def registered_run_payload(out_dir: Path, run_key_digest: str) -> str | None:
@@ -1030,11 +1063,14 @@ def main(argv: list[str] | None = None) -> int:
     # declared on. With no per-bar PIT audit on this path, G1 is UNKNOWN by name and G2
     # is UNKNOWN/BLOCKED, never the PASS the missing arguments used to mint.
     ledger = BenchmarkLedger.load_jsonl(out_dir / "benchmark_ledger.jsonl")
-    gates = resolve_portfolio_gates(
+    gates, g3_basis = resolve_portfolio_gates(
         tape.candles[tape.instruments[0]],
         ledger,
         total_trades=len(p_fund["opened_positions"]),
         pnl_series=pnl_series or [0.0],
+        # #495 R3: the G3 state and the partition it was measured over travel
+        # together, so a PASS in the receipt is reproducible from the receipt.
+        include_g3_basis=True,
     )
     # #444: the window's evidence class is read off the window spec and travels
     # into the receipt. A bar-count smoke window is liveness/mechanics evidence,
@@ -1063,6 +1099,8 @@ def main(argv: list[str] | None = None) -> int:
     bench_receipt = BenchmarkReceipt.create(
         case_id=args.case_id, policy_id=args.policy_id, capability_score=capability,
         gates=gates, computed_at_timestamp_ns=end_ns[-1],
+        # #495 R3: the measured G3 regime partition travels beside the digest.
+        g3_scenario_robustness_basis=g3_basis,
         # #446: `end_ns[-1]` is the end of the window this run measured; when the run
         # itself happened is a different quantity, read here and published beside the
         # digest (outside every canon, so a rerun over the same tape still hashes to the

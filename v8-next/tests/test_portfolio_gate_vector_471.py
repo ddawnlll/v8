@@ -209,6 +209,73 @@ def test_portfolio_producer_never_stores_the_rule_default_in_the_g3_cell() -> No
     assert vector.g3_scenario_robustness in (GateState.PASS, GateState.BLOCKED)
 
 
+def test_portfolio_receipt_carries_the_g3_basis_that_reproduces_its_state() -> None:
+    """#495 R3: a non-default G3 state travels with the partition that decided it.
+
+    The defect: ``resolve_portfolio_gates`` called the G3 resolver and threw its
+    measured metrics away, so a receipt could publish ``g3_scenario_robustness =
+    PASS`` while carrying none of the regimes, drawdowns or variances that produced
+    it. The basis is now published beside the state; a reader can name the evaluated
+    regimes and check that the state derives from them without re-running the run.
+    """
+    from v8_next.evaluation.benchmark_receipt import (
+        G3_SCENARIO_BASIS_ABSENT,
+        G3ScenarioBasis,
+    )
+
+    producer = _producer()
+    candles = _mechanics_candles()
+    vector, basis = producer(
+        candles,
+        BenchmarkLedger(),
+        total_trades=3,
+        pnl_series=[1.0, -1.0],
+        include_g3_basis=True,
+    )
+
+    # The published state is the resolver's own state, over the partition it measured.
+    expected_state, expected_metrics = evaluate_g3_scenario_robustness(
+        classify_market_regimes(candles=candles)
+    )
+    assert vector.g3_scenario_robustness is not GateState.UNKNOWN
+    assert basis.state is vector.g3_scenario_robustness is expected_state
+    assert len(basis.regimes) == 4, "the fixture must measure more than one regime"
+    assert basis.evaluated_regimes == tuple(sorted(expected_metrics["regimes"]))
+    for name, measured in basis.regimes.items():
+        expected = expected_metrics["regimes"][name]
+        assert measured.bars == expected["bars"]
+        assert measured.trades == expected["trades"]
+        assert measured.max_drawdown == expected["max_drawdown"]
+        assert measured.return_variance == expected["return_variance"]
+    assert basis.absence is None
+    assert basis.reason == expected_metrics["reason"]
+
+    # A receipt publishes the state and its basis together; both survive a round-trip.
+    receipt = BenchmarkReceipt.create(
+        case_id="BC-495-R3",
+        policy_id="pol_495",
+        capability_score=None,
+        gates=vector,
+        computed_at_timestamp_ns=1,
+        g3_scenario_robustness_basis=basis,
+    )
+    reread = BenchmarkReceipt.model_validate_json(receipt.model_dump_json())
+    assert reread.g3_scenario_robustness_basis is not None
+    assert (
+        reread.g3_scenario_robustness_basis.state
+        is reread.gates.g3_scenario_robustness
+    )
+    assert set(reread.g3_scenario_robustness_basis.regimes) == set(
+        expected_metrics["regimes"]
+    )
+
+    # An unmeasurable partition is a named absence, never an empty mapping that reads
+    # as "measured nothing".
+    absent = G3ScenarioBasis.from_metrics(GateState.BLOCKED, {"regimes": {}})
+    assert absent.regimes == {}
+    assert absent.absence == G3_SCENARIO_BASIS_ABSENT
+
+
 def test_portfolio_producer_reports_a_ledger_that_does_not_verify_as_blocked() -> None:
     """A measured ledger failure is the ledger's own verdict, published -- not smoothed."""
     producer = _producer()
