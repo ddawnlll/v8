@@ -152,6 +152,32 @@ def _experiment_check(root: Path, experiment: str) -> dict[str, Any]:
             if not native_runs:
                 problems.append("native_replay_validated=true without any persisted native run")
 
+    # Cross-check the reader-facing arm table against the rendered metrics, so a
+    # stale arms.json cannot sit in the evidence bundle next to canonical numbers.
+    arm_cross_checks: list[str] = []
+    arms_decl, arms_err = _read_json(directory / "arms.json")
+    if arms_err:
+        arm_cross_checks.append(f"arms.json: {arms_err}")
+    elif isinstance(arms_decl, dict) and isinstance(headline, dict):
+        rendered = {
+            str(arm.get("arm_id")): arm.get("net_expectancy_r")
+            for arm in headline.get("arms", [])
+            if isinstance(arm, dict)
+        }
+        for arm in arms_decl.get("arms", []) or []:
+            if not isinstance(arm, dict):
+                continue
+            arm_id = str(arm.get("arm_id"))
+            declared = arm.get("net_expectancy_r")
+            expected = rendered.get(arm_id)
+            if expected is None and declared is None:
+                continue
+            if expected is None or declared is None or abs(float(declared) - float(expected)) > 1e-9:
+                arm_cross_checks.append(
+                    f"arms.json {arm_id}: {declared!r} != metrics.json {expected!r}"
+                )
+    problems.extend(arm_cross_checks)
+
     arm_rows = list(directory.rglob("arm_rows.jsonl"))
     row_counts = {path.parent.name: sum(1 for _ in path.open(encoding="utf-8")) for path in arm_rows}
 
@@ -173,6 +199,7 @@ def _experiment_check(root: Path, experiment: str) -> dict[str, Any]:
         "native_arms_executed": native_dirs,
         "screen_row_counts": row_counts,
         "problems": problems,
+        "arm_table_consistent": not arm_cross_checks,
     }
 
 
