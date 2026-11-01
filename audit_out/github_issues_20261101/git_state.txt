@@ -1,0 +1,19 @@
+$ git rev-parse HEAD
+a921da2fdfb8254619b78840f80e969324f7cdf1
+$ git rev-parse --abbrev-ref HEAD
+main
+$ git diff --name-only
+v8-next/src/v8_next/adapters/expert_strategy.py
+v8-next/src/v8_next/app/cli.py
+v8-next/src/v8_next/audit/pipeline.py
+v8-next/src/v8_next/research/arms.py
+v8-next/src/v8_next/research/runner.py
+$ git status --porcelain | head -20
+ M v8-next/src/v8_next/adapters/expert_strategy.py
+ M v8-next/src/v8_next/app/cli.py
+ M v8-next/src/v8_next/audit/pipeline.py
+ M v8-next/src/v8_next/research/arms.py
+ M v8-next/src/v8_next/research/runner.py
+?? .pi/
+?? audit_out/
+?? v8-next/src/v8_next/research/lifecycle.py

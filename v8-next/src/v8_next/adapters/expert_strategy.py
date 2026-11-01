@@ -10,7 +10,7 @@ Epistemic & Execution Demarcation (matching V8_NEXT_IMPLEMENTATION_SCOPE.md):
 from __future__ import annotations
 
 from dataclasses import dataclass
-from decimal import ROUND_CEILING, Decimal
+from decimal import ROUND_CEILING, ROUND_FLOOR, Decimal
 from typing import Any
 
 from nautilus_trader.backtest import BacktestEngine
@@ -147,6 +147,13 @@ class ExpertStrategyConfig:
     #: (price holding beyond the level that produced it) before admission. This
     #: is a post-breakout persistence gate, not a breakout predictor.
     research_require_confirmation: bool = False
+    #: RESEARCH-ONLY persistent opportunity lifecycle, disabled by default. When
+    #: set to ``D4_RETEST_RECLAIM_LIFECYCLE`` the native strategy advances a
+    #: per-opportunity retest/reclaim state machine over already closed bars and
+    #: may only submit an entry once that machine reaches its ARMED state on a
+    #: strictly earlier bar. It replaces, and is mutually exclusive with, the
+    #: one-bar confirmation gate above.
+    research_opportunity_lifecycle: str | None = None
 
     def __post_init__(self) -> None:
         # A stop without a target used to fall through to the non-bracket path
@@ -160,6 +167,20 @@ class ExpertStrategyConfig:
             raise ValueError(
                 f"unknown research_exit_policy {self.research_exit_policy!r}; "
                 "supported: None, BREAKEVEN_1R"
+            )
+        if self.research_opportunity_lifecycle not in (
+            None,
+            "D4_RETEST_RECLAIM_LIFECYCLE",
+        ):
+            raise ValueError(
+                "unknown research_opportunity_lifecycle "
+                f"{self.research_opportunity_lifecycle!r}; supported: None, "
+                "D4_RETEST_RECLAIM_LIFECYCLE"
+            )
+        if self.research_opportunity_lifecycle and self.research_require_confirmation:
+            raise ValueError(
+                "research_opportunity_lifecycle and research_require_confirmation are "
+                "two different admission policies; configure exactly one"
             )
 
 
@@ -216,6 +237,17 @@ class ExpertEnsembleStrategy(Strategy):
         self._research_stop_state: dict[str, dict[str, Any]] = {}
         #: Prior bar's opportunity, used by the research confirmation gate.
         self._research_prior_opportunity: dict[str, Any] | None = None
+        #: RESEARCH-ONLY D4 persistent lifecycle (None unless configured).
+        self._d4_lifecycle: Any | None = None
+        if self.ensemble_config.research_opportunity_lifecycle:
+            from v8_next.research.lifecycle import POLICY_ID, RetestReclaimLifecycle
+
+            if self.ensemble_config.research_opportunity_lifecycle != POLICY_ID:
+                raise ValueError(
+                    f"unsupported research_opportunity_lifecycle "
+                    f"{self.ensemble_config.research_opportunity_lifecycle!r}"
+                )
+            self._d4_lifecycle = RetestReclaimLifecycle()
 
     def on_start(self) -> None:
         """Subscribe to configured bar type on strategy start."""
@@ -701,6 +733,50 @@ class ExpertEnsembleStrategy(Strategy):
                     evidence_class_note="RESEARCH_ONLY_DISABLED_BY_DEFAULT",
                 )
 
+        # 5c. RESEARCH-ONLY D4 persistent lifecycle (no-op unless configured).
+        # This runs *before* any order decision so the native strategy consumes
+        # the state machine rather than logging it after the fact.
+        d4_due: list[Any] = []
+        d4_entry: Any | None = None
+        if self._d4_lifecycle is not None:
+            market_available_ns = int(candle.available_ns)
+            # (a) advance lifecycles that already exist on this completed bar
+            self._d4_lifecycle.advance(
+                bar_ns=int(candle.end_ns),
+                available_ns=market_available_ns,
+                high=bar.high.as_double(),
+                low=bar.low.as_double(),
+                close=bar.close.as_double(),
+            )
+            # (b) register this bar's fresh detection in WATCHING (never entering
+            # immediately); registration happens after the advance so a new
+            # opportunity can never transition on its own detection bar.
+            if record is not None and opportunity is not None:
+                self._d4_lifecycle.detect(
+                    opportunity_id=record.opportunity_id,
+                    direction=opportunity.direction,
+                    reference_price=float(record.entry_price),
+                    stop_price=float(record.stop_price),
+                    target_price=float(record.target_price),
+                    detected_ns=int(candle.end_ns),
+                    available_ns=market_available_ns,
+                    bar_ns=int(candle.end_ns),
+                    expert_supported=bool(is_supported),
+                )
+                self._d4_risk_from_config(record)
+            # (c) an entry armed on a strictly earlier bar may be submitted now
+            d4_due = self._d4_lifecycle.due_entries(int(candle.end_ns))
+            blocked = [lc for lc in d4_due if not lc.expert_supported]
+            for lifecycle in blocked:
+                self._d4_lifecycle.cancel(
+                    lifecycle,
+                    bar_ns=int(candle.end_ns),
+                    available_ns=market_available_ns,
+                    reason="EXPERT_GATE_NOT_SUPPORTED",
+                )
+            d4_due = [lc for lc in d4_due if lc.expert_supported]
+            d4_entry = d4_due[0] if d4_due else None
+
         # 6. Execute Native Orders via NautilusTrader OrderFactory
         action = "NO_ACTION"
         sizing_mode = "FLAT"
@@ -715,7 +791,20 @@ class ExpertEnsembleStrategy(Strategy):
         if twap_action is not None:
             action = twap_action
             sizing_mode = "TWAP"
-        if is_supported and opportunity is not None and confirmation_ok and twap_action is None:
+        gate_open = (
+            d4_entry is not None
+            if self._d4_lifecycle is not None
+            else (is_supported and opportunity is not None and confirmation_ok)
+        )
+        entry_direction = d4_entry.direction if d4_entry is not None else (
+            opportunity.direction if opportunity is not None else None
+        )
+        entry_opportunity_id = (
+            d4_entry.opportunity_id
+            if d4_entry is not None
+            else (record.opportunity_id if record is not None else None)
+        )
+        if gate_open and twap_action is None:
             open_positions = [
                 p
                 for p in self.cache.positions_open()
@@ -733,7 +822,7 @@ class ExpertEnsembleStrategy(Strategy):
             ):
                 instrument = self.cache.instrument(self.instrument_id)
                 if instrument is not None:
-                    side = OrderSide.BUY if opportunity.direction == "LONG" else OrderSide.SELL
+                    side = OrderSide.BUY if entry_direction == "LONG" else OrderSide.SELL
                     base_qty = self.ensemble_config.order_quantity
                     if self.ensemble_config.target_notional is not None:
                         px = bar.close.as_decimal()
@@ -741,6 +830,21 @@ class ExpertEnsembleStrategy(Strategy):
                         if px > 0 and step > 0:
                             steps = (self.ensemble_config.target_notional / px) // step
                             base_qty = steps * step
+                    if d4_entry is not None:
+                        # Declared risk-normalized sizing: the entry price moved
+                        # between detection and the armed bar, so the quantity is
+                        # scaled to keep the USDT risk target implied by the
+                        # original opportunity (config quantity x original R).
+                        # The stop/target stay the existing fixed % bracket.
+                        stop_pct = self.ensemble_config.bracket_stop_pct
+                        step = instrument.size_increment.as_decimal()
+                        px = bar.close.as_decimal()
+                        risk_target = Decimal(str(d4_entry.risk_target_usdt))
+                        denom = px * stop_pct if stop_pct is not None else Decimal(0)
+                        if denom > 0 and step > 0 and risk_target > 0:
+                            steps = (risk_target / denom) / step
+                            base_qty = steps.to_integral_value(rounding=ROUND_FLOOR) * step
+                            sizing_mode = "D4_RISK_NORMALIZED"
                     sizing_mode = "FLAT"
                     if self.ensemble_config.risk_fraction is not None:
                         # Risk-fraction sizing (FixedRiskSizer): quantity from
@@ -759,7 +863,7 @@ class ExpertEnsembleStrategy(Strategy):
                             stop_dist = entry_px * stop_pct
                             stop_px = (
                                 entry_px - stop_dist
-                                if opportunity.direction == "LONG"
+                                if entry_direction == "LONG"
                                 else entry_px + stop_dist
                             )
                             base_qty = risk_sized_quantity(
@@ -829,7 +933,7 @@ class ExpertEnsembleStrategy(Strategy):
                         entry_px = bar.close.as_decimal()
                         stop_dist = entry_px * self.ensemble_config.bracket_stop_pct
                         target_dist = entry_px * self.ensemble_config.bracket_target_pct
-                        if opportunity.direction == "LONG":
+                        if entry_direction == "LONG":
                             stop_px = entry_px - stop_dist
                             target_px = entry_px + target_dist
                         else:
@@ -1079,13 +1183,16 @@ class ExpertEnsembleStrategy(Strategy):
             else:
                 action = "POSITION_OCCUPIED"
 
-        if record is not None:
+            if self._d4_lifecycle is not None:
+                self._d4_finalize_submission(d4_entry, d4_due, action, candle)
+
+        if entry_opportunity_id is not None:
             if action.startswith(("SUBMITTED", "SIZED_TO_MIN_NOTIONAL+SUBMITTED", "TWAP")):
                 self._audit(
                     "ADMISSION_ACCEPTED",
                     candle.end_ns,
                     evidence="DERIVED",
-                    opportunity_id=record.opportunity_id,
+                    opportunity_id=entry_opportunity_id,
                     decision_id=f"D{candle.end_ns}",
                     action=action,
                     sizing_mode=sizing_mode,
@@ -1094,7 +1201,7 @@ class ExpertEnsembleStrategy(Strategy):
                     "ORDER_SUBMITTED",
                     candle.end_ns,
                     evidence="OBSERVED_SIMULATION",
-                    opportunity_id=record.opportunity_id,
+                    opportunity_id=entry_opportunity_id,
                     decision_id=f"D{candle.end_ns}",
                     action=action,
                     intent_id=f"D{candle.end_ns}",
@@ -1105,7 +1212,7 @@ class ExpertEnsembleStrategy(Strategy):
                     "ADMISSION_REJECTED",
                     candle.end_ns,
                     evidence="DERIVED",
-                    opportunity_id=record.opportunity_id,
+                    opportunity_id=entry_opportunity_id,
                     decision_id=f"D{candle.end_ns}",
                     reason_code=action,
                     action=action,
@@ -1121,7 +1228,7 @@ class ExpertEnsembleStrategy(Strategy):
                 # fields the lifecycle builder cannot join a campaign to its
                 # opportunity/decision and silently writes nulls.
                 "decision_id": f"D{candle.end_ns}",
-                "opportunity_id": (record.opportunity_id if record is not None else None),
+                "opportunity_id": entry_opportunity_id,
                 "open": str(bar.open),
                 "high": str(bar.high),
                 "low": str(bar.low),
@@ -1149,6 +1256,77 @@ class ExpertEnsembleStrategy(Strategy):
                 }
             else:
                 self._research_prior_opportunity = None
+
+    def _d4_risk_from_config(self, record: Any) -> None:
+        """Declare the D4 risk target: config quantity x original R price.
+
+        Keeping the USDT risk equal to the one the unchanged baseline would
+        have taken on the original opportunity is what makes delayed entries
+        comparable; the quantity is then rescaled at submission.
+        """
+        policy = self._d4_lifecycle
+        if policy is None or record is None:
+            return
+        lifecycle = policy.lifecycles.get(str(record.opportunity_id))
+        if lifecycle is None:
+            return
+        config_qty = Decimal(str(self.ensemble_config.order_quantity))
+        lifecycle.risk_target_usdt = float(config_qty * Decimal(str(lifecycle.r_price)))
+        policy.risk_target_usdt = lifecycle.risk_target_usdt
+
+    def _d4_finalize_submission(
+        self, d4_entry: Any, d4_due: list[Any], action: str, candle: Any
+    ) -> None:
+        """Record submission / cancellation of the bar's due D4 entries."""
+        policy = self._d4_lifecycle
+        if policy is None:
+            return
+        bar_ns = int(candle.end_ns)
+        available_ns = int(candle.available_ns)
+        submitted = action.startswith(
+            ("SUBMITTED", "SIZED_TO_MIN_NOTIONAL+SUBMITTED", "TWAP")
+        )
+        for lifecycle in d4_due:
+            if lifecycle is d4_entry and submitted:
+                policy.mark_submitted(
+                    lifecycle, bar_ns=bar_ns, available_ns=available_ns, order_ref=None
+                )
+                policy.record_admission(
+                    lifecycle,
+                    decision="ACCEPTED",
+                    reason="D4_ARMED_ENTRY_SUBMITTED",
+                    bar_ns=bar_ns,
+                    available_ns=available_ns,
+                    action=action,
+                )
+                continue
+            reason = action if lifecycle is d4_entry else "SLOT_NOT_AVAILABLE"
+            if lifecycle is d4_entry and reason == "NO_ACTION":
+                reason = "NO_EXECUTABLE_ORDER_PATH"
+            policy.cancel(
+                lifecycle, bar_ns=bar_ns, available_ns=available_ns, reason=reason
+            )
+            policy.record_admission(
+                lifecycle,
+                decision="REJECTED",
+                reason=reason,
+                bar_ns=bar_ns,
+                available_ns=available_ns,
+                action=action,
+            )
+
+    def research_lifecycle_records(self) -> dict[str, Any] | None:
+        """Expose the D4 ledger to the research runner (None when disabled)."""
+        policy = self._d4_lifecycle
+        if policy is None:
+            return None
+        return {
+            "policy": self.ensemble_config.research_opportunity_lifecycle,
+            "transitions": policy.transitions,
+            "admissions": policy.admissions,
+            "lifecycles": policy.snapshot(),
+            "state_counts": policy.state_counts(),
+        }
 
     def _audit(self, event_type: str, event_time_ns: int, *, evidence: str, **fields: Any) -> None:
         """Append one forensic event. Never raises into the replay path."""
@@ -1273,6 +1451,17 @@ class ExpertEnsembleStrategy(Strategy):
             "event_ns": getattr(event, "ts_event", 0),
         }
         self.opened_positions.append(record)
+        if self._d4_lifecycle is not None and record["position_id"]:
+            side = str(record.get("side") or "").upper()
+            direction = "LONG" if side.endswith("LONG") else "SHORT"
+            pending = self._d4_lifecycle.by_direction(direction)
+            if pending:
+                self._d4_lifecycle.mark_entered(
+                    pending[0],
+                    bar_ns=int(record["event_ns"] or 0),
+                    available_ns=int(record["event_ns"] or 0),
+                    position_id=record["position_id"],
+                )
         self._audit(
             "POSITION_OPENED",
             int(record["event_ns"] or 0),
@@ -1467,6 +1656,7 @@ def run_expert_strategy_backtest(
             "fill_report_type": fill_report_type,
             "native_reports": native_reports,
             "opportunity_book": strategy.opportunity_book,
+            "research_lifecycle": strategy.research_lifecycle_records(),
         }
     finally:
         engine.dispose()

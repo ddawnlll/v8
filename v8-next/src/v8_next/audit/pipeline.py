@@ -1293,6 +1293,7 @@ def run_native_audit(
         "gates": gates,
         "validation": validation,
         "family_counts": family_counts,
+        "research_lifecycle": result.get("research_lifecycle"),
         "summary": {
             "opportunities": funnel["candidates"],
             "entries": len(result.get("opened_positions") or []),

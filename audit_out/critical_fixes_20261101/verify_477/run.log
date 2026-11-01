@@ -1,0 +1,10 @@
+=== #477 — independent verification
+import pinned to baseline: C:\Users\dresden\Documents\v8-wt-verify\v8-next\src\v8_next\__init__.py
+
+--- branch  (C:/Users/dresden/Documents/v8/../v8-wt-477/v8-next/tests/test_capacity.py)
+exit=0   11 passed in 0.33s
+
+--- baseline main@a921da2  (test file copied in, pythonpath pinned)
+exit=2   1 error in 0.64s
+
+VERDICT: PASS — fails on main (exit 2), passes on the branch (exit 0)

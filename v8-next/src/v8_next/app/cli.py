@@ -629,6 +629,21 @@ def build_parser() -> argparse.ArgumentParser:
     r_screen.add_argument("--tape", required=True)
     r_screen.add_argument("--output-dir", required=True)
     r_screen.set_defaults(func=cmd_research)
+    r_d4_screen = research_sub.add_parser(
+        "d4-screen",
+        help="Replay the D4 retest/reclaim state machine over the shared detections.",
+    )
+    r_d4_screen.add_argument("--baseline-run", required=True)
+    r_d4_screen.add_argument("--tape", required=True)
+    r_d4_screen.add_argument("--output-dir", required=True)
+    r_d4_screen.set_defaults(func=cmd_research)
+    r_d4_native = research_sub.add_parser(
+        "d4-native",
+        help="Run the single native D4 retest/reclaim lifecycle replay.",
+    )
+    r_d4_native.add_argument("--tape", required=True)
+    r_d4_native.add_argument("--output-dir", required=True)
+    r_d4_native.set_defaults(func=cmd_research)
 
     p_status = sub.add_parser("status", help="Project dashboard + latest readiness table.")
     p_status.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
@@ -793,6 +808,20 @@ def cmd_research(args: argparse.Namespace) -> int:
             output_dir=args.output_dir,
         )
         print(json.dumps(result.get("metrics"), indent=2, sort_keys=True, default=str))
+        return 0
+    if action == "d4-screen":
+        result = research_runner.run_d4_screen(
+            baseline_run=args.baseline_run,
+            tape=args.tape,
+            output_dir=args.output_dir,
+        )
+        print(json.dumps(result["state_counts"], indent=2, sort_keys=True, default=str))
+        return 0
+    if action == "d4-native":
+        result = research_runner.run_d4_native(
+            tape=args.tape, output_dir=args.output_dir
+        )
+        print(json.dumps(result, indent=2, sort_keys=True, default=str))
         return 0
     print("error: unknown research action", file=sys.stderr)
     return 2

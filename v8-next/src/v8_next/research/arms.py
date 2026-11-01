@@ -245,6 +245,29 @@ ARMS: tuple[Arm, ...] = (
         changes=("opportunity_lifecycle",),
         holds_fixed=("grammar", "exit_policy", "risk_budget", "dataset"),
     ),
+    Arm(
+        arm_id="D4",
+        experiment_id="D",
+        description=(
+            "NATIVE persistent retest/reclaim lifecycle "
+            "(D4_RETEST_RECLAIM_LIFECYCLE, TTL=6, reclaim 0.1R, invalidation 0.5R)."
+        ),
+        kind="native",
+        config_overrides={"research_opportunity_lifecycle": "D4_RETEST_RECLAIM_LIFECYCLE"},
+        changes=("opportunity_lifecycle",),
+        holds_fixed=(
+            "grammar",
+            "expert_gate",
+            "exit_policy",
+            "risk_budget",
+            "dataset",
+        ),
+        notes=(
+            "D4 continuation. Not a rename of B4/D3: admission requires WATCHING -> "
+            "RETEST_SEEN -> ARMED on three distinct completed bars, with INVALIDATED / "
+            "EXPIRED / CANCELLED terminal outcomes. Default off.",
+        ),
+    ),
 )
 
 ARM_BY_ID: dict[str, Arm] = {arm.arm_id: arm for arm in ARMS}

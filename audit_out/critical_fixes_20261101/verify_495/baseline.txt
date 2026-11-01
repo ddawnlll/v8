@@ -1,0 +1,30 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+____________ test_dashboard_gate_order_names_the_published_g3_cell ____________
+
+    def test_dashboard_gate_order_names_the_published_g3_cell() -> None:
+        order = _gate_order()
+        g3 = [key for key in order if key.startswith("g3_")]
+>       assert g3 == ["g3_scenario_robustness"], f"dashboard asks for {g3}"
+E       AssertionError: dashboard asks for ['g3_benchmark_coverage']
+E       assert ['g3_benchmark_coverage'] == ['g3_scenario_robustness']
+E         
+E         At index 0 diff: 'g3_benchmark_coverage' != 'g3_scenario_robustness'
+E         Use -v to get more diff
+
+tests\test_dashboard_gate_keys_495.py:32: AssertionError
+_________ test_dashboard_still_reads_the_pre_rename_key_as_a_fallback _________
+
+    def test_dashboard_still_reads_the_pre_rename_key_as_a_fallback() -> None:
+        html = DASHBOARD.read_text(encoding="utf-8")
+>       assert "gates.g3_benchmark_coverage" in html, (
+            "stored ledgers were digested under the old key; the dashboard must still read it"
+        )
+E       AssertionError: stored ledgers were digested under the old key; the dashboard must still read it
+E       assert 'gates.g3_benchmark_coverage' in '<!DOCTYPE html>\\n<html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initi...lementById(\\'stale\\').textContent=\\'\u26a0\ufe0f \\'+e; }\\n}\\nrefresh(); setInterval(refresh,15000);\\n</script>\\n</body></html>\\n'
+
+tests\test_dashboard_gate_keys_495.py:38: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_dashboard_gate_keys_495.py::test_dashboard_gate_order_names_the_published_g3_cell
+FAILED tests/test_dashboard_gate_keys_495.py::test_dashboard_still_reads_the_pre_rename_key_as_a_fallback
+2 failed in 0.54s

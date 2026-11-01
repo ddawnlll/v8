@@ -15,8 +15,9 @@ imputed as zero or as the 8h venue convention.
 from __future__ import annotations
 
 import hashlib
+import math
 from dataclasses import dataclass, field
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
 
@@ -113,32 +114,14 @@ def _interval_key(value: float) -> str:
     return f"{value:g}h"
 
 
-#: M1 sha cache: (resolved path, size, mtime_ns, ino) -> hex digest.
-_SHA_CACHE: dict[tuple[str, int, int, int], str] = {}
-
-
 def _file_sha(p: Path) -> str:
-    # M1: (resolved path, size, mtime_ns, ino) -> sha dict cache. The st_ino
-    # key is mandatory (same-size/same-mtime replacement guard). Identical
-    # digest bits; ~zero cost after the first read of a 227MB tape.
-    resolved = str(p.resolve())
-    try:
-        st = p.stat()
-        key = (resolved, st.st_size, st.st_mtime_ns, st.st_ino)
-    except OSError:
-        raise
-    except AttributeError as err:
-        raise ValueError("sha cache requires stable st_ino; refusing to guess") from err
-    cached = _SHA_CACHE.get(key)
-    if cached is not None:
-        return cached
+    # Metadata can be preserved when content changes; never cache evidence hashes
+    # solely by file identity, size and timestamps.
     h = hashlib.sha256()
     with open(p, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
-    digest = h.hexdigest()
-    _SHA_CACHE[key] = digest
-    return digest
+    return h.hexdigest()
 
 
 def load_multitape(
@@ -277,23 +260,23 @@ def load_multitape(
 
     grid_union = sorted(set().union(*[set(m) for m in leg_maps.values()]))
     coverage: dict[str, LegCoverage] = {}
-    dropped: dict[str, int] = {}
     for inst, m in leg_maps.items():
         missing = len(grid_union) - len(m)
-        dropped[inst] = missing
         coverage[inst] = LegCoverage(
             instrument=inst,
             bars=len(m),
             duplicate_slots=duplicates.get(inst, 0),
             missing_vs_union=missing,
         )
-    if strict_intersection and any(v for v in dropped.values()):
-        details = ", ".join(f"{k}={v}" for k, v in sorted(dropped.items()) if v)
+    missing_by_leg = {inst: c.missing_vs_union for inst, c in coverage.items()}
+    if strict_intersection and any(missing_by_leg.values()):
+        details = ", ".join(f"{k}={v}" for k, v in sorted(missing_by_leg.items()) if v)
         raise ValueError(
             "legs do not share one chronological grid; the intersection would drop "
             f"bars ({details})"
         )
     common_sorted = sorted(set.intersection(*[set(m) for m in leg_maps.values()]))
+    dropped = {inst: len(m) - len(common_sorted) for inst, m in leg_maps.items()}
     if len(common_sorted) < 2:
         raise ValueError("no common chronological window across legs")
     candles = {inst: tuple(leg_maps[inst][ns][0] for ns in common_sorted) for inst in instruments}
@@ -312,27 +295,30 @@ def load_multitape(
         if "funding_time_ms" not in pay or "funding_rate" not in pay:
             funding_dropped += 1
             continue
-        hours = funding_interval_hours(pay)
+        try:
+            hours = funding_interval_hours(pay)
+            rate = Decimal(str(pay["funding_rate"]))
+            if not rate.is_finite():
+                raise ValueError("nonfinite funding rate")
+            if hours is not None and (not math.isfinite(hours) or hours <= 0):
+                raise ValueError("invalid funding interval")
+            row = FundingRow(
+                instrument=str(nm),
+                funding_time_ms=int(pay["funding_time_ms"]),
+                funding_rate=rate,
+                interval_hours=DEFAULT_FUNDING_INTERVAL_HOURS if hours is None else hours,
+                interval_defaulted=hours is None,
+            )
+        except (KeyError, ValueError, TypeError, InvalidOperation, OverflowError):
+            # Never silently free: dropped records are counted on the tape.
+            funding_dropped += 1
+            continue
+        funding.append(row)
         if hours is None:
             interval_defaulted += 1
         else:
             key = _interval_key(hours)
             interval_counts[key] = interval_counts.get(key, 0) + 1
-        try:
-            funding.append(
-                FundingRow(
-                    instrument=str(nm),
-                    funding_time_ms=int(pay["funding_time_ms"]),
-                    funding_rate=Decimal(str(pay["funding_rate"])),
-                    interval_hours=(
-                        DEFAULT_FUNDING_INTERVAL_HOURS if hours is None else float(hours)
-                    ),
-                    interval_defaulted=hours is None,
-                )
-            )
-        except (KeyError, ValueError, TypeError):
-            # Never silently free: dropped records are counted on the tape.
-            funding_dropped += 1
 
     # Exact, cheap measurement: the payload column is a Struct whose fields are
     # the union of every payload key the file actually carries.

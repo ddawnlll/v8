@@ -1,0 +1,29 @@
+{
+  "test_decision": {
+    "decision": "REJECT",
+    "reason": "NO_POLICY_FILE_OR_UNAUTHORIZED",
+    "authorized": false
+  },
+  "test_policy_accept_path": {
+    "decision": "ACCEPT",
+    "reason": "AUTHORIZED_WITHIN_LIMITS",
+    "authorized": true
+  },
+  "live_decision": {
+    "decision": "REJECT",
+    "reason": "LIVE_EXECUTION_DISABLED_IN_SCOPE",
+    "authorized": false
+  },
+  "missing_policy_decision": {
+    "decision": "REJECT",
+    "reason": "NO_POLICY_FILE_OR_UNAUTHORIZED",
+    "authorized": false
+  },
+  "wrong_instrument_decision": {
+    "decision": "REJECT",
+    "reason": "NO_POLICY_FILE_OR_UNAUTHORIZED",
+    "authorized": false
+  },
+  "policy_path": null,
+  "production": "DENIED_NO_APPROVAL_ARTIFACT"
+}

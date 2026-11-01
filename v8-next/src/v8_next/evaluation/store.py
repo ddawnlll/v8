@@ -6,15 +6,18 @@ Not an execution ledger or authority issuer.
 from __future__ import annotations
 
 import hashlib
+import importlib
 import json
+import os
 import sqlite3
+import tempfile
 from pathlib import Path
 from typing import Any, Literal, Self, cast
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, model_validator
 
 try:
-    import duckdb  # type: ignore[import-not-found]
+    duckdb: Any = importlib.import_module("duckdb")
 except ImportError:  # pragma: no cover
     duckdb = None
 
@@ -1144,8 +1147,10 @@ class ResearchStore:
                 "duckdb is not installed. Install with: pip install 'duckdb>=1.0'"
             )
         dest_path = Path(destination)
-        if dest_path.exists():
-            dest_path.unlink()
+        if dest_path.resolve() == self.path.resolve() or (
+            dest_path.exists() and os.path.samefile(dest_path, self.path)
+        ):
+            raise ValueError("export destination must not be the source SQLite store")
 
         tables = [
             row[0]
@@ -1154,22 +1159,42 @@ class ResearchStore:
             ).fetchall()
         ]
 
-        conn = duckdb.connect(str(dest_path))
+        fd, temporary = tempfile.mkstemp(prefix=f".{dest_path.name}.", suffix=".duckdb", dir=dest_path.parent)
+        os.close(fd)
+        temp_path = Path(temporary)
+        temp_path.unlink()  # DuckDB expects a new database, not an empty file.
         try:
+            conn = duckdb.connect(str(temp_path))
             try:
-                resolved = str(self.path.resolve()).replace("'", "''")
-                conn.execute(f"ATTACH '{resolved}' AS src (TYPE SQLITE, READ_ONLY true)")
-                for table in tables:
-                    conn.execute(f"CREATE TABLE {table} AS SELECT * FROM src.{table}")
-            except Exception:
-                # Fallback to direct Polars transfer if DuckDB SQLite scanner encounters catalog differences
-                for table in tables:
-                    df = self.to_polars(table)
-                    conn.register("_tmp_df", df)
-                    conn.execute(f"CREATE TABLE {table} AS SELECT * FROM _tmp_df")
-                    conn.unregister("_tmp_df")
+                try:
+                    resolved = str(self.path.resolve()).replace("'", "''")
+                    conn.execute(f"ATTACH '{resolved}' AS src (TYPE SQLITE, READ_ONLY true)")
+                    for table in tables:
+                        conn.execute(f"CREATE TABLE {table} AS SELECT * FROM src.{table}")
+                except Exception:
+                    # Discard partial scanner output before the direct SQLite fallback.
+                    for table in tables:
+                        quoted = '"' + table.replace('"', '""') + '"'
+                        conn.execute(f"DROP TABLE IF EXISTS {quoted}")
+                        columns = self.db.execute(f"PRAGMA table_info({quoted})").fetchall()
+                        types = {"INTEGER": "BIGINT", "TEXT": "VARCHAR", "REAL": "DOUBLE", "BLOB": "BLOB"}
+                        definitions = []
+                        for column in columns:
+                            name, declared = column[1], column[2].upper()
+                            if declared not in types:
+                                raise ValueError(f"unsupported SQLite export type: {declared!r}") from None
+                            name_sql = '"' + name.replace('"', '""') + '"'
+                            definitions.append(f"{name_sql} {types[declared]}")
+                        conn.execute(f"CREATE TABLE {quoted} ({', '.join(definitions)})")
+                        cursor = self.db.execute(f"SELECT * FROM {quoted}")
+                        placeholders = ", ".join("?" for _ in columns)
+                        while batch := cursor.fetchmany(1000):
+                            conn.executemany(f"INSERT INTO {quoted} VALUES ({placeholders})", batch)
+            finally:
+                conn.close()
+            os.replace(temp_path, dest_path)
         finally:
-            conn.close()
+            temp_path.unlink(missing_ok=True)
 
 
 

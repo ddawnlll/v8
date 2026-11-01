@@ -1,0 +1,21 @@
+{
+  "tape_path": "C:\\Users\\dresden\\AppData\\Local\\Temp\\quad-1h-12m\\tape.jsonl",
+  "tape_sha256": "5905f47673c1bbd49519b1360ee41ba6f6a2280571970848f53ee390749938b5",
+  "universe": [
+    "AVAXUSDT-PERP.BINANCE",
+    "BTCUSDT-PERP.BINANCE",
+    "ETHUSDT-PERP.BINANCE",
+    "SOLUSDT-PERP.BINANCE"
+  ],
+  "period_start_ns": 1751331600000000000,
+  "period_end_ns": 1753142400000000000,
+  "n_bars": 504,
+  "source_hashes": [
+    "69d41d8216eb84fff11ba67743b5fc2372fee659",
+    "6ce46a68f2a79953c5d54382b097c5bc72e6192a",
+    "d003e99626802b98c452d78db7572ce28df49bfe",
+    "6bc4cc36fabcfaf0163c68fdc3ba4a80c9daae4e",
+    "d136a7eac7d8beb2982f354b0c374f688c194154",
+    "984edc018abd451f55f85eccb3af737d940b085b"
+  ]
+}

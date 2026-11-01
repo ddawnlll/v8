@@ -1,0 +1,1800 @@
+{
+  "receipt_id": "4457c06765b15765e3624e8eeac53483",
+  "run": {
+    "dataset": {
+      "tape_path": "C:\\Users\\dresden\\AppData\\Local\\Temp\\quad-1h-12m\\tape.jsonl",
+      "tape_sha256": "5905f47673c1bbd49519b1360ee41ba6f6a2280571970848f53ee390749938b5",
+      "universe": [
+        "AVAXUSDT-PERP.BINANCE",
+        "BTCUSDT-PERP.BINANCE",
+        "ETHUSDT-PERP.BINANCE",
+        "SOLUSDT-PERP.BINANCE"
+      ],
+      "period_start_ns": 1751331600000000000,
+      "period_end_ns": 1752537600000000000,
+      "n_bars": 336,
+      "source_hashes": [
+        "69d41d8216eb84fff11ba67743b5fc2372fee659",
+        "6ce46a68f2a79953c5d54382b097c5bc72e6192a",
+        "d003e99626802b98c452d78db7572ce28df49bfe",
+        "6c05e9f578d8e64c23d58242759b1f73f5047872",
+        "2986596988a16bb2351757b9bd33dcdd232eb70a",
+        "56804a73455b0901c9315f67d981ddd97b37483b"
+      ]
+    },
+    "code": {
+      "git_rev": "77f6576",
+      "git_dirty": "no",
+      "config_sha256": "05c1768dd68cadd2847195337f9d6ab6881f7e97b37004ae564c0d2b0b62bed0",
+      "estimator_versions": {
+        "numpy": "2.5.3",
+        "scipy": "1.18.1",
+        "arch": "8.0.0",
+        "nautilus_trader": "2.0.0rc4",
+        "polars": "1.44.1"
+      },
+      "source_sha256": "e8bf33e5e6909679a76bd119362cc7609205da48f71b362509635df68edd5855"
+    },
+    "seed": 7,
+    "primary_benchmark": "equal_weight",
+    "diagnostic_benchmarks": [
+      "cash",
+      "bh_AVAXUSDT-PERP",
+      "bh_BTCUSDT-PERP",
+      "bh_ETHUSDT-PERP",
+      "bh_SOLUSDT-PERP",
+      "vol_target",
+      "simple_trend"
+    ],
+    "strategy_family": [
+      "portfolio_P",
+      "portfolio_PE",
+      "simple_trend",
+      "vol_target"
+    ],
+    "capital": 10000.0,
+    "taker_fee": 0.0005,
+    "opex_monthly_usd": 30.0
+  },
+  "metrics": {
+    "portfolio_P": {
+      "net_return": 0.010063880941028724,
+      "excess_vs_primary": -0.12920943367475224,
+      "excess_ci_low": -0.3590602561183155,
+      "excess_ci_high": 0.06730903925537357,
+      "sharpe_per_bar": 0.043834610304974424,
+      "sharpe_annualized": 4.102694725513876,
+      "sharpe_ci_low": -9.526677371870935,
+      "sharpe_ci_high": 12.686703296291395,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.010211106732335516,
+      "tail_mean_5pct": -0.001267369672905663,
+      "avg_exposure": 0.11817547788016947,
+      "concentration": 0.5223994750906222,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.0,
+        "BTCUSDT-PERP.BINANCE": 0.061734807613183965,
+        "ETHUSDT-PERP.BINANCE": 0.056440670266985495,
+        "SOLUSDT-PERP.BINANCE": 0.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 2.4749410530000007,
+      "commission_cost": 12.374705265000001,
+      "funding_cost": -2.7627083600000333,
+      "funding_basis": null,
+      "cost_basis": "MISMATCH",
+      "n_bars": 336,
+      "n_trades": 13,
+      "cost_reconciliation": {
+        "cost_basis": "MISMATCH",
+        "state": "MEASURED",
+        "identity": "PORTFOLIO_OPEN_ENTRY_COMMISSIONS",
+        "engine_series_residual_usdt": -0.2599879749997643,
+        "engine_series_residual_abs_usdt": 0.2599879749997643,
+        "engine_series_residual_measured": true,
+        "engine_series_ok": false,
+        "engine_series_tolerance_usdt": 0.02,
+        "closed_loop_terms": {
+          "balance_delta": 100.63880941000025,
+          "sum_realized_pnl": 101.39828025000001,
+          "open_entry_commissions_of_open_positions": 0.499482865,
+          "residual_usdt": -0.2599879749997643
+        },
+        "recomputed_residual_usdt": -0.2599879749997643,
+        "recompute_matches_stored": true,
+        "named_reason": "ENGINE_SERIES_RESIDUAL_OUTSIDE_TOLERANCE",
+        "exit_leg_identity": {
+          "gap_usdt": 5.385640589998729,
+          "expected_gap_usdt": 1.679806905000075,
+          "unexplained_usdt": 3.7058336849986544,
+          "tolerance_usdt": 0.05,
+          "state": "UNEXPLAINED_RESIDUAL",
+          "terms_usdt": {
+            "commission": 12.374705265000001,
+            "funding": -2.7627083600000333,
+            "open_unrealized": -7.932189999999893
+          }
+        },
+        "cross_identity": {
+          "identity": "STRATEGY_OPEN_REALIZED_PNL",
+          "governing": false,
+          "terms_source": "ENGINE_ACCOUNT_OPEN_POSITIONS",
+          "balance_delta": 100.63880941000025,
+          "sum_realized_pnl": 101.39828025000001,
+          "residual_usdt": 2.3570034812792073e-13,
+          "measurable": true,
+          "named_reason": null,
+          "open_position_realized_pnl": -0.75947084,
+          "open_entry_commissions_of_open_positions": 0.499482865
+        },
+        "identities_check": {
+          "identities": {
+            "PORTFOLIO_OPEN_ENTRY_COMMISSIONS": {
+              "residual_usdt": -0.2599879749997643,
+              "recomputed_from_terms_usdt": -0.2599879749997643,
+              "governing": true
+            },
+            "STRATEGY_OPEN_REALIZED_PNL": {
+              "residual_usdt": 2.3570034812792073e-13,
+              "recomputed_from_terms_usdt": 2.3570034812792073e-13,
+              "governing": false
+            }
+          },
+          "difference_usdt": -0.259987975,
+          "comparison_tolerance_usdt": 0.02,
+          "comparison_bound_source": "the curve's declared engine_series_tolerance_usdt",
+          "reason": "RECONCILIATION_IDENTITIES_DIVERGED",
+          "status": "FAIL"
+        }
+      }
+    },
+    "portfolio_PE": {
+      "net_return": 0.005963300117006076,
+      "excess_vs_primary": -0.1333100144987749,
+      "excess_ci_low": -0.3747872265288187,
+      "excess_ci_high": 0.07264893529576108,
+      "sharpe_per_bar": 0.04503894728702501,
+      "sharpe_annualized": 4.215414490777524,
+      "sharpe_ci_low": -12.026605965078382,
+      "sharpe_ci_high": 11.723862018900144,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.006000037245324347,
+      "tail_mean_5pct": -0.0005594251317684826,
+      "avg_exposure": 0.05088433082186429,
+      "concentration": 0.5677331731819057,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.0,
+        "BTCUSDT-PERP.BINANCE": 0.028888722602734864,
+        "ETHUSDT-PERP.BINANCE": 0.021995608219129426,
+        "SOLUSDT-PERP.BINANCE": 0.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 1.4031018030000004,
+      "commission_cost": 7.015509015,
+      "funding_cost": -1.4112510200011457,
+      "funding_basis": null,
+      "cost_basis": "MISMATCH",
+      "n_bars": 336,
+      "n_trades": 15,
+      "cost_reconciliation": {
+        "cost_basis": "MISMATCH",
+        "state": "MEASURED",
+        "identity": "PORTFOLIO_OPEN_ENTRY_COMMISSIONS",
+        "engine_series_residual_usdt": -0.12959887000074619,
+        "engine_series_residual_abs_usdt": 0.12959887000074619,
+        "engine_series_residual_measured": true,
+        "engine_series_ok": false,
+        "engine_series_tolerance_usdt": 0.02,
+        "closed_loop_terms": {
+          "balance_delta": 59.63300116999926,
+          "sum_realized_pnl": 60.01158238000001,
+          "open_entry_commissions_of_open_positions": 0.24898234,
+          "residual_usdt": -0.12959887000074619
+        },
+        "recomputed_residual_usdt": -0.12959887000074619,
+        "recompute_matches_stored": true,
+        "named_reason": "ENGINE_SERIES_RESIDUAL_OUTSIDE_TOLERANCE",
+        "exit_leg_identity": {
+          "gap_usdt": 20.899468829991747,
+          "expected_gap_usdt": 1.6502179949989082,
+          "unexplained_usdt": 19.24925083499284,
+          "tolerance_usdt": 0.05,
+          "state": "UNEXPLAINED_RESIDUAL",
+          "terms_usdt": {
+            "commission": 7.015509015,
+            "funding": -1.4112510200011457,
+            "open_unrealized": -3.9540399999999463
+          }
+        },
+        "cross_identity": {
+          "identity": "STRATEGY_OPEN_REALIZED_PNL",
+          "governing": false,
+          "terms_source": "ENGINE_ACCOUNT_OPEN_POSITIONS",
+          "balance_delta": 59.63300116999926,
+          "sum_realized_pnl": 60.01158238000001,
+          "residual_usdt": -7.461808948505677e-13,
+          "measurable": true,
+          "named_reason": null,
+          "open_position_realized_pnl": -0.37858121,
+          "open_entry_commissions_of_open_positions": 0.24898234
+        },
+        "identities_check": {
+          "identities": {
+            "PORTFOLIO_OPEN_ENTRY_COMMISSIONS": {
+              "residual_usdt": -0.12959887000074619,
+              "recomputed_from_terms_usdt": -0.12959887000074619,
+              "governing": true
+            },
+            "STRATEGY_OPEN_REALIZED_PNL": {
+              "residual_usdt": -7.461808948505677e-13,
+              "recomputed_from_terms_usdt": -7.461808948505677e-13,
+              "governing": false
+            }
+          },
+          "difference_usdt": -0.12959887,
+          "comparison_tolerance_usdt": 0.02,
+          "comparison_bound_source": "the curve's declared engine_series_tolerance_usdt",
+          "reason": "RECONCILIATION_IDENTITIES_DIVERGED",
+          "status": "FAIL"
+        }
+      }
+    },
+    "cash": {
+      "net_return": 0.0,
+      "excess_vs_primary": -0.13927331461578096,
+      "excess_ci_low": -0.39658749159873974,
+      "excess_ci_high": 0.07735715986547459,
+      "sharpe_per_bar": 0.0,
+      "sharpe_annualized": 0.0,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": true,
+      "max_drawdown": 0.0,
+      "tail_mean_5pct": 0.0,
+      "avg_exposure": 0.0,
+      "concentration": null,
+      "concentration_legs": {},
+      "concentration_basis": "CONCENTRATION_NOT_MEASURED_NO_LEG_WEIGHTS:ZERO_LEG_EXPOSURE",
+      "turnover_notional_over_capital": 0.0,
+      "commission_cost": 0.0,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "bh_AVAXUSDT-PERP": {
+      "net_return": 0.18557563587684056,
+      "excess_vs_primary": 0.0463023212610596,
+      "excess_ci_low": -0.04750636291139168,
+      "excess_ci_high": 0.17687863406920412,
+      "sharpe_per_bar": 0.07821350301714722,
+      "sharpe_annualized": 7.320382776529414,
+      "sharpe_ci_low": -4.889419015395274,
+      "sharpe_ci_high": 17.92009852824875,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.07794448219980143,
+      "tail_mean_5pct": -0.01413894978866533,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 1.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 1.0,
+      "commission_cost": 5.0,
+      "funding_cost": -22.861299719999806,
+      "funding_basis": "MEASURED",
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 1,
+      "cost_reconciliation": null
+    },
+    "bh_BTCUSDT-PERP": {
+      "net_return": 0.11636034652718119,
+      "excess_vs_primary": -0.022912968088599772,
+      "excess_ci_low": -0.1399219361058327,
+      "excess_ci_high": 0.07986649126415651,
+      "sharpe_per_bar": 0.1003280578043366,
+      "sharpe_annualized": 9.390191693530173,
+      "sharpe_ci_low": -1.8619698925328163,
+      "sharpe_ci_high": 18.288478886947857,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.025465448827109775,
+      "tail_mean_5pct": -0.006058739130944794,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "concentration_legs": {
+        "BTCUSDT-PERP.BINANCE": 1.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 1.0,
+      "commission_cost": 5.0,
+      "funding_cost": -24.578652230000444,
+      "funding_basis": "MEASURED",
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 1,
+      "cost_reconciliation": null
+    },
+    "bh_ETHUSDT-PERP": {
+      "net_return": 0.20888364495920575,
+      "excess_vs_primary": 0.06961033034342479,
+      "excess_ci_low": 0.011587609208355457,
+      "excess_ci_high": 0.1413784883190043,
+      "sharpe_per_bar": 0.09868382761647126,
+      "sharpe_annualized": 9.23630018012666,
+      "sharpe_ci_low": -2.195751564612976,
+      "sharpe_ci_high": 17.349640276613858,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.05418559624355894,
+      "tail_mean_5pct": -0.009907573851624163,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "concentration_legs": {
+        "ETHUSDT-PERP.BINANCE": 1.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 1.0,
+      "commission_cost": 5.0,
+      "funding_cost": -26.25816777,
+      "funding_basis": "MEASURED",
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 1,
+      "cost_reconciliation": null
+    },
+    "bh_SOLUSDT-PERP": {
+      "net_return": 0.047960700665761635,
+      "excess_vs_primary": -0.09131261395001933,
+      "excess_ci_low": -0.1661249344220166,
+      "excess_ci_high": -0.02751930663023942,
+      "sharpe_per_bar": 0.026752082240872752,
+      "sharpe_annualized": 2.503857703821923,
+      "sharpe_ci_low": -8.38074914233752,
+      "sharpe_ci_high": 12.337626520815885,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.06309837434941856,
+      "tail_mean_5pct": -0.013050053361229332,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "concentration_legs": {
+        "SOLUSDT-PERP.BINANCE": 1.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 1.0,
+      "commission_cost": 5.0,
+      "funding_cost": -12.570972069999698,
+      "funding_basis": "MEASURED",
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 1,
+      "cost_reconciliation": null
+    },
+    "equal_weight": {
+      "net_return": 0.13927331461578096,
+      "excess_vs_primary": 0.0,
+      "excess_ci_low": 0.0,
+      "excess_ci_high": 0.0,
+      "sharpe_per_bar": 0.0809837625966223,
+      "sharpe_annualized": 7.579664866319702,
+      "sharpe_ci_low": -4.865319134878113,
+      "sharpe_ci_high": 17.809287179484595,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.04945965986358562,
+      "tail_mean_5pct": -0.009888220234865325,
+      "avg_exposure": 1.0,
+      "concentration": 0.25,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.25,
+        "BTCUSDT-PERP.BINANCE": 0.25,
+        "ETHUSDT-PERP.BINANCE": 0.25,
+        "SOLUSDT-PERP.BINANCE": 0.25
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 1.0,
+      "commission_cost": 5.0,
+      "funding_cost": null,
+      "funding_basis": "BASKET_CONVENTION_DIFFERS:equal_weight_quad",
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 4,
+      "cost_reconciliation": null
+    },
+    "vol_target": {
+      "net_return": 0.12183134708720877,
+      "excess_vs_primary": -0.01744196752857219,
+      "excess_ci_low": -0.09615707359138732,
+      "excess_ci_high": 0.03488877078145015,
+      "sharpe_per_bar": 0.08736289717342426,
+      "sharpe_annualized": 8.176719148301505,
+      "sharpe_ci_low": -3.853643850520101,
+      "sharpe_ci_high": 18.399931736869156,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.039214513494309725,
+      "tail_mean_5pct": -0.007870122130361848,
+      "avg_exposure": 0.9897340395608862,
+      "concentration": 0.41687799484648946,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.1684861106947514,
+        "BTCUSDT-PERP.BINANCE": 0.4125983418434584,
+        "ETHUSDT-PERP.BINANCE": 0.21469507392910853,
+        "SOLUSDT-PERP.BINANCE": 0.193954513093568
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 10.433523669456447,
+      "commission_cost": 53.26101514743469,
+      "funding_cost": null,
+      "funding_basis": "BASKET_CONVENTION_DIFFERS:vol_target_quad",
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "simple_trend": {
+      "net_return": -0.004933645425134081,
+      "excess_vs_primary": -0.14420696004091504,
+      "excess_ci_low": -0.3963460570405539,
+      "excess_ci_high": 0.06265014233103015,
+      "sharpe_per_bar": -0.007814747999126516,
+      "sharpe_annualized": -0.7314203359895749,
+      "sharpe_ci_low": -10.988631903339996,
+      "sharpe_ci_high": 6.390904403508257,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.031575968578977466,
+      "tail_mean_5pct": -0.004041372524949034,
+      "avg_exposure": 0.10416666666666667,
+      "concentration": 0.3,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.03125,
+        "BTCUSDT-PERP.BINANCE": 0.02976190476190476,
+        "ETHUSDT-PERP.BINANCE": 0.023065476190476192,
+        "SOLUSDT-PERP.BINANCE": 0.020089285714285716
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 39.5,
+      "commission_cost": 197.5,
+      "funding_cost": null,
+      "funding_basis": "NO_ENGINE_RULE",
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "equal_weight_quad": {
+      "net_return": 0.1353652158658083,
+      "excess_vs_primary": -0.003908098749972666,
+      "excess_ci_low": -0.020621734217156493,
+      "excess_ci_high": 0.00667373388018085,
+      "sharpe_per_bar": 0.08201379537493605,
+      "sharpe_annualized": 7.676070652005784,
+      "sharpe_ci_low": -4.876223256883866,
+      "sharpe_ci_high": 17.983710271509697,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.048665172018326694,
+      "tail_mean_5pct": -0.009380283479074773,
+      "avg_exposure": 0.9654838511105843,
+      "concentration": 0.25110185876328334,
+      "concentration_legs": {
+        "AVAXUSDT": 0.24134550006009767,
+        "BTCUSDT": 0.24243478961980083,
+        "ETHUSDT": 0.24115164299651745,
+        "SOLUSDT": 0.24055191843416845
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 1.2902916174307395,
+      "commission_cost": 6.451458087153699,
+      "funding_cost": -19.85591722999925,
+      "funding_basis": "MEASURED",
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 49,
+      "cost_reconciliation": null
+    },
+    "vol_target_quad": {
+      "net_return": 0.10923810788672772,
+      "excess_vs_primary": -0.030035206729053243,
+      "excess_ci_low": -0.1655879705083223,
+      "excess_ci_high": 0.07869001319964965,
+      "sharpe_per_bar": 0.07847527740918617,
+      "sharpe_annualized": 7.3448835171547024,
+      "sharpe_ci_low": -3.7957466134482076,
+      "sharpe_ci_high": 16.291308749377176,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.04418243788086712,
+      "tail_mean_5pct": -0.008174901888155537,
+      "avg_exposure": 0.8319512416063695,
+      "concentration": 0.41071635960138214,
+      "concentration_legs": {
+        "AVAXUSDT": 0.14637603718066355,
+        "BTCUSDT": 0.341695985318418,
+        "ETHUSDT": 0.17531222540305666,
+        "SOLUSDT": 0.1685669937042313
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 4.197446579393797,
+      "commission_cost": 20.987232896969015,
+      "funding_cost": -19.385273769999912,
+      "funding_basis": "MEASURED",
+      "cost_basis": "ANALYTIC_MODEL",
+      "n_bars": 336,
+      "n_trades": 912,
+      "cost_reconciliation": null
+    }
+  },
+  "oos_metrics": {
+    "portfolio_P": {
+      "net_return": 0.001367854614880537,
+      "excess_vs_primary": -0.01685949670973641,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.05912947623644163,
+      "sharpe_annualized": 5.534215739340509,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.0040408514811107205,
+      "tail_mean_5pct": -0.001384031710439037,
+      "avg_exposure": 0.11984997149984611,
+      "concentration": 0.6406146879487042,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.0,
+        "BTCUSDT-PERP.BINANCE": 0.07677765209303501,
+        "ETHUSDT-PERP.BINANCE": 0.04307231940681109,
+        "SOLUSDT-PERP.BINANCE": 0.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 0.3918793250000001,
+      "commission_cost": 1.9593966250000006,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "MISMATCH+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 2,
+      "cost_reconciliation": null
+    },
+    "portfolio_PE": {
+      "net_return": 0.000433240762039766,
+      "excess_vs_primary": -0.01779411056257718,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.03731718242893417,
+      "sharpe_annualized": 3.4926968999392054,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.0020711388686031956,
+      "tail_mean_5pct": -0.0006998120960506402,
+      "avg_exposure": 0.06003122961674299,
+      "concentration": 0.6411909657243423,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.0,
+        "BTCUSDT-PERP.BINANCE": 0.038491482091579175,
+        "ETHUSDT-PERP.BINANCE": 0.02153974752516381,
+        "SOLUSDT-PERP.BINANCE": 0.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 0.19578784400000004,
+      "commission_cost": 0.9789392200000002,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "MISMATCH+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 2,
+      "cost_reconciliation": null
+    },
+    "cash": {
+      "net_return": 0.0,
+      "excess_vs_primary": -0.018227351324616947,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.0,
+      "sharpe_annualized": 0.0,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": true,
+      "max_drawdown": 0.0,
+      "tail_mean_5pct": 0.0,
+      "avg_exposure": 0.0,
+      "concentration": null,
+      "concentration_legs": {},
+      "concentration_basis": "CONCENTRATION_NOT_MEASURED_NO_LEG_WEIGHTS:ZERO_LEG_EXPOSURE",
+      "turnover_notional_over_capital": 0.0,
+      "commission_cost": 0.0,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "bh_AVAXUSDT-PERP": {
+      "net_return": 0.019131185270425677,
+      "excess_vs_primary": 0.0009038339458087297,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.06040555753195866,
+      "sharpe_annualized": 5.653650404414982,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.0390199637023594,
+      "tail_mean_5pct": -0.013697080583133795,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 1.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 0.0,
+      "commission_cost": 0.0,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "bh_BTCUSDT-PERP": {
+      "net_return": 0.02168870925106381,
+      "excess_vs_primary": 0.003461357926446862,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.1343554057517354,
+      "sharpe_annualized": 12.574976957405921,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.025465448827109785,
+      "tail_mean_5pct": -0.007719015851110818,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "concentration_legs": {
+        "BTCUSDT-PERP.BINANCE": 1.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 0.0,
+      "commission_cost": 0.0,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "bh_ETHUSDT-PERP": {
+      "net_return": 0.023387759816811737,
+      "excess_vs_primary": 0.00516040849219479,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.11052482004193556,
+      "sharpe_annualized": 10.344556346448485,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.02529329458615876,
+      "tail_mean_5pct": -0.008909669963466506,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "concentration_legs": {
+        "ETHUSDT-PERP.BINANCE": 1.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 0.0,
+      "commission_cost": 0.0,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "bh_SOLUSDT-PERP": {
+      "net_return": 0.008020392937080345,
+      "excess_vs_primary": -0.010206958387536602,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.030135648792850946,
+      "sharpe_annualized": 2.8205421809883777,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.034308177973673144,
+      "tail_mean_5pct": -0.014615369391943935,
+      "avg_exposure": 1.0,
+      "concentration": 1.0,
+      "concentration_legs": {
+        "SOLUSDT-PERP.BINANCE": 1.0
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 0.0,
+      "commission_cost": 0.0,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "equal_weight": {
+      "net_return": 0.018227351324616947,
+      "excess_vs_primary": 0.0,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.08335208929414042,
+      "sharpe_annualized": 7.801328099609555,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.025716545821385876,
+      "tail_mean_5pct": -0.010683865697628133,
+      "avg_exposure": 1.0,
+      "concentration": 0.25,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.25,
+        "BTCUSDT-PERP.BINANCE": 0.25,
+        "ETHUSDT-PERP.BINANCE": 0.25,
+        "SOLUSDT-PERP.BINANCE": 0.25
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 0.0,
+      "commission_cost": 0.0,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "vol_target": {
+      "net_return": 0.022520643917495642,
+      "excess_vs_primary": 0.004293292592878695,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.11584967346806092,
+      "sharpe_annualized": 10.842935319445077,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.021576573081731498,
+      "tail_mean_5pct": -0.009430770619947976,
+      "avg_exposure": 1.0133559341244984,
+      "concentration": 0.44079896678277874,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.1381919273372587,
+        "BTCUSDT-PERP.BINANCE": 0.4466862487452765,
+        "ETHUSDT-PERP.BINANCE": 0.24663716873297922,
+        "SOLUSDT-PERP.BINANCE": 0.18184058930898406
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 1.2398531428036499,
+      "commission_cost": 6.928874488248262,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "simple_trend": {
+      "net_return": 0.004957496041412934,
+      "excess_vs_primary": -0.013269855283204013,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.059294188708276706,
+      "sharpe_annualized": 5.549631982001789,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.010147137276890707,
+      "tail_mean_5pct": -0.003257708073418296,
+      "avg_exposure": 0.13020833333333334,
+      "concentration": 0.48,
+      "concentration_legs": {
+        "AVAXUSDT-PERP.BINANCE": 0.020833333333333332,
+        "BTCUSDT-PERP.BINANCE": 0.0625,
+        "ETHUSDT-PERP.BINANCE": 0.020833333333333332,
+        "SOLUSDT-PERP.BINANCE": 0.026041666666666668
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 6.5,
+      "commission_cost": 32.5,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 0,
+      "cost_reconciliation": null
+    },
+    "equal_weight_quad": {
+      "net_return": 0.016163243906936797,
+      "excess_vs_primary": -0.00206410741768015,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.08253108137690808,
+      "sharpe_annualized": 7.724485968968963,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.02295904015164222,
+      "tail_mean_5pct": -0.009575786673108825,
+      "avg_exposure": 0.8946994066865898,
+      "concentration": 0.25120400147983235,
+      "concentration_legs": {
+        "AVAXUSDT": 0.2247520710813032,
+        "BTCUSDT": 0.22363061342785895,
+        "ETHUSDT": 0.22276553708235144,
+        "SOLUSDT": 0.22355118509507618
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 0.021753107923161208,
+      "commission_cost": 0.10876553961580715,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 7,
+      "cost_reconciliation": null
+    },
+    "vol_target_quad": {
+      "net_return": 0.017524623832491315,
+      "excess_vs_primary": -0.0007027274921256321,
+      "excess_ci_low": null,
+      "excess_ci_high": null,
+      "sharpe_per_bar": 0.10150783653481246,
+      "sharpe_annualized": 9.50061293238963,
+      "sharpe_ci_low": null,
+      "sharpe_ci_high": null,
+      "sharpe_degenerate": false,
+      "max_drawdown": -0.022176887483954823,
+      "tail_mean_5pct": -0.008283282060494956,
+      "avg_exposure": 0.9024859573465732,
+      "concentration": 0.43609579671830545,
+      "concentration_legs": {
+        "AVAXUSDT": 0.12517044152415677,
+        "BTCUSDT": 0.39357033259613655,
+        "ETHUSDT": 0.22069910800277615,
+        "SOLUSDT": 0.16304607522350387
+      },
+      "concentration_basis": "MEASURED_MAX_LEG_SHARE",
+      "turnover_notional_over_capital": 0.6540340804771989,
+      "commission_cost": 3.270170402385986,
+      "funding_cost": null,
+      "funding_basis": null,
+      "cost_basis": "ANALYTIC_MODEL+OOS_SLICE",
+      "n_bars": 48,
+      "n_trades": 158,
+      "cost_reconciliation": null
+    }
+  },
+  "verdicts": {
+    "research_validity": "VALID",
+    "research_note": "AVAXUSDT: OK; BTCUSDT: OK; ETHUSDT: OK; SOLUSDT: OK; leak_probe=AVAXUSDT: OK; probe=series_own_bar_close_containment; bars=336; close_in_own_bar=336/336; repeated_closes=1; close_carried_forward=150/335; BTCUSDT: OK; probe=series_own_bar_close_containment; bars=336; close_in_own_bar=336/336; repeated_closes=0; close_carried_forward=177/335; ETHUSDT: OK; probe=series_own_bar_close_containment; bars=336; close_in_own_bar=336/336; repeated_closes=1; close_carried_forward=179/335; SOLUSDT: OK; probe=series_own_bar_close_containment; bars=336; close_in_own_bar=336/336; repeated_closes=0; close_carried_forward=174/335",
+    "economic": "NEGATIVE",
+    "economic_note": "net excess vs primary is not positive on this window",
+    "statistical": "INCONCLUSIVE",
+    "statistical_note": "computed but no preregistered rule fired: DSR=COMPUTED PBO=UNDERPOWERED SPA=COMPUTED",
+    "portfolio": "NOT_HELPFUL",
+    "portfolio_note": "P+E sleeve mix does not improve allocator-level net on this window",
+    "execution": "EXECUTION_UNPROVEN",
+    "execution_note": "cost basis unverified; simulated fills only",
+    "capital": "NOT_AUTHORIZED",
+    "capital_note": "no score mints capital permission; separate risk decision required"
+  },
+  "statistics": {
+    "baseline": "equal_weight",
+    "plan_id": "sha256:aa9aa4ab62e23e26a761d03606ee792ae9867f84cce830491623519a2c1924d9",
+    "plan": {
+      "family": "portfolio-family",
+      "block_size": 5,
+      "reps": 999,
+      "seed": 7,
+      "multiplicity_trials": 4,
+      "effective_independent_trials": 4.0,
+      "independence_basis": "four preregistered execution variants (champion, fee-stressed, conservative, slippage-stressed) on one shared tape; not proven independent",
+      "pbo_partitions": 4,
+      "pbo_metric": "mean_return",
+      "pbo_max_splits": 64,
+      "wrc_block_divisor": 5,
+      "wrc_reps": 999,
+      "wrc_seed": 7,
+      "authority_conditions": [
+        "deflated_sharpe_confidence>=0.95",
+        "bonferroni_adjusted_p<=0.05"
+      ],
+      "diagnostics": [
+        "white_reality_check_p_value",
+        "probability_of_backtest_overfitting",
+        "sample_sufficiency",
+        "regime_attribution"
+      ],
+      "interval_bars": 0,
+      "pinned_ns": 1751331600000000000,
+      "identity": "sha256:aa9aa4ab62e23e26a761d03606ee792ae9867f84cce830491623519a2c1924d9"
+    },
+    "authority_conditions": [
+      "deflated_sharpe_confidence>=0.95",
+      "bonferroni_adjusted_p<=0.05"
+    ],
+    "diagnostics": [
+      "white_reality_check_p_value",
+      "probability_of_backtest_overfitting",
+      "sample_sufficiency",
+      "regime_attribution"
+    ],
+    "intervals_per_variant": 13,
+    "interval_bars": 24,
+    "variant_excess_vs_baseline": -0.01744196752857219,
+    "sample_sufficiency": {
+      "observations": 13,
+      "block_size": 5,
+      "independent_samples": 2,
+      "min_independent_samples": 2,
+      "verdict": "SUFFICIENT",
+      "basis": "non-overlapping blocks of the pinned block length, not raw row count"
+    },
+    "dsr": {
+      "method": "BAILEY_LOPEZ_DE_PRADO_DSR_V1",
+      "dsr_confidence": 0.6679012174096919,
+      "quantity_type": "CONFIDENCE_NOT_P_VALUE",
+      "selected_variant": "vol_target",
+      "sample_intervals": 13,
+      "selected_sharpe_nonannualized": 0.3444361214005076,
+      "cross_trial_sharpe_variance_ddof1": 0.041780012000586834,
+      "expected_max_null_sharpe": 0.2150555833025085,
+      "skewness": -0.044302944413735015,
+      "pearson_kurtosis": 2.7051692121022626,
+      "registered_variants": [
+        "portfolio_P",
+        "portfolio_PE",
+        "simple_trend",
+        "vol_target"
+      ],
+      "effective_independent_trials": 4.0,
+      "independence_basis": "four preregistered execution variants (champion, fee-stressed, conservative, slippage-stressed) on one shared tape; not proven independent",
+      "input_measure": "negative_net_excess_period_return",
+      "moment_bias_correction": false,
+      "multiple_testing": {
+        "method": "STATSMODELS_MULTIPLETESTS_AND_SCIPY_FDR",
+        "family_size": 4,
+        "alpha": 0.05,
+        "variants": [
+          "portfolio_P",
+          "portfolio_PE",
+          "simple_trend",
+          "vol_target"
+        ],
+        "raw_pvalues": {
+          "portfolio_P": 0.23106335396179478,
+          "portfolio_PE": 0.2449266486063628,
+          "simple_trend": 0.6833416026791297,
+          "vol_target": 0.11900239591609478
+        },
+        "adjustments": {
+          "bonferroni": {
+            "adjusted_pvalues": {
+              "portfolio_P": 0.9242534158471791,
+              "portfolio_PE": 0.9797065944254512,
+              "simple_trend": 1.0,
+              "vol_target": 0.4760095836643791
+            },
+            "rejected": {
+              "portfolio_P": false,
+              "portfolio_PE": false,
+              "simple_trend": false,
+              "vol_target": false
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168
+          },
+          "holm": {
+            "adjusted_pvalues": {
+              "portfolio_P": 0.6931900618853843,
+              "portfolio_PE": 0.6931900618853843,
+              "simple_trend": 0.6931900618853843,
+              "vol_target": 0.4760095836643791
+            },
+            "rejected": {
+              "portfolio_P": false,
+              "portfolio_PE": false,
+              "simple_trend": false,
+              "vol_target": false
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168
+          },
+          "fdr_bh": {
+            "adjusted_pvalues": {
+              "portfolio_P": 0.32656886480848374,
+              "portfolio_PE": 0.32656886480848374,
+              "simple_trend": 0.6833416026791297,
+              "vol_target": 0.32656886480848374
+            },
+            "rejected": {
+              "portfolio_P": false,
+              "portfolio_PE": false,
+              "simple_trend": false,
+              "vol_target": false
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168
+          },
+          "fdr_by": {
+            "adjusted_pvalues": {
+              "portfolio_P": 0.680351801684341,
+              "portfolio_PE": 0.680351801684341,
+              "simple_trend": 1.0,
+              "vol_target": 0.680351801684341
+            },
+            "rejected": {
+              "portfolio_P": false,
+              "portfolio_PE": false,
+              "simple_trend": false,
+              "vol_target": false
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168
+          }
+        },
+        "scipy_cross_check": {
+          "bh": {
+            "portfolio_P": 0.3265688648084837,
+            "portfolio_PE": 0.3265688648084837,
+            "simple_trend": 0.6833416026791297,
+            "vol_target": 0.3265688648084837
+          },
+          "by": {
+            "portfolio_P": 0.680351801684341,
+            "portfolio_PE": 0.680351801684341,
+            "simple_trend": 1.0,
+            "vol_target": 0.680351801684341
+          }
+        },
+        "dependency_versions": {
+          "numpy": "2.5.3",
+          "scipy": "1.18.1",
+          "statsmodels": "0.15.0"
+        },
+        "claim_status": "NO_ECONOMIC_CLAIM",
+        "promotion_eligible": false
+      },
+      "dependency_versions": {
+        "numpy": "2.5.3",
+        "scipy": "1.18.1",
+        "statsmodels": "0.15.0"
+      },
+      "claim_status": "NO_ECONOMIC_CLAIM",
+      "promotion_eligible": false,
+      "limitations": [
+        "independence_basis_declared_not_verified",
+        "no_serial_dependence_correction",
+        "expected_maximum_is_an_approximation",
+        "small_samples_may_be_underpowered",
+        "source_and_search_lineage_not_certified"
+      ],
+      "verdict": "COMPUTED"
+    },
+    "pbo": {
+      "verdict": "UNDERPOWERED",
+      "reason": "interval count 13 does not admit even CSCV partitions>=8"
+    },
+    "spa": {
+      "claim_status": "NO_ECONOMIC_CLAIM",
+      "method": "arch.SPA",
+      "library_version": "8.0.0",
+      "dependency_versions": {
+        "arch": "8.0.0",
+        "numpy": "2.5.3",
+        "scipy": "1.18.1",
+        "pandas": "3.0.5",
+        "statsmodels": "0.15.0"
+      },
+      "sample_intervals": 13,
+      "null": "no_variant_has_positive_expected_baseline_minus_variant_loss",
+      "evidence_scope": "NUMERICAL_DIAGNOSTIC_WITHOUT_SOURCE_OR_HOLDOUT_CERTIFICATION",
+      "bootstrap": "stationary",
+      "studentize": true,
+      "nested": false,
+      "block_size": 5,
+      "reps": 999,
+      "seed": 7,
+      "variants": [
+        "portfolio_P",
+        "portfolio_PE",
+        "simple_trend",
+        "vol_target"
+      ],
+      "pvalues": {
+        "lower": 0.4544544544544545,
+        "consistent": 0.8668668668668669,
+        "upper": 0.8738738738738738
+      },
+      "multiple_testing": {
+        "method": "STATSMODELS_MULTIPLETESTS_AND_SCIPY_FDR",
+        "family_size": 4,
+        "alpha": 0.05,
+        "variants": [
+          "portfolio_P",
+          "portfolio_PE",
+          "simple_trend",
+          "vol_target"
+        ],
+        "raw_pvalues": {
+          "portfolio_P": 0.8795891308414788,
+          "portfolio_PE": 0.8805611140327554,
+          "simple_trend": 0.9058174089261881,
+          "vol_target": 0.810878490618951
+        },
+        "adjustments": {
+          "bonferroni": {
+            "adjusted_pvalues": {
+              "portfolio_P": 1.0,
+              "portfolio_PE": 1.0,
+              "simple_trend": 1.0,
+              "vol_target": 1.0
+            },
+            "rejected": {
+              "portfolio_P": false,
+              "portfolio_PE": false,
+              "simple_trend": false,
+              "vol_target": false
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168
+          },
+          "holm": {
+            "adjusted_pvalues": {
+              "portfolio_P": 1.0,
+              "portfolio_PE": 1.0,
+              "simple_trend": 1.0,
+              "vol_target": 1.0
+            },
+            "rejected": {
+              "portfolio_P": false,
+              "portfolio_PE": false,
+              "simple_trend": false,
+              "vol_target": false
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168
+          },
+          "fdr_bh": {
+            "adjusted_pvalues": {
+              "portfolio_P": 0.9058174089261881,
+              "portfolio_PE": 0.9058174089261881,
+              "simple_trend": 0.9058174089261881,
+              "vol_target": 0.9058174089261881
+            },
+            "rejected": {
+              "portfolio_P": false,
+              "portfolio_PE": false,
+              "simple_trend": false,
+              "vol_target": false
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168
+          },
+          "fdr_by": {
+            "adjusted_pvalues": {
+              "portfolio_P": 1.0,
+              "portfolio_PE": 1.0,
+              "simple_trend": 1.0,
+              "vol_target": 1.0
+            },
+            "rejected": {
+              "portfolio_P": false,
+              "portfolio_PE": false,
+              "simple_trend": false,
+              "vol_target": false
+            },
+            "alphac_bonf": 0.0125,
+            "alphac_sidak": 0.012741455098566168
+          }
+        },
+        "scipy_cross_check": {
+          "bh": {
+            "portfolio_P": 0.9058174089261881,
+            "portfolio_PE": 0.9058174089261881,
+            "simple_trend": 0.9058174089261881,
+            "vol_target": 0.9058174089261881
+          },
+          "by": {
+            "portfolio_P": 1.0,
+            "portfolio_PE": 1.0,
+            "simple_trend": 1.0,
+            "vol_target": 1.0
+          }
+        },
+        "dependency_versions": {
+          "numpy": "2.5.3",
+          "scipy": "1.18.1",
+          "statsmodels": "0.15.0"
+        },
+        "claim_status": "NO_ECONOMIC_CLAIM",
+        "promotion_eligible": false
+      },
+      "wrc": {
+        "effect_estimates": {
+          "portfolio_P": {
+            "mean_baseline_minus_variant_loss": -0.009213650741116583,
+            "bootstrap_mean_standard_error": 0.005009581162042398
+          },
+          "portfolio_PE": {
+            "mean_baseline_minus_variant_loss": -0.00952047277275654,
+            "bootstrap_mean_standard_error": 0.005411373707847779
+          },
+          "simple_trend": {
+            "mean_baseline_minus_variant_loss": -0.010764462311970284,
+            "bootstrap_mean_standard_error": 0.006959756426083205
+          },
+          "vol_target": {
+            "mean_baseline_minus_variant_loss": -0.0016670681840938574,
+            "bootstrap_mean_standard_error": 0.0017790424193308832
+          }
+        },
+        "effect_units": "same_as_input_interval_loss",
+        "effect_scope": "IN_SAMPLE_BASELINE_RELATIVE_NOT_GROSS_EDGE_OR_UTILITY",
+        "uncertainty_method": "sample_sd_of_joint_circular_block_means_ddof_1",
+        "method": "WHITE_MAX_MEAN_CIRCULAR_BLOCK_V2",
+        "library": "arch.bootstrap.CircularBlockBootstrap",
+        "library_version": "8.0.0",
+        "numpy_version": "2.5.3",
+        "null": "no_variant_has_positive_expected_baseline_minus_variant_loss",
+        "centering": "each_variant_own_observed_mean",
+        "bootstrap": "circular_fixed_block_joint_columns",
+        "tail": "greater_or_equal",
+        "studentize": false,
+        "sample_intervals": 13,
+        "variants": [
+          "portfolio_P",
+          "portfolio_PE",
+          "simple_trend",
+          "vol_target"
+        ],
+        "observed_max": -0.0016670681840938574,
+        "argmax_variant": "vol_target",
+        "tie_policy": "lexicographic_variant_id",
+        "p_value": 0.8358358358358359,
+        "exceedances": 835,
+        "reps": 999,
+        "block_size": 5,
+        "seed": 7,
+        "arch_reality_check": {
+          "method": "arch.bootstrap.RealityCheck",
+          "pvalues": {
+            "lower": 0.4924924924924925,
+            "consistent": 0.8278278278278278,
+            "upper": 0.8358358358358359
+          },
+          "upper_wrc_pvalue": 0.8358358358358359,
+          "consistent_pvalue": 0.8278278278278278,
+          "lower_pvalue": 0.4924924924924925
+        },
+        "claim_status": "NO_ECONOMIC_CLAIM",
+        "promotion_eligible": false,
+        "evidence_scope": "NUMERICAL_DIAGNOSTIC_WITHOUT_SOURCE_OR_HOLDOUT_CERTIFICATION"
+      },
+      "dsr": null,
+      "pbo": null,
+      "promotion_eligible": false,
+      "verdict": "COMPUTED"
+    }
+  },
+  "controls": {
+    "positive_control": {
+      "status": "UNRUN_SYNTHETIC_CONTROL_TEST_ONLY",
+      "reason": "synthetic controls are restricted to test harnesses"
+    },
+    "negative_control": {
+      "status": "UNRUN_SYNTHETIC_CONTROL_TEST_ONLY",
+      "reason": "shuffled inputs are restricted to test harnesses"
+    },
+    "known_defect_future_leak_caught": {
+      "status": "CAUGHT",
+      "probe": "series_own_bar_close_containment",
+      "instruments": {
+        "AVAXUSDT": {
+          "status": "CAUGHT",
+          "probe": "series_own_bar_close_containment",
+          "bars": 335,
+          "reason": "FUTURE_LEAK_CLOSE_OUTSIDE_OWN_BAR: 152/335 closes are not in their own bar (first at index 1); 152 of them are inside the NEXT bar, i.e. the close series is carried by the wrong timestamps"
+        },
+        "BTCUSDT": {
+          "status": "CAUGHT",
+          "probe": "series_own_bar_close_containment",
+          "bars": 335,
+          "reason": "FUTURE_LEAK_CLOSE_OUTSIDE_OWN_BAR: 159/335 closes are not in their own bar (first at index 1); 158 of them are inside the NEXT bar, i.e. the close series is carried by the wrong timestamps"
+        },
+        "ETHUSDT": {
+          "status": "CAUGHT",
+          "probe": "series_own_bar_close_containment",
+          "bars": 335,
+          "reason": "FUTURE_LEAK_CLOSE_OUTSIDE_OWN_BAR: 147/335 closes are not in their own bar (first at index 1); 147 of them are inside the NEXT bar, i.e. the close series is carried by the wrong timestamps"
+        },
+        "SOLUSDT": {
+          "status": "CAUGHT",
+          "probe": "series_own_bar_close_containment",
+          "bars": 335,
+          "reason": "FUTURE_LEAK_CLOSE_OUTSIDE_OWN_BAR: 154/335 closes are not in their own bar (first at index 1); 154 of them are inside the NEXT bar, i.e. the close series is carried by the wrong timestamps"
+        }
+      }
+    },
+    "ablation": {
+      "P": "incumbent quorum=1,tolerance=28 x4 legs",
+      "P+E": "incumbent 0.5 + challenger(tol=0) 0.5 x4 legs, same per-leg budget",
+      "same_engine_path": true
+    },
+    "positive_caught": null,
+    "negative_caught": null,
+    "benchmark_funding_feed": {
+      "method": "ENGINE_DUAL_RUN_BALANCE_DIFFERENCE",
+      "tape_funding_rows": 372,
+      "balance_basis": "REALIZED_ACCOUNT_BALANCE_EXCLUDES_OPEN_UNREALIZED_MARK",
+      "legs": {
+        "bh_AVAXUSDT-PERP": {
+          "funding": -22.861299719999806,
+          "funding_basis": "MEASURED",
+          "funding_basket": "AVAXUSDT_buy_hold",
+          "funding_basket_kind": "buy_hold",
+          "funding_basket_rule": "Single-asset AVAXUSDT buy-and-hold (reference, 1 instrument)",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 42,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 126,
+          "engine_terminal_balance_usdt": 9972.13870462,
+          "engine_unfunded_balance_usdt": 9995.00000434
+        },
+        "bh_BTCUSDT-PERP": {
+          "funding": -24.578652230000444,
+          "funding_basis": "MEASURED",
+          "funding_basket": "BTCUSDT_buy_hold",
+          "funding_basket_kind": "buy_hold",
+          "funding_basket_rule": "Single-asset BTCUSDT buy-and-hold (reference, 1 instrument)",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 42,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 126,
+          "engine_terminal_balance_usdt": 9970.43060507,
+          "engine_unfunded_balance_usdt": 9995.0092573
+        },
+        "bh_ETHUSDT-PERP": {
+          "funding": -26.25816777,
+          "funding_basis": "MEASURED",
+          "funding_basket": "ETHUSDT_buy_hold",
+          "funding_basket_kind": "buy_hold",
+          "funding_basket_rule": "Single-asset ETHUSDT buy-and-hold (reference, 1 instrument)",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 42,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 126,
+          "engine_terminal_balance_usdt": 9968.74209573,
+          "engine_unfunded_balance_usdt": 9995.0002635
+        },
+        "bh_SOLUSDT-PERP": {
+          "funding": -12.570972069999698,
+          "funding_basis": "MEASURED",
+          "funding_basket": "SOLUSDT_buy_hold",
+          "funding_basket_kind": "buy_hold",
+          "funding_basket_rule": "Single-asset SOLUSDT buy-and-hold (reference, 1 instrument)",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 42,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 126,
+          "engine_terminal_balance_usdt": 9982.42903279,
+          "engine_unfunded_balance_usdt": 9995.00000486
+        },
+        "equal_weight": {
+          "funding": -19.85591722999925,
+          "funding_basis": "MEASURED",
+          "funding_basket": "equal_weight_quad",
+          "funding_basket_kind": "equal_weight",
+          "funding_basket_rule": "Equal-weight 25/25/25/25 BTC/ETH/SOL/AVAX, buy-and-hold with rebalance",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 168,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": 10113.75898178,
+          "engine_unfunded_balance_usdt": 10133.61489901
+        },
+        "vol_target": {
+          "funding": -19.385273769999912,
+          "funding_basis": "MEASURED",
+          "funding_basket": "vol_target_quad",
+          "funding_basket_kind": "vol_target",
+          "funding_basket_rule": "Vol-target (20% ann) inverse-vol weighted across quad, trailing-only",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 168,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": 10539.64128996,
+          "engine_unfunded_balance_usdt": 10559.02656373
+        },
+        "simple_trend": {
+          "funding": null,
+          "funding_basis": "NO_ENGINE_RULE",
+          "funding_basket": null,
+          "funding_engine_basis": null,
+          "funding_settlements_fed": 0,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 0,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": null,
+          "engine_unfunded_balance_usdt": null
+        }
+      },
+      "published_curves": {
+        "portfolio_P": {
+          "funding_curve": "portfolio_P",
+          "funding_cell": "-2.76",
+          "funding": -2.7627083600000333,
+          "funding_basis": "MEASURED",
+          "funding_basket": null,
+          "funding_basket_kind": null,
+          "funding_basket_rule": null,
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 168,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": 10100.63880941,
+          "engine_unfunded_balance_usdt": 10103.40151777,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "portfolio_PE": {
+          "funding_curve": "portfolio_PE",
+          "funding_cell": "-1.41",
+          "funding": -1.4112510200011457,
+          "funding_basis": "MEASURED",
+          "funding_basket": null,
+          "funding_basket_kind": null,
+          "funding_basket_rule": null,
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 168,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": 10059.63300117,
+          "engine_unfunded_balance_usdt": 10061.04425219,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "cash": {
+          "funding_curve": null,
+          "funding_cell": "0.00 (NO_EXPOSURE)",
+          "funding": null,
+          "funding_basis": "ZERO_NO_EXPOSURE",
+          "funding_basket": null,
+          "funding_basket_kind": null,
+          "funding_basket_rule": null,
+          "funding_engine_basis": null,
+          "funding_settlements_fed": null,
+          "funding_rows_available": null,
+          "funding_out_of_window": null,
+          "funding_unknown_leg": null,
+          "engine_terminal_balance_usdt": null,
+          "engine_unfunded_balance_usdt": null,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "bh_AVAXUSDT-PERP": {
+          "funding_curve": "bh_AVAXUSDT-PERP",
+          "funding_cell": "-22.86",
+          "funding": -22.861299719999806,
+          "funding_basis": "MEASURED",
+          "funding_basket": "AVAXUSDT_buy_hold",
+          "funding_basket_kind": "buy_hold",
+          "funding_basket_rule": "Single-asset AVAXUSDT buy-and-hold (reference, 1 instrument)",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 42,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 126,
+          "engine_terminal_balance_usdt": 9972.13870462,
+          "engine_unfunded_balance_usdt": 9995.00000434,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "bh_BTCUSDT-PERP": {
+          "funding_curve": "bh_BTCUSDT-PERP",
+          "funding_cell": "-24.58",
+          "funding": -24.578652230000444,
+          "funding_basis": "MEASURED",
+          "funding_basket": "BTCUSDT_buy_hold",
+          "funding_basket_kind": "buy_hold",
+          "funding_basket_rule": "Single-asset BTCUSDT buy-and-hold (reference, 1 instrument)",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 42,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 126,
+          "engine_terminal_balance_usdt": 9970.43060507,
+          "engine_unfunded_balance_usdt": 9995.0092573,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "bh_ETHUSDT-PERP": {
+          "funding_curve": "bh_ETHUSDT-PERP",
+          "funding_cell": "-26.26",
+          "funding": -26.25816777,
+          "funding_basis": "MEASURED",
+          "funding_basket": "ETHUSDT_buy_hold",
+          "funding_basket_kind": "buy_hold",
+          "funding_basket_rule": "Single-asset ETHUSDT buy-and-hold (reference, 1 instrument)",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 42,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 126,
+          "engine_terminal_balance_usdt": 9968.74209573,
+          "engine_unfunded_balance_usdt": 9995.0002635,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "bh_SOLUSDT-PERP": {
+          "funding_curve": "bh_SOLUSDT-PERP",
+          "funding_cell": "-12.57",
+          "funding": -12.570972069999698,
+          "funding_basis": "MEASURED",
+          "funding_basket": "SOLUSDT_buy_hold",
+          "funding_basket_kind": "buy_hold",
+          "funding_basket_rule": "Single-asset SOLUSDT buy-and-hold (reference, 1 instrument)",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 42,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 126,
+          "engine_terminal_balance_usdt": 9982.42903279,
+          "engine_unfunded_balance_usdt": 9995.00000486,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "equal_weight": {
+          "funding_curve": "equal_weight_quad",
+          "funding_cell": "n/a (BASKET_CONVENTION_DIFFERS, equal_weight_quad)",
+          "funding": -19.85591722999925,
+          "funding_basis": "BASKET_CONVENTION_DIFFERS",
+          "funding_basket": "equal_weight_quad",
+          "funding_basket_kind": "equal_weight",
+          "funding_basket_rule": "Equal-weight 25/25/25/25 BTC/ETH/SOL/AVAX, buy-and-hold with rebalance",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 168,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": 10113.75898178,
+          "engine_unfunded_balance_usdt": 10133.61489901,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "vol_target": {
+          "funding_curve": "vol_target_quad",
+          "funding_cell": "n/a (BASKET_CONVENTION_DIFFERS, vol_target_quad)",
+          "funding": -19.385273769999912,
+          "funding_basis": "BASKET_CONVENTION_DIFFERS",
+          "funding_basket": "vol_target_quad",
+          "funding_basket_kind": "vol_target",
+          "funding_basket_rule": "Vol-target (20% ann) inverse-vol weighted across quad, trailing-only",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 168,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": 10539.64128996,
+          "engine_unfunded_balance_usdt": 10559.02656373,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "simple_trend": {
+          "funding_curve": null,
+          "funding_cell": "n/a (NO_ENGINE_RULE)",
+          "funding": null,
+          "funding_basis": "NO_ENGINE_RULE",
+          "funding_basket": null,
+          "funding_basket_kind": null,
+          "funding_basket_rule": null,
+          "funding_engine_basis": null,
+          "funding_settlements_fed": 0,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 0,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": null,
+          "engine_unfunded_balance_usdt": null,
+          "engine_vs_rule_terminal_delta_usdt": null
+        },
+        "equal_weight_quad": {
+          "funding_curve": "equal_weight_quad",
+          "funding_cell": "-19.86",
+          "funding": -19.85591722999925,
+          "funding_basis": "MEASURED",
+          "funding_basket": "equal_weight_quad",
+          "funding_basket_kind": "equal_weight",
+          "funding_basket_rule": "Equal-weight 25/25/25/25 BTC/ETH/SOL/AVAX, buy-and-hold with rebalance",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 168,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": 10113.75898178,
+          "engine_unfunded_balance_usdt": 10133.61489901,
+          "engine_vs_rule_terminal_delta_usdt": -1234.2163507987534
+        },
+        "vol_target_quad": {
+          "funding_curve": "vol_target_quad",
+          "funding_cell": "-19.39",
+          "funding": -19.385273769999912,
+          "funding_basis": "MEASURED",
+          "funding_basket": "vol_target_quad",
+          "funding_basket_kind": "vol_target",
+          "funding_basket_rule": "Vol-target (20% ann) inverse-vol weighted across quad, trailing-only",
+          "funding_engine_basis": "ENGINE_SETTLED",
+          "funding_settlements_fed": 168,
+          "funding_rows_available": 372,
+          "funding_out_of_window": 204,
+          "funding_unknown_leg": 0,
+          "engine_terminal_balance_usdt": 10539.64128996,
+          "engine_unfunded_balance_usdt": 10559.02656373,
+          "engine_vs_rule_terminal_delta_usdt": -552.7397889072763
+        }
+      }
+    }
+  },
+  "portfolio_mix": {
+    "method": "ENGINE_SHARED_ACCOUNT_RERUN",
+    "scope": "ENGINE_LEVEL_SAME_BUDGET",
+    "p_net": 0.010063880941028724,
+    "pe_net": 0.005963300117006076,
+    "incremental_net": -0.004100580824022648,
+    "sleeves": [
+      "incumbent 1.0",
+      "incumbent 0.5 + challenger 0.5"
+    ]
+  },
+  "capacity_scenarios": [
+    {
+      "kind": "MEASURED_LINEAR_BOUND",
+      "participation_threshold": 0.01,
+      "observed_peak_participation": 9.99224484403338e-7,
+      "max_capital_linear": 100077611.74878787,
+      "basis": "LINEAR_EXTRAPOLATION_OF_MEASURED_PARTICIPATION",
+      "impact_beyond": "UNVERIFIED_NO_IMPACT_MODEL"
+    },
+    {
+      "kind": "MEASURED_LINEAR_BOUND",
+      "participation_threshold": 0.05,
+      "observed_peak_participation": 9.99224484403338e-7,
+      "max_capital_linear": 500388058.74393934,
+      "basis": "LINEAR_EXTRAPOLATION_OF_MEASURED_PARTICIPATION",
+      "impact_beyond": "UNVERIFIED_NO_IMPACT_MODEL"
+    },
+    {
+      "kind": "MEASURED_LINEAR_BOUND",
+      "participation_threshold": 0.1,
+      "observed_peak_participation": 9.99224484403338e-7,
+      "max_capital_linear": 1000776117.4878787,
+      "basis": "LINEAR_EXTRAPOLATION_OF_MEASURED_PARTICIPATION",
+      "impact_beyond": "UNVERIFIED_NO_IMPACT_MODEL"
+    },
+    {
+      "kind": "HYPOTHETICAL_SCENARIO",
+      "model": "sqrt_impact_k_sigma_sqrt_p",
+      "k": 0.1,
+      "k_status": "HYPOTHETICAL_UNCALIBRATED",
+      "sigma_per_bar": 0.0006872836326916501,
+      "impact_bps_at_peak": 0.0006870170814147171
+    },
+    {
+      "kind": "HYPOTHETICAL_SCENARIO",
+      "model": "sqrt_impact_k_sigma_sqrt_p",
+      "k": 0.5,
+      "k_status": "HYPOTHETICAL_UNCALIBRATED",
+      "sigma_per_bar": 0.0006872836326916501,
+      "impact_bps_at_peak": 0.003435085407073586
+    },
+    {
+      "kind": "HYPOTHETICAL_SCENARIO",
+      "model": "sqrt_impact_k_sigma_sqrt_p",
+      "k": 1.0,
+      "k_status": "HYPOTHETICAL_UNCALIBRATED",
+      "sigma_per_bar": 0.0006872836326916501,
+      "impact_bps_at_peak": 0.006870170814147172
+    }
+  ],
+  "parity": {
+    "engine_rerun_parity": "EXACT_MATCH"
+  },
+  "shadow_live": {
+    "mode": "UNRUN_NO_VENUE_ACCOUNT",
+    "status": "UNRUN_NO_VENUE_ACCOUNT",
+    "reason": "no venue account / no file",
+    "path": "artifacts\\shadow_fills.jsonl",
+    "format": "jsonl per docs/contracts/SHADOW_LIVE_DATA_SPEC.md",
+    "source": "venue private REST GET /fapi/v1/userTrades (requires BINANCE_API_KEY)",
+    "command": "uv run --project v8-next python -m v8_next.adapters.shadow_ingest fetch --symbol BTCUSDT --out artifacts/shadow_fills.jsonl",
+    "funding_note": "public funding is in research/tape/quad-1h-12m/tape.jsonl (channel=funding); see funding_history.quad_funding_summary",
+    "live_fills_present": false,
+    "live_fills_arg": null
+  },
+  "limitations": [
+    "Code identity: run.code.source_sha256 is sha256 over sorted (relative path, file sha256) for v8-next/src/**, v8-next/pyproject.toml and v8-next/uv.lock; run.code.git_dirty is one bit and cannot separate two dirty trees at the same revision, so the source hash is what identifies the code.",
+    "Mark proxy: funding settlement marks use leg closes at the boundary.",
+    "P+E is engine-level shared-account execution, not post-hoc summation.",
+    "Capacity beyond participation is UNVERIFIED (no impact model).",
+    "Production capital stays denied without a human-signed approval artifact.",
+    "Benchmark-leg funding is measured by the engine, not modelled: each leg the engine executes is run twice (the tape's real funding rows / none) over this run's legs, and the published cell is the balance difference between the two. A `funding $` number is published only on the curve the engine measured it for. Where the measuring basket sizes its legs under a different convention from the analytic curve beside it -- the two quad legs: `equal_weight_quad` holds a fixed `capital/k` notional rebalanced every 24 bars against the index's compounding per-bar equal-value series, and `vol_target_quad` an inverse-vol fixed notional at full capital with a per-leg cap against the vol-scaled analytic curve -- the basket's own curve is published in the same table under its basket id beside the index, carrying the engine's measured number and `engine_vs_rule_terminal_delta_usdt` (the engine's funded balance minus that curve's own terminal equity), and the index row publishes the named state `n/a (BASKET_CONVENTION_DIFFERS, <basket_id>)` instead of another curve's number. Every published curve's funding is recorded, with its measuring basket, that basket's kind and rule, the engine's row counters, both run balances and the published curve that carries the number, in `controls.benchmark_funding_feed.published_curves`; the basket rows are additional diagnostics of the same window and enter no statistics family and no verdict. Legs the engine has no basket for publish NO_ENGINE_RULE (simple_trend) and the never-invested reference publishes zero by construction (cash). Which convention the pre-declared primary benchmark is itself computed under stays open as O-034: no published net, excess, statistic or verdict moves here."
+  ],
+  "execution": {
+    "profile": "baseline",
+    "digest": "e7e76a80da65251433e15b67519050bee60ec737387a0b85484d79f6d1861760",
+    "fill_model": "default",
+    "fill_model_slipped": false,
+    "prob_fill_on_limit": 1.0,
+    "prob_slippage": 0.0,
+    "random_seed": 0,
+    "latency_nanos": {
+      "base": 0,
+      "insert": 0,
+      "update": 0,
+      "cancel": 0
+    },
+    "fee_model": "maker_taker",
+    "margin_model": "none",
+    "bar_execution": true,
+    "bar_adaptive_high_low_ordering": false,
+    "trade_execution": true,
+    "liquidity_consumption": false,
+    "queue_position": false,
+    "use_market_order_acks": false,
+    "price_protection_points": null,
+    "depth_data_available": false,
+    "depth_dependent_knobs_enabled": [],
+    "depth_dependent_knobs_active": [],
+    "inert_knobs_without_depth_data": [],
+    "depth_dependent_knobs_evidence": "NOT_APPLICABLE_NO_DEPTH_DATA",
+    "evidence_class": "MODELLED_EXECUTION_ASSUMPTION_NOT_VENUE_TRUTH",
+    "fill_signature": "906e112622d43857a99c4cee814dd1f407c9f4375863e71b01366d3e73f71c7c",
+    "fills_count": 25,
+    "fills_report_type": "DataFrame",
+    "slippage_samples": 13,
+    "slippage_unmatched_positions": 0,
+    "slippage_rejected_cross_series": 0,
+    "slippage_bps_mean": -0.0,
+    "slippage_bps_abs_mean": 0.0,
+    "slippage_bps_max": 0.0,
+    "slippage_bps_min": -0.0,
+    "slippage_bps_abs_max": 0.0,
+    "slippage_magnitudes_all_zero": false,
+    "slippage_configuration_cannot_slip": true,
+    "decision_to_position_event_ns_mean": 0,
+    "decision_to_position_event_ns_max": 0,
+    "order_to_fill_ns_mean": 55152000000000,
+    "order_to_fill_ns_max": 331200000000000,
+    "configured_latency_nanos": 0,
+    "latency_observability": "MEASURED_ORDER_LIFETIME",
+    "commission_totals_by_currency": {
+      "USDT": 10.55512223
+    },
+    "commission_total": 10.55512223
+  },
+  "estimator_availability": {
+    "probe": "importlib.util.find_spec",
+    "checked": {
+      "arch": true,
+      "polars": true,
+      "scipy": true
+    },
+    "unavailable": [],
+    "required_by": {
+      "dsr": [
+        "scipy"
+      ],
+      "pbo": [
+        "scipy",
+        "polars"
+      ],
+      "spa": [
+        "scipy",
+        "arch"
+      ]
+    }
+  },
+  "claim_status": "NO_ECONOMIC_CLAIM"
+}

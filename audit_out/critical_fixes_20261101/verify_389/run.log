@@ -1,0 +1,10 @@
+=== #389 — independent verification
+import pinned to baseline: C:\Users\dresden\Documents\v8-wt-verify\v8-next\src\v8_next\__init__.py
+
+--- branch  (C:/Users/dresden/Documents/v8/../v8-wt-389/v8-next/tests/test_cli_status_ledger_quarantine_389.py)
+exit=0   7 passed in 2.11s
+
+--- baseline main@a921da2  (test file copied in, pythonpath pinned)
+exit=1   3 failed, 4 passed in 1.97s
+
+VERDICT: PASS — fails on main (exit 1), passes on the branch (exit 0)

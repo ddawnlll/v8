@@ -1,0 +1,349 @@
+### 500 | type:defect,agent:scout
+T: [DEFECT] Canonical P+E verdict ignores its own mix
+P: v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/app/portfolio.py v8-next/tests/test_economic_benchmark.py
+B: ## Objective Make the canonical receipt's P-vs-P+E verdict and its published `portfolio_mix` state the same thing about the same object. Today `app/portfolio.py` publishes the full engine-level mix and hands the verdict builder a stripped copy of it, so one artifact carries `scope: ENGINE_LEVEL_SAME_BUDGET` and, three keys away, a verdict note that says the basis is `BASIS_UNSTATED` and the books "were never normaliz
+
+### 495 | type:defect,triage,agent:scout
+T: [DEFECT] G3 benchmark coverage cell measures regime robustness
+P: v8-next/src/v8_next/evaluation/benchmark_receipt.py v8-next/src/v8_next/evaluation/gate_registry.py v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/evaluation/scoring.py
+B: ## Objective The gate cell published as `g3_benchmark_coverage` measures a different quantity than its name, and on the canonical portfolio path it is not measured at all. The receipts that feed the ledger already publish a 12-curve benchmark family whose adequacy is measured (primary benchmark, per-curve funding basis, zero-exposure states), yet no gate cell consumes it. The gate vector therefore cannot express "the
+
+### 494 | type:defect,triage,agent:scout
+T: [DEFECT] DSR subject chosen by alphabetical sort
+P: v8-next/src/v8_next/evaluation/statistics_plan.py v8-next/src/v8_next/evaluation/gate_resolution.py v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/app/portfolio.py
+B: ## Objective Make the receipt's DSR name a **declared** subject. Today the curve the `deflated_sharpe_confidence` authority condition describes is picked by `sorted(...)[0]` — the alphabetically first registered variant — and the pinned `StatisticsPlan` carries no field that says which variant the number is about. ## Owning authority - `v8-next/src/v8_next/evaluation/statistics_plan.py:16-27, 60-77` — the module's ow
+
+### 491 | type:defect,triage,agent:scout
+T: [DEFECT] Equity path drops closed campaign exit P&L
+P: v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/tests/ v8-next/tests
+B: ## Objective Book each closed campaign's exit leg into the published equity path. Today both engine→series builders delete a position from the mark book *before* its exit price is ever marked, so the segment from the last bar close to the actual exit price never enters `equity_mtm`. The resulting terminal gap is then smeared uniformly over every bar by the #436 graft, and `max_drawdown`, `sharpe`, `tail_mean`, `exces
+
+### 478 | type:defect,triage,agent:scout
+T: [DEFECT] Ledger keeps a superseded cost verdict
+P: v8-next/src/v8_next/app/readiness.py v8-next/src/v8_next/evaluation/benchmark_receipt.py v8-next/src/v8_next/app/portfolio.py v8-next/tests/
+B: ## Objective Make the canonical benchmark ledger name which cost verdict governs, so a consumer enumerating the ledger as evidence cannot read a cell that a later measurement of the *same window* has already contradicted. Today ledger `seq 21` publishes `cost_basis = MISMATCH` and `verdicts.execution = EXECUTION_UNPROVEN` for the identical window and the identical fills that `seq 23` publishes as `VERIFIED_ENGINE_FUN
+
+### 477 | type:defect,triage,agent:scout
+T: [DEFECT] Canonical capacity bound bypasses swing contract
+P: v8-next/src/v8_next/evaluation/capacity.py v8-next/src/v8_next/app/portfolio.py v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/tests/test_capacity.py
+B: Objective: The canonical economic path must not publish a capacity bound as *measured* at a participation scale the run never observed, while the contract landed in the immediately preceding commit defines exactly that case as `UNRESOLVED`. Today the only capacity producer wired into the canonical portfolio run is never routed through the swing-capacity contract that same commit built, so the published block carries 
+
+### 476 | type:defect,triage,agent:scout
+T: [DEFECT] 451-454 outputs are IMPLEMENTED but unwired to the benchmark path (MISSING on the final surface)
+P: v8-next/src v8-next/src/v8_next/
+B: ## Observed contradiction Chain issues #451–#454 are CLOSED with "Completed R IDs: all, Remaining: NONE", but their outputs are not consumed by any executable path that ends at the authoritative final surface (`v8-next benchmark` → `BenchmarkRunner` → `BenchmarkReceipt` → `PolicyCertificate` → forensic HTML / `readiness` / `regression`). Per `docs/contracts/WIRING_COMPLETION_CONTRACT.md` §4, code + unit tests is `IMP
+
+### 456 | type:implementation,triage
+T: [IMPL] v8-next port chain 7/7: expert lifecycle (delta + D-141 qualification + kaizen/assurance/governance remainder)
+P: v8-core/src/experts/ v8-next/src/v8_next/experts/ v8-core/src/qualification/mod.rs v8-core/src/kaizen/
+B: ## Objective Close the expert lifecycle last: expert-delta mapping, D-141 qualification (falsification surface), kaizen robustness/validation feed, assurance/EEO/governance remainder — measured against the closed scoring of the earlier chain issues. ## Owning authority - `v8-core/src/experts/` (34 files) vs `v8-next/src/v8_next/experts/` (26 files) — delta to map - `v8-core/src/qualification/mod.rs` (D-141 Expert Pro
+
+### 455 | type:implementation,state:blocked
+T: [IMPL] v8-next port chain 6/7: scoring closure (bench-eval delta + synthetic discipline + temporal)
+P: v8-core/src/benchmark/ v8-core/src/evaluation/ v8-core/src/research/ v8-core/src/temporal/mod.rs
+B: ## Objective Close the scoring side: benchmark-eval delta (bench-2 modules + evaluation delta + research/temporal deltas) so every published score is a function of bound evidence. ## Owning authority - `docs/contracts/V87_READINESS_BENCHMARK_SPEC.md` §7 (explicit score formula), §10 (score-minting forbiddens) - `v8-core/src/benchmark/{observation,population,projection,synthetic,report}.rs`, `v8-core/src/evaluation/{f
+
+### 434 | type:governance,triage
+T: [GOV] Otonom merge yetkisi verildi — merge yasagi kaldirildi (D-163)
+P: 
+B: ## Owner directive — 2026-09-11 **Otonom merge yasağı kaldırıldı. Bundan sonra otonom merge VAR.** Bu issue tüm ajanlara, worker profillerine, cron işlerine ve kanban kartlarına yapılan ilandır. Tam metin: [`docs/GOVERNANCE_MERGE_AUTHORITY_2026-09-11.md`](../blob/main/docs/GOVERNANCE_MERGE_AUTHORITY_2026-09-11.md) (D-163). ### Ne değişti - Ajanlar ve kanban worker'ları doğrulanmış işlerini **insan onayı olmadan** `ma
+
+### 409 | type:defect,triage,agent:scout
+T: [DEFECT] Active product boundary rewritten without authority record
+P: v8-next/AGENTS.md v8-next/tests/ v8-next/src/v8_next/experts/ v8-core/AGENTS.md
+B: # [DEFECT] Active product boundary rewritten without an authority record ## Objective Two mutually exclusive product-boundary declarations now coexist in the tree, and the observed commit/issue stream follows one while the governing documents say the other. No dispatchable work package can be attributed to an authorized product boundary until this is reconciled by the owner.
+
+### 394 | type:defect,triage,agent:scout
+T: [DEFECT] Cashflow ledger mixes runs, receipt unverifiable
+P: v8-core/src/cashflow.rs v8-core/src/usdm_sim.rs
+B: ## Objective Make PortfolioReceipt independently re-verifiable from its cited cashflow ledger file. ## Owning authority - V8 Constitution (evidence-bound completion; no VERIFIED claim without machine receipts). - Root AGENTS.md; .hermes.md s4. ## Change class
+
+### 393 | type:research,triage,state:triage
+T: [RESEARCH] V8-next: close the economic evidence gate without weakening NO_ECONOMIC_CLAIM
+P: v8-next/src/v8_next/evaluation/runner.py v8-next/src/v8_next/evaluation/gate_resolution.py v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/evaluation/parity.py
+B: ## Objective Define and execute the remaining evidence program needed to resolve the V8-next economic gate while preserving NO_ECONOMIC_CLAIM until all required authority receipts are independently verified. ## Owning authority - Constitution Rule 12 - D-153 benchmark and economic evidence scope - Existing V8-next issues #377, #380, #383, and #385
+
+### 392 | type:implementation,triage,state:triage
+T: [IMPL] V8-next: resolve UNKNOWN and MISSING gate states with explicit evidence
+P: v8-next/src/v8_next/evaluation/benchmark_receipt.py v8-next/src/v8_next/evaluation/gate_resolution.py v8-next/src/v8_next/evaluation/runner.py v8-next/src/v8_next/evaluation/scoring.py
+B: ## Objective Turn the V8-next benchmark gate vector's UNKNOWN/MISSING states into explicit, evidence-backed outcomes without forcing or fabricating passes. ## Owning authority - V8-next benchmark receipt and gate-resolution contracts - D-153 benchmark scope - Constitution Rule 12: NO_ECONOMIC_CLAIM until required authority receipts exist
+
+### 391 | type:defect,triage,state:triage
+T: [DEFECT] V8-next Ruff import ordering failure blocks clean quality gate
+P: v8-next/AGENTS.md v8-next/src v8-next/tests v8-next/tests/test_portfolio_benchmark.py
+B: ## Objective Restore a clean Ruff quality gate for the committed V8-next source and tests. ## Owning authority - v8-next pyproject.toml Ruff configuration - Repository verification commands in v8-next/AGENTS.md and README.md ## Change class
+
+### 390 | type:defect,triage,state:triage
+T: [DEFECT] V8-next test environment lacks locked DuckDB dependency
+P: v8-next/tests/test_store_models_and_duckdb.py v8-next/tests v8-next/pyproject.toml v8-next/uv.lock
+B: ## Objective Make the documented V8-next development environment deterministic for the DuckDB integration test. ## Owning authority - v8-next pyproject.toml and uv.lock - Test suite contract for v8-next/tests/test_store_models_and_duckdb.py ## Change class
+
+### 389 | type:defect,triage,state:triage
+T: [DEFECT] V8-next status ledger fails self-verification at entry 0
+P: v8-next/src/v8_next/app/cli.py v8-next/src/v8_next/evaluation/store.py v8-next/src/v8_next/evaluation/benchmark_receipt.py v8-next/tests/test_cli.py
+B: ## Objective Restore a self-verifying V8-next status ledger, or explicitly quarantine stale/corrupt ledger state so the dashboard never presents it as a valid evidence chain. ## Owning authority - V8-next receipt and evidence-chain contracts - Constitution Rule 5: verifiable physical artifacts - Existing receipt/ledger integrity behavior in v8-next evaluation and storage modules
+
+### 385 | type:implementation,triage
+T: [IMPL] V8-next: real operating net and venue-cost calibration
+P: v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/evaluation/costs.py v8-next/src/v8_next/evaluation/report.py v8-next/src/v8_next/adapters/shadow_ingest.py
+B: <!-- Generated from .github/ISSUE_TEMPLATE/implementation.yml --> ## Objective Add an evidence-backed operating-net layer that separates strategy net, venue friction, funding, and fixed operating costs using real venue observations. ## Owning authority - V8_Profesyonel_Benchmark_Arastirmasi.pdf, accounting and cost sections. - D-116 monetary accounting.
+
+### 384 | type:implementation,triage
+T: [IMPL] V8-next: bind complete candidate lifecycle to economic evaluation
+P: v8-next/src/v8_next/opportunities/book.py v8-next/src/v8_next/evaluation/store.py v8-next/src/v8_next/evaluation/outcomes.py v8-next/src/v8_next/evaluation/family.py
+B: <!-- Generated from .github/ISSUE_TEMPLATE/implementation.yml --> ## Objective Make economic evaluation consume the complete candidate/opportunity/campaign lifecycle, including triggered, rejected, invalidated, expired, unfilled, and filled outcomes with reasons. ## Owning authority - D-153 candidate population and evidence-bound evaluator requirements. - docs/contracts/CANDIDATE_LIFECYCLE_SPEC.md
+
+### 383 | type:implementation,triage
+T: [IMPL] V8-next: wire two-ledger external parity into the economic evaluator
+P: v8-next/src/v8_next/evaluation/parity.py v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/app/economic.py v8-next/src/v8_next/evaluation/benchmark_receipt.py
+B: <!-- Generated from .github/ISSUE_TEMPLATE/implementation.yml --> ## Objective Connect v8-next economic evaluation to two physically produced native/reference ledgers with explicit semantic mapping and fail-closed parity receipts. ## Owning authority - D-116 independent economic parity. - D-153 §2.3 and §2.6.
+
+### 382 | type:research,triage
+T: [RESEARCH] V8-next: validate capacity and market impact from L2 data
+P: v8-next/src/v8_next/evaluation/capacity.py v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/adapters/shadow_ingest.py v8-next/tests/test_capacity.py
+B: <!-- Generated from .github/ISSUE_TEMPLATE/research.yml --> ## Objective Measure executable capacity across capital scales using real tick/L2/ADV and venue fill data, instead of linear OHLCV extrapolation. ## Owning authority - V8_Profesyonel_Benchmark_Arastirmasi.pdf, capacity section. - docs/issues/ISSUE_AUD008_MAKER_FILL_PROBABILITY_AND_ADVERSE_SELECTION.md
+
+### 381 | type:implementation,triage
+T: [IMPL] V8-next: joint P+E portfolio execution and shared capital
+P: v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/adapters/portfolio_backtest.py v8-next/src/v8_next/adapters/portfolio_equity.py v8-next/src/v8_next/economics/allocation.py
+B: <!-- Generated from .github/ISSUE_TEMPLATE/implementation.yml --> ## Objective Replace allocator-only P versus P+E sleeve arithmetic with a single joint portfolio execution and accounting path under one capital and risk budget. ## Owning authority - D-153 portfolio contribution requirements. - D-116 shared capital and cashflow semantics.
+
+### 380 | type:implementation,triage
+T: [IMPL] V8-next: complete funding finality and coverage
+P: v8-next/src/v8_next/adapters/funding_history.py v8-next/src/v8_next/adapters/settlements.py v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/app/economic.py
+B: <!-- Generated from .github/ISSUE_TEMPLATE/implementation.yml --> ## Objective Make funding cost an evidence-backed, position-aware, final accounting component for v8-next benchmark and paper paths. ## Owning authority - D-035 funding settlement semantics. - D-116 monetary parity.
+
+### 379 | type:implementation,triage
+T: [IMPL] V8-next: venue fills, latency, shortfall, and account reconciliation
+P: v8-next/src/v8_next/adapters/shadow_ingest.py v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/src/v8_next/evaluation/parity.py v8-next/src/v8_next/app/economic.py
+B: <!-- Generated from .github/ISSUE_TEMPLATE/implementation.yml --> ## Objective Add a real venue-evidence path that separates decision, submission, acceptance, fill, rejection, and account clocks and reconciles model execution against venue-settled outcomes. ## Owning authority - D-116 independent economic parity. - docs/audits/D136_EPISTEMIC_ECONOMIC_OBSERVABILITY.md
+
+### 378 | type:research,triage
+T: [RESEARCH] V8-next: implement and validate MinTRL estimator
+P: v8-next/src/v8_next/evaluation/mintrl.py v8-next/src/v8_next/evaluation/inference.py v8-next/src/v8_next/evaluation/economic_benchmark.py v8-next/tests/test_mintrl.py
+B: <!-- Generated from .github/ISSUE_TEMPLATE/research.yml --> ## Objective Implement a declared-assumption MinTRL estimator that reports the minimum observation horizon needed to distinguish a target Sharpe at a stated confidence and power. ## Owning authority - D-153 statistical triple and Rule 12. - V8_Profesyonel_Benchmark_Arastirmasi.pdf, MinTRL section.
+
+### 377 | type:implementation,triage
+T: [IMPL] V8-next: protected OOS and complete search-family evidence
+P: v8-next/src/v8_next/evaluation/forward_plan.py v8-next/src/v8_next/evaluation/family.py v8-next/src/v8_next/evaluation/store.py v8-next/src/v8_next/app/forward.py
+B: <!-- Generated from .github/ISSUE_TEMPLATE/implementation.yml --> ## Objective Implement a protected, one-shot chronological OOS workflow and complete local search-family accounting for v8-next. ## Owning authority - D-150 holdout burn and evidence succession principles. - D-153 Benchmark Fabric and D-156 evaluator boundary.
+
+### 375 | type:research,triage,state:triage
+T: [RESEARCH] V8.6 M18: Verify complete V8.6 acceptance and publish bounded release evidence
+P: v8-core/.
+B: # [RESEARCH] V8.6 M18: Verify complete V8.6 acceptance and publish bounded release evidence ## Objective Verify complete V8.6 acceptance and publish bounded release evidence. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#375](https://github.com/ddawnlll/v8/issues/375). - V8.6 full text: doc
+
+### 374 | type:implementation,triage,state:triage
+T: [IMPL] V8.6 M15: Verify standard serialization and digest ownership boundaries
+P: v8-core/src/hash.rs v8-core/.
+B: # [IMPL] V8.6 M15: Verify standard serialization and digest ownership boundaries ## Objective Verify standard serialization and digest ownership boundaries. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#374](https://github.com/ddawnlll/v8/issues/374). - V8.6 full text: docs/contracts/V8_6_P
+
+### 373 | type:implementation,triage,state:triage
+T: [IMPL] V8.6 M11: Move production random streams to versioned rand primitives
+P: v8-core/src/mt19937.rs v8-core/.
+B: # [IMPL] V8.6 M11: Move production random streams to versioned rand primitives ## Objective Move production random streams to versioned rand primitives. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#373](https://github.com/ddawnlll/v8/issues/373). - V8.6 full text: docs/contracts/V8_6_PRODU
+
+### 372 | type:implementation,triage,state:triage
+T: [IMPL] V8.6 M08: Reconcile exactly-once engine cashflow independently
+P: v8-core/src/cashflow.rs v8-core/.
+B: # [IMPL] V8.6 M08: Reconcile exactly-once engine cashflow independently ## Objective Reconcile exactly-once engine cashflow independently. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#372](https://github.com/ddawnlll/v8/issues/372). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RECALIBR
+
+### 371 | type:implementation,triage,state:triage
+T: [IMPL] V8.6 M03: Route baseline through one causal S4 decision path
+P: v8-core/src/main.rs v8-core/.
+B: # [IMPL] V8.6 M03: Route baseline through one causal S4 decision path ## Objective Route baseline through one causal S4 decision path. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#371](https://github.com/ddawnlll/v8/issues/371). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RECALIBRATIO
+
+### 370 | type:implementation,triage,state:triage
+T: [IMPL] V8.6 M02: Enforce issue lifecycle and PR requirement traceability
+P: v8-core/src/bin v8-core/.
+B: # [IMPL] V8.6 M02: Enforce issue lifecycle and PR requirement traceability ## Objective Enforce issue lifecycle and PR requirement traceability. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#370](https://github.com/ddawnlll/v8/issues/370). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RE
+
+### 369 | type:implementation,state:triage
+T: [IMPL] V8.6 M07: Make portfolio admission unavoidable before execution
+P: v8-core/src/portfolio.rs v8-core/.
+B: # [IMPL] V8.6 M07: Make portfolio admission unavoidable before execution ## Objective Make portfolio admission unavoidable before execution. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#369](https://github.com/ddawnlll/v8/issues/369). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RECALI
+
+### 368 | type:implementation,state:triage
+T: [IMPL] V8.6 M06: Bind historical venue facts and fail-closed conformance
+P: v8-core/src/venue.rs v8-core/.
+B: # [IMPL] V8.6 M06: Bind historical venue facts and fail-closed conformance ## Objective Bind historical venue facts and fail-closed conformance. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#368](https://github.com/ddawnlll/v8/issues/368). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RE
+
+### 367 | type:implementation,state:triage
+T: [IMPL] V8.6 M04: Define versioned Rust execution boundary
+P: v8-core/src/execution v8-core/.
+B: # [IMPL] V8.6 M04: Define versioned Rust execution boundary ## Objective Define versioned Rust execution boundary. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#367](https://github.com/ddawnlll/v8/issues/367). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RECALIBRATION_FULL_TEXT.html — §
+
+### 366 | type:implementation,state:triage
+T: [IMPL] V8.6 M05: Transfer execution and account lifecycle to NautilusTrader
+P: v8-core/src/execution v8-core/.
+B: # [IMPL] V8.6 M05: Transfer execution and account lifecycle to NautilusTrader ## Objective Transfer execution and account lifecycle to NautilusTrader. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#366](https://github.com/ddawnlll/v8/issues/366). - V8.6 full text: docs/contracts/V8_6_PRODUCT
+
+### 360 | rust,type:governance,triage,risk:high
+T: [GOV] W17: Branch-merge verdicts (d153 + perf/*)
+P: 
+B: # [GOV] W17: Branch-merge verdicts **Status:** PROPOSED **Issue Type:** `GOVERNANCE` **Change Class:** `CONTRACT_GOVERNANCE` (verdicts only; merges executed by human maintainer only) **Labels:** `type:governance`, `triage`, `risk:high` **Owning Authority:** WORK_ITEM_POLICY §6 (protected main, owner approval), AGENTS.md §7 (no autonomous merge — this issue AUTHORIZES NOTHING automatic; each merge needs its own human-
+
+### 359 | rust,triage,type:performance,risk:low
+T: [IMPL-AUDIT] W16: Branch audit — six perf/* deltas vs d153 base
+P: 
+B: # [AUDIT] W16: perf-branch delta audit (332–336) **Status:** PROPOSED **Issue Type:** `PERFORMANCE` **Change Class:** `PERF_OPTIMIZATION` (audit-only; each branch already links its own #332–#336 issue) **Labels:** `type:performance`, `triage`, `risk:low` **Owning Authority:** D-099, branch-boundary rule
+
+### 358 | rust,type:implementation,type:governance,triage,risk:medium,state:triage
+T: [GOV] V8.6 M00: Preserve and reconcile migration baseline
+P: v8-core/.
+B: # [GOV] V8.6 M00: Preserve and reconcile migration baseline ## Objective Preserve and reconcile migration baseline. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#358](https://github.com/ddawnlll/v8/issues/358). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RECALIBRATION_FULL_TEXT.html — 
+
+### 356 | rust,type:governance,triage,risk:low
+T: [GOV] W13: GPU + measurement-debt schedule
+P: 
+B: # [GOV] W13: GPU verdict + measurement-debt calendar **Status:** PROPOSED **Issue Type:** `GOVERNANCE` **Change Class:** `CONTRACT_GOVERNANCE` (verdict + calendar, no code) **Labels:** `type:governance`, `triage`, `risk:low` **Owning Authority:** ANA LISTE A3 (R03 UNKNOWN), V8.6 §12 (GPU FREEZE) + §21 (measurement plan)
+
+### 355 | rust,type:implementation,type:governance,triage,risk:high,state:triage
+T: [IMPL] V8.6 M17: Retire superseded active implementations after acceptance
+P: v8-core/.
+B: # [IMPL] V8.6 M17: Retire superseded active implementations after acceptance ## Objective Retire superseded active implementations after acceptance. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#355](https://github.com/ddawnlll/v8/issues/355). - V8.6 full text: docs/contracts/V8_6_PRODUCTIO
+
+### 354 | rust,type:implementation,type:governance,triage,risk:high,state:triage
+T: [IMPL] V8.6 M16: Wire one trial-lineage and statistical receipt path
+P: v8-core/src/statistics/mod.rs v8-core/.
+B: # [IMPL] V8.6 M16: Wire one trial-lineage and statistical receipt path ## Objective Wire one trial-lineage and statistical receipt path. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#354](https://github.com/ddawnlll/v8/issues/354). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RECALIBRAT
+
+### 353 | rust,type:governance,triage,risk:high,state:triage
+T: [GOV] V8.6 M01: Anchor full V8.6 scope and resolve migration authority
+P: v8-core/.
+B: # [GOV] V8.6 M01: Anchor full V8.6 scope and resolve migration authority ## Objective Anchor full V8.6 scope and resolve migration authority. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#353](https://github.com/ddawnlll/v8/issues/353). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RECAL
+
+### 352 | rust,type:implementation,triage,risk:medium,state:triage
+T: [IMPL] V8.6 M14: Delegate generic distributions without moving synthetic data into runtime
+P: v8-core/src/world v8-core/.
+B: # [IMPL] V8.6 M14: Delegate generic distributions without moving synthetic data into runtime ## Objective Delegate generic distributions without moving synthetic data into runtime. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#352](https://github.com/ddawnlll/v8/issues/352). - V8.6 full tex
+
+### 351 | rust,type:implementation,triage,risk:low,state:triage
+T: [IMPL] V8.6 M09: Delegate active CLI parsing to clap
+P: v8-core/src/main.rs v8-core/.
+B: # [IMPL] V8.6 M09: Delegate active CLI parsing to clap ## Objective Delegate active CLI parsing to clap. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#351](https://github.com/ddawnlll/v8/issues/351). - V8.6 full text: docs/contracts/V8_6_PRODUCTION_RECALIBRATION_FULL_TEXT.html — §12 CLI; Ap
+
+### 350 | rust,triage,type:performance,risk:medium,state:triage
+T: [PERF] V8.6 M10: Delegate work scheduling to rayon with deterministic merge
+P: v8-core/src/scheduler.rs v8-core/.
+B: # [PERF] V8.6 M10: Delegate work scheduling to rayon with deterministic merge ## Objective Delegate work scheduling to rayon with deterministic merge. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#350](https://github.com/ddawnlll/v8/issues/350). - V8.6 full text: docs/contracts/V8_6_PRODUCT
+
+### 349 | rust,type:implementation,triage,risk:medium,state:triage
+T: [IMPL] V8.6 M12: Replace active custom HTML builders with one template engine
+P: v8-core/src/report.rs v8-core/templates v8-core/.
+B: # [IMPL] V8.6 M12: Replace active custom HTML builders with one template engine ## Objective Replace active custom HTML builders with one template engine. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#349](https://github.com/ddawnlll/v8/issues/349). - V8.6 full text: docs/contracts/V8_6_PRO
+
+### 348 | rust,parity,type:implementation,triage,risk:medium,state:triage
+T: [IMPL] V8.6 M13: Consolidate canonical statistical methods and fix temporal validity
+P: v8-core/src/statistics v8-core/.
+B: # [IMPL] V8.6 M13: Consolidate canonical statistical methods and fix temporal validity ## Objective Consolidate canonical statistical methods and fix temporal validity. This work transfers or verifies the ownership required by the full V8.6 monograph; dependency installation alone is not completion. ## Owning authority - Tracking identity: [#348](https://github.com/ddawnlll/v8/issues/348). - V8.6 full text: docs/cont
+
+### 336 | P1,statistics,rust,triage
+T: [PERF] PERF011: Multi-Core Parallelism in Bootstrap Resampling, Reality Check, and Monte Carlo Projections
+P: v8-core/src/statistics/reality_check.rs v8-core/src/benchmark/projection.rs v8-core/src/world/generator.rs v8-core/Cargo.toml
+B: # [PERF] Issue: Multi-Core Parallelism in Bootstrap Resampling, Reality Check, and Monte Carlo Projections **Status:** PROPOSED   **Issue Type:** `PERFORMANCE`   **Change Class:** `PERF_OPTIMIZATION` / `CONCURRENCY_PARALLELISM`   **Labels:** `type:performance`, `triage`, `risk:low`   **Owning Authority:** V8 Constitution Rule 1, `docs/WORK_ITEM_POLICY.md`, `D-099` (Computation Budget Policy)
+
+### 335 | P1,execution,rust,triage
+T: [PERF] PERF010: Elimination of Per-Bar HistBar.event_id Heap Allocation and Repeated History Cloning in Runloop
+P: v8-core/src/state.rs v8-core/src/usdm_sim.rs v8-core/src/runloop.rs v8-core/src/experts/base.rs
+B: # [PERF] Issue: Elimination of Per-Bar `HistBar.event_id` Heap Allocation and Repeated History Cloning in Runloop **Status:** PROPOSED   **Issue Type:** `PERFORMANCE`   **Change Class:** `PERF_OPTIMIZATION` / `HOT_PATH_ALLOCATION`   **Labels:** `type:performance`, `triage`, `risk:low`   **Owning Authority:** V8 Constitution Rule 1, `docs/WORK_ITEM_POLICY.md`, `D-083` (Representation Rule: borrowed views over owned bu
+
+### 334 | P1,statistics,rust,triage
+T: [PERF] PERF009: Zero-Allocation Scratch Buffering in Block-Bootstrap Reality Check and Detrended Null
+P: v8-core/src/statistics/reality_check.rs v8-core/src/statistics/detrended.rs v8-core/src/statistics/mod.rs v8-core/Cargo.toml
+B: # [PERF] Issue: Zero-Allocation Scratch Buffering in Block-Bootstrap Reality Check and Detrended Null **Status:** PROPOSED   **Issue Type:** `PERFORMANCE`   **Change Class:** `PERF_OPTIMIZATION` / `MEMORY_BOUND_IMPROVEMENT`   **Labels:** `type:performance`, `triage`, `risk:low`   **Owning Authority:** V8 Constitution Rule 1, `docs/WORK_ITEM_POLICY.md`, `D-083`, `D-099` (Computation Budget Policy)
+
+### 333 | P0,rust,triage
+T: [PERF] PERF008: Integration Test Harness Consolidation and Mach-O Linker Contention Elimination
+P: v8-core/tests/ v8-core/tests/integration_tests.rs v8-core/tests/integration/ v8-core/Cargo.toml
+B: # [PERF] Issue: Integration Test Harness Consolidation and Mach-O Linker Contention Elimination **Status:** PROPOSED   **Issue Type:** `PERFORMANCE`   **Change Class:** `PERF_OPTIMIZATION` / `BUILD_CONFIGURATION`   **Labels:** `type:performance`, `triage`, `risk:low`   **Owning Authority:** V8 Constitution Rule 1, `docs/WORK_ITEM_POLICY.md`, `D-099` (Computation Budget Policy)
+
+### 332 | P0,rust,triage
+T: [PERF] PERF007: Cargo Profile Split and Elimination of Whole-Crate Optimization in Dev and Test Profiles
+P: v8-core/Cargo.toml
+B: # [PERF] Issue: Cargo Profile Split and Elimination of Whole-Crate Optimization in Dev and Test Profiles **Status:** PROPOSED   **Issue Type:** `PERFORMANCE`   **Change Class:** `PERF_OPTIMIZATION` / `BUILD_CONFIGURATION`   **Labels:** `type:performance`, `triage`, `risk:low`   **Owning Authority:** V8 Constitution Rule 1, `docs/WORK_ITEM_POLICY.md`, `D-099` (Computation Budget Policy)
+
+### 330 | P1,type:governance,triage,risk:spec-or-decision-register
+T: [GOV][P1] Reconcile D-153 authority registration and EN/TR contract mirrors
+P: v8-core/tests/benchmark_fabric_adversarial.rs v8-core/tests/d153_benchmark_fabric_sabotage.rs
+B: ### Objective Reconcile D-153 decision registration, English/Turkish authority mirrors, implementation-layout references, and verification paths so the repository does not claim completed benchmark authority from contradictory or nonexistent artifacts. ### Owning authority - `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md` - `docs/decisions/DECISION_REGISTER.md` - `docs/tr/DECISION_REGISTER.md`
+
+### 329 | P0,rust,type:defect,triage,risk:economic-authority,risk:simulation-or-economic-authority
+T: [DEFECT][P0] Replace fixed external parity vectors with policy-bound real adapters
+P: v8-core/src/benchmark/external.rs v8-core/src/benchmark/case.rs v8-core/src/benchmark/observation.rs v8-core/src/benchmark/receipt.rs
+B: ### Objective Replace fixed-vector external parity demonstrations with policy-bound, data-backed adapters that consume declared execution artifacts and emit verifiable parity receipts without creating external authority. ### Owning authority - `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md` §§2-4 - D-116 independent economic parity - `docs/contracts/PARITY_AND_IDENTITY_SPEC.md`
+
+### 328 | P0,rust,type:defect,triage,risk:correctness-semantics,risk:forensics-attribution
+T: [DEFECT][P0] Make BenchmarkReceipt and BenchmarkLedger cryptographically self-verifying
+P: v8-core/src/benchmark/receipt.rs v8-core/src/benchmark/ledger.rs v8-core/src/benchmark/types.rs v8-core/src/benchmark/observation.rs
+B: ### Objective Make `BenchmarkReceipt` and `BenchmarkLedger` cryptographically self-verifying so all authority-relevant fields and source artifacts are bound by the receipt identity and recomputed at ledger read time. ### Owning authority - `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md` §§2-3 - `docs/contracts/LEDGER_FORMAT_SPEC.md` §8 - `docs/contracts/PARITY_AND_IDENTITY_SPEC.md` §§3-4
+
+### 327 | P0,rust,type:defect,triage,risk:economic-authority,risk:correctness-semantics
+T: [DEFECT][P0] Enforce canonical G0-G9 gate vector and authority firewall
+P: v8-core/src/claims.rs v8-core/src/benchmark/types.rs v8-core/src/benchmark/runner.rs v8-core/src/benchmark/certificate.rs
+B: ### Objective Enforce the canonical D-152 G0-G9 gate vector and authority firewall so incomplete benchmark evidence cannot be scored as ready, certified, or production-supporting. ### Owning authority - `docs/contracts/D152_SCENARIO_CENTRIC_EVIDENCE_PROFILE_SPEC.md` §5-6 - `docs/contracts/D153_BENCHMARK_FABRIC_SPEC.md` §2 - Constitution Rules 12 and 57
+
+### 326 | P1,rust,type:defect,triage,risk:correctness-semantics,risk:forensics-attribution
+T: [DEFECT][P1] Bind BenchmarkReceipt digest to full evidence and authority surface
+P: 
+B: ## 1. Objective Make `BenchmarkReceipt` and the append-only benchmark ledger cryptographically bind every semantically relevant field, source artifact, statistical method receipt, and authority state. A receipt digest must not remain valid after gate or evidence fields are edited. ## 2. Owning authority - D-153 §45, §111–§112 - Constitution Rules 9, 12, 28–31 - `docs/contracts/PARITY_AND_IDENTITY_SPEC.md`
+
+### 325 | P0,rust,type:defect,triage,risk:economic-authority
+T: [DEFECT][P0] Correct quad portfolio capital denominator and shared-capital semantics
+P: v8-core/src/main.rs
+B: ## 1. Objective Correct the canonical four-asset quad diagnostic so aggregate PnL, return, fees, and risk are expressed against an explicitly declared capital base. The current CLI runs each symbol with an independent `$1,000` wallet and divides the summed PnL by one `$1,000`, which mislabels the aggregate as a single-wallet return. ## 2. Owning authority - Constitution Rule 12 and Rule 30 Friction Reality - D-152 bu
+
+### 324 | P1,rust,stage-s5,type:implementation,triage,risk:correctness-semantics,risk:forensics-attribution
+T: [IMPL][P1] Replace JSONL HashMap cache with a production cache storage adapter
+P: v8-core/src/cache.rs v8-core/src/evidence.rs v8-core/Cargo.toml
+B: ## 1. Objective Replace the production-facing JSONL plus in-memory HashMap CacheStore with a crash-safe, concurrency-safe storage adapter while preserving V8 cache identity and byte-identical hit/miss artifacts. ## 2. Owning authority - S5 cache contract in COMPUTE_CORE_SPEC §8 - D-080 ledger tiering and columnar format - D-120 multi-digest architecture
+
+### 322 | P1,statistics,rust,type:defect,triage,risk:economic-authority,risk:multiplicity-authority
+T: [DEFECT][P1] Correct statistical kernels and block proxy DSR/PBO/SPA outputs
+P: v8-core/src/statistics v8-core/src/evaluation/statistics.rs v8-core/src/evaluation/multiple_testing.rs v8-core/src/evaluation/regime_cube.rs
+B: ## 1. Objective Correct the evaluation statistical kernels so sampling, bootstrap, permutation, DSR, PBO, and SPA-related outputs are either genuinely computed from declared data or explicitly labeled as uncertified proxies. ## 2. Owning authority - D-044 and D-052 Reality Check/bootstrap contracts - D-118 deterministic f64 contract - Constitution Rule 12
+
+### 323 | P0,statistics,rust,type:defect,triage,risk:economic-authority,risk:correctness-semantics
+T: [DEFECT][P0] Make BenchmarkRunner data-backed and remove hardcoded statistical claims
+P: v8-core/src/benchmark/runner.rs v8-core/src/benchmark/observation.rs v8-core/src/benchmark/minerva.rs v8-core/src/benchmark/certificate.rs
+B: ## 1. Objective Make the V8.5 BenchmarkRunner consume real declared data, evaluation artifacts, and statistical receipts instead of emitting hardcoded observations, synthetic passport results, fixed dates, and unconditional gate passes. ## 2. Owning authority - D-153 Benchmark Fabric - Constitution Rule 12 NO_ECONOMIC_CLAIM - docs/issues/ISSUE_V85_RATIFICATION_CANDIDATE.md R3 and R7
+
+### 321 | P0,v8.2,rust,type:defect,triage,risk:correctness-semantics,risk:forensics-attribution
+T: [DEFECT][P0] Emit real Parquet artifacts instead of JSON with a .parquet suffix
+P: v8-core/Cargo.toml v8-core/src/usdm_sim/scenario_ruin.rs v8-core/src/evaluation/regime_cube.rs v8-core/src/usdm_sim/maker_model.rs
+B: ## 1. Objective Replace JSON payloads written under .parquet filenames with valid, schema-bearing Parquet artifacts while preserving f64 bit values, null/absence semantics, ordering, provenance, and artifact identity. ## 2. Owning authority - D-080 Ledger tiering and columnar format - D-120 multi-digest cryptographic architecture - LEDGER_FORMAT_SPEC §§3-5 and §8
+
+### 320 | P0,rust,type:defect,triage,risk:economic-authority,risk:simulation-or-economic-authority
+T: [DEFECT][P0] Remove synthetic fallbacks from Monte Carlo, ruin and Slippage-at-Risk
+P: v8-core/src/usdm_sim/scenario_ruin.rs v8-core/src/benchmark/projection.rs v8-core/src/evaluation/falsification.rs v8-core/src/evaluation/regime_cube.rs
+B: ## 1. Objective Remove synthetic fallback inputs and hardcoded risk metrics from scenario ruin, capital projection, Monte Carlo futures, and Slippage-at-Risk production/evaluation paths. ## 2. Owning authority - Constitution Rule 12 - root anti-synthetic and anti-hardcoded-metrics directive - D-141 synthetic isolation
+
+### 319 | P1,v8.2,rust,type:implementation,triage,risk:correctness-semantics,risk:forensics-attribution
+T: [IMPL][P1] Harden append-only ledgers, checkpoints and V82 artifact writer
+P: v8-core/src/candidate.rs v8-core/src/cashflow.rs v8-core/src/checkpoint.rs v8-core/src/evidence.rs
+B: ## 1. Objective Harden persistence and binary artifact boundaries so append-only semantics, checkpoint durability, schema validation, and V82 artifact integrity hold in release builds and under interruption. ## 2. Owning authority - D-080 ledger format - D-121 memmap/binary persistence - D-122 checkpoint/resume
+
+### 318 | P0,v8.2,rust,type:governance,triage,risk:spec-or-decision-register
+T: [GOV][D-118] Ratify deterministic f64 computation as a locked invariant
+P: 
+B: ## 1. Objective Promote the existing deterministic IEEE-754 f64 computation contract from its current D-118 PROVISIONAL_DECISION status to an explicit locked invariant, or record the precise governance reason why it must remain provisional. ## 2. Owning authority - site/index.html quantized-computation decision - docs/decisions/DECISION_REGISTER.md D-118 - docs/contracts/PARITY_AND_IDENTITY_SPEC.md §§3-4
+
+### 258 | P0,rust,type:defect,triage,risk:economic-authority,risk:forensics-attribution
+T: [DEFECT] Canonicalize current audit artifacts and block stale-run summaries
+P: v8-core/src/evidence.rs v8-core/src/evaluation/manifest.rs v8-core/src/evaluation/lineage.rs v8-core/src/report.rs
+B: # [DEFECT] Canonicalize current audit artifacts and block stale-run summaries ## Objective Eliminate ambiguity between historical V8.3 dossiers, tracked audit outputs, and untracked `.audit/rust_audit_current` runs so every summary has one verifiable manifest and contradictory runs fail closed. ## Owning authority
+
+### 257 | P0,epic,type:governance,triage,risk:economic-authority,risk:spec-or-decision-register
+T: [GOV] V8.3 G5 prospective OOS, shadow, and succession authority
+P: 
+B: # [GOV] V8.3 G5 prospective OOS, shadow, and succession authority ## Objective Pin the exact authority contract that separates the V8.2 production incumbent from the V8.3 challenger, defines a genuinely prospective out-of-sample (OOS) shadow run, and specifies the only conditions under which production authority may transfer.
+
+### 256 | P0,rust,type:implementation,triage,risk:simulation-or-economic-authority
+T: [IMPL] Build the hash-bound prospective shadow runner
+P: v8-core/src/evaluation/manifest.rs v8-core/src/evaluation/paths.rs v8-core/src/experiment.rs v8-core/src/evidence.rs
+B: # [IMPL] Build the hash-bound prospective shadow runner ## Objective Implement the smallest Rust-only runner that records V8.3 beside the approved incumbent on genuinely prospective data, with immutable manifests, no allocation consequence, and fail-closed receipts. ## Owning authority
+
+### 255 | P0,type:research,triage,risk:hypothesis-governance,risk:validation-integrity
+T: [RESEARCH] Execute the one-shot V8.3 frozen OOS succession experiment
+P: v8-core/Cargo.toml v8-core/src/evaluation/statistics.rs v8-core/src/statistics/
+B: # [RESEARCH] Execute the one-shot V8.3 frozen OOS succession experiment ## Objective Preregister and execute one untouched, chronological, costed OOS comparison of V8.3 against the approved incumbent, then issue a verdict without reopening or tuning the holdout. ## Owning authority

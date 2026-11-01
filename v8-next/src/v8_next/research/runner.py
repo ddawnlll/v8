@@ -286,3 +286,164 @@ def run_screen_arm(
     _write_jsonl(out / "arm_rows.jsonl", rows)
     _write_json(out / "arm_metrics.json", {**payload, "arm_id": arm.arm_id})
     return payload
+
+
+# --------------------------------------------------------------------------- #
+# D4 continuation: persistent retest/reclaim lifecycle
+# --------------------------------------------------------------------------- #
+D4_POLICY_ID = "D4_RETEST_RECLAIM_LIFECYCLE"
+
+
+def _detected_opportunities(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        row
+        for row in rows
+        if row.get("event_type") in (None, "OPPORTUNITY_DETECTED")
+        and row.get("entry_price") is not None
+    ]
+
+
+def run_d4_screen(
+    *,
+    baseline_run: Path | str,
+    tape: Path | str,
+    output_dir: Path | str,
+) -> dict[str, Any]:
+    """Replay the D4 state machine over the shared detection tape (no orders).
+
+    The screen is the causal *state* reference only: it advances the exact
+    policy the native strategy consumes, but it owns no execution, no fees and
+    no PnL, so its counts are NOT native trading results.
+    """
+    from v8_next.research.lifecycle import (
+        INVALIDATION_R,
+        POLICY_ID,
+        RECLAIM_R,
+        TTL_BARS,
+        RetestReclaimLifecycle,
+    )
+
+    run = screen.load_run(baseline_run)
+    bars = screen.load_bars(tape)
+    opportunities = _detected_opportunities(run["opportunities"])
+    # A detection stamped at the observation time H belongs to the bar that
+    # closed at H. The tape writes bar ends one tick early, so map to the last
+    # bar whose end is <= the detection time instead of relying on equality.
+    from bisect import bisect_right
+
+    ends = [int(bar.end_ns) for bar in bars]
+    by_bar: dict[int, list[dict[str, Any]]] = {}
+    unplaced = 0
+    for opportunity in opportunities:
+        idx = bisect_right(ends, int(opportunity["event_time_ns"])) - 1
+        if idx < 0:
+            unplaced += 1
+            continue
+        by_bar.setdefault(idx, []).append(opportunity)
+
+    policy = RetestReclaimLifecycle()
+    for idx, bar in enumerate(bars):
+        bar_ns = int(bar.end_ns)
+        policy.advance(
+            bar_ns=bar_ns,
+            available_ns=bar_ns,
+            high=bar.high,
+            low=bar.low,
+            close=bar.close,
+        )
+        for opportunity in by_bar.get(idx, []):
+            direction = str(opportunity.get("direction"))
+            policy.detect(
+                opportunity_id=str(opportunity["opportunity_id"]),
+                direction=direction,
+                reference_price=float(opportunity["entry_price"]),
+                stop_price=float(opportunity["stop_price"]),
+                target_price=float(opportunity["target_price"]),
+                detected_ns=bar_ns,
+                available_ns=bar_ns,
+                bar_ns=bar_ns,
+                expert_supported=True,
+            )
+
+    counts = policy.state_counts()
+    payload = {
+        "arm_id": "D4_SCREEN",
+        "policy": POLICY_ID,
+        "evidence_class": "MODEL_DERIVED",
+        "bars": len(bars),
+        "opportunities": len(opportunities),
+        "unplaced_opportunities": unplaced,
+        "parameters": {
+            "ttl_bars": TTL_BARS,
+            "reclaim_r": RECLAIM_R,
+            "invalidation_r": INVALIDATION_R,
+        },
+        "state_counts": counts,
+        "screened_opportunities": counts["ARMED"]
+        + counts["INVALIDATED"]
+        + counts["EXPIRED"],
+        "note": (
+            "State counts only. No orders, fills, fees or PnL are claimed here; the "
+            "native replay is the economic evidence."
+        ),
+    }
+    out = Path(output_dir)
+    _write_jsonl(out / "opportunity_transitions.jsonl", policy.transitions)
+    _write_jsonl(out / "lifecycle_states.jsonl", policy.snapshot())
+    _write_json(out / "state_counts.json", payload)
+    return payload
+
+
+def run_d4_native(
+    *,
+    tape: Path | str,
+    output_dir: Path | str,
+    initial_balance: Decimal = Decimal("10000"),
+    maker_fee: Decimal = Decimal("0.0002"),
+    taker_fee: Decimal = Decimal("0.0005"),
+    skip_equivalence: bool = True,
+    run_id: str | None = None,
+) -> dict[str, Any]:
+    """Execute the D4 native arm through the existing audit pipeline."""
+    from v8_next.audit.pipeline import run_native_audit
+
+    out = Path(output_dir)
+    native_dir = out / "native"
+    result = run_native_audit(
+        tape=Path(tape),
+        output_dir=native_dir,
+        instrument="BTCUSDT",
+        expert="volume_confirmed_breakout",
+        initial_balance=initial_balance,
+        maker_fee=maker_fee,
+        taker_fee=taker_fee,
+        skip_equivalence=skip_equivalence,
+        config_overrides={"research_opportunity_lifecycle": D4_POLICY_ID},
+        run_id=run_id,
+    )
+    lifecycle = result.get("research_lifecycle") or {}
+    transitions = lifecycle.get("transitions") or []
+    admissions = lifecycle.get("admissions") or []
+    snapshot = lifecycle.get("lifecycles") or []
+    counts = lifecycle.get("state_counts") or {}
+    _write_jsonl(out / "opportunity_transitions.jsonl", transitions)
+    _write_jsonl(out / "admission_decisions.jsonl", admissions)
+    _write_jsonl(out / "lifecycle_states.jsonl", snapshot)
+    _write_json(
+        out / "state_counts.json",
+        {
+            "policy": D4_POLICY_ID,
+            "evidence_class": "OBSERVED_NATIVE",
+            "state_counts": counts,
+            "transitions": len(transitions),
+            "admissions": len(admissions),
+        },
+    )
+    return {
+        "run_dir": str(out),
+        "native_run_dir": str(native_dir),
+        "summary": result["summary"],
+        "gates": {g["gate_id"]: g["status"] for g in result["gates"]},
+        "validation": result["validation"]["status"],
+        "state_counts": counts,
+    }

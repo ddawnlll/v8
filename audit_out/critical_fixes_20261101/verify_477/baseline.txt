@@ -1,0 +1,16 @@
+
+=================================== ERRORS ====================================
+___________________ ERROR collecting tests/test_capacity.py ___________________
+ImportError while importing test module 'C:\Users\dresden\Documents\v8-wt-verify\v8-next\tests\test_capacity.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\..\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_capacity.py:5: in <module>
+    from v8_next.evaluation.capacity import (
+E   ImportError: cannot import name 'CAPACITY_STATUSES' from 'v8_next.evaluation.capacity' (C:\Users\dresden\Documents\v8\..\v8-wt-verify\v8-next\src\v8_next\evaluation\capacity.py)
+=========================== short test summary info ===========================
+ERROR tests/test_capacity.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.64s

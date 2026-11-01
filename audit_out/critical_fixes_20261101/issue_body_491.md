@@ -1,0 +1,167 @@
+## Objective
+
+Book each closed campaign's exit leg into the published equity path. Today both engine→series builders delete a position from the mark book *before* its exit price is ever marked, so the segment from the last bar close to the actual exit price never enters `equity_mtm`. The resulting terminal gap is then smeared uniformly over every bar by the #436 graft, and `max_drawdown`, `sharpe`, `tail_mean`, `excess_vs_primary` and the readiness monthly-return cell are all measured on that reshaped path.
+
+## Owning authority
+
+- `v8-next/src/v8_next/evaluation/economic_benchmark.py:3149-3155` — the strategy builder's own declared meaning of the graft: "distribute the residual (**commissions + rounding**) uniformly so the terminal equity reconciles exactly and costs are counted once". Fees are a cost the mark path deliberately omits; a missing exit mark is not, so the declared reading of the residual is false.
+- `#436` (closed) — the graft is *declared*, not *authorized as a substitute* for a correct mark path; the card exists so the adjustment is never silent, which presupposes the path it adjusts is right.
+- `economic_benchmark.py:3602-3609` — the portfolio builder repeats the same graft with the same assumption ("the per-bar adjustment that absorbs the difference").
+- D-165 — a published curve may only carry a number its own run measured; the exit price *is* measured (`closed_positions[].avg_px_close`) and is simply not used.
+
+## Change class
+
+DEFECT_FIX
+
+## Current state / observed defect
+
+Measured 2026-10-30 on `main` `5fa64e62746d34ac3980da6c196bbe1f403cc925`, read-only (repo files untouched; probe in `~/.hermes/cache/scratch/eqexit/`).
+
+**1. Code — the close leg is never marked.**
+
+- `portfolio_series_from_engine` (`economic_benchmark.py:3402-3404`): on a close event it runs `live.pop(inst, None); prev_mtm.pop(inst, None)`, and the per-bar MTM loop (`:3412-3429`) then iterates only what is still in `live`. No `qd * (exit_px - prev_close)` is ever added to `step_pnl`.
+- `strategy_series_from_engine` (`:3134`, `:3146`): the close branch sets `qty = 0.0`, so `mtm = qty * (closes[i] - avg)` is `0.0` on the exit bar — the same drop by a different route.
+- Both then compute `drift = (balance_total - equity[-1]) / (n - 1)` (`:3159`, `:3606`) and republish `adj[i] = adj[i-1] + (equity[i]-equity[i-1]) + drift` as `equity`, which is what every consumer reads.
+
+**2. Direct probe (3 bars, 1 leg, `capital=1000`, entry 100 @ bar 1, close 110 @ bar 2, closes 100/105/120, `taker_fee=0`):**
+
+```
+equity_mtm: [1000.0, 1005.0, 1005.0]
+published equity: [1000.0, 1007.5, 1010.0]
+drift/bar: 2.5
+terminal gap: 5.0
+```
+
+Truth is 1005 at bar 1 and 1010 at bar 2. The +5 exit leg is missing from the mark path and is re-injected as +2.5 on **every** bar, including the bar before the position existed.
+
+**3. Real run — `docs/evidence/v87/NX02/loop_reconciliation_436.json` (500 bars, both `before` and `after` receipts agree):**
+
+- `graft.raw_equity_terminal = 10013.9129` vs `engine_closed_loop.balance_total = 10008.4736` → `graft.equity_mtm_gap_usdt = 5.4393`
+- `graft.declared_adjustment_per_bar_usdt = -0.0109`; `bound_receipt.net_return = 0.000847` (8.47 USDT)
+- the gap is **64 % of the published net return**
+- it is **not** fees + funding either: `commission_cost = 7.6833`, `funding_cost = 1.6741`, so a correct mark path would sit **9.36 USDT above** balance; the observed 5.44 implies **≈ −3.92 USDT of dropped close-leg P&L ≈ 46 % of the net return**.
+
+So the run's own published numbers disprove the declared reading of its own graft: the residual is not "commissions + rounding", it is commissions + funding + a sign-varying exit-mark error.
+
+**4. Consumption.** `app/portfolio.py:605-620` calls `metrics_for_curve(list(c["equity"]), …)` on the grafted series and publishes `max_drawdown`, `sharpe_per_bar`/`sharpe_ci_low|high`, `tail_mean_5pct`, `excess_vs_primary`; the same series feeds the P vs P+E allocator verdict and readiness's monthly-return cell. The error therefore reaches the two numbers a capital decision is read from, not just a diagnostic.
+
+## Impact / which decision this unblocks
+
+Exit legs are stop / target / gap-through fills — the worst-price segments of a campaign — and they are exactly the ones deleted. Uniform smearing then flattens drawdown peaks and shifts every per-bar return by a constant, so a 0.54 % terminal distortion becomes a per-bar bias of the same order as the signal on a 500-bar window; a 4-year run (~10³ campaigns) scales it. After this card the mark path is a measurement of the trades that were actually taken, the graft residual has one verifiable meaning (fees + funding), and drawdown/Sharpe-based comparisons of P vs P+E stop being functions of an accounting artifact. This is what makes the allocator verdict and G5/G4 drawdown inputs readable at all.
+
+## Required end state (narrow)
+
+1. On a close event the exit segment is booked at the engine's `avg_px_close` (fallback: the documented bar-close fill proxy, already counted in `bar_close_proxy_exits`) **before** the position leaves the mark book, in both `portfolio_series_from_engine` and `strategy_series_from_engine`. No other line of either builder changes semantics.
+2. After the change, `equity_mtm` terminal equals the engine's P&L gross of the costs the path already excludes (commissions, funding), so the graft residual is fees + funding by construction and is published with that identity asserted.
+3. Re-published statistics (`max_drawdown`, `sharpe_per_bar`, `sharpe_ci_*`, `tail_mean_5pct`) come from the corrected path, with the delta to the pre-fix receipt stated in the artifact.
+4. Nothing about the analytic family builders, the gate vector, the score arithmetic or readiness thresholds changes; no stored ledger byte is edited or re-hashed (D-164).
+
+## Expected file / module surface
+
+- `v8-next/src/v8_next/evaluation/economic_benchmark.py` — `portfolio_series_from_engine` (~3402-3429), `strategy_series_from_engine` (~3134-3150); the drift grafts at `:3159` / `:3606`
+- `v8-next/tests/` — new invariant tests (synthetic 3-bar campaign; real-tape gap identity)
+- `artifacts/portfolio-benchmark/*` receipts re-emitted by the existing CLI; no new producer
+
+Scope statement: this is a **v8-next** change. No `v8-core/**`, `legacy/**` or `src/v8/**` (frozen oracle) path is touched.
+
+## Verification gates
+
+1. **Synthetic exact (no tolerance):** one campaign, entry 100 @ bar 1, close 110 @ bar 2, closes 100/105/120, `taker_fee=0`, `capital=1000` ⇒ `equity_mtm == [1000.0, 1005.0, 1010.0]` and `reconciliation_adjustment_per_bar == 0.0`. Today: `[1000, 1005, 1005]` and `2.5`.
+2. **Real-tape identity gate:** on the 500-bar window behind `docs/evidence/v87/NX02/`, `equity_mtm_gap_usdt` must equal `commission_cost + funding_cost` within ±0.05 USDT (today 5.44 vs 9.36), and that identity must be asserted in the receipt so a later drift cannot silently re-absorb P&L.
+3. **Closed-loop non-regression:** `loop_ok` stays `true` (engine↔series residual within its declared bound) and `cost_basis` does not downgrade on an otherwise clean window; the funding reconciliation block (`boundaries_held 34`, residual 9.5e-09) is unchanged.
+4. **Determinism:** two runs of the same window produce byte-identical `equity`/`equity_mtm` and the same `fill_signature` as before the change (trade selection must not move).
+5. **E2E producer → final surface:** `uv run --project v8-next --extra research python -m v8_next.app.cli portfolio --tape-path research/tape/quad-1h-12m --start-utc … --end-utc … --profile benchmark` → receipt `metrics.portfolio_P.max_drawdown` / `sharpe_per_bar` recomputed from the corrected path, with the pre-fix values published beside them.
+6. `uv run --project v8-next --extra dev pytest -q v8-next/tests` green; `ruff` and `mypy` clean on touched files; no test weakened.
+
+## Required evidence artifacts
+
+- Probe log of the 3-bar synthetic campaign before/after (the exact list of `equity_mtm` values and the drift).
+- Receipt from the 500-bar window with `equity_mtm_gap_usdt`, `commission_cost`, `funding_cost` and the asserted identity.
+- Pre/post `max_drawdown`, `sharpe_per_bar`, `tail_mean_5pct` for `portfolio_P` and `portfolio_PE` on the same run, plus pytest output.
+
+## Wiring scope/status
+
+WIRED_REQUIRED
+
+## W1-W7 Wiring manifest
+
+- W1 Producer: `v8_next.adapters.portfolio_backtest.run_portfolio_backtest` → `opened_positions` / `closed_positions` (carry `avg_px_close`).
+- W2 Transport: engine result dict → `v8_next.evaluation.economic_benchmark.portfolio_series_from_engine` / `strategy_series_from_engine` (`equity_mtm`, `equity`, `reconciliation_adjustment_per_bar`).
+- W3 Consumer: `economic_benchmark.metrics_for_curve` (via `app/portfolio.py:605-620`), OOS slice metrics, readiness monthly-return cell, P vs P+E verdict.
+- W4 Final surface: `economic_receipt_*.json → metrics.<curve>.max_drawdown|sharpe_per_bar|tail_mean_5pct|excess_vs_primary`; `forensic_report_*.html`; readiness printed `monthly return (measured)`.
+- W5 Identity/lineage + join key: `case_id + policy_id + run_key.digest + tape sha256`; per-trade join `instrument_id + position_id + event_ns` (NETTING reuses position ids, so pairing stays chronological as `pair_positions` already does).
+- W6 Missing/stale/mismatch semantics: a close with no engine `avg_px_close` keeps the existing bar-close proxy and its `bar_close_proxy_exits` count; an unmeasurable exit keeps publishing the named proxy count, never a silent zero; a residual that is not explainable by fees + funding fails closed (named state) rather than being smeared.
+- W7 E2E command + artifact: the gate-5 portfolio run above over `research/tape/quad-1h-12m`; observed today `equity_mtm_gap_usdt = 5.4393` against `commission + funding = 9.3574`.
+
+## Non-goals / forbidden scope
+
+- No change to the analytic family builders, gate thresholds, coverage factor, score arithmetic, readiness formula or execution profile.
+- No re-run or re-hash of `benchmark_ledger.jsonl` seq 20–23; no canonical artifact overwritten.
+- No frozen-OOS access, no full-tape battery, no economic claim, no capital authorization, no strategy/parameter change.
+
+## 11. Normative Traceability
+
+- R1 (exit leg booked at the engine close price in both builders) — Authority: `economic_benchmark.py:3149-3155` declared meaning of the graft; #436; D-165.
+- R2 (residual = fees + funding, asserted) — Authority: same graft declaration; `.hermes.md` §1 (a published statistic must be a function of measured evidence).
+- R3 (re-published path statistics with pre/post delta) — Authority: `app/portfolio.py:605-620`; D-153 Rule 57 (no number apart from its evidence class).
+- R4 (no stored byte edited) — Authority: D-164.
+
+## 12. Existing Types / Interfaces to Reuse
+
+`pair_positions`, `parse_money`, `bar_close_proxy_exits`, `equity_mtm` / `reconciliation_adjustment_per_bar` / `EQUITY_CONSTRUCTION`, `MetricSet` + `metrics_for_curve`, `closed_loop_identity_selection`. No new series, no parallel equity object, no second graft: the existing fields keep their names and meanings.
+
+## 13. Mathematical / Semantic Invariants
+
+- Per-bar increment with a position held on leg *i*: `Δequity_i = q_i · (mark_i − mark_{i−1})`, where `mark_i = close_i` normally and `mark_i = avg_px_close` on the exit bar; a flat bar contributes 0.
+- Terminal identity: `equity_mtm[-1] = balance_total + commissions_excluded + funding_excluded` (± float epsilon), so `drift = (balance_total − equity_mtm[-1]) / (n−1)` is a pure cost term and `Σ drift = −(commissions + funding)`.
+- `equity` remains `equity_mtm` re-based by the declared uniform adjustment; `Σ_i (equity[i] − equity[i−1]) = balance_total − capital` still holds exactly.
+- No value is imputed: an unmeasurable exit stays named (`bar_close_proxy_exits`), never 0-filled and never dropped.
+
+## 14. Canonical Failure Semantics
+
+`bar_close_proxy_exits` (existing, unchanged) · `LEG_WEIGHTS_DO_NOT_SUM_TO_EXPOSURE` (existing, unchanged) · `cost_basis` states `VERIFIED_ENGINE_FUNDING` / `MISMATCH` / `UNKNOWN` (existing, unchanged). New: a residual not explainable by fees + funding publishes a named non-reconciling state instead of a graft that presents it as cost.
+
+## 15. Dependency Map
+
+`run_portfolio_backtest → opened_positions/closed_positions → portfolio_series_from_engine (pair_positions → events{open,close} → per-bar mark → equity_mtm → drift graft → equity) → metrics_for_curve → economic_receipt.metrics → forensic_report / readiness monthly return / P-vs-P+E verdict`.
+
+## 16. Ambiguity / OPEN_PIN Triggers
+
+- If an owning contract states that `equity` must equal `balance_total` **and** that the mark path may omit exit legs, that contract overrides this card — stop and cite it.
+- The draft amortisation (uniform `drift`) is pre-existing and out of scope: this card does not change *how* the residual is spread, only that the residual no longer contains a dropped trade. Changing the spread convention is a separate decision.
+- If any test asserts today's smeared values as expected output, do not weaken it silently: report which test encodes the artifact and escalate.
+
+## References / sources / attachments
+
+Probe: `~/.hermes/cache/scratch/eqexit/probe_close_leg.py`, `~/.hermes/cache/scratch/eqexit/probe_output.txt`. Real-run evidence: `docs/evidence/v87/NX02/loop_reconciliation_436.json` (`before`/`after`), `docs/evidence/v87/NX02/bound_receipt_after.json`.
+
+## Owner
+
+dawn_ll
+
+## Lifecycle
+
+state:in-progress — R1, R3, R4 delivered on PR #503 (open, unmerged); R2 fails its equality and is published as a named non-reconciling state
+
+## Base SHA
+
+5fa64e62746d34ac3980da6c196bbe1f403cc925
+
+## Completed R IDs
+
+NONE
+
+## Remaining R IDs
+
+R1, R2, R3, R4
+
+## Dependencies
+
+NONE. Adjacent but distinct: #485 (readiness picks the max cost-lane cell), #489 (portfolio verdict minted by a capital split), #488/#483 (fee-drag ratio / bracketless cost lane). All three read the series this card repairs, but none of them removes the dropped close leg or fixes the residual's meaning.
+
+## Evidence
+
+PARTIAL — the 3-bar probe was independently reproduced (`probe_491.py`, `491_rederivation.md`, verdict CONFIRMED), R1/R3/R4 are evidenced in `491_evidence.md` with a real pre/post delta, and R2 is measured and NOT satisfied (`491_identity_states.txt`: 5.8050 / 22.5040 USDT unexplained, `cost_basis=MISMATCH`). The old note follows — 3-bar probe output above is reproducible from `main` `5fa64e62` without writing any repo file (`uv run --project v8-next python ~/.hermes/cache/scratch/eqexit/probe_close_leg.py`); the 500-bar numbers are read from the committed NX02 evidence file; the post-fix receipt and pytest log are to be attached by the implementer.
+
+<!-- agent: scout (job e0a9e2697d65) -->
+

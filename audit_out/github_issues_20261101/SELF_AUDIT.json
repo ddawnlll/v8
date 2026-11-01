@@ -1,0 +1,59 @@
+{
+  "generated_by": "audit_out/github_issues_20261101/self_audit.js",
+  "checks": [
+    {
+      "name": "required headings present",
+      "status": "PASS",
+      "detail": "9 heading checks, all present"
+    },
+    {
+      "name": "gate statuses strictly in {PASS,FAIL,BLOCKED,NOT_APPLICABLE}",
+      "status": "PASS",
+      "detail": "8 gate rows; non-conforming: none"
+    },
+    {
+      "name": "no PASS_WITH_LIMITATION anywhere",
+      "status": "PASS",
+      "detail": "0 occurrences"
+    },
+    {
+      "name": "classification reconciles to 70",
+      "status": "PASS",
+      "detail": "45 core + 25 next + 0 ambiguous = 70; rows=70"
+    },
+    {
+      "name": "zero orphan/unmatched: no v8-core issue still open",
+      "status": "PASS",
+      "detail": "none"
+    },
+    {
+      "name": "zero orphan/unmatched: all 25 v8-next issues still open",
+      "status": "PASS",
+      "detail": "none"
+    },
+    {
+      "name": "every close exit_code == 0",
+      "status": "PASS",
+      "detail": "45 closes, failures: 0"
+    },
+    {
+      "name": "every non-report artifact has a recorded sha256",
+      "status": "PASS",
+      "detail": "11 files covered"
+    },
+    {
+      "name": "git diff --name-only excludes v8-core/, src/v8/, tests/",
+      "status": "PASS",
+      "detail": "touched: v8-next/src/v8_next/adapters/expert_strategy.py, v8-next/src/v8_next/app/cli.py, v8-next/src/v8_next/audit/pipeline.py, v8-next/src/v8_next/research/arms.py, v8-next/src/v8_next/research/runner.py"
+    },
+    {
+      "name": "focused test + lint exit codes recorded in report",
+      "status": "PASS",
+      "detail": "ruff 0 (All checks passed), pytest 0 (38 passed, 1 skipped)"
+    }
+  ],
+  "total": 10,
+  "passed": 10,
+  "failed": 0,
+  "verdict": "PASS"
+}

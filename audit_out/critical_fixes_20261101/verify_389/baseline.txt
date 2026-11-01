@@ -1,0 +1,94 @@
+....FFF                                                                  [100%]
+================================== FAILURES ===================================
+_ test_cli_quarantines_a_broken_chain_without_rendering_a_certificate[tampered_first-BC-389-TAMPERED] _
+
+tmp_path = WindowsPath('C:/Users/dresden/AppData/Local/Temp/pytest-of-dresden/pytest-173/test_cli_quarantines_a_broken_0')
+capsys = <_pytest.capture.CaptureFixture object at 0x000001C9A4E175C0>
+field = 'tampered_first', value = 'BC-389-TAMPERED'
+
+    @pytest.mark.parametrize(
+        ("field", "value"),
+        [
+            ("tampered_first", "BC-389-TAMPERED"),
+            ("broken_predecessor", "f" * 64),
+        ],
+    )
+    def test_cli_quarantines_a_broken_chain_without_rendering_a_certificate(
+        tmp_path: Path,
+        capsys: pytest.CaptureFixture[str],
+        field: str,
+        value: str,
+    ) -> None:
+        path = _write_ledger(tmp_path)
+        rows = _rows(path)
+        if field == "tampered_first":
+            rows[0]["receipt"]["case_id"] = value
+        else:
+            rows[1]["parent_entry_hash"] = value
+        _write_rows(path, rows)
+    
+        rc = cli_main(["status", "--output-dir", str(path.parent)])
+        out = capsys.readouterr().out
+    
+>       assert rc == EXIT_LEDGER_QUARANTINED
+E       assert 0 == 3
+
+tests\test_cli_status_ledger_quarantine_389.py:130: AssertionError
+_ test_cli_quarantines_a_broken_chain_without_rendering_a_certificate[broken_predecessor-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff] _
+
+tmp_path = WindowsPath('C:/Users/dresden/AppData/Local/Temp/pytest-of-dresden/pytest-173/test_cli_quarantines_a_broken_1')
+capsys = <_pytest.capture.CaptureFixture object at 0x000001C9A4E4DD30>
+field = 'broken_predecessor'
+value = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+
+    @pytest.mark.parametrize(
+        ("field", "value"),
+        [
+            ("tampered_first", "BC-389-TAMPERED"),
+            ("broken_predecessor", "f" * 64),
+        ],
+    )
+    def test_cli_quarantines_a_broken_chain_without_rendering_a_certificate(
+        tmp_path: Path,
+        capsys: pytest.CaptureFixture[str],
+        field: str,
+        value: str,
+    ) -> None:
+        path = _write_ledger(tmp_path)
+        rows = _rows(path)
+        if field == "tampered_first":
+            rows[0]["receipt"]["case_id"] = value
+        else:
+            rows[1]["parent_entry_hash"] = value
+        _write_rows(path, rows)
+    
+        rc = cli_main(["status", "--output-dir", str(path.parent)])
+        out = capsys.readouterr().out
+    
+>       assert rc == EXIT_LEDGER_QUARANTINED
+E       assert 0 == 3
+
+tests\test_cli_status_ledger_quarantine_389.py:130: AssertionError
+____________________ test_cli_quarantines_an_empty_ledger _____________________
+
+tmp_path = WindowsPath('C:/Users/dresden/AppData/Local/Temp/pytest-of-dresden/pytest-173/test_cli_quarantines_an_empty_0')
+capsys = <_pytest.capture.CaptureFixture object at 0x000001C9A4E4E450>
+
+    def test_cli_quarantines_an_empty_ledger(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+        """An empty ledger is not a verified chain: genesis has nothing to replay."""
+        path = tmp_path / "benchmarks" / "benchmark_ledger.jsonl"
+        path.parent.mkdir(parents=True)
+        path.write_text("")
+    
+        rc = cli_main(["status", "--output-dir", str(path.parent)])
+        out = capsys.readouterr().out
+    
+>       assert rc == EXIT_LEDGER_QUARANTINED
+E       assert 0 == 3
+
+tests\test_cli_status_ledger_quarantine_389.py:149: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_cli_status_ledger_quarantine_389.py::test_cli_quarantines_a_broken_chain_without_rendering_a_certificate[tampered_first-BC-389-TAMPERED]
+FAILED tests/test_cli_status_ledger_quarantine_389.py::test_cli_quarantines_a_broken_chain_without_rendering_a_certificate[broken_predecessor-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]
+FAILED tests/test_cli_status_ledger_quarantine_389.py::test_cli_quarantines_an_empty_ledger
+3 failed, 4 passed in 1.97s

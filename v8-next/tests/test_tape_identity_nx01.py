@@ -235,7 +235,7 @@ def test_loader_reports_intersection_drops_instead_of_trimming_silently(
         load_multitape(tape)
 
     lenient = load_multitape(tape, strict_intersection=False)
-    assert lenient.intersection_dropped == {"BTCUSDT": 0, "ETHUSDT": 1}
+    assert lenient.intersection_dropped == {"BTCUSDT": 1, "ETHUSDT": 0}
     assert lenient.coverage["ETHUSDT"].missing_vs_union == 1
     assert lenient.n_bars == 2
     assert all(leg.duplicate_slots == 0 for leg in lenient.coverage.values())

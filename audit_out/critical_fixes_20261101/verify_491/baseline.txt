@@ -1,0 +1,170 @@
+FFFFFF                                                                   [100%]
+================================== FAILURES ===================================
+_________ test_491_exit_leg_booked_at_engine_close_exactly[portfolio] _________
+
+name = 'portfolio'
+
+    @pytest.mark.parametrize("name", sorted(BUILDERS))
+    def test_491_exit_leg_booked_at_engine_close_exactly(name: str) -> None:
+        """Issue gate 1: drop the +5 exit leg => [1000, 1005, 1005] and drift 2.5."""
+        builder = BUILDERS[name]
+        engine = _engine(balance_total=1010.0, realized_pnl=10.0, fee=0.0)
+    
+        ser = builder(engine, 0.0)
+    
+        # Exact equality, no tolerance: the only values the three bars may carry.
+>       assert ser["equity_mtm"] == [1000.0, 1005.0, 1010.0]
+E       assert [1000.0, 1005.0, 1005.0] == [1000.0, 1005.0, 1010.0]
+E         
+E         At index 2 diff: 1005.0 != 1010.0
+E         Use -v to get more diff
+
+tests\test_equity_exit_leg_491.py:118: AssertionError
+_________ test_491_exit_leg_booked_at_engine_close_exactly[strategy] __________
+
+name = 'strategy'
+
+    @pytest.mark.parametrize("name", sorted(BUILDERS))
+    def test_491_exit_leg_booked_at_engine_close_exactly(name: str) -> None:
+        """Issue gate 1: drop the +5 exit leg => [1000, 1005, 1005] and drift 2.5."""
+        builder = BUILDERS[name]
+        engine = _engine(balance_total=1010.0, realized_pnl=10.0, fee=0.0)
+    
+        ser = builder(engine, 0.0)
+    
+        # Exact equality, no tolerance: the only values the three bars may carry.
+>       assert ser["equity_mtm"] == [1000.0, 1005.0, 1010.0]
+E       assert [1000.0, 1005.0, 1005.0] == [1000.0, 1005.0, 1010.0]
+E         
+E         At index 2 diff: 1005.0 != 1010.0
+E         Use -v to get more diff
+
+tests\test_equity_exit_leg_491.py:118: AssertionError
+_ test_491_exit_leg_booked_at_bar_close_proxy_when_engine_price_absent[portfolio] _
+
+name = 'portfolio'
+
+    @pytest.mark.parametrize("name", sorted(BUILDERS))
+    def test_491_exit_leg_booked_at_bar_close_proxy_when_engine_price_absent(name: str) -> None:
+        """A missing `avg_px_close` keeps the named proxy count and is still marked.
+    
+        Fail closed means named, not zero-filled: the proxy exit is counted in
+        ``bar_close_proxy_exits`` and priced at the documented bar close (110 on the
+        exit bar, which here is the fixture's close[2]).
+        """
+        builder = BUILDERS[name]
+        engine = _engine(balance_total=1010.0, realized_pnl=10.0, fee=0.0)
+        del engine["closed_positions"][0]["avg_px_close"]
+        # Exit at the bar close of bar 2 (120) => terminal gross = 20, balance 1020.
+        engine["account"]["balance_total"] = "1020 USDT"
+        engine["closed_positions"][0]["realized_pnl"] = "20 USDT"
+        engine["account"]["orders"][1]["average_price"] = str(CLOSES[2])
+    
+        ser = builder(engine, 0.0)
+    
+>       assert ser["equity_mtm"] == [1000.0, 1005.0, 1020.0]
+E       assert [1000.0, 1005.0, 1005.0] == [1000.0, 1005.0, 1020.0]
+E         
+E         At index 2 diff: 1005.0 != 1020.0
+E         Use -v to get more diff
+
+tests\test_equity_exit_leg_491.py:147: AssertionError
+_ test_491_exit_leg_booked_at_bar_close_proxy_when_engine_price_absent[strategy] _
+
+name = 'strategy'
+
+    @pytest.mark.parametrize("name", sorted(BUILDERS))
+    def test_491_exit_leg_booked_at_bar_close_proxy_when_engine_price_absent(name: str) -> None:
+        """A missing `avg_px_close` keeps the named proxy count and is still marked.
+    
+        Fail closed means named, not zero-filled: the proxy exit is counted in
+        ``bar_close_proxy_exits`` and priced at the documented bar close (110 on the
+        exit bar, which here is the fixture's close[2]).
+        """
+        builder = BUILDERS[name]
+        engine = _engine(balance_total=1010.0, realized_pnl=10.0, fee=0.0)
+        del engine["closed_positions"][0]["avg_px_close"]
+        # Exit at the bar close of bar 2 (120) => terminal gross = 20, balance 1020.
+        engine["account"]["balance_total"] = "1020 USDT"
+        engine["closed_positions"][0]["realized_pnl"] = "20 USDT"
+        engine["account"]["orders"][1]["average_price"] = str(CLOSES[2])
+    
+        ser = builder(engine, 0.0)
+    
+>       assert ser["equity_mtm"] == [1000.0, 1005.0, 1020.0]
+E       assert [1000.0, 1005.0, 1005.0] == [1000.0, 1005.0, 1020.0]
+E         
+E         At index 2 diff: 1005.0 != 1020.0
+E         Use -v to get more diff
+
+tests\test_equity_exit_leg_491.py:147: AssertionError
+______ test_491_graft_residual_is_exactly_the_excluded_costs[portfolio] _______
+
+name = 'portfolio'
+
+    @pytest.mark.parametrize("name", sorted(BUILDERS))
+    def test_491_graft_residual_is_exactly_the_excluded_costs(name: str) -> None:
+        """R2 identity: with a commission charged the residual is that commission.
+    
+        Entry notional 100 + exit notional 110 at ``taker_fee=0.001`` => 0.21 USDT.
+        The mark path deliberately excludes commission, so ``equity_mtm`` stays at
+        1010 while the engine balance is 1009.79. The graft absorbs exactly -0.21 in
+        total and the receipt publishes that identity as measured and explained.
+        """
+        builder = BUILDERS[name]
+        fee = 0.001
+        commission = (ENTRY_PX + EXIT_PX) * QTY * fee
+        gross_pnl = (EXIT_PX - ENTRY_PX) * QTY
+        balance = CAPITAL + gross_pnl - commission
+        engine = _engine(
+            balance_total=balance,
+            realized_pnl=gross_pnl - commission,
+            fee=fee,
+        )
+    
+        ser = builder(engine, fee)
+        recon = ser["cost_reconciliation"]
+>       identity = recon["exit_leg_identity"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'exit_leg_identity'
+
+tests\test_equity_exit_leg_491.py:177: KeyError
+_______ test_491_graft_residual_is_exactly_the_excluded_costs[strategy] _______
+
+name = 'strategy'
+
+    @pytest.mark.parametrize("name", sorted(BUILDERS))
+    def test_491_graft_residual_is_exactly_the_excluded_costs(name: str) -> None:
+        """R2 identity: with a commission charged the residual is that commission.
+    
+        Entry notional 100 + exit notional 110 at ``taker_fee=0.001`` => 0.21 USDT.
+        The mark path deliberately excludes commission, so ``equity_mtm`` stays at
+        1010 while the engine balance is 1009.79. The graft absorbs exactly -0.21 in
+        total and the receipt publishes that identity as measured and explained.
+        """
+        builder = BUILDERS[name]
+        fee = 0.001
+        commission = (ENTRY_PX + EXIT_PX) * QTY * fee
+        gross_pnl = (EXIT_PX - ENTRY_PX) * QTY
+        balance = CAPITAL + gross_pnl - commission
+        engine = _engine(
+            balance_total=balance,
+            realized_pnl=gross_pnl - commission,
+            fee=fee,
+        )
+    
+        ser = builder(engine, fee)
+        recon = ser["cost_reconciliation"]
+>       identity = recon["exit_leg_identity"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'exit_leg_identity'
+
+tests\test_equity_exit_leg_491.py:177: KeyError
+=========================== short test summary info ===========================
+FAILED tests/test_equity_exit_leg_491.py::test_491_exit_leg_booked_at_engine_close_exactly[portfolio]
+FAILED tests/test_equity_exit_leg_491.py::test_491_exit_leg_booked_at_engine_close_exactly[strategy]
+FAILED tests/test_equity_exit_leg_491.py::test_491_exit_leg_booked_at_bar_close_proxy_when_engine_price_absent[portfolio]
+FAILED tests/test_equity_exit_leg_491.py::test_491_exit_leg_booked_at_bar_close_proxy_when_engine_price_absent[strategy]
+FAILED tests/test_equity_exit_leg_491.py::test_491_graft_residual_is_exactly_the_excluded_costs[portfolio]
+FAILED tests/test_equity_exit_leg_491.py::test_491_graft_residual_is_exactly_the_excluded_costs[strategy]
+6 failed in 0.88s

@@ -1,0 +1,5 @@
+#488/#491 published exit_leg_identity, real quad window 2025-07-01..2025-07-22
+receipt: economic_receipt_8a054a39.json  sha256 b9d0a9211ee78318faea94cc4ff2b95b22f1769c876c56482c5feb0318bf470d
+
+portfolio_P    state=UNEXPLAINED_RESIDUAL     gap=  37.4161 expected=  31.6111 unexplained=  5.8050 terms={'commission': 22.22242957, 'funding': -4.279224300000351, 'open_unrealized': 13.667889999999986}
+portfolio_PE   state=UNEXPLAINED_RESIDUAL     gap=  39.5225 expected=  17.0185 unexplained= 22.5040 terms={'commission': 12.428339015, 'funding': -2.218422809999538, 'open_unrealized': 6.808539999999993}

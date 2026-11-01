@@ -1,0 +1,238 @@
+[
+ {
+  "n": 500,
+  "files": [
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py#4874-4896,4389-4406,4378-4550, 4874-4896",
+   "v8-next/src/v8_next/app/portfolio.py#758-766,758-766, 928-944",
+   "v8-next/tests/test_economic_benchmark.py"
+  ]
+ },
+ {
+  "n": 495,
+  "files": [
+   "v8-next/src/v8_next/evaluation/benchmark_receipt.py#422-432,422-432, 546-570",
+   "v8-next/src/v8_next/evaluation/gate_registry.py#35",
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/src/v8_next/evaluation/scoring.py#786-787",
+   "v8-next/src/v8_next/evaluation/gate_resolution.py#370-470, 1492-1552,370-378",
+   "v8-next/src/v8_next/app/portfolio.py#268-308,297-308",
+   "v8-next/tests/test_gate_resolution.py"
+  ]
+ },
+ {
+  "n": 494,
+  "files": [
+   "v8-next/src/v8_next/evaluation/statistics_plan.py#16-27, 60-77,15-27, 38-44, 53-77, 100-128",
+   "v8-next/src/v8_next/evaluation/gate_resolution.py#755-795,713, 755-795",
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py#230,3851-3857, 3901, 3918, 3945-3972, 4482-4500",
+   "v8-next/src/v8_next/app/portfolio.py#711-729",
+   "v8-next/tests/test_economic_benchmark.py"
+  ]
+ },
+ {
+  "n": 491,
+  "files": [
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py#3149-3155"
+  ]
+ },
+ {
+  "n": 478,
+  "files": [
+   "v8-next/src/v8_next/app/readiness.py#785-920",
+   "v8-next/src/v8_next/evaluation/benchmark_receipt.py",
+   "v8-next/src/v8_next/app/portfolio.py"
+  ]
+ },
+ {
+  "n": 477,
+  "files": [
+   "v8-next/src/v8_next/evaluation/capacity.py",
+   "v8-next/src/v8_next/app/portfolio.py#187-227",
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/tests/test_capacity.py",
+   "v8-next/tests/test_economic_benchmark.py",
+   "v8-next/src/v8_next/evaluation/report.py",
+   "v8-next/src/v8_next/app/readiness.py",
+   "v8-next/tests/test_portfolio_benchmark.py#128-135"
+  ]
+ },
+ {
+  "n": 476,
+  "files": []
+ },
+ {
+  "n": 456,
+  "files": [
+   "v8-next/tests/test_expert_delta.py",
+   "v8-next/tests/test_vectorized_indicators_perf.py",
+   "v8-next/tests/test_family.py",
+   "v8-next/AGENTS.md"
+  ]
+ },
+ {
+  "n": 455,
+  "files": [
+   "v8-next/tests/test_d153_parity.py",
+   "v8-next/tests/test_gate_window_binding_406_421.py",
+   "v8-next/AGENTS.md",
+   "v8-next/src/v8_next/domain/temporal_ids.py"
+  ]
+ },
+ {
+  "n": 434,
+  "files": []
+ },
+ {
+  "n": 409,
+  "files": [
+   "v8-next/AGENTS.md"
+  ]
+ },
+ {
+  "n": 393,
+  "files": [
+   "v8-next/src/v8_next/evaluation/runner.py",
+   "v8-next/src/v8_next/evaluation/gate_resolution.py",
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/src/v8_next/evaluation/parity.py",
+   "v8-next/src/v8_next/evaluation/overfitting.py",
+   "v8-next/src/v8_next/evaluation/store.py"
+  ]
+ },
+ {
+  "n": 392,
+  "files": [
+   "v8-next/src/v8_next/evaluation/benchmark_receipt.py",
+   "v8-next/src/v8_next/evaluation/gate_resolution.py",
+   "v8-next/src/v8_next/evaluation/runner.py",
+   "v8-next/src/v8_next/evaluation/scoring.py",
+   "v8-next/src/v8_next/app/cli.py",
+   "v8-next/tests/test_gate_resolution.py",
+   "v8-next/tests/test_d153_runner_report.py"
+  ]
+ },
+ {
+  "n": 391,
+  "files": [
+   "v8-next/AGENTS.md",
+   "v8-next/tests/test_portfolio_benchmark.py"
+  ]
+ },
+ {
+  "n": 390,
+  "files": [
+   "v8-next/tests/test_store_models_and_duckdb.py",
+   "v8-next/pyproject.toml",
+   "v8-next/uv.lock"
+  ]
+ },
+ {
+  "n": 389,
+  "files": [
+   "v8-next/src/v8_next/app/cli.py",
+   "v8-next/src/v8_next/evaluation/store.py",
+   "v8-next/src/v8_next/evaluation/benchmark_receipt.py",
+   "v8-next/tests/test_cli.py",
+   "v8-next/tests/test_store_models_and_duckdb.py"
+  ]
+ },
+ {
+  "n": 385,
+  "files": [
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/src/v8_next/evaluation/costs.py",
+   "v8-next/src/v8_next/evaluation/report.py",
+   "v8-next/src/v8_next/adapters/shadow_ingest.py",
+   "v8-next/tests/test_report_accounting.py",
+   "v8-next/tests/test_operating_net.py"
+  ]
+ },
+ {
+  "n": 384,
+  "files": [
+   "v8-next/src/v8_next/opportunities/book.py",
+   "v8-next/src/v8_next/evaluation/store.py",
+   "v8-next/src/v8_next/evaluation/outcomes.py",
+   "v8-next/src/v8_next/evaluation/family.py",
+   "v8-next/src/v8_next/app/trial.py",
+   "v8-next/tests/test_evaluation_lineage.py",
+   "v8-next/tests/test_candidate_lifecycle_evaluator.py"
+  ]
+ },
+ {
+  "n": 383,
+  "files": [
+   "v8-next/src/v8_next/evaluation/parity.py",
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/src/v8_next/app/economic.py",
+   "v8-next/src/v8_next/evaluation/benchmark_receipt.py",
+   "v8-next/tests/test_d153_parity.py",
+   "v8-next/tests/test_economic_parity_wiring.py"
+  ]
+ },
+ {
+  "n": 382,
+  "files": [
+   "v8-next/src/v8_next/evaluation/capacity.py",
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/src/v8_next/adapters/shadow_ingest.py",
+   "v8-next/tests/test_capacity.py"
+  ]
+ },
+ {
+  "n": 381,
+  "files": [
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/src/v8_next/adapters/portfolio_backtest.py",
+   "v8-next/src/v8_next/adapters/portfolio_equity.py",
+   "v8-next/src/v8_next/economics/allocation.py",
+   "v8-next/tests/test_portfolio_benchmark.py",
+   "v8-next/tests/test_joint_portfolio_execution.py"
+  ]
+ },
+ {
+  "n": 380,
+  "files": [
+   "v8-next/src/v8_next/adapters/funding_history.py",
+   "v8-next/src/v8_next/adapters/settlements.py",
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/src/v8_next/app/economic.py",
+   "v8-next/tests/test_online_funding.py",
+   "v8-next/tests/test_bounded_funding_capture.py",
+   "v8-next/tests/test_funding_finality.py"
+  ]
+ },
+ {
+  "n": 379,
+  "files": [
+   "v8-next/src/v8_next/adapters/shadow_ingest.py",
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/src/v8_next/evaluation/parity.py",
+   "v8-next/src/v8_next/app/economic.py",
+   "v8-next/tests/test_capture_integrity.py",
+   "v8-next/tests/test_d153_parity.py",
+   "v8-next/tests/test_shortfall_reconciliation.py"
+  ]
+ },
+ {
+  "n": 378,
+  "files": [
+   "v8-next/src/v8_next/evaluation/mintrl.py",
+   "v8-next/src/v8_next/evaluation/inference.py",
+   "v8-next/src/v8_next/evaluation/economic_benchmark.py",
+   "v8-next/tests/test_mintrl.py",
+   "v8-next/tests/test_inference.py"
+  ]
+ },
+ {
+  "n": 377,
+  "files": [
+   "v8-next/src/v8_next/evaluation/forward_plan.py",
+   "v8-next/src/v8_next/evaluation/family.py",
+   "v8-next/src/v8_next/evaluation/store.py",
+   "v8-next/src/v8_next/app/forward.py",
+   "v8-next/tests/test_forward_plan.py",
+   "v8-next/tests/test_family.py"
+  ]
+ }
+]

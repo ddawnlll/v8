@@ -1,0 +1,14 @@
+Independent baseline: clean detached checkout of main @ a921da2fdfb8254619b78840f80e969324f7cdf1
+worktree C:/Users/dresden/Documents/v8-wt-verify
+
+Two environments, because extras change the skip set — the like-for-like figure is the
+all-extras one:
+
+cd v8-next && uv sync --extra dev && uv run pytest -q
+=> 976 passed, 40 skipped, 496 deselected   (exit 0)
+
+cd v8-next && uv sync --all-extras && uv run pytest -q
+=> 1007 passed, 9 skipped, 496 deselected   (exit 0)     <-- use THIS as the baseline
+
+496 tests are deselected by the default marker selection. A PR is a non-regression iff it
+reaches >= 1007 passed / <= 9 skipped on an all-extras env, plus its own new tests.

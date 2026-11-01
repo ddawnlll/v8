@@ -1,0 +1,68 @@
+# Pre-goal state of the primary checkout — corrected
+
+This file replaces an earlier, wrong version. The first version captured `git status` **after** an
+agent had already switched branches in the shared checkout and stashed the user's uncommitted work, so
+it recorded a contaminated tree (only `v8-next/tests/test_gate_resolution.py` modified) and thereby
+"proved" nothing. Recording the mistake and the real baseline here.
+
+## The real pre-goal state
+
+Observed by the earlier v8-next audit session, before this goal started, at
+`main @ a921da2fdfb8254619b78840f80e969324f7cdf1`:
+
+```
+ M v8-next/src/v8_next/adapters/expert_strategy.py
+ M v8-next/src/v8_next/app/cli.py
+ M v8-next/src/v8_next/audit/pipeline.py
+ M v8-next/src/v8_next/research/arms.py
+ M v8-next/src/v8_next/research/runner.py
+?? .pi/
+?? audit_out/
+?? v8-next/src/v8_next/research/lifecycle.py
+```
+
+`git diff --stat` for the five tracked modifications was ~? lines across those five modules (the user's
+own in-flight work, unrelated to any of the five issues).
+
+## State at goal end (measured)
+
+```
+ M v8-next/src/v8_next/adapters/expert_strategy.py
+ M v8-next/src/v8_next/app/cli.py
+ M v8-next/src/v8_next/audit/pipeline.py
+ M v8-next/src/v8_next/research/arms.py
+ M v8-next/src/v8_next/research/runner.py
+?? .pi/
+?? audit_out/
+?? v8-next/src/v8_next/research/lifecycle.py
+```
+
+Identical — same five modified files, same three untracked paths (`audit_out/` is this goal's own
+output directory; `.pi/` and `research/lifecycle.py` pre-date the goal).
+
+## What happened in between
+
+The first agent launch did not set worktree isolation, so five agents shared this checkout. One agent
+ran `git switch -c` here, and another stashed the five modified files to get a clean baseline:
+
+```
+stash@{1}: On main: pre-existing unrelated worktree changes
+v8-next/src/v8_next/adapters/expert_strategy.py
+v8-next/src/v8_next/app/cli.py
+v8-next/src/v8_next/audit/pipeline.py
+v8-next/src/v8_next/research/arms.py
+v8-next/src/v8_next/research/runner.py
+```
+
+Recovery, in order: halted all five agents (no commits existed, so no branch was polluted), switched
+the checkout back to `main`, `git stash pop` on that entry, moved every remaining agent into its own
+worktree. Verified afterwards that `git status --porcelain` matched the pre-goal observation above.
+
+A second stash (`issue-495 g3 work in progress`) held that agent's own WIP; it was applied into
+`v8-wt-495`, the resulting work was committed as `34f00b7`, and the stash entry was dropped once the
+work was safely in git. No stash entries remain.
+
+## Lesson
+
+`isolation: "worktree"` must be set on every parallel agent that may run git. It is not the default,
+and the failure mode is silent: the tree moves under agents that are still working.

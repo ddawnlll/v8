@@ -1,0 +1,983 @@
+{
+  "criterion": "scope-based",
+  "counts": {
+    "v8-next": 25,
+    "v8-core": 45
+  },
+  "total": 70,
+  "reconciliation": 70,
+  "rows": [
+    {
+      "number": 500,
+      "title": "[DEFECT] Canonical P+E verdict ignores its own mix",
+      "labels": [
+        "type:defect",
+        "agent:scout"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Canonical P+E receipt defect: every authority named is v8-next Python (`v8-next/src/v8_next/evaluation/economic_benchmark.py`, `app/portfolio.py`); no v8-core surface is involved.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 495,
+      "title": "[DEFECT] G3 benchmark coverage cell measures regime robustness",
+      "labels": [
+        "type:defect",
+        "triage",
+        "agent:scout"
+      ],
+      "verdict": "v8-next",
+      "rationale": "G3 gate-cell defect: acceptance concerns `v8-next/src/v8_next/evaluation/benchmark_receipt.py`, `gate_registry.py`, `economic_benchmark.py`, `scoring.py` — active v8-next gate code.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 494,
+      "title": "[DEFECT] DSR subject chosen by alphabetical sort",
+      "labels": [
+        "type:defect",
+        "triage",
+        "agent:scout"
+      ],
+      "verdict": "v8-next",
+      "rationale": "DSR-subject defect: acceptance is a declared statistics-plan field in `v8-next/src/v8_next/evaluation/statistics_plan.py` + `gate_resolution.py`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 491,
+      "title": "[DEFECT] Equity path drops closed campaign exit P&L",
+      "labels": [
+        "type:defect",
+        "triage",
+        "agent:scout"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Equity-path defect: acceptance books closed-campaign exit legs into `v8-next/src/v8_next/evaluation/economic_benchmark.py` equity_mtm builders.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 478,
+      "title": "[DEFECT] Ledger keeps a superseded cost verdict",
+      "labels": [
+        "type:defect",
+        "triage",
+        "agent:scout"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Ledger cost-verdict defect: acceptance concerns the canonical benchmark ledger produced by `v8-next/src/v8_next/app/readiness.py` / `evaluation/benchmark_receipt.py`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 477,
+      "title": "[DEFECT] Canonical capacity bound bypasses swing contract",
+      "labels": [
+        "type:defect",
+        "triage",
+        "agent:scout"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Capacity-bound defect: acceptance routes the canonical path through `v8-next/src/v8_next/evaluation/capacity.py` swing contract.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 476,
+      "title": "[DEFECT] 451-454 outputs are IMPLEMENTED but unwired to the benchmark path (MISSING on the final surface)",
+      "labels": [
+        "type:defect",
+        "triage",
+        "agent:scout"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Wiring gap: acceptance is about v8-next chain issues #451–#454 being unwired from the `v8-next benchmark` → BenchmarkReceipt → PolicyCertificate surface.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 456,
+      "title": "[IMPL] v8-next port chain 7/7: expert lifecycle (delta + D-141 qualification + kaizen/assurance/governance remainder)",
+      "labels": [
+        "type:implementation",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Port chain 7/7: the deliverable is `v8-next/src/v8_next/experts/` parity with the Rust expert set; the issue title itself scopes it to the v8-next port chain. (See scope note: presumes v8-core as reference.)",
+      "scope_note": "Port-parity program presumes v8-core as the reference implementation; if v8-core is abandoned as a reference, this becomes NOT_APPLICABLE rather than closable-as-done.",
+      "action": "KEEP"
+    },
+    {
+      "number": 455,
+      "title": "[IMPL] v8-next port chain 6/7: scoring closure (bench-eval delta + synthetic discipline + temporal)",
+      "labels": [
+        "type:implementation",
+        "state:blocked"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Port chain 6/7: the deliverable is v8-next benchmark/evaluation/research/temporal scoring closure; title scopes it to the v8-next port chain. (See scope note: presumes v8-core as reference.)",
+      "scope_note": "Port-parity program presumes v8-core as the reference implementation; if v8-core is abandoned as a reference, this becomes NOT_APPLICABLE rather than closable-as-done.",
+      "action": "KEEP"
+    },
+    {
+      "number": 434,
+      "title": "[GOV] Otonom merge yetkisi verildi — merge yasagi kaldirildi (D-163)",
+      "labels": [
+        "type:governance",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Merge-authority directive (D-163): a repo-wide governance announcement addressed to all agents/workers, with no v8-core code in scope; it governs how v8-next work is merged.",
+      "scope_note": "Repo-wide governance, not v8-core code. Kept because it governs merging v8-next work.",
+      "action": "KEEP"
+    },
+    {
+      "number": 409,
+      "title": "[DEFECT] Active product boundary rewritten without authority record",
+      "labels": [
+        "type:defect",
+        "triage",
+        "agent:scout"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Product-boundary conflict: acceptance is to resolve the contradiction between root `AGENTS.md` (\"v8-core/ is the ONLY active codebase\") and `v8-next/AGENTS.md`; it is about which boundary is active, not about editing v8-core Rust code. (Repo-wide governance — see scope note.)",
+      "scope_note": "Repo-wide governance, not v8-core code. Kept because its resolution defines the active boundary.",
+      "action": "KEEP"
+    },
+    {
+      "number": 394,
+      "title": "[DEFECT] Cashflow ledger mixes runs, receipt unverifiable",
+      "labels": [
+        "type:defect",
+        "triage",
+        "agent:scout"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Cashflow-ledger defect: both producing modules named in the issue are Rust core files (`v8-core/src/cashflow.rs`, `v8-core/src/usdm_sim.rs`); fixing it would require editing archived code.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 393,
+      "title": "[RESEARCH] V8-next: close the economic evidence gate without weakening NO_ECONOMIC_CLAIM",
+      "labels": [
+        "type:research",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Economic-gate research: acceptance is the v8-next evidence program over `v8-next/src/v8_next/evaluation/{runner,gate_resolution,economic_benchmark,parity}.py`, explicitly preserving NO_ECONOMIC_CLAIM.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 392,
+      "title": "[IMPL] V8-next: resolve UNKNOWN and MISSING gate states with explicit evidence",
+      "labels": [
+        "type:implementation",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Gate-state resolution: acceptance turns v8-next benchmark UNKNOWN/MISSING states into evidence-backed outcomes in `v8-next/src/v8_next/evaluation/*`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 391,
+      "title": "[DEFECT] V8-next Ruff import ordering failure blocks clean quality gate",
+      "labels": [
+        "type:defect",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Ruff gate defect: acceptance is a clean Ruff gate for `v8-next` source/tests and `v8-next/pyproject.toml`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 390,
+      "title": "[DEFECT] V8-next test environment lacks locked DuckDB dependency",
+      "labels": [
+        "type:defect",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "DuckDB env defect: acceptance is pinning the DuckDB dependency for `v8-next/tests/test_store_models_and_duckdb.py` and `v8-next/uv.lock`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 389,
+      "title": "[DEFECT] V8-next status ledger fails self-verification at entry 0",
+      "labels": [
+        "type:defect",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Status-ledger defect: acceptance is a self-verifying ledger in `v8-next/src/v8_next/app/cli.py`, `evaluation/store.py`, `benchmark_receipt.py`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 385,
+      "title": "[IMPL] V8-next: real operating net and venue-cost calibration",
+      "labels": [
+        "type:implementation",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Operating-net implementation: acceptance is the v8-next operating-net/venue-cost layer over `v8-next/src/v8_next/evaluation/economic_benchmark.py`, `costs.py`, `report.py`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 384,
+      "title": "[IMPL] V8-next: bind complete candidate lifecycle to economic evaluation",
+      "labels": [
+        "type:implementation",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Candidate-lifecycle binding: acceptance is v8-next economic evaluation consuming `v8-next/src/v8_next/opportunities/book.py`, `evaluation/outcomes.py`, `family.py`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 383,
+      "title": "[IMPL] V8-next: wire two-ledger external parity into the economic evaluator",
+      "labels": [
+        "type:implementation",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Two-ledger parity: acceptance is wiring `v8-next/src/v8_next/evaluation/parity.py` into the v8-next economic evaluator.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 382,
+      "title": "[RESEARCH] V8-next: validate capacity and market impact from L2 data",
+      "labels": [
+        "type:research",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "L2 capacity research: acceptance is measuring capacity in `v8-next/src/v8_next/evaluation/capacity.py` from real tick/L2/ADV data.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 381,
+      "title": "[IMPL] V8-next: joint P+E portfolio execution and shared capital",
+      "labels": [
+        "type:implementation",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Joint P+E execution: acceptance is a single joint portfolio path in `v8-next/src/v8_next/evaluation/economic_benchmark.py`, `adapters/portfolio_backtest.py`, `portfolio_equity.py`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 380,
+      "title": "[IMPL] V8-next: complete funding finality and coverage",
+      "labels": [
+        "type:implementation",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Funding finality: acceptance is funding cost in `v8-next/src/v8_next/adapters/funding_history.py`, `settlements.py` and the v8-next benchmark/paper paths.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 379,
+      "title": "[IMPL] V8-next: venue fills, latency, shortfall, and account reconciliation",
+      "labels": [
+        "type:implementation",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Venue-fill reconciliation: acceptance is a venue-evidence path in `v8-next/src/v8_next/adapters/shadow_ingest.py` and `evaluation/parity.py`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 378,
+      "title": "[RESEARCH] V8-next: implement and validate MinTRL estimator",
+      "labels": [
+        "type:research",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "MinTRL estimator: acceptance is `v8-next/src/v8_next/evaluation/mintrl.py` / `inference.py` with tests in `v8-next/tests/test_mintrl.py`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 377,
+      "title": "[IMPL] V8-next: protected OOS and complete search-family evidence",
+      "labels": [
+        "type:implementation",
+        "triage"
+      ],
+      "verdict": "v8-next",
+      "rationale": "Protected OOS: acceptance is a one-shot chronological OOS workflow in `v8-next/src/v8_next/evaluation/forward_plan.py`, `family.py`, `store.py`.",
+      "scope_note": null,
+      "action": "KEEP"
+    },
+    {
+      "number": 375,
+      "title": "[RESEARCH] V8.6 M18: Verify complete V8.6 acceptance and publish bounded release evidence",
+      "labels": [
+        "type:research",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M18 milestone: acceptance is verifying complete V8.6 acceptance and publishing release evidence for the `v8-core/` tree.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 374,
+      "title": "[IMPL] V8.6 M15: Verify standard serialization and digest ownership boundaries",
+      "labels": [
+        "type:implementation",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M15 milestone: acceptance is verifying serialization/digest ownership in `v8-core/src/hash.rs` (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 373,
+      "title": "[IMPL] V8.6 M11: Move production random streams to versioned rand primitives",
+      "labels": [
+        "type:implementation",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M11 milestone: acceptance is moving production random streams in `v8-core/src/mt19937.rs` to versioned rand primitives (Rust dependency change).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 372,
+      "title": "[IMPL] V8.6 M08: Reconcile exactly-once engine cashflow independently",
+      "labels": [
+        "type:implementation",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M08 milestone: acceptance is reconciling exactly-once engine cashflow in `v8-core/src/cashflow.rs` (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 371,
+      "title": "[IMPL] V8.6 M03: Route baseline through one causal S4 decision path",
+      "labels": [
+        "type:implementation",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M03 milestone: acceptance is routing the baseline through one causal S4 decision path in `v8-core/src/main.rs`.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 370,
+      "title": "[IMPL] V8.6 M02: Enforce issue lifecycle and PR requirement traceability",
+      "labels": [
+        "type:implementation",
+        "triage",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M02 milestone: acceptance is enforcing issue/PR traceability for the Rust `v8-core/src/bin` surface.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 369,
+      "title": "[IMPL] V8.6 M07: Make portfolio admission unavoidable before execution",
+      "labels": [
+        "type:implementation",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M07 milestone: acceptance is making portfolio admission unavoidable in the Rust engine (`v8-core/src/portfolio.rs`).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 368,
+      "title": "[IMPL] V8.6 M06: Bind historical venue facts and fail-closed conformance",
+      "labels": [
+        "type:implementation",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M06 milestone: acceptance is binding historical venue facts in `v8-core/src/venue.rs` with fail-closed Rust conformance.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 367,
+      "title": "[IMPL] V8.6 M04: Define versioned Rust execution boundary",
+      "labels": [
+        "type:implementation",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M04 milestone: acceptance is defining the versioned Rust execution boundary in `v8-core/src/execution`.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 366,
+      "title": "[IMPL] V8.6 M05: Transfer execution and account lifecycle to NautilusTrader",
+      "labels": [
+        "type:implementation",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M05 milestone: acceptance is transferring the Rust execution/account lifecycle in `v8-core/src/execution` to NautilusTrader.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 360,
+      "title": "[GOV] W17: Branch-merge verdicts (d153 + perf/*)",
+      "labels": [
+        "rust",
+        "type:governance",
+        "triage",
+        "risk:high"
+      ],
+      "verdict": "v8-core",
+      "rationale": "W17 branch-merge verdicts: scope is `feat/d153-benchmark-fabric` + six `perf/*` branches for the Rust core; every unit under verdict is v8-core Rust code.",
+      "scope_note": "Verdict record, not code — classified v8-core because every merge unit under verdict is v8-core Rust code.",
+      "action": "CLOSE"
+    },
+    {
+      "number": 359,
+      "title": "[IMPL-AUDIT] W16: Branch audit — six perf/* deltas vs d153 base",
+      "labels": [
+        "rust",
+        "triage",
+        "type:performance",
+        "risk:low"
+      ],
+      "verdict": "v8-core",
+      "rationale": "W16 branch audit: scope is the six `perf/*` deltas against `feat/d153-benchmark-fabric`, whose owning issues #332–#336 are all v8-core Rust branches.",
+      "scope_note": "Audit record, not code — classified v8-core because every branch under audit is a v8-core Rust perf branch (#332–#336).",
+      "action": "CLOSE"
+    },
+    {
+      "number": 358,
+      "title": "[GOV] V8.6 M00: Preserve and reconcile migration baseline",
+      "labels": [
+        "rust",
+        "type:implementation",
+        "type:governance",
+        "triage",
+        "risk:medium",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M00 milestone: acceptance is preserving/reconciling the migration baseline for the `v8-core/` tree.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 356,
+      "title": "[GOV] W13: GPU + measurement-debt schedule",
+      "labels": [
+        "rust",
+        "type:governance",
+        "triage",
+        "risk:low"
+      ],
+      "verdict": "v8-core",
+      "rationale": "W13 GPU/measurement-debt verdict: the object of the verdict is `backend/gpu.rs` in the Rust core and the V8.6 §21.1 metric set.",
+      "scope_note": "Verdict record, not code — classified v8-core because the object of the verdict is `backend/gpu.rs` and V8.6 core metrics.",
+      "action": "CLOSE"
+    },
+    {
+      "number": 355,
+      "title": "[IMPL] V8.6 M17: Retire superseded active implementations after acceptance",
+      "labels": [
+        "rust",
+        "type:implementation",
+        "type:governance",
+        "triage",
+        "risk:high",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M17 milestone: acceptance is retiring superseded active Rust implementations after V8.6 acceptance, scoped to `v8-core/`.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 354,
+      "title": "[IMPL] V8.6 M16: Wire one trial-lineage and statistical receipt path",
+      "labels": [
+        "rust",
+        "type:implementation",
+        "type:governance",
+        "triage",
+        "risk:high",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M16 milestone: acceptance is wiring the trial-lineage/statistical receipt path through `v8-core/src/statistics/mod.rs` (Rust core).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 353,
+      "title": "[GOV] V8.6 M01: Anchor full V8.6 scope and resolve migration authority",
+      "labels": [
+        "rust",
+        "type:governance",
+        "triage",
+        "risk:high",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M01 milestone: acceptance is anchoring V8.6 migration authority for the `v8-core/` scope itself.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 352,
+      "title": "[IMPL] V8.6 M14: Delegate generic distributions without moving synthetic data into runtime",
+      "labels": [
+        "rust",
+        "type:implementation",
+        "triage",
+        "risk:medium",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M14 milestone: acceptance governs distribution delegation for `v8-core/src/world` synthetic data inside the Rust core.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 351,
+      "title": "[IMPL] V8.6 M09: Delegate active CLI parsing to clap",
+      "labels": [
+        "rust",
+        "type:implementation",
+        "triage",
+        "risk:low",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M09 milestone: acceptance is delegating active CLI parsing to clap in `v8-core/src/main.rs` (Rust binary).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 350,
+      "title": "[PERF] V8.6 M10: Delegate work scheduling to rayon with deterministic merge",
+      "labels": [
+        "rust",
+        "triage",
+        "type:performance",
+        "risk:medium",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M10 milestone: acceptance is delegating work scheduling to rayon in `v8-core/src/scheduler.rs` (Rust core, perf scope).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 349,
+      "title": "[IMPL] V8.6 M12: Replace active custom HTML builders with one template engine",
+      "labels": [
+        "rust",
+        "type:implementation",
+        "triage",
+        "risk:medium",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M12 milestone: acceptance is replacing custom HTML builders with one template engine in the Rust reporting core (`v8-core/src/report.rs`, `v8-core/templates`).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 348,
+      "title": "[IMPL] V8.6 M13: Consolidate canonical statistical methods and fix temporal validity",
+      "labels": [
+        "rust",
+        "parity",
+        "type:implementation",
+        "triage",
+        "risk:medium",
+        "state:triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.6 M13 milestone: acceptance is consolidating canonical statistical methods inside the Rust core (`v8-core/src/statistics`).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 336,
+      "title": "[PERF] PERF011: Multi-Core Parallelism in Bootstrap Resampling, Reality Check, and Monte Carlo Projections",
+      "labels": [
+        "P1",
+        "statistics",
+        "rust",
+        "triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "PERF011: acceptance is multi-core bootstrap/Monte-Carlo parallelism across `v8-core/src/statistics/reality_check.rs`, `benchmark/projection.rs`, `world/generator.rs`, `Cargo.toml` (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 335,
+      "title": "[PERF] PERF010: Elimination of Per-Bar HistBar.event_id Heap Allocation and Repeated History Cloning in Runloop",
+      "labels": [
+        "P1",
+        "execution",
+        "rust",
+        "triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "PERF010: acceptance is eliminating per-bar heap allocation in `v8-core/src/state.rs`, `usdm_sim.rs`, `runloop.rs`, `experts/base.rs` (Rust runloop).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 334,
+      "title": "[PERF] PERF009: Zero-Allocation Scratch Buffering in Block-Bootstrap Reality Check and Detrended Null",
+      "labels": [
+        "P1",
+        "statistics",
+        "rust",
+        "triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "PERF009: acceptance is zero-allocation scratch buffering in `v8-core/src/statistics/reality_check.rs`, `detrended.rs` (Rust hot path).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 333,
+      "title": "[PERF] PERF008: Integration Test Harness Consolidation and Mach-O Linker Contention Elimination",
+      "labels": [
+        "P0",
+        "rust",
+        "triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "PERF008: acceptance is consolidating the integration harness under `v8-core/tests/` and `v8-core/Cargo.toml` (Rust build surface).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 332,
+      "title": "[PERF] PERF007: Cargo Profile Split and Elimination of Whole-Crate Optimization in Dev and Test Profiles",
+      "labels": [
+        "P0",
+        "rust",
+        "triage"
+      ],
+      "verdict": "v8-core",
+      "rationale": "PERF007: acceptance is a Cargo profile split, and the sole cited artifact is `v8-core/Cargo.toml`.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 330,
+      "title": "[GOV][P1] Reconcile D-153 authority registration and EN/TR contract mirrors",
+      "labels": [
+        "P1",
+        "type:governance",
+        "triage",
+        "risk:spec-or-decision-register"
+      ],
+      "verdict": "v8-core",
+      "rationale": "D-153 authority reconciliation: acceptance is reconciling registration against the v8-core benchmark fabric, and its verification surface is `v8-core/tests/benchmark_fabric_adversarial.rs` + `v8-core/tests/d153_benchmark_fabric_sabotage.rs`.",
+      "scope_note": "Governance record for the v8-core benchmark fabric — classified v8-core because its acceptance names v8-core test files as the verification surface.",
+      "action": "CLOSE"
+    },
+    {
+      "number": 329,
+      "title": "[DEFECT][P0] Replace fixed external parity vectors with policy-bound real adapters",
+      "labels": [
+        "P0",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:economic-authority",
+        "risk:simulation-or-economic-authority"
+      ],
+      "verdict": "v8-core",
+      "rationale": "External-parity defect: acceptance is replacing fixed-vector parity with data-backed adapters in `v8-core/src/benchmark/external.rs`, `case.rs`, `observation.rs` (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 328,
+      "title": "[DEFECT][P0] Make BenchmarkReceipt and BenchmarkLedger cryptographically self-verifying",
+      "labels": [
+        "P0",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:correctness-semantics",
+        "risk:forensics-attribution"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Self-verifying receipt defect: acceptance is cryptographic self-verification inside `v8-core/src/benchmark/receipt.rs`, `ledger.rs`, `types.rs` (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 327,
+      "title": "[DEFECT][P0] Enforce canonical G0-G9 gate vector and authority firewall",
+      "labels": [
+        "P0",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:economic-authority",
+        "risk:correctness-semantics"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Gate-vector defect: acceptance is enforcing the D-152 G0–G9 vector in `v8-core/src/claims.rs`, `benchmark/types.rs`, `runner.rs`, `certificate.rs` (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 326,
+      "title": "[DEFECT][P1] Bind BenchmarkReceipt digest to full evidence and authority surface",
+      "labels": [
+        "P1",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:correctness-semantics",
+        "risk:forensics-attribution"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Receipt-digest defect: acceptance is binding BenchmarkReceipt/ledger digests to the full evidence surface of the Rust core receipt format.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 325,
+      "title": "[DEFECT][P0] Correct quad portfolio capital denominator and shared-capital semantics",
+      "labels": [
+        "P0",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:economic-authority"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Quad-portfolio capital defect: acceptance is correcting the canonical four-asset diagnostic implemented in `v8-core/src/main.rs` (Rust CLI).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 324,
+      "title": "[IMPL][P1] Replace JSONL HashMap cache with a production cache storage adapter",
+      "labels": [
+        "P1",
+        "rust",
+        "stage-s5",
+        "type:implementation",
+        "triage",
+        "risk:correctness-semantics",
+        "risk:forensics-attribution"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Cache adapter implementation: acceptance is replacing the JSONL/HashMap CacheStore in `v8-core/src/cache.rs`, `evidence.rs` with a production storage adapter (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 323,
+      "title": "[DEFECT][P0] Make BenchmarkRunner data-backed and remove hardcoded statistical claims",
+      "labels": [
+        "P0",
+        "statistics",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:economic-authority",
+        "risk:correctness-semantics"
+      ],
+      "verdict": "v8-core",
+      "rationale": "BenchmarkRunner defect: acceptance is making `v8-core/src/benchmark/runner.rs` data-backed instead of hardcoded (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 322,
+      "title": "[DEFECT][P1] Correct statistical kernels and block proxy DSR/PBO/SPA outputs",
+      "labels": [
+        "P1",
+        "statistics",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:economic-authority",
+        "risk:multiplicity-authority"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Statistical-kernel defect: acceptance is correcting DSR/PBO/SPA kernels in `v8-core/src/statistics`, `src/evaluation/statistics.rs`, `multiple_testing.rs` (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 321,
+      "title": "[DEFECT][P0] Emit real Parquet artifacts instead of JSON with a .parquet suffix",
+      "labels": [
+        "P0",
+        "v8.2",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:correctness-semantics",
+        "risk:forensics-attribution"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Parquet artifact defect: acceptance is replacing JSON-under-.parquet in `v8-core/src/usdm_sim/*`, `evaluation/regime_cube.rs` (Rust writers).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 320,
+      "title": "[DEFECT][P0] Remove synthetic fallbacks from Monte Carlo, ruin and Slippage-at-Risk",
+      "labels": [
+        "P0",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:economic-authority",
+        "risk:simulation-or-economic-authority"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Synthetic-fallback removal: acceptance is removing synthetic fallbacks from `v8-core/src/usdm_sim/scenario_ruin.rs`, `benchmark/projection.rs`, `evaluation/falsification.rs` (Rust).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 319,
+      "title": "[IMPL][P1] Harden append-only ledgers, checkpoints and V82 artifact writer",
+      "labels": [
+        "P1",
+        "v8.2",
+        "rust",
+        "type:implementation",
+        "triage",
+        "risk:correctness-semantics",
+        "risk:forensics-attribution"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Persistence hardening: acceptance is append-only ledgers/checkpoints in `v8-core/src/candidate.rs`, `cashflow.rs`, `checkpoint.rs`, `evidence.rs` (Rust core).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 318,
+      "title": "[GOV][D-118] Ratify deterministic f64 computation as a locked invariant",
+      "labels": [
+        "P0",
+        "v8.2",
+        "rust",
+        "type:governance",
+        "triage",
+        "risk:spec-or-decision-register"
+      ],
+      "verdict": "v8-core",
+      "rationale": "D-118 f64-invariant ratification: acceptance is promoting the deterministic IEEE-754 computation contract that governs the Rust compute core (D-084/D-096, COMPUTE_SCHEDULING_SPEC); the sole comment ties it to V8.6 W12 (#355), a v8-core milestone.",
+      "scope_note": "Ratification record for a compute invariant — classified v8-core because the deciding comment places it inside V8.6 W12 (#355), a v8-core milestone.",
+      "action": "CLOSE"
+    },
+    {
+      "number": 258,
+      "title": "[DEFECT] Canonicalize current audit artifacts and block stale-run summaries",
+      "labels": [
+        "P0",
+        "rust",
+        "type:defect",
+        "triage",
+        "risk:economic-authority",
+        "risk:forensics-attribution"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Audit-artifact canonicalization: acceptance is scoped to `v8-core/src/evidence.rs`, `evaluation/manifest.rs`, `lineage.rs`, `report.rs` — Rust core artifact writers.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 257,
+      "title": "[GOV] V8.3 G5 prospective OOS, shadow, and succession authority",
+      "labels": [
+        "P0",
+        "epic",
+        "type:governance",
+        "triage",
+        "risk:economic-authority",
+        "risk:spec-or-decision-register"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.2/V8.3 succession authority: acceptance pins the incumbent/challenger and prospective shadow run belonging to the Rust V8.3 lineage (companion enforcement tickets #255/#256 are v8-core).",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 256,
+      "title": "[IMPL] Build the hash-bound prospective shadow runner",
+      "labels": [
+        "P0",
+        "rust",
+        "type:implementation",
+        "triage",
+        "risk:simulation-or-economic-authority"
+      ],
+      "verdict": "v8-core",
+      "rationale": "Prospective shadow runner: acceptance is to \"implement the smallest Rust-only runner\" over `v8-core/src/evaluation/manifest.rs`, `paths.rs`, `v8-core/src/experiment.rs`.",
+      "scope_note": null,
+      "action": "CLOSE"
+    },
+    {
+      "number": 255,
+      "title": "[RESEARCH] Execute the one-shot V8.3 frozen OOS succession experiment",
+      "labels": [
+        "P0",
+        "type:research",
+        "triage",
+        "risk:hypothesis-governance",
+        "risk:validation-integrity"
+      ],
+      "verdict": "v8-core",
+      "rationale": "V8.3 OOS succession experiment: acceptance is preregistering and executing the experiment through `v8-core/Cargo.toml`, `v8-core/src/evaluation/statistics.rs` and `v8-core/src/statistics/` (Rust execution).",
+      "scope_note": null,
+      "action": "CLOSE"
+    }
+  ]
+}
