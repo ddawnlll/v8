@@ -129,11 +129,16 @@ def _smoke_evidence() -> WindowEvidence:
 
 
 def _benchmark_evidence() -> WindowEvidence:
+    # #490: a benchmark window that never recorded how many bars it measured is no longer
+    # publishable (``EVIDENTIAL_WINDOW_BARS_UNMEASURED``), so this fixture declares the
+    # measurement its 500-hour window loads. The assertions below are unchanged; the
+    # unmeasured shape is exercised, by name, in test_evidential_window_bars_490.py.
     window = WindowSpec(
         tape_path="tape",
         profile="benchmark",
         start_ms=1_751_328_000_000,
         end_ms=1_751_328_000_000 + 500 * HOUR_MS,
+        measured_bars=500,
     )
     window.validate()
     return WindowEvidence.from_window(window)

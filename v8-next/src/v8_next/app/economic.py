@@ -483,7 +483,11 @@ def build_receipt(args: argparse.Namespace) -> tuple[eb.EconomicReceipt, dict[st
     pos = eb.positive_control_known_effect()
     # Known-defect control: the probe is run against a genuinely displaced copy of
     # the *same* series the numbers came from, so this is a measurement that can
-    # come out MISSED -- not a constant the caller sets (#437).
+    # come out MISSED -- not a constant the caller sets (#437). The block is
+    # published verbatim: since #493 it names the displaced series it measured
+    # (input/input_rule/bars_in/bars_out/input_sha256) and carries the same probe's
+    # measurement of the real series beside it (real_series), so `CAUGHT` on the
+    # copy can never be read as a leak on the canonical tape.
     leak_control = eb.future_leak_positive_control(bars)
     controls = {
         "positive_control": pos,

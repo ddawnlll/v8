@@ -188,6 +188,135 @@ def test_mechanics_future_leak_control_can_report_missed() -> None:
     assert control["status"] == "MISSED"
     assert control["probe"] == eb.FUTURE_LEAK_PROBE
     assert control["bars"] == len(bars) - 1
+    # #493: MISSED is measured on the displaced copy too, so it is named the same
+    # way -- the block says which series the miss belongs to in both directions.
+    assert control["bars_in"] == len(bars)
+    assert control["bars_out"] == len(bars) - 1
+    assert control["input"] == eb.FUTURE_LEAK_DISPLACED_INPUT
+    assert len(control["input_sha256"]) == 64
+    assert control["real_series"]["status"] == "OK"
+    assert control["real_series"]["bars"] == len(bars)
+
+
+def _assert_leak_block_is_named(block: dict[str, Any], where: str) -> None:
+    """#493: a published known-defect verdict names the series it measured.
+
+    Every `known_defect_future_leak_caught` block -- single series or
+    per-instrument roll-up -- must carry its input identity (`input`,
+    `input_rule`, `input_sha256`), its extent (`bars_in`/`bars_out`) and the
+    real-series measurement beside it. Without these, `CAUGHT` publishes the
+    displaced copy's violation counts as if they were the canonical tape's.
+    """
+    assert block["status"] in {"CAUGHT", "MISSED"}, where
+    for key in ("input", "input_rule", "bars_in", "bars_out", "input_sha256", "real_series"):
+        assert key in block, f"{where}: a {block['status']} block omits {key!r}"
+    assert "displaced_closes_against_timestamps" in block["input"], where
+    assert "close of bar i+1" in block["input_rule"], where
+    assert re.fullmatch(r"[0-9a-f]{64}", str(block["input_sha256"])), where
+    assert isinstance(block["bars_in"], int) and isinstance(block["bars_out"], int), where
+    assert 0 <= block["bars_out"] <= block["bars_in"], where
+    real = block["real_series"]
+    for key in ("status", "bars", "reason", "series_sha256"):
+        assert key in real, f"{where}: the real-series reading omits {key!r}"
+    assert re.fullmatch(r"[0-9a-f]{64}", str(real["series_sha256"])), where
+    # One block, two series: a block whose inputs share a digest measured one of
+    # them twice, which is exactly the ambiguity #493 removes.
+    assert block["input_sha256"] != real["series_sha256"], where
+
+
+def test_mechanics_known_defect_control_names_the_series_it_measured() -> None:
+    """#493 A1/A2: the CAUGHT verdict belongs to the *displaced* copy and says so.
+
+    On HEAD the block published `status`, `probe`, `bars` (= displaced length)
+    and a reason reading "N/M closes are not in their own bar", so a per-instrument
+    finding looked like a live leak on the canonical tape while the same receipt's
+    `research_validity` reported the identical probe VALID. The block must name the
+    copy it measured and publish the real-series reading in the same block.
+    """
+    bars = _synth_bars()
+    control = eb.future_leak_positive_control(bars)
+    assert control["status"] == "CAUGHT"
+    _assert_leak_block_is_named(control, "single-series control")
+    assert control["input"] == eb.FUTURE_LEAK_DISPLACED_INPUT
+    assert control["input_rule"] == eb.FUTURE_LEAK_DISPLACED_RULE
+    assert control["bars_in"] == len(bars)
+    assert control["bars_out"] == len(bars) - 1
+    # The digest is the displaced copy's, so it can never be the tape's own.
+    assert control["input_sha256"] == eb.series_sha256(
+        eb.displaced_closes_against_timestamps(bars)
+    )
+    assert control["input_sha256"] != eb.series_sha256(bars)
+    # Same block, second subject: the probe's reading of the series as it stands.
+    real = control["real_series"]
+    assert real["status"] == "OK"
+    assert real["bars"] == len(bars)
+    assert eb.FUTURE_LEAK_PROBE in real["reason"]
+    assert {control["subject"], real["subject"]} == {"displaced_series", "canonical_series"}
+
+
+def test_mechanics_leak_control_publishes_the_real_series_side_unchanged() -> None:
+    """#493 A2: the real-series verdict is the real series' -- both directions.
+
+    Same call, same block: a series whose own closes leak says so on the
+    `real_series` subject, and the probe's undecidability stays undecidable
+    instead of being republished as a leak (or as a catch) it never measured.
+    """
+    leaky = eb.displaced_closes_against_timestamps(_synth_bars())
+    control = eb.future_leak_positive_control(leaky)
+    assert control["real_series"]["status"] == "LEAK"
+    assert "FUTURE_LEAK" in control["real_series"]["reason"]
+    assert control["bars_in"] == len(leaky) and control["bars_out"] == len(leaky) - 1
+
+    short = eb.future_leak_positive_control(_synth_bars()[:1])
+    assert short["real_series"]["status"] == "UNDECIDABLE"
+    assert short["bars_in"] == 1 and short["bars_out"] == 0
+
+
+def test_mechanics_leak_control_blocks_are_named_in_both_producer_shapes() -> None:
+    """#493 A3: neither producer shape may publish a verdict without its input.
+
+    `app/economic.py` publishes one series' control; `app/portfolio.py` publishes
+    the per-instrument roll-up. Both are checked through the module functions the
+    producers call, so a roll-up that dropped the provenance (as HEAD's hand-built
+    dict did) fails here.
+    """
+    caught = eb.future_leak_positive_control(_synth_bars(seed=3))
+    missed = eb.future_leak_positive_control(_paired_duplicate_closes())
+    assert (caught["status"], missed["status"]) == ("CAUGHT", "MISSED")
+
+    rollup = eb.aggregate_future_leak_control({"AAAUSDT": caught, "BBBUSDT": caught})
+    _assert_leak_block_is_named(rollup, "per-instrument roll-up")
+    assert rollup["status"] == "CAUGHT"
+    assert rollup["bars_in"] == caught["bars_in"] * 2
+    assert rollup["bars_out"] == caught["bars_out"] * 2
+    assert rollup["input_sha256"] == eb.series_set_sha256(
+        {"AAAUSDT": caught["input_sha256"], "BBBUSDT": caught["input_sha256"]}
+    )
+    assert set(rollup["instruments"]) == {"AAAUSDT", "BBBUSDT"}
+    assert rollup["real_series"]["status"] == "OK"
+    assert rollup["real_series"]["bars"] == caught["real_series"]["bars"] * 2
+
+    # `CAUGHT` keeps its #437 meaning: one missed instrument makes the run MISSED.
+    mixed = eb.aggregate_future_leak_control({"AAAUSDT": caught, "BBBUSDT": missed})
+    assert mixed["status"] == "MISSED"
+    _assert_leak_block_is_named(mixed, "mixed roll-up")
+
+
+def test_canonical_control_producers_publish_the_named_block() -> None:
+    """#493 A3: both receipt producers publish the block the module names.
+
+    Source-level guard: `app/portfolio.py` must roll its per-instrument controls up
+    through `aggregate_future_leak_control` (the hand-built status dict is what
+    published the copy's counts unnamed), and `app/economic.py` must publish
+    `future_leak_positive_control`'s block verbatim rather than re-summarizing it.
+    """
+    project = Path(eb.project_root())
+    app = project / "src/v8_next/app"
+    portfolio = " ".join((app / "portfolio.py").read_text(encoding="utf-8").split())
+    economic = " ".join((app / "economic.py").read_text(encoding="utf-8").split())
+    assert '"known_defect_future_leak_caught": eb.aggregate_future_leak_control(' in portfolio
+    assert "leak_control = eb.future_leak_positive_control(bars)" in economic
+    assert '"known_defect_future_leak_caught": leak_control,' in economic
 
 
 def test_mechanics_research_validity_requires_a_probe_that_ran() -> None:
@@ -1754,5 +1883,102 @@ def test_mechanics_excess_rule_sign_test_survives_on_return_interval() -> None:
     assert recorded["claim_status"] == "NO_ECONOMIC_CLAIM"
     assert recorded["verdicts"]["statistical"] == "SUPPORTS_UNDERPERFORMANCE"
     assert "EXCESS_CI_RULE" in recorded["verdicts"]["statistical_note"]
+
+
+def _receipt_canon(obj: object) -> str:
+    """Canonical JSON text of a receipt cell, for byte-identity comparison."""
+    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def test_economic_portfolio_control_names_the_series_it_measured(tmp_path: Path) -> None:
+    """#493 A2/A3/A4 on the real engine receipt. Skips when the quad tape is absent.
+
+    The defect: this receipt published `known_defect_future_leak_caught=CAUGHT`
+    with per-instrument reasons reading "N/M closes are not in their own bar"
+    while the same receipt's `research_validity` reported the identical probe
+    VALID. Both statements were about different series and the block never said
+    which. So: the published block must name the displaced copy it measured
+    (input/rule/extent/digest), carry the real-series reading beside it, and the
+    measured sections must be byte-identical between two independent runs of the
+    same window -- the change is provenance only.
+    """
+    tape = _quad_tape_dir()
+    if tape is None:
+        pytest.skip("quad tape absent")
+    from v8_next.app import portfolio as port_mod
+
+    receipts = []
+    for name in ("a", "b"):
+        out_dir = tmp_path / name
+        rc = port_mod.main(
+            ["--tape-path", str(tape), "--bars", "168", "--output-dir", str(out_dir)]
+        )
+        assert rc == 0
+        receipts.append(
+            json.loads(
+                sorted(out_dir.glob("economic_receipt_*.json"))[0].read_text(encoding="utf-8")
+            )
+        )
+    receipt, regenerated = receipts
+
+    block = receipt["controls"]["known_defect_future_leak_caught"]
+    _assert_leak_block_is_named(block, "receipt control")
+    assert block["probe"] == eb.FUTURE_LEAK_PROBE
+    instruments = block["instruments"]
+    assert set(instruments) == {"AVAXUSDT", "BTCUSDT", "ETHUSDT", "SOLUSDT"}
+    for name, per in instruments.items():
+        _assert_leak_block_is_named(per, f"receipt control {name}")
+        assert per["bars_out"] == per["bars_in"] - 1
+        # The copy is the measurement; the tape itself is the second subject.
+        assert per["status"] == "CAUGHT"
+        real = per["real_series"]
+        assert real["status"] == "OK"
+        assert f"close_in_own_bar={real['bars']}/{real['bars']}" in real["reason"]
+    # The roll-up is re-derivable from its own per-instrument cells.
+    assert block["bars_in"] == sum(p["bars_in"] for p in instruments.values())
+    assert block["bars_out"] == sum(p["bars_out"] for p in instruments.values())
+    assert block["input_sha256"] == eb.series_set_sha256(
+        {n: p["input_sha256"] for n, p in instruments.items()}
+    )
+    # The half that used to read as a contradiction: same receipt, same probe,
+    # the real series VALID -- now published as the block's other named subject.
+    assert receipt["verdicts"]["research_validity"] == "VALID"
+    assert block["real_series"]["status"] == "OK"
+
+    # A4: provenance only -- the measured cells do not move between runs.
+    for key in ("metrics", "oos_metrics", "statistics", "verdicts", "controls"):
+        assert _receipt_canon(receipt[key]) == _receipt_canon(regenerated[key]), key
+
+
+def test_economic_report_control_names_the_series_it_measured(tmp_path: Path) -> None:
+    """#493 A3: the second producer (`app/economic.py`) publishes the same block.
+
+    The single-instrument path hands the control through verbatim, so it must
+    carry the identical provenance on a real receipt -- otherwise a `CAUGHT`
+    block can still be published unnamed from one of the two producers.
+    """
+    tape = _btc_tape_file()
+    if tape is None:
+        pytest.skip("Real tape not found")
+    from v8_next.app import economic as econ_mod
+
+    out_dir = tmp_path / "econ"
+    rc = econ_mod.main(
+        ["--tape-path", str(tape), "--bars", "168", "--output-dir", str(out_dir)]
+    )
+    assert rc == 0
+    receipt = json.loads(
+        sorted(out_dir.glob("economic_receipt_*.json"))[0].read_text(encoding="utf-8")
+    )
+    block = receipt["controls"]["known_defect_future_leak_caught"]
+    _assert_leak_block_is_named(block, "economic receipt control")
+    assert block["bars_out"] == block["bars_in"] - 1
+    # Two different series in one block: the copy that was caught is not the
+    # series that stayed VALID, and the digests say so without trusting a label.
+    assert block["input_sha256"] != block["real_series"]["series_sha256"]
+    assert receipt["verdicts"]["research_validity"] == "VALID"
+    assert block["real_series"]["status"] == "OK"
+    assert receipt["claim_status"] == "NO_ECONOMIC_CLAIM"
+
 
 pytestmark = pytest.mark.slow  # #469: tape/engine file, fast loop excludes via -m "not slow"

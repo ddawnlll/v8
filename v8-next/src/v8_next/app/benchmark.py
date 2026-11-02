@@ -17,6 +17,11 @@ from pathlib import Path
 from typing import Any
 
 from v8_next.adapters.expert_strategy import ExpertStrategyConfig
+from v8_next.app.rerun_guard import (
+    REFUSED_EXIT_CODE,
+    refusal_message,
+    registered_run_payload,
+)
 from v8_next.evaluation import economic_benchmark as eb
 from v8_next.evaluation.benchmark_receipt import WindowEvidence
 from v8_next.evaluation.gate_resolution import WindowBinding, load_tape_candles
@@ -220,6 +225,8 @@ def main(argv: list[str] | None = None) -> int:
     # #444 sibling (D153 path): the class the window is allowed to prove is read off
     # the same WindowSpec built above (one source of truth) and travels into the
     # receipt, so a capability score can never be published apart from it.
+    # #490: this record is provisional until the tape is read -- the bar count is a
+    # measurement, so it is re-derived from the bound window after the load below.
     window_evidence = WindowEvidence.from_window(window)
     print(
         f"[+] Window evidence class: {window_evidence.evidence_class} "
@@ -236,6 +243,17 @@ def main(argv: list[str] | None = None) -> int:
         end_ms=window.end_ms,
     )
     print(f"[+] Loaded {len(candles)} real hourly {args.instrument} bars.")
+
+    # #490: the window this run *measured* is the one that carries the bar count. The
+    # spec was built from the CLI request (which for a UTC window declares no count), so
+    # the loaded count is bound here -- after the tape exists, before any receipt field
+    # is derived from it -- and the evidence record is re-derived from the bound window.
+    window = dataclasses.replace(window, measured_bars=len(candles))
+    window_evidence = WindowEvidence.from_window(window)
+    print(
+        f"[+] Window evidence: {window_evidence.evidence_class} / "
+        f"bars={window_evidence.bars} (measured from the loaded tape)"
+    )
 
     # #406/#421: the window this run declares and the window it loaded are bound
     # together before any gate runs. `load_tape_candles` picks the slice by file
@@ -287,7 +305,21 @@ def main(argv: list[str] | None = None) -> int:
                 "no second cash flow). Pass --allow-rerun to override deliberately.",
                 file=sys.stderr,
             )
-            return 3
+            return REFUSED_EXIT_CODE
+    # --allow-rerun overrides the completed-window guard, but it cannot override the
+    # run-identity contract: the registered payload folds in the sha256 of every
+    # artifact, and this run appends to ``benchmark_ledger.jsonl``, so a second
+    # registration under the same run key can never match. ResearchStore.record_run
+    # refuses that rewrite -- but only after the whole window has executed and
+    # written its artifacts, which surfaced as an uncaught ValueError (exit 1) with
+    # the ledger already appended and the manifest already COMPLETED. Fail closed
+    # here instead: no manifest write, no ledger append, no artifact.
+    if registered_run_payload(Path(args.output_dir), run_key.digest) is not None:
+        print(
+            f"[!] {refusal_message(Path(args.output_dir), run_key.digest)}",
+            file=sys.stderr,
+        )
+        return REFUSED_EXIT_CODE
     if existing is not None and not existing.completed:
         print(
             f"[!] INCOMPLETE prior run for this key (state={existing.state}); "

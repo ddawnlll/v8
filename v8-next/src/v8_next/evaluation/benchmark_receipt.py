@@ -50,6 +50,12 @@ NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE = "NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE
 #: an entry is refused by this name, not published.
 EVIDENCE_CLASS_UNDECLARED = "EVIDENCE_CLASS_UNDECLARED"
 
+#: #490. Named refusal for an evidential receipt that never recorded the sample size it
+#: was measured on. Publication-only: the record still certifies under its own canon
+#: (D-164 -- stored bytes are not rewritten), it simply may not have its number read as
+#: a capability score, because nothing in it says how many bars produced that number.
+EVIDENTIAL_WINDOW_BARS_UNMEASURED = "EVIDENTIAL_WINDOW_BARS_UNMEASURED"
+
 #: #448. Named refusal for a ledger read that has no evidential entry to publish from:
 #: nothing in the ledger declares the class a capability score must have been minted
 #: under, so the reader refuses by name instead of publishing the newest entry's
@@ -276,13 +282,20 @@ class WindowEvidence(BaseModel):
 
     @classmethod
     def from_window(cls, window: WindowSpec) -> WindowEvidence:
-        """Read the class straight off the window spec (one source of truth)."""
+        """Read the class straight off the window spec (one source of truth).
+
+        #490: the bar count is the one the window *carries* -- the count the run
+        actually loaded when it has been measured, falling back to the smoke
+        shortcut only for a window whose length *is* that request
+        (:attr:`WindowSpec.carried_bars`). A UTC-bounded window that never loaded a
+        tape therefore records ``bars=None``; nothing is imputed for it here.
+        """
         return cls(
             profile=window.profile,
             evidence_class=window.evidence_class,
             is_smoke=window.is_smoke,
             economic_evidence=window.proves_economic_evidence,
-            bars=window.bars,
+            bars=window.carried_bars,
         )
 
     def canon_fields(self) -> list[Any]:
@@ -1099,11 +1112,15 @@ class BenchmarkReceipt(BaseModel):
         receipt *verifies*: a pre-v6 record is not a tamper, it simply never declared a
         class, and its digest still certifies under its own version. What it cannot do is
         have its number read as a capability score, because nothing in the record says the
-        window that produced it was allowed to mint one. Three named shapes:
+        window that produced it was allowed to mint one. Named shapes, one per distinct
+        reason -- the #490 measurement shape is the third:
 
         * the receipt declares no window class at all (``EVIDENCE_CLASS_UNDECLARED``);
         * the declared class proves no economic evidence
           (``NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE``, the same name #444 refuses with);
+        * the declared class is evidential but the record carries no measured bar count
+          (``EVIDENTIAL_WINDOW_BARS_UNMEASURED``) -- a number whose sample size is
+          unknown is not a measurement class;
         * the receipt publishes no number -- there is nothing to withhold, so no refusal.
         """
         if self.capability_score is None:
@@ -1123,6 +1140,17 @@ class BenchmarkReceipt(BaseModel):
                 f"minted by a {evidence.evidence_class!r} window "
                 f"(profile={evidence.profile!r}) that proves no economic evidence; its recorded "
                 "capability score is refused and is not published"
+            )
+        if evidence.bars is None:
+            # #490. No imputation and no coercion to 0: an unrecorded sample size is
+            # named, not filled in. The number itself is deliberately absent from this
+            # text (#448.A1 -- a refusal never republishes what it refuses).
+            return (
+                f"{EVIDENTIAL_WINDOW_BARS_UNMEASURED}: receipt {self.receipt_digest} "
+                f"(digest_version={self.digest_version}) was minted by an evidential window "
+                f"(profile={evidence.profile!r}, evidence_class={evidence.evidence_class!r}) "
+                "that records no measured bar count; with no sample size bound into the "
+                "record its capability score is refused and is not published"
             )
         return None
 
@@ -1280,8 +1308,11 @@ class Publication:
     appended before a non-evidential one is still the one selected, so a later smoke
     run can never displace the measurement it followed.
 
-    ``refusal_reason`` is empty when a score may be published, and otherwise starts
-    with :data:`NO_EVIDENTIAL_LEDGER_ENTRY`.
+    ``refusal_reason`` is empty when a score may be published, and otherwise names the
+    reason it may not: :data:`NO_EVIDENTIAL_LEDGER_ENTRY` when no entry declares an
+    evidential window, or the selected receipt's own publication refusal when what it
+    declares is not enough to publish a number from (e.g.
+    :data:`EVIDENTIAL_WINDOW_BARS_UNMEASURED`, #490).
     """
 
     entry: LedgerEntry | None
@@ -1388,6 +1419,15 @@ class EntryVerification:
     #: OK | NOT_APPLICABLE (no number published) | a named CAPABILITY_SCORE_* refusal.
     score_binding: str = "NOT_APPLICABLE"
     score_binding_detail: str = ""
+    #: #480. Whether the refusal is still *actionable* against this entry's own
+    #: version contract: from ``v8.5-digest-v7`` the canon binds the determinants of
+    #: the published number, so a number stored apart from them -- or two such
+    #: entries whose identical bound evidence publishes different numbers -- is a
+    #: live claim defect that a new receipt can still repair. A ``v2``-``v6`` entry
+    #: never bound those determinants at all: its refusal is still named (the claim
+    #: really does not follow), but the history cannot be re-derived without
+    #: rewriting bytes, so a ledger-wide gate must not be blocked forever by it.
+    score_binding_live: bool = False
 
     @property
     def fully_valid(self) -> bool:
@@ -1402,6 +1442,20 @@ class EntryVerification:
         """Whether the published number is carried by the entry's own bound evidence."""
         return self.score_binding in ("OK", "NOT_APPLICABLE")
 
+    @property
+    def score_binding_reason(self) -> str:
+        """``COMPONENT:sequence`` for a refusal, the bare verdict otherwise (#480).
+
+        A reason that names only the component cannot say *which* entry it refused:
+        every score-binding reason is therefore suffixed with the sequence of the
+        entry that produced it. Entries with nothing to carry keep their bare
+        verdict (``OK`` / ``NOT_APPLICABLE``), so a pass is never formatted as a
+        refusal.
+        """
+        if self.score_binding in ("OK", "NOT_APPLICABLE"):
+            return self.score_binding
+        return f"{self.score_binding}:{self.sequence_number}"
+
     def as_dict(self) -> dict[str, Any]:
         return {
             "sequence_number": self.sequence_number,
@@ -1413,6 +1467,8 @@ class EntryVerification:
             "artifact_detail": self.artifact_detail,
             "score_binding": self.score_binding,
             "score_binding_detail": self.score_binding_detail,
+            "score_binding_reason": self.score_binding_reason,
+            "score_binding_live": self.score_binding_live,
             "fully_valid": self.fully_valid,
         }
 
@@ -1422,12 +1478,20 @@ class LedgerVerificationReport:
     """Whole-ledger verdict: chain, digests, artifacts and score binding reported separately."""
 
     entries: tuple[EntryVerification, ...]
-    overall: str  # OK | CHAIN_INVALID | DIGEST_TAMPERED | DIGEST_CANON_UNPROVEN | ARTIFACTS_INCOMPLETE
-    #: #408. OK | the first named CAPABILITY_SCORE_* refusal found. Deliberately
-    #: NOT folded into ``overall``/``verify_chain()``: a number that does not follow
-    #: from its bound evidence is a claim defect, not a byte-history defect, and
-    #: collapsing the two would both hide the defect behind a chain verdict and
-    #: retroactively invalidate a history whose bytes are intact.
+    #: OK | CHAIN_INVALID | DIGEST_TAMPERED | DIGEST_CANON_UNPROVEN |
+    #: ARTIFACTS_INCOMPLETE | SCORE_BINDING_INVALID. The byte-history verdicts come
+    #: first (a broken chain outranks a claim defect); SCORE_BINDING_INVALID is
+    #: emitted only for a *live* score-binding refusal (#480), so ``overall`` and
+    #: ``score_binding`` can never disagree about whether this ledger is usable.
+    overall: str
+    #: #408/#480. ``OK`` | the first named ``CAPABILITY_SCORE_*:<sequence>`` refusal
+    #: found, in ledger order. The sequence suffix is part of the contract: a reason
+    #: that names only the component cannot say which entry it refused.
+    #:
+    #: Kept apart from ``overall`` for a *historical* refusal: a pre-``v7`` entry
+    #: never bound the determinants of its number, so its claim does not follow while
+    #: its bytes are intact. Collapsing the two would retroactively invalidate a
+    #: history that cannot be re-derived without rewriting stored bytes.
     score_binding: str = "OK"
 
     @property
@@ -1447,8 +1511,68 @@ class LedgerVerificationReport:
         return all(e.artifacts in ("OK", "NO_BINDINGS") for e in self.entries)
 
     @property
+    def score_binding_failures(self) -> tuple[EntryVerification, ...]:
+        """Every entry whose published number is not carried by its bound evidence."""
+        return tuple(e for e in self.entries if not e.score_binding_valid)
+
+    @property
+    def live_score_binding_failures(self) -> tuple[EntryVerification, ...]:
+        """Refusals this ledger's *own* version contract can still repair (#480).
+
+        An entry whose canon binds score evidence (``v7``+) that publishes an
+        unsupported number is a defect of the current contract; the same shape on a
+        ``v2``-``v6`` entry is history that never bound those determinants.
+        """
+        return tuple(e for e in self.entries if not e.score_binding_valid and e.score_binding_live)
+
+    @property
+    def historical_score_binding_failures(self) -> tuple[EntryVerification, ...]:
+        """Refusals carried by pre-score-evidence entries: named, never re-derivable."""
+        return tuple(e for e in self.entries if not e.score_binding_valid and not e.score_binding_live)
+
+    @property
+    def live_score_binding_reasons(self) -> tuple[str, ...]:
+        """``CAPABILITY_SCORE_*:<sequence>`` for every live refusal, in ledger order."""
+        return tuple(e.score_binding_reason for e in self.live_score_binding_failures)
+
+    @property
+    def historical_score_binding_reasons(self) -> tuple[str, ...]:
+        """``CAPABILITY_SCORE_*:<sequence>`` for every pre-``v7`` refusal, in ledger order."""
+        return tuple(e.score_binding_reason for e in self.historical_score_binding_failures)
+
+    @property
+    def live_score_binding_reason(self) -> str | None:
+        """The first live ``CAPABILITY_SCORE_*:<sequence>`` reason, or ``None``."""
+        reasons = self.live_score_binding_reasons
+        return reasons[0] if reasons else None
+
+    @property
+    def score_binding_status(self) -> str:
+        """``OK`` | ``HISTORICAL_ONLY`` | ``INVALID`` -- the binding's own verdict.
+
+        ``INVALID`` iff a live refusal exists; ``HISTORICAL_ONLY`` when the only
+        refusals belong to entries that never bound the number's determinants. The
+        three values make ``overall`` and ``score_binding`` readable together: a
+        ledger is byte-intact (``overall == "OK"``) while still naming a historical
+        claim defect, and that combination is stated here rather than implied.
+        """
+        if self.live_score_binding_failures:
+            return "INVALID"
+        if self.historical_score_binding_failures:
+            return "HISTORICAL_ONLY"
+        return "OK"
+
+    @property
     def score_bindings_valid(self) -> bool:
-        return all(e.score_binding_valid for e in self.entries)
+        """Whether every *live* published number is carried by its bound evidence.
+
+        #480: pre-score-evidence refusals are excluded here on purpose. They are
+        still reported (``historical_score_binding_reasons``) and still make
+        ``score_binding`` non-``OK``, but a ledger-wide gate cannot be blocked
+        forever by entries whose bytes may not be rewritten to carry evidence they
+        were never written with.
+        """
+        return not self.live_score_binding_failures
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -1457,7 +1581,10 @@ class LedgerVerificationReport:
             "digests_valid": self.digests_valid,
             "artifacts_intact": self.artifacts_intact,
             "score_binding": self.score_binding,
+            "score_binding_status": self.score_binding_status,
             "score_bindings_valid": self.score_bindings_valid,
+            "live_score_binding_reasons": list(self.live_score_binding_reasons),
+            "historical_score_binding_reasons": list(self.historical_score_binding_reasons),
             "entries": [e.as_dict() for e in self.entries],
         }
 
@@ -1519,10 +1646,25 @@ class BenchmarkLedger:
         evidential window class; with no such entry the reader refuses by name -- quoting
         the entry it refused and the class that entry carries -- instead of publishing a
         number nothing stands behind. There is no fallback and no default class.
+
+        #490: the selected entry must also carry the measurement its number rests on. Its
+        own :meth:`BenchmarkReceipt.score_publication_refusal_reason` decides, so "the
+        number exists, the window is evidential, and the window records how many bars it
+        was measured on" is one predicate in one place; a receipt that predates the
+        measurement is refused by name rather than published on an imputed count.
         """
         newest = self._entries[-1] if self._entries else None
         selected = self.latest_evidential_entry()
         if selected is not None:
+            # #490: declaring an evidential class is necessary but not sufficient. The
+            # publication predicate is the receipt's own: a number may be published only
+            # when it exists, its window declares economic evidence, and that window
+            # records the bar count it was measured on. A receipt missing the measurement
+            # is refused here by name -- never imputed, never coerced to 0, never given a
+            # default class -- so an unmeasured number cannot reach a dashboard.
+            refusal = selected.receipt.score_publication_refusal_reason()
+            if refusal:
+                return Publication(entry=None, latest_entry=newest, refusal_reason=refusal)
             return Publication(entry=selected, latest_entry=newest)
         if newest is None:
             return Publication(
@@ -1554,6 +1696,14 @@ class BenchmarkLedger:
         chain link is recomputed from the entry's own fields, and every bound
         artifact is re-hashed on disk. A missing artifact and a broken chain are
         reported as distinct verdicts -- neither is collapsed into the other.
+
+        #480: every score-binding refusal is named ``COMPONENT:sequence`` and is
+        classified against the entry's *own* version contract. A ``v7``+ entry binds
+        the determinants of its number, so its refusal is live: it is reported in
+        ``overall`` as ``SCORE_BINDING_INVALID`` unless a byte-history defect already
+        outranks it. A ``v2``-``v6`` refusal is history that cannot be re-derived --
+        still named in ``score_binding``/``historical_score_binding_reasons``, but
+        never turned into a generic ledger failure (and never into ``...:OK``).
         """
         expected_parent = self.GENESIS_HASH
         entries: list[EntryVerification] = []
@@ -1592,6 +1742,9 @@ class BenchmarkLedger:
                 refusal = receipt.capability_score_refusal_reason()
                 score_binding = "OK" if refusal is None else refusal.split(":", 1)[0]
                 score_binding_detail = refusal or ""
+            score_binding_live = self._versions_bind_score_evidence(receipt.digest_version) and (
+                score_binding not in ("OK", "NOT_APPLICABLE")
+            )
             entries.append(
                 EntryVerification(
                     sequence_number=ledger_entry.sequence_number,
@@ -1603,6 +1756,7 @@ class BenchmarkLedger:
                     artifact_detail=artifact_detail,
                     score_binding=score_binding,
                     score_binding_detail=score_binding_detail,
+                    score_binding_live=score_binding_live,
                 )
             )
             expected_parent = ledger_entry.entry_hash
@@ -1616,12 +1770,20 @@ class BenchmarkLedger:
             overall = "DIGEST_CANON_UNPROVEN"
         elif any(e.artifacts not in ("OK", "NO_BINDINGS") for e in entries):
             overall = "ARTIFACTS_INCOMPLETE"
+        elif any(not e.score_binding_valid and e.score_binding_live for e in entries):
+            overall = "SCORE_BINDING_INVALID"
         score_binding = "OK"
         for verification in entries:
             if not verification.score_binding_valid:
-                score_binding = verification.score_binding
+                score_binding = verification.score_binding_reason
                 break
         return LedgerVerificationReport(entries=tuple(entries), overall=overall, score_binding=score_binding)
+
+    @staticmethod
+    def _versions_bind_score_evidence(digest_version: str) -> bool:
+        """Treat only known evidence-binding canon versions as live claims."""
+        canon = RECEIPT_CANON_TABLE.get(digest_version)
+        return canon is not None and canon.score_evidence == "always_present"
 
     def _score_binding_contradictions(self) -> dict[int, str]:
         """Entries bound to identical evidence that publish different numbers (#408).
