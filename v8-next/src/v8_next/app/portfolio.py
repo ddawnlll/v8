@@ -17,6 +17,7 @@ the economic receipt attached; gate logic itself is untouched. No live orders.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import hashlib
 import json
 import sys
@@ -41,6 +42,14 @@ from v8_next.app.economic import (
     FLOW_SOURCE_ANALYTIC_PER_BAR,
     FLOW_SOURCE_ENGINE_FILLS,
     oos_slice_flow,
+)
+from v8_next.app.rerun_guard import (
+    REFUSED_EXIT_CODE,
+    refusal_message,
+    registered_run_payload,
+)
+from v8_next.app.rerun_guard import (
+    RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY as RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY,
 )
 from v8_next.domain.capital_policy import CapitalPolicy
 from v8_next.domain.market import Candle
@@ -80,14 +89,9 @@ from v8_next.evaluation.store import ResearchStore, canonical
 CASE_ID = "BC-QUAD-PORTFOLIO-01"
 POLICY_ID = "pol_portfolio_quad"
 PRIMARY_DEFAULT = "equal_weight"
-# Named refusal for a run whose identity is already registered in this output
-# dir's ResearchStore: the registered payload folds in the sha256 of every
-# artifact, including the benchmark ledger a re-execution appends to, so the
-# second registration can never match and must not be attempted.
-RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY = "RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY"
-# Exit code for a run the CLI refused to start. 0 = ran and verified, 1 = ran and
-# did not verify, 2 = bad input or invalid data, so a refusal needs its own code.
-REFUSED_EXIT_CODE = 3
+# The named refusal and its exit code live in ``v8_next.app.rerun_guard``; they are
+# re-exported here (imported by name) because the portfolio CLI is one of the two
+# call sites and this module's tests read them off it.
 
 
 def parse_utc_ms(value: str) -> int:
@@ -305,26 +309,6 @@ def resolve_portfolio_gates(
     )
 
 
-def registered_run_payload(out_dir: Path, run_key_digest: str) -> str | None:
-    """The payload this output dir's run store holds for ``run_key_digest``.
-
-    ``None`` when the store registers no such run -- including when the store file
-    does not exist yet, since this check must not create the store (or any other
-    artifact) for a run that has not registered anything. The store's ``runs``
-    table is the authority here: the window manifest alone cannot distinguish a
-    registered run from one whose registration never happened.
-    """
-    store_path = out_dir / "runs" / "runs.sqlite"
-    if not store_path.is_file():
-        return None
-    store = ResearchStore(store_path)
-    try:
-        row = store.get_run(run_key_digest)
-    finally:
-        store.close()
-    return None if row is None else row[0]
-
-
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     out_dir = Path(args.output_dir)
@@ -366,6 +350,12 @@ def main(argv: list[str] | None = None) -> int:
     n = tape.n_bars
     end_ns = [c.end_ns for c in tape.candles[tape.instruments[0]]]
     print(f"[+] quad tape: {list(tape.instruments)} x {n} bars, {len(tape.funding)} funding rows")
+    # #490: from here on the window carries the bar count this run actually loaded.
+    # ``WindowSpec`` is frozen, and ``bars`` must stay the caller's declaration (a
+    # UTC-bounded window declares none), so the measurement is bound in its own field.
+    # The run key is unaffected -- it is built from the declared window -- so a
+    # completed window is not re-keyed by this.
+    window = dataclasses.replace(window, measured_bars=n)
 
     run_key = RunKey.build(
         window=window,
@@ -411,15 +401,7 @@ def main(argv: list[str] | None = None) -> int:
     # as an uncaught ValueError (exit 1) with the run already recorded COMPLETED.
     # Fail closed here instead: no manifest write, no ledger append, no artifact.
     if registered_run_payload(out_dir, run_key.digest) is not None:
-        print(
-            f"[!] {RERUN_WOULD_REWRITE_REGISTERED_RUN_IDENTITY}: run identity "
-            f"{run_key.digest} is already registered in {out_dir / 'runs' / 'runs.sqlite'} "
-            "and a re-execution can never be re-registered under it (its payload binds "
-            "the ledger it appends to). Refusing before the window manifest, the ledger "
-            "append or any other artifact is written; a deliberate re-execution needs a "
-            "fresh --output-dir.",
-            file=sys.stderr,
-        )
+        print(f"[!] {refusal_message(out_dir, run_key.digest)}", file=sys.stderr)
         return REFUSED_EXIT_CODE
     if existing is not None and not existing.completed:
         print(f"[!] INCOMPLETE prior run for this key (state={existing.state}); continuing it.")
@@ -750,20 +732,14 @@ def main(argv: list[str] | None = None) -> int:
             "status": "UNRUN_SYNTHETIC_CONTROL_TEST_ONLY",
             "reason": "shuffled inputs are restricted to test harnesses",
         },
-        "known_defect_future_leak_caught": {
-            "status": (
-                "CAUGHT"
-                if all(
-                    v["known_defect_future_leak"]["status"] == "CAUGHT"
-                    for v in series_validity.values()
-                )
-                else "MISSED"
-            ),
-            "probe": eb.FUTURE_LEAK_PROBE,
-            "instruments": {
-                i: v["known_defect_future_leak"] for i, v in series_validity.items()
-            },
-        },
+        # #493: the per-instrument control is a verdict on each instrument's
+        # *displaced* copy, so it is rolled up by the module that knows how to
+        # name it (input/rule/extent/digest + the real-series measurement beside
+        # it) instead of publishing the copy's violation counts as if they were
+        # the canonical tape's. `status` semantics are unchanged.
+        "known_defect_future_leak_caught": eb.aggregate_future_leak_control(
+            {i: v["known_defect_future_leak"] for i, v in series_validity.items()}
+        ),
         "ablation": {
             "P": "incumbent quorum=1,tolerance=28 x4 legs",
             "P+E": "incumbent 0.5 + challenger(tol=0) 0.5 x4 legs, same per-leg budget",

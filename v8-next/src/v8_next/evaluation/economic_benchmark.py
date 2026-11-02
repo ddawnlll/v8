@@ -578,6 +578,43 @@ def validate_chronology(bars: Sequence[BarView]) -> tuple[bool, str]:
 #: merely claims `leak_probe=OK` without this identity is visibly incomplete.
 FUTURE_LEAK_PROBE = "series_own_bar_close_containment"
 
+#: What the known-defect control measured (#493): the *displaced* copy of the
+#: series under test, built by :func:`displaced_closes_against_timestamps`, plus
+#: the mutation rule it applies. A `CAUGHT`/`MISSED` status is a verdict on that
+#: copy, so a block that publishes the copy's violation counts without naming it
+#: reads as a live leak on the canonical tape -- which it is not.
+FUTURE_LEAK_DISPLACED_INPUT = "displaced_closes_against_timestamps(bars)"
+FUTURE_LEAK_DISPLACED_RULE = (
+    "bar i keeps timestamp/open/high/low and reports the close of bar i+1"
+)
+
+
+def series_sha256(bars: Sequence[BarView]) -> str:
+    """sha256 over the exact per-bar tuples of ``bars``.
+
+    Digests the series a probe measured, not a label for it: two runs that load
+    the same bars publish the same digest, and a series with any bar rewritten
+    (the displaced copy above, most of all) cannot share the canonical digest.
+    """
+    digest = hashlib.sha256()
+    for b in bars:
+        row = f"{int(b.end_ns)},{b.open!r},{b.high!r},{b.low!r},{b.close!r}\n"
+        digest.update(row.encode())
+    return digest.hexdigest()
+
+
+def series_set_sha256(per_series: Mapping[str, str]) -> str:
+    """One digest over ``{name: series_sha256}``, rows sorted by name.
+
+    The portfolio path measures one control per instrument; its block publishes
+    this single digest over the per-instrument ones, re-derivable from the block's
+    own ``instruments`` cells (#493).
+    """
+    digest = hashlib.sha256()
+    for name in sorted(per_series):
+        digest.update(f"{name}:{per_series[name]}\n".encode())
+    return digest.hexdigest()
+
 
 def displaced_closes_against_timestamps(bars: Sequence[BarView]) -> list[BarView]:
     """Return ``bars`` with its close vector displaced against its own timestamps.
@@ -669,6 +706,21 @@ def detect_future_leak(bars: Sequence[BarView]) -> tuple[bool, str]:
     )
 
 
+def _real_series_status(ok: bool, note: str) -> str:
+    """The real-series side of the control block, in one word (#493).
+
+    ``OK`` only when the probe passed the series as it is. A named
+    ``FUTURE_LEAK_*`` reason is a ``LEAK`` on that series, except the probe's own
+    undecidability (too short a series to decide), which stays ``UNDECIDABLE``
+    instead of being published as a leak it never measured.
+    """
+    if ok:
+        return "OK"
+    if note.startswith("FUTURE_LEAK_PROBE_UNDECIDABLE"):
+        return "UNDECIDABLE"
+    return "LEAK"
+
+
 def future_leak_positive_control(bars: Sequence[BarView]) -> dict[str, Any]:
     """Run the probe against a genuinely displaced copy of ``bars`` (known defect).
 
@@ -677,14 +729,96 @@ def future_leak_positive_control(bars: Sequence[BarView]) -> dict[str, Any]:
     it passed a series whose closes are one bar ahead of their timestamps. A
     probe that cannot fail cannot produce ``CAUGHT`` here, so publishing this
     control is publishing whether the probe still discriminates.
+
+    #493: the block names the series each number belongs to. The verdict is
+    measured on the *displaced* copy, so the copy is published with that verdict
+    -- ``input``/``input_rule`` say which series and which mutation,
+    ``bars_in``/``bars_out`` its extent, ``input_sha256`` its bytes -- and the
+    same call's measurement of the series as it stands is published beside it as
+    ``real_series``. Without that, a per-instrument ``"152/335 closes are not in
+    their own bar"`` read as a live leak on the canonical tape while
+    ``research_validity`` reported the identical probe ``VALID`` on that same
+    tape. The two subjects are one block, named, or the block is incomplete.
     """
     displaced = displaced_closes_against_timestamps(bars)
     ok, note = detect_future_leak(displaced)
+    real_ok, real_note = detect_future_leak(bars)
     return {
         "status": "CAUGHT" if not ok else "MISSED",
         "probe": FUTURE_LEAK_PROBE,
+        "subject": "displaced_series",
+        "input": FUTURE_LEAK_DISPLACED_INPUT,
+        "input_rule": FUTURE_LEAK_DISPLACED_RULE,
+        # #437 pins `bars` to the displaced length: it is `bars_out`, never a
+        # canonical-tape count, which is why `bars_in` is published beside it.
         "bars": len(displaced),
+        "bars_in": len(bars),
+        "bars_out": len(displaced),
+        "input_sha256": series_sha256(displaced),
         "reason": note,
+        "real_series": {
+            "status": _real_series_status(real_ok, real_note),
+            "subject": "canonical_series",
+            "bars": len(bars),
+            # The canonical series' own digest: beside `input_sha256` it shows the
+            # two subjects are two different series, not one series described twice.
+            "series_sha256": series_sha256(bars),
+            "reason": real_note,
+        },
+    }
+
+
+def aggregate_future_leak_control(
+    per_instrument: Mapping[str, dict[str, Any]],
+) -> dict[str, Any]:
+    """Roll per-instrument known-defect controls into one named block (#493).
+
+    The portfolio path measures one control per instrument and publishes a single
+    ``known_defect_future_leak_caught`` for the run, so the aggregate carries the
+    same provenance as the per-instrument blocks it summarizes: the extent
+    (``bars_in``/``bars_out``) summed, one ``input_sha256`` over the per-instrument
+    digests, the real-series measurement per instrument, and the rule. ``status``
+    keeps its #437 semantics exactly -- ``CAUGHT`` iff every instrument's displaced
+    copy was caught.
+    """
+    rows = list(per_instrument.values())
+    caught = all(str(r.get("status")) == "CAUGHT" for r in rows)
+    real = {name: r["real_series"] for name, r in per_instrument.items()}
+    real_statuses = [str(r["status"]) for r in real.values()]
+    if not real_statuses:
+        real_status = "NO_SERIES"
+    elif all(s == "OK" for s in real_statuses):
+        real_status = "OK"
+    elif any(s == "LEAK" for s in real_statuses):
+        real_status = "LEAK"
+    else:
+        real_status = "UNDECIDABLE"
+    return {
+        "status": "CAUGHT" if caught else "MISSED",
+        "probe": FUTURE_LEAK_PROBE,
+        "subject": "displaced_series_per_instrument",
+        "input": FUTURE_LEAK_DISPLACED_INPUT,
+        "input_rule": FUTURE_LEAK_DISPLACED_RULE,
+        "bars_in": sum(int(r.get("bars_in") or 0) for r in rows),
+        "bars_out": sum(int(r.get("bars_out") or 0) for r in rows),
+        "input_sha256": series_set_sha256(
+            {name: str(r["input_sha256"]) for name, r in per_instrument.items()}
+        ),
+        "real_series": {
+            "status": real_status,
+            "bars": sum(int(r["bars"]) for r in real.values()),
+            "series_sha256": series_set_sha256(
+                {name: str(r["series_sha256"]) for name, r in real.items()}
+            ),
+            # A roll-up summarizes; it does not re-measure. The named readings are
+            # the per-instrument cells below, one subject each.
+            "reason": (
+                f"{real_status}; probe={FUTURE_LEAK_PROBE}; instruments={len(real)}; "
+                "per-instrument readings in real_series.instruments"
+            ),
+            "instruments": real,
+        },
+        "instruments": dict(per_instrument),
     }
 
 

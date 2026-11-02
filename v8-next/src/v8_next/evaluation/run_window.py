@@ -101,6 +101,12 @@ class WindowSpec:
     end_ms: int | None = None
     fold_id: str | None = None
     bars: int | None = None
+    #: #490: the bar count the run *actually loaded* for this window. ``bars``
+    #: stays the caller's smoke shortcut (a declarative request, refused for
+    #: evidential profiles by :meth:`validate`); ``measured_bars`` is what the
+    #: tape yielded and is never accepted in its place. Filled in by the producer
+    #: once the tape has been read, never by a caller's declaration.
+    measured_bars: int | None = None
 
     def validate(self) -> None:
         spec = execution_profile(self.profile)
@@ -109,6 +115,10 @@ class WindowSpec:
                 raise ValueError("window start must precede window end")
         if self.bars is not None:
             if self.profile != "smoke":
+                # #490: this rule is about the *shortcut*, not about measurement:
+                # a loaded bar count belongs in ``measured_bars``, so a UTC-bounded
+                # evidential window can carry its sample size without pretending to
+                # have been requested as a smoke window.
                 raise ValueError(
                     f"a bar-count window is a smoke window, not {self.profile!r}; "
                     "bound fold/benchmark runs by explicit UTC instants"
@@ -134,6 +144,18 @@ class WindowSpec:
         return self.profile == "smoke"
 
     @property
+    def carried_bars(self) -> int | None:
+        """The bar count this window can be evidenced on: measured first, else declared.
+
+        #490: one source of truth for what a receipt records as the sample size.
+        A measured count always wins, because it is what the tape yielded; the
+        smoke shortcut is only a fallback for a profile whose window *is* that
+        request. Neither is imputed: an evidential window that never measured a
+        count answers ``None`` and is refused by name downstream.
+        """
+        return self.measured_bars if self.measured_bars is not None else self.bars
+
+    @property
     def proves_economic_evidence(self) -> bool:
         return execution_profile(self.profile).economic_evidence
 
@@ -156,6 +178,11 @@ class WindowSpec:
             "end_ms": self.end_ms,
             "fold_id": self.fold_id,
             "bars": self.bars,
+            # #490: the loaded count is published *beside* the declared one, never in
+            # its place: a manifest of a UTC-bounded window keeps ``bars: null``
+            # (it was never requested as a bar count) and says how many bars the run
+            # actually measured.
+            "measured_bars": self.measured_bars,
             "profile": self.profile,
             "profile_spec": execution_profile(self.profile).as_dict(),
             "is_smoke": self.is_smoke,

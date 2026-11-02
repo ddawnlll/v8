@@ -31,6 +31,7 @@ from v8_next.adapters.expert_strategy import (
 from v8_next.domain.market import Candle
 from v8_next.evaluation.alignment import IntervalLoss
 from v8_next.evaluation.benchmark_receipt import (
+    RECEIPT_CANON_TABLE,
     BenchmarkLedger,
     GateState,
     GateVector,
@@ -1442,6 +1443,16 @@ def evaluate_g9_certificate_authority(
 LEDGER_EMPTY_NO_ENTRIES = "LEDGER_EMPTY_NO_ENTRIES_TO_VERIFY"
 #: Named reason prefix for a ledger whose own verification did not hold.
 LEDGER_VERIFICATION_FAILED = "LEDGER_VERIFICATION_FAILED"
+#: Named reason when a verification report says ``OK`` while a component that verdict
+#: is derived from is broken. Publishing ``<verdict>:OK`` would name the failing
+#: component as fine (#480), so the disagreement is published as its own name.
+LEDGER_VERDICT_INCONSISTENT = "LEDGER_VERDICT_INCONSISTENT"
+#: The claim-layer verdict ``verify_report()`` publishes when a *live* score-binding
+#: refusal exists (#480 task 2). It is not a byte-history class: routing it through
+#: ``LEDGER_VERIFICATION_FAILED:<component>`` would name no component and would make
+#: the named live-defect branch below unreachable, so this path reads it out and lets
+#: the refusal speak for itself, by component and sequence.
+SCORE_BINDING_INVALID = "SCORE_BINDING_INVALID"
 #: Named reason G2 carries when the ledger verified but no engine rerun was compared:
 #: ledger conservation and engine determinism are two different measurements.
 DETERMINISM_RERUN_NOT_PERFORMED = "DETERMINISM_RERUN_NOT_PERFORMED"
@@ -1479,6 +1490,34 @@ class StructuralGateResolution:
         return cast(GateState, getattr(self.gates, vector_field))
 
 
+def _entry_declares_score_evidence(receipt: Any) -> bool:
+    """Treat unknown canon versions as live defects rather than exempt history."""
+    canon = RECEIPT_CANON_TABLE.get(receipt.digest_version)
+    return canon is None or canon.score_evidence == "always_present"
+
+
+def _score_binding_defects(
+    ledger: BenchmarkLedger, report: Any
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Separate actionable score-binding defects from immutable legacy history."""
+    live: list[dict[str, Any]] = []
+    historical: list[dict[str, Any]] = []
+    for entry, verified in zip(ledger.entries, report.entries, strict=True):
+        if verified.score_binding_valid:
+            continue
+        component = verified.score_binding.split(":", 1)[0]
+        defect = {
+            "sequence": verified.sequence_number,
+            "component": component,
+            "reason": f"{component}:{verified.sequence_number}",
+            "detail": verified.score_binding_detail,
+            "digest_version": entry.receipt.digest_version,
+            "live": _entry_declares_score_evidence(entry.receipt),
+        }
+        (live if defect["live"] else historical).append(defect)
+    return live, historical
+
+
 def measure_ledger_parity(ledger: BenchmarkLedger) -> tuple[GateState, dict[str, Any]]:
     """G2's measured input on this path: the ledger this battery was handed, verified.
 
@@ -1488,13 +1527,30 @@ def measure_ledger_parity(ledger: BenchmarkLedger) -> tuple[GateState, dict[str,
 
     * **no entries** -> ``UNKNOWN`` with ``LEDGER_EMPTY_NO_ENTRIES_TO_VERIFY``. An
       empty ledger verifies vacuously, and a vacuous verification is not evidence.
-    * **verification fails** (chain / digest / bound artifacts / score binding) ->
-      ``BLOCKED`` with ``LEDGER_VERIFICATION_FAILED:<overall>``. This is a measured
-      failure, not an absence of measurement.
-    * **verifies cleanly** -> ``UNKNOWN`` with ``DETERMINISM_RERUN_NOT_PERFORMED``.
-      A verified ledger proves the ledger half of ``g2_determinism_ledger``; engine
-      rerun parity is a different measurement (the runner's ``measure_determinism``)
-      which this path does not perform, so a clean ledger is not read as a PASS.
+    * **byte history broken** (chain / digest / bound artifacts) -> ``BLOCKED`` with
+      ``LEDGER_VERIFICATION_FAILED:<component>``. This is a measured failure, not an
+      absence of measurement, and the component named is a failure -- never ``OK``.
+    * **a live score-binding defect** -> ``BLOCKED`` with the refusal named by
+      component and sequence, e.g. ``CAPABILITY_SCORE_UNBOUND_TO_EVIDENCE:<seq>`` or
+      ``CAPABILITY_SCORE_CONTRADICTS_BOUND_EVIDENCE:<seq>``.
+    * **only history remains** (score-binding refusals on entries whose own declared
+      version predates ``score_evidence``) -> ``UNKNOWN`` with
+      ``DETERMINISM_RERUN_NOT_PERFORMED``.
+
+    #480: the third and fourth cases used to collapse into one. ``verify_report()``
+    keeps the byte verdict and the score-binding verdict apart on purpose (a number
+    that does not follow from its evidence is a claim defect, not a byte-history
+    defect), so the ledger's ``overall`` was ``OK`` while the score bindings were not
+    -- and this function published ``LEDGER_VERIFICATION_FAILED:OK``, naming the
+    failing component as fine and pinning G2 to BLOCKED forever, because the
+    pre-``v7`` entries it refused can never be retro-bound under an append-only
+    ledger. Both halves are reported here: a byte failure blocks and names itself; a
+    live claim defect blocks and names its component and sequence; a claim defect on
+    an entry whose own version never carried the evidence stays named in the metrics
+    as history and does not block. A verified ledger still proves only the ledger half
+    of ``g2_determinism_ledger``; engine rerun parity is a different measurement (the
+    runner's ``measure_determinism``) which this path does not perform, so the history
+    case is not read as a PASS either.
     """
     entries = ledger.entries
     if not entries:
@@ -1505,6 +1561,7 @@ def measure_ledger_parity(ledger: BenchmarkLedger) -> tuple[GateState, dict[str,
             "note": "an empty ledger evidences no ledger parity; UNKNOWN, never PASS",
         }
     report = ledger.verify_report()
+    live_defects, historical_defects = _score_binding_defects(ledger, report)
     summary = {
         "entries": len(entries),
         "ledger_overall": report.overall,
@@ -1513,19 +1570,64 @@ def measure_ledger_parity(ledger: BenchmarkLedger) -> tuple[GateState, dict[str,
         "artifacts_intact": report.artifacts_intact,
         "score_bindings_valid": report.score_bindings_valid,
         "score_binding": report.score_binding,
+        "live_score_binding_defects": live_defects,
+        "historical_score_binding_defects": historical_defects,
     }
-    clean = (
-        report.overall == "OK"
-        and report.chain_valid
-        and report.digests_valid
-        and report.artifacts_intact
-        and report.score_bindings_valid
+
+    # 1. The byte history is adjudicated first, and only a named failure is published.
+    #    ``report.overall`` carries two kinds of verdict: the byte-history classes and,
+    #    since #480 task 2, the claim-layer ``SCORE_BINDING_INVALID``. Only the byte
+    #    classes belong in a ``LEDGER_VERIFICATION_FAILED:<component>`` reason -- letting
+    #    the claim verdict through here published ``...:SCORE_BINDING_INVALID`` (naming
+    #    no entry) and made the named live-defect branch below unreachable, collapsing
+    #    again the very distinction the two halves of #480 added. A report that
+    #    contradicts its own components is published as that disagreement, never ``:OK``.
+    byte_components_ok = (
+        report.chain_valid and report.digests_valid and report.artifacts_intact
     )
-    if not clean:
+    bytes_verdict = report.overall
+    if bytes_verdict == SCORE_BINDING_INVALID:
+        bytes_verdict = (
+            LEDGER_VERDICT_INCONSISTENT
+            if (not byte_components_ok or report.score_bindings_valid)
+            else "OK"
+        )
+    elif bytes_verdict == "OK" and not byte_components_ok:
+        bytes_verdict = LEDGER_VERDICT_INCONSISTENT
+    if bytes_verdict != "OK":
         return GateState.BLOCKED, {
             "status": "FAIL",
-            "reason": f"{LEDGER_VERIFICATION_FAILED}:{report.overall}",
+            "reason": f"{LEDGER_VERIFICATION_FAILED}:{bytes_verdict}",
             **summary,
+        }
+
+    # 2. A live claim defect is a measured failure of THIS ledger: block, named.
+    if live_defects:
+        first = live_defects[0]
+        return GateState.BLOCKED, {
+            "status": "FAIL",
+            "reason": first["reason"],
+            "detail": first["detail"],
+            "blocked_component": first["component"],
+            "blocked_sequence": first["sequence"],
+            **summary,
+        }
+
+    # 3. Only refusals this path cannot repair remain: the entries predate the field
+    #    that would bind them (D-166 retired seq 20 for the same shape). They stay named
+    #    in the metrics and never resolve to PASS.
+    if historical_defects:
+        return GateState.UNKNOWN, {
+            "status": "UNRUN",
+            "reason": DETERMINISM_RERUN_NOT_PERFORMED,
+            **summary,
+            "note": (
+                "the byte history verified; every remaining score-binding refusal is on "
+                "an entry whose own declared digest version predates score_evidence, so "
+                "it cannot be bound without rewriting append-only bytes and is history, "
+                "not a live defect; no engine rerun was compared either, so this gate "
+                "stays unmeasured; UNKNOWN, never PASS"
+            ),
         }
     return GateState.UNKNOWN, {
         "status": "UNRUN",
