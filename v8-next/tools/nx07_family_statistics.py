@@ -185,6 +185,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--end-utc", default="2025-02-01")
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--out", default="docs/evidence/v87/NX07")
+    # #494: which registered variant the DSR authority condition describes. This
+    # harness declares it; it is never inferred from the curves. Without it the
+    # plan declares no subject and the estimator is published as BLOCKED.
+    parser.add_argument("--dsr-subject", default=None)
     args = parser.parse_args(argv)
 
     repo_root = (
@@ -229,6 +233,7 @@ def main(argv: list[str] | None = None) -> int:
         block_size=CANONICAL_G5_BLOCK_SIZE,
         reps=eb.BOOTSTRAP_REPS,
         seed=args.seed,
+        dsr_subject=args.dsr_subject,
     )
     plan_path = out_dir / "statistics_plan.json"
     plan_path.write_text(json.dumps(plan.as_dict(), indent=2, sort_keys=True) + "\n")

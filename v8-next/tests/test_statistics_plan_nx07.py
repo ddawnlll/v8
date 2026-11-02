@@ -232,6 +232,11 @@ def test_real_family_plan_precedes_and_binds_the_statistics(tmp_path: Path) -> N
             "2025-02-01",
             "--out",
             str(out),
+            # #494: the harness declares the variant its DSR authority condition
+            # describes. It is not inferred from the curves; declaring it is a
+            # pre-registration, and without it the estimator is published BLOCKED.
+            "--dsr-subject",
+            "causal_trend",
         ],
         capture_output=True,
         text=True,
@@ -271,8 +276,13 @@ def test_real_family_plan_precedes_and_binds_the_statistics(tmp_path: Path) -> N
     # no manufactured significance, and the sample adequacy is measured, not assumed
     assert receipt["economic_claim"] == "NONE"
     assert receipt["sample_sufficiency"]["basis"].startswith("non-overlapping blocks")
+    # #494: the plan is the only place the subject can come from, and the run
+    # reports that it used the pinned one instead of inferring a name.
+    assert plan["dsr_subject"] == "causal_trend"
     dsr = receipt["statistics"]["dsr"]
     assert dsr["verdict"] == "COMPUTED", dsr.get("reason")
+    assert dsr["selected_variant"] == "causal_trend"
+    assert dsr["selected_variant_source"] == "PINNED_PLAN"
     assert 0.0 <= dsr["dsr_confidence"] <= 1.0
     # the measured result may be anything -- including far below the authority
     # threshold. What must hold is that the number came from the real curves and

@@ -14,6 +14,13 @@ Two rules are enforced here rather than trusted to callers:
   is exactly the tuning this contract forbids;
 * authority and diagnostic sets must both be non-empty and disjoint, so a
   receipt can never present a diagnostic as the condition the gate turned on.
+
+And one subject rule (#494): the DSR is an authority condition about *one*
+registered variant, so the plan may declare that variant (`dsr_subject`) and
+the estimator must use it. The subject is never inferred at run time -- not
+alphabetically, and not from the best realized excess -- because choosing it
+after seeing the curves is the selection the estimator exists to correct for.
+A plan without a declared subject leaves the DSR blocked, not weak.
 """
 
 from __future__ import annotations
@@ -70,6 +77,9 @@ class StatisticsPlan:
     diagnostics: tuple[str, ...]
     pinned_ns: int
     interval_bars: int = 0
+    #: The registered variant the DSR authority condition describes (#494).
+    #: ``None`` means the plan declares no subject, so the estimator is BLOCKED.
+    dsr_subject: str | None = None
 
     def __post_init__(self) -> None:
         if not self.family or not self.family.strip():
@@ -96,6 +106,8 @@ class StatisticsPlan:
             raise ValueError("a statistic cannot be both an authority condition and a diagnostic")
         if self.pinned_ns <= 0:
             raise ValueError("a plan must carry the instant it was pinned")
+        if self.dsr_subject is not None and not self.dsr_subject.strip():
+            raise ValueError("a declared DSR subject cannot be blank")
 
     def identity(self) -> str:
         """Content hash: everything except the pinning instant."""
@@ -106,7 +118,7 @@ class StatisticsPlan:
 
     def _payload(self) -> dict[str, Any]:
         """Every field except ``pinned_ns`` -- the content that must not drift."""
-        return {
+        payload: dict[str, Any] = {
             "family": self.family,
             "block_size": self.block_size,
             "reps": self.reps,
@@ -124,6 +136,13 @@ class StatisticsPlan:
             "diagnostics": list(self.diagnostics),
             "interval_bars": self.interval_bars,
         }
+        # #494: the key is present only when a subject is declared, so the
+        # identity of every plan pinned before this field existed is unchanged
+        # and no stored pin has to be rewritten. Declaring a subject is a content
+        # change and therefore changes the identity -- which is the point.
+        if self.dsr_subject is not None:
+            payload["dsr_subject"] = self.dsr_subject
+        return payload
 
     def as_dict(self) -> dict[str, Any]:
         payload = self._payload()
@@ -146,8 +165,15 @@ def g5_plan(
         "slippage-stressed) on one shared tape; not proven independent"
     ),
     interval_bars: int = 0,
+    dsr_subject: str | None = None,
 ) -> StatisticsPlan:
-    """The G5 plan: authority = DSR confidence and Bonferroni-adjusted p."""
+    """The G5 plan: authority = DSR confidence and Bonferroni-adjusted p.
+
+    ``dsr_subject`` names the registered variant the DSR describes. It has no
+    default on purpose: a caller that does not know which variant its authority
+    condition is about leaves it ``None`` and the DSR is published as BLOCKED
+    (``MISSING_DSR_SUBJECT``) instead of being given an inferred subject.
+    """
     return StatisticsPlan(
         family=family,
         block_size=block_size,
@@ -165,6 +191,7 @@ def g5_plan(
         authority_conditions=G5_AUTHORITY_CONDITIONS,
         diagnostics=G5_DIAGNOSTICS,
         interval_bars=interval_bars,
+        dsr_subject=dsr_subject,
         pinned_ns=pinned_ns,
     )
 

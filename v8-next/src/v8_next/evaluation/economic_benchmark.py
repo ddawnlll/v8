@@ -118,7 +118,7 @@ ESTIMATOR_UNAVAILABLE: VerdictState = "ESTIMATOR_UNAVAILABLE"
 #: dependency is not importable by this interpreter. Collapsing the second into
 #: the first publishes an environment state as a measured statistical outcome.
 STATISTIC_STATES: frozenset[str] = frozenset(
-    {"COMPUTED", "UNDERPOWERED", "UNSUPPORTED", ESTIMATOR_UNAVAILABLE}
+    {"COMPUTED", "UNDERPOWERED", "UNSUPPORTED", ESTIMATOR_UNAVAILABLE, "BLOCKED"}
 )
 
 #: Optional statistics dependencies each estimator imports at call time (#440),
@@ -3772,9 +3772,14 @@ def run_statistics(
     stats["variant_excess_vs_baseline"] = best
 
     dsr_names = sorted(n for n in losses if n != baseline_id)
-    # DSR must describe the selected (best-excess) variant, never whichever name
-    # happens to sort first. Ties keep a deterministic lexicographic choice.
-    selected_variant = max(dsr_names, key=lambda name: excess_by_name[name], default=baseline_id)
+    # #494: the DSR is an authority condition about ONE registered variant, so its
+    # subject has to be declared by the pinned plan. It is never inferred here:
+    # neither the alphabetically first name nor the best-realized-excess variant
+    # is a declared subject, and choosing either after seeing the curves is the
+    # selection this estimator is supposed to correct for. A plan that declares
+    # no subject leaves the estimator BLOCKED -- it does not get a guessed one.
+    dsr_subject = plan.dsr_subject
+    stats["dsr_subject_source"] = "PINNED_PLAN" if dsr_subject is not None else "UNPINNED"
     sufficiency = sample_sufficiency(int(stats["intervals_per_variant"]), plan.block_size)
     stats["sample_sufficiency"] = sufficiency
     # #440: availability is probed BEFORE any estimator is called -- once, with
@@ -3788,10 +3793,40 @@ def run_statistics(
 
     if unmeasured["dsr"]:
         stats["dsr"] = unmeasured_statistic("dsr", unmeasured["dsr"])
+    elif dsr_subject is None:
+        # Fail closed on the subject, not on the sample: nothing was measured, so
+        # no power vocabulary is published and no confidence can mint authority.
+        stats["dsr"] = {
+            "verdict": "BLOCKED",
+            "reason": "MISSING_DSR_SUBJECT",
+            "detail": (
+                "the pinned statistics plan does not declare which registered variant "
+                "the deflated Sharpe describes; selecting one at run time would pick "
+                "the subject on the evaluated outcome"
+            ),
+            "registered_variants": list(dsr_names),
+            "required_field": "statistics_plan.dsr_subject",
+        }
+    elif dsr_subject == baseline_id:
+        stats["dsr"] = {
+            "verdict": "BLOCKED",
+            "reason": "DSR_SUBJECT_IS_BASELINE",
+            "detail": (f"the declared subject {dsr_subject!r} is the baseline the family is "
+                       "measured against; it is not a member of the DSR comparison set"),
+            "registered_variants": list(dsr_names),
+        }
+    elif dsr_subject not in dsr_names:
+        stats["dsr"] = {
+            "verdict": "BLOCKED",
+            "reason": "DSR_SUBJECT_NOT_IN_FAMILY",
+            "detail": (f"the declared subject {dsr_subject!r} is not a registered non-baseline "
+                       "variant of this family"),
+            "registered_variants": list(dsr_names),
+        }
     else:
         try:
             dsr_plan = DSRPlan(
-                selected_variant=selected_variant,
+                selected_variant=dsr_subject,
                 registered_variants=tuple(dsr_names),
                 effective_independent_trials=plan.effective_independent_trials,
                 independence_basis=plan.independence_basis,
@@ -3805,6 +3840,7 @@ def run_statistics(
                 decision_ns=decision,
             )
             stats["dsr"]["verdict"] = "COMPUTED"
+            stats["dsr"]["selected_variant_source"] = "PINNED_PLAN"
         except Exception as e:  # fail closed, keep reason
             stats["dsr"] = {"verdict": "UNDERPOWERED", "reason": f"{type(e).__name__}: {e}"}
 
@@ -4156,6 +4192,16 @@ def build_verdicts(
     pbo_v = str(pbo.get("verdict", "UNDERPOWERED"))
     computed = f"DSR={dsr_v} PBO={pbo_v} SPA={spa_v}"
     unmeasured = unprovisioned_estimators(stats)
+    # #494: a statistic whose subject the plan never declared is BLOCKED. It did
+    # not run, so it can neither mint authority nor be described with the power
+    # vocabulary, and a published edge verdict must name the block instead of
+    # reading past it.
+    blocked = {
+        key: str((stats.get(key) or {}).get("reason") or "BLOCKED")
+        for key in ESTIMATOR_MODULES
+        if str((stats.get(key) or {}).get("verdict")) == "BLOCKED"
+    }
+    blocked_note = "; ".join(f"{key}: {reason}" for key, reason in blocked.items())
     if unmeasured:
         # #440: a dependency this interpreter cannot import is not a statistical
         # result, and it is not a weak one either. The published verdict is the
@@ -4177,6 +4223,17 @@ def build_verdicts(
             f"{coverage}: estimator dependencies not provisioned: "
             f"{', '.join(unmeasured)} ({UNPROVISIONED_REMEDY}) — never measured, "
             "so no statistical outcome is published"
+        )
+        if blocked:
+            stat_note += f"; also blocked: {blocked_note}"
+    elif blocked:
+        # An authority condition that could not be evaluated is not a weak
+        # result and not an unavailable dependency: authority is not established.
+        statistical_state = "INCONCLUSIVE"
+        published_statistical = statistical_state
+        stat_note = (
+            f"blocked, no statistical authority published: {blocked_note} "
+            f"({computed})"
         )
     elif dsr_v != "COMPUTED" and pbo_v != "COMPUTED" and spa_v != "COMPUTED":
         # Every estimator ran and failed on its own inputs: this is the path
