@@ -41,6 +41,7 @@ assertions at the end read the frozen canonical artifact and skip when it is abs
 from __future__ import annotations
 
 import ast
+import inspect
 import json
 from pathlib import Path
 from typing import Any
@@ -224,6 +225,7 @@ def test_absent_inputs_publish_null_with_a_named_reason() -> None:
         "turnover_efficiency",
         "capital_utilization_pct",
         "expert_displacement_rate",
+        "cashflow_discrepancy_usdt",  # #487: no residual was supplied
     }
     reports = vector.field_reports()
     for name, reason in nulls.items():
@@ -231,11 +233,43 @@ def test_absent_inputs_publish_null_with_a_named_reason() -> None:
         assert reports[name]["status"] == UNMEASURED
         assert reports[name]["value"] is None
         assert reports[name]["reason"] == reason and reason
-    assert vector.is_double_entry_reconciled() is True
+    # #487: no residual means no verdict — a `0.0` default used to mint `true` here
+    assert vector.is_double_entry_reconciled() is None
     # the fields whose inputs ARE present are measured, not null
     assert vector.scenario_failure_fraction == pytest.approx(0.94)
     assert vector.max_adverse_excursion_pct == pytest.approx(12.0)
     assert vector.habitat_selectivity_score is not None
+
+
+def test_double_entry_verdict_is_absent_unless_a_residual_is_supplied() -> None:
+    """#487: the reconciliation verdict is a statement about a MEASURED residual.
+
+    A ``0.0`` default residual made the producer publish ``double_entry_reconciled: true`` —
+    with the basis claiming ``MEASURED`` — for a residual nobody measured. The verdict is now
+    absent (``None`` + the named absence reason) unless the caller supplies its own residual.
+    """
+    parameter = inspect.signature(metrics_from_campaigns).parameters[
+        "cashflow_discrepancy_usdt"
+    ]
+    assert parameter.default is None, "a `0.0` default residual mints a verdict nobody measured"
+
+    absent = _reference()
+    assert absent.cashflow_discrepancy_usdt is None
+    assert absent.is_double_entry_reconciled() is None
+    report = absent.field_reports()["cashflow_discrepancy_usdt"]
+    assert report["status"] == UNMEASURED
+    assert report["value"] is None
+    assert report["reason"] == FIELD_ABSENCE_REASON["cashflow_discrepancy_usdt"]
+    assert FIELD_BASIS["cashflow_discrepancy_usdt"].status != MEASURED
+
+    # a supplied residual IS the caller's measurement: the field becomes MEASURED and the
+    # verdict follows the residual's own size, in both directions
+    reconciled = _reference(cashflow_discrepancy_usdt=0.0)
+    assert reconciled.field_reports()["cashflow_discrepancy_usdt"]["status"] == MEASURED
+    assert reconciled.is_double_entry_reconciled() is True
+    unreconciled = _reference(cashflow_discrepancy_usdt=0.25)
+    assert unreconciled.is_double_entry_reconciled() is False
+    assert _moved(absent, unreconciled) == {"cashflow_discrepancy_usdt"}
 
 
 def test_recovery_horizon_is_read_off_the_path_and_never_a_constant() -> None:
@@ -330,7 +364,16 @@ def test_canonical_artifact_publishes_no_constant_and_no_clamped_duplicate() -> 
         assert family["drawdown_basis"]["basis"] == "uncompounded_sum_of_campaign_returns"
         assert basis["max_adverse_excursion_pct"]["status"] == MEASURED
         assert basis["ruin_margin_pct"]["status"] == DERIVED
-        assert family["double_entry_reconciled"] is True
+        # #487: this producer passes no double-entry residual, so the artifact carries NO
+        # verdict — a fabricated `true` used to sit here — and the field that used to claim
+        # MEASURED for it is a named null instead.
+        assert family["double_entry_reconciled"] is None
+        assert family["double_entry_reconciled_reason"] == FIELD_ABSENCE_REASON[
+            "cashflow_discrepancy_usdt"
+        ]
+        assert vector["cashflow_discrepancy_usdt"] is None
+        assert basis["cashflow_discrepancy_usdt"]["status"] != MEASURED
+        assert basis["cashflow_discrepancy_usdt"]["value"] is None
         receipt_id, campaigns, _ = STORED_RECEIPTS[policy]
         receipt = family["system_proving_receipt"]
         assert receipt["receipt_id"] == receipt_id, "a stored receipt identity was rewritten"

@@ -55,7 +55,11 @@ from v8_next.system_proving import (
     SystemProvingGroundReceipt,
 )
 from v8_next.system_proving.attribution import classify_exit_failure
-from v8_next.system_proving.metrics import DRAWDOWN_BASIS, metrics_from_campaigns
+from v8_next.system_proving.metrics import (
+    DRAWDOWN_BASIS,
+    FIELD_ABSENCE_REASON,
+    metrics_from_campaigns,
+)
 
 HOUR_NS = 3_600 * 10**9
 SLIPPAGE_FRACTIONS = (0.0, 0.05, 0.10)
@@ -470,9 +474,12 @@ def main(argv: list[str] | None = None) -> int:
         # #457: the drawdown, the recovery horizon and the slippage degradation are read off
         # the per-campaign columns this producer actually measured — the vector derives them
         # itself instead of the tool hand-feeding a number under another field's name.
+        # #487: NO double-entry residual is passed. This producer keeps no second ledger, so it
+        # has no residual to reconcile: the vector publishes the field as null with its named
+        # reason instead of inheriting a `0.0` that would mint `double_entry_reconciled: true`.
         metrics = metrics_from_campaigns(
             campaigns=len(trades), failures=breakdown.total_failures, gross_return_sum=gross,
-            fee_cost_sum=abs(fees), funding_cost_sum=abs(funding),
+            fee_cost_sum=abs(fees), funding_cost_sum=funding,
             bars=len(series),
             campaign_net_returns=nets,
             campaign_bars_held=[int(row["bars_held"]) for row in trades],
@@ -536,6 +543,14 @@ def main(argv: list[str] | None = None) -> int:
             "robustness_vector_unmeasured": metrics.unmeasured_fields(),
             "drawdown_basis": DRAWDOWN_BASIS,
             "double_entry_reconciled": metrics.is_double_entry_reconciled(),
+            # #487: the verdict above is the vector's own; when it is absent (no residual was
+            # ever measured) the artifact names why, so a reader cannot read a null verdict as
+            # a reconciled one either.
+            "double_entry_reconciled_reason": (
+                FIELD_ABSENCE_REASON["cashflow_discrepancy_usdt"]
+                if metrics.is_double_entry_reconciled() is None
+                else None
+            ),
             "system_proving_receipt": receipt.as_dict(),
             # #459: which bracket contract the published columns were produced under, the
             # counter reading with its own counts, and the divergence class between them.
@@ -558,7 +573,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"           attribution: {entry['failure_attribution']['counts_by_domain']} "
               f"conservation={entry['conservation_verified']}")
         print(f"           receipt: {entry['system_proving_receipt']['receipt_id']} "
-              f"double_entry={entry['double_entry_reconciled']}")
+              f"double_entry={entry['double_entry_reconciled']}"
+              + (f" ({entry['double_entry_reconciled_reason']})"
+                 if entry["double_entry_reconciled_reason"] else ""))
         unmeasured = ", ".join(item["field"] for item in entry["robustness_vector_unmeasured"])
         print(f"           robustness vector: every measured field carries its own basis; "
               f"null (unmeasured) = {unmeasured or 'none'}")

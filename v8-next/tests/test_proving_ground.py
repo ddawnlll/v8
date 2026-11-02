@@ -14,9 +14,15 @@ need no research dependency and always run.
 
 from __future__ import annotations
 
+import hashlib
+from types import SimpleNamespace
+from typing import cast
+
 import pytest
 
 from v8_next.evaluation.proving_battery import run_battery
+from v8_next.system_proving.metrics import FIELD_ABSENCE_REASON, UNMEASURED
+from v8_next.system_proving.receipt import SystemProvingGroundReceipt
 from v8_next.system_proving.run import (
     FILL_PROFILE,
     SystemProvingGroundRunner,
@@ -84,18 +90,72 @@ def test_empty_world_is_refused() -> None:
 def test_full_chain_exercises_af_t12_and_conserves() -> None:
     pytest.importorskip("arch", reason=_ARCH_REASON)
     world = build_world(_spec(n_bars=120))
-    receipt = SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453)
+    receipt = cast(
+        SystemProvingGroundReceipt,
+        SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453),
+    )
     assert receipt.exercises_full_pipeline is True
     assert receipt.attribution.verify_conservation()
-    assert receipt.metrics.is_double_entry_reconciled()
+    # #487 follow-up: this runner keeps no second ledger, so it reconciles no residual and
+    # must publish no verdict. The assertion is the absence itself, not a truthy pass —
+    # a fabricated ``0.0`` residual used to mint ``double_entry_reconciled: true`` here.
+    assert receipt.metrics.cashflow_discrepancy_usdt is None
+    assert receipt.metrics.is_double_entry_reconciled() is None
+    double_entry = receipt.metrics.field_reports()["cashflow_discrepancy_usdt"]
+    assert double_entry["status"] == UNMEASURED
+    assert double_entry["value"] is None
+    assert double_entry["reason"] == FIELD_ABSENCE_REASON["cashflow_discrepancy_usdt"]
     assert receipt.as_dict()["world_id"] == world.world_id
+
+
+def test_full_chain_publishes_no_double_entry_verdict_without_a_second_ledger() -> None:
+    """Arch-independent pin: no residual is minted where none was reconciled.
+
+    ``STATIONARY_BOOTSTRAP`` worlds need ``arch``, so the family tests above skip in the
+    fast loop. The double-entry contract is a property of the runner's own books, not of
+    the generator: a stub world (deterministic fixture bars, no economic claim) reaches
+    the same ``run_full_chain`` path and keeps this regression assertable everywhere.
+    """
+    world = SimpleNamespace(
+        world_id="synthetic-fixture-world",
+        bars=[SimpleNamespace(close=50000.0 + 10.0 * (index % 7)) for index in range(40)],
+    )
+    receipt = cast(
+        SystemProvingGroundReceipt,
+        SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453),
+    )
+
+    assert receipt.exercises_full_pipeline is True
+    assert receipt.metrics.cashflow_discrepancy_usdt is None
+    assert receipt.metrics.is_double_entry_reconciled() is None
+    published = receipt.as_dict()["metrics"]
+    assert isinstance(published, dict)
+    assert published["cashflow_discrepancy_usdt"] is None
+    double_entry = receipt.metrics.field_reports()["cashflow_discrepancy_usdt"]
+    assert double_entry["status"] == UNMEASURED
+    assert double_entry["reason"] == FIELD_ABSENCE_REASON["cashflow_discrepancy_usdt"]
+
+    # The receipt identity still covers only the run's identity fields — never the
+    # metrics, so the verdict/residual cannot leak into the digest.
+    identity = (
+        f"{world.world_id}|p|{receipt.total_trades}|{receipt.total_campaigns}|453"
+    )
+    digest = hashlib.sha256(identity.encode()).hexdigest()
+    assert receipt.receipt_digest == digest
+    assert receipt.receipt_id == f"spg-receipt-{digest[:16]}"
 
 
 def test_double_run_digest_equal() -> None:
     pytest.importorskip("arch", reason=_ARCH_REASON)
     world = build_world(_spec(n_bars=120))
-    first = SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453)
-    second = SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453)
+    first = cast(
+        SystemProvingGroundReceipt,
+        SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453),
+    )
+    second = cast(
+        SystemProvingGroundReceipt,
+        SystemProvingGroundRunner.run_full_chain("p", world, 10000.0, 453),
+    )
     assert first.receipt_digest == second.receipt_digest
 
 
@@ -119,6 +179,7 @@ def test_battery_report_is_fail_closed_and_named() -> None:
     assert report["claim"] == "NO_ECONOMIC_CLAIM"
     assert report["double_run_digest_equal"] is True
     assert report["af_t12_exercised"] is True
-    names = [f["finding"] for f in report["fault_findings"]]  # type: ignore[union-attr]
+    findings = cast("list[dict[str, object]]", report["fault_findings"])
+    names = [str(finding["finding"]) for finding in findings]
     assert "FAULT_DETECTED_CLOSE_MUTATION" in names
     assert "MISSING_MARK_BOOK" in names

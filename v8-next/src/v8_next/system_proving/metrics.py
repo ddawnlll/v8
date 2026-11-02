@@ -69,6 +69,10 @@ class FieldBasis:
     unit: str
     inputs: tuple[str, ...] = ()
     derived_from: str | None = None
+    #: True for a field this producer never measures of its own accord: the declaration is
+    #: ``UNMEASURED`` (a published number would be a pass-shaped guess) and only a value the
+    #: caller supplies — its own measurement — is published as ``MEASURED``.
+    measured_when_supplied: bool = False
 
 
 #: Per-field basis. Every entry declares either the field's own expression over named inputs,
@@ -175,10 +179,15 @@ FIELD_BASIS: dict[str, FieldBasis] = {
         unit="fraction of campaigns",
     ),
     "cashflow_discrepancy_usdt": FieldBasis(
-        status=MEASURED,
-        statement="the double-entry residual the producer reconciles, passed in as an input",
+        status=UNMEASURED,
+        statement=(
+            "the double-entry residual the caller's books reconcile, passed in as an input; "
+            "this producer keeps no second ledger and measures no residual of its own, so the "
+            "field is UNMEASURED unless a residual is supplied"
+        ),
         unit="USDT",
         inputs=("cashflow_discrepancy_usdt",),
+        measured_when_supplied=True,
     ),
 }
 
@@ -246,10 +255,18 @@ class SystemRobustnessVector:
     regime_stability_score: float | None
     habitat_selectivity_score: float | None
     expert_displacement_rate: float | None
-    cashflow_discrepancy_usdt: float
+    cashflow_discrepancy_usdt: float | None
 
-    def is_double_entry_reconciled(self) -> bool:
-        """Invariant: cashflow discrepancy must be zero for valid reconciliation."""
+    def is_double_entry_reconciled(self) -> bool | None:
+        """The double-entry verdict, or ``None`` when no residual was measured.
+
+        The invariant (``|residual| < DOUBLE_ENTRY_EPSILON``) is a statement about a measured
+        residual. With no residual supplied there is nothing to reconcile, so the verdict is
+        absent — never the pass-shaped ``True`` a ``0.0`` default would mint for a producer
+        that never kept the second ledger.
+        """
+        if self.cashflow_discrepancy_usdt is None:
+            return None
         return abs(self.cashflow_discrepancy_usdt) < DOUBLE_ENTRY_EPSILON
 
     def as_dict(self) -> dict[str, float | int | None]:
@@ -272,15 +289,23 @@ class SystemRobustnessVector:
         The per-field basis is a property of the field, not of the run (``FIELD_BASIS``); the
         value and, for a null, the named reason are properties of this run. A field whose
         basis is ``MEASURED`` or ``DERIVED`` but whose value is absent here is reported as
-        ``UNMEASURED`` for this run, never as a zero.
+        ``UNMEASURED`` for this run, never as a zero. A field this producer does not measure
+        on its own (``measured_when_supplied``) is ``UNMEASURED`` unless the caller supplied
+        its measurement, so no run can inherit a ``MEASURED`` claim it did not earn.
         """
         published = self.as_dict()
         reports: dict[str, dict[str, Any]] = {}
         for name in FIELD_NAMES:
             basis = FIELD_BASIS[name]
             value = published[name]
+            if value is None:
+                status = UNMEASURED
+            elif basis.measured_when_supplied:
+                status = MEASURED
+            else:
+                status = basis.status
             report: dict[str, Any] = {
-                "status": basis.status if value is not None else UNMEASURED,
+                "status": status,
                 "basis": basis.statement,
                 "unit": basis.unit,
                 "inputs": list(basis.inputs),
@@ -345,7 +370,7 @@ def metrics_from_campaigns(
     funding_cost_sum: float,
     max_drawdown_pct: float | None = None,
     bars: int,
-    cashflow_discrepancy_usdt: float = 0.0,
+    cashflow_discrepancy_usdt: float | None = None,
     campaign_net_returns: Sequence[float] | None = None,
     campaign_bars_held: Sequence[int] | None = None,
     net_with_modelled_slippage_sum: float | None = None,
@@ -359,6 +384,11 @@ def metrics_from_campaigns(
     (``DRAWDOWN_BASIS``) when the producer supplies it, and off the caller's own
     ``max_drawdown_pct`` measurement otherwise; ``ruin_margin_pct`` is a declared restatement of
     ``max_adverse_excursion_pct`` and is never clamped.
+
+    The double-entry residual is the caller's own measurement: this producer keeps no second
+    ledger, so ``cashflow_discrepancy_usdt`` has NO default residual. Without one it is
+    published as ``null`` with its named absence reason and the reconciliation verdict is
+    absent, instead of a ``0.0`` that would mint ``double_entry_reconciled: true``.
     """
     total = float(campaigns)
     fails = float(failures)

@@ -211,7 +211,13 @@ class SystemProvingGroundRunner:
             regime_stability_score=min(1.0, max(0.0, 1.0 - fail_fraction)) if total > 0 else 1.0,
             habitat_selectivity_score=min(1.0, max(0.0, trades / len(bars))) if bars else 0.0,
             expert_displacement_rate=0.0,
-            cashflow_discrepancy_usdt=0.0,
+            # This runner keeps no second ledger: its balance is a single synthetic-world
+            # running total (bar closes minus a 5bp fee), so it reconciles no residual and
+            # has none to publish. A literal ``0.0`` here would be a pass-shaped value that
+            # mints ``double_entry_reconciled: true`` on a reconciliation that never
+            # happened, so the field stays ``None`` and the receipt carries the named
+            # absence reason instead of a verdict.
+            cashflow_discrepancy_usdt=None,
         )
         receipt = SystemProvingGroundReceipt.new(
             world_id=world.world_id,

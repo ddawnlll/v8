@@ -167,6 +167,9 @@ def test_receipt_digest_and_double_entry_invariant() -> None:
     metrics = metrics_from_campaigns(
         campaigns=100, failures=94, gross_return_sum=0.66, fee_cost_sum=1.31,
         funding_cost_sum=0.02, max_drawdown_pct=12.0, bars=35_064,
+        # #487: a reconciliation verdict needs a MEASURED residual — the producer no longer
+        # defaults one to 0.0, so the caller states the residual it actually reconciled.
+        cashflow_discrepancy_usdt=0.0,
     )
     assert metrics.is_double_entry_reconciled() is True
     assert metrics.funding_drag_ratio > 0
