@@ -10,16 +10,12 @@ acceptance criteria. Preserve unrelated changes and all evidence/no-real-money
 constraints. The paragraphs below describe the previous boundary where they
 conflict with this explicit owner correction.
 
-As of 2026-09-10, the active project implementation has returned to the Rust
-codebase in `../v8-core/`. The root Rust-only instructions are authoritative.
-This directory is a frozen experimental Python prototype/reference, not the
-active product path. Do not add, edit, refactor, or extend its implementation or
-tests unless the owner explicitly reactivates `v8-next/` in a later instruction.
-Preserve unrelated user changes.
-
-Commands in this directory may be run read-only for comparison, forensic
-inspection, or reproducibility checks. They do not authorize new features,
-economic claims, paper/live activation, or changes to the active architecture.
+Active boundary (2026-11-03, V9 transition): `v8-next/` is the active
+Python/NautilusTrader implementation path for V9. `v8-core/` is archived
+read-only historical Rust; `src/v8/` and root `tests/` remain frozen parity
+oracles. The root `AGENTS.md` §1 is authoritative if any statement below
+conflicts with this boundary. This file grants no economic-claim, live-order,
+or production authority.
 
 Read `../docs/contracts/V8_NEXT_IMPLEMENTATION_SCOPE.md` and the economic source
 contracts relevant to the change. `../site/index.html` remains the constitutional

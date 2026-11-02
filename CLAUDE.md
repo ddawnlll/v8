@@ -4,11 +4,11 @@
 - **All agents (Claude, Antigravity, subagents, and forks) MUST adhere to the V8 Canonical Engineering Protocol.**
 - When starting work on tasks, features, decisions, or audits, reference and load `.claude/skills/v8/SKILL.md` (`/v8`).
 
-## 🚨 CRITICAL RULE: RUST ONLY (`v8-core/`) — PYTHON IS DEPRECATED & FROZEN
-- **The authoritative runtime codebase is `v8-core/` (Rust).**
-- **ALL new features, bug fixes, evaluations, refactors, and test suites MUST be in Rust inside `v8-core/`.**
-- **NEVER modify or add Python code under `src/v8/` or `tests/`.** `src/v8/` is a frozen historical parity oracle locked by `docs/legacy/PYTHON_ORACLE_LOCK.json`.
-- Changes to `src/v8/` fail boundary integrity audits (`tools/audit_python_boundary.py`).
+## 🚨 CRITICAL RULE: V9 BOUNDARY — `v8-next/` IS ACTIVE, ARCHIVE IS READ-ONLY
+- **The active runtime and V9 implementation path is `v8-next/` (Python 3.12 + NautilusTrader 2.0.0rc4).**
+- **`v8-core/` (Rust) is archived historical code: read-only, no cargo builds or edits.**
+- **NEVER modify or add Python code under `src/v8/` or root `tests/`.** `src/v8/` is a frozen historical parity oracle locked by `docs/legacy/PYTHON_ORACLE_LOCK.json`.
+- V9 architectural target: `docs/v9/V9_ARCHITECTURE_MONOGRAPH.md`; deferred V8 requirements: `docs/V9_BACKLOG.md`.
 
 Optimized for agentic coding: read this first, then the monograph.
 
