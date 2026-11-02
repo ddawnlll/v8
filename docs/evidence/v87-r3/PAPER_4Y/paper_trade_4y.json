@@ -109,7 +109,8 @@
       "campaigns": 1306,
       "conservation_verified": true,
       "divergence_class_counts": {},
-      "double_entry_reconciled": true,
+      "double_entry_reconciled": null,
+      "double_entry_reconciled_reason": "no double-entry residual was supplied to reconcile",
       "drawdown_basis": {
         "basis": "uncompounded_sum_of_campaign_returns",
         "fields": [
@@ -136,7 +137,7 @@
       "published_reading": "READING_A_POLICY_NAME",
       "robustness_vector": {
         "capital_utilization_pct": null,
-        "cashflow_discrepancy_usdt": 0.0,
+        "cashflow_discrepancy_usdt": null,
         "expert_displacement_rate": null,
         "friction_retention_ratio": -1.0116478982117434,
         "funding_drag_ratio": 0.02943779316344092,
@@ -160,13 +161,14 @@
           "value": null
         },
         "cashflow_discrepancy_usdt": {
-          "basis": "the double-entry residual the producer reconciles, passed in as an input",
+          "basis": "the double-entry residual the caller's books reconcile, passed in as an input; this producer keeps no second ledger and measures no residual of its own, so the field is UNMEASURED unless a residual is supplied",
           "inputs": [
             "cashflow_discrepancy_usdt"
           ],
-          "status": "MEASURED",
+          "reason": "no double-entry residual was supplied to reconcile",
+          "status": "UNMEASURED",
           "unit": "USDT",
-          "value": 0.0
+          "value": null
         },
         "expert_displacement_rate": {
           "basis": "share of campaigns an expert baseline would have won that the family took",
@@ -312,6 +314,11 @@
           "field": "expert_displacement_rate",
           "reason": "this producer runs no expert baseline and carries no displaced-expert series, so the rate would be a pass-shaped zero",
           "status": "UNMEASURED"
+        },
+        {
+          "field": "cashflow_discrepancy_usdt",
+          "reason": "no double-entry residual was supplied to reconcile",
+          "status": "UNMEASURED"
         }
       ],
       "system_proving_receipt": {
@@ -326,7 +333,7 @@
         "exercises_full_pipeline": false,
         "metrics": {
           "capital_utilization_pct": null,
-          "cashflow_discrepancy_usdt": 0.0,
+          "cashflow_discrepancy_usdt": null,
           "expert_displacement_rate": null,
           "friction_retention_ratio": -1.0116478982117434,
           "funding_drag_ratio": 0.02943779316344092,
@@ -26556,7 +26563,8 @@
       "divergence_class_counts": {
         "BRACKET_CONTRACT_DIVERGENCE": 916
       },
-      "double_entry_reconciled": true,
+      "double_entry_reconciled": null,
+      "double_entry_reconciled_reason": "no double-entry residual was supplied to reconcile",
       "drawdown_basis": {
         "basis": "uncompounded_sum_of_campaign_returns",
         "fields": [
@@ -26584,7 +26592,7 @@
       "published_reading": "READING_A_POLICY_NAME",
       "robustness_vector": {
         "capital_utilization_pct": null,
-        "cashflow_discrepancy_usdt": 0.0,
+        "cashflow_discrepancy_usdt": null,
         "expert_displacement_rate": null,
         "friction_retention_ratio": -5.8000863542751535,
         "funding_drag_ratio": 0.06027644741343506,
@@ -26608,13 +26616,14 @@
           "value": null
         },
         "cashflow_discrepancy_usdt": {
-          "basis": "the double-entry residual the producer reconciles, passed in as an input",
+          "basis": "the double-entry residual the caller's books reconcile, passed in as an input; this producer keeps no second ledger and measures no residual of its own, so the field is UNMEASURED unless a residual is supplied",
           "inputs": [
             "cashflow_discrepancy_usdt"
           ],
-          "status": "MEASURED",
+          "reason": "no double-entry residual was supplied to reconcile",
+          "status": "UNMEASURED",
           "unit": "USDT",
-          "value": 0.0
+          "value": null
         },
         "expert_displacement_rate": {
           "basis": "share of campaigns an expert baseline would have won that the family took",
@@ -26760,6 +26769,11 @@
           "field": "expert_displacement_rate",
           "reason": "this producer runs no expert baseline and carries no displaced-expert series, so the rate would be a pass-shaped zero",
           "status": "UNMEASURED"
+        },
+        {
+          "field": "cashflow_discrepancy_usdt",
+          "reason": "no double-entry residual was supplied to reconcile",
+          "status": "UNMEASURED"
         }
       ],
       "system_proving_receipt": {
@@ -26775,7 +26789,7 @@
         "exercises_full_pipeline": false,
         "metrics": {
           "capital_utilization_pct": null,
-          "cashflow_discrepancy_usdt": 0.0,
+          "cashflow_discrepancy_usdt": null,
           "expert_displacement_rate": null,
           "friction_retention_ratio": -5.8000863542751535,
           "funding_drag_ratio": 0.06027644741343506,
