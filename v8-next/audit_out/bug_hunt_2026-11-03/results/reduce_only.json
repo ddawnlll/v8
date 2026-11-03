@@ -1,0 +1,213 @@
+[1m2026-11-02T22:45:13.689334000Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689341000Z[0m [36m[INFO] TRADER-001.BacktestEngine:  NAUTILUS TRADER - Automated Algorithmic Trading Platform[0m
+[1m2026-11-02T22:45:13.689341001Z[0m [36m[INFO] TRADER-001.BacktestEngine:  by Nautech Systems Pty Ltd.[0m
+[1m2026-11-02T22:45:13.689342000Z[0m [36m[INFO] TRADER-001.BacktestEngine:  Copyright (C) 2015-2026. All rights reserved.[0m
+[1m2026-11-02T22:45:13.689342001Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689342002Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⡤⠤⠤⠤⠤⠤⠤⠤⢤⡀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689343000Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠤⠖⠚⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠁⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689343001Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⢀⣠⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⠚⠁⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689343002Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⢀⡴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689343003Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⣠⠏⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠤⠖⠒⠒⠒⠒⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689344000Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⢀⡖⠋⣠⢴⢪⠞⣩⢟⡭⠵⢤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689344001Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⣦⡙⠦⣄⡀⠀⢀⣠⠴⠋⢠⡐⣇⢸⡘⢦⡇⣏⡴⣋⡭⠖⠮⢥⡀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689344002Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⢸⡉⠓⠦⠭⠭⠭⠴⣺⠃⠸⣷⢬⣓⣛⠒⠩⣌⢡⡷⢒⣫⠭⣝⡛⠆⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689344003Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠙⠦⢤⣀⣠⠤⠞⣡⠞⡆⠺⣭⣭⡷⢇⣷⡻⠡⠾⣛⣒⠦⢤⡙⡆⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689344004Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠈⠳⣖⠒⠒⠒⠋⠁⣠⠇⡼⢦⠀⣌⡉⢥⣄⣛⡻⢥⡈⠉⢳⡙⠇⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689344005Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠈⠙⣒⣒⣒⣋⡥⠞⠁⣸⠃⡇⠙⢦⢹⠀⠙⡆⢳⢀⡴⠃⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689344006Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⠀⠈⠙⠒⠦⠤⠴⣚⣡⠞⠁⣠⠏⡼⢀⣠⠇⠞⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689344007Z[0m [INFO] TRADER-001.BacktestEngine: ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠑⠚⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[0m
+[1m2026-11-02T22:45:13.689345000Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689345001Z[0m [36m[INFO] TRADER-001.BacktestEngine:  SYSTEM SPECIFICATION[0m
+[1m2026-11-02T22:45:13.689345002Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689345003Z[0m [INFO] TRADER-001.BacktestEngine: CPU architecture: Apple M3 Pro[0m
+[1m2026-11-02T22:45:13.689347000Z[0m [INFO] TRADER-001.BacktestEngine: CPU(s): 11 @ 4056 MHz[0m
+[1m2026-11-02T22:45:13.689347001Z[0m [INFO] TRADER-001.BacktestEngine: OS: kernel-25.1.0 macOS 26.1 Tahoe[0m
+[1m2026-11-02T22:45:13.689357000Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689357001Z[0m [36m[INFO] TRADER-001.BacktestEngine:  MEMORY USAGE[0m
+[1m2026-11-02T22:45:13.689357002Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689362000Z[0m [INFO] TRADER-001.BacktestEngine: RAM-Total: 18.00 GiB[0m
+[1m2026-11-02T22:45:13.689362001Z[0m [INFO] TRADER-001.BacktestEngine: RAM-Used: 15.10 GiB (83.88%)[0m
+[1m2026-11-02T22:45:13.689362002Z[0m [INFO] TRADER-001.BacktestEngine: RAM-Avail: 2.90 GiB (16.12%)[0m
+[1m2026-11-02T22:45:13.689363000Z[0m [INFO] TRADER-001.BacktestEngine: Swap-Total: 4.00 GiB[0m
+[1m2026-11-02T22:45:13.689363001Z[0m [INFO] TRADER-001.BacktestEngine: Swap-Used: 2.89 GiB (72.28%)[0m
+[1m2026-11-02T22:45:13.689363002Z[0m [INFO] TRADER-001.BacktestEngine: Swap-Avail: 1.11 GiB (27.72%)[0m
+[1m2026-11-02T22:45:13.689366000Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689366001Z[0m [36m[INFO] TRADER-001.BacktestEngine:  IDENTIFIERS[0m
+[1m2026-11-02T22:45:13.689367000Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689367001Z[0m [INFO] TRADER-001.BacktestEngine: trader_id: TRADER-001[0m
+[1m2026-11-02T22:45:13.689367002Z[0m [INFO] TRADER-001.BacktestEngine: machine_id: hooties-MacBook-Pro.local[0m
+[1m2026-11-02T22:45:13.689367003Z[0m [INFO] TRADER-001.BacktestEngine: instance_id: e63ffeeb-5457-4347-8084-7da7af4903a4[0m
+[1m2026-11-02T22:45:13.689368000Z[0m [INFO] TRADER-001.BacktestEngine: PID: 36577[0m
+[1m2026-11-02T22:45:13.689368001Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689368002Z[0m [36m[INFO] TRADER-001.BacktestEngine:  VERSIONING[0m
+[1m2026-11-02T22:45:13.689368003Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.689370000Z[0m [INFO] TRADER-001.BacktestEngine: nautilus_trader: 2.0.0rc4[0m
+[1m2026-11-02T22:45:13.689370001Z[0m [INFO] TRADER-001.BacktestEngine: nautilus_core: 0.63.0[0m
+[1m2026-11-02T22:45:13.689372000Z[0m [INFO] TRADER-001.BacktestEngine: python: 3.12.12[0m
+[1m2026-11-02T22:45:13.689374000Z[0m [INFO] TRADER-001.BacktestEngine: git_commit: a04002511106[0m
+[1m2026-11-02T22:45:13.689374001Z[0m [INFO] TRADER-001.BacktestEngine: rustc: 1.98.0 (88d9e12ae 2026-08-18)[0m
+[1m2026-11-02T22:45:13.689374002Z[0m [INFO] TRADER-001.BacktestEngine: target: aarch64-apple-darwin[0m
+[1m2026-11-02T22:45:13.689374003Z[0m [INFO] TRADER-001.BacktestEngine: profile: release[0m
+[1m2026-11-02T22:45:13.689374004Z[0m [INFO] TRADER-001.BacktestEngine: panic: abort[0m
+[1m2026-11-02T22:45:13.689374005Z[0m [INFO] TRADER-001.BacktestEngine: precision: high (128-bit, 16 dp)[0m
+[1m2026-11-02T22:45:13.689375000Z[0m [INFO] TRADER-001.BacktestEngine: allocator: mimalloc 0.1.52[0m
+[1m2026-11-02T22:45:13.689375001Z[0m [INFO] TRADER-001.BacktestEngine: cargo_lock: 40f0bfd3[0m
+[1m2026-11-02T22:45:13.689375002Z[0m [INFO] TRADER-001.BacktestEngine: rust_decimal: 1.42.1[0m
+[1m2026-11-02T22:45:13.689375003Z[0m [INFO] TRADER-001.BacktestEngine: rustls: 0.23.43[0m
+[1m2026-11-02T22:45:13.689375004Z[0m [INFO] TRADER-001.BacktestEngine: aws_lc_rs: 1.18.0[0m
+[1m2026-11-02T22:45:13.689375005Z[0m [INFO] TRADER-001.BacktestEngine: tokio: 1.53.1[0m
+[1m2026-11-02T22:45:13.689375006Z[0m [INFO] TRADER-001.BacktestEngine: pyo3: 0.29.2[0m
+[1m2026-11-02T22:45:13.689376000Z[0m [INFO] TRADER-001.BacktestEngine: pyo3_async_runtimes: 0.29.0[0m
+[1m2026-11-02T22:45:13.711740000Z[0m [INFO] TRADER-001.BacktestEngine: numpy: 2.5.3[0m
+[1m2026-11-02T22:45:13.839390000Z[0m [INFO] TRADER-001.BacktestEngine: pandas: 3.0.5[0m
+[1m2026-11-02T22:45:13.839519000Z[0m [36m[INFO] TRADER-001.BacktestEngine: =================================================================[0m
+[1m2026-11-02T22:45:13.839564000Z[0m [INFO] TRADER-001.nautilus_system::kernel: Building system kernel[0m
+[1m2026-11-02T22:45:13.839812000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Adding exchange BINANCE to engine[0m
+[1m2026-11-02T22:45:13.839863000Z[0m [INFO] TRADER-001.nautilus_backtest::exchange: Added instrument BTCUSDT-PERP.BINANCE and created matching engine[0m
+[1m2026-11-02T22:45:13.839894000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Added instrument BTCUSDT-PERP.BINANCE to exchange BINANCE[0m
+[1m2026-11-02T22:45:13.839945000Z[0m [INFO] TRADER-001.Probe-000: Ready[0m
+[1m2026-11-02T22:45:13.839963000Z[0m [INFO] TRADER-001.nautilus_system::python::registration: Registered Python strategy Probe-000 with trader TRADER-001[0m
+[1m2026-11-02T22:45:13.839985000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Added 3 data elements to BacktestEngine (3 total)[0m
+[1m2026-11-02T22:45:13.840003000Z[0m [INFO] TRADER-001.nautilus_portfolio::portfolio: Updated AccountState(account_id=BINANCE-001, account_type=MARGIN, base_currency=None, is_reported=true, balances=[AccountBalance(total=100000.00000000 USDT, locked=0.00000000 USDT, free=100000.00000000 USDT)], margins=[], event_id=0741776b-d625-4078-b15c-066c8564cfb8)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::kernel: Starting[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_backtest::execution_client: Backtest execution client started[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_execution::engine: Started[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_risk::engine: Started[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::kernel: Initializing trader[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::kernel: Started[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::kernel: Starting trader...[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_execution::order_emulator::emulator: Started[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::trader: Starting[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.Probe-000: Starting[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Starting Probe-000[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_common::actor::data_actor: [CMD]--> Subscribe(Bars(SubscribeBars { bar_type: Standard { instrument_id: "BTCUSDT-PERP.BINANCE", spec: BarSpecification { step: 1, aggregation: Hour, price_type: Last }, aggregation_source: External }, client_id: None, venue: Some("BINANCE"), command_id: UUID4(f8a72e78-50d3-4160-8a9a-08fc6db1b4b4), ts_init: UnixNanos(3600000000000), correlation_id: None, params: None }))[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.Probe-000: Running[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::trader: Running[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::kernel: Trader started[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [94m[INFO] TRADER-001.nautilus_data::client: Subscribed BTCUSDT-PERP.BINANCE-1-HOUR-LAST-EXTERNAL bars[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine:  BACKTEST PRE-RUN[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_backtest::engine:  SimulatedVenue BINANCE (MARGIN)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Balances starting:[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_backtest::engine:   100000.00000000 USDT[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine:  BACKTEST RUN[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run config ID:  None[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run ID:         5fc11f72-7dbf-48b0-887a-e6728bc3aafc[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Backtest start: 1970-01-01T01:00:00.000000000Z[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Data elements:  3[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] OrderInitialized(instrument_id=BTCUSDT-PERP.BINANCE, client_order_id=O-19700101-010000-001-000-1, side=BUY, type=MARKET, quantity=1.000, time_in_force=GTC, post_only=false, reduce_only=false, quote_quantity=false, price=None, emulation_trigger=None, trigger_instrument_id=None, contingency_type=None, order_list_id=None, linked_order_ids=[None], parent_order_id=None, exec_algorithm_id=None, exec_algorithm_params=None, exec_spawn_id=None, tags=None)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 [CMD]--> SubmitOrder[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [94m[INFO] TRADER-001.nautilus_execution::engine: Submit MarketOrder(BUY 1.000 BTCUSDT-PERP.BINANCE @ MARKET GTC, status=INITIALIZED, client_order_id=O-19700101-010000-001-000-1, venue_order_id=None, position_id=None, exec_algorithm_id=None, exec_spawn_id=None, tags=None)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] OrderSubmitted(instrument_id=BTCUSDT-PERP.BINANCE, client_order_id=O-19700101-010000-001-000-1, account_id=BINANCE-001, ts_event=3600000000000)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_portfolio::manager: BTCUSDT-PERP.BINANCE margin_init=0.00000000 USDT[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] OrderFilled(instrument_id=BTCUSDT-PERP.BINANCE, client_order_id=O-19700101-010000-001-000-1, venue_order_id=BINANCE-1-1, account_id=BINANCE-001, trade_id=T-9f1b420034912277-002, position_id=BTCUSDT-PERP.BINANCE-Probe-000, order_side=BUY, order_type=MARKET, last_qty=1.000, last_px=100.00 USDT, commission=0.00000000 USDT, liquidity_side=TAKER, ts_event=3600000000000)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_portfolio::portfolio: BTCUSDT-PERP.BINANCE net_position=1[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_portfolio::manager: BTCUSDT-PERP.BINANCE margin_maint=5.00000000 USDT[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_portfolio::portfolio: Updated AccountState(account_id=BINANCE-001, account_type=MARGIN, base_currency=None, is_reported=false, balances=[AccountBalance(total=100000.00000000 USDT, locked=5.00000000 USDT, free=99995.00000000 USDT)], margins=[MarginBalance(initial=0.00000000 USDT, maintenance=5.00000000 USDT, instrument_id=BTCUSDT-PERP.BINANCE)], event_id=af04b043-bda8-41b5-b5dc-db4e037b6081)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] PositionOpened(PositionOpened { trader_id: "TRADER-001", strategy_id: "Probe-000", instrument_id: "BTCUSDT-PERP.BINANCE", position_id: "BTCUSDT-PERP.BINANCE-Probe-000", account_id: "BINANCE-001", opening_order_id: "O-19700101-010000-001-000-1", entry: Buy, side: Long, signed_qty: 1.0, quantity: Quantity(1.000), last_qty: Quantity(1.000), last_px: Price(100.00), currency: Currency(code='USDT', precision=8, iso4217=0, name='Tether', currency_type=CRYPTO), avg_px_open: 100.0, realized_pnl: Some(Money(0.00000000, USDT)), event_id: UUID4(10b65019-6535-4596-8c97-14c242435776), ts_event: UnixNanos(3600000000000), ts_init: UnixNanos(3600000000000) })[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] OrderInitialized(instrument_id=BTCUSDT-PERP.BINANCE, client_order_id=O-19700101-010000-001-000-2, side=SELL, type=STOP_MARKET, quantity=1.000, time_in_force=GTC, post_only=false, reduce_only=false, quote_quantity=false, price=None, emulation_trigger=None, trigger_instrument_id=None, contingency_type=None, order_list_id=None, linked_order_ids=[None], parent_order_id=None, exec_algorithm_id=None, exec_algorithm_params=None, exec_spawn_id=None, tags=None)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 [CMD]--> SubmitOrder[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] OrderInitialized(instrument_id=BTCUSDT-PERP.BINANCE, client_order_id=O-19700101-010000-001-000-3, side=SELL, type=STOP_MARKET, quantity=1.000, time_in_force=GTC, post_only=false, reduce_only=true, quote_quantity=false, price=None, emulation_trigger=None, trigger_instrument_id=None, contingency_type=None, order_list_id=None, linked_order_ids=[None], parent_order_id=None, exec_algorithm_id=None, exec_algorithm_params=None, exec_spawn_id=None, tags=None)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 [CMD]--> SubmitOrder[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [94m[INFO] TRADER-001.nautilus_execution::engine: Submit StopMarketOrder(SELL 1.000 BTCUSDT-PERP.BINANCE STOP_MARKET GTC, status=INITIALIZED, client_order_id=O-19700101-010000-001-000-2, venue_order_id=None, position_id=None, exec_algorithm_id=None, exec_spawn_id=None, tags=None)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [94m[INFO] TRADER-001.nautilus_execution::engine: Submit StopMarketOrder(SELL 1.000 BTCUSDT-PERP.BINANCE STOP_MARKET GTC, status=INITIALIZED, client_order_id=O-19700101-010000-001-000-3, venue_order_id=None, position_id=None, exec_algorithm_id=None, exec_spawn_id=None, tags=None)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] OrderSubmitted(instrument_id=BTCUSDT-PERP.BINANCE, client_order_id=O-19700101-010000-001-000-2, account_id=BINANCE-001, ts_event=3600000000000)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] OrderSubmitted(instrument_id=BTCUSDT-PERP.BINANCE, client_order_id=O-19700101-010000-001-000-3, account_id=BINANCE-001, ts_event=3600000000000)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_portfolio::manager: BTCUSDT-PERP.BINANCE margin_init=90.00000000 USDT[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_portfolio::portfolio: Updated AccountState(account_id=BINANCE-001, account_type=MARGIN, base_currency=None, is_reported=false, balances=[AccountBalance(total=100000.00000000 USDT, locked=95.00000000 USDT, free=99905.00000000 USDT)], margins=[MarginBalance(initial=90.00000000 USDT, maintenance=5.00000000 USDT, instrument_id=BTCUSDT-PERP.BINANCE)], event_id=bcfce26a-328c-441c-b0bb-776e3bc404a3)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] OrderAccepted(instrument_id=BTCUSDT-PERP.BINANCE, client_order_id=O-19700101-010000-001-000-2, venue_order_id=BINANCE-1-2, account_id=BINANCE-001, ts_event=3600000000000)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_portfolio::manager: BTCUSDT-PERP.BINANCE margin_init=90.00000000 USDT[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_portfolio::portfolio: Updated AccountState(account_id=BINANCE-001, account_type=MARGIN, base_currency=None, is_reported=false, balances=[AccountBalance(total=100000.00000000 USDT, locked=95.00000000 USDT, free=99905.00000000 USDT)], margins=[MarginBalance(initial=90.00000000 USDT, maintenance=5.00000000 USDT, instrument_id=BTCUSDT-PERP.BINANCE)], event_id=83870278-6c52-4f2e-b53f-89d39d86d473)[0m
+[1m1970-01-01T01:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_trading::strategy: Probe-000 <--[EVT] OrderAccepted(instrument_id=BTCUSDT-PERP.BINANCE, client_order_id=O-19700101-010000-001-000-3, venue_order_id=BINANCE-1-3, account_id=BINANCE-001, ts_event=3600000000000)[0m
+[1m1970-01-01T03:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::kernel: Stopping trader...[0m
+[1m1970-01-01T03:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::trader: Stopping[0m
+[1m1970-01-01T03:00:00.000000000Z[0m [INFO] TRADER-001.Probe-000: Stopping[0m
+[1m1970-01-01T03:00:00.000000000Z[0m [INFO] TRADER-001.Probe-000: Stopped[0m
+[1m1970-01-01T03:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_system::trader: Stopped[0m
+[1m1970-01-01T03:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_risk::engine: Stopped[0m
+[1m1970-01-01T03:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_backtest::execution_client: Backtest execution client stopped[0m
+[1m1970-01-01T03:00:00.000000000Z[0m [INFO] TRADER-001.nautilus_execution::engine: Stopped[0m
+[1m2026-11-02T22:45:13.840524000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2026-11-02T22:45:13.840524001Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine:  BACKTEST POST-RUN[0m
+[1m2026-11-02T22:45:13.840525000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2026-11-02T22:45:13.840525001Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run config ID:  None[0m
+[1m2026-11-02T22:45:13.840525002Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run ID:         5fc11f72-7dbf-48b0-887a-e6728bc3aafc[0m
+[1m2026-11-02T22:45:13.840525003Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run started:    2026-11-02T22:45:13.839990000Z[0m
+[1m2026-11-02T22:45:13.840525004Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Run finished:   2026-11-02T22:45:13.840520000Z[0m
+[1m2026-11-02T22:45:13.840525005Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Elapsed time:   0 days 00:00:00.000530[0m
+[1m2026-11-02T22:45:13.840525006Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Backtest start: 1970-01-01T01:00:00.000000000Z[0m
+[1m2026-11-02T22:45:13.840525007Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Backtest end:   1970-01-01T03:00:00.000000000Z[0m
+[1m2026-11-02T22:45:13.840526000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Backtest range: 0 days 02:00:00.000000[0m
+[1m2026-11-02T22:45:13.840526001Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Iterations: 3[0m
+[1m2026-11-02T22:45:13.840526002Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Total events: 6[0m
+[1m2026-11-02T22:45:13.840526003Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Total orders: 3[0m
+[1m2026-11-02T22:45:13.840526004Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Total positions: 1[0m
+[1m2026-11-02T22:45:13.840536000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2026-11-02T22:45:13.840536001Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine:  PORTFOLIO PERFORMANCE[0m
+[1m2026-11-02T22:45:13.840536002Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: =================================================================[0m
+[1m2026-11-02T22:45:13.840536003Z[0m [INFO] TRADER-001.nautilus_backtest::engine:  PnL Statistics (USDT)[0m
+[1m2026-11-02T22:45:13.840537000Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m2026-11-02T22:45:13.840545000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Avg Loser:                      NaN[0m
+[1m2026-11-02T22:45:13.840546000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Avg Winner:                     NaN[0m
+[1m2026-11-02T22:45:13.840546001Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Expectancy:                     0.00[0m
+[1m2026-11-02T22:45:13.840546002Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Max Loser:                      NaN[0m
+[1m2026-11-02T22:45:13.840546003Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Max Winner:                     NaN[0m
+[1m2026-11-02T22:45:13.840546004Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Min Loser:                      NaN[0m
+[1m2026-11-02T22:45:13.840546005Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Min Winner:                     NaN[0m
+[1m2026-11-02T22:45:13.840546006Z[0m [INFO] TRADER-001.nautilus_backtest::engine: PnL (total):                    0.00[0m
+[1m2026-11-02T22:45:13.840546007Z[0m [INFO] TRADER-001.nautilus_backtest::engine: PnL% (total):                   0.00[0m
+[1m2026-11-02T22:45:13.840547000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Win Rate:                       0.00[0m
+[1m2026-11-02T22:45:13.840547001Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m2026-11-02T22:45:13.840547002Z[0m [INFO] TRADER-001.nautilus_backtest::engine:  Returns Statistics[0m
+[1m2026-11-02T22:45:13.840547003Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m2026-11-02T22:45:13.840551000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Average (Return):               NaN[0m
+[1m2026-11-02T22:45:13.840551001Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Average Loss (Return):          NaN[0m
+[1m2026-11-02T22:45:13.840551002Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Average Win (Return):           NaN[0m
+[1m2026-11-02T22:45:13.840551003Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Profit Factor:                  NaN[0m
+[1m2026-11-02T22:45:13.840551004Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Returns Kurtosis:               NaN[0m
+[1m2026-11-02T22:45:13.840551005Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Returns Skewness:               NaN[0m
+[1m2026-11-02T22:45:13.840551006Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Returns Volatility (252 days):  NaN[0m
+[1m2026-11-02T22:45:13.840551007Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Risk Return Ratio:              NaN[0m
+[1m2026-11-02T22:45:13.840551008Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Sharpe Ratio (252 days):        NaN[0m
+[1m2026-11-02T22:45:13.840551009Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Sortino Ratio (252 days):       NaN[0m
+[1m2026-11-02T22:45:13.840551010Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Tail Ratio:                     NaN[0m
+[1m2026-11-02T22:45:13.840551011Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m2026-11-02T22:45:13.840552000Z[0m [INFO] TRADER-001.nautilus_backtest::engine:  General Statistics[0m
+[1m2026-11-02T22:45:13.840552001Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m2026-11-02T22:45:13.840553000Z[0m [INFO] TRADER-001.nautilus_backtest::engine: Long Ratio:                     1[0m
+[1m2026-11-02T22:45:13.840553001Z[0m [36m[INFO] TRADER-001.nautilus_backtest::engine: -----------------------------------------------------------------[0m
+[1m2026-11-02T22:45:13.840593000Z[0m [INFO] TRADER-001.nautilus_system::kernel: Disposing[0m
+[1m2026-11-02T22:45:13.840594000Z[0m [INFO] TRADER-001.nautilus_system::trader: Disposing[0m
+[1m2026-11-02T22:45:13.840594001Z[0m [INFO] TRADER-001.Probe-000: Disposing[0m
+[1m2026-11-02T22:45:13.840598000Z[0m [INFO] TRADER-001.Probe-000: Disposed[0m
+[1m2026-11-02T22:45:13.840601000Z[0m [INFO] TRADER-001.nautilus_system::trader: Disposed[0m
+[1m2026-11-02T22:45:13.840602000Z[0m [INFO] TRADER-001.nautilus_backtest::execution_client: Backtest execution client stopped[0m
+[1m2026-11-02T22:45:13.840602001Z[0m [INFO] TRADER-001.nautilus_execution::engine: Stopped[0m
+[1m2026-11-02T22:45:13.840602002Z[0m [INFO] TRADER-001.nautilus_risk::engine: Stopped[0m
+[1m2026-11-02T22:45:13.840602003Z[0m [INFO] TRADER-001.nautilus_execution::order_emulator::emulator: Stopped[0m
+[1m2026-11-02T22:45:13.840604000Z[0m [INFO] TRADER-001.nautilus_execution::engine: Disposed[0m
+[1m2026-11-02T22:45:13.840604001Z[0m [INFO] TRADER-001.nautilus_risk::engine: Disposed[0m
+[1m2026-11-02T22:45:13.840605000Z[0m [INFO] TRADER-001.nautilus_execution::order_emulator::emulator: Disposed[0m
+[1m2026-11-02T22:45:13.840608000Z[0m [INFO] TRADER-001.nautilus_common::cache: Reset cache[0m
+[1m2026-11-02T22:45:13.840612000Z[0m [INFO] TRADER-001.nautilus_system::kernel: Disposed[0m
+{
+  "orders": [
+    {
+      "client_order_id": "O-19700101-010000-001-000-2",
+      "position_id": null,
+      "is_reduce_only": false
+    },
+    {
+      "client_order_id": "O-19700101-010000-001-000-3",
+      "position_id": null,
+      "is_reduce_only": true
+    }
+  ]
+}

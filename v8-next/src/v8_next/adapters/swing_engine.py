@@ -27,12 +27,14 @@ from nautilus_trader.model import (
     AccountType,
     Bar,
     BarType,
+    ClientOrderId,
     CryptoPerpetual,
     Currency,
     InstrumentId,
     Money,
     OmsType,
     OrderSide,
+    PositionId,
     Price,
     Quantity,
     Symbol,
@@ -128,6 +130,12 @@ class SwingEngineEvents:
     fills: list[dict[str, Any]] = field(default_factory=list)
     positions_opened: list[dict[str, Any]] = field(default_factory=list)
     positions_closed: list[dict[str, Any]] = field(default_factory=list)
+    cancel_requests: list[dict[str, Any]] = field(default_factory=list)
+    cancel_acks: list[dict[str, Any]] = field(default_factory=list)
+    cancel_rejections: list[dict[str, Any]] = field(default_factory=list)
+    protection_failures: list[dict[str, Any]] = field(default_factory=list)
+    unmatched_fills: list[dict[str, Any]] = field(default_factory=list)
+    safety_violations: list[dict[str, Any]] = field(default_factory=list)
 
 
 class SwingEngineStrategy(Strategy):
@@ -153,6 +161,14 @@ class SwingEngineStrategy(Strategy):
         self.plan: dict[str, Any] | None = None  # the live campaign
         self.active_position_id: str | None = None
         self.bars_seen = 0
+        # Execution-safety bookkeeping. Fill identity is deduplicated so a
+        # re-delivered callback cannot submit a second protection set; cancel
+        # outcomes are tracked separately from requests because a request is
+        # not an acknowledgement.
+        self._seen_fill_events: set[str] = set()
+        self._cancel_requested: dict[str, str] = {}
+        self._cancel_attempts: dict[str, int] = {}
+        self._retiring_orders: dict[str, dict[str, Any]] = {}
         # Conservative positional guards for the bounded fast path. Once any of
         # these latches, the full history is known irregular, so later bounded
         # tails must not silently become regular again. In particular the
@@ -219,6 +235,7 @@ class SwingEngineStrategy(Strategy):
         self.bars_seen += 1
         if self.bars_seen <= self.warmup_bars:
             return
+        self._maintain()
         if self.plan is None:
             self._try_open(candle)
         else:
@@ -355,33 +372,162 @@ class SwingEngineStrategy(Strategy):
         self.events.decisions.append(dict(self.plan))
         self.submit_order(entry)
 
-    def _submit_bracket(self) -> None:
-        instrument = self._instrument()
+    def _event_ns(self) -> int:
+        try:
+            return int(self.clock.timestamp_ns())
+        except Exception:
+            return 0
+
+    def _order(self, client_order_id: str | None) -> Any | None:
+        if not client_order_id:
+            return None
+        return self.cache.order(ClientOrderId(str(client_order_id)))
+
+    def _entry_order(self) -> Any | None:
         plan = self.plan or {}
+        return self._order(str(plan.get("entry_client_order_id") or ""))
+
+    def _position_quantity(self) -> Decimal | None:
+        """Actual reducible quantity of the active position, or None if unknown."""
+        if self.active_position_id is None:
+            return None
+        position = self.cache.position(PositionId.from_str(self.active_position_id))
+        if position is None or position.is_closed:
+            return None
+        return abs(position.quantity.as_decimal())
+
+    def _entry_terminal(self) -> bool:
+        order = self._entry_order()
+        return order is not None and order.is_closed
+
+    def _submit_bracket(self) -> None:
+        """Submit protection only once position identity and filled quantity exist.
+
+        Called from both ``on_order_filled`` and ``on_position_opened`` (whichever
+        is second) and from the per-bar maintenance tick. Entry fills may be
+        partial: the legs are sized from the engine's actual filled quantity and
+        are reduce-only, so a late or duplicate leg cannot open exposure.
+        """
+        plan = self.plan or {}
+        if plan.get("stop_client_order_id") or plan.get("target_client_order_id"):
+            return  # already protected; duplicate callbacks must not duplicate legs
+        if not plan.get("has_bracket"):
+            if self.active_position_id is not None and plan.get("status") in (
+                "ENTRY_SUBMITTED",
+                "ENTRY_FILLED",
+                "POSITION_OPEN",
+            ):
+                plan["status"] = "POSITION_OPEN"
+                plan["protection"] = "NOT_REQUIRED"
+            return
+        if self.active_position_id is None or not self._entry_terminal():
+            return
+        entry = self._entry_order()
+        if entry is None or entry.filled_qty.as_decimal() <= 0:
+            plan["status"] = "ENTRY_UNFILLED"
+            self.events.decisions.append(
+                {
+                    "status": "ENTRY_UNFILLED",
+                    "entry_client_order_id": plan.get("entry_client_order_id"),
+                    "note": "terminal entry order has no fill; no protection is submitted",
+                }
+            )
+            return
+        position_quantity = self._position_quantity()
+        if position_quantity is None or position_quantity <= 0:
+            self._record_protection_failure(
+                "POSITION_IDENTITY_OR_QUANTITY_UNAVAILABLE",
+                client_order_id=None,
+                reason="cannot size protection without a reducible position",
+            )
+            return
+        increment = Decimal(1).scaleb(-self.swing_config.size_precision)
+        quantity = (min(position_quantity, entry.filled_qty.as_decimal()) // increment) * increment
+        if quantity <= 0:
+            self._record_protection_failure(
+                "PROTECTION_QUANTITY_FLOORED_TO_ZERO",
+                client_order_id=None,
+                reason=f"position quantity {position_quantity} is below the size increment",
+            )
+            return
+        instrument = self._instrument()
+        position_id = self._position_id()
         exit_side = OrderSide.SELL if plan["direction"] == "LONG" else OrderSide.BUY
-        quantity = Quantity(float(plan["quantity"]), self.swing_config.size_precision)
         stop = self.order_factory.stop_market(
             instrument_id=self.instrument_id,
             order_side=exit_side,
-            quantity=quantity,
+            quantity=Quantity(float(quantity), self.swing_config.size_precision),
             trigger_price=Price(float(Decimal(plan["stop_price"])), instrument.price_precision),
             trigger_type=TriggerType.LAST_PRICE,
+            reduce_only=True,
         )
         target = self.order_factory.limit(
             instrument_id=self.instrument_id,
             order_side=exit_side,
-            quantity=quantity,
+            quantity=Quantity(float(quantity), self.swing_config.size_precision),
             price=Price(float(Decimal(plan["target_price"])), instrument.price_precision),
+            reduce_only=True,
         )
         plan["stop_client_order_id"] = str(stop.client_order_id)
         plan["target_client_order_id"] = str(target.client_order_id)
+        plan["protection_quantity"] = str(quantity)
+        plan["position_id"] = self.active_position_id
+        plan["status"] = "POSITION_OPEN"
+        plan["protection"] = "SUBMITTED_REDUCE_ONLY"
         self.events.decisions.append({"bracket_submitted": dict(plan)})
-        # both legs rest together; the first to fill closes the position and the sibling is
-        # cancelled from on_order_filled, which is the OCO behaviour the replay assumes
-        # submitted against the open position so the legs can only reduce it: without this a
-        # second leg filling after the first opens an opposite position nobody is tracking
-        self.submit_order(stop, position_id=self._position_id())
-        self.submit_order(target, position_id=self._position_id())
+        self.submit_order(stop, position_id=position_id)
+        self.submit_order(target, position_id=position_id)
+
+    def _request_cancel(self, client_order_id: str | None, reason: str) -> None:
+        """Request cancellation with the pinned API type and record the request.
+
+        A request is intentionally distinct from an acknowledgement: only
+        ``on_order_canceled`` moves an id to the acknowledged set.
+        """
+        if not client_order_id:
+            return
+        cid = str(client_order_id)
+        if cid in self._cancel_requested:
+            return
+        order = self._order(cid)
+        if order is None or order.is_closed:
+            return
+        attempts = self._cancel_attempts.get(cid, 0) + 1
+        if attempts > 3:
+            self.events.safety_violations.append(
+                {
+                    "event": "ORPHAN_EXIT_ORDER",
+                    "client_order_id": cid,
+                    "reason": reason,
+                    "attempts": attempts - 1,
+                    "note": "bounded retries exhausted; an executable exit order remains",
+                }
+            )
+            return
+        self._cancel_attempts[cid] = attempts
+        self._cancel_requested[cid] = reason
+        self._retiring_orders.setdefault(
+            cid,
+            {
+                "campaign_entry_client_order_id": (self.plan or {}).get(
+                    "entry_client_order_id"
+                ),
+                "reason": reason,
+            },
+        )
+        self.cancel_order(order.client_order_id)
+        self.events.cancel_requests.append(
+            {
+                "client_order_id": cid,
+                "reason": reason,
+                "attempt": attempts,
+                "ts_event": self._event_ns(),
+            }
+        )
+
+    def _retire_exit_orders(self, plan: dict[str, Any], reason: str) -> None:
+        for key in ("stop_client_order_id", "target_client_order_id"):
+            self._request_cancel(plan.get(key), reason)
 
     def _maybe_timeout(self, candle: Candle) -> None:
         plan = self.plan or {}
@@ -392,25 +538,109 @@ class SwingEngineStrategy(Strategy):
             return
         self._close_at_market("TIMEOUT_EXPIRED")
 
+    def _maintain(self) -> None:
+        """Per-bar bounded safety maintenance: retries cancels and failed closes."""
+        # Retry requested-but-unacknowledged cancellations at most three times.
+        for cid, reason in list(self._cancel_requested.items()):
+            order = self._order(cid)
+            if order is None or order.is_closed:
+                self._cancel_requested.pop(cid, None)
+                continue
+            self._cancel_requested.pop(cid, None)
+            self._request_cancel(cid, reason)
+        # A terminal campaign whose exit orders were never acknowledged cannot
+        # silently leave them executable: keep the ids visible and retry.
+        for cid in list(self._retiring_orders):
+            order = self._order(cid)
+            if order is None or order.is_closed:
+                self._retiring_orders.pop(cid, None)
+        plan = self.plan or {}
+        if str(plan.get("status", "")).startswith("CLOSING_") and plan.get(
+            "close_failed"
+        ):
+            self._close_at_market(str(plan.get("close_reason", "RETRY")))
+        # Protection must exist for a bracketed campaign as soon as it can.
+        if plan.get("status") in ("ENTRY_SUBMITTED", "ENTRY_FILLED"):
+            self._submit_bracket()
+
     def _close_at_market(self, reason: str) -> None:
         plan = self.plan or {}
-        if plan.get("status") != "POSITION_OPEN":
+        if plan.get("status") not in ("POSITION_OPEN",) and not (
+            plan.get("close_failed")
+        ):
             return
-        # retire the resting bracket first: an orphaned stop or target left on the book
-        # would fill later and open a position this adapter is no longer tracking
-        for order in list(self.cache.orders_open(instrument_id=self.instrument_id)):
-            self.cancel_order(order)
+        quantity = self._position_quantity()
+        position_id = self._position_id()
+        if quantity is None or quantity <= 0 or position_id is None:
+            plan["close_failed"] = False
+            plan["status"] = f"CLOSE_SKIPPED_{reason}"
+            self.events.decisions.append(
+                {
+                    "status": plan["status"],
+                    "reason": "NO_REDUCIBLE_POSITION",
+                    "close_position_id": self.active_position_id,
+                }
+            )
+            return
+        # Reduce-only exits are retired first. Even if a cancel races a fill, the
+        # legs and the close are all reduce-only, so no path can reverse exposure.
+        self._retire_exit_orders(plan, reason)
         exit_side = OrderSide.SELL if plan["direction"] == "LONG" else OrderSide.BUY
         order = self.order_factory.market(
             instrument_id=self.instrument_id,
             order_side=exit_side,
-            quantity=Quantity(float(plan["quantity"]), self.swing_config.size_precision),
+            quantity=Quantity(float(quantity), self.swing_config.size_precision),
+            reduce_only=True,
         )
         plan["status"] = f"CLOSING_{reason}"
+        plan["close_reason"] = reason
         plan["close_client_order_id"] = str(order.client_order_id)
         plan["close_position_id"] = self.active_position_id
+        plan["close_quantity"] = str(quantity)
+        plan["close_failed"] = False
         self.events.decisions.append(dict(plan))
-        self.submit_order(order, position_id=self._position_id())
+        self.submit_order(order, position_id=position_id)
+
+    def _record_protection_failure(
+        self, code: str, *, client_order_id: str | None, reason: str
+    ) -> None:
+        record = {
+            "event": code,
+            "client_order_id": client_order_id,
+            "reason": reason,
+            "ts_event": self._event_ns(),
+        }
+        self.events.protection_failures.append(record)
+        self.events.safety_violations.append(
+            {**record, "event": "PROTECTION_FAILED", "failure_code": code}
+        )
+        if self.active_position_id is not None and self._position_quantity():
+            self._emergency_flatten(code)
+
+    def _emergency_flatten(self, code: str) -> None:
+        plan = self.plan or {}
+        if str(plan.get("status", "")).startswith("CLOSING_"):
+            return
+        quantity = self._position_quantity()
+        position_id = self._position_id()
+        if quantity is None or quantity <= 0 or position_id is None:
+            return
+        self._retire_exit_orders(plan, f"PROTECTION_FAILURE:{code}")
+        direction = str(plan.get("direction", ""))
+        exit_side = OrderSide.SELL if direction == "LONG" else OrderSide.BUY
+        order = self.order_factory.market(
+            instrument_id=self.instrument_id,
+            order_side=exit_side,
+            quantity=Quantity(float(quantity), self.swing_config.size_precision),
+            reduce_only=True,
+        )
+        plan["status"] = "CLOSING_PROTECTION_FAILURE"
+        plan["close_reason"] = code
+        plan["close_client_order_id"] = str(order.client_order_id)
+        plan["close_position_id"] = self.active_position_id
+        plan["close_failed"] = False
+        self.events.decisions.append(dict(plan))
+        self.submit_order(order, position_id=position_id)
 
     # --- engine callbacks ----------------------------------------------------------
 
@@ -420,34 +650,70 @@ class SwingEngineStrategy(Strategy):
                 "event_type": type(event).__name__,
                 "client_order_id": str(getattr(event, "client_order_id", "")),
                 "ts_event": getattr(event, "ts_event", 0),
+                "reason": str(getattr(event, "reason", "") or ""),
             }
+        )
+
+    def _fill_identity(self, event: Any, filled_id: str) -> str:
+        event_id = str(getattr(event, "event_id", "") or "")
+        if event_id:
+            return event_id
+        return "|".join(
+            (
+                filled_id,
+                str(getattr(event, "trade_id", "") or ""),
+                str(getattr(event, "ts_event", 0)),
+                str(getattr(event, "last_qty", "")),
+                str(getattr(event, "last_px", "")),
+            )
         )
 
     def on_order_filled(self, event: Any) -> None:
         plan = self.plan
-        if plan is None:
-            return
-        self.events.fills.append(
-            {
-                "client_order_id": str(getattr(event, "client_order_id", "")),
-                "side": str(getattr(event, "order_side", "")),
-                "last_qty": str(getattr(event, "last_qty", "")),
-                "last_px": str(getattr(event, "last_px", "")),
-                "ts_event": getattr(event, "ts_event", 0),
-                "commission": str(getattr(event, "commission", "")),
-            }
-        )
         filled_id = str(getattr(event, "client_order_id", ""))
-        if plan.get("status") == "ENTRY_SUBMITTED":
-            plan["status"] = "POSITION_OPEN"
+        identity = self._fill_identity(event, filled_id)
+        if identity in self._seen_fill_events:
+            self.events.order_events.append(
+                {
+                    "event_type": "DuplicateFillIgnored",
+                    "client_order_id": filled_id,
+                    "ts_event": getattr(event, "ts_event", 0),
+                }
+            )
+            return
+        self._seen_fill_events.add(identity)
+        fill_record = {
+            "client_order_id": filled_id,
+            "side": str(getattr(event, "order_side", "")),
+            "last_qty": str(getattr(event, "last_qty", "")),
+            "last_px": str(getattr(event, "last_px", "")),
+            "ts_event": getattr(event, "ts_event", 0),
+            "commission": str(getattr(event, "commission", "")),
+            "trade_id": str(getattr(event, "trade_id", "")),
+            "position_id": str(getattr(event, "position_id", "") or ""),
+            "fill_identity": identity,
+        }
+        self.events.fills.append(fill_record)
+        if plan is None:
+            self.events.unmatched_fills.append(
+                {**fill_record, "reason": "NO_LIVE_CAMPAIGN"}
+            )
+            return
+
+        if filled_id == plan.get("entry_client_order_id"):
+            if plan.get("status") == "ENTRY_SUBMITTED":
+                plan["status"] = "ENTRY_FILLED"
             plan["entry_fill_ns"] = getattr(event, "ts_event", 0)
             plan["entry_fill_px"] = str(getattr(event, "last_px", ""))
+            plan["entry_filled_qty"] = str(
+                Decimal(str(plan.get("entry_filled_qty", "0")))
+                + Decimal(str(getattr(event, "last_qty", "0")))
+            )
             self.events.decisions.append(dict(plan))
-            if plan["has_bracket"]:
-                self._submit_bracket()
+            self._submit_bracket()
             return
-        # a bracket leg filled: retire its sibling so only one protection remains live
-        if plan.get("status") == "POSITION_OPEN" and filled_id in (
+
+        if filled_id in (
             plan.get("stop_client_order_id"),
             plan.get("target_client_order_id"),
         ):
@@ -456,11 +722,21 @@ class SwingEngineStrategy(Strategy):
                 if filled_id == plan.get("stop_client_order_id")
                 else plan.get("stop_client_order_id")
             )
-            plan["status"] = "CLOSING_BRACKET"
-            plan["bracket_leg_filled"] = filled_id
-            for order in self.cache.orders_open(instrument_id=self.instrument_id):
-                if str(order.client_order_id) == sibling_id:
-                    self.cancel_order(order)
+            if plan.get("status") not in ("CLOSING_BRACKET", "CLOSED"):
+                plan["status"] = "CLOSING_BRACKET"
+                plan["bracket_leg_filled"] = filled_id
+            self._request_cancel(sibling_id, "SIBLING_AFTER_BRACKET_FILL")
+            return
+
+        if filled_id == plan.get("close_client_order_id"):
+            plan["status"] = "CLOSING_BRACKET" if plan.get("bracket_leg_filled") else (
+                f"CLOSING_{plan.get('close_reason', 'MARKET')}"
+            )
+            return
+
+        self.events.unmatched_fills.append(
+            {**fill_record, "reason": "ORDER_NOT_BOUND_TO_LIVE_CAMPAIGN"}
+        )
 
     def on_position_opened(self, event: Any) -> None:
         self.active_position_id = str(getattr(event, "position_id", "")) or None
@@ -473,14 +749,62 @@ class SwingEngineStrategy(Strategy):
                 "ts_event": getattr(event, "ts_event", 0),
             }
         )
+        plan = self.plan or {}
+        if plan.get("status") in ("ENTRY_SUBMITTED", "ENTRY_FILLED") and not plan.get(
+            "stop_client_order_id"
+        ):
+            if plan.get("status") == "ENTRY_SUBMITTED":
+                plan["status"] = "ENTRY_FILLED"
+            self._submit_bracket()
+
+    def on_order_canceled(self, event: Any) -> None:
+        cid = str(getattr(event, "client_order_id", ""))
+        self._cancel_requested.pop(cid, None)
+        self._retiring_orders.pop(cid, None)
+        self.events.cancel_acks.append(
+            {
+                "client_order_id": cid,
+                "ts_event": getattr(event, "ts_event", 0),
+            }
+        )
+        self.events.order_events.append(
+            {
+                "event_type": "OrderCanceled",
+                "client_order_id": cid,
+                "ts_event": getattr(event, "ts_event", 0),
+                "reason": "ACKNOWLEDGED",
+            }
+        )
+
+    def on_order_cancel_rejected(self, event: Any) -> None:
+        cid = str(getattr(event, "client_order_id", ""))
+        self._cancel_requested.pop(cid, None)
+        record = {
+            "client_order_id": cid,
+            "reason": str(getattr(event, "reason", "")),
+            "ts_event": getattr(event, "ts_event", 0),
+        }
+        self.events.cancel_rejections.append(record)
+        self.events.order_events.append(
+            {"event_type": "OrderCancelRejected", **record}
+        )
+        order = self._order(cid)
+        if order is not None and not order.is_closed:
+            self.events.safety_violations.append(
+                {
+                    "event": "CANCEL_REJECTED_ORDER_STILL_LIVE",
+                    "client_order_id": cid,
+                    "reason": record["reason"],
+                }
+            )
 
     def _record_order_failure(self, event: Any, event_type: str) -> None:
-        """Record a denied/rejected order and retire a failed entry plan.
+        """Record a denied/rejected order and apply a fail-safe response.
 
-        A denied or rejected entry must not leave ``plan`` parked in
-        ``ENTRY_SUBMITTED`` forever: that would make the strategy ignore every
-        later valid signal. Only the entry order is cleared here; a failed
-        protection leg must not silently discard an open position.
+        Entry denial retires the plan so a later signal can trade. Protection
+        denial never silently leaves the position unprotected: the stop leg's
+        failure triggers a reduce-only emergency flatten. A denied close is
+        retained and retried on the next bar.
         """
         record = {
             "event_type": event_type,
@@ -490,15 +814,44 @@ class SwingEngineStrategy(Strategy):
         }
         self.events.order_events.append(record)
         plan = self.plan
-        if plan is None or plan.get("status") != "ENTRY_SUBMITTED":
+        if plan is None:
+            self.events.unmatched_fills.append(
+                {"client_order_id": record["client_order_id"], "reason": "ORDER_FAILURE_NO_PLAN"}
+            )
             return
-        if record["client_order_id"] != plan.get("entry_client_order_id"):
+        cid = record["client_order_id"]
+        if cid == plan.get("entry_client_order_id") and plan.get("status") in (
+            "ENTRY_SUBMITTED",
+            "ENTRY_FILLED",
+        ):
+            plan["status"] = (
+                "ENTRY_DENIED" if event_type == "OrderDenied" else "ENTRY_REJECTED"
+            )
+            plan["failure_reason"] = record["reason"]
+            plan["failure_ns"] = record["ts_event"]
+            self.events.decisions.append(dict(plan))
+            self.plan = None
             return
-        plan["status"] = "ENTRY_DENIED" if event_type == "OrderDenied" else "ENTRY_REJECTED"
-        plan["failure_reason"] = record["reason"]
-        plan["failure_ns"] = record["ts_event"]
-        self.events.decisions.append(dict(plan))
-        self.plan = None
+        if cid == plan.get("stop_client_order_id"):
+            self._record_protection_failure(
+                "STOP_REJECTED", client_order_id=str(cid), reason=str(record["reason"])
+            )
+            return
+        if cid == plan.get("target_client_order_id"):
+            self._record_protection_failure(
+                "TARGET_REJECTED", client_order_id=str(cid), reason=str(record["reason"])
+            )
+            return
+        if cid == plan.get("close_client_order_id"):
+            plan["close_failed"] = True
+            plan["status"] = f"CLOSING_{plan.get('close_reason', 'MARKET')}_FAILED"
+            self.events.safety_violations.append(
+                {
+                    "event": "CLOSE_ORDER_FAILED",
+                    "client_order_id": cid,
+                    "reason": record["reason"],
+                }
+            )
 
     def on_order_denied(self, event: Any) -> None:
         """A denied order is a finding: it is recorded and named, never swallowed."""
@@ -519,6 +872,8 @@ class SwingEngineStrategy(Strategy):
             "ts_event": getattr(event, "ts_event", 0),
         }
         self.events.positions_closed.append(record)
+        if self.plan is not None:
+            self._retire_exit_orders(self.plan, "POSITION_CLOSED")
         if self.plan is not None and self.plan.get("status", "").startswith(("POSITION_OPEN", "CLOSING")):
             self.plan["status"] = "CLOSED"
             self.plan["exit_fill_ns"] = record["ts_event"]
@@ -623,6 +978,12 @@ def run_swing_engine(
             "fills": strategy.events.fills,
             "positions_opened": strategy.events.positions_opened,
             "positions_closed": strategy.events.positions_closed,
+            "cancel_requests": strategy.events.cancel_requests,
+            "cancel_acks": strategy.events.cancel_acks,
+            "cancel_rejections": strategy.events.cancel_rejections,
+            "protection_failures": strategy.events.protection_failures,
+            "unmatched_fills": strategy.events.unmatched_fills,
+            "safety_violations": strategy.events.safety_violations,
         },
         "open_position_at_end": None if strategy.plan is None else strategy.plan.get("status"),
         # an order left resting on the book after the run would fill later and open a position

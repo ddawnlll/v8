@@ -1,0 +1,33 @@
+{
+  "status": "FAIL",
+  "tape": "/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl",
+  "candles": 30696,
+  "decision_records": 18,
+  "bracket_campaigns": 1,
+  "both_legs_filled": [
+    {
+      "entry_bar_ns": 1659632400000000000,
+      "direction": "SHORT",
+      "stop_fill_ns": 1659668400000000000,
+      "target_fill_ns": 1660892400000000000,
+      "stop_id": "O-20220804-170000-001-000-6",
+      "target_id": "O-20220804-170000-001-000-7"
+    }
+  ],
+  "stale_leg_fills": [
+    {
+      "leg": "target",
+      "client_order_id": "O-20220804-170000-001-000-7",
+      "fill_ns": 1660892400000000000,
+      "other_leg_first_fill_ns": 1659668400000000000,
+      "gap_hours": 340.0,
+      "entry_bar_ns": 1659632400000000000
+    }
+  ],
+  "fills": 9,
+  "positions_opened": 4,
+  "positions_closed": 3,
+  "fill_derived_net_position": "0.239",
+  "open_position_at_end": "CLOSING_TIMEOUT_EXPIRED",
+  "orders_open_at_end": []
+}
