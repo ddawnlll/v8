@@ -1,8 +1,8 @@
 # V9 Implementation Plan — Evidence-Gated
 
-**Status:** `NOT_STARTED`. This plan schedules work; it is not implementation,
+**Status:** `NOT_STARTED / COUNCIL_REVIEW_PENDING`. This plan schedules work; it is not implementation,
 validation, or economic authority. The normative architecture is
-[`V9_ARCHITECTURE_MONOGRAPH.md`](V9_ARCHITECTURE_MONOGRAPH.md) (RFC 1.3.1 — final design baseline, implementation unverified).
+[`V9_ARCHITECTURE_MONOGRAPH.md`](V9_ARCHITECTURE_MONOGRAPH.md) (RFC 1.3.1 — independent council review candidate, implementation unverified).
 
 Each phase is closed only by its evidence gate. A green unit test is not a
 venue-safety certificate, and a mechanical pass is not an economic result.
