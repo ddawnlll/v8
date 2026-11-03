@@ -110,7 +110,7 @@ Baseline `mypy v8-next/src` already reported errors in unrelated files
   timeout, long-tail stale revisit, same-bar stop/target eligibility, partial
   entry, cancel API type, cancel rejection visibility, stop rejection fail-safe,
   duplicate fill callback, unmatched late fill.
-- `tests/test_gate_integrity_20261103.py` (15 tests): equal open/closed loss
+- `tests/test_gate_integrity_20261103.py` (17 tests): equal open/closed loss
   drawdown, long/short MTM signs, quantity scaling, fee effect, chronological
   drawdown, missing-evidence block, orphan close, G7 zero/wrong/unverified
   candidates, G8 unverified label, missing/failed/passing reconciliation,
@@ -122,7 +122,7 @@ Baseline `mypy v8-next/src` already reported errors in unrelated files
 
 | Command | Result |
 |---|---|
-| `pytest -q v8-next/tests` | **1068 passed, 41 skipped, 506 deselected** (4.0 s) |
+| `pytest -q v8-next/tests` | **1070 passed, 41 skipped, 506 deselected** (4.0 s) |
 | `ruff check v8-next/src v8-next/tests` | **All checks passed** |
 | `mypy v8-next/src` | 17 pre-existing errors in 5 untouched files; 0 in changed files |
 | Real-tape probe (after fix) | `status=PASS`, `both_legs_filled=[]`, `stale_leg_fills=[]`, fill-derived net `0.001`, `orders_open_at_end=[]` |

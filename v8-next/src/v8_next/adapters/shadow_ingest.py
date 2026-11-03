@@ -266,6 +266,36 @@ def load_shadow_fills(
                 "authority": "NONE",
                 "passed": False,
             }
+        for record in valid:
+            if str(record.get("side", "")).upper() not in ("BUY", "SELL"):
+                return valid, {
+                    "mode": MODE_UNVERIFIED,
+                    "status": MODE_UNVERIFIED,
+                    "reason": "SETTLEMENT_SIDE_INVALID",
+                    "path": str(p),
+                    "sha256": sha,
+                    "passed": False,
+                }
+            try:
+                venue_time_ns = int(record["venue_time_ns"])
+            except (TypeError, ValueError):
+                return valid, {
+                    "mode": MODE_UNVERIFIED,
+                    "status": MODE_UNVERIFIED,
+                    "reason": "SETTLEMENT_VENUE_TIME_INVALID",
+                    "path": str(p),
+                    "sha256": sha,
+                    "passed": False,
+                }
+            if venue_time_ns <= 0 or not str(record.get("order_id", "")).strip():
+                return valid, {
+                    "mode": MODE_UNVERIFIED,
+                    "status": MODE_UNVERIFIED,
+                    "reason": "SETTLEMENT_ORDER_ID_INVALID",
+                    "path": str(p),
+                    "sha256": sha,
+                    "passed": False,
+                }
         ok, reason, normalized = verify_venue_attestation(
             attestation,
             fills_sha256=sha,
@@ -427,6 +457,20 @@ def reconcile_shadow_account(
         except (KeyError, TypeError, ValueError):
             problems.append("FILL_QTY_UNPARSABLE")
             shadow_net = None
+    if account.get("venue") is not None and str(account.get("venue")).upper() != "BINANCE":
+        problems.append("ACCOUNT_VENUE_MISMATCH")
+    fill_instruments = {
+        str(fill.get("instrument", "")).upper().replace("-PERP.BINANCE", "")
+        for fill in fills
+        if fill.get("instrument")
+    }
+    account_instruments = {
+        str(position.get("instrument_id", "")).upper().replace("-PERP.BINANCE", "")
+        for position in account.get("positions", [])
+        if position.get("instrument_id")
+    }
+    if fill_instruments and account_instruments and fill_instruments != account_instruments:
+        problems.append("INSTRUMENT_MISMATCH")
     positions = account.get("positions", [])
     if positions:
         engine_net = 0.0
