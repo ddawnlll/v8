@@ -7,7 +7,7 @@
 **Dil:** Türkçe; kod, araştırma başlıkları ve teknik sözleşmeler İngilizce kimliklerini korur.  
 **Uygulama sınırı:** `ddawnlll/v8` → `v8-next/` (Python 3.12, NautilusTrader 2.0.0rc4; bu sürüm depoda pinlenmiştir).  
 **Belge türü:** bilimsel mimari monografı + hakem revizyonu + normatif aday sözleşmeler; kod, ekonomik sertifika veya otomatik uygulama izni değildir.  
-**Normatif durum:** **FINAL DESIGN BASELINE FOR P0 / IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM**. Owner'ın bu revizyonla dondurduğu hedef tasarım, runtime veya üretim onayı değildir. V8 Anayasası'nı veya geçmiş immutable kanıtları tek başına değiştirmez.  
+**Normatif durum:** **FINAL CANDIDATE FOR INDEPENDENT COUNCIL REVIEW / ARCHITECTURE NOT YET APPROVED / IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM**. Owner'ın incelemeye sunduğu sürüm, runtime veya üretim onayı değildir. V8 Anayasası'nı veya geçmiş immutable kanıtları tek başına değiştirmez.  
 **Kısa hüküm:** *V9.1'in ilk **önerilen** uygulanabilir dilimi, gerçek V8 fonksiyonlarıyla henüz bağlanmamış bir `DecisionPolicyV0` **parite sözleşmesidir**. Ne çalışan yeni trader ne de doğrulanmış mekanik kabul söz konusudur. Bağlama duyarlı trader, gerekli P0 kanıtları tamamlanırsa tek müdahaleli challengerlarda sınanacak **uzun vadeli araştırma hedefidir**. Bu taslak hiçbir uyarlamalı emir veya canlı yetki tanımaz.*
 
 > **Bilimsel dürüstlük bildirimi.** Bu çalışma, aynı belgeyi okuyan üç ilişkili Model Council görüşü ve revizyon sentezi ile kullanıcının ilettiği özgün V8 monografı, iki 2026 Deep Research raporu, araştırma handoff ZIP'i, D4 native raporu ve önceki bağımsız ham audit raporunu, erişilebilen GitHub kodunu ve doğrulanmış birincil akademik kaynakları sentezler. Bu belgede yeni bir backtest, sealed OOS sınaması, bağımsız çalıştırılmış V9 prototipi veya canlı işlem sonucu **üretilmemiştir**. Mevcut deneyler yalnız tanımlı BTCUSDT 1H geliştirme bandı ve test koşullarını temsil eder. Kanıt-iddia kapsamı kaynaklara sıkıca bağlı tutulur.
@@ -56,9 +56,9 @@ Bu sürüm v1.1’in I–XXVI bölümlerini, A/B/C/D4 deney özetlerini, tarihse
 
 **Bu monografın bu turda ürettiği kanıt:** Kaynak metinleri ve kullanıcı tarafından iletilmiş raporlar üzerindeki editoryal analiz; **yeni native run, benchmark, HEAD doğrulaması veya store transaction testi yoktur**. Bu tür kanıtları gerektiren kabul hücreleri `UNVERIFIED / BLOCKED` olarak kalır.
 
-## RFC-1.3.1 — Son tasarım rötuşları ve P0'a devir
+## RFC-1.3.1 — Son inceleme adayı ve hedefli düzeltmeler
 
-Bu sürüm **son tasarım dondurma revizyonudur; runtime PASS, edge veya production izni değildir**. Üç RFC 1.3 council raporunun tekrarlanan `UNVERIFIED` bulguları yeni RFC'ye değil, pinli kaynak ve fixture içeren P0 issue'larına devredilir. Sonraki kanıt kod/test/receipt olarak kaydedilir; yeni mimari yalnız esaslı bir çelişki için ve açık owner kararıyla tekrar açılır.
+Bu sürüm **final bağımsız council incelemesi için sunulan tasarım adayıdır; mimari kabul, runtime PASS, edge veya production izni henüz yoktur**. Üç RFC 1.3 council raporunun tekrarlanan `UNVERIFIED` bulguları yeni RFC'ye değil, pinli kaynak ve fixture içeren P0 issue'larına devredilir. Council kanıtlı kritik bir tasarım çelişkisi bulursa hedefli revizyon ve yeniden değerlendirme gerekir; yalnız uygulama kanıtı eksikliği tasarım kusuru sayılmaz. Sonraki mühendislik kanıtı kod/test/receipt olarak kaydedilir.
 
 **Netleştirilen dört uyuşmazlık:** (i) V0 paritesinin öznesi tekil pinli `strategy_class + config_hash + code_sha + execution_profile`'dır; eski V8 ensemble içindeki *legacy* expert gate korunabilir, ancak V9'a **yeni** routing eklenmez. (ii) `OPEN_EXPOSURE + ENTRY_PENDING` birlikte mümkündür; entry-only V0 receipt native exit/cancel/stop işlemlerini susturamaz. (iii) karar üretimi side-effect-free kalır; durable intent ve outbox atomik yazımı mevcut native execution sınırındadır. (iv) P0 kanıtı `claim × producer × dataset × execution_profile` kapsamlıdır; bozuk equity yolu ekonomik kıyası bloke eder, izole mekanik fixture'ı değil.
 
@@ -1375,6 +1375,6 @@ Bu sürüm iki yeni kullanıcı iletili adversarial hakem raporunu **eleştiri k
 
 **Son ölçüt:** daha fazla bileşen değil; **gerçekten değişen ekonomik kararı**, o kararın native yaşam döngüsünü, maliyetini ve geçerlilik sınırını doğru gözleyip kontrol edebilmek.
 
-**Son editoryal hüküm:** `ARCHITECTURALLY ACCEPTABLE, IMPLEMENTATION UNVERIFIED` kapsamındaki dondurulmuş tasarım hedefi. İlgili native kod kusurları `OPEN`; hiçbir V9 fixture bu revizyonda geçmedi. **Sonraki teslim monograf değil P0-A/B/C commit + fixture + receipt olacaktır.**
+**Yazarın council'e önerdiği kapsam:** uygulanabilir olduğu ileri sürülen ancak **bağımsız mimari onay almamış** bir P0 tasarım adayı. `ARCHITECTURALLY ACCEPTABLE, IMPLEMENTATION UNVERIFIED` bu belgenin verilmiş dış hakem hükmü değildir. İlgili native kod kusurları `OPEN`; hiçbir V9 fixture bu revizyonda geçmedi. **Council kabulünden sonra** sonraki teslim P0-A/B/C commit + fixture + receipt olacaktır.
 
-*Belge sonu · V9-ARCH-RFC-1.3.1 / V9.1 FINAL DESIGN FREEZE FOR P0 · 2026-11-03*
+*Belge sonu · V9-ARCH-RFC-1.3.1 / INDEPENDENT COUNCIL REVIEW CANDIDATE · 2026-11-03*
