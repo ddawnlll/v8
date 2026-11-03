@@ -9,8 +9,11 @@ Fixture files are never counted as live fills.
 from __future__ import annotations
 
 import hashlib
+import hmac
 import json
 import math
+import os
+import time
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +36,112 @@ PROVENANCE_AUTHENTICATED = "authenticated_venue_statement"
 
 MODE_PUBLIC_PAPER = "PUBLIC_PAPER_NOT_SETTLED"
 MODE_SETTLED = "LIVE_VENUE_SETTLED"
+MODE_UNVERIFIED = "UNVERIFIED_PROVENANCE"
+
+#: A caller-controlled provenance string is not venue authenticity. Settlement
+#: evidence additionally needs a receipt produced by the trusted ingestion
+#: process, bound to the fill file hash, venue, account and issue time, and
+#: signed with an out-of-band key (``V8_VENUE_ATTESTATION_KEY``). The key is a
+#: local trust anchor, not a claim that the venue signs statements.
+ATTESTATION_VERSION = 1
+ATTESTATION_VENUE = "BINANCE"
+ATTESTATION_KEY_ENV = "V8_VENUE_ATTESTATION_KEY"
+ATTESTATION_MAX_AGE_NS = 30 * 24 * 3_600 * 10**9
+
+
+def _attestation_message(payload: dict[str, Any]) -> bytes:
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return canonical
+
+
+def verify_venue_attestation(
+    attestation: dict[str, Any] | None,
+    *,
+    fills_sha256: str,
+    account_id: str,
+    key: bytes | str | None = None,
+    now_ns: int | None = None,
+) -> tuple[bool, str, dict[str, Any]]:
+    """Verify a trusted-ingestion receipt binds this file to this account.
+
+    Returns ``(ok, reason, normalized)``. Missing/invalid receipts fail closed;
+    no caller string, checksum, or filename can substitute for the signature.
+    """
+    if not isinstance(attestation, dict):
+        return False, "ATTESTATION_MISSING", {}
+    secret = key
+    if secret is None:
+        secret = os.environ.get(ATTESTATION_KEY_ENV, "").encode("utf-8") or None
+    if not secret:
+        return False, "ATTESTATION_KEY_UNAVAILABLE", {}
+    key_bytes = secret.encode("utf-8") if isinstance(secret, str) else secret
+    required = (
+        "version",
+        "venue",
+        "account_id",
+        "fills_sha256",
+        "issued_ns",
+        "key_id",
+        "signature",
+    )
+    missing = [name for name in required if name not in attestation]
+    if missing:
+        return False, f"ATTESTATION_FIELDS_MISSING:{','.join(missing)}", {}
+    if int(attestation.get("version", 0)) != ATTESTATION_VERSION:
+        return False, "ATTESTATION_VERSION_UNSUPPORTED", {}
+    if str(attestation.get("venue", "")).upper() != ATTESTATION_VENUE:
+        return False, "ATTESTATION_VENUE_MISMATCH", {}
+    if str(attestation.get("account_id", "")) != account_id:
+        return False, "ATTESTATION_ACCOUNT_MISMATCH", {}
+    if str(attestation.get("fills_sha256", "")) != fills_sha256:
+        return False, "ATTESTATION_FILLS_HASH_MISMATCH", {}
+    try:
+        issued_ns = int(attestation["issued_ns"])
+    except (TypeError, ValueError):
+        return False, "ATTESTATION_ISSUED_NS_INVALID", {}
+    current_ns = time.time_ns() if now_ns is None else int(now_ns)
+    if issued_ns > current_ns:
+        return False, "ATTESTATION_ISSUED_IN_FUTURE", {}
+    if current_ns - issued_ns > ATTESTATION_MAX_AGE_NS:
+        return False, "ATTESTATION_EXPIRED", {}
+    payload = {
+        "version": int(attestation["version"]),
+        "venue": str(attestation["venue"]).upper(),
+        "account_id": str(attestation["account_id"]),
+        "fills_sha256": str(attestation["fills_sha256"]),
+        "issued_ns": issued_ns,
+        "key_id": str(attestation["key_id"]),
+    }
+    expected = hmac.new(
+        key_bytes, _attestation_message(payload), hashlib.sha256
+    ).hexdigest()
+    if not hmac.compare_digest(expected, str(attestation.get("signature", ""))):
+        return False, "ATTESTATION_SIGNATURE_INVALID", {}
+    return True, "ATTESTATION_VERIFIED", {**payload, "signature_verified": True}
+
+
+def make_venue_attestation(
+    *,
+    fills_sha256: str,
+    account_id: str,
+    key: bytes | str,
+    key_id: str = "test-authority",
+    issued_ns: int | None = None,
+) -> dict[str, Any]:
+    """Create a receipt for tests / a trusted ingestion process (not the venue)."""
+    payload = {
+        "version": ATTESTATION_VERSION,
+        "venue": ATTESTATION_VENUE,
+        "account_id": account_id,
+        "fills_sha256": fills_sha256,
+        "issued_ns": time.time_ns() if issued_ns is None else int(issued_ns),
+        "key_id": key_id,
+    }
+    key_bytes = key.encode("utf-8") if isinstance(key, str) else key
+    payload["signature"] = hmac.new(
+        key_bytes, _attestation_message(payload), hashlib.sha256
+    ).hexdigest()
+    return payload
 
 
 def load_shadow_fills(
@@ -41,6 +150,9 @@ def load_shadow_fills(
     source: str = "live",
     provenance: str = PROVENANCE_PUBLIC_PAPER,
     account_id: str = "",
+    attestation: dict[str, Any] | None = None,
+    attestation_key: bytes | str | None = None,
+    now_ns: int | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Load and validate shadow fills file.
 
@@ -116,14 +228,85 @@ def load_shadow_fills(
         return [], {"mode": "MALFORMED_SHADOW_FILE", "reason": "; ".join(errors[:3]), "path": str(p), "sha256": sha}
     # At least one well-formed record required for live
     valid = [r for r in records if all(k in r for k in ("fill_id", "instrument", "price", "qty"))]
+    ids = [str(r.get("fill_id")) for r in valid]
+    if len(ids) != len(set(ids)):
+        return [], {
+            "mode": "MALFORMED_SHADOW_FILE",
+            "reason": "DUPLICATE_FILL_IDS",
+            "path": str(p),
+            "sha256": sha,
+        }
     if not valid:
         return [], {"mode": "UNRUN_NO_VENUE_ACCOUNT", "reason": "no valid fill records", "path": str(p), "sha256": sha, "errors": errors}
     if provenance == PROVENANCE_AUTHENTICATED:
+        # Full settlement schema is required before an authenticated receipt is
+        # even considered. A partial diagnostic row is not a venue fill.
+        settlement_fields = (
+            "side",
+            "venue_time_ns",
+            "order_id",
+        )
+        missing = sorted(
+            {
+                field
+                for record in valid
+                for field in settlement_fields
+                if field not in record
+            }
+        )
+        if missing:
+            return valid, {
+                "mode": MODE_UNVERIFIED,
+                "status": MODE_UNVERIFIED,
+                "reason": f"SETTLEMENT_FIELDS_MISSING:{','.join(missing)}",
+                "path": str(p),
+                "sha256": sha,
+                "provenance": provenance,
+                "account_id": account_id,
+                "authority": "NONE",
+                "passed": False,
+            }
+        ok, reason, normalized = verify_venue_attestation(
+            attestation,
+            fills_sha256=sha,
+            account_id=account_id,
+            key=attestation_key,
+            now_ns=now_ns,
+        )
+        if not ok:
+            return valid, {
+                "mode": MODE_UNVERIFIED,
+                "status": MODE_UNVERIFIED,
+                "reason": reason,
+                "path": str(p),
+                "sha256": sha,
+                "provenance": provenance,
+                "account_id": account_id,
+                "authority": "NONE",
+                "attestation": normalized,
+                "passed": False,
+            }
         mode = MODE_SETTLED
-        authority = "VENUE_STATEMENT"
-    else:
-        mode = MODE_PUBLIC_PAPER
-        authority = "NONE"
+        authority = "VENUE_ATTESTATION_RECEIPT"
+        return valid, {
+            "mode": mode,
+            "status": mode,
+            "fills_count": len(valid),
+            "path": str(p),
+            "sha256": sha,
+            "errors": errors[:5],
+            "provenance": provenance,
+            "account_id": account_id,
+            "authority": authority,
+            "attestation": normalized,
+            "label": "AUTHENTICATED_VENUE_STATEMENT",
+            "note": (
+                "a trusted-ingestion receipt binds this file, venue and account; it is "
+                "not a claim that the venue itself digitally signed the statement"
+            ),
+        }
+    mode = MODE_PUBLIC_PAPER
+    authority = "NONE"
     return valid, {
         "mode": mode,
         "status": mode,
@@ -220,20 +403,68 @@ def reconcile_shadow_account(
     engine_fills = [o for o in account.get("orders", []) if o.get("status") == "FILLED"]
     shadow_count = len(fills)
     engine_count = len(engine_fills)
-    # Hash-bound comparison: report divergence without claiming PnL
-    # NX10.R4: exactly-once means the counts must agree. "There is at least one fill"
-    # is not a reconciliation, so a count mismatch is reported, not waved through.
-    matches = shadow_count == engine_count
+    # NX10.R4: exactly-once means the counts must agree. "There is at least one
+    # fill" is not a reconciliation, so a count mismatch is reported, not waved
+    # through.
+    problems: list[str] = []
+    if shadow_count != engine_count:
+        problems.append("FILL_COUNT_MISMATCH")
+    # Signed quantity reconciliation against native positions, when the account
+    # snapshot exposes them. Missing quantities are a refusal, never a zero.
+    shadow_net: float | None = None
+    engine_net: float | None = None
+    if any("qty" in fill for fill in fills):
+        try:
+            shadow_net = 0.0
+            for fill in fills:
+                qty = float(str(fill["qty"]))
+                side = str(fill.get("side", "")).upper()
+                if side not in ("BUY", "SELL") or not math.isfinite(qty):
+                    problems.append("FILL_SIDE_OR_QTY_INVALID")
+                    shadow_net = None
+                    break
+                shadow_net += qty if side == "BUY" else -qty
+        except (KeyError, TypeError, ValueError):
+            problems.append("FILL_QTY_UNPARSABLE")
+            shadow_net = None
+    positions = account.get("positions", [])
+    if positions:
+        engine_net = 0.0
+        for position in positions:
+            try:
+                qty = abs(float(str(position.get("quantity", "nan")).split()[0]))
+                side = str(position.get("side", "")).upper()
+            except (TypeError, ValueError):
+                problems.append("POSITION_QTY_UNPARSABLE")
+                engine_net = None
+                break
+            if not math.isfinite(qty):
+                problems.append("POSITION_QTY_UNPARSABLE")
+                engine_net = None
+                break
+            if "LONG" in side or side == "BUY":
+                engine_net += qty
+            elif "SHORT" in side or side == "SELL":
+                engine_net -= qty
+            else:
+                problems.append("POSITION_SIDE_INVALID")
+                engine_net = None
+                break
+    if shadow_net is not None and engine_net is not None:
+        if abs(shadow_net - engine_net) > 1e-9:
+            problems.append("SIGNED_QUANTITY_MISMATCH")
+    matches = not problems
     return {
         "reconciled": matches,
-        "mode": "COUNT_MATCH" if matches else "COUNT_MISMATCH",
-        # NX10.R4: a count match is a diagnostic, never a settlement proof, and a
-        # divergence is an explicit refusal -- never a silent P&L claim.
+        "mode": "COUNT_MATCH" if matches else "RECONCILIATION_MISMATCH",
         "status": "RECONCILED_DIAGNOSTIC" if matches else "EXECUTION_UNPROVEN",
         "claim_status": "NO_ECONOMIC_CLAIM",
         "shadow_fills": shadow_count,
         "engine_filled_orders": engine_count,
         "delta": shadow_count - engine_count,
+        "shadow_net_quantity": shadow_net,
+        "engine_net_quantity": engine_net,
+        "problems": problems,
         "account_currency": account.get("currency"),
         "note": "shadow vs simulated; venue settlement finality not certified here",
     }

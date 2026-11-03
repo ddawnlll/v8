@@ -15,6 +15,7 @@ The tests never require a settlement, a maturity verdict, or a G7 pass.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -22,8 +23,11 @@ import pytest
 
 from v8_next.adapters.shadow_ingest import (
     MODE_PUBLIC_PAPER,
+    MODE_SETTLED,
+    MODE_UNVERIFIED,
     PROVENANCE_AUTHENTICATED,
     load_shadow_fills,
+    make_venue_attestation,
     reconcile_shadow_account,
 )
 from v8_next.evaluation.prospective_capture import (
@@ -150,7 +154,7 @@ def test_resume_rebuilds_the_state_from_disk(tmp_path: Path) -> None:
 # --------------------------------------------------------------------------- #
 
 
-def test_public_paper_never_reads_as_a_settlement(tmp_path: Path) -> None:
+def test_public_paper_never_reads_as_a_settlement(tmp_path: Path, monkeypatch) -> None:
     fills = tmp_path / "public.jsonl"
     fills.write_text(json.dumps({"fill_id": "P-1", "instrument": "BTCUSDT", "price": 100, "qty": 1}) + "\n")
     records, meta = load_shadow_fills(fills)
@@ -159,11 +163,40 @@ def test_public_paper_never_reads_as_a_settlement(tmp_path: Path) -> None:
     assert meta["label"].startswith("PUBLIC_PAPER")
     with pytest.raises(ValueError, match="account identity"):
         load_shadow_fills(fills, provenance=PROVENANCE_AUTHENTICATED)
-    _, authenticated = load_shadow_fills(
+    # A caller label plus an account id is not authenticity: no attestation is
+    # supplied, so settlement is refused by name.
+    _, unverified = load_shadow_fills(
         fills, provenance=PROVENANCE_AUTHENTICATED, account_id="acct-1"
     )
-    assert authenticated["mode"] == "LIVE_VENUE_SETTLED"
-    assert authenticated["authority"] == "VENUE_STATEMENT"
+    assert unverified["mode"] == MODE_UNVERIFIED
+    assert unverified["reason"] == "SETTLEMENT_FIELDS_MISSING:order_id,side,venue_time_ns"
+
+    monkeypatch.setenv("V8_VENUE_ATTESTATION_KEY", "test-key")
+    settled = tmp_path / "settled.jsonl"
+    settled.write_text(
+        json.dumps(
+            {
+                "fill_id": "P-1",
+                "instrument": "BTCUSDT",
+                "price": 100,
+                "qty": 1,
+                "side": "BUY",
+                "venue_time_ns": 1,
+                "order_id": "O-1",
+            }
+        )
+        + "\n"
+    )
+    sha = hashlib.sha256(settled.read_bytes()).hexdigest()
+    attestation = make_venue_attestation(fills_sha256=sha, account_id="acct-1", key="test-key")
+    _, authenticated = load_shadow_fills(
+        settled,
+        provenance=PROVENANCE_AUTHENTICATED,
+        account_id="acct-1",
+        attestation=attestation,
+    )
+    assert authenticated["mode"] == MODE_SETTLED
+    assert authenticated["authority"] == "VENUE_ATTESTATION_RECEIPT"
 
 
 def test_reconciliation_is_exactly_once_not_has_any_fills() -> None:
@@ -171,7 +204,7 @@ def test_reconciliation_is_exactly_once_not_has_any_fills() -> None:
     account = {"balance_total": "100", "positions": [], "orders": [{"status": "FILLED"}]}
     result = reconcile_shadow_account(fills, account)
     assert result["reconciled"] is False
-    assert result["mode"] == "COUNT_MISMATCH"
+    assert result["mode"] == "RECONCILIATION_MISMATCH"
     assert result["delta"] == 1
     matched = reconcile_shadow_account(
         fills[:1], {"balance_total": "100", "positions": [], "orders": [{"status": "FILLED"}]}
