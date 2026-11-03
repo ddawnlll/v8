@@ -2,12 +2,12 @@
 
 ## Bilimsel mimari monografı · V9.1 tasarım revizyonu · V8-next evrim sözleşmesi
 
-**Sürüm:** `V9-ARCH-RFC-1.3` · **Tasarım dalı:** `V9.1` (monografın devam eden revizyonu, yeni ürün sürümü veya çalışan bot değil)  
+**Sürüm:** `V9-ARCH-RFC-1.3.1` · **Tasarım dalı:** `V9.1` (monografın devam eden revizyonu, yeni ürün sürümü veya çalışan bot değil)  
 **Revizyon tarihi:** 3 Kasım 2026  
 **Dil:** Türkçe; kod, araştırma başlıkları ve teknik sözleşmeler İngilizce kimliklerini korur.  
 **Uygulama sınırı:** `ddawnlll/v8` → `v8-next/` (Python 3.12, NautilusTrader 2.0.0rc4; bu sürüm depoda pinlenmiştir).  
 **Belge türü:** bilimsel mimari monografı + hakem revizyonu + normatif aday sözleşmeler; kod, ekonomik sertifika veya otomatik uygulama izni değildir.  
-**Normatif durum:** **DESIGN REVISION / OWNER APPROVAL PENDING / P0 SYMBOL-BINDING UNVERIFIED / NO ECONOMIC CLAIM**. V8 Anayasası'nı veya geçmiş immutable kanıtları tek başına değiştirmez.  
+**Normatif durum:** **FINAL DESIGN BASELINE FOR P0 / IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM**. Owner'ın bu revizyonla dondurduğu hedef tasarım, runtime veya üretim onayı değildir. V8 Anayasası'nı veya geçmiş immutable kanıtları tek başına değiştirmez.  
 **Kısa hüküm:** *V9.1'in ilk **önerilen** uygulanabilir dilimi, gerçek V8 fonksiyonlarıyla henüz bağlanmamış bir `DecisionPolicyV0` **parite sözleşmesidir**. Ne çalışan yeni trader ne de doğrulanmış mekanik kabul söz konusudur. Bağlama duyarlı trader, gerekli P0 kanıtları tamamlanırsa tek müdahaleli challengerlarda sınanacak **uzun vadeli araştırma hedefidir**. Bu taslak hiçbir uyarlamalı emir veya canlı yetki tanımaz.*
 
 > **Bilimsel dürüstlük bildirimi.** Bu çalışma, aynı belgeyi okuyan üç ilişkili Model Council görüşü ve revizyon sentezi ile kullanıcının ilettiği özgün V8 monografı, iki 2026 Deep Research raporu, araştırma handoff ZIP'i, D4 native raporu ve önceki bağımsız ham audit raporunu, erişilebilen GitHub kodunu ve doğrulanmış birincil akademik kaynakları sentezler. Bu belgede yeni bir backtest, sealed OOS sınaması, bağımsız çalıştırılmış V9 prototipi veya canlı işlem sonucu **üretilmemiştir**. Mevcut deneyler yalnız tanımlı BTCUSDT 1H geliştirme bandı ve test koşullarını temsil eder. Kanıt-iddia kapsamı kaynaklara sıkıca bağlı tutulur.
@@ -55,6 +55,16 @@ Bu sürüm v1.1’in I–XXVI bölümlerini, A/B/C/D4 deney özetlerini, tarihse
 **Hakemlerin önerilerinden ayrıldığımız noktalar:** 123/123 consensus sonucu, *o development penceresinde seçim katkısının sıfır olduğunu* kanıtlar; tüm expert kodunun değersizliğini ve silinmesi gerektiğini kanıtlamaz. D4 gecikmesinin olumsuzluğu OpportunityBook kimliğiyle zorunlu bekleme politikasını özdeşleştirmez. Pi'nin araştırma projesi olarak mevcut olması canlı trading yetkisi gerektirmez. Dolayısıyla bu modüller **V0 uygulamasında yok veya unreachable** olur; tarihsel kanıt ve deney araçları silinmez. Yeni bir modülü meşrulaştırmak için yalnız daha hoş adlandırma değil, davranışsal bilgi katkısı gerekir.
 
 **Bu monografın bu turda ürettiği kanıt:** Kaynak metinleri ve kullanıcı tarafından iletilmiş raporlar üzerindeki editoryal analiz; **yeni native run, benchmark, HEAD doğrulaması veya store transaction testi yoktur**. Bu tür kanıtları gerektiren kabul hücreleri `UNVERIFIED / BLOCKED` olarak kalır.
+
+## RFC-1.3.1 — Son tasarım rötuşları ve P0'a devir
+
+Bu sürüm **son tasarım dondurma revizyonudur; runtime PASS, edge veya production izni değildir**. Üç RFC 1.3 council raporunun tekrarlanan `UNVERIFIED` bulguları yeni RFC'ye değil, pinli kaynak ve fixture içeren P0 issue'larına devredilir. Sonraki kanıt kod/test/receipt olarak kaydedilir; yeni mimari yalnız esaslı bir çelişki için ve açık owner kararıyla tekrar açılır.
+
+**Netleştirilen dört uyuşmazlık:** (i) V0 paritesinin öznesi tekil pinli `strategy_class + config_hash + code_sha + execution_profile`'dır; eski V8 ensemble içindeki *legacy* expert gate korunabilir, ancak V9'a **yeni** routing eklenmez. (ii) `OPEN_EXPOSURE + ENTRY_PENDING` birlikte mümkündür; entry-only V0 receipt native exit/cancel/stop işlemlerini susturamaz. (iii) karar üretimi side-effect-free kalır; durable intent ve outbox atomik yazımı mevcut native execution sınırındadır. (iv) P0 kanıtı `claim × producer × dataset × execution_profile` kapsamlıdır; bozuk equity yolu ekonomik kıyası bloke eder, izole mekanik fixture'ı değil.
+
+**Gerçek kaynak bulguları ile kanıt düzeyi:** Üçüncü hakem, `c84fecbff3981ad2e6d4da3e0f974c81e2d80b61` altında cancel argümanı, partial-fill bracket miktarı, campaign sequence atfı, fill multiset ve min-notional sizing riskleri için mekanik probe raporladı. İlgili kaynak yolları bu denetimde incelendi; hakem fixture'ları bu belge revizyonunda bağımsız yeniden çalıştırılmadı. Bunlar çözülmüş sayılmaz; ilgili yürütme yolundaki `SAFETY_REPAIR/AUDIT_REPAIR` kapılarıdır (§3.3.3).
+
+**Yanlış genelleme filtresi:** 123/123 expert konsensüsü bütün expert kodunun değersizliğini; D4 sonucu OpportunityBook kimliğinin gereksizliğini; #491 bütün mekanik testlerin geçersizliğini; 20 USDT belirsizliği her sembolde TP1/TP2'nin imkânsızlığını kanıtlamaz. Nitelikli sonuç ancak sınandığı kapsam için verilir.
 
 ## Belge onayının beş ayrı düzeyi
 
@@ -185,10 +195,10 @@ olmak üzere, belirli politika sürümü için `Action_t = π(F_t, Portfolio_t, 
 
 ## 4.3 MarketBelief: sınırlı ve yanlışlanabilir temsil
 
-**İlk implementasyon varsayımı:** `MarketBeliefV0` yeni bir ontoloji, kalibre edilmemiş rejim olasılık motoru veya bağımsız karar otoritesi değildir; mevcut PIT `MarketState` üzerinden üretilen sürümlü bir **immutable view**dır. Hiçbir yeni belief değişkeni, varsayılan V8 giriş/çıkış davranışını kendiliğinden değiştiremez. Representation, prediction ve decision-utility ayrı araştırma hedefleridir.
+**Geleceğe ait araştırma şeması (V2+):** Aşağıdaki `MarketBeliefV0`, V0/V1'de kodlanacak runtime sözleşmesi değildir. Mevcut PIT `MarketState` veya gerekli ise salt-okunur `PITFeatureView` ilk diagnostic arayüzüdür. Yeni bir belief class'ı, kalibre edilmemiş rejim motoru veya ikinci karar otoritesi **yazılmaz**. Hiçbir yeni belief değişkeni, varsayılan V8 giriş/çıkış davranışını kendiliğinden değiştiremez. Representation, prediction ve decision-utility ayrı araştırma hedefleridir.
 
 ```text
-MarketBeliefV0  # PROPOSED; no implication of existing class
+MarketBeliefV0  # FUTURE RESEARCH ONLY; NOT V0/V1 RUNTIME
   instrument_id: String
   decision_cut_ns: Int
   source_event_ids: List[EventId]
@@ -241,7 +251,7 @@ Rejim tahminleri hatalı olabilir. False transition ile yanlış expert yönlend
 
 Expert bir *observer*dır; ekonomik opportunity ID üretmez, sermaye tahsis etmez, emir göndermez. `ExpertStance = {expert_id, version, habitat_id, opportunity_id, support/contradict/abstain, reason_code, observed_features, availability_bounds, lineage}`. Aynı kanıta dayanarak oy veren kopya expert'ların çoğunluk oluşturması bilgi üretmez. Orijinal V8'in clone invariance ve opportunity sovereignty ilkeleri korunur [P1].
 
-**V0 uygulama kilidi:** `ExpertStance`, clone-graph, consensus ve habitat-route çıktıları receipt/araştırma içinde bulunabilir; **`DecisionPolicyV0` entry, sizing, reduction, exit kararlarına girdi olamazlar**. İlk expert katkısı `E1` adında bağımsız ablation ailesiyle, duplicate-observer ve gerçek altered-decision kontrolüyle açılır. Bu bölümü anlatan 28-stance şeması çalışır yetenek sayılmaz.
+**V0 uygulama kilidi:** **Yeni** `ExpertStance`, clone-graph, consensus ve habitat-route çıktıları `DecisionPolicyV0` wrapper'ına karar girdisi olamaz. Ancak seçilmiş ve pinlenmiş mevcut V8 baseline strategy'si legacy expert quorum kullanıyorsa o özgün hesap **baseline içinde aynen kalır**: kaldırılması V0 paritesi değil ayrı ve kaydı tutulan bir baseline değişikliğidir. Wrapper expert'ları yeniden hesaplamaz veya yeni routing uygulamaz. İlk expert katkısı `E1` adında bağımsız ablation ailesiyle, duplicate-observer ve gerçek altered-decision kontrolüyle açılır. Bu bölümü anlatan 28-stance şeması çalışır yetenek sayılmaz.
 
 ## 5.2 Context-aware uzmanlık
 
@@ -283,7 +293,7 @@ D4 state machine gerçek ve baseline'dan farklı davrandı, ama −36,12 USDT'li
 
 ## 7.0 Sürüm ayrımı ve karar yetkisi
 
-- `DecisionPolicyV0`: **V8’in ekonomik politika çıktısını değiştirmez**; yeni kalıcı karar/niyet kimlikleri ve doğrulanabilir risk/venue sınırı ekler. Sonuç `V0_PARITY`, **`ADAPTIVE_TRADER` değil**.
+- `DecisionPolicyV0`: P0-A'da `strategy_class + config_hash + code_sha + execution_profile` ile tekil pinlenen mevcut V8 baseline ekonomik kararını korur; baseline içindeki legacy expert gate gerekiyorsa korunur, **yeni expert routing kapalıdır**. Kalıcı receipt/niyet kimlikleri ayrı execution sınırında eklenir. Parite ancak fixture geçerse `V0_PARITY` olur, **`ADAPTIVE_TRADER` değil**.
 - `DecisionPolicyV1`: yalnız `V9-M1_ENTRY_VETO` tek family ve explicit `feature_flag=OFF` varsayılanı; yalnız düz/flat hâlde **baseline girişini reddedebilir**, yeni ekonomik fırsat oluşturamaz.
 - `PositionPolicyV2`: ayrı ön-kayıtlı deney ve farklı bayrak. V1’in başarısı otomatik gerekmemekle birlikte aynı P0 audit + native safety şartlarını gerektirir. `HOLD` dışında reducer/exit yetkisi ancak ayrı doğrulama ve onayla.
 
@@ -314,7 +324,7 @@ Bir karar tetikleyicisi `completed_bar_available`, risk/event update, order even
 flowchart TD
   M[Available PIT market events] --> F[Verified PIT frame]
   F --> O[Existing V8 opportunity/signal path]
-  O --> V[Existing V8 baseline decision]
+  O --> V[Chosen pinned V8 baseline decision; legacy gate internal]
   N[Verified venue position, fills and pending orders] --> R[Existing risk/admission and recovery operations]
   V --> R
   R -->|Allowed and durable intent reserved| A[Nautilus native adapter]
@@ -323,7 +333,7 @@ flowchart TD
   A --> N
 ```
 
-`PITFeatureView`, `MarketBelief`, expert stance routing, dynamic position manager, allocator ve Pi, **bu yürütme grafiğinin node'ları veya V0 girdileri değildir**. Daha sonraki V1/M1 challenger için ayrı preregistered shadow grafiği vardır ve `feature_flag=OFF` iken adapter'a ulaşamaz. Bu grafik mevcut V8 fonksiyonlarına eşlenmiş gerçek API adreslerinin yerine geçmez (§12.9).
+`PITFeatureView`, `MarketBelief`, **yeni** expert stance routing, dynamic position manager, allocator ve Pi grafiğe yeni karar node'u olarak girmez. Seçilmiş V8 baseline'ın mevcut legacy expert gate'i onun *iç* hesaplamasıdır; kaldırmak baseline değişimidir. Daha sonraki V1/M1 challenger için ayrı preregistered shadow grafiği vardır ve `feature_flag=OFF` iken adapter'a ulaşamaz. Bu grafik mevcut V8 fonksiyonlarına eşlenmiş gerçek API adreslerinin yerine geçmez (§12.9).
 
 `TraderDecision` hiçbir zaman native `Order`un gerçekleştiğini ilan edemez. Emir, pozisyon ve korumanın gerçek durumu Native adapter/venue reconciliation tarafından belirlenir. Hard risk, karar politikasından bağımsızdır. Aynı timestamp'li iki olay için veri kaynaklı `event_id`, tüketim sırası ve callback semantiği yoksa karar sırası biliniyor varsayılmaz.
 
@@ -374,39 +384,38 @@ P0-A tamamlanmadan `baseline_decide()`, `existing_risk.*`, `native_reconcile()` 
 
 ## 7.4 V9 DecisionPolicyV0 — V8 parite yürütücüsü, adaptif trader değil
 
-**Tek ekonomist V8 baseline’ıdır.** Bu prosedürde `baseline_decide`, `native_reconcile` ve `existing_risk_*` isimleri **soyut rol**dür; mevcut Python API’si oldukları iddia edilmez. P0-A gerçek sembol ve çağrı yerini göstermeden uygulama kabul edilmez. Aktif pozisyonda statik bracket/stop kapanışı native olay ile çalışır; `HOLD` bunu veto edemez. Partial fill pozisyon doğurur; pending order nedeniyle korumasız riski görmezden gelmek yasaktır.
+**Ekonomik otorite pinli V8 baseline'ıdır.** Aşağıdaki `baseline_decide`, `existing_risk` vb. adlar çalışan API değil, role pseudocode'dur. Legacy expert quorum baseline içinde kalabilir. **Mevcut native order/position/exit/stop/target/cancel callback'leri, V0 entry-only receipt'inden bağımsız olarak çalışır**. V0 native pozisyon yönetimini `HOLD` ile veto edemez.
 
 ```python
-# NORMATIVE ROLE PSEUDOCODE; NOT AN IMPLEMENTATION OR API CLAIM.
-def decision_policy_v0(pit_cut, verified_venue_snapshot, baseline_decide,
-                       existing_risk, durable_intent_store):
+# PURE, ENTRY-ONLY ROLE PSEUDOCODE; NOT AN IMPLEMENTED API.
+def decision_policy_v0(pit_cut, verified_venue_snapshot, baseline_decide, existing_risk):
     v = verified_venue_snapshot
-    # Always check exposed quantity and protection even when an order is pending.
+    # Existing native callbacks/reconciliation/position exits run separately.
     if v.unreconciled or v.unknown_at_venue:
         return receipt("ABSTAIN", "VENUE_UNCERTAIN", no_new_risk=True)
     if existing_risk.kill_switch_or_limit(v):
-        # Existing risk/native playbook acts independently of economic policy.
         return receipt("ABSTAIN", "RISK_LIMIT", no_new_risk=True)
     if v.exposed_qty > 0 and not v.verified_protection_for_exposure:
         return receipt("ABSTAIN", "PROTECTION_GAP", no_new_risk=True)
-    if v.exposed_qty > 0:
-        return receipt("HOLD", "BASELINE_NATIVE_BRACKET_PRESERVED")
+    if v.exposed_qty > 0 and v.has_entry_or_cancel_pending:
+        return receipt("HOLD", "PARTIAL_FILL_ENTRY_PENDING", no_new_risk=True)
     if v.has_entry_or_cancel_pending:
-        return receipt("WAIT", "ORDER_PENDING")
+        return receipt("WAIT", "ORDER_PENDING", no_new_risk=True)
+    if v.exposed_qty > 0:
+        return receipt("HOLD", "BASELINE_NATIVE_MANAGEMENT_UNCHANGED")
     if not pit_cut.valid or not pit_cut.market_fresh:
         return receipt("ABSTAIN", "DATA_UNAVAILABLE", no_new_risk=True)
-    candidate = baseline_decide(pit_cut.baseline_inputs)  # no belief/expert/rotator
+    candidate = baseline_decide(pit_cut.baseline_inputs)  # pinned legacy baseline
     if candidate is None:
         return receipt("WAIT", "NO_BASELINE_ENTRY")
     admission = existing_risk.admit_baseline_candidate(candidate, v)
     if not admission.allowed:
         return receipt("WAIT", admission.reason)
-    # Atomic reservation happens inside the persistent store, never read-then-write.
-    reserved = durable_intent_store.reserve_once(candidate, pit_cut, v)
-    if reserved.existing:
-        return receipt("WAIT", "INTENT_ALREADY_RESERVED", intent_id=reserved.intent_id)
-    return receipt("ENTER", "BASELINE_ADMITTED", intent_id=reserved.intent_id)
+    # Pure proposal, no reserve/store or order side effect here.
+    return receipt("ENTER", "BASELINE_ADMITTED", proposed_intent=candidate)
 ```
+
+**Side-effect sınırı:** Risk tekrar doğrulaması, unique logical-key rezervasyonu, immutable `client_order_id` ve outbox yazımı **tek account-scoped native adapter execution boundary** içinde atomik yapılır (§8.7). `ENTER` receipt'i sipariş gönderildi demek değildir; duplicate logical intent ikinci emir yaratamaz. Bu transaction henüz uygulanmış ve test edilmiş sayılmaz.
 
 **Mekanik kabul:** aynı event/tape/config/rc4 ve risk bütçesinde V0’ın baseline ile aynı kabul/red, instrument, side, qty, order/bracket, native position/fill ve strategy net sonucu vermesi; yalnız ek decision/intent receipt farkına izin vardır. Doğru safety düzeltmesi farklılık yaratırsa `SAFETY_REPAIR` ayrı test, izin ve kanıt etiketi alır; **V9 economic alpha** sayılmaz. Baseline parity hem policy **kapalıyken** hem V0 **açıkken** tekrarlanır. V0 parity fail iken V1 açılmaz.
 
@@ -456,7 +465,7 @@ V9’un uzun vadeli ekonomik karar araştırması yalnız hedef olarak kalır. `
 | `DEC-002` | Flat, market stale | Yeni bar | `ABSTAIN`, no intent | Stale risk yok |
 | `DEC-003` | Flat, no opportunity | Taze bar | `WAIT` | İzleme ≠ zorunlu entry |
 | `DEC-004` | Entry submitted | Aynı bar duplicate signal | `WAIT/ENTRY_PENDING` | Bir order daha yok |
-| `DEC-005` | Partial fill + open qty | Position update | `HOLD` ancak verified protection varsa | Kısmi exposure korunur |
+| `DEC-005` | Partial fill + open qty + kalan entry pending | Order + position update | `HOLD/PARTIAL_FILL_ENTRY_PENDING` yalnız verified protection varsa; native exit/cancel callback sürer | Exposure ve pending birlikte izlenir |
 | `DEC-006` | Venue timeout, order unknown | Retry | `ABSTAIN/RECONCILE` | Kör tekrar submit yok |
 | `DEC-007` | Open protected position | Regime label flips | `HOLD` | v0 pozisyonu belief ile kapatmaz |
 | `DEC-008` | Risk limit triggered | Entry opportunity | `ABSTAIN/RISK_LIMIT` | Expert risk override yok |
@@ -480,7 +489,7 @@ Bunlar gerçek koda karşı tests/specification hâline gelecek **expected cases
 | Q-optimizer / agentic live decision | YASAK | YASAK | YASAK |
 | Ekonomik iddia | YOK | Yalnız nitelikli costed challenger kanıtıyla | Yalnız ayrı nitelikli costed challenger kanıtıyla |
 
-**Zorunlu sıra:** `PINNED_HEAD_INVENTORY` → `CURRENT_HEAD_LINEAGE_VERIFIED` (ve ilgili equity/mark/funding estimand’ı dürüstçe sınıflanmış) → `NATIVE_CALLBACK_AND_SAFETY_VERIFIED` → `DURABLE_IDEMPOTENCY_VERIFIED` → `V0_NATIVE_PARITY_VERIFIED` → tek deney ailesi ve preregistration → `SHADOW` → `ECONOMICALLY_EVALUATED` → ayrı `OWNER_PROMOTION`. Herhangi biri eksikse yeni davranış **default-off**. P0-B kod tamiri ve V0 fixture geliştirme paralel yapılabilir, ancak ekonomik challenger sonuçlarına yetki verilemez. `MECHANICS_VERIFIED` ekonomik üstünlük değildir.
+**Bağlayıcı kapsamlı sıra:** Önce `PINNED_HEAD_INVENTORY` + tekil baseline; ilgili kullanılan native yolda `NATIVE_CALLBACK_AND_SAFETY_VERIFIED`, `DURABLE_IDEMPOTENCY_VERIFIED`, `V0_NATIVE_PARITY_VERIFIED`. İlgili **`claim × producer × dataset × execution_profile`** için ayrıca native lineage/equity/funding yeterliliği + tek-family preregistration olmadan `SHADOW → ECONOMICALLY_EVALUATED → OWNER_PROMOTION` yok. #491'in etkilediği equity producer bozukken ondan türetilen Sharpe/DD/net equity `BLOCKED` kalır; bağımsız sentetik mekanik fixture yazımı `V0_MECHANICS_ONLY` olarak ilerleyebilir. Kullanılmayan future consumer wiring'i ilk mekanik dilimi bütünüyle bloke etmez. Yeni ekonomik davranış default-off.
 
 # VIII. Entry & Order Management: gerçek durumun eşzamanlı nesneleri
 
@@ -533,7 +542,7 @@ Niyet/Order/Position/Protection birbirinin yerine geçebilen dört “karar beyn
 | `UNKNOWN_AT_VENUE` | Venue position+orders+fills reconciled | `RECONCILED` | Yerel cache ile uydurma `FLAT` |
 | `PROTECTION_GAP` | Existing native recovery accepted, qty verified | `COVERED` veya verified `FLAT` | Kabul edilmemiş korumayı saymak |
 
-**Bounded recovery:** Mevcut native işlemler yalnız doğrulanmış exposure üzerinde, önceden belirlenmiş en çok `N` sorgu/deneme ve backoff ile uygulanabilir; `N`, timeout ve eylem türü konfigürasyonu gerçek API testi öncesinde dondurulur. Süre biterse `BLOCKED + operator escalation + no-new-risk` kalır. Venue ulaşılamazsa güvenli flatten işleminin sonlu sürede *garanti* olacağı iddia edilmez. Otomatik reduce/flatten yalnız native miktar, yön, reduce-only ve yetki doğrulanmışsa denenebilir; aksi hâlde kör emir yasak. Böylece ABSTAIN sonsuz sessiz döngü değil, görülebilir bir bloke durumudur.
+**Bounded recovery:** Mevcut native işlemler yalnız doğrulanmış exposure üzerinde, önceden belirlenmiş en çok `N` sorgu/deneme ve backoff ile uygulanabilir; `N`, timeout ve eylem türü konfigürasyonu gerçek API testi öncesinde dondurulur. Süre biterse `BLOCKED + operator escalation + no-new-risk` kalır; **aktif recovery ve yeni risk durur, mevcut exposure/protection için salt-okunur düşük frekanslı, rate-bounded venue inquiry ve operator notice devam eder**. Bu heartbeat yeni emir, bilinmeyen qty ile flatten veya sonsuz retry yetkisi vermez. Venue ulaşılamazsa güvenli flatten işleminin sonlu sürede *garanti* olacağı iddia edilmez. Otomatik reduce/flatten yalnız native miktar, yön, reduce-only ve yetki doğrulanmışsa denenebilir; aksi hâlde kör emir yasak. Böylece ABSTAIN sonsuz sessiz döngü değil, görülebilir bir bloke durumudur.
 
 ## 8.3 Olay kimlikleri ve otorite
 
@@ -598,7 +607,7 @@ NativeEvent (dedup by venue+account+order+trade/event identity):
   event_time_ns, receipt_time_ns, payload_hash
 ```
 
-1. **Aynı transaction:** `decision receipt + immutable intent + unique logical key + client_order_id + outbox` atomik ve dayanıklı kaydedilir. `read unused → send → store` anti-pattern'dir.
+1. **Pure policy / tek native execution writer:** Policy DB yazmadan immutable proposal/receipt üretir. Adapter'ın account-scoped risk/admission'ı tekrar doğrulamasından sonra `decision receipt + immutable intent + unique logical key + client_order_id + outbox` tek atomik transaction'da kaydedilir. `read unused → send → store` anti-pattern'dir. Native submit commit'ten sonra olur; proposal sipariş değildir.
 2. **Submit:** exchange işlemi DB transaction’ının dışındadır; TCP timeout veya crash durumunda `UNKNOWN` olabilir. Tekil client ID korunur; yeni ID ile ikinci risk gönderilmez. Venue inquiry olmadan “not submitted” varsayımı kurulmaz.
 3. **Recovery:** restart `UNKNOWN/ACKED` emirleri, açık position ve active native protection’ı gerçek venue kaynaklarından uzlaştırır; local-only `FLAT` çıkarmaz. Reconcile epoch account+venue kapsamındadır.
 4. **Dedup:** aynı trade/event identity aynı nakit ve qty sonucunu iki kere yazamaz. Aynı timestamp’te farklı trade ID’ler meşru farklı fill’lerdir.
@@ -1350,4 +1359,4 @@ Bu sürüm iki yeni kullanıcı iletili adversarial hakem raporunu **eleştiri k
 
 **Son ölçüt:** daha fazla bileşen değil; **gerçekten değişen ekonomik kararı**, o kararın native yaşam döngüsünü, maliyetini ve geçerlilik sınırını doğru gözleyip kontrol edebilmek.
 
-*Belge sonu · V9-ARCH-RFC-1.3 / V9.1 DESIGN REVISION · 2026-11-03*
+*Belge sonu · V9-ARCH-RFC-1.3.1 / V9.1 FINAL DESIGN FREEZE FOR P0 · 2026-11-03*
