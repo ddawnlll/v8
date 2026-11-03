@@ -27,8 +27,8 @@ live-money activation, or a substitute artifact.
 
 The owner-supplied V9 architecture monograph is preserved in this repository at
 [`docs/v9/V9_ARCHITECTURE_MONOGRAPH.md`](v9/V9_ARCHITECTURE_MONOGRAPH.md)
-(`V9-ARCH-RFC-1.3.1`, status `FINAL DESIGN BASELINE FOR P0 / IMPLEMENTATION
-UNVERIFIED / NO ECONOMIC CLAIM`). It is a target architecture and a
+(`V9-ARCH-RFC-1.3.1`, status `COUNCIL REVIEW CANDIDATE / ARCHITECTURE NOT YET APPROVED /
+IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM`). It is a target architecture and a
 set of candidate executable contracts, not an implementation or an economic
 claim.
 
