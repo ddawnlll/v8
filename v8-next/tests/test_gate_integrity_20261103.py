@@ -22,11 +22,18 @@ from v8_next.adapters.shadow_ingest import (
     make_venue_attestation,
 )
 from v8_next.domain.market import Candle
+from v8_next.evaluation.benchmark_receipt import (
+    BenchmarkLedger,
+    BenchmarkReceipt,
+    GateState,
+    GateVector,
+)
 from v8_next.evaluation.gate_resolution import (
     WindowBinding,
     evaluate_g3_scenario_robustness,
     evaluate_g7_prospective_shadow,
     evaluate_g8_live_realization,
+    evaluate_g9_certificate_authority,
 )
 
 H = 3_600_000_000_000
@@ -403,6 +410,42 @@ def test_g8_invalid_settlement_fields_are_rejected(tmp_path: Path, monkeypatch) 
         )
         assert state == gr.GateState.BLOCKED
         assert reason in metrics["reason"]
+
+
+def test_unverified_g8_cannot_mint_a_live_certified_claim(tmp_path: Path) -> None:
+    """Gate-to-claim boundary: G8 BLOCKED cannot become SUPPORTED_EDGE."""
+    gates = GateVector(
+        g0_identity=GateState.PASS,
+        g1_causal_pit=GateState.PASS,
+        g2_determinism_ledger=GateState.PASS,
+        g3_scenario_robustness=GateState.PASS,
+        g4_structural_robustness=GateState.PASS,
+        g5_statistical_credibility=GateState.PASS,
+        g6_protected_oos=GateState.PASS,
+        g7_generalization=GateState.PASS,
+        g8_prospective_shadow=GateState.BLOCKED,
+        g9_live_realization=GateState.MISSING,
+    )
+    ledger = BenchmarkLedger.load_jsonl(tmp_path / "ledger.jsonl")
+    receipt = BenchmarkReceipt.create(
+        case_id="BC-G8-BOUNDARY",
+        policy_id="pol_test",
+        capability_score=None,
+        gates=gates,
+        computed_at_timestamp_ns=1000,
+    )
+    ledger.append(receipt)
+    state, metrics, claim = evaluate_g9_certificate_authority(
+        ledger=ledger,
+        receipt_digest=receipt.receipt_digest,
+        gates=gates,
+        capability_score=None,
+        output_dir=tmp_path,
+        live_realization_verified=True,
+    )
+    assert state == GateState.BLOCKED
+    assert claim is None
+    assert "G8" in metrics["error"]
 
 
 def test_g8_public_paper_remains_diagnostic(tmp_path: Path) -> None:
