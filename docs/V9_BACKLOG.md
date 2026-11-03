@@ -9,6 +9,8 @@ landed before this file was merged into main: PRs #506, #505, #504, #503, #502 a
 
 ## 1. Preamble
 
+**RFC 1.3.1 alignment note:** This is a historical preserved backlog, not a V0 ontology change mandate. `#491` blocks only the affected equity producer and claims; `#476` consumer wiring is scoped to the claims that use it. Used-path native cancel, partial fill protection, min-notional risk and fill-attribution repairs receive separate issues and evidence. References to a future Candidate ontology below are legacy issue descriptions, not binding V0 preconditions.
+
 ### 1.1 Purpose
 
 This file preserves every still-valuable requirement from the 29 open GitHub issues of
@@ -25,8 +27,8 @@ live-money activation, or a substitute artifact.
 
 The owner-supplied V9 architecture monograph is preserved in this repository at
 [`docs/v9/V9_ARCHITECTURE_MONOGRAPH.md`](v9/V9_ARCHITECTURE_MONOGRAPH.md)
-(`V9-ARCH-RFC-1.1-REVISED`, status `REVISED ARCHITECTURE TARGET / OWNER
-APPROVAL PENDING / UNVALIDATED POLICIES`). It is a target architecture and a
+(`V9-ARCH-RFC-1.3.1`, status `FINAL DESIGN BASELINE FOR P0 / IMPLEMENTATION
+UNVERIFIED / NO ECONOMIC CLAIM`). It is a target architecture and a
 set of candidate executable contracts, not an implementation or an economic
 claim.
 
@@ -37,7 +39,7 @@ consequence:
 > baseline, a different Candidate ontology, the system ceasing to be Candidate-constrained, a
 > router or scorer becoming part of the policy, or a different epistemic architecture.
 
-So V9 is an **ontology break**, not a Rust/GPU port and not a feature release.
+**RFC 1.3.1 interpretation:** The roadmap quote describes a **possible future V9 ontology break**; it does **not** describe the first `DecisionPolicyV0` slice. V0 is an explicitly pinned V8 mechanical-parity migration with unchanged legacy baseline economics. Any later learned proposal / changed Candidate ontology needs a separate preregistered behavior change and owner decision; it is not presumed implemented.
 The monograph keeps the V8 value core (PIT market state, expert-observer,
 canonical OpportunityBook, risk/utility separation, native NautilusTrader
 execution, evidence lineage) and adds a continuous trader decision cycle on
@@ -46,8 +48,8 @@ equivalence, after P0-A inventory and P0-B audit/venue safety repair.
 
 ### 1.3 V9 start slice vs. deferred backlog
 
-The issues deferred here are **not** required to *start* the ontology break. The requirements
-that are required to start it are listed in **§3 (V9 foundation requirements F1-F7)** and are
+The issues deferred here are **not** automatically required to *start* the V0 mechanical-parity slice. The requirements
+that are required for its **affected claims and used execution path** are listed in **§3 (V9 foundation requirements F1-F7)** and are
 carried either by a merged PR, by a FIX_NOW defect, or by an explicitly BLOCKED entry. A
 deferred item is valuable but can be built/measured after the V9 baseline exists; several
 depend on the new Candidate ontology itself.
