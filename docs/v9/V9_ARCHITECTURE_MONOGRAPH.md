@@ -171,6 +171,20 @@ V8 kapanışının raporladığı `portfolio_P = 5,8050 USDT`, `portfolio_PE = 2
 
 **Ayrı statüler:** `LINEAGE_VERDICT` join doğruluğu; `EQUITY_VERDICT` gerçek mark ve aritmetik eşitlik; `FUNDING_VERDICT` settlement coverage ve işaret; `NATIVE_PROTECTION_VERDICT` emir/pozisyon kimliği. Birinin yeşil olması diğerini kurtarmaz. `EQUITY_VERDICT != PASS` iken Sharpe, drawdown, tail mean ve takvim hizalı net equity gibi metrikler **otorite/verdict üretemez**; yanlış veri üzerinde hesaplanmış tanı amaçlı değer açık etiketle saklanabilir. Canonical 12-ay tape eksikse gerçek çalışma üzerindeki ilgili iddia `EXT-TAPE/BLOCKED` kalır; küçük sentetik oracle mekanik yanlışın yakalanmasını sağlar ama ekonomik tamlık kanıtlamaz.
 
+### 3.3.3 RFC-1.3.1 code-surface defect register — safety/audit repair
+
+Üçüncü council modeli `c84fecbff3981ad2e6d4da3e0f974c81e2d80b61` kaynaklarında mekanik fixture/probe bildirmiştir. Aşağıdaki **kod mekanizmaları** kaynakta da incelenmiştir; **fixture sonuçları bu editoryal revizyonda yeniden koşulmamıştır**. Etki alanı ilgili adapter/strategy/config ile sınırlıdır. Onarımlar `SAFETY_REPAIR` / `AUDIT_REPAIR` olarak baseline'dan ayrı etiketlenir; V9 alpha değildir.
+
+| Pinli kod adresi | Saptanan mekanizma | Ayrı kabul kanıtı |
+|---|---|---|
+| `adapters/swing_engine.py` (cancel paths) | `cancel_order(order)` kullanılıyor, pinli NautilusTrader rc4 binding'i `ClientOrderId` bekliyor | Sibling cancellation, timeout, reject ve late-fill native trace; diğer stratejilere otomatik genellenmez |
+| `adapters/swing_engine.py` (`_submit_bracket`) | İlk partial fill sonrasında planın *tam* miktarı ile protective legs kuruluyor; sonradan artan filled qty reconcile edilmemiş | Per-fill open qty, reduce-only, sibling cancellation, NETTING position identity fixtures |
+| `audit/pipeline.py` (`assign_campaign_ids`) | `POSITION_OPENED` sıra sınırı ve client-ID suffix'i üzerinden campaign bağlama | İki kampanya native order→fill→cashflow hand oracle; yanlış-ama-dolu mutantı |
+| `audit/native_telemetry.py` (`reconcile_fills`) | `set` farkı multiplicity kaybeder; `last_trade_id` öncelik sırasında yok | İki yönlü multiset + exact fill identity + qty/fee conservation |
+| `adapters/expert_strategy.py` (risk sizing / min-notional) | Risk-normalized qty venue minimumuna **yukarı** zorlanabiliyor; gerçekleşen stop-risk tekrar doğrulanmıyor | Risk-mode reject, quantization sonrası stop-risk/margin/liquidation ve 20 USDT fixture |
+
+Bu kod gözlemleri **canlı ters pozisyon oluştuğu**, eski 89/89 popülasyonun güncel SHA'da yeniden ölçüldüğü veya bütün V8 implementasyonunun aynı hataya sahip olduğu iddiası değildir. Önce P0-A'da hangi baseline yolunun kullanılacağı seçilir.
+
 ## 3.4 Mevcut açık ekonomik sınırlamalar
 
 Funding akışı ve mark atfı; aynı-bar intrabar sıra; spread/quote/order-book/queue eksikliği; per-fill identity ve partial fill; native bracket/position ID callback order; altcoin likiditesi, minimum notional ve quantization; tek 90 günlük rejim; sealed OOS kullanımı. Bunlar farklı şiddette engellerdir. Birinin giderilmesi tümünü gidermez. Ayrıca geçmiş V8 next handoff ZIP'i D3'ün B4 replikasyonu olduğunu belirtir; D4 ise **daha sonra yapılmış ayrı çalışma** olup kendi 14/14 raporlanan doğrulamasına rağmen ekonomik üstünlük kanıtlamaz [P3, P4].
@@ -763,7 +777,7 @@ Bu **ayrı mekanik test** canlıya izin değildir. PIT venue `minNotional`, lot/
 
 Her sembol ve karar anında PIT exchange metadata alınır: `step_size`, `min_qty`, `min_notional` (varsa uygulanma koşulları), `tick_size`, margin/leverage/bracket limitleri, estimated fee+slippage, stop ve liquidation hesabının gerek duyduğu mark/funding kaynakları. Karar `stop_distance = abs(entry_px - stop_px) > 0` önkoşuluyla `qty_raw = risk_budget_USDT / stop_distance` ile başlar; ardından **Decimal** ile venue kurallarına uygun **aşağı yuvarlama** (`qty`) uygulanır. `qty * allowable_entry_px` uygun minimum notional'ı karşılamıyorsa, margin+fees+bakiye ve *stop-loss before liquidation* koşulu doğrulanmıyorsa ya da gerekli metadata yoksa `REJECT/FEASIBILITY_NOT_ESTABLISHED`; miktarı minimuma **yukarı zorlayıp riski aşmak yasaktır**.
 
-TP1/TP2 ve partial exit ayrıca `reduce_only`, minimum quantity, remaining position/dust, fees ve exact NETTING semantics ile sınanır. Tam kapanışa izin veren borsa istisnaları, sabit min-notional kurallarına varsayımsal istisna gibi eklenmez; sadece native kanıt varsa kullanılır. 20 USDT başarısı 10.000 USDT BTC testinden çıkarılamaz; **bu rakam bir venue fizibilitesi test girdisidir, sermaye tavsiyesi veya işlem yetkisi değil**. Başarısız fixture'lar gerçek `NO_TRADE` sonucudur, min notional'ı atlama gerekçesi değildir.
+TP1/TP2 ve partial exit ayrıca `reduce_only`, minimum quantity, remaining position/dust, fees ve exact NETTING semantics ile sınanır. **20 USDT için kategorik TP1/TP2 yasağı yoktur:** symbol-specific native koşullar sağlanmıyorsa bu intent `REJECT/NO_TRADE` olur; tek parça çıkışa geçiş ancak ayrı önceden tanımlanmış baseline policy varsa meşrudur. Risk bütçesini büyüten yukarı yuvarlama asla yapılmaz. Tam kapanışa izin veren borsa istisnaları, sabit min-notional kurallarına varsayımsal istisna gibi eklenmez; sadece native kanıt varsa kullanılır. 20 USDT başarısı 10.000 USDT BTC testinden çıkarılamaz; **bu rakam bir venue fizibilitesi test girdisidir, sermaye tavsiyesi veya işlem yetkisi değil**. Başarısız fixture'lar gerçek `NO_TRADE` sonucudur, min notional'ı atlama gerekçesi değildir.
 
 ## 11.6 Aşamalı araştırma ekonomisi
 
@@ -860,6 +874,8 @@ Birincil karşılaştırma **aynı takvimde, aynı başlangıç bakiyesi ve risk
 | `V9-A1` | Ex-ante occupancy allocation | Single-position baseline | Matched-capital schedule; estimated utility UNKNOWN → rotation yok |
 | `V9-K1` | Bounded research automation | Manual/scripted bounded task | Verified answer per wallclock/token; bu trading alpha testi değildir |
 
+**Özellikle M1 veto karşılaştırması:** Baseline işlem defterinden kaybeden satırları silmek gerçek counterfactual değildir. Veto, occupancy ve sonraki fırsat dizisini değiştirir. `V9-M1` için **aynı başlangıç sermayesi / aynı takvim / tam yeniden yürütme**, `cash/no-trade`, bütçe ve coverage eşlenmiş `random-veto` ve aynı PIT girdisiyle `raw-feature/ATR-threshold` karşılaştırıcıları, ex-ante power/stopping/meaningful-improvement sınırı zorunludur. Negatif baseline'a göre daha az zarar, kendi başına pozitif net expectancy kanıtı değildir.
+
 Her family için deneyden **önce**: `data_role`, eligible universe + PIT membership, observation availability policy, baseline revision/hash, challenger revision/hash, single altered behavior, parameter candidates, full family register, equity estimand, smallest economically meaningful improvement (predeclared; value must be *justified*, not invented), risk ceiling, block/cluster scheme, budget, stopping rule, negative null, sealed OOS access authority kayıt edilir. **Sonuç görülerek** eşik geriye dönük optimize edilmez. Yetersiz independent effective sample → `INCONCLUSIVE`, yoktan oluşturulan p-value yok.
 
 **Çoklu test istatistikleri:** White WRC [L06], Hansen SPA [L07], DSR [L08], PBO/CSCV [L09] *aday yöntemlerdir*. Bunların veri/örneklem varsayımları mevcut kolda sağlanmadan otomatik `PASS` sayılmaz. Trial sayısı, valid outcomes ve effective independence ayrı kavramlar; ajanın sevdiği `N_eff`yi seçmesine izin verilmez. Test `NO_EDGE`, `INCONCLUSIVE`, `INVALID`, `BLOCKED` ile tamamlanabilir. `SUPPORTED_EDGE` yalnız korunan veri ve nitelikli execution ile bağımsız operatör kararına sunulabilir; hiçbir arXiv yöntemi kâr sertifikası değildir.
@@ -876,7 +892,7 @@ Aşağıdaki testler için **hiç sonuç uydurulmaz**; her biri repo implementas
 
 ## 12.9 RFC kapısı ve belgelendirilmiş bilinmezler
 
-**Uygulama RFC’sinin onaylanması** için aşağıdaki kanıtlar birbiriyle karıştırılmadan sunulmalıdır:
+**P0 evidence-gate'leri** yalnız ilgili `claim × producer × dataset × execution_profile` kapsamında zorunlu ve izlenebilirdir. `P0-A` tekil baseline belirler. Kullanılmayan future consumer veya bozuk equity producer bağımsız sentetik mekanik fixture yazımını otomatik yasaklamaz. Ekonomik promotion ise ilgili end-to-end bağımsız lineage/equity/funding nitelendirmesi olmadan yasaktır. Aşağıdaki tablo her satırın kapsadığı hüküm için kullanılır:
 
 | ID | Soru | Gerekli fiziksel kanıt | Başarısızlıkta sonuç |
 |---|---|---|---|
@@ -891,7 +907,7 @@ Aşağıdaki testler için **hiç sonuç uydurulmaz**; her biri repo implementas
 | `P0-CAPITAL` | 20 USDT venue filtresine uygun mu? | Symbol-specific PIT filter/margin/liq reject tests | `FEASIBILITY_NOT_ESTABLISHED` |
 | `P0-EXPLICIT-OFF` | Yeni politika kapalı mı? | Belief/expert/position/allocator + Pi no-side-effect tests | `BLOCKED` |
 
-**Faz ayrımı:** İlk veri ve güvenlik katmanındaki fixture/test kodu yazılabilir; ancak bu tabloyu geçmeden “V9 implementation RFC approved”, `ADAPTIVE_TRADER_READY`, ekonomik challenger promotion veya production authority iddia edilmez. P0 fixture kurulumunun mümkün olmadığı alan açık BLOCKED kalır; model tarafından uydurulmuş native olay yaratılmaz.
+**Faz ayrımı:** Mekanik testler `V0_MECHANICS_ONLY` statüsünde yazılabilir; native/safety/idempotency fixture'ları geçmeden runnable yetki yoktur. #491/#476 yalnız etkiledikleri `producer × claim` için `BLOCKED` yaratır; kullanılmayan gelecekteki consumer wiring'i başka fixture'ı durdurmaz. İlgili ekonomik yol bağımsız nitelendirilmeden `ADAPTIVE_TRADER_READY`, ekonomik challenger promotion veya production authority iddia edilmez. P0 fixture kurulumunun mümkün olmadığı alan açık BLOCKED kalır; model tarafından uydurulmuş native olay yaratılmaz.
 
 # XIII. Autonomous Kaizen: trading core'a EK yetenek
 
@@ -1077,7 +1093,7 @@ Bu program takvim sayısından çok **evidence gates** ile yönetilir. `Phase co
 
 | Aşama | Ölçüm ve test | İzin verilen hüküm |
 |---|---|---|
-| V0 parity | Aynı event→same baseline intent/order/bracket/filled qty ve replay-safe native ID | `V0_PARITY_VERIFIED` yalnız gerekli native fixture ve ekonomik kanıt destekliyorsa; aksi halde `V0_MECHANICS_ONLY/BLOCKED` |
+| V0 parity | Pinli baseline, aynı event→same native decision/intent/order/bracket/filled qty ve replay-safe ID; sadece ilgili native yolu | `V0_PARITY_VERIFIED` mekanik kapsamla sınırlı; ekonomik kıyas gerekiyorsa bağımsız equity/funding gate ayrıca şart |
 | Safety binding | Mevcut native ops map, fail-closed risk, crash/unknown | `MECHANICS_VERIFIED` (kapsamlı) |
 | M1 diagnostic | PIT immutable `PITFeatureView` ve 0 native side effect | `INSTRUMENTED_DIAGNOSTIC` |
 | M1 entry veto | Tek prereg family, changed decisions, same-calendar net equity | `ECONOMICALLY_EVALUATED` / `NO_EDGE` / `INCONCLUSIVE` |
@@ -1358,5 +1374,7 @@ Bu sürüm iki yeni kullanıcı iletili adversarial hakem raporunu **eleştiri k
 **Otonom Kaizen yalnız çevrimdışı yardımcıdır.** Negatif ve inconclusive sonuçları saklamak, görev/saat üretmekten daha temel dürüstlük kriteridir. V9 monografının kabulü hiçbir finansal yetki veya canlı deploy izni vermez.
 
 **Son ölçüt:** daha fazla bileşen değil; **gerçekten değişen ekonomik kararı**, o kararın native yaşam döngüsünü, maliyetini ve geçerlilik sınırını doğru gözleyip kontrol edebilmek.
+
+**Son editoryal hüküm:** `ARCHITECTURALLY ACCEPTABLE, IMPLEMENTATION UNVERIFIED` kapsamındaki dondurulmuş tasarım hedefi. İlgili native kod kusurları `OPEN`; hiçbir V9 fixture bu revizyonda geçmedi. **Sonraki teslim monograf değil P0-A/B/C commit + fixture + receipt olacaktır.**
 
 *Belge sonu · V9-ARCH-RFC-1.3.1 / V9.1 FINAL DESIGN FREEZE FOR P0 · 2026-11-03*
