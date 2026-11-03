@@ -246,13 +246,18 @@ def _write_fills(path: Path, records: list[dict]) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _account(*, qty: str = "1", account_id: str = "acct-1") -> dict:
+def _account(
+    *, qty: str = "1", account_id: str = "acct-1", venue: str = "BINANCE"
+) -> dict:
     return {
         "account_id": account_id,
         "balance_total": "10000 USDT",
-        "positions": [{"side": "LONG", "quantity": qty}],
+        "positions": [
+            {"side": "LONG", "quantity": qty, "instrument_id": "BTCUSDT-PERP.BINANCE"}
+        ],
         "orders": [{"status": "FILLED"}],
         "currency": "USDT",
+        "venue": venue,
     }
 
 
@@ -353,6 +358,51 @@ def test_g8_duplicate_fill_ids_are_malformed(tmp_path: Path) -> None:
     assert loaded == []
     assert meta["mode"] == "MALFORMED_SHADOW_FILE"
     assert meta["reason"] == "DUPLICATE_FILL_IDS"
+
+
+def test_g8_wrong_venue_and_instrument_cannot_pass(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv(ATTESTATION_KEY_ENV, "test-key")
+    fills = tmp_path / "fills.jsonl"
+    sha = _write_fills(fills, _settled_fills())
+    attestation = _attest(tmp_path, sha)
+    for account in (
+        _account(venue="OKX"),
+        {**_account(), "positions": [{"side": "LONG", "quantity": "1", "instrument_id": "ETHUSDT-PERP.BINANCE"}]},
+    ):
+        state, metrics = evaluate_g8_live_realization(
+            fills,
+            provenance="authenticated_venue_statement",
+            account_id="acct-1",
+            attestation_path=attestation,
+            account=account,
+        )
+        assert state == gr.GateState.BLOCKED
+        assert metrics["mode"] == "RECONCILIATION_FAILED"
+
+
+def test_g8_invalid_settlement_fields_are_rejected(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv(ATTESTATION_KEY_ENV, "test-key")
+    for field, value, reason in (
+        ("side", "SIDEWAYS", "SETTLEMENT_SIDE_INVALID"),
+        ("venue_time_ns", "not-a-time", "SETTLEMENT_VENUE_TIME_INVALID"),
+        ("order_id", "", "SETTLEMENT_ORDER_ID_INVALID"),
+    ):
+        records = _settled_fills()
+        records[0][field] = value
+        fills = tmp_path / f"bad-{field}.jsonl"
+        sha = _write_fills(fills, records)
+        receipt = make_venue_attestation(fills_sha256=sha, account_id="acct-1", key="test-key")
+        path = tmp_path / f"bad-{field}.attestation.json"
+        path.write_text(json.dumps(receipt))
+        state, metrics = evaluate_g8_live_realization(
+            fills,
+            provenance="authenticated_venue_statement",
+            account_id="acct-1",
+            attestation_path=path,
+            account=_account(),
+        )
+        assert state == gr.GateState.BLOCKED
+        assert reason in metrics["reason"]
 
 
 def test_g8_public_paper_remains_diagnostic(tmp_path: Path) -> None:
