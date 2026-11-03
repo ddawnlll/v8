@@ -35,10 +35,12 @@ Baseline `mypy v8-next/src` already reported errors in unrelated files
 
 ### 2. Position identity, reduce-only protection (P0)
 `adapters/swing_engine.py`
-- Protection is submitted only after **both** the entry order is terminal and
-  the native position id/quantity exist. The submission point is whichever of
-  `on_order_filled` / `on_position_opened` happens second, plus a per-bar
-  maintenance tick.
+- Protection is submitted as soon as the native position id and a positive
+  filled/reducible quantity exist (whichever of `on_order_filled` /
+  `on_position_opened` happens second, plus a per-bar maintenance tick). A
+  partial entry is protected immediately at its actual quantity; later entry
+  fills grow both legs with a native quantity modify, so the position is never
+  left unprotected while the entry accumulates.
 - Legs are sized from the engine's actual filled/reducible quantity, floored to
   the size increment. Requested quantity is never assumed.
 - Both legs and the market close are built with `reduce_only=True` and the
@@ -142,7 +144,7 @@ Baseline `mypy v8-next/src` already reported errors in unrelated files
 | EXEC-06 | PASS | Long-tail revisit tests: no fill after campaign closure |
 | EXEC-07 | PASS | `bracket_submitted.position_id` populated; `probe_reduce_only` shows `reduce_only` is the effective guard |
 | EXEC-08 | PASS | Native order snapshots assert `is_reduce_only=True` on both legs and the close |
-| EXEC-09 | PASS | `test_partial_entry_protects_actual_filled_quantity` |
+| EXEC-09 | PASS | `test_partial_entry_protects_actual_filled_quantity`: first fill 0.125 is protected immediately, both legs are resized to the final 2.000 |
 | EXEC-10 | PASS | `test_duplicate_fill_callback_cannot_duplicate_protection`; `DuplicateFillIgnored` event |
 | EXEC-11 | PASS | Fill-derived net, native open positions and adapter events all flat in every closure test; real tape consistent |
 | EXEC-12 | PASS | `test_stop_rejection_triggers_reduce_only_fail_safe` (fault-injected rejection; emergency flatten path) |
