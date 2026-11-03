@@ -420,18 +420,7 @@ class SwingEngineStrategy(Strategy):
                 plan["status"] = "POSITION_OPEN"
                 plan["protection"] = "NOT_REQUIRED"
             return
-        if self.active_position_id is None or not self._entry_terminal():
-            return
-        entry = self._entry_order()
-        if entry is None or entry.filled_qty.as_decimal() <= 0:
-            plan["status"] = "ENTRY_UNFILLED"
-            self.events.decisions.append(
-                {
-                    "status": "ENTRY_UNFILLED",
-                    "entry_client_order_id": plan.get("entry_client_order_id"),
-                    "note": "terminal entry order has no fill; no protection is submitted",
-                }
-            )
+        if self.active_position_id is None:
             return
         position_quantity = self._position_quantity()
         if position_quantity is None or position_quantity <= 0:
@@ -441,8 +430,10 @@ class SwingEngineStrategy(Strategy):
                 reason="cannot size protection without a reducible position",
             )
             return
+        entry = self._entry_order()
+        fillable = entry.filled_qty.as_decimal() if entry is not None else position_quantity
         increment = Decimal(1).scaleb(-self.swing_config.size_precision)
-        quantity = (min(position_quantity, entry.filled_qty.as_decimal()) // increment) * increment
+        quantity = (min(position_quantity, fillable) // increment) * increment
         if quantity <= 0:
             self._record_protection_failure(
                 "PROTECTION_QUANTITY_FLOORED_TO_ZERO",
@@ -477,6 +468,49 @@ class SwingEngineStrategy(Strategy):
         self.events.decisions.append({"bracket_submitted": dict(plan)})
         self.submit_order(stop, position_id=position_id)
         self.submit_order(target, position_id=position_id)
+
+    def _resize_protection(self) -> None:
+        """Grow reduce-only protection when a partial entry receives more fill.
+
+        A resting protection order is never shrunk: if the position reduces, the
+        native reduce-only cap is the authority. Growth is a quantity modify; a
+        rejected modify is a protection failure, not a silent under-hedge.
+        """
+        plan = self.plan or {}
+        if not plan.get("stop_client_order_id") or not plan.get("target_client_order_id"):
+            return
+        position_quantity = self._position_quantity()
+        if position_quantity is None or position_quantity <= 0:
+            return
+        entry = self._entry_order()
+        fillable = entry.filled_qty.as_decimal() if entry is not None else position_quantity
+        increment = Decimal(1).scaleb(-self.swing_config.size_precision)
+        target_quantity = (min(position_quantity, fillable) // increment) * increment
+        current = Decimal(str(plan.get("protection_quantity", "0")))
+        if target_quantity <= current:
+            return
+        quantity = Quantity(float(target_quantity), self.swing_config.size_precision)
+        try:
+            for key in ("stop_client_order_id", "target_client_order_id"):
+                self.modify_order(ClientOrderId(str(plan[key])), quantity=quantity)
+        except Exception as error:  # noqa: BLE001 - a failed modify must fail safe
+            self._record_protection_failure(
+                "PROTECTION_RESIZE_FAILED",
+                client_order_id=str(plan.get("stop_client_order_id")),
+                reason=f"{type(error).__name__}: {error}",
+            )
+            return
+        plan["protection_quantity"] = str(target_quantity)
+        plan["protection_resizes"] = int(plan.get("protection_resizes", 0)) + 1
+        self.events.decisions.append(
+            {
+                "protection_resized": {
+                    "entry_client_order_id": plan.get("entry_client_order_id"),
+                    "from_quantity": str(current),
+                    "to_quantity": str(target_quantity),
+                }
+            }
+        )
 
     def _request_cancel(self, client_order_id: str | None, reason: str) -> None:
         """Request cancellation with the pinned API type and record the request.
@@ -562,6 +596,7 @@ class SwingEngineStrategy(Strategy):
         # Protection must exist for a bracketed campaign as soon as it can.
         if plan.get("status") in ("ENTRY_SUBMITTED", "ENTRY_FILLED"):
             self._submit_bracket()
+            self._resize_protection()
 
     def _close_at_market(self, reason: str) -> None:
         plan = self.plan or {}
@@ -711,6 +746,7 @@ class SwingEngineStrategy(Strategy):
             )
             self.events.decisions.append(dict(plan))
             self._submit_bracket()
+            self._resize_protection()
             return
 
         if filled_id in (
@@ -824,6 +860,23 @@ class SwingEngineStrategy(Strategy):
             "ENTRY_SUBMITTED",
             "ENTRY_FILLED",
         ):
+            try:
+                entry = self._entry_order()
+                filled = entry.filled_qty.as_decimal() if entry is not None else Decimal(0)
+                position_open = self._position_quantity() is not None
+            except Exception:
+                filled = Decimal(0)
+                position_open = False
+            if filled > 0 or position_open:
+                # A partially filled entry is still an open position: never
+                # discard its protection because the remainder was denied.
+                plan["failure_reason"] = record["reason"]
+                plan["failure_ns"] = record["ts_event"]
+                plan["status"] = "ENTRY_FILLED"
+                self.events.decisions.append(dict(plan))
+                self._submit_bracket()
+                self._resize_protection()
+                return
             plan["status"] = (
                 "ENTRY_DENIED" if event_type == "OrderDenied" else "ENTRY_REJECTED"
             )
