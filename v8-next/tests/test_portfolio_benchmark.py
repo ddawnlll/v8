@@ -11,6 +11,7 @@ from pathlib import Path
 
 import pytest
 
+from v8_next.adapters.tape_paths import data_path, tape_path
 from v8_next.domain.capital_policy import CapitalPolicy
 from v8_next.evaluation import economic_benchmark as eb
 
@@ -157,7 +158,7 @@ def test_portfolio_benchmark_legs_publish_a_measured_funding_feed(tmp_path: Path
     """
     from v8_next.app import portfolio as port_mod
 
-    tape = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+    tape = tape_path("quad-1h-12m")
     if not (tape / "tape.jsonl").exists():
         pytest.skip("quad tape absent")
     out_dir = tmp_path / "port"
@@ -255,7 +256,7 @@ def test_basket_curves_are_curves_and_their_slice_is_the_slices_flow(tmp_path: P
     from v8_next.app import portfolio as port_mod
     from v8_next.domain.basket import resolve_basket
 
-    tape = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+    tape = tape_path("quad-1h-12m")
     if not (tape / "tape.jsonl").exists():
         pytest.skip("quad tape absent")
     out_dir = tmp_path / "port"
@@ -308,10 +309,10 @@ def test_basket_curves_are_curves_and_their_slice_is_the_slices_flow(tmp_path: P
 def test_portfolio_quad_end_to_end(tmp_path: Path) -> None:
     from v8_next.app import portfolio as port_mod
 
-    if not Path("/Users/hootie/src/v8/research/tape/quad-1h-12m/tape.jsonl").exists():
+    if not tape_path("quad-1h-12m", "tape.jsonl").exists():
         pytest.skip("quad tape absent")
     rc = port_mod.main([
-        "--tape-path", "/Users/hootie/src/v8/research/tape/quad-1h-12m",
+        "--tape-path", str(tape_path("quad-1h-12m")),
         "--bars", "120", "--output-dir", str(tmp_path / "port"),
         "--primary", "equal_weight",
     ])
@@ -346,7 +347,7 @@ def test_funding_holding_convention_matches_engine() -> None:
     """
     import math
 
-    base = Path("/Users/hootie/src/v8/artifacts/portfolio-oos")
+    base = data_path("artifacts", "portfolio-oos")
     trades = sorted(base.glob("portfolio_P_trades_*.jsonl"))
     closed = sorted(base.glob("portfolio_closed_*.jsonl"))
     if not trades or not closed:
@@ -354,7 +355,7 @@ def test_funding_holding_convention_matches_engine() -> None:
     from v8_next.evaluation.multitape import load_multitape
 
     try:
-        t = load_multitape("/Users/hootie/src/v8/research/tape/quad-1h-12m",
+        t = load_multitape(str(tape_path("quad-1h-12m")),
                            limit=4321, offset=4380)
     except FileNotFoundError:
         pytest.skip("quad tape absent")

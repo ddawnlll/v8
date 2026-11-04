@@ -53,11 +53,12 @@ from v8_next.adapters.book_tape import (
 )
 from v8_next.adapters.execution_models import PROFILES, profile_summary
 from v8_next.adapters.portfolio_backtest import _instrument
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.adapters.trade_tape import trades_from_pages
 
-QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
-L2_CAPTURE = Path("/Users/hootie/src/v8/research/tape/btcusdt-l2-20260911T0320Z")
-TRADE_CAPTURE = Path("/Users/hootie/src/v8/research/tape/btcusdt-trades-20260911T0320Z")
+QUAD_TAPE = tape_path("quad-1h-12m")
+L2_CAPTURE = tape_path("btcusdt-l2-20260911T0320Z")
+TRADE_CAPTURE = tape_path("btcusdt-trades-20260911T0320Z")
 INSTRUMENT = "BTCUSDT-PERP.BINANCE"
 BAR_TYPE_STR = f"{INSTRUMENT}-1-HOUR-LAST-EXTERNAL"
 IID = InstrumentId.from_str(INSTRUMENT)

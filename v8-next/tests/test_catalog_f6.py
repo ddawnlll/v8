@@ -44,10 +44,11 @@ from v8_next.adapters.portfolio_backtest import (
     run_portfolio_backtest,
     trade_signature,
 )
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.evaluation.multitape import load_multitape
 
-QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
-OKX_CAPTURE = Path("/Users/hootie/src/v8/research/tape/okx-btcusdt-swap-rest-20260911T001813Z")
+QUAD_TAPE = tape_path("quad-1h-12m")
+OKX_CAPTURE = tape_path("okx-btcusdt-swap-rest-20260911T001813Z")
 BARS = 120
 SLEEVES = (SleeveSpec("incumbent", 1, 28, 1.0),)
 CATALOG_ROOT = Path("artifacts/catalog-f6")

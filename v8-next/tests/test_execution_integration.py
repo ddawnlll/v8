@@ -16,7 +16,6 @@ What is asserted:
 from __future__ import annotations
 
 from decimal import Decimal
-from pathlib import Path
 
 import pytest
 
@@ -25,8 +24,9 @@ from v8_next.adapters.portfolio_backtest import (
     run_portfolio_backtest,
     trade_signature,
 )
+from v8_next.adapters.tape_paths import tape_path
 
-QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+QUAD_TAPE = tape_path("quad-1h-12m")
 BARS = 120
 
 SLEEVES_P = (SleeveSpec("incumbent", 1, 28, 1.0),)
@@ -220,7 +220,7 @@ def test_fill_records_are_json_safe_and_match_the_reported_count() -> None:
 
 # Absolute path on purpose: DEFAULT_TAPE_PATH is relative and resolves against
 # whatever cwd the suite runs from, which silently skipped these checks.
-BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+BTC_TAPE = tape_path("btcusdt-1h-12m", "tape.jsonl")
 
 
 def test_d153_runner_measures_determinism_and_binds_the_execution_profile(tmp_path) -> None:

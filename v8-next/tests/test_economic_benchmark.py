@@ -19,6 +19,7 @@ from typing import Any, Sequence
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.evaluation import economic_benchmark as eb
 
 # ---------------------------------------------------------------------------
@@ -1595,7 +1596,7 @@ def _quad_tape_dir() -> Path | None:
     """The quad tape from the repo root, else the canonical checkout, else None."""
     for candidate in (
         Path(__file__).resolve().parents[2] / "research" / "tape" / "quad-1h-12m",
-        Path("/Users/hootie/src/v8/research/tape/quad-1h-12m"),
+        tape_path("quad-1h-12m"),
     ):
         if (candidate / "tape.jsonl").exists():
             return candidate
@@ -1609,7 +1610,7 @@ def _btc_tape_file() -> Path | None:
     for candidate in (
         DEFAULT_TAPE_PATH,
         Path(__file__).resolve().parents[2] / "research" / "tape" / "btcusdt-1h-12m" / "tape.jsonl",
-        Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl"),
+        tape_path("btcusdt-1h-12m", "tape.jsonl"),
     ):
         if candidate.exists():
             return candidate

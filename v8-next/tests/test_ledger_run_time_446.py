@@ -54,6 +54,7 @@ from pathlib import Path
 
 import pytest
 
+from v8_next.adapters.tape_paths import data_path
 from v8_next.evaluation.benchmark_receipt import (
     MAX_CLOCK_SKEW_NS,
     RECEIPT_CANON_TABLE,
@@ -106,7 +107,7 @@ def _canonical_ledger() -> Path:
     """
     candidates = (
         REPO_ROOT / "artifacts" / "benchmarks" / "benchmark_ledger.jsonl",
-        Path("/Users/hootie/src/v8/artifacts/benchmarks/benchmark_ledger.jsonl"),
+        data_path("artifacts", "benchmarks", "benchmark_ledger.jsonl"),
     )
     for candidate in candidates:
         if candidate.is_file():

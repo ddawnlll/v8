@@ -1,0 +1,16 @@
+
+==================================== ERRORS ====================================
+__________ ERROR collecting tests/test_reality_reporting_20261104.py ___________
+ImportError while importing test module '/Users/hootie/src/v8-v9/v8-next/tests/test_reality_reporting_20261104.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.12/3.12.12_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_reality_reporting_20261104.py:5: in <module>
+    from v8_next.evaluation.reality_check import _monte_carlo_pvalue
+E   ImportError: cannot import name '_monte_carlo_pvalue' from 'v8_next.evaluation.reality_check' (/Users/hootie/src/v8-v9/v8-next/src/v8_next/evaluation/reality_check.py)
+=========================== short test summary info ============================
+ERROR tests/test_reality_reporting_20261104.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.15s

@@ -10,14 +10,14 @@ Real-window section: identical boundary-index sequences on the real quad tape
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.evaluation.economic_benchmark import funding_boundary_index
 
-QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m/tape.jsonl")
+QUAD_TAPE = tape_path("quad-1h-12m", "tape.jsonl")
 
 
 def _linear(end_ns: list[int], boundary: int) -> int | None:

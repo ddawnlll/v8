@@ -14,6 +14,7 @@ from pathlib import Path
 import pytest
 
 from v8_next.adapters.basket_backtest import run_basket_backtest
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.app.economic import is_quad_tape
 from v8_next.domain.basket import (
     BASKETS,
@@ -533,7 +534,7 @@ def test_quad_routing_refuses_a_tape_it_cannot_classify(tmp_path: Path) -> None:
 def _quad_tape_dir() -> Path | None:
     for candidate in (
         Path(__file__).resolve().parents[2] / "research" / "tape" / "quad-1h-12m",
-        Path("/Users/hootie/src/v8/research/tape/quad-1h-12m"),
+        tape_path("quad-1h-12m"),
     ):
         if (candidate / "tape.jsonl").exists():
             return candidate
@@ -543,7 +544,7 @@ def _quad_tape_dir() -> Path | None:
 def _btc_tape_dir() -> Path | None:
     for candidate in (
         Path(__file__).resolve().parents[2] / "research" / "tape" / "btcusdt-1h-12m",
-        Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m"),
+        tape_path("btcusdt-1h-12m"),
     ):
         if (candidate / "tape.jsonl").exists():
             return candidate

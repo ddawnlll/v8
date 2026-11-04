@@ -17,6 +17,7 @@ from typing import Any
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.evaluation.scoring import (
     DOMAIN_STATUSES,
     EXECUTION_FIDELITY_DEGENERATE_INERT_CONFIGURATION,
@@ -534,7 +535,7 @@ def test_fully_measured_friction_lets_the_admission_evaluate() -> None:
 # window the defect report itself used — no full scan is needed to see whether
 # the dimension responds to measured execution.
 
-QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+QUAD_TAPE = tape_path("quad-1h-12m")
 QUAD_BARS = 120
 
 #: The #439 evidence receipt (read-only). Evidence artifacts live outside git

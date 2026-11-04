@@ -27,6 +27,7 @@ import pytest
 from nautilus_trader.model import AggressorSide
 
 from v8_next.adapters import binance_capture
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.adapters.trade_tape import (
     aggressor_side,
     trades_digest,
@@ -39,9 +40,9 @@ FIX = Path(__file__).parent / "fixtures" / "f1-btc-12h"
 
 #: Absolute paths on purpose: a relative default resolves against whatever cwd
 #: the suite runs from, which silently turns an evaluative test into a skip.
-QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
-BTC_ARCHIVE = Path("/Users/hootie/src/v8/research/tape/btcusdt-agg-trades-2025-07")
-ETH_ARCHIVE = Path("/Users/hootie/src/v8/research/tape/ethusdt-agg-trades-2025-07")
+QUAD_TAPE = tape_path("quad-1h-12m")
+BTC_ARCHIVE = tape_path("btcusdt-agg-trades-2025-07")
+ETH_ARCHIVE = tape_path("ethusdt-agg-trades-2025-07")
 ARCHIVE_INSTRUMENT = "BTCUSDT-PERP.BINANCE"
 #: Real clock window of the measured run: covers the BTC entry (07-03 11:00
 #: bar-only) and the ETH entry (07-03 15:00) that the tape produces.

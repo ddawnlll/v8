@@ -20,10 +20,10 @@ from __future__ import annotations
 
 import time
 from dataclasses import asdict, replace
-from pathlib import Path
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.domain.market import frame_at
 from v8_next.economics.decisions import (
     STANCE_FIELDS,
@@ -36,7 +36,7 @@ from v8_next.economics.decisions import (
 from v8_next.evaluation.gate_resolution import load_tape_candles
 from v8_next.experts.registry import CANONICAL_28_EXPERTS, get_expert, observe_expert
 
-BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+BTC_TAPE = tape_path("btcusdt-1h-12m", "tape.jsonl")
 INSTRUMENT = "BTCUSDT-PERP.BINANCE"
 
 

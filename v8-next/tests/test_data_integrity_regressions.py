@@ -117,6 +117,18 @@ def test_export_fallback_after_partial_copy(tmp_path: Path, monkeypatch: pytest.
         try:
             assert conn.execute("SELECT trial_id, registered_ns FROM trials").fetchone() == ("id", 42)
             assert "trial_id" in [r[1] for r in conn.execute("PRAGMA table_info('trials')").fetchall()]
+            expected = {
+                row[0] for row in store.db.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+                )
+            }
+            actual = {row[0] for row in conn.execute("SHOW TABLES").fetchall()}
+            assert actual == expected
+            for table in expected:
+                quoted = '"' + table.replace('"', '""') + '"'
+                assert conn.execute(f"SELECT count(*) FROM {quoted}").fetchone()[0] == (
+                    store.db.execute(f"SELECT count(*) FROM {quoted}").fetchone()[0]
+                )
         finally:
             conn.close()
     finally:

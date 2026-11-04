@@ -21,13 +21,14 @@ from pathlib import Path
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_root
 from v8_next.adapters.trade_tape import trades_from_pages
 from v8_next.app.sandbox_replay import (
     SANDBOX_ENV_STATUS,
     data_match_report,
 )
 
-TAPE_ROOT = Path("/Users/hootie/src/v8/research/tape")
+TAPE_ROOT = tape_root()
 
 
 # --------------------------------------------------------------------------- #

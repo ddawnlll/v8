@@ -22,6 +22,7 @@ from pathlib import Path
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.evaluation.benchmark_receipt import (
     NON_EVIDENTIAL_WINDOW_CAPABILITY_SCORE,
     RECEIPT_DIGEST_VERSION,
@@ -38,7 +39,7 @@ from v8_next.evaluation.scoring import (
     compute_capability_score,
 )
 
-TAPE_DIR = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+TAPE_DIR = tape_path("quad-1h-12m")
 TAPE_FILE = TAPE_DIR / "tape.jsonl"
 HOUR_MS = 3_600_000
 #: Both variants consume this many bars: the discriminating variable is the

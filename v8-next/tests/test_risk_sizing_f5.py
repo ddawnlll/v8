@@ -22,6 +22,7 @@ from v8_next.adapters.risk_sizing import (
     check_max_notional,
     risk_sized_quantity,
 )
+from v8_next.adapters.tape_paths import tape_path
 
 
 def _instrument():
@@ -119,7 +120,6 @@ def test_default_path_records_flat_sizing_mode() -> None:
     """Regression: with no risk options the decision record is unchanged in
     behaviour (sizing_mode FLAT on every decision). Runs on the real F1 klines."""
     import json
-    from pathlib import Path
 
     from v8_next.adapters.expert_strategy import run_expert_strategy_backtest
     from v8_next.domain.market import Candle
@@ -152,7 +152,7 @@ def test_dust_order_floored_to_min_notional_instead_of_denied() -> None:
     )
     from v8_next.evaluation.gate_resolution import load_tape_candles
 
-    tape = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+    tape = tape_path("btcusdt-1h-12m", "tape.jsonl")
     if not tape.exists():
         pytest.skip("single-asset real tape absent")
     candles = tuple(load_tape_candles(tape, limit=120))
