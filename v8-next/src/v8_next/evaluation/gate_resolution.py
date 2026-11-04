@@ -47,6 +47,7 @@ from v8_next.evaluation.reality_check import reality_check_diagnostic
 from v8_next.evaluation.scoring import evaluate_gate_vector
 from v8_next.evaluation.statistics_plan import (
     CANONICAL_G5_BLOCK_SIZE,
+    SelectionFamily,
     StatisticsPlan,
     g5_plan,
     sample_sufficiency,
@@ -767,12 +768,19 @@ def evaluate_g5_selection_control(
     allow_regime_fallback: bool = False,
     fallback_basis: str = "",
     fallback_tape: Path | str | None = None,
+    selection_family: SelectionFamily | None = None,
 ) -> tuple[GateState, dict[str, Any]]:
     """G5: Selection Control (g5_statistical_credibility).
 
     Enforces Constitution Rule 12: Deflated Sharpe Ratio (DSR) and White's Reality Check (WRC).
     Zero synthetic formulas (no sine/cosine oscillators). Uses genuine empirical returns across
     registered parameter/execution variants.
+
+    Selection family: a passing DSR/Bonferroni result on four stress transformations does not
+    describe a search history. ``selection_family`` is the only route to a PASS: it names the
+    members that were actually considered and the instant the family was registered, and its
+    identity is derived from that content. Without it the gate returns ``BLOCKED`` with
+    ``MISSING_PROVENANCE_BOUND_SELECTION_HISTORY`` and still publishes the diagnostics.
 
     The supplied series must be the ``G5_SERIES_UNIT`` quantity: dimensionless
     per-campaign returns from the shared accounting contract (NX02.R3). Both the
@@ -976,13 +984,49 @@ def evaluate_g5_selection_control(
             }
         wrc_p = float(wrc_result["p_value"])
 
-        passed = dsr_conf >= 0.95 and bonf_p <= 0.05
-        state = GateState.PASS if passed else GateState.BLOCKED
+        diagnostic_passed = dsr_conf >= 0.95 and bonf_p <= 0.05
+        family_metrics: dict[str, Any] = {
+            "selection_family": None,
+            "selection_family_status": "MISSING_PROVENANCE_BOUND_SELECTION_HISTORY",
+        }
+        passed = False
+        state = GateState.BLOCKED
+        reason: str | None = "MISSING_PROVENANCE_BOUND_SELECTION_HISTORY"
+        if selection_family is not None:
+            family_metrics = {
+                "selection_family": selection_family.as_dict(),
+                "selection_family_status": "PROVENANCE_BOUND_FAMILY_DECLARED",
+            }
+            # A correction can only be as wide as the declared search. A family
+            # narrower than the plan's multiplicity would under-correct, and one
+            # wider than the sample cannot be represented, so both fail closed.
+            if len(selection_family.members) != num_trials:
+                family_metrics["selection_family_status"] = (
+                    "FAMILY_SIZE_DISAGREES_WITH_PINNED_MULTIPLICITY"
+                )
+                reason = "FAMILY_SIZE_DISAGREES_WITH_PINNED_MULTIPLICITY"
+            else:
+                passed = diagnostic_passed
+                state = GateState.PASS if passed else GateState.BLOCKED
+                if passed:
+                    reason = None
+                else:
+                    reason = (
+                        f"SELECTION_CONTROL_BREACH: dsr_conf={dsr_conf:.4f} "
+                        f"bonf_p={bonf_p:.6f} (source={sample_source}, own_n={own_sample_count})"
+                    )
         metrics = {
+            "selection_control_method_version": "G5_SELECTION_FAMILY_REQUIRED_V2",
+            **family_metrics,
+            "diagnostic_family": list(variants),
+            "diagnostic_family_kind": "CHAMPION_AND_STRESS_TRANSFORMATIONS",
+            "wrc_family": ["champion"],
+            "stress_diagnostic_passed": diagnostic_passed,
             "dsr_confidence": round(dsr_conf, 6),
             "raw_pvalue": round(raw_p, 6),
             "adjusted_bonferroni_pvalue": round(bonf_p, 6),
-            "wrc_pvalue": round(wrc_p, 6),
+            "wrc_pvalue": wrc_p,
+            "wrc_reporting_version": wrc_result.get("reporting_version", "UNAVAILABLE"),
             "trials": num_trials,
             "plan_id": plan.identity(),
             "plan": plan.as_dict(),
@@ -998,12 +1042,7 @@ def evaluate_g5_selection_control(
             "series_basis": G5_SERIES_BASIS,
             "fee_stress_return": G5_FEE_STRESS_RETURN,
             "slippage_stress_return": G5_SLIPPAGE_STRESS_RETURN,
-            "reason": None
-            if passed
-            else (
-                f"SELECTION_CONTROL_BREACH: dsr_conf={dsr_conf:.4f} bonf_p={bonf_p:.6f} "
-                f"(source={sample_source}, own_n={own_sample_count})"
-            ),
+            "reason": reason,
             "passed": passed,
         }
         return state, metrics

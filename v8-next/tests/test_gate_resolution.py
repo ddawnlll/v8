@@ -212,7 +212,7 @@ def test_g4_synthetic_falsification_adversarial_shock(real_candles: list[Candle]
 
 
 def test_g5_selection_control_dsr_and_wrc():
-    """G5: Verify DSR >= 0.95 and p <= 0.05 under Rule 12 multiple testing."""
+    """A passing stress diagnostic cannot certify an undocumented selection family."""
     from v8_next.evaluation.statistics_plan import CANONICAL_G5_BLOCK_SIZE, g5_plan
 
     pnls = [0.03, 0.025, 0.04, 0.01, 0.035, 0.02, 0.05, 0.015, 0.03, 0.045] * 3
@@ -224,8 +224,10 @@ def test_g5_selection_control_dsr_and_wrc():
         seed=42,
     )
     state, metrics = evaluate_g5_selection_control(pnls, plan=plan)
-    assert state == GateState.PASS
-    assert metrics["passed"] is True
+    assert state == GateState.BLOCKED
+    assert metrics["passed"] is False
+    assert metrics["stress_diagnostic_passed"] is True
+    assert metrics["selection_family_status"] == "MISSING_PROVENANCE_BOUND_SELECTION_HISTORY"
     assert metrics["dsr_confidence"] >= 0.95
     assert metrics["adjusted_bonferroni_pvalue"] <= 0.05
     assert metrics["own_sample_count"] == 30

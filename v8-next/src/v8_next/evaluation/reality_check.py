@@ -9,6 +9,16 @@ import numpy as np
 from v8_next.evaluation.alignment import IntervalLoss, paired_differentials
 
 
+def _monte_carlo_pvalue(exceedances: int, reps: int, version: str) -> float:
+    if reps <= 0 or not 0 <= exceedances <= reps:
+        raise ValueError("invalid finite-bootstrap exceedance counts")
+    if version == "PLUS_ONE_V1":
+        return (exceedances + 1) / (reps + 1)
+    if version == "LEGACY_EXCEED_OVER_REPS_V1":
+        return exceedances / reps
+    raise ValueError("unknown Monte Carlo reporting version")
+
+
 def reality_check_diagnostic(
     baseline: tuple[IntervalLoss, ...],
     variants: dict[str, tuple[IntervalLoss, ...]],
@@ -20,6 +30,7 @@ def reality_check_diagnostic(
     reps: int,
     seed: int,
     bootstrap: str = "circular",
+    reporting_version: str = "PLUS_ONE_V1",
 ) -> dict[str, Any]:
     """Match legacy compound-null/tail semantics, not legacy RNG sequences.
 
@@ -30,6 +41,7 @@ def reality_check_diagnostic(
     """
     if not variants or not 1 <= block_size < len(baseline) or reps < 2 or seed < 0:
         raise ValueError("explicit valid bootstrap plan and nonempty family required")
+    _monte_carlo_pvalue(0, reps, reporting_version)
     if bootstrap not in {"circular", "stationary"}:
         raise ValueError(f"unsupported bootstrap '{bootstrap}', choose from 'circular', 'stationary'")
     names = sorted(variants)
@@ -101,6 +113,7 @@ def reality_check_diagnostic(
             rc_instance.compute()
             arch_rc = {
                 "method": "arch.bootstrap.RealityCheck",
+                "reporting": "LIBRARY_RAW_FINITE_BOOTSTRAP_DIAGNOSTIC_NOT_EXACT_PROBABILITY",
                 "pvalues": {str(k): float(v) for k, v in rc_instance.pvalues.items()},
                 "upper_wrc_pvalue": float(rc_instance.pvalues["upper"]),
                 "consistent_pvalue": float(rc_instance.pvalues["consistent"]),
@@ -120,7 +133,10 @@ def reality_check_diagnostic(
         "effect_units": "same_as_input_interval_loss",
         "effect_scope": "IN_SAMPLE_BASELINE_RELATIVE_NOT_GROSS_EDGE_OR_UTILITY",
         "uncertainty_method": uncertainty_method,
-        "method": method_name,
+        "method": method_name if reporting_version == "LEGACY_EXCEED_OVER_REPS_V1" else f"{method_name}_MC_PLUS_ONE_V1",
+        "reporting_version": reporting_version,
+        "monte_carlo_resolution": 1 / (reps + 1) if reporting_version == "PLUS_ONE_V1" else 1 / reps,
+        "reporting_limitation": "Finite resampling correction; not an exact test for arbitrary bootstrap procedures",
         "library": library_name,
         "library_version": importlib.metadata.version("arch"),
         "numpy_version": np.__version__,
@@ -134,7 +150,7 @@ def reality_check_diagnostic(
         "observed_max": observed,
         "argmax_variant": names[int(np.argmax(means))],
         "tie_policy": "lexicographic_variant_id",
-        "p_value": exceed / reps,
+        "p_value": _monte_carlo_pvalue(exceed, reps, reporting_version),
         "exceedances": exceed,
         "reps": reps,
         "block_size": block_size,
