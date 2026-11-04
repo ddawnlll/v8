@@ -1,8 +1,8 @@
 # V9 Implementation Plan — Evidence-Gated
 
-**Status:** `NOT_STARTED / COUNCIL_REVIEW_PENDING`. This plan schedules work; it is not implementation,
+**Status:** `NOT_STARTED / OWNER_DESIGN_FROZEN / EXTERNAL_COUNCIL_APPROVAL_NOT_ESTABLISHED`. This plan schedules work; it is not implementation,
 validation, or economic authority. The normative architecture is
-[`V9_ARCHITECTURE_MONOGRAPH.md`](V9_ARCHITECTURE_MONOGRAPH.md) (RFC 1.3.1 — independent council review candidate, implementation unverified).
+[`V9_ARCHITECTURE_MONOGRAPH.md`](V9_ARCHITECTURE_MONOGRAPH.md) (RFC 1.3.2 — owner-frozen design baseline, implementation unverified).
 
 Each phase is closed only by its evidence gate. A green unit test is not a
 venue-safety certificate, and a mechanical pass is not an economic result.
@@ -11,9 +11,9 @@ never silently skipped.
 
 | Phase | Scope | Exit evidence |
 |---|---|---|
-| **P0-A** | Choose exactly one `strategy_class + config_hash + code_sha + execution_profile`; pin HEAD, dirty state, legacy expert gate and symbol-level map, `KEEP/REFINE/REFACTOR/ADD/DEFER` traceability, test ownership | Every path in `V8_TO_V9_DELTA.md` verified at a pinned SHA; no work recorded against the wrong branch |
-| **P0-B** | Used-path `SAFETY_REPAIR` / `AUDIT_REPAIR` (not V9 alpha): rc4 cancel API, partial-fill bracket quantities, no risk-minimum uplift, fill multiset and opportunity → decision → order → fill → campaign → cashflow lineage; funding, mark and equity reconciliation; protection and restart races | Independent hand-computed oracle plus mutation fixtures reject wrong-but-complete joins; historical F01–F08 findings classified against current HEAD |
-| **P0-C** | Side-effect-free `DecisionPolicyV0` proposal + existing native execution writer's atomic intent/outbox, partial-fill-pending precedence, pinli baseline parity | DEC-001..010, ORD-001..009, POS-001..010 pass; Pi-off baseline parity; duplicate replay produces no extra side effect |
+| **P0-A** | Choose exactly one `strategy_class + config_hash + code_sha + execution_profile`; pin HEAD, dirty state, legacy expert gate and symbol-level map; check whether baseline decision callback already mutates native order state, never invoke it twice, `KEEP/REFINE/REFACTOR/ADD/DEFER` traceability, test ownership | Every path in `V8_TO_V9_DELTA.md` verified at a pinned SHA; no work recorded against the wrong branch |
+| **P0-B** | Used-path `SAFETY_REPAIR` / `AUDIT_REPAIR` (not V9 alpha): rc4 cancel API, partial-fill bracket quantities, post-quantization risk rejection, fill multiset, `BLOCKED` protection continuity, economic producer conflict qualification and opportunity → decision → order → fill → campaign → cashflow lineage; funding, mark and equity reconciliation; protection and restart races | Independent hand-computed oracle plus mutation fixtures reject wrong-but-complete joins; historical F01–F08 findings classified against current HEAD |
+| **P0-C** | Pure `DecisionPolicyV0` proposal only through a proven single-call baseline seam; otherwise read-only instrumentation until parity-safe extraction; existing writer's atomic intent/outbox, partial-fill-pending precedence, pinned baseline parity | DEC-001..010, ORD-001..009, POS-001..010 pass; Pi-off baseline parity; duplicate replay produces no extra side effect |
 | **P1-A** | One PIT challenger (`V9-M1`), diagnostic-only until economic gates | Preregistered changed decisions; full same-capital replay, cash/no-trade, random-veto and raw-threshold controls; no costed economic claim without qualified equity |
 | **P1-B** | Separate entry / expert / position ablations (`V9-E1`, `V9-I1`, `V9-P1`) | Each family has its own baseline, fill authority and churn/coverage budget |
 | **P1-C** | Occupancy, capacity and margin telemetry; altcoin feasibility dataset | No hindsight rotation; 20 USDT live feasibility tested separately, `FEASIBILITY_NOT_ESTABLISHED` until then |
@@ -22,7 +22,9 @@ never silently skipped.
 
 ## Invariants that every phase must preserve
 
-- `policy_feature_off` reproduces V8 baseline behaviour.
+- `policy_feature_off` reproduces V8 baseline behaviour; a V8 strategy side-effecting callback is never invoked twice.
+- Primary economic producer and transitive accounting dependencies are frozen before outcome inspection; unresolved same-estimand cross-producer conflicts block affected economic claims, not unrelated mechanics.
+- `BLOCKED` leaves native protective orders, position events and read-only inquiry active; no blind retry or unauthorized flatten.
 - Same-event replay is idempotent; duplicate callbacks never double-count cash,
   fills or orders.
 - `STOP-FIRST` is a bar-only diagnostic convention, never a claim about the
@@ -36,4 +38,4 @@ never silently skipped.
 
 ## First action
 
-Run P0-A as a read-only inventory against the actually checked-out pinned SHA and select a single baseline. Run targeted used-path safety/audit repair issues; mark unresolved #491 equity producer `BLOCKED` for affected economic estimands, not unrelated mechanical fixtures. Begin side-effect-free V0 fixtures once the mapped baseline is known; do not activate P1 economic policies without producer-scoped safety, parity and economic evidence.
+Run P0-A as a read-only inventory against the actually checked-out pinned SHA, select a single baseline, and determine whether the entry decision routine has side effects. Run targeted used-path safety/audit repair issues; mark unresolved #491 equity producer `BLOCKED` for affected economic estimands, not unrelated mechanical fixtures. Begin side-effect-free V0 fixtures once the mapped baseline is known; do not activate P1 economic policies without producer-scoped safety, parity and economic evidence.
