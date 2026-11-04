@@ -26,70 +26,27 @@ hr{border:0;border-top:1px solid #dad4c9;margin:2rem 0}
 footer{margin:40px 0 20px;border-top:1px solid #aaa;padding-top:16px;font:12px/1.6 Arial,sans-serif;color:#666}
 @media(max-width:760px){body{padding:16px 14px;font-size:14px}.cover{padding:15px}h1{font-size:1.5rem}.cover h1{font-size:1.8rem}table{font-size:10px}th,td{padding:5px}#toc ol{columns:1}.figure{padding:5px}.metadata{font-size:11px}}
 @media print{body{padding:0;font-size:10pt}pre{font-size:8pt}a{color:#000;text-decoration:none}h1{break-before:page}#toc ol{columns:2}.cover h1{break-before:auto}table{break-inside:avoid}figure{break-inside:avoid}.source-block{display:none}}
-</style></head><body><header class="cover"><div class="kicker">V9 · RESEARCH MONOGRAPH & ARCHITECTURE SPECIFICATION</div><h1>Market-Aware Adaptive Trading Intelligence</h1><p>V8-next evolutionary redesign · scientific evidence, decision contracts, validation and autonomous Kaizen extension</p><div class="metadata"><strong>V9-ARCH-RFC-1.1-REVISED</strong> · 2 Kasım 2026 · OWNER APPROVAL PENDING · NO ECONOMIC CLAIM</div></header><div class="notice"><strong>Reading rule:</strong> Mimari öneri ≠ uygulanmış kod ≠ mekanik doğrulama ≠ ekonomik üstünlük ≠ üretim yetkisi. Kaynak içeriği, raporlanmış proje deneyleri ve yeni tasarım çıkarımları ayrı etiketlenmiştir.</div><nav id="toc"><h2>İçindekiler</h2><ol><li><a href="#sec-02">Özet / Abstract</a></li><li><a href="#sec-03">Hakem sonrası editoryal karar ve revizyon kapsamı</a></li><li><a href="#sec-04">I. Araştırma soruları, kapsam ve kanıt hiyerarşisi</a></li><li><a href="#sec-05">II. V8&#x27;in özgün düşüncesi ve mimari hastalığı</a></li><li><a href="#sec-06">III. Bugüne kadar ne ölçüldü? Empirik dayanak</a></li><li><a href="#sec-07">IV. Bilimsel temel: piyasayı &#x27;anlamak&#x27; ne anlama gelir?</a></li><li><a href="#sec-08">V. Expert intelligence: uzmanların görüşü, hakikatin çoğalması değil</a></li><li><a href="#sec-09">VI. Opportunity Lifecycle: hafıza, strateji değil</a></li><li><a href="#sec-10">VII. Trader Decision Policy: çalıştırılabilir v0, araştırma hedefi vN</a></li><li><a href="#sec-11">VIII. Entry &amp;amp; Order Management: gerçek durumun eşzamanlı nesneleri</a></li><li><a href="#sec-12">IX. Dynamic Position Management: sürekli değerlendirme, sınırlı eylem</a></li><li><a href="#sec-13">X. Portfolio / Risk: kıt sermaye ve ex-ante alternatifler</a></li><li><a href="#sec-14">XI. Native execution ve claim-uyumlu veri / fill otoritesi</a></li><li><a href="#sec-15">XII. Economic evidence, bağımsız audit ve bilimsel doğrulama protokolü</a></li><li><a href="#sec-16">XIII. Autonomous Kaizen: trading core&#x27;a EK yetenek</a></li><li><a href="#sec-17">XIV. Gerçek mevcut kodla V9 hedeflerinin eşleştirilmesi</a></li><li><a href="#sec-18">XV. Mimari tercih: minimal / orta / karmaşık</a></li><li><a href="#sec-19">XVI. Aşamalı uygulama ve bağımlılık kapıları: önce doğru, sonra adaptif</a></li><li><a href="#sec-20">XVII. Kabul kriterleri: fikir değil, sınanabilir davranış</a></li><li><a href="#sec-21">XVIII. Risk kaydı ve neden yapmayacağımız şeyler</a></li><li><a href="#sec-22">XIX. Architecture Decision Records (ADR)</a></li><li><a href="#sec-23">XX. Kod/Docs geçişi: bu belge repoda nasıl yaşamalı?</a></li><li><a href="#sec-24">XXI. Örnek 30 günlük çalışma planı (kapıya bağlı, garanti değil)</a></li><li><a href="#sec-25">XXII. Sınanabilir başarısızlık koşulları / Projeyi nasıl yanlışlarız?</a></li><li><a href="#sec-26">XXIII. Açık sorular, sınırlamalar ve gelecek araştırma</a></li><li><a href="#sec-27">XXIV. Kaynakça ve provenance register</a></li><li><a href="#sec-28">XXV. Model Council hakem cevapları ve değişiklik izi</a></li><li><a href="#sec-29">XXVI. Nihai sentez</a></li></ol></nav><main><h1 id="sec-01">V9 — Market-Aware Adaptive Trading Intelligence</h1>
-<h2>Bilimsel mimari monografı · Model Council sonrası kapsamlı revizyon · V8-next evrim sözleşmesi</h2>
-<p><strong>Sürüm:</strong> <code>V9-ARCH-RFC-1.1-REVISED</code><br>
-<strong>Revizyon tarihi:</strong> 2 Kasım 2026<br>
+</style></head><body><header class="cover"><div class="kicker">V9 · RESEARCH MONOGRAPH & ARCHITECTURE SPECIFICATION</div><h1>Market-Aware Adaptive Trading Intelligence</h1><p>V8-next evolutionary redesign · scientific evidence, decision contracts, validation and autonomous Kaizen extension</p><div class="metadata"><strong>V9-ARCH-RFC-1.0-DRAFT</strong> · 1 Kasım 2026 · OWNER APPROVAL PENDING · NO ECONOMIC CLAIM</div></header><div class="notice"><strong>Reading rule:</strong> Mimari öneri ≠ uygulanmış kod ≠ mekanik doğrulama ≠ ekonomik üstünlük ≠ üretim yetkisi. Kaynak içeriği, raporlanmış proje deneyleri ve yeni tasarım çıkarımları ayrı etiketlenmiştir.</div><nav id="toc"><h2>İçindekiler</h2><ol><li><a href="#sec-02">Özet / Abstract</a></li><li><a href="#sec-03">I. Araştırma soruları, kapsam ve kanıt hiyerarşisi</a></li><li><a href="#sec-04">II. V8&#x27;in özgün düşüncesi ve mimari hastalığı</a></li><li><a href="#sec-05">III. Bugüne kadar ne ölçüldü? Empirik dayanak</a></li><li><a href="#sec-06">IV. Bilimsel temel: piyasayı &#x27;anlamak&#x27; ne anlama gelir?</a></li><li><a href="#sec-07">V. Expert intelligence: uzmanların görüşü, hakikatin çoğalması değil</a></li><li><a href="#sec-08">VI. Opportunity Lifecycle: hafıza, strateji değil</a></li><li><a href="#sec-09">VII. Trader Decision Policy: V9&#x27;un davranış merkezidir</a></li><li><a href="#sec-10">VIII. Entry &amp;amp; Order Management: selection ile execution arasındaki ekonomik köprü</a></li><li><a href="#sec-11">IX. Position Manager: açık riskin dinamik yönetimi</a></li><li><a href="#sec-12">X. Portfolio &amp;amp; Risk: fırsat rekabeti ve sermaye ekonomisi</a></li><li><a href="#sec-13">XI. Native execution, market-data ve ekonomik gerçekçilik</a></li><li><a href="#sec-14">XII. Economic evidence, audit ve bilimsel yanlışlama</a></li><li><a href="#sec-15">XIII. Autonomous Kaizen: trading core&#x27;a EK yetenek</a></li><li><a href="#sec-16">XIV. Gerçek mevcut kodla V9 hedeflerinin eşleştirilmesi</a></li><li><a href="#sec-17">XV. Mimari tercih: minimal / orta / karmaşık</a></li><li><a href="#sec-18">XVI. Aşamalı uygulama programı ve geçiş planı</a></li><li><a href="#sec-19">XVII. Kabul kriterleri: fikir değil, sınanabilir davranış</a></li><li><a href="#sec-20">XVIII. Risk kaydı ve neden yapmayacağımız şeyler</a></li><li><a href="#sec-21">XIX. Architecture Decision Records (ADR)</a></li><li><a href="#sec-22">XX. Kod/Docs geçişi: bu belge repoda nasıl yaşamalı?</a></li><li><a href="#sec-23">XXI. Çalışma planı: 30 gün, sonuca odaklı</a></li><li><a href="#sec-24">XXII. Sınanabilir başarısızlık koşulları / Projeyi nasıl yanlışlarız?</a></li><li><a href="#sec-25">XXIII. Açık sorular, sınırlamalar ve gelecek araştırma</a></li><li><a href="#sec-26">XXIV. Kaynakça ve provenance register</a></li><li><a href="#sec-27">XXV. Nihai sentez</a></li></ol></nav><main><h1 id="sec-01">V9 — Market-Aware Adaptive Trading Intelligence</h1>
+<h2>Bilimsel mimari monografı, kanıt sentezi ve V8-next evrim sözleşmesi</h2>
+<p><strong>Sürüm:</strong> <code>V9-ARCH-RFC-1.0-DRAFT</code><br>
+<strong>Tarih:</strong> 1 Kasım 2026<br>
 <strong>Dil:</strong> Türkçe; kod, araştırma başlıkları ve teknik sözleşmeler İngilizce kimliklerini korur.<br>
 <strong>Uygulama sınırı:</strong> <code>ddawnlll/v8</code> → <code>v8-next/</code> (Python 3.12, NautilusTrader 2.0.0rc4; bu sürüm depoda pinlenmiştir).<br>
-<strong>Belge türü:</strong> bilimsel mimari monografı + hakem revizyonu + normatif aday sözleşmeler; kod, ekonomik sertifika veya otomatik uygulama izni değildir.<br>
-<strong>Normatif durum:</strong> <strong>REVISED ARCHITECTURE TARGET / OWNER APPROVAL PENDING / UNVALIDATED POLICIES</strong>. V8 Anayasası'nı veya geçmiş immutable kanıtları tek başına değiştirmez.<br>
+<strong>Belge türü:</strong> bağımsız araştırma sentezi + sınanabilir hedef mimari; kod veya ekonomik sertifika değildir.<br>
+<strong>Normatif durum:</strong> <strong>ÖNERİ / OWNER APPROVAL PENDING</strong>. V8 Anayasası'nı veya geçmiş immutable kanıtları tek başına değiştirmez.<br>
 <strong>Kısa hüküm:</strong> <em>V9, V8'in zaten mevcut olan MarketState–Opportunity–Expert–Execution anlayışını sürekli, bağlama duyarlı, açıklanabilir trader kararına dönüştürür; Pi Agent ile denetimli Kaizen, bu canlı karar çekirdeğinin yerine değil, onun dışında eklenir.</em></p>
 <blockquote>
-<p><strong>Bilimsel dürüstlük bildirimi.</strong> Bu çalışma, üç bağımsız kör Model Council değerlendirmesi ve revizyon sentezi ile kullanıcının ilettiği özgün V8 monografı, iki 2026 Deep Research raporu, araştırma handoff ZIP'i, D4 native raporu ve önceki bağımsız ham audit raporunu, erişilebilen GitHub kodunu ve doğrulanmış birincil akademik kaynakları sentezler. Bu belgede yeni bir backtest, sealed OOS sınaması, bağımsız çalıştırılmış V9 prototipi veya canlı işlem sonucu <strong>üretilmemiştir</strong>. Mevcut deneyler yalnız tanımlı BTCUSDT 1H geliştirme bandı ve test koşullarını temsil eder. Kanıt-iddia kapsamı kaynaklara sıkıca bağlı tutulur.</p>
+<p><strong>Bilimsel dürüstlük bildirimi.</strong> Bu çalışma, kullanıcının ilettiği özgün V8 monografı, iki 2026 Deep Research raporu, araştırma handoff ZIP'i, D4 native raporu ve önceki bağımsız ham audit raporunu, erişilebilen GitHub kodunu ve doğrulanmış birincil akademik kaynakları sentezler. Bu belgede yeni bir backtest, sealed OOS sınaması, bağımsız çalıştırılmış V9 prototipi veya canlı işlem sonucu <strong>üretilmemiştir</strong>. Mevcut deneyler yalnız tanımlı BTCUSDT 1H geliştirme bandı ve test koşullarını temsil eder. Kanıt-iddia kapsamı kaynaklara sıkıca bağlı tutulur.</p>
 </blockquote>
 <hr>
 <h1 id="sec-02">Özet / Abstract</h1>
 <p><strong>Araştırma problemi.</strong> Finansal piyasa koşulları durağan değildir; fırsat gözlemi, işlem seçimi, giriş fiyatı, sermaye işgali, pozisyonun sonraki yönetimi ve emir gerçekleşmesi birbirleriyle etkileşir. Bir sistemin çok sayıda uzman modülü veya ayrıntılı audit üretmesi, gözlemlediği değişikliklere doğru ekonomik tepki verdiğini göstermez. V8-next'in native keşif deneyleri, mevcut konsensüsün seçimde etkisiz kaldığı bir örneği; gecikmeli doğrulamanın ekonomik zararını; dinamik stop yönetiminin belirsiz fakat araştırmaya değer sonuçlarını; gerçek kalıcı fırsat durumunun tek başına ekonomik avantaj sağlamadığını ortaya koymuştur. Temel soru, <strong>V8'in hangi yeteneklerinin daha tutarlı bir karar döngüsüne dönüşmesi gerektiği</strong> ve bunun nasıl yanlışlanacağıdır.</p>
 <p><strong>Yöntem.</strong> Tarihsel mimari belgeleri kodla eşleştirildi; A/B/C/D4 yerel deneylerinin iddia sınırları ayrıştırıldı; piyasa rejimleri, çevrimiçi değişim tespiti, seçici tahmin, maliyetli yürütme, çoklu test ve otonom araştırma literatürü tarandı; tasarım sözleşmeleri, durum makineleri, güvenlik sınırları, test matrisi ve geçiş planı oluşturuldu. Kaynaklar <em>birincil akademik yayın / repoda gözlenmiş / yerel rapor / tasarım çıkarımı / açık soru</em> olarak etiketlendi.</p>
 <p><strong>Öneri.</strong> Tek ürün çekirdeği korunur: PIT market observations → world/market belief → canonical opportunities ← expert evidence → trader decision policy → price-aware entry/position/portfolio policies → hard risk guard → native NautilusTrader → audit + economic attribution → yeni gözlemle yeniden değerlendirme. İkinci, <strong>çevrimdışı</strong> katman Pi Agent ile hipotez üretir, mevcut research/evaluation/Oracle altyapısında test eder, GitHub Issue/PR üzerinden onaya sunar. Hiçbir LLM canlı trading risk kapısını atlayamaz.</p>
-<p><strong>Sonuç statüsü.</strong> Bu, <em>ekonomik edge'in kanıtı</em> değil, <strong>test edilebilir hedef mimari ve daraltılmış uygulanabilir davranış sözleşmesidir</strong>. Kabul, yalnız kontrol edilen davranışların ve ilgili ekonomik sonuçların yeni, geçerli deneylerle doğrulanmasına bağlıdır.</p>
+<p><strong>Sonuç statüsü.</strong> Bu, <em>ekonomik edge'in kanıtı</em> değil, <strong>test edilebilir mimari öneridir</strong>. Kabul, yalnız kontrol edilen davranışların ve ilgili ekonomik sonuçların yeni, geçerli deneylerle doğrulanmasına bağlıdır.</p>
 <p><strong>Anahtar terimler:</strong> market belief, non-stationarity, point-in-time, behavioral experts, opportunity sovereignty, selective decisions, native execution, endogenous occupancy, post-entry management, economic attribution, falsification, autonomous Kaizen, audit lineage.</p>
 <hr>
-<h1 id="sec-03">Hakem sonrası editoryal karar ve revizyon kapsamı</h1>
-<p>Üç modelin birbirinden bağımsız, <strong>yalnızca monografı</strong> okuyarak yaptığı kör inceleme aynı üst hükmü verdi: <code>PROMISING BUT REQUIRES REVISION</code> [C1–C3]. Bu raporlar kodun doğrulandığını veya eleştirilerin istatistiksel bağımsızlığını göstermez. Bulgular içinde belgenin kendi üzerinde gösterilebilen kusurlar ile bugünkü <code>v8-next/</code> kodunda gerçekten sürüp sürmediği bilinmeyen tarihsel audit sorunları ayrılmıştır. Kararların ayrıntılı izi [C4] sentezinde korunur.</p>
-<p><strong>Bu v1.1 sürümünün kabul ettiği on temel düzeltme:</strong> (1) sembolik ekonomik <code>argmax</code> üretim algoritması olmaktan çıkarıldı; (2) tek kanonik karar/niyet/venue olayı/neden sözlüğü ve izin matrisi tanımlandı; (3) baseline-equivalent <code>DecisionPolicyV0</code> algoritması yazıldı; (4) opportunity, intent, order ve position durumları ortogonal ayrıldı; (5) partial fill, cancel/replace, unknown venue ve restart için güvenlik kuralları kondu; (6) <code>MarketBelief</code> ölçülebilir, test edilmemiş bir view olarak sınırlandı; (7) yalnızca tarihsel artefakta ilişkin audit kusurları canlı implementasyon kusuru gibi gösterilmedi; (8) funding, fill ve mark otoritesi matrisi eklendi; (9) ilk deneyde aynı takvim equity, deneme ailesi ve karar değiştiren tek müdahale şart koşuldu; (10) Pi Kaizen çekirdeğin yanında, yetkisiz bir eklenti olarak korundu.</p>
-<p><strong>Hakemlerden kısmen ayrıldığımız nokta:</strong> İlk implementasyonda çalıştırılmayacak diye <code>Market Intelligence</code>, <code>Dynamic Position</code> ve <code>Portfolio</code> sorumluluklarını V9'un nihai vizyonundan çıkarmıyoruz. <code>TARGET_DESIGNED</code>, <code>INSTRUMENTED</code>, <code>MECHANICALLY_VALIDATED</code>, <code>ECONOMICALLY_EVALUATED</code>, <code>PROMOTABLE</code> durumlarını birbirine karıştırmadan ilerliyoruz. Başarısız deney mimari hipotezi reddedebilir; bir sınıfın varlığı ekonomik faydayı kanıtlamaz.</p>
-<h2>Belge onayının beş ayrı düzeyi</h2>
-<table>
-<thead>
-<tr>
-<th>Düzey</th>
-<th>Ne gerektirir?</th>
-<th>Ne <strong>sağlamaz</strong>?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>ARCHITECTURE_ACCEPTED</code></td>
-<td>Owner tarafından karara bağlanmış hedef sorumluluklar</td>
-<td>Çalışan kod</td>
-</tr>
-<tr>
-<td><code>MECHANICS_VERIFIED</code></td>
-<td>Pinned commit, deterministik fixture, native olay sınırı</td>
-<td>Market edge</td>
-</tr>
-<tr>
-<td><code>EVIDENCE_QUALIFIED</code></td>
-<td>Geçerli veri, execution ve muhasebe kapsamı</td>
-<td>OOS üstünlüğü</td>
-</tr>
-<tr>
-<td><code>ECONOMICALLY_SUPPORTED</code></td>
-<td>Tanımlı aile/ölçütle yeterli bağımsız karşılaştırma</td>
-<td>Üretim yetkisi</td>
-</tr>
-<tr>
-<td><code>PRODUCTION_AUTHORIZED</code></td>
-<td>Ayrı güvenlik, operatör ve venue kabulü</td>
-<td>Gelecek kâr garantisi</td>
-</tr>
-</tbody>
-</table>
-<p>Bu beş boyut tek <code>PASS</code> veya sayısal score içine sıkıştırılamaz. V1.1, ilk iki düzeye ulaşmak için gerekli davranış sözleşmelerini sunar; hiçbir düzeye ulaşıldığını <strong>iddia etmez</strong>.</p>
-<hr>
-<h1 id="sec-04">I. Araştırma soruları, kapsam ve kanıt hiyerarşisi</h1>
+<h1 id="sec-03">I. Araştırma soruları, kapsam ve kanıt hiyerarşisi</h1>
 <h2>1.1 Birincil araştırma sorusu</h2>
 <blockquote>
 <p>Gözlemleyip anlık emir açan bir sistem, piyasadaki değişimleri izleyen, kendi aktif görüşünü yeniden değerlendiren, fırsat ve pozisyonlarını devam eden bir ekonomik karar problemi olarak ele alan <strong>adaptif trader</strong> sistemine nasıl evrilir; bu gelişmenin gerçek değer kattığı nasıl ölçülür?</p>
@@ -142,7 +99,7 @@ footer{margin:40px 0 20px;border-top:1px solid #aaa;padding-top:16px;font:12px/1
 <h2>1.4 Araştırma kaynakları</h2>
 <p>Yerel <code>index(3).html</code> V8 tarihsel tam monografı; Deep Research I (Kasım 2026, 92 KB metin) ve Deep Research II (Kasım 2026, 69 KB Markdown), <code>V8_NEXT_V9_RESEARCH_COMPLETE_HANDOFF.zip</code> (616 üyeli paket, orijinal run ve kanıtlar), <code>D4_ANSWER_TR.md</code>, <code>audit-20261030T223550Z-6ffc87e.zip</code> ve <code>v8_next_independent_raw_audit_review.md</code> bu araştırmanın birincil <strong>proje</strong> kaynaklarıdır. Belgelerdeki sayılar kaynaklarının zaman ve statülerine bağlıdır. GitHub varsayılan dalı, yerel olarak henüz push edilmemiş D4 araştırma modüllerini göstermeyebilir.</p>
 <hr>
-<h1 id="sec-05">II. V8'in özgün düşüncesi ve mimari hastalığı</h1>
+<h1 id="sec-04">II. V8'in özgün düşüncesi ve mimari hastalığı</h1>
 <h2>2.1 Özgün tez: Expert bir trader değildir</h2>
 <p>V8 araştırma monografındaki temel ifade şu anlamı taşır: <strong>MarketState, OpportunityEpisode, ExpertEvidence, ExecutionCampaign ve Order/Fill aynı ekonomik nesne değildir.</strong> Market doğrudan gözlemlenebilir, PIT-zamanlı fırsat olayı yaratır; expert bu olayı gözlemler, destekleyebilir, çürütebilir veya çekimser kalabilir. Fırsatın kimliği expert sayısıyla çoğalmaz. Emre giriş, ayrı risk/utility kararıdır. Orijinal <code>V8_CONSTITUTION</code> bu ayrımları, duplicate observer invariance'ı, ilk-sınıf abstention'ı, immutable evidence ve locked OOS kontrolünü açıkça tanımlar [P1].</p>
 <p>Bu miras <strong>korunmalıdır</strong>. V9'a taşınmaması gereken şey geçmişteki ağır komite/governance yüzeylerinin tümünü kopyalama zorunluluğudur. Her yeni karar için 5-agent kurul, farklı authority root, ikinci claim registry veya yeni engine yapmak, bu çalışmanın ölçülebilir amacına ters düşer. Eski anayasal hükümler korunup normatif geçiş gereken maddeler ayrıca sahibi tarafından onaylanmalıdır; bu tasarım belgesi geriye dönük yürürlük vermez.</p>
@@ -152,7 +109,7 @@ footer{margin:40px 0 20px;border-top:1px solid #aaa;padding-top:16px;font:12px/1
 <h2>2.3 Laboratuvardan ürün döngüsüne</h2>
 <p>V8 ekonomi ve kanıt altyapısı güçlü, fakat bugüne kadar tek bir <code>volume_confirmed_breakout</code> araştırma kampanyası gibi dar koşullarda testler öne çıktı. V9, yeni evrenlere / altcoin perps'e geçişi <strong>ayrı veri ve likidite uygunluk aşaması</strong> olarak tanımlar. Araştırma maliyetini azaltmak için önce hızlı sinyal/karar taraması, sonra yalnız final adaylarda native NautilusTrader replay'i kullanır. Hızlandırma hiçbir zaman replay semantiğini, stop sırasını veya maliyet modelini sessizce değiştiremez.</p>
 <hr>
-<h1 id="sec-06">III. Bugüne kadar ne ölçüldü? Empirik dayanak</h1>
+<h1 id="sec-05">III. Bugüne kadar ne ölçüldü? Empirik dayanak</h1>
 <h2>3.1 Baseline: tanımı ve kapsamı</h2>
 <p>Raporlanan deney evreni: BTCUSDT Binance USDT-M perpetual, 1H, 2.160 bar, 2025-01-01–2025-04-01; tek 90 günlük <strong>development</strong> pencere; 10.000 USDT simülasyon sermayesi; maker 0.0002/taker 0.0005; %2 koruyucu stop/%4 hedef. 123 fırsat kaydedildi, baseline 45 kampanya açtı ve 44'ünü kapattı. Kapalı işlemlerde net −8,67470686 USDT ve ≈−0,02208R/işlem raporlandı; native komisyon toplamı ≈36,766 USDT; funding uygulanmadı. Bu 10.000 USDT gerçek portföy önerisi, 20 USDT'lik canlı hesap fizibilitesi veya sonradan oluşan veri değildir [P2, P3].</p>
 <h3>A/B/C/D4 ayrıştırma özeti</h3>
@@ -207,7 +164,7 @@ footer{margin:40px 0 20px;border-top:1px solid #aaa;padding-top:16px;font:12px/1
 <h2>3.4 Mevcut açık ekonomik sınırlamalar</h2>
 <p>Funding akışı ve mark atfı; aynı-bar intrabar sıra; spread/quote/order-book/queue eksikliği; per-fill identity ve partial fill; native bracket/position ID callback order; altcoin likiditesi, minimum notional ve quantization; tek 90 günlük rejim; sealed OOS kullanımı. Bunlar farklı şiddette engellerdir. Birinin giderilmesi tümünü gidermez. Ayrıca geçmiş V8 next handoff ZIP'i D3'ün B4 replikasyonu olduğunu belirtir; D4 ise <strong>daha sonra yapılmış ayrı çalışma</strong> olup kendi 14/14 raporlanan doğrulamasına rağmen ekonomik üstünlük kanıtlamaz [P3, P4].</p>
 <hr>
-<h1 id="sec-07">IV. Bilimsel temel: piyasayı 'anlamak' ne anlama gelir?</h1>
+<h1 id="sec-06">IV. Bilimsel temel: piyasayı 'anlamak' ne anlama gelir?</h1>
 <h2>4.1 Metafizik değil, güncellenebilir epistemik durum</h2>
 <p>Bir algoritmanın piyasayı 'anlaması', piyasanın geleceğini bildiği anlamına gelmez. Ölçülebilir tanım: <strong>mevcut bilgiye dayalı sürümlenmiş piyasa görüşü</strong> oluşturmak; bu görüşün geçerlilik alanını, belirsizliğini ve zaman sınırını belirtmek; yeni bilgi geldiğinde önceki kararın hâlâ uygun olup olmadığını sınamak. Bu, gözlemden aksi yöne ısrar etmek yerine <code>ABSTAIN</code>, <code>WAIT</code>, <code>REASSESS</code> gibi eylemleri birinci sınıf yapar. Seçici sınıflandırmanın risk–coverage değiş tokuşu bu tasarımın genel istatistiksel analojisidir; bilgisayarlı görü çalışmalarındaki risk garantileri finansal getiriye doğrudan aktarılamaz [L04, L05].</p>
 <h2>4.2 Zamanın dört ayrı anlamı</h2>
@@ -216,35 +173,28 @@ footer{margin:40px 0 20px;border-top:1px solid #aaa;padding-top:16px;font:12px/1
 \mathcal F_t = \sigma{x_i: \operatorname{available_at}(x_i)\leq t}
 ]</p>
 <p>olmak üzere, belirli politika sürümü için <code>Action_t = π(F_t, Portfolio_t, PolicyVersion)</code> verisi ile tekrar üretilebilir olmalıdır. Retroaktif <code>funding</code>, <code>OI</code> veya dış veri eklemek, mevcut hipoteze yeni veri bilgisi kazandırıyorsa yeni dataset/version ve ayrı deney kimliği gerektirir.</p>
-<h2>4.3 MarketBelief: sınırlı ve yanlışlanabilir temsil</h2>
-<p><strong>İlk implementasyon varsayımı:</strong> <code>MarketBeliefV0</code> yeni bir ontoloji, kalibre edilmemiş rejim olasılık motoru veya bağımsız karar otoritesi değildir; mevcut PIT <code>MarketState</code> üzerinden üretilen sürümlü bir <strong>immutable view</strong>dır. Hiçbir yeni belief değişkeni, varsayılan V8 giriş/çıkış davranışını kendiliğinden değiştiremez. Representation, prediction ve decision-utility ayrı araştırma hedefleridir.</p>
-<pre><code class="language-text">MarketBeliefV0  # PROPOSED; no implication of existing class
-  instrument_id: String
-  decision_cut_ns: Int
-  source_event_ids: List[EventId]
-  input_available_max_ns: Int
-  market_state_ref: StateRef
-  data_quality: VALID | STALE | INCOMPLETE | UNKNOWN
-  volatility_context: Optional[VersionedObservation]
-  structure_context: Optional[VersionedObservation]
-  regime_labels: List[VersionedScore]  # NOT calibrated probabilities
-  invalidation_events: List[EventId]
-  measurement_version: ContentHash
-  confidence_semantics: NONE | VALIDATED_MEASURE_ID
+<h2>4.3 MarketBelief: önerilen tip</h2>
+<pre><code class="language-text">MarketBeliefV1:
+  instrument_id, interval_set, decision_time_ns, input_available_max_ns
+  state_id, state_version, data_quality_state
+  regime_distribution: {trend, range, transition, shock, unknown}
+  structure: {direction, swing_state, breakout_state, support_resistance_ref}
+  volatility: {level, percentile, change_state}
+  liquidity_context: {proxy_values, availability, missingness}
+  time_horizon_alignment: {15m, 1h, 4h, unknown}
+  uncertainty: {model_id, definition, calibrated_if_available}
+  transition_evidence: {previous_state_id, changed_fields, trigger_event_ids}
+  provenance: {source_hash, feature_version, model_version, data_role}
 </code></pre>
-<p><code>trend</code>, <code>range</code>, <code>shock</code>, <code>transition</code> birbirini dışlamak zorunda olmayan <strong>özelliklerdir</strong>. Basitçe birim-toplamlı dağılım adı vermek matematiksel hata olur: kalibre edilmiş ve açıkça birbirini dışlayan olaylar olmadan <code>regime_distribution</code> alanı <strong>yoktur</strong>. Şok sırasında trend de olabilir. <code>confidence=0.91</code> gibi çıplak sayı yasaktır; confidence ancak neye ilişkin olduğu, referans olayı, penceresi ve validasyon verisiyle yorumlanır. Mevcut bar OHLCV'den çıkarılmış likidite proxy'si L1/L2 emir defteri olarak adlandırılamaz.</p>
-<p><strong>Birincil ilk kullanım (<code>M1</code>):</strong> Veri kalitesi veya açıkça önceden tanımlanmış volatilite koşulu altında yeni <em>girişin</em> ayrı bir kuralla reddedilmesi; <code>HOLD/EXIT</code> veya sermaye miktarı otomatik değiştirilmez. Aynı deneyde <code>baseline V8</code> / <code>raw-feature threshold</code> / <code>belief-view condition</code> karşılaştırılır. Yeni temsil her iki basit karşılaştırıcıyı geçemiyorsa <strong>diagnostic-only</strong> kalır.</p>
-<p><strong>İkinci aşama:</strong> İşe yarayan tek değişken kanıtlanırsa zaman içi stabilite, değişim algılama, multi-horizon etkileşim, kalibrasyon ve conditional outcome distribution ayrı family olarak araştırılır. Adams–MacKay [L01] yalnız aday change-point yöntemi; yararlı trading kararı kanıtı değildir.</p>
+<p>Bu bir <strong>target schema</strong>dır; mevcut kodun birebir API'si olduğu iddia edilmez. Özellikle <code>regime_distribution</code> değerleri kalibre olasılık diye sunulamaz: bağımsız validation yoksa <code>scores</code> veya <code>UNKNOWN</code> kullanılır. Likiditeye ilişkin sadece OHLCV proxy varsa L2-based sponsorship veya fill modellemesi yapılmaz. Rejim değişimi ölçümü için bir <em>aday yöntem</em> olarak Adams–MacKay çevrimiçi changepoint detection incelenebilir; bu çalışma V9'da edge'i kanıtlamaz [L01].</p>
 <h2>4.4 Multi-horizon ve market state çevrimi</h2>
 <p>15m fırsat barı, 1h bağlam ve 4h durum gözlemi gibi saat ölçekleri kullanıcı hedefleriyle uyumludur; ilk doğrulama için mevcut 1H BTC enstrümanının dışına geçmek gerekmez. Çoklu ölçeklerde tamamlanmamış üst periyot mumlarını kullanmak <code>PIT</code> ihlalidir. <code>MarketBelief</code> güncellemesi, <strong>relevant market event</strong> veya karara etki eden risk/pozisyon değişikliği olduğunda; zorunlu her tick'te bütün expert'ları hesaplayarak değil, dependency invalidation ile uygulanmalıdır.</p>
 <h2>4.5 Değişim tespiti ve hata payı</h2>
 <p>Rejim tahminleri hatalı olabilir. False transition ile yanlış expert yönlendirmeyi önlemek için (i) <code>UNKNOWN</code> ve abstention; (ii) transition hysteresis/tutarlılık; (iii) minimum event/time validity; (iv) regime classifier karşılaştırması; (v) sınırlı drift/coverage monitor önerilir. Eşikler önceden sürümlenip test edilir; bu makale rakamsal optimum belirtmez.</p>
 <h2>4.6 Market understanding nasıl yanlışlanır?</h2>
-<p>Üç iddia testte ayrılmalıdır: <code>PIT_VALIDITY</code> (bilgi gerçekten karar anında var mı?), <code>REPRESENTATION_UTILITY</code> (etiket, aynı bilgiyle kurulan basit durumdan farklı test edilebilir koşullu davranış tanımlıyor mu?) ve <code>DECISION_UTILITY</code> (bu fark risk/pozisyon/execution sabitken ekonomik sonucu değiştiriyor mu?). Bir market belief'ın daha çok alanı olması hiçbiri için kanıt değildir.</p>
-<p>Ön kayıtlı ilk koşullu hedef örneği: <code>future 1H absolute return &gt; a × trailing ATR</code> gibi <strong>gözlemlenecek olayın</strong>, veri ufkunun ve eşiklerinin en baştan dondurulması; belirsizlik tahmini kalibre edilemiyorsa olasılık iddiası yok. Bilginin <em>eyleme etkisi</em> ayrıca <code>changed_action_count</code>, <code>avoidance_cost</code>, <code>calendar_aligned_net_equity_delta</code> ile ölçülür. Sadece tahmin skorundaki fark, trading aktivasyon izni vermez.</p>
-<p><code>M1</code> karşılaştırması dört karar verebilir: (i) hiçbir karar değişmez → temsil ekonomik karar girdisi olamaz; (ii) karar değişir ama ledger yetersiz → <code>INCONCLUSIVE</code>; (iii) ekonomi kötüleşir → <code>NO_EDGE</code> veya <code>REJECTED</code> (önkayıt kriterine göre); (iv) bağımsız geçerli sınama yeterli fayda verir → sınırlı politika promotion incelemesi. Farklı dönemlerde gözlenen farklı sonuçlar gizlenmez.</p>
+<p>Daha zengin MarketBelief, daha iyi PnL iddiasına eşit değildir. Üç ayrı test gerekir: (A) <strong>Causal validity</strong> — karar anında erişilemeyen veri kullanıldı mı? (B) <strong>Representation stability</strong> — aynı rejim tanımı farklı örneklemlerde tutarlı mı? (C) <strong>Incremental decision utility</strong> — basit <code>MarketState</code> karşısında aynı opportunity/risk/execution ile portföy düzeyinde net fayda değişiyor mu? C başarısızsa yeni state özellikleri izleme/diagnostic olarak kalabilir ama ekonomik karar etkisi için gerekçe olmaz.</p>
 <hr>
-<h1 id="sec-08">V. Expert intelligence: uzmanların görüşü, hakikatin çoğalması değil</h1>
+<h1 id="sec-07">V. Expert intelligence: uzmanların görüşü, hakikatin çoğalması değil</h1>
 <h2>5.1 Kimlik ve rol</h2>
 <p>Expert bir <em>observer</em>dır; ekonomik opportunity ID üretmez, sermaye tahsis etmez, emir göndermez. <code>ExpertStance = {expert_id, version, habitat_id, opportunity_id, support/contradict/abstain, reason_code, observed_features, availability_bounds, lineage}</code>. Aynı kanıta dayanarak oy veren kopya expert'ların çoğunluk oluşturması bilgi üretmez. Orijinal V8'in clone invariance ve opportunity sovereignty ilkeleri korunur [P1].</p>
 <h2>5.2 Context-aware uzmanlık</h2>
@@ -254,18 +204,17 @@ footer{margin:40px 0 20px;border-top:1px solid #aaa;padding-top:16px;font:12px/1
 <h2>5.4 Model çeşitleri</h2>
 <p>Rule-based, istatistiksel ve makine öğrenmeli expert'lar <strong>aynı üretim sözleşmesine</strong> bağlanabilir; buna izin verilmesi bunların tümünün etkin olduğu anlamına gelmez. Her modelin veri lineage, training split, calibration, uncertainty ve artifact hash'i vardır. Model sonuçları anlık gözlemlerle kendiliğinden yeniden eğitilmez; challenger policy olarak ayrı araştırma ve promotion gerektirir.</p>
 <hr>
-<h1 id="sec-09">VI. Opportunity Lifecycle: hafıza, strateji değil</h1>
-<h2>6.1 Fırsat, karar, emir ve pozisyon ayrıdır</h2>
-<p>V8'in <strong>opportunity sovereignty</strong> ilkesini koruyan tek kanonik fırsat kaydı bulunur. Fırsatın epistemik durumu, emir ve pozisyonun gerçekleşmiş durumuyla <strong>birleştirilmez</strong>. İlk sürümün asgari fırsat durumları <code>DETECTED</code>, <code>ACTIVE</code>, <code>INVALIDATED</code>, <code>EXPIRED</code>; <code>WATCHING</code> ayrı bir gözlem etiketi olabilir, karar aksiyonu değildir. <code>ARMED/RETEST_SEEN</code> D4'e özgü araştırma policy state'leridir, default-on V9 yaşam döngüsü değildir. <code>ADMITTED/EXECUTED/CLOSED</code> opportunity enum'ları değil, ayrı decision/order/position ilişkilerinden türetilen görünüm olabilir.</p>
-<p>Her fırsat <code>BirthSnapshot</code> immutable, sonraki <code>EvaluationSnapshot</code> append-only olur. <code>Expiry</code> fırsatın varlık hipotezinin sona ermesidir, emir iptali veya pozisyon kapanışı değildir. Canlı pozisyon, fırsat expired olsa bile kendi ayrı risk/protection güvenlik sözleşmesine tabidir. D4'ün kötüleşen fiyat ve occupancy sonuçları zorunlu gecikme eklenmemesi için pozitif gerekçedir [P4].</p>
+<h1 id="sec-08">VI. Opportunity Lifecycle: hafıza, strateji değil</h1>
+<h2>6.1 Bir fırsatın yaşamı</h2>
+<p><code>OpportunityEpisode</code> <strong>fırsatın varlığına dair zamanlı hipotezdir</strong>; tekil trade değildir. Önerilen durumlar mevcut <code>OpportunityBook</code> sözleşmesinin izin verdiği kapsamda korunur: <code>DETECTED/CANDIDATE</code>, <code>OBSERVED</code>, <code>QUALIFIED</code>, <code>WATCHING</code>, <code>ARMED</code> (opsiyonel politika), <code>INVALIDATED</code>, <code>EXPIRED</code>, <code>REJECTED</code>, <code>ADMITTED</code>, <code>EXECUTED</code>, <code>CLOSED</code>. Bu liste tek dev bir enumerasyon olarak uygulanmak zorunda değildir. Epistemik episode status, entry-order state ve position state <strong>ayrı tipler</strong> olmalı; D4'teki retest/reclaim kuralı default-on yapılmamalıdır.</p>
 <h2>6.2 Decision-time re-evaluation</h2>
 <p>Aynı fırsatın doğuş anındaki kanıtları immutable <code>BirthSnapshot</code> olarak kalır. Sonraki market belief ve expert stances, ayrı <code>EvaluationSnapshot</code> olarak eklenir. Durum değişimleri tekrar oynatılabilir; cancel/expiry, fill sayılmaz. <code>OpportunityBook</code> fırsatın geçmişini tutar; <strong>Entry Policy</strong> o andaki fiyatın ekonomik olarak kabul edilir olup olmadığını hesaplar. Bir firmanın her fırsatı beklemeye alması veya her güncellemede emir açması gerekmez.</p>
 <h2>6.3 D4'e karşı tasarım savunması</h2>
-<p>D4 state machine gerçek ve baseline'dan farklı davrandı, ama −36,12 USDT'lik raporlanan sonuçla immediate girişe üstün gelmedi. Bu, <code>OpportunityBook</code>'un hafıza ve açıklama için değersiz olduğunu göstermez; <strong>belirli retest/reclaim admission kuralının</strong> ekonomik üstünlüğü desteklenmediğini gösterir. V9 fırsatı izlerken <code>WAIT</code> kararını ve <code>EXPIRED</code> fırsat durumunu ayrı kaydedecek; bekleme zorunluluğu ancak ayrı ekonomik politika ve kanıtla etkinleştirilecektir [P4].</p>
+<p>D4 state machine gerçek ve baseline'dan farklı davrandı, ama −36,12 USDT'lik raporlanan sonuçla immediate girişe üstün gelmedi. Bu, <code>OpportunityBook</code>'un hafıza ve açıklama için değersiz olduğunu göstermez; <strong>belirli retest/reclaim admission kuralının</strong> ekonomik üstünlüğü desteklenmediğini gösterir. V9 fırsatı izlerken <code>WAIT</code> ve <code>EXPIRE</code> durumu tutabilecek, ancak bekleme zorunluluğu ekonomik politikaya göre, kanıta dayalı olacaktır [P4].</p>
 <h2>6.4 Fırsat ile emir arasındaki tek yönlü güven sınırı</h2>
 <p><code>Opportunity</code> veya <code>ExpertStance</code> doğrudan Nautilus order objesi üretemez. Emir istemi <code>TraderDecision</code> → <code>EntryIntent</code> → <code>RiskAdmission</code> → native adapter yolundan geçer. Her bağlantı <code>decision_id</code>, <code>opportunity_id</code>, <code>policy_hash</code> taşır. Fırsat sayısı, expert sayısı veya izlenen sembol sayısı artırıldığında toplam risk yetkisi otomatik büyümez.</p>
 <hr>
-<h1 id="sec-10">VII. Trader Decision Policy: çalıştırılabilir v0, araştırma hedefi vN</h1><figure class="figure"><svg width="532pt" height="505pt"
+<h1 id="sec-09">VII. Trader Decision Policy: V9'un davranış merkezidir</h1><figure class="figure"><svg width="532pt" height="505pt"
  viewBox="0.00 0.00 532.42 504.92" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(12.96 491.96)">
 <title>G</title>
@@ -423,740 +372,259 @@ footer{margin:40px 0 20px;border-top:1px solid #aaa;padding-top:16px;font:12px/1
 </g>
 </g>
 </svg><figcaption>Şekil 1. V9 trading core: native yürütme, kanıt ve yeni piyasa olaylarıyla yeniden değerlendirilen trader karar döngüsü.</figcaption></figure>
-<h2>7.1 Dört farklı sözcük alanı: karar ≠ niyet ≠ olay ≠ gerekçe</h2>
-<p>Council'ın saptadığı <code>WAIT/WATCH</code>, <code>ADJUST/MODIFY</code> tutarsızlığı <strong>bu revizyonda giderildi</strong>. Aşağıdaki adlar V9 tasarımının önerilen <strong>kanonik sözlüğüdür</strong>, kodda şimdiden bulunduğu iddia edilmez. Eski adlar migration adapter'da dönüştürülebilir; ekonomi sözleşmesinde iki eşanlamlı eylem bulunamaz.</p>
-<table>
-<thead>
-<tr>
-<th>Tür</th>
-<th>Kanonik değerler</th>
-<th>Sahip ve anlamı</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>DecisionAction</code></td>
-<td><code>WAIT</code>, <code>ENTER</code>, <code>HOLD</code>, <code>REDUCE</code>, <code>EXIT</code>, <code>ABSTAIN</code></td>
-<td>Versioned policy bir <em>karar</em> üretir; <code>ABSTAIN</code> gerekli girdiler/yetki bilinmediğinde öneri yoktur</td>
-</tr>
-<tr>
-<td><code>IntentKind</code></td>
-<td><code>SUBMIT_ENTRY</code>, <code>CANCEL_ENTRY</code>, <code>AMEND_PROTECTION</code>, <code>SUBMIT_REDUCE</code>, <code>SUBMIT_EXIT</code>, <code>SAFETY_RECONCILE</code></td>
-<td>Bir kararın uygulanabilir alt isteği; emir değildir</td>
-</tr>
-<tr>
-<td><code>OpportunityStatus</code></td>
-<td><code>DETECTED</code>, <code>ACTIVE</code>, <code>INVALIDATED</code>, <code>EXPIRED</code></td>
-<td>Fırsat gözlemi; eylem değil</td>
-</tr>
-<tr>
-<td><code>VenueOrderStatus</code></td>
-<td><code>NOT_SUBMITTED</code>, <code>SUBMITTING</code>, <code>ACCEPTED</code>, <code>PARTIALLY_FILLED</code>, <code>FILLED</code>, <code>CANCEL_PENDING</code>, <code>CANCELED</code>, <code>REJECTED</code>, <code>EXPIRED</code>, <code>UNKNOWN_AT_VENUE</code></td>
-<td>Native order/event gerçekliği; yerel policy değil</td>
-</tr>
-<tr>
-<td><code>PositionStatus</code></td>
-<td><code>FLAT</code>, <code>OPEN</code>, <code>REDUCING</code>, <code>CLOSING</code>, <code>UNKNOWN_AT_VENUE</code></td>
-<td>Venue ile uzlaştırılmış pozisyon durumu</td>
-</tr>
-<tr>
-<td><code>ReasonCode</code></td>
-<td><code>NO_OPPORTUNITY</code>, <code>PRICE_UNFAVORABLE</code>, <code>STALE_DATA</code>, <code>RISK_LIMIT</code>, <code>POSITION_OCCUPIED</code>, <code>ENTRY_PENDING</code>, <code>VENUE_UNCERTAIN</code>, <code>PROTECTION_GAP</code>, <code>THESIS_INVALID</code>, <code>TIME_STOP</code>, <code>NOTIONAL_TOO_SMALL</code>, <code>ESTIMATE_UNKNOWN</code></td>
-<td>Denetim için açıklama, tek başına trade emri değil</td>
-</tr>
-</tbody>
-</table>
-<p><code>WATCH</code> insan için fırsat izleme anlatımıdır; V9 karar aksiyonu değildir. <code>MODIFY</code>, <code>ADJUST</code>, <code>PROTECT</code> ve <code>TIME_STOP</code> yüksek seviyeli <code>DecisionAction</code> değildir: <code>AMEND_PROTECTION</code> bir niyet, <code>TIME_STOP</code> bir neden, <code>CANCEL_TARGET</code> bir alt intent olabilir. <code>REJECT</code> ise hangi katmanda reddedildiğine göre <code>RiskDecision.REJECTED</code> veya <code>VenueOrderStatus.REJECTED</code> olur. Bu terminoloji farklı nesnelerin durumunu tek enum'da şişirmeyi önler.</p>
-<h2>7.2 Otorite ve karar anı</h2>
-<p>Bir karar tetikleyicisi <code>completed_bar_available</code>, risk/event update, order event, position event veya açıkça tanımlı timer olabilir. <strong>Decision cut</strong> tekdüze (<code>decision_cut_ns</code>) ve veri erişilebilirliğiyle bağlıdır: her input için <code>available_at_ns &lt;= decision_cut_ns</code>. Native <code>ts_event</code>, snapshot'ın erişildiği an yerine geçmez.</p>
-<p>Önerilen değişmez akış:</p>
+<h2>7.1 Yanlış ikilik: 'sinyal varsa al' / 'sinyal yoksa hiçbir şey yapma'</h2>
+<p>Profesyonel bir trader, fırsat <strong>henüz ortaya çıkmadan</strong> bağlam oluşturur, fırsatı izler, uygun fiyatı bekler, pozisyon açıkken fikrini günceller ve bazen hiç işlem yapmaz. V9, bu davranışları algoritmik olarak tanımlayacaktır. Bu bir LLM'yi intraday trader koltuğuna oturtmak değildir; ekonomik olarak test edilebilir <strong>decision policy contract</strong> oluşturmaktır.</p>
+<h2>7.2 Karar uzayı</h2>
+<p>[
+\mathcal A_t = {\mathrm{ABSTAIN, WATCH, ENTER, HOLD, MODIFY, REDUCE, EXIT, CANCEL, REJECT}}
+]</p>
+<p><code>WATCH</code> ile <code>ENTER</code>, <code>HOLD</code> ile <code>EXIT</code>, <code>REJECT</code> ile <code>EXPIRED</code> farklıdır. Sistem konumuna göre yasal aksiyon kümesi değişir: pozisyon yokken <code>HOLD</code> verilemez, sahip olunmayan emri <code>CANCEL</code> edilemez, korumasız pozisyon bilinçli olarak bırakılamaz. Uygulamada sözleşme, büyük bir monolit yerine mevcut <code>economics/</code>, <code>domain/</code>, <code>risk/</code>, <code>opportunities/</code>, <code>adapters/</code> içindeki sorumlulukların düzenli API'si olabilir.</p>
+<h2>7.3 Observation → Belief → Decision → Intent → Realization</h2>
 <details class="source-block"><summary>Şema kaynak kodu (Mermaid)</summary><pre><code>flowchart TD
-  MD[Available market / account / venue events] --&gt; SF[Stable PIT decision frame]
-  SF --&gt; EV[Existing MarketState + MarketBelief view]
-  EV --&gt; OP[OpportunityBook and expert stances]
-  OP --&gt; DP[DecisionPolicyV0 or versioned challenger]
-  PN[Reconciled native position, pending orders and confirmed protection] --&gt; DP
-  DP --&gt; IN[Intent proposal]
-  IN --&gt; RG{Independent hard risk + state authority}
-  RG --&gt;|Allowed| NT[Nautilus native adapter]
-  RG --&gt;|Rejected| RE[Reasoned decision receipt]
-  NT --&gt; PN
-  NT --&gt; RE
-  RE -. offline evidence .-&gt; KA[Research and Kaizen extension]
+  MD[Available market and venue events] --&gt; BL[MarketBelief / PIT world state]
+  BL --&gt; OP[Canonical OpportunityBook]
+  BL --&gt; EX[ExpertStances]
+  OP --&gt; DC[Trader Decision Policy]
+  EX --&gt; DC
+  PO[Orders, positions, cash and portfolio] --&gt; DC
+  DC --&gt; IN[Entry / Position / Exit intents]
+  IN --&gt; RG{Hard risk and venue feasibility}
+  RG --&gt;|Approve| NA[Nautilus native orders]
+  RG --&gt;|Reject| AU[Reasoned abstention / audit]
+  NA --&gt; PO
+  NA --&gt; AU
+  AU --&gt; EV[Economic evidence]
+  EV -.-&gt; PR[Offline Pi research director]
 </code></pre></details>
-<p><code>TraderDecision</code> hiçbir zaman native <code>Order</code>un gerçekleştiğini ilan edemez. Emir, pozisyon ve korumanın gerçek durumu Native adapter/venue reconciliation tarafından belirlenir. Hard risk, karar politikasından bağımsızdır. Aynı timestamp'li iki olay için veri kaynaklı <code>event_id</code>, tüketim sırası ve callback semantiği yoksa karar sırası biliniyor varsayılmaz.</p>
-<h2>7.3 Yasal eylem matrisi</h2>
-<table>
-<thead>
-<tr>
-<th>Reconciled state</th>
-<th>Yasal politika kararı</th>
-<th>İzin verilmeyenler</th>
-<th>Güvenli sonuç</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>FLAT</code>, no pending order, PIT valid, baseline opportunity qualified</td>
-<td><code>ENTER</code> / <code>WAIT</code></td>
-<td><code>HOLD</code>, <code>REDUCE</code>, <code>EXIT</code></td>
-<td>Baseline niyeti ancak hard risk onayından geçer</td>
-</tr>
-<tr>
-<td><code>FLAT</code>, no qualified opportunity</td>
-<td><code>WAIT</code></td>
-<td><code>ENTER</code></td>
-<td>No order; reason logged</td>
-</tr>
-<tr>
-<td><code>FLAT</code>, input stale / source unavailable</td>
-<td><code>ABSTAIN</code></td>
-<td>Yeni risk</td>
-<td>No new entry; stale reason</td>
-</tr>
-<tr>
-<td><code>ENTRY_PENDING</code> veya <code>CANCEL_PENDING</code></td>
-<td><code>WAIT</code></td>
-<td>İkinci entry, fill varsayımı</td>
-<td>Venue reconcile; cancel sonucu henüz kesin değil</td>
-</tr>
-<tr>
-<td><code>OPEN</code>, verified protection</td>
-<td><code>HOLD</code> veya yetkili <code>REDUCE/EXIT</code></td>
-<td>Koruma kaybı; ikinci entry by default</td>
-<td>Mevcut bracket korunur</td>
-</tr>
-<tr>
-<td><code>OPEN</code>, unverified / uncovered protection</td>
-<td><code>ABSTAIN</code> <em>policy plane</em></td>
-<td>Yeni risk, tahmini amends</td>
-<td>Ayrı safety controller koruma/azaltma/reconcile uygular</td>
-</tr>
-<tr>
-<td><code>UNKNOWN_AT_VENUE</code> / restart</td>
-<td><code>ABSTAIN</code></td>
-<td>New entry, local-state assumption</td>
-<td>Risk-blok + venue inquiry + operator notice</td>
-</tr>
-<tr>
-<td>Kill switch / hard loss limit</td>
-<td><code>ABSTAIN</code> policy</td>
-<td>Yeni risk artırımı</td>
-<td>Risk controller'ın zorunlu risk azaltma prosedürü</td>
-</tr>
-</tbody>
-</table>
-<p><code>WAIT</code> düz piyasa koşullarında aktif, meşru <em>no trade</em> kararıdır; <code>ABSTAIN</code>, hesap/venue/kanıt otoritesi yetersizliğinde ekonomik politika yargısının geri çekilmesidir. İkisi de istek atılmadı diye aynı nedenle raporlanmamalı.</p>
-<h2>7.4 V9 DecisionPolicyV0 — Baseline-equivalent çalıştırılabilir sözleşme</h2>
-<p><strong>Amaç:</strong> V8'in native karar davranışını <strong>değiştirmeden</strong> yeni karar kimliği, neden, PIT kesiti ve olay tekrarlanabilirliği kazandırmak. Bu, mevcut kodda uygulanmış algoritma değil, repo-grounded acceptance sırasında V8'in karar fonksiyonuna bağlanacak normatif <em>aday prosedürdür</em>. İzin matrisi ve hard safety checks, mevcut baseline'da yanlışlıkla güvenlik boşluğu bulursa byte-equality zorlanmaz; bu sapma <code>SAFETY_REPAIR</code> olarak ayrıca belgelenir. Diğer durumlarda karar ve native fill eşdeğerliliği korunmalıdır.</p>
-<pre><code class="language-python"># PSEUDOCODE — cannot be placed in production unchanged.
-def decide_v0(frame, baseline_v8, reconcile, risk):
-    # Venue/protection safety does not wait for market-data validity.
-    # frame contains a frozen PIT cut, policy/config hash and event IDs
-    venue = reconcile.snapshot(frame.venue_sequence)  # observed, not guessed
-    if venue.status_unknown or not venue.consistent:
-        return receipt(&quot;ABSTAIN&quot;, reason=&quot;VENUE_UNCERTAIN&quot;, safety=&quot;RECONCILE&quot;)
-    if risk.kill_switch_active or venue.exposure_limit_breached:
-        return receipt(&quot;ABSTAIN&quot;, reason=&quot;RISK_LIMIT&quot;, safety=&quot;RISK_REDUCE&quot;)
-    if venue.has_unverified_open_exposure:
-        return receipt(&quot;ABSTAIN&quot;, reason=&quot;PROTECTION_GAP&quot;, safety=&quot;RECONCILE&quot;)
-    if venue.entry_or_cancel_pending:
-        return receipt(&quot;WAIT&quot;, reason=&quot;ENTRY_PENDING&quot;)
-    if venue.has_open_position:
-        # Existing verified static bracket remains sovereign, even if market data is stale.
-        return receipt(&quot;HOLD&quot;, reason=&quot;BASELINE_PROTECTION_PRESERVED&quot;)
-    if not frame.is_causally_valid or frame.market_is_stale:
-        return receipt(&quot;ABSTAIN&quot;, reason=&quot;STALE_DATA&quot;)
-    # Baseline is delegated exactly; no new EV, regime or price model used.
-    proposal = baseline_v8.evaluate(frame.baseline_inputs)
-    if proposal is None:
-        return receipt(&quot;WAIT&quot;, reason=&quot;NO_OPPORTUNITY&quot;)
-    approved = risk.admit(proposal, venue, frame.exchange_metadata)
-    if not approved.ok:
-        return receipt(&quot;WAIT&quot;, reason=approved.typed_reason)
-    if not frame.stable_idempotency_key.is_unused:
-        return receipt(&quot;WAIT&quot;, reason=&quot;DUPLICATE_DECISION&quot;)
-    return receipt(&quot;ENTER&quot;, intent=from_baseline(proposal),
-                   reason=&quot;BASELINE_ADMITTED&quot;)
-</code></pre>
-<p><strong>Not:</strong> Bu psödokod <code>HOLD</code> halinde mevcut V8'in kurallı stop/target kapanışının Native engine tarafından çalışmasını engellemez. Baseline'da güvenli gerçek exit/stop kaynakları varsa bunlar ayrıca bağlanır. <code>risk.admit</code> ve <code>baseline_v8.evaluate</code> var olan API adları olarak <strong>sunulmuyor</strong>: uygulanırken mevcut kaynak fonksiyonlarına eşlenmelidir. <code>stable_idempotency_key.is_unused</code> kalıcı store/venue identity ile atomik sınanmalı; salt bellekte <code>set()</code> ve çağrı öncesi kontrol yarışa açık olur.</p>
-<p><strong>Policy v0 kapsam dışı:</strong> Calibrated EV, router, state-conditioned sizing, yeni bekleme politikası, otomatik rotation, otomatik stop amend ve streaming LLM inference. <code>HOLD</code> mevcut native protective orders'ın korunmasıdır; her bar yeni order oluşturma çağrısı değildir.</p>
-<h2>7.5 Karar kaydının değişmez alanları</h2>
+<p>Geri dönen pozisyon değişimi veya yeni data, gelecekteki karar anında döngüyü yeniden çalıştırır. Şema rol ilişkilerini gösterir; <code>Risk</code> yalnız bir kez çalışmaz: order submit, order update, pozisyon büyütme, stop değişimi ve account kill-switch noktalarında sert olarak tekrar doğrulanır.</p>
+<h2>7.4 Formal sözleşme</h2>
+<p>Bir politika <code>π_v</code> için sürümlenmiş bilgi durumu <code>s_t = (B_t, O_t, E_t, P_t, V_t, C_t)</code> olsun: <code>B</code> MarketBelief, <code>O</code> OpportunityBook, <code>E</code> ExpertEvidence, <code>P</code> portfolio/positions, <code>V</code> venue constraints, <code>C</code> cost model. Amaç en yüksek <em>gerçekleşmiş hindsight PnL</em> değil, <strong>karar anında uygulanabilir kısıtlı fayda</strong>dır:</p>
+<p>[
+\pi_v(s_t) \in \arg\max_{a\in\mathcal A_{\rm feasible}(s_t)} \left{\widehat{\mathbb E}<em>t[\Delta \Pi</em>{\rm net}(a)]-\lambda_t \widehat{\mathcal R}<em>t(a)-\widehat{\mathcal C}</em>{\rm opp,t}(a)\right}.
+]</p>
+<p>Bu, bir <strong>tasarım hedef fonksiyonudur</strong>, bugün bütün terimlerin doğru kalibre edildiği iddiası değildir. Verisi bulunmayan expected net utility <code>UNKNOWN</code> olmalı; sistem uydurma edge ile sermaye tahsis etmemeli. <code>STOP / RISK_LIMIT / NOTIONAL_MIN / MARGIN</code> gibi hard constraints skalar beklentiyle geçersiz kılınamaz. Fayda, <code>gross alpha</code>, <code>commissions</code>, <code>spread</code>, <code>slippage</code>, <code>funding</code>, <code>capacity</code>, <code>uncertainty</code> bileşenleriyle ayrı açıklanır.</p>
+<h2>7.5 Karar kaydı</h2>
 <pre><code class="language-json">{
-  &quot;schema_version&quot;: &quot;v9.decision.v0&quot;,
-  &quot;decision_id&quot;: &quot;content-addressed-or-durable-id&quot;,
-  &quot;decision_cut_ns&quot;: &quot;int64 from actual run&quot;,
-  &quot;source_event_ids&quot;: [&quot;native-or-catalog-id&quot;],
-  &quot;data_available_max_ns&quot;: &quot;int64 from actual observation&quot;,
-  &quot;policy_hash&quot;: &quot;sha256 of source and config contract&quot;,
-  &quot;market_state_ref&quot;: &quot;immutable market-state pointer&quot;,
-  &quot;opportunity_id&quot;: null,
-  &quot;reconciled_venue_snapshot_id&quot;: &quot;native snapshot reference&quot;,
+  &quot;decision_id&quot;: &quot;decision-...&quot;,
+  &quot;decision_time_ns&quot;: 0,
+  &quot;market_belief_id&quot;: &quot;belief-...&quot;,
+  &quot;opportunity_id&quot;: &quot;opp-...&quot;,
+  &quot;active_position_ids&quot;: [],
+  &quot;policy_id&quot;: &quot;v9-decision-v1&quot;,
   &quot;action&quot;: &quot;WAIT&quot;,
-  &quot;intent_ids&quot;: [],
-  &quot;reason_codes&quot;: [&quot;NO_OPPORTUNITY&quot;],
-  &quot;execution_authority&quot;: &quot;DIAGNOSTIC_ONLY&quot;,
-  &quot;economic_estimate_status&quot;: &quot;NOT_ESTIMATED&quot;,
-  &quot;safety_status&quot;: &quot;VERIFIED_OR_NOT_APPLICABLE&quot;
+  &quot;reason_codes&quot;: [&quot;PRICE_UNFAVORABLE&quot;],
+  &quot;feasibility&quot;: &quot;PASS&quot;,
+  &quot;economic_estimate_status&quot;: &quot;NOT_IDENTIFIABLE&quot;,
+  &quot;candidate_intent_id&quot;: null,
+  &quot;data_available_max_ns&quot;: 0,
+  &quot;policy_hash&quot;: &quot;sha256:...&quot;
 }
 </code></pre>
-<p>JSON içindeki metinler <strong>şema örneğidir</strong>, gözlenmiş run değildir. Üretim alanı zaman, hash, native order/client ID ile gerçek veri üzerinden doldurulmalı; <code>UNKNOWN</code> gizlenmemelidir. Bir <code>decision_id</code>, farklı hesap/venue snapshot altında rastgele tekrar kullanılamaz. Idempotency anahtarı <code>(strategy_id, policy_hash, account, canonical_opportunity_id, intent_revision)</code> ve native persisted client_order_id ilişkisiyle tanımlanır; kesin tuple uygulamadan önce gerçek NETTING/OCO semantiğine göre sınanır.</p>
-<h2>7.6 Öncelik, unknown ve eşitlik çözümü</h2>
-<p>Öncelik sırası: <strong>(P0) exchange/venue gerçekliğini uzlaştır → (P1) kill-switch ve açık koruma bütünlüğü → (P2) açık fill/cancel/replace hareketini bitir → (P3) açık pozisyonu mevcut doğrulanmış statik kurallarla yönet → (P4) flat koşulda mevcut V8 baseline kararını değerlendir → (P5) new challenger kararını <em>yalnız deney bayrağı altında</em> sun.</strong> Aynı anda tetiklenen olaylarda, at-most-once intent side-effect ve account-specific serial mutation garantisi verilir; pending venue order için yeni bağımsız intent açılmaz.</p>
-<p><strong>Bilinmeyen ekonomik beklenti:</strong> <code>expected_net_value=UNKNOWN</code> ise <em>yeni V9 utility-optimal allocation</em> açılamaz. Mevcut baseline'ın önceden onaylı mekanik koşullarını diagnostic veya yetkili mevcut deployment kontratı kapsamında taklit etmek <code>unknown EV = zero</code> varsayımı anlamına gelmez. Bilinmeyen liquidation distance ile canlı yeni risk açılmaz; diagnostic simülasyon ayrı etiketlenir. İki benzer ekonomik fırsatta edge-estimate yoksa <strong>keyfi ID sırasıyla daha yüksek sermaye seçilmez</strong>, mevcut baseline/occupancy politikası korunur.</p>
-<h2>7.7 Dinamik trader hedefi: ölçülebilir fakat şimdilik kilitli</h2>
-<p>Uzun vadeli hedef, ortak uygun ufuk altında tanımlanan aksiyon faydasıdır:</p>
-<p>[
-Q_h(s,a) = \mathbb{E}[\Delta E_{t:t+h}\mid \mathcal F_t,a,\pi^{\mathrm{cont}}]
--\lambda,\rho_h(s,a),
-\qquad a\in\mathcal A_{\mathrm{admissible}}(s).
-]</p>
-<p>Bu <strong>araştırma hipotezidir</strong>, çalışan v0 politikasının hesaplaması değildir. Önce ortak değerlendirme ufku <code>h</code>, continuation policy, equity/fee/funding tanımı, risk functional ve ajan dışı kalibrasyon prosedürü sabitlenmelidir. <code>\Delta E</code> zaten masraflar sonrası net equity ise spread, fees ve funding ikinci kez çıkarılmaz. <code>opportunity_cost</code> ancak aynı zamanda, aynı sermaye ve venue kısıtında ex-ante uygulanabilir alternatif tanımı varsa ayrıca raporlanır; keyfî skalar ceza değildir. <code>Q</code> hesaplanamıyorsa <code>NOT_IDENTIFIABLE</code>, optimizer yok. Uzun vadeli karar beyni bu deneysel ilkeyle gelişebilir; bugünkü kodmuş gibi anlatılamaz.</p>
-<h2>7.8 Karar sözleşmesi fixture seti</h2>
-<table>
-<thead>
-<tr>
-<th>Fixture</th>
-<th>Başlangıç</th>
-<th>Olay</th>
-<th>Beklenen V0 karar / niyet</th>
-<th>Kritik iddia</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>DEC-001</code></td>
-<td>Flat, PIT valid, baseline opportunity true</td>
-<td>Yeni completed bar</td>
-<td><code>ENTER</code> + baseline intent</td>
-<td>Native parity; yeni EV yok</td>
-</tr>
-<tr>
-<td><code>DEC-002</code></td>
-<td>Flat, market stale</td>
-<td>Yeni bar</td>
-<td><code>ABSTAIN</code>, no intent</td>
-<td>Stale risk yok</td>
-</tr>
-<tr>
-<td><code>DEC-003</code></td>
-<td>Flat, no opportunity</td>
-<td>Taze bar</td>
-<td><code>WAIT</code></td>
-<td>İzleme ≠ zorunlu entry</td>
-</tr>
-<tr>
-<td><code>DEC-004</code></td>
-<td>Entry submitted</td>
-<td>Aynı bar duplicate signal</td>
-<td><code>WAIT/ENTRY_PENDING</code></td>
-<td>Bir order daha yok</td>
-</tr>
-<tr>
-<td><code>DEC-005</code></td>
-<td>Partial fill + open qty</td>
-<td>Position update</td>
-<td><code>HOLD</code> ancak verified protection varsa</td>
-<td>Kısmi exposure korunur</td>
-</tr>
-<tr>
-<td><code>DEC-006</code></td>
-<td>Venue timeout, order unknown</td>
-<td>Retry</td>
-<td><code>ABSTAIN/RECONCILE</code></td>
-<td>Kör tekrar submit yok</td>
-</tr>
-<tr>
-<td><code>DEC-007</code></td>
-<td>Open protected position</td>
-<td>Regime label flips</td>
-<td><code>HOLD</code></td>
-<td>v0 pozisyonu belief ile kapatmaz</td>
-</tr>
-<tr>
-<td><code>DEC-008</code></td>
-<td>Risk limit triggered</td>
-<td>Entry opportunity</td>
-<td><code>ABSTAIN/RISK_LIMIT</code></td>
-<td>Expert risk override yok</td>
-</tr>
-<tr>
-<td><code>DEC-009</code></td>
-<td>Same bar replay duplicated</td>
-<td>Same event ID</td>
-<td>No second side-effect</td>
-<td>Idempotency</td>
-</tr>
-<tr>
-<td><code>DEC-010</code></td>
-<td>Closed native stop, opportunity active</td>
-<td>Fill callback</td>
-<td>Reconcile, next valid cut</td>
-<td>Fırsat ve pozisyon farklı durum</td>
-</tr>
-</tbody>
-</table>
-<p>Bunlar gerçek koda karşı tests/specification hâline gelecek <strong>expected cases</strong>dir, şu anda başarılı test raporu değildir.</p>
+<p>Örnek gösterimdir; <code>0</code> ve <code>...</code> placeholder alanları <strong>gerçek run artifact'ı değildir</strong>. Üretimde id/hash/timestamps, native kaynaklardan gelmeli ve eksikse <code>BLOCKED</code> olmalıdır. Karar nedenleri yalnız raporda değil, yürütmenin üretildiği noktada oluşturulmalıdır. Karar verdiği sırada trade yoksa da neden kaydedilir.</p>
+<h2>7.6 Aksiyon önceliği ve conflict policy</h2>
+<p>Deterministik öncelik: (0) circuit breaker / kill switch; (1) mevcut pozisyonun korunması ve venue safety; (2) gerekli risk azaltma; (3) hazır order cancellation/reconciliation; (4) portfolio capacity kararları; (5) yeni entry intent; (6) research telemetry. Bu <strong>koruyucu sıralama</strong> üretime kabul edilmeden önce native callback order testlerine bağlanmalıdır. Bir expert'ın bullish olması risk stop'unu kaldırmaz. İki fırsat çelişirse aynı ekonomik maruziyet için identifier-based dedup ve risk kısıtları uygulanır.</p>
+<h2>7.7 Açık pozisyon varken karar yeniden değerlendirme</h2>
+<p>Yeni state'e geçildiğinde yapılacak otomatik aksiyon <code>always exit</code> olamaz. Pozisyon gerekçesi, kalan risk, maliyet, beklenen tutma değeri, kill switch ve native koruma durumu birlikte değerlendirilir. Ani market shock, önemli liquidity change veya exposure violation ayrı işlem adaylarıdır. Gereksiz bar-bar stop oynatma churn yaratır; policy rate limit ve idempotence gerektirir.</p>
 <hr>
-<h1 id="sec-11">VIII. Entry &amp; Order Management: gerçek durumun eşzamanlı nesneleri</h1><figure class="figure"><svg width="1487pt" height="154pt"
- viewBox="0.00 0.00 1486.80 153.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(14.4 139.4)">
-<title>V9Decision</title>
-<polygon fill="white" stroke="transparent" points="-14.4,14.4 -14.4,-139.4 1472.4,-139.4 1472.4,14.4 -14.4,14.4"/>
-<!-- Decision v0 -->
-<g id="node1" class="node">
-<title>Decision v0</title>
-<path fill="#dfeafa" stroke="#45627c" d="M193,-42C193,-42 12,-42 12,-42 6,-42 0,-36 0,-30 0,-30 0,-12 0,-12 0,-6 6,0 12,0 12,0 193,0 193,0 199,0 205,-6 205,-12 205,-12 205,-30 205,-30 205,-36 199,-42 193,-42"/>
-<text text-anchor="middle" x="102.5" y="-24.4" font-family="Arial" font-size="12.00">Trader Decision v0</text>
-<text text-anchor="middle" x="102.5" y="-11.4" font-family="Arial" font-size="12.00">WAIT · ENTER · HOLD · ABSTAIN</text>
-</g>
-<!-- Intent -->
-<g id="node2" class="node">
-<title>Intent</title>
-<path fill="#edf3fa" stroke="#45627c" d="M469,-42C469,-42 248,-42 248,-42 242,-42 236,-36 236,-30 236,-30 236,-12 236,-12 236,-6 242,0 248,0 248,0 469,0 469,0 475,0 481,-6 481,-12 481,-12 481,-30 481,-30 481,-36 475,-42 469,-42"/>
-<text text-anchor="middle" x="358.5" y="-24.4" font-family="Arial" font-size="12.00">Intent / submit control</text>
-<text text-anchor="middle" x="358.5" y="-11.4" font-family="Arial" font-size="12.00">APPROVED · SUBMITTING · UNKNOWN</text>
-</g>
-<!-- Decision v0&#45;&gt;Intent -->
-<g id="edge1" class="edge">
-<title>Decision v0&#45;&gt;Intent</title>
-<path fill="none" stroke="#617b93" stroke-width="1.3" d="M205.15,-21C205.15,-21 229.58,-21 229.58,-21"/>
-<polygon fill="#617b93" stroke="#617b93" stroke-width="1.3" points="229.58,-23.1 235.58,-21 229.58,-18.9 229.58,-23.1"/>
-</g>
-<!-- Native Order -->
-<g id="node3" class="node">
-<title>Native Order</title>
-<path fill="#f0f3f7" stroke="#45627c" d="M766,-42C766,-42 524,-42 524,-42 518,-42 512,-36 512,-30 512,-30 512,-12 512,-12 512,-6 518,0 524,0 524,0 766,0 766,0 772,0 778,-6 778,-12 778,-12 778,-30 778,-30 778,-36 772,-42 766,-42"/>
-<text text-anchor="middle" x="645" y="-24.4" font-family="Arial" font-size="12.00">Native Order State</text>
-<text text-anchor="middle" x="645" y="-11.4" font-family="Arial" font-size="12.00">ACCEPTED · PARTIAL · CANCEL_PENDING</text>
-</g>
-<!-- Intent&#45;&gt;Native Order -->
-<g id="edge2" class="edge">
-<title>Intent&#45;&gt;Native Order</title>
-<path fill="none" stroke="#617b93" stroke-width="1.3" d="M481.25,-21C481.25,-21 505.99,-21 505.99,-21"/>
-<polygon fill="#617b93" stroke="#617b93" stroke-width="1.3" points="505.99,-23.1 511.99,-21 505.99,-18.9 505.99,-23.1"/>
-</g>
-<!-- Exposure -->
-<g id="node4" class="node">
-<title>Exposure</title>
-<path fill="#e5f1e9" stroke="#4e8462" d="M1006,-78C1006,-78 865,-78 865,-78 859,-78 853,-72 853,-66 853,-66 853,-48 853,-48 853,-42 859,-36 865,-36 865,-36 1006,-36 1006,-36 1012,-36 1018,-42 1018,-48 1018,-48 1018,-66 1018,-66 1018,-72 1012,-78 1006,-78"/>
-<text text-anchor="middle" x="935.5" y="-60.4" font-family="Arial" font-size="12.00">Position / Exposure</text>
-<text text-anchor="middle" x="935.5" y="-47.4" font-family="Arial" font-size="12.00">FLAT · OPEN · UNKNOWN</text>
-</g>
-<!-- Native Order&#45;&gt;Exposure -->
-<g id="edge3" class="edge">
-<title>Native Order&#45;&gt;Exposure</title>
-<path fill="none" stroke="#617b93" stroke-width="1.3" d="M778.15,-33C854.78,-33 936,-33 936,-33 936,-33 936,-33.29 936,-33.29"/>
-<polygon fill="#617b93" stroke="#617b93" stroke-width="1.3" points="933.9,-29.94 936,-35.94 938.1,-29.94 933.9,-29.94"/>
-<text text-anchor="middle" x="815.5" y="-52" font-family="Arial" font-size="10.00">partial fills</text>
-</g>
-<!-- Reconciler -->
-<g id="node6" class="node">
-<title>Reconciler</title>
-<path fill="#fff2df" stroke="#b78647" d="M1446,-69C1446,-69 1286,-69 1286,-69 1280,-69 1274,-63 1274,-57 1274,-57 1274,-39 1274,-39 1274,-33 1280,-27 1286,-27 1286,-27 1446,-27 1446,-27 1452,-27 1458,-33 1458,-39 1458,-39 1458,-57 1458,-57 1458,-63 1452,-69 1446,-69"/>
-<text text-anchor="middle" x="1366" y="-51.4" font-family="Arial" font-size="12.00">Safety Reconciliation</text>
-<text text-anchor="middle" x="1366" y="-38.4" font-family="Arial" font-size="12.00">Venue / account is authoritative</text>
-</g>
-<!-- Native Order&#45;&gt;Reconciler -->
-<g id="edge5" class="edge">
-<title>Native Order&#45;&gt;Reconciler</title>
-<path fill="none" stroke="#617b93" stroke-width="1.3" stroke-dasharray="5,2" d="M778.08,-30C778.08,-30 1267.74,-30 1267.74,-30"/>
-<polygon fill="#617b93" stroke="#617b93" stroke-width="1.3" points="1267.74,-32.1 1273.74,-30 1267.74,-27.9 1267.74,-32.1"/>
-</g>
-<!-- Protection -->
-<g id="node5" class="node">
-<title>Protection</title>
-<path fill="#e5f1e9" stroke="#4e8462" d="M1231,-125C1231,-125 1061,-125 1061,-125 1055,-125 1049,-119 1049,-113 1049,-113 1049,-95 1049,-95 1049,-89 1055,-83 1061,-83 1061,-83 1231,-83 1231,-83 1237,-83 1243,-89 1243,-95 1243,-95 1243,-113 1243,-113 1243,-119 1237,-125 1231,-125"/>
-<text text-anchor="middle" x="1146" y="-107.4" font-family="Arial" font-size="12.00">Verified Protection</text>
-<text text-anchor="middle" x="1146" y="-94.4" font-family="Arial" font-size="12.00">COVERED · GAP · REPLACING</text>
-</g>
-<!-- Exposure&#45;&gt;Protection -->
-<g id="edge4" class="edge">
-<title>Exposure&#45;&gt;Protection</title>
-<path fill="none" stroke="#617b93" stroke-width="1.3" d="M1018.09,-73.5C1077.06,-73.5 1146,-73.5 1146,-73.5 1146,-73.5 1146,-76.82 1146,-76.82"/>
-<polygon fill="#617b93" stroke="#617b93" stroke-width="1.3" points="1143.9,-76.82 1146,-82.82 1148.1,-76.82 1143.9,-76.82"/>
-</g>
-<!-- Exposure&#45;&gt;Reconciler -->
-<g id="edge6" class="edge">
-<title>Exposure&#45;&gt;Reconciler</title>
-<path fill="none" stroke="#617b93" stroke-width="1.3" stroke-dasharray="5,2" d="M1018.25,-52.5C1018.25,-52.5 1267.82,-52.5 1267.82,-52.5"/>
-<polygon fill="#617b93" stroke="#617b93" stroke-width="1.3" points="1267.82,-54.6 1273.82,-52.5 1267.82,-50.4 1267.82,-54.6"/>
-</g>
-<!-- Protection&#45;&gt;Reconciler -->
-<g id="edge7" class="edge">
-<title>Protection&#45;&gt;Reconciler</title>
-<path fill="none" stroke="#617b93" stroke-width="1.3" stroke-dasharray="5,2" d="M1243.14,-104C1302.07,-104 1366,-104 1366,-104 1366,-104 1366,-75.17 1366,-75.17"/>
-<polygon fill="#617b93" stroke="#617b93" stroke-width="1.3" points="1368.1,-75.17 1366,-69.17 1363.9,-75.17 1368.1,-75.17"/>
-</g>
-</g>
-</svg><figcaption>Şekil 2. Eşzamanlı ve ayrı karar/niyet/emir/pozisyon/koruma durumları; venue safety reconciliation.</figcaption></figure>
-<h2>8.1 Ayrım: fırsat kalitesi ≠ giriş kalitesi ≠ fill kalitesi</h2>
-<p>D4'te gözlenen 3,8 bar bekleme, daha kötü giriş fiyatı ve occupied fırsatlar; seçici görünen bir politikanın ekonomik açıdan iyi olduğu anlamına gelmediğini gösterir [P4]. Bu nedenle <code>EntryIntent</code>, <strong>fırsatın kimliği</strong> veya <code>OpportunityBook</code>un state'i değil, bir karar sonucu oluşturulmuş, süresi ve fiyat şartları olan typed istektir.</p>
-<pre><code class="language-text">EntryIntentV1 (PROPOSED):
-  decision_id, opportunity_id, instrument_id, account_id
-  policy_hash, exchange_metadata_hash
-  side, requested_qty, allowable_price_bound, trigger_availability_ns
-  expires_at_ns, order_kind, stop_basis_ref
-  estimated_cost_status, submission_idempotency_key
-</code></pre>
-<p><code>MARKET_NOW</code>, <code>LIMIT_WITH_TTL</code>, <code>SKIP_PRICE</code>, <code>SKIP_STALE</code> gibi seçenekler ayrı <em>entry-policy outcome/reason</em> olarak temsil edilir; <code>WAIT_BELIEF</code> kanonik <code>DecisionAction</code> değildir. <code>LIMIT_WITH_TTL</code> için price-touch tek başına fill ispatı değildir; maker queue, latency ve spread iddiaları veri/sim destek düzeyini aşamaz.</p>
-<h2>8.2 Üç ortogonal state machine</h2>
-<p>Üst düzey anlatı <code>INTENT→ORDER→POSITION</code> kolaylığı için çizilebilir ama <strong>doğrusal yürütme</strong> iddiası yanlıştır. Partial fill sırasında emir hâlâ kısmen açıktır; pozisyon ve koruma aynı anda vardır. Aşağıdaki makine ilişkileri eşzamanlıdır.</p>
-<pre><code class="language-text">INTENT:  PROPOSED -&gt; RISK_REJECTED | APPROVED -&gt; SUBMIT_PENDING
-         -&gt; NATIVE_ACK | UNKNOWN_SUBMISSION | SUPERSEDED
-ORDER:   NOT_SUBMITTED -&gt; SUBMITTING -&gt; ACCEPTED -&gt; PARTIALLY_FILLED
-                  -&gt; FILLED | CANCEL_PENDING -&gt; CANCELED | REJECTED
-         any uncertain state -&gt; UNKNOWN_AT_VENUE -&gt; RECONCILED
-POSITION: FLAT -&gt; OPEN(partial or full) -&gt; REDUCING -&gt; FLAT
-               any uncertain state -&gt; UNKNOWN_AT_VENUE -&gt; RECONCILED
-PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
-</code></pre>
-<p><code>protection</code> ayrı bir doğrulanmış ilişki/görünüm olabilir; yeni bir network service olması gerekmez. <code>PositionStatus.OPEN</code> yalnız <code>ORDER.FILLED</code> sonrasında başlamaz; <strong>ilk nonzero fill'den itibaren</strong> açık miktar ve risk vardır. Koruma kapsamı <code>verified_reduce_only_qty &gt;= exposed_qty</code> gibi kaba bir kuraldan daha zordur; aynı pozisyon için ters yönde stop/target çifte sayılması, margin/NETTING dönüşleri ve native order list semantics dikkate alınmalıdır. Gerçek değer, exchange native ID ve open qty ile hesaplanır.</p>
-<h2>8.3 Olay kimlikleri ve otorite</h2>
-<p><code>decision_id</code>, <code>intent_id</code>, <code>client_order_id</code>, <code>venue_order_id</code>, <code>trade_id/last_trade_id</code>, <code>native_position_id</code>, <code>campaign_id</code> ve <code>cashflow_id</code> farklı kimliklerdir; aynı <code>ts_event</code> bağlayıcı anahtar değildir. <code>client_order_id → intent_id</code> doğum anında; <code>venue_order_id → client_order_id</code> native ack alındığında; <code>last_trade_id → order_id → campaign_id</code> her fill olayında kayıt edilir. NETTING position ID ile campaign ID ayrı kalır. Çoğulluk: 1 intent → ≥0 orders (retries/replacements), 1 order → ≥0 fill events, 1 position → birçok campaign event olabilir. Bu kardinaliteler denetlenebilir kayıt olmalıdır.</p>
-<p><strong>Mülkiyet:</strong> Policy yalnız niyet önerir; Risk Guard onaylar/reddeder; Native Adapter order mutasyonu yapar; venue'nin ACK/FILL/CANCEL/REJECT cevapları realized state'i günceller; Safety Reconciler riskteki açık pozisyonu bağımsız korur. Hiçbir <code>OrderSubmitted</code> kaydı <code>OrderAccepted</code> yerine geçmez.</p>
-<h2>8.4 Yarış durumları ve sınır koşulları</h2>
-<table>
-<thead>
-<tr>
-<th>Yarış / hata</th>
-<th>Yasak kestirme</th>
-<th>Asgari güvenli tepki</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Entry submit timeout</td>
-<td>&quot;Emir gitmedi&quot; varsayıp aynı order'ı yeniden yolla</td>
-<td>Idempotent client ID ile venue sorgusu, belirsizlikte yeni risk blok</td>
-</tr>
-<tr>
-<td>Cancel pending iken partial fill</td>
-<td>Cancel success sanmak</td>
-<td>Native fill'i işleyip exposure/protection güncelle, order status'u ayrı izle</td>
-</tr>
-<tr>
-<td>Stop amend reject</td>
-<td>Eski stop iptal edildi sanmak</td>
-<td>Eski korumayı doğrula; gap oluştuysa safety workflow</td>
-</tr>
-<tr>
-<td>Stop cancel/replace ile position closes</td>
-<td>Yeni stop koymaya devam et</td>
-<td>Confirmed qty/position identity ile stale amend iptal</td>
-</tr>
-<tr>
-<td>Duplicate/reordered callbacks</td>
-<td>Fill'i iki kere muhasebeleştir</td>
-<td>Monotonic order version + dedup trade ID</td>
-</tr>
-<tr>
-<td>Restart after disconnect</td>
-<td>Local JSONL'i venue hakikati saymak</td>
-<td>Account/venue positions + pending orders + cash yeniden oku, reconcile</td>
-</tr>
-<tr>
-<td>Unknown protection status</td>
-<td>Sadece <code>HOLD</code> ve sessizlik</td>
-<td>Koruma/risk acil prosedürü, yeni risk yasağı, operatör uyarısı</td>
-</tr>
-<tr>
-<td>TTL expiration</td>
-<td>Cancel gönderince fill olmaz kabulü</td>
-<td>ACK gelene kadar <code>CANCEL_PENDING</code>, geç fill'ler hesaplanır</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Koruma invariantı:</strong> Bilinen ve onaylanmış açık risk için, eski stop'un iptali ve yeni stop'un exchange tarafından kabulü arasındaki potansiyel boşluk tahminle kapatılamaz. Venue native atomic modify/replace destekliyorsa sürüme özel test edilecek; desteklemiyorsa yeni proteksiyon planı gerçekte oluşturulmadan eski korumadan vazgeçilmez <em>veya</em> safety controller'ın açıkça belgelenmiş risk azaltma prosedürü uygulanır. Bu, her venue ve OMS için farklı davranabileceğinden &quot;atomik&quot; olduğu varsayılmaz.</p>
-<h2>8.5 Restart / reconciliation protokolü</h2>
-<ol>
-<li>Strategy <strong>yeni risk açmayı durdurur</strong> ve current reconciliation epoch kaydeder.</li>
-<li>Venue/account açık pozisyon, bekleyen emir, executed fills ve cash durumunu native API ile okur; zamanlar/source IDs saklanır.</li>
-<li>Local intent/order/position history ile çift yönlü farkı çıkarır; orphan/misattribution belirler.</li>
-<li>Açık pozisyonun qty/stop/target kapsamını doğrular. Belirsiz risk, <code>RECONCILIATION_BLOCKED</code>; yetkili risk azaltımı gerekiyorsa önceden tanımlı operasyonel playbook işler.</li>
-<li>Tekrarlanmış event'lerin etkisizliği doğrulanır, yalnız uzlaşmış state sonrası yeni giriş tekrar açılır.</li>
-<li>Persisted receipt'ler yeniden başlatmaya dayanır; sistem <code>UNKNOWN_AT_VENUE</code>yü sahte <code>FLAT</code>a dönüştürmez.</li>
-</ol>
-<p>Bu algoritma <strong>önerilen kabul sözleşmesidir</strong>. Canlı ortamda güvenilir olduğu iddia edilmez; native NETTING/isolated margin + exchange incident testleri gerekir.</p>
-<h2>8.6 Execution fixture'ları</h2>
-<p><code>ORD-001</code> one order N partial fills → qty sum ve per-fill fee doğruluğu; <code>ORD-002</code> cancel/fill cross → final qty doğru; <code>ORD-003</code> submit timeout → duplicate zero; <code>ORD-004</code> stop amendment REJECTED → protection false-PASS yok; <code>ORD-005</code> native STOP/target child relation → gerçek order IDs; <code>ORD-006</code> restart after accepted-but-unseen order → new risk blocked; <code>ORD-007</code> simultaneous stop/target with bar OHLC → STOP-FIRST yalnız sim policy, tarihsel gerçek değil; <code>ORD-008</code> native order sequence tied to exact NautilusTrader 2.0.0rc4; <code>ORD-009</code> mark/funding timestamp separation. Golden inputs ve beklenen etki, implementasyonda kendi üretici kodundan bağımsız hesaplanır.</p>
-<p><strong>Düzgün API için ölçüt:</strong> Bir piyasa olayını veya callback'i iki kez oynatmak para, emir ve risk yan etkisini çoğaltmamalıdır. Aynı timestamp ama farklı native trade ID'ler ise gerçekten farklı fill'ler olarak korunmalıdır.</p>
-<hr>
-<h1 id="sec-12">IX. Dynamic Position Management: sürekli değerlendirme, sınırlı eylem</h1>
-<h2>9.1 Hedef ve mevcut kanıtın sınırı</h2>
-<p>V9 pozisyon açıkken piyasa değişimini gözlemlemeyi bırakmamalıdır. <strong>Bu, her market-state güncellemesinde stop'u değiştirmek veya pozisyonu kapatmak anlamına gelmez.</strong> Native stop güncelleme mekanikleri ve C4'te raporlanan 21 amend, bir davranışın mekanik araştırmasını destekler. C4 eşleştirilmiş tahmin farkı +0,1008R ve CI sıfırı kapsar; üstünlük kanıtı değildir [P3]. İlk v0 <strong>mevcut statik bracket</strong> davranışını korur. Dinamik policy default-off sürümlü challenger'dır.</p>
-<h2>9.2 Immutable PositionThesis ve reconciliation</h2>
-<p><code>PositionThesis = {entry_decision_id, opportunity_id, entry_cut, entry_evidence_ids, policy_version, initial_risk_per_unit, initial_protective_stop, invalidation_rule_version}</code> başlangıç gerekçesinin <strong>tarihsel kanıtıdır</strong>. Sonraki görüş, immutable thesis'ı değiştirmez; <code>PositionEvaluationSnapshot</code> olarak eklenir. <code>position_qty</code>, native <code>avg_entry_px</code>, open reduction orders, confirmed stop, realized fill events ve funding liability <strong>native gerçeklik</strong>tir. İzleme anında gereken veri kesiti PIT'dir. Orijinal R paydası sonradan yeniden ölçeklenmez.</p>
-<h2>9.3 Dinamik aksiyonların tek anlamı</h2>
-<p><code>HOLD</code>: mevcut korumanın ve native target/stop yolunun korunması; trade açma veya stop iptal anlamına gelmez. <code>REDUCE</code> ve <code>EXIT</code>: quantity-bounded intent ve hard risk admission gerektirir. <code>AMEND_PROTECTION</code>: yeni bir karar eylemi değil, önceden yetkilendirilmiş pozisyon policy'sinin alt intent'idir. <code>TIME_STOP</code> yalnız çıkış gerekçesidir. Orijinal stop'u uzaklaştırmak, hedef dışında risk büyütmek ve default-on sürekli amend yasaktır.</p>
-<h2>9.4 İlk test edilebilir dinamik challenger (P1)</h2>
-<p>Tek politika seçimi ön-kayıt gerektirir. Örnek aday: <code>BE_AFTER_FAVORABLE_EXCURSION_V1</code> (C4 ile ilişkili ama ondan otomatik türetilmiş geçerli edge değildir). Gerekli koşullar:</p>
+<h1 id="sec-10">VIII. Entry &amp; Order Management: selection ile execution arasındaki ekonomik köprü</h1>
+<h2>8.1 Ayrım</h2>
+<p><code>Opportunity quality ≠ Entry quality ≠ Fill quality</code>. Fırsat iyi olabilir, fiyat kötü olabilir; fiyat uygun olabilir, order hiç dolmayabilir; order dolabilir, maliyetli olabilir. D4 tam bu ayrışmayı gözlemiştir. EntryPolicy, sinyali üretmekten çok <strong>giriş yapılabilir ekonomik fiyat ve süre penceresi</strong> oluşturur.</p>
+<h2>8.2 EntryIntent hedef sözleşmesi</h2>
+<p><code>EntryIntent = {decision_id, opportunity_id, side, instrument, valid_after_ns, expires_at_ns, acceptable_price_interval, order_policy, structural_stop_ref, size_policy_id, expected_friction_status, kill_conditions, cancel_reasons, venue_version}</code>. Native market/limit/post-only gibi davranışlar gerçek exchange metadata ve mevcut emir adapter yeteneğiyle sınırlanır; elde yalnız bar varsa kuyruk pozisyonu veya maker fill için güvenli bir garanti verilemez.</p>
+<h2>8.3 Beş giriş kararı</h2>
+<p>(1) <code>MARKET_NOW</code>: yalnız geçerli piyasa fiyatı ve maliyet bütçesi varsa. (2) <code>LIMIT_WAIT</code>: fiyat bandı ve TTL ile; touched-price ≠ filled-price. (3) <code>SKIP_PRICE</code>: model görüşü doğru olsa da fiyat kaçtı. (4) <code>WAIT_BELIEF</code>: bilgi yetersiz; ancak beklemek sistematik zorunlu değil. (5) <code>CANCEL_STALE</code>: entry intent artık güncel piyasa veya risk koşuluyla uyuşmuyor. Bunların hiçbiri ekonomik açıdan otomatik üstün ilan edilmez.</p>
+<h2>8.4 Bar-only replay problemi</h2>
+<p>NautilusTrader'ın belgelenmiş backtest yürütme sırası, data exchange üzerinde işlendiğinde mevcut order'ların etkilenmesi, ardından strategy callbacks ve aynı timestamp'te yeni komutların settle edilmesi şeklindedir [T1]. Bar-only MARKET emri, geçmiş bar kapanışını gerçekte elde edilebilir bir fiyat gibi kullanıyorsa model hatası oluşabilir. <strong>Entry availability</strong> ve <strong>fill model</strong> ayrıdır. Bu yüzden: aynı-kapanış profile <code>DIAGNOSTIC_ONLY</code>, next-observable execution profile ayrı, L1/L2/ticks mevcutsa onların iddiaları ayrı, funding/fees/slippage artan doğrulukta modellenir [T1, T2]. Maliyetli execution profile B3 doğrulanmadığı sürece o kol maliyet iddiası vermez.</p>
+<h2>8.5 Yaşam döngüsü: ideal native olaylar</h2>
+<p><code>INTENT_CREATED → RISK_APPROVED → ORDER_SUBMITTED → ORDER_ACCEPTED → PARTIALLY_FILLED* → FILLED|CANCELED|REJECTED|EXPIRED → POSITION_OPENED/UPDATED/CLOSED</code>; aynı zaman damgası yeterli join key değildir; native order id/client order id ve event id önceliklidir. Exchange callbacks için causal/invariant testleri gerekir.</p>
+<h2>8.6 Kabul testleri</h2>
 <ul>
-<li>Olay tetikleyicisi yalnız <em>tamamlanmış ve erişilebilir</em> fiyat veya verified native market event; intrabar MFE, ticari order fill'iyle aynı şey değildir.</li>
-<li><code>original_R &gt; 0</code>; referans ve stop yüzdesi değişmez. Eğer R tanımsızsa amend yok.</li>
-<li><code>new_stop</code> current valid stop'a göre <strong>risk artırmaz</strong>, venue tick/step'e yuvarlandıktan sonra da değişiklik anlamlıdır.</li>
-<li><code>cooldown_bars</code>, <code>minimum_stop_delta_ticks</code>, <code>max_amends_per_position</code>, <code>reentry_cooldown</code> sayıları development verisinden sonuç görülerek ayarlanamaz; <strong>konfigürasyon sürümü ve preregistered planı</strong> zorunludur. Bu makale optimum sayı icat etmez.</li>
-<li><code>AMEND_PROTECTION</code> ile stopun exchange tarafından kabulü ayrı olaydır; reject, timeout ve partial fill yaratılan boşluğu otomatik <code>PASS</code>e çeviremez.</li>
-<li>Protection reconciliation korunmazsa durum <code>BLOCKED</code>; önceden tanımlı safety action uygulanır ve kayıt edilir.</li>
+<li>Aynı opportunity'den idempotent tekrar sinyal geldiğinde iki order yaratılmaz.</li>
+<li>No-market-data veya stale source anında yeni emir reddedilir.</li>
+<li>Close-time availability + engine processing order ile future lookahead yoktur.</li>
+<li>Stop/target, gerçek position id ve reduce-only semantics ile bağlıdır.</li>
+<li>Partial fill, komisyon ve child-order koruma state'iyle uzlaşır.</li>
+<li>TTL dolduğu ve risk değiştiği an pending order cancel edilir.</li>
+<li>Maker/taker ücretleri, fiyat kayması ve funding ayrı ledger bileşenleridir.</li>
+<li>Order reject, <code>NO_TRADE</code> ve <code>CANCEL</code> asla başarılı fill sayılmaz.</li>
 </ul>
-<p>Kıyas: aynı takvim, başlangıç sermayesi, giriş, ücret, funding, maliyet/fill ve risk koşullarıyla <code>static_bracket</code> karşısında <em>tek</em> challenger. <code>amends/trade</code>, <code>turnover</code>, trade count, marked equity, loss tail, protection-gap duration, occupancy, missed opportunities raporlanır. Yalnız matched winner R başarı ölçütü değildir.</p>
-<h2>9.5 Değişimin anlamlılığını ayıran iki sayaç</h2>
-<p>(1) <code>decision_reassessments</code>: her yeni etkin inputta açıklanabilir görüş güncellemesi. (2) <code>venue_mutations</code>: gerçek submit/cancel/amend/fill işlemleri. Çok sayıda değerlendirme, çok sayıda emir üretmek zorunda değildir. Churn ve histerezis eşikleriyle karar, niyet ve gerçekleşme ayrı ölçülür. MarketBelief titreşimi <code>range → transition → range</code> üretirse v0 <code>HOLD</code> değişmez; ilerideki position policy yalnız ayrı testle eylem üretebilir.</p>
-<h2>9.6 Position safety fixture'ları</h2>
-<p><code>POS-001</code>: partial filled qty için confirmed stop coverage; <code>POS-002</code>: reject old-stop remains/cannot claim coverage; <code>POS-003</code>: stop amend + native fill race; <code>POS-004</code>: two consecutive identical belief events → no duplicate amendment; <code>POS-005</code>: adverse mark staleness → no risk-increasing amendment; <code>POS-006</code>: restart open position and missing protection → emergency reconcile; <code>POS-007</code>: original R denominator invariant; <code>POS-008</code>: dynamic off → native baseline semantic parity; <code>POS-009</code>: max amendments exceeded → <code>HOLD</code> with reason; <code>POS-010</code>: end-of-window open position marked equity. Bunların hepsi uygulanabilir golden fixtures, bugün geçmiş sayılan test değildir.</p>
 <hr>
-<h1 id="sec-13">X. Portfolio / Risk: kıt sermaye ve ex-ante alternatifler</h1>
-<h2>10.1 İşgal olgusu, fırsat maliyeti tahmini değildir</h2>
-<p>D4'te <code>POSITION_OCCUPIED=38</code> ve iki kapasite reddi oluştu [P4]. Bu <strong>hangi fırsatların reddedildiğini</strong> kanıtlar; kabul edilselerdi net kazanç yazacağını kanıtlamaz. V9 v0, <code>blocked_by_position</code>, açık risk, candidate expiry, risk-conflict ve applicable quantity/venue constraints kayıtlarını tutar. Mümkün kılınmamış ikinci bir portföyün sonradan fiyat yolu üzerinden kazanılmış sayılması <strong>gerçekleşmiş PnL değildir</strong>.</p>
-<h2>10.2 İki ayrı miktar: factual exposure ve modeled alternative</h2>
-<table>
-<thead>
-<tr>
-<th>Ölçü</th>
-<th>Kaynak</th>
-<th>İşlem kararına etkisi (v0)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Factual occupied time</td>
-<td>Native position/order timestamps</td>
-<td>Raporla, baseline tek-pozisyon politikasını değiştirme</td>
-</tr>
-<tr>
-<td>Factual available margin</td>
-<td>Venue/account snapshot</td>
-<td>Hard risk gating</td>
-</tr>
-<tr>
-<td>Counterfactual trade opportunity</td>
-<td>Frozen competing policy simulation</td>
-<td><code>SIMULATED_COUNTERFACTUAL</code>, realizasyon iddiası yok</td>
-</tr>
-<tr>
-<td>Estimated opportunity cost</td>
-<td>Ex-ante conditional model, time-aligned alternatives</td>
-<td><strong>UNKNOWN</strong> → rotation yasak; kendi başına allocator yetkisi yok</td>
-</tr>
-</tbody>
-</table>
-<p>Portföy alternatifleri ex-ante hesaplanacaksa aynı risk, sermaye, işlem maliyetleri, entry/exit fees, exposed time ve realized fill constraints korunmalıdır. Hindsight ile <code>best replacement</code> seçimi veri sızıntısıdır. Aynı simbolde NETTING, farklı altcoinlerde hedge/margin constraints ayrı senaryolardır.</p>
-<h2>10.3 Risk üstünlüğü ve 20 USDT fizibilitesi</h2>
-<p>Risk guard; equity/margin, max loss, kill-switch, liquidation distance, mark quality, venue minQty/minNotional, tickSize/stepSize, fee/funding buffer ve isolated mode varsayımlarını, politika ne önerirse önersin tekrar doğrular. <code>qty</code> step'e yuvarlanınca sıfır olursa <code>NOTIONAL_TOO_SMALL/QUANTITY_ROUNDS_TO_ZERO</code> bir <strong>geçerli no-trade</strong>dir. Küçük bakiye/kaldıraç daha yüksek EV üretmez. <code>liquidation_distance</code> eldeki bar verisiyle ve venue-specific account model olmadan kesin hesaplanamıyorsa <code>UNKNOWN</code>; canlı risk yetkisi doğmaz.</p>
-<h2>10.4 İlk allocator:</h2>
-<p>Herhangi bir öğrenilmiş ranker/rotation eklenmez. Mevcut <code>risk/admission</code>, <code>economics/allocation</code> ve native campaign logic korunur; telemetry çevresi genişler. <strong>Aktif allocator için gerekli deney</strong>: dondurulmuş ex-ante alternatife göre fiyat/kapasite/admission karşılaştırması, same-capital event-driven replay, ücret, funding, mark/equity, giriş gecikmesi, yeni risk açma ile mevcut pozisyonu kapatmanın opportunity cost'u; sealed OOS'a kadar default-off.</p>
-<h2>10.5 Birincil ekonomik karşılaştırma</h2>
-<p>Tanımlı geçerli takvim zamanlarında, açık pozisyonların doğru mark ile değerlendiği <strong>net marked equity</strong> birincil estimand'dır:</p>
-<p>[
-\Delta_{\mathrm{portfolio}}
-=\frac{E^{\mathrm{challenger}}<em>{t_1}-E^{\mathrm{challenger}}</em>{t_0}}{E_0}
--\frac{E^{\mathrm{baseline}}<em>{t_1}-E^{\mathrm{baseline}}</em>{t_0}}{E_0}.
-]</p>
-<p>İki politika aynı <code>E_0</code>, <code>t0/t1</code>, contract universe, fee/funding, mark method, execution profile ve risk budget kullanır. Bağımlılığı koruyan <code>daily/weekly aligned equity increments</code> ikincil test örneklemi oluşturabilir; kesim sonu fark tek başına inference vermez. <code>Net return</code> ile business OPEX (varsa) ayrı raporlanır; business net trading net yerine geçmez. <code>avg net R per trade</code>, <code>per opportunity R</code>, <code>drawdown</code>, <code>occupancy</code>, <code>turnover</code>, <code>rejected notional</code> açıklayıcı ikinci çıktılardır.</p>
+<h1 id="sec-11">IX. Position Manager: açık riskin dinamik yönetimi</h1>
+<h2>9.1 Kritik fark</h2>
+<p>Bir pozisyon açıldıktan sonra sistem <strong>bekleyen eski bir entry sinyalinden</strong> ibaret olmamalıdır. <code>PositionManager</code> pozisyonun devam eden gerekçesini ve riskini denetler; ancak kural optimizasyonu yaparken gerçek yönetim mekaniklerini değiştirmez. Mevcut native <code>STOP_MARKET</code>, <code>LIMIT</code>, bracket ve koruyucu stop update'leri korunur.</p>
+<h2>9.2 PositionThesis / PositionState</h2>
+<p><code>PositionThesis = {entry_decision_id, original_opportunity_id, original_market_belief_id, initial_stop_ref, original_risk_usdt, target_plan, invalidation_conditions, policy_version}</code> immutable başlangıç kaydıdır. Güncel <code>PositionState = {native_position_id, fills, qty, avg_px, pnl, protective_order_ids, latest_market_belief_id, thesis_validity, allowed_actions, elapsed_bars, funding_exposure}</code> olur. R ölçümünde <strong>orijinal stop mesafesi</strong> ile sonradan oluşan bracket yüzdesinin paydası ayrı tutulmalı, D4'te görülen <code>R</code> payda karışıklığı tekrar etmemelidir.</p>
+<h2>9.3 Dinamik aksiyonlar</h2>
+<p><code>HOLD</code> (mevcut risk kabul edilebilir), <code>PROTECT</code> (stop güncelle), <code>REDUCE</code>, <code>EXIT</code>, <code>TIME_STOP</code>, <code>CANCEL_TARGET</code>, <code>REJECT_AMENDMENT</code>. Sadece kâr oranına göre değil, market thesis invalidation, liquidity shock, execution viability ve hard-risk limitine göre değerlendirilebilir. Koruyucu stop'u uzaklaştırma, açık riski sessiz artırma ve zararı sonsuz bekleme <strong>yasak politika</strong> olarak korunmalıdır.</p>
+<h2>9.4 C4'ün yorumu</h2>
+<p><code>+1R</code> sonrası BE stop siyaseti 21 native güncelleme ve olumlu, fakat istatistiksel belirsizlik içeren sonuç üretmiştir. <code>C4</code> <strong>aday/experimental flag</strong>, default-off. Güven aralığı ve tek DEV pencere kapanmadan <code>SUPPORTED_EDGE</code> kabul edilemez. Ayrıca politika sadece aynı opportunity'nin trade R'sini değil, boşalan sermayenin sonra hangi diğer fırsatları alabildiğini değiştirir; doğru ekonomik test <strong>calendar-aligned portfolio equity</strong> üzerinden yapılmalıdır [P3, P4].</p>
+<h2>9.5 Time &amp; event validity</h2>
+<p>Stop güncellemesi eski native emrin onaylandığını varsayamaz. <code>ORDER_UPDATED/REJECTED/CANCELED</code>, position-closed/reopened ve restart idempotency açık test edilir. Koruma yönetiminin sürekli yürütülmesi, model önerisinin her mumda emir güncellemesi üretmesi anlamına gelmez.</p>
 <hr>
-<h1 id="sec-14">XI. Native execution ve claim-uyumlu veri / fill otoritesi</h1>
-<h2>11.1 NautilusTrader mevcut canonical engine olarak kalır</h2>
-<p><code>v8-next/</code> Python/NautilusTrader uygulama sınırıdır. Ek C++ matching engine, ikinci live OMS veya bütün trading kararlarını LLM'ye devreden agent framework'ü kurulmaz. Depodaki NautilusTrader sürüm pin'i 2.0.0rc4 olarak gözlenmişti [R2], fakat <strong>local HEAD ve güncel pin</strong> ikinci repo-grounded review sırasında tekrar kaydedilmelidir. Güncel <code>latest</code> dokümanındaki callback davranışı otomatik 2.0.0rc4 garantisi değildir. Historical exchange bar replay ile gerçek venue latency/queue aynı iddia türü değildir.</p>
-<h2>11.2 Execution profile authority matrix</h2>
-<table>
-<thead>
-<tr>
-<th>Profile (versioned)</th>
-<th>Girdi / semantik</th>
-<th>Neyi ölçebilir?</th>
-<th>İddia yasağı</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>BAR_SAME_CLOSE_DIAGNOSTIC</code></td>
-<td>OHLCV, aynı-kapanış MARKET varsayımı; kaynağa özel</td>
-<td>Karar farklılığı, baseline parity, kaba benchmark</td>
-<td>Elde edilebilir canlı fill, maker priority, stable net edge</td>
-</tr>
-<tr>
-<td><code>NEXT_OBSERVABLE_CONSERVATIVE</code></td>
-<td>Bar close sonrası gözlenebilir fiyat; explicit adverse slippage ve STOP-FIRST tie varsayımı</td>
-<td>Varsayıma bağlı costed sensitivity; tam eşit native comparison</td>
-<td>Gerçek intrabar sıra, kesin realized spread, actual venue queue</td>
-</tr>
-<tr>
-<td><code>TRADE_TICK_REPLAY</code></td>
-<td>PIT tick/trade stream + native fill version</td>
-<td>Daha ayrıntılı trigger/order timing</td>
-<td>Unseen queue priority / impact</td>
-</tr>
-<tr>
-<td><code>L1_BBO</code></td>
-<td>PIT bid/ask + trades/fill model</td>
-<td>Quote-based spread bounds; selected market orders</td>
-<td>Limit queue fill certainty</td>
-</tr>
-<tr>
-<td><code>L2_BOOK</code></td>
-<td>Timestamped depth/trades + explicit fill assumptions</td>
-<td>Depth-based execution scenarios</td>
-<td>L3 order-level exact priority, self-impact without evidence</td>
-</tr>
-<tr>
-<td><code>PROSPECTIVE_SHADOW</code></td>
-<td>Gerçek zamanlı observation + dry-run</td>
-<td>Veri sürekliliği, karar/niyet davranışı</td>
-<td>Gerçek private venue execution, portfolio realizations</td>
-</tr>
-<tr>
-<td><code>LIVE_VERIFIED</code></td>
-<td>Ayrı onaylı private account and reconciliation</td>
-<td>Gerçek fill ve hesap sonuçları (izinli kapsam)</td>
-<td>Gelecek kâr garantisi</td>
-</tr>
-</tbody>
-</table>
-<p>Profile bir kalite merdivenidir ama her profil otomatik üstün değildir; veri PIT kalitesi, instruments, mark/funding ve yerel engine state doğruluğu ayrı kontrol edilir. <code>BAR_SAME_CLOSE_DIAGNOSTIC</code> ile raporlanan ekonomi yalnız varsayımsal, <strong>otoritesi sınırlı</strong> sayılır; next-observable profile gerçek fill kanıtı da değildir. <code>B3</code> realistic profile reconciliations <code>INVALID</code> ise başarılı bir maliyet modeli gibi sunulamaz. STOP-FIRST ancak OHLC belirsizliğini modelleyen konservatif simülasyon politikasıdır, gerçek piyasa patikası değildir [T1,T2,P3].</p>
-<h2>11.3 Funding / mark / settlement olay modeli</h2>
-<p><code>funding_rate_publication</code> (bilginin erişildiği an) ile <code>funding_settlement</code> (cashflow doğduğu an) farklı olaylardır. Her settlement kendi <code>rate_id</code>, <code>timestamp</code>, <code>mark/reference price</code>, <code>account position exposure just before settlement</code>, <code>cashflow_ref</code>, <code>native trade/position lineage</code> taşımalıdır. Gelen rate'in gelecekteki kapanıştan elde edilmiş fiyatla hesaplanması <strong>PIT ihlali</strong> olabilir; gerçek settlement atfı pozisyon o anda mevcut değilse geçmişe taşınamaz. Native funding simülasyonu var diye bizim kullanıcının replay'inde uygulanmış sayılmaz.</p>
-<p>Eşitlik kontrolü (uygun instrument işaretiyle):</p>
+<h1 id="sec-12">X. Portfolio &amp; Risk: fırsat rekabeti ve sermaye ekonomisi</h1>
+<h2>10.1 Tek pozisyon bile portföy problemidir</h2>
+<p>NETTING/tek pozisyon occupancy altında bile aynı anda potansiyel iki fırsattan birinin reddedilmesi sermaye ve zaman fırsat maliyeti yaratır. D4'te 38 occupied + 2 capacity reject görülmesi, bu sorumluluğun ölçülmesi gerektiğini gösterir. Ancak rejected fırsatları ikinci paralel gerçek portföyde açılmış sayan hindsight rapor, <strong>gerçekleştirilmiş gelir</strong> değildir.</p>
+<h2>10.2 Risk constraints ayrı otoritedir</h2>
+<p><code>equity</code>, available margin, max per-trade loss, max gross exposure, instrument venue filters, max portfolio heat, loss circuit-breakers ve liquidation distance, herhangi bir expert veya Pi Agent tarafından değiştirilemez hard limitlerdir. Gerçek 20 USDT senaryosunda lot/step/minNotional ve fee floor nedeniyle sık no-trade sonucu çıkabilir; bu, <strong>başarısız sinyal</strong> değil işlem yapılamazlığıdır. Küçük sermaye ve kaldıraç daha yüksek beklenen değer üretmez; tasfiye olasılığını yükseltebilir.</p>
+<h2>10.3 Allocator'ın görevi</h2>
+<p>İlk aşamada allocator yeni bir machine-learning ranker değil, <strong>admission/occupancy attribution</strong> tablosudur. Başka pozisyon açıkken fırsat gelirse <code>occupied_by</code>, <code>would_have_required_margin</code>, <code>risk_conflict</code>, <code>candidate_expiry</code>, <code>decision_reason</code> kaydedilir. Yeni opportunity karşı eski position arasında gerçek tercih yapmak için hem mevcut pozisyonu kapatmanın maliyetleri hem yeni girişin maliyetleri ve riskleri ölçülmelidir. Güvenilir estimated utility yoksa mevcut güvenli risk politikasını korur.</p>
+<h2>10.4 Doğru karşılaştırma birimi</h2>
+<p>İşlem başı ortalama R tek başına yanıltıcıdır: bekleme, farklı işlemler açar ve exposure değiştirir. Ana economic estimand:</p>
 <p>[
-\mathrm{Cash}<em>{t_1}=\mathrm{Cash}</em>{t_0}+\sum_{i\in\text{fills}}\mathrm{RealizedPricePnL}_i -\sum_i \mathrm{Fees}<em>i +\sum</em>{k\in\text{settlements}}\mathrm{FundingCashflow}_k +\mathrm{OtherDocumentedCashflows}.
+\Delta U=U!\left(E^{\mathrm{V9}}<em>{t_0:t_1},\mathrm{risk},\mathrm{costs}\right)-U!\left(E^{\mathrm{V8}}</em>{t_0:t_1},\mathrm{risk},\mathrm{costs}\right)
 ]</p>
-<p>[
-\mathrm{MarkedEquity}_t = \mathrm{Cash}_t + \mathrm{UnrealizedPnL}_t
-\quad (\text{in the account's explicitly declared accounting convention}).
-]</p>
-<p>İşlem kayıtlarının mark/equity hesabı cross/isolated, collateral, settlement currency ve instrument multiplier'a duyarlıdır; bu yalın eşitlik bir <strong>bağımsız test şeması</strong>dır, bütün venue'ların birebir matematiği olduğu iddiası değildir. Realized/unrealized ve funding aynı maliyeti iki kere sayamaz. <code>MISSING_MARK</code> varsa uygun equity estimand <code>BLOCKED</code>, uydurulmuş mark ile kâr iddiası yok.</p>
-<h2>11.4 Realistic fill / fees qualification</h2>
-<p><code>order_type</code>, <code>time_in_force</code>, <code>post_only</code>, <code>reduce_only</code>, <code>trigger_price_source</code>, <code>native version</code>, <code>latency_assumption</code>, <code>limit_touch_fill_rule</code>, <code>fee_schedule_version</code>, <code>slippage_rule</code> profile içinde hash ile dondurulur. <code>touched_price == filled_order</code> varsayımı maker için kabul edilmez. Kısmi fill farklı fiyat ve komisyonla ayrı kayıt; stop veya cancellation ACK belirsizliği hataya dönüşebilir. Asgari test, aynı fill tape üzerinde farklı emission order/pairing mutantlarının yanlış PASS üretmediğini göstermelidir.</p>
-<h2>11.5 Veri sınırı ve altcoin genellemesi</h2>
-<p>Basit 1H BTC development verisi, altcoin perpetual evrenindeki delisting, temporary suspension, tick/step updates, spread widening, mark anomalies, liquidation, funding frequency ve fill impact için veri değildir. Altcoin araştırması PIT universe membership, listing age, quote volume as-of, contract specs as-of, min notional, availability, data gaps ve survivorship farklarını kaydetmelidir. Başlangıçtaki 20 USDT senaryosu <code>FEASIBILITY_NOT_ESTABLISHED</code> olarak işaretlenir; bakiyenin tamamını risk etme veya yüksek kaldıraç, iyi karar kalitesiyle eşanlamlı değildir.</p>
-<h2>11.6 Aşamalı araştırma ekonomisi</h2>
-<p>PIT-cache → ucuz, <strong>diagnostic-only</strong> tarama → sınırlı DEV native sanity → tam native finalist → rolling validation → ayrı yetkili sealed final OOS → prospective shadow. Hızlı tarama, native fill varsayımlarını geçerliymiş gibi bildirmez. Tarama sırasında bakılan bütün varyantlar trial family içinde görünür; başarısız screening görünmez test sayılmaz.</p>
+<p>burada aynı veri, başlangıç sermayesi, venue kuralları, zaman penceresi ve eylem kısıtları kullanılır; equity <strong>açık pozisyon mark-to-market ve tüm cashflow</strong> içerir. İkincil analiz: matched opportunity delta, entry-price delta, occupancy, missed value, trade count, turnover, exposure. Bu karşılaştırmaların hiçbiri OOS güvenilirliği olmadan gelecekteki avantaj garantisi sunmaz.</p>
 <hr>
-<h1 id="sec-15">XII. Economic evidence, bağımsız audit ve bilimsel doğrulama protokolü</h1>
-<h2>12.1 Tarihsel audit riski: mevcut kod için değil, artefakt için kesin konuş</h2>
-<p>30 Ekim 2026 tarihli ZIP üzerinde yapılan bağımsız artifact incelemesi, <strong>o run'ın</strong> <code>cashflows.jsonl</code> kaydındaki 89/89 campaign join'inin yanlış <code>C0045</code> ilişkisi taşıdığını; native entry callback'lerindeki 45 kaydın hiçbirinin doğru campaign'e bağlanmadığını; 45 lifecycle <code>decision_id</code> alanının null olduğunu; 0/45 fırsat eşleşmesi ve bazı tarihsel path-MFE/MAE çelişkileri bulunduğunu raporladı [P5]. Manifest hash'lerinin doğru oluşu <strong>raporun semantik doğruluğu</strong> değildir. Bu bulguların bugünkü local HEAD'te devam edip etmediği <strong>bilinmiyor</strong>; v1.1 bunları güncel bug kesinliği diye sunmaz.</p>
-<p><strong>P0-AUDIT çalışma sırası:</strong></p>
+<h1 id="sec-13">XI. Native execution, market-data ve ekonomik gerçekçilik</h1>
+<h2>11.1 Mevcut engine korunsun</h2>
+<p>NautilusTrader v2.0.0rc4 depoda pinlidir; engine, strategy adapter, event callbacks, netting position, order, fill ve hesap muhasebesi için canonical yoldur [R2]. <code>v8-next</code> üzerine yeni C++/CUDA matching engine, ikinci kendi backtester'ımız veya LLM order router yazılmayacak. Hızlı araştırma için Polars/NumPy/vektörize ekranlar <code>DIAGNOSTIC_ONLY</code>, tam iddia için native finalist testleri kullanılır.</p>
+<h2>11.2 Veri kalitesi hiyerarşisi</h2>
+<p><strong>Bar</strong> fiyat aralığı hakkında sınırlı bilgi; <strong>trade ticks</strong> işlem anları; <strong>L1 quote</strong> spread/bid-ask; <strong>L2</strong> fiyat seviyelerinde agregasyon; <strong>L3</strong> order-level kitap görünürlüğü sağlar. Ama tarihsel emir defteri bile adayın piyasaya etkisini ve gerçek queue priority'yi kesin garanti etmez [T2]. Her claim <code>data_resolution</code> ve <code>fill_authority</code> etiketine bağlanır. Yalnız bar verisiyle maker fill, exchange latency, intra-bar stop timing veya slippage kesinlik iddiası yasaktır.</p>
+<h2>11.3 Funding &amp; perpetual semantics</h2>
+<p>Perpetual sözleşmelerde funding cashflow'u karar zamanında görünür veri ile, sözleşmenin gerçek settlement sınırı üzerinden uygulanmalıdır; işleme giriş/çıkışten sonra eski funding'i şimdiki pozisyona uygulamak yanlış atıftır. <code>mark_price</code>, <code>funding_rate</code>, <code>settlement_time</code>, <code>receipt_time</code> ayrı alanlardır. Funding mekanizmasının perpetual–spot fiyat bağına etkisi literatürde teorik olarak çalışılmıştır; bu V9'un kendi funding implementation doğruluğunu kanıtlamaz [L10].</p>
+<h2>11.4 First-class execution refusals</h2>
+<p><code>MISSING_MARK</code>, <code>FUNDING_UNAVAILABLE</code>, <code>INSUFFICIENT_BOOK</code>, <code>UNSUPPORTED_FILL_MODEL</code>, <code>LIQUIDATION_UNKNOWN</code>, <code>QUANTITY_ROUNDS_TO_ZERO</code>, <code>NATIVE_ORDER_LINK_BROKEN</code> gibi durumlar ekonomik raporda gizlenmemeli; <code>BLOCKED</code> veya <code>QUALIFIED_DIAGNOSTIC</code> etiketi üretmelidir. Aynı uyarı, farklı data evreninde başka anlamlara gelebileceğinden policy/venue/version bağlanmalıdır.</p>
+<h2>11.5 Hızlandırma stratejisi</h2>
 <ol>
-<li><code>repo_commit</code>, Nautilus sürümü, dataset hash, config/policy hash ve historical audit ZIP'i pinle; yerel HEAD ve D4 unpushed farklarını ayrı kaydet.</li>
-<li>Historical ZIP için immutable defect matrix (F01–F08), raw offending IDs ve önceki gate statuslarını koru; artifact geçmişini düzeltip üzerine yazma.</li>
-<li>Güncel native replay'de aynı ID ilişkilerini <em>yeniden ölç</em>: cashflow→fill→order→campaign; entry decision/opportunity join; protection child IDs; realized/unrealized cash accounting.</li>
-<li><strong>Independent golden-oracle</strong>: elle hesaplanmış iki campaign, aynı timestamp'te farklı client order ID, bir order ile iki partial fill, funding open vs closed exposure, stop/target ve kesim sonu açık pozisyon. Validator'ı üreten kodla aynı join helper'ından beklenen sonuç türetme.</li>
-<li><strong>Fault injection</strong>: yanlış fakat <em>tam dolu</em> campaign join, duplicated fill, missing funding event, stale mark, wrong child order ID, wrong time cut, missing protective order, synthetic target winner MFE=0. Her mutantın doğru sebeple reddedildiği kaydedilmeli.</li>
-<li>Güncel kod başarısızsa kaynak/konfigürasyon ve testleri minimum scope ile düzelt; yeni run'ın gate statuslarını üret; daha önceki <code>PASS</code> iddialarını otomatik üst sürüme taşımadan superseding report yaz.</li>
+<li>Frozen PIT feature caches.</li>
+<li>Ucuz behavioral screening / no-native candidate rejection.</li>
+<li>Sınırlı ve kaydedilmiş development mini-window.</li>
+<li>Sadece finalistlerde native portfolio replay.</li>
+<li>Gerekçeli adaylar için multi-period walk-forward/robustness.</li>
+<li>Sealed final OOS yalnız ayrı yetkiyle, ardından prospective shadow.</li>
 </ol>
-<p><code>orphan_count=0</code> gerekli olabilir, fakat <strong>yeterli değildir</strong>: bütün kayıtların yanlış <code>campaign_id</code>ye bağlanması sıfır orphan üretebilir. Native event'lerin kendi tekil kimliklerine ve bağımsız accounting oracle'a göre doğru mapping kanıtı gereklidir.</p>
-<h2>12.2 Audit'in dört bağımsız hükümleri</h2>
-<table>
-<thead>
-<tr>
-<th>Hüküm</th>
-<th>Hangi soruyu cevaplar?</th>
-<th>Standart başarısızlık</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>MECHANICAL_VERDICT</code></td>
-<td>State, order/fill/stop/transition doğru mu?</td>
-<td><code>FAIL/UNKNOWN</code></td>
-</tr>
-<tr>
-<td><code>ACCOUNTING_VERDICT</code></td>
-<td>Cashflow, funding, fee, mark, equity doğru mu?</td>
-<td><code>FAIL/BLOCKED</code></td>
-</tr>
-<tr>
-<td><code>SCIENTIFIC_VERDICT</code></td>
-<td>PIT, baseline, family, sample ve OOS bağımsızlığı geçerli mi?</td>
-<td><code>INVALID/INCONCLUSIVE</code></td>
-</tr>
-<tr>
-<td><code>PROMOTION_AUTHORITY</code></td>
-<td>Bu delil hangi ortamda hangi davranışı etkinleştirmeye yetkili?</td>
-<td><code>NOT_AUTHORIZED</code></td>
-</tr>
-</tbody>
-</table>
-<p>Bu dört sonuç, mevcut gate isimleri (<code>G0–G9</code> gibi) ile adlarını zorla yeniden yazmak için değil <strong>semantik sınır</strong> için tanımlanır. Var olan <code>audit/pipeline.py</code>, <code>evaluation/gate_registry.py</code>, <code>evaluation/store.py</code>, <code>system_proving/</code> ve <code>oracle/utility.py</code> ile eşleme yapılır [R3]. Sürüm ve gate semantiği değişimi geçmiş receiptleri geriye dönük güncellemez.</p>
-<h2>12.3 Provenance bir DAG, tek bir lineer zincir değil</h2>
-<details class="source-block"><summary>Şema kaynak kodu (Mermaid)</summary><pre><code>flowchart TD
-  E[Market/venue event ids] --&gt; S[PIT state snapshot]
-  S --&gt; O[Opportunity id]
-  S --&gt; X[Expert stance ids]
-  O --&gt; D[Decision ids]
-  X --&gt; D
-  P[Reconciled position/account] --&gt; D
-  D --&gt; I[Intent id]
-  I --&gt; N[Native client &amp; venue order id]
-  N --&gt; F[Native fill trade ids]
-  F --&gt; C[Campaign/position relations]
-  C --&gt; A[Cashflow fees funding marks]
-  A --&gt; U[Marked equity &amp; benchmark outcome]
-</code></pre></details>
-<p>Her karar birden fazla expert stance, bir order birçok partial fills, bir position birden fazla campaign event taşıyabilir. Beklenen cardinality ve unique key açıkça belirtilir. <code>campaign_id</code>, <code>native_position_id</code>, <code>symbol</code>, <code>opportunity_id</code> interchangeable değildir. <code>last_trade_id</code> tekrar ediyorsa cashflow double-count engellenir. Report producer ve verifier, aynı türdeki yanlış reference mapping'i paylaşarak sahte PASS üretememelidir.</p>
-<h2>12.4 Sonuç otoritesi: belge değil veri birinci sınıf</h2>
-<p>Her rapor şunları bağlar: input dataset hashes, PIT availability policy, source and config hashes, exchange metadata version, native engine and fill model version, starting equity, mark/funding coverage, branch/head sha, baseline comparison, family_id, all attempted variants, terminal no-trade outcomes, recognized missingness. Eksik alan <code>UNKNOWN/BLOCKED</code> taşır; sahte sıfır, sentetik p-value veya gerçek işlemmiş gibi counterfactual yazılmaz.</p>
-<p><strong>MFE/MAE:</strong> karar barının yüksek/düşük fiyatı girişten sonra yaşanmış sayılmaz; native fill zamanından önceki fiyatlar pozisyon patikasına eklenmez. Kapalı kazanan pozisyon için gözlenen exit price ile aritmetik olarak çelişen <code>MFE_R=0</code>, geçerli rapor olamaz. Yalnız completed bars ile intrabar ekstrem sırası kesin bilinmiyorsa <code>PATH_PARTIALLY_IDENTIFIED</code> ve konservatif <em>bound</em> raporlanabilir; kesin sıralama uydurulamaz.</p>
-<h2>12.5 Ekonomik testte birincil estimand ve belirsizlik</h2>
-<p>Birincil karşılaştırma <strong>aynı takvimde, aynı başlangıç bakiyesi ve risk/venue kısıtlarıyla, açık exposure'ı da içeren net marked equity değişimi</strong>dir (§10.5). İşlem sayısı veya winrate birincil kriter değildir; farklı policy'ler farklı trade listelerine yol açar. D4'ün 12 ortak fırsatı üzerinde hesaplanan farkı, 123 fırsatlı portföyün veya bağımsız gelecek dönemlerin farkı gibi yorumlama yanlıştır. Tek 90 günlük BTC 1H DEV penceresi, birleştirilmiş politika için confirmatory kanıt değildir.</p>
-<p>İkinci raporlar: gross/net cash, fee, funding, slippage, protected exposure, time-in-position, aborted orders, queued/cancelled intents, <code>blocked_by_position</code>, reason-code distributions, R denominator, entry delay, latency sensitivity, liquidation feasibility. Cost estimate eksikse net profitability iddiası <code>BLOCKED</code> olur. Revenue/trading return ve business OPEX attribution ayrı tutulur.</p>
-<h2>12.6 Araştırma hipotezi ve çoklu test sözleşmesi</h2>
-<p>İlk V9 deneyleri aşağıdaki <strong>tek değişiklik</strong> ilkesini taşır; önerilen isimler repo üzerinde mevcut run değil, gelecekteki araştırma kayıtlarıdır:</p>
-<table>
-<thead>
-<tr>
-<th>Family</th>
-<th>Tek fark</th>
-<th>Baseline</th>
-<th>Primary claim and no-go</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>V9-M1</code></td>
-<td>Bir PIT market-state observation'ının entry gate'e etkisi</td>
-<td>V8 baseline ve raw threshold</td>
-<td>Aynı takvim net marked equity; mekanik gate geçse de ekonomik fark yoksa diagnostic</td>
-</tr>
-<tr>
-<td><code>V9-E1</code></td>
-<td>Bir dependency-group expert contribution</td>
-<td>Grammar-only / current expert policy</td>
-<td>Altered decision count, portfolio difference; clone inflation başarısız</td>
-</tr>
-<tr>
-<td><code>V9-I1</code></td>
-<td>Fiyat bound/TTL policy</td>
-<td>Native baseline entry</td>
-<td>Fill authority ve price/timing; invalid execution profile → invalid outcome</td>
-</tr>
-<tr>
-<td><code>V9-P1</code></td>
-<td>Tek stop-management amendment policy</td>
-<td>Static bracket</td>
-<td>Protection integrity ve churn; post-cost portfolio difference</td>
-</tr>
-<tr>
-<td><code>V9-A1</code></td>
-<td>Ex-ante occupancy allocation</td>
-<td>Single-position baseline</td>
-<td>Matched-capital schedule; estimated utility UNKNOWN → rotation yok</td>
-</tr>
-<tr>
-<td><code>V9-K1</code></td>
-<td>Bounded research automation</td>
-<td>Manual/scripted bounded task</td>
-<td>Verified answer per wallclock/token; bu trading alpha testi değildir</td>
-</tr>
-</tbody>
-</table>
-<p>Her family için deneyden <strong>önce</strong>: <code>data_role</code>, eligible universe + PIT membership, observation availability policy, baseline revision/hash, challenger revision/hash, single altered behavior, parameter candidates, full family register, equity estimand, smallest economically meaningful improvement (predeclared; value must be <em>justified</em>, not invented), risk ceiling, block/cluster scheme, budget, stopping rule, negative null, sealed OOS access authority kayıt edilir. <strong>Sonuç görülerek</strong> eşik geriye dönük optimize edilmez. Yetersiz independent effective sample → <code>INCONCLUSIVE</code>, yoktan oluşturulan p-value yok.</p>
-<p><strong>Çoklu test istatistikleri:</strong> White WRC [L06], Hansen SPA [L07], DSR [L08], PBO/CSCV [L09] <em>aday yöntemlerdir</em>. Bunların veri/örneklem varsayımları mevcut kolda sağlanmadan otomatik <code>PASS</code> sayılmaz. Trial sayısı, valid outcomes ve effective independence ayrı kavramlar; ajanın sevdiği <code>N_eff</code>yi seçmesine izin verilmez. Test <code>NO_EDGE</code>, <code>INCONCLUSIVE</code>, <code>INVALID</code>, <code>BLOCKED</code> ile tamamlanabilir. <code>SUPPORTED_EDGE</code> yalnız korunan veri ve nitelikli execution ile bağımsız operatör kararına sunulabilir; hiçbir arXiv yöntemi kâr sertifikası değildir.</p>
-<h2>12.7 OOS izolasyonu ve selection-debt</h2>
-<p><code>DEVELOPMENT</code> geniş ama kayıtlı araştırma alanıdır; rolling validation prosedürü frozen olduğunda değerlendirme alanıdır; <code>SEALED_FINAL_OOS</code> ayrı izinli runner'da ve Pi filesystem'inden uzakta tutulur. Sonucu görülen pencerede yeniden model ayarlamak bağımsız doğrulamayı tüketir. OOS bir kez görüldükten sonra dosya adına/branch'e yeni isim verip &quot;taze&quot; sayılmaz. Prospective shadow gerçek emir fill'inin vekili değildir. Altcoin listing/delisting evren filtreleri as-of kodlanır.</p>
-<h2>12.8 Yerleşik ekonomik ve güvenlik testleri</h2>
-<p>Aşağıdaki testler için <strong>hiç sonuç uydurulmaz</strong>; her biri repo implementasyonunda doğrulanmalıdır: <code>AUD-001</code> 2 campaigns incorrect but complete join -&gt; FAIL; <code>AUD-002</code> wrong <code>last_trade_id</code> -&gt; FAIL; <code>AUD-003</code> exit winner with impossible MFE -&gt; FAIL; <code>AUD-004</code> missing mark with open position -&gt; ACCOUNTING BLOCKED; <code>AUD-005</code> funding event after position close attributed to earlier open -&gt; FAIL; <code>AUD-006</code> partial fill aggregate duplicate -&gt; FAIL; <code>AUD-007</code> protection ref missing despite child order -&gt; contradictory PASS disallowed; <code>AUD-008</code> economic claim on same-close bar -&gt; AUTHORITY DENIED; <code>AUD-009</code> sealed OOS accessible from agent worktree -&gt; SECURITY FAIL; <code>AUD-010</code> negative dev trial omitted from family -&gt; SCIENTIFIC INVALID.</p>
+<p>Bu merdiven, aynı adayın birçok “gizli varyant” şeklinde tekrar tekrar denenmesini mümkün kılmak için değil; maliyeti düşürmek ve <strong>bütün varyantları</strong> trial ledger'a kaydetmek içindir.</p>
 <hr>
-<h1 id="sec-16">XIII. Autonomous Kaizen: trading core'a EK yetenek</h1><figure class="figure"><svg width="615pt" height="70pt"
+<h1 id="sec-14">XII. Economic evidence, audit ve bilimsel yanlışlama</h1>
+<h2>12.1 Tek kaynaklı kayıtlar ve immutable provenance</h2>
+<p>Önerilen soy ağacı:</p>
+<pre><code class="language-text">market_event_id -&gt; market_belief_id -&gt; opportunity_id
+                -&gt; expert_stance_ids -&gt; decision_id
+                -&gt; order_intent_id -&gt; native_order_id
+                -&gt; native_fill_event_id -&gt; campaign_id
+                -&gt; position_id -&gt; cashflow_id -&gt; outcome_id
+</code></pre>
+<p>Tüm join'ler her kayıtta birebir olamaz (ör. bir fırsata birden fazla karar, bir emre çoklu partial fills), ama çokluk açıkça tanımlanmalı ve orphan sıfır olmalıdır. Aynı <code>ts_event</code> kimlik değildir. Tekir <code>campaign_id</code> NETTING position id'si ile eşit kabul edilmez. Mimari bu ilişkileri raporda yeniden tahmin etmek yerine oluşum anında bağlamayı gerektirir.</p>
+<h2>12.2 Audit'in dört ayrı sorusu</h2>
+<p><strong>Mechanical correctness:</strong> Emir, stop, fill ve timestamps tutarlı mı? <strong>Economic correctness:</strong> Fees/funding/equity doğru mu? <strong>Scientific validity:</strong> Baseline, veri, multiple-testing, uncertainty doğru mu? <strong>Authority:</strong> Bu sonuç hangi iddiayı desteklemeye yetkili? Tek <code>PASS</code> tümünü örtmez. V8 <code>evaluation/gate_registry.py</code>, <code>audit/pipeline.py</code>, <code>evaluation/store.py</code>, <code>oracle/utility.py</code>, <code>evaluation/kaizen_delta.py</code> gibi parçaları yeniden kullanır [R3].</p>
+<h2>12.3 Ekonomik ölçüm tablosu</h2>
+<table>
+<thead>
+<tr>
+<th>Boyut</th>
+<th>Asgari ölçüt</th>
+<th>Hata belirtisi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entry decision</td>
+<td>changed decisions + abstention + reasons</td>
+<td>Consensus değişmiyor ama değer atfediliyor</td>
+</tr>
+<tr>
+<td>Order mechanics</td>
+<td>native accepted/filled/canceled/rejected event join</td>
+<td>Stop kayboluyor, unmatched fills</td>
+</tr>
+<tr>
+<td>Trading economics</td>
+<td>gross price PnL, commissions, slippage, funding</td>
+<td>Karışmış fee/slippage; missing funding</td>
+</tr>
+<tr>
+<td>Account economics</td>
+<td>marked equity, DD, exposure, capital time</td>
+<td>Cash balance <code>equity</code> diye etiketleniyor</td>
+</tr>
+<tr>
+<td>Opportunity value</td>
+<td>opportunity-level paired outcomes, occupancy</td>
+<td>Ex-post opportunity gerçek PnL sayılıyor</td>
+</tr>
+<tr>
+<td>Scientific</td>
+<td>OOS role, family size, effective trials, uncertainty</td>
+<td>25 dependent trade = 25 independent samples</td>
+</tr>
+<tr>
+<td>Operations</td>
+<td>wall-clock, RAM, artifact hash, test receipts</td>
+<td>Stale attestations, yanlış test sayısı</td>
+</tr>
+</tbody>
+</table>
+<h2>12.4 İstatistiksel çıkarım</h2>
+<p><strong>Selection bias ve multiplicity:</strong> White'ın Reality Check'i [L06], Hansen'in SPA yaklaşımı [L07], Bailey–López de Prado Deflated Sharpe [L08] ve PBO/CSCV [L09], birçok varyant arasından en iyisini seçmenin yarattığı iyimserliği değerlendirir. Bu yöntemler <em>mekanik doğruluk garantisi değildir</em>, küçük ve bağımlı örneklemde otomatik zorunlu olarak hesaplanabilir kabul edilmez. <strong>MinervaScore</strong> araştırmasının kendi unseen real-market testinde anlamlı ileri dönem ilişki bulmadığını bildirmesi, composite skorları kâr olasılığına eşitlememe gerekçesidir [L11].</p>
+<p><strong>Time dependence:</strong> İşlemler örtüşebilir; funding dönemleri, market-regime ve aynı symbol ortak faktör yaratır. Bootstrap unit trade değil bağımlılığı koruyan uygun gün/hafta/regime block veya exposure-aligned time interval olmalıdır. Sadece 12 matched D4 opportunity ile bootstrap p-değeri üretmek diğer rejimlerde kalıcı üstünlük göstermez. Belirsiz ölçüm <code>INFERENCE_NOT_IDENTIFIED</code> olarak açık bırakılır.</p>
+<h2>12.5 OOS ve research-debt disiplini</h2>
+<ul>
+<li><code>DEVELOPMENT</code>: açık araştırma; tüm varyantlar kaydedilir.</li>
+<li><code>ROLLING_VALIDATION</code>: prosedür dondurulmuş, sonuçlara dönük ayarlama sınırlı ve loglu.</li>
+<li><code>SEALED_FINAL_OOS</code>: ayrı process/permission; agent kendi iş ağacından okuyamaz.</li>
+<li><code>PROSPECTIVE_SHADOW</code>: ileriye dönük paper/shadow; gerçek venue fill iddiası ayrı.</li>
+<li><code>LIVE</code>: ayrı operasyonel sertifika ve insan onayı; bu monografta yetkilendirilmez.</li>
+</ul>
+<p>Sealed OOS'un dosyası agent çalışma ortamında bulunmamalıdır; promptta “sakın okuma” demek yetmez. Bir OOS penceresinin sonucunu gördükten sonra aynı policy lineage açısından bağımsızlık tükenir. Yeni varyanta reset hakkı vermek için dosya adı veya hash değiştirmek kabul edilmez.</p>
+<h2>12.6 Kontrollü deney tasarımı: A/B/C/D sonrası</h2>
+<table>
+<thead>
+<tr>
+<th>Deney</th>
+<th>İncelenecek tek davranış</th>
+<th>Baseline</th>
+<th>Gözlem</th>
+<th>Hüküm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>M1</code></td>
+<td>MarketBelief'in karar/rejim katkısı</td>
+<td>PIT state+raw features</td>
+<td>altered action count, economic delta</td>
+<td>Kanıt yoksa diagnostic only</td>
+</tr>
+<tr>
+<td><code>E1</code></td>
+<td>Expert stance gate gerçekten bağlayıcı mı?</td>
+<td>grammar only</td>
+<td>matched opportunities + portfolio</td>
+<td><code>NO_EDGE</code> geçerli</td>
+</tr>
+<tr>
+<td><code>I1</code></td>
+<td>Price discipline vs same-close</td>
+<td>immediate entry</td>
+<td>time/calendar equity + fill realism</td>
+<td>Maliyet modeli nitelikli olmalı</td>
+</tr>
+<tr>
+<td><code>P1</code></td>
+<td>Native position policy</td>
+<td>static bracket</td>
+<td>marked equity, occupancy</td>
+<td>C4 candidate, no promotion</td>
+</tr>
+<tr>
+<td><code>A1</code></td>
+<td>Occupancy allocation</td>
+<td>single-active-position policy</td>
+<td>exposure/risk-constrained calendar PnL</td>
+<td>Reel margin semantics</td>
+</tr>
+<tr>
+<td><code>K1</code></td>
+<td>Pi araştırma loop faydası</td>
+<td>manual bounded research</td>
+<td>doğru sonuç / süre / maliyet</td>
+<td>Trading edge için doğrudan kanıt değildir</td>
+</tr>
+</tbody>
+</table>
+<p>Her aşamada mekanik değişim önce, ekonomik superiority sonra sınanır. Değişen market modeline aynı anda entry, expert, stop ve sizing değiştirilirse neden-sonuç ayrıştırması kaybolur. Sonraki multi-component policy yalnız ayrı <code>interaction</code> deneyidir.</p>
+<hr>
+<h1 id="sec-15">XIII. Autonomous Kaizen: trading core'a EK yetenek</h1><figure class="figure"><svg width="615pt" height="70pt"
  viewBox="0.00 0.00 614.60 69.60" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(10.8 58.8)">
 <title>G</title>
@@ -1226,7 +694,7 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <polygon fill="#56866d" stroke="#56866d" stroke-width="1.25" points="481.28,-29.93 486.78,-28 481.28,-26.08 481.28,-29.93"/>
 </g>
 </g>
-</svg><figcaption>Şekil 3. Trading runtime’dan ayrı, insan onaylı offline Kaizen araştırma çevrimi.</figcaption></figure>
+</svg><figcaption>Şekil 2. Trading runtime’dan ayrı, insan onaylı offline Kaizen araştırma çevrimi.</figcaption></figure>
 <h2>13.1 Rol ve bağımsızlık</h2>
 <p><strong>Trading core Pi'ye bağlı olmayacak.</strong> Offline/ayrı süreçte çalışan Pi Agent, mevcut <code>audit/</code>, <code>evaluation/</code>, <code>oracle/</code>, <code>research</code> ve GitHub issue altyapısına read/write sınırlarıyla bağlıdır. Canlı <code>on_bar</code> veya <code>on_order_filled</code> callback'i LLM yanıtı beklemez. Pi durursa strategy devam eder, planlanmış risk kuralları bozulmaz.</p>
 <h2>13.2 En küçük inandırıcı araştırma döngüsü</h2>
@@ -1303,15 +771,11 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 </tr>
 </tbody>
 </table>
-<h2>13.7 İlk pilotun ölçülebilir başarısı ve ikinci ürün yasağı</h2>
-<p><strong>Kaizen'in mevcut hedef mimariye dahil edilmesi</strong>, ek bir agent framework'ünün bugün geliştirilmesini şart koşmaz. Pilot <strong>tek</strong> bounded Issue/hipotez üzerinde başlar: Pi <code>DEV</code> kanıtlarını okur, geçmiş family kayıtlarını kontrol eder, bir preregistration önerir, izinli worktree'ye yalnız ilgili test/kod yazar, mevcut CLI/native runner'ı çağırır, kabul/ret/INCONCLUSIVE sonucunu silmeden kaydeder ve gerekçeli PR veya kapanış notu hazırlar. Aynı görev, aynı budget, aynı acceptance ve aynı hardware'da manuel/scripted baseline ile karşılaştırılır.</p>
-<p>Pilot başarı metrikleri: reproducible task completion, verifier-detected defects, wall-clock, token/tool cost, attempts, unauthorised access count, duplicate proposal count. <strong>Pozitif Sharpe bulması başarı ölçütü değildir.</strong> İlk pilot, negatif veya <code>BLOCKED</code> bir sonucu doğru kaydedebildiği için başarılı olabilir. Tek task pilotu gerçek hız kazancı ispatlamaz; daha geniş throughput çalışması ayrıca yapılmalıdır.</p>
-<p><code>research_ops/</code> kalıcı queue, lease, semantic vector memory ve multi-agent swarm ihtiyaç kanıtlanmadan açılmaz. Agent audit/evaluation eşiklerini, sealed OOS'u, live order API'sini veya merge yetkisini alamaz. Pi'den bağımsız çekirdek için test: Pi process tamamen kapalıyken aynı prerecorded event tape, aynı deterministic decisions ve safety davranışı üretir.</p>
-<h2>13.8 Performans</h2>
+<h2>13.7 Performans</h2>
 <p>16 GB Windows workstation ve 8 GB VPS için önerilen başlangıç: tek native process; tek builder; reviewer ardışık; thread/RAM limitleri; full suite yalnız ilgili milestone; 1–2 hipotezlik bounded research cycle; max wall-clock/LLM token/deneme sayısı; OOM/timeout <code>OPERATIONAL_FAILURE</code> olarak ayrılır. Gerçek hız artışı ancak aynı kabul ölçütü ve aynı hardware/model bütçesiyle ölçülen <code>accepted_results per compute-hour</code> üzerinden iddia edilebilir. Dış raporlardaki cent bazlı fiyatlar kontrata veya yerel ölçüme dönüşmeden maliyet garantisi değildir.</p>
 <hr>
-<h1 id="sec-17">XIV. Gerçek mevcut kodla V9 hedeflerinin eşleştirilmesi</h1>
-<p>Aşağıdaki tablo, GitHub'da önceki incelemelerde gözlenen dosyalarla ve proje raporlarıyla eşleşen <strong>hedef sorumluluk haritasıdır</strong>; 2 Kasım 2026 local çalışma ağacının tekrar okunduğunu iddia etmez. İç API imzaları, runtime test ve yerel push edilmemiş değişiklikler tam incelenmeden somut refactor sınırı kesinleşmez.</p>
+<h1 id="sec-16">XIV. Gerçek mevcut kodla V9 hedeflerinin eşleştirilmesi</h1>
+<p>Aşağıdaki tablo, GitHub'da gözlenen dosyalarla ve proje raporlarıyla eşleşen <strong>hedef sorumluluk haritasıdır</strong>. İç API imzaları, runtime test ve yerel push edilmemiş değişiklikler tam incelenmeden somut refactor sınırı kesinleşmez.</p>
 <table>
 <thead>
 <tr>
@@ -1347,9 +811,9 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <tr>
 <td><code>economics/decisions.py</code>, <code>observer_policy.py</code></td>
 <td>Decision economics</td>
-<td>DecisionPolicyV0 canonical action/intent/event vocabulary; reasoned parity</td>
+<td>TraderDecision contract/decision explanation</td>
 <td><code>REFACTOR</code></td>
-<td>DEC-001..010 fixtures, unknown/priority/idempotency, baseline parity</td>
+<td>Recorded WAIT/HOLD/EXIT reasons</td>
 </tr>
 <tr>
 <td><code>risk/admission.py</code>, <code>sizing.py</code></td>
@@ -1375,9 +839,9 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <tr>
 <td><code>audit/pipeline.py</code>, <code>audit/reconciliation.py</code></td>
 <td>Forensic audit</td>
-<td>Independent oracle, false-full-join mutants, protected equity and MFE time-bound safety</td>
+<td>Full lineage, MFE time-bound safety</td>
 <td><code>P0 REPAIR</code></td>
-<td>Native joins correct independently, not merely zero orphan</td>
+<td>Zero unlinked campaign/cashflow claims</td>
 </tr>
 <tr>
 <td><code>evaluation/store.py</code></td>
@@ -1417,7 +881,7 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <tr>
 <td><code>research_ops/</code> (<strong>conditional</strong>)</td>
 <td>Not yet a canonical package</td>
-<td>Only if pilot proves need: Pi queue/lease/budget/GitHub reconciliation</td>
+<td>Pi queue/lease/budget/GitHub reconciliation</td>
 <td><code>ADD_IF_NEEDED</code></td>
 <td>A full bounded issue→trial→receipt pilot</td>
 </tr>
@@ -1425,7 +889,7 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 </table>
 <p><strong>Uyarı:</strong> Eski <code>index.html</code> monografındaki V8 <code>src/v8/</code> veya Rust dosyaları aktif uygulama olarak kullanılmaz; depo <code>AGENTS.md</code> ve owner boundary <code>v8-next/</code> tek aktif kod alanıdır. Belgedeki eski <code>KaizenController</code> otorite tanımları V9 çalışma ortamında yeniden yazılmadan önce hangi gerçek modüllerin aktif olduğuyla eşleştirilmeli, birden çok sovereign controller inşa edilmemelidir [R1, R2].</p>
 <hr>
-<h1 id="sec-18">XV. Mimari tercih: minimal / orta / karmaşık</h1>
+<h1 id="sec-17">XV. Mimari tercih: minimal / orta / karmaşık</h1>
 <table>
 <thead>
 <tr>
@@ -1454,62 +918,58 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 </table>
 <p><strong>Önemli ayrım:</strong> Buradaki Mimari B seçimi <strong>V9 trading core'un yerine agent control plane koymak değildir</strong>. Ana ürün tasarımı IV–XII bölümlerindeki market-aware trader'dır; araştırma otomasyonu kendi içinde orta düzeyde kalıcılığa sahiptir.</p>
 <hr>
-<h1 id="sec-19">XVI. Aşamalı uygulama ve bağımlılık kapıları: önce doğru, sonra adaptif</h1>
-<p>Bu program takvim sayısından çok <strong>evidence gates</strong> ile yönetilir. <code>Phase complete</code> tarihi verilmez; ancak belgedeki sözleşmenin repo-yerel versiyonları testle doğrulandığında statü değişir.</p>
-<h2>P0-A — Repo-grounded current state envanteri</h2>
+<h1 id="sec-18">XVI. Aşamalı uygulama programı ve geçiş planı</h1>
+<h2>Phase 0 — Kaynak sınırını ve evidence truth'ü sabitle (P0)</h2>
 <ul>
-<li><code>ddawnlll/v8</code> doğru local HEAD, dirty files, branch, son D4 commitleri/uzak dal farkları; v8-next aktif uygulama mı ve Nautilus pin değişmiş mi kaydedilir.</li>
-<li>Her V9 önerisi için <code>KEEP / REFINE / REFACTOR / ADD / DEFER</code>, mevcut class/function, owner, affected tests ve proof of absence ile <strong>traceability</strong> hazırlanır.</li>
-<li><code>site/index.html</code> tarihi V8 kaynağıdır. <code>docs/v9/V9_ARCHITECTURE_MONOGRAPH_v1.1.md</code> kaynak belge, <code>site/v9.html</code> generated çıktı olarak korunur.</li>
-<li><strong>Gate:</strong> yanlış repo/branch üzerinden kaydedilmiş çalışma olmayacak; baseline native fill counts ve audit artefakt digestleri sabit olacak.</li>
+<li><code>v8-next/</code> tek active codebase; local branch ve D4 kaynaklarının GitHub ile farkı raporlanır.</li>
+<li><code>docs/</code> kaynakları ve <code>tools/build_monograph.py</code> üretim akışı korunur; V8 <code>site/index.html</code> tarihsel çıktı olarak kalır.</li>
+<li>P0 native callback, bracketing, cashflow/campaign join, position/equity mark, MFE time bound, funding and same-bar clauses için golden testler planlanır.</li>
+<li><code>P0-AUDIT</code> geçmeden ekonomik iyileştirme iddiaları <code>BLOCKED/DIAGNOSTIC</code> kalır.</li>
 </ul>
-<h2>P0-B — Audit/venue safety repair (trading P0)</h2>
+<h2>Phase 1 — MarketBelief vertical slice</h2>
 <ul>
-<li>F01–F08 eski audit bulgularının hangileri bugünkü kodda var, hangileri kapatılmış, <code>UNVERIFIED</code> mi commit+test bazında belgele.</li>
-<li>Per fill native IDs, campaign/opportunity/decision refs, funding/mark/cash reconciliation, independent hand-computed oracle ve 10 mutation/fault fixtures.</li>
-<li>Safety order/position/protection state machines ve restart reconciliation; exact Nautilus callback order; <code>UNKNOWN_AT_VENUE</code>, duplicate suppression.</li>
-<li><strong>Gate:</strong> eski yanlış campaign join/doubled cashflow/protective false PASS'ın <em>mekanik olarak tespit edildiği</em> kanıtlanmadan ekonomik politika testi yetki kazanmaz. Bir local test geçişi gerçek venue güvenliği sertifikası değildir.</li>
+<li>Mevcut MarketState üzerinden tek enstrüman, tek PIT data path ile <code>MarketBeliefV1</code> veya mevcut tipe eşdeğer view çıkar.</li>
+<li><code>UNKNOWN</code>, staleness, transition ve availability tests.</li>
+<li>Eski baseline event/fill/ledger semantiği policy-off modda byte-level veya semantic equivalence ile korunur.</li>
+<li>Model parametrelerini art arda optimize etmeden önce tek örnek input→output→replay testi tamamlanır.</li>
 </ul>
-<h2>P0-C — DecisionPolicyV0 vertical slice (trading P0)</h2>
+<h2>Phase 2 — TraderDecision &amp; Expert/Opportunity integration</h2>
 <ul>
-<li>§7'deki kanonik action/intent/event/reason sözlüğünü existing code API'lerine <strong>minimum müdahale</strong> ile bağla.</li>
-<li>Immutable decision receipt, native order intent key, causally available MarketState/venue snapshot.</li>
-<li><code>DEC-001..010</code>, <code>ORD-001..009</code>, <code>POS-001..010</code> testleri; <em>baseline-off</em> parity. Correct safety repair nedeniyle fark gerekirse gerekçe/fixed scenario ayrı <code>SAFETY_REPAIR</code> kayıtla.</li>
-<li><strong>Gate:</strong> Aynı source snapshot→same action, duplicate→no additional order, open position→no unverified protection, Pi-off trading unchanged. Bu aşama <strong>ekonomik iyileştirme değil</strong>, mekanik sözleşme doğrulamasıdır.</li>
+<li>Mevcut expert stances ve OpportunityBook canonical identities bağlanır.</li>
+<li><code>ABSTAIN/WATCH/ENTER/HOLD/ADJUST/EXIT/REJECT</code> sözlüğü; reason code; state changes.</li>
+<li>Yeni <code>decision_id</code> ve policy hash her native entry/order event'ine izlenir.</li>
+<li>İlk sürümde mevcut sabit trade policy referans olarak korunur, bekleme veya yeni ML gate varsayılan olmaz.</li>
 </ul>
-<h2>P1-A — Market Intelligence V1 single-use challenger</h2>
+<h2>Phase 3 — Entry/Position/Portfolio behaviour</h2>
 <ul>
-<li>Önce yalnız PIT quality/volatility view; calibrated regime probs, BOCPD ve learned router default-off.</li>
-<li><code>V9-M1</code> preregistration: one behavior, raw feature baseline, simple threshold baseline, test edilen olay, changed-decision accounting, costed calendar equity.</li>
-<li><strong>Gate:</strong> Mekanik valid bir view, ekonomik faydasızsa diagnostic kalır; yeni state sistemi ekonomik authority kazanmaz.</li>
+<li><code>EntryIntent</code> ile emir niyeti ayrı kayıt; fiyat uygunluğu ve TTL.</li>
+<li><code>PositionThesis</code> ve <code>PositionEvaluation</code> ile açık pozisyon tekrar değerlendirmesi.</li>
+<li><code>PortfolioFeasibility</code> ve <code>occupancy</code> ölçümü; tek-pozisyon baseline değişmez.</li>
+<li>Yeni politika bayrakları default-off, her değişiklikte ayrı native test.</li>
 </ul>
-<h2>P1-B — Entry / Expert / Position ayrı ablations</h2>
+<h2>Phase 4 — Economic ablations and shadow</h2>
 <ul>
-<li><code>V9-E1</code>: correlated expert family ablation ve clone testleri.</li>
-<li><code>V9-I1</code>: entry price cap veya TTL <em>bir tane</em>, fill profile nitelikli olmadan net edge iddiası yok.</li>
-<li><code>V9-P1</code>: static bracket karşısında <em>bir</em> protective amendment challenger; safety gate ve churn budget hard.</li>
-<li><strong>Gate:</strong> Her family ayrı baseline, aynı ekonomi/riske bağlı karar impact, failure reason ve trial debt.</li>
+<li>Baseline vs M1/E1/I1/P1/A1; her seferinde tek davranış değişir.</li>
+<li>Aynı dönem/exposure/fee/funding/mark settings; işlem bazlı ve portföy bazlı rapor ayrı.</li>
+<li>Rolling validation ve sealed OOS erişim sınırı; random-entry benchmark ve cost sensitivity.</li>
+<li>En az ikinci bağımsız enstrüman/rejim kümesi ve gerçek altcoin venue constraints tanımlanır.</li>
+<li>Henüz desteklenmeyen gerçek-time fill ve microstructure iddiaları yapılmaz.</li>
 </ul>
-<h2>P1-C — Portfolio observability ve altcoin feasibility</h2>
+<h2>Phase 5 — Autonomous Kaizen pilot (paralel, ama P0'dan sonra)</h2>
 <ul>
-<li>Önce occupancy/id-reason/capacity/margin telemetry; optimizer veya position rotation default-off.</li>
-<li>PIT listing/delist/volume universe, exchange minimum notional, margin/liquidation distance ve altcoin data coverage qualified dataset.</li>
-<li><strong>Gate:</strong> Gelmemiş fiyatı bilerek hindsight rotation seçen allocator yasak. 20 USDT live feasibility <strong>ayrı</strong> test edilir, BTC 10k fixture genel geçer kanıt değil.</li>
+<li>Pi bounded task → GitHub Issue → preregistration → separate worktree → focused tests → one native finalist → audit → immutable trial → human-reviewed PR.</li>
+<li>Bir örnek <code>NEGATIVE</code> ve bir <code>BLOCKED</code> outcome üzerinden raporun dürüstlüğü sınanır.</li>
+<li>Başarısız auditor completion loop'u zaman/bütçe nedeniyle sınırsız tekrar edilmez.</li>
+<li>Research pilot code, trading engine market callback'lerini LLM bağımlı yapmaz.</li>
 </ul>
-<h2>P2 — Autonomous Kaizen eklentisi ve longitudinal verification</h2>
+<h2>Phase 6 — Operasyonel kvalifikasyon (başlı başına program)</h2>
 <ul>
-<li>Pi + mevcut audit/store/CLI ile tek bounded task, negative/blocked outcomes, evidence-linked Issue/PR, read-only external artefact references.</li>
-<li>Same-budget manuel/script baseline. Reviewer yalnız riskli kod/audit değişiminde; deterministic result override edemez.</li>
-<li><strong>Gate:</strong> Pi olmadan native engine aynı çalışır; OOS ve live order credential erişimi yok; kalıcı scheduler ancak ölçülmüş darboğaz sonrasında.</li>
+<li>Restart/replay/reconnect idempotence; partial fills; native stop protection; mark/funding; exchange failure; rate limits; stale data; shadow parity.</li>
+<li>Paper/shadow ile exchange-specific risk; min notional, lot sizes, tick sizes ve margin modes.</li>
+<li>Production promotion ayrı, insan onaylı belge; <code>V9 Architecture</code> RFC'si tek başına gerçek emir yetkisi vermez.</li>
 </ul>
-<h2>P3 — Production qualification ayrı bir proje kapısı</h2>
-<ul>
-<li>True venue lifecycle: reconnect, rate limits, order protection, transfer/fee/margin metadata, emergency halt, on-call protocol, shadow/paper and prospective evidence.</li>
-<li>Risk boundaries ve exact capital/instrument approval. V9 monografı tek başına live mandate değildir.</li>
-</ul>
-<p><strong>Çalışma ayrımı:</strong> P0 safety düzeltmeleri ile Pi'nin salt geliştirme üretkenliği pilotu bazı görevlerde paralel olabilir; ancak ekonomik araştırma verdictlerinin promotion'a yönlendirilmesi P0 evidence-gated olmadan yapılamaz. Büyük mimari hedef korunur, fakat her davranış kademeli etkinleşir.</p>
 <hr>
-<h1 id="sec-20">XVII. Kabul kriterleri: fikir değil, sınanabilir davranış</h1>
+<h1 id="sec-19">XVII. Kabul kriterleri: fikir değil, sınanabilir davranış</h1>
 <table>
 <thead>
 <tr>
@@ -1541,7 +1001,7 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <tr>
 <td><code>G-DEC-01</code></td>
 <td>Trader decisions</td>
-<td>Her native order intent bir <code>decision_id</code> ile bağlı; duplicate/unknown fixtures geçerli</td>
+<td>Her native order intent bir <code>decision_id</code> ile bağlı</td>
 <td>Decision delta + portfolio accounting</td>
 </tr>
 <tr>
@@ -1565,7 +1025,7 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <tr>
 <td><code>G-AUD-01</code></td>
 <td>Audit correctness</td>
-<td>Independent full-join oracle + mutation detection; MFE native bounds</td>
+<td>No orphan/false PASS; MFE native bounds</td>
 <td>Audited receipt required for economic claim</td>
 </tr>
 <tr>
@@ -1587,7 +1047,7 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <h2>17.2 Ekonomik hüküm dili</h2>
 <p><code>IMPLEMENTED</code> mekanik doğru yürütmeyi; <code>MECHANICALLY_VALIDATED</code> belirli native senaryodaki doğrulamayı; <code>ECONOMICALLY_INCONCLUSIVE</code> belirsiz sonucu; <code>ECONOMICALLY_SUPPORTED</code> uygun bağımsız koşulları; <code>LIVE_AUTHORIZED</code> ayrı üretim yetkisini ifade eder. <code>PASS</code> raporunun kapsamı belirtilmeden başka seviyeye taşınamaz. Arşivlenmiş V8 monografının eski normatif adlandırmalarıyla görece durum geçişleri ayrı ADR olarak çözülür.</p>
 <hr>
-<h1 id="sec-21">XVIII. Risk kaydı ve neden yapmayacağımız şeyler</h1>
+<h1 id="sec-20">XVIII. Risk kaydı ve neden yapmayacağımız şeyler</h1>
 <table>
 <thead>
 <tr>
@@ -1661,7 +1121,7 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 </table>
 <p><strong>Bilinçli olarak yapılmayacaklar:</strong> yeni repo/engine; live LLM market controller; ikinci <code>OpportunityBook</code>, economics ledger, auditor registry veya trader's brain; 28 expert'ı topluca sıfırlamak; kanıtlanmadan compulsory retest; fine-tuning live model in-place; automated agent main merge; daemon agent swarm; knowledge graph/vector DB without measured need; garantili edge ifadesi; 1H OHLCV'den gerçek order-book physics çıkarma.</p>
 <hr>
-<h1 id="sec-22">XIX. Architecture Decision Records (ADR)</h1>
+<h1 id="sec-21">XIX. Architecture Decision Records (ADR)</h1>
 <h3>ADR-001 — Kaynak ve repo</h3>
 <p><strong>Karar:</strong> <code>ddawnlll/v8</code> içinde <code>v8-next/</code> tek çalışma kodu; V8 monografı archive/historical. <strong>Alternatif:</strong> yeni V9 repo. <strong>Ret:</strong> migration, duplicate code, baseline loss. <strong>Reversal:</strong> mevcut tasarımın ölçülmüş ve düzeltilemeyen yapısal sınırı.</p>
 <h3>ADR-002 — Trader core LLM'siz</h3>
@@ -1681,7 +1141,7 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <h3>ADR-009 — Monograf source-of-truth</h3>
 <p><strong>Karar:</strong> V9 için <code>docs/v9/</code> altında sürümlü Markdown; <code>site/v9.html</code> derlenmiş output, elle düzenlenmez; <code>site/index.html</code> V8 historical kalır. <strong>Reversal:</strong> owner aynı site index'ini V9 ana giriş olarak değiştirmeyi açıkça yetkilendirirse; yine Markdown canonical kalır.</p>
 <hr>
-<h1 id="sec-23">XX. Kod/Docs geçişi: bu belge repoda nasıl yaşamalı?</h1>
+<h1 id="sec-22">XX. Kod/Docs geçişi: bu belge repoda nasıl yaşamalı?</h1>
 <pre><code class="language-text">ddawnlll/v8/
   docs/
     v9/
@@ -1700,7 +1160,7 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 </code></pre>
 <p><strong>Dokümantasyon kompozisyonu:</strong> Mevcut <code>tools/build_monograph.py</code> V8 bölüm listesini <code>NAMES</code> ile sabitliyor ve <code>tools/heads/head_en.html</code> temel şablonundan üretim yapıyor [R4]. V9 sürümü ayrı <code>manifest</code> veya küçük generic include listesi ile aynı görsel/head alışkanlığını kullanabilir; V8 <code>NAMES</code> listesine rastgele ekleme yaparak eski index'i istemeden değiştirmemeli. Önce Markdown source-of-truth eklenir, ardından HTML deterministik üretilir ve generated-file hash/derleme testi PR'da kaydedilir. Bu monograftaki hiçbir öneri repo üzerinde otomatik uygulanmamıştır.</p>
 <hr>
-<h1 id="sec-24">XXI. Örnek 30 günlük çalışma planı (kapıya bağlı, garanti değil)</h1>
+<h1 id="sec-23">XXI. Çalışma planı: 30 gün, sonuca odaklı</h1>
 <table>
 <thead>
 <tr>
@@ -1722,29 +1182,29 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 </tr>
 <tr>
 <td>Gün 10–14</td>
-<td>DecisionPolicyV0 baseline-equivalent vertical slice; MarketBelief diagnostic-only</td>
-<td>Baseline parity, UNKNOWN, order/position invariants</td>
+<td>MarketBelief + Decision contract vertical slice</td>
+<td>Baseline off-mode korunmuş; PIT invariants</td>
 </tr>
 <tr>
 <td>Gün 15–19</td>
-<td>EntryIntent/PositionThesis ve occupancy telemetry (yeni davranış default-off)</td>
-<td>Native lifecycle, protection, risk hard gates</td>
+<td>EntryIntent/PositionThesis + occupancy telemetry</td>
+<td>Native lifecycle and risk hard gates</td>
 </tr>
 <tr>
 <td>Gün 20–24</td>
-<td>Yalnız P0 geçerse bir preregistered native ablation; aksi hâlde mekanik tamir</td>
-<td>Same-calendar net equity veya açık BLOCKED/INCONCLUSIVE</td>
+<td>Stage-by-stage native economic ablation</td>
+<td>Maliyetli aligned portfolio, honest uncertainty</td>
 </tr>
 <tr>
 <td>Gün 25–30</td>
-<td>Pi tek-task araştırma pilotu veya ihtiyaç duyulan P0 düzeltmesi</td>
-<td>Negative/inconclusive output dürüst, no live authority</td>
+<td>Pi bounded research loop + GitHub Issue pilot + review</td>
+<td>Negative/inconclusive output supported; no live authority</td>
 </tr>
 </tbody>
 </table>
 <p>Bu plan araştırma raporunun varsayılan 30 günlük programıdır, katı takvim/garantili süre değildir. P0 audit kilidi çözülemezse ekonomik Phase 4 ertelenir; Pi self-improvement operational tests paralel yapılabilir ama yanlış ekonomik metriği “öğrenme” kaynağı sayamaz.</p>
 <hr>
-<h1 id="sec-25">XXII. Sınanabilir başarısızlık koşulları / Projeyi nasıl yanlışlarız?</h1>
+<h1 id="sec-24">XXII. Sınanabilir başarısızlık koşulları / Projeyi nasıl yanlışlarız?</h1>
 <ol>
 <li><code>MarketBelief</code> yanlış data availability üretir veya yeni bilgi olmadan geçmiş kararı değiştirirse mekanik <strong>FAIL</strong>.</li>
 <li>Expert ablation tekrar baseline ile aynıysa daha karmaşık consensus için ekonomik <strong>NO_EDGE/DEFER</strong>.</li>
@@ -1758,12 +1218,12 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <li>V9 mimari katkıları ekstra complexity karşısında basit V8 baseline'a göre ölçülmüş fayda üretmiyorsa yeni modüller <strong>ROLLBACK/DEFER</strong>.</li>
 </ol>
 <hr>
-<h1 id="sec-26">XXIII. Açık sorular, sınırlamalar ve gelecek araştırma</h1>
+<h1 id="sec-25">XXIII. Açık sorular, sınırlamalar ve gelecek araştırma</h1>
 <p><strong>Açık deneysel sorular:</strong> (i) MarketBelief regime priors gerçekten fayda sağlıyor mu? (ii) 28 expert'ın hangileri bağımsız, işe yarar? (iii) Stop yönetimi değişikliği farklı dönemlerde, altcoin'lerde ve funding dahil koşullarda kârlı mı? (iv) Pozisyon işgali fırsat maliyeti doğru yönlü tahmin edilebilir mi? (v) Entry limit order fill olasılığı daha yüksek çözünürlükte ölçülebilir mi? (vi) 20 USDT altcoin perpetual hesabı gerçek min notional ve fee koşullarında çalışabilir mi? (vii) Pi research loop, aynı bütçeli manuel ve basit workflow'a göre kanıtlı soru yanıtlama hızını artırıyor mu?</p>
 <p><strong>Temel limit:</strong> Kullanıcının projedeki tarihi dokümanlarında güçlü governance iddiaları bulunabilir; bu çalışma onları yeni codebase'in hazır özellikleri saymaz. Bazı yerel değişiklikler varsayılan GitHub dalında bulunmayabilir. Bağımsız ZIP audit'inin sorunları farklı tarihteki run'a ilişkindir; güncel kodda düzeltme olup olmadığı yeniden ölçülmelidir. ArXiv akademik çalışma sonuçları V9'un kendi kârlılık validasyonu değildir.</p>
 <p><strong>Değerlendirme programının başarı tanımı:</strong> İlerleme, eklenen agent/subsystem sayısı veya monograf uzunluğu değil; (a) daha doğru gözlenebilir piyasa/karar state'i; (b) valid native execution; (c) kararlara ekonomik attribution; (d) falsifiable after-cost policy comparisons; (e) kaybolmayan negative evidence; (f) insan kontrollü production riskidir.</p>
 <hr>
-<h1 id="sec-27">XXIV. Kaynakça ve provenance register</h1>
+<h1 id="sec-26">XXIV. Kaynakça ve provenance register</h1>
 <p><em>Aşağıdaki URL'ler erişilen birincil kaynaklara veya kullanıcı tarafından gönderilen proje artifact'larına işaret eder. Literatür sonuçlarının V9'a taşınması bu makalenin <code>DESIGN_INFERENCE</code> yorumudur; doğrudan deneysel kanıt değildir.</em></p>
 <h2>A. Hakemli araştırma ve doğrulanmış preprint'ler</h2>
 <ul>
@@ -1793,13 +1253,6 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <li><strong>[R3]</strong> <code>v8-next/src/v8_next/audit/pipeline.py</code>, <code>evaluation/store.py</code>, <code>gate_registry.py</code>, <code>kaizen_delta.py</code>, <code>oracle/utility.py</code>, <code>opportunities/book.py</code>, <code>app/cli.py</code>. https://github.com/ddawnlll/v8/tree/main/v8-next/src/v8_next — mevcut core research/audit modülleri.</li>
 <li><strong>[R4]</strong> <code>tools/build_monograph.py</code> ve root <code>README.md</code>. https://github.com/ddawnlll/v8/blob/main/tools/build_monograph.py — docs Markdown → generated monograph HTML; V8 <code>NAMES</code> sabit.</li>
 </ul>
-<h2>Council bilimsel hakemlik kaynakları</h2>
-<ul>
-<li><strong>[C1]</strong> <code>Pasted text(10).txt</code> — Blind Model Council review 1 (592 satır); kapsamı yalnız monograf; code audit değildir.</li>
-<li><strong>[C2]</strong> <code>Pasted text (2)(2).txt</code> — Blind Model Council review 2 (104 satır); tek belge üzerinden akademik ve mimari eleştiri.</li>
-<li><strong>[C3]</strong> <code>Pasted text (3).txt</code> — Blind Model Council review 3 (664 satır); trading karar semantiği, partial fills, accounting ve test stratejileri.</li>
-<li><strong>[C4]</strong> <code>V9_MODEL_COUNCIL_SYNTHESIS_v1.md</code> — yorum/karar tablosu; üç raporun bilimsel bağımsızlığını veya repo kodunun doğruluğunu kanıtlamaz.</li>
-</ul>
 <h2>C. Proje kanıtları (kullanıcı tarafından sağlanan, internet yayını değildir)</h2>
 <ul>
 <li><strong>[P1]</strong> <code>index(3).html</code>, <em>V8 Final Research Monograph</em> — eski V8 constitution, docs/ contracts, kaizen vision, historical architecture. Kullanıcı dosyası.</li>
@@ -1811,95 +1264,9 @@ PROTECTION: UNNEEDED(flat) | REQUIRED(qty&gt;0) | COVERED | GAP | REPLACING
 <li><strong>[D2]</strong> Deep Research II, <code>Pasted text (2)(1).txt</code>, Kasım 2026 — repo-odaklı güven sınırları ve düşük karmaşıklık araştırması; kaynak/claim sınırlamalarını açıkça beyan eder.</li>
 </ul>
 <hr>
-<h1 id="sec-28">XXV. Model Council hakem cevapları ve değişiklik izi</h1>
-<p>Üç blind review belgenin <strong>aynı sürümünü</strong> okudu; onların fikir birliği dış kodu doğrulamak için bağımsız emprik kanıt sayılamaz. Birinci hakem <code>Pasted text(10).txt</code> [C1], ikinci hakem <code>Pasted text (2)(2).txt</code> [C2], üçüncü hakem <code>Pasted text (3).txt</code> [C3]. Editorial synthesis [C4] yeni mimari hedefin korunması ama broad implementation izninin verilmemesi yönündedir.</p>
-<table>
-<thead>
-<tr>
-<th>Council kusuru</th>
-<th>Önceki v1.0</th>
-<th>v1.1 düzeltmesi</th>
-<th>Kalan doğrulama</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Central policy <code>argmax</code> uygulanamıyor</td>
-<td>§7.4 soyut hedef</td>
-<td>§7.4 explicit DecisionPolicyV0; §7.7 optimizer future-only</td>
-<td>Local function API + native parity</td>
-</tr>
-<tr>
-<td>WAIT/WATCH, MODIFY/ADJUST</td>
-<td>Çoklu isim</td>
-<td>§7.1 dört/altı typed alan, state enum ve reasons</td>
-<td>Enum/contracts source compatibility</td>
-</tr>
-<tr>
-<td>89/89 cashflow ve historical audit</td>
-<td>“P0 repair” genel</td>
-<td>§12.1 hand-computed oracle + false-full-join mutants</td>
-<td>Local HEAD status unknown</td>
-</tr>
-<tr>
-<td>Fill &amp; funding authority</td>
-<td>Genel OHLC uyarısı</td>
-<td>§11.2 profile matrix + §11.3 settlement model</td>
-<td>Actual engine callback/tape qualification</td>
-</tr>
-<tr>
-<td>MarketBelief etiket torbası</td>
-<td>Regime distribution</td>
-<td>§4.3 validated-score vs probabilities; §4.6 prereg falsifiable use</td>
-<td>M1 data and result</td>
-</tr>
-<tr>
-<td>Correlated expert evidence</td>
-<td>Clone invariance tekil</td>
-<td>§5 + E1 group ablation</td>
-<td>Dependency graph measured</td>
-</tr>
-<tr>
-<td>Position churn/unprotected exposure</td>
-<td>Qualitative safeguards</td>
-<td>§8.4 races, §9.4 bounded amendment, §9.6 fixtures</td>
-<td>Venue semantics, tests</td>
-</tr>
-<tr>
-<td>Linear order lifecycle</td>
-<td><code>INTENT→ORDER→POSITION</code></td>
-<td>§8.2 orthogonal intent/order/position/protection state</td>
-<td>Native event sequence tests</td>
-</tr>
-<tr>
-<td>Opportunity cost hindsight</td>
-<td>Factual vs simulated yalnız anlatım</td>
-<td>§10.2 dual metrics + no rotation UNKNOWN</td>
-<td>Same-capital paired portfolio trials</td>
-</tr>
-<tr>
-<td>OOS family design</td>
-<td>Genel araştırma kuralları</td>
-<td>§12.6 one-change/family/protocol</td>
-<td>Precise thresholds prereg before running</td>
-</tr>
-<tr>
-<td>Agentic second product</td>
-<td>Conditional research_ops</td>
-<td>§13.7 one-task pilot, Pi absent parity</td>
-<td>Measured overhead and isolation</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Kısmen reddedilen hakem önerisi:</strong> Market Intelligence, Position Management veya Portfolio sorumluluğunu <em>hedef mimariden</em> çıkarma önerisi. Bunların kârlı olduğu iddia edilmemektedir; yeni araştırma hedefi olarak kalmaları, kontrolsüz üretim aktivasyonundan farklıdır. V9'un trading zekâsına ait bilimsel sorular korunurken, uygulama P0 dar karar ve veri doğruluğundan başlar.</p>
-<h2>XXV-A. Normatif terimler ve adlandırma kilidi</h2>
-<p>Bu belge içinde <code>DecisionAction.WAIT</code> ≠ <code>OpportunityStatus.WATCHING</code>; <code>IntentKind.AMEND_PROTECTION</code> ≠ <code>DecisionAction.EXIT</code>; <code>VenueOrderStatus.REJECTED</code> ≠ <code>RiskDecision.REJECTED</code>. İdeal implementasyonda aynı semantik kavram için ikinci synonym enum bulunmaz. <code>UNKNOWN</code> ekonomik tahmin ve venue state'de farklı <strong>typed</strong> nedenlerle kullanılır.</p>
-<h2>XXV-B. Mimari tasarımı yanlışlayabilecek deneyler</h2>
-<p>V9'un piyasa zekâsı iddiası yanlışlanabilir: <code>M1</code> feature/belief karar kalitesini değiştirmiyor ya da basic threshold'dan kötü; <code>E1</code> expert contribution yok; <code>I1</code> entry delay returns negative; <code>P1</code> amend churn net PnL'yi kötüleştiriyor; allocator fırsat maliyeti ex-ante tanımlanmıyor; <code>K1</code> agentic pilot bounded manual task'tan yavaş/yanlış. Bu bulgular ilgili <em>policy'yi</em> reddetmeye veya diagnostic'e indirmeye yeterli olabilir; <strong>korunan mevcut V8 runtime'ın tüm varlığını</strong> reddetmez.</p>
-<hr>
-<h1 id="sec-29">XXVI. Nihai sentez</h1>
+<h1 id="sec-27">XXV. Nihai sentez</h1>
 <p><strong>V8'in değerli çekirdeği korunur:</strong> point-in-time market state, expert-observer, canonical OpportunityBook, risk/utility separation, NautilusTrader native execution, evidence lineage ve bilimsel yanlışlama. <strong>V9'un yeniliği</strong>, bu parçaların birbirinden kopuk açıklamalar olarak kalmayıp tek bir <strong>sürekli trader karar çevrimi</strong> üretmesidir: piyasa görüşünün güncellenmesi, fırsatın yeniden değerlendirilmesi, fiyat farkındalığı olan giriş, pozisyon tezi ve koruma yönetimi, sermaye/occupancy bilinci, ekonomik sonucunun native audit ile ölçümü. Bu davranışların doğruluğu önce; kârlılığı sonra test edilecektir.</p>
 <p><strong>Otonom Kaizen ek yetenektir.</strong> Pi Agent yeni hipotezleri seçer, sınanabilir araştırma planları üretir, izole kod yazar, mevcut audit/experiment store'u çağırır, GitHub Issues/PR üzerinden insanın incelemesini sağlar. Pi ne bir intrabar strateji callback'idir ne ikinci ekonomist ne de trading risk otoritesi. Pi kapalıyken V9 trading çekirdeği kendi bütünlüğüyle çalışır.</p>
-<p>Bu revize monografın kabul edilmesi tek başına <strong>profitable bot</strong> veya production authorization değildir; ama V8'den V9'a geçişi soyut “daha akıllı trader” söyleminden çıkarıp kod eşleme, falsifiable interface, native mekanik test ve ekonomik benchmark setine dönüştürür. V9'un asıl ölçütü daha fazla kod değil, <strong>kararların nedenlerini, alternatiflerini ve sonuçlarını daha doğru ölçüp güvenilir biçimde geliştirebilen bir trader sistemi</strong> olmaktır.</p>
-<p><em>Belge sonu · V9-ARCH-RFC-1.1-REVISED · 2026-11-02</em></p>
-</main><footer>Kaynak: docs/v9/V9_ARCHITECTURE_MONOGRAPH.md · Markdown SHA-256: <code>8717ee963de4982a201bbb675b2788f3686d8952e78ffa0b80ba0b59e0564648</code> · HTML sürümü yalnız okuma çıktısıdır. Canonical source Markdown&#39;dır.</footer></body></html>
+<p>Bu monografın kabul edilmesi tek başına <strong>profitable bot</strong> veya production authorization değildir; ama V8'den V9'a geçişi soyut “daha akıllı trader” söyleminden çıkarıp kod eşleme, falsifiable interface, native mekanik test ve ekonomik benchmark setine dönüştürür. V9'un asıl ölçütü daha fazla kod değil, <strong>kararların nedenlerini, alternatiflerini ve sonuçlarını daha doğru ölçüp güvenilir biçimde geliştirebilen bir trader sistemi</strong> olmaktır.</p>
+<p><em>Belge sonu · V9-ARCH-RFC-1.0-DRAFT · 2026-11-01</em></p>
+</main><footer>Kaynak: /mnt/data/V9_ARCHITECTURE_MONOGRAPH_v1.md · Markdown SHA-256: <code>02b8dcae16ba7741d551dc15b9b73f5c874c7a2d0ad62283b68facd14c47d51f</code> · HTML sürümü yalnız okuma çıktısıdır. Canonical source Markdown&#39;dır.</footer></body></html>
